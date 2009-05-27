@@ -57,7 +57,7 @@
 #define FOLDER_INFO_ID	"OAFIID:GNOME_Evolution_FolderInfo:" BASE_VERSION
 
 static BonoboObject *
-factory(BonoboGenericFactory *factory, const char *component_id, void *closure)
+factory(BonoboGenericFactory *factory, const gchar *component_id, gpointer closure)
 {
 	BonoboObject *o;
 
@@ -81,9 +81,9 @@ factory(BonoboGenericFactory *factory, const char *component_id, void *closure)
 }
 
 static Bonobo_Unknown
-make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_Environment *ev)
+make_factory (PortableServer_POA poa, const gchar *iid, gpointer impl_ptr, CORBA_Environment *ev)
 {
-	static int init = 0;
+	static gint init = 0;
 
 	if (!init) {
 		EImportClass *klass;

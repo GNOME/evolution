@@ -30,7 +30,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-int em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex);
+gint em_migrate (const gchar *evolution_dir, gint major, gint minor, gint revision, CamelException *ex);
 
 #ifdef __cplusplus
 }

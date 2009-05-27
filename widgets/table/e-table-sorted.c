@@ -44,10 +44,10 @@ G_DEFINE_TYPE (ETableSorted, ets, E_TABLE_SUBSET_TYPE)
 static void ets_sort_info_changed        (ETableSortInfo *info, ETableSorted *ets);
 static void ets_sort                     (ETableSorted *ets);
 static void ets_proxy_model_changed      (ETableSubset *etss, ETableModel *source);
-static void ets_proxy_model_row_changed  (ETableSubset *etss, ETableModel *source, int row);
-static void ets_proxy_model_cell_changed (ETableSubset *etss, ETableModel *source, int col, int row);
-static void ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row, int count);
-static void ets_proxy_model_rows_deleted  (ETableSubset *etss, ETableModel *source, int row, int count);
+static void ets_proxy_model_row_changed  (ETableSubset *etss, ETableModel *source, gint row);
+static void ets_proxy_model_cell_changed (ETableSubset *etss, ETableModel *source, gint col, gint row);
+static void ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row, gint count);
+static void ets_proxy_model_rows_deleted  (ETableSubset *etss, ETableModel *source, gint row, gint count);
 
 static void
 ets_dispose (GObject *object)
@@ -158,7 +158,7 @@ ets_sort_info_changed (ETableSortInfo *info, ETableSorted *ets)
 static void
 ets_proxy_model_changed (ETableSubset *subset, ETableModel *source)
 {
-	int rows, i;
+	gint rows, i;
 
 	rows = e_table_model_row_count(source);
 
@@ -177,7 +177,7 @@ ets_proxy_model_changed (ETableSubset *subset, ETableModel *source)
 }
 
 static void
-ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, int row)
+ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, gint row)
 {
 	if (!E_TABLE_SORTED(subset)->sort_idle_id)
 		E_TABLE_SORTED(subset)->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, subset, NULL);
@@ -187,7 +187,7 @@ ets_proxy_model_row_changed (ETableSubset *subset, ETableModel *source, int row)
 }
 
 static void
-ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, int col, int row)
+ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, gint col, gint row)
 {
 	ETableSorted *ets = E_TABLE_SORTED(subset);
 	if (e_table_sorting_utils_affects_sort(ets->sort_info, ets->full_header, col))
@@ -197,11 +197,11 @@ ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, int col
 }
 
 static void
-ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row, int count)
+ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row, gint count)
 {
  	ETableModel *etm = E_TABLE_MODEL(etss);
 	ETableSorted *ets = E_TABLE_SORTED(etss);
-	int i;
+	gint i;
 	gboolean full_change = FALSE;
 
 	if (count == 0) {
@@ -257,12 +257,12 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row,
 }
 
 static void
-ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, int count)
+ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, gint row, gint count)
 {
 	ETableModel *etm = E_TABLE_MODEL(etss);
-	int i;
+	gint i;
 	gboolean shift;
-	int j;
+	gint j;
 
 	shift = row == etss->n_map - count;
 
@@ -297,7 +297,7 @@ static void
 ets_sort(ETableSorted *ets)
 {
 	ETableSubset *etss = E_TABLE_SUBSET(ets);
-	static int reentering = 0;
+	static gint reentering = 0;
 	if (reentering)
 		return;
 	reentering = 1;

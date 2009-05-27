@@ -86,7 +86,7 @@ struct _EMemoLocalRecord {
 	struct Memo *memo;
 };
 
-int lastDesktopUniqueID;
+gint lastDesktopUniqueID;
 
 static void
 memoconduit_destroy_record (EMemoLocalRecord *local)
@@ -297,10 +297,10 @@ e_memo_context_destroy (EMemoConduitContext *ctxt)
 }
 
 /* Debug routines */
-static char *
+static gchar *
 print_local (EMemoLocalRecord *local)
 {
-	static char buff[ 64 ];
+	static gchar buff[ 64 ];
 
 	if (local == NULL) {
 		sprintf (buff, "[NULL]");
@@ -317,9 +317,9 @@ print_local (EMemoLocalRecord *local)
 	return "";
 }
 
-static char *print_remote (GnomePilotRecord *remote)
+static gchar *print_remote (GnomePilotRecord *remote)
 {
-	static char buff[ 64 ];
+	static gchar buff[ 64 ];
 	struct Memo memo;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t *buffer;
@@ -377,7 +377,7 @@ get_default_timezone (void)
 {
 	EConfigListener *listener;
 	icaltimezone *timezone = NULL;
-	char *location;
+	gchar *location;
 
 	listener = e_config_listener_new ();
 
@@ -396,10 +396,10 @@ get_default_timezone (void)
 	return timezone;
 }
 
-static char *
+static gchar *
 map_name (EMemoConduitContext *ctxt)
 {
-	char *filename;
+	gchar *filename;
 
 	filename = g_strdup_printf ("%s/.evolution/memos/local/system/pilot-map-memo-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
 
@@ -413,7 +413,7 @@ next_changed_item (EMemoConduitContext *ctxt, GList *changes)
 	GList *l;
 
 	for (l = changes; l != NULL; l = l->next) {
-		const char *uid;
+		const gchar *uid;
 
 		ccc = l->data;
 
@@ -426,7 +426,7 @@ next_changed_item (EMemoConduitContext *ctxt, GList *changes)
 }
 
 static void
-compute_status (EMemoConduitContext *ctxt, EMemoLocalRecord *local, const char *uid)
+compute_status (EMemoConduitContext *ctxt, EMemoLocalRecord *local, const gchar *uid)
 {
 	ECalChange *ccc;
 
@@ -461,7 +461,7 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #else
-	static char record[0xffff];
+	static gchar record[0xffff];
 #endif
 
 	memset(&p, 0, sizeof (p));
@@ -494,7 +494,7 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 
 	pi_buffer_free(buffer);
 #else
-	p.record = (unsigned char *)record;
+	p.record = (guchar *)record;
 	p.length = pack_Memo (local->memo, p.record, 0xffff);
 #endif
 	return p;
@@ -506,7 +506,7 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 static void
 local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 	GSList *d_list = NULL;
 	ECalComponentText *description;
 	ECalComponentClassification classif;
@@ -537,9 +537,9 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 		struct Memo memo;
 		pi_buffer_t * record;
 #else
-		char record[0xffff];
+		gchar record[0xffff];
 #endif
-		int cat = 0;
+		gint cat = 0;
 
 #ifdef PILOT_LINK_0_12
 		record = pi_buffer_new(DLP_BUF_SIZE);
@@ -602,7 +602,7 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 
 static void
 local_record_from_uid (EMemoLocalRecord *local,
-		       const char *uid,
+		       const gchar *uid,
 		       EMemoConduitContext *ctxt)
 {
 	ECalComponent *comp;
@@ -648,8 +648,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct Memo memo;
 	struct icaltimetype now;
 	icaltimezone *utc_zone;
-	char *txt, *txt2, *txt3;
-	int i;
+	gchar *txt, *txt2, *txt3;
+	gint i;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #endif
@@ -694,7 +694,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		e_cal_component_set_comment_list (comp, NULL);
 		e_cal_component_set_summary(comp, NULL);
 	} else {
-		int idxToUse = -1, ntext = strlen(memo.text);
+		gint idxToUse = -1, ntext = strlen(memo.text);
 		gboolean foundNL = FALSE;
 		GSList l;
 		ECalComponentText text, sumText;
@@ -755,8 +755,8 @@ static void
 check_for_slow_setting (GnomePilotConduit *c, EMemoConduitContext *ctxt)
 {
 	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
-	int map_count;
-	const char *uri;
+	gint map_count;
+	const gchar *uri;
 
 	/* If there are no objects or objects but no log */
 	map_count = g_hash_table_size (ctxt->map->pid_map);
@@ -787,9 +787,9 @@ pre_sync (GnomePilotConduit *conduit,
 {
 	GnomePilotConduitSyncAbs *abs_conduit;
 	GList *l;
-	int len;
-	unsigned char *buf;
-	char *filename, *change_id;
+	gint len;
+	guchar *buf;
+	gchar *filename, *change_id;
 	icalcomponent *icalcomp;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 #ifdef PILOT_LINK_0_12
@@ -851,7 +851,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		ECalChange *ccc = l->data;
-		const char *uid;
+		const gchar *uid;
 
 		e_cal_component_get_uid (ccc->comp, &uid);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
@@ -895,9 +895,9 @@ pre_sync (GnomePilotConduit *conduit,
 				DLP_BUF_SIZE,
 				buffer);
 #else
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
-			      (unsigned char *)buf, 0xffff);
+			      (guchar *)buf, 0xffff);
 #endif
 	if (len < 0) {
 		WARN (_("Could not read pilot's Memo application block"));
@@ -934,15 +934,15 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
-	unsigned char *buf;
-	int dlpRetVal, len;
+	guchar *buf;
+	gint dlpRetVal, len;
 
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 
 	len = pack_MemoAppInfo (&(ctxt->ai), buf, 0xffff);
 
 	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle,
-			      (unsigned char *)buf, len);
+			      (guchar *)buf, len);
 
 	g_free (buf);
 
@@ -984,7 +984,7 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	      guint32 ID,
 	      EMemoConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ( "set_pilot_id: setting to %d\n", ID ));
 
@@ -999,7 +999,7 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 		    EMemoLocalRecord *local,
 		    EMemoConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 
@@ -1015,7 +1015,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  EMemoConduitContext *ctxt)
 {
 	static GList *comps, *iterator;
-	static int count;
+	static gint count;
         GList *unused;
 
 	g_return_val_if_fail (local != NULL, -1);
@@ -1075,7 +1075,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   EMemoConduitContext *ctxt)
 {
 	static GList *iterator;
-	static int count;
+	static gint count;
         GList *unused;
 
 	g_return_val_if_fail (local != NULL, 0);
@@ -1138,7 +1138,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 {
 	/* used by the quick compare */
 	GnomePilotRecord local_pilot;
-	int retval = 0;
+	gint retval = 0;
 
 	LOG (g_message ("compare: local=%s remote=%s...\n",
 			print_local (local), print_remote (remote)));
@@ -1166,8 +1166,8 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    EMemoConduitContext *ctxt)
 {
 	ECalComponent *comp;
-	char *uid;
-	int retval = 0;
+	gchar *uid;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1196,7 +1196,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		EMemoConduitContext *ctxt)
 {
 	ECalComponent *new_comp;
-	int retval = 0;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1219,7 +1219,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       EMemoLocalRecord *local,
 	       EMemoConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (local->comp != NULL, -1);
@@ -1241,8 +1241,8 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 		gboolean archive,
 		EMemoConduitContext *ctxt)
 {
-	const char *uid;
-	int retval = 0;
+	const gchar *uid;
+	gint retval = 0;
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -1260,7 +1260,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        EMemoLocalRecord **local,
        EMemoConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ("match: looking for local copy of %s\n",
 			print_remote (remote)));

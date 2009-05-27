@@ -41,7 +41,7 @@ typedef struct ETreeMemory ETreeMemory;
 typedef struct ETreeMemoryPriv ETreeMemoryPriv;
 typedef struct ETreeMemoryClass ETreeMemoryClass;
 
-typedef int (*ETreeMemorySortCallback) (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure);
+typedef gint (*ETreeMemorySortCallback) (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure);
 
 struct ETreeMemory {
 	ETreeModel base;
@@ -63,13 +63,13 @@ ETreeMemory *e_tree_memory_new                    (void);
 /* node operations */
 ETreePath    e_tree_memory_node_insert            (ETreeMemory             *etree,
 						   ETreePath                parent,
-						   int                      position,
+						   gint                      position,
 						   gpointer                 node_data);
 ETreePath    e_tree_memory_node_insert_id         (ETreeMemory             *etree,
 						   ETreePath                parent,
-						   int                      position,
+						   gint                      position,
 						   gpointer                 node_data,
-						   char                    *id);
+						   gchar                    *id);
 ETreePath    e_tree_memory_node_insert_before     (ETreeMemory             *etree,
 						   ETreePath                parent,
 						   ETreePath                sibling,

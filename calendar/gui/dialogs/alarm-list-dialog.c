@@ -263,8 +263,8 @@ gboolean
 alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 {
 	Dialog dialog;
-	int response_id;
-	char *gladefile;
+	gint response_id;
+	gchar *gladefile;
 
 	dialog.ecal = ecal;
 	dialog.list_store = list_store;
@@ -312,7 +312,7 @@ GtkWidget *
 alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 {
 	Dialog *dialog;
-	char *gladefile;
+	gchar *gladefile;
 
 	dialog = (Dialog *)g_new (Dialog, 1);
 	dialog->ecal = ecal;

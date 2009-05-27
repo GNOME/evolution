@@ -42,7 +42,7 @@ enum {
 };
 
 static void
-save_to_hash(int model_row, gpointer closure)
+save_to_hash(gint model_row, gpointer closure)
 {
 	ETableSelectionModel *etsm = closure;
 	const gchar *key = e_table_model_get_save_id(etsm->model, model_row);
@@ -95,10 +95,10 @@ model_changed_idle(ETableSelectionModel *etsm)
 	e_selection_model_clear(E_SELECTION_MODEL(etsm));
 
 	if (etsm->cursor_id && etm && e_table_model_has_save_id(etm)) {
-		int row_count = e_table_model_row_count(etm);
-		int cursor_row = -1;
-		int cursor_col = -1;
-		int i;
+		gint row_count = e_table_model_row_count(etm);
+		gint cursor_row = -1;
+		gint cursor_col = -1;
+		gint i;
 		e_selection_model_array_confirm_row_count(E_SELECTION_MODEL_ARRAY(etsm));
 		for (i = 0; i < row_count; i++) {
 			gchar *save_id = e_table_model_get_save_id(etm, i);
@@ -138,27 +138,27 @@ model_changed(ETableModel *etm, ETableSelectionModel *etsm)
 }
 
 static void
-model_row_changed(ETableModel *etm, int row, ETableSelectionModel *etsm)
+model_row_changed(ETableModel *etm, gint row, ETableSelectionModel *etsm)
 {
 	free_hash(etsm);
 }
 
 static void
-model_cell_changed(ETableModel *etm, int col, int row, ETableSelectionModel *etsm)
+model_cell_changed(ETableModel *etm, gint col, gint row, ETableSelectionModel *etsm)
 {
 	free_hash(etsm);
 }
 
 #if 1
 static void
-model_rows_inserted(ETableModel *etm, int row, int count, ETableSelectionModel *etsm)
+model_rows_inserted(ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
 {
 	e_selection_model_array_insert_rows(E_SELECTION_MODEL_ARRAY(etsm), row, count);
 	free_hash(etsm);
 }
 
 static void
-model_rows_deleted(ETableModel *etm, int row, int count, ETableSelectionModel *etsm)
+model_rows_deleted(ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
 {
 	e_selection_model_array_delete_rows(E_SELECTION_MODEL_ARRAY(etsm), row, count);
 	free_hash(etsm);
@@ -167,13 +167,13 @@ model_rows_deleted(ETableModel *etm, int row, int count, ETableSelectionModel *e
 #else
 
 static void
-model_rows_inserted(ETableModel *etm, int row, int count, ETableSelectionModel *etsm)
+model_rows_inserted(ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
 {
 	model_changed(etm, etsm);
 }
 
 static void
-model_rows_deleted(ETableModel *etm, int row, int count, ETableSelectionModel *etsm)
+model_rows_deleted(ETableModel *etm, gint row, gint count, ETableSelectionModel *etsm)
 {
 	model_changed(etm, etsm);
 }

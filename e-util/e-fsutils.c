@@ -60,10 +60,10 @@
  * Return value: The number of 1024 byte blocks used by the
  * filesystem.
  **/
-long e_fsutils_usage(const char *inpath)
+long e_fsutils_usage(const gchar *inpath)
 {
 	GDir *dir;
-	const char *d;
+	const gchar *d;
 	long size = 0;
 	GSList *paths;
 
@@ -71,7 +71,7 @@ long e_fsutils_usage(const char *inpath)
 	paths = g_slist_prepend(NULL, g_strdup(inpath));
 
 	while (paths) {
-		char *path = paths->data;
+		gchar *path = paths->data;
 
 		paths = g_slist_remove_link(paths, paths);
 
@@ -82,7 +82,7 @@ long e_fsutils_usage(const char *inpath)
 		}
 
 		while ((d = g_dir_read_name(dir))) {
-			char *full_path;
+			gchar *full_path;
 			struct stat st;
 
 			full_path = g_build_filename(path, d, NULL);
@@ -129,7 +129,7 @@ fail:
  * blocks.
  **/
 long
-e_fsutils_avail(const char *path)
+e_fsutils_avail(const gchar *path)
 {
 #if defined(HAVE_STATVFS)
 	struct statvfs stfs;

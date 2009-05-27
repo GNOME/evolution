@@ -104,7 +104,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 {
 	EMVFolderEditor *ve = (EMVFolderEditor *) g_object_new (em_vfolder_editor_get_type(), NULL);
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "filter.glade",

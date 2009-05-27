@@ -41,11 +41,11 @@ struct _GtkIconStream;
 typedef struct _EMIconStream {
 	EMSyncStream sync;
 
-	unsigned int width, height;
+	guint width, height;
 	guint destroy_id;
 	struct _GdkPixbufLoader *loader;
 	struct _GtkImage *image;
-	char *key;
+	gchar *key;
 
 	guint keep:1;
 } EMIconStream;
@@ -55,10 +55,10 @@ typedef struct {
 } EMIconStreamClass;
 
 CamelType    em_icon_stream_get_type (void);
-CamelStream *em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsigned int maxheight, int keep);
+CamelStream *em_icon_stream_new(GtkImage *image, const gchar *key, guint maxwidth, guint maxheight, gint keep);
 
-struct _GdkPixbuf *em_icon_stream_get_image(const char *key, unsigned int maxwidth, unsigned int maxheight);
-int em_icon_stream_is_resized(const char *key, unsigned int maxwidth, unsigned int maxheight);
+struct _GdkPixbuf *em_icon_stream_get_image(const gchar *key, guint maxwidth, guint maxheight);
+gint em_icon_stream_is_resized(const gchar *key, guint maxwidth, guint maxheight);
 
 void em_icon_stream_clear_cache(void);
 

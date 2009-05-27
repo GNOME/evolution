@@ -52,7 +52,7 @@ abort_changes (JunkSettings *js)
 }
 
 static void
-junk_dialog_response (GtkWidget *dialog, int response, JunkSettings *js)
+junk_dialog_response (GtkWidget *dialog, gint response, JunkSettings *js)
 {
 	if (response == GTK_RESPONSE_ACCEPT) {
 		commit_changes(js);
@@ -66,11 +66,11 @@ junk_dialog_response (GtkWidget *dialog, int response, JunkSettings *js)
 }
 
 static void
-junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
+junk_mail_settings (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	GtkWidget *dialog ,*w, *notebook, *box;
 	JunkSettings *junk_tab;
-	int page_count =0;
+	gint page_count =0;
 	EGwConnection *cnc;
 	gchar *msg;
 	CamelFolder *folder = (CamelFolder *)data;
@@ -118,7 +118,7 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 g_slist_free (items);
 }
@@ -128,8 +128,8 @@ org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t)
 {
 	GSList *menus = NULL;
 
-	int i = 0;
-	static int first = 0;
+	gint i = 0;
+	static gint first = 0;
 
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return ;

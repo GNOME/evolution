@@ -49,9 +49,9 @@ struct _GalA11yECell {
 	ETableItem *item;
 	ECellView  *cell_view;
 	AtkObject  *parent;
-	int         model_col;
-	int         view_col;
-	int         row;
+	gint         model_col;
+	gint         view_col;
+	gint         row;
 	AtkStateSet *state_set;
 	GList       *action_list;
 	gint         action_idle_handler;
@@ -76,16 +76,16 @@ GType      gal_a11y_e_cell_get_type   (void);
 AtkObject *gal_a11y_e_cell_new        (ETableItem *item,
 				       ECellView  *cell_view,
 				       AtkObject  *parent,
-				       int         model_col,
-				       int         view_col,
-				       int         row);
+				       gint         model_col,
+				       gint         view_col,
+				       gint         row);
 void       gal_a11y_e_cell_construct  (AtkObject  *object,
 				       ETableItem *item,
 				       ECellView  *cell_view,
 				       AtkObject  *parent,
-				       int         model_col,
-				       int         view_col,
-				       int         row);
+				       gint         model_col,
+				       gint         view_col,
+				       gint         row);
 
 void	gal_a11y_e_cell_type_add_action_interface (GType type);
 

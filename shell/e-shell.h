@@ -95,7 +95,7 @@ typedef enum _EShellConstructResult EShellConstructResult;
 
 GType                  e_shell_get_type   (void);
 EShellConstructResult  e_shell_construct  (EShell                *shell,
-					   const char            *iid,
+					   const gchar            *iid,
 					   EShellStartupLineMode  startup_line_mode);
 EShell                *e_shell_new        (EShellStartupLineMode  startup_line_mode,
 					   EShellConstructResult *construct_result_return);
@@ -103,7 +103,7 @@ EShell                *e_shell_new        (EShellStartupLineMode  startup_line_m
 gboolean  e_shell_attempt_upgrade  (EShell     *shell);
 
 EShellWindow *e_shell_create_window         (EShell       *shell,
-					     const char   *component_id,
+					     const gchar   *component_id,
 					     EShellWindow *template_window);
 gboolean      e_shell_request_close_window  (EShell       *shell,
 					     EShellWindow *window);
@@ -129,14 +129,14 @@ void		e_shell_set_crash_recovery	(EShell *shell,
 void  e_shell_send_receive  (EShell *shell);
 
 void  e_shell_show_settings  (EShell       *shell,
-			      const char   *type,
+			      const gchar   *type,
 			      EShellWindow *shell_window);
 
 gboolean e_shell_can_quit (EShell *shell);
 gboolean e_shell_do_quit  (EShell *shell);
 gboolean e_shell_quit     (EShell *shell);
 
-const char *e_shell_construct_result_to_string (EShellConstructResult result);
+const gchar *e_shell_construct_result_to_string (EShellConstructResult result);
 
 typedef gboolean (*EMainShellFunc) (EShell *shell, EShellWindow *window, gpointer user_data);
 void e_shell_foreach_shell_window (EShell *shell, EMainShellFunc func, gpointer user_data);

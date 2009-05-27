@@ -83,8 +83,8 @@ ete_class_init (ETableExtrasClass *klass)
 static gint
 e_strint_compare(gconstpointer data1, gconstpointer data2)
 {
-	int int1 = atoi(data1);
-	int int2 = atoi(data2);
+	gint int1 = atoi(data1);
+	gint int2 = atoi(data2);
 
 	return e_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
 }
@@ -124,9 +124,9 @@ g_utf8_strncasecmp (const gchar *s1,
 }
 
 static gboolean
-e_string_search(gconstpointer haystack, const char *needle)
+e_string_search(gconstpointer haystack, const gchar *needle)
 {
-	int length;
+	gint length;
 	if (haystack == NULL)
 		return FALSE;
 

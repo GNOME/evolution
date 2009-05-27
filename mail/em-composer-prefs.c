@@ -178,7 +178,7 @@ sig_load_preview (EMComposerPrefs *prefs,
 		gtk_html_load_from_string (html, str, strlen (str));
 	} else {
 		GtkHTMLStream *stream;
-		int len;
+		gint len;
 
 		len = strlen (str);
 		stream = gtk_html_begin_content (html, "text/html; charset=utf-8");
@@ -376,12 +376,12 @@ sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 }
 
 static void
-sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
+sig_add_script_response (GtkWidget *widget, gint button, EMComposerPrefs *prefs)
 {
 	gchar *script, **argv = NULL;
 	GtkWidget *entry;
 	const gchar *name;
-	int argc;
+	gint argc;
 
 	if (button == GTK_RESPONSE_ACCEPT) {
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
@@ -821,12 +821,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	GConfBridge *bridge;
 	GConfClient *client;
 	const gchar *key;
-	int style;
+	gint style;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
-	int i;
+	gint i;
 	gchar *gladefile;
 	gboolean sensitive;
 

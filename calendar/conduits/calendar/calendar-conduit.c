@@ -151,9 +151,9 @@ calconduit_load_configuration (guint32 pilot_id)
 	c->secret = e_pilot_setup_get_bool (prefix, "secret", FALSE);
 	c->multi_day_split = e_pilot_setup_get_bool (prefix, "multi_day_split", TRUE);
 	if ((c->last_uri = e_pilot_setup_get_string (prefix, "last_uri", NULL)) && !strncmp (c->last_uri, "file://", 7)) {
-		char *filename = g_filename_from_uri (c->last_uri, NULL, NULL);
-		const char *path = filename;
-		const char *home;
+		gchar *filename = g_filename_from_uri (c->last_uri, NULL, NULL);
+		const gchar *path = filename;
+		const gchar *home;
 
 		home = g_get_home_dir ();
 
@@ -379,10 +379,10 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 }
 
 /* Debug routines */
-static char *
+static gchar *
 print_local (ECalLocalRecord *local)
 {
-	static char buff[ 4096 ];
+	static gchar buff[ 4096 ];
 
 	if (local == NULL) {
 		sprintf (buff, "[NULL]");
@@ -403,9 +403,9 @@ print_local (ECalLocalRecord *local)
 	return "";
 }
 
-static char *print_remote (GnomePilotRecord *remote)
+static gchar *print_remote (GnomePilotRecord *remote)
 {
-	static char buff[ 4096 ];
+	static gchar buff[ 4096 ];
 	struct Appointment appt;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
@@ -446,10 +446,10 @@ static char *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
-static char *
-auth_func_cb (ECal *ecal, const char* prompt, const char *key, gpointer user_data)
+static gchar *
+auth_func_cb (ECal *ecal, const gchar * prompt, const gchar *key, gpointer user_data)
 {
-	char *password;
+	gchar *password;
 	ESource *source;
 	const gchar *auth_domain, *component_name;
 
@@ -464,9 +464,9 @@ auth_func_cb (ECal *ecal, const char* prompt, const char *key, gpointer user_dat
 static int
 start_calendar_server (ECalConduitContext *ctxt)
 {
-	char *str_uri = NULL;
-	char *pass_key = NULL;
-	int retval = 0;
+	gchar *str_uri = NULL;
+	gchar *pass_key = NULL;
+	gint retval = 0;
 
 	g_return_val_if_fail (ctxt != NULL, -2);
 
@@ -505,7 +505,7 @@ start_calendar_server (ECalConduitContext *ctxt)
 
 /* Utility routines */
 static icaltimezone *
-get_timezone (ECal *client, const char *tzid)
+get_timezone (ECal *client, const gchar *tzid)
 {
 	icaltimezone *timezone = NULL;
 
@@ -521,7 +521,7 @@ get_default_timezone (void)
 {
 	EConfigListener *listener;
 	icaltimezone *timezone = NULL;
-	char *location;
+	gchar *location;
 
 	listener = e_config_listener_new ();
 
@@ -541,10 +541,10 @@ get_default_timezone (void)
 }
 
 
-static char *
+static gchar *
 map_name (ECalConduitContext *ctxt)
 {
-	char *filename;
+	gchar *filename;
 
 	filename = g_strdup_printf ("%s/.evolution/calendar/local/system/pilot-map-calendar-%d.xml",
 				    g_get_home_dir (), ctxt->cfg->pilot_id);
@@ -553,7 +553,7 @@ map_name (ECalConduitContext *ctxt)
 }
 
 static icalrecurrencetype_weekday
-get_ical_day (int day)
+get_ical_day (gint day)
 {
 	switch (day) {
 	case 0:
@@ -634,7 +634,7 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 	icaltimezone *tz_start, *tz_end;
 	time_t event_start, event_end, day_end;
 	struct icaltimetype *old_start_value, *old_end_value;
-	const char *uid;
+	const gchar *uid;
 	gboolean is_date = FALSE;
 	gboolean last = FALSE;
 	gboolean ret = TRUE;
@@ -677,7 +677,7 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 	while (!last) {
 		ECalComponent *clone = e_cal_component_clone (ccc->comp);
 		icalcomponent *ical_comp = NULL;
-		char *new_uid = e_cal_component_gen_uid ();
+		gchar *new_uid = e_cal_component_gen_uid ();
 		struct icaltimetype start_value, end_value;
 		ECalChange *c = NULL;
 
@@ -743,7 +743,7 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 }
 
 static short
-nth_weekday (int pos, icalrecurrencetype_weekday weekday)
+nth_weekday (gint pos, icalrecurrencetype_weekday weekday)
 {
 	g_assert ((pos > 0 && pos <= 5) || (pos == -1));
 
@@ -757,7 +757,7 @@ next_changed_item (ECalConduitContext *ctxt, GList *changes)
 	GList *l;
 
 	for (l = changes; l != NULL; l = l->next) {
-		const char *uid;
+		const gchar *uid;
 
 		ccc = l->data;
 
@@ -770,7 +770,7 @@ next_changed_item (ECalConduitContext *ctxt, GList *changes)
 }
 
 static void
-compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
+compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const gchar *uid)
 {
 	ECalChange *ccc;
 
@@ -834,7 +834,7 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #else
-	static char record[0xffff];
+	static gchar record[0xffff];
 #endif
 
 	memset(&p, 0, sizeof (p));
@@ -865,7 +865,7 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 
 	pi_buffer_free(buffer);
 #else
-	p.record = (unsigned char *)record;
+	p.record = (guchar *)record;
 	p.length = pack_Appointment (local->appt, p.record, 0xffff);
 #endif
 	return p;
@@ -877,14 +877,14 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 static void
 local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 	ECalComponentText summary;
 	GSList *d_list = NULL, *edl = NULL, *l;
 	ECalComponentText *description;
 	ECalComponentDateTime dt_start, dt_end;
 	ECalComponentClassification classif;
 	icaltimezone *default_tz = ctxt->timezone;
-	int i;
+	gint i;
 
 	g_return_if_fail (local != NULL);
 	g_return_if_fail (comp != NULL);
@@ -902,7 +902,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
          * we don't overwrite them
 	 */
 	if (local->local.ID != 0) {
-		int cat = 0;
+		gint cat = 0;
 #ifdef PILOT_LINK_0_12
 		struct Appointment appt;
 		pi_buffer_t * record;
@@ -914,7 +914,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 		}
 #else
 		struct Appointment appt;
-		char record[0xffff];
+		gchar record[0xffff];
 #endif
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket,
 					ctxt->dbi->db_handle,
@@ -930,7 +930,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 #ifdef PILOT_LINK_0_12
 			unpack_Appointment (&appt, record, datebook_v1);
 #else
-			unpack_Appointment (&appt, (unsigned char *)record, 0xffff);
+			unpack_Appointment (&appt, (guchar *)record, 0xffff);
 #endif
 			local->appt->alarm = appt.alarm;
 			local->appt->advance = appt.advance;
@@ -1152,7 +1152,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 
 static void
 local_record_from_uid (ECalLocalRecord *local,
-		       const char *uid,
+		       const gchar *uid,
 		       ECalConduitContext *ctxt)
 {
 	ECalComponent *comp;
@@ -1199,8 +1199,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	ECalComponentText summary = {NULL, NULL};
 	ECalComponentDateTime dt = {NULL, NULL};
 	GSList *edl = NULL;
-	char *txt;
-	int pos, i;
+	gchar *txt;
+	gint pos, i;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #endif
@@ -1456,8 +1456,8 @@ static void
 check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 {
 	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
-	int map_count;
-	const char *uri;
+	gint map_count;
+	const gchar *uri;
 
 	/* If there are objects but no log */
 	map_count = g_hash_table_size (ctxt->map->pid_map);
@@ -1488,9 +1488,9 @@ pre_sync (GnomePilotConduit *conduit,
 {
 	GnomePilotConduitSyncAbs *abs_conduit;
 	GList *removed = NULL, *added = NULL, *l;
-	int len;
-	unsigned char *buf;
-	char *filename, *change_id;
+	gint len;
+	guchar *buf;
+	gchar *filename, *change_id;
 	icalcomponent *icalcomp;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 #ifdef PILOT_LINK_0_12
@@ -1560,7 +1560,7 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->changed = g_list_concat (ctxt->changed, added);
 	for (l = removed; l != NULL; l = l->next) {
 		ECalChange *ccc = l->data;
-		const char *uid;
+		const gchar *uid;
 
 		e_cal_component_get_uid (ccc->comp, &uid);
 		if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
@@ -1573,7 +1573,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		ECalChange *ccc = l->data;
-		const char *uid;
+		const gchar *uid;
 
 		e_cal_component_get_uid (ccc->comp, &uid);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
@@ -1614,9 +1614,9 @@ pre_sync (GnomePilotConduit *conduit,
 				DLP_BUF_SIZE,
 				buffer);
 #else
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
-			      (unsigned char *)buf, 0xffff);
+			      (guchar *)buf, 0xffff);
 #endif
 	if (len < 0) {
 		WARN (_("Could not read pilot's Calendar application block"));
@@ -1649,18 +1649,18 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
-	unsigned char *buf;
-	int dlpRetVal, len;
+	guchar *buf;
+	gint dlpRetVal, len;
 
 	LOG (g_message ( "post_sync: Calendar Conduit v.%s", CONDUIT_VERSION ));
 
 	/* Write AppBlock to PDA - updates categories */
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 
 	len = pack_AppointmentAppInfo (&(ctxt->ai), buf, 0xffff);
 
 	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle,
-			      (unsigned char *)buf, len);
+			      (guchar *)buf, len);
 
 	g_free (buf);
 
@@ -1699,7 +1699,7 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	      guint32 ID,
 	      ECalConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ( "set_pilot_id: setting to %d\n", ID ));
 
@@ -1714,7 +1714,7 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 		    ECalLocalRecord *local,
 		    ECalConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 
@@ -1730,7 +1730,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  ECalConduitContext *ctxt)
 {
 	static GList *comps, *iterator;
-	static int count;
+	static gint count;
         GList *unused;
 
 	g_return_val_if_fail (local != NULL, -1);
@@ -1789,7 +1789,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   ECalConduitContext *ctxt)
 {
 	static GList *iterator;
-	static int count;
+	static gint count;
         GList *unused;
 
 	g_return_val_if_fail (local != NULL, -1);
@@ -1851,7 +1851,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 {
 	/* used by the quick compare */
 	GnomePilotRecord local_pilot;
-	int retval = 0;
+	gint retval = 0;
 
 	LOG (g_message ("compare: local=%s remote=%s...\n",
 			print_local (local), print_remote (remote)));
@@ -1879,8 +1879,8 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    ECalConduitContext *ctxt)
 {
 	ECalComponent *comp;
-	char *uid;
-	int retval = 0;
+	gchar *uid;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1911,7 +1911,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		ECalConduitContext *ctxt)
 {
 	ECalComponent *new_comp;
-	int retval = 0;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1934,7 +1934,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       ECalLocalRecord *local,
 	       ECalConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (local != NULL, -1);
 	g_assert (local->comp != NULL);
@@ -1959,8 +1959,8 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 		gboolean archive,
 		ECalConduitContext *ctxt)
 {
-	const char *uid;
-	int retval = 0;
+	const gchar *uid;
+	gint retval = 0;
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -1978,7 +1978,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        ECalLocalRecord **local,
        ECalConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ("match: looking for local copy of %s\n",
 			print_remote (remote)));

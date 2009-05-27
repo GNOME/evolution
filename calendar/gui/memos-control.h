@@ -31,6 +31,6 @@
 BonoboControl *memos_control_new                (void);
 void           memos_control_activate           (BonoboControl *control, EMemos *memos);
 void           memos_control_deactivate         (BonoboControl *control, EMemos *memos);
-void           memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, int n_selected);
+void           memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, gint n_selected);
 
 #endif /* _MEMOS_CONTROL_H_ */

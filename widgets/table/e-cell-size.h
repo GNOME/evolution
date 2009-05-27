@@ -44,7 +44,7 @@ typedef struct {
 } ECellSizeClass;
 
 GType      e_cell_size_get_type (void);
-ECell     *e_cell_size_new      (const char *fontname, GtkJustification justify);
+ECell     *e_cell_size_new      (const gchar *fontname, GtkJustification justify);
 
 G_END_DECLS
 

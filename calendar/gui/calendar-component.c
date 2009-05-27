@@ -116,11 +116,11 @@ typedef struct
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
-	char *base_directory;
-	char *config_directory;
+	gchar *base_directory;
+	gchar *config_directory;
 
 	GConfClient *gconf_client;
-	int gconf_notify_id;
+	gint gconf_notify_id;
 
 	ESourceList *source_list;
 	ESourceList *task_source_list;
@@ -164,7 +164,7 @@ ensure_sources (CalendarComponent *component)
 	ESourceGroup *contacts;
 	ESource *personal_source;
 	ESource *birthdays_source;
-	char *base_uri, *base_uri_proto, base_uri_proto_seventh;
+	gchar *base_uri, *base_uri_proto, base_uri_proto_seventh;
 	const gchar *base_dir;
 	gchar *create_source;
 
@@ -231,7 +231,7 @@ ensure_sources (CalendarComponent *component)
 		/* ensure the source name is in current locale, not read from configuration */
 		e_source_set_name (personal_source, _("Personal"));
 	} else {
-		char *primary_calendar = calendar_config_get_primary_calendar();
+		gchar *primary_calendar = calendar_config_get_primary_calendar();
 		GSList *calendars_selected;
 
 		/* Create the default Person addressbook */
@@ -331,7 +331,7 @@ is_in_uids (GSList *uids, ESource *source)
 	GSList *l;
 
 	for (l = uids; l; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
@@ -358,7 +358,7 @@ update_uris_for_selection (CalendarComponentView *component_view)
 		ESource *selected_source = l->data;
 
 		if (gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source))
-			uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
+			uids_selected = g_slist_append (uids_selected, (gchar *) e_source_peek_uid (selected_source));
 	}
 
 	e_source_selector_free_selection (component_view->source_selection);
@@ -410,7 +410,7 @@ update_selection (CalendarComponentView *component_view)
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
@@ -441,7 +441,7 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 
 	/* Remove any that aren't there any more */
 	for (l = source_selection; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
@@ -456,7 +456,7 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (source_list, uid);
@@ -475,7 +475,7 @@ static void
 update_primary_selection (CalendarComponentView *component_view)
 {
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 
 	uid = calendar_config_get_primary_calendar ();
 	if (uid) {
@@ -497,7 +497,7 @@ static void
 update_primary_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
 {
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	ESourceList *source_list = NULL;
 
 	if (type == E_CAL_SOURCE_TYPE_TODO) {
@@ -520,7 +520,7 @@ update_primary_task_memo_selection (CalendarComponentView *component_view, ECalS
 
 /* Callbacks.  */
 static void
-copy_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+copy_calendar_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	CalendarComponentView *component_view = data;
 	ESource *selected_source;
@@ -533,12 +533,12 @@ copy_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-delete_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+delete_calendar_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	CalendarComponentView *component_view = data;
 	ESource *selected_source;
 	ECal *cal;
-	char *uri;
+	gchar *uri;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
@@ -570,13 +570,13 @@ delete_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+new_calendar_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	calendar_setup_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), NULL, pitem->user_data);
 }
 
 static void
-rename_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+rename_calendar_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	CalendarComponentView *component_view = data;
 	ESourceSelector *selector;
@@ -586,7 +586,7 @@ rename_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+edit_calendar_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	CalendarComponentView *component_view = data;
 	ESource *selected_source;
@@ -599,7 +599,7 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
+set_offline_availability (EPopup *ep, EPopupItem *pitem, gpointer data, const gchar *value)
 {
 	CalendarComponentView *component_view = data;
 	ESource *selected_source;
@@ -612,13 +612,13 @@ set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char 
 }
 
 static void
-mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "0");
 }
 
 static void
-mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "1");
 }
@@ -638,7 +638,7 @@ static EPopupItem ecc_source_popups[] = {
 };
 
 static void
-ecc_source_popup_free(EPopup *ep, GSList *list, void *data)
+ecc_source_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	g_slist_free(list);
 }
@@ -649,7 +649,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	ECalPopup *ep;
 	ECalPopupTargetSource *t;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 	GtkMenu *menu;
 
 	/** @HookPoint-ECalPopup: Calendar Source Selector Context Menu
@@ -730,7 +730,7 @@ set_info (CalendarComponentView *component_view)
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
-	char buffer[512], end_buffer[256];
+	gchar buffer[512], end_buffer[256];
 	GnomeCalendarViewType view;
 
 	gnome_calendar_get_visible_time_range (component_view->calendar, &start_time, &end_time);
@@ -866,15 +866,15 @@ config_primary_memos_selection_changed_cb (GConfClient *client, guint id, GConfE
 
 /* Evolution::Component CORBA methods.  */
 static void
-impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
 	GList *l;
 	CalendarComponentView *view = NULL;
-	char *src_uid = NULL;
-	char *uid = NULL;
-	char *rid = NULL;
+	gchar *src_uid = NULL;
+	gchar *uid = NULL;
+	gchar *rid = NULL;
 
 	priv = calendar_component->priv;
 
@@ -886,8 +886,8 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 
 	if (!strncmp (uri, "calendar:", 9)) {
 		EUri *euri = e_uri_new (uri);
-		const char *p;
-		char *header, *content;
+		const gchar *p;
+		gchar *header, *content;
 		size_t len, clen;
 		time_t start = -1, end = -1;
 
@@ -900,7 +900,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 				if (p[len] != '=')
 					break;
 
-				header = (char *) p;
+				header = (gchar *) p;
 				header[len] = '\0';
 				p += len + 1;
 
@@ -992,10 +992,10 @@ selector_tree_data_dropped (ESourceSelector *selector,
 
 	if (data->data) {
 		icalcomponent *icalcomp = NULL;
-		char *comp_str; /* do not free this! */
+		gchar *comp_str; /* do not free this! */
 
 		/* data->data is "source_uid\ncomponent_string" */
-		comp_str = strchr ((char *)data->data, '\n');
+		comp_str = strchr ((gchar *)data->data, '\n');
 		if (comp_str) {
 			comp_str [0] = 0;
 			comp_str++;
@@ -1003,7 +1003,7 @@ selector_tree_data_dropped (ESourceSelector *selector,
 			icalcomp = icalparser_parse_string (comp_str);
 
 			if (icalcomp) {
-				success = cal_comp_process_source_list_drop (client, icalcomp, action, (char *)data->data, component->priv->source_list);
+				success = cal_comp_process_source_list_drop (client, icalcomp, action, (gchar *)data->data, component->priv->source_list);
 				icalcomponent_free (icalcomp);
 			}
 		}
@@ -1045,7 +1045,7 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 {
 	CalendarComponentPrivate *priv;
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	guint not;
 
 	priv = calendar_component->priv;
@@ -1160,7 +1160,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 }
 
 static void
-create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+create_local_item_cb (EUserCreatableItemsHandler *handler, const gchar *item_type_name, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
 	CalendarComponentPrivate *priv;
@@ -1434,36 +1434,36 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = (char *) CREATE_EVENT_ID;
-	list->_buffer[0].description = (char *) _("New appointment");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Appointment");
-	list->_buffer[0].tooltip = (char *) _("Create a new appointment");
+	list->_buffer[0].id = (gchar *) CREATE_EVENT_ID;
+	list->_buffer[0].description = (gchar *) _("New appointment");
+	list->_buffer[0].menuDescription = (gchar *) C_("New", "_Appointment");
+	list->_buffer[0].tooltip = (gchar *) _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
-	list->_buffer[0].iconName = (char *) "appointment-new";
+	list->_buffer[0].iconName = (gchar *) "appointment-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = (char *) CREATE_MEETING_ID;
-	list->_buffer[1].description = (char *) _("New meeting");
-	list->_buffer[1].menuDescription = (char *) C_("New", "M_eeting");
-	list->_buffer[1].tooltip = (char *) _("Create a new meeting request");
+	list->_buffer[1].id = (gchar *) CREATE_MEETING_ID;
+	list->_buffer[1].description = (gchar *) _("New meeting");
+	list->_buffer[1].menuDescription = (gchar *) C_("New", "M_eeting");
+	list->_buffer[1].tooltip = (gchar *) _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
-	list->_buffer[1].iconName = (char *) "stock_new-meeting";
+	list->_buffer[1].iconName = (gchar *) "stock_new-meeting";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[2].id = (char *) CREATE_ALLDAY_EVENT_ID;
-	list->_buffer[2].description = (char *) _("New all day appointment");
-	list->_buffer[2].menuDescription = (char *) C_("New", "All Day A_ppointment");
-	list->_buffer[2].tooltip = (char *) _("Create a new all-day appointment");
+	list->_buffer[2].id = (gchar *) CREATE_ALLDAY_EVENT_ID;
+	list->_buffer[2].description = (gchar *) _("New all day appointment");
+	list->_buffer[2].menuDescription = (gchar *) C_("New", "All Day A_ppointment");
+	list->_buffer[2].tooltip = (gchar *) _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = (char *) "stock_new-24h-appointment";
+	list->_buffer[2].iconName = (gchar *) "stock_new-24h-appointment";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[3].id = (char *) CREATE_CALENDAR_ID;
-	list->_buffer[3].description = (char *) _("New calendar");
-	list->_buffer[3].menuDescription = (char *) C_("New", "Cale_ndar");
-	list->_buffer[3].tooltip = (char *) _("Create a new calendar");
+	list->_buffer[3].id = (gchar *) CREATE_CALENDAR_ID;
+	list->_buffer[3].description = (gchar *) _("New calendar");
+	list->_buffer[3].menuDescription = (gchar *) C_("New", "Cale_ndar");
+	list->_buffer[3].tooltip = (gchar *) _("Create a new calendar");
 	list->_buffer[3].menuShortcut = '\0';
-	list->_buffer[3].iconName = (char *) "x-office-calendar";
+	list->_buffer[3].iconName = (gchar *) "x-office-calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
@@ -1637,13 +1637,13 @@ calendar_component_peek (void)
 	return component;
 }
 
-const char *
+const gchar *
 calendar_component_peek_base_directory (CalendarComponent *component)
 {
 	return component->priv->base_directory;
 }
 
-const char *
+const gchar *
 calendar_component_peek_config_directory (CalendarComponent *component)
 {
 	return component->priv->config_directory;

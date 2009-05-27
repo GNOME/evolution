@@ -76,14 +76,14 @@ GType    e_selection_model_array_get_type           (void);
 
 /* Protected Functions */
 void     e_selection_model_array_insert_rows        (ESelectionModelArray *esm,
-						     int                   row,
-						     int                   count);
+						     gint                   row,
+						     gint                   count);
 void     e_selection_model_array_delete_rows        (ESelectionModelArray *esm,
-						     int                   row,
-						     int                   count);
+						     gint                   row,
+						     gint                   count);
 void     e_selection_model_array_move_row           (ESelectionModelArray *esm,
-						     int                   old_row,
-						     int                   new_row);
+						     gint                   old_row,
+						     gint                   new_row);
 void     e_selection_model_array_confirm_row_count  (ESelectionModelArray *esm);
 
 /* Protected Virtual Function */

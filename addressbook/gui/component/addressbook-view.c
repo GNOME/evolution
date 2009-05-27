@@ -83,7 +83,7 @@ struct _AddressbookViewPrivate {
 	EBook *book;
 	guint activity_id;
 	ESourceList *source_list;
-	char *passwd;
+	gchar *passwd;
 	EUserCreatableItemsHandler *creatable_items_handler;
 
 	EABMenu *menu;
@@ -101,7 +101,7 @@ static GtkTargetEntry drag_types[] = {
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
-static void set_status_message (EABView *eav, const char *message, AddressbookView *view);
+static void set_status_message (EABView *eav, const gchar *message, AddressbookView *view);
 static void search_result (EABView *eav, EBookViewStatus status, AddressbookView *view);
 
 static void activate_source (AddressbookView *view, ESource *source);
@@ -115,7 +115,7 @@ static ESource *get_primary_source (AddressbookView *view);
 
 typedef struct {
 	GtkWidget *editor;
-	char *uid;
+	gchar *uid;
 	AddressbookView *view;
 } EditorUidClosure;
 
@@ -139,7 +139,7 @@ get_current_view (AddressbookView *view)
 }
 
 static void
-save_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+save_all_contacts_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -149,7 +149,7 @@ save_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+save_contact_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -158,7 +158,7 @@ save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+view_contact_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -167,7 +167,7 @@ view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+delete_contact_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -176,7 +176,7 @@ delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+print_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -185,7 +185,7 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+print_preview_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -194,7 +194,7 @@ print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+stop_loading_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -203,7 +203,7 @@ stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-cut_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+cut_contacts_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -212,7 +212,7 @@ cut_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-copy_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+copy_contacts_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -221,7 +221,7 @@ copy_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-paste_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+paste_contacts_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -230,7 +230,7 @@ paste_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+select_all_contacts_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -239,7 +239,7 @@ select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *pat
 }
 
 static void
-send_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+send_contact_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -248,7 +248,7 @@ send_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+send_contact_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -257,7 +257,7 @@ send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-copy_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+copy_all_contacts_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -267,7 +267,7 @@ copy_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *pa
 }
 
 static void
-copy_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+copy_contact_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -276,7 +276,7 @@ copy_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-move_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+move_all_contacts_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -285,7 +285,7 @@ move_all_contacts_to_cb (BonoboUIComponent *uih, void *user_data, const char *pa
 }
 
 static void
-move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+move_contact_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
@@ -294,7 +294,7 @@ move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+forget_passwords_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	e_passwords_forget_passwords();
 }
@@ -307,7 +307,7 @@ new_addressbook_folder (AddressbookView *view)
 }
 
 static void
-new_folder_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+new_folder_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	new_addressbook_folder (view);
@@ -356,7 +356,7 @@ delete_addressbook_folder (AddressbookView *view)
 }
 
 static void
-delete_folder_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+delete_folder_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view)
@@ -369,7 +369,7 @@ edit_addressbook_folder (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *selected_source;
-	const char *uid;
+	const gchar *uid;
 	EditorUidClosure *closure;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
@@ -380,7 +380,7 @@ edit_addressbook_folder (AddressbookView *view)
 
 	closure = g_hash_table_lookup (priv->uid_to_editor, uid);
 	if (!closure) {
-		char *uid_copy = g_strdup (uid);
+		gchar *uid_copy = g_strdup (uid);
 
 		closure = g_new (EditorUidClosure, 1);
 		closure->editor = addressbook_config_edit_source (gtk_widget_get_toplevel(priv->notebook), selected_source);
@@ -400,7 +400,7 @@ edit_addressbook_folder (AddressbookView *view)
 }
 
 static void
-edit_folder_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+edit_folder_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view)
@@ -413,8 +413,8 @@ rename_addressbook_folder (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source;
-	const char *old_name;
-	char *prompt, *new_name;
+	const gchar *old_name;
+	gchar *prompt, *new_name;
 	gboolean done = FALSE;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
@@ -441,7 +441,7 @@ rename_addressbook_folder (AddressbookView *view)
 }
 
 static void
-rename_folder_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+rename_folder_cb (BonoboUIComponent *uih, gpointer user_data, const gchar *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view)
@@ -453,7 +453,7 @@ folder_can_delete (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source ;
-	const char *source_uri;
+	const gchar *source_uri;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	if(source) {
@@ -468,7 +468,7 @@ folder_can_delete (AddressbookView *view)
 }
 
 static void
-set_status_message (EABView *eav, const char *message, AddressbookView *view)
+set_status_message (EABView *eav, const gchar *message, AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	EActivityHandler *activity_handler = priv->activity_handler;
@@ -479,7 +479,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 			priv->activity_id = 0;
 		}
 	} else if (priv->activity_id == 0) {
-		char *clientid = g_strdup_printf ("%p", (gpointer) view);
+		gchar *clientid = g_strdup_printf ("%p", (gpointer) view);
 
 		priv->activity_id = e_activity_handler_operation_started (
 			activity_handler, clientid, message, TRUE);
@@ -492,7 +492,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 }
 
 static void
-set_folder_bar_message (EABView *eav, const char *message, AddressbookView *view)
+set_folder_bar_message (EABView *eav, const gchar *message, AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	EABView *current_view = get_current_view (view);
@@ -501,7 +501,7 @@ set_folder_bar_message (EABView *eav, const char *message, AddressbookView *view
 		ESource *source = eav->source;
 
 		if (source) {
-			const char *name = e_source_peek_name (source);
+			const gchar *name = e_source_peek_name (source);
 
 			e_info_label_set_info((EInfoLabel*)priv->info_widget, name, message);
 		}
@@ -628,7 +628,7 @@ control_activate (BonoboControl     *control,
 	AddressbookViewPrivate *priv = view->priv;
 	Bonobo_UIContainer remote_ui_container;
 	EABView *v = get_current_view (view);
-	char *xmlfile;
+	gchar *xmlfile;
 
 	remote_ui_container = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, remote_ui_container, NULL);
@@ -684,7 +684,7 @@ control_activate_cb (BonoboControl *control,
 }
 
 static void
-gather_uids_foreach (char *key,
+gather_uids_foreach (gchar *key,
 		     gpointer value,
 		     GList **list)
 {
@@ -701,7 +701,7 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 	uids = NULL;
 	g_hash_table_foreach (priv->uid_to_view, (GHFunc)gather_uids_foreach, &uids);
 	for (l = uids; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		if (e_source_list_peek_source_by_uid (source_list, uid)) {
 			/* the source still exists, do nothing */
 		}
@@ -721,7 +721,7 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 	uids = NULL;
 	g_hash_table_foreach (priv->uid_to_editor, (GHFunc)gather_uids_foreach, &uids);
 	for (l = uids; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		if (e_source_list_peek_source_by_uid (source_list, uid)) {
 			/* the source still exists, do nothing */
 		}
@@ -801,7 +801,7 @@ get_primary_source (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *source;
-	char *uid;
+	gchar *uid;
 
 	uid = gconf_client_get_string (priv->gconf_client,
 				       "/apps/evolution/addressbook/display/primary_addressbook",
@@ -867,7 +867,7 @@ book_removed (EBook *book, EBookStatus status, gpointer data)
 }
 
 static void
-delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	AddressbookView *view = data;
 	AddressbookViewPrivate *priv = view->priv;
@@ -903,13 +903,13 @@ delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+new_addressbook_cb(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	addressbook_config_create_new_source (gtk_widget_get_toplevel(ep->target->widget));
 }
 
 static void
-rename_addressbook_cb (EPopup *ep, EPopupItem *pitem, void *data)
+rename_addressbook_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	AddressbookView *view = data;
 	ESourceSelector *selector;
@@ -919,7 +919,7 @@ rename_addressbook_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-save_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+save_addressbook_cb(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	AddressbookView *view = data;
 	EABView *v = get_current_view (view);
@@ -928,7 +928,7 @@ save_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-edit_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
+edit_addressbook_cb(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	AddressbookView *view = data;
 	if (view)
@@ -958,7 +958,7 @@ static EPopupItem abv_source_popups[] = {
 };
 
 static void
-abv_source_popup_free(EPopup *ep, GSList *list, void *data)
+abv_source_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	g_slist_free(list);
 }
@@ -969,7 +969,7 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 	EABPopup *ep;
 	EABPopupTargetSource *t;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 	GtkMenu *menu;
 
 	/** @HookPoint-EABPopup:Addressbook Source Selector Context Menu
@@ -1035,7 +1035,7 @@ removed_contact_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-merged_contact_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
+merged_contact_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	MergeContext *merge_context = closure;
 
@@ -1088,7 +1088,7 @@ selector_tree_data_dropped (ESourceSelector *selector,
 	}
 	e_book_open (target_book, FALSE, NULL);
 
-	eab_book_and_contact_list_from_string ((char *)data->data, &source_book, &contactlist);
+	eab_book_and_contact_list_from_string ((gchar *)data->data, &source_book, &contactlist);
 
 	v = get_current_view (view);
 	g_object_get (v->model, "book",&source_book, NULL);
@@ -1252,7 +1252,7 @@ addressbook_view_init (AddressbookView *view)
 }
 
 static void
-destroy_editor (char *key,
+destroy_editor (gchar *key,
 		gpointer value,
 		gpointer nada)
 {
@@ -1342,7 +1342,7 @@ activate_source (AddressbookView *view,
 		 ESource *source)
 {
 	AddressbookViewPrivate *priv = view->priv;
-	const char *uid;
+	const gchar *uid;
 	GtkWidget *uid_view;
 	EBook *book;
 	BookOpenData *data;
@@ -1496,8 +1496,8 @@ addressbook_view_peek_folder_view (AddressbookView *view)
 
 void
 addressbook_view_edit_contact (AddressbookView* view,
-			       const char* source_uid,
-			       const char* contact_uid)
+			       const gchar * source_uid,
+			       const gchar * contact_uid)
 {
 	AddressbookViewPrivate *priv = view->priv;
 

@@ -53,7 +53,7 @@ eabp_target_free(EPopup *ep, EPopupTarget *t)
 	switch (t->type) {
 	case EAB_POPUP_TARGET_SELECT: {
 		EABPopupTargetSelect *s = (EABPopupTargetSelect *)t;
-		int i;
+		gint i;
 
 		for (i=0;i<s->cards->len;i++)
 			g_object_unref(s->cards->pdata[i]);
@@ -115,7 +115,7 @@ eab_popup_get_type(void)
 	return type;
 }
 
-EABPopup *eab_popup_new(const char *menuid)
+EABPopup *eab_popup_new(const gchar *menuid)
 {
 	EABPopup *eabp = g_object_new(eab_popup_get_type(), NULL);
 
@@ -138,7 +138,7 @@ EABPopup *eab_popup_new(const char *menuid)
 
 
 EABPopupTargetURI *
-eab_popup_target_new_uri(EABPopup *emp, const char *uri)
+eab_popup_target_new_uri(EABPopup *emp, const gchar *uri)
 {
 	EABPopupTargetURI *t = e_popup_target_new(&emp->popup, EAB_POPUP_TARGET_URI, sizeof(*t));
 	guint32 mask = ~0;
@@ -162,11 +162,11 @@ eab_popup_target_new_uri(EABPopup *emp, const char *uri)
 
 
 EABPopupTargetSelect *
-eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards)
+eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, gint readonly, GPtrArray *cards)
 {
 	EABPopupTargetSelect *t = e_popup_target_new(&eabp->popup, EAB_POPUP_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
-	int has_email = FALSE, i;
+	gint has_email = FALSE, i;
 
 	/* FIXME: duplicated in eab-menu.c */
 
@@ -219,7 +219,7 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 {
 	EABPopupTargetSource *t = e_popup_target_new(&eabp->popup, EAB_POPUP_TARGET_SOURCE, sizeof(*t));
 	guint32 mask = ~0;
-	const char *source_uri;
+	const gchar *source_uri;
 	ESource *source;
 
 	/* TODO: this is duplicated for calendar and tasks too */
@@ -247,7 +247,7 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 #ifdef ADAPTED_TO_E_NAME_SELECTOR
 
 EABPopupTargetSelectNames *
-eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row)
+eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, gint row)
 {
 	EABPopupTargetSelectNames *t = e_popup_target_new(&eabp->popup, EAB_POPUP_TARGET_SELECT_NAMES, sizeof(*t));
 
@@ -290,7 +290,7 @@ eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *mod
 
 */
 
-static void *eabph_parent_class;
+static gpointer eabph_parent_class;
 #define eabph ((EABPopupHook *)eph)
 
 static const EPopupHookTargetMask eabph_select_masks[] = {
@@ -338,7 +338,7 @@ eabph_finalise(GObject *o)
 static void
 eabph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = eabph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.addressbook.popup:1.0";

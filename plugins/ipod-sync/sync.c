@@ -50,7 +50,7 @@ static void pulse (void)
 /**
  * Something bad happened.
  */
-static void error_dialog (char *title, char *error)
+static void error_dialog (gchar *title, gchar *error)
 {
 	GtkWidget *error_dlg =
 			gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
@@ -71,7 +71,7 @@ static void error_dialog (char *title, char *error)
 /**
  * Something really bad happened.
  */
-static void critical_error (char *title, char *error)
+static void critical_error (gchar *title, gchar *error)
 {
 	error_dialog (title, error);
 	gtk_main_quit ();
@@ -79,7 +79,7 @@ static void critical_error (char *title, char *error)
 }
 
 static GSList *
-get_source_uris_for_type (char *key)
+get_source_uris_for_type (gchar *key)
 {
 	ESourceList *sources;
 	GSList		*groups;
@@ -124,9 +124,9 @@ free_uri_list (GSList *uris)
  * Note: data must be of even length.
  */
 static void
-force_little_endian (gunichar2 *data, int length)
+force_little_endian (gunichar2 *data, gint length)
 {
-	int i;
+	gint i;
 
 	/* We're big-endian?
 	   (A little tidier than before) */
@@ -151,10 +151,10 @@ force_little_endian (gunichar2 *data, int length)
  * display an error dialog and end the program.
  */
 static void
-write_to_ipod (GString *str, char *path, char *filename)
+write_to_ipod (GString *str, gchar *path, gchar *filename)
 {
-	char *output_path;
-	char *output_file;
+	gchar *output_path;
+	gchar *output_file;
 	FILE *f;
 	guchar		*utf8;
 	gunichar2	*utf16;

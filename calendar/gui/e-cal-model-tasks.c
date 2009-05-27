@@ -42,17 +42,17 @@ struct _ECalModelTasksPrivate {
 
 static void e_cal_model_tasks_finalize (GObject *object);
 
-static int ecmt_column_count (ETableModel *etm);
-static void *ecmt_value_at (ETableModel *etm, int col, int row);
-static void ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value);
-static gboolean ecmt_is_cell_editable (ETableModel *etm, int col, int row);
-static void *ecmt_duplicate_value (ETableModel *etm, int col, const void *value);
-static void ecmt_free_value (ETableModel *etm, int col, void *value);
-static void *ecmt_initialize_value (ETableModel *etm, int col);
-static gboolean ecmt_value_is_empty (ETableModel *etm, int col, const void *value);
-static char *ecmt_value_to_string (ETableModel *etm, int col, const void *value);
+static gint ecmt_column_count (ETableModel *etm);
+static gpointer ecmt_value_at (ETableModel *etm, gint col, gint row);
+static void ecmt_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
+static gboolean ecmt_is_cell_editable (ETableModel *etm, gint col, gint row);
+static gpointer ecmt_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
+static void ecmt_free_value (ETableModel *etm, gint col, gpointer value);
+static gpointer ecmt_initialize_value (ETableModel *etm, gint col);
+static gboolean ecmt_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
+static gchar *ecmt_value_to_string (ETableModel *etm, gint col, gconstpointer value);
 
-static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
+static const gchar *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 static void commit_component_changes (ECalModelComponent *comp_data);
@@ -289,7 +289,7 @@ get_due (ECalModelComponent *comp_data)
 	return comp_data->due;
 }
 
-static void *
+static gpointer
 get_geo (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -307,7 +307,7 @@ get_geo (ECalModelComponent *comp_data)
 		return buf;
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static int
@@ -322,7 +322,7 @@ get_percent (ECalModelComponent *comp_data)
 	return 0;
 }
 
-static void *
+static gpointer
 get_priority (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -331,7 +331,7 @@ get_priority (ECalModelComponent *comp_data)
 	if (prop)
 		return e_cal_util_priority_to_string (icalproperty_get_priority (prop));
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static gboolean
@@ -344,7 +344,7 @@ is_status_canceled (ECalModelComponent *comp_data)
 	return prop && icalproperty_get_status (prop) == ICAL_STATUS_CANCELLED;
 }
 
-static void *
+static gpointer
 get_status (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -353,33 +353,33 @@ get_status (ECalModelComponent *comp_data)
 	if (prop) {
 		switch (icalproperty_get_status (prop)) {
 		case ICAL_STATUS_NONE:
-			return (void *) "";
+			return (gpointer) "";
 		case ICAL_STATUS_NEEDSACTION:
-			return (void *) _("Not Started");
+			return (gpointer) _("Not Started");
 		case ICAL_STATUS_INPROCESS:
-			return (void *) _("In Progress");
+			return (gpointer) _("In Progress");
 		case ICAL_STATUS_COMPLETED:
-			return (void *) _("Completed");
+			return (gpointer) _("Completed");
 		case ICAL_STATUS_CANCELLED:
-			return (void *) _("Canceled");
+			return (gpointer) _("Canceled");
 		default:
-			return (void *) "";
+			return (gpointer) "";
 		}
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
-static void *
+static gpointer
 get_url (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
 	if (prop)
-		return (void *) icalproperty_get_url (prop);
+		return (gpointer) icalproperty_get_url (prop);
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static gboolean
@@ -431,7 +431,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		/* Third, are we overdue as of right now? */
 		due_tt = icalproperty_get_due (prop);
 		if (due_tt.is_date) {
-			int cmp;
+			gint cmp;
 
 			now_tt = icaltime_current_time_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
 			cmp = icaltime_compare_date_only (due_tt, now_tt);
@@ -444,7 +444,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
 			icalparameter *param;
-			const char *tzid;
+			const gchar *tzid;
 
 			if(!(param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER)))
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
@@ -483,8 +483,8 @@ is_overdue (ECalModelTasks *model, ECalModelComponent *comp_data)
 	return FALSE;
 }
 
-static void *
-ecmt_value_at (ETableModel *etm, int col, int row)
+static gpointer
+ecmt_value_at (ETableModel *etm, gint col, gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
@@ -499,7 +499,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return (void *) "";
+		return (gpointer) "";
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
@@ -524,11 +524,11 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 		return get_url (comp_data);
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static void
-set_completed (ECalModelTasks *model, ECalModelComponent *comp_data, const void *value)
+set_completed (ECalModelTasks *model, ECalModelComponent *comp_data, gconstpointer value)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 
@@ -553,7 +553,7 @@ set_completed (ECalModelTasks *model, ECalModelComponent *comp_data, const void 
 }
 
 static void
-set_complete (ECalModelComponent *comp_data, const void *value)
+set_complete (ECalModelComponent *comp_data, gconstpointer value)
 {
 	gint state = GPOINTER_TO_INT (value);
 
@@ -564,12 +564,12 @@ set_complete (ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-set_due (ECalModelComponent *comp_data, const void *value)
+set_due (ECalModelComponent *comp_data, gconstpointer value)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 	icalproperty *prop;
 	icalparameter *param;
-	const char *tzid;
+	const gchar *tzid;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
 	if (prop)
@@ -605,9 +605,9 @@ set_due (ECalModelComponent *comp_data, const void *value)
 	/* If the TZID is set to "UTC", we don't want to save the TZID. */
 	if (tzid && strcmp (tzid, "UTC")) {
 		if (param) {
-			icalparameter_set_tzid (param, (char *) tzid);
+			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {
-			param = icalparameter_new_tzid ((char *) tzid);
+			param = icalparameter_new_tzid ((gchar *) tzid);
 			icalproperty_add_parameter (prop, param);
 		}
 	} else if (param) {
@@ -630,10 +630,10 @@ show_geo_warning (void)
 }
 
 static void
-set_geo (ECalModelComponent *comp_data, const char *value)
+set_geo (ECalModelComponent *comp_data, const gchar *value)
 {
 	double latitude, longitude;
-	int matched;
+	gint matched;
 	struct icalgeotype geo;
 	icalproperty *prop;
 
@@ -662,7 +662,7 @@ set_geo (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_status (ECalModelComponent *comp_data, const char *value)
+set_status (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty_status status;
 	icalproperty *prop;
@@ -716,7 +716,7 @@ set_status (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_percent (ECalModelComponent *comp_data, const void *value)
+set_percent (ECalModelComponent *comp_data, gconstpointer value)
 {
 	icalproperty *prop;
 	gint percent = GPOINTER_TO_INT (value);
@@ -758,10 +758,10 @@ set_percent (ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-set_priority (ECalModelComponent *comp_data, const char *value)
+set_priority (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
-	int priority;
+	gint priority;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
 
@@ -780,7 +780,7 @@ set_priority (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_url (ECalModelComponent *comp_data, const char *value)
+set_url (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
 
@@ -802,7 +802,7 @@ set_url (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
+ecmt_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
@@ -852,7 +852,7 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 }
 
 static gboolean
-ecmt_is_cell_editable (ETableModel *etm, int col, int row)
+ecmt_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -882,8 +882,8 @@ ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 	return FALSE;
 }
 
-static void *
-ecmt_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+ecmt_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, NULL);
 
@@ -912,14 +912,14 @@ ecmt_duplicate_value (ETableModel *etm, int col, const void *value)
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
-		return (void *) value;
+		return (gpointer) value;
 	}
 
 	return NULL;
 }
 
 static void
-ecmt_free_value (ETableModel *etm, int col, void *value)
+ecmt_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 
@@ -945,8 +945,8 @@ ecmt_free_value (ETableModel *etm, int col, void *value)
 	}
 }
 
-static void *
-ecmt_initialize_value (ETableModel *etm, int col)
+static gpointer
+ecmt_initialize_value (ETableModel *etm, gint col)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -975,7 +975,7 @@ ecmt_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-ecmt_value_is_empty (ETableModel *etm, int col, const void *value)
+ecmt_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -1004,8 +1004,8 @@ ecmt_value_is_empty (ETableModel *etm, int col, const void *value)
 	return TRUE;
 }
 
-static char *
-ecmt_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+ecmt_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ECalModelTasks *model = (ECalModelTasks *) etm;
 
@@ -1039,7 +1039,7 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 
 /* ECalModel class methods */
 
-static const char *
+static const gchar *
 ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
 	static gchar color_spec[16];
@@ -1077,7 +1077,7 @@ static void
 ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 				ETableModel *source_model, gint row)
 {
-	void *value;
+	gpointer value;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (comp_data != NULL);

@@ -27,8 +27,8 @@
 
 #include "e-error.h"
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	gtk_init (&argc, &argv);
 

@@ -56,11 +56,11 @@ void                eab_transfer_contacts         (EBook       *source,
 						   gboolean     delete_from_source,
 						   GtkWindow   *parent_window);
 
-void                eab_contact_save              (char *title,
+void                eab_contact_save              (gchar *title,
 						   EContact *contact,
 						   GtkWindow *parent_window);
 
-void                eab_contact_list_save         (char *title,
+void                eab_contact_list_save         (gchar *title,
 						   GList *list,
 						   GtkWindow *parent_window);
 
@@ -70,7 +70,7 @@ typedef enum {
 } EABDisposition;
 
 void                eab_send_contact              (EContact       *contact,
-						   int             email_num,
+						   gint             email_num,
 						   EABDisposition  disposition);
 void                eab_send_contact_list         (GList          *contacts,
 						   EABDisposition  disposition);
@@ -83,7 +83,7 @@ ESource            *eab_select_source             (const gchar *title, const gch
 
 /* To parse quoted printable address & return email & name fields */
 gboolean eab_parse_qp_email (const gchar *string, gchar **name, gchar **email);
-char *eab_parse_qp_email_to_html (const gchar *string);
+gchar *eab_parse_qp_email_to_html (const gchar *string);
 
 G_END_DECLS
 

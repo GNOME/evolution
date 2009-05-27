@@ -43,15 +43,15 @@ struct _EABModel {
 	EBookQuery *query;
 	EBookView *book_view;
 
-	int book_view_idle_id;
+	gint book_view_idle_id;
 
 	EContact **data;
-	int data_count;
-	int allocated_count;
+	gint data_count;
+	gint allocated_count;
 
-	int create_contact_id, remove_contact_id, modify_contact_id;
-	int status_message_id, writable_status_id, sequence_complete_id;
-	int backend_died_id;
+	gint create_contact_id, remove_contact_id, modify_contact_id;
+	gint status_message_id, writable_status_id, sequence_complete_id;
+	gint backend_died_id;
 
 	guint search_in_progress : 1;
 	guint editable : 1;
@@ -85,7 +85,7 @@ EABModel          *eab_model_new                       (void);
 
 /* Returns object with ref count of 1. */
 EContact          *eab_model_get_contact               (EABModel *model,
-							int                row);
+							gint                row);
 EBook             *eab_model_get_ebook                 (EABModel *model);
 
 void               eab_model_stop                      (EABModel *model);
@@ -93,9 +93,9 @@ gboolean           eab_model_can_stop                  (EABModel *model);
 
 void               eab_model_force_folder_bar_message  (EABModel *model);
 
-int                eab_model_contact_count             (EABModel *model);
+gint                eab_model_contact_count             (EABModel *model);
 const EContact    *eab_model_contact_at                (EABModel *model,
-							int                index);
+							gint                index);
 gboolean           eab_model_editable                  (EABModel *model);
 
 #endif /* _EAB_MODEL_H_ */

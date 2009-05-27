@@ -49,8 +49,8 @@ struct _EInfoLabelClass {
 
 GType e_info_label_get_type(void);
 
-GtkWidget *e_info_label_new(const char *icon);
-void e_info_label_set_info(EInfoLabel *, const char *loc, const char *info);
+GtkWidget *e_info_label_new(const gchar *icon);
+void e_info_label_set_info(EInfoLabel *, const gchar *loc, const gchar *info);
 
 #ifdef __cplusplus
 }

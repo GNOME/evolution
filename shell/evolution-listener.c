@@ -59,7 +59,7 @@ evolution_listener_init(EvolutionListener *emf, EvolutionListenerClass *klass)
 BONOBO_TYPE_FUNC_FULL (EvolutionListener, GNOME_Evolution_Listener, PARENT_TYPE, evolution_listener)
 
 EvolutionListener *
-evolution_listener_new(EvolutionListenerFunc complete, void *data)
+evolution_listener_new(EvolutionListenerFunc complete, gpointer data)
 {
 	EvolutionListener *el;
 

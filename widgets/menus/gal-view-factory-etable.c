@@ -31,7 +31,7 @@
 
 G_DEFINE_TYPE (GalViewFactoryEtable, gal_view_factory_etable, GAL_VIEW_FACTORY_TYPE)
 
-static const char *
+static const gchar *
 gal_view_factory_etable_get_title       (GalViewFactory *factory)
 {
 	return _("Table");
@@ -39,12 +39,12 @@ gal_view_factory_etable_get_title       (GalViewFactory *factory)
 
 static GalView *
 gal_view_factory_etable_new_view        (GalViewFactory *factory,
-					 const char     *name)
+					 const gchar     *name)
 {
 	return gal_view_etable_new(GAL_VIEW_FACTORY_ETABLE(factory)->spec, name);
 }
 
-static const char *
+static const gchar *
 gal_view_factory_etable_get_type_code (GalViewFactory *factory)
 {
 	return "etable";

@@ -45,7 +45,7 @@
 #include <gconf/gconf-client.h>
 
 struct _Component {
-	char *id, *alias;
+	gchar *id, *alias;
 	GNOME_Evolution_Component component;
 	GNOME_Evolution_CreatableItemTypeList *type_list;
 };
@@ -53,11 +53,11 @@ typedef struct _Component Component;
 
 /* Representation of a single menu item.  */
 struct _MenuItem {
-	const char *label;
-	char shortcut;
-	char *verb;
-	char *tooltip;
-	char *component;
+	const gchar *label;
+	gchar shortcut;
+	gchar *verb;
+	gchar *tooltip;
+	gchar *component;
 	GdkPixbuf *icon;
 	GdkPixbuf *icon_toolbar;
 };
@@ -65,11 +65,11 @@ typedef struct _MenuItem MenuItem;
 
 struct _EUserCreatableItemsHandlerPrivate {
 	/* This component's alias */
-	char *this_component;
+	gchar *this_component;
 
 	/* For creating items on the view */
 	EUserCreatableItemsHandlerCreate create_local;
-	void *create_data;
+	gpointer create_data;
 
 	/* The components that register user creatable items.  */
 	GSList *components;	/* Component */
@@ -85,7 +85,7 @@ struct _EUserCreatableItemsHandlerPrivate {
 	const MenuItem *fallback_menu_item;
 	const MenuItem *default_menu_item;
 
-	char *menu_xml;
+	gchar *menu_xml;
 	GtkWidget *new_button, *new_menu;
 	BonoboControl *new_control;
 	GtkAccelGroup *accel_group;
@@ -101,8 +101,8 @@ G_DEFINE_TYPE (EUserCreatableItemsHandler, e_user_creatable_items_handler, G_TYP
 /* Component struct handling.  */
 
 static Component *
-component_new (const char *id,
-	       const char *component_alias,
+component_new (const gchar *id,
+	       const gchar *component_alias,
 	       GNOME_Evolution_Component component)
 {
 	CORBA_Environment ev;
@@ -149,7 +149,7 @@ component_free (Component *component)
 	g_free (component);
 }
 
-static const char *component_query =
+static const gchar *component_query =
 	"repo_ids.has ('IDL:GNOME/Evolution/Component:" BASE_VERSION "')";
 
 static void
@@ -159,15 +159,15 @@ get_components_from_bonobo (EUserCreatableItemsHandler *handler)
 	Bonobo_ActivationProperty *property;
 	CORBA_Environment ev;
 	const gchar *alias;
-	char *iid;
+	gchar *iid;
 	GNOME_Evolution_Component corba_component;
 	Component *component;
-	int i;
+	gint i;
 
 	CORBA_exception_init (&ev);
 	info_list = bonobo_activation_query (component_query, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
-		char *ex_text = bonobo_exception_get_text (&ev);
+		gchar *ex_text = bonobo_exception_get_text (&ev);
 		g_warning ("Cannot query for components: %s\n", ex_text);
 		g_free (ex_text);
 		CORBA_exception_free (&ev);
@@ -198,7 +198,7 @@ get_components_from_bonobo (EUserCreatableItemsHandler *handler)
 
 static gboolean
 item_is_default (const MenuItem *item,
-		 const char *component)
+		 const gchar *component)
 {
 	if (component == NULL)
 		return FALSE;
@@ -209,8 +209,8 @@ item_is_default (const MenuItem *item,
 		return FALSE;
 }
 
-static char *
-create_verb (EUserCreatableItemsHandler *handler, int component_num, const char *comp, const char *type_id)
+static gchar *
+create_verb (EUserCreatableItemsHandler *handler, gint component_num, const gchar *comp, const gchar *type_id)
 {
 	return g_strdup_printf ("EUserCreatableItemsHandler-%s:%d:%s", comp, component_num, type_id);
 }
@@ -224,8 +224,8 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 	EUserCreatableItemsHandlerPrivate *priv;
 	GSList *objects, *folders;
 	GSList *p;
-	int component_num;
-	const char *default_verb;
+	gint component_num;
+	const gchar *default_verb;
 
 	priv = handler->priv;
 	if (priv->objects != NULL)
@@ -236,7 +236,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 	default_verb = NULL;
 	for (p = priv->components; p != NULL; p = p->next) {
 		const Component *component;
-		int i;
+		gint i;
 
 		component = (const Component *) p->data;
 		if (component->type_list != NULL) {
@@ -344,15 +344,15 @@ get_default_action_for_view (EUserCreatableItemsHandler *handler)
 
 static void
 execute_verb (EUserCreatableItemsHandler *handler,
-	      const char *verb_name)
+	      const gchar *verb_name)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
 	const Component *component;
-	int component_number;
-	const char *p;
-	const char *id;
+	gint component_number;
+	const gchar *p;
+	const gchar *id;
 	GSList *component_list_item;
-	int i;
+	gint i;
 
 	priv = handler->priv;
 
@@ -397,8 +397,8 @@ execute_verb (EUserCreatableItemsHandler *handler,
 
 static void
 verb_fn (BonoboUIComponent *ui_component,
-	 void *data,
-	 const char *verb_name)
+	 gpointer data,
+	 const gchar *verb_name)
 {
 	EUserCreatableItemsHandler *handler=
 		E_USER_CREATABLE_ITEMS_HANDLER (data);
@@ -411,7 +411,7 @@ add_verbs (EUserCreatableItemsHandler *handler,
 	   BonoboUIComponent *ui_component)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	int component_num;
+	gint component_num;
 	GSList *p;
 
 	priv = handler->priv;
@@ -419,13 +419,13 @@ add_verbs (EUserCreatableItemsHandler *handler,
 	component_num = 0;
 	for (p = priv->components; p != NULL; p = p->next) {
 		const Component *component;
-		int i;
+		gint i;
 
 		component = (const Component *) p->data;
 
 		if (component->type_list != NULL) {
 			for (i = 0; i < component->type_list->_length; i ++) {
-				char *verb_name;
+				gchar *verb_name;
 
 				verb_name = create_verb (handler,
 							 component_num,
@@ -446,12 +446,12 @@ add_verbs (EUserCreatableItemsHandler *handler,
 /* Generic menu construction code */
 
 static int
-item_types_sort_func (const void *a,
-		      const void *b)
+item_types_sort_func (gconstpointer a,
+		      gconstpointer b)
 {
 	const MenuItem *item_a;
 	const MenuItem *item_b;
-	const char *p1, *p2;
+	const gchar *p1, *p2;
 
 	item_a = (const MenuItem *) a;
 	item_b = (const MenuItem *) b;
@@ -559,8 +559,8 @@ xml_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
 		    MenuItem *item, gboolean first)
 {
 	GString *xml = menu;
-	char *encoded_label;
-	char *encoded_tooltip;
+	gchar *encoded_label;
+	gchar *encoded_tooltip;
 
 	encoded_label = bonobo_ui_util_encode_str (item->label);
 	g_string_append_printf (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
@@ -572,7 +572,7 @@ xml_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
 		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
 
 	if (item->icon != NULL) {
-		char *icon_xml;
+		gchar *icon_xml;
 
 		icon_xml = bonobo_ui_util_pixbuf_to_xml (item->icon);
 		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"", icon_xml);
@@ -589,7 +589,7 @@ xml_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
 }
 
 static void
-xml_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
+xml_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, gint nth)
 {
 	GString *xml = menu;
 
@@ -616,7 +616,7 @@ static void
 menuitem_activate (GtkMenuItem *item, gpointer data)
 {
 	EUserCreatableItemsHandler *handler = data;
-	const char *verb;
+	const gchar *verb;
 
 	verb = g_object_get_data (G_OBJECT (item), "EUserCreatableItemsHandler:verb");
 	execute_verb (handler, verb);
@@ -665,7 +665,7 @@ gtk_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
 }
 
 static void
-gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
+gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, gint nth)
 {
 	gtk_menu_shell_append (menu, gtk_separator_menu_item_new ());
 }
@@ -696,12 +696,12 @@ set_combo_button_style (EComboButton *button, const gchar *style, GdkPixbuf *ico
 
 static void
 new_button_change (GConfClient *gconf,
-		   unsigned int connection_id,
+		   guint connection_id,
 		   GConfEntry *entry,
 		   EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	char *val;
+	gchar *val;
 
 	priv = handler->priv;
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
@@ -718,7 +718,7 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
  	GConfClient *gconf = gconf_client_get_default ();
-	char *val;
+	gchar *val;
 
 	priv = handler->priv;
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
@@ -866,8 +866,8 @@ e_user_creatable_items_handler_init (EUserCreatableItemsHandler *handler)
 
 
 EUserCreatableItemsHandler *
-e_user_creatable_items_handler_new (const char *component_alias,
-				    EUserCreatableItemsHandlerCreate create_local, void *data)
+e_user_creatable_items_handler_new (const gchar *component_alias,
+				    EUserCreatableItemsHandlerCreate create_local, gpointer data)
 {
 	EUserCreatableItemsHandler *handler;
 

@@ -78,7 +78,7 @@ void		e_icon_entry_pack_widget	(EIconEntry *entry,
 
 GtkWidget      *e_icon_entry_get_entry	(EIconEntry *entry);
 
-GtkWidget *e_icon_entry_create_button (const char *stock);
+GtkWidget *e_icon_entry_create_button (const gchar *stock);
 
 G_END_DECLS
 

@@ -54,7 +54,7 @@ el_destroy (GtkObject *o)
 static int
 el_expose_event(GtkWidget *w, GdkEventExpose *event)
 {
-	int x = ((GtkContainer *)w)->border_width;
+	gint x = ((GtkContainer *)w)->border_width;
 
 	/* This seems a hack to me, but playing with styles wouldn't affect the background */
 	gtk_paint_flat_box(w->style, w->window,
@@ -71,7 +71,7 @@ get_text_full_width (GtkWidget *label)
 {
 	PangoLayout *layout;
 	PangoRectangle rect;
-	int width;
+	gint width;
 
 	g_return_val_if_fail (GTK_IS_LABEL (label), 0);
 
@@ -93,7 +93,7 @@ el_size_allocate (GtkWidget *widget, GtkAllocation *pallocation)
 {
 	EInfoLabel *el;
 	GtkAllocation allocation;
-	int full_loc, full_nfo;
+	gint full_loc, full_nfo;
 	gint diff;
 
 	/* let calculate parent class first, and then just make it not divide evenly */
@@ -179,7 +179,7 @@ e_info_label_get_type(void)
  * Return value:
  **/
 GtkWidget *
-e_info_label_new(const char *icon)
+e_info_label_new(const gchar *icon)
 {
 	EInfoLabel *el = g_object_new(e_info_label_get_type(), NULL);
 	GtkWidget *image;
@@ -207,7 +207,7 @@ e_info_label_new(const char *icon)
  * @info is some info about this location.
  **/
 void
-e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
+e_info_label_set_info(EInfoLabel *el, const gchar *location, const gchar *info)
 {
 	gchar *markup;
 

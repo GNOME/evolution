@@ -42,7 +42,7 @@ void
 delete_error_dialog (GError *error, ECalComponentVType vtype)
 {
 	GtkWidget *dialog;
-	const char *str;
+	const gchar *str;
 	const gchar *icon_name = NULL;
 
 	if (!error)

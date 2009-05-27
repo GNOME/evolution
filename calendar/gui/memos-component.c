@@ -105,8 +105,8 @@ typedef struct _MemosComponentView
 } MemosComponentView;
 
 struct _MemosComponentPrivate {
-	char *base_directory;
-	char *config_directory;
+	gchar *base_directory;
+	gchar *config_directory;
 
 	ESourceList *source_list;
 	GSList *source_selection;
@@ -126,7 +126,7 @@ ensure_sources (MemosComponent *component)
 	ESourceList *source_list;
 	ESourceGroup *on_this_computer;
 	ESource *personal_source;
-	char *base_uri, *base_uri_proto, base_uri_proto_seventh;
+	gchar *base_uri, *base_uri_proto, base_uri_proto_seventh;
 	const gchar *base_dir;
 
 	personal_source = NULL;
@@ -246,7 +246,7 @@ is_in_uids (GSList *uids, ESource *source)
 	GSList *l;
 
 	for (l = uids; l; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
@@ -273,7 +273,7 @@ update_uris_for_selection (MemosComponentView *component_view)
 		ESource *selected_source = l->data;
 
 		e_memos_add_memo_source (component_view->memos, selected_source);
-		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
+		uids_selected = g_slist_append (uids_selected, (gchar *)e_source_peek_uid (selected_source));
 	}
 
 	e_source_selector_free_selection (component_view->source_selection);
@@ -331,7 +331,7 @@ update_selection (MemosComponentView *component_view)
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
@@ -347,7 +347,7 @@ static void
 update_primary_selection (MemosComponentView *component_view)
 {
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 
 	uid = calendar_config_get_primary_memos ();
 	if (uid) {
@@ -370,7 +370,7 @@ update_primary_selection (MemosComponentView *component_view)
 /* Callbacks.  */
 /* TODO: doesn't work! */
 static void
-copy_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+copy_memo_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	MemosComponentView *component_view = data;
 	ESource *selected_source;
@@ -383,12 +383,12 @@ copy_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	MemosComponentView *component_view = data;
 	ESource *selected_source;
 	ECal *cal;
-	char *uri;
+	gchar *uri;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
@@ -422,13 +422,13 @@ delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+new_memo_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	calendar_setup_new_memo_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)));
 }
 
 static void
-rename_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+rename_memo_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	MemosComponentView *component_view = data;
 	ESourceSelector *selector;
@@ -438,7 +438,7 @@ rename_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	MemosComponentView *component_view = data;
 	ESource *selected_source;
@@ -451,7 +451,7 @@ edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
+set_offline_availability (EPopup *ep, EPopupItem *pitem, gpointer data, const gchar *value)
 {
 	MemosComponentView *component_view = data;
 	ESource *selected_source;
@@ -464,13 +464,13 @@ set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char 
 }
 
 static void
-mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "0");
 }
 
 static void
-mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "1");
 }
@@ -490,7 +490,7 @@ static EPopupItem emc_source_popups[] = {
 };
 
 static void
-emc_source_popup_free(EPopup *ep, GSList *list, void *data)
+emc_source_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	g_slist_free(list);
 }
@@ -501,7 +501,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	ECalPopup *ep;
 	ECalPopupTargetSource *t;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 	GtkMenu *menu;
 
 	/** @HookPoint-ECalPopup: Memos Source Selector Context Menu
@@ -554,7 +554,7 @@ static void
 set_info (MemosComponentView *component_view)
 {
 	GString *message = g_string_new (NULL);
-	int rows, selected_rows;
+	gint rows, selected_rows;
 
 	rows = e_table_model_row_count (component_view->model);
 	selected_rows =  e_table_selected_count (component_view->table);
@@ -581,13 +581,13 @@ model_changed_cb (ETableModel *etm, MemosComponentView *component_view)
 }
 
 static void
-model_rows_inserted_cb (ETableModel *etm, int row, int count, MemosComponentView *component_view)
+model_rows_inserted_cb (ETableModel *etm, gint row, gint count, MemosComponentView *component_view)
 {
 	set_info (component_view);
 }
 
 static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, MemosComponentView *component_view)
+model_rows_deleted_cb (ETableModel *etm, gint row, gint count, MemosComponentView *component_view)
 {
 	set_info (component_view);
 }
@@ -639,7 +639,7 @@ selector_tree_data_dropped (ESourceSelector *selector,
 	components = cal_comp_selection_get_string_list (data);
 	success = components != NULL;
 	for (p = components; p && success; p = p->next) {
-		char *comp_str; /* do not free this! */
+		gchar *comp_str; /* do not free this! */
 
 		/* p->data is "source_uid\ncomponent_string" */
 		comp_str = strchr (p->data, '\n');
@@ -699,7 +699,7 @@ setup_create_ecal (MemosComponent *component, MemosComponentView *component_view
 {
 	MemosComponentPrivate *priv;
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	guint not;
 
 	priv = component->priv;
@@ -813,7 +813,7 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 }
 
 static void
-create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+create_local_item_cb (EUserCreatableItemsHandler *handler, const gchar *item_type_name, gpointer data)
 {
 	MemosComponent *memos_component = data;
 	MemosComponentPrivate *priv;
@@ -1039,28 +1039,28 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = (char *) CREATE_MEMO_ID;
-	list->_buffer[0].description = (char *) _("New memo");
-	list->_buffer[0].menuDescription = (char *) C_("New", "Mem_o");
-	list->_buffer[0].tooltip = (char *) _("Create a new memo");
+	list->_buffer[0].id = (gchar *) CREATE_MEMO_ID;
+	list->_buffer[0].description = (gchar *) _("New memo");
+	list->_buffer[0].menuDescription = (gchar *) C_("New", "Mem_o");
+	list->_buffer[0].tooltip = (gchar *) _("Create a new memo");
 	list->_buffer[0].menuShortcut = 'o';
-	list->_buffer[0].iconName = (char *) "stock_insert-note";
+	list->_buffer[0].iconName = (gchar *) "stock_insert-note";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = (char *) CREATE_SHARED_MEMO_ID;
-	list->_buffer[1].description = (char *) _("New shared memo");
-	list->_buffer[1].menuDescription = (char *) C_("New", "_Shared memo");
-	list->_buffer[1].tooltip = (char *) _("Create a shared new memo");
+	list->_buffer[1].id = (gchar *) CREATE_SHARED_MEMO_ID;
+	list->_buffer[1].description = (gchar *) _("New shared memo");
+	list->_buffer[1].menuDescription = (gchar *) C_("New", "_Shared memo");
+	list->_buffer[1].tooltip = (gchar *) _("Create a shared new memo");
 	list->_buffer[1].menuShortcut = 'h';
-	list->_buffer[1].iconName = (char *) "stock_insert-note";
+	list->_buffer[1].iconName = (gchar *) "stock_insert-note";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[2].id = (char *) CREATE_MEMO_LIST_ID;
-	list->_buffer[2].description = (char *) _("New memo list");
-	list->_buffer[2].menuDescription = (char *) C_("New", "Memo li_st");
-	list->_buffer[2].tooltip = (char *) _("Create a new memo list");
+	list->_buffer[2].id = (gchar *) CREATE_MEMO_LIST_ID;
+	list->_buffer[2].description = (gchar *) _("New memo list");
+	list->_buffer[2].menuDescription = (gchar *) C_("New", "Memo li_st");
+	list->_buffer[2].tooltip = (gchar *) _("Create a new memo list");
 	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = (char *) "stock_notes";
+	list->_buffer[2].iconName = (gchar *) "stock_notes";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
@@ -1203,13 +1203,13 @@ memos_component_peek (void)
 	return component;
 }
 
-const char *
+const gchar *
 memos_component_peek_base_directory (MemosComponent *component)
 {
 	return component->priv->base_directory;
 }
 
-const char *
+const gchar *
 memos_component_peek_config_directory (MemosComponent *component)
 {
 	return component->priv->config_directory;

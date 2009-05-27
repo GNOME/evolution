@@ -56,9 +56,9 @@ get_cnc (GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
 	const gchar *failed_auth;
-	char *uri, *key, *prompt, *password = NULL;
+	gchar *uri, *key, *prompt, *password = NULL;
 	CamelURL *url;
-	const char *poa_address, *use_ssl, *soap_port;
+	const gchar *poa_address, *use_ssl, *soap_port;
 	gboolean remember;
 
 	url = camel_url_new (account->source->url, NULL);
@@ -94,7 +94,7 @@ get_cnc (GtkWindow *parent_window)
 
 	cnc = e_gw_connection_new (uri, url->user, password);
 	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
-		char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+		gchar *http_uri = g_strconcat ("http://", uri + 8, NULL);
 		cnc = e_gw_connection_new (http_uri, url->user, password);
 		g_free (http_uri);
 	}
@@ -122,7 +122,7 @@ e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 
 	gopts->delay_enabled = ggopts->delay_enabled;
 
-	/* TODO convert int to timet comparing the current day */
+	/* TODO convert gint to timet comparing the current day */
 	if (ggopts->delay_until) {
 		gopts->delay_until = time_add_day_with_zone (temp, ggopts->delay_until, NULL);
 	} else
@@ -273,7 +273,7 @@ e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 	ggopts->delay_enabled = gopts->delay_enabled;
 
 	if (gopts->delay_until) {
-		int diff;
+		gint diff;
 		icaltimetype temp, current;
 
 		temp = icaltime_from_timet (gopts->delay_until, 0);
@@ -361,14 +361,14 @@ static ESource *
 get_source (ESourceList *list)
 {
 	GSList *p, *l;
-	char **temp = g_strsplit (account->source->url, ";", -1);
-	char *uri = temp [0];
+	gchar **temp = g_strsplit (account->source->url, ";", -1);
+	gchar *uri = temp [0];
 
 
 	l = e_source_list_peek_groups (list);
 
 	for (p = l; p != NULL; p = p->next) {
-		char *so_uri;
+		gchar *so_uri;
 		GSList *r, *s;
 		ESourceGroup *group = E_SOURCE_GROUP (p->data);
 
@@ -398,7 +398,7 @@ add_return_value (EGwSendOptionsReturnNotify track,
                   ESource *source,
                   const gchar *notify)
 {
-	char *value;
+	gchar *value;
 
 	switch (track) {
 		case E_GW_RETURN_NOTIFY_MAIL:
@@ -415,8 +415,8 @@ add_return_value (EGwSendOptionsReturnNotify track,
 static void
 put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOptionsStatusTracking *sopts)
 {
-	char *value;
-	const char *val;
+	gchar *value;
+	const gchar *val;
 	icaltimetype tt;
 	CamelURL  *url;
 

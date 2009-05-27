@@ -30,15 +30,15 @@
 
 static void ea_jump_button_class_init (EaJumpButtonClass *klass);
 
-static G_CONST_RETURN gchar* ea_jump_button_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_jump_button_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_jump_button_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_jump_button_get_description (AtkObject *accessible);
 
 /* action interface */
 static void                  atk_action_interface_init  (AtkActionIface *iface);
 static gboolean              jump_button_do_action      (AtkAction      *action,
                                                          gint           i);
 static gint                  jump_button_get_n_actions  (AtkAction      *action);
-static G_CONST_RETURN gchar* jump_button_get_keybinding (AtkAction      *action,
+static G_CONST_RETURN gchar * jump_button_get_keybinding (AtkAction      *action,
                                                          gint           i);
 
 static gpointer parent_class = NULL;
@@ -137,7 +137,7 @@ ea_jump_button_new (GObject *obj)
 	return atk_obj;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_jump_button_get_name (AtkObject *accessible)
 {
 	g_return_val_if_fail (EA_IS_JUMP_BUTTON (accessible), NULL);
@@ -147,7 +147,7 @@ ea_jump_button_get_name (AtkObject *accessible)
 	return _("Jump button");
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_jump_button_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -204,7 +204,7 @@ jump_button_get_n_actions (AtkAction *action)
   return 1;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 jump_button_get_keybinding (AtkAction *action,
                             gint      i)
 {

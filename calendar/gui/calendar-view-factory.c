@@ -43,9 +43,9 @@ struct _CalendarViewFactoryPrivate {
 
 static void calendar_view_factory_finalize (GObject *object);
 
-static const char *calendar_view_factory_get_title (GalViewFactory *factory);
-static const char *calendar_view_factory_get_type_code (GalViewFactory *factory);
-static GalView *calendar_view_factory_new_view (GalViewFactory *factory, const char *name);
+static const gchar *calendar_view_factory_get_title (GalViewFactory *factory);
+static const gchar *calendar_view_factory_get_type_code (GalViewFactory *factory);
+static GalView *calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name);
 
 G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_VIEW_FACTORY_TYPE)
 
@@ -99,7 +99,7 @@ calendar_view_factory_finalize (GObject *object)
 
 
 /* get_title method for the calendar view factory */
-static const char *
+static const gchar *
 calendar_view_factory_get_title (GalViewFactory *factory)
 {
 	CalendarViewFactory *cal_view_factory;
@@ -127,7 +127,7 @@ calendar_view_factory_get_title (GalViewFactory *factory)
 }
 
 /* get_type_code method for the calendar view factory */
-static const char *
+static const gchar *
 calendar_view_factory_get_type_code (GalViewFactory *factory)
 {
 	CalendarViewFactory *cal_view_factory;
@@ -156,7 +156,7 @@ calendar_view_factory_get_type_code (GalViewFactory *factory)
 
 /* new_view method for the calendar view factory */
 static GalView *
-calendar_view_factory_new_view (GalViewFactory *factory, const char *name)
+calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name)
 {
 	CalendarViewFactory *cal_view_factory;
 	CalendarViewFactoryPrivate *priv;

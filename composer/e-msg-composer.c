@@ -235,7 +235,7 @@ best_charset (GByteArray *buf, const gchar *default_charset, CamelTransferEncodi
 		return charset;
 
 	/* Try to find something that will work */
-	if (!(charset = (char *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
+	if (!(charset = (gchar *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		return NULL;
 	}
@@ -995,7 +995,7 @@ get_file_content (EMsgComposer *composer,
 	camel_object_unref (memstream);
 
 	g_byte_array_append (buffer, (const guint8 *)"", 1);
-	content = (char*)buffer->data;
+	content = (gchar *)buffer->data;
 	g_byte_array_free (buffer, FALSE);
 
 	return content;
@@ -1478,9 +1478,9 @@ struct _drop_data {
 	guint info;
 	guint time;
 
-	unsigned int move:1;
-	unsigned int moved:1;
-	unsigned int aborted:1;
+	guint move:1;
+	guint moved:1;
+	guint aborted:1;
 };
 
 static void
@@ -2753,7 +2753,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 
 	/* Restore the Account preference */
-	account_name = (char *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	account_name = (gchar *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (account_name) {
 		account_name = g_strdup (account_name);
 		g_strstrip (account_name);
@@ -3154,7 +3154,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 			if (p[len] != '=')
 				break;
 
-			header = (char *) p;
+			header = (gchar *) p;
 			header[len] = '\0';
 			p += len + 1;
 

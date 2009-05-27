@@ -58,7 +58,7 @@ typedef struct {
 
 	GHashTable *dn_contact_hash;
 
-	int state;		/* 0 - initial scan, 1 - list cards, 2 - cancelled/complete */
+	gint state;		/* 0 - initial scan, 1 - list cards, 2 - cancelled/complete */
 	FILE *file;
 	gulong size;
 
@@ -79,7 +79,7 @@ static struct {
 #define FLAG_WORK_ADDRESS 	0x02
 #define FLAG_LIST 		0x04
 #define FLAG_BOOLEAN 		0x08
-	int flags;
+	gint flags;
 }
 ldif_fields[] = {
 	{ "cn", E_CONTACT_FULL_NAME },
@@ -128,13 +128,13 @@ ldif_fields[] = {
 	{ "nsAIMid", E_CONTACT_IM_AIM, FLAG_LIST },
 	{ "mozilla_AimScreenName", E_CONTACT_IM_AIM, FLAG_LIST }
 };
-static int num_ldif_fields = sizeof(ldif_fields) / sizeof (ldif_fields[0]);
+static gint num_ldif_fields = sizeof(ldif_fields) / sizeof (ldif_fields[0]);
 
 static GString *
-getValue( char **src )
+getValue( gchar **src )
 {
 	GString *dest = g_string_new("");
-	char *s = *src;
+	gchar *s = *src;
 	gboolean need_base64 = (*s == ':');
 
  copy_line:
@@ -167,7 +167,7 @@ getValue( char **src )
 }
 
 static void
-populate_contact_address (EContactAddress *address, char *attr, char *value)
+populate_contact_address (EContactAddress *address, gchar *attr, gchar *value)
 {
 	if (!g_ascii_strcasecmp (attr, "locality") ||
 	    !g_ascii_strcasecmp (attr, "l") ||
@@ -188,7 +188,7 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 	else if (!g_ascii_strcasecmp (attr, "mozillaPostalAddress2") ||
 		 !g_ascii_strcasecmp (attr, "mozillaHomePostalAddress2")) {
 		if (address->ext && *address->ext) {
-			char *temp = g_strdup (address->ext);
+			gchar *temp = g_strdup (address->ext);
 			g_free (address->ext);
 			address->ext = g_strconcat (temp, ",\n", value, NULL);
 			g_free (temp);
@@ -199,7 +199,7 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 	}
 	else if (!g_ascii_strcasecmp (attr, "postalAddress") ||
 		 !g_ascii_strcasecmp (attr, "homepostalAddress")) {
-		char *c, *i, *addr_field;
+		gchar *c, *i, *addr_field;
 
 		addr_field =  g_strdup (value);
 		i = addr_field;
@@ -210,7 +210,7 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 			}
 		}
 		if (address->ext && *address->ext) {
-			char *temp = g_strdup (address->ext);
+			gchar *temp = g_strdup (address->ext);
 			g_free (address->ext);
 			address->ext = g_strconcat (addr_field, ",\n", temp, NULL);
 			g_free (temp);
@@ -225,10 +225,10 @@ populate_contact_address (EContactAddress *address, char *attr, char *value)
 static gboolean
 parseLine (LDIFImporter *gci, EContact *contact,
 	   EContactAddress *work_address, EContactAddress *home_address,
-	   char **buf)
+	   gchar **buf)
 {
-	char *ptr;
-	char *colon, *value;
+	gchar *ptr;
+	gchar *colon, *value;
 	gboolean field_handled;
 	GString *ldif_value;
 
@@ -256,9 +256,9 @@ parseLine (LDIFImporter *gci, EContact *contact,
 		return FALSE;
 	}
 
-	colon = (char *)strchr( ptr, ':' );
+	colon = (gchar *)strchr( ptr, ':' );
 	if (colon) {
-		int i;
+		gint i;
 
 		*colon = 0;
 		value = colon + 1;
@@ -345,8 +345,8 @@ getNextLDIFEntry(LDIFImporter *gci, FILE *f )
 	EContact *contact;
 	EContactAddress *work_address, *home_address;
 	GString *str;
-	char line[1024];
-	char *buf;
+	gchar line[1024];
+	gchar *buf;
 
 	str = g_string_new ("");
 	/* read from the file until we get to a blank line (or eof) */
@@ -402,7 +402,7 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 {
 	GList *email, *l;
 	GList *email_attrs = NULL;
-	char *full_name;
+	gchar *full_name;
 
 	/* set file_as to full_name so we don't later try and figure
            out a first/last name for the list. */
@@ -415,7 +415,7 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 	email = e_contact_get (contact, E_CONTACT_EMAIL);
 	for (l = email; l; l = l->next) {
 		/* mozilla stuffs dn's in the EMAIL list for contact lists */
-		char *dn = l->data;
+		gchar *dn = l->data;
 		EContact *dn_contact = g_hash_table_lookup (gci->dn_contact_hash, dn);
 
 		/* break list chains here, since we don't support them just yet */
@@ -467,12 +467,12 @@ add_to_notes (EContact *contact, EContactField field)
 }
 
 static gboolean
-ldif_import_contacts(void *d)
+ldif_import_contacts(gpointer d)
 {
 	LDIFImporter *gci = d;
 	EContact *contact;
 	GSList *iter;
-	int count = 0;
+	gint count = 0;
 
 	/* We process all normal cards immediately and keep the list
 	   ones till the end */
@@ -563,8 +563,8 @@ static const gchar *supported_extensions[2] = {
 static gboolean
 ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *ext;
-	int i;
+	gchar *ext;
+	gint i;
 	EImportTargetURI *s;
 
 	if (target->type != E_IMPORT_TARGET_URI)

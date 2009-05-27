@@ -34,9 +34,9 @@ commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) target;
 	ESource *source = t->source;
-	char *uri_text;
+	gchar *uri_text;
 	ESourceGroup *source_group;
-	char *relative_uri;
+	gchar *relative_uri;
 	GSList *l;
 
 	uri_text = e_source_get_uri (source);

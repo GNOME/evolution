@@ -34,7 +34,7 @@ struct _ECompEditorRegistryData
 {
 	ECompEditorRegistry *registry;
 	CompEditor *editor;
-	char *uid;
+	gchar *uid;
 };
 
 typedef struct _ECompEditorRegistryData ECompEditorRegistryData;
@@ -120,7 +120,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;
 	ECalComponent *comp;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_if_fail (reg != NULL);
 	g_return_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg));
@@ -145,7 +145,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 }
 
 CompEditor *
-e_comp_editor_registry_find (ECompEditorRegistry *reg, const char *uid)
+e_comp_editor_registry_find (ECompEditorRegistry *reg, const gchar *uid)
 {
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;

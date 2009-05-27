@@ -42,7 +42,7 @@
 	   "only, or in the current folder as well as all subfolders?")
 
 void org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *target);
-static void mar_got_folder (char *uri, CamelFolder *folder, void *data);
+static void mar_got_folder (gchar *uri, CamelFolder *folder, gpointer data);
 static void mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex);
 
 static void
@@ -204,7 +204,7 @@ static void
 mark_all_as_read (CamelFolder *folder)
 {
 	GPtrArray *uids;
-	int i;
+	gint i;
 
 	uids =  camel_folder_get_uids (folder);
 	camel_folder_freeze(folder);
@@ -215,7 +215,7 @@ mark_all_as_read (CamelFolder *folder)
 }
 
 static void
-mar_got_folder (char *uri, CamelFolder *folder, void *data)
+mar_got_folder (gchar *uri, CamelFolder *folder, gpointer data)
 {
 	CamelFolderInfo *info;
 	CamelStore *store;

@@ -67,7 +67,7 @@ typedef struct {
 } FocusData;
 
 static void
-file_open_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+file_open_event_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -98,7 +98,7 @@ calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action)
 
 /* File/Print callback */
 static void
-file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+file_print_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
@@ -106,7 +106,7 @@ file_print_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (data);
 
@@ -134,7 +134,7 @@ set_normal_cursor (GnomeCalendar *gcal)
 }
 
 static void
-previous_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+previous_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -146,7 +146,7 @@ previous_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-next_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+next_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -166,7 +166,7 @@ calendar_goto_today (GnomeCalendar *gcal)
 }
 
 static void
-today_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+today_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -176,7 +176,7 @@ today_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-goto_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+goto_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -186,7 +186,7 @@ goto_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -196,7 +196,7 @@ show_day_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -206,7 +206,7 @@ show_work_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *
 }
 
 static void
-show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -216,7 +216,7 @@ show_week_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -227,7 +227,7 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 
 
 static void
-show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path)
+show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 
@@ -301,7 +301,7 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
 	GtkWidget *dialog, *parent, *box, *label, *spin;
-	int response;
+	gint response;
 
 	gcal = GNOME_CALENDAR (data);
 
@@ -353,7 +353,7 @@ static void
 sensitize_items(BonoboUIComponent *uic, struct _sensitize_item *items, guint32 mask)
 {
 	while (items->command) {
-		char command[32];
+		gchar command[32];
 
 		if (strlen(items->command)>=21) {
 			g_warning ("items->command >= 21: %s\n", items->command);
@@ -552,7 +552,7 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 }
 
 static void
-help_debug (BonoboUIComponent *uid, void *data, const char *path)
+help_debug (BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	calendar_component_show_logger ((GtkWidget *) data);
 }

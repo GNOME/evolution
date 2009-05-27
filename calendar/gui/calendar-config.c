@@ -73,7 +73,7 @@ calendar_config_remove_notification (guint id)
 gboolean
 calendar_config_locale_supports_12_hour_format (void)
 {
-	char s[16];
+	gchar s[16];
 	time_t t = 0;
 
 	calendar_config_init ();
@@ -83,7 +83,7 @@ calendar_config_locale_supports_12_hour_format (void)
 }
 
 /* Returns the string representation of a units value */
-static const char *
+static const gchar *
 units_to_string (CalUnits units)
 {
 	switch (units) {
@@ -103,7 +103,7 @@ units_to_string (CalUnits units)
 
 /* opposite function to 'units_to_string' */
 static CalUnits
-string_to_units (const char *units)
+string_to_units (const gchar *units)
 {
 	CalUnits res;
 
@@ -151,7 +151,7 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 }
 
 /* The primary calendar */
-char *
+gchar *
 calendar_config_get_primary_calendar (void)
 {
 	calendar_config_init ();
@@ -160,7 +160,7 @@ calendar_config_get_primary_calendar (void)
 }
 
 void
-calendar_config_set_primary_calendar (const char *primary_uid)
+calendar_config_set_primary_calendar (const gchar *primary_uid)
 {
 	calendar_config_init ();
 
@@ -233,7 +233,7 @@ calendar_config_get_timezone_stored (void)
 icaltimezone *
 calendar_config_get_icaltimezone (void)
 {
-	char *location;
+	gchar *location;
 	icaltimezone *zone = NULL;
 
 	calendar_config_init ();
@@ -618,9 +618,9 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 
 /* Whether we show the Marcus Bains Line (current time), and in what colors. */
 void
-calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_color, const char **timebar_color)
+calendar_config_get_marcus_bains (gboolean *show_line, const gchar **dayview_color, const gchar **timebar_color)
 {
-	static char *dcolor = NULL, *tcolor = NULL;
+	static gchar *dcolor = NULL, *tcolor = NULL;
 
 	calendar_config_init ();
 
@@ -855,7 +855,7 @@ calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpo
 }
 
 /* The primary task list */
-char *
+gchar *
 calendar_config_get_primary_tasks (void)
 {
 	calendar_config_init ();
@@ -864,7 +864,7 @@ calendar_config_get_primary_tasks (void)
 }
 
 void
-calendar_config_set_primary_tasks (const char *primary_uid)
+calendar_config_set_primary_tasks (const gchar *primary_uid)
 {
 	calendar_config_init ();
 
@@ -933,7 +933,7 @@ calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpo
 }
 
 /* The primary memo list */
-char *
+gchar *
 calendar_config_get_primary_memos (void)
 {
 	calendar_config_init ();
@@ -942,7 +942,7 @@ calendar_config_get_primary_memos (void)
 }
 
 void
-calendar_config_set_primary_memos (const char *primary_uid)
+calendar_config_set_primary_memos (const gchar *primary_uid)
 {
 	calendar_config_init ();
 
@@ -1086,7 +1086,7 @@ calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc fun
 CalUnits
 calendar_config_get_hide_completed_tasks_units	(void)
 {
-	char *units;
+	gchar *units;
 	CalUnits cu;
 
 	calendar_config_init ();
@@ -1109,7 +1109,7 @@ calendar_config_get_hide_completed_tasks_units	(void)
 void
 calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 {
-	char *units;
+	gchar *units;
 
 	calendar_config_init ();
 
@@ -1384,7 +1384,7 @@ calendar_config_set_use_default_reminder (gboolean value)
  *
  * Return value: Interval for default reminders.
  **/
-int
+gint
 calendar_config_get_default_reminder_interval (void)
 {
 	calendar_config_init ();
@@ -1400,7 +1400,7 @@ calendar_config_get_default_reminder_interval (void)
  * appointments.
  **/
 void
-calendar_config_set_default_reminder_interval (int interval)
+calendar_config_set_default_reminder_interval (gint interval)
 {
 	calendar_config_init ();
 
@@ -1418,7 +1418,7 @@ calendar_config_set_default_reminder_interval (int interval)
 CalUnits
 calendar_config_get_default_reminder_units (void)
 {
-	char *units;
+	gchar *units;
 	CalUnits cu;
 
 	calendar_config_init ();
@@ -1455,7 +1455,7 @@ calendar_config_set_default_reminder_units (CalUnits units)
  * are retrieved even when returns FALSE.
  **/
 gboolean
-calendar_config_get_ba_reminder (int *interval, CalUnits *units)
+calendar_config_get_ba_reminder (gint *interval, CalUnits *units)
 {
 	calendar_config_init ();
 
@@ -1464,7 +1464,7 @@ calendar_config_get_ba_reminder (int *interval, CalUnits *units)
 	}
 
 	if (units) {
-		char *str;
+		gchar *str;
 
 		str = gconf_client_get_string (config, CALENDAR_CONFIG_BA_REMINDER_UNITS, NULL);
 		*units = string_to_units (str);
@@ -1483,7 +1483,7 @@ calendar_config_get_ba_reminder (int *interval, CalUnits *units)
  * @units: The units of the reminder; can be NULL.
  **/
 void
-calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units)
+calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, CalUnits *units)
 {
 	calendar_config_init ();
 
@@ -1505,10 +1505,10 @@ calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *uni
  * Returns the subexpression to use to filter out completed tasks according
  * to the config settings. The returned sexp should be freed.
  **/
-char*
+gchar *
 calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 {
-	char *sexp = NULL;
+	gchar *sexp = NULL;
 
 	if (calendar_config_get_hide_completed_tasks ()) {
 		CalUnits units;
@@ -1525,7 +1525,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			else
 				sexp = g_strdup ("(is-completed?)");
 		} else {
-			char *isodate;
+			gchar *isodate;
 			icaltimezone *zone;
 			struct icaltimetype tt;
 			time_t t;
@@ -1603,10 +1603,10 @@ calendar_config_set_dir_path (const gchar *path)
 	gconf_client_set_string (config, CALENDAR_CONFIG_SAVE_DIR, path, NULL);
 }
 
-char *
+gchar *
 calendar_config_get_dir_path (void)
 {
-	char *path;
+	gchar *path;
 
 	calendar_config_init ();
 
@@ -1641,14 +1641,14 @@ calendar_config_free_day_second_zones (GSList *zones)
 
 /* keeps max 'day_second_zones_max' zones, if 'location' is already in a list, then it'll became first there */
 void
-calendar_config_set_day_second_zone (const char *location)
+calendar_config_set_day_second_zone (const gchar *location)
 {
 	calendar_config_init ();
 
 	if (location && *location) {
 		GSList *lst, *l;
 		GError *error = NULL;
-		int max_zones;
+		gint max_zones;
 
 		/* configurable max number of timezones to remember */
 		max_zones = gconf_client_get_int (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_MAX, &error);
@@ -1666,7 +1666,7 @@ calendar_config_set_day_second_zone (const char *location)
 			if (l->data && g_str_equal (l->data, location)) {
 				if (l != lst) {
 					/* isn't first in the list */
-					char *val = l->data;
+					gchar *val = l->data;
 
 					lst = g_slist_remove (lst, val);
 					lst = g_slist_prepend (lst, val);
@@ -1695,7 +1695,7 @@ calendar_config_set_day_second_zone (const char *location)
 }
 
 /* location of the second time zone user has selected. Free with g_free. */
-char *
+gchar *
 calendar_config_get_day_second_zone (void)
 {
 	calendar_config_init ();
@@ -1709,7 +1709,7 @@ calendar_config_select_day_second_zone (void)
 	icaltimezone *zone = NULL;
 	ETimezoneDialog *tzdlg;
 	GtkWidget *dialog;
-	char *second_location;
+	gchar *second_location;
 
 	second_location = calendar_config_get_day_second_zone ();
 	if (second_location && *second_location)
@@ -1725,7 +1725,7 @@ calendar_config_select_day_second_zone (void)
 	dialog = e_timezone_dialog_get_toplevel (tzdlg);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		const char *location = NULL;
+		const gchar *location = NULL;
 
 		zone = e_timezone_dialog_get_timezone (tzdlg);
 		if (zone == icaltimezone_get_utc_timezone ()) {

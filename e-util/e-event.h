@@ -44,9 +44,9 @@ typedef struct _EEventItem EEventItem;
 typedef struct _EEventFactory EEventFactory; /* anonymous type */
 typedef struct _EEventTarget EEventTarget;
 
-typedef void (*EEventItemsFunc)(EEvent *ee, GSList *items, void *data);
-typedef void (*EEventFunc)(EEvent *ee, EEventItem *item, void *data);
-typedef void (*EEventFactoryFunc)(EEvent *ee, void *);
+typedef void (*EEventItemsFunc)(EEvent *ee, GSList *items, gpointer data);
+typedef void (*EEventFunc)(EEvent *ee, EEventItem *item, gpointer data);
+typedef void (*EEventFactoryFunc)(EEvent *ee, gpointer );
 
 /**
  * enum _e_event_t - Event type.
@@ -86,11 +86,11 @@ enum _e_event_t {
  **/
 struct _EEventItem {
 	enum _e_event_t type;
-	int priority;		/* priority of event */
-	const char *id;		/* event id */
-	int target_type;
+	gint priority;		/* priority of event */
+	const gchar *id;		/* event id */
+	gint target_type;
 	EEventFunc handle;
-	void *user_data;
+	gpointer user_data;
 	guint32 enable;		/* enable mask */
 };
 
@@ -133,7 +133,7 @@ struct _EEvent {
 	GObject object;
 
 	struct _EEventPrivate *priv;
-	char *id;
+	gchar *id;
 	EEventTarget *target;	/* current target during event emission */
 };
 
@@ -156,15 +156,15 @@ struct _EEventClass {
 
 GType e_event_get_type(void);
 
-EEvent *e_event_construct(EEvent *, const char *id);
+EEvent *e_event_construct(EEvent *, const gchar *id);
 
-void *e_event_add_items(EEvent *emp, GSList *items, EEventItemsFunc freefunc, void *data);
-void e_event_remove_items(EEvent *emp, void *handle);
+gpointer e_event_add_items(EEvent *emp, GSList *items, EEventItemsFunc freefunc, gpointer data);
+void e_event_remove_items(EEvent *emp, gpointer handle);
 
-void e_event_emit(EEvent *, const char *id, EEventTarget *);
+void e_event_emit(EEvent *, const gchar *id, EEventTarget *);
 
-void *e_event_target_new(EEvent *, int type, size_t size);
-void e_event_target_free(EEvent *, void *);
+gpointer e_event_target_new(EEvent *, gint type, size_t size);
+void e_event_target_free(EEvent *, gpointer );
 
 /* ********************************************************************** */
 

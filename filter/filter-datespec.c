@@ -46,10 +46,10 @@
 #define d(x)
 
 static gboolean validate (FilterElement *fe);
-static int date_eq (FilterElement *fe, FilterElement *cm);
+static gint date_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *fds);
 static void format_sexp (FilterElement *, GString *);
@@ -62,10 +62,10 @@ static void filter_datespec_finalise (GObject *obj);
 
 typedef struct _timespan {
 	guint32 seconds;
-	const char *past_singular;
-	const char *past_plural;
-	const char *future_singular;
-	const char *future_plural;
+	const gchar *past_singular;
+	const gchar *past_plural;
+	const gchar *future_singular;
+	const gchar *future_plural;
 	float max;
 } timespan;
 
@@ -97,7 +97,7 @@ struct _FilterDatespecPrivate {
 	GtkWidget *label_button;
 	GtkWidget *notebook_type, *combobox_type, *calendar_specify, *spin_relative, *combobox_relative, *combobox_past_future;
 	FilterDatespec_type type;
-	int span;
+	gint span;
 };
 
 static FilterElementClass *parent_class;
@@ -217,19 +217,19 @@ xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value, work;
 	FilterDatespec *fds = (FilterDatespec *)fe;
-	char str[32];
+	gchar str[32];
 
 	d(printf ("Encoding datespec as xml\n"));
 
-	value = xmlNewNode (NULL, (const unsigned char *)"value");
-	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp (value, (const unsigned char *)"type", (const unsigned char *)"datespec");
+	value = xmlNewNode (NULL, (const guchar *)"value");
+	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *)"type", (const guchar *)"datespec");
 
-	work = xmlNewChild (value, NULL, (const unsigned char *)"datespec", NULL);
+	work = xmlNewChild (value, NULL, (const guchar *)"datespec", NULL);
 	sprintf (str, "%d", fds->type);
-	xmlSetProp (work, (const unsigned char *)"type", (unsigned char *)str);
+	xmlSetProp (work, (const guchar *)"type", (guchar *)str);
 	sprintf (str, "%d", (int)fds->value);
-	xmlSetProp (work, (const unsigned char *)"value", (unsigned char *)str);
+	xmlSetProp (work, (const guchar *)"value", (guchar *)str);
 
 	return value;
 }
@@ -244,16 +244,16 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	d(printf ("Decoding datespec from xml %p\n", fe));
 
 	xmlFree (fe->name);
-	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	fe->name = (gchar *)xmlGetProp (node, (const guchar *)"name");
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((char *)n->name, "datespec")) {
-			val = xmlGetProp (n, (const unsigned char *)"type");
-			fds->type = atoi ((char *)val);
+		if (!strcmp ((gchar *)n->name, "datespec")) {
+			val = xmlGetProp (n, (const guchar *)"type");
+			fds->type = atoi ((gchar *)val);
 			xmlFree (val);
-			val = xmlGetProp (n, (const unsigned char *)"value");
-			fds->value = atoi ((char *)val);
+			val = xmlGetProp (n, (const guchar *)"value");
+			fds->value = atoi ((gchar *)val);
 			xmlFree (val);
 			break;
 		}
@@ -266,7 +266,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 static int
 get_best_span (time_t val)
 {
-	int i;
+	gint i;
 
 	for (i=N_TIMESPANS-1;i>=0;i--) {
 		if (val % timespans[i].seconds == 0)
@@ -280,8 +280,8 @@ get_best_span (time_t val)
 static void
 set_button (FilterDatespec *fds)
 {
-	char buf[128];
-	char *label = buf;
+	gchar buf[128];
+	gchar *label = buf;
 
 	switch (fds->type) {
 	case FDST_UNKNOWN:
@@ -301,7 +301,7 @@ set_button (FilterDatespec *fds)
 		if (fds->value == 0)
 			label = _("now");
 		else {
-			int span, count;
+			gint span, count;
 
 			span = get_best_span(fds->value);
 			count = fds->value / timespans[span].seconds;
@@ -312,7 +312,7 @@ set_button (FilterDatespec *fds)
 		if (fds->value == 0)
 			label = _("now");
 		else {
-			int span, count;
+			gint span, count;
 
 			span = get_best_span(fds->value);
 			count = fds->value / timespans[span].seconds;
@@ -344,7 +344,7 @@ get_values (FilterDatespec *fds)
 		break; }
 	case FDST_X_FUTURE:
 	case FDST_X_AGO: {
-		int val;
+		gint val;
 
 		val = gtk_spin_button_get_value_as_int((GtkSpinButton *)p->spin_relative);
 		fds->value = timespans[p->span].seconds * val;
@@ -360,7 +360,7 @@ get_values (FilterDatespec *fds)
 static void
 set_values (FilterDatespec *fds)
 {
-	int note_type;
+	gint note_type;
 
 	struct _FilterDatespecPrivate *p = PRIV(fds);
 
@@ -430,7 +430,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
 	GladeXML *gui;
-	char *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
+	gchar *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
 					       "filter.glade",
 					       NULL);
 

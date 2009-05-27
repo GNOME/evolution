@@ -44,7 +44,7 @@ typedef struct {
 
 	ETableSpecification *spec;
 	ETableState         *state;
-	char                *title;
+	gchar                *title;
 
 	ETable              *table;
 	guint                table_state_changed_id;

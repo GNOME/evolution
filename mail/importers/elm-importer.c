@@ -55,16 +55,16 @@ struct _elm_import_msg {
 	EImportTargetHome *target;
 
 	GMutex *status_lock;
-	char *status_what;
-	int status_pc;
-	int status_timeout_id;
+	gchar *status_what;
+	gint status_pc;
+	gint status_timeout_id;
 	CamelOperation *status;
 };
 
 static GHashTable *
-parse_elm_rc(const char *elmrc)
+parse_elm_rc(const gchar *elmrc)
 {
-	char line[4096];
+	gchar line[4096];
 	FILE *handle;
 	GHashTable *prefs;
 
@@ -81,8 +81,8 @@ parse_elm_rc(const char *elmrc)
 		return prefs;
 
 	while (fgets (line, 4096, handle) != NULL) {
-		char *linestart, *end;
-		char *key, *value;
+		gchar *linestart, *end;
+		gchar *key, *value;
 		if (*line == '#' &&
 		    (line[1] != '#' && line[2] != '#')) {
 			continue;
@@ -122,11 +122,11 @@ parse_elm_rc(const char *elmrc)
 	return prefs;
 }
 
-static char *
-elm_get_rc(EImport *ei, const char *name)
+static gchar *
+elm_get_rc(EImport *ei, const gchar *name)
 {
 	GHashTable *prefs;
-	char *elmrc;
+	gchar *elmrc;
 
 	prefs = g_object_get_data((GObject *)ei, "elm-rc");
 	if (prefs == NULL) {
@@ -146,8 +146,8 @@ static gboolean
 elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EImportTargetHome *s;
-	const char *maildir;
-	char *elmdir;
+	const gchar *maildir;
+	gchar *elmdir;
 	gboolean mailexists, exists;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
@@ -190,8 +190,8 @@ static MailImporterSpecial elm_special_folders[] = {
 static void
 elm_import_exec (struct _elm_import_msg *m)
 {
-	const char *maildir;
-	char *elmdir;
+	const gchar *maildir;
+	gchar *elmdir;
 
 	maildir = elm_get_rc(m->import, "maildir");
 	if (maildir == NULL)
@@ -237,7 +237,7 @@ elm_import_free(struct _elm_import_msg *m)
 }
 
 static void
-elm_status(CamelOperation *op, const char *what, int pc, void *data)
+elm_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _elm_import_msg *importer = data;
 
@@ -254,11 +254,11 @@ elm_status(CamelOperation *op, const char *what, int pc, void *data)
 }
 
 static gboolean
-elm_status_timeout(void *data)
+elm_status_timeout(gpointer data)
 {
 	struct _elm_import_msg *importer = data;
-	int pc;
-	char *what;
+	gint pc;
+	gchar *what;
 
 	if (importer->status_what) {
 		g_mutex_lock(importer->status_lock);
@@ -285,7 +285,7 @@ static int
 mail_importer_elm_import(EImport *ei, EImportTarget *target)
 {
 	struct _elm_import_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&elm_import_info);
 	g_datalist_set_data(&target->data, "elm-msg", m);

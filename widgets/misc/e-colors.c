@@ -48,7 +48,7 @@ e_color_alloc_gdk (GtkWidget *widget, GdkColor *c)
 }
 
 void
-e_color_alloc_name (GtkWidget *widget, const char *name, GdkColor *c)
+e_color_alloc_name (GtkWidget *widget, const gchar *name, GdkColor *c)
 {
 	GdkColormap *map;
 

@@ -42,9 +42,9 @@
 struct _EMenuFactory {
 	struct _EMenuFactory *next, *prev;
 
-	char *menuid;
+	gchar *menuid;
 	EMenuFactoryFunc factory;
-	void *factory_data;
+	gpointer factory_data;
 };
 
 struct _item_node {
@@ -64,7 +64,7 @@ struct _menu_node {
 	GSList *pixmaps;
 
 	EMenuItemsFunc freefunc;
-	void *data;
+	gpointer data;
 
 	/* a copy of items wrapped in an item_node, for bonobo
 	 * callback mapping */
@@ -183,7 +183,7 @@ e_menu_get_type(void)
  *
  * Return value: Returns @em.
  **/
-EMenu *e_menu_construct(EMenu *em, const char *menuid)
+EMenu *e_menu_construct(EMenu *em, const gchar *menuid)
 {
 	struct _EMenuFactory *f;
 	EMenuClass *klass;
@@ -232,8 +232,8 @@ EMenu *e_menu_construct(EMenu *em, const char *menuid)
  *
  * Return value: A handle that can be passed to remove_items as required.
  **/
-void *
-e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EMenuItemsFunc freefunc, void *data)
+gpointer
+e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EMenuItemsFunc freefunc, gpointer data)
 {
 	struct _menu_node *node;
 	GSList *l;
@@ -276,7 +276,7 @@ e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EM
 
 	/* FIXME: add the menu's to a running menu if it is there? */
 
-	return (void *)node;
+	return (gpointer)node;
 }
 
 /**
@@ -287,7 +287,7 @@ e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EM
  * Remove menu items previously added.
  **/
 void
-e_menu_remove_items(EMenu *emp, void *handle)
+e_menu_remove_items(EMenu *emp, gpointer handle)
 {
 	struct _menu_node *node = handle;
 	struct _item_node *inode;
@@ -318,7 +318,7 @@ e_menu_remove_items(EMenu *emp, void *handle)
 }
 
 static void
-em_activate_toggle(BonoboUIComponent *component, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+em_activate_toggle(BonoboUIComponent *component, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	struct _item_node *inode = data;
 
@@ -329,7 +329,7 @@ em_activate_toggle(BonoboUIComponent *component, const char *path, Bonobo_UIComp
 }
 
 static void
-em_activate(BonoboUIComponent *uic, void *data, const char *cname)
+em_activate(BonoboUIComponent *uic, gpointer data, const gchar *cname)
 {
 	struct _item_node *inode = data;
 
@@ -350,7 +350,7 @@ em_activate(BonoboUIComponent *uic, void *data, const char *cname)
  * This should always be called in the strict sequence of activate, then
  * deactivate, repeated any number of times.
  **/
-void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, int act)
+void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, gint act)
 {
 	struct _EMenuPrivate *p = em->priv;
 	struct _menu_node *mw;
@@ -358,7 +358,7 @@ void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, int act)
 
 	if (act) {
 		GArray *verbs;
-		int i;
+		gint i;
 
 		em->uic = uic;
 
@@ -432,7 +432,7 @@ void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, int act)
  * This is used by the owner of the menu and view to update the menu
  * system based on user input or changed system state.
  **/
-void e_menu_update_target(EMenu *em, void *tp)
+void e_menu_update_target(EMenu *em, gpointer tp)
 {
 	struct _EMenuPrivate *p = em->priv;
 	EMenuTarget *t = tp;
@@ -457,7 +457,7 @@ void e_menu_update_target(EMenu *em, void *tp)
 	for (mw = (struct _menu_node *)p->menus.head;mw->next;mw=mw->next) {
 		for (l = mw->items;l;l=g_slist_next(l)) {
 			EMenuItem *item = l->data;
-			int state;
+			gint state;
 
 			d(printf("checking item '%s' mask %08x against target %08x\n", item->verb, item->enable, mask));
 
@@ -487,7 +487,7 @@ void e_menu_update_target(EMenu *em, void *tp)
  * Return value: A handle to the factory.
  **/
 EMenuFactory *
-e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc func, void *data)
+e_menu_class_add_factory(EMenuClass *klass, const gchar *menuid, EMenuFactoryFunc func, gpointer data)
 {
 	struct _EMenuFactory *f = g_malloc0(sizeof(*f));
 
@@ -538,7 +538,7 @@ e_menu_class_remove_factory(EMenuClass *klass, EMenuFactory *f)
  * to specify the actual target size, which may vary depending on the
  * implementing class.
  **/
-void *e_menu_target_new(EMenu *ep, int type, size_t size)
+gpointer e_menu_target_new(EMenu *ep, gint type, size_t size)
 {
 	EMenuTarget *t;
 
@@ -563,7 +563,7 @@ void *e_menu_target_new(EMenu *ep, int type, size_t size)
  * Free a target.
  **/
 void
-e_menu_target_free(EMenu *ep, void *o)
+e_menu_target_free(EMenu *ep, gpointer o)
 {
 	EMenuTarget *t = o;
 
@@ -601,7 +601,7 @@ e_menu_target_free(EMenu *ep, void *o)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EMenuHook *)eph)
 
 /* must have 1:1 correspondence with e-menu types in order */
@@ -624,28 +624,28 @@ static const EPluginHookTargetKey emph_pixmap_sizes[] = {
 };
 
 static void
-emph_menu_activate(EMenu *em, EMenuItem *item, void *data)
+emph_menu_activate(EMenu *em, EMenuItem *item, gpointer data)
 {
 	EMenuHook *hook = data;
 
-	d(printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target));
+	d(printf("invoking plugin hook '%s' %p\n", (gchar *)item->user_data, em->target));
 
 	e_plugin_invoke(hook->hook.plugin, item->user_data, em->target);
 }
 
 static void
-emph_menu_toggle_activate(EMenu *em, EMenuItem *item, int state, void *data)
+emph_menu_toggle_activate(EMenu *em, EMenuItem *item, gint state, gpointer data)
 {
 	EMenuHook *hook = data;
 
 	/* FIXME: where does the toggle state go? */
-	d(printf("invoking plugin hook '%s' %p\n", (char *)item->user_data, em->target));
+	d(printf("invoking plugin hook '%s' %p\n", (gchar *)item->user_data, em->target));
 
 	e_plugin_invoke(hook->hook.plugin, item->user_data, em->target);
 }
 
 static void
-emph_menu_factory(EMenu *emp, void *data)
+emph_menu_factory(EMenu *emp, gpointer data)
 {
 	struct _EMenuHookMenu *menu = data;
 
@@ -754,13 +754,13 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	xmlNodePtr node;
 	EMenuHookTargetMap *map;
 	EMenuHookClass *klass = (EMenuHookClass *)G_OBJECT_GET_CLASS(eph);
-	char *tmp;
+	gchar *tmp;
 
 	d(printf(" loading menu\n"));
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EMenuHook *)eph;
 
-	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
+	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -777,14 +777,14 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	}
 	node = root->children;
 	while (node) {
-		if (0 == strcmp((char *)node->name, "item")) {
+		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EMenuItem *item;
 
 			item = emph_construct_item(eph, menu, node, map);
 			if (item)
 				menu->items = g_slist_append(menu->items, item);
-		} else if (0 == strcmp((char *)node->name, "ui")) {
-			tmp = (char *)xmlGetProp(node, (const unsigned char *)"file");
+		} else if (0 == strcmp((gchar *)node->name, "ui")) {
+			tmp = (gchar *)xmlGetProp(node, (const guchar *)"file");
 			if (tmp) {
 				EMenuUIFile *ui = g_malloc0(sizeof(*ui));
 
@@ -792,7 +792,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 				xmlFree(tmp);
 #ifdef G_OS_WIN32
 				{
-					char *mapped_location =
+					gchar *mapped_location =
 						e_util_replace_prefix (EVOLUTION_PREFIX,
 								       e_util_get_prefix (),
 								       ui->filename);
@@ -804,7 +804,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 				ui->appname = g_strdup("Evolution");
 				menu->uis = g_slist_append(menu->uis, ui);
 			}
-		} else if (0 == strcmp((char *)node->name, "pixmap")) {
+		} else if (0 == strcmp((gchar *)node->name, "pixmap")) {
 			struct _EMenuPixmap *pixmap;
 
 			pixmap = emph_construct_pixmap(eph, menu, node);
@@ -839,7 +839,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "menu") == 0) {
+		if (strcmp((gchar *)node->name, "menu") == 0) {
 			struct _EMenuHookMenu *menu;
 
 			menu = emph_construct_menu(eph, node);
@@ -921,5 +921,5 @@ e_menu_hook_get_type(void)
  **/
 void e_menu_hook_class_add_target_map(EMenuHookClass *klass, const EMenuHookTargetMap *map)
 {
-	g_hash_table_insert(klass->target_map, (void *)map->type, (void *)map);
+	g_hash_table_insert(klass->target_map, (gpointer)map->type, (gpointer)map);
 }

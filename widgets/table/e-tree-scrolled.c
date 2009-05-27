@@ -73,8 +73,8 @@ gboolean
 e_tree_scrolled_construct (ETreeScrolled *ets,
                            ETreeModel *etm,
                            ETableExtras *ete,
-                           const char *spec,
-                           const char *state)
+                           const gchar *spec,
+                           const gchar *state)
 {
 	g_return_val_if_fail(ets != NULL, FALSE);
 	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), FALSE);
@@ -93,8 +93,8 @@ e_tree_scrolled_construct (ETreeScrolled *ets,
 
 GtkWidget      *e_tree_scrolled_new                       (ETreeModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state)
+							    const gchar        *spec,
+							    const gchar        *state)
 {
 	ETreeScrolled *ets;
 
@@ -120,8 +120,8 @@ gboolean
 e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
                                            ETreeModel *etm,
                                            ETableExtras *ete,
-                                           const char *spec_fn,
-                                           const char *state_fn)
+                                           const gchar *spec_fn,
+                                           const gchar *state_fn)
 {
 	g_return_val_if_fail(ets != NULL, FALSE);
 	g_return_val_if_fail(E_IS_TREE_SCROLLED(ets), FALSE);
@@ -140,8 +140,8 @@ e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
 
 GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn)
+							    const gchar        *spec_fn,
+							    const gchar        *state_fn)
 {
 	ETreeScrolled *ets;
 

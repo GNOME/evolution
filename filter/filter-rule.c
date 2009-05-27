@@ -36,10 +36,10 @@
 
 #define d(x)
 
-static int validate(FilterRule *);
-static int rule_eq(FilterRule *fr, FilterRule *cm);
+static gint validate(FilterRule *);
+static gint rule_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode (FilterRule *);
-static int xml_decode (FilterRule *, xmlNodePtr, RuleContext *);
+static gint xml_decode (FilterRule *, xmlNodePtr, RuleContext *);
 static void build_code (FilterRule *, GString * out);
 static void rule_copy  (FilterRule *dest, FilterRule *src);
 static GtkWidget *get_widget (FilterRule * fr, struct _RuleContext *f);
@@ -51,7 +51,7 @@ static void filter_rule_finalise (GObject *obj);
 #define _PRIVATE(x) (((FilterRule *)(x))->priv)
 
 struct _FilterRulePrivate {
-	int frozen;
+	gint frozen;
 };
 
 static GObjectClass *parent_class = NULL;
@@ -166,7 +166,7 @@ filter_rule_clone (FilterRule *base)
 }
 
 void
-filter_rule_set_name (FilterRule *fr, const char *name)
+filter_rule_set_name (FilterRule *fr, const gchar *name)
 {
 	g_return_if_fail (IS_FILTER_RULE (fr));
 
@@ -181,7 +181,7 @@ filter_rule_set_name (FilterRule *fr, const char *name)
 }
 
 void
-filter_rule_set_source (FilterRule *fr, const char *source)
+filter_rule_set_source (FilterRule *fr, const gchar *source)
 {
 	g_return_if_fail (IS_FILTER_RULE (fr));
 
@@ -195,7 +195,7 @@ filter_rule_set_source (FilterRule *fr, const char *source)
 	filter_rule_emit_changed (fr);
 }
 
-int
+gint
 filter_rule_validate (FilterRule *fr)
 {
 	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
@@ -206,7 +206,7 @@ filter_rule_validate (FilterRule *fr)
 static int
 validate (FilterRule *fr)
 {
-	int valid = TRUE;
+	gint valid = TRUE;
 	GList *parts;
 
 	if (!fr->name || !*fr->name) {
@@ -230,7 +230,7 @@ validate (FilterRule *fr)
 	return valid;
 }
 
-int
+gint
 filter_rule_eq (FilterRule *fr, FilterRule *cm)
 {
 	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
@@ -243,7 +243,7 @@ filter_rule_eq (FilterRule *fr, FilterRule *cm)
 static int
 list_eq(GList *al, GList *bl)
 {
-	int truth = TRUE;
+	gint truth = TRUE;
 
 	while (truth && al && bl) {
 		FilterPart *a = al->data, *b = bl->data;
@@ -283,16 +283,16 @@ xml_encode (FilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 
-	node = xmlNewNode (NULL, (const unsigned char *)"rule");
+	node = xmlNewNode (NULL, (const guchar *)"rule");
 
-	xmlSetProp (node, (const unsigned char *)"enabled", (const unsigned char *)(fr->enabled ? "true" : "false"));
+	xmlSetProp (node, (const guchar *)"enabled", (const guchar *)(fr->enabled ? "true" : "false"));
 
 	switch (fr->grouping) {
 	case FILTER_GROUP_ALL:
-		xmlSetProp (node, (const unsigned char *)"grouping", (const unsigned char *)"all");
+		xmlSetProp (node, (const guchar *)"grouping", (const guchar *)"all");
 		break;
 	case FILTER_GROUP_ANY:
-		xmlSetProp (node, (const unsigned char *)"grouping", (const unsigned char *)"any");
+		xmlSetProp (node, (const guchar *)"grouping", (const guchar *)"any");
 		break;
 	}
 
@@ -300,37 +300,37 @@ xml_encode (FilterRule *fr)
 	case FILTER_THREAD_NONE:
 		break;
 	case FILTER_THREAD_ALL:
-		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"all");
+		xmlSetProp(node, (const guchar *)"threading", (const guchar *)"all");
 		break;
 	case FILTER_THREAD_REPLIES:
-		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"replies");
+		xmlSetProp(node, (const guchar *)"threading", (const guchar *)"replies");
 		break;
 	case FILTER_THREAD_REPLIES_PARENTS:
-		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"replies_parents");
+		xmlSetProp(node, (const guchar *)"threading", (const guchar *)"replies_parents");
 		break;
 	case FILTER_THREAD_SINGLE:
-		xmlSetProp(node, (const unsigned char *)"threading", (const unsigned char *)"single");
+		xmlSetProp(node, (const guchar *)"threading", (const guchar *)"single");
 		break;
 	}
 
 	if (fr->source) {
-		xmlSetProp (node, (const unsigned char *)"source", (unsigned char *)fr->source);
+		xmlSetProp (node, (const guchar *)"source", (guchar *)fr->source);
 	} else {
 		/* set to the default filter type */
-		xmlSetProp (node, (const unsigned char *)"source", (const unsigned char *)"incoming");
+		xmlSetProp (node, (const guchar *)"source", (const guchar *)"incoming");
 	}
 
 	if (fr->name) {
-		char *escaped = g_markup_escape_text (fr->name, -1);
+		gchar *escaped = g_markup_escape_text (fr->name, -1);
 
-		work = xmlNewNode (NULL, (const unsigned char *)"title");
-		xmlNodeSetContent (work, (unsigned char *)escaped);
+		work = xmlNewNode (NULL, (const guchar *)"title");
+		xmlNodeSetContent (work, (guchar *)escaped);
 		xmlAddChild (node, work);
 
 		g_free (escaped);
 	}
 
-	set = xmlNewNode (NULL, (const unsigned char *)"partset");
+	set = xmlNewNode (NULL, (const guchar *)"partset");
 	xmlAddChild (node, set);
 	l = fr->parts;
 	while (l) {
@@ -346,13 +346,13 @@ static void
 load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 {
 	xmlNodePtr work;
-	char *rulename;
+	gchar *rulename;
 	FilterPart *part;
 
 	work = node->children;
 	while (work) {
-		if (!strcmp ((char *)work->name, "part")) {
-			rulename = (char *)xmlGetProp (work, (const unsigned char *)"name");
+		if (!strcmp ((gchar *)work->name, "part")) {
+			rulename = (gchar *)xmlGetProp (work, (const guchar *)"name");
 			part = rule_context_find_part (f, rulename);
 			if (part) {
 				part = filter_part_clone (part);
@@ -369,10 +369,10 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 	}
 }
 
-int
+gint
 filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
-	int res;
+	gint res;
 
 	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
 	g_return_val_if_fail (IS_RULE_CONTEXT (f), 0);
@@ -391,15 +391,15 @@ static int
 xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
 	xmlNodePtr work;
-	char *grouping;
-	char *source;
+	gchar *grouping;
+	gchar *source;
 
 	if (fr->name) {
 		g_free (fr->name);
 		fr->name = NULL;
 	}
 
-	grouping = (char *)xmlGetProp (node, (const unsigned char *)"enabled");
+	grouping = (gchar *)xmlGetProp (node, (const guchar *)"enabled");
 	if (!grouping)
 		fr->enabled = TRUE;
 	else {
@@ -407,7 +407,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		xmlFree (grouping);
 	}
 
-	grouping = (char *)xmlGetProp (node, (const unsigned char *)"grouping");
+	grouping = (gchar *)xmlGetProp (node, (const guchar *)"grouping");
 	if (!strcmp (grouping, "any"))
 		fr->grouping = FILTER_GROUP_ANY;
 	else
@@ -416,7 +416,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 
 	fr->threading = FILTER_THREAD_NONE;
 	if (f->flags & RULE_CONTEXT_THREADING
-	    && (grouping = (char *)xmlGetProp (node, (const unsigned char *)"threading"))) {
+	    && (grouping = (gchar *)xmlGetProp (node, (const guchar *)"threading"))) {
 		if (!strcmp(grouping, "all"))
 			fr->threading = FILTER_THREAD_ALL;
 		else if (!strcmp(grouping, "replies"))
@@ -429,7 +429,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	}
 
 	g_free (fr->source);
-	source = (char *)xmlGetProp (node, (const unsigned char *)"source");
+	source = (gchar *)xmlGetProp (node, (const guchar *)"source");
 	if (source) {
 		fr->source = g_strdup (source);
 		xmlFree (source);
@@ -440,13 +440,13 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 
 	work = node->children;
 	while (work) {
-		if (!strcmp ((char *)work->name, "partset")) {
+		if (!strcmp ((gchar *)work->name, "partset")) {
 			load_set (work, fr, f);
-		} else if (!strcmp ((char *)work->name, "title") || !strcmp ((char *)work->name, "_title")) {
+		} else if (!strcmp ((gchar *)work->name, "title") || !strcmp ((gchar *)work->name, "_title")) {
 			if (!fr->name) {
-				char *str, *decstr = NULL;
+				gchar *str, *decstr = NULL;
 
-				str = (char *)xmlNodeGetContent (work);
+				str = (gchar *)xmlNodeGetContent (work);
 				if (str) {
 					decstr = g_strdup (_(str));
 					xmlFree (str);
@@ -626,7 +626,7 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 {
 	FilterPart *part = NULL;
 	FilterPart *newpart;
-	int index, i;
+	gint index, i;
 
 	index = gtk_combo_box_get_active (combobox);
 	for (i = 0, part = rule_context_next_part (data->f, part); part && i < index; i++, part = rule_context_next_part (data->f, part)) {
@@ -662,7 +662,7 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *combobox;
 	GtkWidget *hbox;
 	GtkWidget *p;
-	int index = 0, current = 0;
+	gint index = 0, current = 0;
 	struct _part_data *data;
 
 	data = g_malloc0 (sizeof (*data));
@@ -732,7 +732,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 }
 
 static void
-attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row)
+attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, gint row)
 {
 	GtkWidget *remove;
 
@@ -784,7 +784,7 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	new = rule_context_next_part (data->f, NULL);
 	if (new) {
 		GtkWidget *w;
-		int rows;
+		gint rows;
 
 		new = filter_part_clone (new);
 		filter_rule_add_part (data->fr, new);
@@ -845,7 +845,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gchar *text;
 	FilterPart *part;
 	struct _rule_data *data;
-	int rows, i;
+	gint rows, i;
 
 	/* this stuff should probably be a table, but the
 	   rule parts need to be a vbox */
@@ -919,7 +919,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 
 	if (f->flags & RULE_CONTEXT_GROUPING) {
-		const char *thread_types[] = { N_("If all conditions are met"), N_("If any conditions are met") };
+		const gchar *thread_types[] = { N_("If all conditions are met"), N_("If any conditions are met") };
 
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		combobox = gtk_combo_box_new_text ();
@@ -939,7 +939,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	}
 
 	if (f->flags & RULE_CONTEXT_THREADING) {
-		const char *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
+		const gchar *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
 
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));
 		combobox = gtk_combo_box_new_text ();
@@ -989,7 +989,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 }
 
 FilterRule *
-filter_rule_next_list (GList *l, FilterRule *last, const char *source)
+filter_rule_next_list (GList *l, FilterRule *last, const gchar *source)
 {
 	GList *node = l;
 
@@ -1018,7 +1018,7 @@ filter_rule_next_list (GList *l, FilterRule *last, const char *source)
 }
 
 FilterRule *
-filter_rule_find_list (GList * l, const char *name, const char *source)
+filter_rule_find_list (GList * l, const gchar *name, const gchar *source)
 {
 	while (l) {
 		FilterRule *rule = l->data;
@@ -1034,7 +1034,7 @@ filter_rule_find_list (GList * l, const char *name, const char *source)
 
 #ifdef FOR_TRANSLATIONS_ONLY
 
-static char *list[] = {
+static gchar *list[] = {
   N_("Incoming"), N_("Outgoing")
 };
 #endif

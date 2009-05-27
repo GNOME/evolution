@@ -31,8 +31,8 @@
 
 G_DEFINE_TYPE (ECellSize, e_cell_size, E_CELL_TEXT_TYPE)
 
-static char *
-ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
+static gchar *
+ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
 {
 	gint size = GPOINTER_TO_INT(e_table_model_value_at(model, col, row));
 	gfloat fsize;
@@ -51,7 +51,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 }
 
 static void
-ecd_free_text(ECellText *cell, char *text)
+ecd_free_text(ECellText *cell, gchar *text)
 {
 	g_free(text);
 }
@@ -96,7 +96,7 @@ e_cell_size_init (ECellSize *e_cell_size)
  *
  * Returns: an ECell object that can be used to render file sizes.  */
 ECell *
-e_cell_size_new (const char *fontname, GtkJustification justify)
+e_cell_size_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellSize *ecd = g_object_new (E_CELL_SIZE_TYPE, NULL);
 

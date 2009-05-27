@@ -71,7 +71,7 @@ enum {
 };
 
 struct _EMFolderViewEnable {
-	const char *name;	/* bonobo name, relative to /commands/ */
+	const gchar *name;	/* bonobo name, relative to /commands/ */
 	guint32 mask;		/* disable mask, see EM_FOLDER_VIEW_CAN* flags */
 };
 
@@ -85,13 +85,13 @@ struct _EMFolderView {
 	struct _EMFormatHTMLDisplay *preview;
 
 	struct _CamelFolder *folder;
-	char *folder_uri;
+	gchar *folder_uri;
 
-	char *displayed_uid;	/* only used to stop re-loads, don't use it to represent any selection state */
+	gchar *displayed_uid;	/* only used to stop re-loads, don't use it to represent any selection state */
 
 	/* used to load ui from base activate implementation */
-	GSList *ui_files;	/* const char * list, TODO: should this be on class? */
-	const char *ui_app_name;
+	GSList *ui_files;	/* const gchar * list, TODO: should this be on class? */
+	const gchar *ui_app_name;
 
 	/* used to manage some menus, particularly plugins */
 	struct _EMMenu *menu;
@@ -103,7 +103,7 @@ struct _EMFolderView {
 	GSList *enable_map;	/* bonobo menu enable map, entries are 0-terminated EMFolderViewEnable arryas
 				   TODO: should this be on class? */
 
-	int mark_seen_timeout;	/* local copy of gconf stuff */
+	gint mark_seen_timeout;	/* local copy of gconf stuff */
 	guint mark_seen:1;
 	guint preview_active:1;	/* is preview being used */
 	guint statusbar_active:1; /* should we manage the statusbar messages ourselves? */
@@ -118,16 +118,16 @@ struct _EMFolderViewClass {
 	guint update_message_style:1;
 
 	/* if used as a control, used to activate/deactivate custom menu's */
-	void (*activate)(EMFolderView *, struct _BonoboUIComponent *uic, int state);
+	void (*activate)(EMFolderView *, struct _BonoboUIComponent *uic, gint state);
 
-	void (*set_folder_uri)(EMFolderView *emfv, const char *uri);
-	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const char *uri);
-	void (*set_message)(EMFolderView *emfv, const char *uid, int nomarkseen);
+	void (*set_folder_uri)(EMFolderView *emfv, const gchar *uri);
+	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const gchar *uri);
+	void (*set_message)(EMFolderView *emfv, const gchar *uid, gint nomarkseen);
 
 	void (*show_search_bar)(EMFolderView *emfv);
 
 	/* Signals */
-	void (*on_url)(EMFolderView *emfv, const char *uri, const char *nice_uri);
+	void (*on_url)(EMFolderView *emfv, const gchar *uri, const gchar *nice_uri);
 
 	void (*loaded)(EMFolderView *emfv);
 	void (*changed)(EMFolderView *emfv);
@@ -142,12 +142,12 @@ GtkWidget *em_folder_view_new(void);
 #define em_folder_view_set_folder_uri(emfv, uri) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_folder_uri((emfv), (uri))
 #define em_folder_view_set_message(emfv, uid, nomarkseen) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid), (nomarkseen))
 
-EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display);
+EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, gint on_display);
 
-int em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set);
-int em_folder_view_open_selected(EMFolderView *emfv);
+gint em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set);
+gint em_folder_view_open_selected(EMFolderView *emfv);
 
-int em_folder_view_print(EMFolderView *emfv, GtkPrintOperationAction action);
+gint em_folder_view_print(EMFolderView *emfv, GtkPrintOperationAction action);
 
 /* this could be on message-list */
 guint32 em_folder_view_disable_mask(EMFolderView *emfv);

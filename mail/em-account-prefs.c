@@ -220,7 +220,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	EAccountList *accounts;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	int ans;
+	gint ans;
 	gboolean has_proxies = FALSE;
 
 	selection = gtk_tree_view_get_selection (prefs->table);
@@ -235,7 +235,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	ans = e_error_run(PREFS_WINDOW(prefs), has_proxies?"mail:ask-delete-account-with-proxies":"mail:ask-delete-account",NULL);
 
 	if (ans == GTK_RESPONSE_YES) {
-		int len;
+		gint len;
 
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
@@ -309,7 +309,7 @@ account_able_changed(EAccount *account)
 }
 
 static void
-account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
+account_able_toggled (GtkCellRendererToggle *renderer, gchar *arg1, gpointer user_data)
 {
 	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
@@ -326,7 +326,7 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
 
 		if (mail_config_has_proxies (account)) {
-			int ans;
+			gint ans;
 
 			ans = e_error_run(PREFS_WINDOW(prefs), "mail:ask-delete-proxy-accounts",NULL);
 
@@ -363,8 +363,8 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
- 	const char *url = NULL;
-	int state;
+ 	const gchar *url = NULL;
+	gint state;
 	EAccount *default_account;
 	default_account = mail_config_get_default_account ();
 
@@ -400,9 +400,9 @@ mail_accounts_load (EMAccountPrefs *prefs)
 	EAccountList *accounts;
 	GtkListStore *model;
 	GtkTreeIter iter;
-	char *name, *val;
+	gchar *name, *val;
 	EIterator *node;
-	int row = 0;
+	gint row = 0;
 	GtkTreeSelection *selection;
 
 	model = (GtkListStore *) gtk_tree_view_get_model (prefs->table);
@@ -435,7 +435,7 @@ mail_accounts_load (EMAccountPrefs *prefs)
 			gtk_list_store_set (model, &iter,
 					    0, account->enabled,
 					    1, val,
-					    2, url && url->protocol ? url->protocol : (char *) _("None"),
+					    2, url && url->protocol ? url->protocol : (gchar *) _("None"),
 					    3, account,
 					    -1);
 			g_free (name);
@@ -457,11 +457,11 @@ mail_accounts_load (EMAccountPrefs *prefs)
 
 
 
-GtkWidget *em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2,
-					  int int1, int int2);
+GtkWidget *em_account_prefs_treeview_new (gchar *widget_name, gchar *string1, gchar *string2,
+					  gint int1, gint int2);
 
 GtkWidget *
-em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+em_account_prefs_treeview_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
 	GtkWidget *table, *scrolled;
 	GtkTreeSelection *selection;
@@ -515,7 +515,7 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 	GtkWidget *toplevel, *widget;
 	GtkCellRenderer *renderer;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",

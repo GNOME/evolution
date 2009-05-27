@@ -48,7 +48,7 @@
 #define LDAP_CALLOC(n,s) calloc((n),(s))
 #define LDAP_REALLOC(p,s) realloc((p),(s))
 #define LDAP_FREE(p) free((p))
-#define LDAP_VFREE(p) vfree((void **)(p))
+#define LDAP_VFREE(p) vfree((gpointer *)(p))
 #define LDAP_STRDUP(s) strdup((s))
 
 #define LDAP_RANGE(n,x,y)	(((x) <= (n)) && ((n) <= (y)))
@@ -87,21 +87,21 @@
 #define	LDAP_SCHEMA_SKIP			0x80U /* Don't malloc any result      */
 
 typedef struct ldap_objectclass {
-	char *oc_oid;		/* REQUIRED */
-	char **oc_names;	/* OPTIONAL */
-	char *oc_desc;		/* OPTIONAL */
-	int  oc_obsolete;	/* 0=no, 1=yes */
-	char **oc_sup_oids;	/* OPTIONAL */
-	int  oc_kind;		/* 0=ABSTRACT, 1=STRUCTURAL, 2=AUXILIARY */
-	char **oc_at_oids_must;	/* OPTIONAL */
-	char **oc_at_oids_may;	/* OPTIONAL */
+	gchar *oc_oid;		/* REQUIRED */
+	gchar **oc_names;	/* OPTIONAL */
+	gchar *oc_desc;		/* OPTIONAL */
+	gint  oc_obsolete;	/* 0=no, 1=yes */
+	gchar **oc_sup_oids;	/* OPTIONAL */
+	gint  oc_kind;		/* 0=ABSTRACT, 1=STRUCTURAL, 2=AUXILIARY */
+	gchar **oc_at_oids_must;	/* OPTIONAL */
+	gchar **oc_at_oids_may;	/* OPTIONAL */
 } LDAPObjectClass;
 
 
 static void
-vfree(void **vec)
+vfree(gpointer *vec)
 {
-  int i;
+  gint i;
 
   for (i = 0; vec[i] != NULL; i++)
     free(vec[i]);
@@ -143,17 +143,17 @@ vfree(void **vec)
 #define TK_QDESCR	TK_QDSTRING
 
 struct token {
-	int type;
-	char *sval;
+	gint type;
+	gchar *sval;
 };
 
 static int
-get_token( const char ** sp, char ** token_val )
+get_token( const gchar ** sp, gchar ** token_val )
 {
-	int kind;
-	const char * p;
-	const char * q;
-	char * res;
+	gint kind;
+	const gchar * p;
+	const gchar * q;
+	gchar * res;
 
 	*token_val = NULL;
 	switch (**sp) {
@@ -223,20 +223,20 @@ get_token( const char ** sp, char ** token_val )
 
 /* Gobble optional whitespace */
 static void
-parse_whsp(const char **sp)
+parse_whsp(const gchar **sp)
 {
 	while (LDAP_SPACE(**sp))
 		(*sp)++;
 }
 
 /* Parse a sequence of dot-separated decimal strings */
-static char *
-ldap_int_parse_numericoid(const char **sp, int *code, const int flags)
+static gchar *
+ldap_int_parse_numericoid(const gchar **sp, gint *code, const gint flags)
 {
-	char * res = NULL;
-	const char * start = *sp;
-	int len;
-	int quoted = 0;
+	gchar * res = NULL;
+	const gchar * start = *sp;
+	gint len;
+	gint quoted = 0;
 
 	/* Netscape puts the SYNTAX value in quotes (incorrectly) */
 	if ( flags & LDAP_SCHEMA_ALLOW_QUOTED && **sp == '\'' ) {
@@ -248,7 +248,7 @@ ldap_int_parse_numericoid(const char **sp, int *code, const int flags)
 	while (**sp) {
 		if ( !LDAP_DIGIT(**sp) ) {
 			/*
-			 * Initial char is not a digit or char after dot is
+			 * Initial gchar is not a digit or gchar after dot is
 			 * not a digit
 			 */
 			*code = LDAP_SCHERR_NODIGIT;
@@ -262,7 +262,7 @@ ldap_int_parse_numericoid(const char **sp, int *code, const int flags)
 		/* Otherwise, gobble the dot and loop again */
 		(*sp)++;
 	}
-	/* Now *sp points at the char past the numericoid. Perfect. */
+	/* Now *sp points at the gchar past the numericoid. Perfect. */
 	len = *sp - start;
 	if ( flags & LDAP_SCHEMA_ALLOW_QUOTED && quoted ) {
 		if ( **sp == '\'' ) {
@@ -273,7 +273,7 @@ ldap_int_parse_numericoid(const char **sp, int *code, const int flags)
 		}
 	}
 	if (flags & LDAP_SCHEMA_SKIP) {
-		res = (char *)start;
+		res = (gchar *)start;
 	} else {
 		res = LDAP_MALLOC(len+1);
 		if (!res) {
@@ -287,22 +287,22 @@ ldap_int_parse_numericoid(const char **sp, int *code, const int flags)
 }
 
 /* Parse a qdescr or a list of them enclosed in () */
-static char **
-parse_qdescrs(const char **sp, int *code)
+static gchar **
+parse_qdescrs(const gchar **sp, gint *code)
 {
-	char ** res;
-	char ** res1;
-	int kind;
-	char * sval;
-	int size;
-	int pos;
+	gchar ** res;
+	gchar ** res1;
+	gint kind;
+	gchar * sval;
+	gint size;
+	gint pos;
 
 	parse_whsp(sp);
 	kind = get_token(sp,&sval);
 	if ( kind == TK_LEFTPAREN ) {
 		/* Let's presume there will be at least 2 entries */
 		size = 3;
-		res = LDAP_CALLOC(3,sizeof(char *));
+		res = LDAP_CALLOC(3,sizeof(gchar *));
 		if ( !res ) {
 			*code = LDAP_SCHERR_OUTOFMEM;
 			return NULL;
@@ -316,7 +316,7 @@ parse_qdescrs(const char **sp, int *code)
 			if ( kind == TK_QDESCR ) {
 				if ( pos == size-2 ) {
 					size++;
-					res1 = LDAP_REALLOC(res,size*sizeof(char *));
+					res1 = LDAP_REALLOC(res,size*sizeof(gchar *));
 					if ( !res1 ) {
 						LDAP_VFREE(res);
 						LDAP_FREE(sval);
@@ -338,7 +338,7 @@ parse_qdescrs(const char **sp, int *code)
 		parse_whsp(sp);
 		return(res);
 	} else if ( kind == TK_QDESCR ) {
-		res = LDAP_CALLOC(2,sizeof(char *));
+		res = LDAP_CALLOC(2,sizeof(gchar *));
 		if ( !res ) {
 			*code = LDAP_SCHERR_OUTOFMEM;
 			return NULL;
@@ -355,15 +355,15 @@ parse_qdescrs(const char **sp, int *code)
 }
 
 /* Parse a woid or a $-separated list of them enclosed in () */
-static char **
-parse_oids(const char **sp, int *code, const int allow_quoted)
+static gchar **
+parse_oids(const gchar **sp, gint *code, const gint allow_quoted)
 {
-	char ** res;
-	char ** res1;
-	int kind;
-	char * sval;
-	int size;
-	int pos;
+	gchar ** res;
+	gchar ** res1;
+	gint kind;
+	gchar * sval;
+	gint size;
+	gint pos;
 
 	/*
 	 * Strictly speaking, doing this here accepts whsp before the
@@ -376,7 +376,7 @@ parse_oids(const char **sp, int *code, const int allow_quoted)
 	if ( kind == TK_LEFTPAREN ) {
 		/* Let's presume there will be at least 2 entries */
 		size = 3;
-		res = LDAP_CALLOC(3,sizeof(char *));
+		res = LDAP_CALLOC(3,sizeof(gchar *));
 		if ( !res ) {
 			*code = LDAP_SCHERR_OUTOFMEM;
 			return NULL;
@@ -407,7 +407,7 @@ parse_oids(const char **sp, int *code, const int allow_quoted)
 				       kind == TK_QDSTRING ) ) {
 					if ( pos == size-2 ) {
 						size++;
-						res1 = LDAP_REALLOC(res,size*sizeof(char *));
+						res1 = LDAP_REALLOC(res,size*sizeof(gchar *));
 						if ( !res1 ) {
 							LDAP_FREE(sval);
 							LDAP_VFREE(res);
@@ -436,7 +436,7 @@ parse_oids(const char **sp, int *code, const int allow_quoted)
 		return(res);
 	} else if ( kind == TK_BAREWORD ||
 		    ( allow_quoted && kind == TK_QDSTRING ) ) {
-		res = LDAP_CALLOC(2,sizeof(char *));
+		res = LDAP_CALLOC(2,sizeof(gchar *));
 		if ( !res ) {
 			LDAP_FREE(sval);
 			*code = LDAP_SCHERR_OUTOFMEM;
@@ -466,24 +466,24 @@ ldap_objectclass_free(LDAPObjectClass * oc)
 }
 
 static LDAPObjectClass *
-ldap_str2objectclass( LDAP_CONST char * s,
-	int * code,
-	LDAP_CONST char ** errp,
+ldap_str2objectclass( LDAP_CONST gchar * s,
+	gint * code,
+	LDAP_CONST gchar ** errp,
 	LDAP_CONST unsigned flags )
 {
-	int kind;
-	const char * ss = s;
-	char * sval;
-	int seen_name = 0;
-	int seen_desc = 0;
-	int seen_obsolete = 0;
-	int seen_sup = 0;
-	int seen_kind = 0;
-	int seen_must = 0;
-	int seen_may = 0;
+	gint kind;
+	const gchar * ss = s;
+	gchar * sval;
+	gint seen_name = 0;
+	gint seen_desc = 0;
+	gint seen_obsolete = 0;
+	gint seen_sup = 0;
+	gint seen_kind = 0;
+	gint seen_must = 0;
+	gint seen_may = 0;
 	LDAPObjectClass * oc;
-	char ** ext_vals;
-	const char * savepos;
+	gchar ** ext_vals;
+	const gchar * savepos;
 
 	if ( !s ) {
 		*code = LDAP_SCHERR_EMPTY;
@@ -539,7 +539,7 @@ ldap_str2objectclass( LDAP_CONST char * s,
 				} else if ( flags &
 					LDAP_SCHEMA_ALLOW_OID_MACRO ) {
 					/* Non-numerical OID, ignore */
-					int len = ss-savepos;
+					gint len = ss-savepos;
 					oc->oc_oid = LDAP_MALLOC(len+1);
 					strncpy(oc->oc_oid, savepos, len);
 					oc->oc_oid[len] = 0;
@@ -741,21 +741,21 @@ ldap_str2objectclass( LDAP_CONST char * s,
 #define LDAP_UTF8_INCR(p) ((p)=LDAP_UTF8_NEXT((p)))
 #define ldap_x_utf8_to_ucs4(str) g_utf8_get_char(str)
 
-static char *ldap_utf8_strchr( const char *str, const char *chr )
+static gchar *ldap_utf8_strchr( const gchar *str, const gchar *chr )
 {
 	for( ; *str != '\0'; LDAP_UTF8_INCR(str) ) {
 		if( ldap_x_utf8_to_ucs4( str ) == ldap_x_utf8_to_ucs4( chr ) ) {
-			return (char *) str;
+			return (gchar *) str;
 		}
 	}
 
 	return NULL;
 }
 
-static size_t ldap_utf8_strcspn( const char *str, const char *set )
+static size_t ldap_utf8_strcspn( const gchar *str, const gchar *set )
 {
-	const char *cstr;
-	const char *cset;
+	const gchar *cstr;
+	const gchar *cset;
 
 	for( cstr = str; *cstr != '\0'; LDAP_UTF8_INCR(cstr) ) {
 		for( cset = set; *cset != '\0'; LDAP_UTF8_INCR(cset) ) {
@@ -768,10 +768,10 @@ static size_t ldap_utf8_strcspn( const char *str, const char *set )
 	return cstr - str;
 }
 
-static size_t ldap_utf8_strspn( const char *str, const char *set )
+static size_t ldap_utf8_strspn( const gchar *str, const gchar *set )
 {
-	const char *cstr;
-	const char *cset;
+	const gchar *cstr;
+	const gchar *cset;
 
 	for( cstr = str; *cstr != '\0'; LDAP_UTF8_INCR(cstr) ) {
 		for( cset = set; ; LDAP_UTF8_INCR(cset) ) {
@@ -788,10 +788,10 @@ static size_t ldap_utf8_strspn( const char *str, const char *set )
 	return cstr - str;
 }
 
-static char *ldap_utf8_strtok(char *str, const char *sep, char **last)
+static gchar *ldap_utf8_strtok(gchar *str, const gchar *sep, gchar **last)
 {
-	char *begin;
-	char *end;
+	gchar *begin;
+	gchar *end;
 
 	if( last == NULL ) return NULL;
 
@@ -807,7 +807,7 @@ static char *ldap_utf8_strtok(char *str, const char *sep, char **last)
 	end = &begin[ ldap_utf8_strcspn( begin, sep ) ];
 
 	if( *end != '\0' ) {
-		char *next = LDAP_UTF8_NEXT( end );
+		gchar *next = LDAP_UTF8_NEXT( end );
 		*end = '\0';
 		end = next;
 	}
@@ -856,17 +856,17 @@ typedef struct ldap_url_desc {
 
 /* from url.c */
 
-static const char*
+static const gchar *
 skip_url_prefix(
-	const char *url,
-	int *enclosedp,
-	const char **scheme )
+	const gchar *url,
+	gint *enclosedp,
+	const gchar **scheme )
 {
 	/*
  	 * return non-zero if this looks like a LDAP URL; zero if not
  	 * if non-zero returned, *urlp will be moved past "ldap://" part of URL
  	 */
-	const char *p;
+	const gchar *p;
 
 	if ( url == NULL ) {
 		return( NULL );
@@ -924,7 +924,7 @@ skip_url_prefix(
 	return( NULL );
 }
 
-static int str2scope( const char *p )
+static gint str2scope( const gchar *p )
 {
 	if ( strcasecmp( p, "one" ) == 0 ) {
 		return LDAP_SCOPE_ONELEVEL;
@@ -980,7 +980,7 @@ ldap_free_urldesc( LDAPURLDesc *ludp )
 }
 
 static int
-ldap_int_unhex( int c )
+ldap_int_unhex( gint c )
 {
 	return( c >= '0' && c <= '9' ? c - '0'
 	    : c >= 'A' && c <= 'F' ? c - 'A' + 10
@@ -988,7 +988,7 @@ ldap_int_unhex( int c )
 }
 
 static void
-ldap_pvt_hex_unescape( char *s )
+ldap_pvt_hex_unescape( gchar *s )
 {
 	/*
 	 * Remove URL hex escapes from s... done in place.  The basic concept for
@@ -1014,8 +1014,8 @@ ldap_pvt_hex_unescape( char *s )
 	*p = '\0';
 }
 
-static char **
-ldap_str2charray( const char *str_in, const char *brkstr )
+static gchar **
+ldap_str2charray( const gchar *str_in, const gchar *brkstr )
 {
 	char	**res;
 	char	*str, *s;
@@ -1035,7 +1035,7 @@ ldap_str2charray( const char *str_in, const char *brkstr )
 		}
 	}
 
-	res = (char **) LDAP_MALLOC( (i + 1) * sizeof(char *) );
+	res = (gchar **) LDAP_MALLOC( (i + 1) * sizeof(gchar *) );
 
 	if( res == NULL ) {
 		LDAP_FREE( str );
@@ -1069,7 +1069,7 @@ ldap_str2charray( const char *str_in, const char *brkstr )
 }
 
 static int
-ldap_url_parse_ext( LDAP_CONST char *url_in, LDAPURLDesc **ludpp )
+ldap_url_parse_ext( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 {
 /*
  *  Pick apart the pieces of an LDAP URL.
@@ -1078,9 +1078,9 @@ ldap_url_parse_ext( LDAP_CONST char *url_in, LDAPURLDesc **ludpp )
 	LDAPURLDesc	*ludp;
 	char	*p, *q, *r;
 	int		i, enclosed;
-	const char *scheme = NULL;
-	const char *url_tmp;
-	char *url;
+	const gchar *scheme = NULL;
+	const gchar *url_tmp;
+	gchar *url;
 
 	if( url_in == NULL || ludpp == NULL ) {
 		return LDAP_URL_ERR_PARAM;
@@ -1393,9 +1393,9 @@ ldap_url_parse_ext( LDAP_CONST char *url_in, LDAPURLDesc **ludpp )
 }
 
 static int
-ldap_url_parse( LDAP_CONST char *url_in, LDAPURLDesc **ludpp )
+ldap_url_parse( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 {
-	int rc = ldap_url_parse_ext( url_in, ludpp );
+	gint rc = ldap_url_parse_ext( url_in, ludpp );
 
 	if( rc != LDAP_URL_SUCCESS ) {
 		return rc;

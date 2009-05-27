@@ -31,10 +31,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct _EPixmap {
-	const char *path;
-	const char *name;
+	const gchar *path;
+	const gchar *name;
 	GtkIconSize size;
-	char       *pixbuf;
+	gchar       *pixbuf;
 } EPixmap;
 
 #define E_PIXMAP(path,name,size)	{ (path), (name), (size), NULL }
@@ -43,7 +43,7 @@ typedef struct _EPixmap {
 /* Takes an array of pixmaps, terminated by E_PIXMAP_END, and loads into uic */
 void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache);
 
-char *e_get_activation_failure_msg  (CORBA_Environment *ev);
+gchar *e_get_activation_failure_msg  (CORBA_Environment *ev);
 
 #ifdef __cplusplus
 }

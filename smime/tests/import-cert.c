@@ -23,8 +23,8 @@
 #include "e-cert-db.h"
 #include "e-pkcs12.h"
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	ECertDB *db;
 	EPKCS12 *pkcs12;

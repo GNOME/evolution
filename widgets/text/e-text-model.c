@@ -222,10 +222,10 @@ static void
 e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
 {
 	EReposInsertShift repos;
-	int model_len = e_text_model_real_get_text_length (model);
-	char *offs;
-	const char *p;
-	int byte_length, l;
+	gint model_len = e_text_model_real_get_text_length (model);
+	gchar *offs;
+	const gchar *p;
+	gint byte_length, l;
 
 	if (position > model_len)
 		return;
@@ -255,9 +255,9 @@ static void
 e_text_model_real_delete (ETextModel *model, gint position, gint length)
 {
 	EReposDeleteShift repos;
-	int byte_position, byte_length;
-	char *offs, *p;
-	int l;
+	gint byte_position, byte_length;
+	gchar *offs, *p;
+	gint l;
 
 	offs = g_utf8_offset_to_pointer (model->priv->text->str, position);
 	byte_position = offs - model->priv->text->str;

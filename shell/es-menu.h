@@ -71,7 +71,7 @@ struct _ESMenuClass {
 
 GType es_menu_get_type(void);
 
-ESMenu *es_menu_new(const char *menuid);
+ESMenu *es_menu_new(const gchar *menuid);
 
 ESMenuTargetShell *es_menu_target_new_shell(ESMenu *emp, guint32 flags);
 

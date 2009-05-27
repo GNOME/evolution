@@ -102,9 +102,9 @@ static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
 
 static void timezone_combo_get_active_text 	(GtkComboBox *combo,
-						 const char **zone_name);
+						 const gchar **zone_name);
 static gboolean timezone_combo_set_active_text 	(GtkComboBox *combo,
-						 const char *zone_name);
+						 const gchar *zone_name);
 
 static void	map_destroy_cb			(gpointer data,
 						 GObject *where_object_was);
@@ -198,7 +198,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	GtkTreeIter iter;
 	GtkCellRenderer *cell;
 	GHashTable *index;
-	int i;
+	gint i;
 
 	priv = etd->priv;
 
@@ -328,7 +328,7 @@ get_local_offset (void)
 {
 	time_t now = time(NULL), t_gmt, t_local;
 	struct tm gmt, local;
-	int diff;
+	gint diff;
 
 	gmtime_r (&now, &gmt);
 	localtime_r (&now, &local);
@@ -400,7 +400,7 @@ format_utc_offset			(int		 utc_offset,
 					 char		*buffer)
 {
   const gchar *sign = "+";
-  int hours, minutes, seconds;
+  gint hours, minutes, seconds;
 
   if (utc_offset < 0) {
     utc_offset = -utc_offset;
@@ -429,14 +429,14 @@ format_utc_offset			(int		 utc_offset,
 }
 
 
-static char *
+static gchar *
 zone_display_name_with_offset (icaltimezone *zone)
 {
-	const char *display_name;
+	const gchar *display_name;
 	struct tm local;
 	struct icaltimetype tt;
-	int offset;
-	char buffer [100];
+	gint offset;
+	gchar buffer [100];
 	time_t now = time(NULL);
 
 	gmtime_r ((const time_t *) &now, &local);
@@ -452,10 +452,10 @@ zone_display_name_with_offset (icaltimezone *zone)
 	return g_strdup_printf("%s (%s)\n", display_name, buffer);;
 }
 
-static const char *
+static const gchar *
 zone_display_name (icaltimezone *zone)
 {
-	const char *display_name;
+	const gchar *display_name;
 
 	display_name = icaltimezone_get_display_name (zone);
 	if (icaltimezone_get_builtin_timezone (display_name))
@@ -496,7 +496,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
 	icaltimezone *new_zone;
-	char *display=NULL;
+	gchar *display=NULL;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
@@ -625,7 +625,7 @@ get_zone_from_point (ETimezoneDialog *etd,
 {
 	icalarray *zones;
 	double longitude, latitude;
-	int i;
+	gint i;
 
 	if (point == NULL)
 		return NULL;
@@ -690,7 +690,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 				icaltimezone    *zone)
 {
 	ETimezoneDialogPrivate *priv;
-	char *display = NULL;
+	gchar *display = NULL;
 
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
@@ -762,11 +762,11 @@ static void
 on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
-	const char *new_zone_name;
+	const gchar *new_zone_name;
 	icalarray *zones;
 	icaltimezone *map_zone = NULL;
-	char *location;
-	int i;
+	gchar *location;
+	gint i;
 
 	priv = etd->priv;
 
@@ -794,7 +794,7 @@ on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 }
 
 static void
-timezone_combo_get_active_text (GtkComboBox *combo, const char **zone_name)
+timezone_combo_get_active_text (GtkComboBox *combo, const gchar **zone_name)
 {
 	GtkTreeModel *list_store;
 	GtkTreeIter iter;
@@ -809,7 +809,7 @@ timezone_combo_get_active_text (GtkComboBox *combo, const char **zone_name)
 }
 
 static gboolean
-timezone_combo_set_active_text (GtkComboBox *combo, const char *zone_name)
+timezone_combo_set_active_text (GtkComboBox *combo, const gchar *zone_name)
 {
 	GtkTreeModel *list_store;
 	GHashTable *index;

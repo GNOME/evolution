@@ -38,9 +38,9 @@ gboolean      config_data_get_24_hour_format (void);
 gboolean      config_data_get_notify_with_tray (void);
 void          config_data_set_last_notification_time (time_t t);
 time_t        config_data_get_last_notification_time (void);
-void          config_data_save_blessed_program (const char *program);
-gboolean      config_data_is_blessed_program (const char *program);
-ESourceList  *config_data_get_calendars (const char *);
-void	      config_data_replace_string_list (const char *, const char *, const char *);
+void          config_data_save_blessed_program (const gchar *program);
+gboolean      config_data_is_blessed_program (const gchar *program);
+ESourceList  *config_data_get_calendars (const gchar *);
+void	      config_data_replace_string_list (const gchar *, const gchar *, const gchar *);
 
 #endif

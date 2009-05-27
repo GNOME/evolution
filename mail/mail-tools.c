@@ -78,7 +78,7 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 }
 
 CamelFolder *
-mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
+mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *trash;
@@ -103,14 +103,14 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 
 #ifndef G_OS_WIN32
 
-static char *
-mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
+static gchar *
+mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 {
-	unsigned char *safe_uri, *c;
-	char *path, *full;
+	guchar *safe_uri, *c;
+	gchar *path, *full;
 	struct stat st;
 
-	safe_uri = (unsigned char *)g_strdup ((const gchar *)uri);
+	safe_uri = (guchar *)g_strdup ((const gchar *)uri);
 	for (c = safe_uri; *c; c++)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
@@ -132,11 +132,11 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 
 #endif
 
-char *
-mail_tool_do_movemail (const char *source_url, CamelException *ex)
+gchar *
+mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 {
 #ifndef G_OS_WIN32
-	char *dest_path;
+	gchar *dest_path;
 	struct stat sb;
 	CamelURL *uri;
 
@@ -154,7 +154,7 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 	}
 
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path ((unsigned char *)source_url, ex);
+	dest_path = mail_tool_get_local_movemail_path ((guchar *)source_url, ex);
 	if (dest_path == NULL)
 		return NULL;
 
@@ -183,12 +183,12 @@ mail_tool_do_movemail (const char *source_url, CamelException *ex)
 #endif
 }
 
-char *
+gchar *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
-	const char *subject;
-	char *fwd_subj;
-	const int max_subject_length = 1024;
+	const gchar *subject;
+	gchar *fwd_subj;
+	const gint max_subject_length = 1024;
 
 	subject = camel_mime_message_get_subject(msg);
 
@@ -207,7 +207,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 		}
 	} else {
 		const CamelInternetAddress *from;
-		char *fromstr;
+		gchar *fromstr;
 
 		from = camel_mime_message_get_from (msg);
 		if (from) {
@@ -247,9 +247,9 @@ CamelMimePart *
 mail_tool_make_message_attachment (CamelMimeMessage *message)
 {
 	CamelMimePart *part;
-	const char *subject;
+	const gchar *subject;
 	struct _camel_header_raw *xev;
-	char *desc;
+	gchar *desc;
 
 	subject = camel_mime_message_get_subject (message);
 	if (subject)
@@ -276,13 +276,13 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
+mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex)
 {
 	CamelURL *url;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
-	int offset = 0;
-	char *curi = NULL;
+	gint offset = 0;
+	gchar *curi = NULL;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
@@ -309,7 +309,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 
 	store = (CamelStore *)camel_session_get_service(session, uri+offset, CAMEL_PROVIDER_STORE, ex);
 	if (store) {
-		const char *name;
+		const gchar *name;
 
 		/* if we have a fragment, then the path is actually used by the store,
 		   so the fragment is the path to the folder instead */
@@ -351,10 +351,10 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
  * UIDs specified by the selection.
  **/
 CamelFolder *
-mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
+mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids)
 {
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
-	char *inptr, *inend;
+	gchar *inptr, *inend;
 	CamelFolder *folder;
 
 	if (in == NULL)
@@ -370,7 +370,7 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 	inptr = in + strlen (in) + 1;
 	*uids = g_ptr_array_new ();
 	while (inptr < inend) {
-		char *start = inptr;
+		gchar *start = inptr;
 
 		while (inptr < inend && *inptr)
 			inptr++;
@@ -383,11 +383,11 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 }
 
 /* FIXME: This should be a property on CamelFolder */
-char *
+gchar *
 mail_tools_folder_to_url (CamelFolder *folder)
 {
 	CamelURL *url;
-	char *out;
+	gchar *out;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
@@ -395,7 +395,7 @@ mail_tools_folder_to_url (CamelFolder *folder)
 	if (((CamelService *)folder->parent_store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment(url, folder->full_name);
 	} else {
-		char *name = g_alloca(strlen(folder->full_name)+2);
+		gchar *name = g_alloca(strlen(folder->full_name)+2);
 
 		sprintf(name, "/%s", folder->full_name);
 		camel_url_set_path(url, name);

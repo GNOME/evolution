@@ -50,7 +50,7 @@ struct _ECalComponentMemoPreviewClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (ECalComponentMemoPreview *preview, int n_selected);
+	void (* selection_changed) (ECalComponentMemoPreview *preview, gint n_selected);
 };
 
 

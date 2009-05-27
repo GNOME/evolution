@@ -62,8 +62,8 @@ e_util_labels_parse (GConfClient *client)
 {
 	GSList *labels, *list, *head;
 	EUtilLabel *label;
-	char *buf;
-	int num = 0;
+	gchar *buf;
+	gint num = 0;
 	gboolean unref_client = client == NULL;
 
 	labels = NULL;
@@ -74,7 +74,7 @@ e_util_labels_parse (GConfClient *client)
 	head = gconf_client_get_list (client, E_UTIL_LABELS_GCONF_KEY, GCONF_VALUE_STRING, NULL);
 
 	for (list = head; list; list = list->next) {
-		char *color, *name, *tag;
+		gchar *color, *name, *tag;
 		name = buf = list->data;
 		color = strrchr (buf, ':');
 		if (color == NULL) {
@@ -210,7 +210,7 @@ flush_labels_cache (GSList *labels, gboolean free_labels)
  * @return Pointer to cache data if label with such tag exists or NULL. Do not free it!
  **/
 static EUtilLabel *
-find_label (GSList *labels, const char *tag)
+find_label (GSList *labels, const gchar *tag)
 {
 	GSList *l;
 
@@ -227,12 +227,12 @@ find_label (GSList *labels, const char *tag)
 }
 
 
-static char *
-tag_from_name (const char *name)
+static gchar *
+tag_from_name (const gchar *name)
 {
 	/* this does thunderbird, just do not ask */
-	char *s1, *s2, *p;
-	const char *bads = " ()/{%*<>\\\"";
+	gchar *s1, *s2, *p;
+	const gchar *bads = " ()/{%*<>\\\"";
 
 	if (!name || !*name)
 		return NULL;
@@ -263,12 +263,12 @@ tag_from_name (const char *name)
  *         It will return NULL when the tag will be same as already existed.
  *         Tag name is generated in similar way as in Thunderbird.
  **/
-char *
-e_util_labels_add (const char *name, const GdkColor *color)
+gchar *
+e_util_labels_add (const gchar *name, const GdkColor *color)
 {
 	EUtilLabel *label;
 	GSList *labels;
-	char *tag;
+	gchar *tag;
 
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (color != NULL, NULL);
@@ -303,14 +303,14 @@ e_util_labels_add (const char *name, const GdkColor *color)
  * @return Tag for newly added label or NULL, if something failed.
  *         Returned value should be freed with g_free.
  **/
-char *
-e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
+gchar *
+e_util_labels_add_with_dlg (GtkWindow *parent, const gchar *tag)
 {
 	GtkWidget *table, *dialog, *l, *e, *c;
-	const char *name;
+	const gchar *name;
 	GdkColor color;
 	gboolean is_edit = FALSE;
-	char *new_tag = NULL;
+	gchar *new_tag = NULL;
 	GSList *labels;
 
 	table = gtk_table_new (2, 2, FALSE);
@@ -353,7 +353,7 @@ e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table, TRUE, TRUE, 0);
 
 	while (!new_tag) {
-		const char *error = NULL;
+		const gchar *error = NULL;
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 			name = gtk_entry_get_text (GTK_ENTRY (e));
@@ -388,7 +388,7 @@ e_util_labels_add_with_dlg (GtkWindow *parent, const char *tag)
  * @return Whether was removed.
  **/
 gboolean
-e_util_labels_remove (const char *tag)
+e_util_labels_remove (const gchar *tag)
 {
 	EUtilLabel *label;
 	GSList *labels;
@@ -419,7 +419,7 @@ e_util_labels_remove (const char *tag)
  * @return Whether successfully saved.
  **/
 gboolean
-e_util_labels_set_data (const char *tag, const char *name, const GdkColor *color)
+e_util_labels_set_data (const gchar *tag, const gchar *name, const GdkColor *color)
 {
 	EUtilLabel *label;
 	GSList *labels;
@@ -451,9 +451,9 @@ e_util_labels_set_data (const char *tag, const char *name, const GdkColor *color
  * @return Whether the tag is one of default/system labels or not.
  **/
 gboolean
-e_util_labels_is_system (const char *tag)
+e_util_labels_is_system (const gchar *tag)
 {
-	int i;
+	gint i;
 
 	if (!tag)
 		return FALSE;
@@ -472,10 +472,10 @@ e_util_labels_is_system (const char *tag)
  * @param old_tag Tag of the label from old version of Evolution.
  * @return New tag name equivalent with the old tag, or NULL if no such name existed before.
  **/
-const char *
-e_util_labels_get_new_tag (const char *old_tag)
+const gchar *
+e_util_labels_get_new_tag (const gchar *old_tag)
 {
-	int i;
+	gint i;
 
 	if (!old_tag)
 		return NULL;
@@ -497,8 +497,8 @@ e_util_labels_get_new_tag (const char *old_tag)
  * @param tag Tag of the label of our interest.
  * @return Name of the label with that tag or NULL, if no such label exists.
  **/
-const char *
-e_util_labels_get_name (GSList *labels, const char *tag)
+const gchar *
+e_util_labels_get_name (GSList *labels, const gchar *tag)
 {
 	EUtilLabel *label;
 
@@ -520,7 +520,7 @@ e_util_labels_get_name (GSList *labels, const char *tag)
  * @return Whether found such label and color has been set.
  **/
 gboolean
-e_util_labels_get_color (GSList *labels, const char *tag, GdkColor *color)
+e_util_labels_get_color (GSList *labels, const gchar *tag, GdkColor *color)
 {
 	EUtilLabel *label;
 
@@ -542,8 +542,8 @@ e_util_labels_get_color (GSList *labels, const char *tag, GdkColor *color)
  * @param tag Tag of the label of our interest.
  * @return String representation of that label, or NULL, is no such label exists.
  **/
-const char *
-e_util_labels_get_color_str (GSList *labels, const char *tag)
+const gchar *
+e_util_labels_get_color_str (GSList *labels, const gchar *tag)
 {
 	EUtilLabel *label;
 
@@ -568,7 +568,7 @@ e_util_labels_get_filter_options (void)
 
 	for (l = known; l; l = l->next) {
 		EUtilLabel *label = l->data;
-		const char *tag;
+		const gchar *tag;
 		struct _filter_option *fo;
 
 		if (!label)

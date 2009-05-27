@@ -25,8 +25,8 @@
 #include <glib/gi18n.h>
 #include "ea-addressbook-view.h"
 
-static G_CONST_RETURN gchar* ea_ab_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_ab_view_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_ab_view_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_ab_view_get_description (AtkObject *accessible);
 
 static void ea_ab_view_class_init (EABViewClass *klass);
 
@@ -84,7 +84,7 @@ ea_ab_view_class_init (EABViewClass *klass)
 	class->get_description = ea_ab_view_get_description;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_ab_view_get_name (AtkObject *accessible)
 {
 	g_return_val_if_fail (EA_IS_AB_VIEW(accessible), NULL);
@@ -94,7 +94,7 @@ ea_ab_view_get_name (AtkObject *accessible)
 	return _("evolution address book");
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_ab_view_get_description (AtkObject *accessible)
 {
 	if (accessible->description)

@@ -48,9 +48,9 @@ typedef struct {
 	Bonobo_Control control;
 	GtkWidget *widget;
 
-	char *name;
-	char *blurb;
-	char *iid;
+	gchar *name;
+	gchar *blurb;
+	gchar *iid;
 } IntelligentImporterData;
 
 typedef struct {
@@ -61,12 +61,12 @@ typedef struct {
 
 	GList *importers;
 
-	int running;
+	gint running;
 } IntelligentImporterDialog;
 
 typedef struct {
 	CORBA_Object importer;
-	char *iid;
+	gchar *iid;
 } SelectedImporterData;
 
 static void
@@ -119,7 +119,7 @@ get_intelligent_importers (void)
 	Bonobo_ServerInfoList *info_list;
 	GList *iids_ret = NULL;
 	CORBA_Environment ev;
-	int i;
+	gint i;
 
 	CORBA_exception_init (&ev);
 	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION "')", NULL, &ev);
@@ -137,8 +137,8 @@ get_intelligent_importers (void)
 
 static void
 select_row_cb (GtkCList *clist,
-	       int row,
-	       int column,
+	       gint row,
+	       gint column,
 	       GdkEvent *ev,
 	       IntelligentImporterDialog *d)
 {
@@ -147,8 +147,8 @@ select_row_cb (GtkCList *clist,
 
 static void
 unselect_row_cb (GtkCList *clist,
-		 int row,
-		 int column,
+		 gint row,
+		 gint column,
 		 GdkEvent *ev,
 		 IntelligentImporterDialog *d)
 {
@@ -162,7 +162,7 @@ create_gui (GList *importers)
 	GtkWidget *hbox, *vbox, *dummy;
 	IntelligentImporterDialog *d;
 	GList *l;
-	int running = 0;
+	gint running = 0;
 
 	d = g_new (IntelligentImporterDialog, 1);
 	d->dialog = dialog = gtk_dialog_new();
@@ -220,7 +220,7 @@ create_gui (GList *importers)
 		IntelligentImporterData *data;
 		CORBA_Environment ev;
 		gboolean dontaskagain, can_run;
-		char *text[1], *prefix;
+		gchar *text[1], *prefix;
 
 		/* Check if we want to show this one again */
 		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir ());
@@ -237,7 +237,7 @@ create_gui (GList *importers)
 		data->iid = g_strdup (l->data);
 
 		CORBA_exception_init (&ev);
-		data->object = bonobo_activation_activate_from_id ((char *) data->iid, 0,
+		data->object = bonobo_activation_activate_from_id ((gchar *) data->iid, 0,
 						     NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Could not start %s: %s", data->iid,
@@ -359,9 +359,9 @@ intelligent_importer_init (void)
 {
 	GList *importers, *l, *selected = NULL;
 	IntelligentImporterDialog *d;
-	char *prefix;
+	gchar *prefix;
 	gboolean dontaskagain;
-	int resp;
+	gint resp;
 
 	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", g_get_home_dir());
 	gnome_config_push_prefix (prefix);
@@ -395,7 +395,7 @@ intelligent_importer_init (void)
 			IntelligentImporterData *data;
 			SelectedImporterData *new_data;
 			CORBA_Environment ev;
-			char *iid;
+			gchar *iid;
 
 			data = g_list_nth_data (d->importers, GPOINTER_TO_INT (l->data));
 			iid = g_strdup (data->iid);

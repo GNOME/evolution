@@ -80,7 +80,7 @@ source_selection_changed (ESourceSelector *selector,
 }
 
 static void
-config_control_destroy_notify (void *data,
+config_control_destroy_notify (gpointer data,
 			       GObject *where_the_config_control_was)
 {
 	AutocompletionConfig *ac = (AutocompletionConfig *) data;
@@ -101,7 +101,7 @@ initialize_selection (AutocompletionConfig *ac)
 		GSList *sources;
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
-			const char *completion = e_source_get_property (source, "completion");
+			const gchar *completion = e_source_get_property (source, "completion");
 			if (completion && !g_ascii_strcasecmp (completion, "true"))
 				e_source_selector_select_source (E_SOURCE_SELECTOR (ac->control_widget),
 								 source);

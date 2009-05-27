@@ -72,12 +72,12 @@ void         e_tree_table_adapter_node_set_expanded_recurse  (ETreeTableAdapter 
 							      ETreePath          path,
 							      gboolean           expanded);
 void         e_tree_table_adapter_force_expanded_state       (ETreeTableAdapter *etta,
-							      int state);
+							      gint state);
 void         e_tree_table_adapter_root_node_set_visible      (ETreeTableAdapter *etta,
 							      gboolean           visible);
 ETreePath    e_tree_table_adapter_node_at_row                (ETreeTableAdapter *etta,
-							      int                row);
-int          e_tree_table_adapter_row_of_node                (ETreeTableAdapter *etta,
+							      gint                row);
+gint          e_tree_table_adapter_row_of_node                (ETreeTableAdapter *etta,
 							      ETreePath          path);
 gboolean     e_tree_table_adapter_root_node_is_visible       (ETreeTableAdapter *etta);
 
@@ -85,9 +85,9 @@ void         e_tree_table_adapter_show_node                  (ETreeTableAdapter 
 							      ETreePath          path);
 
 void         e_tree_table_adapter_save_expanded_state        (ETreeTableAdapter *etta,
-							      const char        *filename);
+							      const gchar        *filename);
 void         e_tree_table_adapter_load_expanded_state        (ETreeTableAdapter *etta,
-							      const char        *filename);
+							      const gchar        *filename);
 
 xmlDoc      *e_tree_table_adapter_save_expanded_state_xml    (ETreeTableAdapter *etta);
 void         e_tree_table_adapter_load_expanded_state_xml    (ETreeTableAdapter *etta, xmlDoc *doc);

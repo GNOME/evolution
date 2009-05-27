@@ -75,7 +75,7 @@
 extern CamelSession *session;
 
 static gboolean
-emfu_is_special_local_folder (const char *name)
+emfu_is_special_local_folder (const gchar *name)
 {
 	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
 }
@@ -87,10 +87,10 @@ struct _EMCopyFolders {
 	CamelStore *fromstore;
 	CamelStore *tostore;
 
-	char *frombase;
-	char *tobase;
+	gchar *frombase;
+	gchar *tobase;
 
-	int delete;
+	gint delete;
 };
 
 static gchar *
@@ -106,8 +106,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
 	CamelFolderInfo *fi;
-	const char *tmp;
-	int fromlen;
+	const gchar *tmp;
+	gint fromlen;
 
 	if (!(fi = camel_store_get_folder_info (m->fromstore, m->frombase, flags, &m->base.ex)))
 		return;
@@ -132,7 +132,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 		while (info) {
 			CamelFolder *fromfolder, *tofolder;
 			GPtrArray *uids;
-			int deleted = 0;
+			gint deleted = 0;
 
 			if (info->child)
 				pending = g_list_append (pending, info->child);
@@ -237,11 +237,11 @@ static MailMsgInfo copy_folders_info = {
 	(MailMsgFreeFunc) emft_copy_folders__free
 };
 
-int
-em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete)
+gint
+em_folder_utils_copy_folders(CamelStore *fromstore, const gchar *frombase, CamelStore *tostore, const gchar *tobase, gint delete)
 {
 	struct _EMCopyFolders *m;
-	int seq;
+	gint seq;
 
 	m = mail_msg_new (&copy_folders_info);
 	camel_object_ref (fromstore);
@@ -264,7 +264,7 @@ struct _copy_folder_data {
 };
 
 static void
-emfu_copy_folder_selected (const char *uri, void *data)
+emfu_copy_folder_selected (const gchar *uri, gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
@@ -320,11 +320,11 @@ fail:
 
 /* tree here is the 'destination' selector, not 'self' */
 static gboolean
-emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, void *data)
+emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
-	int fromvfolder, tovfolder;
-	char *touri;
+	gint fromvfolder, tovfolder;
+	gchar *touri;
 	guint flags;
 	gboolean is_store;
 
@@ -351,7 +351,7 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 /* FIXME: this interface references the folderinfo without copying it  */
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, int delete)
+em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, gint delete)
 {
 	struct _copy_folder_data *cfd;
 
@@ -365,7 +365,7 @@ em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, int delete)
 }
 
 static void
-emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, void *data)
+emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, gpointer data)
 {
 	GtkWidget *dialog = data;
 
@@ -381,7 +381,7 @@ emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, voi
 }
 
 static void
-emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
+emfu_delete_response (GtkWidget *dialog, gint response, gpointer data)
 {
 	if (response == GTK_RESPONSE_OK) {
 		/* disable dialog until operation finishes */
@@ -399,7 +399,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local;
 	GtkWidget *dialog;
-	int flags = 0;
+	gint flags = 0;
 
 	local = mail_component_peek_local_store (NULL);
 
@@ -430,8 +430,8 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 void
 em_folder_utils_rename_folder (CamelFolder *folder)
 {
-	char *prompt, *new_name;
-	const char *p;
+	gchar *prompt, *new_name;
+	const gchar *p;
 	CamelStore *local;
 	gboolean done = FALSE;
 	size_t base_len;
@@ -463,7 +463,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 		} else {
 			CamelFolderInfo *fi;
 			CamelException ex;
-			char *path, *tmp;
+			gchar *path, *tmp;
 
 			if (base_len > 0) {
 				path = g_malloc (base_len + strlen (new_name) + 2);
@@ -481,7 +481,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 				e_error_run(NULL,
 					    "mail:no-rename-folder-exists", folder->name, new_name, NULL);
 			} else {
-				const char *oldpath, *newpath;
+				const gchar *oldpath, *newpath;
 
 				oldpath = folder->full_name;
 				newpath = path;
@@ -511,16 +511,16 @@ struct _EMCreateFolder {
 
 	/* input data */
 	CamelStore *store;
-	char *full_name;
-	char *parent;
-	char *name;
+	gchar *full_name;
+	gchar *parent;
+	gchar *name;
 
 	/* output data */
 	CamelFolderInfo *fi;
 
 	/* callback data */
-	void (* done) (CamelFolderInfo *fi, void *user_data);
-	void *user_data;
+	void (* done) (CamelFolderInfo *fi, gpointer user_data);
+	gpointer user_data;
 };
 
 /* Temporary Structure to hold data to pass across function */
@@ -528,7 +528,7 @@ struct _EMCreateFolderTempData
 {
 	EMFolderTree * emft;
 	EMFolderSelector * emfs;
-	char *uri;
+	gchar *uri;
 };
 
 static gchar *
@@ -575,12 +575,12 @@ static MailMsgInfo create_folder_info = {
 
 
 static int
-emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done) (CamelFolderInfo *fi, void *user_data), void *user_data)
+emfu_create_folder_real (CamelStore *store, const gchar *full_name, void (* done) (CamelFolderInfo *fi, gpointer user_data), gpointer user_data)
 {
-	char *name, *namebuf = NULL;
+	gchar *name, *namebuf = NULL;
 	struct _EMCreateFolder *m;
-	const char *parent;
-	int id;
+	const gchar *parent;
+	gint id;
 
 	namebuf = g_strdup (full_name);
 	if (!(name = strrchr (namebuf, '/'))) {
@@ -609,7 +609,7 @@ emfu_create_folder_real (CamelStore *store, const char *full_name, void (* done)
 }
 
 static void
-new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
+new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
 {
 	struct _EMCreateFolderTempData *emcftd=user_data;
 	if (fi){
@@ -625,10 +625,10 @@ new_folder_created_cb (CamelFolderInfo *fi, void *user_data)
 }
 
 static void
-emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer data)
+emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer data)
 {
 	EMFolderTreeModelStoreInfo *si;
-	const char *uri, *path;
+	const gchar *uri, *path;
 	CamelException ex;
 	CamelStore *store;
 	struct _EMCreateFolderTempData  *emcftd;

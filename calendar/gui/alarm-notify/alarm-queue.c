@@ -76,8 +76,8 @@ static GList *tray_icons_list = NULL;
 
 /* Top Tray Image */
 static GtkStatusIcon *tray_icon = NULL;
-static int tray_blink_id = -1;
-static int tray_blink_countdown = 0;
+static gint tray_blink_id = -1;
+static gint tray_blink_countdown = 0;
 static AlarmNotify *an;
 
 /* Structure that stores a client we are monitoring */
@@ -520,7 +520,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 static void
 load_alarms (ClientAlarms *ca, time_t start, time_t end)
 {
-	char *str_query, *iso_start, *iso_end;
+	gchar *str_query, *iso_start, *iso_end;
 
 	d(printf("%s:%d (load_alarms) \n",__FILE__, __LINE__));
 
@@ -875,7 +875,7 @@ query_objects_removed_cb (ECal *client, GList *objects, gpointer data)
  * compued with respect to the current time.
  */
 static void
-create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
+create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
 {
 	QueuedAlarm *orig_qa;
 	time_t t;
@@ -904,8 +904,8 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 static void
 edit_component (ECal *client, ECalComponent *comp)
 {
-	const char *uid;
-	const char *uri;
+	const gchar *uid;
+	const gchar *uri;
 	ECalSourceType source_type;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CompEditorFactory factory;
@@ -938,7 +938,7 @@ edit_component (ECal *client, ECalComponent *comp)
 		corba_type = GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT;
 	}
 
-	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, corba_type, &ev);
+	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (gchar *) uid, corba_type, &ev);
 
 	if (BONOBO_EX (&ev))
 		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev), NULL);
@@ -950,9 +950,9 @@ edit_component (ECal *client, ECalComponent *comp)
 }
 
 typedef struct {
-	char *summary;
-	char *description;
-	char *location;
+	gchar *summary;
+	gchar *description;
+	gchar *location;
 	gboolean blink_state;
 	gboolean snooze_set;
 	gint blink_id;
@@ -1009,7 +1009,7 @@ free_tray_icon_data (TrayIconData *tray_data)
 static void
 on_dialog_objs_removed_async (struct _query_msg *msg)
 {
-	const char *our_uid;
+	const gchar *our_uid;
 	GList *l;
 	TrayIconData *tray_data;
 	ECal *client;
@@ -1025,7 +1025,7 @@ on_dialog_objs_removed_async (struct _query_msg *msg)
 	g_return_if_fail (our_uid && *our_uid);
 
 	for (l = objects; l != NULL; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!uid)
 			continue;
@@ -1197,7 +1197,7 @@ tray_list_remove_data (TrayIconData *data)
 }
 
 static void
-notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
+notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 {
 	TrayIconData *tray_data = data;
 
@@ -1437,11 +1437,11 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	const char *summary, *description, *location;
+	const gchar *summary, *description, *location;
 	TrayIconData *tray_data;
 	ECalComponentText text;
 	GSList *text_list;
-	char *str, *start_str, *end_str, *alarm_str, *time_str;
+	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
 
@@ -1521,7 +1521,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_list_add_new (tray_data);
 
 	if (g_list_length (tray_icons_list) > 1) {
-		char *tip;
+		gchar *tip;
 
 		tip =  g_strdup_printf (_("You have %d alarms"), g_list_length (tray_icons_list));
 		gtk_status_icon_set_tooltip_text (tray_icon, tip);
@@ -1559,13 +1559,13 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	const char *summary, *location;
+	const gchar *summary, *location;
 	ECalComponentText text;
-	char *str, *start_str, *end_str, *alarm_str, *time_str;
+	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
 	NotifyNotification *n;
-	char *body;
+	gchar *body;
 
 	d(printf("%s:%d (popup_notification)\n",__FILE__, __LINE__));
 
@@ -1652,7 +1652,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	e_cal_component_alarm_free (alarm);
 
 	if (attach && icalattach_get_is_url (attach)) {
-		const char *url;
+		const gchar *url;
 
 		url = icalattach_get_url (attach);
 
@@ -1702,11 +1702,11 @@ mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 
 /* Performs notification of a procedure alarm */
 static gboolean
-procedure_notification_dialog (const char *cmd, const char *url)
+procedure_notification_dialog (const gchar *cmd, const gchar *url)
 {
 	GtkWidget *dialog, *label, *checkbox;
-	char *str;
-	int btn;
+	gchar *str;
+	gint btn;
 
 	d(printf("%s:%d (procedure_notification_dialog)\n",__FILE__, __LINE__));
 
@@ -1755,8 +1755,8 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	ECalComponentAlarm *alarm;
 	ECalComponentText description;
 	icalattach *attach;
-	const char *url;
-	char *cmd;
+	const gchar *url;
+	gchar *cmd;
 	gboolean result = TRUE;
 
 	d(printf("%s:%d (procedure_notification)\n",__FILE__, __LINE__));
@@ -1789,12 +1789,12 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	if (description.value)
 		cmd = g_strconcat (url, " ", description.value, NULL);
 	else
-		cmd = (char *) url;
+		cmd = (gchar *) url;
 
 	if (procedure_notification_dialog (cmd, url))
 		result = g_spawn_command_line_async (cmd, NULL);
 
-	if (cmd != (char *) url)
+	if (cmd != (gchar *) url)
 		g_free (cmd);
 
 	icalattach_unref (attach);
@@ -2168,7 +2168,7 @@ update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 	/* Update auids in Queued Alarms*/
 	for (qa_list = cqa->queued_alarms; qa_list; qa_list = qa_list->next) {
 		QueuedAlarm *qa = qa_list->data;
-		char *check_auid = (char *) qa->instance->auid;
+		gchar *check_auid = (gchar *) qa->instance->auid;
 		ECalComponentAlarm *alarm;
 
 		alarm = e_cal_component_get_alarm (newcomp, check_auid);
@@ -2207,7 +2207,7 @@ update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa)
 	for (instance_list = alarms->alarms; instance_list; instance_list = instance_list->next) {
 		al_inst = instance_list->data;
 		if (al_inst->trigger == qa->orig_trigger) {  /* FIXME if two or more alarm instances (audio, note) 									  for same component have same trigger */
-			g_free ((char *) qa->instance->auid);
+			g_free ((gchar *) qa->instance->auid);
 			qa->instance->auid = g_strdup (al_inst->auid);
 			break;
 		}

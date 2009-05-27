@@ -140,14 +140,14 @@ struct _EMFormatPURI {
 	void (*free)(struct _EMFormatPURI *p); /* optional callback for freeing user-fields */
 	struct _EMFormat *format;
 
-	char *uri;		/* will be the location of the part, may be empty */
-	char *cid;		/* will always be set, a fake one created if needed */
-	char *part_id;		/* will always be set, emf->part_id->str for this part */
+	gchar *uri;		/* will be the location of the part, may be empty */
+	gchar *cid;		/* will always be set, a fake one created if needed */
+	gchar *part_id;		/* will always be set, emf->part_id->str for this part */
 
 	EMFormatPURIFunc func;
 	CamelMimePart *part;
 
-	unsigned int use_count;	/* used by multipart/related to see if it was accessed */
+	guint use_count;	/* used by multipart/related to see if it was accessed */
 };
 
 /**
@@ -176,7 +176,7 @@ struct _EMFormatHeader {
 	struct _EMFormatHeader *next, *prev;
 
 	guint32 flags;		/* E_FORMAT_HEADER_* */
-	char name[1];
+	gchar name[1];
 };
 
 #define EM_FORMAT_HEADER_BOLD (1<<0)
@@ -218,7 +218,7 @@ struct _EMFormat {
 	CamelMimeMessage *message; /* the current message */
 
 	CamelFolder *folder;
-	char *uid;
+	gchar *uid;
 
 	GString *part_id;	/* current part id prefix, for identifying parts directly */
 
@@ -227,7 +227,7 @@ struct _EMFormat {
 	CamelSession *session; /* session, used for authentication when required */
 	CamelURL *base;	/* content-base header or absolute content-location, for any part */
 
-	const char *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
+	const gchar *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
 
 	/* for validity enveloping */
 	CamelCipherValidity *valid;
@@ -245,8 +245,8 @@ struct _EMFormat {
 	struct _EMFormatPURITree *pending_uri_level;
 
 	em_format_mode_t mode;	/* source/headers/etc */
-	char *charset;		/* charset override */
-	char *default_charset;	/* charset fallback */
+	gchar *charset;		/* charset override */
+	gchar *default_charset;	/* charset fallback */
 	gboolean composer; /* Formatting from composer ?*/
 	gboolean print;
 	gboolean show_photo; /* Want to show the photo of the sender ?*/
@@ -259,16 +259,16 @@ struct _EMFormatClass {
 	GHashTable *type_handlers;
 
 	/* lookup handler, default falls back to hashtable above */
-	const EMFormatHandler *(*find_handler)(EMFormat *, const char *mime_type);
+	const EMFormatHandler *(*find_handler)(EMFormat *, const gchar *mime_type);
 
 	/* start formatting a message */
-	void (*format_clone)(EMFormat *, CamelFolder *, const char *uid, CamelMimeMessage *, EMFormat *);
+	void (*format_clone)(EMFormat *, CamelFolder *, const gchar *uid, CamelMimeMessage *, EMFormat *);
 
 	/* some internel error/inconsistency */
-	void (*format_error)(EMFormat *, CamelStream *, const char *msg);
+	void (*format_error)(EMFormat *, CamelStream *, const gchar *msg);
 
 	/* use for external structured parts */
-	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const char *mime_type, const struct _EMFormatHandler *info);
+	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const gchar *mime_type, const struct _EMFormatHandler *info);
 
 	/* use for unparsable content */
 	void (*format_source)(EMFormat *, CamelStream *, CamelMimePart *);
@@ -290,22 +290,22 @@ struct _EMFormatClass {
 void em_format_set_session(EMFormat *emf, CamelSession *s);
 
 void em_format_set_mode(EMFormat *emf, em_format_mode_t type);
-void em_format_set_charset(EMFormat *emf, const char *charset);
-void em_format_set_default_charset(EMFormat *emf, const char *charset);
+void em_format_set_charset(EMFormat *emf, const gchar *charset);
+void em_format_set_default_charset(EMFormat *emf, const gchar *charset);
 
 void em_format_clear_headers(EMFormat *emf); /* also indicates to show all headers */
 void em_format_default_headers(EMFormat *emf);
-void em_format_add_header(EMFormat *emf, const char *name, guint32 flags);
+void em_format_add_header(EMFormat *emf, const gchar *name, guint32 flags);
 
 /* FIXME: Need a 'clone' api to copy details about the current view (inlines etc)
    Or maybe it should live with sub-classes? */
 
-int em_format_is_attachment(EMFormat *emf, CamelMimePart *part);
+gint em_format_is_attachment(EMFormat *emf, CamelMimePart *part);
 
-int em_format_is_inline(EMFormat *emf, const char *partid, CamelMimePart *part, const EMFormatHandler *handle);
-void em_format_set_inline(EMFormat *emf, const char *partid, int state);
+gint em_format_is_inline(EMFormat *emf, const gchar *partid, CamelMimePart *part, const EMFormatHandler *handle);
+void em_format_set_inline(EMFormat *emf, const gchar *partid, gint state);
 
-char *em_format_describe_part(CamelMimePart *part, const char *mimetype);
+gchar *em_format_describe_part(CamelMimePart *part, const gchar *mimetype);
 
 /* for implementers */
 GType em_format_get_type(void);
@@ -313,12 +313,12 @@ GType em_format_get_type(void);
 void em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info);
 void em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info);
 #define em_format_find_handler(emf, type) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->find_handler((emf), (type))
-const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const char *mime_type);
+const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const gchar *mime_type);
 
 /* puri is short for pending uri ... really */
-EMFormatPURI *em_format_add_puri(EMFormat *emf, size_t size, const char *uri, CamelMimePart *part, EMFormatPURIFunc func);
-EMFormatPURI *em_format_find_visible_puri(EMFormat *emf, const char *uri);
-EMFormatPURI *em_format_find_puri(EMFormat *emf, const char *uri);
+EMFormatPURI *em_format_add_puri(EMFormat *emf, size_t size, const gchar *uri, CamelMimePart *part, EMFormatPURIFunc func);
+EMFormatPURI *em_format_find_visible_puri(EMFormat *emf, const gchar *uri);
+EMFormatPURI *em_format_find_puri(EMFormat *emf, const gchar *uri);
 void em_format_clear_puri_tree(EMFormat *emf);
 void em_format_push_level(EMFormat *emf);
 void em_format_pull_level(EMFormat *emf);
@@ -328,7 +328,7 @@ void em_format_format_clone (EMFormat *emf, CamelFolder *folder, const gchar *ui
 /* formats a new message */
 void em_format_format(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMimeMessage *message);
 void em_format_redraw(EMFormat *emf);
-void em_format_format_error(EMFormat *emf, CamelStream *stream, const char *fmt, ...);
+void em_format_format_error(EMFormat *emf, CamelStream *stream, const gchar *fmt, ...);
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
 #define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))
 void em_format_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
@@ -340,7 +340,7 @@ void em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart 
 /* raw content text parts - should this just be checked/done by above? */
 void em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *part);
 
-void em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type);
+void em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const gchar *mime_type);
 void em_format_part(EMFormat *emf, CamelStream *stream, CamelMimePart *part);
 void em_format_merge_handler(EMFormat *new, EMFormat *old);
 

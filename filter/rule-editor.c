@@ -35,11 +35,11 @@
 #include "e-util/e-util-private.h"
 #include "rule-editor.h"
 
-static int enable_undo = 0;
+static gint enable_undo = 0;
 
 #define d(x)
 
-static void set_source (RuleEditor *re, const char *source);
+static void set_source (RuleEditor *re, const gchar *source);
 static void set_sensitive (RuleEditor *re);
 static FilterRule *create_rule (RuleEditor *re);
 
@@ -164,11 +164,11 @@ rule_editor_destroy (GtkObject *obj)
  * Return value: A new #RuleEditor object.
  **/
 RuleEditor *
-rule_editor_new (RuleContext *rc, const char *source, const char *label)
+rule_editor_new (RuleContext *rc, const gchar *source, const gchar *label)
 {
 	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	char *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
+	gchar *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
 					       "filter.glade",
 					       NULL);
 
@@ -191,7 +191,7 @@ rule_editor_set_sensitive (RuleEditor *re)
 
 /* used internally by implementations */
 void
-rule_editor_set_source (RuleEditor *re, const char *source)
+rule_editor_set_source (RuleEditor *re, const gchar *source)
 {
 	RULE_EDITOR_GET_CLASS (re)->set_source (re, source);
 }
@@ -231,7 +231,7 @@ editor_destroy (RuleEditor *re, GObject *deadbeef)
 }
 
 static void
-rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank)
+rule_editor_add_undo (RuleEditor *re, gint type, FilterRule *rule, gint rank, gint newrank)
 {
         RuleEditorUndo *undo;
 
@@ -299,7 +299,7 @@ rule_editor_play_undo (RuleEditor *re)
 }
 
 static void
-editor_response (GtkWidget *dialog, int button, RuleEditor *re)
+editor_response (GtkWidget *dialog, gint button, RuleEditor *re)
 {
 	if (button == GTK_RESPONSE_CANCEL) {
 		if (enable_undo)
@@ -320,7 +320,7 @@ editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 }
 
 static void
-add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
+add_editor_response (GtkWidget *dialog, gint button, RuleEditor *re)
 {
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
@@ -399,12 +399,12 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 }
 
 static void
-edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
+edit_editor_response (GtkWidget *dialog, gint button, RuleEditor *re)
 {
 	FilterRule *rule;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	int pos;
+	gint pos;
 
 	if (button == GTK_RESPONSE_OK) {
 		if (!filter_rule_validate (re->edit)) {
@@ -485,7 +485,7 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	int pos, len;
+	gint pos, len;
 
 	update_selected_rule(re);
 
@@ -536,7 +536,7 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 }
 
 static void
-rule_move (RuleEditor *re, int from, int to)
+rule_move (RuleEditor *re, gint from, gint to)
 {
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
@@ -580,7 +580,7 @@ rule_move (RuleEditor *re, int from, int to)
 static void
 rule_top (GtkWidget *widget, RuleEditor *re)
 {
-	int pos;
+	gint pos;
 
 	update_selected_rule(re);
 
@@ -593,7 +593,7 @@ rule_top (GtkWidget *widget, RuleEditor *re)
 static void
 rule_up (GtkWidget *widget, RuleEditor *re)
 {
-	int pos;
+	gint pos;
 
 	update_selected_rule(re);
 
@@ -606,7 +606,7 @@ rule_up (GtkWidget *widget, RuleEditor *re)
 static void
 rule_down (GtkWidget *widget, RuleEditor *re)
 {
-	int pos;
+	gint pos;
 
 	update_selected_rule(re);
 
@@ -619,8 +619,8 @@ rule_down (GtkWidget *widget, RuleEditor *re)
 static void
 rule_bottom (GtkWidget *widget, RuleEditor *re)
 {
-	int pos;
-	int index = -1, count = 0;
+	gint pos;
+	gint index = -1, count = 0;
 	FilterRule *rule = NULL;
 
 	update_selected_rule(re);
@@ -655,7 +655,7 @@ static void
 set_sensitive (RuleEditor *re)
 {
 	FilterRule *rule = NULL;
-	int index = -1, count = 0;
+	gint index = -1, count = 0;
 
 	while ((rule = rule_context_next_rule (re->context, rule, re->source))) {
 		if (rule == re->current)
@@ -725,7 +725,7 @@ double_click (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *colum
 }
 
 static void
-set_source (RuleEditor *re, const char *source)
+set_source (RuleEditor *re, const gchar *source)
 {
 	FilterRule *rule = NULL;
 	GtkTreeIter iter;
@@ -746,7 +746,7 @@ set_source (RuleEditor *re, const char *source)
 }
 
 static void
-rule_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
+rule_able_toggled (GtkCellRendererToggle *renderer, gchar *arg1, gpointer user_data)
 {
 	GtkWidget *table = user_data;
 	GtkTreeSelection *selection;
@@ -772,11 +772,11 @@ rule_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_da
 	gtk_tree_path_free (path);
 }
 
-GtkWidget *rule_editor_treeview_new (char *widget_name, char *string1, char *string2,
-				     int int1, int int2);
+GtkWidget *rule_editor_treeview_new (gchar *widget_name, gchar *string1, gchar *string2,
+				     gint int1, gint int2);
 
 GtkWidget *
-rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+rule_editor_treeview_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
 	GtkWidget *table, *scrolled;
 	GtkTreeSelection *selection;
@@ -826,11 +826,11 @@ rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int i
 }
 
 void
-rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source, const char *label)
+rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const gchar *source, const gchar *label)
 {
 	GtkWidget *w;
-	int i;
-	char *tmp;
+	gint i;
+	gchar *tmp;
 
 	re->context = context;
 	g_object_ref (context);

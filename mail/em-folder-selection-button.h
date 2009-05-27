@@ -57,10 +57,10 @@ struct _EMFolderSelectionButtonClass {
 
 GType    em_folder_selection_button_get_type (void);
 
-GtkWidget *em_folder_selection_button_new (const char *title, const char *caption);
+GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);
 
-void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const char *uri);
-const char *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
+void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
+const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
 void   em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button, GList *uris);
 GList *em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *button);

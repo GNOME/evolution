@@ -62,7 +62,7 @@
 
 static GObjectClass *parent_class = NULL;
 
-static gboolean proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EAccount *account);
+static gboolean proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, EAccount *account);
 
 struct _proxyDialogPrivate {
 	/* Glade XML data for the Add/Edit Proxy dialog*/
@@ -94,7 +94,7 @@ struct _proxyDialogPrivate {
 	GtkWidget *notifications;
 	GtkWidget *options;
 	GtkWidget *private;
-        char *help_section;
+        gchar *help_section;
 
 	GList *proxy_list;
 };
@@ -254,7 +254,7 @@ proxy_dialog_new (void)
 static int
 proxy_get_permissions_from_dialog (EAccount *account)
 {
-	int permissions;
+	gint permissions;
 	proxyDialogPrivate *priv;
 	proxyDialog *prd = NULL;
 
@@ -309,7 +309,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 	GtkTreeModel *model;
 	proxyHandler *new_proxy = NULL;
 	proxyDialogPrivate *priv;
-	char *account_mailid;
+	gchar *account_mailid;
 	proxyDialog *prd = NULL;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
@@ -322,7 +322,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 				ENameSelectorEntry *name_selector_entry;
 				EDestinationStore *destination_store;
 				GList *destinations, *tmp;
-				char *name, *email;
+				gchar *name, *email;
 				GList *existing_list;
 				name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
 				destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
@@ -337,7 +337,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 
 				for (; tmp != NULL; tmp = g_list_next (tmp)) {
 					email = NULL;
-					email = (char *)e_destination_get_email (tmp->data);
+					email = (gchar *)e_destination_get_email (tmp->data);
 
 					if (g_str_equal(email, ""))
 						continue;
@@ -376,12 +376,12 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 
 				for (; tmp != NULL; tmp = g_list_next (tmp)) {
 					name = NULL; email = NULL;
-					email = (char *) e_destination_get_email (tmp->data);
+					email = (gchar *) e_destination_get_email (tmp->data);
 
 					if (g_str_equal(email, ""))
 						continue;
 
-					name = (char *) e_destination_get_name (tmp->data);
+					name = (gchar *) e_destination_get_name (tmp->data);
 					new_proxy = (proxyHandler *) g_malloc0 (sizeof (proxyHandler));
 
 					if (name)
@@ -460,9 +460,9 @@ proxy_get_cnc (EAccount *account, GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
 	const gchar *failed_auth;
-	char *uri, *key, *prompt, *password = NULL;
+	gchar *uri, *key, *prompt, *password = NULL;
 	CamelURL *url;
-	const char *poa_address, *use_ssl, *soap_port;
+	const gchar *poa_address, *use_ssl, *soap_port;
 	gboolean remember;
 
 	url = camel_url_new (account->source->url, NULL);
@@ -498,7 +498,7 @@ proxy_get_cnc (EAccount *account, GtkWindow *parent_window)
 
 	cnc = e_gw_connection_new (uri, url->user, password);
 	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
-		char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+		gchar *http_uri = g_strconcat ("http://", uri + 8, NULL);
 		cnc = e_gw_connection_new (http_uri, url->user, password);
 		g_free (http_uri);
 	}
@@ -640,8 +640,8 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	proxyDialogPrivate *priv;
 	CamelOfflineStore *store;
 	CamelException ex;
-	int pag_num;
-	char *gladefile;
+	gint pag_num;
+	gchar *gladefile;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
@@ -723,7 +723,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static gboolean
-proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, EAccount *account)
+proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, EAccount *account)
 {
 	proxyDialog *prd;
 	proxyDialogPrivate *priv;
@@ -823,7 +823,7 @@ proxy_edit_ok (GtkWidget *button, EAccount *account)
 }
 
 static proxyHandler *
-proxy_get_item_from_list (EAccount *account, char *account_name)
+proxy_get_item_from_list (EAccount *account, gchar *account_name)
 {
 	proxyDialogPrivate *priv;
 	proxyDialog *prd = NULL;
@@ -852,7 +852,7 @@ proxy_remove_account (GtkWidget *button, EAccount *account)
 	proxyDialogPrivate *priv;
 	proxyHandler *deleted;
 	GtkTreeSelection* account_select;
-	char *account_mailid;
+	gchar *account_mailid;
 	proxyDialog *prd = NULL;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
@@ -906,7 +906,7 @@ proxy_add_account (GtkWidget *button, EAccount *account)
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *proxy_name, *name_box;
 	proxyDialog *prd = NULL;
-	char *gladefile;
+	gchar *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
@@ -1004,10 +1004,10 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 	GtkTreeSelection* account_select;
 	proxyHandler *edited;
 	GtkButton *okButton, *proxyCancel;
-	char *account_mailid;
+	gchar *account_mailid;
 	GtkWidget *contacts;
 	proxyDialog *prd = NULL;
-	char *gladefile;
+	gchar *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;

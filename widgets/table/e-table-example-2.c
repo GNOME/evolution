@@ -43,10 +43,10 @@ the ETableSimple class.  Instead of creating your own ETableModel
 class, you simply create a new object of the ETableSimple class.  You
 give it a bunch of functions that act as callbacks.
 
-You also get to pass a void * to ETableSimple and it gets passed to
+You also get to pass a gpointer  to ETableSimple and it gets passed to
 your callbacks.  This would be for having multiple models of the same
 type.  This is just an example though, so we statically define all the
-data and ignore the void *data parameter.
+data and ignore the gpointer data parameter.
 
 In our example we will be creating a table model with 6 columns and 10
 rows.  This corresponds to having 6 different types of information and
@@ -100,7 +100,7 @@ The headers will be hard coded, as will be the example data.
 	<grouping> <leaf column=\"1\" ascending=\"true\"/> </grouping> \
 </ETableSpecification>"
 
-char *headers[VIEW_COLS] = {
+gchar *headers[VIEW_COLS] = {
   "Email",
   "Full Name",
   "Address",
@@ -119,7 +119,7 @@ char *headers[VIEW_COLS] = {
        Importance field.
 */
 
-char *table_data[ROWS][VIEW_COLS];
+gchar *table_data[ROWS][VIEW_COLS];
 gboolean importance_data[ROWS];
 
 /*
@@ -134,19 +134,19 @@ static GdkColor *color1;
 static GdkColor *color2;
 
 static int
-my_col_count (ETableModel *etc, void *data)
+my_col_count (ETableModel *etc, gpointer data)
 {
 	return VIRTUAL_COLS;
 }
 
 static int
-my_row_count (ETableModel *etc, void *data)
+my_row_count (ETableModel *etc, gpointer data)
 {
 	return ROWS;
 }
 
-static void *
-my_value_at (ETableModel *etc, int col, int row, void *data)
+static gpointer
+my_value_at (ETableModel *etc, gint col, gint row, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 		if (importance_data[row]){
@@ -157,12 +157,12 @@ my_value_at (ETableModel *etc, int col, int row, void *data)
 	} else if (col == IMPORTANCE_COLUMN){
 		return (gpointer) importance_data[row];
 	} else {
-		return (void *) table_data [row][col];
+		return (gpointer) table_data [row][col];
 	}
 }
 
 static void
-my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
+my_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 	} else if (col == IMPORTANCE_COLUMN){
@@ -174,7 +174,7 @@ my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data
 }
 
 static gboolean
-my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
+my_is_cell_editable (ETableModel *etc, gint col, gint row, gpointer data)
 {
 	if (col == IMPORTANCE_COLUMN)
 		return FALSE;
@@ -182,20 +182,20 @@ my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
 		return TRUE;
 }
 
-static void *
-my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+static gpointer
+my_duplicate_value (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	if (col == COLOR_COLUMN){
-		return (void *) value;
+		return (gpointer) value;
 	} else if (col == IMPORTANCE_COLUMN){
-		return (void *) value;
+		return (gpointer) value;
 	} else {
 		return g_strdup (value);
 	}
 }
 
 static void
-my_free_value (ETableModel *etc, int col, void *value, void *data)
+my_free_value (ETableModel *etc, gint col, gpointer value, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 	} else if (col == IMPORTANCE_COLUMN){
@@ -204,8 +204,8 @@ my_free_value (ETableModel *etc, int col, void *value, void *data)
 	}
 }
 
-static void *
-my_initialize_value (ETableModel *etc, int col, void *data)
+static gpointer
+my_initialize_value (ETableModel *etc, gint col, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 		return NULL;
@@ -217,19 +217,19 @@ my_initialize_value (ETableModel *etc, int col, void *data)
 }
 
 static gboolean
-my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+my_value_is_empty (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 		return value == NULL;
 	} else if (col == IMPORTANCE_COLUMN){
 		return value == NULL;
 	} else {
-		return !(value && *(char *)value);
+		return !(value && *(gchar *)value);
 	}
 }
 
-static char *
-my_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+static gchar *
+my_value_to_string (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	if (col == COLOR_COLUMN){
 		return g_strdup_printf("%d", (int) value);
@@ -248,7 +248,7 @@ create_table ()
 	ECell *cell_left_just;
 	ECell *cell_checkbox;
 	ETableHeader *e_table_header;
-	int i, j;
+	gint i, j;
 	ETableModel *e_table_model = NULL;
 	ETableCol *ecol;
 	GdkPixbuf *pixbuf;
@@ -333,8 +333,8 @@ create_table ()
 
 
 
-int
-main (int argc, char *argv [])
+gint
+main (gint argc, gchar *argv [])
 {
 	gnome_init ("TableExample", "TableExample", argc, argv);
 	e_cursors_init ();

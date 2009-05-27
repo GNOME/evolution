@@ -58,11 +58,11 @@
  *       in UTF-8 format. A conversion must take place before calling
  *       this function (see e_pilot_utf8_to_pchar() in e-pilot-util.c)
  */
-int
-e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
+gint
+e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *category)
 {
-	int i, j;
-	int retval = 0; /* 0 is the Unfiled category */
+	gint i, j;
+	gint retval = 0; /* 0 is the Unfiled category */
 	LOG(g_message("e_pilot_add_category_if_possible\n"));
 
 	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
@@ -70,8 +70,8 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 		   the PalmOS doesn't let 0-length strings for
 		   categories */
 		if(strlen(category->name[i]) == 0){
-			int cat_to_add_len;
-			int desktopUniqueID;
+			gint cat_to_add_len;
+			gint desktopUniqueID;
 
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
@@ -95,7 +95,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 
 			/* find a desktop id that is not in use between 128 and 255 */
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
-				int found = 0;
+				gint found = 0;
 				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
 					if (category->ID[i] == desktopUniqueID) {
 						found = 1;
@@ -126,15 +126,15 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 /*
  *conversion from an evolution category to a palm category
  */
-void e_pilot_local_category_to_remote(int * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
+void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
 {
 	GSList *c_list = NULL;
-	char * category_string;
-	int i;
+	gchar * category_string;
+	gint i;
 	e_cal_component_get_categories_list (comp, &c_list);
 	if (c_list) {
 		/* list != 0, so at least 1 category is assigned */
-		category_string = e_pilot_utf8_to_pchar((const char *)c_list->data);
+		category_string = e_pilot_utf8_to_pchar((const gchar *)c_list->data);
 		if (c_list->next != 0) {
 			LOG (g_message ("Note: item has more categories in evolution, first chosen"));
 		}
@@ -162,9 +162,9 @@ void e_pilot_local_category_to_remote(int * pilotCategory, ECalComponent *comp, 
 /*
  *conversion from a palm category to an evolution category
  */
-void e_pilot_remote_category_to_local(int pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
+void e_pilot_remote_category_to_local(gint pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category)
 {
-	char *category_string = NULL;
+	gchar *category_string = NULL;
 
 	if (pilotCategory != 0) {
 		/* pda has category assigned */
@@ -206,17 +206,17 @@ void e_pilot_remote_category_to_local(int pilotCategory, ECalComponent *comp, st
 	}
 }
 
-static char *
-build_setup_path (const char *path, const char *key)
+static gchar *
+build_setup_path (const gchar *path, const gchar *key)
 {
 	return g_strconcat ("/apps/evolution/conduit", "/", path, "/", key, NULL);
 }
 
 gboolean
-e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
+e_pilot_setup_get_bool (const gchar *path, const gchar *key, gboolean def)
 {
 	gboolean res = def;
-	char *full_path;
+	gchar *full_path;
 	GConfValue *value;
 	GConfClient *gconf;
 
@@ -241,10 +241,10 @@ e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
 }
 
 void
-e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
+e_pilot_setup_set_bool (const gchar *path, const gchar *key, gboolean value)
 {
 	GError *error = NULL;
-	char *full_path;
+	gchar *full_path;
 	GConfClient *gconf;
 
 	g_return_if_fail (path != NULL);
@@ -264,11 +264,11 @@ e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
 	}
 }
 
-int
-e_pilot_setup_get_int (const char *path, const char *key, int def)
+gint
+e_pilot_setup_get_int (const gchar *path, const gchar *key, gint def)
 {
-	int res = def;
-	char *full_path;
+	gint res = def;
+	gchar *full_path;
 	GConfValue *value;
 	GConfClient *gconf;
 
@@ -293,10 +293,10 @@ e_pilot_setup_get_int (const char *path, const char *key, int def)
 }
 
 void
-e_pilot_setup_set_int (const char *path, const char *key, int value)
+e_pilot_setup_set_int (const gchar *path, const gchar *key, gint value)
 {
 	GError *error = NULL;
-	char *full_path;
+	gchar *full_path;
 	GConfClient *gconf;
 
 	g_return_if_fail (path != NULL);
@@ -316,11 +316,11 @@ e_pilot_setup_set_int (const char *path, const char *key, int value)
 	}
 }
 
-char *
-e_pilot_setup_get_string (const char *path, const char *key, const char *def)
+gchar *
+e_pilot_setup_get_string (const gchar *path, const gchar *key, const gchar *def)
 {
-	char *res = g_strdup (def);
-	char *full_path;
+	gchar *res = g_strdup (def);
+	gchar *full_path;
 	GConfValue *value;
 	GConfClient *gconf;
 
@@ -347,10 +347,10 @@ e_pilot_setup_get_string (const char *path, const char *key, const char *def)
 }
 
 void
-e_pilot_setup_set_string (const char *path, const char *key, const char *value)
+e_pilot_setup_set_string (const gchar *path, const gchar *key, const gchar *value)
 {
 	GError *error = NULL;
-	char *full_path;
+	gchar *full_path;
 	GConfClient *gconf;
 
 	g_return_if_fail (path != NULL);

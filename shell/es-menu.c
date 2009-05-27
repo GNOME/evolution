@@ -87,7 +87,7 @@ es_menu_get_type(void)
 	return type;
 }
 
-ESMenu *es_menu_new(const char *menuid)
+ESMenu *es_menu_new(const gchar *menuid)
 {
 	ESMenu *esm = g_object_new(es_menu_get_type(), NULL);
 
@@ -120,7 +120,7 @@ es_menu_target_new_shell(ESMenu *esm, guint32 flags)
 /* ********************************************************************** */
 
 
-static void *esph_parent_class;
+static gpointer esph_parent_class;
 #define esph ((ESMenuHook *)eph)
 
 static const EMenuHookTargetMask esph_shell_masks[] = {
@@ -145,7 +145,7 @@ esph_finalise(GObject *o)
 static void
 esph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	/** @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.bonobomenu:1.0

@@ -55,7 +55,7 @@
 #include <e-util/e-util.h>
 #include "e-attachment.h"
 
-static void emp_standard_menu_factory(EPopup *emp, void *data);
+static void emp_standard_menu_factory(EPopup *emp, gpointer data);
 
 static GObjectClass *emp_parent;
 
@@ -135,7 +135,7 @@ em_popup_get_type(void)
 	return type;
 }
 
-EMPopup *em_popup_new(const char *menuid)
+EMPopup *em_popup_new(const gchar *menuid)
 {
 	EMPopup *emp = g_object_new(em_popup_get_type(), NULL);
 
@@ -155,14 +155,14 @@ EMPopup *em_popup_new(const char *menuid)
  * Return value:
  **/
 EMPopupTargetSelect *
-em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
+em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
 {
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	guint32 mask = ~0;
 	gboolean draft_or_outbox;
-	int i;
-	const char *tmp;
+	gint i;
+	const gchar *tmp;
 
 	t->uids = uids;
 	t->folder = folder;
@@ -251,7 +251,7 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 }
 
 EMPopupTargetURI *
-em_popup_target_new_uri(EMPopup *emp, const char *uri)
+em_popup_target_new_uri(EMPopup *emp, const gchar *uri)
 {
 	EMPopupTargetURI *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_URI, sizeof(*t));
 	guint32 mask = ~0;
@@ -273,7 +273,7 @@ em_popup_target_new_uri(EMPopup *emp, const char *uri)
 }
 
 EMPopupTargetPart *
-em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *mime_type)
+em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const gchar *mime_type)
 {
 	EMPopupTargetPart *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_PART, sizeof(*t));
 	guint32 mask = ~0;
@@ -300,7 +300,7 @@ em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *
 
 /* TODO: This should be based on the CamelFolderInfo, but ... em-folder-tree doesn't keep it? */
 EMPopupTargetFolder *
-em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, guint32 popup_flags)
+em_popup_target_new_folder (EMPopup *emp, const gchar *uri, guint32 info_flags, guint32 popup_flags)
 {
 	EMPopupTargetFolder *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_FOLDER, sizeof(*t));
 	guint32 mask = ~0;
@@ -318,7 +318,7 @@ em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, g
 		goto done;
 
 	if (!(popup_flags & EM_POPUP_FOLDER_STORE)) {
-		const char *path;
+		const gchar *path;
 
 		if (popup_flags & EM_POPUP_FOLDER_DELETE)
 			mask &= ~EM_POPUP_FOLDER_DELETE;
@@ -354,7 +354,7 @@ done:
 /* ********************************************************************** */
 
 static void
-emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_saveas(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimePart *part = NULL;
@@ -365,12 +365,12 @@ emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_set_background(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	GConfClient *gconf;
-	char *str, *filename, *path, *extension;
-	unsigned int i=1;
+	gchar *str, *filename, *path, *extension;
+	guint i=1;
 	CamelMimePart *part = NULL;
 
 	part = ((EMPopupTargetPart *) t)->part;
@@ -399,7 +399,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 
 	/* if file exists, stick a (number) on the end */
 	while (g_file_test(path, G_FILE_TEST_EXISTS)) {
-		char *name;
+		gchar *name;
 		name = g_strdup_printf(extension?"%s (%d).%s":"%s (%d)", filename, i++, extension);
 		g_free(path);
 		path = g_build_filename(g_get_home_dir(), ".gnome2", "wallpapers", name, NULL);
@@ -438,7 +438,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
@@ -451,7 +451,7 @@ emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
@@ -464,7 +464,7 @@ emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
@@ -477,7 +477,7 @@ emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
+emp_part_popup_forward (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimeMessage *message;
@@ -506,7 +506,7 @@ static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, (gchar *) "9
 /* ********************************************************************** */
 
 static void
-emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
+emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
 
@@ -515,7 +515,7 @@ emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_uri_popup_address_send(EPopup *ep, EPopupItem *item, void *data)
+emp_uri_popup_address_send(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
 
@@ -524,7 +524,7 @@ emp_uri_popup_address_send(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
+emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
 	CamelURL *url;
@@ -552,9 +552,9 @@ static EPopupItem emp_standard_uri_popups[] = {
 #define LEN(x) (sizeof(x)/sizeof(x[0]))
 
 static void
-emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
+emp_apps_open_in(EPopup *ep, EPopupItem *item, gpointer data)
 {
-	char *path;
+	gchar *path;
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
 
@@ -573,7 +573,7 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 			g_app_info_launch (app, uris, NULL, &error);
 			g_object_unref (file);
 		} else {
-			char *uri;
+			gchar *uri;
 
 			uri = e_util_filename_to_uri (path);
 			uris = g_list_append (uris, uri);
@@ -593,7 +593,7 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_apps_popup_free(EPopup *ep, GSList *free_list, void *data)
+emp_apps_popup_free(EPopup *ep, GSList *free_list, gpointer data)
 {
 	while (free_list) {
 		GSList *n = free_list->next;
@@ -612,13 +612,13 @@ emp_apps_popup_free(EPopup *ep, GSList *free_list, void *data)
 }
 
 static void
-emp_standard_items_free(EPopup *ep, GSList *items, void *data)
+emp_standard_items_free(EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free(items);
 }
 
 static void
-emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
+emp_add_vcard (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
@@ -649,14 +649,14 @@ emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-emp_standard_menu_factory(EPopup *emp, void *data)
+emp_standard_menu_factory(EPopup *emp, gpointer data)
 {
-	int i, len;
+	gint i, len;
 	EPopupItem *items;
 	GSList *menus = NULL;
 	GList *apps = NULL;
-	char *mime_type = NULL;
-	const char *filename = NULL;
+	gchar *mime_type = NULL;
+	const gchar *filename = NULL;
 
 	switch (emp->target->type) {
 #if 0
@@ -714,7 +714,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 			GSList *open_menus = NULL;
 			GList *l;
 
-			menus = g_slist_prepend(menus, (void *)&emp_standard_part_apps_bar);
+			menus = g_slist_prepend(menus, (gpointer)&emp_standard_part_apps_bar);
 
 			for (l = apps, i = 0; l; l = l->next, i++) {
 				GAppInfo *app = l->data;
@@ -792,7 +792,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EMPopupHook *)eph)
 
 static const EPopupHookTargetMask emph_select_masks[] = {
@@ -859,7 +859,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.popup:1.0";

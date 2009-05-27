@@ -83,7 +83,7 @@ struct _ETasksPrivate {
 	GtkWidget *preview;
 
 	gchar *current_uid;
-	char *sexp;
+	gchar *sexp;
 	guint update_timeout;
 
 	/* View instance and the view menus handler */
@@ -98,7 +98,7 @@ static void e_tasks_destroy (GtkObject *object);
 static void update_view (ETasks *tasks);
 
 static void categories_changed_cb (gpointer object, gpointer user_data);
-static void backend_error_cb (ECal *client, const char *message, gpointer data);
+static void backend_error_cb (ECal *client, const gchar *message, gpointer data);
 
 /* Signal IDs */
 enum {
@@ -116,7 +116,7 @@ static GtkTargetEntry list_drag_types[] = {
 	{ (gchar *) "text/calendar",   0, TARGET_VCALENDAR },
 	{ (gchar *) "text/x-calendar", 0, TARGET_VCALENDAR }
 };
-static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
+static const gint num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
 
 static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
@@ -124,16 +124,16 @@ G_DEFINE_TYPE (ETasks, e_tasks, GTK_TYPE_TABLE)
 
 /* Callback used when the cursor changes in the table */
 static void
-table_cursor_change_cb (ETable *etable, int row, gpointer data)
+table_cursor_change_cb (ETable *etable, gint row, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
-	const char *uid;
+	const gchar *uid;
 
-	int n_selected;
+	gint n_selected;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
@@ -177,7 +177,7 @@ static void
 table_selection_change_cb (ETable *etable, gpointer data)
 {
 	ETasks *tasks;
-	int n_selected;
+	gint n_selected;
 
 	tasks = E_TASKS (data);
 
@@ -212,7 +212,7 @@ user_created_cb (GtkWidget *view, ETasks *tasks)
 
 /* Callback used when the sexp in the search bar changes */
 static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -230,7 +230,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 
 /* Callback used when the selected category in the search bar changes */
 static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -288,8 +288,8 @@ update_view (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	ECalModel *model;
-	char *real_sexp = NULL;
-	char *new_sexp = NULL;
+	gchar *real_sexp = NULL;
+	gchar *new_sexp = NULL;
 
 	priv = tasks->priv;
 
@@ -340,7 +340,7 @@ config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntr
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+model_row_changed_cb (ETableModel *etm, gint row, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -350,7 +350,7 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 	priv = tasks->priv;
 
 	if (priv->current_uid) {
-		const char *uid;
+		const gchar *uid;
 
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), row);
 		if (comp_data) {
@@ -367,7 +367,7 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 }
 
 static void
-view_progress_cb (ECalModel *model, const char *message, int percent, ECalSourceType type, ETasks *tasks)
+view_progress_cb (ECalModel *model, const gchar *message, gint percent, ECalSourceType type, ETasks *tasks)
 {
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)),
 			message, percent);
@@ -437,7 +437,7 @@ struct AffectedComponents {
  * This function is called from e_table_selected_row_foreach.
  **/
 static void
-get_selected_components_cb (int model_row, gpointer data)
+get_selected_components_cb (gint model_row, gpointer data)
 {
 	struct AffectedComponents *ac = (struct AffectedComponents *) data;
 
@@ -494,7 +494,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 	comp_data = (ECalModelComponent *) data;
 
 	if (list && comp_data) {
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *vcal;
 
 		vcal = e_cal_util_new_top_level ();
@@ -504,7 +504,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			ESource *source = e_cal_get_source (comp_data->client);
-			const char *source_uid = e_source_peek_uid (source);
+			const gchar *source_uid = e_source_peek_uid (source);
 
 			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
 
@@ -519,8 +519,8 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 
 static void
 table_drag_data_get (ETable             *table,
-		     int                 row,
-		     int                 col,
+		     gint                 row,
+		     gint                 col,
 		     GdkDragContext     *context,
 		     GtkSelectionData   *selection_data,
 		     guint               info,
@@ -549,8 +549,8 @@ table_drag_data_get (ETable             *table,
 /*
 static void
 table_drag_begin (ETable         *table,
-		  int             row,
-		  int             col,
+		  gint             row,
+		  gint             col,
 		  GdkDragContext *context,
 		  ETasks         *tasks)
 {
@@ -560,8 +560,8 @@ table_drag_begin (ETable         *table,
 
 static void
 table_drag_end (ETable         *table,
-		int             row,
-		int             col,
+		gint             row,
+		gint             col,
 		GdkDragContext *context,
 		ETasks         *tasks)
 {
@@ -571,8 +571,8 @@ table_drag_end (ETable         *table,
 
 static void
 table_drag_data_delete (ETable         *table,
-			int             row,
-			int             col,
+			gint             row,
+			gint             col,
 			GdkDragContext *context,
 			ETasks         *tasks)
 {
@@ -751,7 +751,7 @@ categories_changed_cb (gpointer object, gpointer user_data)
 	cat_array = g_ptr_array_new ();
 	cat_list = e_categories_get_list ();
 	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const char *) cat_list->data))
+		if (e_categories_is_searchable ((const gchar *) cat_list->data))
 			g_ptr_array_add (cat_array, cat_list->data);
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}
@@ -871,11 +871,11 @@ e_tasks_destroy (GtkObject *object)
 }
 
 static void
-set_status_message (ETasks *tasks, const char *message, ...)
+set_status_message (ETasks *tasks, const gchar *message, ...)
 {
 	ETasksPrivate *priv;
 	va_list args;
-	char sz[2048], *msg_string = NULL;
+	gchar sz[2048], *msg_string = NULL;
 
 	if (message) {
 		va_start (args, message);
@@ -891,11 +891,11 @@ set_status_message (ETasks *tasks, const char *message, ...)
 
 /* Callback from the calendar client when an error occurs in the backend */
 static void
-backend_error_cb (ECal *client, const char *message, gpointer data)
+backend_error_cb (ECal *client, const gchar *message, gpointer data)
 {
 	ETasks *tasks;
 	GtkWidget *dialog;
-	char *urinopwd;
+	gchar *urinopwd;
 
 	tasks = E_TASKS (data);
 
@@ -1080,7 +1080,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	ETasksPrivate *priv;
 	CompEditor *editor;
 	ECalComponent *comp;
-	const char *category;
+	const gchar *category;
 	ECal *ecal;
 	guint32 flags = 0;
 
@@ -1121,8 +1121,8 @@ e_tasks_show_preview (ETasks *tasks, gboolean state)
 		ECalModelComponent *comp_data;
 		ECalComponent *comp;
 		ETable *etable;
-		const char *uid;
-		int n_selected;
+		const gchar *uid;
+		gint n_selected;
 
 		etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 		n_selected = e_table_selected_count (etable);
@@ -1158,7 +1158,7 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *client;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -1211,7 +1211,7 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -1342,7 +1342,7 @@ void
 e_tasks_delete_completed (ETasks *tasks)
 {
 	ETasksPrivate *priv;
-	char *sexp;
+	gchar *sexp;
 	GList *l;
 
 	g_return_if_fail (tasks != NULL);
@@ -1413,7 +1413,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 	ETasksPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *dir0, *dir1, *filename;
+	gchar *dir0, *dir1, *filename;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (tasks != NULL);
@@ -1505,9 +1505,9 @@ e_tasks_discard_view_menus (ETasks *tasks)
 
 void
 e_tasks_open_task_id (ETasks *tasks,
-		      const char *src_uid,
-		      const char *comp_uid,
-		      const char *comp_rid)
+		      const gchar *src_uid,
+		      const gchar *comp_uid,
+		      const gchar *comp_rid)
 {
 	ECal *client = NULL;
 	GList *l;

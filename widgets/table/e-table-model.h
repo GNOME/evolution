@@ -45,29 +45,29 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	int         (*column_count)       (ETableModel *etm);
-	int         (*row_count)          (ETableModel *etm);
-	void        (*append_row)         (ETableModel *etm, ETableModel *source, int row);
+	gint         (*column_count)       (ETableModel *etm);
+	gint         (*row_count)          (ETableModel *etm);
+	void        (*append_row)         (ETableModel *etm, ETableModel *source, gint row);
 
-	void       *(*value_at)           (ETableModel *etm, int col, int row);
-	void        (*set_value_at)       (ETableModel *etm, int col, int row, const void *value);
-	gboolean    (*is_cell_editable)   (ETableModel *etm, int col, int row);
+	void       *(*value_at)           (ETableModel *etm, gint col, gint row);
+	void        (*set_value_at)       (ETableModel *etm, gint col, gint row, gconstpointer value);
+	gboolean    (*is_cell_editable)   (ETableModel *etm, gint col, gint row);
 
 	gboolean    (*has_save_id)        (ETableModel *etm);
-	gchar      *(*get_save_id)        (ETableModel *etm, int row);
+	gchar      *(*get_save_id)        (ETableModel *etm, gint row);
 
 	gboolean    (*has_change_pending) (ETableModel *etm);
 
 	/* Allocate a copy of the given value. */
-	void       *(*duplicate_value)    (ETableModel *etm, int col, const void *value);
+	void       *(*duplicate_value)    (ETableModel *etm, gint col, gconstpointer value);
 	/* Free an allocated value. */
-	void        (*free_value)         (ETableModel *etm, int col, void *value);
+	void        (*free_value)         (ETableModel *etm, gint col, gpointer value);
 	/* Return an allocated empty value. */
-	void	   *(*initialize_value)   (ETableModel *etm, int col);
+	void	   *(*initialize_value)   (ETableModel *etm, gint col);
 	/* Return TRUE if value is equivalent to an empty cell. */
-	gboolean    (*value_is_empty)     (ETableModel *etm, int col, const void *value);
+	gboolean    (*value_is_empty)     (ETableModel *etm, gint col, gconstpointer value);
 	/* Return an allocated string. */
-	char       *(*value_to_string)    (ETableModel *etm, int col, const void *value);
+	gchar       *(*value_to_string)    (ETableModel *etm, gint col, gconstpointer value);
 
 
 	/*
@@ -87,39 +87,39 @@ typedef struct {
 
 	void        (*model_no_change)     (ETableModel *etm);
 	void        (*model_changed)       (ETableModel *etm);
-	void        (*model_row_changed)   (ETableModel *etm, int row);
-	void        (*model_cell_changed)  (ETableModel *etm, int col, int row);
-	void        (*model_rows_inserted) (ETableModel *etm, int row, int count);
-	void        (*model_rows_deleted)  (ETableModel *etm, int row, int count);
+	void        (*model_row_changed)   (ETableModel *etm, gint row);
+	void        (*model_cell_changed)  (ETableModel *etm, gint col, gint row);
+	void        (*model_rows_inserted) (ETableModel *etm, gint row, gint count);
+	void        (*model_rows_deleted)  (ETableModel *etm, gint row, gint count);
 } ETableModelClass;
 
 GType       e_table_model_get_type            (void);
 
 /**/
-int         e_table_model_column_count        (ETableModel *e_table_model);
-const char *e_table_model_column_name         (ETableModel *e_table_model,
-					       int          col);
-int         e_table_model_row_count           (ETableModel *e_table_model);
+gint         e_table_model_column_count        (ETableModel *e_table_model);
+const gchar *e_table_model_column_name         (ETableModel *e_table_model,
+					       gint          col);
+gint         e_table_model_row_count           (ETableModel *e_table_model);
 void        e_table_model_append_row          (ETableModel *e_table_model,
 					       ETableModel *source,
-					       int          row);
+					       gint          row);
 
 /**/
 void       *e_table_model_value_at            (ETableModel *e_table_model,
-					       int          col,
-					       int          row);
+					       gint          col,
+					       gint          row);
 void        e_table_model_set_value_at        (ETableModel *e_table_model,
-					       int          col,
-					       int          row,
+					       gint          col,
+					       gint          row,
 					       const void  *value);
 gboolean    e_table_model_is_cell_editable    (ETableModel *e_table_model,
-					       int          col,
-					       int          row);
+					       gint          col,
+					       gint          row);
 
 /**/
 gboolean    e_table_model_has_save_id         (ETableModel *etm);
-char       *e_table_model_get_save_id         (ETableModel *etm,
-					       int          row);
+gchar       *e_table_model_get_save_id         (ETableModel *etm,
+					       gint          row);
 
 /**/
 gboolean    e_table_model_has_change_pending  (ETableModel *etm);
@@ -127,18 +127,18 @@ gboolean    e_table_model_has_change_pending  (ETableModel *etm);
 
 /**/
 void       *e_table_model_duplicate_value     (ETableModel *e_table_model,
-					       int          col,
+					       gint          col,
 					       const void  *value);
 void        e_table_model_free_value          (ETableModel *e_table_model,
-					       int          col,
+					       gint          col,
 					       void        *value);
 void       *e_table_model_initialize_value    (ETableModel *e_table_model,
-					       int          col);
+					       gint          col);
 gboolean    e_table_model_value_is_empty      (ETableModel *e_table_model,
-					       int          col,
+					       gint          col,
 					       const void  *value);
-char       *e_table_model_value_to_string     (ETableModel *e_table_model,
-					       int          col,
+gchar       *e_table_model_value_to_string     (ETableModel *e_table_model,
+					       gint          col,
 					       const void  *value);
 
 /*
@@ -148,22 +148,22 @@ void        e_table_model_pre_change          (ETableModel *e_table_model);
 void        e_table_model_no_change           (ETableModel *e_table_model);
 void        e_table_model_changed             (ETableModel *e_table_model);
 void        e_table_model_row_changed         (ETableModel *e_table_model,
-					       int          row);
+					       gint          row);
 void        e_table_model_cell_changed        (ETableModel *e_table_model,
-					       int          col,
-					       int          row);
+					       gint          col,
+					       gint          row);
 void        e_table_model_rows_inserted       (ETableModel *e_table_model,
-int          row,
-int          count);
+gint          row,
+gint          count);
 void        e_table_model_rows_deleted        (ETableModel *e_table_model,
-int          row,
-int          count);
+gint          row,
+gint          count);
 
 /**/
 void        e_table_model_row_inserted        (ETableModel *e_table_model,
-int          row);
+gint          row);
 void        e_table_model_row_deleted         (ETableModel *e_table_model,
-int          row);
+gint          row);
 
 void        e_table_model_freeze              (ETableModel *e_table_model);
 void        e_table_model_thaw                (ETableModel *e_table_model);

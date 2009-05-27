@@ -32,7 +32,7 @@
 
 static CamelGwListener *config_listener = NULL;
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget* org_gnome_gw_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 void ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target);
 
@@ -47,7 +47,7 @@ is_groupwise_account (EAccount *account)
 }
 
 static void
-set_esource_props (const char *path, EAccount *a, GConfClient *client, const char *name)
+set_esource_props (const gchar *path, EAccount *a, GConfClient *client, const gchar *name)
 {
 	ESourceList *list;
         GSList *groups;
@@ -66,7 +66,7 @@ set_esource_props (const char *path, EAccount *a, GConfClient *client, const cha
 				ESource *source = E_SOURCE (sources->data);
 
 				if (a->source->auto_check) {
-					char *str = g_strdup_printf ("%d",a->source->auto_check_time);
+					gchar *str = g_strdup_printf ("%d",a->source->auto_check_time);
 
 					e_source_set_property (source, "refresh", str);
 					g_free (str);
@@ -113,8 +113,8 @@ free_groupwise_listener ( void )
 	g_object_unref (config_listener);
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (!config_listener) {
 		config_listener = camel_gw_listener_new ();

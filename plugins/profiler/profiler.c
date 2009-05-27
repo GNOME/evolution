@@ -38,7 +38,7 @@ org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 	static FILE *fp;
 
 	if (!fp) {
-		char *name;
+		gchar *name;
 
 		name = g_strdup_printf("eprofile.%ld", (long int)getpid());
 		fp = fopen(name, "w");

@@ -34,10 +34,10 @@
 static void em_stripsig_filter_class_init (EMStripSigFilterClass *klass);
 static void em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass);
 
-static void filter_filter (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
-			   char **out, size_t *outlen, size_t *outprespace);
-static void filter_complete (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
-			     char **out, size_t *outlen, size_t *outprespace);
+static void filter_filter (CamelMimeFilter *filter, gchar *in, size_t len, size_t prespace,
+			   gchar **out, size_t *outlen, size_t *outprespace);
+static void filter_complete (CamelMimeFilter *filter, gchar *in, size_t len, size_t prespace,
+			     gchar **out, size_t *outlen, size_t *outprespace);
 static void filter_reset (CamelMimeFilter *filter);
 
 
@@ -83,13 +83,13 @@ em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass)
 }
 
 static void
-strip_signature (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
-		 char **out, size_t *outlen, size_t *outprespace, int flush)
+strip_signature (CamelMimeFilter *filter, gchar *in, size_t len, size_t prespace,
+		 gchar **out, size_t *outlen, size_t *outprespace, gint flush)
 {
 	EMStripSigFilter *stripsig = (EMStripSigFilter *) filter;
-	register const char *inptr = in;
-	const char *inend = in + len;
-	const char *start = NULL;
+	register const gchar *inptr = in;
+	const gchar *inend = in + len;
+	const gchar *start = NULL;
 
 	if (stripsig->midline) {
 		while (inptr < inend && *inptr != '\n')
@@ -132,15 +132,15 @@ strip_signature (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
 }
 
 static void
-filter_filter (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
-	       char **out, size_t *outlen, size_t *outprespace)
+filter_filter (CamelMimeFilter *filter, gchar *in, size_t len, size_t prespace,
+	       gchar **out, size_t *outlen, size_t *outprespace)
 {
 	strip_signature (filter, in, len, prespace, out, outlen, outprespace, FALSE);
 }
 
 static void
-filter_complete (CamelMimeFilter *filter, char *in, size_t len, size_t prespace,
-		 char **out, size_t *outlen, size_t *outprespace)
+filter_complete (CamelMimeFilter *filter, gchar *in, size_t len, size_t prespace,
+		 gchar **out, size_t *outlen, size_t *outprespace)
 {
 	strip_signature (filter, in, len, prespace, out, outlen, outprespace, TRUE);
 }

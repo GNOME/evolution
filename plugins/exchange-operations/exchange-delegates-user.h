@@ -52,7 +52,7 @@ enum {
 struct _ExchangeDelegatesUser {
 	GObject parent;
 
-	char *display_name, *dn;
+	gchar *display_name, *dn;
 	GByteArray *entryid;
 
 	E2kSid *sid;
@@ -71,9 +71,9 @@ struct _ExchangeDelegatesUserClass {
 
 GType    exchange_delegates_user_get_type (void);
 
-ExchangeDelegatesUser *exchange_delegates_user_new         (const char            *display_name);
+ExchangeDelegatesUser *exchange_delegates_user_new         (const gchar            *display_name);
 ExchangeDelegatesUser *exchange_delegates_user_new_from_gc (E2kGlobalCatalog      *gc,
-							    const char            *email,
+							    const gchar            *email,
 							    GByteArray            *creator_entryid);
 
 gboolean  exchange_delegates_user_edit (ExchangeAccount  *account, ExchangeDelegatesUser *user,

@@ -37,8 +37,8 @@ G_BEGIN_DECLS
 
 #ifndef _E_COMPARE_ROWS_FUNC_H_
 #define _E_COMPARE_ROWS_FUNC_H_
-typedef int (*ECompareRowsFunc) (int row1,
-				 int row2,
+typedef gint (*ECompareRowsFunc) (gint row1,
+				 gint row2,
 				 gpointer closure);
 #endif
 
@@ -49,10 +49,10 @@ typedef struct {
 	gpointer     closure;
 
 	/* If needs_sorting is 0, then model_to_sorted and sorted_to_model are no-ops. */
-	int         *sorted;
-	int         *backsorted;
+	gint         *sorted;
+	gint         *backsorted;
 
-	int rows;
+	gint rows;
 } ESorterArray;
 
 typedef struct {
@@ -67,9 +67,9 @@ ESorterArray *e_sorter_array_new        (ECompareRowsFunc  compare,
 					 gpointer          closure);
 void          e_sorter_array_clean      (ESorterArray     *esa);
 void          e_sorter_array_set_count  (ESorterArray     *esa,
-					 int               count);
+					 gint               count);
 void          e_sorter_array_append     (ESorterArray     *esa,
-					 int               count);
+					 gint               count);
 
 G_END_DECLS
 

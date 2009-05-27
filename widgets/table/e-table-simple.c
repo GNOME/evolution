@@ -53,7 +53,7 @@ simple_row_count (ETableModel *etm)
 }
 
 static void
-simple_append_row (ETableModel *etm, ETableModel *source, int row)
+simple_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -61,8 +61,8 @@ simple_append_row (ETableModel *etm, ETableModel *source, int row)
 		simple->append_row (etm, source, row, simple->data);
 }
 
-static void *
-simple_value_at (ETableModel *etm, int col, int row)
+static gpointer
+simple_value_at (ETableModel *etm, gint col, gint row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -73,7 +73,7 @@ simple_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-simple_set_value_at (ETableModel *etm, int col, int row, const void *val)
+simple_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -82,7 +82,7 @@ simple_set_value_at (ETableModel *etm, int col, int row, const void *val)
 }
 
 static gboolean
-simple_is_cell_editable (ETableModel *etm, int col, int row)
+simple_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -103,8 +103,8 @@ simple_has_save_id (ETableModel *etm)
 		return FALSE;
 }
 
-static char *
-simple_get_save_id (ETableModel *etm, int row)
+static gchar *
+simple_get_save_id (ETableModel *etm, gint row)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -115,19 +115,19 @@ simple_get_save_id (ETableModel *etm, int row)
 }
 
 /* The default for simple_duplicate_value is to return the raw value. */
-static void *
-simple_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+simple_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
 	if (simple->duplicate_value)
 		return simple->duplicate_value (etm, col, value, simple->data);
 	else
-		return (void *)value;
+		return (gpointer)value;
 }
 
 static void
-simple_free_value (ETableModel *etm, int col, void *value)
+simple_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -135,8 +135,8 @@ simple_free_value (ETableModel *etm, int col, void *value)
 		simple->free_value (etm, col, value, simple->data);
 }
 
-static void *
-simple_initialize_value (ETableModel *etm, int col)
+static gpointer
+simple_initialize_value (ETableModel *etm, gint col)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -147,7 +147,7 @@ simple_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-simple_value_is_empty (ETableModel *etm, int col, const void *value)
+simple_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -157,8 +157,8 @@ simple_value_is_empty (ETableModel *etm, int col, const void *value)
 		return FALSE;
 }
 
-static char *
-simple_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+simple_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
 
@@ -266,32 +266,32 @@ e_table_simple_new  (ETableSimpleColumnCountFn      col_count,
 	return (ETableModel *) et;
 }
 
-void *
-e_table_simple_string_duplicate_value (ETableModel *etm, int col, const void *val, void *data)
+gpointer
+e_table_simple_string_duplicate_value (ETableModel *etm, gint col, gconstpointer val, gpointer data)
 {
 	return g_strdup (val);
 }
 
 void
-e_table_simple_string_free_value (ETableModel *etm, int col, void *val, void *data)
+e_table_simple_string_free_value (ETableModel *etm, gint col, gpointer val, gpointer data)
 {
 	g_free (val);
 }
 
-void *
-e_table_simple_string_initialize_value (ETableModel *etm, int col, void *data)
+gpointer
+e_table_simple_string_initialize_value (ETableModel *etm, gint col, gpointer data)
 {
 	return g_strdup ("");
 }
 
 gboolean
-e_table_simple_string_value_is_empty (ETableModel *etm, int col, const void *val, void *data)
+e_table_simple_string_value_is_empty (ETableModel *etm, gint col, gconstpointer val, gpointer data)
 {
-	return !(val && * (char *) val);
+	return !(val && * (gchar *) val);
 }
 
-char *
-e_table_simple_string_value_to_string (ETableModel *etm, int col, const void *val, void *data)
+gchar *
+e_table_simple_string_value_to_string (ETableModel *etm, gint col, gconstpointer val, gpointer data)
 {
 	return g_strdup (val);
 }

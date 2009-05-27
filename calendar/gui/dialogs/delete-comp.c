@@ -58,12 +58,12 @@
 gboolean
 delete_component_dialog (ECalComponent *comp,
 			 gboolean consider_as_untitled,
-			 int n_comps, ECalComponentVType vtype,
+			 gint n_comps, ECalComponentVType vtype,
 			 GtkWidget *widget)
 {
-	const char *id;
-	char *arg0 = NULL;
-	int response;
+	const gchar *id;
+	gchar *arg0 = NULL;
+	gint response;
 
 	if (comp) {
 		g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
@@ -167,9 +167,9 @@ cb_toggled_cb (GtkWidget *toggle, gpointer data)
 }
 
 gboolean
-prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent, gboolean *retract)
+prompt_retract_dialog (ECalComponent *comp, gchar **retract_text, GtkWidget *parent, gboolean *retract)
 {
-	char *message = NULL;
+	gchar *message = NULL;
 	ECalComponentVType type = E_CAL_COMPONENT_NO_TYPE;
 	GtkMessageDialog *dialog = NULL;
 	GtkWidget *cb, *label, *entry, *vbox, *sw, *frame;

@@ -49,8 +49,8 @@
 
 static BonoboObject *
 factory (BonoboGenericFactory *factory,
-	 const char *component_id,
-	 void *closure)
+	 const gchar *component_id,
+	 gpointer closure)
 {
 	d(printf ("asked to activate component_id `%s'\n", component_id));
 

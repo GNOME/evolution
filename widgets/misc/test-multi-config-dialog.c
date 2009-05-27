@@ -31,14 +31,14 @@
 static void
 add_pages (EMultiConfigDialog *multi_config_dialog)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < NUM_PAGES; i ++) {
 		GtkWidget *widget;
 		GtkWidget *page;
-		char *string;
-		char *title;
-		char *description;
+		gchar *string;
+		gchar *title;
+		gchar *description;
 
 		string = g_strdup_printf ("This is page %d", i);
 		description = g_strdup_printf ("Description of page %d", i);
@@ -62,7 +62,7 @@ add_pages (EMultiConfigDialog *multi_config_dialog)
 static int
 delete_event_callback (GtkWidget *widget,
 		       GdkEventAny *event,
-		       void *data)
+		       gpointer data)
 {
 	gtk_main_quit ();
 
@@ -70,8 +70,8 @@ delete_event_callback (GtkWidget *widget,
 }
 
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	GtkWidget *dialog;
 

@@ -551,8 +551,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	/* Set up the attendees */
 	if (attendees != NULL) {
 		GSList *l;
-		int row;
-		char *user_email;
+		gint row;
+		gchar *user_email;
 		user_email = itip_get_comp_attendee (comp, client);
 
 		if (!priv->meeting_shown) {

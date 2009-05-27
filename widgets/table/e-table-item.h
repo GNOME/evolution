@@ -49,41 +49,41 @@ typedef struct {
 	ETableModel     *source_model;
 	ESelectionModel *selection;
 
-	int              x1, y1;
-	int              minimum_width, width, height;
+	gint              x1, y1;
+	gint              minimum_width, width, height;
 
-	int              cols, rows;
+	gint              cols, rows;
 
-	int              click_count;
+	gint              click_count;
 
 	/*
 	 * Ids for the signals we connect to
 	 */
-	int              header_dim_change_id;
-	int              header_structure_change_id;
-	int              header_request_width_id;
-	int              table_model_pre_change_id;
-	int              table_model_no_change_id;
-	int              table_model_change_id;
-	int              table_model_row_change_id;
-	int              table_model_cell_change_id;
-	int              table_model_rows_inserted_id;
-	int              table_model_rows_deleted_id;
+	gint              header_dim_change_id;
+	gint              header_structure_change_id;
+	gint              header_request_width_id;
+	gint              table_model_pre_change_id;
+	gint              table_model_no_change_id;
+	gint              table_model_change_id;
+	gint              table_model_row_change_id;
+	gint              table_model_cell_change_id;
+	gint              table_model_rows_inserted_id;
+	gint              table_model_rows_deleted_id;
 
-	int              selection_change_id;
-	int              selection_row_change_id;
-	int              cursor_change_id;
-	int              cursor_activated_id;
+	gint              selection_change_id;
+	gint              selection_row_change_id;
+	gint              cursor_change_id;
+	gint              cursor_activated_id;
 
 	guint            cursor_idle_id;
 
 	/* View row, -1 means unknown */
-	int              old_cursor_row;
+	gint              old_cursor_row;
 
-	int              hadjustment_change_id;
-	int              hadjustment_value_change_id;
-	int              vadjustment_change_id;
-	int              vadjustment_value_change_id;
+	gint              hadjustment_change_id;
+	gint              hadjustment_value_change_id;
+	gint              vadjustment_change_id;
+	gint              vadjustment_value_change_id;
 
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -117,52 +117,52 @@ typedef struct {
 	guint            queue_show_cursor : 1;
 	guint            grab_cancelled : 1;
 
-	int              frozen_count;
+	gint              frozen_count;
 
-	int              cursor_x1;
-	int              cursor_y1;
-	int              cursor_x2;
-	int              cursor_y2;
+	gint              cursor_x1;
+	gint              cursor_y1;
+	gint              cursor_x2;
+	gint              cursor_y2;
 
-	int    		 drag_col;
-	int    		 drag_row;
-	int    		 drag_x;
-	int    		 drag_y;
+	gint    		 drag_col;
+	gint    		 drag_row;
+	gint    		 drag_x;
+	gint    		 drag_y;
 	guint            drag_state;
 
 	/*
 	 * Realized views, per column
 	 */
 	ECellView      **cell_views;
-	int              n_cells;
+	gint              n_cells;
 
-	int             *height_cache;
-	int              uniform_row_height_cache;
-	int              height_cache_idle_id;
-	int              height_cache_idle_count;
+	gint             *height_cache;
+	gint              uniform_row_height_cache;
+	gint              height_cache_idle_id;
+	gint              height_cache_idle_count;
 
 	/*
 	 * Lengh Threshold: above this, we stop computing correctly
 	 * the size
 	 */
-	int              length_threshold;
+	gint              length_threshold;
 
 	gint             row_guess;
 	ECursorMode      cursor_mode;
 
-	int              motion_col, motion_row;
+	gint              motion_col, motion_row;
 
 	/*
 	 * During editing
 	 */
-	int              editing_col, editing_row;
+	gint              editing_col, editing_row;
 	void            *edit_ctx;
 
-	int              save_col, save_row;
+	gint              save_col, save_row;
 	void            *save_state;
 
-	int grabbed_col, grabbed_row;
-	int grabbed_count;
+	gint grabbed_col, grabbed_row;
+	gint grabbed_count;
 
 	/*
 	 * Tooltip
@@ -174,13 +174,13 @@ typedef struct {
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 
-	void        (*cursor_change)    (ETableItem *eti, int row);
-	void        (*cursor_activated) (ETableItem *eti, int row);
-	void        (*double_click)     (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*right_click)      (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*click)            (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*key_press)        (ETableItem *eti, int row, int col, GdkEvent *event);
-	gint        (*start_drag)       (ETableItem *eti, int row, int col, GdkEvent *event);
+	void        (*cursor_change)    (ETableItem *eti, gint row);
+	void        (*cursor_activated) (ETableItem *eti, gint row);
+	void        (*double_click)     (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gint        (*right_click)      (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gint        (*click)            (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gint        (*key_press)        (ETableItem *eti, gint row, gint col, GdkEvent *event);
+	gint        (*start_drag)       (ETableItem *eti, gint row, gint col, GdkEvent *event);
 	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
 	void        (*selection_model_removed)    (ETableItem *eti, ESelectionModel *selection);
 	void        (*selection_model_added)    (ETableItem *eti, ESelectionModel *selection);
@@ -192,40 +192,40 @@ GType       e_table_item_get_type            (void);
  * Focus
  */
 void        e_table_item_set_cursor          (ETableItem        *eti,
-					      int                col,
-					      int                row);
+					      gint                col,
+					      gint                row);
 
 gint        e_table_item_get_focused_column  (ETableItem        *eti);
 
 void        e_table_item_leave_edit          (ETableItem        *eti);
 void        e_table_item_enter_edit          (ETableItem        *eti,
-					      int                col,
-					      int                row);
+					      gint                col,
+					      gint                row);
 
 void        e_table_item_redraw_range        (ETableItem        *eti,
-					      int                start_col,
-					      int                start_row,
-					      int                end_col,
-					      int                end_row);
+					      gint                start_col,
+					      gint                start_row,
+					      gint                end_col,
+					      gint                end_row);
 
 EPrintable *e_table_item_get_printable       (ETableItem        *eti);
 void        e_table_item_compute_location    (ETableItem        *eti,
-					      int               *x,
-					      int               *y,
-					      int               *row,
-					      int               *col);
+					      gint               *x,
+					      gint               *y,
+					      gint               *row,
+					      gint               *col);
 void        e_table_item_compute_mouse_over  (ETableItem        *eti,
-					      int                x,
-					      int                y,
-					      int               *row,
-					      int               *col);
+					      gint                x,
+					      gint                y,
+					      gint               *row,
+					      gint               *col);
 void        e_table_item_get_cell_geometry   (ETableItem        *eti,
-					      int               *row,
-					      int               *col,
-					      int               *x,
-					      int               *y,
-					      int               *width,
-					      int               *height);
+					      gint               *row,
+					      gint               *col,
+					      gint               *x,
+					      gint               *y,
+					      gint               *width,
+					      gint               *height);
 
 int	    e_table_item_row_diff	     (ETableItem	*eti,
 					      int		 start_row,

@@ -43,9 +43,9 @@ typedef struct _EvolutionIntelligentImporterPrivate EvolutionIntelligentImporter
 typedef struct _EvolutionIntelligentImporterClass EvolutionIntelligentImporterClass;
 
 typedef gboolean (* EvolutionIntelligentImporterCanImportFn) (EvolutionIntelligentImporter *ii,
-							      void *closure);
+							      gpointer closure);
 typedef void (* EvolutionIntelligentImporterImportDataFn) (EvolutionIntelligentImporter *ii,
-							   void *closure);
+							   gpointer closure);
 
 struct _EvolutionIntelligentImporter {
   BonoboObject parent;
@@ -63,9 +63,9 @@ GType evolution_intelligent_importer_get_type (void);
 
 EvolutionIntelligentImporter *evolution_intelligent_importer_new (EvolutionIntelligentImporterCanImportFn can_import_fn,
 								  EvolutionIntelligentImporterImportDataFn import_data_fn,
-								  const char *importername,
-								  const char *message,
-								  void *closure);
+								  const gchar *importername,
+								  const gchar *message,
+								  gpointer closure);
 
 #ifdef __cplusplus
 }

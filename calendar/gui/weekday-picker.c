@@ -48,14 +48,14 @@ struct _WeekdayPickerPrivate {
 	guint8 blocked_day_mask;
 
 	/* Day that defines the start of the week; 0 = Sunday, ..., 6 = Saturday */
-	int week_start_day;
+	gint week_start_day;
 
 	/* Current keyboard focus day */
-	int focus_day;
+	gint focus_day;
 
 	/* Metrics */
-	int font_ascent, font_descent;
-	int max_letter_width;
+	gint font_ascent, font_descent;
+	gint max_letter_width;
 
 	/* Components */
 	GnomeCanvasItem *boxes[7];
@@ -114,7 +114,7 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 }
 
 static void
-day_clicked (WeekdayPicker *wp, int index)
+day_clicked (WeekdayPicker *wp, gint index)
 {
 	WeekdayPickerPrivate *priv = wp->priv;
 	guint8 day_mask;
@@ -172,7 +172,7 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
-	int i;
+	gint i;
 
 	wp = WEEKDAY_PICKER (data);
 	priv = wp->priv;
@@ -210,7 +210,7 @@ create_items (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
 	GnomeCanvasGroup *parent;
-	int i;
+	gint i;
 
 	priv = wp->priv;
 
@@ -270,7 +270,7 @@ colorize_items (WeekdayPicker *wp)
 	GdkColor *outline, *focus_outline;
 	GdkColor *fill, *sel_fill;
 	GdkColor *text_fill, *sel_text_fill;
-	int i;
+	gint i;
 
 	priv = wp->priv;
 
@@ -284,7 +284,7 @@ colorize_items (WeekdayPicker *wp)
 	sel_text_fill = &GTK_WIDGET (wp)->style->fg[GTK_STATE_SELECTED];
 
 	for (i = 0; i < 7; i++) {
-		int day;
+		gint day;
 		GdkColor *f, *t, *o;
 
 		day = i + priv->week_start_day;
@@ -316,8 +316,8 @@ colorize_items (WeekdayPicker *wp)
 }
 
 /* Configures the items in the weekday picker by setting their attributes. */
-static char *
-get_day_text (int day_index)
+static gchar *
+get_day_text (gint day_index)
 {
 	GDateWeekday weekday;
 
@@ -331,9 +331,9 @@ static void
 configure_items (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
-	int width, height;
-	int box_width;
-	int i;
+	gint width, height;
+	gint box_width;
+	gint i;
 
 	priv = wp->priv;
 
@@ -343,8 +343,8 @@ configure_items (WeekdayPicker *wp)
 	box_width = (width - 1) / 7;
 
 	for (i = 0; i < 7; i++) {
-		char *c;
-		int day;
+		gchar *c;
+		gint day;
 
 		day = i + priv->week_start_day;
 		if (day >= 7)
@@ -422,8 +422,8 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
-	int max_width;
-	int i;
+	gint max_width;
+	gint i;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -445,8 +445,8 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	max_width = 0;
 
 	for (i = 0; i < 7; i++) {
-		char *c;
-		int w;
+		gchar *c;
+		gint w;
 
 		c = get_day_text (i);
 		pango_layout_set_text (layout, c, strlen (c));
@@ -580,7 +580,7 @@ weekday_picker_get_blocked_days (WeekdayPicker *wp)
  * Sets the day that defines the start of the week for a weekday picker.
  **/
 void
-weekday_picker_set_week_start_day (WeekdayPicker *wp, int week_start_day)
+weekday_picker_set_week_start_day (WeekdayPicker *wp, gint week_start_day)
 {
 	WeekdayPickerPrivate *priv;
 
@@ -603,7 +603,7 @@ weekday_picker_set_week_start_day (WeekdayPicker *wp, int week_start_day)
  * Return value: Index of the day that defines the start of the week.  See
  * weekday_picker_set_week_start_day() to see how this is represented.
  **/
-int
+gint
 weekday_picker_get_week_start_day (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;

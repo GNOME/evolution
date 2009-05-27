@@ -36,9 +36,9 @@ typedef struct {
 } CompTzData;
 
  static void
-insert_tz_comps (icalparameter *param, void *cb_data)
+insert_tz_comps (icalparameter *param, gpointer cb_data)
 {
-	const char *tzid;
+	const gchar *tzid;
 	CompTzData *tdata = cb_data;
 	icaltimezone *zone = NULL;
 	icalcomponent *tzcomp;
@@ -91,7 +91,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GEr
 	top_level = e_cal_util_new_top_level ();
 
 	if (e_cal_get_object_list (client, "#t", &objects, error)) {
-		char *ical_string;
+		gchar *ical_string;
 		CompTzData tdata;
 
 		tdata.zones = g_hash_table_new (g_str_hash, g_str_equal);

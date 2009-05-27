@@ -64,16 +64,16 @@ static GOptionEntry entries[] = {
 	{ NULL }
 };
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	ActionContext actctx;
 	GOptionContext *context;
 	GError *error = NULL;
 
-	int current_action = ACTION_NOTHING;
-	int IsCSV = FALSE;
-	int IsVCard = FALSE;
+	gint current_action = ACTION_NOTHING;
+	gint IsCSV = FALSE;
+	gint IsVCard = FALSE;
 
 	/*i18n-lize */
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
@@ -162,7 +162,7 @@ main (int argc, char **argv)
 		exit (-1);
 	}
 
-	/*FIXME:should free actctx's some char* field, such as output_file! but since the program will end, so that will not cause mem leak.  */
+	/*FIXME:should free actctx's some gchar * field, such as output_file! but since the program will end, so that will not cause mem leak.  */
 
 	exit (0);
 }

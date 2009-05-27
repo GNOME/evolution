@@ -198,10 +198,10 @@ get_attachment_list (CompEditor *editor)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *list = NULL;
-	const char *comp_uid = NULL;
-	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
+	const gchar *comp_uid = NULL;
+	const gchar *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 	gboolean valid;
-	int ticker=0;
+	gint ticker=0;
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
@@ -216,9 +216,9 @@ get_attachment_list (CompEditor *editor)
 		CamelDataWrapper *wrapper;
 		CamelMimePart *mime_part;
 		CamelStream *stream;
-		char *attach_file_url;
-		char *safe_fname, *utf8_safe_fname;
-		char *filename;
+		gchar *attach_file_url;
+		gchar *safe_fname, *utf8_safe_fname;
+		gchar *filename;
 		gint column_id;
 
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
@@ -244,7 +244,7 @@ get_attachment_list (CompEditor *editor)
 		if (!utf8_safe_fname)
 			safe_fname = g_strdup_printf ("%s-%d", _("attachment"), ticker++);
 		else {
-			safe_fname = g_filename_from_utf8 ((const char *) utf8_safe_fname, -1, NULL, NULL, NULL);
+			safe_fname = g_filename_from_utf8 ((const gchar *) utf8_safe_fname, -1, NULL, NULL, NULL);
 			g_free (utf8_safe_fname);
 		}
 		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
@@ -298,7 +298,7 @@ static void
 listen_for_changes (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	const char *uid = NULL;
+	const gchar *uid = NULL;
 
 	priv = editor->priv;
 
@@ -318,7 +318,7 @@ listen_for_changes (CompEditor *editor)
 		e_cal_component_get_uid (priv->comp, &uid);
 
 	if (uid) {
-		char *query;
+		gchar *query;
 
 		query = g_strdup_printf ("(uid? \"%s\")", uid);
 		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
@@ -356,7 +356,7 @@ save_comp (CompEditor *editor)
 	gboolean result;
 	GError *error = NULL;
 	GHashTable *timezones;
-	const char *orig_uid;
+	const gchar *orig_uid;
 	icalcomponent *icalcomp;
 
 	priv = editor->priv;
@@ -449,7 +449,7 @@ save_comp (CompEditor *editor)
 		icalproperty *icalprop;
 		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 		while (icalprop) {
-			const char *x_name;
+			const gchar *x_name;
 
 			x_name = icalproperty_get_x_name (icalprop);
 			if (!strcmp (x_name, "X-EVOLUTION-OPTIONS-DELAY")) {
@@ -817,7 +817,7 @@ action_save_cb (GtkAction *action,
 		delegate = flags & COMP_EDITOR_DELEGATE;
 
 		if (delegate && !remove_event_dialog (priv->client, priv->comp, GTK_WINDOW (editor))) {
-			const char *uid = NULL;
+			const gchar *uid = NULL;
 			GError *error = NULL;
 
 			e_cal_component_get_uid (priv->comp, &uid);
@@ -2078,7 +2078,7 @@ page_unmapped_cb (GtkWidget *page_widget,
 void
 comp_editor_append_page (CompEditor *editor,
 			 CompEditorPage *page,
-			 const char *label,
+			 const gchar *label,
 			 gboolean add)
 {
 	CompEditorPrivate *priv;
@@ -2339,7 +2339,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 /* TODO These functions should be available in e-cal-component.c */
 static void
-set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComponentItipMethod method)
+set_attendees_for_delegation (ECalComponent *comp, const gchar *address, ECalComponentItipMethod method)
 {
 	icalproperty *prop;
 	icalparameter *param;
@@ -2350,8 +2350,8 @@ set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComp
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const char *attendee = icalproperty_get_attendee (prop);
-		const char *delfrom = NULL;
+		const gchar *attendee = icalproperty_get_attendee (prop);
+		const gchar *delfrom = NULL;
 
 		param = icalproperty_get_first_parameter(prop, ICAL_DELEGATEDFROM_PARAMETER);
 		if (param)
@@ -2371,8 +2371,8 @@ get_users_from_memo_comp (ECalComponent *comp, GList **users)
 {
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
-	const char *attendees = NULL;
-	char **emails, **iter;
+	const gchar *attendees = NULL;
+	gchar **emails, **iter;
 
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
@@ -2402,7 +2402,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
 	ECalComponent *send_comp = NULL;
-	char *address = NULL;
+	gchar *address = NULL;
 	GList *users = NULL;
 
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
@@ -2413,7 +2413,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
 		/* Ensure we send the master object, not the instance only */
 		icalcomponent *icalcomp = NULL;
-		const char *uid = NULL;
+		const gchar *uid = NULL;
 
 		e_cal_component_get_uid (priv->comp, &uid);
 		if (e_cal_get_object (priv->client, uid, NULL, &icalcomp, NULL) && icalcomp) {
@@ -2449,7 +2449,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 		}
 	} else {
 		/* Clone the component with attachments set to CID:...  */
-		int num_attachments, i;
+		gint num_attachments, i;
 		GSList *attach_list = NULL;
 		GSList *mime_attach_list;
 
@@ -2567,7 +2567,7 @@ void
 comp_editor_delete_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
@@ -2647,8 +2647,8 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		CamelDataWrapper *wrapper;
 		CamelMimePart *mime_part;
 		CamelStreamMem *mstream;
-		unsigned char *buffer = NULL;
-		const char *desc, *disp;
+		guchar *buffer = NULL;
+		const gchar *desc, *disp;
 		gint column_id;
 
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
@@ -2668,7 +2668,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
 		buffer = g_memdup (mstream->buffer->data, mstream->buffer->len);
 
-		cal_mime_attach->encoded_data = (char *)buffer;
+		cal_mime_attach->encoded_data = (gchar *)buffer;
 		cal_mime_attach->length = mstream->buffer->len;
 		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename (mime_part));
 		desc = camel_mime_part_get_description (mime_part);

@@ -107,7 +107,7 @@ em_filter_editor_new (EMFilterContext *fc, const EMFilterSource *source_names)
 {
 	EMFilterEditor *fe = (EMFilterEditor *) g_object_new (em_filter_editor_get_type(), NULL);
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "filter.glade",
@@ -133,8 +133,8 @@ free_sources (gpointer data)
 static void
 select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 {
-	char *source;
-	int idx;
+	gchar *source;
+	gint idx;
 	GSList *sources;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX (combobox));
@@ -144,7 +144,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 
 	g_return_if_fail (idx >= 0 && idx < g_slist_length (sources));
 
-	source = (char *)g_slist_nth (sources, idx);
+	source = (gchar *)g_slist_nth (sources, idx);
 	g_return_if_fail (source);
 
 	rule_editor_set_source ((RuleEditor *)fe, source);
@@ -154,7 +154,7 @@ void
 em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names)
 {
 	GtkWidget *combobox;
-	int i;
+	gint i;
 	GtkTreeViewColumn *column;
 	GSList *sources = NULL;
 

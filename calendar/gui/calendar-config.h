@@ -69,8 +69,8 @@ void	  calendar_config_set_calendars_selected (GSList *selected);
 guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The primary calendar */
-char     *calendar_config_get_primary_calendar (void);
-void	  calendar_config_set_primary_calendar (const char *primary_uid);
+gchar     *calendar_config_get_primary_calendar (void);
+void	  calendar_config_set_primary_calendar (const gchar *primary_uid);
 guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data);
 
 /* Use system timezone; if TRUE, then influences also the current timezone functions. */
@@ -79,8 +79,8 @@ void     calendar_config_set_use_system_timezone (gboolean use);
 guint    calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data);
 
 /* The current timezone, e.g. "Europe/London". */
-gchar*	  calendar_config_get_timezone		(void);
-gchar*	  calendar_config_get_timezone_stored	(void);
+gchar *	  calendar_config_get_timezone		(void);
+gchar *	  calendar_config_get_timezone_stored	(void);
 icaltimezone *calendar_config_get_icaltimezone (void);
 void	  calendar_config_set_timezone		(const gchar	     *timezone);
 guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);
@@ -142,7 +142,7 @@ void	  calendar_config_set_time_divisions	(gint	      divisions);
 guint calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we show the Marcus Bains Line, and in what colors. */
-void calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_color, const char **timebar_color);
+void calendar_config_get_marcus_bains (gboolean *show_line, const gchar **dayview_color, const gchar **timebar_color);
 void calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor);
 
 /* Whether we show event end times. */
@@ -191,8 +191,8 @@ void	  calendar_config_set_tasks_selected (GSList *selected);
 guint	  calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The primary calendar */
-char     *calendar_config_get_primary_tasks (void);
-void	  calendar_config_set_primary_tasks (const char *primary_uid);
+gchar     *calendar_config_get_primary_tasks (void);
+void	  calendar_config_set_primary_tasks (const gchar *primary_uid);
 guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data);
 
 /* The pane position */
@@ -206,8 +206,8 @@ void	  calendar_config_set_memos_selected (GSList *selected);
 guint	  calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The primary calendar */
-char     *calendar_config_get_primary_memos (void);
-void	  calendar_config_set_primary_memos (const char *primary_uid);
+gchar     *calendar_config_get_primary_memos (void);
+void	  calendar_config_set_primary_memos (const gchar *primary_uid);
 guint	  calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data);
 
 /* Colors for the task list */
@@ -230,7 +230,7 @@ gint	  calendar_config_get_hide_completed_tasks_value(void);
 void	  calendar_config_set_hide_completed_tasks_value(gint		value);
 guint	  calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data);
 
-char *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
+gchar *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
 
 /* Confirmation options */
 gboolean  calendar_config_get_confirm_delete (void);
@@ -243,8 +243,8 @@ void      calendar_config_set_confirm_purge (gboolean confirm);
 gboolean calendar_config_get_use_default_reminder (void);
 void     calendar_config_set_use_default_reminder (gboolean value);
 
-int      calendar_config_get_default_reminder_interval (void);
-void     calendar_config_set_default_reminder_interval (int interval);
+gint      calendar_config_get_default_reminder_interval (void);
+void     calendar_config_set_default_reminder_interval (gint interval);
 
 CalUnits calendar_config_get_default_reminder_units (void);
 void     calendar_config_set_default_reminder_units (CalUnits units);
@@ -262,19 +262,19 @@ guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc
    supports 12-hour time format. */
 gboolean  calendar_config_locale_supports_12_hour_format(void);
 
-void	  calendar_config_set_dir_path (const char *);
-char *	  calendar_config_get_dir_path (void);
+void	  calendar_config_set_dir_path (const gchar *);
+gchar *	  calendar_config_get_dir_path (void);
 
 GSList *calendar_config_get_day_second_zones (void);
 void    calendar_config_free_day_second_zones (GSList *zones);
-void    calendar_config_set_day_second_zone (const char *location);
-char *  calendar_config_get_day_second_zone (void);
+void    calendar_config_set_day_second_zone (const gchar *location);
+gchar *  calendar_config_get_day_second_zone (void);
 void    calendar_config_select_day_second_zone (void);
 guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
 
 /* Birthdays & Anniversaries reminder settings */
-gboolean calendar_config_get_ba_reminder (int *interval, CalUnits *units);
-void calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units);
+gboolean calendar_config_get_ba_reminder (gint *interval, CalUnits *units);
+void calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, CalUnits *units);
 
 /* Scroll in a month view by a week, not by a month */
 gboolean calendar_config_get_month_scroll_by_week (void);

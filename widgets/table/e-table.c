@@ -253,7 +253,7 @@ expansion_changed (ETableHeader *header, ETable *et)
 }
 
 static void
-dimension_changed (ETableHeader *header, int total_width, ETable *et)
+dimension_changed (ETableHeader *header, gint total_width, ETable *et)
 {
 	set_header_width (et);
 }
@@ -405,9 +405,9 @@ et_unrealize (GtkWidget *widget)
 }
 
 static gboolean
-check_row (ETable *et, int model_row, int col, ETableSearchFunc search, char *string)
+check_row (ETable *et, gint model_row, gint col, ETableSearchFunc search, gchar *string)
 {
-	const void *value;
+	gconstpointer value;
 
 	value = e_table_model_value_at (et->model, col, model_row);
 
@@ -415,11 +415,11 @@ check_row (ETable *et, int model_row, int col, ETableSearchFunc search, char *st
 }
 
 static gboolean
-et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, ETable *et)
+et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, ETable *et)
 {
-	int cursor;
-	int rows;
-	int i;
+	gint cursor;
+	gint rows;
+	gint i;
 	ETableCol *col = current_search_col (et);
 
 	if (col == NULL)
@@ -437,7 +437,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
 
 	for (i = cursor + 1; i < rows; i++) {
-		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
+		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
 		if (check_row (et, model_row, col->col_idx, col->search, string)) {
 			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
@@ -445,7 +445,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	}
 
 	for (i = 0; i < cursor; i++) {
-		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
+		gint model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
 		if (check_row (et, model_row, col->col_idx, col->search, string)) {
 			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
@@ -461,7 +461,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 static void
 et_search_accept (ETableSearch *search, ETable *et)
 {
-	int cursor;
+	gint cursor;
 	ETableCol *col = current_search_col (et);
 
 	if (col == NULL)
@@ -651,7 +651,7 @@ sort_info_changed (ETableSortInfo *info, ETable *et)
 static void
 e_table_setup_header (ETable *e_table)
 {
-	char *pointer;
+	gchar *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
@@ -740,7 +740,7 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 }
 
 static void
-click_to_add_cursor_change (ETableClickToAdd *etcta, int row, int col, ETable *et)
+click_to_add_cursor_change (ETableClickToAdd *etcta, gint row, gint col, ETable *et)
 {
 	if (et->cursor_loc == E_TABLE_CURSOR_LOC_TABLE) {
 		e_selection_model_clear(E_SELECTION_MODEL (et->selection));
@@ -749,7 +749,7 @@ click_to_add_cursor_change (ETableClickToAdd *etcta, int row, int col, ETable *e
 }
 
 static void
-group_cursor_change (ETableGroup *etg, int row, ETable *et)
+group_cursor_change (ETableGroup *etg, gint row, ETable *et)
 {
 	ETableCursorLoc old_cursor_loc;
 
@@ -763,39 +763,39 @@ group_cursor_change (ETableGroup *etg, int row, ETable *et)
 }
 
 static void
-group_cursor_activated (ETableGroup *etg, int row, ETable *et)
+group_cursor_activated (ETableGroup *etg, gint row, ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals [CURSOR_ACTIVATED], 0, row);
 }
 
 static void
-group_double_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+group_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals [DOUBLE_CLICK], 0, row, col, event);
 }
 
 static gint
-group_right_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+group_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	g_signal_emit (G_OBJECT (et), et_signals [RIGHT_CLICK], 0, row, col, event, &return_val);
 	return return_val;
 }
 
 static gint
-group_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+group_click (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	g_signal_emit (G_OBJECT (et), et_signals [CLICK], 0, row, col, event, &return_val);
 	return return_val;
 }
 
 static gint
-group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	GdkEventKey *key = (GdkEventKey *) event;
-	int y, row_local, col_local;
+	gint y, row_local, col_local;
 	GtkAdjustment *vadj;
 
 	switch (key->keyval) {
@@ -849,9 +849,9 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 }
 
 static gint
-group_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+group_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	g_signal_emit (G_OBJECT (et), et_signals [START_DRAG], 0,
 		       row, col, event, &return_val);
 	return return_val;
@@ -869,7 +869,7 @@ et_table_model_changed (ETableModel *model, ETable *et)
 }
 
 static void
-et_table_row_changed (ETableModel *table_model, int row, ETable *et)
+et_table_row_changed (ETableModel *table_model, gint row, ETable *et)
 {
 	if (!et->need_rebuild) {
 		if (e_table_group_remove (et->group, row))
@@ -879,18 +879,18 @@ et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 }
 
 static void
-et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *et)
+et_table_cell_changed (ETableModel *table_model, gint view_col, gint row, ETable *et)
 {
 	et_table_row_changed (table_model, row, et);
 }
 
 static void
-et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et)
+et_table_rows_inserted (ETableModel *table_model, gint row, gint count, ETable *et)
 {
 	/* This number has already been decremented. */
-	int row_count = e_table_model_row_count(table_model);
+	gint row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
-		int i;
+		gint i;
 		if (row != row_count - count)
 			e_table_group_increment(et->group, row, count);
 		for (i = 0; i < count; i++)
@@ -900,11 +900,11 @@ et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et
 }
 
 static void
-et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
+et_table_rows_deleted (ETableModel *table_model, gint row, gint count, ETable *et)
 {
-	int row_count = e_table_model_row_count(table_model);
+	gint row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
-		int i;
+		gint i;
 		for (i = 0; i < count; i++)
 			e_table_group_remove (et->group, row + i);
 		if (row != row_count)
@@ -1024,7 +1024,7 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 static gint
 white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETable *e_table)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	g_signal_emit (GTK_OBJECT (e_table), et_signals [WHITE_SPACE_EVENT], 0,
 		       event, &return_val);
 	return return_val;
@@ -1421,8 +1421,8 @@ ETableState *
 e_table_get_state_object (ETable *e_table)
 {
 	ETableState *state;
-	int full_col_count;
-	int i, j;
+	gint full_col_count;
+	gint i, j;
 
 	state = e_table_state_new();
 	if (state->sort_info)
@@ -1498,7 +1498,7 @@ et_selection_model_selection_changed (ETableGroup *etg, ETable *et)
 }
 
 static void
-et_selection_model_selection_row_changed (ETableGroup *etg, int row, ETable *et)
+et_selection_model_selection_row_changed (ETableGroup *etg, gint row, ETable *et)
 {
 	g_signal_emit (G_OBJECT (et), et_signals [SELECTION_CHANGE], 0);
 }
@@ -1507,8 +1507,8 @@ static ETable *
 et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
-	int row = 0;
-	int col_count, i;
+	gint row = 0;
+	gint col_count, i;
 	GValue *val = g_new0 (GValue, 1);
 	g_value_init (val, G_TYPE_OBJECT);
 
@@ -1633,7 +1633,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  **/
 ETable *
 e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
-		   const char *spec_str, const char *state_str)
+		   const gchar *spec_str, const gchar *state_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1693,7 +1693,7 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
  **/
 ETable *
 e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtras *ete,
-				  const char *spec_fn, const char *state_fn)
+				  const gchar *spec_fn, const gchar *state_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1758,7 +1758,7 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
-e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *state)
+e_table_new (ETableModel *etm, ETableExtras *ete, const gchar *spec, const gchar *state)
 {
 	ETable *e_table;
 
@@ -1795,7 +1795,7 @@ e_table_new (ETableModel *etm, ETableExtras *ete, const char *spec, const char *
  * The newly created #ETable or %NULL if there's an error.
  **/
 GtkWidget *
-e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
+e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const gchar *spec_fn, const gchar *state_fn)
 {
 	ETable *e_table;
 
@@ -1836,9 +1836,9 @@ et_build_grouping_spec (ETable *e_table)
 {
 	xmlNode *node;
 	xmlNode *grouping;
-	int i;
-	const int sort_count = e_table_sort_info_sorting_get_count (e_table->sort_info);
-	const int group_count = e_table_sort_info_grouping_get_count (e_table->sort_info);
+	gint i;
+	const gint sort_count = e_table_sort_info_sorting_get_count (e_table->sort_info);
+	const gint group_count = e_table_sort_info_grouping_get_count (e_table->sort_info);
 
 	grouping = xmlNewNode (NULL, "grouping");
 	node = grouping;
@@ -1899,18 +1899,18 @@ e_table_get_specification (ETable *e_table)
 	return buffer;
 }
 
-int
-e_table_set_specification (ETable *e_table, const char *spec)
+gint
+e_table_set_specification (ETable *e_table, const gchar *spec)
 {
 	xmlDoc *xmlSpec;
-	int ret;
+	gint ret;
 
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 	g_return_val_if_fail(spec != NULL, -1);
 
 	/* doesn't work yet, sigh */
-	xmlSpec = xmlParseMemory ((char *)spec, strlen(spec));
+	xmlSpec = xmlParseMemory ((gchar *)spec, strlen(spec));
 	ret = et_real_set_specification(e_table, xmlSpec);
 	xmlFreeDoc (xmlSpec);
 
@@ -1918,7 +1918,7 @@ e_table_set_specification (ETable *e_table, const char *spec)
 }
 
 void
-e_table_save_specification (ETable *e_table, const char *filename)
+e_table_save_specification (ETable *e_table, const gchar *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
 
@@ -1931,11 +1931,11 @@ e_table_save_specification (ETable *e_table, const char *filename)
 	xmlFreeDoc (doc);
 }
 
-int
+gint
 e_table_load_specification (ETable *e_table, gchar *filename)
 {
 	xmlDoc *xmlSpec;
-	int ret;
+	gint ret;
 
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
@@ -1966,7 +1966,7 @@ e_table_load_specification (ETable *e_table, gchar *filename)
  * Sets the cursor row and the selection to the given row number.
  **/
 void
-e_table_set_cursor_row (ETable *e_table, int row)
+e_table_set_cursor_row (ETable *e_table, gint row)
 {
 	g_return_if_fail(e_table != NULL);
 	g_return_if_fail(E_IS_TABLE(e_table));
@@ -1986,10 +1986,10 @@ e_table_set_cursor_row (ETable *e_table, int row)
  * Return value:
  * Cursor row
  **/
-int
+gint
 e_table_get_cursor_row (ETable *e_table)
 {
-	int row;
+	gint row;
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
@@ -2146,7 +2146,7 @@ et_get_property (GObject *object,
 }
 
 typedef struct {
-	char     *arg;
+	gchar     *arg;
 	gboolean  setting;
 } bool_closure;
 
@@ -2260,7 +2260,7 @@ e_table_get_next_row      (ETable *e_table,
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
 	if (e_table->sorter) {
-		int i;
+		gint i;
 		i = e_sorter_model_to_sorted(E_SORTER (e_table->sorter), model_row);
 		i++;
 		if (i < e_table_model_row_count(e_table->model)) {
@@ -2294,7 +2294,7 @@ e_table_get_prev_row      (ETable *e_table,
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
 	if (e_table->sorter) {
-		int i;
+		gint i;
 		i = e_sorter_model_to_sorted(E_SORTER (e_table->sorter), model_row);
 		i--;
 		if (i >= 0)
@@ -2364,8 +2364,8 @@ e_table_view_to_model_row        (ETable *e_table,
  **/
 void
 e_table_get_cell_at (ETable *table,
-		     int x, int y,
-		     int *row_return, int *col_return)
+		     gint x, gint y,
+		     gint *row_return, gint *col_return)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
@@ -2395,9 +2395,9 @@ e_table_get_cell_at (ETable *table,
  **/
 void
 e_table_get_cell_geometry (ETable *table,
-			   int row, int col,
-			   int *x_return, int *y_return,
-			   int *width_return, int *height_return)
+			   gint row, gint col,
+			   gint *x_return, gint *y_return,
+			   gint *width_return, gint *height_return)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
@@ -2419,7 +2419,7 @@ e_table_get_cell_geometry (ETable *table,
  * Similar to e_table_get_cell_at, only here we check based on the mouse motion information in the group.
  **/
 void
-e_table_get_mouse_over_cell (ETable *table, int *row, int *col)
+e_table_get_mouse_over_cell (ETable *table, gint *row, gint *col)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
@@ -2532,8 +2532,8 @@ struct _GtkDragSourceInfo
  **/
 void
 e_table_drag_get_data (ETable         *table,
-		       int             row,
-		       int             col,
+		       gint             row,
+		       gint             col,
 		       GdkDragContext *context,
 		       GdkAtom         target,
 		       guint32         time)
@@ -2558,14 +2558,14 @@ e_table_drag_get_data (ETable         *table,
  **/
 void
 e_table_drag_highlight (ETable *table,
-			int     row,
-			int     col)
+			gint     row,
+			gint     col)
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
 
 	if (row != -1) {
-		int x, y, width, height;
+		gint x, y, width, height;
 		if (col == -1) {
 			e_table_get_cell_geometry (table, row, 0, &x, &y, &width, &height);
 			x = 0;
@@ -2665,7 +2665,7 @@ e_table_drag_dest_unset (GtkWidget *widget)
 /* Source side */
 
 static gint
-et_real_start_drag (ETable *table, int row, int col, GdkEvent *event)
+et_real_start_drag (ETable *table, gint row, gint col, GdkEvent *event)
 {
 	GtkDragSourceInfo *info;
 	GdkDragContext *context;
@@ -2795,8 +2795,8 @@ e_table_drag_source_unset (ETable *table)
  **/
 GdkDragContext *
 e_table_drag_begin (ETable            *table,
-		    int     	       row,
-		    int     	       col,
+		    gint     	       row,
+		    gint     	       col,
 		    GtkTargetList     *targets,
 		    GdkDragAction      actions,
 		    gint               button,
@@ -2863,7 +2863,7 @@ do_drag_motion(ETable *et,
 	       guint time)
 {
 	gboolean ret_val;
-	int row = -1, col = -1;
+	gint row = -1, col = -1;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -2883,7 +2883,7 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETable *et = data;
-	int dx = 0, dy = 0;
+	gint dx = 0, dy = 0;
 	GtkAdjustment *h, *v;
 	double hvalue, vvalue;
 
@@ -3027,7 +3027,7 @@ et_drag_drop(GtkWidget *widget,
 	     ETable *et)
 {
 	gboolean ret_val;
-	int row, col;
+	gint row, col;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -3059,7 +3059,7 @@ et_drag_data_received(GtkWidget *widget,
 		      guint time,
 		      ETable *et)
 {
-	int row, col;
+	gint row, col;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 

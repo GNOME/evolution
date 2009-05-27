@@ -39,8 +39,8 @@ static GSList *inited_arrays = NULL;
 
 void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 {
-	static int done_init = 0;
-	int i;
+	static gint done_init = 0;
+	gint i;
 
 	if (!done_init) {
 		g_atexit (free_pixmaps);
@@ -72,7 +72,7 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 static void
 free_pixmaps (void)
 {
-	int i;
+	gint i;
 	GSList *li;
 
 	for (li = inited_arrays; li != NULL; li = li->next) {
@@ -93,7 +93,7 @@ free_pixmaps (void)
  *
  * Return value: A newly allocated string with the printable error message.
  **/
-char *
+gchar *
 e_get_activation_failure_msg (CORBA_Environment *ev)
 {
 	g_return_val_if_fail (ev != NULL, NULL);

@@ -69,7 +69,7 @@ static GThread *editor_thread;
 void
 ee_editor_command_changed (GtkWidget *textbox)
 {
-	const char *editor;
+	const gchar *editor;
 	GConfClient *gconf;
 
 	editor = gtk_entry_get_text (GTK_ENTRY(textbox));
@@ -101,7 +101,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkWidget *vbox, *textbox, *label, *help;
 	GtkWidget *checkbox;
 	GConfClient *gconf;
-	char *editor;
+	gchar *editor;
 	gboolean checked;
 
 	vbox = gtk_vbox_new (FALSE, 10);
@@ -209,8 +209,8 @@ run_error_dialog (gchar *text)
 void
 async_external_editor (EMsgComposer *composer)
 {
-	char *filename = NULL;
-	int status = 0;
+	gchar *filename = NULL;
+	gint status = 0;
 	GConfClient *gconf;
 	gchar *editor_cmd_line = NULL;
 	gint fd;

@@ -52,7 +52,7 @@ enum
 };
 
 static struct {
-	const char *label;
+	const gchar *label;
 } label_info[LABEL_LAST] = {
 	{ N_("Name"), },
 	{ N_("Author(s)"), },
@@ -81,10 +81,10 @@ static GtkWidget *configure_page;
 static gint last_selected_page;
 static gulong switch_page_handler_id;
 
-void org_gnome_plugin_manager_manage(void *ep, ESMenuTargetShell *t);
+void org_gnome_plugin_manager_manage(gpointer ep, ESMenuTargetShell *t);
 
 static void
-eppm_set_label (GtkLabel *l, const char *v)
+eppm_set_label (GtkLabel *l, const gchar *v)
 {
 	gtk_label_set_label(l, v?v:_("Unknown"));
 }
@@ -101,7 +101,7 @@ static void
 eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 {
 	if (ep) {
-		char *string;
+		gchar *string;
 
 		string = g_strdup_printf ("<span size=\"x-large\">%s</span>", ep->name);
 		gtk_label_set_markup (GTK_LABEL (m->items[LABEL_NAME]), string);
@@ -133,7 +133,7 @@ eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 
 		eppm_set_label (m->items[LABEL_DESCRIPTION], ep->description);
 	} else {
-		int i;
+		gint i;
 
 		gtk_label_set_markup (GTK_LABEL (m->config_plugin_label), "");
 		for (i = 0; i < LABEL_LAST; i++)
@@ -184,7 +184,7 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 }
 
 static void
-eppm_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, Manager *m)
+eppm_enable_toggled (GtkCellRendererToggle *renderer, const gchar *path_string, Manager *m)
 {
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -207,7 +207,7 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, M
 }
 
 static void
-eppm_free (void *data)
+eppm_free (gpointer data)
 {
 	Manager *m = data;
 	GSList *l;
@@ -221,24 +221,24 @@ eppm_free (void *data)
 }
 
 static void
-eppm_response (GtkDialog *w, int button, Manager *m)
+eppm_response (GtkDialog *w, gint button, Manager *m)
 {
 	gtk_widget_destroy (GTK_WIDGET (w));
 	dialog = NULL;
 }
 
 void
-org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
+org_gnome_plugin_manager_manage (gpointer ep, ESMenuTargetShell *t)
 {
 	Manager *m;
-	int i;
+	gint i;
 	GtkWidget *hbox, *w;
 	GtkWidget *overview_page;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GSList *l;
-	char *string;
+	gchar *string;
 	GtkWidget *subvbox;
 
 	if (dialog) {
@@ -391,7 +391,7 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 
 	/* this is every other data */
 	for (i = 1; i < LABEL_LAST; i++) {
-		char *markup;
+		gchar *markup;
 
 		subvbox = gtk_vbox_new (FALSE, 6);
 
@@ -431,10 +431,10 @@ org_gnome_plugin_manager_manage (void *ep, ESMenuTargetShell *t)
 	gtk_widget_show (GTK_WIDGET (m->dialog));
 }
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (enable) {
 	} else {

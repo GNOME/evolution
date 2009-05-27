@@ -65,13 +65,13 @@ typedef struct {
 	guint cancelled:1;
 } ICalIntelligentImporter;
 
-static const int import_type_map[] = {
+static const gint import_type_map[] = {
 	E_CAL_SOURCE_TYPE_EVENT,
 	E_CAL_SOURCE_TYPE_TODO,
 	-1
 };
 
-static const char *import_type_strings[] = {
+static const gchar *import_type_strings[] = {
 	N_("Appointments and Meetings"),
 	N_("Tasks"),
 	NULL
@@ -184,7 +184,7 @@ struct _selector_data {
 	EImportTarget *target;
 	GtkWidget *selector;
 	GtkWidget *notebook;
-	int page;
+	gint page;
 };
 
 static void
@@ -210,7 +210,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
-	int i;
+	gint i;
 	GtkWidget *nb;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
@@ -276,7 +276,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-ivcal_import_items(void *d)
+ivcal_import_items(gpointer d)
 {
 	ICalImporter *ici = d;
 
@@ -359,8 +359,8 @@ ivcal_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 static gboolean
 ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *filename;
-	char *contents;
+	gchar *filename;
+	gchar *contents;
 	gboolean ret = FALSE;
 	EImportTargetURI *s;
 
@@ -400,8 +400,8 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 static void
 ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *filename;
-	char *contents;
+	gchar *filename;
+	gchar *contents;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 
@@ -453,8 +453,8 @@ ical_importer_peek(void)
 static gboolean
 vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *filename;
-	char *contents;
+	gchar *filename;
+	gchar *contents;
 	gboolean ret = FALSE;
 	EImportTargetURI *s;
 
@@ -514,12 +514,12 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 /* This tries to load in a vCalendar file and convert it to an icalcomponent.
    It returns NULL on failure. */
 static icalcomponent*
-load_vcalendar_file (const char *filename)
+load_vcalendar_file (const gchar *filename)
 {
 	icalvcal_defaults defaults = { NULL };
 	icalcomponent *icalcomp = NULL;
-	char *contents;
-	char *default_alarm_filename;
+	gchar *contents;
+	gchar *default_alarm_filename;
 
 	default_alarm_filename = g_build_filename (EVOLUTION_SOUNDDIR,
 						   "default_alarm.wav",
@@ -527,8 +527,8 @@ load_vcalendar_file (const char *filename)
 	defaults.alarm_audio_url = g_filename_to_uri (default_alarm_filename,
 						      NULL, NULL);
 	g_free (default_alarm_filename);
-	defaults.alarm_audio_fmttype = (char *) "audio/x-wav";
-	defaults.alarm_description = (char *) _("Reminder!");
+	defaults.alarm_audio_fmttype = (gchar *) "audio/x-wav";
+	defaults.alarm_description = (gchar *) _("Reminder!");
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;
@@ -550,7 +550,7 @@ load_vcalendar_file (const char *filename)
 static void
 vcal_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *filename;
+	gchar *filename;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 
@@ -591,7 +591,7 @@ vcal_importer_peek(void)
 static gboolean
 gnome_calendar_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *filename;
+	gchar *filename;
 	gboolean res;
 	EImportTargetHome *s = (EImportTargetHome *)target;
 
@@ -609,11 +609,11 @@ static void
 gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	icalcomponent *icalcomp = NULL;
-	char *filename;
+	gchar *filename;
 	GList *vtodos;
 	ECal *calendar_client = NULL, *tasks_client = NULL;
-	int t;
-	int do_calendar, do_tasks;
+	gint t;
+	gint do_calendar, do_tasks;
 	EImportTargetHome *s = (EImportTargetHome *)target;
 	ICalIntelligentImporter *ici;
 

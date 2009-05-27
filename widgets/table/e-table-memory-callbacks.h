@@ -34,18 +34,18 @@ G_BEGIN_DECLS
 #define E_IS_TABLE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_CALLBACKS_TYPE))
 #define E_TABLE_MEMORY_CALLBACKS_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
 
-typedef int         (*ETableMemoryCalbacksColumnCountFn)     (ETableModel *etm, void *data);
-typedef void        (*ETableMemoryCalbacksAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
+typedef gint         (*ETableMemoryCalbacksColumnCountFn)     (ETableModel *etm, gpointer data);
+typedef void        (*ETableMemoryCalbacksAppendRowFn)       (ETableModel *etm, ETableModel *model, gint row, gpointer data);
 
-typedef	void       *(*ETableMemoryCalbacksValueAtFn)         (ETableModel *etm, int col, int row, void *data);
-typedef	void        (*ETableMemoryCalbacksSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
-typedef	gboolean    (*ETableMemoryCalbacksIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
+typedef	void       *(*ETableMemoryCalbacksValueAtFn)         (ETableModel *etm, gint col, gint row, gpointer data);
+typedef	void        (*ETableMemoryCalbacksSetValueAtFn)      (ETableModel *etm, gint col, gint row, gconstpointer val, gpointer data);
+typedef	gboolean    (*ETableMemoryCalbacksIsCellEditableFn)  (ETableModel *etm, gint col, gint row, gpointer data);
 
-typedef	void       *(*ETableMemoryCalbacksDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
-typedef	void        (*ETableMemoryCalbacksFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
-typedef void       *(*ETableMemoryCalbacksInitializeValueFn) (ETableModel *etm, int col, void *data);
-typedef gboolean    (*ETableMemoryCalbacksValueIsEmptyFn)    (ETableModel *etm, int col, const void *val, void *data);
-typedef char       *(*ETableMemoryCalbacksValueToStringFn)   (ETableModel *etm, int col, const void *val, void *data);
+typedef	void       *(*ETableMemoryCalbacksDuplicateValueFn)  (ETableModel *etm, gint col, gconstpointer val, gpointer data);
+typedef	void        (*ETableMemoryCalbacksFreeValueFn)       (ETableModel *etm, gint col, gpointer val, gpointer data);
+typedef void       *(*ETableMemoryCalbacksInitializeValueFn) (ETableModel *etm, gint col, gpointer data);
+typedef gboolean    (*ETableMemoryCalbacksValueIsEmptyFn)    (ETableModel *etm, gint col, gconstpointer val, gpointer data);
+typedef gchar       *(*ETableMemoryCalbacksValueToStringFn)   (ETableModel *etm, gint col, gconstpointer val, gpointer data);
 
 typedef struct {
 	ETableMemory parent;
@@ -62,7 +62,7 @@ typedef struct {
 	ETableMemoryCalbacksInitializeValueFn initialize_value;
 	ETableMemoryCalbacksValueIsEmptyFn    value_is_empty;
 	ETableMemoryCalbacksValueToStringFn   value_to_string;
-	void *data;
+	gpointer data;
 } ETableMemoryCalbacks;
 
 typedef struct {
@@ -82,7 +82,7 @@ ETableModel *e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col
 				 ETableMemoryCalbacksInitializeValueFn initialize_value,
 				 ETableMemoryCalbacksValueIsEmptyFn value_is_empty,
 				 ETableMemoryCalbacksValueToStringFn value_to_string,
-				 void *data);
+				 gpointer data);
 
 G_END_DECLS
 

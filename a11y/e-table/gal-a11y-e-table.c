@@ -37,7 +37,7 @@
 static AtkObjectClass *parent_class;
 static GType parent_type;
 static gint priv_offset;
-#define GET_PRIVATE(object) ((GalA11yETablePrivate *) (((char *) object) + priv_offset))
+#define GET_PRIVATE(object) ((GalA11yETablePrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETablePrivate {
@@ -125,7 +125,7 @@ et_get_n_children (AtkObject *accessible)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
 	ETable * et;
-	int n = 0;
+	gint n = 0;
 
 	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
 

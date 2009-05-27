@@ -37,7 +37,7 @@
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory:" BASE_VERSION
 
 BonoboObject *
-mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data)
+mail_config_control_factory_cb (BonoboGenericFactory *factory, const gchar *component_id, gpointer user_data)
 {
 	GNOME_Evolution_Shell shell = (GNOME_Evolution_Shell) user_data;
 	EvolutionConfigControl *control;

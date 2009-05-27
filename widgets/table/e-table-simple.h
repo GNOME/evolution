@@ -36,22 +36,22 @@ G_BEGIN_DECLS
 #define E_IS_TABLE_SIMPLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SIMPLE_TYPE))
 #define E_TABLE_SIMPLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SIMPLE_TYPE, ETableSimpleClass))
 
-typedef int         (*ETableSimpleColumnCountFn)     (ETableModel *etm, void *data);
-typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *data);
-typedef void        (*ETableSimpleAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
+typedef gint         (*ETableSimpleColumnCountFn)     (ETableModel *etm, gpointer data);
+typedef	gint         (*ETableSimpleRowCountFn)        (ETableModel *etm, gpointer data);
+typedef void        (*ETableSimpleAppendRowFn)       (ETableModel *etm, ETableModel *model, gint row, gpointer data);
 
-typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col, int row, void *data);
-typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
-typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
+typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, gint col, gint row, gpointer data);
+typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, gint col, gint row, gconstpointer val, gpointer data);
+typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, gint col, gint row, gpointer data);
 
-typedef gboolean    (*ETableSimpleHasSaveIdFn)       (ETableModel *etm, void *data);
-typedef char       *(*ETableSimpleGetSaveIdFn)       (ETableModel *etm, int row, void *data);
+typedef gboolean    (*ETableSimpleHasSaveIdFn)       (ETableModel *etm, gpointer data);
+typedef gchar       *(*ETableSimpleGetSaveIdFn)       (ETableModel *etm, gint row, gpointer data);
 
-typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
-typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
-typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
-typedef gboolean    (*ETableSimpleValueIsEmptyFn)    (ETableModel *etm, int col, const void *val, void *data);
-typedef char       *(*ETableSimpleValueToStringFn)   (ETableModel *etm, int col, const void *val, void *data);
+typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, gint col, gconstpointer val, gpointer data);
+typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, gint col, gpointer val, gpointer data);
+typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, gint col, gpointer data);
+typedef gboolean    (*ETableSimpleValueIsEmptyFn)    (ETableModel *etm, gint col, gconstpointer val, gpointer data);
+typedef gchar       *(*ETableSimpleValueToStringFn)   (ETableModel *etm, gint col, gconstpointer val, gpointer data);
 
 typedef struct {
 	ETableModel parent;
@@ -72,7 +72,7 @@ typedef struct {
 	ETableSimpleInitializeValueFn initialize_value;
 	ETableSimpleValueIsEmptyFn    value_is_empty;
 	ETableSimpleValueToStringFn   value_to_string;
-	void *data;
+	gpointer data;
 } ETableSimple;
 
 typedef struct {
@@ -98,22 +98,22 @@ ETableModel *e_table_simple_new                      (ETableSimpleColumnCountFn 
 
 /* Helper functions for if your values are all just strings. */
 void        *e_table_simple_string_duplicate_value   (ETableModel                   *etm,
-						      int                            col,
+						      gint                            col,
 						      const void                    *val,
 						      void                          *data);
 void         e_table_simple_string_free_value        (ETableModel                   *etm,
-						      int                            col,
+						      gint                            col,
 						      void                          *val,
 						      void                          *data);
 void        *e_table_simple_string_initialize_value  (ETableModel                   *etm,
-						      int                            col,
+						      gint                            col,
 						      void                          *data);
 gboolean     e_table_simple_string_value_is_empty    (ETableModel                   *etm,
-						      int                            col,
+						      gint                            col,
 						      const void                    *val,
 						      void                          *data);
-char        *e_table_simple_string_value_to_string   (ETableModel                   *etm,
-						      int                            col,
+gchar        *e_table_simple_string_value_to_string   (ETableModel                   *etm,
+						      gint                            col,
 						      const void                    *val,
 						      void                          *data);
 

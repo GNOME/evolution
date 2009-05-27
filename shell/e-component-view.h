@@ -50,7 +50,7 @@ struct _EComponentView {
 
 	EComponentViewPrivate *priv;
 
-	char *id;
+	gchar *id;
 	GNOME_Evolution_ShellView shell_view;
 
 	struct _BonoboControl *side_control;
@@ -65,11 +65,11 @@ struct _EComponentViewClass {
 };
 
 GType           e_component_view_get_type(void);
-EComponentView *e_component_view_new(GNOME_Evolution_ShellView shell_view, const char *id, struct _GtkWidget *side, struct _GtkWidget *view, struct _GtkWidget *status);
-EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, const char *id, struct _BonoboControl *side, struct _BonoboControl *view, struct _BonoboControl *statusbar);
+EComponentView *e_component_view_new(GNOME_Evolution_ShellView shell_view, const gchar *id, struct _GtkWidget *side, struct _GtkWidget *view, struct _GtkWidget *status);
+EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, const gchar *id, struct _BonoboControl *side, struct _BonoboControl *view, struct _BonoboControl *statusbar);
 
-void e_component_view_set_title(EComponentView *ecv, const char *title);
-void e_component_view_set_button_icon (EComponentView *ecv, const char *iconName);
+void e_component_view_set_title(EComponentView *ecv, const gchar *title);
+void e_component_view_set_button_icon (EComponentView *ecv, const gchar *iconName);
 
 #ifdef __cplusplus
 }

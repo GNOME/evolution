@@ -43,11 +43,11 @@ struct _FormatHandler
 
 	gpointer data;
 
-	void (*save) (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri);
+	void (*save) (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri);
 };
 
 FormatHandler *csv_format_handler_new (void);
 FormatHandler *ical_format_handler_new (void);
 FormatHandler *rdf_format_handler_new (void);
 
-GOutputStream *open_for_writing (GtkWindow *parent, const char *uri, GError **error);
+GOutputStream *open_for_writing (GtkWindow *parent, const gchar *uri, GError **error);

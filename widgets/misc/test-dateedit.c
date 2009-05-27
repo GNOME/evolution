@@ -47,8 +47,8 @@ static void on_time_changed		(EDateEdit	*dedit,
 					 gchar		*name);
 #endif
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	GtkWidget *window;
 	EDateEdit *dedit;

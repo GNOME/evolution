@@ -113,7 +113,7 @@ ESEvent *es_event_peek(void)
 }
 
 ESEventTargetState *
-es_event_target_new_state(ESEvent *eme, int state)
+es_event_target_new_state(ESEvent *eme, gint state)
 {
 	ESEventTargetState *t = e_event_target_new(&eme->event, ES_EVENT_TARGET_STATE, sizeof(*t));
 	guint32 mask = ~0;
@@ -141,7 +141,7 @@ es_event_target_new_shell(ESEvent *eme, EShell *shell)
 }
 
 ESEventTargetUpgrade *
-es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
+es_event_target_new_upgrade(ESEvent *eme, gint major, gint minor, gint revision)
 {
 	ESEventTargetUpgrade *t = e_event_target_new(&eme->event, ES_EVENT_TARGET_UPGRADE, sizeof(*t));
 
@@ -153,7 +153,7 @@ es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
 }
 
 ESEventTargetComponent *
-es_event_target_new_component (ESEvent *eme, const char *id)
+es_event_target_new_component (ESEvent *eme, const gchar *id)
 {
 	ESEventTargetComponent *t = e_event_target_new (&eme->event, ES_EVENT_TARGET_COMPONENT, sizeof (*t));
 
@@ -164,7 +164,7 @@ es_event_target_new_component (ESEvent *eme, const char *id)
 
 /* ********************************************************************** */
 
-static void *emeh_parent_class;
+static gpointer emeh_parent_class;
 #define emeh ((ESEventHook *)eph)
 
 static const EEventHookTargetMask emeh_state_masks[] = {
@@ -192,7 +192,7 @@ emeh_finalise(GObject *o)
 static void
 emeh_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	/** @HookClass: Shell Main Menu
 	 * @Id: org.gnome.evolution.shell.events:1.0

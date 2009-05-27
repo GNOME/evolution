@@ -306,7 +306,7 @@ static void e_day_view_foreach_event_with_uid (EDayView *day_view,
 static void e_day_view_free_events (EDayView *day_view);
 static void e_day_view_free_event_array (EDayView *day_view,
 					 GArray *array);
-static int e_day_view_add_event (ECalComponent *comp,
+static gint e_day_view_add_event (ECalComponent *comp,
 				 time_t	  start,
 				 time_t	  end,
 				 gpointer data);
@@ -509,8 +509,8 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 static void
 process_component (EDayView *day_view, ECalModelComponent *comp_data)
 {
-	const char *uid;
-	char *rid = NULL;
+	const gchar *uid;
+	gchar *rid = NULL;
 	ECalComponent *comp;
 	AddEventData add_event_data;
 
@@ -543,13 +543,13 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 }
 
 static void
-update_row (EDayView *day_view, int row)
+update_row (EDayView *day_view, gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 	gint day, event_num;
-	const char *uid = NULL;
-	char *rid = NULL;
+	const gchar *uid = NULL;
+	gchar *rid = NULL;
 
 	e_day_view_stop_editing_event (day_view);
 
@@ -579,7 +579,7 @@ update_row (EDayView *day_view, int row)
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
+model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
@@ -591,7 +591,7 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 }
 
 static void
-model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
+model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
@@ -603,11 +603,11 @@ model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
 }
 
 static void
-model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data)
+model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	ECalModel *model;
-	int i;
+	gint i;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		return;
@@ -648,8 +648,8 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 	for (l = list; l != NULL; l = g_slist_next (l)) {
 		ECalModelComponent *comp_data = l->data;
 		gint day, event_num;
-		const char *uid = NULL;
-		char *rid = NULL;
+		const gchar *uid = NULL;
+		gchar *rid = NULL;
 
 		uid = icalcomponent_get_uid (comp_data->icalcomp);
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
@@ -1527,12 +1527,12 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 {
 	/* An array of dates, one for each month in the year 2000. They must
 	   all be Sundays. */
-	static const int days[12] = { 23, 20, 19, 23, 21, 18,
+	static const gint days[12] = { 23, 20, 19, 23, 21, 18,
 				      23, 20, 17, 22, 19, 24 };
 	gfloat width, offset;
 	gint day, max_width;
 	struct tm date_tm;
-	char buffer[128];
+	gchar buffer[128];
 	PangoContext *pango_context;
 	PangoLayout *layout;
 	gint pango_width;
@@ -1713,7 +1713,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *u;
+	const gchar *u;
 
 	for (day = 0; day < day_view->days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
@@ -1840,7 +1840,7 @@ e_day_view_update_event_label (EDayView *day_view,
 	EDayViewEvent *event;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
-	char *text;
+	gchar *text;
 	gint interval;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
@@ -1850,7 +1850,7 @@ e_day_view_update_event_label (EDayView *day_view,
 		return;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char *) summary : (char *) "";
+	text = summary ? (gchar *) summary : (gchar *) "";
 
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
@@ -1908,7 +1908,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 			       NULL);
 
 	if (free_text)
-		g_free ((gchar*)summary);
+		g_free ((gchar *)summary);
 
 	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
@@ -1973,8 +1973,8 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint day, event_num;
-	const char *u;
-	char *r = NULL;
+	const gchar *u;
+	gchar *r = NULL;
 
 	if (!uid)
 		return FALSE;
@@ -2296,7 +2296,7 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 			      time_t start_time)
 {
 	gint day;
-	char *str;
+	gchar *str;
 	struct icaltimetype tt;
 	GDate dt;
 
@@ -2579,8 +2579,8 @@ e_day_view_update_marcus_bains		(EDayView *day_view)
 void
 e_day_view_set_marcus_bains		(EDayView       *day_view,
 					 gboolean        show_line,
-					 const char 	*dayview_color,
-					 const char     *timebar_color)
+					 const gchar 	*dayview_color,
+					 const gchar     *timebar_color)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -3969,7 +3969,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	ECal *client;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
-	int is_date;
+	gint is_date;
 
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -4798,8 +4798,8 @@ e_day_view_ensure_events_sorted (EDayView *day_view)
 
 
 gint
-e_day_view_event_sort_func (const void *arg1,
-			    const void *arg2)
+e_day_view_event_sort_func (gconstpointer arg1,
+			    gconstpointer arg2)
 {
 	EDayViewEvent *event1, *event2;
 
@@ -4830,7 +4830,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	time_t dtstart, dtend;
 	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt, end_tt;
-        const char *uid;
+        const gchar *uid;
 	AddEventData add_event_data;
 	gboolean read_only = TRUE;
 
@@ -5743,7 +5743,7 @@ e_day_view_start_editing_event (EDayView *day_view,
                         ((EText *)(event->canvas_item))->need_im_reset = TRUE;
                 }
                 else {
-			char *initial_text;
+			gchar *initial_text;
 
 			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), key_event->keyval, key_event->string);
 			gnome_canvas_item_set (event->canvas_item,
@@ -5789,7 +5789,7 @@ e_day_view_stop_editing_event (EDayView *day_view)
 static void
 cancel_editing (EDayView *day_view)
 {
-	int day, event_num;
+	gint day, event_num;
 	EDayViewEvent *event;
 	const gchar *summary;
 
@@ -5815,7 +5815,7 @@ cancel_editing (EDayView *day_view)
 }
 
 static EDayViewEvent *
-tooltip_get_view_event (EDayView *day_view, int day, int event_num)
+tooltip_get_view_event (EDayView *day_view, gint day, gint event_num)
 {
 	EDayViewEvent *pevent;
 
@@ -5834,8 +5834,8 @@ static void
 tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item)
 {
 	EDayViewEvent *pevent;
-	int event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
-	int day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+	gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
+	gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
 
 	pevent = tooltip_get_view_event (day_view, day, event_num);
 	if (pevent) {
@@ -5954,7 +5954,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 										  &day, &row,
 										  &event_num);
 			} else {
-				int tmp;
+				gint tmp;
 
 				pos = e_day_view_convert_position_in_top_canvas (day_view,
 										 event_x, event_y,
@@ -5993,8 +5993,8 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_MOTION_NOTIFY:
 		{
 			EDayViewEvent *pevent;
-			int event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
-			int day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
+			gint event_num = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-num"));
+			gint day = GPOINTER_TO_INT(g_object_get_data ((GObject *)item, "event-day"));
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 
@@ -6343,7 +6343,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	on_server = cal_comp_is_on_server (comp, client);
 
 	if (string_is_empty (text) && !on_server) {
-		const char *uid;
+		const gchar *uid;
 
 		e_cal_component_get_uid (comp, &uid);
 
@@ -7380,7 +7380,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 
 	if (info == TARGET_CALENDAR_EVENT || info == TARGET_VCALENDAR) {
 		/* we will pass an icalcalendar component for both types */
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *vcal;
 
 		vcal = e_cal_util_new_top_level ();
@@ -7390,15 +7390,15 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			ESource *source = e_cal_get_source (event->comp_data->client);
-			const char *source_uid = e_source_peek_uid (source);
-			char *tmp;
+			const gchar *source_uid = e_source_peek_uid (source);
+			gchar *tmp;
 
 			if (!source_uid)
 				source_uid = "";
 
 			tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, (unsigned char *)tmp, strlen (tmp));
+						8, (guchar *)tmp, strlen (tmp));
 
 			g_free (tmp);
 		}
@@ -7570,7 +7570,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		&& !drag_from_same_window) {
 		/* We are dragging between different window */
 
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		time_t dtstart;
@@ -7582,8 +7582,8 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
 			goto error;
 
-		comp_str = (char *) data->data;
-		icalcomp = icalparser_parse_string ((const char *) comp_str);
+		comp_str = (gchar *) data->data;
+		icalcomp = icalparser_parse_string ((const gchar *) comp_str);
 		if (!icalcomp)
 			goto error;
 
@@ -7776,7 +7776,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		&& !drag_from_same_window) {
 		/* We are dragging between different window */
 
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		time_t dtstart;
@@ -7788,8 +7788,8 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
 			goto error;
 
-		comp_str = (char *) data->data;
-		icalcomp = icalparser_parse_string ((const char *) comp_str);
+		comp_str = (gchar *) data->data;
+		icalcomp = icalparser_parse_string ((const gchar *) comp_str);
 		if (!icalcomp)
 			goto error;
 

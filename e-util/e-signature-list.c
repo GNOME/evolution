@@ -175,7 +175,7 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	EList *old_sigs;
 	EIterator *iter;
 	gboolean found;
-	char *uid;
+	gchar *uid;
 
 	old_sigs = e_list_duplicate (E_LIST (signature_list));
 
@@ -252,8 +252,8 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	signature_list->priv->resave = resave;
 }
 
-static void *
-copy_func (const void *data, void *closure)
+static gpointer
+copy_func (gconstpointer data, gpointer closure)
 {
 	GObject *object = (GObject *)data;
 
@@ -263,7 +263,7 @@ copy_func (const void *data, void *closure)
 }
 
 static void
-free_func (void *data, void *closure)
+free_func (gpointer data, gpointer closure)
 {
 	g_object_unref (data);
 }
@@ -338,7 +338,7 @@ e_signature_list_save (ESignatureList *signature_list)
 	GSList *list = NULL;
 	ESignature *signature;
 	EIterator *iter;
-	char *xmlbuf;
+	gchar *xmlbuf;
 
 	for (iter = e_list_get_iterator (E_LIST (signature_list));
 	     e_iterator_is_valid (iter);
@@ -430,7 +430,7 @@ e_signature_list_remove (ESignatureList *signatures, ESignature *signature)
  * Return value: The signature or NULL if it doesn't exist.
  **/
 const ESignature *
-e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, const char *key)
+e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, const gchar *key)
 {
 	const ESignature *signature = NULL;
 	EIterator *it;
@@ -444,7 +444,7 @@ e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, cons
 	for (it = e_list_get_iterator ((EList *) signatures);
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
-		int found = 0;
+		gint found = 0;
 
 		signature = (const ESignature *) e_iterator_get (it);
 

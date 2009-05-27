@@ -24,6 +24,6 @@
 #ifndef _E_CONFIG_UPGRADE_H
 #define _E_CONFIG_UPGRADE_H
 
-int e_config_upgrade (int major, int minor, int revision);
+gint e_config_upgrade (gint major, gint minor, gint revision);
 
 #endif /* _E_CONFIG_UPGRADE_H */

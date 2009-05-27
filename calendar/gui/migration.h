@@ -31,7 +31,7 @@
 
 struct _GError;
 
-gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_memos (MemosComponent *component, int major, int minor, int revision, struct _GError **err);
+gboolean migrate_calendars (CalendarComponent *component, gint major, gint minor, gint revision, struct _GError **err);
+gboolean migrate_tasks (TasksComponent *component, gint major, gint minor, gint revision, struct _GError **err);
+gboolean migrate_memos (MemosComponent *component, gint major, gint minor, gint revision, struct _GError **err);
 #endif

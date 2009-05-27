@@ -59,20 +59,20 @@ void         e_task_bar_construct        (ETaskBar    *task_bar);
 GtkWidget   *e_task_bar_new              (void);
 
 void         e_task_bar_set_message      (ETaskBar    *task_bar,
-					  const char  *message);
+					  const gchar  *message);
 void         e_task_bar_unset_message    (ETaskBar    *task_bar);
 
 void         e_task_bar_prepend_task     (ETaskBar    *task_bar,
 					  ETaskWidget *task_widget);
 void         e_task_bar_remove_task      (ETaskBar    *task_bar,
-					  int          n);
+					  gint          n);
 ETaskWidget * e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
 						  guint id);
 
 void 	    e_task_bar_remove_task_from_id (ETaskBar *task_bar,
 					    guint id);
 ETaskWidget *e_task_bar_get_task_widget  (ETaskBar    *task_bar,
-					  int          n);
+					  gint          n);
 
 #ifdef __cplusplus
 }

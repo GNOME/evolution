@@ -44,20 +44,20 @@ typedef struct _EvolutionImporterClass   EvolutionImporterClass;
 
 typedef void (* EvolutionImporterCreateControlFn) (EvolutionImporter *importer,
 						   Bonobo_Control *control,
-						   void *closure);
+						   gpointer closure);
 
 typedef gboolean (* EvolutionImporterSupportFormatFn) (EvolutionImporter *importer,
-						       const char *filename,
-						       void *closure);
+						       const gchar *filename,
+						       gpointer closure);
 typedef gboolean (* EvolutionImporterLoadFileFn) (EvolutionImporter *importer,
-						  const char *filename,
-						  void *closure);
+						  const gchar *filename,
+						  gpointer closure);
 typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
 						 CORBA_Object listener,
-						 void *closure,
+						 gpointer closure,
 						 CORBA_Environment *ev);
-typedef char *(* EvolutionImporterGetErrorFn) (EvolutionImporter *importer,
-					       void *closure);
+typedef gchar *(* EvolutionImporterGetErrorFn) (EvolutionImporter *importer,
+					       gpointer closure);
 
 typedef enum {
 	EVOLUTION_IMPORTER_OK,

@@ -45,15 +45,15 @@ G_DEFINE_TYPE (EComponentRegistry, e_component_registry, G_TYPE_OBJECT)
 /* EComponentInfo handling.  */
 
 static EComponentInfo *
-component_info_new (const char *id,
+component_info_new (const gchar *id,
 		    GNOME_Evolution_Component iface,
-		    const char *alias,
-		    const char *button_label,
-	  	    const char *button_tooltips,
-		    const char *menu_label,
-		    const char *menu_accelerator,
-                    const char *icon_name,
-		    int sort_order)
+		    const gchar *alias,
+		    const gchar *button_label,
+	  	    const gchar *button_tooltips,
+		    const gchar *menu_label,
+		    const gchar *menu_accelerator,
+                    const gchar *icon_name,
+		    gint sort_order)
 {
 	EComponentInfo *info = g_new0 (EComponentInfo, 1);
 
@@ -108,7 +108,7 @@ set_schemas (EComponentInfo *component_info,
 {
 	Bonobo_ActivationProperty *property = bonobo_server_info_prop_find (server_info, "evolution:uri_schemas");
 	Bonobo_StringList *list;
-	int i;
+	gint i;
 
 	if (property == NULL)
 		return;
@@ -133,8 +133,8 @@ query_components (EComponentRegistry *registry)
 	const gchar * const *language_names;
 	CORBA_Environment ev;
 	GSList *languages = NULL;
-	char *query;
-	int i;
+	gchar *query;
+	gint i;
 
 	if (registry->priv->init)
 		return;
@@ -147,7 +147,7 @@ query_components (EComponentRegistry *registry)
 	g_free (query);
 
 	if (BONOBO_EX (&ev)) {
-		char *ex_text = bonobo_exception_get_text (&ev);
+		gchar *ex_text = bonobo_exception_get_text (&ev);
 		g_warning ("Cannot query for components: %s\n", ex_text);
 		g_free (ex_text);
 		CORBA_exception_free (&ev);
@@ -159,22 +159,22 @@ query_components (EComponentRegistry *registry)
 		languages = g_slist_append (languages, (gpointer)(*language_names++));
 
 	for (i = 0; i < info_list->_length; i++) {
-		const char *id;
-		const char *label;
-		const char *menu_label;
-		const char *menu_accelerator;
-		const char *alias;
-		const char *icon_name;
-		const char *sort_order_string;
-		const char *tooltips;
+		const gchar *id;
+		const gchar *label;
+		const gchar *menu_label;
+		const gchar *menu_accelerator;
+		const gchar *alias;
+		const gchar *icon_name;
+		const gchar *sort_order_string;
+		const gchar *tooltips;
 		EComponentInfo *info;
-		int sort_order;
+		gint sort_order;
 		GNOME_Evolution_Component iface;
 
 		id = info_list->_buffer[i].iid;
-		iface = bonobo_activation_activate_from_id ((char *)id, 0, NULL, &ev);
+		iface = bonobo_activation_activate_from_id ((gchar *)id, 0, NULL, &ev);
 		if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
-			char *ex_text = bonobo_exception_get_text (&ev);
+			gchar *ex_text = bonobo_exception_get_text (&ev);
 
 			g_warning("Cannot activate '%s': %s\n", id, ex_text);
 			g_free(ex_text);
@@ -276,7 +276,7 @@ e_component_registry_peek_list (EComponentRegistry *registry)
 EComponentInfo *
 e_component_registry_peek_info (EComponentRegistry *registry,
 				enum _EComponentRegistryField field,
-				const char *key)
+				const gchar *key)
 {
 	GSList *p, *q;
 
@@ -298,7 +298,7 @@ e_component_registry_peek_info (EComponentRegistry *registry,
 			break;
 		case ECR_FIELD_SCHEMA:
 			for (q = info->uri_schemas; q != NULL; q = q->next)
-				if (strcmp((char *)q->data, key) == 0)
+				if (strcmp((gchar *)q->data, key) == 0)
 					return info;
 			break;
 		}
@@ -309,7 +309,7 @@ e_component_registry_peek_info (EComponentRegistry *registry,
 
 GNOME_Evolution_Component
 e_component_registry_activate (EComponentRegistry *registry,
-			       const char *id,
+			       const gchar *id,
 			       CORBA_Environment  *ev)
 {
 	EComponentInfo *info;

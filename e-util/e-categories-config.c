@@ -37,15 +37,15 @@
  * given category.
  */
 gboolean
-e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkBitmap **mask)
+e_categories_config_get_icon_for (const gchar *category, GdkPixmap **pixmap, GdkBitmap **mask)
 {
-	char *icon_file;
+	gchar *icon_file;
 	GdkPixbuf *pixbuf;
 	GdkBitmap *tmp_mask;
 
 	g_return_val_if_fail (pixmap != NULL, FALSE);
 
-	icon_file = (char *) e_categories_get_icon_file_for (category);
+	icon_file = (gchar *) e_categories_get_icon_file_for (category);
 	if (!icon_file) {
 		*pixmap = NULL;
 		if (mask != NULL)
@@ -87,8 +87,8 @@ void
 e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 {
 	GtkDialog *dialog;
-	const char *text;
-	int result;
+	const gchar *text;
+	gint result;
 
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));

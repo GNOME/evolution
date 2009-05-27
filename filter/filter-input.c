@@ -39,10 +39,10 @@
 #define d(x)
 
 static gboolean validate (FilterElement *fe);
-static int input_eq (FilterElement *fe, FilterElement *cm);
+static gint input_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *, GString *);
@@ -132,12 +132,12 @@ filter_input_new (void)
 }
 
 FilterInput *
-filter_input_new_type_name (const char *type)
+filter_input_new_type_name (const gchar *type)
 {
 	FilterInput *fi;
 
 	fi = filter_input_new ();
-	fi->type = (char *)xmlStrdup ((xmlChar *)type);
+	fi->type = (gchar *)xmlStrdup ((xmlChar *)type);
 
 	d(printf("new type %s = %p\n", type, fi));
 
@@ -145,7 +145,7 @@ filter_input_new_type_name (const char *type)
 }
 
 void
-filter_input_set_value (FilterInput *fi, const char *value)
+filter_input_set_value (FilterInput *fi, const gchar *value)
 {
 	GList *l;
 
@@ -168,15 +168,15 @@ validate (FilterElement *fe)
 	gboolean valid = TRUE;
 
 	if (fi->values && !strcmp (fi->type, "regex")) {
-		const char *pattern;
+		const gchar *pattern;
 		regex_t regexpat;
-		int regerr;
+		gint regerr;
 
 		pattern = fi->values->data;
 
 		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
 			size_t reglen;
-			char *regmsg;
+			gchar *regmsg;
 
 			/* regerror gets called twice to get the full error string
 			   length to do proper posix error reporting */
@@ -203,10 +203,10 @@ validate (FilterElement *fe)
 static int
 list_eq (GList *al, GList *bl)
 {
-	int truth = TRUE;
+	gint truth = TRUE;
 
 	while (truth && al && bl) {
-		truth = strcmp ((char *) al->data, (char *) bl->data) == 0;
+		truth = strcmp ((gchar *) al->data, (gchar *) bl->data) == 0;
 		al = al->next;
 		bl = bl->next;
 	}
@@ -243,15 +243,15 @@ xml_encode (FilterElement *fe)
 
 	d(printf ("Encoding %s as xml\n", type));
 
-	value = xmlNewNode (NULL, (const unsigned char *)"value");
-	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
+	value = xmlNewNode (NULL, (const guchar *)"value");
+	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *)"type", (guchar *)type);
 	l = fi->values;
 	while (l) {
 		xmlNodePtr cur;
 		xmlChar *str = l->data;
 
-                cur = xmlNewChild (value, NULL, (unsigned char *)type, NULL);
+                cur = xmlNewChild (value, NULL, (guchar *)type, NULL);
 
 		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);
@@ -267,7 +267,7 @@ static int
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterInput *fi = (FilterInput *)fe;
-	char *name, *str, *type;
+	gchar *name, *str, *type;
 	xmlNodePtr n;
 	GList *l;
 
@@ -279,8 +279,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	g_list_free (fi->values);
 	fi->values = NULL;
 
-	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
-	type = (char *)xmlGetProp (node, (const unsigned char *)"type");
+	name = (gchar *)xmlGetProp (node, (const guchar *)"name");
+	type = (gchar *)xmlGetProp (node, (const guchar *)"type");
 
 	d(printf("Decoding %s from xml %p\n", type, fe));
 	d(printf ("Name = %s\n", name));
@@ -290,9 +290,9 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	fi->type = type;
 	n = node->children;
 	while (n) {
-		if (!strcmp ((char *)n->name, type)) {
-			if (!(str = (char *)xmlNodeGetContent (n)))
-				str = (char *)xmlStrdup ((const unsigned char *)"");
+		if (!strcmp ((gchar *)n->name, type)) {
+			if (!(str = (gchar *)xmlNodeGetContent (n)))
+				str = (gchar *)xmlStrdup ((const guchar *)"");
 
 			d(printf ("  '%s'\n", str));
 			fi->values = g_list_append (fi->values, g_strdup (str));
@@ -310,7 +310,7 @@ static void
 entry_changed (GtkEntry *entry, FilterElement *fe)
 {
 	FilterInput *fi = (FilterInput *) fe;
-	const char *new;
+	const gchar *new;
 	GList *l;
 
 	new = gtk_entry_get_text (entry);
@@ -337,7 +337,7 @@ get_widget (FilterElement *fe)
 
 	entry = gtk_entry_new ();
 	if (fi->values && fi->values->data)
-		gtk_entry_set_text (GTK_ENTRY (entry), (const char *) fi->values->data);
+		gtk_entry_set_text (GTK_ENTRY (entry), (const gchar *) fi->values->data);
 
 	g_signal_connect (entry, "changed", G_CALLBACK (entry_changed), fe);
 

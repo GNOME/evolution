@@ -67,7 +67,7 @@ gboolean
 cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean deleting)
 {
 	ECalComponentVType vtype;
-	const char *id;
+	const gchar *id;
 
 	if (deleting && e_cal_get_save_schedules (client))
 		return TRUE;

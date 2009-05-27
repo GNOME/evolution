@@ -38,7 +38,7 @@
 typedef struct {
 	GalView              base;
 
-	char                *title;
+	gchar                *title;
 	double               column_width;
 
 	EMinicardViewWidget *emvw;

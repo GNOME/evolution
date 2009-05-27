@@ -303,7 +303,7 @@ selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 }
 
 static void
-selection_row_change (ESelectionModel *esm, int row, EMinicardViewWidget *widget)
+selection_row_change (ESelectionModel *esm, gint row, EMinicardViewWidget *widget)
 {
 	selection_change (esm, widget);
 }
@@ -447,7 +447,7 @@ e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *eve
 	if (!canvas->focused_item) {
 		EReflow *reflow = E_REFLOW (view->emv);
 		if (reflow->count) {
-			int unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), 0);
+			gint unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), 0);
 
 			if (unsorted != -1)
 				canvas->focused_item = reflow->items [unsorted];

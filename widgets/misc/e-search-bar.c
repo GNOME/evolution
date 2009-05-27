@@ -66,7 +66,7 @@ enum {
 
 /* Forward decls.  */
 
-static int find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget);
+static gint find_id (GtkWidget *menu, gint idin, const gchar *type, GtkWidget **widget);
 
 static void emit_search_activated (ESearchBar *esb);
 static void emit_query_changed (ESearchBar *esb);
@@ -105,8 +105,8 @@ clear_button_state_changed (GtkWidget *clear_button, GtkStateType state, ESearch
 		update_clear_menuitem_sensitive (search_bar);
 }
 
-static char *
-verb_name_from_id (int id)
+static gchar *
+verb_name_from_id (gint id)
 {
 	return g_strdup_printf ("ESearchBar:Activate:%d", id);
 }
@@ -178,7 +178,7 @@ emit_search_activated(ESearchBar *esb)
 }
 
 static void
-emit_menu_activated (ESearchBar *esb, int item)
+emit_menu_activated (ESearchBar *esb, gint item)
 {
 	g_signal_emit (esb,
 		       esb_signals [MENU_ACTIVATED], 0,
@@ -190,12 +190,12 @@ emit_menu_activated (ESearchBar *esb, int item)
 
 static void
 search_now_verb_cb (BonoboUIComponent *ui_component,
-		    void *data,
-		    const char *verb_name)
+		    gpointer data,
+		    const gchar *verb_name)
 {
 	ESearchBar *esb;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	char *text;
+	gchar *text;
 
 	esb = E_SEARCH_BAR (data);
 	text = e_search_bar_get_text (esb);
@@ -218,8 +218,8 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 
 static void
 clear_verb_cb (BonoboUIComponent *ui_component,
-	       void *data,
-	       const char *verb_name)
+	       gpointer data,
+	       const gchar *verb_name)
 {
 	ESearchBar *esb;
 	esb = E_SEARCH_BAR (data);
@@ -258,12 +258,12 @@ setup_standard_verbs (ESearchBar *search_bar)
 
 static void
 search_verb_cb (BonoboUIComponent *ui_component,
-		void *data,
-		const char *verb_name)
+		gpointer data,
+		const gchar *verb_name)
 {
 	ESearchBar *esb;
-	const char *p;
-	int id;
+	const gchar *p;
+	gint id;
 
 	esb = E_SEARCH_BAR (data);
 
@@ -365,7 +365,7 @@ static void
 entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
-	const char *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
+	const gchar *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
 	GtkStyle *style = gtk_widget_get_default_style ();
 
 	if (text && *text) {
@@ -389,7 +389,7 @@ static void
 entry_changed_cb (GtkWidget *widget,
 		  ESearchBar *esb)
 {
-	const char *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
+	const gchar *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
 	GtkStyle *entry_style, *default_style;
 
 	entry_style = gtk_widget_get_style (esb->entry);
@@ -461,8 +461,8 @@ static void
 option_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
-	int id;
-	const char *text;
+	gint id;
+	const gchar *text;
 
 	id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "EsbItemId"));
 
@@ -529,7 +529,7 @@ entry_key_press_cb (GtkWidget *widget,
 static void
 scopeoption_changed_cb (GtkWidget *option_menu, ESearchBar *search_bar)
 {
-	char *text = NULL;
+	gchar *text = NULL;
 
 	text = e_search_bar_get_text (search_bar);
 	if (!(text && *text))
@@ -565,13 +565,13 @@ put_in_spacer_widget (GtkWidget *widget)
 
 static void
 append_xml_menu_item (GString *xml,
-		      const char *name,
-		      const char *label,
-		      const char *stock,
-		      const char *verb,
-		      const char *accelerator)
+		      const gchar *name,
+		      const gchar *label,
+		      const gchar *stock,
+		      const gchar *verb,
+		      const gchar *accelerator)
 {
-	char *encoded_label;
+	gchar *encoded_label;
 
 	encoded_label = bonobo_ui_util_encode_str (label);
 	g_string_append_printf (xml, "<menuitem name=\"%s\" verb=\"%s\" label=\"%s\"",
@@ -600,8 +600,8 @@ setup_bonobo_menus (ESearchBar *esb)
 {
 	GString *xml;
 	GSList *p;
-	char *verb_name;
-	char *encoded_title;
+	gchar *verb_name;
+	gchar *encoded_title;
 
 	xml = g_string_new ("");
 
@@ -653,7 +653,7 @@ static void
 set_menu (ESearchBar *esb,
 	  ESearchBarItem *items)
 {
-	int i;
+	gint i;
 
 	free_menu_items (esb);
 
@@ -678,7 +678,7 @@ set_menu (ESearchBar *esb,
 /* /\* Callback used when an option item is destroyed.  We have to destroy its */
 /*  * suboption items. */
 /*  *\/ */
-/* static void */
+/* static gpointer /
 /* option_item_destroy_cb (GtkObject *object, gpointer data) */
 /* { */
 /* /\* 	ESearchBarSubitem *subitems; *\/ */
@@ -695,7 +695,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu;
 	GSList *group = NULL;
-	int i;
+	gint i;
 
 	if (esb->option_menu)
 		gtk_widget_destroy (esb->option_menu);
@@ -709,7 +709,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 			group = NULL;
 
 		if (items[i].text) {
-			char *str;
+			gchar *str;
 			str = e_str_without_underscores (_(items[i].text));
 			switch (items[i].type) {
 			    case ESB_ITEMTYPE_NORMAL:
@@ -749,10 +749,10 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 }
 
 static int
-find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
+find_id (GtkWidget *menu, gint idin, const gchar *type, GtkWidget **widget)
 {
 	GList *l = GTK_MENU_SHELL (menu)->children;
-	int row = -1, i = 0, id;
+	gint row = -1, i = 0, id;
 
 	if (widget)
 		*widget = NULL;
@@ -1111,7 +1111,7 @@ e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items)
 }
 
 void
-e_search_bar_set_viewoption_menufunc (ESearchBar *search_bar, ESearchBarMenuFunc *menu_gen_func, void *data)
+e_search_bar_set_viewoption_menufunc (ESearchBar *search_bar, ESearchBarMenuFunc *menu_gen_func, gpointer data)
 {
 	g_signal_connect (search_bar->viewoption, "button_press_event", G_CALLBACK (menu_gen_func), data);
 }
@@ -1161,7 +1161,7 @@ e_search_bar_get_selected_viewitem (ESearchBar *search_bar)
  * Sets the items for the secondary option menu of a search bar.
  **/
 void
-e_search_bar_set_viewoption (ESearchBar *search_bar, int option_id, ESearchBarItem *subitems)
+e_search_bar_set_viewoption (ESearchBar *search_bar, gint option_id, ESearchBarItem *subitems)
 {
 	GtkWidget *menu;
 	GtkWidget *menu_item;
@@ -1180,7 +1180,7 @@ e_search_bar_set_viewoption (ESearchBar *search_bar, int option_id, ESearchBarIt
 
 	for (i = 0; subitems[i].id != -1; ++i) {
 		if (subitems[i].text) {
-			char *str = NULL;
+			gchar *str = NULL;
 			str = e_str_without_underscores (subitems[i].text);
 			menu_item = gtk_menu_item_new_with_label (str);
 			g_free (str);
@@ -1229,7 +1229,7 @@ e_search_bar_set_scopeoption (ESearchBar *search_bar, ESearchBarItem *scopeitems
 	/* Generate items */
 	for (i = 0; scopeitems[i].id != -1; ++i) {
 		if (scopeitems[i].text) {
-			char *str;
+			gchar *str;
 			str = e_str_without_underscores (_(scopeitems[i].text));
 			menu_item = gtk_menu_item_new_with_label (str);
 			g_object_set_data_full (G_OBJECT (menu_item), "string",str, g_free);
@@ -1329,10 +1329,10 @@ e_search_bar_set_ui_component (ESearchBar *search_bar,
 }
 
 void
-e_search_bar_set_menu_sensitive (ESearchBar *search_bar, int id, gboolean state)
+e_search_bar_set_menu_sensitive (ESearchBar *search_bar, gint id, gboolean state)
 {
-	char *verb_name;
-	char *path;
+	gchar *verb_name;
+	gchar *path;
 
 	if (search_bar->lite)
 		return;
@@ -1373,9 +1373,9 @@ e_search_bar_get_type (void)
 }
 
 void
-e_search_bar_set_viewitem_id (ESearchBar *search_bar, int id)
+e_search_bar_set_viewitem_id (ESearchBar *search_bar, gint id)
 {
-	int row;
+	gint row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	if (!search_bar->viewoption_menu)
@@ -1398,9 +1398,9 @@ e_search_bar_set_viewitem_id (ESearchBar *search_bar, int id)
  * Sets the active item in the options menu of a search bar.
  **/
 void
-e_search_bar_set_item_id (ESearchBar *search_bar, int id)
+e_search_bar_set_item_id (ESearchBar *search_bar, gint id)
 {
-	int row;
+	gint row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
@@ -1423,9 +1423,9 @@ e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 }
 
 void
-e_search_bar_set_item_menu (ESearchBar *search_bar, int id)
+e_search_bar_set_item_menu (ESearchBar *search_bar, gint id)
 {
-	int row;
+	gint row;
 	GtkWidget *item;
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
@@ -1446,9 +1446,9 @@ e_search_bar_set_item_menu (ESearchBar *search_bar, int id)
  * Sets the active item in the options menu of a search bar.
  **/
 void
-e_search_bar_set_search_scope (ESearchBar *search_bar, int id)
+e_search_bar_set_search_scope (ESearchBar *search_bar, gint id)
 {
-	int row;
+	gint row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
@@ -1472,7 +1472,7 @@ e_search_bar_set_search_scope (ESearchBar *search_bar, int id)
  *
  * Return value: Identifier of the selected item in the options menu.
  **/
-int
+gint
 e_search_bar_get_item_id (ESearchBar *search_bar)
 {
 	GtkWidget *menu_item;
@@ -1496,7 +1496,7 @@ e_search_bar_get_item_id (ESearchBar *search_bar)
  *
  * Return value: Identifier of the selected item in the options menu.
  **/
-int
+gint
 e_search_bar_get_search_scope (ESearchBar *search_bar)
 {
 	GtkWidget *menu_item;
@@ -1523,7 +1523,7 @@ e_search_bar_get_search_scope (ESearchBar *search_bar)
  * If the search bar currently contains an entry rather than a a viewoption menu,
  * a value less than zero is returned.
  **/
-int
+gint
 e_search_bar_get_viewitem_id (ESearchBar *search_bar)
 {
 	GtkWidget *menu_item;
@@ -1553,9 +1553,9 @@ e_search_bar_get_viewitem_id (ESearchBar *search_bar)
  * to an item that has subitems.
  **/
 void
-e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
+e_search_bar_set_ids (ESearchBar *search_bar, gint item_id, gint subitem_id)
 {
-	int item_row;
+	gint item_row;
 	GtkWidget *item_widget;
 
 	g_return_if_fail (search_bar != NULL);
@@ -1578,7 +1578,7 @@ e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
  * Sets the text string inside the entry line of a search bar.
  **/
 void
-e_search_bar_set_text (ESearchBar *search_bar, const char *text)
+e_search_bar_set_text (ESearchBar *search_bar, const gchar *text)
 {
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	gtk_entry_set_text (GTK_ENTRY (search_bar->entry), text);
@@ -1594,7 +1594,7 @@ e_search_bar_set_text (ESearchBar *search_bar, const char *text)
  * This must be freed using g_free().  If a suboption menu is active instead
  * of an entry, NULL is returned.
  **/
-char *
+gchar *
 e_search_bar_get_text (ESearchBar *search_bar)
 {
 	GtkStyle *entry_style, *default_style;
@@ -1611,11 +1611,11 @@ e_search_bar_get_text (ESearchBar *search_bar)
 	return g_strdup (gtk_entry_get_text (GTK_ENTRY (search_bar->entry)));
 }
 
-void e_search_bar_scope_enable (ESearchBar *esb, int did, gboolean state)
+void e_search_bar_scope_enable (ESearchBar *esb, gint did, gboolean state)
 {
 	GtkWidget *widget=NULL;
 	GList *l ;
-	int id;
+	gint id;
 	gpointer *pointer;
 
 	g_return_if_fail (esb != NULL);

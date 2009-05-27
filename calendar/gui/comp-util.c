@@ -70,7 +70,7 @@ cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone)
 
 /* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
 static gboolean
-e_cal_component_compare_tzid (const char *tzid1, const char *tzid2)
+e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)
 {
 	gboolean retval = TRUE;
 
@@ -103,10 +103,10 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 				       icaltimezone *zone)
 {
 	ECalComponentDateTime start_datetime, end_datetime;
-	const char *tzid;
+	const gchar *tzid;
 	gboolean retval = FALSE;
 	icaltimezone *start_zone, *end_zone;
-	int offset1, offset2;
+	gint offset1, offset2;
 
 	tzid = icaltimezone_get_tzid (zone);
 
@@ -211,8 +211,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 gboolean
 cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 {
-	const char *uid;
-	char *rid = NULL;
+	const gchar *uid;
+	gchar *rid = NULL;
 	icalcomponent *icalcomp;
 	GError *error = NULL;
 
@@ -287,7 +287,7 @@ cal_comp_event_new_with_defaults (ECal *client)
 {
 	icalcomponent *icalcomp;
 	ECalComponent *comp;
-	int interval;
+	gint interval;
 	CalUnits units;
 	ECalComponentAlarm *alarm;
 	icalproperty *icalprop;
@@ -446,11 +446,11 @@ cal_comp_util_get_n_icons (ECalComponent *comp)
 
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
+		gchar *category;
 		GdkPixmap *pixmap = NULL;
 		GdkBitmap *mask = NULL;
 
-		category = (char *) elem->data;
+		category = (gchar *) elem->data;
 		if (e_categories_config_get_icon_for (category, &pixmap, &mask)) {
 			num_icons++;
 			g_object_unref (pixmap);
@@ -488,7 +488,7 @@ cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
 		const guint8 *c = p->data;
 
 		if (c)
-			g_byte_array_append (array, c, strlen ((const char *) c) + 1);
+			g_byte_array_append (array, c, strlen ((const gchar *) c) + 1);
 	}
 
 	gtk_selection_data_set (data, data->target, 8, array->data, array->len);
@@ -509,17 +509,17 @@ GSList *
 cal_comp_selection_get_string_list (GtkSelectionData *data)
 {
 	/* format is "str1\0str2\0...strN\0" */
-	char *inptr, *inend;
+	gchar *inptr, *inend;
 	GSList *list;
 
 	g_return_val_if_fail (data != NULL, NULL);
 
 	list = NULL;
-	inptr = (char *)data->data;
-	inend = (char *)(data->data + data->length);
+	inptr = (gchar *)data->data;
+	inend = (gchar *)(data->data + data->length);
 
 	while (inptr < inend) {
-		char *start = inptr;
+		gchar *start = inptr;
 
 		while (inptr < inend && *inptr)
 			inptr++;
@@ -533,7 +533,7 @@ cal_comp_selection_get_string_list (GtkSelectionData *data)
 }
 
 static void
-datetime_to_zone (ECal *client, ECalComponentDateTime *date, const char *tzid)
+datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
 {
 	icaltimezone *from, *to;
 
@@ -612,8 +612,8 @@ cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalCo
 static gboolean
 update_single_object (ECal *client, icalcomponent *icalcomp, gboolean fail_on_modify)
 {
-	const char *uid;
-	char *tmp;
+	const gchar *uid;
+	gchar *tmp;
 	icalcomponent *tmp_icalcomp;
 	gboolean res;
 
@@ -688,10 +688,10 @@ update_objects (ECal *client, icalcomponent *icalcomp)
  * @return Whether was the operation successful.
  **/
 gboolean
-cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDragAction action, const char *source_uid, ESourceList *source_list)
+cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDragAction action, const gchar *source_uid, ESourceList *source_list)
 {
-	const char * uid;
-	char *old_uid = NULL;
+	const gchar * uid;
+	gchar *old_uid = NULL;
 	icalcomponent *tmp_icalcomp = NULL;
 	GError *error = NULL;
 	gboolean success = FALSE;
@@ -703,7 +703,7 @@ cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDr
 
 	/* FIXME deal with GDK_ACTION_ASK */
 	if (action == GDK_ACTION_COPY) {
-		char *tmp;
+		gchar *tmp;
 
 		old_uid = g_strdup (icalcomponent_get_uid (comp));
 		tmp = e_cal_component_gen_uid ();
@@ -804,7 +804,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 	icalcomponent *icalcomp = NULL;
 	ECalComponentRange rid;
        	ECalComponentDateTime sdt;
-	const char *uid;
+	const gchar *uid;
 
 	/* Get the master component */
 	e_cal_component_get_uid (comp, &uid);
@@ -822,7 +822,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 
 	if (rid.datetime.value && sdt.value && icaltime_compare_date_only (*rid.datetime.value, *sdt.value) == 0) {
 		ECalComponentDateTime msdt, medt, edt;
-		int *sequence;
+		gint *sequence;
 
 		e_cal_component_get_dtstart (master, &msdt);
 		e_cal_component_get_dtend (master, &medt);

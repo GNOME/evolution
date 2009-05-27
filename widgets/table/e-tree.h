@@ -60,14 +60,14 @@ typedef struct {
 typedef struct {
 	GtkTableClass parent_class;
 
-	void        (*cursor_change)      (ETree *et, int row, ETreePath path);
-	void        (*cursor_activated)   (ETree *et, int row, ETreePath path);
+	void        (*cursor_change)      (ETree *et, gint row, ETreePath path);
+	void        (*cursor_activated)   (ETree *et, gint row, ETreePath path);
 	void        (*selection_change)   (ETree *et);
-	void        (*double_click)       (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*right_click)        (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*click)              (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*key_press)          (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*start_drag)         (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
+	void        (*double_click)       (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gint        (*right_click)        (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gint        (*click)              (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gint        (*key_press)          (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
+	gint        (*start_drag)         (ETree *et, gint row, ETreePath path, gint col, GdkEvent *event);
 	gint        (*state_change)       (ETree *et);
 	gint        (*white_space_event)  (ETree *et, GdkEvent *event);
 
@@ -77,56 +77,56 @@ typedef struct {
 
 	/* Source side drag signals */
 	void (* tree_drag_begin)	           (ETree	       *tree,
-						    int                 row,
+						    gint                 row,
 						    ETreePath           path,
-						    int                 col,
+						    gint                 col,
 						    GdkDragContext     *context);
 	void (* tree_drag_end)	           (ETree	       *tree,
-					    int                 row,
+					    gint                 row,
 					    ETreePath           path,
-					    int                 col,
+					    gint                 col,
 					    GdkDragContext     *context);
 	void (* tree_drag_data_get)             (ETree             *tree,
-						 int                 row,
+						 gint                 row,
 						 ETreePath           path,
-						 int                 col,
+						 gint                 col,
 						 GdkDragContext     *context,
 						 GtkSelectionData   *selection_data,
 						 guint               info,
 						 guint               time);
 	void (* tree_drag_data_delete)          (ETree	       *tree,
-						 int                 row,
+						 gint                 row,
 						 ETreePath           path,
-						 int                 col,
+						 gint                 col,
 						 GdkDragContext     *context);
 
 	/* Target side drag signals */
 	void (* tree_drag_leave)	           (ETree	       *tree,
-						    int                 row,
+						    gint                 row,
 						    ETreePath           path,
-						    int                 col,
+						    gint                 col,
 						    GdkDragContext     *context,
 						    guint               time);
 	gboolean (* tree_drag_motion)           (ETree	       *tree,
-						 int                 row,
+						 gint                 row,
 						 ETreePath           path,
-						 int                 col,
+						 gint                 col,
 						 GdkDragContext     *context,
 						 gint                x,
 						 gint                y,
 						 guint               time);
 	gboolean (* tree_drag_drop)             (ETree	       *tree,
-						 int                 row,
+						 gint                 row,
 						 ETreePath           path,
-						 int                 col,
+						 gint                 col,
 						 GdkDragContext     *context,
 						 gint                x,
 						 gint                y,
 						 guint               time);
 	void (* tree_drag_data_received)        (ETree             *tree,
-						 int                 row,
+						 gint                 row,
 						 ETreePath           path,
-						 int                 col,
+						 gint                 col,
 						 GdkDragContext     *context,
 						 gint                x,
 						 gint                y,
@@ -139,23 +139,23 @@ GType           e_tree_get_type                   (void);
 gboolean	e_tree_construct                  (ETree                *e_tree,
 						   ETreeModel           *etm,
 						   ETableExtras         *ete,
-						   const char           *spec,
-						   const char           *state);
+						   const gchar           *spec,
+						   const gchar           *state);
 GtkWidget      *e_tree_new                        (ETreeModel           *etm,
 						   ETableExtras         *ete,
-						   const char           *spec,
-						   const char           *state);
+						   const gchar           *spec,
+						   const gchar           *state);
 
 /* Create an ETree using files. */
 gboolean	e_tree_construct_from_spec_file   (ETree                *e_tree,
 						   ETreeModel           *etm,
 						   ETableExtras         *ete,
-						   const char           *spec_fn,
-						   const char           *state_fn);
+						   const gchar           *spec_fn,
+						   const gchar           *state_fn);
 GtkWidget      *e_tree_new_from_spec_file         (ETreeModel           *etm,
 						   ETableExtras         *ete,
-						   const char           *spec_fn,
-						   const char           *state_fn);
+						   const gchar           *spec_fn,
+						   const gchar           *state_fn);
 
 /* To save the state */
 gchar          *e_tree_get_state                  (ETree                *e_tree);
@@ -200,17 +200,17 @@ gint            e_tree_model_to_view_row          (ETree                *e_tree,
 gint            e_tree_view_to_model_row          (ETree                *e_tree,
 						   gint                  view_row);
 void            e_tree_get_cell_at                (ETree                *tree,
-						   int                   x,
-						   int                   y,
-						   int                  *row_return,
-						   int                  *col_return);
+						   gint                   x,
+						   gint                   y,
+						   gint                  *row_return,
+						   gint                  *col_return);
 void            e_tree_get_cell_geometry          (ETree                *tree,
-						   int                   row,
-						   int                   col,
-						   int                  *x_return,
-						   int                  *y_return,
-						   int                  *width_return,
-						   int                  *height_return);
+						   gint                   row,
+						   gint                   col,
+						   gint                  *x_return,
+						   gint                  *y_return,
+						   gint                  *width_return,
+						   gint                  *height_return);
 
 /* Useful accessors */
 ETreeModel *    e_tree_get_model                  (ETree *et);
@@ -220,14 +220,14 @@ ETreeTableAdapter *e_tree_get_table_adapter       (ETree *et);
 /* Drag & drop stuff. */
 /* Target */
 void            e_tree_drag_get_data              (ETree                *tree,
-						   int                   row,
-						   int                   col,
+						   gint                   row,
+						   gint                   col,
 						   GdkDragContext       *context,
 						   GdkAtom               target,
 						   guint32               time);
 void            e_tree_drag_highlight             (ETree                *tree,
-						   int                   row,
-						   int                   col); /* col == -1 to highlight entire row. */
+						   gint                   row,
+						   gint                   col); /* col == -1 to highlight entire row. */
 void            e_tree_drag_unhighlight           (ETree                *tree);
 void            e_tree_drag_dest_set              (ETree                *tree,
 						   GtkDestDefaults       flags,
@@ -256,8 +256,8 @@ void            e_tree_drag_source_unset          (ETree                *tree);
  * as a GtkTargetList
  */
 GdkDragContext *e_tree_drag_begin                 (ETree                *tree,
-						   int                   row,
-						   int                   col,
+						   gint                   row,
+						   gint                   col,
 						   GtkTargetList        *targets,
 						   GdkDragAction         actions,
 						   gint                  button,
@@ -275,23 +275,23 @@ void            e_tree_node_set_expanded_recurse  (ETree                *et,
 void            e_tree_root_node_set_visible      (ETree                *et,
 						   gboolean              visible);
 ETreePath       e_tree_node_at_row                (ETree                *et,
-						   int                   row);
-int             e_tree_row_of_node                (ETree                *et,
+						   gint                   row);
+gint             e_tree_row_of_node                (ETree                *et,
 						   ETreePath             path);
 gboolean        e_tree_root_node_is_visible       (ETree                *et);
 void            e_tree_show_node                  (ETree                *et,
 						   ETreePath             path);
 void            e_tree_save_expanded_state        (ETree                *et,
-						   char                 *filename);
+						   gchar                 *filename);
 void            e_tree_load_expanded_state        (ETree                *et,
-						   char                 *filename);
+						   gchar                 *filename);
 
 xmlDoc         *e_tree_save_expanded_state_xml    (ETree                *et);
 void            e_tree_load_expanded_state_xml    (ETree                *et, xmlDoc *doc);
 
-int             e_tree_row_count                  (ETree                *et);
+gint             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
-void            e_tree_force_expanded_state       (ETree *et, int state);
+void            e_tree_force_expanded_state       (ETree *et, gint state);
 
 typedef enum {
 	E_TREE_FIND_NEXT_BACKWARD = 0,
@@ -311,7 +311,7 @@ ETableItem *	e_tree_get_item(ETree * et);
 
 GnomeCanvasItem * e_tree_get_header_item(ETree * et);
 
-void e_tree_set_info_message (ETree *tree, const char *info_message);
+void e_tree_set_info_message (ETree *tree, const gchar *info_message);
 
 G_END_DECLS
 

@@ -191,7 +191,7 @@ struct _ECalPopupClass {
 
 GType e_cal_popup_get_type(void);
 
-ECalPopup *e_cal_popup_new(const char *menuid);
+ECalPopup *e_cal_popup_new(const gchar *menuid);
 
 ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);

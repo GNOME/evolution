@@ -61,17 +61,17 @@ static void e_cell_date_edit_set_property	(GObject	*object,
 
 static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 GdkEvent	*event,
-						 int             row,
-						 int             view_col);
+						 gint             row,
+						 gint             view_col);
 static void e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde);
 static void e_cell_date_edit_select_matching_time(ECellDateEdit	*ecde,
 						  char		*time);
 static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
-						 int             row,
-						 int             view_col);
+						 gint             row,
+						 gint             view_col);
 static void e_cell_date_edit_get_popup_pos	(ECellDateEdit	*ecde,
-						 int             row,
-						 int             view_col,
+						 gint             row,
+						 gint             view_col,
 						 gint		*x,
 						 gint		*y,
 						 gint		*height,
@@ -79,10 +79,10 @@ static void e_cell_date_edit_get_popup_pos	(ECellDateEdit	*ecde,
 
 static void e_cell_date_edit_rebuild_time_list	(ECellDateEdit	*ecde);
 
-static int e_cell_date_edit_key_press		(GtkWidget	*popup_window,
+static gint e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 						 GdkEventKey	*event,
 						 ECellDateEdit	*ecde);
-static int  e_cell_date_edit_button_press	(GtkWidget	*popup_window,
+static gint  e_cell_date_edit_button_press	(GtkWidget	*popup_window,
 						 GdkEventButton	*event,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_on_ok_clicked	(GtkWidget	*button,
@@ -485,8 +485,8 @@ e_cell_date_edit_set_property		(GObject	*object,
 static gint
 e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 					 GdkEvent	*event,
-					 int             row,
-					 int             view_col)
+					 gint             row,
+					 gint             view_col)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
 
@@ -511,12 +511,12 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
-	char *cell_text;
+	gchar *cell_text;
 	ETimeParseStatus status;
 	struct tm date_tm;
 	GDate date;
 	ECalendarItem *calitem;
-	char buffer[64];
+	gchar buffer[64];
 	gboolean is_date = TRUE;
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
@@ -579,7 +579,7 @@ e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 	for (valid = gtk_tree_model_get_iter_first (model, &iter);
 	     valid && !found;
 	     valid = gtk_tree_model_iter_next (model, &iter)) {
-		char *str = NULL;
+		gchar *str = NULL;
 
 		gtk_tree_model_get (model, &iter, 0, &str, -1);
 
@@ -605,8 +605,8 @@ e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 
 static void
 e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
-					 int             row,
-					 int             view_col)
+					 gint             row,
+					 gint             view_col)
 {
 	gint x, y, width, height;
 
@@ -630,8 +630,8 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
 e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
-					 int             row,
-					 int             view_col,
+					 gint             row,
+					 gint             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -753,7 +753,7 @@ static void
 e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 {
 	GtkListStore *store;
-	char buffer[40];
+	gchar buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
@@ -801,8 +801,8 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	GDate start_date, end_date;
 	gboolean day_selected;
 	struct tm date_tm;
-	char buffer[64];
-	const char *text;
+	gchar buffer[64];
+	const gchar *text;
 	ETimeParseStatus status;
 	gboolean is_date = FALSE;
 
@@ -843,7 +843,7 @@ e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 {
 	GtkWidget *dialog;
 	struct tm date_tm;
-	char buffer[64];
+	gchar buffer[64];
 
 	/* Create a useful error message showing the correct format. */
 	date_tm.tm_year = 100;
@@ -875,7 +875,7 @@ e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
 {
 	struct tm tmp_tm;
 	time_t t;
-	char buffer[64];
+	gchar buffer[64];
 
 	if (ecde->time_callback) {
 		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
@@ -908,7 +908,7 @@ e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 {
 	struct tm tmp_tm;
 	time_t t;
-	char buffer[64];
+	gchar buffer[64];
 
 	if (ecde->time_callback) {
 		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);

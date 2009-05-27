@@ -37,7 +37,7 @@
 static GHashTable *emjh_types;
 static GObjectClass *parent_class = NULL;
 
-static void *emjh_parent_class;
+static gpointer emjh_parent_class;
 static GObjectClass *emj_parent;
 #define emjh ((EMJunkHook *)eph)
 
@@ -63,7 +63,7 @@ static const EPluginHookTargetKey emjh_flag_map[] = {
 
 */
 
-static void manage_error (const char *msg, GError *error);
+static void manage_error (const gchar *msg, GError *error);
 
 GQuark
 em_junk_error_quark (void)
@@ -71,7 +71,7 @@ em_junk_error_quark (void)
 	return g_quark_from_static_string ("em-junk-error-quark");
 }
 
-static const char *
+static const gchar *
 em_junk_get_name (CamelJunkPlugin *csp);
 
 static void
@@ -82,7 +82,7 @@ em_junk_init(CamelJunkPlugin *csp)
 	((EPluginClass *)G_OBJECT_GET_CLASS(item->hook->hook.plugin))->enable(item->hook->hook.plugin, 1);
 }
 
-static const char *
+static const gchar *
 em_junk_get_name (CamelJunkPlugin *csp)
 {
 	struct _EMJunkHookItem *item = (EMJunkHookItem *)csp;
@@ -248,7 +248,7 @@ emjh_construct_group(EPluginHook *eph, xmlNodePtr root)
 
 	/* We'll processs only  the first item from xml file*/
 	while (node) {
-		if (0 == strcmp((char *)node->name, "item")) {
+		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EMJunkHookItem *item;
 
 			item = emjh_construct_item(eph, group, node);
@@ -284,7 +284,7 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "group") == 0) {
+		if (strcmp((gchar *)node->name, "group") == 0) {
 			struct _EMJunkHookGroup *group;
 
 			group = emjh_construct_group(eph, node);
@@ -302,7 +302,7 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 struct manage_error_idle_data
 {
-	const char *msg;
+	const gchar *msg;
 	GError *error;
 };
 
@@ -334,7 +334,7 @@ manage_error_idle (gpointer data)
 }
 
 static void
-manage_error (const char *msg, GError *error)
+manage_error (const gchar *msg, GError *error)
 {
 	struct manage_error_idle_data *mei;
 
@@ -350,7 +350,7 @@ manage_error (const char *msg, GError *error)
 
 /*XXX: don't think we need here*/
 static void
-emjh_enable(EPluginHook *eph, int state)
+emjh_enable(EPluginHook *eph, gint state)
 {
 	GSList *g;
 
@@ -436,5 +436,5 @@ em_junk_hook_register_type(GType type)
 	d(printf("registering junk plugin type '%s'\n", g_type_name(type)));
 
 	klass = g_type_class_ref(type);
-	g_hash_table_insert(emjh_types, (void *)g_type_name(type), klass);
+	g_hash_table_insert(emjh_types, (gpointer)g_type_name(type), klass);
 }

@@ -47,14 +47,14 @@
 #include <glade/glade-xml.h>
 
 typedef struct {
-	const char *uri;
+	const gchar *uri;
 	E2kSecurityDescriptor *sd;
 	gboolean changed;
 } ExchangeDelegatesFolder;
 
 typedef struct {
 	ExchangeAccount *account;
-	char *self_dn;
+	gchar *self_dn;
 
 	GladeXML *xml;
 	GtkWidget *dialog, *parent;
@@ -69,18 +69,18 @@ typedef struct {
 	ExchangeDelegatesFolder freebusy_folder;
 } ExchangeDelegates;
 
-extern const char *exchange_delegates_user_folder_names[];
+extern const gchar *exchange_delegates_user_folder_names[];
 
-const char *exchange_localfreebusy_path = "NON_IPM_SUBTREE/Freebusy%20Data/LocalFreebusy.EML";
+const gchar *exchange_localfreebusy_path = "NON_IPM_SUBTREE/Freebusy%20Data/LocalFreebusy.EML";
 
 static void set_perms_for_user (ExchangeDelegatesUser *user, gpointer user_data);
 
 static void
 set_sd_for_href (ExchangeDelegates *delegates,
-		 const char *href,
+		 const gchar *href,
 		 E2kSecurityDescriptor *sd)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
 		if (!delegates->folder[i].uri)
@@ -112,7 +112,7 @@ set_sd_for_href (ExchangeDelegates *delegates,
 static gboolean
 fill_in_sids (ExchangeDelegates *delegates)
 {
-	int u, u2, sd, needed_sids;
+	gint u, u2, sd, needed_sids;
 	ExchangeDelegatesUser *user, *user2;
 	GList *sids, *s;
 	E2kSid *sid;
@@ -186,11 +186,11 @@ fill_in_sids (ExchangeDelegates *delegates)
 	return ok;
 }
 
-static const char *sd_props[] = {
+static const gchar *sd_props[] = {
 	E2K_PR_EXCHANGE_SD_BINARY,
 	E2K_PR_EXCHANGE_SD_XML
 };
-static const int n_sd_props = sizeof (sd_props) / sizeof (sd_props[0]);
+static const gint n_sd_props = sizeof (sd_props) / sizeof (sd_props[0]);
 
 /* Read the folder security descriptors and match them up with the
  * list of delegates.
@@ -207,7 +207,7 @@ get_folder_security (ExchangeDelegates *delegates)
 	GByteArray *binary_form;
 	ExchangeDelegatesUser *user;
 	guint32 perms;
-	int i, u;
+	gint i, u;
 
 	/* If we've been here before, just return the success or
 	 * failure result from last time.
@@ -228,16 +228,16 @@ get_folder_security (ExchangeDelegates *delegates)
 		delegates->folder[i].uri = exchange_account_get_standard_uri (
 			delegates->account, exchange_delegates_user_folder_names[i]);
 		if (delegates->folder[i].uri) {
-			g_ptr_array_add (hrefs, (char *)e2k_uri_relative (
+			g_ptr_array_add (hrefs, (gchar *)e2k_uri_relative (
 						 delegates->account->home_uri,
 						 delegates->folder[i].uri));
 		}
 	}
-	g_ptr_array_add (hrefs, (char *)exchange_localfreebusy_path);
+	g_ptr_array_add (hrefs, (gchar *)exchange_localfreebusy_path);
 
 	iter = e2k_context_bpropfind_start (
 		ctx, NULL, delegates->account->home_uri,
-		(const char **)hrefs->pdata, hrefs->len,
+		(const gchar **)hrefs->pdata, hrefs->len,
 		sd_props, n_sd_props);
 	g_ptr_array_free (hrefs, TRUE);
 
@@ -281,13 +281,13 @@ get_folder_security (ExchangeDelegates *delegates)
 }
 
 
-static const char *delegation_props[] = {
+static const gchar *delegation_props[] = {
 	PR_DELEGATES_DISPLAY_NAMES,
 	PR_DELEGATES_ENTRYIDS,
 	PR_DELEGATES_SEE_PRIVATE,
 	PR_CREATOR_ENTRYID
 };
-static const int n_delegation_props = sizeof (delegation_props) / sizeof (delegation_props[0]);
+static const gint n_delegation_props = sizeof (delegation_props) / sizeof (delegation_props[0]);
 
 /* Fetch the list of delegates from the freebusy message. */
 static gboolean
@@ -299,7 +299,7 @@ get_user_list (ExchangeDelegates *delegates)
 	GPtrArray *display_names, *entryids, *privflags;
 	GByteArray *entryid;
 	ExchangeDelegatesUser *user;
-	int i;
+	gint i;
 
 	ctx = exchange_account_get_context (delegates->account);
 	iter = e2k_context_bpropfind_start (ctx, NULL,
@@ -359,7 +359,7 @@ add_remove_user (ExchangeDelegatesUser *user,
 		 GPtrArray *to_array, GPtrArray *from_array)
 {
 	ExchangeDelegatesUser *match;
-	int i;
+	gint i;
 
 	for (i = 0; i < from_array->len; i++) {
 		match = from_array->pdata[i];
@@ -379,7 +379,7 @@ static void
 set_perms_for_user (ExchangeDelegatesUser *user, gpointer user_data)
 {
 	ExchangeDelegates *delegates = user_data;
-	int i, role;
+	gint i, role;
 	guint32 perms;
 
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
@@ -401,10 +401,10 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	ExchangeDelegates *delegates = data;
 	E2kGlobalCatalog *gc;
 	GtkWidget *dialog, *parent_window;
-	const char *delegate_exchange_dn;
-	char *email;
+	const gchar *delegate_exchange_dn;
+	gchar *email;
 	ExchangeDelegatesUser *user, *match;
-	int response, u;
+	gint response, u;
 	GtkTreeIter iter;
 
 	if (!get_folder_security (delegates))
@@ -478,7 +478,7 @@ get_selected_row (GtkWidget *tree_view, GtkTreeIter *iter)
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreePath *path;
-	int *indices, row;
+	gint *indices, row;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 	if (!gtk_tree_selection_get_selected (selection, &model, iter))
@@ -498,7 +498,7 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 	ExchangeDelegates *delegates = data;
 	GtkWidget *parent_window;
 	GtkTreeIter iter;
-	int row;
+	gint row;
 
 	if (!get_folder_security (delegates))
 		return;
@@ -512,14 +512,14 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 				      parent_window);
 }
 
-const char *
-email_look_up (const char *delegate_legacy, ExchangeAccount *account)
+const gchar *
+email_look_up (const gchar *delegate_legacy, ExchangeAccount *account)
 {
 	E2kGlobalCatalog *gc;
 	E2kGlobalCatalogEntry *entry;
 	E2kGlobalCatalogStatus status;
 
-	const char *email_id;
+	const gchar *email_id;
 
 	gc = exchange_account_get_global_catalog (account);
 
@@ -541,7 +541,7 @@ table_click_cb (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	ExchangeDelegates *delegates = data;
 	GtkWidget *parent_window;
 	GtkTreeIter iter;
-	int row;
+	gint row;
 
 	if (event->type != GDK_2BUTTON_PRESS)
 		return FALSE;
@@ -565,7 +565,7 @@ remove_button_clicked_cb (GtkWidget *widget, gpointer data)
 	ExchangeDelegates *delegates = data;
 	ExchangeDelegatesUser *user;
 	GtkWidget *dialog;
-	int row, btn, i;
+	gint row, btn, i;
 	GtkTreeIter iter;
 
 	if (!get_folder_security (delegates))
@@ -609,7 +609,7 @@ proppatch_sd (E2kContext *ctx, ExchangeDelegatesFolder *folder)
 {
 	GByteArray *binsd;
 	E2kProperties *props;
-	const char *href = "";
+	const gchar *href = "";
 	E2kResultIter *iter;
 	E2kResult *result;
 	E2kHTTPStatus status;
@@ -640,7 +640,7 @@ get_user_dn (E2kGlobalCatalog *gc, ExchangeDelegatesUser *user)
 {
 	E2kGlobalCatalogEntry *entry;
 	E2kGlobalCatalogStatus status;
-	const char *exchange_dn;
+	const gchar *exchange_dn;
 
 	exchange_dn = e2k_entryid_to_dn (user->entryid);
 	status = e2k_global_catalog_lookup (
@@ -663,9 +663,9 @@ delegates_apply (ExchangeDelegates *delegates)
 	E2kContext *ctx;
 	GPtrArray *display_names, *entryids, *privflags;
 	GByteArray *entryid_dup;
-	char *error = NULL;
+	gchar *error = NULL;
 	E2kProperties *props;
-	int i;
+	gint i;
 	E2kGlobalCatalogStatus status;
 
 	if (!delegates->loaded_folders)
@@ -837,7 +837,7 @@ static void parent_destroyed (gpointer user_data, GObject *ex_parent);
 static void
 delegates_destroy (ExchangeDelegates *delegates)
 {
-	int i;
+	gint i;
 
 	g_object_unref (delegates->account);
 
@@ -879,7 +879,7 @@ delegates_destroy (ExchangeDelegates *delegates)
 	if (delegates->freebusy_folder.sd)
 		g_object_unref (delegates->freebusy_folder.sd);
 	if (delegates->freebusy_folder.uri)
-		g_free ((char *)delegates->freebusy_folder.uri);
+		g_free ((gchar *)delegates->freebusy_folder.uri);
 
 	if (delegates->xml)
 		g_object_unref (delegates->xml);
@@ -889,7 +889,7 @@ delegates_destroy (ExchangeDelegates *delegates)
 
 
 static void
-dialog_response (GtkDialog *dialog, int response, gpointer user_data)
+dialog_response (GtkDialog *dialog, gint response, gpointer user_data)
 {
 	ExchangeDelegates *delegates = user_data;
 
@@ -915,7 +915,7 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 	ExchangeDelegatesUser *user;
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
-	int i;
+	gint i;
 
 	g_return_if_fail (GTK_IS_WIDGET (parent));
 	g_return_if_fail (EXCHANGE_IS_ACCOUNT (account));

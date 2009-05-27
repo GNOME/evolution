@@ -114,7 +114,7 @@ struct _EABPopupTargetSelect {
 
 struct _EABPopupTargetURI {
 	EPopupTarget target;
-	char *uri;
+	gchar *uri;
 };
 
 /**
@@ -147,7 +147,7 @@ struct _EABPopupTargetSelectNames {
 	EPopupTarget target;
 
 	struct _ESelectNamesModel *model;
-	int row;
+	gint row;
 };
 
 #endif
@@ -167,15 +167,15 @@ struct _EABPopupClass {
 
 GType eab_popup_get_type(void);
 
-EABPopup *eab_popup_new(const char *menuid);
+EABPopup *eab_popup_new(const gchar *menuid);
 
-EABPopupTargetSelect *eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards);
-EABPopupTargetURI *eab_popup_target_new_uri(EABPopup *emp, const char *uri);
+EABPopupTargetSelect *eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, gint readonly, GPtrArray *cards);
+EABPopupTargetURI *eab_popup_target_new_uri(EABPopup *emp, const gchar *uri);
 EABPopupTargetSource *eab_popup_target_new_source(EABPopup *eabp, struct _ESourceSelector *selector);
 
 #ifdef ADAPTED_TO_E_NAME_SELECTOR
 
-EABPopupTargetSelectNames *eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row);
+EABPopupTargetSelectNames *eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, gint row);
 
 #endif
 

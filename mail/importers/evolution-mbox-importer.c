@@ -54,12 +54,12 @@ typedef struct {
 	EImportTarget *target;
 
 	GMutex *status_lock;
-	char *status_what;
-	int status_pc;
-	int status_timeout_id;
+	gchar *status_what;
+	gint status_pc;
+	gint status_timeout_id;
 	CamelOperation *cancel;	/* cancel/status port */
 
-	char *uri;
+	gchar *uri;
 } MboxImporter;
 
 static void
@@ -95,11 +95,11 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 static gboolean
 mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char signature[6];
+	gchar signature[6];
 	gboolean ret = FALSE;
-	int fd, n;
+	gint fd, n;
 	EImportTargetURI *s;
-	char *filename;
+	gchar *filename;
 
 	if (target->type != E_IMPORT_TARGET_URI)
 		return FALSE;
@@ -124,7 +124,7 @@ mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-mbox_status(CamelOperation *op, const char *what, int pc, void *data)
+mbox_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	MboxImporter *importer = data;
 
@@ -141,11 +141,11 @@ mbox_status(CamelOperation *op, const char *what, int pc, void *data)
 }
 
 static gboolean
-mbox_status_timeout(void *data)
+mbox_status_timeout(gpointer data)
 {
 	MboxImporter *importer = data;
-	int pc;
-	char *what;
+	gint pc;
+	gchar *what;
 
 	if (importer->status_what) {
 		g_mutex_lock(importer->status_lock);
@@ -161,7 +161,7 @@ mbox_status_timeout(void *data)
 }
 
 static void
-mbox_import_done(void *data, CamelException *ex)
+mbox_import_done(gpointer data, CamelException *ex)
 {
 	MboxImporter *importer = data;
 
@@ -178,7 +178,7 @@ static void
 mbox_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	MboxImporter *importer;
-	char *filename;
+	gchar *filename;
 
 	/* TODO: do we validate target? */
 

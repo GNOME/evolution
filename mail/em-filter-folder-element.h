@@ -39,7 +39,7 @@ typedef struct _EMFilterFolderElementClass EMFilterFolderElementClass;
 struct _EMFilterFolderElement {
 	FilterElement parent_object;
 
-	char *uri;
+	gchar *uri;
 	gboolean store_camel_uri; /* true if uri should contain camel uri, otherwise contains evolution's uri with an Account ID */
 };
 
@@ -51,6 +51,6 @@ GType em_filter_folder_element_get_type (void);
 EMFilterFolderElement *em_filter_folder_element_new (void);
 
 /* methods */
-void em_filter_folder_element_set_value (EMFilterFolderElement *ff, const char *uri);
+void em_filter_folder_element_set_value (EMFilterFolderElement *ff, const gchar *uri);
 
 #endif /* ! _EM_FILTER_FOLDER_ELEMENT_H */

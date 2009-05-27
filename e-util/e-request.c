@@ -39,14 +39,14 @@
  * Return value: %NULL if the user cancelled the dialog, the inserted
  * string (in UTF8) otherwise. The string must be freed by the caller.
  **/
-char *
+gchar *
 e_request_string (GtkWindow *parent,
-		  const char *title,
-		  const char *prompt,
-		  const char *default_string)
+		  const gchar *title,
+		  const gchar *prompt,
+		  const gchar *default_string)
 {
 	GtkWidget *prompt_label;
-	char *text;
+	gchar *text;
 	GtkWidget *dialog;
 	GtkWidget *entry;
 	GtkWidget *vbox;

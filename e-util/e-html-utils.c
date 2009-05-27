@@ -27,11 +27,11 @@
 
 #include "e-html-utils.h"
 
-static char *
-check_size (char **buffer, int *buffer_size, char *out, int len)
+static gchar *
+check_size (gchar **buffer, gint *buffer_size, gchar *out, gint len)
 {
 	if (out + len + 1> *buffer + *buffer_size) {
-		int index = out - *buffer;
+		gint index = out - *buffer;
 
 		*buffer_size = MAX (index + len + 1, *buffer_size * 2);
 		*buffer = g_realloc (*buffer, *buffer_size);
@@ -49,7 +49,7 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
  * 4 = allowed dns chars
  * 8 = non-url chars:           "|
  */
-static int special_chars[] = {
+static gint special_chars[] = {
 	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,    /*  nul - 0x0f */
 	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,    /* 0x10 - 0x1f */
 	9, 2, 9, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 6, 6, 0,    /*   sp - /    */
@@ -68,11 +68,11 @@ static int special_chars[] = {
 /* (http|https|ftp|nntp)://[^ "|/]+\.([^ "|]*[^ ,.!?;:>)\]}`'"|_-])+ */
 /* www\.[A-Za-z0-9.-]+(/([^ "|]*[^ ,.!?;:>)\]}`'"|_-])+)             */
 
-static char *
-url_extract (const unsigned char **text, gboolean full_url)
+static gchar *
+url_extract (const guchar **text, gboolean full_url)
 {
-	const unsigned char *end = *text, *p;
-	char *out;
+	const guchar *end = *text, *p;
+	gchar *out;
 
 	while (*end && is_url_char (*end))
 		end++;
@@ -96,16 +96,16 @@ url_extract (const unsigned char **text, gboolean full_url)
 			return NULL;
 	}
 
-	out = g_strndup ((char *)*text, end - *text);
+	out = g_strndup ((gchar *)*text, end - *text);
 	*text = end;
 	return out;
 }
 
-static char *
-email_address_extract (const unsigned char **cur, char **out, const unsigned char *linestart)
+static gchar *
+email_address_extract (const guchar **cur, gchar **out, const guchar *linestart)
 {
-	const unsigned char *start, *end, *dot;
-	char *addr;
+	const guchar *start, *end, *dot;
+	gchar *addr;
 
 	/* *cur points to the '@'. Look backward for a valid local-part */
 	for (start = *cur; start - 1 >= linestart && is_addr_char (*(start - 1)); start--)
@@ -130,7 +130,7 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 	if (dot > end)
 		return NULL;
 
-	addr = g_strndup ((char *)start, end - start);
+	addr = g_strndup ((gchar *)start, end - start);
 	*out -= *cur - start;
 	*cur = end;
 
@@ -138,9 +138,9 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 }
 
 static gboolean
-is_citation (const unsigned char *c, gboolean saw_citation)
+is_citation (const guchar *c, gboolean saw_citation)
 {
-	const unsigned char *p;
+	const guchar *p;
 
 	if (*c != '>')
 		return FALSE;
@@ -148,7 +148,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 	/* A line that starts with a ">" is a citation, unless it's
 	 * just mbox From-mangling...
 	 */
-	if (strncmp ((const char *)c, ">From ", 6) != 0)
+	if (strncmp ((const gchar *)c, ">From ", 6) != 0)
 		return TRUE;
 
 	/* If the previous line was a citation, then say this
@@ -158,7 +158,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 		return TRUE;
 
 	/* Same if the next line is */
-	p = (const unsigned char *)strchr ((const char *)c, '\n');
+	p = (const guchar *)strchr ((const gchar *)c, '\n');
 	if (p && *++p == '>')
 		return TRUE;
 
@@ -211,13 +211,13 @@ is_citation (const unsigned char *c, gboolean saw_citation)
  *   - E_TEXT_TO_HTML_CITE: quote the text with "> " at the start of each
  *     line.
  **/
-char *
-e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
+gchar *
+e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 {
-	const unsigned char *cur, *next, *linestart;
-	char *buffer = NULL;
-	char *out = NULL;
-	int buffer_size = 0, col;
+	const guchar *cur, *next, *linestart;
+	gchar *buffer = NULL;
+	gchar *out = NULL;
+	gint buffer_size = 0, col;
 	gboolean colored = FALSE, saw_citation = FALSE;
 
 	/* Allocate a translation buffer.  */
@@ -230,7 +230,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	col = 0;
 
-	for (cur = linestart = (const unsigned char *)input; cur && *cur; cur = next) {
+	for (cur = linestart = (const guchar *)input; cur && *cur; cur = next) {
 		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
@@ -261,28 +261,28 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			out += sprintf (out, "&gt; ");
 		}
 
-		u = g_utf8_get_char ((char *)cur);
+		u = g_utf8_get_char ((gchar *)cur);
 		if (g_unichar_isalpha (u) &&
 		    (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
-			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
+			gchar *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
-			if (!g_ascii_strncasecmp ((char *)cur, "http://", 7) ||
-			    !g_ascii_strncasecmp ((char *)cur, "https://", 8) ||
-			    !g_ascii_strncasecmp ((char *)cur, "ftp://", 6) ||
-			    !g_ascii_strncasecmp ((char *)cur, "nntp://", 7) ||
-			    !g_ascii_strncasecmp ((char *)cur, "mailto:", 7) ||
-			    !g_ascii_strncasecmp ((char *)cur, "news:", 5) ||
-			    !g_ascii_strncasecmp ((char *)cur, "file:", 5) ||
-			    !g_ascii_strncasecmp ((char *)cur, "callto:", 7) ||
-			    !g_ascii_strncasecmp ((char *)cur, "h323:", 5) ||
-			    !g_ascii_strncasecmp ((char *)cur, "sip:", 4) ||
-			    !g_ascii_strncasecmp ((char *)cur, "webcal:", 7)) {
+			if (!g_ascii_strncasecmp ((gchar *)cur, "http://", 7) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "https://", 8) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "ftp://", 6) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "nntp://", 7) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "mailto:", 7) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "news:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "file:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "callto:", 7) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "h323:", 5) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "sip:", 4) ||
+			    !g_ascii_strncasecmp ((gchar *)cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE);
 				if (tmpurl) {
 					refurl = e_text_to_html (tmpurl, 0);
 					dispurl = g_strdup (refurl);
 				}
-			} else if (!g_ascii_strncasecmp ((char *)cur, "www.", 4) &&
+			} else if (!g_ascii_strncasecmp ((gchar *)cur, "www.", 4) &&
 				   is_url_char (*(cur + 4))) {
 				tmpurl = url_extract (&cur, FALSE);
 				if (tmpurl) {
@@ -307,11 +307,11 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 			if (!*cur)
 				break;
-			u = g_utf8_get_char ((char *)cur);
+			u = g_utf8_get_char ((gchar *)cur);
 		}
 
 		if (u == '@' && (flags & E_TEXT_TO_HTML_CONVERT_ADDRESSES)) {
-			char *addr, *dispaddr, *outaddr;
+			gchar *addr, *dispaddr, *outaddr;
 
 			addr = email_address_extract (&cur, &out, linestart);
 			if (addr) {
@@ -327,7 +327,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 				if (!*cur)
 					break;
-				u = g_utf8_get_char ((char *)cur);
+				u = g_utf8_get_char ((gchar *)cur);
 			}
 		}
 
@@ -338,7 +338,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			u = *cur;
 			next = cur + 1;
 		} else
-			next = (const unsigned char *)g_utf8_next_char (cur);
+			next = (const guchar *)g_utf8_next_char (cur);
 
 		out = check_size (&buffer, &buffer_size, out, 10);
 
@@ -393,7 +393,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
-				if (cur == (const unsigned char *)input ||
+				if (cur == (const guchar *)input ||
 				    *(cur + 1) == ' ' || *(cur + 1) == '\t' ||
 				    *(cur - 1) == '\n') {
 					strcpy (out, "&nbsp;");
@@ -429,8 +429,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 	return buffer;
 }
 
-char *
-e_text_to_html (const char *input, unsigned int flags)
+gchar *
+e_text_to_html (const gchar *input, guint flags)
 {
 	return e_text_to_html_full (input, flags, 0);
 }
@@ -439,7 +439,7 @@ e_text_to_html (const char *input, unsigned int flags)
 #ifdef E_HTML_UTILS_TEST
 
 struct {
-	char *text, *url;
+	gchar *text, *url;
 } url_tests[] = {
 	{ "bob@foo.com", "mailto:bob@foo.com" },
 	{ "Ends with bob@foo.com", "mailto:bob@foo.com" },
@@ -487,13 +487,13 @@ struct {
 	{ "Ewwwwww.Gross.", NULL },
 
 };
-int num_url_tests = G_N_ELEMENTS (url_tests);
+gint num_url_tests = G_N_ELEMENTS (url_tests);
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
-	int i, errors = 0;
-	char *html, *url, *p;
+	gint i, errors = 0;
+	gchar *html, *url, *p;
 
 	for (i = 0; i < num_url_tests; i++) {
 		html = e_text_to_html (url_tests[i].text, E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES);

@@ -41,7 +41,7 @@ typedef struct {
 	ETableSpecification *spec;
 	ETableSortInfo *sort_info;
 	guint grouping : 1;
-	int n;
+	gint n;
 
 	GtkWidget *combo;
 	GtkWidget *radio_ascending;

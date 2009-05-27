@@ -30,8 +30,8 @@
 
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
-static G_CONST_RETURN gchar* ea_week_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_week_view_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_week_view_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_week_view_get_description (AtkObject *accessible);
 static gint         ea_week_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_week_view_ref_child           (AtkObject *obj,
 						      gint i);
@@ -112,13 +112,13 @@ ea_week_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_week_view created %p\n", (void *)accessible);
+	printf ("EvoAcc: ea_week_view created %p\n", (gpointer)accessible);
 #endif
 
 	return accessible;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_week_view_get_name (AtkObject *accessible)
 {
 	EWeekView *week_view;
@@ -165,7 +165,7 @@ ea_week_view_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_week_view_get_description (AtkObject *accessible)
 {
 	EWeekView *week_view;
@@ -239,7 +239,7 @@ ea_week_view_get_n_children (AtkObject *accessible)
 	count++;
 
 #ifdef ACC_DEBUG
-	printf("AccDebug: week view %p has %d children\n", (void *)week_view, count);
+	printf("AccDebug: week view %p has %d children\n", (gpointer)week_view, count);
 #endif
 	return count;
 }
@@ -315,7 +315,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea_week_view_ref_child [%d]=%p\n",
-		index, (void *)atk_object);
+		index, (gpointer)atk_object);
 #endif
 	return atk_object;
 }

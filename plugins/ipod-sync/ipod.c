@@ -35,8 +35,8 @@ gboolean
 check_hal (void)
 {
 	LibHalContext *ctx;
-	char **devices;
-	int num;
+	gchar **devices;
+	gint num;
 	DBusConnection *conn;
 
 	conn = dbus_bus_get (DBUS_BUS_SYSTEM, NULL);
@@ -64,9 +64,9 @@ check_hal (void)
  * Try to mount a given device.
  */
 static gboolean
-try_mount (char *device)
+try_mount (gchar *device)
 {
-	char *argv[3];
+	gchar *argv[3];
 	GError *err = NULL;
 	gint exit_status;
 
@@ -88,9 +88,9 @@ try_mount (char *device)
  * Try to unmount a given device.
  */
 gboolean
-try_umount (char *device)
+try_umount (gchar *device)
 {
-	char *argv[3];
+	gchar *argv[3];
 	GError *err = NULL;
 	gint exit_status;
 
@@ -117,11 +117,11 @@ try_umount (char *device)
  * database at <mount_point>/iPod_Control/iTunes/.
  */
 static gboolean
-is_ipod (char *mount_point)
+is_ipod (gchar *mount_point)
 {
 	gboolean ret = FALSE;
 
-	char *itunes_path;
+	gchar *itunes_path;
 
 	itunes_path = g_build_path (G_DIR_SEPARATOR_S, mount_point,
 										 "iPod_Control", "iTunes",
@@ -140,17 +140,17 @@ out:
 /**
  * Try to find a mount point for an iPod.
  */
-char *
+gchar *
 find_ipod_mount_point (LibHalContext *ctx)
 {
-	char **apple_devices = NULL;
-	char **volumes = NULL;
-	char *udi, *udi2, *device, *fsusage, *mount_point = NULL;
-	char *retval = NULL;
-	int apple_count = 0;
-	int volume_count = 0;
-	int has_fs = 0;
-	int i, j;
+	gchar **apple_devices = NULL;
+	gchar **volumes = NULL;
+	gchar *udi, *udi2, *device, *fsusage, *mount_point = NULL;
+	gchar *retval = NULL;
+	gint apple_count = 0;
+	gint volume_count = 0;
+	gint has_fs = 0;
+	gint i, j;
 
 	/* First, we look for things made by Apple. */
 	apple_devices = libhal_manager_find_device_string_match (ctx,

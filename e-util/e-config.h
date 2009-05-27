@@ -44,13 +44,13 @@ typedef struct _EConfigItem EConfigItem;
 typedef struct _EConfigFactory EConfigFactory;
 typedef struct _EConfigTarget EConfigTarget;
 
-typedef void (*EConfigFactoryFunc)(EConfig *ec, void *data);
+typedef void (*EConfigFactoryFunc)(EConfig *ec, gpointer data);
 
-typedef gboolean (*EConfigCheckFunc)(EConfig *ec, const char *pageid, void *data);
+typedef gboolean (*EConfigCheckFunc)(EConfig *ec, const gchar *pageid, gpointer data);
 
-typedef void (*EConfigItemsFunc)(EConfig *ec, GSList *items, void *data);
+typedef void (*EConfigItemsFunc)(EConfig *ec, GSList *items, gpointer data);
 
-typedef struct _GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *, struct _GtkWidget *parent, struct _GtkWidget *old, void *data);
+typedef struct _GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data);
 
 /* ok so this is all a bit bogussy
    we need to map to glade stuff instead */
@@ -144,10 +144,10 @@ enum _e_config_t {
  **/
 struct _EConfigItem {
 	enum _e_config_t type;
-	char *path;		/* absolute path, must sort ascii-lexographically into the right spot */
-	char *label;
+	gchar *path;		/* absolute path, must sort ascii-lexographically into the right spot */
+	gchar *label;
 	EConfigItemFactoryFunc factory;
-	void *user_data;
+	gpointer user_data;
 };
 
 /**
@@ -194,9 +194,9 @@ struct _EConfig {
 
 	struct _EConfigPrivate *priv;
 
-	int type;		/* E_CONFIG_BOOK or E_CONFIG_DRUID */
+	gint type;		/* E_CONFIG_BOOK or E_CONFIG_DRUID */
 
-	char *id;
+	gchar *id;
 
 	EConfigTarget *target;
 
@@ -230,31 +230,31 @@ struct _EConfigClass {
 GType e_config_get_type(void);
 
 /* Static class methods */
-EConfigFactory *e_config_class_add_factory(EConfigClass *klass, const char *id, EConfigFactoryFunc func, void *data);
+EConfigFactory *e_config_class_add_factory(EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer data);
 void e_config_class_remove_factory(EConfigClass *klass, EConfigFactory *f);
 
-EConfig *e_config_construct(EConfig *, int type, const char *id);
+EConfig *e_config_construct(EConfig *, gint type, const gchar *id);
 
-void e_config_add_items(EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, void *data);
-void e_config_add_page_check(EConfig *, const char *pageid, EConfigCheckFunc, void *data);
+void e_config_add_items(EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data);
+void e_config_add_page_check(EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
 
 void e_config_set_target(EConfig *emp, EConfigTarget *target);
 struct _GtkWidget *e_config_create_widget(EConfig *);
-struct _GtkWidget *e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *title);
+struct _GtkWidget *e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const gchar *title);
 
 void e_config_target_changed(EConfig *emp, e_config_target_change_t how);
 
-gboolean e_config_page_check(EConfig *, const char *);
+gboolean e_config_page_check(EConfig *, const gchar *);
 
-struct _GtkWidget *e_config_page_get(EConfig *ec, const char *pageid);
-const char *e_config_page_next(EConfig *ec, const char *pageid);
-const char *e_config_page_prev(EConfig *ec, const char *pageid);
+struct _GtkWidget *e_config_page_get(EConfig *ec, const gchar *pageid);
+const gchar *e_config_page_next(EConfig *ec, const gchar *pageid);
+const gchar *e_config_page_prev(EConfig *ec, const gchar *pageid);
 
 void e_config_abort(EConfig *);
 void e_config_commit(EConfig *);
 
-void *e_config_target_new(EConfig *, int type, size_t size);
-void e_config_target_free(EConfig *, void *);
+gpointer e_config_target_new(EConfig *, gint type, size_t size);
+void e_config_target_free(EConfig *, gpointer );
 
 /* ********************************************************************** */
 
@@ -314,7 +314,7 @@ struct _EConfigHookItemFactoryData {
 struct _EConfigHookPageCheckData {
 	EConfig *config;
 	EConfigTarget *target;
-	const char *pageid;
+	const gchar *pageid;
 };
 
 /**
@@ -336,12 +336,12 @@ struct _EConfigHookPageCheckData {
  **/
 struct _EConfigHookGroup {
 	struct _EConfigHook *hook; /* parent pointer */
-	char *id;		/* target menu id for these config items */
-	int target_type;	/* target type of this group */
+	gchar *id;		/* target menu id for these config items */
+	gint target_type;	/* target type of this group */
 	GSList *items;		/* items to add to group */
-	char *check;		/* validate handler, if set */
-	char *commit;		/* commit handler, if set */
-	char *abort;		/* abort handler, if set */
+	gchar *check;		/* validate handler, if set */
+	gchar *commit;		/* commit handler, if set */
+	gchar *abort;		/* abort handler, if set */
 };
 
 /**

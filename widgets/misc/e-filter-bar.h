@@ -56,11 +56,11 @@ extern "C" {
 typedef struct _EFilterBar       EFilterBar;
 typedef struct _EFilterBarClass  EFilterBarClass;
 
-typedef void (*EFilterBarConfigRule)(EFilterBar *, FilterRule *rule, int id, const char *query, void *data);
+typedef void (*EFilterBarConfigRule)(EFilterBar *, FilterRule *rule, gint id, const gchar *query, gpointer data);
 
 struct _EFilterBar {
 	ESearchBar parent;
-	int menu_base, option_base;
+	gint menu_base, option_base;
 	GPtrArray *menu_rules, *option_rules;
 
 	ESearchBarItem *default_items;
@@ -68,14 +68,14 @@ struct _EFilterBar {
 	GtkWidget *save_dialog;    /* current save dialogue (so we dont pop up multiple ones) */
 
 	FilterRule *current_query; /* as it says */
-	int setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialog */
+	gint setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialog */
 
 	RuleContext *context;
-	char *systemrules;
-	char *userrules;
+	gchar *systemrules;
+	gchar *userrules;
 
 	EFilterBarConfigRule config;
-	void *config_data;
+	gpointer config_data;
 
 	CamelVeeFolder *all_account_search_vf;
 	CamelVeeFolder *account_search_vf;
@@ -109,7 +109,7 @@ enum {
 #define E_FILTERBAR_SEPARATOR { NULL, 0, 0 }
 
 #ifdef JUST_FOR_TRANSLATORS
-const char * strings[] = {
+const gchar * strings[] = {
 	N_("_Save Search..."),
 	N_("_Edit Saved Searches..."),
 	N_("_Advanced Search...")
@@ -120,22 +120,22 @@ const char * strings[] = {
 GType       e_filter_bar_get_type (void);
 
 EFilterBar *e_filter_bar_new      (RuleContext *context,
-				   const char *systemrules,
-				   const char *userrules,
+				   const gchar *systemrules,
+				   const gchar *userrules,
 				   EFilterBarConfigRule config,
-				   void *data);
+				   gpointer data);
 EFilterBar *e_filter_bar_lite_new (RuleContext *context,
-				   const char *systemrules,
-				   const char *userrules,
+				   const gchar *systemrules,
+				   const gchar *userrules,
 				   EFilterBarConfigRule config,
-				   void *data);
+				   gpointer data);
 
 void
 e_filter_bar_new_construct 	  (RuleContext *context,
-				   const char *systemrules,
-				   const char *userrules,
+				   const gchar *systemrules,
+				   const gchar *userrules,
 				   EFilterBarConfigRule config,
-				   void *data ,EFilterBar *bar );
+				   gpointer data ,EFilterBar *bar );
 
 #ifdef __cplusplus
 }

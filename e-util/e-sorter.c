@@ -34,10 +34,10 @@
 
 G_DEFINE_TYPE (ESorter, e_sorter, G_TYPE_OBJECT)
 
-static gint es_model_to_sorted (ESorter *es, int row);
-static gint es_sorted_to_model (ESorter *es, int row);
-static void es_get_model_to_sorted_array (ESorter *es, int **array, int *count);
-static void es_get_sorted_to_model_array (ESorter *es, int **array, int *count);
+static gint es_model_to_sorted (ESorter *es, gint row);
+static gint es_sorted_to_model (ESorter *es, gint row);
+static void es_get_model_to_sorted_array (ESorter *es, gint **array, gint *count);
+static void es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count);
 static gboolean es_needs_sorting(ESorter *es);
 
 static void
@@ -65,25 +65,25 @@ e_sorter_new (void)
 
 
 static gint
-es_model_to_sorted (ESorter *es, int row)
+es_model_to_sorted (ESorter *es, gint row)
 {
 	return row;
 }
 
 static gint
-es_sorted_to_model (ESorter *es, int row)
+es_sorted_to_model (ESorter *es, gint row)
 {
 	return row;
 }
 
 
 static void
-es_get_model_to_sorted_array (ESorter *es, int **array, int *count)
+es_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
 }
 
 static void
-es_get_sorted_to_model_array (ESorter *es, int **array, int *count)
+es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
 }
 
@@ -95,7 +95,7 @@ es_needs_sorting(ESorter *es)
 }
 
 gint
-e_sorter_model_to_sorted (ESorter *es, int row)
+e_sorter_model_to_sorted (ESorter *es, gint row)
 {
 	g_return_val_if_fail(es != NULL, -1);
 	g_return_val_if_fail(row >= 0, -1);
@@ -107,7 +107,7 @@ e_sorter_model_to_sorted (ESorter *es, int row)
 }
 
 gint
-e_sorter_sorted_to_model (ESorter *es, int row)
+e_sorter_sorted_to_model (ESorter *es, gint row)
 {
 	g_return_val_if_fail(es != NULL, -1);
 	g_return_val_if_fail(row >= 0, -1);
@@ -120,7 +120,7 @@ e_sorter_sorted_to_model (ESorter *es, int row)
 
 
 void
-e_sorter_get_model_to_sorted_array (ESorter *es, int **array, int *count)
+e_sorter_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
 	g_return_if_fail(es != NULL);
 
@@ -129,7 +129,7 @@ e_sorter_get_model_to_sorted_array (ESorter *es, int **array, int *count)
 }
 
 void
-e_sorter_get_sorted_to_model_array (ESorter *es, int **array, int *count)
+e_sorter_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
 	g_return_if_fail(es != NULL);
 

@@ -32,14 +32,14 @@
 
 G_DEFINE_TYPE (ECellNumber, e_cell_number, E_CELL_TEXT_TYPE)
 
-static char *
-ecn_get_text(ECellText *cell, ETableModel *model, int col, int row)
+static gchar *
+ecn_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
 {
 	return e_format_number(GPOINTER_TO_INT (e_table_model_value_at(model, col, row)));
 }
 
 static void
-ecn_free_text(ECellText *cell, char *text)
+ecn_free_text(ECellText *cell, gchar *text)
 {
 	g_free(text);
 }
@@ -72,7 +72,7 @@ e_cell_number_init (ECellNumber *cell_number)
  * Returns: an ECell object that can be used to render numbers.
  */
 ECell *
-e_cell_number_new (const char *fontname, GtkJustification justify)
+e_cell_number_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellNumber *ecn = g_object_new (E_CELL_NUMBER_TYPE, NULL);
 

@@ -40,8 +40,8 @@ typedef struct {
 	GObject base;
 
 	ETableSortInfo *sort_info;
-	int             col_count;
-	int            *columns;
+	gint             col_count;
+	gint            *columns;
 	double         *expansions;
 } ETableState;
 
@@ -52,18 +52,18 @@ typedef struct {
 GType        e_table_state_get_type          (void);
 ETableState *e_table_state_new               (void);
 
-ETableState *e_table_state_vanilla	     (int col_count);
+ETableState *e_table_state_vanilla	     (gint col_count);
 
 gboolean     e_table_state_load_from_file    (ETableState   *state,
-					      const char    *filename);
+					      const gchar    *filename);
 void         e_table_state_load_from_string  (ETableState   *state,
-					      const char    *xml);
+					      const gchar    *xml);
 void         e_table_state_load_from_node    (ETableState   *state,
 					      const xmlNode *node);
 
 void         e_table_state_save_to_file      (ETableState   *state,
-					      const char    *filename);
-char        *e_table_state_save_to_string    (ETableState   *state);
+					      const gchar    *filename);
+gchar        *e_table_state_save_to_string    (ETableState   *state);
 xmlNode     *e_table_state_save_to_node      (ETableState   *state,
 					      xmlNode       *parent);
 ETableState *e_table_state_duplicate         (ETableState   *state);

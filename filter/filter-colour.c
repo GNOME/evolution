@@ -32,10 +32,10 @@
 
 #define d(x)
 
-static int colour_eq (FilterElement *fe, FilterElement *cm);
+static gint colour_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *, GString *);
@@ -143,10 +143,10 @@ xml_encode (FilterElement *fe)
 	g_snprintf (spec, sizeof (spec), "#%04x%04x%04x",
 		fc->color.red, fc->color.green, fc->color.blue);
 
-	value = xmlNewNode(NULL, (const unsigned char *)"value");
-	xmlSetProp(value, (const unsigned char *)"type", (const unsigned char *)"colour");
-	xmlSetProp(value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp(value, (const unsigned char *)"spec", (unsigned char *)spec);
+	value = xmlNewNode(NULL, (const guchar *)"value");
+	xmlSetProp(value, (const guchar *)"type", (const guchar *)"colour");
+	xmlSetProp(value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp(value, (const guchar *)"spec", (guchar *)spec);
 
 	return value;
 }
@@ -158,22 +158,22 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	xmlChar *prop;
 
 	xmlFree (fe->name);
-	fe->name = (char *)xmlGetProp(node, (const unsigned char *)"name");
+	fe->name = (gchar *)xmlGetProp(node, (const guchar *)"name");
 
-	prop = xmlGetProp(node, (const unsigned char *)"spec");
+	prop = xmlGetProp(node, (const guchar *)"spec");
 	if (prop != NULL) {
-		gdk_color_parse((char *)prop, &fc->color);
+		gdk_color_parse((gchar *)prop, &fc->color);
 		xmlFree (prop);
 	} else {
 		/* try reading the old RGB properties */
-		prop = xmlGetProp(node, (const unsigned char *)"red");
-		sscanf((char *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.red);
+		prop = xmlGetProp(node, (const guchar *)"red");
+		sscanf((gchar *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.red);
 		xmlFree (prop);
-		prop = xmlGetProp(node, (const unsigned char *)"green");
-		sscanf((char *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.green);
+		prop = xmlGetProp(node, (const guchar *)"green");
+		sscanf((gchar *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.green);
 		xmlFree (prop);
-		prop = xmlGetProp(node, (const unsigned char *)"blue");
-		sscanf((char *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.blue);
+		prop = xmlGetProp(node, (const guchar *)"blue");
+		sscanf((gchar *)prop, "%" G_GINT16_MODIFIER "x", &fc->color.blue);
 		xmlFree (prop);
 	}
 

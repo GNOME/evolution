@@ -66,7 +66,7 @@ static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
  * b) void read_notify_... (EMEventTargetMessage *t)
  *    it is called when read_notify message is sent by Evolution
  *
- * c) void enable_... (int enable)
+ * c) void enable_... (gint enable)
  *    when plugin itself or the part is enabled/disabled
  *
  * d) GtkWidget *get_config_widget_...(void)
@@ -127,7 +127,7 @@ static DBusConnection *bus = NULL;
 static gboolean init_dbus (void);
 
 static void
-send_dbus_message (const char *name, const char *data, guint new)
+send_dbus_message (const gchar *name, const gchar *data, guint new)
 {
 	DBusMessage *message;
 
@@ -145,7 +145,7 @@ send_dbus_message (const char *name, const char *data, guint new)
 				  DBUS_TYPE_INVALID);
 
 	if (new) {
-		char * display_name = em_utils_folder_name_from_uri (data);
+		gchar * display_name = em_utils_folder_name_from_uri (data);
 		dbus_message_append_args (message,
 #if FOUND_DBUS_VERSION >= 310
 					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
@@ -174,7 +174,7 @@ reinit_dbus (gpointer user_data)
 }
 
 static DBusHandlerResult
-filter_function (DBusConnection *connection, DBusMessage *message, void *user_data)
+filter_function (DBusConnection *connection, DBusMessage *message, gpointer user_data)
 {
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
 	    strcmp (dbus_message_get_path (message), DBUS_PATH_LOCAL) == 0) {
@@ -237,7 +237,7 @@ read_notify_dbus (EMEventTargetMessage *t)
 }
 
 static void
-enable_dbus (int enable)
+enable_dbus (gint enable)
 {
 	if (enable) {
 		/* we ignore errors here */
@@ -273,7 +273,7 @@ get_config_widget_dbus (void)
 
 static GtkStatusIcon *status_icon = NULL;
 static guint blink_timeout_id = 0;
-static unsigned int status_count = 0;
+static guint status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
 static gboolean notification_callback (gpointer notify);
@@ -370,7 +370,7 @@ static void
 do_properties (GtkMenuItem *item, gpointer user_data)
 {
 	GtkWidget *cfg, *dialog, *vbox, *label, *hbox;
-	char *text;
+	gchar *text;
 
 	cfg = get_cfg_widget ();
 	if (!cfg)
@@ -465,7 +465,7 @@ notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 static void
 new_notify_status (EMEventTargetFolder *t)
 {
-	char *msg;
+	gchar *msg;
 	gboolean new_icon = !status_icon;
 
 	if (new_icon) {
@@ -541,7 +541,7 @@ read_notify_status (EMEventTargetMessage *t)
 }
 
 static void
-enable_status (int enable)
+enable_status (gint enable)
 {
 	/* this does nothing on enable, it's here just to be
 	   consistent with other parts of this plugin */
@@ -730,7 +730,7 @@ read_notify_sound (EMEventTargetMessage *t)
 }
 
 static void
-enable_sound (int enable)
+enable_sound (gint enable)
 {
 	if (enable)
 		gnome_sound_init ("localhost");
@@ -854,7 +854,7 @@ get_cfg_widget (void)
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
 
@@ -904,8 +904,8 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 	g_static_mutex_unlock (&mlock);
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (enable) {
 #ifdef HAVE_DBUS

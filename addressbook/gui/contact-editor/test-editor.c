@@ -54,12 +54,12 @@
 "
 "
 
-static char *
-read_file (char *name)
+static gchar *
+read_file (gchar *name)
 {
-	int  len;
-	char buff[65536];
-	char line[1024];
+	gint  len;
+	gchar buff[65536];
+	gchar line[1024];
 	FILE *f;
 
 	f = fopen (name, "r");
@@ -81,7 +81,7 @@ read_file (char *name)
 static void
 editor_closed_cb (EContactEditor *ce, gpointer data)
 {
-	static int count = 2;
+	static gint count = 2;
 
 	count--;
 	g_object_unref (ce);
@@ -90,9 +90,9 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 		exit (0);
 }
 
-int main( int argc, char *argv[] )
+gint main( gint argc, gchar *argv[] )
 {
-	char *cardstr;
+	gchar *cardstr;
 	EContactEditor *ce;
 
 	gtk_init (&argc, &argv);

@@ -122,7 +122,7 @@ e_meeting_list_view_class_init (EMeetingListViewClass *klass)
 
 
 static void
-add_section (ENameSelector *name_selector, const char *name)
+add_section (ENameSelector *name_selector, const gchar *name)
 {
 	ENameSelectorModel *name_selector_model;
 
@@ -160,11 +160,11 @@ get_type_strings (void)
 {
 	GList *strings = NULL;
 
-	strings = g_list_append (strings, (char*) _("Individual"));
-        strings = g_list_append (strings, (char*) _("Group"));
-        strings = g_list_append (strings, (char*) _("Resource"));
-        strings = g_list_append (strings, (char*) _("Room"));
-        strings = g_list_append (strings, (char*) _("Unknown"));
+	strings = g_list_append (strings, (gchar *) _("Individual"));
+        strings = g_list_append (strings, (gchar *) _("Group"));
+        strings = g_list_append (strings, (gchar *) _("Resource"));
+        strings = g_list_append (strings, (gchar *) _("Room"));
+        strings = g_list_append (strings, (gchar *) _("Unknown"));
 
 	return strings;
 }
@@ -174,11 +174,11 @@ get_role_strings (void)
 {
 	GList *strings = NULL;
 
-	strings = g_list_append (strings, (char*) _("Chair"));
-	strings = g_list_append (strings, (char*) _("Required Participant"));
-	strings = g_list_append (strings, (char*) _("Optional Participant"));
-	strings = g_list_append (strings, (char*) _("Non-Participant"));
-	strings = g_list_append (strings, (char*) _("Unknown"));
+	strings = g_list_append (strings, (gchar *) _("Chair"));
+	strings = g_list_append (strings, (gchar *) _("Required Participant"));
+	strings = g_list_append (strings, (gchar *) _("Optional Participant"));
+	strings = g_list_append (strings, (gchar *) _("Non-Participant"));
+	strings = g_list_append (strings, (gchar *) _("Unknown"));
 
 	return strings;
 }
@@ -188,8 +188,8 @@ get_rsvp_strings (void)
 {
 	GList *strings = NULL;
 
-	strings = g_list_append (strings, (char*) _("Yes"));
-	strings = g_list_append (strings, (char*) _("No"));
+	strings = g_list_append (strings, (gchar *) _("Yes"));
+	strings = g_list_append (strings, (gchar *) _("No"));
 
 	return strings;
 }
@@ -199,11 +199,11 @@ get_status_strings (void)
 {
 	GList *strings = NULL;
 
-	strings = g_list_append (strings, (char*) _("Needs Action"));
-	strings = g_list_append (strings, (char*) _("Accepted"));
-	strings = g_list_append (strings, (char*) _("Declined"));
-	strings = g_list_append (strings, (char*) _("Tentative"));
-	strings = g_list_append (strings, (char*) _("Delegated"));
+	strings = g_list_append (strings, (gchar *) _("Needs Action"));
+	strings = g_list_append (strings, (gchar *) _("Accepted"));
+	strings = g_list_append (strings, (gchar *) _("Declined"));
+	strings = g_list_append (strings, (gchar *) _("Tentative"));
+	strings = g_list_append (strings, (gchar *) _("Delegated"));
 
 	return strings;
 }
@@ -213,7 +213,7 @@ value_edited (GtkTreeView *view, gint col, const gchar *path, const gchar *text)
 {
 	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
 	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
-	int row = gtk_tree_path_get_indices (treepath)[0];
+	gint row = gtk_tree_path_get_indices (treepath)[0];
 
 	e_meeting_store_set_value (model, row, col, text);
 	gtk_tree_path_free (treepath);
@@ -264,7 +264,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 	GList             *destinations, *l;
 	EDestinationStore *destination_store;
 	ENameSelectorModel *name_selector_model;
-	const char *madd = NULL;
+	const gchar *madd = NULL;
 	EMeetingListViewPrivate *priv;
 	guint i = 1;
 
@@ -278,7 +278,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 	madd = itip_strip_mailto (e_meeting_attendee_get_address (ma));
 
 	for (l = destinations; l; l = g_list_next (l)) {
-		const char *attendee = NULL;
+		const gchar *attendee = NULL;
 		EDestination *des = l->data;
 
 
@@ -354,7 +354,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 {
 	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
 	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
-	int row = gtk_tree_path_get_indices (treepath)[0];
+	gint row = gtk_tree_path_get_indices (treepath)[0];
 	EMeetingAttendee *existing_attendee;
 	gboolean removed = FALSE, address_changed = FALSE;
 
@@ -365,7 +365,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		GList *l, *m;
 
 		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
-			char *name = m->data, *email = l->data;
+			gchar *name = m->data, *email = l->data;
 
 			if (!((name && *name) || (email && *email)))
 					continue;
@@ -374,7 +374,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 				continue;
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (char *)l->data));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *)l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				/* FIXME Should we copy anything else? */
@@ -395,8 +395,8 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		}
 
 	} else if (g_list_length (addresses) == 1) {
-		char *name = names->data, *email = addresses->data;
-		int existing_row;
+		gchar *name = names->data, *email = addresses->data;
+		gint existing_row;
 
 		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)){
 			if (existing_attendee) {
@@ -430,7 +430,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		}
 	} else {
 		if (existing_attendee) {
-			const char *address = e_meeting_attendee_get_address (existing_attendee);
+			const gchar *address = e_meeting_attendee_get_address (existing_attendee);
 
 			if (!(address && *address)) {
 				removed = TRUE;
@@ -456,7 +456,7 @@ attendee_editing_canceled_cb (GtkCellRenderer *renderer, GtkTreeView *view)
 	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
 	GtkTreePath *path;
 	EMeetingAttendee *existing_attendee;
-	int row;
+	gint row;
 
 	/* This is for newly added attendees when the editing is cancelled */
 	gtk_tree_view_get_cursor (view, &path, NULL);
@@ -534,7 +534,7 @@ build_table (EMeetingListView *lview)
 	EMeetingListViewPrivate *priv;
 	GHashTable *edit_table;
 	GtkTreeViewColumn *col;
-	int pos;
+	gint pos;
 
 	priv = lview->priv;
 	edit_table = priv->renderers;
@@ -618,7 +618,7 @@ static void
 change_edit_cols_for_user (gpointer key, gpointer value, gpointer user_data)
 {
        GtkCellRenderer *renderer = (GtkCellRenderer *) value;
-       int key_val = GPOINTER_TO_INT (key);
+       gint key_val = GPOINTER_TO_INT (key);
        switch (key_val)
        {
                case E_MEETING_STORE_ATTENDEE_COL:
@@ -652,7 +652,7 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
 {
        EMeetingAttendee *existing_attendee;
        EMeetingListViewPrivate *priv;
-       int row;
+       gint row;
        EMeetingAttendeeEditLevel el;
        gint  edit_level;
        GtkTreeModel *model;
@@ -776,7 +776,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				ENameSelectorDialog *dialog;
 				EContactStore *c_store;
 				GList *books, *l;
-				char *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
+				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 				c_store = dialog->name_selector_model->contact_store;
@@ -793,11 +793,11 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				if (book) {
 					GList *contacts;
 					EContact *n_con = NULL;
-					char *qu;
+					gchar *qu;
 					EBookQuery *query;
 
 					qu = g_strdup_printf ("(is \"full_name\" \"%s\")",
-							(char *) e_contact_get (contact, E_CONTACT_FULL_NAME));
+							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
 					query = e_book_query_from_string (qu);
 
 					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
@@ -829,8 +829,8 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
 			EContact *contact;
-			const char *name, *attendee = NULL;
-			char *attr = NULL, *fburi = NULL;
+			const gchar *name, *attendee = NULL;
+			gchar *attr = NULL, *fburi = NULL;
 
 			name = e_destination_get_name (dest);
 
@@ -907,7 +907,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 	ENameSelectorModel *name_selector_model;
 	EMeetingStore *store;
 	const GPtrArray *attendees;
-	int i;
+	gint i;
 	GSList 		  *la = NULL, *l;
 
 	name_selector_model = e_name_selector_peek_model (view->priv->name_selector);
@@ -936,8 +936,8 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 	/* remove the deleted attendees from name selector */
 	for (l = la; l != NULL; l = l->next) {
 		EMeetingAttendee *ma = NULL;
-		const char *email = l->data;
-		int i;
+		const gchar *email = l->data;
+		gint i;
 
 		ma = e_meeting_store_find_attendee (store, email, &i);
 

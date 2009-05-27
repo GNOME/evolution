@@ -146,7 +146,7 @@ e_date_edit_config_get_edit (EDateEditConfig *edit_config)
 static void
 set_week_start (EDateEdit *date_edit)
 {
-	int week_start_day;
+	gint week_start_day;
 
 	week_start_day = calendar_config_get_week_start_day ();
 

@@ -73,7 +73,7 @@ enum {
 	ALARM_CUSTOM
 };
 
-static const int alarm_map_with_user_time[] = {
+static const gint alarm_map_with_user_time[] = {
 	ALARM_NONE,
 	ALARM_15_MINUTES,
 	ALARM_1_HOUR,
@@ -83,7 +83,7 @@ static const int alarm_map_with_user_time[] = {
 	-1
 };
 
-static const int alarm_map_without_user_time[] = {
+static const gint alarm_map_without_user_time[] = {
 	ALARM_NONE,
 	ALARM_15_MINUTES,
 	ALARM_1_HOUR,
@@ -113,7 +113,7 @@ struct _EventPagePrivate {
 	EAccountList *accounts;
 	GList *address_strings;
 	EMeetingAttendee *ia;
-	char *user_add;
+	gchar *user_add;
 	ECalComponent *comp;
 
 	/* For meeting/event */
@@ -176,9 +176,9 @@ struct _EventPagePrivate {
 	gboolean sendoptions_shown;
 
 	ESendOptionsDialog *sod;
-	char *old_summary;
+	gchar *old_summary;
 	CalUnits alarm_units;
-	int alarm_interval;
+	gint alarm_interval;
 
 	/* This is TRUE if both the start & end timezone are the same. If the
 	   start timezone is then changed, we updated the end timezone to the
@@ -189,7 +189,7 @@ struct _EventPagePrivate {
 	GtkWidget *alarm_list_dlg_widget;
 
 	/* either with-user-time or without it */
-	const int *alarm_map;
+	const gint *alarm_map;
 };
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
@@ -206,8 +206,8 @@ static void hour_sel_changed ( GtkSpinButton *widget, EventPage *epage);
 static void minute_sel_changed ( GtkSpinButton *widget, EventPage *epage);
 static void hour_minute_changed ( EventPage *epage);
 static void update_end_time_combo ( EventPage *epage);
-static void event_page_select_organizer (EventPage *epage, const char *backend_address);
-static void set_subscriber_info_string (EventPage *epage, const char *backend_address);
+static void event_page_select_organizer (EventPage *epage, const gchar *backend_address);
+static void set_subscriber_info_string (EventPage *epage, const gchar *backend_address);
 
 G_DEFINE_TYPE (EventPage, event_page, TYPE_COMP_EDITOR_PAGE)
 
@@ -508,7 +508,7 @@ clear_widgets (EventPage *epage)
 }
 
 static gboolean
-is_custom_alarm (ECalComponentAlarm *ca, char *old_summary, CalUnits user_units, int user_interval, int *alarm_type)
+is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units, gint user_interval, gint *alarm_type)
 {
 	ECalComponentAlarmTrigger trigger;
 	ECalComponentAlarmRepeat repeat;
@@ -530,7 +530,7 @@ is_custom_alarm (ECalComponentAlarm *ca, char *old_summary, CalUnits user_units,
 	icalcomp = e_cal_component_alarm_get_icalcomponent (ca);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
-		const char *x_name;
+		const gchar *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION"))
@@ -627,7 +627,7 @@ is_custom_alarm (ECalComponentAlarm *ca, char *old_summary, CalUnits user_units,
 }
 
 static gboolean
-is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, char *old_summary, CalUnits user_units, int user_interval, int *alarm_type)
+is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, gchar *old_summary, CalUnits user_units, gint user_interval, gint *alarm_type)
 {
 	ECalComponentAlarm *ca;
 	gboolean result;
@@ -643,7 +643,7 @@ is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, char *old_summary,
 }
 
 static gboolean
-is_custom_alarm_store (EAlarmList *alarm_list_store, char *old_summary,  CalUnits user_units, int user_interval, int *alarm_type)
+is_custom_alarm_store (EAlarmList *alarm_list_store, gchar *old_summary,  CalUnits user_units, gint user_interval, gint *alarm_type)
 {
 	const ECalComponentAlarm *alarm;
 	GtkTreeModel *model;
@@ -700,7 +700,7 @@ event_page_set_view_rsvp (EventPage *epage, gboolean state)
 }
 
 static GtkWidget *
-create_image_event_box (const char *image_text, const char *tip_text)
+create_image_event_box (const gchar *image_text, const gchar *tip_text)
 {
 	GtkWidget *image, *box;
 
@@ -866,7 +866,7 @@ get_current_account (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	EIterator *it;
-	const char *str;
+	const gchar *str;
 
 	priv = epage->priv;
 
@@ -876,7 +876,7 @@ get_current_account (EventPage *epage)
 
 	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
 		EAccount *a = (EAccount *)e_iterator_get(it);
-		char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
 			g_free (full);
@@ -905,8 +905,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	ECalComponentTransparency transparency;
 	ECalComponentDateTime start_date, end_date;
-	const char *location, *uid = NULL;
-	const char *categories;
+	const gchar *location, *uid = NULL;
+	const gchar *categories;
 	gchar *backend_addr = NULL;
 	GSList *l;
 	gboolean validated = TRUE;
@@ -1084,7 +1084,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	if (e_cal_component_has_alarms (comp)) {
 		GList *alarms, *list;
-		int alarm_type;
+		gint alarm_type;
 
 		alarms = e_cal_component_get_alarm_uids (comp);
 		if (!is_custom_alarm_uid_list (comp, alarms, priv->old_summary, priv->alarm_units, priv->alarm_interval, &alarm_type))
@@ -1140,7 +1140,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentDateTime start_date, end_date;
 	struct icaltimetype start_tt, end_tt;
 	gboolean all_day_event, start_date_set, end_date_set, busy;
-	char *cat, *str;
+	gchar *cat, *str;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 
@@ -1322,7 +1322,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 				icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 				while (icalprop) {
-					const char *x_name;
+					const gchar *x_name;
 					ECalComponentText summary;
 
 					x_name = icalproperty_get_x_name (icalprop);
@@ -1349,7 +1349,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			ECalComponentAlarm *ca;
 			ECalComponentText summary;
 			ECalComponentAlarmTrigger trigger;
-			int alarm_type;
+			gint alarm_type;
 
 			ca = e_cal_component_alarm_new ();
 
@@ -1456,7 +1456,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 		if (flags & COMP_EDITOR_DELEGATE) {
 			GSList *attendee_list, *l;
-			int i;
+			gint i;
 			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
 
 			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
@@ -1530,7 +1530,7 @@ static void
 time_sel_changed (GtkComboBox *combo, EventPage *epage)
 {
 	EventPagePrivate *priv;
-	int selection = gtk_combo_box_get_active (combo);
+	gint selection = gtk_combo_box_get_active (combo);
 
 	priv = epage->priv;
 
@@ -1683,8 +1683,8 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
-		const char *address;
-		const char *sentby = NULL;
+		const gchar *address;
+		const gchar *sentby = NULL;
 
 		address = itip_strip_mailto (attendee->value);
 		if (attendee->sentby)
@@ -1707,7 +1707,7 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	int pos = 0;
+	gint pos = 0;
 	gboolean delegate;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
@@ -1767,7 +1767,7 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	GtkTreePath *path = NULL;
 	GtkTreeModel *model = NULL;
 	gboolean valid_iter;
-	char *address;
+	gchar *address;
 
 	priv = epage->priv;
 
@@ -1847,7 +1847,7 @@ attendee_added_cb (EMeetingListView *emlv,
 		e_meeting_store_remove_attendee (priv->model, ia);
 	} else {
 		if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
-			const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
+			const gchar *delegator_id = e_meeting_attendee_get_delfrom (ia);
 			EMeetingAttendee *delegator;
 
 			delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
@@ -1866,7 +1866,7 @@ attendee_added_cb (EMeetingListView *emlv,
 
 /* Callbacks for list view*/
 static void
-popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_add_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EventPage *epage = data;
 
@@ -1874,7 +1874,7 @@ popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EventPage *epage = data;
 
@@ -1894,7 +1894,7 @@ static EPopupItem context_menu_items[] = {
 };
 
 static void
-context_popup_free(EPopup *ep, GSList *items, void *data)
+context_popup_free(EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free(items);
 }
@@ -1909,11 +1909,11 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 	EMeetingAttendee *ia;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	char *address;
+	gchar *address;
 	guint32 disable_mask = ~0;
 	GSList *menus = NULL;
 	ECalPopup *ep;
-	int i;
+	gint i;
 
 	/* only process right-clicks */
 	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
@@ -2348,7 +2348,7 @@ check_start_before_end (struct icaltimetype *start_tt,
 			gboolean adjust_end_time)
 {
 	struct icaltimetype end_tt_copy;
-	int cmp;
+	gint cmp;
 
 	/* Convert the end time to the same timezone as the start time. */
 	end_tt_copy = *end_tt;
@@ -2420,7 +2420,7 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 	if (all_day_event) {
 		/* All Day Events are simple. We just compare the dates and if
 		   start > end we copy one of them to the other. */
-		int cmp = icaltime_compare_date_only (start_tt, end_tt);
+		gint cmp = icaltime_compare_date_only (start_tt, end_tt);
 		if (cmp > 0) {
 			if (adjust_end_time) {
 				end_tt = start_tt;
@@ -2646,7 +2646,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 }
 
 static void
-set_subscriber_info_string (EventPage *epage, const char *backend_address)
+set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
 {
 	CompEditor *editor;
 	ECal *client;
@@ -2679,7 +2679,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		ECalComponentAlarmTrigger trigger;
 		icalcomponent *icalcomp;
 		icalproperty *icalprop;
-		int alarm_type;
+		gint alarm_type;
 
 		ca = e_cal_component_alarm_new ();
 
@@ -2813,7 +2813,7 @@ init_widgets (EventPage *epage)
 	CompEditor *editor;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
-	char *combo_label = NULL;
+	gchar *combo_label = NULL;
 	GtkTreeSelection *selection;
 	ECal *client;
 
@@ -3013,7 +3013,7 @@ init_widgets (EventPage *epage)
 
 
 static void
-event_page_select_organizer (EventPage *epage, const char *backend_address)
+event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 {
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
@@ -3021,10 +3021,10 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 	ECal *client;
 	EAccount *def_account;
 	gchar *def_address = NULL;
-	const char *default_address;
+	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
-	const char *user_addr = NULL;
+	const gchar *user_addr = NULL;
 
 	def_account = itip_addresses_get_default();
 	if (def_account && def_account->enabled)
@@ -3047,7 +3047,7 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 	if (user_addr)
 		for (l = priv->address_strings; l != NULL; l = l->next)
 			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				default_address = (const char *) l->data;
+				default_address = (const gchar *) l->data;
 				break;
 			}
 
@@ -3080,7 +3080,7 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 	EventPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
-	char *gladefile;
+	gchar *gladefile;
 
 	priv = epage->priv;
 	g_object_ref (model);
@@ -3217,7 +3217,7 @@ static void
 set_attendees (ECalComponent *comp, const GPtrArray *attendees)
 {
 	GSList *comp_attendees = NULL, *l;
-	int i;
+	gint i;
 
 	for (i = 0; i < attendees->len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);

@@ -50,8 +50,8 @@
 #define LOG_LOCKS
 #define d(x)
 
-static void set_stop(int sensitive);
-static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
+static void set_stop(gint sensitive);
+static void mail_operation_status(struct _CamelOperation *op, const gchar *what, gint pc, gpointer data);
 
 #ifdef LOG_LOCKS
 #define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: lock " # x "\n", e_util_pthread_id(pthread_self())):0, pthread_mutex_lock(&x))
@@ -63,9 +63,9 @@ static void mail_operation_status(struct _CamelOperation *op, const char *what, 
 
 /* background operation status stuff */
 struct _MailMsgPrivate {
-	int activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
+	gint activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
 				   pointer itself for locking/race conditions */
-	int activity_id;
+	gint activity_id;
 	GtkWidget *error;
 	gboolean cancelable;
 };
@@ -73,10 +73,10 @@ struct _MailMsgPrivate {
 /* mail_msg stuff */
 #ifdef LOG_OPS
 static FILE *log;
-static int log_ops, log_locks, log_init;
+static gint log_ops, log_locks, log_init;
 #endif
 
-static unsigned int mail_msg_seq; /* sequence number of each message */
+static guint mail_msg_seq; /* sequence number of each message */
 static GHashTable *mail_msg_active_table; /* table of active messages, must hold mail_msg_lock to access */
 static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
@@ -140,7 +140,7 @@ mail_msg_new (MailMsgInfo *info)
 }
 
 static void
-end_event_callback (CamelObject *o, void *event_data, void *error)
+end_event_callback (CamelObject *o, gpointer event_data, gpointer error)
 {
 	MailComponent *component;
 	EActivityHandler *activity_handler;
@@ -161,10 +161,10 @@ end_event_callback (CamelObject *o, void *event_data, void *error)
 #include <mcheck.h>
 
 static void
-checkmem(void *p)
+checkmem(gpointer p)
 {
 	if (p) {
-		int status = mprobe(p);
+		gint status = mprobe(p);
 
 		switch (status) {
 		case MCHECK_HEAD:
@@ -277,12 +277,12 @@ mail_msg_unref (gpointer msg)
 /* hash table of ops->dialogue of active errors */
 static GHashTable *active_errors = NULL;
 
-static void error_destroy(GtkObject *o, void *data)
+static void error_destroy(GtkObject *o, gpointer data)
 {
 	g_hash_table_remove(active_errors, data);
 }
 
-static void error_response(GtkObject *o, int button, void *data)
+static void error_response(GtkObject *o, gint button, gpointer data)
 {
 	gtk_widget_destroy((GtkWidget *)o);
 }
@@ -291,7 +291,7 @@ void
 mail_msg_check_error (gpointer msg)
 {
 	MailMsg *m = msg;
-	char *what;
+	gchar *what;
 	GtkDialog *gd;
 
 #ifdef MALLOC_CHECK
@@ -336,7 +336,7 @@ mail_msg_check_error (gpointer msg)
 		gtk_widget_show((GtkWidget *)gd);
 }
 
-void mail_msg_cancel(unsigned int msgid)
+void mail_msg_cancel(guint msgid)
 {
 	MailMsg *m;
 
@@ -352,7 +352,7 @@ void mail_msg_cancel(unsigned int msgid)
 
 /* waits for a message to be finished processing (freed)
    the messageid is from MailMsg->seq */
-void mail_msg_wait(unsigned int msgid)
+void mail_msg_wait(guint msgid)
 {
 	MailMsg *m;
 
@@ -377,9 +377,9 @@ void mail_msg_wait(unsigned int msgid)
 	}
 }
 
-int mail_msg_active(unsigned int msgid)
+gint mail_msg_active(guint msgid)
 {
-	int active;
+	gint active;
 
 	MAIL_MT_LOCK(mail_msg_lock);
 	if (msgid == (unsigned int)-1)
@@ -665,12 +665,12 @@ struct _proxy_msg {
 	mail_async_event_t type;
 
 	pthread_t thread;
-	int have_thread;
+	gint have_thread;
 
 	MailAsyncFunc func;
-	void *o;
-	void *event_data;
-	void *data;
+	gpointer o;
+	gpointer event_data;
+	gpointer data;
 };
 
 static void
@@ -687,7 +687,7 @@ do_async_event(struct _proxy_msg *m)
 }
 
 static int
-idle_async_event(void *mm)
+idle_async_event(gpointer mm)
 {
 	do_async_event(mm);
 	mail_msg_unref(mm);
@@ -713,10 +713,10 @@ MailAsyncEvent *mail_async_event_new(void)
 	return ea;
 }
 
-int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, void *o, void *event_data, void *data)
+gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer o, gpointer event_data, gpointer data)
 {
 	struct _proxy_msg *m;
-	int id;
+	gint id;
 
 	/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
 	m = mail_msg_new(&async_event_info);
@@ -746,9 +746,9 @@ int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsync
 	return id;
 }
 
-int mail_async_event_destroy(MailAsyncEvent *ea)
+gint mail_async_event_destroy(MailAsyncEvent *ea)
 {
-	int id;
+	gint id;
 	pthread_t thread = pthread_self();
 	struct _proxy_msg *m;
 
@@ -781,7 +781,7 @@ struct _call_msg {
 
 	mail_call_t type;
 	MailMainFunc func;
-	void *ret;
+	gpointer ret;
 	va_list ap;
 	EFlag *done;
 };
@@ -789,50 +789,50 @@ struct _call_msg {
 static void
 do_call(struct _call_msg *m)
 {
-	void *p1, *p2, *p3, *p4, *p5;
-	int i1;
+	gpointer p1, *p2, *p3, *p4, *p5;
+	gint i1;
 	va_list ap;
 
 	G_VA_COPY(ap, m->ap);
 
 	switch(m->type) {
 	case MAIL_CALL_p_p:
-		p1 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
 		m->ret = m->func(p1);
 		break;
 	case MAIL_CALL_p_pp:
-		p1 = va_arg(ap, void *);
-		p2 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
+		p2 = va_arg(ap, gpointer );
 		m->ret = m->func(p1, p2);
 		break;
 	case MAIL_CALL_p_ppp:
-		p1 = va_arg(ap, void *);
-		p2 = va_arg(ap, void *);
-		p3 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
+		p2 = va_arg(ap, gpointer );
+		p3 = va_arg(ap, gpointer );
 		m->ret = m->func(p1, p2, p3);
 		break;
 	case MAIL_CALL_p_pppp:
-		p1 = va_arg(ap, void *);
-		p2 = va_arg(ap, void *);
-		p3 = va_arg(ap, void *);
-		p4 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
+		p2 = va_arg(ap, gpointer );
+		p3 = va_arg(ap, gpointer );
+		p4 = va_arg(ap, gpointer );
 		m->ret = m->func(p1, p2, p3, p4);
 		break;
 	case MAIL_CALL_p_ppppp:
-		p1 = va_arg(ap, void *);
-		p2 = va_arg(ap, void *);
-		p3 = va_arg(ap, void *);
-		p4 = va_arg(ap, void *);
-		p5 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
+		p2 = va_arg(ap, gpointer );
+		p3 = va_arg(ap, gpointer );
+		p4 = va_arg(ap, gpointer );
+		p5 = va_arg(ap, gpointer );
 		m->ret = m->func(p1, p2, p3, p4, p5);
 		break;
 	case MAIL_CALL_p_ppippp:
-		p1 = va_arg(ap, void *);
-		p2 = va_arg(ap, void *);
+		p1 = va_arg(ap, gpointer );
+		p2 = va_arg(ap, gpointer );
 		i1 = va_arg(ap, int);
-		p3 = va_arg(ap, void *);
-		p4 = va_arg(ap, void *);
-		p5 = va_arg(ap, void *);
+		p3 = va_arg(ap, gpointer );
+		p4 = va_arg(ap, gpointer );
+		p5 = va_arg(ap, gpointer );
 		m->ret = m->func(p1, p2, i1, p3, p4, p5);
 		break;
 	}
@@ -849,11 +849,11 @@ static MailMsgInfo mail_call_info = {
 	(MailMsgFreeFunc) NULL
 };
 
-void *
+gpointer
 mail_call_main (mail_call_t type, MailMainFunc func, ...)
 {
 	struct _call_msg *m;
-	void *ret;
+	gpointer ret;
 	va_list ap;
 
 	va_start(ap, func);
@@ -883,7 +883,7 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 
 /* ********************************************************************** */
 /* locked via status_lock */
-static int busy_state;
+static gint busy_state;
 
 static void
 do_set_busy(MailMsg *mm)
@@ -931,9 +931,9 @@ struct _op_status_msg {
 	MailMsg base;
 
 	struct _CamelOperation *op;
-	char *what;
-	int pc;
-	void *data;
+	gchar *what;
+	gint pc;
+	gpointer data;
 };
 
 static void
@@ -942,8 +942,8 @@ op_status_exec (struct _op_status_msg *m)
 	EActivityHandler *activity_handler = mail_component_peek_activity_handler (mail_component_peek ());
 	MailMsg *msg;
 	MailMsgPrivate *data;
-	char *out, *p, *o, c;
-	int pc;
+	gchar *out, *p, *o, c;
+	gint pc;
 
 	g_return_if_fail (mail_in_main_thread ());
 
@@ -971,7 +971,7 @@ op_status_exec (struct _op_status_msg *m)
 	pc = m->pc;
 
 	if (data->activity_id == 0) {
-		char *what;
+		gchar *what;
 
 		/* its being created/removed?  well leave it be */
 		if (data->activity_state == 1 || data->activity_state == 3) {
@@ -995,7 +995,7 @@ op_status_exec (struct _op_status_msg *m)
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
-				int activity_id = data->activity_id;
+				gint activity_id = data->activity_id;
 
 				MAIL_MT_UNLOCK (mail_msg_lock);
 				mail_msg_free (msg);
@@ -1032,7 +1032,7 @@ static MailMsgInfo op_status_info = {
 };
 
 static void
-mail_operation_status (struct _CamelOperation *op, const char *what, int pc, void *data)
+mail_operation_status (struct _CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _op_status_msg *m;
 
@@ -1057,9 +1057,9 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 /* ******************** */
 
 static void
-set_stop (int sensitive)
+set_stop (gint sensitive)
 {
-	static int last = FALSE;
+	static gint last = FALSE;
 
 	if (last == sensitive)
 		return;

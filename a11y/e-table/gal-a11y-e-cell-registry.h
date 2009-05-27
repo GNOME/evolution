@@ -41,9 +41,9 @@ typedef struct _GalA11yECellRegistryPrivate GalA11yECellRegistryPrivate;
 typedef AtkObject *(*GalA11yECellRegistryFunc) (ETableItem *item,
 						ECellView  *cell_view,
 						AtkObject  *parent,
-						int         model_col,
-						int         view_col,
-						int         row);
+						gint         model_col,
+						gint         view_col,
+						gint         row);
 
 struct _GalA11yECellRegistry {
 	GObject object;
@@ -62,9 +62,9 @@ AtkObject *gal_a11y_e_cell_registry_get_object     (GalA11yECellRegistry     *re
 						    ETableItem               *item,
 						    ECellView                *cell_view,
 						    AtkObject                *parent,
-						    int                       model_col,
-						    int                       view_col,
-						    int                       row);
+						    gint                       model_col,
+						    gint                       view_col,
+						    gint                       row);
 void       gal_a11y_e_cell_registry_add_cell_type  (GalA11yECellRegistry     *registry,
 						    GType                     type,
 						    GalA11yECellRegistryFunc  func);

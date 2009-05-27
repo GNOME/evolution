@@ -53,7 +53,7 @@ struct _EMConfigTargetFolder {
 	EConfigTarget target;
 
 	struct _CamelFolder *folder;
-	char *uri;
+	gchar *uri;
 };
 
 struct _EMConfigTargetPrefs {
@@ -86,9 +86,9 @@ struct _EMConfigClass {
 
 GType em_config_get_type(void);
 
-EMConfig *em_config_new(int type, const char *menuid);
+EMConfig *em_config_new(gint type, const gchar *menuid);
 
-EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const char *uri);
+EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const gchar *uri);
 EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, struct _GConfClient *gconf);
 EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, struct _EAccount *account);
 

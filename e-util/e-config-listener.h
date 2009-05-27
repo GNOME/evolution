@@ -45,49 +45,49 @@ typedef struct {
 typedef struct {
 	GObjectClass parent_class;
 
-	void (* key_changed) (EConfigListener *cl, const char *key);
+	void (* key_changed) (EConfigListener *cl, const gchar *key);
 } EConfigListenerClass;
 
 GType                 e_config_listener_get_type (void);
 EConfigListener      *e_config_listener_new (void);
 
-gboolean              e_config_listener_get_boolean (EConfigListener *cl, const char *key);
+gboolean              e_config_listener_get_boolean (EConfigListener *cl, const gchar *key);
 gboolean              e_config_listener_get_boolean_with_default (EConfigListener *cl,
-								  const char *key,
+								  const gchar *key,
 								  gboolean def,
 								  gboolean *used_default);
-float                 e_config_listener_get_float (EConfigListener *cl, const char *key);
+float                 e_config_listener_get_float (EConfigListener *cl, const gchar *key);
 float                 e_config_listener_get_float_with_default (EConfigListener *cl,
-								const char *key,
+								const gchar *key,
 								float def,
 								gboolean *used_default);
-long                  e_config_listener_get_long (EConfigListener *cl, const char *key);
+long                  e_config_listener_get_long (EConfigListener *cl, const gchar *key);
 long                  e_config_listener_get_long_with_default (EConfigListener *cl,
-							       const char *key,
+							       const gchar *key,
 							       long def,
 							       gboolean *used_default);
-char                 *e_config_listener_get_string (EConfigListener *cl, const char *key);
-char                 *e_config_listener_get_string_with_default (EConfigListener *cl,
-								 const char *key,
-								 const char *def,
+gchar                 *e_config_listener_get_string (EConfigListener *cl, const gchar *key);
+gchar                 *e_config_listener_get_string_with_default (EConfigListener *cl,
+								 const gchar *key,
+								 const gchar *def,
 								 gboolean *used_default);
 void                  e_config_listener_set_boolean (EConfigListener *cl,
-						     const char *key,
+						     const gchar *key,
 						     gboolean value);
 void                  e_config_listener_set_float (EConfigListener *cl,
-						   const char *key,
+						   const gchar *key,
 						   float value);
 void                  e_config_listener_set_long (EConfigListener *cl,
-						  const char *key,
+						  const gchar *key,
 						  long value);
 void                  e_config_listener_set_string (EConfigListener *cl,
-						    const char *key,
-						    const char *value);
+						    const gchar *key,
+						    const gchar *value);
 
 void                  e_config_listener_remove_value (EConfigListener *cl,
-						      const char *key);
+						      const gchar *key);
 void                  e_config_listener_remove_dir (EConfigListener *cl,
-						    const char *dir);
+						    const gchar *dir);
 
 G_END_DECLS
 

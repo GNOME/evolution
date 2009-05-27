@@ -45,7 +45,7 @@ have_nonprocedural_alarm (ECalComponent *comp)
 		ECalComponentAlarm *alarm;
 		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 
-		alarm = e_cal_component_get_alarm (comp, (const char *)l->data);
+		alarm = e_cal_component_get_alarm (comp, (const gchar *)l->data);
 		if (alarm) {
 			e_cal_component_alarm_get_action (alarm, &action);
 			e_cal_component_alarm_free (alarm);
@@ -76,7 +76,7 @@ gboolean
 send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms)
 {
 	ECalComponentVType vtype;
-	const char *id;
+	const gchar *id;
 
 	if (strip_alarms)
 		*strip_alarms = TRUE;
@@ -140,7 +140,7 @@ gboolean
 send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *comp)
 {
 	ECalComponentVType vtype;
-	const char *id;
+	const gchar *id;
 
 	vtype = e_cal_component_get_vtype (comp);
 

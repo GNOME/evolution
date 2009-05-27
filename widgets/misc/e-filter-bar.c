@@ -68,7 +68,7 @@ rule_editor_destroyed (EFilterBar *efb, GObject *deadbeef)
 
 /* FIXME: need to update the popup menu to match any edited rules, sigh */
 static void
-full_rule_editor_response (GtkWidget *dialog, int response, void *data)
+full_rule_editor_response (GtkWidget *dialog, gint response, gpointer data)
 {
 	EFilterBar *efb = data;
 
@@ -79,7 +79,7 @@ full_rule_editor_response (GtkWidget *dialog, int response, void *data)
 }
 
 static void
-rule_editor_response (GtkWidget *dialog, int response, void *data)
+rule_editor_response (GtkWidget *dialog, gint response, gpointer data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
@@ -100,7 +100,7 @@ rule_editor_response (GtkWidget *dialog, int response, void *data)
 }
 
 static void
-rule_advanced_response (GtkWidget *dialog, int response, void *data)
+rule_advanced_response (GtkWidget *dialog, gint response, gpointer data)
 {
 	EFilterBar *efb = data;
 	/* the below generates a compiler warning about incompatible pointer types */
@@ -211,7 +211,7 @@ static void
 save_search_dialog (ESearchBar *esb)
 {
 	FilterRule *rule;
-	char *name, *text;
+	gchar *name, *text;
 	GtkWidget *dialog, *w;
 
 	EFilterBar *efb = (EFilterBar *)esb;
@@ -254,7 +254,7 @@ save_search_dialog (ESearchBar *esb)
 }
 
 static void
-menubar_activated (ESearchBar *esb, int id, void *data)
+menubar_activated (ESearchBar *esb, gint id, gpointer data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 	GtkWidget *dialog;
@@ -317,11 +317,11 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 }
 
 static void
-option_changed (ESearchBar *esb, void *data)
+option_changed (ESearchBar *esb, gpointer data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-	int id = e_search_bar_get_item_id (esb);
-	char *query;
+	gint id = e_search_bar_get_item_id (esb);
+	gchar *query;
 
 	d(printf("option changed, id = %d, setquery = %s %d\n", id, efb->setquery ? "true" : "false", esb->block_search));
 
@@ -366,16 +366,16 @@ dup_item_no_subitems (ESearchBarItem *dest,
 }
 
 static GArray *
-build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrArray *rules)
+build_items (ESearchBar *esb, ESearchBarItem *items, gint type, gint *start, GPtrArray *rules)
 {
 	FilterRule *rule = NULL;
 	EFilterBar *efb = (EFilterBar *)esb;
-	int id = 0, i;
+	gint id = 0, i;
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
 	ESearchBarItem item = { NULL, -1, 2 };
 	const gchar *source;
 	GSList *gtksux = NULL;
-	int num;
+	gint num;
 
 	for (i=0;i<rules->len;i++)
 		gtksux = g_slist_prepend(gtksux, rules->pdata[i]);
@@ -467,7 +467,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 static void
 free_built_items (GArray *menu)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < menu->len; i ++) {
 		ESearchBarItem *item;
@@ -493,7 +493,7 @@ generate_menu (ESearchBar *esb, ESearchBarItem *items)
 static void
 free_items (ESearchBarItem *items)
 {
-	int i;
+	gint i;
 
 	for (i = 0; items[i].id != -1; i++)
 		g_free (items[i].text);
@@ -508,7 +508,7 @@ set_menu (ESearchBar *esb, ESearchBarItem *items)
 {
 	EFilterBar *efb = E_FILTER_BAR (esb);
 	ESearchBarItem *default_items;
-	int i, num;
+	gint i, num;
 
 	if (efb->default_items)
 		free_items (efb->default_items);
@@ -582,7 +582,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 
 	switch (property_id) {
 	case PROP_QUERY: {
-		char *text = e_search_bar_get_text (E_SEARCH_BAR (efb));
+		gchar *text = e_search_bar_get_text (E_SEARCH_BAR (efb));
 
 		/* empty search text means searching turned off */
 		if (efb->current_query && text && *text) {
@@ -600,15 +600,15 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 	case PROP_STATE: {
 		/* FIXME: we should have ESearchBar save its own state to the xmlDocPtr */
 		xmlChar *xmlbuf;
-		char *text, buf[12];
-		int searchscope, item_id, n, view_id;
+		gchar *text, buf[12];
+		gint searchscope, item_id, n, view_id;
 		xmlNodePtr root, node;
 		xmlDocPtr doc;
 
 		item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
 
-		doc = xmlNewDoc ((const unsigned char *)"1.0");
-		root = xmlNewDocNode (doc, NULL, (const unsigned char *)"state", NULL);
+		doc = xmlNewDoc ((const guchar *)"1.0");
+		root = xmlNewDocNode (doc, NULL, (const guchar *)"state", NULL);
 		xmlDocSetRootElement (doc, root);
 		searchscope = e_search_bar_get_search_scope ((ESearchBar *) efb);
 		view_id = e_search_bar_get_viewitem_id ((ESearchBar *) efb);
@@ -618,28 +618,28 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 
 		if (item_id == E_FILTERBAR_ADVANCED_ID) {
 			/* advanced query, save the filterbar state */
-			node = xmlNewChild (root, NULL, (const unsigned char *)"filter-bar", NULL);
+			node = xmlNewChild (root, NULL, (const guchar *)"filter-bar", NULL);
 
 			sprintf (buf, "%d", esb->last_search_option);
-			xmlSetProp (node, (const unsigned char *)"item_id", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"item_id", (guchar *)buf);
 			sprintf (buf, "%d", searchscope);
-			xmlSetProp (node, (const unsigned char *)"searchscope", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"searchscope", (guchar *)buf);
 			sprintf (buf, "%d", view_id);
-			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"view_id", (guchar *)buf);
 
 			xmlAddChild (node, filter_rule_xml_encode (efb->current_query));
 		} else {
 			/* simple query, save the searchbar state */
 			text = e_search_bar_get_text ((ESearchBar *) efb);
 
-			node = xmlNewChild (root, NULL, (const unsigned char *)"search-bar", NULL);
-			xmlSetProp (node, (const unsigned char *)"text", (unsigned char *)(text ? text : ""));
+			node = xmlNewChild (root, NULL, (const guchar *)"search-bar", NULL);
+			xmlSetProp (node, (const guchar *)"text", (guchar *)(text ? text : ""));
 			sprintf (buf, "%d", item_id);
-			xmlSetProp (node, (const unsigned char *)"item_id", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"item_id", (guchar *)buf);
 			sprintf (buf, "%d", searchscope);
-			xmlSetProp (node, (const unsigned char *)"searchscope", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"searchscope", (guchar *)buf);
 			sprintf (buf, "%d", view_id);
-			xmlSetProp (node, (const unsigned char *)"view_id", (unsigned char *)buf);
+			xmlSetProp (node, (const guchar *)"view_id", (guchar *)buf);
 			g_free (text);
 		}
 
@@ -648,7 +648,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 
 		/* remap to glib memory */
 		text = g_malloc (n + 1);
-		memcpy (text, (char *)xmlbuf, n);
+		memcpy (text, (gchar *)xmlbuf, n);
 		text[n] = '\0';
 		xmlFree (xmlbuf);
 
@@ -662,12 +662,12 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 }
 
 static int
-xml_get_prop_int (xmlNodePtr node, const char *prop)
+xml_get_prop_int (xmlNodePtr node, const gchar *prop)
 {
-	char *buf;
-	int ret;
+	gchar *buf;
+	gint ret;
 
-	if ((buf = (char *)xmlGetProp (node, (unsigned char *)prop))) {
+	if ((buf = (gchar *)xmlGetProp (node, (guchar *)prop))) {
 		ret = strtol (buf, NULL, 10);
 		xmlFree (buf);
 	} else {
@@ -683,26 +683,26 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 	EFilterBar *efb = (EFilterBar *) object;
 	ESearchBar *esb = E_SEARCH_BAR (object);
 	xmlNodePtr root, node;
-	const char *state;
+	const gchar *state;
 	xmlDocPtr doc;
 	gboolean rule_set = FALSE, is_cur_folder=FALSE;
-	int view_id, scope, item_id;
+	gint view_id, scope, item_id;
 
 	switch (property_id) {
 	case PROP_STATE:
 		if ((state = g_value_get_string (value))) {
-			if (!(doc = xmlParseDoc ((unsigned char *) state)))
+			if (!(doc = xmlParseDoc ((guchar *) state)))
 				return;
 
 			root = doc->children;
-			if (strcmp ((char *)root->name, "state") != 0) {
+			if (strcmp ((gchar *)root->name, "state") != 0) {
 				xmlFreeDoc (doc);
 				return;
 			}
 
 			node = root->children;
 			while (node != NULL) {
-				if (!strcmp ((char *)node->name, "filter-bar")) {
+				if (!strcmp ((gchar *)node->name, "filter-bar")) {
 					FilterRule *rule = NULL;
 
 
@@ -745,7 +745,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						esb->block_search = FALSE;
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
 						if (efb->config && efb->current_query) {
-							char *query = e_search_bar_get_text (esb);
+							gchar *query = e_search_bar_get_text (esb);
 							efb->config (efb, efb->current_query, item_id, query, efb->config_data);
 							g_free (query);
 
@@ -758,9 +758,9 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					efb->setquery = FALSE;
 
 					break;
-				} else if (!strcmp ((char *)node->name, "search-bar")) {
-					int subitem_id, item_id, scope, view_id;
-					char *text;
+				} else if (!strcmp ((gchar *)node->name, "search-bar")) {
+					gint subitem_id, item_id, scope, view_id;
+					gchar *text;
 					GtkStyle *style = gtk_widget_get_default_style ();
 
 					/* set the text first (it doesn't emit a signal) */
@@ -781,7 +781,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					scope = xml_get_prop_int (node, "searchscope");
 					e_search_bar_set_search_scope (E_SEARCH_BAR (efb), scope);
 
-					text = (char *)xmlGetProp (node, (const unsigned char *)"text");
+					text = (gchar *)xmlGetProp (node, (const guchar *)"text");
 					e_search_bar_set_text (E_SEARCH_BAR (efb), text);
 					if (text && *text) {
 						efb->current_query = (FilterRule *)efb->option_rules->pdata[item_id - efb->option_base];
@@ -833,7 +833,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 
 static void clear_rules(EFilterBar *efb, GPtrArray *rules)
 {
-	int i;
+	gint i;
 	FilterRule *rule;
 
 	/* clear out any data on old rules */
@@ -952,10 +952,10 @@ init (EFilterBar *efb)
 
 EFilterBar *
 e_filter_bar_new (RuleContext *context,
-		  const char *systemrules,
-		  const char *userrules,
+		  const gchar *systemrules,
+		  const gchar *userrules,
 		  EFilterBarConfigRule config,
-		  void *data)
+		  gpointer data)
 {
 	EFilterBar *bar;
 
@@ -969,10 +969,10 @@ e_filter_bar_new (RuleContext *context,
 
 EFilterBar *
 e_filter_bar_lite_new (RuleContext *context,
-		  const char *systemrules,
-		  const char *userrules,
+		  const gchar *systemrules,
+		  const gchar *userrules,
 		  EFilterBarConfigRule config,
-		  void *data)
+		  gpointer data)
 {
 	EFilterBar *bar;
 
@@ -985,10 +985,10 @@ e_filter_bar_lite_new (RuleContext *context,
 
 void
 e_filter_bar_new_construct (RuleContext *context,
-		  const char *systemrules,
-		  const char *userrules,
+		  const gchar *systemrules,
+		  const gchar *userrules,
 		  EFilterBarConfigRule config,
-		  void *data ,EFilterBar *bar )
+		  gpointer data ,EFilterBar *bar )
 {
 	ESearchBarItem item = { NULL, -1, 0 };
 

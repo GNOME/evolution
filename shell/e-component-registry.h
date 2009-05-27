@@ -63,20 +63,20 @@ enum _EComponentRegistryField {
 };
 
 struct _EComponentInfo {
-	char *id;
+	gchar *id;
 
-	char *alias;
+	gchar *alias;
 
 	/* NULL if not activated.  */
 	GNOME_Evolution_Component iface;
 
-	char *button_label;
-	char *button_tooltips;
-	char *menu_label;
-	char *menu_accelerator;
-	char *icon_name;
+	gchar *button_label;
+	gchar *button_tooltips;
+	gchar *menu_label;
+	gchar *menu_accelerator;
+	gchar *icon_name;
 
-	int sort_order;
+	gint sort_order;
 
 	/* List of URI schemas that this component supports.  */
 	GSList *uri_schemas;	/* <char *> */
@@ -90,10 +90,10 @@ EComponentRegistry *e_component_registry_new       (void);
 GSList         *e_component_registry_peek_list  (EComponentRegistry *registry);
 EComponentInfo *e_component_registry_peek_info  (EComponentRegistry *registry,
 						 enum _EComponentRegistryField type,
-						 const char *key);
+						 const gchar *key);
 
 GNOME_Evolution_Component  e_component_registry_activate  (EComponentRegistry *registry,
-							   const char         *id,
+							   const gchar         *id,
 							   CORBA_Environment  *ev);
 
 

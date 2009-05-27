@@ -76,7 +76,7 @@ struct _EABView
 
 	EBook *book;
 	ESource *source;
-	char  *query;
+	gchar  *query;
 	guint editable : 1;
 
 	gint displayed_contact;

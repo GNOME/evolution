@@ -38,9 +38,9 @@ static void em_html_stream_class_init (EMHTMLStreamClass *klass);
 static void em_html_stream_init (CamelObject *object);
 static void em_html_stream_finalize (CamelObject *object);
 
-static ssize_t emhs_sync_write(CamelStream *stream, const char *buffer, size_t n);
-static int emhs_sync_close(CamelStream *stream);
-static int emhs_sync_flush(CamelStream *stream);
+static ssize_t emhs_sync_write(CamelStream *stream, const gchar *buffer, size_t n);
+static gint emhs_sync_close(CamelStream *stream);
+static gint emhs_sync_flush(CamelStream *stream);
 
 static EMSyncStreamClass *parent_class = NULL;
 
@@ -104,7 +104,7 @@ em_html_stream_finalize (CamelObject *object)
 }
 
 static ssize_t
-emhs_sync_write(CamelStream *stream, const char *buffer, size_t n)
+emhs_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
 {
 	EMHTMLStream *emhs = EM_HTML_STREAM (stream);
 

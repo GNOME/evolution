@@ -38,7 +38,7 @@
 #define ACCOUNT_DISABLE 0
 #define PROXY_LOGOUT 1
 
-void mail_account_disable (EPopup *ep, EPopupItem *p, void *data);
+void mail_account_disable (EPopup *ep, EPopupItem *p, gpointer data);
 void org_gnome_create_mail_account_disable (EPlugin *ep, EMPopupTargetFolder *t);
 
 static EPopupItem popup_items[] = {
@@ -47,13 +47,13 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 }
 
 void
-mail_account_disable (EPopup *ep, EPopupItem *p, void *data)
+mail_account_disable (EPopup *ep, EPopupItem *p, gpointer data)
 {
 	MailComponent *component;
 	EAccount *account = data;

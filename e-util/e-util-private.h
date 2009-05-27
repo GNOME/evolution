@@ -35,26 +35,26 @@
 
 #define fsync(fd) 0
 
-const char *_e_get_category_icons (void) G_GNUC_CONST;
-const char *_e_get_datadir (void) G_GNUC_CONST;
-const char *_e_get_ecpsdir (void) G_GNUC_CONST;
-const char *_e_get_etspecdir (void) G_GNUC_CONST;
-const char *_e_get_galviewsdir (void) G_GNUC_CONST;
-const char *_e_get_gladedir (void) G_GNUC_CONST;
-const char *_e_get_helpdir (void) G_GNUC_CONST;
-const char *_e_get_iconsdir (void) G_GNUC_CONST;
-const char *_e_get_imagesdir (void) G_GNUC_CONST;
-const char *_e_get_libdir (void) G_GNUC_CONST;
-const char *_e_get_libexecdir (void) G_GNUC_CONST;
-const char *_e_get_localedir (void) G_GNUC_CONST;
-const char *_e_get_plugindir (void) G_GNUC_CONST;
-const char *_e_get_prefix (void) G_GNUC_CONST;
-const char *_e_get_privdatadir (void) G_GNUC_CONST;
-const char *_e_get_search_rule_dir (void) G_GNUC_CONST;
-const char *_e_get_sounddir (void) G_GNUC_CONST;
-const char *_e_get_sysconfdir (void) G_GNUC_CONST;
-const char *_e_get_toolsdir (void) G_GNUC_CONST;
-const char *_e_get_uidir (void) G_GNUC_CONST;
+const gchar *_e_get_category_icons (void) G_GNUC_CONST;
+const gchar *_e_get_datadir (void) G_GNUC_CONST;
+const gchar *_e_get_ecpsdir (void) G_GNUC_CONST;
+const gchar *_e_get_etspecdir (void) G_GNUC_CONST;
+const gchar *_e_get_galviewsdir (void) G_GNUC_CONST;
+const gchar *_e_get_gladedir (void) G_GNUC_CONST;
+const gchar *_e_get_helpdir (void) G_GNUC_CONST;
+const gchar *_e_get_iconsdir (void) G_GNUC_CONST;
+const gchar *_e_get_imagesdir (void) G_GNUC_CONST;
+const gchar *_e_get_libdir (void) G_GNUC_CONST;
+const gchar *_e_get_libexecdir (void) G_GNUC_CONST;
+const gchar *_e_get_localedir (void) G_GNUC_CONST;
+const gchar *_e_get_plugindir (void) G_GNUC_CONST;
+const gchar *_e_get_prefix (void) G_GNUC_CONST;
+const gchar *_e_get_privdatadir (void) G_GNUC_CONST;
+const gchar *_e_get_search_rule_dir (void) G_GNUC_CONST;
+const gchar *_e_get_sounddir (void) G_GNUC_CONST;
+const gchar *_e_get_sysconfdir (void) G_GNUC_CONST;
+const gchar *_e_get_toolsdir (void) G_GNUC_CONST;
+const gchar *_e_get_uidir (void) G_GNUC_CONST;
 
 #undef DATADIR
 #define DATADIR _e_get_datadir ()

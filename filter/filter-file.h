@@ -44,8 +44,8 @@ typedef struct _FilterFileClass FilterFileClass;
 struct _FilterFile {
 	FilterElement parent_object;
 
-	char *type;
-	char *path;
+	gchar *type;
+	gchar *path;
 };
 
 struct _FilterFileClass {
@@ -61,10 +61,10 @@ GType filter_file_get_type (void);
 
 FilterFile *filter_file_new (void);
 
-FilterFile *filter_file_new_type_name (const char *type);
+FilterFile *filter_file_new_type_name (const gchar *type);
 
 /* methods */
-void filter_file_set_path (FilterFile *file, const char *path);
+void filter_file_set_path (FilterFile *file, const gchar *path);
 
 #ifdef __cplusplus
 }

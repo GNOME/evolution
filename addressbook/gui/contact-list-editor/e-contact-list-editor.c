@@ -1397,7 +1397,7 @@ contact_list_editor_add_destination (EVCardAttribute *attr,
 	gint email_num = -1;
 	GList *list, *iter;
 	GList *values;
-	char *value;
+	gchar *value;
 
 	destination = e_destination_new ();
 

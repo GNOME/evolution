@@ -59,8 +59,8 @@ typedef struct {
 	GtkSelectionMode selection_mode;
 	ECursorMode cursor_mode;
 
-	char *click_to_add_message;
-	char *domain;
+	gchar *click_to_add_message;
+	gchar *domain;
 } ETableSpecification;
 
 typedef struct {
@@ -71,15 +71,15 @@ GType                e_table_specification_get_type          (void);
 ETableSpecification *e_table_specification_new               (void);
 
 gboolean             e_table_specification_load_from_file    (ETableSpecification *specification,
-							      const char          *filename);
+							      const gchar          *filename);
 gboolean             e_table_specification_load_from_string  (ETableSpecification *specification,
-							      const char          *xml);
+							      const gchar          *xml);
 void                 e_table_specification_load_from_node    (ETableSpecification *specification,
 							      const xmlNode       *node);
 
-int                  e_table_specification_save_to_file      (ETableSpecification *specification,
-							      const char          *filename);
-char                *e_table_specification_save_to_string    (ETableSpecification *specification);
+gint                  e_table_specification_save_to_file      (ETableSpecification *specification,
+							      const gchar          *filename);
+gchar                *e_table_specification_save_to_string    (ETableSpecification *specification);
 xmlNode             *e_table_specification_save_to_node      (ETableSpecification *specification,
 							      xmlDoc              *doc);
 ETableSpecification *e_table_specification_duplicate         (ETableSpecification *spec);

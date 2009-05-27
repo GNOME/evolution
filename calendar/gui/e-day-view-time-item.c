@@ -65,14 +65,14 @@ static void e_day_view_time_item_finalize (GObject *object);
 
 static void e_day_view_time_item_update (GnomeCanvasItem *item,
 					 double *affine,
-					 ArtSVP *clip_path, int flags);
+					 ArtSVP *clip_path, gint flags);
 static void e_day_view_time_item_draw (GnomeCanvasItem *item,
 				       GdkDrawable *drawable,
-				       int x, int y,
-				       int width, int height);
+				       gint x, gint y,
+				       gint width, gint height);
 static double e_day_view_time_item_point (GnomeCanvasItem *item,
 					  double x, double y,
-					  int cx, int cy,
+					  gint cx, gint cy,
 					  GnomeCanvasItem **actual_item);
 static gint e_day_view_time_item_event (GnomeCanvasItem *item,
 					GdkEvent *event);
@@ -131,7 +131,7 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 static void
 e_day_view_time_item_init (EDayViewTimeItem *dvtmitem)
 {
-	char *last;
+	gchar *last;
 
 	dvtmitem->dragging_selection = FALSE;
 	dvtmitem->second_zone = NULL;
@@ -185,7 +185,7 @@ static void
 e_day_view_time_item_update (GnomeCanvasItem *item,
 			    double *affine,
 			    ArtSVP *clip_path,
-			    int flags)
+			    gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (e_day_view_time_item_parent_class)->update)
 		(* GNOME_CANVAS_ITEM_CLASS (e_day_view_time_item_parent_class)->update) (item, affine, clip_path, flags);
@@ -358,7 +358,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		/* shift time with a difference between local time and the other timezone */
 		icaltimezone *cal_zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 		struct icaltimetype tt;
-		int diff;
+		gint diff;
 		struct tm mn;
 
 		tt = icaltime_today ();
@@ -416,7 +416,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	/* Draw the Marcus Bains Line first, so it appears under other elements. */
 	if (e_day_view_get_show_marcus_bains (day_view)) {
 		struct icaltimetype time_now;
-		int marcus_bains_y;
+		gint marcus_bains_y;
 
 		cairo_save (cr);
 		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
@@ -645,7 +645,7 @@ e_day_view_time_item_increment_time	(gint	*hour,
 
 static double
 e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
-			    int cx, int cy,
+			    gint cx, gint cy,
 			    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -691,7 +691,7 @@ static void
 edvti_second_zone_changed_cb (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
 	EDayViewTimeItem *dvtmitem = user_data;
-	char *location;
+	gchar *location;
 
 	g_return_if_fail (user_data != NULL);
 	g_return_if_fail (E_IS_DAY_VIEW_TIME_ITEM (dvtmitem));

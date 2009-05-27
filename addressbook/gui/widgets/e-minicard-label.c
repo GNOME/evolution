@@ -40,7 +40,7 @@ static void e_minicard_label_get_property  (GObject *object, guint prop_id, GVal
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_unrealize (GnomeCanvasItem *item);
-static void e_minicard_label_reflow(GnomeCanvasItem *item, int flags);
+static void e_minicard_label_reflow(GnomeCanvasItem *item, gint flags);
 static void e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style);
 
 static void e_minicard_label_resize_children( EMinicardLabel *e_minicard_label );
@@ -455,7 +455,7 @@ e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style)
 }
 
 static void
-e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
+e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
 {
 	EMinicardLabel *e_minicard_label = E_MINICARD_LABEL(item);
 

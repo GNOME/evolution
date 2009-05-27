@@ -36,20 +36,20 @@
 #define d(x) (x)
 
 struct _ECalModelMemosPrivate {
-	int dummy;
+	gint dummy;
 };
 
 static void e_cal_model_memos_finalize (GObject *object);
 
-static int ecmm_column_count (ETableModel *etm);
-static void *ecmm_value_at (ETableModel *etm, int col, int row);
-static void ecmm_set_value_at (ETableModel *etm, int col, int row, const void *value);
-static gboolean ecmm_is_cell_editable (ETableModel *etm, int col, int row);
-static void *ecmm_duplicate_value (ETableModel *etm, int col, const void *value);
-static void ecmm_free_value (ETableModel *etm, int col, void *value);
-static void *ecmm_initialize_value (ETableModel *etm, int col);
-static gboolean ecmm_value_is_empty (ETableModel *etm, int col, const void *value);
-static char *ecmm_value_to_string (ETableModel *etm, int col, const void *value);
+static gint ecmm_column_count (ETableModel *etm);
+static gpointer ecmm_value_at (ETableModel *etm, gint col, gint row);
+static void ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
+static gboolean ecmm_is_cell_editable (ETableModel *etm, gint col, gint row);
+static gpointer ecmm_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
+static void ecmm_free_value (ETableModel *etm, gint col, gpointer value);
+static gpointer ecmm_initialize_value (ETableModel *etm, gint col);
+static gboolean ecmm_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
+static gchar *ecmm_value_to_string (ETableModel *etm, gint col, gconstpointer value);
 
 static void ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
@@ -114,8 +114,8 @@ ecmm_column_count (ETableModel *etm)
 	return E_CAL_MODEL_MEMOS_FIELD_LAST;
 }
 
-static void *
-ecmm_value_at (ETableModel *etm, int col, int row)
+static gpointer
+ecmm_value_at (ETableModel *etm, gint col, gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
@@ -130,14 +130,14 @@ ecmm_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return (void *) "";
+		return (gpointer) "";
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 
 static void
-ecmm_set_value_at (ETableModel *etm, int col, int row, const void *value)
+ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
@@ -166,7 +166,7 @@ ecmm_set_value_at (ETableModel *etm, int col, int row, const void *value)
 }
 
 static gboolean
-ecmm_is_cell_editable (ETableModel *etm, int col, int row)
+ecmm_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ECalModelMemos *model = (ECalModelMemos *) etm;
 	gboolean retval = FALSE;
@@ -184,8 +184,8 @@ ecmm_is_cell_editable (ETableModel *etm, int col, int row)
 	return retval;
 }
 
-static void *
-ecmm_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+ecmm_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, NULL);
 
@@ -196,7 +196,7 @@ ecmm_duplicate_value (ETableModel *etm, int col, const void *value)
 }
 
 static void
-ecmm_free_value (ETableModel *etm, int col, void *value)
+ecmm_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST);
 
@@ -206,8 +206,8 @@ ecmm_free_value (ETableModel *etm, int col, void *value)
 	}
 }
 
-static void *
-ecmm_initialize_value (ETableModel *etm, int col)
+static gpointer
+ecmm_initialize_value (ETableModel *etm, gint col)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, NULL);
 
@@ -218,7 +218,7 @@ ecmm_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-ecmm_value_is_empty (ETableModel *etm, int col, const void *value)
+ecmm_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, TRUE);
 
@@ -228,8 +228,8 @@ ecmm_value_is_empty (ETableModel *etm, int col, const void *value)
 	return TRUE;
 }
 
-static char *
-ecmm_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+ecmm_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, g_strdup (""));
 

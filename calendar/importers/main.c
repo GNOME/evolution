@@ -37,7 +37,7 @@
 #define GNOME_CALENDAR_IMPORTER_ID "OAFIID:GNOME_Evolution_Gnome_Calendar_Intelligent_Importer:" BASE_VERSION
 
 static BonoboObject *
-importer_factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)
+importer_factory_fn (BonoboGenericFactory *factory, const gchar *id, gpointer closure)
 {
 	BonoboObject *object = NULL;
 

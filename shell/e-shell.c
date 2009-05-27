@@ -68,7 +68,7 @@
 #include "evolution-listener.h"
 #include "evolution-shell-component-utils.h"
 
-static void set_line_status_complete(EvolutionListener *el, void *data);
+static void set_line_status_complete(EvolutionListener *el, gpointer data);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -76,7 +76,7 @@ static gboolean session_started = FALSE;
 
 struct _EShellPrivate {
 	/* IID for registering the object on OAF.  */
-	char *iid;
+	gchar *iid;
 
 	GList *windows;
 
@@ -85,11 +85,11 @@ struct _EShellPrivate {
 
 	/* Names for the types of the folders that have maybe crashed.  */
 	/* FIXME TODO */
-	GList *crash_type_names; /* char * */
+	GList *crash_type_names; /* gchar * */
 
 	/* Line status and controllers  */
 	EShellLineStatus line_status;
-	int line_status_pending;
+	gint line_status_pending;
 	EShellLineStatus line_status_working;
 	EvolutionListener *line_status_listener;
 
@@ -105,19 +105,19 @@ struct _EShellPrivate {
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
 	   to happen while the shell is initializing.  */
-	unsigned int is_initialized : 1;
+	guint is_initialized : 1;
 
 	/* Wether the shell is working in "interactive" mode or not.
 	   (Currently, it's interactive IIF there is at least one active
 	   view.)  */
-	unsigned int is_interactive : 1;
+	guint is_interactive : 1;
 
 	/* Whether quit has been requested, and the shell is now waiting for
 	   permissions from all the components to quit.  */
-	unsigned int preparing_to_quit : 1;
+	guint preparing_to_quit : 1;
 
 	/* Whether we are recovering from a crash in the previous session. */
-	unsigned int crash_recovery : 1;
+	guint crash_recovery : 1;
 };
 
 
@@ -160,7 +160,7 @@ set_interactive (EShell *shell,
 	GSList *component_list;
 	GSList *p;
 	GList *first_element;
-	int num_windows;
+	gint num_windows;
 	GtkWidget *view;
 
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -260,8 +260,8 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 {
 	EShell *shell = E_SHELL (bonobo_object_from_servant (servant));
 	EComponentInfo *component_info;
-	char *schema, *p;
-	int show = FALSE;
+	gchar *schema, *p;
+	gint show = FALSE;
 
 	schema = g_alloca(strlen(uri)+1);
 	strcpy(schema, uri);
@@ -349,7 +349,7 @@ impl_Shell_findComponent(PortableServer_Servant servant,
 static int
 window_delete_event_cb (GtkWidget *widget,
 		      GdkEventAny *ev,
-		      void *data)
+		      gpointer data)
 {
 	EShell *shell;
 
@@ -360,7 +360,7 @@ window_delete_event_cb (GtkWidget *widget,
 }
 
 static gboolean
-notify_no_windows_left_idle_cb (void *data)
+notify_no_windows_left_idle_cb (gpointer data)
 {
 	EShell *shell;
 	EShellPrivate *priv;
@@ -381,11 +381,11 @@ notify_no_windows_left_idle_cb (void *data)
 }
 
 static void
-window_weak_notify (void *data,
+window_weak_notify (gpointer data,
 		    GObject *where_the_object_was)
 {
 	EShell *shell;
-	int num_windows;
+	gint num_windows;
 
 	shell = E_SHELL (data);
 
@@ -551,9 +551,9 @@ e_shell_init (EShell *shell)
 }
 
 static void
-detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
+detect_version (GConfClient *gconf, gint *major, gint *minor, gint *revision)
 {
-	char *val, *evolution_dir;
+	gchar *val, *evolution_dir;
 	struct stat st;
 
 	evolution_dir = g_build_filename (g_get_home_dir (), "evolution", NULL);
@@ -571,7 +571,7 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 	} else {
 		xmlDocPtr config_doc;
 		xmlNodePtr source;
-		char *tmp;
+		gchar *tmp;
 
 		tmp = g_build_filename (evolution_dir, "config.xmldb", NULL);
 		config_doc = e_xml_parse_file (tmp);
@@ -600,11 +600,11 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 
 /* calls components to perform upgrade */
 static gboolean
-attempt_upgrade (EShell *shell, int major, int minor, int revision)
+attempt_upgrade (EShell *shell, gint major, gint minor, gint revision)
 {
 	GSList *component_infos, *p;
 	gboolean success;
-	int res;
+	gint res;
 
 	success = TRUE;
 
@@ -618,7 +618,7 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
 		GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
 
 		if (BONOBO_EX (&ev)) {
-			char *exception_text;
+			gchar *exception_text;
 			CORBA_char *id = CORBA_exception_id(&ev);
 
 			if (strcmp (id, ex_CORBA_NO_IMPLEMENT) == 0) {
@@ -660,7 +660,7 @@ attempt_upgrade (EShell *shell, int major, int minor, int revision)
  **/
 EShellConstructResult
 e_shell_construct (EShell *shell,
-		   const char *iid,
+		   const gchar *iid,
 		   EShellStartupLineMode startup_line_mode)
 {
 	EShellPrivate *priv;
@@ -753,12 +753,12 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 }
 
 static int
-remove_dir(const char *root, const char *path)
+remove_dir(const gchar *root, const gchar *path)
 {
 	GDir *dir;
-	const char *dname;
-	int res = -1;
-	char *new = NULL;
+	const gchar *dname;
+	gint res = -1;
+	gchar *new = NULL;
 	struct stat st;
 
 	dir = g_dir_open(path, 0, NULL);
@@ -804,12 +804,12 @@ gboolean
 e_shell_attempt_upgrade (EShell *shell)
 {
 	GConfClient *gconf_client;
-	int major = 0, minor = 0, revision = 0;
-	int lmajor, lminor, lrevision;
-	int cmajor, cminor, crevision;
-	char *version_string, *last_version = NULL;
-	int done_upgrade = FALSE;
-	char *oldpath;
+	gint major = 0, minor = 0, revision = 0;
+	gint lmajor, lminor, lrevision;
+	gint cmajor, cminor, crevision;
+	gchar *version_string, *last_version = NULL;
+	gint done_upgrade = FALSE;
+	gchar *oldpath;
 	struct stat st;
 	ESEvent *ese;
 
@@ -834,8 +834,8 @@ e_shell_attempt_upgrade (EShell *shell)
 		size = e_fsutils_usage(oldpath);
 		space = e_fsutils_avail(g_get_home_dir());
 		if (size != -1 && space != -1 && space < size) {
-			char *required = g_strdup_printf(_("%ld KB"), size);
-			char *have = g_strdup_printf(_("%ld KB"), space);
+			gchar *required = g_strdup_printf(_("%ld KB"), size);
+			gchar *have = g_strdup_printf(_("%ld KB"), space);
 
 			e_error_run(NULL, "shell:upgrade-nospace", required, have, NULL);
 			g_free(required);
@@ -866,7 +866,7 @@ check_old:
 	if (lmajor == 1 && lminor < 5
 	    && g_stat(oldpath, &st) == 0
 	    && S_ISDIR(st.st_mode)) {
-		int res;
+		gint res;
 
 		last_version = g_strdup_printf("%d.%d.%d", lmajor, lminor, lrevision);
 		res = e_error_run(NULL, "shell:upgrade-remove-1-4", last_version, NULL);
@@ -927,7 +927,7 @@ check_old:
  **/
 EShellWindow *
 e_shell_create_window (EShell *shell,
-		       const char *component_id,
+		       const gchar *component_id,
 		       EShellWindow *template_window)
 {
 	EShellWindow *window;
@@ -1111,7 +1111,7 @@ set_line_status_finished(EShell *shell)
 }
 
 static void
-set_line_status_complete(EvolutionListener *el, void *data)
+set_line_status_complete(EvolutionListener *el, gpointer data)
 {
 	EShell *shell = data;
 	EShellPrivate *priv = shell->priv;
@@ -1224,7 +1224,7 @@ e_shell_send_receive (EShell *shell)
 
 void
 e_shell_show_settings (EShell *shell,
-		       const char *type,
+		       const gchar *type,
 		       EShellWindow *shell_window)
 {
 	EShellPrivate *priv;
@@ -1252,7 +1252,7 @@ e_shell_show_settings (EShell *shell,
 }
 
 
-const char *
+const gchar *
 e_shell_construct_result_to_string (EShellConstructResult result)
 {
 	switch (result) {

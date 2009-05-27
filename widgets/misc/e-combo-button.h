@@ -66,7 +66,7 @@ GtkWidget *e_combo_button_new        (void);
 void       e_combo_button_set_icon   (EComboButton *combo_button,
 				      GdkPixbuf    *pixbuf);
 void       e_combo_button_set_label  (EComboButton *combo_button,
-				      const char   *label);
+				      const gchar   *label);
 void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
 void       e_combo_button_pack_vbox  (EComboButton *combo_button);

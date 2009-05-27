@@ -127,7 +127,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
-	int i;
+	gint i;
 
 	e_table_model_pre_change (etm);
 
@@ -164,8 +164,8 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
-	int rows;
-	int i;
+	gint rows;
+	gint i;
 
 	e_table_model_pre_change(etm);
 
@@ -217,7 +217,7 @@ static void
 etsv_sort(ETableSortedVariable *etsv)
 {
 	ETableSubset *etss = E_TABLE_SUBSET(etsv);
-	static int reentering = 0;
+	static gint reentering = 0;
 	if (reentering)
 		return;
 	reentering = 1;

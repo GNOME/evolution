@@ -34,7 +34,7 @@
 static AtkObjectClass *parent_class;
 static GType parent_type;
 static gint priv_offset;
-#define GET_PRIVATE(object) ((GalA11yETreePrivate *) (((char *) object) + priv_offset))
+#define GET_PRIVATE(object) ((GalA11yETreePrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETreePrivate {

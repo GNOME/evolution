@@ -55,9 +55,9 @@ reinit_dbus (gpointer user_data)
 
 static DBusHandlerResult
 e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
-                         DBusMessage *message, void *user_data)
+                         DBusMessage *message, gpointer user_data)
 {
-	const char *object;
+	const gchar *object;
 	EShell *shell = user_data;
 	GNOME_Evolution_ShellState shell_state;
 	EShellLineStatus line_status;

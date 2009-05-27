@@ -75,8 +75,8 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 {
 	CATrustDialogData *ctd_data;
 	GtkWidget *w;
-	char *txt;
-	char *gladefile;
+	gchar *txt;
+	gchar *gladefile;
 
 	ctd_data = g_new0 (CATrustDialogData, 1);
 

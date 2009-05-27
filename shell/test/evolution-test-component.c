@@ -103,7 +103,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[0].id = CREATE_TEST_ID;
 	list->_buffer[0].description = _("New Test");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Test");
+	list->_buffer[0].menuDescription = (gchar *) C_("New", "_Test");
 	list->_buffer[0].tooltip = _("Create a new test item");
 	list->_buffer[0].menuShortcut = 'i';
 	list->_buffer[0].iconName = "";
@@ -161,8 +161,8 @@ BONOBO_TYPE_FUNC_FULL (EvolutionTestComponent, GNOME_Evolution_Component, PARENT
 
 static BonoboObject *
 factory (BonoboGenericFactory *factory,
-	 const char *component_id,
-	 void *closure)
+	 const gchar *component_id,
+	 gpointer closure)
 {
 	if (strcmp (component_id, TEST_COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (g_object_new (EVOLUTION_TEST_TYPE_COMPONENT, NULL));

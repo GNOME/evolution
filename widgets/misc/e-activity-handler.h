@@ -65,24 +65,24 @@ void  e_activity_handler_attach_task_bar  (EActivityHandler *activity_hanlder,
 					   ETaskBar         *task_bar);
 
 void  e_activity_handler_set_message   (EActivityHandler *activity_handler,
-				        const char       *message);
+				        const gchar       *message);
 
 void  e_activity_handler_unset_message (EActivityHandler *activity_handler);
 
 guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler,
-					      const char       *component_id,
-					      const char       *information,
+					      const gchar       *component_id,
+					      const gchar       *information,
 					      gboolean          cancellable);
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
-						      const char       *component_id,
-					      	      const char       *information,
+						      const gchar       *component_id,
+					      	      const gchar       *information,
 					      	      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
 						      gpointer user_data);
 
 void  e_activity_handler_operation_progressing  (EActivityHandler *activity_handler,
 						 guint             activity_id,
-						 const char       *information,
+						 const gchar       *information,
 						 double            progress);
 
 void  e_activity_handler_operation_finished  (EActivityHandler *activity_handler,
@@ -90,8 +90,8 @@ void  e_activity_handler_operation_finished  (EActivityHandler *activity_handler
 
 void e_activity_handler_set_logger (EActivityHandler *handler, ELogger *logger);
 guint e_activity_handler_make_error (EActivityHandler *activity_handler,
-				      const char *component_id,
-				      int error_type,
+				      const gchar *component_id,
+				      gint error_type,
 				      GtkWidget  *error);
 void
 e_activity_handler_operation_set_error (EActivityHandler *activity_handler,
@@ -99,7 +99,7 @@ e_activity_handler_operation_set_error (EActivityHandler *activity_handler,
                                           GtkWidget *error);
 
 void
-e_activity_handler_set_error_flush_time (EActivityHandler *handler, int time);
+e_activity_handler_set_error_flush_time (EActivityHandler *handler, gint time);
 
 #ifdef __cplusplus
 }

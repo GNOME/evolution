@@ -26,11 +26,11 @@
 
 G_BEGIN_DECLS
 
-GtkWidget *	e_charset_picker_new		(const char *default_charset);
-char *		e_charset_picker_get_charset	(GtkWidget *picker);
-char *		e_charset_picker_dialog		(const char *title,
-						 const char *prompt,
-						 const char *default_charset,
+GtkWidget *	e_charset_picker_new		(const gchar *default_charset);
+gchar *		e_charset_picker_get_charset	(GtkWidget *picker);
+gchar *		e_charset_picker_dialog		(const gchar *title,
+						 const gchar *prompt,
+						 const gchar *default_charset,
 						 GtkWindow *parent);
 
 void		e_charset_add_radio_actions	(GtkActionGroup *action_group,
@@ -40,8 +40,8 @@ void		e_charset_add_radio_actions	(GtkActionGroup *action_group,
 
 void		e_charset_picker_bonobo_ui_populate
 						(BonoboUIComponent *uic,
-						 const char *path,
-						 const char *default_charset,
+						 const gchar *path,
+						 const gchar *default_charset,
 						 BonoboUIListenerFn cb,
 						 gpointer user_data);
 

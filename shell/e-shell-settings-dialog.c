@@ -55,7 +55,7 @@ set_dialog_size (EShellSettingsDialog *dialog)
 	PangoLayout *layout;
 	PangoContext *context;
 	PangoFontMetrics *metrics;
-	int width, height;
+	gint width, height;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (dialog), "M");
 	context = pango_layout_get_context (layout);
@@ -78,21 +78,21 @@ set_dialog_size (EShellSettingsDialog *dialog)
 /* Page handling.  */
 
 struct _Page {
-	char *title;
-	char *description;
+	gchar *title;
+	gchar *description;
 	GdkPixbuf *icon;
 	Bonobo_ActivationProperty *type;
-	int priority;
+	gint priority;
 	EConfigPage *page_widget;
 };
 typedef struct _Page Page;
 
 static Page *
-page_new (const char *title,
-	  const char *description,
+page_new (const gchar *title,
+	  const gchar *description,
 	  GdkPixbuf *icon,
 	  Bonobo_ActivationProperty *type,
-	  int priority,
+	  gint priority,
 	  EConfigPage *page_widget)
 {
 	Page *page;
@@ -124,8 +124,8 @@ page_free (Page *page)
 }
 
 static int
-compare_page_func (const void *a,
-		   const void *b)
+compare_page_func (gconstpointer a,
+		   gconstpointer b)
 {
 	const Page *page_a;
 	const Page *page_b;
@@ -155,7 +155,7 @@ load_pages (EShellSettingsDialog *dialog)
 	GSList *languages = NULL;
 	GList *page_list;
 	GList *p;
-	int i, j;
+	gint i, j;
 
 	priv = dialog->priv;
 
@@ -178,12 +178,12 @@ load_pages (EShellSettingsDialog *dialog)
 	for (i = 0; i < control_list->_length; i ++) {
 		CORBA_Object corba_object;
 		Bonobo_ServerInfo *info;
-		const char *title;
-		const char *description;
-		const char *icon_path;
-		const char *priority_string;
+		const gchar *title;
+		const gchar *description;
+		const gchar *icon_path;
+		const gchar *priority_string;
 		Bonobo_ActivationProperty *type;
-		int priority;
+		gint priority;
 		GdkPixbuf *icon;
 
 		CORBA_exception_init (&ev);
@@ -213,7 +213,7 @@ load_pages (EShellSettingsDialog *dialog)
 		else
 			priority = atoi (priority_string);
 
-		corba_object = bonobo_activation_activate_from_id ((char *) info->iid, 0, NULL, &ev);
+		corba_object = bonobo_activation_activate_from_id ((gchar *) info->iid, 0, NULL, &ev);
 
 		if (! BONOBO_EX (&ev)) {
 			Page *page;
@@ -223,7 +223,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 			page_list = g_list_prepend (page_list, page);
 		} else {
-			char *bonobo_ex_text = bonobo_exception_get_text (&ev);
+			gchar *bonobo_ex_text = bonobo_exception_get_text (&ev);
 			g_warning ("Cannot activate %s -- %s", info->iid, bonobo_ex_text);
 			g_free (bonobo_ex_text);
 		}
@@ -326,11 +326,11 @@ e_shell_settings_dialog_new (void)
 }
 
 void
-e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *type)
+e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const gchar *type)
 {
 	EShellSettingsDialogPrivate *priv;
 	gpointer key, value;
-	int page;
+	gint page;
 
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (E_IS_SHELL_SETTINGS_DIALOG (dialog));
@@ -339,7 +339,7 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *typ
 	priv = dialog->priv;
 
 	if (!g_hash_table_lookup_extended (priv->types, type, &key, &value)) {
-		char *slash, *supertype;
+		gchar *slash, *supertype;
 
 		slash = strchr (type, '/');
 		if (slash) {

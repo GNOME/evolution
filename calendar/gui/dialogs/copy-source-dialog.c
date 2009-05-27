@@ -38,7 +38,7 @@ typedef struct {
 } CopySourceDialogData;
 
 static void
-show_error (GtkWindow *parent, const char *msg)
+show_error (GtkWindow *parent, const gchar *msg)
 {
 	GtkWidget *dialog;
 
@@ -82,7 +82,7 @@ copy_source (CopySourceDialogData *csdd)
 	} else {
 		if (e_cal_get_object_list (source_client, "#t", &obj_list, NULL)) {
 			GList *l;
-			const char *uid;
+			const gchar *uid;
 			icalcomponent *icalcomp;
 
 			for (l = obj_list; l != NULL; l = l->next) {
@@ -93,7 +93,7 @@ copy_source (CopySourceDialogData *csdd)
 					e_cal_modify_object (dest_client, l->data, CALOBJ_MOD_ALL, NULL);
 					icalcomponent_free (icalcomp);
 				} else {
-					e_cal_create_object (dest_client, l->data, (char **) &uid, NULL);
+					e_cal_create_object (dest_client, l->data, (gchar **) &uid, NULL);
 					g_free ((gpointer) uid);
 				}
 			}

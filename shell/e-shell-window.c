@@ -60,18 +60,18 @@ gboolean e_shell_dbus_initialise (EShell *shell);
    to -1.  When the views are created the first time, the widget pointers as
    well as the notebook page value get set.  */
 struct _ComponentView {
-	int button_id;
-	char *component_id;
-	char *component_alias;
+	gint button_id;
+	gchar *component_id;
+	gchar *component_alias;
 
 	GNOME_Evolution_ComponentView component_view;
-	char *title;
+	gchar *title;
 
 	GtkWidget *sidebar_widget;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
 
-	int notebook_page_num;
+	gint notebook_page_num;
 };
 typedef struct _ComponentView ComponentView;
 
@@ -132,7 +132,7 @@ static gboolean store_window_size (GtkWidget* widget);
 /* ComponentView handling.  */
 
 static ComponentView *
-component_view_new (const char *id, const char *alias, int button_id)
+component_view_new (const gchar *id, const gchar *alias, gint button_id)
 {
 	ComponentView *view = g_new0 (ComponentView, 1);
 
@@ -206,8 +206,8 @@ init_view (EShellWindow *window,
 	Bonobo_Control statusbar_control;
 	CORBA_boolean select_item;
 	CORBA_Environment ev;
-	int sidebar_notebook_page_num;
-	int view_notebook_page_num;
+	gint sidebar_notebook_page_num;
+	gint view_notebook_page_num;
 
 	g_return_if_fail (view->view_widget == NULL);
 	g_return_if_fail (view->sidebar_widget == NULL);
@@ -222,7 +222,7 @@ init_view (EShellWindow *window,
 
 	component_iface = e_component_registry_activate (registry, view->component_id, &ev);
 	if (BONOBO_EX (&ev) || component_iface == CORBA_OBJECT_NIL) {
-		char *ex_text = bonobo_exception_get_text (&ev);
+		gchar *ex_text = bonobo_exception_get_text (&ev);
 		g_warning ("Cannot activate component  %s: %s", view->component_id, ex_text);
 		g_free (ex_text);
 		CORBA_exception_free (&ev);
@@ -305,7 +305,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	EComponentInfo *info = e_component_registry_peek_info (registry,
 							       ECR_FIELD_ID,
 							       component_view->component_id);
-	char *title;
+	gchar *title;
 
 	if (component_view->sidebar_widget == NULL) {
 		init_view (window, component_view);
@@ -423,7 +423,7 @@ update_send_receive_sensitivity (EShellWindow *window)
 /* Callbacks.  */
 
 static ComponentView *
-get_component_view (EShellWindow *window, int id)
+get_component_view (EShellWindow *window, gint id)
 {
 	GSList *p;
 
@@ -438,7 +438,7 @@ get_component_view (EShellWindow *window, int id)
 
 static void
 sidebar_button_selected_callback (ESidebar *sidebar,
-				  int button_id,
+				  gint button_id,
 				  EShellWindow *window)
 {
 	ComponentView *component_view;
@@ -450,7 +450,7 @@ sidebar_button_selected_callback (ESidebar *sidebar,
 static gboolean
 sidebar_button_pressed_callback (ESidebar       *sidebar,
 				 GdkEventButton *event,
-				 int             button_id,
+				 gint             button_id,
 				 EShellWindow   *window)
 {
 	if (event->type == GDK_BUTTON_PRESS &&
@@ -502,7 +502,7 @@ shell_line_status_changed_callback (EShell *shell,
 
 static void
 ui_engine_add_hint_callback (BonoboUIEngine *engine,
-			     const char *hint,
+			     const gchar *hint,
 			     EShellWindow *window)
 {
 	gtk_label_set_text (GTK_LABEL (window->priv->menu_hint_label), hint);
@@ -614,9 +614,9 @@ setup_status_bar (EShellWindow *window)
 static void
 menu_component_selected (BonoboUIComponent *uic,
 			 EShellWindow *window,
-			 const char *path)
+			 const gchar *path)
 {
-	char *component_id;
+	gchar *component_id;
 
 	component_id = strchr(path, '-');
 	if (component_id)
@@ -640,10 +640,10 @@ setup_widgets (EShellWindow *window)
 	GtkWidget *contents_vbox;
 	GSList *p;
 	GString *xml;
-	int button_id;
+	gint button_id;
 	gboolean visible;
-	char *style;
-	int mode;
+	gchar *style;
+	gint mode;
 
 	priv->paned = gtk_hpaned_new ();
 	gtk_widget_show (priv->paned);
@@ -754,7 +754,7 @@ setup_widgets (EShellWindow *window)
 	button_id = 0;
 	xml = g_string_new("");
 	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
-		char *tmp, *tmp2;
+		gchar *tmp, *tmp2;
 		EComponentInfo *info = p->data;
 		ComponentView *view = component_view_new (info->id, info->alias, button_id);
 		GtkIconInfo *icon_info;
@@ -983,14 +983,14 @@ e_shell_window_init (EShellWindow *shell_window)
 
 GtkWidget *
 e_shell_window_new (EShell *shell,
-		    const char *component_id)
+		    const gchar *component_id)
 {
 	EShellWindow *window = g_object_new (e_shell_window_get_type (), NULL);
 	EShellWindowPrivate *priv = window->priv;
 	GConfClient *gconf_client = gconf_client_get_default ();
 	BonoboUIContainer *ui_container;
-	char *default_component_id = NULL;
-	char *xmlfile;
+	gchar *default_component_id = NULL;
+	gchar *xmlfile;
 	gint width, height;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
@@ -1063,7 +1063,7 @@ e_shell_window_new (EShell *shell,
 
 
 void
-e_shell_window_switch_to_component (EShellWindow *window, const char *component_id)
+e_shell_window_switch_to_component (EShellWindow *window, const gchar *component_id)
 {
 	EShellWindowPrivate *priv = window->priv;
 	ComponentView *view = NULL;
@@ -1093,7 +1093,7 @@ e_shell_window_switch_to_component (EShellWindow *window, const char *component_
 }
 
 
-const char *
+const gchar *
 e_shell_window_peek_current_component_id (EShellWindow *window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
@@ -1140,8 +1140,8 @@ void
 e_shell_window_save_defaults (EShellWindow *window)
 {
 	GConfClient *client = gconf_client_get_default ();
-	char *prop;
-	const char *style;
+	gchar *prop;
+	const gchar *style;
 	gboolean visible;
 
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
@@ -1209,7 +1209,7 @@ e_shell_window_show_settings (EShellWindow *window)
 }
 
 void
-e_shell_window_set_title(EShellWindow *window, const char *component_id, const char *title)
+e_shell_window_set_title(EShellWindow *window, const gchar *component_id, const gchar *title)
 {
 	EShellWindowPrivate *priv = window->priv;
 	ComponentView *view = NULL;
@@ -1246,7 +1246,7 @@ e_shell_window_set_title(EShellWindow *window, const char *component_id, const c
  * @param icon Icon buffer.
  **/
 void
-e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, const char *icon_name)
+e_shell_window_change_component_button_icon (EShellWindow *window, const gchar *component_id, const gchar *icon_name)
 {
 	EShellWindowPrivate *priv;
 	GSList *p;

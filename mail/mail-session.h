@@ -32,28 +32,28 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-void mail_session_init (const char *base_directory);
+void mail_session_init (const gchar *base_directory);
 void mail_session_shutdown (void);
 gboolean mail_session_get_interactive (void);
 void mail_session_set_interactive (gboolean interactive);
-char *mail_session_request_dialog (const char *prompt, gboolean secret,
-				   const char *key, gboolean async);
-gboolean mail_session_accept_dialog (const char *prompt, const char *key,
+gchar *mail_session_request_dialog (const gchar *prompt, gboolean secret,
+				   const gchar *key, gboolean async);
+gboolean mail_session_accept_dialog (const gchar *prompt, const gchar *key,
 				     gboolean async);
-char *mail_session_get_password (const char *url);
-void mail_session_add_password (const char *url, const char *passwd);
-void mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
-				    const char *path);
-void mail_session_remember_password (const char *url);
+gchar *mail_session_get_password (const gchar *url);
+void mail_session_add_password (const gchar *url, const gchar *passwd);
+void mail_session_forget_passwords (BonoboUIComponent *uih, gpointer user_data,
+				    const gchar *path);
+void mail_session_remember_password (const gchar *url);
 
-void mail_session_forget_password (const char *key);
+void mail_session_forget_password (const gchar *key);
 
 void mail_session_flush_filter_log (void);
 
-void mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plugin);
+void mail_session_add_junk_plugin (const gchar *plugin_name, CamelJunkPlugin *junk_plugin);
 
 const GList * mail_session_get_junk_plugins (void);
-void mail_session_set_junk_headers (const char **name, const char **value, int len);
+void mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len);
 
 extern CamelSession *session;
 

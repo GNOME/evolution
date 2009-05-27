@@ -65,7 +65,7 @@ static const gchar *available_flags[] = {
 	N_("Review"),
 };
 
-static int num_available_flags = sizeof (available_flags) / sizeof (available_flags[0]);
+static gint num_available_flags = sizeof (available_flags) / sizeof (available_flags[0]);
 
 
 static MessageTagEditorClass *parent_class = NULL;
@@ -137,7 +137,7 @@ get_tag_list (MessageTagEditor *editor)
 	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
 	CamelTag *tags = NULL;
 	time_t date;
-	char *text;
+	gchar *text;
 
 	camel_tag_set (&tags, "follow-up", gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (followup->combo_entry)))));
 
@@ -165,7 +165,7 @@ static void
 set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 {
 	MessageTagFollowUp *followup = (MessageTagFollowUp *) editor;
-	const char *text;
+	const gchar *text;
 	time_t date;
 
 	text = camel_tag_get (&tags, "follow-up");
@@ -224,22 +224,22 @@ get_week_start_day (void)
 static gboolean
 locale_supports_12_hour_format (void)
 {
-	char s[16];
+	gchar s[16];
 	time_t t = 0;
 
 	strftime(s, sizeof s, "%p", gmtime (&t));
 	return s[0] != '\0';
 }
 
-GtkWidget *target_date_new (const char *s1, const char *s2, int i1, int i2);
+GtkWidget *target_date_new (const gchar *s1, const gchar *s2, gint i1, gint i2);
 
 GtkWidget *
-target_date_new (const char *s1, const char *s2, int i1, int i2)
+target_date_new (const gchar *s1, const gchar *s2, gint i1, gint i2)
 {
 	gboolean time_24hour = TRUE;
 	GConfClient *gconf;
 	GtkWidget *widget;
-	int start;
+	gint start;
 
 	widget = e_date_edit_new ();
 	e_date_edit_set_show_date (E_DATE_EDIT (widget), TRUE);
@@ -269,8 +269,8 @@ construct (MessageTagEditor *editor)
 	GtkListStore *model;
 	GtkWidget *widget;
 	GladeXML *gui;
-	int i;
-	char *gladefile;
+	gint i;
+	gchar *gladefile;
 
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 
@@ -308,7 +308,7 @@ construct (MessageTagEditor *editor)
 	followup->combo_entry = GTK_COMBO_BOX (glade_xml_get_widget (gui, "combo"));
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (followup->combo_entry)));
 	for (i = 0; i < num_available_flags; i++)
-		gtk_combo_box_append_text (followup->combo_entry, (char *) _(available_flags[i]));
+		gtk_combo_box_append_text (followup->combo_entry, (gchar *) _(available_flags[i]));
 	gtk_combo_box_set_active (followup->combo_entry, DEFAULT_FLAG);
 
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
@@ -337,7 +337,7 @@ message_tag_followup_new (void)
 }
 
 void
-message_tag_followup_append_message (MessageTagFollowUp *editor, const char *from, const char *subject)
+message_tag_followup_append_message (MessageTagFollowUp *editor, const gchar *from, const gchar *subject)
 {
 	GtkTreeIter iter;
 	GtkListStore *model;

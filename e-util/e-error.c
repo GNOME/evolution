@@ -99,9 +99,9 @@ static struct {
 };
 
 static int
-map_response(const char *name)
+map_response(const gchar *name)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<sizeof(response_map)/sizeof(response_map[0]);i++)
 		if (!strcmp(name, response_map[i].name))
@@ -122,9 +122,9 @@ static struct {
 };
 
 static int
-map_type(const char *name)
+map_type(const gchar *name)
 {
-	int i;
+	gint i;
 
 	if (name) {
 		for (i=0;i<sizeof(type_map)/sizeof(type_map[0]);i++)
@@ -151,14 +151,14 @@ map_type(const char *name)
 
 */
 static void
-ee_load(const char *path)
+ee_load(const gchar *path)
 {
 	xmlDocPtr doc = NULL;
 	xmlNodePtr root, error, scan;
 	struct _e_error *e;
 	struct _e_error_button *lastbutton;
 	struct _e_error_table *table;
-	char *tmp;
+	gchar *tmp;
 
 	d(printf("loading error file %s\n", path));
 
@@ -170,8 +170,8 @@ ee_load(const char *path)
 
 	root = xmlDocGetRootElement(doc);
 	if (root == NULL
-	    || strcmp((char *)root->name, "error-list") != 0
-	    || (tmp = (char *)xmlGetProp(root, (const unsigned char *)"domain")) == NULL) {
+	    || strcmp((gchar *)root->name, "error-list") != 0
+	    || (tmp = (gchar *)xmlGetProp(root, (const guchar *)"domain")) == NULL) {
 		g_warning("Error file '%s' invalid format", path);
 		xmlFreeDoc(doc);
 		return;
@@ -179,19 +179,19 @@ ee_load(const char *path)
 
 	table = g_hash_table_lookup(error_table, tmp);
 	if (table == NULL) {
-		char *tmp2;
+		gchar *tmp2;
 
 		table = g_malloc0(sizeof(*table));
 		table->domain = g_strdup(tmp);
 		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 		g_hash_table_insert(error_table, (gpointer) table->domain, table);
 
-		tmp2 = (char *)xmlGetProp(root, (const unsigned char *)"translation-domain");
+		tmp2 = (gchar *)xmlGetProp(root, (const guchar *)"translation-domain");
 		if (tmp2) {
 			table->translation_domain = g_strdup(tmp2);
 			xmlFree(tmp2);
 
-			tmp2 = (char *)xmlGetProp(root, (const unsigned char *)"translation-localedir");
+			tmp2 = (gchar *)xmlGetProp(root, (const guchar *)"translation-localedir");
 			if (tmp2) {
 				bindtextdomain(table->translation_domain, tmp2);
 				xmlFree(tmp2);
@@ -202,8 +202,8 @@ ee_load(const char *path)
 	xmlFree(tmp);
 
 	for (error = root->children;error;error = error->next) {
-		if (!strcmp((char *)error->name, "error")) {
-			tmp = (char *)xmlGetProp(error, (const unsigned char *)"id");
+		if (!strcmp((gchar *)error->name, "error")) {
+			tmp = (gchar *)xmlGetProp(error, (const guchar *)"id");
 			if (tmp == NULL)
 				continue;
 
@@ -214,25 +214,25 @@ ee_load(const char *path)
 			xmlFree(tmp);
 			lastbutton = (struct _e_error_button *)&e->buttons;
 
-			tmp = (char *)xmlGetProp(error, (const unsigned char *)"modal");
+			tmp = (gchar *)xmlGetProp(error, (const guchar *)"modal");
 			if (tmp) {
 				if (!strcmp(tmp, "true"))
 					e->flags |= GTK_DIALOG_MODAL;
 				xmlFree(tmp);
 			}
 
-			tmp = (char *)xmlGetProp(error, (const unsigned char *)"type");
+			tmp = (gchar *)xmlGetProp(error, (const guchar *)"type");
 			e->type = map_type(tmp);
 			if (tmp)
 				xmlFree(tmp);
 
-			tmp = (char *)xmlGetProp(error, (const unsigned char *)"default");
+			tmp = (gchar *)xmlGetProp(error, (const guchar *)"default");
 			if (tmp) {
 				e->default_response = map_response(tmp);
 				xmlFree(tmp);
 			}
 
-			tmp = (char *)xmlGetProp(error, (const unsigned char *)"scroll");
+			tmp = (gchar *)xmlGetProp(error, (const guchar *)"scroll");
 			if (tmp) {
 				if (!strcmp(tmp, "yes"))
 					e->scroll = TRUE;
@@ -240,46 +240,46 @@ ee_load(const char *path)
 			}
 
 			for (scan = error->children;scan;scan=scan->next) {
-				if (!strcmp((char *)scan->name, "primary")) {
-					if ((tmp = (char *)xmlNodeGetContent(scan))) {
+				if (!strcmp((gchar *)scan->name, "primary")) {
+					if ((tmp = (gchar *)xmlNodeGetContent(scan))) {
 						e->primary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp((char *)scan->name, "secondary")) {
-					if ((tmp = (char *)xmlNodeGetContent(scan))) {
+				} else if (!strcmp((gchar *)scan->name, "secondary")) {
+					if ((tmp = (gchar *)xmlNodeGetContent(scan))) {
 						e->secondary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp((char *)scan->name, "title")) {
-					if ((tmp = (char *)xmlNodeGetContent(scan))) {
+				} else if (!strcmp((gchar *)scan->name, "title")) {
+					if ((tmp = (gchar *)xmlNodeGetContent(scan))) {
 						e->title = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
-				} else if (!strcmp((char *)scan->name, "help")) {
-					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"uri");
+				} else if (!strcmp((gchar *)scan->name, "help")) {
+					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"uri");
 					if (tmp) {
 						e->help_uri = g_strdup(tmp);
 						xmlFree(tmp);
 					}
-				} else if (!strcmp((char *)scan->name, "button")) {
+				} else if (!strcmp((gchar *)scan->name, "button")) {
 					struct _e_error_button *b;
 					gchar *label = NULL;
 					gchar *stock = NULL;
 
 					b = g_malloc0(sizeof(*b));
-					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"stock");
+					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"stock");
 					if (tmp) {
 						stock = g_strdup(tmp);
 						b->stock = stock;
 						xmlFree(tmp);
 					}
-					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"label");
+					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"label");
 					if (tmp) {
 						label = g_strdup(dgettext(table->translation_domain, tmp));
 						b->label = label;
 						xmlFree(tmp);
 					}
-					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"response");
+					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"response");
 					if (tmp) {
 						b->response = map_response(tmp);
 						xmlFree(tmp);
@@ -308,10 +308,10 @@ static void
 ee_load_tables(void)
 {
 	GDir *dir;
-	const char *d;
-	char *base;
+	const gchar *d;
+	gchar *base;
 	struct _e_error_table *table;
-	int i;
+	gint i;
 
 	if (error_table != NULL)
 		return;
@@ -335,7 +335,7 @@ ee_load_tables(void)
 	}
 
 	while ( (d = g_dir_read_name(dir)) ) {
-		char *path;
+		gchar *path;
 
 		if (d[0] == '.')
 			continue;
@@ -351,9 +351,9 @@ ee_load_tables(void)
 
 /* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
 static void
-ee_append_text(GString *out, const char *text)
+ee_append_text(GString *out, const gchar *text)
 {
-	char c;
+	gchar c;
 
 	while ( (c=*text++) ) {
 		if (c == '<')
@@ -372,11 +372,11 @@ ee_append_text(GString *out, const char *text)
 }
 
 static void
-ee_build_label(GString *out, const char *fmt, GPtrArray *args,
+ee_build_label(GString *out, const gchar *fmt, GPtrArray *args,
                gboolean escape_args)
 {
-	const char *end, *newstart;
-	int id;
+	const gchar *end, *newstart;
+	gint id;
 
 	while (fmt
 	       && (newstart = strchr(fmt, '{'))
@@ -406,13 +406,13 @@ ee_response(GtkWidget *w, guint button, struct _e_error *e)
 }
 
 GtkWidget *
-e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
+e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 {
 	struct _e_error_table *table;
 	struct _e_error *e;
 	struct _e_error_button *b;
 	GtkWidget *hbox, *w, *scroll=NULL;
-	char *tmp, *domain, *id;
+	gchar *tmp, *domain, *id;
 	GString *out, *oerr;
 	GPtrArray *args;
 	GtkDialog *dialog;
@@ -503,10 +503,10 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 12);
 
 	args = g_ptr_array_new();
-	tmp = (char *)arg0;
+	tmp = (gchar *)arg0;
 	while (tmp) {
 		g_ptr_array_add(args, tmp);
-		tmp = va_arg(ap, char *);
+		tmp = va_arg(ap, gchar *);
 	}
 
 	out = g_string_new("");
@@ -581,7 +581,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
  * dialog asynchronously.
  **/
 struct _GtkWidget *
-e_error_new(struct _GtkWindow *parent, const char *tag, const char *arg0, ...)
+e_error_new(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *w;
 	va_list ap;
@@ -593,11 +593,11 @@ e_error_new(struct _GtkWindow *parent, const char *tag, const char *arg0, ...)
 	return w;
 }
 
-int
-e_error_runv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
+gint
+e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 {
 	GtkWidget *w;
-	int res;
+	gint res;
 
 	w = e_error_newv(parent, tag, arg0, ap);
 
@@ -618,12 +618,12 @@ e_error_runv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
  *
  * Return value: The response id of the button pressed.
  **/
-int
-e_error_run(GtkWindow *parent, const char *tag, const char *arg0, ...)
+gint
+e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *w;
 	va_list ap;
-	int res;
+	gint res;
 
 	va_start(ap, arg0);
 	w = e_error_newv(parent, tag, arg0, ap);

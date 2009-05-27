@@ -71,7 +71,7 @@ typedef struct
 	GtkAdjustment *vadj;
 
 	/* Current scrolling offsets */
-	int xofs, yofs;
+	gint xofs, yofs;
 
 	/* Realtime zoom data */
 	EMapZoomState zoom_state;
@@ -104,9 +104,9 @@ static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj
 static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
 static void set_scroll_area (EMap *view);
 static void request_paint_area (EMap *view, GdkRectangle *area);
-static void center_at (EMap *map, int x, int y, gboolean scroll);
-static void smooth_center_at (EMap *map, int x, int y);
-static void scroll_to (EMap *view, int x, int y);
+static void center_at (EMap *map, gint x, gint y, gboolean scroll);
+static void smooth_center_at (EMap *map, gint x, gint y);
+static void scroll_to (EMap *view, gint x, gint y);
 static void zoom_do (EMap *map);
 static gint load_map_background (EMap *view, gchar *name);
 static void adjustment_changed_cb (GtkAdjustment *adj, gpointer data);
@@ -207,7 +207,7 @@ static void
 e_map_init (EMap *view)
 {
 	EMapPrivate *priv;
-	char *map_file_name = g_build_filename (EVOLUTION_IMAGES, "world_map-960.png", NULL);
+	gchar *map_file_name = g_build_filename (EVOLUTION_IMAGES, "world_map-960.png", NULL);
 
 	priv = g_new0 (EMapPrivate, 1);
 	view->priv = priv;
@@ -305,7 +305,7 @@ static void
 e_map_realize (GtkWidget *widget)
 {
 	GdkWindowAttr attr;
-	int attr_mask;
+	gint attr_mask;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (IS_E_MAP (widget));
@@ -538,7 +538,7 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 	EMap *view;
 	EMapPrivate *priv;
 	gboolean do_scroll;
-	int xofs, yofs;
+	gint xofs, yofs;
 
 	view = E_MAP (widget);
 	priv = view->priv;
@@ -578,7 +578,7 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	if (do_scroll)
 	{
-		int x, y;
+		gint x, y;
 
 		x = CLAMP (priv->xofs + xofs, 0, priv->hadj->upper - priv->hadj->page_size);
 		y = CLAMP (priv->yofs + yofs, 0, priv->vadj->upper - priv->vadj->page_size);
@@ -644,7 +644,7 @@ void
 e_map_window_to_world (EMap *map, double win_x, double win_y, double *world_longitude, double *world_latitude)
 {
 	EMapPrivate *priv;
-	int width, height;
+	gint width, height;
 
 	g_return_if_fail (map);
 
@@ -665,7 +665,7 @@ void
 e_map_world_to_window (EMap *map, double world_longitude, double world_latitude, double *win_x, double *win_y)
 {
 	EMapPrivate *priv;
-	int width, height;
+	gint width, height;
 
 	g_return_if_fail (map);
 
@@ -895,7 +895,7 @@ e_map_get_closest_point (EMap *map, double longitude, double latitude, gboolean 
 	EMapPoint *point_chosen = NULL, *point;
 	double min_dist = 0.0, dist;
 	double dx, dy;
-	int i;
+	gint i;
 
 	priv = map->priv;
 
@@ -971,9 +971,9 @@ update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
-	int width, height, orig_width, orig_height;
+	gint width, height, orig_width, orig_height;
 	double zoom;
-	int i;
+	gint i;
 
 	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (map))) return;
 
@@ -1039,7 +1039,7 @@ static void
 request_paint_area (EMap *view, GdkRectangle *area)
 {
 	EMapPrivate *priv;
-	int width, height;
+	gint width, height;
 
 	if (!GTK_WIDGET_DRAWABLE (GTK_WIDGET (view)) ||
 	    !GTK_WIDGET_REALIZED (GTK_WIDGET (view))) return;
@@ -1065,7 +1065,7 @@ request_paint_area (EMap *view, GdkRectangle *area)
 	    gdk_pixbuf_get_bits_per_sample (priv->map_render_pixbuf) == 8)
 	{
 		guchar *pixels;
-		int rowstride;
+		gint rowstride;
 
 		rowstride = gdk_pixbuf_get_rowstride (priv->map_render_pixbuf);
 		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) + (area->y + priv->yofs) * rowstride + 3 * (area->x + priv->xofs);
@@ -1162,10 +1162,10 @@ repaint_point (EMap *map, EMapPoint *point)
 
 
 static void
-center_at (EMap *map, int x, int y, gboolean scroll)
+center_at (EMap *map, gint x, gint y, gboolean scroll)
 {
 	EMapPrivate *priv;
-	int pb_width, pb_height,
+	gint pb_width, pb_height,
 	    view_width, view_height;
 
 	priv = map->priv;
@@ -1189,12 +1189,12 @@ center_at (EMap *map, int x, int y, gboolean scroll)
 
 
 static void
-smooth_center_at (EMap *map, int x, int y)
+smooth_center_at (EMap *map, gint x, gint y)
 {
 	EMapPrivate *priv;
-	int pb_width, pb_height,
+	gint pb_width, pb_height,
 	    view_width, view_height;
-	int dx, dy;
+	gint dx, dy;
 
 	priv = map->priv;
 
@@ -1222,15 +1222,15 @@ smooth_center_at (EMap *map, int x, int y)
 /* Scrolls the view to the specified offsets.  Does not perform range checking!  */
 
 static void
-scroll_to (EMap *view, int x, int y)
+scroll_to (EMap *view, gint x, gint y)
 {
 	EMapPrivate *priv;
-	int xofs, yofs;
+	gint xofs, yofs;
 	GdkWindow *window;
 	GdkGC *gc;
-	int width, height;
-	int src_x, src_y;
-	int dest_x, dest_y;
+	gint width, height;
+	gint src_x, src_y;
+	gint dest_x, dest_y;
 	GdkEvent *event;
 
 	priv = view->priv;
@@ -1322,7 +1322,7 @@ scroll_to (EMap *view, int x, int y)
 }
 
 
-static int divide_seq[] =
+static gint divide_seq[] =
 {
 	/* Dividends for divisor of 2 */
 
@@ -1417,7 +1417,7 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 	gint divide_width_index, divide_height_index;
 	gint area_width, area_height;
 	gint i, j;
-	int line;
+	gint line;
 
 
 	/* Set up the GC we'll be using */
@@ -1548,7 +1548,7 @@ zoom_in_smooth (EMap *map)
 	GdkRectangle area;
 	EMapPrivate *priv;
 	GdkWindow *window;
-	int width, height;
+	gint width, height;
 	double x, y;
 
 	g_return_if_fail (map);

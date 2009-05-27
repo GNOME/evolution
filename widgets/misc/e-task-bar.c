@@ -51,8 +51,8 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 	for (p = box->children; p != NULL; p = p->next) {
 		GtkBoxChild *child;
-		const char *component_id;
-		void *hash_item;
+		const gchar *component_id;
+		gpointer hash_item;
 
 		child = (GtkBoxChild *) p->data;
 		component_id = e_task_widget_get_component_id (E_TASK_WIDGET (child->widget));
@@ -61,9 +61,9 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 		if (hash_item == NULL) {
 			gtk_widget_show (child->widget);
-			g_hash_table_insert (component_ids_hash, (void *) component_id, GINT_TO_POINTER (1));
+			g_hash_table_insert (component_ids_hash, (gpointer) component_id, GINT_TO_POINTER (1));
 		} else {
-			int num_items;
+			gint num_items;
 
 			num_items = GPOINTER_TO_INT (hash_item);
 			g_return_if_fail (num_items <= MAX_ACTIVITIES_PER_COMPONENT);
@@ -73,7 +73,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 			} else {
 				num_items ++;
 				gtk_widget_show (child->widget);
-				g_hash_table_insert (component_ids_hash, (void *) component_id, GINT_TO_POINTER (num_items));
+				g_hash_table_insert (component_ids_hash, (gpointer) component_id, GINT_TO_POINTER (num_items));
 			}
 		}
 	}
@@ -157,7 +157,7 @@ e_task_bar_new (void)
 
 void
 e_task_bar_set_message (ETaskBar   *task_bar,
-			const char *message)
+			const gchar *message)
 {
 	if (message) {
 		gtk_label_set_text (
@@ -242,7 +242,7 @@ e_task_bar_remove_task_from_id (ETaskBar *task_bar,
 
 void
 e_task_bar_remove_task (ETaskBar *task_bar,
-			int n)
+			gint n)
 {
 	ETaskWidget *task_widget;
 
@@ -288,7 +288,7 @@ e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
 ETaskWidget *
 
 e_task_bar_get_task_widget (ETaskBar *task_bar,
-			    int n)
+			    gint n)
 {
 	GtkBoxChild *child_info;
 

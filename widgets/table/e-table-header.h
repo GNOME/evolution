@@ -49,13 +49,13 @@ typedef gboolean (*ETableColCheckFunc) (ETableCol *col, gpointer user_data);
 struct _ETableHeader {
 	GObject base;
 
-	int col_count;
-	int width;
-	int nominal_width;
-	int width_extras;
+	gint col_count;
+	gint width;
+	gint nominal_width;
+	gint width_extras;
 
 	ETableSortInfo *sort_info;
-	int sort_info_group_change_id;
+	gint sort_info_group_change_id;
 
 	ETableCol **columns;
 
@@ -67,9 +67,9 @@ typedef struct {
 	GObjectClass parent_class;
 
 	void (*structure_change) (ETableHeader *eth);
-	void (*dimension_change) (ETableHeader *eth, int width);
+	void (*dimension_change) (ETableHeader *eth, gint width);
 	void (*expansion_change) (ETableHeader *eth);
-	int (*request_width) (ETableHeader *eth, int col);
+	gint (*request_width) (ETableHeader *eth, gint col);
 } ETableHeaderClass;
 
 GType         e_table_header_get_type                     (void);
@@ -77,39 +77,39 @@ ETableHeader *e_table_header_new                          (void);
 
 void          e_table_header_add_column                   (ETableHeader       *eth,
 							   ETableCol          *tc,
-							   int                 pos);
+							   gint                 pos);
 ETableCol    *e_table_header_get_column                   (ETableHeader       *eth,
-							   int                 column);
+							   gint                 column);
 ETableCol    *e_table_header_get_column_by_col_idx        (ETableHeader       *eth,
-							   int                 col_idx);
-int           e_table_header_count                        (ETableHeader       *eth);
-int           e_table_header_index                        (ETableHeader       *eth,
-							   int                 col);
-int           e_table_header_get_index_at                 (ETableHeader       *eth,
-							   int                 x_offset);
+							   gint                 col_idx);
+gint           e_table_header_count                        (ETableHeader       *eth);
+gint           e_table_header_index                        (ETableHeader       *eth,
+							   gint                 col);
+gint           e_table_header_get_index_at                 (ETableHeader       *eth,
+							   gint                 x_offset);
 ETableCol   **e_table_header_get_columns            (ETableHeader *eth);
-int           e_table_header_get_selected                 (ETableHeader       *eth);
+gint           e_table_header_get_selected                 (ETableHeader       *eth);
 
-int           e_table_header_total_width                  (ETableHeader       *eth);
-int           e_table_header_min_width                    (ETableHeader       *eth);
+gint           e_table_header_total_width                  (ETableHeader       *eth);
+gint           e_table_header_min_width                    (ETableHeader       *eth);
 void          e_table_header_move                         (ETableHeader       *eth,
-							   int                 source_index,
-							   int                 target_index);
+							   gint                 source_index,
+							   gint                 target_index);
 void          e_table_header_remove                       (ETableHeader       *eth,
-							   int                 idx);
+							   gint                 idx);
 void          e_table_header_set_size                     (ETableHeader       *eth,
-							   int                 idx,
-							   int                 size);
+							   gint                 idx,
+							   gint                 size);
 void          e_table_header_set_selection                (ETableHeader       *eth,
 							   gboolean            allow_selection);
-int           e_table_header_col_diff                     (ETableHeader       *eth,
-							   int                 start_col,
-							   int                 end_col);
+gint           e_table_header_col_diff                     (ETableHeader       *eth,
+							   gint                 start_col,
+							   gint                 end_col);
 
 void          e_table_header_calc_widths                  (ETableHeader       *eth);
 GList        *e_table_header_get_selected_indexes         (ETableHeader       *eth);
 void          e_table_header_update_horizontal            (ETableHeader       *eth);
-int           e_table_header_prioritized_column           (ETableHeader       *eth);
+gint           e_table_header_prioritized_column           (ETableHeader       *eth);
 ETableCol    *e_table_header_prioritized_column_selected  (ETableHeader       *eth,
 							   ETableColCheckFunc  check_func,
 							   gpointer            user_data);

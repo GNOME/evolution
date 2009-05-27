@@ -71,8 +71,8 @@ e_table_scrolled_real_construct (ETableScrolled *ets)
 ETableScrolled *e_table_scrolled_construct                 (ETableScrolled    *ets,
 							    ETableModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state)
+							    const gchar        *spec,
+							    const gchar        *state)
 {
 	g_return_val_if_fail(ets != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
@@ -90,8 +90,8 @@ ETableScrolled *e_table_scrolled_construct                 (ETableScrolled    *e
 
 GtkWidget      *e_table_scrolled_new                       (ETableModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec,
-							    const char        *state)
+							    const gchar        *spec,
+							    const gchar        *state)
 {
 	ETableScrolled *ets;
 
@@ -113,8 +113,8 @@ GtkWidget      *e_table_scrolled_new                       (ETableModel       *e
 ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled    *ets,
 							    ETableModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn)
+							    const gchar        *spec_fn,
+							    const gchar        *state_fn)
 {
 	g_return_val_if_fail(ets != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), NULL);
@@ -132,8 +132,8 @@ ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled    *e
 
 GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel       *etm,
 							    ETableExtras      *ete,
-							    const char        *spec_fn,
-							    const char        *state_fn)
+							    const gchar        *spec_fn,
+							    const gchar        *state_fn)
 {
 	ETableScrolled *ets;
 

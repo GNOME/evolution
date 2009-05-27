@@ -41,22 +41,22 @@ typedef struct {
 	GObject base;
 
 	GalViewCollectionItem **view_data;
-	int view_count;
+	gint view_count;
 
 	GList *factory_list;
 
 	GalViewCollectionItem **removed_view_data;
-	int removed_view_count;
+	gint removed_view_count;
 
 	guint loaded : 1;
 	guint default_view_built_in : 1;
 
-	char *system_dir;
-	char *local_dir;
+	gchar *system_dir;
+	gchar *local_dir;
 
-	char *default_view;
+	gchar *default_view;
 
-	char *title;
+	gchar *title;
 } GalViewCollection;
 
 typedef struct {
@@ -72,13 +72,13 @@ typedef struct {
 
 struct GalViewCollectionItem {
 	GalView *view;
-	char *id;
+	gchar *id;
 	guint changed : 1;
 	guint ever_changed : 1;
 	guint built_in : 1;
-	char *filename;
-	char *title;
-	char *type;
+	gchar *filename;
+	gchar *title;
+	gchar *type;
 	GalViewCollection *collection;
 	guint view_changed_id;
 };
@@ -88,11 +88,11 @@ GType                  gal_view_collection_get_type                 (void);
 GalViewCollection     *gal_view_collection_new                      (void);
 
 void                   gal_view_collection_set_title                (GalViewCollection *collection,
-								     const char        *title);
+								     const gchar        *title);
 /* Set up the view collection.  Call these two functions before ever doing load or save and never call them again. */
 void                   gal_view_collection_set_storage_directories  (GalViewCollection *collection,
-								     const char        *system_dir,
-								     const char        *local_dir);
+								     const gchar        *system_dir,
+								     const gchar        *local_dir);
 void                   gal_view_collection_add_factory              (GalViewCollection *collection,
 								     GalViewFactory    *factory);
 
@@ -104,21 +104,21 @@ void                   gal_view_collection_display_view             (GalViewColl
 /* Query the view collection. */
 gint                   gal_view_collection_get_count                (GalViewCollection *collection);
 GalView               *gal_view_collection_get_view                 (GalViewCollection *collection,
-								     int                n);
+								     gint                n);
 GalViewCollectionItem *gal_view_collection_get_view_item            (GalViewCollection *collection,
-								     int                n);
-int                    gal_view_collection_get_view_index_by_id     (GalViewCollection *collection,
-								     const char        *view_id);
-char                  *gal_view_collection_get_view_id_by_index     (GalViewCollection *collection,
-								     int                n);
+								     gint                n);
+gint                    gal_view_collection_get_view_index_by_id     (GalViewCollection *collection,
+								     const gchar        *view_id);
+gchar                  *gal_view_collection_get_view_id_by_index     (GalViewCollection *collection,
+								     gint                n);
 
 /* Manipulate the view collection */
 void                   gal_view_collection_append                   (GalViewCollection *collection,
 								     GalView           *view);
 void                   gal_view_collection_delete_view              (GalViewCollection *collection,
-								     int                i);
+								     gint                i);
 void                   gal_view_collection_copy_view                (GalViewCollection *collection,
-								     int                i);
+								     gint                i);
 /* Call set_storage_directories and add factories for anything that
  * might be found there before doing either of these. */
 void                   gal_view_collection_load                     (GalViewCollection *collection);
@@ -127,21 +127,21 @@ gboolean               gal_view_collection_loaded                   (GalViewColl
 
 /* Use factory list to load a GalView file. */
 GalView               *gal_view_collection_load_view_from_file      (GalViewCollection *collection,
-								     const char        *type,
-								     const char        *filename);
+								     const gchar        *type,
+								     const gchar        *filename);
 
 /* Returns id of the new view.  These functions are used for
    GalViewInstanceSaveAsDialog. */
-const char            *gal_view_collection_append_with_title        (GalViewCollection *collection,
-								     const char        *title,
+const gchar            *gal_view_collection_append_with_title        (GalViewCollection *collection,
+								     const gchar        *title,
 								     GalView           *view);
-const char            *gal_view_collection_set_nth_view             (GalViewCollection *collection,
-								     int                i,
+const gchar            *gal_view_collection_set_nth_view             (GalViewCollection *collection,
+								     gint                i,
 								     GalView           *view);
 
-const char            *gal_view_collection_get_default_view         (GalViewCollection *collection);
+const gchar            *gal_view_collection_get_default_view         (GalViewCollection *collection);
 void                   gal_view_collection_set_default_view         (GalViewCollection *collection,
-								     const char        *id);
+								     const gchar        *id);
 
 
 G_END_DECLS

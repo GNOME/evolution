@@ -87,7 +87,7 @@ static gint mts_signals [LAST_SIGNAL] = { 0 };
 
 static void e_meeting_time_selector_destroy (GtkObject *object);
 static void e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
-						       const char *name, GdkColor *c);
+						       const gchar *name, GdkColor *c);
 static void e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 						   GtkWidget *hbox,
 						   gchar *label_text,
@@ -656,7 +656,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_alloc_named_color (mts, "orange4", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);
 
 	/* Create the stipple, for attendees with no data. */
-	mts->stipple = gdk_bitmap_create_from_data (NULL, (gchar*)stipple_bits,
+	mts->stipple = gdk_bitmap_create_from_data (NULL, (gchar *)stipple_bits,
 						    8, 8);
 
 	/* Connect handlers to the adjustments  scroll the other items. */
@@ -743,7 +743,7 @@ e_meeting_time_selector_expose_key_color (GtkWidget *darea,
 
 static void
 e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
-					   const char *name, GdkColor *c)
+					   const gchar *name, GdkColor *c)
 {
 	GdkColormap *colormap;
 
@@ -876,7 +876,7 @@ static int
 get_cell_height (GtkTreeView *tree)
 {
 	GtkTreeViewColumn *column;
-	int height = -1;
+	gint height = -1;
 
 	column = gtk_tree_view_get_column (tree, 0);
 	gtk_tree_view_column_cell_get_size (column, NULL,
@@ -891,7 +891,7 @@ style_change_idle_func (gpointer widget)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTime saved_time;
-	int hour, max_hour_width;
+	gint hour, max_hour_width;
 	/*int maxheight;      */
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
@@ -1234,7 +1234,7 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 }
 
 void
-e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, gboolean all)
+e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, gboolean all)
 {
 	EMeetingTime start, end;
 
@@ -1258,7 +1258,7 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, g
 	/* FIXME We should really have a mechanism to unqueue the
 	 * notification */
 	if (all) {
-		int i;
+		gint i;
 
 		for (i = 0; i < e_meeting_store_count_actual_attendees (mts->model); i++)
 			g_object_ref (GTK_OBJECT (mts));
@@ -1395,7 +1395,7 @@ e_meeting_time_selector_dump (EMeetingTimeSelector *mts)
 
 /* This formats a EMeetingTimein a string and returns it.
    Note that it uses a static buffer. */
-gchar*
+gchar *
 e_meeting_time_selector_dump_time (EMeetingTime*mtstime)
 {
 	static gchar buffer[128];
@@ -1415,7 +1415,7 @@ e_meeting_time_selector_dump_time (EMeetingTime*mtstime)
 
 /* This formats a GDate in a string and returns it.
    Note that it uses a static buffer. */
-gchar*
+gchar *
 e_meeting_time_selector_dump_date (GDate *date)
 {
 	static gchar buffer[128];
@@ -2068,7 +2068,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 {
 	/* An array of dates, one for each month in the year 2000. They must
 	   all be Sundays. */
-	static const int days[12] = { 23, 20, 19, 23, 21, 18,
+	static const gint days[12] = { 23, 20, 19, 23, 21, 18,
 				      23, 20, 17, 22, 19, 24 };
 	GDate date;
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
@@ -2881,7 +2881,7 @@ static void
 row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
-	int row = gtk_tree_path_get_indices (path) [0];
+	gint row = gtk_tree_path_get_indices (path) [0];
 	/* Update the scroll region. */
 	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
 
@@ -2897,7 +2897,7 @@ static void
 row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
-	int row = gtk_tree_path_get_indices (path) [0];
+	gint row = gtk_tree_path_get_indices (path) [0];
 
 	/* Get the latest free/busy info */
 	e_meeting_time_selector_refresh_free_busy (mts, row, FALSE);
@@ -2922,7 +2922,7 @@ row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
 static gboolean
 free_busy_timeout_refresh (gpointer data)
 {
-	char *fb_uri;
+	gchar *fb_uri;
 
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
 

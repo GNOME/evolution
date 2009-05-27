@@ -61,7 +61,7 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
-	char *base_directory;
+	gchar *base_directory;
 	GList *views;
 };
 
@@ -71,7 +71,7 @@ ensure_sources (AddressbookComponent *component)
 	ESourceList *source_list;
 	ESourceGroup *on_this_computer;
 	ESource *personal_source;
-	char *base_uri, *base_uri_proto, base_uri_proto_seventh;
+	gchar *base_uri, *base_uri_proto, base_uri_proto_seventh;
 	const gchar *base_dir;
 
 	personal_source = NULL;
@@ -204,28 +204,28 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = (char *) "contact";
+	list->_buffer[0].id = (gchar *) "contact";
 	list->_buffer[0].description = _("New Contact");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Contact");
+	list->_buffer[0].menuDescription = (gchar *) C_("New", "_Contact");
 	list->_buffer[0].tooltip = _("Create a new contact");
 	list->_buffer[0].menuShortcut = 'c';
-	list->_buffer[0].iconName = (char *) "contact-new";
+	list->_buffer[0].iconName = (gchar *) "contact-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = (char *) "contact_list";
+	list->_buffer[1].id = (gchar *) "contact_list";
 	list->_buffer[1].description = _("New Contact List");
-	list->_buffer[1].menuDescription = (char *) C_("New", "Contact _List");
+	list->_buffer[1].menuDescription = (gchar *) C_("New", "Contact _List");
 	list->_buffer[1].tooltip = _("Create a new contact list");
 	list->_buffer[1].menuShortcut = 'l';
-	list->_buffer[1].iconName = (char *) "stock_contact-list";
+	list->_buffer[1].iconName = (gchar *) "stock_contact-list";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[2].id = (char *) "address_book";
+	list->_buffer[2].id = (gchar *) "address_book";
 	list->_buffer[2].description = _("New Address Book");
-	list->_buffer[2].menuDescription = (char *) C_("New", "Address _Book");
+	list->_buffer[2].menuDescription = (gchar *) C_("New", "Address _Book");
 	list->_buffer[2].tooltip = _("Create a new address book");
 	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = (char *) "address-book-new";
+	list->_buffer[2].iconName = (gchar *) "address-book-new";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
@@ -235,7 +235,7 @@ static void
 book_loaded_cb (EBook *book, EBookStatus status, gpointer data)
 {
 	EContact *contact;
-	char *item_type_name = data;
+	gchar *item_type_name = data;
 
 	if (status != E_BOOK_ERROR_OK) {
 		/* XXX we really need a dialog here, but we don't have
@@ -267,7 +267,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	EBook *book;
 	GConfClient *gconf_client;
 	ESourceList *source_list;
-	char *uid;
+	gchar *uid;
 
 	if (!item_type_name ||
 	    (strcmp (item_type_name, "address_book") &&
@@ -310,7 +310,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 
 static void
 impl_handleURI (PortableServer_Servant servant,
-		const char* uri,
+		const gchar * uri,
 		CORBA_Environment *ev)
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
@@ -318,8 +318,8 @@ impl_handleURI (PortableServer_Servant servant,
 	AddressbookView *view = NULL;
 
 	GList *l;
-	char *src_uid = NULL;
-	char *contact_uid = NULL;
+	gchar *src_uid = NULL;
+	gchar *contact_uid = NULL;
 
 	priv = addressbook_component->priv;
 	l = g_list_last (priv->views);
@@ -330,8 +330,8 @@ impl_handleURI (PortableServer_Servant servant,
 
 	if (!strncmp (uri, "contacts:", 9)) {
 		EUri *euri = e_uri_new (uri);
-		const char *p;
-		char *header, *content;
+		const gchar *p;
+		gchar *header, *content;
 		size_t len, clen;
 
 		p = euri->query;
@@ -343,7 +343,7 @@ impl_handleURI (PortableServer_Servant servant,
 				if (p[len] != '=')
 					break;
 
-				header = (char *) p;
+				header = (gchar *) p;
 				header[len] = '\0';
 				p += len + 1;
 
@@ -462,7 +462,7 @@ static void
 addressbook_component_init (AddressbookComponent *component)
 {
 	AddressbookComponentPrivate *priv;
-	static int first = TRUE;
+	static gint first = TRUE;
 
 	priv = g_new0 (AddressbookComponentPrivate, 1);
 
@@ -518,7 +518,7 @@ addressbook_component_peek_gconf_client (AddressbookComponent *component)
 	return component->priv->gconf_client;
 }
 
-const char *
+const gchar *
 addressbook_component_peek_base_directory (AddressbookComponent *component)
 {
 	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);

@@ -58,11 +58,11 @@ struct _CalendarSourceDialog {
 };
 
 static gboolean
-eccp_check_complete (EConfig *ec, const char *pageid, void *data)
+eccp_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	gboolean valid = TRUE;
-	const char *tmp;
+	const gchar *tmp;
 	ESource *source;
 
 	tmp = e_source_peek_name (sdialog->source);
@@ -72,7 +72,7 @@ eccp_check_complete (EConfig *ec, const char *pageid, void *data)
 }
 
 static void
-eccp_commit (EConfig *ec, GSList *items, void *data)
+eccp_commit (EConfig *ec, GSList *items, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	xmlNodePtr xml;
@@ -80,7 +80,7 @@ eccp_commit (EConfig *ec, GSList *items, void *data)
 	if (sdialog->original_source) {
 		const gchar *color_spec;
 
-		xml = xmlNewNode (NULL, (const unsigned char *)"dummy");
+		xml = xmlNewNode (NULL, (const guchar *)"dummy");
 		e_source_dump_to_xml_node (sdialog->source, xml);
 		e_source_update_from_xml_node (sdialog->original_source, xml->children, NULL);
 		xmlFreeNode (xml);
@@ -95,7 +95,7 @@ eccp_commit (EConfig *ec, GSList *items, void *data)
 }
 
 static void
-eccp_free (EConfig *ec, GSList *items, void *data)
+eccp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 
@@ -113,7 +113,7 @@ eccp_free (EConfig *ec, GSList *items, void *data)
 static void
 eccp_type_changed (GtkComboBox *dropdown, CalendarSourceDialog *sdialog)
 {
-	int id = gtk_combo_box_get_active (dropdown);
+	gint id = gtk_combo_box_get_active (dropdown);
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
@@ -134,15 +134,15 @@ eccp_type_changed (GtkComboBox *dropdown, CalendarSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, void *data)
+eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	static GtkWidget *label, *type;
-	int row;
+	gint row;
 	CalendarSourceDialog *sdialog = data;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
 	ESource *source = t->source;
 	ESourceGroup *group = e_source_peek_group (source);
-	char *markup;
+	gchar *markup;
 
 	if (old)
 		gtk_widget_destroy (label);
@@ -164,7 +164,7 @@ eccp_get_source_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 		GtkListStore *store;
 		GtkTreeIter iter;
 		GSList *l;
-		int active = 0, i = 0;
+		gint active = 0, i = 0;
 
 		label = gtk_label_new_with_mnemonic(_("_Type:"));
 
@@ -211,10 +211,10 @@ name_changed (GtkEntry *entry, ECalConfigTargetSource *t)
 }
 
 static GtkWidget *
-eccp_get_source_name (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eccp_get_source_name (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	static GtkWidget *label, *entry;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) ec->target;
 	ESource *source = t->source;
 
@@ -252,13 +252,13 @@ offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	GtkWidget *offline_setting = NULL;
-	const char *offline_sync;
-	int row;
-	const char *base_uri = e_source_group_peek_base_uri (sdialog->source_group);
+	const gchar *offline_sync;
+	gint row;
+	const gchar *base_uri = e_source_group_peek_base_uri (sdialog->source_group);
 	gboolean is_local = base_uri && (g_str_has_prefix (base_uri, "file://") || g_str_has_prefix (base_uri, "contacts://"));
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
 	if (old)
@@ -318,7 +318,7 @@ choose_initial_color (void)
 }
 
 static GtkWidget *
-eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	static GtkWidget *label, *color_button;
@@ -434,9 +434,9 @@ void
 calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourceGroup *group)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
-	char *xml;
+	gchar *xml;
 	ECalConfig *ec;
-	int i;
+	gint i;
 	GSList *items = NULL;
 	ECalConfigTargetSource *target;
 
@@ -491,9 +491,9 @@ void
 calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
-	char *xml;
+	gchar *xml;
 	ECalConfig *ec;
-	int i;
+	gint i;
 	GSList *items = NULL;
 	ECalConfigTargetSource *target;
 
@@ -547,9 +547,9 @@ void
 calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
-	char *xml;
+	gchar *xml;
 	ECalConfig *ec;
-	int i;
+	gint i;
 	GSList *items = NULL;
 	ECalConfigTargetSource *target;
 

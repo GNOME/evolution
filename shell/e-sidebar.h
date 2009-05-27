@@ -54,8 +54,8 @@ struct _ESidebarClass {
 	GtkContainerClass parent_class;
 
 	/* signals */
-	void (* button_selected) (ESidebar *sidebar, int id);
-	void (* button_pressed)  (ESidebar *sidebar, GdkEventButton *event, int id);
+	void (* button_selected) (ESidebar *sidebar, gint id);
+	void (* button_pressed)  (ESidebar *sidebar, GdkEventButton *event, gint id);
 };
 
 
@@ -66,17 +66,17 @@ void  e_sidebar_set_selection_widget  (ESidebar   *sidebar,
 				       GtkWidget  *widget);
 
 void  e_sidebar_add_button  (ESidebar   *sidebar,
-			     const char *label,
-			     const char *tooltips,
-			     const char *icon_name,
-			     int         id);
+			     const gchar *label,
+			     const gchar *tooltips,
+			     const gchar *icon_name,
+			     gint         id);
 
 void  e_sidebar_select_button  (ESidebar *sidebar,
-				int       id);
+				gint       id);
 
 void e_sidebar_change_button_icon (ESidebar *sidebar,
-				   const char *icon_name,
-				   int button_id);
+				   const gchar *icon_name,
+				   gint button_id);
 
 ESidebarMode e_sidebar_get_mode (ESidebar *sidebar);
 void e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode);

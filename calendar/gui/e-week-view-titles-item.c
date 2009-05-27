@@ -269,7 +269,7 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
    This is needed so that we get button/motion events. */
 static double
 e_week_view_titles_item_point (GnomeCanvasItem *item, double x, double y,
-			       int cx, int cy,
+			       gint cx, gint cy,
 			       GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;

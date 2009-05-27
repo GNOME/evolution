@@ -58,9 +58,9 @@ struct _EDropdownButtonClass {
 
 GType      e_dropdown_button_get_type   (void);
 void       e_dropdown_button_construct  (EDropdownButton *dropdown_button,
-					 const char      *label_text,
+					 const gchar      *label_text,
 					 GtkMenu         *menu);
-GtkWidget *e_dropdown_button_new        (const char      *label_text,
+GtkWidget *e_dropdown_button_new        (const gchar      *label_text,
 					 GtkMenu         *menu);
 
 #ifdef __cplusplus

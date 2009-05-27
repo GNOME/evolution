@@ -143,9 +143,9 @@ AtkObject*
 gal_a11y_e_cell_toggle_new (ETableItem *item,
 			    ECellView  *cell_view,
 			    AtkObject  *parent,
-			    int         model_col,
-			    int         view_col,
-			    int         row)
+			    gint         model_col,
+			    gint         view_col,
+			    gint         row)
 {
 	AtkObject *a11y;
 	GalA11yECell *cell;

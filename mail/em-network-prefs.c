@@ -132,7 +132,7 @@ em_network_prefs_destroy (GtkObject *obj)
 static void
 toggle_button_toggled (GtkToggleButton *toggle, EMNetworkPrefs *prefs)
 {
-	const char *key;
+	const gchar *key;
 
 	key = g_object_get_data ((GObject *) toggle, "key");
 	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
@@ -146,14 +146,14 @@ toggle_button_toggled (GtkToggleButton *toggle, EMNetworkPrefs *prefs)
 }
 
 static void
-toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const char *key)
+toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const gchar *key)
 {
 	gboolean bool;
 
 	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
 	gtk_toggle_button_set_active (toggle, bool);
 
-	g_object_set_data ((GObject *) toggle, "key", (void *) key);
+	g_object_set_data ((GObject *) toggle, "key", (gpointer) key);
 	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 
 	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
@@ -161,7 +161,7 @@ toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const char *
 }
 
 static GtkWidget *
-emnp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+emnp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	EMNetworkPrefs *prefs = data;
 
@@ -210,7 +210,7 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 static void
 notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 {
-	int type;
+	gint type;
 
 	if (gtk_toggle_button_get_active (prefs->sys_proxy))
 		type = NETWORK_PROXY_SYS_SETTINGS;
@@ -249,8 +249,8 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 static void
 widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 {
-	const char *value;
-	int port = -1;
+	const gchar *value;
+	gint port = -1;
 	GConfClient *gconf = mail_config_get_gconf_client ();
 
 	/*
@@ -259,12 +259,12 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
-		gconf_client_set_int (gconf, (const char *)data, port, NULL);
-		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const char *)data, port));
+		gconf_client_set_int (gconf, (const gchar *)data, port, NULL);
+		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
-		gconf_client_set_string (gconf, (const char *)data, value, NULL);
-		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const char *)data, value));
+		gconf_client_set_string (gconf, (const gchar *)data, value, NULL);
+		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, value));
 	}
 
 }
@@ -277,7 +277,7 @@ static EMConfigItem emnp_items[] = {
 };
 
 static void
-emnp_free(EConfig *ec, GSList *items, void *data)
+emnp_free(EConfig *ec, GSList *items, gpointer data)
 {
 	/* the prefs data is freed automagically */
 
@@ -301,12 +301,12 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	GtkWidget *toplevel;
 	GladeXML *gui;
 	GSList* l;
-	char *buf;
+	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	gboolean locked;
-	int i, val, port;
-	char *gladefile;
+	gint i, val, port;
+	gchar *gladefile;
 
 	prefs->gconf = mail_config_get_gconf_client ();
 

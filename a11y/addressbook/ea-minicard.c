@@ -27,12 +27,12 @@
 #include "ea-minicard-view.h"
 #include "e-minicard.h"
 
-static const char * action_name[] = {
+static const gchar * action_name[] = {
 	N_("Open")
 };
 
-static G_CONST_RETURN gchar* ea_minicard_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_minicard_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_minicard_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_minicard_get_description (AtkObject *accessible);
 
 static void ea_minicard_class_init (EaMinicardClass *klass);
 
@@ -44,8 +44,8 @@ static AtkStateSet *ea_minicard_ref_state_set (AtkObject *obj);
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean atk_action_interface_do_action (AtkAction *iface, gint i);
 static gint atk_action_interface_get_n_action (AtkAction *iface);
-static G_CONST_RETURN gchar* atk_action_interface_get_description (AtkAction *iface, gint i);
-static G_CONST_RETURN gchar* atk_action_interface_get_name (AtkAction *iface, gint i);
+static G_CONST_RETURN gchar * atk_action_interface_get_description (AtkAction *iface, gint i);
+static G_CONST_RETURN gchar * atk_action_interface_get_name (AtkAction *iface, gint i);
 
 static gpointer parent_class = NULL;
 
@@ -117,7 +117,7 @@ ea_minicard_class_init (EaMinicardClass *klass)
  *  we access the main content of current minicard, including
  *  header text, label(field, field name)
  */
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_minicard_get_name (AtkObject *accessible)
 {
 #define BUFFERSIZE 500
@@ -159,7 +159,7 @@ ea_minicard_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_minicard_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -256,13 +256,13 @@ static gint atk_action_interface_get_n_action (AtkAction *iface)
 	return G_N_ELEMENTS (action_name);
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 atk_action_interface_get_description (AtkAction *iface, gint i)
 {
 	return atk_action_interface_get_name (iface, i);
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 atk_action_interface_get_name (AtkAction *iface, gint i)
 {
 	if( i >= G_N_ELEMENTS (action_name) || i < 0)

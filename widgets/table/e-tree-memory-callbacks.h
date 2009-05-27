@@ -36,25 +36,25 @@ extern "C" {
 #define E_IS_TREE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_CALLBACKS_TYPE))
 
 
-typedef GdkPixbuf* (*ETreeMemoryCallbacksIconAtFn)             (ETreeModel *etree, ETreePath path, void *model_data);
+typedef GdkPixbuf* (*ETreeMemoryCallbacksIconAtFn)             (ETreeModel *etree, ETreePath path, gpointer model_data);
 
-typedef gint       (*ETreeMemoryCallbacksColumnCountFn)        (ETreeModel *etree, void *model_data);
+typedef gint       (*ETreeMemoryCallbacksColumnCountFn)        (ETreeModel *etree, gpointer model_data);
 
-typedef gboolean   (*ETreeMemoryCallbacksHasSaveIdFn)          (ETreeModel *etree, void *model_data);
-typedef gchar     *(*ETreeMemoryCallbacksGetSaveIdFn)          (ETreeModel *etree, ETreePath path, void *model_data);
+typedef gboolean   (*ETreeMemoryCallbacksHasSaveIdFn)          (ETreeModel *etree, gpointer model_data);
+typedef gchar     *(*ETreeMemoryCallbacksGetSaveIdFn)          (ETreeModel *etree, ETreePath path, gpointer model_data);
 
-typedef gboolean   (*ETreeMemoryCallbacksHasGetNodeByIdFn)     (ETreeModel *etree, void *model_data);
-typedef ETreePath  (*ETreeMemoryCallbacksGetNodeByIdFn)        (ETreeModel *etree, const char *save_id, void *model_data);
+typedef gboolean   (*ETreeMemoryCallbacksHasGetNodeByIdFn)     (ETreeModel *etree, gpointer model_data);
+typedef ETreePath  (*ETreeMemoryCallbacksGetNodeByIdFn)        (ETreeModel *etree, const gchar *save_id, gpointer model_data);
 
-typedef void*      (*ETreeMemoryCallbacksValueAtFn)            (ETreeModel *etree, ETreePath path, int col, void *model_data);
-typedef void       (*ETreeMemoryCallbacksSetValueAtFn)         (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data);
-typedef gboolean   (*ETreeMemoryCallbacksIsEditableFn)         (ETreeModel *etree, ETreePath path, int col, void *model_data);
+typedef gpointer       (*ETreeMemoryCallbacksValueAtFn)            (ETreeModel *etree, ETreePath path, gint col, gpointer model_data);
+typedef void       (*ETreeMemoryCallbacksSetValueAtFn)         (ETreeModel *etree, ETreePath path, gint col, gconstpointer val, gpointer model_data);
+typedef gboolean   (*ETreeMemoryCallbacksIsEditableFn)         (ETreeModel *etree, ETreePath path, gint col, gpointer model_data);
 
-typedef	void      *(*ETreeMemoryCallbacksDuplicateValueFn)     (ETreeModel *etm, int col, const void *val, void *data);
-typedef	void       (*ETreeMemoryCallbacksFreeValueFn)          (ETreeModel *etm, int col, void *val, void *data);
-typedef void      *(*ETreeMemoryCallbacksInitializeValueFn)    (ETreeModel *etm, int col, void *data);
-typedef gboolean   (*ETreeMemoryCallbacksValueIsEmptyFn)       (ETreeModel *etm, int col, const void *val, void *data);
-typedef char      *(*ETreeMemoryCallbacksValueToStringFn)      (ETreeModel *etm, int col, const void *val, void *data);
+typedef	void      *(*ETreeMemoryCallbacksDuplicateValueFn)     (ETreeModel *etm, gint col, gconstpointer val, gpointer data);
+typedef	void       (*ETreeMemoryCallbacksFreeValueFn)          (ETreeModel *etm, gint col, gpointer val, gpointer data);
+typedef void      *(*ETreeMemoryCallbacksInitializeValueFn)    (ETreeModel *etm, gint col, gpointer data);
+typedef gboolean   (*ETreeMemoryCallbacksValueIsEmptyFn)       (ETreeModel *etm, gint col, gconstpointer val, gpointer data);
+typedef gchar      *(*ETreeMemoryCallbacksValueToStringFn)      (ETreeModel *etm, gint col, gconstpointer val, gpointer data);
 
 typedef struct {
 	ETreeMemory parent;

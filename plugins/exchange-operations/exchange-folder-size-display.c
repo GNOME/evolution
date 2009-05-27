@@ -46,7 +46,7 @@ get_folder_size_func (GtkTreeModel *model,
 {
 	GHashTable *info = (GHashTable *) user_data;
 	gdouble folder_size;
-	char *folder_name;
+	gchar *folder_name;
 
 	gtk_tree_model_get(model, iter, COLUMN_SIZE, &folder_size, COLUMN_NAME, &folder_name, -1);
 
@@ -54,11 +54,11 @@ get_folder_size_func (GtkTreeModel *model,
 	return FALSE;
 }
 
-char *
-exchange_folder_size_get_val (GtkListStore *model, const char *folder_name)
+gchar *
+exchange_folder_size_get_val (GtkListStore *model, const gchar *folder_name)
 {
 	GHashTable *finfo;
-	char *folder_size, *fsize;
+	gchar *folder_size, *fsize;
 
 	finfo = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -86,7 +86,7 @@ format_size_func (GtkTreeViewColumn *col,
 {
 	GtkCellRendererText *cell = (GtkCellRendererText *)renderer;
 	gdouble folder_size;
-	char * new_text;
+	gchar * new_text;
 
 	gtk_tree_model_get(model, iter, COLUMN_SIZE, &folder_size, -1);
 
@@ -108,7 +108,7 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         GladeXML *xml;
         GtkWidget *dialog, *table;
 	GList *l;
-	char *col_name;
+	gchar *col_name;
 
 	printf ("exchange_folder_size_display called\n");
         g_return_if_fail (GTK_IS_WIDGET (parent));

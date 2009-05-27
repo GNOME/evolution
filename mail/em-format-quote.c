@@ -44,14 +44,14 @@
 #include "mail-config.h"
 
 struct _EMFormatQuotePrivate {
-	int dummy;
+	gint dummy;
 };
 
-static void emfq_format_clone(EMFormat *, CamelFolder *, const char *, CamelMimeMessage *, EMFormat *);
-static void emfq_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
+static void emfq_format_clone(EMFormat *, CamelFolder *, const gchar *, CamelMimeMessage *, EMFormat *);
+static void emfq_format_error(EMFormat *emf, CamelStream *stream, const gchar *txt);
 static void emfq_format_message(EMFormat *, CamelStream *, CamelMimePart *, const EMFormatHandler *);
 static void emfq_format_source(EMFormat *, CamelStream *, CamelMimePart *);
-static void emfq_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
+static void emfq_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const gchar *, const EMFormatHandler *);
 
 static void emfq_builtin_init(EMFormatQuoteClass *efhc);
 
@@ -122,7 +122,7 @@ em_format_quote_get_type(void)
 }
 
 EMFormatQuote *
-em_format_quote_new(const char *credits, CamelStream *stream, guint32 flags)
+em_format_quote_new(const gchar *credits, CamelStream *stream, guint32 flags)
 {
 	EMFormatQuote *emfq;
 
@@ -143,7 +143,7 @@ emfq_format_empty_line(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 }
 
 static void
-emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
+emfq_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, EMFormat *src)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 	const EMFormatHandler *handle;
@@ -166,16 +166,16 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 }
 
 static void
-emfq_format_error(EMFormat *emf, CamelStream *stream, const char *txt)
+emfq_format_error(EMFormat *emf, CamelStream *stream, const gchar *txt)
 {
 	/* FIXME: should we even bother writing error text for quoting? probably not... */
 }
 
 static void
-emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const char *label, const char *value, guint32 flags, int is_html)
+emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const gchar *label, const gchar *value, guint32 flags, gint is_html)
 {
-	const char *fmt, *html;
-	char *mhtml = NULL;
+	const gchar *fmt, *html;
+	gchar *mhtml = NULL;
 
 	if (value == NULL)
 		return;
@@ -206,7 +206,7 @@ static const gchar *addrspec_hdrs[] = {
 #if 0
 /* FIXME: include Sender and Resent-* headers too? */
 /* For Translators only: The following strings are used in the header table in the preview pane */
-static char *i18n_hdrs[] = {
+static gchar *i18n_hdrs[] = {
 	N_("From"), N_("Reply-To"), N_("To"), N_("Cc"), N_("Bcc")
 };
 #endif
@@ -215,7 +215,7 @@ static void
 emfq_format_address (GString *out, struct _camel_header_address *a)
 {
 	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
-	char *name, *mailto, *addr;
+	gchar *name, *mailto, *addr;
 
 	while (a) {
 		if (a->name)
@@ -226,11 +226,11 @@ emfq_format_address (GString *out, struct _camel_header_address *a)
 		switch (a->type) {
 		case CAMEL_HEADER_ADDRESS_NAME:
 			if (name && *name) {
-				char *real, *mailaddr;
+				gchar *real, *mailaddr;
 
 				g_string_append_printf (out, "%s &lt;", name);
 				/* rfc2368 for mailto syntax and url encoding extras */
-				if ((real = camel_header_encode_phrase ((unsigned char *)a->name))) {
+				if ((real = camel_header_encode_phrase ((guchar *)a->name))) {
 					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
@@ -268,9 +268,9 @@ emfq_format_address (GString *out, struct _camel_header_address *a)
 }
 
 static void
-canon_header_name (char *name)
+canon_header_name (gchar *name)
 {
-	char *inptr = name;
+	gchar *inptr = name;
 
 	/* canonicalise the header name... first letter is
 	 * capitalised and any letter following a '-' also gets
@@ -292,15 +292,15 @@ canon_header_name (char *name)
 }
 
 static void
-emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const char *namein, guint32 flags, const char *charset)
+emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const gchar *namein, guint32 flags, const gchar *charset)
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	char *name, *buf, *value = NULL;
-	const char *txt, *label;
+	gchar *name, *buf, *value = NULL;
+	const gchar *txt, *label;
 	gboolean addrspec = FALSE;
-	int is_html = FALSE;
-	int i;
+	gint is_html = FALSE;
+	gint i;
 
 	name = g_alloca (strlen (namein) + 1);
 	strcpy (name, namein);
@@ -374,7 +374,7 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 {
 	EMFormat *emf = (EMFormat *) emfq;
 	CamelContentType *ct;
-	const char *charset;
+	const gchar *charset;
 	EMFormatHeader *h;
 
 	if (!part)
@@ -442,10 +442,10 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 }
 
 static void
-emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type, const EMFormatHandler *handle)
+emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const gchar *mime_type, const EMFormatHandler *handle)
 {
 	if (handle && em_format_is_inline(emf, emf->part_id->str, part, handle)) {
-		char *text, *html;
+		gchar *text, *html;
 
 		camel_stream_write_string(stream,
 					  "<table border=1 cellspacing=0 cellpadding=0><tr><td><font size=-1>\n");
@@ -475,7 +475,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	CamelMimeFilter *html_filter;
 	CamelMimeFilter *sig_strip;
 	CamelContentType *type;
-	const char *format;
+	const gchar *format;
 	guint32 rgb = 0x737373, flags;
 
 	if (!part)
@@ -565,7 +565,7 @@ static EMFormatHandler type_builtin_table[] = {
 static void
 emfq_builtin_init(EMFormatQuoteClass *efhc)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
 		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);

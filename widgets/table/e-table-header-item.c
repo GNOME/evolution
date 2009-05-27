@@ -155,8 +155,8 @@ static int
 e_table_header_item_get_height (ETableHeaderItem *ethi)
 {
 	ETableHeader *eth;
-	int numcols, col;
-	int maxheight;
+	gint numcols, col;
+	gint maxheight;
 
 	g_return_val_if_fail (ethi != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER_ITEM (ethi), 0);
@@ -168,7 +168,7 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 
 	for (col = 0; col < numcols; col++) {
 		ETableCol *ecol = e_table_header_get_column (eth, col);
-		int height;
+		gint height;
 
 		height = e_table_header_compute_height (ecol,
 							GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas));
@@ -181,7 +181,7 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 }
 
 static void
-ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
@@ -260,7 +260,7 @@ structure_changed (ETableHeader *header, ETableHeaderItem *ethi)
 }
 
 static void
-dimension_changed (ETableHeader *header, int col, ETableHeaderItem *ethi)
+dimension_changed (ETableHeader *header, gint col, ETableHeaderItem *ethi)
 {
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
@@ -388,11 +388,11 @@ ethi_get_property (GObject *object,
 }
 
 static int
-ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
+ethi_find_col_by_x (ETableHeaderItem *ethi, gint x)
 {
-	const int cols = e_table_header_count (ethi->eth);
-	int x1 = 0;
-	int col;
+	const gint cols = e_table_header_count (ethi->eth);
+	gint x1 = 0;
+	gint col;
 
 	d(g_print ("%s:%d: x = %d, x1 = %d\n", __FUNCTION__, __LINE__, x, x1));
 
@@ -418,11 +418,11 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
 }
 
 static int
-ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, int x)
+ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, gint x)
 {
-	const int cols = e_table_header_count (ethi->eth);
-	int x1 = 0;
-	int col;
+	const gint cols = e_table_header_count (ethi->eth);
+	gint x1 = 0;
+	gint col;
 
 	x1 += ethi->group_indent_width;
 
@@ -455,7 +455,7 @@ ethi_remove_drop_marker (ETableHeaderItem *ethi)
 }
 
 static GtkWidget *
-make_shaped_window_from_xpm (const char **xpm)
+make_shaped_window_from_xpm (const gchar **xpm)
 {
 	GdkPixbuf *pixbuf;
 	GdkPixmap *pixmap;
@@ -483,10 +483,10 @@ make_shaped_window_from_xpm (const char **xpm)
 }
 
 static void
-ethi_add_drop_marker (ETableHeaderItem *ethi, int col, gboolean recreate)
+ethi_add_drop_marker (ETableHeaderItem *ethi, gint col, gboolean recreate)
 {
-	int rx, ry;
-	int x;
+	gint rx, ry;
+	gint x;
 
 	if (!recreate && ethi->drag_mark == col)
 		return;
@@ -518,7 +518,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col, gboolean recreate)
 
 #define gray50_width    2
 #define gray50_height   2
-static char gray50_bits [] = {
+static gchar gray50_bits [] = {
   0x02, 0x01, };
 
 static void
@@ -592,7 +592,7 @@ do_drag_motion(ETableHeaderItem *ethi,
 
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
-		int col;
+		gint col;
 		d(g_print("In header\n"));
 
 		col = ethi_find_col_by_x_nearest (ethi, x);
@@ -626,7 +626,7 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETableHeaderItem *ethi = data;
-	int dx = 0;
+	gint dx = 0;
 	GtkAdjustment *h, *v;
 	double value;
 
@@ -701,7 +701,7 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 		  gint x, gint y, guint time,
 		  ETableHeaderItem *ethi)
 {
-	char *droptype, *headertype;
+	gchar *droptype, *headertype;
 	guint direction = 0;
 
 	gdk_drag_status (context, 0, time);
@@ -768,15 +768,15 @@ ethi_drag_data_received (GtkWidget *canvas,
 			 guint time,
 			 ETableHeaderItem *ethi)
 {
-	int found = FALSE;
-	int count;
-	int column;
-	int drop_col;
-	int i;
+	gint found = FALSE;
+	gint count;
+	gint column;
+	gint drop_col;
+	gint i;
 
 	if (data->data) {
 		count = e_table_header_count(ethi->eth);
-		column = atoi((char *)data->data);
+		column = atoi((gchar *)data->data);
 		drop_col = ethi->drop_col;
 		ethi->drop_col = -1;
 
@@ -820,7 +820,7 @@ ethi_drag_data_get (GtkWidget *canvas,
 		gtk_selection_data_set(selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof(string[0]),
-				       (unsigned char *)string,
+				       (guchar *)string,
 				       strlen(string));
 		g_free(string);
 	}
@@ -838,7 +838,7 @@ ethi_drag_drop (GtkWidget *canvas,
 
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
-		int col;
+		gint col;
 
 		col = ethi_find_col_by_x_nearest (ethi, x);
 
@@ -847,7 +847,7 @@ ethi_drag_drop (GtkWidget *canvas,
 		ethi->drop_col = col;
 
 		if (col != -1) {
-			char *target = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
+			gchar *target = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
 			d(g_print ("ethi -  %s\n", target));
 			gtk_drag_get_data (canvas, context, gdk_atom_intern(target, FALSE), time);
 			g_free (target);
@@ -935,19 +935,19 @@ ethi_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
-	const int cols = e_table_header_count (ethi->eth);
-	int x1, x2;
-	int col;
+	const gint cols = e_table_header_count (ethi->eth);
+	gint x1, x2;
+	gint col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 
 
 	if (ethi->sort_info) {
-		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
-		int i;
+		gint length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+		gint i;
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
 			g_hash_table_insert (arrows,
@@ -972,7 +972,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	x2 += ethi->group_indent_width;
 	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
-		int col_width;
+		gint col_width;
 
 		col_width = ecol->width;
 
@@ -1002,7 +1002,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 }
 
 static double
-ethi_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+ethi_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 	    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -1017,10 +1017,10 @@ ethi_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
  * then the ETableCol that actually contains this point is returned here
  */
 static gboolean
-is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *return_col)
+is_pointer_on_division (ETableHeaderItem *ethi, gint pos, gint *the_total, gint *return_col)
 {
-	const int cols = e_table_header_count (ethi->eth);
-	int col, total;
+	const gint cols = e_table_header_count (ethi->eth);
+	gint col, total;
 
 	total = 0;
 	for (col = 0; col < cols; col++){
@@ -1052,9 +1052,9 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 #define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
 static void
-set_cursor (ETableHeaderItem *ethi, int pos)
+set_cursor (ETableHeaderItem *ethi, gint pos)
 {
-	int col;
+	gint col;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
 	gboolean resizable = FALSE;
 
@@ -1063,12 +1063,12 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 		return;
 
 	if (is_pointer_on_division (ethi, pos, NULL, &col)) {
-		int last_col = ethi->eth->col_count - 1;
+		gint last_col = ethi->eth->col_count - 1;
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		/* Last column is not resizable */
 		if (ecol->resizable && col != last_col) {
-			int c = col + 1;
+			gint c = col + 1;
 
 			/* Column is not resizable if all columns after it
 			   are also not resizable */
@@ -1125,9 +1125,9 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GtkTargetList *list;
 	GdkDragContext *context;
 	ETableCol *ecol;
-	int col_width;
+	gint col_width;
 	GdkPixmap *pixmap;
-	int group_indent = 0;
+	gint group_indent = 0;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 
 	GtkTargetEntry  ethi_drag_types [] = {
@@ -1140,8 +1140,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 		return;
 
 	if (ethi->sort_info) {
-		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
-		int i;
+		gint length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+		gint i;
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column =
 				e_table_sort_info_grouping_get_nth(
@@ -1205,17 +1205,17 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 typedef struct {
 	ETableHeaderItem *ethi;
-	int col;
+	gint col;
 } EthiHeaderInfo;
 
 static void
 ethi_popup_sort_ascending(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableCol *col;
-	int model_col = -1;
-	int length;
-	int i;
-	int found = FALSE;
+	gint model_col = -1;
+	gint length;
+	gint i;
+	gint found = FALSE;
 	ETableHeaderItem *ethi = info->ethi;
 
 	col = e_table_header_get_column (ethi->eth, info->col);
@@ -1267,10 +1267,10 @@ static void
 ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableCol *col;
-	int model_col=-1;
-	int length;
-	int i;
-	int found = FALSE;
+	gint model_col=-1;
+	gint length;
+	gint i;
+	gint found = FALSE;
 	ETableHeaderItem *ethi = info->ethi;
 
 	col = e_table_header_get_column (ethi->eth, info->col);
@@ -1331,7 +1331,7 @@ static void
 ethi_popup_group_field(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableCol *col;
-	int model_col;
+	gint model_col;
 	ETableHeaderItem *ethi = info->ethi;
 	ETableSortColumn column;
 
@@ -1389,7 +1389,7 @@ static void
 ethi_popup_best_fit(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableHeaderItem *ethi = info->ethi;
-	int width;
+	gint width;
 
 	g_signal_emit_by_name (ethi->eth,
 			       "request_width",
@@ -1416,7 +1416,7 @@ config_destroyed (gpointer data, GObject *where_object_was)
 static void
 apply_changes (ETableConfig *config, ETableHeaderItem *ethi)
 {
-	char *state = e_table_state_save_to_string (config->state);
+	gchar *state = e_table_state_save_to_string (config->state);
 
 	if (ethi->table)
 		e_table_set_state (ethi->table, state);
@@ -1489,7 +1489,7 @@ static EPopupMenu ethi_context_menu [] = {
 static void
 sort_by_id (GtkWidget *menu_item, ETableHeaderItem *ethi)
 {
-	int col = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (menu_item), "col-number"));
+	gint col = GPOINTER_TO_INT (g_object_get_data(G_OBJECT (menu_item), "col-number"));
 	ETableCol *ecol;
 	gboolean clearfirst;
 
@@ -1520,7 +1520,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 	ETableCol *col;
 	GtkMenu *popup;
-	int ncol, sort_count, sort_col;
+	gint ncol, sort_count, sort_col;
 	GtkWidget *menu_item, *sub_menu;
 	ETableSortColumn column;
 	gboolean ascending = TRUE;
@@ -1571,7 +1571,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	/* Headers */
 	for (ncol = 0; ncol<ethi->full_header->col_count; ncol++)
 	{
-		char *text=NULL;
+		gchar *text=NULL;
 
 		if (!ethi->full_header->columns[ncol]->sortable ||
 		    ethi->full_header->columns[ncol]->disabled)
@@ -1610,9 +1610,9 @@ ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 void
 ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 {
-	int model_col = -1;
-	int length;
-	int i;
+	gint model_col = -1;
+	gint length;
+	gint i;
 	gboolean found = FALSE;
 
 	if (col == NULL)
@@ -1625,7 +1625,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 	for (i = 0; i < length; i++) {
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
 		if (model_col == column.column || model_col == -1){
-			int ascending = column.ascending;
+			gint ascending = column.ascending;
 			ascending = ! ascending;
 			column.ascending = ascending;
 			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
@@ -1641,14 +1641,14 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
 
 			if (model_col == column.column || model_col == -1){
-				int ascending = column.ascending;
+				gint ascending = column.ascending;
 
 				if (ascending == 0 && model_col != -1){
 					/*
 					 * This means the user has clicked twice
 					 * already, lets kill sorting of this column now.
 					 */
-					int j;
+					gint j;
 
 					for (j = i + 1; j < length; j++)
 						e_table_sort_info_sorting_set_nth (ethi->sort_info,
@@ -1688,8 +1688,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
 	const gboolean resizing = ETHI_RESIZING (ethi);
-	int x, y, start, col;
-	int was_maybe_drag = 0;
+	gint x, y, start, col;
+	gint was_maybe_drag = 0;
 
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
@@ -1706,7 +1706,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (resizing){
-			int new_width;
+			gint new_width;
 
 			if (ethi->resize_guide == NULL){
 				/* Quick hack until I actually bind the views */
@@ -1776,7 +1776,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button != 1)
 			break;
 		else {
-			int width = 0;
+			gint width = 0;
 			g_signal_emit_by_name (ethi->eth,
 					       "request_width",
 					       (int)ethi->resize_col, &width);

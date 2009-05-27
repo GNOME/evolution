@@ -56,9 +56,9 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 {
 	FilterPart *part;
 	FilterElement *element;
-	int i;
-	const char *real, *addr;
-	char *namestr;
+	gint i;
+	const gchar *real, *addr;
+	gchar *namestr;
 
 	/* address types etc should handle multiple values */
 	for (i = 0; camel_internet_address_get (iaddr, i, &real, &addr); i++) {
@@ -77,12 +77,12 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 
 
 /* remove 're' part of a subject */
-static const char *
-strip_re (const char *subject)
+static const gchar *
+strip_re (const gchar *subject)
 {
-	const unsigned char *s, *p;
+	const guchar *s, *p;
 
-	s = (unsigned char *) subject;
+	s = (guchar *) subject;
 
 	while (*s) {
 		while (isspace (*s))
@@ -102,16 +102,16 @@ strip_re (const char *subject)
 			break;
 	}
 
-	return (char *) s;
+	return (gchar *) s;
 }
 
 #if 0
-int
-reg_match (char *str, char *regstr)
+gint
+reg_match (gchar *str, gchar *regstr)
 {
 	regex_t reg;
-	int error;
-	int ret;
+	gint error;
+	gint ret;
 
 	error = regcomp(&reg, regstr, REG_EXTENDED|REG_ICASE|REG_NOSUB);
 	if (error != 0) {
@@ -124,7 +124,7 @@ reg_match (char *str, char *regstr)
 #endif
 
 static void
-rule_add_subject (RuleContext *context, FilterRule *rule, const char *text)
+rule_add_subject (RuleContext *context, FilterRule *rule, const gchar *text)
 {
 	FilterPart *part;
 	FilterElement *element;
@@ -141,7 +141,7 @@ rule_add_subject (RuleContext *context, FilterRule *rule, const char *text)
 }
 
 static void
-rule_add_sender (RuleContext *context, FilterRule *rule, const char *text)
+rule_add_sender (RuleContext *context, FilterRule *rule, const gchar *text)
 {
 	FilterPart *part;
 	FilterElement *element;
@@ -160,11 +160,11 @@ rule_add_sender (RuleContext *context, FilterRule *rule, const char *text)
 /* do a bunch of things on the subject to try and detect mailing lists, remove
    unneeded stuff, etc */
 static void
-rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
+rule_match_subject (RuleContext *context, FilterRule *rule, const gchar *subject)
 {
-	const char *s;
-	const char *s1, *s2;
-	char *tmp;
+	const gchar *s;
+	const gchar *s1, *s2;
+	gchar *tmp;
 
 	s = strip_re (subject);
 	/* dont match on empty subject */
@@ -202,7 +202,7 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 }
 
 static void
-rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
+rule_match_mlist(RuleContext *context, FilterRule *rule, const gchar *mlist)
 {
 	FilterPart *part;
 	FilterElement *element;
@@ -221,13 +221,13 @@ rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
 }
 
 static void
-rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress* addr, int flags)
+rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress* addr, gint flags)
 {
 	rule->grouping = FILTER_GROUP_ANY;
 
 	if (flags & AUTO_FROM) {
-		const char *name, *address;
-		char *namestr;
+		const gchar *name, *address;
+		gchar *namestr;
 
 		camel_internet_address_get (addr, 0, &name, &address);
 		rule_add_sender (context, rule, address);
@@ -244,15 +244,15 @@ rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress*
 }
 
 static void
-rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, int flags)
+rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, gint flags)
 {
 	CamelInternetAddress *addr;
 
 	rule->grouping = FILTER_GROUP_ANY;
 
 	if (flags & AUTO_SUBJECT) {
-		const char *subject = msg->subject ? msg->subject : "";
-		char *namestr;
+		const gchar *subject = msg->subject ? msg->subject : "";
+		gchar *namestr;
 
 		rule_match_subject (context, rule, subject);
 
@@ -263,9 +263,9 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	/* should parse the from address into an internet address? */
 	if (flags & AUTO_FROM) {
 		const CamelInternetAddress *from;
-		int i;
-		const char *name, *address;
-		char *namestr;
+		gint i;
+		const gchar *name, *address;
+		gchar *namestr;
 
 		from = camel_mime_message_get_from (msg);
 		for (i = 0; from && camel_internet_address_get (from, i, &name, &address); i++) {
@@ -286,7 +286,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 			rule_match_recipients (context, rule, addr);
 	}
 	if (flags & AUTO_MLIST) {
-		char *name, *mlist;
+		gchar *name, *mlist;
 
 		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *)msg)->headers);
 		if (mlist) {
@@ -300,10 +300,10 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 }
 
 FilterRule *
-em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, int flags, const char *source)
+em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
-	char *euri = em_uri_from_camel(source);
+	gchar *euri = em_uri_from_camel(source);
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
@@ -314,10 +314,10 @@ em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, 
 }
 
 FilterRule *
-em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, int flags, const char *source)
+em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
-	char *euri = em_uri_from_camel(source);
+	gchar *euri = em_uri_from_camel(source);
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
@@ -328,7 +328,7 @@ em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *a
 }
 
 FilterRule *
-filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, int flags)
+filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, gint flags)
 {
 	EMFilterRule *rule;
 	FilterPart *part;
@@ -343,10 +343,10 @@ filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, int f
 }
 
 void
-filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags)
+filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint flags)
 {
 	EMFilterContext *fc;
-	char *user, *system;
+	gchar *user, *system;
 	FilterRule *rule;
 
 	g_return_if_fail (msg != NULL);
@@ -368,12 +368,12 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 }
 
 void
-mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
+mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newuri)
 {
 	EMFilterContext *fc;
-	char *user, *system;
+	gchar *user, *system;
 	GList *changed;
-	char *eolduri, *enewuri;
+	gchar *eolduri, *enewuri;
 
 	eolduri = em_uri_from_camel(olduri);
 	enewuri = em_uri_from_camel(newuri);
@@ -400,12 +400,12 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 }
 
 void
-mail_filter_delete_uri(CamelStore *store, const char *uri)
+mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 {
 	EMFilterContext *fc;
-	char *user, *system;
+	gchar *user, *system;
 	GList *deleted;
-	char *euri;
+	gchar *euri;
 
 	euri = em_uri_from_camel(uri);
 
@@ -424,7 +424,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 		s = g_string_new("");
 		l = deleted;
 		while (l) {
-			g_string_append_printf (s, "    %s\n", (char *)l->data);
+			g_string_append_printf (s, "    %s\n", (gchar *)l->data);
 			l = l->next;
 		}
 

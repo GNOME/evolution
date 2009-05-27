@@ -70,7 +70,7 @@ struct _TaskPagePrivate {
 	EAccountList *accounts;
 	GList *address_strings;
 	EMeetingAttendee *ia;
-	char *user_add;
+	gchar *user_add;
 	ECalComponent *comp;
 
 	/* For meeting/event */
@@ -127,7 +127,7 @@ struct _TaskPagePrivate {
 	ESendOptionsDialog *sod;
 };
 
-static const int classification_map[] = {
+static const gint classification_map[] = {
 	E_CAL_COMPONENT_CLASS_PUBLIC,
 	E_CAL_COMPONENT_CLASS_PRIVATE,
 	E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
@@ -143,8 +143,8 @@ static void task_page_focus_main_widget (CompEditorPage *page);
 static gboolean task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
-static void task_page_select_organizer (TaskPage *tpage, const char *backend_address);
-static void set_subscriber_info_string (TaskPage *tpage, const char *backend_address);
+static void task_page_select_organizer (TaskPage *tpage, const gchar *backend_address);
+static void set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address);
 
 G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE)
 
@@ -414,7 +414,7 @@ get_current_account (TaskPage *page)
 {
 	TaskPagePrivate *priv;
 	EIterator *it;
-	const char *str;
+	const gchar *str;
 
 	priv = page->priv;
 
@@ -424,7 +424,7 @@ get_current_account (TaskPage *page)
 
 	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
 		EAccount *a = (EAccount *)e_iterator_get(it);
-		char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
 			g_free (full);
@@ -454,7 +454,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECal *client;
 	GSList *l;
 	icalcomponent *icalcomp;
-	const char *categories, *uid;
+	const gchar *categories, *uid;
 	icaltimezone *zone, *default_zone;
 	gchar *backend_addr = NULL;
 
@@ -687,7 +687,7 @@ static void
 set_attendees (ECalComponent *comp, const GPtrArray *attendees)
 {
 	GSList *comp_attendees = NULL, *l;
-	int i;
+	gint i;
 
 	for (i = 0; i < attendees->len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
@@ -719,7 +719,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	CompEditorFlags flags;
 	ECal *client;
 	struct icaltimetype start_tt, due_tt;
-	char *cat, *str;
+	gchar *cat, *str;
 	gboolean start_date_set, due_date_set, time_set;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
@@ -908,7 +908,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 		if (flags & COMP_EDITOR_DELEGATE ) {
 			GSList *attendee_list, *l;
-			int i;
+			gint i;
 			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
 
 			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
@@ -996,8 +996,8 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
-		const char *address;
-		const char *sentby = NULL;
+		const gchar *address;
+		const gchar *sentby = NULL;
 
 		address = itip_strip_mailto (attendee->value);
 		if (attendee->sentby)
@@ -1020,7 +1020,7 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 	TaskPagePrivate *priv = page->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	int pos = 0;
+	gint pos = 0;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
 	flags = comp_editor_get_flags (editor);
@@ -1077,7 +1077,7 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	GtkTreePath *path = NULL;
 	GtkTreeModel *model = NULL;
 	gboolean valid_iter;
-	char *address;
+	gchar *address;
 
 	priv = page->priv;
 
@@ -1157,7 +1157,7 @@ attendee_added_cb (EMeetingListView *emlv,
 		e_meeting_store_remove_attendee (priv->model, ia);
 	else {
 		if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
-			const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
+			const gchar *delegator_id = e_meeting_attendee_get_delfrom (ia);
 			EMeetingAttendee *delegator;
 
 			delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
@@ -1176,7 +1176,7 @@ attendee_added_cb (EMeetingListView *emlv,
 
 /* Callbacks for list view*/
 static void
-popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_add_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TaskPage *page = data;
 
@@ -1184,7 +1184,7 @@ popup_add_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TaskPage *page = data;
 
@@ -1204,7 +1204,7 @@ static EPopupItem context_menu_items[] = {
 };
 
 static void
-context_popup_free(EPopup *ep, GSList *items, void *data)
+context_popup_free(EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free(items);
 }
@@ -1219,11 +1219,11 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, TaskPage *page)
 	EMeetingAttendee *ia;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	char *address;
+	gchar *address;
 	guint32 disable_mask = ~0;
 	GSList *menus = NULL;
 	ECalPopup *ep;
-	int i;
+	gint i;
 
 	/* only process right-clicks */
 	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
@@ -1601,7 +1601,7 @@ check_start_before_end (struct icaltimetype *start_tt,
 			gboolean adjust_by_hour)
 {
 	struct icaltimetype end_tt_copy;
-	int cmp;
+	gint cmp;
 
 	/* Convert the end time to the same timezone as the start time. */
 	end_tt_copy = *end_tt;
@@ -1793,7 +1793,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 }
 
 static void
-set_subscriber_info_string (TaskPage *tpage, const char *backend_address)
+set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
 {
 	CompEditor *editor;
 	ECal *client;
@@ -1961,18 +1961,18 @@ init_widgets (TaskPage *tpage)
 
 
 static void
-task_page_select_organizer (TaskPage *tpage, const char *backend_address)
+task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
 	GList *l;
 	EAccount *def_account;
 	gchar *def_address = NULL;
-	const char *default_address;
+	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	ECal *client;
-	const char *user_addr = NULL;
+	const gchar *user_addr = NULL;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
@@ -1995,7 +1995,7 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 	if (user_addr)
 		for (l = priv->address_strings; l != NULL; l = l->next)
 			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				default_address = (const char *) l->data;
+				default_address = (const gchar *) l->data;
 				break;
 			}
 
@@ -2028,7 +2028,7 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 	TaskPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
-	char *gladefile;
+	gchar *gladefile;
 
 	priv = tpage->priv;
 	g_object_ref (model);

@@ -54,8 +54,8 @@ typedef struct _EPluginClass EPluginClass;
 /* Structure to define the author(s) names and addresses */
 typedef struct _EPluginAuthor EPluginAuthor;
 struct _EPluginAuthor {
-	char *name;
-	char *email;
+	gchar *name;
+	gchar *email;
 };
 
 /**
@@ -80,13 +80,13 @@ struct _EPluginAuthor {
 struct _EPlugin {
 	GObject object;
 
-	char *id;
-	char *path;
+	gchar *id;
+	gchar *path;
 	GSList *hooks_pending;
 
-	char *description;
-	char *name;
-	char *domain;
+	gchar *description;
+	gchar *name;
+	gchar *domain;
 	GSList *hooks;
 	GSList *authors;	/* EPluginAuthor structures */
 
@@ -120,38 +120,38 @@ struct _EPlugin {
 struct _EPluginClass {
 	GObjectClass parent_class;
 
-	const char *type;
+	const gchar *type;
 
-	int (*construct)(EPlugin *, xmlNodePtr root);
-	void *(*get_symbol)(EPlugin *, const char *name);
-	void *(*invoke)(EPlugin *, const char *name, void *data);
-	void (*enable)(EPlugin *, int state);
+	gint (*construct)(EPlugin *, xmlNodePtr root);
+	gpointer (*get_symbol)(EPlugin *, const gchar *name);
+	gpointer (*invoke)(EPlugin *, const gchar *name, gpointer data);
+	void (*enable)(EPlugin *, gint state);
 	GtkWidget *(*get_configure_widget)(EPlugin *);
 };
 
 GType e_plugin_get_type(void);
 
-int e_plugin_construct(EPlugin *ep, xmlNodePtr root);
-void e_plugin_add_load_path(const char *);
-int e_plugin_load_plugins(void);
+gint e_plugin_construct(EPlugin *ep, xmlNodePtr root);
+void e_plugin_add_load_path(const gchar *);
+gint e_plugin_load_plugins(void);
 void e_plugin_load_plugins_with_missing_symbols(void);
 GSList * e_plugin_list_plugins(void);
 
 void e_plugin_register_type(GType type);
 
-void *e_plugin_get_symbol(EPlugin *ep, const char *name);
-void *e_plugin_invoke(EPlugin *ep, const char *name, void *data);
-void e_plugin_enable(EPlugin *eph, int state);
+gpointer e_plugin_get_symbol(EPlugin *ep, const gchar *name);
+gpointer e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data);
+void e_plugin_enable(EPlugin *eph, gint state);
 
 GtkWidget *e_plugin_get_configure_widget (EPlugin *ep);
 
 /* static helpers */
 /* maps prop or content to 'g memory' */
-char *e_plugin_xml_prop(xmlNodePtr node, const char *id);
-char *e_plugin_xml_prop_domain(xmlNodePtr node, const char *id, const char *domain);
-int e_plugin_xml_int(xmlNodePtr node, const char *id, int def);
-char *e_plugin_xml_content(xmlNodePtr node);
-char *e_plugin_xml_content_domain(xmlNodePtr node, const char *domain);
+gchar *e_plugin_xml_prop(xmlNodePtr node, const gchar *id);
+gchar *e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *domain);
+gint e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def);
+gchar *e_plugin_xml_content(xmlNodePtr node);
+gchar *e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain);
 
 /* ********************************************************************** */
 #include <gmodule.h>
@@ -179,12 +179,12 @@ typedef struct _EPluginLib EPluginLib;
 typedef struct _EPluginLibClass EPluginLibClass;
 
 /* The callback signature used for epluginlib methods */
-typedef void *(*EPluginLibFunc)(EPluginLib *ep, void *data);
+typedef gpointer (*EPluginLibFunc)(EPluginLib *ep, gpointer data);
 /* The setup method, this will be called when the plugin is
  * initialised.  In the future it may also be called when the plugin
  * is disabled. */
-typedef int (*EPluginLibEnableFunc)(EPluginLib *ep, int enable);
-typedef void *(*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
+typedef gint (*EPluginLibEnableFunc)(EPluginLib *ep, gint enable);
+typedef gpointer (*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
 
 /**
  * struct _EPluginLib -
@@ -203,7 +203,7 @@ typedef void *(*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
 struct _EPluginLib {
 	EPlugin plugin;
 
-	char *location;
+	gchar *location;
 	GModule *module;
 };
 
@@ -258,7 +258,7 @@ typedef struct _EPluginHookTargetKey EPluginHookTargetKey;
  * helper functions to simplify plugin hook subclassing.
  **/
 struct _EPluginHookTargetKey {
-	const char *key;
+	const gchar *key;
 	guint32 value;
 };
 
@@ -275,8 +275,8 @@ struct _EPluginHookTargetKey {
  * when reading the XML plugin hook definitions.
  **/
 struct _EPluginHookTargetMap {
-	const char *type;
-	int id;
+	const gchar *type;
+	gint id;
 	const struct _EPluginHookTargetKey *mask_bits;	/* null terminated array */
 };
 
@@ -315,10 +315,10 @@ struct _EPluginHook {
 struct _EPluginHookClass {
 	GObjectClass parent_class;
 
-	const char *id;
+	const gchar *id;
 
-	int (*construct)(EPluginHook *eph, EPlugin *ep, xmlNodePtr root);
-	void (*enable)(EPluginHook *eph, int state);
+	gint (*construct)(EPluginHook *eph, EPlugin *ep, xmlNodePtr root);
+	void (*enable)(EPluginHook *eph, gint state);
 };
 
 GType e_plugin_hook_get_type(void);
@@ -326,11 +326,11 @@ GType e_plugin_hook_get_type(void);
 void e_plugin_hook_register_type(GType type);
 
 EPluginHook * e_plugin_hook_new(EPlugin *ep, xmlNodePtr root);
-void e_plugin_hook_enable(EPluginHook *eph, int state);
+void e_plugin_hook_enable(EPluginHook *eph, gint state);
 
 /* static methods */
-guint32 e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop);
-guint32 e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop);
+guint32 e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
+guint32 e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
 
 /* ********************************************************************** */
 
@@ -365,7 +365,7 @@ typedef struct _EPluginTypeHookClass EPluginTypeHookClass;
 struct _EPluginTypeHook {
 	EPluginHook hook;
 
-	char *get_type;
+	gchar *get_type;
 	guint idle;
 };
 

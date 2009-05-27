@@ -50,7 +50,7 @@
 
 #include <e-util/e-util.h>
 
-static void emp_standard_menu_factory(EMenu *emp, void *data);
+static void emp_standard_menu_factory(EMenu *emp, gpointer data);
 
 static GObjectClass *emp_parent;
 
@@ -114,7 +114,7 @@ em_menu_get_type(void)
 	return type;
 }
 
-EMMenu *em_menu_new(const char *menuid)
+EMMenu *em_menu_new(const gchar *menuid)
 {
 	EMMenu *emp = g_object_new(em_menu_get_type(), NULL);
 
@@ -134,12 +134,12 @@ EMMenu *em_menu_new(const char *menuid)
  * Return value:
  **/
 EMMenuTargetSelect *
-em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
+em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
 {
 	EMMenuTargetSelect *t = e_menu_target_new(&emp->popup, EM_MENU_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
-	int i;
-	const char *tmp;
+	gint i;
+	const gchar *tmp;
 
 	/* NB: This is identical to em-popup-target-new-select function */
 
@@ -243,7 +243,7 @@ em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w)
 }
 
 static void
-emp_standard_menu_factory(EMenu *emp, void *data)
+emp_standard_menu_factory(EMenu *emp, gpointer data)
 {
 	/* noop */
 }
@@ -276,7 +276,7 @@ emp_standard_menu_factory(EMenu *emp, void *data)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EMMenuHook *)eph)
 
 static const EMenuHookTargetMask emph_select_masks[] = {
@@ -323,7 +323,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.bonobomenu:1.0";

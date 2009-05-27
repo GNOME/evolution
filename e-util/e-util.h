@@ -58,7 +58,7 @@ gint		e_action_compare_by_label	(GtkAction *action1,
 void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
 
-char *		e_str_without_underscores	(const char *s);
+gchar *		e_str_without_underscores	(const gchar *s);
 gint		e_str_compare			(gconstpointer x,
 						 gconstpointer y);
 gint		e_str_case_compare		(gconstpointer x,
@@ -113,8 +113,8 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 						 const gchar *format,
 						 gdouble d);
 
-/* Alternating char * and int arguments with a NULL char * to end.
-   Less than 0 for the int means copy the whole string. */
+/* Alternating gchar * and gint arguments with a NULL gchar * to end.
+   Less than 0 for the gint means copy the whole string. */
 gchar *		e_strdup_append_strings		(gchar *first_string,
 						 ...);
 

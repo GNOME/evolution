@@ -40,15 +40,15 @@ struct _ECalModelCalendarPrivate {
 };
 
 static void e_cal_model_calendar_finalize (GObject *object);
-static int ecmc_column_count (ETableModel *etm);
-static void *ecmc_value_at (ETableModel *etm, int col, int row);
-static void ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value);
-static gboolean ecmc_is_cell_editable (ETableModel *etm, int col, int row);
-static void *ecmc_duplicate_value (ETableModel *etm, int col, const void *value);
-static void ecmc_free_value (ETableModel *etm, int col, void *value);
-static void *ecmc_initialize_value (ETableModel *etm, int col);
-static gboolean ecmc_value_is_empty (ETableModel *etm, int col, const void *value);
-static char *ecmc_value_to_string (ETableModel *etm, int col, const void *value);
+static gint ecmc_column_count (ETableModel *etm);
+static gpointer ecmc_value_at (ETableModel *etm, gint col, gint row);
+static void ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
+static gboolean ecmc_is_cell_editable (ETableModel *etm, gint col, gint row);
+static gpointer ecmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
+static void ecmc_free_value (ETableModel *etm, gint col, gpointer value);
+static gpointer ecmc_initialize_value (ETableModel *etm, gint col);
+static gboolean ecmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
+static gchar *ecmc_value_to_string (ETableModel *etm, gint col, gconstpointer value);
 
 static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
@@ -160,19 +160,19 @@ get_dtend (ECalModelCalendar *model, ECalModelComponent *comp_data)
 	return comp_data->dtend;
 }
 
-static void *
+static gpointer
 get_location (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
 	if (prop)
-		return (void *) icalproperty_get_location (prop);
+		return (gpointer) icalproperty_get_location (prop);
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
-static void *
+static gpointer
 get_transparency (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -193,8 +193,8 @@ get_transparency (ECalModelComponent *comp_data)
 	return NULL;
 }
 
-static void *
-ecmc_value_at (ETableModel *etm, int col, int row)
+static gpointer
+ecmc_value_at (ETableModel *etm, gint col, gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
@@ -209,7 +209,7 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return (void *) "";
+		return (gpointer) "";
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -220,16 +220,16 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 		return get_transparency (comp_data);
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static void
-set_dtend (ECalModelComponent *comp_data, const void *value)
+set_dtend (ECalModelComponent *comp_data, gconstpointer value)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 	icalproperty *prop;
 	icalparameter *param;
-	const char *tzid;
+	const gchar *tzid;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
 	if (prop)
@@ -265,9 +265,9 @@ set_dtend (ECalModelComponent *comp_data, const void *value)
 	/* If the TZID is set to "UTC", we don't want to save the TZID. */
 	if (tzid && strcmp (tzid, "UTC")) {
 		if (param) {
-			icalparameter_set_tzid (param, (char *) tzid);
+			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {
-			param = icalparameter_new_tzid ((char *) tzid);
+			param = icalparameter_new_tzid ((gchar *) tzid);
 			icalproperty_add_parameter (prop, param);
 		}
 	} else if (param) {
@@ -276,7 +276,7 @@ set_dtend (ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-set_location (ECalModelComponent *comp_data, const void *value)
+set_location (ECalModelComponent *comp_data, gconstpointer value)
 {
 	icalproperty *prop;
 
@@ -289,16 +289,16 @@ set_location (ECalModelComponent *comp_data, const void *value)
 		}
 	} else {
 		if (prop)
-			icalproperty_set_location (prop, (const char *) value);
+			icalproperty_set_location (prop, (const gchar *) value);
 		else {
-			prop = icalproperty_new_location ((const char *) value);
+			prop = icalproperty_new_location ((const gchar *) value);
 			icalcomponent_add_property (comp_data->icalcomp, prop);
 		}
 	}
 }
 
 static void
-set_transparency (ECalModelComponent *comp_data, const void *value)
+set_transparency (ECalModelComponent *comp_data, gconstpointer value)
 {
 	icalproperty *prop;
 
@@ -335,7 +335,7 @@ set_transparency (ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
+ecmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {
 	ECalModelComponent *comp_data;
 	CalObjModType mod = CALOBJ_MOD_ALL;
@@ -391,7 +391,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
 				/* Ensure we send the master object, not the instance only */
 				icalcomponent *icalcomp = NULL;
-				const char *uid = NULL;
+				const gchar *uid = NULL;
 
 				e_cal_component_get_uid (comp, &uid);
 				if (e_cal_get_object (comp_data->client, uid, NULL, &icalcomp, NULL) && icalcomp) {
@@ -420,7 +420,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 }
 
 static gboolean
-ecmc_is_cell_editable (ETableModel *etm, int col, int row)
+ecmc_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
 
@@ -444,8 +444,8 @@ ecmc_is_cell_editable (ETableModel *etm, int col, int row)
 	return FALSE;
 }
 
-static void *
-ecmc_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+ecmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -473,7 +473,7 @@ ecmc_duplicate_value (ETableModel *etm, int col, const void *value)
 }
 
 static void
-ecmc_free_value (ETableModel *etm, int col, void *value)
+ecmc_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
 
@@ -492,8 +492,8 @@ ecmc_free_value (ETableModel *etm, int col, void *value)
 	}
 }
 
-static void *
-ecmc_initialize_value (ETableModel *etm, int col)
+static gpointer
+ecmc_initialize_value (ETableModel *etm, gint col)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
@@ -512,7 +512,7 @@ ecmc_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-ecmc_value_is_empty (ETableModel *etm, int col, const void *value)
+ecmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, TRUE);
 
@@ -530,8 +530,8 @@ ecmc_value_is_empty (ETableModel *etm, int col, const void *value)
 	return TRUE;
 }
 
-static char *
-ecmc_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+ecmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, g_strdup (""));
 

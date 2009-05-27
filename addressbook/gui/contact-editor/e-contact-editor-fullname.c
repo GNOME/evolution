@@ -99,7 +99,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	char *gladefile;
+	gchar *gladefile;
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
 	gtk_dialog_set_has_separator (GTK_DIALOG (e_contact_editor_fullname),
@@ -189,7 +189,7 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 		}
 		break;
 	case PROP_EDITABLE: {
-		int i;
+		gint i;
 		const gchar *widget_names[] = {
 			"comboentry-title",
 			"comboentry-suffix",
@@ -283,7 +283,7 @@ fill_in_info(EContactEditorFullname *editor)
 	}
 }
 
-static char *
+static gchar *
 extract_field (EContactEditorFullname *editor,
                const gchar *field)
 {

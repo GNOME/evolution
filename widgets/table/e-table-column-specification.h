@@ -38,21 +38,21 @@ G_BEGIN_DECLS
 
 typedef struct {
 	GObject base;
-	int model_col;
-	int compare_col;
-	char *title;
-	char *pixbuf;
+	gint model_col;
+	gint compare_col;
+	gchar *title;
+	gchar *pixbuf;
 
 	double expansion;
-	int minimum_width;
+	gint minimum_width;
 	guint resizable : 1;
 	guint disabled : 1;
 
-	char *cell;
-	char *compare;
-	char *search;
-	char *sortable;
-	int priority;
+	gchar *cell;
+	gchar *compare;
+	gchar *search;
+	gchar *sortable;
+	gint priority;
 } ETableColumnSpecification;
 
 typedef struct {

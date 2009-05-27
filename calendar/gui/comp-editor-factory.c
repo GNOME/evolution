@@ -56,7 +56,7 @@ typedef struct {
 
 	union {
 		struct {
-			char *uid;
+			gchar *uid;
 		} existing;
 
 		struct {
@@ -71,13 +71,13 @@ typedef struct {
 	CompEditorFactory *factory;
 
 	/* Uri of the calendar, used as key in the clients hash table */
-	char *uri;
+	gchar *uri;
 
 	/* Client of the calendar */
 	ECal *client;
 
 	/* Count editors using this client */
-	int editor_count;
+	gint editor_count;
 
 	/* Pending requests; they are pending if the client is still being opened */
 	GSList *pending;
@@ -232,7 +232,7 @@ editor_destroy_cb (GtkObject *object, gpointer data)
 
 /* Starts editing an existing component on a client that is already open */
 static void
-edit_existing (OpenClient *oc, const char *uid)
+edit_existing (OpenClient *oc, const gchar *uid)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
@@ -451,7 +451,7 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
  * open request.
  */
 static OpenClient *
-open_client (CompEditorFactory *factory, ECalSourceType source_type, const char *uristr)
+open_client (CompEditorFactory *factory, ECalSourceType source_type, const gchar *uristr)
 {
 	CompEditorFactoryPrivate *priv;
 	ECal *client;
@@ -495,7 +495,7 @@ open_client (CompEditorFactory *factory, ECalSourceType source_type, const char 
  * NULL on failure; in the latter case it sets the ev exception.
  */
 static OpenClient *
-lookup_open_client (CompEditorFactory *factory, ECalSourceType source_type, const char *str_uri, CORBA_Environment *ev)
+lookup_open_client (CompEditorFactory *factory, ECalSourceType source_type, const gchar *str_uri, CORBA_Environment *ev)
 {
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
@@ -526,7 +526,7 @@ lookup_open_client (CompEditorFactory *factory, ECalSourceType source_type, cons
 
 /* Queues a request for editing an existing object */
 static void
-queue_edit_existing (OpenClient *oc, const char *uid)
+queue_edit_existing (OpenClient *oc, const gchar *uid)
 {
 	Request *request;
 

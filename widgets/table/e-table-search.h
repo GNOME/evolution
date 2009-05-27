@@ -53,7 +53,7 @@ typedef struct {
 	/*
 	 * Signals
 	 */
-	gboolean (*search)    (ETableSearch *ets, char *string /* utf8 */, ETableSearchFlags flags);
+	gboolean (*search)    (ETableSearch *ets, gchar *string /* utf8 */, ETableSearchFlags flags);
 	void     (*accept)    (ETableSearch *ets);
 } ETableSearchClass;
 

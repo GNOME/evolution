@@ -27,8 +27,8 @@
 
 G_BEGIN_DECLS
 
-long e_fsutils_usage(const char *path);
-long e_fsutils_avail(const char *path);
+long e_fsutils_usage(const gchar *path);
+long e_fsutils_avail(const gchar *path);
 
 G_END_DECLS
 

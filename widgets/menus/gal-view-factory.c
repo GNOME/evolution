@@ -38,7 +38,7 @@ d(static gint depth = 0;)
  *
  * Returns: The title of the factory.
  */
-const char *
+const gchar *
 gal_view_factory_get_title (GalViewFactory *factory)
 {
 	g_return_val_if_fail (factory != NULL, NULL);
@@ -59,7 +59,7 @@ gal_view_factory_get_title (GalViewFactory *factory)
  */
 GalView *
 gal_view_factory_new_view        (GalViewFactory *factory,
-				  const char     *name)
+				  const gchar     *name)
 {
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
@@ -76,7 +76,7 @@ gal_view_factory_new_view        (GalViewFactory *factory,
  *
  * Returns: The type code
  */
-const char *
+const gchar *
 gal_view_factory_get_type_code (GalViewFactory *factory)
 {
 	g_return_val_if_fail (factory != NULL, NULL);

@@ -63,7 +63,7 @@ launch_pilot_settings (void)
 {
 	GError* error = NULL;
 
-	gchar* args = g_find_program_in_path ("gpilotd-control-applet");
+	gchar * args = g_find_program_in_path ("gpilotd-control-applet");
 	if (args == NULL) {
 		e_notice (NULL, GTK_MESSAGE_ERROR,
 			_("The GNOME Pilot tools do not appear to be installed on this system."));
@@ -86,7 +86,7 @@ launch_pilot_settings (void)
 static void
 command_import (BonoboUIComponent *uih,
 		EShellWindow *window,
-		const char *path)
+		const gchar *path)
 {
 	e_shell_importer_start_import (window);
 }
@@ -94,7 +94,7 @@ command_import (BonoboUIComponent *uih,
 static void
 command_page_setup (BonoboUIComponent *uih,
 		    EShellWindow *window,
-		    const char *path)
+		    const gchar *path)
 {
 	e_print_run_page_setup_dialog (GTK_WINDOW (window));
 }
@@ -102,7 +102,7 @@ command_page_setup (BonoboUIComponent *uih,
 static void
 command_close (BonoboUIComponent *uih,
 	       EShellWindow *window,
-	       const char *path)
+	       const gchar *path)
 {
 	if (e_shell_request_close_window (e_shell_window_peek_shell (window), window))
 		gtk_widget_destroy (GTK_WIDGET (window));
@@ -111,7 +111,7 @@ command_close (BonoboUIComponent *uih,
 static void
 command_quit (BonoboUIComponent *uih,
 	      EShellWindow *window,
-	      const char *path)
+	      const gchar *path)
 {
 	EShell *shell = e_shell_window_peek_shell (window);
 
@@ -121,7 +121,7 @@ command_quit (BonoboUIComponent *uih,
 static void
 command_submit_bug (BonoboUIComponent *uih,
 		    EShellWindow *window,
-		    const char *path)
+		    const gchar *path)
 {
 	const gchar *command_line;
 	GError *error = NULL;
@@ -150,7 +150,7 @@ command_submit_bug (BonoboUIComponent *uih,
 
   No all environments are utf8 and not all editors can handle it.
 */
-static const char *authors[] = {
+static const gchar *authors[] = {
 	"Aaron Weber",
 	"Abel Cheung",
 	"Abhishek Parwal",
@@ -915,7 +915,7 @@ static const char *authors[] = {
 	NULL
 };
 
-static const char *documentors[] = {
+static const gchar *documentors[] = {
 	"Aaron Weber",
 	"Binika Preet",
 	"Dan Winship",
@@ -929,7 +929,7 @@ static const char *documentors[] = {
 static void
 command_about (BonoboUIComponent *uih,
                EShellWindow *window,
-               const char *path)
+               const gchar *path)
 {
 	gchar *translator_credits;
 
@@ -958,7 +958,7 @@ command_about (BonoboUIComponent *uih,
 static void
 command_open_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
- 		  const char *path)
+ 		  const gchar *path)
 {
 	const gchar *uri;
 
@@ -969,9 +969,9 @@ command_open_faq (BonoboUIComponent *uih,
 static void
 command_quick_reference (BonoboUIComponent *uih,
 			 EShellWindow *window,
-			 const char *path)
+			 const gchar *path)
 {
-	char *quickref;
+	gchar *quickref;
 	const gchar * const *language_names;
 
 	language_names = g_get_language_names ();
@@ -990,7 +990,7 @@ command_quick_reference (BonoboUIComponent *uih,
 
 			if (file) {
 				GError *error = NULL;
-				char *uri = g_file_get_uri (file);
+				gchar *uri = g_file_get_uri (file);
 
 				g_app_info_launch_default_for_uri (uri, NULL, &error);
 
@@ -1015,7 +1015,7 @@ command_quick_reference (BonoboUIComponent *uih,
 static void
 command_work_offline (BonoboUIComponent *uih,
 		      EShellWindow *window,
-		      const char *path)
+		      const gchar *path)
 {
 	EShell *shell;
 
@@ -1026,7 +1026,7 @@ command_work_offline (BonoboUIComponent *uih,
 static void
 command_work_online (BonoboUIComponent *uih,
 		     EShellWindow *window,
-		     const char *path)
+		     const gchar *path)
 {
 	EShell *shell;
 
@@ -1037,7 +1037,7 @@ command_work_online (BonoboUIComponent *uih,
 static void
 command_open_new_window (BonoboUIComponent *uih,
 			 EShellWindow *window,
-			 const char *path)
+			 const gchar *path)
 {
 	e_shell_create_window (e_shell_window_peek_shell (window),
 			       e_shell_window_peek_current_component_id (window),
@@ -1050,15 +1050,15 @@ command_open_new_window (BonoboUIComponent *uih,
 static void
 command_send_receive (BonoboUIComponent *uih,
 		      EShellWindow *window,
-		      const char *path)
+		      const gchar *path)
 {
 	e_shell_send_receive (e_shell_window_peek_shell (window));
 }
 
 static void
 command_forget_passwords (BonoboUIComponent *ui_component,
-			  void *data,
-			  const char *path)
+			  gpointer data,
+			  const gchar *path)
 {
 	if (e_error_run (NULL, "shell:forget-passwords", NULL) == GTK_RESPONSE_OK)
 		e_passwords_forget_passwords();
@@ -1069,7 +1069,7 @@ command_forget_passwords (BonoboUIComponent *ui_component,
 static void
 command_settings (BonoboUIComponent *uih,
 		  EShellWindow *window,
-		  const char *path)
+		  const gchar *path)
 {
 	e_shell_window_show_settings (window);
 }
@@ -1077,7 +1077,7 @@ command_settings (BonoboUIComponent *uih,
 static void
 command_pilot_settings (BonoboUIComponent *uih,
 			EShellWindow *window,
-			const char *path)
+			const gchar *path)
 {
 	launch_pilot_settings ();
 }
@@ -1216,9 +1216,9 @@ shell_line_status_changed_cb (EShell *shell,
 
 static void
 view_buttons_icontext_item_toggled_handler (BonoboUIComponent           *ui_component,
-					    const char                  *path,
+					    const gchar                  *path,
 					    Bonobo_UIComponent_EventType type,
-					    const char                  *state,
+					    const gchar                  *state,
 					    EShellWindow                *shell_window)
 {
 	ESidebar *sidebar;
@@ -1229,9 +1229,9 @@ view_buttons_icontext_item_toggled_handler (BonoboUIComponent           *ui_comp
 
 static void
 view_buttons_icon_item_toggled_handler (BonoboUIComponent           *ui_component,
-					const char                  *path,
+					const gchar                  *path,
 					Bonobo_UIComponent_EventType type,
-					const char                  *state,
+					const gchar                  *state,
 					EShellWindow                *shell_window)
 {
 	ESidebar *sidebar;
@@ -1242,9 +1242,9 @@ view_buttons_icon_item_toggled_handler (BonoboUIComponent           *ui_componen
 
 static void
 view_buttons_text_item_toggled_handler (BonoboUIComponent           *ui_component,
-					const char                  *path,
+					const gchar                  *path,
 					Bonobo_UIComponent_EventType type,
-					const char                  *state,
+					const gchar                  *state,
 					EShellWindow                *shell_window)
 {
 	ESidebar *sidebar;
@@ -1255,9 +1255,9 @@ view_buttons_text_item_toggled_handler (BonoboUIComponent           *ui_componen
 
 static void
 view_buttons_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
-					   const char                  *path,
+					   const gchar                  *path,
 					   Bonobo_UIComponent_EventType type,
-					   const char                  *state,
+					   const gchar                  *state,
 					   EShellWindow                *shell_window)
 {
 	ESidebar *sidebar;
@@ -1268,9 +1268,9 @@ view_buttons_toolbar_item_toggled_handler (BonoboUIComponent           *ui_compo
 
 static void
 view_buttons_hide_item_toggled_handler (BonoboUIComponent           *ui_component,
-					const char                  *path,
+					const gchar                  *path,
 					Bonobo_UIComponent_EventType type,
-					const char                  *state,
+					const gchar                  *state,
 					EShellWindow                *shell_window)
 {
 	ESidebar *sidebar;
@@ -1285,9 +1285,9 @@ view_buttons_hide_item_toggled_handler (BonoboUIComponent           *ui_componen
 
 static void
 view_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
-				   const char                  *path,
+				   const gchar                  *path,
 				   Bonobo_UIComponent_EventType type,
-				   const char                  *state,
+				   const gchar                  *state,
 				   EShellWindow                *shell_window)
 {
 	gboolean is_visible;
@@ -1300,9 +1300,9 @@ view_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 
 static void
 view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
-				     const char                  *path,
+				     const gchar                  *path,
 				     Bonobo_UIComponent_EventType type,
-				     const char                  *state,
+				     const gchar                  *state,
 				     EShellWindow                *shell_window)
 {
 	GtkWidget *status_bar = e_shell_window_peek_statusbar (shell_window);
@@ -1321,9 +1321,9 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 
 static void
 view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
-				     const char                  *path,
+				     const gchar                  *path,
 				     Bonobo_UIComponent_EventType type,
-				     const char                  *state,
+				     const gchar                  *state,
 				     EShellWindow                *shell_window)
 {
 	GtkWidget *side_bar = GTK_WIDGET(e_shell_window_peek_sidebar (shell_window));

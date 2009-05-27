@@ -34,8 +34,8 @@
    The 'done' function returns if we can free folder info. */
 void
 mail_note_store (CamelStore *store, CamelOperation *op,
-		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
-		 void *data);
+		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, gpointer data),
+		 gpointer data);
 
 /* de-note a store */
 void mail_note_store_remove (CamelStore *store);
@@ -48,7 +48,7 @@ void mail_note_folder (CamelFolder *folder);
 
 /* Returns true if a folder is available (yet), and also sets *folderp (if supplied)
    to a (referenced) copy of the folder if it has already been opened */
-int mail_note_get_folder_from_uri (const char *uri, CamelFolder **folderp);
-gboolean mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags);
+gint mail_note_get_folder_from_uri (const gchar *uri, CamelFolder **folderp);
+gboolean mail_folder_cache_get_folder_info_flags (CamelFolder *folder, gint *flags);
 
 #endif

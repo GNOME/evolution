@@ -44,7 +44,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 {
 	EMsgComposer *composer;
 	CamelAddress *sender_address;
-	const char *sender_id, *recipient_id;
+	const gchar *sender_id, *recipient_id;
 	struct _camel_header_address *addr;
 	struct _camel_header_address *sender_addr;
 
@@ -86,7 +86,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 			e_msg_composer_remove_header (composer, "Sensitivity");
 
 		sender_address = (CamelAddress *) e_msg_composer_get_from (composer);
-		sender_id = (const char*) camel_address_encode (sender_address);
+		sender_id = (const gchar *) camel_address_encode (sender_address);
 
 		addr = camel_header_address_decode (dialog->options->delegate_address, NULL);
 		sender_addr = camel_header_address_decode (sender_id, NULL);
@@ -122,7 +122,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		if (dialog->options->delivery_enabled) {
 			EComposerHeaderTable *table;
 			EAccount *account;
-			char *mdn_address;
+			gchar *mdn_address;
 
 			table = e_msg_composer_get_header_table (composer);
 			account = e_composer_header_table_get_account (table);
@@ -137,7 +137,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		if (dialog->options->read_enabled) {
 			EComposerHeaderTable *table;
 			EAccount *account;
-			char *mdn_address;
+			gchar *mdn_address;
 
 			table = e_msg_composer_get_header_table (composer);
 			account = e_composer_header_table_get_account (table);
@@ -171,7 +171,7 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 	EMsgComposer *composer = target->composer;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
-	char *temp = NULL;
+	gchar *temp = NULL;
 
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);

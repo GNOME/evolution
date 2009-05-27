@@ -91,10 +91,10 @@ paint (EComboButton *combo_button,
 	GtkButton *button = GTK_BUTTON (combo_button);
 	GtkShadowType shadow_type;
 	gboolean interior_focus;
-	int separator_x;
-	int focus_width, focus_pad;
-	int x, y, width, height;
-	int border_width;
+	gint separator_x;
+	gint focus_width, focus_pad;
+	gint x, y, width, height;
+	gint border_width;
 
 	if (GTK_BUTTON (widget)->depressed || priv->menu_popped_up) {
 		shadow_type = GTK_SHADOW_IN;
@@ -194,7 +194,7 @@ menu_detacher (GtkWidget *widget,
 
 static void
 menu_deactivate_callback (GtkMenuShell *menu_shell,
-			  void *data)
+			  gpointer data)
 {
 	EComboButton *combo_button;
 	EComboButtonPrivate *priv;
@@ -215,7 +215,7 @@ menu_position_func (GtkMenu *menu,
 		    gint *x_return,
 		    gint *y_return,
 		    gboolean *push_in,
-		    void *data)
+		    gpointer data)
 {
 	EComboButton *combo_button;
 	GtkAllocation *allocation;
@@ -374,7 +374,7 @@ impl_released (GtkButton *button)
 	   the menu hasn't been popped up.  */
 
 	if (button->button_down) {
-		int new_state;
+		gint new_state;
 
 		button->button_down = FALSE;
 
@@ -561,7 +561,7 @@ e_combo_button_set_icon (EComboButton *combo_button,
 
 void
 e_combo_button_set_label (EComboButton *combo_button,
-			  const char *label)
+			  const gchar *label)
 {
 	EComboButtonPrivate *priv;
 

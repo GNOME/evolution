@@ -52,7 +52,7 @@ enum E_ITIP_BONOBO_ARGS {
  * BonoboObject.
  */
 
-static char *
+static gchar *
 stream_read (Bonobo_Stream stream)
 {
 	Bonobo_Stream_iobuf *buffer;
@@ -97,7 +97,7 @@ stream_read (Bonobo_Stream stream)
  */
 typedef struct {
 	EItipControl *itip;
-	char *text;
+	gchar *text;
 } idle_data;
 
 static gboolean
@@ -115,7 +115,7 @@ set_data_idle_cb (gpointer data)
 
 static void
 pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
-	      Bonobo_Persist_ContentType type, void *data,
+	      Bonobo_Persist_ContentType type, gpointer data,
 	      CORBA_Environment *ev)
 {
 	EItipControl *itip = data;
@@ -143,7 +143,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
  */
 static void
 pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
-	      Bonobo_Persist_ContentType type, void *data,
+	      Bonobo_Persist_ContentType type, gpointer data,
 	      CORBA_Environment *ev)
 {
 	EItipControl *itip = data;
@@ -164,7 +164,7 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 } /* pstream_save */
 
 /* static CORBA_long */
-/* pstream_get_max_size (BonoboPersistStream *ps, void *data, */
+/* pstream_get_max_size (BonoboPersistStream *ps, gpointer data, */
 /* 		      CORBA_Environment *ev) */
 /* { */
 /* 	EItipControl *itip = data; */
@@ -179,7 +179,7 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 /* } */
 
 static Bonobo_Persist_ContentTypeList *
-pstream_get_content_types (BonoboPersistStream *ps, void *closure,
+pstream_get_content_types (BonoboPersistStream *ps, gpointer closure,
 			   CORBA_Environment *ev)
 {
 	return bonobo_persist_generate_content_types (2, "text/calendar", "text/x-calendar");

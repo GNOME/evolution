@@ -84,9 +84,9 @@ struct _EABMenuClass {
 
 GType eab_menu_get_type(void);
 
-EABMenu *eab_menu_new(const char *menuid);
+EABMenu *eab_menu_new(const gchar *menuid);
 
-EABMenuTargetSelect *eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, int readonly, GPtrArray *cards);
+EABMenuTargetSelect *eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, gint readonly, GPtrArray *cards);
 
 /* ********************************************************************** */
 

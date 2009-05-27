@@ -41,10 +41,10 @@
  * class, you simply create a new object of the ETableSimple class.  You
  * give it a bunch of functions that act as callbacks.
  *
- * You also get to pass a void * to ETableSimple and it gets passed to
+ * You also get to pass a gpointer  to ETableSimple and it gets passed to
  * your callbacks.  This would be for having multiple models of the same
  * type.  This is just an example though, so we statically define all the
- * data and ignore the void *data parameter.
+ * data and ignore the gpointer data parameter.
  *
  * In our example we will be creating a table model with 6 columns and 10
  * rows.  This corresponds to having 6 different types of information and
@@ -99,7 +99,7 @@
 	<grouping> <leaf column=\"1\" ascending=\"true\"/> </grouping>    \
 </ETableSpecification>"
 
-char *headers [COLS] = {
+gchar *headers [COLS] = {
   "Email",
   "Full Name",
   "Address",
@@ -114,7 +114,7 @@ char *headers [COLS] = {
  * 3   Phone
  */
 
-char *table_data [ROWS] [COLS];
+gchar *table_data [ROWS] [COLS];
 
 /*
  * ETableSimple callbacks
@@ -128,28 +128,28 @@ char *table_data [ROWS] [COLS];
 
 /* This function returns the number of columns in our ETableModel. */
 static int
-my_col_count (ETableModel *etc, void *data)
+my_col_count (ETableModel *etc, gpointer data)
 {
 	return COLS;
 }
 
 /* This function returns the number of rows in our ETableModel. */
 static int
-my_row_count (ETableModel *etc, void *data)
+my_row_count (ETableModel *etc, gpointer data)
 {
 	return ROWS;
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
-static void *
-my_value_at (ETableModel *etc, int col, int row, void *data)
+static gpointer
+my_value_at (ETableModel *etc, gint col, gint row, gpointer data)
 {
-	return (void *) table_data [row] [col];
+	return (gpointer) table_data [row] [col];
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
+my_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val, gpointer data)
 {
 	g_free (table_data [row] [col]);
 	table_data [row] [col] = g_strdup (val);
@@ -157,42 +157,42 @@ my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
-my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
+my_is_cell_editable (ETableModel *etc, gint col, gint row, gpointer data)
 {
 	return TRUE;
 }
 
 /* This function duplicates the value passed to it. */
-static void *
-my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+static gpointer
+my_duplicate_value (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	return g_strdup (value);
 }
 
 /* This function frees the value passed to it. */
 static void
-my_free_value (ETableModel *etc, int col, void *value, void *data)
+my_free_value (ETableModel *etc, gint col, gpointer value, gpointer data)
 {
 	g_free (value);
 }
 
 /* This function creates an empty value. */
-static void *
-my_initialize_value (ETableModel *etc, int col, void *data)
+static gpointer
+my_initialize_value (ETableModel *etc, gint col, gpointer data)
 {
 	return g_strdup ("");
 }
 
 /* This function reports if a value is empty. */
 static gboolean
-my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+my_value_is_empty (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
-	return !(value && *(char *)value);
+	return !(value && *(gchar *)value);
 }
 
 /* This function reports if a value is empty. */
-static char *
-my_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+static gchar *
+my_value_to_string (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	return g_strdup(value);
 }
@@ -204,7 +204,7 @@ create_table (void)
 	GtkWidget *e_table, *window, *frame;
 	ECell *cell_left_just;
 	ETableHeader *e_table_header;
-	int i, j;
+	gint i, j;
 	ETableModel *e_table_model = NULL;
 
 	/* First we fill in the simple data. */
@@ -287,8 +287,8 @@ create_table (void)
 
 /* This is the main function which just initializes gnome and call our create_table function */
 
-int
-main (int argc, char *argv [])
+gint
+main (gint argc, gchar *argv [])
 {
 	gnome_init ("TableExample", "TableExample", argc, argv);
 	e_cursors_init ();

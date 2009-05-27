@@ -37,15 +37,15 @@
 /* TODO: rmeove this file, it could just go on em-folder-selection or em-utils */
 
 struct _select_folder_data {
-	void (*done) (const char *uri, void *data);
-	void *data;
+	void (*done) (const gchar *uri, gpointer data);
+	gpointer data;
 };
 
 static void
-emfs_selector_response(EMFolderSelector *emfs, int response, struct _select_folder_data *d)
+emfs_selector_response(EMFolderSelector *emfs, gint response, struct _select_folder_data *d)
 {
 	if (response == GTK_RESPONSE_OK) {
-		const char *uri = em_folder_selector_get_selected_uri(emfs);
+		const gchar *uri = em_folder_selector_get_selected_uri(emfs);
 
 		d->done(uri, d->data);
 	}
@@ -54,9 +54,9 @@ emfs_selector_response(EMFolderSelector *emfs, int response, struct _select_fold
 }
 
 void
-em_select_folder (GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
+em_select_folder (GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
 		  EMFTExcludeFunc exclude,
-		  void (*done) (const char *uri, void *user_data), void *user_data)
+		  void (*done) (const gchar *uri, gpointer user_data), gpointer user_data)
 {
 	struct _select_folder_data *d;
 	EMFolderTreeModel *model;

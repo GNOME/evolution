@@ -39,7 +39,7 @@ typedef struct _FilterInputClass FilterInputClass;
 struct _FilterInput {
 	FilterElement parent_object;
 
-	char *type;		/* name of type */
+	gchar *type;		/* name of type */
 	GList *values;		/* strings */
 };
 
@@ -54,9 +54,9 @@ struct _FilterInputClass {
 GType filter_input_get_type (void);
 FilterInput *filter_input_new (void);
 
-FilterInput *filter_input_new_type_name (const char *type);
+FilterInput *filter_input_new_type_name (const gchar *type);
 
 /* methods */
-void filter_input_set_value (FilterInput *fi, const char *value);
+void filter_input_set_value (FilterInput *fi, const gchar *value);
 
 #endif /* ! _FILTER_INPUT_H */

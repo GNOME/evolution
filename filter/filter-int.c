@@ -32,11 +32,11 @@
 
 #define d(x)
 
-static int int_eq (FilterElement *fe, FilterElement *cm);
+static gint int_eq (FilterElement *fe, FilterElement *cm);
 static FilterElement *int_clone(FilterElement *fe);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *fe, GString *out);
@@ -125,7 +125,7 @@ filter_int_new (void)
 }
 
 FilterInt *
-filter_int_new_type (const char *type, int min, int max)
+filter_int_new_type (const gchar *type, gint min, gint max)
 {
 	FilterInt *fi;
 
@@ -139,7 +139,7 @@ filter_int_new_type (const char *type, int min, int max)
 }
 
 void
-filter_int_set_value (FilterInt *fi, int val)
+filter_int_set_value (FilterInt *fi, gint val)
 {
 	fi->val = val;
 }
@@ -176,19 +176,19 @@ xml_encode (FilterElement *fe)
 {
 	xmlNodePtr value;
 	FilterInt *fs = (FilterInt *)fe;
-	char intval[32];
-	const char *type;
+	gchar intval[32];
+	const gchar *type;
 
 	type = fs->type?fs->type:"integer";
 
 	d(printf("Encoding %s as xml\n", type));
 
-	value = xmlNewNode (NULL, (const unsigned char *)"value");
-	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
+	value = xmlNewNode (NULL, (const guchar *)"value");
+	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *)"type", (guchar *)type);
 
 	sprintf(intval, "%d", fs->val);
-	xmlSetProp (value, (unsigned char *)type, (unsigned char *)intval);
+	xmlSetProp (value, (guchar *)type, (guchar *)intval);
 
 	return value;
 }
@@ -197,23 +197,23 @@ static int
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterInt *fs = (FilterInt *)fe;
-	char *name, *type;
-	char *intval;
+	gchar *name, *type;
+	gchar *intval;
 
 	d(printf("Decoding integer from xml %p\n", fe));
 
-	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	name = (gchar *)xmlGetProp (node, (const guchar *)"name");
 	d(printf ("Name = %s\n", name));
 	xmlFree (fe->name);
 	fe->name = name;
 
-	type = (char *)xmlGetProp(node, (const unsigned char *)"type");
+	type = (gchar *)xmlGetProp(node, (const guchar *)"type");
 	d(printf ("Type = %s\n", type));
 	g_free(fs->type);
 	fs->type = g_strdup(type);
 	xmlFree(type);
 
-	intval = (char *)xmlGetProp (node, (unsigned char *)(fs->type ? fs->type : "integer"));
+	intval = (gchar *)xmlGetProp (node, (guchar *)(fs->type ? fs->type : "integer"));
 	if (intval) {
 		d(printf ("Value = %s\n", intval));
 		fs->val = atoi (intval);

@@ -42,9 +42,9 @@ static void em_filter_context_class_init(EMFilterContextClass *klass);
 static void em_filter_context_init(EMFilterContext *fc);
 static void em_filter_context_finalise(GObject *obj);
 
-static GList *filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
-static GList *filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp);
-static FilterElement *filter_new_element(RuleContext *rc, const char *name);
+static GList *filter_rename_uri(RuleContext *rc, const gchar *olduri, const gchar *newuri, GCompareFunc cmp);
+static GList *filter_delete_uri(RuleContext *rc, const gchar *uri, GCompareFunc cmp);
+static FilterElement *filter_new_element(RuleContext *rc, const gchar *name);
 
 static RuleContextClass *parent_class = NULL;
 
@@ -133,14 +133,14 @@ em_filter_context_add_action(EMFilterContext *fc, FilterPart *action)
 }
 
 FilterPart *
-em_filter_context_find_action(EMFilterContext *fc, const char *name)
+em_filter_context_find_action(EMFilterContext *fc, const gchar *name)
 {
 	d(printf("find action : "));
 	return filter_part_find_list(fc->actions, name);
 }
 
 FilterPart *
-em_filter_context_create_action(EMFilterContext *fc, const char *name)
+em_filter_context_create_action(EMFilterContext *fc, const gchar *name)
 {
 	FilterPart *part;
 
@@ -158,13 +158,13 @@ em_filter_context_next_action(EMFilterContext *fc, FilterPart *last)
 
 /* We search for any folders in our actions list that need updating, update them */
 static GList *
-filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp)
+filter_rename_uri(RuleContext *rc, const gchar *olduri, const gchar *newuri, GCompareFunc cmp)
 {
 	FilterRule *rule;
 	GList *l, *el;
 	FilterPart *action;
 	FilterElement *element;
-	int count = 0;
+	gint count = 0;
 	GList *changed = NULL;
 
 	d(printf("uri '%s' renamed to '%s'\n", olduri, newuri));
@@ -173,7 +173,7 @@ filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GComp
 	/* Yes we could do this inside each part itself, but not today */
 	rule = NULL;
 	while ((rule = rule_context_next_rule(rc, rule, NULL))) {
-		int rulecount = 0;
+		gint rulecount = 0;
 
 		d(printf("checking rule '%s'\n", rule->name));
 
@@ -218,7 +218,7 @@ filter_rename_uri(RuleContext *rc, const char *olduri, const char *newuri, GComp
 }
 
 static GList *
-filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
+filter_delete_uri(RuleContext *rc, const gchar *uri, GCompareFunc cmp)
 {
 	/* We basically do similar to above, but when we find it,
 	   Remove the action, and if thats the last action, this might create an empty rule?  remove the rule? */
@@ -227,7 +227,7 @@ filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
 	GList *l, *el;
 	FilterPart *action;
 	FilterElement *element;
-	int count = 0;
+	gint count = 0;
 	GList *deleted = NULL;
 
 	d(printf("uri '%s' deleted\n", uri));
@@ -236,7 +236,7 @@ filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
 	/* Yes we could do this inside each part itself, but not today */
 	rule = NULL;
 	while ((rule = rule_context_next_rule(rc, rule, NULL))) {
-		int recorded = 0;
+		gint recorded = 0;
 
 		d(printf("checking rule '%s'\n", rule->name));
 
@@ -282,7 +282,7 @@ filter_delete_uri(RuleContext *rc, const char *uri, GCompareFunc cmp)
 }
 
 static FilterElement *
-filter_new_element(RuleContext *rc, const char *type)
+filter_new_element(RuleContext *rc, const gchar *type)
 {
 	if (!strcmp(type, "folder")) {
 		return (FilterElement *) em_filter_folder_element_new();

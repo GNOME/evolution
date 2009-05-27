@@ -31,13 +31,13 @@
 typedef struct {
 	EConfigListener *cl;
 	guint lid;
-	char *key;
+	gchar *key;
 	GConfValueType type;
 	union {
 		gboolean v_bool;
 		float v_float;
 		long v_long;
-		char *v_str;
+		gchar *v_str;
 	} value;
 	gboolean used_default;
 } KeyData;
@@ -215,7 +215,7 @@ property_change_cb (GConfEngine *engine,
 }
 
 static KeyData *
-add_key (EConfigListener *cl, const char *key, GConfValueType type,
+add_key (EConfigListener *cl, const gchar *key, GConfValueType type,
 	 gpointer value, gboolean used_default)
 {
 	KeyData *kd;
@@ -236,7 +236,7 @@ add_key (EConfigListener *cl, const char *key, GConfValueType type,
 		memcpy (&kd->value.v_long, value, sizeof (long));
 		break;
 	case GCONF_VALUE_STRING :
-		kd->value.v_str = g_strdup ((const char *) value);
+		kd->value.v_str = g_strdup ((const gchar *) value);
 		break;
 	default :
 		break;
@@ -256,14 +256,14 @@ add_key (EConfigListener *cl, const char *key, GConfValueType type,
 }
 
 gboolean
-e_config_listener_get_boolean (EConfigListener *cl, const char *key)
+e_config_listener_get_boolean (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_boolean_with_default (cl, key, FALSE, NULL);
 }
 
 gboolean
 e_config_listener_get_boolean_with_default (EConfigListener *cl,
-					    const char *key,
+					    const gchar *key,
 					    gboolean def,
 					    gboolean *used_default)
 {
@@ -306,14 +306,14 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 }
 
 float
-e_config_listener_get_float (EConfigListener *cl, const char *key)
+e_config_listener_get_float (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_float_with_default (cl, key, 0.0, NULL);
 }
 
 float
 e_config_listener_get_float_with_default (EConfigListener *cl,
-					  const char *key,
+					  const gchar *key,
 					  float def,
 					  gboolean *used_default)
 {
@@ -356,14 +356,14 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 }
 
 long
-e_config_listener_get_long (EConfigListener *cl, const char *key)
+e_config_listener_get_long (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_long_with_default (cl, key, 0, NULL);
 }
 
 long
 e_config_listener_get_long_with_default (EConfigListener *cl,
-					 const char *key,
+					 const gchar *key,
 					 long def,
 					 gboolean *used_default)
 {
@@ -405,20 +405,20 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 	return value;
 }
 
-char *
-e_config_listener_get_string (EConfigListener *cl, const char *key)
+gchar *
+e_config_listener_get_string (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_string_with_default (cl, key, NULL, NULL);
 }
 
-char *
+gchar *
 e_config_listener_get_string_with_default (EConfigListener *cl,
-					   const char *key,
-					   const char *def,
+					   const gchar *key,
+					   const gchar *def,
 					   gboolean *used_default)
 {
 	GConfValue *conf_value;
-	char *str;
+	gchar *str;
 	KeyData *kd;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), NULL);
@@ -456,7 +456,7 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 }
 
 void
-e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean value)
+e_config_listener_set_boolean (EConfigListener *cl, const gchar *key, gboolean value)
 {
 	KeyData *kd;
 	GError *err = NULL;
@@ -481,7 +481,7 @@ e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean va
 }
 
 void
-e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
+e_config_listener_set_float (EConfigListener *cl, const gchar *key, float value)
 {
 	KeyData *kd;
 	GError *err = NULL;
@@ -506,7 +506,7 @@ e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 }
 
 void
-e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
+e_config_listener_set_long (EConfigListener *cl, const gchar *key, long value)
 {
 	KeyData *kd;
 	GError *err = NULL;
@@ -531,9 +531,9 @@ e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 }
 
 void
-e_config_listener_set_string (EConfigListener *cl, const char *key, const char *value)
+e_config_listener_set_string (EConfigListener *cl, const gchar *key, const gchar *value)
 {
-	char *s1, *s2;
+	gchar *s1, *s2;
 	KeyData *kd;
 	GError *err = NULL;
 
@@ -541,7 +541,7 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 	g_return_if_fail (key != NULL);
 
 	/* check that the value is not the same */
-	s1 = (char *) value;
+	s1 = (gchar *) value;
 	s2 = e_config_listener_get_string_with_default (cl, key, NULL, NULL);
 	if (!strcmp (s1 ? s1 : "", s2 ? s2 : "")) {
 		g_free (s2);
@@ -565,7 +565,7 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 }
 
 void
-e_config_listener_remove_value (EConfigListener *cl, const char *key)
+e_config_listener_remove_value (EConfigListener *cl, const gchar *key)
 {
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -575,7 +575,7 @@ e_config_listener_remove_value (EConfigListener *cl, const char *key)
 }
 
 void
-e_config_listener_remove_dir (EConfigListener *cl, const char *dir)
+e_config_listener_remove_dir (EConfigListener *cl, const gchar *dir)
 {
 	GSList *slist, *iter;
 	const gchar *key;

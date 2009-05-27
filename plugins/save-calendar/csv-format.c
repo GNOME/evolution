@@ -47,7 +47,7 @@ struct _CsvConfig {
 	gboolean header;
 };
 
-static gboolean string_needsquotes (const char *value, CsvConfig *config);
+static gboolean string_needsquotes (const gchar *value, CsvConfig *config);
 
 typedef struct _CsvPluginData CsvPluginData;
 struct _CsvPluginData
@@ -93,7 +93,7 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 		GString *tmp = NULL;
 		gint cnt=0;
 		while (list) {
-			const char *str = NULL;
+			const gchar *str = NULL;
 			if (cnt == 0)
 				tmp = g_string_new ("");
 			if (cnt > 0)
@@ -113,7 +113,7 @@ add_list_to_csv (GString *line, GSList *list_in, CsvConfig *config, gint type)
 			if (!needquotes)
 				needquotes = string_needsquotes (str, config);
 			if (str)
-				tmp = g_string_append (tmp, (const gchar*)str);
+				tmp = g_string_append (tmp, (const gchar *)str);
 			list = g_slist_next (list); cnt++;
 			if (list)
 				tmp = g_string_append (tmp, config->delimiter);
@@ -154,7 +154,7 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 	if (time) {
 		gboolean needquotes = FALSE;
 		struct tm mytm =  icaltimetype_to_tm (time);
-		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
+		gchar *str = (gchar *) g_malloc (sizeof (gchar) * 200);
 
 		/*
 		 * Translator: the %F %T is the thirth argument for a strftime function.
@@ -182,7 +182,7 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 }
 
 static gboolean
-string_needsquotes (const char *value, CsvConfig *config)
+string_needsquotes (const gchar *value, CsvConfig *config)
 {
 
 	/* This is the actual need for quotes-checker */
@@ -243,7 +243,7 @@ string_needsquotes (const char *value, CsvConfig *config)
 }
 
 static GString *
-add_string_to_csv (GString *line, const char *value, CsvConfig *config)
+add_string_to_csv (GString *line, const gchar *value, CsvConfig *config)
 {
 	/* Will add a string to the record and will check for the need for quotes */
 
@@ -252,7 +252,7 @@ add_string_to_csv (GString *line, const char *value, CsvConfig *config)
 
 		if (needquotes)
 			line = g_string_append (line, config->quote);
-		line = g_string_append (line, (const gchar*)value);
+		line = g_string_append (line, (const gchar *)value);
 		if (needquotes)
 			line = g_string_append (line, config->quote);
 	}
@@ -303,7 +303,7 @@ userstring_to_systemstring (const gchar *userstring)
 }
 
 static void
-do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
+do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri)
 {
 
 	/*
@@ -393,11 +393,11 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 		while (objects != NULL) {
 			ECalComponent *comp = objects->data;
 			gchar *delimiter_temp = NULL;
-			const char *temp_constchar;
+			const gchar *temp_constchar;
 			GSList *temp_list;
 			ECalComponentDateTime temp_dt;
 			struct icaltimetype *temp_time;
-			int *temp_int;
+			gint *temp_int;
 			ECalComponentText temp_comptext;
 
 			line = g_string_new ("");

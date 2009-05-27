@@ -48,7 +48,7 @@ enum {
 };
 
 typedef struct {
-	char         *title;
+	gchar         *title;
 
 	GtkTreeView *treeview;
 	GtkTreeModel *model;
@@ -80,7 +80,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 /* Button callbacks */
 
 static void
-gdvd_button_new_dialog_callback (GtkWidget *widget, int id, GalDefineViewsDialog *dialog)
+gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialog *dialog)
 {
 	gchar *name;
 	GtkTreeIter iter;
@@ -146,7 +146,7 @@ gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 static void
 gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
-	int row;
+	gint row;
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	GtkTreeSelection *selection;
@@ -182,7 +182,7 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 static void
 gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
-	int row;
+	gint row;
 	GtkWidget *scrolled;
 	ETable *etable;
 
@@ -219,7 +219,7 @@ gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_connect_signal(GalDefineViewsDialog *dialog, const char *widget_name, const char *signal, GCallback handler)
+gdvd_connect_signal(GalDefineViewsDialog *dialog, const gchar *widget_name, const gchar *signal, GCallback handler)
 {
 	GtkWidget *widget;
 
@@ -230,7 +230,7 @@ gdvd_connect_signal(GalDefineViewsDialog *dialog, const char *widget_name, const
 }
 
 static void
-dialog_response (GalDefineViewsDialog *dialog, int response_id, gpointer data)
+dialog_response (GalDefineViewsDialog *dialog, gint response_id, gpointer data)
 {
 	gal_view_collection_save (dialog->collection);
 }
@@ -303,7 +303,7 @@ static void
 gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 				       GalViewCollection *collection)
 {
-	int i;
+	gint i;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	dialog->collection = collection;
@@ -318,7 +318,7 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 		/*if (item->built_in == 1)
 			continue;*/
 
-		char *title = NULL;
+		gchar *title = NULL;
 		title = e_str_without_underscores (item->title);
 
 		gtk_list_store_append (store, &iter);
@@ -353,7 +353,7 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 		GtkWidget *widget = glade_xml_get_widget(dialog->gui, "label-views");
 		if (widget && GTK_IS_LABEL (widget)) {
 			if (collection->title) {
-				char *text = g_strdup_printf (_("Define Views for %s"),
+				gchar *text = g_strdup_printf (_("Define Views for %s"),
 							      collection->title);
 				gtk_label_set_text (GTK_LABEL (widget),
 						    text);

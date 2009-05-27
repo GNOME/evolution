@@ -46,7 +46,7 @@
 
 typedef struct CALSearchBarItem {
 	 ESearchBarItem search;
-	 const char *image;
+	 const gchar *image;
 } CALSearchBarItem;
 
 static ESearchBarItem calendar_search_items[] = {
@@ -192,7 +192,7 @@ cal_search_bar_init (CalSearchBar *cal_search)
 static void
 free_categories (GPtrArray *categories)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < categories->len; i++) {
 		if (categories->pdata[i] == NULL)
@@ -245,14 +245,14 @@ cal_search_bar_destroy (GtkObject *object)
 
 /* Emits the "sexp_changed" signal for the calendar search bar */
 static void
-notify_sexp_changed (CalSearchBar *cal_search, const char *sexp)
+notify_sexp_changed (CalSearchBar *cal_search, const gchar *sexp)
 {
 	g_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[SEXP_CHANGED], 0, sexp);
 }
 
 /* Returns the string of the currently selected category, NULL for "Unmatched" and "All
 */
-static const char *
+static const gchar *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
@@ -282,16 +282,16 @@ get_current_category (CalSearchBar *cal_search)
 
 
 /* Returns a sexp for the selected category in the drop-down menu.  The "All"
- * option is returned as (const char *) 1, and the "Unfiled" option is returned
+ * option is returned as (const gchar *) 1, and the "Unfiled" option is returned
  * as NULL.
  */
-static char *
+static gchar *
 get_show_option_sexp (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv ;
 	gint viewid ;
-	char *start, *end, *due, *ret = NULL;
-	const char *category = NULL ;
+	gchar *start, *end, *due, *ret = NULL;
+	const gchar *category = NULL ;
 	time_t start_range, end_range;
 
 	priv = cal_search->priv;
@@ -405,10 +405,10 @@ get_show_option_sexp (CalSearchBar *cal_search)
 
 /* Sets the query string to be (contains? "field" "text") */
 static void
-notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const char *view)
+notify_e_cal_view_contains (CalSearchBar *cal_search, const gchar *field, const gchar *view)
 {
-	char *text = NULL;
-	char *sexp;
+	gchar *text = NULL;
+	gchar *sexp;
 
 	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
 
@@ -437,7 +437,7 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const c
 static void
 notify_category_is (CalSearchBar *cal_search)
 {
-	char *sexp;
+	gchar *sexp;
 
 	sexp = get_show_option_sexp (cal_search);
 
@@ -455,9 +455,9 @@ notify_category_is (CalSearchBar *cal_search)
 static void
 regen_query (CalSearchBar *cal_search)
 {
-	int id;
-	char *show_option_sexp = NULL;
-	char *sexp = NULL;
+	gint id;
+	gchar *show_option_sexp = NULL;
+	gchar *sexp = NULL;
 	GString *out = NULL;
 	EFilterBar *efb = (EFilterBar *) cal_search;
 
@@ -518,7 +518,7 @@ regen_query (CalSearchBar *cal_search)
 static void
 regen_view_query (CalSearchBar *cal_search)
 {
-        const char *category;
+        const gchar *category;
 	notify_category_is (cal_search);
 
 	category = cal_search_bar_get_category (cal_search);
@@ -546,7 +546,7 @@ generate_viewoption_menu (CALSearchBarItem *subitems)
 
 	for (i = 0; subitems[i].search.id != -1; ++i) {
 		if (subitems[i].search.text) {
-			char *str = NULL;
+			gchar *str = NULL;
 			str = e_str_without_underscores (subitems[i].search.text);
 			menu_item = gtk_image_menu_item_new_with_label (str);
                         if (subitems[i].image) {
@@ -588,12 +588,12 @@ setup_category_options (CalSearchBar *cal_search, CALSearchBarItem *subitems, gi
 		subitems[index].image = NULL;
 
 		for (i = 0; i < priv->categories->len; i++) {
-			const char *category;
+			const gchar *category;
 
 			category = priv->categories->pdata[i] ? priv->categories->pdata [i] : "";
 
 			/* The search.text field should not be free'd */
-			subitems[i + offset].search.text = (char *) category;
+			subitems[i + offset].search.text = (gchar *) category;
 			subitems[i + offset].search.id = i + offset;
 			subitems[i + offset].image = e_categories_get_icon_file_for (category);
 		}
@@ -719,7 +719,7 @@ make_suboptions (CalSearchBar *cal_search)
 }
 
 static void
-search_menu_activated (ESearchBar *esb, int id)
+search_menu_activated (ESearchBar *esb, gint id)
 {
 	if (id == E_FILTERBAR_ADVANCED_ID)
 		e_search_bar_set_item_id (esb, id);
@@ -739,9 +739,9 @@ cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags)
 {
 	ESearchBarItem *items;
 	guint32 bit = 0x1;
-	int i, j;
-	char *xmlfile = NULL;
-	char *userfile = NULL;
+	gint i, j;
+	gchar *xmlfile = NULL;
+	gchar *userfile = NULL;
 	FilterPart *part;
 	RuleContext *search_context;
 	FilterRule  *search_rule;
@@ -831,12 +831,12 @@ cal_search_bar_new (guint32 flags)
 
 /* Used from qsort() */
 static int
-compare_categories_cb (const void *a, const void *b)
+compare_categories_cb (gconstpointer a, gconstpointer b)
 {
-	const char **ca, **cb;
+	const gchar **ca, **cb;
 
-	ca = (const char **) a;
-	cb = (const char **) b;
+	ca = (const gchar **) a;
+	cb = (const gchar **) b;
 
 	/* FIXME: should use some utf8 strcoll() thingy */
 	return strcmp (*ca, *cb);
@@ -849,7 +849,7 @@ static GPtrArray *
 sort_categories (GPtrArray *categories)
 {
 	GPtrArray *c;
-	int i;
+	gint i;
 
 	c = g_ptr_array_new ();
 	g_ptr_array_set_size (c, categories->len);
@@ -899,10 +899,10 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
  * Return value: Name of the selected category, or NULL if there is no
  * selected category.
  **/
-const char *
+const gchar *
 cal_search_bar_get_category (CalSearchBar *cal_search)
 {
-	const char *category;
+	const gchar *category;
 
 	category = get_current_category (cal_search);
 

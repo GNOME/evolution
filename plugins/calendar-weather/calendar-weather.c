@@ -43,20 +43,20 @@ GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData 
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data);
-int        e_plugin_lib_enable (EPluginLib *epl, int enable);
+gint        e_plugin_lib_enable (EPluginLib *epl, gint enable);
 
 #define WEATHER_BASE_URI "weather://"
 
-int
-e_plugin_lib_enable (EPluginLib *epl, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *epl, gint enable)
 {
 	GList *l;
 	gboolean found = FALSE;
-	const char *tmp;
+	const gchar *tmp;
 
 	static struct {
-		const char *description;
-		const char *icon_name;
+		const gchar *description;
+		const gchar *icon_name;
 	} categories[] = {
 		{ N_("Weather: Fog"), 		"weather-fog" },
 		{ N_("Weather: Cloudy"), 	"weather-few-clouds" },
@@ -74,17 +74,17 @@ e_plugin_lib_enable (EPluginLib *epl, int enable)
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
-		if (!strcmp ((const char *)l->data, tmp)) {
+		if (!strcmp ((const gchar *)l->data, tmp)) {
 			found = TRUE;
 			break;
 		}
 	}
 
 	if (!found) {
-		int i;
+		gint i;
 
 		for (i = 0; categories[i].description; i++) {
-			char *filename;
+			gchar *filename;
 
 			filename = e_icon_factory_get_icon_filename (categories[i].icon_name, GTK_ICON_SIZE_MENU);
 			e_categories_add (_(categories[i].description), NULL, filename, FALSE);
@@ -330,7 +330,7 @@ location_clicked (GtkButton *button, ESource *source)
 
 		label = GTK_WIDGET (gtk_bin_get_child (GTK_BIN (button)));
 		text = gtk_label_get_text (GTK_LABEL (label));
-		if (strcmp ((const char *)text, _("None")) == 0)
+		if (strcmp ((const gchar *)text, _("None")) == 0)
 			e_source_set_relative_uri (source, "");
 	}
 
@@ -342,11 +342,11 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *button, *parent, *text;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
-	char *uri_text;
+	gchar *uri_text;
 	static GtkWidget *hidden;
 
 	if (store == NULL)
@@ -360,7 +360,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
-	if (strcmp ((const char *)uri->protocol, "weather")) {
+	if (strcmp ((const gchar *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}
@@ -399,9 +399,9 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 static void
 set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
-	int time;
-	int item_num = 0;
-	const char *refresh_str = e_source_get_property (source, "refresh");
+	gint time;
+	gint item_num = 0;
+	const gchar *refresh_str = e_source_get_property (source, "refresh");
 	time = refresh_str ? atoi (refresh_str) : 30;
 
 	if (time && !(time % 10080)) {
@@ -421,10 +421,10 @@ set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
-static char *
+static gchar *
 get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
-	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
+	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
@@ -451,7 +451,7 @@ get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 static void
 spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *combobox;
 
 	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
@@ -464,7 +464,7 @@ spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
 static void
 combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *spin;
 
 	spin = g_object_get_data (G_OBJECT (combobox), "spin");
@@ -479,11 +479,11 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *spin, *combobox, *hbox, *parent;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
-	char *uri_text;
+	gchar *uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -495,7 +495,7 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 	g_free (uri_text);
-	if (strcmp ((const char *)uri->protocol, "weather")) {
+	if (strcmp ((const gchar *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}
@@ -540,13 +540,13 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 static void
 set_units (ESource *source, GtkWidget *combobox)
 {
-	const char *format = e_source_get_property (source, "units");
+	const gchar *format = e_source_get_property (source, "units");
 	if (format == NULL) {
 		format = e_source_get_property (source, "temperature");
 		if (format == NULL) {
 			e_source_set_property (source, "units", "metric");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
-		} else if (strcmp ((const char *)format, "fahrenheit") == 0) {
+		} else if (strcmp ((const gchar *)format, "fahrenheit") == 0) {
 			/* old format, convert */
 			e_source_set_property (source, "units", "imperial");
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 1);
@@ -555,7 +555,7 @@ set_units (ESource *source, GtkWidget *combobox)
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		}
 	} else {
-		if (strcmp ((const char *)format, "metric") == 0)
+		if (strcmp ((const gchar *)format, "metric") == 0)
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		else
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 1);
@@ -565,7 +565,7 @@ set_units (ESource *source, GtkWidget *combobox)
 static void
 units_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 {
-	int choice = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
+	gint choice = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
 	if (choice == 0)
 		e_source_set_property (t->source, "units", "metric");
 	else
@@ -577,11 +577,11 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *combobox, *parent;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
-	char *uri_text;
+	gchar *uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -593,7 +593,7 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 	uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
 	g_free (uri_text);
-	if (strcmp ((const char *)uri->protocol, "weather")) {
+	if (strcmp ((const gchar *)uri->protocol, "weather")) {
 		e_uri_free (uri);
 		return hidden;
 	}

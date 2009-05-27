@@ -32,28 +32,28 @@
 /* localedir uses system codepage as it is passed to the non-UTF8ified
  * gettext library
  */
-static const char *localedir = NULL;
+static const gchar *localedir = NULL;
 
 /* The others are in UTF-8 */
-static const char *category_icons;
-static const char *datadir;
-static const char *ecpsdir;
-static const char *etspecdir;
-static const char *galviewsdir;
-static const char *gladedir;
-static const char *helpdir;
-static const char *iconsdir;
-static const char *imagesdir;
-static const char *libdir;
-static const char *libexecdir;
-static const char *plugindir;
-static const char *prefix;
-static const char *privdatadir;
-static const char *search_rule_dir;
-static const char *sounddir;
-static const char *sysconfdir;
-static const char *toolsdir;
-static const char *uidir;
+static const gchar *category_icons;
+static const gchar *datadir;
+static const gchar *ecpsdir;
+static const gchar *etspecdir;
+static const gchar *galviewsdir;
+static const gchar *gladedir;
+static const gchar *helpdir;
+static const gchar *iconsdir;
+static const gchar *imagesdir;
+static const gchar *libdir;
+static const gchar *libexecdir;
+static const gchar *plugindir;
+static const gchar *prefix;
+static const gchar *privdatadir;
+static const gchar *search_rule_dir;
+static const gchar *sounddir;
+static const gchar *sysconfdir;
+static const gchar *toolsdir;
+static const gchar *uidir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -77,9 +77,9 @@ DllMain (HINSTANCE hinstDLL,
         return TRUE;
 }
 
-static char *
-replace_prefix (const char *runtime_prefix,
-                const char *configure_time_path)
+static gchar *
+replace_prefix (const gchar *runtime_prefix,
+                const gchar *configure_time_path)
 {
         if (runtime_prefix &&
             strncmp (configure_time_path, EVOLUTION_PREFIX "/",
@@ -94,8 +94,8 @@ replace_prefix (const char *runtime_prefix,
 static void
 setup (void)
 {
-	char *full_prefix;
-	char *cp_prefix;
+	gchar *full_prefix;
+	gchar *cp_prefix;
 
         G_LOCK (mutex);
         if (localedir != NULL) {
@@ -150,7 +150,7 @@ setup (void)
 #include "e-util-private.h"	/* For prototypes */
 
 #define GETTER(varbl)				\
-const char *					\
+const gchar *					\
 _e_get_##varbl (void)				\
 {						\
         setup ();				\

@@ -35,13 +35,13 @@ gint		em_folder_utils_copy_folders	(CamelStore *fromstore,
 						 const gchar *frombase,
 						 CamelStore *tostore,
 						 const gchar *tobase,
-						 int delete);
+						 gint delete);
 
 /* FIXME These API's are really busted.  There is no consistency and
  *       most rely on the wrong data. */
 
 void		em_folder_utils_copy_folder	(CamelFolderInfo *folderinfo,
-						 int delete);
+						 gint delete);
 
 void		em_folder_utils_delete_folder	(CamelFolder *folder);
 void		em_folder_utils_rename_folder	(CamelFolder *folder);

@@ -112,7 +112,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 /* The icons to represent the task. */
 #define E_MEMO_MODEL_NUM_ICONS	2
-static const char* icon_names[E_MEMO_MODEL_NUM_ICONS] = {
+static const gchar * icon_names[E_MEMO_MODEL_NUM_ICONS] = {
 	"stock_notes", "stock_insert-note"
 };
 static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
@@ -371,12 +371,12 @@ e_memo_table_open_selected (EMemoTable *memo_table)
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
- * int pointed to by the closure data.
+ * gint pointed to by the closure data.
  */
 static void
-get_selected_row_cb (int model_row, gpointer data)
+get_selected_row_cb (gint model_row, gpointer data)
 {
-	int *row;
+	gint *row;
 
 	row = data;
 	*row = model_row;
@@ -390,7 +390,7 @@ static ECalModelComponent *
 get_selected_comp (EMemoTable *memo_table)
 {
 	ETable *etable;
-	int row;
+	gint row;
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
 	if (e_table_selected_count (etable) != 1)
@@ -412,7 +412,7 @@ struct get_selected_uids_closure {
 
 /* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
 static void
-add_uid_cb (int model_row, gpointer data)
+add_uid_cb (gint model_row, gpointer data)
 {
 	struct get_selected_uids_closure *closure;
 	ECalModelComponent *comp_data;
@@ -489,7 +489,7 @@ void
 e_memo_table_delete_selected (EMemoTable *memo_table)
 {
 	ETable *etable;
-	int n_selected;
+	gint n_selected;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp = NULL;
 
@@ -540,7 +540,7 @@ e_memo_table_cut_clipboard (EMemoTable *memo_table)
 
 /* callback for e_table_selected_row_foreach */
 static void
-copy_row_cb (int model_row, gpointer data)
+copy_row_cb (gint model_row, gpointer data)
 {
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -600,7 +600,7 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 {
 	ETable *etable;
 	GtkClipboard *clipboard;
-	char *comp_str;
+	gchar *comp_str;
 
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
@@ -629,7 +629,7 @@ static void
 clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 {
 	icalcomponent *icalcomp;
-	char *uid;
+	gchar *uid;
 	ECalComponent *comp;
 	ECal *client;
 	icalcomponent_kind kind;
@@ -687,7 +687,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomp);
 		uid = e_cal_component_gen_uid ();
-		e_cal_component_set_uid (comp, (const char *) uid);
+		e_cal_component_set_uid (comp, (const gchar *) uid);
 		free (uid);
 
 		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
@@ -755,7 +755,7 @@ static void
 open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 {
 	CompEditor *medit;
-	const char *uid;
+	const gchar *uid;
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 
@@ -786,7 +786,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 
 /* Opens the task in the specified row */
 static void
-open_memo_by_row (EMemoTable *memo_table, int row)
+open_memo_by_row (EMemoTable *memo_table, gint row)
 {
 	ECalModelComponent *comp_data;
 
@@ -806,7 +806,7 @@ e_memo_table_on_double_click (ETable *table,
 
 
 static void
-e_memo_table_on_open_memo (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_open_memo (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ECalModelComponent *comp_data;
@@ -817,12 +817,12 @@ e_memo_table_on_open_memo (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ECalModelComponent *comp_data;
-	char *filename;
-	char *ical_string;
+	gchar *filename;
+	gchar *ical_string;
 
 	comp_data = get_selected_comp (memo_table);
 	if (comp_data == NULL)
@@ -843,7 +843,7 @@ e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_print_memo (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_print_memo (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ECalModelComponent *comp_data;
@@ -861,7 +861,7 @@ e_memo_table_on_print_memo (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_cut (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_cut (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 
@@ -869,7 +869,7 @@ e_memo_table_on_cut (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_copy (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_copy (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 
@@ -877,7 +877,7 @@ e_memo_table_on_copy (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_paste (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_paste (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 
@@ -885,7 +885,7 @@ e_memo_table_on_paste (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-e_memo_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
+e_memo_table_on_forward (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ECalModelComponent *comp_data;
@@ -904,7 +904,7 @@ e_memo_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 
 /* Opens the URL of the memo */
 static void
-open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
+open_url_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 	ECalModelComponent *comp_data;
@@ -924,7 +924,7 @@ open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
 
 /* Callback for the "delete tasks" menu item */
 static void
-delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
+delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
 
@@ -954,7 +954,7 @@ static EPopupItem memos_popup_items [] = {
 };
 
 static void
-emt_popup_free(EPopup *ep, GSList *items, void *data)
+emt_popup_free(EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free(items);
 }
@@ -969,7 +969,7 @@ e_memo_table_show_popup_menu (ETable *table,
 	GPtrArray *events;
 	ECalPopup *ep;
 	ECalPopupTargetSelect *t;
-	int i;
+	gint i;
 
 	selection = get_selected_objects (memo_table);
 	if (!selection)
@@ -1100,7 +1100,7 @@ e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 #ifdef TRANSLATORS_ONLY
 
-static char *test[] = {
+static gchar *test[] = {
     N_("Click to add a memo")
 };
 
@@ -1128,7 +1128,7 @@ e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
 			memo_table->activity_id = 0;
 		}
         } else if (memo_table->activity_id == 0) {
-                char *client_id = g_strdup_printf ("%p", (gpointer) memo_table);
+                gchar *client_id = g_strdup_printf ("%p", (gpointer) memo_table);
 
                 memo_table->activity_id = e_activity_handler_operation_started (
 			memo_table->activity_handler, client_id, message, TRUE);

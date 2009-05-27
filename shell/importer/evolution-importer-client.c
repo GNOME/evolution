@@ -92,7 +92,7 @@ evolution_importer_client_new (const CORBA_Object objref)
  * Returns: A newly created EvolutionImporterClient.
  */
 EvolutionImporterClient *
-evolution_importer_client_new_from_id (const char *id)
+evolution_importer_client_new_from_id (const gchar *id)
 {
 	CORBA_Environment ev;
 	CORBA_Object objref;
@@ -100,7 +100,7 @@ evolution_importer_client_new_from_id (const char *id)
 	g_return_val_if_fail (id != NULL, NULL);
 
 	CORBA_exception_init (&ev);
-	objref = bonobo_activation_activate_from_id ((char *) id, 0, NULL, &ev);
+	objref = bonobo_activation_activate_from_id ((gchar *) id, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		g_warning ("Could not start %s.", id);
@@ -154,7 +154,7 @@ evolution_importer_client_create_control (EvolutionImporterClient *client)
  */
 gboolean
 evolution_importer_client_support_format (EvolutionImporterClient *client,
-					  const char *filename)
+					  const gchar *filename)
 {
 	GNOME_Evolution_Importer corba_importer;
 	gboolean result;
@@ -185,7 +185,7 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
  * Returns: TRUE on sucess, FALSE on failure.
  */
 gboolean
-evolution_importer_client_load_file (EvolutionImporterClient *client, const char *filename)
+evolution_importer_client_load_file (EvolutionImporterClient *client, const gchar *filename)
 {
 	GNOME_Evolution_Importer corba_importer;
 	gboolean result;
@@ -248,7 +248,7 @@ evolution_importer_client_process_item (EvolutionImporterClient *client,
  * Returns: The error as a string. If there is no error NULL is returned.
  * Importers need not support this method and if so, NULL is also returned.
  */
-const char *
+const gchar *
 evolution_importer_client_get_error (EvolutionImporterClient *client)
 {
 	GNOME_Evolution_Importer corba_importer;

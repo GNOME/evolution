@@ -37,10 +37,10 @@ G_BEGIN_DECLS
 #define E_TREE_SIMPLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
 
 
-typedef GdkPixbuf* (*ETreeSimpleIconAtFn)     (ETreeModel *etree, ETreePath *path, void *model_data);
-typedef void*      (*ETreeSimpleValueAtFn)    (ETreeModel *etree, ETreePath *path, int col, void *model_data);
-typedef void       (*ETreeSimpleSetValueAtFn) (ETreeModel *etree, ETreePath *path, int col, const void *val, void *model_data);
-typedef gboolean   (*ETreeSimpleIsEditableFn) (ETreeModel *etree, ETreePath *path, int col, void *model_data);
+typedef GdkPixbuf* (*ETreeSimpleIconAtFn)     (ETreeModel *etree, ETreePath *path, gpointer model_data);
+typedef gpointer       (*ETreeSimpleValueAtFn)    (ETreeModel *etree, ETreePath *path, gint col, gpointer model_data);
+typedef void       (*ETreeSimpleSetValueAtFn) (ETreeModel *etree, ETreePath *path, gint col, gconstpointer val, gpointer model_data);
+typedef gboolean   (*ETreeSimpleIsEditableFn) (ETreeModel *etree, ETreePath *path, gint col, gpointer model_data);
 
 typedef struct {
 	ETreeModel parent;

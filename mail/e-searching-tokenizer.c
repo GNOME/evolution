@@ -45,10 +45,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0, };
 
-static void     e_searching_tokenizer_begin      (HTMLTokenizer *, const char *);
+static void     e_searching_tokenizer_begin      (HTMLTokenizer *, const gchar *);
 static void     e_searching_tokenizer_end        (HTMLTokenizer *);
-static char    *e_searching_tokenizer_peek_token (HTMLTokenizer *);
-static char    *e_searching_tokenizer_next_token (HTMLTokenizer *);
+static gchar    *e_searching_tokenizer_peek_token (HTMLTokenizer *);
+static gchar    *e_searching_tokenizer_next_token (HTMLTokenizer *);
 static gboolean e_searching_tokenizer_has_more   (HTMLTokenizer *);
 
 static HTMLTokenizer *e_searching_tokenizer_clone (HTMLTokenizer *);
@@ -114,10 +114,10 @@ shared_state_unref (SharedState *shared)
 
 /* This is faster and safer than glib2's utf8 abomination, but isn't exported from camel as yet */
 static inline guint32
-camel_utf8_getc(const unsigned char **ptr)
+camel_utf8_getc(const guchar **ptr)
 {
-	register unsigned char *p = (unsigned char *)*ptr;
-	register unsigned char c, r;
+	register guchar *p = (guchar *)*ptr;
+	register guchar c, r;
 	register guint32 v, m;
 
 again:
@@ -158,11 +158,11 @@ static const gchar *ignored_tags[] = {
 	"B", "I", "FONT", "TT", "EM", /* and more? */};
 
 static int
-ignore_tag (const char *tag)
+ignore_tag (const gchar *tag)
 {
-	char *t = alloca(strlen(tag)+1), c, *out;
-	const char *in;
-	int i;
+	gchar *t = alloca(strlen(tag)+1), c, *out;
+	const gchar *in;
+	gint i;
 
 	/* we could use a aho-corasick matcher here too ... but we wont */
 
@@ -206,7 +206,7 @@ struct _match {
 /* tree state node */
 struct _state {
 	struct _match *matches;
-	unsigned int final;		/* max no of chars we just matched */
+	guint final;		/* max no of chars we just matched */
 	struct _state *fail;		/* where to try next if we fail */
 	struct _state *next;		/* next on this level? */
 };
@@ -214,7 +214,7 @@ struct _state {
 /* base tree structure */
 struct _trie {
 	struct _state root;
-	int max_depth;
+	gint max_depth;
 
 	EMemChunk *state_chunks;
 	EMemChunk *match_chunks;
@@ -223,9 +223,9 @@ struct _trie {
 /* will be enabled only if debug is enabled */
 #if d(1) -1 != -1
 static void
-dump_trie(struct _state *s, int d)
+dump_trie(struct _state *s, gint d)
 {
-	char *p = alloca(d*2+1);
+	gchar *p = alloca(d*2+1);
 	struct _match *m;
 
 	memset(p, ' ', d*2);
@@ -259,15 +259,15 @@ g(struct _state *q, guint32 c)
 }
 
 static struct _trie *
-build_trie(int nocase, int len, unsigned char **words)
+build_trie(gint nocase, gint len, guchar **words)
 {
 	struct _state *q, *qt, *r;
-	const unsigned char *word;
+	const guchar *word;
 	struct _match *m, *n = NULL;
-	int i, depth;
+	gint i, depth;
 	guint32 c;
 	struct _trie *trie;
-	int state_depth_max, state_depth_size;
+	gint state_depth_max, state_depth_size;
 	struct _state **state_depth;
 
 	trie = g_malloc(sizeof(*trie));
@@ -385,14 +385,14 @@ free_trie(struct _trie *t)
 struct _token {
 	struct _token *next;
 	struct _token *prev;
-	unsigned int offset;
+	guint offset;
 	/* we need to copy the token for memory management, so why not copy it whole */
-	char tok[1];
+	gchar tok[1];
 };
 
 /* stack of submatches currently being scanned, used for merging */
 struct _submatch {
-	unsigned int offstart, offend; /* in bytes */
+	guint offstart, offend; /* in bytes */
 };
 
 /* flags for new func */
@@ -402,17 +402,17 @@ struct _submatch {
 struct _searcher {
 	struct _trie *t;
 
-	char *(*next_token)();	/* callbacks for more tokens */
-	void *next_data;
+	gchar *(*next_token)();	/* callbacks for more tokens */
+	gpointer next_data;
 
-	int words;		/* how many words */
-	char *tags, *tage;	/* the tag we used to highlight */
+	gint words;		/* how many words */
+	gchar *tags, *tage;	/* the tag we used to highlight */
 
-	int flags;		/* case sensitive or not */
+	gint flags;		/* case sensitive or not */
 
 	struct _state *state;	/* state is the current trie state */
 
-	int matchcount;
+	gint matchcount;
 
 	EDList input;		/* pending 'input' tokens, processed but might match */
 	EDList output;		/* output tokens ready for source */
@@ -422,25 +422,25 @@ struct _searcher {
 	guint32 offset;		/* current offset through searchable stream? */
 	guint32 offout;		/* last output position */
 
-	unsigned int lastp;	/* current position in rotating last buffer */
+	guint lastp;	/* current position in rotating last buffer */
 	guint32 *last;		/* buffer that goes back last 'n' positions */
 	guint32 last_mask;	/* bitmask for efficient rotation calculation */
 
-	unsigned int submatchp;	/* submatch stack */
+	guint submatchp;	/* submatch stack */
 	struct _submatch *submatches;
 };
 
 static void
-searcher_set_tokenfunc(struct _searcher *s, char *(*next)(), void *data)
+searcher_set_tokenfunc(struct _searcher *s, gchar *(*next)(), gpointer data)
 {
 	s->next_token = next;
 	s->next_data = data;
 }
 
 static struct _searcher *
-searcher_new (int flags, int argc, unsigned char **argv, const char *tags, const char *tage)
+searcher_new (gint flags, gint argc, guchar **argv, const gchar *tags, const gchar *tage)
 {
-	int i, m;
+	gint i, m;
 	struct _searcher *s;
 
 	s = g_malloc(sizeof(*s));
@@ -493,7 +493,7 @@ searcher_free(struct _searcher *s)
 	g_free(s);
 }
 static struct _token *
-append_token(EDList *list, const char *tok, int len)
+append_token(EDList *list, const gchar *tok, gint len)
 {
 	struct _token *token;
 
@@ -513,8 +513,8 @@ append_token(EDList *list, const char *tok, int len)
 static void
 output_token(struct _searcher *s, struct _token *token)
 {
-	int offend;
-	int left, pre;
+	gint offend;
+	gint left, pre;
 
 	if (token->tok[0] == TAG_ESCAPE) {
 		if (token->offset >= s->offout) {
@@ -542,7 +542,7 @@ output_token(struct _searcher *s, struct _token *token)
 }
 
 static struct _token *
-find_token(struct _searcher *s, int start)
+find_token(struct _searcher *s, gint start)
 {
 	register struct _token *token;
 
@@ -558,11 +558,11 @@ find_token(struct _searcher *s, int start)
 }
 
 static void
-output_match(struct _searcher *s, unsigned int start, unsigned int end)
+output_match(struct _searcher *s, guint start, guint end)
 {
 	register struct _token *token;
 	struct _token *starttoken, *endtoken;
-	char b[8];
+	gchar b[8];
 
 	d(printf("output match: %d-%d  at %d\n", start, end, s->offout));
 
@@ -630,7 +630,7 @@ output_match(struct _searcher *s, unsigned int start, unsigned int end)
 static void
 output_subpending(struct _searcher *s)
 {
-	int i;
+	gint i;
 
 	for (i=s->submatchp-1;i>=0;i--)
 		output_match(s, s->submatches[i].offstart, s->submatches[i].offend);
@@ -639,9 +639,9 @@ output_subpending(struct _searcher *s)
 
 /* returns true if a merge took place */
 static int
-merge_subpending(struct _searcher *s, int offstart, int offend)
+merge_subpending(struct _searcher *s, gint offstart, gint offend)
 {
-	int i;
+	gint i;
 
 	/* merges overlapping or abutting match strings */
 	if (s->submatchp &&
@@ -664,7 +664,7 @@ merge_subpending(struct _searcher *s, int offstart, int offend)
 }
 
 static void
-push_subpending(struct _searcher *s, int offstart, int offend)
+push_subpending(struct _searcher *s, gint offstart, gint offend)
 {
 	/* This is really an assertion, we just ignore the last pending match instead of crashing though */
 	if (s->submatchp >= s->words) {
@@ -691,11 +691,11 @@ output_pending(struct _searcher *s)
 static void
 flush_extra(struct _searcher *s)
 {
-	unsigned int start;
-	int i;
+	guint start;
+	gint i;
 	struct _token *starttoken, *token;
 
-	/* find earliest char that can be in contention */
+	/* find earliest gchar that can be in contention */
 	start = s->offset - s->t->max_depth;
 	for (i=0;i<s->submatchp;i++)
 		if (s->submatches[i].offstart < start)
@@ -712,20 +712,20 @@ flush_extra(struct _searcher *s)
 	}
 }
 
-static char *
+static gchar *
 searcher_next_token(struct _searcher *s)
 {
 	struct _token *token;
-	const unsigned char *tok, *stok, *pre_tok;
+	const guchar *tok, *stok, *pre_tok;
 	struct _trie *t = s->t;
 	struct _state *q = s->state;
 	struct _match *m = NULL;
-	int offstart, offend;
+	gint offstart, offend;
 	guint32 c;
 
 	while (e_dlist_empty(&s->output)) {
 		/* get next token */
-		tok = (unsigned char *)s->next_token(s->next_data);
+		tok = (guchar *)s->next_token(s->next_data);
 		if (tok == NULL) {
 			output_subpending(s);
 			output_pending(s);
@@ -733,15 +733,15 @@ searcher_next_token(struct _searcher *s)
 		}
 
 		/* we dont always have to copy each token, e.g. if we dont match anything */
-		token = append_token(&s->input, (char *)tok, -1);
+		token = append_token(&s->input, (gchar *)tok, -1);
 		token->offset = s->offset;
-		tok = (unsigned char *)token->tok;
+		tok = (guchar *)token->tok;
 
 		d(printf("new token %d '%s'\n", token->offset, token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 
 		/* tag test, reset state on unknown tags */
 		if (tok[0] == TAG_ESCAPE) {
-			if (!ignore_tag ((char *)tok)) {
+			if (!ignore_tag ((gchar *)tok)) {
 				/* force reset */
 				output_subpending(s);
 				output_pending(s);
@@ -772,7 +772,7 @@ searcher_next_token(struct _searcher *s)
 				if (q->final) {
 					s->matchcount++;
 
-					/* use the last buffer to find the real offset of this char */
+					/* use the last buffer to find the real offset of this gchar */
 					offstart = s->last[(s->lastp - q->final)&s->last_mask];
 					offend = s->offset + (tok - stok);
 
@@ -815,10 +815,10 @@ searcher_next_token(struct _searcher *s)
 	return token ? g_strdup (token->tok) : NULL;
 }
 
-static char *
+static gchar *
 searcher_peek_token(struct _searcher *s)
 {
-	char *tok;
+	gchar *tok;
 
 	/* we just get it and then put it back, it's fast enuf */
 	tok = searcher_next_token(s);
@@ -841,9 +841,9 @@ searcher_pending(struct _searcher *s)
 
 struct _search_info {
 	GPtrArray *strv;
-	char *colour;
-	unsigned int size:8;
-	unsigned int flags:8;
+	gchar *colour;
+	guint size:8;
+	guint flags:8;
 };
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -860,26 +860,26 @@ search_info_new(void)
 }
 
 static void
-search_info_set_flags(struct _search_info *si, unsigned int flags, unsigned int mask)
+search_info_set_flags(struct _search_info *si, guint flags, guint mask)
 {
 	si->flags = (si->flags & ~mask) | (flags & mask);
 }
 
 static void
-search_info_set_colour(struct _search_info *si, const char *colour)
+search_info_set_colour(struct _search_info *si, const gchar *colour)
 {
 	g_free(si->colour);
 	si->colour = g_strdup(colour);
 }
 
 static void
-search_info_add_string(struct _search_info *si, const char *s)
+search_info_add_string(struct _search_info *si, const gchar *s)
 {
-	const unsigned char *start;
+	const guchar *start;
 	guint32 c;
 
 	if (s && s[0]) {
-		const unsigned char *us = (unsigned char *) s;
+		const guchar *us = (guchar *) s;
 		/* strip leading whitespace */
 		start = us;
 		while ((c = camel_utf8_getc (&us))) {
@@ -890,14 +890,14 @@ search_info_add_string(struct _search_info *si, const char *s)
 		}
 		/* should probably also strip trailing, but i'm lazy today */
 		if (start[0])
-			g_ptr_array_add(si->strv, g_strdup ((char *)start));
+			g_ptr_array_add(si->strv, g_strdup ((gchar *)start));
 	}
 }
 
 static void
 search_info_clear(struct _search_info *si)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<si->strv->len;i++)
 		g_free(si->strv->pdata[i]);
@@ -908,7 +908,7 @@ search_info_clear(struct _search_info *si)
 static void
 search_info_free(struct _search_info *si)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<si->strv->len;i++)
 		g_free(si->strv->pdata[i]);
@@ -922,7 +922,7 @@ static struct _search_info *
 search_info_clone(struct _search_info *si)
 {
 	struct _search_info *out;
-	int i;
+	gint i;
 
 	out = search_info_new();
 	for (i=0;i<si->strv->len;i++)
@@ -937,7 +937,7 @@ search_info_clone(struct _search_info *si)
 static struct _searcher *
 search_info_to_searcher(struct _search_info *si)
 {
-	char *tags, *tage;
+	gchar *tags, *tage;
 	const gchar *col;
 
 	if (si->strv->len == 0)
@@ -953,7 +953,7 @@ search_info_to_searcher(struct _search_info *si)
 	tage = alloca(20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
-	return searcher_new (si->flags, si->strv->len, (unsigned char **)si->strv->pdata, tags, tage);
+	return searcher_new (si->flags, si->strv->len, (guchar **)si->strv->pdata, tags, tage);
 }
 
 /* ********************************************************************** */
@@ -1063,7 +1063,7 @@ e_searching_tokenizer_new (void)
 
 /* blah blah the htmltokeniser doesn't like being asked
    for a token if it doens't hvae any! */
-static char *get_token(HTMLTokenizer *t)
+static gchar *get_token(HTMLTokenizer *t)
 {
 	HTMLTokenizerClass *klass = HTML_TOKENIZER_CLASS (parent_class);
 
@@ -1071,7 +1071,7 @@ static char *get_token(HTMLTokenizer *t)
 }
 
 static void
-e_searching_tokenizer_begin (HTMLTokenizer *t, const char *content_type)
+e_searching_tokenizer_begin (HTMLTokenizer *t, const gchar *content_type)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
@@ -1113,7 +1113,7 @@ e_searching_tokenizer_end (HTMLTokenizer *t)
 	HTML_TOKENIZER_CLASS (parent_class)->end (t);
 }
 
-static char *
+static gchar *
 e_searching_tokenizer_peek_token (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
@@ -1125,12 +1125,12 @@ e_searching_tokenizer_peek_token (HTMLTokenizer *tok)
 	return searcher_peek_token(st->priv->engine);
 }
 
-static char *
+static gchar *
 e_searching_tokenizer_next_token (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
-	int oldmatched;
-	char *token;
+	gint oldmatched;
+	gchar *token;
 
 	/* If no search is active, just use the default method. */
 	if (st->priv->engine == NULL)

@@ -31,7 +31,7 @@ void     e_color_init       (void);
 
 /* Return the pixel value for the given red, green and blue */
 gulong   e_color_alloc      (gushort red, gushort green, gushort blue);
-void     e_color_alloc_name (GtkWidget *widget, const char *name, GdkColor *color);
+void     e_color_alloc_name (GtkWidget *widget, const gchar *name, GdkColor *color);
 void     e_color_alloc_gdk  (GtkWidget *widget, GdkColor *color);
 
 extern GdkColor e_white, e_dark_gray, e_black;

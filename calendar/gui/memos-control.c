@@ -136,7 +136,7 @@ memos_control_activate_cb		(BonoboControl		*control,
  * selected memos.
  */
 void
-memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, int n_selected)
+memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, gint n_selected)
 {
 	BonoboUIComponent *uic;
 	gboolean read_only = TRUE, preview_active;
@@ -177,7 +177,7 @@ memos_control_sensitize_commands (BonoboControl *control, EMemos *memos, int n_s
 
 /* Callback used when the selection in the table changes */
 static void
-selection_changed_cb (EMemos *memos, int n_selected, gpointer data)
+selection_changed_cb (EMemos *memos, gint n_selected, gpointer data)
 {
 	BonoboControl *control;
 
@@ -231,10 +231,10 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 {
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
-	int n_selected;
+	gint n_selected;
 	EMemoTable *cal_table;
 	ETable *etable;
-	char *xmlfile;
+	gchar *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
@@ -318,7 +318,7 @@ memos_control_new_memo_cmd		(BonoboUIComponent	*uic,
 static void
 memos_control_cut_cmd                   (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	EMemos *memos;
 	EMemoTable *cal_table;
@@ -331,7 +331,7 @@ memos_control_cut_cmd                   (BonoboUIComponent      *uic,
 static void
 memos_control_copy_cmd                  (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	EMemos *memos;
 	EMemoTable *cal_table;
@@ -352,7 +352,7 @@ memos_control_copy_cmd                  (BonoboUIComponent      *uic,
 static void
 memos_control_paste_cmd                 (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	EMemos *memos;
 	EMemoTable *cal_table;
@@ -377,7 +377,7 @@ memos_control_delete_cmd		(BonoboUIComponent	*uic,
 static void
 memos_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
-			 const char *path)
+			 const gchar *path)
 {
 	EMemos *memos = E_MEMOS (data);
 	ETable *table;
@@ -393,7 +393,7 @@ memos_control_print_cmd (BonoboUIComponent *uic,
 static void
 memos_control_print_preview_cmd (BonoboUIComponent *uic,
 				 gpointer data,
-				 const char *path)
+				 const gchar *path)
 {
 	EMemos *memos = E_MEMOS (data);
 	ETable *table;

@@ -50,17 +50,17 @@ struct _ECalComponentPreviewPrivate {
 G_DEFINE_TYPE (ECalComponentPreview, e_cal_component_preview, GTK_TYPE_TABLE)
 
 static void
-on_link_clicked (GtkHTML *html, const char *url, gpointer data)
+on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 {
 	/* FIXME Pass a parent window. */
 	e_show_uri (NULL, url);
 }
 
 static void
-on_url_cb (GtkHTML *html, const char *url, gpointer data)
+on_url_cb (GtkHTML *html, const gchar *url, gpointer data)
 {
 #if 0
-	char *msg;
+	gchar *msg;
 	ECalComponentPreview *preview = data;
 
 	if (url && *url) {
@@ -74,20 +74,20 @@ on_url_cb (GtkHTML *html, const char *url, gpointer data)
 
 /* Callback used when the user selects a URL in the HTML widget */
 void
-e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data)
+e_cal_comp_preview_url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *html_stream, gpointer data)
 {
-	int len = strlen ("file:///");
+	gint len = strlen ("file:///");
 
 	if (!strncmp ("file:///", url, len)) {
 		GFile *file;
-		const char *path = url + len - 1;
+		const gchar *path = url + len - 1;
 
 		g_return_if_fail (html_stream != NULL);
 		g_return_if_fail (path != NULL);
 
 		file = g_file_new_for_path (path);
 		if (file) {
-			char buffer[4096];
+			gchar buffer[4096];
 			GInputStream *stream;
 
 			/* ignore errors here */
@@ -115,13 +115,13 @@ e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStre
 }
 
 /* Converts a time_t to a string, relative to the specified timezone */
-static char *
+static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *default_zone)
 {
 	struct icaltimetype itt;
 	icaltimezone *zone;
         struct tm tm;
-        char buf[256];
+        gchar buf[256];
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
@@ -153,8 +153,8 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	gchar *str;
 	GSList *l;
 	icalproperty_status status;
-	const char *location;
-	int *priority_value;
+	const gchar *location;
+	gint *priority_value;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
@@ -177,13 +177,13 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		GSList *node;
 
 		for (node = l; node != NULL; node = node->next) {
-			const char *icon_file;
+			const gchar *icon_file;
 
-			icon_file = e_categories_get_icon_file_for ((const char *) node->data);
+			icon_file = e_categories_get_icon_file_for ((const gchar *) node->data);
 			if (icon_file) {
 				gchar *icon_file_uri = g_filename_to_uri (icon_file, NULL, NULL);
 				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"%s\">",
-							(const char *) node->data, icon_file_uri);
+							(const gchar *) node->data, icon_file_uri);
 				g_free (icon_file_uri);
 			}
 		}
@@ -289,7 +289,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream, "<TD><TT>");
 
 		for (node = l; node != NULL; node = node->next) {
-			char *html;
+			gchar *html;
 
 			text = * (ECalComponentText *) node->data;
 			html = camel_text_to_html (text.value ? text.value : "", CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
@@ -306,7 +306,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	}
 
 	/* URL */
-	e_cal_component_get_url (comp, (const char **) &str);
+	e_cal_component_get_url (comp, (const gchar **) &str);
 	if (str) {
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);

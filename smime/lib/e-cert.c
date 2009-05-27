@@ -60,26 +60,26 @@ struct _ECertPrivate {
 
 	/* pointers we cache since the nss implementation allocs the
 	   string */
-	char *org_name;
-	char *org_unit_name;
-	char *cn;
+	gchar *org_name;
+	gchar *org_unit_name;
+	gchar *cn;
 
-	char *issuer_org_name;
-	char *issuer_org_unit_name;
-	char *issuer_cn;
+	gchar *issuer_org_name;
+	gchar *issuer_org_unit_name;
+	gchar *issuer_cn;
 
 	PRTime issued_on;
 	PRTime expires_on;
 
-	char *issued_on_string;
-	char *expires_on_string;
+	gchar *issued_on_string;
+	gchar *expires_on_string;
 
-	char *serial_number;
+	gchar *serial_number;
 
-	char *usage_string;
+	gchar *usage_string;
 
-	char *sha1_fingerprint;
-	char *md5_fingerprint;
+	gchar *sha1_fingerprint;
+	gchar *md5_fingerprint;
 
 	EASN1Object *asn1;
 
@@ -195,7 +195,7 @@ static void
 e_cert_populate (ECert *cert)
 {
 	CERTCertificate *c = cert->priv->cert;
-	unsigned char fingerprint[20];
+	guchar fingerprint[20];
 	SECItem fpItem;
 
 	cert->priv->org_name = CERT_GetOrgName (&c->subject);
@@ -210,7 +210,7 @@ e_cert_populate (ECert *cert)
 	if (SECSuccess == CERT_GetCertTimes (c, &cert->priv->issued_on, &cert->priv->expires_on)) {
 		PRExplodedTime explodedTime;
 		struct tm exploded_tm;
-		char buf[32];
+		gchar buf[32];
 
 		PR_ExplodeTime (cert->priv->issued_on, PR_LocalTimeParameters, &explodedTime);
 		exploded_tm.tm_sec = explodedTime.tm_sec;
@@ -265,7 +265,7 @@ e_cert_new (CERTCertificate *cert)
 }
 
 ECert*
-e_cert_new_from_der (char *data, guint32 len)
+e_cert_new_from_der (gchar *data, guint32 len)
 {
 	CERTCertificate *cert = CERT_DecodeCertFromPackage (data, len);
 
@@ -289,13 +289,13 @@ e_cert_get_internal_cert (ECert *cert)
 }
 
 gboolean
-e_cert_get_raw_der (ECert *cert, char **data, guint32 *len)
+e_cert_get_raw_der (ECert *cert, gchar **data, guint32 *len)
 {
 	/* XXX do we really need to check if cert->priv->cert is NULL
 	   here?  it should always be non-null if we have the
 	   ECert.. */
 	if (cert->priv->cert) {
-		*data = (char*)cert->priv->cert->derCert.data;
+		*data = (gchar *)cert->priv->cert->derCert.data;
 		*len = (guint32)cert->priv->cert->derCert.len;
 		return TRUE;
 	}
@@ -305,7 +305,7 @@ e_cert_get_raw_der (ECert *cert, char **data, guint32 *len)
 
 }
 
-const char*
+const gchar *
 e_cert_get_window_title  (ECert *cert)
 {
 	if (cert->priv->cert->nickname)
@@ -316,61 +316,61 @@ e_cert_get_window_title  (ECert *cert)
 		return cert->priv->cert->subjectName;
 }
 
-const char*
+const gchar *
 e_cert_get_nickname (ECert *cert)
 {
 	return cert->priv->cert->nickname;
 }
 
-const char*
+const gchar *
 e_cert_get_email    (ECert *cert)
 {
 	return cert->priv->cert->emailAddr;
 }
 
-const char*
+const gchar *
 e_cert_get_org      (ECert *cert)
 {
 	return cert->priv->org_name;
 }
 
-const char*
+const gchar *
 e_cert_get_org_unit (ECert *cert)
 {
 	return cert->priv->org_unit_name;
 }
 
-const char*
+const gchar *
 e_cert_get_cn       (ECert *cert)
 {
 	return cert->priv->cn;
 }
 
-const char*
+const gchar *
 e_cert_get_issuer_name (ECert *cert)
 {
 	return cert->priv->cert->issuerName;
 }
 
-const char*
+const gchar *
 e_cert_get_issuer_cn (ECert *cert)
 {
 	return cert->priv->issuer_cn;
 }
 
-const char*
+const gchar *
 e_cert_get_issuer_org (ECert *cert)
 {
 	return cert->priv->issuer_org_name;
 }
 
-const char*
+const gchar *
 e_cert_get_issuer_org_unit (ECert *cert)
 {
 	return cert->priv->issuer_org_unit_name;
 }
 
-const char*
+const gchar *
 e_cert_get_subject_name (ECert *cert)
 {
 	return cert->priv->cert->subjectName;
@@ -382,7 +382,7 @@ e_cert_get_issued_on_time  (ECert *cert)
 	return cert->priv->issued_on;
 }
 
-const char*
+const gchar *
 e_cert_get_issued_on (ECert *cert)
 {
 	return cert->priv->issued_on_string;
@@ -394,26 +394,26 @@ e_cert_get_expires_on_time  (ECert *cert)
 	return cert->priv->expires_on;
 }
 
-const char*
+const gchar *
 e_cert_get_expires_on (ECert *cert)
 {
 	return cert->priv->expires_on_string;
 }
 
 static struct {
-	int bit;
-	const char *text;
+	gint bit;
+	const gchar *text;
 } usageinfo[] = {
 	/* x509 certificate usage types */
 	{ certificateUsageEmailSigner, N_("Sign") },
 	{ certificateUsageEmailRecipient, N_("Encrypt") },
 };
 
-const char*
+const gchar *
 e_cert_get_usage(ECert *cert)
 {
 	if (cert->priv->usage_string == NULL) {
-		int i;
+		gint i;
 		GString *str = g_string_new("");
 		CERTCertificate *icert = e_cert_get_internal_cert (cert);
 
@@ -432,19 +432,19 @@ e_cert_get_usage(ECert *cert)
 	return cert->priv->usage_string;
 }
 
-const char*
+const gchar *
 e_cert_get_serial_number (ECert *cert)
 {
 	return cert->priv->serial_number;
 }
 
-const char*
+const gchar *
 e_cert_get_sha1_fingerprint (ECert *cert)
 {
 	return cert->priv->sha1_fingerprint;
 }
 
-const char*
+const gchar *
 e_cert_get_md5_fingerprint  (ECert *cert)
 {
 	return cert->priv->md5_fingerprint;
@@ -547,7 +547,7 @@ static gboolean
 process_serial_number_der (SECItem      *serialItem,
 			   EASN1Object **retItem)
 {
-	char *serialNumber;
+	gchar *serialNumber;
 	EASN1Object *item = e_asn1_object_new ();
 
 	e_asn1_object_set_display_name (item, _("Serial Number"));
@@ -563,14 +563,14 @@ process_serial_number_der (SECItem      *serialItem,
 
 static gboolean
 get_default_oid_format (SECItem *oid,
-			char **text)
+			gchar **text)
 {
-	char buf[300];
-	unsigned int len;
-	int written;
+	gchar buf[300];
+	guint len;
+	gint written;
 
 	unsigned long val  = oid->data[0];
-	unsigned int  i    = val % 40;
+	guint  i    = val % 40;
 	val /= 40;
 	written = PR_snprintf(buf, 300, "%lu %u ", val, i);
 	if (written < 0)
@@ -607,10 +607,10 @@ get_default_oid_format (SECItem *oid,
 }
 
 static gboolean
-get_oid_text (SECItem *oid, char **text)
+get_oid_text (SECItem *oid, gchar **text)
 {
 	SECOidTag oidTag = SECOID_FindOIDTag(oid);
-	char *temp;
+	gchar *temp;
 
 	switch (oidTag) {
 	case SEC_OID_PKCS1_MD2_WITH_RSA_ENCRYPTION:
@@ -678,7 +678,7 @@ get_oid_text (SECItem *oid, char **text)
 
 
 static gboolean
-process_raw_bytes (SECItem *data, char **text)
+process_raw_bytes (SECItem *data, gchar **text)
 {
 	/* This function is used to display some DER bytes
 	   that we have not added support for decoding.
@@ -689,7 +689,7 @@ process_raw_bytes (SECItem *data, char **text)
 	*/
 	GString *str = g_string_new ("");
 	PRUint32 i;
-	char buffer[5];
+	gchar buffer[5];
 	for (i=0; i<data->len; i++) {
 		PR_snprintf(buffer, 5, "%02x ", data->data[i]);
 		g_string_append (str, buffer);
@@ -706,7 +706,7 @@ process_sec_algorithm_id (SECAlgorithmID  *algID,
 			  EASN1Object    **retSequence)
 {
 	EASN1Object *sequence = e_asn1_object_new ();
-	char *text;
+	gchar *text;
 
 	*retSequence = NULL;
 
@@ -747,7 +747,7 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 	EASN1Object *sequenceItem;
 	EASN1Object *printableItem;
 	SECItem data;
-	char *text;
+	gchar *text;
 
 	e_asn1_object_set_display_name (spkiSequence, _("Subject Public Key Info"));
 
@@ -784,7 +784,7 @@ process_ns_cert_type_extensions (SECItem  *extData,
 				 GString *text)
 {
 	SECItem decoded;
-	unsigned char nsCertType;
+	guchar nsCertType;
 
 	decoded.data = NULL;
 	decoded.len  = 0;
@@ -833,7 +833,7 @@ static gboolean
 process_key_usage_extensions (SECItem *extData, GString *text)
 {
 	SECItem decoded;
-	unsigned char keyUsage;
+	guchar keyUsage;
 
 	decoded.data = NULL;
 	decoded.len  = 0;
@@ -891,7 +891,7 @@ process_extension_data (SECOidTag oidTag, SECItem *extData,
 		rv = process_key_usage_extensions (extData, str);
 		break;
 	default: {
-		char *text;
+		gchar *text;
 		rv = process_raw_bytes (extData, &text);
 		g_string_append (str, text);
 		g_free (text);
@@ -906,7 +906,7 @@ process_single_extension (CERTCertExtension *extension,
 			  EASN1Object **retExtension)
 {
 	GString *str = g_string_new ("");
-	char *text;
+	gchar *text;
 	EASN1Object *extensionItem;
 	SECOidTag oidTag = SECOID_FindOIDTag(&extension->id);
 
@@ -961,7 +961,7 @@ process_extensions (CERTCertExtension **extensions,
 }
 
 static gboolean
-process_name (CERTName *name, char **value)
+process_name (CERTName *name, gchar **value)
 {
 	CERTRDN** rdns;
 	CERTRDN** rdn;
@@ -970,9 +970,9 @@ process_name (CERTName *name, char **value)
 	SECItem *decodeItem = NULL;
 	GString *final_string = g_string_new ("");
 
-	char *type;
+	gchar *type;
 	GString *avavalue;
-	char *temp;
+	gchar *temp;
 	CERTRDN **lastRdn;
 
 	rdns = name->rdns;
@@ -1012,7 +1012,7 @@ process_name (CERTName *name, char **value)
 				return FALSE;
 			}
 
-			avavalue = g_string_new_len ((char*)decodeItem->data, decodeItem->len);
+			avavalue = g_string_new_len ((gchar *)decodeItem->data, decodeItem->len);
 
 			SECITEM_FreeItem(decodeItem, PR_TRUE);
 
@@ -1053,7 +1053,7 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	** and then add more user friendly text for that field.
 	*/
 	EASN1Object *sequence = e_asn1_object_new ();
-	char *text;
+	gchar *text;
 	EASN1Object *subitem;
 	SECItem data;
 
@@ -1176,7 +1176,7 @@ create_asn1_struct (ECert *cert)
 {
 	EASN1Object *sequence;
 	SECItem temp;
-	char *text;
+	gchar *text;
 
 	cert->priv->asn1 = e_asn1_object_new ();
 
@@ -1248,8 +1248,8 @@ e_cert_mark_for_deletion (ECert *cert)
 ECertType
 e_cert_get_cert_type (ECert *ecert)
 {
-	const char *nick = e_cert_get_nickname (ecert);
-	const char *email = e_cert_get_email (ecert);
+	const gchar *nick = e_cert_get_nickname (ecert);
+	const gchar *email = e_cert_get_email (ecert);
 	CERTCertificate *cert = ecert->priv->cert;
 
 	if (nick) {

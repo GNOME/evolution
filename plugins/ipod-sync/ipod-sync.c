@@ -56,7 +56,7 @@ void org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target);
 
 
 static void
-display_error_message (GtkWidget *parent, const char *message)
+display_error_message (GtkWidget *parent, const gchar *message)
 {
 	GtkWidget *dialog;
 
@@ -70,7 +70,7 @@ display_error_message (GtkWidget *parent, const char *message)
    It will ask for overwrite if file already exists.
 */
 GOutputStream *
-open_for_writing (GtkWindow *parent, const char *uri, GError **error)
+open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 {
 	GFile *file;
 	GFileOutputStream *fostream;
@@ -125,8 +125,8 @@ destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)
 	gchar *uri;
 	GOutputStream *stream;
 	GError *error = NULL;
-	char *dest_uri = NULL;
-	char *mount = ipod_get_mount();
+	gchar *dest_uri = NULL;
+	gchar *mount = ipod_get_mount();
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
@@ -199,8 +199,8 @@ static void
 destination_save_cal (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
 {
 	FormatHandler *handler = NULL;
-	char *mount = ipod_get_mount();
-	char *dest_uri = NULL, *path;
+	gchar *mount = ipod_get_mount();
+	gchar *dest_uri = NULL, *path;
 	ESource *primary_source = e_source_selector_peek_primary_selection (target->selector);
 
 	/* The available formathandlers */

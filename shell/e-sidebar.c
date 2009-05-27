@@ -36,7 +36,7 @@ typedef struct {
 	GtkWidget *icon;
 	GtkWidget *hbox;
 	gchar *default_icon_name;
-	int id;
+	gint id;
 } Button;
 
 struct _ESidebarPrivate {
@@ -60,7 +60,7 @@ enum {
 	NUM_SIGNALS
 };
 
-static unsigned int signals[NUM_SIGNALS] = { 0 };
+static guint signals[NUM_SIGNALS] = { 0 };
 
 G_DEFINE_TYPE (ESidebar, e_sidebar, GTK_TYPE_CONTAINER)
 
@@ -75,7 +75,7 @@ button_new (GtkWidget *button_widget,
 	    GtkWidget *label,
 	    GtkWidget *icon,
 	    GtkWidget *hbox,
-	    int        id)
+	    gint        id)
 {
 	Button *button = g_new (Button, 1);
 	const gchar *icon_name;
@@ -109,7 +109,7 @@ button_free (Button *button)
 }
 
 static void
-update_buttons (ESidebar *sidebar, int new_selected_id)
+update_buttons (ESidebar *sidebar, gint new_selected_id)
 {
 	GSList *p;
 
@@ -134,7 +134,7 @@ static void
 button_toggled_callback (GtkToggleButton *toggle_button,
 			 ESidebar *sidebar)
 {
-	int id = 0;
+	gint id = 0;
 	gboolean is_active = FALSE;
 	GSList *p;
 
@@ -192,7 +192,7 @@ button_query_tooltip (GtkWidget  *widget,
 {
 	/* Show the tooltip only if the label is hidden */
 	if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_ICON) {
-		char *tip;
+		gchar *tip;
 
 		tip = g_object_get_data (G_OBJECT (widget),
 					 "ESidebar:button-tooltip");
@@ -215,14 +215,14 @@ layout_buttons (ESidebar *sidebar)
 	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;
 	ESidebarMode mode;
 	gboolean icons_only;
-	int num_btns = g_slist_length (sidebar->priv->buttons), btns_per_row;
+	gint num_btns = g_slist_length (sidebar->priv->buttons), btns_per_row;
 	GSList **rows, *p;
 	Button *button;
-	int row_number;
-	int max_btn_width = 0, max_btn_height = 0;
-	int row_last;
-	int x, y;
-	int i;
+	gint row_number;
+	gint max_btn_width = 0, max_btn_height = 0;
+	gint row_last;
+	gint x, y;
+	gint i;
 
 	y = allocation->y + allocation->height - V_PADDING - 1;
 
@@ -281,7 +281,7 @@ layout_buttons (ESidebar *sidebar)
 
 	/* Layout the buttons. */
 	for (i = row_last; i >= 0; i --) {
-		int len, extra_width;
+		gint len, extra_width;
 
 		y -= max_btn_height;
 		x = H_PADDING + allocation->x;
@@ -318,7 +318,7 @@ do_layout (ESidebar *sidebar)
 {
 	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;
 	GtkAllocation child_allocation;
-	int y;
+	gint y;
 
 	if (sidebar->priv->show)
 		y = layout_buttons (sidebar);
@@ -341,7 +341,7 @@ static void
 impl_forall (GtkContainer *container,
 	     gboolean include_internals,
 	     GtkCallback callback,
-	     void *callback_data)
+	     gpointer callback_data)
 {
 	ESidebar *sidebar = E_SIDEBAR (container);
 	GSList *p;
@@ -544,10 +544,10 @@ e_sidebar_set_selection_widget (ESidebar *sidebar, GtkWidget *widget)
 
 void
 e_sidebar_add_button (ESidebar *sidebar,
-		      const char *label,
-		      const char *tooltips,
-		      const char *icon_name,
-		      int id)
+		      const gchar *label,
+		      const gchar *tooltips,
+		      const gchar *icon_name,
+		      gint id)
 {
 	GtkWidget *button_widget;
 	GtkWidget *hbox;
@@ -613,7 +613,7 @@ e_sidebar_add_button (ESidebar *sidebar,
  * You cannot change icon as in a stack, only one default icon will be stored.
  **/
 void
-e_sidebar_change_button_icon (ESidebar *sidebar, const gchar *icon_name, int button_id)
+e_sidebar_change_button_icon (ESidebar *sidebar, const gchar *icon_name, gint button_id)
 {
 	GSList *p;
 
@@ -639,7 +639,7 @@ e_sidebar_change_button_icon (ESidebar *sidebar, const gchar *icon_name, int but
 }
 
 void
-e_sidebar_select_button (ESidebar *sidebar, int id)
+e_sidebar_select_button (ESidebar *sidebar, gint id)
 {
 	update_buttons (sidebar, id);
 
@@ -712,11 +712,11 @@ set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 }
 
 static void
-style_changed_notify (GConfClient *gconf, guint id, GConfEntry *entry, void *data)
+style_changed_notify (GConfClient *gconf, guint id, GConfEntry *entry, gpointer data)
 {
 	ESidebar *sidebar = data;
- 	char *val;
- 	int mode;
+ 	gchar *val;
+ 	gint mode;
 
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 	if (val == NULL || !gconf_string_to_enum (toolbar_styles, val, &mode))

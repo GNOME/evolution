@@ -36,19 +36,19 @@
 void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t);
 
 
-static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
+static void retract_mail_settings (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EGwConnection *cnc;
 	CamelFolder *folder = (CamelFolder *)data;
 	CamelStore *store = folder->parent_store;
-	char *id;
+	gchar *id;
 	GtkWidget *confirm_dialog, *confirm_warning;
-	int n;
+	gint n;
 
 	cnc = get_cnc (store);
 
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
-		id = (char *)item->user_data;
+		id = (gchar *)item->user_data;
 
 		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL,
 				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -87,7 +87,7 @@ static EPopupItem popup_items[] = {
 	{ E_POPUP_ITEM, (gchar *) "20.emfv.04", (gchar *) N_("Retract Mail"), retract_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
-static void popup_free (EPopup *ep, GSList *items, void *data)
+static void popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 }
@@ -96,8 +96,8 @@ void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t)
 {
 	GSList *menus = NULL;
 	GPtrArray *uids;
-	int i = 0;
-	static int first = 0;
+	gint i = 0;
+	static gint first = 0;
 
 	uids = t->uids;
 	if (g_strrstr (t->uri, "groupwise://") && !g_ascii_strcasecmp((t->folder)->full_name, "Sent Items")) {
@@ -105,7 +105,7 @@ void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t)
 		/* for translation*/
 		if (!first) {
 			popup_items[1].label =  _(popup_items[1].label);
-			popup_items[1].user_data = g_strdup((char *) g_ptr_array_index(uids, 0));
+			popup_items[1].user_data = g_strdup((gchar *) g_ptr_array_index(uids, 0));
 		}
 
 		first++;

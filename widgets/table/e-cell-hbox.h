@@ -38,18 +38,18 @@ G_BEGIN_DECLS
 typedef struct {
 	ECell parent;
 
-	int     subcell_count;
+	gint     subcell_count;
 	ECell **subcells;
-	int    *model_cols;
-	int    *def_size_cols;
+	gint    *model_cols;
+	gint    *def_size_cols;
 } ECellHbox;
 
 typedef struct {
 	ECellView     cell_view;
-	int           subcell_view_count;
+	gint           subcell_view_count;
 	ECellView   **subcell_views;
-	int          *model_cols;
-	int    *def_size_cols;
+	gint          *model_cols;
+	gint    *def_size_cols;
 } ECellHboxView;
 
 typedef struct {
@@ -60,8 +60,8 @@ GType    e_cell_hbox_get_type  (void);
 ECell   *e_cell_hbox_new       (void);
 void     e_cell_hbox_append    (ECellHbox *vbox,
 				ECell     *subcell,
-				int model_col,
-	                        int size);
+				gint model_col,
+	                        gint size);
 
 
 G_END_DECLS

@@ -65,7 +65,7 @@ struct _TaskDetailsPagePrivate {
 };
 
 /* Note that these two arrays must match. */
-static const int status_map[] = {
+static const gint status_map[] = {
 	ICAL_STATUS_NONE,
 	ICAL_STATUS_INPROCESS,
 	ICAL_STATUS_COMPLETED,
@@ -80,7 +80,7 @@ typedef enum {
 	PRIORITY_UNDEFINED
 } TaskEditorPriority;
 
-static const int priority_map[] = {
+static const gint priority_map[] = {
 	PRIORITY_HIGH,
 	PRIORITY_NORMAL,
 	PRIORITY_LOW,
@@ -170,7 +170,7 @@ task_details_page_focus_main_widget (CompEditorPage *page)
 
 
 static TaskEditorPriority
-priority_value_to_index (int priority_value)
+priority_value_to_index (gint priority_value)
 {
 	TaskEditorPriority retval;
 
@@ -189,7 +189,7 @@ priority_value_to_index (int priority_value)
 static int
 priority_index_to_value (TaskEditorPriority priority)
 {
-	int retval;
+	gint retval;
 
 	switch (priority) {
 	case PRIORITY_UNDEFINED:
@@ -255,10 +255,10 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
-	int *priority_value, *percent = NULL;
+	gint *priority_value, *percent = NULL;
 	TaskEditorPriority priority;
 	icalproperty_status status;
-	const char *url;
+	const gchar *url;
 	struct icaltimetype *completed = NULL;
 
 	tdpage = TASK_DETAILS_PAGE (page);
@@ -345,8 +345,8 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	struct icaltimetype icalcomplete, icaltoday;
 	icalproperty_status status;
 	TaskEditorPriority priority;
-	int priority_value, percent;
-	char *url;
+	gint priority_value, percent;
+	gchar *url;
 	gboolean date_set;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 
@@ -713,7 +713,7 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditor *editor;
-	char *gladefile;
+	gchar *gladefile;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 

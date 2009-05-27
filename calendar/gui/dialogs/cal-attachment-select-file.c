@@ -42,11 +42,11 @@ enum {
 };
 
 static GtkWidget*
-run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *showinline_p)
+run_selector(CompEditor *editor, const gchar *title, guint32 flags, gboolean *showinline_p)
 {
 	GtkWidget *selection;
 	GtkWidget *showinline = NULL;
-	char *path;
+	gchar *path;
 
 	path = g_object_get_data ((GObject *) editor, "attach_path");
 
@@ -117,12 +117,12 @@ run_selector(CompEditor *editor, const char *title, guint32 flags, gboolean *sho
  * Return value: the selected filename, or %NULL if the user
  * cancelled.
  **/
-char *
-comp_editor_select_file (CompEditor *editor, const char *title, gboolean save_mode)
+gchar *
+comp_editor_select_file (CompEditor *editor, const gchar *title, gboolean save_mode)
 {
 	guint32 flags = save_mode ? SELECTOR_MODE_SAVE : SELECTOR_MODE_MULTI;
 	GtkWidget *selection;
-	char *name = NULL;
+	gchar *name = NULL;
 
 	selection = run_selector (editor, title, flags, NULL);
 	if (selection) {

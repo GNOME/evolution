@@ -146,7 +146,7 @@ e_mini_calendar_config_get_calendar (EMiniCalendarConfig *mini_config)
 static void
 set_week_start (ECalendar *mini_cal)
 {
-	int week_start_day;
+	gint week_start_day;
 
 	week_start_day = calendar_config_get_week_start_day ();
 

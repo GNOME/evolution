@@ -105,7 +105,7 @@ setup_folder_name_combo (GladeXML *glade_xml, const gchar *fname)
 		NULL
 		/* FIXME: Should these be translated?  */
 	};
-	int i;
+	gint i;
 
 	combo = GTK_COMBO_BOX (glade_xml_get_widget (glade_xml, "folder-name-combo"));
 	g_assert (GTK_IS_COMBO_BOX_ENTRY (combo));
@@ -120,10 +120,10 @@ setup_folder_name_combo (GladeXML *glade_xml, const gchar *fname)
 
 static void
 folder_name_entry_changed_callback (GtkEditable *editable,
-                                    void *data)
+                                    gpointer data)
 {
 	GtkDialog *dialog = GTK_DIALOG (data);
-	const char *folder_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
+	const gchar *folder_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
 
 	if (*folder_name_text == '\0')
 		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
@@ -132,10 +132,10 @@ folder_name_entry_changed_callback (GtkEditable *editable,
 }
 
 static void
-user_name_entry_changed_callback (GtkEditable *editable, void *data)
+user_name_entry_changed_callback (GtkEditable *editable, gpointer data)
 {
 	GtkDialog *dialog = GTK_DIALOG (data);
-	const char *user_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
+	const gchar *user_name_text = gtk_entry_get_text (GTK_ENTRY (editable));
 
 	if (*user_name_text == '\0')
 		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
@@ -181,7 +181,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 {
 	SubscriptionInfo *subscription_info = data;
 	gchar *user_email_address = NULL, *folder_name = NULL, *path = NULL;
-	char *subscriber_email;
+	gchar *subscriber_email;
 	EFolder *folder = NULL;
 	EDestinationStore *destination_store;
 	GList *destinations;
@@ -292,7 +292,7 @@ create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname)
 	GladeXML *glade_xml;
 	GtkWidget *dialog, *ok_button;
 	SubscriptionInfo *subscription_info;
-	int mode;
+	gint mode;
 
 	exchange_account_is_offline (account, &mode);
 	if (mode == OFFLINE_MODE)

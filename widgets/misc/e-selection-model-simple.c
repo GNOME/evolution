@@ -63,7 +63,7 @@ e_selection_model_simple_new (void)
 
 void
 e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
-					int row_count)
+					gint row_count)
 {
 	if (esms->row_count != row_count) {
 		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(esms);
@@ -85,8 +85,8 @@ esms_get_row_count (ESelectionModelArray *esma)
 }
 
 void      e_selection_model_simple_insert_rows         (ESelectionModelSimple *esms,
-							int                    row,
-							int                    count)
+							gint                    row,
+							gint                    count)
 {
 	esms->row_count += count;
 	e_selection_model_array_insert_rows (E_SELECTION_MODEL_ARRAY(esms), row, count);
@@ -94,8 +94,8 @@ void      e_selection_model_simple_insert_rows         (ESelectionModelSimple *e
 
 void
 e_selection_model_simple_delete_rows          (ESelectionModelSimple *esms,
-					       int                    row,
-					       int                    count)
+					       gint                    row,
+					       gint                    count)
 {
 	esms->row_count -= count;
 	e_selection_model_array_delete_rows (E_SELECTION_MODEL_ARRAY(esms), row, count);
@@ -103,8 +103,8 @@ e_selection_model_simple_delete_rows          (ESelectionModelSimple *esms,
 
 void
 e_selection_model_simple_move_row            (ESelectionModelSimple *esms,
-					      int                    old_row,
-					      int                    new_row)
+					      gint                    old_row,
+					      gint                    new_row)
 {
 	e_selection_model_array_move_row (E_SELECTION_MODEL_ARRAY(esms), old_row, new_row);
 }

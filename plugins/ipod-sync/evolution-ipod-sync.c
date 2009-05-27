@@ -32,7 +32,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
-char *  mount_point = NULL;
+gchar *  mount_point = NULL;
 LibHalContext *ctx;
 
 gboolean
@@ -100,7 +100,7 @@ ipod_check_status (gboolean silent)
 	return TRUE;
 }
 
-char *
+gchar *
 ipod_get_mount (void)
 {
 	return mount_point;

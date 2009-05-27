@@ -33,24 +33,24 @@ void vfolder_load_storage(void);
 void vfolder_revert(void);
 
 void vfolder_edit (void);
-void vfolder_edit_rule(const char *name);
-struct _FilterPart *vfolder_create_part (const char *name);
+void vfolder_edit_rule(const gchar *name);
+struct _FilterPart *vfolder_create_part (const gchar *name);
 struct _FilterRule *vfolder_clone_rule (struct _FilterRule *in);
 void vfolder_gui_add_rule (struct _EMVFolderRule *rule);
-void vfolder_gui_add_from_message (struct _CamelMimeMessage *msg, int flags, const char *source);
-void vfolder_gui_add_from_address (struct _CamelInternetAddress *addr, int flags, const char *source);
+void vfolder_gui_add_from_message (struct _CamelMimeMessage *msg, gint flags, const gchar *source);
+void vfolder_gui_add_from_address (struct _CamelInternetAddress *addr, gint flags, const gchar *source);
 
 GList * mail_vfolder_get_sources_local (void);
 GList * mail_vfolder_get_sources_remote (void);
 
 /* add a uri that is now (un)available to vfolders in a transient manner */
-void mail_vfolder_add_uri(struct _CamelStore *store, const char *uri, int remove);
+void mail_vfolder_add_uri(struct _CamelStore *store, const gchar *uri, gint remove);
 
 /* note that a folder has changed name (uri) */
-void mail_vfolder_rename_uri(struct _CamelStore *store, const char *from, const char *to);
+void mail_vfolder_rename_uri(struct _CamelStore *store, const gchar *from, const gchar *to);
 
 /* remove a uri that should be removed from vfolders permanently */
-void mail_vfolder_delete_uri(struct _CamelStore *store, const char *uri);
+void mail_vfolder_delete_uri(struct _CamelStore *store, const gchar *uri);
 
 /* close up, clean up */
 void mail_vfolder_shutdown (void);

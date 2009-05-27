@@ -67,33 +67,33 @@ struct _ECertClass {
 GType                e_cert_get_type     (void);
 
 ECert*               e_cert_new          (CERTCertificate *cert);
-ECert*               e_cert_new_from_der (char *data, guint32 len);
+ECert*               e_cert_new_from_der (gchar *data, guint32 len);
 
 CERTCertificate*     e_cert_get_internal_cert (ECert *cert);
 
-gboolean             e_cert_get_raw_der       (ECert *cert, char **data, guint32 *len);
-const char*          e_cert_get_window_title  (ECert *cert);
-const char*          e_cert_get_nickname      (ECert *cert);
-const char*          e_cert_get_email         (ECert *cert);
-const char*          e_cert_get_org           (ECert *cert);
-const char*          e_cert_get_org_unit      (ECert *cert);
-const char*          e_cert_get_cn            (ECert *cert);
-const char*          e_cert_get_subject_name  (ECert *cert);
+gboolean             e_cert_get_raw_der       (ECert *cert, gchar **data, guint32 *len);
+const gchar *          e_cert_get_window_title  (ECert *cert);
+const gchar *          e_cert_get_nickname      (ECert *cert);
+const gchar *          e_cert_get_email         (ECert *cert);
+const gchar *          e_cert_get_org           (ECert *cert);
+const gchar *          e_cert_get_org_unit      (ECert *cert);
+const gchar *          e_cert_get_cn            (ECert *cert);
+const gchar *          e_cert_get_subject_name  (ECert *cert);
 
-const char*          e_cert_get_issuer_name     (ECert *cert);
-const char*          e_cert_get_issuer_cn       (ECert *cert);
-const char*          e_cert_get_issuer_org      (ECert *cert);
-const char*          e_cert_get_issuer_org_unit (ECert *cert);
+const gchar *          e_cert_get_issuer_name     (ECert *cert);
+const gchar *          e_cert_get_issuer_cn       (ECert *cert);
+const gchar *          e_cert_get_issuer_org      (ECert *cert);
+const gchar *          e_cert_get_issuer_org_unit (ECert *cert);
 
 PRTime               e_cert_get_issued_on_time  (ECert *cert);
-const char*          e_cert_get_issued_on       (ECert *cert);
+const gchar *          e_cert_get_issued_on       (ECert *cert);
 PRTime               e_cert_get_expires_on_time (ECert *cert);
-const char*          e_cert_get_expires_on      (ECert *cert);
-const char*	     e_cert_get_usage(ECert *cert);
+const gchar *          e_cert_get_expires_on      (ECert *cert);
+const gchar *	     e_cert_get_usage(ECert *cert);
 
-const char*          e_cert_get_serial_number    (ECert *cert);
-const char*          e_cert_get_sha1_fingerprint (ECert *cert);
-const char*          e_cert_get_md5_fingerprint  (ECert *cert);
+const gchar *          e_cert_get_serial_number    (ECert *cert);
+const gchar *          e_cert_get_sha1_fingerprint (ECert *cert);
+const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 
 GList*               e_cert_get_chain       (ECert *cert);
 ECert *              e_cert_get_ca_cert     (ECert *ecert);

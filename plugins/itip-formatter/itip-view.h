@@ -87,7 +87,7 @@ struct _ItipViewClass {
 	GtkHBoxClass parent_class;
 
 	void (* source_selected) (ItipView *view, ESource *selected_source);
-	void (* response) (ItipView *view, int response);
+	void (* response) (ItipView *view, gint response);
 };
 
 GType      itip_view_get_type (void);
@@ -99,38 +99,38 @@ ItipViewMode itip_view_get_mode (ItipView *view);
 void itip_view_set_item_type (ItipView *view, ECalSourceType type);
 ECalSourceType itip_view_get_item_type (ItipView *view);
 
-void itip_view_set_organizer (ItipView *view, const char *organizer);
-const char *itip_view_get_organizer (ItipView *view);
+void itip_view_set_organizer (ItipView *view, const gchar *organizer);
+const gchar *itip_view_get_organizer (ItipView *view);
 
-void itip_view_set_organizer_sentby (ItipView *view, const char *sentby);
-const char *itip_view_get_organizer_sentby (ItipView *view);
+void itip_view_set_organizer_sentby (ItipView *view, const gchar *sentby);
+const gchar *itip_view_get_organizer_sentby (ItipView *view);
 
-void itip_view_set_attendee (ItipView *view, const char *attendee);
-const char *itip_view_get_attendee (ItipView *view);
+void itip_view_set_attendee (ItipView *view, const gchar *attendee);
+const gchar *itip_view_get_attendee (ItipView *view);
 
-void itip_view_set_attendee_sentby (ItipView *view, const char *sentby);
-const char *itip_view_get_attendee_sentby (ItipView *view);
+void itip_view_set_attendee_sentby (ItipView *view, const gchar *sentby);
+const gchar *itip_view_get_attendee_sentby (ItipView *view);
 
-void itip_view_set_delegator (ItipView *view, const char *delegator);
-const char *itip_view_get_delegator (ItipView *view);
+void itip_view_set_delegator (ItipView *view, const gchar *delegator);
+const gchar *itip_view_get_delegator (ItipView *view);
 
-void itip_view_set_proxy (ItipView *view, const char *proxy);
-const char *itip_view_get_proxy (ItipView *view);
+void itip_view_set_proxy (ItipView *view, const gchar *proxy);
+const gchar *itip_view_get_proxy (ItipView *view);
 
-void itip_view_set_summary (ItipView *view, const char *summary);
-const char *itip_view_get_summary (ItipView *view);
+void itip_view_set_summary (ItipView *view, const gchar *summary);
+const gchar *itip_view_get_summary (ItipView *view);
 
-void itip_view_set_location (ItipView *view, const char *location);
-const char *itip_view_get_location (ItipView *view);
+void itip_view_set_location (ItipView *view, const gchar *location);
+const gchar *itip_view_get_location (ItipView *view);
 
-void itip_view_set_status (ItipView *view, const char *status);
-const char *itip_view_get_status (ItipView *view);
+void itip_view_set_status (ItipView *view, const gchar *status);
+const gchar *itip_view_get_status (ItipView *view);
 
-void itip_view_set_comment (ItipView *view, const char *comment);
-const char *itip_view_get_comment (ItipView *view);
+void itip_view_set_comment (ItipView *view, const gchar *comment);
+const gchar *itip_view_get_comment (ItipView *view);
 
-void itip_view_set_description (ItipView *view, const char *description);
-const char *itip_view_get_description (ItipView *view);
+void itip_view_set_description (ItipView *view, const gchar *description);
+const gchar *itip_view_get_description (ItipView *view);
 
 void itip_view_set_start (ItipView *view, struct tm *start);
 const struct tm *itip_view_get_start (ItipView *view);
@@ -138,13 +138,13 @@ const struct tm *itip_view_get_start (ItipView *view);
 void itip_view_set_end (ItipView *view, struct tm *end);
 const struct tm *itip_view_get_end (ItipView *view);
 
-guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message);
-guint itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType, const char *format, ...) G_GNUC_PRINTF (3, 4);
+guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message);
+guint itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType, const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_upper_info_item (ItipView *view, guint id);
 void itip_view_clear_upper_info_items (ItipView *view);
 
-guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message);
-guint itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...) G_GNUC_PRINTF (3, 4);
+guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message);
+guint itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const gchar *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_lower_info_item (ItipView *view, guint id);
 void itip_view_clear_lower_info_items (ItipView *view);
 
@@ -166,8 +166,8 @@ gboolean itip_view_get_update (ItipView *view);
 void itip_view_set_show_update (ItipView *view, gboolean update);
 gboolean itip_view_get_show_update (ItipView *view);
 
-void itip_view_set_rsvp_comment (ItipView *view, const char *comment);
-const char *itip_view_get_rsvp_comment (ItipView *view);
+void itip_view_set_rsvp_comment (ItipView *view, const gchar *comment);
+const gchar *itip_view_get_rsvp_comment (ItipView *view);
 
 void itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive);
 gboolean itip_view_get_buttons_sensitive (ItipView *view);

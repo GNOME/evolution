@@ -35,7 +35,7 @@ d(static gint depth = 0)
 struct _ETableSearchPrivate {
 	guint timeout_id;
 
-	char *search_string;
+	gchar *search_string;
 	gunichar last_character;
 };
 
@@ -50,7 +50,7 @@ enum {
 static guint e_table_search_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean
-e_table_search_search (ETableSearch *e_table_search, char *string, ETableSearchFlags flags)
+e_table_search_search (ETableSearch *e_table_search, gchar *string, ETableSearchFlags flags)
 {
 	gboolean ret_val;
 	g_return_val_if_fail (e_table_search != NULL, FALSE);
@@ -172,8 +172,8 @@ e_table_search_new (void)
 void
 e_table_search_input_character (ETableSearch *ets, gunichar character)
 {
-	char character_utf8[7];
-	char *temp_string;
+	gchar character_utf8[7];
+	gchar *temp_string;
 
 	g_return_if_fail (ets != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (ets));
@@ -202,7 +202,7 @@ e_table_search_input_character (ETableSearch *ets, gunichar character)
 gboolean
 e_table_search_backspace (ETableSearch *ets)
 {
-	char *end;
+	gchar *end;
 
 	g_return_val_if_fail (ets != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (ets), FALSE);

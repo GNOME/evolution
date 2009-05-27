@@ -41,9 +41,9 @@ struct _CamelHulaListenerPrivate {
 };
 
 struct _HulaAccountInfo {
-	char *uid;
-	char *name;
-	char *source_url;
+	gchar *uid;
+	gchar *name;
+	gchar *source_url;
 };
 
 typedef struct _HulaAccountInfo HulaAccountInfo;
@@ -144,11 +144,11 @@ is_hula_caldav_account (EAccount *account)
 /* looks up for an existing hula account info in the hula_accounts list based on uid */
 
 static HulaAccountInfo*
-lookup_account_info (const char *key)
+lookup_account_info (const gchar *key)
 {
 	GList *list;
         HulaAccountInfo *info ;
-	int found = 0;
+	gint found = 0;
 
         if (!key)
                 return NULL;
@@ -170,7 +170,7 @@ lookup_account_info (const char *key)
 #define SELECTED_CALENDARS "/apps/evolution/calendar/display/selected_calendars"
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url)
+add_esource (const gchar *conf_key, const gchar *group_name,  const gchar *source_name, CamelURL *url)
 {
 	ESourceList *source_list;
 	ESourceGroup *group;
@@ -178,10 +178,10 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
         GConfClient *client;
 	GSList *ids, *temp ;
 	gboolean result;
-	char *source_selection_key;
-	char *relative_uri;
-	const char *cal_port = "8081";
-	/* const char *use_ssl = ""; */
+	gchar *source_selection_key;
+	gchar *relative_uri;
+	const gchar *cal_port = "8081";
+	/* const gchar *use_ssl = ""; */
 	/* offline_sync to come soon */
 
 	/* TODO use_ssl = camel_url_get_param (url, "use_ssl"); */
@@ -237,7 +237,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 
 
 static void
-remove_esource (const char *conf_key, const char *group_name, char* source_name, const char* relative_uri)
+remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_name, const gchar * relative_uri)
 {
 	ESourceList *list;
         GSList *groups;
@@ -245,7 +245,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	GConfClient* client;
 	GSList *ids;
 	GSList *node_tobe_deleted;
-	char *source_selection_key;
+	gchar *source_selection_key;
 
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);
@@ -305,11 +305,11 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 /* looks for e-source with the same info as old_account_info and changes its values to the values passed in */
 
 static void
-modify_esource (const char* conf_key, HulaAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
+modify_esource (const gchar * conf_key, HulaAccountInfo *old_account_info, const gchar * new_group_name, CamelURL *new_url)
 {
 	ESourceList *list;
         GSList *groups;
-	char *old_relative_uri;
+	gchar *old_relative_uri;
 	CamelURL *url;
 	gboolean found_group;
       	GConfClient* client;
@@ -388,9 +388,9 @@ static void
 remove_calendar_sources (HulaAccountInfo *info)
 {
 	CamelURL *url;
-	char *relative_uri;
-	const char *address;
-	const char *caldav_port;
+	gchar *relative_uri;
+	const gchar *address;
+	const gchar *caldav_port;
 
 	url = camel_url_new (info->source_url, NULL);
 
@@ -463,10 +463,10 @@ account_changed (EAccountList *account_listener, EAccount *account)
 {
 	gboolean is_hula;
 	CamelURL *old_url, *new_url;
-	const char *old_caldav_port, *new_caldav_port;
+	const gchar *old_caldav_port, *new_caldav_port;
 	HulaAccountInfo *existing_account_info;
-	const char *old_use_ssl, *new_use_ssl;
-	const char *old_address, *new_address;
+	const gchar *old_use_ssl, *new_use_ssl;
+	const gchar *old_address, *new_address;
 
 	is_hula = is_hula_account (account);
 	if (is_hula == FALSE)

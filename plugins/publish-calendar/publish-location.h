@@ -34,7 +34,7 @@ enum publish_frequency {
 	URI_PUBLISH_MANUAL
 };
 
-static const int publish_frequency_type_map[] = {
+static const gint publish_frequency_type_map[] = {
 	URI_PUBLISH_DAILY,
 	URI_PUBLISH_WEEKLY,
 	URI_PUBLISH_MANUAL,
@@ -46,7 +46,7 @@ enum publish_format {
 	URI_PUBLISH_AS_FB
 };
 
-static const int publish_format_type_mask[] = {
+static const gint publish_format_type_mask[] = {
 	URI_PUBLISH_AS_ICAL,
 	URI_PUBLISH_AS_FB,
 	-1
@@ -67,8 +67,8 @@ struct _EPublishUri {
 	gchar *password;
 	GSList *events;
 	gchar *last_pub_time;
-	int fb_duration_value;
-	int fb_duration_type;
+	gint fb_duration_value;
+	gint fb_duration_type;
 
 	gint service_type;
 };

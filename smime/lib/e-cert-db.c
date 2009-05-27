@@ -93,7 +93,7 @@ struct _ECertDBPrivate {
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class;
 
-static CERTDERCerts* e_cert_db_get_certs_from_package (PRArenaPool *arena, char *data, guint32 length);
+static CERTDERCerts* e_cert_db_get_certs_from_package (PRArenaPool *arena, gchar *data, guint32 length);
 
 
 
@@ -117,22 +117,22 @@ e_cert_db_dispose (GObject *object)
 #ifdef notyet
 PRBool
 ucs2_ascii_conversion_fn (PRBool toUnicode,
-			  unsigned char *inBuf,
-			  unsigned int inBufLen,
-			  unsigned char *outBuf,
-			  unsigned int maxOutBufLen,
-			  unsigned int *outBufLen,
+			  guchar *inBuf,
+			  guint inBufLen,
+			  guchar *outBuf,
+			  guint maxOutBufLen,
+			  guint *outBufLen,
 			  PRBool swapBytes)
 {
 	printf ("in ucs2_ascii_conversion_fn\n");
 }
 #endif
 
-static char* PR_CALLBACK
-pk11_password (PK11SlotInfo* slot, PRBool retry, void* arg)
+static gchar * PR_CALLBACK
+pk11_password (PK11SlotInfo* slot, PRBool retry, gpointer  arg)
 {
-	char *pwd;
-	char *nsspwd;
+	gchar *pwd;
+	gchar *nsspwd;
 
 	gboolean rv = FALSE;
 
@@ -155,7 +155,7 @@ pk11_password (PK11SlotInfo* slot, PRBool retry, void* arg)
 static void
 initialize_nss (void)
 {
-	char *evolution_dir_path;
+	gchar *evolution_dir_path;
 	gboolean success;
 
 #ifdef G_OS_WIN32
@@ -207,7 +207,7 @@ install_loadable_roots (void)
 	SECMODModuleList *list = SECMOD_GetDefaultModuleList ();
 	SECMODListLock *lock = SECMOD_GetDefaultModuleListLock ();
 	SECMODModule *RootsModule = NULL;
-	int i;
+	gint i;
 
 	SECMOD_GetReadLock (lock);
 	while (!RootsModule && list) {
@@ -270,7 +270,7 @@ install_loadable_roots (void)
 		};
 
 		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
-			char *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
+			gchar *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
 
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
 				PRInt32 modType;
@@ -395,16 +395,16 @@ e_cert_db_shutdown (void)
 /* searching for certificates */
 ECert*
 e_cert_db_find_cert_by_nickname (ECertDB *certdb,
-				 const char *nickname,
+				 const gchar *nickname,
 				 GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
 	CERTCertificate *cert = NULL;
 
 	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
-	cert = PK11_FindCertFromNickname((char*)nickname, NULL);
+	cert = PK11_FindCertFromNickname((gchar *)nickname, NULL);
 	if (!cert) {
-		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), (char*)nickname);
+		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), (gchar *)nickname);
 	}
 
 
@@ -422,7 +422,7 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 #ifdef notyet
 ECert*
 e_cert_db_find_cert_by_key (ECertDB *certdb,
-			    const char *db_key,
+			    const gchar *db_key,
 			    GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
@@ -471,14 +471,14 @@ e_cert_db_get_cert_nicknames    (ECertDB *certdb,
 
 ECert*
 e_cert_db_find_email_encryption_cert (ECertDB *certdb,
-				      const char *nickname,
+				      const gchar *nickname,
 				      GError **error)
 {
 }
 
 ECert*
 e_cert_db_find_email_signing_cert (ECertDB *certdb,
-				   const char *nickname,
+				   const gchar *nickname,
 				   GError **error)
 {
 }
@@ -486,13 +486,13 @@ e_cert_db_find_email_signing_cert (ECertDB *certdb,
 
 ECert*
 e_cert_db_find_cert_by_email_address (ECertDB *certdb,
-				      const char *email,
+				      const gchar *email,
 				      GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker; */
 	ECert *cert;
 	CERTCertificate *any_cert = CERT_FindCertByNicknameOrEmailAddr(CERT_GetDefaultCertDB(),
-								       (char*)email);
+								       (gchar *)email);
 	CERTCertList *certlist;
 
 	if (!any_cert) {
@@ -555,7 +555,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 {
 	ECert *certToShow;
 	SECItem der;
-	char *raw_der = NULL;
+	gchar *raw_der = NULL;
 	CERTCertificate *tmpCert;
 
 	/* First thing we have to do is figure out which certificate
@@ -587,10 +587,10 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		/* there are multiple certs */
 		ECert *cert0;
 		ECert *cert1;
-		const char* cert0SubjectName;
-		const char* cert0IssuerName;
-		const char* cert1SubjectName;
-		const char* cert1IssuerName;
+		const gchar * cert0SubjectName;
+		const gchar * cert0IssuerName;
+		const gchar * cert1SubjectName;
+		const gchar * cert1IssuerName;
 
 		cert0 = E_CERT (certs->data);
 		cert1 = E_CERT (certs->next->data);
@@ -628,7 +628,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		return FALSE;
 	}
 
-	der.data = (unsigned char *)raw_der;
+	der.data = (guchar *)raw_der;
 
 	{
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Creating temp cert\n"));*/
@@ -656,7 +656,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 	}
 	else {
 		gboolean trust_ssl, trust_email, trust_objsign;
-		char *nickname;
+		gchar *nickname;
 		SECStatus srv;
 		CERTCertTrust trust;
 
@@ -709,7 +709,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 				continue;  /* Let's try to import the rest of 'em */
 			}
 			nickname.Adopt(CERT_MakeCANickname(tmpCert2));
-			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(char*,nickname.get()),
+			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(gchar *,nickname.get()),
 					       defaultTrust.GetTrust());
 			CERT_DestroyCertificate(tmpCert2);
 		}
@@ -755,7 +755,7 @@ e_cert_db_delete_cert (ECertDB *certdb,
 /* importing certificates */
 gboolean
 e_cert_db_import_certs (ECertDB *certdb,
-			char *data, guint32 length,
+			gchar *data, guint32 length,
 			ECertType cert_type,
 			GError **error)
 {
@@ -763,7 +763,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 	PRArenaPool *arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
 	GList *certs = NULL;
 	CERTDERCerts *certCollection = e_cert_db_get_certs_from_package (arena, data, length);
-	int i;
+	gint i;
 	gboolean rv;
 
 	if (!certCollection) {
@@ -777,7 +777,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 		SECItem *currItem = &certCollection->rawCerts[i];
 		ECert *cert;
 
-		cert = e_cert_new_from_der ((char*)currItem->data, currItem->len);
+		cert = e_cert_new_from_der ((gchar *)currItem->data, currItem->len);
 		if (!cert) {
 			/* XXX gerror */
 			g_list_foreach (certs, (GFunc)g_object_unref, NULL);
@@ -806,7 +806,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 
 gboolean
 e_cert_db_import_email_cert (ECertDB *certdb,
-			     char *data, guint32 length,
+			     gchar *data, guint32 length,
 			     GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
@@ -814,8 +814,8 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	gboolean rv = TRUE;
 	CERTCertificate * cert;
 	SECItem **rawCerts;
-	int numcerts;
-	int i;
+	gint numcerts;
+	gint i;
 	PRArenaPool *arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
 	CERTDERCerts *certCollection = e_cert_db_get_certs_from_package (arena, data, length);
 
@@ -827,7 +827,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	}
 
 	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), certCollection->rawCerts,
-				       (char *)NULL, PR_FALSE, PR_TRUE);
+				       (gchar *)NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		/* XXX g_error */
 		rv = FALSE;
@@ -863,16 +863,16 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	return rv;
 }
 
-static char *
+static gchar *
 default_nickname (CERTCertificate *cert)
 {
 	/*  nsNSSShutDownPreventionLock locker; */
-	char *username = NULL;
-	char *caname = NULL;
-	char *nickname = NULL;
-	char *tmp = NULL;
-	int count;
-	const char *nickFmt=NULL;
+	gchar *username = NULL;
+	gchar *caname = NULL;
+	gchar *nickname = NULL;
+	gchar *tmp = NULL;
+	gint count;
+	const gchar *nickFmt=NULL;
 	CERTCertificate *dummycert;
 	PK11SlotInfo *slot=NULL;
 	CK_OBJECT_HANDLE keyHandle;
@@ -990,14 +990,14 @@ default_nickname (CERTCertificate *cert)
 
 gboolean
 e_cert_db_import_user_cert (ECertDB *certdb,
-			    char *data, guint32 length,
+			    gchar *data, guint32 length,
 			    GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker;*/
 	PK11SlotInfo *slot;
-	char * nickname = NULL;
+	gchar * nickname = NULL;
 	gboolean rv = FALSE;
-	int numCACerts;
+	gint numCACerts;
 	SECItem *CACerts;
 	CERTDERCerts * collectArgs;
 	PRArenaPool *arena;
@@ -1016,7 +1016,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	}
 
 	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), collectArgs->rawCerts,
-				       (char *)NULL, PR_FALSE, PR_TRUE);
+				       (gchar *)NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		/* XXX g_error */
 		goto loser;
@@ -1068,7 +1068,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 
 gboolean
 e_cert_db_import_server_cert (ECertDB *certdb,
-			      char *data, guint32 length,
+			      gchar *data, guint32 length,
 			      GError **error)
 {
 	/* not c&p'ing this over at the moment, as we don't have a UI
@@ -1078,15 +1078,15 @@ e_cert_db_import_server_cert (ECertDB *certdb,
 
 gboolean
 e_cert_db_import_certs_from_file (ECertDB *cert_db,
-				  const char *file_path,
+				  const gchar *file_path,
 				  ECertType cert_type,
 				  GError **error)
 {
 	gboolean rv;
-	int fd;
+	gint fd;
 	struct stat sb;
-	char *buf;
-	int bytes_read;
+	gchar *buf;
+	gint bytes_read;
 
 	switch (cert_type) {
 	case E_CERT_CA:
@@ -1156,7 +1156,7 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 
 gboolean
 e_cert_db_import_pkcs12_file (ECertDB *cert_db,
-			      const char *file_path,
+			      const gchar *file_path,
 			      GError **error)
 {
 	EPKCS12 *pkcs12 = e_pkcs12_new ();
@@ -1173,7 +1173,7 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 #ifdef notyet
 gboolean
 e_cert_db_export_pkcs12_file (ECertDB *cert_db,
-			      const char *file_path,
+			      const gchar *file_path,
 			      GList *certs,
 			      GError **error)
 {
@@ -1188,7 +1188,7 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 		PK11_Logout (slot);
 
 		if (PK11_NeedUserInit (slot)) {
-			char *pwd;
+			gchar *pwd;
 			gboolean rv = FALSE;
 
 			printf ("initializing slot password\n");
@@ -1219,7 +1219,7 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 
 
 static SECStatus PR_CALLBACK
-collect_certs(void *arg, SECItem **certs, int numcerts)
+collect_certs(gpointer arg, SECItem **certs, gint numcerts)
 {
 	CERTDERCerts *collectArgs;
 	SECItem *cert;
@@ -1247,7 +1247,7 @@ collect_certs(void *arg, SECItem **certs, int numcerts)
 
 static CERTDERCerts*
 e_cert_db_get_certs_from_package (PRArenaPool *arena,
-				  char *data,
+				  gchar *data,
 				  guint32 length)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
@@ -1261,7 +1261,7 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 	collectArgs->arena = arena;
 	sec_rv = CERT_DecodeCertPackage(data,
 					length, collect_certs,
-					(void *)collectArgs);
+					(gpointer)collectArgs);
 
 	if (sec_rv != SECSuccess)
 		return NULL;

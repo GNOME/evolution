@@ -62,8 +62,8 @@
  * Return value: The physical uri of the folder, or NULL if the folder did
  * not exist and could not be created.
  **/
-char *
-mail_importer_make_local_folder(const char *folderpath)
+gchar *
+mail_importer_make_local_folder(const gchar *folderpath)
 {
 	return g_strdup_printf("mbox:/home/notzed/.evolution/mail/local/%s", folderpath);
 }
@@ -79,7 +79,7 @@ mail_importer_make_local_folder(const char *folderpath)
  */
 void
 mail_importer_add_line (MailImporter *importer,
-			const char *str,
+			const gchar *str,
 			gboolean finished)
 {
 	CamelMimeMessage *msg;
@@ -113,7 +113,7 @@ mail_importer_add_line (MailImporter *importer,
 	camel_message_info_free(info);
 }
 
-struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const char *iid, void *data)
+struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const gchar *iid, gpointer data)
 {
 #if 0
 	if (strcmp(iid, ELM_INTELLIGENT_IMPORTER_IID) == 0)
@@ -133,12 +133,12 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 struct _import_mbox_msg {
 	MailMsg base;
 
-	char *path;
-	char *uri;
+	gchar *path;
+	gchar *uri;
 	CamelOperation *cancel;
 
-	void (*done)(void *data, CamelException *ex);
-	void *done_data;
+	void (*done)(gpointer data, CamelException *ex);
+	gpointer done_data;
 };
 
 static gchar *
@@ -148,7 +148,7 @@ import_mbox_desc (struct _import_mbox_msg *m)
 }
 
 static struct {
-	char tag;
+	gchar tag;
 	guint32 mozflag;
 	guint32 flag;
 } status_flags[] = {
@@ -159,11 +159,11 @@ static struct {
 };
 
 static guint32
-decode_status(const char *status)
+decode_status(const gchar *status)
 {
-	const char *p;
+	const gchar *p;
 	guint32 flags = 0;
-	int i;
+	gint i;
 
 	p = status;
 	while ((*p++)) {
@@ -176,11 +176,11 @@ decode_status(const char *status)
 }
 
 static guint32
-decode_mozilla_status(const char *tmp)
+decode_mozilla_status(const gchar *tmp)
 {
 	unsigned long status = strtoul(tmp, NULL, 16);
 	guint32 flags = 0;
-	int i;
+	gint i;
 
 	for (i=0;i<sizeof(status_flags)/sizeof(status_flags[0]);i++)
 		if (status_flags[i].mozflag & status)
@@ -194,7 +194,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	CamelFolder *folder;
 	CamelMimeParser *mp = NULL;
 	struct stat st;
-	int fd;
+	gint fd;
 	CamelMessageInfo *info;
 
 	if (g_stat(m->path, &st) == -1) {
@@ -232,8 +232,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		camel_folder_freeze(folder);
 		while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;
-			const char *tmp;
-			int pc = 0;
+			const gchar *tmp;
+			gint pc = 0;
 			guint32 flags = 0;
 
 			if (st.st_size > 0)
@@ -307,11 +307,11 @@ static MailMsgInfo import_mbox_info = {
 	(MailMsgFreeFunc) import_mbox_free
 };
 
-int
-mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperation *cancel, void (*done)(void *data, CamelException *), void *data)
+gint
+mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, CamelException *), gpointer data)
 {
 	struct _import_mbox_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&import_mbox_info);
 	m->path = g_strdup(path);
@@ -330,7 +330,7 @@ mail_importer_import_mbox(const char *path, const char *folderuri, CamelOperatio
 }
 
 void
-mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOperation *cancel)
+mail_importer_import_mbox_sync(const gchar *path, const gchar *folderuri, CamelOperation *cancel)
 {
 	struct _import_mbox_msg *m;
 
@@ -355,13 +355,13 @@ struct _import_folders_data {
 };
 
 static void
-import_folders_rec(struct _import_folders_data *m, const char *filepath, const char *folderparent)
+import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const gchar *folderparent)
 {
 	GDir *dir;
-	const char *d;
+	const gchar *d;
 	struct stat st;
-	char *filefull, *foldersub, *uri, *utf8_filename;
-	const char *folder;
+	gchar *filefull, *foldersub, *uri, *utf8_filename;
+	const gchar *folder;
 
 	dir = g_dir_open(filepath, 0, NULL);
  	if (dir == NULL)
@@ -387,7 +387,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 		folder = d;
 		if (folderparent == NULL) {
-			int i;
+			gint i;
 
 			for (i=0;m->special_folders[i].orig;i++)
 				if (strcmp(m->special_folders[i].orig, folder) == 0) {
@@ -406,7 +406,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 
 		/* This little gem re-uses the stat buffer and filefull to automagically scan mozilla-format folders */
 		if (!m->elmfmt) {
-			char *tmp = g_strdup_printf("%s.sbd", filefull);
+			gchar *tmp = g_strdup_printf("%s.sbd", filefull);
 
 			g_free(filefull);
 			filefull = tmp;
@@ -445,7 +445,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
  * standard unix directories.
  **/
 void
-mail_importer_import_folders_sync(const char *filepath, MailImporterSpecial special_folders[], int flags, CamelOperation *cancel)
+mail_importer_import_folders_sync(const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel)
 {
 	struct _import_folders_data m;
 	CamelOperation *oldcancel = NULL;

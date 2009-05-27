@@ -43,8 +43,8 @@
 
 struct _GalViewMenusPrivate {
 	GalViewInstance *instance;
-	int collection_changed_id;
-	int instance_changed_id;
+	gint collection_changed_id;
+	gint instance_changed_id;
 	BonoboUIComponent *component;
 	EList *listenerClosures;
 	GtkWidget *define_views_dialog;
@@ -54,8 +54,8 @@ struct _GalViewMenusPrivate {
 
 typedef struct {
 	GalViewInstance *instance;
-	char *id;
-	int ref_count;
+	gchar *id;
+	gint ref_count;
 } ListenerClosure;
 
 static void collection_changed (GalViewCollection *collection,
@@ -69,7 +69,7 @@ static void instance_changed (GalViewInstance *instance,
 G_DEFINE_TYPE(GalViewMenus, gal_view_menus, G_TYPE_OBJECT)
 
 static void
-closure_free (void *data, void *user_data)
+closure_free (gpointer data, gpointer user_data)
 {
 	ListenerClosure *closure = data;
 	GalViewMenus *gvm = user_data;
@@ -83,10 +83,10 @@ closure_free (void *data, void *user_data)
 	}
 }
 
-static void *
-closure_copy (const void *data, void *user_data)
+static gpointer
+closure_copy (gconstpointer data, gpointer user_data)
 {
-	ListenerClosure *closure = (void *) data;
+	ListenerClosure *closure = (gpointer) data;
 
 	closure->ref_count ++;
 	return closure;
@@ -226,7 +226,7 @@ gal_view_menus_construct (GalViewMenus      *gvm,
 }
 
 static void
-dialog_response(GtkWidget *dialog, int id, GalViewMenus *menus)
+dialog_response(GtkWidget *dialog, gint id, GalViewMenus *menus)
 {
 	if (id == GTK_RESPONSE_OK) {
 		gal_view_collection_save(menus->priv->instance->collection);
@@ -237,7 +237,7 @@ dialog_response(GtkWidget *dialog, int id, GalViewMenus *menus)
 static void
 define_views(BonoboUIComponent *component,
 	     GalViewMenus      *menus,
-	     char              *cname)
+	     gchar              *cname)
 {
 	if (menus->priv->define_views_dialog) {
 		gdk_window_raise (menus->priv->define_views_dialog->window);
@@ -254,16 +254,16 @@ define_views(BonoboUIComponent *component,
 static void
 save_current_view(BonoboUIComponent *component,
 		  GalViewMenus      *menus,
-		  char              *cname)
+		  gchar              *cname)
 {
 	gal_view_instance_save_as (menus->priv->instance);
 }
 
 static void
 toggled_cb (BonoboUIComponent *component,
-	    const char *path,
+	    const gchar *path,
 	    Bonobo_UIComponent_EventType type,
-	    const char *state,
+	    const gchar *state,
 	    gpointer user_data)
 {
 	ListenerClosure *closure = user_data;
@@ -277,16 +277,16 @@ toggled_cb (BonoboUIComponent *component,
 	gal_view_instance_set_current_view_id (closure->instance, closure->id);
 }
 
-static char *
+static gchar *
 build_menus(GalViewMenus *menus)
 {
 	BonoboUINode *root, *menu, *submenu, *place, *menuitem, *commands, *command;
-	char *xml;
-	int length;
-	int i;
+	gchar *xml;
+	gint length;
+	gint i;
 	GalViewInstance *instance = menus->priv->instance;
 	GalViewCollection *collection = instance->collection;
-	char *id;
+	gchar *id;
 	gboolean found = FALSE;
 
 	root = bonobo_ui_node_new("Root");
@@ -313,8 +313,8 @@ build_menus(GalViewMenus *menus)
 	for (i = 0; i < length; i++) {
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		ListenerClosure *closure;
-		char *label;
-		char *tip;
+		gchar *label;
+		gchar *tip;
 
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
@@ -416,7 +416,7 @@ static BonoboUIVerb verbs [] = {
 static void
 set_state (GalViewMenus *gvm, const gchar *path, CORBA_Environment *ev)
 {
-	char *full_path = g_strdup_printf ("/commands/%s", path);
+	gchar *full_path = g_strdup_printf ("/commands/%s", path);
 
 	bonobo_ui_component_set_prop (gvm->priv->component, full_path, "state", "1", ev);
 	g_free (full_path);
@@ -426,7 +426,7 @@ static void
 set_radio (GalViewMenus *gvm,
 	   CORBA_Environment *ev)
 {
-	char *id;
+	gchar *id;
 
 	id = gal_view_instance_get_current_view_id (gvm->priv->instance);
 
@@ -442,7 +442,7 @@ static void
 build_stuff (GalViewMenus      *gvm,
 	     CORBA_Environment *ev)
 {
-	char *xml;
+	gchar *xml;
 
 	g_object_ref (gvm);
 

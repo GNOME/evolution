@@ -687,11 +687,11 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* draw categories icons */
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
-		const char *file;
+		gchar *category;
+		const gchar *file;
 		GdkPixbuf *pixbuf;
 
-		category = (char *) elem->data;
+		category = (gchar *) elem->data;
 		file = e_categories_get_icon_file_for (category);
 		if (!file)
 			continue;
@@ -800,7 +800,7 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
    This is needed so that we get button/motion events. */
 static double
 e_day_view_top_item_point (GnomeCanvasItem *item, double x, double y,
-			   int cx, int cy,
+			   gint cx, gint cy,
 			   GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;

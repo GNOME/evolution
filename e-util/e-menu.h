@@ -47,10 +47,10 @@ typedef struct _EMenuPixmap EMenuPixmap;
 typedef struct _EMenuFactory EMenuFactory; /* anonymous type */
 typedef struct _EMenuTarget EMenuTarget;
 
-typedef void (*EMenuFactoryFunc)(EMenu *emp, void *data);
-typedef void (*EMenuActivateFunc)(EMenu *, EMenuItem *, void *data);
-typedef void (*EMenuToggleActivateFunc)(EMenu *, EMenuItem *, int state, void *data);
-typedef void (*EMenuItemsFunc)(EMenu *, GSList *items, GSList *uifiles, GSList *pixmaps, void *data);
+typedef void (*EMenuFactoryFunc)(EMenu *emp, gpointer data);
+typedef void (*EMenuActivateFunc)(EMenu *, EMenuItem *, gpointer data);
+typedef void (*EMenuToggleActivateFunc)(EMenu *, EMenuItem *, gint state, gpointer data);
+typedef void (*EMenuItemsFunc)(EMenu *, GSList *items, GSList *uifiles, GSList *pixmaps, gpointer data);
 
 /**
  * enum _e_menu_t - Menu item type.
@@ -90,10 +90,10 @@ enum _e_menu_t {
  **/
 struct _EMenuItem {
 	enum _e_menu_t type;
-	char *path;		/* full path?  can we just create it from verb? */
-	char *verb;		/* command verb */
+	gchar *path;		/* full path?  can we just create it from verb? */
+	gchar *verb;		/* command verb */
 	GCallback activate;	/* depends on type, the bonobo activate callback */
-	void *user_data;	/* up to caller to use */
+	gpointer user_data;	/* up to caller to use */
 	guint32 visible;	/* is visible mask */
 	guint32 enable;		/* is enable mask */
 };
@@ -112,10 +112,10 @@ struct _EMenuItem {
  * supplied separately from the menu definition.
  **/
 struct _EMenuPixmap {
-	char *command;
-	char *name;
-	int size;
-	char *pixmap;
+	gchar *command;
+	gchar *name;
+	gint size;
+	gchar *pixmap;
 };
 
 /**
@@ -129,9 +129,9 @@ struct _EMenuPixmap {
  * the menu is activated.
  **/
 struct _EMenuUIFile {
-	char *appdir;
-	char *appname;
-	char *filename;
+	gchar *appdir;
+	gchar *appname;
+	gchar *filename;
 };
 
 /**
@@ -178,7 +178,7 @@ struct _EMenu {
 	GObject object;
 	struct _EMenuPrivate *priv;
 
-	char *menuid;
+	gchar *menuid;
 	struct _BonoboUIComponent *uic;
 	EMenuTarget *target;
 };
@@ -208,22 +208,22 @@ struct _EMenuClass {
 GType e_menu_get_type(void);
 
 /* Static class methods */
-EMenuFactory *e_menu_class_add_factory(EMenuClass *klass, const char *menuid, EMenuFactoryFunc func, void *data);
+EMenuFactory *e_menu_class_add_factory(EMenuClass *klass, const gchar *menuid, EMenuFactoryFunc func, gpointer data);
 void e_menu_class_remove_factory(EMenuClass *klass, EMenuFactory *f);
 
-EMenu *e_menu_construct(EMenu *menu, const char *menuid);
+EMenu *e_menu_construct(EMenu *menu, const gchar *menuid);
 
-void e_menu_add_ui(EMenu *, const char *appdir, const char *appname, const char *filename);
-void e_menu_add_pixmap(EMenu *, const char *cmd, const char *name, int size);
+void e_menu_add_ui(EMenu *, const gchar *appdir, const gchar *appname, const gchar *filename);
+void e_menu_add_pixmap(EMenu *, const gchar *cmd, const gchar *name, gint size);
 
-void *e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EMenuItemsFunc freefunc, void *data);
-void e_menu_remove_items(EMenu *emp, void *handle);
+gpointer e_menu_add_items(EMenu *emp, GSList *items, GSList *uifiles, GSList *pixmaps, EMenuItemsFunc freefunc, gpointer data);
+void e_menu_remove_items(EMenu *emp, gpointer handle);
 
-void e_menu_activate(EMenu *, struct _BonoboUIComponent *uic, int act);
-void e_menu_update_target(EMenu *, void *);
+void e_menu_activate(EMenu *, struct _BonoboUIComponent *uic, gint act);
+void e_menu_update_target(EMenu *, gpointer );
 
-void *e_menu_target_new(EMenu *, int type, size_t size);
-void e_menu_target_free(EMenu *, void *);
+gpointer e_menu_target_new(EMenu *, gint type, size_t size);
+void e_menu_target_free(EMenu *, gpointer );
 
 /* ********************************************************************** */
 
@@ -263,8 +263,8 @@ typedef void (*EMenuHookFunc)(struct _EPlugin *plugin, EMenuTarget *target);
  **/
 struct _EMenuHookMenu {
 	struct _EMenuHook *hook; /* parent pointer */
-	char *id;		/* target menu id for these menu items */
-	int target_type;	/* target type, not used */
+	gchar *id;		/* target menu id for these menu items */
+	gint target_type;	/* target type, not used */
 	GSList *items;		/* items to add to menu */
 	GSList *uis;		/* ui files */
 	GSList *pixmaps;	/* pixmap descriptors */

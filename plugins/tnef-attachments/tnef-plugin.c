@@ -52,42 +52,42 @@
 #include <e-util/e-error.h>
 #include <e-util/e-mktemp.h>
 
-int verbose = 0;
-int saveRTF = 0;
-int saveintermediate = 0;
-char *filepath = NULL;
+gint verbose = 0;
+gint saveRTF = 0;
+gint saveintermediate = 0;
+gchar *filepath = NULL;
 gboolean loaded = FALSE;
 void processTnef(TNEFStruct *tnef);
 void saveVCalendar(TNEFStruct *tnef);
 void saveVCard(TNEFStruct *tnef);
 void saveVTask(TNEFStruct *tnef);
 
-void org_gnome_format_tnef(void *ep, EMFormatHookTarget *t);
+void org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t);
 
 /* Other Prototypes */
-void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]);
-void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]);
+void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]);
+void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]);
 void quotedfprint(FILE *fptr, variableLength *vl);
 void cstylefprint(FILE *fptr, variableLength *vl);
 void printRtf(FILE *fptr, variableLength *vl);
-void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef);
-unsigned char getRruleCount(unsigned char a, unsigned char b);
-unsigned char getRruleMonthNum(unsigned char a, unsigned char b);
-char * getRruleDayname(unsigned char a);
+void printRrule(FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef);
+guchar getRruleCount(guchar a, guchar b);
+guchar getRruleMonthNum(guchar a, guchar b);
+gchar * getRruleDayname(guchar a);
 
 
 
 void
-org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
+org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 {
-	char *tmpdir = NULL, *name = NULL;
+	gchar *tmpdir = NULL, *name = NULL;
 	CamelStream *out;
 	struct dirent *d;
 	DIR *dir;
 	CamelMultipart *mp;
 	CamelMimePart *mainpart;
 	CamelDataWrapper *content;
-	int len;
+	gint len;
 	TNEFStruct *tnef;
 	tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
 
@@ -139,8 +139,8 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 		CamelMimePart *part;
 		CamelDataWrapper *content;
 		CamelStream *stream;
-		char *path;
-		const char *type;
+		gchar *path;
+		const gchar *type;
 
 		if (!strcmp(d->d_name, ".")
 		    || !strcmp(d->d_name, "..")
@@ -195,10 +195,10 @@ org_gnome_format_tnef(void *ep, EMFormatHookTarget *t)
 }
 
 
-int e_plugin_lib_enable(EPluginLib *ep, int enable);
+gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
 
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable(EPluginLib *ep, gint enable)
 {
     if (loaded)
 	    return 0;
@@ -216,14 +216,14 @@ void processTnef(TNEFStruct *tnef) {
     variableLength *filename;
     variableLength *filedata;
     Attachment *p;
-    int RealAttachment;
-    int object;
-    char * ifilename;
-    int i, count;
-    int foundCal=0;
+    gint RealAttachment;
+    gint object;
+    gchar * ifilename;
+    gint i, count;
+    gint foundCal=0;
 
     FILE *fptr;
-    ifilename = (char *) g_malloc(sizeof(char) * 256);
+    ifilename = (gchar *) g_malloc(sizeof(char) * 256);
 
     /* First see if this requires special processing. */
     /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
@@ -361,7 +361,7 @@ void processTnef(TNEFStruct *tnef) {
                 if (filename->size == 1) {
                     filename = (variableLength*)malloc(sizeof(variableLength));
                     filename->size = 20;
-                    filename->data = (char*)malloc(20);
+                    filename->data = (gchar *)malloc(20);
                     sprintf(filename->data, "file_%03i.dat", count);
                 }
                 if (filepath == NULL) {
@@ -398,12 +398,12 @@ void processTnef(TNEFStruct *tnef) {
 }
 
 void saveVCard(TNEFStruct *tnef) {
-    char ifilename[512];
+    gchar ifilename[512];
     FILE *fptr;
     variableLength *vl;
     variableLength *pobox, *street, *city, *state, *zip, *country;
     dtr thedate;
-    int boolean, i;
+    gint boolean, i;
 
     if ((vl = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_DISPLAY_NAME))) == MAPI_UNDEFINED) {
         if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_COMPANY_NAME))) == MAPI_UNDEFINED) {
@@ -699,11 +699,11 @@ void saveVCard(TNEFStruct *tnef) {
     }
 }
 
-unsigned char getRruleCount(unsigned char a, unsigned char b) {
+guchar getRruleCount(guchar a, guchar b) {
     return ((a << 8) | b);
 }
 
-unsigned char getRruleMonthNum(unsigned char a, unsigned char b) {
+guchar getRruleMonthNum(guchar a, guchar b) {
     switch (a) {
         case 0x00:
             switch (b) {
@@ -773,8 +773,8 @@ unsigned char getRruleMonthNum(unsigned char a, unsigned char b) {
     return(0);
 }
 
-char * getRruleDayname(unsigned char a) {
-    static char daystring[25];
+gchar * getRruleDayname(guchar a) {
+    static gchar daystring[25];
 
     *daystring = 0;
 
@@ -807,7 +807,7 @@ char * getRruleDayname(unsigned char a) {
     return(daystring);
 }
 
-void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef)
+void printRrule(FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
 {
     variableLength *filename;
 
@@ -882,11 +882,11 @@ void printRrule(FILE *fptr, char *recur_data, int size, TNEFStruct *tnef)
 }
 
 void saveVCalendar(TNEFStruct *tnef) {
-    char ifilename[256];
+    gchar ifilename[256];
     variableLength *filename;
-    char *charptr, *charptr2;
+    gchar *charptr, *charptr2;
     FILE *fptr;
-    int index;
+    gint index;
     DDWORD *ddword_ptr;
     DDWORD ddword_val;
     dtr thedate;
@@ -1141,9 +1141,9 @@ void saveVCalendar(TNEFStruct *tnef) {
 void saveVTask(TNEFStruct *tnef) {
     variableLength *vl;
     variableLength *filename;
-    int index,i;
-    char ifilename[256];
-    char *charptr, *charptr2;
+    gint index,i;
+    gchar ifilename[256];
+    gchar *charptr, *charptr2;
     dtr thedate;
     FILE *fptr;
     DDWORD *ddword_ptr;
@@ -1267,7 +1267,7 @@ void saveVTask(TNEFStruct *tnef) {
 
 }
 
-void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]) {
+void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]) {
     variableLength *vl;
     if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
@@ -1279,7 +1279,7 @@ void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, 
     }
 }
 
-void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, char text[]) {
+void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]) {
     variableLength *vl;
     if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
@@ -1292,7 +1292,7 @@ void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, 
 }
 
 void quotedfprint(FILE *fptr, variableLength *vl) {
-    int index;
+    gint index;
 
     for (index=0;index<vl->size-1; index++) {
         if (vl->data[index] == '\n') {
@@ -1305,7 +1305,7 @@ void quotedfprint(FILE *fptr, variableLength *vl) {
 }
 
 void cstylefprint(FILE *fptr, variableLength *vl) {
-    int index;
+    gint index;
 
     for (index=0;index<vl->size-1; index++) {
         if (vl->data[index] == '\n') {
@@ -1325,10 +1325,10 @@ void cstylefprint(FILE *fptr, variableLength *vl) {
 }
 
 void printRtf(FILE *fptr, variableLength *vl) {
-    int index;
-    char *byte;
-    int brace_ct;
-    int key;
+    gint index;
+    gchar *byte;
+    gint brace_ct;
+    gint key;
 
     key = 0;
     brace_ct = 0;

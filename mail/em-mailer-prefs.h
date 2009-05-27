@@ -56,7 +56,7 @@ typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
 typedef struct _EMMailerPrefsHeader EMMailerPrefsHeader;
 
 struct _EMMailerPrefsHeader {
-	char *name;
+	gchar *name;
 	guint enabled:1;
 	guint is_default:1;
 };
@@ -150,8 +150,8 @@ GtkWidget * create_combo_text_widget (void);
 
 struct _GtkWidget *em_mailer_prefs_new (void);
 
-EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const char *xml);
-char *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);
+EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const gchar *xml);
+gchar *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);
 void em_mailer_prefs_header_free(EMMailerPrefsHeader *header);
 
 /* needed by global config */

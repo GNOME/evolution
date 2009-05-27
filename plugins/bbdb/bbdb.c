@@ -42,7 +42,7 @@
 #define d(x)
 
 /* Plugin hooks */
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 void bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
@@ -59,11 +59,11 @@ struct bbdb_stuff {
 
 /* Static forward declarations */
 static gboolean bbdb_timeout (gpointer data);
-static void bbdb_do_it (EBook *book, const char *name, const char *email);
-static void add_email_to_contact (EContact *contact, const char *email);
+static void bbdb_do_it (EBook *book, const gchar *name, const gchar *email);
+static void add_email_to_contact (EContact *contact, const gchar *email);
 static void enable_toggled_cb (GtkWidget *widget, gpointer data);
 static void source_changed_cb (ESourceComboBox *source_combo_box, struct bbdb_stuff *stuff);
-static GtkWidget *create_addressbook_option_menu (struct bbdb_stuff *stuff, int type);
+static GtkWidget *create_addressbook_option_menu (struct bbdb_stuff *stuff, gint type);
 static void cleanup_cb (GObject *o, gpointer data);
 
 static ESource *
@@ -105,8 +105,8 @@ find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
 	return NULL;
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
  	/* Start up the plugin. */
 	if (enable) {
@@ -134,8 +134,8 @@ bbdb_timeout (gpointer data)
 
 typedef struct
 {
-	char *name;
-	char *email;
+	gchar *name;
+	gchar *email;
 } todo_struct;
 
 static void
@@ -192,7 +192,7 @@ bbdb_do_in_thread (gpointer data)
 }
 
 static void
-bbdb_do_thread (const char *name, const char *email)
+bbdb_do_thread (const gchar *name, const gchar *email)
 {
 	todo_struct *td;
 
@@ -271,9 +271,9 @@ bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 }
 
 static void
-bbdb_do_it (EBook *book, const char *name, const char *email)
+bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 {
-	char *query_string, *delim, *temp_name = NULL;
+	gchar *query_string, *delim, *temp_name = NULL;
 	EBookQuery *query;
 	GList *contacts, *l;
 	EContact *contact;
@@ -375,10 +375,10 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 }
 
 EBook *
-bbdb_open_addressbook (int type)
+bbdb_open_addressbook (gint type)
 {
 	GConfClient *gconf;
-	char        *uri;
+	gchar        *uri;
 	EBook       *book = NULL;
 
 	gboolean     status;
@@ -439,7 +439,7 @@ bbdb_check_gaim_enabled (void)
 }
 
 static void
-add_email_to_contact (EContact *contact, const char *email)
+add_email_to_contact (EContact *contact, const gchar *email)
 {
 	GList *emails;
 
@@ -497,7 +497,7 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
 	ESource *selected_source;
-	char *addressbook_gaim;
+	gchar *addressbook_gaim;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
@@ -562,12 +562,12 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 }
 
 static GtkWidget *
-create_addressbook_option_menu (struct bbdb_stuff *stuff, int type)
+create_addressbook_option_menu (struct bbdb_stuff *stuff, gint type)
 {
 	GtkWidget   *combo_box;
 	ESourceList *source_list;
 	ESource     *selected_source;
-	char        *selected_source_uri;
+	gchar        *selected_source_uri;
 
 	GConfClient *gconf = stuff->target->gconf;
 

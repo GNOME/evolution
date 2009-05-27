@@ -59,7 +59,7 @@ struct _EMFormatQuote {
 
 	EMFormatQuotePrivate *priv;
 
-	char *credits;
+	gchar *credits;
 	CamelStream *stream;
 	guint32 flags;
 

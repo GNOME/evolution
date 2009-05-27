@@ -82,7 +82,7 @@
 #include "e-attachment.h"
 #include "e-activity-handler.h"
 
-static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
+static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
 
 extern struct _CamelSession *session;
 
@@ -103,11 +103,11 @@ extern struct _CamelSession *session;
  * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
  **/
 gboolean
-em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...)
+em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
-	int button;
+	gint button;
 	GConfClient *gconf = mail_config_get_gconf_client();
 
 	if (promptkey
@@ -148,7 +148,7 @@ GPtrArray *
 em_utils_uids_copy (GPtrArray *uids)
 {
 	GPtrArray *copy;
-	int i;
+	gint i;
 
 	copy = g_ptr_array_new ();
 	g_ptr_array_set_size (copy, uids->len);
@@ -168,7 +168,7 @@ em_utils_uids_copy (GPtrArray *uids)
 void
 em_utils_uids_free (GPtrArray *uids)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < uids->len; i++)
 		g_free (uids->pdata[i]);
@@ -248,12 +248,12 @@ em_utils_check_user_can_send_mail (GtkWidget *parent)
 static GtkWidget *filter_editor = NULL;
 
 static void
-em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
+em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
 {
 	EMFilterContext *fc;
 
 	if (button == GTK_RESPONSE_OK) {
-		char *user;
+		gchar *user;
 
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml",
@@ -284,8 +284,8 @@ static EMFilterSource em_filter_source_element_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
-	char *user, *system;
+	const gchar *base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	gchar *user, *system;
 	EMFilterContext *fc;
 
 	if (filter_editor) {
@@ -331,9 +331,9 @@ em_filename_make_safe (gchar *string)
 	gchar *p, *ts;
 	gunichar c;
 #ifdef G_OS_WIN32
-	const char *unsafe_chars = "/\":*?<>|\\#";
+	const gchar *unsafe_chars = "/\":*?<>|\\#";
 #else
-	const char *unsafe_chars = "/#";
+	const gchar *unsafe_chars = "/#";
 #endif
 
 	g_return_if_fail (string != NULL);
@@ -385,7 +385,7 @@ emu_save_get_filename_for_part (CamelMimePart *part)
  * Saves a mime part to disk (prompting the user for filename).
  **/
 void
-em_utils_save_part (GtkWidget *parent, const char *prompt, CamelMimePart *part)
+em_utils_save_part (GtkWidget *parent, const gchar *prompt, CamelMimePart *part)
 {
 	GtkWidget *file_chooser;
 	const gchar *utf8_filename;
@@ -462,7 +462,7 @@ get_unique_file_names (GSList *parts)
 		sorted_file_names = g_slist_sort (g_slist_copy (file_names), cmp_func);
 		last = sorted_file_names->data;
 		for (iter = sorted_file_names->next; iter; iter = iter->next) {
-			char *name = iter->data;
+			gchar *name = iter->data;
 
 			if (name && last && cmp_func (name, last) == 0) {
 				gchar *new_name;
@@ -556,10 +556,10 @@ exit:
  * Returns %TRUE if saving succeeded, %FALSE otherwise
  **/
 gboolean
-em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePart *part)
+em_utils_save_part_to_file(GtkWidget *parent, const gchar *filename, CamelMimePart *part)
 {
-	int done;
-	char *dirname;
+	gint done;
+	gchar *dirname;
 	struct stat st;
 
 	if (filename[0] == 0)
@@ -599,9 +599,9 @@ struct _save_messages_data {
 };
 
 static void
-emu_save_messages_response(GtkWidget *filesel, int response, struct _save_messages_data *data)
+emu_save_messages_response(GtkWidget *filesel, gint response, struct _save_messages_data *data)
 {
-	char *uri;
+	gchar *uri;
 
 	if (response == GTK_RESPONSE_OK) {
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (filesel));
@@ -639,7 +639,7 @@ em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	struct _save_messages_data *data;
 	GtkWidget *filesel;
-	char *filename = NULL;
+	gchar *filename = NULL;
 	CamelMessageInfo *info = NULL;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -669,9 +669,9 @@ em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 /* ********************************************************************** */
 
 static void
-emu_add_address_cb(BonoboListener *listener, const char *name, const CORBA_any *any, CORBA_Environment *ev, void *data)
+emu_add_address_cb(BonoboListener *listener, const gchar *name, const CORBA_any *any, CORBA_Environment *ev, gpointer data)
 {
-	char *type = bonobo_event_subtype(name);
+	gchar *type = bonobo_event_subtype(name);
 
 	if (!strcmp(type, "Destroy"))
 		gtk_widget_destroy((GtkWidget *)data);
@@ -681,12 +681,12 @@ emu_add_address_cb(BonoboListener *listener, const char *name, const CORBA_any *
 
 /* one of email or vcard should be always NULL, never both of them */
 static void
-emu_add_address_or_vcard (struct _GtkWidget *parent, const char *email, const char *vcard)
+emu_add_address_or_vcard (struct _GtkWidget *parent, const gchar *email, const gchar *vcard)
 {
 	GtkWidget *win;
 	GtkWidget *control;
 	/*GtkWidget *socket;*/
-	char *email_buf = NULL;
+	gchar *email_buf = NULL;
 
 	if (email) {
 		CamelInternetAddress *cia;
@@ -742,7 +742,7 @@ emu_add_address_or_vcard (struct _GtkWidget *parent, const char *email, const ch
  * Add address @email to the addressbook.
  **/
 void
-em_utils_add_address (struct _GtkWidget *parent, const char *email)
+em_utils_add_address (struct _GtkWidget *parent, const gchar *email)
 {
 	emu_add_address_or_vcard (parent, email, NULL);
 }
@@ -752,7 +752,7 @@ em_utils_add_address (struct _GtkWidget *parent, const char *email)
  * Adds whole vCard to the addressbook.
  **/
 void
-em_utils_add_vcard (struct _GtkWidget *parent, const char *vcard)
+em_utils_add_vcard (struct _GtkWidget *parent, const gchar *vcard)
 {
 	emu_add_address_or_vcard (parent, NULL, vcard);
 }
@@ -777,12 +777,12 @@ ted_free (struct ted_t *ted)
 }
 
 static void
-tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
+tag_editor_response (GtkWidget *dialog, gint button, struct ted_t *ted)
 {
 	CamelFolder *folder;
 	CamelTag *tags, *t;
 	GPtrArray *uids;
-	int i;
+	gint i;
 
 	if (button == GTK_RESPONSE_OK && (tags = message_tag_editor_get_tag_list (ted->editor))) {
 		folder = ted->folder;
@@ -824,7 +824,7 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 {
 	GtkWidget *editor;
 	struct ted_t *ted;
-	int i;
+	gint i;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
@@ -886,7 +886,7 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 void
 em_utils_flag_for_followup_clear (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 {
-	int i;
+	gint i;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
@@ -920,8 +920,8 @@ em_utils_flag_for_followup_clear (GtkWidget *parent, CamelFolder *folder, GPtrAr
 void
 em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 {
-	char *now;
-	int i;
+	gchar *now;
+	gint i;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
@@ -930,7 +930,7 @@ em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GP
 
 	camel_folder_freeze (folder);
 	for (i = 0; i < uids->len; i++) {
-		const char *tag;
+		const gchar *tag;
 		CamelMessageInfo *mi = camel_folder_get_message_info(folder, uids->pdata[i]);
 
 		if (mi) {
@@ -958,7 +958,7 @@ em_utils_write_messages_to_stream(CamelFolder *folder, GPtrArray *uids, CamelStr
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilterFrom *from_filter;
-	int i, res = 0;
+	gint i, res = 0;
 
 	from_filter = camel_mime_filter_from_new();
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
@@ -967,7 +967,7 @@ em_utils_write_messages_to_stream(CamelFolder *folder, GPtrArray *uids, CamelStr
 
 	for (i=0; i<uids->len; i++) {
 		CamelMimeMessage *message;
-		char *from;
+		gchar *from;
 
 		message = camel_folder_get_message(folder, uids->pdata[i], NULL);
 		if (message == NULL) {
@@ -1003,7 +1003,7 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 {
 	CamelException *ex = camel_exception_new();
 	CamelMimeParser *mp = camel_mime_parser_new();
-	int res = -1;
+	gint res = -1;
 
 	camel_mime_parser_scan_from(mp, TRUE);
 	camel_mime_parser_init_with_stream(mp, stream);
@@ -1079,7 +1079,7 @@ em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder)
 
 	/* TODO: a stream mem with read-only access to existing data? */
 	/* NB: Although copying would let us run this async ... which it should */
-	stream = (CamelStream *)camel_stream_mem_new_with_buffer((char *)data->data, data->length);
+	stream = (CamelStream *)camel_stream_mem_new_with_buffer((gchar *)data->data, data->length);
 	em_utils_read_messages_from_stream(folder, stream);
 	camel_object_unref(stream);
 }
@@ -1102,7 +1102,7 @@ em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
 		return;
 
 	ex = camel_exception_new();
-	stream = (CamelStream *)camel_stream_mem_new_with_buffer((char *)data->data, data->length);
+	stream = (CamelStream *)camel_stream_mem_new_with_buffer((gchar *)data->data, data->length);
 	msg = camel_mime_message_new();
 	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) == 0)
 		camel_folder_append_message(folder, msg, NULL, NULL, ex);
@@ -1122,14 +1122,14 @@ em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
  * FIXME: be nice if this could take a folder argument rather than uri
  **/
 void
-em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArray *uids)
+em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArray *uids)
 {
 	GByteArray *array = g_byte_array_new();
-	int i;
+	gint i;
 
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
 
-	g_byte_array_append(array, (unsigned char *)uri, strlen(uri)+1);
+	g_byte_array_append(array, (guchar *)uri, strlen(uri)+1);
 
 	for (i=0; i<uids->len; i++)
 		g_byte_array_append(array, uids->pdata[i], strlen(uids->pdata[i])+1);
@@ -1148,10 +1148,10 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArra
  * Warning: Could take some time to run.
  **/
 void
-em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int move, CamelException *ex)
+em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, gint move, CamelException *ex)
 {
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
-	char *inptr, *inend;
+	gchar *inptr, *inend;
 	GPtrArray *uids;
 	CamelFolder *folder;
 
@@ -1160,15 +1160,15 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 
 	uids = g_ptr_array_new();
 
-	inptr = (char *)data->data;
-	inend = (char *)(data->data + data->length);
+	inptr = (gchar *)data->data;
+	inend = (gchar *)(data->data + data->length);
 	while (inptr < inend) {
-		char *start = inptr;
+		gchar *start = inptr;
 
 		while (inptr < inend && *inptr)
 			inptr++;
 
-		if (start > (char *)data->data)
+		if (start > (gchar *)data->data)
 			g_ptr_array_add(uids, g_strndup(start, inptr-start));
 
 		inptr++;
@@ -1179,7 +1179,7 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 		return;
 	}
 
-	folder = mail_tool_uri_to_folder((char *)data->data, 0, ex);
+	folder = mail_tool_uri_to_folder((gchar *)data->data, 0, ex);
 	if (folder) {
 		camel_folder_transfer_messages_to(folder, uids, dest, NULL, move, ex);
 		camel_object_unref(folder);
@@ -1201,10 +1201,10 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int mo
 void
 em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
 {
-	char *tmpdir;
+	gchar *tmpdir;
 	CamelStream *fstream;
-	char *uri, *file = NULL, *tmpfile;
-	int fd;
+	gchar *uri, *file = NULL, *tmpfile;
+	gint fd;
 	CamelMessageInfo *info;
 
 	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
@@ -1244,9 +1244,9 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 	if (fstream) {
 		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0) {
 			/* terminate with \r\n to be compliant with the spec */
-			char *uri_crlf = g_strconcat(uri, "\r\n", NULL);
+			gchar *uri_crlf = g_strconcat(uri, "\r\n", NULL);
 
-			gtk_selection_data_set(data, data->target, 8, (unsigned char *)uri_crlf, strlen(uri_crlf));
+			gtk_selection_data_set(data, data->target, 8, (guchar *)uri_crlf, strlen(uri_crlf));
 			g_free(uri_crlf);
 		}
 
@@ -1272,12 +1272,12 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 {
 	CamelStream *stream;
 	CamelURL *url;
-	int fd, i, res = 0;
-	char *tmp, **uris;
+	gint fd, i, res = 0;
+	gchar *tmp, **uris;
 
 	d(printf(" * drop uri list\n"));
 
-	tmp = g_strndup((char *)data->data, data->length);
+	tmp = g_strndup((gchar *)data->data, data->length);
 	uris = g_strsplit(tmp, "\n", 0);
 	g_free(tmp);
 	for (i=0;res == 0 && uris[i];i++) {
@@ -1305,9 +1305,9 @@ em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
 }
 
 static void
-emu_save_part_done(CamelMimePart *part, char *name, int done, void *data)
+emu_save_part_done(CamelMimePart *part, gchar *name, gint done, gpointer data)
 {
-	((int *)data)[0] = done;
+	((gint *)data)[0] = done;
 }
 
 /**
@@ -1321,12 +1321,12 @@ emu_save_part_done(CamelMimePart *part, char *name, int done, void *data)
  *
  * Return value: NULL if anything failed.
  **/
-char *
+gchar *
 em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 {
-	const char *filename;
-	char *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
-	int done;
+	const gchar *filename;
+	gchar *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
+	gint done;
 	GtkWidget *w;
 
 	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
@@ -1343,9 +1343,9 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 	} else {
 		utf8_mfilename = g_strdup (filename);
 		e_filename_make_safe (utf8_mfilename);
-		mfilename = g_filename_from_utf8 ((const char *) utf8_mfilename, -1, NULL, NULL, NULL);
+		mfilename = g_filename_from_utf8 ((const gchar *) utf8_mfilename, -1, NULL, NULL, NULL);
 		g_free (utf8_mfilename);
-		filename = (const char *) mfilename;
+		filename = (const gchar *) mfilename;
 	}
 
 	path = g_build_filename(tmpdir, filename, NULL);
@@ -1376,13 +1376,13 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
  **/
 
 gboolean
-em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
+em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
-	int is = FALSE;
-	char *templates_uri;
+	gint is = FALSE;
+	gchar *templates_uri;
 
 	if (folder == mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_TEMPLATES))
 		return TRUE;
@@ -1423,13 +1423,13 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
  * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
+em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
-	int is = FALSE;
-	char *drafts_uri;
+	gint is = FALSE;
+	gchar *drafts_uri;
 
 	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS))
 		return TRUE;
@@ -1470,13 +1470,13 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
  * Returns %TRUE if this is a Sent folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
+em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
-	int is = FALSE;
-	char *sent_uri;
+	gint is = FALSE;
+	gchar *sent_uri;
 
 	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))
 		return TRUE;
@@ -1517,7 +1517,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
  * Returns %TRUE if this is an Outbox folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_outbox(CamelFolder *folder, const char *uri)
+em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 {
 	/* <Highlander>There can be only one.</Highlander> */
 	return folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
@@ -1556,8 +1556,8 @@ em_utils_adjustment_page(GtkAdjustment *adj, gboolean down)
 static EProxy *emu_proxy = NULL;
 static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;
 
-static void *
-emu_proxy_setup (void *data)
+static gpointer
+emu_proxy_setup (gpointer data)
 {
 	if (!emu_proxy) {
 		emu_proxy = e_proxy_new ();
@@ -1575,10 +1575,10 @@ emu_proxy_setup (void *data)
  *
  * Return value: Must be freed when finished with.
  **/
-char *
-em_utils_get_proxy_uri (const char *pUri)
+gchar *
+em_utils_get_proxy_uri (const gchar *pUri)
 {
-	char *uri = NULL;
+	gchar *uri = NULL;
 
 	g_static_mutex_lock (&emu_proxy_lock);
 
@@ -1605,13 +1605,13 @@ em_utils_get_proxy_uri (const char *pUri)
  *
  * Return Value: The part in displayable html format.
  **/
-char *
+gchar *
 em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
 	GByteArray *buf;
-	char *text;
+	gchar *text;
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
@@ -1633,7 +1633,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 	camel_stream_write((CamelStream *) mem, "", 1);
 	camel_object_unref(mem);
 
-	text = (char *)buf->data;
+	text = (gchar *)buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free (buf, FALSE);
@@ -1655,13 +1655,13 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
  *
  * Return value: The html version.
  **/
-char *
-em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len, EMFormat *source, const char *append)
+gchar *
+em_utils_message_to_html(CamelMimeMessage *message, const gchar *credits, guint32 flags, ssize_t *len, EMFormat *source, const gchar *append)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
 	GByteArray *buf;
-	char *text;
+	gchar *text;
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
@@ -1673,7 +1673,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 
 	if (!source) {
 		GConfClient *gconf;
-		char *charset;
+		gchar *charset;
 
 		/* FIXME: we should be getting this from the current view, not the global setting. */
 		gconf = gconf_client_get_default ();
@@ -1692,7 +1692,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	camel_stream_write((CamelStream *)mem, "", 1);
 	camel_object_unref(mem);
 
-	text = (char *)buf->data;
+	text = (gchar *)buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free(buf, FALSE);
@@ -1712,7 +1712,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 void
 em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 {
-	char *name;
+	gchar *name;
 
 	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 
@@ -1772,11 +1772,11 @@ em_utils_empty_trash (GtkWidget *parent)
 	mail_empty_trash (NULL, NULL, NULL);
 }
 
-char *
-em_utils_folder_name_from_uri (const char *uri)
+gchar *
+em_utils_folder_name_from_uri (const gchar *uri)
 {
 	CamelURL *url;
-	char *folder_name = NULL;
+	gchar *folder_name = NULL;
 
 	if (uri == NULL || (url = camel_url_new (uri, NULL)) == NULL)
 		return NULL;
@@ -1805,12 +1805,12 @@ em_utils_folder_name_from_uri (const char *uri)
  *  local        local:/storage/path#folder   -> email://local@local/folder
  */
 
-char *em_uri_from_camel(const char *curi)
+gchar *em_uri_from_camel(const gchar *curi)
 {
 	CamelURL *curl;
 	EAccount *account;
-	const char *uid, *path;
-	char *euri, *tmp;
+	const gchar *uid, *path;
+	gchar *euri, *tmp;
 	CamelProvider *provider;
 	CamelException ex;
 
@@ -1856,14 +1856,14 @@ char *em_uri_from_camel(const char *curi)
 	return euri;
 }
 
-char *em_uri_to_camel(const char *euri)
+gchar *em_uri_to_camel(const gchar *euri)
 {
 	EAccountList *accounts;
 	const EAccount *account;
 	EAccountService *service;
 	CamelProvider *provider;
 	CamelURL *eurl, *curl;
-	char *uid, *curi;
+	gchar *uid, *curi;
 
 	if (strncmp(euri, "email:", 6) != 0) {
 		d(printf("em uri to camel not euri '%s'\n", euri));
@@ -1880,7 +1880,7 @@ char *em_uri_to_camel(const char *euri)
 		/* Sigh, shoul'dve used mbox@local for mailboxes, not local@local */
 		if (strcmp(eurl->host, "local") == 0
 		    && (strcmp(eurl->user, "local") == 0 || strcmp(eurl->user, "vfolder") == 0)) {
-			char *base;
+			gchar *base;
 
 			if (strcmp(eurl->user, "vfolder") == 0)
 				curl = camel_url_new("vfolder:", NULL);
@@ -1891,7 +1891,7 @@ char *em_uri_to_camel(const char *euri)
 #ifdef G_OS_WIN32
 			/* Turn backslashes into slashes to avoid URI encoding */
 			{
-				char *p = base;
+				gchar *p = base;
 				while ((p = strchr (p, '\\')))
 					*p++ = '/';
 			}
@@ -1946,9 +1946,9 @@ char *em_uri_to_camel(const char *euri)
 #include <libebook/e-book.h>
 
 struct _addr_node {
-	char *addr;
+	gchar *addr;
 	time_t stamp;
-	int found;
+	gint found;
 };
 
 #define EMU_ADDR_CACHE_TIME (60*30) /* in seconds */
@@ -1958,8 +1958,8 @@ static ESourceList *emu_addr_list;
 static GHashTable *emu_addr_cache;
 
 /* runs sync, in main thread */
-static void *
-emu_addr_setup(void *dummy)
+static gpointer
+emu_addr_setup(gpointer dummy)
 {
 	GError *err = NULL;
 
@@ -1972,7 +1972,7 @@ emu_addr_setup(void *dummy)
 }
 
 static void
-emu_addr_cancel_book(void *data)
+emu_addr_cancel_book(gpointer data)
 {
 	EBook *book = data;
 	GError *err = NULL;
@@ -2067,9 +2067,9 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 {
 	GError *err = NULL;
 	GSList *s, *g, *addr_sources = NULL;
-	int stop = FALSE, found = FALSE;
+	gint stop = FALSE, found = FALSE;
 	EBookQuery *query;
-	const char *addr;
+	const gchar *addr;
 	struct _addr_node *node;
 	time_t now;
 
@@ -2119,7 +2119,7 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data);s;s=g_slist_next(s)) {
 			ESource *src = s->data;
-			const char *completion = e_source_get_property (src, "completion");
+			const gchar *completion = e_source_get_property (src, "completion");
 
 			if (completion && !g_ascii_strcasecmp (completion, "true")) {
 				addr_sources = g_slist_prepend(addr_sources, src);
@@ -2194,8 +2194,8 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 struct _CamelMimePart *
 em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 {
-	const char *addr;
-	int stop = FALSE, found = FALSE;
+	const gchar *addr;
+	gint stop = FALSE, found = FALSE;
 	GSList *s, *g, *addr_sources = NULL;
 	GError *err = NULL;
         EBookQuery *query = NULL;
@@ -2224,7 +2224,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data); s; s=g_slist_next(s)) {
 			ESource *src = s->data;
-			const char *completion = e_source_get_property (src, "completion");
+			const gchar *completion = e_source_get_property (src, "completion");
 
 			if (completion && !g_ascii_strcasecmp (completion, "true")) {
 				addr_sources = g_slist_prepend(addr_sources, src);
@@ -2289,7 +2289,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 	/* Form a mime part out of the photo */
 	part = camel_mime_part_new();
 	camel_mime_part_set_content(part,
-	                            (const char *) photo->data.inlined.data,
+	                            (const gchar *) photo->data.inlined.data,
 	                            photo->data.inlined.length, "image/jpeg");
 
 	e_contact_photo_free (photo);
@@ -2305,14 +2305,14 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
  *
  * Return value: NULL if unknown (more likely application/octet-stream).
  **/
-const char *
+const gchar *
 em_utils_snoop_type(CamelMimePart *part)
 {
-	/* cache is here only to be able still return const char * */
+	/* cache is here only to be able still return const gchar * */
 	static GHashTable *types_cache = NULL;
 
-	const char *filename;
-	char *name_type = NULL, *magic_type = NULL, *res, *tmp;
+	const gchar *filename;
+	gchar *name_type = NULL, *magic_type = NULL, *res, *tmp;
 	CamelDataWrapper *dw;
 
 	filename = camel_mime_part_get_filename (part);
@@ -2324,7 +2324,7 @@ em_utils_snoop_type(CamelMimePart *part)
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
 
 		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0) {
-			char *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
+			gchar *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
 
 			if (ct)
 				magic_type = g_content_type_get_mime_type (ct);
@@ -2405,7 +2405,7 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 }
 
 
-static void error_response(GtkObject *o, int button, void *data)
+static void error_response(GtkObject *o, gint button, gpointer data)
 {
 	gtk_widget_destroy((GtkWidget *)o);
 }

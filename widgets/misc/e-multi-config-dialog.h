@@ -62,12 +62,12 @@ GType      e_multi_config_dialog_get_type (void);
 GtkWidget *e_multi_config_dialog_new      (void);
 
 void  e_multi_config_dialog_add_page  (EMultiConfigDialog *dialog,
-				       const char         *title,
-				       const char         *description,
+				       const gchar         *title,
+				       const gchar         *description,
 				       GdkPixbuf          *icon,
 				       EConfigPage        *page);
 void  e_multi_config_dialog_show_page (EMultiConfigDialog *dialog,
-				       int                 page);
+				       gint                 page);
 
 #ifdef __cplusplus
 }

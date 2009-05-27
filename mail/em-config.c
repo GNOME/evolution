@@ -124,7 +124,7 @@ emp_target_free(EConfig *ep, EConfigTarget *t)
 }
 
 static void
-emp_account_changed(struct _EAccount *ea, int id, EMConfig *emc)
+emp_account_changed(struct _EAccount *ea, gint id, EMConfig *emc)
 {
 	e_config_target_changed((EConfig *)emc, E_CONFIG_TARGET_CHANGED_STATE);
 }
@@ -180,7 +180,7 @@ em_config_get_type(void)
 	return type;
 }
 
-EMConfig *em_config_new(int type, const char *menuid)
+EMConfig *em_config_new(gint type, const gchar *menuid)
 {
 	EMConfig *emp = g_object_new(em_config_get_type(), NULL);
 
@@ -190,7 +190,7 @@ EMConfig *em_config_new(int type, const char *menuid)
 }
 
 EMConfigTargetFolder *
-em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const char *uri)
+em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const gchar *uri)
 {
 	EMConfigTargetFolder *t = e_config_target_new(&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof(*t));
 
@@ -253,7 +253,7 @@ em_config_target_new_account(EMConfig *emp, struct _EAccount *account)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EMConfigHook *)eph)
 
 static const EConfigHookTargetMask emph_no_masks[] = {
@@ -278,7 +278,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.config:1.0";

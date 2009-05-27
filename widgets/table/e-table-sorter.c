@@ -45,19 +45,19 @@ G_DEFINE_TYPE (ETableSorter, ets, E_SORTER_TYPE)
 #define INCREMENT_AMOUNT 100
 
 static void    	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
-static void    	ets_model_row_changed  (ETableModel *etm, int row, ETableSorter *ets);
-static void    	ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets);
-static void    	ets_model_rows_inserted (ETableModel *etm, int row, int count, ETableSorter *ets);
-static void    	ets_model_rows_deleted (ETableModel *etm, int row, int count, ETableSorter *ets);
+static void    	ets_model_row_changed  (ETableModel *etm, gint row, ETableSorter *ets);
+static void    	ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets);
+static void    	ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
+static void    	ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
 static void    	ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
 static void    	ets_clean              (ETableSorter *ets);
 static void    	ets_sort               (ETableSorter *ets);
 static void    	ets_backsort           (ETableSorter *ets);
 
-static gint    	ets_model_to_sorted           (ESorter *sorter, int row);
-static gint    	ets_sorted_to_model           (ESorter *sorter, int row);
-static void    	ets_get_model_to_sorted_array (ESorter *sorter, int **array, int *count);
-static void    	ets_get_sorted_to_model_array (ESorter *sorter, int **array, int *count);
+static gint    	ets_model_to_sorted           (ESorter *sorter, gint row);
+static gint    	ets_sorted_to_model           (ESorter *sorter, gint row);
+static void    	ets_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
+static void    	ets_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
 static gboolean ets_needs_sorting             (ESorter *ets);
 
 static void
@@ -230,25 +230,25 @@ ets_model_changed (ETableModel *etm, ETableSorter *ets)
 }
 
 static void
-ets_model_row_changed (ETableModel *etm, int row, ETableSorter *ets)
+ets_model_row_changed (ETableModel *etm, gint row, ETableSorter *ets)
 {
 	ets_clean(ets);
 }
 
 static void
-ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets)
+ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets)
 {
 	ets_clean(ets);
 }
 
 static void
-ets_model_rows_inserted (ETableModel *etm, int row, int count, ETableSorter *ets)
+ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
 {
 	ets_clean(ets);
 }
 
 static void
-ets_model_rows_deleted (ETableModel *etm, int row, int count, ETableSorter *ets)
+ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
 {
 	ets_clean(ets);
 }
@@ -261,22 +261,22 @@ ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 }
 
 static ETableSorter *ets_closure;
-static void **vals_closure;
-static int cols_closure;
-static int *ascending_closure;
+static gpointer *vals_closure;
+static gint cols_closure;
+static gint *ascending_closure;
 static GCompareFunc *compare_closure;
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static int
-qsort_callback(const void *data1, const void *data2)
+qsort_callback(gconstpointer data1, gconstpointer data2)
 {
-	gint row1 = *(int *)data1;
-	gint row2 = *(int *)data2;
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(ets_closure->sort_info) + e_table_sort_info_grouping_get_count(ets_closure->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
+	gint row1 = *(gint *)data1;
+	gint row2 = *(gint *)data2;
+	gint j;
+	gint sort_count = e_table_sort_info_sorting_get_count(ets_closure->sort_info) + e_table_sort_info_grouping_get_count(ets_closure->sort_info);
+	gint comp_val = 0;
+	gint ascending = 1;
 	for (j = 0; j < sort_count; j++) {
 		comp_val = (*(compare_closure[j]))(vals_closure[cols_closure * row1 + j], vals_closure[cols_closure * row2 + j]);
 		ascending = ascending_closure[j];
@@ -310,11 +310,11 @@ ets_clean(ETableSorter *ets)
 static void
 ets_sort(ETableSorter *ets)
 {
-	int rows;
-	int i;
-	int j;
-	int cols;
-	int group_cols;
+	gint rows;
+	gint i;
+	gint j;
+	gint cols;
+	gint group_cols;
 
 	if (ets->sorted)
 		return;
@@ -330,7 +330,7 @@ ets_sort(ETableSorter *ets)
 	cols_closure = cols;
 	ets_closure = ets;
 
-	vals_closure = g_new(void *, rows * cols);
+	vals_closure = g_new(gpointer , rows * cols);
 	ascending_closure = g_new(int, cols);
 	compare_closure = g_new(GCompareFunc, cols);
 
@@ -365,7 +365,7 @@ ets_sort(ETableSorter *ets)
 static void
 ets_backsort(ETableSorter *ets)
 {
-	int i, rows;
+	gint i, rows;
 
 	if (ets->backsorted)
 		return;
@@ -382,10 +382,10 @@ ets_backsort(ETableSorter *ets)
 
 
 static gint
-ets_model_to_sorted (ESorter *es, int row)
+ets_model_to_sorted (ESorter *es, gint row)
 {
 	ETableSorter *ets = E_TABLE_SORTER(es);
-	int rows = e_table_model_row_count(ets->source);
+	gint rows = e_table_model_row_count(ets->source);
 
 	g_return_val_if_fail(row >= 0, -1);
 	g_return_val_if_fail(row < rows, -1);
@@ -400,10 +400,10 @@ ets_model_to_sorted (ESorter *es, int row)
 }
 
 static gint
-ets_sorted_to_model (ESorter *es, int row)
+ets_sorted_to_model (ESorter *es, gint row)
 {
 	ETableSorter *ets = E_TABLE_SORTER(es);
-	int rows = e_table_model_row_count(ets->source);
+	gint rows = e_table_model_row_count(ets->source);
 
 	g_return_val_if_fail(row >= 0, -1);
 	g_return_val_if_fail(row < rows, -1);
@@ -418,7 +418,7 @@ ets_sorted_to_model (ESorter *es, int row)
 }
 
 static void
-ets_get_model_to_sorted_array (ESorter *es, int **array, int *count)
+ets_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
 	ETableSorter *ets = E_TABLE_SORTER(es);
 	if (array || count) {
@@ -432,7 +432,7 @@ ets_get_model_to_sorted_array (ESorter *es, int **array, int *count)
 }
 
 static void
-ets_get_sorted_to_model_array (ESorter *es, int **array, int *count)
+ets_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
 	ETableSorter *ets = E_TABLE_SORTER(es);
 	if (array || count) {

@@ -59,9 +59,9 @@ struct _EMFormatHTMLDisplay {
 
 	struct _ESearchingTokenizer *search_tok;
 
-	unsigned int animate:1;
-	unsigned int caret_mode:1;
-	unsigned int nobar:1;
+	guint animate:1;
+	guint caret_mode:1;
+	guint nobar:1;
 };
 
 #define EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY (0)
@@ -72,11 +72,11 @@ struct _EMFormatHTMLDisplayClass {
 	EMFormatHTMLClass formathtml_class;
 
 	/* a link clicked normally */
-	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const char *uri);
+	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const gchar *uri);
 	/* a part or a link button pressed event */
-	int (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, struct _CamelMimePart *part);
+	gint (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, struct _CamelMimePart *part);
 	/* the mouse is over a link */
-	void (*on_url)(EMFormatHTMLDisplay *efhd, const char *uri);
+	void (*on_url)(EMFormatHTMLDisplay *efhd, const gchar *uri);
 };
 
 GType		em_format_html_display_get_type	(void);
@@ -85,7 +85,7 @@ EMFormatHTMLDisplay *
 
 void		em_format_html_display_goto_anchor
 						(EMFormatHTMLDisplay *efhd,
-						 const char *name);
+						 const gchar *name);
 
 void		em_format_html_display_set_animate
 						(EMFormatHTMLDisplay *efhd,
@@ -96,12 +96,12 @@ void		em_format_html_display_set_caret_mode
 
 void		em_format_html_display_set_search
 						(EMFormatHTMLDisplay *efhd,
-						 int type,
+						 gint type,
 						 GSList *strings);
 void		em_format_html_display_search	(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_search_with
 						(EMFormatHTMLDisplay *efhd,
-						 char *word);
+						 gchar *word);
 void		em_format_html_display_search_close
 						(EMFormatHTMLDisplay *efhd);
 

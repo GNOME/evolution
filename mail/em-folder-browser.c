@@ -121,7 +121,7 @@ struct _EMFolderBrowserPrivate {
 	guint vpane_resize_id;
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
 
-	char *select_uid;
+	gchar *select_uid;
 	guint folder_changed_id;
 
 	guint show_wide:1;
@@ -139,20 +139,20 @@ typedef struct EMFBSearchBarItem {
 	const gchar *image;
 } EMFBSearchBarItem;
 
-static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
-static void emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri);
-static void emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri);
+static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint state);
+static void emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri);
+static void emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri);
 
 /* FilterBar stuff ... */
-static void emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data);
-static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb);
+static void emfb_search_config_search(EFilterBar *efb, FilterRule *rule, gint id, const gchar *query, gpointer data);
+static void emfb_search_menu_activated(ESearchBar *esb, gint id, EMFolderBrowser *emfb);
 static void emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb);
 static void emfb_search_search_cleared(ESearchBar *esb);
 
-static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
-static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
+static gint emfb_list_key_press(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *ev, EMFolderBrowser *emfb);
+static void emfb_list_message_selected (MessageList *ml, const gchar *uid, EMFolderBrowser *emfb);
 
-static void emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path);
+static void emfb_expand_all_threads(BonoboUIComponent *uid, gpointer data, const gchar *path);
 
 static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
@@ -294,7 +294,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 
 	for (i = 0; emfb_view_items[i].search.id != -1; ++i) {
 		if (emfb_view_items[i].search.text) {
-			char *str;
+			gchar *str;
 
 			str = e_str_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
@@ -325,7 +325,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 	for (l = mail_config_get_labels (), i = 0; l; l = l->next, i++) {
 		EUtilLabel *label = l->data;
 		if (label->name && *(label->name)) {
-			char *str;
+			gchar *str;
 			GdkPixmap *pixmap;
 			GdkColor colour;
 			GdkGC *gc;
@@ -359,7 +359,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 
 	for (i = 0; temp_view_items[i].search.id != -1; ++i) {
 		if (temp_view_items[i].search.text) {
-			char *str;
+			gchar *str;
 			str = e_str_without_underscores (_(temp_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			if (temp_view_items[i].image) {
@@ -423,7 +423,7 @@ emfb_realize (GtkWidget *widget)
 {
 	GtkWidget *menu;
 	EMFolderBrowser *emfb = (EMFolderBrowser *)widget;
-	int id;
+	gint id;
 
 	menu = generate_viewoption_menu (widget);
 	id = e_search_bar_get_viewitem_id (E_SEARCH_BAR (emfb->search));
@@ -512,11 +512,11 @@ emfb_init(GObject *o)
 							       "evolution-mail-message.xml",
 							       NULL));
 
-	emfb->view.enable_map = g_slist_prepend(emfb->view.enable_map, (void *)emfb_enable_map);
+	emfb->view.enable_map = g_slist_prepend(emfb->view.enable_map, (gpointer)emfb_enable_map);
 
 	if (search_context) {
-		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
-		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
+		const gchar *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
+		const gchar *userrules = g_object_get_data (G_OBJECT (search_context), "user");
 		EFilterBar *efb;
 		GConfClient *gconf;
 
@@ -736,7 +736,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 
 	if (state) {
 		GConfClient *gconf = mail_config_get_gconf_client ();
-		int paned_size /*, y*/;
+		gint paned_size /*, y*/;
 
 		paned_size = gconf_client_get_int(gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size":"/apps/evolution/mail/display/paned_size", NULL);
 
@@ -745,7 +745,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		gtk_widget_show (GTK_WIDGET (emfb->priv->preview));
 
 		if (emfb->view.list->cursor_uid) {
-			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
+			gchar *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
 			emfb->priv->scope_restricted = FALSE;
 			strcpy(uid, emfb->view.list->cursor_uid);
@@ -779,7 +779,7 @@ gboolean em_folder_browser_get_wide (EMFolderBrowser *emfb)
 void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 {
 	GtkWidget *w;
-	int paned_size;
+	gint paned_size;
 
 	if ((emfb->priv->show_wide &&  state)
 	    || emfb->view.list == NULL) {
@@ -818,7 +818,7 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 /* FIXME: Ugh! */
 
 static void
-emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
+emfb_search_menu_activated(ESearchBar *esb, gint id, EMFolderBrowser *emfb)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 
@@ -829,7 +829,7 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
 			FilterRule *rule;
-			char *name, *text;
+			gchar *name, *text;
 
 			/* ensures vfolder is running */
 			vfolder_load_storage ();
@@ -850,14 +850,14 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 }
 
 static void
-emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
+emfb_search_config_search(EFilterBar *efb, FilterRule *rule, gint id, const gchar *query, gpointer data)
 {
 	EMFolderBrowser *emfb = data;
 	EMailSearchBar *search_bar;
 	ESearchingTokenizer *tokenizer;
 	GList *partl;
 	struct _camel_search_words *words;
-	int i;
+	gint i;
 	GSList *strings = NULL;
 
 	/* we scan the parts of a rule, and set all the types we know about to the query string */
@@ -874,7 +874,7 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 			if (input)
 				filter_input_set_value(input, query);
 
-			words = camel_search_words_split((unsigned char *)query);
+			words = camel_search_words_split((guchar *)query);
 			for (i=0;i<words->len;i++)
 				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
 			camel_search_words_free (words);
@@ -914,12 +914,12 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 }
 
 static const gchar *
-get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
+get_view_query (ESearchBar *esb, CamelFolder *folder, const gchar *folder_uri)
 {
 	const gchar *view_sexp = NULL;
 	gint id;
 	GtkWidget *menu_item;
-	char *tag;
+	gchar *tag;
 	gboolean duplicate = TRUE;
 
 	/* Get the current selected view */
@@ -985,7 +985,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 	        view_sexp = g_string_free (s, FALSE);
 		} break;
         case VIEW_LABEL:
-		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
+		tag = (gchar *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
 		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
 		duplicate = FALSE;
 		break;
@@ -1013,7 +1013,7 @@ struct _setup_msg {
 
 	CamelFolder *folder;
 	CamelOperation *cancel;
-	char *query;
+	gchar *query;
 	GList *sources_uri;
 	GList *sources_folder;
 };
@@ -1039,12 +1039,12 @@ vfolder_setup_exec(struct _setup_msg *m)
 
 	l = m->sources_uri;
 	while (l) {
-		d(printf(" Adding uri: %s\n", (char *)l->data));
+		d(printf(" Adding uri: %s\n", (gchar *)l->data));
 		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
 		if (folder) {
 			list = g_list_append(list, folder);
 		} else {
-			g_warning("Could not open vfolder source: %s", (char *)l->data);
+			g_warning("Could not open vfolder source: %s", (gchar *)l->data);
 			camel_exception_clear(&m->base.ex);
 		}
 		l = l->next;
@@ -1106,10 +1106,10 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static int
-vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
+vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
 {
 	struct _setup_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&vfolder_setup_info);
 	m->folder = folder;
@@ -1134,8 +1134,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
 	const gchar *view_sexp;
-	char *search_state = NULL, *folder_uri=NULL;
-	char *word = NULL, *storeuri = NULL, *search_word = NULL;
+	gchar *search_state = NULL, *folder_uri=NULL;
+	gchar *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -1260,11 +1260,11 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    /* Add the local folders */
 			    l = mail_vfolder_get_sources_local ();
 			    while (l) {
-				    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
+				    folder = mail_tool_uri_to_folder ((const gchar *)l->data, 0,ex);
 				    if (folder)
 					    folder_list = g_list_append(folder_list, folder);
 				    else {
-					    g_warning("Could not open vfolder source: %s", (char *)l->data);
+					    g_warning("Could not open vfolder source: %s", (gchar *)l->data);
 					    camel_exception_clear(ex);
 				    }
 				    l = l->next;
@@ -1273,11 +1273,11 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    /* Add the remote source folder */
 			    l = mail_vfolder_get_sources_remote ();
 			    while (l) {
-				    folder = mail_tool_uri_to_folder ((const char *)l->data, 0,ex);
+				    folder = mail_tool_uri_to_folder ((const gchar *)l->data, 0,ex);
 				    if (folder)
 					    folder_list = g_list_append(folder_list, folder);
 				    else {
-					    g_warning("Could not open vfolder source: %s", (char *)l->data);
+					    g_warning("Could not open vfolder source: %s", (gchar *)l->data);
 					    camel_exception_clear(ex);
 				    }
 				    l = l->next;
@@ -1337,7 +1337,7 @@ emfb_search_search_cleared(ESearchBar *esb)
 /* ********************************************************************** */
 
 static int
-emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb)
+emfb_list_key_press(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *ev, EMFolderBrowser *emfb)
 {
 	gboolean state, folder_choose = TRUE;
 	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
@@ -1391,7 +1391,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 }
 
 static void
-emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb)
+emfb_list_message_selected (MessageList *ml, const gchar *uid, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 
@@ -1413,7 +1413,7 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 /* ********************************************************************** */
 
 static void
-emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_cut(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1428,7 +1428,7 @@ emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_copy(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1441,7 +1441,7 @@ emfb_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_paste(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1452,7 +1452,7 @@ emfb_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_edit_invert_selection(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_invert_selection(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1468,7 +1468,7 @@ emfb_select_all_daemon (MessageList *ml)
 }
 
 static void
-emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_select_all(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 		EMFolderView *emfv = data;
 
@@ -1491,7 +1491,7 @@ emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_select_thread(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1499,7 +1499,7 @@ emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
+emfb_edit_select_subthread(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1507,7 +1507,7 @@ emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_properties(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1517,7 +1517,7 @@ emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 
 /* VIEWTHREADED*/
 static void
-emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+emfb_expand_all_threads(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1526,7 +1526,7 @@ emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+emfb_collapse_all_threads(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1534,7 +1534,7 @@ emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_copy(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 	CamelFolderInfo *fi = NULL;
@@ -1557,7 +1557,7 @@ emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_move(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 	CamelFolderInfo *fi = NULL;
@@ -1580,7 +1580,7 @@ emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_delete(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1590,7 +1590,7 @@ emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_refresh(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
         EMFolderBrowser *emfb = data;
 	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
@@ -1602,7 +1602,7 @@ emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
 
 
 static void
-emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_rename(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1612,7 +1612,7 @@ emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_create(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 	CamelFolderInfo *fi = NULL;
@@ -1633,7 +1633,7 @@ emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
+emfb_folder_expunge(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1642,12 +1642,12 @@ emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
+emfb_mark_all_read(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	/* FIXME: make a 'mark messages' function? */
 	EMFolderView *emfv = data;
 	GPtrArray *uids;
-	int i;
+	gint i;
 
 	if (emfv->folder == NULL)
 		return;
@@ -1662,7 +1662,7 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_hide_read(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1670,7 +1670,7 @@ emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_hide_selected(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 	GPtrArray *uids;
@@ -1688,7 +1688,7 @@ emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_show_all(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -1698,13 +1698,13 @@ emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
 /* ********************************************************************** */
 
 static void
-emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
+emfb_mail_stop(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	mail_cancel_all();
 }
 
 static void
-emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
+emfb_tools_filters(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1718,7 +1718,7 @@ emfb_subscribe_editor_destroy(GtkWidget *w, EMFolderBrowser *emfb)
 }
 
 static void
-emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
+emfb_tools_subscriptions(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1733,7 +1733,7 @@ emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
+emfb_focus_search(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderBrowser *emfb = data;
 
@@ -1741,13 +1741,13 @@ emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_help_debug (BonoboUIComponent *uid, void *data, const char *path)
+emfb_help_debug (BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	mail_component_show_logger ((GtkWidget *) data);
 }
 
 static void
-emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
+emfb_tools_vfolders(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	/* FIXME: rename/refactor this */
 	vfolder_edit();
@@ -1805,7 +1805,7 @@ static EPixmap emfb_pixmaps[] = {
 
 
 static void
-emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+emfb_hide_deleted(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	GConfClient *gconf;
 	EMFolderView *emfv = data;
@@ -1819,7 +1819,7 @@ emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 }
 
 static void
-emfb_view_threaded(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+emfb_view_threaded(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	GConfClient *gconf;
 	EMFolderView *emfv = data;
@@ -1840,7 +1840,7 @@ emfb_view_threaded(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_
 }
 
 static void
-emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+emfb_view_preview(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	GConfClient *gconf;
 	EMFolderView *emfv = data;
@@ -1859,7 +1859,7 @@ emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 }
 
 static void
-emfb_show_next(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+emfb_show_next(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	GConfClient *gconf;
 	EMFolderBrowser *emfb = data;
@@ -1874,7 +1874,7 @@ emfb_show_next(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_Even
 }
 
 static void
-emfb_show_below(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+emfb_show_below(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	GConfClient *gconf;
 	EMFolderBrowser *emfb = data;
@@ -1893,7 +1893,7 @@ emfb_list_scrolled (MessageList *ml, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	double position;
-	char *state;
+	gchar *state;
 
 	position = message_list_get_scrollbar_position (ml);
 	state = g_strdup_printf ("%f", position);
@@ -1909,7 +1909,7 @@ scroll_idle_cb (EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	double position;
-	char *state;
+	gchar *state;
 
 	if ((state = camel_object_meta_get (emfv->folder, "evolution:list_scroll_position"))) {
 		position = strtod (state, NULL);
@@ -1928,7 +1928,7 @@ scroll_idle_cb (EMFolderBrowser *emfb)
 }
 
 static void
-emfb_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderBrowser *emfb)
+emfb_gui_folder_changed(CamelFolder *folder, gpointer dummy, EMFolderBrowser *emfb)
 {
 	if (emfb->priv->select_uid) {
 		CamelMessageInfo *mi;
@@ -2008,7 +2008,7 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 }
 
 static void
-emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
+emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	const gchar *state;
@@ -2045,7 +2045,7 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 
 static void
-emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
+emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
@@ -2078,8 +2078,8 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	   before the folder is open and need to override the
 	   defaults */
 	if (folder) {
-		char *sstate;
-		int state;
+		gchar *sstate;
+		gint state;
 		gboolean safe;
 		GConfClient *gconf = mail_config_get_gconf_client();
 
@@ -2178,12 +2178,12 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 }
 
 static void
-emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
+emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint act)
 {
 	if (act) {
 		GConfClient *gconf;
 		gboolean state;
-		char *sstate;
+		gchar *sstate;
 		EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 
 		gconf = mail_config_get_gconf_client ();

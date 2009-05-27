@@ -48,10 +48,10 @@ struct _EMFolderSelector {
 	struct _EMFolderTree *emft;
 
 	struct _GtkEntry *name_entry;
-	char *selected_path;
-	char *selected_uri;
+	gchar *selected_path;
+	gchar *selected_uri;
 
-	char *created_uri;
+	gchar *created_uri;
 	guint created_id;
 };
 
@@ -70,19 +70,19 @@ enum {
 
 GType em_folder_selector_get_type (void);
 
-void em_folder_selector_construct (EMFolderSelector *emfs, struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel);
+void em_folder_selector_construct (EMFolderSelector *emfs, struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel);
 
 /* for selecting folders */
-GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel);
+GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel);
 
 /* for creating folders */
-GtkWidget *em_folder_selector_create_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text);
+GtkWidget *em_folder_selector_create_new (struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text);
 
-void em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri);
+void em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri);
 void em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list);
 
-const char *em_folder_selector_get_selected_uri (EMFolderSelector *emfs);
-const char *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
+const gchar *em_folder_selector_get_selected_uri (EMFolderSelector *emfs);
+const gchar *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
 
 GList *em_folder_selector_get_selected_uris (EMFolderSelector *emfs);
 GList *em_folder_selector_get_selected_paths (EMFolderSelector *emfs);

@@ -203,8 +203,8 @@ goto_dialog (GnomeCalendar *gcal)
 {
 	time_t start_time;
 	struct icaltimetype tt;
-	int b;
-	char *gladefile;
+	gint b;
+	gchar *gladefile;
 
 	if (dlg) {
 		return;

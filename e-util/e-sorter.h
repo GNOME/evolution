@@ -44,16 +44,16 @@ typedef struct {
 typedef struct {
 	GObjectClass parent_class;
 	gint      (*model_to_sorted)            (ESorter    *sorter,
-						 int         row);
+						 gint         row);
 	gint      (*sorted_to_model)            (ESorter    *sorter,
-						 int         row);
+						 gint         row);
 
 	void      (*get_model_to_sorted_array)  (ESorter    *sorter,
-						 int       **array,
-						 int        *count);
+						 gint       **array,
+						 gint        *count);
 	void      (*get_sorted_to_model_array)  (ESorter    *sorter,
-						 int       **array,
-						 int        *count);
+						 gint       **array,
+						 gint        *count);
 
 	gboolean  (*needs_sorting)              (ESorter    *sorter);
 } ESorterClass;
@@ -62,16 +62,16 @@ GType     e_sorter_get_type                   (void);
 ESorter  *e_sorter_new                        (void);
 
 gint      e_sorter_model_to_sorted            (ESorter  *sorter,
-					       int       row);
+					       gint       row);
 gint      e_sorter_sorted_to_model            (ESorter  *sorter,
-					       int       row);
+					       gint       row);
 
 void      e_sorter_get_model_to_sorted_array  (ESorter  *sorter,
-					       int     **array,
-					       int      *count);
+					       gint     **array,
+					       gint      *count);
 void      e_sorter_get_sorted_to_model_array  (ESorter  *sorter,
-					       int     **array,
-					       int      *count);
+					       gint     **array,
+					       gint      *count);
 
 gboolean  e_sorter_needs_sorting              (ESorter  *sorter);
 

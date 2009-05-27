@@ -37,17 +37,17 @@ typedef struct {
 GSList *    e_util_labels_parse         (struct _GConfClient *client);
 void        e_util_labels_free          (GSList *labels);
 
-char *      e_util_labels_add           (const char *name, const GdkColor *color);
-char *      e_util_labels_add_with_dlg  (struct _GtkWindow *parent, const char *tag);
-gboolean    e_util_labels_remove        (const char *tag);
-gboolean    e_util_labels_set_data      (const char *tag, const char *name, const GdkColor *color);
+gchar *      e_util_labels_add           (const gchar *name, const GdkColor *color);
+gchar *      e_util_labels_add_with_dlg  (struct _GtkWindow *parent, const gchar *tag);
+gboolean    e_util_labels_remove        (const gchar *tag);
+gboolean    e_util_labels_set_data      (const gchar *tag, const gchar *name, const GdkColor *color);
 
-gboolean    e_util_labels_is_system     (const char *tag);
-const char *e_util_labels_get_new_tag   (const char *old_tag);
+gboolean    e_util_labels_is_system     (const gchar *tag);
+const gchar *e_util_labels_get_new_tag   (const gchar *old_tag);
 
-const char *e_util_labels_get_name      (GSList *labels, const char *tag);
-gboolean    e_util_labels_get_color     (GSList *labels, const char *tag, GdkColor *color);
-const char *e_util_labels_get_color_str (GSList *labels, const char *tag);
+const gchar *e_util_labels_get_name      (GSList *labels, const gchar *tag);
+gboolean    e_util_labels_get_color     (GSList *labels, const gchar *tag, GdkColor *color);
+const gchar *e_util_labels_get_color_str (GSList *labels, const gchar *tag);
 
 GSList *    e_util_labels_get_filter_options (void);
 

@@ -30,7 +30,7 @@
 #include "e2k-xml-utils.h"
 
 struct _E2kUserDialogPrivate {
-	char *section_name;
+	gchar *section_name;
 	ENameSelector *name_selector;
 	GtkWidget *entry, *parent_window;
 };
@@ -125,8 +125,8 @@ addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 static gboolean
 e2k_user_dialog_construct (E2kUserDialog *dialog,
 			   GtkWidget *parent_window,
-			   const char *label_text,
-			   const char *section_name)
+			   const gchar *label_text,
+			   const gchar *section_name)
 {
 	E2kUserDialogPrivate *priv;
 	GtkWidget *hbox, *vbox, *label, *button;
@@ -197,7 +197,7 @@ e2k_user_dialog_construct (E2kUserDialog *dialog,
  **/
 GtkWidget *
 e2k_user_dialog_new (GtkWidget *parent_window,
-		     const char *label_text, const char *section_name)
+		     const gchar *label_text, const gchar *section_name)
 {
 	E2kUserDialog *dialog;
 
@@ -243,7 +243,7 @@ e2k_user_dialog_get_user_list (E2kUserDialog *dialog)
 		return NULL;
 
 	for (l = destinations; l; l = g_list_next (l)) {
-		const char *mail;
+		const gchar *mail;
 		destination = l->data;
 
 		mail = e_destination_get_email (destination);
@@ -263,7 +263,7 @@ e2k_user_dialog_get_user_list (E2kUserDialog *dialog)
  *
  * Return value: the email address, which must be freed with g_free().
  **/
-char *
+gchar *
 e2k_user_dialog_get_user (E2kUserDialog *dialog)
 {
 	E2kUserDialogPrivate *priv;

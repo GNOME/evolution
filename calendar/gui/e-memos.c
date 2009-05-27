@@ -79,7 +79,7 @@ struct _EMemosPrivate {
 	GtkWidget *preview;
 
 	gchar *current_uid;
-	char *sexp;
+	gchar *sexp;
 
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
@@ -93,7 +93,7 @@ static void e_memos_destroy (GtkObject *object);
 static void update_view (EMemos *memos);
 
 static void categories_changed_cb (gpointer object, gpointer user_data);
-static void backend_error_cb (ECal *client, const char *message, gpointer data);
+static void backend_error_cb (ECal *client, const gchar *message, gpointer data);
 
 /* Signal IDs */
 enum {
@@ -111,7 +111,7 @@ static GtkTargetEntry list_drag_types[] = {
 	{ (gchar *) "text/calendar",   0, TARGET_VCALENDAR },
 	{ (gchar *) "text/x-calendar", 0, TARGET_VCALENDAR }
 };
-static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
+static const gint num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
 
 static guint e_memos_signals[LAST_SIGNAL] = { 0 };
 
@@ -119,16 +119,16 @@ G_DEFINE_TYPE (EMemos, e_memos, GTK_TYPE_TABLE)
 
 /* Callback used when the cursor changes in the table */
 static void
-table_cursor_change_cb (ETable *etable, int row, gpointer data)
+table_cursor_change_cb (ETable *etable, gint row, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
-	const char *uid;
+	const gchar *uid;
 
-	int n_selected;
+	gint n_selected;
 
 	memos = E_MEMOS (data);
 	priv = memos->priv;
@@ -163,7 +163,7 @@ static void
 table_selection_change_cb (ETable *etable, gpointer data)
 {
 	EMemos *memos;
-	int n_selected;
+	gint n_selected;
 
 	memos = E_MEMOS (data);
 
@@ -199,7 +199,7 @@ user_created_cb (GtkWidget *view, EMemos *memos)
 
 /* Callback used when the sexp in the search bar changes */
 static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
@@ -217,7 +217,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 
 /* Callback used when the selected category in the search bar changes */
 static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
@@ -288,7 +288,7 @@ update_view (EMemos *memos)
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+model_row_changed_cb (ETableModel *etm, gint row, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
@@ -298,7 +298,7 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 	priv = memos->priv;
 
 	if (priv->current_uid) {
-		const char *uid;
+		const gchar *uid;
 
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), row);
 		if (comp_data) {
@@ -340,7 +340,7 @@ struct AffectedComponents {
  * This function is called from e_table_selected_row_foreach.
  **/
 static void
-get_selected_components_cb (int model_row, gpointer data)
+get_selected_components_cb (gint model_row, gpointer data)
 {
 	struct AffectedComponents *ac = (struct AffectedComponents *) data;
 
@@ -397,7 +397,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 	comp_data = (ECalModelComponent *) data;
 
 	if (list && comp_data) {
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *vcal;
 
 		vcal = e_cal_util_new_top_level ();
@@ -407,7 +407,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			ESource *source = e_cal_get_source (comp_data->client);
-			const char *source_uid = e_source_peek_uid (source);
+			const gchar *source_uid = e_source_peek_uid (source);
 
 			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
 
@@ -422,8 +422,8 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 
 static void
 table_drag_data_get (ETable             *table,
-		     int                 row,
-		     int                 col,
+		     gint                 row,
+		     gint                 col,
 		     GdkDragContext     *context,
 		     GtkSelectionData   *selection_data,
 		     guint               info,
@@ -451,8 +451,8 @@ table_drag_data_get (ETable             *table,
 
 static void
 table_drag_data_delete (ETable         *table,
-			int             row,
-			int             col,
+			gint             row,
+			gint             col,
 			GdkDragContext *context,
 			EMemos         *memos)
 {
@@ -607,7 +607,7 @@ categories_changed_cb (gpointer object, gpointer user_data)
 	cat_array = g_ptr_array_new ();
 	cat_list = e_categories_get_list ();
 	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const char *) cat_list->data))
+		if (e_categories_is_searchable ((const gchar *) cat_list->data))
 			g_ptr_array_add (cat_array, cat_list->data);
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}
@@ -721,11 +721,11 @@ e_memos_destroy (GtkObject *object)
 }
 
 static void
-set_status_message (EMemos *memos, const char *message, ...)
+set_status_message (EMemos *memos, const gchar *message, ...)
 {
 	EMemosPrivate *priv;
 	va_list args;
-	char sz[2048], *msg_string = NULL;
+	gchar sz[2048], *msg_string = NULL;
 
 	if (message) {
 		va_start (args, message);
@@ -741,11 +741,11 @@ set_status_message (EMemos *memos, const char *message, ...)
 
 /* Callback from the calendar client when an error occurs in the backend */
 static void
-backend_error_cb (ECal *client, const char *message, gpointer data)
+backend_error_cb (ECal *client, const gchar *message, gpointer data)
 {
 	EMemos *memos;
 	GtkWidget *dialog;
-	char *urinopwd;
+	gchar *urinopwd;
 
 	memos = E_MEMOS (data);
 
@@ -927,7 +927,7 @@ e_memos_add_memo_source (EMemos *memos, ESource *source)
 {
 	EMemosPrivate *priv;
 	ECal *client;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (memos != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
@@ -980,7 +980,7 @@ e_memos_remove_memo_source (EMemos *memos, ESource *source)
 	EMemosPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (memos != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
@@ -1109,7 +1109,7 @@ e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic)
 	EMemosPrivate *priv;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *dir0, *dir1, *filename;
+	gchar *dir0, *dir1, *filename;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (memos != NULL);

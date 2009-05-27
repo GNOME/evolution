@@ -38,12 +38,12 @@
 typedef struct _FilterElement FilterElement;
 typedef struct _FilterElementClass FilterElementClass;
 
-typedef FilterElement *(*FilterElementFunc)(void *data);
+typedef FilterElement *(*FilterElementFunc)(gpointer data);
 
 struct _FilterElement {
 	GObject parent_object;
 
-	char *name;
+	gchar *name;
 	gpointer data;
 };
 
@@ -54,11 +54,11 @@ struct _FilterElementClass {
 
 	/* virtual methods */
 	gboolean (*validate) (FilterElement *fe);
-	int (*eq) (FilterElement *fe, FilterElement *cm);
+	gint (*eq) (FilterElement *fe, FilterElement *cm);
 
 	void (*xml_create) (FilterElement *, xmlNodePtr);
 	xmlNodePtr (*xml_encode) (FilterElement *);
-	int (*xml_decode) (FilterElement *, xmlNodePtr);
+	gint (*xml_decode) (FilterElement *, xmlNodePtr);
 
 	FilterElement *(*clone) (FilterElement *fe);
 	void (*copy_value)(FilterElement *fe, FilterElement *se);

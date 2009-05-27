@@ -36,10 +36,10 @@
 
 
 struct _ActivityInfo {
-	char *component_id;
-	int error_type;
+	gchar *component_id;
+	gint error_type;
 	guint id;
-	char *information;
+	gchar *information;
 	gboolean cancellable;
 	double progress;
 	GtkWidget *menu;
@@ -61,7 +61,7 @@ struct _EActivityHandlerPrivate {
 };
 
 /* In the status bar, we show only errors and info. Errors are pictured as warnings. */
-const char *icon_data [] = {"dialog-warning", "dialog-information"};
+const gchar *icon_data [] = {"dialog-warning", "dialog-information"};
 
 G_DEFINE_TYPE (EActivityHandler, e_activity_handler, G_TYPE_OBJECT)
 
@@ -82,10 +82,10 @@ get_new_activity_id (EActivityHandler *activity_handler)
 static GList *
 lookup_activity (GList *list,
 		 guint activity_id,
-		 int *order_number_return)
+		 gint *order_number_return)
 {
 	GList *p;
-	int i;
+	gint i;
 
 	for (p = list, i = 0; p != NULL; p = p->next, i ++) {
 		ActivityInfo *activity_info;
@@ -107,7 +107,7 @@ lookup_activity (GList *list,
 static int
 task_widget_button_press_event_callback (GtkWidget *widget,
 					 GdkEventButton *button_event,
-					 void *data)
+					 gpointer data)
 {
 	ActivityInfo *activity_info;
 
@@ -126,9 +126,9 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 /* Creating and destroying ActivityInfos.  */
 
 static ActivityInfo *
-activity_info_new (const char *component_id,
+activity_info_new (const gchar *component_id,
 		   guint id,
-		   const char *information,
+		   const gchar *information,
 		   gboolean cancellable)
 {
 	ActivityInfo *info;
@@ -200,10 +200,10 @@ setup_task_bar (EActivityHandler *activity_handler,
 		if (info->error) {
 			/* Prepare to handle existing errors*/
 			GtkWidget *tool;
-			const char *stock;
+			const gchar *stock;
 
 			stock = info->error_type ? icon_data [1] : icon_data[0];
-			tool = e_task_widget_update_image (task_widget, (char *)stock, info->information);
+			tool = e_task_widget_update_image (task_widget, (gchar *)stock, info->information);
 			g_object_set_data ((GObject *) task_widget, "tool", tool);
 			g_object_set_data ((GObject *) task_widget, "error", info->error);
 			g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
@@ -215,7 +215,7 @@ setup_task_bar (EActivityHandler *activity_handler,
 }
 
 static void
-task_bar_destroy_notify (void *data,
+task_bar_destroy_notify (gpointer data,
 			 GObject *task_bar_instance)
 {
 	EActivityHandler *activity_handler;
@@ -304,7 +304,7 @@ e_activity_handler_new (void)
 }
 
 void
-e_activity_handler_set_error_flush_time (EActivityHandler *handler, int time)
+e_activity_handler_set_error_flush_time (EActivityHandler *handler, gint time)
 {
 	handler->priv->error_flush_interval = time;
 }
@@ -316,7 +316,7 @@ e_activity_handler_set_logger (EActivityHandler *handler, ELogger *logger)
 
 void
 e_activity_handler_set_message (EActivityHandler *activity_handler,
-				const char       *message)
+				const gchar       *message)
 {
 	EActivityHandlerPrivate *priv;
 	GSList *i;
@@ -376,7 +376,7 @@ cancel_wrapper (gpointer pdata)
 		/* Hide the error */
 		EActivityHandler *handler = data->handler;
 		ActivityInfo *info;
-		int order, len;
+		gint order, len;
 		GSList *sp;
 		GList *p = lookup_activity (handler->priv->activity_infos, data->id, &order);
 		e_logger_log (handler->priv->logger, E_LOG_ERROR, g_object_get_data (data->info->error, "primary"),
@@ -404,15 +404,15 @@ cancel_wrapper (gpointer pdata)
 
 /* CORBA methods.  */
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
-						      const char       *component_id,
-					      	      const char       *information,
+						      const gchar       *component_id,
+					      	      const gchar       *information,
 					      	      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
 						      gpointer user_data)
 {
 	EActivityHandlerPrivate *priv;
 	ActivityInfo *activity_info;
-	unsigned int activity_id;
+	guint activity_id;
 	GSList *p;
 	struct _cancel_wdata *data;
 	gboolean bfree = FALSE;
@@ -449,13 +449,13 @@ guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activ
 
 guint
 e_activity_handler_operation_started (EActivityHandler *activity_handler,
-				      const char *component_id,
-				      const char *information,
+				      const gchar *component_id,
+				      const gchar *information,
 				      gboolean cancellable)
 {
 	EActivityHandlerPrivate *priv;
 	ActivityInfo *activity_info;
-	unsigned int activity_id;
+	guint activity_id;
 	GSList *p;
 
 	priv = activity_handler->priv;
@@ -481,7 +481,7 @@ handle_error (ETaskWidget *task)
 	GtkWidget *tool, *error;
 	EActivityHandler *activity_handler;
 	guint id;
-	int error_type  = GPOINTER_TO_INT((g_object_get_data ((GObject *) task, "error-type")));
+	gint error_type  = GPOINTER_TO_INT((g_object_get_data ((GObject *) task, "error-type")));
 	tool = g_object_get_data ((GObject *) task, "tool");
 	error = g_object_get_data ((GObject *) task, "error");
 	activity_handler = g_object_get_data ((GObject *) task, "activity-handler");
@@ -499,7 +499,7 @@ error_cleanup (EActivityHandler *activity_handler)
 	EActivityHandlerPrivate *priv = activity_handler->priv;
 	GList *p, *node;
 	GSList *sp;
-	int i;
+	gint i;
 	time_t now = time (NULL);
 	gboolean berror = FALSE;
 
@@ -541,16 +541,16 @@ error_cleanup (EActivityHandler *activity_handler)
 
 guint
 e_activity_handler_make_error (EActivityHandler *activity_handler,
-				      const char *component_id,
-				      int error_type,
+				      const gchar *component_id,
+				      gint error_type,
 				      GtkWidget  *error)
 {
 	EActivityHandlerPrivate *priv;
 	ActivityInfo *activity_info;
-	unsigned int activity_id;
+	guint activity_id;
 	GSList *p;
-	char *information = g_object_get_data((GObject *) error, "primary");
-	const char *img;
+	gchar *information = g_object_get_data((GObject *) error, "primary");
+	const gchar *img;
 
 	priv = activity_handler->priv;
 	activity_id = get_new_activity_id (activity_handler);
@@ -571,7 +571,7 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 		task_widget->id = activity_id;
 		e_task_bar_prepend_task (E_TASK_BAR (p->data), task_widget);
 
-		tool = e_task_widget_update_image (task_widget, (char *)img, information);
+		tool = e_task_widget_update_image (task_widget, (gchar *)img, information);
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
 		g_object_set_data ((GObject *) task_widget, "error", error);
 		g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
@@ -597,7 +597,7 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 	ActivityInfo *activity_info;
 	GList *p;
 	GSList *sp;
-	int order_number;
+	gint order_number;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
 	if (p == NULL) {
@@ -621,7 +621,7 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 		if (!task_widget)
 			continue;
 
-		tool = e_task_widget_update_image (task_widget, (char *)icon_data[0], g_object_get_data ((GObject *) error, "primary"));
+		tool = e_task_widget_update_image (task_widget, (gchar *)icon_data[0], g_object_get_data ((GObject *) error, "primary"));
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
 		g_object_set_data ((GObject *) task_widget, "error", error);
 		g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
@@ -637,14 +637,14 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 void
 e_activity_handler_operation_progressing (EActivityHandler *activity_handler,
 					  guint activity_id,
-					  const char *information,
+					  const gchar *information,
 					  double progress)
 {
 	EActivityHandlerPrivate *priv = activity_handler->priv;
 	ActivityInfo *activity_info;
 	GList *p;
 	GSList *sp;
-	int order_number;
+	gint order_number;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
 	if (p == NULL) {
@@ -679,7 +679,7 @@ e_activity_handler_operation_finished (EActivityHandler *activity_handler,
 	EActivityHandlerPrivate *priv = activity_handler->priv;
 	GList *p;
 	GSList *sp;
-	int order_number;
+	gint order_number;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
 	if (p == NULL) {

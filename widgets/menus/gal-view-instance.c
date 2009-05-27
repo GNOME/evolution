@@ -87,14 +87,14 @@ save_current_view (GalViewInstance *instance)
 	xmlDoc *doc;
 	xmlNode *root;
 
-	doc = xmlNewDoc((const unsigned char *)"1.0");
-	root = xmlNewNode (NULL, (const unsigned char *)"GalViewCurrentView");
+	doc = xmlNewDoc((const guchar *)"1.0");
+	root = xmlNewNode (NULL, (const guchar *)"GalViewCurrentView");
 	xmlDocSetRootElement(doc, root);
 
 	if (instance->current_id)
-		e_xml_set_string_prop_by_name (root, (const unsigned char *)"current_view", instance->current_id);
+		e_xml_set_string_prop_by_name (root, (const guchar *)"current_view", instance->current_id);
 	if (instance->current_type)
-		e_xml_set_string_prop_by_name (root, (const unsigned char *)"current_view_type", instance->current_type);
+		e_xml_set_string_prop_by_name (root, (const guchar *)"current_view_type", instance->current_type);
 
 	if (e_xml_save_file (instance->current_view_filename, doc) == -1)
 		g_warning ("Unable to save view to %s - %s", instance->current_view_filename, g_strerror(errno));
@@ -229,7 +229,7 @@ static void
 collection_changed (GalView *view, GalViewInstance *instance)
 {
 	if (instance->current_id) {
-		char *view_id = instance->current_id;
+		gchar *view_id = instance->current_id;
 		instance->current_id = NULL;
 		gal_view_instance_set_current_view_id (instance, view_id);
 		g_free (view_id);
@@ -258,7 +258,7 @@ load_current_view (GalViewInstance *instance)
 		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
 
 		if (instance->current_id) {
-			int index = gal_view_collection_get_view_index_by_id (instance->collection,
+			gint index = gal_view_collection_get_view_index_by_id (instance->collection,
 									      instance->current_id);
 
 			if (index != -1) {
@@ -272,10 +272,10 @@ load_current_view (GalViewInstance *instance)
 	}
 
 	root = xmlDocGetRootElement(doc);
-	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, (const unsigned char *)"current_view", NULL);
+	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view", NULL);
 
 	if (instance->current_id != NULL) {
-		int index = gal_view_collection_get_view_index_by_id (instance->collection,
+		gint index = gal_view_collection_get_view_index_by_id (instance->collection,
 								      instance->current_id);
 
 		if (index != -1) {
@@ -285,8 +285,8 @@ load_current_view (GalViewInstance *instance)
 		}
 	}
 	if (view == NULL) {
-		char *type;
-		type = e_xml_get_string_prop_by_name_with_default (root, (const unsigned char *)"current_view_type", NULL);
+		gchar *type;
+		type = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view_type", NULL);
 		view = gal_view_collection_load_view_from_file (instance->collection,
 								type,
 								instance->custom_filename);
@@ -308,7 +308,7 @@ load_current_view (GalViewInstance *instance)
  * Return value: The new %GalViewInstance.
  **/
 GalViewInstance *
-gal_view_instance_new (GalViewCollection *collection, const char *instance_id)
+gal_view_instance_new (GalViewCollection *collection, const gchar *instance_id)
 {
 	GalViewInstance *instance = g_object_new (GAL_VIEW_INSTANCE_TYPE, NULL);
 	if (gal_view_instance_construct (instance, collection, instance_id))
@@ -320,10 +320,10 @@ gal_view_instance_new (GalViewCollection *collection, const char *instance_id)
 }
 
 GalViewInstance *
-gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *collection, const char *instance_id)
+gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *collection, const gchar *instance_id)
 {
-	char *filename;
-	char *safe_id;
+	gchar *filename;
+	gchar *safe_id;
 
 	g_return_val_if_fail (gal_view_collection_loaded (collection), NULL);
 
@@ -356,7 +356,7 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 }
 
 /* Manipulate the current view. */
-char *
+gchar *
 gal_view_instance_get_current_view_id (GalViewInstance *instance)
 {
 	if (instance->current_id && gal_view_collection_get_view_index_by_id (instance->collection, instance->current_id) != -1)
@@ -366,10 +366,10 @@ gal_view_instance_get_current_view_id (GalViewInstance *instance)
 }
 
 void
-gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *view_id)
+gal_view_instance_set_current_view_id (GalViewInstance *instance, const gchar *view_id)
 {
 	GalView *view;
-	int index;
+	gint index;
 
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
@@ -412,7 +412,7 @@ gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
 }
 
 static void
-dialog_response(GtkWidget *dialog, int id, GalViewInstance *instance)
+dialog_response(GtkWidget *dialog, gint id, GalViewInstance *instance)
 {
 	if (id == GTK_RESPONSE_OK) {
 		gal_view_instance_save_as_dialog_save (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (dialog));
@@ -440,7 +440,7 @@ gal_view_instance_load (GalViewInstance *instance)
 }
 
 /* These only mean anything before gal_view_instance_load is called the first time.  */
-const char *
+const gchar *
 gal_view_instance_get_default_view (GalViewInstance *instance)
 {
 	if (instance->default_view)
@@ -450,7 +450,7 @@ gal_view_instance_get_default_view (GalViewInstance *instance)
 }
 
 void
-gal_view_instance_set_default_view (GalViewInstance *instance, const char *id)
+gal_view_instance_set_default_view (GalViewInstance *instance, const gchar *id)
 {
 	g_free (instance->default_view);
 	instance->default_view = g_strdup (id);
@@ -470,7 +470,7 @@ gal_view_instance_exists (GalViewInstance *instance)
 
 typedef struct {
 	GalViewInstance *instance;
-	char *id;
+	gchar *id;
 } ListenerClosure;
 
 static void
@@ -518,7 +518,7 @@ add_popup_menu_item (EPopupMenu *menu_item,
 }
 
 static void
-define_views_dialog_response(GtkWidget *dialog, int id, GalViewInstance *instance)
+define_views_dialog_response(GtkWidget *dialog, gint id, GalViewInstance *instance)
 {
 	if (id == GTK_RESPONSE_OK) {
 		gal_view_collection_save(instance->collection);
@@ -547,10 +547,10 @@ EPopupMenu *
 gal_view_instance_get_popup_menu (GalViewInstance *instance)
 {
 	EPopupMenu *ret_val;
-	int length;
-	int i;
+	gint length;
+	gint i;
 	gboolean found = FALSE;
-	char *id;
+	gchar *id;
 
 	length = gal_view_collection_get_count(instance->collection);
 	id = gal_view_instance_get_current_view_id (instance);
@@ -595,7 +595,7 @@ gal_view_instance_get_popup_menu (GalViewInstance *instance)
 void
 gal_view_instance_free_popup_menu (GalViewInstance *instance, EPopupMenu *menu)
 {
-	int i;
+	gint i;
 	/* This depends on the first non-custom closure to be a separator or a terminator. */
 	for (i = 0; menu[i].name && *(menu[i].name); i++) {
 		g_object_unref (((ListenerClosure *)(menu[i].closure))->instance);

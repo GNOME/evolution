@@ -35,7 +35,7 @@
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EShellViewPrivate {
-	int dummy;
+	gint dummy;
 };
 
 static void
@@ -44,7 +44,7 @@ impl_ShellView_setTitle(PortableServer_Servant _servant, const CORBA_char *id, c
 	EShellView *esw = (EShellView *)bonobo_object_from_servant(_servant);
 	/* To translators: This is the window title and %s is the
 	component name. Most translators will want to keep it as is. */
-	char *tmp = g_strdup_printf(_("%s - Evolution"), title);
+	gchar *tmp = g_strdup_printf(_("%s - Evolution"), title);
 
 	e_shell_window_set_title(esw->window, id, tmp);
 	g_free(tmp);
@@ -59,8 +59,8 @@ impl_ShellView_setComponent(PortableServer_Servant _servant, const CORBA_char *i
 }
 
 struct change_icon_struct {
-	const char *component_name;
-	const char *icon_name;
+	const gchar *component_name;
+	const gchar *icon_name;
 };
 
 static gboolean

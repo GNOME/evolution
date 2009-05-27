@@ -32,9 +32,9 @@ G_BEGIN_DECLS
 
 void e_cert_trust_init (CERTCertTrust *trust);
 void e_cert_trust_init_with_values (CERTCertTrust *trust,
-				    unsigned int ssl,
-				    unsigned int email,
-				    unsigned int objsign);
+				    guint ssl,
+				    guint email,
+				    guint objsign);
 void e_cert_trust_copy (CERTCertTrust *dst_trust, CERTCertTrust *src_trust);
 void e_cert_trust_add_ca_trust (CERTCertTrust *trust, PRBool ssl, PRBool email, PRBool objSign);
 void e_cert_trust_add_peer_trust (CERTCertTrust *trust, PRBool ssl, PRBool email, PRBool objSign);
@@ -79,8 +79,8 @@ PRBool e_cert_trust_has_trusted_peer (CERTCertTrust *trust,
 					PRBool checkSSL,
 					PRBool checkEmail,
 					PRBool checkObjSign);
-void e_cert_trust_add_trust (unsigned int *t, unsigned int v);
-PRBool e_cert_trust_has_trust (unsigned int t, unsigned int v);
+void e_cert_trust_add_trust (guint *t, guint v);
+PRBool e_cert_trust_has_trust (guint t, guint v);
 
 G_END_DECLS
 

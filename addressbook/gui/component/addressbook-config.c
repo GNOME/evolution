@@ -75,8 +75,8 @@
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory:" BASE_VERSION
 #define LDAP_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:" BASE_VERSION
 
-GtkWidget* supported_bases_create_table (char *name, char *string1, char *string2,
-					 int num1, int num2);
+GtkWidget* supported_bases_create_table (gchar *name, gchar *string1, gchar *string2,
+					 gint num1, gint num2);
 
 /* default objectclasses */
 #define TOP                  "top"
@@ -152,7 +152,7 @@ ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 }
 
 static AddressbookLDAPAuthType
-ldap_parse_auth (const char *auth)
+ldap_parse_auth (const gchar *auth)
 {
 	if (!auth)
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
@@ -196,7 +196,7 @@ ldap_unparse_ssl (AddressbookLDAPSSLType ssl_type)
 }
 
 static AddressbookLDAPSSLType
-ldap_parse_ssl (const char *ssl)
+ldap_parse_ssl (const gchar *ssl)
 {
 	if (!ssl)
 		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE; /* XXX good default? */
@@ -209,7 +209,7 @@ ldap_parse_ssl (const char *ssl)
 		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
 }
 
-static const char *
+static const gchar *
 ldap_get_ssl_tooltip (AddressbookLDAPSSLType ssl_type)
 {
 	switch (ssl_type) {
@@ -271,8 +271,8 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 	LDAP  *ldap;
 	gchar *host;
 	gint   port;
-	int ldap_error;
-	int protocol_version = LDAP_VERSION3;
+	gint ldap_error;
+	gint protocol_version = LDAP_VERSION3;
 
 	if (!source_to_uri_parts (source, &host, NULL, NULL, NULL, &port))
 		return NULL;
@@ -310,7 +310,7 @@ static int
 addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 			    const gchar **attrs, LDAPMessage **resp)
 {
-	int ldap_error;
+	gint ldap_error;
 	struct timeval timeout;
 
 	timeout.tv_sec = (gint) gtk_adjustment_get_value (GTK_RANGE(dialog->timeout_scale)->adjustment);
@@ -328,7 +328,7 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 
 /* searching page */
 GtkWidget*
-supported_bases_create_table (char *name, char *string1, char *string2, int num1, int num2)
+supported_bases_create_table (gchar *name, gchar *string1, gchar *string2, gint num1, gint num2)
 {
 	GtkWidget *table, *scrolled;
 	GtkTreeSelection *selection;
@@ -359,10 +359,10 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, E
 {
 	LDAP *ldap;
 	const gchar *attrs[2];
-	int ldap_error;
-	char **values;
+	gint ldap_error;
+	gchar **values;
 	LDAPMessage *resp;
-	int i;
+	gint i;
 
 	ldap = addressbook_ldap_init (sdialog->window, source);
 	if (!ldap)
@@ -419,7 +419,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	GtkWidget *supported_bases_table;
 	GladeXML *gui;
 	GtkTreeIter iter;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      GLADE_FILE_NAME,
@@ -450,7 +450,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK
 		    && gtk_tree_selection_get_selected (selection, &model, &iter)) {
-			char *dn;
+			gchar *dn;
 
 			gtk_tree_model_get (model, &iter, 0, &dn, -1);
 			gtk_entry_set_text((GtkEntry *)sdialog->rootdn, dn);
@@ -474,7 +474,7 @@ addressbook_config_create_new_source (GtkWidget *parent)
 static void
 eabc_type_changed(GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 {
-	int id = gtk_combo_box_get_active(dropdown);
+	gint id = gtk_combo_box_get_active(dropdown);
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
@@ -494,7 +494,7 @@ eabc_type_changed(GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 	if (!strncmp(e_source_group_peek_base_uri(sdialog->source_group), "groupwise:", 10)) {
 		GSList *l;
 		ESource *source;
-		char *tmp;
+		gchar *tmp;
 
 		l = e_source_group_peek_sources(sdialog->source_group);
 		if (l && l->data ) {
@@ -510,7 +510,7 @@ eabc_type_changed(GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 		g_free (tmp);
 #ifdef HAVE_LDAP
 	} else if (!strncmp(e_source_group_peek_base_uri(sdialog->source_group), "ldap:", 5)) {
-		char *tmp;
+		gchar *tmp;
 
 		tmp = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s",
 				       "", LDAP_PORT_STRING,
@@ -529,7 +529,7 @@ eabc_type_changed(GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkComboBox *dropdown;
@@ -538,7 +538,7 @@ eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	GtkTreeIter iter;
 	GSList *l;
 	GtkWidget *w, *label;
-	int i, row = 0;
+	gint i, row = 0;
 
 	if (old)
 		return old;
@@ -595,13 +595,13 @@ offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
-	const char *uri;
+	const gchar *uri;
 	GtkWidget *w;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (old)
 		return old;
@@ -634,11 +634,11 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 
 
 static GtkWidget *
-eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *offline_setting;
-	const char *offline_sync;
+	const gchar *offline_sync;
 	gboolean is_local_book;
 
 	is_local_book = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
@@ -701,7 +701,7 @@ host_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 static void
 port_entry_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	const char *port = gtk_entry_get_text((GtkEntry *)w);
+	const gchar *port = gtk_entry_get_text((GtkEntry *)w);
 
 	if (!strcmp (port, LDAPS_PORT_STRING)) {
 		sdialog->ssl = ADDRESSBOOK_LDAP_SSL_ALWAYS;
@@ -725,15 +725,15 @@ ssl_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 
 
 static GtkWidget *
-eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
-	const char *tmp;
+	const gchar *tmp;
 	GtkWidget *w;
-	char *uri, port[16];
+	gchar *uri, port[16];
 	LDAPURLDesc *lud;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
@@ -783,7 +783,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 static void
 auth_entry_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	const char *principal = gtk_entry_get_text((GtkEntry *)w);
+	const gchar *principal = gtk_entry_get_text((GtkEntry *)w);
 
 	/* seems messy ... but the api is */
 	switch (sdialog->auth) {
@@ -814,13 +814,13 @@ auth_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
-	const char *tmp;
+	const gchar *tmp;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
@@ -883,14 +883,14 @@ scope_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
 	LDAPURLDesc *lud;
-	char *uri;
+	gchar *uri;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
@@ -951,7 +951,7 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 static void
 timeout_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	char *timeout;
+	gchar *timeout;
 
 	timeout = g_strdup_printf("%f", gtk_adjustment_get_value(((GtkRange *)sdialog->timeout_scale)->adjustment));
 	e_source_set_property(sdialog->source, "timeout", timeout);
@@ -961,7 +961,7 @@ timeout_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 static void
 limit_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	char limit[16];
+	gchar limit[16];
 
 	sprintf(limit, "%d", gtk_spin_button_get_value_as_int((GtkSpinButton *)sdialog->limit_spinbutton));
 	e_source_set_property(sdialog->source, "limit", limit);
@@ -977,13 +977,13 @@ canbrowse_toggled_cb (GtkWidget *toggle_button, ESource *source)
 }
 
 static GtkWidget *
-eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
-	const char *tmp;
+	const gchar *tmp;
 	GladeXML *gui;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
@@ -1045,18 +1045,18 @@ static EConfigItem eabc_new_items[] = {
 };
 
 static void
-eabc_commit(EConfig *ec, GSList *items, void *data)
+eabc_commit(EConfig *ec, GSList *items, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	xmlNodePtr xml;
 #if d(!)0
-	char *txt;
+	gchar *txt;
 #endif
 	if (sdialog->original_source) {
 		d(printf("committing addressbook changes\n"));
 
 		/* these api's kinda suck */
-		xml = xmlNewNode(NULL, (const unsigned char *)"dummy");
+		xml = xmlNewNode(NULL, (const guchar *)"dummy");
 		e_source_dump_to_xml_node(sdialog->source, xml);
 		e_source_update_from_xml_node(sdialog->original_source, xml->children, NULL);
 		xmlFreeNode(xml);
@@ -1079,7 +1079,7 @@ eabc_commit(EConfig *ec, GSList *items, void *data)
 }
 
 static void
-eabc_free(EConfig *ec, GSList *items, void *data)
+eabc_free(EConfig *ec, GSList *items, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 
@@ -1098,11 +1098,11 @@ eabc_free(EConfig *ec, GSList *items, void *data)
 }
 
 static gboolean
-eabc_check_complete(EConfig *ec, const char *pageid, void *data)
+eabc_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
-	int valid = TRUE;
-	const char *tmp;
+	gint valid = TRUE;
+	const gchar *tmp;
 	ESource *source;
 
 	d(printf("check complete, pageid = '%s'\n", pageid?pageid:"<all>"));
@@ -1114,7 +1114,7 @@ eabc_check_complete(EConfig *ec, const char *pageid, void *data)
 
 #ifdef HAVE_LDAP
 	if (valid && source_group_is_remote(sdialog->source_group)) {
-		char *uri = e_source_get_uri(sdialog->source);
+		gchar *uri = e_source_get_uri(sdialog->source);
 		LDAPURLDesc *lud;
 
 		/* check host and port set */
@@ -1158,7 +1158,7 @@ eabc_check_complete(EConfig *ec, const char *pageid, void *data)
 static void
 source_changed(ESource *source, AddressbookSourceDialog *sdialog)
 {
-	char *xml;
+	gchar *xml;
 
 	xml = e_source_to_standalone_xml(source);
 	printf("source changed:\n%s\n", xml);
@@ -1171,11 +1171,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 {
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	EABConfig *ec;
-	int i;
+	gint i;
 	GSList *items = NULL;
 	EABConfigTargetSource *target;
-	char *xml;
-	char *gladefile;
+	gchar *xml;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      GLADE_FILE_NAME,

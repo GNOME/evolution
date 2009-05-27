@@ -60,10 +60,10 @@ entry_focus_change_cb (GtkWidget *widget,
 static void
 e_icon_entry_get_borders (GtkWidget *widget,
 			     GtkWidget *entry,
-			     int *xborder,
-			     int *yborder)
+			     gint *xborder,
+			     gint *yborder)
 {
-	int focus_width;
+	gint focus_width;
 	gboolean interior_focus;
 
 	g_return_if_fail (entry->style != NULL);
@@ -89,7 +89,7 @@ e_icon_entry_paint (GtkWidget *widget,
 {
 	EIconEntry *entry = E_ICON_ENTRY (widget);
 	GtkWidget *entry_widget = entry->entry;
-	int x = 0, y = 0, width, height, focus_width;
+	gint x = 0, y = 0, width, height, focus_width;
 	gboolean interior_focus;
 
 	gtk_widget_style_get (entry_widget,
@@ -201,7 +201,7 @@ e_icon_entry_size_request (GtkWidget *widget,
 	EIconEntry *entry = E_ICON_ENTRY (widget);
 	GtkContainer *container = GTK_CONTAINER (widget);
 	GtkBin *bin = GTK_BIN (widget);
-	int xborder, yborder;
+	gint xborder, yborder;
 
 	requisition->width = requisition->height = container->border_width * 2;
 
@@ -229,7 +229,7 @@ e_icon_entry_size_allocate (GtkWidget *widget,
 	GtkContainer *container = GTK_CONTAINER (widget);
 	GtkBin *bin = GTK_BIN (widget);
 	GtkAllocation child_allocation;
-	int xborder, yborder;
+	gint xborder, yborder;
 
 	widget->allocation = *allocation;
 
@@ -357,7 +357,7 @@ set_cursor (GtkWidget *widget, GdkEventCrossing *event, gpointer dummy)
 }
 
 GtkWidget *
-e_icon_entry_create_button (const char *stock)
+e_icon_entry_create_button (const gchar *stock)
 {
 	GtkWidget *eventbox;
 	GtkWidget *image;

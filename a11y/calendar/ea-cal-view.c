@@ -45,11 +45,11 @@ static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
 static gint action_interface_get_n_actions (AtkAction *action);
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_get_description(AtkAction *action, gint i);
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_get_keybinding (AtkAction *action, gint i);
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_action_get_name(AtkAction *action, gint i);
 
 static gpointer parent_class = NULL;
@@ -212,7 +212,7 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
 	}
 	if (event_atk_obj) {
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p changed\n", (void *)event);
+		printf ("AccDebug: event=%p changed\n", (gpointer)event);
 #endif
 		g_object_notify (G_OBJECT(event_atk_obj), "accessible-name");
 		g_signal_emit_by_name (event_atk_obj, "visible_data_changed");
@@ -254,7 +254,7 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
 		if (index < 0)
 			return;
 #ifdef ACC_DEBUG
-		printf ("AccDebug: event=%p added\n", (void *)event);
+		printf ("AccDebug: event=%p added\n", (gpointer)event);
 #endif
 		g_signal_emit_by_name (atk_obj, "children_changed::add",
 				       index, event_atk_obj, NULL);
@@ -295,7 +295,7 @@ ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 
 #define CAL_VIEW_ACTION_NUM 5
 
-static const char * action_name [CAL_VIEW_ACTION_NUM] = {
+static const gchar * action_name [CAL_VIEW_ACTION_NUM] = {
 	N_("New Appointment"),
 	N_("New All Day Event"),
 	N_("New Meeting"),
@@ -374,13 +374,13 @@ action_interface_get_n_actions (AtkAction *action)
 	return CAL_VIEW_ACTION_NUM;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_get_description(AtkAction *action, gint index)
 {
 	return action_interface_action_get_name (action, index);
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_get_keybinding (AtkAction *action, gint index)
 {
 	GtkWidget *widget;
@@ -417,7 +417,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 	 return NULL;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 action_interface_action_get_name(AtkAction *action, gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)

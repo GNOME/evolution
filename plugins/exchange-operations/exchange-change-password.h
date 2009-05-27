@@ -28,7 +28,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-char *exchange_get_new_password (const char *existing_password,
+gchar *exchange_get_new_password (const gchar *existing_password,
 				 gboolean    voluntary);
 
 #ifdef __cplusplus

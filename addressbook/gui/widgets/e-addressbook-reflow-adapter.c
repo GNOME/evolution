@@ -36,8 +36,8 @@ struct _EAddressbookReflowAdapterPrivate {
 
 	gboolean loading;
 
-	int create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
-	int search_started_id, search_result_id;
+	gint create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
+	gint search_started_id, search_result_id;
 };
 
 #define PARENT_TYPE e_reflow_model_get_type()
@@ -101,7 +101,7 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 static int
 text_height (PangoLayout *layout, const gchar *text)
 {
-	int height;
+	gint height;
 
 	pango_layout_set_text (layout, text, -1);
 
@@ -119,7 +119,7 @@ addressbook_dispose(GObject *object)
 }
 
 static void
-addressbook_set_width (EReflowModel *erm, int width)
+addressbook_set_width (EReflowModel *erm, gint width)
 {
 }
 
@@ -135,16 +135,16 @@ addressbook_count (EReflowModel *erm)
 
 /* This function returns the height of the minicontact in question */
 static int
-addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
+addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	EContactField field;
-	int count = 0;
-	char *string;
+	gint count = 0;
+	gchar *string;
 	EContact *contact = (EContact*)eab_model_contact_at (priv->model, i);
 	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
-	int height;
+	gint height;
 
 	string = e_contact_get(contact, E_CONTACT_FILE_AS);
 	height = text_height (layout, string ? string : "") + 10.0;
@@ -157,8 +157,8 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 
 		string = e_contact_get(contact, field);
 		if (string && *string) {
-			int this_height;
-			int field_text_height;
+			gint this_height;
+			gint field_text_height;
 
 			this_height = text_height (layout, e_contact_pretty_name(field));
 
@@ -181,7 +181,7 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 }
 
 static int
-addressbook_compare (EReflowModel *erm, int n1, int n2)
+addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -195,8 +195,8 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 		contact2 = (EContact*)eab_model_contact_at (priv->model, n2);
 
 		if (contact1 && contact2) {
-			const char *file_as1, *file_as2;
-			const char *uid1, *uid2;
+			const gchar *file_as1, *file_as2;
+			const gchar *uid1, *uid2;
 			file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
 			file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
 			if (file_as1 && file_as2)
@@ -235,7 +235,7 @@ adapter_drag_begin (EMinicard *card, GdkEvent *event, EAddressbookReflowAdapter 
 }
 
 static GnomeCanvasItem *
-addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
+addressbook_incarnate (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -259,7 +259,7 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 }
 
 static void
-addressbook_reincarnate (EReflowModel *erm, int i, GnomeCanvasItem *item)
+addressbook_reincarnate (EReflowModel *erm, gint i, GnomeCanvasItem *item)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -285,7 +285,7 @@ remove_contacts (EABModel *model,
 		EAddressbookReflowAdapter *adapter)
 {
 	GArray *indices = (GArray *) data;
-	int count = indices->len;
+	gint count = indices->len;
 
 	if (count == 1)
 		e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), g_array_index (indices, gint, 0));
@@ -536,7 +536,7 @@ e_addressbook_reflow_adapter_new (EABModel *model)
 
 EContact *
 e_addressbook_reflow_adapter_get_contact (EAddressbookReflowAdapter *adapter,
-					  int index)
+					  gint index)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 

@@ -105,7 +105,7 @@ e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *com
 
 /* ********************************************************************** */
 
-static void *eceh_parent_class;
+static gpointer eceh_parent_class;
 
 static const EEventHookTargetMask eceh_component_masks[] = {
 	{ "migration", E_CAL_EVENT_COMPONENT_MIGRATION },
@@ -126,7 +126,7 @@ eceh_finalize (GObject *o)
 static void
 eceh_class_init (EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = eceh_finalize;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.events:1.0";

@@ -391,7 +391,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 	if (attendees != NULL) {
 		GSList *l;
-		int row;
+		gint row;
 
 		task_page_hide_options (priv->task_page);
 		task_page_set_assignment (priv->task_page, TRUE);

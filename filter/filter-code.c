@@ -80,7 +80,7 @@ filter_code_class_init (FilterCodeClass *klass)
 static void
 filter_code_init (FilterCode *fc)
 {
-	((FilterInput *) fc)->type = (char *)xmlStrdup ((const unsigned char *)"code");
+	((FilterInput *) fc)->type = (gchar *)xmlStrdup ((const guchar *)"code");
 }
 
 static void
@@ -104,7 +104,7 @@ filter_code_new (gboolean raw_code)
 
 	if (fc && raw_code) {
 		xmlFree (((FilterInput *) fc)->type);
-		((FilterInput *) fc)->type = (char *)xmlStrdup ((const unsigned char *)"rawcode");
+		((FilterInput *) fc)->type = (gchar *)xmlStrdup ((const guchar *)"rawcode");
 	}
 
 	return fc;
@@ -123,7 +123,7 @@ build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 
 	l = fi->values;
 	while (l) {
-		g_string_append(out, (char *)l->data);
+		g_string_append(out, (gchar *)l->data);
 		l = g_list_next(l);
 	}
 

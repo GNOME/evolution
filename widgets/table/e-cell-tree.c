@@ -76,25 +76,25 @@ e_cell_tree_view_get_subcell_view (ECellView *ect)
 }
 
 static ETreePath
-e_cell_tree_get_node (ETableModel *table_model, int row)
+e_cell_tree_get_node (ETableModel *table_model, gint row)
 {
 	return e_table_model_value_at (table_model, -1, row);
 }
 
 static ETreeModel*
-e_cell_tree_get_tree_model (ETableModel *table_model, int row)
+e_cell_tree_get_tree_model (ETableModel *table_model, gint row)
 {
 	return e_table_model_value_at (table_model, -2, row);
 }
 
 static ETreeTableAdapter *
-e_cell_tree_get_tree_table_adapter (ETableModel *table_model, int row)
+e_cell_tree_get_tree_table_adapter (ETableModel *table_model, gint row)
 {
 	return e_table_model_value_at (table_model, -3, row);
 }
 
 static int
-visible_depth_of_node (ETableModel *model, int row)
+visible_depth_of_node (ETableModel *model, gint row)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(model, row);
 	ETreeTableAdapter *adapter = e_cell_tree_get_tree_table_adapter(model, row);
@@ -107,7 +107,7 @@ visible_depth_of_node (ETableModel *model, int row)
    if the path is not expandable, then max_width needs to change as
    well. */
 static gint
-offset_of_node (ETableModel *table_model, int row)
+offset_of_node (ETableModel *table_model, gint row)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(table_model, row);
 	ETreePath path = e_cell_tree_get_node(table_model, row);
@@ -124,7 +124,7 @@ offset_of_node (ETableModel *table_model, int row)
  * ECell::new_view method
  */
 static ECellView *
-ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
+ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
 {
 	ECellTree *ect = E_CELL_TREE (ecell);
 	ECellTreeView *tree_view = g_new0 (ECellTreeView, 1);
@@ -209,7 +209,7 @@ static void
 draw_retro_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expanded, GdkRectangle *rect)
 {
 	GdkPixbuf *image;
-	int image_width, image_height;
+	gint image_width, image_height;
 	ECellTree *ect = E_CELL_TREE(ectv->cell_view.ecell);
 
 	image = expanded ? ect->open_pixbuf : ect->closed_pixbuf;
@@ -243,8 +243,8 @@ draw_expander (ECellTreeView *ectv, GdkDrawable *drawable, GtkExpanderStyle expa
  */
 static void
 ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, ECellFlags flags,
-	  int x1, int y1, int x2, int y2)
+	  gint model_col, gint view_col, gint row, ECellFlags flags,
+	  gint x1, gint y1, gint x2, gint y2)
 {
 	ECellTreeView *tree_view = (ECellTreeView *)ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
@@ -256,14 +256,14 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkColor *foreground;
 	gboolean selected;
 
-	int offset, subcell_offset;
+	gint offset, subcell_offset;
 
 	selected = flags & E_CELL_SELECTED;
 
 	/* only draw the tree effects if we're the active sort */
 	if (/* XXX */ TRUE) {
 		GdkPixbuf *node_image;
-		int node_image_width = 0, node_image_height = 0;
+		gint node_image_width = 0, node_image_height = 0;
 		ETreePath parent_node;
 		ETree *tree = E_TREE (canvas->parent);
 
@@ -307,7 +307,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		/* draw our lines */
 		if (tree_view->retro_look && E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
 
-			int depth;
+			gint depth;
 
 			if (visible_depth_of_node (ecell_view->e_table_model, row) > 0
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0)
@@ -428,7 +428,7 @@ event_in_expander (GdkEvent *event, gint offset, gint height)
  * ECell::height method
  */
 static int
-ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
+ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
@@ -468,13 +468,13 @@ animate_expander (gpointer data)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
+ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreeTableAdapter *etta = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
 	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	int offset = offset_of_node (ecell_view->e_table_model, row);
+	gint offset = offset_of_node (ecell_view->e_table_model, row);
 	gint result;
 
 	switch (event->type) {
@@ -489,7 +489,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 					gint tmp_row = row;
 					GdkRectangle area;
 					animate_closure_t *closure = g_new0 (animate_closure_t, 1);
-					int hgt;
+					gint hgt;
 
 					e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
 								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
@@ -568,14 +568,14 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::max_width method
  */
 static int
-ect_max_width (ECellView *ecell_view, int model_col, int view_col)
+ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
-	int row;
-	int number_of_rows;
-	int max_width = 0;
-	int width = 0;
-	int subcell_max_width = 0;
+	gint row;
+	gint number_of_rows;
+	gint max_width = 0;
+	gint width = 0;
+	gint subcell_max_width = 0;
 	gboolean per_row = e_cell_max_width_by_row_implemented (tree_view->subcell_view);
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
@@ -587,9 +587,9 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
 		ETreePath node;
 		GdkPixbuf *node_image;
-		int node_image_width = 0;
+		gint node_image_width = 0;
 
-		int offset, subcell_offset;
+		gint offset, subcell_offset;
 #if 0
 		gboolean expanded, expandable;
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
@@ -642,13 +642,13 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
  * ECellView::show_tooltip method
  */
 static void
-ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
-		  int col_width, ETableTooltip *tooltip)
+ect_show_tooltip (ECellView *ecell_view, gint model_col, gint view_col, gint row,
+		  gint col_width, ETableTooltip *tooltip)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	int offset = offset_of_node (ecell_view->e_table_model, row);
+	gint offset = offset_of_node (ecell_view->e_table_model, row);
 	GdkPixbuf *node_image;
 
 	node_image = e_tree_model_icon_at (tree_model, node);
@@ -662,8 +662,8 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 /*
  * ECellView::get_bg_color method
  */
-static char *
-ect_get_bg_color (ECellView *ecell_view, int row)
+static gchar *
+ect_get_bg_color (ECellView *ecell_view, gint row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
@@ -673,8 +673,8 @@ ect_get_bg_color (ECellView *ecell_view, int row)
 /*
  * ECellView::enter_edit method
  */
-static void *
-ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
+static gpointer
+ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	/* just defer to our subcell's view */
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -686,7 +686,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECellView::leave_edit method
  */
 static void
-ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
+ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
 {
 	/* just defer to our subcell's view */
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -696,7 +696,7 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 
 static void
 ect_print (ECellView *ecell_view, GtkPrintContext *context,
-	   int model_col, int view_col, int row,
+	   gint model_col, gint view_col, gint row,
 	   double width, double height)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -708,14 +708,14 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
 		ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-		int offset = offset_of_node (ecell_view->e_table_model, row);
-		int subcell_offset = offset;
+		gint offset = offset_of_node (ecell_view->e_table_model, row);
+		gint subcell_offset = offset;
 		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);
 		gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
-			int depth;
+			gint depth;
 
 			if (!e_tree_model_node_is_root (tree_model, node)
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
@@ -791,7 +791,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 static gdouble
 ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		  int model_col, int view_col, int row,
+		  gint model_col, gint view_col, gint row,
 		  double width)
 {
 	return 12; /* XXX */
@@ -878,11 +878,11 @@ e_cell_tree_construct (ECellTree *ect,
 	if (open_pixbuf)
 		ect->open_pixbuf = open_pixbuf;
 	else
-		ect->open_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **)tree_expanded_xpm);
+		ect->open_pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **)tree_expanded_xpm);
 	if (closed_pixbuf)
 		ect->closed_pixbuf = closed_pixbuf;
 	else
-		ect->closed_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **)tree_unexpanded_xpm);
+		ect->closed_pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **)tree_unexpanded_xpm);
 
 	ect->draw_lines = draw_lines;
 }

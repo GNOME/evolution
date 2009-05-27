@@ -78,20 +78,20 @@ gdvm_row_count (ETableModel *etc)
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
-static void *
-gdvm_value_at (ETableModel *etc, int col, int row)
+static gpointer
+gdvm_value_at (ETableModel *etc, gint col, gint row)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
-	const char *value;
+	const gchar *value;
 
 	value = gal_view_get_title (gal_view_collection_get_view(views->collection, row));
 
-	return (void *)(value ? value : "");
+	return (gpointer)(value ? value : "");
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-gdvm_set_value_at (ETableModel *etc, int col, int row, const void *val)
+gdvm_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
 	if (views->editable) {
@@ -103,7 +103,7 @@ gdvm_set_value_at (ETableModel *etc, int col, int row, const void *val)
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
-gdvm_is_cell_editable (ETableModel *etc, int col, int row)
+gdvm_is_cell_editable (ETableModel *etc, gint col, gint row)
 {
 	return GAL_DEFINE_VIEWS_MODEL(etc)->editable;
 }
@@ -114,33 +114,33 @@ gdvm_append_row (ETableModel *etm, ETableModel *source, gint row)
 }
 
 /* This function duplicates the value passed to it. */
-static void *
-gdvm_duplicate_value (ETableModel *etc, int col, const void *value)
+static gpointer
+gdvm_duplicate_value (ETableModel *etc, gint col, gconstpointer value)
 {
 	return g_strdup(value);
 }
 
 /* This function frees the value passed to it. */
 static void
-gdvm_free_value (ETableModel *etc, int col, void *value)
+gdvm_free_value (ETableModel *etc, gint col, gpointer value)
 {
 	g_free(value);
 }
 
-static void *
-gdvm_initialize_value (ETableModel *etc, int col)
+static gpointer
+gdvm_initialize_value (ETableModel *etc, gint col)
 {
 	return g_strdup("");
 }
 
 static gboolean
-gdvm_value_is_empty (ETableModel *etc, int col, const void *value)
+gdvm_value_is_empty (ETableModel *etc, gint col, gconstpointer value)
 {
-	return !(value && *(char *)value);
+	return !(value && *(gchar *)value);
 }
 
-static char *
-gdvm_value_to_string (ETableModel *etc, int col, const void *value)
+static gchar *
+gdvm_value_to_string (ETableModel *etc, gint col, gconstpointer value)
 {
 	return g_strdup(value);
 }
@@ -279,7 +279,7 @@ gal_define_views_model_new (void)
  */
 GalView *
 gal_define_views_model_get_view (GalDefineViewsModel *model,
-				 int n)
+				 gint n)
 {
 	return gal_view_collection_get_view(model->collection, n);
 }
@@ -293,7 +293,7 @@ gal_define_views_model_get_view (GalDefineViewsModel *model,
  */
 void
 gal_define_views_model_delete_view (GalDefineViewsModel *model,
-				    int n)
+				    gint n)
 {
 	e_table_model_pre_change(E_TABLE_MODEL(model));
 	gal_view_collection_delete_view(model->collection, n);
@@ -309,7 +309,7 @@ gal_define_views_model_delete_view (GalDefineViewsModel *model,
  */
 void
 gal_define_views_model_copy_view (GalDefineViewsModel *model,
-				  int n)
+				  gint n)
 {
 	ETableModel *etm = E_TABLE_MODEL(model);
 	e_table_model_pre_change(etm);

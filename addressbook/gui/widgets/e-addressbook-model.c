@@ -71,7 +71,7 @@ static void
 free_data (EABModel *model)
 {
 	if (model->data) {
-		int i;
+		gint i;
 
 		for ( i = 0; i < model->data_count; i++ ) {
 			g_object_unref (model->data[i]);
@@ -153,8 +153,8 @@ addressbook_dispose(GObject *object)
 static void
 update_folder_bar_message (EABModel *model)
 {
-	int count;
-	char *message;
+	gint count;
+	gchar *message;
 
 	count = model->data_count;
 
@@ -179,8 +179,8 @@ create_contact(EBookView *book_view,
 	       const GList *contacts,
 	       EABModel *model)
 {
-	int old_count = model->data_count;
-	int length = g_list_length ((GList *)contacts);
+	gint old_count = model->data_count;
+	gint length = g_list_length ((GList *)contacts);
 
 	if (model->data_count + length > model->allocated_count) {
 		while (model->data_count + length > model->allocated_count)
@@ -212,7 +212,7 @@ remove_contact(EBookView *book_view,
 
 	indices = g_array_new (FALSE, FALSE, sizeof (gint));
 	for (l = ids; l; l = l->next) {
-		char *id = l->data;
+		gchar *id = l->data;
 		for ( i = 0; i < model->data_count; i++) {
 			if ( !strcmp(e_contact_get_const (model->data[i], E_CONTACT_UID), id) ) {
 				g_object_unref (model->data[i]);
@@ -236,7 +236,7 @@ modify_contact(EBookView *book_view,
 	       EABModel *model)
 {
 	for ( ; contacts; contacts = contacts->next) {
-		int i;
+		gint i;
 		for ( i = 0; i < model->data_count; i++) {
 			if ( !strcmp(e_contact_get_const(model->data[i], E_CONTACT_UID),
 				     e_contact_get_const(E_CONTACT(contacts->data), E_CONTACT_UID)) ) {
@@ -253,7 +253,7 @@ modify_contact(EBookView *book_view,
 
 static void
 status_message (EBookView *book_view,
-		char* status,
+		gchar * status,
 		EABModel *model)
 {
 	g_signal_emit (model,
@@ -508,8 +508,8 @@ get_view (EABModel *model)
 
 	if (model->book && model->query) {
 		ESource *source;
-		const char *limit_str;
-		int limit = -1;
+		const gchar *limit_str;
+		gint limit = -1;
 
 		source = e_book_get_source (model->book);
 
@@ -552,7 +552,7 @@ get_view_idle (EABModel *model)
 
 EContact *
 eab_model_get_contact(EABModel *model,
-		      int       row)
+		      gint       row)
 {
 	if (model->data && 0 <= row && row < model->data_count) {
 		return e_contact_duplicate (model->data[row]);
@@ -643,7 +643,7 @@ eab_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpe
 		g_value_set_object (value, eab_model->book);
 		break;
 	case PROP_QUERY: {
-		char *query_string = e_book_query_to_string (eab_model->query);
+		gchar *query_string = e_book_query_to_string (eab_model->query);
 		g_value_set_string (value, query_string);
 		break;
 	}
@@ -712,14 +712,14 @@ eab_model_force_folder_bar_message (EABModel *model)
 	update_folder_bar_message (model);
 }
 
-int
+gint
 eab_model_contact_count (EABModel *model)
 {
 	return model->data_count;
 }
 
 const EContact *
-eab_model_contact_at (EABModel *model, int index)
+eab_model_contact_at (EABModel *model, gint index)
 {
 	return model->data[index];
 }

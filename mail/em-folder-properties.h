@@ -32,7 +32,7 @@ extern "C" {
 struct _CamelFolder;
 struct _GtkWindow;
 
-void em_folder_properties_show(struct _GtkWindow *parent, struct _CamelFolder *folder, const char *uri);
+void em_folder_properties_show(struct _GtkWindow *parent, struct _CamelFolder *folder, const gchar *uri);
 
 #ifdef __cplusplus
 }

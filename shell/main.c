@@ -106,8 +106,8 @@ static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
-static char *default_component_id = NULL;
-static char *evolution_debug_log = NULL;
+static gchar *default_component_id = NULL;
+static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
 static void
@@ -118,7 +118,7 @@ no_windows_left_cb (EShell *shell, gpointer data)
 }
 
 static void
-shell_weak_notify (void *data,
+shell_weak_notify (gpointer data,
 		   GObject *where_the_object_was)
 {
 	bonobo_main_quit ();
@@ -199,7 +199,7 @@ show_development_warning(void)
 	GtkWidget *checkbox;
 	GtkWidget *alignment;
 	gboolean skip;
-	char *text;
+	gchar *text;
 
 	warning_dialog = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
@@ -422,7 +422,7 @@ static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
 static pthread_t main_thread;
 
 static void
-segv_redirect (int sig)
+segv_redirect (gint sig)
 {
 	if (pthread_self () == main_thread)
 		gnome_segv_handler (sig);
@@ -562,8 +562,8 @@ set_paths (void)
 }
 #endif
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
 	extern void link_shutdown (void);
@@ -576,7 +576,7 @@ main (int argc, char **argv)
 	GnomeProgram *program;
 	GnomeClient *master_client;
 	GOptionContext *context;
-	char *filename;
+	gchar *filename;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -645,7 +645,7 @@ main (int argc, char **argv)
 	setup_segv_redirect ();
 
 	if (evolution_debug_log) {
-		int fd;
+		gint fd;
 
 		fd = g_open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd != -1) {

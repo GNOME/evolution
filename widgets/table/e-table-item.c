@@ -108,23 +108,23 @@ enum {
 #define TRIPLE_CLICK_TIME      500
 
 
-static int eti_get_height (ETableItem *eti);
-static int eti_row_height (ETableItem *eti, int row);
-static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state);
-static void eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti);
-static void eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti);
+static gint eti_get_height (ETableItem *eti);
+static gint eti_row_height (ETableItem *eti, gint row);
+static void e_table_item_focus (ETableItem *eti, gint col, gint row, GdkModifierType state);
+static void eti_cursor_change (ESelectionModel *selection, gint row, gint col, ETableItem *eti);
+static void eti_cursor_activated (ESelectionModel *selection, gint row, gint col, ETableItem *eti);
 static void eti_selection_change (ESelectionModel *selection, ETableItem *eti);
-static void eti_selection_row_change (ESelectionModel *selection, int row, ETableItem *eti);
-static void e_table_item_redraw_row (ETableItem *eti, int row);
+static void eti_selection_row_change (ESelectionModel *selection, gint row, ETableItem *eti);
+static void e_table_item_redraw_row (ETableItem *eti, gint row);
 
 #define ETI_SINGLE_ROW_HEIGHT(eti) ((eti)->uniform_row_height_cache != -1 ? (eti)->uniform_row_height_cache : eti_row_height((eti), -1))
 #define ETI_MULTIPLE_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 #define ETI_ROW_HEIGHT(eti,row) ((eti)->uniform_row_height ? ETI_SINGLE_ROW_HEIGHT ((eti)) : ETI_MULTIPLE_ROW_HEIGHT((eti),(row)))
 
 inline static gint
-model_to_view_row(ETableItem *eti, int row)
+model_to_view_row(ETableItem *eti, gint row)
 {
-	int i;
+	gint i;
 	if (row == -1)
 		return -1;
 	if (eti->uses_source_model) {
@@ -144,7 +144,7 @@ model_to_view_row(ETableItem *eti, int row)
 }
 
 inline static gint
-view_to_model_row(ETableItem *eti, int row)
+view_to_model_row(ETableItem *eti, gint row)
 {
 	if (eti->uses_source_model) {
 		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
@@ -158,9 +158,9 @@ view_to_model_row(ETableItem *eti, int row)
 }
 
 inline static gint
-model_to_view_col(ETableItem *eti, int col)
+model_to_view_col(ETableItem *eti, gint col)
 {
-	int i;
+	gint i;
 	if (col == -1)
 		return -1;
 	for (i = 0; i < eti->cols; i++) {
@@ -172,7 +172,7 @@ model_to_view_col(ETableItem *eti, int col)
 }
 
 inline static gint
-view_to_model_col(ETableItem *eti, int col)
+view_to_model_col(ETableItem *eti, gint col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
 	return ecol ? ecol->col_idx : -1;
@@ -243,7 +243,7 @@ eti_editing (ETableItem *eti)
 }
 
 inline static GdkColor *
-eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocatedp)
+eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean selected, gboolean *allocatedp)
 {
   	ECellView *ecell_view = eti->cell_views [col];
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
@@ -291,7 +291,7 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 }
 
 inline static GdkColor *
-eti_get_cell_foreground_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocated)
+eti_get_cell_foreground_color (ETableItem *eti, gint row, gint col, gboolean selected, gboolean *allocated)
 {
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
 	GdkColor *foreground;
@@ -336,7 +336,7 @@ eti_free_save_state (ETableItem *eti)
 static void
 eti_realize_cell_views ( ETableItem *eti)
 {
-	int i;
+	gint i;
 
 	if (eti->cell_views_realized)
 		return;
@@ -352,7 +352,7 @@ eti_realize_cell_views ( ETableItem *eti)
 static void
 eti_attach_cell_views (ETableItem *eti)
 {
-	int i;
+	gint i;
 
 	g_return_if_fail (eti->header);
 	g_return_if_fail (eti->table_model);
@@ -390,7 +390,7 @@ eti_attach_cell_views (ETableItem *eti)
 static void
 eti_unrealize_cell_views (ETableItem *eti)
 {
-	int i;
+	gint i;
 
 	if (eti->cell_views_realized == 0)
 		return;
@@ -405,7 +405,7 @@ eti_unrealize_cell_views (ETableItem *eti)
 static void
 eti_detach_cell_views (ETableItem *eti)
 {
-	int i;
+	gint i;
 
 	eti_free_save_state (eti);
 
@@ -449,7 +449,7 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	if (eti->needs_compute_height) {
-		int new_height = eti_get_height (eti);
+		gint new_height = eti_get_height (eti);
 
 		if (new_height != eti->height) {
 			eti->height = new_height;
@@ -460,7 +460,7 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
 		eti->needs_compute_height = 0;
 	}
 	if (eti->needs_compute_width) {
-		int new_width = e_table_header_total_width(eti->header);
+		gint new_width = e_table_header_total_width(eti->header);
 		if (new_width != eti->width) {
 			eti->width = new_width;
 			e_canvas_item_request_parent_reflow (GNOME_CANVAS_ITEM (eti));
@@ -475,7 +475,7 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
  * GnomeCanvasItem::update method
  */
 static void
-eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
 	ArtPoint o1, o2;
 	ETableItem *eti = E_TABLE_ITEM (item);
@@ -610,11 +610,11 @@ eti_remove_header_model (ETableItem *eti)
  * used as a separator between rows
  */
 static int
-eti_row_height_real (ETableItem *eti, int row)
+eti_row_height_real (ETableItem *eti, gint row)
 {
-	const int cols = e_table_header_count (eti->header);
-	int col;
-	int h, max_h;
+	const gint cols = e_table_header_count (eti->header);
+	gint col;
+	gint h, max_h;
 
 	g_return_val_if_fail (cols == 0 || eti->cell_views, 0);
 
@@ -632,7 +632,7 @@ eti_row_height_real (ETableItem *eti, int row)
 static void
 confirm_height_cache (ETableItem *eti)
 {
-	int i;
+	gint i;
 
 	if (eti->uniform_row_height || eti->height_cache)
 		return;
@@ -645,8 +645,8 @@ confirm_height_cache (ETableItem *eti)
 static gboolean
 height_cache_idle(ETableItem *eti)
 {
-	int changed = 0;
-	int i;
+	gint changed = 0;
+	gint i;
 	confirm_height_cache(eti);
 	for (i = eti->height_cache_idle_count; i < eti->rows; i++) {
 		if (eti->height_cache[i] == -1) {
@@ -699,7 +699,7 @@ calculate_height_cache (ETableItem *eti)
  * used as a separator between rows
  */
 static int
-eti_row_height (ETableItem *eti, int row)
+eti_row_height (ETableItem *eti, gint row)
 {
 	if (eti->uniform_row_height) {
 		eti->uniform_row_height_cache = eti_row_height_real (eti, -1);
@@ -737,21 +737,21 @@ eti_row_height (ETableItem *eti, int row)
 static int
 eti_get_height (ETableItem *eti)
 {
-	const int rows = eti->rows;
-	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	const gint rows = eti->rows;
+	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	if (rows == 0)
 		return 0;
 
 	if (eti->uniform_row_height) {
-		int row_height = eti_row_height(eti, -1);
+		gint row_height = eti_row_height(eti, -1);
 		return ((row_height + height_extra) * rows + height_extra);
 	} else {
-		int height;
-		int row;
+		gint height;
+		gint row;
 		if (eti->length_threshold != -1){
 			if (rows > eti->length_threshold){
-				int row_height = eti_row_height(eti, 0);
+				gint row_height = eti_row_height(eti, 0);
 				if (eti->height_cache) {
 					height = 0;
 					for (row = 0; row < rows; row++) {
@@ -781,7 +781,7 @@ eti_get_height (ETableItem *eti)
 }
 
 static void
-eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
+eti_item_region_redraw (ETableItem *eti, gint x0, gint y0, gint x1, gint y1)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 	ArtDRect rect;
@@ -801,10 +801,10 @@ eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
 /*
  * Computes the distance between @start_row and @end_row in pixels
  */
-int
-e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
+gint
+e_table_item_row_diff (ETableItem *eti, gint start_row, gint end_row)
 {
-	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	if (start_row < 0)
 		start_row = 0;
@@ -814,7 +814,7 @@ e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 	if (eti->uniform_row_height) {
 		return ((end_row - start_row) * (eti_row_height(eti, -1) + height_extra));
 	} else {
-		int row, total;
+		gint row, total;
 		total = 0;
 		for (row = start_row; row < end_row; row++)
 			total += eti_row_height (eti, row) + height_extra;
@@ -825,12 +825,12 @@ e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 
 static void
 eti_get_region (ETableItem *eti,
-		int start_col, int start_row,
-		int end_col, int end_row,
-		int *x1p, int *y1p,
-		int *x2p, int *y2p)
+		gint start_col, gint start_row,
+		gint end_col, gint end_row,
+		gint *x1p, gint *y1p,
+		gint *x2p, gint *y2p)
 {
-	int x1, y1, x2, y2;
+	gint x1, y1, x2, y2;
 
 	x1 = e_table_header_col_diff (eti->header, 0, start_col);
 	y1 = e_table_item_row_diff (eti, 0, start_row);
@@ -858,10 +858,10 @@ eti_get_region (ETableItem *eti,
  */
 static void
 eti_request_region_redraw (ETableItem *eti,
-			   int start_col, int start_row,
-			   int end_col, int end_row, int border)
+			   gint start_col, gint start_row,
+			   gint end_col, gint end_row, gint border)
 {
-	int x1, y1, x2, y2;
+	gint x1, y1, x2, y2;
 
 	if (eti->rows > 0) {
 
@@ -885,10 +885,10 @@ eti_request_region_redraw (ETableItem *eti,
  */
 static void
 eti_request_region_show (ETableItem *eti,
-			 int start_col, int start_row,
-			 int end_col, int end_row, int delay)
+			 gint start_col, gint start_row,
+			 gint end_col, gint end_row, gint delay)
 {
-	int x1, y1, x2, y2;
+	gint x1, y1, x2, y2;
 
 	eti_get_region (eti,
 			start_col, start_row,
@@ -902,9 +902,9 @@ eti_request_region_show (ETableItem *eti,
 }
 
 static void
-eti_show_cursor (ETableItem *eti, int delay)
+eti_show_cursor (ETableItem *eti, gint delay)
 {
-	int cursor_row;
+	gint cursor_row;
 
 	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
 		return;
@@ -953,8 +953,8 @@ eti_check_cursor_on_screen (ETableItem *eti)
 static void
 eti_check_cursor_bounds (ETableItem *eti)
 {
-	int x1, y1, x2, y2;
-	int cursor_row;
+	gint x1, y1, x2, y2;
+	gint cursor_row;
 
 	if (!((GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED) && eti->cell_views_realized))
 		return;
@@ -1002,7 +1002,7 @@ eti_check_cursor_bounds (ETableItem *eti)
 }
 
 static void
-eti_maybe_show_cursor(ETableItem *eti, int delay)
+eti_maybe_show_cursor(ETableItem *eti, gint delay)
 {
 	d(g_print ("%s: cursor on screen: %s\n", __FUNCTION__, eti->cursor_on_screen ? "TRUE" : "FALSE"));
 	if (eti->cursor_on_screen)
@@ -1122,7 +1122,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 }
 
 static void
-eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
+eti_table_model_row_changed (ETableModel *table_model, gint row, ETableItem *eti)
 {
  	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
@@ -1140,7 +1140,7 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 }
 
 static void
-eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETableItem *eti)
+eti_table_model_cell_changed (ETableModel *table_model, gint col, gint row, ETableItem *eti)
 {
  	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
@@ -1158,7 +1158,7 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 }
 
 static void
-eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETableItem *eti)
+eti_table_model_rows_inserted (ETableModel *table_model, gint row, gint count, ETableItem *eti)
 {
  	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
@@ -1167,7 +1167,7 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache) {
-		int i;
+		gint i;
 		eti->height_cache = g_renew(int, eti->height_cache, eti->rows);
 		memmove(eti->height_cache + row + count, eti->height_cache + row, (eti->rows - count - row) * sizeof(int));
 		for (i = row; i < row + count; i++)
@@ -1185,7 +1185,7 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 }
 
 static void
-eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETableItem *eti)
+eti_table_model_rows_deleted (ETableModel *table_model, gint row, gint count, ETableItem *eti)
 {
  	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
@@ -1221,11 +1221,11 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
  */
 void
 e_table_item_redraw_range (ETableItem *eti,
-			   int start_col, int start_row,
-			   int end_col, int end_row)
+			   gint start_col, gint start_row,
+			   gint end_col, gint end_row)
 {
-	int border;
-	int cursor_col, cursor_row;
+	gint border;
+	gint cursor_col, cursor_row;
 
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
@@ -1248,7 +1248,7 @@ e_table_item_redraw_range (ETableItem *eti,
 
 static void
 e_table_item_redraw_row (ETableItem *eti,
-			 int row)
+			 gint row)
 {
 	if (row != -1)
 		e_table_item_redraw_range (eti, 0, row, eti->cols - 1, row);
@@ -1337,7 +1337,7 @@ eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 }
 
 static void
-eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
+eti_header_dim_changed (ETableHeader *eth, gint col, ETableItem *eti)
 {
 	eti->needs_compute_width = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
@@ -1373,9 +1373,9 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 }
 
 static int
-eti_request_column_width (ETableHeader *eth, int col, ETableItem *eti)
+eti_request_column_width (ETableHeader *eth, gint col, ETableItem *eti)
 {
-	int width = 0;
+	gint width = 0;
 
 	if (eti->cell_views && eti->cell_views_realized) {
 		width = e_cell_max_width (eti->cell_views[col], view_to_model_col(eti, col), col);
@@ -1462,7 +1462,7 @@ static void
 eti_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableItem *eti;
-	int cursor_col;
+	gint cursor_col;
 
 	eti = E_TABLE_ITEM (object);
 
@@ -1546,7 +1546,7 @@ static void
 eti_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ETableItem *eti;
-	int row;
+	gint row;
 
 	eti = E_TABLE_ITEM (object);
 
@@ -1653,7 +1653,7 @@ eti_init (ETableItem *eti)
 
 #define gray50_width 2
 #define gray50_height 2
-static const char gray50_bits[] = {
+static const gchar gray50_bits[] = {
 	0x02, 0x01, };
 
 static void
@@ -1729,7 +1729,7 @@ eti_realize (GnomeCanvasItem *item)
 	free_height_cache(eti);
 
 	if (item->canvas->focused_item == NULL && eti->selection) {
-		int row;
+		gint row;
 
 		row = e_selection_model_cursor_row (E_SELECTION_MODEL (eti->selection));
 		row = model_to_view_row(eti, row);
@@ -1815,21 +1815,21 @@ eti_unrealize (GnomeCanvasItem *item)
 
 
 static void
-eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	const int rows = eti->rows;
-	const int cols = eti->cols;
-	int row, col;
-	int first_col, last_col, x_offset;
-	int first_row, last_row, y_offset, yd;
-	int x1, x2;
-	int f_x1, f_x2, f_y1, f_y2;
+	const gint rows = eti->rows;
+	const gint cols = eti->cols;
+	gint row, col;
+	gint first_col, last_col, x_offset;
+	gint first_row, last_row, y_offset, yd;
+	gint x1, x2;
+	gint f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
 	double i2c [6];
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
-	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	cairo_t *cr;
 
 	cr = gdk_cairo_create (drawable);
@@ -1888,7 +1888,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (last_row > eti->rows)
 			last_row = eti->rows;
 	} else {
-		int y1, y2;
+		gint y1, y2;
 
 		y_offset = 0;
 		first_row = -1;
@@ -1934,7 +1934,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	yd += height_extra;
 
 	for (row = first_row; row < last_row; row++){
-		int xd;
+		gint xd;
 		gboolean selected;
 		gint cursor_col, cursor_row;
 
@@ -1957,7 +1957,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ECellFlags flags;
 			gboolean free_background;
 			GdkColor *background;
-			int x1, x2, y1, y2;
+			gint x1, x2, y1, y2;
 			cairo_pattern_t *pat;
 
 			switch (eti->cursor_mode) {
@@ -2082,7 +2082,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	}
 
 	if (eti->vertical_draw_grid){
-		int xd = x_offset;
+		gint xd = x_offset;
 
 		for (col = first_col; col <= last_col; col++){
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
@@ -2113,7 +2113,7 @@ exit:
 }
 
 static double
-eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+eti_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 	   GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -2122,14 +2122,14 @@ eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row_res, double *x1_res, double *y1_res)
+find_cell (ETableItem *eti, double x, double y, gint *view_col_res, gint *view_row_res, double *x1_res, double *y1_res)
 {
-	const int cols = eti->cols;
-	const int rows = eti->rows;
+	const gint cols = eti->cols;
+	const gint rows = eti->rows;
 	gdouble x1, y1, x2, y2;
-	int col, row;
+	gint col, row;
 
-	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	/* FIXME: this routine is inneficient, fix later */
 
@@ -2200,7 +2200,7 @@ eti_cursor_move (ETableItem *eti, gint row, gint column)
 static void
 eti_cursor_move_left (ETableItem *eti)
 {
-	int cursor_col, cursor_row;
+	gint cursor_col, cursor_row;
 	g_object_get(eti->selection,
 		     "cursor_col", &cursor_col,
 		     "cursor_row", &cursor_row,
@@ -2212,7 +2212,7 @@ eti_cursor_move_left (ETableItem *eti)
 static void
 eti_cursor_move_right (ETableItem *eti)
 {
-	int cursor_col, cursor_row;
+	gint cursor_col, cursor_row;
 	g_object_get(eti->selection,
 		     "cursor_col", &cursor_col,
 		     "cursor_row", &cursor_row,
@@ -2229,7 +2229,7 @@ _do_tooltip (ETableItem *eti)
 	gboolean free_color;
 	ETableCol *ecol;
 	gboolean selected;
-	int cursor_row, cursor_col;
+	gint cursor_row, cursor_col;
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
@@ -2287,7 +2287,7 @@ _do_tooltip (ETableItem *eti)
 #endif
 
 static gint
-eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, int time, int model_col, int view_col, int row, ECellFlags flags)
+eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, gint time, gint model_col, gint view_col, gint row, ECellFlags flags)
 {
 	ECellActions actions = 0;
 	gint ret_val;
@@ -2330,7 +2330,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		double x1, y1;
 		double realx, realy;
 		GdkEventButton button;
-		int col, row;
+		gint col, row;
 		gint cursor_row, cursor_col;
 		gint new_cursor_row, new_cursor_col;
 		ECellFlags flags = 0;
@@ -2457,7 +2457,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_BUTTON_RELEASE: {
 		double x1, y1;
-		int col, row;
+		gint col, row;
 		gint cursor_row, cursor_col;
 
 		d(g_print("%s: GDK_BUTTON_RELEASE received, button %d\n", __FUNCTION__, e->button.button));
@@ -2540,7 +2540,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		int model_col, model_row;
+		gint model_col, model_row;
 #if 0
 		double x1, y1;
 #endif
@@ -2596,7 +2596,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
-		int col, row, flags;
+		gint col, row, flags;
 		double x1, y1;
 		gint cursor_col, cursor_row;
 
@@ -2956,8 +2956,8 @@ eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 		return;
 
 	if (eti->cell_views_realized) {
-		int i;
-		int n_cells = eti->n_cells;
+		gint i;
+		gint n_cells = eti->n_cells;
 
 		for (i = 0; i < n_cells; i++) {
 			e_cell_style_set (eti->cell_views[i], previous_style);
@@ -3209,13 +3209,13 @@ eti_class_init (ETableItemClass *klass)
  * This routine sets the cursor of the %ETableItem canvas item.
  */
 void
-e_table_item_set_cursor    (ETableItem *eti, int col, int row)
+e_table_item_set_cursor    (ETableItem *eti, gint col, gint row)
 {
 	e_table_item_focus(eti, col, view_to_model_row(eti, row), 0);
 }
 
 static void
-e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state)
+e_table_item_focus (ETableItem *eti, gint col, gint row, GdkModifierType state)
 {
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
@@ -3246,7 +3246,7 @@ e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state)
 gint
 e_table_item_get_focused_column (ETableItem *eti)
 {
-	int cursor_col;
+	gint cursor_col;
 
 	g_return_val_if_fail (eti != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), -1);
@@ -3259,9 +3259,9 @@ e_table_item_get_focused_column (ETableItem *eti)
 }
 
 static void
-eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti)
+eti_cursor_change (ESelectionModel *selection, gint row, gint col, ETableItem *eti)
 {
-	int view_row;
+	gint view_row;
 
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
@@ -3297,10 +3297,10 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 }
 
 static void
-eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti)
+eti_cursor_activated (ESelectionModel *selection, gint row, gint col, ETableItem *eti)
 {
-	int view_row;
-	int view_col;
+	gint view_row;
+	gint view_col;
 
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
@@ -3338,7 +3338,7 @@ eti_selection_change (ESelectionModel *selection, ETableItem *eti)
 }
 
 static void
-eti_selection_row_change (ESelectionModel *selection, int row, ETableItem *eti)
+eti_selection_row_change (ESelectionModel *selection, gint row, ETableItem *eti)
 {
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
@@ -3359,7 +3359,7 @@ eti_selection_row_change (ESelectionModel *selection, int row, ETableItem *eti)
  * column and row.
  */
 void
-e_table_item_enter_edit (ETableItem *eti, int col, int row)
+e_table_item_enter_edit (ETableItem *eti, gint col, gint row)
 {
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
@@ -3384,8 +3384,8 @@ e_table_item_enter_edit (ETableItem *eti, int col, int row)
 void
 e_table_item_leave_edit (ETableItem *eti)
 {
-	int col, row;
-	void *edit_ctx;
+	gint col, row;
+	gpointer edit_ctx;
 
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
@@ -3424,14 +3424,14 @@ e_table_item_leave_edit (ETableItem *eti)
  */
 void
 e_table_item_compute_location (ETableItem        *eti,
-			       int               *x,
-			       int               *y,
-			       int               *row,
-			       int               *col)
+			       gint               *x,
+			       gint               *y,
+			       gint               *row,
+			       gint               *col)
 {
 	/* Save the grabbed row but make sure that we don't get flawed
            results because the cursor is grabbed. */
-	int grabbed_row = eti->grabbed_row;
+	gint grabbed_row = eti->grabbed_row;
 	eti->grabbed_row = -1;
 
 	if (!find_cell (eti, *x, *y, col, row, NULL, NULL)) {
@@ -3448,15 +3448,15 @@ e_table_item_compute_location (ETableItem        *eti,
  **/
 void
 e_table_item_compute_mouse_over (ETableItem        *eti,
-				 int                x,
-				 int                y,
-				 int               *row,
-				 int               *col)
+				 gint                x,
+				 gint                y,
+				 gint               *row,
+				 gint               *col)
 {
 	double realx, realy;
 	/* Save the grabbed row but make sure that we don't get flawed
            results because the cursor is grabbed. */
-	int grabbed_row = eti->grabbed_row;
+	gint grabbed_row = eti->grabbed_row;
 	eti->grabbed_row = -1;
 
 	realx = x;
@@ -3474,12 +3474,12 @@ e_table_item_compute_mouse_over (ETableItem        *eti,
 
 void
 e_table_item_get_cell_geometry   (ETableItem        *eti,
-				  int               *row,
-				  int               *col,
-				  int               *x,
-				  int               *y,
-				  int               *width,
-				  int               *height)
+				  gint               *row,
+				  gint               *col,
+				  gint               *x,
+				  gint               *y,
+				  gint               *width,
+				  gint               *height)
 {
 	if (eti->rows > *row) {
 		if (x)
@@ -3499,16 +3499,16 @@ e_table_item_get_cell_geometry   (ETableItem        *eti,
 
 typedef struct {
 	ETableItem *item;
-	int rows_printed;
+	gint rows_printed;
 } ETableItemPrintContext;
 
 static gdouble *
 e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 {
-	int i;
+	gint i;
 	double extra;
 	double expansion;
-	int last_resizable = -1;
+	gint last_resizable = -1;
 	gdouble scale = 1.0L;
 	gdouble *widths = g_new(gdouble, e_table_header_count(eth));
 	/* - 1 to account for the last pixel border. */
@@ -3531,8 +3531,8 @@ e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 static gdouble
 eti_printed_row_height (ETableItem *eti, gdouble *widths, GtkPrintContext *context, gint row)
 {
-	int col;
-	int cols = eti->cols;
+	gint col;
+	gint cols = eti->cols;
 	gdouble height = 0;
 	for (col = 0; col < cols; col++) {
 		ECellView *ecell_view = eti->cell_views [col];
@@ -3568,11 +3568,11 @@ e_table_item_print_page  (EPrintable *ep,
 			  ETableItemPrintContext *itemcontext)
 {
 	ETableItem *eti = itemcontext->item;
-	const int rows = eti->rows;
-	const int cols = eti->cols;
+	const gint rows = eti->rows;
+	const gint cols = eti->cols;
 	gdouble max_height;
-	int rows_printed = itemcontext->rows_printed;
-	int row, col, next_page = 0;
+	gint rows_printed = itemcontext->rows_printed;
+	gint row, col, next_page = 0;
 	double yd = height;
 	cairo_t *cr;
 	gdouble *widths;
@@ -3655,7 +3655,7 @@ e_table_item_data_left   (EPrintable *ep,
 			  ETableItemPrintContext *itemcontext)
 {
 	ETableItem *item = itemcontext->item;
-	int rows_printed = itemcontext->rows_printed;
+	gint rows_printed = itemcontext->rows_printed;
 
 	g_signal_stop_emission_by_name(ep, "data_left");
 	return rows_printed < item->rows;
@@ -3677,10 +3677,10 @@ e_table_item_height      (EPrintable *ep,
 			  ETableItemPrintContext *itemcontext)
 {
 	ETableItem *item = itemcontext->item;
-	const int rows = item->rows;
-	int rows_printed = itemcontext->rows_printed;
+	const gint rows = item->rows;
+	gint rows_printed = itemcontext->rows_printed;
 	gdouble *widths;
-	int row;
+	gint row;
 	gdouble yd = 0;
 
 	widths = e_table_item_calculate_print_widths (itemcontext->item->header, width);
@@ -3727,10 +3727,10 @@ e_table_item_will_fit     (EPrintable *ep,
 			   ETableItemPrintContext *itemcontext)
 {
 	ETableItem *item = itemcontext->item;
-	const int rows = item->rows;
-	int rows_printed = itemcontext->rows_printed;
+	const gint rows = item->rows;
+	gint rows_printed = itemcontext->rows_printed;
 	gdouble *widths;
-	int row;
+	gint row;
 	gdouble yd = 0;
 	gboolean ret_val = TRUE;
 

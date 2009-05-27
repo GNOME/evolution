@@ -53,11 +53,11 @@
  * button.
  **/
 void
-e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
+e_notice (gpointer parent, GtkMessageType type, const gchar *format, ...)
 {
 	GtkWidget *dialog;
 	va_list args;
-	char *str;
+	gchar *str;
 
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
@@ -87,11 +87,11 @@ e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
  * window argument.
  **/
 void
-e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const char *format, ...)
+e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const gchar *format, ...)
 {
 	GtkWidget *dialog;
 	va_list args;
-	char *str;
+	gchar *str;
 
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
@@ -121,9 +121,9 @@ window_is_wm_toplevel (Display *display, Window window)
 {
 	static Atom WM_STATE = None;
 	unsigned long nitems, after;
-	unsigned char *data = NULL;
+	guchar *data = NULL;
 	Atom type = None;
-	int format;
+	gint format;
 
 	if (!WM_STATE)
 		WM_STATE = XInternAtom (display, "WM_STATE", False);
@@ -132,7 +132,7 @@ window_is_wm_toplevel (Display *display, Window window)
 				AnyPropertyType, &type, &format,
 				&nitems, &after, &data) == Success) {
 		if (data)
-			XFree((char*)data);
+			XFree((gchar *)data);
 		if (type)
 			return TRUE;
 	}
@@ -160,7 +160,7 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 	GtkWidget *toplevel;
 #ifdef GDK_WINDOWING_X11
 	Window parent, root_ret, *children;
-	unsigned int numchildren;
+	guint numchildren;
 	Display *display;
 	Status status;
 #endif
@@ -248,8 +248,8 @@ static void
 save_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
-	char **filename = data;
-	char *uri;
+	gchar **filename = data;
+	gchar *uri;
 
 	fs = gtk_widget_get_toplevel (widget);
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (fs));
@@ -271,11 +271,11 @@ filechooser_response (GtkWidget *fc, gint response_id, gpointer data)
 		gtk_widget_destroy (fc);
 }
 
-char *
-e_file_dialog_save (const char *title, const char *fname)
+gchar *
+e_file_dialog_save (const gchar *title, const gchar *fname)
 {
 	GtkWidget *selection;
-	char *filename = NULL;
+	gchar *filename = NULL;
 
 	selection = e_file_get_save_filesel(NULL, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
 
@@ -294,8 +294,8 @@ static void
 save_folder_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
-	char **filename = data;
-	char *uri;
+	gchar **filename = data;
+	gchar *uri;
 
 	fs = gtk_widget_get_toplevel (widget);
 	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (fs));
@@ -315,11 +315,11 @@ folderchooser_response (GtkWidget *fc, gint response_id, gpointer data)
 		gtk_widget_destroy (fc);
 }
 
-char *
-e_file_dialog_save_folder (const char *title)
+gchar *
+e_file_dialog_save_folder (const gchar *title)
 {
 	GtkWidget *selection;
-	char *filename = NULL;
+	gchar *filename = NULL;
 
 	selection = e_file_get_save_filesel(NULL, title, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);
@@ -344,10 +344,10 @@ e_file_dialog_save_folder (const char *title)
  * no signals connected and is not shown.
  **/
 GtkWidget *
-e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name, GtkFileChooserAction action)
+e_file_get_save_filesel (GtkWidget *parent, const gchar *title, const gchar *name, GtkFileChooserAction action)
 {
 	GtkWidget *filesel;
-	char *uri;
+	gchar *uri;
 
 	filesel = gtk_file_chooser_dialog_new (title,
 					       NULL,
@@ -382,10 +382,10 @@ e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name,
  * it.  Returns the users choice.
  **/
 gboolean
-e_file_can_save(GtkWindow *parent, const char *uri)
+e_file_can_save(GtkWindow *parent, const gchar *uri)
 {
 	struct stat st;
-	char *path;
+	gchar *path;
 	gboolean res;
 
 	if (!uri || uri[0] == 0)
@@ -421,9 +421,9 @@ e_file_can_save(GtkWindow *parent, const char *uri)
 }
 
 gboolean
-e_file_check_local (const char *name)
+e_file_check_local (const gchar *name)
 {
-	char *uri;
+	gchar *uri;
 
 	uri = e_util_uri_to_filename (name);
 	if (uri) {

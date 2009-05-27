@@ -50,15 +50,15 @@ static void em_icon_stream_class_init (EMIconStreamClass *klass);
 static void em_icon_stream_init (CamelObject *object);
 static void em_icon_stream_finalize (CamelObject *object);
 
-static ssize_t emis_sync_write(CamelStream *stream, const char *buffer, size_t n);
-static int emis_sync_close(CamelStream *stream);
-static int emis_sync_flush(CamelStream *stream);
+static ssize_t emis_sync_write(CamelStream *stream, const gchar *buffer, size_t n);
+static gint emis_sync_close(CamelStream *stream);
+static gint emis_sync_flush(CamelStream *stream);
 
 static EMSyncStreamClass *parent_class = NULL;
 static EMCache *emis_cache;
 
 static void
-emis_cache_free(void *data)
+emis_cache_free(gpointer data)
 {
 	struct _emis_cache_node *node = data;
 
@@ -133,14 +133,14 @@ em_icon_stream_finalize(CamelObject *object)
 }
 
 static ssize_t
-emis_sync_write(CamelStream *stream, const char *buffer, size_t n)
+emis_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
 {
 	EMIconStream *emis = EM_ICON_STREAM (stream);
 
 	if (emis->loader == NULL)
 		return -1;
 
-	if (!gdk_pixbuf_loader_write(emis->loader, (const unsigned char *)buffer, n, NULL)) {
+	if (!gdk_pixbuf_loader_write(emis->loader, (const guchar *)buffer, n, NULL)) {
 		emis_cleanup(emis);
 		return -1;
 	}
@@ -155,10 +155,10 @@ emis_sync_flush(CamelStream *stream)
 }
 
 static GdkPixbuf *
-emis_fit(GdkPixbuf *pixbuf, int maxwidth, int maxheight, int *scale)
+emis_fit(GdkPixbuf *pixbuf, gint maxwidth, gint maxheight, gint *scale)
 {
 	GdkPixbuf *mini = NULL;
-	int width, height;
+	gint width, height;
 
 	width = gdk_pixbuf_get_width(pixbuf);
 	height = gdk_pixbuf_get_height(pixbuf);
@@ -196,8 +196,8 @@ emis_sync_close(CamelStream *stream)
 	EMIconStream *emis = (EMIconStream *)stream;
 	GdkPixbuf *pixbuf, *mini;
 	struct _emis_cache_node *node;
-	char *scalekey;
-	int scale;
+	gchar *scalekey;
+	gint scale;
 
 	if (emis->loader == NULL)
 		return -1;
@@ -244,7 +244,7 @@ emis_image_destroy(struct _GtkImage *image, EMIconStream *emis)
 }
 
 CamelStream *
-em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsigned int maxheight, int keep)
+em_icon_stream_new(GtkImage *image, const gchar *key, guint maxwidth, guint maxheight, gint keep)
 {
 	EMIconStream *new;
 
@@ -261,11 +261,11 @@ em_icon_stream_new(GtkImage *image, const char *key, unsigned int maxwidth, unsi
 }
 
 GdkPixbuf *
-em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
+em_icon_stream_get_image(const gchar *tkey, guint maxwidth, guint maxheight)
 {
 	struct _emis_cache_node *node;
 	GdkPixbuf *pb = NULL;
-	const char *key;
+	const gchar *key;
 
 	key = tkey ? tkey : "";
 
@@ -274,7 +274,7 @@ em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int m
 
 	node = (struct _emis_cache_node *)em_cache_lookup(emis_cache, key);
 	if (node) {
-		int width, height;
+		gint width, height;
 
 		pb = node->pixbuf;
 		g_object_ref(pb);
@@ -285,8 +285,8 @@ em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int m
 
 		if ((maxwidth && width > maxwidth)
 		    || (maxheight && height > maxheight)) {
-			unsigned int scale;
-			char *realkey;
+			guint scale;
+			gchar *realkey;
 
 			if (maxheight == 0 || width >= height)
 				scale = width * EMIS_SCALE / maxwidth;
@@ -317,12 +317,12 @@ em_icon_stream_get_image(const char *tkey, unsigned int maxwidth, unsigned int m
 	return pb;
 }
 
-int
-em_icon_stream_is_resized(const char *tkey, unsigned int maxwidth, unsigned int maxheight)
+gint
+em_icon_stream_is_resized(const gchar *tkey, guint maxwidth, guint maxheight)
 {
-	int res = FALSE;
+	gint res = FALSE;
 	struct _emis_cache_node *node;
-	const char *key;
+	const gchar *key;
 
 	key = tkey ? tkey : "";
 

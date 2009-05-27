@@ -40,34 +40,34 @@ static GalViewClass *gal_view_minicard_parent_class;
 
 static void
 gal_view_minicard_load (GalView *view,
-			const char *filename)
+			const gchar *filename)
 {
 	xmlDoc *doc;
 
 	doc = e_xml_parse_file (filename);
 	if (doc) {
 		xmlNode *root = xmlDocGetRootElement(doc);
-		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, (const unsigned char *)"column_width", 150);
+		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, (const guchar *)"column_width", 150);
 		xmlFreeDoc(doc);
 	}
 }
 
 static void
 gal_view_minicard_save (GalView *view,
-			const char *filename)
+			const gchar *filename)
 {
 	xmlDoc *doc;
 	xmlNode *root;
 
-	doc = xmlNewDoc((const unsigned char *)"1.0");
-	root = xmlNewNode (NULL, (const unsigned char *)"EMinicardViewState");
-	e_xml_set_double_prop_by_name (root, (const unsigned char *)"column_width", GAL_VIEW_MINICARD (view)->column_width);
+	doc = xmlNewDoc((const guchar *)"1.0");
+	root = xmlNewNode (NULL, (const guchar *)"EMinicardViewState");
+	e_xml_set_double_prop_by_name (root, (const guchar *)"column_width", GAL_VIEW_MINICARD (view)->column_width);
 	xmlDocSetRootElement(doc, root);
 	e_xml_save_file (filename, doc);
 	xmlFreeDoc(doc);
 }
 
-static const char *
+static const gchar *
 gal_view_minicard_get_title       (GalView *view)
 {
 	return GAL_VIEW_MINICARD(view)->title;
@@ -75,13 +75,13 @@ gal_view_minicard_get_title       (GalView *view)
 
 static void
 gal_view_minicard_set_title       (GalView *view,
-				 const char *title)
+				 const gchar *title)
 {
 	g_free(GAL_VIEW_MINICARD(view)->title);
 	GAL_VIEW_MINICARD(view)->title = g_strdup(title);
 }
 
-static const char *
+static const gchar *
 gal_view_minicard_get_type_code (GalView *view)
 {
 	return "minicard";

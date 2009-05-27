@@ -48,8 +48,8 @@ struct _ECertDBClass {
 	GObjectClass parent_class;
 
 	/* signals */
-	gboolean (*pk11_passwd) (ECertDB *db, PK11SlotInfo *slot, gboolean retry, char **passwd);
-	gboolean (*pk11_change_passwd) (ECertDB *db, char **orig_passwd, char **passwd);
+	gboolean (*pk11_passwd) (ECertDB *db, PK11SlotInfo *slot, gboolean retry, gchar **passwd);
+	gboolean (*pk11_change_passwd) (ECertDB *db, gchar **orig_passwd, gchar **passwd);
 	gboolean (*confirm_ca_cert_import) (ECertDB *db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign);
 
 	/* Padding for future expansion */
@@ -69,12 +69,12 @@ void                 e_cert_db_shutdown     (void);
 
 /* searching for certificates */
 ECert*               e_cert_db_find_cert_by_nickname (ECertDB *certdb,
-						      const char *nickname,
+						      const gchar *nickname,
 						      GError **error);
 
 #ifdef notyet
 ECert*               e_cert_db_find_cert_by_key      (ECertDB *certdb,
-						      const char *db_key,
+						      const gchar *db_key,
 						      GError **error);
 
 GList*               e_cert_db_get_cert_nicknames    (ECertDB *certdb,
@@ -83,16 +83,16 @@ GList*               e_cert_db_get_cert_nicknames    (ECertDB *certdb,
 
 
 ECert*               e_cert_db_find_email_encryption_cert (ECertDB *certdb,
-							   const char *nickname,
+							   const gchar *nickname,
 							   GError **error);
 
 ECert*               e_cert_db_find_email_signing_cert (ECertDB *certdb,
-							const char *nickname,
+							const gchar *nickname,
 							GError **error);
 #endif
 
 ECert*               e_cert_db_find_cert_by_email_address (ECertDB *certdb,
-							   const char *nickname,
+							   const gchar *nickname,
 							   GError **error);
 
 /* deleting certificates */
@@ -101,34 +101,34 @@ gboolean             e_cert_db_delete_cert (ECertDB *certdb,
 
 /* importing certificates */
 gboolean             e_cert_db_import_certs (ECertDB *certdb,
-					     char *data, guint32 length,
+					     gchar *data, guint32 length,
 					     ECertType cert_type,
 					     GError **error);
 
 gboolean             e_cert_db_import_email_cert (ECertDB *certdb,
-						  char *data, guint32 length,
+						  gchar *data, guint32 length,
 						  GError **error);
 
 gboolean             e_cert_db_import_user_cert (ECertDB *certdb,
-						 char *data, guint32 length,
+						 gchar *data, guint32 length,
 						 GError **error);
 
 gboolean             e_cert_db_import_server_cert (ECertDB *certdb,
-						   char *data, guint32 length,
+						   gchar *data, guint32 length,
 						   GError **error);
 
 gboolean             e_cert_db_import_certs_from_file (ECertDB *cert_db,
-						       const char *file_path,
+						       const gchar *file_path,
 						       ECertType cert_type,
 						       GError **error);
 
 gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,
-						   const char *file_path,
+						   const gchar *file_path,
 						   GError **error);
 
 #ifdef notyet
 gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
-						   const char *file_path,
+						   const gchar *file_path,
 						   GList *certs,
 						   GError **error);
 #endif

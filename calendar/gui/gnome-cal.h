@@ -117,7 +117,7 @@ ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
-gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, ECalSourceType source_type, const char *uid);
+gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, ECalSourceType source_type, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
@@ -147,7 +147,7 @@ struct _ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal);
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 
-void gnome_calendar_view_popup_factory (GnomeCalendar *gcal, struct _EPopup *ep, const char *prefix);
+void gnome_calendar_view_popup_factory (GnomeCalendar *gcal, struct _EPopup *ep, const gchar *prefix);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,
@@ -195,9 +195,9 @@ void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 
 /* Direct calendar component operations */
 void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
-						 const char* src_uid,
-						 const char* comp_uid,
-						 const char* comp_rid);
+						 const gchar * src_uid,
+						 const gchar * comp_uid,
+						 const gchar * comp_rid);
 
 void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
 

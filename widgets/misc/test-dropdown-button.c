@@ -39,9 +39,9 @@
 
 static void
 item_activated (GtkWidget *widget,
-		void *data)
+		gpointer data)
 {
-	printf ("%s activated.\n", (char *) data);
+	printf ("%s activated.\n", (gchar *) data);
 }
 
 static GnomeUIInfo ui_info[] = {
@@ -69,8 +69,8 @@ static GnomeUIInfo ui_info[] = {
 };
 
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	GtkWidget *window;
 	GtkWidget *menu;

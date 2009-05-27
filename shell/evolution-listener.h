@@ -32,14 +32,14 @@
 typedef struct _EvolutionListener        EvolutionListener;
 typedef struct _EvolutionListenerClass   EvolutionListenerClass;
 
-typedef void (*EvolutionListenerFunc)(EvolutionListener *, void *);
+typedef void (*EvolutionListenerFunc)(EvolutionListener *, gpointer );
 
 struct _EvolutionListener {
 	BonoboObject parent;
 
 	/* we dont need signals, so why bother wasting resources on it */
 	EvolutionListenerFunc complete;
-	void *data;
+	gpointer data;
 };
 
 struct _EvolutionListenerClass {
@@ -49,6 +49,6 @@ struct _EvolutionListenerClass {
 };
 
 GType           evolution_listener_get_type(void);
-EvolutionListener *evolution_listener_new(EvolutionListenerFunc complete, void *data);
+EvolutionListener *evolution_listener_new(EvolutionListenerFunc complete, gpointer data);
 
 #endif /* _EVOLUTION_LISTENER_H_ */

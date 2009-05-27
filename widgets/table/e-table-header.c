@@ -49,7 +49,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static void eth_set_size (ETableHeader *eth, int idx, int size);
+static void eth_set_size (ETableHeader *eth, gint idx, gint size);
 static void eth_calc_widths (ETableHeader *eth);
 
 static guint eth_signals [LAST_SIGNAL] = { 0, };
@@ -57,18 +57,18 @@ static guint eth_signals [LAST_SIGNAL] = { 0, };
 G_DEFINE_TYPE (ETableHeader, e_table_header, G_TYPE_OBJECT)
 
 struct two_ints {
-	int column;
-	int width;
+	gint column;
+	gint width;
 };
 
 static void
-eth_set_width (ETableHeader *eth, int width)
+eth_set_width (ETableHeader *eth, gint width)
 {
 	eth->width = width;
 }
 
 static void
-dequeue (ETableHeader *eth, int *column, int *width)
+dequeue (ETableHeader *eth, gint *column, gint *width)
 {
 	GSList *head;
 	struct two_ints *store;
@@ -88,7 +88,7 @@ dequeue (ETableHeader *eth, int *column, int *width)
 static gboolean
 dequeue_idle (ETableHeader *eth)
 {
-	int column, width;
+	gint column, width;
 
 	dequeue (eth, &column, &width);
 	while (eth->change_queue && ((struct two_ints *) eth->change_queue->data)->column == column)
@@ -108,7 +108,7 @@ dequeue_idle (ETableHeader *eth)
 }
 
 static void
-enqueue (ETableHeader *eth, int column, int width)
+enqueue (ETableHeader *eth, gint column, gint width)
 {
 	struct two_ints *store;
 	store = g_new(struct two_ints, 1);
@@ -125,7 +125,7 @@ enqueue (ETableHeader *eth, int column, int width)
 }
 
 void
-e_table_header_set_size (ETableHeader *eth, int idx, int size)
+e_table_header_set_size (ETableHeader *eth, gint idx, gint size)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -134,7 +134,7 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 }
 
 static void
-eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
+eth_do_remove (ETableHeader *eth, gint idx, gboolean do_unref)
 {
 	if (do_unref)
 		g_object_unref (eth->columns [idx]);
@@ -148,8 +148,8 @@ static void
 eth_finalize (GObject *object)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
-	const int cols = eth->col_count;
-	int i;
+	const gint cols = eth->col_count;
+	gint i;
 
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
@@ -345,8 +345,8 @@ e_table_header_new (void)
 static void
 eth_update_offsets (ETableHeader *eth)
 {
-	int i;
-	int x = 0;
+	gint i;
+	gint x = 0;
 
 	for (i = 0; i < eth->col_count; i++){
 		ETableCol *etc = eth->columns [i];
@@ -357,7 +357,7 @@ eth_update_offsets (ETableHeader *eth)
 }
 
 static void
-eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
+eth_do_insert (ETableHeader *eth, gint pos, ETableCol *val)
 {
 	memmove (&eth->columns [pos+1], &eth->columns [pos],
 		sizeof (ETableCol *) * (eth->col_count - pos));
@@ -380,7 +380,7 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
  * The ETableCol is assumed
  */
 void
-e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
+e_table_header_add_column (ETableHeader *eth, ETableCol *tc, gint pos)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -411,7 +411,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
  * Returns: The ETableCol at @column in the @eth object
  */
 ETableCol *
-e_table_header_get_column (ETableHeader *eth, int column)
+e_table_header_get_column (ETableHeader *eth, gint column)
 {
 	g_return_val_if_fail (eth != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
@@ -433,9 +433,9 @@ e_table_header_get_column (ETableHeader *eth, int column)
  * Returns: The ETableCol with col_idx = @col_idx in the @eth object
  */
 ETableCol *
-e_table_header_get_column_by_col_idx (ETableHeader *eth, int col_idx)
+e_table_header_get_column_by_col_idx (ETableHeader *eth, gint col_idx)
 {
-	int i;
+	gint i;
 	g_return_val_if_fail (eth != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
 
@@ -454,7 +454,7 @@ e_table_header_get_column_by_col_idx (ETableHeader *eth, int col_idx)
  *
  * Returns: the number of columns in this ETableHeader.
  */
-int
+gint
 e_table_header_count (ETableHeader *eth)
 {
 	g_return_val_if_fail (eth != NULL, 0);
@@ -475,8 +475,8 @@ e_table_header_count (ETableHeader *eth)
  *
  * Returns: the column in the model that the @col column
  * in the ETableHeader points to.  */
-int
-e_table_header_index (ETableHeader *eth, int col)
+gint
+e_table_header_index (ETableHeader *eth, gint col)
 {
 	g_return_val_if_fail (eth != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), -1);
@@ -496,10 +496,10 @@ e_table_header_index (ETableHeader *eth, int col)
  * Returns: the column that contains pixel @x_offset, or -1
  * if no column inside this ETableHeader contains that pixel.
  */
-int
-e_table_header_get_index_at (ETableHeader *eth, int x_offset)
+gint
+e_table_header_get_index_at (ETableHeader *eth, gint x_offset)
 {
-	int i, total;
+	gint i, total;
 
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -529,7 +529,7 @@ ETableCol **
 e_table_header_get_columns (ETableHeader *eth)
 {
 	ETableCol **ret;
-	int i;
+	gint i;
 
 	g_return_val_if_fail (eth != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
@@ -551,11 +551,11 @@ e_table_header_get_columns (ETableHeader *eth)
  *
  * Returns: The number of selected columns in the @eth object.
  */
-int
+gint
 e_table_header_get_selected (ETableHeader *eth)
 {
-	int i;
-	int selected = 0;
+	gint i;
+	gint selected = 0;
 
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -575,10 +575,10 @@ e_table_header_get_selected (ETableHeader *eth)
  * Returns: the number of pixels used by the @eth object
  * when rendered on screen
  */
-int
+gint
 e_table_header_total_width (ETableHeader *eth)
 {
-	int total, i;
+	gint total, i;
 
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -596,10 +596,10 @@ e_table_header_total_width (ETableHeader *eth)
  *
  * Returns: the minimum number of pixels required by the @eth object.
  **/
-int
+gint
 e_table_header_min_width (ETableHeader *eth)
 {
-	int total, i;
+	gint total, i;
 
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -622,7 +622,7 @@ e_table_header_min_width (ETableHeader *eth)
  * and "structure_change" will be emmited
  */
 void
-e_table_header_move (ETableHeader *eth, int source_index, int target_index)
+e_table_header_move (ETableHeader *eth, gint source_index, gint target_index)
 {
 	ETableCol *old;
 
@@ -654,7 +654,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
  * This emmits the "structure_change" signal on the @eth object.
  */
 void
-e_table_header_remove (ETableHeader *eth, int idx)
+e_table_header_remove (ETableHeader *eth, gint idx)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
@@ -677,16 +677,16 @@ e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
 }
 
 static void
-eth_set_size (ETableHeader *eth, int idx, int size)
+eth_set_size (ETableHeader *eth, gint idx, gint size)
 {
 	double expansion;
 	double old_expansion;
-	int min_width;
-	int left_width;
-	int total_extra;
-	int expandable_count;
-	int usable_width;
-	int i;
+	gint min_width;
+	gint left_width;
+	gint total_extra;
+	gint expandable_count;
+	gint usable_width;
+	gint i;
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (idx >= 0);
@@ -813,10 +813,10 @@ eth_set_size (ETableHeader *eth, int idx, int size)
  * Returns: the number of pixels between @start_col and @end_col on the
  * @eth ETableHeader object
  */
-int
-e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
+gint
+e_table_header_col_diff (ETableHeader *eth, gint start_col, gint end_col)
 {
-	int total, col;
+	gint total, col;
 
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
@@ -838,13 +838,13 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 static void
 eth_calc_widths (ETableHeader *eth)
 {
-	int i;
-	int extra;
+	gint i;
+	gint extra;
 	double expansion;
-	int last_position = 0;
+	gint last_position = 0;
 	double next_position = 0;
-	int last_resizable = -1;
-	int *widths;
+	gint last_resizable = -1;
+	gint *widths;
 	gboolean changed;
 
 	widths = g_new (int, eth->col_count);
@@ -887,13 +887,13 @@ eth_calc_widths (ETableHeader *eth)
 void
 e_table_header_update_horizontal (ETableHeader *eth)
 {
-	int i;
-	int cols;
+	gint i;
+	gint cols;
 
 	cols = eth->col_count;
 
 	for (i = 0; i < cols; i++) {
-		int width = 0;
+		gint width = 0;
 
 		g_signal_emit_by_name (G_OBJECT (eth),
 					 "request_width",
@@ -905,13 +905,13 @@ e_table_header_update_horizontal (ETableHeader *eth)
 	g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 }
 
-int
+gint
 e_table_header_prioritized_column (ETableHeader *eth)
 {
-	int best_model_col = 0;
-	int best_priority;
-	int i;
-	int count;
+	gint best_model_col = 0;
+	gint best_priority;
+	gint i;
+	gint count;
 
 	count = e_table_header_count (eth);
 	if (count == 0)
@@ -919,7 +919,7 @@ e_table_header_prioritized_column (ETableHeader *eth)
 	best_priority = e_table_header_get_column (eth, 0)->priority;
 	best_model_col = e_table_header_get_column (eth, 0)->col_idx;
 	for (i = 1; i < count; i++) {
-		int priority = e_table_header_get_column (eth, i)->priority;
+		gint priority = e_table_header_get_column (eth, i)->priority;
 		if (priority > best_priority) {
 			best_priority = priority;
 			best_model_col = e_table_header_get_column (eth, i)->col_idx;
@@ -932,9 +932,9 @@ ETableCol *
 e_table_header_prioritized_column_selected (ETableHeader *eth, ETableColCheckFunc check_func, gpointer user_data)
 {
 	ETableCol *best_col = NULL;
-	int best_priority = G_MININT;
-	int i;
-	int count;
+	gint best_priority = G_MININT;
+	gint i;
+	gint count;
 
 	count = e_table_header_count (eth);
 	if (count == 0)

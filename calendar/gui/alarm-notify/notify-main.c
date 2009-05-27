@@ -67,7 +67,7 @@ static gint
 save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
 		 GnomeInteractStyle interact_style, gint fast, gpointer user_data)
 {
-	char *args[2];
+	gchar *args[2];
 
 	args[0] = g_build_filename (EVOLUTION_LIBEXECDIR,
 				    "evolution-alarm-notify"
@@ -110,7 +110,7 @@ init_session (void)
  * singleton service object.
  */
 static BonoboObject *
-alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id, void *data)
+alarm_notify_factory_fn (BonoboGenericFactory *factory, const gchar *component_id, gpointer data)
 {
 	g_return_val_if_fail (alarm_notify_service != NULL, NULL);
 
@@ -127,8 +127,8 @@ init_alarm_service (gpointer user_data)
 	return FALSE;
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");

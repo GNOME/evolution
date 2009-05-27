@@ -35,8 +35,8 @@ G_BEGIN_DECLS
  *
  * name		 type		read/write	description
  * ---------------------------------------------------------------------------------
- * item_id       int            RW              Which option item is currently selected.
- * subitem_id    int            RW              Which option subitem is currently selected.
+ * item_id       gint            RW              Which option item is currently selected.
+ * subitem_id    gint            RW              Which option subitem is currently selected.
  * text          string         RW              Text in the entry box.
  */
 
@@ -99,10 +99,10 @@ struct _ESearchBar
 	guint      pending_activate;
 
 	/* The currently-selected item & subitem */
-	int        item_id;
-	int        viewitem_id; /* Current View Id */
-	int        scopeitem_id; /* Scope of search */
-	int        last_search_option;
+	gint        item_id;
+	gint        viewitem_id; /* Current View Id */
+	gint        scopeitem_id; /* Scope of search */
+	gint        last_search_option;
 
 	gboolean block_search;
 	gboolean lite;
@@ -119,7 +119,7 @@ struct _ESearchBarClass
 	void (*search_activated) (ESearchBar *search);
 	void (*search_cleared)     (ESearchBar *search);
 	void (*query_changed)    (ESearchBar *search);
-	void (*menu_activated)   (ESearchBar *search, int item);
+	void (*menu_activated)   (ESearchBar *search, gint item);
 };
 
 enum {
@@ -149,45 +149,45 @@ void  e_search_bar_set_option     (ESearchBar        *search_bar,
 				   ESearchBarItem    *option_items);
 void  e_search_bar_paint (ESearchBar *search_bar);
 void e_search_bar_set_viewoption (ESearchBar *search_bar,
-				    int option_id,
+				    gint option_id,
 				    ESearchBarItem *subitems);
 
 void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
-					int         id,
+					gint         id,
 					gboolean    state);
 
 void  e_search_bar_set_item_id  (ESearchBar *search_bar,
-				 int         id);
+				 gint         id);
 void  e_search_bar_set_item_menu (ESearchBar *search_bar,
-				  int id);
-int   e_search_bar_get_item_id  (ESearchBar *search_bar);
+				  gint id);
+gint   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
-int   e_search_bar_get_viewitem_id (ESearchBar *search_bar);
+gint   e_search_bar_get_viewitem_id (ESearchBar *search_bar);
 
-void  e_search_bar_set_viewitem_id (ESearchBar *search_bar, int id);
+void  e_search_bar_set_viewitem_id (ESearchBar *search_bar, gint id);
 
 void  e_search_bar_set_ids  (ESearchBar *search_bar,
-			     int         item_id,
-			     int         subitem_id);
+			     gint         item_id,
+			     gint         subitem_id);
 
 void e_search_bar_set_scopeoption (ESearchBar *search_bar, ESearchBarItem *scopeitems);
 
 void e_search_bar_set_scopeoption_menu (ESearchBar *search_bar, GtkMenu *menu);
 
-void e_search_bar_set_search_scope (ESearchBar *search_bar, int id);
+void e_search_bar_set_search_scope (ESearchBar *search_bar, gint id);
 
 void e_search_bar_set_viewoption_menu (ESearchBar *search_bar, GtkWidget *menu);
 
-void e_search_bar_set_viewoption_menufunc (ESearchBar *search_bar, ESearchBarMenuFunc *menu_gen_func, void *data);
+void e_search_bar_set_viewoption_menufunc (ESearchBar *search_bar, ESearchBarMenuFunc *menu_gen_func, gpointer data);
 
 GtkWidget *e_search_bar_get_selected_viewitem (ESearchBar *search_bar);
 
-int e_search_bar_get_search_scope (ESearchBar *search_bar);
+gint e_search_bar_get_search_scope (ESearchBar *search_bar);
 
 void  e_search_bar_set_text  (ESearchBar *search_bar,
-			      const char *text);
-char *e_search_bar_get_text  (ESearchBar *search_bar);
-void e_search_bar_scope_enable (ESearchBar *search_bar, int did, gboolean state);
+			      const gchar *text);
+gchar *e_search_bar_get_text  (ESearchBar *search_bar);
+void e_search_bar_scope_enable (ESearchBar *search_bar, gint did, gboolean state);
 G_END_DECLS
 
 

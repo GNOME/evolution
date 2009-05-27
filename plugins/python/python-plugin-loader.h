@@ -33,16 +33,16 @@ struct _EPluginPython {
 
 	struct _EPluginPythonPrivate *priv;
 
-	char *location;		/* location */
-	char *pClass;		/* handler class */
-        char *module_name;
+	gchar *location;		/* location */
+	gchar *pClass;		/* handler class */
+        gchar *module_name;
 };
 
 struct _EPluginPythonClass {
 	EPluginClass plugin_class;
 };
 
-void *org_gnome_evolution_python_get_type(void *a, void *b);
+gpointer org_gnome_evolution_python_get_type(gpointer a, gpointer b);
 
 
 #endif /* ! _ORG_GNOME_EVOLUTION_PYTHON_H */

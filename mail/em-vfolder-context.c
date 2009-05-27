@@ -35,7 +35,7 @@
 
 #include "em-filter-folder-element.h"
 
-static FilterElement *vfolder_new_element(RuleContext *rc, const char *type);
+static FilterElement *vfolder_new_element(RuleContext *rc, const gchar *type);
 
 static RuleContextClass *parent_class = NULL;
 
@@ -104,7 +104,7 @@ em_vfolder_context_new(void)
 }
 
 static FilterElement *
-vfolder_new_element(RuleContext *rc, const char *type)
+vfolder_new_element(RuleContext *rc, const gchar *type)
 {
 	if (!strcmp(type, "system-flag")) {
 		return (FilterElement *) filter_option_new();

@@ -36,8 +36,8 @@ ETableHeader *
 e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableState *state)
 {
 	ETableHeader *nh;
-	const int max_cols = e_table_header_count (full_header);
-	int column;
+	const gint max_cols = e_table_header_count (full_header);
+	gint column;
 	GValue *val = g_new0 (GValue, 1);
 
 	g_return_val_if_fail (widget, NULL);
@@ -51,7 +51,7 @@ e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableSta
 	g_free (val);
 
 	for (column = 0; column < state->col_count; column++) {
-		int col;
+		gint col;
 		double expansion;
 		ETableCol *table_col;
 
@@ -75,7 +75,7 @@ e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableSta
 static ETableCol *
 et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		    ETableExtras              *ete,
-		    const char                *domain)
+		    const gchar                *domain)
 {
 	ETableCol *col = NULL;
 	ECell *cell = NULL;
@@ -90,7 +90,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		search = e_table_extras_get_search(ete, col_spec->search);
 
 	if (cell && compare) {
-		char *title = dgettext (domain, col_spec->title);
+		gchar *title = dgettext (domain, col_spec->title);
 
 		title = g_strdup (title);
 
@@ -132,7 +132,7 @@ e_table_spec_to_full_header (ETableSpecification *spec,
 			     ETableExtras        *ete)
 {
 	ETableHeader *nh;
-	int column;
+	gint column;
 
 	g_return_val_if_fail (spec, NULL);
 	g_return_val_if_fail (ete, NULL);
@@ -161,8 +161,8 @@ check_col (ETableCol *col, gpointer user_data)
 ETableCol *
 e_table_util_calculate_current_search_col (ETableHeader *header, ETableHeader *full_header, ETableSortInfo *sort_info, gboolean always_search)
 {
-	int i;
-	int count;
+	gint i;
+	gint count;
 	ETableCol *col = NULL;
 	count = e_table_sort_info_grouping_get_count (sort_info);
 	for (i = 0; i < count; i++) {

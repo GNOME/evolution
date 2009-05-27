@@ -65,16 +65,16 @@
 #include "secerr.h"
 
 struct _EPKCS12Private {
-	int mumble;
+	gint mumble;
 };
 
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class;
 
 /* static callback functions for the NSS PKCS#12 library */
-static SECItem * PR_CALLBACK nickname_collision(SECItem *, PRBool *, void *);
+static SECItem * PR_CALLBACK nickname_collision(SECItem *, PRBool *, gpointer );
 
-static gboolean handle_error(int myerr);
+static gboolean handle_error(gint myerr);
 
 #define PKCS12_BUFFER_SIZE         2048
 #define PKCS12_RESTORE_OK          1
@@ -155,12 +155,12 @@ e_pkcs12_new (void)
 }
 
 static gboolean
-input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **error)
+input_to_decoder (SEC_PKCS12DecoderContext *dcx, const gchar *path, GError **error)
 {
 	/*  nsNSSShutDownPreventionLock locker; */
 	SECStatus srv;
-	int amount;
-	char buf[PKCS12_BUFFER_SIZE];
+	gint amount;
+	gchar buf[PKCS12_BUFFER_SIZE];
 	FILE *fp;
 
 	/* open path */
@@ -180,7 +180,7 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
 
 		/* feed the file data into the decoder */
 		srv = SEC_PKCS12DecoderUpdate(dcx,
-					      (unsigned char*) buf,
+					      (guchar *) buf,
 					      amount);
 		if (srv) {
 			/* XXX g_error */
@@ -198,9 +198,9 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
    e_cert_db_login_to_slot stuff, instead of a direct gui dep here..
    for now, though, it stays. */
 static gboolean
-prompt_for_password (char *title, char *prompt, SECItem *pwd)
+prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
 {
-	char *passwd;
+	gchar *passwd;
 
 	passwd = e_passwords_ask_password (title, "SMIME-PKCS12", "", prompt,
 					   E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
@@ -208,8 +208,8 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 
 	if (passwd) {
 		size_t len = strlen (passwd);
-		const char *inptr = passwd;
-		unsigned char *outptr;
+		const gchar *inptr = passwd;
+		guchar *outptr;
 		gunichar2 c;
 
 		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
@@ -218,8 +218,8 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
 			inptr = g_utf8_next_char (inptr);
 			c = GUINT16_TO_BE (c);
-			*outptr++ = ((char *) &c)[0];
-			*outptr++ = ((char *) &c)[1];
+			*outptr++ = ((gchar *) &c)[0];
+			*outptr++ = ((gchar *) &c)[1];
 		}
 
 		*outptr++ = 0;
@@ -234,7 +234,7 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 
 static gboolean
 import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
-			 const char *path, gboolean *aWantRetry, GError **error)
+			 const gchar *path, gboolean *aWantRetry, GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker; */
 	gboolean rv;
@@ -310,7 +310,7 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 }
 
 gboolean
-e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error)
+e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	gboolean rv = TRUE;
@@ -332,7 +332,7 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error)
 }
 
 gboolean
-e_pkcs12_export_to_file (EPKCS12 *pkcs12, const char *path, GList *certs, GError **error)
+e_pkcs12_export_to_file (EPKCS12 *pkcs12, const gchar *path, GList *certs, GError **error)
 {
 	return FALSE;
 }
@@ -340,12 +340,12 @@ e_pkcs12_export_to_file (EPKCS12 *pkcs12, const char *path, GList *certs, GError
 /* what to do when the nickname collides with one already in the db.
    TODO: not handled, throw a dialog allowing the nick to be changed? */
 static SECItem * PR_CALLBACK
-nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
+nickname_collision(SECItem *oldNick, PRBool *cancel, gpointer wincx)
 {
 	/* nsNSSShutDownPreventionLock locker; */
-	int count = 1;
-	char *nickname = NULL;
-	char *default_nickname = _("Imported Certificate");
+	gint count = 1;
+	gchar *nickname = NULL;
+	gchar *default_nickname = _("Imported Certificate");
 	SECItem *new_nick;
 
 	*cancel = PR_FALSE;
@@ -397,13 +397,13 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 
 	new_nick = PR_Malloc (sizeof (SECItem));
 	new_nick->type = siAsciiString;
-	new_nick->data = (unsigned char *)nickname;
-	new_nick->len  = strlen((char*)new_nick->data);
+	new_nick->data = (guchar *)nickname;
+	new_nick->len  = strlen((gchar *)new_nick->data);
 	return new_nick;
 }
 
 static gboolean
-handle_error(int myerr)
+handle_error(gint myerr)
 {
 	printf ("handle_error (%d)\n", myerr);
 

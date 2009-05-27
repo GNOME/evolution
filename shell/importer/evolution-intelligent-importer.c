@@ -37,9 +37,9 @@ struct _EvolutionIntelligentImporterPrivate {
 	EvolutionIntelligentImporterCanImportFn can_import_fn;
 	EvolutionIntelligentImporterImportDataFn import_data_fn;
 
-	char *importername;
-	char *message;
-	void *closure;
+	gchar *importername;
+	gchar *message;
+	gpointer closure;
 };
 
 
@@ -148,9 +148,9 @@ static void
 evolution_intelligent_importer_construct (EvolutionIntelligentImporter *ii,
 					  EvolutionIntelligentImporterCanImportFn can_import_fn,
 					  EvolutionIntelligentImporterImportDataFn import_data_fn,
-					  const char *importername,
-					  const char *message,
-					  void *closure)
+					  const gchar *importername,
+					  const gchar *message,
+					  gpointer closure)
 {
 	g_return_if_fail (ii != NULL);
 	ii->priv->importername = g_strdup (importername);
@@ -178,9 +178,9 @@ evolution_intelligent_importer_construct (EvolutionIntelligentImporter *ii,
 EvolutionIntelligentImporter *
 evolution_intelligent_importer_new (EvolutionIntelligentImporterCanImportFn can_import_fn,
 				    EvolutionIntelligentImporterImportDataFn import_data_fn,
-				    const char *importername,
-				    const char *message,
-				    void *closure)
+				    const gchar *importername,
+				    const gchar *message,
+				    gpointer closure)
 {
 	EvolutionIntelligentImporter *ii;
 

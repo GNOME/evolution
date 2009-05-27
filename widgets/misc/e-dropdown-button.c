@@ -40,15 +40,15 @@ G_DEFINE_TYPE (EDropdownButton, e_dropdown_button, GTK_TYPE_TOGGLE_BUTTON)
 
 static void
 menu_position_cb (GtkMenu *menu,
-		  int *x,
-		  int *y,
+		  gint *x,
+		  gint *y,
 		  gboolean *push_in,
-		  void *data)
+		  gpointer data)
 {
 	EDropdownButton *dropdown_button;
 	EDropdownButtonPrivate *priv;
 	GtkRequisition menu_requisition;
-	int max_x, max_y;
+	gint max_x, max_y;
 
 	dropdown_button = E_DROPDOWN_BUTTON (data);
 	priv = dropdown_button->priv;
@@ -72,7 +72,7 @@ menu_position_cb (GtkMenu *menu,
 
 static int
 menu_deactivate_cb (GtkMenuShell *menu_shell,
-		    void *data)
+		    gpointer data)
 {
 	EDropdownButton *dropdown_button;
 
@@ -166,7 +166,7 @@ e_dropdown_button_init (EDropdownButton *dropdown_button)
  **/
 void
 e_dropdown_button_construct (EDropdownButton *dropdown_button,
-			     const char *label_text,
+			     const gchar *label_text,
 			     GtkMenu *menu)
 {
 	EDropdownButtonPrivate *priv;
@@ -220,7 +220,7 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
  * Return value: A pointer to the newly created %EDropdownButton.
  **/
 GtkWidget *
-e_dropdown_button_new (const char *label_text,
+e_dropdown_button_new (const gchar *label_text,
 		       GtkMenu *menu)
 {
 	GtkWidget *widget;

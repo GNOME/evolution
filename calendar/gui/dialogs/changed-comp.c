@@ -48,7 +48,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 {
 	GtkWidget *dialog;
 	ECalComponentVType vtype;
-	char *str;
+	gchar *str;
 	gint response;
 
 	vtype = e_cal_component_get_vtype (comp);

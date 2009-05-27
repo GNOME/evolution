@@ -37,23 +37,23 @@ G_DEFINE_TYPE (ESorterArray, e_sorter_array, E_SORTER_TYPE)
 static void    	esa_sort               (ESorterArray *esa);
 static void    	esa_backsort           (ESorterArray *esa);
 
-static gint    	esa_model_to_sorted           (ESorter *sorter, int row);
-static gint    	esa_sorted_to_model           (ESorter *sorter, int row);
-static void    	esa_get_model_to_sorted_array (ESorter *sorter, int **array, int *count);
-static void    	esa_get_sorted_to_model_array (ESorter *sorter, int **array, int *count);
+static gint    	esa_model_to_sorted           (ESorter *sorter, gint row);
+static gint    	esa_sorted_to_model           (ESorter *sorter, gint row);
+static void    	esa_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
+static void    	esa_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
 static gboolean esa_needs_sorting             (ESorter *esa);
 
 #define ESA_NEEDS_SORTING(esa) (((ESorterArray *) (esa))->compare != NULL)
 
 static int
-esort_callback(const void *data1, const void *data2, gpointer user_data)
+esort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ESorterArray *esa = user_data;
-	int ret_val;
-	int int1, int2;
+	gint ret_val;
+	gint int1, int2;
 
-	int1 = *(int *)data1;
-	int2 = *(int *)data2;
+	int1 = *(gint *)data1;
+	int2 = *(gint *)data2;
 
 	ret_val = esa->compare (int1, int2, esa->closure);
 	if (ret_val != 0)
@@ -69,8 +69,8 @@ esort_callback(const void *data1, const void *data2, gpointer user_data)
 static void
 esa_sort(ESorterArray *esa)
 {
-	int rows;
-	int i;
+	gint rows;
+	gint i;
 
 	if (esa->sorted)
 		return;
@@ -90,7 +90,7 @@ esa_sort(ESorterArray *esa)
 static void
 esa_backsort(ESorterArray *esa)
 {
-	int i, rows;
+	gint i, rows;
 
 	if (esa->backsorted)
 		return;
@@ -108,7 +108,7 @@ esa_backsort(ESorterArray *esa)
 
 
 static gint
-esa_model_to_sorted (ESorter *es, int row)
+esa_model_to_sorted (ESorter *es, gint row)
 {
 	ESorterArray *esa = E_SORTER_ARRAY(es);
 
@@ -125,7 +125,7 @@ esa_model_to_sorted (ESorter *es, int row)
 }
 
 static gint
-esa_sorted_to_model (ESorter *es, int row)
+esa_sorted_to_model (ESorter *es, gint row)
 {
 	ESorterArray *esa = (ESorterArray *) es;
 
@@ -142,7 +142,7 @@ esa_sorted_to_model (ESorter *es, int row)
 }
 
 static void
-esa_get_model_to_sorted_array (ESorter *es, int **array, int *count)
+esa_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
 	ESorterArray *esa = E_SORTER_ARRAY(es);
 	if (array || count) {
@@ -156,7 +156,7 @@ esa_get_model_to_sorted_array (ESorter *es, int **array, int *count)
 }
 
 static void
-esa_get_sorted_to_model_array (ESorter *es, int **array, int *count)
+esa_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
 	ESorterArray *esa = E_SORTER_ARRAY(es);
 	if (array || count) {
@@ -187,23 +187,23 @@ e_sorter_array_clean(ESorterArray *esa)
 }
 
 void
-e_sorter_array_set_count  (ESorterArray *esa, int count)
+e_sorter_array_set_count  (ESorterArray *esa, gint count)
 {
 	e_sorter_array_clean (esa);
 	esa->rows = count;
 }
 
 void
-e_sorter_array_append  (ESorterArray *esa, int count)
+e_sorter_array_append  (ESorterArray *esa, gint count)
 {
-	int i;
+	gint i;
 	g_free(esa->backsorted);
 	esa->backsorted = NULL;
 
 	if (esa->sorted) {
 		esa->sorted = g_renew(int, esa->sorted, esa->rows + count);
 		for (i = 0; i < count; i++) {
-			int value = esa->rows;
+			gint value = esa->rows;
 			size_t pos;
 			e_bsearch (&value, esa->sorted, esa->rows, sizeof (int), esort_callback, esa, &pos, NULL);
 			memmove (esa->sorted + pos + 1, esa->sorted + pos, sizeof (int) * (esa->rows - pos));

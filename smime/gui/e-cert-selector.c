@@ -68,7 +68,7 @@ ecs_find_current(ECertSelector *ecs)
 {
 	struct _ECertSelectorPrivate *p = ecs->priv;
 	CERTCertListNode *node;
-	int n;
+	gint n;
 
 	if (p->certlist == NULL || CERT_LIST_EMPTY(p->certlist))
 		return NULL;
@@ -141,7 +141,7 @@ ecs_cert_changed(GtkWidget *w, ECertSelector *ecs)
  * Return value: A dialogue to be shown.
  **/
 GtkWidget *
-e_cert_selector_new(int type, const char *currentid)
+e_cert_selector_new(gint type, const gchar *currentid)
 {
 	ECertSelector *ecs;
 	struct _ECertSelectorPrivate *p;
@@ -150,8 +150,8 @@ e_cert_selector_new(int type, const char *currentid)
 	CERTCertListNode *node;
 	GladeXML *gui;
 	GtkWidget *w;
-	int n=0, active=0;
-	char *gladefile;
+	gint n=0, active=0;
+	gchar *gladefile;
 
 	ecs = g_object_new(e_cert_selector_get_type(), NULL);
 	p = ecs->priv;

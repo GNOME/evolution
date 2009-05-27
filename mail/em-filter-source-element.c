@@ -39,29 +39,29 @@ static void em_filter_source_element_class_init(EMFilterSourceElementClass *klas
 static void em_filter_source_element_init(EMFilterSourceElement *fs);
 static void em_filter_source_element_finalize(GObject *obj);
 
-static int source_eq(FilterElement *fe, FilterElement *cm);
+static gint source_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
-static int xml_decode(FilterElement *fe, xmlNodePtr node);
+static gint xml_decode(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 static GtkWidget *get_widget(FilterElement *fe);
 static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp(FilterElement *, GString *);
 
-static void em_filter_source_element_add_source (EMFilterSourceElement *fs, const char *account_name, const char *name,
-				       const char *addr, const char *url);
+static void em_filter_source_element_add_source (EMFilterSourceElement *fs, const gchar *account_name, const gchar *name,
+				       const gchar *addr, const gchar *url);
 static void em_filter_source_element_get_sources(EMFilterSourceElement *fs);
 
 typedef struct _SourceInfo {
-	char *account_name;
-	char *name;
-	char *address;
-	char *url;
+	gchar *account_name;
+	gchar *name;
+	gchar *address;
+	gchar *url;
 } SourceInfo;
 
 struct _EMFilterSourceElementPrivate {
 	GList *sources;
-	char *current_url;
+	gchar *current_url;
 };
 
 
@@ -176,12 +176,12 @@ xml_encode(FilterElement *fe)
 
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 
-	value = xmlNewNode(NULL, (const unsigned char *)"value");
-	xmlSetProp(value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp(value, (const unsigned char *)"type", (const unsigned char *)"uri");
+	value = xmlNewNode(NULL, (const guchar *)"value");
+	xmlSetProp(value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp(value, (const guchar *)"type", (const guchar *)"uri");
 
 	if (fs->priv->current_url)
-		xmlNewTextChild(value, NULL, (const unsigned char *)"uri", (unsigned char *)fs->priv->current_url);
+		xmlNewTextChild(value, NULL, (const guchar *)"uri", (guchar *)fs->priv->current_url);
 
 	return value;
 }
@@ -191,12 +191,12 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	CamelURL *url;
-	char *uri;
+	gchar *uri;
 
 	node = node->children;
 	while (node != NULL) {
-		if (!strcmp((char *)node->name, "uri")) {
-			uri = (char *)xmlNodeGetContent(node);
+		if (!strcmp((gchar *)node->name, "uri")) {
+			uri = (gchar *)xmlNodeGetContent(node);
 			url = camel_url_new(uri, NULL);
 			xmlFree(uri);
 
@@ -219,7 +219,7 @@ clone(FilterElement *fe)
 	EMFilterSourceElement *cpy = em_filter_source_element_new();
 	GList *i;
 
-	((FilterElement *)cpy)->name = (char *)xmlStrdup((unsigned char *)fe->name);
+	((FilterElement *)cpy)->name = (gchar *)xmlStrdup((guchar *)fe->name);
 
 	cpy->priv->current_url = g_strdup(fs->priv->current_url);
 
@@ -235,7 +235,7 @@ static void
 source_changed(GtkComboBox *combobox, EMFilterSourceElement *fs)
 {
 	SourceInfo *info;
-	int idx;
+	gint idx;
 
 	idx = gtk_combo_box_get_active (combobox);
 	g_return_if_fail (idx >= 0 && idx < g_list_length (fs->priv->sources));
@@ -254,7 +254,7 @@ get_widget(FilterElement *fe)
 	GtkWidget *combobox;
 	GList *i;
 	SourceInfo *first = NULL;
-	int index, current_index;
+	gint index, current_index;
 
 	if (fs->priv->sources == NULL)
 		em_filter_source_element_get_sources(fs);
@@ -266,7 +266,7 @@ get_widget(FilterElement *fe)
 
 	for (i = fs->priv->sources; i != NULL; i = g_list_next(i)) {
 		SourceInfo *info = (SourceInfo *)i->data;
-		char *label;
+		gchar *label;
 
 		if (info->url != NULL) {
 			if (first == NULL)
@@ -321,8 +321,8 @@ format_sexp(FilterElement *fe, GString *out)
 
 
 static void
-em_filter_source_element_add_source(EMFilterSourceElement *fs, const char *account_name, const char *name,
-			  const char *addr, const char *url)
+em_filter_source_element_add_source(EMFilterSourceElement *fs, const gchar *account_name, const gchar *name,
+			  const gchar *addr, const gchar *url)
 {
 	SourceInfo *info;
 
@@ -344,7 +344,7 @@ em_filter_source_element_get_sources(EMFilterSourceElement *fs)
 	const EAccount *account;
 	GConfClient *gconf;
 	EIterator *it;
-	char *uri;
+	gchar *uri;
 	CamelURL *url;
 
 	/* should this get the global object from mail? */

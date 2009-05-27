@@ -51,26 +51,26 @@ typedef struct {
 	/*
 	 * Used during resizing;  Could be shorts
 	 */
-	int              resize_col;
-	int              resize_start_pos;
-	int              resize_min_width;
+	gint              resize_col;
+	gint              resize_start_pos;
+	gint              resize_min_width;
 
 	GtkObject       *resize_guide;
 
-	int              group_indent_width;
+	gint              group_indent_width;
 
 	/*
 	 * Ids
 	 */
-	int structure_change_id, dimension_change_id;
+	gint structure_change_id, dimension_change_id;
 
 	/*
 	 * For dragging columns
 	 */
 	guint            maybe_drag:1;
 	guint            dnd_ready:1;
-	int              click_x, click_y;
-	int              drag_col, drop_col, drag_mark;
+	gint              click_x, click_y;
+	gint              drag_col, drop_col, drag_mark;
         guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id, drag_data_received_id, drag_data_get_id;
 	guint            sort_info_changed_id, group_info_changed_id;
 	GnomeCanvasItem *remove_item;
@@ -84,11 +84,11 @@ typedef struct {
 	ETableSortInfo  *sort_info;
 
 	guint scroll_direction : 4;
-	int last_drop_x;
-	int last_drop_y;
-	int last_drop_time;
+	gint last_drop_x;
+	gint last_drop_y;
+	gint last_drop_time;
 	GdkDragContext *last_drop_context;
-	int scroll_idle_id;
+	gint scroll_idle_id;
 
 	/* For adding fields. */
 	ETableHeader    *full_header;
@@ -102,7 +102,7 @@ typedef struct {
 	} etfcd;
 
 	/* For keyboard navigation*/
-	int selected_col;
+	gint selected_col;
 
 } ETableHeaderItem;
 

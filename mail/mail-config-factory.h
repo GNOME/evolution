@@ -35,7 +35,7 @@ extern "C" {
 
 gboolean mail_config_register_factory (GNOME_Evolution_Shell shell);
 
-BonoboObject *mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data);
+BonoboObject *mail_config_control_factory_cb (BonoboGenericFactory *factory, const gchar *component_id, gpointer user_data);
 
 #ifdef __cplusplus
 }

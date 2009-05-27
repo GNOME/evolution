@@ -38,15 +38,15 @@
 
 #define d(x)
 
-void org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t);
+void org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t);
 
-static volatile int org_gnome_audio_class_id_counter = 0;
+static volatile gint org_gnome_audio_class_id_counter = 0;
 
 struct _org_gnome_audio_inline_pobject {
 	EMFormatHTMLPObject object;
 
 	CamelMimePart *part;
-	char *filename;
+	gchar *filename;
 	GstElement *playbin;
 	gulong      bus_id;
 	GstState    target_state;
@@ -197,7 +197,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		CamelStream *stream;
 		CamelDataWrapper *data;
 		GError *error = NULL;
-		int argc = 1;
+		gint argc = 1;
 		const gchar *argv [] = { "org_gnome_audio_inline", NULL };
 
 		/* FIXME this is ugly, we should stream this directly to gstreamer */
@@ -213,8 +213,8 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 
 		d(printf ("audio inline formatter: init gst playbin\n"));
 
-		if (gst_init_check (&argc, (char ***) &argv, &error)) {
-			char *uri;
+		if (gst_init_check (&argc, (gchar ***) &argv, &error)) {
+			gchar *uri;
 			GstBus *bus;
 
 			/* create a disk reader */
@@ -254,7 +254,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 }
 
 static GtkWidget *
-org_gnome_audio_inline_add_button (GtkWidget *box, const char *stock_icon, GCallback cb, gpointer data, gboolean sensitive)
+org_gnome_audio_inline_add_button (GtkWidget *box, const gchar *stock_icon, GCallback cb, gpointer data, gboolean sensitive)
 {
 	GtkWidget *button;
 
@@ -288,10 +288,10 @@ org_gnome_audio_inline_button_panel (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMF
 }
 
 void
-org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t)
+org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
 {
 	struct _org_gnome_audio_inline_pobject *pobj;
-	char *classid = g_strdup_printf ("org-gnome-audio-inline-button-panel-%d", org_gnome_audio_class_id_counter);
+	gchar *classid = g_strdup_printf ("org-gnome-audio-inline-button-panel-%d", org_gnome_audio_class_id_counter);
 
 	org_gnome_audio_class_id_counter ++;
 

@@ -48,11 +48,11 @@ G_DEFINE_TYPE (ECellHbox, e_cell_hbox, E_CELL_TYPE)
  * ECell::new_view method
  */
 static ECellView *
-ecv_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
+ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
 {
 	ECellHbox *ecv = E_CELL_HBOX (ecell);
 	ECellHboxView *hbox_view = g_new0 (ECellHboxView, 1);
-	int i;
+	gint i;
 
 	hbox_view->cell_view.ecell = ecell;
 	hbox_view->cell_view.e_table_model = table_model;
@@ -82,7 +82,7 @@ static void
 ecv_kill_view (ECellView *ecv)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecv;
-	int i;
+	gint i;
 
         if (hbox_view->cell_view.kill_view_cb)
             (hbox_view->cell_view.kill_view_cb)(ecv, hbox_view->cell_view.kill_view_cb_data);
@@ -107,7 +107,7 @@ static void
 ecv_realize (ECellView *ecell_view)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecell_view;
-	int i;
+	gint i;
 
 	/* realize our subcell view */
 	for (i = 0; i < hbox_view->subcell_view_count; i++)
@@ -124,7 +124,7 @@ static void
 ecv_unrealize (ECellView *ecv)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *) ecv;
-	int i;
+	gint i;
 
 	/* unrealize our subcell view. */
 	for (i = 0; i < hbox_view->subcell_view_count; i++)
@@ -139,19 +139,19 @@ ecv_unrealize (ECellView *ecv)
  */
 static void
 ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, ECellFlags flags,
-	  int x1, int y1, int x2, int y2)
+	  gint model_col, gint view_col, gint row, ECellFlags flags,
+	  gint x1, gint y1, gint x2, gint y2)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
 
-	int subcell_offset = 0;
-	int i;
-	int allotted_width = x2-x1;
+	gint subcell_offset = 0;
+	gint i;
+	gint allotted_width = x2-x1;
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
-		int width = allotted_width * hbox_view->def_size_cols[i] / 100;
+		gint width = allotted_width * hbox_view->def_size_cols[i] / 100;
 			/* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
 		if (width < hbox_view->def_size_cols[i])
 			width = hbox_view->def_size_cols[i];
@@ -168,12 +168,12 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * ECell::event method
  */
 static gint
-ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
+ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
-	int y = 0;
-	int i;
-	int subcell_offset = 0;
+	gint y = 0;
+	gint i;
+	gint subcell_offset = 0;
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -191,7 +191,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	}
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
-		int width = e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
+		gint width = e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
 		if (width < hbox_view->def_size_cols[i])
 			width = hbox_view->def_size_cols[i];
 		if (y < subcell_offset + width)
@@ -205,11 +205,11 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::height method
  */
 static int
-ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
+ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
-	int height = 0, max_height = 0;
-	int i;
+	gint height = 0, max_height = 0;
+	gint i;
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
 		height = e_cell_height (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
@@ -222,14 +222,14 @@ ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::max_width method
  */
 static int
-ecv_max_width (ECellView *ecell_view, int model_col, int view_col)
+ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
-	int width = 0;
-	int i;
+	gint width = 0;
+	gint i;
 
 	for (i = 0; i < hbox_view->subcell_view_count; i++) {
-		int cell_width = e_cell_max_width (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col);
+		gint cell_width = e_cell_max_width (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col);
 
 		if (cell_width < hbox_view->def_size_cols[i])
 			cell_width = hbox_view->def_size_cols[i];
@@ -246,7 +246,7 @@ static void
 ecv_dispose (GObject *object)
 {
 	ECellHbox *ecv = E_CELL_HBOX (object);
-	int i;
+	gint i;
 
 	/* destroy our subcell */
 	for (i = 0; i < ecv->subcell_count; i++)
@@ -305,7 +305,7 @@ e_cell_hbox_new (void)
 }
 
 void
-e_cell_hbox_append (ECellHbox *hbox, ECell *subcell, int model_col, int size)
+e_cell_hbox_append (ECellHbox *hbox, ECell *subcell, gint model_col, gint size)
 {
 	hbox->subcell_count ++;
 

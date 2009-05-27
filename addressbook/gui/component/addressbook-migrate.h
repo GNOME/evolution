@@ -28,6 +28,6 @@
 
 struct _GError;
 
-int addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision, struct _GError **err);
+gint addressbook_migrate (AddressbookComponent *component, gint major, gint minor, gint revision, struct _GError **err);
 
 #endif /* _ADDRESSBOOK_MIGRATE_H_ */

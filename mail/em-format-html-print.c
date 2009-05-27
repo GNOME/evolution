@@ -200,7 +200,7 @@ emfhp_complete (EMFormatHTMLPrint *efhp)
 }
 
 static void
-emfhp_got_message (CamelFolder *folder, const char *uid,
+emfhp_got_message (CamelFolder *folder, const gchar *uid,
                    CamelMimeMessage *msg, gpointer data)
 {
 	EMFormatHTMLPrint *efhp = data;
@@ -224,7 +224,7 @@ emfhp_got_message (CamelFolder *folder, const char *uid,
 void
 em_format_html_print_message (EMFormatHTMLPrint *efhp,
                               CamelFolder *folder,
-                              const char *uid)
+                              const gchar *uid)
 {
 	g_object_ref (efhp);
 

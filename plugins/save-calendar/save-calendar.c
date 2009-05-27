@@ -109,7 +109,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	GtkListStore *store = GTK_LIST_STORE (model);
 	GtkTreeIter iter;
 	GtkWidget *dialog = NULL;
-	char *dest_uri = NULL;
+	gchar *dest_uri = NULL;
 
 	GList *format_handlers = NULL;
 
@@ -173,7 +173,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		char *tmp = NULL;
+		gchar *tmp = NULL;
 
 		gtk_combo_box_get_active_iter (combo, &iter);
 		gtk_tree_model_get (model, &iter,
@@ -186,7 +186,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 
 		if (!(tmp && *(tmp + strlen (handler->filename_ext)) == '\0')) {
 
-			char *temp;
+			gchar *temp;
 			temp = g_strconcat (dest_uri, handler->filename_ext, NULL);
 			g_free (dest_uri);
 			dest_uri = temp;
@@ -210,7 +210,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
    It will ask for overwrite if file already exists.
 */
 GOutputStream *
-open_for_writing (GtkWindow *parent, const char *uri, GError **error)
+open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 {
 	GFile *file;
 	GFileOutputStream *fostream;

@@ -51,14 +51,14 @@
 #define TEMP_SCAN (60)
 
 static int
-expire_dir_rec(const char *base, time_t now)
+expire_dir_rec(const gchar *base, time_t now)
 {
 	GDir *dir;
-	const char *d;
+	const gchar *d;
 	GString *path;
 	size_t len;
 	struct stat st;
-	int count = 0;
+	gint count = 0;
 
 	d(printf("expire dir '%s'\n", base));
 
@@ -109,7 +109,7 @@ get_dir (gboolean make)
 	static time_t last = 0;
 
 #ifdef TEMP_HOME
-	char *tmpdir = NULL;
+	gchar *tmpdir = NULL;
 	tmpdir = g_build_filename(e_get_user_data_dir (),
 		"cache", "tmp", NULL);
 	path = g_string_new(tmpdir);
@@ -122,7 +122,7 @@ get_dir (gboolean make)
 	path = g_string_new("/tmp/evolution-");
 	g_string_append_printf (path, "%d", (int) getuid ());
 	if (make) {
-		int ret;
+		gint ret;
 
 		/* shoot now, ask questions later */
 		ret = g_mkdir (path->str, S_IRWXU);
@@ -163,11 +163,11 @@ get_dir (gboolean make)
 	return path;
 }
 
-char *
-e_mktemp (const char *template)
+gchar *
+e_mktemp (const gchar *template)
 {
 	GString *path;
-	char *ret;
+	gchar *ret;
 
 	path = get_dir (TRUE);
 	if (!path)
@@ -186,11 +186,11 @@ e_mktemp (const char *template)
 }
 
 
-int
-e_mkstemp (const char *template)
+gint
+e_mkstemp (const gchar *template)
 {
 	GString *path;
-	int fd;
+	gint fd;
 
 	path = get_dir (TRUE);
 	if (!path)
@@ -209,11 +209,11 @@ e_mkstemp (const char *template)
 }
 
 
-char *
-e_mkdtemp (const char *template)
+gchar *
+e_mkdtemp (const gchar *template)
 {
 	GString *path;
-	char *tmpdir;
+	gchar *tmpdir;
 
 	path = get_dir (TRUE);
 	if (!path)

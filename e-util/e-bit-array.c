@@ -39,10 +39,10 @@
 G_DEFINE_TYPE (EBitArray, e_bit_array, G_TYPE_OBJECT)
 
 static void
-e_bit_array_insert_real(EBitArray *eba, int row)
+e_bit_array_insert_real(EBitArray *eba, gint row)
 {
-	int box;
-	int i;
+	gint box;
+	gint i;
 	if(eba->bit_count >= 0) {
 		/* Add another word if needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
@@ -64,12 +64,12 @@ e_bit_array_insert_real(EBitArray *eba, int row)
 }
 
 static void
-e_bit_array_delete_real(EBitArray *eba, int row, gboolean move_selection_mode)
+e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 {
-	int box;
-	int i;
-	int last;
-	int selected = FALSE;
+	gint box;
+	gint i;
+	gint last;
+	gint selected = FALSE;
 	if(eba->bit_count >= 0) {
 		guint32 bitmask;
 		box = row >> 5;
@@ -105,34 +105,34 @@ e_bit_array_delete_real(EBitArray *eba, int row, gboolean move_selection_mode)
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete(EBitArray *eba, int row, int count)
+e_bit_array_delete(EBitArray *eba, gint row, gint count)
 {
-	int i;
+	gint i;
 	for (i = 0; i < count; i++)
 		e_bit_array_delete_real(eba, row, FALSE);
 }
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete_single_mode(EBitArray *eba, int row, int count)
+e_bit_array_delete_single_mode(EBitArray *eba, gint row, gint count)
 {
-	int i;
+	gint i;
 	for (i = 0; i < count; i++)
 		e_bit_array_delete_real(eba, row, TRUE);
 }
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_insert(EBitArray *eba, int row, int count)
+e_bit_array_insert(EBitArray *eba, gint row, gint count)
 {
-	int i;
+	gint i;
 	for (i = 0; i < count; i++)
 		e_bit_array_insert_real(eba, row);
 }
 
 /* FIXME: Implement this more efficiently. */
 void
-e_bit_array_move_row(EBitArray *eba, int old_row, int new_row)
+e_bit_array_move_row(EBitArray *eba, gint old_row, gint new_row)
 {
 	e_bit_array_delete_real(eba, old_row, FALSE);
 	e_bit_array_insert_real(eba, new_row);
@@ -186,11 +186,11 @@ e_bit_array_foreach (EBitArray *eba,
 		     EForeachFunc     callback,
 		     gpointer         closure)
 {
-	int i;
-	int last = (eba->bit_count + 31) / 32;
+	gint i;
+	gint last = (eba->bit_count + 31) / 32;
 	for (i = 0; i < last; i++) {
 		if (eba->data[i]) {
-			int j;
+			gint j;
 			guint32 value = eba->data[i];
 			for (j = 0; j < 32; j++) {
 				if (value & 0x80000000) {
@@ -231,8 +231,8 @@ gint
 e_bit_array_selected_count (EBitArray *eba)
 {
 	gint count;
-	int i;
-	int last;
+	gint i;
+	gint last;
 
 	if (!eba->data)
 		return 0;
@@ -242,7 +242,7 @@ e_bit_array_selected_count (EBitArray *eba)
 	last = BOX(eba->bit_count - 1);
 
 	for (i = 0; i <= last; i++) {
-		int j;
+		gint j;
 		guint32 thiscount = 0;
 		for (j = 0; j < 8; j++)
 			thiscount += PART(eba->data[i], j);
@@ -263,7 +263,7 @@ e_bit_array_selected_count (EBitArray *eba)
 void
 e_bit_array_select_all (EBitArray *eba)
 {
-	int i;
+	gint i;
 
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
@@ -275,8 +275,8 @@ e_bit_array_select_all (EBitArray *eba)
 	/* need to zero out the bits corresponding to the rows not
 	   selected in the last full 32 bit mask */
 	if (eba->bit_count % 32) {
-		int unselected_mask = 0;
-		int num_unselected_in_last_byte = 32 - eba->bit_count % 32;
+		gint unselected_mask = 0;
+		gint num_unselected_in_last_byte = 32 - eba->bit_count % 32;
 
 		for (i = 0; i < num_unselected_in_last_byte; i ++)
 			unselected_mask |= 1 << i;
@@ -295,7 +295,7 @@ e_bit_array_select_all (EBitArray *eba)
 void
 e_bit_array_invert_selection (EBitArray *eba)
 {
-	int i;
+	gint i;
 
 	if (!eba->data)
 		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
@@ -305,7 +305,7 @@ e_bit_array_invert_selection (EBitArray *eba)
 	}
 }
 
-int
+gint
 e_bit_array_bit_count (EBitArray *eba)
 {
 	return eba->bit_count;
@@ -314,7 +314,7 @@ e_bit_array_bit_count (EBitArray *eba)
 gboolean
 e_bit_array_cross_and           (EBitArray    *eba)
 {
-	int i;
+	gint i;
 	for (i = 0; i < eba->bit_count / 32; i++) {
 		if (eba->data[i] != ONES)
 			return FALSE;
@@ -327,7 +327,7 @@ e_bit_array_cross_and           (EBitArray    *eba)
 gboolean
 e_bit_array_cross_or            (EBitArray    *eba)
 {
-	int i;
+	gint i;
 	for (i = 0; i < eba->bit_count / 32; i++) {
 		if (eba->data[i] != 0)
 			return TRUE;
@@ -340,18 +340,18 @@ e_bit_array_cross_or            (EBitArray    *eba)
 #define OPERATE(object, i,mask,grow) ((grow) ? (((object)->data[(i)]) |= ((guint32) ~(mask))) : (((object)->data[(i)]) &= (mask)))
 
 void
-e_bit_array_change_one_row(EBitArray *eba, int row, gboolean grow)
+e_bit_array_change_one_row(EBitArray *eba, gint row, gboolean grow)
 {
-	int i;
+	gint i;
 	i = BOX(row);
 
 	OPERATE(eba, i, ~BITMASK(row), grow);
 }
 
 void
-e_bit_array_change_range(EBitArray *eba, int start, int end, gboolean grow)
+e_bit_array_change_range(EBitArray *eba, gint start, gint end, gboolean grow)
 {
-	int i, last;
+	gint i, last;
 	if (start != end) {
 		i = BOX(start);
 		last = BOX(end);
@@ -372,9 +372,9 @@ e_bit_array_change_range(EBitArray *eba, int start, int end, gboolean grow)
 }
 
 void
-e_bit_array_select_single_row (EBitArray *eba, int row)
+e_bit_array_select_single_row (EBitArray *eba, gint row)
 {
-	int i;
+	gint i;
 	for (i = 0; i < ((eba->bit_count + 31) / 32); i++) {
 		if (!((i == BOX(row) && eba->data[i] == BITMASK(row)) ||
 		      (i != BOX(row) && eba->data[i] == 0))) {
@@ -388,7 +388,7 @@ e_bit_array_select_single_row (EBitArray *eba, int row)
 }
 
 void
-e_bit_array_toggle_single_row (EBitArray *eba, int row)
+e_bit_array_toggle_single_row (EBitArray *eba, gint row)
 {
 	if (eba->data[BOX(row)] & BITMASK(row))
 		eba->data[BOX(row)] &= ~BITMASK(row);
@@ -415,7 +415,7 @@ e_bit_array_class_init (EBitArrayClass *klass)
 }
 
 EBitArray *
-e_bit_array_new (int count)
+e_bit_array_new (gint count)
 {
 	EBitArray *eba = g_object_new (E_BIT_ARRAY_TYPE, NULL);
 	eba->bit_count = count;

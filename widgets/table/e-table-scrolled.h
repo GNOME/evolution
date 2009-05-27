@@ -51,22 +51,22 @@ GType           e_table_scrolled_get_type                  (void);
 ETableScrolled *e_table_scrolled_construct                 (ETableScrolled *ets,
 							    ETableModel    *etm,
 							    ETableExtras   *ete,
-							    const char     *spec,
-							    const char     *state);
+							    const gchar     *spec,
+							    const gchar     *state);
 GtkWidget      *e_table_scrolled_new                       (ETableModel    *etm,
 							    ETableExtras   *ete,
-							    const char     *spec,
-							    const char     *state);
+							    const gchar     *spec,
+							    const gchar     *state);
 
 ETableScrolled *e_table_scrolled_construct_from_spec_file  (ETableScrolled *ets,
 							    ETableModel    *etm,
 							    ETableExtras   *ete,
-							    const char     *spec_fn,
-							    const char     *state_fn);
+							    const gchar     *spec_fn,
+							    const gchar     *state_fn);
 GtkWidget      *e_table_scrolled_new_from_spec_file        (ETableModel    *etm,
 							    ETableExtras   *ete,
-							    const char     *spec_fn,
-							    const char     *state_fn);
+							    const gchar     *spec_fn,
+							    const gchar     *state_fn);
 
 ETable         *e_table_scrolled_get_table                 (ETableScrolled *ets);
 

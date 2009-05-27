@@ -316,7 +316,7 @@ eab_popup_new (void)
 }
 
 static void
-emit_event (EABPopupControl *pop, const char *event)
+emit_event (EABPopupControl *pop, const gchar *event)
 {
 	if (pop->es) {
 		BonoboArg *arg;

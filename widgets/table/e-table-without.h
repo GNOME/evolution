@@ -38,10 +38,10 @@ extern "C" {
 #define E_IS_TABLE_WITHOUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_WITHOUT_TYPE))
 
 typedef struct _ETableWithoutPrivate ETableWithoutPrivate;
-typedef void *(*ETableWithoutGetKeyFunc)       (ETableModel *source,
-						int          row,
+typedef gpointer (*ETableWithoutGetKeyFunc)       (ETableModel *source,
+						gint          row,
 						void        *closure);
-typedef void *(*ETableWithoutDuplicateKeyFunc) (const void  *key,
+typedef gpointer (*ETableWithoutDuplicateKeyFunc) (const void  *key,
 						void        *closure);
 typedef void  (*ETableWithoutFreeKeyFunc)      (void        *key,
 						void        *closure);

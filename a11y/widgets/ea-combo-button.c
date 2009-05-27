@@ -37,7 +37,7 @@ enum {
 };
 
 /* Static functions */
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_combo_button_get_name (AtkObject *a11y)
 {
 	GtkWidget *widget;

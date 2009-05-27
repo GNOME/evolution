@@ -35,7 +35,7 @@
 
 struct _JunkEntry {
 	EGwJunkEntry *entry;
-	int flag;
+	gint flag;
 };
 
 typedef struct _JunkEntry JunkEntry;
@@ -175,9 +175,9 @@ static void
 get_junk_list (JunkSettings *js)
 {
 	GList *list = NULL;
-	char *entry;
-	char *msg;
-	int use_junk, use_block, use_pab, persistence;
+	gchar *entry;
+	gchar *msg;
+	gint use_junk, use_block, use_pab, persistence;
 
 	if (E_IS_GW_CONNECTION (js->cnc)) {
 		if (e_gw_connection_get_junk_settings (js->cnc, &use_junk, &use_block, &use_pab, &persistence) == E_GW_CONNECTION_STATUS_OK) {
@@ -227,7 +227,7 @@ commit_changes (JunkSettings *js)
 	GList *node = NULL;
 	JunkEntry *junk_entry = NULL;
 	EGwJunkEntry *entry;
-	int use_junk, use_pab, use_block, persistence;
+	gint use_junk, use_pab, use_block, persistence;
 
 	for (node = js->junk_list; node; node = node->next)
 	{
@@ -301,8 +301,8 @@ disable_clicked (GtkRadioButton *button, JunkSettings *js)
 static void
 add_clicked(GtkButton *button, JunkSettings *js)
 {
-	const char *email = NULL;
-	const char *self_email = NULL;
+	const gchar *email = NULL;
+	const gchar *self_email = NULL;
 	JunkEntry *new_entry = NULL;
 	EGwJunkEntry *junk_entry = NULL;
 	gchar *msg = NULL;
@@ -372,7 +372,7 @@ static void
 junk_settings_construct (JunkSettings *js)
 {
 	GladeXML *xml;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "junk-settings.glade",

@@ -311,11 +311,11 @@ eab_editor_get_all_editors (void)
 }
 
 gboolean
-eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list, char *name)
+eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list, gchar *name)
 {
 	GtkWidget *dialog;
 	gint result;
-	char *msg;
+	gchar *msg;
 
 	if (is_list) {
 		/* contact list(s) */

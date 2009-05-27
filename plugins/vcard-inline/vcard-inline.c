@@ -52,7 +52,7 @@ struct _VCardInlinePObject {
 static gint org_gnome_vcard_inline_classid;
 
 /* Forward Declarations */
-void org_gnome_vcard_inline_format (void *ep, EMFormatHookTarget *target);
+void org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target);
 
 static void
 org_gnome_vcard_inline_pobject_free (EMFormatHTMLPObject *object)
@@ -258,7 +258,7 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 }
 
 void
-org_gnome_vcard_inline_format (void *ep, EMFormatHookTarget *target)
+org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 {
 	VCardInlinePObject *vcard_object;
 	gchar *classid;

@@ -36,18 +36,18 @@ struct _CalendarViewPrivate {
 	GnomeCalendarViewType view_type;
 
 	/* Title of the view */
-	char *title;
+	gchar *title;
 };
 
 
 
 static void calendar_view_finalize (GObject *object);
 
-static void calendar_view_load (GalView *view, const char *filename);
-static void calendar_view_save (GalView *view, const char *filename);
-static const char *calendar_view_get_title (GalView *view);
-static void calendar_view_set_title (GalView *view, const char *title);
-static const char *calendar_view_get_type_code (GalView *view);
+static void calendar_view_load (GalView *view, const gchar *filename);
+static void calendar_view_save (GalView *view, const gchar *filename);
+static const gchar *calendar_view_get_title (GalView *view);
+static void calendar_view_set_title (GalView *view, const gchar *title);
+static const gchar *calendar_view_get_type_code (GalView *view);
 static GalView *calendar_view_clone (GalView *view);
 
 G_DEFINE_TYPE (CalendarView, calendar_view, GAL_VIEW_TYPE)
@@ -114,20 +114,20 @@ calendar_view_finalize (GObject *object)
 
 /* load method of the calendar view */
 static void
-calendar_view_load (GalView *view, const char *filename)
+calendar_view_load (GalView *view, const gchar *filename)
 {
 	/* nothing */
 }
 
 /* save method of the calendar view */
 static void
-calendar_view_save (GalView *view, const char *filename)
+calendar_view_save (GalView *view, const gchar *filename)
 {
 	/* nothing */
 }
 
 /* get_title method of the calendar view */
-static const char *
+static const gchar *
 calendar_view_get_title (GalView *view)
 {
 	CalendarView *cal_view;
@@ -136,12 +136,12 @@ calendar_view_get_title (GalView *view)
 	cal_view = CALENDAR_VIEW (view);
 	priv = cal_view->priv;
 
-	return (const char *) priv->title;
+	return (const gchar *) priv->title;
 }
 
 /* set_title method of the calendar view */
 static void
-calendar_view_set_title (GalView *view, const char *title)
+calendar_view_set_title (GalView *view, const gchar *title)
 {
 	CalendarView *cal_view;
 	CalendarViewPrivate *priv;
@@ -156,7 +156,7 @@ calendar_view_set_title (GalView *view, const char *title)
 }
 
 /* get_type_code method for the calendar view */
-static const char *
+static const gchar *
 calendar_view_get_type_code (GalView *view)
 {
 	CalendarView *cal_view;
@@ -219,7 +219,7 @@ calendar_view_clone (GalView *view)
 CalendarView *
 calendar_view_construct (CalendarView *cal_view,
 			 GnomeCalendarViewType view_type,
-			 const char *title)
+			 const gchar *title)
 {
 	CalendarViewPrivate *priv;
 
@@ -245,7 +245,7 @@ calendar_view_construct (CalendarView *cal_view,
  * Return value: A newly-created calendar view.
  **/
 CalendarView *
-calendar_view_new (GnomeCalendarViewType view_type, const char *title)
+calendar_view_new (GnomeCalendarViewType view_type, const gchar *title)
 {
 	CalendarView *cal_view;
 

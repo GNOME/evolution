@@ -37,7 +37,7 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionImporterListenerPrivate {
 	EvolutionImporterListenerCallback callback;
 
-	void *closure;
+	gpointer closure;
 };
 
 #if 0
@@ -185,7 +185,7 @@ evolution_importer_listener_init (EvolutionImporterListener *listener)
 static void
 evolution_importer_listener_construct (EvolutionImporterListener *listener,
 				       EvolutionImporterListenerCallback callback,
-				       void *closure)
+				       gpointer closure)
 {
 	EvolutionImporterListenerPrivate *priv;
 
@@ -209,7 +209,7 @@ evolution_importer_listener_construct (EvolutionImporterListener *listener,
  */
 EvolutionImporterListener *
 evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
-				 void *closure)
+				 gpointer closure)
 {
 	EvolutionImporterListener *listener;
 

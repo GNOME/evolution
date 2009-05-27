@@ -130,14 +130,14 @@ struct ETreePriv {
 	guint   	  search_search_id;
 	guint   	  search_accept_id;
 
-	int reflow_idle_id;
-	int scroll_idle_id;
-	int hover_idle_id;
+	gint reflow_idle_id;
+	gint scroll_idle_id;
+	gint hover_idle_id;
 
-	int table_model_change_id;
-	int table_row_change_id;
-	int table_cell_change_id;
-	int table_rows_delete_id;
+	gint table_model_change_id;
+	gint table_row_change_id;
+	gint table_cell_change_id;
+	gint table_rows_delete_id;
 
 	GnomeCanvasItem *info_text;
 	guint info_text_resize_id;
@@ -173,22 +173,22 @@ struct ETreePriv {
 
 	ECursorMode cursor_mode;
 
-	int drop_row;
+	gint drop_row;
 	ETreePath drop_path;
-	int drop_col;
+	gint drop_col;
 
 	GnomeCanvasItem *drop_highlight;
-	int last_drop_x;
-	int last_drop_y;
-	int last_drop_time;
+	gint last_drop_x;
+	gint last_drop_y;
+	gint last_drop_time;
 	GdkDragContext *last_drop_context;
 
-	int hover_x;
-	int hover_y;
+	gint hover_x;
+	gint hover_y;
 
-	int drag_row;
+	gint drag_row;
 	ETreePath drag_path;
-	int drag_col;
+	gint drag_col;
 	ETreeDragSourceSite *site;
 
 	GList *expanded_list;
@@ -243,7 +243,7 @@ static void et_drag_data_received(GtkWidget *widget,
 static void scroll_off (ETree *et);
 static void scroll_on (ETree *et, guint scroll_direction);
 static void hover_off (ETree *et);
-static void hover_on (ETree *et, int x, int y);
+static void hover_on (ETree *et, gint x, gint y);
 static void context_destroyed (gpointer data, GObject *ctx);
 
 static void
@@ -451,14 +451,14 @@ et_unrealize (GtkWidget *widget)
 
 typedef struct {
 	ETree *et;
-	char *string;
+	gchar *string;
 } SearchSearchStruct;
 
 static gboolean
 search_search_callback (ETreeModel *model, ETreePath path, gpointer data)
 {
 	SearchSearchStruct *cb_data = data;
-	const void *value;
+	gconstpointer value;
 	ETableCol *col = current_search_col (cb_data->et);
 
 	value = e_tree_model_value_at (model, path, cb_data->et->priv->current_search_col->col_idx);
@@ -467,7 +467,7 @@ search_search_callback (ETreeModel *model, ETreePath path, gpointer data)
 }
 
 static gboolean
-et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, ETree *et)
+et_search_search (ETableSearch *search, gchar *string, ETableSearchFlags flags, ETree *et)
 {
 	ETreePath cursor;
 	ETreePath found;
@@ -483,7 +483,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	cursor = e_tree_get_cursor (et);
 
 	if (cursor && (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
-		const void *value;
+		gconstpointer value;
 
 		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
 
@@ -497,7 +497,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 		found = e_tree_model_node_find (et->priv->model, NULL, cursor, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
 
 	if (found && found != cursor) {
-		int model_row;
+		gint model_row;
 
 		e_tree_table_adapter_show_node (et->priv->etta, found);
 		model_row = e_tree_table_adapter_row_of_node (et->priv->etta, found);
@@ -507,7 +507,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 		return TRUE;
 	} else if (cursor && !(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
-		const void *value;
+		gconstpointer value;
 
 		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
 
@@ -520,7 +520,7 @@ static void
 et_search_accept (ETableSearch *search, ETree *et)
 {
 	ETableCol *col = current_search_col (et);
-	int cursor;
+	gint cursor;
 
 	if (col == NULL)
 		return;
@@ -698,7 +698,7 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *e_t
 static void
 e_tree_setup_header (ETree *e_tree)
 {
-	char *pointer;
+	gchar *pointer;
 	e_tree->priv->header_canvas = GNOME_CANVAS (e_canvas_new ());
 	GTK_WIDGET_UNSET_FLAGS (e_tree->priv->header_canvas, GTK_CAN_FOCUS);
 
@@ -785,8 +785,8 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 
 	x = y = w = h = 0;
 	if (path) {
-		int row = e_tree_row_of_node(e_tree, path);
-		int col = 0;
+		gint row = e_tree_row_of_node(e_tree, path);
+		gint col = 0;
 
 		if (row >= 0)
 			e_table_item_get_cell_geometry (E_TABLE_ITEM (e_tree->priv->item),
@@ -805,7 +805,7 @@ tree_canvas_reflow (GnomeCanvas *canvas, ETree *e_tree)
 }
 
 static void
-item_cursor_change (ETableItem *eti, int row, ETree *et)
+item_cursor_change (ETableItem *eti, gint row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
@@ -814,7 +814,7 @@ item_cursor_change (ETableItem *eti, int row, ETree *et)
 }
 
 static void
-item_cursor_activated (ETableItem *eti, int row, ETree *et)
+item_cursor_activated (ETableItem *eti, gint row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
@@ -824,7 +824,7 @@ item_cursor_activated (ETableItem *eti, int row, ETree *et)
 }
 
 static void
-item_double_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+item_double_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
@@ -833,9 +833,9 @@ item_double_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et
 }
 
 static gint
-item_right_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+item_right_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
 		       et_signals [RIGHT_CLICK], 0,
@@ -844,9 +844,9 @@ item_right_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 }
 
 static gint
-item_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+item_click (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	g_signal_emit (et,
 		       et_signals [CLICK], 0,
@@ -855,12 +855,12 @@ item_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 }
 
 static gint
-item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	GdkEventKey *key = (GdkEventKey *) event;
 	ETreePath path;
-	int y, row_local, col_local;
+	gint y, row_local, col_local;
 	GtkAdjustment *vadj;
 
 	switch (key->keyval) {
@@ -945,7 +945,7 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 }
 
 static gint
-item_start_drag (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
+item_start_drag (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 {
 	ETreePath path;
 	gint return_val = 0;
@@ -967,7 +967,7 @@ et_selection_model_selection_changed (ETableSelectionModel *etsm, ETree *et)
 }
 
 static void
-et_selection_model_selection_row_changed (ETableSelectionModel *etsm, int row, ETree *et)
+et_selection_model_selection_row_changed (ETableSelectionModel *etsm, gint row, ETree *et)
 {
 	g_signal_emit (et,
 		       et_signals [SELECTION_CHANGE], 0);
@@ -1018,7 +1018,7 @@ et_canvas_style_set (GtkWidget *widget, GtkStyle *prev_style)
 static gint
 white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETree *e_tree)
 {
-	int return_val = 0;
+	gint return_val = 0;
 	g_signal_emit (e_tree,
 		       et_signals [WHITE_SPACE_EVENT], 0,
 		       event, &return_val);
@@ -1252,8 +1252,8 @@ ETableState *
 e_tree_get_state_object (ETree *e_tree)
 {
 	ETableState *state;
-	int full_col_count;
-	int i, j;
+	gint full_col_count;
+	gint i, j;
 
 	state = e_table_state_new();
 	state->sort_info = e_tree->priv->sort_info;
@@ -1342,19 +1342,19 @@ et_table_model_changed (ETableModel *model, ETree *et)
 }
 
 static void
-et_table_row_changed (ETableModel *table_model, int row, ETree *et)
+et_table_row_changed (ETableModel *table_model, gint row, ETree *et)
 {
 	et_table_model_changed (table_model, et);
 }
 
 static void
-et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETree *et)
+et_table_cell_changed (ETableModel *table_model, gint view_col, gint row, ETree *et)
 {
 	et_table_model_changed (table_model, et);
 }
 
 static void
-et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
+et_table_rows_deleted (ETableModel *table_model, gint row, gint count, ETree *et)
 {
 	ETreePath * node, * prev_node;
 
@@ -1400,7 +1400,7 @@ static gboolean
 et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
-	int row = 0;
+	gint row = 0;
 
 	if (ete)
 		g_object_ref(ete);
@@ -1494,7 +1494,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  **/
 gboolean
 e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
-		   const char *spec_str, const char *state_str)
+		   const gchar *spec_str, const gchar *state_str)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1553,7 +1553,7 @@ e_tree_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
  **/
 gboolean
 e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
-				  const char *spec_fn, const char *state_fn)
+				  const gchar *spec_fn, const gchar *state_fn)
 {
 	ETableSpecification *specification;
 	ETableState *state;
@@ -1622,7 +1622,7 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
  * The newly created #ETree or %NULL if there's an error.
  **/
 GtkWidget *
-e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *state)
+e_tree_new (ETreeModel *etm, ETableExtras *ete, const gchar *spec, const gchar *state)
 {
 	ETree *e_tree;
 
@@ -1662,7 +1662,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
  * The newly created #ETree or %NULL if there's an error.
  **/
 GtkWidget *
-e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
+e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const gchar *spec_fn, const gchar *state_fn)
 {
 	ETree *e_tree;
 
@@ -1685,7 +1685,7 @@ void
 e_tree_set_cursor (ETree *e_tree, ETreePath path)
 {
 #ifndef E_TREE_USE_TREE_SELECTION
-	int row;
+	gint row;
 #endif
 	g_return_if_fail(e_tree != NULL);
 	g_return_if_fail(E_IS_TREE(e_tree));
@@ -1712,7 +1712,7 @@ e_tree_get_cursor (ETree *e_tree)
 #ifdef E_TREE_USE_TREE_SELECTION
 	return e_tree_selection_model_get_cursor (E_TREE_SELECTION_MODEL(e_tree->priv->selection));
 #else
-	int row;
+	gint row;
 	ETreePath path;
 	g_return_val_if_fail(e_tree != NULL, NULL);
 	g_return_val_if_fail(E_IS_TREE(e_tree), NULL);
@@ -1825,7 +1825,7 @@ et_get_property (GObject *object,
 }
 
 typedef struct {
-	char     *arg;
+	gchar     *arg;
 	gboolean  setting;
 } bool_closure;
 
@@ -1926,7 +1926,7 @@ e_tree_get_next_row      (ETree *e_tree,
 	g_return_val_if_fail(E_IS_TREE(e_tree), -1);
 
 	if (e_tree->priv->sorter) {
-		int i;
+		gint i;
 		i = e_sorter_model_to_sorted(E_SORTER (e_tree->priv->sorter), model_row);
 		i++;
 		if (i < e_table_model_row_count(E_TABLE_MODEL(e_tree->priv->etta))) {
@@ -1948,7 +1948,7 @@ e_tree_get_prev_row      (ETree *e_tree,
 	g_return_val_if_fail(E_IS_TREE(e_tree), -1);
 
 	if (e_tree->priv->sorter) {
-		int i;
+		gint i;
 		i = e_sorter_model_to_sorted(E_SORTER (e_tree->priv->sorter), model_row);
 		i--;
 		if (i >= 0)
@@ -2022,7 +2022,7 @@ e_tree_root_node_set_visible (ETree *et, gboolean visible)
 }
 
 ETreePath
-e_tree_node_at_row (ETree *et, int row)
+e_tree_node_at_row (ETree *et, gint row)
 {
 	ETreePath path;
 
@@ -2031,7 +2031,7 @@ e_tree_node_at_row (ETree *et, int row)
 	return path;
 }
 
-int
+gint
 e_tree_row_of_node (ETree *et, ETreePath path)
 {
 	return e_tree_table_adapter_row_of_node (et->priv->etta, path);
@@ -2053,7 +2053,7 @@ e_tree_show_node (ETree *et, ETreePath path)
 }
 
 void
-e_tree_save_expanded_state (ETree *et, char *filename)
+e_tree_save_expanded_state (ETree *et, gchar *filename)
 {
 	g_return_if_fail (et != NULL);
 	g_return_if_fail (E_IS_TREE(et));
@@ -2062,7 +2062,7 @@ e_tree_save_expanded_state (ETree *et, char *filename)
 }
 
 void
-e_tree_load_expanded_state (ETree *et, char *filename)
+e_tree_load_expanded_state (ETree *et, gchar *filename)
 {
 	e_tree_table_adapter_load_expanded_state (et->priv->etta, filename);
 }
@@ -2090,7 +2090,7 @@ e_tree_load_expanded_state_xml (ETree *et, xmlDoc *doc)
    when using this, be sure to reset to 0 once no forcing is required
    anymore, aka the build of the tree is done */
 void
-e_tree_force_expanded_state (ETree *et, int state)
+e_tree_force_expanded_state (ETree *et, gint state)
 {
 	e_tree_table_adapter_force_expanded_state (et->priv->etta, state);
 }
@@ -2321,8 +2321,8 @@ struct _GtkDragSourceInfo
 
 void
 e_tree_drag_get_data (ETree         *tree,
-		      int             row,
-		      int             col,
+		      gint             row,
+		      gint             col,
 		      GdkDragContext *context,
 		      GdkAtom         target,
 		      guint32         time)
@@ -2348,14 +2348,14 @@ e_tree_drag_get_data (ETree         *tree,
  */
 void
 e_tree_drag_highlight (ETree *tree,
-		       int     row,
-		       int     col)
+		       gint     row,
+		       gint     col)
 {
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
 
 	if (row != -1) {
-		int x, y, width, height;
+		gint x, y, width, height;
 		if (col == -1) {
 			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
 			x = 0;
@@ -2447,7 +2447,7 @@ e_tree_drag_dest_unset (GtkWidget *widget)
 /* Source side */
 
 static gint
-et_real_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
+et_real_start_drag (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event)
 {
 	GtkDragSourceInfo *info;
 	GdkDragContext *context;
@@ -2545,8 +2545,8 @@ e_tree_drag_source_unset (ETree *tree)
 
 GdkDragContext *
 e_tree_drag_begin (ETree            *tree,
-		   int     	       row,
-		   int     	       col,
+		   gint     	       row,
+		   gint     	       col,
 		   GtkTargetList     *targets,
 		   GdkDragAction      actions,
 		   gint               button,
@@ -2582,8 +2582,8 @@ e_tree_drag_begin (ETree            *tree,
  **/
 void
 e_tree_get_cell_at (ETree *tree,
-		     int x, int y,
-		     int *row_return, int *col_return)
+		     gint x, gint y,
+		     gint *row_return, gint *col_return)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
@@ -2617,9 +2617,9 @@ e_tree_get_cell_at (ETree *tree,
  **/
 void
 e_tree_get_cell_geometry (ETree *tree,
-			  int row, int col,
-			  int *x_return, int *y_return,
-			  int *width_return, int *height_return)
+			  gint row, gint col,
+			  gint *x_return, gint *y_return,
+			  gint *width_return, gint *height_return)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
@@ -2703,7 +2703,7 @@ do_drag_motion(ETree *et,
 	       guint time)
 {
 	gboolean ret_val = FALSE;
-	int row, col;
+	gint row, col;
 	ETreePath path;
 
 	e_tree_get_cell_at (et,
@@ -2744,7 +2744,7 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETree *et = data;
-	int dx = 0, dy = 0;
+	gint dx = 0, dy = 0;
 	GtkAdjustment *v, *h;
 	double vvalue, hvalue;
 
@@ -2803,9 +2803,9 @@ static gboolean
 hover_timeout (gpointer data)
 {
 	ETree *et = data;
-	int x = et->priv->hover_x;
-	int y = et->priv->hover_y;
-	int row, col;
+	gint x = et->priv->hover_x;
+	gint y = et->priv->hover_y;
+	gint row, col;
 	ETreePath path;
 
 	e_tree_get_cell_at (et,
@@ -2827,7 +2827,7 @@ hover_timeout (gpointer data)
 }
 
 static void
-hover_on (ETree *et, int x, int y)
+hover_on (ETree *et, gint x, gint y)
 {
 	et->priv->hover_x = x;
 	et->priv->hover_y = y;
@@ -2856,7 +2856,7 @@ collapse_drag (ETree *et, ETreePath drop)
 	}
 
 	for (list = et->priv->expanded_list; list; list = list->next) {
-		char *save_id = list->data;
+		gchar *save_id = list->data;
 		ETreePath path;
 
 		path = e_tree_model_get_node_by_id (et->priv->model, save_id);
@@ -2938,7 +2938,7 @@ et_drag_motion(GtkWidget *widget,
 	       guint time,
 	       ETree *et)
 {
-	int ret_val;
+	gint ret_val;
 	guint direction = 0;
 
 	et->priv->last_drop_x = x;
@@ -2988,7 +2988,7 @@ et_drag_drop(GtkWidget *widget,
 	     ETree *et)
 {
 	gboolean ret_val = FALSE;
-	int row, col;
+	gint row, col;
 	ETreePath path;
 	e_tree_get_cell_at(et,
 			   x,
@@ -3051,7 +3051,7 @@ et_drag_data_received(GtkWidget *widget,
 		      guint time,
 		      ETree *et)
 {
-	int row, col;
+	gint row, col;
 	ETreePath path;
 	e_tree_get_cell_at(et,
 			   x,
@@ -3420,7 +3420,7 @@ tree_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *tree)
  * Creates an info message in table area, or removes old.
  **/
 void
-e_tree_set_info_message (ETree *tree, const char *info_message)
+e_tree_set_info_message (ETree *tree, const gchar *info_message)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->priv != NULL);

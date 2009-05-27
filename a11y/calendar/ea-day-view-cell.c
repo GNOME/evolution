@@ -79,7 +79,7 @@ e_day_view_cell_new (EDayView *day_view, gint row, gint column)
 	cell->column = column;
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: e_day_view_cell created %p\n", (void *)cell);
+	printf ("EvoAcc: e_day_view_cell created %p\n", (gpointer)cell);
 #endif
 
 	return cell;
@@ -89,8 +89,8 @@ e_day_view_cell_new (EDayView *day_view, gint row, gint column)
 
 static void ea_day_view_cell_class_init (EaDayViewCellClass *klass);
 
-static G_CONST_RETURN gchar* ea_day_view_cell_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_day_view_cell_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_day_view_cell_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_day_view_cell_get_description (AtkObject *accessible);
 static AtkStateSet* ea_day_view_cell_ref_state_set (AtkObject *obj);
 static AtkObject * ea_day_view_cell_get_parent (AtkObject *accessible);
 static gint ea_day_view_cell_get_index_in_parent (AtkObject *accessible);
@@ -196,7 +196,7 @@ static void ea_day_view_cell_finalize (GObject *object)
 }
 #endif
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_day_view_cell_get_name (AtkObject *accessible)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -230,7 +230,7 @@ ea_day_view_cell_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_day_view_cell_get_description (AtkObject *accessible)
 {
 	return ea_day_view_cell_get_name (accessible);

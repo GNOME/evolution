@@ -28,7 +28,7 @@
 
 
 const CORBA_char *
-e_safe_corba_string (const char *s)
+e_safe_corba_string (const gchar *s)
 {
 	if (s == NULL)
 		return (CORBA_char *) "";
@@ -37,7 +37,7 @@ e_safe_corba_string (const char *s)
 }
 
 CORBA_char *
-e_safe_corba_string_dup (const char *s)
+e_safe_corba_string_dup (const gchar *s)
 {
 	return CORBA_string_dup (e_safe_corba_string (s));
 }

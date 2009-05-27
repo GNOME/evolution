@@ -53,7 +53,7 @@ struct _EMemosClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (EMemos *memos, int n_selected);
+	void (* selection_changed) (EMemos *memos, gint n_selected);
         void (* source_added)      (EMemos *memos, ESource *source);
         void (* source_removed)    (EMemos *memos, ESource *source);
 };

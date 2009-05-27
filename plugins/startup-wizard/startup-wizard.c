@@ -101,7 +101,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 {
 	GtkWidget *page, *label, *sep, *table;
 	GSList *l;
-	int row=0;
+	gint row=0;
 
 	if (import == NULL) {
 		import = e_import_new("org.gnome.evolution.shell.importer");
@@ -123,7 +123,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	table = gtk_table_new(g_slist_length(import_importers), 2, FALSE);
 	for (l = import_importers; l; l = l->next) {
 		EImportImporter *eii = l->data;
-		char *str;
+		gchar *str;
 		/* *label already declared */
 		GtkWidget *w, *label;
 
@@ -150,21 +150,21 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 }
 
 static void
-import_status(EImport *import, const char *what, int pc, void *d)
+import_status(EImport *import, const gchar *what, gint pc, gpointer d)
 {
 	gtk_progress_bar_set_fraction((GtkProgressBar *)import_progress, (gfloat)(pc/100.0));
 	gtk_progress_bar_set_text((GtkProgressBar *)import_progress, what);
 }
 
 static void
-import_dialog_response(GtkDialog *d, guint button, void *data)
+import_dialog_response(GtkDialog *d, guint button, gpointer data)
 {
 	if (button == GTK_RESPONSE_CANCEL)
 		e_import_cancel(import, (EImportTarget *)import_target, import_importer);
 }
 
 static void
-import_done(EImport *ei, void *d)
+import_done(EImport *ei, gpointer d)
 {
 	if (import_iterator && (import_iterator = import_iterator->next)) {
 		import_status(ei, "", 0, NULL);
@@ -188,7 +188,7 @@ import_done(EImport *ei, void *d)
 void
 startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
-	char *location;
+	gchar *location;
 
 	/* Use System Timezone by default */
 	calendar_config_set_use_system_timezone (TRUE);

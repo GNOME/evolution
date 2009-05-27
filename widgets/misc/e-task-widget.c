@@ -33,7 +33,7 @@
 #define SPACING 2
 
 struct _ETaskWidgetPrivate {
-	char *component_id;
+	gchar *component_id;
 
 	GtkWidget *label;
 	GtkWidget *box;
@@ -115,8 +115,8 @@ prepare_popup (ETaskWidget *widget, GdkEventButton *event)
 
 void
 e_task_widget_construct (ETaskWidget *task_widget,
-			 const char *component_id,
-			 const char *information,
+			 const gchar *component_id,
+			 const gchar *information,
 			 void (*cancel_func) (gpointer data),
 			 gpointer data)
 {
@@ -180,8 +180,8 @@ e_task_widget_construct (ETaskWidget *task_widget,
 }
 
 GtkWidget *
-e_task_widget_new_with_cancel (const char *component_id,
-                               const char *information,
+e_task_widget_new_with_cancel (const gchar *component_id,
+                               const gchar *information,
                                void (*cancel_func) (gpointer data),
                                gpointer data)
 {
@@ -196,8 +196,8 @@ e_task_widget_new_with_cancel (const char *component_id,
 }
 
 GtkWidget *
-e_task_widget_new (const char *component_id,
-		   const char *information)
+e_task_widget_new (const gchar *component_id,
+		   const gchar *information)
 {
 	ETaskWidget *task_widget;
 
@@ -211,7 +211,7 @@ e_task_widget_new (const char *component_id,
 
 GtkWidget *
 e_task_widget_update_image (ETaskWidget *task_widget,
-			    const char *stock, const char *text)
+			    const gchar *stock, const gchar *text)
 {
 	GtkWidget *image, *tool;
         GdkPixbuf *pixbuf;
@@ -235,11 +235,11 @@ e_task_widget_update_image (ETaskWidget *task_widget,
 
 void
 e_task_widget_update (ETaskWidget *task_widget,
-		      const char *information,
+		      const gchar *information,
 		      double completion)
 {
 	ETaskWidgetPrivate *priv;
-	char *text;
+	gchar *text;
 
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
@@ -251,7 +251,7 @@ e_task_widget_update (ETaskWidget *task_widget,
 		/* For Translator only: %s is status message that is displayed (eg "moving items", "updating objects") */
 		text = g_strdup_printf (_("%s (...)"), information);
 	} else {
-		int percent_complete;
+		gint percent_complete;
 		percent_complete = (int) (completion * 100.0 + .5);
 		/* For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 		   %d is a number between 0 and 100, describing the percentage of operation complete */
@@ -280,7 +280,7 @@ e_task_wiget_unalert (ETaskWidget *task_widget)
 }
 
 
-const char *
+const gchar *
 e_task_widget_get_component_id  (ETaskWidget *task_widget)
 {
 	g_return_val_if_fail (task_widget != NULL, NULL);

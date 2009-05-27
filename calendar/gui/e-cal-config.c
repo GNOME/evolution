@@ -137,7 +137,7 @@ e_cal_config_get_type (void)
 }
 
 ECalConfig *
-e_cal_config_new (int type, const char *menuid)
+e_cal_config_new (gint type, const gchar *menuid)
 {
 	ECalConfig *ecp = g_object_new (e_cal_config_get_type(), NULL);
 	e_config_construct (&ecp->config, type, menuid);
@@ -180,7 +180,7 @@ static const EConfigHookTargetMap ecph_targets[] = {
 static void
 ecph_class_init (EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	klass->id = "org.gnome.evolution.calendar.config:1.0";
 

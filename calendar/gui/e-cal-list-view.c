@@ -243,9 +243,9 @@ setup_e_table (ECalListView *cal_list_view)
 	g_object_unref (cell);
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) _("Public"));
-	strings = g_list_append (strings, (char*) _("Private"));
-	strings = g_list_append (strings, (char*) _("Confidential"));
+	strings = g_list_append (strings, (gchar *) _("Public"));
+	strings = g_list_append (strings, (gchar *) _("Private"));
+	strings = g_list_append (strings, (gchar *) _("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 

@@ -37,10 +37,10 @@ e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy)
 }
 
 static double
-compute_offset(int top, int bottom, int page_top, int page_bottom)
+compute_offset(gint top, gint bottom, gint page_top, gint page_bottom)
 {
-	int size = bottom - top;
-	int offset = 0;
+	gint size = bottom - top;
+	gint offset = 0;
 
 	if (top <= page_top && bottom >= page_bottom)
 		return 0;
@@ -68,7 +68,7 @@ static void
 e_canvas_show_area (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
 {
 	GtkAdjustment *h, *v;
-	int dx = 0, dy = 0;
+	gint dx = 0, dy = 0;
 
 	g_return_if_fail (canvas != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
@@ -101,7 +101,7 @@ static gboolean
 e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
 {
 	GtkAdjustment *h, *v;
-	int dx = 0, dy = 0;
+	gint dx = 0, dy = 0;
 
 	g_return_val_if_fail (canvas != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);

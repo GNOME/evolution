@@ -26,8 +26,8 @@
 
 #include "comp-editor.h"
 
-char *comp_editor_select_file (CompEditor *editor,
-				  const char *title,
+gchar *comp_editor_select_file (CompEditor *editor,
+				  const gchar *title,
 				  gboolean save_mode);
 
 GPtrArray *comp_editor_select_file_attachments (CompEditor *editor,

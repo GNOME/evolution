@@ -46,7 +46,7 @@ typedef struct _EvolutionImporterListenerClass   EvolutionImporterListenerClass;
 typedef void (* EvolutionImporterListenerCallback) (EvolutionImporterListener *listener,
 						    EvolutionImporterResult result,
 						    gboolean more_items,
-						    void *closure);
+						    gpointer closure);
 struct _EvolutionImporterListener {
 	BonoboObject parent;
 
@@ -62,7 +62,7 @@ struct _EvolutionImporterListenerClass {
 GType evolution_importer_listener_get_type (void);
 
 EvolutionImporterListener *evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
-							    void *closure);
+							    gpointer closure);
 
 #ifdef __cplusplus
 }

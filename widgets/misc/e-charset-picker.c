@@ -52,7 +52,7 @@ typedef enum {
 	E_CHARSET_WESTERN_EUROPEAN_NEW
 } ECharsetClass;
 
-static const char *classnames[] = {
+static const gchar *classnames[] = {
 	N_("Unknown"),
 	N_("Arabic"),
 	N_("Baltic"),
@@ -110,7 +110,7 @@ static ECharset charsets[] = {
 	{ "ISO-8859-1", E_CHARSET_WESTERN_EUROPEAN, NULL },
 	{ "ISO-8859-15", E_CHARSET_WESTERN_EUROPEAN_NEW, NULL },
 };
-static const int num_charsets = sizeof (charsets) / sizeof (charsets[0]);
+static const gint num_charsets = sizeof (charsets) / sizeof (charsets[0]);
 
 static void
 select_item (GtkMenuShell *menu_shell, GtkWidget *item)
@@ -129,7 +129,7 @@ static GtkWidget *
 add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 {
 	GtkWidget *item;
-	char *label;
+	gchar *label;
 
 	if (charset->subclass) {
 		label = g_strdup_printf ("%s, %s (%s)",
@@ -157,7 +157,7 @@ add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 }
 
 static gboolean
-add_other_charset (GtkWidget *menu, GtkWidget *other, const char *new_charset)
+add_other_charset (GtkWidget *menu, GtkWidget *other, const gchar *new_charset)
 {
 	ECharset charset = { NULL, E_CHARSET_UNKNOWN, NULL };
 	GtkWidget *item;
@@ -203,7 +203,7 @@ static void
 activate_other (GtkWidget *item, gpointer menu)
 {
 	GtkWidget *window, *entry, *label, *vbox, *hbox;
-	char *old_charset, *new_charset;
+	gchar *old_charset, *new_charset;
 	GtkDialog *dialog;
 
 	window = gtk_widget_get_toplevel (menu);
@@ -257,7 +257,7 @@ activate_other (GtkWidget *item, gpointer menu)
 
 	g_object_ref (dialog);
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
-		new_charset = (char *)gtk_entry_get_text (GTK_ENTRY (entry));
+		new_charset = (gchar *)gtk_entry_get_text (GTK_ENTRY (entry));
 
 	       	if (*new_charset) {
 			if (add_other_charset (menu, item, new_charset)) {
@@ -292,11 +292,11 @@ activate_other (GtkWidget *item, gpointer menu)
  * attached.
  */
 GtkWidget *
-e_charset_picker_new (const char *default_charset)
+e_charset_picker_new (const gchar *default_charset)
 {
 	GtkWidget *menu, *item;
-	int def, i;
-	const char *locale_charset;
+	gint def, i;
+	const gchar *locale_charset;
 
 	g_get_charset (&locale_charset);
 	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
@@ -350,11 +350,11 @@ e_charset_picker_new (const char *default_charset)
  * Return value: the currently-selected character set in @picker,
  * which must be freed with g_free().
  **/
-char *
+gchar *
 e_charset_picker_get_charset (GtkWidget *menu)
 {
 	GtkWidget *item;
-	char *charset;
+	gchar *charset;
 
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
@@ -378,13 +378,13 @@ e_charset_picker_get_charset (GtkWidget *menu)
  * Return value: the selected character set (which must be freed with
  * g_free()), or %NULL.
  **/
-char *
-e_charset_picker_dialog (const char *title, const char *prompt,
-			 const char *default_charset, GtkWindow *parent)
+gchar *
+e_charset_picker_dialog (const gchar *title, const gchar *prompt,
+			 const gchar *default_charset, GtkWindow *parent)
 {
 	GtkDialog *dialog;
 	GtkWidget *label, *omenu, *picker, *vbox, *hbox;
-	char *charset = NULL;
+	gchar *charset = NULL;
 
 	dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (title,
 							  parent,
@@ -576,14 +576,14 @@ e_charset_add_radio_actions (GtkActionGroup *action_group,
  * sets.
  **/
 void
-e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
-				     const char *default_charset,
+e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const gchar *path,
+				     const gchar *default_charset,
 				     BonoboUIListenerFn cb, gpointer user_data)
 {
-	char *encoded_label, *label;
-	const char *locale_charset;
+	gchar *encoded_label, *label;
+	const gchar *locale_charset;
 	GString *menuitems;
-	int def, i;
+	gint def, i;
 
 	g_get_charset (&locale_charset);
 	if (!g_ascii_strcasecmp (locale_charset, "US-ASCII"))
@@ -610,7 +610,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 
 		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
 		if ((u = strchr (charsets[i].name, '_'))) {
-			int extra = 1;
+			gint extra = 1;
 			const gchar *s;
 			gchar *d;
 
@@ -663,19 +663,19 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	}
 
 	if (def == num_charsets) {
-		char *command;
-		char *charset_name, *u;
+		gchar *command;
+		gchar *charset_name, *u;
 
 		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
 		if ((u = strchr (default_charset, '_'))) {
-			int extra = 1;
-			char *s, *d;
+			gint extra = 1;
+			gchar *s, *d;
 
 			while ((u = strchr (u + 1, '_')))
 				extra++;
 
 			d = charset_name = g_alloca (strlen (default_charset) + extra + 1);
-			s = (char *) default_charset;
+			s = (gchar *) default_charset;
 			while (*s != '\0') {
 				if (*s == '_')
 					*d++ = '_';
@@ -683,7 +683,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 			}
 			*d = '\0';
 		} else {
-			charset_name = (char *) default_charset;
+			charset_name = (gchar *) default_charset;
 		}
 
 		label = g_strdup (charset_name);

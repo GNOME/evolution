@@ -146,7 +146,7 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 static void
 set_week_start (EDayView *day_view)
 {
-	int week_start_day;
+	gint week_start_day;
 
 	week_start_day = calendar_config_get_week_start_day ();
 
@@ -215,7 +215,7 @@ working_days_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 static void
 set_day_start_hour (EDayView *day_view)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
 
@@ -238,7 +238,7 @@ day_start_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 static void
 set_day_start_minute (EDayView *day_view)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
 
@@ -261,7 +261,7 @@ day_start_minute_changed_cb (GConfClient *client, guint id, GConfEntry *entry, g
 static void
 set_day_end_hour (EDayView *day_view)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
 
@@ -285,7 +285,7 @@ day_end_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 static void
 set_day_end_minute (EDayView *day_view)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 
 	e_day_view_get_working_day (day_view, &start_hour, &start_minute, &end_hour, &end_minute);
 
@@ -308,7 +308,7 @@ day_end_minute_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 static void
 set_time_divisions (EDayView *day_view)
 {
-	int time_divisions;
+	gint time_divisions;
 
 	time_divisions = calendar_config_get_time_divisions ();
 
@@ -330,7 +330,7 @@ static void
 set_marcus_bains (EDayView *day_view)
 {
 	gboolean show_marcus_bains_line;
-	const char *dayview_color, *timebar_color;
+	const gchar *dayview_color, *timebar_color;
 
 	calendar_config_get_marcus_bains (&show_marcus_bains_line, &dayview_color, &timebar_color);
 

@@ -37,8 +37,8 @@
 #include <gconf/gconf-client.h>
 #include "mail/em-config.h"
 
-void org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t);
-void org_gnome_prefer_plain_text_html(void *ep, EMFormatHookTarget *t);
+void org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t);
+void org_gnome_prefer_plain_text_html(gpointer ep, EMFormatHookTarget *t);
 GtkWidget *org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 enum {
@@ -48,10 +48,10 @@ enum {
 };
 
 static GConfClient *epp_gconf = NULL;
-static int epp_mode = -1;
+static gint epp_mode = -1;
 
 void
-org_gnome_prefer_plain_text_html(void *ep, EMFormatHookTarget *t)
+org_gnome_prefer_plain_text_html(gpointer ep, EMFormatHookTarget *t)
 {
 	/* In text-only mode, all html output is suppressed */
 	if (epp_mode != EPP_TEXT)
@@ -63,7 +63,7 @@ org_gnome_prefer_plain_text_html(void *ep, EMFormatHookTarget *t)
 static void
 export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream, CamelMimePart *except)
 {
-	int i, nparts, partidlen;
+	gint i, nparts, partidlen;
 	CamelMimePart *part;
 
 	if (!mp || !CAMEL_IS_MULTIPART (mp))
@@ -88,7 +88,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 					camel_mime_part_set_disposition (part, "attachment");
 
 					if (!camel_mime_part_get_filename (part)) {
-						char *str = g_strdup_printf ("%s.html", _("attachment"));
+						gchar *str = g_strdup_printf ("%s.html", _("attachment"));
 						camel_mime_part_set_filename (part, str);
 						g_free (str);
 					}
@@ -104,11 +104,11 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 }
 
 void
-org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
+org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)t->part);
 	CamelMimePart *part, *display_part = NULL;
-	int i, nparts, partidlen, displayid = 0;
+	gint i, nparts, partidlen, displayid = 0;
 
 	/* FIXME: this part-id stuff is poking private data, needs api */
 	partidlen = t->format->part_id->len;
@@ -183,8 +183,8 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 }
 
 static struct {
-	const char *label;
-	const char *key;
+	const gchar *label;
+	const gchar *key;
 } epp_options[] = {
 	{ N_("Show HTML if present"), "normal" },
 	{ N_("Prefer PLAIN"), "prefer_plain" },
@@ -192,7 +192,7 @@ static struct {
 };
 
 static void
-epp_mode_changed(GtkComboBox *dropdown, void *dummy)
+epp_mode_changed(GtkComboBox *dropdown, gpointer dummy)
 {
 	epp_mode = gtk_combo_box_get_active(dropdown);
 	if (epp_mode > 2)
@@ -209,7 +209,7 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	GtkCellRenderer *cell;
 	GtkListStore *store;
 	GtkWidget *w;
-	int i;
+	gint i;
 	GtkTreeIter iter;
 
 	if (data->old)
@@ -243,13 +243,13 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	return (GtkWidget *)dropdown;
 }
 
-int e_plugin_lib_enable(EPluginLib *ep, int enable);
+gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
 
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable(EPluginLib *ep, gint enable)
 {
-	char *key;
-	int i;
+	gchar *key;
+	gint i;
 
 	if (epp_gconf || epp_mode != -1)
 		return 0;

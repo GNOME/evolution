@@ -32,8 +32,8 @@ e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
-	char *uri_text;
-	const char *relative_uri;
+	gchar *uri_text;
+	const gchar *relative_uri;
 
         uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "file", 4)) {

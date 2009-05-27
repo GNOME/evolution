@@ -81,7 +81,7 @@ typedef struct {
 
 	gboolean corrupt;
 
-	char *gtkrc;
+	gchar *gtkrc;
 
 	EAccountList *accounts;
 	ESignatureList *signatures;
@@ -105,7 +105,7 @@ typedef struct {
 	gboolean scripts_disabled;
 } MailConfig;
 
-extern int camel_header_param_encode_filenames_in_rfc_2047;
+extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
@@ -125,7 +125,7 @@ mail_config_save_signatures (void)
 static void
 config_clear_mime_types (void)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < config->mime_types->len; i++)
 		g_free (config->mime_types->pdata[i]);
@@ -278,13 +278,13 @@ gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		name = g_ptr_array_new ();
 		value = g_ptr_array_new ();
 		while (node && node->data) {
-			char **tok = g_strsplit (node->data, "=", 2);
+			gchar **tok = g_strsplit (node->data, "=", 2);
 			g_ptr_array_add (name, g_strdup(tok[0]));
 			g_ptr_array_add (value, g_strdup(tok[1]));
 			node = node->next;
 			g_strfreev (tok);
 		}
-		mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+		mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
 		g_ptr_array_free (name, TRUE);
 		g_ptr_array_free (value, TRUE);
 	}
@@ -302,13 +302,13 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 	name = g_ptr_array_new ();
 	value = g_ptr_array_new ();
 	while (node && node->data) {
-		char **tok = g_strsplit (node->data, "=", 2);
+		gchar **tok = g_strsplit (node->data, "=", 2);
 		g_ptr_array_add (name, g_strdup(tok[0]));
 		g_ptr_array_add (value, g_strdup(tok[1]));
 		node = node->next;
 		g_strfreev (tok);
 	}
-	mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+	mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
 }
 
 static void
@@ -594,7 +594,7 @@ mail_config_write_on_exit (void)
            session cache */
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
-		char *passwd;
+		gchar *passwd;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -667,7 +667,7 @@ mail_config_is_corrupt (void)
 	return config->corrupt;
 }
 
-int
+gint
 mail_config_get_address_count (void)
 {
 	if (!config->address_compress)
@@ -694,7 +694,7 @@ mail_config_get_error_level  (void)
 	return config->error_level;
 }
 
-int
+gint
 mail_config_get_message_limit (void)
 {
 	if (!config->mlimit)
@@ -746,10 +746,10 @@ mail_config_get_labels (void)
 	return config->labels;
 }
 
-const char **
+const gchar **
 mail_config_get_allowable_mime_types (void)
 {
-	return (const char **) config->mime_types->pdata;
+	return (const gchar **) config->mime_types->pdata;
 }
 
 gboolean
@@ -788,19 +788,19 @@ mail_config_get_default_account (void)
 }
 
 EAccount *
-mail_config_get_account_by_name (const char *account_name)
+mail_config_get_account_by_name (const gchar *account_name)
 {
 	return (EAccount *)e_account_list_find(config->accounts, E_ACCOUNT_FIND_NAME, account_name);
 }
 
 EAccount *
-mail_config_get_account_by_uid (const char *uid)
+mail_config_get_account_by_uid (const gchar *uid)
 {
 	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
 }
 
 static EAccount *
-mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount *account))
+mc_get_account_by (const gchar *given_url, const gchar * (get_url_string)(EAccount *account))
 {
 	EAccount *account = NULL;
 	EIterator *iter;
@@ -819,7 +819,7 @@ mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
-		const char *account_url_string;
+		const gchar *account_url_string;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -850,7 +850,7 @@ mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount
 	return account;
 }
 
-static const char *
+static const gchar *
 get_source_url_string (EAccount *account)
 {
 	if (account && account->source && account->source->url && *account->source->url)
@@ -858,7 +858,7 @@ get_source_url_string (EAccount *account)
 	return NULL;
 }
 
-static const char *
+static const gchar *
 get_transport_url_string (EAccount *account)
 {
 	if (account && account->transport && account->transport->url && *account->transport->url)
@@ -867,18 +867,18 @@ get_transport_url_string (EAccount *account)
 }
 
 EAccount *
-mail_config_get_account_by_source_url (const char *source_url)
+mail_config_get_account_by_source_url (const gchar *source_url)
 {
 	return mc_get_account_by (source_url, get_source_url_string);
 }
 
 EAccount *
-mail_config_get_account_by_transport_url (const char *transport_url)
+mail_config_get_account_by_transport_url (const gchar *transport_url)
 {
 	return mc_get_account_by (transport_url, get_transport_url_string);
 }
 
-int
+gint
 mail_config_has_proxies (EAccount *account)
 {
 	return e_account_list_account_has_proxies (config->accounts, account);
@@ -966,12 +966,12 @@ mail_config_get_default_transport (void)
 	return NULL;
 }
 
-static char *
-uri_to_evname (const char *uri, const char *prefix)
+static gchar *
+uri_to_evname (const gchar *uri, const gchar *prefix)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
-	char *safe;
-	char *tmp;
+	const gchar *base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	gchar *safe;
+	gchar *tmp;
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
@@ -985,12 +985,12 @@ uri_to_evname (const char *uri, const char *prefix)
 }
 
 void
-mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
+mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new)
 {
 	EAccount *account;
 	EIterator *iter;
-	int i, work = 0;
-	char *oldname, *newname;
+	gint i, work = 0;
+	gchar *oldname, *newname;
 	const gchar *cachenames[] = {
 		"config/hidestate-",
 		"config/et-expanded-",
@@ -1038,14 +1038,14 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 }
 
 void
-mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
+mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 {
 	EAccount *account;
 	EIterator *iter;
-	int work = 0;
+	gint work = 0;
 	/* assumes these can't be removed ... */
-	const char *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
-	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	const gchar *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	const gchar *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1077,10 +1077,10 @@ mail_config_service_set_save_passwd (EAccountService *service, gboolean save_pas
 	service->save_passwd = save_passwd;
 }
 
-char *
+gchar *
 mail_config_folder_to_safe_url (CamelFolder *folder)
 {
-	char *url;
+	gchar *url;
 
 	url = mail_tools_folder_to_url (folder);
 	e_filename_make_safe (url);
@@ -1088,11 +1088,11 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 	return url;
 }
 
-char *
-mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
+gchar *
+mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
-	char *url, *basename, *filename;
-	const char *evolution_dir;
+	gchar *url, *basename, *filename;
+	const gchar *evolution_dir;
 
 	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
 
@@ -1111,13 +1111,13 @@ mail_config_get_signatures (void)
 	return config->signatures;
 }
 
-static char *
+static gchar *
 get_new_signature_filename (void)
 {
-	const char *base_directory;
-	char *filename, *id;
+	const gchar *base_directory;
+	gchar *filename, *id;
 	struct stat st;
-	int i;
+	gint i;
 
 	base_directory = e_get_user_data_dir ();
 	filename = g_build_filename (base_directory, "signatures", NULL);
@@ -1137,7 +1137,7 @@ get_new_signature_filename (void)
 	for (i = 0; i < (INT_MAX - 1); i++) {
 		sprintf (id, "%d", i);
 		if (g_lstat (filename, &st) == -1 && errno == ENOENT) {
-			int fd;
+			gint fd;
 
 			fd = g_creat (filename, 0600);
 			if (fd >= 0) {
@@ -1154,7 +1154,7 @@ get_new_signature_filename (void)
 
 
 ESignature *
-mail_config_signature_new (const char *filename, gboolean script, gboolean html)
+mail_config_signature_new (const gchar *filename, gboolean script, gboolean html)
 {
 	ESignature *sig;
 
@@ -1172,13 +1172,13 @@ mail_config_signature_new (const char *filename, gboolean script, gboolean html)
 }
 
 ESignature *
-mail_config_get_signature_by_uid (const char *uid)
+mail_config_get_signature_by_uid (const gchar *uid)
 {
 	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_UID, uid);
 }
 
 ESignature *
-mail_config_get_signature_by_name (const char *name)
+mail_config_get_signature_by_name (const gchar *name)
 {
 	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_NAME, name);
 }
@@ -1240,12 +1240,12 @@ mail_config_scripts_disabled (void)
 	return config->scripts_disabled;
 }
 
-char *
-mail_config_signature_run_script (const char *script)
+gchar *
+mail_config_signature_run_script (const gchar *script)
 {
 #ifndef G_OS_WIN32
-	int result, status;
-	int in_fds[2];
+	gint result, status;
+	gint in_fds[2];
 	pid_t pid;
 
 	if (mail_config_scripts_disabled ())
@@ -1258,7 +1258,7 @@ mail_config_signature_run_script (const char *script)
 
 	if (!(pid = fork ())) {
 		/* child process */
-		int maxfd, i;
+		gint maxfd, i;
 
 		close (in_fds [0]);
 		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
@@ -1287,8 +1287,8 @@ mail_config_signature_run_script (const char *script)
 		CamelMimeFilter *charenc;
 		CamelStream *stream;
 		GByteArray *buffer;
-		char *charset;
-		char *content;
+		gchar *charset;
+		gchar *content;
 
 		/* parent process */
 		close (in_fds[1]);
@@ -1306,7 +1306,7 @@ mail_config_signature_run_script (const char *script)
 		   are known to not ever read the manual... we try to do our best if the
                    content isn't valid UTF-8 by assuming that the content is in the user's
 		   preferred charset. */
-		if (!g_utf8_validate ((char *)buffer->data, buffer->len, NULL)) {
+		if (!g_utf8_validate ((gchar *)buffer->data, buffer->len, NULL)) {
 			stream = (CamelStream *) memstream;
 			memstream = (CamelStreamMem *) camel_stream_mem_new ();
 			camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
@@ -1332,8 +1332,8 @@ mail_config_signature_run_script (const char *script)
 
 		camel_object_unref (memstream);
 
-		g_byte_array_append (buffer, (const unsigned char *)"", 1);
-		content = (char *)buffer->data;
+		g_byte_array_append (buffer, (const guchar *)"", 1);
+		content = (gchar *)buffer->data;
 		g_byte_array_free (buffer, FALSE);
 
 		/* wait for the script process to terminate */

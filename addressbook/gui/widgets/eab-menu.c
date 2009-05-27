@@ -33,7 +33,7 @@
 
 #include "eab-menu.h"
 
-static void eabm_standard_menu_factory(EMenu *emp, void *data);
+static void eabm_standard_menu_factory(EMenu *emp, gpointer data);
 
 static GObjectClass *eabm_parent;
 
@@ -55,7 +55,7 @@ eabm_target_free(EMenu *ep, EMenuTarget *t)
 	switch (t->type) {
 	case EAB_MENU_TARGET_SELECT: {
 		EABMenuTargetSelect *s = (EABMenuTargetSelect *)t;
-		int i;
+		gint i;
 
 		for (i=0;i<s->cards->len;i++)
 			g_object_unref(s->cards->pdata[i]);
@@ -98,7 +98,7 @@ eab_menu_get_type(void)
 	return type;
 }
 
-EABMenu *eab_menu_new(const char *menuid)
+EABMenu *eab_menu_new(const gchar *menuid)
 {
 	EABMenu *emp = g_object_new(eab_menu_get_type(), NULL);
 
@@ -119,11 +119,11 @@ EABMenu *eab_menu_new(const char *menuid)
  * Return value:
  **/
 EABMenuTargetSelect *
-eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, int readonly, GPtrArray *cards)
+eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, gint readonly, GPtrArray *cards)
 {
 	EABMenuTargetSelect *t = e_menu_target_new(&eabp->menu, EAB_MENU_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
-	int has_email = FALSE, i;
+	gint has_email = FALSE, i;
 
 	/* FIXME: duplicated in eab-popup.c */
 
@@ -166,7 +166,7 @@ eab_menu_target_new_select(EABMenu *eabp, struct _EBook *book, int readonly, GPt
 }
 
 static void
-eabm_standard_menu_factory(EMenu *emp, void *data)
+eabm_standard_menu_factory(EMenu *emp, gpointer data)
 {
 	/* noop */
 }
@@ -199,7 +199,7 @@ eabm_standard_menu_factory(EMenu *emp, void *data)
 
 */
 
-static void *eabmph_parent_class;
+static gpointer eabmph_parent_class;
 #define eabmph ((EABMenuHook *)eph)
 
 static const EMenuHookTargetMask eabmph_select_masks[] = {
@@ -227,7 +227,7 @@ eabmph_finalise(GObject *o)
 static void
 eabmph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = eabmph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.addressbook.bonobomenu:1.0";

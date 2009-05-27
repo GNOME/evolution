@@ -127,7 +127,7 @@ ecb_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
  * GnomeCanvasItem::update method
  */
 static void
-ecb_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+ecb_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
 	ArtPoint o1, o2;
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
@@ -158,7 +158,7 @@ ecb_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 
 /* Sets the stipple pattern for the text */
 static void
-set_stipple (ECanvasBackground *ecb, GdkBitmap *stipple, int use_value)
+set_stipple (ECanvasBackground *ecb, GdkBitmap *stipple, gint use_value)
 {
 	if (use_value) {
 		if (ecb->priv->stipple)
@@ -365,10 +365,10 @@ ecb_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-ecb_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+ecb_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-	int x1, x2, y1, y2;
+	gint x1, x2, y1, y2;
 	double i2c [6];
 	ArtPoint upper_left, lower_right, ecb_base_point;
 
@@ -402,7 +402,7 @@ ecb_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 }
 
 static double
-ecb_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+ecb_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 	   GnomeCanvasItem **actual_item)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);

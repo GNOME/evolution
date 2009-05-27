@@ -65,13 +65,13 @@ struct _FilterRule {
 	GObject parent_object;
 	struct _FilterRulePrivate *priv;
 
-	char *name;
-	char *source;
+	gchar *name;
+	gchar *source;
 
 	enum _filter_grouping_t grouping;
 	enum _filter_threading_t threading;
 
-	unsigned int system:1;	/* this is a system rule, cannot be edited/deleted */
+	guint system:1;	/* this is a system rule, cannot be edited/deleted */
 	GList *parts;
 
 	gboolean enabled;
@@ -81,11 +81,11 @@ struct _FilterRuleClass {
 	GObjectClass parent_class;
 
 	/* virtual methods */
-	int (*validate) (FilterRule *);
-	int (*eq) (FilterRule *fr, FilterRule *cm);
+	gint (*validate) (FilterRule *);
+	gint (*eq) (FilterRule *fr, FilterRule *cm);
 
 	xmlNodePtr (*xml_encode) (FilterRule *);
-	int (*xml_decode) (FilterRule *, xmlNodePtr, struct _RuleContext *);
+	gint (*xml_decode) (FilterRule *, xmlNodePtr, struct _RuleContext *);
 
 	void (*build_code) (FilterRule *, GString *out);
 
@@ -104,14 +104,14 @@ FilterRule *filter_rule_new          (void);
 FilterRule *filter_rule_clone        (FilterRule *base);
 
 /* methods */
-void        filter_rule_set_name     (FilterRule *fr, const char *name);
-void        filter_rule_set_source   (FilterRule *fr, const char *source);
+void        filter_rule_set_name     (FilterRule *fr, const gchar *name);
+void        filter_rule_set_source   (FilterRule *fr, const gchar *source);
 
-int         filter_rule_validate     (FilterRule *fr);
-int         filter_rule_eq           (FilterRule *fr, FilterRule *cm);
+gint         filter_rule_validate     (FilterRule *fr);
+gint         filter_rule_eq           (FilterRule *fr, FilterRule *cm);
 
 xmlNodePtr  filter_rule_xml_encode   (FilterRule *fr);
-int         filter_rule_xml_decode   (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);
+gint         filter_rule_xml_decode   (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);
 
 void        filter_rule_copy         (FilterRule *dest, FilterRule *src);
 
@@ -129,8 +129,8 @@ void  filter_rule_build_action(FilterRule *fr, GString *out);
 void        filter_rule_emit_changed (FilterRule *fr);
 
 /* static functions */
-FilterRule *filter_rule_next_list    (GList *l, FilterRule *last, const char *source);
-FilterRule *filter_rule_find_list    (GList *l, const char *name, const char *source);
+FilterRule *filter_rule_next_list    (GList *l, FilterRule *last, const gchar *source);
+FilterRule *filter_rule_find_list    (GList *l, const gchar *name, const gchar *source);
 
 
 #endif /* ! _FILTER_RULE_H */

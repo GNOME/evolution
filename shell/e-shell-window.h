@@ -58,22 +58,22 @@ struct _EShellWindowClass {
 GType  e_shell_window_get_type  (void);
 
 GtkWidget *e_shell_window_new  (EShell     *shell,
-				const char *component_id);
+				const gchar *component_id);
 
 void        e_shell_window_switch_to_component        (EShellWindow *shell,
-						       const char   *component_id);
-const char *e_shell_window_peek_current_component_id  (EShellWindow *shell);
+						       const gchar   *component_id);
+const gchar *e_shell_window_peek_current_component_id  (EShellWindow *shell);
 
 EShell            *e_shell_window_peek_shell                (EShellWindow *window);
 BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *window);
 ESidebar          *e_shell_window_peek_sidebar              (EShellWindow *window);
 GtkWidget         *e_shell_window_peek_statusbar            (EShellWindow *window);
 
-void e_shell_window_set_title(EShellWindow *window, const char *component_id, const char *title);
+void e_shell_window_set_title(EShellWindow *window, const gchar *component_id, const gchar *title);
 
 void  e_shell_window_save_defaults  (EShellWindow *window);
 void  e_shell_window_show_settings  (EShellWindow *window);
 
-void e_shell_window_change_component_button_icon (EShellWindow *window, const char *component_id, const char *icon_name);
+void e_shell_window_change_component_button_icon (EShellWindow *window, const gchar *component_id, const gchar *icon_name);
 
 #endif /* _E_SHELL_WINDOW_H_ */

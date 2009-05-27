@@ -87,20 +87,20 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD_LIST: {
-		char *value;
+		gchar *value;
 
 		value = eab_contact_list_to_string (view->drag_list);
 
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					(unsigned char *)value, strlen (value));
+					(guchar *)value, strlen (value));
 		g_free (value);
 		break;
 	}
 	case DND_TARGET_TYPE_SOURCE_VCARD_LIST: {
 		EBook *book;
-		char *value;
+		gchar *value;
 
 		g_object_get (view->adapter, "book", &book, NULL);
 		value = eab_book_and_contact_list_to_string (book, view->drag_list);
@@ -108,7 +108,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
 					8,
-					(unsigned char *)value, strlen (value));
+					(guchar *)value, strlen (value));
 		g_free (value);
 		break;
 	}
@@ -155,7 +155,7 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 static void
 set_empty_message (EMinicardView *view)
 {
-	char *empty_message;
+	gchar *empty_message;
 	gboolean editable = FALSE, perform_initial_query = FALSE, searching = FALSE;
 	EBook *book;
 
@@ -417,7 +417,7 @@ static gint
 e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicardView *view;
-	int return_val = FALSE;
+	gint return_val = FALSE;
 
 	view = E_MINICARD_VIEW (reflow);
 	if (parent_class->selection_event) {
@@ -427,7 +427,7 @@ e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEven
 	switch (event->type) {
 	case GDK_FOCUS_CHANGE:
 		if (event->focus_change.in) {
-			int i;
+			gint i;
 			for (i = 0; i < reflow->count; i++) {
 				if (reflow->items[i] == item) {
 					e_selection_model_maybe_do_something(reflow->selection, i, 0, 0);
@@ -456,7 +456,7 @@ typedef struct {
 } ViewCbClosure;
 
 static void
-do_remove (int i, gpointer user_data)
+do_remove (gint i, gpointer user_data)
 {
 	EBook *book;
 	EContact *contact;
@@ -478,7 +478,7 @@ do_remove (int i, gpointer user_data)
 
 #if 0
 static int
-compare_to_utf_str (EMinicard *card, const char *utf_str)
+compare_to_utf_str (EMinicard *card, const gchar *utf_str)
 {
 	g_return_val_if_fail(card != NULL, 0);
 	g_return_val_if_fail(E_IS_MINICARD(card), 0);
@@ -488,7 +488,7 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 	}
 
 	if (card->card) {
-		char *file_as;
+		gchar *file_as;
 		g_object_get(card->card,
 			     "file_as", &file_as,
 			     NULL);
@@ -621,7 +621,7 @@ e_minicard_view_jump_to_letter (EMinicardView *view,
                                 gunichar letter)
 {
 #if 0
-	char uft_str[6 + 1];
+	gchar uft_str[6 + 1];
 
 	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
 	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
@@ -636,7 +636,7 @@ typedef struct {
 } ModelAndList;
 
 static void
-add_to_list (int index, gpointer closure)
+add_to_list (gint index, gpointer closure)
 {
 	ModelAndList *mal = closure;
 	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_contact (mal->adapter, index));

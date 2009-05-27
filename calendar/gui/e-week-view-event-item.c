@@ -828,11 +828,11 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 	/* draw categories icons */
 	for (elem = categories_list; elem; elem = elem->next) {
-		char *category;
+		gchar *category;
 		GdkPixmap *pixmap = NULL;
 		GdkBitmap *mask = NULL;
 
-		category = (char *) elem->data;
+		category = (gchar *) elem->data;
 		if (!e_categories_config_get_icon_for (category, &pixmap, &mask))
 			continue;
 
@@ -944,7 +944,7 @@ e_week_view_event_item_draw_triangle (EWeekViewEventItem *wveitem,
    This is needed so that we get button/motion events. */
 static double
 e_week_view_event_item_point (GnomeCanvasItem *item, double x, double y,
-			      int cx, int cy,
+			      gint cx, gint cy,
 			      GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;

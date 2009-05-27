@@ -29,7 +29,7 @@
 G_BEGIN_DECLS
 
 typedef struct {
-	char *title;
+	gchar *title;
 
 	union {
 		ETableModel *table;
@@ -40,8 +40,8 @@ typedef struct {
 	guint is_leaf  :1;
 } ETableGroup;
 
-ETableGroup *e_table_group_new      (const char *title, ETableModel *table);
-ETableGroup *e_table_group_new_leaf (const char *title);
+ETableGroup *e_table_group_new      (const gchar *title, ETableModel *table);
+ETableGroup *e_table_group_new_leaf (const gchar *title);
 
 G_END_DECLS
 

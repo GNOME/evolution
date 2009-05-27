@@ -103,7 +103,7 @@ gal_a11y_e_cell_dispose (GObject *object)
 }
 
 /* Static functions */
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 gal_a11y_e_cell_get_name (AtkObject * a11y)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (a11y);
@@ -163,10 +163,10 @@ gal_a11y_e_cell_get_extents (AtkComponent *component,
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (component);
 	GtkWidget *tableOrTree;
-	int row;
-	int col;
-	int xval;
-	int yval;
+	gint row;
+	gint col;
+	gint xval;
+	gint yval;
 
 	row = a11y->row;
 	col = a11y->view_col;
@@ -593,9 +593,9 @@ AtkObject *
 gal_a11y_e_cell_new (ETableItem *item,
 		     ECellView  *cell_view,
 		     AtkObject  *parent,
-		     int         model_col,
-		     int         view_col,
-		     int         row)
+		     gint         model_col,
+		     gint         view_col,
+		     gint         row)
 {
 	AtkObject *a11y;
 
@@ -616,9 +616,9 @@ gal_a11y_e_cell_construct (AtkObject  *object,
 			   ETableItem *item,
 			   ECellView  *cell_view,
 			   AtkObject  *parent,
-			   int         model_col,
-			   int         view_col,
-			   int         row)
+			   gint         model_col,
+			   gint         view_col,
+			   gint         row)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (object);
 	a11y->item      = item;

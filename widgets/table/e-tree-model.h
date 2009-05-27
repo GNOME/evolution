@@ -39,7 +39,7 @@ G_BEGIN_DECLS
 #define E_IS_TREE_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MODEL_TYPE))
 #define E_TREE_MODEL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_MODEL_TYPE, ETreeModelClass))
 
-typedef void * ETreePath;
+typedef gpointer  ETreePath;
 typedef struct ETreeModel ETreeModel;
 typedef struct ETreeModelClass ETreeModelClass;
 typedef gint (*ETreePathCompareFunc)(ETreeModel *model, ETreePath path1, ETreePath path2);
@@ -77,23 +77,23 @@ struct ETreeModelClass {
 	gchar     *(*get_save_id)           (ETreeModel *etm, ETreePath node);
 
 	gboolean   (*has_get_node_by_id)    (ETreeModel *etm);
-	ETreePath  (*get_node_by_id)        (ETreeModel *etm, const char *save_id);
+	ETreePath  (*get_node_by_id)        (ETreeModel *etm, const gchar *save_id);
 
 	gboolean   (*has_change_pending)    (ETreeModel *etm);
 
 	/*
 	 * ETable analogs
 	 */
-	void      *(*sort_value_at)              (ETreeModel *etm, ETreePath node, int col);
-	void      *(*value_at)              (ETreeModel *etm, ETreePath node, int col);
-	void       (*set_value_at)          (ETreeModel *etm, ETreePath node, int col, const void *val);
-	gboolean   (*is_editable)           (ETreeModel *etm, ETreePath node, int col);
+	void      *(*sort_value_at)              (ETreeModel *etm, ETreePath node, gint col);
+	void      *(*value_at)              (ETreeModel *etm, ETreePath node, gint col);
+	void       (*set_value_at)          (ETreeModel *etm, ETreePath node, gint col, gconstpointer val);
+	gboolean   (*is_editable)           (ETreeModel *etm, ETreePath node, gint col);
 
-	void      *(*duplicate_value)       (ETreeModel *etm, int col, const void *value);
-	void       (*free_value)            (ETreeModel *etm, int col, void *value);
-	void	  *(*initialize_value)      (ETreeModel *etm, int col);
-	gboolean   (*value_is_empty)        (ETreeModel *etm, int col, const void *value);
-	char      *(*value_to_string)       (ETreeModel *etm, int col, const void *value);
+	void      *(*duplicate_value)       (ETreeModel *etm, gint col, gconstpointer value);
+	void       (*free_value)            (ETreeModel *etm, gint col, gpointer value);
+	void	  *(*initialize_value)      (ETreeModel *etm, gint col);
+	gboolean   (*value_is_empty)        (ETreeModel *etm, gint col, gconstpointer value);
+	gchar      *(*value_to_string)       (ETreeModel *etm, gint col, gconstpointer value);
 
 	/*
 	 * Signals
@@ -108,9 +108,9 @@ struct ETreeModelClass {
 	void       (*no_change)             (ETreeModel *etm);
 	void       (*node_changed)          (ETreeModel *etm, ETreePath node);
 	void       (*node_data_changed)     (ETreeModel *etm, ETreePath node);
-	void       (*node_col_changed)      (ETreeModel *etm, ETreePath node,   int col);
+	void       (*node_col_changed)      (ETreeModel *etm, ETreePath node,   gint col);
 	void       (*node_inserted)         (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
-	void       (*node_removed)          (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
+	void       (*node_removed)          (ETreeModel *etm, ETreePath parent, ETreePath removed_node, gint old_position);
 	void       (*node_deleted)          (ETreeModel *etm, ETreePath deleted_node);
 	void       (*rebuilt)          (ETreeModel *etm);
 
@@ -156,34 +156,34 @@ gchar      *e_tree_model_get_save_id             (ETreeModel     *model,
 						  ETreePath       node);
 gboolean    e_tree_model_has_get_node_by_id      (ETreeModel     *model);
 ETreePath   e_tree_model_get_node_by_id          (ETreeModel     *model,
-						  const char     *save_id);
+						  const gchar     *save_id);
 gboolean    e_tree_model_has_change_pending      (ETreeModel     *model);
 void       *e_tree_model_sort_value_at                (ETreeModel     *etree,
 						  ETreePath       node,
-						  int             col);
+						  gint             col);
 void       *e_tree_model_value_at                (ETreeModel     *etree,
 						  ETreePath       node,
-						  int             col);
+						  gint             col);
 void        e_tree_model_set_value_at            (ETreeModel     *etree,
 						  ETreePath       node,
-						  int             col,
+						  gint             col,
 						  const void     *val);
 gboolean    e_tree_model_node_is_editable        (ETreeModel     *etree,
 						  ETreePath       node,
-						  int             col);
+						  gint             col);
 void       *e_tree_model_duplicate_value         (ETreeModel     *etree,
-						  int             col,
+						  gint             col,
 						  const void     *value);
 void        e_tree_model_free_value              (ETreeModel     *etree,
-						  int             col,
+						  gint             col,
 						  void           *value);
 void       *e_tree_model_initialize_value        (ETreeModel     *etree,
-						  int             col);
+						  gint             col);
 gboolean    e_tree_model_value_is_empty          (ETreeModel     *etree,
-						  int             col,
+						  gint             col,
 						  const void     *value);
-char       *e_tree_model_value_to_string         (ETreeModel     *etree,
-						  int             col,
+gchar       *e_tree_model_value_to_string         (ETreeModel     *etree,
+						  gint             col,
 						  const void     *value);
 
 /* depth first traversal of path's descendents, calling func on each one */
@@ -214,14 +214,14 @@ void        e_tree_model_node_data_changed       (ETreeModel     *tree_model,
 						  ETreePath       node);
 void        e_tree_model_node_col_changed        (ETreeModel     *tree_model,
 						  ETreePath       node,
-						  int             col);
+						  gint             col);
 void        e_tree_model_node_inserted           (ETreeModel     *tree_model,
 						  ETreePath       parent_node,
 						  ETreePath       inserted_node);
 void        e_tree_model_node_removed            (ETreeModel     *tree_model,
 						  ETreePath       parent_node,
 						  ETreePath       removed_node,
-						  int             old_position);
+						  gint             old_position);
 void        e_tree_model_node_deleted            (ETreeModel     *tree_model,
 						  ETreePath       deleted_node);
 void        e_tree_model_node_request_collapse   (ETreeModel     *tree_model,

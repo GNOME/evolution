@@ -44,38 +44,38 @@ static void e_day_view_main_item_set_property (GObject *object,
 					       GParamSpec *pspec);
 static void e_day_view_main_item_update (GnomeCanvasItem *item,
 					 double *affine,
-					 ArtSVP *clip_path, int flags);
+					 ArtSVP *clip_path, gint flags);
 static void e_day_view_main_item_draw (GnomeCanvasItem *item,
 				       GdkDrawable *drawable,
-				       int x, int y,
-				       int width, int height);
+				       gint x, gint y,
+				       gint width, gint height);
 static double e_day_view_main_item_point (GnomeCanvasItem *item,
 					  double x, double y,
-					  int cx, int cy,
+					  gint cx, gint cy,
 					  GnomeCanvasItem **actual_item);
 static gint e_day_view_main_item_event (GnomeCanvasItem *item,
 					GdkEvent *event);
 
 static void e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 							    GdkDrawable *drawable,
-							    int x,
-							    int y,
-							    int width,
-							    int height);
+							    gint x,
+							    gint y,
+							    gint width,
+							    gint height);
 static void e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 						       GdkDrawable *drawable,
-						       int x, int y,
-						       int width, int height,
+						       gint x, gint y,
+						       gint width, gint height,
 						       gint day);
 static void e_day_view_main_item_draw_day_events (EDayViewMainItem *dvmitem,
 						  GdkDrawable *drawable,
-						  int x, int y,
-						  int width, int height,
+						  gint x, gint y,
+						  gint width, gint height,
 						  gint day);
 static void e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 						 GdkDrawable *drawable,
-						 int x, int y,
-						 int width, int height,
+						 gint x, gint y,
+						 gint width, gint height,
 						 gint day, gint event_num);
 
 /* The arguments we take */
@@ -146,7 +146,7 @@ static void
 e_day_view_main_item_update (GnomeCanvasItem *item,
 			    double *affine,
 			    ArtSVP *clip_path,
-			    int flags)
+			    gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (e_day_view_main_item_parent_class)->update)
 		(* GNOME_CANVAS_ITEM_CLASS (e_day_view_main_item_parent_class)->update) (item, affine, clip_path, flags);
@@ -164,7 +164,7 @@ e_day_view_main_item_update (GnomeCanvasItem *item,
  */
 static void
 e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
-			   int x, int y, int width, int height)
+			   gint x, gint y, gint width, gint height)
 {
 	EDayViewMainItem *dvmitem;
 	EDayView *day_view;
@@ -360,7 +360,7 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	if (e_day_view_get_show_marcus_bains (day_view)) {
 		icaltimezone *zone;
 		struct icaltimetype time_now, day_start;
-		int marcus_bains_y;
+		gint marcus_bains_y;
 		GdkColor mb_color;
 
 		cairo_save (cr);
@@ -402,8 +402,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 static void
 e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 					   GdkDrawable *drawable,
-					   int x, int y,
-					   int width, int height,
+					   gint x, gint y,
+					   gint width, gint height,
 					   gint day)
 {
 	EDayView *day_view;
@@ -483,8 +483,8 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 static void
 e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 						GdkDrawable *drawable,
-						int x, int y,
-						int width, int height)
+						gint x, gint y,
+						gint width, gint height)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -572,7 +572,7 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 static void
 e_day_view_main_item_draw_day_events (EDayViewMainItem *dvmitem,
 				      GdkDrawable *drawable,
-				      int x, int y, int width, int height,
+				      gint x, gint y, gint width, gint height,
 				      gint day)
 {
 	EDayView *day_view;
@@ -591,7 +591,7 @@ e_day_view_main_item_draw_day_events (EDayViewMainItem *dvmitem,
 static void
 e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				     GdkDrawable *drawable,
-				     int x, int y, int width, int height,
+				     gint x, gint y, gint width, gint height,
 				     gint day, gint event_num)
 {
 	EDayView *day_view;
@@ -625,8 +625,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint offset, interval;
 	const gchar *start_suffix;
 	const gchar *end_suffix;
-	char *text = NULL;
-	int scroll_flag = 0;
+	gchar *text = NULL;
+	gint scroll_flag = 0;
 	gint row_y;
 	GConfClient *gconf;
 
@@ -1174,11 +1174,11 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 			/* draw categories icons */
 			for (elem = categories_list; elem; elem = elem->next) {
-				char *category;
+				gchar *category;
 				GdkPixmap *pixmap = NULL;
 				GdkBitmap *mask = NULL;
 
-				category = (char *) elem->data;
+				category = (gchar *) elem->data;
 				if (!e_categories_config_get_icon_for (category, &pixmap, &mask))
 					continue;
 
@@ -1315,7 +1315,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
    This is needed so that we get button/motion events. */
 static double
 e_day_view_main_item_point (GnomeCanvasItem *item, double x, double y,
-			    int cx, int cy,
+			    gint cx, gint cy,
 			    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;

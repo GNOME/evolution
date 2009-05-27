@@ -68,8 +68,8 @@ typedef struct {
 
 	/* Notification signals */
 
-	void (* sexp_changed) (CalSearchBar *cal_search, const char *sexp);
-	void (* category_changed) (CalSearchBar *cal_search, const char *category);
+	void (* sexp_changed) (CalSearchBar *cal_search, const gchar *sexp);
+	void (* category_changed) (CalSearchBar *cal_search, const gchar *category);
 } CalSearchBarClass;
 
 GType cal_search_bar_get_type (void);
@@ -80,7 +80,7 @@ GtkWidget *cal_search_bar_new (guint32 flags);
 
 void cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories);
 
-const char *cal_search_bar_get_category (CalSearchBar *cal_search);
+const gchar *cal_search_bar_get_category (CalSearchBar *cal_search);
 
 void cal_search_bar_get_time_range (CalSearchBar *cal_search, time_t *start, time_t *end);
 

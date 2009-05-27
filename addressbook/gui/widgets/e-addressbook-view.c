@@ -100,7 +100,7 @@ static void categories_changed_cb (gpointer object, gpointer user_data);
 static void make_suboptions             (EABView *view);
 static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
-static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
+static void search_menu_activated       (ESearchBar *esb, gint id, EABView *view);
 static GList *get_master_list (gboolean force_rebuild);
 
 static gpointer parent_class;
@@ -131,14 +131,14 @@ enum DndTargetType {
 
 typedef struct EABSearchBarItem {
 	ESearchBarItem search;
-	char *image;
+	gchar *image;
 }EABSearchBarItem;
 
 static GtkTargetEntry drag_types[] = {
 	{ (gchar *) SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
 	{ (gchar *) VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
 };
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+static const gint num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 static guint eab_view_signals [LAST_SIGNAL] = {0, };
 
@@ -412,8 +412,8 @@ eab_view_new (void)
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
-	char *xmlfile;
-	char *userfile;
+	gchar *xmlfile;
+	gchar *userfile;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -543,9 +543,9 @@ init_collection (void)
 {
 	GalViewFactory *factory;
 	ETableSpecification *spec;
-	char *galview;
-	char *addressbookdir;
-	char *etspecfile;
+	gchar *galview;
+	gchar *addressbookdir;
+	gchar *etspecfile;
 
 	if (collection == NULL) {
 		collection = gal_view_collection_new();
@@ -626,7 +626,7 @@ display_view(GalViewInstance *instance,
 }
 
 static void
-view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+view_preview(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
 	/* XXX this should use the addressbook's global gconf client */
 	GConfClient *gconf_client;
@@ -793,7 +793,7 @@ static GList *
 get_contact_list (EABPopupTargetSelect *t)
 {
 	GList *list = NULL;
-	int i;
+	gint i;
 
 	for (i=0;i<t->cards->len;i++)
 		list = g_list_prepend(list, t->cards->pdata[i]);
@@ -802,7 +802,7 @@ get_contact_list (EABPopupTargetSelect *t)
 }
 
 static void
-save_as (EPopup *ep, EPopupItem *pitem, void *data)
+save_as (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	GList *contacts = get_contact_list ((EABPopupTargetSelect *)ep->target);
@@ -814,7 +814,7 @@ save_as (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-send_as (EPopup *ep, EPopupItem *pitem, void *data)
+send_as (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	GList *contacts = get_contact_list ((EABPopupTargetSelect *)ep->target);
@@ -826,7 +826,7 @@ send_as (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-send_to (EPopup *ep, EPopupItem *pitem, void *data)
+send_to (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	GList *contacts = get_contact_list ((EABPopupTargetSelect *)ep->target);
@@ -838,7 +838,7 @@ send_to (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-print (EPopup *ep, EPopupItem *pitem, void *data)
+print (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	EABPopupTargetSelect *t = (EABPopupTargetSelect *)ep->target;
@@ -852,7 +852,7 @@ print (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-copy (EPopup *ep, EPopupItem *pitem, void *data)
+copy (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -860,7 +860,7 @@ copy (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-paste (EPopup *ep, EPopupItem *pitem, void *data)
+paste (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -868,7 +868,7 @@ paste (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-cut (EPopup *ep, EPopupItem *pitem, void *data)
+cut (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -876,7 +876,7 @@ cut (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-delete (EPopup *ep, EPopupItem *pitem, void *data)
+delete (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -884,7 +884,7 @@ delete (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-copy_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
+copy_to_folder (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -892,7 +892,7 @@ copy_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-move_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
+move_to_folder (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -900,7 +900,7 @@ move_to_folder (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-open_contact (EPopup *ep, EPopupItem *pitem, void *data)
+open_contact (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 
@@ -909,7 +909,7 @@ open_contact (EPopup *ep, EPopupItem *pitem, void *data)
 
 
 static void
-new_card (EPopup *ep, EPopupItem *pitem, void *data)
+new_card (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	EContact *contact = e_contact_new();
@@ -919,7 +919,7 @@ new_card (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_list (EPopup *ep, EPopupItem *pitem, void *data)
+new_list (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	/*ContactAndBook *contact_and_book = data;*/
 	EContact *contact = e_contact_new ();
@@ -955,7 +955,7 @@ static EPopupItem eabv_popup_items[] = {
 };
 
 static void
-get_card_1(gint model_row, void *data)
+get_card_1(gint model_row, gpointer data)
 {
 	ContactAndBook *contact_and_book = data;
 	EContact *contact;
@@ -966,7 +966,7 @@ get_card_1(gint model_row, void *data)
 }
 
 static void
-eabv_popup_free(EPopup *ep, GSList *list, void *data)
+eabv_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	ContactAndBook *cab = data;
 	ESelectionModel *selection;
@@ -987,7 +987,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 	EABPopup *ep;
 	EABPopupTargetSelect *t;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 	GtkMenu *menu;
 	GPtrArray *cards = g_ptr_array_new();
 	ContactAndBook *contact_and_book;
@@ -1025,7 +1025,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 }
 
 static void
-render_contact (int row, EABView *view)
+render_contact (gint row, EABView *view)
 {
 	EContact *contact = eab_model_get_contact (view->model, row);
 
@@ -1099,8 +1099,8 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EABView *view)
 
 static void
 table_drag_data_get (ETable             *table,
-		     int                 row,
-		     int                 col,
+		     gint                 row,
+		     gint                 col,
 		     GdkDragContext     *context,
 		     GtkSelectionData   *selection_data,
 		     guint               info,
@@ -1117,7 +1117,7 @@ table_drag_data_get (ETable             *table,
 
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD: {
-		char *value;
+		gchar *value;
 
 		value = eab_contact_list_to_string (contact_list);
 
@@ -1129,7 +1129,7 @@ table_drag_data_get (ETable             *table,
 		break;
 	}
 	case DND_TARGET_TYPE_SOURCE_VCARD: {
-		char *value;
+		gchar *value;
 
 		value = eab_book_and_contact_list_to_string (view->book, contact_list);
 
@@ -1221,7 +1221,7 @@ static void
 contacts_removed (EABModel *model, gpointer data, EABView *eav)
 {
 	GArray *indices = (GArray *) data;
-	int count = indices->len;
+	gint count = indices->len;
 	gint i;
 
 	for (i = 0; i < count; i ++) {
@@ -1284,7 +1284,7 @@ create_table_view (EABView *view)
 {
 	ETableModel *adapter;
 	GtkWidget *table;
-	char *etspecfile;
+	gchar *etspecfile;
 
 	adapter = eab_table_adapter_new(view->model);
 
@@ -1358,9 +1358,9 @@ static void
 search_activated (ESearchBar *esb, EABView *v)
 {
 	GList *master_list;
-	char *search_word, *search_query, *view_sexp;
-	const char *category_name;
-	int search_type, subid;
+	gchar *search_word, *search_query, *view_sexp;
+	const gchar *category_name;
+	gint search_type, subid;
 
 	g_object_get(esb,
 		     "text", &search_word,
@@ -1427,7 +1427,7 @@ search_activated (ESearchBar *esb, EABView *v)
 }
 
 static void
-search_menu_activated (ESearchBar *esb, int id, EABView *view)
+search_menu_activated (ESearchBar *esb, gint id, EABView *view)
 {
 	if (id == E_FILTERBAR_ADVANCED_ID)
 		e_search_bar_set_item_id (esb, id);
@@ -1436,8 +1436,8 @@ search_menu_activated (ESearchBar *esb, int id, EABView *view)
 static void
 query_changed (ESearchBar *esb, EABView *view)
 {
-	int search_type;
-	char *query;
+	gint search_type;
+	gchar *query;
 
 	search_type = e_search_bar_get_item_id(esb);
 	if (search_type == E_FILTERBAR_ADVANCED_ID) {
@@ -1448,12 +1448,12 @@ query_changed (ESearchBar *esb, EABView *view)
 }
 
 static int
-compare_subitems (const void *a, const void *b)
+compare_subitems (gconstpointer a, gconstpointer b)
 {
 	const ESearchBarItem *subitem_a = a;
 	const ESearchBarItem *subitem_b = b;
-	char *collate_a, *collate_b;
-	int ret;
+	gchar *collate_a, *collate_b;
+	gint ret;
 
 	collate_a = g_utf8_collate_key (subitem_a->text, -1);
 	collate_b = g_utf8_collate_key (subitem_b->text, -1);
@@ -1476,7 +1476,7 @@ generate_viewoption_menu (EABSearchBarItem *subitems)
 
 	for (i = 0; subitems[i].search.id != -1; ++i) {
 		if (subitems[i].search.text) {
-			char *str = NULL;
+			gchar *str = NULL;
 			str = e_str_without_underscores (subitems[i].search.text);
 			menu_item = gtk_image_menu_item_new_with_label (str);
                         if (subitems[i].image) {
@@ -1536,10 +1536,10 @@ make_suboptions (EABView *view)
 	subitems[2].image = NULL;
 
 	for (i=0; i<N; ++i) {
-		const char *category = g_list_nth_data (master_list, i);
+		const gchar *category = g_list_nth_data (master_list, i);
 		subitems[i+3].search.id = i+3;
 		subitems[i+3].search.text = g_strdup (category);
-		subitems[i+3].image = (char *)e_categories_get_icon_file_for (category);
+		subitems[i+3].image = (gchar *)e_categories_get_icon_file_for (category);
 	}
 
 	subitems[N+3].search.id = -1;
@@ -1571,7 +1571,7 @@ get_master_list (gboolean force_rebuild)
 		GList *l, *p = e_categories_get_list ();
 
 		for (l = p; l; l = l->next) {
-			if (e_categories_is_searchable ((const char *) l->data))
+			if (e_categories_is_searchable ((const gchar *) l->data))
 				category_list = g_list_prepend (category_list, l->data);
 		}
 
@@ -1756,7 +1756,7 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 	ETable *etable = NULL;
 	EMinicardView *card_view;
 	ESelectionModel *selection_model = NULL;
-	char *name = NULL;
+	gchar *name = NULL;
 	gint row = 0, select;
 
 	list = get_selected_contacts (view);
@@ -1797,7 +1797,7 @@ eab_view_delete_selection(EABView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next(l)) {
 			contact = l->data;
 
-			ids = g_list_prepend (ids, (char*)e_contact_get_const (contact, E_CONTACT_UID));
+			ids = g_list_prepend (ids, (gchar *)e_contact_get_const (contact, E_CONTACT_UID));
 		}
 
 		/* Remove the cards all at once. */
@@ -1864,7 +1864,7 @@ selection_get (GtkWidget *invisible,
 	       guint time_stamp,
 	       EABView *view)
 {
-	char *value;
+	gchar *value;
 
 	value = eab_contact_list_to_string (view->clipboard_contacts);
 
@@ -1896,14 +1896,14 @@ selection_received (GtkWidget *invisible,
 	} else {
 		GList *contact_list;
 		GList *l;
-		char *str = NULL;
+		gchar *str = NULL;
 
 		if (selection_data->data [selection_data->length - 1] != 0) {
 			str = g_malloc0 (selection_data->length + 1);
 			memcpy (str, selection_data->data, selection_data->length);
 			contact_list = eab_contact_list_from_string (str);
 		} else
-			contact_list = eab_contact_list_from_string ((char *)selection_data->data);
+			contact_list = eab_contact_list_from_string ((gchar *)selection_data->data);
 
 		for (l = contact_list; l; l = l->next) {
 			EContact *contact = l->data;
@@ -1919,7 +1919,7 @@ selection_received (GtkWidget *invisible,
 }
 
 static void
-add_to_list (int model_row, gpointer closure)
+add_to_list (gint model_row, gpointer closure)
 {
 	GList **list = closure;
 	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));

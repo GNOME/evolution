@@ -57,8 +57,8 @@ struct _MemosComponentClass {
 GType             memos_component_get_type  (void);
 MemosComponent   *memos_component_peek  (void);
 
-const char       *memos_component_peek_base_directory (MemosComponent *component);
-const char       *memos_component_peek_config_directory (MemosComponent *component);
+const gchar       *memos_component_peek_base_directory (MemosComponent *component);
+const gchar       *memos_component_peek_config_directory (MemosComponent *component);
 ESourceList      *memos_component_peek_source_list (MemosComponent *component);
 
 #endif /* _MEMOS_COMPONENT_H_ */

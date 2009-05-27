@@ -52,7 +52,7 @@ struct _ECalComponentPreviewClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (ECalComponentPreview *preview, int n_selected);
+	void (* selection_changed) (ECalComponentPreview *preview, gint n_selected);
 };
 
 
@@ -66,7 +66,7 @@ void e_cal_component_preview_display             (ECalComponentPreview *preview,
 void e_cal_component_preview_clear             (ECalComponentPreview *preview);
 
 /* Callback used when GtkHTML widget requests URL */
-void e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data);
+void e_cal_comp_preview_url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *html_stream, gpointer data);
 
 GtkWidget *e_cal_component_preview_get_html (ECalComponentPreview *preview);
 

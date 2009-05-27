@@ -41,7 +41,7 @@ struct _EvolutionImporterPrivate {
 	EvolutionImporterProcessItemFn process_item_fn;
 	EvolutionImporterGetErrorFn get_error_fn;
 
-	void *closure;
+	gpointer closure;
 };
 
 
@@ -194,7 +194,7 @@ evolution_importer_construct (EvolutionImporter *importer,
 			      EvolutionImporterLoadFileFn load_file_fn,
 			      EvolutionImporterProcessItemFn process_item_fn,
 			      EvolutionImporterGetErrorFn get_error_fn,
-			      void *closure)
+			      gpointer closure)
 {
 	EvolutionImporterPrivate *priv;
 
@@ -233,7 +233,7 @@ evolution_importer_new (EvolutionImporterCreateControlFn create_control_fn,
 			EvolutionImporterLoadFileFn load_file_fn,
 			EvolutionImporterProcessItemFn process_item_fn,
 			EvolutionImporterGetErrorFn get_error_fn,
-			void *closure)
+			gpointer closure)
 {
 	EvolutionImporter *importer;
 

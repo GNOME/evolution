@@ -59,6 +59,6 @@ GType addressbook_component_get_type (void);
 AddressbookComponent *addressbook_component_peek (void);
 
 GConfClient       *addressbook_component_peek_gconf_client     (AddressbookComponent *component);
-const char        *addressbook_component_peek_base_directory   (AddressbookComponent *component);
+const gchar        *addressbook_component_peek_base_directory   (AddressbookComponent *component);
 
 #endif /* _ADDRESSBOOK_COMPONENT_H_ */

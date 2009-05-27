@@ -57,8 +57,8 @@
 
 /*****************************************************************************/
 /* prototypes */
-int              e_plugin_lib_enable      (EPluginLib                 *ep,
-					   int                         enable);
+gint              e_plugin_lib_enable      (EPluginLib                 *ep,
+					   gint                         enable);
 
 GtkWidget *      plugin_google               (EPlugin                    *epl,
 					   EConfigHookItemFactoryData *data);
@@ -82,8 +82,8 @@ ensure_google_source_group (void)
 	g_object_unref (slist);
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 
 	if (enable) {
@@ -114,22 +114,22 @@ ssl_changed (GtkToggleButton *button, ESource *source)
 
 
 static gboolean
-is_email (const char *address)
+is_email (const gchar *address)
 {
 	/* This is supposed to check if the address's domain could be
            an FQDN but alas, it's not worth the pain and suffering. */
-	const char *at;
+	const gchar *at;
 
 	at = strchr (address, '@');
-	/* make sure we have an '@' and that it's not the first or last char */
+	/* make sure we have an '@' and that it's not the first or last gchar */
 	if (!at || at == address || *(at + 1) == '\0')
 		return FALSE;
 
 	return TRUE;
 }
 
-static char *
-sanitize_user_mail (const char *user)
+static gchar *
+sanitize_user_mail (const gchar *user)
 {
 	if (!user)
 		return NULL;
@@ -137,8 +137,8 @@ sanitize_user_mail (const char *user)
 	if (!is_email (user)) {
 		return g_strconcat (user, "%40gmail.com", NULL);
 	} else {
-		char *tmp = g_malloc0 (sizeof (char) * (1 + strlen (user) + 2));
-		char *at = strchr (user, '@');
+		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (user) + 2));
+		gchar *at = strchr (user, '@');
 
 		strncpy (tmp, user, at - user);
 		strcat (tmp, "%40");
@@ -148,10 +148,10 @@ sanitize_user_mail (const char *user)
 	}
 }
 
-static char *
-construct_default_uri (const char *username)
+static gchar *
+construct_default_uri (const gchar *username)
 {
-	char *user, *uri;
+	gchar *user, *uri;
 
 	user = sanitize_user_mail (username);
 	uri = g_strconcat (CALENDAR_LOCATION, user, CALENDAR_DEFAULT_PATH, NULL);
@@ -162,10 +162,10 @@ construct_default_uri (const char *username)
 
 /* checks whether the given_uri is pointing to the default user's calendar or not */
 static gboolean
-is_default_uri (const char *given_uri, const char *username)
+is_default_uri (const gchar *given_uri, const gchar *username)
 {
-	char *uri, *at;
-	int ats;
+	gchar *uri, *at;
+	gint ats;
 	gboolean res;
 
 	if (!given_uri)
@@ -182,8 +182,8 @@ is_default_uri (const char *given_uri, const char *username)
 	if (!ats)
 		res = g_ascii_strcasecmp (given_uri, uri) == 0;
 	else {
-		const char *last;
-		char *tmp = g_malloc0 (sizeof (char) * (1 + strlen (given_uri) + (2 * ats)));
+		const gchar *last;
+		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (given_uri) + (2 * ats)));
 
 		last = given_uri;
 		for (at = strchr (last, '@'); at; at = strchr (at + 1, '@')) {
@@ -203,13 +203,13 @@ is_default_uri (const char *given_uri, const char *username)
 	return res;
 }
 
-static void init_combo_values (GtkComboBox *combo, const char *deftitle, const char *defuri);
+static void init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri);
 
 static void
 user_changed (GtkEntry *editable, ESource *source)
 {
-	char       *uri;
-	const char *user;
+	gchar       *uri;
+	const gchar *user;
 
 	/* two reasons why set readonly to FALSE:
 	   a) the e_source_set_relative_uri does nothing for readonly sources
@@ -232,10 +232,10 @@ user_changed (GtkEntry *editable, ESource *source)
 	init_combo_values (GTK_COMBO_BOX (g_object_get_data (G_OBJECT (editable), "CalendarCombo")), _("Default"), NULL);
 }
 
-static char *
+static gchar *
 get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
-	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
+	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
@@ -289,9 +289,9 @@ combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 static void
 set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
-	int time;
-	int item_num = 0;
-	const char *refresh_str = e_source_get_property (source, "refresh");
+	gint time;
+	gint item_num = 0;
+	const gchar *refresh_str = e_source_get_property (source, "refresh");
 	time = refresh_str ? atoi (refresh_str) : 30;
 
 	if (time  && !(time % 10080)) {
@@ -320,7 +320,7 @@ enum {
 };
 
 static void
-init_combo_values (GtkComboBox *combo, const char *deftitle, const char *defuri)
+init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri)
 {
 	GtkTreeIter iter;
 	GtkListStore *store;
@@ -355,7 +355,7 @@ cal_combo_changed (GtkComboBox *combo, ESource *source)
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo));
 
 	if (gtk_combo_box_get_active_iter (combo, &iter)) {
-		char *uri = NULL, *title = NULL;
+		gchar *uri = NULL, *title = NULL;
 		gboolean readonly = FALSE;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COL_TITLE, &title, COL_URL_PATH, &uri, COL_READ_ONLY, &readonly, -1);
@@ -383,7 +383,7 @@ cal_combo_changed (GtkComboBox *combo, ESource *source)
 }
 
 static void
-claim_error (GtkWindow *parent, const char *error)
+claim_error (GtkWindow *parent, const gchar *error)
 {
 	GtkWidget *dialog;
 
@@ -403,8 +403,8 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	ESource *source;
 	GDataGoogleService *service;
 	GDataFeed *feed;
-	char *password, *tmp;
-	const char *username;
+	gchar *password, *tmp;
+	const gchar *username;
 	GError *error = NULL;
 	GtkWindow *parent;
 
@@ -438,8 +438,8 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 
 	if (feed) {
 		GSList *l;
-		char *old_selected = NULL;
-		int idx, active = -1, default_idx = -1;
+		gchar *old_selected = NULL;
+		gint idx, active = -1, default_idx = -1;
 		GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (combo));
 		GtkTreeIter iter;
 
@@ -449,7 +449,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 		gtk_list_store_clear (store);
 
 		for (l = gdata_feed_get_entries (feed), idx = 1; l != NULL; l = l->next) {
-			const char *uri, *title, *color, *access;
+			const gchar *uri, *title, *color, *access;
 			GSList *links;
 			GDataEntry *entry = (GDataEntry *) l->data;
 
@@ -559,11 +559,11 @@ plugin_google  (EPlugin                    *epl,
 	GtkWidget    *user;
 	GtkWidget    *label;
 	GtkWidget    *combo;
-	char         *uri;
-	const char   *username;
-	const char   *ssl_prop;
+	gchar         *uri;
+	const gchar   *username;
+	const gchar   *ssl_prop;
 	gboolean      ssl_enabled;
-	int           row;
+	gint           row;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 

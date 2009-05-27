@@ -55,19 +55,19 @@ ETableMemory *e_table_memory_new          (void);
 
 /* row operations */
 void          e_table_memory_insert  (ETableMemory *etable,
-				      int           row,
+				      gint           row,
 				      gpointer      data);
 gpointer      e_table_memory_remove  (ETableMemory *etable,
-				      int           row);
+				      gint           row);
 void          e_table_memory_clear   (ETableMemory *etable);
 
 /* Freeze and thaw */
 void          e_table_memory_freeze       (ETableMemory *etable);
 void          e_table_memory_thaw         (ETableMemory *etable);
 gpointer      e_table_memory_get_data     (ETableMemory *etm,
-					   int           row);
+					   gint           row);
 void          e_table_memory_set_data     (ETableMemory *etm,
-					   int           row,
+					   gint           row,
 					   gpointer      data);
 
 G_END_DECLS

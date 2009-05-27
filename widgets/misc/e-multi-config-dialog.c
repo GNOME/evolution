@@ -43,8 +43,8 @@ struct _EMultiConfigDialogPrivate {
 
 	GtkWidget *notebook;
 
-	int set_page_timeout_id;
-	int set_page_timeout_page;
+	gint set_page_timeout_id;
+	gint set_page_timeout_page;
 };
 
 G_DEFINE_TYPE (EMultiConfigDialog, e_multi_config_dialog, GTK_TYPE_DIALOG)
@@ -76,7 +76,7 @@ static const gchar *list_e_table_spec =
 /* Page handling.  */
 
 static GtkWidget *
-create_page_container (const char *description,
+create_page_container (const gchar *description,
 		       GtkWidget *widget)
 {
 	GtkWidget *vbox;
@@ -95,7 +95,7 @@ create_page_container (const char *description,
    keyboard).  */
 
 static int
-set_page_timeout_callback (void *data)
+set_page_timeout_callback (gpointer data)
 {
 	EMultiConfigDialog *multi_config_dialog;
 	EMultiConfigDialogPrivate *priv;
@@ -125,8 +125,8 @@ do_close (EMultiConfigDialog *dialog)
 
 static void
 table_cursor_change_callback (ETable *etable,
-			      int row,
-			      void *data)
+			      gint row,
+			      gpointer data)
 {
 	EMultiConfigDialog *dialog;
 	EMultiConfigDialogPrivate *priv;
@@ -168,7 +168,7 @@ impl_finalize (GObject *object)
 /* GtkDialog methods.  */
 
 static void
-impl_response (GtkDialog *dialog, int response_id)
+impl_response (GtkDialog *dialog, gint response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
 
@@ -315,8 +315,8 @@ e_multi_config_dialog_new (void)
 
 void
 e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
-				const char *title,
-				const char *description,
+				const gchar *title,
+				const gchar *description,
 				GdkPixbuf *icon,
 				EConfigPage *page_widget)
 {
@@ -359,7 +359,7 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 }
 
 void
-e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
+e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, gint page)
 {
 	EMultiConfigDialogPrivate *priv;
 

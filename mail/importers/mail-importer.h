@@ -38,14 +38,14 @@ void mail_importer_init (struct _MailComponent *mc);
 void mail_importer_uninit (void);
 
 void mail_importer_add_line (MailImporter *importer,
-			     const char *str,
+			     const gchar *str,
 			     gboolean finished);
-void mail_importer_create_folder (const char *parent_path,
-				  const char *name,
-				  const char *description);
+void mail_importer_create_folder (const gchar *parent_path,
+				  const gchar *name,
+				  const gchar *description);
 
 /* creates a folder at folderpath on the local storage */
-char *mail_importer_make_local_folder(const char *folderpath);
+gchar *mail_importer_make_local_folder(const gchar *folderpath);
 
 struct _BonoboObject;
 struct _BonoboGenericFactory;
@@ -71,7 +71,7 @@ struct _BonoboObject *netscape_intelligent_importer_new(void);
 struct _BonoboObject *mbox_importer_new(void);
 struct _BonoboObject *outlook_importer_new(void);
 
-struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const char *iid, void *data);
+struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const gchar *iid, gpointer data);
 
 
 /* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
@@ -81,8 +81,8 @@ struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *fac
 #define MSG_FLAG_MARKED 0x0004
 #define MSG_FLAG_EXPUNGED 0x0008
 
-int mail_importer_import_mbox(const char *path, const char *folderuri, struct _CamelOperation *cancel, void (*done)(void *data, struct _CamelException *), void *data);
-void mail_importer_import_mbox_sync(const char *path, const char *folderuri, struct _CamelOperation *cancel);
+gint mail_importer_import_mbox(const gchar *path, const gchar *folderuri, struct _CamelOperation *cancel, void (*done)(gpointer data, struct _CamelException *), gpointer data);
+void mail_importer_import_mbox_sync(const gchar *path, const gchar *folderuri, struct _CamelOperation *cancel);
 
 struct _MailImporterSpecial {
 	const gchar *orig, *new;
@@ -93,6 +93,6 @@ typedef struct _MailImporterSpecial MailImporterSpecial;
 #define MAIL_IMPORTER_MOZFMT (1<<0)
 
 /* api in flux */
-void mail_importer_import_folders_sync(const char *filepath, MailImporterSpecial special_folders[], int flags, struct _CamelOperation *cancel);
+void mail_importer_import_folders_sync(const gchar *filepath, MailImporterSpecial special_folders[], gint flags, struct _CamelOperation *cancel);
 
 #endif

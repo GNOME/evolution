@@ -33,7 +33,7 @@
 #include "filter/filter-option.h"
 #include "filter/filter-int.h"
 
-static FilterElement *em_search_new_element(RuleContext *rc, const char *type);
+static FilterElement *em_search_new_element(RuleContext *rc, const gchar *type);
 
 static RuleContextClass *parent_class = NULL;
 
@@ -102,7 +102,7 @@ em_search_context_new (void)
 }
 
 static FilterElement *
-em_search_new_element(RuleContext *rc, const char *type)
+em_search_new_element(RuleContext *rc, const gchar *type)
 {
 	if (!strcmp (type, "system-flag")) {
 		return (FilterElement *) filter_option_new ();

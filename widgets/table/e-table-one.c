@@ -46,8 +46,8 @@ one_row_count (ETableModel *etm)
 	return 1;
 }
 
-static void *
-one_value_at (ETableModel *etm, int col, int row)
+static gpointer
+one_value_at (ETableModel *etm, gint col, gint row)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -58,7 +58,7 @@ one_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-one_set_value_at (ETableModel *etm, int col, int row, const void *val)
+one_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -69,7 +69,7 @@ one_set_value_at (ETableModel *etm, int col, int row, const void *val)
 }
 
 static gboolean
-one_is_cell_editable (ETableModel *etm, int col, int row)
+one_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -80,19 +80,19 @@ one_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 /* The default for one_duplicate_value is to return the raw value. */
-static void *
-one_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
 	if (one->source)
 		return e_table_model_duplicate_value(one->source, col, value);
 	else
-		return (void *)value;
+		return (gpointer)value;
 }
 
 static void
-one_free_value (ETableModel *etm, int col, void *value)
+one_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -100,8 +100,8 @@ one_free_value (ETableModel *etm, int col, void *value)
 		e_table_model_free_value(one->source, col, value);
 }
 
-static void *
-one_initialize_value (ETableModel *etm, int col)
+static gpointer
+one_initialize_value (ETableModel *etm, gint col)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -112,7 +112,7 @@ one_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-one_value_is_empty (ETableModel *etm, int col, const void *value)
+one_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -122,8 +122,8 @@ one_value_is_empty (ETableModel *etm, int col, const void *value)
 		return FALSE;
 }
 
-static char *
-one_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+one_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
 
@@ -146,8 +146,8 @@ one_dispose (GObject *object)
 
 
 	if (one->data) {
-		int i;
-		int col_count;
+		gint i;
+		gint col_count;
 
 		if (one->source) {
 			col_count = e_table_model_column_count(one->source);
@@ -199,14 +199,14 @@ ETableModel *
 e_table_one_new (ETableModel *source)
 {
 	ETableOne *eto;
-	int col_count;
-	int i;
+	gint col_count;
+	gint i;
 
 	eto = g_object_new (E_TABLE_ONE_TYPE, NULL);
 	eto->source = source;
 
 	col_count = e_table_model_column_count(source);
-	eto->data = g_new(void *, col_count);
+	eto->data = g_new(gpointer , col_count);
 	for (i = 0; i < col_count; i++) {
 		eto->data[i] = e_table_model_initialize_value(source, i);
 	}
@@ -221,9 +221,9 @@ void
 e_table_one_commit (ETableOne *one)
 {
 	if (one->source) {
-		int empty = TRUE;
-		int col;
-		int cols = e_table_model_column_count(one->source);
+		gint empty = TRUE;
+		gint col;
+		gint cols = e_table_model_column_count(one->source);
 		for (col = 0; col < cols; col++) {
 			if (!e_table_model_value_is_empty(one->source, col, one->data[col])) {
 				empty = FALSE;

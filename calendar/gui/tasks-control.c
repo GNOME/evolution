@@ -85,17 +85,17 @@ static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 const char		*path);
 static void tasks_control_assign_cmd           (BonoboUIComponent      *uic,
                                                 gpointer               data,
-                                                const char             *path);
+                                                const gchar             *path);
 
 static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 gpointer               data,
-                                                const char             *path);
+                                                const gchar             *path);
 
 static void tasks_control_view_preview	       (BonoboUIComponent *uic,
-						const char *path,
+						const gchar *path,
 						Bonobo_UIComponent_EventType type,
-						const char *state,
-						void *data);
+						const gchar *state,
+						gpointer data);
 
 struct focus_changed_data {
 	BonoboControl *control;
@@ -162,7 +162,7 @@ static void
 sensitize_items(BonoboUIComponent *uic, struct _tasks_sensitize_item *items, guint32 mask)
 {
 	while (items->command) {
-		char command[32];
+		gchar command[32];
 
 		if (strlen(items->command)>=21) {
 			g_warning ("Size more than 21: %s\n", items->command);
@@ -197,7 +197,7 @@ static struct _tasks_sensitize_item tasks_sensitize_table[] = {
  * selected tasks.
  */
 void
-tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_selected)
+tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, gint n_selected)
 {
 	BonoboUIComponent *uic;
 	gboolean read_only = TRUE;
@@ -247,7 +247,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 
 /* Callback used when the selection in the table changes */
 static void
-selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
+selection_changed_cb (ETasks *tasks, gint n_selected, gpointer data)
 {
 	BonoboControl *control;
 
@@ -304,11 +304,11 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
-	int n_selected;
+	gint n_selected;
 	ECalendarTable *cal_table;
 	ETable *etable;
 	gboolean state;
-	char *xmlfile;
+	gchar *xmlfile;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
@@ -399,7 +399,7 @@ tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 static void
 tasks_control_cut_cmd                   (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	ETasks *tasks;
 	ECalendarTable *cal_table;
@@ -412,7 +412,7 @@ tasks_control_cut_cmd                   (BonoboUIComponent      *uic,
 static void
 tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	ETasks *tasks;
 	ECalendarTable *cal_table;
@@ -434,7 +434,7 @@ tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
 static void
 tasks_control_paste_cmd                 (BonoboUIComponent      *uic,
 					 gpointer                data,
-					 const char             *path)
+					 const gchar             *path)
 {
 	ETasks *tasks;
 	ECalendarTable *cal_table;
@@ -473,7 +473,7 @@ static gboolean
 confirm_purge (ETasks *tasks)
 {
 	GtkWidget *dialog, *checkbox, *parent;
-	int button;
+	gint button;
 
 	if (!calendar_config_get_confirm_purge ())
 		return TRUE;
@@ -516,7 +516,7 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 static void
 tasks_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
-			 const char *path)
+			 const gchar *path)
 {
 	ETasks *tasks = E_TASKS (data);
 	ETable *table;
@@ -532,7 +532,7 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 static void
 tasks_control_print_preview_cmd (BonoboUIComponent *uic,
 				 gpointer data,
-				 const char *path)
+				 const gchar *path)
 {
 	ETasks *tasks = E_TASKS (data);
 	ETable *table;
@@ -548,7 +548,7 @@ tasks_control_print_preview_cmd (BonoboUIComponent *uic,
 static void
 tasks_control_assign_cmd (BonoboUIComponent *uic,
                          gpointer data,
-                         const char *path)
+                         const gchar *path)
 {
               ETasks *tasks;
               ECalendarTable *cal_table;
@@ -564,7 +564,7 @@ tasks_control_assign_cmd (BonoboUIComponent *uic,
 static void
 tasks_control_forward_cmd (BonoboUIComponent *uic,
                          gpointer data,
-                          const char *path)
+                          const gchar *path)
 {
 	        ETasks *tasks;
                ECalendarTable *cal_table;
@@ -583,7 +583,7 @@ tasks_control_forward_cmd (BonoboUIComponent *uic,
 }
 
 static void
-tasks_control_view_preview (BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+tasks_control_view_preview (BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
         ETasks *tasks;
 

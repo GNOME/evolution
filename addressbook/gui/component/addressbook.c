@@ -57,10 +57,10 @@ free_load_source_data (LoadSourceData *data)
 /*this function removes of anything present after semicolon
 in uri*/
 
-static gchar*
+static gchar *
 remove_parameters_from_uri (const gchar *uri)
 {
-	char *euri_str;
+	gchar *euri_str;
 	EUri *euri;
 
 	euri = e_uri_new (uri);
@@ -167,8 +167,8 @@ static void
 addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *source,
 			  EBookCallback cb, gpointer closure)
 {
-	const char *password = NULL;
-	char *pass_dup = NULL;
+	const gchar *password = NULL;
+	gchar *pass_dup = NULL;
 	const gchar *auth;
 	const gchar *user;
 	gchar *uri = remove_parameters_from_uri(e_book_get_uri (book));
@@ -197,8 +197,8 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 		user = "";
 
 	if (!password) {
-		char *prompt;
-		char *password_prompt;
+		gchar *prompt;
+		gchar *password_prompt;
 		gboolean remember;
 		const gchar *failed_auth;
 		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE;

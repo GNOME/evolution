@@ -33,10 +33,10 @@ extern "C" {
 
 struct _GtkWindow;
 
-void em_select_folder (struct _GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
+void em_select_folder (struct _GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
 		       EMFTExcludeFunc exclude,
-		       void (*done)(const char *uri, void *data),
-		       void *data);
+		       void (*done)(const gchar *uri, gpointer data),
+		       gpointer data);
 
 #ifdef __cplusplus
 }

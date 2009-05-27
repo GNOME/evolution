@@ -68,11 +68,11 @@ typedef struct {
     EMPopupTargetSelect *t;
 } UserData;
 
-static char* get_content	(CamelMimeMessage *message);
+static gchar * get_content	(CamelMimeMessage *message);
 
-static void reply_with_template	(EPopup *ep, EPopupItem *item, void *data);
+static void reply_with_template	(EPopup *ep, EPopupItem *item, gpointer data);
 
-static void popup_free		(EPopup *ep, GSList *l, void *data);
+static void popup_free		(EPopup *ep, GSList *l, gpointer data);
 
 static GSList *fill_submenu	(CamelStore *store,
                              	CamelFolderInfo *info,
@@ -143,8 +143,8 @@ commit_changes (UIData *ui)
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	while (valid) {
-		char *keyword, *value;
-		char *key;
+		gchar *keyword, *value;
+		gchar *key;
 
 		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 		gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
@@ -168,7 +168,7 @@ static void
 clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
 {
 	GtkTreeSelection *selection;
-	char *keyword = NULL;
+	gchar *keyword = NULL;
 	gboolean valid;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
@@ -201,7 +201,7 @@ clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 
 	valid = gtk_tree_model_get_iter_first (model, iter);
 	while (valid && gtk_list_store_iter_is_valid (ui->store, iter)) {
-		char *keyword = NULL;
+		gchar *keyword = NULL;
 		gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 		/* Check if the keyword is not empty and then emit the row-changed
 		signal (if we delete the row, then the iter gets corrupted) */
@@ -223,7 +223,7 @@ key_cell_edited_callback (GtkCellRendererText *cell,
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *value;
+	gchar *value;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 
@@ -244,7 +244,7 @@ value_cell_edited_callback (GtkCellRendererText *cell,
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *keyword;
+	gchar *keyword;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 
@@ -370,7 +370,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	UIData *ui = g_new0 (UIData, 1);
 
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
 			"templates.glade",
@@ -421,7 +421,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
 
 	for (list = clue_list; list; list = g_slist_next (list)) {
-		char **temp = g_strsplit (list->data, "=", 2);
+		gchar **temp = g_strsplit (list->data, "=", 2);
 		gtk_list_store_append (ui->store, &iter);
 		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, temp[0], CLUE_VALUE_COLUMN, temp[1], -1);
 		g_strfreev(temp);
@@ -445,14 +445,14 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 }
 
 /* borrowed from plugins/mail-to-task/ */
-static char *
+static gchar *
 get_content (CamelMimeMessage *message)
 {
 	CamelDataWrapper *content;
 	CamelStream *mem;
 	CamelContentType *type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
-	char *str, *convert_str = NULL;
+	gchar *str, *convert_str = NULL;
 	gsize bytes_read, bytes_written;
 	gint count = 2;
 
@@ -477,7 +477,7 @@ get_content (CamelMimeMessage *message)
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
-	str = g_strndup ((const gchar*)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
 
 	/* convert to UTF-8 string */
@@ -497,13 +497,13 @@ get_content (CamelMimeMessage *message)
 }
 
 static void
-reply_with_template (EPopup *ep, EPopupItem *item, void *data)
+reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	CamelMimeMessage *new, *template, *reply_to;
 	CamelFolder *templates_folder;
 	struct _camel_header_raw *header;
 	UserData *userdata = item->user_data;
-	char *cont;
+	gchar *cont;
 
 	/* We get the templates folder and all the uids of the messages in there */
 	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
@@ -559,7 +559,7 @@ reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-popup_free (EPopup *ep, GSList *l, void *data)
+popup_free (EPopup *ep, GSList *l, gpointer data)
 {
 	g_slist_free (l);
 }
@@ -567,15 +567,15 @@ popup_free (EPopup *ep, GSList *l, void *data)
 static GSList
 *append_to_menu (CamelFolder *folder, GPtrArray *uids, GSList *list, EMPopupTargetSelect *t)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < uids->len; i++) {
-		const char *subject;
-		char *path;
+		const gchar *subject;
+		gchar *path;
 		EPopupItem *item;
 		CamelMimeMessage *message;
 		UserData *user_data;
-		const char *uid;
+		const gchar *uid;
 
 		uid = g_strdup (g_ptr_array_index (uids, i));
 
