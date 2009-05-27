@@ -58,7 +58,6 @@
       <toolitem action='send'/>
       <separator/>
       <toolitem action='save-draft'/>
-      <toolitem action='attach'/>
       <separator/>
     </placeholder>
   </toolbar>
