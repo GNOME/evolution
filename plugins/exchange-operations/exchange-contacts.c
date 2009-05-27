@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -503,7 +503,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 		if (authtype) {
 			e_source_set_property (source, "auth-type", authtype);
 			g_free (authtype);
-			authtype=NULL;			
+			authtype=NULL;
 		}
 		e_source_set_property (source, "auth", "plain/password");
 		if (rename) {

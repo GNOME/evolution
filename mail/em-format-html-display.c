@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -186,13 +186,13 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 
 		r = style->fg[state].red >> 8;
 		g = style->fg[state].green >> 8;
-		b = style->fg[state].blue >> 8;		
+		b = style->fg[state].blue >> 8;
 
 		efhd->formathtml.header_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 
 		r = style->bg[state].red >> 8;
 		g = style->bg[state].green >> 8;
-		b = style->bg[state].blue >> 8;		
+		b = style->bg[state].blue >> 8;
 
 		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 

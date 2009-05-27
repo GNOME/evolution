@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1422,7 +1422,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	} else {
 		current = g_strdup("imap");
 	}
-	
+
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
 
 	i = 0;
@@ -1448,7 +1448,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, provider->name, 1, provider, -1);
-		
+
 		/* find the displayed and set default */
 		if (i == 0 || (current && strcmp(provider->protocol, current) == 0)) {
 			service->provider = provider;
@@ -1480,10 +1480,10 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL) {
 		return;
 	}
-	
+
 	tmp = camel_url_get_param(url, "use_ssl");
 	if (tmp == NULL)
-		tmp = "never";	
+		tmp = "never";
 	for (i=0;i<num_ssl_options;i++) {
 		if (!strcmp(ssl_options[i].value, tmp)) {
 			gtk_combo_box_set_active(service->use_ssl, i);
@@ -2370,7 +2370,7 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
 		g_object_unref(druidxml);
-		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);	
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	} else {
 		gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Sending Email")));
 	}
@@ -2687,7 +2687,7 @@ emae_service_complete(EMAccountEditor *emae, EMAccountEditorService *service)
 	if (CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)) {
 		if (url->host == NULL || url->host[0] == 0)
 			ok = FALSE;
-		else 
+		else
 			gtk_entry_set_text(service->hostname, url->host);
 	}
 	/* We only need the user if the service needs auth as well, i think */
@@ -2802,14 +2802,14 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				} else {
 					g_warning("buz1\n");
 				}
-				
+
 			}
 		} else if (!strcmp(pageid, "30.send")) {
 				CamelURL *url;
 				char *at, *user;
 				int index;
 				char *uri = (char *)e_account_get_string(emae->account, E_ACCOUNT_TRANSPORT_URL);
-				
+
 				tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr(tmp, '@');
 				user = g_alloca(at-tmp+1);
@@ -2831,8 +2831,8 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				} else {
 					g_warning("buz2\n");
 				}
-				
-		
+
+
 		} else if (!strcmp(pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
 			    && emae->priv->extra_provider != emae->priv->source.provider) {
@@ -3095,5 +3095,5 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 		g_signal_connect(emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
 	} else {
 		e_config_create_widget((EConfig *)ec);
-	} 
+	}
 }

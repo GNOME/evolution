@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -496,7 +496,7 @@ more_parts(GtkWidget *button, struct _rule_data *data)
 			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
 			if (adjustment)
 				gtk_adjustment_set_value (adjustment, adjustment->upper);
-				
+
 		}
 	}
 }

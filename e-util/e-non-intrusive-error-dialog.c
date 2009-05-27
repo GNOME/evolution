@@ -169,7 +169,7 @@ eni_error_level_value_changed (GtkComboBox *w, gpointer *data)
         g_object_unref (gconf_client);
 }
 
-void 
+void
 eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, const char *error_level_path)
 {
 	GtkWidget *container;

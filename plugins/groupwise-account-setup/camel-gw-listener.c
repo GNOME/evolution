@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -224,7 +224,7 @@ add_esource (const char *conf_key, GwAccountInfo *info,  const char *source_name
 
 		e_source_set_property (source, "refresh", str);
 		g_free (str);
-	} else 
+	} else
 		e_source_set_property (source, "refresh", NULL);
 
 	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
@@ -349,7 +349,7 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, EAccount 
 	const char *poa_address;
 	const char *new_poa_address;
 	const char* new_group_name = a->name;
-	
+
 	url = camel_url_new (old_account_info->source_url, NULL);
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
@@ -387,13 +387,13 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, EAccount 
 					e_source_set_property (source, "port", camel_url_get_param (new_url,"soap_port"));
 					e_source_set_property (source, "use_ssl",  camel_url_get_param (url, "use_ssl"));
 					e_source_set_property (source, "offline_sync",  camel_url_get_param (url, "offline_sync") ? "1" : "0");
-				
+
 					if (a->source->auto_check) {
 						char *str = g_strdup_printf ("%d", a->source->auto_check_time);
-					
+
 						e_source_set_property (source, "refresh", str);
 						g_free (str);
-					} else 
+					} else
 						e_source_set_property (source, "refresh", NULL);
 
 					e_source_list_sync (list, NULL);
@@ -424,7 +424,7 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	add_esource ("/apps/evolution/calendar/sources", info, _("Calendar"), url, NULL, FALSE);
 	add_esource ("/apps/evolution/tasks/sources", info, _("Tasks"), url, NULL, FALSE);
 	add_esource ("/apps/evolution/memos/sources", info, _("Notes"), url, NULL, TRUE);
- 
+
 	camel_url_free (url);
 
 

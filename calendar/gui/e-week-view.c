@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -367,7 +367,7 @@ static void
 model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	
+
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		return;
 	}
@@ -1931,7 +1931,7 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if ((g_str_equal (itip_strip_mailto (attendee->value), address)) 
+		if ((g_str_equal (itip_strip_mailto (attendee->value), address))
 		 || (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address))) {
 			at = attendee;
 			break;
@@ -1939,7 +1939,7 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 	}
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
-	   If the attendee is not present, it might have come through a mailing list. 
+	   If the attendee is not present, it might have come through a mailing list.
 	   In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
@@ -3625,7 +3625,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					goto out;
 				}
-		
+
 				if (mod == CALOBJ_MOD_ALL)
 					comp_util_sanitize_recurrence_master (comp, client);
 
@@ -3879,16 +3879,16 @@ e_month_view_do_cursor_key_up (EWeekView *week_view)
 		/* no easy way to calculate new selection_start_day, therefore
 		 * calculate a time_t value and set_selected_time_range */
 		time_t current;
-		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {			
-			current = time_add_week(current,-1);			
+		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
+			current = time_add_week(current,-1);
 			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_UP);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);					
+			e_week_view_set_selected_time_range_visible(week_view,current,current);
 		}
 	} else {
 		week_view->selection_start_day -= 7;
 		week_view->selection_end_day = week_view->selection_start_day;
 	}
-	
+
 	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -3908,13 +3908,13 @@ e_month_view_do_cursor_key_down (EWeekView *week_view)
 		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
 			current = time_add_week(current,1);
 			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);				
+			e_week_view_set_selected_time_range_visible(week_view,current,current);
 		}
 	} else {
 		week_view->selection_start_day += 7;
 		week_view->selection_end_day = week_view->selection_start_day;
 	}
-	
+
 	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -3930,15 +3930,15 @@ e_month_view_do_cursor_key_left (EWeekView *week_view)
 		 * calculate a time_t value and set_selected_time_range */
 		time_t current;
 		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
-			current = time_add_day(current,-1);			
+			current = time_add_day(current,-1);
 			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_UP);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);						
+			e_week_view_set_selected_time_range_visible(week_view,current,current);
 		}
 	} else {
 		week_view->selection_start_day--;
 		week_view->selection_end_day = week_view->selection_start_day;
 	}
-	
+
 	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
@@ -3958,13 +3958,13 @@ e_month_view_do_cursor_key_right (EWeekView *week_view)
 		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
 			current = time_add_day(current,1);
 			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);						
+			e_week_view_set_selected_time_range_visible(week_view,current,current);
 		}
 	} else {
 		week_view->selection_start_day++;
 		week_view->selection_end_day = week_view->selection_start_day;
 	}
-	
+
 	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }

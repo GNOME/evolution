@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -116,7 +116,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     int real_x, real_y, real_w, real_h;
     int pix_w, pix_h;
     cairo_t *cr;
-	
+
     cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
 							  1, row);
 
@@ -155,7 +155,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     gdk_cairo_set_source_pixbuf (cr, cell_pixbuf, real_x, real_y);
     cairo_paint_with_alpha (cr, 1);
     cairo_restore (cr);
-    cairo_destroy (cr);	
+    cairo_destroy (cr);
 }
 
 static gint

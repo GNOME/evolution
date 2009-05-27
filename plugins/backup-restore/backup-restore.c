@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -83,7 +83,7 @@ sanity_check (const char *filename)
 	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
 
 	return WIFEXITED (result) && (WEXITSTATUS (result) == 0);
-#else	
+#else
 	return result;
 #endif
 }
@@ -125,7 +125,7 @@ epbr_perform_pre_backup_checks (char* dir)
 #ifdef G_OS_WIN32
 	return TRUE;
 #else
-	return (g_access (dir, W_OK) == 0); 
+	return (g_access (dir, W_OK) == 0);
 #endif
 }
 

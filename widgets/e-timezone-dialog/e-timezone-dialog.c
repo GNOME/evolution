@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -101,9 +101,9 @@ static void	set_map_timezone		(ETimezoneDialog *etd,
 static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
 
-static void timezone_combo_get_active_text 	(GtkComboBox *combo, 
+static void timezone_combo_get_active_text 	(GtkComboBox *combo,
 						 const char **zone_name);
-static gboolean timezone_combo_set_active_text 	(GtkComboBox *combo, 
+static gboolean timezone_combo_set_active_text 	(GtkComboBox *combo,
 						 const char *zone_name);
 
 static void	map_destroy_cb			(gpointer data,
@@ -793,7 +793,7 @@ on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)
 	set_map_timezone (etd, map_zone);
 }
 
-static void 
+static void
 timezone_combo_get_active_text (GtkComboBox *combo, const char **zone_name)
 {
 	GtkTreeModel *list_store;
@@ -802,13 +802,13 @@ timezone_combo_get_active_text (GtkComboBox *combo, const char **zone_name)
 	list_store = gtk_combo_box_get_model (combo);
 
 	/* Get the active iter in the list */
-	if (gtk_combo_box_get_active_iter (combo, &iter)) 
+	if (gtk_combo_box_get_active_iter (combo, &iter))
 		gtk_tree_model_get (list_store, &iter, 0, zone_name, -1);
-	else 
+	else
 		*zone_name = "";
 }
 
-static gboolean 
+static gboolean
 timezone_combo_set_active_text (GtkComboBox *combo, const char *zone_name)
 {
 	GtkTreeModel *list_store;
@@ -818,7 +818,7 @@ timezone_combo_set_active_text (GtkComboBox *combo, const char *zone_name)
 	list_store = gtk_combo_box_get_model (combo);
 	index = (GHashTable *) g_object_get_data (G_OBJECT (list_store), "index");
 
-	if (zone_name && *zone_name) 
+	if (zone_name && *zone_name)
 		id = g_hash_table_lookup (index, zone_name);
 
 	gtk_combo_box_set_active (combo, GPOINTER_TO_INT (id));

@@ -13,7 +13,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -81,7 +81,7 @@ struct _ECalModelComponent {
 	icalcomponent *icalcomp;
 	time_t instance_start;
 	time_t instance_end;
-	
+
 	/* Private data used by ECalModelCalendar and ECalModelTasks */
 	/* keep these public to avoid many accessor functions */
 	ECellDateEditValue *dtstart;

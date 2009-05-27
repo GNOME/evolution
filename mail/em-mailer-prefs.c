@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -346,7 +346,7 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 	gtk_box_pack_start ((GtkBox *)hbox, l2, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)hbox, entry2, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
-	
+
 	gtk_widget_show_all (vbox);
 	gtk_container_add ((GtkContainer *)((GtkDialog *)dialog)->vbox, vbox);
 	response = gtk_dialog_run ((GtkDialog *)dialog);
@@ -355,9 +355,9 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 		const char *value = gtk_entry_get_text ((GtkEntry *)entry2);
 		char *tok;
 		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-		
+
 		/* FIXME: Validate the values */
-		
+
 		tok = g_strdup_printf ("%s=%s", name, value);
 		list = g_slist_append (list, tok);
 		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
@@ -395,7 +395,7 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 				if (strcmp (test, value) == 0)
 					break;
 			}
-				
+
 			prev = node;
 			node = node->next;
 		}

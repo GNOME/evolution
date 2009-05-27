@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -624,7 +624,7 @@ emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimePart *part;
 	CamelDataWrapper *content;
 	CamelStreamMem *mem;
-	
+
 
 	part = ((EMPopupTargetPart *) target)->part;
 

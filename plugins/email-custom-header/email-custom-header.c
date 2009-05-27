@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -92,7 +92,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
         return 0;
 }
 
-static void 
+static void
 epech_get_widgets_data (CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
@@ -115,8 +115,8 @@ epech_get_widgets_data (CustomHeaderOptionsDialog *mch)
 	return;
 }
 
-static gboolean 
-epech_get_widgets (CustomHeaderOptionsDialog *mch) 
+static gboolean
+epech_get_widgets (CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	priv = mch->priv;
@@ -127,39 +127,39 @@ epech_get_widgets (CustomHeaderOptionsDialog *mch)
 	if (!priv->main)
 		return FALSE;
 
-	priv->page  = EMAIL_CUSTOM_HEADER ("email-custom-header-vbox");	
-	priv->header_table = EMAIL_CUSTOM_HEADER ("email-custom-header-options");	
+	priv->page  = EMAIL_CUSTOM_HEADER ("email-custom-header-vbox");
+	priv->header_table = EMAIL_CUSTOM_HEADER ("email-custom-header-options");
 #undef EMAIL_CUSTOM_HEADER
 
 	return (priv->page
 		&&priv->header_table);
 }
 
-static void 
+static void
 epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	HeaderValueComboBox *sub_combo_box_fill;
-	gint set_index_row,set_index_column;	
+	gint set_index_row,set_index_column;
 
 	priv = mch->priv;
 	priv->help_section = g_strdup ("usage-mail");
 
-	for (set_index_row = 0,set_index_column = 0; 
+	for (set_index_row = 0,set_index_column = 0;
 		set_index_column < priv->email_custom_header_details->len;set_index_column++) {
 		sub_combo_box_fill = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
 
 		if (priv->flag == 0) {
 			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,0);
 		} else {
-			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box, 
+			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,
                         	g_array_index(priv->header_index_type, gint, set_index_column));
 		}
 	}
 }
 
 CustomHeaderOptionsDialog *
-epech_dialog_new (void) 
+epech_dialog_new (void)
 {
 	CustomHeaderOptionsDialog *mch;
 
@@ -168,7 +168,7 @@ epech_dialog_new (void)
 	return mch;
 }
 
-GType 
+GType
 epech_dialog_get_type (void)
 {
 	static GType type = 0;
@@ -189,12 +189,12 @@ epech_dialog_get_type (void)
 		type = g_type_register_static (G_TYPE_OBJECT,
 				"CustomHeaderOptionsDialogType",
 				&info, 0);
-	} 
+	}
 
 	return type;
 }
 
-static void 
+static void
 epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
@@ -203,14 +203,14 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 	mch = func_data;
 	priv = mch->priv;
 
-	switch (state) {			
+	switch (state) {
 		case GTK_RESPONSE_OK:
-			epech_get_widgets_data (mch); 
+			epech_get_widgets_data (mch);
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);
 			g_object_unref (priv->xml);
-			break;	     
+			break;
 		case GTK_RESPONSE_HELP:
 			e_display_help (
 				GTK_WINDOW (priv->main),
@@ -221,9 +221,9 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 	g_signal_emit (G_OBJECT (func_data), signals[MCH_RESPONSE], 0, state);
 }
 
-static gboolean 
+static gboolean
 epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
-{	
+{
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
 	gchar *filename;
@@ -260,12 +260,12 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
 	return TRUE;
 }
 
-static void 
+static void
 epech_get_header_list (CustomHeaderOptionsDialog *mch)
 {
 	GConfClient *client;
 
-	client = gconf_client_get_default (); 
+	client = gconf_client_get_default ();
 	g_return_if_fail (GCONF_IS_CLIENT (client));
 	gconf_client_add_dir (client, GCONF_KEY_CUSTOM_HEADER, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	epech_load_from_gconf (client, "/apps/evolution/eplugin/email_custom_header/customHeader", mch);
@@ -273,7 +273,7 @@ epech_get_header_list (CustomHeaderOptionsDialog *mch)
 	return;
 }
 
-static void 
+static void
 epech_load_from_gconf (GConfClient *client,const char *path,CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
@@ -319,7 +319,7 @@ epech_load_from_gconf (GConfClient *client,const char *path,CustomHeaderOptionsD
 	temp_header_details.number_of_header = pos;
 }
 
-static void 
+static void
 epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
@@ -345,9 +345,9 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	};
 
 	priv = mch->priv;
-	priv->combo_box_header_value = g_array_new (TRUE, FALSE, sizeof (HeaderValueComboBox)); 
+	priv->combo_box_header_value = g_array_new (TRUE, FALSE, sizeof (HeaderValueComboBox));
 
-	for (header_section_id = 0,label_row = 0,row = 0,column = 1; 
+	for (header_section_id = 0,label_row = 0,row = 0,column = 1;
 		header_section_id < priv->email_custom_header_details->len; header_section_id++,row++,column++) {
 
 		/* To create an empty label widget. Text will be added dynamically. */
@@ -369,7 +369,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		g_array_append_val(priv->combo_box_header_value, sub_combo_box);
 	}
 
-	for (sub_index = 0,row_combo = 0,column_combo = 1; sub_index < priv->combo_box_header_value->len; 
+	for (sub_index = 0,row_combo = 0,column_combo = 1; sub_index < priv->combo_box_header_value->len;
                 sub_index++,row_combo++,column_combo++) {
 		temp = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
 
@@ -380,7 +380,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			(GtkAttachOptions) (GTK_FILL), 0, 0);
 
 		for (sub_type_index = 0; sub_type_index < temp->number_of_subtype_header; sub_type_index++) {
-			temp_header_value_ptr = &g_array_index(temp->sub_header_type_value, CustomSubHeader,sub_type_index); 
+			temp_header_value_ptr = &g_array_index(temp->sub_header_type_value, CustomSubHeader,sub_type_index);
 			str = (temp_header_value_ptr->sub_header_string_value)->str;
 			for (i = 0; security_values[i].value != NULL; i++) {
 				if (strcmp (str, security_values[i].value) == 0) {
@@ -397,7 +397,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	}
 }
 
-static void 
+static void
 epech_dialog_class_init (GObjectClass *object)
 {
 	CustomHeaderOptionsDialogClass *klass;
@@ -420,7 +420,7 @@ epech_dialog_class_init (GObjectClass *object)
 			G_TYPE_INT);
 }
 
-static void 
+static void
 epech_dialog_init (GObject *object)
 {
 	CustomHeaderOptionsDialog *mch;
@@ -435,7 +435,7 @@ epech_dialog_init (GObject *object)
 	priv->header_table = NULL;
 }
 
-static void 
+static void
 epech_dialog_finalize (GObject *object)
 {
 	CustomHeaderOptionsDialog *mch = (CustomHeaderOptionsDialog *)object;
@@ -450,11 +450,11 @@ epech_dialog_finalize (GObject *object)
 		mch->priv = NULL;
 	}
 
-	if (parent_class->finalize) 
+	if (parent_class->finalize)
 		(* parent_class->finalize) (object);
 }
 
-static void 
+static void
 epech_dialog_dispose (GObject *object)
 {
 	CustomHeaderOptionsDialog *mch = (CustomHeaderOptionsDialog *) object;
@@ -463,9 +463,9 @@ epech_dialog_dispose (GObject *object)
 
 	if (parent_class->dispose)
 		(* parent_class->dispose) (object);
-}	
+}
 
-static void 
+static void
 epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gpointer data)
 {
 	EMsgComposer *composer;
@@ -487,15 +487,15 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 				temp_header_value_ptr = &g_array_index(temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
 
 				if (sub_type_index == g_array_index(priv->header_index_type, gint, index_subtype)){
-					e_msg_composer_modify_header (composer, (temp_header_ptr->header_type_value)->str, 
-						(temp_header_value_ptr->sub_header_string_value)->str);		             
+					e_msg_composer_modify_header (composer, (temp_header_ptr->header_type_value)->str,
+						(temp_header_value_ptr->sub_header_string_value)->str);
 				}
 			}
 		}
 	}
 }
 
-static void 
+static void
 epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 {
         EMsgComposer *composer;
@@ -503,7 +503,7 @@ epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
         CustomHeaderOptionsDialog *current_dialog = NULL;
 
         composer = (EMsgComposer *) user_data;
-        
+
         if (!user_data || !EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (user_data))
 		return;
 
@@ -515,16 +515,16 @@ epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 
         if (current_dialog) {
 		g_free (current_dialog);
-		current_dialog = NULL;	
+		current_dialog = NULL;
         }
 
 	if (new_email_custom_header_window) {
 		g_free (new_email_custom_header_window);
-		new_email_custom_header_window = NULL;           
+		new_email_custom_header_window = NULL;
 	}
 }
 
-static gint 
+static gint
 epech_check_existing_composer_window(gconstpointer compowindow, gconstpointer other_compowindow)
 {
 	if ((compowindow) && (other_compowindow)){
@@ -570,7 +570,7 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
                         new_email_custom_header_window->epech_window =  menuitem->window;
                         new_email_custom_header_window->epech_dialog = dialog;
                         g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
-		}        
+		}
 	}
 
 	epech_dialog_run (dialog, GTK_WIDGET (composer));
@@ -944,7 +944,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_signal_connect(G_OBJECT(model), "row-changed", G_CALLBACK(header_isempty), cd);
 
 	/* Populate tree view with values from gconf */
-	header_list = gconf_client_get_list (client,GCONF_KEY_CUSTOM_HEADER,GCONF_VALUE_STRING, NULL);	
+	header_list = gconf_client_get_list (client,GCONF_KEY_CUSTOM_HEADER,GCONF_VALUE_STRING, NULL);
 
 	for (list = header_list; list; list = g_slist_next (list)) {
 		gchar **parse_header_list;
@@ -954,7 +954,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
                 parse_header_list = g_strsplit_set (buffer, "=,", -1);
                 str_colon = g_strconcat (parse_header_list[0], "", NULL);
                 gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, str_colon, -1);
-		
+
 		for (index = 0; parse_header_list[index+1] ; ++index) {
                         str1_colon = g_strconcat (parse_header_list[index+1], "", NULL);
                         gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, str1_colon, -1);

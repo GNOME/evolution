@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -106,7 +106,7 @@ prepare_popup (ETaskWidget *widget, GdkEventButton *event)
 
 	if (event->button != 3)
 		return FALSE;
-	
+
 	/* FIXME: Implement Cancel */
 
 	return TRUE;

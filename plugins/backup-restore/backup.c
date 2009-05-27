@@ -11,13 +11,13 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
- 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -182,7 +182,7 @@ backup (const char *filename)
 
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
-	
+
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
@@ -226,10 +226,10 @@ restore (const char *filename)
 {
 	char *command;
 	char *quotedfname;
-	
+
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
-	
+
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
@@ -281,7 +281,7 @@ check (const char *filename)
 
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
-	
+
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
 	result = system (command);
 	g_free (command);
@@ -294,7 +294,7 @@ check (const char *filename)
 	result = system (command);
 	g_free (command);
 	g_free (quotedfname);
-	
+
 	g_message ("Second result %d", result);
 
 }

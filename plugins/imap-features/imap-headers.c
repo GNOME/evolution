@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -260,7 +260,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkTreeViewColumn *column;
 	GtkTreeIter first, iter;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
-	
+
 	ui = g_new0 (EPImapFeaturesData, 1);
 
 	target_account = (EMConfigTargetAccount *)data->config->target;

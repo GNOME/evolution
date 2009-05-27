@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -529,7 +529,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 		g_string_free (oerr, TRUE);
 	} else
 		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
-	
+
 	if (e->secondary) {
 		ee_build_label(out, e->secondary, args, TRUE);
 		oerr = g_string_new("");
@@ -561,7 +561,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);
 	g_object_set_data_full ((GObject *) dialog, "primary", perr, g_free);
 	g_object_set_data_full ((GObject *) dialog, "secondary", serr, g_free);
-	
+
 	return (GtkWidget *)dialog;
 }
 

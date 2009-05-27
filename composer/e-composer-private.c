@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -101,7 +101,7 @@ e_composer_private_init (EMsgComposer *composer)
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
 		gtk_widget_hide (widget);
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_toolbar_set_style ((GtkToolbar *)widget, GTK_TOOLBAR_BOTH_HORIZ);	
+		gtk_toolbar_set_style ((GtkToolbar *)widget, GTK_TOOLBAR_BOTH_HORIZ);
 		gtk_widget_hide (widget);
 
 	}

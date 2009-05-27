@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1476,8 +1476,8 @@ emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 
 				emfb_expand_all_threads (uid, data, path);
 
-				/* The time out below is added so that the execution thread to 
-				   expand all conversations threads would've completed. 
+				/* The time out below is added so that the execution thread to
+				   expand all conversations threads would've completed.
 
 				   The timeout 505 is just to ensure that the value is a small delta
 				   more than the timeout value in expand_all_threads thread. */

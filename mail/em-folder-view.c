@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -168,7 +168,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageFilterJunk",        EM_POPUP_SELECT_MANY },
 	{ "MessageCopy",              EM_POPUP_SELECT_MANY },
 	{ "MessageDelete",            EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_DELETE },
-	{ "MessageDeleteKey",         EM_POPUP_SELECT_MANY},	
+	{ "MessageDeleteKey",         EM_POPUP_SELECT_MANY},
 	{ "MessageForward",           EM_POPUP_SELECT_MANY },
 	{ "MessageForwardAttached",   EM_POPUP_SELECT_MANY },
 	{ "MessageForwardInline",     EM_POPUP_SELECT_ONE },
@@ -511,7 +511,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	}
 
         if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
-	    || em_utils_folder_is_templates(emfv->folder, emfv->folder_uri) 	
+	    || em_utils_folder_is_templates(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
 		em_utils_edit_messages(emfv->folder, uids, TRUE);
 		return uids->len;
@@ -884,7 +884,7 @@ emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 
 	emmb = (EMMessageBrowser *)em_message_browser_window_new();
 	em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
-	message_list_ensure_message (((EMFolderView *)emmb)->list, uids->pdata[0]);	
+	message_list_ensure_message (((EMFolderView *)emmb)->list, uids->pdata[0]);
 	em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
 	em_format_set_mode((EMFormat *)((EMFolderView *)emmb)->preview, EM_FORMAT_SOURCE);
 	em_folder_view_set_message((EMFolderView *)emmb, uids->pdata[0], FALSE);
@@ -1233,7 +1233,7 @@ emfv_popup_label_clear(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
 	GSList *l;
-	EUtilLabel *label; 
+	EUtilLabel *label;
 
 	for (l = mail_config_get_labels (); l; l = l->next) {
 		label = l->data;
@@ -1365,7 +1365,7 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, (gchar *) "90.filter", NULL, NULL, NULL, NULL },
 	{ E_POPUP_SUBMENU, (gchar *) "90.filter.00", (gchar *) N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	/* Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on. */ 
+	/* Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on. */
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/00.00", (gchar *) N_("Search Folder based on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/00.01", (gchar *) N_("Search Folder based on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/00.02", (gchar *) N_("Search Folder based on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -1373,7 +1373,7 @@ static EPopupItem emfv_popup_items[] = {
 	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, (gchar *) "90.filter.00/10", NULL, NULL, NULL, NULL },
-	/* Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on. */ 
+	/* Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on. */
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/10.00", (gchar *) N_("Filter based on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/10.01", (gchar *) N_("Filter based on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, (gchar *) "90.filter.00/10.02", (gchar *) N_("Filter based on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -2610,7 +2610,7 @@ emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent
 	/* Ignore double-clicks on columns that handle thier own state */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
-	
+
 	em_folder_view_open_selected(emfv);
 }
 
@@ -2931,7 +2931,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 		if (!main_emp)
 			main_emp = emp;
 	}
-	
+
 	if (event == NULL)
 		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	else

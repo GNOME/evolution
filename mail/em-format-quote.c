@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -271,22 +271,22 @@ static void
 canon_header_name (char *name)
 {
 	char *inptr = name;
-	
+
 	/* canonicalise the header name... first letter is
 	 * capitalised and any letter following a '-' also gets
 	 * capitalised */
-	
+
 	if (*inptr >= 'a' && *inptr <= 'z')
 		*inptr -= 0x20;
-	
+
 	inptr++;
-	
+
 	while (*inptr) {
 		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
 			*inptr -= 0x20;
 		else if (*inptr >= 'A' && *inptr <= 'Z')
 			*inptr += 0x20;
-		
+
 		inptr++;
 	}
 }
@@ -312,24 +312,24 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 			break;
 		}
 	}
-	
+
 	label = _(name);
-	
+
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
 
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-		
+
 		buf = camel_header_unfold (txt);
 		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset))) {
 			g_free (buf);
 			return;
 		}
-		
+
 		g_free (buf);
-		
+
 		html = g_string_new ("");
 		emfq_format_address (html, addrs);
 		camel_header_address_unref (addrs);
@@ -347,15 +347,15 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 				if (!(txt = camel_medium_get_header (part, "x-newsreader")))
 					if (!(txt = camel_medium_get_header (part, "x-mimeole")))
 						return;
-		
+
 		txt = value = camel_header_format_ctext (txt, charset);
-		
+
 		label = _("Mailer");
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-		
+
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else {
 		txt = camel_medium_get_header (part, name);

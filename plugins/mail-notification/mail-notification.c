@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -398,8 +398,8 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	dialog = gtk_dialog_new_with_buttons (_("Mail Notification Properties"),
-						NULL, 
-						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, 
+						NULL,
+						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						NULL);
 
@@ -427,7 +427,7 @@ popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time
 	#endif
 	gtk_widget_show (item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	
+
 	item = gtk_separator_menu_item_new ();
 	gtk_widget_show (item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -443,11 +443,11 @@ popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time
 }
 
 #ifdef HAVE_LIBNOTIFY
-static void 
+static void
 notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 {
 	g_static_mutex_lock (&mlock);
-	
+
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_object_unref (status_icon);
 
@@ -457,7 +457,7 @@ notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 	}
 
 	status_icon = NULL;
-	status_count = 0;	
+	status_count = 0;
 	g_static_mutex_unlock (&mlock);
 }
 #endif
@@ -833,11 +833,11 @@ get_cfg_widget (void)
 	gtk_widget_show (check);
 	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
-#ifdef HAVE_DBUS	
+#ifdef HAVE_DBUS
 	cfg = get_config_widget_dbus ();
 	if (cfg)
 		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
-#endif 
+#endif
 	cfg = get_config_widget_status ();
 	if (cfg)
 		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
@@ -868,7 +868,7 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 	g_static_mutex_lock (&mlock);
 
-#ifdef HAVE_DBUS	
+#ifdef HAVE_DBUS
 	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 		new_notify_dbus (t);
 #endif
@@ -908,7 +908,7 @@ int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
 	if (enable) {
-#ifdef HAVE_DBUS		
+#ifdef HAVE_DBUS
 		if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 			enable_dbus (enable);
 #endif
@@ -922,7 +922,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 	} else {
 #ifdef HAVE_DBUS
 		enable_dbus (enable);
-#endif 
+#endif
 		enable_status (enable);
 		enable_sound (enable);
 

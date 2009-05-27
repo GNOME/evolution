@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -372,7 +372,7 @@ do_mail_to_event (AsyncData *data)
 		dt.tzid = NULL;
 
 		tt2 = tt;
-		icaltime_adjust (&tt2, 1, 0, 0, 0);		
+		icaltime_adjust (&tt2, 1, 0, 0, 0);
 		dt2.value = &tt2;
 		dt2.tzid = NULL;
 
@@ -581,7 +581,7 @@ mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *u
 			}
 		}
 	}
-	
+
 	if (!source) {
 		GtkWidget *dialog;
 

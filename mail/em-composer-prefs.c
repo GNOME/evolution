@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -956,7 +956,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
-	prefs->forward_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxForwardStyle")); 
+	prefs->forward_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxForwardStyle"));
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
 	gtk_combo_box_set_active (prefs->forward_style, style);
 	g_signal_connect (prefs->forward_style, "changed", G_CALLBACK (style_changed), (gpointer) "/apps/evolution/mail/format/forward_style");

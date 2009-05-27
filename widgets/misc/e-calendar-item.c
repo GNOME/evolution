@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
@@ -1386,9 +1386,9 @@ get_digit_fomat ()
 
 	if (major > 2 || minor > 2 || (minor == 2 && revision > 2)) {
 		return "%Id";
-	} 
+	}
 #endif
-	
+
 	return "%d";
 }
 
@@ -1984,7 +1984,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	for (digit = 0; digit < 10; digit++) {
 		gchar locale_digit[5];
 		int locale_digit_len;
-		
+
 		locale_digit_len = sprintf (locale_digit, get_digit_fomat (), digit);
 
 		pango_layout_set_text (layout, locale_digit, locale_digit_len);

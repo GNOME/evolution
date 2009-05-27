@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -70,7 +70,7 @@
 #define WEATHER_BASE_URI "weather://"
 #define PERSONAL_RELATIVE_URI "system"
 #define CALENDAR_ERROR_LEVEL_KEY "/apps/evolution/calendar/display/error_level"
-#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout" 
+#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout"
 
 enum DndTargetType {
 	DND_TARGET_TYPE_CALENDAR_LIST
@@ -598,7 +598,7 @@ edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	calendar_setup_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source, NULL);
 }
 
-static void 
+static void
 set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
 {
 	CalendarComponentView *component_view = data;
@@ -614,13 +614,13 @@ set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char 
 static void
 mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	set_offline_availability (ep, pitem, data, "0"); 
+	set_offline_availability (ep, pitem, data, "0");
 }
 
 static void
 mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	set_offline_availability (ep, pitem, data, "1"); 
+	set_offline_availability (ep, pitem, data, "1");
 }
 
 static EPopupItem ecc_source_popups[] = {

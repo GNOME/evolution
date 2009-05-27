@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -416,7 +416,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	g_object_unref (iter);
 
 	/* Check to see if we have to send any mails --- if we don't, don't display the SMTP row in the table */
-	if (outbox && destination 
+	if (outbox && destination
 	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) == 0)
 		num_sources--;
 
@@ -545,7 +545,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
-	if (outbox && destination 
+	if (outbox && destination
 	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
@@ -1196,7 +1196,7 @@ mail_send (void)
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
 	info->keep_on_server = FALSE;
-	info->cancel = NULL; 
+	info->cancel = NULL;
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;

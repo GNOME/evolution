@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1045,7 +1045,7 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 	return fi.fi != NULL;
 }
 
-gboolean 
+gboolean
 mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
 {
 	char *uri = mail_tools_folder_to_url (folder);
@@ -1061,7 +1061,7 @@ mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
 	if (flags) {
 		if (fi.fi) {
 			*flags = fi.fi->flags;
-		} 
+		}
 	}
 	UNLOCK(info_lock);
 

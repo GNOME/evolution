@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -142,7 +142,7 @@ activity_info_new (const char *component_id,
 	info->menu           = NULL;
 	info->error          = NULL;
 	info->cancel_func    = NULL;
-	
+
 	return info;
 }
 
@@ -209,7 +209,7 @@ setup_task_bar (EActivityHandler *activity_handler,
 			g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
 			g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(info->id));
 			g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(info->error_type));
-			g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);			
+			g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
 		}
 	}
 }
@@ -360,14 +360,14 @@ e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
 }
 
 struct _cancel_wdata {
-	EActivityHandler *handler;	
+	EActivityHandler *handler;
 	ActivityInfo *info;
 	guint id;
 	void (*cancel)(gpointer);
 	gpointer data;
 };
 
-static void 
+static void
 cancel_wrapper (gpointer pdata)
 {
 	struct _cancel_wdata *data = (struct _cancel_wdata *) pdata;
@@ -379,7 +379,7 @@ cancel_wrapper (gpointer pdata)
 		int order, len;
 		GSList *sp;
 		GList *p = lookup_activity (handler->priv->activity_infos, data->id, &order);
-		e_logger_log (handler->priv->logger, E_LOG_ERROR, g_object_get_data (data->info->error, "primary"), 
+		e_logger_log (handler->priv->logger, E_LOG_ERROR, g_object_get_data (data->info->error, "primary"),
 						    g_object_get_data (data->info->error, "secondary"));
 		gtk_widget_destroy (data->info->error);
 		data->info->error = NULL;
@@ -388,7 +388,7 @@ cancel_wrapper (gpointer pdata)
 			ETaskBar *task_bar;
 
 			task_bar = E_TASK_BAR (sp->data);
-			e_task_bar_remove_task_from_id (task_bar, info->id);	
+			e_task_bar_remove_task_from_id (task_bar, info->id);
 		}
 		activity_info_free (info);
 		len = g_list_length (handler->priv->activity_infos);
@@ -488,8 +488,8 @@ handle_error (ETaskWidget *task)
 	id = GPOINTER_TO_UINT (g_object_get_data ((GObject *) task, "activity"));
 	e_activity_handler_operation_finished (activity_handler, id);
 	gtk_widget_show (error);
-	e_logger_log (activity_handler->priv->logger, error_type, 
-		      g_object_get_data ((GObject *) error, "primary"), 
+	e_logger_log (activity_handler->priv->logger, error_type,
+		      g_object_get_data ((GObject *) error, "primary"),
 				    g_object_get_data ((GObject *) error, "secondary"));
 }
 
@@ -511,7 +511,7 @@ error_cleanup (EActivityHandler *activity_handler)
 			berror = TRUE;
 		if (info->error && info->error_time && (now - info->error_time) > 5 ) {
 			/* Error older than wanted time. So cleanup */
-			e_logger_log (priv->logger, info->error_type, g_object_get_data (info->error, "primary"), 
+			e_logger_log (priv->logger, info->error_type, g_object_get_data (info->error, "primary"),
 						    g_object_get_data (info->error, "secondary"));
 
 			if (GTK_IS_DIALOG (info->error))
@@ -530,7 +530,7 @@ error_cleanup (EActivityHandler *activity_handler)
 			}
 			activity_info_free (info);
 			priv->activity_infos = g_list_remove_link (priv->activity_infos, node);
-		
+
 		} else
 			p = p->next;
 	}
@@ -559,7 +559,7 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 	activity_info->error = error;
 	activity_info->error_time = time (NULL);
 	activity_info->error_type = error_type;
-	
+
 	img = error_type ? icon_data[1] : icon_data[0];
 	for (p = priv->task_bars; p != NULL; p = p->next) {
 		ETaskBar *task_bar;
@@ -567,17 +567,17 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 		GtkWidget *tool;
 
 		task_bar = E_TASK_BAR (p->data);
-		task_widget = task_widget_new_from_activity_info (activity_info); 
+		task_widget = task_widget_new_from_activity_info (activity_info);
 		task_widget->id = activity_id;
 		e_task_bar_prepend_task (E_TASK_BAR (p->data), task_widget);
-		
+
 		tool = e_task_widget_update_image (task_widget, (char *)img, information);
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
 		g_object_set_data ((GObject *) task_widget, "error", error);
 		g_object_set_data ((GObject *) task_widget, "activity-handler", activity_handler);
 		g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(activity_id));
 		g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(error_type));
-		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);		
+		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
 	}
 
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);

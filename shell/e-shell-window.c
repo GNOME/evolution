@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -321,7 +321,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	}
 
 	if (component_view->title == NULL) {
-		/* To translators: This is the window title and %s is the 
+		/* To translators: This is the window title and %s is the
 		component name. Most translators will want to keep it as is. */
 		title = g_strdup_printf (_("%s - Evolution"), info->button_label);
 		gtk_window_set_title (GTK_WINDOW (window), title);
@@ -343,7 +343,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	/** @Event: Shell component activated or switched to.
 	 * @Id: component.activated
 	 * @Target: ESEventTargetComponent
-	 * 
+	 *
 	 * This event is emitted whenever the shell successfully activates component
 	 * view.
 	 */
@@ -408,7 +408,7 @@ update_offline_toggle_status (EShellWindow *window)
 static void
 update_send_receive_sensitivity (EShellWindow *window)
 {
-	if (e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_OFFLINE || 
+	if (e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_OFFLINE ||
 		e_shell_get_line_status (window->priv->shell.eshell) == E_SHELL_LINE_STATUS_FORCED_OFFLINE)
 		bonobo_ui_component_set_prop (window->priv->ui_component,
 					      "/commands/SendReceive",

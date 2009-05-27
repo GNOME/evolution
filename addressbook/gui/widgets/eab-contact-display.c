@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -408,7 +408,7 @@ accum_name_value (GString *gstr, const char *label, const char *str, const char 
 		g_string_append_printf (gstr, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
 		if (icon)
 			g_string_append_printf (gstr, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\"></td></tr>", icon);
-		else 
+		else
 			g_string_append_printf (gstr, "</td></tr>");
 	} else {
 		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
@@ -549,7 +549,7 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 		if (!eab_parse_qp_email (l->data, &name, &mail))
 			mail = e_text_to_html (l->data, 0);
 
-		g_string_append_printf (accum, "%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s <font color=" HEADER_COLOR ">(%s)</font>", 
+		g_string_append_printf (accum, "%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s <font color=" HEADER_COLOR ">(%s)</font>",
 						nl,
 						name ? name : "",
 						name ? " &lt;" : "",

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1500,18 +1500,18 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 	const char *fmt, *html;
 	char *mhtml = NULL;
 	gboolean is_rtl;
-	
+
 	if (value == NULL)
 		return;
 
 	while (*value == ' ')
 		value++;
-	
+
 	if (!(flags & EM_FORMAT_HTML_HEADER_HTML))
 		html = mhtml = camel_text_to_html (value, emfh->text_html_flags, 0);
-	else 
+	else
 		html = value;
-	
+
 	is_rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 	if (emfh->simple_headers) {
 		fmt = "<b>%s</b>: %s<br>";
@@ -1528,7 +1528,7 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 			else
 				fmt = "<tr><th align=\"right\" valign=\"top\" nowrap>%s<b>&nbsp;</b></th><td valign=top>%s</td></tr>";
 		} else {
-			
+
 			if (flags & EM_FORMAT_HEADER_BOLD) {
 				if (is_rtl)
 					fmt = "<tr><td align=\"right\" valign=\"top\" width=\"100%%\">%2$s</td><th align=\"left\" nowrap>%1$s:<b>&nbsp;</b></th></tr>";
@@ -1667,22 +1667,22 @@ static void
 canon_header_name (char *name)
 {
 	char *inptr = name;
-	
+
 	/* canonicalise the header name... first letter is
 	 * capitalised and any letter following a '-' also gets
 	 * capitalised */
-	
+
 	if (*inptr >= 'a' && *inptr <= 'z')
 		*inptr -= 0x20;
-	
+
 	inptr++;
-	
+
 	while (*inptr) {
 		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
 			*inptr -= 0x20;
 		else if (*inptr >= 'A' && *inptr <= 'Z')
 			*inptr += 0x20;
-		
+
 		inptr++;
 	}
 }
@@ -1707,22 +1707,22 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			break;
 		}
 	}
-	
+
 	label = _(name);
-	
+
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
 		char *img;
-		
+
 		buf = camel_header_unfold (header->value);
 		if (!(addrs = camel_header_address_decode (buf, emf->charset ? emf->charset : emf->default_charset))) {
 			g_free (buf);
 			return;
 		}
-		
+
 		g_free (buf);
-		
+
 		html = g_string_new("");
 		img = efh_format_address(efh, html, addrs, (char *)label);
 
@@ -1732,7 +1732,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			flags |= EM_FORMAT_HTML_HEADER_NODEC;
 			g_free (img);
 		}
-		
+
 		camel_header_address_unref(addrs);
 		txt = value = html->str;
 		g_string_free(html, FALSE);
@@ -1742,7 +1742,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		buf = camel_header_unfold (header->value);
 		txt = value = camel_header_decode_string (buf, charset);
 		g_free (buf);
-		
+
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "X-evolution-mailer")) {
 		/* pseudo-header */
@@ -1769,7 +1769,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 
 		if (msg_offset) {
 			char buf[256], *html;
-			
+
 			msg_offset += (local.tm_hour * 60) + local.tm_min;
 			if (msg_offset >= (24 * 60) || msg_offset < 0) {
 				/* translators: strftime format for local time equivalent in Date header display, with day */
@@ -1782,27 +1782,27 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 				e_utf8_strftime(buf, sizeof(buf), msg, &local);
 				g_free(msg);
 			}
-			
+
 			html = camel_text_to_html(txt, efh->text_html_flags, 0);
 			txt = value = g_strdup_printf("%s %s", html, buf);
 			g_free(html);
 			flags |= EM_FORMAT_HTML_HEADER_HTML;
 		}
-		
+
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;
-		
+
 		buf = camel_header_unfold (header->value);
-		
+
 		if (!(ng = camel_header_newsgroups_decode (buf))) {
 			g_free (buf);
 			return;
 		}
-		
+
 		g_free (buf);
-		
+
 		html = g_string_new("");
 		scan = ng;
 		while (scan) {
@@ -1811,9 +1811,9 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			if (scan)
 				g_string_append_printf(html, ", ");
 		}
-		
+
 		camel_header_newsgroups_free(ng);
-		
+
 		txt = html->str;
 		g_string_free(html, FALSE);
 		flags |= EM_FORMAT_HEADER_BOLD|EM_FORMAT_HTML_HEADER_HTML;
@@ -1826,9 +1826,9 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		txt = value = camel_header_decode_string (buf, charset);
 		g_free (buf);
 	}
-	
+
 	efh_format_text_header(efh, stream, label, txt, flags);
-	
+
 	g_free (value);
 	g_free (str_field);
 }
@@ -1850,7 +1850,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	char *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
 	const char *hdr_charset;
-	
+
 	if (!part)
 		return;
 
@@ -1863,9 +1863,9 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 				    "<font color=\"#%06x\">\n"
 				    "<table cellpadding=\"0\" width=\"100%%\">",
 				    efh->header_colour & 0xffffff);
-	
+
 	hdr_charset = emf->charset ? emf->charset : emf->default_charset;
-	
+
 	header = ((CamelMimePart *)part)->headers;
 	while (header) {
 		if (!g_ascii_strcasecmp (header->name, "Sender")) {
@@ -1904,7 +1904,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 		header = header->next;
 	}
-	
+
 	if (header_sender && header_from && mail_from_delegate) {
 		camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 		if(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
@@ -1976,11 +1976,11 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 						have_icon = TRUE;
 				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					char *cp = header->value;
-					
+
 					/* Skip over spaces */
 					while (*cp == ' ')
 						cp++;
-					
+
 					face_header_value = g_base64_decode (cp, &face_header_len);
 					face_header_value = g_realloc (face_header_value, face_header_len + 1);
 					face_header_value[face_header_len] = 0;

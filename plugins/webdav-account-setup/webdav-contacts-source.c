@@ -311,7 +311,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	uidata->username_entry = GTK_ENTRY(gtk_entry_new());
 	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->username_entry), TRUE, TRUE, 0);
 
-	
+
 	hbox = GTK_BOX(gtk_hbox_new(FALSE, 10));
 	gtk_box_pack_start(GTK_BOX(vbox2), GTK_WIDGET(hbox), TRUE, TRUE, 0);
 

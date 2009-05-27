@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -548,7 +548,7 @@ composer_header_table_constructor (GType type,
 			priv->headers[ii]->input_widget,
 			"right-attach", 2, NULL);
 
-		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO, 
+		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO,
 				  E_COMPOSER_HEADER_TO + 1, GTK_FILL, 0, 0, 3);
 	}
 

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1048,7 +1048,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 		label = gtk_label_new_with_mnemonic (_(" i_n "));
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
-	
+
 		search_bar->scopeoption = gtk_option_menu_new ();
 	/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);

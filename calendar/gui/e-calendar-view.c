@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -2061,7 +2061,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 		int hours, mins;
 
 		if (!time_div) /* Possible if your gconf values aren't so nice */
-			time_div = 30; 
+			time_div = 30;
 
 		if (time_day_begin (now) == time_day_begin (dtstart)) {
 			/* same day as today */
@@ -2657,7 +2657,7 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	cairo_close_path (cr);
 }
 
-static void 
+static void
 error_response(GtkWidget *widget, gint response, void *data)
 {
 	gtk_widget_destroy (widget);

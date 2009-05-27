@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -641,7 +641,7 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	icalcomponent_kind kind;
 
 	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || 
+	if (kind == ICAL_VTODO_COMPONENT ||
 	    kind == ICAL_VEVENT_COMPONENT ||
 	    kind == ICAL_VJOURNAL_COMPONENT)
 		return update_single_object (client, icalcomp, kind == ICAL_VJOURNAL_COMPONENT);
@@ -803,7 +803,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 	ECalComponent *master = NULL;
 	icalcomponent *icalcomp = NULL;
 	ECalComponentRange rid;
-       	ECalComponentDateTime sdt;	
+       	ECalComponentDateTime sdt;
 	const char *uid;
 
 	/* Get the master component */
@@ -839,7 +839,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 
 		e_cal_component_set_dtstart (comp, &sdt);
 		e_cal_component_set_dtend (comp, &edt);
-		
+
 		e_cal_component_get_sequence (master, &sequence);
 		e_cal_component_set_sequence (comp, sequence);
 
