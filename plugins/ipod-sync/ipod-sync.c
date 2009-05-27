@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -256,7 +256,7 @@ org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	if (!ipod_check_status(FALSE))
 		return;
-	
+
 	destination_save_cal (ep, target, E_CAL_SOURCE_TYPE_JOURNAL);
 }
 

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -873,7 +873,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 		dt.value = &r->until;
 		dt.tzid = icaltimezone_get_tzid ((icaltimezone *)r->until.zone);
 
-		write_label_piece (itip, &dt, buffer, 
+		write_label_piece (itip, &dt, buffer,
 				   /* For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'*/
 				   _(", ending on "), NULL, TRUE);
 	}

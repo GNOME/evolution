@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -3281,7 +3281,7 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 
 	g_return_if_fail (epage != NULL);
 	g_return_if_fail (IS_EVENT_PAGE (epage));
-	
+
 	priv = epage->priv;
 
 	e_meeting_store_add_attendee (priv->model, attendee);
@@ -3300,7 +3300,7 @@ event_page_remove_all_attendees (EventPage *epage)
 
 	g_return_if_fail (epage != NULL);
 	g_return_if_fail (IS_EVENT_PAGE (epage));
-	
+
 	priv = epage->priv;
 
 	e_meeting_store_remove_all_attendees (priv->model);

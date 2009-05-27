@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -423,7 +423,7 @@ mail_config_init (void)
 		config->gconf, key, func,
 		&config->error_time, NULL, NULL);
 	config->error_time =
-		gconf_client_get_int (config->gconf, key, NULL);	
+		gconf_client_get_int (config->gconf, key, NULL);
 
 	key = "/apps/evolution/mail/display/error_level";
 	func = (GConfClientNotifyFunc) gconf_int_value_changed;
@@ -431,7 +431,7 @@ mail_config_init (void)
 		config->gconf, key, func,
 		&config->error_level, NULL, NULL);
 	config->error_level =
-		gconf_client_get_int (config->gconf, key, NULL);	
+		gconf_client_get_int (config->gconf, key, NULL);
 
 	key = "/apps/evolution/mail/display/force_message_limit";
 	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
@@ -678,7 +678,7 @@ mail_config_get_address_count (void)
 
 guint
 mail_config_get_error_timeout  (void)
-{	
+{
 	if (!config)
 		mail_config_init ();
 
@@ -687,7 +687,7 @@ mail_config_get_error_timeout  (void)
 
 guint
 mail_config_get_error_level  (void)
-{	
+{
 	if (!config)
 		mail_config_init ();
 
@@ -1206,7 +1206,7 @@ mail_config_reload_junk_headers (void)
 	/* It automatically sets in the session */
 	if (config == NULL)
 		mail_config_init ();
-	else 
+	else
 		gconf_jh_check_changed (config->gconf, 0, NULL, config);
 
 }

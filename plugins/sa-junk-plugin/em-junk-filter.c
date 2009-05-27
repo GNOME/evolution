@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -303,7 +303,7 @@ em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
   One time test to see if spamd is running with --allow-tell.  The call
   to spamc should return 0 if it is.  (Thanks to Karsten Bräckelmann
   for the idea).
-*/ 
+*/
 static void
 em_junk_sa_test_allow_tell (void)
 {
@@ -711,8 +711,8 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 			argv[4] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, 
-			    (no_allow_tell ? argv : argv2), 
+		pipe_to_sa (msg, NULL,
+			    (no_allow_tell ? argv : argv2),
 			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
@@ -748,8 +748,8 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 		if (no_allow_tell && em_junk_sa_local_only)
 			argv[4] = "--local";
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, 
-			    (no_allow_tell ? argv : argv2), 
+		pipe_to_sa (msg, NULL,
+			    (no_allow_tell ? argv : argv2),
 			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}

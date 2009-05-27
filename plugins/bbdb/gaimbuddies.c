@@ -6,7 +6,7 @@
  *  don't already have a buddy icon defined for a person.
  *
  *  This works today (25 October 2004), but is pretty sure to break
- *  later on as the Gaim buddylist file format shifts. 
+ *  later on as the Gaim buddylist file format shifts.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -452,7 +452,7 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 
 	}
 
-	if (is_blocked) 
+	if (is_blocked)
 		free_gaim_body (gb);
 	else
 		*buddies = g_list_prepend (*buddies, gb);

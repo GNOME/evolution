@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1700,7 +1700,7 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	/* Traverse to the last valid iter */
 	titer = iter;
-	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter)) 
+	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter))
 		titer = iter; /* Preserve the last valid iter */
 
 	iter = titer;

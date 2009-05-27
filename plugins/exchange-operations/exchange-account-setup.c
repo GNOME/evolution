@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -239,9 +239,9 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 								    &offline_status);
 	if (offline_status == OFFLINE_MODE) {
 		e_error_run (NULL, ERROR_DOMAIN ":exchange-settings-offline", NULL);
-	
+
 		return NULL;
-	}	
+	}
 
 	oof_data = g_new0 (OOFData, 1);
 
@@ -637,7 +637,7 @@ want_mailbox_toggled (GtkWidget *toggle, EConfig *config)
 		const char *mailbox;
 
 		gtk_widget_set_sensitive (entry, is_active);
-		
+
 		target = (EMConfigTargetAccount *)config->target;
 		mailbox = gtk_entry_get_text (GTK_ENTRY (entry));
 
@@ -898,14 +898,14 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	camel_url_free (url);
-	
+
 	exchange_config_listener_get_offline_status (exchange_global_config_listener,
 								    &offline_status);
-	
+
 	if (offline_status == OFFLINE_MODE) {
                 return;
 	}
-	
+
 	/* Set oof data in exchange account */
 	set_oof_info ();
 	destroy_oof_data ();
@@ -1122,10 +1122,10 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	if (!account)
 		return NULL;
 
-	exchange_account_is_offline (account, &mode);  
-	if (mode == OFFLINE_MODE)  
-		return NULL;  
-	
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return NULL;
+
 	folder_name = (char*) camel_folder_get_name (cml_folder);
 	if (!folder_name)
 		folder_name = g_strdup ("name");

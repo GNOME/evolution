@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,8 +50,8 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
 		id = (char *)item->user_data;
 
-		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL, 
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, 
+		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL,
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_STOCK_YES, GTK_RESPONSE_YES,
 				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
 
@@ -78,7 +78,7 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 				gtk_dialog_run (GTK_DIALOG(dialog));
 				gtk_widget_destroy (dialog);
 			}
-		} 
+		}
 	}
 }
 

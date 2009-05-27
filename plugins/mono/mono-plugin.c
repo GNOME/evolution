@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -108,18 +108,18 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 		if (p->klass) {
 			d(printf("looking up method '%s' in class\n", name));
 			/* class method */
-			
+
 			d = mono_method_desc_new(name, FALSE);
 			/*if (d == NULL) {
 				g_warning("Can't create method descriptor for '%s'", name);
 				return NULL;
 			}*/
-			
+
 			gpointer iter = NULL;
 			MonoMethod* mono_method;
 
 			d(printf ("\n\a About to get methods in klass\n\a"));
-			       
+
 			while ((mono_method = mono_class_get_methods (p->klass, &iter))) {
 				g_print ("\n\a Method name is : <%s>\n\a", mono_method_get_name(mono_method));
 			}

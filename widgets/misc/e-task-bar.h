@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -66,7 +66,7 @@ void         e_task_bar_prepend_task     (ETaskBar    *task_bar,
 					  ETaskWidget *task_widget);
 void         e_task_bar_remove_task      (ETaskBar    *task_bar,
 					  int          n);
-ETaskWidget * e_task_bar_get_task_widget_from_id (ETaskBar *task_bar, 
+ETaskWidget * e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
 						  guint id);
 
 void 	    e_task_bar_remove_task_from_id (ETaskBar *task_bar,

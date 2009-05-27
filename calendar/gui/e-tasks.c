@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -951,7 +951,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 	priv = tasks->priv;
 
 	source = e_cal_get_source (ecal);
-	
+
 	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		auth_cal_forget_password (ecal);
 

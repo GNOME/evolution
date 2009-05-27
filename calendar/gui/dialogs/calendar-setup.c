@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -258,7 +258,7 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 	GtkWidget *offline_setting = NULL;
 	const char *offline_sync;
 	int row;
-	const char *base_uri = e_source_group_peek_base_uri (sdialog->source_group); 
+	const char *base_uri = e_source_group_peek_base_uri (sdialog->source_group);
 	gboolean is_local = base_uri && (g_str_has_prefix (base_uri, "file://") || g_str_has_prefix (base_uri, "contacts://"));
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
 	if (old)

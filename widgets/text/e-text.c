@@ -386,10 +386,10 @@ reset_layout_attrs (EText *text)
 	}
 
 	pango_layout_set_attributes (text->layout, attrs);
-	
+
 	if (attrs)
 		pango_attr_list_unref (attrs);
-	
+
 	calc_height (text);
 }
 
@@ -1514,12 +1514,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
-	/* Insert preedit text only when im_context signals are connected & 
+	/* Insert preedit text only when im_context signals are connected &
 	 * text->preedit_len is not zero */
 	if (text->im_context_signals_registered && text->preedit_len)
 		insert_preedit_text (text);
 
-	/* Need to reset the layout to cleanly clear the preedit buffer when 
+	/* Need to reset the layout to cleanly clear the preedit buffer when
 	 * typing in CJK & using backspace on the preedit */
 	if(!text->preedit_len)
 		reset_layout (text);

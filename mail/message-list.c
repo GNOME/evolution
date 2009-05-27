@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -2609,7 +2609,7 @@ clear_tree (MessageList *ml, gboolean tfree)
 
 	ml->tree_root = e_tree_memory_node_insert (E_TREE_MEMORY(etm), NULL, 0, NULL);
 	if (tfree)
-		e_tree_model_rebuilt (E_TREE_MODEL(etm));	
+		e_tree_model_rebuilt (E_TREE_MODEL(etm));
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
@@ -3573,7 +3573,7 @@ message_list_get_uids(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-	
+
 	e_tree_path_foreach(ml->tree, ml_getselected_cb, &data);
 
 	if (ml->folder && data.uids->len)
@@ -3589,11 +3589,11 @@ message_list_get_selected(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-	
+
 	e_tree_selected_path_foreach(ml->tree, ml_getselected_cb, &data);
 
 	if (ml->folder && data.uids->len)
-		camel_folder_sort_uids (ml->folder, data.uids);	
+		camel_folder_sort_uids (ml->folder, data.uids);
 
 	return data.uids;
 }
@@ -4282,7 +4282,7 @@ regen_list_done (struct _regen_list_msg *m)
 
 		if (m->last_row >= e_table_model_row_count (E_TABLE_MODEL (etta)))
 			m->last_row = e_table_model_row_count (E_TABLE_MODEL (etta)) - 1;
-		
+
 		if (m->last_row >= 0) {
 			ETreePath path;
 

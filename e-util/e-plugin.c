@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -459,7 +459,7 @@ ep_load(const char *filename, int load_level)
 						if (load_level == 1)
 							e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
 					}
-				} 
+				}
 			} else if (load_level == 2) {
 				ep = ep_load_plugin(root, pdoc);
 			}

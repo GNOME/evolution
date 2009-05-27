@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -103,7 +103,7 @@ init_db ()
 	camel_mime_parser_init_with_stream (parser, stream);
 	camel_mime_parser_scan_from (parser, FALSE);
 	camel_object_unref (stream);
-	
+
 	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser);
 	camel_object_unref (parser);
 
@@ -130,7 +130,7 @@ pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error)
 	gint res;
 	static gboolean only_once = FALSE;
 
-retry:	
+retry:
 	if (camel_debug_start ("junk")) {
 		int i;
 
@@ -184,7 +184,7 @@ retry:
 			sleep (1);
 			waitres = waitpid (child_pid, &status, WNOHANG);
 			g_set_error (error, EM_JUNK_ERROR, -2, _("Bogofilter child process does not respond, killing..."));
-		} else 
+		} else
 			g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Bogofilter child process interrupted, terminating..."));
 	}
 
@@ -209,7 +209,7 @@ retry:
 			goto retry;
 		}
 		g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to Bogofilter failed, error code: %d."), res);
-	
+
 	}
 
 	return res;

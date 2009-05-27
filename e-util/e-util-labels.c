@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -218,7 +218,7 @@ find_label (GSList *labels, const char *tag)
 
 	for (l = labels; l; l = l->next) {
 		EUtilLabel *label = l->data;
-	
+
 		if (label && label->tag && !strcmp (tag, label->tag))
 			return label;
 	}

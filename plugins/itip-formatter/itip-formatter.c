@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -695,7 +695,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
 		pitip->progress_info_id = 0;
-		
+
 		/*
 		 * Only allow replies if backend doesn't do that automatically.
                  * Only enable it for forwarded invitiations (PUBLISH) or direct
@@ -834,7 +834,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 
 	if (current_source) {
 		l = sources_conflict;
-		
+
 		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 				_("Opening the calendar. Please wait.."));
 	} else {
@@ -1243,8 +1243,8 @@ remove_delegate (struct _itip_puri *pitip, const char *delegate, const char *del
 
 }
 
-static void 
-update_x (ECalComponent *pitip_comp, ECalComponent *comp) 
+static void
+update_x (ECalComponent *pitip_comp, ECalComponent *comp)
 {
 	icalcomponent *itip_icalcomp = e_cal_component_get_icalcomponent (pitip_comp);
 	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
@@ -2053,7 +2053,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gboolean have_alarms = FALSE;
 
 	info = (struct _itip_puri *) em_format_find_puri((EMFormat *)efh, pobject->classid);
-	
+
 	/* Accounts */
 	info->accounts = itip_addresses_get ();
 
@@ -2441,10 +2441,10 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	if (((CamelStreamMem *) mem)->buffer->len == 0)
 		puri->vcalendar = NULL;
-	else 
+	else
 		puri->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
-	
+
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);

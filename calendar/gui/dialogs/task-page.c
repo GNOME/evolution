@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -2180,7 +2180,7 @@ task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee)
 
 	g_return_if_fail (tpage != NULL);
 	g_return_if_fail (IS_TASK_PAGE (tpage));
-	
+
 	priv = tpage->priv;
 
 	e_meeting_store_add_attendee (priv->model, attendee);

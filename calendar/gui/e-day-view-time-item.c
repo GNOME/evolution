@@ -13,7 +13,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
@@ -781,7 +781,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 		item = gtk_menu_item_new_with_label ("---");
 	gtk_widget_set_sensitive (item, FALSE);
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
-	
+
 	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -54,11 +54,11 @@ typedef enum {
 
 struct _EMNetworkPrefs {
 	GtkVBox parent_object;
-	
+
 	struct _GConfClient *gconf;
-	
+
 	struct _GladeXML *gui;
-	
+
 	/* Default Behavior */
 	struct _GtkToggleButton *sys_proxy;
 	struct _GtkToggleButton *no_proxy;
@@ -97,9 +97,9 @@ struct _EMNetworkPrefs {
 
 struct _EMNetworkPrefsClass {
 	GtkVBoxClass parent_class;
-	
+
 	/* signals */
-	
+
 };
 
 GType em_network_prefs_get_type (void);

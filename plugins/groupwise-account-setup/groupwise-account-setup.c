@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -51,7 +51,7 @@ set_esource_props (const char *path, EAccount *a, GConfClient *client, const cha
 {
 	ESourceList *list;
         GSList *groups;
-	
+
         list = e_source_list_new_for_gconf (client, path);
 	groups = e_source_list_peek_groups (list);
 
@@ -67,7 +67,7 @@ set_esource_props (const char *path, EAccount *a, GConfClient *client, const cha
 
 				if (a->source->auto_check) {
 					char *str = g_strdup_printf ("%d",a->source->auto_check_time);
-				
+
 					e_source_set_property (source, "refresh", str);
 					g_free (str);
 				} else

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1317,7 +1317,7 @@ mail_component_init (MailComponent *component)
 	priv->mail_sync_in_progress = 0;
 	if (g_getenv("CAMEL_FLUSH_CHANGES"))
 		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
-	else 
+	else
 		priv->mail_sync_id = 0;
 }
 

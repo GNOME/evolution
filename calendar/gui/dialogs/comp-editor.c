@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -238,7 +238,7 @@ get_attachment_list (CompEditor *editor)
 		 * calendar source */
 		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename (mime_part));
 
-		/* It is absolutely fine to get a NULL from the filename of 
+		/* It is absolutely fine to get a NULL from the filename of
 		 * mime part. We assume that it is named "Attachment"
 		 * in mailer. I'll do that with a ticker */
 		if (!utf8_safe_fname)
@@ -798,7 +798,7 @@ action_save_cb (GtkAction *action,
 		priv->mod = CALOBJ_MOD_THIS;
 
 	comp = comp_editor_get_current_comp (editor, &correct);
-		
+
 	e_cal_component_get_summary (comp, &text);
 	g_object_unref (comp);
 
@@ -817,7 +817,7 @@ action_save_cb (GtkAction *action,
 		delegate = flags & COMP_EDITOR_DELEGATE;
 
 		if (delegate && !remove_event_dialog (priv->client, priv->comp, GTK_WINDOW (editor))) {
-			const char *uid = NULL; 
+			const char *uid = NULL;
 			GError *error = NULL;
 
 			e_cal_component_get_uid (priv->comp, &uid);
@@ -2440,7 +2440,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 			set_attendees_for_delegation (send_comp, address, method);
 	}
 
-	if (!e_cal_component_has_attachments (priv->comp) 
+	if (!e_cal_component_has_attachments (priv->comp)
 	  || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL, users, strip_alarms)) {

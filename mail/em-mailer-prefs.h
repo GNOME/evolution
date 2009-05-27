@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -123,7 +123,7 @@ struct _EMMailerPrefs {
 	struct _GtkToggleButton *check_incoming;
 	struct _GtkToggleButton *empty_junk;
 	struct _GtkComboBox *empty_junk_days;
-	
+
 	struct _GtkToggleButton *sa_local_tests_only;
 	struct _GtkToggleButton *sa_use_daemon;
 	struct _GtkComboBox *default_junk_plugin;

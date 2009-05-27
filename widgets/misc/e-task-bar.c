@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -37,7 +37,7 @@ struct _ETaskBarPrivate
 
 G_DEFINE_TYPE (ETaskBar, e_task_bar, GTK_TYPE_HBOX)
 
-#if 0	
+#if 0
 static void
 reduce_displayed_activities_per_component (ETaskBar *task_bar)
 {
@@ -80,7 +80,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 	g_hash_table_destroy (component_ids_hash);
 }
-#endif 
+#endif
 
 
 static void impl_finalize (GObject *object);
@@ -281,7 +281,7 @@ e_task_bar_get_task_widget_from_id (ETaskBar *task_bar,
 		w = NULL;
 		list = list->next;
 	}
-	
+
 	return w;
 }
 

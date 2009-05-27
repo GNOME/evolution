@@ -1,4 +1,4 @@
-/* 
+/*
  * (C) 2005 OpenedHand Ltd.
  *
  * Author: Jorn Baayen <jorn@openedhand.com>
@@ -81,7 +81,7 @@ guint        gconf_bridge_bind_window            (GConfBridge  *bridge,
  * @bridge: A #GConfBridge
  * @key_prefix: The prefix of the GConf keys
  * @window: A #GtkWindow
- * 
+ *
  * On calling this function @window will be resized to the values specified by
  * "@key_prefix<!-- -->_width" and "@key_prefix<!-- -->_height".  The respective
  * GConf values will be updated when the window is resized. See
@@ -95,7 +95,7 @@ guint        gconf_bridge_bind_window            (GConfBridge  *bridge,
  * @bridge: A #GConfBridge
  * @key_prefix: The prefix of the GConf keys
  * @window: A #GtkWindow
- * 
+ *
  * On calling this function @window will be moved to the values specified by
  * "@key_prefix<!-- -->_x" and "@key_prefix<!-- -->_y". The respective GConf
  * values will be updated when the window is moved. See

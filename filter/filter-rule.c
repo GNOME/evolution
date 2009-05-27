@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -635,7 +635,7 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 
 	g_return_if_fail (part != NULL);
 	g_return_if_fail (i == index);
-	
+
 	/* dont update if we haven't changed */
 	if (!strcmp (part->title, data->part->title))
 		return;
@@ -809,7 +809,7 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
 			if (adjustment)
 				gtk_adjustment_set_value (adjustment, adjustment->upper);
-				
+
 		}
 	}
 }

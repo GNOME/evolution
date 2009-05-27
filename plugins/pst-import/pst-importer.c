@@ -98,7 +98,7 @@ void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
 
-/* em-folder-selection-button.h is private, even though other internal evo plugins use it! 
+/* em-folder-selection-button.h is private, even though other internal evo plugins use it!
    so declare the functions here
    TODO: sort out whether this should really be private
 */
@@ -123,7 +123,7 @@ struct _PstImporter {
 	CamelException ex;
 
 	pst_file pst;
-	
+
 	CamelOperation *cancel;
 	CamelFolder *folder;
 	gchar *parent_uri;
@@ -152,7 +152,7 @@ org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
 	}
 
 	s = (EImportTargetURI *)target;
-	
+
 	if (s->uri_src == NULL) {
 		return TRUE;
 	}
@@ -170,7 +170,7 @@ org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
 		ret = n == sizeof (pst_signature) && memcmp (signature, pst_signature, sizeof (pst_signature)) == 0;
 		close (fd);
 	}
-	
+
 	return ret;
 }
 
@@ -214,8 +214,8 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 
 /**
  * Suggest a folder to import data into
- * @param target 
- * @return 
+ * @param target
+ * @return
  */
 static gchar*
 get_suggested_foldername (EImportTargetURI *target)
@@ -244,7 +244,7 @@ get_suggested_foldername (EImportTargetURI *target)
 	if (pst_init (&pst, filename) == 0) {
 		rootname = get_pst_rootname (&pst, filename);
 	}
-	
+
 	g_free (filename);
 
 	if (rootname != NULL) {
@@ -271,7 +271,7 @@ get_suggested_foldername (EImportTargetURI *target)
 				break;
 			}
 		}
-		
+
 		if (folder != NULL) {
 			pst_error_msg ("Error searching for an unused folder name. uri=%s", foldername);
 		}
@@ -301,17 +301,17 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 0);
-	
+
 	w = em_folder_selection_button_new (_("Select folder"), _("Select folder to import into"));
 	foldername = get_suggested_foldername ((EImportTargetURI *) target);
 	((EImportTargetURI *) target)->uri_dest = g_strdup (foldername);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, foldername);
 	g_signal_connect (w, "selected", G_CALLBACK (folder_selected), target);
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, FALSE, 0);
-	
+
 	w = gtk_label_new (_("Destination folder:"));
 	gtk_box_pack_end ((GtkBox *) hbox, w, FALSE, TRUE, 6);
-	
+
 	gtk_box_pack_start ((GtkBox *) framebox, hbox, FALSE, FALSE, 0);
 
 	/* Address book */
@@ -320,19 +320,19 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	/*gtk_widget_set_sensitive ((GtkWidget *)w, FALSE);*/ /* Disable until implemented */
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_addr_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) framebox, w, FALSE, FALSE, 0);
-	
+
 	/* Appointments */
 	w = gtk_check_button_new_with_mnemonic (_("A_ppointments"));
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, FALSE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_appt_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *)framebox, w, FALSE, FALSE, 0);
-	
+
 	/* Tasks */
 	w = gtk_check_button_new_with_mnemonic (_("_Tasks"));
 	gtk_toggle_button_set_active ((GtkToggleButton *)w, FALSE);
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_task_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *)framebox, w, FALSE, FALSE, 0);
-	
+
 	/* Journal */
 	w = gtk_check_button_new_with_mnemonic (_("_Journal entries"));
 	gtk_toggle_button_set_active ((GtkToggleButton *)w, FALSE);
@@ -360,24 +360,24 @@ open_ecal (ECalSourceType type, char *name)
 	ESource *primary;
 	ESourceList *source_list;
 	ECal *cal;
-	
+
 	if ((e_cal_get_sources (&source_list, type, NULL)) == 0) {
 		g_warning ("Could not get any sources of type %s.", name);
 		return NULL;
-	}		
-	
+	}
+
 	primary = e_source_list_peek_source_any (source_list);
-	
+
 	if ((cal = e_cal_new (primary, type)) == NULL) {
 		g_warning ("Could not create %s.", name);
 		g_object_unref (source_list);
 		return NULL;
 	}
-	
+
 	e_cal_open (cal, TRUE, NULL);
 	g_object_unref (primary);
 	g_object_unref (source_list);
-	
+
 	return cal;
 }
 
@@ -385,18 +385,18 @@ static void
 pst_import_import (PstImporter *m)
 {
 	CamelOperation *oldcancel = NULL;
-	
+
 	oldcancel = camel_operation_register (m->status);
-	
+
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
 		/* Hack - grab the first address book we can find
 		   TODO - add a selection mechanism in get_widget */
 		ESource *primary;
 		ESourceList *source_list;
-	
+
 		if (e_book_get_addressbooks (&source_list, NULL)) {
 			primary = e_source_list_peek_source_any (source_list);
-		
+
 			if ((m->addressbook = e_book_new (primary,NULL))) {
 				e_book_open (m->addressbook, TRUE, NULL);
 				g_object_unref (primary);
@@ -406,8 +406,8 @@ pst_import_import (PstImporter *m)
 			}
 		} else {
 			g_warning ("Could not get address books.");
-		}		
-	}	
+		}
+	}
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-appt"))) {
 		m->calendar = open_ecal (E_CAL_SOURCE_TYPE_EVENT, "calendar");
@@ -420,10 +420,10 @@ pst_import_import (PstImporter *m)
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-journal"))) {
 		m->journal = open_ecal (E_CAL_SOURCE_TYPE_JOURNAL, "journal");
 	}
-	
+
 	pst_import_file (m);
 
-/* FIXME: Crashes often in here.	
+/* FIXME: Crashes often in here.
 	if (m->addressbook) {
 		g_object_unref (m->addressbook);
 	}
@@ -478,7 +478,7 @@ pst_import_file (PstImporter *m)
 	}
 
 	camel_operation_progress_count (NULL, 2);
-	
+
 	if ((d_ptr = pst_getTopOfFolders (&m->pst, item)) == NULL) {
 		pst_error_msg ("Top of folders record not found. Cannot continue");
 		return;
@@ -505,7 +505,7 @@ pst_import_folders (PstImporter *m, pst_desc_ll *topitem)
 
 	/* Walk through folder tree */
 	while (d_ptr != NULL && (camel_operation_cancel_check (NULL) == FALSE)) {
-		
+
 		pst_process_item (m, d_ptr);
 
 		if (d_ptr->child != NULL) {
@@ -555,9 +555,9 @@ pst_process_item (PstImporter *m, pst_desc_ll *d_ptr)
 	if (item->message_store != NULL) {
 		pst_error_msg ("A second message_store has been found - ignored");
 		pst_freeItem (item);
-		return;		
+		return;
 	}
-	
+
 	if (item->folder != NULL) {
 		pst_process_folder (m, item);
 		camel_operation_start (NULL, _("Importing `%s'"), item->file_as);
@@ -567,7 +567,7 @@ pst_process_item (PstImporter *m, pst_desc_ll *d_ptr)
 		} else {
 			camel_operation_progress (NULL, 100);
 		}
-		
+
 		if (item->email != NULL &&
 			(item->type == PST_TYPE_NOTE || item->type == PST_TYPE_REPORT)) {
 
@@ -599,12 +599,12 @@ pst_process_item (PstImporter *m, pst_desc_ll *d_ptr)
 			}
 
 		}
-		
+
 		m->current_item++;
 	}
 
 	pst_freeItem (item);
-	
+
 	if (d_ptr->next == NULL) {
 		camel_operation_end (NULL);
 	}
@@ -660,7 +660,7 @@ pst_process_folder (PstImporter *m, pst_item *item)
 	gchar *uri;
 	g_free (m->folder_name);
 	g_free (m->folder_uri);
-	
+
 	if (item->file_as != NULL) {
 		m->folder_name = foldername_to_utf8 (item->file_as);
 	} else {
@@ -670,7 +670,7 @@ pst_process_folder (PstImporter *m, pst_item *item)
 
 	uri = g_strjoin ("/", m->parent_uri, m->folder_name, NULL);
 	m->folder_uri = uri;
-	
+
 	if (m->folder) {
 		camel_object_unref (m->folder);
 		m->folder = NULL;
@@ -721,7 +721,7 @@ pst_create_folder (PstImporter *m)
 	}
 
 	m->folder = mail_tool_uri_to_folder (m->folder_uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
-	
+
 }
 
 /**
@@ -757,7 +757,7 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 		char *buf = NULL;
 		size_t size;
 		size = pst_attach_to_mem (&m->pst, attach, &buf);
-		
+
 		camel_mime_part_set_content (part, (char*) buf, size, mimetype);
 		free(buf);
 	}
@@ -773,7 +773,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	CamelMultipart *mp;
 	CamelMimePart *part;
 	CamelMessageInfo *info;
-	
+
 	if (m->folder == NULL) {
 		pst_create_folder (m);
 	}
@@ -784,7 +784,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	if (item->email->subject != NULL) {
 		gchar *subj;
-		
+
 		subj = string_to_utf8 (item->email->subject->subj);
 		if (subj == NULL) {
 			g_warning ("Could not convert email subject to utf8: %s", item->email->subject->subj);
@@ -796,7 +796,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	}
 
 	addr = camel_internet_address_new ();
-	
+
 	if (item->email->outlook_sender_name != NULL && item->email->outlook_sender != NULL) {
 		camel_internet_address_add (addr, item->email->outlook_sender_name, item->email->outlook_sender);
 	} else if (item->email->outlook_sender_name != NULL) {
@@ -807,7 +807,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 		/* Evo prints a warning if no from is set, so supply an empty address */
 		camel_internet_address_add (addr, "", "");
 	}
-	
+
 	camel_mime_message_set_from (msg, addr);
 	camel_object_unref (addr);
 
@@ -830,7 +830,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 			g_warning ("Error reading headers, skipped");
 
 	} else {
-	 
+
 		if (item->email->sentto_address != NULL) {
 			addr = camel_internet_address_new ();
 
@@ -849,9 +849,9 @@ pst_process_email (PstImporter *m, pst_item *item)
 			camel_object_unref (addr);
 		}
 	}
-	
+
 	mp = camel_multipart_new ();
-	
+
 	if (item->attach != NULL) {
 
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/mixed");
@@ -909,7 +909,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	} else if (item->email->body) {
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->email->body, strlen (item->email->body), "text/plain");
 	} else {
-		g_warning ("Email without body. Subject:%s", 
+		g_warning ("Email without body. Subject:%s",
 				(item->email->subject->subj ? item->email->subject->subj : "(empty)"));
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), "\n", 1, "text/plain");
 	}
@@ -925,7 +925,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	if(item->email->flag && 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
-	
+
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);
 	camel_message_info_free (info);
 	camel_object_unref (msg);
@@ -962,34 +962,34 @@ static void
 contact_set_address (EContact *contact, EContactField id, char *address, char *city, char *country, char *po_box, char *postal_code, char *state, char *street)
 {
 	EContactAddress *eaddress;
-	
+
 	if (address || city || country || po_box || postal_code || state || street) {
 		eaddress = g_new0 (EContactAddress, 1);
 		if (po_box) {
 			eaddress->po = g_strdup (po_box);
 		}
-		//eaddress->ext = 
-		
+		//eaddress->ext =
+
 		if (street) {
 			eaddress->street = g_strdup (street);
 		}
-		
+
 		if (city) {
 			eaddress->locality = g_strdup (city);
 		}
-		
+
 		if (state) {
 			eaddress->region = g_strdup (state);
 		}
-		
+
 		if (postal_code) {
 			eaddress->code = g_strdup (postal_code);
 		}
-		
+
 		if (country) {
 			eaddress->country = g_strdup (country);
 		}
-		
+
 		e_contact_set (contact, id, eaddress);
 	}
 }
@@ -1002,14 +1002,14 @@ contact_set_date (EContact *contact, EContactField id, FILETIME *date)
 		struct tm tm;
 		EContactDate *bday;
 		bday = e_contact_date_new ();
-		
+
 		t1 = fileTimeToUnixTime (date, 0);
 		gmtime_r (&t1, &tm);
-		
+
 		bday->year = tm.tm_year + 1900;
 		bday->month = tm.tm_mon + 1;
 		bday->day = tm.tm_mday;
-		
+
 		e_contact_set (contact, id, bday);
 	}
 }
@@ -1021,7 +1021,7 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	EContact *ec;
 	c = item->contact;
 	GString *notes;
-	
+
 	notes = g_string_sized_new (2048);
 
 	ec = e_contact_new ();
@@ -1055,27 +1055,27 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	} else {
 		contact_set_string (ec, E_CONTACT_FULL_NAME, c->fullname);
 	}
-	
+
 	/* unknown_field (ec, notes, "initials", c->initials); */
-	
+
 	contact_set_string (ec, E_CONTACT_NICKNAME, c->nickname);
-	
+
 	contact_set_string (ec, E_CONTACT_ORG, c->company_name);
 	contact_set_string (ec, E_CONTACT_ORG_UNIT, c->department);
 	contact_set_string (ec, E_CONTACT_TITLE, c->job_title);
 
-	contact_set_address (ec,E_CONTACT_ADDRESS_WORK, 
-			    c->business_address, c->business_city, c->business_country, 
+	contact_set_address (ec,E_CONTACT_ADDRESS_WORK,
+			    c->business_address, c->business_city, c->business_country,
 			    c->business_po_box, c->business_postal_code, c->business_state, c->business_street);
-	
-	contact_set_address (ec,E_CONTACT_ADDRESS_HOME, 
-			    c->home_address, c->home_city, c->home_country, 
+
+	contact_set_address (ec,E_CONTACT_ADDRESS_HOME,
+			    c->home_address, c->home_city, c->home_country,
 			    c->home_po_box, c->home_postal_code, c->home_state, c->home_street);
-			
-	contact_set_address (ec,E_CONTACT_ADDRESS_OTHER, 
-			    c->other_address, c->other_city, c->other_country, 
+
+	contact_set_address (ec,E_CONTACT_ADDRESS_OTHER,
+			    c->other_address, c->other_city, c->other_country,
 			    c->other_po_box, c->other_postal_code, c->other_state, c->other_street);
-	
+
 	contact_set_string (ec, E_CONTACT_PHONE_ASSISTANT, c->assistant_phone);
 	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_FAX, c->business_fax);
 	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS, c->business_phone);
@@ -1100,11 +1100,11 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	unknown_field (ec, notes, "billing_information", c->billing_information);
 	contact_set_date (ec, E_CONTACT_BIRTH_DATE, c->birthday);
 	/* contact_set_string (ec, E_CONTACT_CATEGORIES, c->??); */
-	
+
 	contact_set_string (ec, E_CONTACT_EMAIL_1 , c->address1);
 	contact_set_string (ec, E_CONTACT_EMAIL_2 , c->address2);
 	contact_set_string (ec, E_CONTACT_EMAIL_3 , c->address3);
-	
+
 	/*unknown_field (ec, notes, "address1_desc" , c->address1_desc);
 	unknown_field (ec, notes, "address1_transport" , c->address1_transport);
 	unknown_field (ec, notes, "address2_desc" , c->address2_desc);
@@ -1120,9 +1120,9 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	unknown_field (ec, notes, "customer_id", c->customer_id);
 	unknown_field (ec, notes, "hobbies", c->hobbies);
 	unknown_field (ec, notes, "followup", c->followup);
-		
+
 	contact_set_string (ec, E_CONTACT_FREEBUSY_URL , c->free_busy_address);
-	
+
 	unknown_field (ec, notes, "keyword", c->keyword);
 	unknown_field (ec, notes, "language", c->language);
 	unknown_field (ec, notes, "location", c->location);
@@ -1134,7 +1134,7 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	unknown_field (ec, notes, "mileage", c->mileage);
 	unknown_field (ec, notes, "org_id", c->org_id);
 	contact_set_string (ec, E_CONTACT_ROLE, c->profession);
-	
+
 	contact_set_string (ec, E_CONTACT_SPOUSE , c->spouse_name);
 
 	if (c->personal_homepage) {
@@ -1145,7 +1145,7 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	} else if (c->business_homepage) {
 		contact_set_string (ec, E_CONTACT_HOMEPAGE_URL , c->business_homepage);
 	}
-	
+
 	if (item->comment) {
 		g_string_append_printf (notes, "%s\n", item->comment);
 	}
@@ -1156,7 +1156,7 @@ pst_process_contact (PstImporter *m, pst_item *item)
 
 	contact_set_string (ec, E_CONTACT_NOTE, notes->str);
 	g_string_free (notes, TRUE);
-	
+
 	e_book_add_contact (m->addressbook, ec, NULL);
 	g_object_unref (ec);
 
@@ -1188,7 +1188,7 @@ char *rfc2445_datetime_format (FILETIME *ft) {
 	if (buffer == NULL) {
 		buffer = malloc (30); // should be enough
 	}
-	
+
 	stm = fileTimeToStructTM (ft);
 	strftime (buffer, 30, "%Y%m%dT%H%M%SZ", stm);
 	return buffer;
@@ -1219,7 +1219,7 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 		part = attachment_to_part(m, attach);
 
 		orig_filename = camel_mime_part_get_filename(part);
-		
+
 		if (orig_filename == NULL) {
 			g_warning("Ignoring unnamed attachment");
 			attach = attach->next;
@@ -1229,10 +1229,10 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 		tmp = camel_file_util_safe_filename (orig_filename);
 		filename = g_strdup_printf ("%s-%s", uid, tmp);
 		path = g_build_filename (store_dir, filename, NULL);
-		
+
 		g_free (tmp);
 		g_free (filename);
-	
+
 		dirname = g_path_get_dirname(path);
 		if (g_mkdir_with_parents(dirname, 0777) == -1) {
 			g_warning("Could not create directory %s: %s", dirname, g_strerror(errno));
@@ -1241,7 +1241,7 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 			continue;
 		}
 		g_free(dirname);
-	
+
 		if (g_access(path, F_OK) == 0) {
 			if (g_access(path, W_OK) != 0) {
 				g_warning("Could not write file %s - file exists", path);
@@ -1249,21 +1249,21 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 				continue;
 			}
 		}
-		
+
 		if (g_stat(path, &st) != -1 && !S_ISREG(st.st_mode)) {
 			g_warning("Could not write file %s - not a file", path);
 			attach = attach->next;
 			continue;
 		}
-		
+
 		if (!(stream = camel_stream_fs_new_with_name (path, O_WRONLY | O_CREAT | O_TRUNC, 0666))) {
 			g_warning ("Could not create stream for file %s - %s", path, g_strerror (errno));
 			attach = attach->next;
 			continue;
 		}
-	
+
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	
+
 		if (camel_data_wrapper_decode_to_stream (content, stream) == -1
 			|| camel_stream_flush (stream) == -1)
 		{
@@ -1272,18 +1272,18 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 			attach = attach->next;
 			continue;
 		}
-					
+
 		camel_object_unref (stream);
-		
+
 		uri = g_filename_to_uri (path, NULL, NULL);
 		list = g_slist_append (list, g_strdup (uri));
 		g_free (uri);
-		
+
 		camel_object_unref (part);
 		g_free (path);
 
 		attach = attach->next;
-		
+
 	}
 
 	g_free (store_dir);
@@ -1296,13 +1296,13 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 {
 	pst_item_appointment *a;
 	pst_item_email *e;
-	
+
 	a = item->appointment;
 	e = item->email;
 	ECalComponentText text;
 	struct icaltimetype tt_start, tt_end;
 	ECalComponentDateTime dt_start, dt_end;
-	
+
 	if (item->create_date) {
 		struct icaltimetype tt;
 		tt = get_ical_date (item->create_date, FALSE);
@@ -1313,7 +1313,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 		tt = get_ical_date (item->modify_date, FALSE);
 		e_cal_component_set_last_modified (ec, &tt);
 	}
-	
+
 	if (e) {
 		if (e->subject || e->proc_subject) {
 			if (e->subject) {
@@ -1332,11 +1332,11 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 			l.data = &text;
 			l.next = NULL;
 			e_cal_component_set_description_list (ec, &l);
-		}				
+		}
 	} else {
 		g_warning ("%s without subject / body!", type);
 	}
-	
+
 	if (a->location) {
 		e_cal_component_set_location (ec, a->location);
 	}
@@ -1391,19 +1391,19 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 		case PST_APP_LABEL_PHONE_CALL:
 			e_cal_component_set_categories (ec, "Phone-call"); break;
 	}
-	
+
 	if (a->alarm || a->alarm_minutes) {
 		ECalComponentAlarm *alarm;
 		ECalComponentAlarmTrigger trigger;
-		
+
 		alarm = e_cal_component_alarm_new ();
-		
+
 		if (a->alarm_minutes) {
 			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 			trigger.u.rel_duration = icaldurationtype_from_int (- (a->alarm_minutes)*60);
 			e_cal_component_alarm_set_trigger (alarm, trigger);
 		}
-		
+
 		if (a->alarm) {
 			if (a->alarm_filename) {
 				e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_AUDIO);
@@ -1414,19 +1414,19 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 
 		e_cal_component_add_alarm (ec, alarm);
 		e_cal_component_alarm_free(alarm);
-	
+
 	}
-	
+
 	if (a->recurrence != PST_APP_RECUR_NONE) {
 		struct icalrecurrencetype  r;
 		GSList recur_list;
-		
+
 		icalrecurrencetype_clear (&r);
 		r.interval = 1; /* Interval not implemented in libpst */
 		if (a->recurrence_end) {
 			r.until = get_ical_date (a->recurrence_end, FALSE);
 		}
-		
+
 		switch (a->recurrence_type) {
 			case PST_APP_RECUR_DAILY:
 				r.freq = ICAL_DAILY_RECURRENCE; break;
@@ -1444,7 +1444,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char
 		recur_list.next = NULL;
 		e_cal_component_set_rrule_list (ec, &recur_list);
 	}
-	
+
 }
 
 static void
@@ -1454,7 +1454,7 @@ pst_process_appointment (PstImporter *m, pst_item *item)
 
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_EVENT);
-	
+
 	fill_calcomponent (m, item, ec, "appointment");
 	set_cal_attachments (m->calendar, ec, m, item->attach);
 
@@ -1464,7 +1464,7 @@ pst_process_appointment (PstImporter *m, pst_item *item)
 	}
 
 	g_object_unref (ec);
-	
+
 }
 
 static void
@@ -1474,19 +1474,19 @@ pst_process_task (PstImporter *m, pst_item *item)
 
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_TODO);
-	
+
 	fill_calcomponent (m, item, ec, "task");
 	set_cal_attachments (m->tasks, ec, m, item->attach);
 
 	/* Note - libpst is missing many fields. E.g. task status, start/completion date, % complete */
-	
+
 	if (!e_cal_create_object (m->tasks, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
 		g_warning("Creation of task failed");
 		g_free(ec);
 	}
-	
+
 	g_object_unref (ec);
-	
+
 }
 
 static void
@@ -1507,7 +1507,7 @@ pst_process_journal (PstImporter *m, pst_item *item)
 		ECalComponentText text;
 		struct icaltimetype tt_start, tt_end;
 		ECalComponentDateTime dt_start, dt_end;
-	
+
 		if (j->start) {
 			tt_start = get_ical_date (j->start, FALSE);
 			dt_start.value = &tt_start;
@@ -1515,7 +1515,7 @@ pst_process_journal (PstImporter *m, pst_item *item)
 			e_cal_component_set_dtstart (ec, &dt_start);
 			g_message ("journal start:%s", rfc2445_datetime_format (j->start));
 		}
-	
+
 		if (j->end) {
 			tt_end = get_ical_date (j->end, FALSE);
 			dt_end.value = &tt_end;
@@ -1532,7 +1532,7 @@ pst_process_journal (PstImporter *m, pst_item *item)
 	}
 
 	g_object_unref (ec);
-	
+
 }
 
 /* Print an error message - maybe later bring up an error dialog? */
@@ -1540,7 +1540,7 @@ static void
 pst_error_msg (const char *fmt, ...)
 {
 	va_list ap;
-	
+
 	va_start (ap, fmt);
 	g_critical (fmt, ap);
 	va_end (ap);
@@ -1628,11 +1628,11 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->import = ei;
 	g_object_ref (m->import);
 	m->target = target;
-	
+
 	m->parent_uri = NULL;
 	m->folder_name = NULL;
 	m->folder_uri = NULL;
-	
+
 	m->addressbook = NULL;
 	m->calendar = NULL;
 	m->tasks = NULL;
@@ -1644,7 +1644,7 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status = camel_operation_new (pst_status, m);
 
 	id = m->base.seq;
-	
+
 	mail_msg_unordered_push (m);
 
 	return id;
@@ -1705,7 +1705,7 @@ pst_init (pst_file *pst, gchar *filename)
 	DEBUG_INIT (d_log);
 	DEBUG_REGISTER_CLOSE ();
 #endif
-	
+
 	DEBUG_ENT ("main");
 	if (pst_open (pst, filename) < 0) {
 		pst_error_msg ("Error opening PST file %s", filename);

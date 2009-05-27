@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -450,7 +450,7 @@ edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	calendar_setup_edit_memo_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source);
 }
 
-static void 
+static void
 set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
 {
 	MemosComponentView *component_view = data;
@@ -466,13 +466,13 @@ set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char 
 static void
 mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	set_offline_availability (ep, pitem, data, "0"); 
+	set_offline_availability (ep, pitem, data, "0");
 }
 
 static void
 mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	set_offline_availability (ep, pitem, data, "1"); 
+	set_offline_availability (ep, pitem, data, "1");
 }
 
 static EPopupItem emc_source_popups[] = {

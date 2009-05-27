@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -76,7 +76,7 @@ GType
 em_network_prefs_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (!type) {
 		static const GTypeInfo info = {
 			sizeof (EMNetworkPrefsClass),
@@ -87,10 +87,10 @@ em_network_prefs_get_type (void)
 			0,
 			(GInstanceInitFunc) em_network_prefs_init,
 		};
-		
+
 		type = g_type_register_static (gtk_vbox_get_type (), "EMNetworkPrefs", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -99,9 +99,9 @@ em_network_prefs_class_init (EMNetworkPrefsClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
-	
+
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-	
+
 	object_class->destroy = em_network_prefs_destroy;
 	gobject_class->finalize = em_network_prefs_finalise;
 }
@@ -116,7 +116,7 @@ static void
 em_network_prefs_finalise (GObject *obj)
 {
 	d(g_print ("Network preferences finalize is called\n"));
-	
+
 	/* do something here */
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -133,7 +133,7 @@ static void
 toggle_button_toggled (GtkToggleButton *toggle, EMNetworkPrefs *prefs)
 {
 	const char *key;
-	
+
 	key = g_object_get_data ((GObject *) toggle, "key");
 	gconf_client_set_bool (prefs->gconf, key, gtk_toggle_button_get_active (toggle), NULL);
 	if (toggle == prefs->use_auth) {
@@ -149,13 +149,13 @@ static void
 toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const char *key)
 {
 	gboolean bool;
-	
+
 	bool = gconf_client_get_bool (prefs->gconf, key, NULL);
 	gtk_toggle_button_set_active (toggle, bool);
-	
+
 	g_object_set_data ((GObject *) toggle, "key", (void *) key);
 	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
-	
+
 	if (!gconf_client_key_is_writable (prefs->gconf, key, NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) toggle, FALSE);
 }
@@ -176,9 +176,9 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy_url, sensitivity);
 		d(g_print ("Setting sensitivity of autoconfig to: %d\n", sensitivity));
 	} else
-#endif	
+#endif
 	if (type == NETWORK_PROXY_MANUAL) {
-		gboolean state; 
+		gboolean state;
 
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->http_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->https_host, sensitivity);
@@ -239,11 +239,11 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, TRUE);
 	}
 
-	if (type != NETWORK_PROXY_DIRECT_CONNECTION) 
+	if (type != NETWORK_PROXY_DIRECT_CONNECTION)
 		gconf_client_set_bool (prefs->gconf, GCONF_E_USE_PROXY_KEY, TRUE, NULL);
 	else if (type != NETWORK_PROXY_SYS_SETTINGS)
 		gconf_client_set_bool (prefs->gconf, GCONF_E_USE_PROXY_KEY, FALSE, NULL);
-		
+
 }
 
 static void
@@ -253,8 +253,8 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	int port = -1;
 	GConfClient *gconf = mail_config_get_gconf_client ();
 
-	/* 
-	   Do not change the order of comparison - 
+	/*
+	   Do not change the order of comparison -
 	   GtkSpinButton is an extended form of GtkEntry
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
@@ -307,9 +307,9 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	gboolean locked;
 	int i, val, port;
 	char *gladefile;
-	
+
 	prefs->gconf = mail_config_get_gconf_client ();
-	
+
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
 				      NULL);
@@ -393,32 +393,32 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	prefs->socks_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnSocksPort"));
 	prefs->lbl_socks_host = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksHost"));
 	prefs->lbl_socks_port = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksPort"));
-	g_signal_connect (prefs->socks_host, "changed", 
+	g_signal_connect (prefs->socks_host, "changed",
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
-	g_signal_connect (prefs->socks_port, "value_changed", 
+	g_signal_connect (prefs->socks_port, "value_changed",
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_PORT_KEY);
 #endif
-	
+
 	/* Manual proxy options */
-	g_signal_connect (prefs->http_host, "changed", 
+	g_signal_connect (prefs->http_host, "changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTP_HOST_KEY);
-	g_signal_connect (prefs->https_host, "changed", 
+	g_signal_connect (prefs->https_host, "changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTPS_HOST_KEY);
-	g_signal_connect (prefs->ignore_hosts, "changed", 
+	g_signal_connect (prefs->ignore_hosts, "changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_IGNORE_HOSTS_KEY);
-	g_signal_connect (prefs->http_port, "value_changed", 
+	g_signal_connect (prefs->http_port, "value_changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTP_PORT_KEY);
-	g_signal_connect (prefs->https_port, "value_changed", 
+	g_signal_connect (prefs->https_port, "value_changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTPS_PORT_KEY);
-	g_signal_connect (prefs->auth_user, "changed", 
+	g_signal_connect (prefs->auth_user, "changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_AUTH_USER_KEY);
-	g_signal_connect (prefs->auth_pwd, "changed", 
+	g_signal_connect (prefs->auth_pwd, "changed",
 			  G_CALLBACK(widget_entry_changed_cb),
 			  (gpointer) GCONF_E_AUTH_PWD_KEY);
 
@@ -493,9 +493,9 @@ GtkWidget *
 em_network_prefs_new (void)
 {
 	EMNetworkPrefs *new;
-	
+
 	new = (EMNetworkPrefs *) g_object_new (em_network_prefs_get_type (), NULL);
 	em_network_prefs_construct (new);
-	
+
 	return (GtkWidget *) new;
 }

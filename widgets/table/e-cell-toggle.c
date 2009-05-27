@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -141,7 +141,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 
 	image = toggle->images[value];
-	
+
 	if ((x2 - x1) < gdk_pixbuf_get_width (image)){
 		x = x1;
 		width = x2 - x1;
@@ -149,7 +149,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		x = x1 + ((x2 - x1) - gdk_pixbuf_get_width (image)) / 2;
 		width = gdk_pixbuf_get_width (image);
 	}
-	
+
 	if ((y2 - y1) < gdk_pixbuf_get_height (image)){
 		y = y1;
 		height = y2 - y1;
@@ -163,9 +163,9 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_cairo_set_source_pixbuf (cr, image, x, y);
 	cairo_paint_with_alpha (cr, 1);
 	cairo_restore (cr);
-	cairo_destroy (cr);	
+	cairo_destroy (cr);
 
-}	
+}
 
 static void
 etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int row, int value)

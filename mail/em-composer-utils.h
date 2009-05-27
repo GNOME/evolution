@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,7 +50,7 @@ void em_utils_composer_send_cb(struct _EMsgComposer *composer, gpointer user_dat
 void em_utils_composer_save_draft_cb(struct _EMsgComposer *composer, gpointer user_data);
 
 void em_utils_compose_new_message (const char *fromuri);
-struct _EMsgComposer * em_utils_compose_lite_new_message (const char *fromuri); 
+struct _EMsgComposer * em_utils_compose_lite_new_message (const char *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
 void em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri);

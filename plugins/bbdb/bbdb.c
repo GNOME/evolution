@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -239,7 +239,7 @@ bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
 	g_object_unref (G_OBJECT (gconf));
 
-	if (!enable) 
+	if (!enable)
 		return;
 
 	message = e_msg_composer_get_message(target->composer, 1);

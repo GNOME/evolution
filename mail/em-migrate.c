@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1130,7 +1130,7 @@ em_migrate_setup_progress_dialog (const char *title, const char *desc)
 	gtk_label_set_markup (GTK_LABEL (w), markup);
 	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 	g_free (markup);
-	
+
 	w = gtk_label_new (desc);
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
@@ -1139,7 +1139,7 @@ em_migrate_setup_progress_dialog (const char *title, const char *desc)
 	/* Progress bar */
 	w = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
-	
+
 	label = GTK_LABEL (gtk_label_new (""));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 	gtk_label_set_line_wrap (label, TRUE);
@@ -2785,7 +2785,7 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 		tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
-		
+
 		progress = (double) (*nth_folder) / total_folders;
 		g_idle_add ((GSourceFunc) update_progress_in_main_thread, &progress);
 
@@ -2823,7 +2823,7 @@ setup_local_store (MailComponent *mc)
 	CamelURL *url;
 	char *tmp;
 	CamelStore *store;
-	
+
 	url = camel_url_new("mbox:", NULL);
 	tmp = g_build_filename (mail_component_peek_base_directory(mc), "local", NULL);
 	camel_url_set_path(url, tmp);
@@ -2833,7 +2833,7 @@ setup_local_store (MailComponent *mc)
 	g_free(tmp);
 
 	return store;
-	
+
 }
 
 struct migrate_folders_to_db_structure {
@@ -2844,13 +2844,13 @@ struct migrate_folders_to_db_structure {
 		gboolean done;
 		gboolean is_local_store;
 };
- 
+
 static void migrate_folders_to_db_thread (struct migrate_folders_to_db_structure *migrate_dbs)
 {
 		int num_of_folders = 0, nth_folder = 0;
 		count_folders (migrate_dbs->info, &num_of_folders);
-		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info, 
-						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done), 
+		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info,
+						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done),
 						&nth_folder, num_of_folders);
 }
 
@@ -2877,7 +2877,7 @@ migrate_to_db()
 								"patient while Evolution migrates your folders..."));
 
 		store = setup_local_store (component);
-		info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);	
+		info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 
 		if (info) {
 				GThread *thread;
@@ -2885,7 +2885,7 @@ migrate_to_db()
 
 				if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
 						migrate_dbs.is_local_store = TRUE;
-				else 
+				else
 						migrate_dbs.is_local_store = FALSE;
 				camel_exception_init (&migrate_dbs.ex);
 				migrate_dbs.account_name = _("On This Computer");
@@ -2941,7 +2941,7 @@ migrate_to_db()
 		g_object_unref (iter);
 		em_migrate_close_progress_dialog ();
 }
-  
+
 
 int
 em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)

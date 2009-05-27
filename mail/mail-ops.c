@@ -1,5 +1,5 @@
 /*
- * mail-ops.c: callbacks for the mail toolbar/menus 
+ * mail-ops.c: callbacks for the mail toolbar/menus
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -721,7 +721,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_operation_register (m->cancel);
  	else
  		camel_operation_register (m->base.cancel);
- 
+
  	if (!m->cancel)
  		camel_operation_start (NULL, _("Sending message"));
 
@@ -783,7 +783,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_folder_sync (sent_folder, FALSE, &ex);
 		camel_exception_clear (&ex);
 	}
- 
+
  	if (!m->cancel)
  		camel_operation_end (NULL);
 
@@ -791,7 +791,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_operation_unregister (m->cancel);
  	else
  		camel_operation_unregister (m->base.cancel);
- 
+
 }
 
 static void
@@ -2463,7 +2463,7 @@ prepare_offline_exec (struct _set_offline_msg *m)
 	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
 		camel_offline_store_prepare_for_offline (CAMEL_OFFLINE_STORE (m->store),
 							 &m->base.ex);
-	}						 
+	}
 }
 
 static void

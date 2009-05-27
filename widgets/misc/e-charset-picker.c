@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -444,7 +444,7 @@ e_charset_picker_dialog (const char *title, const char *prompt,
  *                   locale character set
  * @callback: a callback function for actions in the group, or %NULL
  * @user_data: user data to be passed to @callback, or %NULL
- * 
+ *
  * Adds a set of #GtkRadioActions for available character sets to
  * @action_group.  The @default_charset (or locale character set if
  * @default_charset is %NULL) will be added first, and selected by

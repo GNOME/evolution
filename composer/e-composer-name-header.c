@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -282,7 +282,7 @@ e_composer_name_header_new_with_action (const gchar *label,
 
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", TRUE, "name-selector", name_selector, 
+		"button", TRUE, "name-selector", name_selector,
 		"addaction_text", action_label,
 		"addaction", action_label != NULL, NULL);
 }

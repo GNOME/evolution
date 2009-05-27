@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -100,7 +100,7 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 
 	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
-	/* Removed focus-out-event. focus out event already listen by base class. 
+	/* Removed focus-out-event. focus out event already listen by base class.
            We don't need to listen for the focus out event any more */
 
 	sn_cell->priv->editable = g_object_ref (editable);

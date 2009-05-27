@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -398,7 +398,7 @@ idle_cb (gchar **uris)
 		bonobo_main_quit ();
 	}
 
-	/* This must be done after Bonobo has created all the components. For 
+	/* This must be done after Bonobo has created all the components. For
 	 * example the mail component makes the global variable `session` which
 	 * is being used by several EPlugins */
 
@@ -630,7 +630,7 @@ main (int argc, char **argv)
 	client = gconf_client_get_default ();
 
 #ifdef DEVELOPMENT
-	
+
 	if (force_migrate) {
 		destroy_config (client);
 	}
