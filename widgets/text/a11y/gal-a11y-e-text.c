@@ -39,11 +39,11 @@ static AtkComponentIface *component_parent_iface;
 static GType parent_type;
 static gint priv_offset;
 static GQuark		quark_accessible_object = 0;
-#define GET_PRIVATE(object) ((GalA11yETextPrivate *) (((char *) object) + priv_offset))
+#define GET_PRIVATE(object) ((GalA11yETextPrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETextPrivate {
-	int dummy;
+	gint dummy;
 };
 
 static void
@@ -66,8 +66,8 @@ et_get_extents (AtkComponent *component,
 	EText *item = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component)));
 	double real_width;
 	double real_height;
-	int fake_width;
-	int fake_height;
+	gint fake_width;
+	gint fake_height;
 
 	if (component_parent_iface &&
 	    component_parent_iface->get_extents)
@@ -94,7 +94,7 @@ et_get_full_text (AtkText *text)
 {
 	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
 	ETextModel *model;
-	const char *full_text;
+	const gchar *full_text;
 
 	g_object_get (etext, "model", &model, NULL);
 
@@ -105,7 +105,7 @@ et_get_full_text (AtkText *text)
 
 static void
 et_set_full_text (AtkEditableText *text,
-		  const char *full_text)
+		  const gchar *full_text)
 {
 	EText *etext = E_TEXT (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text)));
 	ETextModel *model;
@@ -121,7 +121,7 @@ et_get_text (AtkText *text,
 	     gint end_offset)
 {
         gint start, end, real_start, real_end, len;
-	const char *full_text = et_get_full_text (text);
+	const gchar *full_text = et_get_full_text (text);
         if (full_text == NULL)
                 return NULL;
         len = g_utf8_strlen (full_text, -1);
@@ -149,12 +149,12 @@ is_a_seperator (gunichar c)
 }
 
 static gint
-find_word_start (const char *text,
+find_word_start (const gchar *text,
 		 gint begin_offset,
 		 gint step)
 {
 	gint offset;
-	char *at_offset;
+	gchar *at_offset;
 	gunichar current, previous;
 	gint len;
 
@@ -175,12 +175,12 @@ find_word_start (const char *text,
 }
 
 static gint
-find_word_end (const char *text,
+find_word_end (const gchar *text,
 	       gint begin_offset,
 	       gint step)
 {
 	gint offset;
-	char *at_offset;
+	gchar *at_offset;
 	gunichar current, previous;
 	gint len;
 
@@ -201,14 +201,14 @@ find_word_end (const char *text,
 }
 
 static gint
-find_sentence_start (const char *text,
+find_sentence_start (const gchar *text,
 		     gint begin_offset,
 		     gint step)
 {
 	gint offset, last_word_end, len;
-	char *at_offset;
+	gchar *at_offset;
 	gunichar ch;
-	int i;
+	gint i;
 
 	offset = find_word_start (text, begin_offset, step);
 	len = g_utf8_strlen (text, -1);
@@ -231,12 +231,12 @@ find_sentence_start (const char *text,
 }
 
 static gint
-find_sentence_end (const char *text,
+find_sentence_end (const gchar *text,
                    gint begin_offset,
                    gint step)
 {
         gint offset;
-        char *at_offset;
+        gchar *at_offset;
         gunichar previous;
         gint len;
 
@@ -255,12 +255,12 @@ find_sentence_end (const char *text,
 }
 
 static gint
-find_line_start (const char *text,
+find_line_start (const gchar *text,
                      gint begin_offset,
                      gint step)
 {
         gint offset;
-        char *at_offset;
+        gchar *at_offset;
         gunichar previous;
         gint len;
 
@@ -279,12 +279,12 @@ find_line_start (const char *text,
 }
 
 static gint
-find_line_end (const char *text,
+find_line_end (const gchar *text,
                      gint begin_offset,
                      gint step)
 {
         gint offset;
-        char *at_offset;
+        gchar *at_offset;
         gunichar current;
         gint len;
 
@@ -310,7 +310,7 @@ et_get_text_after_offset (AtkText *text,
 			  gint *end_offset)
 {
         gint start, end, len;
-        const char *full_text = et_get_full_text (text);
+        const gchar *full_text = et_get_full_text (text);
         g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
@@ -363,7 +363,7 @@ et_get_text_at_offset (AtkText *text,
 		       gint *end_offset)
 {
 	gint start, end, len;
-        const char *full_text = et_get_full_text (text);
+        const gchar *full_text = et_get_full_text (text);
         g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
@@ -412,15 +412,15 @@ static gunichar
 et_get_character_at_offset (AtkText *text,
 			    gint offset)
 {
-	const char *full_text = et_get_full_text (text);
-	char *at_offset;
+	const gchar *full_text = et_get_full_text (text);
+	gchar *at_offset;
 
 	at_offset = g_utf8_offset_to_pointer (full_text, offset);
 	return g_utf8_get_char_validated (at_offset, -1);
 }
 
 
-static gchar*
+static gchar *
 et_get_text_before_offset (AtkText *text,
 			   gint offset,
 			   AtkTextBoundary boundary_type,
@@ -428,7 +428,7 @@ et_get_text_before_offset (AtkText *text,
 			   gint *end_offset)
 {
         gint start, end, len;
-        const char *full_text = et_get_full_text (text);
+        const gchar *full_text = et_get_full_text (text);
         g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
@@ -478,7 +478,7 @@ et_get_caret_offset (AtkText *text)
 {
 	GObject *obj;
 	EText *etext;
-	int offset;
+	gint offset;
 
 	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text), -1);
 	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
@@ -588,7 +588,7 @@ et_get_character_extents (AtkText *text,
 static gint
 et_get_character_count (AtkText *text)
 {
-	const char *full_text = et_get_full_text (text);
+	const gchar *full_text = et_get_full_text (text);
 
 	return g_utf8_strlen (full_text, -1);
 }
@@ -606,8 +606,8 @@ et_get_offset_at_point (AtkText *text,
 	gint x_widget, y_widget, x_window, y_window;
 	GdkWindow *window;
         GtkWidget *widget;
-        int index;
-        int trailing;
+        gint index;
+        gint trailing;
 
         g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text), -1);
         obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
@@ -670,7 +670,7 @@ et_get_n_selections (AtkText *text)
 }
 
 
-static gchar*
+static gchar *
 et_get_selection (AtkText *text,
 		  gint selection_num,
 		  gint *start_offset,
@@ -679,7 +679,7 @@ et_get_selection (AtkText *text,
 	gint start, end, real_start, real_end, len;
 	EText *etext;
 	if (selection_num == 0) {
-		const char *full_text = et_get_full_text (text);
+		const gchar *full_text = et_get_full_text (text);
 		if (full_text == NULL)
 			return NULL;
 		len = g_utf8_strlen (full_text, -1);
@@ -842,9 +842,9 @@ et_insert_text (AtkEditableText *text,
 		gint *position)
 {
 	/* Utf8 unimplemented */
-	char *result;
+	gchar *result;
 
-	const char *full_text = et_get_full_text (ATK_TEXT (text));
+	const gchar *full_text = et_get_full_text (ATK_TEXT (text));
 	if (full_text == NULL)
 		return;
 

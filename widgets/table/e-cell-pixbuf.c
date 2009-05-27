@@ -76,7 +76,7 @@ e_cell_pixbuf_construct (ECellPixbuf *ecp)
  */
 
 static ECellView *
-pixbuf_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
+pixbuf_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
 {
     ECellPixbufView *pixbuf_view = g_new0 (ECellPixbufView, 1);
     ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
@@ -109,12 +109,12 @@ pixbuf_kill_view (ECellView *ecell_view)
 
 static void
 pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
-             int model_col, int view_col, int row, ECellFlags flags,
-             int x1, int y1, int x2, int y2)
+             gint model_col, gint view_col, gint row, ECellFlags flags,
+             gint x1, gint y1, gint x2, gint y2)
 {
     GdkPixbuf *cell_pixbuf;
-    int real_x, real_y, real_w, real_h;
-    int pix_w, pix_h;
+    gint real_x, real_y, real_w, real_h;
+    gint pix_w, pix_h;
     cairo_t *cr;
 
     cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
@@ -133,7 +133,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
     /* We center the pixbuf within our allocated space */
     if (x2 - x1 > pix_w) {
-        int diff = (x2 - x1) - pix_w;
+        gint diff = (x2 - x1) - pix_w;
         real_x = x1 + diff/2;
         real_w = pix_w;
     } else {
@@ -142,7 +142,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
     }
 
     if (y2 - y1 > pix_h) {
-        int diff = (y2 - y1) - pix_h;
+        gint diff = (y2 - y1) - pix_h;
         real_y = y1 + diff/2;
         real_h = pix_h;
     } else {
@@ -160,7 +160,7 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 static gint
 pixbuf_event (ECellView *ecell_view, GdkEvent *event,
-              int model_col, int view_col, int row,
+              gint model_col, gint view_col, gint row,
               ECellFlags flags, ECellActions *actions)
 {
     /* noop */
@@ -169,7 +169,7 @@ pixbuf_event (ECellView *ecell_view, GdkEvent *event,
 }
 
 static gint
-pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
+pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
     GdkPixbuf *pixbuf;
     if (row == -1) {
@@ -193,11 +193,11 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
  */
 static void
 pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
-	      int model_col, int view_col, int row,
+	      gint model_col, gint view_col, gint row,
 	      double width, double height)
 {
 	GdkPixbuf *pixbuf;
-	int scale;
+	gint scale;
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
 
 	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, 1, row);
@@ -214,7 +214,7 @@ pixbuf_print (ECellView *ecell_view, GtkPrintContext *context,
 
 static gdouble
 pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		     int model_col, int view_col, int row,
+		     gint model_col, gint view_col, gint row,
 		     double width)
 {
 	GdkPixbuf *pixbuf;
@@ -236,9 +236,9 @@ pixbuf_print_height (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static gint
-pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
+pixbuf_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
-    int pw;
+    gint pw;
     gint num_rows, i;
     gint max_width = -1;
 

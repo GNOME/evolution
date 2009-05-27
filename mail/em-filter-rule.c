@@ -35,10 +35,10 @@
 
 #define d(x)
 
-static int validate(FilterRule *fr);
-static int filter_eq(FilterRule *fr, FilterRule *cm);
+static gint validate(FilterRule *fr);
+static gint filter_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode(FilterRule *fr);
-static int xml_decode(FilterRule *fr, xmlNodePtr, RuleContext *rc);
+static gint xml_decode(FilterRule *fr, xmlNodePtr, RuleContext *rc);
 static void rule_copy(FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget(FilterRule *fr, RuleContext *rc);
@@ -176,7 +176,7 @@ validate(FilterRule *fr)
 {
 	EMFilterRule *ff =(EMFilterRule *)fr;
 	GList *parts;
-	int valid;
+	gint valid;
 
         valid = FILTER_RULE_CLASS(parent_class)->validate(fr);
 
@@ -193,7 +193,7 @@ validate(FilterRule *fr)
 static int
 list_eq(GList *al, GList *bl)
 {
-	int truth = TRUE;
+	gint truth = TRUE;
 
 	while (truth && al && bl) {
 		FilterPart *a = al->data, *b = bl->data;
@@ -222,7 +222,7 @@ xml_encode(FilterRule *fr)
 
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_return_val_if_fail (node != NULL, NULL);
-	set = xmlNewNode(NULL, (const unsigned char *)"actionset");
+	set = xmlNewNode(NULL, (const guchar *)"actionset");
 	xmlAddChild(node, set);
 	l = ff->actions;
 	while (l) {
@@ -239,13 +239,13 @@ static void
 load_set(xmlNodePtr node, EMFilterRule *ff, RuleContext *rc)
 {
 	xmlNodePtr work;
-	char *rulename;
+	gchar *rulename;
 	FilterPart *part;
 
 	work = node->children;
 	while (work) {
-		if (!strcmp((char *)work->name, "part")) {
-			rulename = (char *)xmlGetProp(work, (const unsigned char *)"name");
+		if (!strcmp((gchar *)work->name, "part")) {
+			rulename = (gchar *)xmlGetProp(work, (const guchar *)"name");
 			part = em_filter_context_find_action((EMFilterContext *)rc, rulename);
 			if (part) {
 				part = filter_part_clone(part);
@@ -267,7 +267,7 @@ xml_decode(FilterRule *fr, xmlNodePtr node, RuleContext *rc)
 {
 	EMFilterRule *ff =(EMFilterRule *)fr;
 	xmlNodePtr work;
-	int result;
+	gint result;
 
         result = FILTER_RULE_CLASS(parent_class)->xml_decode(fr, node, rc);
 	if (result != 0)
@@ -275,7 +275,7 @@ xml_decode(FilterRule *fr, xmlNodePtr node, RuleContext *rc)
 
 	work = node->children;
 	while (work) {
-		if (!strcmp((char *)work->name, "actionset")) {
+		if (!strcmp((gchar *)work->name, "actionset")) {
 			load_set(work, ff, rc);
 		}
 		work = work->next;
@@ -328,7 +328,7 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 {
 	FilterPart *part = NULL;
 	FilterPart *newpart;
-	int index, i;
+	gint index, i;
 
 	index = gtk_combo_box_get_active (combobox);
 	for (i = 0, part = em_filter_context_next_action (data->f, part); part && i < index; i++, part = em_filter_context_next_action (data->f, part)) {
@@ -364,7 +364,7 @@ get_rule_part_widget(EMFilterContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *combobox;
 	GtkWidget *hbox;
 	GtkWidget *p;
-	int index = 0, current = 0;
+	gint index = 0, current = 0;
 	struct _part_data *data;
 
 	data = g_malloc0(sizeof(*data));
@@ -431,7 +431,7 @@ less_parts(GtkWidget *button, struct _rule_data *data)
 }
 
 static void
-attach_rule(GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row)
+attach_rule(GtkWidget *rule, struct _rule_data *data, FilterPart *part, gint row)
 {
 	GtkWidget *remove;
 
@@ -512,7 +512,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	FilterPart *part;
 	struct _rule_data *data;
 	EMFilterRule *ff =(EMFilterRule *)fr;
-	int rows, i = 0;
+	gint rows, i = 0;
 	gchar *msg;
 
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);

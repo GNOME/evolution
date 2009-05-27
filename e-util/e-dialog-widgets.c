@@ -80,9 +80,9 @@ get_dialog_hooks (GtkWidget *dialog)
  * values for the items are provided as a -1-terminated array.
  */
 static int
-value_to_index (const int *value_map, int value)
+value_to_index (const gint *value_map, gint value)
 {
-	int i;
+	gint i;
 
 	for (i = 0; value_map[i] != -1; i++)
 		if (value_map[i] == value)
@@ -95,9 +95,9 @@ value_to_index (const int *value_map, int value)
  * function above.
  */
 static int
-index_to_value (const int *value_map, int index)
+index_to_value (const gint *value_map, gint index)
 {
-	int i;
+	gint i;
 
 	/* We do this the hard way, i.e. not as a simple array reference, to
 	 * check for correctness.
@@ -114,13 +114,13 @@ index_to_value (const int *value_map, int index)
 static void
 hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
-	const int *value_map;
-	int *value;
+	const gint *value_map;
+	gint *value;
 
 	/* Set the value */
 
-	value = (int *) value_var;
-	value_map = (const int *) info;
+	value = (gint *) value_var;
+	value_map = (const gint *) info;
 
 	e_dialog_radio_set (GTK_WIDGET (radio), *value, value_map);
 }
@@ -129,11 +129,11 @@ hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpoint
 static void
 get_radio_value (GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
-	int *value;
-	const int *value_map;
+	gint *value;
+	const gint *value_map;
 
-	value = (int *) value_var;
-	value_map = (const int *) info;
+	value = (gint *) value_var;
+	value_map = (const gint *) info;
 
 	*value = e_dialog_radio_get (GTK_WIDGET (radio), value_map);
 }
@@ -191,11 +191,11 @@ get_spin_button_value (GtkSpinButton *spin, gpointer value_var, gpointer info)
 static void
 hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpointer info)
 {
-	char **value;
+	gchar **value;
 
 	/* Set the value */
 
-	value = (char **) value_var;
+	value = (gchar **) value_var;
 
 	e_dialog_editable_set (GTK_WIDGET (editable), *value);
 }
@@ -204,9 +204,9 @@ hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpo
 static void
 get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 {
-	char **value;
+	gchar **value;
 
-	value = (char **) value_var;
+	value = (gchar **) value_var;
 	if (*value)
 		g_free (*value);
 
@@ -221,9 +221,9 @@ get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
  * Sets the string value inside a #GtkEditable-derived widget.
  **/
 void
-e_dialog_editable_set (GtkWidget *widget, const char *value)
+e_dialog_editable_set (GtkWidget *widget, const gchar *value)
 {
-	int pos = 0;
+	gint pos = 0;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_EDITABLE (widget));
@@ -244,7 +244,7 @@ e_dialog_editable_set (GtkWidget *widget, const char *value)
  * This function can return NULL if the string could not be converted from
  * GTK+'s encoding into UTF8.
  **/
-char *
+gchar *
 e_dialog_editable_get (GtkWidget *widget)
 {
 	g_return_val_if_fail (widget != NULL, NULL);
@@ -268,10 +268,10 @@ e_dialog_editable_get (GtkWidget *widget)
  * specified as { NEAREST_NEIGHBOR, BILINEAR, HYPERBOLIC, -1 }.
  **/
 void
-e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
+e_dialog_radio_set (GtkWidget *widget, gint value, const gint *value_map)
 {
 	GSList *group, *l;
-	int i;
+	gint i;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_RADIO_BUTTON (widget));
@@ -307,11 +307,11 @@ e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
  * Return value: Enumeration value which corresponds to the selected item in the
  * radio group.
  **/
-int
-e_dialog_radio_get (GtkWidget *widget, const int *value_map)
+gint
+e_dialog_radio_get (GtkWidget *widget, const gint *value_map)
 {
 	GSList *group, *l;
-	int i, v;
+	gint i, v;
 
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_RADIO_BUTTON (widget), -1);
@@ -428,7 +428,7 @@ e_dialog_spin_get_double (GtkWidget *widget)
  *
  * Return value: Numeric value.
  **/
-int
+gint
 e_dialog_spin_get_int (GtkWidget *widget)
 {
 	double value;
@@ -451,9 +451,9 @@ e_dialog_spin_get_int (GtkWidget *widget)
  * indices.
  **/
 void
-e_dialog_combo_box_set (GtkWidget *widget, int value, const int *value_map)
+e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map)
 {
-	int i;
+	gint i;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
@@ -480,10 +480,10 @@ e_dialog_combo_box_set (GtkWidget *widget, int value, const int *value_map)
  * Return value: Enumeration value which corresponds to the selected item in the
  * combo box.
  **/
-int
-e_dialog_combo_box_get (GtkWidget *widget, const int *value_map)
+gint
+e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map)
 {
-	int i;
+	gint i;
 
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_COMBO_BOX (widget), -1);
@@ -506,7 +506,7 @@ e_dialog_combo_box_get (GtkWidget *widget, const int *value_map)
  * e_dialog_radio_set() for details).
  *
  * Hooks a widget from a dialog box to the variable it will modify.  Supported
- * widgets are:  #GtkEditable (char *), #GtkRadioButton (int/value_map pair; see
+ * widgets are:  #GtkEditable (gchar *), #GtkRadioButton (int/value_map pair; see
  * e_dialog_radio_set() for more information), #GtkTogglebutton (gboolean),
  * #GtkSpinButton (double), #GtkOptionMenu (int/value_map pair), and
  * #GnomeDateEdit (time_t).
@@ -615,7 +615,7 @@ e_dialog_get_values (GtkWidget *dialog)
  * otherwise.
  **/
 gboolean
-e_dialog_xml_widget_hook_value (GladeXML *xml, GtkWidget *dialog, const char *widget_name,
+e_dialog_xml_widget_hook_value (GladeXML *xml, GtkWidget *dialog, const gchar *widget_name,
 				gpointer value_var, gpointer info)
 {
 	GtkWidget *widget;

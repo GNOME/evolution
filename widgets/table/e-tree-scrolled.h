@@ -51,22 +51,22 @@ GType           e_tree_scrolled_get_type                  (void);
 gboolean	e_tree_scrolled_construct                 (ETreeScrolled *ets,
 							  ETreeModel    *etm,
 							  ETableExtras   *ete,
-							  const char     *spec,
-							  const char     *state);
+							  const gchar     *spec,
+							  const gchar     *state);
 GtkWidget      *e_tree_scrolled_new                       (ETreeModel    *etm,
 							   ETableExtras   *ete,
-							   const char     *spec,
-							   const char     *state);
+							   const gchar     *spec,
+							   const gchar     *state);
 
 gboolean	e_tree_scrolled_construct_from_spec_file  (ETreeScrolled *ets,
 							  ETreeModel    *etm,
 							  ETableExtras   *ete,
-							  const char     *spec_fn,
-							  const char     *state_fn);
+							  const gchar     *spec_fn,
+							  const gchar     *state_fn);
 GtkWidget      *e_tree_scrolled_new_from_spec_file        (ETreeModel    *etm,
 							   ETableExtras   *ete,
-							   const char     *spec_fn,
-							   const char     *state_fn);
+							   const gchar     *spec_fn,
+							   const gchar     *state_fn);
 
 ETree         *e_tree_scrolled_get_tree                 (ETreeScrolled *ets);
 

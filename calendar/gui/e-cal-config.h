@@ -69,7 +69,7 @@ struct _ECalConfigTargetPrefs {
 typedef struct _EConfigItem ECalConfigItem;
 
 GType e_cal_config_get_type (void);
-ECalConfig *e_cal_config_new (int type, const char *menuid);
+ECalConfig *e_cal_config_new (gint type, const gchar *menuid);
 
 ECalConfigTargetSource *e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source);
 ECalConfigTargetPrefs *e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf);

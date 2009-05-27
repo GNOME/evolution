@@ -49,7 +49,7 @@ typedef struct {
 	gdouble width;
 	gdouble minimum_width;
 
-	int length_threshold;
+	gint length_threshold;
 
 	ETableSubset *ets;
 	guint is_grouped : 1;
@@ -61,13 +61,13 @@ typedef struct {
 	guint uniform_row_height : 1;
 	ECursorMode cursor_mode;
 
-	int etgl_cursor_change_id;
-	int etgl_cursor_activated_id;
-	int etgl_double_click_id;
-	int etgl_right_click_id;
-	int etgl_click_id;
-	int etgl_key_press_id;
-	int etgl_start_drag_id;
+	gint etgl_cursor_change_id;
+	gint etgl_cursor_activated_id;
+	gint etgl_double_click_id;
+	gint etgl_right_click_id;
+	gint etgl_click_id;
+	gint etgl_key_press_id;
+	gint etgl_start_drag_id;
 
 	ESelectionModel *selection_model;
 } ETableGroupLeaf;

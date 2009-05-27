@@ -57,8 +57,8 @@ free_exchange_listener (void)
 	g_object_unref (exchange_global_config_listener);
 }
 
-int
-e_plugin_lib_enable (EPluginLib *eplib, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *eplib, gint enable)
 {
 	if (!exchange_global_config_listener) {
 		exchange_global_config_listener = exchange_config_listener_new ();
@@ -75,10 +75,10 @@ exchange_is_offline (gint *mode)
 
 /* FIXME: See if a GLib variant of this function available */
 gboolean
-exchange_operations_tokenize_string (char **string, char *token, char delimit, unsigned int maxsize)
+exchange_operations_tokenize_string (gchar **string, gchar *token, gchar delimit, guint maxsize)
 {
-	unsigned int i=0;
-	char *str=*string;
+	guint i=0;
+	gchar *str=*string;
 	while (*str!=delimit && *str!='\0' && i<maxsize-1) {
 		token[i++]=*str++;
 	}
@@ -92,11 +92,11 @@ exchange_operations_tokenize_string (char **string, char *token, char delimit, u
 }
 
 gboolean
-exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *ruri)
+exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const gchar *ruri)
 {
 	GtkTreeIter iter;
-	char *luri=(char *)ruri;
-	char nodename[80];
+	gchar *luri=(gchar *)ruri;
+	gchar nodename[80];
 	gchar *uri;
 	gboolean status, found;
 
@@ -146,10 +146,10 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 }
 
 void
-exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const char *nuri, const char *ruri, GtkTreeSelection *selection)
+exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const gchar *nuri, const gchar *ruri, GtkTreeSelection *selection)
 {
-	char *luri=(char *)nuri;
-	char nodename[80];
+	gchar *luri=(gchar *)nuri;
+	gchar nodename[80];
 	GtkTreeIter iter;
 	gboolean status;
 
@@ -273,7 +273,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 	sources = e_source_group_peek_sources (group);
 	for (tsource = sources; tsource != NULL; tsource = tsource->next) {
 		gchar *ruri;
-		ruri = (gchar*) e_source_peek_relative_uri (tsource->data);
+		ruri = (gchar *) e_source_peek_relative_uri (tsource->data);
 		if (ruri && g_strrstr (ruri, old_path)) {
 			/* This ESource points to one of the child folders */
 			gchar **tmpv, *truri;
@@ -288,7 +288,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 }
 
 gboolean
-is_exchange_personal_folder (ExchangeAccount *account, char *uri)
+is_exchange_personal_folder (ExchangeAccount *account, gchar *uri)
 {
 	ExchangeHierarchy *hier;
 	EFolder *folder;

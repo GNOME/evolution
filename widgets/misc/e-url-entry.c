@@ -186,7 +186,7 @@ entry_changed_cb (GtkEditable *editable, gpointer data)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
-	const char *url;
+	const gchar *url;
 
 	url_entry = E_URL_ENTRY (data);
 	priv = url_entry->priv;

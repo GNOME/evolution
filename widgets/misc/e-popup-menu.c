@@ -37,7 +37,7 @@
  * Creates an item with an optional icon
  */
 static void
-make_item (GtkMenu *menu, GtkMenuItem *item, const char *name, GtkWidget *pixmap)
+make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name, GtkWidget *pixmap)
 {
 	GtkWidget *label;
 
@@ -63,7 +63,7 @@ GtkMenu *
 e_popup_menu_create (EPopupMenu *menu_list,
 		     guint32 disable_mask,
 		     guint32 hide_mask,
-		     void *default_closure)
+		     gpointer default_closure)
 {
 	return e_popup_menu_create_with_domain (menu_list,
 						disable_mask,
@@ -77,14 +77,14 @@ GtkMenu *
 e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				 guint32 disable_mask,
 				 guint32 hide_mask,
-				 void *default_closure,
-				 const char *domain)
+				 gpointer default_closure,
+				 const gchar *domain)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 	GSList *group = NULL;
 	gboolean last_item_separator = TRUE;
-	int last_non_separator = -1;
-	int i;
+	gint last_non_separator = -1;
+	gint i;
 
 	for (i = 0; menu_list[i].name; i++) {
 		if (strcmp ("", menu_list[i].name) && !(menu_list [i].disable_mask & hide_mask)) {
@@ -147,7 +147,7 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 }
 
 void
-e_popup_menu_run (EPopupMenu *menu_list, GdkEvent *event, guint32 disable_mask, guint32 hide_mask, void *default_closure)
+e_popup_menu_run (EPopupMenu *menu_list, GdkEvent *event, guint32 disable_mask, guint32 hide_mask, gpointer default_closure)
 {
 	GtkMenu *menu;
 
@@ -195,7 +195,7 @@ e_popup_menu_free_1 (EPopupMenu *menu_item)
 EPopupMenu *
 e_popup_menu_copy (const EPopupMenu *menu_list)
 {
-	int i;
+	gint i;
 	EPopupMenu *ret_val;
 
 	if (menu_list == NULL)
@@ -220,7 +220,7 @@ e_popup_menu_copy (const EPopupMenu *menu_list)
 void
 e_popup_menu_free (EPopupMenu *menu_list)
 {
-	int i;
+	gint i;
 
 	if (menu_list == NULL)
 		return;

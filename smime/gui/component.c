@@ -36,10 +36,10 @@
 #include "pk11func.h"
 
 static gboolean
-smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, char **passwd, gpointer arg)
+smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, gchar **passwd, gpointer arg)
 {
-	char *prompt;
-	char *slot_name = g_strdup (PK11_GetSlotName (slot));
+	gchar *prompt;
+	gchar *slot_name = g_strdup (PK11_GetSlotName (slot));
 
 	g_strchomp (slot_name);
 
@@ -58,9 +58,9 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, char **passw
 }
 
 static gboolean
-smime_pk11_change_passwd (ECertDB *db, char **old_passwd, char **passwd, gpointer arg)
+smime_pk11_change_passwd (ECertDB *db, gchar **old_passwd, gchar **passwd, gpointer arg)
 {
-	char *prompt;
+	gchar *prompt;
 
 	/* XXX need better strings here, just copy mozilla's? */
 
@@ -86,7 +86,7 @@ static gboolean
 smime_confirm_ca_cert_import (ECertDB *db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign, gpointer arg)
 {
 	GtkWidget *dialog = ca_trust_dialog_show (cert, TRUE);
-	int response;
+	gint response;
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 

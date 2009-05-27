@@ -40,15 +40,15 @@ G_DEFINE_TYPE (ECellDate, e_cell_date, E_CELL_TEXT_TYPE)
 #define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
 #endif
 
-static char *
-ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
+static gchar *
+ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
 {
 	time_t date = GPOINTER_TO_INT (e_table_model_value_at(model, col, row));
 	time_t nowdate = time(NULL);
 	time_t yesdate;
 	struct tm then, now, yesterday;
-	char buf[100];
-	char *temp;
+	gchar buf[100];
+	gchar *temp;
 	gboolean done = FALSE;
 
 	if (date == 0) {
@@ -83,7 +83,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 		}
 	}
 	if (!done) {
-		int i;
+		gint i;
 		for (i = 2; i < 7; i++) {
 			yesdate = nowdate - 60 * 60 * 24 * i;
 			localtime_r (&yesdate, &yesterday);
@@ -111,7 +111,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 }
 
 static void
-ecd_free_text(ECellText *cell, char *text)
+ecd_free_text(ECellText *cell, gchar *text)
 {
 	g_free(text);
 }
@@ -156,7 +156,7 @@ e_cell_date_init (ECellDate *ecd)
  * Returns: an ECell object that can be used to render dates.
  */
 ECell *
-e_cell_date_new (const char *fontname, GtkJustification justify)
+e_cell_date_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellDate *ecd = g_object_new (E_CELL_DATE_TYPE, NULL);
 

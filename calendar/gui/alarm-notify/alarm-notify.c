@@ -81,7 +81,7 @@ typedef struct {
 static void
 process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 {
-	char *uri = key;
+	gchar *uri = key;
 	ProcessRemovalsData *prd = data;
 	GSList *groups, *sources, *p, *q;
 	gboolean found = FALSE;
@@ -94,8 +94,8 @@ process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 		sources = e_source_group_peek_sources (group);
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
-			char *source_uri;
-			const char *completion = e_source_get_property (source, "alarm");
+			gchar *source_uri;
+			const gchar *completion = e_source_get_property (source, "alarm");
 
 			source_uri = e_source_get_uri (source);
 			if (strcmp (source_uri, uri) == 0)
@@ -122,7 +122,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	ECalSourceType source_type = E_CAL_SOURCE_TYPE_LAST;
 	ProcessRemovalsData prd;
 	GList *l;
-	int i;
+	gint i;
 
 	g_signal_handlers_block_by_func(source_list, list_changed_cb, data);
 
@@ -146,8 +146,8 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 		sources = e_source_group_peek_sources (group);
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
-			char *uri;
-			const char *completion = e_source_get_property (source, "alarm");
+			gchar *uri;
+			const gchar *completion = e_source_get_property (source, "alarm");
 
 			if (completion  && (!g_ascii_strcasecmp (completion, "false") ||
 						!g_ascii_strcasecmp (completion, "never")))
@@ -169,7 +169,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	g_hash_table_foreach (priv->uri_client_hash[source_type], (GHFunc) process_removal_in_hash, &prd);
 
 	for (l = prd.removals; l; l = l->next) {
-		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, (char *)l->data));
+		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, (gchar *)l->data));
 		alarm_notify_remove_calendar (an, source_type, l->data);
 	}
 	g_list_free (prd.removals);
@@ -206,8 +206,8 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 		sources = e_source_group_peek_sources (group);
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
-			char *uri;
-			const char *completion = e_source_get_property (source, "alarm");
+			gchar *uri;
+			const gchar *completion = e_source_get_property (source, "alarm");
 
 			if (completion  && (!g_ascii_strcasecmp (completion, "false") ||
 						!g_ascii_strcasecmp (completion, "never")))
@@ -230,7 +230,7 @@ static void
 alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 {
 	AlarmNotifyPrivate *priv;
-	int i;
+	gint i;
 
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
@@ -263,7 +263,7 @@ alarm_notify_finalize (GObject *object)
 {
 	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
-	int i;
+	gint i;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (object));
@@ -343,8 +343,8 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	AlarmNotifyPrivate *priv;
 	ECal *client;
 	EUri *e_uri;
-	char *str_uri;
-	char *pass_key;
+	gchar *str_uri;
+	gchar *pass_key;
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
 
@@ -399,7 +399,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 }
 
 void
-alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const char *str_uri)
+alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const gchar *str_uri)
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;

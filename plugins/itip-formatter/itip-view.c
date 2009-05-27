@@ -50,7 +50,7 @@ G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX)
 
 typedef struct  {
 	ItipViewInfoItemType type;
-	char *message;
+	gchar *message;
 
 	guint id;
 } ItipViewInfoItem;
@@ -60,27 +60,27 @@ struct _ItipViewPrivate {
 	ECalSourceType type;
 
 	GtkWidget *sender_label;
-	char *organizer;
-	char *organizer_sentby;
-	char *delegator;
-	char *attendee;
-	char *attendee_sentby;
-	char *proxy;
+	gchar *organizer;
+	gchar *organizer_sentby;
+	gchar *delegator;
+	gchar *attendee;
+	gchar *attendee_sentby;
+	gchar *proxy;
 
 	GtkWidget *summary_label;
-	char *summary;
+	gchar *summary;
 
 	GtkWidget *location_header;
 	GtkWidget *location_label;
-	char *location;
+	gchar *location;
 
 	GtkWidget *status_header;
 	GtkWidget *status_label;
-	char *status;
+	gchar *status;
 
 	GtkWidget *comment_header;
 	GtkWidget *comment_label;
-	char *comment;
+	gchar *comment;
 
 	GtkWidget *start_header;
 	GtkWidget *start_label;
@@ -99,7 +99,7 @@ struct _ItipViewPrivate {
 	guint next_info_item_id;
 
 	GtkWidget *description_label;
-	char *description;
+	gchar *description;
 
 	GtkWidget *selector_box;
 	GtkWidget *escb;
@@ -148,7 +148,7 @@ format_date_and_time_x		(struct tm	*date_tm,
 				 char		*buffer,
 				 int		 buffer_size)
 {
-	char *format;
+	gchar *format;
 	struct tm tomorrow_tm, week_tm;
 
 	/* Calculate a normalized "tomorrow" */
@@ -337,9 +337,9 @@ static void
 set_calendar_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	const char *organizer, *attendee;
-	char *sender = NULL;
-	char *on_behalf_of = NULL;
+	const gchar *organizer, *attendee;
+	gchar *sender = NULL;
+	gchar *on_behalf_of = NULL;
 
 	priv = view->priv;
 
@@ -425,9 +425,9 @@ static void
 set_tasklist_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	const char *organizer, *attendee;
-	char *sender = NULL;
-	char *on_behalf_of = NULL;
+	const gchar *organizer, *attendee;
+	gchar *sender = NULL;
+	gchar *on_behalf_of = NULL;
 
 	priv = view->priv;
 
@@ -513,9 +513,9 @@ static void
 set_journal_sender_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	const char *organizer, *attendee;
-	char *sender = NULL;
-	char *on_behalf_of = NULL;
+	const gchar *organizer, *attendee;
+	gchar *sender = NULL;
+	gchar *on_behalf_of = NULL;
 
 	priv = view->priv;
 
@@ -589,7 +589,7 @@ static void
 set_summary_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	char *summary = NULL;
+	gchar *summary = NULL;
 
 	priv = view->priv;
 
@@ -656,7 +656,7 @@ static void
 set_start_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	char buffer[256];
+	gchar buffer[256];
 	time_t now;
 	struct tm *now_tm;
 
@@ -680,7 +680,7 @@ static void
 set_end_text (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	char buffer[256];
+	gchar buffer[256];
 	time_t now;
 	struct tm *now_tm;
 
@@ -1242,7 +1242,7 @@ itip_view_get_item_type (ItipView *view)
 /* ensures the returned text will be valid UTF-8 text, thus gtk functions expecting
    only valid UTF-8 texts will not crash. Returned pointer should be freed with g_free. */
 static gchar *
-ensure_utf8 (const char *text)
+ensure_utf8 (const gchar *text)
 {
 	gchar *res = g_strdup (text), *p;
 
@@ -1259,7 +1259,7 @@ ensure_utf8 (const char *text)
 }
 
 void
-itip_view_set_organizer (ItipView *view, const char *organizer)
+itip_view_set_organizer (ItipView *view, const gchar *organizer)
 {
 	ItipViewPrivate *priv;
 
@@ -1276,7 +1276,7 @@ itip_view_set_organizer (ItipView *view, const char *organizer)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_organizer (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1290,7 +1290,7 @@ itip_view_get_organizer (ItipView *view)
 }
 
 void
-itip_view_set_organizer_sentby (ItipView *view, const char *sentby)
+itip_view_set_organizer_sentby (ItipView *view, const gchar *sentby)
 {
 	ItipViewPrivate *priv;
 
@@ -1307,7 +1307,7 @@ itip_view_set_organizer_sentby (ItipView *view, const char *sentby)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_organizer_sentby (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1321,7 +1321,7 @@ itip_view_get_organizer_sentby (ItipView *view)
 }
 
 void
-itip_view_set_attendee (ItipView *view, const char *attendee)
+itip_view_set_attendee (ItipView *view, const gchar *attendee)
 {
 	ItipViewPrivate *priv;
 
@@ -1338,7 +1338,7 @@ itip_view_set_attendee (ItipView *view, const char *attendee)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_attendee (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1352,7 +1352,7 @@ itip_view_get_attendee (ItipView *view)
 }
 
 void
-itip_view_set_attendee_sentby (ItipView *view, const char *sentby)
+itip_view_set_attendee_sentby (ItipView *view, const gchar *sentby)
 {
 	ItipViewPrivate *priv;
 
@@ -1369,7 +1369,7 @@ itip_view_set_attendee_sentby (ItipView *view, const char *sentby)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_attendee_sentby (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1383,7 +1383,7 @@ itip_view_get_attendee_sentby (ItipView *view)
 }
 
 void
-itip_view_set_proxy (ItipView *view, const char *proxy)
+itip_view_set_proxy (ItipView *view, const gchar *proxy)
 {
 	ItipViewPrivate *priv;
 
@@ -1400,7 +1400,7 @@ itip_view_set_proxy (ItipView *view, const char *proxy)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_proxy (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1414,7 +1414,7 @@ itip_view_get_proxy (ItipView *view)
 }
 
 void
-itip_view_set_delegator (ItipView *view, const char *delegator)
+itip_view_set_delegator (ItipView *view, const gchar *delegator)
 {
 	ItipViewPrivate *priv;
 
@@ -1431,7 +1431,7 @@ itip_view_set_delegator (ItipView *view, const char *delegator)
 	set_sender_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_delegator (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1445,7 +1445,7 @@ itip_view_get_delegator (ItipView *view)
 }
 
 void
-itip_view_set_summary (ItipView *view, const char *summary)
+itip_view_set_summary (ItipView *view, const gchar *summary)
 {
 	ItipViewPrivate *priv;
 
@@ -1462,7 +1462,7 @@ itip_view_set_summary (ItipView *view, const char *summary)
 	set_summary_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_summary (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1476,7 +1476,7 @@ itip_view_get_summary (ItipView *view)
 }
 
 void
-itip_view_set_location (ItipView *view, const char *location)
+itip_view_set_location (ItipView *view, const gchar *location)
 {
 	ItipViewPrivate *priv;
 
@@ -1493,7 +1493,7 @@ itip_view_set_location (ItipView *view, const char *location)
 	set_location_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_location (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1507,7 +1507,7 @@ itip_view_get_location (ItipView *view)
 }
 
 void
-itip_view_set_status (ItipView *view, const char *status)
+itip_view_set_status (ItipView *view, const gchar *status)
 {
 	ItipViewPrivate *priv;
 
@@ -1524,7 +1524,7 @@ itip_view_set_status (ItipView *view, const char *status)
 	set_status_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_status (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1538,7 +1538,7 @@ itip_view_get_status (ItipView *view)
 }
 
 void
-itip_view_set_comment (ItipView *view, const char *comment)
+itip_view_set_comment (ItipView *view, const gchar *comment)
 {
 	ItipViewPrivate *priv;
 
@@ -1555,7 +1555,7 @@ itip_view_set_comment (ItipView *view, const char *comment)
 	set_comment_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_comment (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1570,7 +1570,7 @@ itip_view_get_comment (ItipView *view)
 
 
 void
-itip_view_set_description (ItipView *view, const char *description)
+itip_view_set_description (ItipView *view, const gchar *description)
 {
 	ItipViewPrivate *priv;
 
@@ -1587,7 +1587,7 @@ itip_view_set_description (ItipView *view, const char *description)
 	set_description_text (view);
 }
 
-const char *
+const gchar *
 itip_view_get_description (ItipView *view)
 {
 	ItipViewPrivate *priv;
@@ -1674,7 +1674,7 @@ itip_view_get_end (ItipView *view)
 }
 
 guint
-itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
+itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message)
 {
 	ItipViewPrivate *priv;
 	ItipViewInfoItem *item;
@@ -1698,10 +1698,10 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 }
 
 guint
-itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
+itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type, const gchar *format, ...)
 {
 	va_list args;
-	char *message;
+	gchar *message;
 	guint id;
 
 	g_return_val_if_fail (view != NULL, 0);
@@ -1769,7 +1769,7 @@ itip_view_clear_upper_info_items (ItipView *view)
 }
 
 guint
-itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
+itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const gchar *message)
 {
 	ItipViewPrivate *priv;
 	ItipViewInfoItem *item;
@@ -1793,10 +1793,10 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 }
 
 guint
-itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
+itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const gchar *format, ...)
 {
 	va_list args;
-	char *message;
+	gchar *message;
 	guint id;
 
 	g_return_val_if_fail (view != NULL, 0);
@@ -2084,7 +2084,7 @@ itip_view_get_show_update (ItipView *view)
 }
 
 void
-itip_view_set_rsvp_comment (ItipView *view, const char *comment)
+itip_view_set_rsvp_comment (ItipView *view, const gchar *comment)
 {
 	ItipViewPrivate *priv;
 
@@ -2096,7 +2096,7 @@ itip_view_set_rsvp_comment (ItipView *view, const char *comment)
 	gtk_entry_set_text (GTK_ENTRY (priv->rsvp_comment_entry), comment);
 }
 
-const char *
+const gchar *
 itip_view_get_rsvp_comment (ItipView *view)
 {
 	ItipViewPrivate *priv;

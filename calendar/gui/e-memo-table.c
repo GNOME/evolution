@@ -102,7 +102,7 @@ static GdkAtom clipboard_atom;
 
 /* The icons to represent the task. */
 #define E_MEMO_MODEL_NUM_ICONS	2
-static const char* icon_names[E_MEMO_MODEL_NUM_ICONS] = {
+static const gchar * icon_names[E_MEMO_MODEL_NUM_ICONS] = {
 	"stock_notes", "stock_insert-note"
 };
 static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
@@ -214,13 +214,13 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 {
 	ECalModel *model;
 	ECalModelComponent *comp_data;
-	int row = -1, col = -1;
+	gint row = -1, col = -1;
 	GtkWidget *box, *l, *w;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	char *tmp;
-	const char *str;
+	gchar *tmp;
+	const gchar *str;
 	GString *tmp2;
-	char buff[1001];
+	gchar buff[1001];
 	gboolean free_text = FALSE;
 	ECalComponent *new_comp;
 	ECalComponentOrganizer organizer;
@@ -228,7 +228,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 	icalcomponent *clone;
 	icaltimezone *zone, *default_zone;
 	GSList *desc, *p;
-	int len;
+	gint len;
 	ETable *etable;
 	ESelectionModel *esm;
 	struct tm tmp_tm;
@@ -265,7 +265,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 		comp_data->client, comp_data->icalcomp, &free_text);
 	if (!(str && *str)) {
 		if (free_text)
-			g_free ((char *)str);
+			g_free ((gchar *)str);
 		free_text = FALSE;
 		str = _("* No Summary *");
 	}
@@ -284,7 +284,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 	g_free (tmp);
 
 	if (free_text)
-		g_free ((char *)str);
+		g_free ((gchar *)str);
 	free_text = FALSE;
 
 	w = gtk_event_box_new ();
@@ -297,7 +297,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 
 	e_cal_component_get_organizer (new_comp, &organizer);
 	if (organizer.cn) {
-		char *ptr ;
+		gchar *ptr ;
 		ptr = strchr( organizer.value, ':');
 
 		if (ptr) {
@@ -799,12 +799,12 @@ e_memo_table_get_table (EMemoTable *memo_table)
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
- * int pointed to by the closure data.
+ * gint pointed to by the closure data.
  */
 static void
-get_selected_row_cb (int model_row, gpointer data)
+get_selected_row_cb (gint model_row, gpointer data)
 {
-	int *row;
+	gint *row;
 
 	row = data;
 	*row = model_row;
@@ -819,7 +819,7 @@ get_selected_comp (EMemoTable *memo_table)
 {
 	ECalModel *model;
 	ETable *etable;
-	int row;
+	gint row;
 
 	model = e_memo_table_get_model (memo_table);
 	etable = e_memo_table_get_table (memo_table);
@@ -842,7 +842,7 @@ struct get_selected_uids_closure {
 
 /* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
 static void
-add_uid_cb (int model_row, gpointer data)
+add_uid_cb (gint model_row, gpointer data)
 {
 	struct get_selected_uids_closure *closure;
 	ECalModelComponent *comp_data;
@@ -893,7 +893,7 @@ void
 e_memo_table_delete_selected (EMemoTable *memo_table)
 {
 	ETable *etable;
-	int n_selected;
+	gint n_selected;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp = NULL;
 
@@ -988,7 +988,7 @@ clipboard_get_calendar_cb (GtkClipboard *clipboard,
 
 /* callback for e_table_selected_row_foreach */
 static void
-copy_row_cb (int model_row, gpointer data)
+copy_row_cb (gint model_row, gpointer data)
 {
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -1030,7 +1030,7 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 {
 	ETable *etable;
 	GtkClipboard *clipboard;
-	char *comp_str;
+	gchar *comp_str;
 
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
@@ -1059,7 +1059,7 @@ static void
 clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 {
 	icalcomponent *icalcomp;
-	char *uid;
+	gchar *uid;
 	ECalComponent *comp;
 	ECal *client;
 	ECalModel *model;
@@ -1125,7 +1125,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomp);
 		uid = e_cal_component_gen_uid ();
-		e_cal_component_set_uid (comp, (const char *) uid);
+		e_cal_component_set_uid (comp, (const gchar *) uid);
 		free (uid);
 
 		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);

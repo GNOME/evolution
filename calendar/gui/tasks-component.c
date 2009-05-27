@@ -117,7 +117,7 @@ is_in_uids (GSList *uids, ESource *source)
 	GSList *l;
 
 	for (l = uids; l; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
@@ -144,7 +144,7 @@ update_uris_for_selection (TasksComponentView *component_view)
 		ESource *selected_source = l->data;
 
 		e_tasks_add_todo_source (component_view->tasks, selected_source);
-		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
+		uids_selected = g_slist_append (uids_selected, (gchar *)e_source_peek_uid (selected_source));
 	}
 
 	e_source_selector_free_selection (component_view->source_selection);
@@ -180,7 +180,7 @@ update_uri_for_primary_selection (TasksComponentView *component_view)
 
 /* Callbacks.  */
 static void
-copy_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+copy_task_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TasksComponentView *component_view = data;
 	ESource *selected_source;
@@ -193,12 +193,12 @@ copy_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-delete_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+delete_task_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TasksComponentView *component_view = data;
 	ESource *selected_source;
 	ECal *cal;
-	char *uri;
+	gchar *uri;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
@@ -232,13 +232,13 @@ delete_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-new_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+new_task_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)));
 }
 
 static void
-rename_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+rename_task_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TasksComponentView *component_view = data;
 	ESourceSelector *selector;
@@ -248,7 +248,7 @@ rename_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+edit_task_list_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	TasksComponentView *component_view = data;
 	ESource *selected_source;
@@ -261,7 +261,7 @@ edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
+set_offline_availability (EPopup *ep, EPopupItem *pitem, gpointer data, const gchar *value)
 {
 	TasksComponentView *component_view = data;
 	ESource *selected_source;
@@ -274,13 +274,13 @@ set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char 
 }
 
 static void
-mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "0");
 }
 
 static void
-mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+mark_offline_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	set_offline_availability (ep, pitem, data, "1");
 }
@@ -300,7 +300,7 @@ static EPopupItem etc_source_popups[] = {
 };
 
 static void
-etc_source_popup_free(EPopup *ep, GSList *list, void *data)
+etc_source_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	g_slist_free(list);
 }
@@ -311,7 +311,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	ECalPopup *ep;
 	ECalPopupTargetSource *t;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 	GtkMenu *menu;
 
 	/** @HookPoint-ECalPopup: Tasks Source Selector Context Menu
@@ -376,7 +376,7 @@ selector_tree_data_dropped (ESourceSelector *selector,
 	components = cal_comp_selection_get_string_list (data);
 	success = components != NULL;
 	for (p = components; p && success; p = p->next) {
-		char *comp_str; /* do not free this! */
+		gchar *comp_str; /* do not free this! */
 
 		/* p->data is "source_uid\ncomponent_string" */
 		comp_str = strchr (p->data, '\n');
@@ -422,7 +422,7 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 {
 	TasksComponentPrivate *priv;
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	guint not;
 
 	priv = component->priv;
@@ -622,16 +622,16 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 }
 
 static void
-impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environment *ev)
 {
 	TasksComponent *tasks_component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
 	GList *l;
 	TasksComponentView *view = NULL;
 
-	char *src_uid = NULL;
-	char *uid = NULL;
-	char *rid = NULL;
+	gchar *src_uid = NULL;
+	gchar *uid = NULL;
+	gchar *rid = NULL;
 
 	priv = tasks_component->priv;
 
@@ -643,8 +643,8 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 
 	if (!strncmp (uri, "task:", 5)) {
 		EUri *euri = e_uri_new (uri);
-		const char *p;
-		char *header, *content;
+		const gchar *p;
+		gchar *header, *content;
 		size_t len, clen;
 
 		p = euri->query;
@@ -656,7 +656,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 				if (p[len] != '=')
 					break;
 
-				header = (char *) p;
+				header = (gchar *) p;
 				header[len] = '\0';
 				p += len + 1;
 

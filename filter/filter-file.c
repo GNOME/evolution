@@ -38,10 +38,10 @@
 #define d(x)
 
 static gboolean validate (FilterElement *fe);
-static int file_eq (FilterElement *fe, FilterElement *cm);
+static gint file_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *, GString *);
@@ -131,18 +131,18 @@ filter_file_new (void)
 
 
 FilterFile *
-filter_file_new_type_name (const char *type)
+filter_file_new_type_name (const gchar *type)
 {
 	FilterFile *file;
 
 	file = filter_file_new ();
-	file->type = (char *)xmlStrdup ((xmlChar *)type);
+	file->type = (gchar *)xmlStrdup ((xmlChar *)type);
 
 	return file;
 }
 
 void
-filter_file_set_path (FilterFile *file, const char *path)
+filter_file_set_path (FilterFile *file, const gchar *path)
 {
 	g_free (file->path);
 	file->path = g_strdup (path);
@@ -214,12 +214,12 @@ xml_encode (FilterElement *fe)
 
 	d(printf ("Encoding %s as xml\n", type));
 
-	value = xmlNewNode (NULL, (const unsigned char *)"value");
-	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)type);
+	value = xmlNewNode (NULL, (const guchar *)"value");
+	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *)"type", (guchar *)type);
 
-	cur = xmlNewChild (value, NULL, (unsigned char *)type, NULL);
-	xmlNodeSetContent (cur, (unsigned char *)file->path);
+	cur = xmlNewChild (value, NULL, (guchar *)type, NULL);
+	xmlNodeSetContent (cur, (guchar *)file->path);
 
 	return value;
 }
@@ -228,11 +228,11 @@ static int
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterFile *file = (FilterFile *)fe;
-	char *name, *str, *type;
+	gchar *name, *str, *type;
 	xmlNodePtr n;
 
-	name = (char *)xmlGetProp (node, (const unsigned char *)"name");
-	type = (char *)xmlGetProp (node, (const unsigned char *)"type");
+	name = (gchar *)xmlGetProp (node, (const guchar *)"name");
+	type = (gchar *)xmlGetProp (node, (const guchar *)"type");
 
 	d(printf("Decoding %s from xml %p\n", type, fe));
 	d(printf ("Name = %s\n", name));
@@ -247,8 +247,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 
 	n = node->children;
 	while (n != NULL) {
-		if (!strcmp ((char *)n->name, type)) {
-			str = (char *)xmlNodeGetContent (n);
+		if (!strcmp ((gchar *)n->name, type)) {
+			str = (gchar *)xmlNodeGetContent (n);
 			file->path = g_strdup (str ? str : "");
 			xmlFree (str);
 
@@ -268,7 +268,7 @@ static void
 filename_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
-	const char *new;
+	const gchar *new;
 
 	new = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 	g_free (file->path);

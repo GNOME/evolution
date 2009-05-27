@@ -88,7 +88,7 @@ struct _plugin_doc {
 	struct _plugin_doc *next;
 	struct _plugin_doc *prev;
 
-	char *filename;
+	gchar *filename;
 	xmlDocPtr doc;
 
 	GSList *plugin_hooks;	/* EPlugin objects with pending hooks */
@@ -101,14 +101,14 @@ enum {
 };
 
 static gboolean
-ep_check_enabled (const char *id)
+ep_check_enabled (const gchar *id)
 {
 	/* Return TRUE if 'id' is NOT in the disabled list. */
 	return !g_slist_find_custom (ep_disabled, id, (GCompareFunc) strcmp);
 }
 
 static void
-ep_set_enabled (const char *id, int state)
+ep_set_enabled (const gchar *id, gint state)
 {
 	/* Bail out if no change to state, when expressed as a boolean: */
 	if ((state == 0) == (ep_check_enabled(id) == 0))
@@ -135,14 +135,14 @@ static int
 ep_construct (EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
-	int res = -1;
-	char *localedir;
+	gint res = -1;
+	gchar *localedir;
 
 	ep->domain = e_plugin_xml_prop(root, "domain");
 	if (ep->domain
 	    && (localedir = e_plugin_xml_prop(root, "localedir"))) {
 #ifdef G_OS_WIN32
-		char *mapped_localedir =
+		gchar *mapped_localedir =
 			e_util_replace_prefix (EVOLUTION_PREFIX,
 					       e_util_get_prefix (),
 					       localedir);
@@ -159,10 +159,10 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "hook") == 0) {
+		if (strcmp((gchar *)node->name, "hook") == 0) {
 			struct _EPluginHook *hook;
 			EPluginHookClass *type;
-			char *class = e_plugin_xml_prop(node, "class");
+			gchar *class = e_plugin_xml_prop(node, "class");
 
 			if (class == NULL) {
 				g_warning("Plugin '%s' load failed in '%s', missing class property for hook", ep->id, ep->path);
@@ -198,11 +198,11 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 				g_hash_table_insert (ep_plugins_pending_hooks, oldclass, l);
 				ep->hooks_pending = g_slist_prepend (ep->hooks_pending, node);
 			}
-		} else if (strcmp((char *)node->name, "description") == 0) {
+		} else if (strcmp((gchar *)node->name, "description") == 0) {
 			ep->description = e_plugin_xml_content_domain(node, ep->domain);
-		} else if (strcmp((char *)node->name, "author") == 0) {
-			char *name = e_plugin_xml_prop(node, "name");
-			char *email = e_plugin_xml_prop(node, "email");
+		} else if (strcmp((gchar *)node->name, "author") == 0) {
+			gchar *name = e_plugin_xml_prop(node, "name");
+			gchar *email = e_plugin_xml_prop(node, "email");
 
 			if (name || email) {
 				EPluginAuthor *epa = g_malloc0(sizeof(*epa));
@@ -220,7 +220,7 @@ fail:
 }
 
 static void
-ep_enable (EPlugin *ep, int state)
+ep_enable (EPlugin *ep, gint state)
 {
 	GSList *iter;
 
@@ -331,7 +331,7 @@ e_plugin_get_type (void)
 	static GType type = 0;
 
 	if (G_UNLIKELY (type == 0)) {
-		char *path, *col, *p;
+		gchar *path, *col, *p;
 
 		static const GTypeInfo type_info = {
 			sizeof (EPluginClass),
@@ -375,7 +375,7 @@ e_plugin_get_type (void)
 static EPlugin *
 ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 {
-	char *prop, *id;
+	gchar *prop, *id;
 	EPluginClass *class;
 	EPlugin *ep;
 
@@ -391,7 +391,7 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 		return NULL;
 	}
 
-	prop = (char *)xmlGetProp(root, (const unsigned char *)"type");
+	prop = (gchar *)xmlGetProp(root, (const guchar *)"type");
 	if (prop == NULL) {
 		g_free(id);
 		g_warning("Invalid e-plugin entry in '%s': no type", pdoc->filename);
@@ -421,13 +421,13 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 }
 
 static int
-ep_load(const char *filename, int load_level)
+ep_load(const gchar *filename, gint load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
-	int res = -1;
+	gint res = -1;
 	EPlugin *ep = NULL;
-	int cache = FALSE;
+	gint cache = FALSE;
 	struct _plugin_doc *pdoc;
 
 	doc = e_xml_parse_file (filename);
@@ -435,7 +435,7 @@ ep_load(const char *filename, int load_level)
 		return -1;
 
 	root = xmlDocGetRootElement(doc);
-	if (strcmp((char *)root->name, "e-plugin-list") != 0) {
+	if (strcmp((gchar *)root->name, "e-plugin-list") != 0) {
 		g_warning("No <e-plugin-list> root element: %s", filename);
 		xmlFreeDoc(doc);
 		return -1;
@@ -446,8 +446,8 @@ ep_load(const char *filename, int load_level)
 	pdoc->filename = g_strdup(filename);
 
 	for (root = root->children; root ; root = root->next) {
-		if (strcmp((char *)root->name, "e-plugin") == 0) {
-			char *plugin_load_level, *is_system_plugin;
+		if (strcmp((gchar *)root->name, "e-plugin") == 0) {
+			gchar *plugin_load_level, *is_system_plugin;
 
 			plugin_load_level = NULL;
 			plugin_load_level = e_plugin_xml_prop (root, "load_level");
@@ -506,7 +506,7 @@ ep_load(const char *filename, int load_level)
 static int
 ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 {
-	int res = 0;
+	gint res = 0;
 	GSList *l, *p;
 
 	phd(printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id));
@@ -516,7 +516,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 	while (l) {
 		GSList *n = l->next;
 		xmlNodePtr node = l->data;
-		char *class = (char *)xmlGetProp(node, (const unsigned char *)"class");
+		gchar *class = (gchar *)xmlGetProp(node, (const guchar *)"class");
 		EPluginHook *hook;
 
 		phd(printf(" checking pending hook '%s'\n", class?class:"<unknown>"));
@@ -569,7 +569,7 @@ ep_load_pending(EPlugin *ep, EPluginHookClass *type)
  * Plugin definitions are XML files ending in the extension ".eplug".
  **/
 void
-e_plugin_add_load_path(const char *path)
+e_plugin_add_load_path(const gchar *path)
 {
 	ep_path = g_slist_append(ep_path, g_strdup(path));
 }
@@ -582,11 +582,11 @@ e_plugin_add_load_path(const char *path)
  *
  * Return value: Returns -1 if an error occurred.
  **/
-int
+gint
 e_plugin_load_plugins(void)
 {
 	GSList *l;
-	int i;
+	gint i;
 
 	if (ep_types == NULL) {
 		g_warning("no plugin types defined");
@@ -596,8 +596,8 @@ e_plugin_load_plugins(void)
 	for (i=0; i < 3; i++) {
 		for (l = ep_path;l;l = g_slist_next(l)) {
 			GDir *dir;
-			const char *d;
-			char *path = l->data;
+			const gchar *d;
+			gchar *path = l->data;
 
 			pd(printf("scanning plugin dir '%s'\n", path));
 
@@ -609,7 +609,7 @@ e_plugin_load_plugins(void)
 
 			while ( (d = g_dir_read_name(dir)) ) {
 				if (g_str_has_suffix  (d, ".eplug")) {
-					char * name = g_build_filename(path, d, NULL);
+					gchar * name = g_build_filename(path, d, NULL);
 
 					ep_load(name, i);
 					g_free(name);
@@ -649,7 +649,7 @@ e_plugin_register_type(GType type)
 
 	pd(printf("register plugin type '%s'\n", class->type));
 
-	g_hash_table_insert(ep_types, (void *)class->type, class);
+	g_hash_table_insert(ep_types, (gpointer)class->type, class);
 
 	/* check for pending plugins */
 	pdoc = (struct _plugin_doc *)ep_plugin_docs.head;
@@ -660,9 +660,9 @@ e_plugin_register_type(GType type)
 
 			for (l=pdoc->plugins;l;l=g_slist_next(l)) {
 				xmlNodePtr root = l->data;
-				char *prop_type;
+				gchar *prop_type;
 
-				prop_type = (char *)xmlGetProp(root, (const unsigned char *)"type");
+				prop_type = (gchar *)xmlGetProp(root, (const guchar *)"type");
 				if (!strcmp(prop_type, class->type))
 					add = g_slist_append(add, l->data);
 				xmlFree(prop_type);
@@ -688,7 +688,7 @@ e_plugin_register_type(GType type)
 }
 
 static void
-ep_list_plugin(void *key, void *val, void *dat)
+ep_list_plugin(gpointer key, gpointer val, gpointer dat)
 {
 	GSList **l = (GSList **)dat;
 
@@ -725,7 +725,7 @@ e_plugin_list_plugins(void)
  *
  * Return value: The return from the construct virtual method.
  **/
-int
+gint
 e_plugin_construct(EPlugin *ep, xmlNodePtr root)
 {
 	EPluginClass *class;
@@ -751,8 +751,8 @@ e_plugin_construct(EPlugin *ep, xmlNodePtr root)
  *
  * Return value: The return of the plugin invocation.
  **/
-void *
-e_plugin_invoke(EPlugin *ep, const char *name, void *data)
+gpointer
+e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data)
 {
 	EPluginClass *class;
 
@@ -778,8 +778,8 @@ e_plugin_invoke(EPlugin *ep, const char *name, void *data)
  *
  * Return value: the symbol value, or %NULL if not found
  **/
-void *
-e_plugin_get_symbol(EPlugin *ep, const char *name)
+gpointer
+e_plugin_get_symbol(EPlugin *ep, const gchar *name)
 {
 	EPluginClass *class;
 
@@ -801,7 +801,7 @@ e_plugin_get_symbol(EPlugin *ep, const char *name)
  * THIS IS NOT FULLY IMPLEMENTED YET
  **/
 void
-e_plugin_enable(EPlugin *ep, int state)
+e_plugin_enable(EPlugin *ep, gint state)
 {
 	EPluginClass *class;
 
@@ -852,15 +852,15 @@ e_plugin_get_configure_widget (EPlugin *ep)
  * Return value: The property, allocated in GLib memory, or NULL if no
  * such property exists.
  **/
-char *
-e_plugin_xml_prop(xmlNodePtr node, const char *id)
+gchar *
+e_plugin_xml_prop(xmlNodePtr node, const gchar *id)
 {
-	char *p = (char *)xmlGetProp(node, (const unsigned char *)id);
+	gchar *p = (gchar *)xmlGetProp(node, (const guchar *)id);
 
 	if (g_mem_is_system_malloc()) {
 		return p;
 	} else {
-		char * out = g_strdup(p);
+		gchar * out = g_strdup(p);
 
 		if (p)
 			xmlFree(p);
@@ -880,12 +880,12 @@ e_plugin_xml_prop(xmlNodePtr node, const char *id)
  * Return value: The property, allocated in GLib memory, or NULL if no
  * such property exists.
  **/
-char *
-e_plugin_xml_prop_domain(xmlNodePtr node, const char *id, const char *domain)
+gchar *
+e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *domain)
 {
-	char *p, *out;
+	gchar *p, *out;
 
-	p = (char *)xmlGetProp(node, (const unsigned char *)id);
+	p = (gchar *)xmlGetProp(node, (const guchar *)id);
 	if (p == NULL)
 		return NULL;
 
@@ -908,10 +908,10 @@ e_plugin_xml_prop_domain(xmlNodePtr node, const char *id, const char *domain)
  *
  * Return value: The value if set, or @def if not.
  **/
-int
-e_plugin_xml_int(xmlNodePtr node, const char *id, int def)
+gint
+e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def)
 {
-	char *p = (char *)xmlGetProp(node, (const unsigned char *)id);
+	gchar *p = (gchar *)xmlGetProp(node, (const guchar *)id);
 
 	if (p)
 		return atoi(p);
@@ -929,15 +929,15 @@ e_plugin_xml_int(xmlNodePtr node, const char *id, int def)
  *
  * Return value: The node content, allocated in GLib memory.
  **/
-char *
+gchar *
 e_plugin_xml_content(xmlNodePtr node)
 {
-	char *p = (char *)xmlNodeGetContent(node);
+	gchar *p = (gchar *)xmlNodeGetContent(node);
 
 	if (g_mem_is_system_malloc()) {
 		return p;
 	} else {
-		char * out = g_strdup(p);
+		gchar * out = g_strdup(p);
 
 		if (p)
 			xmlFree(p);
@@ -956,12 +956,12 @@ e_plugin_xml_content(xmlNodePtr node)
  *
  * Return value: The node content, allocated in GLib memory.
  **/
-char *
-e_plugin_xml_content_domain(xmlNodePtr node, const char *domain)
+gchar *
+e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain)
 {
-	char *p, *out;
+	gchar *p, *out;
 
-	p = (char *)xmlNodeGetContent(node);
+	p = (gchar *)xmlNodeGetContent(node);
 	if (p == NULL)
 		return NULL;
 
@@ -1005,7 +1005,7 @@ epl_loadmodule(EPlugin *ep, gboolean fatal)
 		return -1;
 	}
 
-	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (gpointer)&enable)) {
 		if (enable(epl, TRUE) != 0) {
 			ep->enabled = FALSE;
 			g_module_close(epl->module);
@@ -1033,8 +1033,8 @@ e_plugin_load_plugins_with_missing_symbols (void)
 	missing_symbols = NULL;
 }
 
-static void *
-epl_invoke(EPlugin *ep, const char *name, void *data)
+static gpointer
+epl_invoke(EPlugin *ep, const gchar *name, gpointer data)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibFunc cb;
@@ -1047,7 +1047,7 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 	if (epl_loadmodule(ep, FALSE) != 0)
 		return NULL;
 
-	if (!g_module_symbol(epl->module, name, (void *)&cb)) {
+	if (!g_module_symbol(epl->module, name, (gpointer)&cb)) {
 		g_warning("Cannot resolve symbol '%s' in plugin '%s' (not exported?)", name, epl->location);
 		return NULL;
 	}
@@ -1055,7 +1055,7 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 	return cb(epl, data);
 }
 
-static void *
+static gpointer
 epl_get_symbol(EPlugin *ep, const gchar *name)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
@@ -1086,7 +1086,7 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	}
 #ifdef G_OS_WIN32
 	{
-		char *mapped_location =
+		gchar *mapped_location =
 			e_util_replace_prefix (EVOLUTION_PREFIX,
 					       e_util_get_prefix (),
 					       epl->location);
@@ -1098,9 +1098,9 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	if (ep->enabled) {
 		xmlChar *tmp;
 
-		tmp = xmlGetProp(root, (const unsigned char *)"load-on-startup");
+		tmp = xmlGetProp(root, (const guchar *)"load-on-startup");
 		if (tmp) {
-			if (strcmp ((const char *)tmp, "after-ui") == 0) {
+			if (strcmp ((const gchar *)tmp, "after-ui") == 0) {
 				missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
 			} else {
 				if (epl_loadmodule(ep, FALSE) != 0) {
@@ -1128,7 +1128,7 @@ epl_get_configure_widget (EPlugin *ep)
 		return NULL;
 	}
 
-	if (g_module_symbol (epl->module, "e_plugin_lib_get_configure_widget", (void *)&get_configure_widget)) {
+	if (g_module_symbol (epl->module, "e_plugin_lib_get_configure_widget", (gpointer)&get_configure_widget)) {
 		pd (printf ("\n g_module_symbol is loaded\n"));
 		return (GtkWidget*) get_configure_widget (epl);
 	}
@@ -1136,7 +1136,7 @@ epl_get_configure_widget (EPlugin *ep)
 }
 
 static void
-epl_enable(EPlugin *ep, int state)
+epl_enable(EPlugin *ep, gint state)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibEnableFunc enable;
@@ -1151,7 +1151,7 @@ epl_enable(EPlugin *ep, int state)
 	if (epl_loadmodule(ep, FALSE) != 0)
 		return;
 
-	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (gpointer)&enable)) {
 		if (enable(epl, state) != 0)
 			return;
 	}
@@ -1243,7 +1243,7 @@ eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-eph_enable(EPluginHook *eph, int state)
+eph_enable(EPluginHook *eph, gint state)
 {
 	/* NOOP */
 }
@@ -1302,7 +1302,7 @@ e_plugin_hook_get_type(void)
  * THIS IS NOT FULY IMEPLEMENTED YET
  **/
 void
-e_plugin_hook_enable (EPluginHook *eph, int state)
+e_plugin_hook_enable (EPluginHook *eph, gint state)
 {
 	EPluginHookClass *class;
 
@@ -1336,7 +1336,7 @@ e_plugin_hook_register_type(GType type)
 
 	klass = g_type_class_ref(type);
 
-	oldklass = g_hash_table_lookup(eph_types, (void *)klass->id);
+	oldklass = g_hash_table_lookup(eph_types, (gpointer)klass->id);
 	if (oldklass == klass) {
 		g_type_class_unref(klass);
 		return;
@@ -1346,7 +1346,7 @@ e_plugin_hook_register_type(GType type)
 	}
 
 	phd(printf("register plugin hook type '%s'\n", klass->id));
-	g_hash_table_insert(eph_types, (void *)klass->id, klass);
+	g_hash_table_insert(eph_types, (gpointer)klass->id, klass);
 
 	/* if we've already loaded a plugin that needed this hook but it didn't exist, re-load it now */
 
@@ -1371,7 +1371,7 @@ e_plugin_hook_register_type(GType type)
 		ndoc = pdoc->next;
 		while (ndoc) {
 			if (pdoc->doc) {
-				int cache = pdoc->plugins != NULL;
+				gint cache = pdoc->plugins != NULL;
 
 				for (l=pdoc->plugin_hooks;!cache && l;l=g_slist_next(l))
 					cache |= (((EPlugin *)l->data)->hooks_pending != NULL);
@@ -1407,12 +1407,12 @@ e_plugin_hook_register_type(GType type)
  * integer values of the corresponding string id's stored in the @map.
  **/
 guint32
-e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop)
+e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop)
 {
-	char *val, *p, *start, c;
+	gchar *val, *p, *start, c;
 	guint32 mask = 0;
 
-	val = (char *)xmlGetProp(root, (const unsigned char *)prop);
+	val = (gchar *)xmlGetProp(root, (const guchar *)prop);
 	if (val == NULL)
 		return 0;
 
@@ -1424,7 +1424,7 @@ e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, con
 		c = *p;
 		*p = 0;
 		if (start != p) {
-			int i;
+			gint i;
 
 			for (i=0;map[i].key;i++) {
 				if (!strcmp(map[i].key, start)) {
@@ -1458,12 +1458,12 @@ e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, con
  * integer value, if not, then ~0.
  **/
 guint32
-e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop)
+e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop)
 {
-	char *val;
-	int i;
+	gchar *val;
+	gint i;
 
-	val = (char *)xmlGetProp(root, (const unsigned char *)prop);
+	val = (gchar *)xmlGetProp(root, (const guchar *)prop);
 	if (val == NULL)
 		return ~0;
 
@@ -1485,7 +1485,7 @@ e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const
 static gpointer epth_parent_class;
 
 static int
-epth_load_plugin(void *d)
+epth_load_plugin(gpointer d)
 {
 	EPluginHook *eph = d;
 	EPluginTypeHook *epth = d;
@@ -1513,7 +1513,7 @@ epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "plugin-type") == 0) {
+		if (strcmp((gchar *)node->name, "plugin-type") == 0) {
 			epth->get_type = e_plugin_xml_prop(node, "get-type");
 			/* We need to run this in an idle handler,
 			 * since at this point the parent EPlugin wont

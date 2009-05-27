@@ -46,7 +46,7 @@ create_memo_sources (EShellBackend *shell_backend,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	char *base_uri, *base_uri_proto;
+	gchar *base_uri, *base_uri_proto;
 	const gchar *base_dir;
 
 	*on_this_computer = NULL;
@@ -141,17 +141,17 @@ is_groupwise_account (EAccount *account)
 }
 
 static void
-add_gw_esource (ESourceList *source_list, const char *group_name,  const char *source_name, CamelURL *url, GConfClient *client)
+add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar *source_name, CamelURL *url, GConfClient *client)
 {
 	ESourceGroup *group;
 	ESource *source;
 	GSList *ids, *temp ;
 	GError *error = NULL;
-	char *relative_uri;
-	const char *soap_port;
-	const char * use_ssl;
-	const char *poa_address;
-	const char *offline_sync;
+	gchar *relative_uri;
+	const gchar *soap_port;
+	const gchar * use_ssl;
+	const gchar *poa_address;
+	const gchar *offline_sync;
 
 
 	poa_address = url->host;

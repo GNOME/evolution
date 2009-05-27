@@ -52,7 +52,7 @@ typedef enum _br_flags {
 }br_flags;
 
 static void
-backup (const char *filename, gboolean restart)
+backup (const gchar *filename, gboolean restart)
 {
 	if (restart)
 		 execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", "--restart", filename, NULL);
@@ -61,7 +61,7 @@ backup (const char *filename, gboolean restart)
 }
 
 static void
-restore (const char *filename, gboolean restart)
+restore (const gchar *filename, gboolean restart)
 {
 	if (restart)
 		 execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", "--restart", filename, NULL);
@@ -70,10 +70,10 @@ restore (const char *filename, gboolean restart)
 }
 
 static gboolean
-sanity_check (const char *filename)
+sanity_check (const gchar *filename)
 {
-	char *command;
-	int result;
+	gchar *command;
+	gint result;
 
 	command = g_strdup_printf ("%s/evolution-backup --check %s", EVOLUTION_TOOLSDIR, filename);
 	result = system (command);
@@ -89,11 +89,11 @@ sanity_check (const char *filename)
 }
 
 static guint32
-dialog_prompt_user(GtkWindow *parent, const char *string, const char *tag, const char *arg0, ...)
+dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
-	int button;
+	gint button;
 	guint32 mask = 0;
 
 	va_start(ap, arg0);
@@ -120,7 +120,7 @@ dialog_prompt_user(GtkWindow *parent, const char *string, const char *tag, const
 }
 
 static gboolean
-epbr_perform_pre_backup_checks (char* dir)
+epbr_perform_pre_backup_checks (gchar * dir)
 {
 #ifdef G_OS_WIN32
 	return TRUE;
@@ -134,7 +134,7 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 {
 	GtkWidget *dlg;
 	GtkWidget *vbox;
-	int response;
+	gint response;
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
 
@@ -150,10 +150,10 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 
 	response = gtk_dialog_run (GTK_DIALOG (dlg));
 	if (response == GTK_RESPONSE_OK) {
-		char *filename;
+		gchar *filename;
 		guint32 mask;
-		char *uri = NULL;
-		char *dir;
+		gchar *uri = NULL;
+		gchar *dir;
 
 		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
 		e_file_update_save_path(uri, TRUE);
@@ -186,7 +186,7 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 {
 	GtkWidget *dlg;
 	GtkWidget *vbox;
-	int response;
+	gint response;
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
 
@@ -200,8 +200,8 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 
 	response = gtk_dialog_run (GTK_DIALOG (dlg));
 	if (response == GTK_RESPONSE_OK) {
-		char *filename;
-		char *uri = NULL;
+		gchar *filename;
+		gchar *uri = NULL;
 
 		uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (dlg));
 		e_file_update_save_path(uri, TRUE);
@@ -232,7 +232,7 @@ check_toggled (GtkToggleButton *button, GnomeDruid *druid)
 {
 	 GtkWidget *box = g_object_get_data ((GObject *)button, "box");
 	gboolean state =  gtk_toggle_button_get_active ((GtkToggleButton *)button);
-	char *prevfile = g_object_get_data ((GObject *)druid, "restore-file");
+	gchar *prevfile = g_object_get_data ((GObject *)druid, "restore-file");
 
 	gtk_widget_set_sensitive (box, state);
 	gnome_druid_set_show_finish (druid, state);
@@ -249,7 +249,7 @@ static void
 restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data)
 {
 	gboolean state = GPOINTER_TO_INT(g_object_get_data((GObject *)druid, "restore")) ? TRUE:FALSE;
-	char *file = g_object_get_data ((GObject *)druid, "restore-file");
+	gchar *file = g_object_get_data ((GObject *)druid, "restore-file");
 
 	if (state) {
 		if (!file ||!sanity_check (file)) {
@@ -263,8 +263,8 @@ restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data
 static void
 file_changed (GtkFileChooser *chooser, GnomeDruid *druid)
 {
-	char *file = NULL, *prevfile=NULL;
-	char *uri = NULL;
+	gchar *file = NULL, *prevfile=NULL;
+	gchar *uri = NULL;
 
 	uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (chooser));
 	e_file_update_save_path(uri, TRUE);

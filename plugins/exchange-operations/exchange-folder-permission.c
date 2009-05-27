@@ -47,7 +47,7 @@
 
 #define d(x)
 
-static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data);
+static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, gpointer data);
 void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
 void org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
 void org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target);
@@ -63,7 +63,7 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
        g_slist_free (items);
 }
@@ -72,8 +72,8 @@ void
 org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target)
 {
 	GSList *menus = NULL;
-	int i = 0, mode;
-	static int first =0;
+	gint i = 0, mode;
+	static gint first =0;
 	ExchangeAccount *account = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
@@ -113,8 +113,8 @@ void
 org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target)
 {
 	GSList *menus = NULL;
-	int i = 0, mode;
-	static int first =0;
+	gint i = 0, mode;
+	static gint first =0;
 	ExchangeAccount *account = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
@@ -152,10 +152,10 @@ void
 org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 {
 	GSList *menus = NULL;
-	int i = 0, mode;
-	static int first =0;
+	gint i = 0, mode;
+	static gint first =0;
 	gchar *path = NULL;
-	char *fixed_path = NULL;
+	gchar *fixed_path = NULL;
 	ExchangeAccount *account = NULL;
 
 	d(g_print ("exchange-folder-permission.c: entry\n"));
@@ -201,7 +201,7 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 }
 
 static void
-org_folder_permissions_cb (EPopup *ep, EPopupItem *p, void *data)
+org_folder_permissions_cb (EPopup *ep, EPopupItem *p, gpointer data)
 {
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
@@ -223,7 +223,7 @@ org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *tar
 	ExchangeAccount *account = NULL;
 	EFolder *folder = NULL;
 	gchar *path = NULL;
-	int mode;
+	gint mode;
 
 	if (!g_str_has_prefix (target->uri, "exchange://"))
 		return;
@@ -249,7 +249,7 @@ org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *targ
 	ECalModel *model = NULL;
 	ECal *ecal = NULL;
 	gchar *uri = NULL;
-	int mode;
+	gint mode;
 
 	if (!target)
 		return;
@@ -283,7 +283,7 @@ org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *ta
 	ECalModel *model = NULL;
 	ECal *ecal = NULL;
 	gchar *uri = NULL;
-	int mode;
+	gint mode;
 
 	if (!target)
 		return;
@@ -315,7 +315,7 @@ org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target
 	EFolder *folder = NULL;
 	EBook *ebook = NULL;
 	gchar *uri = NULL;
-	int mode;
+	gint mode;
 
 	if (!target)
 		return;

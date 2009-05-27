@@ -58,12 +58,12 @@ static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep);
-void *em_junk_sa_validate_binary (EPlugin *ep);
+gpointer em_junk_sa_validate_binary (EPlugin *ep);
 GtkWidget *org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 static void em_junk_sa_init (void);
@@ -79,41 +79,41 @@ static gboolean em_junk_sa_system_spamd_available = FALSE;
 static gboolean em_junk_sa_new_daemon_started = FALSE;
 static gboolean em_junk_sa_checked_spamassassin_version = FALSE;
 static guint em_junk_sa_spamassassin_version = 0;
-static char *em_junk_sa_socket_path = NULL;
-static char *em_junk_sa_spamd_pidfile = NULL;
+static gchar *em_junk_sa_socket_path = NULL;
+static gchar *em_junk_sa_spamd_pidfile = NULL;
 static const gchar *em_junk_sa_spamc_binary = NULL;
 static GConfClient *em_junk_sa_gconf = NULL;
 
 /* volatile so not cached between threads */
 static volatile gboolean em_junk_sa_local_only;
 static volatile gboolean em_junk_sa_use_daemon;
-static char * em_junk_sa_preferred_socket_path;
+static gchar * em_junk_sa_preferred_socket_path;
 
 static const gchar *em_junk_sa_spamc_binaries [4] = {"spamc", "/usr/bin/spamc", "/usr/sbin/spamc", NULL};
 static const gchar *em_junk_sa_spamd_binaries [4] = {"spamd", "/usr/bin/spamd", "/usr/sbin/spamd", NULL};
 
 #define SPAMD_RESTARTS_SIZE 8
 static time_t em_junk_sa_spamd_restarts [SPAMD_RESTARTS_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0};
-static int em_junk_sa_spamd_restarts_count = 0;
+static gint em_junk_sa_spamd_restarts_count = 0;
 
 /* Variables to indicate whether spamd is running with --allow-tell */
-static int no_allow_tell;
+static gint no_allow_tell;
 static gboolean em_junk_sa_allow_tell_tested = FALSE;
 
-char *em_junk_sa_spamc_gconf_binary = NULL;
-char *em_junk_sa_spamd_gconf_binary = NULL;
+gchar *em_junk_sa_spamc_gconf_binary = NULL;
+gchar *em_junk_sa_spamd_gconf_binary = NULL;
 
 static int
-pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer, GError **error)
+pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gint rv_err, gint wait_for_termination, GByteArray *output_buffer, GError **error)
 {
-	int result, status, errnosav, fds[2], out_fds[2];
+	gint result, status, errnosav, fds[2], out_fds[2];
 	CamelStream *stream;
-	char *program;
+	gchar *program;
 	pid_t pid;
 
 
 	if (camel_debug_start ("junk")) {
-		int i;
+		gint i;
 
 		printf ("pipe_to_sa ");
 		for (i = 0; argv[i]; i++)
@@ -150,7 +150,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, int
 
 	if (!(pid = fork ())) {
 		/* child process */
-		int maxfd, fd, nullfd;
+		gint maxfd, fd, nullfd;
 
 		nullfd = open ("/dev/null", O_WRONLY);
 
@@ -212,13 +212,13 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, int
 
 		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
 		camel_object_unref (stream);
-		g_byte_array_append (output_buffer, (unsigned char *)"", 1);
+		g_byte_array_append (output_buffer, (guchar *)"", 1);
 
 		d(printf ("child process output: %s len: %d\n", output_buffer->data, output_buffer->len));
 	}
 
 	if (wait_for_termination) {
-		int res;
+		gint res;
 
 		d(printf ("wait for child %d termination\n", pid));
 		result = waitpid (pid, &status, 0);
@@ -259,7 +259,7 @@ pipe_to_sa (CamelMimeMessage *msg, const gchar *in, const gchar **argv, GError *
 	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, error);
 }
 
-static char *
+static gchar *
 em_junk_sa_get_socket_path ()
 {
 	if (em_junk_sa_preferred_socket_path)
@@ -272,7 +272,7 @@ static gboolean
 em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 {
 	const gchar *argv[5];
-	int i = 0;
+	gint i = 0;
 	gboolean rv;
 
 	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
@@ -341,7 +341,7 @@ static gboolean
 em_junk_sa_run_spamd (const gchar *binary)
 {
 	const gchar *argv[8];
-	int i;
+	gint i;
 	gboolean rv = FALSE;
 
 	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
@@ -395,7 +395,7 @@ em_junk_sa_run_spamd (const gchar *binary)
 static void
 em_junk_sa_start_own_daemon ()
 {
-	int b;
+	gint b;
 
 	em_junk_sa_new_daemon_started = FALSE;
 
@@ -415,7 +415,7 @@ static void
 em_junk_sa_find_spamc ()
 {
 	if (em_junk_sa_use_spamc && em_junk_sa_new_daemon_started) {
-		int b;
+		gint b;
 
 		em_junk_sa_use_spamc = FALSE;
 		for (b = 0; em_junk_sa_spamc_binaries [b]; b ++) {
@@ -432,7 +432,7 @@ static void
 em_junk_sa_test_spamd (void)
 {
 	const gchar *argv[4];
-	int i, b;
+	gint i, b;
 	gboolean try_system_spamd = TRUE;
 
 	if (em_junk_sa_spamc_gconf_binary) {
@@ -578,8 +578,8 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 {
 	GByteArray *out = NULL;
 	const gchar *argv[7];
-	char *to_free = NULL;
-	int i = 0, socket_i;
+	gchar *to_free = NULL;
+	gint i = 0, socket_i;
 	gboolean rv;
 	CamelMimeMessage *msg = target->m;
 
@@ -613,7 +613,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
 
-	if (!rv && out && out->data && !strcmp ((const char *)out->data, "0/0\n")) {
+	if (!rv && out && out->data && !strcmp ((const gchar *)out->data, "0/0\n")) {
 		/* an error occurred */
 		if (em_junk_sa_respawn_spamd ()) {
 			g_byte_array_set_size (out, 0);
@@ -643,7 +643,7 @@ static guint
 get_spamassassin_version ()
 {
 	GByteArray *out = NULL;
-	int i;
+	gint i;
 
 	const gchar *argv[3] = {
 		"sa-learn",
@@ -721,7 +721,7 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
-	const char *sync_op =
+	const gchar *sync_op =
 		(get_spamassassin_version () >= 3)
 		? "--no-sync": "--no-rebuild";
 	const gchar *argv[6] = {
@@ -783,17 +783,17 @@ em_junk_sa_commit_reports (EPlugin *ep)
 	}
 }
 
-void *
+gpointer
 em_junk_sa_validate_binary (EPlugin *ep)
 {
-	return em_junk_sa_is_available (NULL) ? (void *) "1" : NULL;
+	return em_junk_sa_is_available (NULL) ? (gpointer) "1" : NULL;
 }
 
 static void
-em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, void *data)
+em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	GConfValue *value;
-	char *tkey;
+	gchar *tkey;
 
 	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
 
@@ -815,8 +815,8 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 	}
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	em_junk_sa_init();
 
@@ -862,15 +862,15 @@ em_junk_sa_kill_spamd (void)
 	pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
 
 	if (em_junk_sa_new_daemon_started) {
-		int fd = open (em_junk_sa_spamd_pidfile, O_RDONLY);
+		gint fd = open (em_junk_sa_spamd_pidfile, O_RDONLY);
 
 		if (fd != -1) {
-			char pid_str [16];
-			int bytes;
+			gchar pid_str [16];
+			gint bytes;
 
 			bytes = read (fd, pid_str, 15);
 			if (bytes > 0) {
-				int pid;
+				gint pid;
 
 				pid_str [bytes] = 0;
 				pid = atoi (pid_str);
@@ -907,7 +907,7 @@ GtkWidget *
 org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
    	GtkWidget *check, *vbox, *label;
-	char *text = g_strdup_printf ("    <small>%s</small>", _("This will make SpamAssassin more reliable, but slower"));
+	gchar *text = g_strdup_printf ("    <small>%s</small>", _("This will make SpamAssassin more reliable, but slower"));
 	guint i = ((GtkTable *)data->parent)->nrows;
 
 	if (data->old)

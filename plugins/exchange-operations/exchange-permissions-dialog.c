@@ -45,7 +45,7 @@
 
 struct _ExchangePermissionsDialogPrivate {
 	ExchangeAccount *account;
-	char *base_uri, *folder_path;
+	gchar *base_uri, *folder_path;
 	E2kSecurityDescriptor *sd;
 	gboolean changed;
 	gboolean frozen;
@@ -129,13 +129,13 @@ static void get_widgets         (ExchangePermissionsDialog *dialog,
 static void setup_user_list     (ExchangePermissionsDialog *dialog);
 static void display_permissions (ExchangePermissionsDialog *dialog);
 static void dialog_response     (ExchangePermissionsDialog *dialog,
-				 int response, gpointer user_data);
+				 gint response, gpointer user_data);
 
-static const char *sd_props[] = {
+static const gchar *sd_props[] = {
 	E2K_PR_EXCHANGE_SD_BINARY,
 	E2K_PR_EXCHANGE_SD_XML
 };
-static const int n_sd_props = sizeof (sd_props) / sizeof (sd_props[0]);
+static const gint n_sd_props = sizeof (sd_props) / sizeof (sd_props[0]);
 
 /**
  * exchange_permissions_dialog_new:
@@ -151,15 +151,15 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 				 GtkWidget *parent)
 {
 	ExchangePermissionsDialog *dialog;
-	const char *base_uri, *folder_uri, *folder_path;
+	const gchar *base_uri, *folder_uri, *folder_path;
 	E2kContext *ctx;
 	ExchangeHierarchy *hier;
 	GladeXML *xml;
 	GtkWidget *box;
-	char *title;
+	gchar *title;
 	E2kHTTPStatus status;
 	E2kResult *results;
-	int nresults = 0;
+	gint nresults = 0;
 	xmlNode *xml_form;
 	GByteArray *binary_form;
 
@@ -242,7 +242,7 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 }
 
 static void
-dialog_response (ExchangePermissionsDialog *dialog, int response,
+dialog_response (ExchangePermissionsDialog *dialog, gint response,
 		 gpointer user_data)
 {
 	E2kContext *ctx;
@@ -276,7 +276,7 @@ dialog_response (ExchangePermissionsDialog *dialog, int response,
 	 * folder hierarchy. #29726
 	 */
 	iter = e2k_context_bproppatch_start (ctx, NULL, dialog->priv->base_uri,
-					     (const char **)&dialog->priv->folder_path, 1,
+					     (const gchar **)&dialog->priv->folder_path, 1,
 					     props, FALSE);
 	e2k_properties_free (props);
 
@@ -388,7 +388,7 @@ add_clicked (GtkButton *button, gpointer user_data)
 	const guint8 *bsid, *bsid2;
 	GList *email_list = NULL;
 	GList *l = NULL;
-	char *email = NULL;
+	gchar *email = NULL;
 	gboolean valid;
 	gint result;
 
@@ -525,7 +525,7 @@ static void
 role_changed (GtkWidget *role_combo, gpointer user_data)
 {
 	ExchangePermissionsDialog *dialog = user_data;
-	int role;
+	gint role;
 
 	if (dialog->priv->frozen)
 		return;
@@ -548,7 +548,7 @@ role_changed (GtkWidget *role_combo, gpointer user_data)
 static void
 display_role (ExchangePermissionsDialog *dialog)
 {
-	int role = dialog->priv->selected_role;
+	gint role = dialog->priv->selected_role;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
@@ -772,17 +772,17 @@ get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)
 			  "toggled", G_CALLBACK (rv_toggle), dialog);
 }
 
-GtkWidget *exchange_permissions_role_optionmenu_new (char *widget_name, char *string1, char *string2, int int1, int int2);
+GtkWidget *exchange_permissions_role_optionmenu_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
 
 GtkWidget *
-exchange_permissions_role_optionmenu_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+exchange_permissions_role_optionmenu_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
 	GtkWidget *menu;
-	const char **roles;
-	int role;
+	const gchar **roles;
+	gint role;
 
 	menu = gtk_combo_box_new_text ();
-	roles = g_new (const char *, E2K_PERMISSIONS_ROLE_NUM_ROLES + 1);
+	roles = g_new (const gchar *, E2K_PERMISSIONS_ROLE_NUM_ROLES + 1);
 	for (role = 0; role < E2K_PERMISSIONS_ROLE_NUM_ROLES; role++) {
 		roles[role] = e2k_permissions_role_get_name (role);
 		gtk_combo_box_append_text (GTK_COMBO_BOX (menu), roles[role]);

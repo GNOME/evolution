@@ -40,8 +40,8 @@ static void em_inline_filter_class_init (EMInlineFilterClass *klass);
 static void em_inline_filter_init (CamelObject *object);
 static void em_inline_filter_finalize (CamelObject *object);
 
-static void emif_filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace);
-static void emif_complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace);
+static void emif_filter(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace);
+static void emif_complete(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace);
 static void emif_reset(CamelMimeFilter *f);
 
 static CamelMimeFilterClass *parent_class = NULL;
@@ -107,8 +107,8 @@ enum {
 };
 
 static const struct {
-	const char *type;
-	const char *subtype;
+	const gchar *type;
+	const gchar *subtype;
 	CamelTransferEncoding encoding;
 	guint plain:1;
 } emif_types[] = {
@@ -121,22 +121,22 @@ static const struct {
 };
 
 static void
-emif_add_part(EMInlineFilter *emif, const char *data, int len)
+emif_add_part(EMInlineFilter *emif, const gchar *data, gint len)
 {
 	CamelTransferEncoding encoding;
 	CamelContentType *content_type;
 	CamelDataWrapper *dw;
-	const char *mimetype;
+	const gchar *mimetype;
 	CamelMimePart *part;
 	CamelStream *mem;
-	char *type;
+	gchar *type;
 
 	if (emif->state == EMIF_PLAIN || emif->state == EMIF_PGPSIGNED || emif->state == EMIF_PGPENCRYPTED)
 		encoding = emif->base_encoding;
 	else
 		encoding = emif_types[emif->state].encoding;
 
-	g_byte_array_append(emif->data, (unsigned char *)data, len);
+	g_byte_array_append(emif->data, (guchar *)data, len);
 	/* check the part will actually have content */
 	if (emif->data->len <= 0) {
 		return;
@@ -192,12 +192,12 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 }
 
 static int
-emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
+emif_scan(CamelMimeFilter *f, gchar *in, size_t len, gint final)
 {
 	EMInlineFilter *emif = (EMInlineFilter *)f;
-	char *inptr = in, *inend = in+len;
-	char *data_start = in;
-	char *start = in;
+	gchar *inptr = in, *inend = in+len;
+	gchar *data_start = in;
+	gchar *start = in;
 
 	while (inptr < inend) {
 		start = inptr;
@@ -220,8 +220,8 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 			/* This could use some funky plugin shit, but this'll do for now */
 			if (strncmp(start, "begin ", 6) == 0
 			    && start[6] >= '0' && start[6] <= '7') {
-				int i = 7;
-				char *name;
+				gint i = 7;
+				gchar *name;
 
 				while (start[i] >='0' && start[i] <='7')
 					i++;
@@ -268,7 +268,7 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
 			} else {
-				int linelen;
+				gint linelen;
 
 				/* check the length byte matches the data, if not, output what we have and re-scan this line */
 				len = ((start[0] - ' ') & 077);
@@ -328,14 +328,14 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 	if (final) {
 		emif_add_part(emif, data_start, inend-data_start);
 	} else {
-		g_byte_array_append(emif->data, (unsigned char *)data_start, inend-data_start);
+		g_byte_array_append(emif->data, (guchar *)data_start, inend-data_start);
 	}
 
 	return 0;
 }
 
 static void
-emif_filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
+emif_filter(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace)
 {
 	emif_scan(f, in, len, FALSE);
 
@@ -345,7 +345,7 @@ emif_filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **ou
 }
 
 static void
-emif_complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
+emif_complete(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace)
 {
 	emif_scan(f, in, len, TRUE);
 

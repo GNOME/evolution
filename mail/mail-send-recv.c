@@ -71,17 +71,17 @@
 /* this stuff is used to keep track of which folders filters have accessed, and
    what not. the thaw/refreeze thing doesn't really seem to work though */
 struct _folder_info {
-	char *uri;
+	gchar *uri;
 	CamelFolder *folder;
 	time_t update;
-	int count;		/* how many times updated, to slow it down as we go, if we have lots */
+	gint count;		/* how many times updated, to slow it down as we go, if we have lots */
 };
 
 struct _send_data {
 	GList *infos;
 
 	GtkDialog *gd;
-	int cancelled;
+	gint cancelled;
 
 	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
 	time_t inbox_update;
@@ -108,24 +108,24 @@ typedef enum {
 struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
 	CamelOperation *cancel;
-	char *uri;
+	gchar *uri;
 	gboolean keep_on_server;
 	send_state_t state;
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
 	GtkWidget *status_label;
 
-	int again;		/* need to run send again */
+	gint again;		/* need to run send again */
 
-	int timeout_id;
-	char *what;
-	int pc;
+	gint timeout_id;
+	gchar *what;
+	gint pc;
 
 	/*time_t update;*/
 	struct _send_data *data;
 };
 
-static CamelFolder *receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex);
+static CamelFolder *receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -212,13 +212,13 @@ free_send_data(void)
 }
 
 static void
-cancel_send_info(void *key, struct _send_info *info, void *data)
+cancel_send_info(gpointer key, struct _send_info *info, gpointer data)
 {
 	receive_cancel (GTK_BUTTON (info->cancel_button), info);
 }
 
 static void
-hide_send_info(void *key, struct _send_info *info, void *data)
+hide_send_info(gpointer key, struct _send_info *info, gpointer data)
 {
 	info->cancel_button = NULL;
 	info->progress_bar = NULL;
@@ -239,7 +239,7 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 }
 
 static void
-dialog_response(GtkDialog *gd, int button, struct _send_data *data)
+dialog_response(GtkDialog *gd, gint button, struct _send_data *data)
 {
 	switch(button) {
 	case GTK_RESPONSE_CANCEL:
@@ -260,7 +260,7 @@ dialog_response(GtkDialog *gd, int button, struct _send_data *data)
 }
 
 static int
-operation_status_timeout(void *data)
+operation_status_timeout(gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -279,7 +279,7 @@ operation_status_timeout(void *data)
 }
 
 static void
-set_send_status(struct _send_info *info, const char *desc, int pc)
+set_send_status(struct _send_info *info, const gchar *desc, gint pc)
 {
 	/* FIXME: LOCK */
 	g_free(info->what);
@@ -289,7 +289,7 @@ set_send_status(struct _send_info *info, const char *desc, int pc)
 
 /* for camel operation status */
 static void
-operation_status(CamelOperation *op, const char *what, int pc, void *data)
+operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -306,11 +306,11 @@ operation_status(CamelOperation *op, const char *what, int pc, void *data)
 	set_send_status(info, what, pc);
 }
 
-static char *
-format_url(const char *internal_url, const char *account_name)
+static gchar *
+format_url(const gchar *internal_url, const gchar *account_name)
 {
 	CamelURL *url;
-       	char *pretty_url;
+       	gchar *pretty_url;
 
 	url = camel_url_new(internal_url, NULL);
 	if (account_name) {
@@ -335,7 +335,7 @@ format_url(const char *internal_url, const char *account_name)
 }
 
 static send_info_t
-get_receive_type(const char *url)
+get_receive_type(const gchar *url)
 {
 	CamelProvider *provider;
 	CamelException ex;
@@ -372,7 +372,7 @@ build_dialog (GtkWindow *parent,
 {
 	GtkDialog *gd;
 	GtkWidget *table;
-	int row, num_sources;
+	gint row, num_sources;
 	GList *list = NULL;
 	struct _send_data *data;
         GtkWidget *send_icon;
@@ -383,7 +383,7 @@ build_dialog (GtkWindow *parent,
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
 	struct _send_info *info;
-	char *pretty_url;
+	gchar *pretty_url;
 	EAccount *account;
 	EIterator *iter;
 	EMEventTargetSendReceive *target;
@@ -634,7 +634,7 @@ build_dialog (GtkWindow *parent,
 }
 
 static void
-update_folders(char *uri, struct _folder_info *info, void *data)
+update_folders(gchar *uri, struct _folder_info *info, gpointer data)
 {
 	time_t now = *((time_t *)data);
 
@@ -652,7 +652,7 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 }
 
 static void
-receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, int pc, const char *desc, void *data)
+receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, gint pc, const gchar *desc, gpointer data)
 {
 	struct _send_info *info = data;
 	time_t now = time(NULL);
@@ -684,7 +684,7 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 
 /* when receive/send is complete */
 static void
-receive_done (const gchar *uri, void *data)
+receive_done (const gchar *uri, gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -747,7 +747,7 @@ receive_done (const gchar *uri, void *data)
    This can also be used to hook into which folders are being updated, and occasionally
    let them refresh */
 static CamelFolder *
-receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
+receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex)
 {
 	struct _send_info *info = data;
 	CamelFolder *folder;
@@ -825,7 +825,7 @@ refresh_folders_desc (struct _refresh_folders_msg *m)
 static void
 refresh_folders_exec (struct _refresh_folders_msg *m)
 {
-	int i;
+	gint i;
 	CamelFolder *folder;
 	CamelException ex = CAMEL_EXCEPTION_INITIALISER;
 
@@ -858,7 +858,7 @@ refresh_folders_done (struct _refresh_folders_msg *m)
 static void
 refresh_folders_free (struct _refresh_folders_msg *m)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<m->folders->len;i++)
 		g_free(m->folders->pdata[i]);
@@ -877,7 +877,7 @@ static MailMsgInfo refresh_folders_info = {
 };
 
 static gboolean
-receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *data)
+receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, gpointer data)
 {
 	if (info) {
 		GPtrArray *folders = g_ptr_array_new();
@@ -903,7 +903,7 @@ receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, void *da
 }
 
 static void
-receive_update_got_store (char *uri, CamelStore *store, void *data)
+receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -980,14 +980,14 @@ mail_send_receive (GtkWindow *parent)
 
 struct _auto_data {
 	EAccount *account;
-	int period;		/* in seconds */
-	int timeout_id;
+	gint period;		/* in seconds */
+	gint timeout_id;
 };
 
 static GHashTable *auto_active;
 
 static gboolean
-auto_timeout(void *data)
+auto_timeout(gpointer data)
 {
 	struct _auto_data *info = data;
 
@@ -1006,7 +1006,7 @@ auto_timeout(void *data)
 }
 
 static void
-auto_account_removed(EAccountList *eal, EAccount *ea, void *dummy)
+auto_account_removed(EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 
@@ -1029,7 +1029,7 @@ auto_account_finalised(struct _auto_data *info)
 static void
 auto_account_commit(struct _auto_data *info)
 {
-	int period, check;
+	gint period, check;
 
 	check = info->account->enabled
 		&& e_account_get_bool(info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
@@ -1049,7 +1049,7 @@ auto_account_commit(struct _auto_data *info)
 }
 
 static void
-auto_account_added(EAccountList *eal, EAccount *ea, void *dummy)
+auto_account_added(EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info;
 
@@ -1060,7 +1060,7 @@ auto_account_added(EAccountList *eal, EAccount *ea, void *dummy)
 }
 
 static void
-auto_account_changed(EAccountList *eal, EAccount *ea, void *dummy)
+auto_account_changed(EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 

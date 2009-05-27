@@ -43,7 +43,7 @@ typedef struct {
 } ECellDateClass;
 
 GType      e_cell_date_get_type (void);
-ECell     *e_cell_date_new      (const char *fontname, GtkJustification justify);
+ECell     *e_cell_date_new      (const gchar *fontname, GtkJustification justify);
 
 G_END_DECLS
 

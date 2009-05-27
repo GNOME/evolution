@@ -378,12 +378,12 @@ e_action_group_remove_all_actions (GtkActionGroup *action_group)
  * Strips underscores from a string in the same way @gtk_label_new_with_mnemonis does.
  * The returned string should be freed.
  */
-char *
-e_str_without_underscores (const char *s)
+gchar *
+e_str_without_underscores (const gchar *s)
 {
-	char *new_string;
-	const char *sp;
-	char *dp;
+	gchar *new_string;
+	const gchar *sp;
+	gchar *dp;
 
 	new_string = g_malloc (strlen (s) + 1);
 
@@ -1297,10 +1297,10 @@ get_lock_filename (void)
 gboolean
 e_file_lock_create ()
 {
-	const char *fname = get_lock_filename ();
+	const gchar *fname = get_lock_filename ();
 	gboolean status = FALSE;
 
-	int fd = g_creat (fname, S_IRUSR|S_IWUSR);
+	gint fd = g_creat (fname, S_IRUSR|S_IWUSR);
 	if (fd == -1){
 		g_warning ("Lock file '%s' creation failed, error %d\n", fname, errno);
 	} else {
@@ -1314,7 +1314,7 @@ e_file_lock_create ()
 void
 e_file_lock_destroy ()
 {
-	const char *fname = get_lock_filename ();
+	const gchar *fname = get_lock_filename ();
 
 	if (g_unlink (fname) == -1){
 		g_warning ("Lock destroy: failed to unlink file '%s'!",fname);
@@ -1324,7 +1324,7 @@ e_file_lock_destroy ()
 gboolean
 e_file_lock_exists ()
 {
-	const char *fname = get_lock_filename ();
+	const gchar *fname = get_lock_filename ();
 
 	return g_file_test (fname, G_FILE_TEST_EXISTS);
 }
@@ -1337,10 +1337,10 @@ e_file_lock_exists ()
  *
  * Guesses mime_type for the given filename.
  **/
-char *
-e_util_guess_mime_type (const char *filename, gboolean localfile)
+gchar *
+e_util_guess_mime_type (const gchar *filename, gboolean localfile)
 {
-	char *mime_type = NULL;
+	gchar *mime_type = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -1388,11 +1388,11 @@ e_util_guess_mime_type (const char *filename, gboolean localfile)
  *
  * Converts local file name to URI.
  **/
-char *
-e_util_filename_to_uri (const char *filename)
+gchar *
+e_util_filename_to_uri (const gchar *filename)
 {
 	GFile *file;
-	char *uri = NULL;
+	gchar *uri = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -1413,11 +1413,11 @@ e_util_filename_to_uri (const char *filename)
  *
  * Converts URI to local file name. NULL indicates no such local file name exists.
  **/
-char *
-e_util_uri_to_filename (const char *uri)
+gchar *
+e_util_uri_to_filename (const gchar *uri)
 {
 	GFile *file;
-	char *filename = NULL;
+	gchar *filename = NULL;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
@@ -1444,7 +1444,7 @@ e_util_uri_to_filename (const char *uri)
  * Mount point should be already mounted when calling this function.
  **/
 gboolean
-e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer, gsize *read, GError **error)
+e_util_read_file (const gchar *filename, gboolean filename_is_uri, gchar **buffer, gsize *read, GError **error)
 {
 	GFile *file;
 	GFileInfo *info;
@@ -1469,7 +1469,7 @@ e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer,
 
 	if (!err && info) {
 		guint64 sz;
-		char *buff;
+		gchar *buff;
 
 		sz = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
 		buff = g_malloc (sizeof (char) * sz);

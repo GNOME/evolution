@@ -476,11 +476,11 @@ eab_contact_compare_email (EContact *contact1, EContact *contact2)
 	   we find an exact match, there is no reason to keep
 	   checking. */
 	while (i1 && match != EAB_CONTACT_MATCH_EXACT) {
-		char *addr1 = (char *) i1->data;
+		gchar *addr1 = (gchar *) i1->data;
 
 		i2 = contact2_email;
 		while (i2 && match != EAB_CONTACT_MATCH_EXACT) {
-			char *addr2 = (char *) i2->data;
+			gchar *addr2 = (gchar *) i2->data;
 
 			match = combine_comparisons (match, compare_email_addresses (addr1, addr2));
 
@@ -640,7 +640,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	gint p=0;
 	gchar *contact_file_as, *qj;
 	EBookQuery *query = NULL;
-	int i;
+	gint i;
 
 	if (book == NULL) {
 		info->cb (info->contact, NULL, EAB_CONTACT_MATCH_NONE, info->closure);
@@ -699,7 +699,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	for(i = 0; query_parts[i] != NULL; i++)
 		g_free(query_parts[i]);
 	if (p > 1) {
-		char *s;
+		gchar *s;
 		s = g_strdup_printf ("(or %s)", qj);
 		query = e_book_query_from_string (s);
 		g_free (s);

@@ -117,7 +117,7 @@ em_folder_selector_get_type (void)
 }
 
 static void
-emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
+emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 {
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
@@ -133,8 +133,8 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 static void
 emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	char *path;
-	const char *text = NULL;
+	gchar *path;
+	const gchar *text = NULL;
 	gboolean active;
 
 	if (emfs->name_entry->text_length > 0)
@@ -148,7 +148,7 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 }
 
 static void
-folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderSelector *emfs)
+folder_selected_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, guint32 flags, EMFolderSelector *emfs)
 {
 	if (emfs->name_entry)
 		emfs_create_name_changed (emfs->name_entry, emfs);
@@ -157,13 +157,13 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint
 }
 
 static void
-folder_activated_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderSelector *emfs)
+folder_activated_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, EMFolderSelector *emfs)
 {
 	gtk_dialog_response ((GtkDialog *) emfs, GTK_RESPONSE_OK);
 }
 
 void
-em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel)
+em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
 {
 	GtkWidget *widget;
 
@@ -216,7 +216,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 }
 
 GtkWidget *
-em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel)
+em_folder_selector_new (EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
 {
 	EMFolderSelector *emfs;
 
@@ -231,8 +231,8 @@ static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
 	if (emfs->name_entry->text_length > 0) {
-		char *path;
-		const char *text;
+		gchar *path;
+		const gchar *text;
 
 		text = gtk_entry_get_text (emfs->name_entry);
 		path = em_folder_tree_get_selected_uri(emfs->emft);
@@ -244,7 +244,7 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 }
 
 GtkWidget *
-em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *title, const char *text)
+em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text)
 {
 	EMFolderSelector *emfs;
 	GtkWidget *hbox, *w;
@@ -276,7 +276,7 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 
 
 void
-em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri)
+em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri)
 {
 	em_folder_tree_set_selected (emfs->emft, uri, FALSE);
 }
@@ -287,11 +287,11 @@ em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list)
 	em_folder_tree_set_selected_list (emfs->emft, list, FALSE);
 }
 
-const char *
+const gchar *
 em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 {
-	char *uri;
-	const char *name;
+	gchar *uri;
+	const gchar *name;
 
 	if (!(uri = em_folder_tree_get_selected_uri (emfs->emft))) {
 		d(printf ("no selected folder?\n"));
@@ -301,7 +301,7 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	if (uri && emfs->name_entry) {
 		CamelProvider *provider;
 		CamelURL *url;
-		char *newpath;
+		gchar *newpath;
 
 		provider = camel_provider_get(uri, NULL);
 
@@ -316,7 +316,7 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 
 			camel_url_set_fragment (url, newpath);
 		} else {
-			char *path;
+			gchar *path;
 
 			path = g_strdup_printf("%s/%s", (url->path == NULL || strcmp(url->path, "/") == 0) ? "":url->path, name);
 			camel_url_set_path(url, path);
@@ -352,10 +352,10 @@ em_folder_selector_get_selected_paths (EMFolderSelector *emfs)
 	return em_folder_tree_get_selected_paths (emfs->emft);
 }
 
-const char *
+const gchar *
 em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 {
-	char *uri, *path;
+	gchar *uri, *path;
 
 	if (emfs->selected_path) {
 		/* already did the work in a previous call */
@@ -370,8 +370,8 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 
 	path = em_folder_tree_get_selected_path(emfs->emft);
 	if (emfs->name_entry) {
-		const char *name;
-		char *newpath;
+		const gchar *name;
+		gchar *newpath;
 
 		name = gtk_entry_get_text (emfs->name_entry);
 		newpath = g_strdup_printf ("%s/%s", path?path:"", name);

@@ -35,7 +35,7 @@
 #include "e-table-header-utils.h"
 
 static PangoLayout*
-build_header_layout (GtkWidget *widget, const char *str)
+build_header_layout (GtkWidget *widget, const gchar *str)
 {
 	PangoLayout *layout;
 
@@ -70,8 +70,8 @@ build_header_layout (GtkWidget *widget, const char *str)
 double
 e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
 {
-	int ythick;
-	int height;
+	gint ythick;
+	gint height;
 	PangoLayout *layout;
 
 	g_return_val_if_fail (ecol != NULL, -1);
@@ -111,13 +111,13 @@ e_table_header_width_extras (GtkStyle *style)
  */
 static GdkPixmap *
 make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
-		       GdkPixbuf *pixbuf, GdkColor *bg, int width, int height,
-		       int dither_xofs, int dither_yofs)
+		       GdkPixbuf *pixbuf, GdkColor *bg, gint width, gint height,
+		       gint dither_xofs, gint dither_yofs)
 {
-	int pwidth, pheight;
+	gint pwidth, pheight;
 	GdkPixmap *pixmap;
 	GdkPixbuf *tmp;
-	int color;
+	gint color;
 
 	pwidth = gdk_pixbuf_get_width (pixbuf);
 	pheight = gdk_pixbuf_get_height (pixbuf);
@@ -141,7 +141,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 					    16,
 					    color, color);
 	} else {
-		int x, y, rowstride;
+		gint x, y, rowstride;
 		GdkPixbuf *fade;
 		guchar *pixels;
 
@@ -162,7 +162,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 
 		for (y = 0; y < height; y++) {
 			guchar *p;
-			int yfactor;
+			gint yfactor;
 
 			p = pixels + y * rowstride;
 
@@ -172,7 +172,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 				yfactor = height;
 
 			for (x = 0; x < width; x++) {
-				int xfactor;
+				gint xfactor;
 
 				if (width < pwidth)
 					xfactor = width - x;
@@ -238,12 +238,12 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
  **/
 static void
 e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
-			    int x, int y, PangoLayout *layout, char *str,
-			    int max_width, gboolean center)
+			    gint x, gint y, PangoLayout *layout, gchar *str,
+			    gint max_width, gboolean center)
 {
- 	int width;
-	int height;
-	int index;
+ 	gint width;
+	gint height;
+	gint index;
 	GSList *lines;
 	PangoLayoutLine *line;
 
@@ -257,7 +257,7 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 	gdk_gc_set_clip_rectangle (gc, NULL);
 
 	if (width <= max_width) {
-		int xpos;
+		gint xpos;
 
 		if (center)
 			xpos = x + (max_width - width) / 2;
@@ -268,8 +268,8 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 				 xpos, y,
 				 layout);
 	} else {
-		int arrow_width;
-		int i;
+		gint arrow_width;
+		gint i;
 
 		if (max_width < ARROW_WIDTH + 1)
 			arrow_width = max_width - 1;
@@ -323,13 +323,13 @@ void
 e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			    GtkStyle *style, GtkStateType state,
 			    GtkWidget *widget,
-			    int x, int y, int width, int height,
-			    int button_width, int button_height,
+			    gint x, gint y, gint width, gint height,
+			    gint button_width, gint button_height,
 			    ETableColArrow arrow)
 {
-	int xthick, ythick;
-	int inner_x, inner_y;
-	int inner_width, inner_height;
+	gint xthick, ythick;
+	gint inner_x, inner_y;
+	gint inner_width, inner_height;
 	GdkGC *gc;
 	PangoLayout *layout;
 	static gpointer g_label = NULL;
@@ -385,7 +385,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN: {
-		int arrow_width, arrow_height;
+		gint arrow_width, arrow_height;
 
 		arrow_width = MIN (MIN_ARROW_SIZE, inner_width);
 		arrow_height = MIN (MIN_ARROW_SIZE, inner_height);
@@ -413,9 +413,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	/* Pixbuf or label */
 	if (ecol->is_pixbuf) {
-		int pwidth, pheight;
-		int clip_width, clip_height;
-		int xpos;
+		gint pwidth, pheight;
+		gint clip_width, clip_height;
+		gint xpos;
 		GdkPixmap *pixmap;
 
 		g_return_if_fail (ecol->pixbuf != NULL);
@@ -429,7 +429,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		xpos = inner_x;
 
 		if (inner_width - pwidth > 11) {
-			int ypos;
+			gint ypos;
 
 			pango_layout_get_pixel_size (layout, &width, NULL);
 

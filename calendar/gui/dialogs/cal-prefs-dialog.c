@@ -37,21 +37,21 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-static const int week_start_day_map[] = {
+static const gint week_start_day_map[] = {
 	1, 2, 3, 4, 5, 6, 0, -1
 };
 
-static const int time_division_map[] = {
+static const gint time_division_map[] = {
 	60, 30, 15, 10, 5, -1
 };
 
 /* The following two are kept separate in case we need to re-order each menu individually */
-static const int hide_completed_units_map[] = {
+static const gint hide_completed_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
 
 /* same is used for Birthdays & Anniversaries calendar */
-static const int default_reminder_units_map[] = {
+static const gint default_reminder_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
 
@@ -93,7 +93,7 @@ calendar_prefs_dialog_init (CalendarPrefsDialog *dialog)
 }
 
 static GtkWidget *
-eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, void *data)
+eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	CalendarPrefsDialog *prefs = data;
 
@@ -105,7 +105,7 @@ working_days_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	CalWeekdays working_days = 0;
 	guint32 mask = 1;
-	int day;
+	gint day;
 
 	for (day = 0; day < 7; day++) {
 		if (e_dialog_toggle_get (prefs->working_days[day]))
@@ -129,8 +129,8 @@ timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 static void
 update_day_second_zone_caption (CalendarPrefsDialog *prefs)
 {
-	char *location;
-	const char *caption;
+	gchar *location;
+	const gchar *caption;
 	icaltimezone *zone;
 
 	g_return_if_fail (prefs != NULL);
@@ -173,7 +173,7 @@ day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	GtkWidget *menu, *item;
 	GSList *group = NULL, *recent_zones, *s;
-	char *location;
+	gchar *location;
 	icaltimezone *zone, *second_zone = NULL;
 
 	menu = gtk_menu_new ();
@@ -224,7 +224,7 @@ day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
 static void
 start_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
 
 	start = E_DATE_EDIT (prefs->start_of_day);
@@ -249,7 +249,7 @@ start_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 static void
 end_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	int start_hour, start_minute, end_hour, end_minute;
+	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
 
 	start = E_DATE_EDIT (prefs->start_of_day);
@@ -273,7 +273,7 @@ end_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 static void
 week_start_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	int week_start_day;
+	gint week_start_day;
 
 	week_start_day = e_dialog_combo_box_get (prefs->week_start_day, week_start_day_map);
 	calendar_config_set_week_start_day (week_start_day);
@@ -295,7 +295,7 @@ use_24_hour_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 static void
 time_divisions_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	int time_divisions;
+	gint time_divisions;
 
 	time_divisions = e_dialog_combo_box_get (prefs->time_divisions, time_division_map);
 	calendar_config_set_time_divisions (time_divisions);
@@ -418,7 +418,7 @@ static void
 ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	const gchar *str;
-	int value;
+	gint value;
 
 	str = gtk_entry_get_text (GTK_ENTRY (widget));
 	value = (int) g_ascii_strtod (str, NULL);
@@ -495,7 +495,7 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 
 	zone = e_cal_util_get_system_timezone ();
 	if (zone) {
-		char *tmp = g_strdup_printf ("(%s)", icaltimezone_get_display_name (zone));
+		gchar *tmp = g_strdup_printf ("(%s)", icaltimezone_get_display_name (zone));
 		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), tmp);
 		g_free (tmp);
 	} else {
@@ -506,7 +506,7 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 static void
 setup_changes (CalendarPrefsDialog *prefs)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < 7; i ++)
 		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
@@ -610,7 +610,7 @@ initialize_selection (ESourceSelector *selector, ESourceList *source_list)
 		GSList *sources;
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
-			const char *completion = e_source_get_property (source, "alarm");
+			const gchar *completion = e_source_get_property (source, "alarm");
 			if (!completion  || !g_ascii_strcasecmp (completion, "true")) {
 				if (!completion)
 					e_source_set_property (E_SOURCE (source), "alarm", "true");
@@ -641,9 +641,9 @@ show_config (CalendarPrefsDialog *prefs)
 	gint mask, day, week_start_day, time_divisions;
 	icaltimezone *zone;
 	gboolean sensitive, set = FALSE;
-	char *location;
+	gchar *location;
 	CalUnits units;
-	int interval;
+	gint interval;
 
 	/* Timezone. */
 	location = calendar_config_get_timezone_stored ();
@@ -744,7 +744,7 @@ static ECalConfigItem eccp_items[] = {
 };
 
 static void
-eccp_free (EConfig *ec, GSList *items, void *data)
+eccp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 }
@@ -757,11 +757,11 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
 	EShellSettings *shell_settings;
-	int i;
+	gint i;
 	GtkWidget *toplevel;
 	GtkWidget *widget;
 	GSList *l;
-	const char *working_day_names[] = {
+	const gchar *working_day_names[] = {
 		"sun_button",
 		"mon_button",
 		"tue_button",
@@ -770,7 +770,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		"fri_button",
 		"sat_button",
 	};
-	char *gladefile;
+	gchar *gladefile;
 
 	shell_settings = e_shell_get_shell_settings (shell);
 

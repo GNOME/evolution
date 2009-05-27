@@ -37,9 +37,9 @@ typedef struct _FilterOption FilterOption;
 typedef struct _FilterOptionClass FilterOptionClass;
 
 struct _filter_option {
-	char *title;		/* button title */
-	char *value;		/* value, if it has one */
-	char *code;		/* used to string code segments together */
+	gchar *title;		/* button title */
+	gchar *value;		/* value, if it has one */
+	gchar *code;		/* used to string code segments together */
 
 	gboolean is_dynamic;	/* whether is the option dynamic, FALSE if static */
 };
@@ -47,11 +47,11 @@ struct _filter_option {
 struct _FilterOption {
 	FilterElement parent_object;
 
-	const char *type;	/* static memory, type name written to xml */
+	const gchar *type;	/* static memory, type name written to xml */
 
 	GList *options;
 	struct _filter_option *current;
-	char *dynamic_func;	/* name of the dynamic fill func, called in get_widget */
+	gchar *dynamic_func;	/* name of the dynamic fill func, called in get_widget */
 };
 
 struct _FilterOptionClass {
@@ -66,10 +66,10 @@ GType filter_option_get_type (void);
 FilterOption *filter_option_new (void);
 
 /* methods */
-void filter_option_set_current (FilterOption *option, const char *name);
-const char *filter_option_get_current (FilterOption *option);
+void filter_option_set_current (FilterOption *option, const gchar *name);
+const gchar *filter_option_get_current (FilterOption *option);
 
-struct _filter_option *filter_option_add (FilterOption *fo, const char *name, const char *title, const char *code, gboolean is_dynamic);
+struct _filter_option *filter_option_add (FilterOption *fo, const gchar *name, const gchar *title, const gchar *code, gboolean is_dynamic);
 void filter_option_remove_all (FilterOption *fo);
 
 #endif /* ! _FILTER_OPTION_H */

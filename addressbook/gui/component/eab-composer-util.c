@@ -89,11 +89,11 @@ eab_send_as_to (GList *destinations)
 	gtk_widget_show (GTK_WIDGET (composer));
 }
 
-static const char *
+static const gchar *
 get_email (EContact *contact, EContactField field_id, gchar **to_free)
 {
-	char *name = NULL, *mail = NULL;
-	const char *value = e_contact_get_const (contact, field_id);
+	gchar *name = NULL, *mail = NULL;
+	const gchar *value = e_contact_get_const (contact, field_id);
 
 	*to_free = NULL;
 

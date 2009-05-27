@@ -105,7 +105,7 @@ struct _EMFormatHTMLDisplayPrivate {
 struct _smime_pobject {
 	EMFormatHTMLPObject object;
 
-	int signature;
+	gint signature;
 	CamelCipherValidity *valid;
 	GtkWidget *widget;
 };
@@ -113,7 +113,7 @@ struct _smime_pobject {
 /* TODO: move the dialogue elsehwere */
 /* FIXME: also in em-format-html.c */
 static const struct {
-	const char *icon, *shortdesc, *description;
+	const gchar *icon, *shortdesc, *description;
 } smime_sign_table[5] = {
 	{ "stock_signature-bad", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
 	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
@@ -124,7 +124,7 @@ static const struct {
 };
 
 static const struct {
-	const char *icon, *shortdesc, *description;
+	const gchar *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
 	{ "stock_lock-broken", N_("Unencrypted"), N_("This message is not encrypted. Its content may be viewed in transit across the Internet.") },
 	{ "stock_lock-ok", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm. It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
@@ -132,7 +132,7 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm. It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
-static const char *smime_sign_colour[5] = {
+static const gchar *smime_sign_colour[5] = {
 	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\"",""
 };
 
@@ -147,13 +147,13 @@ struct _attach_puri {
 
 	const EMFormatHandler *handle;
 
-	const char *snoop_mime_type;
+	const gchar *snoop_mime_type;
 
 	/* for the > and V buttons */
 	GtkWidget *forward, *down;
 	/* currently no way to correlate this data to the frame :( */
 	GtkHTML *frame;
-	unsigned int shown:1;
+	guint shown:1;
 
 	/* Embedded Frame */
 	GtkHTMLEmbedded *html;
@@ -162,8 +162,8 @@ struct _attach_puri {
 	EAttachment *attachment;
 
 	/* image stuff */
-	int fit_width;
-	int fit_height;
+	gint fit_width;
+	gint fit_height;
 	GtkImage *image;
 	GtkWidget *event_box;
 
@@ -240,11 +240,11 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 {
 	CamelCipherCertInfo *info = (CamelCipherCertInfo *)certlist->head;
 	GtkTable *table = (GtkTable *)gtk_table_new(camel_dlist_length(certlist), 2, FALSE);
-	int n = 0;
+	gint n = 0;
 
 	while (info->next) {
-		char *la = NULL;
-		const char *l = NULL;
+		gchar *la = NULL;
+		const gchar *l = NULL;
 
 		if (info->name) {
 			if (info->email && strcmp(info->name, info->email) != 0)
@@ -301,7 +301,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
 	GladeXML *xml;
 	GtkWidget *vbox, *w;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (po->widget)
 		/* FIXME: window raise? */
@@ -392,7 +392,7 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 	GtkWidget *container;
 	GtkWidget *widget;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
-	const char *icon_name;
+	const gchar *icon_name;
 
 	/* FIXME: need to have it based on encryption and signing too */
 	if (po->valid->sign.status != 0)
@@ -441,7 +441,7 @@ efhd_format_attachment (EMFormat *emf,
                         const gchar *mime_type,
                         const EMFormatHandler *handle)
 {
-	char *classid, *text, *html;
+	gchar *classid, *text, *html;
 	struct _attach_puri *info;
 
 	classid = g_strdup_printf ("attachment%s", emf->part_id->str);
@@ -501,7 +501,7 @@ efhd_format_optional (EMFormat *emf,
                       CamelMimePart *part,
                       CamelStream *mstream)
 {
-	char *classid, *html;
+	gchar *classid, *html;
 	struct _attach_puri *info;
 	CamelStream *stream;
 
@@ -569,7 +569,7 @@ efhd_format_secure (EMFormat *emf,
 	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
-		char *classid;
+		gchar *classid;
 		struct _smime_pobject *pobj;
 
 		camel_stream_printf (
@@ -694,7 +694,7 @@ em_format_html_display_new (void)
 static void
 efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *handle)
 {
-	char *classid;
+	gchar *classid;
 	struct _attach_puri *info;
 
 	classid = g_strdup_printf("image%s", ((EMFormat *)efh)->part_id->str);
@@ -748,7 +748,7 @@ static EMFormatHandler type_builtin_table[] = {
 static void
 efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
 {
-	int i;
+	gint i;
 
 	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
 		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
@@ -768,11 +768,11 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 static void
 efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	const char *flag, *comp, *due;
+	const gchar *flag, *comp, *due;
 	time_t date;
-	char due_date[128];
+	gchar due_date[128];
 	struct tm due_tm;
-	char *iconpath;
+	gchar *iconpath;
 
 	if (emf->folder == NULL || emf->uid == NULL
 	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
@@ -790,7 +790,7 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		g_free (iconpath);
 		if (iconpart) {
-			char *classid;
+			gchar *classid;
 
 			classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
 			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
@@ -844,7 +844,7 @@ efhd_can_process_attachment (GtkWidget *button)
 
 /* if it hasn't been processed yet, format the attachment */
 static void
-efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
+efhd_attachment_show(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	struct _attach_puri *info = data;
 
@@ -866,7 +866,7 @@ efhd_attachment_button_expanded (GtkWidget *widget,
 }
 
 static void
-efhd_image_fit(EPopup *ep, EPopupItem *item, void *data)
+efhd_image_fit(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	struct _attach_puri *info = data;
 
@@ -875,7 +875,7 @@ efhd_image_fit(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-efhd_image_unfit(EPopup *ep, EPopupItem *item, void *data)
+efhd_image_unfit(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	struct _attach_puri *info = data;
 
@@ -892,13 +892,13 @@ static EPopupItem efhd_menu_items[] = {
 };
 
 static void
-efhd_menu_items_free(EPopup *ep, GSList *items, void *data)
+efhd_menu_items_free(EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free(items);
 }
 
 static void
-efhd_popup_place_widget(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
+efhd_popup_place_widget(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
 {
 	GtkWidget *w = user_data;
 
@@ -983,7 +983,7 @@ static void
 efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, guint info, guint time, EMFormatHTMLPObject *pobject)
 {
 	CamelMimePart *part = pobject->part;
-	char *uri, *uri_crlf, *path;
+	gchar *uri, *uri_crlf, *path;
 	CamelStream *stream;
 
 	switch (info) {
@@ -1009,7 +1009,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		/* Kludge around Nautilus requesting the same data many times */
 		uri = g_object_get_data((GObject *)w, "e-drag-uri");
 		if (uri) {
-			gtk_selection_data_set(data, data->target, 8, (unsigned char *)uri, strlen(uri));
+			gtk_selection_data_set(data, data->target, 8, (guchar *)uri, strlen(uri));
 			return;
 		}
 
@@ -1021,7 +1021,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		g_free(path);
 		uri_crlf = g_strconcat(uri, "\r\n", NULL);
 		g_free(uri);
-		gtk_selection_data_set(data, data->target, 8, (unsigned char *)uri_crlf, strlen(uri_crlf));
+		gtk_selection_data_set(data, data->target, 8, (guchar *)uri_crlf, strlen(uri_crlf));
 		g_object_set_data_full((GObject *)w, "e-drag-uri", uri_crlf, g_free);
 		break;
 	default:
@@ -1032,7 +1032,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 static void
 efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *pobject)
 {
-	char *uri;
+	gchar *uri;
 
 	uri = g_object_get_data((GObject *)w, "e-drag-uri");
 	if (uri) {
@@ -1041,7 +1041,7 @@ efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *p
 		/* NB even more: doesn't the e-drag-uri have \r\n
 		 * appended? (see efhd_drag_data_get())
 		 */
-		char *filename = g_filename_from_uri (uri, NULL, NULL);
+		gchar *filename = g_filename_from_uri (uri, NULL, NULL);
 		g_unlink(filename);
 		g_free(filename);
 		g_object_set_data((GObject *)w, "e-drag-uri", NULL);
@@ -1049,7 +1049,7 @@ efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *p
 }
 
 static void
-efhd_write_icon_job(struct _EMFormatHTMLJob *job, int cancelled)
+efhd_write_icon_job(struct _EMFormatHTMLJob *job, gint cancelled)
 {
 	EMFormatHTMLPObject *pobject;
 	CamelDataWrapper *dw;
@@ -1067,7 +1067,7 @@ static void
 efhd_image_resized(GtkWidget *w, GtkAllocation *event, struct _attach_puri *info)
 {
 	GdkPixbuf *pb;
-	int width;
+	gint width;
 
 	if (info->fit_width == 0)
 		return;
@@ -1099,7 +1099,7 @@ efhd_change_cursor(GtkWidget *w, GdkEventCrossing *event, struct _attach_puri *i
 static void
 efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_puri *info)
 {
-	int width;
+	gint width;
 
 	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
 
@@ -1150,7 +1150,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 		{ NULL, 0, 0 },
 		{ (gchar *) "text/uri-list", 0, 1 },
 	};
-	char *simple_type;
+	gchar *simple_type;
 
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
 
@@ -1313,7 +1313,7 @@ efhd_message_add_bar (EMFormat *emf,
                       CamelMimePart *part,
                       const EMFormatHandler *info)
 {
-	const char *classid = "attachment-bar";
+	const gchar *classid = "attachment-bar";
 
 	em_format_html_add_pobject (
 		EM_FORMAT_HTML (emf),
@@ -1413,7 +1413,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
-	gtk_text_buffer_set_text (buffer, (char *)info->mstream->buffer->data, info->mstream->buffer->len);
+	gtk_text_buffer_set_text (buffer, (gchar *)info->mstream->buffer->data, info->mstream->buffer->len);
 	camel_object_unref(info->mstream);
 	info->mstream = NULL;
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),

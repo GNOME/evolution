@@ -129,9 +129,9 @@ struct _GnomeCalendarPrivate {
 
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
-	char        *sexp;
-	char        *todo_sexp;
-	char        *memo_sexp;
+	gchar        *sexp;
+	gchar        *todo_sexp;
+	gchar        *memo_sexp;
 	guint        update_timeout;
 	guint        update_marcus_bains_line_timeout;
 
@@ -157,7 +157,7 @@ struct _GnomeCalendarPrivate {
 	guint	     day_selected_id;
 
 	/* Our current week start */
-	int week_start;
+	gint week_start;
 
 	/* Our current timezone. */
 	icaltimezone *zone;
@@ -549,7 +549,7 @@ static void
 get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_t *start_time, time_t *end_time)
 {
 	GnomeCalendarPrivate *priv;
-	int shown, display_start;
+	gint shown, display_start;
 	GDate date;
 	gint weekday, first_day, last_day, days_shown, i;
 	gboolean has_working_days = FALSE;
@@ -681,12 +681,12 @@ get_date_navigator_range (GnomeCalendar *gcal, time_t *start_time, time_t *end_t
 }
 
 /* Adjusts a given query sexp with the time range of the date navigator */
-static char *
-adjust_e_cal_view_sexp (GnomeCalendar *gcal, const char *sexp)
+static gchar *
+adjust_e_cal_view_sexp (GnomeCalendar *gcal, const gchar *sexp)
 {
 	time_t start_time, end_time;
-	char *start, *end;
-	char *new_sexp;
+	gchar *start, *end;
+	gchar *new_sexp;
 
 	get_date_navigator_range (gcal, &start_time, &end_time);
 	if (start_time == -1 || end_time == -1)
@@ -717,7 +717,7 @@ update_query_async (struct _date_query_msg *msg)
 	GnomeCalendar *gcal = msg->gcal;
 	GnomeCalendarPrivate *priv;
 	ECalView *old_query;
-	char *real_sexp;
+	gchar *real_sexp;
 	GList *l;
 
 	priv = gcal->priv;
@@ -811,10 +811,10 @@ update_query (GnomeCalendar *gcal)
 }
 
 static void
-set_search_query (GnomeCalendar *gcal, const char *sexp)
+set_search_query (GnomeCalendar *gcal, const gchar *sexp)
 {
 	GnomeCalendarPrivate *priv;
-	int i;
+	gint i;
 	time_t start, end;
 
 	g_return_if_fail (gcal != NULL);
@@ -879,10 +879,10 @@ get_current_time (ECalendarItem *calitem, gpointer data)
 
 /* Callback used when the sexp changes in the calendar search bar */
 static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointer data)
 {
 	GnomeCalendar *gcal;
-	const char *d_sexp = "occur-in-time-range?";
+	const gchar *d_sexp = "occur-in-time-range?";
 
 	gcal = GNOME_CALENDAR (data);
 
@@ -901,12 +901,12 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 
 /* Callback used when the selected category in the search bar changes */
 static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
-	int i;
+	gint i;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
@@ -1058,7 +1058,7 @@ update_todo_view_async (struct _mupdate_todo_msg *msg)
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
-	char *sexp = NULL;
+	gchar *sexp = NULL;
 
 	g_return_if_fail (msg != NULL);
 
@@ -1109,7 +1109,7 @@ update_memo_view (GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	ECalModel *model, *view_model;
 	time_t start, end;
-	char *iso_start, *iso_end;
+	gchar *iso_start, *iso_end;
 
 	priv = gcal->priv;
 
@@ -1294,7 +1294,7 @@ categories_changed_cb (gpointer object, gpointer user_data)
 	cat_array = g_ptr_array_new ();
 	cat_list = e_categories_get_list ();
 	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const char *) cat_list->data))
+		if (e_categories_is_searchable ((const gchar *) cat_list->data))
 			g_ptr_array_add (cat_array, cat_list->data);
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}
@@ -1306,7 +1306,7 @@ categories_changed_cb (gpointer object, gpointer user_data)
 
 
 static void
-view_progress_cb (ECalModel *model, const char *message, int percent, ECalSourceType type, GnomeCalendar *gcal)
+view_progress_cb (ECalModel *model, const gchar *message, gint percent, ECalSourceType type, GnomeCalendar *gcal)
 {
 	if (type == E_CAL_SOURCE_TYPE_EVENT)
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (gcal->priv->week_view), message, percent);
@@ -1351,8 +1351,8 @@ setup_widgets (GnomeCalendar *gcal)
 	GtkWidget *vbox;
 	GtkWidget *label;
 	ECalModel *cal_model;
-	int i;
-	char *tmp;
+	gint i;
+	gchar *tmp;
 
 	priv = gcal->priv;
 
@@ -1587,7 +1587,7 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
-		int i;
+		gint i;
 
 		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
@@ -1682,7 +1682,7 @@ static void
 notify_selected_time_changed (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	int i;
+	gint i;
 
 	priv = gcal->priv;
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
@@ -1763,7 +1763,7 @@ void
 gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 {
 	GnomeCalendarPrivate *priv;
-	int i;
+	gint i;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -1804,7 +1804,7 @@ update_view_times (GnomeCalendar *gcal, time_t start_time)
 }
 
 static void
-gnome_calendar_direction (GnomeCalendar *gcal, int direction)
+gnome_calendar_direction (GnomeCalendar *gcal, gint direction)
 {
 	GnomeCalendarPrivate *priv;
 
@@ -1906,7 +1906,7 @@ static void
 set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_selected)
 {
 	GnomeCalendarPrivate *priv;
-	const char *view_id;
+	const gchar *view_id;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -1974,7 +1974,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 {
 	GnomeCalendarPrivate *priv;
 	gboolean preserve_day;
-	int i;
+	gint i;
 
 	priv = gcal->priv;
 
@@ -2137,7 +2137,7 @@ add_mclient (ECalModel *model, ECal *client)
 }
 
 static void
-non_intrusive_error_remove(GtkWidget *w, void *data)
+non_intrusive_error_remove(GtkWidget *w, gpointer data)
 {
 	g_hash_table_remove(non_intrusive_error_table, data);
 }
@@ -2172,7 +2172,7 @@ add_mclient (ECalModel *model, ECal *client)
 }
 
 static void
-non_intrusive_error_remove(GtkWidget *w, void *data)
+non_intrusive_error_remove(GtkWidget *w, gpointer data)
 {
 	g_hash_table_remove(non_intrusive_error_table, data);
 }
@@ -2184,7 +2184,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	ESource *source;
 	ECalModel *model;
 	ECalLoadState state;
-	char *msg;
+	gchar *msg;
 	GtkWidget *w = NULL;
 	gchar *id;
 
@@ -2333,7 +2333,7 @@ static gboolean
 open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of)
 {
 	GnomeCalendarPrivate *priv;
-	char *msg;
+	gchar *msg;
 	icaltimezone *zone;
 
 	priv = gcal->priv;
@@ -2354,11 +2354,11 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 
 /* Callback when we get an error message from the backend */
 static void
-backend_error_cb (ECal *client, const char *message, gpointer data)
+backend_error_cb (ECal *client, const gchar *message, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GtkDialog *dialog;
-	char *uristr;
+	gchar *uristr;
 	gchar *id;
 
 	gcal = GNOME_CALENDAR (data);
@@ -2388,7 +2388,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	ESource *source;
-	const char *id;
+	const gchar *id;
 	GtkWidget *w = NULL;
 
 	gcal = GNOME_CALENDAR (data);
@@ -2575,7 +2575,7 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ESource *source)
 }
 
 gboolean
-gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const char *uid)
+gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const gchar *uid)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
@@ -2715,7 +2715,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	CompEditor *editor;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
-	const char *category;
+	const gchar *category;
 	guint32 flags = 0;
 	ECalComponentDateTime dt;
 	struct icaltimetype itt;
@@ -3149,7 +3149,7 @@ void
 gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 {
 	GnomeCalendarPrivate *priv;
-	char *sexp, *start, *end;
+	gchar *sexp, *start, *end;
 	GList *l;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -3184,7 +3184,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 			/* FIXME write occur-before and occur-after
 			 * sexp funcs so we don't have to use the max
-			 * int */
+			 * gint */
 			if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
 				e_cal_generate_instances_for_object (client, m->data,
 							     older_than, G_MAXINT32,
@@ -3193,11 +3193,11 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 			/* FIXME Better error handling */
 			if (remove) {
-				const char *uid = icalcomponent_get_uid (m->data);
+				const gchar *uid = icalcomponent_get_uid (m->data);
 				GError *error = NULL;
 
 				if (e_cal_util_component_is_instance (m->data) || e_cal_util_component_has_recurrences (m->data)) {
-					char *rid = NULL;
+					gchar *rid = NULL;
 					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
 
 					if (!icaltime_is_null_time (recur_id) )
@@ -3261,9 +3261,9 @@ ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
 
 void
 gnome_calendar_edit_appointment (GnomeCalendar *gcal,
-				 const char* src_uid,
-				 const char* comp_uid,
-				 const char* comp_rid)
+				 const gchar * src_uid,
+				 const gchar * comp_uid,
+				 const gchar * comp_rid)
 {
 	ECal *client = NULL;
 	GList *l;

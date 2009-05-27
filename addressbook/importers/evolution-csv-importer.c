@@ -53,7 +53,7 @@ typedef struct {
 
 	guint idle_id;
 
-	int state;
+	gint state;
 	FILE *file;
 	gulong size;
 	gint count;
@@ -63,7 +63,7 @@ typedef struct {
 } CSVImporter;
 
 static gint importer;
-static char delimiter;
+static gchar delimiter;
 
 static void csv_import_done(CSVImporter *gci);
 
@@ -85,7 +85,7 @@ typedef struct {
 #define FLAG_BIRTH_MONTH   0x50
 #define FLAG_DATE_ANNIVERSARY 0x30
 #define FLAG_INVALID       0xff
-	int flags;
+	gint flags;
 }import_fields;
 
 static import_fields csv_fields_outlook[] = {
@@ -263,7 +263,7 @@ static import_fields csv_fields_evolution[] = {
 };
 
 static void
-add_to_notes(EContact *contact, gint i, char *val) {
+add_to_notes(EContact *contact, gint i, gchar *val) {
 	const gchar *old_text;
 	const gchar *field_text = NULL;
 	GString *new_text;
@@ -296,12 +296,12 @@ add_to_notes(EContact *contact, gint i, char *val) {
 
 /* @str: a date string in the format MM-DD-YYYY or MMDDYYYY */
 static EContactDate*
-date_from_string (const char *str)
+date_from_string (const gchar *str)
 {
 	EContactDate* date;
-	int length;
-	char *t;
-	int i = 0;
+	gint length;
+	gchar *t;
+	gint i = 0;
 
 	g_return_val_if_fail (str != NULL, NULL);
 
@@ -335,13 +335,13 @@ date_from_string (const char *str)
 }
 
 static gboolean
-parseLine (CSVImporter *gci, EContact *contact, char *buf) {
+parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 
-	char *ptr = buf, *do_free = NULL;
+	gchar *ptr = buf, *do_free = NULL;
 	GString *value;
 	gint i = 0;
-	int flags = 0;
-	int contact_field;
+	gint flags = 0;
+	gint contact_field;
 	EContactAddress *home_address = NULL, *work_address = NULL, *other_address = NULL;
 	EContactDate *bday = NULL;
 	GString *home_street, *work_street, *other_street;
@@ -554,8 +554,8 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	EContact *contact = NULL;
 	GString  *line;
 	GString *str;
-	char *buf;
-	char c;
+	gchar *buf;
+	gchar c;
 
 	/*
 	if(!fgets(line, sizeof(line),f))
@@ -642,7 +642,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 }
 
 static gboolean
-csv_import_contacts(void *d) {
+csv_import_contacts(gpointer d) {
 	CSVImporter *gci = d;
 	EContact *contact = NULL;
 
@@ -711,8 +711,8 @@ static const gchar *supported_extensions[4] = {
 static gboolean
 csv_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
-	char *ext;
-	int i;
+	gchar *ext;
+	gint i;
 	EImportTargetURI *s;
 
 	if (target->type != E_IMPORT_TARGET_URI)

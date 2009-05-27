@@ -58,8 +58,8 @@ struct _EProfileEventTarget {
 	EEventTarget target;
 
 	struct timeval tv;
-	char *id;		/* id of event */
-	char *uid;		/* uid of event (folder/message, etc) */
+	gchar *id;		/* id of event */
+	gchar *uid;		/* uid of event (folder/message, etc) */
 };
 
 typedef struct _EEventItem EProfileEventItem;
@@ -79,11 +79,11 @@ GType e_profile_event_get_type(void);
 
 EProfileEvent *e_profile_event_peek(void);
 
-EProfileEventTarget *e_profile_event_target_new(EProfileEvent *emp, const char *id, const char *uid, guint32 flags);
+EProfileEventTarget *e_profile_event_target_new(EProfileEvent *emp, const gchar *id, const gchar *uid, guint32 flags);
 
 /* we don't want ANY rubbish code lying around if we have profiling off */
 #ifdef ENABLE_PROFILING
-void e_profile_event_emit(const char *id, const char *uid, guint32 flags);
+void e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags);
 #else
 #define e_profile_event_emit(a, b, c)
 #endif

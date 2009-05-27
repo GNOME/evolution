@@ -42,8 +42,8 @@
 
 /*****************************************************************************/
 /* prototypes */
-int              e_plugin_lib_enable      (EPluginLib                 *ep,
-					   int                         enable);
+gint              e_plugin_lib_enable      (EPluginLib                 *ep,
+					   gint                         enable);
 
 GtkWidget *      oge_caldav               (EPlugin                    *epl,
 					   EConfigHookItemFactoryData *data);
@@ -65,8 +65,8 @@ ensure_caldav_source_group (ECalSourceType source_type)
 	g_object_unref (slist);
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 
 	if (enable) {
@@ -80,17 +80,17 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 }
 
 /* replaces all '@' with '%40' in str; returns newly allocated string */
-static char *
-replace_at_sign (const char *str)
+static gchar *
+replace_at_sign (const gchar *str)
 {
-	char *res, *at;
+	gchar *res, *at;
 
 	if (!str)
 		return NULL;
 
 	res = g_strdup (str);
 	while (at = strchr (res, '@'), at) {
-		char *tmp = g_malloc0 (sizeof (char) * (1 + strlen (res) + 2));
+		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (res) + 2));
 
 		strncpy (tmp, res, at - res);
 		strcat (tmp, "%40");
@@ -160,8 +160,8 @@ static void
 location_changed (GtkEntry *editable, ESource *source)
 {
 	EUri       *euri;
-	char       *ruri;
-	const char *uri, *username;
+	gchar       *ruri;
+	const gchar *uri, *username;
 
 	uri = gtk_entry_get_text (GTK_ENTRY (editable));
 
@@ -194,9 +194,9 @@ static void
 user_changed (GtkEntry *editable, ESource *source)
 {
 	EUri       *euri;
-	char       *uri;
-	char       *ruri;
-	const char *user;
+	gchar       *uri;
+	gchar       *ruri;
+	const gchar *user;
 
 	uri = e_source_get_uri (source);
 	user = gtk_entry_get_text (GTK_ENTRY (editable));
@@ -227,9 +227,9 @@ user_changed (GtkEntry *editable, ESource *source)
 static void
 set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
-	int time;
-	int item_num = 0;
-	const char *refresh_str = e_source_get_property (source, "refresh");
+	gint time;
+	gint item_num = 0;
+	const gchar *refresh_str = e_source_get_property (source, "refresh");
 	time = refresh_str ? atoi (refresh_str) : 30;
 
 	if (time  && !(time % 10080)) {
@@ -249,10 +249,10 @@ set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
-static char *
+static gchar *
 get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
-	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
+	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
@@ -280,7 +280,7 @@ get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 static void
 spin_changed (GtkSpinButton *spin, ESource *source)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *combobox;
 
 	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
@@ -293,7 +293,7 @@ spin_changed (GtkSpinButton *spin, ESource *source)
 static void
 combobox_changed (GtkComboBox *combobox, ESource *source)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *spin;
 
 	spin = g_object_get_data (G_OBJECT (combobox), "spin");
@@ -319,11 +319,11 @@ oge_caldav  (EPlugin                    *epl,
 	GtkWidget    *luser;
 	GtkWidget    *user;
 	GtkWidget    *label, *hbox, *spin, *combobox;
-	char         *uri;
-	char         *username;
-	const char   *ssl_prop;
+	gchar         *uri;
+	gchar         *username;
+	const gchar   *ssl_prop;
 	gboolean      ssl_enabled;
-	int           row;
+	gint           row;
 
 	source = t->source;
 	group = e_source_peek_group (source);

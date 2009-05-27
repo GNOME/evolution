@@ -50,7 +50,7 @@ typedef struct {
  * ECell::realize method
  */
 static ECellView *
-etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
+etog_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
 {
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
@@ -109,17 +109,17 @@ etog_unrealize (ECellView *ecv)
  */
 static void
 etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, ECellFlags flags,
-	  int x1, int y1, int x2, int y2)
+	  gint model_col, gint view_col, gint row, ECellFlags flags,
+	  gint x1, gint y1, gint x2, gint y2)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	GdkPixbuf *image;
-	int x, y, width, height;
-	int cache_seq;
+	gint x, y, width, height;
+	gint cache_seq;
 	cairo_t *cr;
 
-	const int value = GPOINTER_TO_INT (
+	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	if (value < 0 || value >= toggle->n_states){
@@ -168,7 +168,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 }
 
 static void
-etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int row, int value)
+etog_set_value (ECellToggleView *toggle_view, gint model_col, gint view_col, gint row, gint value)
 {
 	ECell *ecell = toggle_view->cell_view.ecell;
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell);
@@ -184,11 +184,11 @@ etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int r
  * ECell::event method
  */
 static gint
-etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
+etog_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	void *_value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	const int value = GPOINTER_TO_INT (_value);
+	gpointer _value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	const gint value = GPOINTER_TO_INT (_value);
 
 #if 0
 	if (!(flags & E_CELL_EDITING))
@@ -216,7 +216,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col,
  * ECell::height method
  */
 static int
-etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
+etog_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 
@@ -228,13 +228,13 @@ etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
  */
 static void
 etog_print (ECellView *ecell_view, GtkPrintContext *context,
-	    int model_col, int view_col, int row,
+	    gint model_col, gint view_col, gint row,
 	    double width, double height)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE(ecell_view->ecell);
 	GdkPixbuf *image;
 	double image_width, image_height;
-	const int value = GPOINTER_TO_INT (
+	const gint value = GPOINTER_TO_INT (
 			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	cairo_t *cr;
@@ -264,7 +264,7 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 
 static gdouble
 etog_print_height (ECellView *ecell_view, GtkPrintContext *context,
-		   int model_col, int view_col, int row,
+		   gint model_col, gint view_col, gint row,
 		   double width)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
@@ -276,16 +276,16 @@ etog_print_height (ECellView *ecell_view, GtkPrintContext *context,
  * ECell::max_width method
  */
 static int
-etog_max_width (ECellView *ecell_view, int model_col, int view_col)
+etog_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
-	int max_width = 0;
-	int number_of_rows;
-	int row;
+	gint max_width = 0;
+	gint number_of_rows;
+	gint row;
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 	for (row = 0; row < number_of_rows; row++) {
-		void *value = e_table_model_value_at (ecell_view->e_table_model,
+		gpointer value = e_table_model_value_at (ecell_view->e_table_model,
 						      model_col, row);
 		max_width = MAX (max_width, gdk_pixbuf_get_width (toggle->images[GPOINTER_TO_INT (value)]));
 	}
@@ -297,7 +297,7 @@ static void
 etog_finalize (GObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
-	int i;
+	gint i;
 
 	for (i = 0; i < etog->n_states; i++)
 		g_object_unref (etog->images [i]);
@@ -351,10 +351,10 @@ e_cell_toggle_init (ECellToggle *etog)
  * arguments.
  */
 void
-e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf **images)
+e_cell_toggle_construct (ECellToggle *etog, gint border, gint n_states, GdkPixbuf **images)
 {
-	int max_height =  0;
-	int i;
+	gint max_height =  0;
+	gint i;
 
 	etog->border = border;
 	etog->n_states = n_states;
@@ -389,7 +389,7 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
  * toggle cells.
  */
 ECell *
-e_cell_toggle_new (int border, int n_states, GdkPixbuf **images)
+e_cell_toggle_new (gint border, gint n_states, GdkPixbuf **images)
 {
 	ECellToggle *etog = g_object_new (E_CELL_TOGGLE_TYPE, NULL);
 

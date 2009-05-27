@@ -38,10 +38,10 @@ typedef struct _FilterIntClass FilterIntClass;
 struct _FilterInt {
 	FilterElement parent_object;
 
-	char *type;
-	int val;
-	int min;
-	int max;
+	gchar *type;
+	gint val;
+	gint min;
+	gint max;
 };
 
 struct _FilterIntClass {
@@ -54,8 +54,8 @@ struct _FilterIntClass {
 
 GType filter_int_get_type (void);
 FilterInt *filter_int_new (void);
-FilterInt *filter_int_new_type (const char *type, int min, int max);
-void filter_int_set_value (FilterInt *fi, int val);
+FilterInt *filter_int_new_type (const gchar *type, gint min, gint max);
+void filter_int_set_value (FilterInt *fi, gint val);
 
 /* methods */
 

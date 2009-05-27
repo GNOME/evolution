@@ -86,11 +86,11 @@ ect_check (gpointer a11y)
 	return TRUE;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ect_get_name (AtkObject * a11y)
 {
 	GalA11yECell *gaec;
-	char *name;
+	gchar *name;
 
 	if (!ect_check (a11y))
 		return NULL;
@@ -180,7 +180,7 @@ ect_get_character_at_offset (AtkText *text,
 }
 
 
-static gchar*
+static gchar *
 ect_get_text_before_offset (AtkText *text,
 			    gint offset,
 			    AtkTextBoundary boundary_type,
@@ -294,7 +294,7 @@ ect_get_n_selections (AtkText *text)
 }
 
 
-static gchar*
+static gchar *
 ect_get_selection (AtkText *text,
 		   gint selection_num,
 		   gint *start_offset,
@@ -543,7 +543,7 @@ ect_do_action_edit (AtkAction *action)
 
 /* text signal handlers */
 static void
-ect_text_inserted_cb (ECellText *text, ECellView *cell_view, int pos, int len, int row, int model_col, gpointer data)
+ect_text_inserted_cb (ECellText *text, ECellView *cell_view, gint pos, gint len, gint row, gint model_col, gpointer data)
 {
 	GalA11yECellText *gaet;
 	GalA11yECell *gaec;
@@ -560,7 +560,7 @@ ect_text_inserted_cb (ECellText *text, ECellView *cell_view, int pos, int len, i
 }
 
 static void
-ect_text_deleted_cb (ECellText *text, ECellView *cell_view, int pos, int len, int row, int model_col, gpointer data)
+ect_text_deleted_cb (ECellText *text, ECellView *cell_view, gint pos, gint len, gint row, gint model_col, gpointer data)
 {
 	GalA11yECellText *gaet;
 	GalA11yECell *gaec;
@@ -692,9 +692,9 @@ AtkObject *
 gal_a11y_e_cell_text_new (ETableItem *item,
 			  ECellView  *cell_view,
 			  AtkObject  *parent,
-			  int         model_col,
-			  int         view_col,
-			  int         row)
+			  gint         model_col,
+			  gint         view_col,
+			  gint         row)
 {
 	AtkObject *a11y;
 	GalA11yECell *gaec;

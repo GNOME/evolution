@@ -79,12 +79,12 @@ typedef void (*ECanvasItemGrabCancelled) (ECanvas *canvas, GnomeCanvasItem *item
 struct _ECanvas
 {
 	GnomeCanvas parent;
-	int                   idle_id;
+	gint                   idle_id;
 	GList                *selection;
 	ECanvasSelectionInfo *cursor;
 
 	GtkWidget            *tooltip_window;
-	int                   visibility_notify_id;
+	gint                   visibility_notify_id;
 	GtkWidget            *toplevel;
 
 	guint visibility_first : 1;
@@ -128,7 +128,7 @@ void       e_canvas_item_add_selection                   (GnomeCanvasItem       
 void       e_canvas_item_remove_selection                (GnomeCanvasItem                 *item,
 							  gpointer                         id);
 
-int        e_canvas_item_grab                            (ECanvas                         *canvas,
+gint        e_canvas_item_grab                            (ECanvas                         *canvas,
 							  GnomeCanvasItem                 *item,
 							  guint                            event_mask,
 							  GdkCursor                       *cursor,
@@ -144,8 +144,8 @@ void       e_canvas_item_set_cursor_end                  (GnomeCanvasItem       
 							  gpointer                         id);
 void       e_canvas_popup_tooltip                        (ECanvas                         *canvas,
 							  GtkWidget                       *widget,
-							  int                              x,
-							  int                              y);
+							  gint                              x,
+							  gint                              y);
 void       e_canvas_hide_tooltip                         (ECanvas                         *canvas);
 
 #ifdef __cplusplus

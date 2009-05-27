@@ -398,10 +398,10 @@ e_date_time_list_get_path (GtkTreeModel *tree_model,
 }
 
 /* Builds a static string out of an exception date */
-static char *
+static gchar *
 get_exception_string (ECalComponentDateTime *dt)
 {
-	static char buf [256];
+	static gchar buf [256];
 	struct tm tmp_tm;
 
 	tmp_tm.tm_year  = dt->value->year - 1900;

@@ -188,7 +188,7 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *info)
 }
 
 static void
-e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, int length)
+e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, gint length)
 {
 	if (length < info->group_count) {
 		info->group_count = length;
@@ -208,7 +208,7 @@ e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, int length)
  * criteria in the object.
  */
 void
-e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
+e_table_sort_info_grouping_truncate  (ETableSortInfo *info, gint length)
 {
 	e_table_sort_info_grouping_real_truncate(info, length);
 	e_table_sort_info_group_info_changed(info);
@@ -222,7 +222,7 @@ e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
 ETableSortColumn
-e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n)
+e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, gint n)
 {
 	if (info->can_group && n < info->group_count) {
 		return info->groupings[n];
@@ -242,7 +242,7 @@ e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n)
  * whether it is ascending or descending).
  */
 void
-e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
+e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
 {
 	if (n >= info->group_count) {
 		e_table_sort_info_grouping_real_truncate(info, n + 1);
@@ -265,7 +265,7 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *info)
 }
 
 static void
-e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, int length)
+e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, gint length)
 {
 	if (length < info->sort_count) {
 		info->sort_count = length;
@@ -285,7 +285,7 @@ e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, int length)
  * criteria in the object.
  */
 void
-e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
+e_table_sort_info_sorting_truncate  (ETableSortInfo *info, gint length)
 {
 	e_table_sort_info_sorting_real_truncate  (info, length);
 	e_table_sort_info_sort_info_changed(info);
@@ -299,7 +299,7 @@ e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
  * Returns: the description of the @n-th grouping criteria in the @info object.
  */
 ETableSortColumn
-e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, int n)
+e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, gint n)
 {
 	if (n < info->sort_count) {
 		return info->sortings[n];
@@ -319,7 +319,7 @@ e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, int n)
  * column number and whether it is ascending or descending).
  */
 void
-e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
+e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
 {
 	if (n >= info->sort_count) {
 		e_table_sort_info_sorting_real_truncate(info, n + 1);
@@ -358,22 +358,22 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 				  xmlNode        *node,
 				  gdouble         state_version)
 {
-	int i;
+	gint i;
 	xmlNode *grouping;
 
 	if (state_version <= 0.05) {
 		i = 0;
-		for (grouping = node->xmlChildrenNode; grouping && !strcmp ((char *)grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
+		for (grouping = node->xmlChildrenNode; grouping && !strcmp ((gchar *)grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
+			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
+			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
 			e_table_sort_info_grouping_set_nth(info, i++, column);
 		}
 		i = 0;
-		for (; grouping && !strcmp ((char *)grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
+		for (; grouping && !strcmp ((gchar *)grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
+			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
+			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	} else {
@@ -385,13 +385,13 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			if (grouping->type != XML_ELEMENT_NODE)
 				continue;
 
-			if (!strcmp ((char *)grouping->name, "group")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
+			if (!strcmp ((gchar *)grouping->name, "group")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
 				e_table_sort_info_grouping_set_nth(info, gcnt++, column);
-			} else if (!strcmp ((char *)grouping->name, "leaf")) {
-				column.column = e_xml_get_integer_prop_by_name (grouping, (const unsigned char *)"column");
-				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const unsigned char *)"ascending");
+			} else if (!strcmp ((gchar *)grouping->name, "leaf")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
 				e_table_sort_info_sorting_set_nth(info, scnt++, column);
 			}
 		}
@@ -414,26 +414,26 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 				xmlNode        *parent)
 {
 	xmlNode *grouping;
-	int i;
-	const int sort_count = e_table_sort_info_sorting_get_count (info);
-	const int group_count = e_table_sort_info_grouping_get_count (info);
+	gint i;
+	const gint sort_count = e_table_sort_info_sorting_get_count (info);
+	const gint group_count = e_table_sort_info_grouping_get_count (info);
 
-	grouping = xmlNewChild (parent, NULL, (const unsigned char *)"grouping", NULL);
+	grouping = xmlNewChild (parent, NULL, (const guchar *)"grouping", NULL);
 
 	for (i = 0; i < group_count; i++) {
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(info, i);
-		xmlNode *new_node = xmlNewChild(grouping, NULL, (const unsigned char *)"group", NULL);
+		xmlNode *new_node = xmlNewChild(grouping, NULL, (const guchar *)"group", NULL);
 
-		e_xml_set_integer_prop_by_name (new_node, (const unsigned char *)"column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, (const unsigned char *)"ascending", column.ascending);
+		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
+		e_xml_set_bool_prop_by_name (new_node, (const guchar *)"ascending", column.ascending);
 	}
 
 	for (i = 0; i < sort_count; i++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(info, i);
-		xmlNode *new_node = xmlNewChild(grouping, NULL, (const unsigned char *)"leaf", NULL);
+		xmlNode *new_node = xmlNewChild(grouping, NULL, (const guchar *)"leaf", NULL);
 
-		e_xml_set_integer_prop_by_name (new_node, (const unsigned char *)"column", column.column);
-		e_xml_set_bool_prop_by_name (new_node, (const unsigned char *)"ascending", column.ascending);
+		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
+		e_xml_set_bool_prop_by_name (new_node, (const guchar *)"ascending", column.ascending);
 	}
 
 	return grouping;

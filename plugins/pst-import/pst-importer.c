@@ -72,9 +72,9 @@
 
 typedef struct _PstImporter PstImporter;
 
-int pst_init (pst_file *pst, char *filename);
+gint pst_init (pst_file *pst, gchar *filename);
 gchar *get_pst_rootname (pst_file *pst, gchar *filename);
-static void pst_error_msg (const char *fmt, ...);
+static void pst_error_msg (const gchar *fmt, ...);
 static void pst_import_folders (PstImporter *m, pst_desc_ll *topitem);
 static void pst_process_item (PstImporter *m, pst_desc_ll *d_ptr);
 static void pst_process_folder (PstImporter *m, pst_item *item);
@@ -89,13 +89,13 @@ gchar *foldername_to_utf8 (const gchar *pstname);
 gchar *string_to_utf8(const gchar *string);
 void contact_set_date (EContact *contact, EContactField id, FILETIME *date);
 struct icaltimetype get_ical_date (FILETIME *date, gboolean is_date);
-char *rfc2445_datetime_format (FILETIME *ft);
+gchar *rfc2445_datetime_format (FILETIME *ft);
 
 gboolean org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target);
 GtkWidget *org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 
 
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
@@ -103,11 +103,11 @@ int e_plugin_lib_enable (EPluginLib *ep, int enable);
    TODO: sort out whether this should really be private
 */
 typedef struct _EMFolderSelectionButton        EMFolderSelectionButton;
-GtkWidget *em_folder_selection_button_new (const char *title, const char *caption);
-void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const char *uri);
-const char *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
+GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);
+void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
+const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
-static unsigned char pst_signature [] = { '!', 'B', 'D', 'N' };
+static guchar pst_signature [] = { '!', 'B', 'D', 'N' };
 
 struct _PstImporter {
 	MailMsg base;
@@ -116,9 +116,9 @@ struct _PstImporter {
 	EImportTarget *target;
 
 	GMutex *status_lock;
-	char *status_what;
-	int status_pc;
-	int status_timeout_id;
+	gchar *status_what;
+	gint status_pc;
+	gint status_timeout_id;
 	CamelOperation *status;
 	CamelException ex;
 
@@ -129,8 +129,8 @@ struct _PstImporter {
 	gchar *parent_uri;
 	gchar *folder_name;
 	gchar *folder_uri;
-	int folder_count;
-	int current_item;
+	gint folder_count;
+	gint current_item;
 
 	EBook *addressbook;
 	ECal *calendar;
@@ -141,11 +141,11 @@ struct _PstImporter {
 gboolean
 org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target)
 {
-	char signature[sizeof (pst_signature)];
+	gchar signature[sizeof (pst_signature)];
 	gboolean ret = FALSE;
-	int fd, n;
+	gint fd, n;
 	EImportTargetURI *s;
-	char *filename;
+	gchar *filename;
 
 	if (target->type != E_IMPORT_TARGET_URI) {
 		return FALSE;
@@ -217,7 +217,7 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
  * @param target
  * @return
  */
-static gchar*
+static gchar *
 get_suggested_foldername (EImportTargetURI *target)
 {
 	const gchar *inbox;
@@ -259,7 +259,7 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	if (mail_tool_uri_to_folder (foldername->str, 0, NULL) != NULL) {
 		/* Folder exists - add a number */
-		int i, len;
+		gint i, len;
 		len = foldername->len;
 		CamelFolder *folder;
 
@@ -346,14 +346,14 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	return framebox;
 }
 
-static char *
-pst_import_describe (PstImporter *m, int complete)
+static gchar *
+pst_import_describe (PstImporter *m, gint complete)
 {
 	return g_strdup (_("Importing Outlook data"));
 }
 
 static ECal*
-open_ecal (ECalSourceType type, char *name)
+open_ecal (ECalSourceType type, gchar *name)
 {
 	/* Hack - grab the first calendar we can find
 		TODO - add a selection mechanism in get_widget */
@@ -446,7 +446,7 @@ pst_import_import (PstImporter *m)
 static void
 pst_import_file (PstImporter *m)
 {
-	int ret;
+	gint ret;
 	gchar *filename;
 	pst_item *item = NULL;
 	pst_desc_ll *d_ptr;
@@ -689,7 +689,7 @@ pst_create_folder (PstImporter *m)
 {
 	const gchar *parent;
 	gchar *dest, *dest_end, *pos;
-	int dest_len;
+	gint dest_len;
 
 	parent = ((EImportTargetURI *)m->target)->uri_dest;
 	dest = g_strdup (m->folder_uri);
@@ -733,7 +733,7 @@ static CamelMimePart *
 attachment_to_part (PstImporter *m, pst_item_attach *attach)
 {
 	CamelMimePart *part;
-	char *mimetype;
+	gchar *mimetype;
 
 	part = camel_mime_part_new ();
 
@@ -754,11 +754,11 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 	if (attach->data != NULL) {
 		camel_mime_part_set_content (part, attach->data, strlen (attach->data), mimetype);
 	} else {
-		char *buf = NULL;
+		gchar *buf = NULL;
 		size_t size;
 		size = pst_attach_to_mem (&m->pst, attach, &buf);
 
-		camel_mime_part_set_content (part, (char*) buf, size, mimetype);
+		camel_mime_part_set_content (part, (gchar *) buf, size, mimetype);
 		free(buf);
 	}
 
@@ -942,7 +942,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 }
 
 static void
-contact_set_string (EContact *contact, EContactField id, char *string)
+contact_set_string (EContact *contact, EContactField id, gchar *string)
 {
 	if (string != NULL) {
 		e_contact_set (contact, id, string);
@@ -950,7 +950,7 @@ contact_set_string (EContact *contact, EContactField id, char *string)
 }
 
 static void
-unknown_field (EContact *contact, GString *notes, char *name, char *string)
+unknown_field (EContact *contact, GString *notes, gchar *name, gchar *string)
 {
 	/* Field could not be mapped directly so add to notes field */
 	if (string != NULL) {
@@ -959,7 +959,7 @@ unknown_field (EContact *contact, GString *notes, char *name, char *string)
 }
 
 static void
-contact_set_address (EContact *contact, EContactField id, char *address, char *city, char *country, char *po_box, char *postal_code, char *state, char *street)
+contact_set_address (EContact *contact, EContactField id, gchar *address, gchar *city, gchar *country, gchar *po_box, gchar *postal_code, gchar *state, gchar *street)
 {
 	EContactAddress *eaddress;
 
@@ -1181,8 +1181,8 @@ get_ical_date (FILETIME *date, gboolean is_date)
 	}
 }
 
-char *rfc2445_datetime_format (FILETIME *ft) {
-	static char* buffer = NULL;
+gchar *rfc2445_datetime_format (FILETIME *ft) {
+	static gchar * buffer = NULL;
 	struct tm *stm = NULL;
 
 	if (buffer == NULL) {
@@ -1198,8 +1198,8 @@ static void
 set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_attach *attach)
 {
 	GSList *list = NULL;
-	const char *uid;
-	char *store_dir;
+	const gchar *uid;
+	gchar *store_dir;
 
 	if (attach == NULL) {
 		return;
@@ -1209,8 +1209,8 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 	store_dir = g_filename_from_uri (e_cal_get_local_attachment_store (cal), NULL, NULL);
 
 	while (attach != NULL) {
-		const char* orig_filename;
-		char *filename, *tmp, *path, *dirname, *uri;
+		const gchar * orig_filename;
+		gchar *filename, *tmp, *path, *dirname, *uri;
 		CamelMimePart *part;
 		CamelDataWrapper *content;
 		CamelStream *stream;
@@ -1292,7 +1292,7 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 }
 
 static void
-fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const char *type)
+fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gchar *type)
 {
 	pst_item_appointment *a;
 	pst_item_email *e;
@@ -1537,7 +1537,7 @@ pst_process_journal (PstImporter *m, pst_item *item)
 
 /* Print an error message - maybe later bring up an error dialog? */
 static void
-pst_error_msg (const char *fmt, ...)
+pst_error_msg (const gchar *fmt, ...)
 {
 	va_list ap;
 
@@ -1580,11 +1580,11 @@ static MailMsgInfo pst_import_info = {
 };
 
 static gboolean
-pst_status_timeout (void *data)
+pst_status_timeout (gpointer data)
 {
 	PstImporter *importer = data;
-	int pc;
-	char *what;
+	gint pc;
+	gchar *what;
 
 	if (importer->status_what) {
 		g_mutex_lock (importer->status_lock);
@@ -1600,7 +1600,7 @@ pst_status_timeout (void *data)
 }
 
 static void
-pst_status (CamelOperation *op, const char *what, int pc, void *data)
+pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	PstImporter *importer = data;
 
@@ -1621,7 +1621,7 @@ static int
 pst_import (EImport *ei, EImportTarget *target)
 {
 	PstImporter *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new (&pst_import_info);
 	g_datalist_set_data (&target->data, "pst-msg", m);
@@ -1675,8 +1675,8 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 	}
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (enable) {
 		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
@@ -1695,12 +1695,12 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
  * @param filename : path to file
  * @return 0 for sucess, -1 for failure
  */
-int
+gint
 pst_init (pst_file *pst, gchar *filename)
 {
 
 #if 0
-	char *d_log = "readpst.log";
+	gchar *d_log = "readpst.log";
 	/* initialize log file */
 	DEBUG_INIT (d_log);
 	DEBUG_REGISTER_CLOSE ();

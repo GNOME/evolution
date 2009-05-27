@@ -169,7 +169,7 @@ typedef struct _EMPopupTargetFolder EMPopupTargetFolder;
  **/
 struct _EMPopupTargetURI {
 	EPopupTarget target;
-	char *uri;
+	gchar *uri;
 };
 
 /**
@@ -187,7 +187,7 @@ struct _EMPopupTargetURI {
 struct _EMPopupTargetSelect {
 	EPopupTarget target;
 	struct _CamelFolder *folder;
-	char *uri;
+	gchar *uri;
 	GPtrArray *uids;
 };
 
@@ -204,7 +204,7 @@ struct _EMPopupTargetSelect {
  **/
 struct _EMPopupTargetPart {
 	EPopupTarget target;
-	char *mime_type;
+	gchar *mime_type;
 	struct _CamelMimePart *part;
 };
 
@@ -218,7 +218,7 @@ struct _EMPopupTargetPart {
  **/
 struct _EMPopupTargetFolder {
 	EPopupTarget target;
-	char *uri;
+	gchar *uri;
 };
 
 typedef struct _EPopupItem EMPopupItem;
@@ -236,12 +236,12 @@ struct _EMPopupClass {
 
 GType em_popup_get_type(void);
 
-EMPopup *em_popup_new(const char *menuid);
+EMPopup *em_popup_new(const gchar *menuid);
 
-EMPopupTargetURI *em_popup_target_new_uri(EMPopup *emp, const char *uri);
-EMPopupTargetSelect *em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
-EMPopupTargetPart *em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *mime_type);
-EMPopupTargetFolder *em_popup_target_new_folder(EMPopup *emp, const char *uri, guint32 info_flags, guint32 popup_flags);
+EMPopupTargetURI *em_popup_target_new_uri(EMPopup *emp, const gchar *uri);
+EMPopupTargetSelect *em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids);
+EMPopupTargetPart *em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const gchar *mime_type);
+EMPopupTargetFolder *em_popup_target_new_folder(EMPopup *emp, const gchar *uri, guint32 info_flags, guint32 popup_flags);
 
 /* ********************************************************************** */
 

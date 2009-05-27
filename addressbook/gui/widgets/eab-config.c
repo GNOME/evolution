@@ -126,7 +126,7 @@ eab_config_get_type (void)
 }
 
 EABConfig *
-eab_config_new (int type, const char *menuid)
+eab_config_new (gint type, const gchar *menuid)
 {
 	EABConfig *ecp = g_object_new (eab_config_get_type(), NULL);
 	e_config_construct (&ecp->config, type, menuid);
@@ -156,7 +156,7 @@ static const EConfigHookTargetMap ecph_targets[] = {
 static void
 ecph_class_init (EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	klass->id = "org.gnome.evolution.addressbook.config:1.0";
 

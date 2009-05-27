@@ -122,11 +122,11 @@ static void calc_height (EText *text);
 
 static gboolean show_pango_rectangle (EText *text, PangoRectangle rect);
 
-static void e_text_do_popup (EText *text, GdkEventButton *button, int position);
+static void e_text_do_popup (EText *text, GdkEventButton *button, gint position);
 
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
-static void e_text_insert(EText *text, const char *string);
+static void e_text_insert(EText *text, const gchar *string);
 
 static void reset_layout_attrs (EText *text);
 
@@ -139,7 +139,7 @@ static void e_text_editable_do_insert_text (GtkEditable    *editable,
 static void e_text_editable_do_delete_text (GtkEditable    *editable,
 					    gint            start_pos,
 					    gint            end_pos);
-static gchar* e_text_editable_get_chars (GtkEditable    *editable,
+static gchar * e_text_editable_get_chars (GtkEditable    *editable,
 					 gint            start_pos,
 					 gint            end_pos);
 static void e_text_editable_set_selection_bounds (GtkEditable    *editable,
@@ -341,7 +341,7 @@ static void
 reset_layout_attrs (EText *text)
 {
 	PangoAttrList *attrs = NULL;
-	int object_count;
+	gint object_count;
 
 	if (text->layout == NULL)
 		return;
@@ -349,13 +349,13 @@ reset_layout_attrs (EText *text)
 	object_count = e_text_model_object_count (text->model);
 
 	if (text->bold || text->strikeout || object_count > 0) {
-		int length = 0;
-		int i;
+		gint length = 0;
+		gint i;
 
 		attrs = pango_attr_list_new ();
 
 		for (i = 0; i < object_count; i++) {
-			int start_pos, end_pos;
+			gint start_pos, end_pos;
 			PangoAttribute *attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
 
 			e_text_model_get_nth_object_bounds (text->model, i, &start_pos, &end_pos);
@@ -442,7 +442,7 @@ reset_layout (EText *text)
 
 	if (!text->button_down) {
 		PangoRectangle strong_pos, weak_pos;
-		char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
+		gchar *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
 		pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
 
@@ -597,10 +597,10 @@ static void
 calc_height (EText *text)
 {
 	GnomeCanvasItem *item;
-	int old_height;
-	int old_width;
-	int width = 0;
-	int height = 0;
+	gint old_height;
+	gint old_width;
+	gint width = 0;
+	gint height = 0;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -623,7 +623,7 @@ static void
 calc_ellipsis (EText *text)
 {
 /* FIXME: a pango layout per calc_ellipsis sucks */
-	int width;
+	gint width;
 	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 							      text->ellipsis ? text->ellipsis : "...");
 	pango_layout_get_size (layout, &width, NULL);
@@ -651,7 +651,7 @@ set_text_gc_foreground (EText *text)
 
 /* Sets the stipple pattern for the text */
 static void
-set_stipple (EText *text, GdkBitmap *stipple, int reconfigure)
+set_stipple (EText *text, GdkBitmap *stipple, gint reconfigure)
 {
 	if (text->stipple && !reconfigure)
 		g_object_unref (text->stipple);
@@ -1167,7 +1167,7 @@ e_text_get_property (GObject *object,
 
 /* Update handler for the text item */
 static void
-e_text_reflow (GnomeCanvasItem *item, int flags)
+e_text_reflow (GnomeCanvasItem *item, gint flags)
 {
 	EText *text;
 
@@ -1196,7 +1196,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 
 /* Update handler for the text item */
 static void
-e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
 	EText *text;
 	double x1, y1, x2, y2;
@@ -1293,10 +1293,10 @@ _get_tep(EText *text)
 }
 
 static void
-draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, PangoRectangle rect)
+draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoRectangle rect)
 {
-	int width = rect.width / PANGO_SCALE;
-	int height = rect.height / PANGO_SCALE;
+	gint width = rect.width / PANGO_SCALE;
+	gint height = rect.height / PANGO_SCALE;
 	if (width <= 0)
 		width = 1;
 	if (height <= 0)
@@ -1308,16 +1308,16 @@ draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, PangoRec
 static gboolean
 show_pango_rectangle (EText *text, PangoRectangle rect)
 {
-	int x1 = rect.x / PANGO_SCALE;
-	int x2 = (rect.x + rect.width) / PANGO_SCALE;
+	gint x1 = rect.x / PANGO_SCALE;
+	gint x2 = (rect.x + rect.width) / PANGO_SCALE;
 
-	int y1 = rect.y / PANGO_SCALE;
-	int y2 = (rect.y + rect.height) / PANGO_SCALE;
+	gint y1 = rect.y / PANGO_SCALE;
+	gint y2 = (rect.y + rect.height) / PANGO_SCALE;
 
-	int new_xofs_edit = text->xofs_edit;
-	int new_yofs_edit = text->yofs_edit;
+	gint new_xofs_edit = text->xofs_edit;
+	gint new_yofs_edit = text->yofs_edit;
 
-	int clip_width, clip_height;
+	gint clip_width, clip_height;
 
 	clip_width = text->clip_width;
 	if (clip_width >= 0 && text->draw_borders) {
@@ -1372,11 +1372,11 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 /* Draw handler for the text item */
 static void
 e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-	     int x, int y, int width, int height)
+	     gint x, gint y, gint width, gint height)
 {
 	EText *text;
 	GdkRectangle rect, *clip_rect;
-	int xpos, ypos;
+	gint xpos, ypos;
 	GdkGC *main_gc;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
@@ -1422,8 +1422,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 	if (text->draw_button) {
-		int xoff = item->x1 - x;
-		int yoff = item->y1 - y;
+		gint xoff = item->x1 - x;
+		gint yoff = item->y1 - y;
 
 		widget = GTK_WIDGET (item->canvas);
 
@@ -1442,8 +1442,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		if (widget) {
 			GtkButton *button = GTK_BUTTON (widget);
 			GtkShadowType shadow_type;
-			int thisx, thisy, thisheight, thiswidth;
-			int default_spacing;
+			gint thisx, thisy, thisheight, thiswidth;
+			gint default_spacing;
 			GdkRectangle area;
 			area.x = 0;
 			area.y = 0;
@@ -1562,7 +1562,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			GdkRegion *clip_region = gdk_region_new ();
 			GdkGC *selection_gc;
 			GdkGC *text_gc;
-			int start_index, end_index;
+			gint start_index, end_index;
 
 			start_index = MIN (text->selection_start, text->selection_end);
 			end_index = MAX (text->selection_start, text->selection_end);
@@ -1587,8 +1587,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				PangoLayoutLine *line = pango_layout_iter_get_line (iter);
 				gint n_ranges, i;
 				gint *ranges;
-				int y0, y1;
-				int s, e;
+				gint y0, y1;
+				gint s, e;
 
 				if (start_index < line->start_index + line->length
 				    && end_index > line->start_index) {
@@ -1644,7 +1644,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		} else {
 			if (text->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
-				char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
+				gchar *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
 				pango_layout_get_cursor_pos (text->layout, offs - text->text + text->preedit_len, &strong_pos, &weak_pos);
 				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
@@ -1666,7 +1666,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 /* Point handler for the text item */
 static double
 e_text_point (GnomeCanvasItem *item, double x, double y,
-	      int cx, int cy, GnomeCanvasItem **actual_item)
+	      gint cx, gint cy, GnomeCanvasItem **actual_item)
 {
 	EText *text;
 	double clip_width;
@@ -1783,8 +1783,8 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 static gint
 get_position_from_xy (EText *text, gint x, gint y)
 {
-	int index;
-	int trailing;
+	gint index;
+	gint trailing;
 
 	if (text->draw_borders) {
 		x -= BORDER_INDENT;
@@ -1829,8 +1829,8 @@ _blink_scroll_timeout (gpointer data)
 			scroll = TRUE;
 	}
 	if (scroll && text->button_down && text->clip) {
-		int old_xofs_edit = text->xofs_edit;
-		int old_yofs_edit = text->yofs_edit;
+		gint old_xofs_edit = text->xofs_edit;
+		gint old_yofs_edit = text->yofs_edit;
 
 		if (text->clip_cwidth >= 0 &&
 		    text->lastx - text->clip_cx > text->clip_cwidth &&
@@ -1946,13 +1946,13 @@ _do_tooltip (gpointer data)
 /* FIXME: need to sort out tooltip stuff. */
 	EText *text = E_TEXT (data);
 	GtkWidget *canvas;
-	int i;
-	int max_width;
+	gint i;
+	gint max_width;
 	gboolean cut_off;
 	double i2c[6];
 	ArtPoint origin = {0, 0};
 	ArtPoint pixel_origin;
-	int canvas_x, canvas_y;
+	gint canvas_x, canvas_y;
 	GnomeCanvasItem *tooltip_text;
 	double tooltip_width;
 	double tooltip_height;
@@ -2525,7 +2525,7 @@ e_text_copy_clipboard (EText *text)
 void
 e_text_delete_selection(EText *text)
 {
-	int sel_start, sel_end;
+	gint sel_start, sel_end;
 
 	sel_start = MIN(text->selection_start, text->selection_end);
 	sel_end   = MAX(text->selection_start, text->selection_end);
@@ -2573,7 +2573,7 @@ primary_get_cb (GtkClipboard     *clipboard,
 		gpointer          data)
 {
 	EText *text = E_TEXT (data);
-	int sel_start, sel_end;
+	gint sel_start, sel_end;
 
 	sel_start = MIN(text->selection_start, text->selection_end);
 	sel_end   = MAX(text->selection_start, text->selection_end);
@@ -2655,7 +2655,7 @@ e_text_paste (EText *text, GdkAtom selection)
 typedef struct {
 	EText *text;
 	GdkEventButton *button;
-	int position;
+	gint position;
 } PopupClosure;
 
 static void
@@ -2688,7 +2688,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 	PopupClosure *closure = user_data;
 	EText *text = closure->text;
 	GdkEventButton *button = closure->button;
-	int position = closure->position;
+	gint position = closure->position;
 	GtkWidget *popup_menu = gtk_menu_new ();
 	GtkWidget *menuitem, *submenu;
 
@@ -2767,7 +2767,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 }
 
 static void
-e_text_do_popup (EText *text, GdkEventButton *button, int position)
+e_text_do_popup (EText *text, GdkEventButton *button, gint position)
 {
 	PopupClosure *closure = g_new (PopupClosure, 1);
 
@@ -2799,10 +2799,10 @@ e_text_reset_im_context (EText *text)
 /* fixme: */
 
 static int
-next_word (EText *text, int start)
+next_word (EText *text, gint start)
 {
-	char *p = g_utf8_offset_to_pointer (text->text, start);
-	int length;
+	gchar *p = g_utf8_offset_to_pointer (text->text, start);
+	gint length;
 
 	length = g_utf8_strlen (text->text, -1);
 
@@ -2828,15 +2828,15 @@ next_word (EText *text, int start)
 }
 
 static int
-find_offset_into_line (EText *text, int offset_into_text, char **start_of_line)
+find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line)
 {
-	char *p;
+	gchar *p;
 
 	p = g_utf8_offset_to_pointer (text->text, offset_into_text);
 
 	if (p == text->text) {
 		if (start_of_line)
-			*start_of_line = (char*)text->text;
+			*start_of_line = (gchar *)text->text;
 		return 0;
 	}
 	else {
@@ -2852,7 +2852,7 @@ find_offset_into_line (EText *text, int offset_into_text, char **start_of_line)
 		}
 
 		if (start_of_line)
-			*start_of_line = (char*)text->text;
+			*start_of_line = (gchar *)text->text;
 		return offset_into_text;
 	}
 }
@@ -2866,7 +2866,7 @@ _get_updated_position (EText *text, gboolean direction)
 {
 	PangoLogAttr *log_attrs = NULL;
 	gint n_attrs;
-	char *p = NULL;
+	gchar *p = NULL;
 	gint new_pos = 0;
 	gint length = 0;
 
@@ -2889,7 +2889,7 @@ _get_updated_position (EText *text, gboolean direction)
 	/* get layout's PangoLogAttr to facilitate moving when moving across grapheme cluster as in indic langs */
 	pango_layout_get_log_attrs (text->layout, &log_attrs, &n_attrs);
 
-	/* Fetch the current char index in the line & keep moving
+	/* Fetch the current gchar index in the line & keep moving
 	   forward until we can display cursor */
 	p = g_utf8_offset_to_pointer (text->text, text->selection_end);
 
@@ -2930,9 +2930,9 @@ _get_updated_position (EText *text, gboolean direction)
 static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
-	int length, obj_num;
+	gint length, obj_num;
 	gunichar unival;
-	char *p = NULL;
+	gchar *p = NULL;
 	gint new_pos = 0;
 
 	switch (command->position) {
@@ -3020,7 +3020,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_BACKWARD_WORD:
 		new_pos = 0;
 		if (text->selection_end >= 1) {
-			int pos = text->selection_end;
+			gint pos = text->selection_end;
 
 			p = g_utf8_find_prev_char (text->text, g_utf8_offset_to_pointer (text->text, text->selection_end));
 			pos --;
@@ -3046,7 +3046,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_LINE: {
-		int offset_into_line;
+		gint offset_into_line;
 
 		offset_into_line = find_offset_into_line (text, text->selection_end, NULL);
 		if (offset_into_line == -1)
@@ -3077,7 +3077,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 	}
 	case E_TEP_BACKWARD_LINE: {
-		int offset_into_line = find_offset_into_line (text, text->selection_end, &p);
+		gint offset_into_line = find_offset_into_line (text, text->selection_end, &p);
 
 		if (offset_into_line == -1)
 			return text->selection_end;
@@ -3196,22 +3196,22 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 }
 
 static void
-e_text_insert(EText *text, const char *string)
+e_text_insert(EText *text, const gchar *string)
 {
-	int len = strlen (string);
+	gint len = strlen (string);
 
 	if (len > 0) {
-		int utf8len = 0;
+		gint utf8len = 0;
 
 		if (!text->allow_newlines) {
-			const char *i;
-			char *new_string = g_malloc (len + 1);
-			char *j = new_string;
+			const gchar *i;
+			gchar *new_string = g_malloc (len + 1);
+			gchar *j = new_string;
 
 			for (i = string; *i; i = g_utf8_next_char(i)) {
 				if (*i != '\n') {
 					gunichar c;
-					int charlen;
+					gint charlen;
 
 					c = g_utf8_get_char (i);
 					charlen = g_unichar_to_utf8 (c, j);
@@ -3231,16 +3231,16 @@ e_text_insert(EText *text, const char *string)
 }
 
 static void
-capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
+capitalize (EText *text, gint start, gint end, ETextEventProcessorCaps type)
 {
 	gboolean first = TRUE;
-	const char *p = g_utf8_offset_to_pointer (text->text, start);
-	const char *text_end = g_utf8_offset_to_pointer (text->text, end);
-	int utf8len = text_end - p;
+	const gchar *p = g_utf8_offset_to_pointer (text->text, start);
+	const gchar *text_end = g_utf8_offset_to_pointer (text->text, end);
+	gint utf8len = text_end - p;
 
 	if (utf8len > 0) {
-		char *new_text = g_new0 (char, utf8len * 6);
-		char *output = new_text;
+		gchar *new_text = g_new0 (char, utf8len * 6);
+		gchar *output = new_text;
 
 		while (p && *p && p < text_end) {
 			gunichar unival = g_utf8_get_char (p);
@@ -3374,8 +3374,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->selection_start == text->selection_end) {
 			capitalize (text, text->selection_start, next_word (text, text->selection_start), command->value);
 		} else {
-			int selection_start = MIN (text->selection_start, text->selection_end);
-			int selection_end = MAX (text->selection_start, text->selection_end);
+			gint selection_start = MIN (text->selection_start, text->selection_end);
+			gint selection_end = MAX (text->selection_start, text->selection_end);
 			capitalize (text, selection_start, selection_end, command->value);
 		}
 		break;
@@ -3397,7 +3397,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		   we don't we can scrap the loop and just use
 		   pango_layout_index_to_pos */
 		PangoLayoutLine *cur_line = NULL;
-		int selection_index;
+		gint selection_index;
 		PangoLayoutIter *iter = pango_layout_get_iter (text->layout);
 
 		/* check if we are using selection_start or selection_end for moving? */
@@ -3418,7 +3418,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		} while (pango_layout_iter_next_line (iter));
 
 		if (cur_line) {
-			int xpos, ypos;
+			gint xpos, ypos;
 			double clip_width, clip_height;
 			/* gboolean trailing = FALSE; */
 			PangoRectangle pango_pos;

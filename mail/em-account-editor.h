@@ -66,10 +66,10 @@ struct _EMAccountEditorClass {
 
 GType em_account_editor_get_type(void);
 
-EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, const char *id);
-EMAccountEditor *em_account_editor_new_for_pages(struct _EAccount *account, em_account_editor_t type, char *id, struct _GtkWidget **pages);
+EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, const gchar *id);
+EMAccountEditor *em_account_editor_new_for_pages(struct _EAccount *account, em_account_editor_t type, gchar *id, struct _GtkWidget **pages);
 void em_account_editor_commit (EMAccountEditor *emae);
-void em_account_editor_check (EMAccountEditor *emae, const char *page);
+void em_account_editor_check (EMAccountEditor *emae, const gchar *page);
 
 gboolean em_account_editor_save (EMAccountEditor *gui);
 void em_account_editor_destroy (EMAccountEditor *gui);
@@ -79,7 +79,7 @@ gboolean em_account_editor_source_complete (EMAccountEditor *gui, struct _GtkWid
 gboolean em_account_editor_transport_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
 gboolean em_account_editor_management_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
 
-void em_account_editor_build_extra_conf (EMAccountEditor *gui, const char *url);
+void em_account_editor_build_extra_conf (EMAccountEditor *gui, const gchar *url);
 
 void em_account_editor_auto_detect_extra_conf (EMAccountEditor *gui);
 

@@ -73,14 +73,14 @@ GtkWidget * org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfi
 
 /* plugin fonction prototypes */
 gboolean em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target);
-void *em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
+gpointer em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
 static gint pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error);
 
 /* eplugin stuff */
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 
 #define EM_JUNK_BF_GCONF_DIR_LENGTH (G_N_ELEMENTS (em_junk_bf_gconf_dir) - 1)
 
@@ -132,7 +132,7 @@ pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error)
 
 retry:
 	if (camel_debug_start ("junk")) {
-		int i;
+		gint i;
 
 		printf ("pipe_to_bogofilter ");
 		for (i = 0; argv[i]; i++)
@@ -221,7 +221,7 @@ em_junk_bf_setting_notify (GConfClient *gconf,
                            GConfEntry  *entry,
                            void        *data)
 {
-	const char *key;
+	const gchar *key;
 	GConfValue *value;
 
 	value = gconf_entry_get_value (entry);
@@ -247,7 +247,7 @@ gboolean
 em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
-	int rv;
+	gint rv;
 
 	const gchar *argv[] = {
 		em_junk_bf_binary,
@@ -315,14 +315,14 @@ em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 {
 }
 
-void *
+gpointer
 em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
 {
-	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (void *) "1" : NULL;
+	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (gpointer) "1" : NULL;
 }
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	GConfClient *gconf;
 

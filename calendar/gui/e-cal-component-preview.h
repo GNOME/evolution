@@ -62,7 +62,7 @@ struct _ECalComponentPreviewClass {
 	GtkHTMLClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (ECalComponentPreview *preview, int n_selected);
+	void (* selection_changed) (ECalComponentPreview *preview, gint n_selected);
 };
 
 

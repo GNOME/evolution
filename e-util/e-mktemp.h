@@ -24,10 +24,10 @@
 #ifndef __E_MKTEMP_H__
 #define __E_MKTEMP_H__
 
-char *e_mktemp  (const char *template);
+gchar *e_mktemp  (const gchar *template);
 
-int   e_mkstemp (const char *template);
+gint   e_mkstemp (const gchar *template);
 
-char *e_mkdtemp (const char *template);
+gchar *e_mkdtemp (const gchar *template);
 
 #endif /* __E_MKTEMP_H__ */

@@ -94,7 +94,7 @@ static void add_ca_cert (CertificateManagerData *cfm, ECert *cert);
 
 static void
 handle_selection_changed (GtkTreeSelection *selection,
-			  int cert_column,
+			  gint cert_column,
 			  GtkWidget *view_button,
 			  GtkWidget *edit_button,
 			  GtkWidget *delete_button)
@@ -154,7 +154,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
@@ -401,7 +401,7 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
@@ -628,7 +628,7 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
 
 		/* destroy dialog to get rid of it in the GUI */
 		gtk_widget_destroy (filesel);
@@ -740,7 +740,7 @@ add_user_cert (CertificateManagerData *cfm, ECert *cert)
 {
 	GtkTreeIter iter;
 	GtkTreeIter *parent_iter = NULL;
-	const char *organization = e_cert_get_org (cert);
+	const gchar *organization = e_cert_get_org (cert);
 	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->yourcerts_streemodel));
 
 	if (organization) {
@@ -784,7 +784,7 @@ add_contact_cert (CertificateManagerData *cfm, ECert *cert)
 {
 	GtkTreeIter iter;
 	GtkTreeIter *parent_iter = NULL;
-	const char *organization = e_cert_get_org (cert);
+	const gchar *organization = e_cert_get_org (cert);
 	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->contactcerts_streemodel));
 
 	if (organization) {
@@ -826,7 +826,7 @@ add_ca_cert (CertificateManagerData *cfm, ECert *cert)
 {
 	GtkTreeIter iter;
 	GtkTreeIter *parent_iter = NULL;
-	const char *organization = e_cert_get_org (cert);
+	const gchar *organization = e_cert_get_org (cert);
 	GtkTreeModel *model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (cfm->authoritycerts_streemodel));
 
 	if (organization) {
@@ -996,7 +996,7 @@ certificate_manager_config_init (EShell *shell)
 	CertificateManagerData *cfm_data;
 	GtkWidget *preferences_window;
 	GtkWidget *widget;
-	char *gladefile;
+	gchar *gladefile;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 

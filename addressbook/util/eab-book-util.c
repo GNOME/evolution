@@ -46,11 +46,11 @@ eab_get_config_database (void)
  *
  */
 
-static char*
-escape (const char *str)
+static gchar *
+escape (const gchar *str)
 {
 	GString *s = g_string_new (NULL);
-	const char *p = str;
+	const gchar *p = str;
 
 	while (*p) {
 		if (*p == '\\')
@@ -76,7 +76,7 @@ eab_name_and_email_query (EBook *book,
 	gchar *email_query=NULL, *name_query=NULL;
 	EBookQuery *query;
 	guint tag;
-	char *escaped_name, *escaped_email;
+	gchar *escaped_name, *escaped_email;
 
 	g_return_val_if_fail (book && E_IS_BOOK (book), 0);
 	g_return_val_if_fail (cb != NULL, 0);
@@ -118,7 +118,7 @@ eab_name_and_email_query (EBook *book,
 
 	/* Assemble our e-mail & name queries */
 	if (email_query && name_query) {
-		char *full_query = g_strdup_printf ("(and %s %s)", email_query, name_query);
+		gchar *full_query = g_strdup_printf ("(and %s %s)", email_query, name_query);
 		query = e_book_query_from_string (full_query);
 		g_free (full_query);
 	}
@@ -147,12 +147,12 @@ eab_name_and_email_query (EBook *book,
  */
 guint
 eab_nickname_query (EBook                 *book,
-		    const char            *nickname,
+		    const gchar            *nickname,
 		    EBookListCallback      cb,
 		    gpointer               closure)
 {
 	EBookQuery *query;
-	char *query_string;
+	gchar *query_string;
 	guint retval;
 
 	g_return_val_if_fail (E_IS_BOOK (book), 0);
@@ -175,11 +175,11 @@ eab_nickname_query (EBook                 *book,
 }
 
 /* Copied from camel_strstrcase */
-static char *
-eab_strstrcase (const char *haystack, const char *needle)
+static gchar *
+eab_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
-	const char *ptr;
+	const gchar *ptr;
 	guint len;
 
 	g_return_val_if_fail (haystack != NULL, NULL);
@@ -190,24 +190,24 @@ eab_strstrcase (const char *haystack, const char *needle)
 		return NULL;
 
 	if (len == 0)
-		return (char *) haystack;
+		return (gchar *) haystack;
 
 	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_ascii_strncasecmp (ptr, needle, len))
-			return (char *) ptr;
+			return (gchar *) ptr;
 
 	return NULL;
 }
 
 
 GList*
-eab_contact_list_from_string (const char *str)
+eab_contact_list_from_string (const gchar *str)
 {
 	GList *contacts = NULL;
 	GString *gstr = g_string_new (NULL);
-	char *str_stripped;
-	char *p = (char*)str;
-	char *q;
+	gchar *str_stripped;
+	gchar *p = (gchar *)str;
+	gchar *q;
 
 	if (!p)
 		return NULL;
@@ -270,7 +270,7 @@ eab_contact_list_from_string (const char *str)
 	return contacts;
 }
 
-char*
+gchar *
 eab_contact_list_to_string (GList *contacts)
 {
 	GString *str = g_string_new ("");
@@ -278,7 +278,7 @@ eab_contact_list_to_string (GList *contacts)
 
 	for (l = contacts; l; l = l->next) {
 		EContact *contact = l->data;
-		char *vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+		gchar *vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
 		g_string_append (str, vcard_str);
 		if (l->next)
@@ -289,10 +289,10 @@ eab_contact_list_to_string (GList *contacts)
 }
 
 gboolean
-eab_book_and_contact_list_from_string (const char *str, EBook **book, GList **contacts)
+eab_book_and_contact_list_from_string (const gchar *str, EBook **book, GList **contacts)
 {
-	const char *s0, *s1;
-	char *uri;
+	const gchar *s0, *s1;
+	gchar *uri;
 
 	g_return_val_if_fail (str != NULL, FALSE);
 	g_return_val_if_fail (book != NULL, FALSE);
@@ -323,10 +323,10 @@ eab_book_and_contact_list_from_string (const char *str, EBook **book, GList **co
 	return *book ? TRUE : FALSE;
 }
 
-char *
+gchar *
 eab_book_and_contact_list_to_string (EBook *book, GList *contacts)
 {
-	char *s0, *s1;
+	gchar *s0, *s1;
 
 	s0 = eab_contact_list_to_string (contacts);
 	if (!s0)
@@ -406,12 +406,12 @@ eab_query_address_default (const gchar *email,
 #endif
 
 /* bad place for this i know. */
-int
-e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
+gint
+e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, gint len)
 {
 	gchar *s1 = g_utf8_casefold(str1, len);
 	gchar *s2 = g_utf8_casefold(str2, len);
-	int rv;
+	gint rv;
 
 	rv = g_utf8_collate (s1, s2);
 
@@ -421,7 +421,7 @@ e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
 	return rv;
 }
 
-int
+gint
 e_utf8_casefold_collate (const gchar *str1, const gchar *str2)
 {
 	return e_utf8_casefold_collate_len (str1, str2, -1);

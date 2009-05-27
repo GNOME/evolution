@@ -116,7 +116,7 @@ is_in_uids (GSList *uids, ESource *source)
 	GSList *l;
 
 	for (l = uids; l; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
@@ -143,7 +143,7 @@ source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *comp
 		ESource *selected_source = l->data;
 
 		e_memos_add_memo_source (component_view->memos, selected_source);
-		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
+		uids_selected = g_slist_append (uids_selected, (gchar *)e_source_peek_uid (selected_source));
 	}
 
 	e_source_selector_free_selection (component_view->source_selection);
@@ -178,7 +178,7 @@ selector_tree_data_dropped (ESourceSelector *selector,
 	components = cal_comp_selection_get_string_list (data);
 	success = components != NULL;
 	for (p = components; p && success; p = p->next) {
-		char *comp_str; /* do not free this! */
+		gchar *comp_str; /* do not free this! */
 
 		/* p->data is "source_uid\ncomponent_string" */
 		comp_str = strchr (p->data, '\n');
@@ -225,7 +225,7 @@ setup_create_ecal (MemosComponent *component, MemosComponentView *component_view
 {
 	MemosComponentPrivate *priv;
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	guint not;
 
 	priv = component->priv;

@@ -64,8 +64,8 @@ guint8 weekday_picker_get_days (WeekdayPicker *wp);
 void weekday_picker_set_blocked_days (WeekdayPicker *wp, guint8 blocked_day_mask);
 guint weekday_picker_get_blocked_days (WeekdayPicker *wp);
 
-void weekday_picker_set_week_start_day (WeekdayPicker *wp, int week_start_day);
-int weekday_picker_get_week_start_day (WeekdayPicker *wp);
+void weekday_picker_set_week_start_day (WeekdayPicker *wp, gint week_start_day);
+gint weekday_picker_get_week_start_day (WeekdayPicker *wp);
 
 
 

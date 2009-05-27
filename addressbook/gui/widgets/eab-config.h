@@ -59,7 +59,7 @@ struct _EABConfigTargetSource {
 typedef struct _EConfigItem EABConfigItem;
 
 GType eab_config_get_type (void);
-EABConfig *eab_config_new (int type, const char *menuid);
+EABConfig *eab_config_new (gint type, const gchar *menuid);
 
 EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, struct _ESource *source);
 

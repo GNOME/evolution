@@ -33,7 +33,7 @@
 #include "publish-format-fb.h"
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, int dur_type, int dur_value, GError **error)
+write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, gint dur_type, gint dur_value, GError **error)
 {
 	ESource *source;
 	ECal *client = NULL;
@@ -41,7 +41,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, int
 	icaltimezone *utc;
 	time_t start = time(NULL), end;
 	icalcomponent *top_level;
-	char *email = NULL;
+	gchar *email = NULL;
 	GList *users = NULL;
 	gboolean res = FALSE;
 
@@ -83,7 +83,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, int
 	top_level = e_cal_util_new_top_level ();
 
 	if (e_cal_get_free_busy (client, users, start, end, &objects, error)) {
-		char *ical_string;
+		gchar *ical_string;
 
 		while (objects) {
 			ECalComponent *comp = objects->data;

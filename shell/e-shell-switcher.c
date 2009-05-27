@@ -57,7 +57,7 @@ static gint
 shell_switcher_layout_actions (EShellSwitcher *switcher)
 {
 	GtkAllocation *allocation;
-	int num_btns = g_list_length (switcher->priv->proxies), btns_per_row;
+	gint num_btns = g_list_length (switcher->priv->proxies), btns_per_row;
 	GList **rows, *p;
 	gboolean icons_only;
 	gint row_number;
@@ -121,7 +121,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 
 	/* Layout the buttons. */
 	for (i = row_last; i >= 0; i--) {
-		int len, extra_width;
+		gint len, extra_width;
 
 		x = H_PADDING + allocation->x;
 		y -= max_height;

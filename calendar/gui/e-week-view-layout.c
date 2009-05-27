@@ -334,8 +334,8 @@ e_week_view_layout_get_day_position	(gint		 day,
 		#define wk(x) ( ( working_days & (days [ ((x) + display_start_day) % 7 ]) ) ? 1 : 0)
 		CalWeekdays days [] = {CAL_MONDAY, CAL_TUESDAY, CAL_WEDNESDAY, CAL_THURSDAY, CAL_FRIDAY, CAL_SATURDAY, CAL_SUNDAY};
 		CalWeekdays working_days;
-		int arr[4] = {1, 1, 1, 1};
-		int edge, i, wd, m, M;
+		gint arr[4] = {1, 1, 1, 1};
+		gint edge, i, wd, m, M;
 		gboolean any = TRUE;
 
 		g_return_if_fail (day < 7);

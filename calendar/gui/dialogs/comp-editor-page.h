@@ -82,7 +82,7 @@ struct _CompEditorPageClass {
 
 	/* Notification signals */
 
-	void (* dates_changed)   (CompEditorPage *page, const char *dates);
+	void (* dates_changed)   (CompEditorPage *page, const gchar *dates);
 
 	/* Virtual methods */
 
@@ -119,7 +119,7 @@ void		comp_editor_page_notify_dates_changed
 						 CompEditorPageDates *dates);
 void		comp_editor_page_display_validation_error
 						(CompEditorPage *page,
-						 const char *msg,
+						 const gchar *msg,
 						 GtkWidget *field);
 
 G_END_DECLS

@@ -30,6 +30,6 @@
 BonoboControl *tasks_control_new                (void);
 void           tasks_control_activate           (BonoboControl *control, ETasks *tasks);
 void           tasks_control_deactivate         (BonoboControl *control, ETasks *tasks);
-void           tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_selected);
+void           tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, gint n_selected);
 
 #endif /* _TASKS_CONTROL_H_ */

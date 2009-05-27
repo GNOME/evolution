@@ -61,8 +61,8 @@ action_list_folders_init (ActionContext * p_actctx)
 			EBook *book;
 			EBookQuery *query;
 			GList *contacts;
-			char *uri;
-			const char *name;
+			gchar *uri;
+			const gchar *name;
 
 			book = e_book_new (s, NULL);
 			if (!book

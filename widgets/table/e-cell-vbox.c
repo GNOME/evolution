@@ -44,11 +44,11 @@ G_DEFINE_TYPE (ECellVbox, e_cell_vbox, E_CELL_TYPE)
  * ECell::new_view method
  */
 static ECellView *
-ecv_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
+ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view)
 {
 	ECellVbox *ecv = E_CELL_VBOX (ecell);
 	ECellVboxView *vbox_view = g_new0 (ECellVboxView, 1);
-	int i;
+	gint i;
 
 	vbox_view->cell_view.ecell = ecell;
 	vbox_view->cell_view.e_table_model = table_model;
@@ -76,7 +76,7 @@ static void
 ecv_kill_view (ECellView *ecv)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecv;
-	int i;
+	gint i;
 
         if (vbox_view->cell_view.kill_view_cb)
         	(vbox_view->cell_view.kill_view_cb)(ecv, vbox_view->cell_view.kill_view_cb_data);
@@ -100,7 +100,7 @@ static void
 ecv_realize (ECellView *ecell_view)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
-	int i;
+	gint i;
 
 	/* realize our subcell view */
 	for (i = 0; i < vbox_view->subcell_view_count; i++)
@@ -117,7 +117,7 @@ static void
 ecv_unrealize (ECellView *ecv)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecv;
-	int i;
+	gint i;
 
 	/* unrealize our subcell view. */
 	for (i = 0; i < vbox_view->subcell_view_count; i++)
@@ -132,18 +132,18 @@ ecv_unrealize (ECellView *ecv)
  */
 static void
 ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  int model_col, int view_col, int row, ECellFlags flags,
-	  int x1, int y1, int x2, int y2)
+	  gint model_col, gint view_col, gint row, ECellFlags flags,
+	  gint x1, gint y1, gint x2, gint y2)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
 
-	int subcell_offset = 0;
-	int i;
+	gint subcell_offset = 0;
+	gint i;
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
-		int height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
+		gint height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 		e_cell_draw (vbox_view->subcell_views[i], drawable,
 			     vbox_view->model_cols[i], view_col, row, flags,
 			     x1, y1 + subcell_offset, x2, y1 + subcell_offset + height);
@@ -156,12 +156,12 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * ECell::event method
  */
 static gint
-ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
+ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
-	int y = 0;
-	int i;
-	int subcell_offset = 0;
+	gint y = 0;
+	gint i;
+	gint subcell_offset = 0;
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -180,7 +180,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
-		int height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
+		gint height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 		if (y < subcell_offset + height)
 			return e_cell_event(vbox_view->subcell_views[i], event, vbox_view->model_cols[i], view_col, row, flags, actions);
 		subcell_offset += height;
@@ -192,11 +192,11 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
  * ECell::height method
  */
 static int
-ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
+ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
-	int height = 0;
-	int i;
+	gint height = 0;
+	gint i;
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		height += e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
@@ -208,14 +208,14 @@ ecv_height (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECell::max_width method
  */
 static int
-ecv_max_width (ECellView *ecell_view, int model_col, int view_col)
+ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
-	int max_width = 0;
-	int i;
+	gint max_width = 0;
+	gint i;
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
-		int width = e_cell_max_width (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col);
+		gint width = e_cell_max_width (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col);
 		max_width = MAX(width, max_width);
 	}
 
@@ -227,13 +227,13 @@ ecv_max_width (ECellView *ecell_view, int model_col, int view_col)
  * ECellView::show_tooltip method
  */
 static void
-ecv_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
-		  int col_width, ETableTooltip *tooltip)
+ecv_show_tooltip (ECellView *ecell_view, gint model_col, gint view_col, gint row,
+		  gint col_width, ETableTooltip *tooltip)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 	EVboxModel *vbox_model = e_cell_vbox_get_vbox_model (ecell_view->e_table_model, row);
 	EVboxPath node = e_cell_vbox_get_node (ecell_view->e_table_model, row);
-	int offset = offset_of_node (ecell_view->e_table_model, row);
+	gint offset = offset_of_node (ecell_view->e_table_model, row);
 	GdkPixbuf *node_image;
 
 	node_image = e_vbox_model_icon_at (vbox_model, node);
@@ -247,8 +247,8 @@ ecv_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 /*
  * ECellView::get_bg_color method
  */
-static char *
-ecv_get_bg_color (ECellView *ecell_view, int row)
+static gchar *
+ecv_get_bg_color (ECellView *ecell_view, gint row)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
 
@@ -258,8 +258,8 @@ ecv_get_bg_color (ECellView *ecell_view, int row)
 /*
  * ECellView::enter_edit method
  */
-static void *
-ecv_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
+static gpointer
+ecv_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	/* just defer to our subcell's view */
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
@@ -271,7 +271,7 @@ ecv_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
  * ECellView::leave_edit method
  */
 static void
-ecv_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
+ecv_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer edit_context)
 {
 	/* just defer to our subcell's view */
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
@@ -281,7 +281,7 @@ ecv_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 
 static void
 ecv_print (ECellView *ecell_view, GnomePrintContext *context,
-	   int model_col, int view_col, int row,
+	   gint model_col, gint view_col, gint row,
 	   double width, double height)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *) ecell_view;
@@ -290,14 +290,14 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 		EVboxModel *vbox_model = e_cell_vbox_get_vbox_model (ecell_view->e_table_model, row);
 		EVboxTableAdapter *vbox_table_adapter = e_cell_vbox_get_vbox_table_adapter(ecell_view->e_table_model, row);
 		EVboxPath node = e_cell_vbox_get_node (ecell_view->e_table_model, row);
-		int offset = offset_of_node (ecell_view->e_table_model, row);
-		int subcell_offset = offset;
+		gint offset = offset_of_node (ecell_view->e_table_model, row);
+		gint subcell_offset = offset;
 		gboolean expandable = e_vbox_model_node_is_expandable (vbox_model, node);
 		gboolean expanded = e_vbox_table_adapter_node_is_expanded (vbox_table_adapter, node);
 
 		/* draw our lines */
 		if (E_CELL_VBOX(vbox_view->cell_view.ecell)->draw_lines) {
-			int depth;
+			gint depth;
 
 			if (!e_vbox_model_node_is_root (vbox_model, node)
 			    || e_vbox_model_node_get_children (vbox_model, node, NULL) > 0) {
@@ -348,7 +348,7 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 			GdkPixbuf *image = (expanded
 					    ? E_CELL_VBOX(vbox_view->cell_view.ecell)->open_pixbuf
 					    : E_CELL_VBOX(vbox_view->cell_view.ecell)->closed_pixbuf);
-			int image_width, image_height, image_rowstride;
+			gint image_width, image_height, image_rowstride;
 			guchar *image_pixels;
 
 			image_width = gdk_pixbuf_get_width(image);
@@ -379,7 +379,7 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 
 static gdouble
 ecv_print_height (ECellView *ecell_view, GnomePrintContext *context,
-		  int model_col, int view_col, int row,
+		  gint model_col, gint view_col, gint row,
 		  double width)
 {
 	return 12; /* XXX */
@@ -393,7 +393,7 @@ static void
 ecv_dispose (GObject *object)
 {
 	ECellVbox *ecv = E_CELL_VBOX (object);
-	int i;
+	gint i;
 
 	/* destroy our subcell */
 	for (i = 0; i < ecv->subcell_count; i++)
@@ -473,7 +473,7 @@ e_cell_vbox_new (void)
 }
 
 void
-e_cell_vbox_append (ECellVbox *vbox, ECell *subcell, int model_col)
+e_cell_vbox_append (ECellVbox *vbox, ECell *subcell, gint model_col)
 {
 	vbox->subcell_count ++;
 

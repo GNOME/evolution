@@ -40,7 +40,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	GtkWidget *dialog;
 	ESourceList *source_list;
 	ESource *selected_source = NULL;
-	const char *gconf_key;
+	const gchar *gconf_key;
 	GConfClient *conf_client;
 	const gchar *icon_name = NULL;
 
@@ -72,12 +72,12 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		selected_source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
 		if (selected_source) {
-			char *absolute_uri;
+			gchar *absolute_uri;
 
 			/* set the absolute URI on the source we keep around, since the group
 			   will be unrefed */
 			absolute_uri = e_source_build_absolute_uri (selected_source);
-			e_source_set_absolute_uri (selected_source, (const char *) absolute_uri);
+			e_source_set_absolute_uri (selected_source, (const gchar *) absolute_uri);
 
 			g_object_ref (selected_source);
 			g_free (absolute_uri);

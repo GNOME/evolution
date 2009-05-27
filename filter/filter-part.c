@@ -136,10 +136,10 @@ filter_part_validate (FilterPart *fp)
 	return correct;
 }
 
-int
+gint
 filter_part_eq (FilterPart *fp, FilterPart *fc)
 {
-	int truth;
+	gint truth;
 	GList *al, *bl;
 
 	truth = ((fp->name && fc->name && strcmp(fp->name, fc->name) == 0)
@@ -163,22 +163,22 @@ filter_part_eq (FilterPart *fp, FilterPart *fc)
 	return truth && al == NULL && bl == NULL;
 }
 
-int
+gint
 filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 {
 	xmlNodePtr n;
-	char *type, *str;
+	gchar *type, *str;
 	FilterElement *el;
 
-	str = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	str = (gchar *)xmlGetProp (node, (const guchar *)"name");
 	ff->name = g_strdup (str);
 	if (str)
 		xmlFree (str);
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((char *)n->name, "input")) {
-			type = (char *)xmlGetProp (n, (const unsigned char *)"type");
+		if (!strcmp ((gchar *)n->name, "input")) {
+			type = (gchar *)xmlGetProp (n, (const guchar *)"type");
 			d(printf ("creating new element type input '%s'\n", type));
 			if (type != NULL
 			    && (el = rule_context_new_element(rc, type)) != NULL) {
@@ -189,16 +189,16 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node, RuleContext *rc)
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp ((char *)n->name, "title") || !strcmp ((char *)n->name, "_title")) {
+		} else if (!strcmp ((gchar *)n->name, "title") || !strcmp ((gchar *)n->name, "_title")) {
 			if (!ff->title) {
-				str = (char *)xmlNodeGetContent (n);
+				str = (gchar *)xmlNodeGetContent (n);
 				ff->title = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
-		} else if (!strcmp ((char *)n->name, "code")) {
+		} else if (!strcmp ((gchar *)n->name, "code")) {
 			if (!ff->code) {
-				str = (char *)xmlNodeGetContent (n);
+				str = (gchar *)xmlNodeGetContent (n);
 				ff->code = g_strdup (str);
 				if (str)
 					xmlFree (str);
@@ -221,8 +221,8 @@ filter_part_xml_encode (FilterPart *fp)
 
 	g_return_val_if_fail (fp != NULL, NULL);
 
-	part = xmlNewNode (NULL, (const unsigned char *)"part");
-	xmlSetProp (part, (const unsigned char *)"name", (unsigned char *)fp->name);
+	part = xmlNewNode (NULL, (const guchar *)"part");
+	xmlSetProp (part, (const guchar *)"name", (guchar *)fp->name);
 	l = fp->elements;
 	while (l) {
 		fe = l->data;
@@ -235,20 +235,20 @@ filter_part_xml_encode (FilterPart *fp)
 }
 
 
-int
+gint
 filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 {
 	FilterElement *fe;
 	xmlNodePtr n;
-	char *name;
+	gchar *name;
 
 	g_return_val_if_fail (fp != NULL, -1);
 	g_return_val_if_fail (node != NULL, -1);
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((char *)n->name, "value")) {
-			name = (char *)xmlGetProp (n, (const unsigned char *)"name");
+		if (!strcmp ((gchar *)n->name, "value")) {
+			name = (gchar *)xmlGetProp (n, (const guchar *)"name");
 			d(printf ("finding element part %p %s = %p\n", name, name, fe));
 			fe = filter_part_find_element (fp, name);
 			d(printf ("finding element part %p %s = %p\n", name, name, fe));
@@ -315,7 +315,7 @@ filter_part_copy_values (FilterPart *dst, FilterPart *src)
 }
 
 FilterElement *
-filter_part_find_element (FilterPart *ff, const char *name)
+filter_part_find_element (FilterPart *ff, const gchar *name)
 {
 	GList *l = ff->elements;
 	FilterElement *fe;
@@ -412,7 +412,7 @@ filter_part_build_code_list (GList *l, GString *out)
  * Return value:
  **/
 FilterPart *
-filter_part_find_list (GList *l, const char *name)
+filter_part_find_list (GList *l, const gchar *name)
 {
 	FilterPart *part;
 
@@ -469,11 +469,11 @@ filter_part_next_list (GList *l, FilterPart *last)
  * Expands the variables in string @str based on the values of the part.
  **/
 void
-filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
+filter_part_expand_code (FilterPart *ff, const gchar *source, GString *out)
 {
-	const char *newstart, *start, *end;
-	char *name = alloca (32);
-	int len, namelen = 32;
+	const gchar *newstart, *start, *end;
+	gchar *name = alloca (32);
+	gint len, namelen = 32;
 	FilterElement *fe;
 
 	start = source;
@@ -505,7 +505,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 }
 
 #if 0
-int main(int argc, char **argv)
+gint main(gint argc, gchar **argv)
 {
 	GtkWidget *dialog, *w;
 	xmlDocPtr system;

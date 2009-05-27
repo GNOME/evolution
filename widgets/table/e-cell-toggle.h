@@ -41,11 +41,11 @@ G_BEGIN_DECLS
 typedef struct {
 	ECell parent;
 
-	int        border;
-	int        n_states;
+	gint        border;
+	gint        n_states;
 	GdkPixbuf **images;
 
-	int        height;
+	gint        height;
 } ECellToggle;
 
 typedef struct {
@@ -53,9 +53,9 @@ typedef struct {
 } ECellToggleClass;
 
 GType      e_cell_toggle_get_type  (void);
-ECell     *e_cell_toggle_new       (int border, int n_states, GdkPixbuf **images);
-void       e_cell_toggle_construct (ECellToggle *etog, int border,
-				    int n_states, GdkPixbuf **images);
+ECell     *e_cell_toggle_new       (gint border, gint n_states, GdkPixbuf **images);
+void       e_cell_toggle_construct (ECellToggle *etog, gint border,
+				    gint n_states, GdkPixbuf **images);
 
 G_END_DECLS
 

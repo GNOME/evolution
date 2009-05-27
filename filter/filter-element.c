@@ -31,14 +31,14 @@
 #include "filter-element.h"
 
 struct _element_type {
-	char *name;
+	gchar *name;
 
 	FilterElementFunc create;
-	void *data;
+	gpointer data;
 };
 
 static gboolean validate (FilterElement *fe);
-static int element_eq(FilterElement *fe, FilterElement *cm);
+static gint element_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 static void copy_value(FilterElement *de, FilterElement *se);
@@ -122,7 +122,7 @@ filter_element_validate (FilterElement *fe)
 	return FILTER_ELEMENT_GET_CLASS (fe)->validate (fe);
 }
 
-int
+gint
 filter_element_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterElementClass *klass;
@@ -168,7 +168,7 @@ filter_element_xml_encode (FilterElement *fe)
  *
  * Return value:
  **/
-int
+gint
 filter_element_xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	return FILTER_ELEMENT_GET_CLASS (fe)->xml_decode (fe, node);
@@ -254,7 +254,7 @@ element_eq (FilterElement *fe, FilterElement *cm)
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
+	fe->name = (gchar *)xmlGetProp (node, (const guchar *)"name");
 }
 
 static FilterElement *
@@ -288,7 +288,7 @@ copy_value(FilterElement *de, FilterElement *se)
 			if (((FilterInput *)se)->values)
 				filter_input_set_value((FilterInput*)de, ((FilterInput *)se)->values->data);
 		} else if (IS_FILTER_INT(de)) {
-			((FilterInt *)de)->val = atoi((char *) ((FilterInput *)se)->values->data);
+			((FilterInt *)de)->val = atoi((gchar *) ((FilterInput *)se)->values->data);
 		}
 	} else if (IS_FILTER_COLOUR(se)) {
 		if (IS_FILTER_COLOUR(de)) {
@@ -312,7 +312,7 @@ copy_value(FilterElement *de, FilterElement *se)
 		} else if (IS_FILTER_INPUT(de)) {
 			FilterInt *s = (FilterInt *)se;
 			FilterInput *d = (FilterInput *)de;
-			char *v;
+			gchar *v;
 
 			v = g_strdup_printf("%d", s->val);
 			filter_input_set_value(d, v);

@@ -82,6 +82,6 @@ GType  epech_dialog_get_type     (void);
 CustomHeaderOptionsDialog *epech_dialog_new (void);
 static gboolean epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent);
 static void epech_get_header_list (CustomHeaderOptionsDialog *mch);
-static void epech_load_from_gconf (GConfClient *client,const char *path,CustomHeaderOptionsDialog *mch);
+static void epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptionsDialog *mch);
 #endif
 

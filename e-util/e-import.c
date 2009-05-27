@@ -46,11 +46,11 @@ struct _EImportImporters {
 
 	EImportImporter *importer;
 	EImportImporterFunc free;
-	void *data;
+	gpointer data;
 };
 
 struct _EImportPrivate {
-	int dummy;
+	gint dummy;
 };
 
 static GObjectClass *ep_parent;
@@ -149,14 +149,14 @@ e_import_get_type(void)
  *
  * Return value: @ep is returned.
  **/
-EImport *e_import_construct(EImport *ep, const char *id)
+EImport *e_import_construct(EImport *ep, const gchar *id)
 {
 	ep->id = g_strdup(id);
 
 	return ep;
 }
 
-EImport *e_import_new(const char *id)
+EImport *e_import_new(const gchar *id)
 {
 	EImport *ei = g_object_new(e_import_get_type(), NULL);
 
@@ -180,7 +180,7 @@ EImport *e_import_new(const char *id)
  * When complete, the @done callback will be called.
  **/
 void
-e_import_import(EImport *ei, EImportTarget *t, EImportImporter *im, EImportStatusFunc status, EImportCompleteFunc done, void *data)
+e_import_import(EImport *ei, EImportTarget *t, EImportImporter *im, EImportStatusFunc status, EImportCompleteFunc done, gpointer data)
 {
 	g_return_if_fail(im != NULL);
 	g_return_if_fail(im != NULL);
@@ -234,7 +234,7 @@ void e_import_complete(EImport *ei, EImportTarget *target)
 		ei->done(ei, ei->done_data);
 }
 
-void e_import_status(EImport *ei, EImportTarget *target, const char *what, int pc)
+void e_import_status(EImport *ei, EImportTarget *target, const gchar *what, gint pc)
 {
 	if (ei->status)
 		ei->status(ei, what, pc, ei->done_data);
@@ -285,7 +285,7 @@ e_import_get_importers(EImport *emp, EImportTarget *target)
  *
  **/
 void
-e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, void *data)
+e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, gpointer data)
 {
 	struct _EImportImporters *node, *ei, *en;
 
@@ -337,7 +337,7 @@ void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f)
  * Allocate a new import target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
-void *e_import_target_new(EImport *ep, int type, size_t size)
+gpointer e_import_target_new(EImport *ep, gint type, size_t size)
 {
 	EImportTarget *t;
 
@@ -364,14 +364,14 @@ void *e_import_target_new(EImport *ep, int type, size_t size)
  * free custom targets.
  **/
 void
-e_import_target_free(EImport *ep, void *o)
+e_import_target_free(EImport *ep, gpointer o)
 {
 	EImportTarget *t = o;
 
 	((EImportClass *)G_OBJECT_GET_CLASS(ep))->target_free(ep, t);
 }
 
-EImportTargetURI *e_import_target_new_uri(EImport *ei, const char *suri, const char *duri)
+EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const gchar *duri)
 {
 	EImportTargetURI *t = e_import_target_new(ei, E_IMPORT_TARGET_URI, sizeof(*t));
 
@@ -381,7 +381,7 @@ EImportTargetURI *e_import_target_new_uri(EImport *ei, const char *suri, const c
 	return t;
 }
 
-EImportTargetHome *e_import_target_new_home(EImport *ei, const char *home)
+EImportTargetHome *e_import_target_new_home(EImport *ei, const gchar *home)
 {
 	EImportTargetHome *t = e_import_target_new(ei, E_IMPORT_TARGET_HOME, sizeof(*t));
 
@@ -417,7 +417,7 @@ EImportTargetHome *e_import_target_new_home(EImport *ei, const char *home)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EImportHook *)eph)
 
 static const EImportHookTargetMask eih_no_masks[] = {
@@ -463,7 +463,7 @@ static void eih_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-eih_free_importer(EImportImporter *im, void *data)
+eih_free_importer(EImportImporter *im, gpointer data)
 {
 	EImportHookImporter *ihook = (EImportHookImporter *)im;
 
@@ -479,12 +479,12 @@ emph_construct_importer(EPluginHook *eph, xmlNodePtr root)
 	struct _EImportHookImporter *item;
 	EImportHookTargetMap *map;
 	EImportHookClass *klass = (EImportHookClass *)G_OBJECT_GET_CLASS(eph);
-	char *tmp;
+	gchar *tmp;
 
 	d(printf("  loading import item\n"));
 	item = g_malloc0(sizeof(*item));
 
-	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
+	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -535,7 +535,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "importer") == 0) {
+		if (strcmp((gchar *)node->name, "importer") == 0) {
 			struct _EImportHookImporter *ihook;
 
 			ihook = emph_construct_importer(eph, node);
@@ -565,7 +565,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	klass->construct = emph_construct;
@@ -626,5 +626,5 @@ e_import_hook_get_type(void)
  **/
 void e_import_hook_class_add_target_map(EImportHookClass *klass, const EImportHookTargetMap *map)
 {
-	g_hash_table_insert(klass->target_map, (void *)map->type, (void *)map);
+	g_hash_table_insert(klass->target_map, (gpointer)map->type, (gpointer)map);
 }

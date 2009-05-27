@@ -60,8 +60,8 @@ struct ETreeTableAdapterPriv {
 	ETableSortInfo *sort_info;
 	ETableHeader   *header;
 
-	int    	     n_map;
-	int    	     n_vals_allocated;
+	gint    	     n_map;
+	gint    	     n_vals_allocated;
 	node_t     **map_table;
 	GHashTable  *nodes;
 	GNode       *root;
@@ -69,22 +69,22 @@ struct ETreeTableAdapterPriv {
 	guint        root_visible : 1;
 	guint        remap_needed : 1;
 
-	int          last_access;
+	gint          last_access;
 
-	int          pre_change_id;
-	int          no_change_id;
+	gint          pre_change_id;
+	gint          no_change_id;
 	int	     rebuilt_id;
-	int          node_changed_id;
-	int          node_data_changed_id;
-	int          node_col_changed_id;
-	int          node_inserted_id;
-	int          node_removed_id;
-	int          node_request_collapse_id;
-	int          sort_info_changed_id;
+	gint          node_changed_id;
+	gint          node_data_changed_id;
+	gint          node_col_changed_id;
+	gint          node_inserted_id;
+	gint          node_removed_id;
+	gint          node_request_collapse_id;
+	gint          sort_info_changed_id;
 
 	guint        resort_idle_id;
 
-	int          force_expanded_state; /* use this instead of model's default if not 0; <0 ... collapse, >0 ... expand */
+	gint          force_expanded_state; /* use this instead of model's default if not 0; <0 ... collapse, >0 ... expand */
 };
 
 static void etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta);
@@ -103,7 +103,7 @@ lookup_gnode(ETreeTableAdapter *etta, ETreePath path)
 }
 
 static void
-resize_map(ETreeTableAdapter *etta, int size)
+resize_map(ETreeTableAdapter *etta, gint size)
 {
         if (size > etta->priv->n_vals_allocated) {
                 etta->priv->n_vals_allocated = MAX(etta->priv->n_vals_allocated + INCREMENT_AMOUNT, size);
@@ -114,7 +114,7 @@ resize_map(ETreeTableAdapter *etta, int size)
 }
 
 static void
-move_map_elements(ETreeTableAdapter *etta, int to, int from, int count)
+move_map_elements(ETreeTableAdapter *etta, gint to, gint from, gint count)
 {
 	if (count <= 0 || from >= etta->priv->n_map)
 		return;
@@ -140,7 +140,7 @@ fill_map(ETreeTableAdapter *etta, gint index, GNode *gnode)
 static void
 remap_indices(ETreeTableAdapter *etta)
 {
-	int i;
+	gint i;
 	for (i = 0; i < etta->priv->n_map; i++)
 		etta->priv->map_table[i]->index = i;
 	etta->priv->remap_needed = FALSE;
@@ -163,7 +163,7 @@ resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 	node_t *node = (node_t *)gnode->data;
 	ETreePath *paths, path;
 	GNode *prev, *curr;
-	int i, count;
+	gint i, count;
 	gboolean sort_needed;
 
 	if (node->num_visible_children == 0)
@@ -222,7 +222,7 @@ get_row(ETreeTableAdapter *etta, ETreePath path)
 }
 
 static ETreePath
-get_path (ETreeTableAdapter *etta, int row)
+get_path (ETreeTableAdapter *etta, gint row)
 {
 	if (row == -1 && etta->priv->n_map > 0)
 		row = etta->priv->n_map - 1;
@@ -263,7 +263,7 @@ static int
 delete_children(ETreeTableAdapter *etta, GNode *gnode)
 {
 	node_t *node = (node_t *)gnode->data;
-	int to_remove = node ? node->num_visible_children : 0;
+	gint to_remove = node ? node->num_visible_children : 0;
 
 	if (to_remove == 0)
 		return 0;
@@ -280,9 +280,9 @@ delete_children(ETreeTableAdapter *etta, GNode *gnode)
 static void
 delete_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 {
-	int to_remove = 1;
-	int parent_row = get_row(etta, parent);
-	int row = get_row(etta, path);
+	gint to_remove = 1;
+	gint parent_row = get_row(etta, parent);
+	gint row = get_row(etta, path);
 	GNode *gnode = lookup_gnode(etta, path);
 	GNode *parent_gnode = lookup_gnode(etta, parent);
 
@@ -338,8 +338,8 @@ static gint
 insert_children(ETreeTableAdapter *etta, GNode *gnode)
 {
 	ETreePath path, tmp;
-	int count = 0;
-	int pos = 0;
+	gint count = 0;
+	gint pos = 0;
 
 	path = ((node_t *)gnode->data)->path;
 	for (tmp = e_tree_model_node_get_first_child(etta->priv->source, path);
@@ -361,7 +361,7 @@ generate_tree(ETreeTableAdapter *etta, ETreePath path)
 {
 	GNode *gnode;
 	node_t *node;
-	int size;
+	gint size;
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
@@ -391,7 +391,7 @@ insert_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 	GNode *gnode, *parent_gnode;
 	node_t *node, *parent_node;
 	gboolean expandable;
-	int size, row;
+	gint size, row;
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
@@ -583,7 +583,7 @@ etta_has_save_id (ETableModel *etm)
 }
 
 static gchar *
-etta_get_save_id (ETableModel *etm, int row)
+etta_get_save_id (ETableModel *etm, gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -607,8 +607,8 @@ etta_row_count (ETableModel *etm)
 	return etta->priv->n_map;
 }
 
-static void *
-etta_value_at (ETableModel *etm, int col, int row)
+static gpointer
+etta_value_at (ETableModel *etm, gint col, gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -627,7 +627,7 @@ etta_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-etta_set_value_at (ETableModel *etm, int col, int row, const void *val)
+etta_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -635,7 +635,7 @@ etta_set_value_at (ETableModel *etm, int col, int row, const void *val)
 }
 
 static gboolean
-etta_is_cell_editable (ETableModel *etm, int col, int row)
+etta_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -643,12 +643,12 @@ etta_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 static void
-etta_append_row (ETableModel *etm, ETableModel *source, int row)
+etta_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 }
 
-static void *
-etta_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+etta_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -656,15 +656,15 @@ etta_duplicate_value (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etta_free_value (ETableModel *etm, int col, void *value)
+etta_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
 	e_tree_model_free_value (etta->priv->source, col, value);
 }
 
-static void *
-etta_initialize_value (ETableModel *etm, int col)
+static gpointer
+etta_initialize_value (ETableModel *etm, gint col)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -672,15 +672,15 @@ etta_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-etta_value_is_empty (ETableModel *etm, int col, const void *value)
+etta_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
 	return e_tree_model_value_is_empty (etta->priv->source, col, value);
 }
 
-static char *
-etta_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+etta_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
 
@@ -793,7 +793,7 @@ etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *ett
 static void
 etta_proxy_node_data_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *etta)
 {
-	int row = get_row(etta, path);
+	gint row = get_row(etta, path);
 
 	if (row == -1) {
 		e_table_model_no_change(E_TABLE_MODEL(etta));
@@ -804,9 +804,9 @@ etta_proxy_node_data_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter
 }
 
 static void
-etta_proxy_node_col_changed (ETreeModel *etm, ETreePath path, int col, ETreeTableAdapter *etta)
+etta_proxy_node_col_changed (ETreeModel *etm, ETreePath path, gint col, ETreeTableAdapter *etta)
 {
-	int row = get_row(etta, path);
+	gint row = get_row(etta, path);
 
 	if (row == -1) {
 		e_table_model_no_change(E_TABLE_MODEL(etta));
@@ -828,7 +828,7 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 }
 
 static void
-etta_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeTableAdapter *etta)
+etta_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, gint old_position, ETreeTableAdapter *etta)
 {
 	delete_node(etta, parent, child);
 	e_table_model_changed(E_TABLE_MODEL(etta));
@@ -926,8 +926,8 @@ save_expanded_state_func (gpointer keyp, gpointer value, gpointer data)
 
 	if (node->expanded != tar->expanded_default) {
 		gchar *save_id = e_tree_model_get_save_id(tar->model, path);
-		xmlnode = xmlNewChild (tar->root, NULL, (const unsigned char *)"node", NULL);
-		e_xml_set_string_prop_by_name(xmlnode, (const unsigned char *)"id", save_id);
+		xmlnode = xmlNewChild (tar->root, NULL, (const guchar *)"node", NULL);
+		e_xml_set_string_prop_by_name(xmlnode, (const guchar *)"id", save_id);
 		g_free(save_id);
 	}
 }
@@ -941,16 +941,16 @@ e_tree_table_adapter_save_expanded_state_xml (ETreeTableAdapter *etta)
 
 	g_return_val_if_fail (etta != NULL, NULL);
 
-	doc = xmlNewDoc ((const unsigned char *)"1.0");
-	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"expanded_state", NULL);
+	doc = xmlNewDoc ((const guchar *)"1.0");
+	root = xmlNewDocNode (doc, NULL, (const guchar *)"expanded_state", NULL);
 	xmlDocSetRootElement (doc, root);
 
 	tar.model = etta->priv->source;
 	tar.root = root;
 	tar.expanded_default = e_tree_model_get_expanded_default(etta->priv->source);
 
-	e_xml_set_integer_prop_by_name (root, (const unsigned char *)"vers", 2);
-	e_xml_set_bool_prop_by_name (root, (const unsigned char *)"default", tar.expanded_default);
+	e_xml_set_integer_prop_by_name (root, (const guchar *)"vers", 2);
+	e_xml_set_bool_prop_by_name (root, (const guchar *)"default", tar.expanded_default);
 
 	g_hash_table_foreach (etta->priv->nodes, save_expanded_state_func, &tar);
 
@@ -958,7 +958,7 @@ e_tree_table_adapter_save_expanded_state_xml (ETreeTableAdapter *etta)
 }
 
 void
-e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *filename)
+e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const gchar *filename)
 {
 	xmlDoc *doc;
 
@@ -972,11 +972,11 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 }
 
 static xmlDoc *
-open_file (ETreeTableAdapter *etta, const char *filename)
+open_file (ETreeTableAdapter *etta, const gchar *filename)
 {
 	xmlDoc *doc;
 	xmlNode *root;
-	int vers;
+	gint vers;
 	gboolean model_default, saved_default;
 
 	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -996,18 +996,18 @@ open_file (ETreeTableAdapter *etta, const char *filename)
 		return NULL;
 
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL || strcmp ((char *)root->name, "expanded_state")) {
+	if (root == NULL || strcmp ((gchar *)root->name, "expanded_state")) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
 
-	vers = e_xml_get_integer_prop_by_name_with_default (root, (const unsigned char *)"vers", 0);
+	vers = e_xml_get_integer_prop_by_name_with_default (root, (const guchar *)"vers", 0);
 	if (vers > 2) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
 	model_default = e_tree_model_get_expanded_default (etta->priv->source);
-	saved_default = e_xml_get_bool_prop_by_name_with_default (root, (const unsigned char *)"default", !model_default);
+	saved_default = e_xml_get_bool_prop_by_name_with_default (root, (const guchar *)"default", !model_default);
 	if (saved_default != model_default) {
 		xmlFreeDoc (doc);
 		return NULL;
@@ -1018,7 +1018,7 @@ open_file (ETreeTableAdapter *etta, const char *filename)
 
 /* state: <0 ... collapse;  0 ... use default; >0 ... expand */
 void
-e_tree_table_adapter_force_expanded_state (ETreeTableAdapter *etta, int state)
+e_tree_table_adapter_force_expanded_state (ETreeTableAdapter *etta, gint state)
 {
 	g_return_if_fail (etta != NULL);
 
@@ -1041,10 +1041,10 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta, xmlDoc *d
 
 	model_default = e_tree_model_get_expanded_default(etta->priv->source);
 
-	if (!strcmp ((char *)root->name, "expanded_state")) {
-		char *state;
+	if (!strcmp ((gchar *)root->name, "expanded_state")) {
+		gchar *state;
 
-		state = e_xml_get_string_prop_by_name_with_default (root, (const unsigned char *)"default", "");
+		state = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"default", "");
 
 		if (state[0] == 't')
 			file_default = TRUE;
@@ -1062,15 +1062,15 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta, xmlDoc *d
 	}
 
 	for (child = root->xmlChildrenNode; child; child = child->next) {
-		char *id;
+		gchar *id;
 		ETreePath path;
 
-		if (strcmp ((char *)child->name, "node")) {
+		if (strcmp ((gchar *)child->name, "node")) {
 			d(g_warning ("unknown node '%s' in %s", child->name, filename));
 			continue;
 		}
 
-		id = e_xml_get_string_prop_by_name_with_default (child, (const unsigned char *)"id", "");
+		id = e_xml_get_string_prop_by_name_with_default (child, (const guchar *)"id", "");
 
 		if (!strcmp(id, "")) {
 			g_free(id);
@@ -1088,7 +1088,7 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta, xmlDoc *d
 }
 
 void
-e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *filename)
+e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const gchar *filename)
 {
 	xmlDoc *doc;
 
@@ -1106,7 +1106,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 void
 e_tree_table_adapter_root_node_set_visible (ETreeTableAdapter *etta, gboolean visible)
 {
-	int size;
+	gint size;
 
 	g_return_if_fail (etta != NULL);
 
@@ -1133,7 +1133,7 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 {
 	GNode *gnode = lookup_gnode(etta, path);
 	node_t *node;
-	int row;
+	gint row;
 
 	if (!expanded && (!gnode || (e_tree_model_node_is_root (etta->priv->source, path) && !etta->priv->root_visible)))
 		return;
@@ -1163,7 +1163,7 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 
 
 	if (expanded) {
-		int num_children = insert_children(etta, gnode);
+		gint num_children = insert_children(etta, gnode);
 		update_child_counts(gnode, num_children);
 		if (etta->priv->sort_info && e_table_sort_info_sorting_get_count(etta->priv->sort_info) > 0)
 			resort_node(etta, gnode, TRUE);
@@ -1175,7 +1175,7 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 		} else
 			e_table_model_no_change(E_TABLE_MODEL(etta));
 	} else {
-		int num_children = delete_children(etta, gnode);
+		gint num_children = delete_children(etta, gnode);
 		if (num_children == 0) {
 			e_table_model_no_change(E_TABLE_MODEL(etta));
 			return;
@@ -1202,12 +1202,12 @@ e_tree_table_adapter_node_set_expanded_recurse (ETreeTableAdapter *etta, ETreePa
 }
 
 ETreePath
-e_tree_table_adapter_node_at_row (ETreeTableAdapter *etta, int row)
+e_tree_table_adapter_node_at_row (ETreeTableAdapter *etta, gint row)
 {
 	return get_path(etta, row);
 }
 
-int
+gint
 e_tree_table_adapter_row_of_node (ETreeTableAdapter *etta, ETreePath path)
 {
 	return get_row(etta, path);

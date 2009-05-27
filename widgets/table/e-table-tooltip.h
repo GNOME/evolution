@@ -29,10 +29,10 @@ G_BEGIN_DECLS
 
 typedef struct {
 	gint timer;
-	int col, row;
-	int row_height;
-	int x, y;
-	int cx, cy;
+	gint col, row;
+	gint row_height;
+	gint x, y;
+	gint cx, cy;
 	GdkColor *foreground;
 	GdkColor *background;
 	GnomeCanvasItem *eti;

@@ -27,11 +27,11 @@
 
 void  e_notice                       (gpointer         parent,
 				      GtkMessageType   type,
-				      const char      *format,
+				      const gchar      *format,
 				      ...);
 void  e_notice_with_xid              (GdkNativeWindow  parent,
 				      GtkMessageType   type,
-				      const char      *format,
+				      const gchar      *format,
 				      ...);
 
 void  e_dialog_set_transient_for     (GtkWindow       *dialog,
@@ -39,14 +39,14 @@ void  e_dialog_set_transient_for     (GtkWindow       *dialog,
 void  e_dialog_set_transient_for_xid (GtkWindow       *dialog,
 				      GdkNativeWindow  xid);
 
-char *e_file_dialog_save             (const char      *title, const char *fname);
+gchar *e_file_dialog_save             (const gchar      *title, const gchar *fname);
 
-char *e_file_dialog_save_folder	     (const char      *title);
+gchar *e_file_dialog_save_folder	     (const gchar      *title);
 
-GtkWidget * e_file_get_save_filesel (GtkWindow *parent, const char *title, const char *name, GtkFileChooserAction action);
+GtkWidget * e_file_get_save_filesel (GtkWindow *parent, const gchar *title, const gchar *name, GtkFileChooserAction action);
 
-gboolean e_file_can_save(GtkWindow *parent, const char *uri);
-gboolean e_file_check_local(const char *name);
+gboolean e_file_can_save(GtkWindow *parent, const gchar *uri);
+gboolean e_file_check_local(const gchar *name);
 
 
 #endif

@@ -104,7 +104,7 @@ struct _MessageList {
 
 	/* The folder & matching uri */
 	CamelFolder  *folder;
-	char *folder_uri;
+	gchar *folder_uri;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
 
@@ -114,15 +114,15 @@ struct _MessageList {
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;
 	struct _EMemPool *hidden_pool;
-	int hide_unhidden;           /* total length, before hiding */
-	int hide_before, hide_after; /* hide ranges of messages */
+	gint hide_unhidden;           /* total length, before hiding */
+	gint hide_before, hide_after; /* hide ranges of messages */
 
 	/* Current search string, or %NULL */
-	char *search;
+	gchar *search;
 
 	/* which message uid should be left in the list even not in a search after rebuild;
 	   rebuild will clear the value to NULL */
-	char *ensure_uid;
+	gchar *ensure_uid;
 
 	/* are we regenerating the message_list because set_folder was just called? */
 	guint just_set_folder : 1;
@@ -143,7 +143,7 @@ struct _MessageList {
 	guint frozen:16;
 
 	/* Where the ETree cursor is. */
-	char *cursor_uid;
+	gchar *cursor_uid;
 
 	/* whether the last selection was on a single row or none/multi */
 	gboolean last_sel_single;
@@ -157,11 +157,11 @@ struct _MessageList {
 	/* list of outstanding regeneration requests */
 	GList *regen;
 	GMutex *regen_lock; /* when writing to the regen, guard with this lock too */
-	char *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
+	gchar *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
 	guint regen_timeout_id;
-	void *regen_timeout_msg;
+	gpointer regen_timeout_msg;
 
-	char *frozen_search;	/* to save search took place while we were frozen */
+	gchar *frozen_search;	/* to save search took place while we were frozen */
 
 	/* the current camel folder thread tree, if any */
 	struct _CamelFolderThread *thread_tree;
@@ -174,7 +174,7 @@ struct _MessageListClass {
 	ETreeScrolledClass parent_class;
 
 	/* signals - select a message */
-	void (*message_selected) (MessageList *ml, const char *uid);
+	void (*message_selected) (MessageList *ml, const gchar *uid);
 	void (*message_list_built) (MessageList *ml);
 	void (*message_list_scrolled) (MessageList *ml);
 };
@@ -189,7 +189,7 @@ typedef enum {
 GType          message_list_get_type   (void);
 GtkWidget     *message_list_new        (EShellBackend *shell_backend);
 EShellBackend  *message_list_get_shell_backend (MessageList *message_list);
-void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const char *uri, gboolean outgoing);
+void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const gchar *uri, gboolean outgoing);
 
 void	       message_list_freeze(MessageList *ml);
 void	       message_list_thaw(MessageList *ml);
@@ -207,7 +207,7 @@ gboolean       message_list_select     (MessageList *message_list,
 gboolean message_list_can_select(MessageList *ml, MessageListSelectDirection direction, guint32 flags, guint32 mask);
 
 void           message_list_select_uid (MessageList *message_list,
-					const char *uid);
+					const gchar *uid);
 
 void           message_list_select_next_thread (MessageList *ml);
 
@@ -222,11 +222,11 @@ void	       message_list_copy(MessageList *ml, gboolean cut);
 void           message_list_paste (MessageList *ml);
 
 /* info */
-unsigned int   message_list_length (MessageList *ml);
-unsigned int   message_list_hidden (MessageList *ml);
+guint   message_list_length (MessageList *ml);
+guint   message_list_hidden (MessageList *ml);
 
 /* hide specific messages */
-void	       message_list_hide_add (MessageList *ml, const char *expr, unsigned int lower, unsigned int upper);
+void	       message_list_hide_add (MessageList *ml, const gchar *expr, guint lower, guint upper);
 void	       message_list_hide_uids (MessageList *ml, GPtrArray *uids);
 void	       message_list_hide_clear (MessageList *ml);
 
@@ -235,8 +235,8 @@ void           message_list_set_threaded_expand_all (MessageList *ml);
 void           message_list_set_threaded_collapse_all (MessageList *ml);
 
 void	       message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted);
-void	       message_list_set_search (MessageList *ml, const char *search);
-void	       message_list_ensure_message (MessageList *ml, const char *uid);
+void	       message_list_set_search (MessageList *ml, const gchar *search);
+void	       message_list_ensure_message (MessageList *ml, const gchar *uid);
 
 void           message_list_save_state (MessageList *ml);
 

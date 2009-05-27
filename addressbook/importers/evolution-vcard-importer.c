@@ -51,9 +51,9 @@ typedef struct {
 
 	guint idle_id;
 
-	int state;		/* 0 - importing, 1 - cancelled/complete */
-	int total;
-	int count;
+	gint state;		/* 0 - importing, 1 - cancelled/complete */
+	gint total;
+	gint count;
 
 	ESource *primary;
 
@@ -115,8 +115,8 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 		GList *v = e_vcard_attribute_get_values (a);
 
 		if (v && v->data) {
-			if (!strncmp ((char*)v->data, "<?xml", 5)) {
-				EDestination *dest = e_destination_import ((char*)v->data);
+			if (!strncmp ((gchar *)v->data, "<?xml", 5)) {
+				EDestination *dest = e_destination_import ((gchar *)v->data);
 
 				e_destination_export_to_vcard_attribute (dest, a);
 
@@ -155,9 +155,9 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 
 			vs = e_vcard_attribute_param_get_values (p);
 			for (v = vs; v; v = v->next) {
-				if (!g_ascii_strcasecmp ((char*)v->data, "WORK") ||
-				    !g_ascii_strcasecmp ((char*)v->data, "HOME") ||
-				    !g_ascii_strcasecmp ((char*)v->data, "OTHER"))
+				if (!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((gchar *)v->data, "HOME") ||
+				    !g_ascii_strcasecmp ((gchar *)v->data, "OTHER"))
 					no_location = FALSE;
 				else
 					location_only = FALSE;
@@ -204,8 +204,8 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 
 			vs = e_vcard_attribute_param_get_values (p);
 			for (v = vs; v; v = v->next) {
-				if (!g_ascii_strcasecmp ((char*)v->data, "WORK") ||
-				    !g_ascii_strcasecmp ((char*)v->data, "HOME"))
+				if (!g_ascii_strcasecmp ((gchar *)v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((gchar *)v->data, "HOME"))
 					no_location = FALSE;
 			}
 		}
@@ -228,10 +228,10 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 }
 
 static gboolean
-vcard_import_contacts(void *data)
+vcard_import_contacts(gpointer data)
 {
 	VCardImporter *gci = data;
-	int count = 0;
+	gint count = 0;
 	GList *iterator = gci->iterator;
 
 	if (gci->state == 0) {
@@ -319,11 +319,11 @@ typedef enum _VCardEncoding VCardEncoding;
 
 /* Actually check the contents of this file */
 static VCardEncoding
-guess_vcard_encoding (const char *filename)
+guess_vcard_encoding (const gchar *filename)
 {
 	FILE *handle;
-	char line[4096];
-	char *line_utf8;
+	gchar line[4096];
+	gchar *line_utf8;
 	VCardEncoding encoding = VCARD_ENCODING_NONE;
 
 	handle = g_fopen (filename, "r");
@@ -455,7 +455,7 @@ static void
 vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
-	char *contents;
+	gchar *contents;
 	VCardEncoding encoding;
 	EBook *book;
 	EImportTargetURI *s = (EImportTargetURI *)target;

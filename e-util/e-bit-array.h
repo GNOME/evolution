@@ -38,7 +38,7 @@ extern "C" {
 
 #ifndef _E_FOREACH_FUNC_H_
 #define _E_FOREACH_FUNC_H_
-typedef void (*EForeachFunc) (int model_row,
+typedef void (*EForeachFunc) (gint model_row,
 			      gpointer closure);
 #endif
 
@@ -55,7 +55,7 @@ typedef struct {
 
 
 GType      e_bit_array_get_type            (void);
-EBitArray *e_bit_array_new                 (int           count);
+EBitArray *e_bit_array_new                 (gint           count);
 
 gboolean   e_bit_array_value_at            (EBitArray    *selection,
 					    gint          n);
@@ -68,29 +68,29 @@ void       e_bit_array_select_all          (EBitArray    *selection);
 void       e_bit_array_invert_selection    (EBitArray    *selection);
 gint       e_bit_array_bit_count           (EBitArray    *selection);
 void       e_bit_array_change_one_row      (EBitArray    *selection,
-					    int           row,
+					    gint           row,
 					    gboolean      grow);
 void       e_bit_array_change_range        (EBitArray    *selection,
-					    int           start,
-					    int           end,
+					    gint           start,
+					    gint           end,
 					    gboolean      grow);
 void       e_bit_array_select_single_row   (EBitArray    *eba,
-					    int           row);
+					    gint           row);
 void       e_bit_array_toggle_single_row   (EBitArray    *eba,
-					    int           row);
+					    gint           row);
 
 void       e_bit_array_insert              (EBitArray    *esm,
-					    int           row,
-					    int           count);
+					    gint           row,
+					    gint           count);
 void       e_bit_array_delete              (EBitArray    *esm,
-					    int           row,
-					    int           count);
+					    gint           row,
+					    gint           count);
 void       e_bit_array_delete_single_mode  (EBitArray    *esm,
-					    int           row,
-					    int           count);
+					    gint           row,
+					    gint           count);
 void       e_bit_array_move_row            (EBitArray    *esm,
-					    int           old_row,
-					    int           new_row);
+					    gint           old_row,
+					    gint           new_row);
 
 gboolean   e_bit_array_cross_and           (EBitArray    *esm);
 gboolean   e_bit_array_cross_or            (EBitArray    *esm);

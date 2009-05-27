@@ -57,10 +57,10 @@ GType calendar_view_get_type (void);
 
 CalendarView *calendar_view_construct (CalendarView *cal_view,
 				       GnomeCalendarViewType view_type,
-				       const char *title);
+				       const gchar *title);
 
 CalendarView *calendar_view_new (GnomeCalendarViewType view_type,
-				 const char *title);
+				 const gchar *title);
 
 GnomeCalendarViewType calendar_view_get_view_type (CalendarView *cal_view);
 

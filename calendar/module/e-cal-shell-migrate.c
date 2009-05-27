@@ -158,9 +158,9 @@ dialog_close (void)
 }
 
 static void
-dialog_set_folder_name (const char *folder_name)
+dialog_set_folder_name (const gchar *folder_name)
 {
-	char *text;
+	gchar *text;
 
 	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
@@ -175,7 +175,7 @@ dialog_set_folder_name (const char *folder_name)
 static void
 dialog_set_progress (double percent)
 {
-	char text[5];
+	gchar text[5];
 
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
 
@@ -187,7 +187,7 @@ dialog_set_progress (double percent)
 }
 
 static gboolean
-check_for_conflict (ESourceGroup *group, char *name)
+check_for_conflict (ESourceGroup *group, gchar *name)
 {
 	GSList *sources;
 	GSList *s;
@@ -204,12 +204,12 @@ check_for_conflict (ESourceGroup *group, char *name)
 	return FALSE;
 }
 
-static char *
-get_source_name (ESourceGroup *group, const char *path)
+static gchar *
+get_source_name (ESourceGroup *group, const gchar *path)
 {
-	char **p = g_strsplit (path, "/", 0);
-	int i, j, starting_index;
-	int num_elements;
+	gchar **p = g_strsplit (path, "/", 0);
+	gint i, j, starting_index;
+	gint num_elements;
 	gboolean conflict;
 	GString *s = g_string_new (NULL);
 
@@ -251,8 +251,8 @@ static gboolean
 migrate_ical (ECal *old_ecal, ECal *new_ecal)
 {
 	GList *l, *objects;
-	int num_added = 0;
-	int num_objects;
+	gint num_added = 0;
+	gint num_objects;
 	gboolean retval = TRUE;
 
 	/* both ecals are loaded, start the actual migration */
@@ -282,12 +282,12 @@ migrate_ical (ECal *old_ecal, ECal *new_ecal)
 }
 
 static gboolean
-migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceType type)
+migrate_ical_folder_to_source (gchar *old_path, ESource *new_source, ECalSourceType type)
 {
 	ECal *old_ecal = NULL, *new_ecal = NULL;
 	ESource *old_source;
 	ESourceGroup *group;
-	char *old_uri = g_strdup_printf ("file://%s", old_path);
+	gchar *old_uri = g_strdup_printf ("file://%s", old_path);
 	GError *error = NULL;
 	gboolean retval = FALSE;
 
@@ -332,7 +332,7 @@ finish:
 }
 
 static gboolean
-migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name, ECalSourceType type)
+migrate_ical_folder (gchar *old_path, ESourceGroup *dest_group, gchar *source_name, ECalSourceType type)
 {
 	ESource *new_source;
 	gboolean retval;
@@ -353,7 +353,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 #ifndef G_OS_WIN32
 
 static void
-migrate_pilot_db_key (const char *key, gpointer user_data)
+migrate_pilot_db_key (const gchar *key, gpointer user_data)
 {
 	EXmlHash *xmlhash = user_data;
 
@@ -361,12 +361,12 @@ migrate_pilot_db_key (const char *key, gpointer user_data)
 }
 
 static void
-migrate_pilot_data (const char *component, const char *conduit, const char *old_path, const char *new_path)
+migrate_pilot_data (const gchar *component, const gchar *conduit, const gchar *old_path, const gchar *new_path)
 {
-	char *changelog, *map;
-	const char *dent;
-	const char *ext;
-	char *filename;
+	gchar *changelog, *map;
+	const gchar *dent;
+	const gchar *ext;
+	gchar *filename;
 	GDir *dir;
 
 	if (!(dir = g_dir_open (old_path, 0, NULL)))
@@ -382,9 +382,9 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 		if (!strncmp (dent, map, strlen (map)) &&
 		    ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) {
 			/* pilot map file - src and dest file formats are identical */
-			unsigned char inbuf[4096];
+			guchar inbuf[4096];
 			size_t nread, nwritten;
-			int fd0, fd1;
+			gint fd0, fd1;
 			ssize_t n;
 
 			filename = g_build_filename (old_path, dent, NULL);
@@ -503,7 +503,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 	EShellSettings *shell_settings;
 	GSList *groups;
 	ESourceGroup *group;
-	char *base_uri, *base_uri_proto;
+	gchar *base_uri, *base_uri_proto;
 	const gchar *base_dir;
 
 	*on_this_computer = NULL;
@@ -569,7 +569,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 	}
 
 	if (!*personal_source) {
-		char *primary_calendar;
+		gchar *primary_calendar;
 
 		/* Create the default Person calendar */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
@@ -640,7 +640,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 #ifndef G_OS_WIN32
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
-		char *conf_file;
+		gchar *conf_file;
 		struct stat st;
 
 		conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
@@ -650,7 +650,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 
 		if (config_doc && minor <= 2) {
 			GConfClient *gconf;
-			int res = 0;
+			gint res = 0;
 
 			/* move bonobo config to gconf */
 			gconf = gconf_client_get_default ();
@@ -670,7 +670,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 
 		if (minor <= 4) {
 			GSList *migration_dirs, *l;
-			char *path, *local_cal_folder;
+			gchar *path, *local_cal_folder;
 
 			setup_progress_dialog ();
 
@@ -683,12 +683,12 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 				migrate_ical_folder_to_source (local_cal_folder, personal_source, E_CAL_SOURCE_TYPE_EVENT);
 
 			for (l = migration_dirs; l; l = l->next) {
-				char *source_name;
+				gchar *source_name;
 
-				if (personal_source && !strcmp ((char*)l->data, local_cal_folder))
+				if (personal_source && !strcmp ((gchar *)l->data, local_cal_folder))
 					continue;
 
-				source_name = get_source_name (on_this_computer, (char*)l->data);
+				source_name = get_source_name (on_this_computer, (gchar *)l->data);
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT)) {
 					/* FIXME: domain/code */
@@ -708,8 +708,8 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 		if (minor <= 4 || (minor == 5 && micro < 5)) {
 			GConfClient *gconf;
 			GConfValue *gconf_val;
-			int i;
-			const char *keys[] = {
+			gint i;
+			const gchar *keys[] = {
 				CALENDAR_CONFIG_HPANE_POS,
 				CALENDAR_CONFIG_VPANE_POS,
 				CALENDAR_CONFIG_MONTH_HPANE_POS,
@@ -732,7 +732,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 		}
 
 		if (minor < 5 || (minor == 5 && micro <= 10)) {
-			char *old_path, *new_path;
+			gchar *old_path, *new_path;
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
 			new_path = g_build_filename (e_shell_backend_get_config_dir (shell_backend),

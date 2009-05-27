@@ -50,7 +50,7 @@ action_face_cb (GtkAction *action,
 	if (error) {
 
 		GtkWidget *filesel;
-		const char *image_filename;
+		const gchar *image_filename;
 		gsize length;
 
 		GtkFileFilter *filter;
@@ -89,7 +89,7 @@ action_face_cb (GtkAction *action,
 
 					pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 					if (pixbuf) {
-						int width, height;
+						gint width, height;
 
 						g_object_ref (pixbuf);
 

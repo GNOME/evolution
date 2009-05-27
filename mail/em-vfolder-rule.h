@@ -60,9 +60,9 @@ GType        em_vfolder_rule_get_type (void);
 EMVFolderRule *em_vfolder_rule_new      (void);
 
 /* methods */
-void         em_vfolder_rule_add_source    (EMVFolderRule *vr, const char *uri);
-void         em_vfolder_rule_remove_source (EMVFolderRule *vr, const char *uri);
-const char  *em_vfolder_rule_find_source   (EMVFolderRule *vr, const char *uri);
-const char  *em_vfolder_rule_next_source   (EMVFolderRule *vr, const char *last);
+void         em_vfolder_rule_add_source    (EMVFolderRule *vr, const gchar *uri);
+void         em_vfolder_rule_remove_source (EMVFolderRule *vr, const gchar *uri);
+const gchar  *em_vfolder_rule_find_source   (EMVFolderRule *vr, const gchar *uri);
+const gchar  *em_vfolder_rule_next_source   (EMVFolderRule *vr, const gchar *last);
 
 #endif /* ! _EM_VFOLDER_RULE_H */

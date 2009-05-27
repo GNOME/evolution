@@ -52,20 +52,20 @@ typedef struct _e_bconf_map {
 } e_bconf_map_t;
 
 
-char *e_bconf_hex_decode (const char *val);
-char *e_bconf_url_decode (const char *val);
+gchar *e_bconf_hex_decode (const gchar *val);
+gchar *e_bconf_url_decode (const gchar *val);
 
-xmlNodePtr e_bconf_get_path (xmlDocPtr doc, const char *path);
-xmlNodePtr e_bconf_get_entry (xmlNodePtr root, const char *name);
+xmlNodePtr e_bconf_get_path (xmlDocPtr doc, const gchar *path);
+xmlNodePtr e_bconf_get_entry (xmlNodePtr root, const gchar *name);
 
-char *e_bconf_get_value (xmlNodePtr root, const char *name);
-char *e_bconf_get_bool (xmlNodePtr root, const char *name);
-char *e_bconf_get_long (xmlNodePtr root, const char *name);
-char *e_bconf_get_string (xmlNodePtr root, const char *name);
+gchar *e_bconf_get_value (xmlNodePtr root, const gchar *name);
+gchar *e_bconf_get_bool (xmlNodePtr root, const gchar *name);
+gchar *e_bconf_get_long (xmlNodePtr root, const gchar *name);
+gchar *e_bconf_get_string (xmlNodePtr root, const gchar *name);
 
-int e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map_t *map,
-			     const char *bconf_path, const char *gconf_path,
-			     const char *name, const char *idparam);
+gint e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map_t *map,
+			     const gchar *bconf_path, const gchar *gconf_path,
+			     const gchar *name, const gchar *idparam);
 
 
 enum {
@@ -93,7 +93,7 @@ typedef struct {
 	e_gconf_map_t *map;
 } e_gconf_map_list_t;
 
-int e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *remap_list);
+gint e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *remap_list);
 
 #ifdef __cplusplus
 }

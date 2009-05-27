@@ -70,7 +70,7 @@ struct _proxyLoginPrivate {
 	/*Tree View*/
 	GtkTreeView *tree;
 
-	char *help_section;
+	gchar *help_section;
 };
 
 static void
@@ -176,12 +176,12 @@ proxy_login_new (void)
 }
 
 static int
-proxy_get_password (EAccount *account, char **user_name, char **password)
+proxy_get_password (EAccount *account, gchar **user_name, gchar **password)
 {
 	const gchar *failed_auth;
-	char *uri, *key, *prompt;
+	gchar *uri, *key, *prompt;
 	CamelURL *url;
-	const char *poa_address, *use_ssl = NULL, *soap_port;
+	const gchar *poa_address, *use_ssl = NULL, *soap_port;
 
 	url = camel_url_new (account->source->url, NULL);
 	if (url == NULL)
@@ -224,8 +224,8 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 	EGwConnection *cnc;
 	CamelURL *url;
 	const gchar *failed_auth;
-	char *uri = NULL, *key = NULL, *prompt = NULL, *password = NULL;
-	const char *use_ssl = NULL, *soap_port;
+	gchar *uri = NULL, *key = NULL, *prompt = NULL, *password = NULL;
+	const gchar *use_ssl = NULL, *soap_port;
 	gboolean remember;
 
 	url = camel_url_new (account->source->url, NULL);
@@ -260,7 +260,7 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 	g_free (prompt);
 	cnc = e_gw_connection_new (uri, url->user, password);
 	if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
-		char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+		gchar *http_uri = g_strconcat ("http://", uri + 8, NULL);
 		cnc = e_gw_connection_new (http_uri, url->user, password);
 		g_free (http_uri);
 	}
@@ -279,11 +279,11 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 {
 	GtkWidget *account_name_tbox;
 	proxyLoginPrivate *priv;
-	char *proxy_name;
+	gchar *proxy_name;
 
 	priv = pld->priv;
 	account_name_tbox = glade_xml_get_widget (priv->xml, "account_name");
-	proxy_name = g_strdup ((char *) gtk_entry_get_text ((GtkEntry *) account_name_tbox));
+	proxy_name = g_strdup ((gchar *) gtk_entry_get_text ((GtkEntry *) account_name_tbox));
 
 	switch (state) {
 	    case GTK_RESPONSE_OK:
@@ -303,18 +303,18 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 }
 
 static void
-proxy_soap_login (char *email)
+proxy_soap_login (gchar *email)
 {
 	EAccountList *accounts = e_get_account_list ();
 	EAccount *srcAccount;
 	EAccount *dstAccount;
 	EGwConnection *proxy_cnc, *cnc;
 	CamelURL *uri = NULL, *parent = NULL ;
-	char *password = NULL, *user_name = NULL;
-	char *proxy_source_url = NULL, *parent_source_url = NULL ;
-	char *name;
-	int i;
-	int permissions = 0;
+	gchar *password = NULL, *user_name = NULL;
+	gchar *proxy_source_url = NULL, *parent_source_url = NULL ;
+	gchar *name;
+	gint i;
+	gint permissions = 0;
 
 	for (i=0; email[i]!='\0' && email[i]!='@' ; i++);
 	if (email[i]=='@')
@@ -375,11 +375,11 @@ proxy_soap_login (char *email)
 
 
 static void
-proxy_login_add_new_store (char *uri, CamelStore *store, void *user_data)
+proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 {
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
-	int permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
+	gint permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
 
 	if (store == NULL)
 		return;
@@ -399,7 +399,7 @@ proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 	GtkTreeIter iter;
 	GtkWidget *account_name_tbox;
 	GtkTreeModel *model;
-	char *account_mailid;
+	gchar *account_mailid;
 
 	account_select = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->tree));
 	gtk_tree_selection_get_selected (account_select, &model, &iter);
@@ -437,11 +437,11 @@ static void
 proxy_login_update_tree (void)
 {
     	GtkTreeIter iter;
-	int i,n;
+	gint i,n;
 	GdkPixbuf *broken_image = NULL;
 	GList *proxy_list = NULL;
-	char *proxy_name;
-	char *proxy_email;
+	gchar *proxy_name;
+	gchar *proxy_email;
 	EGwConnection *cnc;
 	proxyLoginPrivate *priv = pld->priv;
 	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
@@ -472,12 +472,12 @@ proxy_login_update_tree (void)
 }
 
 void
-org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
+org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, gpointer data)
 {
-	char *uri = data;
+	gchar *uri = data;
 	proxyLoginPrivate *priv;
 	EGwConnection *cnc;
-	char *gladefile;
+	gchar *gladefile;
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
 	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri), NULL);
@@ -514,7 +514,7 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 }
@@ -524,7 +524,7 @@ org_gnome_create_proxy_login_option (EPlugin *ep, EMPopupTargetFolder *t)
 {
 	EAccount *account;
 	GSList *menus = NULL;
-	int i;
+	gint i;
 
 	account = mail_config_get_account_by_source_url (t->uri);
 	if (g_strrstr (t->uri,"groupwise://") && !account->parent_uid) {

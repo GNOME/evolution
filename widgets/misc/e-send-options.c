@@ -97,7 +97,7 @@ struct _ESendOptionsDialogPrivate {
 	GtkWidget *accepted_label;
 	GtkWidget *completed_label;
 	GtkWidget *until_label;
-        char *help_section;
+        gchar *help_section;
 };
 
 static void e_sendoptions_dialog_class_init (GObjectClass *object_class);
@@ -345,7 +345,7 @@ delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
 
 }
 static void
-page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, gpointer data)
+page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, gpointer data)
 {
 	ESendOptionsDialog *sod = data;
 	ESendOptionsDialogPrivate *priv = sod->priv;

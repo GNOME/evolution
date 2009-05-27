@@ -50,11 +50,11 @@ enum
 };
 
 /* eni - error non intrusive*/
-guint		eni_config_get_error_timeout	(const char *path);
+guint		eni_config_get_error_timeout	(const gchar *path);
 void		eni_show_logger			(ELogger *logger,
 						 GtkWidget *widget,
-						 const char *error_timeout_path,
-						 const char *error_level_path);
+						 const gchar *error_timeout_path,
+						 const gchar *error_level_path);
 
 G_END_DECLS
 

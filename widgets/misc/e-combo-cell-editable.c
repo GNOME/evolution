@@ -170,7 +170,7 @@ lookup_row (GList *list, const gchar *text)
 	gint result = 0;
 
 	for (l = list; l; l = l->next, result++)
-		if (!g_utf8_collate (text, (char *) l->data))
+		if (!g_utf8_collate (text, (gchar *) l->data))
 			break;
 
 	return result;

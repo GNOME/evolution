@@ -124,13 +124,13 @@ struct _EMFormatHTMLJob {
 	struct _EMFormatPURITree *puri_level;
 	CamelURL *base;
 
-	void (*callback)(EMFormatHTMLJob *job, int cancelled);
+	void (*callback)(EMFormatHTMLJob *job, gint cancelled);
 	union {
-		char *uri;
+		gchar *uri;
 		CamelMedium *msg;
 		EMFormatPURI *puri;
 		struct _EMFormatPURITree *puri_level;
-		void *data;
+		gpointer data;
 	} u;
 };
 
@@ -164,7 +164,7 @@ struct _EMFormatHTMLPObject {
 	void (*free)(EMFormatHTMLPObject *);
 	EMFormatHTML *format;
 
-	char *classid;
+	gchar *classid;
 
 	EMFormatHTMLPObjectFunc func;
 	CamelMimePart *part;
@@ -216,9 +216,9 @@ struct _EMFormatHTML {
 	GSList *headers;
 
 	guint32 text_html_flags; /* default flags for text to html conversion */
-	unsigned int simple_headers:1; /* simple header format, no box/table */
-	unsigned int hide_headers:1; /* no headers at all */
-	unsigned int show_icon:1; /* show an icon when the sender used Evo */
+	guint simple_headers:1; /* simple header format, no box/table */
+	guint hide_headers:1; /* no headers at all */
+	guint show_icon:1; /* show an icon when the sender used Evo */
 	guint32 header_wrap_flags;
 
 	EMFormatHTMLState state; /* actual state of the object */
@@ -269,12 +269,12 @@ CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
 EMFormatHTMLPObject *
 		em_format_html_add_pobject	(EMFormatHTML *efh,
 						 size_t size,
-						 const char *classid,
+						 const gchar *classid,
 						 CamelMimePart *part,
 						 EMFormatHTMLPObjectFunc func);
 EMFormatHTMLPObject *
 		em_format_html_find_pobject	(EMFormatHTML *efh,
-						 const char *classid);
+						 const gchar *classid);
 EMFormatHTMLPObject *
 		em_format_html_find_pobject_func(EMFormatHTML *efh,
 						 CamelMimePart *part,
@@ -284,8 +284,8 @@ void		em_format_html_remove_pobject	(EMFormatHTML *efh,
 void		em_format_html_clear_pobject	(EMFormatHTML *efh);
 EMFormatHTMLJob *
 		em_format_html_job_new		(EMFormatHTML *efh,
-						 void (*callback)(EMFormatHTMLJob *job, int cancelled),
-						 void *data);
+						 void (*callback)(EMFormatHTMLJob *job, gint cancelled),
+						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);
 

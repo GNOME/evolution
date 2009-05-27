@@ -46,7 +46,7 @@ typedef struct {
 	ETableModel      *model;  /* The backend model. */
 	ETableHeader     *eth;    /* This is just to give to the ETableItem. */
 
-	char             *message;
+	gchar             *message;
 
 	GnomeCanvasItem  *row;    /* If row is NULL, we're sitting with no data and a "Click here" message. */
 	GnomeCanvasItem  *text;   /* If text is NULL, row shouldn't be. */

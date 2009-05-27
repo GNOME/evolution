@@ -63,7 +63,7 @@ etssv_add_array (ETableSubsetVariable *etssv,
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int i;
+	gint i;
 
 	e_table_model_pre_change(etm);
 
@@ -82,8 +82,8 @@ etssv_add_all   (ETableSubsetVariable *etssv)
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int rows;
-	int i;
+	gint rows;
+	gint i;
 
 	e_table_model_pre_change(etm);
 
@@ -104,7 +104,7 @@ etssv_remove    (ETableSubsetVariable *etssv,
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int i;
+	gint i;
 
 	for (i = 0; i < etss->n_map; i++){
 		if (etss->map_table[i] == row) {
@@ -213,7 +213,7 @@ e_table_subset_variable_clear (ETableSubsetVariable *etssv)
 	e_table_model_pre_change (etm);
 	etss->n_map = 0;
 	g_free (etss->map_table);
-	etss->map_table = (int *)g_new (unsigned int, 1);
+	etss->map_table = (gint *)g_new (unsigned int, 1);
 	etssv->n_vals_allocated = 1;
 
 	e_table_model_changed (etm);
@@ -224,7 +224,7 @@ e_table_subset_variable_increment (ETableSubsetVariable *etssv,
 				   gint                  position,
 				   gint                  amount)
 {
-	int i;
+	gint i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] >= position)
@@ -237,7 +237,7 @@ e_table_subset_variable_decrement (ETableSubsetVariable *etssv,
 				   gint                  position,
 				   gint                  amount)
 {
-	int i;
+	gint i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] >= position)

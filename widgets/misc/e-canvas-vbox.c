@@ -41,7 +41,7 @@ static void e_canvas_vbox_dispose (GObject *object);
 static gint e_canvas_vbox_event   (GnomeCanvasItem *item, GdkEvent *event);
 static void e_canvas_vbox_realize (GnomeCanvasItem *item);
 
-static void e_canvas_vbox_reflow (GnomeCanvasItem *item, int flags);
+static void e_canvas_vbox_reflow (GnomeCanvasItem *item, gint flags);
 
 static void e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 static void e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
@@ -295,7 +295,7 @@ e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 }
 
 static void
-e_canvas_vbox_reflow( GnomeCanvasItem *item, int flags )
+e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 {
 	ECanvasVbox *e_canvas_vbox = E_CANVAS_VBOX(item);
 	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {

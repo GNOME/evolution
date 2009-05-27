@@ -40,7 +40,7 @@ typedef void	(*MailMsgDispatchFunc)	(gpointer msg);
 struct _MailMsg {
 	MailMsgInfo *info;
 	volatile gint ref_count;
-	unsigned int seq;	/* seq number for synchronisation */
+	guint seq;	/* seq number for synchronisation */
 	gint priority;		/* priority (default = 0) */
 	CamelOperation *cancel;	/* a cancellation/status handle */
 	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
@@ -66,10 +66,10 @@ gpointer mail_msg_new (MailMsgInfo *info);
 gpointer mail_msg_ref (gpointer msg);
 void mail_msg_unref (gpointer msg);
 void mail_msg_check_error (gpointer msg);
-void mail_msg_cancel(unsigned int msgid);
-void mail_msg_wait(unsigned int msgid);
+void mail_msg_cancel(guint msgid);
+void mail_msg_wait(guint msgid);
 void mail_msg_wait_all(void);
-int mail_msg_active(unsigned int msgid);
+gint mail_msg_active(guint msgid);
 
 /* dispatch a message */
 void mail_msg_main_loop_push (gpointer msg);
@@ -84,13 +84,13 @@ void mail_cancel_all (void);
 void mail_msg_set_cancelable (gpointer msg, gboolean status);
 
 /* request a string/password */
-char *mail_get_password (CamelService *service, const char *prompt,
+gchar *mail_get_password (CamelService *service, const gchar *prompt,
 			 gboolean secret, gboolean *cache);
 
 /* present information and get an ok (or possibly cancel)
  * "type" is as for gnome_message_box_new();
  */
-gboolean mail_user_message (const char *type, const char *prompt, gboolean allow_cancel);
+gboolean mail_user_message (const gchar *type, const gchar *prompt, gboolean allow_cancel);
 
 /* asynchronous event proxies */
 typedef struct _MailAsyncEvent {
@@ -103,14 +103,14 @@ typedef enum _mail_async_event_t {
 	MAIL_ASYNC_THREAD
 } mail_async_event_t;
 
-typedef void (*MailAsyncFunc)(void *, void *, void *);
+typedef void (*MailAsyncFunc)(gpointer , gpointer , gpointer );
 
 /* create a new async event handler */
 MailAsyncEvent *mail_async_event_new(void);
 /* forward a camel event (or other call) to the gui thread */
-int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, void *, void *, void *);
+gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer , gpointer , gpointer );
 /* wait for all outstanding async events to complete */
-int mail_async_event_destroy(MailAsyncEvent *ea);
+gint mail_async_event_destroy(MailAsyncEvent *ea);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
 typedef enum {
@@ -122,9 +122,9 @@ typedef enum {
 	MAIL_CALL_p_ppippp
 } mail_call_t;
 
-typedef void *(*MailMainFunc)();
+typedef gpointer (*MailMainFunc)();
 
-void *mail_call_main(mail_call_t type, MailMainFunc func, ...);
+gpointer mail_call_main(mail_call_t type, MailMainFunc func, ...);
 
 /* use with caution.  only works with active message's anyway */
 void mail_enable_stop(void);

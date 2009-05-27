@@ -112,7 +112,7 @@ ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
-gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const char *uid);
+gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
@@ -179,9 +179,9 @@ void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 
 /* Direct calendar component operations */
 void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
-						 const char* src_uid,
-						 const char* comp_uid,
-						 const char* comp_rid);
+						 const gchar * src_uid,
+						 const gchar * comp_uid,
+						 const gchar * comp_rid);
 
 void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
 

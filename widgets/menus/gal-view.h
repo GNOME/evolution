@@ -50,13 +50,13 @@ typedef struct {
 	 */
 	void        (*edit)           (GalView    *view, GtkWindow *parent_window);
 	void        (*load)           (GalView    *view,
-				       const char *filename);
+				       const gchar *filename);
 	void        (*save)           (GalView    *view,
-				       const char *filename);
-	const char *(*get_title)      (GalView    *view);
+				       const gchar *filename);
+	const gchar *(*get_title)      (GalView    *view);
 	void        (*set_title)      (GalView    *view,
-				       const char *title);
-	const char *(*get_type_code)  (GalView    *view);
+				       const gchar *title);
+	const gchar *(*get_type_code)  (GalView    *view);
 	GalView    *(*clone)          (GalView    *view);
 
 	/* Signals */
@@ -72,17 +72,17 @@ void        gal_view_edit           (GalView    *view,
 
 /* xml load and save functions */
 void        gal_view_load           (GalView    *view,
-				     const char *filename);
+				     const gchar *filename);
 void        gal_view_save           (GalView    *view,
-				     const char *filename);
+				     const gchar *filename);
 
 /* Title functions */
-const char *gal_view_get_title      (GalView    *view);
+const gchar *gal_view_get_title      (GalView    *view);
 void        gal_view_set_title      (GalView    *view,
-				     const char *title);
+				     const gchar *title);
 
 /* View type. */
-const char *gal_view_get_type_code  (GalView    *view);
+const gchar *gal_view_get_type_code  (GalView    *view);
 
 /* Cloning the view */
 GalView    *gal_view_clone          (GalView    *view);

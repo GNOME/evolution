@@ -56,17 +56,17 @@ struct _EMJunkHookTarget {
 struct _EMJunkHookItem {
 	CamelJunkPlugin csp;
 	struct _EMJunkHook *hook; /* parent pointer */
-	char *check_junk;
-	char *report_junk;
-	char *report_non_junk;
-	char *commit_reports;
-	char *validate_binary;
-	char *plugin_name;
+	gchar *check_junk;
+	gchar *report_junk;
+	gchar *report_non_junk;
+	gchar *commit_reports;
+	gchar *validate_binary;
+	gchar *plugin_name;
 };
 
 struct _EMJunkHookGroup {
 	struct _EMJunkHook *hook; /* parent pointer */
-	char *id;		/* target id */
+	gchar *id;		/* target id */
 	GSList *items;		/* items to consider */
 };
 

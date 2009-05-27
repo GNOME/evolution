@@ -42,10 +42,10 @@
 #define d(x)
 
 static gboolean validate(FilterElement *fe);
-static int folder_eq(FilterElement *fe, FilterElement *cm);
+static gint folder_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
-static int xml_decode(FilterElement *fe, xmlNodePtr node);
+static gint xml_decode(FilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget(FilterElement *fe);
 static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp(FilterElement *, GString *);
@@ -133,7 +133,7 @@ em_filter_folder_element_new(void)
 }
 
 void
-em_filter_folder_element_set_value(EMFilterFolderElement *ff, const char *uri)
+em_filter_folder_element_set_value(EMFilterFolderElement *ff, const gchar *uri)
 {
 	g_free(ff->uri);
 	ff->uri = g_strdup(uri);
@@ -179,15 +179,15 @@ xml_encode(FilterElement *fe)
 
 	d(printf("Encoding folder as xml\n"));
 
-	value = xmlNewNode(NULL, (unsigned const char *)"value");
-	xmlSetProp(value, (unsigned const char *)"name", (unsigned char *)fe->name);
+	value = xmlNewNode(NULL, (const guchar *)"value");
+	xmlSetProp(value, (const guchar *)"name", (guchar *)fe->name);
 	if (ff->store_camel_uri)
-		xmlSetProp(value, (unsigned const char *)"type", (unsigned const char *)"folder-curi");
+		xmlSetProp(value, (const guchar *)"type", (const guchar *)"folder-curi");
 	else
-		xmlSetProp(value, (unsigned const char *)"type", (unsigned const char *)"folder");
+		xmlSetProp(value, (const guchar *)"type", (const guchar *)"folder");
 
-	work = xmlNewChild(value, NULL, (unsigned const char *)"folder", NULL);
-	xmlSetProp(work, (unsigned const char *)"uri", (unsigned const char *)ff->uri);
+	work = xmlNewChild(value, NULL, (const guchar *)"folder", NULL);
+	xmlSetProp(work, (const guchar *)"uri", (const guchar *)ff->uri);
 
 	return value;
 }
@@ -202,11 +202,11 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	d(printf("Decoding folder from xml %p\n", fe));
 
 	xmlFree(fe->name);
-	fe->name = (char *)xmlGetProp(node, (unsigned const char *)"name");
+	fe->name = (gchar *)xmlGetProp(node, (const guchar *)"name");
 
-	type = xmlGetProp (node, (unsigned const char *)"type");
+	type = xmlGetProp (node, (const guchar *)"type");
 	if (type) {
-		ff->store_camel_uri = g_str_equal ((const char *)type, "folder-curi");
+		ff->store_camel_uri = g_str_equal ((const gchar *)type, "folder-curi");
 		xmlFree (type);
 	} else {
 		ff->store_camel_uri = FALSE;
@@ -214,10 +214,10 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 
 	n = node->children;
 	while(n) {
-		if (!strcmp((char *)n->name, "folder")) {
-			char *uri;
+		if (!strcmp((gchar *)n->name, "folder")) {
+			gchar *uri;
 
-			uri = (char *)xmlGetProp(n, (unsigned const char *)"uri");
+			uri = (gchar *)xmlGetProp(n, (const guchar *)"uri");
 			g_free(ff->uri);
 			ff->uri = g_strdup(uri);
 			xmlFree(uri);
@@ -232,7 +232,7 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 static void
 folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 {
-	const char *uri;
+	const gchar *uri;
 
 	uri = em_folder_selection_button_get_selection(button);
 	g_free(ff->uri);
@@ -251,7 +251,7 @@ get_widget(FilterElement *fe)
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 	EMFolderTreeModel *model;
 	GtkWidget *button;
-	char *uri;
+	gchar *uri;
 
 	if (ff->store_camel_uri)
 		uri = ff->uri;

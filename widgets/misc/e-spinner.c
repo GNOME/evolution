@@ -100,8 +100,8 @@ typedef struct
 {
 	guint ref_count;
 	GtkIconSize size;
-	int width;
-	int height;
+	gint width;
+	gint height;
 	GdkPixbuf **animation_pixbufs;
 	guint n_animation_pixbufs;
 } ESpinnerImages;
@@ -208,9 +208,9 @@ e_spinner_cache_data_unload (ESpinnerCacheData *data)
 
 static GdkPixbuf *
 extract_frame (GdkPixbuf *grid_pixbuf,
-	       int x,
-	       int y,
-	       int size)
+	       gint x,
+	       gint y,
+	       gint size)
 {
 	GdkPixbuf *pixbuf;
 
@@ -230,11 +230,11 @@ extract_frame (GdkPixbuf *grid_pixbuf,
 
 static GdkPixbuf *
 scale_to_size (GdkPixbuf *pixbuf,
-	       int dw,
-	       int dh)
+	       gint dw,
+	       gint dh)
 {
 	GdkPixbuf *result;
-	int pw, ph;
+	gint pw, ph;
 
 	g_return_val_if_fail (pixbuf != NULL, NULL);
 
@@ -259,8 +259,8 @@ e_spinner_images_load (GdkScreen *screen,
 	ESpinnerImages *images;
 	GdkPixbuf *icon_pixbuf, *pixbuf;
 	GtkIconInfo *icon_info = NULL;
-	int grid_width, grid_height, x, y, requested_size, size, isw, ish, n;
-	const char *icon;
+	gint grid_width, grid_height, x, y, requested_size, size, isw, ish, n;
+	const gchar *icon;
 	GSList *list = NULL, *l;
 
 	LOG ("ESpinnerCacheData loading for screen %p at size %d", screen, icon_size);
@@ -642,7 +642,7 @@ e_spinner_expose (GtkWidget *widget,
 	ESpinnerImages *images;
 	GdkPixbuf *pixbuf;
 	GdkGC *gc;
-	int x_offset, y_offset, width, height;
+	gint x_offset, y_offset, width, height;
 	GdkRectangle pix_area, dest;
 
 	if (!GTK_WIDGET_DRAWABLE (spinner))

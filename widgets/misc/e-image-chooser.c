@@ -37,10 +37,10 @@ struct _EImageChooserPrivate {
 	GtkWidget *image;
 	GtkWidget *browse_button;
 
-	char *image_buf;
-	int   image_buf_size;
-	int   image_width;
-	int   image_height;
+	gchar *image_buf;
+	gint   image_buf_size;
+	gint   image_width;
+	gint   image_height;
 
 	gboolean editable;
 };
@@ -87,7 +87,7 @@ enum DndTargetType {
 static GtkTargetEntry image_drag_types[] = {
 	{ (gchar *) URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
 };
-static const int num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
+static const gint num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
 
 GtkWidget *
 e_image_chooser_new (void)
@@ -222,13 +222,13 @@ e_image_chooser_dispose (GObject *object)
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,
-		     char *data, int length)
+		     gchar *data, gint length)
 {
 	gboolean rv = FALSE;
 	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
 	GdkPixbuf *pixbuf;
 
-	gdk_pixbuf_loader_write (loader, (unsigned char *)data, length, NULL);
+	gdk_pixbuf_loader_write (loader, (guchar *)data, length, NULL);
 	gdk_pixbuf_loader_close (loader, NULL);
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -242,7 +242,7 @@ set_image_from_data (EImageChooser *chooser,
 		GdkPixbuf *composite;
 
 		float scale;
-		int new_height, new_width;
+		gint new_height, new_width;
 
 		new_height = gdk_pixbuf_get_height (pixbuf);
 		new_width = gdk_pixbuf_get_width (pixbuf);
@@ -331,7 +331,7 @@ image_drag_motion_cb (GtkWidget *widget,
 		return FALSE;
 
 	for (p = context->targets; p != NULL; p = p->next) {
-		char *possible_type;
+		gchar *possible_type;
 
 		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
 		if (!strcmp (possible_type, URI_LIST_TYPE)) {
@@ -372,7 +372,7 @@ image_drag_drop_cb (GtkWidget *widget,
 	}
 
 	for (p = context->targets; p != NULL; p = p->next) {
-		char *possible_type;
+		gchar *possible_type;
 
 		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
 		if (!strcmp (possible_type, URI_LIST_TYPE)) {
@@ -398,22 +398,22 @@ image_drag_data_received_cb (GtkWidget *widget,
 			     GtkSelectionData *selection_data,
 			     guint info, guint time, EImageChooser *chooser)
 {
-	char *target_type;
+	gchar *target_type;
 	gboolean handled = FALSE;
 
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, URI_LIST_TYPE)) {
 		GError *error = NULL;
-		char *uri;
-		char *nl = strstr ((char *)selection_data->data, "\r\n");
-		char *buf = NULL;
+		gchar *uri;
+		gchar *nl = strstr ((gchar *)selection_data->data, "\r\n");
+		gchar *buf = NULL;
 		gsize read = 0;
 
 		if (nl)
-			uri = g_strndup ((char *)selection_data->data, nl - (char*)selection_data->data);
+			uri = g_strndup ((gchar *)selection_data->data, nl - (gchar *)selection_data->data);
 		else
-			uri = g_strdup ((char *)selection_data->data);
+			uri = g_strdup ((gchar *)selection_data->data);
 
 		if (e_util_read_file (uri, TRUE, &buf, &read, &error) && read > 0 && buf) {
 			if (set_image_from_data (chooser, buf, read)) {
@@ -436,7 +436,7 @@ image_drag_data_received_cb (GtkWidget *widget,
 
 
 gboolean
-e_image_chooser_set_from_file (EImageChooser *chooser, const char *filename)
+e_image_chooser_set_from_file (EImageChooser *chooser, const gchar *filename)
 {
 	gchar *data;
 	gsize data_length;
@@ -465,7 +465,7 @@ e_image_chooser_set_editable (EImageChooser *chooser, gboolean editable)
 }
 
 gboolean
-e_image_chooser_get_image_data (EImageChooser *chooser, char **data, gsize *data_length)
+e_image_chooser_get_image_data (EImageChooser *chooser, gchar **data, gsize *data_length)
 {
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
@@ -479,9 +479,9 @@ e_image_chooser_get_image_data (EImageChooser *chooser, char **data, gsize *data
 }
 
 gboolean
-e_image_chooser_set_image_data (EImageChooser *chooser, char *data, gsize data_length)
+e_image_chooser_set_image_data (EImageChooser *chooser, gchar *data, gsize data_length)
 {
-	char *buf;
+	gchar *buf;
 
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);

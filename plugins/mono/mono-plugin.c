@@ -37,7 +37,7 @@
 static MonoDomain *domain;
 
 /* ********************************************************************** */
-static void *epm_parent_class;
+static gpointer epm_parent_class;
 
 typedef struct _EPluginMonoPrivate {
 	MonoAssembly *assembly;
@@ -48,13 +48,13 @@ typedef struct _EPluginMonoPrivate {
 
 #define epm ((EPluginMono *)ep)
 
-void * load_plugin_type_register_function (void *a, void *b);
+gpointer  load_plugin_type_register_function (gpointer a, gpointer b);
 
-static char *
-get_xml_prop(xmlNodePtr node, const char *id)
+static gchar *
+get_xml_prop(xmlNodePtr node, const gchar *id)
 {
-	char *p = xmlGetProp(node, id);
-	char *out = NULL;
+	gchar *p = xmlGetProp(node, id);
+	gchar *out = NULL;
 
 	if (p) {
 		out = g_strdup(p);
@@ -72,14 +72,14 @@ get_xml_prop(xmlNodePtr node, const char *id)
    All methods take a single (structured) argument.
 */
 
-static void *
-epm_invoke(EPlugin *ep, const char *name, void *data)
+static gpointer
+epm_invoke(EPlugin *ep, const gchar *name, gpointer data)
 {
 	EPluginMonoPrivate *p = epm->priv;
 	MonoMethodDesc *d;
 	MonoMethod *m;
 	MonoObject *x = NULL, *res;
-	void **params;
+	gpointer *params;
 
 	g_print ("\n\a epm_invoke in mono-plugin.c in mono plugin loader is called \n\a");
 
@@ -158,7 +158,7 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 		mono_print_unhandled_exception(x);
 
 	if (res) {
-		void **p = mono_object_unbox(res);
+		gpointer *p = mono_object_unbox(res);
 		d(printf("mono method returned '%p' %ld\n", *p, (long int)*p));
 		return *p;
 	} else
@@ -217,8 +217,8 @@ epm_init(GObject *o)
 		(GDestroyNotify) NULL);
 }
 
-void *
-load_plugin_type_register_function (void *a, void *b)
+gpointer
+load_plugin_type_register_function (gpointer a, gpointer b)
 {
 	static GType type = 0;
 

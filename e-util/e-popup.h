@@ -44,9 +44,9 @@ typedef struct _EPopupItem EPopupItem;
 typedef struct _EPopupFactory EPopupFactory; /* anonymous type */
 typedef struct _EPopupTarget EPopupTarget;
 
-typedef void (*EPopupActivateFunc)(EPopup *ep, EPopupItem *item, void *data);
-typedef void (*EPopupFactoryFunc)(EPopup *emp, void *data);
-typedef void (*EPopupItemsFunc)(EPopup *ep, GSList *items, void *data);
+typedef void (*EPopupActivateFunc)(EPopup *ep, EPopupItem *item, gpointer data);
+typedef void (*EPopupFactoryFunc)(EPopup *emp, gpointer data);
+typedef void (*EPopupItemsFunc)(EPopup *ep, GSList *items, gpointer data);
 
 /**
  * enum _e_popup_t - Popup item type enumeration.
@@ -116,11 +116,11 @@ enum _e_popup_t {
  */
 struct _EPopupItem {
 	enum _e_popup_t type;
-	char *path;		/* absolute path! must sort ascii-lexographically into the right spot */
-	char *label;
+	gchar *path;		/* absolute path! must sort ascii-lexographically into the right spot */
+	gchar *label;
 	EPopupActivateFunc activate;
-	void *user_data;	/* user data, not passed directly to @activate */
-	void *image;		/* char* for item type, GtkWidget * for image type */
+	gpointer user_data;	/* user data, not passed directly to @activate */
+	gpointer image;		/* gchar * for item type, GtkWidget * for image type */
 	guint32 visible;	/* visibility mask */
 	guint32 enable;		/* sensitivity mask */
 };
@@ -168,7 +168,7 @@ struct _EPopup {
 
 	struct _EPopupPrivate *priv;
 
-	char *menuid;
+	gchar *menuid;
 
 	EPopupTarget *target;
 };
@@ -198,23 +198,23 @@ struct _EPopupClass {
 
 GType e_popup_get_type(void);
 
-EPopup *e_popup_new(const char *menuid);
+EPopup *e_popup_new(const gchar *menuid);
 
 /* Static class methods */
-EPopupFactory *e_popup_class_add_factory(EPopupClass *klass, const char *menuid, EPopupFactoryFunc func, void *data);
+EPopupFactory *e_popup_class_add_factory(EPopupClass *klass, const gchar *menuid, EPopupFactoryFunc func, gpointer data);
 void e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f);
 
-EPopup *e_popup_construct(EPopup *, const char *menuid);
+EPopup *e_popup_construct(EPopup *, const gchar *menuid);
 
-void e_popup_add_items(EPopup *, GSList *items, const char *domain, EPopupItemsFunc freefunc, void *data);
+void e_popup_add_items(EPopup *, GSList *items, const gchar *domain, EPopupItemsFunc freefunc, gpointer data);
 
 void e_popup_add_static_items(EPopup *emp, EPopupTarget *target);
 /* do not call e_popup_create_menu, it can leak structures if not used right */
 struct _GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 mask);
 struct _GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 mask);
 
-void *e_popup_target_new(EPopup *, int type, size_t size);
-void e_popup_target_free(EPopup *, void *);
+gpointer e_popup_target_new(EPopup *, gint type, size_t size);
+void e_popup_target_free(EPopup *, gpointer );
 
 /* ********************************************************************** */
 
@@ -250,10 +250,10 @@ typedef void (*EPopupHookFunc)(struct _EPlugin *plugin, EPopupTarget *target);
  */
 struct _EPopupHookMenu {
 	struct _EPopupHook *hook; /* parent pointer */
-	char *id;		/* target menu id for these menu items */
-	int target_type;	/* target type of this menu */
+	gchar *id;		/* target menu id for these menu items */
+	gint target_type;	/* target type of this menu */
 	GSList *items;		/* items to add to menu */
-	char *factory;		/* optional factory to call for adding menu items */
+	gchar *factory;		/* optional factory to call for adding menu items */
 };
 
 /**

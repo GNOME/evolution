@@ -45,9 +45,9 @@ struct _FilterPart {
 	GObject parent_object;
 	struct _FilterPartPrivate *priv;
 
-	char *name;
-	char *title;
-	char *code;
+	gchar *name;
+	gchar *title;
+	gchar *code;
 	GList *elements;
 };
 
@@ -64,25 +64,25 @@ FilterPart     *filter_part_new          (void);
 
 /* methods */
 gboolean        filter_part_validate     (FilterPart *fp);
-int             filter_part_eq           (FilterPart *fp, FilterPart *fc);
+gint             filter_part_eq           (FilterPart *fp, FilterPart *fc);
 
-int             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node, struct _RuleContext *rc);
+gint             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node, struct _RuleContext *rc);
 
 xmlNodePtr      filter_part_xml_encode   (FilterPart *fe);
-int             filter_part_xml_decode   (FilterPart *fe, xmlNodePtr node);
+gint             filter_part_xml_decode   (FilterPart *fe, xmlNodePtr node);
 
 FilterPart     *filter_part_clone        (FilterPart *fp);
 void            filter_part_copy_values  (FilterPart *dfp, FilterPart *sfp);
 
-FilterElement  *filter_part_find_element (FilterPart *ff, const char *name);
+FilterElement  *filter_part_find_element (FilterPart *ff, const gchar *name);
 
 GtkWidget      *filter_part_get_widget   (FilterPart *ff);
 void		filter_part_build_code   (FilterPart *ff, GString *out);
-void		filter_part_expand_code  (FilterPart *ff, const char *str, GString *out);
+void		filter_part_expand_code  (FilterPart *ff, const gchar *str, GString *out);
 
 /* static functions */
 void            filter_part_build_code_list (GList *l, GString *out);
-FilterPart     *filter_part_find_list    (GList *l, const char *name);
+FilterPart     *filter_part_find_list    (GList *l, const gchar *name);
 FilterPart     *filter_part_next_list    (GList *l, FilterPart *last);
 
 #endif /* ! _FILTER_PART_H */

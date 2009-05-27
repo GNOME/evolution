@@ -522,7 +522,7 @@ void
 em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button,
                                                GList *uris)
 {
-	char *caption, *tmp, *tmp2;
+	gchar *caption, *tmp, *tmp2;
 
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 

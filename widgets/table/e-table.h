@@ -80,21 +80,21 @@ typedef struct {
 	guint   	  search_search_id;
 	guint   	  search_accept_id;
 
-	int table_model_change_id;
-	int table_row_change_id;
-	int table_cell_change_id;
-	int table_rows_inserted_id;
-	int table_rows_deleted_id;
+	gint table_model_change_id;
+	gint table_row_change_id;
+	gint table_cell_change_id;
+	gint table_rows_inserted_id;
+	gint table_rows_deleted_id;
 
-	int group_info_change_id;
-	int sort_info_change_id;
+	gint group_info_change_id;
+	gint sort_info_change_id;
 
-	int structure_change_id;
-	int expansion_change_id;
-	int dimension_change_id;
+	gint structure_change_id;
+	gint expansion_change_id;
+	gint dimension_change_id;
 
-	int reflow_idle_id;
-	int scroll_idle_id;
+	gint reflow_idle_id;
+	gint scroll_idle_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 
@@ -131,41 +131,41 @@ typedef struct {
 	guint always_search : 1;
 	guint search_col_set : 1;
 
-	char *click_to_add_message;
+	gchar *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
 	gboolean use_click_to_add;
 	gboolean use_click_to_add_end;
 
 	ECursorMode cursor_mode;
 
-	int drop_row;
-	int drop_col;
+	gint drop_row;
+	gint drop_col;
 	GnomeCanvasItem *drop_highlight;
-	int last_drop_x;
-	int last_drop_y;
-	int last_drop_time;
+	gint last_drop_x;
+	gint last_drop_y;
+	gint last_drop_time;
 	GdkDragContext *last_drop_context;
 
-	int drag_row;
-	int drag_col;
+	gint drag_row;
+	gint drag_col;
 	ETableDragSourceSite *site;
 
-	int header_width;
+	gint header_width;
 
-	char *domain;
+	gchar *domain;
 } ETable;
 
 typedef struct {
 	GtkTableClass parent_class;
 
-	void        (*cursor_change)      (ETable *et, int row);
-	void        (*cursor_activated)   (ETable *et, int row);
+	void        (*cursor_change)      (ETable *et, gint row);
+	void        (*cursor_activated)   (ETable *et, gint row);
 	void        (*selection_change)   (ETable *et);
-	void        (*double_click)       (ETable *et, int row, int col, GdkEvent *event);
-	gint        (*right_click)        (ETable *et, int row, int col, GdkEvent *event);
-	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
-	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
-	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
+	void        (*double_click)       (ETable *et, gint row, gint col, GdkEvent *event);
+	gint        (*right_click)        (ETable *et, gint row, gint col, GdkEvent *event);
+	gint        (*click)              (ETable *et, gint row, gint col, GdkEvent *event);
+	gint        (*key_press)          (ETable *et, gint row, gint col, GdkEvent *event);
+	gint        (*start_drag)         (ETable *et, gint row, gint col, GdkEvent *event);
 	void        (*state_change)       (ETable *et);
 	gint        (*white_space_event)  (ETable *et, GdkEvent *event);
 
@@ -175,48 +175,48 @@ typedef struct {
 
 	/* Source side drag signals */
 	void (* table_drag_begin)	           (ETable	       *table,
-						    int                 row,
-						    int                 col,
+						    gint                 row,
+						    gint                 col,
 						    GdkDragContext     *context);
 	void (* table_drag_end)	           (ETable	       *table,
-					    int                 row,
-					    int                 col,
+					    gint                 row,
+					    gint                 col,
 					    GdkDragContext     *context);
 	void (* table_drag_data_get)             (ETable             *table,
-						  int                 row,
-						  int                 col,
+						  gint                 row,
+						  gint                 col,
 						  GdkDragContext     *context,
 						  GtkSelectionData   *selection_data,
 						  guint               info,
 						  guint               time);
 	void (* table_drag_data_delete)          (ETable	       *table,
-						  int                 row,
-						  int                 col,
+						  gint                 row,
+						  gint                 col,
 						  GdkDragContext     *context);
 
 	/* Target side drag signals */
 	void (* table_drag_leave)	           (ETable	       *table,
-						    int                 row,
-						    int                 col,
+						    gint                 row,
+						    gint                 col,
 						    GdkDragContext     *context,
 						    guint               time);
 	gboolean (* table_drag_motion)           (ETable	       *table,
-						  int                 row,
-						  int                 col,
+						  gint                 row,
+						  gint                 col,
 						  GdkDragContext     *context,
 						  gint                x,
 						  gint                y,
 						  guint               time);
 	gboolean (* table_drag_drop)             (ETable	       *table,
-						  int                 row,
-						  int                 col,
+						  gint                 row,
+						  gint                 col,
 						  GdkDragContext     *context,
 						  gint                x,
 						  gint                y,
 						  guint               time);
 	void (* table_drag_data_received)        (ETable             *table,
-						  int                 row,
-						  int                 col,
+						  gint                 row,
+						  gint                 col,
 						  GdkDragContext     *context,
 						  gint                x,
 						  gint                y,
@@ -228,23 +228,23 @@ GType            e_table_get_type                  (void);
 ETable          *e_table_construct                 (ETable               *e_table,
 						    ETableModel          *etm,
 						    ETableExtras         *ete,
-						    const char           *spec,
-						    const char           *state);
+						    const gchar           *spec,
+						    const gchar           *state);
 GtkWidget       *e_table_new                       (ETableModel          *etm,
 						    ETableExtras         *ete,
-						    const char           *spec,
-						    const char           *state);
+						    const gchar           *spec,
+						    const gchar           *state);
 
 /* Create an ETable using files. */
 ETable          *e_table_construct_from_spec_file  (ETable               *e_table,
 						    ETableModel          *etm,
 						    ETableExtras         *ete,
-						    const char           *spec_fn,
-						    const char           *state_fn);
+						    const gchar           *spec_fn,
+						    const gchar           *state_fn);
 GtkWidget       *e_table_new_from_spec_file        (ETableModel          *etm,
 						    ETableExtras         *ete,
-						    const char           *spec_fn,
-						    const char           *state_fn);
+						    const gchar           *spec_fn,
+						    const gchar           *state_fn);
 
 /* To save the state */
 gchar           *e_table_get_state                 (ETable               *e_table);
@@ -260,10 +260,10 @@ void             e_table_set_state_object          (ETable               *e_tabl
 void             e_table_load_state                (ETable               *e_table,
 						    const gchar          *filename);
 void             e_table_set_cursor_row            (ETable               *e_table,
-						    int                   row);
+						    gint                   row);
 
 /* -1 means we don't have the cursor.  This is in model rows. */
-int              e_table_get_cursor_row            (ETable               *e_table);
+gint              e_table_get_cursor_row            (ETable               *e_table);
 void             e_table_selected_row_foreach      (ETable               *e_table,
 						    EForeachFunc          callback,
 						    gpointer              closure);
@@ -278,18 +278,18 @@ gint             e_table_model_to_view_row         (ETable               *e_tabl
 gint             e_table_view_to_model_row         (ETable               *e_table,
 						    gint                  view_row);
 void             e_table_get_cell_at               (ETable               *table,
-						    int                   x,
-						    int                   y,
-						    int                  *row_return,
-						    int                  *col_return);
-void e_table_get_mouse_over_cell (ETable *table, int *row, int *col);
+						    gint                   x,
+						    gint                   y,
+						    gint                  *row_return,
+						    gint                  *col_return);
+void e_table_get_mouse_over_cell (ETable *table, gint *row, gint *col);
 void             e_table_get_cell_geometry         (ETable               *table,
-						    int                   row,
-						    int                   col,
-						    int                  *x_return,
-						    int                  *y_return,
-						    int                  *width_return,
-						    int                  *height_return);
+						    gint                   row,
+						    gint                   col,
+						    gint                  *x_return,
+						    gint                  *y_return,
+						    gint                  *width_return,
+						    gint                  *height_return);
 
 /* Useful accessor functions. */
 ESelectionModel *e_table_get_selection_model       (ETable               *table);
@@ -297,14 +297,14 @@ ESelectionModel *e_table_get_selection_model       (ETable               *table)
 /* Drag & drop stuff. */
 /* Target */
 void             e_table_drag_get_data             (ETable               *table,
-						    int                   row,
-						    int                   col,
+						    gint                   row,
+						    gint                   col,
 						    GdkDragContext       *context,
 						    GdkAtom               target,
 						    guint32               time);
 void             e_table_drag_highlight            (ETable               *table,
-						    int                   row,
-						    int                   col); /* col == -1 to highlight entire row. */
+						    gint                   row,
+						    gint                   col); /* col == -1 to highlight entire row. */
 void             e_table_drag_unhighlight          (ETable               *table);
 void             e_table_drag_dest_set             (ETable               *table,
 						    GtkDestDefaults       flags,
@@ -333,8 +333,8 @@ void             e_table_drag_source_unset         (ETable               *table)
  * as a GtkTargetList
  */
 GdkDragContext  *e_table_drag_begin                (ETable               *table,
-						    int                   row,
-						    int                   col,
+						    gint                   row,
+						    gint                   col,
 						    GtkTargetList        *targets,
 						    GdkDragAction         actions,
 						    gint                  button,

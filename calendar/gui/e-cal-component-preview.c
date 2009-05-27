@@ -59,7 +59,7 @@ cal_component_preview_on_url (GtkHTML *html,
                               const gchar *url)
 {
 #if 0
-	char *msg;
+	gchar *msg;
 	ECalComponentPreview *preview = data;
 
 	if (url && *url) {
@@ -72,7 +72,7 @@ cal_component_preview_on_url (GtkHTML *html,
 }
 
 /* Converts a time_t to a string, relative to the specified timezone */
-static char *
+static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,
                         ECal *ecal,
                         icaltimezone *default_zone)
@@ -80,7 +80,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 	struct icaltimetype itt;
 	icaltimezone *zone;
         struct tm tm;
-        char buf[256];
+        gchar buf[256];
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
@@ -118,8 +118,8 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	icalproperty_status status;
-	const char *location;
-	int *priority_value;
+	const gchar *location;
+	gint *priority_value;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
@@ -265,7 +265,7 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		gtk_html_stream_printf (stream, "<TD><TT>");
 
 		for (node = list; node != NULL; node = node->next) {
-			char *html;
+			gchar *html;
 
 			text = * (ECalComponentText *) node->data;
 			html = camel_text_to_html (text.value ? text.value : "", CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
@@ -282,7 +282,7 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 	}
 
 	/* URL */
-	e_cal_component_get_url (comp, (const char **) &str);
+	e_cal_component_get_url (comp, (const gchar **) &str);
 	if (str) {
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);

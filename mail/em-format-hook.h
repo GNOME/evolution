@@ -55,12 +55,12 @@ struct _EMFormatHookItem {
 	EMFormatHandler handler;
 
 	struct _EMFormatHook *hook; /* parent pointer */
-	char *format;		/* format handler */
+	gchar *format;		/* format handler */
 };
 
 struct _EMFormatHookGroup {
 	struct _EMFormatHook *hook; /* parent pointer */
-	char *id;		/* target formatter id */
+	gchar *id;		/* target formatter id */
 	GSList *items;		/* items to consider */
 };
 

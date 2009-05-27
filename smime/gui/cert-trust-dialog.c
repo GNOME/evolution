@@ -51,7 +51,7 @@ typedef struct {
 } CertTrustDialogData;
 
 static void
-free_data (void *data)
+free_data (gpointer data)
 {
 	CertTrustDialogData *ctd = data;
 
@@ -116,7 +116,7 @@ cert_trust_dialog_show (ECert *cert)
 {
 	CertTrustDialogData *ctd_data;
 	CERTCertificate *icert;
-	char *gladefile;
+	gchar *gladefile;
 
 	ctd_data = g_new0 (CertTrustDialogData, 1);
 

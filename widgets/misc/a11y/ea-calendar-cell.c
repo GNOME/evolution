@@ -80,7 +80,7 @@ e_calendar_cell_new (ECalendarItem *calitem, gint row, gint column)
 	cell->column = column;
 
 #ifdef ACC_DEBUG
-	g_print ("EvoAcc: e_calendar_cell created %p\n", (void *)cell);
+	g_print ("EvoAcc: e_calendar_cell created %p\n", (gpointer)cell);
 #endif
 
 	return cell;
@@ -91,8 +91,8 @@ e_calendar_cell_new (ECalendarItem *calitem, gint row, gint column)
 static void ea_calendar_cell_class_init (EaCalendarCellClass *klass);
 static void ea_calendar_cell_init (EaCalendarCell *a11y);
 
-static G_CONST_RETURN gchar* ea_calendar_cell_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_calendar_cell_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_calendar_cell_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_calendar_cell_get_description (AtkObject *accessible);
 static AtkObject * ea_calendar_cell_get_parent (AtkObject *accessible);
 static gint ea_calendar_cell_get_index_in_parent (AtkObject *accessible);
 static AtkStateSet *ea_calendar_cell_ref_state_set (AtkObject *accessible);
@@ -209,7 +209,7 @@ static void ea_calendar_cell_finalize (GObject *object)
 }
 #endif
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_calendar_cell_get_name (AtkObject *accessible)
 {
 	GObject *g_obj;
@@ -243,7 +243,7 @@ ea_calendar_cell_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_calendar_cell_get_description (AtkObject *accessible)
 {
 	return ea_calendar_cell_get_name (accessible);

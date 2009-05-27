@@ -36,7 +36,7 @@
 static AtkObjectClass *parent_class;
 static GType parent_type;
 static gint priv_offset;
-#define GET_PRIVATE(object) ((GalA11yETableClickToAddPrivate *) (((char *) object) + priv_offset))
+#define GET_PRIVATE(object) ((GalA11yETableClickToAddPrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETableClickToAddPrivate {
@@ -51,7 +51,7 @@ etcta_get_n_actions (AtkAction *action)
 	return 1;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 etcta_get_description (AtkAction *action,
                              gint      i)
 {
@@ -61,7 +61,7 @@ etcta_get_description (AtkAction *action,
 	return NULL;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 etcta_action_get_name (AtkAction *action, gint      i)
 {
 	if (i == 0)

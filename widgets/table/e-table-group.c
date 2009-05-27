@@ -101,7 +101,7 @@ e_table_group_new (GnomeCanvasGroup *parent,
 		   ETableHeader     *header,
 		   ETableModel      *model,
 		   ETableSortInfo   *sort_info,
-		   int               n)
+		   gint               n)
 {
 	g_return_val_if_fail (model != NULL, NULL);
 
@@ -170,8 +170,8 @@ e_table_group_add (ETableGroup *etg,
  */
 void
 e_table_group_add_array (ETableGroup *etg,
-			 const int *array,
-			 int count)
+			 const gint *array,
+			 gint count)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -372,7 +372,7 @@ e_table_group_get_printable (ETableGroup *etg)
  * %ETableGroup is removed from the value y points to.
  */
 void
-e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+e_table_group_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -382,7 +382,7 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
 }
 
 void
-e_table_group_get_mouse_over (ETableGroup *etg, int *row, int *col)
+e_table_group_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
@@ -407,12 +407,12 @@ e_table_group_get_mouse_over (ETableGroup *etg, int *row, int *col)
  */
 void
 e_table_group_get_cell_geometry  (ETableGroup *etg,
-				  int         *row,
-				  int         *col,
-				  int         *x,
-				  int         *y,
-				  int         *width,
-				  int         *height)
+				  gint         *row,
+				  gint         *col,
+				  gint         *x,
+				  gint         *y,
+				  gint         *width,
+				  gint         *height)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));

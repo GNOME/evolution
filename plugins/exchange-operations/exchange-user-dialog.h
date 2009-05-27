@@ -48,9 +48,9 @@ struct _E2kUserDialogClass {
 
 GType      e2k_user_dialog_get_type (void);
 GtkWidget *e2k_user_dialog_new      (GtkWidget     *parent_window,
-				     const char    *label_text,
-				     const char    *section_name);
-char      *e2k_user_dialog_get_user (E2kUserDialog *dialog);
+				     const gchar    *label_text,
+				     const gchar    *section_name);
+gchar      *e2k_user_dialog_get_user (E2kUserDialog *dialog);
 GList      *e2k_user_dialog_get_user_list (E2kUserDialog *dialog);
 
 #endif /* __E2K_USER_DIALOG_H__ */

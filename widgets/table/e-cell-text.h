@@ -54,27 +54,27 @@ typedef struct {
 	ECell parent;
 
 	GtkJustification  justify;
-	char             *font_name;
+	gchar             *font_name;
 
 	double x, y;			/* Position at anchor */
 
 	gulong pixel;			/* Fill color */
 
 	/* Clip handling */
-	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
+	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
 	guint editable : 1;		/* Whether the text can be edited. */
 
-	int strikeout_column;
-	int underline_column;
-	int bold_column;
+	gint strikeout_column;
+	gint underline_column;
+	gint bold_column;
 
 	/* This column in the ETable should return a string specifying a color,
 	   either a color name like "red" or a color spec like "rgb:F/0/0".
 	   See the XParseColor man page for the formats available. */
-	int color_column;
-	int bg_color_column;
+	gint color_column;
+	gint bg_color_column;
 
 	/* This stores the colors we have allocated. */
 	GHashTable *colors;
@@ -83,28 +83,28 @@ typedef struct {
 typedef struct {
 	ECellClass parent_class;
 
-	char *(*get_text)  (ECellText *cell, ETableModel *model, int col, int row);
-	void  (*free_text) (ECellText *cell, char *text);
-	void  (*set_value) (ECellText *cell, ETableModel *model, int col, int row, const char *text);
+	gchar *(*get_text)  (ECellText *cell, ETableModel *model, gint col, gint row);
+	void  (*free_text) (ECellText *cell, gchar *text);
+	void  (*set_value) (ECellText *cell, ETableModel *model, gint col, gint row, const gchar *text);
 	/* signal handlers */
-	void (*text_inserted) (ECellText *cell, ECellView *cell_view, int pos, int len, int row, int model_col);
-	void (*text_deleted)  (ECellText *cell, ECellView *cell_view, int pos, int len, int row, int model_col);
+	void (*text_inserted) (ECellText *cell, ECellView *cell_view, gint pos, gint len, gint row, gint model_col);
+	void (*text_deleted)  (ECellText *cell, ECellView *cell_view, gint pos, gint len, gint row, gint model_col);
 } ECellTextClass;
 
 GType      e_cell_text_get_type (void);
-ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
-ECell     *e_cell_text_construct(ECellText *cell, const char *fontname, GtkJustification justify);
+ECell     *e_cell_text_new      (const gchar *fontname, GtkJustification justify);
+ECell     *e_cell_text_construct(ECellText *cell, const gchar *fontname, GtkJustification justify);
 
 /* Gets the value from the model and converts it into a string. In ECellText
-   itself, the value is assumed to be a char* and so needs no conversion.
+   itself, the value is assumed to be a gchar * and so needs no conversion.
    In subclasses the ETableModel value may be a more complicated datatype. */
-char	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, int col, int row);
+char	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, gint col, gint row);
 
 /* Frees the value returned by e_cell_text_get_text(). */
-void	   e_cell_text_free_text (ECellText *cell, char *text);
+void	   e_cell_text_free_text (ECellText *cell, gchar *text);
 
 /* Sets the ETableModel value, based on the given string. */
-void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row, const char *text);
+void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, gint col, gint row, const gchar *text);
 
 /* Sets the selection of given text cell */
 gboolean e_cell_text_set_selection (ECellView *cell_view, gint col, gint row, gint start, gint end);
@@ -122,7 +122,7 @@ void e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row);
 void e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row);
 
 /* get text directly from view, both col and row are model format */
-char *e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row);
+gchar *e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row);
 
 G_END_DECLS
 

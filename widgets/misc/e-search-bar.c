@@ -99,8 +99,8 @@ clear_button_state_changed (GtkWidget *clear_button, GtkStateType state, ESearch
 		update_clear_menuitem_sensitive (search_bar);
 }
 
-static char *
-verb_name_from_id (int id)
+static gchar *
+verb_name_from_id (gint id)
 {
 	return g_strdup_printf ("ESearchBar:Activate:%d", id);
 }
@@ -268,7 +268,7 @@ static void
 entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
-	const char *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
+	const gchar *text = gtk_entry_get_text (GTK_ENTRY (esb->entry));
 	GtkStyle *style = gtk_widget_get_default_style ();
 
 	if (text && *text) {
@@ -607,7 +607,7 @@ search_bar_dispose (GObject *object)
 /* /\* Callback used when an option item is destroyed.  We have to destroy its */
 /*  * suboption items. */
 /*  *\/ */
-/* static void */
+/* static gpointer /
 /* option_item_destroy_cb (GtkObject *object, gpointer data) */
 /* { */
 /* /\* 	ESearchBarSubitem *subitems; *\/ */
@@ -624,7 +624,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu;
 	GSList *group = NULL;
-	int i;
+	gint i;
 
 	if (esb->option_menu)
 		gtk_widget_destroy (esb->option_menu);
@@ -638,7 +638,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 			group = NULL;
 
 		if (items[i].text) {
-			char *str;
+			gchar *str;
 			str = e_str_without_underscores (_(items[i].text));
 			switch (items[i].type) {
 			    case ESB_ITEMTYPE_NORMAL:

@@ -301,8 +301,8 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
 	/* rid is never used in this function? */
-	const char *uid;
-	char *rid = NULL;
+	const gchar *uid;
+	gchar *rid = NULL;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
@@ -332,13 +332,13 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 }
 
 static void
-update_row (EWeekView *week_view, int row)
+update_row (EWeekView *week_view, gint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 	gint event_num;
-	const char *uid;
-	char *rid = NULL;
+	const gchar *uid;
+	gchar *rid = NULL;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	comp_data = e_cal_model_get_component_at (model, row);
@@ -365,7 +365,7 @@ update_row (EWeekView *week_view, int row)
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
+model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
 
@@ -378,7 +378,7 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 }
 
 static void
-model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
+model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
 
@@ -390,11 +390,11 @@ model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
 }
 
 static void
-model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data)
+model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
 	ECalModel *model;
-	int i;
+	gint i;
 
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		return;
@@ -430,8 +430,8 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 
 	for (l = list; l != NULL; l = g_slist_next (l)) {
 		gint event_num;
-		const char *uid;
-		char *rid = NULL;
+		const gchar *uid;
+		gchar *rid = NULL;
 		ECalModelComponent *comp_data = l->data;
 
 		uid = icalcomponent_get_uid (comp_data->icalcomp);
@@ -592,7 +592,7 @@ e_week_view_init (EWeekView *week_view)
 			  G_CALLBACK (e_week_view_on_motion), week_view);
 
 	/* Create the buttons to jump to each days. */
-	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm);
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
 
 	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
 		week_view->jump_buttons[i] = gnome_canvas_item_new
@@ -1968,7 +1968,7 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 	for (event_num = week_view->events->len - 1;
 	     event_num >= 0;
 	     event_num--) {
-		const char *u;
+		const gchar *u;
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
@@ -2567,8 +2567,8 @@ e_week_view_ensure_events_sorted (EWeekView *week_view)
 
 
 gint
-e_week_view_event_sort_func (const void *arg1,
-			     const void *arg2)
+e_week_view_event_sort_func (gconstpointer arg1,
+			     gconstpointer arg2)
 {
 	EWeekViewEvent *event1, *event2;
 
@@ -2654,7 +2654,7 @@ e_week_view_reshape_events (EWeekView *week_view)
 }
 
 static EWeekViewEvent *
-tooltip_get_view_event (EWeekView *week_view, int day, int event_num)
+tooltip_get_view_event (EWeekView *week_view, gint day, gint event_num)
 {
 	EWeekViewEvent *pevent;
 
@@ -2666,7 +2666,7 @@ tooltip_get_view_event (EWeekView *week_view, int day, int event_num)
 static void
 tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 {
-	int event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
 	guint timeout;
 
@@ -2692,7 +2692,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
    	          GdkEvent *event,
 		  EWeekView *view)
 {
-	int event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
 
 	pevent = tooltip_get_view_event (view, -1, event_num);
@@ -2854,7 +2854,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       NULL);
 
 		if (free_text)
-			g_free ((gchar*)summary);
+			g_free ((gchar *)summary);
 
 		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
@@ -3111,7 +3111,7 @@ e_week_view_stop_editing_event (EWeekView *week_view)
 static void
 cancel_editing (EWeekView *week_view)
 {
-	int event_num, span_num;
+	gint event_num, span_num;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	const gchar *summary;
@@ -3131,7 +3131,7 @@ cancel_editing (EWeekView *week_view)
 	g_object_set (G_OBJECT (span->text_item), "text", summary ? summary : "", NULL);
 
 	if (free_text)
-		g_free ((gchar*)summary);
+		g_free ((gchar *)summary);
 
 	/* Stop editing */
 	e_week_view_stop_editing_event (week_view);
@@ -3144,7 +3144,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num;
-	int nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	EWeekViewEvent *pevent;
 
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
@@ -3273,7 +3273,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_ENTER_NOTIFY:
 	{
 		ECalendarViewEventData *data;
-		int nspan;
+		gint nspan;
 
 		if (!e_week_view_find_event_from_item (week_view,
 						       item,
@@ -3554,7 +3554,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	ECalComponent *comp;
 	ECalComponentText summary;
 	ECal *client;
-	const char *uid;
+	const gchar *uid;
 	gboolean on_server;
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
@@ -3638,7 +3638,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime dt;
 					struct icaltimetype tt;
-					char *tzid;
+					gchar *tzid;
 
 					e_cal_component_get_dtstart (comp, &dt);
 					if (dt.value->zone) {
@@ -3755,8 +3755,8 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
-		const char *u;
-		char *r = NULL;
+		const gchar *u;
+		gchar *r = NULL;
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
@@ -4048,7 +4048,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dtstart, dtend;
-	const char *uid;
+	const gchar *uid;
 	AddEventData add_event_data;
 	gboolean read_only = TRUE;
 	EWeekViewEvent *wvevent;
@@ -4367,14 +4367,14 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 
 		if (focus_event->in) {
 			week_view->focused_jump_button = day;
-			pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm_focused);
+			pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm_focused);
 			gnome_canvas_item_set (week_view->jump_buttons[day],
 					       "GnomeCanvasPixbuf::pixbuf",
 					       pixbuf, NULL);
 		}
 		else {
 			week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
-			pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm);
+			pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
 			gnome_canvas_item_set (week_view->jump_buttons[day],
 					       "GnomeCanvasPixbuf::pixbuf",
 					       pixbuf, NULL);

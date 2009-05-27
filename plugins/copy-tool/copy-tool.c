@@ -39,17 +39,17 @@
 #include "camel/camel-internet-address.h"
 #include "camel/camel-url.h"
 
-void org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t);
+void org_gnome_copy_tool_copy_address(gpointer ep, EMPopupTargetURI *t);
 
 void
-org_gnome_copy_tool_copy_address(void *ep, EMPopupTargetURI *t)
+org_gnome_copy_tool_copy_address(gpointer ep, EMPopupTargetURI *t)
 {
 	if  (t->uri) {
 		CamelInternetAddress *cia = camel_internet_address_new();
 		CamelURL *curl;
 		GtkClipboard *clipboard;
-		char *addr;
-		const char *tmp;
+		gchar *addr;
+		const gchar *tmp;
 
 		curl = camel_url_new(t->uri, NULL);
 		camel_address_decode((CamelAddress *)cia, curl->path);

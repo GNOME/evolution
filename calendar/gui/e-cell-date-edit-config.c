@@ -205,7 +205,7 @@ twentyfour_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gp
 static void
 set_range (ECellDateEdit *cell)
 {
-	int start_hour, end_hour;
+	gint start_hour, end_hour;
 
 	start_hour = calendar_config_get_day_start_hour ();
 	end_hour = calendar_config_get_day_end_hour ();

@@ -586,7 +586,7 @@ e_contact_quick_add_vcard (const gchar *vcard, EContactQuickAddCallback cb, gpoi
 
 	if (contact) {
 		GList *emails;
-		char *name;
+		gchar *name;
 		EContactName *contact_name;
 
 		g_object_unref (qa->contact);

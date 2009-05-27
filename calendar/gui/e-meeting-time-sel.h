@@ -382,13 +382,13 @@ void e_meeting_time_selector_calculate_time (EMeetingTimeSelector *mts,
 					     EMeetingTime*time);
 gint e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
 						      EMeetingTime *mtstime);
-void e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, gboolean all);
+void e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, gboolean all);
 
 /* Debugging function to dump information on all attendees. */
 #ifdef E_MEETING_TIME_SELECTOR_DEBUG
 void e_meeting_time_selector_dump (EMeetingTimeSelector *mts);
-gchar* e_meeting_time_selector_dump_time (EMeetingTime*mtstime);
-gchar* e_meeting_time_selector_dump_date (GDate *date);
+gchar * e_meeting_time_selector_dump_time (EMeetingTime*mtstime);
+gchar * e_meeting_time_selector_dump_date (GDate *date);
 #endif /* E_MEETING_TIME_SELECTOR_DEBUG */
 
 G_END_DECLS

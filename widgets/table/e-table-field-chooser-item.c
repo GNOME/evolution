@@ -94,8 +94,8 @@ etfci_dispose (GObject *object)
 static gint
 etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 {
-	int i;
-	int count;
+	gint i;
+	gint count;
 	double height = 0;
 
 	count = e_table_header_count(etfci->combined_header);
@@ -115,9 +115,9 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 static void
 etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 {
-	int count;
+	gint count;
 	GHashTable *hash;
-	int i;
+	gint i;
 
 	if (etfci->combined_header != NULL)
 		g_object_unref (etfci->combined_header);
@@ -151,8 +151,8 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	double old_height;
-	int i;
-	int count;
+	gint i;
+	gint count;
 	double height = 0;
 
 	etfci_rebuild_combined (etfci);
@@ -178,7 +178,7 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 }
 
 static void
-etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	double   i2c [6];
@@ -255,7 +255,7 @@ full_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *etf
 }
 
 static void
-full_header_dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
+full_header_dimension_changed (ETableHeader *header, gint col, ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
@@ -305,7 +305,7 @@ table_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *et
 }
 
 static void
-table_header_dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
+table_header_dimension_changed (ETableHeader *header, gint col, ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
@@ -396,7 +396,7 @@ etfci_drag_data_get (GtkWidget          *widget,
 		gtk_selection_data_set(selection_data,
 				       GDK_SELECTION_TYPE_STRING,
 				       sizeof(string[0]),
-				       (unsigned char *)string,
+				       (guchar *)string,
 				       strlen(string));
 		g_free(string);
 	}
@@ -449,13 +449,13 @@ etfci_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
+etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
-	int rows;
-	int y1, y2;
-	int row;
+	gint rows;
+	gint y1, y2;
+	gint row;
 	GtkStyle *style;
 	GtkStateType state;
 
@@ -495,7 +495,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 }
 
 static double
-etfci_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+etfci_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 	    GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -503,7 +503,7 @@ etfci_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-etfci_maybe_start_drag (ETableFieldChooserItem *etfci, int x, int y)
+etfci_maybe_start_drag (ETableFieldChooserItem *etfci, gint x, gint y)
 {
 	if (!etfci->maybe_drag)
 		return FALSE;
@@ -523,8 +523,8 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	GdkDragContext *context;
 	ETableCol *ecol;
 	GdkPixmap *pixmap;
-	int drag_col;
-	int button_height;
+	gint drag_col;
+	gint button_height;
 
 	GtkTargetEntry  etfci_drag_types [] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
@@ -580,7 +580,7 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
-	int x, y;
+	gint x, y;
 
 	switch (e->type){
 	case GDK_MOTION_NOTIFY:

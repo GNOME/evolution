@@ -93,8 +93,8 @@ static void
 an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 {
 	AlarmNotify *an;
-	char *new_label;
-	int snooze_timeout_min;
+	gchar *new_label;
+	gint snooze_timeout_min;
 
 	an = (AlarmNotify *) data;
 
@@ -108,8 +108,8 @@ static void
 an_update_hrs_label (GtkSpinButton *sb, gpointer data)
 {
 	AlarmNotify *an;
-	char *new_label;
-	int snooze_timeout_hrs;
+	gchar *new_label;
+	gint snooze_timeout_hrs;
 
 	an = (AlarmNotify *) data;
 
@@ -170,7 +170,7 @@ edit_pressed_cb (GtkButton *button, gpointer user_data)
 static void
 snooze_pressed_cb (GtkButton *button, gpointer user_data)
 {
-	int snooze_timeout;
+	gint snooze_timeout;
 	AlarmNotify *an = user_data;
 	GtkTreeIter iter;
 	GtkTreeModel *model = NULL;
@@ -253,7 +253,7 @@ notified_alarms_dialog_new (void)
 
 			G_TYPE_POINTER /* FuncInfo*/));
 
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "alarm-notify.glade",
@@ -363,8 +363,8 @@ notified_alarms_dialog_new (void)
 GtkTreeIter
 add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
 				time_t occur_start, time_t occur_end,
-				ECalComponentVType vtype, const char *summary,
-				const char *description, const char *location,
+				ECalComponentVType vtype, const gchar *summary,
+				const gchar *description, const gchar *location,
 				AlarmNotifyFunc func, gpointer func_data)
 {
 	GtkTreeIter iter;

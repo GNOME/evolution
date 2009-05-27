@@ -43,7 +43,7 @@ struct _AlarmNotificationsDialog
 	GtkWidget *treeview;
 };
 
-typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, int snooze_mins, gpointer data);
+typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, gint snooze_mins, gpointer data);
 
 AlarmNotificationsDialog *
 notified_alarms_dialog_new (void);
@@ -51,8 +51,8 @@ notified_alarms_dialog_new (void);
 GtkTreeIter
 add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigger,
 				time_t occur_start, time_t occur_end,
-				ECalComponentVType vtype, const char *summary,
-				const char *description, const char *location,
+				ECalComponentVType vtype, const gchar *summary,
+				const gchar *description, const gchar *location,
 				AlarmNotifyFunc func, gpointer func_data);
 
 

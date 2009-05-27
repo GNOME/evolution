@@ -400,7 +400,7 @@ etgl_get_printable (ETableGroup *etg)
 }
 
 static void
-etgl_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+etgl_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -408,7 +408,7 @@ etgl_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 }
 
 static void
-etgl_get_mouse_over (ETableGroup *etg, int *row, int *col)
+etgl_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
@@ -421,7 +421,7 @@ etgl_get_mouse_over (ETableGroup *etg, int *row, int *col)
 }
 
 static void
-etgl_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height)
+etgl_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y, gint *width, gint *height)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 

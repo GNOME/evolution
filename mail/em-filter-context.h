@@ -52,8 +52,8 @@ EMFilterContext *em_filter_context_new (void);
 
 /* methods */
 void em_filter_context_add_action (EMFilterContext *fc, FilterPart *action);
-FilterPart *em_filter_context_find_action (EMFilterContext *fc, const char *name);
-FilterPart *em_filter_context_create_action (EMFilterContext *fc, const char *name);
+FilterPart *em_filter_context_find_action (EMFilterContext *fc, const gchar *name);
+FilterPart *em_filter_context_create_action (EMFilterContext *fc, const gchar *name);
 FilterPart *em_filter_context_next_action (EMFilterContext *fc, FilterPart *last);
 
 #endif /* ! _EM_FILTER_CONTEXT_H */

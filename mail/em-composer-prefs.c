@@ -421,7 +421,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
-	int i;
+	gint i;
 	gchar *gladefile;
 
 	bridge = gconf_bridge_get ();

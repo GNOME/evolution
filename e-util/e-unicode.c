@@ -97,7 +97,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 		gint sc;
 		sc = e_stripped_char (unival);
 		if (sc) {
-			/* We have valid stripped char */
+			/* We have valid stripped gchar */
 			if (sc == nuni[0]) {
 				const gchar *q = p;
 				gint npos = 1;
@@ -145,7 +145,7 @@ e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 	for (p = e_unicode_get_utf8 (o, &unival); p && unival; p = e_unicode_get_utf8 (p, &unival)) {
 		gint sc;
 		sc = g_unichar_tolower (unival);
-		/* We have valid stripped char */
+		/* We have valid stripped gchar */
 		if (sc == nuni[0]) {
 			const gchar *q = p;
 			gint npos = 1;
@@ -237,8 +237,8 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 gchar *
 e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
-	char *new, *ob;
-	const char *ib;
+	gchar *new, *ob;
+	const gchar *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -246,8 +246,8 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 	if (ic == (iconv_t) -1) {
 		gint i;
 		/* iso-8859-1 */
-		ib = (char *) string;
-		new = ob = (char *)g_new (unsigned char, bytes * 2 + 1);
+		ib = (gchar *) string;
+		new = ob = (gchar *)g_new (unsigned char, bytes * 2 + 1);
 		for (i = 0; i < (bytes); i ++) {
 			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
@@ -295,8 +295,8 @@ e_utf8_from_iconv_string (iconv_t ic, const gchar *string)
 gchar *
 e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
-	char *new, *ob;
-	const char *ib;
+	gchar *new, *ob;
+	const gchar *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -306,7 +306,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		const gchar *u;
 		gunichar uc;
 
-		new = (char *)g_new (unsigned char, bytes * 4 + 1);
+		new = (gchar *)g_new (unsigned char, bytes * 4 + 1);
 		u = string;
 		len = 0;
 
@@ -362,7 +362,7 @@ gchar *
 e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *ret;
+	gchar *ret;
 
 	if (!string) return NULL;
 
@@ -384,7 +384,7 @@ gchar *
 e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *ret;
+	gchar *ret;
 
 	if (!string) return NULL;
 
@@ -406,7 +406,7 @@ gchar *
 e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *ret;
+	gchar *ret;
 
 	if (!string) return NULL;
 
@@ -428,7 +428,7 @@ gchar *
 e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *ret;
+	gchar *ret;
 
 	if (!string) return NULL;
 
@@ -449,7 +449,7 @@ e_utf8_to_locale_string (const gchar *string)
 gboolean
 e_utf8_is_ascii (const gchar *string)
 {
-	char c;
+	gchar c;
 
 	g_return_val_if_fail (string != NULL, FALSE);
 
@@ -488,7 +488,7 @@ e_utf8_gtk_editable_insert_text (GtkEditable *editable, const gchar *text, gint 
 void
 e_utf8_gtk_editable_set_text (GtkEditable *editable, const gchar *text)
 {
-	int position;
+	gint position;
 
 	gtk_editable_delete_text(editable, 0, -1);
 	gtk_editable_insert_text (editable, text, strlen (text), &position);
@@ -512,7 +512,7 @@ e_utf8_xml1_decode (const gchar *text)
 {
 	const guchar *c;
 	gchar *u, *d;
-	int len, s;
+	gint len, s;
 
 	g_return_val_if_fail (text != NULL, NULL);
 
@@ -533,8 +533,8 @@ e_utf8_xml1_decode (const gchar *text)
 		    isxdigit (c[s + 6]) &&
 		    (c[s + 7] == '\\')) {
 			/* Valid \U+XXXX\ sequence */
-			int unival;
-			unival = strtol ((char *)(c + s + 3), NULL, 16);
+			gint unival;
+			unival = strtol ((gchar *)(c + s + 3), NULL, 16);
 			d += e_unichar_to_utf8 (unival, d);
 			s += 8;
 		} else if (c[s] > 127) {
@@ -555,8 +555,8 @@ gchar *
 e_utf8_xml1_encode (const gchar *text)
 {
 	gchar *u, *d, *c;
-	unsigned int unival;
-	int len;
+	guint unival;
+	gint len;
 
 	g_return_val_if_fail (text != NULL, NULL);
 
@@ -568,7 +568,7 @@ e_utf8_xml1_encode (const gchar *text)
 			len += 1;
 		}
 	}
-	d = c = (char *)g_new (guchar, len + 1);
+	d = c = (gchar *)g_new (guchar, len + 1);
 
 	for (u = e_unicode_get_utf8 (text, &unival); u && unival; u = e_unicode_get_utf8 (u, &unival)) {
 		if ((unival >= 0x80) || (unival == '\\')) {
@@ -602,8 +602,8 @@ gint
 e_unichar_to_utf8 (gint c, gchar *outbuf)
 {
   size_t len = 0;
-  int first;
-  int i;
+  gint first;
+  gint i;
 
   if (c < 0x80)
     {
@@ -1953,14 +1953,14 @@ e_canonical_decomposition (gunichar ch, gunichar * buf)
 
   if (ch <= 0xffff)
     {
-      int start = 0;
-      int end = sizeof (e_decomp_table) / sizeof (e_decomp_table[0]);
+      gint start = 0;
+      gint end = sizeof (e_decomp_table) / sizeof (e_decomp_table[0]);
       while (start != end)
 	{
-	  int half = (start + end) / 2;
+	  gint half = (start + end) / 2;
 	  if (ch == e_decomp_table[half].ch) {
 	      /* Found it.  */
-	      int i;
+	      gint i;
 	      /* We store as a double-nul terminated string.  */
 	      for (len = 0; (e_decomp_table[half].expansion[len] || e_decomp_table[half].expansion[len + 1]); len += 2) ;
 
@@ -2035,15 +2035,15 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		ret_val = g_strdup ((char *)prop);
+		ret_val = g_strdup ((gchar *)prop);
 		xmlFree (prop);
 		return ret_val;
 	}
 
 	combined_name = g_strdup_printf("_%s", prop_name);
-	prop = xmlGetProp ((xmlNode *) parent, (unsigned char *)combined_name);
+	prop = xmlGetProp ((xmlNode *) parent, (guchar *)combined_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (gettext ((char *)prop));
+		ret_val = g_strdup (gettext ((gchar *)prop));
 		xmlFree (prop);
 	}
 	g_free(combined_name);

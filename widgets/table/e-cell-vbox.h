@@ -43,16 +43,16 @@ G_BEGIN_DECLS
 typedef struct {
 	ECell parent;
 
-	int     subcell_count;
+	gint     subcell_count;
 	ECell **subcells;
-	int    *model_cols;
+	gint    *model_cols;
 } ECellVbox;
 
 typedef struct {
 	ECellView     cell_view;
-	int           subcell_view_count;
+	gint           subcell_view_count;
 	ECellView   **subcell_views;
-	int          *model_cols;
+	gint          *model_cols;
 } ECellVboxView;
 
 typedef struct {
@@ -63,7 +63,7 @@ GType    e_cell_vbox_get_type  (void);
 ECell   *e_cell_vbox_new       (void);
 void     e_cell_vbox_append    (ECellVbox *vbox,
 				ECell     *subcell,
-				int model_col);
+				gint model_col);
 
 
 G_END_DECLS

@@ -37,10 +37,10 @@
 
 #define d(x)
 
-static int option_eq (FilterElement *fe, FilterElement *cm);
+static gint option_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
-static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static gint xml_decode (FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone (FilterElement *fe);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
@@ -108,7 +108,7 @@ filter_option_init (FilterOption *fo)
 }
 
 static void
-free_option (struct _filter_option *o, void *data)
+free_option (struct _filter_option *o, gpointer data)
 {
 	g_free (o->title);
 	g_free (o->value);
@@ -142,7 +142,7 @@ filter_option_new (void)
 }
 
 static struct _filter_option *
-find_option (FilterOption *fo, const char *name)
+find_option (FilterOption *fo, const gchar *name)
 {
 	GList *l = fo->options;
 	struct _filter_option *op;
@@ -159,7 +159,7 @@ find_option (FilterOption *fo, const char *name)
 }
 
 void
-filter_option_set_current (FilterOption *option, const char *name)
+filter_option_set_current (FilterOption *option, const gchar *name)
 {
 	g_return_if_fail (IS_FILTER_OPTION(option));
 
@@ -168,7 +168,7 @@ filter_option_set_current (FilterOption *option, const char *name)
 
 /* used by implementers to add additional options */
 struct _filter_option *
-filter_option_add(FilterOption *fo, const char *value, const char *title, const char *code, gboolean is_dynamic)
+filter_option_add(FilterOption *fo, const gchar *value, const gchar *title, const gchar *code, gboolean is_dynamic)
 {
 	struct _filter_option *op;
 
@@ -188,7 +188,7 @@ filter_option_add(FilterOption *fo, const char *value, const char *title, const 
 	return op;
 }
 
-const char *
+const gchar *
 filter_option_get_current (FilterOption *option)
 {
 	g_return_val_if_fail (IS_FILTER_OPTION (option), NULL);
@@ -232,24 +232,24 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 
 	n = node->children;
 	while (n) {
-		if (!strcmp ((char *)n->name, "option")) {
-			char *tmp, *value, *title = NULL, *code = NULL;
+		if (!strcmp ((gchar *)n->name, "option")) {
+			gchar *tmp, *value, *title = NULL, *code = NULL;
 
-			value = (char *)xmlGetProp (n, (const unsigned char *)"value");
+			value = (gchar *)xmlGetProp (n, (const guchar *)"value");
 			work = n->children;
 			while (work) {
-				if (!strcmp ((char *)work->name, "title") || !strcmp ((char *)work->name, "_title")) {
+				if (!strcmp ((gchar *)work->name, "title") || !strcmp ((gchar *)work->name, "_title")) {
 					if (!title) {
-						if (!(tmp = (char *)xmlNodeGetContent (work)))
-							tmp = (char *)xmlStrdup ((const unsigned char *)"");
+						if (!(tmp = (gchar *)xmlNodeGetContent (work)))
+							tmp = (gchar *)xmlStrdup ((const guchar *)"");
 
 						title = g_strdup (tmp);
 						xmlFree (tmp);
 					}
-				} else if (!strcmp ((char *)work->name, "code")) {
+				} else if (!strcmp ((gchar *)work->name, "code")) {
 					if (!code) {
-						if (!(tmp = (char*)xmlNodeGetContent (work)))
-							tmp = (char *)xmlStrdup ((const unsigned char *)"");
+						if (!(tmp = (gchar *)xmlNodeGetContent (work)))
+							tmp = (gchar *)xmlStrdup ((const guchar *)"");
 
 						code = g_strdup (tmp);
 						xmlFree (tmp);
@@ -262,7 +262,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 			xmlFree (value);
 			g_free (title);
 			g_free (code);
-		} else if (g_str_equal ((char *)n->name, "dynamic")) {
+		} else if (g_str_equal ((gchar *)n->name, "dynamic")) {
 			if (fo->dynamic_func) {
 				g_warning ("Only one 'dynamic' node is acceptable in the optionlist '%s'", fe->name);
 			} else {
@@ -274,12 +274,12 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 				*/
 				xmlChar *fn;
 
-				fn = xmlGetProp (n, (const unsigned char *)"func");
+				fn = xmlGetProp (n, (const guchar *)"func");
 				if (fn && *fn) {
 					GSList *items, *i;
 					struct _filter_option *op;
 
-					fo->dynamic_func = g_strdup ((const char *)fn);
+					fo->dynamic_func = g_strdup ((const gchar *)fn);
 
 					/* get options now, to have them available when reading saved rules */
 					items = get_dynamic_options (fo);
@@ -313,11 +313,11 @@ xml_encode (FilterElement *fe)
 	FilterOption *fo = (FilterOption *)fe;
 
 	d(printf ("Encoding option as xml\n"));
-	value = xmlNewNode (NULL, (const unsigned char *)"value");
-	xmlSetProp (value, (const unsigned char *)"name", (unsigned char *)fe->name);
-	xmlSetProp (value, (const unsigned char *)"type", (unsigned char *)fo->type);
+	value = xmlNewNode (NULL, (const guchar *)"value");
+	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
+	xmlSetProp (value, (const guchar *)"type", (guchar *)fo->type);
 	if (fo->current)
-		xmlSetProp (value, (const unsigned char *)"value", (unsigned char *)fo->current->value);
+		xmlSetProp (value, (const guchar *)"value", (guchar *)fo->current->value);
 
 	return value;
 }
@@ -326,12 +326,12 @@ static int
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;
-	char *value;
+	gchar *value;
 
 	d(printf ("Decoding option from xml\n"));
 	xmlFree (fe->name);
-	fe->name = (char *)xmlGetProp (node, (const unsigned char *)"name");
-	value = (char *)xmlGetProp (node, (const unsigned char *)"value");
+	fe->name = (gchar *)xmlGetProp (node, (const guchar *)"name");
+	value = (gchar *)xmlGetProp (node, (const guchar *)"value");
 	if (value) {
 		fo->current = find_option (fo, value);
 		xmlFree (value);
@@ -379,7 +379,7 @@ get_widget (FilterElement *fe)
 	GtkWidget *combobox;
 	GList *l;
 	struct _filter_option *op;
-	int index = 0, current = 0;
+	gint index = 0, current = 0;
 
 	if (fo->dynamic_func) {
 		/* it is dynamically filled, thus remove all dynamics and put there the fresh ones */

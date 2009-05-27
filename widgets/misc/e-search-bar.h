@@ -88,10 +88,10 @@ struct _ESearchBar {
 	guint      pending_activate;
 
 	/* The currently-selected item & subitem */
-	int        item_id;
-	int        viewitem_id; /* Current View Id */
-	int        scopeitem_id; /* Scope of search */
-	int        last_search_option;
+	gint        item_id;
+	gint        viewitem_id; /* Current View Id */
+	gint        scopeitem_id; /* Scope of search */
+	gint        last_search_option;
 
 	gboolean block_search;
 	gboolean lite;
@@ -123,18 +123,18 @@ void  e_search_bar_set_option     (ESearchBar        *search_bar,
 				   ESearchBarItem    *option_items);
 void  e_search_bar_paint (ESearchBar *search_bar);
 void e_search_bar_set_viewoption (ESearchBar *search_bar,
-				    int option_id,
+				    gint option_id,
 				    ESearchBarItem *subitems);
 
 void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
-					int         id,
+					gint         id,
 					gboolean    state);
 
 void  e_search_bar_set_item_id  (ESearchBar *search_bar,
-				 int         id);
+				 gint         id);
 void  e_search_bar_set_item_menu (ESearchBar *search_bar,
-				  int id);
-int   e_search_bar_get_item_id  (ESearchBar *search_bar);
+				  gint id);
+gint   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
 G_END_DECLS
 

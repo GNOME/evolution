@@ -85,7 +85,7 @@ G_BEGIN_DECLS
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
  * line_wrap            boolean                 RW              Line wrap when not editing.
  * break_characters     string                  RW              List of characters to optionally break on.
- * max_lines            int                     RW              Number of lines possible when doing line wrap.
+ * max_lines            gint                     RW              Number of lines possible when doing line wrap.
  * draw_borders         boolean                 RW              Whether to draw borders.
  * draw_background      boolean                 RW              Whether to draw the background.
  * draw_button          boolean                 RW              This makes EText handle being the child of a button properly and highlighting as it should.
@@ -112,7 +112,7 @@ struct _EText {
 	gint preedit_len;      		/* preedit length to display */
 	gint preedit_pos;      		/* preedit cursor position */
 	PangoLayout *layout;
-	int num_lines;			/* Number of lines of text */
+	gint num_lines;			/* Number of lines of text */
 
 	gchar *revert;                  /* Text to revert to */
 
@@ -128,26 +128,26 @@ struct _EText {
 	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
 
-	int cx, cy;			/* Top-left canvas coordinates for text */
-	int text_cx, text_cy;		/* Top-left canvas coordinates for text */
-	int clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
-	int clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
-	int max_width;			/* Maximum width of text lines */
-	int width;                      /* Rendered text width in pixels */
-	int height;			/* Rendered text height in pixels */
+	gint cx, cy;			/* Top-left canvas coordinates for text */
+	gint text_cx, text_cy;		/* Top-left canvas coordinates for text */
+	gint clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
+	gint clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
+	gint max_width;			/* Maximum width of text lines */
+	gint width;                      /* Rendered text width in pixels */
+	gint height;			/* Rendered text height in pixels */
 
 	guint32 rgba;			/* RGBA color for text */
 	double affine[6];               /* The item -> canvas affine */
 
-	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
+	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	double ellipsis_width;          /* The width of the ellipsis. */
 
-	int xofs_edit;                  /* Offset because of editing */
-	int yofs_edit;                  /* Offset because of editing */
+	gint xofs_edit;                  /* Offset because of editing */
+	gint yofs_edit;                  /* Offset because of editing */
 
 	/* This needs to be reworked a bit once we get line wrapping. */
-	int selection_start;            /* Start of selection IN BYTES */
-	int selection_end;              /* End of selection IN BYTES */
+	gint selection_start;            /* Start of selection IN BYTES */
+	gint selection_end;              /* End of selection IN BYTES */
 	gboolean select_by_word;        /* Current selection is by word */
 
 	/* This section is for drag scrolling and blinking cursor. */

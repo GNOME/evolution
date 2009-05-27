@@ -299,8 +299,8 @@ struct _EDayView
 
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
 	gboolean show_marcus_bains_line;
-	char *marcus_bains_day_view_color;
-	char *marcus_bains_time_bar_color;
+	gchar *marcus_bains_day_view_color;
+	gchar *marcus_bains_time_bar_color;
 
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;
@@ -530,8 +530,8 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 gboolean   e_day_view_get_show_marcus_bains	(EDayView	*day_view);
 void       e_day_view_set_marcus_bains		(EDayView       *day_view,
 						 gboolean        show_line,
-						 const char 	*dayview_color,
-						 const char     *timebar_color);
+						 const gchar 	*dayview_color,
+						 const gchar     *timebar_color);
 
 /* Whether we display event end times in the main canvas. */
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);

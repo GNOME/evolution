@@ -208,7 +208,7 @@ e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValu
 }
 
 static void
-e_table_field_chooser_dialog_response (GtkDialog *dialog, int id)
+e_table_field_chooser_dialog_response (GtkDialog *dialog, gint id)
 {
 	if (id == GTK_RESPONSE_OK)
 		gtk_widget_destroy (GTK_WIDGET (dialog));

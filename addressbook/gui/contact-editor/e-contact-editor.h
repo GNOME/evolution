@@ -96,7 +96,7 @@ struct _EContactEditor
 	EBook *load_book;
 
 	/* signal ids for "writable_status" */
-	int target_editable_id;
+	gint target_editable_id;
 
 	GtkWidget *fullname_dialog;
 	GtkWidget *categories_dialog;

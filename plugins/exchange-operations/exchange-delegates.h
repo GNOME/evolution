@@ -30,7 +30,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 void exchange_delegates (ExchangeAccount *account, GtkWidget *parent);
-const char *email_look_up (const char *delegate_legacy, ExchangeAccount *account);
+const gchar *email_look_up (const gchar *delegate_legacy, ExchangeAccount *account);
 
 #ifdef __cplusplus
 }

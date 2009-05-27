@@ -95,7 +95,7 @@ static EContactField priority [] = {
 	E_CONTACT_FIELD_LAST
 };
 
-static int priority_label [] = {
+static gint priority_label [] = {
 	LABEL_WORK,
 	LABEL_HOME,
 	LABEL_FAX,
@@ -167,10 +167,10 @@ struct _EAddrConduitCfg {
  *       this function (see e_pilot_utf8_to_pchar() in e-pilot-util.c)
  */
 static int
-e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
+e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *category)
 {
-	int i, j;
-	int retval = 0; /* 0 is the Unfiled category */
+	gint i, j;
+	gint retval = 0; /* 0 is the Unfiled category */
 	LOG(g_message("e_pilot_add_category_if_possible\n"));
 
 	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
@@ -178,14 +178,14 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 		   the PalmOS doesn't let 0-length strings for
 		   categories */
 		if(strlen(category->name[i]) == 0){
-			int cat_to_add_len;
-			int desktopUniqueID;
+			gint cat_to_add_len;
+			gint desktopUniqueID;
 
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
 
 			if(cat_to_add_len > 15){
-				char tmpstr[16];
+				gchar tmpstr[16];
 				strncpy(tmpstr, cat_to_add,16);
 				tmpstr[16] = '\0';
 				/* Have to truncate the category name */
@@ -213,7 +213,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 			 * we don't have much use for it at present.
 			 */
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
-				int found = 0;
+				gint found = 0;
 				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
 					if (category->ID[j] == desktopUniqueID) {
 						found = 1;
@@ -251,22 +251,22 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
  * is set to zero ("Unfiled").
  */
 static
-void e_pilot_local_category_to_remote(int * pilotCategory,
+void e_pilot_local_category_to_remote(gint * pilotCategory,
     EContact *contact, struct CategoryAppInfo *category)
 {
 	GList *c_list = NULL, *l;
-	char * category_string, *first_category = NULL;
-	int i;
+	gchar * category_string, *first_category = NULL;
+	gint i;
 	*pilotCategory = 0; /* default to "Unfiled" */
 	c_list = e_contact_get (contact, E_CONTACT_CATEGORY_LIST);
 	if (c_list) {
 		/* remember the first category */
-		first_category = e_pilot_utf8_to_pchar((const char *)c_list->data);
+		first_category = e_pilot_utf8_to_pchar((const gchar *)c_list->data);
 	}
 	l = c_list;
 	while(l && *pilotCategory == 0) {
 		/* list != 0, so at least 1 category is assigned */
-		category_string = e_pilot_utf8_to_pchar((const char *)l->data);
+		category_string = e_pilot_utf8_to_pchar((const gchar *)l->data);
 		for (i=0; i < PILOT_MAX_CATEGORIES; i++) {
 			/* only 15 chars + nul in palm category name */
 			if (strncmp(category_string,category->name[i], 15) == 0) {
@@ -296,10 +296,10 @@ void e_pilot_local_category_to_remote(int * pilotCategory,
  * conversion from a palm category to an evolution category
  */
 static
-void e_pilot_remote_category_to_local(int pilotCategory,
+void e_pilot_remote_category_to_local(gint pilotCategory,
     EContact *contact, struct CategoryAppInfo *category)
 {
-	char *category_string = NULL;
+	gchar *category_string = NULL;
 
 	if (pilotCategory != 0) {
 		/* pda has category assigned */
@@ -344,17 +344,17 @@ void e_pilot_remote_category_to_local(int pilotCategory,
 	}
 }
 
-static char *
-build_setup_path (const char *path, const char *key)
+static gchar *
+build_setup_path (const gchar *path, const gchar *key)
 {
 	return g_strconcat ("/apps/evolution/conduit", "/", path, "/", key, NULL);
 }
 
 static gboolean
-e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
+e_pilot_setup_get_bool (const gchar *path, const gchar *key, gboolean def)
 {
 	gboolean res = def;
-	char *full_path;
+	gchar *full_path;
 	GConfValue *value;
 	GConfClient *gconf;
 
@@ -379,10 +379,10 @@ e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
 }
 
 static void
-e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
+e_pilot_setup_set_bool (const gchar *path, const gchar *key, gboolean value)
 {
 	GError *error = NULL;
-	char *full_path;
+	gchar *full_path;
 	GConfClient *gconf;
 
 	g_return_if_fail (path != NULL);
@@ -402,11 +402,11 @@ e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
 	}
 }
 
-static char *
-e_pilot_setup_get_string (const char *path, const char *key, const char *def)
+static gchar *
+e_pilot_setup_get_string (const gchar *path, const gchar *key, const gchar *def)
 {
-	char *res = g_strdup (def);
-	char *full_path;
+	gchar *res = g_strdup (def);
+	gchar *full_path;
 	GConfValue *value;
 	GConfClient *gconf;
 
@@ -433,10 +433,10 @@ e_pilot_setup_get_string (const char *path, const char *key, const char *def)
 }
 
 static void
-e_pilot_setup_set_string (const char *path, const char *key, const char *value)
+e_pilot_setup_set_string (const gchar *path, const gchar *key, const gchar *value)
 {
 	GError *error = NULL;
-	char *full_path;
+	gchar *full_path;
 	GConfClient *gconf;
 
 	g_return_if_fail (path != NULL);
@@ -577,7 +577,7 @@ e_addr_gui_new (EPilotSettings *ps)
 	EAddrConduitGui *gui;
 	GtkWidget *lbl;
 	gint rows, i;
-	static const char *items[] = {"Business", "Home", "Other", NULL};
+	static const gchar *items[] = {"Business", "Home", "Other", NULL};
 
 	g_return_val_if_fail (ps != NULL, NULL);
 	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
@@ -602,7 +602,7 @@ e_addr_gui_new (EPilotSettings *ps)
 	return gui;
 }
 
-static const int default_address_map[] = {
+static const gint default_address_map[] = {
 	E_CONTACT_ADDRESS_WORK,
 	E_CONTACT_ADDRESS_HOME,
 	E_CONTACT_ADDRESS_OTHER,
@@ -720,7 +720,7 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 static const gchar *
 print_local (EAddrLocalRecord *local)
 {
-	static char buff[ 4096 ];
+	static gchar buff[ 4096 ];
 
 	if (local == NULL) {
 		sprintf (buff, "[NULL]");
@@ -741,9 +741,9 @@ print_local (EAddrLocalRecord *local)
 	return "";
 }
 
-static char *print_remote (GnomePilotRecord *remote)
+static gchar *print_remote (GnomePilotRecord *remote)
 {
-	static char buff[ 4096 ];
+	static gchar buff[ 4096 ];
 	struct Address addr;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
@@ -785,10 +785,10 @@ static char *print_remote (GnomePilotRecord *remote)
 }
 
 /* Utility routines */
-static char *
+static gchar *
 map_name (EAddrConduitContext *ctxt)
 {
-	char *filename = NULL;
+	gchar *filename = NULL;
 
 	filename = g_strdup_printf ("%s/.evolution/addressbook/local/system/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
 
@@ -950,15 +950,15 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 	EContactField next_mail, next_home, next_work, next_fax;
 	EContactField next_other, next_main, next_pager, next_mobile;
 	gboolean syncable = TRUE;
-	int i, l = 0;
+	gint i, l = 0;
 
 	/* See if there are fields we can't sync or not in priority order */
 	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
 		       &next_other, &next_main, &next_pager, &next_mobile);
 
 	for (i = entryPhone1; i <= entryPhone5 && syncable; i++) {
-		int phonelabel = local->addr->phoneLabel[i - entryPhone1];
-		const char *phone_str = local->addr->entry[i];
+		gint phonelabel = local->addr->phoneLabel[i - entryPhone1];
+		const gchar *phone_str = local->addr->entry[i];
 		gboolean empty = !(phone_str && *phone_str);
 
 		if (empty)
@@ -1028,9 +1028,9 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 }
 
 static void
-set_contact_text (EContact *contact, EContactField field, struct Address address, int entry)
+set_contact_text (EContact *contact, EContactField field, struct Address address, gint entry)
 {
-	char *text = NULL;
+	gchar *text = NULL;
 
 	if (address.entry[entry])
 		text = e_pilot_utf8_from_pchar (address.entry[entry]);
@@ -1040,8 +1040,8 @@ set_contact_text (EContact *contact, EContactField field, struct Address address
 	g_free (text);
 }
 
-static char *
-get_entry_text (struct Address address, int entry)
+static gchar *
+get_entry_text (struct Address address, gint entry)
 {
 	if (address.entry[entry])
 		return e_pilot_utf8_from_pchar (address.entry[entry]);
@@ -1050,7 +1050,7 @@ get_entry_text (struct Address address, int entry)
 }
 
 static void
-clear_entry_text (struct Address address, int field)
+clear_entry_text (struct Address address, gint field)
 {
 	if (address.entry[field]) {
 		free (address.entry[field]);
@@ -1059,7 +1059,7 @@ clear_entry_text (struct Address address, int field)
 }
 
 static void
-compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
+compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const gchar *uid)
 {
 	EBookChange *ebc;
 
@@ -1094,7 +1094,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #else
-	static char record[0xffff];
+	static gchar record[0xffff];
 #endif
 
 	g_assert (local->addr != NULL );
@@ -1126,7 +1126,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 
 	pi_buffer_free(buffer);
 #else
-	p.record = (unsigned char *)record;
+	p.record = (guchar *)record;
 	p.length = pack_Address (local->addr, p.record, 0xffff);
 #endif
 	return p;
@@ -1136,10 +1136,10 @@ static void
 local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrConduitContext *ctxt)
 {
 	EContactAddress *address = NULL;
-	int phone = entryPhone1;
+	gint phone = entryPhone1;
 	EContactField field;
 	gboolean syncable;
-	int i;
+	gint i;
 
 	g_return_if_fail (local != NULL);
 	g_return_if_fail (contact != NULL);
@@ -1156,7 +1156,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	 */
 	if (local->local.ID != 0) {
 		struct Address addr;
-		int cat = 0;
+		gint cat = 0;
 #ifdef PILOT_LINK_0_12
 		pi_buffer_t * record;
 		record = pi_buffer_new(DLP_BUF_SIZE);
@@ -1165,7 +1165,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			return;
 		}
 #else
-		char record[0xffff];
+		gchar record[0xffff];
 #endif
 
 		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket,
@@ -1182,7 +1182,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 #ifdef PILOT_LINK_0_12
 			unpack_Address (&addr, record, address_v1);
 #else
-			unpack_Address (&addr, (unsigned char *)record, 0xffff);
+			unpack_Address (&addr, (guchar *)record, 0xffff);
 #endif
 			for (i = 0; i < 5; i++) {
 				if (addr.entry[entryPhone1 + i])
@@ -1223,7 +1223,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	}
 
 	if (address) {
-		char *add;
+		gchar *add;
 
 		/* If the address has 2 lines, make sure both get added */
 		if (address->ext != NULL &&
@@ -1257,7 +1257,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 		/* Sync by priority */
 		for (i = 0, phone = entryPhone1;
 		     priority[i] != E_CONTACT_FIELD_LAST && phone <= entryPhone5; i++) {
-			const char *phone_str;
+			const gchar *phone_str;
 
 			phone_str = e_contact_get_const (contact, priority[i]);
 			if (phone_str && *phone_str) {
@@ -1280,8 +1280,8 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 
 		/* Not completely syncable, so do the best we can */
 		for (i = entryPhone1; i <= entryPhone5; i++) {
-			int phonelabel = local->addr->phoneLabel[i - entryPhone1];
-			const char *phone_str = NULL;
+			gint phonelabel = local->addr->phoneLabel[i - entryPhone1];
+			const gchar *phone_str = NULL;
 
 			if (phonelabel == LABEL_EMAIL && !is_next_done (next_mail)) {
 				phone_str = e_contact_get_const (contact, next_mail);
@@ -1322,11 +1322,11 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 
 static void
 local_record_from_uid (EAddrLocalRecord *local,
-		       const char *uid,
+		       const gchar *uid,
 		       EAddrConduitContext *ctxt)
 {
 	EContact *contact = NULL;
-	const char *cuid;
+	const gchar *cuid;
 	GList *l;
 
 	g_assert (local != NULL);
@@ -1361,10 +1361,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	EContactName *name;
 	EContactAddress *eaddress;
 	EContactField mailing_address;
-	char *txt, *find, *full_name;
+	gchar *txt, *find, *full_name;
 	EContactField next_mail, next_home, next_work, next_fax;
 	EContactField next_other, next_main, next_pager, next_mobile;
-	int i;
+	gint i;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t * buffer;
 #endif
@@ -1459,8 +1459,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		       &next_other, &next_main, &next_pager, &next_mobile);
 
 	for (i = entryPhone1; i <= entryPhone5; i++) {
-		int phonelabel = address.phoneLabel[i - entryPhone1];
-		char *phonenum = get_entry_text (address, i);
+		gint phonelabel = address.phoneLabel[i - entryPhone1];
+		gchar *phonenum = get_entry_text (address, i);
 
 		if (phonelabel == LABEL_EMAIL && !is_next_done (next_mail)) {
 			e_contact_set (contact, next_mail, phonenum);
@@ -1503,8 +1503,8 @@ static void
 check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 {
 	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
-	int map_count;
-	const char *uri;
+	gint map_count;
+	const gchar *uri;
 
 	map_count = g_hash_table_size (ctxt->map->pid_map);
 	if (map_count == 0)
@@ -1579,15 +1579,15 @@ pre_sync (GnomePilotConduit *conduit,
 	GnomePilotConduitSyncAbs *abs_conduit;
 	EBookQuery *query;
     	GList *l;
-	int len;
-	char *filename;
-	char *change_id;
-	char *auth;
+	gint len;
+	gchar *filename;
+	gchar *change_id;
+	gchar *auth;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 #ifdef PILOT_LINK_0_12
 	pi_buffer_t *buffer;
 #else
-	unsigned char *buf;
+	guchar *buf;
 #endif
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -1644,7 +1644,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		EBookChange *ebc = l->data;
-		const char *uid;
+		const gchar *uid;
 
 		uid = e_contact_get_const (ebc->contact, E_CONTACT_UID);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
@@ -1683,9 +1683,9 @@ pre_sync (GnomePilotConduit *conduit,
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 			      DLP_BUF_SIZE, buffer);
 #else
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
-			      (unsigned char *)buf, 0xffff);
+			      (guchar *)buf, 0xffff);
 #endif
 	if (len < 0) {
 		WARN (_("Could not read pilot's Address application block"));
@@ -1716,18 +1716,18 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
-	unsigned char *buf;
-	int dlpRetVal, len;
+	guchar *buf;
+	gint dlpRetVal, len;
 
 	LOG (g_message ( "post_sync: Address Conduit v.%s", CONDUIT_VERSION ));
 
 	/* Write AppBlock to PDA - updates categories */
-	buf = (unsigned char*)g_malloc (0xffff);
+	buf = (guchar *)g_malloc (0xffff);
 
 	len = pack_AddressAppInfo (&(ctxt->ai), buf, 0xffff);
 
 	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle,
-			      (unsigned char *)buf, len);
+			      (guchar *)buf, len);
 
 	g_free (buf);
 
@@ -1778,7 +1778,7 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 		    EAddrLocalRecord *local,
 		    EAddrConduitContext *ctxt)
 {
-	const char *uid;
+	const gchar *uid;
 
 	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 
@@ -1794,7 +1794,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  EAddrConduitContext *ctxt)
 {
   	static GList *cards, *iterator;
-  	static int count;
+  	static gint count;
 
   	g_return_val_if_fail (local != NULL, -1);
 
@@ -1844,7 +1844,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   EAddrConduitContext *ctxt)
 {
 	static GList *iterator;
-	static int count;
+	static gint count;
 
 	g_return_val_if_fail (local != NULL, 0);
 
@@ -1898,7 +1898,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	 EAddrConduitContext *ctxt)
 {
 	GnomePilotRecord local_pilot;
-	int retval = 0;
+	gint retval = 0;
 
 	LOG (g_message ("compare: local=%s remote=%s...\n",
 			print_local (local), print_remote (remote)));
@@ -1926,7 +1926,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    EAddrConduitContext *ctxt)
 {
 	EContact *contact;
-	int retval = 0;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1957,8 +1957,8 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 {
 	EContact *new_contact;
 	EBookChange *ebc;
-	char *old_id;
-	int retval = 0;
+	gchar *old_id;
+	gint retval = 0;
 
 	g_return_val_if_fail (remote != NULL, -1);
 
@@ -1989,7 +1989,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 
 	/* Adding a record causes wombat to assign a new uid so we must tidy */
 	if (ebc && ebc->change_type == E_BOOK_CHANGE_CARD_DELETED) {
-		const char *uid = e_contact_get_const (local->contact, E_CONTACT_UID);
+		const gchar *uid = e_contact_get_const (local->contact, E_CONTACT_UID);
 		gboolean arch;
 
 		arch = e_pilot_map_uid_is_archived (ctxt->map, uid);
@@ -2015,7 +2015,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       EAddrConduitContext *ctxt)
 {
 	GError *error = NULL;
-	int retval = 0;
+	gint retval = 0;
 
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (local->contact != NULL, -1);
@@ -2039,7 +2039,7 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 		gboolean archive,
 		EAddrConduitContext *ctxt)
 {
-	int retval = 0;
+	gint retval = 0;
 
 	g_return_val_if_fail (local != NULL, -1);
 
@@ -2056,7 +2056,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        EAddrLocalRecord **local,
        EAddrConduitContext *ctxt)
 {
-  	const char *uid;
+  	const gchar *uid;
 
 	LOG (g_message ("match: looking for local copy of %s\n",
 	     print_remote (remote)));

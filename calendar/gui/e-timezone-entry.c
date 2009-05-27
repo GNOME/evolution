@@ -296,8 +296,8 @@ static void
 e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	const char *display_name;
-	char *name_buffer;
+	const gchar *display_name;
+	gchar *name_buffer;
 
 	priv = tentry->priv;
 

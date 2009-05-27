@@ -48,14 +48,14 @@ static AtkComponentIface *component_parent_iface;
 static GType parent_type;
 static gint priv_offset;
 static GQuark		quark_accessible_object = 0;
-#define GET_PRIVATE(object) ((GalA11yETableItemPrivate *) (((char *) object) + priv_offset))
+#define GET_PRIVATE(object) ((GalA11yETableItemPrivate *) (((gchar *) object) + priv_offset))
 #define PARENT_TYPE (parent_type)
 
 struct _GalA11yETableItemPrivate {
 	gint cols;
 	gint rows;
-	int selection_change_id;
-	int cursor_change_id;
+	gint selection_change_id;
+	gint cursor_change_id;
 	ETableCol ** columns;
 	ESelectionModel *selection;
 	AtkStateSet *state_set;
@@ -93,7 +93,7 @@ eti_ref_state_set (AtkObject *accessible)
 }
 
 inline static gint
-view_to_model_row(ETableItem *eti, int row)
+view_to_model_row(ETableItem *eti, gint row)
 {
 	if (eti->uses_source_model) {
 		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
@@ -107,16 +107,16 @@ view_to_model_row(ETableItem *eti, int row)
 }
 
 inline static gint
-view_to_model_col(ETableItem *eti, int col)
+view_to_model_col(ETableItem *eti, gint col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
 	return ecol ? ecol->col_idx : -1;
 }
 
 inline static gint
-model_to_view_row(ETableItem *eti, int row)
+model_to_view_row(ETableItem *eti, gint row)
 {
-	int i;
+	gint i;
 	if (row == -1)
 		return -1;
 	if (eti->uses_source_model) {
@@ -136,9 +136,9 @@ model_to_view_row(ETableItem *eti, int row)
 }
 
 inline static gint
-model_to_view_col(ETableItem *eti, int col)
+model_to_view_col(ETableItem *eti, gint col)
 {
-	int i;
+	gint i;
 	if (col == -1)
 		return -1;
 	for (i = 0; i < eti->cols; i++) {
@@ -159,7 +159,7 @@ static void
 eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean notify)
 {
 	ESelectionModel * esm;
-	int cursor_row, cursor_col, view_row, view_col;
+	gint cursor_row, cursor_col, view_row, view_col;
 	AtkObject *cell, *old_cell;
 
 	esm = item->selection;
@@ -284,9 +284,9 @@ eti_ref_accessible_at_point (AtkComponent *component,
 			     gint y,
 			     AtkCoordType coord_type)
 {
-	int row = -1;
-	int col = -1;
-	int x_origin, y_origin;
+	gint row = -1;
+	gint col = -1;
+	gint x_origin, y_origin;
 	ETableItem *item;
 	GtkWidget *tableOrTree;
 
@@ -446,7 +446,7 @@ eti_get_column_extent_at (AtkTable *table,
 			  gint column)
 {
 	ETableItem *item;
-	int width;
+	gint width;
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
 	if (!item)
@@ -469,7 +469,7 @@ eti_get_row_extent_at (AtkTable *table,
 		       gint column)
 {
 	ETableItem *item;
-	int height;
+	gint height;
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
 	if (!item)
@@ -676,7 +676,7 @@ eti_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
-eti_rows_inserted (ETableModel * model, int row, int count,
+eti_rows_inserted (ETableModel * model, gint row, gint count,
 		   AtkObject * table_item)
 {
 	gint n_cols,n_rows,i,j;
@@ -711,7 +711,7 @@ eti_rows_inserted (ETableModel * model, int row, int count,
 }
 
 static void
-eti_rows_deleted (ETableModel * model, int row, int count,
+eti_rows_deleted (ETableModel * model, gint row, gint count,
 		  AtkObject * table_item)
 {
 	gint i,j, n_rows, n_cols, old_nrows;
@@ -949,7 +949,7 @@ static void eti_a11y_selection_model_added_cb (ETableItem *eti,
 static void eti_a11y_selection_changed_cb (ESelectionModel *selection,
 					   GalA11yETableItem *a11y);
 static void eti_a11y_cursor_changed_cb (ESelectionModel *selection,
-					int row, int col,
+					gint row, gint col,
 					GalA11yETableItem *a11y);
 
 /**
@@ -1021,7 +1021,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	AtkObject *accessible;
 	ESelectionModel * esm;
 	AtkObject *parent;
-	const char *name;
+	const gchar *name;
 
 	g_return_val_if_fail (item && item->cols >= 0 && item->rows >= 0, NULL);
 	a11y = g_object_new (gal_a11y_e_table_item_get_type (), NULL);
@@ -1188,7 +1188,7 @@ eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a1
 
 static void
 eti_a11y_cursor_changed_cb (ESelectionModel *selection,
-			    int row, int col,  GalA11yETableItem *a11y)
+			    gint row, gint col,  GalA11yETableItem *a11y)
 {
 	ETableItem *item;
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);

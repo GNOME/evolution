@@ -36,7 +36,7 @@ G_BEGIN_DECLS
 
 struct _EMFormat;
 
-gboolean em_utils_prompt_user(GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...);
+gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);
@@ -48,12 +48,12 @@ void em_utils_edit_filters (GtkWidget *parent);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
-void em_utils_save_part(GtkWindow *parent, const char *prompt, CamelMimePart *part);
-gboolean em_utils_save_part_to_file(GtkWindow *parent, const char *filename, CamelMimePart *part);
+void em_utils_save_part(GtkWindow *parent, const gchar *prompt, CamelMimePart *part);
+gboolean em_utils_save_part_to_file(GtkWindow *parent, const gchar *filename, CamelMimePart *part);
 void em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 
-void em_utils_add_address(GtkWindow *parent, const char *email);
-void em_utils_add_vcard(GtkWindow *parent, const char *vcard);
+void em_utils_add_address(GtkWindow *parent, const gchar *email);
+void em_utils_add_vcard(GtkWindow *parent, const gchar *vcard);
 
 void em_utils_flag_for_followup (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
@@ -65,35 +65,35 @@ void em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder,
 void em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder);
 void em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder);
 /* FIXME: be nice if these also worked on CamelFolder's, no easy way to get uri from folder yet tho */
-void em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArray *uids);
-void em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int move, CamelException *ex);
+void em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArray *uids);
+void em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, gint move, CamelException *ex);
 void em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder);
 
-char *em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode);
-void em_utils_save_parts (GtkWindow *parent, const char *prompt, GSList * parts);
+gchar *em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode);
+void em_utils_save_parts (GtkWindow *parent, const gchar *prompt, GSList * parts);
 
-gboolean em_utils_folder_is_drafts(CamelFolder *folder, const char *uri);
-gboolean em_utils_folder_is_templates(CamelFolder *folder, const char *uri);
-gboolean em_utils_folder_is_sent(CamelFolder *folder, const char *uri);
-gboolean em_utils_folder_is_outbox(CamelFolder *folder, const char *uri);
+gboolean em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_templates(CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri);
 
 void em_utils_adjustment_page(GtkAdjustment *adj, gboolean down);
 
-char *em_utils_get_proxy_uri (const char *uri);
+gchar *em_utils_get_proxy_uri (const gchar *uri);
 
 /* FIXME: should this have an override charset? */
-char *em_utils_message_to_html(CamelMimeMessage *msg, const char *credits, guint32 flags, ssize_t *len, struct _EMFormat *source, const char *append);
+gchar *em_utils_message_to_html(CamelMimeMessage *msg, const gchar *credits, guint32 flags, ssize_t *len, struct _EMFormat *source, const gchar *append);
 
 void em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder);
 void em_utils_empty_trash (GtkWidget *parent);
 
 /* returns the folder name portion of an URI */
-char *em_utils_folder_name_from_uri (const char *uri);
+gchar *em_utils_folder_name_from_uri (const gchar *uri);
 
 /* internal/camel uri translation */
-char *em_uri_from_camel (const char *curi);
-char *em_uri_to_camel (const char *euri);
+gchar *em_uri_from_camel (const gchar *curi);
+gchar *em_uri_to_camel (const gchar *euri);
 
 /* Run errors silently on the status bar */
 void em_utils_show_error_silent (GtkWidget *widget);

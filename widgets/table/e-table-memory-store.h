@@ -92,45 +92,45 @@ ETableModel *e_table_memory_store_construct           (ETableMemoryStore        
 
 /* Adopt a value instead of copying it. */
 void         e_table_memory_store_adopt_value_at      (ETableMemoryStore            *etms,
-						       int                           col,
-						       int                           row,
+						       gint                           col,
+						       gint                           row,
 						       void                         *value);
 
 /* The size of these arrays is the number of columns. */
 void         e_table_memory_store_insert_array        (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       void                        **store,
 						       gpointer                      data);
 void         e_table_memory_store_insert              (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       gpointer                      data,
 						       ...);
 void         e_table_memory_store_insert_adopt        (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       gpointer                      data,
 						       ...);
 void         e_table_memory_store_insert_adopt_array  (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       void                        **store,
 						       gpointer                      data);
 void         e_table_memory_store_change_array        (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       void                        **store,
 						       gpointer                      data);
 void         e_table_memory_store_change              (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       gpointer                      data,
 						       ...);
 void         e_table_memory_store_change_adopt        (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       gpointer                      data,
 						       ...);
 void         e_table_memory_store_change_adopt_array  (ETableMemoryStore            *etms,
-						       int                           row,
+						       gint                           row,
 						       void                        **store,
 						       gpointer                      data);
 void         e_table_memory_store_remove              (ETableMemoryStore            *etms,
-						       int                           row);
+						       gint                           row);
 void         e_table_memory_store_clear               (ETableMemoryStore            *etms);
 
 G_END_DECLS

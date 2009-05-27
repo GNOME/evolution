@@ -101,10 +101,10 @@ struct _MemoPagePrivate {
 };
 
 static void set_subscriber_info_string (MemoPage *mpage, const gchar *backend_address);
-static const char * get_recipients (ECalComponent *comp);
+static const gchar * get_recipients (ECalComponent *comp);
 static void sensitize_widgets (MemoPage *mpage);
 static gboolean memo_page_fill_component (CompEditorPage *page, ECalComponent *comp);
-static void memo_page_select_organizer (MemoPage *mpage, const char *backend_address);
+static void memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address);
 
 G_DEFINE_TYPE (MemoPage, memo_page, TYPE_COMP_EDITOR_PAGE)
 
@@ -196,7 +196,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 	ECalComponentText text;
 	ECalComponentDateTime d;
 	GSList *l;
-	const char *categories;
+	const gchar *categories;
 	gchar *backend_addr = NULL;
 
 	mpage = MEMO_PAGE (page);
@@ -363,7 +363,7 @@ sensitize_widgets (MemoPage *mpage)
 }
 
 /* returns empty string rather than NULL because of simplicity of usage */
-static const char *
+static const gchar *
 get_recipients (ECalComponent *comp)
 {
 	icalcomponent *icalcomp;
@@ -377,7 +377,7 @@ get_recipients (ECalComponent *comp)
 	for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	     icalprop;
 	     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
-		const char *xname = icalproperty_get_x_name (icalprop);
+		const gchar *xname = icalproperty_get_x_name (icalprop);
 
 		if (xname && strcmp (xname, "X-EVOLUTION-RECIPIENTS") == 0)
 			break;
@@ -420,7 +420,7 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 				ENameSelectorDialog *dialog;
 				EContactStore *c_store;
 				GList *books, *l;
-				char *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
+				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (name_selector);
 				c_store = dialog->name_selector_model->contact_store;
@@ -437,11 +437,11 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 				if (book) {
 					GList *contacts = NULL;
 					EContact *n_con = NULL;
-					char *qu;
+					gchar *qu;
 					EBookQuery *query;
 
 					qu = g_strdup_printf ("(is \"full_name\" \"%s\")",
-							(char *) e_contact_get (contact, E_CONTACT_FULL_NAME));
+							(gchar *) e_contact_get (contact, E_CONTACT_FULL_NAME));
 					query = e_book_query_from_string (qu);
 
 					if (!e_book_get_contacts (book, query, &contacts, NULL)) {
@@ -471,7 +471,7 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
-			const char *name, *attendee = NULL;
+			const gchar *name, *attendee = NULL;
 
 			name = e_destination_get_name (dest);
 
@@ -512,7 +512,7 @@ get_current_account (MemoPage *page)
 {
 	MemoPagePrivate *priv = page->priv;
 	EIterator *it;
-	const char *str;
+	const gchar *str;
 
 	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))));
 	if (!str)
@@ -520,7 +520,7 @@ get_current_account (MemoPage *page)
 
 	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
 		EAccount *a = (EAccount *)e_iterator_get(it);
-		char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
 			g_free (full);
@@ -549,8 +549,8 @@ memo_page_fill_component (CompEditorPage *page,
 	ECalComponentClassification classification;
 	ECalComponentDateTime start_date;
 	struct icaltimetype start_tt;
-	char *cat, *str;
-	int i;
+	gchar *cat, *str;
+	gint i;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 
@@ -591,10 +591,10 @@ memo_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_description_list (comp, NULL);
 	}
 	else {
-		int idxToUse = 1;
+		gint idxToUse = 1;
 		GSList l;
 		ECalComponentText text, sumText;
-		char *txt, *p;
+		gchar *txt, *p;
 		gunichar uc;
 
 		for(i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
@@ -1022,7 +1022,7 @@ get_to_entry (ENameSelector *name_selector)
 }
 
 static void
-memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
+memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 {
 	MemoPagePrivate *priv;
 	CompEditor *editor;
@@ -1031,10 +1031,10 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	ECal *client;
 	EAccount *def_account;
 	gchar *def_address = NULL;
-	const char *default_address;
+	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
-	const char *user_addr = NULL;
+	const gchar *user_addr = NULL;
 
 	def_account = itip_addresses_get_default();
 	if (def_account && def_account->enabled)
@@ -1059,7 +1059,7 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 	if (user_addr)
 		for (l = priv->address_strings; l != NULL; l = l->next)
 			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				default_address = (const char *) l->data;
+				default_address = (const gchar *) l->data;
 				break;
 			}
 
@@ -1093,7 +1093,7 @@ memo_page_construct (MemoPage *mpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	EIterator *it;
-	char *gladefile;
+	gchar *gladefile;
 	EAccount *a;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));

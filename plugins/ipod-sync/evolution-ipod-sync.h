@@ -30,9 +30,9 @@
 
 gboolean check_hal (void);
 gboolean ipod_check_status (gboolean silent);
-gboolean try_umount (char *device);
+gboolean try_umount (gchar *device);
 
-char *find_ipod_mount_point (LibHalContext *ctx);
-char *ipod_get_mount (void);
+gchar *find_ipod_mount_point (LibHalContext *ctx);
+gchar *ipod_get_mount (void);
 
 

@@ -60,9 +60,9 @@ typedef struct {
 	gboolean send_as_del_enabled;
 	gboolean delivery_enabled;
 	gboolean read_enabled;
-	const char *delegate_name;
-	const char *delegate_email;
-	const char *delegate_address;
+	const gchar *delegate_name;
+	const gchar *delegate_email;
+	const gchar *delegate_address;
 } ExchangeSendOptions ;
 
 struct _ExchangeSendOptionsDialog {

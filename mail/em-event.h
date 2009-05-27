@@ -86,10 +86,10 @@ typedef struct _EMEventTargetFolder EMEventTargetFolder;
 
 struct _EMEventTargetFolder {
 	EEventTarget target;
-	char *uri;
+	gchar *uri;
 	guint  new;
 	gboolean is_inbox;
-	char *name;
+	gchar *name;
 };
 
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
@@ -97,7 +97,7 @@ typedef struct _EMEventTargetMessage EMEventTargetMessage;
 struct _EMEventTargetMessage {
 	EEventTarget              target;
 	struct _CamelFolder      *folder;
-	char                     *uid;
+	gchar                     *uid;
 	struct _CamelMimeMessage *message;
 };
 
@@ -125,7 +125,7 @@ struct _EMEventTargetSendReceive {
 
 	struct _GtkWidget *table;
 	gpointer data;
-	int row;
+	gint row;
 };
 
 typedef struct _EMEventTargetCustomIcon EMEventTargetCustomIcon;
@@ -134,7 +134,7 @@ struct _EMEventTargetCustomIcon {
 	EEventTarget target;
 
 	GtkCellRenderer *renderer;
-	const char 	*folder_name;
+	const gchar 	*folder_name;
 };
 
 typedef struct _EEventItem EMEventItem;
@@ -154,12 +154,12 @@ GType em_event_get_type(void);
 
 EMEvent *em_event_peek(void);
 
-EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
+EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const gchar *uri, guint32 flags);
 EMEventTargetFolderBrowser *em_event_target_new_folder_browser (EMEvent *eme, EMFolderBrowser *emfb);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
-EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
-EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, int row, guint32 flags);
-EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const char *uri, guint32 flags);
+EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const gchar *uid, guint32 flags);
+EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, gint row, guint32 flags);
+EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const gchar *uri, guint32 flags);
 
 /* ********************************************************************** */
 

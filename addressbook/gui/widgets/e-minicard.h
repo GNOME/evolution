@@ -117,11 +117,11 @@ struct _EMinicardField {
 #define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 
 GType       e_minicard_get_type     (void);
-const char *e_minicard_get_card_id  (EMinicard *minicard);
-int         e_minicard_compare      (EMinicard *minicard1,
+const gchar *e_minicard_get_card_id  (EMinicard *minicard);
+gint         e_minicard_compare      (EMinicard *minicard1,
 				     EMinicard *minicard2);
 
-int         e_minicard_selected     (EMinicard *minicard,
+gint         e_minicard_selected     (EMinicard *minicard,
 				     GdkEvent  *event);
 void        e_minicard_activate_editor	(EMinicard *minicard);
 

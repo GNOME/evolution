@@ -33,12 +33,12 @@
 #include "util.h"
 
 /* Converts a time_t to a string, relative to the specified timezone */
-char *
+gchar *
 timet_to_str_with_zone (time_t t, icaltimezone *zone)
 {
 	struct icaltimetype itt;
 	struct tm tm;
-	char buf[256];
+	gchar buf[256];
 
 	if (t == -1)
 		return g_strdup (_("invalid time"));
@@ -51,15 +51,15 @@ timet_to_str_with_zone (time_t t, icaltimezone *zone)
 	return g_strdup (buf);
 }
 
-char *
+gchar *
 calculate_time (time_t start, time_t end)
 {
 	time_t difference = end - start;
-	char *str;
-	int   hours, minutes;
-	char *times[4];
-	char *joined;
-	int   i;
+	gchar *str;
+	gint   hours, minutes;
+	gchar *times[4];
+	gchar *joined;
+	gint   i;
 
         i = 0;
 	if (difference >= 3600) {

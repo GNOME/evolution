@@ -104,10 +104,10 @@ struct _MailComponentPrivate {
 
 	/* states/data used during shutdown */
 	enum { MC_QUIT_START, MC_QUIT_SYNC, MC_QUIT_THREADS } quit_state;
-	int quit_count;
-	int quit_expunge;	/* expunge on quit this time around? */
+	gint quit_count;
+	gint quit_expunge;	/* expunge on quit this time around? */
 
-	char *base_directory;
+	gchar *base_directory;
 
 	EMFolderTreeModel *model;
 
@@ -118,7 +118,7 @@ struct _MailComponentPrivate {
 
 	RuleContext *search_context;
 
-	char *context_path;	/* current path for right-click menu */
+	gchar *context_path;	/* current path for right-click menu */
 
 	CamelStore *local_store;
 	ELogger *logger;
@@ -185,7 +185,7 @@ impl_finalize (GObject *object)
 }
 
 static void
-view_on_url (GObject *emitter, const char *url, const char *nice_url, MailComponent *mail_component)
+view_on_url (GObject *emitter, const gchar *url, const gchar *nice_url, MailComponent *mail_component)
 {
 	MailComponentPrivate *priv = mail_component->priv;
 
@@ -245,7 +245,7 @@ impl_createView (PortableServer_Servant servant,
 	GtkWidget *tree_widget, *vbox, *info;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
-	char *uri;
+	gchar *uri;
 
 	mail_session_set_interactive(TRUE);
 	mc_startup(mail_component);
@@ -341,7 +341,7 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-mc_quit_sync_done(CamelStore *store, void *data)
+mc_quit_sync_done(CamelStore *store, gpointer data)
 {
 	MailComponent *mc = data;
 
@@ -362,7 +362,7 @@ mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
 
 	if (folder) {
 		GPtrArray *uids;
-		int i;
+		gint i;
 
 		uids =  camel_folder_get_uids (folder);
 		camel_folder_freeze(folder);
@@ -387,7 +387,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
-		int now = time(NULL)/60/60/24, days;
+		gint now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
 
 		GConfClient *gconf = mail_config_get_gconf_client();
@@ -491,7 +491,7 @@ mail_component_init (MailComponent *component)
 //	priv->base_directory = g_build_filename (e_get_user_data_dir (), "mail", NULL);
 //#ifdef G_OS_WIN32
 //	{
-//		char *p = priv->base_directory;
+//		gchar *p = priv->base_directory;
 //		while ((p = strchr(p, '\\')))
 //			*p++ = '/';
 //	}

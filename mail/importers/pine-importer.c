@@ -58,9 +58,9 @@ struct _pine_import_msg {
 	EImportTarget *target;
 
 	GMutex *status_lock;
-	char *status_what;
-	int status_pc;
-	int status_timeout_id;
+	gchar *status_what;
+	gint status_pc;
+	gint status_timeout_id;
 	CamelOperation *status;
 };
 
@@ -68,7 +68,7 @@ static gboolean
 pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EImportTargetHome *s;
-	char *maildir, *addrfile;
+	gchar *maildir, *addrfile;
 	gboolean md_exists, addr_exists;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
@@ -102,10 +102,10 @@ FIXME: we dont handle aliases in lists.
 */
 
 static void
-import_contact(EBook *book, char *line)
+import_contact(EBook *book, gchar *line)
 {
-	char **strings, *addr, **addrs;
-	int i;
+	gchar **strings, *addr, **addrs;
+	gint i;
 	GList *list;
 	/*EContactName *name;*/
 	EContact *card;
@@ -165,7 +165,7 @@ import_contacts(void)
 	ESource *primary;
 	ESourceList *source_list;
 	EBook *book;
-	char *name;
+	gchar *name;
 	GString *line;
 	FILE *fp;
 	size_t offset;
@@ -238,7 +238,7 @@ pine_import_exec(struct _pine_import_msg *m)
 		import_contacts();
 
 	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail"))) {
-		char *path;
+		gchar *path;
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
 		mail_importer_import_folders_sync(path, pine_special_folders, 0, m->status);
@@ -280,7 +280,7 @@ pine_import_free(struct _pine_import_msg *m)
 }
 
 static void
-pine_status(CamelOperation *op, const char *what, int pc, void *data)
+pine_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _pine_import_msg *importer = data;
 
@@ -297,11 +297,11 @@ pine_status(CamelOperation *op, const char *what, int pc, void *data)
 }
 
 static gboolean
-pine_status_timeout(void *data)
+pine_status_timeout(gpointer data)
 {
 	struct _pine_import_msg *importer = data;
-	int pc;
-	char *what;
+	gint pc;
+	gchar *what;
 
 	if (importer->status_what) {
 		g_mutex_lock(importer->status_lock);
@@ -328,7 +328,7 @@ static int
 mail_importer_pine_import(EImport *ei, EImportTarget *target)
 {
 	struct _pine_import_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&pine_import_info);
 	g_datalist_set_data(&target->data, "pine-msg", m);

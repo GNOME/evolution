@@ -28,12 +28,12 @@
 static void
 add_pages (EPreferencesWindow *preferences_window)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < NUM_PAGES; i ++) {
 		GtkWidget *widget;
-		char *caption;
-		char *page_name;
+		gchar *caption;
+		gchar *page_name;
 
 		caption = g_strdup_printf ("Title of page %d", i);
 		page_name = g_strdup_printf ("page-%d", i);
@@ -53,15 +53,15 @@ add_pages (EPreferencesWindow *preferences_window)
 static int
 delete_event_callback (GtkWidget *widget,
 		       GdkEventAny *event,
-		       void *data)
+		       gpointer data)
 {
 	gtk_main_quit ();
 
 	return TRUE;
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	GtkWidget *window;
 

@@ -38,9 +38,9 @@
 struct _EPopupFactory {
 	struct _EPopupFactory *next, *prev;
 
-	char *menuid;
+	gchar *menuid;
 	EPopupFactoryFunc factory;
-	void *factory_data;
+	gpointer factory_data;
 };
 
 /* Used for the "activate" signal callback data to re-map to the api */
@@ -63,9 +63,9 @@ struct _menu_node {
 	EPopup *popup;
 
 	GSList *menu;
-	char *domain;
+	gchar *domain;
 	EPopupItemsFunc freefunc;
-	void *data;
+	gpointer data;
 
 	struct _item_node *items;
 };
@@ -188,7 +188,7 @@ e_popup_get_type(void)
  *
  * Return value: A new EPopup.
  **/
-EPopup *e_popup_new(const char *menuid)
+EPopup *e_popup_new(const gchar *menuid)
 {
 	EPopup *ep = g_object_new(e_popup_get_type(), NULL);
 
@@ -206,7 +206,7 @@ EPopup *e_popup_new(const char *menuid)
  *
  * Return value: Returns @ep.
  **/
-EPopup *e_popup_construct(EPopup *ep, const char *menuid)
+EPopup *e_popup_construct(EPopup *ep, const gchar *menuid)
 {
 	ep->menuid = g_strdup(menuid);
 
@@ -229,7 +229,7 @@ EPopup *e_popup_construct(EPopup *ep, const char *menuid)
  * built to create a complex heirarchy of menus.
  **/
 void
-e_popup_add_items(EPopup *emp, GSList *items, const char *domain, EPopupItemsFunc freefunc, void *data)
+e_popup_add_items(EPopup *emp, GSList *items, const gchar *domain, EPopupItemsFunc freefunc, gpointer data)
 {
 	struct _menu_node *node;
 
@@ -264,10 +264,10 @@ ep_add_static_items(EPopup *emp)
 }
 
 static int
-ep_cmp(const void *ap, const void *bp)
+ep_cmp(gconstpointer ap, gconstpointer bp)
 {
-	struct _item_node *a = *((void **)ap);
-	struct _item_node *b = *((void **)bp);
+	struct _item_node *a = *((gpointer *)ap);
+	struct _item_node *b = *((gpointer *)bp);
 
 	return strcmp(a->item->path, b->item->path);
 }
@@ -375,7 +375,7 @@ ep_build_tree(struct _item_node *inode, guint32 mask)
 				gtk_widget_show (item->image);
 			break;
 		case E_POPUP_RADIO: {
-			char *ppath = inode->parent?inode->parent->item->path:NULL;
+			gchar *ppath = inode->parent?inode->parent->item->path:NULL;
 
 			menuitem = (GtkMenuItem *)gtk_radio_menu_item_new(g_hash_table_lookup(group_hash, ppath));
 			g_hash_table_insert(group_hash, ppath, gtk_radio_menu_item_get_group((GtkRadioMenuItem *)menuitem));
@@ -459,7 +459,7 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 	GString *ppath = g_string_new("");
 	GHashTable *tree_hash = g_hash_table_new(g_str_hash, g_str_equal);
 	EDList head = E_DLIST_INITIALISER(head);
-	int i;
+	gint i;
 
 	emp->target = target;
 	ep_add_static_items(emp);
@@ -510,7 +510,7 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 		struct _item_node *inode = items->pdata[i], *pnode;
 		struct _item_node *nextnode = (i + 1 < items->len) ? items->pdata[i+1] : NULL;
 		struct _EPopupItem *item = inode->item;
-		const char *tmp;
+		const gchar *tmp;
 
 		if (nextnode && !strcmp (nextnode->item->path, item->path)) {
 			d(printf ("skipping item %s\n", item->path));
@@ -607,7 +607,7 @@ e_popup_create_menu_once(EPopup *emp, EPopupTarget *target, guint32 mask)
  * it later.
  **/
 EPopupFactory *
-e_popup_class_add_factory(EPopupClass *klass, const char *menuid, EPopupFactoryFunc func, void *data)
+e_popup_class_add_factory(EPopupClass *klass, const gchar *menuid, EPopupFactoryFunc func, gpointer data)
 {
 	struct _EPopupFactory *f = g_malloc0(sizeof(*f));
 
@@ -648,7 +648,7 @@ e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f)
  *
  * Allocate a new popup target suitable for this popup type.
  **/
-void *e_popup_target_new(EPopup *ep, int type, size_t size)
+gpointer e_popup_target_new(EPopup *ep, gint type, size_t size)
 {
 	EPopupTarget *t;
 
@@ -675,7 +675,7 @@ void *e_popup_target_new(EPopup *ep, int type, size_t size)
  * only required if you are using the target for other purposes.
  **/
 void
-e_popup_target_free(EPopup *ep, void *o)
+e_popup_target_free(EPopup *ep, gpointer o)
 {
 	EPopupTarget *t = o;
 
@@ -710,7 +710,7 @@ e_popup_target_free(EPopup *ep, void *o)
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EPopupHook *)eph)
 
 /* must have 1:1 correspondence with e-popup types in order */
@@ -725,15 +725,15 @@ static const EPluginHookTargetKey emph_item_types[] = {
 };
 
 static void
-emph_popup_activate(EPopup *ep, EPopupItem *item, void *data)
+emph_popup_activate(EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EPopupHook *hook = data;
 
-	e_plugin_invoke(hook->hook.plugin, (char *)item->user_data, ep->target);
+	e_plugin_invoke(hook->hook.plugin, (gchar *)item->user_data, ep->target);
 }
 
 static void
-emph_popup_factory(EPopup *emp, void *data)
+emph_popup_factory(EPopup *emp, gpointer data)
 {
 	struct _EPopupHookMenu *menu = data;
 
@@ -811,13 +811,13 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	xmlNodePtr node;
 	EPopupHookTargetMap *map;
 	EPopupHookClass *klass = (EPopupHookClass *)G_OBJECT_GET_CLASS(eph);
-	char *tmp;
+	gchar *tmp;
 
 	d(printf(" loading menu\n"));
 	menu = g_malloc0(sizeof(*menu));
 	menu->hook = (EPopupHook *)eph;
 
-	tmp = (char *)xmlGetProp(root, (const unsigned char *)"target");
+	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
 	map = g_hash_table_lookup(klass->target_map, tmp);
@@ -837,7 +837,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (0 == strcmp((char *)node->name, "item")) {
+		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EPopupItem *item;
 
 			item = emph_construct_item(eph, menu, node, map);
@@ -868,7 +868,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "menu") == 0) {
+		if (strcmp((gchar *)node->name, "menu") == 0) {
 			struct _EPopupHookMenu *menu;
 
 			menu = emph_construct_menu(eph, node);
@@ -949,5 +949,5 @@ e_popup_hook_get_type(void)
  **/
 void e_popup_hook_class_add_target_map(EPopupHookClass *klass, const EPopupHookTargetMap *map)
 {
-	g_hash_table_insert(klass->target_map, (void *)map->type, (void *)map);
+	g_hash_table_insert(klass->target_map, (gpointer)map->type, (gpointer)map);
 }

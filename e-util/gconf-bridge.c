@@ -46,7 +46,7 @@ typedef struct {
 
         gboolean delayed_mode;
 
-        char *key;
+        gchar *key;
         guint val_notify_id;
         GSList *val_changes; /* List of changes made to GConf value,
                                 that have not received change notification
@@ -66,7 +66,7 @@ typedef struct {
         gboolean bind_size;
         gboolean bind_pos;
 
-        char *key_prefix;
+        gchar *key_prefix;
 
         GtkWindow *window;
         gulong configure_event_id;
@@ -79,7 +79,7 @@ typedef struct {
         BindingType type;
         guint id;
 
-        char *key;
+        gchar *key;
         guint val_notify_id;
         GSList *val_changes; /* List of changes made to GConf value,
                                 that have not received change notification
@@ -479,14 +479,14 @@ prop_binding_object_destroyed (gpointer user_data,
  **/
 guint
 gconf_bridge_bind_property_full (GConfBridge *bridge,
-                                 const char  *key,
+                                 const gchar  *key,
                                  GObject     *object,
-                                 const char  *prop,
+                                 const gchar  *prop,
                                  gboolean     delayed_sync)
 {
         GParamSpec *pspec;
         PropBinding *binding;
-        char *signal;
+        gchar *signal;
         GConfValue *val;
 
         g_return_val_if_fail (bridge != NULL, 0);
@@ -593,8 +593,8 @@ static gboolean
 window_binding_perform_scheduled_sync (WindowBinding *binding)
 {
         if (binding->bind_size) {
-                int width, height;
-                char *key;
+                gint width, height;
+                gchar *key;
                 GdkWindowState state;
 
                 state = gdk_window_get_state (GTK_WIDGET (binding->window)->window);
@@ -621,8 +621,8 @@ window_binding_perform_scheduled_sync (WindowBinding *binding)
         }
 
         if (binding->bind_pos) {
-                int x, y;
-                char *key;
+                gint x, y;
+                gchar *key;
 
                 gtk_window_get_position (binding->window, &x, &y);
 
@@ -721,7 +721,7 @@ window_binding_window_destroyed (gpointer user_data,
  **/
 guint
 gconf_bridge_bind_window (GConfBridge *bridge,
-                          const char  *key_prefix,
+                          const gchar  *key_prefix,
                           GtkWindow   *window,
                           gboolean     bind_size,
                           gboolean     bind_pos)
@@ -745,7 +745,7 @@ gconf_bridge_bind_window (GConfBridge *bridge,
 
         /* Set up GConf keys & sync window to GConf values */
         if (bind_size) {
-                char *key;
+                gchar *key;
                 GConfValue *width_val, *height_val, *maximized_val;
 
                 key = g_strconcat (key_prefix, "_width", NULL);
@@ -782,7 +782,7 @@ gconf_bridge_bind_window (GConfBridge *bridge,
         }
 
         if (bind_pos) {
-                char *key;
+                gchar *key;
                 GConfValue *x_val, *y_val;
 
                 key = g_strconcat (key_prefix, "_x", NULL);
@@ -885,7 +885,7 @@ list_store_binding_sync_pref_to_store (ListStoreBinding *binding,
         list = gconf_value_get_list (value);
         for (l = list; l; l = l->next) {
                 GConfValue *l_value;
-                const char *string;
+                const gchar *string;
 
                 l_value = (GConfValue *) l->data;
                 string = gconf_value_get_string (l_value);
@@ -909,7 +909,7 @@ list_store_binding_sync_store_to_pref (ListStoreBinding *binding)
         GtkTreeModel *tree_model;
         GtkTreeIter iter;
         GSList *list;
-        int res;
+        gint res;
         GConfValue *gconf_value;
 
         tree_model = GTK_TREE_MODEL (binding->list_store);
@@ -918,7 +918,7 @@ list_store_binding_sync_store_to_pref (ListStoreBinding *binding)
         list = NULL;
         res = gtk_tree_model_get_iter_first (tree_model, &iter);
         while (res) {
-                char *string;
+                gchar *string;
                 GConfValue *tmp_value;
 
                 gtk_tree_model_get (tree_model, &iter,
@@ -1029,7 +1029,7 @@ list_store_binding_store_changed_cb (ListStoreBinding *binding)
  **/
 guint
 gconf_bridge_bind_string_list_store (GConfBridge  *bridge,
-                                     const char   *key,
+                                     const gchar   *key,
                                      GtkListStore *list_store)
 {
         GtkTreeModel *tree_model;
@@ -1210,7 +1210,7 @@ error_handler (GConfClient *client,
         g_warning ("GConf error:\n  %s", error->message);
 
         if (!shown_dialog) {
-                char *message;
+                gchar *message;
                 GtkWidget *dlg;
 
                 message = g_strdup_printf (_("GConf error: %s"),

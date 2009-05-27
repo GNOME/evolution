@@ -30,7 +30,7 @@
 
 G_BEGIN_DECLS
 
-gboolean e_categories_config_get_icon_for (const char *category,
+gboolean e_categories_config_get_icon_for (const gchar *category,
 					   GdkPixmap **icon,
 					   GdkBitmap **mask);
 void     e_categories_config_open_dialog_for_entry (GtkEntry *entry);

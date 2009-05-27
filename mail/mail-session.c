@@ -61,7 +61,7 @@
 #define d(x)
 
 CamelSession *session;
-static int session_check_junk_notify_id = -1;
+static gint session_check_junk_notify_id = -1;
 
 #define MAIL_SESSION_TYPE     (mail_session_get_type ())
 #define MAIL_SESSION(obj)     (CAMEL_CHECK_CAST((obj), MAIL_SESSION_TYPE, MailSession))
@@ -86,16 +86,16 @@ typedef struct _MailSessionClass {
 static EMailShellBackend *session_mail_shell_backend;
 static CamelSessionClass *ms_parent_class;
 
-static char *get_password(CamelSession *session, CamelService *service, const char *domain, const char *prompt, const char *item, guint32 flags, CamelException *ex);
-static void forget_password(CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex);
-static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
-static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
-static gboolean lookup_addressbook(CamelSession *session, const char *name);
+static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
+static void forget_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex);
+static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *prompt, gboolean cancel);
+static CamelFilterDriver *get_filter_driver(CamelSession *session, const gchar *type, CamelException *ex);
+static gboolean lookup_addressbook(CamelSession *session, const gchar *name);
 
-static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
-static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
+static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar *text, gint pc);
+static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, guint size);
 static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
-static void ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const char *address, CamelException *ex);
+static void ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex);
 
 static void
 init (MailSession *session)
@@ -152,10 +152,10 @@ mail_session_get_type (void)
 }
 
 
-static char *
-make_key (CamelService *service, const char *item)
+static gchar *
+make_key (CamelService *service, const gchar *item)
 {
-	char *key;
+	gchar *key;
 
 	if (service)
 		key = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
@@ -167,12 +167,12 @@ make_key (CamelService *service, const char *item)
 
 /* ********************************************************************** */
 
-static char *
-get_password (CamelSession *session, CamelService *service, const char *domain,
-	      const char *prompt, const char *item, guint32 flags, CamelException *ex)
+static gchar *
+get_password (CamelSession *session, CamelService *service, const gchar *domain,
+	      const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex)
 {
-	char *url;
-	char *ret = NULL;
+	gchar *url;
+	gchar *ret = NULL;
 	EAccount *account = NULL;
 
 	url = service?camel_url_to_string(service->url, CAMEL_URL_HIDE_ALL):NULL;
@@ -185,7 +185,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 		else
 			ret = g_strdup(url);
 	} else {
-		char *key = make_key(service, item);
+		gchar *key = make_key(service, item);
 		EAccountService *config_service = NULL;
 
 		if (domain == NULL)
@@ -206,7 +206,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 
 			if (!config_service || (config_service && !config_service->get_password_canceled)) {
 				guint32 eflags;
-				char *title;
+				gchar *title;
 
 				if (flags & CAMEL_SESSION_PASSPHRASE) {
 					if (account)
@@ -265,9 +265,9 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 }
 
 static void
-forget_password (CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex)
+forget_password (CamelSession *session, CamelService *service, const gchar *domain, const gchar *item, CamelException *ex)
 {
-	char *key = make_key (service, item);
+	gchar *key = make_key (service, item);
 
 	e_passwords_forget_password (domain?domain:"Mail", key);
 	g_free (key);
@@ -282,18 +282,18 @@ struct _user_message_msg {
 	MailMsg base;
 
 	CamelSessionAlertType type;
-	char *prompt;
+	gchar *prompt;
 	EFlag *done;
 
-	unsigned int allow_cancel:1;
-	unsigned int result:1;
-	unsigned int ismain:1;
+	guint allow_cancel:1;
+	guint result:1;
+	guint ismain:1;
 };
 
 static void user_message_exec (struct _user_message_msg *m);
 
 static void
-user_message_response_free (GtkDialog *dialog, int button, struct _user_message_msg *m)
+user_message_response_free (GtkDialog *dialog, gint button, struct _user_message_msg *m)
 {
 	gtk_widget_destroy ((GtkWidget *) dialog);
 
@@ -309,7 +309,7 @@ user_message_response_free (GtkDialog *dialog, int button, struct _user_message_
 
 /* clicked, send back the reply */
 static void
-user_message_response (GtkDialog *dialog, int button, struct _user_message_msg *m)
+user_message_response (GtkDialog *dialog, gint button, struct _user_message_msg *m)
 {
 	/* if !allow_cancel, then we've already replied */
 	if (m->allow_cancel) {
@@ -400,7 +400,7 @@ static MailMsgInfo user_message_info = {
 };
 
 static gboolean
-lookup_addressbook(CamelSession *session, const char *name)
+lookup_addressbook(CamelSession *session, const gchar *name)
 {
 	CamelInternetAddress *addr;
 	gboolean ret;
@@ -417,7 +417,7 @@ lookup_addressbook(CamelSession *session, const char *name)
 }
 
 static gboolean
-alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel)
+alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *prompt, gboolean cancel)
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	struct _user_message_msg *m;
@@ -454,13 +454,13 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 }
 
 static CamelFolder *
-get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
+get_folder (CamelFilterDriver *d, const gchar *uri, gpointer data, CamelException *ex)
 {
 	return mail_tool_uri_to_folder(uri, 0, ex);
 }
 
 static void
-main_play_sound (CamelFilterDriver *driver, char *filename, gpointer user_data)
+main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
 {
 	if (filename && *filename)
 		gnome_sound_play (filename);
@@ -472,7 +472,7 @@ main_play_sound (CamelFilterDriver *driver, char *filename, gpointer user_data)
 }
 
 static void
-session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
+session_play_sound (CamelFilterDriver *driver, const gchar *filename, gpointer user_data)
 {
 	MailSession *ms = (MailSession *) session;
 
@@ -501,13 +501,13 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 }
 
 static CamelFilterDriver *
-main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
+main_get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
 {
 	EShellBackend *shell_backend;
 	CamelFilterDriver *driver;
 	FilterRule *rule = NULL;
 	const gchar *data_dir;
-	char *user, *system;
+	gchar *user, *system;
 	GConfClient *gconf;
 	RuleContext *fc;
 
@@ -529,7 +529,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		MailSession *ms = (MailSession *) session;
 
 		if (ms->filter_logfile == NULL) {
-			char *filename;
+			gchar *filename;
 
 			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
 			if (filename) {
@@ -585,7 +585,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 }
 
 static CamelFilterDriver *
-get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
+get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
 {
 	return (CamelFilterDriver *) mail_call_main (MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
 						     session, type, ex);
@@ -596,7 +596,7 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 
 static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
 
-static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size)
+static gpointer ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, guint size)
 {
 	CamelSessionThreadMsg *msg = ms_parent_class->thread_msg_new(session, ops, size);
 
@@ -620,14 +620,14 @@ static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m)
 	ms_parent_class->thread_msg_free(session, m);
 }
 
-static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc)
+static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const gchar *text, gint pc)
 {
 	/* This should never be called since we bypass it in alloc! */
 	printf("Thread status '%s' %d%%\n", text, pc);
 }
 
 static void
-ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const char *address, CamelException *ex)
+ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const gchar *address, CamelException *ex)
 {
 	g_return_if_fail (session != NULL);
 	g_return_if_fail (message != NULL);
@@ -636,12 +636,12 @@ ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *mes
 	em_utils_forward_message_raw (folder, message, address, ex);
 }
 
-char *
-mail_session_get_password (const char *url_string)
+gchar *
+mail_session_get_password (const gchar *url_string)
 {
 	CamelURL *url;
-	char *simple_url;
-	char *passwd;
+	gchar *simple_url;
+	gchar *passwd;
 
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
@@ -655,11 +655,11 @@ mail_session_get_password (const char *url_string)
 }
 
 void
-mail_session_add_password (const char *url_string,
-			   const char *passwd)
+mail_session_add_password (const gchar *url_string,
+			   const gchar *passwd)
 {
 	CamelURL *url;
-	char *simple_url;
+	gchar *simple_url;
 
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
@@ -671,10 +671,10 @@ mail_session_add_password (const char *url_string,
 }
 
 void
-mail_session_remember_password (const char *url_string)
+mail_session_remember_password (const gchar *url_string)
 {
 	CamelURL *url;
-	char *simple_url;
+	gchar *simple_url;
 
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
@@ -686,7 +686,7 @@ mail_session_remember_password (const char *url_string)
 }
 
 void
-mail_session_forget_password (const char *key)
+mail_session_forget_password (const gchar *key)
 {
 	e_passwords_forget_password ("Mail", key);
 }
@@ -796,11 +796,11 @@ mail_session_flush_filter_log (void)
 }
 
 void
-mail_session_add_junk_plugin (const char *plugin_name, CamelJunkPlugin *junk_plugin)
+mail_session_add_junk_plugin (const gchar *plugin_name, CamelJunkPlugin *junk_plugin)
 {
 	MailSession *ms = (MailSession *) session;
 	GConfClient *gconf;
-	char *def_plugin;
+	gchar *def_plugin;
 
 	gconf = mail_config_get_gconf_client ();
 	def_plugin = gconf_client_get_string (gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
@@ -825,7 +825,7 @@ mail_session_get_junk_plugins (void)
 }
 
 void
-mail_session_set_junk_headers (const char **name, const char **value, int len)
+mail_session_set_junk_headers (const gchar **name, const gchar **value, gint len)
 {
 	if (!session)
 		return;

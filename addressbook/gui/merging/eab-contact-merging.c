@@ -62,7 +62,7 @@ static void match_query_callback (EContact *contact, EContact *match, EABContact
 #define SIMULTANEOUS_MERGING_REQUESTS 20
 
 static GList *merging_queue = NULL;
-static int running_merge_requests = 0;
+static gint running_merge_requests = 0;
 
 
 static void
@@ -109,7 +109,7 @@ free_lookup (EContactMergingLookup *lookup)
 }
 
 static void
-final_id_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
+final_id_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
 
@@ -156,7 +156,7 @@ cancelit (EContactMergingLookup *lookup)
 static void
 dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 {
-	int h, w;
+	gint h, w;
 
 	/* Spacing around the table */
 	w = table->allocation.width + 30;
@@ -173,7 +173,7 @@ dialog_map (GtkWidget *window, GdkEvent *event, GtkWidget *table)
 static void
 dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
 {
-	char *str;
+	gchar *str;
 	str = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dropdown));
 
 	if (g_ascii_strcasecmp(str, ""))
@@ -190,11 +190,11 @@ mergeit (EContactMergingLookup *lookup)
 	GtkDialog *dialog;
 	GtkTable *table;
 	EContactField field;
-	char *str = NULL, *string = NULL, *string1 = NULL;
-	int num_of_email;
+	gchar *str = NULL, *string = NULL, *string1 = NULL;
+	gint num_of_email;
 	GList *email_attr_list;
-	int row = -1;
-	int value = 0, result;
+	gint row = -1;
+	gint value = 0, result;
 
 	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_container_set_border_width (GTK_CONTAINER(dialog), 5);
@@ -220,8 +220,8 @@ mergeit (EContactMergingLookup *lookup)
 	/*we match all the string fields of the already existing contact and the new contact.*/
 	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
 		dropdown_data *data = NULL;
-		string = (char *)e_contact_get_const (lookup->contact, field);
-		string1 = (char *)e_contact_get_const (lookup->match, field);
+		string = (gchar *)e_contact_get_const (lookup->contact, field);
+		string1 = (gchar *)e_contact_get_const (lookup->match, field);
 
 		/*the field must exist in the new as well as the duplicate contact*/
 		if (string && *string) {
@@ -230,7 +230,7 @@ mergeit (EContactMergingLookup *lookup)
 			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 				row++;
-				str = (char *)e_contact_get_const (lookup->contact, field);
+				str = (gchar *)e_contact_get_const (lookup->contact, field);
 				switch(num_of_email)
 				{
 				case 0:
@@ -366,8 +366,8 @@ check_if_same (EContact *contact, EContact *match)
 {
 	EContactField field;
 	GList *email_attr_list;
-	int num_of_email;
-	char *str = NULL, *string = NULL, *string1 = NULL;
+	gint num_of_email;
+	gchar *str = NULL, *string = NULL, *string1 = NULL;
 
 	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
 		email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
@@ -375,7 +375,7 @@ check_if_same (EContact *contact, EContact *match)
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
-			str = (char *)e_contact_get_const (contact, field);
+			str = (gchar *)e_contact_get_const (contact, field);
 			switch(num_of_email)
 			{
 			case 0:
@@ -395,8 +395,8 @@ check_if_same (EContact *contact, EContact *match)
 			}
 		}
 		else {
-			string = (char *)e_contact_get_const (contact, field);
-			string1 = (char *)e_contact_get_const (match, field);
+			string = (gchar *)e_contact_get_const (contact, field);
+			string1 = (gchar *)e_contact_get_const (match, field);
 			if ((string && *string) && (string1 && *string1) && (g_ascii_strcasecmp(string1,string)))
 				return FALSE;
 			/*if the field entry exist in either of the contacts,we'll have to give the choice and thus merge button should be sensitive*/
@@ -409,9 +409,9 @@ check_if_same (EContact *contact, EContact *match)
 }
 
 static void
-response (GtkWidget *dialog, int response, EContactMergingLookup *lookup)
+response (GtkWidget *dialog, gint response, EContactMergingLookup *lookup)
 {
-	static int merge_response;
+	static gint merge_response;
 
 	switch (response) {
 	case 0:
@@ -437,8 +437,8 @@ static void
 match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
-	char *gladefile;
-	int flag;
+	gchar *gladefile;
+	gint flag;
 
 	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE) {
 		doit (lookup);

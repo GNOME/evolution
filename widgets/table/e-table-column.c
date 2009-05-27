@@ -38,7 +38,7 @@ static void
 e_table_column_finalize (GObject *object)
 {
 	ETableColumn *etc = E_TABLE_COLUMN (object);
-	const int cols = etc->col_count;
+	const gint cols = etc->col_count;
 
 	/*
 	 * Destroy listeners
@@ -82,7 +82,7 @@ e_table_column_class_init (GtkObjectClass *object_class)
 }
 
 static void
-etc_do_insert (ETableColumn *etc, int pos, ETableCol *val)
+etc_do_insert (ETableColumn *etc, gint pos, ETableCol *val)
 {
 	memcpy (&etc->columns [pos+1], &etc->columns [pos],
 		sizeof (ETableCol *) * (etc->col_count - pos));
@@ -90,7 +90,7 @@ etc_do_insert (ETableColumn *etc, int pos, ETableCol *val)
 }
 
 void
-e_table_column_add_column (ETableColumn *etc, ETableCol *tc, int pos)
+e_table_column_add_column (ETableColumn *etc, ETableCol *tc, gint pos)
 {
 	ETableCol **new_ptr;
 
@@ -109,7 +109,7 @@ e_table_column_add_column (ETableColumn *etc, ETableCol *tc, int pos)
 }
 
 ETableCol *
-e_table_column_get_column (ETableColumn *etc, int column)
+e_table_column_get_column (ETableColumn *etc, gint column)
 {
 	g_return_val_if_fail (etc != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), NULL);
@@ -123,7 +123,7 @@ e_table_column_get_column (ETableColumn *etc, int column)
 	return etc->columns [column];
 }
 
-int
+gint
 e_table_column_count (ETableColumn *etc)
 {
 	g_return_val_if_fail (etc != NULL, 0);
@@ -132,10 +132,10 @@ e_table_column_count (ETableColumn *etc)
 	return etc->col_count;
 }
 
-int
-e_table_column_index (ETableColumn *etc, const char *identifier)
+gint
+e_table_column_index (ETableColumn *etc, const gchar *identifier)
 {
-	int i;
+	gint i;
 
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
@@ -151,10 +151,10 @@ e_table_column_index (ETableColumn *etc, const char *identifier)
 	return -1;
 }
 
-int
-e_table_column_get_index_at (ETableColumn *etc, int x_offset)
+gint
+e_table_column_get_index_at (ETableColumn *etc, gint x_offset)
 {
-	int i, total;
+	gint i, total;
 
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
@@ -175,7 +175,7 @@ ETableCol **
 e_table_column_get_columns (ETableColumn *etc)
 {
 	ETableCol **ret;
-	int i;
+	gint i;
 
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
@@ -196,11 +196,11 @@ e_table_column_selection_ok (ETableColumn *etc)
 	return etc->selectable;
 }
 
-int
+gint
 ve_table_column_get_selected (ETableColumn *etc)
 {
-	int i;
-	int selected = 0;
+	gint i;
+	gint selected = 0;
 
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
@@ -213,10 +213,10 @@ ve_table_column_get_selected (ETableColumn *etc)
 	return selected;
 }
 
-int
+gint
 e_table_column_total_width (ETableColumn *etc)
 {
-	int total;
+	gint total;
 
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
@@ -229,7 +229,7 @@ e_table_column_total_width (ETableColumn *etc)
 }
 
 static void
-etc_do_remove (ETableColumn *etc, int idx)
+etc_do_remove (ETableColumn *etc, gint idx)
 {
 	memcpy (&etc->columns [idx], &etc->columns [idx+1],
 		sizeof (ETableCol *) * etc->col_count - idx);
@@ -237,7 +237,7 @@ etc_do_remove (ETableColumn *etc, int idx)
 }
 
 void
-e_table_column_move (ETableColumn *etc, int source_index, int target_index)
+e_table_column_move (ETableColumn *etc, gint source_index, gint target_index)
 {
 	g_return_if_fail (etc != NULL);
 	g_return_if_fail (E_IS_TABLE_COLUMN (etc));
@@ -253,7 +253,7 @@ e_table_column_move (ETableColumn *etc, int source_index, int target_index)
 }
 
 void
-e_table_column_remove (ETableColumn *etc, int idx)
+e_table_column_remove (ETableColumn *etc, gint idx)
 {
 	g_return_if_fail (etc != NULL);
 	g_return_if_fail (E_IS_TABLE_COLUMN (etc));
@@ -270,7 +270,7 @@ e_table_column_set_selection (ETableColumn *etc, gboolean allow_selection);
 }
 
 void
-e_table_column_set_size (ETableColumn *etc, int idx, int size)
+e_table_column_set_size (ETableColumn *etc, gint idx, gint size)
 {
 	g_return_if_fail (etc != NULL);
 	g_return_if_fail (E_IS_TABLE_COLUMN (etc));

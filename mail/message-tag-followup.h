@@ -69,8 +69,8 @@ GType message_tag_followup_get_type (void);
 MessageTagEditor *message_tag_followup_new (void);
 
 void message_tag_followup_append_message (MessageTagFollowUp *editor,
-					  const char *from,
-					  const char *subject);
+					  const gchar *from,
+					  const gchar *subject);
 
 #ifdef __cplusplus
 }

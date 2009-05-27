@@ -134,7 +134,7 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 
 /* return true is the header is considered valid */
 static gboolean
-epif_header_is_valid (const char *header)
+epif_header_is_valid (const gchar *header)
 {
 	gint len = g_utf8_strlen (header, -1);
 
@@ -149,7 +149,7 @@ epif_header_is_valid (const char *header)
 static void
 epif_add_sensitivity (EPImapFeaturesData *ui)
 {
-	const char *entry_contents;
+	const gchar *entry_contents;
 	GtkTreeIter iter;
 	gboolean valid;
 
@@ -165,7 +165,7 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 	/* check if this is a duplicate */
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (ui->store), &iter);
 	while (valid) {
-		char *header_name;
+		gchar *header_name;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (ui->store), &iter,
 						    0, &header_name,
@@ -253,7 +253,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *vbox;
 	CamelURL *url = NULL;
 	CamelException ex;
-	char *gladefile;
+	gchar *gladefile;
 	GladeXML *gladexml;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
@@ -288,11 +288,11 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL(ui->store));
 
 	if (url) {
-		char *custom_headers;
+		gchar *custom_headers;
 
 		custom_headers = g_strdup(camel_url_get_param (url, "imap_custom_headers"));
 		if (custom_headers) {
-			int i=0;
+			gint i=0;
 
 			ui->custom_headers_array = g_strsplit (custom_headers, " ", -1);
 			while (ui->custom_headers_array[i] ) {

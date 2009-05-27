@@ -31,7 +31,7 @@
 
 G_DEFINE_TYPE (GalViewFactoryMinicard, gal_view_factory_minicard, GAL_VIEW_FACTORY_TYPE)
 
-static const char *
+static const gchar *
 gal_view_factory_minicard_get_title       (GalViewFactory *factory)
 {
 	return _("Card View");
@@ -39,12 +39,12 @@ gal_view_factory_minicard_get_title       (GalViewFactory *factory)
 
 static GalView *
 gal_view_factory_minicard_new_view        (GalViewFactory *factory,
-					   const char     *name)
+					   const gchar     *name)
 {
 	return gal_view_minicard_new(name);
 }
 
-static const char *
+static const gchar *
 gal_view_factory_minicard_get_type_code (GalViewFactory *factory)
 {
 	return "minicard";

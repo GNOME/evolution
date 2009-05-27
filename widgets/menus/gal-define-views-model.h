@@ -59,11 +59,11 @@ ETableModel *gal_define_views_model_new          (void);
 void         gal_define_views_model_append       (GalDefineViewsModel *model,
 						  GalView             *view);
 GalView     *gal_define_views_model_get_view     (GalDefineViewsModel *model,
-						  int                  i);
+						  gint                  i);
 void         gal_define_views_model_delete_view  (GalDefineViewsModel *model,
-						  int                  i);
+						  gint                  i);
 void         gal_define_views_model_copy_view    (GalDefineViewsModel *model,
-						  int                  i);
+						  gint                  i);
 
 #ifdef __cplusplus
 }

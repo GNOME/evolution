@@ -68,7 +68,7 @@ struct _ExchangeSendOptionsDialogPrivate {
 	/*Label Widgets*/
 	GtkWidget *importance_label;
 	GtkWidget *sensitivity_label;
-	char *help_section;
+	gchar *help_section;
 };
 
 static void exchange_sendoptions_dialog_class_init (GObjectClass *object_class);
@@ -92,7 +92,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 {
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *options;
-	const char *address, *email, *name;
+	const gchar *address, *email, *name;
 
 	guint count=0;
 	ENameSelectorEntry *name_selector_entry;
@@ -120,8 +120,8 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 		   produced ambiguous results. Hence count is used :)
 		*/
 		for (; tmp != NULL; tmp = g_list_next (tmp)) {
-			address = g_strdup ((char *) e_destination_get_address (tmp->data));
-			email = g_strdup ((char *) e_destination_get_email (tmp->data));
+			address = g_strdup ((gchar *) e_destination_get_address (tmp->data));
+			email = g_strdup ((gchar *) e_destination_get_email (tmp->data));
 			name = g_strdup (e_destination_get_name (tmp->data));
 			if (g_str_equal (email, ""))
 				continue;

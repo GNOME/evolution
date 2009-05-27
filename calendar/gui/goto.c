@@ -209,8 +209,8 @@ goto_dialog (GnomeCalendar *gcal)
 #if 0  /* KILL-BONOBO */
 	time_t start_time;
 	struct icaltimetype tt;
-	int b;
-	char *gladefile;
+	gint b;
+	gchar *gladefile;
 
 	if (dlg) {
 		return;

@@ -1178,7 +1178,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	ESelectionModel *selection_model = NULL;
 	GalViewInstance *view_instance;
 	GalView *gal_view;
-	char *name = NULL;
+	gchar *name = NULL;
 	gint row = 0, select;
 
 	model = e_addressbook_view_get_model (view);
@@ -1226,7 +1226,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		for (l=list;l;l=g_list_next(l)) {
 			contact = l->data;
 
-			ids = g_list_prepend (ids, (char*)e_contact_get_const (contact, E_CONTACT_UID));
+			ids = g_list_prepend (ids, (gchar *)e_contact_get_const (contact, E_CONTACT_UID));
 		}
 
 		/* Remove the cards all at once. */

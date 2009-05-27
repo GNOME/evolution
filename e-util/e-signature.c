@@ -124,7 +124,7 @@ e_signature_new (void)
  * if @xml could not be parsed as valid signature data.
  **/
 ESignature *
-e_signature_new_from_xml (const char *xml)
+e_signature_new_from_xml (const gchar *xml)
 {
 	ESignature *signature;
 
@@ -139,12 +139,12 @@ e_signature_new_from_xml (const char *xml)
 
 
 static gboolean
-xml_set_bool (xmlNodePtr node, const char *name, gboolean *val)
+xml_set_bool (xmlNodePtr node, const gchar *name, gboolean *val)
 {
 	gboolean bool;
-	char *buf;
+	gchar *buf;
 
-	if ((buf = (char *)xmlGetProp (node, (const unsigned char *)name))) {
+	if ((buf = (gchar *)xmlGetProp (node, (const guchar *)name))) {
 		bool = (!strcmp (buf, "true") || !strcmp (buf, "yes"));
 		xmlFree (buf);
 
@@ -158,11 +158,11 @@ xml_set_bool (xmlNodePtr node, const char *name, gboolean *val)
 }
 
 static gboolean
-xml_set_prop (xmlNodePtr node, const char *name, char **val)
+xml_set_prop (xmlNodePtr node, const gchar *name, gchar **val)
 {
-	char *buf, *new_val;
+	gchar *buf, *new_val;
 
-	buf = (char *)xmlGetProp (node, (const unsigned char *)name);
+	buf = (gchar *)xmlGetProp (node, (const guchar *)name);
 	new_val = g_strdup (buf);
 	xmlFree (buf);
 
@@ -180,11 +180,11 @@ xml_set_prop (xmlNodePtr node, const char *name, char **val)
 }
 
 static gboolean
-xml_set_content (xmlNodePtr node, char **val)
+xml_set_content (xmlNodePtr node, gchar **val)
 {
-	char *buf, *new_val;
+	gchar *buf, *new_val;
 
-	buf = (char *)xmlNodeGetContent (node);
+	buf = (gchar *)xmlNodeGetContent (node);
         new_val = g_strdup (buf);
 	xmlFree (buf);
 
@@ -210,18 +210,18 @@ xml_set_content (xmlNodePtr node, char **val)
  * (or %NULL if @xml could not be parsed or did not contain a uid).
  * The caller must free this string.
  **/
-char *
-e_signature_uid_from_xml (const char *xml)
+gchar *
+e_signature_uid_from_xml (const gchar *xml)
 {
 	xmlNodePtr node;
 	xmlDocPtr doc;
-	char *uid = NULL;
+	gchar *uid = NULL;
 
-	if (!(doc = xmlParseDoc ((unsigned char *) xml)))
+	if (!(doc = xmlParseDoc ((guchar *) xml)))
 		return NULL;
 
 	node = doc->children;
-	if (strcmp ((char *)node->name, "signature") != 0) {
+	if (strcmp ((gchar *)node->name, "signature") != 0) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
@@ -243,19 +243,19 @@ e_signature_uid_from_xml (const char *xml)
  * Returns %TRUE if the signature was loaded or %FALSE otherwise.
  **/
 gboolean
-e_signature_set_from_xml (ESignature *signature, const char *xml)
+e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 {
 	gboolean changed = FALSE;
 	xmlNodePtr node, cur;
 	xmlDocPtr doc;
 	gboolean bool;
-	char *buf;
+	gchar *buf;
 
-	if (!(doc = xmlParseDoc ((unsigned char *) xml)))
+	if (!(doc = xmlParseDoc ((guchar *) xml)))
 		return FALSE;
 
 	node = doc->children;
-	if (strcmp ((char *)node->name, "signature") != 0) {
+	if (strcmp ((gchar *)node->name, "signature") != 0) {
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
@@ -292,11 +292,11 @@ e_signature_set_from_xml (ESignature *signature, const char *xml)
 
 	cur = node->children;
 	while (cur) {
-		if (!strcmp ((char *)cur->name, "filename")) {
+		if (!strcmp ((gchar *)cur->name, "filename")) {
 			changed |= xml_set_content (cur, &signature->filename);
 			changed |= xml_set_bool (cur, "script", &signature->script);
 			break;
-		} else if (!strcmp ((char *)cur->name, "script")) {
+		} else if (!strcmp ((gchar *)cur->name, "script")) {
 			/* this is for handling 1.4 signature script definitions */
 			changed |= xml_set_content (cur, &signature->filename);
 			if (!signature->script) {
@@ -322,35 +322,35 @@ e_signature_set_from_xml (ESignature *signature, const char *xml)
  * Return value: an XML representation of @signature, which the caller
  * must free.
  **/
-char *
+gchar *
 e_signature_to_xml (ESignature *signature)
 {
 	xmlChar *xmlbuf;
-	char *tmp;
+	gchar *tmp;
 	xmlNodePtr root, node;
 	xmlDocPtr doc;
-	int n;
+	gint n;
 
-	doc = xmlNewDoc ((const unsigned char *)"1.0");
+	doc = xmlNewDoc ((const guchar *)"1.0");
 
-	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"signature", NULL);
+	root = xmlNewDocNode (doc, NULL, (const guchar *)"signature", NULL);
 	xmlDocSetRootElement (doc, root);
 
-	xmlSetProp (root, (const unsigned char *)"name", (unsigned char *)signature->name);
-	xmlSetProp (root, (const unsigned char *)"uid", (unsigned char *)signature->uid);
-	xmlSetProp (root, (const unsigned char *)"auto", (const unsigned char *)(signature->autogen ? "true" : "false"));
+	xmlSetProp (root, (const guchar *)"name", (guchar *)signature->name);
+	xmlSetProp (root, (const guchar *)"uid", (guchar *)signature->uid);
+	xmlSetProp (root, (const guchar *)"auto", (const guchar *)(signature->autogen ? "true" : "false"));
 
 	if (!signature->autogen) {
-		xmlSetProp (root, (const unsigned char *)"format", (const unsigned char *)(signature->html ? "text/html" : "text/plain"));
+		xmlSetProp (root, (const guchar *)"format", (const guchar *)(signature->html ? "text/html" : "text/plain"));
 
 		if (signature->filename) {
-			node = xmlNewTextChild (root, NULL, (const unsigned char *)"filename", (unsigned char *)signature->filename);
+			node = xmlNewTextChild (root, NULL, (const guchar *)"filename", (guchar *)signature->filename);
 			if (signature->script)
-				xmlSetProp (node, (const unsigned char *)"script", (const unsigned char *)"true");
+				xmlSetProp (node, (const guchar *)"script", (const guchar *)"true");
 		}
 	} else {
 		/* this is to make Evolution-1.4 and older 1.5 versions happy */
-		xmlSetProp (root, (const unsigned char *)"format", (const unsigned char *)"text/html");
+		xmlSetProp (root, (const guchar *)"format", (const guchar *)"text/html");
 	}
 
 	xmlDocDumpMemory (doc, &xmlbuf, &n);

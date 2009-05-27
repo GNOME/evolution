@@ -40,12 +40,12 @@ void    e_table_header_draw_button     (GdkDrawable    *drawable,
 					GtkStyle       *style,
 					GtkStateType    state,
 					GtkWidget      *widget,
-					int             x,
-					int             y,
-					int             width,
-					int             height,
-					int             button_width,
-					int             button_height,
+					gint             x,
+					gint             y,
+					gint             width,
+					gint             height,
+					gint             button_width,
+					gint             button_height,
 					ETableColArrow  arrow);
 
 #ifdef __cplusplus

@@ -62,8 +62,8 @@ typedef struct {
 	gdouble width, height, minimum_width;
 
 	ETableSortInfo *sort_info;
-	int n;
-	int length_threshold;
+	gint n;
+	gint length_threshold;
 
 	ESelectionModel *selection_model;
 
@@ -86,8 +86,8 @@ typedef struct {
 
 typedef struct {
         ETableGroup *child;
-        void *key;
-        char *string;
+        gpointer key;
+        gchar *string;
         GnomeCanvasItem *text;
         GnomeCanvasItem *rect;
         gint count;
@@ -95,11 +95,11 @@ typedef struct {
 
 
 ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
-						ETableModel *model, ETableSortInfo *sort_info, int n);
+						ETableModel *model, ETableSortInfo *sort_info, gint n);
 void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 						ETableHeader *full_header,
 						ETableHeader     *header,
-						ETableModel *model, ETableSortInfo *sort_info, int n);
+						ETableModel *model, ETableSortInfo *sort_info, gint n);
 
 GType        e_table_group_container_get_type  (void);
 

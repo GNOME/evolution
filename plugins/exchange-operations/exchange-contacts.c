@@ -67,7 +67,7 @@ e_exchange_contacts_get_contacts (void)
 	GPtrArray *contacts_list;
 	EFolder *folder;
 
-	int i, prefix_len;
+	gint i, prefix_len;
 	gchar *uri_prefix, *ruri;
 
 	account = exchange_operations_get_exchange_account ();
@@ -84,9 +84,9 @@ e_exchange_contacts_get_contacts (void)
 	for (i=0; i<folder_array->len; ++i) {
 		gchar *type, *tmp;
 		folder = g_ptr_array_index (folder_array, i);
-		type = (gchar*) e_folder_get_type_string (folder);
+		type = (gchar *) e_folder_get_type_string (folder);
 		if (!strcmp (type, "contacts")) {
-			tmp = (gchar*) e_folder_get_physical_uri (folder);
+			tmp = (gchar *) e_folder_get_physical_uri (folder);
 			if (g_str_has_prefix (tmp, uri_prefix)) {
 				ruri = g_strdup (tmp+prefix_len);
 				g_ptr_array_add (contacts_list, ruri);
@@ -136,14 +136,14 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GPtrArray *conlist;
 	gchar *ruri, *account_name, *uri_text;
 	ExchangeAccount *account;
-	int i;
-	char *folder_size, *abook_name;
-	const char *rel_uri;
-	const char *uid;
+	gint i;
+	gchar *folder_size, *abook_name;
+	const gchar *rel_uri;
+	const gchar *uid;
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	GtkWidget *lbl_offline_msg, *vb_offline_msg;
-	char *offline_msg;
+	gchar *offline_msg;
 	gint offline_status;
 	gboolean gal_folder = FALSE, is_personal;
 
@@ -212,7 +212,7 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_free (uri_text);
 
 	if (contacts_src_exists && is_personal ) {
-		abook_name = (char*)e_source_peek_name (source);
+		abook_name = (gchar *)e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
 			folder_size = g_strdup_printf (_("%s KB"), exchange_folder_size_get_val (model, abook_name));
@@ -275,10 +275,10 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	if (contacts_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
-		int prefix_len;
+		gint prefix_len;
 		GtkTreeSelection *selection;
 
-		tmpruri = (gchar*) rel_uri;
+		tmpruri = (gchar *) rel_uri;
 		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
 
@@ -311,8 +311,8 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	/* FIXME - check pageid */
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESourceGroup *group;
-	const char *base_uri;
-	const char *rel_uri;
+	const gchar *base_uri;
+	const gchar *rel_uri;
 	gint offline_status;
 	ExchangeAccount *account;
 
@@ -375,7 +375,7 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	}
 	else {
 		EUri *euri;
-		int uri_len;
+		gint uri_len;
 		gchar *uri_text, *uri_string, *path, *folder_name;
 		gboolean is_personal;
 
@@ -414,7 +414,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	ESource *source = t->source;
 	gchar *uri_text, *gname, *gruri, *ruri = NULL, *path = NULL, *path_prefix, *oldpath=NULL;
 	gchar *username, *windows_domain, *authtype;
-	int prefix_len;
+	gint prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 	gint offline_status;
@@ -451,13 +451,13 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	prefix_len = strlen (path_prefix);
 	g_free (path_prefix);
 
-	gname = (gchar*) e_source_peek_name (source);
-	gruri = (gchar*) e_source_peek_relative_uri (source);
+	gname = (gchar *) e_source_peek_name (source);
+	gruri = (gchar *) e_source_peek_relative_uri (source);
 
 	if (contacts_src_exists) {
 		gchar *tmpruri, *uri_string, *temp_path, *prefix;
 		EUri *euri;
-		int uri_len;
+		gint uri_len;
 
 		euri = e_uri_new (uri_text);
 		uri_string = e_uri_to_string (euri, FALSE);

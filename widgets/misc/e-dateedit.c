@@ -1403,7 +1403,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
 	GtkComboBox *combo;
-	char buffer[40];
+	gchar buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
@@ -1497,11 +1497,11 @@ e_date_edit_parse_time	(EDateEdit	*dedit,
 /* Returns TRUE if the string is empty or is "None" in the current locale.
    It ignores whitespace. */
 static gboolean
-field_set_to_none (const char *text)
+field_set_to_none (const gchar *text)
 {
-	const char *pos;
-	const char *none_string;
-	int n;
+	const gchar *pos;
+	const gchar *none_string;
+	gint n;
 
 	pos = text;
 	while (n = (int)((unsigned char)*pos), isspace (n))
@@ -1717,7 +1717,7 @@ static void
 e_date_edit_update_date_entry		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	char buffer[100];
+	gchar buffer[100];
 	struct tm tmp_tm = { 0 };
 
 	priv = dedit->priv;
@@ -1728,7 +1728,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		/* This is a strftime() format for a short date.
 		   %x the preferred date representation for the current locale without the time,
 		   but has forced to use 4 digit year */
-		char *format = e_time_get_d_fmt_with_4digit_year ();
+		gchar *format = e_time_get_d_fmt_with_4digit_year ();
 
 		tmp_tm.tm_year = priv->year;
 		tmp_tm.tm_mon = priv->month;
@@ -1750,7 +1750,7 @@ static void
 e_date_edit_update_time_entry		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	char buffer[40];
+	gchar buffer[40];
 	struct tm tmp_tm = { 0 };
 
 	priv = dedit->priv;
@@ -1761,7 +1761,7 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 	} else {
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-		char *b;
+		gchar *b;
 
 		/* Set these to reasonable values just in case. */
 		tmp_tm.tm_year = 2000;
@@ -1797,11 +1797,11 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo));
 		if (gtk_tree_model_get_iter_first (model, &iter)) {
 			do {
-				char *text = NULL;
+				gchar *text = NULL;
 
 				gtk_tree_model_get (model, &iter, 0, &text, -1);
 				if (text) {
-					char *t = text;
+					gchar *t = text;
 
 					/* truncate left spaces */
 					while (*t == ' ')

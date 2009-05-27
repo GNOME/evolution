@@ -65,7 +65,7 @@ static GList *source_folders_local;	/* list of source folder uri's - local ones 
 static GHashTable *vfolder_hash;
 /* This is a slightly hacky solution to shutting down, we poll this variable in various
    loops, and just quit processing if it is set. */
-static volatile int shutdown;		/* are we shutting down? */
+static volatile gint shutdown;		/* are we shutting down? */
 /* more globals ... */
 extern CamelSession *session;
 
@@ -80,7 +80,7 @@ struct _setup_msg {
 	MailMsg base;
 
 	CamelFolder *folder;
-	char *query;
+	gchar *query;
 	GList *sources_uri;
 	GList *sources_folder;
 };
@@ -103,13 +103,13 @@ vfolder_setup_exec (struct _setup_msg *m)
 
 	l = m->sources_uri;
 	while (l && !shutdown) {
-		d(printf(" Adding uri: %s\n", (char *)l->data));
+		d(printf(" Adding uri: %s\n", (gchar *)l->data));
 
 		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
 		if (folder) {
 			list = g_list_append(list, folder);
 		} else {
-			g_warning("Could not open vfolder source: %s", (char *)l->data);
+			g_warning("Could not open vfolder source: %s", (gchar *)l->data);
 			camel_exception_clear(&m->base.ex);
 		}
 		l = l->next;
@@ -172,10 +172,10 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static int
-vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList *sources_folder)
+vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList *sources_folder)
 {
 	struct _setup_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&vfolder_setup_info);
 	m->folder = folder;
@@ -195,15 +195,15 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 struct _adduri_msg {
 	MailMsg base;
 
-	char *uri;
+	gchar *uri;
 	GList *folders;
-	int remove;
+	gint remove;
 };
 
 static gchar *
 vfolder_adduri_desc (struct _adduri_msg *m)
 {
-	char *euri, *desc = NULL;
+	gchar *euri, *desc = NULL;
 
 	/* Yuck yuck.  Lookup the account name and use that to describe the path */
 	/* We really need to normalise this across all of camel and evolution :-/ */
@@ -212,13 +212,13 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 		CamelURL *url = camel_url_new(euri, NULL);
 
 		if (url) {
-			const char *loc = NULL;
+			const gchar *loc = NULL;
 
 			if (url->host && !strcmp(url->host, "local")
 			    && url->user && !strcmp(url->user, "local")) {
 				loc = _("On This Computer");
 			} else {
-				char *uid;
+				gchar *uid;
 				const EAccount *account;
 
 				if (url->user == NULL)
@@ -303,10 +303,10 @@ static MailMsgInfo vfolder_adduri_info = {
 
 /* uri should be a camel uri */
 static int
-vfolder_adduri(const char *uri, GList *folders, int remove)
+vfolder_adduri(const gchar *uri, GList *folders, gint remove)
 {
 	struct _adduri_msg *m;
-	int id;
+	gint id;
 
 	m = mail_msg_new(&vfolder_adduri_info);
 	m->folders = folders;
@@ -322,7 +322,7 @@ vfolder_adduri(const char *uri, GList *folders, int remove)
 /* ********************************************************************** */
 
 static GList *
-mv_find_folder(GList *l, CamelStore *store, const char *uri)
+mv_find_folder(GList *l, CamelStore *store, const gchar *uri)
 {
 	while (l) {
 		if (camel_store_folder_uri_equal(store, l->data, uri))
@@ -334,7 +334,7 @@ mv_find_folder(GList *l, CamelStore *store, const char *uri)
 
 /* uri is a camel uri */
 static int
-uri_is_ignore(CamelStore *store, const char *uri)
+uri_is_ignore(CamelStore *store, const gchar *uri)
 {
 	EAccountList *accounts;
 	EAccount *account;
@@ -342,7 +342,7 @@ uri_is_ignore(CamelStore *store, const char *uri)
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_outbox_folder_uri;
 	const gchar *local_sent_folder_uri;
-	int found = FALSE;
+	gint found = FALSE;
 
 	local_drafts_folder_uri = e_mail_shell_backend_get_folder_uri (
 		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
@@ -366,7 +366,7 @@ uri_is_ignore(CamelStore *store, const char *uri)
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
-		char *curi;
+		gchar *curi;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -397,10 +397,10 @@ uri_is_ignore(CamelStore *store, const char *uri)
 
 /* so special we never use it */
 static int
-uri_is_spethal(CamelStore *store, const char *uri)
+uri_is_spethal(CamelStore *store, const gchar *uri)
 {
 	CamelURL *url;
-	int res;
+	gint res;
 
 	/* This is a bit of a hack, but really the only way it can be done at the moment. */
 
@@ -432,15 +432,15 @@ uri_is_spethal(CamelStore *store, const char *uri)
 
 /* called when a new uri becomes (un)available */
 void
-mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
+mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 {
 	FilterRule *rule;
-	const char *source;
+	const gchar *source;
 	CamelVeeFolder *vf;
 	GList *folders = NULL, *link;
-	int remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
-	int is_ignore;
-	char *uri;
+	gint remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
+	gint is_ignore;
+	gchar *uri;
 
 	uri = em_uri_from_camel(curi);
 	if (uri_is_spethal (store, curi)) {
@@ -487,7 +487,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 
  	rule = NULL;
 	while ((rule = rule_context_next_rule((RuleContext *)context, rule, NULL))) {
-		int found = FALSE;
+		gint found = FALSE;
 
 		if (!rule->name) {
 			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
@@ -503,7 +503,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 
 		source = NULL;
 		while (!found && (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source))) {
-			char *csource;
+			gchar *csource;
 			csource = em_uri_to_camel(source);
 			found = camel_store_folder_uri_equal(store, curi, csource);
 			d(printf(found?" '%s' == '%s'?\n":" '%s' != '%s'\n", curi, csource));
@@ -532,14 +532,14 @@ done:
 
 /* called when a uri is deleted from a store */
 void
-mail_vfolder_delete_uri(CamelStore *store, const char *curi)
+mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 {
 	EShellBackend *shell_backend;
 	FilterRule *rule;
-	const char *source;
+	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
-	char *uri;
+	gchar *uri;
 	GList *link;
 
 	if (uri_is_spethal (store, curi))
@@ -571,7 +571,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 
 		source = NULL;
 		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
-			char *csource = em_uri_to_camel(source);
+			gchar *csource = em_uri_to_camel(source);
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
@@ -608,7 +608,7 @@ done:
 	if (changed->str[0]) {
 		GtkWidget *dialog;
 		const gchar *data_dir;
-		char *user;
+		gchar *user;
 
 		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
@@ -626,14 +626,14 @@ done:
 
 /* called when a uri is renamed in a store */
 void
-mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
+mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 {
 	EShellBackend *shell_backend;
 	FilterRule *rule;
-	const char *source;
+	const gchar *source;
 	CamelVeeFolder *vf;
-	int changed = 0;
-	char *from, *to;
+	gint changed = 0;
+	gchar *from, *to;
 
 	d(printf("vfolder rename uri: %s to %s\n", cfrom, cto));
 
@@ -654,7 +654,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		source = NULL;
 		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {
-			char *csource = em_uri_to_camel(source);
+			gchar *csource = em_uri_to_camel(source);
 
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
@@ -681,7 +681,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 
 	if (changed) {
 		const gchar *data_dir;
-		char *user;
+		gchar *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
 		data_dir = e_shell_backend_get_data_dir (shell_backend);
@@ -718,7 +718,7 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 	CamelFolder *newfolder;
 
 	while (l) {
-		char *curi = em_uri_to_camel(l->data);
+		gchar *curi = em_uri_to_camel(l->data);
 
 		if (mail_note_get_folder_from_uri(curi, &newfolder)) {
 			if (newfolder)
@@ -742,7 +742,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
-		char *oldname;
+		gchar *oldname;
 
 		gpointer key;
 		gpointer oldfolder;
@@ -826,7 +826,7 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 }
 
 static void
-store_folder_created(CamelObject *o, void *event_data, void *data)
+store_folder_created(CamelObject *o, gpointer event_data, gpointer data)
 {
 	CamelStore *store = (CamelStore *)o;
 	CamelFolderInfo *info = event_data;
@@ -836,13 +836,13 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_deleted(CamelObject *o, void *event_data, void *data)
+store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 {
 	EShellBackend *shell_backend;
 	CamelStore *store = (CamelStore *)o;
 	CamelFolderInfo *info = event_data;
 	FilterRule *rule;
-	char *user;
+	gchar *user;
 
 	d(printf("Folder deleted: %s\n", info->name));
 	store = store;
@@ -877,12 +877,12 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_renamed(CamelObject *o, void *event_data, void *data)
+store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 {
 	EShellBackend *shell_backend;
 	CamelRenameInfo *info = event_data;
 	FilterRule *rule;
-	char *user;
+	gchar *user;
 
 	gpointer key, folder;
 
@@ -934,9 +934,9 @@ vfolder_load_storage(void)
 
 	EShellBackend *shell_backend;
 	const gchar *data_dir;
-	char *user, *storeuri;
+	gchar *user, *storeuri;
 	FilterRule *rule;
-	char *xmlfile;
+	gchar *xmlfile;
 	GConfClient *gconf;
 
 	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
@@ -1014,7 +1014,7 @@ vfolder_revert(void)
 {
 	EShellBackend *shell_backend;
 	const gchar *data_dir;
-	char *user;
+	gchar *user;
 
 	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
@@ -1064,7 +1064,7 @@ vfolder_edit (EShellView *shell_view)
 }
 
 static void
-edit_rule_response(GtkWidget *w, int button, void *data)
+edit_rule_response(GtkWidget *w, gint button, gpointer data)
 {
 	EShellBackend *shell_backend;
 
@@ -1072,7 +1072,7 @@ edit_rule_response(GtkWidget *w, int button, void *data)
 
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
-		char *user;
+		gchar *user;
 		FilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
 		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
@@ -1087,7 +1087,7 @@ edit_rule_response(GtkWidget *w, int button, void *data)
 }
 
 void
-vfolder_edit_rule(const char *uri)
+vfolder_edit_rule(const gchar *uri)
 {
 	GtkWidget *w;
 	GtkDialog *gd;
@@ -1132,7 +1132,7 @@ vfolder_edit_rule(const char *uri)
 }
 
 static void
-new_rule_clicked(GtkWidget *w, int button, void *data)
+new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 {
 	EShellBackend *shell_backend;
 
@@ -1140,7 +1140,7 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
-		char *user;
+		gchar *user;
 		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
 		if (!filter_rule_validate(rule)) {
@@ -1166,7 +1166,7 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 }
 
 FilterPart *
-vfolder_create_part(const char *name)
+vfolder_create_part(const gchar *name)
 {
 	return rule_context_create_part((RuleContext *)context, name);
 }
@@ -1218,7 +1218,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 }
 
 void
-vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *source)
+vfolder_gui_add_from_message(CamelMimeMessage *msg, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
 
@@ -1232,7 +1232,7 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 }
 
 void
-vfolder_gui_add_from_address(CamelInternetAddress *addr, int flags, const char *source)
+vfolder_gui_add_from_address(CamelInternetAddress *addr, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
 

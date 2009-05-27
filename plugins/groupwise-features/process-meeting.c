@@ -44,10 +44,10 @@ ECalendarView *c_view;
 
 void org_gnome_accept(EPlugin *ep, ECalPopupTargetSelect *target);
 void org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target);
-static void on_accept_meeting (EPopup *ep, EPopupItem *pitem, void *data);
-static void on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, void *data);
-static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data);
-static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data);
+static void on_accept_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
+static void on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, gpointer data);
+static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
+static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
 
 static EPopupItem popup_items[] = {
 	{ E_POPUP_ITEM, (gchar *) "41.accept", (gchar *) N_("Accept"), on_accept_meeting, NULL, (gchar *) GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
@@ -56,7 +56,7 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 	items = NULL;
@@ -67,9 +67,9 @@ org_gnome_accept (EPlugin *ep, ECalPopupTargetSelect *target)
 {
 	GSList *menus = NULL;
 	GList *selected;
-	int i = 0;
-	static int first = 0;
-	const char *uri = NULL;
+	gint i = 0;
+	static gint first = 0;
+	const gchar *uri = NULL;
 	ECalendarView *cal_view = E_CALENDAR_VIEW (target->target.widget);
 
 	c_view = cal_view;
@@ -135,7 +135,7 @@ receive_objects (gpointer data)
 }
 
 static icalproperty *
-find_attendee (icalcomponent *ical_comp, const char *address)
+find_attendee (icalcomponent *ical_comp, const gchar *address)
 {
 	icalproperty *prop;
 
@@ -146,8 +146,8 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
 		icalvalue *value;
-		const char *attendee;
-		char *text;
+		const gchar *attendee;
+		gchar *text;
 
 		value = icalproperty_get_value (prop);
 		if (!value)
@@ -167,7 +167,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	return prop;
 }
 static void
-change_status (icalcomponent *ical_comp, const char *address, icalparameter_partstat status)
+change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_partstat status)
 {
 	icalproperty *prop;
 
@@ -206,7 +206,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 		gboolean recurring = FALSE;
 		GThread *thread = NULL;
 		GError *error = NULL;
-		char *address = NULL;
+		gchar *address = NULL;
 
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		address = itip_get_comp_attendee (comp, event->comp_data->client);
@@ -226,7 +226,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 
 		if (recurring) {
 			gint response;
-			const char *msg;
+			const gchar *msg;
 
 			if (status == ICAL_PARTSTAT_ACCEPTED || status == ICAL_PARTSTAT_TENTATIVE)
 				msg = "org.gnome.evolution.process_meeting:recurrence-accept";
@@ -236,7 +236,7 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 			response = e_error_run (NULL, msg, NULL);
 			if (response == GTK_RESPONSE_YES) {
 				icalproperty *prop;
-				const char *uid = icalcomponent_get_uid (r_data->icalcomp);
+				const gchar *uid = icalcomponent_get_uid (r_data->icalcomp);
 
 				prop = icalproperty_new_x ("All");
 				icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
@@ -263,14 +263,14 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 /*FIXME the data does not give us the ECalendarView object.
   we should remove the global c_view variable once we get it from the data*/
 static void
-on_accept_meeting (EPopup *ep, EPopupItem *pitem, void *data)
+on_accept_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ECalendarView *cal_view = c_view;
 
 	process_meeting (cal_view, ICAL_PARTSTAT_ACCEPTED);
 }
 static void
-on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, void *data)
+on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ECalendarView *cal_view = c_view;
 
@@ -278,7 +278,7 @@ on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data)
+on_decline_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ECalendarView *cal_view = c_view;
 
@@ -289,8 +289,8 @@ static gboolean
 is_meeting_owner (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer org;
-	char *email = NULL;
-	const char *strip = NULL;
+	gchar *email = NULL;
+	const gchar *strip = NULL;
 	gboolean ret_val = FALSE;
 
 	if (!(e_cal_component_has_attendees (comp) &&
@@ -327,9 +327,9 @@ org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
 {
 	GSList *menus = NULL;
 	GList *selected;
-	int i = 0;
-	static int first = 0;
-	const char *uri = NULL;
+	gint i = 0;
+	static gint first = 0;
+	const gchar *uri = NULL;
 	ECalendarView *cal_view = E_CALENDAR_VIEW (target->target.widget);
 	ECalComponent *comp = NULL;
 	ECalendarViewEvent *event = NULL;
@@ -373,7 +373,7 @@ org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
 }
 
 static void
-add_retract_data (ECalComponent *comp, const char *retract_comment, CalObjModType mod)
+add_retract_data (ECalComponent *comp, const gchar *retract_comment, CalObjModType mod)
 {
 	icalcomponent *icalcomp = NULL;
 	icalproperty *icalprop = NULL;
@@ -415,8 +415,8 @@ retract_object (gpointer val)
 	ThreadData *data = val;
 	icalcomponent *icalcomp = NULL, *mod_comp = NULL;
 	GList *users = NULL;
-	char *rid = NULL;
-	const char *uid;
+	gchar *rid = NULL;
+	const gchar *uid;
 	GError *error = NULL;
 
 	add_retract_data (data->comp, NULL, data->mod);
@@ -459,7 +459,7 @@ static void
 object_created_cb (CompEditor *ce, gpointer data)
 {
 	GThread *thread = NULL;
-	int response;
+	gint response;
 	GError *error = NULL;
 
 	gtk_widget_hide (GTK_WIDGET (ce));
@@ -478,7 +478,7 @@ object_created_cb (CompEditor *ce, gpointer data)
 }
 
 static void
-on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
+on_resend_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ECalendarView *cal_view = c_view;
 	GList *selected;
@@ -492,7 +492,7 @@ on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 		CalObjModType mod = CALOBJ_MOD_THIS;
 		ThreadData *data = NULL;
 		gint response;
-		const char *msg;
+		const gchar *msg;
 		/* inserting the boolean to share the code between resend and retract */
 		gboolean resend = TRUE;
 
@@ -521,7 +521,7 @@ on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 		if (resend)
 		{
 			guint flags = 0;
-			char *new_uid = NULL;
+			gchar *new_uid = NULL;
 			CompEditor *ce;
 			icalcomponent *icalcomp;
 

@@ -73,7 +73,7 @@ typedef struct _EMMenuTargetSelect EMMenuTargetSelect;
 struct _EMMenuTargetSelect {
 	EMenuTarget target;
 	struct _CamelFolder *folder;
-	char *uri;
+	gchar *uri;
 	GPtrArray *uids;
 };
 
@@ -98,9 +98,9 @@ struct _EMMenuClass {
 
 GType em_menu_get_type(void);
 
-EMMenu *em_menu_new(const char *menuid);
+EMMenu *em_menu_new(const gchar *menuid);
 
-EMMenuTargetSelect *em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
+EMMenuTargetSelect *em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids);
 EMMenuTargetWidget *em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w);
 
 /* ********************************************************************** */

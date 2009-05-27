@@ -60,7 +60,7 @@ GType alarm_notify_get_type (void);
 AlarmNotify *alarm_notify_new (void);
 
 void alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type, ESource *source, gboolean load_afterwards);
-void alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const char *str_uri);
+void alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const gchar *str_uri);
 
 ESourceList *alarm_notify_get_selected_calendars (AlarmNotify *);
 

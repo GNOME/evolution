@@ -50,20 +50,20 @@
 #include "bbdb.h"
 
 typedef struct {
-	char *account_name;
-	char *proto;
-	char *alias;
-	char *icon;
+	gchar *account_name;
+	gchar *proto;
+	gchar *alias;
+	gchar *icon;
 } GaimBuddy;
 
 /* Forward declarations for this file. */
 static gboolean bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c);
 static GList *bbdb_get_gaim_buddy_list (void);
-static char *get_node_text (xmlNodePtr node);
-static char *get_buddy_icon_from_setting (xmlNodePtr setting);
+static gchar *get_node_text (xmlNodePtr node);
+static gchar *get_buddy_icon_from_setting (xmlNodePtr setting);
 static void free_buddy_list (GList *blist);
 static void parse_buddy_group (xmlNodePtr group, GList **buddies, GSList *blocked);
-static EContactField proto_to_contact_field (const char *proto);
+static EContactField proto_to_contact_field (const gchar *proto);
 
 void
 bbdb_sync_buddy_list_check (void)
@@ -71,8 +71,8 @@ bbdb_sync_buddy_list_check (void)
 	GConfClient *gconf;
 	struct stat statbuf;
 	time_t last_sync;
-	char *blist_path;
-	char *last_sync_str;
+	gchar *blist_path;
+	gchar *last_sync_str;
 
 	gconf = gconf_client_get_default ();
 
@@ -87,7 +87,7 @@ bbdb_sync_buddy_list_check (void)
 
 	/* Reprocess the buddy list if it's been updated. */
 	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, NULL);
-	if (last_sync_str == NULL || ! strcmp ((const char *)last_sync_str, ""))
+	if (last_sync_str == NULL || ! strcmp ((const gchar *)last_sync_str, ""))
 		last_sync = (time_t) 0;
 	else
 		last_sync = (time_t) g_ascii_strtoull (last_sync_str, NULL, 10);
@@ -179,7 +179,7 @@ bbdb_sync_buddy_list (void)
 	{
 		GConfClient *gconf;
 		time_t  last_sync;
-		char   *last_sync_str;
+		gchar   *last_sync_str;
 
 		gconf = gconf_client_get_default ();
 
@@ -199,7 +199,7 @@ im_list_contains_buddy (GList *ims, GaimBuddy *b)
 	GList *l;
 
 	for (l = ims; l != NULL; l = l->next) {
-		char *im = (char *) l->data;
+		gchar *im = (gchar *) l->data;
 
 		if (! strcmp (im, b->account_name))
 			return TRUE;
@@ -241,12 +241,12 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
 				g_error_free (error);
 				for (l = ims; l != NULL; l = l->next)
-					g_free ((char *) l->data);
+					g_free ((gchar *) l->data);
 				g_list_free (ims);
 				return dirty;
 			}
 
-			photo->data.inlined.data = (unsigned char *)contents;
+			photo->data.inlined.data = (guchar *)contents;
 			e_contact_set (c, E_CONTACT_PHOTO, (gpointer) photo);
 			dirty = TRUE;
 		}
@@ -257,14 +257,14 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 		e_contact_photo_free (photo);
 
 	for (l = ims; l != NULL; l = l->next)
-		g_free ((char *) l->data);
+		g_free ((gchar *) l->data);
 	g_list_free (ims);
 
 	return dirty;
 }
 
 static EContactField
-proto_to_contact_field (const char *proto)
+proto_to_contact_field (const gchar *proto)
 {
 	if (! strcmp (proto,  "prpl-oscar"))
 		return E_CONTACT_IM_AIM;
@@ -296,8 +296,8 @@ get_all_blocked (xmlNodePtr node, GSList **blocked)
 		if (child->children)
 			get_all_blocked (child, blocked);
 
-		if (!strcmp ((const char *)child->name, "block")) {
-			char *name = get_node_text (child);
+		if (!strcmp ((const gchar *)child->name, "block")) {
+			gchar *name = get_node_text (child);
 
 			if (name)
 				*blocked = g_slist_prepend (*blocked, name);
@@ -308,7 +308,7 @@ get_all_blocked (xmlNodePtr node, GSList **blocked)
 static GList *
 bbdb_get_gaim_buddy_list (void)
 {
-	char *blist_path;
+	gchar *blist_path;
 	xmlDocPtr buddy_xml;
 	xmlNodePtr root, child, blist;
 	GList *buddies = NULL;
@@ -324,14 +324,14 @@ bbdb_get_gaim_buddy_list (void)
 	}
 
 	root = xmlDocGetRootElement (buddy_xml);
-	if (strcmp ((const char *)root->name, "purple")) {
+	if (strcmp ((const gchar *)root->name, "purple")) {
 		fprintf (stderr, "bbdb: Could not parse Pidgin buddy list.\n");
 		xmlFreeDoc (buddy_xml);
 		return NULL;
 	}
 
 	for (child = root->children; child != NULL; child = child->next) {
-		if (! strcmp ((const char *)child->name, "privacy")) {
+		if (! strcmp ((const gchar *)child->name, "privacy")) {
 			get_all_blocked (child, &blocked);
 			break;
 		}
@@ -339,7 +339,7 @@ bbdb_get_gaim_buddy_list (void)
 
 	blist = NULL;
 	for (child = root->children; child != NULL; child = child->next) {
-		if (! strcmp ((const char *)child->name, "blist")) {
+		if (! strcmp ((const gchar *)child->name, "blist")) {
 			blist = child;
 			break;
 		}
@@ -351,7 +351,7 @@ bbdb_get_gaim_buddy_list (void)
 	}
 
 	for (child = blist->children; child != NULL; child = child->next) {
-		if (! strcmp ((const char *)child->name, "group"))
+		if (! strcmp ((const gchar *)child->name, "group"))
 			parse_buddy_group (child, &buddies, blocked);
 	}
 
@@ -383,24 +383,24 @@ free_buddy_list (GList *blist)
 	g_list_free (blist);
 }
 
-static char *
+static gchar *
 get_node_text (xmlNodePtr node)
 {
 	if (node->children == NULL || node->children->content == NULL ||
-	    strcmp ((char *)node->children->name, "text"))
+	    strcmp ((gchar *)node->children->name, "text"))
 		return NULL;
 
-	return g_strdup ((char *)node->children->content);
+	return g_strdup ((gchar *)node->children->content);
 }
 
-static char *
+static gchar *
 get_buddy_icon_from_setting (xmlNodePtr setting)
 {
-	char *icon = NULL;
+	gchar *icon = NULL;
 
 	icon = get_node_text (setting);
 	if (icon [0] != '/') {
-		char *path;
+		gchar *path;
 
 		path = g_build_path ("/", getenv ("HOME"), ".purple/icons", icon, NULL);
 		g_free (icon);
@@ -420,7 +420,7 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 	gboolean    is_blocked = FALSE;
 
 	for (child = contact->children; child != NULL; child = child->next) {
-		if (! strcmp ((const char *)child->name, "buddy")) {
+		if (! strcmp ((const gchar *)child->name, "buddy")) {
 			buddy = child;
 			break;
 		}
@@ -433,21 +433,21 @@ parse_contact (xmlNodePtr contact, GList **buddies, GSList *blocked)
 
 	gb = g_new0 (GaimBuddy, 1);
 
-	gb->proto = e_xml_get_string_prop_by_name (buddy, (const unsigned char *)"proto");
+	gb->proto = e_xml_get_string_prop_by_name (buddy, (const guchar *)"proto");
 
 	for (child = buddy->children; child != NULL && !is_blocked; child = child->next) {
-		if (! strcmp ((const char *)child->name, "setting")) {
-			char *setting_type;
-			setting_type = e_xml_get_string_prop_by_name (child, (const unsigned char *)"name");
+		if (! strcmp ((const gchar *)child->name, "setting")) {
+			gchar *setting_type;
+			setting_type = e_xml_get_string_prop_by_name (child, (const guchar *)"name");
 
-			if (! strcmp ((const char *)setting_type, "buddy_icon"))
+			if (! strcmp ((const gchar *)setting_type, "buddy_icon"))
 				gb->icon = get_buddy_icon_from_setting (child);
 
 			g_free (setting_type);
-		} else if (! strcmp ((const char *)child->name, "name")) {
+		} else if (! strcmp ((const gchar *)child->name, "name")) {
 			gb->account_name = get_node_text (child);
 			is_blocked = g_slist_find_custom (blocked, gb->account_name, (GCompareFunc)strcmp) != NULL;
-		} else if (! strcmp ((const char *)child->name, "alias"))
+		} else if (! strcmp ((const gchar *)child->name, "alias"))
 			gb->alias = get_node_text (child);
 
 	}
@@ -464,7 +464,7 @@ parse_buddy_group (xmlNodePtr group, GList **buddies, GSList *blocked)
 	xmlNodePtr child;
 
 	for (child = group->children; child != NULL; child = child->next) {
-		if (strcmp ((const char *)child->name, "contact"))
+		if (strcmp ((const gchar *)child->name, "contact"))
 			continue;
 
 		parse_contact (child, buddies, blocked);

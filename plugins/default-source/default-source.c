@@ -94,10 +94,10 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 	return widget;
 }
 
-static const char *
+static const gchar *
 get_calendar_option_caption (ECalSourceType source_type)
 {
-	const char *res = "???";
+	const gchar *res = "???";
 
 	switch (source_type) {
 		case E_CAL_SOURCE_TYPE_EVENT:   res = _("Mark as _default calendar"); break;
@@ -117,7 +117,7 @@ org_gnome_default_cal (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *widget;
 	ESource *source;
 	ECalConfigTargetSource *cal_target;
-	int i;
+	gint i;
 
 	if (data->old)
 		return data->old;

@@ -70,7 +70,7 @@ struct _itip_puri {
 	CamelMimeMessage *msg;
 	CamelMimePart *part;
 
-	char *uid;
+	gchar *uid;
 	GtkWidget *view;
 
 	ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
@@ -79,7 +79,7 @@ struct _itip_puri {
 	ECal *current_ecal;
 	ECalSourceType type;
 
-	char *vcalendar;
+	gchar *vcalendar;
 	ECalComponent *comp;
 	icalcomponent *main_comp;
 	icalcomponent *ical_comp;
@@ -89,8 +89,8 @@ struct _itip_puri {
 	time_t start_time;
 	time_t end_time;
 
-	int current;
-	int total;
+	gint current;
+	gint total;
 
 	gchar *calendar_uid;
 
@@ -144,12 +144,12 @@ static void itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPU
 
 typedef struct {
 	struct _itip_puri *puri;
-	char *uid;
-	char *rid;
+	gchar *uid;
+	gchar *rid;
 
-	char *sexp;
+	gchar *sexp;
 
-	int count;
+	gint count;
 } FormatItipFindData;
 
 typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
@@ -157,7 +157,7 @@ typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointe
 static gboolean check_is_instance (icalcomponent *icalcomp);
 
 static icalproperty *
-find_attendee (icalcomponent *ical_comp, const char *address)
+find_attendee (icalcomponent *ical_comp, const gchar *address)
 {
 	icalproperty *prop;
 
@@ -167,8 +167,8 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
-		char *attendee;
-		char *text;
+		gchar *attendee;
+		gchar *text;
 
 		attendee = icalproperty_get_value_as_string_r (prop);
 
@@ -190,7 +190,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 }
 
 static icalproperty *
-find_attendee_if_sentby (icalcomponent *ical_comp, const char *address)
+find_attendee_if_sentby (icalcomponent *ical_comp, const gchar *address)
 {
 	icalproperty *prop;
 
@@ -201,8 +201,8 @@ find_attendee_if_sentby (icalcomponent *ical_comp, const char *address)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
 		icalparameter *param;
-		const char *attendee_sentby;
-		char *text;
+		const gchar *attendee_sentby;
+		gchar *text;
 
 		param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
 		if (!param)
@@ -247,7 +247,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 			prop = find_attendee (ical_comp, account->id->address);
 
 			if (prop) {
-				char *text;
+				gchar *text;
 				icalparameter *param;
 
 				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
@@ -303,7 +303,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 			prop = find_attendee_if_sentby (ical_comp, account->id->address);
 
 			if (prop) {
-				char *text;
+				gchar *text;
 				icalparameter *param;
 
 				param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
@@ -342,11 +342,11 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 {
 	EIterator *it;
 	icalproperty *prop;
-	char *organizer;
+	gchar *organizer;
 	icalparameter *param;
-	const char *organizer_sentby;
-	char *organizer_clean = NULL;
-	char *organizer_sentby_clean = NULL;
+	const gchar *organizer_sentby;
+	gchar *organizer_clean = NULL;
+	gchar *organizer_sentby_clean = NULL;
 
 	prop = icalcomponent_get_first_property (ical_comp, ICAL_ORGANIZER_PROPERTY);
 
@@ -406,7 +406,7 @@ get_real_item (struct _itip_puri *pitip)
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	gboolean found = FALSE;
-	const char *uid;
+	const gchar *uid;
 
 	e_cal_component_get_uid (pitip->comp, &uid);
 
@@ -432,7 +432,7 @@ adjust_item (struct _itip_puri *pitip, ECalComponent *comp)
 	real_comp = get_real_item (pitip);
 	if (real_comp != NULL) {
 		ECalComponentText text;
-		const char *string;
+		const gchar *string;
 		GSList *l;
 
 		e_cal_component_get_summary (real_comp, &text);
@@ -551,9 +551,9 @@ start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType
 }
 
 static ECal *
-start_calendar_server_by_uid (struct _itip_puri *pitip, const char *uid, ECalSourceType type)
+start_calendar_server_by_uid (struct _itip_puri *pitip, const gchar *uid, ECalSourceType type)
 {
-	int i;
+	gint i;
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
@@ -716,7 +716,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		    && !pitip->current_ecal) {
 			/* Reuse already declared one or rename? */
 			ESource *source = NULL;
-			char *uid;
+			gchar *uid;
 
 			switch (pitip->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
@@ -784,10 +784,10 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 {
 	FormatItipFindData *fd = NULL;
 	GSList *groups, *l, *sources_conflict = NULL, *all_sources = NULL;
-	const char *uid;
-	char *rid = NULL;
+	const gchar *uid;
+	gchar *rid = NULL;
 	CamelURL *url;
-	char *uri;
+	gchar *uri;
 	ESource *source = NULL, *current_source = NULL;
 
 	e_cal_component_get_uid (comp, &uid);
@@ -807,7 +807,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
-                        char *source_uri = NULL;
+                        gchar *source_uri = NULL;
 
 			source = m->data;
 
@@ -849,7 +849,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		source = l->data;
 
 		if (!fd) {
-			char *start = NULL, *end = NULL;
+			gchar *start = NULL, *end = NULL;
 
 			fd = g_new0 (FormatItipFindData, 1);
 			fd->puri = pitip;
@@ -898,7 +898,7 @@ cleanup_ecal (gpointer data)
 }
 
 static gboolean
-change_status (icalcomponent *ical_comp, const char *address, icalparameter_partstat status)
+change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_partstat status)
 {
 	icalproperty *prop;
 
@@ -947,8 +947,8 @@ static void
 message_foreach_part (CamelMimePart *part, GSList **part_list)
 {
 	CamelDataWrapper *containee;
-	int parts, i;
-	int go = TRUE;
+	gint parts, i;
+	gint go = TRUE;
 
 	if (!part)
 		return;
@@ -984,7 +984,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	ESource *source;
 	GError *error = NULL;
 	gboolean result = TRUE;
-	char *str;
+	gchar *str;
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
 	 * the user accepted/declined the request. (Outlook ignores
@@ -1037,7 +1037,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 			alarms = e_cal_component_get_alarm_uids (real_comp);
 
 			for (l = alarms; l; l = l->next) {
-				alarm = e_cal_component_get_alarm (real_comp, (const char *)l->data);
+				alarm = e_cal_component_get_alarm (real_comp, (const gchar *)l->data);
 
 				if (alarm) {
 					ECalComponentAlarm *aclone = e_cal_component_alarm_clone (alarm);
@@ -1065,7 +1065,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 
 		for (l = attachments; l; l = l->next) {
 			GSList *parts = NULL, *m;
-			char *uri, *new_uri;
+			gchar *uri, *new_uri;
 			CamelMimePart *part;
 
 			uri = l->data;
@@ -1152,7 +1152,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 
 /* TODO These operations should be available in e-cal-component.c */
 static void
-set_attendee (ECalComponent *comp, const char *address)
+set_attendee (ECalComponent *comp, const gchar *address)
 {
 	icalproperty *prop;
 	icalcomponent *icalcomp;
@@ -1163,7 +1163,7 @@ set_attendee (ECalComponent *comp, const char *address)
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const char *attendee = icalproperty_get_attendee (prop);
+		const gchar *attendee = icalproperty_get_attendee (prop);
 
 		if (!(g_str_equal (itip_strip_mailto (attendee), address)))
 			icalcomponent_remove_property (icalcomp, prop);
@@ -1173,9 +1173,9 @@ set_attendee (ECalComponent *comp, const char *address)
 
 	if (!found) {
 		icalparameter *param;
-		char *temp = g_strdup_printf ("MAILTO:%s", address);
+		gchar *temp = g_strdup_printf ("MAILTO:%s", address);
 
-		prop = icalproperty_new_attendee ((const char *) temp);
+		prop = icalproperty_new_attendee ((const gchar *) temp);
 		icalcomponent_add_property (icalcomp, prop);
 
 		param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
@@ -1196,7 +1196,7 @@ set_attendee (ECalComponent *comp, const char *address)
 }
 
 static gboolean
-send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, const char *user, ECal *client, const char *comment)
+send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, const gchar *user, ECal *client, const gchar *comment)
 {
 	gboolean status;
 	ECalComponent *send_comp = e_cal_component_clone (comp);
@@ -1225,10 +1225,10 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 }
 
 static void
-remove_delegate (struct _itip_puri *pitip, const char *delegate, const char *delegator, ECalComponent *comp)
+remove_delegate (struct _itip_puri *pitip, const gchar *delegate, const gchar *delegator, ECalComponent *comp)
 {
 	gboolean status;
-	char *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
+	gchar *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
 
 	/* send cancellation notice to delegate */
 	status = send_comp_to_attendee (E_CAL_COMPONENT_METHOD_CANCEL, pitip->comp, delegate, pitip->current_ecal, comment);
@@ -1251,7 +1251,7 @@ update_x (ECalComponent *pitip_comp, ECalComponent *comp)
 
 	icalproperty *prop = icalcomponent_get_first_property (itip_icalcomp, ICAL_X_PROPERTY);
 	while (prop) {
-		const char *name = icalproperty_get_x_name (prop);
+		const gchar *name = icalproperty_get_x_name (prop);
 		if (!g_ascii_strcasecmp (name, "X-EVOLUTION-IS-REPLY")) {
 			icalproperty *new_prop = icalproperty_new_x (icalproperty_get_x (prop));
 			icalproperty_set_x_name (new_prop, "X-EVOLUTION-IS-REPLY");
@@ -1268,9 +1268,9 @@ update_attendee_status (struct _itip_puri *pitip)
 {
 	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL, *org_icalcomp;
-	const char *uid;
-	char *rid = NULL;
-	const char *delegate;
+	const gchar *uid;
+	gchar *rid = NULL;
+	const gchar *delegate;
 	GError *error = NULL;
 
 	/* Obtain our version */
@@ -1455,10 +1455,10 @@ get_next (icalcompiter *iter)
 }
 
 static void
-set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const char *primary, const char *secondary)
+set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *primary, const gchar *secondary)
 {
 	GtkWidget *vbox, *label;
-	char *message;
+	gchar *message;
 
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (vbox);
@@ -1489,7 +1489,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
 	ECalComponent *comp;
-	char *my_address;
+	gchar *my_address;
 
 
 	if (!pitip->vcalendar) {
@@ -1610,7 +1610,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 			prop = find_attendee_if_sentby (pitip->ical_comp, my_address);
 		if (prop) {
 			icalparameter *param;
-			const char * delfrom;
+			const gchar * delfrom;
 
 			if ((param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
 				delfrom = icalparameter_get_delegatedfrom (param);
@@ -1623,7 +1623,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 		/* Determine any delegate sections */
 		prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
 		while (prop) {
-			const char *x_name, *x_val;
+			const gchar *x_name, *x_val;
 
 			x_name = icalproperty_get_x_name (prop);
 			x_val = icalproperty_get_x (prop);
@@ -1675,7 +1675,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	/* Add default reminder if the config says so */
 	if (calendar_config_get_use_default_reminder ()) {
 		ECalComponentAlarm *acomp;
-		int interval;
+		gint interval;
 		CalUnits units;
 		ECalComponentAlarmTrigger trigger;
 
@@ -1720,10 +1720,10 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 struct _opencal_msg {
 	MailMsg base;
 
-	char *command; /* command line to run */
+	gchar *command; /* command line to run */
 };
 
-static char *
+static gchar *
 open_calendar__desc (struct _opencal_msg *m, gint complete)
 {
 	return g_strdup (_("Opening calendar"));
@@ -1757,7 +1757,7 @@ idle_open_cb (gpointer data)
 {
 	struct _itip_puri *pitip = data;
 	struct _opencal_msg *m;
-	char *start, *end;
+	gchar *start, *end;
 
 	start = isodate_from_time_t (pitip->start_time);
 	end = isodate_from_time_t (pitip->end_time);
@@ -1869,7 +1869,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	/* FIXME Remove this and handle this at the groupwise mail provider */
 	if (delete_invitation_from_cache) {
 		CamelFolderChangeInfo *changes = NULL;
-		const char *tag = NULL;
+		const gchar *tag = NULL;
 		CamelMessageInfo *mi;
 		mi = camel_folder_summary_uid (pitip->folder->summary, pitip->uid);
 		if (mi) {
@@ -1881,7 +1881,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				tag = camel_message_info_user_tag (mi, "recurrence-key");
 				camel_message_info_free (mi);
 				if (tag) {
-					int i = 0, count;
+					gint i = 0, count;
 					GSList *list = NULL;
 
 					count = camel_folder_summary_count (pitip->folder->summary);
@@ -1891,8 +1891,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 							continue;
 						camel_message_info_ref (mi);
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
-							camel_folder_summary_remove_uid_fast (pitip->folder->summary, (char *)(mi->uid));
-							camel_folder_change_info_remove_uid (changes, (char *) mi->uid);
+							camel_folder_summary_remove_uid_fast (pitip->folder->summary, (gchar *)(mi->uid));
+							camel_folder_change_info_remove_uid (changes, (gchar *) mi->uid);
 							list = g_slist_prepend (list, (gpointer) mi->uid);
 
 							/* step back once to have the right index */
@@ -1924,7 +1924,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 ECalComponent *comp = NULL;
                 icalcomponent *ical_comp;
                 icalvalue *value;
-                const char *attendee, *comment;
+                const gchar *attendee, *comment;
                 GSList *l, *list = NULL;
 		gboolean found;
 
@@ -1944,7 +1944,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                      prop != NULL;
                      prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
                 {
-                        char *text;
+                        gchar *text;
 
                         value = icalproperty_get_value (prop);
                         if (!value)
@@ -2003,7 +2003,7 @@ check_is_instance (icalcomponent *icalcomp)
 
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
-		const char *x_name;
+		const gchar *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
@@ -2047,8 +2047,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	GString *gstring = NULL;
 	GSList *list, *l;
 	icalcomponent *icalcomp;
-	const char *string, *org;
-	int i;
+	const gchar *string, *org;
+	gint i;
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
 
@@ -2351,7 +2351,7 @@ static void
 puri_free (EMFormatPURI *puri)
 {
 	struct _itip_puri *pitip = (struct _itip_puri*) puri;
-	int i;
+	gint i;
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 		if (pitip->source_lists[i])
@@ -2407,7 +2407,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
 	EMFormatHTMLPObject *pobj;
 	GConfClient *gconf;
-	char *classid;
+	gchar *classid;
 	struct _itip_puri *puri;
 	CamelDataWrapper *content;
 	CamelStream *mem;
@@ -2442,7 +2442,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	if (((CamelStreamMem *) mem)->buffer->len == 0)
 		puri->vcalendar = NULL;
 	else
-		puri->vcalendar = g_strndup ((char *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+		puri->vcalendar = g_strndup ((gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
 
 
@@ -2471,7 +2471,7 @@ initialize_selection (ESourceSelector *selector, ESourceList *source_list)
 		GSList *sources;
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
-			const char *completion = e_source_get_property (source, "conflict");
+			const gchar *completion = e_source_get_property (source, "conflict");
 			if (completion && !g_ascii_strcasecmp (completion, "true"))
 				e_source_selector_select_source (selector, source);
 		}

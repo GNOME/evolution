@@ -36,7 +36,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 
-static const int e_calendar_item_days_in_month[12] = {
+static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
 
@@ -1139,7 +1139,7 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 
 
 static void
-layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, int day_index)
+layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, gint day_index)
 {
 	const gchar *abbr_name;
 
@@ -1364,18 +1364,18 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	cairo_destroy (cr);
 }
 
-static const char *
+static const gchar *
 get_digit_fomat ()
 {
 
 #ifdef HAVE_GNU_GET_LIBC_VERSION
 #include <gnu/libc-version.h>
 
-	const char *libc_version = gnu_get_libc_version ();
-	char **split = g_strsplit (libc_version, ".", -1);
-	int major = 0;
-	int minor = 0;
-	int revision = 0;
+	const gchar *libc_version = gnu_get_libc_version ();
+	gchar **split = g_strsplit (libc_version, ".", -1);
+	gint major = 0;
+	gint minor = 0;
+	gint revision = 0;
 
 	major = atoi (split [0]);
 	minor = atoi (split [1]);
@@ -1716,7 +1716,7 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 {
 	GDate date;
 	guint weekday, yearday;
-	int offset, week_num;
+	gint offset, week_num;
 
 	/* FIXME: check what happens at year boundaries. */
 
@@ -1757,7 +1757,7 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
    This is needed so that we get button/motion events. */
 static double
 e_calendar_item_point (GnomeCanvasItem *item, double x, double y,
-			   int cx, int cy,
+			   gint cx, gint cy,
 			   GnomeCanvasItem **actual_item)
 {
 	*actual_item = item;
@@ -1983,7 +1983,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	max_week_number_digit_width = 0;
 	for (digit = 0; digit < 10; digit++) {
 		gchar locale_digit[5];
-		int locale_digit_len;
+		gint locale_digit_len;
 
 		locale_digit_len = sprintf (locale_digit, get_digit_fomat (), digit);
 

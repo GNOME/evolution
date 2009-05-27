@@ -34,11 +34,11 @@
 
 static GHashTable *source_lists_hash = NULL;
 
-static char *
-auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_data)
+static gchar *
+auth_func_cb (ECal *ecal, const gchar *prompt, const gchar *key, gpointer user_data)
 {
 	gboolean remember;
-	char *password, *auth_domain;
+	gchar *password, *auth_domain;
 	ESource *source;
 	const gchar *component_name;
 
@@ -56,11 +56,11 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 	return password;
 }
 
-static char *
+static gchar *
 build_pass_key (ECal *ecal)
 {
-	char *euri_str;
-	const char *uri;
+	gchar *euri_str;
+	const gchar *uri;
 	EUri *euri;
 
 	uri = e_cal_get_uri (ecal);
@@ -76,7 +76,7 @@ void
 auth_cal_forget_password (ECal *ecal)
 {
 	ESource *source = NULL;
-	const char *auth_domain = NULL, *component_name = NULL,  *auth_type = NULL;
+	const gchar *auth_domain = NULL, *component_name = NULL,  *auth_type = NULL;
 
 	source = e_cal_get_source (ecal);
 	auth_domain = e_source_get_property (source, "auth-domain");
@@ -84,7 +84,7 @@ auth_cal_forget_password (ECal *ecal)
 
 	auth_type = e_source_get_property (source, "auth-type");
 	if (auth_type) {
-		char *key = NULL;
+		gchar *key = NULL;
 
 		key = build_pass_key (ecal);
 		e_passwords_forget_password (component_name, key);
@@ -119,7 +119,7 @@ auth_new_cal_from_source (ESource *source, ECalSourceType type)
 }
 
 ECal *
-auth_new_cal_from_uri (const char *uri, ECalSourceType type)
+auth_new_cal_from_uri (const gchar *uri, ECalSourceType type)
 {
 	ESourceGroup *group = NULL;
 	ESource *source = NULL;
@@ -144,7 +144,7 @@ auth_new_cal_from_uri (const char *uri, ECalSourceType type)
 			GSList *sl;
 
 			for (sl = e_source_group_peek_sources (gl->data); sl != NULL; sl = sl->next) {
-				char *source_uri;
+				gchar *source_uri;
 
 				source_uri = e_source_get_uri (sl->data);
 				if (source_uri) {

@@ -79,12 +79,12 @@ struct _EReflow
 	guint adjustment_value_changed_id;
 	guint set_scroll_adjustments_id;
 
-	int *heights;
+	gint *heights;
 	GnomeCanvasItem **items;
-	int count;
-	int allocated_count;
+	gint count;
+	gint allocated_count;
 
-	int *columns;
+	gint *columns;
 	gint column_count; /* Number of columnns */
 
 	GnomeCanvasItem *empty_text;
@@ -96,8 +96,8 @@ struct _EReflow
 
 	double column_width;
 
-	int incarnate_idle_id;
-	int do_adjustment_idle_id;
+	gint incarnate_idle_id;
+	gint do_adjustment_idle_id;
 
 	/* These are all for when the column is being dragged. */
 	gdouble start_x;
@@ -105,9 +105,9 @@ struct _EReflow
 	double temp_column_width;
 	double previous_temp_column_width;
 
-	int cursor_row;
+	gint cursor_row;
 
-	int reflow_from_column;
+	gint reflow_from_column;
 
 	guint column_drag : 1;
 
@@ -127,7 +127,7 @@ struct _EReflowClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	int (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
+	gint (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
 	void (*column_width_changed) (EReflow *reflow, double width);
 };
 

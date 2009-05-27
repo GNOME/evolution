@@ -44,10 +44,10 @@
 
 #define d(x)
 
-static int validate(FilterRule *);
-static int vfolder_eq(FilterRule *fr, FilterRule *cm);
+static gint validate(FilterRule *);
+static gint vfolder_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode(FilterRule *);
-static int xml_decode(FilterRule *, xmlNodePtr, RuleContext *f);
+static gint xml_decode(FilterRule *, xmlNodePtr, RuleContext *f);
 static void rule_copy(FilterRule *dest, FilterRule *src);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget(FilterRule *fr, RuleContext *f);
@@ -57,7 +57,7 @@ static void em_vfolder_rule_init(EMVFolderRule *vr);
 static void em_vfolder_rule_finalise(GObject *obj);
 
 /* DO NOT internationalise these strings */
-static const char *with_names[] = {
+static const gchar *with_names[] = {
 	"specific",
 	"local_remote_active",
 	"remote_active",
@@ -142,7 +142,7 @@ em_vfolder_rule_new(void)
 }
 
 void
-em_vfolder_rule_add_source(EMVFolderRule *vr, const char *uri)
+em_vfolder_rule_add_source(EMVFolderRule *vr, const gchar *uri)
 {
 	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
 	g_return_if_fail (uri);
@@ -152,8 +152,8 @@ em_vfolder_rule_add_source(EMVFolderRule *vr, const char *uri)
 	filter_rule_emit_changed((FilterRule *)vr);
 }
 
-const char *
-em_vfolder_rule_find_source(EMVFolderRule *vr, const char *uri)
+const gchar *
+em_vfolder_rule_find_source(EMVFolderRule *vr, const gchar *uri)
 {
 	GList *l;
 
@@ -172,13 +172,13 @@ em_vfolder_rule_find_source(EMVFolderRule *vr, const char *uri)
 }
 
 void
-em_vfolder_rule_remove_source(EMVFolderRule *vr, const char *uri)
+em_vfolder_rule_remove_source(EMVFolderRule *vr, const gchar *uri)
 {
-	char *found;
+	gchar *found;
 
 	g_return_if_fail (EM_IS_VFOLDER_RULE(vr));
 
-	found =(char *)em_vfolder_rule_find_source(vr, uri);
+	found =(gchar *)em_vfolder_rule_find_source(vr, uri);
 	if (found) {
 		vr->sources = g_list_remove(vr->sources, found);
 		g_free(found);
@@ -186,15 +186,15 @@ em_vfolder_rule_remove_source(EMVFolderRule *vr, const char *uri)
 	}
 }
 
-const char *
-em_vfolder_rule_next_source(EMVFolderRule *vr, const char *last)
+const gchar *
+em_vfolder_rule_next_source(EMVFolderRule *vr, const gchar *last)
 {
 	GList *node;
 
 	if (last == NULL) {
 		node = vr->sources;
 	} else {
-		node = g_list_find(vr->sources, (char *)last);
+		node = g_list_find(vr->sources, (gchar *)last);
 		if (node == NULL)
 			node = vr->sources;
 		else
@@ -202,7 +202,7 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const char *last)
 	}
 
 	if (node)
-		return (const char *)node->data;
+		return (const gchar *)node->data;
 
 	return NULL;
 }
@@ -232,10 +232,10 @@ validate(FilterRule *fr)
 static int
 list_eq(GList *al, GList *bl)
 {
-	int truth = TRUE;
+	gint truth = TRUE;
 
 	while (truth && al && bl) {
-		char *a = al->data, *b = bl->data;
+		gchar *a = al->data, *b = bl->data;
 
 		truth = strcmp(a, b)== 0;
 		al = al->next;
@@ -263,13 +263,13 @@ xml_encode(FilterRule *fr)
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (vr->with < sizeof(with_names)/sizeof(with_names[0]), NULL);
 
-	set = xmlNewNode(NULL, (const unsigned char *)"sources");
+	set = xmlNewNode(NULL, (const guchar *)"sources");
 	xmlAddChild(node, set);
-	xmlSetProp(set, (const unsigned char *)"with", (unsigned char *)with_names[vr->with]);
+	xmlSetProp(set, (const guchar *)"with", (guchar *)with_names[vr->with]);
 	l = vr->sources;
 	while (l) {
-		work = xmlNewNode(NULL, (const unsigned char *)"folder");
-		xmlSetProp(work, (const unsigned char *)"uri", (unsigned char *)l->data);
+		work = xmlNewNode(NULL, (const guchar *)"folder");
+		xmlSetProp(work, (const guchar *)"uri", (guchar *)l->data);
 		xmlAddChild(set, work);
 		l = l->next;
 	}
@@ -278,9 +278,9 @@ xml_encode(FilterRule *fr)
 }
 
 static void
-set_with(EMVFolderRule *vr, const char *name)
+set_with(EMVFolderRule *vr, const gchar *name)
 {
-	int i;
+	gint i;
 
 	for(i=0;i<sizeof(with_names)/sizeof(with_names[0]);i++) {
 		if (!strcmp(name, with_names[i])) {
@@ -296,9 +296,9 @@ static int
 xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
 	xmlNodePtr set, work;
-	int result;
+	gint result;
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
-	char *tmp;
+	gchar *tmp;
 
         result = FILTER_RULE_CLASS(parent_class)->xml_decode(fr, node, f);
 	if (result != 0)
@@ -313,16 +313,16 @@ xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 
 	set = node->children;
 	while (set) {
-		if (!strcmp((char *)set->name, "sources")) {
-			tmp = (char *)xmlGetProp(set, (const unsigned char *)"with");
+		if (!strcmp((gchar *)set->name, "sources")) {
+			tmp = (gchar *)xmlGetProp(set, (const guchar *)"with");
 			if (tmp) {
 				set_with(vr, tmp);
 				xmlFree(tmp);
 			}
 			work = set->children;
 			while (work) {
-				if (!strcmp((char *)work->name, "folder")) {
-					tmp = (char *)xmlGetProp(work, (const unsigned char *)"uri");
+				if (!strcmp((gchar *)work->name, "folder")) {
+					tmp = (gchar *)xmlGetProp(work, (const guchar *)"uri");
 					if (tmp) {
 						vr->sources = g_list_append(vr->sources, g_strdup(tmp));
 						xmlFree(tmp);
@@ -353,7 +353,7 @@ rule_copy(FilterRule *dest, FilterRule *src)
 
 	node = vsrc->sources;
 	while (node) {
-		char *uri = node->data;
+		gchar *uri = node->data;
 
 		vdest->sources = g_list_append(vdest->sources, g_strdup(uri));
 		node = node->next;
@@ -373,7 +373,7 @@ enum {
 struct _source_data {
 	RuleContext *rc;
 	EMVFolderRule *vr;
-	const char *current;
+	const gchar *current;
 	GtkListStore *model;
 	GtkTreeView *list;
 	GtkWidget *source_selector;
@@ -440,11 +440,11 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 }
 
 /* attempt to make a 'nice' folder name out of the raw uri */
-static char *format_source(const char *euri)
+static gchar *format_source(const gchar *euri)
 {
 	CamelURL *url;
 	GString *out;
-	char *res, *uri;
+	gchar *res, *uri;
 
 	/* This should really probably base it on the account name? */
 	uri = em_uri_to_camel(euri);
@@ -477,10 +477,10 @@ static char *format_source(const char *euri)
 static void
 vfr_folder_response(GtkWidget *dialog, gint button, struct _source_data *data)
 {
-	const char *uri = em_folder_selector_get_selected_uri((EMFolderSelector *)dialog);
+	const gchar *uri = em_folder_selector_get_selected_uri((EMFolderSelector *)dialog);
 
 	if (button == GTK_RESPONSE_OK && uri != NULL) {
-		char *urinice, *euri;
+		gchar *urinice, *euri;
 		GtkTreeSelection *selection;
 		GtkTreeIter iter;
 
@@ -524,11 +524,11 @@ static void
 source_remove(GtkWidget *widget, struct _source_data *data)
 {
 	GtkTreeSelection *selection;
-	const char *source;
+	const gchar *source;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	int index = 0;
-	int n;
+	gint index = 0;
+	gint n;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data->list));
 
@@ -571,11 +571,11 @@ source_remove(GtkWidget *widget, struct _source_data *data)
 }
 
 
-GtkWidget *em_vfolder_editor_sourcelist_new(char *widget_name, char *string1, char *string2,
-					  int int1, int int2);
+GtkWidget *em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *string2,
+					  gint int1, gint int2);
 
 GtkWidget *
-em_vfolder_editor_sourcelist_new(char *widget_name, char *string1, char *string2, int int1, int int2)
+em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
 	GtkWidget *table, *scrolled;
 	GtkTreeSelection *selection;
@@ -619,11 +619,11 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	GtkWidget *widget, *frame, *list;
 	struct _source_data *data;
 	GtkRadioButton *rb;
-	const char *source;
+	const gchar *source;
 	GtkTreeIter iter;
 	GladeXML *gui;
-	int i;
-	char *gladefile;
+	gint i;
+	gchar *gladefile;
 
         widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 
@@ -652,7 +652,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source(vr, source))) {
-		char *nice = format_source(source);
+		gchar *nice = format_source(source);
 
 		gtk_list_store_append(data->model, &iter);
 		gtk_list_store_set(data->model, &iter, 0, nice, 1, source, -1);

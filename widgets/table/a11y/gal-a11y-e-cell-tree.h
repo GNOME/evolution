@@ -44,7 +44,7 @@ typedef struct _GalA11yECellTreePrivate GalA11yECellTreePrivate;
 struct _GalA11yECellTree {
 	GalA11yECell object;
 
-	int model_row_changed_id;
+	gint model_row_changed_id;
 };
 
 struct _GalA11yECellTreeClass {
@@ -57,8 +57,8 @@ GType      gal_a11y_e_cell_tree_get_type   (void);
 AtkObject *gal_a11y_e_cell_tree_new	   (ETableItem *item,
 					    ECellView  *cell_view,
 					    AtkObject  *parent,
-					    int         model_col,
-					    int         view_col,
-					    int         row);
+					    gint         model_col,
+					    gint         view_col,
+					    gint         row);
 
 #endif /* ! __GAL_A11Y_E_CELL_TREE_H__ */

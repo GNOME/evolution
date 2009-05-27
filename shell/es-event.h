@@ -59,21 +59,21 @@ struct _ESEventTargetShell {
 struct _ESEventTargetState {
 	EEventTarget target;
 
-	int state;
+	gint state;
 };
 
 struct _ESEventTargetUpgrade {
 	EEventTarget target;
 
-	int major;
-	int minor;
-	int revision;
+	gint major;
+	gint minor;
+	gint revision;
 };
 
 struct _ESEventTargetComponent {
 	EEventTarget target;
 
-	const char *id;
+	const gchar *id;
 };
 
 typedef struct _EEventItem ESEventItem;
@@ -94,9 +94,9 @@ GType es_event_get_type(void);
 ESEvent *es_event_peek(void);
 
 ESEventTargetShell *es_event_target_new(ESEvent *eme);
-ESEventTargetState *es_event_target_new_state(ESEvent *emp, int state);
-ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, int major, int minor, int revision);
-ESEventTargetComponent *es_event_target_new_component(ESEvent *eme, const char *id);
+ESEventTargetState *es_event_target_new_state(ESEvent *emp, gint state);
+ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, gint major, gint minor, gint revision);
+ESEventTargetComponent *es_event_target_new_component(ESEvent *eme, const gchar *id);
 
 /* ********************************************************************** */
 

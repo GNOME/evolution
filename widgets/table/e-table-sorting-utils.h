@@ -31,27 +31,27 @@ G_BEGIN_DECLS
 #include <table/e-table-header.h>
 gboolean  e_table_sorting_utils_affects_sort         (ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
-						      int             col);
+						      gint             col);
 
 
 
 void      e_table_sorting_utils_sort                 (ETableModel    *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
-						      int            *map_table,
-						      int             rows);
-int       e_table_sorting_utils_insert               (ETableModel    *source,
+						      gint            *map_table,
+						      gint             rows);
+gint       e_table_sorting_utils_insert               (ETableModel    *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
-						      int            *map_table,
-						      int             rows,
-						      int             row);
-int       e_table_sorting_utils_check_position       (ETableModel    *source,
+						      gint            *map_table,
+						      gint             rows,
+						      gint             row);
+gint       e_table_sorting_utils_check_position       (ETableModel    *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
-						      int            *map_table,
-						      int             rows,
-						      int             view_row);
+						      gint            *map_table,
+						      gint             rows,
+						      gint             view_row);
 
 
 
@@ -59,18 +59,18 @@ void      e_table_sorting_utils_tree_sort            (ETreeModel     *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
 						      ETreePath      *map_table,
-						      int             count);
-int       e_table_sorting_utils_tree_check_position  (ETreeModel     *source,
+						      gint             count);
+gint       e_table_sorting_utils_tree_check_position  (ETreeModel     *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
 						      ETreePath      *map_table,
-						      int             count,
-						      int             old_index);
-int       e_table_sorting_utils_tree_insert          (ETreeModel     *source,
+						      gint             count,
+						      gint             old_index);
+gint       e_table_sorting_utils_tree_insert          (ETreeModel     *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
 						      ETreePath      *map_table,
-						      int             count,
+						      gint             count,
 						      ETreePath       path);
 
 G_END_DECLS

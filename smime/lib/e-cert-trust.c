@@ -53,9 +53,9 @@ e_cert_trust_init (CERTCertTrust *trust)
 
 void
 e_cert_trust_init_with_values (CERTCertTrust *trust,
-			       unsigned int ssl,
-			       unsigned int email,
-			       unsigned int objsign)
+			       guint ssl,
+			       guint email,
+			       guint objsign)
 {
   memset(trust, 0, sizeof(CERTCertTrust));
   e_cert_trust_add_trust(&trust->sslFlags, ssl);
@@ -389,13 +389,13 @@ e_cert_trust_has_trusted_peer (CERTCertTrust *trust,
 }
 
 void
-e_cert_trust_add_trust (unsigned int *t, unsigned int v)
+e_cert_trust_add_trust (guint *t, guint v)
 {
   *t |= v;
 }
 
 PRBool
-e_cert_trust_has_trust (unsigned int t, unsigned int v)
+e_cert_trust_has_trust (guint t, guint v)
 {
   return (t & v);
 }

@@ -134,7 +134,7 @@ static void
 update_folder_bar_message (EAddressbookModel *model)
 {
 	guint count;
-	char *message;
+	gchar *message;
 
 	count = model->priv->contacts->len;
 
@@ -260,7 +260,7 @@ modify_contact(EBookView *book_view,
 
 static void
 status_message (EBookView *book_view,
-		char* status,
+		gchar * status,
 		EAddressbookModel *model)
 {
 	g_signal_emit (model, signals[STATUS_MESSAGE], 0, status);
@@ -347,8 +347,8 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 
 	if (model->priv->book && model->priv->query) {
 		ESource *source;
-		const char *limit_str;
-		int limit = -1;
+		const gchar *limit_str;
+		gint limit = -1;
 
 		source = e_book_get_source (model->priv->book);
 

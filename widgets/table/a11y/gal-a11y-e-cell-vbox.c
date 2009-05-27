@@ -120,7 +120,7 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 			     AtkCoordType coord_type)
 {
 	gint x0, y0, width, height;
-	int subcell_height, i;
+	gint subcell_height, i;
 
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (component);
 	ECellVboxView *ecvv = (ECellVboxView *) (gaec->cell_view);
@@ -203,9 +203,9 @@ gal_a11y_e_cell_vbox_get_type (void)
 AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 					 ECellView  *cell_view,
 					 AtkObject  *parent,
-					 int         model_col,
-					 int         view_col,
-					 int         row)
+					 gint         model_col,
+					 gint         view_col,
+					 gint         row)
 {
 	AtkObject *a11y;
 	GalA11yECell *gaec;

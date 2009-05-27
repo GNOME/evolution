@@ -48,8 +48,8 @@ struct ETreeSortedVariablePrivate {
 
 static void etsv_proxy_model_changed      (ETableModel *etm, ETreeSortedVariable *etsv);
 #if 0
-static void etsv_proxy_model_row_changed  (ETableModel *etm, int row, ETreeSortedVariable *etsv);
-static void etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETreeSortedVariable *etsv);
+static void etsv_proxy_model_row_changed  (ETableModel *etm, gint row, ETreeSortedVariable *etsv);
+static void etsv_proxy_model_cell_changed (ETableModel *etm, gint col, gint row, ETreeSortedVariable *etsv);
 #endif
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETreeSortedVariable *etsv);
 static void etsv_sort                     (ETreeSortedVariable *etsv);
@@ -186,7 +186,7 @@ etsv_proxy_model_changed (ETableModel *etm, ETreeSortedVariable *etsv)
 }
 #if 0
 static void
-etsv_proxy_model_row_changed (ETableModel *etm, int row, ETreeSortedVariable *etsv)
+etsv_proxy_model_row_changed (ETableModel *etm, gint row, ETreeSortedVariable *etsv)
 {
 	ETreeSortedVariable *etsv = E_TABLE_SUBSET_VARIABLE(etsv);
 
@@ -195,7 +195,7 @@ etsv_proxy_model_row_changed (ETableModel *etm, int row, ETreeSortedVariable *et
 }
 
 static void
-etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETreeSortedVariable *etsv)
+etsv_proxy_model_cell_changed (ETableModel *etm, gint col, gint row, ETreeSortedVariable *etsv)
 {
 	ETreeSortedVariable *etsv = E_TABLE_SUBSET_VARIABLE(etsv);
 
@@ -214,10 +214,10 @@ etsv_sort_info_changed (ETableSortInfo *info, ETreeSortedVariable *etsv)
 static int
 etsv_compare(ETreeSortedVariable *etsv, const ETreePath *path1, const ETreePath *path2)
 {
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(etsv->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
+	gint j;
+	gint sort_count = e_table_sort_info_sorting_get_count(etsv->sort_info);
+	gint comp_val = 0;
+	gint ascending = 1;
 
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
@@ -244,18 +244,18 @@ etsv_compare(ETreeSortedVariable *etsv, const ETreePath *path1, const ETreePath 
 
 
 static ETreeSortedVariable *etsv_closure;
-int cols_closure;
-int *ascending_closure;
-int *col_idx_closure;
+gint cols_closure;
+gint *ascending_closure;
+gint *col_idx_closure;
 GCompareFunc *compare_closure;
 
 static int
 etsv_compare_closure(const ETreePath *path1, const ETreePath *path2)
 {
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
+	gint j;
+	gint sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
+	gint comp_val = 0;
+	gint ascending = 1;
 	for (j = 0; j < sort_count; j++) {
 
 		comp_val = (*(compare_closure[j]))(e_tree_model_value_at (etsv_closure->source, path1, col_idx_closure[j]),
@@ -276,7 +276,7 @@ etsv_compare_closure(const ETreePath *path1, const ETreePath *path2)
 }
 
 static int
-qsort_callback(const void *data1, const void *data2)
+qsort_callback(gconstpointer data1, gconstpointer data2)
 {
 	GNode *node1 = *(GNode **)data1;
 	GNode *node2 = *(GNode **)data2;
@@ -284,7 +284,7 @@ qsort_callback(const void *data1, const void *data2)
 }
 
 static int
-qsort_callback_source(const void *data1, const void *data2)
+qsort_callback_source(gconstpointer data1, gconstpointer data2)
 {
 	return etsv_compare_closure(data1, data2);
 }
@@ -292,8 +292,8 @@ qsort_callback_source(const void *data1, const void *data2)
 static void
 etsv_setup_closures(ETreeSortedVariable *etsv)
 {
-	int j;
-	int cols;
+	gint j;
+	gint cols;
 
 	cols = e_table_sort_info_sorting_get_count(etsv->sort_info);
 	cols_closure = cols;
@@ -367,7 +367,7 @@ etsv_sort_tree(ETreeSortedVariable *etsv, GNode *root)
 static void
 etsv_sort(ETreeSortedVariable *etsv)
 {
-	static int reentering = 0;
+	static gint reentering = 0;
 	if (reentering)
 		return;
 	reentering = 1;
@@ -440,8 +440,8 @@ etsv_add_all_node (ETreeSortedVariable *etsv, ETreePath *path, GNode *node)
 {
 	ETreeModel *source = etsv->source;
 	ETreePath **children;
-	int n;
-	int i;
+	gint n;
+	gint i;
 
 	n = e_tree_model_node_get_children(source, path, &children);
 	qsort(children, n, sizeof(ETreePath *), qsort_callback_source);

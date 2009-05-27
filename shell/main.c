@@ -213,7 +213,7 @@ show_development_warning(void)
 	GtkWidget *checkbox;
 	GtkWidget *alignment;
 	gboolean skip;
-	char *text;
+	gchar *text;
 
 	warning_dialog = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
@@ -347,7 +347,7 @@ static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
 static pthread_t main_thread;
 
 static void
-segv_redirect (int sig)
+segv_redirect (gint sig)
 {
 	if (pthread_self () == main_thread)
 		gnome_segv_handler (sig);
@@ -531,7 +531,7 @@ slowly_and_stupidly_obtain_timestamp (GdkDisplay *display)
 	name = "Fake Window";
 	XChangeProperty (
 		xdisplay, xwindow, atom_name, atom_type,
-		8, PropModeReplace, (unsigned char *) name,
+		8, PropModeReplace, (guchar *) name,
 		strlen (name));
 
 	XWindowEvent (
@@ -634,8 +634,8 @@ create_default_shell (void)
 	default_shell = shell;
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
 	extern void link_shutdown (void);
@@ -711,7 +711,7 @@ main (int argc, char **argv)
 	setup_segv_redirect ();
 
 	if (evolution_debug_log) {
-		int fd;
+		gint fd;
 
 		fd = g_open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd != -1) {

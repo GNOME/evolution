@@ -73,7 +73,7 @@ struct _EMemosPrivate {
 	GtkWidget *preview;
 
 	gchar *current_uid;
-	char *sexp;
+	gchar *sexp;
 
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
@@ -102,7 +102,7 @@ G_DEFINE_TYPE (EMemos, e_memos, GTK_TYPE_TABLE)
 
 /* Callback used when the sexp in the search bar changes */
 static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
@@ -120,7 +120,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 
 /* Callback used when the selected category in the search bar changes */
 static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
 {
 	EMemos *memos;
 	EMemosPrivate *priv;
@@ -283,7 +283,7 @@ categories_changed_cb (gpointer object, gpointer user_data)
 	cat_array = g_ptr_array_new ();
 	cat_list = e_categories_get_list ();
 	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const char *) cat_list->data))
+		if (e_categories_is_searchable ((const gchar *) cat_list->data))
 			g_ptr_array_add (cat_array, cat_list->data);
 		cat_list = g_list_remove (cat_list, cat_list->data);
 	}

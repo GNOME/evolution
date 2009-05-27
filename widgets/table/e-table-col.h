@@ -47,23 +47,23 @@ typedef enum {
  */
 typedef struct {
 	GObject         base;
-	char             *text;
+	gchar             *text;
 	GdkPixbuf        *pixbuf;
-	int               min_width;
-	int               width;
+	gint               min_width;
+	gint               width;
 	double            expansion;
 	short             x;
 	GCompareFunc      compare;
 	ETableSearchFunc  search;
-	unsigned int      is_pixbuf:1;
-	unsigned int      selected:1;
-	unsigned int      resizable:1;
-	unsigned int      disabled:1;
-	unsigned int      sortable:1;
-	unsigned int      groupable:1;
-	int               col_idx;
-	int               compare_col;
-	int               priority;
+	guint      is_pixbuf:1;
+	guint      selected:1;
+	guint      resizable:1;
+	guint      disabled:1;
+	guint      sortable:1;
+	guint      groupable:1;
+	gint               col_idx;
+	gint               compare_col;
+	gint               priority;
 
 	GtkJustification  justification;
 
@@ -75,25 +75,25 @@ typedef struct {
 } ETableColClass;
 
 GType      e_table_col_get_type         (void);
-ETableCol *e_table_col_new              (int           col_idx,
-					 const char   *text,
+ETableCol *e_table_col_new              (gint           col_idx,
+					 const gchar   *text,
 					 double        expansion,
-					 int           min_width,
+					 gint           min_width,
 					 ECell        *ecell,
 					 GCompareFunc  compare,
 					 gboolean      resizable,
 					 gboolean      disabled,
-					 int           priority);
-ETableCol *e_table_col_new_with_pixbuf  (int           col_idx,
-					 const char   *text,
+					 gint           priority);
+ETableCol *e_table_col_new_with_pixbuf  (gint           col_idx,
+					 const gchar   *text,
 					 GdkPixbuf    *pixbuf,
 					 double        expansion,
-					 int           min_width,
+					 gint           min_width,
 					 ECell        *ecell,
 					 GCompareFunc  compare,
 					 gboolean      resizable,
 					 gboolean      disabled,
-					 int           priority);
+					 gint           priority);
 
 G_END_DECLS
 

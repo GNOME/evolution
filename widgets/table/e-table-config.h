@@ -47,14 +47,14 @@ typedef struct {
 	GtkWidget    *radio_descending;
 	GtkWidget    *view_check; /* Only for group dialog */
 	guint         changed_id, toggled_id;
-	void *e_table_config;
+	gpointer e_table_config;
 } ETableConfigSortWidgets;
 
 
 typedef struct {
 	GObject parent;
 
-	char *header;
+	gchar *header;
 
 	/*
 	 * Our various dialog boxes
@@ -81,7 +81,7 @@ typedef struct {
 	ETableWithout        *available_model;
 	ETable               *shown;
 	ETableSubsetVariable *shown_model;
-	char *domain;
+	gchar *domain;
 
 	/*
 	 * List of valid column names
@@ -97,12 +97,12 @@ typedef struct {
 } ETableConfigClass;
 
 GType         e_table_config_get_type  (void);
-ETableConfig *e_table_config_new       (const char          *header,
+ETableConfig *e_table_config_new       (const gchar          *header,
 					ETableSpecification *spec,
 					ETableState         *state,
 					GtkWindow           *parent_window);
 ETableConfig *e_table_config_construct (ETableConfig        *etco,
-					const char          *header,
+					const gchar          *header,
 					ETableSpecification *spec,
 					ETableState         *state,
 					GtkWindow           *parent_window);

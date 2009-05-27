@@ -56,7 +56,7 @@ typedef struct _GalViewMinicardClass GalViewMinicardClass;
 struct _GalViewMinicard {
 	GalView              parent;
 
-	char                *title;
+	gchar                *title;
 	double               column_width;
 
 	EMinicardViewWidget *emvw;

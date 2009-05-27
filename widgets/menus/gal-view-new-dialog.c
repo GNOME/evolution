@@ -132,7 +132,7 @@ static void
 sensitize_ok_response (GalViewNewDialog *dialog)
 {
 	gboolean ok = TRUE;
-	const char *text;
+	const gchar *text;
 
 	text = gtk_entry_get_text (GTK_ENTRY (dialog->entry));
 	if (!text || !text[0])

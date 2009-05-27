@@ -34,7 +34,7 @@
 #define E_TEXT_TO_HTML_ESCAPE_8BIT       (1 << 6)
 #define E_TEXT_TO_HTML_CITE              (1 << 7)
 
-char *e_text_to_html_full (const char *input, unsigned int flags, guint32 color);
-char *e_text_to_html      (const char *input, unsigned int flags);
+gchar *e_text_to_html_full (const gchar *input, guint flags, guint32 color);
+gchar *e_text_to_html      (const gchar *input, guint flags);
 
 #endif /* __E_HTML_UTILS__ */

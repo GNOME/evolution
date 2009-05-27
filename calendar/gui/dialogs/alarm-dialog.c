@@ -86,7 +86,7 @@ typedef struct {
 	GtkWidget *aalarm_file_chooser;
 
 	/* Mail alarm widgets */
-	const char *email;
+	const gchar *email;
 	GtkWidget *malarm_group;
 	GtkWidget *malarm_address_group;
 	GtkWidget *malarm_addresses;
@@ -103,7 +103,7 @@ typedef struct {
 	ENameSelector *name_selector;
 } Dialog;
 
-static const char *section_name = "Send To";
+static const gchar *section_name = "Send To";
 
 /* "relative" types */
 enum {
@@ -119,7 +119,7 @@ enum {
 };
 
 /* Combo box maps */
-static const int action_map[] = {
+static const gint action_map[] = {
 	E_CAL_COMPONENT_ALARM_DISPLAY,
 	E_CAL_COMPONENT_ALARM_AUDIO,
 	E_CAL_COMPONENT_ALARM_PROCEDURE,
@@ -127,27 +127,27 @@ static const int action_map[] = {
 	-1
 };
 
-static const char *action_map_cap[] = {
+static const gchar *action_map_cap[] = {
 	CAL_STATIC_CAPABILITY_NO_DISPLAY_ALARMS,
 	CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS,
         CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
 	CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS
 };
 
-static const int value_map[] = {
+static const gint value_map[] = {
 	MINUTES,
 	HOURS,
 	DAYS,
 	-1
 };
 
-static const int relative_map[] = {
+static const gint relative_map[] = {
 	BEFORE,
 	AFTER,
 	-1
 };
 
-static const int time_map[] = {
+static const gint time_map[] = {
 	E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START,
 	E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END,
 	-1
@@ -159,7 +159,7 @@ enum duration_units {
 	DUR_DAYS
 };
 
-static const int duration_units_map[] = {
+static const gint duration_units_map[] = {
 	DUR_MINUTES,
 	DUR_HOURS,
 	DUR_DAYS,
@@ -197,8 +197,8 @@ alarm_to_dialog (Dialog *dialog)
 	gboolean valid;
 	gboolean repeat;
 	ECalComponentAlarmAction action;
-	char *email;
-	int i;
+	gchar *email;
+	gint i;
 
 	/* Clean the page */
 	clear_widgets (dialog);
@@ -314,7 +314,7 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 static void
 aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 {
-	char *url;
+	gchar *url;
 	icalattach *attach;
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->aalarm_sound)))
@@ -333,7 +333,7 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 static void
 alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 {
-	const char *url;
+	const gchar *url;
 	icalattach *attach;
 
 	e_cal_component_alarm_get_attach (alarm, (&attach));
@@ -368,7 +368,7 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 static void
 dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 {
-	char *str;
+	gchar *str;
 	ECalComponentText description;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
@@ -394,7 +394,7 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
-		const char *x_name;
+		const gchar *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
@@ -410,7 +410,7 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 static void
 malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 {
-	char *str;
+	gchar *str;
 	ECalComponentText description;
 	GSList *attendee_list = NULL;
 	GtkTextBuffer *text_buffer;
@@ -468,7 +468,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property(icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
-		const char *x_name;
+		const gchar *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
@@ -489,7 +489,7 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
     ECalComponentText description;
     GtkTextBuffer *text_buffer;
     GSList *attendee_list, *l;
-    int len;
+    gint len;
 
     /* Attendees */
     name_selector_model = e_name_selector_peek_model (dialog->name_selector);
@@ -531,7 +531,7 @@ static void
 alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 {
 	ECalComponentText description;
-	const char *url;
+	const gchar *url;
 	icalattach *attach;
 
 	e_cal_component_alarm_get_attach (alarm, (&attach));
@@ -551,9 +551,9 @@ alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 static void
 palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 {
-	char *program;
+	gchar *program;
 	icalattach *attach;
-	char *str;
+	gchar *str;
 	ECalComponentText description;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
@@ -579,7 +579,7 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
-		const char *x_name;
+		const gchar *x_name;
 
 		x_name = icalproperty_get_x_name (icalprop);
 		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
@@ -792,7 +792,7 @@ get_widgets (Dialog *dialog)
 #undef GW
 
 	if (dialog->action_combo) {
-		const char *actions[] = {
+		const gchar *actions[] = {
 			N_("Pop up an alert"),
 			N_("Play a sound"),
 			N_("Run a program"),
@@ -865,7 +865,7 @@ static void
 show_options (Dialog *dialog)
 {
 	gboolean repeat;
-	char *email;
+	gchar *email;
 
 	e_cal_component_alarm_set_action (dialog->alarm,
 					e_dialog_combo_box_get (dialog->action_combo, action_map));
@@ -943,7 +943,7 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 static void
 check_custom_sound (Dialog *dialog)
 {
-	char *str, *dir;
+	gchar *str, *dir;
 	gboolean sens;
 
 	str = gtk_file_chooser_get_filename (
@@ -985,7 +985,7 @@ aalarm_attach_changed_cb (GtkWidget *widget, gpointer data)
 static void
 check_custom_message (Dialog *dialog)
 {
-	char *str;
+	gchar *str;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	gboolean sens;
@@ -1024,7 +1024,7 @@ dalarm_description_changed_cb (GtkWidget *widget, gpointer data)
 static void
 check_custom_program (Dialog *dialog)
 {
-	char *str;
+	gchar *str;
 	gboolean sens;
 
 	str = e_dialog_editable_get (dialog->palarm_program);
@@ -1044,7 +1044,7 @@ palarm_program_changed_cb (GtkWidget *widget, gpointer data)
 static void
 check_custom_email (Dialog *dialog)
 {
-	char *str;
+	gchar *str;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	ENameSelectorModel *name_selector_model;
@@ -1100,9 +1100,9 @@ static void
 action_changed_cb (GtkWidget *action_combo, gpointer data)
 {
 	Dialog *dialog = data;
-	char *dir;
+	gchar *dir;
 	ECalComponentAlarmAction action;
-	int page = 0, i;
+	gint page = 0, i;
 
 	action = e_dialog_combo_box_get (dialog->action_combo, action_map);
 	for (i = 0; action_map[i] != -1 ; i++) {
@@ -1188,8 +1188,8 @@ gboolean
 alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
-	int response_id;
-	char *gladefile;
+	gint response_id;
+	gchar *gladefile;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 

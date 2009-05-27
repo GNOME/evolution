@@ -40,8 +40,8 @@ etmc_column_count (ETableModel *etm)
 		return 0;
 }
 
-static void *
-etmc_value_at (ETableModel *etm, int col, int row)
+static gpointer
+etmc_value_at (ETableModel *etm, gint col, gint row)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -52,7 +52,7 @@ etmc_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-etmc_set_value_at (ETableModel *etm, int col, int row, const void *val)
+etmc_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -61,7 +61,7 @@ etmc_set_value_at (ETableModel *etm, int col, int row, const void *val)
 }
 
 static gboolean
-etmc_is_cell_editable (ETableModel *etm, int col, int row)
+etmc_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -72,19 +72,19 @@ etmc_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 /* The default for etmc_duplicate_value is to return the raw value. */
-static void *
-etmc_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+etmc_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
 	if (etmc->duplicate_value)
 		return etmc->duplicate_value (etm, col, value, etmc->data);
 	else
-		return (void *)value;
+		return (gpointer)value;
 }
 
 static void
-etmc_free_value (ETableModel *etm, int col, void *value)
+etmc_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -92,8 +92,8 @@ etmc_free_value (ETableModel *etm, int col, void *value)
 		etmc->free_value (etm, col, value, etmc->data);
 }
 
-static void *
-etmc_initialize_value (ETableModel *etm, int col)
+static gpointer
+etmc_initialize_value (ETableModel *etm, gint col)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -104,7 +104,7 @@ etmc_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-etmc_value_is_empty (ETableModel *etm, int col, const void *value)
+etmc_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -114,8 +114,8 @@ etmc_value_is_empty (ETableModel *etm, int col, const void *value)
 		return FALSE;
 }
 
-static char *
-etmc_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+etmc_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -126,7 +126,7 @@ etmc_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etmc_append_row (ETableModel *etm, ETableModel *source, int row)
+etmc_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);
 
@@ -194,7 +194,7 @@ e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col_count,
 			      ETableMemoryCalbacksInitializeValueFn initialize_value,
 			      ETableMemoryCalbacksValueIsEmptyFn value_is_empty,
 			      ETableMemoryCalbacksValueToStringFn value_to_string,
-			      void *data)
+			      gpointer data)
 {
 	ETableMemoryCalbacks *et;
 

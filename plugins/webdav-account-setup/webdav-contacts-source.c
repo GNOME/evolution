@@ -51,8 +51,8 @@ typedef struct {
 GtkWidget *
 plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data);
 
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable);
+gint
+e_plugin_lib_enable(EPluginLib *ep, gint enable);
 
 static void
 ensure_webdav_contacts_source_group(void)
@@ -136,10 +136,10 @@ static void
 set_ui_from_source(ui_data *data)
 {
 	ESource    *source  = data->source;
-	const char *url     = e_source_get_uri(source);
+	const gchar *url     = e_source_get_uri(source);
 	EUri       *uri     = e_uri_new(url);
-	char       *url_ui;
-	const char *property;
+	gchar       *url_ui;
+	const gchar *property;
 	gboolean    use_ssl;
 	gboolean    avoid_ifmatch;
 
@@ -183,9 +183,9 @@ set_source_from_ui(ui_data *data)
 {
 	ESource    *source        = data->source;
 	gboolean    avoid_ifmatch = gtk_toggle_button_get_active(data->avoid_ifmatch_toggle);
-	const char *url           = gtk_entry_get_text(data->url_entry);
+	const gchar *url           = gtk_entry_get_text(data->url_entry);
 	EUri       *uri           = e_uri_new(url);
-	char       *url_noprotocol;
+	gchar       *url_noprotocol;
 	gboolean    use_ssl;
 
 	e_source_set_property(source, "avoid_ifmatch", avoid_ifmatch ? "1" : "0");
@@ -247,7 +247,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource      *source;
 	ESourceGroup *group;
-	const char   *base_uri;
+	const gchar   *base_uri;
 	GtkWidget    *parent;
 	GtkWidget    *vbox;
 
@@ -342,8 +342,8 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	return NULL;
 }
 
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable(EPluginLib *ep, gint enable)
 {
 	if (enable) {
 		ensure_webdav_contacts_source_group();

@@ -120,7 +120,7 @@ etcf_truncate (ETableConfigField *etcf)
 static void
 etcf_set_sensitivity(ETableConfigField *etcf)
 {
-	int count = etcf_get_count(etcf);
+	gint count = etcf_get_count(etcf);
 
 	if (etcf->n >= count) {
 		gtk_widget_set_sensitive(etcf->radio_ascending, FALSE);
@@ -138,7 +138,7 @@ etcf_set_sensitivity(ETableConfigField *etcf)
 static void
 toggled(GtkWidget *widget, ETableConfigField *etcf)
 {
-	int count;
+	gint count;
 
 	count = etcf_get_count(etcf);
 	if (count > etcf->n) {
@@ -176,11 +176,11 @@ changed(GtkWidget *widget, ETableConfigField *etcf)
 static void
 etcf_setup(ETableConfigField *etcf)
 {
-	int count;
+	gint count;
 	GList *list = NULL;
 	ETableColumnSpecification **column;
 	ETableColumnSpecification *chosen_column = NULL;
-	int model_col = -1;
+	gint model_col = -1;
 
 	etcf_set_sensitivity(etcf);
 
@@ -228,7 +228,7 @@ e_table_config_field_construct_nth (ETableConfigField   *etcf,
 				    ETableSpecification *spec,
 				    ETableSortInfo      *sort_info,
 				    gboolean             grouping,
-				    int                  n)
+				    gint                  n)
 {
 	GtkWidget *frame;
 	GtkWidget *internal_hbox;

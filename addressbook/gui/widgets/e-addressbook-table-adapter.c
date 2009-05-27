@@ -33,7 +33,7 @@
 struct _EAddressbookTableAdapterPrivate {
 	EAddressbookModel *model;
 
-	int create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
+	gint create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
 
 	GHashTable *emails;
 };
@@ -104,12 +104,12 @@ addressbook_row_count (ETableModel *etc)
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
-static void *
-addressbook_value_at (ETableModel *etc, int col, int row)
+static gpointer
+addressbook_value_at (ETableModel *etc, gint col, gint row)
 {
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	const char *value;
+	const gchar *value;
 
 	if ( col >= COLS || row >= e_addressbook_model_contact_count (priv->model) )
 		return NULL;
@@ -117,13 +117,13 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 	value = e_contact_get_const((EContact*)e_addressbook_model_contact_at (priv->model, row), col);
 
 	if (value && *value && (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3)) {
-		char *val = g_hash_table_lookup (priv->emails, value);
+		gchar *val = g_hash_table_lookup (priv->emails, value);
 
 		if (val) {
 			/* we have this already cached, so use value from the cache */
 			value = val;
 		} else {
-			char *name = NULL, *mail = NULL;
+			gchar *name = NULL, *mail = NULL;
 
 			if (eab_parse_qp_email (value, &name, &mail))
 				val = g_strdup_printf ("%s <%s>", name, mail);
@@ -138,7 +138,7 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 		}
 	}
 
-	return (void *)(value ? value : "");
+	return (gpointer)(value ? value : "");
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
@@ -151,7 +151,7 @@ contact_modified_cb (EBook* book, EBookStatus status,
 }
 
 static void
-addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
+addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val)
 {
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
@@ -169,14 +169,14 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 		e_table_model_pre_change(etc);
 
 		if (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3) {
-			const char *old_value = e_contact_get_const (contact, col);
+			const gchar *old_value = e_contact_get_const (contact, col);
 
 			/* remove old value from cache and use new one */
 			if (old_value && *old_value)
 				g_hash_table_remove (priv->emails, old_value);
 		}
 
-		e_contact_set(contact, col, (void *) val);
+		e_contact_set(contact, col, (gpointer) val);
 		eab_merging_book_commit_contact (e_addressbook_model_get_book (priv->model),
 						 contact, contact_modified_cb, etc);
 
@@ -189,7 +189,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
-addressbook_is_cell_editable (ETableModel *etc, int col, int row)
+addressbook_is_cell_editable (ETableModel *etc, gint col, gint row)
 {
 #if 0
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
@@ -220,13 +220,13 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EContact *contact;
-	int col;
+	gint col;
 
 	contact = e_contact_new ();
 
 	for (col = 1; col < E_CONTACT_LAST_SIMPLE_STRING; col++) {
-		const void *val = e_table_model_value_at (source, col, row);
-		e_contact_set (contact, col, (void *) val);
+		gconstpointer val = e_table_model_value_at (source, col, row);
+		e_contact_set (contact, col, (gpointer) val);
 	}
 
 	eab_merging_book_add_contact (e_addressbook_model_get_book (priv->model), contact, NULL, NULL);
@@ -235,33 +235,33 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 }
 
 /* This function duplicates the value passed to it. */
-static void *
-addressbook_duplicate_value (ETableModel *etc, int col, const void *value)
+static gpointer
+addressbook_duplicate_value (ETableModel *etc, gint col, gconstpointer value)
 {
 	return g_strdup(value);
 }
 
 /* This function frees the value passed to it. */
 static void
-addressbook_free_value (ETableModel *etc, int col, void *value)
+addressbook_free_value (ETableModel *etc, gint col, gpointer value)
 {
 	g_free(value);
 }
 
-static void *
-addressbook_initialize_value (ETableModel *etc, int col)
+static gpointer
+addressbook_initialize_value (ETableModel *etc, gint col)
 {
 	return g_strdup("");
 }
 
 static gboolean
-addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
+addressbook_value_is_empty (ETableModel *etc, gint col, gconstpointer value)
 {
-	return !(value && *(char *)value);
+	return !(value && *(gchar *)value);
 }
 
-static char *
-addressbook_value_to_string (ETableModel *etc, int col, const void *value)
+static gchar *
+addressbook_value_to_string (ETableModel *etc, gint col, gconstpointer value)
 {
 	return g_strdup(value);
 }
@@ -318,7 +318,7 @@ remove_contacts (EAddressbookModel *model,
 		EAddressbookTableAdapter *adapter)
 {
 	GArray *indices = (GArray *) data;
-	int count = indices->len;
+	gint count = indices->len;
 
 	/* clear whole cache */
 	g_hash_table_remove_all (adapter->priv->emails);

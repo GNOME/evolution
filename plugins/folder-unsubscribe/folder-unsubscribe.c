@@ -46,7 +46,7 @@ void org_gnome_mail_folder_unsubscribe (EPlugin *plug, EMPopupTargetFolder *targ
 struct _folder_unsub_t {
 	MailMsg base;
 
-	char *uri;
+	gchar *uri;
 };
 
 static gchar *
@@ -60,7 +60,7 @@ static void
 folder_unsubscribe_exec (struct _folder_unsub_t *msg)
 {
 	extern CamelSession *session;
-	const char *path = NULL;
+	const gchar *path = NULL;
 	CamelStore *store;
 	CamelURL *url;
 

@@ -47,9 +47,9 @@ static gint online = 0;
 static GSList *error_queue = NULL;
 static GStaticMutex error_queue_lock = G_STATIC_MUTEX_INIT;
 static guint error_queue_show_idle_id = 0;
-static void  error_queue_add (char *descriptions, GError *error);
+static void  error_queue_add (gchar *descriptions, GError *error);
 
-int          e_plugin_lib_enable (EPlugin *ep, int enable);
+gint          e_plugin_lib_enable (EPlugin *ep, gint enable);
 void         action_publish (EPlugin *ep, ECalMenuTargetSelect *t);
 void         online_state_changed (EPlugin *ep, ESEventTargetState *target);
 void         publish_calendar_context_activate (EPlugin *ep, ECalPopupTargetSource *target);
@@ -233,14 +233,14 @@ ask_password (GMountOperation *op, const gchar *message, const gchar *default_us
 }
 
 static void
-ask_question (GMountOperation *op, const char *message, const char *choices[])
+ask_question (GMountOperation *op, const gchar *message, const gchar *choices[])
 {
 	/* this has been stolen from file-chooser */
 	GtkWidget *dialog;
-	int cnt, len;
-	char *primary;
-	const char *secondary = NULL;
-	int res;
+	gint cnt, len;
+	gchar *primary;
+	const gchar *secondary = NULL;
+	gint res;
 
 	primary = strstr (message, "\n");
 	if (primary) {
@@ -452,7 +452,7 @@ url_list_changed (PublishUIData *ui)
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 	while (valid) {
 		EPublishUri *url;
-		char *xml;
+		gchar *xml;
 
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
@@ -469,7 +469,7 @@ url_list_changed (PublishUIData *ui)
 
 static void
 url_list_enable_toggled (GtkCellRendererToggle *renderer,
-                         const char            *path_string,
+                         const gchar            *path_string,
 			 PublishUIData         *ui)
 {
 	GtkTreeSelection *selection;
@@ -618,7 +618,7 @@ url_remove_clicked (GtkButton *button, PublishUIData *ui)
 	gtk_widget_destroy (confirm);
 
 	if (response == GTK_RESPONSE_YES) {
-		int len;
+		gint len;
 		guint id;
 		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
@@ -685,7 +685,7 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GSList *l;
 	GtkTreeIter iter;
 	GConfClient *client;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "publish-calendar.glade",
@@ -806,8 +806,8 @@ publish_uris_set_timeout (GSList *uris)
 	g_slist_free (uris);
 }
 
-int
-e_plugin_lib_enable (EPlugin *ep, int enable)
+gint
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	GSList *uris;
 	GConfClient *client;
@@ -831,7 +831,7 @@ e_plugin_lib_enable (EPlugin *ep, int enable)
 }
 
 struct eq_data {
-	char *description;
+	gchar *description;
 	GError *error;
 };
 
@@ -899,7 +899,7 @@ error_queue_show_idle (gpointer user_data)
 }
 
 void
-error_queue_add (char *description, GError *error)
+error_queue_add (gchar *description, GError *error)
 {
 	struct eq_data *data;
 

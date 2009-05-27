@@ -44,7 +44,7 @@
 #define d(x)
 
 typedef struct {
-	char *name;
+	gchar *name;
 	GdkPixbuf *pixbuf;
 } Icon;
 
@@ -58,7 +58,7 @@ static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
 /* Note: takes ownership of the pixbufs (eg. does not ref them) */
 static Icon *
-icon_new (const char *name, GdkPixbuf *pixbuf)
+icon_new (const gchar *name, GdkPixbuf *pixbuf)
 {
 	Icon *icon;
 
@@ -79,10 +79,10 @@ icon_free (Icon *icon)
 }
 
 static Icon *
-load_icon (const char *icon_key, const char *icon_name, int size, int scale)
+load_icon (const gchar *icon_key, const gchar *icon_name, gint size, gint scale)
 {
 	GdkPixbuf *pixbuf, *unscaled = NULL;
-	char *basename, *filename = NULL;
+	gchar *basename, *filename = NULL;
 
 	if (g_path_is_absolute (icon_name))
 		filename = g_strdup (icon_name);
@@ -100,10 +100,10 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 
 	if (!filename || !(unscaled = gdk_pixbuf_new_from_file (filename, NULL))) {
 		if (scale) {
-			const char *dent;
-			int width;
+			const gchar *dent;
+			gint width;
 			GDir *dir;
-			char *x;
+			gchar *x;
 
 			if (!(dir = g_dir_open (EVOLUTION_ICONSDIR, 0, NULL))) {
 				goto done;
@@ -203,9 +203,9 @@ e_icon_factory_init (void)
 		G_CALLBACK (icon_theme_changed_cb), NULL);
 
 	broken16_pixbuf = gdk_pixbuf_new_from_xpm_data (
-		(const char **) broken_image_16_xpm);
+		(const gchar **) broken_image_16_xpm);
 	broken24_pixbuf = gdk_pixbuf_new_from_xpm_data (
-		(const char **) broken_image_24_xpm);
+		(const gchar **) broken_image_24_xpm);
 }
 
 /**
@@ -281,9 +281,9 @@ e_icon_factory_get_icon (const gchar *icon_name,
                          GtkIconSize icon_size)
 {
 	GdkPixbuf *pixbuf;
-	char *icon_key;
+	gchar *icon_key;
 	Icon *icon;
-	int size, width, height;
+	gint size, width, height;
 
 	g_return_val_if_fail (icon_name != NULL, NULL);
 
@@ -325,7 +325,7 @@ e_icon_factory_get_icon (const gchar *icon_name,
  * @return Scaled pixbuf.
  **/
 GdkPixbuf *
-e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, int width, int height)
+e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, gint width, gint height)
 {
 	g_return_val_if_fail (pixbuf != NULL, NULL);
 

@@ -48,7 +48,7 @@ static gint e_canvas_focus_out      (GtkWidget        *widget,
 static void e_canvas_style_set      (GtkWidget        *widget,
 				     GtkStyle         *previous_style);
 
-static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
+static gint emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
 #define d(x)
 
@@ -287,7 +287,7 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 #define HACKISH_AFFINE
 
 static double
-gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, gint cx, gint cy,
 				GnomeCanvasItem **actual_item)
 {
 #ifdef HACKISH_AFFINE
@@ -319,10 +319,10 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int c
 static int
 pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 {
-	int button_down;
+	gint button_down;
 	double x, y;
-	int cx, cy;
-	int retval;
+	gint cx, cy;
+	gint retval;
 
 	retval = FALSE;
 
@@ -460,8 +460,8 @@ static gint
 e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 {
 	GnomeCanvas *canvas;
-	int mask;
-	int retval;
+	gint mask;
+	gint retval;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
@@ -695,7 +695,7 @@ e_canvas_unrealize (GtkWidget *widget)
 }
 
 static void
-e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
+e_canvas_item_invoke_reflow (GnomeCanvasItem *item, gint flags)
 {
 	GnomeCanvasGroup *group;
 	GList *list;
@@ -814,7 +814,7 @@ void
 e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 {
 	GList *list;
-	int flags;
+	gint flags;
 	ECanvas *canvas;
 	ECanvasSelectionInfo *info;
 	ECanvasItemSelectionFunc func;
@@ -869,7 +869,7 @@ e_canvas_item_set_cursor_end (GnomeCanvasItem *item, gpointer id)
 void
 e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 {
-	int flags;
+	gint flags;
 	ECanvas *canvas;
 	ECanvasSelectionInfo *info;
 	ECanvasItemSelectionFunc func;
@@ -932,7 +932,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 void
 e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 {
-	int flags;
+	gint flags;
 	ECanvas *canvas;
 	ECanvasSelectionInfo *info;
 	GList *list;
@@ -975,7 +975,7 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 	}
 }
 
-void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
+void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, gint x, gint y)
 {
 	if (canvas->tooltip_window && canvas->tooltip_window != widget) {
 		e_canvas_hide_tooltip(canvas);
@@ -1034,7 +1034,7 @@ grab_cancelled_check (gpointer data)
 	return TRUE;
 }
 
-int
+gint
 e_canvas_item_grab (ECanvas *canvas,
 		    GnomeCanvasItem *item,
 		    guint event_mask,
@@ -1046,7 +1046,7 @@ e_canvas_item_grab (ECanvas *canvas,
 	if (gtk_grab_get_current ()) {
 		return GDK_GRAB_ALREADY_GRABBED;
 	} else {
-		int ret_val = gnome_canvas_item_grab (item, event_mask, cursor, etime);
+		gint ret_val = gnome_canvas_item_grab (item, event_mask, cursor, etime);
 		if (ret_val == GDK_GRAB_SUCCESS) {
 			canvas->grab_cancelled_cb = cancelled_cb;
 			canvas->grab_cancelled_check_id =

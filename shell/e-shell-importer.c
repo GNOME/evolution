@@ -146,10 +146,10 @@ static struct {
 #define num_info (sizeof (info) / sizeof (info[0]))
 
 static GtkWidget *
-create_help (const char *name)
+create_help (const gchar *name)
 {
 	GtkWidget *label;
-	int i;
+	gint i;
 
 	for (i = 0; i < num_info; i++) {
 		if (!strcmp (name, info[i].name))
@@ -174,8 +174,8 @@ filename_changed (GtkWidget *widget,
 		  ImportData *data)
 {
 	ImportDialogFilePage *page;
-	const char *filename;
-	int fileok;
+	const gchar *filename;
+	gint fileok;
 
 	page = data->filepage;
 
@@ -188,7 +188,7 @@ filename_changed (GtkWidget *widget,
 		gboolean valid;
 		GSList *l;
 		EImportImporter *first = NULL;
-		int i=0, firstitem=0;
+		gint i=0, firstitem=0;
 
 		g_free(page->target->uri_src);
 		page->target->uri_src = g_filename_to_uri(filename, NULL, NULL);
@@ -257,7 +257,7 @@ importer_file_page_new (ImportData *data)
 	GtkWidget *table, *label;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
-	int row = 0;
+	gint row = 0;
 
 	page = g_new0 (ImportDialogFilePage, 1);
 
@@ -366,7 +366,7 @@ prepare_intelligent_page (GnomeDruidPage *dpage,
 {
 	GSList *l;
 	GtkWidget *table;
-	int row;
+	gint row;
 	ImportDialogImporterPage *page = data->importerpage;
 
 	if (page->target != NULL)
@@ -388,7 +388,7 @@ prepare_intelligent_page (GnomeDruidPage *dpage,
 	row = 0;
 	for (;l;l=l->next) {
 		EImportImporter *eii = l->data;
-		char *str;
+		gchar *str;
 		GtkWidget *w, *label;
 
 		w = e_import_get_widget(data->import, (EImportTarget *)page->target, eii);
@@ -432,7 +432,7 @@ import_druid_esc (GnomeDruid *druid,
 }
 
 static void
-import_druid_weak_notify (void *blah,
+import_druid_weak_notify (gpointer blah,
 			  GObject *where_the_object_was)
 {
 	ImportData *data = (ImportData *) blah;
@@ -451,7 +451,7 @@ import_druid_weak_notify (void *blah,
 }
 
 static void
-import_status(EImport *import, const char *what, int pc, void *d)
+import_status(EImport *import, const gchar *what, gint pc, gpointer d)
 {
 	ImportData *data = d;
 
@@ -467,7 +467,7 @@ import_dialog_response(GtkDialog *d, guint button, ImportData *data)
 }
 
 static void
-import_done(EImport *ei, void *d)
+import_done(EImport *ei, gpointer d)
 {
 	ImportData *data = d;
 
@@ -476,7 +476,7 @@ import_done(EImport *ei, void *d)
 }
 
 static void
-import_intelligent_done(EImport *ei, void *d)
+import_intelligent_done(EImport *ei, gpointer d)
 {
 	ImportData *data = d;
 
@@ -495,7 +495,7 @@ import_druid_finish (GnomeDruidPage *page,
 		     ImportData *data)
 {
 	EImportCompleteFunc done = NULL;
-	char *msg = NULL;
+	gchar *msg = NULL;
 
 	if (gtk_toggle_button_get_active((GtkToggleButton *)data->typepage->intelligent)) {
 		data->importerpage->current = data->importerpage->importers;
@@ -653,7 +653,7 @@ back_intelligent_page (GnomeDruidPage *page,
 }
 
 static void
-dialog_weak_notify (void *data,
+dialog_weak_notify (gpointer data,
 		    GObject *where_the_dialog_was)
 {
 	gboolean *dialog_open = (gboolean *) data;
@@ -668,7 +668,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	GtkWidget *html;
 	static gboolean dialog_open = FALSE;
 	GdkPixbuf *icon;
-	char *gladefile;
+	gchar *gladefile;
 
 	if (dialog_open) {
 		return;

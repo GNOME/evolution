@@ -121,7 +121,7 @@ write_label_piece (struct icaltimetype *tt,
 {
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt_copy = *tt;
-	int len;
+	gint len;
 
 	/* FIXME: May want to convert the time to an appropriate zone. */
 
@@ -166,7 +166,7 @@ write_label_piece (struct icaltimetype *tt,
 void
 comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 {
-	char buffer[1024];
+	gchar buffer[1024];
 	gboolean start_set = FALSE, end_set = FALSE;
 	gboolean complete_set = FALSE, due_set = FALSE;
 
@@ -290,13 +290,13 @@ comp_editor_get_current_time (GtkObject *object, gpointer data)
  * Return value: The category names stripped of surrounding whitespace
  * and separated with commas.
  **/
-char *
-comp_editor_strip_categories (const char *categories)
+gchar *
+comp_editor_strip_categories (const gchar *categories)
 {
-	char *new_categories;
-	const char *start, *end;
-	const char *p;
-	char *new_p;
+	gchar *new_categories;
+	const gchar *start, *end;
+	const gchar *p;
+	gchar *new_p;
 
 	if (!categories)
 		return NULL;
@@ -314,7 +314,7 @@ comp_editor_strip_categories (const char *categories)
 		if (g_unichar_isspace (c))
 			continue;
 		else if (c == ',') {
-			int len;
+			gint len;
 
 			if (!start)
 				continue;
@@ -337,7 +337,7 @@ comp_editor_strip_categories (const char *categories)
 	}
 
 	if (start) {
-		int len;
+		gint len;
 
 		g_return_val_if_fail (start <= end, NULL);
 

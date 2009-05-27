@@ -57,17 +57,17 @@ struct AcceptData {
 void org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target);
 
 static void
-install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
+install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 {
 	struct AcceptData *accept_data = (struct AcceptData *)data;
 	EMFolderTreeModel *model;
-	const char *uri, *path;
-	int parts = 0;
+	const gchar *uri, *path;
+	gint parts = 0;
 	gchar **names;
 	gchar *folder_name;
 	gchar *parent_name;
 	gchar *container_id;
-	const char *item_id;
+	const gchar *item_id;
 	CamelException ex;
 	CamelStore *store;
 	CamelFolder *folder;
@@ -106,12 +106,12 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 		if(E_IS_GW_CONNECTION (cnc)) {
 			container_id = get_container_id (cnc, parent_name);
 
-			if(e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (char *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
+			if(e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
 
 				folder = camel_store_get_folder (store, "Mailbox", 0, NULL);
 				/*changes = camel_folder_change_info_new ();
-				camel_folder_change_info_remove_uid (changes, (char *) item_id);
+				camel_folder_change_info_remove_uid (changes, (gchar *) item_id);
 				camel_folder_summary_remove_uid (folder->summary, item_id);*/
 				/* camel_folder_delete_message (folder, item_id); */
 				camel_folder_set_message_flags (folder, item_id, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
@@ -146,7 +146,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 }
 
 static void
-accept_free(void *data)
+accept_free(gpointer data)
 {
 	struct AcceptData *accept_data = data;
 
@@ -161,7 +161,7 @@ accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	struct AcceptData *accept_data;
-	char *uri;
+	gchar *uri;
 
 	accept_data = g_new0(struct AcceptData, 1);
 	model = mail_component_peek_tree_model (NULL);
@@ -186,20 +186,20 @@ void
 org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 {
 	const CamelInternetAddress *from_addr = NULL;
-	const char *name;
-	const char *email;
+	const gchar *name;
+	const gchar *email;
 	GtkWidget *window;
 	GnomeDruid *wizard;
 	GnomeDruidPageEdge *title_page;
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
 	CamelStreamMem *content;
 	CamelDataWrapper *dw;
-	char *start_message;
+	gchar *start_message;
 
 	if (!msg)
 		return;
 
-	if (((char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
+	if (((gchar *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
 	    || (from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message)) == NULL
 	    || !camel_internet_address_get(from_addr, 0, &name, &email)
 	    || (dw = camel_medium_get_content_object (CAMEL_MEDIUM (msg))) == NULL) {

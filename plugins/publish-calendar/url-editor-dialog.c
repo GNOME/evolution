@@ -43,7 +43,7 @@ create_uri (UrlEditorDialog *dialog)
 		uri->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 	} else {
 		const gchar *method;
-		char *server, *file, *port, *username, *password;
+		gchar *server, *file, *port, *username, *password;
 
 		server   = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 		file     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->file_entry)));
@@ -279,7 +279,7 @@ static void
 set_from_uri (UrlEditorDialog *dialog)
 {
 	EPublishUri *uri;
-	char *method;
+	gchar *method;
 	EUri *euri = NULL;
 
 	uri = dialog->uri;
@@ -287,17 +287,17 @@ set_from_uri (UrlEditorDialog *dialog)
 	euri = e_uri_new (uri->location);
 	/* determine our method */
 	method = euri->protocol;
-	if (strcmp ((const char *)method, "smb") == 0)
+	if (strcmp ((const gchar *)method, "smb") == 0)
 		uri->service_type = TYPE_SMB;
-	else if (strcmp ((const char *)method, "sftp") == 0)
+	else if (strcmp ((const gchar *)method, "sftp") == 0)
 		uri->service_type = TYPE_SFTP;
-	else if (strcmp ((const char *)method, "ftp") == 0)
+	else if (strcmp ((const gchar *)method, "ftp") == 0)
 		/* we set TYPE_FTP here for now. if we don't find a
 		 * username later, we'll change it to TYPE_ANON_FTP */
 		uri->service_type = TYPE_FTP;
-	else if (strcmp ((const char *)method, "dav") == 0)
+	else if (strcmp ((const gchar *)method, "dav") == 0)
 		uri->service_type = TYPE_DAV;
-	else if (strcmp ((const char *)method, "davs") == 0)
+	else if (strcmp ((const gchar *)method, "davs") == 0)
 		uri->service_type = TYPE_DAVS;
 	else
 		uri->service_type = TYPE_URI;
@@ -309,7 +309,7 @@ set_from_uri (UrlEditorDialog *dialog)
 		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), euri->host);
 
 	if (euri->port) {
-		char *port;
+		gchar *port;
 		port = g_strdup_printf ("%d", euri->port);
 		gtk_entry_set_text (GTK_ENTRY (dialog->port_entry), port);
 		g_free (port);
@@ -331,7 +331,7 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	GConfClient *gconf;
 	GtkSizeGroup *group;
 	EPublishUri *uri;
-	char *gladefile;
+	gchar *gladefile;
 
 	gconf = gconf_client_get_default ();
 

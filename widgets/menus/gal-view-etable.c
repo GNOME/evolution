@@ -88,19 +88,19 @@ gal_view_etable_edit            (GalView *view, GtkWindow *parent)
 
 static void
 gal_view_etable_load  (GalView *view,
-		       const char *filename)
+		       const gchar *filename)
 {
 	e_table_state_load_from_file(GAL_VIEW_ETABLE(view)->state, filename);
 }
 
 static void
 gal_view_etable_save    (GalView *view,
-			 const char *filename)
+			 const gchar *filename)
 {
 	e_table_state_save_to_file(GAL_VIEW_ETABLE(view)->state, filename);
 }
 
-static const char *
+static const gchar *
 gal_view_etable_get_title       (GalView *view)
 {
 	return GAL_VIEW_ETABLE(view)->title;
@@ -108,13 +108,13 @@ gal_view_etable_get_title       (GalView *view)
 
 static void
 gal_view_etable_set_title (GalView *view,
-			   const char *title)
+			   const gchar *title)
 {
 	g_free(GAL_VIEW_ETABLE(view)->title);
 	GAL_VIEW_ETABLE(view)->title = g_strdup(title);
 }
 
-static const char *
+static const gchar *
 gal_view_etable_get_type_code (GalView *view)
 {
 	return "etable";

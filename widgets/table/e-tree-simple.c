@@ -39,19 +39,19 @@ simple_column_count (ETableModel *etm)
 }
 
 /* The default for simple_duplicate_value is to return the raw value. */
-static void *
-simple_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+simple_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
 	if (simple->duplicate_value)
 		return simple->duplicate_value (etm, col, value, simple->model_data);
 	else
-		return (void *)value;
+		return (gpointer)value;
 }
 
 static void
-simple_free_value (ETableModel *etm, int col, void *value)
+simple_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -59,8 +59,8 @@ simple_free_value (ETableModel *etm, int col, void *value)
 		simple->free_value (etm, col, value, simple->model_data);
 }
 
-static void *
-simple_initialize_value (ETableModel *etm, int col)
+static gpointer
+simple_initialize_value (ETableModel *etm, gint col)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -71,7 +71,7 @@ simple_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-simple_value_is_empty (ETableModel *etm, int col, const void *value)
+simple_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -81,8 +81,8 @@ simple_value_is_empty (ETableModel *etm, int col, const void *value)
 		return FALSE;
 }
 
-static char *
-simple_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+simple_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -92,8 +92,8 @@ simple_value_to_string (ETableModel *etm, int col, const void *value)
 		return g_strdup ("");
 }
 
-static void *
-simple_value_at (ETreeModel *etm, ETreePath *node, int col)
+static gpointer
+simple_value_at (ETreeModel *etm, ETreePath *node, gint col)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -109,7 +109,7 @@ simple_icon_at (ETreeModel *etm, ETreePath *node)
 }
 
 static void
-simple_set_value_at (ETreeModel *etm, ETreePath *node, int col, const void *val)
+simple_set_value_at (ETreeModel *etm, ETreePath *node, gint col, gconstpointer val)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
@@ -117,7 +117,7 @@ simple_set_value_at (ETreeModel *etm, ETreePath *node, int col, const void *val)
 }
 
 static gboolean
-simple_is_editable (ETreeModel *etm, ETreePath *node, int col)
+simple_is_editable (ETreeModel *etm, ETreePath *node, gint col)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 

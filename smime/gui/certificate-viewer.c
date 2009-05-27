@@ -64,8 +64,8 @@ static void
 fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 {
 	GtkWidget *label;
-	const char *text;
-	char *markup;
+	const gchar *text;
+	gchar *markup;
 
 	/* issued to */
 	label = glade_xml_get_widget (cvm_data->gui, "issued-to-cn");
@@ -225,7 +225,7 @@ fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cv
 					     &model,
 					     &iter)) {
 		EASN1Object *asn1_object;
-		const char *value;
+		const gchar *value;
 
 		gtk_tree_model_get (model,
 				    &iter,
@@ -296,7 +296,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	cvm_data->cert_chain = g_list_reverse (cvm_data->cert_chain);
 	for (l = cvm_data->cert_chain; l; l = l->next) {
 		ECert *c = l->data;
-		const char *str;
+		const gchar *str;
 		GtkTreeIter new_iter;
 
 		str = e_cert_get_cn (c);
@@ -319,8 +319,8 @@ GtkWidget*
 certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;
-	char *title;
-	char *gladefile;
+	gchar *title;
+	gchar *gladefile;
 
 	cvm_data = g_new0 (CertificateViewerData, 1);
 

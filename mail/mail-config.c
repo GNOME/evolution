@@ -69,7 +69,7 @@
 typedef struct {
 	GConfClient *gconf;
 
-	char *gtkrc;
+	gchar *gtkrc;
 
 	GSList *labels;
 
@@ -90,7 +90,7 @@ typedef struct {
 	gboolean scripts_disabled;
 } MailConfig;
 
-extern int camel_header_param_encode_filenames_in_rfc_2047;
+extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
@@ -98,7 +98,7 @@ static guint config_write_timeout = 0;
 static void
 config_clear_mime_types (void)
 {
-	int i;
+	gint i;
 
 	for (i = 0; i < config->mime_types->len; i++)
 		g_free (config->mime_types->pdata[i]);
@@ -224,13 +224,13 @@ gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		name = g_ptr_array_new ();
 		value = g_ptr_array_new ();
 		while (node && node->data) {
-			char **tok = g_strsplit (node->data, "=", 2);
+			gchar **tok = g_strsplit (node->data, "=", 2);
 			g_ptr_array_add (name, g_strdup(tok[0]));
 			g_ptr_array_add (value, g_strdup(tok[1]));
 			node = node->next;
 			g_strfreev (tok);
 		}
-		mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+		mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
 		g_ptr_array_free (name, TRUE);
 		g_ptr_array_free (value, TRUE);
 	}
@@ -248,13 +248,13 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 	name = g_ptr_array_new ();
 	value = g_ptr_array_new ();
 	while (node && node->data) {
-		char **tok = g_strsplit (node->data, "=", 2);
+		gchar **tok = g_strsplit (node->data, "=", 2);
 		g_ptr_array_add (name, g_strdup(tok[0]));
 		g_ptr_array_add (value, g_strdup(tok[1]));
 		node = node->next;
 		g_strfreev (tok);
 	}
-	mail_session_set_junk_headers ((const char **)name->pdata, (const char **)value->pdata, name->len);
+	mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
 }
 
 static void
@@ -522,7 +522,7 @@ mail_config_write_on_exit (void)
 	account_list = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
-		char *passwd;
+		gchar *passwd;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -583,7 +583,7 @@ mail_config_get_gconf_client (void)
 	return config->gconf;
 }
 
-int
+gint
 mail_config_get_address_count (void)
 {
 	if (!config->address_compress)
@@ -610,7 +610,7 @@ mail_config_get_error_level  (void)
 	return config->error_level;
 }
 
-int
+gint
 mail_config_get_message_limit (void)
 {
 	if (!config->mlimit)
@@ -650,14 +650,14 @@ mail_config_get_enable_magic_spacebar ()
 	return config->magic_spacebar;
 }
 
-const char **
+const gchar **
 mail_config_get_allowable_mime_types (void)
 {
-	return (const char **) config->mime_types->pdata;
+	return (const gchar **) config->mime_types->pdata;
 }
 
 static EAccount *
-mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount *account))
+mc_get_account_by (const gchar *given_url, const gchar * (get_url_string)(EAccount *account))
 {
 	EAccountList *account_list;
 	EAccount *account = NULL;
@@ -678,7 +678,7 @@ mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount
 	iter = e_list_get_iterator ((EList *) account_list);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
-		const char *account_url_string;
+		const gchar *account_url_string;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -709,7 +709,7 @@ mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount
 	return account;
 }
 
-static const char *
+static const gchar *
 get_source_url_string (EAccount *account)
 {
 	if (account && account->source && account->source->url && *account->source->url)
@@ -717,7 +717,7 @@ get_source_url_string (EAccount *account)
 	return NULL;
 }
 
-static const char *
+static const gchar *
 get_transport_url_string (EAccount *account)
 {
 	if (account && account->transport && account->transport->url && *account->transport->url)
@@ -726,13 +726,13 @@ get_transport_url_string (EAccount *account)
 }
 
 EAccount *
-mail_config_get_account_by_source_url (const char *source_url)
+mail_config_get_account_by_source_url (const gchar *source_url)
 {
 	return mc_get_account_by (source_url, get_source_url_string);
 }
 
 EAccount *
-mail_config_get_account_by_transport_url (const char *transport_url)
+mail_config_get_account_by_transport_url (const gchar *transport_url)
 {
 	return mc_get_account_by (transport_url, get_transport_url_string);
 }
@@ -769,13 +769,13 @@ mail_config_get_default_transport (void)
 	return NULL;
 }
 
-static char *
-uri_to_evname (const char *uri, const char *prefix)
+static gchar *
+uri_to_evname (const gchar *uri, const gchar *prefix)
 {
 	EShellBackend *shell_backend;
 	const gchar *data_dir;
-	char *safe;
-	char *tmp;
+	gchar *safe;
+	gchar *tmp;
 
 	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
@@ -792,13 +792,13 @@ uri_to_evname (const char *uri, const char *prefix)
 }
 
 void
-mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
+mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new)
 {
 	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
-	int i, work = 0;
-	char *oldname, *newname;
+	gint i, work = 0;
+	gchar *oldname, *newname;
 	const gchar *cachenames[] = {
 		"config/hidestate-",
 		"config/et-expanded-",
@@ -847,12 +847,12 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 }
 
 void
-mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
+mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 {
 	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
-	int work = 0;
+	gint work = 0;
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_sent_folder_uri;
 
@@ -893,10 +893,10 @@ mail_config_service_set_save_passwd (EAccountService *service, gboolean save_pas
 	service->save_passwd = save_passwd;
 }
 
-char *
+gchar *
 mail_config_folder_to_safe_url (CamelFolder *folder)
 {
-	char *url;
+	gchar *url;
 
 	url = mail_tools_folder_to_url (folder);
 	e_filename_make_safe (url);
@@ -904,11 +904,11 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 	return url;
 }
 
-char *
-mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
+gchar *
+mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
 	EShellBackend *shell_backend;
-	char *url, *basename, *filename;
+	gchar *url, *basename, *filename;
 	const gchar *config_dir;
 
 	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);

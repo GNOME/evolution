@@ -233,7 +233,7 @@ configure_combo_box_set_active (GtkComboBox *combo_box, const gchar *value)
 }
 
 static ETableColumnSpecification *
-find_column_in_spec (ETableSpecification *spec, int model_col)
+find_column_in_spec (ETableSpecification *spec, gint model_col)
 {
 	ETableColumnSpecification **column;
 
@@ -250,7 +250,7 @@ find_column_in_spec (ETableSpecification *spec, int model_col)
 }
 
 static int
-find_model_column_by_name (ETableSpecification *spec, const char *s)
+find_model_column_by_name (ETableSpecification *spec, const gchar *s)
 {
 	ETableColumnSpecification **column;
 
@@ -268,7 +268,7 @@ static void
 update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 {
 	ETableConfigSortWidgets *widgets;
-	int count, i;
+	gint count, i;
 
 	if (is_sort){
 		count = e_table_sort_info_sorting_get_count (
@@ -362,7 +362,7 @@ config_sort_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i;
+	gint count, i;
 
 	count = e_table_sort_info_sorting_get_count (info);
 	res = g_string_new ("");
@@ -401,7 +401,7 @@ config_group_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i;
+	gint count, i;
 
 	if (!e_table_sort_info_get_can_group (info))
 		return;
@@ -439,7 +439,7 @@ config_group_info_update (ETableConfig *config)
 static void
 setup_fields (ETableConfig *config)
 {
-	int i;
+	gint i;
 
 	e_table_model_freeze ((ETableModel *)config->available_model);
 	e_table_model_freeze ((ETableModel *)config->shown_model);
@@ -466,7 +466,7 @@ config_fields_info_update (ETableConfig *config)
 {
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
-	int i, j;
+	gint i, j;
 
 	for (i = 0; i < config->state->col_count; i++){
 		for (j = 0, column = config->source_spec->columns; *column; column++, j++){
@@ -493,7 +493,7 @@ static void
 do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 {
 	GtkDialog *dialog;
-	int response, running = 1;
+	gint response, running = 1;
 
 	config->temp_state = e_table_state_duplicate (config->state);
 
@@ -554,7 +554,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 static void
 do_fields_config_dialog (ETableConfig *config)
 {
-	int response, running = 1;
+	gint response, running = 1;
 
 	gtk_widget_ensure_style (config->dialog_show_fields);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (config->dialog_show_fields)->vbox), 0);
@@ -604,12 +604,12 @@ static ETableModel *global_store;  /* Glade better not be reentrant any time soo
 static void
 create_global_store (ETableConfig *config)
 {
-	int i;
+	gint i;
 
 	global_store = e_table_memory_store_new (store_columns);
 	for (i = 0; config->source_spec->columns[i]; i++) {
 
-		char *text;
+		gchar *text;
 
 		if (config->source_spec->columns[i]->disabled)
 			continue;
@@ -693,7 +693,7 @@ dialog_destroyed (gpointer data, GObject *where_object_was)
 }
 
 static void
-dialog_response (GtkWidget *dialog, int response_id, ETableConfig *config)
+dialog_response (GtkWidget *dialog, gint response_id, ETableConfig *config)
 {
 	if (response_id == GTK_RESPONSE_APPLY
 	    || response_id == GTK_RESPONSE_OK) {
@@ -741,7 +741,7 @@ e_table_proxy_gtk_combo_text_new (void)
 
 #if 0
 static GtkWidget *
-configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
+configure_dialog (GladeXML *gui, const gchar *widget_name, ETableConfig *config)
 {
 	GtkWidget *w;
 
@@ -752,7 +752,7 @@ configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 #endif
 
 static void
-connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GCallback cback)
+connect_button (ETableConfig *config, GladeXML *gui, const gchar *widget_name, GCallback cback)
 {
 	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
 
@@ -779,14 +779,14 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
-	int idx = sort - base;
+	gint idx = sort - base;
 	gchar *s;
 
 	s = configure_combo_box_get_active (combo_box);
 
 	if (s != NULL) {
 		ETableSortColumn c;
-		int col;
+		gint col;
 
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
@@ -815,7 +815,7 @@ sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
 	ETableConfig *config = sort->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->sort[0];
-	int idx = sort - base;
+	gint idx = sort - base;
 	ETableSortColumn c;
 
 	c = e_table_sort_info_sorting_get_nth (si, idx);
@@ -827,10 +827,10 @@ static void
 configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 {
 	GSList *l;
-	int i;
+	gint i;
 
 	for (i = 0; i < 4; i++){
-		char buffer [80];
+		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
 		config->sort [i].combo = glade_xml_get_widget (gui, buffer);
@@ -858,7 +858,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	}
 
 	for (l = config->column_names; l; l = l->next){
-		char *label = l->data;
+		gchar *label = l->data;
 
 		for (i = 0; i < 4; i++){
 			configure_combo_box_add (
@@ -889,14 +889,14 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
-	int idx = group - base;
+	gint idx = group - base;
 	gchar *s;
 
 	s = configure_combo_box_get_active (combo_box);
 
 	if (s != NULL) {
 		ETableSortColumn c;
-		int col;
+		gint col;
 
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
@@ -925,7 +925,7 @@ group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
 	ETableConfig *config = group->e_table_config;
 	ETableSortInfo *si = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
-	int idx = group - base;
+	gint idx = group - base;
 	ETableSortColumn c;
 
 	c = e_table_sort_info_grouping_get_nth (si, idx);
@@ -937,10 +937,10 @@ static void
 configure_group_dialog (ETableConfig *config, GladeXML *gui)
 {
 	GSList *l;
-	int i;
+	gint i;
 
 	for (i = 0; i < 4; i++){
-		char buffer [80];
+		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
 		config->group [i].combo = glade_xml_get_widget (gui, buffer);
@@ -976,7 +976,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 
 
 	for (l = config->column_names; l; l = l->next){
-		char *label = l->data;
+		gchar *label = l->data;
 
 		for (i = 0; i < 4; i++){
 			configure_combo_box_add (
@@ -1002,7 +1002,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 }
 
 static void
-add_column (int model_row, gpointer closure)
+add_column (gint model_row, gpointer closure)
 {
 	GList **columns = closure;
 	*columns = g_list_prepend (*columns, GINT_TO_POINTER (model_row));
@@ -1013,8 +1013,8 @@ config_button_add (GtkWidget *widget, ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
-	int count;
-	int i;
+	gint count;
+	gint i;
 
 	e_table_selected_row_foreach (config->available, add_column, &columns);
 	columns = g_list_reverse (columns);
@@ -1045,7 +1045,7 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
 
 	for (column = columns; column; column = column->next) {
-		int row = GPOINTER_TO_INT (column->data);
+		gint row = GPOINTER_TO_INT (column->data);
 
 		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (int) * (config->temp_state->col_count - row - 1));
 		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (double) * (config->temp_state->col_count - row - 1));
@@ -1064,11 +1064,11 @@ config_button_up (GtkWidget *widget, ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
-	int *new_shown;
+	gint *new_shown;
 	double *new_expansions;
-	int next_col;
+	gint next_col;
 	double next_expansion;
-	int i;
+	gint i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
 
@@ -1119,11 +1119,11 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 {
 	GList *columns = NULL;
 	GList *column;
-	int *new_shown;
+	gint *new_shown;
 	double *new_expansions;
-	int next_col;
+	gint next_col;
 	double next_expansion;
-	int i;
+	gint i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
 
@@ -1274,7 +1274,7 @@ e_table_config_init (ETableConfig *config)
 
 ETableConfig *
 e_table_config_construct (ETableConfig        *config,
-			  const char          *header,
+			  const gchar          *header,
 			  ETableSpecification *spec,
 			  ETableState         *state,
 			  GtkWindow           *parent_window)
@@ -1298,7 +1298,7 @@ e_table_config_construct (ETableConfig        *config,
 	config->domain = g_strdup (spec->domain);
 
 	for (column = config->source_spec->columns; *column; column++){
-		char *label = (*column)->title;
+		gchar *label = (*column)->title;
 
 		if ((*column)->disabled)
 			continue;
@@ -1330,7 +1330,7 @@ e_table_config_construct (ETableConfig        *config,
  * Returns: The config object.
  */
 ETableConfig *
-e_table_config_new (const char          *header,
+e_table_config_new (const gchar          *header,
 		    ETableSpecification *spec,
 		    ETableState         *state,
 		    GtkWindow           *parent_window)

@@ -47,20 +47,20 @@
 #include "e-mail-shell-backend.h"
 
 struct _prop_data {
-	void *object;
+	gpointer object;
 	CamelArgV *argv;
 	GtkWidget **widgets;
 
 	GSList *properties;
-	char *name;
-	int total;
-	int unread;
+	gchar *name;
+	gint total;
+	gint unread;
 	EMConfig *config;
 	CamelFolderQuotaInfo *quota;
 };
 
 static void
-emfp_dialog_response (GtkWidget *dialog, int response, struct _prop_data *prop_data)
+emfp_dialog_response (GtkWidget *dialog, gint response, struct _prop_data *prop_data)
 {
 	if (response == GTK_RESPONSE_OK)
 		e_config_commit((EConfig *)prop_data->config);
@@ -71,11 +71,11 @@ emfp_dialog_response (GtkWidget *dialog, int response, struct _prop_data *prop_d
 }
 
 static void
-emfp_commit(EConfig *ec, GSList *items, void *data)
+emfp_commit(EConfig *ec, GSList *items, gpointer data)
 {
 	struct _prop_data *prop_data = data;
 	CamelArgV *argv = prop_data->argv;
-	int i;
+	gint i;
 
 	for (i = 0; i < argv->argc; i++) {
 		CamelArg *arg = &argv->argv[i];
@@ -86,7 +86,7 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 			break;
 		case CAMEL_ARG_STR:
 			g_free (arg->ca_str);
-			arg->ca_str = (char *) gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
+			arg->ca_str = (gchar *) gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
 			break;
 		case CAMEL_ARG_INT:
 			arg->ca_int = gtk_spin_button_get_value_as_int ((GtkSpinButton *) prop_data->widgets[i]);
@@ -104,10 +104,10 @@ emfp_commit(EConfig *ec, GSList *items, void *data)
 }
 
 static void
-emfp_free(EConfig *ec, GSList *items, void *data)
+emfp_free(EConfig *ec, GSList *items, gpointer data)
 {
 	struct _prop_data *prop_data = data;
-	int i;
+	gint i;
 
 	g_slist_free(items);
 
@@ -128,9 +128,9 @@ emfp_free(EConfig *ec, GSList *items, void *data)
 }
 
 static int
-add_numbered_row (GtkTable *table, int row, const char *description, const char *format, int num)
+add_numbered_row (GtkTable *table, gint row, const gchar *description, const gchar *format, gint num)
 {
-	char *str;
+	gchar *str;
 	GtkWidget *label;
 
 	g_return_val_if_fail (table != NULL, row);
@@ -155,11 +155,11 @@ add_numbered_row (GtkTable *table, int row, const char *description, const char 
 }
 
 static GtkWidget *
-emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
 {
 	GtkWidget *w, *table, *label;
 	struct _prop_data *prop_data = data;
-	int row = 0, i;
+	gint row = 0, i;
 	GSList *l;
 
 	if (old)
@@ -183,8 +183,8 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 		CamelFolderQuotaInfo *quota = prop_data->quota;
 
 		for (info = quota; info; info = info->next) {
-			char *descr;
-			int procs;
+			gchar *descr;
+			gint procs;
 
 			/* should not happen, but anyway... */
 			if (!info->total)
@@ -291,7 +291,7 @@ static void
 emfp_dialog_got_folder_quota (CamelFolder *folder,
                               const gchar *folder_uri,
                               CamelFolderQuotaInfo *quota,
-                              void *data)
+                              gpointer data)
 {
 	GtkWidget *dialog, *w;
 	struct _prop_data *prop_data;
@@ -436,7 +436,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 }
 
 static void
-emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
+emfp_dialog_got_folder (gchar *uri, CamelFolder *folder, gpointer data)
 {
 	EShellView *shell_view = data;
 
@@ -483,5 +483,5 @@ em_folder_properties_show (EShellView *shell_view,
 	if (folder == NULL)
 		mail_get_folder(uri, 0, emfp_dialog_got_folder, shell_view, mail_msg_unordered_push);
 	else
-		emfp_dialog_got_folder((char *)uri, folder, shell_view);
+		emfp_dialog_got_folder((gchar *)uri, folder, shell_view);
 }

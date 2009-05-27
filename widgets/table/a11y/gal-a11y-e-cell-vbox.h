@@ -44,7 +44,7 @@ typedef struct _GalA11yECellVboxClass	GalA11yECellVboxClass;
 struct _GalA11yECellVbox
 {
 	GalA11yECell	object;
-	int 		a11y_subcell_count;
+	gint 		a11y_subcell_count;
 	gpointer       *a11y_subcells;
 };
 
@@ -57,9 +57,9 @@ GType gal_a11y_e_cell_vbox_get_type	(void);
 AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 					 ECellView  *cell_view,
 					 AtkObject  *parent,
-					 int         model_col,
-					 int         view_col,
-					 int         row);
+					 gint         model_col,
+					 gint         view_col,
+					 gint         row);
 
 #ifdef __cplusplus
 }

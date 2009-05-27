@@ -48,7 +48,7 @@ static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
 static gboolean
 locale_supports_12_hour_format (void)
 {
-	char s[16];
+	gchar s[16];
 	time_t t = 0;
 
 	strftime (s, sizeof s, "%p", gmtime (&t));
@@ -100,7 +100,7 @@ ensure_inited (void)
 }
 
 ESourceList *
-config_data_get_calendars (const char *key)
+config_data_get_calendars (const gchar *key)
 {
 	ESourceList *cal_sources;
 	gboolean state;
@@ -157,9 +157,9 @@ config_data_get_calendars (const char *key)
 }
 
 void
-config_data_replace_string_list (const char *key,
-				 const char *old,
-				 const char *new)
+config_data_replace_string_list (const gchar *key,
+				 const gchar *old,
+				 const gchar *new)
 {
 	GSList *source, *tmp;
 
@@ -204,7 +204,7 @@ config_data_get_conf_client (void)
 icaltimezone *
 config_data_get_timezone (void)
 {
-	char *location;
+	gchar *location;
 	icaltimezone *local_timezone;
 
 	ensure_inited ();
@@ -309,7 +309,7 @@ config_data_get_last_notification_time (void)
  * Saves a program name as "blessed"
  **/
 void
-config_data_save_blessed_program (const char *program)
+config_data_save_blessed_program (const gchar *program)
 {
 	GConfClient *client;
 	GSList *l;
@@ -333,7 +333,7 @@ config_data_save_blessed_program (const char *program)
  * Return value: TRUE if program is blessed, FALSE otherwise
  **/
 gboolean
-config_data_is_blessed_program (const char *program)
+config_data_is_blessed_program (const gchar *program)
 {
 	GConfClient *client;
 	GSList *l, *n;
@@ -346,7 +346,7 @@ config_data_is_blessed_program (const char *program)
 	while (l) {
 		n = l->next;
 		if (!found)
-			found = strcmp ((char *) l->data, program) == 0;
+			found = strcmp ((gchar *) l->data, program) == 0;
 		g_free (l->data);
 		g_slist_free_1 (l);
 		l = n;

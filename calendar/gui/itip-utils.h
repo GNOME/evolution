@@ -39,10 +39,10 @@ typedef enum {
 } ECalComponentItipMethod;
 
 struct CalMimeAttach {
-	char *filename;
-	char *content_type;
-	char *description;
-	char *encoded_data;
+	gchar *filename;
+	gchar *content_type;
+	gchar *description;
+	gchar *encoded_data;
 	gboolean disposition;
 	guint length;
 };
@@ -56,13 +56,13 @@ gboolean itip_sentby_is_user (ECalComponent *comp, ECal *client);
 
 const gchar *itip_strip_mailto (const gchar *address);
 
-char *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
+gchar *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
 
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
 			 ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users, gboolean strip_alarms);
 
-gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username,
-			    gchar* password, ECalComponent **pub_comp);
+gboolean itip_publish_comp (ECal *client, gchar * uri, gchar * username,
+			    gchar * password, ECalComponent **pub_comp);
 
 gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 			     gboolean cloned, ECalComponent **clone);

@@ -36,9 +36,9 @@ GConfBridge *gconf_bridge_get                    (void);
 GConfClient *gconf_bridge_get_client             (GConfBridge  *bridge);
 
 guint        gconf_bridge_bind_property_full     (GConfBridge  *bridge,
-                                                  const char   *key,
+                                                  const gchar   *key,
                                                   GObject      *object,
-                                                  const char   *prop,
+                                                  const gchar   *prop,
                                                   gboolean      delayed_sync);
 
 /**
@@ -71,7 +71,7 @@ guint        gconf_bridge_bind_property_full     (GConfBridge  *bridge,
                                          (object), (prop), TRUE)
 
 guint        gconf_bridge_bind_window            (GConfBridge  *bridge,
-                                                  const char   *key_prefix,
+                                                  const gchar   *key_prefix,
                                                   GtkWindow    *window,
                                                   gboolean      bind_size,
                                                   gboolean      bind_pos);
@@ -105,7 +105,7 @@ guint        gconf_bridge_bind_window            (GConfBridge  *bridge,
         gconf_bridge_bind_window ((bridge), (key_prefix), (window), FALSE, TRUE)
 
 guint        gconf_bridge_bind_string_list_store (GConfBridge  *bridge,
-                                                  const char   *key,
+                                                  const gchar   *key,
                                                   GtkListStore *list_store);
 
 void         gconf_bridge_unbind                 (GConfBridge  *bridge,

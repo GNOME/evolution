@@ -80,7 +80,7 @@ struct _ETasksPrivate {
 	GtkWidget *preview;
 
 	gchar *current_uid;
-	char *sexp;
+	gchar *sexp;
 	guint update_timeout;
 
 	GList *notifications;
@@ -89,7 +89,7 @@ struct _ETasksPrivate {
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
-static void backend_error_cb (ECal *client, const char *message, gpointer data);
+static void backend_error_cb (ECal *client, const gchar *message, gpointer data);
 
 /* Signal IDs */
 enum {
@@ -105,7 +105,7 @@ G_DEFINE_TYPE (ETasks, e_tasks, GTK_TYPE_TABLE)
 
 /* Callback used when the selected category in the search bar changes */
 static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, gpointer data)
+search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -124,7 +124,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
  * This function is called from e_table_selected_row_foreach.
  **/
 static void
-get_selected_components_cb (int model_row, gpointer data)
+get_selected_components_cb (gint model_row, gpointer data)
 {
 	struct AffectedComponents *ac = (struct AffectedComponents *) data;
 
@@ -181,7 +181,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 	comp_data = (ECalModelComponent *) data;
 
 	if (list && comp_data) {
-		char *comp_str;
+		gchar *comp_str;
 		icalcomponent *vcal;
 
 		vcal = e_cal_util_new_top_level ();
@@ -191,7 +191,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			ESource *source = e_cal_get_source (comp_data->client);
-			const char *source_uid = e_source_peek_uid (source);
+			const gchar *source_uid = e_source_peek_uid (source);
 
 			*list = g_slist_prepend (*list, g_strdup_printf ("%s\n%s", source_uid, comp_str));
 
@@ -206,8 +206,8 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 
 static void
 table_drag_data_get (ETable             *table,
-		     int                 row,
-		     int                 col,
+		     gint                 row,
+		     gint                 col,
 		     GdkDragContext     *context,
 		     GtkSelectionData   *selection_data,
 		     guint               info,
@@ -236,8 +236,8 @@ table_drag_data_get (ETable             *table,
 /*
 static void
 table_drag_begin (ETable         *table,
-		  int             row,
-		  int             col,
+		  gint             row,
+		  gint             col,
 		  GdkDragContext *context,
 		  ETasks         *tasks)
 {
@@ -247,8 +247,8 @@ table_drag_begin (ETable         *table,
 
 static void
 table_drag_end (ETable         *table,
-		int             row,
-		int             col,
+		gint             row,
+		gint             col,
 		GdkDragContext *context,
 		ETasks         *tasks)
 {
@@ -258,8 +258,8 @@ table_drag_end (ETable         *table,
 
 static void
 table_drag_data_delete (ETable         *table,
-			int             row,
-			int             col,
+			gint             row,
+			gint             col,
 			GdkDragContext *context,
 			ETasks         *tasks)
 {
@@ -493,11 +493,11 @@ e_tasks_destroy (GtkObject *object)
 }
 
 static void
-set_status_message (ETasks *tasks, const char *message, ...)
+set_status_message (ETasks *tasks, const gchar *message, ...)
 {
 	ETasksPrivate *priv;
 	va_list args;
-	char sz[2048], *msg_string = NULL;
+	gchar sz[2048], *msg_string = NULL;
 
 	if (message) {
 		va_start (args, message);
@@ -548,7 +548,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	ETasksPrivate *priv;
 	CompEditor *editor;
 	ECalComponent *comp;
-	const char *category;
+	const gchar *category;
 	ECal *ecal;
 	guint32 flags = 0;
 
@@ -581,7 +581,7 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	const char *uid;
+	const gchar *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -650,7 +650,7 @@ void
 e_tasks_delete_completed (ETasks *tasks)
 {
 	ETasksPrivate *priv;
-	char *sexp;
+	gchar *sexp;
 	GList *l;
 
 	g_return_if_fail (tasks != NULL);
@@ -693,9 +693,9 @@ e_tasks_delete_completed (ETasks *tasks)
 
 void
 e_tasks_open_task_id (ETasks *tasks,
-		      const char *src_uid,
-		      const char *comp_uid,
-		      const char *comp_rid)
+		      const gchar *src_uid,
+		      const gchar *comp_uid,
+		      const gchar *comp_rid)
 {
 	ECal *client = NULL;
 	GList *l;

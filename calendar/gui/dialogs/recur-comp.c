@@ -37,7 +37,7 @@ recur_component_dialog (ECal *client,
 			CalObjModType *mod,
 			GtkWindow *parent, gboolean delegated)
 {
-	char *str;
+	gchar *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
 	GtkWidget *placeholder, *vbox;
 	ECalComponentVType vtype;

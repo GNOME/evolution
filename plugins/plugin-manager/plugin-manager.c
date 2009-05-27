@@ -53,7 +53,7 @@ enum
 };
 
 static struct {
-	const char *label;
+	const gchar *label;
 } label_info[LABEL_LAST] = {
 	{ N_("Name"), },
 	{ N_("Author(s)"), },
@@ -84,7 +84,7 @@ gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellWindow *shell_window);
 
 static void
-eppm_set_label (GtkLabel *l, const char *v)
+eppm_set_label (GtkLabel *l, const gchar *v)
 {
 	gtk_label_set_label(l, v?v:_("Unknown"));
 }
@@ -101,7 +101,7 @@ static void
 eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 {
 	if (ep) {
-		char *string;
+		gchar *string;
 
 		string = g_strdup_printf ("<span size=\"x-large\">%s</span>", ep->name);
 		gtk_label_set_markup (GTK_LABEL (m->items[LABEL_NAME]), string);
@@ -133,7 +133,7 @@ eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 
 		eppm_set_label (m->items[LABEL_DESCRIPTION], ep->description);
 	} else {
-		int i;
+		gint i;
 
 		gtk_label_set_markup (GTK_LABEL (m->config_plugin_label), "");
 		for (i = 0; i < LABEL_LAST; i++)
@@ -184,7 +184,7 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 }
 
 static void
-eppm_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, Manager *m)
+eppm_enable_toggled (GtkCellRendererToggle *renderer, const gchar *path_string, Manager *m)
 {
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -207,7 +207,7 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, M
 }
 
 static void
-eppm_free (void *data)
+eppm_free (gpointer data)
 {
 	Manager *m = data;
 	GSList *l;
@@ -225,7 +225,7 @@ action_plugin_manager_cb (GtkAction *action,
                           EShellWindow *shell_window)
 {
 	Manager *m;
-	int i;
+	gint i;
 	GtkWidget *dialog;
 	GtkWidget *hbox, *w;
 	GtkWidget *overview_page;
@@ -234,7 +234,7 @@ action_plugin_manager_cb (GtkAction *action,
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GSList *l;
-	char *string;
+	gchar *string;
 	GtkWidget *subvbox;
 
 	m = g_malloc0 (sizeof (*m));
@@ -384,7 +384,7 @@ action_plugin_manager_cb (GtkAction *action,
 
 	/* this is every other data */
 	for (i = 1; i < LABEL_LAST; i++) {
-		char *markup;
+		gchar *markup;
 
 		subvbox = gtk_vbox_new (FALSE, 6);
 

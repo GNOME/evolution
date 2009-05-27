@@ -49,7 +49,7 @@ struct _ECertSelector {
 struct _ECertSelectorClass {
 	GtkDialogClass parent_class;
 
-	void (*selected)(ECertSelector *, const char *certid);
+	void (*selected)(ECertSelector *, const gchar *certid);
 };
 
 enum _e_cert_selector_type {
@@ -58,7 +58,7 @@ enum _e_cert_selector_type {
 };
 
 GType      e_cert_selector_get_type (void);
-GtkWidget *e_cert_selector_new      (int type, const char *currentid);
+GtkWidget *e_cert_selector_new      (gint type, const gchar *currentid);
 
 #ifdef cplusplus
 }

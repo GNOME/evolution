@@ -132,12 +132,12 @@ static e_gconf_map_list_t remap_list[] = {
 	{ NULL },
 };
 
-int
-e_config_upgrade(int major, int minor, int revision)
+gint
+e_config_upgrade(gint major, gint minor, gint revision)
 {
 	xmlDocPtr config_doc;
-	char *conf_file;
-	int res = 0;
+	gchar *conf_file;
+	gint res = 0;
 
 	conf_file = g_build_filename (g_get_home_dir (), "evolution", "config.xmldb", NULL);
 	config_doc = e_xml_parse_file (conf_file);

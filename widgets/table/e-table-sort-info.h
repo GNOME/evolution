@@ -74,20 +74,20 @@ void              e_table_sort_info_thaw                (ETableSortInfo   *info)
 
 guint             e_table_sort_info_grouping_get_count  (ETableSortInfo   *info);
 void              e_table_sort_info_grouping_truncate   (ETableSortInfo   *info,
-							 int               length);
+							 gint               length);
 ETableSortColumn  e_table_sort_info_grouping_get_nth    (ETableSortInfo   *info,
-							 int               n);
+							 gint               n);
 void              e_table_sort_info_grouping_set_nth    (ETableSortInfo   *info,
-							 int               n,
+							 gint               n,
 							 ETableSortColumn  column);
 
 guint             e_table_sort_info_sorting_get_count   (ETableSortInfo   *info);
 void              e_table_sort_info_sorting_truncate    (ETableSortInfo   *info,
-							 int               length);
+							 gint               length);
 ETableSortColumn  e_table_sort_info_sorting_get_nth     (ETableSortInfo   *info,
-							 int               n);
+							 gint               n);
 void              e_table_sort_info_sorting_set_nth     (ETableSortInfo   *info,
-							 int               n,
+							 gint               n,
 							 ETableSortColumn  column);
 
 ETableSortInfo   *e_table_sort_info_new                 (void);

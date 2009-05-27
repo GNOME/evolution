@@ -65,11 +65,11 @@ static CursorDef cursors [] = {
 static void
 create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gchar **xpm)
 {
-	int height, width, colors;
-	char pixmap_buffer [(32 * 32)/8];
-	char mask_buffer [(32 * 32)/8];
-	int x, y, pix, yofs;
-	int transparent_color, black_color;
+	gint height, width, colors;
+	gchar pixmap_buffer [(32 * 32)/8];
+	gchar mask_buffer [(32 * 32)/8];
+	gint x, y, pix, yofs;
+	gint transparent_color, black_color;
 
 	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
 
@@ -83,7 +83,7 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gch
 	yofs = colors + 1;
 	for (y = 0; y < 32; y++){
 		for (x = 0; x < 32;){
-			char value = 0, maskv = 0;
+			gchar value = 0, maskv = 0;
 
 			for (pix = 0; pix < 8; pix++, x++){
 				if (xpm [y + yofs][x] != transparent_color){
@@ -111,7 +111,7 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gch
 void
 e_cursors_init (void)
 {
-	int i;
+	gint i;
 
 	e_color_init ();
 
@@ -144,7 +144,7 @@ e_cursors_init (void)
 void
 e_cursors_shutdown (void)
 {
-	int i;
+	gint i;
 
 	for (i = 0; cursors [i].hot_x; i++)
 		gdk_cursor_unref (cursors [i].cursor);

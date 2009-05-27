@@ -41,18 +41,18 @@ typedef struct {
 	ETableModel base;
 
 	ETableModel  *source;
-	int  n_map;
-	int *map_table;
+	gint  n_map;
+	gint *map_table;
 
-	int last_access;
+	gint last_access;
 
-	int              table_model_pre_change_id;
-	int              table_model_no_change_id;
-	int              table_model_changed_id;
-	int              table_model_row_changed_id;
-	int              table_model_cell_changed_id;
-	int              table_model_rows_inserted_id;
-	int              table_model_rows_deleted_id;
+	gint              table_model_pre_change_id;
+	gint              table_model_no_change_id;
+	gint              table_model_changed_id;
+	gint              table_model_row_changed_id;
+	gint              table_model_cell_changed_id;
+	gint              table_model_rows_inserted_id;
+	gint              table_model_rows_deleted_id;
 } ETableSubset;
 
 typedef struct {
@@ -61,23 +61,23 @@ typedef struct {
 	void (*proxy_model_pre_change)   (ETableSubset *etss, ETableModel *etm);
 	void (*proxy_model_no_change)   (ETableSubset *etss, ETableModel *etm);
 	void (*proxy_model_changed)      (ETableSubset *etss, ETableModel *etm);
-	void (*proxy_model_row_changed)  (ETableSubset *etss, ETableModel *etm, int row);
-	void (*proxy_model_cell_changed) (ETableSubset *etss, ETableModel *etm, int col, int row);
-	void (*proxy_model_rows_inserted) (ETableSubset *etss, ETableModel *etm, int row, int count);
-	void (*proxy_model_rows_deleted)  (ETableSubset *etss, ETableModel *etm, int row, int count);
+	void (*proxy_model_row_changed)  (ETableSubset *etss, ETableModel *etm, gint row);
+	void (*proxy_model_cell_changed) (ETableSubset *etss, ETableModel *etm, gint col, gint row);
+	void (*proxy_model_rows_inserted) (ETableSubset *etss, ETableModel *etm, gint row, gint count);
+	void (*proxy_model_rows_deleted)  (ETableSubset *etss, ETableModel *etm, gint row, gint count);
 } ETableSubsetClass;
 
 GType        e_table_subset_get_type           (void);
 ETableModel *e_table_subset_new                (ETableModel  *etm,
-						int           n_vals);
+						gint           n_vals);
 ETableModel *e_table_subset_construct          (ETableSubset *ets,
 						ETableModel  *source,
-						int           nvals);
+						gint           nvals);
 
-int          e_table_subset_model_to_view_row  (ETableSubset *ets,
-						int           model_row);
-int          e_table_subset_view_to_model_row  (ETableSubset *ets,
-						int           view_row);
+gint          e_table_subset_model_to_view_row  (ETableSubset *ets,
+						gint           model_row);
+gint          e_table_subset_view_to_model_row  (ETableSubset *ets,
+						gint           view_row);
 
 ETableModel *e_table_subset_get_toplevel       (ETableSubset *table_model);
 

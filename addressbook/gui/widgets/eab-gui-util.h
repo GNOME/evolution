@@ -43,11 +43,11 @@ void                eab_transfer_contacts         (EBook       *source,
 						   gboolean     delete_from_source,
 						   GtkWindow   *parent_window);
 
-void                eab_contact_save              (char *title,
+void                eab_contact_save              (gchar *title,
 						   EContact *contact,
 						   GtkWindow *parent_window);
 
-void                eab_contact_list_save         (char *title,
+void                eab_contact_list_save         (gchar *title,
 						   GList *list,
 						   GtkWindow *parent_window);
 

@@ -47,14 +47,14 @@ struct _ETableWithoutPrivate {
 	ETableWithoutFreeKeyFunc free_gotten_key_func;
 	ETableWithoutFreeKeyFunc free_duplicated_key_func;
 
-	void *closure;
+	gpointer closure;
 };
 
 static gboolean
-check (ETableWithout *etw, int model_row)
+check (ETableWithout *etw, gint model_row)
 {
 	gboolean ret_val;
-	void *key;
+	gpointer key;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	if (etw->priv->get_key_func)
@@ -68,10 +68,10 @@ check (ETableWithout *etw, int model_row)
 }
 
 static gboolean
-check_with_key (ETableWithout *etw, void *key, int model_row)
+check_with_key (ETableWithout *etw, gpointer key, gint model_row)
 {
 	gboolean ret_val;
-	void *key2;
+	gpointer key2;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	if (etw->priv->get_key_func)
@@ -88,14 +88,14 @@ check_with_key (ETableWithout *etw, void *key, int model_row)
 }
 
 static gint
-etw_view_to_model_row (ETableWithout *etw, int view_row)
+etw_view_to_model_row (ETableWithout *etw, gint view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 	return etss->map_table[view_row];
 }
 
 static void
-add_row (ETableWithout *etw, int model_row)
+add_row (ETableWithout *etw, gint model_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
@@ -109,7 +109,7 @@ add_row (ETableWithout *etw, int model_row)
 }
 
 static void
-remove_row (ETableWithout *etw, int view_row)
+remove_row (ETableWithout *etw, gint view_row)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
@@ -149,9 +149,9 @@ etw_dispose (GObject *object)
 }
 
 static void
-etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_row, int count)
+etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, gint model_row, gint count)
 {
-	int i;
+	gint i;
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
 	gboolean shift = FALSE;
 
@@ -177,9 +177,9 @@ etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_r
 }
 
 static void
-etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, int model_row, int count)
+etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, gint model_row, gint count)
 {
-	int i; /* View row */
+	gint i; /* View row */
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
 	gboolean shift = FALSE;
 
@@ -201,9 +201,9 @@ etw_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *etm, int model_ro
 static void
 etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
 {
-	int i; /* Model row */
-	int j; /* View row */
-	int row_count;
+	gint i; /* Model row */
+	gint j; /* View row */
+	gint row_count;
 	ETableWithout *etw = E_TABLE_WITHOUT (etss);
 
 	g_free (etss->map_table);
@@ -306,7 +306,7 @@ e_table_without_new        (ETableModel                   *source,
 void         e_table_without_hide       (ETableWithout *etw,
 					 void          *key)
 {
-	int i; /* View row */
+	gint i; /* View row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	if (etw->priv->duplicate_key_func)
@@ -325,7 +325,7 @@ void         e_table_without_hide       (ETableWithout *etw,
 void         e_table_without_hide_adopt (ETableWithout *etw,
 					 void          *key)
 {
-	int i; /* View row */
+	gint i; /* View row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	g_hash_table_insert (etw->priv->hash, key, key);
@@ -341,10 +341,10 @@ void
 e_table_without_show       (ETableWithout *etw,
 			    void          *key)
 {
-	int i; /* Model row */
+	gint i; /* Model row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
-	int count;
-	void *old_key;
+	gint count;
+	gpointer old_key;
 
 	count = e_table_model_row_count (etss->source);
 
@@ -365,8 +365,8 @@ e_table_without_show       (ETableWithout *etw,
 void
 e_table_without_show_all   (ETableWithout *etw)
 {
-	int i; /* Model row */
-	int row_count;
+	gint i; /* Model row */
+	gint row_count;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	e_table_model_pre_change (E_TABLE_MODEL (etw));

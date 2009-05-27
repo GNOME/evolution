@@ -58,7 +58,7 @@ typedef enum {
 typedef struct {
 	EmlaAction action;    /* action enumeration */
 	gboolean interactive; /* whether the user needs to edit a mailto: message (e.g. for post action) */
-	const char* header;   /* header representing the action */
+	const gchar * header;   /* header representing the action */
 } EmlaActionHeader;
 
 const EmlaActionHeader emla_action_headers[] = {
@@ -70,7 +70,7 @@ const EmlaActionHeader emla_action_headers[] = {
 	{ EMLA_ACTION_ARCHIVE,     FALSE, "List-Archive" },
 };
 
-const int emla_n_action_headers = sizeof(emla_action_headers) / sizeof(EmlaActionHeader);
+const gint emla_n_action_headers = sizeof(emla_action_headers) / sizeof(EmlaActionHeader);
 
 void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action);
 void emla_list_help (EPlugin *item, EMMenuTargetSelect* sel);
@@ -80,11 +80,11 @@ void emla_list_post (EPlugin *item, EMMenuTargetSelect* sel);
 void emla_list_owner (EPlugin *item, EMMenuTargetSelect* sel);
 void emla_list_archive (EPlugin *item, EMMenuTargetSelect* sel);
 
-void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data);
+void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data);
 
 typedef struct {
 	EmlaAction action;
-	char* uri;
+	gchar * uri;
 } emla_action_data;
 
 void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action)
@@ -97,19 +97,19 @@ void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action
 	data->action = action;
 	data->uri = strdup (sel->uri);
 
-	mail_get_message (sel->folder, (const char*) g_ptr_array_index (sel->uids, 0),
+	mail_get_message (sel->folder, (const gchar *) g_ptr_array_index (sel->uids, 0),
 			emla_list_action_do, data, mail_msg_unordered_push);
 }
 
-void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
+void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data)
 {
 	emla_action_data *action_data = (emla_action_data *) data;
 	EmlaAction action = action_data->action;
-	const char* header = NULL, *headerpos;
-	char *end, *url = NULL;
-	int t;
+	const gchar * header = NULL, *headerpos;
+	gchar *end, *url = NULL;
+	gint t;
 	EMsgComposer *composer;
-	int send_message_response;
+	gint send_message_response;
 	EAccount *account;
 
 	if (msg == NULL)

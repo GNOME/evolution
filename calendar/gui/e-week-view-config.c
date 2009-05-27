@@ -146,7 +146,7 @@ e_week_view_config_get_view (EWeekViewConfig *view_config)
 static void
 set_week_start (EWeekView *week_view)
 {
-	int week_start_week;
+	gint week_start_week;
 
 	week_start_week = calendar_config_get_week_start_day ();
 

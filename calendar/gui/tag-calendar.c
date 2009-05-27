@@ -160,7 +160,7 @@ tag_calendar_by_client (ECalendar *ecal, ECal *client)
    the server. We need to try to use builtin timezones first, as they may not
    be added to the server yet. */
 static icaltimezone*
-resolve_tzid_cb (const char *tzid, gpointer data)
+resolve_tzid_cb (const gchar *tzid, gpointer data)
 {
 	ECal *client;
 	icaltimezone *zone = NULL;

@@ -54,7 +54,7 @@
  * means "end of list" to e_dialog_combo_box_get/set
  */
 
-static const int exchange_perm_map[] = {
+static const gint exchange_perm_map[] = {
 	E2K_PERMISSIONS_ROLE_NONE,
 	E2K_PERMISSIONS_ROLE_REVIEWER,
 	E2K_PERMISSIONS_ROLE_AUTHOR,
@@ -65,18 +65,18 @@ static const int exchange_perm_map[] = {
 	-1
 };
 
-const char *exchange_delegates_user_folder_names[] = {
+const gchar *exchange_delegates_user_folder_names[] = {
 	"calendar", "tasks", "inbox", "contacts"
 };
 
 /* To translators: The folder names to be displayed in the message being
    sent to the delegatee.
 */
-static const char *folder_names_for_display[] = {
+static const gchar *folder_names_for_display[] = {
 	N_("Calendar"), N_("Tasks"), N_("Inbox"), N_("Contacts")
 };
 
-static const char *widget_names[] = {
+static const gchar *widget_names[] = {
 	"calendar_perms_combobox", "task_perms_combobox", "inbox_perms_combobox", "contact_perms_combobox",
 };
 
@@ -156,10 +156,10 @@ parent_window_destroyed (gpointer dialog, GObject *where_parent_window_was)
 
 /* Maps the role_nam parameter to their corresponding Full role name
 */
-static const char *
+static const gchar *
 map_to_full_role_name (E2kPermissionsRole role_nam)
 {
-	const char *role_name;
+	const gchar *role_name;
 
 	switch (role_nam)
 	{
@@ -187,7 +187,7 @@ map_to_full_role_name (E2kPermissionsRole role_nam)
 
 static void
 em_utils_delegates_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
-		       int queued, const char *appended_uid, void *data)
+		       gint queued, const gchar *appended_uid, gpointer data)
 {
 	camel_message_info_free (info);
 	mail_send ();
@@ -211,8 +211,8 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 {
 	GladeXML *xml;
 	GtkWidget *dialog, *table, *label, *combobox, *check, *check_delegate;
-	char *title;
-	int button, i;
+	gchar *title;
+	gint button, i;
 	E2kPermissionsRole role;
 	gboolean modified;
 
@@ -299,13 +299,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			CamelStream *stream;
 			CamelFolder *out_folder;
 			CamelMessageInfo *info;
-			char *self_address, *delegate_mail_subject;
-			char *role_name;
+			gchar *self_address, *delegate_mail_subject;
+			gchar *role_name;
 			GString *role_name_final;
 
-			const char *recipient_address;
-			const char *delegate_exchange_dn;
-			const char *msg_part1 = NULL, *msg_part2 = NULL;
+			const gchar *recipient_address;
+			const gchar *delegate_exchange_dn;
+			const gchar *msg_part1 = NULL, *msg_part2 = NULL;
 
 			role_name_final = g_string_new ("");
 
@@ -456,10 +456,10 @@ exchange_delegates_user_edit (ExchangeAccount *account,
  * with most of the internal data blank).
  **/
 ExchangeDelegatesUser *
-exchange_delegates_user_new (const char *display_name)
+exchange_delegates_user_new (const gchar *display_name)
 {
 	ExchangeDelegatesUser *user;
-	int i;
+	gint i;
 
 	user = g_object_new (EXCHANGE_TYPE_DELEGATES_USER, NULL);
 	user->display_name = g_strdup (display_name);
@@ -487,7 +487,7 @@ exchange_delegates_user_new (const char *display_name)
  **/
 ExchangeDelegatesUser *
 exchange_delegates_user_new_from_gc (E2kGlobalCatalog *gc,
-				    const char *email,
+				    const gchar *email,
 		                    GByteArray *creator_entryid)
 {
 	E2kGlobalCatalogStatus status;

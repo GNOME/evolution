@@ -100,7 +100,7 @@ struct _ECalMenuClass {
 
 GType e_cal_menu_get_type(void);
 
-ECalMenu *e_cal_menu_new(const char *menuid);
+ECalMenu *e_cal_menu_new(const gchar *menuid);
 
 ECalMenuTargetSelect *e_cal_menu_target_new_select(ECalMenu *emp, struct _ECalModel *model, GPtrArray *events);
 

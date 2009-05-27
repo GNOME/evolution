@@ -137,7 +137,7 @@ icon_entry_paint (GtkWidget *widget,
 {
 	EIconEntry *entry = E_ICON_ENTRY (widget);
 	GtkWidget *entry_widget = entry->priv->entry;
-	int x = 0, y = 0, width, height, focus_width;
+	gint x = 0, y = 0, width, height, focus_width;
 	gboolean interior_focus;
 
 	gtk_widget_style_get (

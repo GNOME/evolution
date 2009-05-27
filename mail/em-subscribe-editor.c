@@ -53,7 +53,7 @@ typedef struct _EMSubscribeEditor EMSubscribeEditor;
 struct _EMSubscribeEditor {
 	EDList stores;
 
-	int busy;
+	gint busy;
 	guint busy_id;
 
 	struct _EMSubscribe *current; /* the current one, if any */
@@ -70,14 +70,14 @@ struct _EMSubscribe {
 	struct _EMSubscribe *next;
 	struct _EMSubscribe *prev;
 
-	int ref_count;
-	int cancel;
-	int seq;		/* upped every time we refresh */
+	gint ref_count;
+	gint cancel;
+	gint seq;		/* upped every time we refresh */
 
 	struct _EMSubscribeEditor *editor; /* parent object*/
 
-	char *store_uri;
-	int store_id;		/* looking up a store */
+	gchar *store_uri;
+	gint store_id;		/* looking up a store */
 
 	CamelStore *store;
 	GHashTable *folders;
@@ -89,16 +89,16 @@ struct _EMSubscribe {
 	GSList *info_list;
 
 	/* pending LISTs, EMSubscribeNode's */
-	int pending_id;
+	gint pending_id;
 	EDList pending;
 
 	/* queue of pending UN/SUBSCRIBEs, EMsg's */
-	int subscribe_id;
+	gint subscribe_id;
 	EDList subscribe;
 
 	/* working variables at runtime */
-	int selected_count;
-	int selected_subscribed_count;
+	gint selected_count;
+	gint selected_subscribed_count;
 	guint subscribed_state:1; /* for setting the selection*/
 };
 
@@ -117,8 +117,8 @@ struct _MailMsgListNode {
 	MailMsg *msg;
 };
 
-static void sub_editor_busy(EMSubscribeEditor *se, int dir);
-static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
+static void sub_editor_busy(EMSubscribeEditor *se, gint dir);
+static gint sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
 static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
 
 static void
@@ -170,8 +170,8 @@ struct _zsubscribe_msg {
 
 	EMSubscribe *sub;
 	EMSubscribeNode *node;
-	int subscribe;
-	char *path;
+	gint subscribe;
+	gchar *path;
 };
 
 static void
@@ -247,11 +247,11 @@ static MailMsgInfo sub_subscribe_folder_info = {
 
 /* spath is tree path in string form */
 static int
-sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const char *spath)
+sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, gint state, const gchar *spath)
 {
 	struct _zsubscribe_msg *m;
 	MailMsgListNode *msgListNode;
-	int id;
+	gint id;
 
 	m = mail_msg_new (&sub_subscribe_folder_info);
 	m->sub = sub;
@@ -277,7 +277,7 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const 
 
 /* ********************************************************************** */
 static void
-sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, int pending)
+sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, gint pending)
 {
 	CamelFolderInfo *fi;
 	GtkTreeStore *treestore;
@@ -344,7 +344,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 struct _emse_folderinfo_msg {
 	MailMsg base;
 
-	int seq;
+	gint seq;
 
 	EMSubscribe *sub;
 	EMSubscribeNode *node;
@@ -354,7 +354,7 @@ struct _emse_folderinfo_msg {
 static void
 sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 {
-	char *pub_full_name=NULL;
+	gchar *pub_full_name=NULL;
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(m->base.cancel);
@@ -425,7 +425,7 @@ static int
 sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 {
 	struct _emse_folderinfo_msg *m;
-	int id;
+	gint id;
 
 	d(printf("%s:%s: Starting get folderinfo of '%s'\n", G_STRLOC, G_STRFUNC,
 		 node?node->info->full_name:"<root>"));
@@ -451,7 +451,7 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 /* (un) subscribes the current selection */
 
 static void
-sub_subscribe_toggled(GtkCellRendererToggle *render, const char *spath, EMSubscribe *sub)
+sub_subscribe_toggled(GtkCellRendererToggle *render, const gchar *spath, EMSubscribe *sub)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model = gtk_tree_view_get_model(sub->tree);
@@ -469,7 +469,7 @@ sub_subscribe_toggled(GtkCellRendererToggle *render, const char *spath, EMSubscr
 	}
 }
 
-static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *data)
+static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMSubscribe *sub = data;
 	EMSubscribeNode *node;
@@ -485,7 +485,7 @@ static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *
 static void
 sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 {
-	int dosub = TRUE, dounsub = TRUE;
+	gint dosub = TRUE, dounsub = TRUE;
 
 	sub->selected_count = 0;
 	sub->selected_subscribed_count = 0;
@@ -517,7 +517,7 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 	EMSubscribeNode *node;
 	GtkTreeIter child;
 	GtkTreeModel *model = (GtkTreeModel *)gtk_tree_view_get_model(tree);
-	char *row_name;
+	gchar *row_name;
 
 	gtk_tree_model_get(model, iter, 1, &row_name, -1);
 	d(printf("%s:%s: row-expanded '%s'\n", G_STRLOC, G_STRFUNC,
@@ -583,7 +583,7 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 }
 
 static EMSubscribe *
-subscribe_new(EMSubscribeEditor *se, const char *uri)
+subscribe_new(EMSubscribeEditor *se, const gchar *uri)
 {
 	EMSubscribe *sub;
 
@@ -721,7 +721,7 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 }
 
 static void
-sub_editor_got_store(char *uri, CamelStore *store, void *data)
+sub_editor_got_store(gchar *uri, CamelStore *store, gpointer data)
 {
 	struct _EMSubscribe *sub = data;
 
@@ -733,7 +733,7 @@ sub_editor_got_store(char *uri, CamelStore *store, void *data)
 static void
 sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 {
-	int i, n;
+	gint i, n;
 	struct _EMSubscribe *sub;
 
 	d(printf("combobox changed\n"));
@@ -785,9 +785,9 @@ static gboolean sub_editor_timeout(EMSubscribeEditor *se)
 	return TRUE;
 }
 
-static void sub_editor_busy(EMSubscribeEditor *se, int dir)
+static void sub_editor_busy(EMSubscribeEditor *se, gint dir)
 {
-	int was;
+	gint was;
 
 	was = se->busy != 0;
 	se->busy += dir;
@@ -833,7 +833,7 @@ em_subscribe_editor_new(void)
 	GtkCellRenderer *cell;
 	GtkListStore *store;
 	GtkTreeIter gtiter;
-	char *gladefile;
+	gchar *gladefile;
 
 	se = g_malloc0(sizeof(*se));
 	e_dlist_init(&se->stores);

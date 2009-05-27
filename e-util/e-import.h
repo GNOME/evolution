@@ -44,11 +44,11 @@ typedef struct _EImportImporter EImportImporter;
 typedef struct _EImportFactory EImportFactory;
 typedef struct _EImportTarget EImportTarget;
 
-typedef void (*EImportCompleteFunc)(EImport *ei, void *data);
-typedef void (*EImportStatusFunc)(EImport *ei, const char *what, int pc, void *data);
+typedef void (*EImportCompleteFunc)(EImport *ei, gpointer data);
+typedef void (*EImportStatusFunc)(EImport *ei, const gchar *what, gint pc, gpointer data);
 
-typedef void (*EImportFactoryFunc)(EImport *ei, void *data);
-typedef void (*EImportImporterFunc)(EImportImporter *importer, void *data);
+typedef void (*EImportFactoryFunc)(EImport *ei, gpointer data);
+typedef void (*EImportImporterFunc)(EImportImporter *importer, gpointer data);
 typedef gboolean (*EImportSupportedFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
 typedef struct _GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
 typedef void (*EImportImportFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
@@ -75,18 +75,18 @@ enum _e_import_target_t {
 struct _EImportImporter {
 	enum _e_import_target_t type;
 
-	int pri;
+	gint pri;
 
 	EImportSupportedFunc supported;
 	EImportWidgetFunc get_widget;
 	EImportImportFunc import;
 	EImportImportFunc cancel;
 
-	void *user_data;
+	gpointer user_data;
 
 	/* ?? */
-	char *name;
-	char *description;
+	gchar *name;
+	gchar *description;
 };
 
 /**
@@ -117,14 +117,14 @@ typedef struct _EImportTargetHome EImportTargetHome;
 struct _EImportTargetURI {
 	struct _EImportTarget target;
 
-	char *uri_src;
-	char *uri_dest;
+	gchar *uri_src;
+	gchar *uri_dest;
 };
 
 struct _EImportTargetHome {
 	struct _EImportTarget target;
 
-	char *homedir;
+	gchar *homedir;
 };
 
 /**
@@ -140,11 +140,11 @@ struct _EImportTargetHome {
 struct _EImport {
 	GObject object;
 
-	char *id;
+	gchar *id;
 
 	EImportStatusFunc status;
 	EImportCompleteFunc done;
-	void *done_data;
+	gpointer done_data;
 };
 
 /**
@@ -170,29 +170,29 @@ struct _EImportClass {
 
 GType e_import_get_type(void);
 
-EImport *e_import_new(const char *id);
+EImport *e_import_new(const gchar *id);
 
 /* Static class methods */
-void e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, void *data);
+void e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, gpointer data);
 void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f);
 
 GSList *e_import_get_importers(EImport *emp, EImportTarget *target);
 
-EImport *e_import_construct(EImport *, const char *id);
+EImport *e_import_construct(EImport *, const gchar *id);
 
-void e_import_import(EImport *ei, EImportTarget *, EImportImporter *, EImportStatusFunc status, EImportCompleteFunc done, void *data);
+void e_import_import(EImport *ei, EImportTarget *, EImportImporter *, EImportStatusFunc status, EImportCompleteFunc done, gpointer data);
 void e_import_cancel(EImport *, EImportTarget *, EImportImporter *);
 
 struct _GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImporter *);
 
-void e_import_status(EImport *, EImportTarget *, const char *what, int pc);
+void e_import_status(EImport *, EImportTarget *, const gchar *what, gint pc);
 void e_import_complete(EImport *, EImportTarget *);
 
-void *e_import_target_new(EImport *ep, int type, size_t size);
-void e_import_target_free(EImport *ep, void *o);
+gpointer e_import_target_new(EImport *ep, gint type, size_t size);
+void e_import_target_free(EImport *ep, gpointer o);
 
-EImportTargetURI *e_import_target_new_uri(EImport *ei, const char *suri, const char *duri);
-EImportTargetHome *e_import_target_new_home(EImport *ei, const char *home);
+EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const gchar *duri);
+EImportTargetHome *e_import_target_new_home(EImport *ei, const gchar *home);
 
 /* ********************************************************************** */
 
@@ -216,10 +216,10 @@ struct _EImportHookImporter {
 
 	/* user_data == EImportHook */
 
-	char *supported;
-	char *get_widget;
-	char *import;
-	char *cancel;
+	gchar *supported;
+	gchar *get_widget;
+	gchar *import;
+	gchar *cancel;
 };
 
 /**

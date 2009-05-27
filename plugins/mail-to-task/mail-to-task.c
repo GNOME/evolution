@@ -53,14 +53,14 @@
 #include <gtkhtml/gtkhtml.h>
 #include <calendar/common/authentication.h>
 
-static char *
-clean_name(const unsigned char *s)
+static gchar *
+clean_name(const guchar *s)
 {
 	GString *out = g_string_new("");
 	guint32 c;
-	char *r;
+	gchar *r;
 
-	while ((c = camel_utf8_getc ((const unsigned char **)&s)))
+	while ((c = camel_utf8_getc ((const guchar **)&s)))
 	{
 		if (!g_unichar_isprint (c) || ( c < 0x7f && strchr (" /'\"`&();|<>$%{}!", c )))
 			c = '_';
@@ -74,12 +74,12 @@ clean_name(const unsigned char *s)
 }
 
 static void
-set_attendees (ECalComponent *comp, CamelMimeMessage *message, const char *organizer)
+set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *organizer)
 {
 	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
 	const CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
-	int len, i, j;
+	gint len, i, j;
 
 	if (message->reply_to)
 		from = message->reply_to;
@@ -98,10 +98,10 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message, const char *organ
 
 		len = CAMEL_ADDRESS (arr[j])->addresses->len;
 		for (i = 0; i < len; i++) {
-			const char *name, *addr;
+			const gchar *name, *addr;
 
 			if (camel_internet_address_get (arr[j], i, &name, &addr)) {
-				char *temp;
+				gchar *temp;
 
 				temp = g_strconcat ("mailto:", addr, NULL);
 				if (organizer && g_ascii_strcasecmp (temp, organizer) == 0) {
@@ -152,7 +152,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 	ECalComponentText text;
 	GSList sl;
-	char *str, *convert_str = NULL;
+	gchar *str, *convert_str = NULL;
 	gsize bytes_read, bytes_written;
 	gint count = 2;
 
@@ -180,7 +180,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream (content, mem);
 
-	str = g_strndup ((const gchar*)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
+	str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
 
 	/* convert to UTF-8 string */
@@ -206,13 +206,13 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 		g_free (convert_str);
 }
 
-static char *
+static gchar *
 set_organizer (ECalComponent *comp)
 {
 	EAccount *account;
-	const char *str, *name;
+	const gchar *str, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-	char *res;
+	gchar *res;
 
 	account = mail_config_get_default_account ();
 	if (!account)
@@ -235,11 +235,11 @@ set_organizer (ECalComponent *comp)
 static void
 set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 {
-	int parts, i;
+	gint parts, i;
 	GSList *list = NULL;
-	const char *uid;
-	const char *store_uri;
-	char *store_dir;
+	const gchar *uid;
+	const gchar *store_uri;
+	gchar *store_dir;
 	CamelDataWrapper *content;
 
 	content = camel_medium_get_content_object ((CamelMedium *) message);
@@ -258,8 +258,8 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 
 	for (i = 1; i < parts; i++)
 	{
-		char *filename, *path, *tmp;
-		const char *orig_filename;
+		gchar *filename, *path, *tmp;
+		const gchar *orig_filename;
 		CamelMimePart *mime_part;
 
 		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), i);
@@ -268,13 +268,13 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 		if (!orig_filename)
 			continue;
 
-		tmp = clean_name ((const unsigned char *)orig_filename);
+		tmp = clean_name ((const guchar *)orig_filename);
 		filename = g_strdup_printf ("%s-%s", uid, tmp);
 		path = g_build_filename (store_dir, filename, NULL);
 
 		if (em_utils_save_part_to_file (NULL, path, mime_part))
 		{
-			char *uri;
+			gchar *uri;
 			uri = g_filename_to_uri (path, NULL, NULL);
 			list = g_slist_append (list, g_strdup (uri));
 			g_free (uri);
@@ -292,8 +292,8 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 
 struct _report_error
 {
-	char *format;
-	char *param;
+	gchar *format;
+	gchar *param;
 };
 
 static gboolean
@@ -310,7 +310,7 @@ do_report_error (struct _report_error *err)
 }
 
 static void
-report_error_idle (const char *format, const char *param)
+report_error_idle (const gchar *format, const gchar *param)
 {
 	struct _report_error *err = g_new (struct _report_error, 1);
 
@@ -325,7 +325,7 @@ typedef struct {
 	ECal *client;
 	struct _CamelFolder *folder;
 	GPtrArray *uids;
-	char *selected_text;
+	gchar *selected_text;
 	gboolean with_attendees;
 }AsyncData;
 
@@ -361,7 +361,7 @@ do_mail_to_event (AsyncData *data)
 			}
 		}
 	} else {
-		int i;
+		gint i;
 		ECalSourceType source_type = e_cal_get_source_type (client);
 		ECalComponentDateTime dt, dt2;
 		struct icaltimetype tt, tt2;
@@ -433,7 +433,7 @@ do_mail_to_event (AsyncData *data)
 				set_description (comp, message);
 
 			if (data->with_attendees) {
-				char *organizer;
+				gchar *organizer;
 
 				/* set actual user as organizer, to be able to change event's properties */
 				organizer = set_organizer (comp);
@@ -477,15 +477,15 @@ do_mail_to_event (AsyncData *data)
 }
 
 static void
-copy_uids (char *uid, GPtrArray *uid_array)
+copy_uids (gchar *uid, GPtrArray *uid_array)
 {
 	g_ptr_array_add (uid_array, g_strdup (uid));
 }
 
 static gboolean
-text_contains_nonwhitespace (const char *text, gint len)
+text_contains_nonwhitespace (const gchar *text, gint len)
 {
-	const char *p;
+	const gchar *p;
 	gunichar c = 0;
 
 	if (!text || len<=0)
@@ -508,10 +508,10 @@ text_contains_nonwhitespace (const char *text, gint len)
 }
 
 /* should be freed with g_free after done with it */
-static char *
+static gchar *
 get_selected_text (EMFolderView *emfv)
 {
-	char *text = NULL;
+	gchar *text = NULL;
 	gint len;
 
 	if (!emfv || !emfv->preview || !gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active"))
@@ -602,7 +602,7 @@ mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *u
 
 		client = auth_new_cal_from_source (source, source_type);
 		if (!client) {
-			char *uri = e_source_get_uri (source);
+			gchar *uri = e_source_get_uri (source);
 
 			e_notice (NULL, GTK_MESSAGE_ERROR, "Could not create the client: %s", uri);
 
@@ -635,24 +635,24 @@ mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *u
 
 /* ************************************************************************* */
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
-void org_gnome_mail_to_event (void *ep, EMPopupTargetSelect *t);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+void org_gnome_mail_to_event (gpointer ep, EMPopupTargetSelect *t);
 void org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_meeting (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_meeting (gpointer ep, EMPopupTargetSelect *t);
 void org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_task (gpointer ep, EMPopupTargetSelect *t);
 void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_memo (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_memo (gpointer ep, EMPopupTargetSelect *t);
 void org_gnome_mail_to_memo_menu (EPlugin *ep, EMMenuTargetSelect *t);
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	return 0;
 }
 
 void
-org_gnome_mail_to_event (void *ep, EMPopupTargetSelect *t)
+org_gnome_mail_to_event (gpointer ep, EMPopupTargetSelect *t)
 {
 	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
@@ -664,7 +664,7 @@ org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t)
 }
 
 void
-org_gnome_mail_to_meeting (void *ep, EMPopupTargetSelect *t)
+org_gnome_mail_to_meeting (gpointer ep, EMPopupTargetSelect *t)
 {
 	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
@@ -676,7 +676,7 @@ org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t)
 }
 
 void
-org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
+org_gnome_mail_to_task (gpointer ep, EMPopupTargetSelect *t)
 {
 	mail_to_event (E_CAL_SOURCE_TYPE_TODO, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
@@ -688,7 +688,7 @@ org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
 }
 
 void
-org_gnome_mail_to_memo (void *ep, EMPopupTargetSelect *t)
+org_gnome_mail_to_memo (gpointer ep, EMPopupTargetSelect *t)
 {
 	/* do not set organizer and attendees for memos */
 	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);

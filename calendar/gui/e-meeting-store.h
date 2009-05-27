@@ -70,7 +70,7 @@ typedef gboolean (* EMeetingStoreRefreshCallback) (gpointer data);
 GType    e_meeting_store_get_type (void);
 GObject *e_meeting_store_new      (void);
 
-void e_meeting_store_set_value (EMeetingStore *im, int row, int col, const gchar *val);
+void e_meeting_store_set_value (EMeetingStore *im, gint row, gint col, const gchar *val);
 
 ECal *e_meeting_store_get_e_cal (EMeetingStore *im);
 void e_meeting_store_set_e_cal (EMeetingStore *im, ECal *client);
@@ -100,7 +100,7 @@ void e_meeting_store_refresh_all_busy_periods (EMeetingStore *im,
 					       EMeetingStoreRefreshCallback call_back,
 					       gpointer data);
 void e_meeting_store_refresh_busy_periods (EMeetingStore *im,
-					   int row,
+					   gint row,
 					   EMeetingTime *start,
 					   EMeetingTime *end,
 					   EMeetingStoreRefreshCallback call_back,

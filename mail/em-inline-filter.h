@@ -40,13 +40,13 @@ extern "C" {
 typedef struct _EMInlineFilter {
 	CamelMimeFilter filter;
 
-	int state;
+	gint state;
 
 	CamelTransferEncoding base_encoding;
 	CamelContentType *base_type;
 
 	GByteArray *data;
-	char *filename;
+	gchar *filename;
 	GSList *parts;
 } EMInlineFilter;
 

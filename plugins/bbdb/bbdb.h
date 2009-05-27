@@ -36,7 +36,7 @@
 #define BBDB_BLIST_CHECK_INTERVAL (2 * 60)
 
 /* bbdb.c */
-EBook *bbdb_open_addressbook (int type);
+EBook *bbdb_open_addressbook (gint type);
 gboolean bbdb_check_gaim_enabled (void);
 
 /* gaimbuddies.c */

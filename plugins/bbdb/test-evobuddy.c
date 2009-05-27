@@ -22,7 +22,7 @@
 
 void bbdb_sync_buddy_list (void);
 
-int
+gint
 main (void)
 {
 	printf ("Syncing...\n");

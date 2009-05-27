@@ -38,7 +38,7 @@ G_BEGIN_DECLS
 typedef struct {
 	ETableSubset base;
 
-	int n_vals_allocated;
+	gint n_vals_allocated;
 } ETableSubsetVariable;
 
 typedef struct {

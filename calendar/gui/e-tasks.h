@@ -52,7 +52,7 @@ struct _ETasksClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (ETasks *tasks, int n_selected);
+	void (* selection_changed) (ETasks *tasks, gint n_selected);
         void (* source_added)      (ETasks *tasks, ESource *source);
         void (* source_removed)    (ETasks *tasks, ESource *source);
 };
@@ -68,9 +68,9 @@ gboolean   e_tasks_remove_todo_source (ETasks *tasks, ESource *source);
 gboolean   e_tasks_set_default_source (ETasks *tasks, ESource *source);
 void       e_tasks_open_task         (ETasks		*tasks);
 void       e_tasks_open_task_id      (ETasks		*tasks,
-				      const char *src_uid,
-				      const char *comp_uid,
-				      const char *comp_rid);
+				      const gchar *src_uid,
+				      const gchar *comp_uid,
+				      const gchar *comp_rid);
 void       e_tasks_new_task          (ETasks            *tasks);
 void       e_tasks_delete_completed  (ETasks            *tasks);
 

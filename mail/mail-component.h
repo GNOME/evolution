@@ -67,36 +67,36 @@ GType  mail_component_get_type  (void);
 MailComponent *mail_component_peek  (void);
 
 /* NOTE: Using NULL as the component implies using the default component */
-const char       *mail_component_peek_base_directory    (MailComponent *component);
+const gchar       *mail_component_peek_base_directory    (MailComponent *component);
 struct _RuleContext      *mail_component_peek_search_context    (MailComponent *component);
 struct _EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
 
 void        mail_component_add_store            (MailComponent *component,
 						 struct _CamelStore    *store,
-						 const char    *name);
+						 const gchar    *name);
 struct _CamelStore *mail_component_load_store_by_uri    (MailComponent *component,
-						 const char    *uri,
-						 const char    *name);
+						 const gchar    *uri,
+						 const gchar    *name);
 
 void        mail_component_remove_store         (MailComponent *component,
 						 struct _CamelStore    *store);
 void        mail_component_remove_store_by_uri  (MailComponent *component,
-						 const char    *uri);
+						 const gchar    *uri);
 
-int          mail_component_get_store_count  (MailComponent *component);
+gint          mail_component_get_store_count  (MailComponent *component);
 void         mail_component_stores_foreach   (MailComponent *component,
 					      GHFunc         func,
 					      void          *data);
 
-void mail_component_remove_folder (MailComponent *component, struct _CamelStore *store, const char *path);
+void mail_component_remove_folder (MailComponent *component, struct _CamelStore *store, const gchar *path);
 
 struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
 
 struct _CamelStore *mail_component_peek_local_store (MailComponent *mc);
 struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
-const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
+const gchar *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 
-int status_check (GNOME_Evolution_ShellState shell_state);
+gint status_check (GNOME_Evolution_ShellState shell_state);
 
 void mail_indicate_new_mail (gboolean have_new_mail);
 void mail_component_show_logger (gpointer);

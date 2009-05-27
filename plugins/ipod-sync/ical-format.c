@@ -37,7 +37,7 @@
 #include "format-handler.h"
 
 static void
-display_error_message (GtkWidget *parent, const char *message)
+display_error_message (GtkWidget *parent, const gchar *message)
 {
 	GtkWidget *dialog;
 
@@ -47,7 +47,7 @@ display_error_message (GtkWidget *parent, const char *message)
 }
 
 static void
-do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
+do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri)
 {
 	ESource *primary_source;
 	ECal *source_client;
@@ -89,7 +89,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 		stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
 		if (stream && !error) {
-			char *ical_str = icalcomponent_as_ical_string_r (top_level);
+			gchar *ical_str = icalcomponent_as_ical_string_r (top_level);
 
 			g_output_stream_write_all (stream, ical_str, strlen (ical_str), NULL, NULL, &error);
 			g_output_stream_close (stream, NULL, NULL);

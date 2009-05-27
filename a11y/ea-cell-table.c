@@ -36,11 +36,11 @@ ea_cell_table_create (gint rows, gint columns, gboolean column_first)
 	cell_data->columns = columns;
 	cell_data->rows = rows;
 
-	cell_data->column_labels = g_new0 (gchar*, columns);
+	cell_data->column_labels = g_new0 (gchar *, columns);
 	for (index = columns -1; index >= 0; --index)
 		cell_data->column_labels [index] = NULL;
 
-	cell_data->row_labels = g_new0 (gchar*, rows);
+	cell_data->row_labels = g_new0 (gchar *, rows);
 	for (index = rows -1; index >= 0; --index)
 		cell_data->row_labels [index] = NULL;
 
@@ -142,7 +142,7 @@ ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
 	return TRUE;
 }
 
-G_CONST_RETURN gchar*
+G_CONST_RETURN gchar *
 ea_cell_table_get_column_label (EaCellTable * cell_data,
 				gint column)
 {
@@ -164,7 +164,7 @@ ea_cell_table_set_column_label (EaCellTable * cell_data,
 	cell_data->column_labels[column] = g_strdup(label);
 }
 
-G_CONST_RETURN gchar*
+G_CONST_RETURN gchar *
 ea_cell_table_get_row_label (EaCellTable * cell_data,
 			     gint row)
 {

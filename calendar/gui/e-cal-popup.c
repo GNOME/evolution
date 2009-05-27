@@ -67,7 +67,7 @@ ecalp_target_free(EPopup *ep, EPopupTarget *t)
 	switch (t->type) {
 	case E_CAL_POPUP_TARGET_SELECT: {
 		ECalPopupTargetSelect *s = (ECalPopupTargetSelect *)t;
-		int i;
+		gint i;
 
 		for (i=0;i<s->events->len;i++)
 			e_cal_model_free_component_data(s->events->pdata[i]);
@@ -114,7 +114,7 @@ e_cal_popup_get_type(void)
 	return type;
 }
 
-ECalPopup *e_cal_popup_new(const char *menuid)
+ECalPopup *e_cal_popup_new(const gchar *menuid)
 {
 	ECalPopup *eabp = g_object_new(e_cal_popup_get_type(), NULL);
 
@@ -124,7 +124,7 @@ ECalPopup *e_cal_popup_new(const char *menuid)
 }
 
 static icalproperty *
-get_attendee_prop (icalcomponent *icalcomp, const char *address)
+get_attendee_prop (icalcomponent *icalcomp, const gchar *address)
 {
 
 	icalproperty *prop;
@@ -135,7 +135,7 @@ get_attendee_prop (icalcomponent *icalcomp, const char *address)
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const char *attendee = icalproperty_get_attendee (prop);
+		const gchar *attendee = icalproperty_get_attendee (prop);
 
 		if (g_str_equal (itip_strip_mailto (attendee), address)) {
 			return prop;
@@ -145,11 +145,11 @@ get_attendee_prop (icalcomponent *icalcomp, const char *address)
 }
 
 static gboolean
-is_delegated (icalcomponent *icalcomp, char *user_email)
+is_delegated (icalcomponent *icalcomp, gchar *user_email)
 {
 	icalproperty *prop;
 	icalparameter *param;
-	const char *delto = NULL;
+	const gchar *delto = NULL;
 
 	prop = get_attendee_prop (icalcomp, user_email);
 
@@ -163,7 +163,7 @@ is_delegated (icalcomponent *icalcomp, char *user_email)
 	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));
 
 	if (prop) {
-		const char *delfrom = NULL;
+		const gchar *delfrom = NULL;
 		icalparameter_partstat status = ICAL_PARTSTAT_NONE;
 
 		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
@@ -181,7 +181,7 @@ is_delegated (icalcomponent *icalcomp, char *user_email)
 }
 
 static gboolean
-needs_to_accept (icalcomponent *icalcomp, char *user_email)
+needs_to_accept (icalcomponent *icalcomp, gchar *user_email)
 {
 	icalproperty *prop;
 	icalparameter *param;
@@ -233,7 +233,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	} else {
 		ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[0];
 		ECalComponent *comp;
-		char *user_email = NULL;
+		gchar *user_email = NULL;
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
@@ -243,7 +243,7 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		if (t->events->len == 1)
 			mask &= ~E_CAL_POPUP_SELECT_ONE;
 		else {
-			int i=0;
+			gint i=0;
 
 			mask &= ~E_CAL_POPUP_SELECT_MANY;
 			/* Now check for any incomplete tasks and set the flags*/
@@ -334,11 +334,11 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 {
 	ECalPopupTargetSource *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SOURCE, sizeof(*t));
 	guint32 mask = ~0;
-	const char *relative_uri;
-	char *uri;
+	const gchar *relative_uri;
+	gchar *uri;
 	ESource *source;
-	const char *offline = NULL;
-	const char *delete = NULL;
+	const gchar *offline = NULL;
+	const gchar *delete = NULL;
 
 	/* TODO: this is duplicated for addressbook too */
 
@@ -410,7 +410,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 
 */
 
-static void *ecalph_parent_class;
+static gpointer ecalph_parent_class;
 #define ecalph ((ECalPopupHook *)eph)
 
 static const EPopupHookTargetMask ecalph_select_masks[] = {
@@ -473,7 +473,7 @@ ecalph_finalise(GObject *o)
 static void
 ecalph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = ecalph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.popup:1.0";

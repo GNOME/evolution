@@ -72,7 +72,7 @@ static void
 url_changed (GtkEntry *entry, ESource *source)
 {
 	EUri *uri;
-	char *relative_uri;
+	gchar *relative_uri;
 
 	uri = e_uri_new (gtk_entry_get_text (GTK_ENTRY (entry)));
 
@@ -96,10 +96,10 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *entry, *parent;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	EUri *uri;
-	char *uri_text;
+	gchar *uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -142,9 +142,9 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 static void
 set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
-	int time;
-	int item_num = 0;
-	const char *refresh_str = e_source_get_property (source, "refresh");
+	gint time;
+	gint item_num = 0;
+	const gchar *refresh_str = e_source_get_property (source, "refresh");
 	time = refresh_str ? atoi (refresh_str) : 30;
 
 	if (time  && !(time % 10080)) {
@@ -164,10 +164,10 @@ set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
-static char *
+static gchar *
 get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
-	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
+	gint setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
@@ -195,7 +195,7 @@ get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 static void
 spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *combobox;
 
 	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
@@ -208,7 +208,7 @@ spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
 static void
 combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 {
-	char *refresh_str;
+	gchar *refresh_str;
 	GtkWidget *spin;
 
 	spin = g_object_get_data (G_OBJECT (combobox), "spin");
@@ -232,11 +232,11 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *combobox, *spin, *hbox, *parent;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
-	char* uri_text;
+	gchar * uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -297,10 +297,10 @@ e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	GtkWidget *secure_setting, *parent;
-	const char *secure_prop;
-	int row;
+	const gchar *secure_prop;
+	gint row;
 	EUri *uri;
-	char* uri_text;
+	gchar * uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -358,11 +358,11 @@ e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
 	GtkWidget *entry, *parent;
-	int row;
+	gint row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	EUri *uri;
-	char *uri_text;
-	const char *username;
+	gchar *uri_text;
+	const gchar *username;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -412,7 +412,7 @@ e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	EUri *uri;
 	gboolean ok = FALSE;
 	ESourceGroup *group = e_source_peek_group (t->source);
-	char *uri_text;
+	gchar *uri_text;
 
 	if (strncmp (e_source_group_peek_base_uri (group), "webcal", 6))
 		return TRUE;

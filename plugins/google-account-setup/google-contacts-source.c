@@ -83,8 +83,8 @@ static void
 on_username_entry_changed (GtkEntry *entry, gpointer user_data)
 {
     ESource *source = user_data;
-    const char *text;
-    char *username;
+    const gchar *text;
+    gchar *username;
 
     text = gtk_entry_get_text (entry);
 
@@ -120,9 +120,9 @@ typedef enum {
 } IntervalType;
 
 static void
-seconds_to_interval (guint seconds, IntervalType *type, int *time)
+seconds_to_interval (guint seconds, IntervalType *type, gint *time)
 {
-    int minutes = seconds / 60;
+    gint minutes = seconds / 60;
 
     *type = MINUTES;
     *time = minutes;
@@ -139,7 +139,7 @@ seconds_to_interval (guint seconds, IntervalType *type, int *time)
 }
 
 static guint
-interval_to_seconds (IntervalType type, int time)
+interval_to_seconds (IntervalType type, gint time)
 {
     switch (type) {
     case MINUTES:
@@ -163,7 +163,7 @@ on_interval_sb_value_changed (GtkSpinButton *sb, gpointer user_data)
     ESource *source = user_data;
     gdouble time;
     guint seconds;
-    char *value_string;
+    gchar *value_string;
     GtkWidget *interval_combo;
     IntervalType type;
 
@@ -185,7 +185,7 @@ on_interval_combo_changed (GtkComboBox *combo, gpointer user_data)
     ESource *source = user_data;
     gdouble time;
     guint seconds;
-    char *value_string;
+    gchar *value_string;
     GtkWidget *sb;
     IntervalType type;
 
@@ -223,11 +223,11 @@ plugin_google_contacts (EPlugin                    *epl,
     EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
     ESource      *source;
     ESourceGroup *group;
-    const char   *base_uri;
-    const char   *username;
-    const char   *refresh_interval_str;
+    const gchar   *base_uri;
+    const gchar   *username;
+    const gchar   *refresh_interval_str;
     guint         refresh_interval;
-    const char   *use_ssl_str;
+    const gchar   *use_ssl_str;
     gboolean      use_ssl;
     GtkWidget    *parent;
     GtkWidget    *vbox;
@@ -243,7 +243,7 @@ plugin_google_contacts (EPlugin                    *epl,
     GtkWidget    *interval_sb;
     GtkWidget    *interval_combo;
     IntervalType type;
-    int        time;
+    gint        time;
 
     GtkWidget    *ssl_cb;
     struct ui_data *ui;

@@ -89,7 +89,7 @@ eni_render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
               GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
 {
         time_t t;
-        char sdt[100]; /* Should be sufficient? */
+        gchar sdt[100]; /* Should be sufficient? */
 
         gtk_tree_model_get (model, iter, COL_TIME, &t, -1);
         strftime (sdt, 100, "%x %X", localtime (&t));
@@ -97,9 +97,9 @@ eni_render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 }
 
 static void
-eni_append_logs (const char *txt, GtkListStore *store)
+eni_append_logs (const gchar *txt, GtkListStore *store)
 {
-        char **str;
+        gchar **str;
 
         str = g_strsplit (txt,  ":", 3);
         if (str[0] && str[1] && str[2]) {
@@ -119,7 +119,7 @@ eni_append_logs (const char *txt, GtkListStore *store)
 }
 
 static guint
-eni_config_get_error_level (const char *path)
+eni_config_get_error_level (const gchar *path)
 {
         GConfClient *gconf_client;
         guint error_level;
@@ -132,7 +132,7 @@ eni_config_get_error_level (const char *path)
 }
 
 guint
-eni_config_get_error_timeout (const char *path)
+eni_config_get_error_timeout (const gchar *path)
 {
         GConfClient *gconf_client;
         guint error_time;
@@ -145,14 +145,14 @@ eni_config_get_error_timeout (const char *path)
 }
 
 static void
-eni_error_timeout_changed (GtkSpinButton *b, void *data)
+eni_error_timeout_changed (GtkSpinButton *b, gpointer data)
 {
         GConfClient *gconf_client;
-        int value = gtk_spin_button_get_value_as_int (b);
+        gint value = gtk_spin_button_get_value_as_int (b);
 
         gconf_client = gconf_client_get_default ();
 
-        gconf_client_set_int (gconf_client, (char *) data, value, NULL);
+        gconf_client_set_int (gconf_client, (gchar *) data, value, NULL);
         g_object_unref (gconf_client);
 }
 
@@ -160,17 +160,17 @@ static void
 eni_error_level_value_changed (GtkComboBox *w, gpointer *data)
 {
         GConfClient *gconf_client;
-        int value = gtk_combo_box_get_active (w);
+        gint value = gtk_combo_box_get_active (w);
 
         gconf_client = gconf_client_get_default ();
 
-        gconf_client_set_int (gconf_client, (char *) data, value, NULL);
+        gconf_client_set_int (gconf_client, (gchar *) data, value, NULL);
 
         g_object_unref (gconf_client);
 }
 
 void
-eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, const char *error_level_path)
+eni_show_logger(ELogger *logger, GtkWidget *top,const gchar *error_timeout_path, const gchar *error_level_path)
 {
 	GtkWidget *container;
 	GtkWidget *label;
@@ -181,7 +181,7 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	int i;
+	gint i;
 
 	toplevel = gtk_widget_get_toplevel (top);
 

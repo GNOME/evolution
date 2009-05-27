@@ -40,13 +40,13 @@ typedef struct {
 
 	GalViewCollection *collection;
 
-	char *instance_id;
-	char *current_view_filename;
-	char *custom_filename;
+	gchar *instance_id;
+	gchar *current_view_filename;
+	gchar *custom_filename;
 
-	char *current_title;
-	char *current_type;
-	char *current_id;
+	gchar *current_title;
+	gchar *current_type;
+	gchar *current_id;
 
 	GalView *current_view;
 
@@ -54,7 +54,7 @@ typedef struct {
 	guint collection_changed_id;
 
 	guint loaded : 1;
-	char *default_view;
+	gchar *default_view;
 } GalViewInstance;
 
 typedef struct {
@@ -75,15 +75,15 @@ GType            gal_view_instance_get_type             (void);
 /*collection should be loaded when you call this.
   instance_id: Which instance of this type of object is this (for most of evo, this is the folder id.) */
 GalViewInstance *gal_view_instance_new                  (GalViewCollection *collection,
-							 const char        *instance_id);
+							 const gchar        *instance_id);
 GalViewInstance *gal_view_instance_construct            (GalViewInstance   *instance,
 							 GalViewCollection *collection,
-							 const char        *instance_id);
+							 const gchar        *instance_id);
 
 /* Manipulate the current view. */
-char            *gal_view_instance_get_current_view_id  (GalViewInstance   *instance);
+gchar            *gal_view_instance_get_current_view_id  (GalViewInstance   *instance);
 void             gal_view_instance_set_current_view_id  (GalViewInstance   *instance,
-							 const char        *view_id);
+							 const gchar        *view_id);
 GalView         *gal_view_instance_get_current_view     (GalViewInstance   *instance);
 
 /* Sets the current view to the given custom view. */
@@ -102,9 +102,9 @@ void             gal_view_instance_save_as              (GalViewInstance   *inst
 void             gal_view_instance_load                 (GalViewInstance   *instance);
 
 /* These only mean anything before gal_view_instance_load is called the first time.  */
-const char      *gal_view_instance_get_default_view     (GalViewInstance   *instance);
+const gchar      *gal_view_instance_get_default_view     (GalViewInstance   *instance);
 void             gal_view_instance_set_default_view     (GalViewInstance   *instance,
-							 const char        *id);
+							 const gchar        *id);
 
 G_END_DECLS
 

@@ -49,7 +49,7 @@ struct _EMinicardViewWidget
 	EAddressbookReflowAdapter *adapter;
 
 	EBook *book;
-	char *query;
+	gchar *query;
 	guint editable : 1;
 
 	double column_width;

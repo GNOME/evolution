@@ -314,7 +314,7 @@ etcta_unrealize (GnomeCanvasItem *item)
 static void finish_editing (ETableClickToAdd *etcta);
 
 static int
-item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClickToAdd *etcta)
+item_key_press (ETableItem *item, gint row, gint col, GdkEvent *event, ETableClickToAdd *etcta)
 {
 	switch (event->key.keyval) {
 		case GDK_Return:
@@ -451,7 +451,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-etcta_reflow (GnomeCanvasItem *item, int flags)
+etcta_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 

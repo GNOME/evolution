@@ -65,7 +65,7 @@ gal_view_edit            (GalView *view,
  */
 void
 gal_view_load  (GalView *view,
-		const char *filename)
+		const gchar *filename)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
@@ -81,7 +81,7 @@ gal_view_load  (GalView *view,
  */
 void
 gal_view_save    (GalView *view,
-		  const char *filename)
+		  const gchar *filename)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
@@ -96,7 +96,7 @@ gal_view_save    (GalView *view,
  *
  * Returns: The title of the view.
  */
-const char *
+const gchar *
 gal_view_get_title       (GalView *view)
 {
 	g_return_val_if_fail (view != NULL, NULL);
@@ -115,7 +115,7 @@ gal_view_get_title       (GalView *view)
  */
 void
 gal_view_set_title       (GalView *view,
-			  const char *title)
+			  const gchar *title)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
@@ -130,7 +130,7 @@ gal_view_set_title       (GalView *view,
  *
  * Returns: The type of the view.
  */
-const char *
+const gchar *
 gal_view_get_type_code (GalView *view)
 {
 	g_return_val_if_fail (view != NULL, NULL);

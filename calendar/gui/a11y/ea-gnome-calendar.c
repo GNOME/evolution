@@ -31,8 +31,8 @@
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);
 
-static G_CONST_RETURN gchar* ea_gnome_calendar_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_gnome_calendar_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_gnome_calendar_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_gnome_calendar_get_description (AtkObject *accessible);
 static gint ea_gnome_calendar_get_n_children (AtkObject* obj);
 static AtkObject * ea_gnome_calendar_ref_child (AtkObject *obj, gint i);
 
@@ -130,7 +130,7 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	}
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (void *)accessible);
+	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (gpointer)accessible);
 #endif
 
 	return accessible;
@@ -143,8 +143,8 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
-	static char buffer[512];
-	char end_buffer[256];
+	static gchar buffer[512];
+	gchar end_buffer[256];
 	GnomeCalendarViewType view;
 
 	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
@@ -237,7 +237,7 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	return buffer;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_gnome_calendar_get_name (AtkObject *accessible)
 {
 	if (accessible->name)
@@ -245,7 +245,7 @@ ea_gnome_calendar_get_name (AtkObject *accessible)
 	return _("Gnome Calendar");
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_gnome_calendar_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -328,7 +328,7 @@ ea_gcal_switch_view_cb (GtkNotebook *widget, GtkNotebookPage *page,
 
 #ifdef ACC_DEBUG
 	printf ("AccDebug: view switch to widget %p (index=%d) \n",
-		(void *)new_widget, index);
+		(gpointer)new_widget, index);
 #endif
 }
 

@@ -387,7 +387,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv = spage->priv;
 	CompEditor *editor;
-	char *gladefile;
+	gchar *gladefile;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 

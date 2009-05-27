@@ -48,13 +48,13 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	void             (*set_width)      (EReflowModel *etm, int width);
+	void             (*set_width)      (EReflowModel *etm, gint width);
 
-	int              (*count)          (EReflowModel *etm);
-	int              (*height)         (EReflowModel *etm, int n, GnomeCanvasGroup *parent);
-	GnomeCanvasItem *(*incarnate)      (EReflowModel *etm, int n, GnomeCanvasGroup *parent);
-	int              (*compare)        (EReflowModel *etm, int n1, int n2);
-	void             (*reincarnate)    (EReflowModel *etm, int n, GnomeCanvasItem *item);
+	gint              (*count)          (EReflowModel *etm);
+	gint              (*height)         (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
+	GnomeCanvasItem *(*incarnate)      (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
+	gint              (*compare)        (EReflowModel *etm, gint n1, gint n2);
+	void             (*reincarnate)    (EReflowModel *etm, gint n, GnomeCanvasItem *item);
 
 	/*
 	 * Signals
@@ -68,28 +68,28 @@ typedef struct {
 	 */
 	void        (*model_changed)       (EReflowModel *etm);
 	void        (*comparison_changed)  (EReflowModel *etm);
-	void        (*model_items_inserted) (EReflowModel *etm, int position, int count);
-	void        (*model_item_removed)  (EReflowModel *etm, int position);
-	void        (*model_item_changed)  (EReflowModel *etm, int n);
+	void        (*model_items_inserted) (EReflowModel *etm, gint position, gint count);
+	void        (*model_item_removed)  (EReflowModel *etm, gint position);
+	void        (*model_item_changed)  (EReflowModel *etm, gint n);
 } EReflowModelClass;
 
 GType            e_reflow_model_get_type        (void);
 
 /**/
 void             e_reflow_model_set_width       (EReflowModel     *e_reflow_model,
-						 int               width);
-int              e_reflow_model_count           (EReflowModel     *e_reflow_model);
-int              e_reflow_model_height          (EReflowModel     *e_reflow_model,
-						 int               n,
+						 gint               width);
+gint              e_reflow_model_count           (EReflowModel     *e_reflow_model);
+gint              e_reflow_model_height          (EReflowModel     *e_reflow_model,
+						 gint               n,
 						 GnomeCanvasGroup *parent);
 GnomeCanvasItem *e_reflow_model_incarnate       (EReflowModel     *e_reflow_model,
-						 int               n,
+						 gint               n,
 						 GnomeCanvasGroup *parent);
-int              e_reflow_model_compare         (EReflowModel     *e_reflow_model,
-						 int               n1,
-						 int               n2);
+gint              e_reflow_model_compare         (EReflowModel     *e_reflow_model,
+						 gint               n1,
+						 gint               n2);
 void             e_reflow_model_reincarnate     (EReflowModel     *e_reflow_model,
-						 int               n,
+						 gint               n,
 						 GnomeCanvasItem  *item);
 
 /*
@@ -98,12 +98,12 @@ void             e_reflow_model_reincarnate     (EReflowModel     *e_reflow_mode
 void             e_reflow_model_changed            (EReflowModel     *e_reflow_model);
 void             e_reflow_model_comparison_changed (EReflowModel     *e_reflow_model);
 void             e_reflow_model_items_inserted     (EReflowModel     *e_reflow_model,
-						    int               position,
-						    int               count);
+						    gint               position,
+						    gint               count);
 void             e_reflow_model_item_removed       (EReflowModel     *e_reflow_model,
-						    int               n);
+						    gint               n);
 void             e_reflow_model_item_changed       (EReflowModel     *e_reflow_model,
-						    int               n);
+						    gint               n);
 
 #ifdef __cplusplus
 }

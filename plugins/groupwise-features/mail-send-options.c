@@ -46,7 +46,7 @@ static ESendOptionsDialog * dialog = NULL ;
 void org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t);
 
 static time_t
-add_day_to_time (time_t time, int days)
+add_day_to_time (time_t time, gint days)
 {
 	struct tm *tm;
 
@@ -61,8 +61,8 @@ static void
 feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 {
 	EMsgComposer *comp;
-	char value [100];
-	char *temp = NULL;
+	gchar value [100];
+	gchar *temp = NULL;
 
 	comp = (EMsgComposer *) data;
 	/* we are bothered only for ok response: other cases are handled generally*/
@@ -145,7 +145,7 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
-	char *temp = NULL;
+	gchar *temp = NULL;
 
 	table = e_msg_composer_get_header_table (comp);
 	account = e_composer_header_table_get_account (table);

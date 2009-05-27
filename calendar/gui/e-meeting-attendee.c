@@ -669,8 +669,8 @@ compare_times (EMeetingTime *time1,
 }
 
 static gint
-compare_period_starts (const void *arg1,
-		       const void *arg2)
+compare_period_starts (gconstpointer arg1,
+		       gconstpointer arg2)
 {
 	EMeetingFreeBusyPeriod *period1, *period2;
 

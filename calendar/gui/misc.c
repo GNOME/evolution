@@ -45,9 +45,9 @@
  * Return value: TRUE if the string is empty, FALSE otherwise.
  **/
 gboolean
-string_is_empty (const char *value)
+string_is_empty (const gchar *value)
 {
-	const char *p;
+	const gchar *p;
 	gboolean empty;
 
 	empty = TRUE;
@@ -69,11 +69,11 @@ string_is_empty (const char *value)
 /**
  * get_uri_without_password
  */
-char *
-get_uri_without_password (const char *full_uri)
+gchar *
+get_uri_without_password (const gchar *full_uri)
 {
 	EUri *uri;
-	char *uristr;
+	gchar *uristr;
 
 	uri = e_uri_new (full_uri);
 	if (!uri)
@@ -98,15 +98,15 @@ get_position_in_array (GPtrArray *objects, gpointer item)
 	return -1;
 }
 
-char *
+gchar *
 calculate_time (time_t start, time_t end)
 {
 	time_t difference = end - start;
-	char *str;
-	int   hours, minutes;
-	char *times[4];
-	char *joined;
-	int   i;
+	gchar *str;
+	gint   hours, minutes;
+	gchar *times[4];
+	gchar *joined;
+	gint   i;
 
         i = 0;
 	if (difference >= 3600) {

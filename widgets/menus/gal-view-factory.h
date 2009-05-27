@@ -48,10 +48,10 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	const char *(*get_title)      (GalViewFactory *factory);
-	const char *(*get_type_code)  (GalViewFactory *factory);
+	const gchar *(*get_title)      (GalViewFactory *factory);
+	const gchar *(*get_type_code)  (GalViewFactory *factory);
 	GalView    *(*new_view)       (GalViewFactory *factory,
-				       const char     *name);
+				       const gchar     *name);
 } GalViewFactoryClass;
 
 /* Standard functions */
@@ -59,17 +59,17 @@ GType       gal_view_factory_get_type       (void);
 
 /* Query functions */
 /* Returns already translated title. */
-const char *gal_view_factory_get_title      (GalViewFactory *factory);
+const gchar *gal_view_factory_get_title      (GalViewFactory *factory);
 
 /* Returns the code for use in identifying this type of object in the
  * view list.  This identifier should identify this as being the
  * unique factory for xml files which were written out with this
  * identifier.  Thus each factory should have a unique type code.  */
-const char *gal_view_factory_get_type_code  (GalViewFactory *factory);
+const gchar *gal_view_factory_get_type_code  (GalViewFactory *factory);
 
 /* Create a new view */
 GalView    *gal_view_factory_new_view       (GalViewFactory *factory,
-					     const char     *name);
+					     const gchar     *name);
 
 #ifdef __cplusplus
 }

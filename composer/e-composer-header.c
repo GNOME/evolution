@@ -101,7 +101,7 @@ composer_header_constructor (GType type,
 
 	if (header->priv->addaction) {
 		GtkWidget *box, *tmp;
-		char *str;
+		gchar *str;
 
 		header->action_widget = gtk_button_new ();
 		box = gtk_hbox_new (FALSE, 0);

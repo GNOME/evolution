@@ -85,7 +85,7 @@ gboolean
 itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test)
 {
 	ECalComponentOrganizer organizer;
-	const char *strip;
+	const gchar *strip;
 	gboolean user_org = FALSE;
 
 	if (!e_cal_component_has_organizer (comp) || (!skip_cap_test && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
@@ -97,7 +97,7 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
   		strip = itip_strip_mailto (organizer.value);
 
  		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
- 			char *email = NULL;
+ 			gchar *email = NULL;
 
   			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
@@ -125,7 +125,7 @@ gboolean
 itip_sentby_is_user (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer organizer;
-	const char *strip;
+	const gchar *strip;
 	gboolean user_sentby = FALSE;
 
 	if (!e_cal_component_has_organizer (comp) ||e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
@@ -141,7 +141,7 @@ itip_sentby_is_user (ECalComponent *comp, ECal *client)
 }
 
 static ECalComponentAttendee *
-get_attendee (GSList *attendees, char *address)
+get_attendee (GSList *attendees, gchar *address)
 {
 	GSList *l;
 
@@ -160,7 +160,7 @@ get_attendee (GSList *attendees, char *address)
 }
 
 static ECalComponentAttendee *
-get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address)
+get_attendee_if_attendee_sentby_is_user (GSList *attendees, gchar *address)
 {
 	GSList *l;
 
@@ -175,8 +175,8 @@ get_attendee_if_attendee_sentby_is_user (GSList *attendees, char *address)
 	return NULL;
 }
 
-static char *
-html_new_lines_for (const char *string)
+static gchar *
+html_new_lines_for (const gchar *string)
 {
 	gchar **lines;
 	gchar *joined;
@@ -188,7 +188,7 @@ html_new_lines_for (const char *string)
 	return joined;
 }
 
-char *
+gchar *
 itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 {
 	GSList *attendees;
@@ -196,7 +196,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	EAccount *a;
 	EIterator *it;
 	ECalComponentAttendee *attendee = NULL;
-	char *address = NULL;
+	gchar *address = NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);
 	al = itip_addresses_get ();
@@ -208,7 +208,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		attendee = get_attendee (attendees, address);
 
 		if (attendee) {
-			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
+			gchar *user_email = g_strdup (itip_strip_mailto (attendee->value));
 
 			e_cal_component_free_attendee_list (attendees);
 			g_free (address);
@@ -218,7 +218,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address);
 
 		if (attendee) {
-			char *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
+			gchar *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
 
 			e_cal_component_free_attendee_list (attendees);
 			g_free (address);
@@ -239,7 +239,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 
 		attendee = get_attendee (attendees, a->id->address);
 		if (attendee) {
-			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
+			gchar *user_email = g_strdup (itip_strip_mailto (attendee->value));
 
 			e_cal_component_free_attendee_list (attendees);
 			return user_email;
@@ -249,7 +249,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		check the 'sentby' fields of the attendees if we can find the account */
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, a->id->address);
 		if (attendee) {
-			char *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
+			gchar *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
 
 			e_cal_component_free_attendee_list (attendees);
 			return user_email;
@@ -278,10 +278,10 @@ itip_strip_mailto (const gchar *address)
 	return address;
 }
 
-static char *
+static gchar *
 get_label (struct icaltimetype *tt)
 {
-        char buffer[1000];
+        gchar buffer[1000];
         struct tm tmp_tm;
 
 	tmp_tm = icaltimetype_to_tm (tt);
@@ -305,7 +305,7 @@ static void
 foreach_tzid_callback (icalparameter *param, gpointer data)
 {
 	ItipUtilTZData *tz_data = data;
-	const char *tzid;
+	const gchar *tzid;
 	icaltimezone *zone = NULL;
 	icalcomponent *vtimezone_comp;
 
@@ -330,7 +330,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 		return;
 
 	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);
+	g_hash_table_insert (tz_data->tzids, (gchar *)tzid, (gchar *)tzid);
 }
 
 static icalcomponent *
@@ -364,7 +364,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method, ECalComponent *comp, E
 }
 
 static gboolean
-users_has_attendee (GList *users, const char *address)
+users_has_attendee (GList *users, const gchar *address)
 {
 	GList *l;
 
@@ -383,7 +383,7 @@ comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 	ECalComponentAttendee *attendee;
 	GSList *attendees;
 	gchar *from;
-	char *sender = NULL;
+	gchar *sender = NULL;
 
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
@@ -436,7 +436,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 	GPtrArray *array = NULL;
 	EDestination *destination;
 	gint len;
- 	char *sender = NULL;
+ 	gchar *sender = NULL;
 
 	union {
 		gpointer *pdata;
@@ -616,10 +616,10 @@ static gchar *
 comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 {
 	ECalComponentText caltext;
-	const char *description, *prefix = NULL;
+	const gchar *description, *prefix = NULL;
 	GSList *alist, *l;
 	gchar *subject;
-	char *sender;
+	gchar *sender;
 	ECalComponentAttendee *a = NULL;
 
 	e_cal_component_get_summary (comp, &caltext);
@@ -770,7 +770,7 @@ comp_description (ECalComponent *comp)
 {
 	gchar *description;
         ECalComponentDateTime dt;
-        char *start = NULL, *end = NULL;
+        gchar *start = NULL, *end = NULL;
 
         switch (e_cal_component_get_vtype (comp)) {
         case E_CAL_COMPONENT_EVENT:
@@ -852,11 +852,11 @@ comp_limit_attendees (ECalComponent *comp)
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
 	{
-		char *attendee;
-		char *attendee_text;
+		gchar *attendee;
+		gchar *attendee_text;
 		icalparameter *param;
-		const char *attendee_sentby;
-		char *attendee_sentby_text = NULL;
+		const gchar *attendee_sentby;
+		gchar *attendee_sentby_text = NULL;
 
 		/* If we've already found something, just erase the rest */
 		if (found) {
@@ -907,7 +907,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer organizer;
 	GSList * attendees, *l;
-	char *user = NULL;
+	gchar *user = NULL;
 
 	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
@@ -919,7 +919,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		organizer.language = NULL;
 
 		e_cal_component_set_organizer (comp, &organizer);
-		g_free ((char *) organizer.value);
+		g_free ((gchar *) organizer.value);
 
 		return;
 	}
@@ -945,10 +945,10 @@ comp_sentby (ECalComponent *comp, ECal *client)
 
 		e_cal_component_set_organizer (comp, &organizer);
 
-		g_free ((char *)organizer.value);
-		g_free ((char *)organizer.sentby);
-		g_free ((char *)organizer.cn);
-		g_free ((char *)organizer.language);
+		g_free ((gchar *)organizer.value);
+		g_free ((gchar *)organizer.sentby);
+		g_free ((gchar *)organizer.cn);
+		g_free ((gchar *)organizer.language);
 	}
 }
 static ECalComponent *
@@ -958,7 +958,7 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 	icalcomponent *icomp, *icomp_clone;
 	icalproperty *prop;
 	ECalComponentOrganizer organizer;
-	const char *uid;
+	const gchar *uid;
 	GSList *comments;
 	struct icaltimetype itt;
 	ECalComponentRange recur_id;
@@ -1099,13 +1099,13 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 			ECalComponentAlarm *alarm;
 			ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 
-			alarm = e_cal_component_get_alarm (clone, (const char *)l->data);
+			alarm = e_cal_component_get_alarm (clone, (const gchar *)l->data);
 			if (alarm) {
 				e_cal_component_alarm_get_action (alarm, &action);
 				e_cal_component_alarm_free (alarm);
 
 				if (action == E_CAL_COMPONENT_ALARM_PROCEDURE)
-					e_cal_component_remove_alarm (clone, (const char *)l->data);
+					e_cal_component_remove_alarm (clone, (const gchar *)l->data);
 			}
 		}
 
@@ -1200,7 +1200,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
-	char *ical_string = NULL;
+	gchar *ical_string = NULL;
 	gchar *from = NULL;
 	gchar *content_type = NULL;
 	gchar *subject = NULL;
@@ -1337,7 +1337,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	GList *users = NULL;
 	gchar *from;
 	gchar *subject;
-	char *ical_string = NULL;
+	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
 
 	/* Tidy up the comp */
@@ -1369,12 +1369,12 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
 
 		GString *body;
-		char *orig_from = NULL;
-		const char *description = NULL;
-		char *subject = NULL;
-		const char *location = NULL;
-		char *time = NULL;
-		char *html_description = NULL;
+		gchar *orig_from = NULL;
+		const gchar *description = NULL;
+		gchar *subject = NULL;
+		const gchar *location = NULL;
+		gchar *time = NULL;
+		gchar *html_description = NULL;
 		GSList *text_list = NULL;
 		ECalComponentOrganizer organizer;
 		ECalComponentText text;
@@ -1518,9 +1518,9 @@ itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 }
 
 static void
-fb_sort (struct icalperiodtype *ipt, int fb_count)
+fb_sort (struct icalperiodtype *ipt, gint fb_count)
 {
-	int i,j;
+	gint i,j;
 
 	if (ipt == NULL || fb_count == 0)
 		return;
@@ -1549,9 +1549,9 @@ comp_fb_normalize (icalcomponent *icomp)
 {
 	icalcomponent *iclone;
 	icalproperty *prop, *p;
-	const char *uid,  *comment;
+	const gchar *uid,  *comment;
 	struct icaltimetype itt;
-	int fb_count, i = 0, j;
+	gint fb_count, i = 0, j;
 	struct icalperiodtype *ipt;
 
 	iclone = icalcomponent_new (ICAL_VFREEBUSY_COMPONENT);
@@ -1638,7 +1638,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	SoupSession *session;
 	SoupMessage *msg;
 	SoupURI *real_uri;
-	char *ical_string = NULL;
+	gchar *ical_string = NULL;
 
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);

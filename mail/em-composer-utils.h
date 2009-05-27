@@ -41,28 +41,28 @@ struct _EMFormat;
 struct _EAccount;
 struct _EDestination;
 
-void em_utils_compose_new_message (const char *fromuri);
-struct _EMsgComposer * em_utils_compose_lite_new_message (const char *fromuri);
+void em_utils_compose_new_message (const gchar *fromuri);
+struct _EMsgComposer * em_utils_compose_lite_new_message (const gchar *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
-void em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri);
+void em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
 
 void em_utils_edit_message (struct _CamelMimeMessage *message, struct _CamelFolder *folder);
 void em_utils_edit_messages (struct _CamelFolder *folder, GPtrArray *uids, gboolean replace);
 
-void em_utils_forward_attached (struct _CamelFolder *folder, GPtrArray *uids, const char *fromuri);
-void em_utils_forward_inline (struct _CamelFolder *folder, GPtrArray *uids, const char *fromuri);
-void em_utils_forward_quoted (struct _CamelFolder *folder, GPtrArray *uids, const char *fromuri);
+void em_utils_forward_attached (struct _CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
+void em_utils_forward_inline (struct _CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
+void em_utils_forward_quoted (struct _CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
 
-void em_utils_forward_message (struct _CamelMimeMessage *msg, const char *fromuri);
-void em_utils_forward_messages (struct _CamelFolder *folder, GPtrArray *uids, const char *fromuri);
+void em_utils_forward_message (struct _CamelMimeMessage *msg, const gchar *fromuri);
+void em_utils_forward_messages (struct _CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
 
 void em_utils_redirect_message (struct _CamelMimeMessage *message);
-void em_utils_redirect_message_by_uid (struct _CamelFolder *folder, const char *uid);
+void em_utils_redirect_message_by_uid (struct _CamelFolder *folder, const gchar *uid);
 
-void em_utils_forward_message_raw (struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *address, struct _CamelException *ex);
+void em_utils_forward_message_raw (struct _CamelFolder *folder, struct _CamelMimeMessage *message, const gchar *address, struct _CamelException *ex);
 
-void em_utils_handle_receipt (struct _CamelFolder *folder, const char *uid, struct _CamelMimeMessage *msg);
+void em_utils_handle_receipt (struct _CamelFolder *folder, const gchar *uid, struct _CamelMimeMessage *msg);
 void em_utils_send_receipt   (struct _CamelFolder *folder, struct _CamelMimeMessage *message);
 
 enum {
@@ -71,10 +71,10 @@ enum {
 	REPLY_MODE_LIST
 };
 
-char *em_utils_construct_composer_text (struct _CamelMimeMessage *message, struct _EMFormat *source);
+gchar *em_utils_construct_composer_text (struct _CamelMimeMessage *message, struct _EMFormat *source);
 void em_utils_get_reply_sender (struct _CamelMimeMessage *message, struct _CamelInternetAddress *to, struct _CamelNNTPAddress *postto);
 void em_utils_get_reply_all (struct _CamelMimeMessage *message, struct _CamelInternetAddress *to, struct _CamelInternetAddress *cc, struct _CamelNNTPAddress *postto);
-struct _EMsgComposer * em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode, struct _EMFormat *source);
+struct _EMsgComposer * em_utils_reply_to_message (struct _CamelFolder *, const gchar *uid, struct _CamelMimeMessage *message, gint mode, struct _EMFormat *source);
 struct _EDestination ** em_utils_camel_address_to_destination (struct _CamelInternetAddress *iaddr);
 
 void em_configure_new_composer (struct _EMsgComposer *composer);

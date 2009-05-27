@@ -81,27 +81,27 @@ void mail_config_write_on_exit (void);
 struct _GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
-const char **mail_config_get_allowable_mime_types (void);
+const gchar **mail_config_get_allowable_mime_types (void);
 
 void mail_config_service_set_save_passwd (struct _EAccountService *service, gboolean save_passwd);
 
 /* accounts */
-struct _EAccount *mail_config_get_account_by_source_url (const char *url);
-struct _EAccount *mail_config_get_account_by_transport_url (const char *url);
+struct _EAccount *mail_config_get_account_by_source_url (const gchar *url);
+struct _EAccount *mail_config_get_account_by_transport_url (const gchar *url);
 
-int mail_config_get_address_count (void);
-int mail_config_get_message_limit (void);
+gint mail_config_get_address_count (void);
+gint mail_config_get_message_limit (void);
 gboolean mail_config_get_enable_magic_spacebar (void);
 
 struct _EAccountService  *mail_config_get_default_transport (void);
 
 /* uri's got changed by the store, etc */
-void mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new);
-void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);
+void mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new);
+void mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri);
 
 /* static utility functions */
-char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
-char *mail_config_folder_to_safe_url (CamelFolder *folder);
+gchar *mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix);
+gchar *mail_config_folder_to_safe_url (CamelFolder *folder);
 guint mail_config_get_error_timeout  (void);
 guint mail_config_get_error_level  (void);
 

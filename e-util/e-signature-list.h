@@ -71,6 +71,6 @@ void e_signature_list_add (ESignatureList *signature_list, ESignature *signature
 void e_signature_list_change (ESignatureList *signature_list, ESignature *signature);
 void e_signature_list_remove (ESignatureList *signature_list, ESignature *signature);
 
-const ESignature *e_signature_list_find (ESignatureList *signature_list, e_signature_find_t type, const char *key);
+const ESignature *e_signature_list_find (ESignatureList *signature_list, e_signature_find_t type, const gchar *key);
 
 #endif /* __E_SIGNATURE_LIST__ */

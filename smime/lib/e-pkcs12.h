@@ -63,7 +63,7 @@ EPKCS12*             e_pkcs12_new (void);
 gboolean             e_pkcs12_set_token    (void);
 #endif
 
-gboolean             e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error);
-gboolean             e_pkcs12_export_to_file   (EPKCS12 *pkcs12, const char *path, GList *certs, GError **error);
+gboolean             e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error);
+gboolean             e_pkcs12_export_to_file   (EPKCS12 *pkcs12, const gchar *path, GList *certs, GError **error);
 
 #endif /* _E_CERT_H_ */

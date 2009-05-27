@@ -59,13 +59,13 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 }
 
 
-static char *
-ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
+static gchar *
+ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 {
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
 	struct tm tmp_tm;
-	char buffer[64];
+	gchar buffer[64];
 
 	if (!dv)
 		return g_strdup ("");
@@ -84,7 +84,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 
 
 static void
-ecd_free_text (ECellText *cell, char *text)
+ecd_free_text (ECellText *cell, gchar *text)
 {
 	g_free (text);
 }
@@ -95,7 +95,7 @@ static void
 show_date_warning (ECellDateEditText *ecd)
 {
 	GtkWidget *dialog;
-	char buffer[64], *format;
+	gchar buffer[64], *format;
 	time_t t;
 	struct tm *tmp_tm;
 
@@ -125,8 +125,8 @@ show_date_warning (ECellDateEditText *ecd)
 
 
 static void
-ecd_set_value (ECellText *cell, ETableModel *model, int col, int row,
-	       const char *text)
+ecd_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
+	       const gchar *text)
 {
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ETimeParseStatus status;
@@ -206,7 +206,7 @@ e_cell_date_edit_text_init (ECellDateEditText *ecd)
  * Returns: an ECell object that can be used to render dates.
  */
 ECell *
-e_cell_date_edit_text_new (const char *fontname,
+e_cell_date_edit_text_new (const gchar *fontname,
 			   GtkJustification justify)
 {
 	ECellDateEditText *ecd = g_object_new (e_cell_date_edit_text_get_type (), NULL);

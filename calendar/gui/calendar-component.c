@@ -93,7 +93,7 @@ typedef struct
 
 struct _CalendarComponentPrivate {
 
-	int gconf_notify_id;
+	gint gconf_notify_id;
 
 	ESourceList *source_list;
 	ESourceList *task_source_list;
@@ -149,7 +149,7 @@ is_in_uids (GSList *uids, ESource *source)
 	GSList *l;
 
 	for (l = uids; l; l = l->next) {
-		const char *uid = l->data;
+		const gchar *uid = l->data;
 
 		if (!strcmp (uid, e_source_peek_uid (source)))
 			return TRUE;
@@ -177,7 +177,7 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 
 	/* Remove any that aren't there any more */
 	for (l = source_selection; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
@@ -192,7 +192,7 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 
 	/* Make sure the whole selection is there */
 	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
+		gchar *uid = l->data;
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (source_list, uid);
@@ -211,7 +211,7 @@ static void
 update_primary_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
 {
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	ESourceList *source_list = NULL;
 
 	if (type == E_CAL_SOURCE_TYPE_TODO) {
@@ -272,15 +272,15 @@ config_primary_memos_selection_changed_cb (GConfClient *client, guint id, GConfE
 
 /* Evolution::Component CORBA methods.  */
 static void
-impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
 	GList *l;
 	CalendarComponentView *view = NULL;
-	char *src_uid = NULL;
-	char *uid = NULL;
-	char *rid = NULL;
+	gchar *src_uid = NULL;
+	gchar *uid = NULL;
+	gchar *rid = NULL;
 
 	priv = calendar_component->priv;
 
@@ -292,8 +292,8 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 
 	if (!strncmp (uri, "calendar:", 9)) {
 		EUri *euri = e_uri_new (uri);
-		const char *p;
-		char *header, *content;
+		const gchar *p;
+		gchar *header, *content;
 		size_t len, clen;
 		time_t start = -1, end = -1;
 
@@ -306,7 +306,7 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 				if (p[len] != '=')
 					break;
 
-				header = (char *) p;
+				header = (gchar *) p;
 				header[len] = '\0';
 				p += len + 1;
 
@@ -372,7 +372,7 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 {
 	CalendarComponentPrivate *priv;
 	ESource *source = NULL;
-	char *uid;
+	gchar *uid;
 	guint not;
 
 	priv = calendar_component->priv;

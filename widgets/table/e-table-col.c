@@ -139,8 +139,8 @@ e_table_col_init (ETableCol *etc)
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
-e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
-		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
+e_table_col_new (gint col_idx, const gchar *text, double expansion, gint min_width,
+		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, gint priority)
 {
 	ETableCol *etc;
 
@@ -200,8 +200,8 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
-e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, double expansion, int min_width,
-			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
+e_table_col_new_with_pixbuf (gint col_idx, const gchar *text, GdkPixbuf *pixbuf, double expansion, gint min_width,
+			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, gint priority)
 {
 	ETableCol *etc;
 

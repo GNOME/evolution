@@ -126,7 +126,7 @@ struct _ECalendarItem
 	gint year;
 	gint month;	/* 0 to 11 */
 
-	/* Points to an array of styles, one char for each day. We use 32
+	/* Points to an array of styles, one gchar for each day. We use 32
 	   chars for each month, with n + 2 months, where n is the number of
 	   complete months shown (since we show some days before the first
 	   month and after the last month grayes out).

@@ -85,7 +85,7 @@ struct _EASN1ObjectClass {
 	void (*_ecert_reserved4) (void);
 };
 
-EASN1Object     *e_asn1_object_new_from_der       (char *data, guint32 len);
+EASN1Object     *e_asn1_object_new_from_der       (gchar *data, guint32 len);
 EASN1Object     *e_asn1_object_new                (void);
 
 void             e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag);
@@ -94,12 +94,12 @@ PRUint32         e_asn1_object_get_asn1_type       (EASN1Object *obj);
 PRUint32         e_asn1_object_get_asn1_tag        (EASN1Object *obj);
 GList           *e_asn1_object_get_children        (EASN1Object *obj);
 void             e_asn1_object_append_child        (EASN1Object *parent, EASN1Object *child);
-void             e_asn1_object_set_display_name    (EASN1Object *obj, const char *name);
-const char      *e_asn1_object_get_display_name    (EASN1Object *obj);
-void             e_asn1_object_set_display_value   (EASN1Object *obj, const char *value);
-const char      *e_asn1_object_get_display_value   (EASN1Object *obj);
+void             e_asn1_object_set_display_name    (EASN1Object *obj, const gchar *name);
+const gchar      *e_asn1_object_get_display_name    (EASN1Object *obj);
+void             e_asn1_object_set_display_value   (EASN1Object *obj, const gchar *value);
+const gchar      *e_asn1_object_get_display_value   (EASN1Object *obj);
 
-void             e_asn1_object_get_data            (EASN1Object *obj, char **data, guint32 *len);
+void             e_asn1_object_get_data            (EASN1Object *obj, gchar **data, guint32 *len);
 
 GType            e_asn1_object_get_type (void);
 

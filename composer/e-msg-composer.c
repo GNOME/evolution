@@ -134,13 +134,13 @@ static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *mul
  *
  * Return Value: The part in displayable html format.
  **/
-static char *
+static gchar *
 emcu_part_to_html (CamelMimePart *part, ssize_t *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
 	GByteArray *buf;
-	char *text;
+	gchar *text;
 
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
@@ -161,7 +161,7 @@ emcu_part_to_html (CamelMimePart *part, ssize_t *len, EMFormat *source)
 	camel_stream_write((CamelStream *) mem, "", 1);
 	camel_object_unref(mem);
 
-	text = (char *)buf->data;
+	text = (gchar *)buf->data;
 	if (len)
 		*len = buf->len-1;
 	g_byte_array_free (buf, FALSE);
@@ -171,11 +171,11 @@ emcu_part_to_html (CamelMimePart *part, ssize_t *len, EMFormat *source)
 
 /* copy of em_utils_prompt_user from mailer */
 static gboolean
-emcu_prompt_user (GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...)
+emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
-	int button;
+	gint button;
 	GConfClient *gconf = gconf_client_get_default ();
 
 	if (promptkey
@@ -314,7 +314,7 @@ best_charset (GByteArray *buf, const gchar *default_charset, CamelTransferEncodi
 		return charset;
 
 	/* Try to find something that will work */
-	if (!(charset = (char *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
+	if (!(charset = (gchar *) camel_charset_best ((const gchar *)buf->data, buf->len))) {
 		*encoding = CAMEL_TRANSFER_ENCODING_7BIT;
 		return NULL;
 	}
@@ -2679,7 +2679,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 
 	/* Restore the Account preference */
-	account_name = (char *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	account_name = (gchar *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (account_name) {
 		account_name = g_strdup (account_name);
 		g_strstrip (account_name);
@@ -3127,7 +3127,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 			if (p[len] != '=')
 				break;
 
-			header = (char *) p;
+			header = (gchar *) p;
 			header[len] = '\0';
 			p += len + 1;
 

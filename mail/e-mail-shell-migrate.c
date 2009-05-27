@@ -80,11 +80,11 @@
 
 /* upgrade helper functions */
 static xmlDocPtr
-emm_load_xml (const char *dirname, const char *filename)
+emm_load_xml (const gchar *dirname, const gchar *filename)
 {
 	xmlDocPtr doc;
 	struct stat st;
-	char *path;
+	gchar *path;
 
 	path = g_strdup_printf ("%s/%s", dirname, filename);
 	if (stat (path, &st) == -1 || !(doc = xmlParseFile (path))) {
@@ -98,10 +98,10 @@ emm_load_xml (const char *dirname, const char *filename)
 }
 
 static int
-emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
+emm_save_xml (xmlDocPtr doc, const gchar *dirname, const gchar *filename)
 {
-	char *path;
-	int retval;
+	gchar *path;
+	gint retval;
 
 	path = g_strdup_printf ("%s/%s", dirname, filename);
 	retval = e_xml_save_file (path, doc);
@@ -111,13 +111,13 @@ emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
 }
 
 static xmlNodePtr
-xml_find_node (xmlNodePtr parent, const char *name)
+xml_find_node (xmlNodePtr parent, const gchar *name)
 {
 	xmlNodePtr node;
 
 	node = parent->children;
 	while (node != NULL) {
-		if (node->name && !strcmp ((char *)node->name, name))
+		if (node->name && !strcmp ((gchar *)node->name, name))
 			return node;
 
 		node = node->next;
@@ -127,15 +127,15 @@ xml_find_node (xmlNodePtr parent, const char *name)
 }
 
 static void
-upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
+upgrade_xml_uris (xmlDocPtr doc, gchar * (* upgrade_uri) (const gchar *uri))
 {
 	xmlNodePtr root, node;
-	char *uri, *new;
+	gchar *uri, *new;
 
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
 
-	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
+	if (!root->name || strcmp ((gchar *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
@@ -147,27 +147,27 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp ((char *)node->name, "rule")) {
+		if (node->name && !strcmp ((gchar *)node->name, "rule")) {
 			xmlNodePtr actionset, part, val, n;
 
 			if ((actionset = xml_find_node (node, "actionset"))) {
 				/* filters.xml */
 				part = actionset->children;
 				while (part != NULL) {
-					if (part->name && !strcmp ((char *)part->name, "part")) {
+					if (part->name && !strcmp ((gchar *)part->name, "part")) {
 						val = part->children;
 						while (val != NULL) {
-							if (val->name && !strcmp ((char *)val->name, "value")) {
-								char *type;
+							if (val->name && !strcmp ((gchar *)val->name, "value")) {
+								gchar *type;
 
-								type = (char *)xmlGetProp (val, (const unsigned char *)"type");
-								if (type && !strcmp ((char *)type, "folder")) {
+								type = (gchar *)xmlGetProp (val, (const guchar *)"type");
+								if (type && !strcmp ((gchar *)type, "folder")) {
 									if ((n = xml_find_node (val, "folder"))) {
-										uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
+										uri = (gchar *)xmlGetProp (n, (const guchar *)"uri");
 										new = upgrade_uri (uri);
 										xmlFree (uri);
 
-										xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
+										xmlSetProp (n, (const guchar *)"uri", (guchar *)new);
 										g_free (new);
 									}
 								}
@@ -185,12 +185,12 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 				/* vfolders.xml */
 				n = actionset->children;
 				while (n != NULL) {
-					if (n->name && !strcmp ((char *)n->name, "folder")) {
-						uri = (char *)xmlGetProp (n, (const unsigned char *)"uri");
+					if (n->name && !strcmp ((gchar *)n->name, "folder")) {
+						uri = (gchar *)xmlGetProp (n, (const guchar *)"uri");
 						new = upgrade_uri (uri);
 						xmlFree (uri);
 
-						xmlSetProp (n, (const unsigned char *)"uri", (unsigned char *)new);
+						xmlSetProp (n, (const guchar *)"uri", (guchar *)new);
 						g_free (new);
 					}
 
@@ -207,25 +207,25 @@ upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
 
 /* as much info as we have on a given account */
 struct _account_info_1_0 {
-	char *name;
-	char *uri;
-	char *base_uri;
+	gchar *name;
+	gchar *uri;
+	gchar *base_uri;
 	union {
 		struct {
 			/* for imap */
-			char *namespace;
-			char *namespace_full;
+			gchar *namespace;
+			gchar *namespace_full;
 			guint32 capabilities;
 			GHashTable *folders;
-			char dir_sep;
+			gchar dir_sep;
 		} imap;
 	} u;
 };
 
 struct _imap_folder_info_1_0 {
-	char *folder;
+	gchar *folder;
 	/* encoded?  decoded?  canonicalised? */
-	char dir_sep;
+	gchar dir_sep;
 };
 
 static GHashTable *accounts_1_0 = NULL;
@@ -250,10 +250,10 @@ account_info_1_0_free (struct _account_info_1_0 *ai)
 	g_free(ai);
 }
 
-static char *
-get_base_uri(const char *val)
+static gchar *
+get_base_uri(const gchar *val)
 {
-	const char *tmp;
+	const gchar *tmp;
 
 	tmp = strchr(val, ':');
 	if (tmp) {
@@ -269,14 +269,14 @@ get_base_uri(const char *val)
 		return g_strdup(val);
 }
 
-static char *
-upgrade_xml_uris_1_0 (const char *uri)
+static gchar *
+upgrade_xml_uris_1_0 (const gchar *uri)
 {
-	char *out = NULL;
+	gchar *out = NULL;
 
 	/* upgrades camel uri's */
 	if (strncmp (uri, "imap:", 5) == 0) {
-		char *base_uri, dir_sep, *folder, *p;
+		gchar *base_uri, dir_sep, *folder, *p;
 		struct _account_info_1_0 *ai;
 
 		/* add namespace, canonicalise dir_sep to / */
@@ -314,7 +314,7 @@ upgrade_xml_uris_1_0 (const char *uri)
 		folder = g_strdup (uri + strlen (base_uri) + 1);
 
 		/* Add the namespace before the mailbox name, unless the mailbox is INBOX */
-		if (ai->u.imap.namespace && strcmp ((char *)folder, "INBOX") != 0)
+		if (ai->u.imap.namespace && strcmp ((gchar *)folder, "INBOX") != 0)
 			out = g_strdup_printf ("%s/%s/%s", base_uri, ai->u.imap.namespace, folder);
 		else
 			out = g_strdup_printf ("%s/%s", base_uri, folder);
@@ -329,7 +329,7 @@ upgrade_xml_uris_1_0 (const char *uri)
 		g_free (folder);
 		g_free (base_uri);
 	} else if (strncmp (uri, "exchange:", 9) == 0) {
-		char *base_uri, *folder, *p;
+		gchar *base_uri, *folder, *p;
 
 		/*  exchange://user@host/exchange/ * -> exchange://user@host/personal/ * */
 		/*  Any url encoding (%xx) in the folder name is also removed */
@@ -349,10 +349,10 @@ upgrade_xml_uris_1_0 (const char *uri)
 	return out;
 }
 
-static char *
-parse_lsub (const char *lsub, char *dir_sep)
+static gchar *
+parse_lsub (const gchar *lsub, gchar *dir_sep)
 {
-	static int comp;
+	static gint comp;
 	static regex_t pat;
 	regmatch_t match[3];
 	const gchar *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
@@ -381,7 +381,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 {
 	FILE *storeinfo;
 	guint32 tmp;
-	char *buf, *folder, dir_sep, *path, *name, *p;
+	gchar *buf, *folder, dir_sep, *path, *name, *p;
 	struct _imap_folder_info_1_0 *fi;
 
 	si->u.imap.folders = g_hash_table_new_full (
@@ -394,7 +394,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 	if (name) {
 		name = strstr (si->uri, ";namespace=");
 		if (name) {
-			char *end;
+			gchar *end;
 
 			name += strlen (";namespace=");
 			if (*name == '\"') {
@@ -476,9 +476,9 @@ static gboolean
 load_accounts_1_0 (xmlDocPtr doc)
 {
 	xmlNodePtr source;
-	char *val, *tmp;
-	int count = 0, i;
-	char key[32];
+	gchar *val, *tmp;
+	gint count = 0, i;
+	gchar key[32];
 
 	if (!(source = e_bconf_get_path (doc, "/Mail/Accounts")))
 		return TRUE;
@@ -491,7 +491,7 @@ load_accounts_1_0 (xmlDocPtr doc)
 	/* load account upgrade info for each account */
 	for (i = 0; i < count; i++) {
 		struct _account_info_1_0 *ai;
-		char *rawuri;
+		gchar *rawuri;
 
 		sprintf (key, "source_url_%d", i);
 		if (!(rawuri = e_bconf_get_value (source, key)))
@@ -515,11 +515,11 @@ load_accounts_1_0 (xmlDocPtr doc)
 			   - this will be picked up later in the conversion */
 			sprintf (key, "transport_url_%d", i);
 			node = e_bconf_get_entry (source, key);
-			if (node && (val = (char *)xmlGetProp (node, (const unsigned char *)"value"))) {
+			if (node && (val = (gchar *)xmlGetProp (node, (const guchar *)"value"))) {
 				tmp = e_bconf_hex_decode (val);
 				xmlFree (val);
 				if (strncmp (tmp, "exchanget:", 10) == 0)
-					xmlSetProp (node, (const unsigned char *)"value", (unsigned char *)rawuri);
+					xmlSetProp (node, (const guchar *)"value", (guchar *)rawuri);
 				g_free (tmp);
 			} else {
 				d(printf (" couldn't find transport uri?\n"));
@@ -536,7 +536,7 @@ load_accounts_1_0 (xmlDocPtr doc)
 }
 
 static gboolean
-em_migrate_1_0 (const char *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
+em_migrate_1_0 (const gchar *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	accounts_1_0 = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -556,13 +556,13 @@ em_migrate_1_0 (const char *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters,
 
 /* 1.2 upgrade functions */
 static gboolean
-is_xml1encoded (const char *txt)
+is_xml1encoded (const gchar *txt)
 {
-	const unsigned char *p;
-	int isxml1 = FALSE;
-	int is8bit = FALSE;
+	const guchar *p;
+	gint isxml1 = FALSE;
+	gint is8bit = FALSE;
 
-	p = (const unsigned char *)txt;
+	p = (const guchar *)txt;
 	while (*p) {
 		if (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
 		    && isxdigit (p[3]) && isxdigit (p[4]) && isxdigit (p[5]) && isxdigit (p[6])
@@ -581,24 +581,24 @@ is_xml1encoded (const char *txt)
 	return isxml1;
 }
 
-static char *
-decode_xml1 (const char *txt)
+static gchar *
+decode_xml1 (const gchar *txt)
 {
 	GString *out = g_string_new ("");
-	const unsigned char *p;
-	char *res;
+	const guchar *p;
+	gchar *res;
 
 	/* convert:
 	   \U+XXXX\ -> utf8
 	   8 bit characters -> utf8 (iso-8859-1) */
 
-	p = (const unsigned char *) txt;
+	p = (const guchar *) txt;
 	while (*p) {
 		if (p[0] > 0x80
 		    || (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
 			&& isxdigit (p[3]) && isxdigit (p[4]) && isxdigit (p[5]) && isxdigit (p[6])
 			&& p[7] == '\\')) {
-			char utf8[8];
+			gchar utf8[8];
 			gunichar u;
 
 			if (p[0] == '\\') {
@@ -622,12 +622,12 @@ decode_xml1 (const char *txt)
 	return res;
 }
 
-static char *
-utf8_reencode (const char *txt)
+static gchar *
+utf8_reencode (const gchar *txt)
 {
 	GString *out = g_string_new ("");
 	gchar *p;
-	char *res;
+	gchar *res;
 
 	/* convert:
         libxml1  8 bit utf8 converted to xml entities byte-by-byte chars -> utf8 */
@@ -652,13 +652,13 @@ utf8_reencode (const char *txt)
 static gboolean
 upgrade_xml_1_2_rec (xmlNodePtr node)
 {
-	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
-	const char *rule_tags[] = { "title", NULL };
-	const char *item_props[] = { "name", NULL };
+	const gchar *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
+	const gchar *rule_tags[] = { "title", NULL };
+	const gchar *item_props[] = { "name", NULL };
 	struct {
-		const char *name;
-		const char **tags;
-		const char **props;
+		const gchar *name;
+		const gchar **tags;
+		const gchar **props;
 	} tags[] = {
 		{ "value", value_tags, NULL },
 		{ "rule", rule_tags, NULL },
@@ -666,24 +666,24 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 		{ 0 },
 	};
 	xmlNodePtr work;
-	int i,j;
-	char *txt, *tmp;
+	gint i,j;
+	gchar *txt, *tmp;
 
 	/* upgrades the content of a node, if the node has a specific parent/node name */
 
 	for (i = 0; tags[i].name; i++) {
-		if (!strcmp ((char *)node->name, tags[i].name)) {
+		if (!strcmp ((gchar *)node->name, tags[i].name)) {
 			if (tags[i].tags != NULL) {
 				work = node->children;
 				while (work) {
 					for (j = 0; tags[i].tags[j]; j++) {
-						if (!strcmp ((char *)work->name, tags[i].tags[j])) {
-							txt = (char *)xmlNodeGetContent (work);
+						if (!strcmp ((gchar *)work->name, tags[i].tags[j])) {
+							txt = (gchar *)xmlNodeGetContent (work);
 							if (is_xml1encoded (txt)) {
 								tmp = decode_xml1 (txt);
 								d(printf ("upgrading xml node %s/%s '%s' -> '%s'\n",
 									  tags[i].name, tags[i].tags[j], txt, tmp));
-								xmlNodeSetContent (work, (unsigned char *)tmp);
+								xmlNodeSetContent (work, (guchar *)tmp);
 								g_free (tmp);
 							}
 							xmlFree (txt);
@@ -696,11 +696,11 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 
 			if (tags[i].props != NULL) {
 				for (j = 0; tags[i].props[j]; j++) {
-					txt = (char *)xmlGetProp (node, (unsigned char *)tags[i].props[j]);
+					txt = (gchar *)xmlGetProp (node, (guchar *)tags[i].props[j]);
 					tmp = utf8_reencode (txt);
 					d(printf ("upgrading xml property %s on node %s '%s' -> '%s'\n",
 						  tags[i].props[j], tags[i].name, txt, tmp));
-					xmlSetProp (node, (const unsigned char *)tags[i].props[j], (unsigned char *)tmp);
+					xmlSetProp (node, (const guchar *)tags[i].props[j], (guchar *)tmp);
 					g_free (tmp);
 					xmlFree (txt);
 				}
@@ -963,10 +963,10 @@ static gboolean
 bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 {
 	xmlNodePtr source;
-	char labx[16], colx[16];
-	char *val, *lab, *col;
+	gchar labx[16], colx[16];
+	gchar *val, *lab, *col;
 	GSList *list, *l;
-	int i;
+	gint i;
 
 	e_bconf_import(gconf, config_xmldb, gconf_remap_list);
 
@@ -1014,7 +1014,7 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 }
 
 static gboolean
-em_migrate_1_2(const char *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
+em_migrate_1_2(const gchar *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	GConfClient *gconf;
 
@@ -1039,7 +1039,7 @@ typedef struct _EMMigrateSession {
 	CamelSession parent_object;
 
 	CamelStore *store;   /* new folder tree store */
-	char *srcdir;        /* old folder tree path */
+	gchar *srcdir;        /* old folder tree path */
 } EMMigrateSession;
 
 typedef struct _EMMigrateSessionClass {
@@ -1048,7 +1048,7 @@ typedef struct _EMMigrateSessionClass {
 } EMMigrateSessionClass;
 
 static CamelType em_migrate_session_get_type (void);
-static CamelSession *em_migrate_session_new (const char *path);
+static CamelSession *em_migrate_session_new (const gchar *path);
 
 static void
 class_init (EMMigrateSessionClass *klass)
@@ -1077,7 +1077,7 @@ em_migrate_session_get_type (void)
 }
 
 static CamelSession *
-em_migrate_session_new (const char *path)
+em_migrate_session_new (const gchar *path)
 {
 	CamelSession *session;
 
@@ -1096,7 +1096,7 @@ static GtkLabel *label;
 static GtkProgressBar *progress;
 
 static void
-em_migrate_setup_progress_dialog (const char *title, const char *desc)
+em_migrate_setup_progress_dialog (const gchar *title, const gchar *desc)
 {
 	GtkWidget *vbox, *hbox, *w;
 	gchar *markup;
@@ -1171,9 +1171,9 @@ em_migrate_close_progress_dialog (void)
 }
 
 static void
-em_migrate_set_folder_name (const char *folder_name)
+em_migrate_set_folder_name (const gchar *folder_name)
 {
-	char *text;
+	gchar *text;
 
 	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
@@ -1187,7 +1187,7 @@ em_migrate_set_folder_name (const char *folder_name)
 static void
 em_migrate_set_progress (double percent)
 {
-	char text[5];
+	gchar text[5];
 
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
 
@@ -1201,11 +1201,11 @@ em_migrate_set_progress (double percent)
 #ifndef G_OS_WIN32
 
 static gboolean
-is_mail_folder (const char *metadata)
+is_mail_folder (const gchar *metadata)
 {
 	xmlNodePtr node;
 	xmlDocPtr doc;
-	char *type;
+	gchar *type;
 
 	if (!(doc = xmlParseFile (metadata))) {
 		g_warning ("Cannot parse `%s'", metadata);
@@ -1218,7 +1218,7 @@ is_mail_folder (const char *metadata)
 		return FALSE;
 	}
 
-	if (!node->name || strcmp ((char *)node->name, "efolder") != 0) {
+	if (!node->name || strcmp ((gchar *)node->name, "efolder") != 0) {
 		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
@@ -1226,9 +1226,9 @@ is_mail_folder (const char *metadata)
 
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp ((char *)node->name, "type")) {
-			type = (char *)xmlNodeGetContent (node);
-			if (!strcmp ((char *)type, "mail")) {
+		if (node->name && !strcmp ((gchar *)node->name, "type")) {
+			type = (gchar *)xmlNodeGetContent (node);
+			if (!strcmp ((gchar *)type, "mail")) {
 				xmlFreeDoc (doc);
 				xmlFree (type);
 
@@ -1249,13 +1249,13 @@ is_mail_folder (const char *metadata)
 }
 
 static gboolean
-get_local_et_expanded (const char *dirname)
+get_local_et_expanded (const gchar *dirname)
 {
 	xmlNodePtr node;
 	xmlDocPtr doc;
 	struct stat st;
-	char *buf, *p;
-	int thread_list;
+	gchar *buf, *p;
+	gint thread_list;
 
 	buf = g_strdup_printf ("%s/evolution/config/file:%s", g_get_home_dir (), dirname);
 	p = buf + strlen (g_get_home_dir ()) + strlen ("/evolution/config/file:");
@@ -1273,12 +1273,12 @@ get_local_et_expanded (const char *dirname)
 
 	g_free (buf);
 
-	if (!(node = xmlDocGetRootElement (doc)) || strcmp ((char *)node->name, "expanded_state") != 0) {
+	if (!(node = xmlDocGetRootElement (doc)) || strcmp ((gchar *)node->name, "expanded_state") != 0) {
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
 
-	if (!(buf = (char *)xmlGetProp (node, (const unsigned char *)"default"))) {
+	if (!(buf = (gchar *)xmlGetProp (node, (const guchar *)"default"))) {
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
@@ -1291,11 +1291,11 @@ get_local_et_expanded (const char *dirname)
 	return thread_list;
 }
 
-static char *
-get_local_store_uri (const char *dirname, char **namep, int *indexp)
+static gchar *
+get_local_store_uri (const gchar *dirname, gchar **namep, gint *indexp)
 {
 	gchar *name, *protocol, *metadata, *tmp;
-	int index;
+	gint index;
 	struct stat st;
 	xmlNodePtr node;
 	xmlDocPtr doc;
@@ -1317,24 +1317,24 @@ get_local_store_uri (const char *dirname, char **namep, int *indexp)
 		goto nofile;
 
 	node = doc->children;
-	if (strcmp((char *)node->name, "folderinfo"))
+	if (strcmp((gchar *)node->name, "folderinfo"))
 		goto dodefault;
 
 	for (node = node->children; node; node = node->next) {
-		if (node->name && !strcmp ((char *)node->name, "folder")) {
-			tmp = (char *)xmlGetProp (node, (const unsigned char *)"type");
+		if (node->name && !strcmp ((gchar *)node->name, "folder")) {
+			tmp = (gchar *)xmlGetProp (node, (const guchar *)"type");
 			if (tmp) {
 				protocol = alloca(strlen(tmp)+1);
 				strcpy(protocol, tmp);
 				xmlFree(tmp);
 			}
-			tmp = (char *)xmlGetProp (node, (const unsigned char *)"name");
+			tmp = (gchar *)xmlGetProp (node, (const guchar *)"name");
 			if (tmp) {
 				name = alloca(strlen(tmp)+1);
 				strcpy(name, tmp);
 				xmlFree(tmp);
 			}
-			tmp = (char *)xmlGetProp (node, (const unsigned char *)"index");
+			tmp = (gchar *)xmlGetProp (node, (const guchar *)"index");
 			if (tmp) {
 				index = atoi(tmp);
 				xmlFree(tmp);
@@ -1360,18 +1360,18 @@ enum {
 	CP_APPEND
 };
 
-static int open_flags[3] = {
+static gint open_flags[3] = {
 	O_WRONLY | O_CREAT | O_TRUNC,
 	O_WRONLY | O_CREAT | O_TRUNC,
 	O_WRONLY | O_CREAT | O_APPEND,
 };
 
 static gboolean
-cp (const char *src, const char *dest, gboolean show_progress, int mode)
+cp (const gchar *src, const gchar *dest, gboolean show_progress, gint mode)
 {
-	unsigned char readbuf[65536];
+	guchar readbuf[65536];
 	ssize_t nread, nwritten;
-	int errnosav, readfd, writefd;
+	gint errnosav, readfd, writefd;
 	size_t total = 0;
 	struct stat st;
 	struct utimbuf ut;
@@ -1449,7 +1449,7 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 #ifndef G_OS_WIN32
 
 static gboolean
-cp_r (const char *src, const char *dest, const char *pattern, int mode)
+cp_r (const gchar *src, const gchar *dest, const gchar *pattern, gint mode)
 {
 	GString *srcpath, *destpath;
 	struct dirent *dent;
@@ -1500,10 +1500,10 @@ cp_r (const char *src, const char *dest, const char *pattern, int mode)
 }
 
 static void
-mbox_build_filename (GString *path, const char *toplevel_dir, const char *full_name)
+mbox_build_filename (GString *path, const gchar *toplevel_dir, const gchar *full_name)
 {
-	const char *start, *inptr = full_name;
-	int subdirs = 0;
+	const gchar *start, *inptr = full_name;
+	gint subdirs = 0;
 
 	while (*inptr != '\0') {
 		if (*inptr == '/')
@@ -1534,16 +1534,16 @@ mbox_build_filename (GString *path, const char *toplevel_dir, const char *full_n
 }
 
 static gboolean
-em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *full_name, GError **error)
+em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *full_name, GError **error)
 {
 	CamelFolder *old_folder = NULL, *new_folder = NULL;
 	CamelStore *local_store = NULL;
 	CamelException ex;
-	char *name, *uri;
+	gchar *name, *uri;
 	GPtrArray *uids;
 	struct stat st;
 	gboolean thread_list;
-	int index, i;
+	gint index, i;
 	GString *src, *dest;
 	gboolean success = FALSE;
 
@@ -1570,8 +1570,8 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		static const gchar *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
 		size_t slen, dlen;
 		FILE *fp;
-		char *p;
-		int mode;
+		gchar *p;
+		gint mode;
 
 		g_string_printf (src, "%s/%s", uri + 5, name);
 		mbox_build_filename (dest, ((CamelService *)session->store)->url->path, full_name);
@@ -1595,7 +1595,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 	retry_copy:
 		if (!cp (src->str, dest->str, TRUE, mode)) {
 			if (errno == EEXIST) {
-				int save = errno;
+				gint save = errno;
 
 				switch (e_error_run(NULL, "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
 				case GTK_RESPONSE_ACCEPT:
@@ -1623,7 +1623,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		g_string_truncate (dest, dlen);
 		g_string_append (dest, ".cmeta");
 		if ((fp = fopen (dest->str, "w")) != NULL) {
-			int fd = fileno (fp);
+			gint fd = fileno (fp);
 
 			/* write the magic string */
 			if (fwrite ("CLMD", 4, 1, fp) != 1)
@@ -1747,9 +1747,9 @@ fatal:
 }
 
 static gboolean
-em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full_name, GError **error)
+em_migrate_dir (EMMigrateSession *session, const gchar *dirname, const gchar *full_name, GError **error)
 {
-	char *path;
+	gchar *path;
 	DIR *dir;
 	struct stat st;
 	struct dirent *dent;
@@ -1771,8 +1771,8 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	}
 
 	while (success && (dent = readdir (dir))) {
-		char *full_path;
-		char *name;
+		gchar *full_path;
+		gchar *name;
 
 		if (dent->d_name[0] == '.')
 			continue;
@@ -1820,7 +1820,7 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, GError **error)
 		  "patient while Evolution migrates your folders..."));
 
 	while (success && (dent = readdir (dir))) {
-		char *full_path;
+		gchar *full_path;
 
 		if (dent->d_name[0] == '.')
 			continue;
@@ -1842,10 +1842,10 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, GError **error)
 	return success;
 }
 
-static char *
-upgrade_xml_uris_1_4 (const char *uri)
+static gchar *
+upgrade_xml_uris_1_4 (const gchar *uri)
 {
-	char *path, *prefix, *p;
+	gchar *path, *prefix, *p;
 	CamelURL *url;
 
 	if (!strncmp (uri, "file:", 5)) {
@@ -1894,7 +1894,7 @@ upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
 		return;
 
-	if (!root->name || strcmp ((char *)root->name, "filteroptions") != 0) {
+	if (!root->name || strcmp ((gchar *)root->name, "filteroptions") != 0) {
 		/* root node is not <filteroptions>, nothing to upgrade */
 		return;
 	}
@@ -1906,19 +1906,19 @@ upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp ((char *)node->name, "rule")) {
+		if (node->name && !strcmp ((gchar *)node->name, "rule")) {
 			xmlNodePtr sources;
-			char *src;
+			gchar *src;
 
-			if (!(src = (char *)xmlGetProp (node, (const unsigned char *)"source")))
-				src = (char *)xmlStrdup ((const unsigned char *)"local");  /* default to all local folders? */
+			if (!(src = (gchar *)xmlGetProp (node, (const guchar *)"source")))
+				src = (gchar *)xmlStrdup ((const guchar *)"local");  /* default to all local folders? */
 
-			xmlSetProp (node, (const unsigned char *)"source", (const unsigned char *)"incoming");
+			xmlSetProp (node, (const guchar *)"source", (const guchar *)"incoming");
 
 			if (!(sources = xml_find_node (node, "sources")))
-				sources = xmlNewChild (node, NULL, (const unsigned char *)"sources", NULL);
+				sources = xmlNewChild (node, NULL, (const guchar *)"sources", NULL);
 
-			xmlSetProp (sources, (const unsigned char *)"with", (unsigned char *)src);
+			xmlSetProp (sources, (const guchar *)"with", (guchar *)src);
 			xmlFree (src);
 		}
 
@@ -1926,14 +1926,14 @@ upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 	}
 }
 
-static char *
-get_nth_sig (int id)
+static gchar *
+get_nth_sig (gint id)
 {
 	ESignatureList *list;
 	ESignature *sig;
 	EIterator *iter;
-	char *uid = NULL;
-	int i = 0;
+	gchar *uid = NULL;
+	gint i = 0;
 
 	list = e_get_signature_list ();
 	iter = e_list_get_iterator ((EList *) list);
@@ -1965,7 +1965,7 @@ em_upgrade_accounts_1_4 (void)
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
-		char *url;
+		gchar *url;
 
 		if (account->drafts_folder_uri) {
 			url = upgrade_xml_uris_1_4 (account->drafts_folder_uri);
@@ -1980,7 +1980,7 @@ em_upgrade_accounts_1_4 (void)
 		}
 
 		if (account->id->sig_uid && !strncmp (account->id->sig_uid, "::", 2)) {
-			int sig_id;
+			gint sig_id;
 
 			sig_id = strtol (account->id->sig_uid + 2, NULL, 10);
 			g_free (account->id->sig_uid);
@@ -1996,12 +1996,12 @@ em_upgrade_accounts_1_4 (void)
 }
 
 static gboolean
-em_migrate_pop_uid_caches_1_4 (const char *data_dir, GError **error)
+em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
 	size_t olen, nlen;
-	char *cache_dir;
+	gchar *cache_dir;
 	DIR *dir;
 	gboolean success = TRUE;
 
@@ -2083,9 +2083,9 @@ em_migrate_pop_uid_caches_1_4 (const char *data_dir, GError **error)
 }
 
 static gboolean
-em_migrate_imap_caches_1_4 (const char *data_dir, GError **error)
+em_migrate_imap_caches_1_4 (const gchar *data_dir, GError **error)
 {
-	char *src, *dest;
+	gchar *src, *dest;
 	struct stat st;
 
 	src = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", NULL);
@@ -2106,11 +2106,11 @@ em_migrate_imap_caches_1_4 (const char *data_dir, GError **error)
 }
 
 static gboolean
-em_migrate_folder_expand_state_1_4 (const char *data_dir, GError **error)
+em_migrate_folder_expand_state_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
 	size_t slen, dlen, rlen;
-	char *evo14_mbox_root;
+	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
 	DIR *dir;
@@ -2143,8 +2143,8 @@ em_migrate_folder_expand_state_1_4 (const char *data_dir, GError **error)
 	evo14_mbox_root[rlen] = '\0';
 
 	while ((dent = readdir (dir))) {
-		char *full_name, *inptr, *buf = NULL;
-		const char *filename;
+		gchar *full_name, *inptr, *buf = NULL;
+		const gchar *filename;
 		GString *new;
 
 		if (strncmp (dent->d_name, "et-expanded-", 12) != 0)
@@ -2204,11 +2204,11 @@ em_migrate_folder_expand_state_1_4 (const char *data_dir, GError **error)
 }
 
 static gboolean
-em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
+em_migrate_folder_view_settings_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
 	size_t slen, dlen, rlen;
-	char *evo14_mbox_root;
+	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
 	DIR *dir;
@@ -2241,8 +2241,8 @@ em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
 	evo14_mbox_root[rlen] = '\0';
 
 	while ((dent = readdir (dir))) {
-		char *full_name, *inptr, *buf = NULL;
-		const char *filename, *ext;
+		gchar *full_name, *inptr, *buf = NULL;
+		const gchar *filename, *ext;
 		size_t prelen = 0;
 		GString *new;
 
@@ -2252,7 +2252,7 @@ em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
 		if (!(ext = strrchr (dent->d_name, '.')))
 			continue;
 
-		if (!strcmp (ext, ".galview") || !strcmp ((char *)dent->d_name, "galview.xml")) {
+		if (!strcmp (ext, ".galview") || !strcmp ((gchar *)dent->d_name, "galview.xml")) {
 			/* just copy the file */
 			filename = dent->d_name;
 			goto copy;
@@ -2260,9 +2260,9 @@ em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
 			continue;
 		}
 
-		if (!strncmp ((const char *)dent->d_name, "current_view-", 13)) {
+		if (!strncmp ((const gchar *)dent->d_name, "current_view-", 13)) {
 			prelen = 13;
-		} else if (!strncmp ((const char *)dent->d_name, "custom_view-", 12)) {
+		} else if (!strncmp ((const gchar *)dent->d_name, "custom_view-", 12)) {
 			prelen = 12;
 		} else {
 			/* huh? wtf is this file? */
@@ -2328,14 +2328,14 @@ em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
 #define SUBFOLDER_DIR_NAME     "subfolders"
 #define SUBFOLDER_DIR_NAME_LEN 10
 
-static char *
-e_path_to_physical (const char *prefix, const char *vpath)
+static gchar *
+e_path_to_physical (const gchar *prefix, const gchar *vpath)
 {
-	const char *p, *newp;
-	char *dp;
-	char *ppath;
-	int ppath_len;
-	int prefix_len;
+	const gchar *p, *newp;
+	gchar *dp;
+	gchar *ppath;
+	gint ppath_len;
+	gint prefix_len;
 
 	while (*vpath == '/')
 		vpath++;
@@ -2404,7 +2404,7 @@ e_path_to_physical (const char *prefix, const char *vpath)
 }
 
 static gboolean
-em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
+em_migrate_imap_cmeta_1_4(const gchar *data_dir, GError **error)
 {
 	GConfClient *gconf;
 	GSList *paths, *p;
@@ -2417,7 +2417,7 @@ em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
 	gconf = gconf_client_get_default();
 	paths = gconf_client_get_list(gconf, "/apps/evolution/shell/offline/folder_paths", GCONF_VALUE_STRING, NULL);
 	for (p = paths;p;p = g_slist_next(p)) {
-		char *name, *path;
+		gchar *name, *path;
 
 		name = p->data;
 		if (*name)
@@ -2430,7 +2430,7 @@ em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
 				CamelURL *url = camel_url_new(account->source->url, NULL);
 
 				if (url) {
-					char *dir, *base;
+					gchar *dir, *base;
 
 					base = g_strdup_printf("%s/imap/%s@%s/folders",
 							       data_dir,
@@ -2439,7 +2439,7 @@ em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
 
 					dir = e_path_to_physical(base, path);
 					if (g_mkdir_with_parents(dir, 0777) == 0) {
-						char *cmeta;
+						gchar *cmeta;
 						FILE *fp;
 
 						cmeta = g_build_filename(dir, "cmeta", NULL);
@@ -2491,7 +2491,7 @@ remove_system_searches(xmlDocPtr searches)
 	 * searchtypes.xml file instead */
 
 	node = xmlDocGetRootElement(searches);
-	if (!node->name || strcmp((char *)node->name, "filteroptions"))
+	if (!node->name || strcmp((gchar *)node->name, "filteroptions"))
 		return;
 
 	if (!(node = xml_find_node(node, "ruleset")))
@@ -2501,11 +2501,11 @@ remove_system_searches(xmlDocPtr searches)
 	while (node != NULL) {
 		xmlNodePtr nnode = node->next;
 
-		if (node->name && !strcmp ((char *)node->name, "rule")) {
-			char *src;
+		if (node->name && !strcmp ((gchar *)node->name, "rule")) {
+			gchar *src;
 
-			src = (char *)xmlGetProp(node, (unsigned char *)"source");
-			if (src && !strcmp((char *)src, "demand")) {
+			src = (gchar *)xmlGetProp(node, (guchar *)"source");
+			if (src && !strcmp((gchar *)src, "demand")) {
 				xmlUnlinkNode(node);
 				xmlFreeNodeList(node);
 			}
@@ -2517,7 +2517,7 @@ remove_system_searches(xmlDocPtr searches)
 }
 
 static gboolean
-em_migrate_1_4 (const char *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
+em_migrate_1_4 (const gchar *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	EMMigrateSession *session;
 	CamelException lex;
@@ -2616,7 +2616,7 @@ em_update_accounts_2_11 (void)
 
 		if (g_str_has_prefix (account->source->url, "spool://")) {
 			if (g_file_test (account->source->url + 8, G_FILE_TEST_IS_DIR)) {
-				char *str = g_strdup_printf ("spooldir://%s", account->source->url + 8);
+				gchar *str = g_strdup_printf ("spooldir://%s", account->source->url + 8);
 
 				g_free (account->source->url);
 				account->source->url = str;
@@ -2639,8 +2639,8 @@ static gboolean
 emm_setup_initial(const gchar *data_dir)
 {
 	GDir *dir;
-	const char *d;
-	char *local = NULL, *base;
+	const gchar *d;
+	gchar *local = NULL, *base;
 	const gchar * const *language_names;
 
 	/* special-case - this means brand new install of evolution */
@@ -2672,7 +2672,7 @@ emm_setup_initial(const gchar *data_dir)
 	dir = g_dir_open(local, 0, NULL);
 	if (dir) {
 		while ((d = g_dir_read_name(dir))) {
-			char *src, *dest;
+			gchar *src, *dest;
 
 			src = g_build_filename(local, d, NULL);
 			dest = g_build_filename(base, d, NULL);
@@ -2785,7 +2785,7 @@ em_update_sa_junk_setting_2_23 (void)
 
 	key = gconf_client_get (client, "/apps/evolution/mail/junk/default_plugin", NULL);
 	if (key) {
-		const char *str = gconf_value_get_string (key);
+		const gchar *str = gconf_value_get_string (key);
 
 		if (str && strcmp (str, "Spamassasin") == 0)
 			gconf_client_set_string (client, "/apps/evolution/mail/junk/default_plugin", "SpamAssassin", NULL);
@@ -2807,13 +2807,13 @@ update_progress_in_main_thread (double *progress)
 }
 
 static void
-migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const char *acc, CamelException *ex, gboolean *done, int *nth_folder, int total_folders)
+migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const gchar *acc, CamelException *ex, gboolean *done, gint *nth_folder, gint total_folders)
 {
 	CamelFolder *folder;
 
 	while (fi) {
 		double progress;
-		char *tmp;
+		gchar *tmp;
 
 		*nth_folder = *nth_folder + 1;
 
@@ -2841,7 +2841,7 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 
 /* This could be in CamelStore.ch */
 static void
-count_folders (CamelFolderInfo *fi, int *count)
+count_folders (CamelFolderInfo *fi, gint *count)
 {
 	while (fi) {
 		*count = *count + 1;
@@ -2856,7 +2856,7 @@ setup_local_store (EShellBackend *shell_backend,
 {
 	CamelURL *url;
 	const gchar *data_dir;
-	char *tmp;
+	gchar *tmp;
 	CamelStore *store;
 
 	url = camel_url_new("mbox:", NULL);
@@ -2872,7 +2872,7 @@ setup_local_store (EShellBackend *shell_backend,
 }
 
 struct migrate_folders_to_db_structure {
-		char *account_name;
+		gchar *account_name;
 		CamelException ex;
 		CamelStore *store;
 		CamelFolderInfo *info;
@@ -2883,7 +2883,7 @@ struct migrate_folders_to_db_structure {
 static void
 migrate_folders_to_db_thread (struct migrate_folders_to_db_structure *migrate_dbs)
 {
-		int num_of_folders = 0, nth_folder = 0;
+		gint num_of_folders = 0, nth_folder = 0;
 		count_folders (migrate_dbs->info, &num_of_folders);
 		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info,
 						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done),
@@ -2896,7 +2896,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	EMMigrateSession *session;
 	EAccountList *accounts;
 	EIterator *iter;
-	int i=0, len;
+	gint i=0, len;
 	CamelStore *store = NULL;
 	CamelFolderInfo *info;
 	const gchar *data_dir;
@@ -2925,7 +2925,7 @@ migrate_to_db (EShellBackend *shell_backend)
 
 		if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
 			migrate_dbs.is_local_store = TRUE;
-		else 
+		else
 			migrate_dbs.is_local_store = FALSE;
 		camel_exception_init (&migrate_dbs.ex);
 		migrate_dbs.account_name = _("On This Computer");
@@ -2944,7 +2944,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
-		const char *name;
+		const gchar *name;
 
 
 		service = account->source;

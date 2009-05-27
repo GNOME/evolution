@@ -68,7 +68,7 @@ enum {
 	CLUE_N_COLUMNS
 };
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
@@ -77,7 +77,7 @@ GtkWidget* org_gnome_attachment_reminder_config_option (struct _EPlugin *epl, st
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
 static gboolean check_for_attachment_clues (gchar *msg);
 static gboolean check_for_attachment (EMsgComposer *composer);
-static gchar* strip_text_msg (gchar *msg);
+static gchar * strip_text_msg (gchar *msg);
 static void commit_changes (UIData *ui);
 
 static void  cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
@@ -85,8 +85,8 @@ static void  cell_edited_callback (GtkCellRendererText *cell, gchar *path_string
 static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
 					*path, GtkTreeIter *iter, UIData *ui);
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	return 0;
 }
@@ -193,7 +193,7 @@ check_for_attachment (EMsgComposer *composer)
 	return (e_attachment_store_get_num_attachments (store) > 0);
 }
 
-static gchar*
+static gchar *
 strip_text_msg (gchar *msg)
 {
 	gchar **lines = g_strsplit ( msg, "\n", -1);
@@ -233,7 +233,7 @@ commit_changes (UIData *ui)
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	while (valid) {
-		char *keyword;
+		gchar *keyword;
 
 		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 		/* Check if the keyword is not empty */
@@ -252,7 +252,7 @@ static void
 clue_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, UIData *ui)
 {
 	GtkTreeSelection *selection;
-	char *keyword = NULL;
+	gchar *keyword = NULL;
 	gboolean valid;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
@@ -285,7 +285,7 @@ clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 
 	valid = gtk_tree_model_get_iter_first (model, iter);
 	while (valid && gtk_list_store_iter_is_valid (ui->store, iter)) {
-		char *keyword = NULL;
+		gchar *keyword = NULL;
 		gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 		/* Check if the keyword is not empty and then emit the row-changed
 		signal (if we delete the row, then the iter gets corrupted) */
@@ -458,7 +458,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	UIData *ui = g_new0 (UIData, 1);
 
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
 			"attachment-reminder.glade",

@@ -78,7 +78,7 @@ type_as_function ## _factory_get_type (void)					\
 										\
   if (!t)									\
   {										\
-    char *name;									\
+    gchar *name;									\
     static const GTypeInfo tinfo =						\
     {										\
       sizeof (AtkObjectFactoryClass),				         	\

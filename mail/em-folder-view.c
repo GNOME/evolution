@@ -183,9 +183,9 @@ struct _EMFolderViewPrivate {
 	guint destroyed:1;
 
 	GtkWidget *invisible;
-	char *selection_uri;
+	gchar *selection_uri;
 
-	char *selected_uid;
+	gchar *selected_uid;
 };
 
 static GtkVBoxClass *emfv_parent;
@@ -221,7 +221,7 @@ emfv_init(GObject *o)
 //
 //	emfv->ui_app_name = "evolution-mail";
 
-	emfv->enable_map = g_slist_prepend(NULL, (void *)emfv_enable_map);
+	emfv->enable_map = g_slist_prepend(NULL, (gpointer)emfv_enable_map);
 
 //	emfv->list = (MessageList *)message_list_new();
 //	g_signal_connect(emfv->list, "message_selected", G_CALLBACK(emfv_list_message_selected), emfv);
@@ -306,7 +306,7 @@ emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint 
 	if (p->selection_uri == NULL)
 		return;
 
-	gtk_selection_data_set(data, data->target, 8, (unsigned char *)p->selection_uri, strlen(p->selection_uri));
+	gtk_selection_data_set(data, data->target, 8, (guchar *)p->selection_uri, strlen(p->selection_uri));
 }
 
 static void
@@ -332,13 +332,13 @@ emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolder
 /* a lot of stuff maps directly to the popup menu equivalent */
 #define EMFV_MAP_CALLBACK(from, to)				\
 static void							\
-from(BonoboUIComponent *uid, void *data, const char *path)	\
+from(BonoboUIComponent *uid, gpointer data, const gchar *path)	\
 {								\
 	to(NULL, NULL, data);					\
 }
 
 static void
-emfv_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
+emfv_edit_cut(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -349,7 +349,7 @@ emfv_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfv_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
+emfv_edit_copy(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -360,7 +360,7 @@ emfv_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfv_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
+emfv_edit_paste(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
 	EMFolderView *emfv = data;
 
@@ -368,7 +368,7 @@ emfv_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
+emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMFolderView *emfv = data;
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
@@ -397,7 +397,7 @@ emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
 
 
 static void
-emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, void *data)
+emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMFolderView *emfv = data;
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
@@ -443,7 +443,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 };
 
 static void
-emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
+emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint act)
 {
 
 	if (act) {
@@ -454,7 +454,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		emfv->uic = uic;
 
 		for (l = emfv->ui_files;l;l = l->next)
-			bonobo_ui_util_set_ui(uic, PREFIX, (char *)l->data, emfv->ui_app_name, NULL);
+			bonobo_ui_util_set_ui(uic, PREFIX, (gchar *)l->data, emfv->ui_app_name, NULL);
 
 		bonobo_ui_component_add_verb_list_with_data(uic, emfv_message_verbs, emfv);
 		/* must do plugin menu's after main ones because of bonobo bustedness */
@@ -502,7 +502,7 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 }
 
 EMPopupTargetSelect *
-em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display)
+em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, gint on_display)
 {
 	EMPopupTargetSelect *t;
 
@@ -560,7 +560,7 @@ em_folder_view_set_hide_deleted(EMFolderView *emfv, gboolean status)
 
 struct mst_t {
 	EMFolderView *emfv;
-	char *uid;
+	gchar *uid;
 };
 
 static void
@@ -586,7 +586,7 @@ do_mark_seen (gpointer user_data)
 }
 
 static void
-emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *ex)
+emfv_list_done_message_selected(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *ex)
 {
 	EMFolderView *emfv = data;
 	EMEvent *eme;
@@ -682,7 +682,7 @@ emfv_spin(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 }
 
 static gboolean
-emfv_message_selected_timeout(void *data)
+emfv_message_selected_timeout(gpointer data)
 {
 	EMFolderView *emfv = data;
 
@@ -745,7 +745,7 @@ emfv_popup_menu (GtkWidget *widget)
 }
 
 static void
-emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
+emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	EMFolderView *emfv = data;
 	struct _EMFolderViewPrivate *p = emfv->priv;
@@ -766,7 +766,7 @@ static EPopupItem emfv_uri_popups[] = {
 };
 
 static void
-emfv_uri_popup_free(EPopup *ep, GSList *list, void *data)
+emfv_uri_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
 	while (list) {
 		GSList *n = list->next;
@@ -803,7 +803,7 @@ emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu
 {
 	GtkWidget *separator;
 	GList *children, *p;
-	char *name;
+	gchar *name;
 
 	if (!src_menu)
 		return des_menu;
@@ -835,7 +835,7 @@ emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu
 }
 
 static int
-emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, CamelMimePart *part, EMFolderView *emfv)
+emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, CamelMimePart *part, EMFolderView *emfv)
 {
 	GtkMenu *menu = NULL;
 	EMPopup *main_emp = NULL;
@@ -843,7 +843,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	if (uri == NULL && part == NULL) {
 		/* So we don't try and popup with nothing selected - rather odd result! */
 		GPtrArray *uids = message_list_get_selected(emfv->list);
-		int doit = uids->len > 0;
+		gint doit = uids->len > 0;
 
 		message_list_free_uids(emfv->list, uids);
 		if (doit)
@@ -875,10 +875,10 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 
 	if (uri) {
 		gboolean have_more_uris = strchr (uri, '\n') != NULL;
-		const char *act, *next;
+		const gchar *act, *next;
 
 		for (act = uri; act; act = next) {
-			char *u;
+			gchar *u;
 			next = strchr (act, '\n');
 			if (next) {
 				u = g_strndup (act, next - act);
@@ -888,7 +888,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 
 			if (u && *u) {
 				GSList *menus = NULL;
-				int i;
+				gint i;
 				EMPopupTargetURI *t;
 				EMPopup *emp;
 				EPopupTarget *target;
@@ -913,7 +913,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 
 					if (strlen (u) > 100) {
 						GString *str;
-						char *c;
+						gchar *c;
 
 						/* the url should be in the form of http://a.b.c/... and we want to
 						   see where the image comes from, so skip first 10 characters and
@@ -968,7 +968,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 }
 
 static void
-emfv_set_seen(EMFolderView *emfv, const char *uid)
+emfv_set_seen(EMFolderView *emfv, const gchar *uid)
 {
 	guint32 old_flags = camel_folder_get_message_flags(emfv->folder, uid);
 
@@ -988,7 +988,7 @@ enum {
 };
 
 /* IF these get too long, update key field */
-static const char * const emfv_display_keys[] = {
+static const gchar * const emfv_display_keys[] = {
 	"charset",
 	"headers",
 	"show_deleted",
@@ -1000,7 +1000,7 @@ static void
 emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFolderView *emfv)
 {
 	GConfValue *value;
-	char *tkey;
+	gchar *tkey;
 
 	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
 
@@ -1023,7 +1023,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		p = header_config_list;
 		while (p) {
 			EMMailerPrefsHeader *h;
-			char *xml = (char *)p->data;
+			gchar *xml = (gchar *)p->data;
 
 			h = em_mailer_prefs_header_from_xml(xml);
 			if (h && h->enabled) {

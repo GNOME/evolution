@@ -33,7 +33,7 @@
 #include "gui/e-cal-model.h"
 #include "itip-utils.h"
 
-static void ecalm_standard_menu_factory(EMenu *emp, void *data);
+static void ecalm_standard_menu_factory(EMenu *emp, gpointer data);
 
 static GObjectClass *ecalm_parent;
 
@@ -55,7 +55,7 @@ ecalm_target_free(EMenu *ep, EMenuTarget *t)
 	switch (t->type) {
 	case E_CAL_MENU_TARGET_SELECT: {
 		ECalMenuTargetSelect *s = (ECalMenuTargetSelect *)t;
-		int i;
+		gint i;
 
 		for (i=0;i<s->events->len;i++)
 			e_cal_model_free_component_data(s->events->pdata[i]);
@@ -97,7 +97,7 @@ e_cal_menu_get_type(void)
 	return type;
 }
 
-ECalMenu *e_cal_menu_new(const char *menuid)
+ECalMenu *e_cal_menu_new(const gchar *menuid)
 {
 	ECalMenu *emp = g_object_new(e_cal_menu_get_type(), NULL);
 
@@ -194,7 +194,7 @@ e_cal_menu_target_new_select(ECalMenu *eabp, struct _ECalModel *model, GPtrArray
 }
 
 static void
-ecalm_standard_menu_factory(EMenu *emp, void *data)
+ecalm_standard_menu_factory(EMenu *emp, gpointer data)
 {
 	/* noop */
 }
@@ -227,7 +227,7 @@ ecalm_standard_menu_factory(EMenu *emp, void *data)
 
 */
 
-static void *ecalph_parent_class;
+static gpointer ecalph_parent_class;
 #define ecalph ((ECalMenuHook *)eph)
 
 static const EMenuHookTargetMask ecalph_select_masks[] = {
@@ -262,7 +262,7 @@ ecalph_finalise(GObject *o)
 static void
 ecalph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = ecalph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.bonobomenu:1.0";

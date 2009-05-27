@@ -432,7 +432,7 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
  */
 void
 comp_editor_page_display_validation_error (CompEditorPage *page,
-					   const char *msg,
+					   const gchar *msg,
 					   GtkWidget *field)
 {
 	GtkWidget *dialog;

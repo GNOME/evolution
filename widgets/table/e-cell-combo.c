@@ -78,15 +78,15 @@ static void e_cell_combo_dispose	(GObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
 					 GdkEvent	*event,
-					 int             row,
-					 int             view_col);
+					 gint             row,
+					 gint             view_col);
 static void e_cell_combo_select_matching_item	(ECellCombo	*ecc);
 static void e_cell_combo_show_popup	(ECellCombo	*ecc,
-					 int             row,
-					 int             view_col);
+					 gint             row,
+					 gint             view_col);
 static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
-					 int             row,
-					 int             view_col,
+					 gint             row,
+					 gint             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -100,7 +100,7 @@ static gint e_cell_combo_button_press	(GtkWidget	*popup_window,
 static gint e_cell_combo_button_release	(GtkWidget	*popup_window,
 					 GdkEventButton	*event,
 					 ECellCombo	*ecc);
-static int e_cell_combo_key_press	(GtkWidget	*popup_window,
+static gint e_cell_combo_key_press	(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellCombo	*ecc);
 
@@ -240,7 +240,7 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 
 	for (elem = strings; elem; elem = elem->next) {
 		GtkTreeIter iter;
-		char *utf8_text = elem->data;
+		gchar *utf8_text = elem->data;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, utf8_text, -1);
@@ -251,8 +251,8 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 static gint
 e_cell_combo_do_popup			(ECellPopup	*ecp,
 					 GdkEvent	*event,
-					 int             row,
-					 int             view_col)
+					 gint             row,
+					 gint             view_col)
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	guint32 time;
@@ -297,7 +297,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
 	gboolean found = FALSE;
-	char *cell_text;
+	gchar *cell_text;
 	gboolean valid;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -313,7 +313,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	for (valid = gtk_tree_model_get_iter_first (model, &iter);
 	     valid && !found;
 	     valid = gtk_tree_model_iter_next (model, &iter)) {
-		char *str = NULL;
+		gchar *str = NULL;
 
 		gtk_tree_model_get (model, &iter, 0, &str, -1);
 
@@ -336,7 +336,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 }
 
 static void
-e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
+e_cell_combo_show_popup			(ECellCombo	*ecc, gint row, gint view_col)
 {
 	gint x, y, width, height, old_width, old_height;
 
@@ -366,8 +366,8 @@ e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
 e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
-					 int             row,
-					 int             view_col,
+					 gint             row,
+					 gint             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,

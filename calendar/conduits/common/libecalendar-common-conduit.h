@@ -25,13 +25,13 @@
 #define PILOT_MAX_CATEGORIES 16
 
 
-int e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category);
-void e_pilot_local_category_to_remote(int * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
-void e_pilot_remote_category_to_local(int   pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
+gint e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *category);
+void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
+void e_pilot_remote_category_to_local(gint   pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
 
-gboolean e_pilot_setup_get_bool (const char *path, const char *key, gboolean def);
-void e_pilot_setup_set_bool (const char *path, const char *key, gboolean value);
-int e_pilot_setup_get_int (const char *path, const char *key, int def);
-void e_pilot_setup_set_int (const char *path, const char *key, int value);
-char *e_pilot_setup_get_string (const char *path, const char *key, const char *def);
-void e_pilot_setup_set_string (const char *path, const char *key, const char *value);
+gboolean e_pilot_setup_get_bool (const gchar *path, const gchar *key, gboolean def);
+void e_pilot_setup_set_bool (const gchar *path, const gchar *key, gboolean value);
+gint e_pilot_setup_get_int (const gchar *path, const gchar *key, gint def);
+void e_pilot_setup_set_int (const gchar *path, const gchar *key, gint value);
+gchar *e_pilot_setup_get_string (const gchar *path, const gchar *key, const gchar *def);
+void e_pilot_setup_set_string (const gchar *path, const gchar *key, const gchar *value);

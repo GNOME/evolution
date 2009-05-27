@@ -62,7 +62,7 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 	GPtrArray *folder_array;
 	GPtrArray *calendar_list;
 	EFolder *folder;
-	int i, prefix_len;
+	gint i, prefix_len;
 	gchar *type;
 	gchar *uri_prefix;
 	gchar *tmp, *ruri;
@@ -155,11 +155,11 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gchar *account_name;
         gchar *uri_text;
 	gchar *cal_name;
-	char *folder_size;
-	const char *rel_uri;
-	int row, i;
+	gchar *folder_size;
+	const gchar *rel_uri;
+	gint row, i;
 	gint offline_status;
-	char *offline_msg;
+	gchar *offline_msg;
 	GtkWidget *lbl_offline_msg;
 	gboolean is_personal;
 
@@ -225,7 +225,7 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_free (uri_text);
 
 	if (calendar_src_exists && is_personal) {
-		cal_name = (gchar*) e_source_peek_name (source);
+		cal_name = (gchar *) e_source_peek_name (source);
 		model = exchange_account_folder_size_get_model (account);
 		if (model)
 			folder_size = g_strdup_printf ("%s KB", exchange_folder_size_get_val (model, cal_name));
@@ -281,13 +281,13 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	if (calendar_src_exists) {
 		gchar *uri_prefix, *sruri, *tmpruri;
-		int prefix_len;
+		gint prefix_len;
 		GtkTreeSelection *selection;
 
 		uri_prefix = g_strconcat (account->account_filename, "/;", NULL);
 		prefix_len = strlen (uri_prefix);
 
-		tmpruri = (gchar*) rel_uri;
+		tmpruri = (gchar *) rel_uri;
 
 		if (g_str_has_prefix (tmpruri, uri_prefix)) {
 			sruri = g_strdup (tmpruri+prefix_len);
@@ -313,12 +313,12 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	/* FIXME - check pageid */
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESourceGroup *group;
-	const char *base_uri;
-	const char *rel_uri;
+	const gchar *base_uri;
+	const gchar *rel_uri;
 	gint offline_status;
 	ExchangeAccount *account;
 	EUri *euri;
-	int uri_len;
+	gint uri_len;
 	gchar *uri_text, *uri_string, *path, *folder_name;
 	gboolean is_personal;
 
@@ -381,7 +381,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	ESource *source = t->source;
 	gchar *uri_text, *gruri, *gname, *ruri, *ftype, *path, *path_prefix, *oldpath=NULL;
 	gchar *username, *windows_domain, *authtype;
-	int prefix_len;
+	gint prefix_len;
 	ExchangeAccount *account;
 	ExchangeAccountFolderResult result;
 	ExchangeConfigListenerStatus status;
@@ -429,13 +429,13 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 		ftype = g_strdup ("mail");
 	}
 
-	gname = (gchar*) e_source_peek_name (source);
-	gruri = (gchar*) e_source_peek_relative_uri (source);
+	gname = (gchar *) e_source_peek_name (source);
+	gruri = (gchar *) e_source_peek_relative_uri (source);
 
 	if (calendar_src_exists) {
 		gchar *tmpruri, *uri_string, *temp_path, *prefix;
 		EUri *euri;
-		int uri_len;
+		gint uri_len;
 
 		/* sample uri_string: exchange://user;auth=NTLM@host/ */
 		/* sample uri_text: exchange://user;auth=NTLM@host/;personal/Calendar */

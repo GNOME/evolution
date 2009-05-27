@@ -109,7 +109,7 @@ EProfileEvent *e_profile_event_peek(void)
 }
 
 EProfileEventTarget *
-e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, guint32 flags)
+e_profile_event_target_new(EProfileEvent *eme, const gchar *id, const gchar *uid, guint32 flags)
 {
 	EProfileEventTarget *t = e_event_target_new(&eme->popup, E_PROFILE_EVENT_TARGET, sizeof(*t));
 	GTimeVal tv;
@@ -126,7 +126,7 @@ e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, 
 
 #ifdef ENABLE_PROFILING
 void
-e_profile_event_emit(const char *id, const char *uid, guint32 flags)
+e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags)
 {
 	EProfileEvent *epe = e_profile_event_peek();
 	EProfileEventTarget *t = e_profile_event_target_new(epe, id, uid, flags);
@@ -137,14 +137,14 @@ e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 /* simply keep macro from header file expand to "nothing".
 #undef e_profile_event_emit
 static void
-e_profile_event_emit(const char *id, const char *uid, guint32 flags)
+e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags)
 {
 }*/
 #endif
 
 /* ********************************************************************** */
 
-static void *emeh_parent_class;
+static gpointer emeh_parent_class;
 #define emeh ((EProfileEventHook *)eph)
 
 static const EEventHookTargetMask emeh_profile_masks[] = {
@@ -170,7 +170,7 @@ emeh_finalise(GObject *o)
 static void
 emeh_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emeh_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.profile.events:1.0";

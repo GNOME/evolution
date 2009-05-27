@@ -50,11 +50,11 @@ struct _GtkWindow;
 #define E_ERROR_NO_LOAD_FILE "system:no-save-file"
 
 /* Note that all errors returned are standard GtkDialoge's */
-struct _GtkWidget *e_error_new(struct _GtkWindow *parent, const char *tag, const char *arg0, ...);
-struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const char *tag, const char *arg0, va_list ap);
+struct _GtkWidget *e_error_new(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
 
-int e_error_run(struct _GtkWindow *parent, const char *tag, const char *arg0, ...);
-int e_error_runv(struct _GtkWindow *parent, const char *tag, const char *arg0, va_list ap);
+gint e_error_run(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+gint e_error_runv(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
 
 guint e_error_count_buttons (GtkDialog *dialog);
 

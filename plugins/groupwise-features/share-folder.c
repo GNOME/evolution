@@ -37,7 +37,7 @@
 
 struct _SharedUser {
 	EShUsers *user_node;
-	int flag;
+	gint flag;
 };
 typedef struct _SharedUser SharedUser;
 
@@ -321,8 +321,8 @@ not_shared_clicked (GtkRadioButton *button, ShareFolder *sf)
 static void
 add_clicked(GtkButton *button, ShareFolder *sf)
 {
-	const char *email = NULL;
-	const char *self_email = NULL;
+	const gchar *email = NULL;
+	const gchar *self_email = NULL;
 	SharedUser *new_user = NULL;
 	EShUsers *usr = NULL;
 	gint rights = 0;
@@ -513,7 +513,7 @@ notification_clicked(GtkButton *button, ShareFolder *sf)
 	GtkButton *not_ok;
 	GtkButton *not_cancel;
 	GtkWidget *vbox;
-	char *gladefile;
+	gchar *gladefile;
 
 	sf->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_type_hint (GTK_WINDOW (sf->window), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -580,7 +580,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	gboolean right = FALSE;
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
-	char *email = NULL;
+	gchar *email = NULL;
 	GtkTreePath *path = NULL;
 
 	path = gtk_tree_path_new_from_string (arg1);
@@ -613,7 +613,7 @@ edit_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	gboolean right = FALSE;
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
-	char *email = NULL;
+	gchar *email = NULL;
 	GtkTreePath *path = NULL;
 
 	path = gtk_tree_path_new_from_string (arg1);
@@ -647,7 +647,7 @@ delete_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	gboolean right = FALSE;
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
-	char *email = NULL;
+	gchar *email = NULL;
 	GtkTreePath *path = NULL;
 
 	path = gtk_tree_path_new_from_string (arg1);
@@ -682,7 +682,7 @@ share_folder_construct (ShareFolder *sf)
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *box;
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "properties.glade",

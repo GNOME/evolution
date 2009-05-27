@@ -54,12 +54,12 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	uri = g_new0 (EPublishUri, 1);
 
 	root = doc->children;
-	location = xmlGetProp (root, (const unsigned char *)"location");
-	enabled = xmlGetProp (root, (const unsigned char *)"enabled");
-	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
-	username = xmlGetProp (root, (const unsigned char *)"username");
+	location = xmlGetProp (root, (const guchar *)"location");
+	enabled = xmlGetProp (root, (const guchar *)"enabled");
+	frequency = xmlGetProp (root, (const guchar *)"frequency");
+	username = xmlGetProp (root, (const guchar *)"username");
 
-	euri = e_uri_new ((const char *)location);
+	euri = e_uri_new ((const gchar *)location);
 
 	if (!euri) {
 		g_warning ("Could not form the uri for %s \n", location);
@@ -69,7 +69,7 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	if (euri->user)
 		g_free (euri->user);
 
-	euri->user = g_strdup ((const char *)username);
+	euri->user = g_strdup ((const gchar *)username);
 
 	temp = e_uri_to_string (euri, FALSE);
 	uri->location = g_strdup_printf ("dav://%s", strstr (temp, "//") + 2);
@@ -77,21 +77,21 @@ migrateURI (const gchar *xml, xmlDocPtr doc)
 	e_uri_free (euri);
 
 	if (enabled != NULL)
-		uri->enabled = atoi ((char *)enabled);
+		uri->enabled = atoi ((gchar *)enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi ((char *)frequency);
+		uri->publish_frequency = atoi ((gchar *)frequency);
 	uri->publish_format = URI_PUBLISH_AS_FB;
 
-	password = e_passwords_get_password ("Calendar", (char *)location);
+	password = e_passwords_get_password ("Calendar", (gchar *)location);
 	if (password) {
-		e_passwords_forget_password ("Calendar", (char *)location);
+		e_passwords_forget_password ("Calendar", (gchar *)location);
 		e_passwords_add_password (uri->location, password);
 		e_passwords_remember_password ("Calendar", uri->location);
 	}
 
 	for (p = root->children; p != NULL; p = p->next) {
-		xmlChar *uid = xmlGetProp (p, (const unsigned char *)"uid");
-		if (strcmp ((char *)p->name, "source") == 0) {
+		xmlChar *uid = xmlGetProp (p, (const guchar *)"uid");
+		if (strcmp ((gchar *)p->name, "source") == 0) {
 			events = g_slist_append (events, uid);
 		} else {
 			g_free (uid);
@@ -125,15 +125,15 @@ e_publish_uri_from_xml (const gchar *xml)
 	GSList *events = NULL;
 	EPublishUri *uri;
 
-	doc = xmlParseDoc ((const unsigned char *)xml);
+	doc = xmlParseDoc ((const guchar *)xml);
 	if (doc == NULL)
 		return NULL;
 
 	root = doc->children;
-	if (strcmp ((char *)root->name, "uri") != 0)
+	if (strcmp ((gchar *)root->name, "uri") != 0)
 		return NULL;
 
-	if ((username = xmlGetProp (root, (const unsigned char *)"username"))) {
+	if ((username = xmlGetProp (root, (const guchar *)"username"))) {
 		xmlFree (username);
 		return migrateURI (xml, doc);
 
@@ -141,27 +141,27 @@ e_publish_uri_from_xml (const gchar *xml)
 
 	uri = g_new0 (EPublishUri, 1);
 
-	location = xmlGetProp (root, (const unsigned char *)"location");
-	enabled = xmlGetProp (root, (const unsigned char *)"enabled");
-	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
-	format = xmlGetProp (root, (const unsigned char *)"format");
-	publish_time = xmlGetProp (root, (const unsigned char *)"publish_time");
+	location = xmlGetProp (root, (const guchar *)"location");
+	enabled = xmlGetProp (root, (const guchar *)"enabled");
+	frequency = xmlGetProp (root, (const guchar *)"frequency");
+	format = xmlGetProp (root, (const guchar *)"format");
+	publish_time = xmlGetProp (root, (const guchar *)"publish_time");
 	fb_duration_value = xmlGetProp (root, (xmlChar *)"fb_duration_value");
 	fb_duration_type = xmlGetProp (root, (xmlChar *)"fb_duration_type");
 
 	if (location != NULL)
-		uri->location = (char *)location;
+		uri->location = (gchar *)location;
 	if (enabled != NULL)
-		uri->enabled = atoi ((char *)enabled);
+		uri->enabled = atoi ((gchar *)enabled);
 	if (frequency != NULL)
-		uri->publish_frequency = atoi ((char *)frequency);
+		uri->publish_frequency = atoi ((gchar *)frequency);
 	if (format != NULL)
-		uri->publish_format = atoi ((char *)format);
+		uri->publish_format = atoi ((gchar *)format);
 	if (publish_time != NULL)
-		uri->last_pub_time = (char *)publish_time;
+		uri->last_pub_time = (gchar *)publish_time;
 
 	if (fb_duration_value)
-		uri->fb_duration_value = atoi ((char *)fb_duration_value);
+		uri->fb_duration_value = atoi ((gchar *)fb_duration_value);
 	else
 		uri->fb_duration_value = -1;
 
@@ -170,9 +170,9 @@ e_publish_uri_from_xml (const gchar *xml)
 	else if (uri->fb_duration_value > 100)
 		uri->fb_duration_value = 100;
 
-	if (fb_duration_type && g_str_equal ((char *)fb_duration_type, "days"))
+	if (fb_duration_type && g_str_equal ((gchar *)fb_duration_type, "days"))
 		uri->fb_duration_type = FB_DURATION_DAYS;
-	else if (fb_duration_type && g_str_equal ((char *)fb_duration_type, "months"))
+	else if (fb_duration_type && g_str_equal ((gchar *)fb_duration_type, "months"))
 		uri->fb_duration_type = FB_DURATION_MONTHS;
 	else
 		uri->fb_duration_type = FB_DURATION_WEEKS;
@@ -180,8 +180,8 @@ e_publish_uri_from_xml (const gchar *xml)
 	uri->password = g_strdup ("");
 
 	for (p = root->children; p != NULL; p = p->next) {
-		xmlChar *uid = xmlGetProp (p, (const unsigned char *)"uid");
-		if (strcmp ((char *)p->name, "event") == 0) {
+		xmlChar *uid = xmlGetProp (p, (const guchar *)"uid");
+		if (strcmp ((gchar *)p->name, "event") == 0) {
 			events = g_slist_append (events, uid);
 		} else {
 			g_free (uid);
@@ -207,23 +207,23 @@ e_publish_uri_to_xml (EPublishUri *uri)
 	gchar *enabled, *frequency, *format;
 	GSList *calendars = NULL;
 	xmlChar *xml_buffer;
-	char *returned_buffer;
-	int xml_buffer_size;
+	gchar *returned_buffer;
+	gint xml_buffer_size;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 	g_return_val_if_fail (uri->location != NULL, NULL);
 
-	doc = xmlNewDoc ((const unsigned char *)"1.0");
+	doc = xmlNewDoc ((const guchar *)"1.0");
 
-	root = xmlNewDocNode (doc, NULL, (const unsigned char *)"uri", NULL);
+	root = xmlNewDocNode (doc, NULL, (const guchar *)"uri", NULL);
 	enabled = g_strdup_printf ("%d", uri->enabled);
 	frequency = g_strdup_printf ("%d", uri->publish_frequency);
 	format = g_strdup_printf ("%d", uri->publish_format);
-	xmlSetProp (root, (const unsigned char *)"location", (unsigned char *)uri->location);
-	xmlSetProp (root, (const unsigned char *)"enabled", (unsigned char *)enabled);
-	xmlSetProp (root, (const unsigned char *)"frequency", (unsigned char *)frequency);
-	xmlSetProp (root, (const unsigned char *)"format", (unsigned char *)format);
-	xmlSetProp (root, (const unsigned char *)"publish_time", (unsigned char *)uri->last_pub_time);
+	xmlSetProp (root, (const guchar *)"location", (guchar *)uri->location);
+	xmlSetProp (root, (const guchar *)"enabled", (guchar *)enabled);
+	xmlSetProp (root, (const guchar *)"frequency", (guchar *)frequency);
+	xmlSetProp (root, (const guchar *)"format", (guchar *)format);
+	xmlSetProp (root, (const guchar *)"publish_time", (guchar *)uri->last_pub_time);
 
 	g_free (format);
 	format = g_strdup_printf ("%d", uri->fb_duration_value);
@@ -238,8 +238,8 @@ e_publish_uri_to_xml (EPublishUri *uri)
 
 	for (calendars = uri->events; calendars != NULL; calendars = g_slist_next (calendars)) {
 		xmlNodePtr node;
-		node = xmlNewChild (root, NULL, (const unsigned char *)"event", NULL);
-		xmlSetProp (node, (const unsigned char *)"uid", calendars->data);
+		node = xmlNewChild (root, NULL, (const guchar *)"event", NULL);
+		xmlSetProp (node, (const guchar *)"uid", calendars->data);
 	}
 	xmlDocSetRootElement (doc, root);
 

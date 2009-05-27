@@ -31,8 +31,8 @@ static void ea_cal_view_event_class_init (EaCalViewEventClass *klass);
 static void ea_cal_view_event_init (EaCalViewEvent *a11y);
 
 static void ea_cal_view_event_dispose (GObject *object);
-static G_CONST_RETURN gchar* ea_cal_view_event_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_cal_view_event_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_cal_view_event_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_cal_view_event_get_description (AtkObject *accessible);
 static AtkObject* ea_cal_view_event_get_parent (AtkObject *accessible);
 static gint ea_cal_view_event_get_index_in_parent (AtkObject *accessible);
 static AtkStateSet *ea_cal_view_event_ref_state_set (AtkObject *accessible);
@@ -46,7 +46,7 @@ static void ea_cal_view_get_extents (AtkComponent *component,
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean ea_cal_view_event_do_action (AtkAction *action, gint i);
 static gint ea_cal_view_event_get_n_actions (AtkAction *action);
-static G_CONST_RETURN gchar* ea_cal_view_event_action_get_name (AtkAction *action, gint i);
+static G_CONST_RETURN gchar * ea_cal_view_event_action_get_name (AtkAction *action, gint i);
 
 
 #ifdef ACC_DEBUG
@@ -240,7 +240,7 @@ ea_cal_view_event_dispose (GObject *object)
                 G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_cal_view_event_get_name (AtkObject *accessible)
 {
 	AtkGObjectAccessible *atk_gobj;
@@ -251,7 +251,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	const gchar *recur_string;
 	const gchar *meeting_string;
 	gchar *summary_string;
-        const char *summary;
+        const gchar *summary;
 
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
@@ -287,13 +287,13 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
 	printf("EvoAcc:  name for event accobj=%p, is %s\n",
-	       (void *)accessible, new_name);
+	       (gpointer)accessible, new_name);
 #endif
 	g_free (name_string);
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_cal_view_event_get_description (AtkObject *accessible)
 {
 	if (accessible->description)
@@ -526,7 +526,7 @@ ea_cal_view_get_extents (AtkComponent   *component,
 
 #define CAL_VIEW_EVENT_ACTION_NUM 1
 
-static const char * action_name [CAL_VIEW_EVENT_ACTION_NUM] = {
+static const gchar * action_name [CAL_VIEW_EVENT_ACTION_NUM] = {
         N_("Grab Focus")
 };
 
@@ -563,7 +563,7 @@ ea_cal_view_event_get_n_actions (AtkAction *action)
         return CAL_VIEW_EVENT_ACTION_NUM;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_cal_view_event_action_get_name (AtkAction *action, gint i)
 {
         if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)

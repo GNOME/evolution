@@ -90,19 +90,19 @@ struct _ECalModelPrivate {
 static void e_cal_model_dispose (GObject *object);
 static void e_cal_model_finalize (GObject *object);
 
-static int ecm_column_count (ETableModel *etm);
-static int ecm_row_count (ETableModel *etm);
-static void *ecm_value_at (ETableModel *etm, int col, int row);
-static void ecm_set_value_at (ETableModel *etm, int col, int row, const void *value);
-static gboolean ecm_is_cell_editable (ETableModel *etm, int col, int row);
-static void ecm_append_row (ETableModel *etm, ETableModel *source, int row);
-static void *ecm_duplicate_value (ETableModel *etm, int col, const void *value);
-static void ecm_free_value (ETableModel *etm, int col, void *value);
-static void *ecm_initialize_value (ETableModel *etm, int col);
-static gboolean ecm_value_is_empty (ETableModel *etm, int col, const void *value);
-static char *ecm_value_to_string (ETableModel *etm, int col, const void *value);
+static gint ecm_column_count (ETableModel *etm);
+static gint ecm_row_count (ETableModel *etm);
+static gpointer ecm_value_at (ETableModel *etm, gint col, gint row);
+static void ecm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value);
+static gboolean ecm_is_cell_editable (ETableModel *etm, gint col, gint row);
+static void ecm_append_row (ETableModel *etm, ETableModel *source, gint row);
+static gpointer ecm_duplicate_value (ETableModel *etm, gint col, gconstpointer value);
+static void ecm_free_value (ETableModel *etm, gint col, gpointer value);
+static gpointer ecm_initialize_value (ETableModel *etm, gint col);
+static gboolean ecm_value_is_empty (ETableModel *etm, gint col, gconstpointer value);
+static gchar *ecm_value_to_string (ETableModel *etm, gint col, gconstpointer value);
 
-static const char *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
+static const gchar *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
 static ECalModelClient *add_new_client (ECalModel *model, ECal *client, gboolean do_query);
 static ECalModelClient *find_client_data (ECalModel *model, ECal *client);
@@ -317,19 +317,19 @@ ecm_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
-static void *
+static gpointer
 get_categories (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
 	if (prop)
-		return (void *) icalproperty_get_categories (prop);
+		return (gpointer) icalproperty_get_categories (prop);
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
-static char *
+static gchar *
 get_classification (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -355,7 +355,7 @@ get_classification (ECalModelComponent *comp_data)
 	}
 }
 
-static const char *
+static const gchar *
 get_color (ECalModel *model, ECalModelComponent *comp_data)
 {
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
@@ -363,7 +363,7 @@ get_color (ECalModel *model, ECalModelComponent *comp_data)
 	return e_cal_model_get_color_for_component (model, comp_data);
 }
 
-static void *
+static gpointer
 get_description (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -384,7 +384,7 @@ get_description (ECalModelComponent *comp_data)
 		return str->str;
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static ECellDateEditValue*
@@ -472,26 +472,26 @@ get_datetime_from_utc (ECalModel *model, ECalModelComponent *comp_data, icalprop
 	return res;
 }
 
-static void *
+static gpointer
 get_summary (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
 	if (prop)
-		return (void *) icalproperty_get_summary (prop);
+		return (gpointer) icalproperty_get_summary (prop);
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
-static char *
+static gchar *
 get_uid (ECalModelComponent *comp_data)
 {
-	return (char *) icalcomponent_get_uid (comp_data->icalcomp);
+	return (gchar *) icalcomponent_get_uid (comp_data->icalcomp);
 }
 
-static void *
-ecm_value_at (ETableModel *etm, int col, int row)
+static gpointer
+ecm_value_at (ETableModel *etm, gint col, gint row)
 {
 	ECalModelPrivate *priv;
 	ECalModelComponent *comp_data;
@@ -514,17 +514,17 @@ ecm_value_at (ETableModel *etm, int col, int row)
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 		return get_classification (comp_data);
 	case E_CAL_MODEL_FIELD_COLOR :
-		return (void *) get_color (model, comp_data);
+		return (gpointer) get_color (model, comp_data);
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		return comp_data->icalcomp;
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 		return get_description (comp_data);
 	case E_CAL_MODEL_FIELD_DTSTART :
-		return (void *) get_dtstart (model, comp_data);
+		return (gpointer) get_dtstart (model, comp_data);
 	case E_CAL_MODEL_FIELD_CREATED :
-		return (void *) get_datetime_from_utc (model, comp_data, ICAL_CREATED_PROPERTY, icalproperty_get_created, &comp_data->created);
+		return (gpointer) get_datetime_from_utc (model, comp_data, ICAL_CREATED_PROPERTY, icalproperty_get_created, &comp_data->created);
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return (void *) get_datetime_from_utc (model, comp_data, ICAL_LASTMODIFIED_PROPERTY, icalproperty_get_lastmodified, &comp_data->lastmodified);
+		return (gpointer) get_datetime_from_utc (model, comp_data, ICAL_LASTMODIFIED_PROPERTY, icalproperty_get_lastmodified, &comp_data->lastmodified);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 		return GINT_TO_POINTER ((icalcomponent_get_first_component (comp_data->icalcomp,
 									    ICAL_VALARM_COMPONENT) != NULL));
@@ -552,7 +552,7 @@ ecm_value_at (ETableModel *etm, int col, int row)
 				e_cal_component_get_attendee_list (comp, &attendees);
 				for (sl = attendees; sl != NULL; sl = sl->next) {
 					ECalComponentAttendee *ca = sl->data;
-					const char *text;
+					const gchar *text;
 
 					text = itip_strip_mailto (ca->value);
 					if (e_account_list_find (priv->accounts, E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL) {
@@ -579,11 +579,11 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		return get_uid (comp_data);
 	}
 
-	return (void *) "";
+	return (gpointer) "";
 }
 
 static void
-set_categories (ECalModelComponent *comp_data, const char *value)
+set_categories (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
 
@@ -603,7 +603,7 @@ set_categories (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_classification (ECalModelComponent *comp_data, const char *value)
+set_classification (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
 
@@ -634,7 +634,7 @@ set_classification (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_description (ECalModelComponent *comp_data, const char *value)
+set_description (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
 
@@ -660,12 +660,12 @@ set_description (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-set_dtstart (ECalModel *model, ECalModelComponent *comp_data, const void *value)
+set_dtstart (ECalModel *model, ECalModelComponent *comp_data, gconstpointer value)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 	icalproperty *prop;
 	icalparameter *param;
-	const char *tzid;
+	const gchar *tzid;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
 	if (prop)
@@ -701,9 +701,9 @@ set_dtstart (ECalModel *model, ECalModelComponent *comp_data, const void *value)
 	/* If the TZID is set to "UTC", we don't want to save the TZID. */
 	if (tzid && strcmp (tzid, "UTC")) {
 		if (param) {
-			icalparameter_set_tzid (param, (char *) tzid);
+			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {
-			param = icalparameter_new_tzid ((char *) tzid);
+			param = icalparameter_new_tzid ((gchar *) tzid);
 			icalproperty_add_parameter (prop, param);
 		}
 	} else if (param) {
@@ -712,7 +712,7 @@ set_dtstart (ECalModel *model, ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-set_summary (ECalModelComponent *comp_data, const char *value)
+set_summary (ECalModelComponent *comp_data, const gchar *value)
 {
 	icalproperty *prop;
 
@@ -734,7 +734,7 @@ set_summary (ECalModelComponent *comp_data, const char *value)
 }
 
 static void
-ecm_set_value_at (ETableModel *etm, int col, int row, const void *value)
+ecm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {
 	ECalModelPrivate *priv;
 	ECalModelComponent *comp_data;
@@ -785,7 +785,7 @@ ecm_set_value_at (ETableModel *etm, int col, int row, const void *value)
  * @return Whether row is editable or not.
  **/
 gboolean
-e_cal_model_test_row_editable (ECalModel *model, int row)
+e_cal_model_test_row_editable (ECalModel *model, gint row)
 {
 	gboolean readonly;
 	ECal *cal = NULL;
@@ -812,7 +812,7 @@ e_cal_model_test_row_editable (ECalModel *model, int row)
 }
 
 static gboolean
-ecm_is_cell_editable (ETableModel *etm, int col, int row)
+ecm_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ECalModelPrivate *priv;
 	ECalModel *model = (ECalModel *) etm;
@@ -840,7 +840,7 @@ ecm_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 static void
-ecm_append_row (ETableModel *etm, ETableModel *source, int row)
+ecm_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ECalModelClass *model_class;
 	ECalModelComponent comp_data;
@@ -901,8 +901,8 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);
 }
 
-static void *
-ecm_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+ecm_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
 
@@ -915,7 +915,7 @@ ecm_duplicate_value (ETableModel *etm, int col, const void *value)
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
-		return (void *) value;
+		return (gpointer) value;
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		return icalcomponent_new_clone ((icalcomponent *) value);
 	case E_CAL_MODEL_FIELD_DTSTART :
@@ -937,7 +937,7 @@ ecm_duplicate_value (ETableModel *etm, int col, const void *value)
 }
 
 static void
-ecm_free_value (ETableModel *etm, int col, void *value)
+ecm_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST);
 
@@ -966,8 +966,8 @@ ecm_free_value (ETableModel *etm, int col, void *value)
 	}
 }
 
-static void *
-ecm_initialize_value (ETableModel *etm, int col)
+static gpointer
+ecm_initialize_value (ETableModel *etm, gint col)
 {
 	ECalModelPrivate *priv;
 	ECalModel *model = (ECalModel *) etm;
@@ -998,7 +998,7 @@ ecm_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-ecm_value_is_empty (ETableModel *etm, int col, const void *value)
+ecm_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ECalModelPrivate *priv;
 	ECalModel *model = (ECalModel *) etm;
@@ -1038,8 +1038,8 @@ ecm_value_is_empty (ETableModel *etm, int col, const void *value)
 	return TRUE;
 }
 
-static char *
-ecm_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+ecm_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, g_strdup (""));
 
@@ -1077,7 +1077,7 @@ typedef struct {
 	GList *uris;
 } AssignedColorData;
 
-static const char *
+static const gchar *
 ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
 	ESource *source;
@@ -1115,7 +1115,7 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		}
 
 		for (l = assigned_colors[i].uris; l != NULL; l = l->next) {
-			if (!strcmp ((const char *) l->data,
+			if (!strcmp ((const gchar *) l->data,
 				     e_cal_get_uri (comp_data->client)))
 			{
 				return assigned_colors[i].color;
@@ -1341,7 +1341,7 @@ e_cal_model_get_client_list (ECalModel *model)
  * @uri: Uri for the client to get.
  */
 ECal *
-e_cal_model_get_client_for_uri (ECalModel *model, const char *uri)
+e_cal_model_get_client_for_uri (ECalModel *model, const gchar *uri)
 {
 	GList *l;
 
@@ -1385,8 +1385,8 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 		ECalModelComponent *comp_data = g_ptr_array_index (priv->objects, i);
 
 		if (comp_data) {
-			const char *uid;
-			char *rid = NULL;
+			const gchar *uid;
+			gchar *rid = NULL;
 			struct icaltimetype icalrid;
 			gboolean has_rid = (id->rid && *id->rid);
 
@@ -1518,7 +1518,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		/* remove the components if they are already present and re-add them */
 		while ((comp_data = search_by_id_and_client (priv, client,
 							      id))) {
-			int pos;
+			gint pos;
 			GSList *list = NULL;
 
 			pos = get_position_in_array (priv->objects, comp_data);
@@ -1579,7 +1579,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 		if (!e_cal_util_component_is_instance (l->data) && e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES))
 			list = g_list_prepend (list, l->data);
 		else {
-			int pos;
+			gint pos;
 			ECalModelComponent *comp_data;
 			ECalComponentId *id;
 			ECalComponent *comp = e_cal_component_new ();
@@ -1660,7 +1660,7 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 	for (l = ids; l; l = l->next) {
 		ECalModelComponent *comp_data = NULL;
 		ECalComponentId *id = l->data;
-		int pos;
+		gint pos;
 
 		/* make sure we remove all objects with this UID */
 		while ((comp_data = search_by_id_and_client (priv, e_cal_view_get_client (query), id))) {
@@ -1687,7 +1687,7 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 }
 
 static void
-e_cal_view_progress_cb (ECalView *query, const char *message, int percent, gpointer user_data)
+e_cal_view_progress_cb (ECalView *query, const gchar *message, gint percent, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
 	ECal *client = e_cal_view_get_client (query);
@@ -1861,7 +1861,7 @@ e_cal_model_add_client (ECalModel *model, ECal *client)
 static void
 remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 {
-	int i;
+	gint i;
 
 	/* remove all objects belonging to this client */
 	for (i = model->priv->objects->len; i > 0; i--) {
@@ -1981,7 +1981,7 @@ redo_queries (ECalModel *model)
 	ECalModelPrivate *priv;
 	GList *l;
 	GSList *slist;
-	int len;
+	gint len;
 
 	priv = model->priv;
 
@@ -1989,7 +1989,7 @@ redo_queries (ECalModel *model)
 		g_free (priv->full_sexp);
 
 	if (priv->start != -1 && priv->end != -1) {
-		char *iso_start, *iso_end;
+		gchar *iso_start, *iso_end;
 
 		iso_start = isodate_from_time_t (priv->start);
 		iso_end = isodate_from_time_t (priv->end);
@@ -2068,7 +2068,7 @@ e_cal_model_set_time_range (ECalModel *model, time_t start, time_t end)
 	redo_queries (model);
 }
 
-const char *
+const gchar *
 e_cal_model_get_search_query (ECalModel *model)
 {
 	ECalModelPrivate *priv;
@@ -2085,7 +2085,7 @@ e_cal_model_get_search_query (ECalModel *model)
  * e_cal_model_set_query
  */
 void
-e_cal_model_set_search_query (ECalModel *model, const char *sexp)
+e_cal_model_set_search_query (ECalModel *model, const gchar *sexp)
 {
 	ECalModelPrivate *priv;
 
@@ -2108,7 +2108,7 @@ e_cal_model_set_search_query (ECalModel *model, const char *sexp)
  * e_cal_model_set_query
  */
 void
-e_cal_model_set_search_query_with_time_range (ECalModel *model, const char *sexp, time_t start, time_t end)
+e_cal_model_set_search_query_with_time_range (ECalModel *model, const gchar *sexp, time_t start, time_t end)
 {
 	ECalModelPrivate *priv;
 	gboolean do_query = FALSE;
@@ -2178,7 +2178,7 @@ e_cal_model_create_component_with_defaults (ECalModel *model)
 
 	/* make sure the component has an UID */
 	if (!icalcomponent_get_uid (icalcomp)) {
-		char *uid;
+		gchar *uid;
 
 		uid = e_cal_component_gen_uid ();
 		icalcomponent_set_uid (icalcomp, uid);
@@ -2268,14 +2268,14 @@ e_cal_model_get_component_for_uid  (ECalModel *model, const ECalComponentId *id)
 /**
  * e_cal_model_date_value_to_string
  */
-gchar*
-e_cal_model_date_value_to_string (ECalModel *model, const void *value)
+gchar *
+e_cal_model_date_value_to_string (ECalModel *model, gconstpointer value)
 {
 	ECalModelPrivate *priv;
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 	struct icaltimetype tt;
 	struct tm tmp_tm;
-	char buffer[64];
+	gchar buffer[64];
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), g_strdup (""));
 
@@ -2320,7 +2320,7 @@ copy_ecdv (ECellDateEditValue *ecdv)
 
 
 struct _ECalModelComponentPrivate {
-	char nouse;
+	gchar nouse;
 };
 
 static void e_cal_model_component_finalize (GObject *object);
@@ -2517,7 +2517,7 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezon
 			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
 
 			if (param) {
-				const char *tzid = NULL;
+				const gchar *tzid = NULL;
 				icaltimezone *st_zone = NULL;
 
 				tzid = icalparameter_get_tzid (param);
@@ -2541,7 +2541,7 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezon
 			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
 
 			if (param) {
-				const char *tzid = NULL;
+				const gchar *tzid = NULL;
 				icaltimezone *end_zone = NULL;
 
 				tzid = icalparameter_get_tzid (param);

@@ -43,14 +43,14 @@
 #include "share-folder.h"
 
 
-void org_gnome_track_status (void *ep, EMPopupTargetSelect *t);
+void org_gnome_track_status (gpointer ep, EMPopupTargetSelect *t);
 
-static char *
-format_date (const char * value)
+static gchar *
+format_date (const gchar * value)
 {
 	time_t time;
 	time_t actual_time;
-	char *str;
+	gchar *str;
 
 	time = e_gw_connection_get_date_from_string (value);
 	actual_time = camel_header_decode_date (ctime(&time), NULL);
@@ -61,12 +61,12 @@ format_date (const char * value)
 }
 
 static void
-track_status (EPopup *ep, EPopupItem *item, void *data)
+track_status (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EMPopupTargetSelect *t = (EMPopupTargetSelect *)data;
 	CamelMimeMessage *msg = NULL ;
 	const CamelInternetAddress *from ;
-	const char *namep, *addp ;
+	const gchar *namep, *addp ;
 
 	GtkDialog *d ;
 	GtkTable *table ;
@@ -75,11 +75,11 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	GtkVBox *vbox;
 
 	time_t time ;
-	char *time_str ;
+	gchar *time_str ;
 
 	gchar *boldmsg;
 
-	int row = 0;
+	gint row = 0;
 
 	EGwConnection *cnc;
 	EGwItem *gwitem;
@@ -242,17 +242,17 @@ static EPopupItem popup_items[] = {
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, void *data)
+popup_free (EPopup *ep, GSList *items, gpointer data)
 {
 	g_slist_free (items);
 }
 
-void org_gnome_track_status (void *ep, EMPopupTargetSelect *t)
+void org_gnome_track_status (gpointer ep, EMPopupTargetSelect *t)
 {
 	GSList *menus = NULL;
 
-	int i = 0;
-	static int first = 0;
+	gint i = 0;
+	static gint first = 0;
 
 	if (! g_strrstr (t->uri, "groupwise://") || g_ascii_strncasecmp ((t->folder)->full_name, "Sent Items", 10))
 		return;

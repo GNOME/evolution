@@ -47,9 +47,9 @@ struct _ESignature {
 	gboolean script;
 	gboolean html;
 
-	char *filename;
-	char *name;
-	char *uid;
+	gchar *filename;
+	gchar *name;
+	gchar *uid;
 };
 
 struct _ESignatureClass {
@@ -61,13 +61,13 @@ struct _ESignatureClass {
 GType e_signature_get_type (void);
 
 ESignature *e_signature_new (void);
-ESignature *e_signature_new_from_xml (const char *xml);
+ESignature *e_signature_new_from_xml (const gchar *xml);
 
-char *e_signature_uid_from_xml (const char *xml);
+gchar *e_signature_uid_from_xml (const gchar *xml);
 
-gboolean e_signature_set_from_xml (ESignature *sig, const char *xml);
+gboolean e_signature_set_from_xml (ESignature *sig, const gchar *xml);
 
-char *e_signature_to_xml (ESignature *sig);
+gchar *e_signature_to_xml (ESignature *sig);
 
 #ifdef __cplusplus
 }

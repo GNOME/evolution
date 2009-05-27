@@ -36,8 +36,8 @@
 #include "e-delegate-dialog.h"
 
 struct _EDelegateDialogPrivate {
-	char *name;
-	char *address;
+	gchar *name;
+	gchar *address;
 
 	/* Glade XML data */
 	GladeXML *xml;
@@ -51,7 +51,7 @@ struct _EDelegateDialogPrivate {
 	GtkWidget *entry;
 };
 
-static const char *section_name = "Delegate To";
+static const gchar *section_name = "Delegate To";
 
 static void e_delegate_dialog_finalize		(GObject	*object);
 
@@ -116,14 +116,14 @@ e_delegate_dialog_finalize (GObject *object)
 
 
 EDelegateDialog *
-e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char *address)
+e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gchar *address)
 {
 	EDelegateDialogPrivate *priv;
 	EDestinationStore *destination_store;
 	EDestination *dest;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
-	char *gladefile;
+	gchar *gladefile;
 
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
@@ -234,7 +234,7 @@ addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
  * editor could not be created.
  **/
 EDelegateDialog *
-e_delegate_dialog_new (const char *name, const char *address)
+e_delegate_dialog_new (const gchar *name, const gchar *address)
 {
 	EDelegateDialog *edd;
 
@@ -242,7 +242,7 @@ e_delegate_dialog_new (const char *name, const char *address)
 	return e_delegate_dialog_construct (E_DELEGATE_DIALOG (edd), name, address);
 }
 
-char *
+gchar *
 e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;
@@ -274,7 +274,7 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 }
 
 
-char *
+gchar *
 e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;

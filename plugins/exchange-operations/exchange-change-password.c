@@ -42,7 +42,7 @@ entry_changed (GtkEntry *entry, gpointer user_data)
 	GladeXML *xml = user_data;
 	GtkEntry *new_entry, *confirm_entry;
 	GtkWidget *ok_button;
-	const char *text;
+	const gchar *text;
 
         new_entry = GTK_ENTRY (glade_xml_get_widget (xml, "new_pass_entry"));
         confirm_entry = GTK_ENTRY (glade_xml_get_widget (xml, "confirm_pass_entry"));
@@ -71,15 +71,15 @@ entry_changed (GtkEntry *entry, gpointer user_data)
  *
  * Prompt the user for a new password.
  */
-char *
-exchange_get_new_password (const char *existing_password, gboolean voluntary)
+gchar *
+exchange_get_new_password (const gchar *existing_password, gboolean voluntary)
 {
 	GladeXML *xml;
 	GtkWidget *top_widget;
 	GtkEntry *cur_entry, *new_entry, *confirm_entry;
 	GtkResponseType response;
 	GtkLabel *top_label;
-	char *new_pass;
+	gchar *new_pass;
 
 	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
 	top_widget = glade_xml_get_widget (xml, ROOTNODE);
@@ -100,7 +100,7 @@ exchange_get_new_password (const char *existing_password, gboolean voluntary)
 run_dialog_again:
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
 	if (response == GTK_RESPONSE_OK) {
-		const char *cur_pass, *new_pass1, *new_pass2;
+		const gchar *cur_pass, *new_pass1, *new_pass2;
 
 		cur_pass = gtk_entry_get_text (cur_entry);
 		new_pass1 = gtk_entry_get_text (new_entry);

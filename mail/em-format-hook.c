@@ -52,7 +52,7 @@ static GHashTable *emfh_types;
 
 */
 
-static void *emfh_parent_class;
+static gpointer emfh_parent_class;
 #define emfh ((EMFormatHook *)eph)
 
 #define d(x)
@@ -141,7 +141,7 @@ emfh_construct_group(EPluginHook *eph, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (0 == strcmp((char *)node->name, "item")) {
+		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EMFormatHookItem *item;
 
 			item = emfh_construct_item(eph, group, node);
@@ -169,7 +169,7 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	node = root->children;
 	while (node) {
-		if (strcmp((char *)node->name, "group") == 0) {
+		if (strcmp((gchar *)node->name, "group") == 0) {
 			struct _EMFormatHookGroup *group;
 
 			group = emfh_construct_group(eph, node);
@@ -203,7 +203,7 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-emfh_enable(EPluginHook *eph, int state)
+emfh_enable(EPluginHook *eph, gint state)
 {
 	GSList *g, *l;
 	EMFormatClass *klass;
@@ -275,5 +275,5 @@ void em_format_hook_register_type(GType type)
 	d(printf("registering formatter type '%s'\n", g_type_name(type)));
 
 	klass = g_type_class_ref(type);
-	g_hash_table_insert(emfh_types, (void *)g_type_name(type), klass);
+	g_hash_table_insert(emfh_types, (gpointer)g_type_name(type), klass);
 }

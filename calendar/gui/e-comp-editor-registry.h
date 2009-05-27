@@ -64,7 +64,7 @@ void        e_comp_editor_registry_add       (ECompEditorRegistry *reg,
 					      CompEditor          *editor,
 					      gboolean             remote);
 CompEditor *e_comp_editor_registry_find      (ECompEditorRegistry *reg,
-					      const char          *uid);
+					      const gchar          *uid);
 gboolean    e_comp_editor_registry_close_all (ECompEditorRegistry *reg);
 
 G_END_DECLS

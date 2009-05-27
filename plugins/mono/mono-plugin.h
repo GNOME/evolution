@@ -38,14 +38,14 @@ struct _EPluginMono {
 
 	struct _EPluginMonoPrivate *priv;
 
-	char *location;		/* location */
-	char *handler;		/* handler class */
+	gchar *location;		/* location */
+	gchar *handler;		/* handler class */
 };
 
 struct _EPluginMonoClass {
 	EPluginClass plugin_class;
 };
 
-void *org_gnome_evolution_mono_get_type(void *a, void *b);
+gpointer org_gnome_evolution_mono_get_type(gpointer a, gpointer b);
 
 #endif /* ! _ORG_GNOME_EVOLUTION_MONO_H */

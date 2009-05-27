@@ -43,18 +43,18 @@
 #define ARCHIVE_NAME "evolution-backup.tar.gz"
 
 static gboolean backup_op = FALSE;
-static char *bk_file = NULL;
+static gchar *bk_file = NULL;
 static gboolean restore_op = FALSE;
-static char *res_file = NULL;
+static gchar *res_file = NULL;
 static gboolean check_op = FALSE;
-static char *chk_file = NULL;
+static gchar *chk_file = NULL;
 static gboolean restart_arg = FALSE;
 static gboolean gui_arg = FALSE;
 static gchar **opt_remaining = NULL;
-static int result=0;
+static gint result=0;
 static GtkWidget *progress_dialog;
 static GtkWidget *pbar;
-static char *txt = NULL;
+static gchar *txt = NULL;
 gboolean complete = FALSE;
 
 static GOptionEntry options[] = {
@@ -80,11 +80,11 @@ static GOptionEntry options[] = {
 #define CANCEL(x) if (x) return;
 
 static GString *
-replace_string (const char *text, const char *find, const char *replace)
+replace_string (const gchar *text, const gchar *find, const gchar *replace)
 {
-	const char *p, *next;
+	const gchar *p, *next;
 	GString *str;
-	int find_len;
+	gint find_len;
 
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (find != NULL, NULL);
@@ -110,9 +110,9 @@ replace_string (const char *text, const char *find, const char *replace)
 }
 
 static void
-replace_in_file (const char *filename, const char *find, const char *replace)
+replace_in_file (const gchar *filename, const gchar *find, const gchar *replace)
 {
-	char *content = NULL;
+	gchar *content = NULL;
 	GError *error = NULL;
 	GString *filenamestr = NULL;
 
@@ -157,7 +157,7 @@ replace_in_file (const char *filename, const char *find, const char *replace)
 }
 
 static void
-run_cmd (const char *cmd)
+run_cmd (const gchar *cmd)
 {
 	if (!cmd)
 		return;
@@ -175,10 +175,10 @@ run_cmd (const char *cmd)
 }
 
 static void
-backup (const char *filename)
+backup (const gchar *filename)
 {
-	char *command;
-	char *quotedfname;
+	gchar *command;
+	gchar *quotedfname;
 
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
@@ -222,10 +222,10 @@ backup (const char *filename)
 }
 
 static void
-restore (const char *filename)
+restore (const gchar *filename)
 {
-	char *command;
-	char *quotedfname;
+	gchar *command;
+	gchar *quotedfname;
 
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
@@ -274,10 +274,10 @@ restore (const char *filename)
 }
 
 static void
-check (const char *filename)
+check (const gchar *filename)
 {
-	char *command;
-	char *quotedfname;
+	gchar *command;
+	gchar *quotedfname;
 
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
@@ -359,10 +359,10 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 	gtk_main_quit ();
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
-	char *file = NULL, *oper = NULL;
+	gchar *file = NULL, *oper = NULL;
 	gint i;
 	GError *error = NULL;
 
@@ -384,17 +384,17 @@ main (int argc, char **argv)
 		for (i = 0; i < g_strv_length (opt_remaining); i++) {
 			if (backup_op) {
 				oper = _("Backing up to the folder %s");
-				d(g_message ("Backing up to the folder %s", (char *) opt_remaining[i]));
-				bk_file = g_strdup ((char *) opt_remaining[i]);
+				d(g_message ("Backing up to the folder %s", (gchar *) opt_remaining[i]));
+				bk_file = g_strdup ((gchar *) opt_remaining[i]);
 				file = bk_file;
 			} else if (restore_op) {
 				oper = _("Restoring from the folder %s");
-				d(g_message ("Restoring from the folder %s", (char *) opt_remaining[i]));
-				res_file = g_strdup ((char *) opt_remaining[i]);
+				d(g_message ("Restoring from the folder %s", (gchar *) opt_remaining[i]));
+				res_file = g_strdup ((gchar *) opt_remaining[i]);
 				file = res_file;
 			} else if (check_op) {
-				d(g_message ("Checking %s", (char *) opt_remaining[i]));
-				chk_file = g_strdup ((char *) opt_remaining[i]);
+				d(g_message ("Checking %s", (gchar *) opt_remaining[i]));
+				chk_file = g_strdup ((gchar *) opt_remaining[i]);
 			}
 		}
 	}

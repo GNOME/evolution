@@ -25,9 +25,9 @@
 
 #include <gtk/gtk.h>
 
-char *e_request_string  (GtkWindow  *parent,
-			 const char *title,
-			 const char *prompt,
-			 const char *default_string);
+gchar *e_request_string  (GtkWindow  *parent,
+			 const gchar *title,
+			 const gchar *prompt,
+			 const gchar *default_string);
 
 #endif

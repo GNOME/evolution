@@ -82,7 +82,7 @@ initialize_selection (ESourceSelector *source_selector)
 
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
-			const char *completion;
+			const gchar *completion;
 
 			completion = e_source_get_property (source, "completion");
 			if (completion && !g_ascii_strcasecmp (completion, "true"))

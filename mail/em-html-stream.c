@@ -58,7 +58,7 @@ emhs_gtkhtml_destroy (GtkHTML *html,
 
 static ssize_t
 emhs_sync_write (CamelStream *stream,
-                 const char *buffer,
+                 const gchar *buffer,
                  size_t n)
 {
 	EMHTMLStream *emhs = EM_HTML_STREAM (stream);

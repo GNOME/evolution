@@ -28,7 +28,7 @@
 
 #define d(x)
 
-static void *epp_parent_class;
+static gpointer epp_parent_class;
 
 typedef struct _EPluginPythonPrivate {
         PyObject *pModule;
@@ -40,13 +40,13 @@ typedef struct _EPluginPythonPrivate {
 
 #define epp ((EPluginPython *)ep)
 
-void * load_plugin_type_register_function (void *a, void *b);
+gpointer  load_plugin_type_register_function (gpointer a, gpointer b);
 
-static char *
-get_xml_prop(xmlNodePtr node, const char *id)
+static gchar *
+get_xml_prop(xmlNodePtr node, const gchar *id)
 {
-	char *p = xmlGetProp(node, id);
-	char *out = NULL;
+	gchar *p = xmlGetProp(node, id);
+	gchar *out = NULL;
 
 	if (p) {
 		out = g_strdup(p);
@@ -56,8 +56,8 @@ get_xml_prop(xmlNodePtr node, const char *id)
 	return out;
 }
 
-static void *
-epp_invoke(EPlugin *ep, const char *name, void *data)
+static gpointer
+epp_invoke(EPlugin *ep, const gchar *name, gpointer data)
 {
 	EPluginPythonPrivate *p = epp->priv;
 	PyObject *pModuleName, *pFunc;
@@ -168,8 +168,8 @@ epp_init(GObject *o)
 		(GDestroyNotify) NULL);
 }
 
-void *
-load_plugin_type_register_function (void *a, void *b)
+gpointer
+load_plugin_type_register_function (gpointer a, gpointer b)
 {
 	static GType type = 0;
 

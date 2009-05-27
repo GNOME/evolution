@@ -54,10 +54,10 @@ struct _EASN1ObjectPrivate {
 
 	GList *children;
 
-	char *display_name;
-	char *value;
+	gchar *display_name;
+	gchar *value;
 
-	char *data;
+	gchar *data;
 	guint data_len;
 };
 
@@ -137,9 +137,9 @@ e_asn1_object_get_type (void)
    ASN1.
 */
 static int
-get_integer_256 (unsigned char *data, unsigned int nb)
+get_integer_256 (guchar *data, guint nb)
 {
-	int val;
+	gint val;
 
 	switch (nb) {
 	case 1:
@@ -171,10 +171,10 @@ get_integer_256 (unsigned char *data, unsigned int nb)
    <tag><length<data consisting of lenght bytes>
 */
 static guint32
-get_der_item_length (unsigned char *data, unsigned char *end,
+get_der_item_length (guchar *data, guchar *end,
 		     unsigned long *bytesUsed, gboolean *indefinite)
 {
-	unsigned char lbyte = *data++;
+	guchar lbyte = *data++;
 	PRInt32 length = -1;
 
 	*indefinite = FALSE;
@@ -205,13 +205,13 @@ get_der_item_length (unsigned char *data, unsigned char *end,
 }
 
 static gboolean
-build_from_der (EASN1Object *parent, char *data, char *end)
+build_from_der (EASN1Object *parent, gchar *data, gchar *end)
 {
 	unsigned long bytesUsed;
 	gboolean indefinite;
 	PRInt32 len;
 	PRUint32 type;
-	unsigned char code, tagnum;
+	guchar code, tagnum;
 	EASN1Object *asn1object = NULL;
 
 	if (data >= end)
@@ -221,7 +221,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 	  A DER item has the form of |tag|len|data
 	  tag is one byte and describes the type of elment
 	  we are dealing with.
-	  len is a DER encoded int telling us how long the data is
+	  len is a DER encoded gint telling us how long the data is
 	  data is a buffer that is len bytes long and has to be
 	  interpreted according to its type.
 	*/
@@ -237,7 +237,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 			return FALSE;
 		}
 		data++;
-		len = get_der_item_length ((unsigned char *)data, (unsigned char *)end, &bytesUsed, &indefinite);
+		len = get_der_item_length ((guchar *)data, (guchar *)end, &bytesUsed, &indefinite);
 		data += bytesUsed;
 		if ((len < 0) || ((data+len) > end))
 			return FALSE;
@@ -277,7 +277,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 			asn1object->priv->type = tagnum;
 			asn1object->priv->tag = tagnum;
 
-			/*printableItem->SetData((char*)data, len);*/
+			/*printableItem->SetData((gchar *)data, len);*/
 		}
 		data += len;
 
@@ -288,7 +288,7 @@ build_from_der (EASN1Object *parent, char *data, char *end)
 }
 
 EASN1Object*
-e_asn1_object_new_from_der (char *data, guint32 len)
+e_asn1_object_new_from_der (gchar *data, guint32 len)
 {
 	EASN1Object *obj = g_object_new (E_TYPE_ASN1_OBJECT, NULL);
 
@@ -348,33 +348,33 @@ e_asn1_object_append_child (EASN1Object *parent, EASN1Object *child)
 }
 
 void
-e_asn1_object_set_display_name (EASN1Object *obj, const char *name)
+e_asn1_object_set_display_name (EASN1Object *obj, const gchar *name)
 {
 	g_free (obj->priv->display_name);
 	obj->priv->display_name = g_strdup (name);
 }
 
-const char*
+const gchar *
 e_asn1_object_get_display_name (EASN1Object *obj)
 {
 	return obj->priv->display_name;
 }
 
 void
-e_asn1_object_set_display_value (EASN1Object *obj, const char *value)
+e_asn1_object_set_display_value (EASN1Object *obj, const gchar *value)
 {
 	g_free (obj->priv->value);
 	obj->priv->value = g_strdup (value);
 }
 
-const char*
+const gchar *
 e_asn1_object_get_display_value (EASN1Object *obj)
 {
 	return obj->priv->value;
 }
 
 void
-e_asn1_object_get_data (EASN1Object *obj, char **data, guint32 *len)
+e_asn1_object_get_data (EASN1Object *obj, gchar **data, guint32 *len)
 {
 	*data = obj->priv->data;
 	*len = obj->priv->data_len;

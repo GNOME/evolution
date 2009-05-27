@@ -121,7 +121,7 @@ typedef struct {
 	void (* time_range_changed) (ECalModel *model, time_t start, time_t end);
 	void (* row_appended) (ECalModel *model);
 	void (* comps_deleted) (ECalModel *model, gpointer list);
-	void (* cal_view_progress) (ECalModel *model, const char *message, int progress, ECalSourceType type);
+	void (* cal_view_progress) (ECalModel *model, const gchar *message, gint progress, ECalSourceType type);
 	void (* cal_view_done) (ECalModel *model, ECalendarStatus status, ECalSourceType type);
 } ECalModelClass;
 
@@ -148,7 +148,7 @@ void                e_cal_model_set_default_client             (ECalModel       
 								ECal                *client);
 GList              *e_cal_model_get_client_list                (ECalModel           *model);
 ECal               *e_cal_model_get_client_for_uri             (ECalModel           *model,
-								const char          *uri);
+								const gchar          *uri);
 void                e_cal_model_add_client                     (ECalModel           *model,
 								ECal                *client);
 void                e_cal_model_remove_client                  (ECalModel           *model,
@@ -160,7 +160,7 @@ void                e_cal_model_get_time_range                 (ECalModel       
 void                e_cal_model_set_time_range                 (ECalModel           *model,
 								time_t               start,
 								time_t               end);
-const char         *e_cal_model_get_search_query               (ECalModel           *model);
+const gchar         *e_cal_model_get_search_query               (ECalModel           *model);
 void                e_cal_model_set_search_query               (ECalModel           *model,
 								const gchar         *sexp);
 icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel           *model);
@@ -186,9 +186,9 @@ void                e_cal_model_generate_instances             (ECalModel       
 								gpointer             cb_data);
 GPtrArray * e_cal_model_get_object_array (ECalModel *model);
 void e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezone *zone);
-void e_cal_model_set_search_query_with_time_range (ECalModel *model, const char *sexp, time_t start, time_t end);
+void e_cal_model_set_search_query_with_time_range (ECalModel *model, const gchar *sexp, time_t start, time_t end);
 
-gboolean e_cal_model_test_row_editable (ECalModel *model, int row);
+gboolean e_cal_model_test_row_editable (ECalModel *model, gint row);
 
 void e_cal_model_set_default_time_func (ECalModel *model, ECalModelDefaultTimeFunc func, gpointer user_data);
 

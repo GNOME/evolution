@@ -41,11 +41,11 @@ static GdkPixbuf *checks [2];
 
 static void
 ecc_print (ECellView *ecell_view, GtkPrintContext *context,
-	    int model_col, int view_col, int row,
+	    gint model_col, gint view_col, gint row,
 	    double width, double height)
 {
 	cairo_t *cr = gtk_print_context_get_cairo_context (context);
-	const int value = GPOINTER_TO_INT (
+	const gint value = GPOINTER_TO_INT (
 			  e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	cairo_save (cr);
 

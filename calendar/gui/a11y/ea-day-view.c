@@ -31,8 +31,8 @@
 
 static void ea_day_view_class_init (EaDayViewClass *klass);
 
-static G_CONST_RETURN gchar* ea_day_view_get_name (AtkObject *accessible);
-static G_CONST_RETURN gchar* ea_day_view_get_description (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_day_view_get_name (AtkObject *accessible);
+static G_CONST_RETURN gchar * ea_day_view_get_description (AtkObject *accessible);
 static gint         ea_day_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_day_view_ref_child           (AtkObject *obj,
                                                      gint i);
@@ -111,13 +111,13 @@ ea_day_view_new (GtkWidget *widget)
 	atk_object_initialize (accessible, widget);
 
 #ifdef ACC_DEBUG
-	printf ("EvoAcc: ea_day_view created %p\n", (void *)accessible);
+	printf ("EvoAcc: ea_day_view created %p\n", (gpointer)accessible);
 #endif
 
 	return accessible;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_day_view_get_name (AtkObject *accessible)
 {
 	EDayView *day_view;
@@ -172,7 +172,7 @@ ea_day_view_get_name (AtkObject *accessible)
 	return accessible->name;
 }
 
-static G_CONST_RETURN gchar*
+static G_CONST_RETURN gchar *
 ea_day_view_get_description (AtkObject *accessible)
 {
 	EDayView *day_view;

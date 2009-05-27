@@ -60,7 +60,7 @@ struct _ETextModelClass {
 
 	gint  (* validate_pos) (ETextModel *model, gint pos);
 
-	const char *(* get_text)      (ETextModel *model);
+	const gchar *(* get_text)      (ETextModel *model);
 	gint        (* get_text_len)  (ETextModel *model);
 	void        (* set_text)      (ETextModel *model, const gchar *text);
 	void        (* insert)        (ETextModel *model, gint position, const gchar *text);

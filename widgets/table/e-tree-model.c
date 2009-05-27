@@ -320,7 +320,7 @@ e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
  * Return value:
  **/
 void
-e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, int col)
+e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, gint col)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
@@ -361,7 +361,7 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
  *
  **/
 void
-e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETreePath removed_node, int old_position)
+e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETreePath removed_node, gint old_position)
 {
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
@@ -754,7 +754,7 @@ e_tree_model_has_get_node_by_id (ETreeModel *etree)
  * return values: The path for this save id.
  */
 ETreePath
-e_tree_model_get_node_by_id (ETreeModel *etree, const char *save_id)
+e_tree_model_get_node_by_id (ETreeModel *etree, const gchar *save_id)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
@@ -805,8 +805,8 @@ e_tree_model_has_change_pending (ETreeModel *etree)
  * affects the data in that node for that column.  node_inserted,
  * node_removed, and no_change don't affect any data in this way.
  **/
-void *
-e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, int col)
+gpointer
+e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, gint col)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
@@ -836,8 +836,8 @@ e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, int col)
  * affects the data in that node for that column.  node_inserted,
  * node_removed, and no_change don't affect any data in this way.
  **/
-void *
-e_tree_model_value_at (ETreeModel *etree, ETreePath node, int col)
+gpointer
+e_tree_model_value_at (ETreeModel *etree, ETreePath node, gint col)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
@@ -849,7 +849,7 @@ e_tree_model_value_at (ETreeModel *etree, ETreePath node, int col)
 }
 
 void
-e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, int col, const void *val)
+e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, gint col, gconstpointer val)
 {
 	g_return_if_fail (etree != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (etree));
@@ -868,7 +868,7 @@ e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, int col, const voi
  * Return value:
  **/
 gboolean
-e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, int col)
+e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, gint col)
 {
 	g_return_val_if_fail(etree != NULL, FALSE);
 
@@ -887,8 +887,8 @@ e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, int col)
  *
  * Return value:
  **/
-void *
-e_tree_model_duplicate_value (ETreeModel *etree, int col, const void *value)
+gpointer
+e_tree_model_duplicate_value (ETreeModel *etree, gint col, gconstpointer value)
 {
 	g_return_val_if_fail(etree != NULL, NULL);
 
@@ -908,7 +908,7 @@ e_tree_model_duplicate_value (ETreeModel *etree, int col, const void *value)
  * Return value:
  **/
 void
-e_tree_model_free_value (ETreeModel *etree, int col, void *value)
+e_tree_model_free_value (ETreeModel *etree, gint col, gpointer value)
 {
 	g_return_if_fail(etree != NULL);
 
@@ -925,8 +925,8 @@ e_tree_model_free_value (ETreeModel *etree, int col, void *value)
  *
  * Return value:
  **/
-void *
-e_tree_model_initialize_value (ETreeModel *etree, int col)
+gpointer
+e_tree_model_initialize_value (ETreeModel *etree, gint col)
 {
 	g_return_val_if_fail(etree != NULL, NULL);
 
@@ -946,7 +946,7 @@ e_tree_model_initialize_value (ETreeModel *etree, int col)
  * Return value:
  **/
 gboolean
-e_tree_model_value_is_empty (ETreeModel *etree, int col, const void *value)
+e_tree_model_value_is_empty (ETreeModel *etree, gint col, gconstpointer value)
 {
 	g_return_val_if_fail(etree != NULL, TRUE);
 
@@ -965,8 +965,8 @@ e_tree_model_value_is_empty (ETreeModel *etree, int col, const void *value)
  *
  * Return value:
  **/
-char *
-e_tree_model_value_to_string (ETreeModel *etree, int col, const void *value)
+gchar *
+e_tree_model_value_to_string (ETreeModel *etree, gint col, gconstpointer value)
 {
 	g_return_val_if_fail(etree != NULL, g_strdup(""));
 

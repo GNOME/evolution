@@ -54,7 +54,7 @@ typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
 typedef struct _EMMailerPrefsHeader EMMailerPrefsHeader;
 
 struct _EMMailerPrefsHeader {
-	char *name;
+	gchar *name;
 	guint enabled:1;
 	guint is_default:1;
 };

@@ -242,7 +242,7 @@ gchar *e_contact_get_csv (EContact * contact, GSList * csv_all_fields);
 gchar *delivery_address_get_sub_field (const EContactAddress * delivery_address, DeliveryAddressField sub_field);
 gchar *check_null_pointer (gchar * orig);
 gchar *escape_string (gchar * orig);
-int output_n_cards_file (FILE * outputfile, GList *contacts, int size, int begin_no, CARD_FORMAT format);
+gint output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint begin_no, CARD_FORMAT format);
 static void fork_to_background (void);
 void set_pre_defined_field (GSList ** pre_defined_fields);
 
@@ -566,10 +566,10 @@ escape_string (gchar *orig)
 	return dest;
 }
 
-int
-output_n_cards_file (FILE * outputfile, GList *contacts, int size, int begin_no, CARD_FORMAT format)
+gint
+output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint begin_no, CARD_FORMAT format)
 {
-	int i;
+	gint i;
 	if (format == CARD_FORMAT_VCARD) {
 		for (i = begin_no; i < size + begin_no; i++) {
 			EContact *contact = g_list_nth_data (contacts, i);
@@ -628,11 +628,11 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 {
 	FILE *outputfile;
 	long length;
-	int IsFirstOne;
-	int series_no;
+	gint IsFirstOne;
+	gint series_no;
 	gchar *file_series_name;
 	CARD_FORMAT format;
-	int size;
+	gint size;
 
 	length = g_list_length (contacts);
 

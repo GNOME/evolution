@@ -137,7 +137,7 @@ view_minicard_get_title (GalView *view)
 
 static void
 view_minicard_set_title (GalView *view,
-                         const char *title)
+                         const gchar *title)
 {
 	GalViewMinicard *view_minicard;
 

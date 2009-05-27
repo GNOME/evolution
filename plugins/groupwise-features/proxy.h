@@ -61,6 +61,6 @@ static void proxy_edit_account (GtkWidget *button, EAccount *account);
 void proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data);
 void proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data);
 static void proxy_setup_meta_tree_view (EAccount *account);
-static proxyHandler *proxy_get_item_from_list (EAccount *account, char *account_name);
+static proxyHandler *proxy_get_item_from_list (EAccount *account, gchar *account_name);
 static void proxy_load_edit_dialog (EAccount *account, proxyHandler *edited);
 void free_proxy_list (GList *proxy_list);

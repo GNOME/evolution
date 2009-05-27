@@ -30,11 +30,11 @@
 
 #include "e-pilot-util.h"
 
-char *
-e_pilot_utf8_to_pchar (const char *string)
+gchar *
+e_pilot_utf8_to_pchar (const gchar *string)
 {
-	char *pstring = NULL;
-	int res;
+	gchar *pstring = NULL;
+	gint res;
 
 	if (!string)
 		return NULL;
@@ -47,11 +47,11 @@ e_pilot_utf8_to_pchar (const char *string)
 	return pstring;
 }
 
-char *
-e_pilot_utf8_from_pchar (const char *string)
+gchar *
+e_pilot_utf8_from_pchar (const gchar *string)
 {
-	char *ustring = NULL;
-	int res;
+	gchar *ustring = NULL;
+	gint res;
 
 	if (!string)
 		return NULL;

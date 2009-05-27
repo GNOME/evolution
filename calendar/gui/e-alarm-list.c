@@ -380,11 +380,11 @@ e_alarm_list_get_path (GtkTreeModel *tree_model,
 }
 
 /* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
-static char *
+static gchar *
 get_alarm_duration_string (struct icaldurationtype *duration)
 {
 	GString *string = g_string_new (NULL);
-	char *ret;
+	gchar *ret;
 	gboolean have_something;
 
 	have_something = FALSE;
@@ -429,12 +429,12 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 	}
 }
 
-static char *
+static gchar *
 get_alarm_string (ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmAction action;
 	ECalComponentAlarmTrigger trigger;
-	char *base, *str = NULL, *dur;
+	gchar *base, *str = NULL, *dur;
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_get_trigger (alarm, &trigger);
@@ -516,7 +516,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		struct icaltimetype itt;
 		icaltimezone *utc_zone, *current_zone;
 		struct tm tm;
-		char buf[256];
+		gchar buf[256];
 
 		/* Absolute triggers come in UTC, so convert them to the local timezone */
 

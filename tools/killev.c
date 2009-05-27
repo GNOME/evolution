@@ -35,7 +35,7 @@
 #include <libgnome/gnome-util.h>
 
 typedef struct {
-	char *location;
+	gchar *location;
 	GPtrArray *names;
 } KillevComponent;
 
@@ -43,10 +43,10 @@ static GSList *languages = NULL;
 static GHashTable *components;
 
 static gboolean
-kill_process (const char *proc_name, KillevComponent *comp)
+kill_process (const gchar *proc_name, KillevComponent *comp)
 {
-	int status, i;
-	char *command;
+	gint status, i;
+	gchar *command;
 	GString *desc;
 
 	command = g_strdup_printf (KILL_PROCESS_CMD " -0 %s 2> /dev/null",
@@ -82,16 +82,16 @@ kill_process (const char *proc_name, KillevComponent *comp)
 	return TRUE;
 }
 
-static const char *patterns[] = {
+static const gchar *patterns[] = {
 	"%s", "%.16s", "lt-%s", "lt-%.13s", "%s.bin"
 };
-static const int n_patterns = G_N_ELEMENTS (patterns);
+static const gint n_patterns = G_N_ELEMENTS (patterns);
 
 static void
 kill_component (KillevComponent *comp)
 {
-	char *base_name, *exe_name, *dash;
-	int i;
+	gchar *base_name, *exe_name, *dash;
+	gint i;
 
 	base_name = g_strdup (comp->location);
  try_again:
@@ -115,14 +115,14 @@ kill_component (KillevComponent *comp)
 }
 
 static void
-add_matching_query (const char *query)
+add_matching_query (const gchar *query)
 {
 	Bonobo_ServerInfoList *info_list;
 	Bonobo_ServerInfo *info;
 	CORBA_Environment ev;
-	const char *location, *name;
+	const gchar *location, *name;
 	KillevComponent *comp;
-	int i;
+	gint i;
 
 	CORBA_exception_init (&ev);
 
@@ -162,9 +162,9 @@ add_matching_query (const char *query)
 }
 
 static void
-add_matching_repo_id (const char *repo_id)
+add_matching_repo_id (const gchar *repo_id)
 {
-	char *query;
+	gchar *query;
 
 	query = g_strdup_printf ("repo_ids.has ('%s')", repo_id);
 	add_matching_query (query);
@@ -172,17 +172,17 @@ add_matching_repo_id (const char *repo_id)
 }
 
 static void
-add_matching_iid (const char *iid)
+add_matching_iid (const gchar *iid)
 {
-	char *query;
+	gchar *query;
 
 	query = g_strdup_printf ("iid == '%s'", iid);
 	add_matching_query (query);
 	g_free (query);
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	const gchar * const *language_names;
 

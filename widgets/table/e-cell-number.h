@@ -43,7 +43,7 @@ typedef struct {
 } ECellNumberClass;
 
 GType      e_cell_number_get_type (void);
-ECell     *e_cell_number_new      (const char *fontname, GtkJustification justify);
+ECell     *e_cell_number_new      (const gchar *fontname, GtkJustification justify);
 
 G_END_DECLS
 

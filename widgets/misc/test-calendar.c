@@ -55,8 +55,8 @@ delete_event_cb (GtkWidget *widget,
 	gtk_main_quit ();
 }
 
-int
-main (int argc, char **argv)
+gint
+main (gint argc, gchar **argv)
 {
 	GtkWidget *window;
 	GtkWidget *cal;

@@ -135,7 +135,7 @@ EMEvent *em_event_peek(void)
 }
 
 EMEventTargetFolder *
-em_event_target_new_folder (EMEvent *eme, const char *uri, unsigned int new)
+em_event_target_new_folder (EMEvent *eme, const gchar *uri, guint new)
 {
 	EMEventTargetFolder *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof(*t));
 	guint32 flags = new ? EM_EVENT_FOLDER_NEWMAIL : 0;
@@ -169,7 +169,7 @@ em_event_target_new_composer (EMEvent *eme, const EMsgComposer *composer, guint3
 }
 
 EMEventTargetMessage *
-em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage *message, const char *uid, guint32 flags)
+em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags)
 {
 	EMEventTargetMessage *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_MESSAGE, sizeof(*t));
 
@@ -186,7 +186,7 @@ em_event_target_new_message(EMEvent *eme, CamelFolder *folder, CamelMimeMessage 
 }
 
 EMEventTargetSendReceive *
-em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, int row, guint32 flags)
+em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags)
 {
 	EMEventTargetSendReceive *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_SEND_RECEIVE, sizeof(*t));
 
@@ -199,7 +199,7 @@ em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, 
 }
 
 EMEventTargetCustomIcon *
-em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const char *folder_name, guint32 flags)
+em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const gchar *folder_name, guint32 flags)
 {
 	EMEventTargetCustomIcon *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_CUSTOM_ICON, sizeof(*t));
 
@@ -212,7 +212,7 @@ em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const c
 
 /* ********************************************************************** */
 
-static void *emeh_parent_class;
+static gpointer emeh_parent_class;
 #define emeh ((EMEventHook *)eph)
 
 static const EEventHookTargetMask emeh_folder_masks[] = {
@@ -266,7 +266,7 @@ emeh_finalise(GObject *o)
 static void
 emeh_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emeh_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.events:1.0";

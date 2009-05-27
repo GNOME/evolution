@@ -57,8 +57,8 @@ GType      gal_a11y_e_cell_text_get_type   (void);
 AtkObject *gal_a11y_e_cell_text_new        (ETableItem *item,
 					    ECellView  *cell_view,
 					    AtkObject  *parent,
-					    int         model_col,
-					    int         view_col,
-					    int         row);
+					    gint         model_col,
+					    gint         view_col,
+					    gint         row);
 
 #endif /* ! __GAL_A11Y_E_CELL_TEXT_H__ */

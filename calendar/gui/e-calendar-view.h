@@ -89,10 +89,10 @@ struct _ECalendarView {
 };
 
 typedef struct {
-	ECalendarViewEvent * (* get_view_event) (ECalendarView *view, int day, int event_num);
+	ECalendarViewEvent * (* get_view_event) (ECalendarView *view, gint day, gint event_num);
 	ECalendarView *cal_view;
-	int day;
-	int event_num;
+	gint day;
+	gint event_num;
 } ECalendarViewEventData;
 
 struct _ECalendarViewClass {
@@ -124,12 +124,12 @@ ECalModel     *e_calendar_view_get_model (ECalendarView *cal_view);
 void           e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model);
 icaltimezone  *e_calendar_view_get_timezone (ECalendarView *cal_view);
 void           e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone);
-const char    *e_calendar_view_get_default_category (ECalendarView *cal_view);
-void           e_calendar_view_set_default_category (ECalendarView *cal_view, const char *category);
+const gchar    *e_calendar_view_get_default_category (ECalendarView *cal_view);
+void           e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *category);
 gboolean       e_calendar_view_get_use_24_hour_format (ECalendarView *view);
 void           e_calendar_view_set_use_24_hour_format (ECalendarView *view, gboolean use_24_hour);
 
-void           e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, int percent);
+void           e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, gint percent);
 
 GList         *e_calendar_view_get_selected_events (ECalendarView *cal_view);
 gboolean       e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
@@ -174,10 +174,10 @@ void e_calendar_utils_show_info_silent(struct _GtkWidget *widget);
 
 gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
 
-void           e_calendar_view_move_tip (GtkWidget *widget, int x, int y);
+void           e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y);
 
 const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
-char *e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client);
+gchar *e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client);
 
 void           draw_curved_rectangle (cairo_t *cr,
                                       double x0,

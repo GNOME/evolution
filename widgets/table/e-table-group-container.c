@@ -142,7 +142,7 @@ void
 e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 				   ETableHeader *full_header,
 				   ETableHeader     *header,
-				   ETableModel *model, ETableSortInfo *sort_info, int n)
+				   ETableModel *model, ETableSortInfo *sort_info, gint n)
 {
 	ETableCol *col;
 	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
@@ -184,7 +184,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 ETableGroup *
 e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header,
 			     ETableHeader     *header,
-			     ETableModel *model, ETableSortInfo *sort_info, int n)
+			     ETableModel *model, ETableSortInfo *sort_info, gint n)
 {
 	ETableGroupContainer *etgc;
 
@@ -359,56 +359,56 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 }
 
 static void
-child_cursor_change (ETableGroup *etg, int row,
+child_cursor_change (ETableGroup *etg, gint row,
 		    ETableGroupContainer *etgc)
 {
 	e_table_group_cursor_change (E_TABLE_GROUP (etgc), row);
 }
 
 static void
-child_cursor_activated (ETableGroup *etg, int row,
+child_cursor_activated (ETableGroup *etg, gint row,
 		    ETableGroupContainer *etgc)
 {
 	e_table_group_cursor_activated (E_TABLE_GROUP (etgc), row);
 }
 
 static void
-child_double_click (ETableGroup *etg, int row, int col, GdkEvent *event,
+child_double_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		    ETableGroupContainer *etgc)
 {
 	e_table_group_double_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gint
-child_right_click (ETableGroup *etg, int row, int col, GdkEvent *event,
+child_right_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		   ETableGroupContainer *etgc)
 {
 	return e_table_group_right_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gint
-child_click (ETableGroup *etg, int row, int col, GdkEvent *event,
+child_click (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		   ETableGroupContainer *etgc)
 {
 	return e_table_group_click (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gint
-child_key_press (ETableGroup *etg, int row, int col, GdkEvent *event,
+child_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		 ETableGroupContainer *etgc)
 {
 	return e_table_group_key_press (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static gint
-child_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event,
+child_start_drag (ETableGroup *etg, gint row, gint col, GdkEvent *event,
 		 ETableGroupContainer *etgc)
 {
 	return e_table_group_start_drag (E_TABLE_GROUP (etgc), row, col, event);
 }
 
 static ETableGroupContainerChildNode *
-create_child_node (ETableGroupContainer *etgc, void *val)
+create_child_node (ETableGroupContainer *etgc, gpointer val)
 {
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
@@ -466,15 +466,15 @@ static void
 etgc_add (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
+	gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
 	GCompareFunc comp = etgc->ecol->compare;
 	GList *list = etgc->children;
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
-	int i = 0;
+	gint i = 0;
 
 	for (; list; list = g_list_next (list), i++){
-		int comp_val;
+		gint comp_val;
 
 		child_node = list->data;
 		comp_val = (*comp)(child_node->key, val);
@@ -504,12 +504,12 @@ etgc_add (ETableGroup *etg, gint row)
 }
 
 static void
-etgc_add_array (ETableGroup *etg, const int *array, int count)
+etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 {
-	int i;
+	gint i;
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	void *lastval = NULL;
-	int laststart = 0;
+	gpointer lastval = NULL;
+	gint laststart = 0;
 	GCompareFunc comp = etgc->ecol->compare;
 	ETableGroupContainerChildNode *child_node;
 	ETableGroup *child;
@@ -523,8 +523,8 @@ etgc_add_array (ETableGroup *etg, const int *array, int count)
 	lastval = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[0]);
 
 	for (i = 1; i < count; i++) {
-		void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[i]);
-		int comp_val;
+		gpointer val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, array[i]);
+		gint comp_val;
 
 		comp_val = (*comp)(lastval, val);
 		if (comp_val != 0) {
@@ -558,8 +558,8 @@ etgc_add_all (ETableGroup *etg)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	ESorter *sorter = etgc->selection_model->sorter;
-	int *array;
-	int count;
+	gint *array;
+	gint count;
 
 	e_sorter_get_sorted_to_model_array(sorter, &array, &count);
 
@@ -661,7 +661,7 @@ etgc_get_focus_column (ETableGroup *etg)
 }
 
 static void
-etgc_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 
@@ -687,7 +687,7 @@ etgc_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 }
 
 static void
-etgc_get_mouse_over (ETableGroup *etg, int *row, int *col)
+etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 
@@ -697,7 +697,7 @@ etgc_get_mouse_over (ETableGroup *etg, int *row, int *col)
 		*col = -1;
 
 	if (etgc->children) {
-		int row_plus = 0;
+		gint row_plus = 0;
 		GList *list;
 
 		for (list = etgc->children; list; list = list->next) {
@@ -718,11 +718,11 @@ etgc_get_mouse_over (ETableGroup *etg, int *row, int *col)
 }
 
 static void
-etgc_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height)
+etgc_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y, gint *width, gint *height)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 
-	int ypos;
+	gint ypos;
 
 	ypos = 0;
 
@@ -731,7 +731,7 @@ etgc_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, in
 		for (list = etgc->children; list; list = list->next) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			ETableGroup *child = child_node->child;
-			int thisy;
+			gint thisy;
 
 			e_table_group_get_cell_geometry (child, row, col, x, &thisy, width, height);
 			ypos += thisy;
@@ -1115,7 +1115,7 @@ etgc_init (ETableGroupContainer *container)
 }
 
 void
-e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *closure)
+e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, gpointer closure)
 {
 	if (E_IS_TABLE_GROUP_CONTAINER (etg)){
 		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);

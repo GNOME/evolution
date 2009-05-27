@@ -48,7 +48,7 @@ static void
 gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dialog,
 					       GalViewInstance *instance)
 {
-	int i;
+	gint i;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	dialog->instance = instance;
@@ -58,7 +58,7 @@ gal_view_instance_save_as_dialog_set_instance (GalViewInstanceSaveAsDialog *dial
 	for (i=0; i<instance->collection->view_count; i++) {
 		GalViewCollectionItem *item = instance->collection->view_data[i];
 		GtkTreeIter iter;
-		char *title = NULL;
+		gchar *title = NULL;
 
 		/* hide built in views */
 		/*if (item->built_in == 1)
@@ -304,9 +304,9 @@ void
 gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 {
 	GalView *view = gal_view_instance_get_current_view (dialog->instance);
-	const char *title;
-	int n;
-	const char *id = NULL;
+	const gchar *title;
+	gint n;
+	const gchar *id = NULL;
 	GalViewCollectionItem *item;
 
 	view = gal_view_clone (view);

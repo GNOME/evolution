@@ -131,7 +131,7 @@ em_popup_get_type(void)
 	return type;
 }
 
-EMPopup *em_popup_new(const char *menuid)
+EMPopup *em_popup_new(const gchar *menuid)
 {
 	EMPopup *emp = g_object_new(em_popup_get_type(), NULL);
 
@@ -151,14 +151,14 @@ EMPopup *em_popup_new(const char *menuid)
  * Return value:
  **/
 EMPopupTargetSelect *
-em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids)
+em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
 {
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	guint32 mask = ~0;
 	gboolean draft_or_outbox;
-	int i;
-	const char *tmp;
+	gint i;
+	const gchar *tmp;
 
 	t->uids = uids;
 	t->folder = folder;
@@ -247,7 +247,7 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 }
 
 EMPopupTargetURI *
-em_popup_target_new_uri(EMPopup *emp, const char *uri)
+em_popup_target_new_uri(EMPopup *emp, const gchar *uri)
 {
 	EMPopupTargetURI *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_URI, sizeof(*t));
 	guint32 mask = ~0;
@@ -269,7 +269,7 @@ em_popup_target_new_uri(EMPopup *emp, const char *uri)
 }
 
 EMPopupTargetPart *
-em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *mime_type)
+em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const gchar *mime_type)
 {
 	EMPopupTargetPart *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_PART, sizeof(*t));
 	guint32 mask = ~0;
@@ -296,7 +296,7 @@ em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *
 
 /* TODO: This should be based on the CamelFolderInfo, but ... em-folder-tree doesn't keep it? */
 EMPopupTargetFolder *
-em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, guint32 popup_flags)
+em_popup_target_new_folder (EMPopup *emp, const gchar *uri, guint32 info_flags, guint32 popup_flags)
 {
 	EMPopupTargetFolder *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_FOLDER, sizeof(*t));
 	guint32 mask = ~0;
@@ -314,7 +314,7 @@ em_popup_target_new_folder (EMPopup *emp, const char *uri, guint32 info_flags, g
 		goto done;
 
 	if (!(popup_flags & EM_POPUP_FOLDER_STORE)) {
-		const char *path;
+		const gchar *path;
 
 		if (popup_flags & EM_POPUP_FOLDER_DELETE)
 			mask &= ~EM_POPUP_FOLDER_DELETE;
@@ -375,7 +375,7 @@ done:
 
 */
 
-static void *emph_parent_class;
+static gpointer emph_parent_class;
 #define emph ((EMPopupHook *)eph)
 
 static const EPopupHookTargetMask emph_select_masks[] = {
@@ -442,7 +442,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	int i;
+	gint i;
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.popup:1.0";

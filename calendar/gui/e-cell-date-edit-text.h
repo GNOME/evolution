@@ -56,7 +56,7 @@ typedef struct {
 } ECellDateEditTextClass;
 
 GType      e_cell_date_edit_text_get_type (void);
-ECell     *e_cell_date_edit_text_new      (const char *fontname,
+ECell     *e_cell_date_edit_text_new      (const gchar *fontname,
 					   GtkJustification justify);
 
 

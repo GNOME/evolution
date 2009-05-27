@@ -108,7 +108,7 @@ dialog_close (MigrationContext *context)
 }
 
 static void
-dialog_set_label (MigrationContext *context, const char *str)
+dialog_set_label (MigrationContext *context, const gchar *str)
 {
 	gtk_label_set_text (GTK_LABEL (context->label), str);
 
@@ -121,9 +121,9 @@ dialog_set_label (MigrationContext *context, const char *str)
 }
 
 static void
-dialog_set_folder_name (MigrationContext *context, const char *folder_name)
+dialog_set_folder_name (MigrationContext *context, const gchar *folder_name)
 {
-	char *text;
+	gchar *text;
 
 	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (GTK_LABEL (context->folder_label), text);
@@ -142,7 +142,7 @@ dialog_set_folder_name (MigrationContext *context, const char *folder_name)
 static void
 dialog_set_progress (MigrationContext *context, double percent)
 {
-	char text[5];
+	gchar text[5];
 
 	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
 
@@ -158,7 +158,7 @@ dialog_set_progress (MigrationContext *context, double percent)
 }
 
 static gboolean
-check_for_conflict (ESourceGroup *group, char *name)
+check_for_conflict (ESourceGroup *group, gchar *name)
 {
 	GSList *sources;
 	GSList *s;
@@ -175,16 +175,16 @@ check_for_conflict (ESourceGroup *group, char *name)
 	return FALSE;
 }
 
-static char *
-get_source_name (ESourceGroup *group, const char *path)
+static gchar *
+get_source_name (ESourceGroup *group, const gchar *path)
 {
 #ifndef G_OS_WIN32
-	char **p = g_strsplit (path, "/", 0);
+	gchar **p = g_strsplit (path, "/", 0);
 #else
-	char **p = g_strsplit_set (path, "\\/", 0);
+	gchar **p = g_strsplit_set (path, "\\/", 0);
 #endif
-	int i, j, starting_index;
-	int num_elements;
+	gint i, j, starting_index;
+	gint num_elements;
 	gboolean conflict;
 	GString *s = g_string_new ("");
 
@@ -229,8 +229,8 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 {
 	EBookQuery *query = e_book_query_any_field_contains ("");
 	GList *l, *contacts;
-	int num_added = 0;
-	int num_contacts;
+	gint num_added = 0;
+	gint num_contacts;
 
 	/* both books are loaded, start the actual migration */
 	e_book_get_contacts (old_book, query, &contacts, NULL);
@@ -343,7 +343,7 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 							"OTHER");
 
 				if (v && v->data) {
-					if (!strncmp ((char*)v->data, "<?xml", 5)) {
+					if (!strncmp ((gchar *)v->data, "<?xml", 5)) {
 						/* k, this is the nasty part.  we glomb all the
 						   value strings back together again (if there is
 						   more than one), then work our magic */
@@ -383,9 +383,9 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 }
 
 static void
-migrate_contact_folder_to_source (MigrationContext *context, char *old_path, ESource *new_source)
+migrate_contact_folder_to_source (MigrationContext *context, gchar *old_path, ESource *new_source)
 {
-	char *old_uri = g_filename_to_uri (old_path, NULL, NULL);
+	gchar *old_uri = g_filename_to_uri (old_path, NULL, NULL);
 	GError *e = NULL;
 
 	EBook *old_book = NULL, *new_book = NULL;
@@ -425,7 +425,7 @@ migrate_contact_folder_to_source (MigrationContext *context, char *old_path, ESo
 }
 
 static void
-migrate_contact_folder (MigrationContext *context, char *old_path, ESourceGroup *dest_group, char *source_name)
+migrate_contact_folder (MigrationContext *context, gchar *old_path, ESourceGroup *dest_group, gchar *source_name)
 {
 	ESource *new_source;
 
@@ -451,7 +451,7 @@ create_groups (MigrationContext *context,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	char *base_uri, *base_uri_proto;
+	gchar *base_uri, *base_uri_proto;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
@@ -528,9 +528,9 @@ create_groups (MigrationContext *context,
 static gboolean
 migrate_local_folders (MigrationContext *context, ESourceGroup *on_this_computer, ESource *personal_source)
 {
-	char *old_path = NULL;
+	gchar *old_path = NULL;
 	GSList *dirs, *l;
-	char *local_contact_folder = NULL;
+	gchar *local_contact_folder = NULL;
 
 	old_path = g_strdup_printf ("%s/evolution/local", g_get_home_dir ());
 
@@ -542,15 +542,15 @@ migrate_local_folders (MigrationContext *context, ESourceGroup *on_this_computer
 						 NULL);
 
 	for (l = dirs; l; l = l->next) {
-		char *source_name;
+		gchar *source_name;
 		/* we handle the system folder differently */
-		if (personal_source && !strcmp ((char*)l->data, local_contact_folder)) {
+		if (personal_source && !strcmp ((gchar *)l->data, local_contact_folder)) {
 			g_hash_table_insert (context->folder_uid_map, g_strdup (l->data), g_strdup (e_source_peek_uid (personal_source)));
 			migrate_contact_folder_to_source (context, local_contact_folder, personal_source);
 			continue;
 		}
 
-		source_name = get_source_name (on_this_computer, (char*)l->data);
+		source_name = get_source_name (on_this_computer, (gchar *)l->data);
 		migrate_contact_folder (context, l->data, on_this_computer, source_name);
 		g_free (source_name);
 	}
@@ -563,13 +563,13 @@ migrate_local_folders (MigrationContext *context, ESourceGroup *on_this_computer
 	return TRUE;
 }
 
-static char *
+static gchar *
 get_string_child (xmlNode *node,
-		  const char *name)
+		  const gchar *name)
 {
 	xmlNode *p;
 	xmlChar *xml_string;
-	char *retval;
+	gchar *retval;
 
 	p = e_xml_get_child_by_name (node, (xmlChar *) name);
 	if (p == NULL)
@@ -580,7 +580,7 @@ get_string_child (xmlNode *node,
 		return g_strdup("");
 
 	xml_string = xmlNodeListGetString (node->doc, p, 1);
-	retval = g_strdup ((char *) xml_string);
+	retval = g_strdup ((gchar *) xml_string);
 	xmlFree (xml_string);
 
 	return retval;
@@ -588,12 +588,12 @@ get_string_child (xmlNode *node,
 
 static int
 get_integer_child (xmlNode *node,
-		   const char *name,
-		   int defval)
+		   const gchar *name,
+		   gint defval)
 {
 	xmlNode *p;
 	xmlChar *xml_string;
-	int retval;
+	gint retval;
 
 	p = e_xml_get_child_by_name (node, (xmlChar *) name);
 	if (p == NULL)
@@ -604,7 +604,7 @@ get_integer_child (xmlNode *node,
 		return defval;
 
 	xml_string = xmlNodeListGetString (node->doc, p, 1);
-	retval = atoi ((char *)xml_string);
+	retval = atoi ((gchar *)xml_string);
 	xmlFree (xml_string);
 
 	return retval;
@@ -613,7 +613,7 @@ get_integer_child (xmlNode *node,
 static gboolean
 migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 {
-	char *sources_xml = g_strdup_printf ("%s/evolution/addressbook-sources.xml",
+	gchar *sources_xml = g_strdup_printf ("%s/evolution/addressbook-sources.xml",
 					     g_get_home_dir ());
 
 	printf ("trying to migrate from %s\n", sources_xml);
@@ -622,14 +622,14 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 		xmlDoc  *doc = xmlParseFile (sources_xml);
 		xmlNode *root;
 		xmlNode *child;
-		int num_contactservers;
-		int servernum;
+		gint num_contactservers;
+		gint servernum;
 
 		if (!doc)
 			return FALSE;
 
 		root = xmlDocGetRootElement (doc);
-		if (root == NULL || strcmp ((const char *)root->name, "addressbooks") != 0) {
+		if (root == NULL || strcmp ((const gchar *)root->name, "addressbooks") != 0) {
 			xmlFreeDoc (doc);
 			return FALSE;
 		}
@@ -637,7 +637,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 		/* count the number of servers, so we can give progress */
 		num_contactservers = 0;
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp ((const char *)child->name, "contactserver")) {
+			if (!strcmp ((const gchar *)child->name, "contactserver")) {
 				num_contactservers++;
 			}
 		}
@@ -647,11 +647,11 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 
 		servernum = 0;
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp ((const char *)child->name, "contactserver")) {
-				char *port, *host, *rootdn, *scope, *authmethod, *ssl;
-				char *emailaddr, *binddn, *limitstr;
-				int limit;
-				char *name, *description;
+			if (!strcmp ((const gchar *)child->name, "contactserver")) {
+				gchar *port, *host, *rootdn, *scope, *authmethod, *ssl;
+				gchar *emailaddr, *binddn, *limitstr;
+				gint limit;
+				gchar *name, *description;
 				GString *uri = g_string_new ("");
 				ESource *source;
 
@@ -711,7 +711,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 }
 
 static ESource*
-get_source_by_name (ESourceList *source_list, const char *name)
+get_source_by_name (ESourceList *source_list, const gchar *name)
 {
 	GSList *groups;
 	GSList *g;
@@ -731,7 +731,7 @@ get_source_by_name (ESourceList *source_list, const char *name)
 
 		for (s = sources; s; s = s->next) {
 			ESource *source = E_SOURCE (s->data);
-			const char *source_name = e_source_peek_name (source);
+			const gchar *source_name = e_source_peek_name (source);
 
 			if (!strcmp (name, source_name))
 				return source;
@@ -766,14 +766,14 @@ migrate_completion_folders (MigrationContext *context)
 		dialog_set_folder_name (context, _("Autocompletion Settings"));
 
 		root = xmlDocGetRootElement (doc);
-		if (root == NULL || strcmp ((const char *)root->name, "EvolutionFolderList") != 0) {
+		if (root == NULL || strcmp ((const gchar *)root->name, "EvolutionFolderList") != 0) {
 			xmlFreeDoc (doc);
 			return FALSE;
 		}
 
 		for (child = root->children; child; child = child->next) {
-			if (!strcmp ((const char *)child->name, "folder")) {
-				char *physical_uri = e_xml_get_string_prop_by_name (child, (const unsigned char *)"physical-uri");
+			if (!strcmp ((const gchar *)child->name, "folder")) {
+				gchar *physical_uri = e_xml_get_string_prop_by_name (child, (const guchar *)"physical-uri");
 				ESource *source = NULL;
 
 				/* if the physical uri is file://...
@@ -788,8 +788,8 @@ migrate_completion_folders (MigrationContext *context)
 				   for the uri. */
 
 				if (!strncmp (physical_uri, "file://", 7)) {
-					char *filename = g_filename_from_uri (physical_uri, NULL, NULL);
-					char *uid = NULL;
+					gchar *filename = g_filename_from_uri (physical_uri, NULL, NULL);
+					gchar *uid = NULL;
 
 					if (filename)
 						uid  = g_hash_table_lookup (context->folder_uid_map,
@@ -799,7 +799,7 @@ migrate_completion_folders (MigrationContext *context)
 						source = e_source_list_peek_source_by_uid (context->source_list, uid);
 				}
 				else {
-					char *name = e_xml_get_string_prop_by_name (child, (const unsigned char *)"display-name");
+					gchar *name = e_xml_get_string_prop_by_name (child, (const guchar *)"display-name");
 
 					source = get_source_by_name (context->source_list, name);
 
@@ -838,14 +838,14 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 		EBook *book;
 		EBookQuery *query;
 		GList *l, *contacts;
-		int num_contacts, num_converted;
+		gint num_contacts, num_converted;
 
 		dialog_set_folder_name (context, e_source_peek_name (source));
 
 		book = e_book_new (source, NULL);
 		if (!book
 		    || !e_book_open (book, TRUE, NULL)) {
-			char *uri = e_source_get_uri (source);
+			gchar *uri = e_source_get_uri (source);
 			g_warning ("failed to migrate contact lists for source %s", uri);
 			g_free (uri);
 			continue;
@@ -869,8 +869,8 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 				GList *v = e_vcard_attribute_get_values (a);
 
 				if (v && v->data) {
-					if (!strncmp ((char*)v->data, "<?xml", 5)) {
-						EDestination *dest = e_destination_import ((char*)v->data);
+					if (!strncmp ((gchar *)v->data, "<?xml", 5)) {
+						EDestination *dest = e_destination_import ((gchar *)v->data);
 
 						e_destination_export_to_vcard_attribute (dest, a);
 
@@ -913,14 +913,14 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 		EBook *book;
 		EBookQuery *query;
 		GList *l, *contacts;
-		int num_contacts, num_converted;
+		gint num_contacts, num_converted;
 
 		dialog_set_folder_name (context, e_source_peek_name (source));
 
 		book = e_book_new (source, NULL);
 		if (!book
 		    || !e_book_open (book, TRUE, NULL)) {
-			char *uri = e_source_get_uri (source);
+			gchar *uri = e_source_get_uri (source);
 			g_warning ("failed to migrate company phone numbers for source %s", uri);
 			g_free (uri);
 			continue;
@@ -937,7 +937,7 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 			GError *e = NULL;
 			GList *attrs, *attr;
 			gboolean converted = FALSE;
-			int num_work_voice = 0;
+			gint num_work_voice = 0;
 
 			attrs = e_vcard_get_attributes (E_VCARD (contact));
 			for (attr = attrs; attr;) {
@@ -1006,11 +1006,11 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 }
 
 static void
-migrate_pilot_data (const char *old_path, const char *new_path)
+migrate_pilot_data (const gchar *old_path, const gchar *new_path)
 {
-	const char *dent;
-	const char *ext;
-	char *filename;
+	const gchar *dent;
+	const gchar *ext;
+	gchar *filename;
 	GDir *dir;
 
 	if (!(dir = g_dir_open (old_path, 0, NULL)))
@@ -1022,9 +1022,9 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 		    (!strncmp (dent, "pilot-sync-evolution-addressbook-", 33) &&
 		     ((ext = strrchr (dent, '.')) && !strcmp (ext, ".db")))) {
 			/* src and dest file formats are identical for both map and changelog files */
-			unsigned char inbuf[4096];
+			guchar inbuf[4096];
 			size_t nread, nwritten;
-			int fd0, fd1;
+			gint fd0, fd1;
 			ssize_t n;
 
 			filename = g_build_filename (old_path, dent, NULL);
@@ -1181,7 +1181,7 @@ e_book_shell_backend_migrate (EShellBackend *shell_backend,
 		}
 
 		if (minor < 5 || (minor == 5 && micro <= 10)) {
-			char *old_path, *new_path;
+			gchar *old_path, *new_path;
 
 			dialog_set_label (context, _("Evolution's Palm Sync changelog and map files have changed.\n\n"
 						     "Please be patient while Evolution migrates your Pilot Sync data..."));

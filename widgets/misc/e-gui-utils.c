@@ -172,7 +172,7 @@ e_container_change_tab_order(GtkContainer *container, GList *widgets)
 
 struct widgetandint {
 	GtkWidget *widget;
-	int count;
+	gint count;
 };
 
 static void
@@ -191,7 +191,7 @@ nth_entry_callback(GtkWidget *widget, struct widgetandint *data)
 }
 
 void
-e_container_focus_nth_entry(GtkContainer *container, int n)
+e_container_focus_nth_entry(GtkContainer *container, gint n)
 {
 	struct widgetandint data;
 	data.widget = NULL;
@@ -202,7 +202,7 @@ e_container_focus_nth_entry(GtkContainer *container, int n)
 }
 
 gboolean
-e_glade_xml_connect_widget (GladeXML *gui, char *name, char *signal, GCallback cb, gpointer closure)
+e_glade_xml_connect_widget (GladeXML *gui, gchar *name, gchar *signal, GCallback cb, gpointer closure)
 {
 	GtkWidget *widget;
 
@@ -218,7 +218,7 @@ e_glade_xml_connect_widget (GladeXML *gui, char *name, char *signal, GCallback c
 }
 
 gboolean
-e_glade_xml_set_sensitive (GladeXML *gui, char *name, gboolean sensitive)
+e_glade_xml_set_sensitive (GladeXML *gui, gchar *name, gboolean sensitive)
 {
 	GtkWidget *widget;
 

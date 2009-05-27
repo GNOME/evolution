@@ -46,18 +46,18 @@ typedef struct {
 	ETableSortInfo *sort_info;
 
 	/* If needs_sorting is 0, then model_to_sorted and sorted_to_model are no-ops. */
-	int             needs_sorting;
+	gint             needs_sorting;
 
-	int            *sorted;
-	int            *backsorted;
+	gint            *sorted;
+	gint            *backsorted;
 
-	int             table_model_changed_id;
-	int             table_model_row_changed_id;
-	int             table_model_cell_changed_id;
-	int             table_model_rows_inserted_id;
-	int             table_model_rows_deleted_id;
-	int             sort_info_changed_id;
-	int             group_info_changed_id;
+	gint             table_model_changed_id;
+	gint             table_model_row_changed_id;
+	gint             table_model_cell_changed_id;
+	gint             table_model_rows_inserted_id;
+	gint             table_model_rows_deleted_id;
+	gint             sort_info_changed_id;
+	gint             group_info_changed_id;
 } ETableSorter;
 
 typedef struct {

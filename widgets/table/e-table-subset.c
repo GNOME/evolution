@@ -33,10 +33,10 @@
 static void etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_no_change_real (ETableSubset *etss, ETableModel *etm);
 static void etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm);
-static void etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row);
-static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int col, int row);
-static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
-static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
+static void etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, gint row);
+static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, gint col, gint row);
+static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count);
+static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count);
 
 #define d(x)
 
@@ -50,15 +50,15 @@ G_DEFINE_TYPE (ETableSubset, etss, E_TABLE_MODEL_TYPE)
 #define MAP_ROW(etss, row) (row == -1 ? -1 : etss->map_table[row])
 
 static gint
-etss_get_view_row (ETableSubset *etss, int row)
+etss_get_view_row (ETableSubset *etss, gint row)
 {
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
+	const gint n = etss->n_map;
+	const gint * const map_table = etss->map_table;
+	gint i;
 
-	int end = MIN(etss->n_map, etss->last_access + 10);
-	int start = MAX(0, etss->last_access - 10);
-	int initial = MAX (MIN (etss->last_access, end), start);
+	gint end = MIN(etss->n_map, etss->last_access + 10);
+	gint start = MAX(0, etss->last_access - 10);
+	gint initial = MAX (MIN (etss->last_access, end), start);
 
 	for (i = initial; i < end; i++) {
 		if (map_table [i] == row){
@@ -147,8 +147,8 @@ etss_row_count (ETableModel *etm)
 	return etss->n_map;
 }
 
-static void *
-etss_value_at (ETableModel *etm, int col, int row)
+static gpointer
+etss_value_at (ETableModel *etm, gint col, gint row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -160,7 +160,7 @@ etss_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
+etss_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -172,7 +172,7 @@ etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
 }
 
 static gboolean
-etss_is_cell_editable (ETableModel *etm, int col, int row)
+etss_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -187,8 +187,8 @@ etss_has_save_id (ETableModel *etm)
 	return TRUE;
 }
 
-static char *
-etss_get_save_id (ETableModel *etm, int row)
+static gchar *
+etss_get_save_id (ETableModel *etm, gint row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -201,14 +201,14 @@ etss_get_save_id (ETableModel *etm, int row)
 }
 
 static void
-etss_append_row (ETableModel *etm, ETableModel *source, int row)
+etss_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 	e_table_model_append_row (etss->source, source, row);
 }
 
-static void *
-etss_duplicate_value (ETableModel *etm, int col, const void *value)
+static gpointer
+etss_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -216,15 +216,15 @@ etss_duplicate_value (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etss_free_value (ETableModel *etm, int col, void *value)
+etss_free_value (ETableModel *etm, gint col, gpointer value)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
 	e_table_model_free_value (etss->source, col, value);
 }
 
-static void *
-etss_initialize_value (ETableModel *etm, int col)
+static gpointer
+etss_initialize_value (ETableModel *etm, gint col)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -232,15 +232,15 @@ etss_initialize_value (ETableModel *etm, int col)
 }
 
 static gboolean
-etss_value_is_empty (ETableModel *etm, int col, const void *value)
+etss_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
 	return e_table_model_value_is_empty (etss->source, col, value);
 }
 
-static char *
-etss_value_to_string (ETableModel *etm, int col, const void *value)
+static gchar *
+etss_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
@@ -307,9 +307,9 @@ etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm)
 }
 
 static void
-etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row)
+etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, gint row)
 {
-	int view_row = etss_get_view_row (etss, row);
+	gint view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_row_changed (E_TABLE_MODEL (etss), view_row);
 	else
@@ -317,9 +317,9 @@ etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row
 }
 
 static void
-etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int col, int row)
+etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, gint col, gint row)
 {
-	int view_row = etss_get_view_row (etss, row);
+	gint view_row = etss_get_view_row (etss, row);
 	if (view_row != -1)
 		e_table_model_cell_changed (E_TABLE_MODEL (etss), col, view_row);
 	else
@@ -327,13 +327,13 @@ etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int co
 }
 
 static void
-etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count)
 {
 	e_table_model_no_change (E_TABLE_MODEL (etss));
 }
 
 static void
-etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count)
+etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, gint row, gint count)
 {
 	e_table_model_no_change (E_TABLE_MODEL (etss));
 }
@@ -360,46 +360,46 @@ etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 }
 
 static void
-etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
+etss_proxy_model_row_changed (ETableModel *etm, gint row, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_row_changed)
 		(ETSS_CLASS(etss)->proxy_model_row_changed) (etss, etm, row);
 }
 
 static void
-etss_proxy_model_cell_changed (ETableModel *etm, int row, int col, ETableSubset *etss)
+etss_proxy_model_cell_changed (ETableModel *etm, gint row, gint col, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_cell_changed)
 		(ETSS_CLASS(etss)->proxy_model_cell_changed) (etss, etm, col, row);
 }
 
 static void
-etss_proxy_model_rows_inserted (ETableModel *etm, int row, int col, ETableSubset *etss)
+etss_proxy_model_rows_inserted (ETableModel *etm, gint row, gint col, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_rows_inserted)
 		(ETSS_CLASS(etss)->proxy_model_rows_inserted) (etss, etm, row, col);
 }
 
 static void
-etss_proxy_model_rows_deleted (ETableModel *etm, int row, int col, ETableSubset *etss)
+etss_proxy_model_rows_deleted (ETableModel *etm, gint row, gint col, ETableSubset *etss)
 {
 	if (ETSS_CLASS(etss)->proxy_model_rows_deleted)
 		(ETSS_CLASS(etss)->proxy_model_rows_deleted) (etss, etm, row, col);
 }
 
 ETableModel *
-e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
+e_table_subset_construct (ETableSubset *etss, ETableModel *source, gint nvals)
 {
-	unsigned int *buffer;
-	int i;
+	guint *buffer;
+	gint i;
 
 	if (nvals) {
-		buffer = (unsigned int *) g_malloc (sizeof (unsigned int) * nvals);
+		buffer = (guint *) g_malloc (sizeof (unsigned int) * nvals);
 		if (buffer == NULL)
 			return NULL;
 	} else
 		buffer = NULL;
-	etss->map_table = (int *)buffer;
+	etss->map_table = (gint *)buffer;
 	etss->n_map = nvals;
 	etss->source = source;
 	g_object_ref (source);
@@ -427,7 +427,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 }
 
 ETableModel *
-e_table_subset_new (ETableModel *source, const int nvals)
+e_table_subset_new (ETableModel *source, const gint nvals)
 {
 	ETableSubset *etss = g_object_new (E_TABLE_SUBSET_TYPE, NULL);
 
@@ -439,11 +439,11 @@ e_table_subset_new (ETableModel *source, const int nvals)
 	return (ETableModel *) etss;
 }
 
-int
+gint
 e_table_subset_model_to_view_row  (ETableSubset *ets,
-				   int           model_row)
+				   gint           model_row)
 {
-	int i;
+	gint i;
 	for (i = 0; i < ets->n_map; i++) {
 		if (ets->map_table[i] == model_row)
 			return i;
@@ -451,9 +451,9 @@ e_table_subset_model_to_view_row  (ETableSubset *ets,
 	return -1;
 }
 
-int
+gint
 e_table_subset_view_to_model_row  (ETableSubset *ets,
-				   int           view_row)
+				   gint           view_row)
 {
 	if (view_row >= 0 && view_row < ets->n_map)
 		return ets->map_table[view_row];
@@ -476,7 +476,7 @@ e_table_subset_get_toplevel (ETableSubset *table)
 void
 e_table_subset_print_debugging  (ETableSubset *table_model)
 {
-	int i;
+	gint i;
 	for (i = 0; i < table_model->n_map; i++) {
 		g_print("%8d\n", table_model->map_table[i]);
 	}

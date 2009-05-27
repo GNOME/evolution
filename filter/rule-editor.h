@@ -53,10 +53,10 @@ struct _RuleEditor {
 
 	GtkWidget *dialog;
 
-	char *source;
+	gchar *source;
 
 	struct _RuleEditorUndo *undo_log;	/* cancel/undo log */
-	unsigned int undo_active:1; /* we're performing undo */
+	guint undo_active:1; /* we're performing undo */
 
 	struct _RuleEditorPrivate *priv;
 };
@@ -66,7 +66,7 @@ struct _RuleEditorClass {
 
 	/* virtual methods */
 	void (*set_sensitive) (RuleEditor *);
-	void (*set_source) (RuleEditor *, const char *source);
+	void (*set_source) (RuleEditor *, const gchar *source);
 
 	FilterRule *(*create_rule) (RuleEditor *);
 
@@ -83,19 +83,19 @@ enum {
 struct _RuleEditorUndo {
 	struct _RuleEditorUndo *next;
 
-	unsigned int type;
+	guint type;
 	FilterRule *rule;
-	int rank;
-	int newrank;
+	gint rank;
+	gint newrank;
 };
 
 GType rule_editor_get_type(void);
-RuleEditor *rule_editor_new(RuleContext *rc, const char *source, const char *label);
+RuleEditor *rule_editor_new(RuleContext *rc, const gchar *source, const gchar *label);
 
-void rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source, const char *label);
+void rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const gchar *source, const gchar *label);
 
 /* methods */
-void rule_editor_set_source(RuleEditor *re, const char *source);
+void rule_editor_set_source(RuleEditor *re, const gchar *source);
 /* calculates the sensitivity of the editor */
 void rule_editor_set_sensitive(RuleEditor *re);
 /* used internally to create a new rule appropriate for the editor */

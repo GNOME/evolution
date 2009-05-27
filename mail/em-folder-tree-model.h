@@ -79,20 +79,20 @@ struct _EMFolderTreeModelStoreInfo {
 	GHashTable *full_hash;  /* maps CamelFolderInfo::full_name's to GtkTreeRowReferences */
 	EAccount *account;
 
-	char *display_name;
+	gchar *display_name;
 
-	unsigned int created_id;
-	unsigned int deleted_id;
-	unsigned int renamed_id;
-	unsigned int subscribed_id;
-	unsigned int unsubscribed_id;
+	guint created_id;
+	guint deleted_id;
+	guint renamed_id;
+	guint subscribed_id;
+	guint unsubscribed_id;
 };
 
 struct _EMFolderTreeModel {
 	GtkTreeStore parent;
 	EMFolderTreeModelPrivate *priv;
 
-	char *filename;            /* state filename */
+	gchar *filename;            /* state filename */
 	xmlDocPtr state;           /* saved expanded state from previous session */
 
 	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
@@ -117,11 +117,11 @@ struct _EMFolderTreeModelClass {
 					 GtkTreeIter *iter);
 
 	void     (* folder_added)       (EMFolderTreeModel *model,
-					 const char *path,
-					 const char *uri);
+					 const gchar *path,
+					 const gchar *uri);
 
 	void     (* store_added)        (EMFolderTreeModel *model,
-					 const char *uri);
+					 const gchar *uri);
 };
 
 
@@ -134,30 +134,30 @@ EMailShellBackend *
 
 void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 					   struct _EMFolderTreeModelStoreInfo *si,
-					   CamelFolderInfo *fi, int fully_loaded);
+					   CamelFolderInfo *fi, gint fully_loaded);
 
-void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name);
+void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const gchar *display_name);
 void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
 void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
 					  GtkTreeIter *toplevel);
 
-char *em_folder_tree_model_get_selected (EMFolderTreeModel *model);
-void em_folder_tree_model_set_selected (EMFolderTreeModel *model, const char *uri);
+gchar *em_folder_tree_model_get_selected (EMFolderTreeModel *model);
+void em_folder_tree_model_set_selected (EMFolderTreeModel *model, const gchar *uri);
 
-gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char *key);
-void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded);
+gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const gchar *key);
+void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const gchar *key, gboolean expanded);
 
-gboolean em_folder_tree_model_get_expanded_uri (EMFolderTreeModel *model, const char *uri);
-void em_folder_tree_model_set_expanded_uri (EMFolderTreeModel *model, const char *uri, gboolean expanded);
+gboolean em_folder_tree_model_get_expanded_uri (EMFolderTreeModel *model, const gchar *uri);
+void em_folder_tree_model_set_expanded_uri (EMFolderTreeModel *model, const gchar *uri, gboolean expanded);
 
 void em_folder_tree_model_save_state (EMFolderTreeModel *model);
 
-typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const char *path, void *user_data);
-void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, void *user_data);
+typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const gchar *path, gpointer user_data);
+void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, gpointer user_data);
 
-void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
-gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full);
-char * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const char *full);
+void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const gchar *path, gint unread);
+gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
+gchar * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
 
 G_END_DECLS
 

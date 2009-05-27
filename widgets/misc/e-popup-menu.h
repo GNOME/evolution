@@ -71,8 +71,8 @@ G_BEGIN_DECLS
 typedef struct _EPopupMenu EPopupMenu;
 
 struct _EPopupMenu {
-	char *name;
-	char *pixname;
+	gchar *name;
+	gchar *pixname;
 	GCallback fn;
 
 	EPopupMenu *submenu;
@@ -80,7 +80,7 @@ struct _EPopupMenu {
 
 	/* Added post 0.19 */
 	GtkWidget *pixmap_widget;
-	void *closure;
+	gpointer closure;
 
 	guint is_toggle : 1;
 	guint is_radio : 1;
@@ -97,7 +97,7 @@ GtkMenu    *e_popup_menu_create_with_domain  (EPopupMenu       *menu_list,
 					      guint32           disable_mask,
 					      guint32           hide_mask,
 					      void             *default_closure,
-					      const char       *domain);
+					      const gchar       *domain);
 void        e_popup_menu_run                 (EPopupMenu       *menu_list,
 					      GdkEvent         *event,
 					      guint32           disable_mask,

@@ -41,11 +41,11 @@
 #define d(x)
 
 static gboolean
-is_type_folder (const char *metadata, const char *search_type)
+is_type_folder (const gchar *metadata, const gchar *search_type)
 {
 	xmlNodePtr node;
 	xmlDocPtr doc;
-	char *type;
+	gchar *type;
 
 	doc = e_xml_parse_file (metadata);
 	if (!doc) {
@@ -59,7 +59,7 @@ is_type_folder (const char *metadata, const char *search_type)
 		return FALSE;
 	}
 
-	if (!node->name || strcmp ((char *)node->name, "efolder") != 0) {
+	if (!node->name || strcmp ((gchar *)node->name, "efolder") != 0) {
 		g_warning ("`%s' corrupt: root node is not 'efolder'", metadata);
 		xmlFreeDoc (doc);
 		return FALSE;
@@ -67,8 +67,8 @@ is_type_folder (const char *metadata, const char *search_type)
 
 	node = node->children;
 	while (node != NULL) {
-		if (node->name && !strcmp ((char *)node->name, "type")) {
-			type = (char *)xmlNodeGetContent (node);
+		if (node->name && !strcmp ((gchar *)node->name, "type")) {
+			type = (gchar *)xmlNodeGetContent (node);
 			if (!strcmp (type, search_type)) {
 				xmlFreeDoc (doc);
 				xmlFree (type);
@@ -90,10 +90,10 @@ is_type_folder (const char *metadata, const char *search_type)
 }
 
 static void
-e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
+e_folder_map_dir (const gchar *dirname, const gchar *type, GSList **dir_list)
 {
-	char *path;
-	const char *name;
+	gchar *path;
+	const gchar *name;
 	GDir *dir;
 	GError *error = NULL;
 
@@ -129,7 +129,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 	}
 
 	while ((name = g_dir_read_name (dir))) {
-		char *full_path;
+		gchar *full_path;
 
 		if (*name == '.')
 			continue;
@@ -152,7 +152,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 GSList *
 e_folder_map_local_folders (const gchar *local_dir, const gchar *type)
 {
-	const char *name;
+	const gchar *name;
 	GDir *dir;
 	GSList *dir_list = NULL;
 	GError *error = NULL;
@@ -164,7 +164,7 @@ e_folder_map_local_folders (const gchar *local_dir, const gchar *type)
 	}
 
 	while ((name = g_dir_read_name (dir))) {
-		char *full_path;
+		gchar *full_path;
 
 		if (*name == '.')
 			continue;

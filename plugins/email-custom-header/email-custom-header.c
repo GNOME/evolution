@@ -70,7 +70,7 @@ struct _EmailCustomHeaderOptionsDialogPrivate {
 	GArray *email_custom_header_details;
 	GArray *header_index_type;
 	gint flag;
-	char *help_section;
+	gchar *help_section;
 };
 
 /* epech - e-plugin email custom header*/
@@ -81,13 +81,13 @@ static void epech_dialog_dispose (GObject *object);
 static void epech_setup_widgets (CustomHeaderOptionsDialog *mch);
 static gint epech_check_existing_composer_window(gconstpointer a, gconstpointer b);
 static void commit_changes (ConfigData *cd);
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init(GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+gint
+e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
         return 0;
 }
@@ -274,14 +274,14 @@ epech_get_header_list (CustomHeaderOptionsDialog *mch)
 }
 
 static void
-epech_load_from_gconf (GConfClient *client,const char *path,CustomHeaderOptionsDialog *mch)
+epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptionsDialog *mch)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails temp_header_details= {-1, -1, NULL, NULL};
 	CustomSubHeader temp_header_value_details =  {NULL};
 	GSList *header_list,*q;
 	gchar *buffer;
-	char *str_colon;
+	gchar *str_colon;
 	gint index,pos;
 
 	priv = mch->priv;
@@ -641,8 +641,8 @@ static void
 header_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, ConfigData *cd)
 {
 	GtkTreeSelection *selection;
-	char *keyword = NULL;
-	char *value = NULL;
+	gchar *keyword = NULL;
+	gchar *value = NULL;
 	gboolean valid;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cd->treeview));
@@ -677,8 +677,8 @@ header_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIte
 
 	valid = gtk_tree_model_get_iter_first (model, iter);
 	while (valid && gtk_list_store_iter_is_valid (cd->store, iter)) {
-		char *keyword = NULL;
-		char *value = NULL;
+		gchar *keyword = NULL;
+		gchar *value = NULL;
 		gtk_tree_model_get (model, iter, HEADER_KEY_COLUMN, &keyword, -1);
 		/* Check if the keyword is not empty and then emit the row-changed
 		signal (if we delete the row, then the iter gets corrupted) */
@@ -879,15 +879,15 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkTreeModel *model;
 	gint index;
         gchar *buffer;
-        char *str_colon = NULL, *str1_colon = NULL;
+        gchar *str_colon = NULL, *str1_colon = NULL;
         GtkTreeViewColumn *col;
-	int col_pos;
+	gint col_pos;
 
 	GConfClient *client = gconf_client_get_default();
 
 	ConfigData *cd = g_new0 (ConfigData, 1);
 
-	char *gladefile;
+	gchar *gladefile;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 			"email-custom-header.glade",

@@ -80,8 +80,8 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
 
-	char *full_name;	/* full name of folder/folderinfo */
-	char *uri;		/* uri of folder */
+	gchar *full_name;	/* full name of folder/folderinfo */
+	gchar *uri;		/* uri of folder */
 
 	guint32 flags;
 
@@ -93,18 +93,18 @@ struct _folder_update {
 	struct _folder_update *next;
 	struct _folder_update *prev;
 
-	unsigned int remove:1;	/* removing from vfolders */
-	unsigned int delete:1;	/* deleting as well? */
-	unsigned int add:1;	/* add to vfolder */
-	unsigned int unsub:1;   /* unsubcribing? */
-	unsigned int new;     /* new mail arrived? */
+	guint remove:1;	/* removing from vfolders */
+	guint delete:1;	/* deleting as well? */
+	guint add:1;	/* add to vfolder */
+	guint unsub:1;   /* unsubcribing? */
+	guint new;     /* new mail arrived? */
 
-	char *full_name;
-	char *uri;
-	char *oldfull;
-	char *olduri;
+	gchar *full_name;
+	gchar *uri;
+	gchar *oldfull;
+	gchar *olduri;
 
-	int unread;
+	gint unread;
 	CamelStore *store;
 };
 
@@ -132,11 +132,11 @@ static GHashTable *stores = NULL;
 
 /* List of folder changes to be executed in gui thread */
 static EDList updates = E_DLIST_INITIALISER(updates);
-static int update_id = -1;
+static gint update_id = -1;
 
 /* hack for people who LIKE to have unsent count */
-static int count_sent = FALSE;
-static int count_trash = FALSE;
+static gint count_sent = FALSE;
+static gint count_trash = FALSE;
 
 static void
 free_update(struct _folder_update *up)
@@ -243,7 +243,7 @@ flush_updates (EMailShellBackend *shell_backend)
 }
 
 static void
-unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
+unset_folder_info(struct _folder_info *mfi, gint delete, gint unsub)
 {
 	struct _folder_update *up;
 
@@ -304,7 +304,7 @@ free_folder_info(struct _folder_info *mfi)
  * it's correct.  */
 
 static void
-update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
+update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
 {
 	struct _folder_update *up;
 	EMailShellBackend *mail_shell_backend;
@@ -312,8 +312,8 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
 	CamelFolder *local_sent;
-	int unread = -1;
-	int deleted;
+	gint unread = -1;
+	gint deleted;
 
 	mail_shell_backend = mfi->store_info->mail_shell_backend;
 	local_drafts = e_mail_shell_backend_get_folder (
@@ -433,8 +433,8 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelMessageInfo *info;
 	struct _store_info *si;
 	struct _folder_info *mfi;
-	int new = 0;
-	int i;
+	gint new = 0;
+	gint i;
 	guint32 flags;
 
 	d(printf("folder '%s' changed\n", folder->full_name));
@@ -503,7 +503,7 @@ static void
 folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolder *folder = (CamelFolder *)o;
-	char *old = event_data;
+	gchar *old = event_data;
 
 	d(printf("Folder renamed from '%s' to '%s'\n", old, folder->full_name));
 
@@ -547,7 +547,7 @@ void mail_note_folder(CamelFolder *folder)
 }
 
 static void
-store_folder_subscribed(CamelObject *o, void *event_data, void *data)
+store_folder_subscribed(CamelObject *o, gpointer event_data, gpointer data)
 {
 	struct _store_info *si;
 	CamelFolderInfo *fi = event_data;
@@ -562,7 +562,7 @@ store_folder_subscribed(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_created(CamelObject *o, void *event_data, void *data)
+store_folder_created(CamelObject *o, gpointer event_data, gpointer data)
 {
 	/* we only want created events to do more work if we dont support subscriptions */
 	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
@@ -570,7 +570,7 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_opened(CamelObject *o, void *event_data, void *data)
+store_folder_opened(CamelObject *o, gpointer event_data, gpointer data)
 {
 	CamelFolder *folder = event_data;
 
@@ -578,7 +578,7 @@ store_folder_opened(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
+store_folder_unsubscribed(CamelObject *o, gpointer event_data, gpointer data)
 {
 	struct _store_info *si;
 	CamelFolderInfo *fi = event_data;
@@ -602,24 +602,24 @@ store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 }
 
 static void
-store_folder_deleted(CamelObject *o, void *event_data, void *data)
+store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 {
 	/* we only want deleted events to do more work if we dont support subscriptions */
 	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
 		store_folder_unsubscribed(o, event_data, data);
 }
 
-static char *
-folder_to_url(CamelStore *store, const char *full_name)
+static gchar *
+folder_to_url(CamelStore *store, const gchar *full_name)
 {
 	CamelURL *url;
-	char *out;
+	gchar *out;
 
 	url = camel_url_copy(((CamelService *)store)->url);
 	if (((CamelService *)store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment(url, full_name);
 	} else {
-		char *name = g_alloca(strlen(full_name)+2);
+		gchar *name = g_alloca(strlen(full_name)+2);
 
 		sprintf(name, "/%s", full_name);
 		camel_url_set_path(url, name);
@@ -632,10 +632,10 @@ folder_to_url(CamelStore *store, const char *full_name)
 }
 
 static void
-rename_folders(struct _store_info *si, const char *oldbase, const char *newbase, CamelFolderInfo *fi)
+rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbase, CamelFolderInfo *fi)
 {
 	EShellBackend *shell_backend;
-	char *old, *olduri, *oldfile, *newuri, *newfile;
+	gchar *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
 	struct _folder_update *up;
 	const gchar *config_dir;
@@ -730,7 +730,7 @@ get_folders(CamelFolderInfo *fi, GPtrArray *folders)
 }
 
 static int
-folder_cmp(const void *ap, const void *bp)
+folder_cmp(gconstpointer ap, gconstpointer bp)
 {
 	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];
 	const CamelFolderInfo *b = ((CamelFolderInfo **)bp)[0];
@@ -739,7 +739,7 @@ folder_cmp(const void *ap, const void *bp)
 }
 
 static void
-store_folder_renamed(CamelObject *o, void *event_data, void *data)
+store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 {
 	CamelStore *store = (CamelStore *)o;
 	CamelRenameInfo *info = event_data;
@@ -752,7 +752,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	if (si) {
 		GPtrArray *folders = g_ptr_array_new();
 		CamelFolderInfo *top;
-		int i;
+		gint i;
 
 		/* Ok, so for some reason the folderinfo we have comes in all messed up from
 		   imap, should find out why ... this makes it workable */
@@ -774,21 +774,21 @@ struct _update_data {
 	struct _update_data *next;
 	struct _update_data *prev;
 
-	int id;			/* id for cancellation */
+	gint id;			/* id for cancellation */
 	guint cancel:1;		/* also tells us we're cancelled */
 
-	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
-	void *data;
+	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data);
+	gpointer data;
 };
 
 static void
-unset_folder_info_hash(char *path, struct _folder_info *mfi, void *data)
+unset_folder_info_hash(gchar *path, struct _folder_info *mfi, gpointer data)
 {
 	unset_folder_info(mfi, FALSE, FALSE);
 }
 
 static void
-free_folder_info_hash(char *path, struct _folder_info *mfi, void *data)
+free_folder_info_hash(gchar *path, struct _folder_info *mfi, gpointer data)
 {
 	free_folder_info(mfi);
 }
@@ -839,7 +839,7 @@ mail_note_store_remove(CamelStore *store)
 }
 
 static gboolean
-update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
+update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 {
 	struct _update_data *ud = data;
 	struct _store_info *si;
@@ -876,8 +876,8 @@ struct _ping_store_msg {
 static gchar *
 ping_store_desc (struct _ping_store_msg *m)
 {
-	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
-	char *msg;
+	gchar *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	gchar *msg;
 
 	msg = g_strdup_printf (_("Pinging %s"), service_name);
 	g_free (service_name);
@@ -945,7 +945,7 @@ ping_cb (gpointer user_data)
 }
 
 static void
-store_online_cb (CamelStore *store, void *data)
+store_online_cb (CamelStore *store, gpointer data)
 {
 	struct _update_data *ud = data;
 
@@ -965,13 +965,13 @@ store_online_cb (CamelStore *store, void *data)
 
 void
 mail_note_store(EMailShellBackend *mail_shell_backend, CamelStore *store, CamelOperation *op,
-		gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+		gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data), gpointer data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;
-	const char *buf;
+	const gchar *buf;
 	guint timeout;
-	int hook = 0;
+	gint hook = 0;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 	g_return_if_fail (CAMEL_IS_STORE(store));
@@ -1047,7 +1047,7 @@ mail_note_store(EMailShellBackend *mail_shell_backend, CamelStore *store, CamelO
 }
 
 struct _find_info {
-	const char *uri;
+	const gchar *uri;
 	struct _folder_info *fi;
 	CamelURL *url;
 };
@@ -1057,7 +1057,7 @@ static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si
 {
 	if (fi->fi == NULL) {
 		if (((CamelService *)store)->provider->url_equal(fi->url, ((CamelService *)store)->url)) {
-			char *path = fi->url->fragment?fi->url->fragment:fi->url->path;
+			gchar *path = fi->url->fragment?fi->url->fragment:fi->url->path;
 
 			if (path[0] == '/')
 				path++;
@@ -1068,7 +1068,7 @@ static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si
 
 /* returns TRUE if the uri is available, folderp is set to a
    reffed folder if the folder has also already been opened */
-int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
+gint mail_note_get_folder_from_uri(const gchar *uri, CamelFolder **folderp)
 {
 	struct _find_info fi = { uri, NULL, NULL };
 
@@ -1095,9 +1095,9 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 }
 
 gboolean
-mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
+mail_folder_cache_get_folder_info_flags (CamelFolder *folder, gint *flags)
 {
-	char *uri = mail_tools_folder_to_url (folder);
+	gchar *uri = mail_tools_folder_to_url (folder);
 	struct _find_info fi = { uri, NULL, NULL };
 
 	if (stores == NULL)
