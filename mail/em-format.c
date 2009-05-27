@@ -991,6 +991,9 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
 	/*CamelContentType *ct = camel_mime_part_get_content_type(part);*/
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
+	if (!dw)
+		return 0;
+
 	/*printf("checking is attachment %s/%s\n", ct->type, ct->subtype);*/
 	return !(camel_content_type_is (dw->mime_type, "multipart", "*")
 		 || camel_content_type_is(dw->mime_type, "application", "x-pkcs7-mime")
