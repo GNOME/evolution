@@ -1431,14 +1431,14 @@ msg_composer_update_preferences (GConfClient *client,
 	GError *error = NULL;
 
 	editor = GTKHTML_EDITOR (composer);
-	
+
 	if (entry) {
 		if (strcmp(gconf_entry_get_key(entry), COMPOSER_GCONF_INLINE_SPELLING_KEY) != 0 &&
 		    strcmp(gconf_entry_get_key(entry), COMPOSER_GCONF_MAGIC_LINKS_KEY) != 0 && 
 		    strcmp(gconf_entry_get_key(entry), COMPOSER_GCONF_MAGIC_SMILEYS_KEY) != 0)
 			return;
 	}
-					
+
 	enable = gconf_client_get_bool (
 		client, COMPOSER_GCONF_INLINE_SPELLING_KEY, &error);
 	if (error == NULL)
@@ -2294,7 +2294,7 @@ e_msg_composer_set_lite (void)
 	composer_lite = TRUE;
 }
 
-gboolean 	
+gboolean
 e_msg_composer_get_lite (void)
 {
 	return composer_lite;
@@ -2308,7 +2308,7 @@ e_msg_composer_lite_new (void)
 	/* Init lite-composer for ever for the session */
 	composer_lite = TRUE;
 
- 	composer = e_msg_composer_new ();
+	composer = e_msg_composer_new ();
 
 	return composer;
 }

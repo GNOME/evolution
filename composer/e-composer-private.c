@@ -159,7 +159,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
 		gtk_container_add((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
-			
+
 		path = "/main-toolbar/pre-main-toolbar/save-draft";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 		tmp = gtk_hbox_new (FALSE, 0);
@@ -185,7 +185,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("Add attachment"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
-		gtk_widget_show_all(tmp);		
+		gtk_widget_show_all(tmp);
 		gtk_widget_reparent (send_widget, tmp_box);
 		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_START);
 		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
@@ -210,7 +210,7 @@ e_composer_private_init (EMsgComposer *composer)
 	/* Construct the header table. */
 
 	container = editor->vbox;
-	
+
 	widget = e_composer_header_table_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
