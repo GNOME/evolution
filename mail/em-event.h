@@ -133,7 +133,8 @@ typedef struct _EMEventTargetCustomIcon EMEventTargetCustomIcon;
 struct _EMEventTargetCustomIcon {
 	EEventTarget target;
 
-	GtkCellRenderer *renderer;
+	GtkTreeStore	*store;
+	GtkTreeIter	*iter;
 	const gchar	*folder_name;
 };
 
@@ -159,7 +160,7 @@ EMEventTargetFolderBrowser *em_event_target_new_folder_browser (EMEvent *eme, EM
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const gchar *uid, guint32 flags);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, gint row, guint32 flags);
-EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const gchar *uri, guint32 flags);
+EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);
 
 /* ********************************************************************** */
 
