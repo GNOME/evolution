@@ -66,7 +66,7 @@ mailinclude_HEADERS =				\
 	em-filter-editor.h			\
 	em-filter-folder-element.h		\
 	em-filter-rule.h			\
-	em-filter-source-element.h	        \		
+	em-filter-source-element.h		\
 	em-folder-browser.h			\
 	em-folder-tree-model.h			\
 	em-folder-tree.h			\
@@ -149,7 +149,7 @@ endif
 
 
 libevolution_mail_la_LIBADD =					\
-	$(top_builddir)/mail/libevolution-mail-shared.la	\								
+	$(top_builddir)/mail/libevolution-mail-shared.la	\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/widgets/table/libetable.la		\
@@ -181,7 +181,7 @@ libevolution_mail_shared_la_SOURCES =			\
 	em-event.c				\
 	em-config.c				\
 	em-composer-utils.c			\
-	em-composer-utils.h			\	
+	em-composer-utils.h			\
 	em-filter-context.c			\
 	em-filter-context.h			\
 	em-filter-editor.c			\
