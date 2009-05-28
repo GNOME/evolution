@@ -569,6 +569,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 
 		attachment = e_attachment_new ();
 		e_attachment_set_file (attachment, file);
+		e_attachment_set_disposition (attachment, disposition);
 		e_attachment_store_add_attachment (store, attachment);
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
