@@ -210,7 +210,7 @@ libevolution_module_mail_la_LIBADD =			\
 libevolution_module_mail_la_LDFLAGS = 			\
 	-avoid-version -module $(NO_UNDEFINED)
 
-#libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
+libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 
 # Misc data to install
 filterdir = $(privdatadir)

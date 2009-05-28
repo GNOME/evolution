@@ -571,7 +571,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreeIter sub;
 	gboolean load = FALSE;
 	gboolean is_drafts = FALSE;
-	gboolean is_template = FALSE;
+	gboolean is_templates = FALSE;
 	CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const gchar *name;
