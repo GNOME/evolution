@@ -168,19 +168,19 @@ et_disconnect_model (ETable *et)
 
 	if (et->table_model_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->model),
-				             et->table_model_change_id);
+					     et->table_model_change_id);
 	if (et->table_row_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->model),
-				             et->table_row_change_id);
+					     et->table_row_change_id);
 	if (et->table_cell_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->model),
-				             et->table_cell_change_id);
+					     et->table_cell_change_id);
 	if (et->table_rows_inserted_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->model),
-				             et->table_rows_inserted_id);
+					     et->table_rows_inserted_id);
 	if (et->table_rows_deleted_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->model),
-				             et->table_rows_deleted_id);
+					     et->table_rows_deleted_id);
 
 	et->table_model_change_id = 0;
 	et->table_row_change_id = 0;
@@ -307,23 +307,23 @@ et_dispose (GObject *object)
 	if (et->search) {
 		if (et->search_search_id)
 			g_signal_handler_disconnect (G_OBJECT (et->search),
-					             et->search_search_id);
+						     et->search_search_id);
 		if (et->search_accept_id)
 			g_signal_handler_disconnect (G_OBJECT (et->search),
-					             et->search_accept_id);
+						     et->search_accept_id);
 		g_object_unref (et->search);
 		et->search = NULL;
 	}
 
 	if (et->group_info_change_id) {
 		g_signal_handler_disconnect (G_OBJECT (et->sort_info),
-				             et->group_info_change_id);
+					     et->group_info_change_id);
 		et->group_info_change_id = 0;
 	}
 
 	if (et->sort_info_change_id) {
 		g_signal_handler_disconnect (G_OBJECT (et->sort_info),
-				             et->sort_info_change_id);
+					     et->sort_info_change_id);
 		et->sort_info_change_id = 0;
 	}
 
@@ -1115,7 +1115,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 		gnome_canvas_item_grab_focus (etable->canvas_vbox);
 		gnome_canvas_item_grab_focus (etable->click_to_add);
 	} else if (!canvas->focused_item && etable->group) {
-        	focus_first_etable_item (etable->group);
+		focus_first_etable_item (etable->group);
 	} else if (canvas->focused_item) {
 		ESelectionModel *selection = (ESelectionModel *)etable->selection;
 
@@ -2454,7 +2454,7 @@ struct _ETableDragSourceSite
 	GdkModifierType    start_button_mask;
 	GtkTargetList     *target_list;        /* Targets for drag data */
 	GdkDragAction      actions;            /* Possible actions */
-	GdkColormap       *colormap;	         /* Colormap for drag icon */
+	GdkColormap       *colormap;		 /* Colormap for drag icon */
 	GdkPixmap         *pixmap;             /* Icon for drag data */
 	GdkBitmap         *mask;
 
@@ -2795,8 +2795,8 @@ e_table_drag_source_unset (ETable *table)
  **/
 GdkDragContext *
 e_table_drag_begin (ETable            *table,
-		    gint     	       row,
-		    gint     	       col,
+		    gint	       row,
+		    gint	       col,
 		    GtkTargetList     *targets,
 		    GdkDragAction      actions,
 		    gint               button,

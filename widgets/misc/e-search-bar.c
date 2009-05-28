@@ -610,13 +610,13 @@ search_bar_dispose (GObject *object)
 /* static gpointer /
 /* option_item_destroy_cb (GtkObject *object, gpointer data) */
 /* { */
-/* /\* 	ESearchBarSubitem *subitems; *\/ */
+/* /\*	ESearchBarSubitem *subitems; *\/ */
 
-/* /\* 	subitems = data; *\/ */
+/* /\*	subitems = data; *\/ */
 
-/* /\* 	g_assert (subitems != NULL); *\/ */
-/* /\* 	free_subitems (subitems); *\/ */
-/* /\* 	g_object_set_data (G_OBJECT (object), "EsbChoiceSubitems", NULL); *\/ */
+/* /\*	g_assert (subitems != NULL); *\/ */
+/* /\*	free_subitems (subitems); *\/ */
+/* /\*	g_object_set_data (G_OBJECT (object), "EsbChoiceSubitems", NULL); *\/ */
 /* } */
 
 static void
@@ -939,10 +939,10 @@ e_search_bar_get_type (void)
 		bonobo_object_unref (BONOBO_OBJECT (esb->ui_component));
 		esb->ui_component = NULL;
 	}
-/* 	if (esb->entry) { */
-/* 		g_object_unref (esb->entry); */
-/* 		esb->entry = NULL; */
-/* 	} */
+/*	if (esb->entry) { */
+/*		g_object_unref (esb->entry); */
+/*		esb->entry = NULL; */
+/*	} */
 	if (esb->suboption) {
 		g_object_unref (esb->suboption);
 		esb->suboption = NULL;
@@ -1066,7 +1066,7 @@ e_search_bar_set_context (ESearchBar *search_bar,
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
 
 		search_bar->scopeoption = gtk_option_menu_new ();
-	/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
+	/*	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
 		gtk_widget_show_all (search_bar->scopeoption_box);
 		gtk_widget_hide (hbox);

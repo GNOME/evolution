@@ -102,7 +102,7 @@ exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *pare
 
 	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
 
-       	if (!nodename[0]) {
+	if (!nodename[0]) {
 		return TRUE;
 	}
 
@@ -157,7 +157,7 @@ exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter 
 		return;
 
 	exchange_operations_tokenize_string (&luri, nodename, '/', sizeof(nodename));
-       	if (!nodename[0]) {
+	if (!nodename[0]) {
 		return;
 	}
 
@@ -278,7 +278,7 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 			/* This ESource points to one of the child folders */
 			gchar **tmpv, *truri;
 			/* A nasty search and replace */
-		  	tmpv = g_strsplit (ruri, old_path, -1);
+			tmpv = g_strsplit (ruri, old_path, -1);
 			truri = g_strjoinv (new_path, tmpv);
 			e_source_set_relative_uri (tsource->data, truri);
 			g_strfreev (tmpv);

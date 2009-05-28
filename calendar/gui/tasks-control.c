@@ -263,7 +263,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 	g_signal_handlers_disconnect_matched (tasks, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic, NULL);
+	bonobo_ui_component_unset_container (uic, NULL);
 }
 
 static void

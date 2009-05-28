@@ -182,12 +182,12 @@ e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 		    ETableSimpleValueIsEmptyFn    value_is_empty,
 		    ETableSimpleValueToStringFn   value_to_string,
 
-		    ETreeSimpleIconAtFn      	  icon_at,
-		    ETreeSimpleValueAtFn     	  value_at,
-		    ETreeSimpleSetValueAtFn  	  set_value_at,
-		    ETreeSimpleIsEditableFn  	  is_editable,
+		    ETreeSimpleIconAtFn	  icon_at,
+		    ETreeSimpleValueAtFn	  value_at,
+		    ETreeSimpleSetValueAtFn	  set_value_at,
+		    ETreeSimpleIsEditableFn	  is_editable,
 
-		    gpointer                 	  model_data)
+		    gpointer			  model_data)
 {
 	ETreeSimple *etg = g_object_new (E_TREE_SIMPLE_TYPE, NULL);
 

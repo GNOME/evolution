@@ -76,12 +76,12 @@ typedef struct {
 					   GtkAdjustment *vadjustment);
 
 	/* Source side drag signals */
-	void (* tree_drag_begin)	           (ETree	       *tree,
+	void (* tree_drag_begin)		   (ETree	       *tree,
 						    gint                 row,
 						    ETreePath           path,
 						    gint                 col,
 						    GdkDragContext     *context);
-	void (* tree_drag_end)	           (ETree	       *tree,
+	void (* tree_drag_end)		   (ETree	       *tree,
 					    gint                 row,
 					    ETreePath           path,
 					    gint                 col,
@@ -101,7 +101,7 @@ typedef struct {
 						 GdkDragContext     *context);
 
 	/* Target side drag signals */
-	void (* tree_drag_leave)	           (ETree	       *tree,
+	void (* tree_drag_leave)		   (ETree	       *tree,
 						    gint                 row,
 						    ETreePath           path,
 						    gint                 col,

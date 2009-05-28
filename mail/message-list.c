@@ -1585,32 +1585,32 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 			folder = message_list->folder;
 		}
 
- 		url = mail_tools_folder_to_url (folder);
- 		euri = em_uri_from_camel(url);
+		url = mail_tools_folder_to_url (folder);
+		euri = em_uri_from_camel(url);
 
- 		account = mail_config_get_account_by_source_url (url);
+		account = mail_config_get_account_by_source_url (url);
 
- 		if (account) {
- 			curl = camel_url_new (url, &ex);
- 			location = g_strconcat (account->name, ":", curl->path, NULL);
- 		} else {
- 			/* Local account */
- 			euri = em_uri_from_camel(url);
- 			curl = camel_url_new (euri, &ex);
- 			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
- 				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
- 		}
+		if (account) {
+			curl = camel_url_new (url, &ex);
+			location = g_strconcat (account->name, ":", curl->path, NULL);
+		} else {
+			/* Local account */
+			euri = em_uri_from_camel(url);
+			curl = camel_url_new (euri, &ex);
+			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
+				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
+		}
 
- 		camel_exception_clear (&ex);
+		camel_exception_clear (&ex);
 		camel_url_free (curl);
- 		g_free (url);
- 		g_free (euri);
+		g_free (url);
+		g_free (euri);
 
- 		return location;
+		return location;
 	}
 	case COL_MIXED_RECIPIENTS:
 	case COL_RECIPIENTS:{
-        	str = camel_message_info_to (msg_info);
+		str = camel_message_info_to (msg_info);
 
 		return sanitize_recipients(str);
 	}
@@ -1645,7 +1645,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 		} else
 			return (gpointer) ("");
 	}
- 	default:
+	default:
 		g_warning ("This shouldn't be reached\n");
 		return NULL;
 	}
@@ -1832,7 +1832,7 @@ static ECell * create_composite_cell (gint col)
 
 	cell_sub = e_cell_text_new(fixed_name? fixed_name:NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell_sub),
-/* 		      "bold_column", COL_UNREAD, */
+/*		      "bold_column", COL_UNREAD, */
 		      "color_column", COL_COLOUR,
 		      NULL);
 	cell_tree = e_cell_tree_new (NULL, NULL, TRUE, cell_sub);
@@ -2660,7 +2660,7 @@ message_list_construct (MessageList *message_list)
 
 	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model),
 					   read_boolean_with_default (gconf,
-					   			      "/apps/evolution/mail/display/thread_expand",
+								      "/apps/evolution/mail/display/thread_expand",
 								      TRUE));
 
 	message_list->priv->thread_latest = read_boolean_with_default (gconf, "/apps/evolution/mail/display/thread_latest", TRUE);
@@ -4038,7 +4038,7 @@ message_list_hide_clear (MessageList *ml)
 /* version 1 file is:
    uintf	1
    uintf	hide_before
-   uintf       	hide_after
+   uintf	hide_after
    string*	uids
 */
 

@@ -444,7 +444,7 @@ em_junk_sa_test_spamd (void)
 		em_junk_sa_spamd_binaries [0] = em_junk_sa_spamd_gconf_binary;
 		em_junk_sa_spamd_binaries [1] = NULL;
 		try_system_spamd = FALSE;
-  	}
+	}
 
 	em_junk_sa_use_spamc = FALSE;
 
@@ -513,7 +513,7 @@ em_junk_sa_is_available (GError **error)
 
 	/* While we're at it, see if spamd is running with --allow-tell */
 	if (!em_junk_sa_allow_tell_tested)
- 	        em_junk_sa_test_allow_tell () ;
+		em_junk_sa_test_allow_tell () ;
 
 	pthread_mutex_unlock (&em_junk_sa_init_lock);
 
@@ -900,13 +900,13 @@ static void
 use_remote_tests_cb (GtkWidget *widget, gpointer data)
 {
 	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-   	gconf_client_set_bool (em_junk_sa_gconf, data, !active, NULL);
+	gconf_client_set_bool (em_junk_sa_gconf, data, !active, NULL);
 }
 
 GtkWidget *
 org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
-   	GtkWidget *check, *vbox, *label;
+	GtkWidget *check, *vbox, *label;
 	gchar *text = g_strdup_printf ("    <small>%s</small>", _("This will make SpamAssassin more reliable, but slower"));
 	guint i = ((GtkTable *)data->parent)->nrows;
 

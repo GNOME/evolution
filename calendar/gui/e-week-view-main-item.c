@@ -93,7 +93,7 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_week_view_main_item */
- 	e_week_view_main_item_a11y_init ();
+	e_week_view_main_item_a11y_init ();
 #endif
 }
 

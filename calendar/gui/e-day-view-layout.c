@@ -40,14 +40,14 @@ static void e_day_view_layout_long_event (EDayViewEvent	  *event,
 static void e_day_view_layout_day_event (EDayViewEvent    *event,
 					 EBitArray       **grid,
 					 guint16	  *group_starts,
-					 guint8	          *cols_per_row,
-					 gint	           rows,
-					 gint	           mins_per_row,
+					 guint8		  *cols_per_row,
+					 gint		   rows,
+					 gint		   mins_per_row,
 					 gint              max_cols);
 static void e_day_view_expand_day_event (EDayViewEvent    *event,
 					 EBitArray       **grid,
-					 guint8	          *cols_per_row,
-					 gint	           mins_per_row);
+					 guint8		  *cols_per_row,
+					 gint		   mins_per_row);
 static void e_day_view_recalc_cols_per_row (gint           rows,
 					    guint8	  *cols_per_row,
 					    guint16       *group_starts);

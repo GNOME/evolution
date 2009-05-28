@@ -142,21 +142,21 @@ retry:
 	}
 
 	if (!g_spawn_async_with_pipes (NULL,
-	                               (gchar **) argv,
-	                               NULL,
-	                               G_SPAWN_DO_NOT_REAP_CHILD |
-	                                   G_SPAWN_STDOUT_TO_DEV_NULL,
-	                               NULL,
-	                               NULL,
-	                               &child_pid,
-	                               &bf_in,
-	                               NULL,
-	                               NULL,
-	                               &err))
+				       (gchar **) argv,
+				       NULL,
+				       G_SPAWN_DO_NOT_REAP_CHILD |
+					   G_SPAWN_STDOUT_TO_DEV_NULL,
+				       NULL,
+				       NULL,
+				       &child_pid,
+				       &bf_in,
+				       NULL,
+				       NULL,
+				       &err))
 	{
 		g_warning ("error occurred while spawning %s: %s",
-		           argv[0],
-		           err->message);
+			   argv[0],
+			   err->message);
 		/* For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself. */
 		g_set_error (error, EM_JUNK_ERROR, err->code, _("Error occurred while spawning %s: %s."), argv[0], err->message);
 
@@ -333,12 +333,12 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 	gconf = gconf_client_get_default();
 
 	gconf_client_add_dir (gconf,
-	                      em_junk_bf_gconf_dir,
-	                      GCONF_CLIENT_PRELOAD_ONELEVEL,
-	                      NULL);
+			      em_junk_bf_gconf_dir,
+			      GCONF_CLIENT_PRELOAD_ONELEVEL,
+			      NULL);
 
 	gconf_client_notify_add (gconf,
-	                         em_junk_bf_gconf_dir,
+				 em_junk_bf_gconf_dir,
 				 em_junk_bf_setting_notify,
 				 NULL, NULL, NULL);
 
@@ -357,7 +357,7 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 	GConfClient *gconf = gconf_client_get_default();
 
-   	gconf_client_set_bool (gconf, data, active, NULL);
+	gconf_client_set_bool (gconf, data, active, NULL);
 
 	g_object_unref (gconf);
 }
@@ -365,7 +365,7 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 GtkWidget *
 org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
-   	GtkWidget *check;
+	GtkWidget *check;
 	guint i = ((GtkTable *)data->parent)->nrows;
 
 	if (data->old)

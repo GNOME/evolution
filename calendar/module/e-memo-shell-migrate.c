@@ -159,7 +159,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 		return;
 	soap_port = camel_url_get_param (url, "soap_port");
 
- 	if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
 		soap_port = "7191";
 
 	use_ssl = camel_url_get_param (url, "use_ssl");

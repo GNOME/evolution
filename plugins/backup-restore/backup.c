@@ -408,12 +408,12 @@ main (gint argc, gchar **argv)
 		gtk_window_set_default_icon_name ("evolution");
 
 		/* Backup / Restore only can have GUI. We should restrict the rest */
-	 	progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
-        	                                          NULL,
-                	                                  GTK_DIALOG_MODAL,
-                        	                          GTK_STOCK_CANCEL,
-                                	                  GTK_RESPONSE_REJECT,
-                                        	          NULL);
+		progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
+							  NULL,
+							  GTK_DIALOG_MODAL,
+							  GTK_STOCK_CANCEL,
+							  GTK_RESPONSE_REJECT,
+							  NULL);
 
 		gtk_dialog_set_has_separator (GTK_DIALOG (progress_dialog), FALSE);
 		gtk_container_set_border_width (GTK_CONTAINER (progress_dialog), 12);

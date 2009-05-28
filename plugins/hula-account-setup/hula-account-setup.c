@@ -41,7 +41,7 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (!config_listener) {
 		config_listener = camel_hula_listener_new ();
-	 	g_atexit ( free_hula_listener );
+		g_atexit ( free_hula_listener );
 	}
 
 	return 0;

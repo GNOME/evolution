@@ -108,7 +108,7 @@ void		event_page_set_view_rvsp	(EventPage *epage,
 ENameSelector *	event_page_get_name_selector	(EventPage *epage);
 void		event_page_add_attendee		(EventPage *epage,
 						 EMeetingAttendee *attendee);
-void 		event_page_remove_all_attendees (EventPage *epage);
+void		event_page_remove_all_attendees (EventPage *epage);
 
 G_END_DECLS
 

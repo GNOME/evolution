@@ -108,7 +108,7 @@ find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
 gint
 e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
- 	/* Start up the plugin. */
+	/* Start up the plugin. */
 	if (enable) {
 		d(fprintf (stderr, "BBDB spinning up...\n"));
 
@@ -236,7 +236,7 @@ walk_destinations_and_free (EDestination **dests)
 		return;
 
 	for (i = 0; dests[i] != NULL; i++) {
-		const char *name, *addr;
+		const gchar *name, *addr;
 
 		name = e_destination_get_name (dests[i]);
 		addr = e_destination_get_email (dests[i]);
@@ -465,7 +465,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
 
-       	gtk_widget_set_sensitive (stuff->option_menu, active);
+	gtk_widget_set_sensitive (stuff->option_menu, active);
 
 	addressbook = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
 

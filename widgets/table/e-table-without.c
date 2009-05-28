@@ -262,9 +262,9 @@ e_table_without_construct (ETableWithout                 *etw,
 	E_TABLE_SUBSET(etw)->n_map = 0;
 
 	etw->priv->hash_func                = hash_func;
-	etw->priv->compare_func 	    = compare_func;
-	etw->priv->get_key_func 	    = get_key_func;
-	etw->priv->duplicate_key_func 	    = duplicate_key_func;
+	etw->priv->compare_func	    = compare_func;
+	etw->priv->get_key_func	    = get_key_func;
+	etw->priv->duplicate_key_func	    = duplicate_key_func;
 	etw->priv->free_gotten_key_func     = free_gotten_key_func;
 	etw->priv->free_duplicated_key_func = free_duplicated_key_func;
 	etw->priv->closure                  = closure;

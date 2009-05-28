@@ -322,7 +322,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 			gtk_check_button_new_with_mnemonic(
 				_("_Avoid IfMatch (needed on Apache < 2.2.8)")));
 	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->avoid_ifmatch_toggle),
-	                   FALSE, FALSE, 0);
+			   FALSE, FALSE, 0);
 
 	set_ui_from_source(uidata);
 

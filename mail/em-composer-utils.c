@@ -671,10 +671,10 @@ create_new_composer (const gchar *subject, const gchar *fromuri, gboolean lite)
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 
- 	if (lite)
- 		composer = e_msg_composer_lite_new ();
- 	else
- 		composer = e_msg_composer_new ();
+	if (lite)
+		composer = e_msg_composer_lite_new ();
+	else
+		composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
 	if (fromuri != NULL) {

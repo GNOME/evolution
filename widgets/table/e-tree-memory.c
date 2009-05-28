@@ -274,7 +274,7 @@ etmm_get_prev (ETreeModel *etm, ETreePath node)
 static gboolean
 etmm_is_root (ETreeModel *etm, ETreePath node)
 {
- 	ETreeMemoryPath *path = node;
+	ETreeMemoryPath *path = node;
 	return e_tree_memory_path_depth (path) == 0;
 }
 

@@ -237,12 +237,12 @@ add_defaults_for_account (ExchangeConfigListener *config_listener,
 	eaccount = config_listener->priv->configured_account;
 	if (!e_account_get_string (eaccount, E_ACCOUNT_DRAFTS_FOLDER_URI)) {
 		set_special_mail_folder (account, "drafts",
-				 	 &eaccount->drafts_folder_uri);
+					 &eaccount->drafts_folder_uri);
 		save = TRUE;
 	}
 	if (!e_account_get_string (eaccount, E_ACCOUNT_SENT_FOLDER_URI)) {
 		set_special_mail_folder (account, "sentitems",
-				 	 &eaccount->sent_folder_uri);
+					 &eaccount->sent_folder_uri);
 		save = TRUE;
 	}
 	if (save) {
@@ -302,9 +302,9 @@ add_account_esources (ExchangeAccount *account,
 	cal_source_group = e_source_group_new (account->account_name,
 					       EXCHANGE_URI_PREFIX);
 	tasks_source_group = e_source_group_new (account->account_name,
-					   	 EXCHANGE_URI_PREFIX);
+						 EXCHANGE_URI_PREFIX);
 	contacts_source_group = e_source_group_new (account->account_name,
-					   	    EXCHANGE_URI_PREFIX);
+						    EXCHANGE_URI_PREFIX);
 
 	if (!e_source_list_add_group (contacts_source_list, contacts_source_group, -1) ||
 	    !e_source_list_add_group (cal_source_list, cal_source_group, -1) ||
@@ -481,15 +481,15 @@ add_sources (ExchangeAccount *account)
 				folders = g_slist_append (folders, folder_info);
 			}
 			else if (!(strcmp (folder_type, "tasks")) ||
-			    	 !(strcmp (folder_type, "tasks/public"))) {
+				 !(strcmp (folder_type, "tasks/public"))) {
 				folder_info->name = e_folder_get_name (folder);
 				folder_info->uri = e_folder_get_physical_uri (folder);
 				folder_info->type = EXCHANGE_TASKS_FOLDER;
 				folders = g_slist_append (folders, folder_info);
 			}
 			else if (!(strcmp (folder_type, "contacts")) ||
-			    	 !(strcmp (folder_type, "contacts/public")) ||
-			    	 !(strcmp (folder_type, "contacts/ldap"))) {
+				 !(strcmp (folder_type, "contacts/public")) ||
+				 !(strcmp (folder_type, "contacts/ldap"))) {
 				folder_info->name = e_folder_get_name (folder);
 				folder_info->uri = e_folder_get_physical_uri (folder);
 				folder_info->type = EXCHANGE_CONTACTS_FOLDER;
@@ -508,7 +508,7 @@ add_sources (ExchangeAccount *account)
 
 static void
 remove_account_esource (ExchangeAccount *account,
-		        FolderType folder_type)
+			FolderType folder_type)
 {
 	ESourceGroup *group;
 	ESource *source = NULL;
@@ -732,7 +732,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		exchange_account_set_save_password (account, FALSE);
 	}
 
- 	exchange_account_connect (account, password, &result);
+	exchange_account_connect (account, password, &result);
 
 	g_free (password);
 	g_free (key);
@@ -743,7 +743,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		new_password = get_new_exchange_password (account);
 		if (new_password) {
 			/* try connecting with new password */
- 			exchange_account_connect (account, new_password, &result);
+			exchange_account_connect (account, new_password, &result);
 			g_free (new_password);
 		}
 #endif
@@ -872,7 +872,7 @@ account_added (EAccountList *account_list, EAccount *account)
 
 	g_signal_emit (config_listener, signals[EXCHANGE_ACCOUNT_CREATED], 0,
 		       exchange_account);
-/*  	add_sources (exchange_account); */
+/*	add_sources (exchange_account); */
 
 	exchange_config_listener_get_offline_status (config_listener, &is_offline);
 
@@ -925,7 +925,7 @@ requires_relogin (gchar *current_url, gchar *new_url)
 
 	if (current_uri->authmech || new_uri->authmech) {
 		if (current_uri->authmech && new_uri->authmech) {
-	    		if (strcmp (current_uri->authmech, new_uri->authmech)) {
+			if (strcmp (current_uri->authmech, new_uri->authmech)) {
 				/* Auth mechanism has changed */
 				relogin = TRUE;
 				goto end;
@@ -1031,7 +1031,7 @@ account_changed (EAccountList *account_list, EAccount *account)
 		remove_account_esources (priv->exchange_account);
 		exchange_account_forget_password (priv->exchange_account);
 	} else if (strcmp (config_listener->priv->configured_name, account->name)) {
-/* 		remove_account_esources (priv->exchange_account); */
+/*		remove_account_esources (priv->exchange_account); */
 		exchange_config_listener_modify_esource_group_name (config_listener,
 								    config_listener->priv->configured_name,
 								    account->name);

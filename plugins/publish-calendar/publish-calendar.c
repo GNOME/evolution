@@ -608,7 +608,7 @@ url_remove_clicked (GtkButton *button, PublishUIData *ui)
 	gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
 	confirm = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-			                  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+					  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					  _("Are you sure you want to remove this location?"));
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_CANCEL, GTK_RESPONSE_NO);
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_REMOVE, GTK_RESPONSE_YES);
@@ -704,11 +704,11 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Enabled"),
-			                             renderer, "active", URL_LIST_ENABLED_COLUMN, NULL);
+						     renderer, "active", URL_LIST_ENABLED_COLUMN, NULL);
 	g_signal_connect (G_OBJECT (renderer), "toggled", G_CALLBACK (url_list_enable_toggled), ui);
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (ui->treeview), -1, _("Location"),
-			                             renderer, "text", URL_LIST_LOCATION_COLUMN, NULL);
+						     renderer, "text", URL_LIST_LOCATION_COLUMN, NULL);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), ui);

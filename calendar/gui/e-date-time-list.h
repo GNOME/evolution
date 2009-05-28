@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 #define E_TYPE_DATE_TIME_LIST            (e_date_time_list_get_type ())
-#define E_DATE_TIME_LIST(obj)	         (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_TIME_LIST, EDateTimeList))
+#define E_DATE_TIME_LIST(obj)		 (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_TIME_LIST, EDateTimeList))
 #define E_DATE_TIME_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_TIME_LIST, EDateTimeListClass))
 #define E_IS_DATE_TIME_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_DATE_TIME_LIST))
 #define E_IS_DATE_TIME_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_DATE_TIME_LIST))

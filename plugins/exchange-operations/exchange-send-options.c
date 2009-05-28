@@ -108,7 +108,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
 
 		name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
-		destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY 				                                               (name_selector_entry));
+		destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY									       (name_selector_entry));
 		destinations = e_destination_store_list_destinations (destination_store);
 		tmp = destinations;
 
@@ -268,7 +268,7 @@ GType exchange_sendoptions_dialog_get_type (void)
       sizeof (ExchangeSendOptionsDialog),
      0,      /* n_preallocs */
      (GInstanceInitFunc) exchange_sendoptions_dialog_init,
- 	NULL    /* instance_init */
+	NULL    /* instance_init */
     };
     type = g_type_register_static (G_TYPE_OBJECT,
                                    "ExchangeSendOptionsDialogType",
@@ -279,8 +279,8 @@ GType exchange_sendoptions_dialog_get_type (void)
 
 static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 {
-   	ExchangeSendOptionsDialogPrivate *priv;
-   	ExchangeSendOptionsDialog *sod;
+	ExchangeSendOptionsDialogPrivate *priv;
+	ExchangeSendOptionsDialog *sod;
 
 	sod = func_data;
         priv = sod->priv;
@@ -290,15 +290,15 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 		     if(exchange_send_options_get_widgets_data (sod) < 0)
 			return;
 		case GTK_RESPONSE_CANCEL:
-		    	gtk_widget_hide (priv->main);
-	    	    	gtk_widget_destroy (priv->main);
-	           	g_object_unref (priv->xml);
-	             	break;
+			gtk_widget_hide (priv->main);
+			gtk_widget_destroy (priv->main);
+			g_object_unref (priv->xml);
+			break;
 		case GTK_RESPONSE_HELP:
 			e_display_help (
 				GTK_WINDOW (priv->main),
 				priv->help_section);
-	    	    	break;
+			break;
 	}
 	g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
 

@@ -67,7 +67,7 @@ epp_invoke(EPlugin *ep, const gchar *name, gpointer data)
 	Py_Initialize();
 
 	if (p->pModule == NULL) {
-	        pModuleName = PyString_FromString(epp->module_name);
+		pModuleName = PyString_FromString(epp->module_name);
 
 		PyRun_SimpleString(g_strdup_printf ("import sys ; sys.path.insert(0, '%s')", epp->location));
 

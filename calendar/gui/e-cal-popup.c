@@ -362,7 +362,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 		/* check for e_target_selector's offline_status property here */
 		offline = e_source_get_property (source, "offline_sync");
 		if (offline  && strcmp (offline, "1") == 0)
-			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE; 	/* set the menu item to Mark Offline */
+			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;	/* set the menu item to Mark Offline */
 		else
 			mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
 	} else {
@@ -374,7 +374,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 	/* check for delete_status property here */
 	delete = e_source_get_property (source, "delete");
 	if (delete && strcmp (delete, "no") == 0)
-		mask &= ~E_CAL_POPUP_SOURCE_NO_DELETE; 			/* set the menu item to non deletable */
+		mask &= ~E_CAL_POPUP_SOURCE_NO_DELETE;			/* set the menu item to non deletable */
 	else
 		mask &= ~E_CAL_POPUP_SOURCE_DELETE;
 

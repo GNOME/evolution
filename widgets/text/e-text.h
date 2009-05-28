@@ -109,8 +109,8 @@ struct _EText {
 	gint model_repos_signal_id;
 
 	const gchar *text;              /* Text to display --- from the ETextModel */
-	gint preedit_len;      		/* preedit length to display */
-	gint preedit_pos;      		/* preedit cursor position */
+	gint preedit_len;		/* preedit length to display */
+	gint preedit_pos;		/* preedit cursor position */
 	PangoLayout *layout;
 	gint num_lines;			/* Number of lines of text */
 
@@ -124,7 +124,7 @@ struct _EText {
 
 	double xofs, yofs;		/* Text offset distance from anchor position */
 
-	GdkColor color; 		/* Fill color */
+	GdkColor color;		/* Fill color */
 	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
 

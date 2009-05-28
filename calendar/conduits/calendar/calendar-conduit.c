@@ -114,7 +114,7 @@ calconduit_load_configuration (guint32 pilot_id)
 	ECalConduitCfg *c;
 	GnomePilotConduitManagement *management;
 	GnomePilotConduitConfig *config;
- 	gchar prefix[256];
+	gchar prefix[256];
 
 	c = g_new0 (ECalConduitCfg, 1);
 	g_assert (c != NULL);
@@ -352,8 +352,8 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 
 	if (ctxt->client != NULL)
 		g_object_unref (ctxt->client);
- 	if (ctxt->default_comp != NULL)
- 		g_object_unref (ctxt->default_comp);
+	if (ctxt->default_comp != NULL)
+		g_object_unref (ctxt->default_comp);
 	if (ctxt->comps != NULL) {
 		for (l = ctxt->comps; l; l = l->next)
 			g_object_unref (l->data);
@@ -673,7 +673,7 @@ process_multi_day (ECalConduitContext *ctxt, ECalChange *ccc, GList **multi_comp
 		is_date = TRUE;
 
 	old_start_value = dt_start.value;
- 	old_end_value = dt_end.value;
+	old_end_value = dt_end.value;
 	while (!last) {
 		ECalComponent *clone = e_cal_component_clone (ccc->comp);
 		icalcomponent *ical_comp = NULL;
@@ -1279,7 +1279,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	/* Recurrence information */
-  	icalrecurrencetype_clear (&recur);
+	icalrecurrencetype_clear (&recur);
 
 	switch (appt.repeatType) {
 	case repeatNone:
@@ -1610,7 +1610,7 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	}
 
- 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 				DLP_BUF_SIZE,
 				buffer);
 #else
@@ -2114,22 +2114,22 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	g_signal_connect (retval, "pre_sync", G_CALLBACK (pre_sync), ctxt);
 	g_signal_connect (retval, "post_sync", G_CALLBACK (post_sync), ctxt);
 
-  	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
-  	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
+	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
+	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
 
-  	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
-  	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
-  	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
+	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
+	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
+	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
 
-  	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
-  	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
-  	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
-  	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
+	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
+	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
+	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
+	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
 
-  	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
-  	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
+	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
+	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
 
-  	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
+	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
 
 	/* Gui Settings */
 	g_signal_connect (retval, "create_settings_window", G_CALLBACK (create_settings_window), ctxt);

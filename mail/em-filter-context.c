@@ -291,7 +291,7 @@ filter_new_element(RuleContext *rc, const gchar *type)
 	} else if (!strcmp(type, "score")) {
 		return (FilterElement *) filter_int_new_type("score", -3, 3);
 	} else if (!strcmp(type, "source")) {
-    	        return (FilterElement *) em_filter_source_element_new();
+		return (FilterElement *) em_filter_source_element_new();
 	} else {
 		return parent_class->new_element(rc, type);
 	}

@@ -1247,7 +1247,7 @@ position_date_popup		(EDateEdit	*dedit)
 	x += win_x;
 	y += win_y;
 
-      	screen_width = gdk_screen_width ();
+	screen_width = gdk_screen_width ();
 	screen_height = gdk_screen_height ();
 
 	x = CLAMP (x, 0, MAX (0, screen_width - cal_req.width));
@@ -1326,7 +1326,7 @@ on_date_popup_key_press			(GtkWidget	*widget,
 					 EDateEdit	*dedit)
 {
 	if (event->keyval != GDK_Escape) {
-    	gdk_keyboard_grab (dedit->priv->cal_popup->window, TRUE, GDK_CURRENT_TIME);
+	gdk_keyboard_grab (dedit->priv->cal_popup->window, TRUE, GDK_CURRENT_TIME);
 		return FALSE;
 	}
 

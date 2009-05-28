@@ -63,7 +63,7 @@ etsv_dispose (GObject *object)
 
 	if (etsv->table_model_changed_id)
 		g_signal_handler_disconnect (G_OBJECT (etss->source),
-				             etsv->table_model_changed_id);
+					     etsv->table_model_changed_id);
 	etsv->table_model_changed_id = 0;
 
 #if 0
@@ -77,7 +77,7 @@ etsv_dispose (GObject *object)
 #endif
 	if (etsv->sort_info_changed_id)
 		g_signal_handler_disconnect (etsv->sort_info,
-				             etsv->sort_info_changed_id);
+					     etsv->sort_info_changed_id);
 	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id)

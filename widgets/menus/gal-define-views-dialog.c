@@ -167,7 +167,7 @@ gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 
 				if (gtk_tree_path_prev (path)) {
 					gtk_tree_model_get_iter (dialog->model, &iter, path);
-			 	} else {
+				} else {
 					gtk_tree_model_get_iter_first (dialog->model, &iter);
 				}
 

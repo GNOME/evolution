@@ -258,7 +258,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), NULL);
 
 	child_num = atk_object_get_n_accessible_children (accessible);
- 	if (child_num <= 0 || index < 0 || index >= child_num)
+	if (child_num <= 0 || index < 0 || index >= child_num)
 		return NULL;
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
@@ -270,7 +270,7 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 		/* index == 0 is the main item */
 		atk_object = atk_gobject_accessible_for_object (G_OBJECT (week_view->main_canvas_item));
 		g_object_ref (atk_object);
- 	} else
+	} else
 	for (event_index = 0; event_index < max_count; ++event_index) {
 		EWeekViewEvent *event;
 		EWeekViewEventSpan *span;

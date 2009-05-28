@@ -445,10 +445,10 @@ ea_week_view_main_item_time_change_cb (EWeekView *week_view, gpointer data)
 		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
 		g_object_unref (state_set);
 
-	        g_signal_emit_by_name (ea_main_item,
+		g_signal_emit_by_name (ea_main_item,
 			       "active-descendant-changed",
 			       item_cell);
-        	g_signal_emit_by_name (data, "selection_changed");
+		g_signal_emit_by_name (data, "selection_changed");
                 atk_focus_tracker_notify (item_cell);
                 g_object_unref (item_cell);
 	}

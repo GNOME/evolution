@@ -245,7 +245,7 @@ eti_editing (ETableItem *eti)
 inline static GdkColor *
 eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean selected, gboolean *allocatedp)
 {
-  	ECellView *ecell_view = eti->cell_views [col];
+	ECellView *ecell_view = eti->cell_views [col];
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
 	GdkColor *background, bg;
 	gchar *color_spec = NULL;
@@ -584,11 +584,11 @@ eti_remove_header_model (ETableItem *eti)
 		return;
 
 	g_signal_handler_disconnect (G_OBJECT (eti->header),
-			       	     eti->header_structure_change_id);
+				     eti->header_structure_change_id);
 	g_signal_handler_disconnect (G_OBJECT (eti->header),
-			       	     eti->header_dim_change_id);
+				     eti->header_dim_change_id);
 	g_signal_handler_disconnect (G_OBJECT (eti->header),
-			       	     eti->header_request_width_id);
+				     eti->header_request_width_id);
 
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
@@ -1102,7 +1102,7 @@ eti_table_model_no_change (ETableModel *table_model, ETableItem *eti)
 static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
 		return;
 	}
@@ -1124,7 +1124,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 static void
 eti_table_model_row_changed (ETableModel *table_model, gint row, ETableItem *eti)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
 		return;
 	}
@@ -1142,7 +1142,7 @@ eti_table_model_row_changed (ETableModel *table_model, gint row, ETableItem *eti
 static void
 eti_table_model_cell_changed (ETableModel *table_model, gint col, gint row, ETableItem *eti)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
 		return;
 	}
@@ -1160,7 +1160,7 @@ eti_table_model_cell_changed (ETableModel *table_model, gint col, gint row, ETab
 static void
 eti_table_model_rows_inserted (ETableModel *table_model, gint row, gint count, ETableItem *eti)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
 		return;
 	}
@@ -1187,7 +1187,7 @@ eti_table_model_rows_inserted (ETableModel *table_model, gint row, gint count, E
 static void
 eti_table_model_rows_deleted (ETableModel *table_model, gint row, gint count, ETableItem *eti)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED)) {
 		eti_unfreeze (eti);
 		return;
 	}
@@ -1578,8 +1578,8 @@ eti_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 static void
 eti_init (ETableItem *eti)
 {
-	eti->motion_row 	       = -1;
-	eti->motion_col 	       = -1;
+	eti->motion_row	       = -1;
+	eti->motion_col	       = -1;
 	eti->editing_col               = -1;
 	eti->editing_row               = -1;
 	eti->height                    = 0;
@@ -1637,7 +1637,7 @@ eti_init (ETableItem *eti)
 	eti->grabbed_row               = -1;
 
 	eti->cursor_on_screen          = FALSE;
- 	eti->cursor_x1                 = -1;
+	eti->cursor_x1                 = -1;
 	eti->cursor_y1                 = -1;
 	eti->cursor_x2                 = -1;
 	eti->cursor_y2                 = -1;
@@ -2626,7 +2626,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			cross->crossing.time = e->motion.time;
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
 						       cross, cross->crossing.time,
-					               view_to_model_col(eti, eti->motion_col),
+						       view_to_model_col(eti, eti->motion_col),
 						       eti->motion_col, eti->motion_row, 0);
 		}
 
@@ -2910,7 +2910,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (eti->motion_row != -1 && eti->motion_col != -1)
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
 						       e, e->crossing.time,
-					               view_to_model_col(eti, eti->motion_col),
+						       view_to_model_col(eti, eti->motion_col),
 						       eti->motion_col, eti->motion_row, 0);
 		eti->motion_row = -1;
 		eti->motion_col = -1;
@@ -2952,7 +2952,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 static void
 eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 {
- 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
 
 	if (eti->cell_views_realized) {

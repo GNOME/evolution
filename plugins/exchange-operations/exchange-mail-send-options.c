@@ -91,7 +91,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		addr = camel_header_address_decode (dialog->options->delegate_address, NULL);
 		sender_addr = camel_header_address_decode (sender_id, NULL);
 
- 		if(dialog->options->send_as_del_enabled &&
+		if(dialog->options->send_as_del_enabled &&
 			dialog->options->delegate_address &&
 				g_ascii_strcasecmp(addr->v.addr, sender_addr->v.addr)) {
 
@@ -109,7 +109,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 			}
 
 			else
-		       		e_msg_composer_add_header (composer, "From",
+				e_msg_composer_add_header (composer, "From",
 							dialog->options->delegate_address);
 		}
 
@@ -183,7 +183,7 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 		return;
 	}
 	e_msg_composer_set_send_options (composer, TRUE);
- 	/*disply the send options dialog*/
+	/*disply the send options dialog*/
 	if (!dialog) {
 		g_print ("New dialog\n\n") ;
 		dialog = exchange_sendoptions_dialog_new () ;

@@ -88,8 +88,8 @@ struct _StoreInfo {
 
 	/* Initialization callback. */
 	void (*done) (CamelStore *store,
-	              CamelFolderInfo *info,
-	              gpointer user_data);
+		      CamelFolderInfo *info,
+		      gpointer user_data);
 	gpointer done_user_data;
 
 	guint removed : 1;

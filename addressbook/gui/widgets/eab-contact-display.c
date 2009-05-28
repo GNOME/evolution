@@ -682,7 +682,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 			e_contact_photo_free (photo);
 		}
 
- 		gtk_html_stream_printf (html_stream, "</td><td %s valign=\"top\">\n", is_rtl ? " align=\"right\" " : "");
+		gtk_html_stream_printf (html_stream, "</td><td %s valign=\"top\">\n", is_rtl ? " align=\"right\" " : "");
 
 		str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!str)
@@ -844,7 +844,7 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 				html = eab_parse_qp_email_to_html (str);				\
 													\
 				if (!html)								\
-					html = e_text_to_html (str, 0); 				\
+					html = e_text_to_html (str, 0);				\
 													\
 				gtk_html_stream_printf (html_stream, "%s%s", comma ? ", " : "", html);	\
 				g_free (html);								\
@@ -905,7 +905,7 @@ contact_display_button_press_event (GtkWidget *widget,
 	if (event->button.button != 3)
 		return FALSE;
 
-       	uri = gtk_html_get_url_at (
+	uri = gtk_html_get_url_at (
 		GTK_HTML (widget),
 		event->button.x, event->button.y);
 

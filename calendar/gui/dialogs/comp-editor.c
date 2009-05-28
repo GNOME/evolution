@@ -116,11 +116,11 @@ struct _CompEditorPrivate {
 
 	CalObjModType mod;
 
- 	gboolean existing_org;
- 	gboolean user_org;
+	gboolean existing_org;
+	gboolean user_org;
 	gboolean is_group_item;
 
- 	gboolean warned;
+	gboolean warned;
 };
 
 enum {
@@ -549,8 +549,8 @@ save_comp_with_send (CompEditor *editor)
 		return FALSE;
 
 	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms))) {
- 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp, priv->client))) {
- 			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
+		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp, priv->client))) {
+			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH, strip_alarms);
 			else
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST, strip_alarms);
@@ -561,7 +561,7 @@ save_comp_with_send (CompEditor *editor)
 			if (delegate)
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY, strip_alarms);
 		}
- 	}
+	}
 
 	return TRUE;
 }
@@ -2431,9 +2431,9 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	if (comp)
 		priv->comp = e_cal_component_clone (comp);
 
- 	priv->existing_org = e_cal_component_has_organizer (comp);
- 	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp, priv->client));
- 	priv->warned = FALSE;
+	priv->existing_org = e_cal_component_has_organizer (comp);
+	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp, priv->client));
+	priv->warned = FALSE;
 
 	update_window_border (editor, NULL);
 

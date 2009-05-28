@@ -78,41 +78,41 @@ struct _EShellView {
  * EShellViewClass:
  * @parent_class:	The parent class structure.
  * @label:		The initial value for the switcher action's
- * 			#GtkAction:label property.  See
- * 			e_shell_view_get_action().
+ *			#GtkAction:label property.  See
+ *			e_shell_view_get_action().
  * @icon_name:		The initial value for the switcher action's
- * 			#GtkAction:icon-name property.  See
- * 			e_shell_view_get_action().
+ *			#GtkAction:icon-name property.  See
+ *			e_shell_view_get_action().
  * @ui_definition:	Base name of the UI definintion file to add
- * 			when the shell view is activated.
+ *			when the shell view is activated.
  * @ui_manager_id:	The #GtkUIManager ID for #EPluginUI.  Plugins
- * 			should use to this ID in their "eplug" files to
- * 			add menu and toolbar items to the shell view.
+ *			should use to this ID in their "eplug" files to
+ *			add menu and toolbar items to the shell view.
  * @search_options:	Widget path in the UI definition to the search
- * 			options popup menu.  The menu gets shown when the
- * 			user clicks the "find" icon in the search entry.
+ *			options popup menu.  The menu gets shown when the
+ *			user clicks the "find" icon in the search entry.
  * @search_rules:	Base name of the XML file containing predefined
- * 			search rules for this shell view.  The XML files
- * 			are usually named something like <filename>
- * 			<emphasis>view</emphasis>types.xml</filename>.
+ *			search rules for this shell view.  The XML files
+ *			are usually named something like <filename>
+ *			<emphasis>view</emphasis>types.xml</filename>.
  * @view_collection:	A unique #GalViewCollection instance is created
- * 			for each subclass and shared across all instances
- * 			of that subclass.  That much is done automatically
- * 			for subclasses, but subclasses are still responsible
- * 			for adding the appropriate #GalView factories to the
- * 			view collection.
+ *			for each subclass and shared across all instances
+ *			of that subclass.  That much is done automatically
+ *			for subclasses, but subclasses are still responsible
+ *			for adding the appropriate #GalView factories to the
+ *			view collection.
  * @new_shell_content:	Factory method for the shell view's #EShellContent.
- * 			See e_shell_view_get_shell_content().
+ *			See e_shell_view_get_shell_content().
  * @new_shell_sidebar:	Factory method for the shell view's #EShellSidebar.
- * 			See e_shell_view_get_shell_sidebar().
+ *			See e_shell_view_get_shell_sidebar().
  * @new_shell_taskbar:	Factory method for the shell view's #EShellTaskbar.
- * 			See e_shell_view_get_shell_taskbar().
+ *			See e_shell_view_get_shell_taskbar().
  * @toggled:		Class method for the #EShellView::toggled signal.
- * 			Subclasses should rarely need to override the
- * 			default behavior.
+ *			Subclasses should rarely need to override the
+ *			default behavior.
  * @update_actions:	Class method for the #EShellView::update_actions
- * 			signal.  There is no default behavior; subclasses
- * 			should override this.
+ *			signal.  There is no default behavior; subclasses
+ *			should override this.
  *
  * #EShellViewClass contains a number of important settings for subclasses.
  **/

@@ -397,7 +397,7 @@ init_widgets (ESendOptionsDialog *sod)
 	g_signal_connect (priv->delay_until, "changed", G_CALLBACK (delay_until_date_changed_cb), sod);
 
 	if (priv->global)
-	 	g_signal_connect (priv->notebook, "switch-page", G_CALLBACK (page_changed_cb), sod);
+		g_signal_connect (priv->notebook, "switch-page", G_CALLBACK (page_changed_cb), sod);
 
 
 }
@@ -502,7 +502,7 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->until_label), priv->delay_until);
 
 	if (priv->global) {
-	        GtkWidget *widget = gtk_label_new ("Calendar");
+		GtkWidget *widget = gtk_label_new ("Calendar");
 		gtk_label_set_text (GTK_LABEL (priv->sopts_label), "Mail");
 		gtk_notebook_append_page (priv->notebook, priv->status, widget);
 		gtk_widget_show (widget);
@@ -514,7 +514,7 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 
 	switch (type) {
 		case E_ITEM_MAIL:
-		        priv->help_section = g_strdup ("usage-mail");
+			priv->help_section = g_strdup ("usage-mail");
 			gtk_widget_hide (priv->accepted_label);
 			gtk_widget_hide (priv->when_accepted);
 			gtk_widget_hide (priv->completed_label);
@@ -522,11 +522,11 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 			gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->declined_label), (_("When de_leted:")));
 			break;
 		case E_ITEM_CALENDAR:
-         	        priv->help_section = g_strdup ("usage-calendar");
+			priv->help_section = g_strdup ("usage-calendar");
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
 		case E_ITEM_TASK:
-		        priv->help_section = g_strdup ("usage-calendar-todo");
+			priv->help_section = g_strdup ("usage-calendar-todo");
 			gtk_widget_hide (priv->security_label);
 			gtk_widget_hide (priv->security);
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
@@ -606,7 +606,7 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 			e_display_help (
 				GTK_WINDOW (priv->main),
 				priv->help_section);
-    			break;
+			break;
 	}
 
 	g_signal_emit (G_OBJECT (func_data), signals[SOD_RESPONSE], 0, state);
@@ -821,7 +821,7 @@ GType e_sendoptions_dialog_get_type (void)
       sizeof (ESendOptionsDialog),
      0,      /* n_preallocs */
      (GInstanceInitFunc) e_sendoptions_dialog_init,
- 	NULL    /* instance_init */
+	NULL    /* instance_init */
     };
     type = g_type_register_static (G_TYPE_OBJECT,
                                    "ESendOptionsDialogType",

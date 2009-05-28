@@ -811,11 +811,11 @@ pst_process_email (PstImporter *m, pst_item *item)
 	camel_mime_message_set_from (msg, addr);
 	camel_object_unref (addr);
 
- 	if (item->email->sent_date != NULL) {
+	if (item->email->sent_date != NULL) {
 		camel_mime_message_set_date (msg, fileTimeToUnixTime (item->email->sent_date, 0), 0);
 	}
 
- 	if (item->email->messageid != NULL) {
+	if (item->email->messageid != NULL) {
 		camel_mime_message_set_message_id (msg, item->email->messageid);
 	}
 

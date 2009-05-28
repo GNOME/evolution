@@ -185,7 +185,7 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y, ETableItem *item, gboolean
 	cell = eti_ref_at (ATK_TABLE (a11y), view_row, view_col);
 
 	if (cell != NULL) {
-        	g_object_set_data (G_OBJECT (a11y), "gail-focus-object", cell);
+		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", cell);
 		gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
 	} else
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
@@ -362,7 +362,7 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 							    ATK_OBJECT (table),
 							    ecol->col_idx,
 							    column,
-						   	    row);
+							    row);
 		if (ATK_IS_OBJECT (ret)) {
 			g_object_weak_ref (G_OBJECT (ret),
 					   (GWeakNotify) cell_destroyed,
@@ -684,7 +684,7 @@ eti_rows_inserted (ETableModel * model, gint row, gint count,
 	gint old_nrows;
 
 	g_return_if_fail (table_item);
- 	item_a11y = GAL_A11Y_E_TABLE_ITEM (table_item);
+	item_a11y = GAL_A11Y_E_TABLE_ITEM (table_item);
 
         n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
 	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
@@ -840,7 +840,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 
 	/* Emit signals */
 	if (reorder_found)
-        	g_signal_emit_by_name (G_OBJECT(a11y_item), "column_reordered");
+		g_signal_emit_by_name (G_OBJECT(a11y_item), "column_reordered");
 
 
 	if (removed_found) {

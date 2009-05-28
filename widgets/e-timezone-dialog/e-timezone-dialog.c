@@ -101,9 +101,9 @@ static void	set_map_timezone		(ETimezoneDialog *etd,
 static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
 
-static void timezone_combo_get_active_text 	(GtkComboBox *combo,
+static void timezone_combo_get_active_text	(GtkComboBox *combo,
 						 const gchar **zone_name);
-static gboolean timezone_combo_set_active_text 	(GtkComboBox *combo,
+static gboolean timezone_combo_set_active_text	(GtkComboBox *combo,
 						 const gchar *zone_name);
 
 static void	map_destroy_cb			(gpointer data,
@@ -479,10 +479,10 @@ on_map_timeout (gpointer data)
 
         if (e_map_point_get_color_rgba (priv->point_selected)
 	    == E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA)
-	        e_map_point_set_color_rgba (priv->map, priv->point_selected,
+		e_map_point_set_color_rgba (priv->map, priv->point_selected,
 					    E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA);
 	else
-	        e_map_point_set_color_rgba (priv->map, priv->point_selected,
+		e_map_point_set_color_rgba (priv->map, priv->point_selected,
 					    E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA);
 
 	return TRUE;
@@ -505,14 +505,14 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 			       &longitude, &latitude);
 
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
-	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
+		e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 	priv->point_hover = e_map_get_closest_point (priv->map, longitude,
 						     latitude, TRUE);
 
 	if (priv->point_hover != priv->point_selected)
-	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
+		e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA);
 
 	new_zone = get_zone_from_point (etd, priv->point_hover);
@@ -542,7 +542,7 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 		return FALSE;
 
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
-	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
+		e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 	timezone_combo_set_active_text (GTK_COMBO_BOX (priv->timezone_combo),
@@ -596,14 +596,14 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 			       &longitude, &latitude);
 
 	if (event->button != 1) {
-	        e_map_zoom_out (priv->map);
+		e_map_zoom_out (priv->map);
 	} else {
 		if (e_map_get_magnification (priv->map) <= 1.0)
-		        e_map_zoom_to_location (priv->map, longitude,
+			e_map_zoom_to_location (priv->map, longitude,
 						latitude);
 
 		if (priv->point_selected)
-		        e_map_point_set_color_rgba (priv->map,
+			e_map_point_set_color_rgba (priv->map,
 						    priv->point_selected,
 						    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
@@ -694,7 +694,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
- 	if (!zone) {
+	if (!zone) {
 		zone = (icaltimezone *)get_local_timezone();
 		if (!zone)
 			zone = icaltimezone_get_utc_timezone();

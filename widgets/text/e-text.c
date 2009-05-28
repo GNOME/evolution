@@ -436,8 +436,8 @@ reset_layout (EText *text)
 			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
 		pango_layout_set_font_description (text->layout, text->font_desc);
 
- 		pango_layout_set_text (text->layout, text->text, -1);
- 		reset_layout_attrs (text);
+		pango_layout_set_text (text->layout, text->text, -1);
+		reset_layout_attrs (text);
 	}
 
 	if (!text->button_down) {
@@ -2226,7 +2226,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				 * Here when a new text widget comes into focus we can disconnect the
 				 * old one.Shouldn't hurt much, as in worst case, save_text which should
 				 * be disconnected will be overwritten and we will have signal
-			   	 * handlers connect to  multiple e-texts but with subsequent commit these
+				 * handlers connect to  multiple e-texts but with subsequent commit these
 				 * should go away.
 				 */
 
@@ -2753,7 +2753,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 
       /* If invoked by S-F10 key binding, button will be 0. */
       if (button->button == 0){
-      	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      popup_menu_placement_cb, (gpointer)text,
 			      button->button, GDK_CURRENT_TIME);
       } else {
@@ -3911,15 +3911,15 @@ e_text_preedit_changed_cb (GtkIMContext *context,
 			   EText        *etext)
 {
 	gchar *preedit_string = NULL;
- 	gint cursor_pos;
+	gint cursor_pos;
 
 	gtk_im_context_get_preedit_string (context, &preedit_string,
 					   NULL, &cursor_pos);
 
- 	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
+	cursor_pos = CLAMP (cursor_pos, 0, g_utf8_strlen (preedit_string, -1));
 	etext->preedit_len = strlen (preedit_string);
- 	etext->preedit_pos = g_utf8_offset_to_pointer (preedit_string, cursor_pos) - preedit_string;
- 	g_free (preedit_string);
+	etext->preedit_pos = g_utf8_offset_to_pointer (preedit_string, cursor_pos) - preedit_string;
+	g_free (preedit_string);
 
 	g_signal_emit (etext, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
 }
@@ -3943,7 +3943,7 @@ e_text_delete_surrounding_cb   (GtkIMContext *context,
 				EText        *text)
 {
 	e_text_model_delete (text->model,
-		             MIN (text->selection_start, text->selection_end) + offset,
+			     MIN (text->selection_start, text->selection_end) + offset,
 			     n_chars);
 
 	return TRUE;

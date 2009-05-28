@@ -77,8 +77,8 @@ typedef struct {
 
 	ETableCol        *current_search_col;
 
-	guint   	  search_search_id;
-	guint   	  search_accept_id;
+	guint	  search_search_id;
+	guint	  search_accept_id;
 
 	gint table_model_change_id;
 	gint table_row_change_id;
@@ -174,11 +174,11 @@ typedef struct {
 					   GtkAdjustment *vadjustment);
 
 	/* Source side drag signals */
-	void (* table_drag_begin)	           (ETable	       *table,
+	void (* table_drag_begin)		   (ETable	       *table,
 						    gint                 row,
 						    gint                 col,
 						    GdkDragContext     *context);
-	void (* table_drag_end)	           (ETable	       *table,
+	void (* table_drag_end)		   (ETable	       *table,
 					    gint                 row,
 					    gint                 col,
 					    GdkDragContext     *context);
@@ -195,7 +195,7 @@ typedef struct {
 						  GdkDragContext     *context);
 
 	/* Target side drag signals */
-	void (* table_drag_leave)	           (ETable	       *table,
+	void (* table_drag_leave)		   (ETable	       *table,
 						    gint                 row,
 						    gint                 col,
 						    GdkDragContext     *context,

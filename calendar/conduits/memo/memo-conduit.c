@@ -891,7 +891,7 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	}
 
- 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
 				DLP_BUF_SIZE,
 				buffer);
 #else
@@ -909,7 +909,7 @@ pre_sync (GnomePilotConduit *conduit,
 #ifdef PILOT_LINK_0_12
 	buf = g_new0 (unsigned char,buffer->used);
 	memcpy(buf, buffer->data, buffer->used);
- 	unpack_MemoAppInfo (&(ctxt->ai), buf, len);
+	unpack_MemoAppInfo (&(ctxt->ai), buf, len);
 	pi_buffer_free(buffer);
 #else
 	unpack_MemoAppInfo (&(ctxt->ai), buf, len);
@@ -1035,7 +1035,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			/* NOTE: ignore the return value, otherwise ctxt->locals
 			 * gets messed up. The calling function keeps track of
 			 * the *local variable */
-		        unused = g_list_prepend (ctxt->locals, *local);
+			unused = g_list_prepend (ctxt->locals, *local);
 			iterator = comps;
 		} else {
 			LOG (g_message ( "no events" ));
@@ -1391,22 +1391,22 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	g_signal_connect (retval, "pre_sync", G_CALLBACK (pre_sync), ctxt);
 	g_signal_connect (retval, "post_sync", G_CALLBACK (post_sync), ctxt);
 
-  	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
-  	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
+	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
+	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
 
-  	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
-  	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
-  	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
+	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
+	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
+	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
 
-  	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
-  	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
-  	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
-  	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
+	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
+	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
+	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
+	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
 
-  	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
-  	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
+	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
+	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
 
-  	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
+	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
 
 	/* Gui Settings */
 	g_signal_connect (retval, "create_settings_window", G_CALLBACK (create_settings_window), ctxt);

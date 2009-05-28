@@ -131,7 +131,7 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 			sopts->accepted = E_RETURN_NOTIFY_MAIL;
 	}
 
- 	value = e_source_get_property (source, "return-decline");
+	value = e_source_get_property (source, "return-decline");
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->declined = E_RETURN_NOTIFY_NONE;

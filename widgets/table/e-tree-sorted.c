@@ -593,23 +593,23 @@ ets_dispose (GObject *object)
 
 	if (priv->source) {
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_pre_change_id);
+					     priv->tree_model_pre_change_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_no_change_id);
+					     priv->tree_model_no_change_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_changed_id);
+					     priv->tree_model_node_changed_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_data_changed_id);
+					     priv->tree_model_node_data_changed_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_col_changed_id);
+					     priv->tree_model_node_col_changed_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_inserted_id);
+					     priv->tree_model_node_inserted_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_removed_id);
+					     priv->tree_model_node_removed_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_deleted_id);
+					     priv->tree_model_node_deleted_id);
 		g_signal_handler_disconnect (G_OBJECT (priv->source),
-				             priv->tree_model_node_request_collapse_id);
+					     priv->tree_model_node_request_collapse_id);
 
 		g_object_unref (priv->source);
 		priv->source = NULL;
@@ -627,7 +627,7 @@ ets_dispose (GObject *object)
 
 	if (priv->sort_info) {
 		g_signal_handler_disconnect (G_OBJECT (priv->sort_info),
-				             priv->sort_info_changed_id);
+					     priv->sort_info_changed_id);
 		priv->sort_info_changed_id = 0;
 
 		g_object_unref (priv->sort_info);
@@ -746,7 +746,7 @@ ets_get_prev (ETreeModel *etm, ETreePath node)
 static gboolean
 ets_is_root (ETreeModel *etm, ETreePath node)
 {
- 	ETreeSortedPath *path = node;
+	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED(etm);
 
 	return e_tree_model_node_is_root (ets->priv->source, path->corresponding);
@@ -755,7 +755,7 @@ ets_is_root (ETreeModel *etm, ETreePath node)
 static gboolean
 ets_is_expandable (ETreeModel *etm, ETreePath node)
 {
- 	ETreeSortedPath *path = node;
+	ETreeSortedPath *path = node;
 	ETreeSorted *ets = E_TREE_SORTED(etm);
 	gboolean expandable = e_tree_model_node_is_expandable (ets->priv->source, path->corresponding);
 

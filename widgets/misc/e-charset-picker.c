@@ -256,7 +256,7 @@ activate_other (GtkWidget *item, gpointer menu)
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
 		new_charset = (gchar *)gtk_entry_get_text (GTK_ENTRY (entry));
 
-	       	if (*new_charset) {
+		if (*new_charset) {
 			if (add_other_charset (menu, item, new_charset)) {
 				gtk_widget_destroy (GTK_WIDGET (dialog));
 				g_object_unref (dialog);

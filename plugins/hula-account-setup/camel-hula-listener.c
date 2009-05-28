@@ -32,7 +32,7 @@
 #include "camel-hula-listener.h"
 
 
-static 	GList *hula_accounts = NULL;
+static	GList *hula_accounts = NULL;
 
 struct _CamelHulaListenerPrivate {
 	GConfClient *gconf_client;
@@ -312,7 +312,7 @@ modify_esource (const gchar * conf_key, HulaAccountInfo *old_account_info, const
 	gchar *old_relative_uri;
 	CamelURL *url;
 	gboolean found_group;
-      	GConfClient* client;
+	GConfClient* client;
 
 	url = camel_url_new (old_account_info->source_url, NULL);
 	if (!url->host || strlen (url->host) ==0)
@@ -440,7 +440,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 static void
 account_removed (EAccountList *account_listener, EAccount *account)
 {
-       	HulaAccountInfo *info;
+	HulaAccountInfo *info;
 
 	if (!is_hula_account (account) || !is_hula_caldav_account (account))
 		return;
@@ -546,7 +546,7 @@ camel_hula_listener_construct (CamelHulaListener *config_listener)
 	EAccount *account;
 	HulaAccountInfo *info ;
 
-       	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
+	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
 
 	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ) ; e_iterator_is_valid (iter); e_iterator_next (iter) ) {
 
@@ -554,7 +554,7 @@ camel_hula_listener_construct (CamelHulaListener *config_listener)
 
 		if ( is_hula_account (account) && account->enabled) {
 
-		        info = g_new0 (HulaAccountInfo, 1);
+			info = g_new0 (HulaAccountInfo, 1);
 			info->uid = g_strdup (account->uid);
 			info->name = g_strdup (account->name);
 			info->source_url = g_strdup (account->source->url);

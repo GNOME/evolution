@@ -736,7 +736,7 @@ sensitize_widgets (EventPage *epage)
 
 	priv = epage->priv;
 	if (flags & COMP_EDITOR_MEETING)
-	 	sens = flags & COMP_EDITOR_USER_ORG;
+		sens = flags & COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
@@ -1567,15 +1567,15 @@ void update_end_time_combo (EventPage *epage)
                              &start_tt.month,
                              &start_tt.day);
         e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-       	                             &start_tt.hour,
-               	                     &start_tt.minute);
+				     &start_tt.hour,
+				     &start_tt.minute);
 	e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
                              &end_tt.year,
                              &end_tt.month,
                              &end_tt.day);
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
-               	                     &end_tt.hour,
-                       	             &end_tt.minute);
+				     &end_tt.hour,
+				     &end_tt.minute);
 
 	end_timet = icaltime_as_timet (end_tt);
 	start_timet = icaltime_as_timet (start_tt);
@@ -1623,10 +1623,10 @@ hour_minute_changed (EventPage *epage)
 	icaltime_adjust (&end_tt, 0, for_hours, for_minutes, 0);
 
 	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (priv->end_time),
-				  	      end_tt.year,
+					      end_tt.year,
 					      end_tt.month,
 					      end_tt.day,
-			      		      end_tt.hour,
+					      end_tt.hour,
 					      end_tt.minute);
 }
 
@@ -1936,8 +1936,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
 				gtk_tree_selection_unselect_all (selection);
 				gtk_tree_selection_select_path (selection, path);
 
- 				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
- 					disable_mask &= ~ATTENDEE_CAN_DELETE;
+				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
+					disable_mask &= ~ATTENDEE_CAN_DELETE;
 			}
 		}
 	}
@@ -3054,7 +3054,7 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 	if (user_addr)
 		subscribed_cal = TRUE;
 	else
- 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
+		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
 	default_address = NULL;
 	if (user_addr)

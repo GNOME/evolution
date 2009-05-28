@@ -217,7 +217,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	temp = e_xml_get_string_prop_by_name (node, (const guchar *)"cursor-mode");
 	if (temp && !g_ascii_strcasecmp (temp, "line")) {
 		specification->cursor_mode = E_CURSOR_LINE;
-	} else 	if (temp && !g_ascii_strcasecmp (temp, "spreadsheet")) {
+	} else	if (temp && !g_ascii_strcasecmp (temp, "spreadsheet")) {
 		specification->cursor_mode = E_CURSOR_SPREADSHEET;
 	}
 	g_free (temp);

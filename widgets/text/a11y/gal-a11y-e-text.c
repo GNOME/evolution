@@ -383,19 +383,19 @@ et_get_text_at_offset (AtkText *text,
 	case ATK_TEXT_BOUNDARY_SENTENCE_START:
 		start = find_sentence_start (full_text, offset - 1, -1);
                 end = find_sentence_start (full_text, offset, 1);
- 		break;
+		break;
 	case ATK_TEXT_BOUNDARY_SENTENCE_END:
-	        start = find_sentence_end (full_text, offset, -1);
+		start = find_sentence_end (full_text, offset, -1);
                 end = find_sentence_end (full_text, offset + 1, 1);
 		break;
 	case ATK_TEXT_BOUNDARY_LINE_START:
-	        start = find_line_start (full_text, offset - 1, -1);
+		start = find_line_start (full_text, offset - 1, -1);
                 end = find_line_start (full_text, offset, 1);
- 		break;
+		break;
 	case ATK_TEXT_BOUNDARY_LINE_END:
 		start = find_line_end (full_text, offset, -1);
                 end = find_line_end (full_text, offset + 1, 1);
- 		break;
+		break;
 	default:
 		return NULL;
 	}
@@ -448,19 +448,19 @@ et_get_text_before_offset (AtkText *text,
 	case ATK_TEXT_BOUNDARY_SENTENCE_START:
 		end = find_sentence_start (full_text, offset, -1);
 		start = find_sentence_start (full_text, end - 1, -1);
- 		break;
+		break;
 	case ATK_TEXT_BOUNDARY_SENTENCE_END:
-	        end = find_sentence_end (full_text, offset, -1);
+		end = find_sentence_end (full_text, offset, -1);
                 start = find_sentence_end (full_text, end - 1, -1);
- 		break;
+		break;
 	case ATK_TEXT_BOUNDARY_LINE_START:
-	        end = find_line_start (full_text, offset, -1);
+		end = find_line_start (full_text, offset, -1);
                 start = find_line_start (full_text, end - 1, -1);
- 		break;
+		break;
 	case ATK_TEXT_BOUNDARY_LINE_END:
-	        end = find_line_end (full_text, offset, -1);
+		end = find_line_end (full_text, offset, -1);
                 start = find_line_end (full_text, end - 1, -1);
- 		break;
+		break;
 	default:
 		return NULL;
 	}
@@ -572,8 +572,8 @@ et_get_character_extents (AtkText *text,
 		window = gdk_window_get_toplevel (window);
 		gdk_window_get_origin (window, &x_window, &y_window);
 		*x -= x_window;
-	        *y -= y_window;
-    	}
+		*y -= y_window;
+	}
 	else if (coords == ATK_XY_SCREEN) {
 	}
 	else {

@@ -28,10 +28,10 @@
 
 G_BEGIN_DECLS
 
-#define E_TYPE_IMAGE_CHOOSER	        (e_image_chooser_get_type ())
-#define E_IMAGE_CHOOSER(obj)	        (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_IMAGE_CHOOSER, EImageChooser))
+#define E_TYPE_IMAGE_CHOOSER		(e_image_chooser_get_type ())
+#define E_IMAGE_CHOOSER(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_IMAGE_CHOOSER, EImageChooser))
 #define E_IMAGE_CHOOSER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_IMAGE_CHOOSER, EImageChooserClass))
-#define E_IS_IMAGE_CHOOSER(obj)	        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_IMAGE_CHOOSER))
+#define E_IS_IMAGE_CHOOSER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_IMAGE_CHOOSER))
 #define E_IS_IMAGE_CHOOSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_IMAGE_CHOOSER))
 
 typedef struct _EImageChooser        EImageChooser;

@@ -1287,7 +1287,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 				phone_str = e_contact_get_const (contact, next_mail);
 				next_mail = get_next_mail (&next_mail);
 			} else if (phonelabel == LABEL_HOME && !is_next_done (next_home)) {
-  				phone_str = e_contact_get_const (contact, next_home);
+				phone_str = e_contact_get_const (contact, next_home);
 				next_home = get_next_home (&next_home);
 			} else if (phonelabel == LABEL_WORK && !is_next_done (next_work)) {
 				phone_str = e_contact_get_const (contact, next_work);
@@ -1578,7 +1578,7 @@ pre_sync (GnomePilotConduit *conduit,
 {
 	GnomePilotConduitSyncAbs *abs_conduit;
 	EBookQuery *query;
-    	GList *l;
+	GList *l;
 	gint len;
 	gchar *filename;
 	gchar *change_id;
@@ -1668,11 +1668,11 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 
 	/* Set the count information */
-  	num_records = g_list_length (ctxt->cards);
-  	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
-  	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
-  	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
-  	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
+	num_records = g_list_length (ctxt->cards);
+	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
+	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
+	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
+	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
@@ -1701,7 +1701,7 @@ pre_sync (GnomePilotConduit *conduit,
 	unpack_AddressAppInfo (&(ctxt->ai), buf, len);
 	g_free (buf);
 #endif
-  	check_for_slow_setting (conduit, ctxt);
+	check_for_slow_setting (conduit, ctxt);
 	if (ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyToPilot
 	    || ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyFromPilot)
 		ctxt->map->write_touched_only = TRUE;
@@ -1793,10 +1793,10 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  EAddrLocalRecord **local,
 	  EAddrConduitContext *ctxt)
 {
-  	static GList *cards, *iterator;
-  	static gint count;
+	static GList *cards, *iterator;
+	static gint count;
 
-  	g_return_val_if_fail (local != NULL, -1);
+	g_return_val_if_fail (local != NULL, -1);
 
 	if (*local == NULL) {
 		LOG (g_message ( "beginning for_each" ));
@@ -1808,7 +1808,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			LOG (g_message ( "iterating over %d records", g_list_length (cards) ));
 
 			*local = g_new0 (EAddrLocalRecord, 1);
-  			local_record_from_ecard (*local, cards->data, ctxt);
+			local_record_from_ecard (*local, cards->data, ctxt);
 			ctxt->locals = g_list_prepend (ctxt->locals, *local);
 
 			iterator = cards;
@@ -1828,7 +1828,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 		} else {
 			LOG (g_message ( "for_each ending" ));
 
-  			/* Tell the pilot the iteration is over */
+			/* Tell the pilot the iteration is over */
 			*local = NULL;
 
 			return 0;
@@ -1881,7 +1881,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
 
-    			/* Signal the iteration is over */
+			/* Signal the iteration is over */
 			*local = NULL;
 
 			return 0;
@@ -2056,7 +2056,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        EAddrLocalRecord **local,
        EAddrConduitContext *ctxt)
 {
-  	const gchar *uid;
+	const gchar *uid;
 
 	LOG (g_message ("match: looking for local copy of %s\n",
 	     print_remote (remote)));
@@ -2191,22 +2191,22 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	g_signal_connect (retval, "pre_sync", G_CALLBACK (pre_sync), ctxt);
 	g_signal_connect (retval, "post_sync", G_CALLBACK (post_sync), ctxt);
 
-  	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
-  	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
+	g_signal_connect (retval, "set_pilot_id", G_CALLBACK (set_pilot_id), ctxt);
+	g_signal_connect (retval, "set_status_cleared", G_CALLBACK (set_status_cleared), ctxt);
 
-  	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
-  	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
-  	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
+	g_signal_connect (retval, "for_each", G_CALLBACK (for_each), ctxt);
+	g_signal_connect (retval, "for_each_modified", G_CALLBACK (for_each_modified), ctxt);
+	g_signal_connect (retval, "compare", G_CALLBACK (compare), ctxt);
 
-  	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
-  	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
-  	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
-  	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
+	g_signal_connect (retval, "add_record", G_CALLBACK (add_record), ctxt);
+	g_signal_connect (retval, "replace_record", G_CALLBACK (replace_record), ctxt);
+	g_signal_connect (retval, "delete_record", G_CALLBACK (delete_record), ctxt);
+	g_signal_connect (retval, "archive_record", G_CALLBACK (archive_record), ctxt);
 
-  	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
-  	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
+	g_signal_connect (retval, "match", G_CALLBACK (match), ctxt);
+	g_signal_connect (retval, "free_match", G_CALLBACK (free_match), ctxt);
 
-  	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
+	g_signal_connect (retval, "prepare", G_CALLBACK (prepare), ctxt);
 
 	/* Gui Settings */
 	g_signal_connect (retval, "create_settings_window", G_CALLBACK (create_settings_window), ctxt);

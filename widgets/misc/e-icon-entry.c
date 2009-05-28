@@ -99,8 +99,8 @@ icon_entry_create_proxy (GtkAction *action)
 }
 static gboolean
 icon_entry_focus_change_cb (GtkWidget *widget,
-		            GdkEventFocus *event,
-		            GtkWidget *entry)
+			    GdkEventFocus *event,
+			    GtkWidget *entry)
 {
 	gtk_widget_queue_draw (entry);
 

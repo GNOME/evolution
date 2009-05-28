@@ -76,8 +76,8 @@ guint32		e_color_to_value		(GdkColor *color);
 gchar *		e_format_number			(gint number);
 
 typedef gint	(*ESortCompareFunc)		(gconstpointer first,
-				  		 gconstpointer second,
-				  		 gpointer closure);
+						 gconstpointer second,
+						 gpointer closure);
 
 void		e_bsearch			(gconstpointer key,
 						 gconstpointer base,
@@ -128,7 +128,7 @@ gchar *		e_file_get_save_path		(void);
 
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
-gboolean 	e_file_lock_exists		(void);
+gboolean	e_file_lock_exists		(void);
 
 gchar *		e_util_guess_mime_type		(const gchar *filename,
                                                  gboolean localfile);

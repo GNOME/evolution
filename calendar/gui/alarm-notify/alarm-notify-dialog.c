@@ -325,11 +325,11 @@ notified_alarms_dialog_new (void)
 
 	/* Set callback for updating the snooze "minutes" label */
 	g_signal_connect (G_OBJECT (an->snooze_time_min), "value_changed",
-	 		G_CALLBACK (an_update_minutes_label), an);
+			G_CALLBACK (an_update_minutes_label), an);
 
 	/* Set callback for updating the snooze "hours" label */
 	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
-	 		G_CALLBACK (an_update_hrs_label), an);
+			G_CALLBACK (an_update_hrs_label), an);
 
 
 	na = g_new0 (AlarmNotificationsDialog, 1);

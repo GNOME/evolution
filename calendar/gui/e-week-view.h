@@ -441,9 +441,9 @@ gint	   e_week_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
 
 gboolean e_week_view_find_event_from_item (EWeekView	  *week_view,
- 					   GnomeCanvasItem *item,
- 					   gint		  *event_num_return,
- 					   gint		  *span_num_return);
+					   GnomeCanvasItem *item,
+					   gint		  *event_num_return,
+					   gint		  *span_num_return);
 
 gboolean e_week_view_is_jump_button_visible (EWeekView *week_view,
 					     gint day);

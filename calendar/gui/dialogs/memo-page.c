@@ -334,15 +334,15 @@ sensitize_widgets (MemoPage *mpage)
 		read_only = TRUE;
 
 	if (flags & COMP_EDITOR_IS_SHARED)
-	 	sens = flags & COMP_EDITOR_USER_ORG;
+		sens = flags & COMP_EDITOR_USER_ORG;
 	else
 		sens = TRUE;
 
 	sensitize = (!read_only && sens);
 
 	/* The list of organizers is set to be non-editable. Otherwise any
- 	* change in the displayed list causes an 'Account not found' error.
- 	*/
+	* change in the displayed list causes an 'Account not found' error.
+	*/
 	gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->org_combo))), FALSE);
 
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->memo_content), sensitize);

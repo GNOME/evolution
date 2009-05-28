@@ -625,7 +625,7 @@ new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
 	}
 	g_object_unref (emcftd->emfs);
 	g_free (emcftd->uri);
-   	g_free (emcftd);
+	g_free (emcftd);
 }
 
 static void

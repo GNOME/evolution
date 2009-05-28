@@ -612,7 +612,7 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	/* Alarm Types */
 	switch ( trigger->type ) {
- 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
+	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
 		e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 		break;
 
@@ -1212,9 +1212,9 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	}
 
 	if (!setup_select_names (&dialog)) {
-  		g_object_unref (dialog.xml);
-  		return FALSE;
-  	}
+		g_object_unref (dialog.xml);
+		return FALSE;
+	}
 
 	init_widgets (&dialog);
 

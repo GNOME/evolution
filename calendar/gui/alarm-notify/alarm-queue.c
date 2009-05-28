@@ -1461,7 +1461,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (text.value)
 		summary = text.value;
 	else
-	        summary = _("No summary available.");
+		summary = _("No summary available.");
 
 	e_cal_component_get_description_list (comp, &text_list);
 
@@ -1480,7 +1480,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	e_cal_component_get_location (comp, &location);
 
 	if (!location)
-	        location = _("No location information available.");
+		location = _("No location information available.");
 
 	/* create the tray icon */
 	if (tray_icon == NULL) {
@@ -1557,7 +1557,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 #ifdef HAVE_LIBNOTIFY
 static void
 popup_notification (time_t trigger, CompQueuedAlarms *cqa,
-	            gpointer alarm_id, gboolean use_description)
+		    gpointer alarm_id, gboolean use_description)
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
@@ -1586,7 +1586,7 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (text.value)
 		summary = text.value;
 	else
-	        summary = _("No summary available.");
+		summary = _("No summary available.");
 
 	e_cal_component_get_location (comp, &location);
 
@@ -2051,8 +2051,8 @@ remove_comp_by_id (gpointer key, gpointer value, gpointer userdata) {
 
 	d(printf("%s:%d (remove_comp_by_id)\n",__FILE__, __LINE__));
 
-/* 	if (!g_hash_table_size (ca->uid_alarms_hash)) */
-/* 		return; */
+/*	if (!g_hash_table_size (ca->uid_alarms_hash)) */
+/*		return; */
 
 	remove_cqa (ca, (ECalComponentId *)key, (CompQueuedAlarms *) value);
 
@@ -2208,7 +2208,7 @@ update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa)
 	d(printf("%s:%d (update_qa)\n",__FILE__, __LINE__));
 	for (instance_list = alarms->alarms; instance_list; instance_list = instance_list->next) {
 		al_inst = instance_list->data;
-		if (al_inst->trigger == qa->orig_trigger) {  /* FIXME if two or more alarm instances (audio, note) 									  for same component have same trigger */
+		if (al_inst->trigger == qa->orig_trigger) {  /* FIXME if two or more alarm instances (audio, note)									  for same component have same trigger */
 			g_free ((gchar *) qa->instance->auid);
 			qa->instance->auid = g_strdup (al_inst->auid);
 			break;

@@ -237,7 +237,7 @@ em_format_get_type (void)
 void
 em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info)
 {
-	d(printf("adding format handler to '%s' '%s'\n", 	g_type_name_from_class((GTypeClass *)emfc), info->mime_type));
+	d(printf("adding format handler to '%s' '%s'\n",	g_type_name_from_class((GTypeClass *)emfc), info->mime_type));
 	info->old = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
 	g_hash_table_insert(emfc->type_handlers, (gpointer) info->mime_type, info);
 }
@@ -1729,7 +1729,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 		camel_exception_free(ex);
 		camel_object_unref(cipher);
 		return;
-    	}
+	}
 
 	/* Setup output stream */
 	ostream = camel_stream_mem_new();

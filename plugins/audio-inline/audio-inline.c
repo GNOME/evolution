@@ -135,7 +135,7 @@ org_gnome_audio_inline_set_audiosink (GstElement *playbin)
 	}
 
 	if (audiosink) {
-        	g_object_set (playbin, "audio-sink", audiosink, NULL);
+		g_object_set (playbin, "audio-sink", audiosink, NULL);
 	}
 }
 
@@ -174,7 +174,7 @@ org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointe
 			      if (po->pause_button)
 					gtk_widget_set_sensitive (po->pause_button, new_state > GST_STATE_PAUSED);
 			      if (po->stop_button)
-				      	gtk_widget_set_sensitive (po->stop_button, new_state >= GST_STATE_PAUSED);
+					gtk_widget_set_sensitive (po->stop_button, new_state >= GST_STATE_PAUSED);
 			}
 
 			break;

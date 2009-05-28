@@ -241,7 +241,7 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 			    gint x, gint y, PangoLayout *layout, gchar *str,
 			    gint max_width, gboolean center)
 {
- 	gint width;
+	gint width;
 	gint height;
 	gint index;
 	GSList *lines;

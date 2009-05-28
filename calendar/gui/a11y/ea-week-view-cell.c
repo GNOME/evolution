@@ -369,9 +369,9 @@ component_interface_get_extents (AtkComponent *component,
         if (week_view->multi_week_view) {
                 if (week_view->compress_weekend && (cell->column == (5 - start_day))) {
                         *height = week_view->row_heights[cell->row*2];
-	                *width = week_view->col_widths[cell->column];
-	                *x += week_view->col_offsets[cell->column] - scroll_x;
-	                *y += week_view->row_offsets[cell->row*2]- scroll_y;
+			*width = week_view->col_widths[cell->column];
+			*x += week_view->col_offsets[cell->column] - scroll_x;
+			*y += week_view->row_offsets[cell->row*2]- scroll_y;
                 } else if (week_view->compress_weekend && (cell->column == (6 - start_day))) {
                         *height = week_view->row_heights[cell->row*2];
                         *width = week_view->col_widths[cell->column - 1];
@@ -383,10 +383,10 @@ component_interface_get_extents (AtkComponent *component,
                         *x += week_view->col_offsets[cell->column - 1] - scroll_x;
                         *y += week_view->row_offsets[cell->row*2]- scroll_y;
                 } else {
-	                *height = week_view->row_heights[cell->row*2]*2;
+			*height = week_view->row_heights[cell->row*2]*2;
                         *width = week_view->col_widths[cell->column];
-	                *x += week_view->col_offsets[cell->column] - scroll_x;
-	                *y += week_view->row_offsets[cell->row*2]- scroll_y;
+			*x += week_view->col_offsets[cell->column] - scroll_x;
+			*y += week_view->row_offsets[cell->row*2]- scroll_y;
                 }
         } else {
                 if (start_day < 3) {

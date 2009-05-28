@@ -160,8 +160,8 @@ ea_minicard_view_get_name (AtkObject *accessible)
 		source_name="";
 
 	string = g_strdup_printf (ngettext ("current address book folder %s has %d card",
-	                          "current address book folder %s has %d cards",
-	                          reflow->count), source_name, reflow->count);
+				  "current address book folder %s has %d cards",
+				  reflow->count), source_name, reflow->count);
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
@@ -384,7 +384,7 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 			e_minicard_view_create_contact_list (card_view);
 			break;
 		default:
-                	return_value = FALSE;
+			return_value = FALSE;
 			break;
 	}
 

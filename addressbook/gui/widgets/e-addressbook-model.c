@@ -155,8 +155,8 @@ update_folder_bar_message (EAddressbookModel *model)
 
 static void
 create_contact (EBookView *book_view,
-	        const GList *contact_list,
-	        EAddressbookModel *model)
+		const GList *contact_list,
+		EAddressbookModel *model)
 {
 	GPtrArray *array;
 	guint count;
@@ -681,7 +681,7 @@ e_addressbook_model_new (void)
 
 EContact *
 e_addressbook_model_get_contact (EAddressbookModel *model,
-		                 gint row)
+				 gint row)
 {
 	GPtrArray *array;
 

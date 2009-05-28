@@ -153,7 +153,7 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,0);
 		} else {
 			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,
-                        	g_array_index(priv->header_index_type, gint, set_index_column));
+				g_array_index(priv->header_index_type, gint, set_index_column));
 		}
 	}
 }
@@ -355,7 +355,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
                 str = (temp_header_ptr->header_type_value)->str;
                 if (strcmp (str, security_field) == 0) {
-                	str = _(security_field);
+			str = _(security_field);
                 }
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
@@ -384,8 +384,8 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			str = (temp_header_value_ptr->sub_header_string_value)->str;
 			for (i = 0; security_values[i].value != NULL; i++) {
 				if (strcmp (str, security_values[i].value) == 0) {
-                			str = _(security_values[i].str);
-                			break;
+					str = _(security_values[i].str);
+					break;
 				}
 			}
 			gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box),

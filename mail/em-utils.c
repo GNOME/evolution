@@ -2202,7 +2202,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 		}
 	}
 
-    	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
+	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
 	for (g = e_source_list_peek_groups(emu_addr_list); g; g = g_slist_next(g)) {
 		if (local && !is_local (g->data))
 			continue;
@@ -2274,8 +2274,8 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 	/* Form a mime part out of the photo */
 	part = camel_mime_part_new();
 	camel_mime_part_set_content(part,
-	                            (const gchar *) photo->data.inlined.data,
-	                            photo->data.inlined.length, "image/jpeg");
+				    (const gchar *) photo->data.inlined.data,
+				    photo->data.inlined.length, "image/jpeg");
 
 	e_contact_photo_free (photo);
 

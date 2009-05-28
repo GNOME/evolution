@@ -641,7 +641,7 @@ plugin_google  (EPlugin                    *epl,
 	gtk_widget_show (hbox);
 
 	spin = gtk_spin_button_new_with_range (1, 100, 1);
- 	gtk_label_set_mnemonic_widget (GTK_LABEL(label), spin);
+	gtk_label_set_mnemonic_widget (GTK_LABEL(label), spin);
 	gtk_widget_show (spin);
 	gtk_box_pack_start (GTK_BOX(hbox), spin, FALSE, TRUE, 0);
 

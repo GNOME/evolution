@@ -15,7 +15,7 @@
  *
  * Authors:
  *		JP Rosevear  <jpr@ximian.com>
- * 	    Mike Kestner  <mkestner@ximian.com>
+ *	    Mike Kestner  <mkestner@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -539,13 +539,13 @@ ems_finalize (GObject *obj)
 	if (priv->client != NULL)
 		g_object_unref (priv->client);
 
- 	while (priv->refresh_queue->len > 0)
- 		refresh_queue_remove (store, g_ptr_array_index (priv->refresh_queue, 0));
- 	g_ptr_array_free (priv->refresh_queue, TRUE);
- 	g_hash_table_destroy (priv->refresh_data);
+	while (priv->refresh_queue->len > 0)
+		refresh_queue_remove (store, g_ptr_array_index (priv->refresh_queue, 0));
+	g_ptr_array_free (priv->refresh_queue, TRUE);
+	g_hash_table_destroy (priv->refresh_data);
 
- 	if (priv->refresh_idle_id)
- 		g_source_remove (priv->refresh_idle_id);
+	if (priv->refresh_idle_id)
+		g_source_remove (priv->refresh_idle_id);
 
 	g_free (priv->fb_uri);
 
@@ -554,7 +554,7 @@ ems_finalize (GObject *obj)
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
- 		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 static void
@@ -1048,19 +1048,19 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 static void
 process_free_busy (EMeetingStoreQueueData *qdata, gchar *text)
 {
- 	EMeetingStore *store = qdata->store;
- 	EMeetingStorePrivate *priv;
- 	EMeetingAttendee *attendee = qdata->attendee;
+	EMeetingStore *store = qdata->store;
+	EMeetingStorePrivate *priv;
+	EMeetingAttendee *attendee = qdata->attendee;
 	icalcomponent *main_comp;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 
 	priv = store->priv;
 
 	main_comp = icalparser_parse_string (text);
- 	if (main_comp == NULL) {
- 		process_callbacks (qdata);
-  		return;
- 	}
+	if (main_comp == NULL) {
+		process_callbacks (qdata);
+		return;
+	}
 
 	kind = icalcomponent_isa (main_comp);
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -1136,7 +1136,7 @@ freebusy_async (gpointer data)
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
 	gchar *default_fb_uri = NULL;
-       	gchar *fburi = NULL;
+	gchar *fburi = NULL;
 	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 	EMeetingStorePrivate *priv = fbd->store->priv;
 
@@ -1341,8 +1341,8 @@ refresh_queue_add (EMeetingStore *store, gint row,
 		e_meeting_attendee_clear_busy_periods (attendee);
 		e_meeting_attendee_set_has_calendar_info (attendee, FALSE);
 
-	        qdata->start = *start;
-	        qdata->end = *end;
+		qdata->start = *start;
+		qdata->end = *end;
 		qdata->string = g_string_new (NULL);
 		qdata->call_backs = g_ptr_array_new ();
 		qdata->data = g_ptr_array_new ();

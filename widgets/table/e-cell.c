@@ -16,7 +16,7 @@
  *
  * Authors:
  *		Miguel de Icaza <miguel@ximian.com>
- * 		Chris Lahey <clahey@ximian.com>
+ *		Chris Lahey <clahey@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

@@ -48,7 +48,7 @@ org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t);
 static void
 abort_changes (JunkSettings *js)
 {
-       	g_object_run_dispose ((GObject *)js);
+	g_object_run_dispose ((GObject *)js);
 }
 
 static void

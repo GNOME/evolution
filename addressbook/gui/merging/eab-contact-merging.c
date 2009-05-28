@@ -346,14 +346,14 @@ mergeit (EContactMergingLookup *lookup)
 	switch (result)
 	{
 	case GTK_RESPONSE_OK:
-	             lookup->contact = lookup->match;
+		     lookup->contact = lookup->match;
 		     e_book_async_remove_contact (lookup->book, lookup->match, NULL, lookup);
 		     e_book_async_add_contact (lookup->book, lookup->contact, final_id_cb, lookup);
 		     value = 1;
 		     break;
 	case GTK_RESPONSE_CANCEL:
 	default:
-	             value = 0;
+		     value = 0;
 		     break;
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));

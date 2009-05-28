@@ -180,13 +180,13 @@ find_ipod_mount_point (LibHalContext *ctx)
 			if (!libhal_device_property_exists (ctx, udi2,
 								"volume.is_filesystem", NULL) ||
 				  !libhal_device_get_property_bool (ctx, udi2,
-				  				"volume.is_filesystem", NULL))
+								"volume.is_filesystem", NULL))
 			{
 				has_fs = 1;
 			}
 
 			fsusage = libhal_device_get_property_string (ctx, udi2,
-				 				"volume.fsusage", NULL);
+								"volume.fsusage", NULL);
 
 			if (fsusage == NULL)
 				continue;
@@ -208,7 +208,7 @@ find_ipod_mount_point (LibHalContext *ctx)
 			if (!libhal_device_property_exists (ctx, udi2,
 								"volume.is_mounted", NULL) ||
 				 !libhal_device_get_property_bool (ctx, udi2,
-				 				"volume.is_mounted", NULL))
+								"volume.is_mounted", NULL))
 			{
 				/* It isn't, so let's attempt to mount it */
 				if (device != NULL)

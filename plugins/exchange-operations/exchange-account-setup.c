@@ -120,7 +120,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
 	gchar *old_password, *new_password;
- 	ExchangeAccountResult result;
+	ExchangeAccountResult result;
 
 	account = exchange_operations_get_exchange_account ();
 	if (!account)
@@ -137,7 +137,7 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 		return;
 	}
 	/* g_print ("Current password is \"%s\"\n", old_password); */
- 	result = exchange_account_set_password (account, old_password, new_password);
+	result = exchange_account_set_password (account, old_password, new_password);
 	if (result != EXCHANGE_ACCOUNT_CONNECT_SUCCESS)
 		exchange_operations_report_error (account, result);
 
@@ -738,8 +738,8 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 			/* url has hostname but not owa_url.
 			 * Account has been created using x-c-s or evo is upgraded to 2.2
-		 	 * When invoked from druid, hostname will get set after validation,
-		 	 * so this condition will never be true during account creation.
+			 * When invoked from druid, hostname will get set after validation,
+			 * so this condition will never be true during account creation.
 			 */
 			owa_url = construct_owa_url (url);
 			camel_url_set_param (url, "owa_url", owa_url);

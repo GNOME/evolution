@@ -127,8 +127,8 @@ struct ETreePriv {
 
 	ETableCol        *current_search_col;
 
-	guint   	  search_search_id;
-	guint   	  search_accept_id;
+	guint	  search_search_id;
+	guint	  search_accept_id;
 
 	gint reflow_idle_id;
 	gint scroll_idle_id;
@@ -251,16 +251,16 @@ et_disconnect_from_etta (ETree *et)
 {
 	if (et->priv->table_model_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_model_change_id);
+					     et->priv->table_model_change_id);
 	if (et->priv->table_row_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_row_change_id);
+					     et->priv->table_row_change_id);
 	if (et->priv->table_cell_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_cell_change_id);
+					     et->priv->table_cell_change_id);
 	if (et->priv->table_rows_delete_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_rows_delete_id);
+					     et->priv->table_rows_delete_id);
 
 	et->priv->table_model_change_id = 0;
 	et->priv->table_row_change_id = 0;
@@ -316,17 +316,17 @@ disconnect_header (ETree *e_tree)
 
 	if (e_tree->priv->structure_change_id)
 		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
-				       	     e_tree->priv->structure_change_id);
+					     e_tree->priv->structure_change_id);
 	if (e_tree->priv->expansion_change_id)
 		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
-				       	     e_tree->priv->expansion_change_id);
+					     e_tree->priv->expansion_change_id);
 	if (e_tree->priv->sort_info) {
 		if (e_tree->priv->sort_info_change_id)
 			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
-					             e_tree->priv->sort_info_change_id);
+						     e_tree->priv->sort_info_change_id);
 		if (e_tree->priv->group_info_change_id)
 			g_signal_handler_disconnect (G_OBJECT (e_tree->priv->sort_info),
-					             e_tree->priv->group_info_change_id);
+						     e_tree->priv->group_info_change_id);
 
 		g_object_unref(e_tree->priv->sort_info);
 	}
@@ -793,7 +793,7 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 							&row, &col, &x, &y, &w, &h);
 	}
 
- 	if (y < adj->value || y + h > adj->value + adj->page_size)
+	if (y < adj->value || y + h > adj->value + adj->page_size)
 		gtk_adjustment_set_value(adj, CLAMP(y - adj->page_size / 2, adj->lower, adj->upper - adj->page_size));
 }
 
@@ -2254,7 +2254,7 @@ struct _ETreeDragSourceSite
 	GdkModifierType    start_button_mask;
 	GtkTargetList     *target_list;        /* Targets for drag data */
 	GdkDragAction      actions;            /* Possible actions */
-	GdkColormap       *colormap;	         /* Colormap for drag icon */
+	GdkColormap       *colormap;		 /* Colormap for drag icon */
 	GdkPixmap         *pixmap;             /* Icon for drag data */
 	GdkBitmap         *mask;
 
@@ -2545,8 +2545,8 @@ e_tree_drag_source_unset (ETree *tree)
 
 GdkDragContext *
 e_tree_drag_begin (ETree            *tree,
-		   gint     	       row,
-		   gint     	       col,
+		   gint	       row,
+		   gint	       col,
 		   GtkTargetList     *targets,
 		   GdkDragAction      actions,
 		   gint               button,
@@ -2900,7 +2900,7 @@ static void
 context_connect (ETree *et, GdkDragContext *context)
 {
 	if (context == et->priv->last_drop_context)
-       		return;
+		return;
 
 	if (et->priv->last_drop_context)
 		g_object_weak_unref (G_OBJECT(et->priv->last_drop_context), context_destroyed, et);

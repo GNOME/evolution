@@ -44,20 +44,20 @@ G_DEFINE_TYPE (ETableSorter, ets, E_SORTER_TYPE)
 
 #define INCREMENT_AMOUNT 100
 
-static void    	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
-static void    	ets_model_row_changed  (ETableModel *etm, gint row, ETableSorter *ets);
-static void    	ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets);
-static void    	ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
-static void    	ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
-static void    	ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
-static void    	ets_clean              (ETableSorter *ets);
-static void    	ets_sort               (ETableSorter *ets);
-static void    	ets_backsort           (ETableSorter *ets);
+static void	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
+static void	ets_model_row_changed  (ETableModel *etm, gint row, ETableSorter *ets);
+static void	ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets);
+static void	ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
+static void	ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets);
+static void	ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
+static void	ets_clean              (ETableSorter *ets);
+static void	ets_sort               (ETableSorter *ets);
+static void	ets_backsort           (ETableSorter *ets);
 
-static gint    	ets_model_to_sorted           (ESorter *sorter, gint row);
-static gint    	ets_sorted_to_model           (ESorter *sorter, gint row);
-static void    	ets_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
-static void    	ets_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
+static gint	ets_model_to_sorted           (ESorter *sorter, gint row);
+static gint	ets_sorted_to_model           (ESorter *sorter, gint row);
+static void	ets_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
+static void	ets_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
 static gboolean ets_needs_sorting             (ESorter *ets);
 
 static void
@@ -210,7 +210,7 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ets->table_model_row_changed_id = g_signal_connect (source, "model_row_changed",
 							G_CALLBACK (ets_model_row_changed), ets);
 	ets->table_model_cell_changed_id = g_signal_connect (source, "model_cell_changed",
-						        G_CALLBACK (ets_model_cell_changed), ets);
+							G_CALLBACK (ets_model_cell_changed), ets);
 	ets->table_model_rows_inserted_id = g_signal_connect (source, "model_rows_inserted",
 							G_CALLBACK (ets_model_rows_inserted), ets);
 	ets->table_model_rows_deleted_id = g_signal_connect (source, "model_rows_deleted",

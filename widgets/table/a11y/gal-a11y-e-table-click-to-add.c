@@ -324,7 +324,7 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 
 
 	g_signal_connect_after (G_OBJECT(widget), "event",
-	    			G_CALLBACK (etcta_event), a11y);
+				G_CALLBACK (etcta_event), a11y);
 
 	g_signal_connect (etcta->selection, "cursor_changed",
 			G_CALLBACK (etcta_selection_cursor_changed), a11y);

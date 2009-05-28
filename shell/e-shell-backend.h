@@ -74,36 +74,36 @@ struct _EShellBackend {
  * EShellBackendClass:
  * @parent_class:	The parent class structure.
  * @name:		The name of the backend.  Also becomes the name of
- * 			the corresponding #EShellView subclass that the
- * 			backend will register.
+ *			the corresponding #EShellView subclass that the
+ *			backend will register.
  * @aliases:		Colon-separated list of aliases that can be used
- * 			when referring to a backend by name.
+ *			when referring to a backend by name.
  * @schemes:		Colon-separated list of URI schemes.  The #EShell
- * 			will forward command-line URIs to the appropriate
- * 			backend based on this list.
+ *			will forward command-line URIs to the appropriate
+ *			backend based on this list.
  * @sort_order:		Used to determine the order of backends listed in
- * 			the main menu and in the switcher.  See
- * 			e_shell_backend_compare().
+ *			the main menu and in the switcher.  See
+ *			e_shell_backend_compare().
  * @shell_view_type:	#GType for the corresponding #EShellView subclass.
  * @start:		Method for notifying the backend to begin loading
- * 			data and running background tasks.  This is called
- * 			just before the first instantiation of the
- * 			corresponding #EShellView subclass.  It allows the
- * 			backend to delay initialization steps that consume
- * 			significant resources until they are actually needed.
+ *			data and running background tasks.  This is called
+ *			just before the first instantiation of the
+ *			corresponding #EShellView subclass.  It allows the
+ *			backend to delay initialization steps that consume
+ *			significant resources until they are actually needed.
  * @is_busy:		Method for querying whether the backend has operations
- * 			in progress that cannot be cancelled or finished
- * 			immediately.  Returning %TRUE prevents the application
- * 			from shutting down.
+ *			in progress that cannot be cancelled or finished
+ *			immediately.  Returning %TRUE prevents the application
+ *			from shutting down.
  * @shutdown:		Method for notifying the backend to begin shutting
- * 			down.  Returning %FALSE indicates there are still
- * 			unfinished operations and the #EShell should check
- * 			back shortly.
+ *			down.  Returning %FALSE indicates there are still
+ *			unfinished operations and the #EShell should check
+ *			back shortly.
  * @migrate:		Method for notifying the backend to migrate data and
- * 			settings from the given version.  Returns %TRUE if the
- * 			migration was successful or if no action was necessary.
- * 			Returns %FALSE and sets a #GError if the migration
- * 			failed.
+ *			settings from the given version.  Returns %TRUE if the
+ *			migration was successful or if no action was necessary.
+ *			Returns %FALSE and sets a #GError if the migration
+ *			failed.
  *
  * #EShellBackendClass contains a number of important settings for subclasses.
  **/

@@ -345,7 +345,7 @@ e_map_unrealize (GtkWidget *widget)
 	g_return_if_fail (IS_E_MAP (widget));
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-	        (*GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
+		(*GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
 
 
@@ -882,7 +882,7 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 
 	if (x >= 0 && x < GTK_WIDGET (map)->allocation.width &&
 	    y >= 0 && y < GTK_WIDGET (map)->allocation.height)
-	        return TRUE;
+		return TRUE;
 
 	return FALSE;
 }
@@ -1011,8 +1011,8 @@ update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
 	if (width > 1 && height > 1)
 	{
 		gdk_pixbuf_scale (priv->map_pixbuf, priv->map_render_pixbuf, 0, 0,  /* Dest (x, y) */
-				  width, height, 0, 0,	                            /* Offset (x, y) */
-				  zoom, zoom,	                                    /* Scale (x, y) */
+				  width, height, 0, 0,				    /* Offset (x, y) */
+				  zoom, zoom,					    /* Scale (x, y) */
 				  interp);
 	}
 

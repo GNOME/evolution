@@ -129,7 +129,7 @@ static gint e_day_view_focus_out (GtkWidget *widget,
 static gboolean e_day_view_key_press (GtkWidget *widget,
 				      GdkEventKey *event);
 static gboolean e_day_view_focus (GtkWidget *widget,
- 				  GtkDirectionType direction);
+				  GtkDirectionType direction);
 static gboolean e_day_view_get_next_tab_event (EDayView *day_view,
 					       GtkDirectionType direction,
 					       gint *day, gint *event_num);
@@ -452,11 +452,11 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->realize		= e_day_view_realize;
 	widget_class->unrealize		= e_day_view_unrealize;
 	widget_class->style_set		= e_day_view_style_set;
- 	widget_class->size_allocate	= e_day_view_size_allocate;
+	widget_class->size_allocate	= e_day_view_size_allocate;
 	widget_class->focus_in_event	= e_day_view_focus_in;
 	widget_class->focus_out_event	= e_day_view_focus_out;
 	widget_class->key_press_event	= e_day_view_key_press;
- 	widget_class->focus             = e_day_view_focus;
+	widget_class->focus             = e_day_view_focus;
 	widget_class->popup_menu        = e_day_view_popup_menu;
 
 	view_class->get_selected_events = e_day_view_get_selected_events;
@@ -467,7 +467,7 @@ e_day_view_class_init (EDayViewClass *class)
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
- 	e_day_view_a11y_init ();
+	e_day_view_a11y_init ();
 #endif
 }
 
@@ -1242,19 +1242,19 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
 	gdouble	cc = 65535.0;
 
 	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
-       	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
-       	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
+	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;
+	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
-       	     &bg_color)) {
+	     &bg_color)) {
                 GdkColormap *colormap;
-       		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-	        if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-       		        red = bg_color.red;
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			red = bg_color.red;
 			green = bg_color.green;
-	                blue = bg_color.blue;
+			blue = bg_color.blue;
                 }
-       	}
+	}
 
 	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
 		return widget->style->black;
@@ -2580,7 +2580,7 @@ e_day_view_update_marcus_bains		(EDayView *day_view)
 void
 e_day_view_set_marcus_bains		(EDayView       *day_view,
 					 gboolean        show_line,
-					 const gchar 	*dayview_color,
+					 const gchar	*dayview_color,
 					 const gchar     *timebar_color)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
@@ -4024,11 +4024,11 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	}
 
 	e_cal_component_commit_sequence (comp);
- 	if (e_cal_component_has_recurrences (comp)) {
- 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
- 			gtk_widget_queue_draw (day_view->top_canvas);
+	if (e_cal_component_has_recurrences (comp)) {
+		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
- 		}
+		}
 
 		if (mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (comp, client);
@@ -4061,7 +4061,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 
  out:
- 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
+	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
 	g_object_unref (comp);
 }
@@ -4135,11 +4135,11 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_has_recurrences (comp)) {
- 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
- 			gtk_widget_queue_draw (day_view->top_canvas);
+	if (e_cal_component_has_recurrences (comp)) {
+		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
- 		}
+		}
 
 		if (mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (comp, client);
@@ -4943,9 +4943,9 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/*Go to the start/end of a work day*/
 	if ((keyval == GDK_Home)
-	    		&&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-	    		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-	    		&&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+			&&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+			&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+			&&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_goto_start_of_work_day (day_view);
 		return TRUE;
 	}
@@ -6152,11 +6152,11 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_has_recurrences (comp)) {
- 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
- 			gtk_widget_queue_draw (day_view->top_canvas);
+	if (e_cal_component_has_recurrences (comp)) {
+		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
- 		}
+		}
 
 		if (mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (comp, client);
@@ -7426,7 +7426,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 					      GtkSelectionData   *data,
 					      guint               info,
 					      guint               time,
-					      EDayView	         *day_view)
+					      EDayView		 *day_view)
 {
 	EDayViewEvent *event=NULL;
 	ECalendarViewPosition pos;
@@ -7957,7 +7957,7 @@ e_day_view_paste_text (ECalendarView *cal_view)
 
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT) {
 		event = &g_array_index (day_view->long_events,
-				        EDayViewEvent,
+					EDayViewEvent,
 					day_view->editing_event_num);
 	} else {
 		event = &g_array_index (day_view->events[day_view->editing_event_day],

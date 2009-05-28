@@ -81,10 +81,10 @@ static void e_contact_editor_set_property (GObject *object, guint prop_id, const
 static void e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_contact_editor_dispose (GObject *object);
 
-static void e_contact_editor_raise 	    (EABEditor *editor);
-static void e_contact_editor_show  	    (EABEditor *editor);
+static void e_contact_editor_raise	    (EABEditor *editor);
+static void e_contact_editor_show	    (EABEditor *editor);
 static void e_contact_editor_save_contact   (EABEditor *editor, gboolean should_close);
-static void e_contact_editor_close 	    (EABEditor *editor);
+static void e_contact_editor_close	    (EABEditor *editor);
 static gboolean e_contact_editor_is_valid   (EABEditor *editor);
 static gboolean e_contact_editor_is_changed (EABEditor *editor);
 static GtkWindow* e_contact_editor_get_window (EABEditor *editor);
@@ -453,20 +453,20 @@ name_to_style (const EContactName *name, const gchar *company, gint style)
                 midstrptr=midstring;
                 if(name){
                         if (name->family && *name->family)
-			        *(midstrptr++) = name->family;
+				*(midstrptr++) = name->family;
                        if (name->given && *name->given)
-			        *(midstrptr++) = name->given;
+				*(midstrptr++) = name->given;
                  }
                 *midstrptr = NULL;
                 stringptr = strings;
                 *(stringptr++) = g_strjoinv(", ", midstring);
-               	if (name) {
+		if (name) {
 			if (name->additional && *name->additional)
 				*(stringptr++) = name->additional;
 		}
 		*stringptr = NULL;
-               	string = g_strjoinv(" ", strings);
-               	break;
+		string = g_strjoinv(" ", strings);
+		break;
 	case 3:
 		string = g_strdup(company);
 		break;
@@ -3892,7 +3892,7 @@ e_contact_editor_create_source_combo_box (gchar *name,
 
 GtkWidget *
 e_contact_editor_create_source_combo_box (gchar *name,
-				    	  gchar *string1, gchar *string2,
+					  gchar *string1, gchar *string2,
 					  gint int1, gint int2)
 {
 	GtkWidget   *combo_box;

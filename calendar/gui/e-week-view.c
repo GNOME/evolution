@@ -211,7 +211,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->realize		= e_week_view_realize;
 	widget_class->unrealize		= e_week_view_unrealize;
 	widget_class->style_set		= e_week_view_style_set;
- 	widget_class->size_allocate	= e_week_view_size_allocate;
+	widget_class->size_allocate	= e_week_view_size_allocate;
 	widget_class->focus_in_event	= e_week_view_focus_in;
 	widget_class->focus_out_event	= e_week_view_focus_out;
 	widget_class->key_press_event	= e_week_view_key_press;
@@ -828,19 +828,19 @@ e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidg
 	gdouble	cc = 65535.0;
 
 	red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red;
-       	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
-       	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
+	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
+	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
-       	     &bg_color)) {
+	     &bg_color)) {
                 GdkColormap *colormap;
-       		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
-	        if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-       		        red = bg_color.red;
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			red = bg_color.red;
 			green = bg_color.green;
-	                blue = bg_color.blue;
+			blue = bg_color.blue;
                 }
-       	}
+	}
 
 	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
 		return widget->style->black;
@@ -2689,7 +2689,7 @@ tooltip_destroy (EWeekView *week_view, GnomeCanvasItem *item)
 
 static gboolean
 tooltip_event_cb (GnomeCanvasItem *item,
-   	          GdkEvent *event,
+		  GdkEvent *event,
 		  EWeekView *view)
 {
 	gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
@@ -3488,11 +3488,11 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 
- 	if (e_cal_component_has_recurrences (comp)) {
- 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
- 			gtk_widget_queue_draw (week_view->main_canvas);
+	if (e_cal_component_has_recurrences (comp)) {
+		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+			gtk_widget_queue_draw (week_view->main_canvas);
 			goto out;
- 		}
+		}
 
 		if (mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (comp, client);

@@ -89,14 +89,14 @@ The headers will be hard coded, as will be the example data.
    front.  It also sorts by the "Full Name" column (ascending.)
    Sorting and grouping take the model column as their arguments
    (sorting is specified by the "column" argument to the leaf elemnt. */
-#define INITIAL_SPEC "<ETableSpecification>                    	       \
-	<columns-shown>                  			       \
-		<column> 0 </column>     			       \
-		<column> 4 </column>     			       \
-		<column> 1 </column>     			       \
-		<column> 2 </column>     			       \
-		<column> 3 </column>     			       \
-	</columns-shown>                 			       \
+#define INITIAL_SPEC "<ETableSpecification>			       \
+	<columns-shown>					       \
+		<column> 0 </column>			       \
+		<column> 4 </column>			       \
+		<column> 1 </column>			       \
+		<column> 2 </column>			       \
+		<column> 3 </column>			       \
+	</columns-shown>					       \
 	<grouping> <leaf column=\"1\" ascending=\"true\"/> </grouping> \
 </ETableSpecification>"
 

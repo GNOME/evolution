@@ -142,7 +142,7 @@ bbdb_sync_buddy_list (void)
 			   name, just give up; we're not smart enough for
 			   this. */
 			if (contacts->next != NULL)
- 				continue;
+				continue;
 
 			c = E_CONTACT (contacts->data);
 

@@ -325,7 +325,7 @@ sensitize_widgets (TaskPage *tpage)
 		read_only = TRUE;
 
 	if (flags & COMP_EDITOR_IS_ASSIGNED)
-	 	sens = flags & COMP_EDITOR_USER_ORG;
+		sens = flags & COMP_EDITOR_USER_ORG;
 
 	sensitize = (!read_only && sens);
 
@@ -1247,8 +1247,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, TaskPage *page)
 				gtk_tree_selection_unselect_all (selection);
 				gtk_tree_selection_select_path (selection, path);
 
- 				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
- 					disable_mask &= ~ATTENDEE_CAN_DELETE;
+				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
+					disable_mask &= ~ATTENDEE_CAN_DELETE;
 			}
 		}
 	}

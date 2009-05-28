@@ -328,7 +328,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			   summarizing the permissions assigned to him.
 			*/
 			msg_part1 = _("This message was sent automatically by Evolution to inform you that you have been "
-				    	"designated as a delegate. You can now send messages on my behalf.");
+					"designated as a delegate. You can now send messages on my behalf.");
 
 			/* To translators: Another chunk of the same message.
 			*/
@@ -488,7 +488,7 @@ exchange_delegates_user_new (const gchar *display_name)
 ExchangeDelegatesUser *
 exchange_delegates_user_new_from_gc (E2kGlobalCatalog *gc,
 				    const gchar *email,
-		                    GByteArray *creator_entryid)
+				    GByteArray *creator_entryid)
 {
 	E2kGlobalCatalogStatus status;
 	E2kGlobalCatalogEntry *entry;

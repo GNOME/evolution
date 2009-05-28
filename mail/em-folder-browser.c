@@ -281,7 +281,7 @@ emfb_init(GObject *o)
 //		efb = (EFilterBar *)emfb->search;
 //		efb->account_search_vf = NULL;
 //		efb->all_account_search_vf = NULL;
-// 		efb->account_search_cancel = NULL;
+//		efb->account_search_cancel = NULL;
 //		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 //		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
 //		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
@@ -588,9 +588,9 @@ vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
 
- 	if (cancel) {
- 		m->cancel = cancel;
- 	}
+	if (cancel) {
+		m->cancel = cancel;
+	}
 
 	id = m->base.seq;
 	mail_msg_slow_ordered_push (m);

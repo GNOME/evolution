@@ -157,7 +157,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	object_class->destroy = e_calendar_view_destroy;
 
 	klass->selection_changed = NULL;
- 	klass->selected_time_changed = NULL;
+	klass->selected_time_changed = NULL;
 	klass->event_changed = NULL;
 	klass->event_added = NULL;
 	klass->user_created = NULL;
@@ -250,7 +250,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
- 	e_cal_view_a11y_init ();
+	e_cal_view_a11y_init ();
 #endif
 }
 
@@ -1185,7 +1185,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 					TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
 			e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, CALOBJ_MOD_THIS);
 			e_cal_modify_object (event->comp_data->client, event->comp_data->icalcomp, CALOBJ_MOD_THIS,
-				       	&error);
+					&error);
 		}
 
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
@@ -2262,10 +2262,10 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client)
 /*
  * It is expected to show the tooltips in this below format
  *
- * 	<B>SUBJECT OF THE MEETING</B>
- * 	Organiser: NameOfTheUser<email@ofuser.com>
- * 	Location: PlaceOfTheMeeting
- * 	Time : DateAndTime (xx Minutes)
+ *	<B>SUBJECT OF THE MEETING</B>
+ *	Organiser: NameOfTheUser<email@ofuser.com>
+ *	Location: PlaceOfTheMeeting
+ *	Time : DateAndTime (xx Minutes)
  *      Status: Accepted: X   Declined: Y   ...
  */
 
@@ -2528,38 +2528,38 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	    return;
 	if (rect_width / 2 < radius) {
 	    if (rect_height / 2 < radius) {
-	        cairo_move_to  (cr, x0, (y0 + y1)/2);
-        	cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
-	        cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
-	        cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
+		cairo_move_to  (cr, x0, (y0 + y1)/2);
+		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
+		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
 	    } else {
-        	cairo_move_to  (cr, x0, y0 + radius);
-	        cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
-        	cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
-	        cairo_line_to (cr, x1 , y1 - radius);
-	        cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
-        	cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
-    		}
+		cairo_move_to  (cr, x0, y0 + radius);
+		cairo_curve_to (cr, x0 ,y0, x0, y0, (x0 + x1)/2, y0);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
+		cairo_line_to (cr, x1 , y1 - radius);
+		cairo_curve_to (cr, x1, y1, x1, y1, (x1 + x0)/2, y1);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
+		}
 	} else {
 	    if (rect_height / 2 < radius) {
-        	cairo_move_to  (cr, x0, (y0 + y1)/2);
-	        cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
-	        cairo_line_to (cr, x1 - radius, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
-        	cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
-	        cairo_line_to (cr, x0 + radius, y1);
-        	cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
+		cairo_move_to  (cr, x0, (y0 + y1)/2);
+		cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
+		cairo_line_to (cr, x1 - radius, y0);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, (y0 + y1)/2);
+		cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
+		cairo_line_to (cr, x0 + radius, y1);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, (y0 + y1)/2);
 	    } else {
-        	cairo_move_to  (cr, x0, y0 + radius);
-	        cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
-        	cairo_line_to (cr, x1 - radius, y0);
-	        cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
-        	cairo_line_to (cr, x1 , y1 - radius);
-	        cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
-        	cairo_line_to (cr, x0 + radius, y1);
-	        cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
-    		}
+		cairo_move_to  (cr, x0, y0 + radius);
+		cairo_curve_to (cr, x0 , y0, x0 , y0, x0 + radius, y0);
+		cairo_line_to (cr, x1 - radius, y0);
+		cairo_curve_to (cr, x1, y0, x1, y0, x1, y0 + radius);
+		cairo_line_to (cr, x1 , y1 - radius);
+		cairo_curve_to (cr, x1, y1, x1, y1, x1 - radius, y1);
+		cairo_line_to (cr, x0 + radius, y1);
+		cairo_curve_to (cr, x0, y1, x0, y1, x0, y1- radius);
+		}
 	}
 	cairo_close_path (cr);
 }

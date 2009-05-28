@@ -151,7 +151,7 @@ struct _GnomeCalendarPrivate {
 	gint	     hpane_pos;
 	gint	     hpane_pos_month_view;
 	gint	     vpane_pos;
-	gint 	     vpane_pos_month_view;
+	gint	     vpane_pos_month_view;
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
@@ -189,7 +189,7 @@ enum {
 	GOTO_DATE,
 	SOURCE_ADDED,
 	SOURCE_REMOVED,
- 	CHANGE_VIEW,
+	CHANGE_VIEW,
 	LAST_SIGNAL
 };
 
@@ -340,7 +340,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	class->source_added = NULL;
 	class->source_removed = NULL;
 	class->goto_date = gnome_calendar_goto_date;
- 	class->change_view = gnome_calendar_change_view;
+	class->change_view = gnome_calendar_change_view;
 
 	/*
 	 * Key bindings
@@ -414,33 +414,33 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
 
- 	/* Ctrl+Y/J/K/M/L to switch between
+	/* Ctrl+Y/J/K/M/L to switch between
 	 * DayView/WorkWeekView/WeekView/MonthView/ListView */
-    	gtk_binding_entry_add_signal (binding_set, GDK_y,
- 				      GDK_CONTROL_MASK,
- 				      "change_view", 1,
- 				      G_TYPE_ENUM,
- 				      GNOME_CAL_DAY_VIEW);
- 	gtk_binding_entry_add_signal (binding_set, GDK_j,
- 				      GDK_CONTROL_MASK,
- 				      "change_view", 1,
- 				      G_TYPE_ENUM,
- 				      GNOME_CAL_WORK_WEEK_VIEW);
- 	gtk_binding_entry_add_signal (binding_set, GDK_k,
- 				      GDK_CONTROL_MASK,
- 				      "change_view", 1,
- 				      G_TYPE_ENUM,
- 				      GNOME_CAL_WEEK_VIEW);
- 	gtk_binding_entry_add_signal (binding_set, GDK_m,
- 				      GDK_CONTROL_MASK,
- 				      "change_view", 1,
- 				      G_TYPE_ENUM,
- 				      GNOME_CAL_MONTH_VIEW);
+	gtk_binding_entry_add_signal (binding_set, GDK_y,
+				      GDK_CONTROL_MASK,
+				      "change_view", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_DAY_VIEW);
+	gtk_binding_entry_add_signal (binding_set, GDK_j,
+				      GDK_CONTROL_MASK,
+				      "change_view", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_WORK_WEEK_VIEW);
+	gtk_binding_entry_add_signal (binding_set, GDK_k,
+				      GDK_CONTROL_MASK,
+				      "change_view", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_WEEK_VIEW);
+	gtk_binding_entry_add_signal (binding_set, GDK_m,
+				      GDK_CONTROL_MASK,
+				      "change_view", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_MONTH_VIEW);
 	gtk_binding_entry_add_signal (binding_set, GDK_l,
- 				      GDK_CONTROL_MASK,
- 				      "change_view", 1,
- 				      G_TYPE_ENUM,
- 				      GNOME_CAL_LIST_VIEW);
+				      GDK_CONTROL_MASK,
+				      "change_view", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_LIST_VIEW);
 
 	/* init the accessibility support for gnome_calendar */
 	gnome_calendar_a11y_init ();
@@ -3231,32 +3231,32 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 GtkWidget *
 gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal)
 {
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
- 	return GTK_WIDGET(gcal->priv->date_navigator);
+	return GTK_WIDGET(gcal->priv->date_navigator);
 }
 
 GtkWidget *
 gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal)
 {
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
- 	return GTK_WIDGET(gcal->priv->search_bar);
+	return GTK_WIDGET(gcal->priv->search_bar);
 }
 
 GtkWidget *
 gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal)
 {
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
- 	return GTK_WIDGET(gcal->priv->notebook);
+	return GTK_WIDGET(gcal->priv->notebook);
 }
 
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
 {
- 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
- 	return gcal->priv->calendar_menu;
+	return gcal->priv->calendar_menu;
 }
 
 void

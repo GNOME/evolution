@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 
 #define TYPE_CALENDAR_VIEW            (calendar_view_get_type ())
 #define CALENDAR_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_CALENDAR_VIEW, CalendarView))
-#define CALENDAR_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_CALENDAR_VIEW,      	\
+#define CALENDAR_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_CALENDAR_VIEW,	\
 				       CalendarViewClass))
 #define IS_CALENDAR_VIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_CALENDAR_VIEW))
 #define IS_CALENDAR_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_CALENDAR_VIEW))

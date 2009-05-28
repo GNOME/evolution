@@ -1105,12 +1105,12 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 							itip_strip_mailto (organizer.value),
 							priv->delegator_name ?
 							priv->delegator_name :
-					                priv->delegator_address);
+							priv->delegator_address);
 			else
 				html = g_strdup_printf (itip_desc, _("An unknown person"),
 							priv->delegator_name ?
 							priv->delegator_name :
-					                priv->delegator_address);
+							priv->delegator_address);
 		} else {
 			if (organizer.value != NULL)
 				html = g_strdup_printf (itip_desc,
@@ -1284,7 +1284,7 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
 		case ICAL_VEVENT_COMPONENT:
 			return g_strdup_printf ("<i>%s</i>", _("The meeting has been canceled, however it could not be found in your calendars"));
 		case ICAL_VTODO_COMPONENT:
- 			return g_strdup_printf ("<i>%s</i>", _("The task has been canceled, however it could not be found in your task lists"));
+			return g_strdup_printf ("<i>%s</i>", _("The task has been canceled, however it could not be found in your task lists"));
 		default:
 			g_return_val_if_reached (NULL);
 		}
@@ -2191,7 +2191,7 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 		return;
 	}
 
-       	while ((len = read (fd, buffer, 4096)) > 0) {
+	while ((len = read (fd, buffer, 4096)) > 0) {
 		gtk_html_write (html, handle, (gchar *)buffer, len);
 	}
 

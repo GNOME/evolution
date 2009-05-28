@@ -15,7 +15,7 @@
  *
  * Authors:
  *		Michael Meeks <michael@ximian.com>
- *   	Ettore Perazzoli <ettore@ximian.com>
+ *	Ettore Perazzoli <ettore@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

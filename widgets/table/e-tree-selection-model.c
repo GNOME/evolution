@@ -241,21 +241,21 @@ drop_model(ETreeSelectionModel *etsm)
 		return;
 
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_pre_change_id);
+				     priv->tree_model_pre_change_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_no_change_id);
+				     priv->tree_model_no_change_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_changed_id);
+				     priv->tree_model_node_changed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_data_changed_id);
+				     priv->tree_model_node_data_changed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_col_changed_id);
+				     priv->tree_model_node_col_changed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_inserted_id);
+				     priv->tree_model_node_inserted_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_removed_id);
+				     priv->tree_model_node_removed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
-			             priv->tree_model_node_deleted_id);
+				     priv->tree_model_node_deleted_id);
 
 	g_object_unref (priv->model);
 	priv->model = NULL;

@@ -170,7 +170,7 @@ write_to_ipod (GString *str, gchar *path, gchar *filename)
 		if (mkdir (output_path, 0777) != 0)
 			critical_error (_("No output directory!"),
 								 _("The output directory was not found on "
-								 	"iPod! Please ensure that iPod has been correctly "
+									"iPod! Please ensure that iPod has been correctly "
 									"set up and try again."));
 	}
 
@@ -223,9 +223,9 @@ write_to_ipod (GString *str, gchar *path, gchar *filename)
 static GString *
 uri_list_to_vcard_string (GSList *uris)
 {
-	GString 		*str = NULL;
-	EBook 		*book = NULL;
-	EBookQuery 	*qry = NULL;
+	GString		*str = NULL;
+	EBook		*book = NULL;
+	EBookQuery	*qry = NULL;
 	GList			*contacts = NULL, *c = NULL;
 	GSList		*uri;
 
@@ -285,8 +285,8 @@ uri_list_to_vcard_string (GSList *uris)
 static GString *
 uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 {
-	GString 		*str = NULL;
-	ECal 			*cal = NULL;
+	GString		*str = NULL;
+	ECal			*cal = NULL;
 	icalcomponent *obj = NULL;
 	GList			*objects = NULL, *o = NULL;
 	GSList		*uri;
