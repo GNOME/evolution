@@ -1596,8 +1596,12 @@ emfb_folder_refresh(BonoboUIComponent *uid, gpointer data, const gchar *path)
 	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
         CamelFolder *folder;
 
-        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
+        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL) {
+		EMEvent *e = em_event_peek();
+		EMEventTargetFolder *t = em_event_target_new_folder(e, folder->full_name, 0);
+		e_event_emit((EEvent *)e, "folder.refresh", (EEventTarget *)t);
                 mail_refresh_folder(folder, NULL, NULL);
+	}
 }
 
 

@@ -1982,8 +1982,12 @@ emft_popup_refresh_folder (EPopup *ep, EPopupItem *pitem, gpointer data)
         EMFolderTree *emft = data;
         CamelFolder *folder;
 
-        if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL)
+        if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
+		EMEvent *e = em_event_peek();
+		EMEventTargetFolder *t = em_event_target_new_folder(e, folder->full_name, 0);
+		e_event_emit((EEvent *)e, "folder.refresh", (EEventTarget *)t);
                 mail_refresh_folder(folder, NULL, NULL);
+	}
 }
 
 static void
