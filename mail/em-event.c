@@ -199,11 +199,12 @@ em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, 
 }
 
 EMEventTargetCustomIcon *
-em_event_target_new_custom_icon(EMEvent *eme, GtkCellRenderer *renderer, const gchar *folder_name, guint32 flags)
+em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *folder_name, guint32 flags)
 {
 	EMEventTargetCustomIcon *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_CUSTOM_ICON, sizeof(*t));
 
-	t->renderer = renderer;
+	t->store = store;
+	t->iter = iter;
 	t->folder_name = folder_name;
 	t->target.mask = ~flags;
 

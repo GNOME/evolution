@@ -55,6 +55,7 @@
 
 #include "em-utils.h"
 #include "em-folder-utils.h"
+#include "em-event.h"
 
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
@@ -453,6 +454,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	const gchar *name;
 	const gchar *icon_name;
 	guint32 flags;
+	EMEventTargetCustomIcon *target;
 
 	/* make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
@@ -539,6 +541,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		COL_BOOL_IS_FOLDER, TRUE,
 		COL_BOOL_LOAD_SUBDIRS, load,
 		-1);
+
+	target = em_event_target_new_custom_icon (em_event_peek(), tree_store, iter, fi->full_name, EM_EVENT_CUSTOM_ICON);
+	e_event_emit ((EEvent *)em_event_peek (), "folder.customicon", (EEventTarget *) target);
 
 	if (unread != ~0)
 		gtk_tree_store_set (tree_store, iter, COL_UINT_UNREAD, unread, -1);
