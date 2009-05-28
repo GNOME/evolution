@@ -133,12 +133,4 @@
       <menuitem action='mail-popup-print'/>
     </placeholder>
   </popup>
-  <popup name='mail-uri-popup'>
-    <menuitem action='mail-uri-copy'/>
-    <menuitem action='mail-uri-copy-address'/>
-    <menu action='mail-uri-to-search-folder-menu'>
-      <menuitem action='mail-uri-to-search-folder-sender'/>
-      <menuitem action='mail-uri-to-search-folder-recipient'/>
-    </menu>
-  </popup>
 </ui>

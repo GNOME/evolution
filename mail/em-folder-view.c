@@ -243,11 +243,11 @@ emfv_init(GObject *o)
 //#ifdef ENABLE_PROFILING
 //	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
 //#endif
-	p->invisible = gtk_invisible_new();
-	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(emfv_selection_get), emfv);
-	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
-	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
+//	p->invisible = gtk_invisible_new();
+//	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(emfv_selection_get), emfv);
+//	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
+//	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
+//	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
 
 	emfv->async = mail_async_event_new();
 }
@@ -298,27 +298,27 @@ emfv_class_init(GObjectClass *klass)
 					     0);
 }
 
-static void
-emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv)
-{
-	struct _EMFolderViewPrivate *p = emfv->priv;
+//static void
+//emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv)
+//{
+//	struct _EMFolderViewPrivate *p = emfv->priv;
+//
+//	if (p->selection_uri == NULL)
+//		return;
+//
+//	gtk_selection_data_set(data, data->target, 8, (guchar *)p->selection_uri, strlen(p->selection_uri));
+//}
 
-	if (p->selection_uri == NULL)
-		return;
-
-	gtk_selection_data_set(data, data->target, 8, (guchar *)p->selection_uri, strlen(p->selection_uri));
-}
-
-static void
-emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv)
-{
-#if 0 /* do i care? */
-	struct _EMFolderViewPrivate *p = emfv->priv;
-
-	g_free(p->selection_uri);
-	p->selection_uri = NULL;
-#endif
-}
+//static void
+//emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv)
+//{
+//#if 0 /* do i care? */
+//	struct _EMFolderViewPrivate *p = emfv->priv;
+//
+//	g_free(p->selection_uri);
+//	p->selection_uri = NULL;
+//#endif
+//}
 
 /* ********************************************************************** */
 
@@ -367,61 +367,61 @@ emfv_edit_paste(BonoboUIComponent *uid, gpointer data, const gchar *path)
 	message_list_paste(emfv->list);
 }
 
-static void
-emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMFolderView *emfv = data;
-	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
-	CamelURL *url;
-	CamelInternetAddress *addr;
+//static void
+//emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, gpointer data)
+//{
+//	EMFolderView *emfv = data;
+//	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
+//	CamelURL *url;
+//	CamelInternetAddress *addr;
+//
+//	url = camel_url_new(t->uri, NULL);
+//	if (url == NULL) {
+//		g_warning("cannot parse url '%s'", t->uri);
+//		return;
+//	}
+//
+//	if (url->path && url->path[0]) {
+//		/* ensures vfolder is running */
+//		vfolder_load_storage ();
+//
+//		addr = camel_internet_address_new ();
+//		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
+//		vfolder_gui_add_from_address (addr, AUTO_FROM, emfv->folder_uri);
+//		camel_object_unref (addr);
+//	}
+//
+//	camel_url_free(url);
+//
+//}
 
-	url = camel_url_new(t->uri, NULL);
-	if (url == NULL) {
-		g_warning("cannot parse url '%s'", t->uri);
-		return;
-	}
 
-	if (url->path && url->path[0]) {
-		/* ensures vfolder is running */
-		vfolder_load_storage ();
-
-		addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
-		vfolder_gui_add_from_address (addr, AUTO_FROM, emfv->folder_uri);
-		camel_object_unref (addr);
-	}
-
-	camel_url_free(url);
-
-}
-
-
-static void
-emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMFolderView *emfv = data;
-	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
-	CamelURL *url;
-	CamelInternetAddress *addr;
-
-	url = camel_url_new(t->uri, NULL);
-	if (url == NULL) {
-		g_warning("cannot parse url '%s'", t->uri);
-		return;
-	}
-
-	if (url->path && url->path[0]) {
-		/* ensures vfolder is running */
-		vfolder_load_storage ();
-
-		addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
-		vfolder_gui_add_from_address (addr, AUTO_TO, emfv->folder_uri);
-		camel_object_unref (addr);
-	}
-
-	camel_url_free(url);
-}
+//static void
+//emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, gpointer data)
+//{
+//	EMFolderView *emfv = data;
+//	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
+//	CamelURL *url;
+//	CamelInternetAddress *addr;
+//
+//	url = camel_url_new(t->uri, NULL);
+//	if (url == NULL) {
+//		g_warning("cannot parse url '%s'", t->uri);
+//		return;
+//	}
+//
+//	if (url->path && url->path[0]) {
+//		/* ensures vfolder is running */
+//		vfolder_load_storage ();
+//
+//		addr = camel_internet_address_new ();
+//		camel_address_decode (CAMEL_ADDRESS (addr), url->path);
+//		vfolder_gui_add_from_address (addr, AUTO_TO, emfv->folder_uri);
+//		camel_object_unref (addr);
+//	}
+//
+//	camel_url_free(url);
+//}
 
 /* ********************************************************************** */
 
@@ -744,25 +744,25 @@ emfv_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
-static void
-emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMFolderView *emfv = data;
-	struct _EMFolderViewPrivate *p = emfv->priv;
-
-	g_free(p->selection_uri);
-	p->selection_uri = em_utils_url_unescape_amp(pitem->user_data);
-
-	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
-	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
-}
+//static void
+//emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, gpointer data)
+//{
+//	EMFolderView *emfv = data;
+//	struct _EMFolderViewPrivate *p = emfv->priv;
+//
+//	g_free(p->selection_uri);
+//	p->selection_uri = em_utils_url_unescape_amp(pitem->user_data);
+//
+//	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
+//	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
+//}
 
 static EPopupItem emfv_uri_popups[] = {
-	{ E_POPUP_ITEM, (gchar *) "00.uri.15", (gchar *) N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, (gchar *) "edit-copy", EM_POPUP_URI_NOT_MAILTO },
+//	{ E_POPUP_ITEM, (gchar *) "00.uri.15", (gchar *) N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, (gchar *) "edit-copy", EM_POPUP_URI_NOT_MAILTO },
 
-	{ E_POPUP_SUBMENU, (gchar *) "99.uri.00", (gchar *) N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.10", (gchar *) N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.00", (gchar *) N_("_To this Address"), emp_uri_popup_vfolder_recipient, NULL, NULL, EM_POPUP_URI_MAILTO },
+//	{ E_POPUP_SUBMENU, (gchar *) "99.uri.00", (gchar *) N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
+//	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.10", (gchar *) N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
+//	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.00", (gchar *) N_("_To this Address"), emp_uri_popup_vfolder_recipient, NULL, NULL, EM_POPUP_URI_MAILTO },
 };
 
 static void

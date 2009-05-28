@@ -77,6 +77,22 @@ void		e_mail_display_set_caret_mode	(EMailDisplay *display,
 EMFormatHTML *	e_mail_display_get_formatter	(EMailDisplay *display);
 void		e_mail_display_set_formatter	(EMailDisplay *display,
 						 EMFormatHTML *formatter);
+const gchar *	e_mail_display_get_selected_uri	(EMailDisplay *display);
+void		e_mail_display_set_selected_uri	(EMailDisplay *display,
+						 const gchar *uri);
+GtkAction *	e_mail_display_get_action	(EMailDisplay *display,
+						 const gchar *action_name);
+GtkActionGroup *e_mail_display_add_action_group	(EMailDisplay *display,
+						 const gchar *group_name);
+GtkActionGroup *e_mail_display_get_action_group	(EMailDisplay *display,
+						 const gchar *group_name);
+GtkWidget *	e_mail_display_get_popup_menu	(EMailDisplay *display);
+GtkUIManager *	e_mail_display_get_ui_manager	(EMailDisplay *display);
+void		e_mail_display_show_popup_menu	(EMailDisplay *display,
+						 GdkEventButton *event,
+						 GtkMenuPositionFunc func,
+						 gpointer user_data);
+void		e_mail_display_update_actions	(EMailDisplay *display);
 
 G_END_DECLS
 

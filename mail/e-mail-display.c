@@ -21,10 +21,14 @@
 
 #include "e-mail-display.h"
 
+#include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-plugin-ui.h"
+#include "mail/em-composer-utils.h"
+#include "mail/em-utils.h"
 
 #define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,13 +36,16 @@
 
 struct _EMailDisplayPrivate {
 	EMFormatHTML *formatter;
+	GtkUIManager *ui_manager;
+	gchar *selected_uri;
 };
 
 enum {
 	PROP_0,
 	PROP_ANIMATE,
 	PROP_CARET_MODE,
-	PROP_FORMATTER
+	PROP_FORMATTER,
+	PROP_SELECTED_URI
 };
 
 enum {
@@ -49,6 +56,188 @@ enum {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+static const gchar *ui =
+"<ui>"
+"  <popup name='context'>"
+"    <menuitem action='http-open'/>"
+"    <menuitem action='send-message'/>"
+"    <menuitem action='uri-copy'/>"
+"    <menuitem action='add-to-address-book'/>"
+"    <menuitem action='mailto-copy'/>"
+"    <menu action='search-folder-menu'>"
+"      <menuitem action='search-folder-sender'/>"
+"      <menuitem action='search-folder-recipient'/>"
+"    </menu>"
+"  </popup>"
+"</ui>";
+
+static void
+action_add_to_address_book_cb (GtkAction *action,
+                               EMailDisplay *display)
+{
+	CamelURL *curl;
+	const gchar *uri;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	/* This should work because we checked it in update_actions(). */
+	curl = camel_url_new (uri, NULL);
+	g_return_if_fail (curl != NULL);
+
+	if (curl->path != NULL && *curl->path != '\0')
+		em_utils_add_address (parent, curl->path);
+
+	camel_url_free (curl);
+}
+
+static void
+action_http_open_cb (GtkAction *action,
+                     EMailDisplay *display)
+{
+	const gchar *uri;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	e_show_uri (parent, uri);
+}
+
+static void
+action_mailto_copy_cb (GtkAction *action,
+                       EMailDisplay *display)
+{
+	CamelURL *curl;
+	CamelInternetAddress *inet_addr;
+	GtkClipboard *clipboard;
+	const gchar *uri;
+	gchar *text;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	/* This should work because we checked it in update_actions(). */
+	curl = camel_url_new (uri, NULL);
+	g_return_if_fail (curl != NULL);
+
+	inet_addr = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+	text = camel_address_encode (CAMEL_ADDRESS (inet_addr));
+	if (text == NULL || *text == '\0')
+		text = g_strdup (uri + strlen ("mailto:"));
+
+	camel_object_unref (inet_addr);
+	camel_url_free (curl);
+
+	gtk_clipboard_set_text (clipboard, text, -1);
+	gtk_clipboard_store (clipboard);
+
+	g_free (text);
+}
+
+static void
+action_send_message_cb (GtkAction *action,
+                        EMailDisplay *display)
+{
+	const gchar *uri;
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	em_utils_compose_new_message_with_mailto (uri, NULL);
+}
+
+static void
+action_uri_copy_cb (GtkAction *action,
+                    EMailDisplay *display)
+{
+	GtkClipboard *clipboard;
+	const gchar *uri;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	gtk_clipboard_set_text (clipboard, uri, -1);
+	gtk_clipboard_store (clipboard);
+}
+
+static GtkActionEntry uri_entries[] = {
+
+	{ "uri-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy Link Location"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_uri_copy_cb) },
+};
+
+static GtkActionEntry http_entries[] = {
+
+	{ "http-open",
+	  "emblem-web",
+	  N_("_Open Link in Browser"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_http_open_cb) },
+};
+
+static GtkActionEntry mailto_entries[] = {
+
+	{ "add-to-address-book",
+	  "contact-new",
+	  N_("_Add to Address Book"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_add_to_address_book_cb) },
+
+	{ "mailto-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy Email Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mailto_copy_cb) },
+
+	{ "search-folder-recipient",
+	  NULL,
+	  N_("_To This Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  NULL   /* Handled by EMailReader */ },
+
+	{ "search-folder-sender",
+	  NULL,
+	  N_("_From This Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  NULL   /* Handled by EMailReader */ },
+
+	{ "send-message",
+	  "mail-message-new",
+	  N_("_Send New Message To..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_send_message_cb) },
+
+	/*** Menus ***/
+
+	{ "search-folder-menu",
+	  "folder-saved-search",
+	  N_("Create Search _Folder"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
 
 static gboolean
 mail_display_emit_popup_event (EMailDisplay *display,
@@ -78,16 +267,15 @@ mail_display_emit_status_message (EMailDisplay *display,
 static void
 mail_display_get_uri_puri (EMailDisplay *display,
                            GdkEventButton *event,
+                           GtkHTML *html,
                            gchar **uri,
                            EMFormatPURI **puri)
 {
 	EMFormat *formatter;
-	GtkHTML *html;
 	gchar *text_uri;
 	gchar *image_uri;
 	gboolean is_cid;
 
-	html = GTK_HTML (display);
 	formatter = EM_FORMAT (display->priv->formatter);
 
 	if (event != NULL) {
@@ -107,7 +295,7 @@ mail_display_get_uri_puri (EMailDisplay *display,
 
 			temp = g_strconcat ("file://", image_uri, NULL);
 			g_free (image_uri);
-			temp = image_uri;
+			image_uri = temp;
 		}
 	}
 
@@ -137,6 +325,35 @@ mail_display_get_uri_puri (EMailDisplay *display,
 
 	g_free (text_uri);
 	g_free (image_uri);
+}
+
+static gboolean
+mail_display_button_press_event_cb (EMailDisplay *display,
+                                    GdkEventButton *event,
+                                    GtkHTML *html)
+{
+	EMFormatPURI *puri = NULL;
+	gboolean finished = TRUE;
+	gchar *uri = NULL;
+
+	/* The GtkHTML object may be the EMailDisplay itself
+	 * or an inner iframe. */
+
+	if (event->button != 3)
+		return FALSE;
+
+	mail_display_get_uri_puri (display, event, html, &uri, &puri);
+
+	if (uri == NULL || g_str_has_prefix (uri, "##")) {
+		g_free (uri);
+		return FALSE;
+	}
+
+	finished = mail_display_emit_popup_event (display, event, uri, puri);
+
+	g_free (uri);
+
+	return finished;
 }
 
 static void
@@ -204,6 +421,12 @@ mail_display_set_property (GObject *object,
 				E_MAIL_DISPLAY (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SELECTED_URI:
+			e_mail_display_set_selected_uri (
+				E_MAIL_DISPLAY (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -233,6 +456,12 @@ mail_display_get_property (GObject *object,
 				value, e_mail_display_get_formatter (
 				E_MAIL_DISPLAY (object)));
 			return;
+
+		case PROP_SELECTED_URI:
+			g_value_set_string (
+				value, e_mail_display_get_selected_uri (
+				E_MAIL_DISPLAY (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -248,6 +477,11 @@ mail_display_dispose (GObject *object)
 	if (priv->formatter) {
 		g_object_unref (priv->formatter);
 		priv->formatter = NULL;
+	}
+
+	if (priv->ui_manager) {
+		g_object_unref (priv->ui_manager);
+		priv->ui_manager = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -282,24 +516,11 @@ static gboolean
 mail_display_button_press_event (GtkWidget *widget,
                                  GdkEventButton *event)
 {
-	if (event->button == 3) {
-		EMailDisplay *display;
-		EMFormatPURI *puri = NULL;
-		gboolean stop_handlers = TRUE;
-		gchar *uri = NULL;
+	EMailDisplay *display = E_MAIL_DISPLAY (widget);
+	GtkHTML *html = GTK_HTML (widget);
 
-		display = E_MAIL_DISPLAY (widget);
-		mail_display_get_uri_puri (display, event, &uri, &puri);
-
-		if (uri == NULL || !g_str_has_prefix (uri, "##"))
-			stop_handlers = mail_display_emit_popup_event (
-				display, event, uri, puri);
-
-		g_free (uri);
-
-		if (stop_handlers)
-			return TRUE;
-	}
+	if (mail_display_button_press_event_cb (display, event, html))
+		return TRUE;
 
 	/* Chain up to parent's button_press_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->
@@ -437,7 +658,19 @@ mail_display_iframe_created (GtkHTML *html,
 {
 	g_signal_connect_swapped (
 		iframe, "button-press-event",
-		G_CALLBACK (mail_display_button_press_event), html);
+		G_CALLBACK (mail_display_button_press_event_cb), html);
+}
+
+static gboolean
+mail_display_popup_event (EMailDisplay *display,
+                          GdkEventButton *event,
+                          const gchar *uri,
+                          EMFormatPURI *puri)
+{
+	e_mail_display_set_selected_uri (display, uri);
+	e_mail_display_show_popup_menu (display, event, NULL, NULL);
+
+	return TRUE;
 }
 
 static void
@@ -465,6 +698,8 @@ mail_display_class_init (EMailDisplayClass *class)
 	html_class->link_clicked = mail_display_link_clicked;
 	html_class->on_url = mail_display_on_url;
 	html_class->iframe_created = mail_display_iframe_created;
+
+	class->popup_event = mail_display_popup_event;
 
 	g_object_class_install_property (
 		object_class,
@@ -496,6 +731,16 @@ mail_display_class_init (EMailDisplayClass *class)
 			EM_TYPE_FORMAT_HTML,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTED_URI,
+		g_param_spec_string (
+			"selected-uri",
+			"Selected URI",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
@@ -522,7 +767,44 @@ mail_display_class_init (EMailDisplayClass *class)
 static void
 mail_display_init (EMailDisplay *display)
 {
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
+	const gchar *id;
+	GError *error = NULL;
+
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
+
+	ui_manager = gtk_ui_manager_new ();
+	display->priv->ui_manager = ui_manager;
+
+	action_group = e_mail_display_add_action_group (display, "uri");
+
+	gtk_action_group_add_actions (
+		action_group, uri_entries,
+		G_N_ELEMENTS (uri_entries), display);
+
+	action_group = e_mail_display_add_action_group (display, "http");
+
+	gtk_action_group_add_actions (
+		action_group, http_entries,
+		G_N_ELEMENTS (http_entries), display);
+
+	action_group = e_mail_display_add_action_group (display, "mailto");
+
+	gtk_action_group_add_actions (
+		action_group, mailto_entries,
+		G_N_ELEMENTS (mailto_entries), display);
+
+	/* Because we are loading from a hard-coded string, there is
+	 * no chance of I/O errors.  Failure here implies a malformed
+	 * UI definition.  Full stop. */
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	if (error != NULL)
+		g_error ("%s", error->message);
+
+	id = "org.gnome.evolution.mail.display";
+	e_plugin_ui_register_manager (ui_manager, id, display);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 GType
@@ -624,4 +906,167 @@ e_mail_display_set_formatter (EMailDisplay *display,
 	display->priv->formatter = g_object_ref (formatter);
 
 	g_object_notify (G_OBJECT (display), "formatter");
+}
+
+const gchar *
+e_mail_display_get_selected_uri (EMailDisplay *display)
+{
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	return display->priv->selected_uri;
+}
+
+void
+e_mail_display_set_selected_uri (EMailDisplay *display,
+                                 const gchar *selected_uri)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	g_free (display->priv->selected_uri);
+	display->priv->selected_uri = g_strdup (selected_uri);
+
+	g_object_notify (G_OBJECT (display), "selected-uri");
+}
+
+GtkAction *
+e_mail_display_get_action (EMailDisplay *display,
+                           const gchar *action_name)
+{
+	GtkUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	ui_manager = e_mail_display_get_ui_manager (display);
+
+	return e_lookup_action (ui_manager, action_name);
+}
+
+GtkActionGroup *
+e_mail_display_add_action_group (EMailDisplay *display,
+                                 const gchar *group_name)
+{
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	const gchar *domain;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	ui_manager = e_mail_display_get_ui_manager (display);
+	domain = GETTEXT_PACKAGE;
+
+	action_group = gtk_action_group_new (group_name);
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	return action_group;
+}
+
+GtkActionGroup *
+e_mail_display_get_action_group (EMailDisplay *display,
+                                 const gchar *group_name)
+{
+	GtkUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	ui_manager = e_mail_display_get_ui_manager (display);
+
+	return e_lookup_action_group (ui_manager, group_name);
+}
+
+GtkWidget *
+e_mail_display_get_popup_menu (EMailDisplay *display)
+{
+	GtkUIManager *ui_manager;
+	GtkWidget *menu;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	ui_manager = e_mail_display_get_ui_manager (display);
+	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
+	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
+
+	return menu;
+}
+
+GtkUIManager *
+e_mail_display_get_ui_manager (EMailDisplay *display)
+{
+	EMailDisplayPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
+
+	return priv->ui_manager;
+}
+
+void
+e_mail_display_show_popup_menu (EMailDisplay *display,
+                                GdkEventButton *event,
+                                GtkMenuPositionFunc func,
+                                gpointer user_data)
+{
+	GtkWidget *menu;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	e_mail_display_update_actions (display);
+
+	menu = e_mail_display_get_popup_menu (display);
+
+	if (event != NULL)
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, func,
+			user_data, event->button, event->time);
+	else
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, func,
+			user_data, 0, gtk_get_current_event_time ());
+}
+
+void
+e_mail_display_update_actions (EMailDisplay *display)
+{
+	CamelURL *curl;
+	GtkActionGroup *action_group;
+	gboolean scheme_is_http;
+	gboolean scheme_is_mailto;
+	gboolean uri_is_valid;
+	gboolean visible;
+	const gchar *uri;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	/* Parse the URI early so we know if the actions will work. */
+	curl = camel_url_new (uri, NULL);
+	uri_is_valid = (curl != NULL);
+	camel_url_free (curl);
+
+	scheme_is_http =
+		(g_ascii_strncasecmp (uri, "http:", 5) == 0) ||
+		(g_ascii_strncasecmp (uri, "https:", 6) == 0);
+
+	scheme_is_mailto =
+		(g_ascii_strncasecmp (uri, "mailto:", 7) == 0);
+
+	/* Allow copying the URI even if it's malformed. */
+	visible = !scheme_is_mailto;
+	action_group = e_mail_display_get_action_group (display, "uri");
+	gtk_action_group_set_visible (action_group, visible);
+
+	visible = uri_is_valid && scheme_is_http;
+	action_group = e_mail_display_get_action_group (display, "http");
+	gtk_action_group_set_visible (action_group, visible);
+
+	visible = uri_is_valid && scheme_is_mailto;
+	action_group = e_mail_display_get_action_group (display, "mailto");
+	gtk_action_group_set_visible (action_group, visible);
 }

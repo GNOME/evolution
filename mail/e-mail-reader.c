@@ -38,6 +38,7 @@
 #include "widgets/misc/e-popup-action.h"
 
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-display.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-shell-backend.h"
 #include "mail/em-composer-utils.h"
@@ -48,6 +49,7 @@
 #include "mail/mail-autofilter.h"
 #include "mail/mail-config.h"
 #include "mail/mail-ops.h"
+#include "mail/mail-vfolder.h"
 
 enum {
 	CHANGED,
@@ -942,38 +944,6 @@ action_mail_undelete_cb (GtkAction *action,
 }
 
 static void
-action_mail_uri_copy_cb (GtkAction *action,
-                         EMailReader *reader)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_copy_address_cb (GtkAction *action,
-                                 EMailReader *reader)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_to_search_folder_recipient_cb (GtkAction *action,
-                                               EMailReader *reader)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_to_search_folder_sender_cb (GtkAction *action,
-                                            EMailReader *reader)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
 action_mail_zoom_100_cb (GtkAction *action,
                          EMailReader *reader)
 {
@@ -1010,6 +980,88 @@ action_mail_zoom_out_cb (GtkAction *action,
 	html = EM_FORMAT_HTML (html_display)->html;
 
 	gtk_html_zoom_out (html);
+}
+
+static void
+action_search_folder_recipient_cb (GtkAction *action,
+                                   EMailReader *reader)
+{
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	EMailDisplay *display;
+	CamelURL *curl;
+	const gchar *uri;
+
+	/* This action is defined in EMailDisplay. */
+
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	curl = camel_url_new (uri, NULL);
+	g_return_if_fail (curl != NULL);
+
+	if (curl->path != NULL && *curl->path != '\0') {
+		CamelInternetAddress *inet_addr;
+		const gchar *folder_uri;
+
+		/* Ensure vfolder is running. */
+		vfolder_load_storage ();
+
+		folder_uri = message_list->folder_uri;
+
+		inet_addr = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+		vfolder_gui_add_from_address (inet_addr, AUTO_TO, folder_uri);
+		camel_object_unref (inet_addr);
+	}
+
+	camel_url_free (curl);
+}
+
+static void
+action_search_folder_sender_cb (GtkAction *action,
+                                EMailReader *reader)
+{
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	EMailDisplay *display;
+	CamelURL *curl;
+	const gchar *uri;
+
+	/* This action is defined in EMailDisplay. */
+
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
+
+	uri = e_mail_display_get_selected_uri (display);
+	g_return_if_fail (uri != NULL);
+
+	curl = camel_url_new (uri, NULL);
+	g_return_if_fail (curl != NULL);
+
+	if (curl->path != NULL && *curl->path != '\0') {
+		CamelInternetAddress *inet_addr;
+		const gchar *folder_uri;
+
+		/* Ensure vfolder is running. */
+		vfolder_load_storage ();
+
+		folder_uri = message_list->folder_uri;
+
+		inet_addr = camel_internet_address_new ();
+		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
+		vfolder_gui_add_from_address (inet_addr, AUTO_FROM, folder_uri);
+		camel_object_unref (inet_addr);
+	}
+
+	camel_url_free (curl);
 }
 
 static GtkActionEntry mail_reader_entries[] = {
@@ -1371,34 +1423,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Undelete the selected messages"),
 	  G_CALLBACK (action_mail_undelete_cb) },
 
-	{ "mail-uri-copy",
-	  NULL,
-	  N_("_Copy Link Location"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_copy_cb) },
-
-	{ "mail-uri-copy-address",
-	  GTK_STOCK_COPY,
-	  N_("Copy _Email Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_copy_address_cb) },
-
-	{ "mail-uri-to-search-folder-recipient",
-	  NULL,
-	  N_("_To This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_to_search_folder_recipient_cb) },
-
-	{ "mail-uri-to-search-folder-sender",
-	  NULL,
-	  N_("_From This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_to_search_folder_sender_cb) },
-
 	{ "mail-zoom-100",
 	  GTK_STOCK_ZOOM_100,
 	  N_("_Normal Size"),
@@ -1460,13 +1484,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-message-menu",
 	  NULL,
 	  N_("_Message"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-uri-to-search-folder-menu",
-	  NULL,
-	  N_("Create _Search Folder"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -1570,9 +1587,9 @@ static GtkToggleActionEntry mail_reader_toggle_entries[] = {
 };
 
 static gboolean
-mail_reader_html_button_release_event_cb (EMailReader *reader,
-                                          GdkEventButton *button,
-                                          GtkHTML *html)
+mail_reader_button_release_event_cb (EMailReader *reader,
+                                     GdkEventButton *button,
+                                     GtkHTML *html)
 {
 	GtkAction *action;
 	const gchar *action_name;
@@ -1984,11 +2001,11 @@ e_mail_reader_init (EMailReader *reader)
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
+	EMailDisplay *display;
 	GtkActionGroup *action_group;
 	MessageList *message_list;
 	GConfBridge *bridge;
 	GtkAction *action;
-	GtkHTML *html;
 	const gchar *action_name;
 	const gchar *key;
 
@@ -2002,7 +2019,7 @@ e_mail_reader_init (EMailReader *reader)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	html = EM_FORMAT_HTML (html_display)->html;
+	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
 
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
@@ -2052,6 +2069,18 @@ e_mail_reader_init (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
+	action_name = "search-folder-recipient";
+	action = e_mail_display_get_action (display, action_name);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_search_folder_recipient_cb), reader);
+
+	action_name = "search-folder-sender";
+	action = e_mail_display_get_action (display, action_name);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_search_folder_sender_cb), reader);
+
 	/* Bind properties. */
 
 	e_binding_new_full (
@@ -2070,7 +2099,7 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "mail-show-animated-images",
-		G_OBJECT (html), "animate");
+		G_OBJECT (display), "animate");
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "mail-show-sender-photo",
@@ -2081,16 +2110,16 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_mutual_binding_new (
 		G_OBJECT (action), "active",
-		G_OBJECT (html), "caret-mode");
+		G_OBJECT (display), "caret-mode");
 
 	/* Connect signals. */
 
 	g_signal_connect_swapped (
-		html, "button-release-event",
-		G_CALLBACK (mail_reader_html_button_release_event_cb), reader);
+		display, "button-release-event",
+		G_CALLBACK (mail_reader_button_release_event_cb), reader);
 
 	g_signal_connect_swapped (
-		html, "key-press-event",
+		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
 	g_signal_connect_swapped (

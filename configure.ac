@@ -1807,7 +1807,7 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -1817,7 +1817,7 @@ plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS 
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
-enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http copy-tool default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mark-all-read plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
+enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mark-all-read plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
 
 dnl PLUGINS NOT BUILDING YET
 dnl ------------------------
@@ -2132,7 +2132,6 @@ plugins/caldav/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
 plugins/calendar-weather/Makefile
-plugins/copy-tool/Makefile
 plugins/default-mailer/Makefile
 plugins/default-source/Makefile
 plugins/email-custom-header/Makefile

@@ -852,27 +852,27 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_VERB_END
 };
 
-static gboolean
-emfb_select_all_daemon (MessageList *ml)
-{
-		message_list_select_all(ml);
-		gtk_widget_grab_focus ((GtkWidget *)ml);
-		return FALSE;
-}
+//static gboolean
+//emfb_select_all_daemon (MessageList *ml)
+//{
+//		message_list_select_all(ml);
+//		gtk_widget_grab_focus ((GtkWidget *)ml);
+//		return FALSE;
+//}
 
-static void
-emfb_hide_deleted(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
-{
-	GConfClient *gconf;
-	EMFolderView *emfv = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_deleted", state[0] == '0', NULL);
-	em_folder_view_set_hide_deleted(emfv, state[0] != '0');
-}
+//static void
+//emfb_hide_deleted(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
+//{
+//	GConfClient *gconf;
+//	EMFolderView *emfv = data;
+//
+//	if (type != Bonobo_UIComponent_STATE_CHANGED)
+//		return;
+//
+//	gconf = mail_config_get_gconf_client ();
+//	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_deleted", state[0] == '0', NULL);
+//	em_folder_view_set_hide_deleted(emfv, state[0] != '0');
+//}
 
 static void
 emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)
@@ -1057,16 +1057,16 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint act)
 		state = mail_msg_active((unsigned int)-1);
 		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", state?"1":"0", NULL);
 
-		/* HideDeleted */
-		state = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-		if (emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
-			state = FALSE;
-			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
-		} else
-			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "1", NULL);
-		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
-		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
-		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
+//		/* HideDeleted */
+//		state = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+//		if (emfv->folder && (emfv->folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
+//			state = FALSE;
+//			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
+//		} else
+//			bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "1", NULL);
+//		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
+//		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
+//		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
 	}
 }
 
