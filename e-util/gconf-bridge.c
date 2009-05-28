@@ -649,16 +649,16 @@ window_binding_configure_event_cb (GtkWindow         *window,
                                    GdkEventConfigure *event,
                                    WindowBinding     *binding)
 {
-        /* Schedule a sync */
-        if (binding->sync_timeout_id == 0) {
-                binding->sync_timeout_id =
-                        g_timeout_add_seconds (WINDOW_BINDING_SYNC_DELAY,
-                                       (GSourceFunc)
-                                          window_binding_perform_scheduled_sync,
-                                       binding);
-        }
+	/* re-postpone by cancel of the previous request */
+	if (binding->sync_timeout_id > 0)
+		g_source_remove (binding->sync_timeout_id);
 
-        return FALSE;
+	/* Schedule a sync */
+	binding->sync_timeout_id = g_timeout_add_seconds (WINDOW_BINDING_SYNC_DELAY,
+		(GSourceFunc) window_binding_perform_scheduled_sync,
+		binding);
+
+	return FALSE;
 }
 
 /* Called when the window state is being changed */
@@ -667,6 +667,9 @@ window_binding_state_event_cb (GtkWindow           *window,
                                GdkEventWindowState *event,
                                WindowBinding       *binding)
 {
+        if (binding->sync_timeout_id > 0)
+                g_source_remove (binding->sync_timeout_id);
+
         window_binding_perform_scheduled_sync (binding);
 
         return FALSE;
@@ -696,6 +699,9 @@ window_binding_window_destroyed (gpointer user_data,
         binding = (WindowBinding *) user_data;
         binding->window = NULL; /* Don't do anything with the window
                                    at unbind() */
+
+        if (binding->sync_timeout_id > 0)
+                g_source_remove (binding->sync_timeout_id);
 
         g_hash_table_remove (bridge->bindings,
                              GUINT_TO_POINTER (binding->id));
