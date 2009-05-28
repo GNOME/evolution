@@ -79,7 +79,7 @@ ecv_kill_view (ECellView *ecv)
 	gint i;
 
         if (vbox_view->cell_view.kill_view_cb)
-        	(vbox_view->cell_view.kill_view_cb)(ecv, vbox_view->cell_view.kill_view_cb_data);
+		(vbox_view->cell_view.kill_view_cb)(ecv, vbox_view->cell_view.kill_view_cb_data);
 
         if (vbox_view->cell_view.kill_view_cb_data)
             g_list_free(vbox_view->cell_view.kill_view_cb_data);

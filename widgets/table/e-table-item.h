@@ -91,15 +91,15 @@ typedef struct {
 	GdkBitmap       *stipple;
 
 	guint		 alternating_row_colors:1;
-	guint 		 horizontal_draw_grid:1;
-	guint 		 vertical_draw_grid:1;
-	guint 		 draw_focus:1;
-	guint 		 uniform_row_height:1;
-	guint 		 cell_views_realized:1;
+	guint		 horizontal_draw_grid:1;
+	guint		 vertical_draw_grid:1;
+	guint		 draw_focus:1;
+	guint		 uniform_row_height:1;
+	guint		 cell_views_realized:1;
 
-	guint 		 needs_redraw : 1;
-	guint 		 needs_compute_height : 1;
-	guint 		 needs_compute_width : 1;
+	guint		 needs_redraw : 1;
+	guint		 needs_compute_height : 1;
+	guint		 needs_compute_width : 1;
 
 	guint            uses_source_model : 1;
 
@@ -124,10 +124,10 @@ typedef struct {
 	gint              cursor_x2;
 	gint              cursor_y2;
 
-	gint    		 drag_col;
-	gint    		 drag_row;
-	gint    		 drag_x;
-	gint    		 drag_y;
+	gint		 drag_col;
+	gint		 drag_row;
+	gint		 drag_x;
+	gint		 drag_y;
 	guint            drag_state;
 
 	/*

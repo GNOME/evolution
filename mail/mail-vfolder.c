@@ -442,7 +442,7 @@ mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 
 	LOCK();
 
-/* 	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri)); */
+/*	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri)); */
 
 	/* maintain the source folders lists for changed rules later on */
 	if (CAMEL_IS_VEE_STORE(store)) {
@@ -473,7 +473,7 @@ mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 	if (context == NULL)
 		goto done;
 
- 	rule = NULL;
+	rule = NULL;
 	while ((rule = rule_context_next_rule((RuleContext *)context, rule, NULL))) {
 		gint found = FALSE;
 
@@ -546,7 +546,7 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 		goto done;
 
 	/* see if any rules directly reference this removed uri */
- 	rule = NULL;
+	rule = NULL;
 	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
 
 		if (!rule->name) {
@@ -631,7 +631,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 	LOCK();
 
 	/* see if any rules directly reference this removed uri */
- 	rule = NULL;
+	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		source = NULL;
 		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {

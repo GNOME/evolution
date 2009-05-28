@@ -76,7 +76,7 @@ static int	ecp_height		(ECellView	*ecv,
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row);
-static gpointer 	ecp_enter_edit		(ECellView	*ecv,
+static gpointer	ecp_enter_edit		(ECellView	*ecv,
 					 int		 model_col,
 					 int		 view_col,
 					 int		 row);

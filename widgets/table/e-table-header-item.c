@@ -888,7 +888,7 @@ ethi_realize (GnomeCanvasItem *item)
 	gtk_drag_dest_set (GTK_WIDGET (item->canvas), 0,
 			   ethi_drop_types, ELEMENTS (ethi_drop_types),
 			   GDK_ACTION_MOVE);
-  	g_free(ethi_drop_types[0].target);
+	g_free(ethi_drop_types[0].target);
 
 	/* Drop signals */
 	ethi->drag_motion_id = g_signal_connect (item->canvas, "drag_motion",

@@ -1285,7 +1285,7 @@ efhd_change_cursor(GtkWidget *w, GdkEventCrossing *event, struct _attach_puri *i
 	if (info->shown && info->image) {
 		if (info->fit_width != 0) {
 			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height))
-			    	e_cursor_set(w->window, E_CURSOR_ZOOM_IN);
+				e_cursor_set(w->window, E_CURSOR_ZOOM_IN);
 
 		}
 	}
@@ -1732,7 +1732,7 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 	g_free(html);
 
 	camel_stream_write_string(stream,
-/* 				  "</font></h2></td></tr></table>\n" */
+/*				  "</font></h2></td></tr></table>\n" */
 				  EM_FORMAT_HTML_VPAD);
 
 	g_free(classid);

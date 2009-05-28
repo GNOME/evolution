@@ -71,8 +71,8 @@ ExchangeConfigListener *exchange_config_listener_new      (void);
 
 GSList                 *exchange_config_listener_get_accounts (ExchangeConfigListener *config_listener);
 
-void 			add_folder_esource (ExchangeAccount *account, FolderType folder_type, const gchar *folder_name, const gchar *physical_uri);
-void 			remove_folder_esource (ExchangeAccount *account, FolderType folder_type, const gchar *physical_uri);
+void			add_folder_esource (ExchangeAccount *account, FolderType folder_type, const gchar *folder_name, const gchar *physical_uri);
+void			remove_folder_esource (ExchangeAccount *account, FolderType folder_type, const gchar *physical_uri);
 ExchangeConfigListenerStatus exchange_config_listener_get_offline_status (ExchangeConfigListener *excl, gint *mode);
 
 void exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl,

@@ -191,7 +191,7 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 	if (n_cnc)
 		e_sendoptions_dialog_run (sod, parent ? parent : NULL, E_ITEM_NONE);
 	else
-	       	return;
+		return;
 }
 
 GtkWidget *

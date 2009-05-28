@@ -365,7 +365,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 
 		/* diff is number of minutes */
 		diff = (icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
-		        icaltimezone_get_utc_offset (cal_zone, &tt, NULL)
+			icaltimezone_get_utc_offset (cal_zone, &tt, NULL)
 		       ) / 60;
 
 		tt = icaltime_today ();
@@ -834,7 +834,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 	day_view = dvtmitem->day_view;
 	g_return_if_fail (day_view != NULL);
 
- 	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
+	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
 
 	divisions = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "divisions"));

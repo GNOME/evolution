@@ -83,7 +83,7 @@ static void e_calendar_drag_leave	(GtkWidget      *widget,
 					 guint           time);
 static gboolean e_calendar_button_has_focus (ECalendar	*cal);
 static gboolean e_calendar_focus (GtkWidget *widget,
- 				  GtkDirectionType direction);
+				  GtkDirectionType direction);
 
 static void e_calendar_on_prev_pressed	(ECalendar	*cal);
 static void e_calendar_on_prev_released	(ECalendar	*cal);
@@ -113,11 +113,11 @@ e_calendar_class_init (ECalendarClass *class)
 
 	widget_class->realize		   = e_calendar_realize;
 	widget_class->style_set		   = e_calendar_style_set;
- 	widget_class->size_request	   = e_calendar_size_request;
- 	widget_class->size_allocate	   = e_calendar_size_allocate;
+	widget_class->size_request	   = e_calendar_size_request;
+	widget_class->size_allocate	   = e_calendar_size_allocate;
 	widget_class->drag_motion	   = e_calendar_drag_motion;
 	widget_class->drag_leave	   = e_calendar_drag_leave;
- 	widget_class->focus                = e_calendar_focus;
+	widget_class->focus                = e_calendar_focus;
 }
 
 
@@ -351,7 +351,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 	gnome_canvas_item_set (cal->prev_item,
 			       "x", (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 			       ? new_x2 + 1 - xthickness * 2 - E_CALENDAR_ARROW_BUTTON_X_PAD
-			         - arrow_button_size
+				 - arrow_button_size
 			       : xthickness * 2 + E_CALENDAR_ARROW_BUTTON_X_PAD,
 			       "y", ythickness * 2
 			       + E_CALENDAR_ARROW_BUTTON_Y_PAD,
@@ -363,7 +363,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 			       "x", (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 			       ? xthickness * 2 + E_CALENDAR_ARROW_BUTTON_X_PAD
 			       : new_x2 + 1 - xthickness * 2 - E_CALENDAR_ARROW_BUTTON_X_PAD
-			         - arrow_button_size,
+				 - arrow_button_size,
 			       "y", ythickness * 2
 			       + E_CALENDAR_ARROW_BUTTON_Y_PAD,
 			       "width", arrow_button_size,

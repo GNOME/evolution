@@ -3058,7 +3058,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		EMFormat *emf = (EMFormat *)emfv->preview;
 
 		header_config_list = gconf_client_get_list(gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
-      		em_format_clear_headers((EMFormat *)emfv->preview);
+		em_format_clear_headers((EMFormat *)emfv->preview);
 		p = header_config_list;
 		while (p) {
 			EMMailerPrefsHeader *h;

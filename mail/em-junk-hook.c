@@ -55,7 +55,7 @@ static const EPluginHookTargetKey emjh_flag_map[] = {
   <hook class="org.gnome.evolution.mail.junk:1.0">
   <group id="EMJunk">
      <item check_junk="sa_check_junk"
-     	   report_junk="sa_report_junk"
+	   report_junk="sa_report_junk"
 	   report_non_junk="sa_report_non_junk"
 	   commit_reports = "sa_commit_reports"/>
   </group>
@@ -90,7 +90,7 @@ em_junk_get_name (CamelJunkPlugin *csp)
 	if (item->hook && item->hook->hook.plugin->enabled) {
 		return (item->hook->hook.plugin->name);
 	} else
-		return 	_("None");
+		return	_("None");
 
 }
 

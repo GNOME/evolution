@@ -154,7 +154,7 @@ proxy_login_get_type (void)
       sizeof (proxyLogin),
      0,      /* n_preallocs */
      (GInstanceInitFunc) proxy_login_init,
- 	NULL    /* instance_init */
+	NULL    /* instance_init */
     };
     type = g_type_register_static (G_TYPE_OBJECT,
                                    "proxyLoginType",
@@ -291,7 +291,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 		    g_object_unref (pld);
 		    break;
 	    case GTK_RESPONSE_CANCEL:
-    		    gtk_widget_destroy (priv->main);
+		    gtk_widget_destroy (priv->main);
 		    g_object_unref (pld);
 		    break;
 	    case GTK_RESPONSE_HELP:
@@ -435,7 +435,7 @@ proxy_login_setup_tree_view (void)
 static void
 proxy_login_update_tree (void)
 {
-    	GtkTreeIter iter;
+	GtkTreeIter iter;
 	gint i,n;
 	GdkPixbuf *broken_image = NULL;
 	GList *proxy_list = NULL;

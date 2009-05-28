@@ -64,7 +64,7 @@ ets_dispose (GObject *object)
 
 	if (ets->sort_info) {
 		g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
-				             ets->sort_info_changed_id);
+					     ets->sort_info_changed_id);
 		g_object_unref(ets->sort_info);
 		ets->sort_info = NULL;
 	}
@@ -199,7 +199,7 @@ ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, gint co
 static void
 ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row, gint count)
 {
- 	ETableModel *etm = E_TABLE_MODEL(etss);
+	ETableModel *etm = E_TABLE_MODEL(etss);
 	ETableSorted *ets = E_TABLE_SORTED(etss);
 	gint i;
 	gboolean full_change = FALSE;

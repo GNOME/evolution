@@ -363,7 +363,7 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
- 	const gchar *url = NULL;
+	const gchar *url = NULL;
 	gint state;
 	EAccount *default_account;
 	default_account = mail_config_get_default_account ();
@@ -561,7 +561,7 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 			  "changed", G_CALLBACK (account_cursor_change), prefs);
 	g_signal_connect (prefs->table, "row-activated", G_CALLBACK (account_double_click), prefs);
 
- 	account_cursor_change(gtk_tree_view_get_selection(prefs->table), prefs);
+	account_cursor_change(gtk_tree_view_get_selection(prefs->table), prefs);
 }
 
 GtkWidget *

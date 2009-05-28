@@ -1180,7 +1180,7 @@ create_local_item_cb (EUserCreatableItemsHandler *handler, const gchar *item_typ
 
 	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
 		create_new_event (calendar_component, component_view, FALSE, FALSE);
- 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
+	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
 		create_new_event (calendar_component, component_view, TRUE, FALSE);
 	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
 		create_new_event (calendar_component, component_view, FALSE, TRUE);
@@ -1479,7 +1479,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 
 	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
 		result = create_new_event (calendar_component, NULL, FALSE, FALSE);
- 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
+	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
 		result = create_new_event (calendar_component, NULL, TRUE, FALSE);
 	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
 		result = create_new_event (calendar_component, NULL, FALSE, TRUE);

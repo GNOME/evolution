@@ -55,8 +55,8 @@ G_BEGIN_DECLS
 #define E_TYPE_MINICARD_VIEW			(e_minicard_view_get_type ())
 #define E_MINICARD_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MINICARD_VIEW, EMinicardView))
 #define E_MINICARD_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MINICARD_VIEW, EMinicardViewClass))
-#define E_IS_MINICARD_VIEW(obj) 		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW))
-#define E_IS_MINICARD_VIEW_CLASS(klass) 	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW))
+#define E_IS_MINICARD_VIEW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW))
+#define E_IS_MINICARD_VIEW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW))
 
 
 typedef struct _EMinicardView       EMinicardView;

@@ -615,7 +615,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 
 	si = g_hash_table_lookup (model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
+		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */
 		key = g_strdup_printf ("vfolder/%s", full_name ? full_name : "");
@@ -1779,7 +1779,7 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 
 	si = g_hash_table_lookup (priv->model->store_hash, store);
 	if ((account = mail_config_get_account_by_name (si->display_name))) {
-	        key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
+		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */
 		key = g_strdup_printf ("vfolder/%s", full_name ? full_name : "");

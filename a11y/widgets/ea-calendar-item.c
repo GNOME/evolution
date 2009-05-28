@@ -280,7 +280,7 @@ ea_calendar_item_get_name (AtkObject *accessible)
 
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
 	if (!g_obj)
- 		return NULL;
+		return NULL;
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (g_obj), NULL);
 
 	calitem = E_CALENDAR_ITEM (g_obj);
@@ -1192,7 +1192,7 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 	month_y = item->y1 + ythickness + month_row * calitem->month_height;
 
 	month_cell_x = month_x + E_CALENDAR_ITEM_XPAD_BEFORE_WEEK_NUMBERS
- 		+ calitem->month_lpad + E_CALENDAR_ITEM_XPAD_BEFORE_CELLS;
+		+ calitem->month_lpad + E_CALENDAR_ITEM_XPAD_BEFORE_CELLS;
 	text_y = month_y + ythickness * 2
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME
 		+ char_height + E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME

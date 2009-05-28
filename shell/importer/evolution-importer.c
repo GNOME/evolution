@@ -229,7 +229,7 @@ evolution_importer_construct (EvolutionImporter *importer,
  */
 EvolutionImporter *
 evolution_importer_new (EvolutionImporterCreateControlFn create_control_fn,
-	                EvolutionImporterSupportFormatFn support_format_fn,
+			EvolutionImporterSupportFormatFn support_format_fn,
 			EvolutionImporterLoadFileFn load_file_fn,
 			EvolutionImporterProcessItemFn process_item_fn,
 			EvolutionImporterGetErrorFn get_error_fn,

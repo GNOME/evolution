@@ -58,14 +58,14 @@ e_plugin_lib_enable (EPluginLib *epl, gint enable)
 		const gchar *description;
 		const gchar *icon_name;
 	} categories[] = {
-		{ N_("Weather: Fog"), 		"weather-fog" },
-		{ N_("Weather: Cloudy"), 	"weather-few-clouds" },
+		{ N_("Weather: Fog"),		"weather-fog" },
+		{ N_("Weather: Cloudy"),	"weather-few-clouds" },
 		{ N_("Weather: Cloudy Night"),	"weather-few-clouds-night" },
 		{ N_("Weather: Overcast"),	"weather-overcast" },
-		{ N_("Weather: Showers"), 	"weather-showers" },
-		{ N_("Weather: Snow"), 		"weather-snow" },
-		{ N_("Weather: Sunny"), 	"weather-clear" },
-		{ N_("Weather: Clear Night"), 	"weather-clear-night" },
+		{ N_("Weather: Showers"),	"weather-showers" },
+		{ N_("Weather: Snow"),		"weather-snow" },
+		{ N_("Weather: Sunny"),	"weather-clear" },
+		{ N_("Weather: Clear Night"),	"weather-clear-night" },
 		{ N_("Weather: Thunderstorms"), "weather-storm" },
 		{ NULL,				NULL }
 	};

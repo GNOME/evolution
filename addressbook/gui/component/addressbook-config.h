@@ -15,7 +15,7 @@
  *
  * Authors:
  *		Chris Toshok <toshok@ximian.com>
- * 		Chris Lahey <clahey@ximian.com>
+ *		Chris Lahey <clahey@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

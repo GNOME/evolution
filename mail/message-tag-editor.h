@@ -34,7 +34,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define MESSAGE_TAG_EDITOR_TYPE            (message_tag_editor_get_type ())
-#define MESSAGE_TAG_EDITOR(obj)	           (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditor))
+#define MESSAGE_TAG_EDITOR(obj)		   (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditor))
 #define MESSAGE_TAG_EDITOR_CLASS(klass)	   (G_TYPE_CHECK_CLASS_CAST (klass, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditorClass))
 #define IS_MESSAGE_TAG_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE (obj, MESSAGE_TAG_EDITOR_TYPE))
 #define IS_MESSAGE_TAG_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MESSAGE_TAG_EDITOR_TYPE))

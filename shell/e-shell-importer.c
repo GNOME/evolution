@@ -440,7 +440,7 @@ static void
 import_druid_cancel (GnomeDruid *druid,
 		     ImportData *data)
 {
-  	gtk_widget_destroy (GTK_WIDGET (data->dialog));
+	gtk_widget_destroy (GTK_WIDGET (data->dialog));
 }
 
 static gboolean

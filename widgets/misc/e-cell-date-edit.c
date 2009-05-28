@@ -284,7 +284,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_container_set_focus_vadjustment (GTK_CONTAINER (tree_view),
 					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
 	gtk_container_set_focus_hadjustment (GTK_CONTAINER (tree_view),
- 					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
+					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
 	gtk_widget_show (tree_view);
 	ecde->time_tree_view = tree_view;
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), "changed",

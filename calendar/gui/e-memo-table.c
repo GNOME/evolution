@@ -80,7 +80,7 @@ static void e_memo_table_on_double_click	(ETable		*table,
 						 gint		 col,
 						 GdkEvent	*event,
 						 EMemoTable *memo_table);
-static gint e_memo_table_show_popup_menu    	(ETable *table,
+static gint e_memo_table_show_popup_menu	(ETable *table,
 						 GdkEvent *gdk_event,
 						 EMemoTable *memo_table);
 
@@ -89,7 +89,7 @@ static gint e_memo_table_on_right_click		(ETable		*table,
 						 gint		 col,
 						 GdkEvent       *event,
 						 EMemoTable *memo_table);
-static gboolean e_memo_table_on_popup_menu  	(GtkWidget *widget,
+static gboolean e_memo_table_on_popup_menu	(GtkWidget *widget,
 						 gpointer data);
 
 static gint e_memo_table_on_key_press		(ETable		*table,

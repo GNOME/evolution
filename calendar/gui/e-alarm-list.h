@@ -32,7 +32,7 @@
 G_BEGIN_DECLS
 
 #define E_TYPE_ALARM_LIST            (e_alarm_list_get_type ())
-#define E_ALARM_LIST(obj)	         (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ALARM_LIST, EAlarmList))
+#define E_ALARM_LIST(obj)		 (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ALARM_LIST, EAlarmList))
 #define E_ALARM_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ALARM_LIST, EAlarmListClass))
 #define E_IS_ALARM_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ALARM_LIST))
 #define E_IS_ALARM_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_ALARM_LIST))

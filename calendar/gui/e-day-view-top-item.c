@@ -395,8 +395,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	gconf_client = gconf_client_get_default ();
 	alpha = gconf_client_get_float (gconf_client,
-				         "/apps/evolution/calendar/display/events_transparency",
-		 			NULL);
+					 "/apps/evolution/calendar/display/events_transparency",
+					NULL);
 
 	gradient = gconf_client_get_bool (gconf_client,
 					"/apps/evolution/calendar/display/events_gradient",

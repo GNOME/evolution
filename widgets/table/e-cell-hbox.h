@@ -61,7 +61,7 @@ ECell   *e_cell_hbox_new       (void);
 void     e_cell_hbox_append    (ECellHbox *vbox,
 				ECell     *subcell,
 				gint model_col,
-	                        gint size);
+				gint size);
 
 
 G_END_DECLS

@@ -437,7 +437,7 @@ impl_dispose (GObject *object)
 		priv->style_changed_id = 0;
 	}
 
- 	g_object_unref (gconf_client);
+	g_object_unref (gconf_client);
 
 	(* G_OBJECT_CLASS (e_sidebar_parent_class)->dispose) (object);
 }
@@ -558,8 +558,8 @@ e_sidebar_add_button (ESidebar *sidebar,
 	if (sidebar->priv->show)
 		gtk_widget_show (button_widget);
 	g_signal_connect (button_widget, "toggled", G_CALLBACK (button_toggled_callback), sidebar);
- 	g_signal_connect (button_widget, "button_press_event",
- 			  G_CALLBACK (button_pressed_callback), sidebar);
+	g_signal_connect (button_widget, "button_press_event",
+			  G_CALLBACK (button_pressed_callback), sidebar);
 
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
@@ -659,7 +659,7 @@ static GConfEnumStringPair toolbar_styles[] = {
          { E_SIDEBAR_MODE_BOTH, "both" },
          { E_SIDEBAR_MODE_BOTH, "both-horiz" },
          { E_SIDEBAR_MODE_BOTH, "both_horiz" },
- 	{ -1, NULL }
+	{ -1, NULL }
 };
 
 static void
@@ -715,15 +715,15 @@ static void
 style_changed_notify (GConfClient *gconf, guint id, GConfEntry *entry, gpointer data)
 {
 	ESidebar *sidebar = data;
- 	gchar *val;
- 	gint mode;
+	gchar *val;
+	gint mode;
 
 	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
 	if (val == NULL || !gconf_string_to_enum (toolbar_styles, val, &mode))
 		mode = E_SIDEBAR_MODE_BOTH;
 	g_free(val);
 
- 	set_mode_internal (E_SIDEBAR (sidebar), mode);
+	set_mode_internal (E_SIDEBAR (sidebar), mode);
 	sidebar->priv->toolbar_mode = mode;
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));

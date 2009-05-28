@@ -36,7 +36,7 @@
 /*stores some info about all currently existing groupwise accounts
   list of GwAccountInfo structures */
 
-static 	GList *groupwise_accounts = NULL;
+static	GList *groupwise_accounts = NULL;
 
 struct _CamelGwListenerPrivate {
 	GConfClient *gconf_client;
@@ -192,7 +192,7 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 
 	soap_port = camel_url_get_param (url, "soap_port");
 
- 	if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
 		soap_port = "7191";
 
 	use_ssl = camel_url_get_param (url, "use_ssl");
@@ -345,7 +345,7 @@ modify_esource (const gchar * conf_key, GwAccountInfo *old_account_info, EAccoun
 	gchar *old_relative_uri;
 	CamelURL *url;
 	gboolean found_group;
-      	GConfClient* client;
+	GConfClient* client;
 	const gchar *poa_address;
 	const gchar *new_poa_address;
 	const gchar * new_group_name = a->name;
@@ -464,7 +464,7 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 static GList*
 get_addressbook_names_from_server (gchar *source_url)
 {
-  	gchar *key;
+	gchar *key;
         EGwConnection *cnc;
 	gchar *password;
 	GList *book_list = NULL;
@@ -580,7 +580,7 @@ add_addressbook_sources (EAccount *account)
 	ESourceList *list;
         ESourceGroup *group;
         ESource *source;
-       	gchar *base_uri;
+	gchar *base_uri;
 	const gchar *soap_port;
 	GList *books_list, *temp_list;
 	GConfClient* client;
@@ -671,7 +671,7 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 	ESourceList *list;
         ESourceGroup *group;
 	GSList *groups;
-       	gboolean found_group;
+	gboolean found_group;
 	gboolean delete_group;
 	gchar *old_base_uri;
 	gchar *new_base_uri;
@@ -756,7 +756,7 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	ESourceList *list;
         ESourceGroup *group;
 	GSList *groups;
-       	gboolean found_group;
+	gboolean found_group;
 	CamelURL *url;
 	gchar *base_uri;
 	const gchar *soap_port;
@@ -839,7 +839,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 static void
 account_removed (EAccountList *account_listener, EAccount *account)
 {
-       	GwAccountInfo *info;
+	GwAccountInfo *info;
 
 	if (!is_groupwise_account (account))
 		return;
@@ -919,7 +919,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		if ((old_poa_address && strcmp (old_poa_address, new_poa_address))
 		   ||  (old_soap_port && strcmp (old_soap_port, new_soap_port))
 		   ||  strcmp (old_url->user, new_url->user)
-	           || (!old_use_ssl)
+		   || (!old_use_ssl)
 		   || strcmp (old_use_ssl, new_use_ssl)) {
 
 			account_removed (account_listener, account);
@@ -998,7 +998,7 @@ camel_gw_listener_construct (CamelGwListener *config_listener)
 
 	prune_proxies ();
 
-       	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
+	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
 
 	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ) ; e_iterator_is_valid (iter); e_iterator_next (iter) ) {
 
@@ -1006,7 +1006,7 @@ camel_gw_listener_construct (CamelGwListener *config_listener)
 
 		if ( is_groupwise_account (account) && account->enabled) {
 
-		        info = g_new0 (GwAccountInfo, 1);
+			info = g_new0 (GwAccountInfo, 1);
 			info->uid = g_strdup (account->uid);
 			info->name = g_strdup (account->name);
 			info->source_url = g_strdup (account->source->url);

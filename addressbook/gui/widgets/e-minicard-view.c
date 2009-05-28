@@ -625,8 +625,8 @@ e_minicard_view_jump_to_letter (EMinicardView *view,
 
 	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
 	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
-	                      (GCompareFunc) compare_to_utf_str,
-	                      utf_str);
+			      (GCompareFunc) compare_to_utf_str,
+			      utf_str);
 #endif
 }
 

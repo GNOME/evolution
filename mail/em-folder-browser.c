@@ -298,7 +298,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 
 			str = e_str_without_underscores (_(emfb_view_items[i].search.text));
 			menu_item = gtk_image_menu_item_new_with_label (str);
- 			if (emfb_view_items[i].image) {
+			if (emfb_view_items[i].image) {
 				GtkWidget *image;
 
 				image = gtk_image_new_from_icon_name (
@@ -524,7 +524,7 @@ emfb_init(GObject *o)
 		efb = (EFilterBar *)emfb->search;
 		efb->account_search_vf = NULL;
 		efb->all_account_search_vf = NULL;
- 		efb->account_search_cancel = NULL;
+		efb->account_search_cancel = NULL;
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
 		emfb->priv->scope_restricted = TRUE;
@@ -982,7 +982,7 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const gchar *folder_uri)
 		g_string_append (s, ")");
 
 		duplicate = FALSE;
-	        view_sexp = g_string_free (s, FALSE);
+		view_sexp = g_string_free (s, FALSE);
 		} break;
         case VIEW_LABEL:
 		tag = (gchar *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
@@ -1118,9 +1118,9 @@ vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
 
- 	if (cancel) {
- 		m->cancel = cancel;
- 	}
+	if (cancel) {
+		m->cancel = cancel;
+	}
 
 	id = m->base.seq;
 	mail_msg_slow_ordered_push (m);
@@ -2196,8 +2196,8 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint act)
 
 		/* FIXME: finish */
 		/* (Pre)view pane size (do this first because it affects the
-	           preview settings - see folder_browser_set_message_preview()
-	           internals for details) */
+		   preview settings - see folder_browser_set_message_preview()
+		   internals for details) */
 		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size": "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);

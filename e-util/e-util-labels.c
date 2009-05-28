@@ -407,7 +407,7 @@ e_util_labels_remove (const gchar *tag)
 
 	free_label_struct (label);
 
-	return 	flush_labels_cache (labels, TRUE);
+	return	flush_labels_cache (labels, TRUE);
 }
 
 /**

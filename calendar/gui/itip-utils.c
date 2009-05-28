@@ -95,20 +95,20 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
 
-  		strip = itip_strip_mailto (organizer.value);
+		strip = itip_strip_mailto (organizer.value);
 
- 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
- 			gchar *email = NULL;
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
+			gchar *email = NULL;
 
-  			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
 
- 				return TRUE;
+				return TRUE;
 			}
 
 			g_free (email);
- 			return FALSE;
- 		}
+			return FALSE;
+		}
 
 		user_org = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
@@ -437,7 +437,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 	GPtrArray *array = NULL;
 	EDestination *destination;
 	gint len;
- 	gchar *sender = NULL;
+	gchar *sender = NULL;
 
 	union {
 		gpointer *pdata;
@@ -1389,13 +1389,13 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 		if (text_list){
 			ECalComponentText text = *((ECalComponentText *)text_list->data);
-	                if (text.value)
-	                        description = text.value;
-        	        else
-                	        description = "";
-	        } else {
-        	        description = "";
-        	}
+			if (text.value)
+				description = text.value;
+			else
+				description = "";
+		} else {
+			description = "";
+		}
 
 		e_cal_component_free_text_list (text_list);
 
@@ -1505,8 +1505,8 @@ itip_publish_begin (ECalComponent *pub_comp, ECal *client,
 			icomp_clone = e_cal_component_get_icalcomponent (*clone);
 			for (prop = icalcomponent_get_first_property (icomp,
 						      ICAL_FREEBUSY_PROPERTY);
-	     			prop != NULL;
-	     			prop = icalcomponent_get_next_property (icomp,
+				prop != NULL;
+				prop = icalcomponent_get_next_property (icomp,
 						       ICAL_FREEBUSY_PROPERTY))
 			{
 				icalproperty *p;

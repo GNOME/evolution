@@ -58,7 +58,7 @@ ETableModel *e_tree_table_adapter_new                        (ETreeModel        
 							      ETableHeader	*header);
 ETableModel *e_tree_table_adapter_construct                  (ETreeTableAdapter *ets,
 							      ETreeModel        *source,
-		      					      ETableSortInfo    *sort_info,
+							      ETableSortInfo    *sort_info,
 							      ETableHeader	*header);
 
 ETreePath    e_tree_table_adapter_node_get_next              (ETreeTableAdapter *etta,

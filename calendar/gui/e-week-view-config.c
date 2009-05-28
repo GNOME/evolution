@@ -193,7 +193,7 @@ set_show_event_end (EWeekView *week_view)
 {
 	gboolean show_event_end;
 
- 	show_event_end = calendar_config_get_show_event_end ();
+	show_event_end = calendar_config_get_show_event_end ();
 
 	e_week_view_set_show_event_end_times (week_view, show_event_end);
 }
@@ -214,7 +214,7 @@ set_compress_weekend (EWeekView *week_view)
 {
 	gboolean compress_weekend;
 
- 	compress_weekend = calendar_config_get_compress_weekend ();
+	compress_weekend = calendar_config_get_compress_weekend ();
 
 	e_week_view_set_compress_weekend (week_view, compress_weekend);
 }

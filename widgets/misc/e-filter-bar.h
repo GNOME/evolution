@@ -131,7 +131,7 @@ EFilterBar *e_filter_bar_lite_new (RuleContext *context,
 				   gpointer data);
 
 void
-e_filter_bar_new_construct 	  (RuleContext *context,
+e_filter_bar_new_construct	  (RuleContext *context,
 				   const gchar *systemrules,
 				   const gchar *userrules,
 				   EFilterBarConfigRule config,

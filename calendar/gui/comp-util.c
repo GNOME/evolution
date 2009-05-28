@@ -803,7 +803,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 	ECalComponent *master = NULL;
 	icalcomponent *icalcomp = NULL;
 	ECalComponentRange rid;
-       	ECalComponentDateTime sdt;
+	ECalComponentDateTime sdt;
 	const gchar *uid;
 
 	/* Get the master component */

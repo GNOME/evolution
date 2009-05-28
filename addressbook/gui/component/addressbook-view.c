@@ -262,7 +262,7 @@ copy_all_contacts_to_cb (BonoboUIComponent *uih, gpointer user_data, const gchar
 	AddressbookView *view = (AddressbookView *) user_data;
 	EABView *v = get_current_view (view);
 
-       	if (v)
+	if (v)
 		eab_view_copy_to_folder (v, TRUE);
 }
 
@@ -419,7 +419,7 @@ rename_addressbook_folder (AddressbookView *view)
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	old_name = e_source_peek_name(source);
-     	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);
+	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);
 
 	while (!done) {
 		new_name = e_request_string (NULL, _("Rename Folder"), prompt, old_name);
@@ -923,7 +923,7 @@ save_addressbook_cb(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	AddressbookView *view = data;
 	EABView *v = get_current_view (view);
-       	if (v)
+	if (v)
 		eab_view_save_as (v, TRUE);
 }
 
@@ -947,7 +947,7 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 
 static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, (gchar *) "10.new", (gchar *) N_("_New Address Book"), new_addressbook_cb, NULL, (gchar *) "address-book-new", 0, 0 },
- 	{ E_POPUP_ITEM, (gchar *) "20.saveasvcard", (gchar *) N_("Save As vCard..."), save_addressbook_cb, NULL, (gchar *) "document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "20.saveasvcard", (gchar *) N_("Save As vCard..."), save_addressbook_cb, NULL, (gchar *) "document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
 	{ E_POPUP_ITEM, (gchar *) "25.rename", (gchar *) N_("_Rename..."), rename_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR,  (gchar *) "30.bar" },
@@ -1241,7 +1241,7 @@ addressbook_view_init (AddressbookView *view)
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view), 0);
 	g_signal_connect_after (priv->selector, "key_press_event",
-		       		G_CALLBACK (source_selector_key_press_event_callback),
+				G_CALLBACK (source_selector_key_press_event_callback),
 				G_OBJECT (view));
 	g_signal_connect_object (priv->selector, "popup_event",
 				 G_CALLBACK (popup_event_callback),

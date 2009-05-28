@@ -33,7 +33,7 @@ extern "C" {
 #include <camel/camel-store.h>
 #include <e-gw-connection.h>
 
-#define _JUNK_SETTINGS_TYPE    	      (junk_settings_get_type ())
+#define _JUNK_SETTINGS_TYPE	      (junk_settings_get_type ())
 #define JUNK_SETTINGS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), JUNK_SETTINGS, JunkSettings))
 #define JUNK_SETTINGS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), JUNK_SETTINGS_TYPE, JunkSettings))
 #define IS_JUNK_SETTINGS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), JUNK_SETTINGS_TYPE))

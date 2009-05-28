@@ -34,7 +34,7 @@ struct _EPluginUIHookPrivate {
 	 * For example:
 	 *
 	 *     <ui-manager id="org.gnome.evolution.sample">
- 	 *             ... UI definition ...
+	 *             ... UI definition ...
 	 *     </ui-manager>
 	 *
 	 * Results in:

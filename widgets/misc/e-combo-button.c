@@ -495,7 +495,7 @@ e_combo_button_pack_vbox (EComboButton *combo_button)
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
 
-   	priv->vbox = gtk_vbox_new (FALSE, 0);
+	priv->vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (priv->vbox);
 
 	priv->icon_image = gtk_image_new_from_stock (

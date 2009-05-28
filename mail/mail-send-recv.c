@@ -305,7 +305,7 @@ static gchar *
 format_url(const gchar *internal_url, const gchar *account_name)
 {
 	CamelURL *url;
-       	gchar *pretty_url;
+	gchar *pretty_url;
 
 	url = camel_url_new(internal_url, NULL);
 	if (account_name) {
@@ -487,7 +487,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const gchar *destinat
 
 		recv_icon = gtk_image_new_from_icon_name (
 			"mail-inbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
-	       	pretty_url = format_url (source->url, account->name);
+		pretty_url = format_url (source->url, account->name);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (
 			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
@@ -508,7 +508,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const gchar *destinat
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 
-	        gtk_table_attach (
+		gtk_table_attach (
 			GTK_TABLE (table), recv_icon,
 			0, 1, row, row+2, 0, 0, 0, 0);
 		gtk_table_attach (

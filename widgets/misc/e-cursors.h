@@ -51,7 +51,7 @@ void    e_cursors_shutdown  (void);
 
 #define e_cursor_set(win, c)					   \
 G_STMT_START {							   \
-     if (win) 							   \
+     if (win)							   \
          gdk_window_set_cursor (win, e_cursor_get (c)); \
 } G_STMT_END
 

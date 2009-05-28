@@ -42,7 +42,7 @@ extern "C" {
 #define E_IS_CANVAS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CANVAS_TYPE))
 
 typedef void		(*ECanvasItemReflowFunc)		(GnomeCanvasItem *item,
-								 gint   	  flags);
+								 gint	  flags);
 
 typedef void            (*ECanvasItemSelectionFunc)             (GnomeCanvasItem *item,
 								 gint             flags,

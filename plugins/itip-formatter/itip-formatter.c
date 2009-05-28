@@ -970,7 +970,7 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 			message_foreach_part (part, part_list);
 		}
 	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
- 		message_foreach_part ((CamelMimePart *)containee, part_list);
+		message_foreach_part ((CamelMimePart *)containee, part_list);
 	}
 }
 
@@ -1305,7 +1305,7 @@ update_attendee_status (struct _itip_puri *pitip)
 						icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
 						e_cal_component_rescan (comp);
 					} else if (response == GTK_RESPONSE_NO) {
-				 		remove_delegate (pitip, delegate, itip_strip_mailto (a->value), comp);
+						remove_delegate (pitip, delegate, itip_strip_mailto (a->value), comp);
 						goto cleanup;
 					} else {
 						goto cleanup;
@@ -1957,8 +1957,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
-            		if (found || g_ascii_strcasecmp (pitip->to_address, text))
-            			list = g_slist_prepend (list, prop);
+			if (found || g_ascii_strcasecmp (pitip->to_address, text))
+				list = g_slist_prepend (list, prop);
 			else if (!g_ascii_strcasecmp (pitip->to_address, text))
 				found = TRUE;
                         g_free (text);

@@ -172,7 +172,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 		priv->cancel_func = cancel_func;
 		priv->data = data;
 		g_signal_connect (tool, "clicked",  G_CALLBACK (button_press_event_cb), task_widget);
- 		g_signal_connect (task_widget, "button-press-event", G_CALLBACK (prepare_popup), task_widget);
+		g_signal_connect (task_widget, "button-press-event", G_CALLBACK (prepare_popup), task_widget);
 
 	}
 

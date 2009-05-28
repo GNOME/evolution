@@ -660,7 +660,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 				port        = get_string_child (child, "port");
 				host        = get_string_child (child, "host");
 				rootdn      = get_string_child (child, "rootdn");
-			        scope       = get_string_child (child, "scope");
+				scope       = get_string_child (child, "scope");
 				authmethod  = get_string_child (child, "authmethod");
 				ssl         = get_string_child (child, "ssl");
 				emailaddr   = get_string_child (child, "emailaddr");

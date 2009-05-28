@@ -277,7 +277,7 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 	etmc->has_get_node_by_id = has_get_node_by_id;
 	etmc->get_node_by_id     = get_node_by_id;
 
-	etmc->sort_value_at 	 = sort_value_at;
+	etmc->sort_value_at	 = sort_value_at;
 	etmc->value_at           = value_at;
 	etmc->set_value_at       = set_value_at;
 	etmc->is_editable        = is_editable;

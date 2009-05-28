@@ -364,7 +364,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	const gchar *folder;
 
 	dir = g_dir_open(filepath, 0, NULL);
- 	if (dir == NULL)
+	if (dir == NULL)
 		return;
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);

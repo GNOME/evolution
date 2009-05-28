@@ -694,5 +694,5 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	g_signal_handlers_disconnect_matched (gcal, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic, NULL);
+	bonobo_ui_component_unset_container (uic, NULL);
 }

@@ -105,7 +105,7 @@ eab_uri_popup_email_address_copy(EPopup *ep, EPopupItem *item, gpointer data)
 	i++;
         }
 
-       	g_free(p->selection_uri);
+	g_free(p->selection_uri);
 	p->selection_uri = g_strdup(html);
 	g_free (html);
 
@@ -132,7 +132,7 @@ eab_uri_popup_address_send(EPopup *ep, EPopupItem *item, gpointer data)
          EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
          const gchar *url = t->uri;
          EABContactDisplay *display = data;
-  	 struct _EABContactDisplayPrivate *p = display->priv;
+	 struct _EABContactDisplayPrivate *p = display->priv;
 
 	 gint mail_num = atoi (url + strlen ("internal-mailto:"));
 
@@ -185,7 +185,7 @@ eab_uri_popup_free(EPopup *ep, GSList *list, gpointer data)
 		g_slist_free_1(list);
 
 		list = n;
-         	}
+		}
 }
 
 static int
@@ -695,7 +695,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 			e_contact_photo_free (photo);
 		}
 
- 		gtk_html_stream_printf (html_stream, "</td><td %s valign=\"top\">\n", is_rtl ? " align=\"right\" " : "");
+		gtk_html_stream_printf (html_stream, "</td><td %s valign=\"top\">\n", is_rtl ? " align=\"right\" " : "");
 
 		str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 		if (!str)
@@ -862,7 +862,7 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 				html = eab_parse_qp_email_to_html (str);				\
 													\
 				if (!html)								\
-					html = e_text_to_html (str, 0); 				\
+					html = e_text_to_html (str, 0);				\
 													\
 				gtk_html_stream_printf (html_stream, "%s%s", comma ? ", " : "", html);	\
 				g_free (html);								\
@@ -933,10 +933,10 @@ eab_html_press_event (GtkWidget *widget, GdkEvent *event,EABContactDisplay *disp
 	if (event->button.button!= 3 )
 		return FALSE;
 
-       	uri = gtk_html_get_url_at (GTK_HTML (widget), event->button.x, event->button.y);
+	uri = gtk_html_get_url_at (GTK_HTML (widget), event->button.x, event->button.y);
 	if (uri){
 		eab_uri_popup_event(display,event,uri);
-               	}
+		}
 
          g_free(uri);
 

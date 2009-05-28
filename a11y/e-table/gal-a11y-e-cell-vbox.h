@@ -44,7 +44,7 @@ typedef struct _GalA11yECellVboxClass	GalA11yECellVboxClass;
 struct _GalA11yECellVbox
 {
 	GalA11yECell	object;
-	gint 		a11y_subcell_count;
+	gint		a11y_subcell_count;
 	gpointer       *a11y_subcells;
 };
 

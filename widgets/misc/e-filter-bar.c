@@ -962,7 +962,7 @@ e_filter_bar_new (RuleContext *context,
 	bar = g_object_new (e_filter_bar_get_type (), NULL);
 	((ESearchBar *)bar)->lite = FALSE;
 
- 	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
+	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
 
 	return bar;
 }
@@ -978,7 +978,7 @@ e_filter_bar_lite_new (RuleContext *context,
 
 	bar = g_object_new (e_filter_bar_get_type (), NULL);
 	((ESearchBar *)bar)->lite = TRUE;
- 	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
+	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
 
 	return bar;
 }
@@ -1003,7 +1003,7 @@ e_filter_bar_new_construct (RuleContext *context,
 
 	bar->all_account_search_vf = NULL;
 	bar->account_search_vf = NULL;
- 	bar->account_search_cancel = NULL;
+	bar->account_search_cancel = NULL;
 
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
 

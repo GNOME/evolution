@@ -770,7 +770,7 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	EMinicardField *minicard_field;
 	gchar *name;
 	gchar *string;
- 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 
 	group = GNOME_CANVAS_GROUP( e_minicard );
 

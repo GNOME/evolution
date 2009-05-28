@@ -17,7 +17,7 @@
  *
  * Authors:
  *		Dan Winship <danw@ximian.com>
- *  	Jeffrey Stedfast <fejj@ximian.com>
+ *	Jeffrey Stedfast <fejj@ximian.com>
  *      Peter Williams <peterw@ximian.com>
  *      Michael Zucchi <notzed@ximian.com>
  *
@@ -719,11 +719,11 @@ send_queue_exec (struct _send_queue_msg *m)
 
 	if (m->cancel)
 		camel_operation_register (m->cancel);
- 	else
- 		camel_operation_register (m->base.cancel);
+	else
+		camel_operation_register (m->base.cancel);
 
- 	if (!m->cancel)
- 		camel_operation_start (NULL, _("Sending message"));
+	if (!m->cancel)
+		camel_operation_start (NULL, _("Sending message"));
 
 	camel_exception_init (&ex);
 
@@ -734,8 +734,8 @@ send_queue_exec (struct _send_queue_msg *m)
 		gint pc = (100 * i) / send_uids->len;
 
 		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, send_uids->len);
- 		if (!m->cancel)
- 			camel_operation_progress (NULL, (i+1) * 100 / send_uids->len);
+		if (!m->cancel)
+			camel_operation_progress (NULL, (i+1) * 100 / send_uids->len);
 
 		mail_send_message (m->queue, send_uids->pdata[i], m->destination, m->driver, &ex);
 		if (camel_exception_is_set (&ex)) {
@@ -784,13 +784,13 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_exception_clear (&ex);
 	}
 
- 	if (!m->cancel)
- 		camel_operation_end (NULL);
+	if (!m->cancel)
+		camel_operation_end (NULL);
 
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
- 	else
- 		camel_operation_unregister (m->base.cancel);
+	else
+		camel_operation_unregister (m->base.cancel);
 
 }
 
@@ -2459,7 +2459,7 @@ prepare_offline_exec (struct _set_offline_msg *m)
 {
 	if (CAMEL_IS_DISCO_STORE (m->store)) {
 		camel_disco_store_prepare_for_offline (CAMEL_DISCO_STORE (m->store),
-				      	       &m->base.ex);
+					       &m->base.ex);
 	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
 		camel_offline_store_prepare_for_offline (CAMEL_OFFLINE_STORE (m->store),
 							 &m->base.ex);

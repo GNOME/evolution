@@ -111,7 +111,7 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 			G_PARAM_WRITABLE));
 
 	/* init the accessibility support for e_day_view */
- 	e_day_view_main_item_a11y_init ();
+	e_day_view_main_item_a11y_init ();
 }
 
 
@@ -641,7 +641,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gconf = gconf_client_get_default ();
 
 	alpha = gconf_client_get_float (gconf,
-				         "/apps/evolution/calendar/display/events_transparency",
+					 "/apps/evolution/calendar/display/events_transparency",
 					 NULL);
 
 	gradient = gconf_client_get_bool (gconf,
@@ -788,7 +788,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			/* Black border */
 			cairo_save (cr);
 			x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 9;
-			y0  	   = item_y + 10;
+			y0	   = item_y + 10;
 			rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 7, 0);
 			rect_height = item_h - 7;
 
@@ -1217,7 +1217,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	{
 		if (event->start_minute % day_view->mins_per_row != 0
 			|| (day_view->show_event_end_times
-		    	&& event->end_minute % day_view->mins_per_row != 0)) {
+			&& event->end_minute % day_view->mins_per_row != 0)) {
 				offset = day_view->first_hour_shown * 60
 				+ day_view->first_minute_shown;
 				show_span = TRUE;

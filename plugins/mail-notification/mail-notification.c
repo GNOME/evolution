@@ -48,11 +48,11 @@
 #include <libnotify/notify.h>
 #endif
 
-#define GCONF_KEY_ROOT		 	"/apps/evolution/eplugin/mail-notification/"
+#define GCONF_KEY_ROOT			"/apps/evolution/eplugin/mail-notification/"
 #define GCONF_KEY_NOTIFY_ONLY_INBOX	GCONF_KEY_ROOT "notify-only-inbox"
-#define GCONF_KEY_ENABLED_DBUS	 	GCONF_KEY_ROOT "dbus-enabled"
-#define GCONF_KEY_ENABLED_STATUS 	GCONF_KEY_ROOT "status-enabled"
-#define GCONF_KEY_ENABLED_SOUND	 	GCONF_KEY_ROOT "sound-enabled"
+#define GCONF_KEY_ENABLED_DBUS		GCONF_KEY_ROOT "dbus-enabled"
+#define GCONF_KEY_ENABLED_STATUS	GCONF_KEY_ROOT "status-enabled"
+#define GCONF_KEY_ENABLED_SOUND		GCONF_KEY_ROOT "sound-enabled"
 
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
@@ -556,9 +556,9 @@ get_config_widget_status (void)
 	vbox = gtk_vbox_new (FALSE, 0);
 	scw = g_malloc0 (sizeof (struct _StatusConfigureWidgets));
 
-	#define create_check(c, key, desc) 							\
-		c = gtk_check_button_new_with_mnemonic (desc); 					\
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (c), is_part_enabled (key)); 	\
+	#define create_check(c, key, desc)							\
+		c = gtk_check_button_new_with_mnemonic (desc);					\
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (c), is_part_enabled (key));	\
 		gtk_box_pack_start (GTK_BOX (parent), c, FALSE, FALSE, 0);			\
 		g_signal_connect (G_OBJECT (c), "toggled", G_CALLBACK (toggled_status_cb), scw);
 

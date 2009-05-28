@@ -45,13 +45,13 @@ typedef struct _epif_data EPImapFeaturesData;
 struct _epif_data {
 	GtkWidget *all_headers;
 	GtkWidget *basic_headers;
- 	GtkWidget *mailing_list_headers;
+	GtkWidget *mailing_list_headers;
 	GtkWidget *custom_headers_box;
 
 	GtkEntry *entry_header;
 
 	GtkButton *add_header;
- 	GtkButton *remove_header;
+	GtkButton *remove_header;
 
 	GtkTreeView *custom_headers_tree;
 	GtkTreeStore *store;
@@ -174,7 +174,7 @@ epif_add_sensitivity (EPImapFeaturesData *ui)
 		if (g_ascii_strcasecmp (header_name, entry_contents) == 0) {
 			gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
 			return;
- 		}
+		}
 
 		valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (ui->store), &iter);
 	}

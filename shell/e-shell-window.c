@@ -628,7 +628,7 @@ static GConfEnumStringPair button_styles[] = {
          { E_SIDEBAR_MODE_ICON, "icons" },
          { E_SIDEBAR_MODE_BOTH, "both" },
          { E_SIDEBAR_MODE_TOOLBAR, "toolbar" },
- 	{ -1, NULL }
+	{ -1, NULL }
 };
 
 static void
@@ -687,7 +687,7 @@ setup_widgets (EShellWindow *window)
 					 "/apps/evolution/shell/view_defaults/buttons_style",
 					 NULL);
 
- 	if (gconf_string_to_enum (button_styles, style, &mode)) {
+	if (gconf_string_to_enum (button_styles, style, &mode)) {
 		switch (mode) {
 		case E_SIDEBAR_MODE_TEXT:
 			bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
@@ -718,7 +718,7 @@ setup_widgets (EShellWindow *window)
 
 	/* Status Bar*/
 	visible = gconf_client_get_bool (gconf_client,
-				         "/apps/evolution/shell/view_defaults/statusbar_visible",
+					 "/apps/evolution/shell/view_defaults/statusbar_visible",
 					 NULL);
 	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
 				      "/commands/ViewStatusBar",
@@ -728,7 +728,7 @@ setup_widgets (EShellWindow *window)
 
 	/* Side Bar*/
 	visible = gconf_client_get_bool (gconf_client,
-				         "/apps/evolution/shell/view_defaults/sidebar_visible",
+					 "/apps/evolution/shell/view_defaults/sidebar_visible",
 					 NULL);
 	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
 				      "/commands/ViewSideBar",

@@ -118,7 +118,7 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 {
 	if (!config_listener) {
 		config_listener = camel_gw_listener_new ();
-	 	g_atexit ( free_groupwise_listener );
+		g_atexit ( free_groupwise_listener );
 	}
 
 	return 0;

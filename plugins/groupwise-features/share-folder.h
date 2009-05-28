@@ -34,7 +34,7 @@ extern "C" {
 #include <e-gw-connection.h>
 #include <libedataserverui/e-name-selector.h>
 
-#define _SHARE_FOLDER_TYPE    	      (share_folder_get_type ())
+#define _SHARE_FOLDER_TYPE	      (share_folder_get_type ())
 #define SHARE_FOLDER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SHARE_FOLDER, ShareFolder))
 #define SHARE_FOLDER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), SHARE_FOLDER_TYPE, ShareFolder))
 #define IS_SHARE_FOLDER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHARE_FOLDER_TYPE))

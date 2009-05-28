@@ -15,7 +15,7 @@
  *
  * Authors:
  *		Iain Holmes  <iain@ximian.com>
- *    	Michael Zucchi <notzed@ximian.com>
+ *	Michael Zucchi <notzed@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

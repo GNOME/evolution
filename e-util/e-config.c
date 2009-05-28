@@ -554,9 +554,9 @@ ec_rebuild(EConfig *emp)
 
 			/* CONFIG_PAGEs depend on the config type.
 			   E_CONFIG_BOOK:
-			   	The page is a VBox, stored in the notebook.
+				The page is a VBox, stored in the notebook.
 			   E_CONFIG_DRUID
-			   	The page is a GnomeDruidPageStandard,
+				The page is a GnomeDruidPageStandard,
 				any sections automatically added are added to
 				the vbox inside it. */
 			sectionno = 0;

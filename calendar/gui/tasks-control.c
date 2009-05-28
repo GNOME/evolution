@@ -372,7 +372,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 	g_signal_handlers_disconnect_matched (tasks, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic, NULL);
+	bonobo_ui_component_unset_container (uic, NULL);
 }
 
 static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
@@ -557,7 +557,7 @@ tasks_control_assign_cmd (BonoboUIComponent *uic,
               tasks = E_TASKS (data);
               cal_table = e_tasks_get_calendar_table (tasks);
               comp_data = e_calendar_table_get_selected_comp (cal_table);
- 	       if (comp_data)
+	       if (comp_data)
               e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, TRUE);
 }
 
@@ -566,7 +566,7 @@ tasks_control_forward_cmd (BonoboUIComponent *uic,
                          gpointer data,
                           const gchar *path)
 {
-	        ETasks *tasks;
+		ETasks *tasks;
                ECalendarTable *cal_table;
                ECalModelComponent *comp_data;
 

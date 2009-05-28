@@ -575,7 +575,7 @@ etcta_init (ETableClickToAdd *etcta)
 
 	/* create its a11y object at this time if accessibility is enabled*/
 	if (atk_get_root () != NULL) {
-        	a11y = atk_gobject_accessible_for_object (G_OBJECT (etcta));
+		a11y = atk_gobject_accessible_for_object (G_OBJECT (etcta));
 		atk_object_set_name (a11y, _("click to add"));
 	}
 }

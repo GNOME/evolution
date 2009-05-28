@@ -219,8 +219,8 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	msgListNode = (MailMsgListNode *) e_dlist_remhead(&m->sub->subscribe);
 	if (msgListNode) {
 		next = (struct _zsubscribe_msg *) msgListNode->msg;
-	        /* Free the memory of the MailMsgListNode which won't be used anymore. */
-        	g_free(msgListNode);
+		/* Free the memory of the MailMsgListNode which won't be used anymore. */
+		g_free(msgListNode);
 		next->sub->subscribe_id = next->base.seq;
                 mail_msg_unordered_push (next);
 	} else {

@@ -190,9 +190,9 @@ load_pages (EShellSettingsDialog *dialog)
 
 		info = & control_list->_buffer[i];
 
-		title       	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:title", languages);
-		description 	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:description", languages);
-		icon_path   	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:icon_name", NULL);
+		title	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:title", languages);
+		description	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:description", languages);
+		icon_path	= bonobo_server_info_prop_lookup (info, "evolution2:config_item:icon_name", NULL);
 		type            = bonobo_server_info_prop_find   (info, "evolution2:config_item:type");
 		priority_string = bonobo_server_info_prop_lookup (info, "evolution2:config_item:priority", NULL);
 

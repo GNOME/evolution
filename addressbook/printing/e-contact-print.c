@@ -217,7 +217,7 @@ e_contact_start_new_page (EContactPrintContext *ctxt)
 
 	/*cairo_show_page (cr);*/
 
-       	ctxt->x = ctxt->y = .0;
+	ctxt->x = ctxt->y = .0;
 	ctxt->column = 0;
 	ctxt->pages++;
 }
@@ -294,7 +294,7 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 	else {
 		ctxt->x = ctxt->column *
 			(ctxt->column_width + ctxt->column_spacing);
-	    	ctxt->y = .0;
+		ctxt->y = .0;
 	}
 }
 

@@ -15,7 +15,7 @@
  *
  * Authors:
  *		Mike Kestner  <mkestner@ximian.com>
- * 	    JP Rosevear  <jpr@ximian.com>
+ *	    JP Rosevear  <jpr@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -97,7 +97,7 @@ e_meeting_list_view_finalize (GObject *obj)
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize)
- 		(* G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize) (obj);
+		(* G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize) (obj);
 }
 
 static void
@@ -150,7 +150,7 @@ e_meeting_list_view_init (EMeetingListView *view)
 
 	name_selector_dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Attendees"));
- 	g_signal_connect (name_selector_dialog, "response",
+	g_signal_connect (name_selector_dialog, "response",
 			  G_CALLBACK (name_selector_dialog_close_cb), view);
 
 }
@@ -908,7 +908,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 	EMeetingStore *store;
 	const GPtrArray *attendees;
 	gint i;
-	GSList 		  *la = NULL, *l;
+	GSList		  *la = NULL, *l;
 
 	name_selector_model = e_name_selector_peek_model (view->priv->name_selector);
 	store = E_MEETING_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (view)));

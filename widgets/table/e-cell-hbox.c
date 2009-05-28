@@ -277,7 +277,7 @@ e_cell_hbox_class_init (ECellHboxClass *klass)
 
 	ecc->max_width        = ecv_max_width;
 
-/* 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_HBOX_TYPE, gal_a11y_e_cell_hbox_new); */
+/*	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_HBOX_TYPE, gal_a11y_e_cell_hbox_new); */
 }
 
 static void

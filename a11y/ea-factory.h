@@ -36,11 +36,11 @@ type_as_function ## _factory_create_accessible (GObject *obj)			\
 {                                                                               \
   AtkObject *accessible;							\
   g_return_val_if_fail (G_IS_OBJECT (obj), NULL);				\
-  accessible = opt_create_accessible (G_OBJECT (obj));	                 	\
-  return accessible;	                                                        \
+  accessible = opt_create_accessible (G_OBJECT (obj));				\
+  return accessible;								\
 }
 
-#define EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)	        \
+#define EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)		\
 static AtkObject*								\
 type_as_function ## _factory_create_accessible (GObject *obj)			\
 {                                                                               \
@@ -52,10 +52,10 @@ type_as_function ## _factory_create_accessible (GObject *obj)			\
   widget = GTK_WIDGET (obj);							\
 										\
   accessible = opt_create_accessible (widget);					\
-  return accessible;	                                                        \
+  return accessible;								\
 }
 
-#define EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)	        \
+#define EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)		\
 										\
 static GType									\
 type_as_function ## _factory_get_accessible_type (void)				\
@@ -81,7 +81,7 @@ type_as_function ## _factory_get_type (void)					\
     gchar *name;									\
     static const GTypeInfo tinfo =						\
     {										\
-      sizeof (AtkObjectFactoryClass),				         	\
+      sizeof (AtkObjectFactoryClass),						\
       NULL, NULL, (GClassInitFunc) type_as_function ## _factory_class_init,	\
       NULL, NULL, sizeof (AtkObjectFactory), 0, NULL, NULL			\
     };										\
@@ -95,15 +95,15 @@ type_as_function ## _factory_get_type (void)					\
   return t;									\
 }
 
-#define EA_FACTORY(type, type_as_function, opt_create_accessible)	        \
-        EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)	        \
+#define EA_FACTORY(type, type_as_function, opt_create_accessible)		\
+        EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)		\
         EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
 
 #define EA_FACTORY_GOBJECT(type, type_as_function, opt_create_accessible)	\
         EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\
         EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
 
-#define EA_SET_FACTORY(obj_type, type_as_function)		         	\
+#define EA_SET_FACTORY(obj_type, type_as_function)				\
 {                                                                               \
         if (atk_get_root ()) {                                                  \
                 atk_registry_set_factory_type (atk_get_default_registry (),     \

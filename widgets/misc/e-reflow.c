@@ -1278,7 +1278,7 @@ e_reflow_point (GnomeCanvasItem *item,
 	return 0;
 #if 0
 	if (y >= E_REFLOW_BORDER_WIDTH && y <= reflow->height - E_REFLOW_BORDER_WIDTH) {
-	        float n_x;
+		float n_x;
 		n_x = x;
 		n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 		n_x = fmod(n_x, (reflow->column_width + E_REFLOW_FULL_GUTTER));

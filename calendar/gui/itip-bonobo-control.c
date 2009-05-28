@@ -165,17 +165,17 @@ pstream_save (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 /* static CORBA_long */
 /* pstream_get_max_size (BonoboPersistStream *ps, gpointer data, */
-/* 		      CORBA_Environment *ev) */
+/*		      CORBA_Environment *ev) */
 /* { */
-/* 	EItipControl *itip = data; */
-/* 	gint len; */
+/*	EItipControl *itip = data; */
+/*	gint len; */
 
-/* 	len = e_itip_control_get_data_size (itip); */
+/*	len = e_itip_control_get_data_size (itip); */
 
-/*   	if (len > 0) */
-/* 		return len; */
+/*	if (len > 0) */
+/*		return len; */
 
-/* 	return 0L; */
+/*	return 0L; */
 /* } */
 
 static Bonobo_Persist_ContentTypeList *

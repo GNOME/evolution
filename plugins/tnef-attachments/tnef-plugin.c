@@ -108,7 +108,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	if (camel_data_wrapper_decode_to_stream(content, out) == -1
 	    || camel_stream_close(out) == -1) {
 		camel_object_unref(out);
- 		goto fail;
+		goto fail;
 	}
 	camel_object_unref(out);
 

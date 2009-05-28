@@ -407,7 +407,7 @@ e_attachment_dialog_new (GtkWindow *parent,
                          EAttachment *attachment)
 {
 	if (parent != NULL)
-	 	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
+		g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
 	if (attachment != NULL)
 		g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 

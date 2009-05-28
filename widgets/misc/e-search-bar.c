@@ -664,8 +664,8 @@ set_menu (ESearchBar *esb,
 		ESearchBarItem *new_item;
 
 		new_item = g_new (ESearchBarItem, 1);
-		new_item->text 	   = items[i].text ? g_strdup (_(items[i].text)) : NULL;
-		new_item->id   	   = items[i].id;
+		new_item->text	   = items[i].text ? g_strdup (_(items[i].text)) : NULL;
+		new_item->id	   = items[i].id;
 		new_item->type     = items[i].type;
 
 		esb->menu_items = g_slist_append (esb->menu_items, new_item);
@@ -681,13 +681,13 @@ set_menu (ESearchBar *esb,
 /* static gpointer /
 /* option_item_destroy_cb (GtkObject *object, gpointer data) */
 /* { */
-/* /\* 	ESearchBarSubitem *subitems; *\/ */
+/* /\*	ESearchBarSubitem *subitems; *\/ */
 
-/* /\* 	subitems = data; *\/ */
+/* /\*	subitems = data; *\/ */
 
-/* /\* 	g_assert (subitems != NULL); *\/ */
-/* /\* 	free_subitems (subitems); *\/ */
-/* /\* 	g_object_set_data (G_OBJECT (object), "EsbChoiceSubitems", NULL); *\/ */
+/* /\*	g_assert (subitems != NULL); *\/ */
+/* /\*	free_subitems (subitems); *\/ */
+/* /\*	g_object_set_data (G_OBJECT (object), "EsbChoiceSubitems", NULL); *\/ */
 /* } */
 
 static void
@@ -745,7 +745,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 	gtk_widget_show_all (menu);
 	g_object_set_data (G_OBJECT(esb->option_menu), "group", group);
- 	entry_focus_out_cb (esb->entry, NULL, esb);
+	entry_focus_out_cb (esb->entry, NULL, esb);
 }
 
 static int
@@ -828,10 +828,10 @@ impl_dispose (GObject *object)
 		bonobo_object_unref (BONOBO_OBJECT (esb->ui_component));
 		esb->ui_component = NULL;
 	}
-/* 	if (esb->entry) { */
-/* 		g_object_unref (esb->entry); */
-/* 		esb->entry = NULL; */
-/* 	} */
+/*	if (esb->entry) { */
+/*		g_object_unref (esb->entry); */
+/*		esb->entry = NULL; */
+/*	} */
 	if (esb->suboption) {
 		g_object_unref (esb->suboption);
 		esb->suboption = NULL;
@@ -1050,7 +1050,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
 
 		search_bar->scopeoption = gtk_option_menu_new ();
-	/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
+	/*	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
 		gtk_widget_show_all (search_bar->scopeoption_box);
 		gtk_widget_hide (hbox);

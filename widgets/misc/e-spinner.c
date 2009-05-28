@@ -66,7 +66,7 @@ struct _ESpinnerClass
 
 #define E_TYPE_SPINNER_CACHE			(e_spinner_cache_get_type())
 #define E_SPINNER_CACHE(object)		(G_TYPE_CHECK_INSTANCE_CAST((object), E_TYPE_SPINNER_CACHE, ESpinnerCache))
-#define E_SPINNER_CACHE_CLASS(klass) 	(G_TYPE_CHECK_CLASS_CAST((klass), E_TYPE_SPINNER_CACHE, ESpinnerCacheClass))
+#define E_SPINNER_CACHE_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST((klass), E_TYPE_SPINNER_CACHE, ESpinnerCacheClass))
 #define E_IS_SPINNER_CACHE(object)		(G_TYPE_CHECK_INSTANCE_TYPE((object), E_TYPE_SPINNER_CACHE))
 #define E_IS_SPINNER_CACHE_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass), E_TYPE_SPINNER_CACHE))
 #define E_SPINNER_CACHE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), E_TYPE_SPINNER_CACHE, ESpinnerCacheClass))
@@ -275,7 +275,7 @@ e_spinner_images_load (GdkScreen *screen,
 	/* Load the animation. The 'rest icon' is the 0th frame */
 	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
 						SPINNER_ICON_NAME,
-					        requested_size, 0);
+						requested_size, 0);
 	if (icon_info == NULL)
 	{
 		g_warning ("Throbber animation not found");
@@ -741,10 +741,10 @@ e_spinner_start (ESpinner *spinner)
 
 		details->timer_task =
 			g_timeout_add_full (G_PRIORITY_LOW,
-			                    details->timeout,
-				            (GSourceFunc) bump_spinner_frame_cb,
-				            spinner,
-				            NULL);
+					    details->timeout,
+					    (GSourceFunc) bump_spinner_frame_cb,
+					    spinner,
+					    NULL);
 	}
 }
 
@@ -843,7 +843,7 @@ e_spinner_size_request (GtkWidget *widget,
 		gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
 						   details->size,
 						   &requisition->width,
-					           &requisition->height);
+						   &requisition->height);
 		return;
 	}
 

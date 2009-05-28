@@ -65,7 +65,7 @@ void  e_activity_handler_attach_task_bar  (EActivityHandler *activity_hanlder,
 					   ETaskBar         *task_bar);
 
 void  e_activity_handler_set_message   (EActivityHandler *activity_handler,
-				        const gchar       *message);
+					const gchar       *message);
 
 void  e_activity_handler_unset_message (EActivityHandler *activity_handler);
 
@@ -75,8 +75,8 @@ guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler
 					      gboolean          cancellable);
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
 						      const gchar       *component_id,
-					      	      const gchar       *information,
-					      	      gboolean          cancellable,
+						      const gchar       *information,
+						      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
 						      gpointer user_data);
 

@@ -324,7 +324,7 @@ event_editor_constructor (GType type,
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (editor, TRUE);
-  		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) {
+		if (!((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)|| (flags & COMP_EDITOR_NEW_ITEM))) {
 			GtkAction *action;
 
 			action = comp_editor_get_action (editor, "free-busy");
@@ -346,7 +346,7 @@ event_editor_dispose (GObject *object)
 	priv = EVENT_EDITOR_GET_PRIVATE (object);
 
 	if (priv->event_page) {
- 		g_object_unref (priv->event_page);
+		g_object_unref (priv->event_page);
 		priv->event_page = NULL;
 	}
 
@@ -691,7 +691,7 @@ event_editor_show_meeting (EventEditor *ee)
 
 		ee->priv->meeting_shown = TRUE;
 
- 		comp_editor_set_changed (editor, FALSE);
+		comp_editor_set_changed (editor, FALSE);
 		comp_editor_set_needs_send (editor, TRUE);
 	}
 

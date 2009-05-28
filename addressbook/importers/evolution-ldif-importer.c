@@ -76,9 +76,9 @@ static struct {
 	const gchar *ldif_attribute;
 	EContactField contact_field;
 #define FLAG_HOME_ADDRESS	0x01
-#define FLAG_WORK_ADDRESS 	0x02
-#define FLAG_LIST 		0x04
-#define FLAG_BOOLEAN 		0x08
+#define FLAG_WORK_ADDRESS	0x02
+#define FLAG_LIST		0x04
+#define FLAG_BOOLEAN		0x08
 	gint flags;
 }
 ldif_fields[] = {

@@ -60,8 +60,8 @@ struct ETreeTableAdapterPriv {
 	ETableSortInfo *sort_info;
 	ETableHeader   *header;
 
-	gint    	     n_map;
-	gint    	     n_vals_allocated;
+	gint	     n_map;
+	gint	     n_vals_allocated;
 	node_t     **map_table;
 	GHashTable  *nodes;
 	GNode       *root;
@@ -864,7 +864,7 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source, ETa
 	if (sort_info) {
 		g_object_ref(sort_info);
 		etta->priv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
-				                                     G_CALLBACK (etta_sort_info_changed), etta);
+								     G_CALLBACK (etta_sort_info_changed), etta);
 	}
 
 	etta->priv->header = header;
@@ -1247,7 +1247,7 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 {
 	if (etta->priv->sort_info) {
 		g_signal_handler_disconnect(G_OBJECT(etta->priv->sort_info),
-				            etta->priv->sort_info_changed_id);
+					    etta->priv->sort_info_changed_id);
 		g_object_unref(etta->priv->sort_info);
 	}
 
@@ -1255,7 +1255,7 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 	if (sort_info) {
 		g_object_ref(sort_info);
 		etta->priv->sort_info_changed_id = g_signal_connect(G_OBJECT(sort_info), "sort_info_changed",
-				                                    G_CALLBACK(etta_sort_info_changed), etta);
+								    G_CALLBACK(etta_sort_info_changed), etta);
 	}
 
 	if (!etta->priv->root)

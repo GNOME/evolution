@@ -958,7 +958,7 @@ command_about (BonoboUIComponent *uih,
 static void
 command_open_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
- 		  const gchar *path)
+		  const gchar *path)
 {
 	const gchar *uri;
 

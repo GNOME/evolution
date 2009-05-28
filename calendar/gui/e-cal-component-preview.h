@@ -33,7 +33,7 @@
 #define E_TYPE_CAL_COMPONENT_PREVIEW            (e_cal_component_preview_get_type ())
 #define E_CAL_COMPONENT_PREVIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreview))
 #define E_CAL_COMPONENT_PREVIEW_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), E_TYPE_CAL_COMPONENT_PREVIEW, \
-				                 ECalComponentPreviewClass))
+						 ECalComponentPreviewClass))
 #define E_IS_CAL_COMPONENT_PREVIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_COMPONENT_PREVIEW))
 #define E_IS_CAL_COMPONENT_PREVIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_COMPONENT_PREVIEW))
 

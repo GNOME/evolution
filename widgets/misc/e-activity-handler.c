@@ -290,7 +290,7 @@ e_activity_handler_init (EActivityHandler *activity_handler)
 	priv->next_activity_id = 1;
 	priv->activity_infos   = NULL;
 	priv->task_bars        = NULL;
-	priv->logger 	       = NULL;
+	priv->logger	       = NULL;
 	priv->error_timer      = 0;
 	priv->error_flush_interval = 0;
 	activity_handler->priv = priv;
@@ -405,8 +405,8 @@ cancel_wrapper (gpointer pdata)
 /* CORBA methods.  */
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
 						      const gchar       *component_id,
-					      	      const gchar       *information,
-					      	      gboolean          cancellable,
+						      const gchar       *information,
+						      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
 						      gpointer user_data)
 {

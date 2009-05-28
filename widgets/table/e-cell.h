@@ -93,13 +93,13 @@ typedef struct {
 	void       (*realize)          (ECellView *ecell_view);
 	void       (*unrealize)        (ECellView *ecell_view);
 
-	void   	   (*draw)             (ECellView *ecell_view, GdkDrawable *drawable,
-	       			       	gint model_col, gint view_col, gint row,
-				       	ECellFlags flags, gint x1, gint y1, gint x2, gint y2);
-	gint   	   (*event)            (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions);
-	void   	   (*focus)            (ECellView *ecell_view, gint model_col, gint view_col,
-				       	gint row, gint x1, gint y1, gint x2, gint y2);
-	void   	   (*unfocus)          (ECellView *ecell_view);
+	void	   (*draw)             (ECellView *ecell_view, GdkDrawable *drawable,
+					gint model_col, gint view_col, gint row,
+					ECellFlags flags, gint x1, gint y1, gint x2, gint y2);
+	gint	   (*event)            (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col, gint row, ECellFlags flags, ECellActions *actions);
+	void	   (*focus)            (ECellView *ecell_view, gint model_col, gint view_col,
+					gint row, gint x1, gint y1, gint x2, gint y2);
+	void	   (*unfocus)          (ECellView *ecell_view);
 	gint        (*height)           (ECellView *ecell_view, gint model_col, gint view_col, gint row);
 
 	void      *(*enter_edit)       (ECellView *ecell_view, gint model_col, gint view_col, gint row);
@@ -108,10 +108,10 @@ typedef struct {
 	void       (*load_state)       (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer context, gpointer save_state);
 	void       (*free_state)       (ECellView *ecell_view, gint model_col, gint view_col, gint row, gpointer save_state);
 	void       (*print)            (ECellView *ecell_view, GtkPrintContext *context,
-				       	gint model_col, gint view_col, gint row,
-				       	gdouble width, gdouble height);
+					gint model_col, gint view_col, gint row,
+					gdouble width, gdouble height);
 	gdouble    (*print_height)     (ECellView *ecell_view,GtkPrintContext *context,
-				       	gint model_col, gint view_col, gint row, gdouble width);
+					gint model_col, gint view_col, gint row, gdouble width);
 	gint        (*max_width)        (ECellView *ecell_view, gint model_col, gint view_col);
 	gint        (*max_width_by_row) (ECellView *ecell_view, gint model_col, gint view_col, gint row);
 	void       (*show_tooltip)     (ECellView *ecell_view, gint model_col, gint view_col, gint row, gint col_width, ETableTooltip *tooltip);

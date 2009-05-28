@@ -154,7 +154,7 @@ eth_finalize (GObject *object)
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
 			g_signal_handler_disconnect(G_OBJECT(eth->sort_info),
-					            eth->sort_info_group_change_id);
+						    eth->sort_info_group_change_id);
 		g_object_unref(eth->sort_info);
 		eth->sort_info = NULL;
 	}

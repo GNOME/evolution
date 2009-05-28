@@ -65,8 +65,8 @@ struct _EABEditorClass
 
 	/* virtual functions */
 	void (* show)             (EABEditor *editor);
-	void (* close) 	          (EABEditor *editor);
-	void (* raise) 	          (EABEditor *editor);
+	void (* close)		  (EABEditor *editor);
+	void (* raise)		  (EABEditor *editor);
 	void (* save_contact)     (EABEditor *editor, gboolean should_close);
 	gboolean (* is_valid)     (EABEditor *editor);
 	gboolean (* is_changed)   (EABEditor *editor);
@@ -94,10 +94,10 @@ gboolean        eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow 
 gboolean	eab_editor_confirm_delete    (GtkWindow *parent, gboolean plural, gboolean is_list, gchar *name);
 
 /* these four generate EABEditor signals */
-void 		eab_editor_contact_added     (EABEditor *editor, EBookStatus status, EContact *contact);
-void 		eab_editor_contact_modified  (EABEditor *editor, EBookStatus status, EContact *contact);
-void 		eab_editor_contact_deleted   (EABEditor *editor, EBookStatus status, EContact *contact);
-void 		eab_editor_closed            (EABEditor *editor);
+void		eab_editor_contact_added     (EABEditor *editor, EBookStatus status, EContact *contact);
+void		eab_editor_contact_modified  (EABEditor *editor, EBookStatus status, EContact *contact);
+void		eab_editor_contact_deleted   (EABEditor *editor, EBookStatus status, EContact *contact);
+void		eab_editor_closed            (EABEditor *editor);
 
 /* these maintain the global list of editors so we can prompt the user
    if there are unsaved changes when they exit. */

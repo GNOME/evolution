@@ -949,7 +949,7 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 
 	/* Set up the table */
 	delegates->model = gtk_list_store_new (1, G_TYPE_STRING);
- 	delegates->table = glade_xml_get_widget (delegates->xml, "delegates_table");
+	delegates->table = glade_xml_get_widget (delegates->xml, "delegates_table");
 	column = gtk_tree_view_column_new_with_attributes (
 		_("Name"), gtk_cell_renderer_text_new (), "text", 0, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (delegates->table),

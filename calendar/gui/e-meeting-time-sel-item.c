@@ -726,7 +726,7 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 {
 	EMeetingTimeSelector *mts;
 	EMeetingAttendee *ia;
- 	const GArray *busy_periods;
+	const GArray *busy_periods;
 	EMeetingFreeBusyPeriod *period;
 	GdkGC *gc;
 	gint period_num, x1, x2, x2_within_day, x2_within_col;

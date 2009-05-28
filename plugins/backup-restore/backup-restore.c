@@ -138,10 +138,10 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
 
-/* 	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution backup file"), GTK_WINDOW (target->target.widget),  */
-/* 					   GTK_FILE_CHOOSER_ACTION_SAVE,  */
-/* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
-/* 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL); */
+/*	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution backup file"), GTK_WINDOW (target->target.widget),  */
+/*					   GTK_FILE_CHOOSER_ACTION_SAVE,  */
+/*					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
+/*					   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL); */
 
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dlg), "evolution-backup.tar.gz");
 
@@ -190,10 +190,10 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 
 	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
 
-/* 	dlg = gtk_file_chooser_dialog_new (_("Select Evolution backup file to restore"), GTK_WINDOW (target->target.widget),  */
-/* 					   GTK_FILE_CHOOSER_ACTION_OPEN,  */
-/* 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
-/* 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL); */
+/*	dlg = gtk_file_chooser_dialog_new (_("Select Evolution backup file to restore"), GTK_WINDOW (target->target.widget),  */
+/*					   GTK_FILE_CHOOSER_ACTION_OPEN,  */
+/*					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
+/*					   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL); */
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);

@@ -15,7 +15,7 @@
  *
  * Authors:
  *		Shreyas Srinivasan <sshreyas@novell.com>
- *  	Sankar P <psankar@novell.com>
+ *	Sankar P <psankar@novell.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -230,7 +230,7 @@ proxy_dialog_get_type (void)
       sizeof (proxyDialog),
      0,      /* n_preallocs */
      (GInstanceInitFunc) proxy_dialog_init,
- 	NULL    /* instance_init */
+	NULL    /* instance_init */
     };
 
     type = g_type_register_static (G_TYPE_OBJECT,
@@ -551,7 +551,7 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 		/* Handle case where the structure is new and deleted*/
 		if ( !((aclInstance->flags & E_GW_PROXY_NEW) && (aclInstance->flags & E_GW_PROXY_DELETED))) {
 
-			if ( !E_IS_GW_CONNECTION(prd->cnc)) 	/* Add check in case the connection request fails*/
+			if ( !E_IS_GW_CONNECTION(prd->cnc))	/* Add check in case the connection request fails*/
 				prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
 			if (aclInstance->flags & E_GW_PROXY_NEW )
@@ -599,7 +599,7 @@ static void
 proxy_update_tree_view (EAccount *account)
 {
 	proxyDialog *prd = NULL;
-    	GtkTreeIter iter;
+	GtkTreeIter iter;
 	GdkPixbuf *broken_image = NULL;
 	GList *list_iter;
 	proxyHandler *aclInstance;
@@ -614,7 +614,7 @@ proxy_update_tree_view (EAccount *account)
 	list_iter = priv->proxy_list;
 
 	for (;list_iter; list_iter = g_list_next(list_iter)) {
-	        aclInstance = (proxyHandler *) list_iter->data;
+		aclInstance = (proxyHandler *) list_iter->data;
 
 		if(! (aclInstance->flags & E_GW_PROXY_DELETED )) {
 			gtk_tree_store_append (priv->store, &iter, NULL);
@@ -622,7 +622,7 @@ proxy_update_tree_view (EAccount *account)
 		}
 	}
 
-   	g_free (file_name);
+	g_free (file_name);
 	if (broken_image)
 		g_object_unref (broken_image);
 
@@ -835,7 +835,7 @@ proxy_get_item_from_list (EAccount *account, gchar *account_name)
 	list_iter = priv->proxy_list;
 
 	for (;list_iter; list_iter = g_list_next(list_iter)) {
-	        iter = (proxyHandler *) list_iter->data;
+		iter = (proxyHandler *) list_iter->data;
 
 		if ( g_str_equal (iter->proxy_email,account_name))
 			return iter;

@@ -269,7 +269,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	if (p)
 		*p = 0;
 
- 	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
+	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
 	if (component_info == NULL) {
 		show = TRUE;
 		component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, schema);
@@ -855,7 +855,7 @@ e_shell_attempt_upgrade (EShell *shell)
 check_old:
 	/* if the last upgraded version was old, check for stuff to remove */
 	if (done_upgrade
-	    || 	(last_version = gconf_client_get_string (gconf_client, "/apps/evolution/last_version", NULL)) == NULL
+	    ||	(last_version = gconf_client_get_string (gconf_client, "/apps/evolution/last_version", NULL)) == NULL
 	    ||  sscanf(last_version, "%d.%d.%d", &lmajor, &lminor, &lrevision) != 3) {
 		lmajor = major;
 		lminor = minor;

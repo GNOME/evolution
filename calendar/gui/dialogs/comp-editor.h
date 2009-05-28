@@ -147,7 +147,7 @@ GtkAction *	comp_editor_get_action		(CompEditor *editor,
 						 const gchar *action_name);
 GtkActionGroup *
 		comp_editor_get_action_group	(CompEditor *editor,
-                                            	 const gchar *group_name);
+						 const gchar *group_name);
 GtkWidget *	comp_editor_get_managed_widget	(CompEditor *editor,
 						 const gchar *widget_path);
 

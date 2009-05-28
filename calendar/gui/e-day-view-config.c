@@ -353,7 +353,7 @@ set_show_event_end (EDayView *day_view)
 {
 	gboolean show_event_end;
 
- 	show_event_end = calendar_config_get_show_event_end ();
+	show_event_end = calendar_config_get_show_event_end ();
 
 	e_day_view_set_show_event_end_times (day_view, show_event_end);
 }

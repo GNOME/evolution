@@ -93,8 +93,8 @@ struct _GnomeCalendarClass {
 	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
 	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
 	void (* memopad_focus_change)   (GnomeCalendar *gcal, gboolean in);
- 	void (* change_view) (GnomeCalendar *gcal,
- 			       GnomeCalendarViewType view_type);
+	void (* change_view) (GnomeCalendar *gcal,
+			       GnomeCalendarViewType view_type);
 
         void (* source_added)           (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
         void (* source_removed)         (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
@@ -104,7 +104,7 @@ struct _GnomeCalendarClass {
 };
 
 
-GType      gnome_calendar_get_type         	(void);
+GType      gnome_calendar_get_type		(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
 GtkWidget *gnome_calendar_new			(void);
@@ -120,11 +120,11 @@ gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ECalSourceType s
 gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, ECalSourceType source_type, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
 
-void       gnome_calendar_next             	(GnomeCalendar *gcal);
-void       gnome_calendar_previous         	(GnomeCalendar *gcal);
-void       gnome_calendar_goto             	(GnomeCalendar *gcal,
+void       gnome_calendar_next		(GnomeCalendar *gcal);
+void       gnome_calendar_previous		(GnomeCalendar *gcal);
+void       gnome_calendar_goto		(GnomeCalendar *gcal,
 						 time_t new_time);
-void       gnome_calendar_dayjump          	(GnomeCalendar *gcal,
+void       gnome_calendar_dayjump		(GnomeCalendar *gcal,
 						 time_t time);
 /* Jumps to the current day */
 void       gnome_calendar_goto_today            (GnomeCalendar *gcal);

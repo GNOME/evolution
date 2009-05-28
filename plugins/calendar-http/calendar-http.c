@@ -80,7 +80,7 @@ url_changed (GtkEntry *entry, ESource *source)
 		gpointer secure_checkbox;
 
 		secure_checkbox = g_object_get_data (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
-		                                     "secure_checkbox");
+						     "secure_checkbox");
 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (secure_checkbox), TRUE);
 	}

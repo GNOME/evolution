@@ -329,7 +329,7 @@ e_cell_toggle_class_init (ECellToggleClass *klass)
 	ecc->max_width  = etog_max_width;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
-					         E_CELL_TOGGLE_TYPE,
+						 E_CELL_TOGGLE_TYPE,
                                                 gal_a11y_e_cell_toggle_new);
 }
 

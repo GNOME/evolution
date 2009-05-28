@@ -434,7 +434,7 @@ init_junk_tree (GtkTreeView *jh_tree, EMMailerPrefs *prefs)
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (jh_tree), GTK_TREE_MODEL (store));
- 	g_object_unref (store);
+	g_object_unref (store);
 
 	renderer = gtk_cell_renderer_text_new ();
 	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (jh_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
@@ -446,7 +446,7 @@ init_junk_tree (GtkTreeView *jh_tree, EMMailerPrefs *prefs)
 
 	jh_tree_refill (prefs);
 
- 	return TRUE;
+	return TRUE;
 }
 
 static gboolean
@@ -461,7 +461,7 @@ init_label_tree (GtkWidget *label_tree, EMMailerPrefs *prefs, gboolean locked)
 
 	store = gtk_list_store_new (3, GDK_TYPE_COLOR, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
- 	g_object_unref (store);
+	g_object_unref (store);
 
 	renderer = e_cell_renderer_color_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Color"), renderer, "color", LABEL_LIST_COLUMN_COLOR, NULL);

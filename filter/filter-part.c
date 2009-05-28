@@ -128,7 +128,7 @@ filter_part_validate (FilterPart *fp)
 	while (l && correct) {
 		FilterElement *fe = l->data;
 
-	        correct = filter_element_validate (fe);
+		correct = filter_element_validate (fe);
 
 		l = l->next;
 	}

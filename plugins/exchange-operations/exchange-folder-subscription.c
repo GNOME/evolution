@@ -219,8 +219,8 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 			}
 
 			/* It would be nice to insensitivize the OK button appropriately
-		   	instead of doing this, but unfortunately we can't do this for the
-		   	Bonobo control.  */
+			instead of doing this, but unfortunately we can't do this for the
+			Bonobo control.  */
 			e_error_run (GTK_WINDOW (dialog), ERROR_DOMAIN ":select-user", NULL);
 		}
 

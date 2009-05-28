@@ -1351,7 +1351,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		max_font_size = ((top - bottom) / pdi.rows) - 4;
 	else
 		max_font_size = ((bottom - top ) / pdi.rows) - 4;
- 	font_size = MIN(DAY_NORMAL_FONT_SIZE, max_font_size);
+	font_size = MIN(DAY_NORMAL_FONT_SIZE, max_font_size);
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 
 	for (i = 0; i < pdi.events[0]->len; i++) {
@@ -1697,13 +1697,13 @@ print_week_summary_cb (ECalComponent *comp,
 		       gpointer	  data)
 
 {
- 	icaltimezone *zone = calendar_config_get_icaltimezone ();
- 	EWeekViewEvent event;
- 	struct icaltimetype start_tt, end_tt;
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	EWeekViewEvent event;
+	struct icaltimetype start_tt, end_tt;
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
- 	struct psinfo *psi = (struct psinfo *) mdata->cb_data;
+	struct psinfo *psi = (struct psinfo *) mdata->cb_data;
 
- 	/* Check that the event times are valid. */
+	/* Check that the event times are valid. */
 
 #if 0
 	g_print ("View start:%li end:%li  Event start:%li end:%li\n",
@@ -1711,12 +1711,12 @@ print_week_summary_cb (ECalComponent *comp,
 		 start, end);
 #endif
 
- 	g_return_val_if_fail (start <= end, TRUE);
- 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
- 	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
+	g_return_val_if_fail (start <= end, TRUE);
+	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
+	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
 
- 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
- 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp_data = e_cal_model_copy_component_data (mdata->comp_data);
 

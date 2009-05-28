@@ -1737,10 +1737,10 @@ static void delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer clos
 		case E_BOOK_ERROR_OK :
 		case E_BOOK_ERROR_CANCELLED :
 			break;
-	 	case E_BOOK_ERROR_PERMISSION_DENIED :
-                	e_error_run (NULL, "addressbook:contact-delete-error-perm", NULL);
+		case E_BOOK_ERROR_PERMISSION_DENIED :
+			e_error_run (NULL, "addressbook:contact-delete-error-perm", NULL);
 			break;
-	  	default :
+		default :
 			/* Unknown error */
 			eab_error_dialog (_("Failed to delete contact"), status);
 			break;
@@ -1955,7 +1955,7 @@ eab_view_save_as (EABView *view, gboolean all)
 	if (all) {
 		EBookQuery *query = e_book_query_any_field_contains("");
 		e_book_get_contacts(book, query, &list, NULL);
-	        e_book_query_unref(query);
+		e_book_query_unref(query);
 	}
 	else {
 		list = get_selected_contacts(view);
@@ -2082,7 +2082,7 @@ view_transfer_contacts (EABView *view, gboolean delete_from_source, gboolean all
 	if (all) {
 		EBookQuery *query = e_book_query_any_field_contains("");
 		e_book_get_contacts(book, query, &contacts, NULL);
-	        e_book_query_unref(query);
+		e_book_query_unref(query);
 	}
 	else {
 		contacts = get_selected_contacts (view);

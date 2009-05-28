@@ -717,7 +717,7 @@ static void
 setup_toolbar_button (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
- 	GConfClient *gconf = gconf_client_get_default ();
+	GConfClient *gconf = gconf_client_get_default ();
 	gchar *val;
 
 	priv = handler->priv;

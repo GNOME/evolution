@@ -75,14 +75,14 @@ static void reply_with_template	(EPopup *ep, EPopupItem *item, gpointer data);
 static void popup_free		(EPopup *ep, GSList *l, gpointer data);
 
 static GSList *fill_submenu	(CamelStore *store,
-                             	CamelFolderInfo *info,
-                              	GSList *list,
-                              	EMPopupTargetSelect *t);
+				CamelFolderInfo *info,
+				GSList *list,
+				EMPopupTargetSelect *t);
 
-static GSList *append_to_menu 	(CamelFolder *folder,
-                             	GPtrArray *uids,
-                             	GSList *list,
-                             	EMPopupTargetSelect *t);
+static GSList *append_to_menu	(CamelFolder *folder,
+				GPtrArray *uids,
+				GSList *list,
+				EMPopupTargetSelect *t);
 
 void org_gnome_templates_popup	(EPlugin *ep, EMPopupTargetSelect *t);
 
@@ -709,7 +709,7 @@ static GtkActionEntry entries[] = {
 	{ "Template",
 	  GTK_STOCK_SAVE,
 	  N_("Save as _Template"),
-  	  "<Shift><Control>t",
+	  "<Shift><Control>t",
 	  N_("Save as Template"),
 	  G_CALLBACK (action_template_cb) }
 };

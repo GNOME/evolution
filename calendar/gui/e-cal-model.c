@@ -180,7 +180,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
 			      NULL, NULL,
-	                      e_marshal_VOID__STRING_INT_INT,
+			      e_marshal_VOID__STRING_INT_INT,
 			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
 	signals[CAL_VIEW_DONE] =
 		g_signal_new ("cal_view_done",
@@ -1534,7 +1534,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
- 		}
+		}
 
 		e_cal_component_free_id (id);
 		g_object_unref (comp);
@@ -1701,7 +1701,7 @@ e_cal_view_progress_cb (ECalView *query, const gchar *message, gint percent, gpo
 static void
 e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
 {
- 	ECalModel *model = (ECalModel *) user_data;
+	ECalModel *model = (ECalModel *) user_data;
 	ECal *client = e_cal_view_get_client (query);
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
@@ -2164,7 +2164,7 @@ e_cal_model_create_component_with_defaults (ECalModel *model)
 		comp = cal_comp_task_new_with_defaults (client);
 		break;
 	case ICAL_VJOURNAL_COMPONENT :
-	        comp = cal_comp_memo_new_with_defaults (client);
+		comp = cal_comp_memo_new_with_defaults (client);
 		break;
 	default:
 		return NULL;

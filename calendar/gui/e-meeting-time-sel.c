@@ -64,7 +64,7 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 };
 
 /* The number of days shown in the entire canvas. */
-#define E_MEETING_TIME_SELECTOR_DAYS_SHOWN	   	35
+#define E_MEETING_TIME_SELECTOR_DAYS_SHOWN		35
 #define E_MEETING_TIME_SELECTOR_DAYS_START_BEFORE	7
 #define E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE          7
 #define E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER           28

@@ -530,7 +530,7 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 gboolean   e_day_view_get_show_marcus_bains	(EDayView	*day_view);
 void       e_day_view_set_marcus_bains		(EDayView       *day_view,
 						 gboolean        show_line,
-						 const gchar 	*dayview_color,
+						 const gchar	*dayview_color,
 						 const gchar     *timebar_color);
 
 /* Whether we display event end times in the main canvas. */
@@ -604,9 +604,9 @@ gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
 
 gboolean e_day_view_find_event_from_item (EDayView *day_view,
- 					  GnomeCanvasItem *item,
- 					  gint *day_return,
- 					  gint *event_num_return);
+					  GnomeCanvasItem *item,
+					  gint *day_return,
+					  gint *event_num_return);
 void e_day_view_update_calendar_selection_time (EDayView *day_view);
 void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,

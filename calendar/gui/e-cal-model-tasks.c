@@ -136,7 +136,7 @@ ensure_task_complete (ECalModelComponent *comp_data, time_t completed_date)
 	if (completed_date == -1) {
 		if (prop)
 			set_completed = FALSE;
-	        else
+		else
 			completed_date = time (NULL);
 	}
 

@@ -609,7 +609,7 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 			pango_font_description_set_size (desc, fixed_size);
 		else
 			pango_font_description_set_absolute_size (desc, fixed_size);
-/*  		pango_font_description_set_style (desc, PANGO_STYLE_OBLIQUE); */
+/*		pango_font_description_set_style (desc, PANGO_STYLE_OBLIQUE); */
 		pango_layout_set_font_description (layout, desc);
 		pango_font_description_free (desc);
 		pango_font_description_free (fixed_desc);
@@ -870,7 +870,7 @@ ect_get_bg_color(ECellView *ecell_view, gint row)
 		return NULL;
 
 	color_spec = e_table_model_value_at (ecell_view->e_table_model,
-	                                     ect->bg_color_column, row);
+					     ect->bg_color_column, row);
 
 	return color_spec;
 }
@@ -985,7 +985,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 			if (preedit_len && flags & E_CELL_PREEDIT)
 				return 0;
 			else
-		 		return 1;
+				return 1;
 		}
 
 		if (event->key.keyval == GDK_Escape){
@@ -1362,7 +1362,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 	pango_context = gtk_widget_get_pango_context (canvas);
 	font_metrics = pango_context_get_metrics (pango_context,
-	               canvas->style->font_desc, pango_context_get_language(pango_context));
+		       canvas->style->font_desc, pango_context_get_language(pango_context));
 	ty =  (double)(text_height
 		       - pango_font_metrics_get_ascent (font_metrics)
 		       - pango_font_metrics_get_descent (font_metrics)) / 2.0 /(double)PANGO_SCALE;
@@ -1402,7 +1402,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 		}
 			cairo_set_line_width (cr,(double)pango_font_metrics_get_strikethrough_thickness (font_metrics)/(double)PANGO_SCALE);
 
-		        cairo_stroke (cr);
+			cairo_stroke (cr);
 	}
 
 	cairo_move_to(cr, 2, text_height- 5);
@@ -1592,7 +1592,7 @@ ect_show_tooltip (ECellView *ecell_view,
 					      "clip_height", (double) height,
 					      "clip", TRUE,
 					      "line_wrap", FALSE,
-  					      "justification", E_CELL_TEXT (text_view->cell_view.ecell)->justify,
+					      "justification", E_CELL_TEXT (text_view->cell_view.ecell)->justify,
 					      "draw_background", FALSE,
 					      NULL);
 
@@ -1755,7 +1755,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
 	ecc->save_state = ect_save_state;
- 	ecc->load_state = ect_load_state;
+	ecc->load_state = ect_load_state;
 	ecc->free_state = ect_free_state;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
@@ -1978,7 +1978,7 @@ e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
 
 	text_len = g_utf8_strlen (edit->text, -1);
 	begin_pos = g_utf8_pointer_to_offset (edit->text,
-			                      edit->text + MIN (edit->selection_start, edit->selection_end));
+					      edit->text + MIN (edit->selection_start, edit->selection_end));
 	begin_pos += offset;
 	end_pos = begin_pos + n_chars;
 	if(begin_pos < 0 || text_len < begin_pos)
@@ -1986,9 +1986,9 @@ e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
 	if(end_pos > text_len)
 		end_pos = text_len;
 	edit->selection_start = g_utf8_offset_to_pointer (edit->text, begin_pos)
-		                - edit->text;
+				- edit->text;
 	edit->selection_end = g_utf8_offset_to_pointer (edit->text, end_pos)
-		              - edit->text;
+			      - edit->text;
 
 	_delete_selection (tv);
 

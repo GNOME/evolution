@@ -945,7 +945,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 
 	gtk_tree_view_insert_column_with_attributes (
 		view, -1, _("Language(s)"),
-     		gtk_cell_renderer_text_new (),
+		gtk_cell_renderer_text_new (),
 		"text", 1, NULL);
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);

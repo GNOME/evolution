@@ -1214,7 +1214,7 @@ get_signature_html (EMsgComposer *composer)
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD><BR>"
 					"%s%s%s%s"
 					"%s</TD></TR></TABLE>",
-				        encoded_uid ? encoded_uid : "",
+					encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || !add_delim || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
 					text,
@@ -1650,7 +1650,7 @@ msg_composer_map (GtkWidget *widget)
 
 static gint
 msg_composer_delete_event (GtkWidget *widget,
-	                   GdkEventAny *event)
+			   GdkEventAny *event)
 {
 	/* This is needed for the ACTION macro. */
 	EMsgComposer *composer = E_MSG_COMPOSER (widget);

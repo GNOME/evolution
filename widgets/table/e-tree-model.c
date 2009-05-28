@@ -180,7 +180,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 
 	klass->has_change_pending    = NULL;
 
-	klass->sort_value_at 	  = NULL;
+	klass->sort_value_at	  = NULL;
 	klass->value_at              = NULL;
 	klass->set_value_at          = NULL;
 	klass->is_editable           = NULL;
@@ -193,7 +193,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 
 	klass->pre_change            = NULL;
 	klass->no_change             = NULL;
-	klass->rebuilt	             = NULL;
+	klass->rebuilt		     = NULL;
 	klass->node_changed          = NULL;
 	klass->node_data_changed     = NULL;
 	klass->node_col_changed      = NULL;

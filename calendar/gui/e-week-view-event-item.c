@@ -179,7 +179,7 @@ static void
 e_week_view_event_item_update (GnomeCanvasItem *item,
 			       double	       *affine,
 			       ArtSVP	       *clip_path,
-			       int	        flags)
+			       int		flags)
 {
 	EWeekViewEventItem *wveitem;
 	EWeekView *week_view;

@@ -31,7 +31,7 @@
 #define E_TYPE_CAL_COMPONENT_MEMO_PREVIEW            (e_cal_component_memo_preview_get_type ())
 #define E_CAL_COMPONENT_MEMO_PREVIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_COMPONENT_MEMO_PREVIEW, ECalComponentMemoPreview))
 #define E_CAL_COMPONENT_MEMO_PREVIEW_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), E_TYPE_CAL_COMPONENT_MEMO_PREVIEW, \
-				                 ECalComponentMemoPreviewClass))
+						 ECalComponentMemoPreviewClass))
 #define E_IS_CAL_COMPONENT_MEMO_PREVIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_COMPONENT_MEMO_PREVIEW))
 #define E_IS_CAL_COMPONENT_MEMO_PREVIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_COMPONENT_MEMO_PREVIEW))
 
