@@ -227,43 +227,47 @@ bbdb_do_thread (const gchar *name, const gchar *email)
 	G_UNLOCK (todo);
 }
 
+static void
+walk_destinations_and_free (EDestination **dests)
+{
+	gint i;
+
+	if (!dests)
+		return;
+
+	for (i = 0; dests[i] != NULL; i++) {
+		const char *name, *addr;
+
+		name = e_destination_get_name (dests[i]);
+		addr = e_destination_get_email (dests[i]);
+
+		if (name || addr)
+			bbdb_do_thread (name, addr);
+	}
+
+	e_destination_freev (dests);
+}
+
 void
 bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 {
+	EComposerHeaderTable *table;
 	GConfClient *gconf;
-	CamelMimeMessage *message = NULL;
-	const CamelInternetAddress *to, *cc;
-	gint i, len, enable;
-	gconf = gconf_client_get_default ();
+	gboolean enable;
 
+	gconf = gconf_client_get_default ();
 	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
-	g_object_unref (G_OBJECT (gconf));
+	g_object_unref (gconf);
 
 	if (!enable)
 		return;
 
-	message = e_msg_composer_get_message(target->composer, 1);
+	table = e_msg_composer_get_header_table (target->composer);
+	g_return_if_fail (table);
 
-	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-
-	len = CAMEL_ADDRESS (to)->addresses->len;
-        for (i = 0; i < len; i++) {
-                const gchar *name, *addr;
-                if (!(camel_internet_address_get (to, i, &name, &addr)))
-			continue;
-		bbdb_do_thread (name, addr);
-        }
-
-
-	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-
-	len = CAMEL_ADDRESS (cc)->addresses->len;
-        for (i = 0; i < len; i++) {
-                const gchar *name, *addr;
-                if (!(camel_internet_address_get (cc, i, &name, &addr)))
-			continue;
-		bbdb_do_thread (name, addr);
-        }
+	/* read information from the composer, not from a generated message */
+	walk_destinations_and_free (e_composer_header_table_get_destinations_to (table));
+	walk_destinations_and_free (e_composer_header_table_get_destinations_cc (table));
 }
 
 static void
