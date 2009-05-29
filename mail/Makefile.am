@@ -30,9 +30,8 @@ INCLUDES =						\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
-component_LTLIBRARIES = libevolution-mail-shared.la \
-			libevolution-mail.la
-
+privsolib_LTLIBRARIES = libevolution-mail-shared.la
+component_LTLIBRARIES = libevolution-mail.la
 
 # Mail.idl
 MAIL_IDL = Evolution-Mail.idl
@@ -147,7 +146,6 @@ SMIME_LIBS = 				\
 	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/mail/libevolution-mail-shared.la	\
 	$(top_builddir)/e-util/libeutil.la			\
@@ -171,11 +169,11 @@ libevolution_mail_la_LIBADD =					\
 libevolution_mail_la_LDFLAGS = 			\
 	-avoid-version -module $(NO_UNDEFINED)
 
-libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
+libevolution_mail_la_DEPENDENCIES =		\
+	em-filter-i18n.h			\
+	libevolution-mail-shared.la
 
-# .server files
-
-libevolution_mail_shared_la_SOURCES =			\
+libevolution_mail_shared_la_SOURCES =		\
 	em-account-editor.c			\
 	em-account-editor.h			\
 	em-event.c				\
@@ -237,12 +235,7 @@ libevolution_mail_shared_la_SOURCES =			\
 	message-tag-followup.c			\
 	message-tag-followup.h
 
-
-
-
-
-
-libevolution_mail_shared_la_LIBADD =					\
+libevolution_mail_shared_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/composer/libcomposer.la			\
@@ -251,10 +244,29 @@ libevolution_mail_shared_la_LIBADD =					\
 	$(SMIME_LIBS)						\
 	$(THREADS_LIBS)
 
-libevolution_mail_shared_la_LDFLAGS = 			\
-	-avoid-version -module $(NO_UNDEFINED)
+libevolution_mail_shared_la_LDFLAGS = $(NO_UNDEFINED)
 
+# --- BIG NASTY AUTOMAKE HACK ---
+#
+# Automake apparently sorts Makefile.am rules alphabetically.  And
+# since component_LTLIBRARIES < privsolib_LTLIBRARIES, it tries to
+# install libevolution-mail.la before libevolution-mail-shared.la,
+# which fails when libtool tries to relink libevolution-mail.la
+# against the not-yet-installed libevolution-mail-shared.la.
+install-data-am:				\
+	install-privsolibLTLIBRARIES		\
+	install-componentLTLIBRARIES		\
+	install-data-local			\
+	install-errorDATA			\
+	install-etspecDATA			\
+	install-filterDATA			\
+	install-gladeDATA			\
+	install-idlDATA				\
+	install-mailincludeHEADERS		\
+	install-schemaDATA			\
+	install-serverDATA
 
+# .server files
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
