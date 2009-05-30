@@ -70,19 +70,6 @@ struct _EMFolderTreeModelPrivate {
 	gpointer shell_backend;  /* weak pointer */
 };
 
-static GType col_types[] = {
-	G_TYPE_STRING,   /* display name */
-	G_TYPE_POINTER,  /* store object */
-	G_TYPE_STRING,   /* full name */
-	G_TYPE_STRING,   /* icon name */
-	G_TYPE_STRING,   /* uri */
-	G_TYPE_UINT,     /* unread count */
-	G_TYPE_UINT,     /* flags */
-	G_TYPE_BOOLEAN,  /* is a store node */
-	G_TYPE_BOOLEAN,  /* is a folder node */
-	G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
-};
-
 static void account_changed (EAccountList *accounts, EAccount *account, gpointer user_data);
 static void account_removed (EAccountList *accounts, EAccount *account, gpointer user_data);
 
@@ -364,6 +351,20 @@ folder_tree_model_init (EMFolderTreeModel *model)
 {
 	GHashTable *store_hash;
 	GHashTable *uri_hash;
+
+	GType col_types[] = {
+		G_TYPE_STRING,   /* display name */
+		G_TYPE_POINTER,  /* store object */
+		G_TYPE_STRING,   /* full name */
+		G_TYPE_STRING,   /* icon name */
+		G_TYPE_STRING,   /* uri */
+		G_TYPE_UINT,     /* unread count */
+		G_TYPE_UINT,     /* flags */
+		G_TYPE_BOOLEAN,  /* is a store node */
+		G_TYPE_BOOLEAN,  /* is a folder node */
+		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
+		G_TYPE_UINT      /* last known unread count */
+	};
 
 	store_hash = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
@@ -668,10 +669,13 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		COL_BOOL_IS_STORE, FALSE,
 		COL_BOOL_IS_FOLDER, TRUE,
 		COL_BOOL_LOAD_SUBDIRS, load,
+		COL_UINT_UNREAD_LAST_SEL, 0,
 		-1);
 
 	if (unread != ~0)
-		gtk_tree_store_set (tree_store, iter, COL_UINT_UNREAD, unread, -1);
+		gtk_tree_store_set (
+			tree_store, iter, COL_UINT_UNREAD, unread,
+			COL_UINT_UNREAD_LAST_SEL, unread, -1);
 
 	if (load) {
 		/* create a placeholder node for our subfolders... */
@@ -687,6 +691,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			COL_BOOL_IS_FOLDER, FALSE,
 			COL_STRING_URI, NULL,
 			COL_UINT_UNREAD, 0,
+			COL_UINT_UNREAD_LAST_SEL, 0,
 			-1);
 
 		path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
@@ -994,6 +999,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_STRING_URI, NULL,
 			    COL_UINT_UNREAD, 0,
+			    COL_UINT_UNREAD_LAST_SEL, 0,
 			    -1);
 
 	g_free (uri);
@@ -1448,6 +1454,8 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	GtkTreeRowReference *row;
 	GtkTreePath *tree_path;
 	GtkTreeIter iter;
+	guint old_unread = 0;
+	gchar *uri, *sel_uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1476,7 +1484,20 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 
 	gtk_tree_path_free (tree_path);
 
-	gtk_tree_store_set ((GtkTreeStore *) model, &iter, COL_UINT_UNREAD, unread, -1);
+	sel_uri = em_folder_tree_model_get_selected (model);
+	gtk_tree_model_get (
+		GTK_TREE_MODEL (model), &iter,
+		COL_UINT_UNREAD_LAST_SEL, &old_unread,
+		COL_STRING_URI, &uri, -1);
+	if (!(g_strcmp0 (sel_uri, uri) != 0 && unread > old_unread))
+		old_unread = unread;
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COL_UINT_UNREAD, unread,
+		COL_UINT_UNREAD_LAST_SEL, old_unread, -1);
+
+	g_free (uri);
+	g_free (sel_uri);
 
 	/* May be this is from where we should propagate unread count to parents etc. */
 	emft_model_unread_count_changed (GTK_TREE_MODEL (model), &iter);

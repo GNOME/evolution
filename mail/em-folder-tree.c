@@ -412,6 +412,49 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	g_free (display);
 }
 
+static void
+render_icon (GtkTreeViewColumn *column,
+             GtkCellRenderer *renderer,
+             GtkTreeModel *model,
+             GtkTreeIter *iter)
+{
+	GIcon *icon;
+	guint unread;
+	guint old_unread;
+	gchar *icon_name;
+
+	gtk_tree_model_get (
+		model, iter,
+		COL_STRING_ICON_NAME, &icon_name,
+		COL_UINT_UNREAD_LAST_SEL, &old_unread,
+		COL_UINT_UNREAD, &unread, -1);
+
+	if (icon_name == NULL)
+		return;
+
+	icon = g_themed_icon_new (icon_name);
+
+	/* Show an emblem if there's new mail. */
+	if (unread > old_unread) {
+		GIcon *temp_icon;
+		GEmblem *emblem;
+
+		temp_icon = g_themed_icon_new ("emblem-new");
+		emblem = g_emblem_new (temp_icon);
+		g_object_unref (temp_icon);
+
+		temp_icon = g_emblemed_icon_new (icon, emblem);
+		g_object_unref (emblem);
+		g_object_unref (icon);
+
+		icon = temp_icon;
+	}
+
+	g_object_set (renderer, "gicon", icon, NULL);
+
+	g_object_unref (icon);
+}
+
 static gboolean
 emft_select_func(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean selected, gpointer data)
 {
@@ -462,9 +505,10 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute (
-		column, renderer, "icon-name", COL_STRING_ICON_NAME);
-	gtk_tree_view_column_add_attribute (
 		column, renderer, "visible", COL_BOOL_IS_FOLDER);
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, (GtkTreeCellDataFunc)
+		render_icon, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/no_folder_dots", NULL))
@@ -2031,6 +2075,8 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	guint32 flags;
+	guint unread = 0;
+	guint old_unread = 0;
 
 	if (!emft_selection_get_selected (selection, &model, &iter)) {
 		em_folder_tree_model_set_selected (emft->priv->model, NULL);
@@ -2039,8 +2085,18 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 		return;
 	}
 
-	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &full_name,
-			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
+	gtk_tree_model_get (
+		model, &iter,
+		COL_STRING_FULL_NAME, &full_name,
+		COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags,
+		COL_UINT_UNREAD, &unread, COL_UINT_UNREAD_LAST_SEL,
+		&old_unread, -1);
+
+	/* Sync unread counts to distinguish new incoming mail. */
+	if (unread != old_unread)
+		gtk_tree_store_set (
+			GTK_TREE_STORE (model), &iter,
+			COL_UINT_UNREAD_LAST_SEL, unread, -1);
 
 	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
 	g_free(uri);
