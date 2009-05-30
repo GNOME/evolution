@@ -61,6 +61,7 @@ enum {
 	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
 				   * has subfolders which have not yet
 				   * been added to the tree */
+	COL_UINT_UNREAD_LAST_SEL, /* last known unread count */
 	NUM_COLUMNS
 };
 
