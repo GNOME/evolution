@@ -19627,7 +19627,7 @@ msgstr "_Bővítmények"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
-msgstr "Szerző(k)"
+msgstr "Szerzők"
 
 #: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
