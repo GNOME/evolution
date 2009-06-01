@@ -1831,9 +1831,12 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 		gint fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
 
 		do {
-			em_folder_tree_model_set_folder_info (priv->model, &iter, si, fi, fully_loaded);
+			gboolean known = g_hash_table_lookup (si->full_hash, fi->full_name) != NULL;
 
-			if ((fi = fi->next) != NULL)
+			if (!known)
+				em_folder_tree_model_set_folder_info (priv->model, &iter, si, fi, fully_loaded);
+
+			if ((fi = fi->next) != NULL && !known)
 				gtk_tree_store_append (model, &iter, &root);
 		} while (fi != NULL);
 	}
@@ -1919,8 +1922,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 		return;
 	}
 
-	/* do not set LOAD_SUBDIRS to FALSE until we are really done with loading */
-	/* gtk_tree_store_set ((GtkTreeStore *)model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1); */
+	gtk_tree_store_set ((GtkTreeStore *)model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
 
 	m = mail_msg_new (&get_folder_info_info);
 	m->root = gtk_tree_row_reference_new (model, tree_path);
