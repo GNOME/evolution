@@ -295,7 +295,7 @@ rule_context_load(RuleContext *rc, const gchar *system, const gchar *user)
 	return res;
 }
 
-static int
+static gint
 load(RuleContext *rc, const gchar *system, const gchar *user)
 {
 	xmlNodePtr set, rule, root;
@@ -422,7 +422,7 @@ rule_context_save(RuleContext *rc, const gchar *user)
 	return RULE_CONTEXT_GET_CLASS(rc)->save(rc, user);
 }
 
-static int
+static gint
 save(RuleContext *rc, const gchar *user)
 {
 	xmlDocPtr doc;
@@ -507,14 +507,14 @@ source_hashf(const gchar *a)
 	return 0;
 }
 
-static int
+static gint
 source_eqf(const gchar *a, const gchar *b)
 {
 	return((a && b && strcmp(a, b) == 0))
 		|| (a == NULL && b == NULL);
 }
 
-static int
+static gint
 revert(RuleContext *rc, const gchar *user)
 {
 	xmlNodePtr set, rule;

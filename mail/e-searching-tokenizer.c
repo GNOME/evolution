@@ -157,7 +157,7 @@ loop:
 static const gchar *ignored_tags[] = {
 	"B", "I", "FONT", "TT", "EM", /* and more? */};
 
-static int
+static gint
 ignore_tag (const gchar *tag)
 {
 	gchar *t = alloca(strlen(tag)+1), c, *out;
@@ -593,7 +593,7 @@ output_match(struct _searcher *s, guint start, guint end)
 
 	/* output highlight/bold */
 	if (s->flags & SEARCH_BOLD) {
-		sprintf(b, "%c<b>", (char)TAG_ESCAPE);
+		sprintf(b, "%c<b>", (gchar)TAG_ESCAPE);
 		append_token(&s->output, b, -1);
 	}
 	if (s->tags)
@@ -621,7 +621,7 @@ output_match(struct _searcher *s, guint start, guint end)
 
 	/* and close bold if we need to */
 	if (s->flags & SEARCH_BOLD) {
-		sprintf(b, "%c</b>", (char)TAG_ESCAPE);
+		sprintf(b, "%c</b>", (gchar)TAG_ESCAPE);
 		append_token(&s->output, b, -1);
 	}
 }
@@ -638,7 +638,7 @@ output_subpending(struct _searcher *s)
 }
 
 /* returns true if a merge took place */
-static int
+static gint
 merge_subpending(struct _searcher *s, gint offstart, gint offend)
 {
 	gint i;
@@ -831,7 +831,7 @@ searcher_peek_token(struct _searcher *s)
 	return tok;
 }
 
-static int
+static gint
 searcher_pending(struct _searcher *s)
 {
 	return !(e_dlist_empty(&s->input) && e_dlist_empty(&s->output));

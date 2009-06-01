@@ -316,7 +316,7 @@ void em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info);
 const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const gchar *mime_type);
 
 /* puri is short for pending uri ... really */
-EMFormatPURI *em_format_add_puri(EMFormat *emf, size_t size, const gchar *uri, CamelMimePart *part, EMFormatPURIFunc func);
+EMFormatPURI *em_format_add_puri(EMFormat *emf, gsize size, const gchar *uri, CamelMimePart *part, EMFormatPURIFunc func);
 EMFormatPURI *em_format_find_visible_puri(EMFormat *emf, const gchar *uri);
 EMFormatPURI *em_format_find_puri(EMFormat *emf, const gchar *uri);
 void em_format_clear_puri_tree(EMFormat *emf);

@@ -32,9 +32,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-double  e_table_header_compute_height (ETableCol *ecol,
+gdouble  e_table_header_compute_height (ETableCol *ecol,
 				       GtkWidget *widget);
-double  e_table_header_width_extras    (GtkStyle       *style);
+gdouble  e_table_header_width_extras    (GtkStyle       *style);
 void    e_table_header_draw_button     (GdkDrawable    *drawable,
 					ETableCol      *ecol,
 					GtkStyle       *style,

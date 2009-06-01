@@ -159,7 +159,7 @@ static void
 create_folder_done (struct _EMCreateFolder *m)
 {
 	struct ShareInfo *ssi = (struct ShareInfo *) m->user_data;
-	CamelStore *store = CAMEL_STORE (m->store) ;
+	CamelStore *store = CAMEL_STORE (m->store);
 	EGwConnection *ccnc;
 
 	if (m->done) {
@@ -207,7 +207,7 @@ new_folder_created_cb (struct _EMCreateFolder *m, gpointer user_data)
 	g_object_unref (emfs);
 }
 
-static int
+static gint
 create_folder (CamelStore *store, const gchar *full_name, void (* done) (struct _EMCreateFolder *m, gpointer user_data), gpointer user_data)
 {
 	gchar *name, *namebuf = NULL;
@@ -332,7 +332,7 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	g_signal_connect (users_dialog, "response", G_CALLBACK (users_dialog_response), ssi);
 
 	camel_object_unref (store);
-	return ;
+	return;
 
 }
 
@@ -355,7 +355,7 @@ org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
 
 
 	if (! g_strrstr (t->uri, "groupwise://"))
-		return ;
+		return;
 
 	/* for translation*/
 	if (!first) {
@@ -378,7 +378,7 @@ create_shared_folder(EPopup *ep, EPopupItem *p, gpointer data)
 
 	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
-	GtkWidget *dialog ;
+	GtkWidget *dialog;
 	gchar *uri;
 
 	model = mail_component_peek_tree_model (mail_component_peek ());

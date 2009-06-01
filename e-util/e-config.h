@@ -253,7 +253,7 @@ const gchar *e_config_page_prev(EConfig *ec, const gchar *pageid);
 void e_config_abort(EConfig *);
 void e_config_commit(EConfig *);
 
-gpointer e_config_target_new(EConfig *, gint type, size_t size);
+gpointer e_config_target_new(EConfig *, gint type, gsize size);
 void e_config_target_free(EConfig *, gpointer );
 
 /* ********************************************************************** */

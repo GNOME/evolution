@@ -137,7 +137,7 @@ sanitize_user_mail (const gchar *user)
 	if (!is_email (user)) {
 		return g_strconcat (user, "%40gmail.com", NULL);
 	} else {
-		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (user) + 2));
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (user) + 2));
 		gchar *at = strchr (user, '@');
 
 		strncpy (tmp, user, at - user);
@@ -183,7 +183,7 @@ is_default_uri (const gchar *given_uri, const gchar *username)
 		res = g_ascii_strcasecmp (given_uri, uri) == 0;
 	else {
 		const gchar *last;
-		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (given_uri) + (2 * ats)));
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (given_uri) + (2 * ats)));
 
 		last = given_uri;
 		for (at = strchr (last, '@'); at; at = strchr (at + 1, '@')) {

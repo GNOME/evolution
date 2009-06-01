@@ -63,7 +63,7 @@ typedef struct {
 	const gchar *delegate_name;
 	const gchar *delegate_email;
 	const gchar *delegate_address;
-} ExchangeSendOptions ;
+} ExchangeSendOptions;
 
 struct _ExchangeSendOptionsDialog {
 	GObject object;

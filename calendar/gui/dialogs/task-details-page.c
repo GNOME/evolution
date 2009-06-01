@@ -186,7 +186,7 @@ priority_value_to_index (gint priority_value)
 	return retval;
 }
 
-static int
+static gint
 priority_index_to_value (TaskEditorPriority priority)
 {
 	gint retval;

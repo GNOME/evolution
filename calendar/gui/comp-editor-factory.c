@@ -277,7 +277,7 @@ edit_existing (OpenClient *oc, const gchar *uid)
 		break;
 
 	default:
-		g_message ("edit_exiting(): Unsupported object type %d", (int) vtype);
+		g_message ("edit_exiting(): Unsupported object type %d", (gint) vtype);
 		g_object_unref (comp);
 		return;
 	}

@@ -127,14 +127,14 @@ gchar *table_data [ROWS] [COLS];
  */
 
 /* This function returns the number of columns in our ETableModel. */
-static int
+static gint
 my_col_count (ETableModel *etc, gpointer data)
 {
 	return COLS;
 }
 
 /* This function returns the number of rows in our ETableModel. */
-static int
+static gint
 my_row_count (ETableModel *etc, gpointer data)
 {
 	return ROWS;

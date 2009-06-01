@@ -223,7 +223,7 @@ void processTnef(TNEFStruct *tnef) {
     gint foundCal=0;
 
     FILE *fptr;
-    ifilename = (gchar *) g_malloc(sizeof(char) * 256);
+    ifilename = (gchar *) g_malloc(sizeof(gchar) * 256);
 
     /* First see if this requires special processing. */
     /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
@@ -940,7 +940,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         if (filename!=NULL) {
             fprintf(fptr, "UID:");
             for(index=0;index<filename->size;index++) {
-                fprintf(fptr,"%02X", (unsigned char)filename->data[index]);
+                fprintf(fptr,"%02X", (guchar)filename->data[index]);
             }
             fprintf(fptr,"\n");
         }
@@ -950,7 +950,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_LONG, 0x8201))) != MAPI_UNDEFINED) {
             ddword_ptr = (DDWORD*)filename->data;
-            fprintf(fptr, "SEQUENCE:%i\n", (int) *ddword_ptr);
+            fprintf(fptr, "SEQUENCE:%i\n", (gint) *ddword_ptr);
         }
         if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
                         PROP_TAG(PT_BINARY, PR_SENDER_SEARCH_KEY)))

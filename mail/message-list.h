@@ -234,7 +234,7 @@ void	       message_list_ensure_message (MessageList *ml, const gchar *uid);
 
 void           message_list_save_state (MessageList *ml);
 
-double         message_list_get_scrollbar_position (MessageList *ml);
+gdouble         message_list_get_scrollbar_position (MessageList *ml);
 void           message_list_set_scrollbar_position (MessageList *ml, double pos);
 
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)

@@ -213,7 +213,7 @@ void e_popup_add_static_items(EPopup *emp, EPopupTarget *target);
 struct _GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 mask);
 struct _GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 mask);
 
-gpointer e_popup_target_new(EPopup *, gint type, size_t size);
+gpointer e_popup_target_new(EPopup *, gint type, gsize size);
 void e_popup_target_free(EPopup *, gpointer );
 
 /* ********************************************************************** */

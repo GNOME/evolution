@@ -222,7 +222,7 @@ void e_menu_remove_items(EMenu *emp, gpointer handle);
 void e_menu_activate(EMenu *, struct _BonoboUIComponent *uic, gint act);
 void e_menu_update_target(EMenu *, gpointer );
 
-gpointer e_menu_target_new(EMenu *, gint type, size_t size);
+gpointer e_menu_target_new(EMenu *, gint type, gsize size);
 void e_menu_target_free(EMenu *, gpointer );
 
 /* ********************************************************************** */

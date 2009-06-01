@@ -173,7 +173,7 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_TYPE_STRING);
 }
 
-static int
+static gint
 sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
 {
 	gchar *aname, *bname;

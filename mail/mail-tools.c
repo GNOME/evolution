@@ -112,7 +112,7 @@ mail_tool_get_local_movemail_path (const guchar *uri, CamelException *ex)
 
 	safe_uri = (guchar *)g_strdup ((const gchar *)uri);
 	for (c = safe_uri; *c; c++)
-		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
+		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((gint) *c))
 			*c = '_';
 
 	path = g_strdup_printf("%s/spool", mail_component_peek_base_directory(NULL));

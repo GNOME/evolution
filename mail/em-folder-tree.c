@@ -580,7 +580,7 @@ emft_expand_node (EMFolderTreeModel *model, const gchar *key, EMFolderTree *emft
 	CamelStore *store;
 	const gchar *p;
 	gchar *uid;
-	size_t n;
+	gsize n;
 	struct _selected_uri *u;
 
 	if (!(p = strchr (key, '/')))
@@ -1340,7 +1340,7 @@ tree_autoscroll (EMFolderTree *emft)
 	GdkRectangle rect;
 	GdkWindow *window;
 	gint offset, y;
-	float value;
+	gfloat value;
 
 	/* get the y pointer position relative to the treeview */
 	window = gtk_tree_view_get_bin_window (priv->treeview);
@@ -2256,7 +2256,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
 		return FALSE;
 
-	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
+	if (!gtk_tree_view_get_path_at_pos (treeview, (gint) event->x, (gint) event->y, &tree_path, NULL, NULL, NULL))
 		return FALSE;
 
 	/* select/focus the row that was right-clicked or double-clicked */

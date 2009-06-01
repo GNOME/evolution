@@ -69,7 +69,7 @@ epp_invoke(EPlugin *ep, const gchar *name, gpointer data)
 	if (p->pModule == NULL) {
 		pModuleName = PyString_FromString(epp->module_name);
 
-		PyRun_SimpleString(g_strdup_printf ("import sys ; sys.path.insert(0, '%s')", epp->location));
+		PyRun_SimpleString(g_strdup_printf ("import sys; sys.path.insert(0, '%s')", epp->location));
 
 		p->pModule = PyImport_Import(pModuleName);
 
@@ -114,7 +114,7 @@ epp_invoke(EPlugin *ep, const gchar *name, gpointer data)
 		return NULL;
 }
 
-static int
+static gint
 epp_construct(EPlugin *ep, xmlNodePtr root)
 {
 	if (((EPluginClass *)epp_parent_class)->construct(ep, root) == -1)

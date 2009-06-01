@@ -355,7 +355,7 @@ eab_popup_control_query (EABPopupControl *pop)
 
 	g_object_ref (pop);
 
-	eab_popup_control_no_matches (pop) ;
+	eab_popup_control_no_matches (pop);
 
 	g_object_unref (pop);
 

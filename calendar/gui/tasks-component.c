@@ -761,7 +761,7 @@ setup_create_ecal (TasksComponent *component, TasksComponentView *component_view
 	/* Save the primary source for use elsewhere */
 	calendar_config_set_primary_tasks (e_source_peek_uid (source));
 
-	return priv->create_ecal ;
+	return priv->create_ecal;
 }
 
 /* Ensures the calendar is selected */
@@ -1049,7 +1049,7 @@ impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environm
 		EUri *euri = e_uri_new (uri);
 		const gchar *p;
 		gchar *header, *content;
-		size_t len, clen;
+		gsize len, clen;
 
 		p = euri->query;
 		if (p) {

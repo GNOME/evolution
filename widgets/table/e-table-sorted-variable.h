@@ -48,8 +48,8 @@ typedef struct {
 
 	gint              sort_info_changed_id;
 	gint              sort_idle_id;
-	int		 insert_idle_id;
-	int		 insert_count;
+	gint		 insert_idle_id;
+	gint		 insert_count;
 
 } ETableSortedVariable;
 

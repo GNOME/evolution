@@ -79,7 +79,7 @@ static void
 e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) class;
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class) ;
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
 	object_class = (GtkObjectClass*) class;
 

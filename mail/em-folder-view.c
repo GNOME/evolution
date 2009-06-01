@@ -2425,7 +2425,7 @@ mst_free (struct mst_t *mst)
 	g_free (mst);
 }
 
-static int
+static gint
 do_mark_seen (gpointer user_data)
 {
 	struct mst_t *mst = user_data;
@@ -2614,7 +2614,7 @@ emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent
 	em_folder_view_open_selected(emfv);
 }
 
-static int
+static gint
 emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv)
 {
 	emfv_popup(emfv, event, FALSE);
@@ -2622,7 +2622,7 @@ emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent 
 	return TRUE;
 }
 
-static int
+static gint
 emfv_list_key_press(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *ev, EMFolderView *emfv)
 {
 	GPtrArray *uids;
@@ -2807,7 +2807,7 @@ emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu
 	return des_menu;
 }
 
-static int
+static gint
 emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, CamelMimePart *part, EMFolderView *emfv)
 {
 	GtkMenu *menu = NULL;

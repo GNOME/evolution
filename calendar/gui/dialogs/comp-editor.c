@@ -2455,7 +2455,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 
 		num_attachments = e_cal_component_get_num_attachments (send_comp);
 
-		for (i = 0; i < num_attachments ; i++) {
+		for (i = 0; i < num_attachments; i++) {
 			attach_list = g_slist_append (attach_list, g_strdup ("CID:..."));
 		}
 		e_cal_component_set_attachment_list (send_comp, attach_list);

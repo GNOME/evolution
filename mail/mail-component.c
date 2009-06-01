@@ -414,7 +414,7 @@ folder_selected_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, gui
 	}
 }
 
-static int
+static gint
 check_autosave(gpointer data)
 {
 	e_msg_composer_check_autosave(NULL);
@@ -622,7 +622,7 @@ view_changed_timeout_remove (EComponentView *component_view)
 	}
 }
 
-static int
+static gint
 view_changed_timeout(gpointer d)
 {
 	EComponentView *component_view = d;
@@ -905,7 +905,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_THREADS:
 		/* should we keep cancelling? */
-		if (mail_msg_active((unsigned int)-1))
+		if (mail_msg_active((guint)-1))
 			return FALSE;
 
 		mail_session_shutdown ();
@@ -945,7 +945,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	return list;
 }
 
-static int
+static gint
 create_item(const gchar *type, EMFolderTreeModel *model, const gchar *uri, gpointer tree)
 {
 	if (strcmp(type, "message") == 0) {

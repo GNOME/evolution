@@ -40,7 +40,7 @@ void e_dialog_toggle_set (GtkWidget *widget, gboolean value);
 gboolean e_dialog_toggle_get (GtkWidget *widget);
 
 void e_dialog_spin_set (GtkWidget *widget, double value);
-double e_dialog_spin_get_double (GtkWidget *widget);
+gdouble e_dialog_spin_get_double (GtkWidget *widget);
 gint e_dialog_spin_get_int (GtkWidget *widget);
 
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);

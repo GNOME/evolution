@@ -281,7 +281,7 @@ static MailMsgInfo elm_import_info = {
 	(MailMsgFreeFunc) elm_import_free
 };
 
-static int
+static gint
 mail_importer_elm_import(EImport *ei, EImportTarget *target)
 {
 	struct _elm_import_msg *m;

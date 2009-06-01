@@ -251,7 +251,7 @@ proxy_dialog_new (void)
 	return prd;
 }
 
-static int
+static gint
 proxy_get_permissions_from_dialog (EAccount *account)
 {
 	gint permissions;
@@ -301,7 +301,7 @@ proxy_get_permissions_from_dialog (EAccount *account)
 	return permissions;
 }
 
-static int
+static gint
 proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 {
 	GtkTreeIter iter;

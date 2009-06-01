@@ -101,7 +101,7 @@ emm_load_xml (const gchar *dirname, const gchar *filename)
 	return doc;
 }
 
-static int
+static gint
 emm_save_xml (xmlDocPtr doc, const gchar *dirname, const gchar *filename)
 {
 	gchar *path;
@@ -380,7 +380,7 @@ parse_lsub (const gchar *lsub, gchar *dir_sep)
 	return NULL;
 }
 
-static int
+static gint
 read_imap_storeinfo (struct _account_info_1_0 *si)
 {
 	FILE *storeinfo;
@@ -476,7 +476,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 	return 0;
 }
 
-static int
+static gint
 load_accounts_1_0 (xmlDocPtr doc)
 {
 	xmlNodePtr source;
@@ -539,7 +539,7 @@ load_accounts_1_0 (xmlDocPtr doc)
 	return 0;
 }
 
-static int
+static gint
 em_migrate_1_0 (const gchar *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	accounts_1_0 = g_hash_table_new_full (
@@ -559,7 +559,7 @@ em_migrate_1_0 (const gchar *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr fi
 }
 
 /* 1.2 upgrade functions */
-static int
+static gint
 is_xml1encoded (const gchar *txt)
 {
 	const guchar *p;
@@ -653,7 +653,7 @@ utf8_reencode (const gchar *txt)
 	}
 }
 
-static int
+static gint
 upgrade_xml_1_2_rec (xmlNodePtr node)
 {
 	const gchar *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
@@ -721,7 +721,7 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 	return 0;
 }
 
-static int
+static gint
 em_upgrade_xml_1_2 (xmlDocPtr doc)
 {
 	xmlNodePtr root;
@@ -963,7 +963,7 @@ static struct {
 };
 
 /* remaps mail config from bconf to gconf */
-static int
+static gint
 bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 {
 	xmlNodePtr source;
@@ -1017,7 +1017,7 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 	return 0;
 }
 
-static int
+static gint
 em_migrate_1_2(const gchar *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	GConfClient *gconf;
@@ -1180,7 +1180,7 @@ em_migrate_set_progress (double percent)
 {
 	gchar text[5];
 
-	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	snprintf (text, sizeof (text), "%d%%", (gint) (percent * 100.0f));
 
 	gtk_progress_bar_set_fraction (progress, percent);
 	gtk_progress_bar_set_text (progress, text);
@@ -1239,7 +1239,7 @@ is_mail_folder (const gchar *metadata)
 	return FALSE;
 }
 
-static int
+static gint
 get_local_et_expanded (const gchar *dirname)
 {
 	xmlNodePtr node;
@@ -1357,13 +1357,13 @@ static gint open_flags[3] = {
 	O_WRONLY | O_CREAT | O_APPEND,
 };
 
-static int
+static gint
 cp (const gchar *src, const gchar *dest, gboolean show_progress, gint mode)
 {
 	guchar readbuf[65536];
-	ssize_t nread, nwritten;
+	gssize nread, nwritten;
 	gint errnosav, readfd, writefd;
-	size_t total = 0;
+	gsize total = 0;
 	struct stat st;
 	struct utimbuf ut;
 
@@ -1439,12 +1439,12 @@ cp (const gchar *src, const gchar *dest, gboolean show_progress, gint mode)
 
 #ifndef G_OS_WIN32
 
-static int
+static gint
 cp_r (const gchar *src, const gchar *dest, const gchar *pattern, gint mode)
 {
 	GString *srcpath, *destpath;
 	struct dirent *dent;
-	size_t slen, dlen;
+	gsize slen, dlen;
 	struct stat st;
 	DIR *dir;
 
@@ -1524,7 +1524,7 @@ mbox_build_filename (GString *path, const gchar *toplevel_dir, const gchar *full
 	}
 }
 
-static int
+static gint
 em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *full_name, CamelException *ex)
 {
 	CamelFolder *old_folder = NULL, *new_folder = NULL;
@@ -1556,7 +1556,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 	/* Manually copy local mbox files, its much faster */
 	if (!strncmp (uri, "mbox:", 5)) {
 		static const gchar *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
-		size_t slen, dlen;
+		gsize slen, dlen;
 		FILE *fp;
 		gchar *p;
 		gint mode;
@@ -1722,7 +1722,7 @@ fatal:
 	return res;
 }
 
-static int
+static gint
 em_migrate_dir (EMMigrateSession *session, const gchar *dirname, const gchar *full_name, CamelException *ex)
 {
 	gchar *path;
@@ -1772,7 +1772,7 @@ em_migrate_dir (EMMigrateSession *session, const gchar *dirname, const gchar *fu
 	return res;
 }
 
-static int
+static gint
 em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 {
 	struct dirent *dent;
@@ -1967,12 +1967,12 @@ em_upgrade_accounts_1_4 (void)
 	mail_config_save_accounts ();
 }
 
-static int
+static gint
 em_migrate_pop_uid_caches_1_4 (const gchar *evolution_dir, CamelException *ex)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
-	size_t olen, nlen;
+	gsize olen, nlen;
 	gchar *cache_dir;
 	DIR *dir;
 	gint res = 0;
@@ -2046,7 +2046,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *evolution_dir, CamelException *ex)
 	return res;
 }
 
-static int
+static gint
 em_migrate_imap_caches_1_4 (const gchar *evolution_dir, CamelException *ex)
 {
 	gchar *src, *dest;
@@ -2069,11 +2069,11 @@ em_migrate_imap_caches_1_4 (const gchar *evolution_dir, CamelException *ex)
 	return 0;
 }
 
-static int
+static gint
 em_migrate_folder_expand_state_1_4 (const gchar *evolution_dir, CamelException *ex)
 {
 	GString *srcpath, *destpath;
-	size_t slen, dlen, rlen;
+	gsize slen, dlen, rlen;
 	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
@@ -2167,11 +2167,11 @@ em_migrate_folder_expand_state_1_4 (const gchar *evolution_dir, CamelException *
 	return 0;
 }
 
-static int
+static gint
 em_migrate_folder_view_settings_1_4 (const gchar *evolution_dir, CamelException *ex)
 {
 	GString *srcpath, *destpath;
-	size_t slen, dlen, rlen;
+	gsize slen, dlen, rlen;
 	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
@@ -2207,7 +2207,7 @@ em_migrate_folder_view_settings_1_4 (const gchar *evolution_dir, CamelException 
 	while ((dent = readdir (dir))) {
 		gchar *full_name, *inptr, *buf = NULL;
 		const gchar *filename, *ext;
-		size_t prelen = 0;
+		gsize prelen = 0;
 		GString *new;
 
 		if (dent->d_name[0] == '.')
@@ -2367,7 +2367,7 @@ e_path_to_physical (const gchar *prefix, const gchar *vpath)
 	return ppath;
 }
 
-static int
+static gint
 em_migrate_imap_cmeta_1_4(const gchar *evolution_dir, CamelException *ex)
 {
 	GConfClient *gconf;
@@ -2480,7 +2480,7 @@ remove_system_searches(xmlDocPtr searches)
 	}
 }
 
-static int
+static gint
 em_migrate_1_4 (const gchar *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
 	EMMigrateSession *session;
@@ -2600,7 +2600,7 @@ em_update_accounts_2_11 (void)
 
 #endif	/* !G_OS_WIN32 */
 
-static int
+static gint
 emm_setup_initial(const gchar *evolution_dir)
 {
 	GDir *dir;

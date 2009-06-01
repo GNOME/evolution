@@ -94,7 +94,7 @@ create_page_container (const gchar *description,
 /* Timeout for switching pages (so it's more comfortable navigating with the
    keyboard).  */
 
-static int
+static gint
 set_page_timeout_callback (gpointer data)
 {
 	EMultiConfigDialog *multi_config_dialog;

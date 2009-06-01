@@ -123,7 +123,7 @@ page_free (Page *page)
 	g_free (page);
 }
 
-static int
+static gint
 compare_page_func (gconstpointer a,
 		   gconstpointer b)
 {

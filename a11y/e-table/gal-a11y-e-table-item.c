@@ -799,8 +799,8 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         reorder = g_malloc0 (sizeof (gint) * n_cols);
 
         /* Compare with previously saved column headers. */
-        for ( i = 0 ; i < n_cols && cols[i]; i ++ ) {
-                for ( j = 0 ; j < prev_n_cols && prev_cols[j]; j ++ ) {
+        for ( i = 0; i < n_cols && cols[i]; i ++ ) {
+                for ( j = 0; j < prev_n_cols && prev_cols[j]; j ++ ) {
                         if ( prev_cols [j] == cols[i] && i != j ) {
 
                                 reorder_found = TRUE;
@@ -822,8 +822,8 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         }
 
         /* Now try to find if there are removed columns. */
-        for (i = 0 ; i < prev_n_cols && prev_cols[i]; i ++) {
-                for (j = 0 ; j < n_cols && cols[j]; j ++)
+        for (i = 0; i < prev_n_cols && prev_cols[i]; i ++) {
+                for (j = 0; j < n_cols && cols[j]; j ++)
                         if ( prev_cols [j] == cols[i] )
 				break;
 
@@ -847,7 +847,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 		for (i = 0; i < prev_n_cols; i ++ ) {
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
 				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-deleted", i, 1);
-				for (j = 0 ; j < n_rows; j ++)
+				for (j = 0; j < n_rows; j ++)
 					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::remove", ((j+1)*prev_n_cols+i), NULL, NULL);
 			}
 		}
@@ -857,7 +857,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 		for ( i = 0; i < n_cols; i ++ ) {
 			if (state[i] == ETI_HEADER_NEW_ADDED) {
 				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-inserted", i, 1);
-				for (j = 0 ; j < n_rows; j ++)
+				for (j = 0; j < n_rows; j ++)
 					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::add", ((j+1)*n_cols+i), NULL, NULL);
 			}
 		}

@@ -337,7 +337,7 @@ void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f)
  * Allocate a new import target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
-gpointer e_import_target_new(EImport *ep, gint type, size_t size)
+gpointer e_import_target_new(EImport *ep, gint type, gsize size)
 {
 	EImportTarget *t;
 
@@ -520,7 +520,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;

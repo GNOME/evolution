@@ -91,8 +91,8 @@ void em_utils_adjustment_page(struct _GtkAdjustment *adj, gboolean down);
 gchar *em_utils_get_proxy_uri (const gchar *uri);
 
 /* FIXME: should this have an override charset? */
-gchar *em_utils_part_to_html(struct _CamelMimePart *part, ssize_t *len, struct _EMFormat *source);
-gchar *em_utils_message_to_html(struct _CamelMimeMessage *msg, const gchar *credits, guint32 flags, ssize_t *len, struct _EMFormat *source, const gchar *append);
+gchar *em_utils_part_to_html(struct _CamelMimePart *part, gssize *len, struct _EMFormat *source);
+gchar *em_utils_message_to_html(struct _CamelMimeMessage *msg, const gchar *credits, guint32 flags, gssize *len, struct _EMFormat *source, const gchar *append);
 
 void em_utils_expunge_folder (struct _GtkWidget *parent, struct _CamelFolder *folder);
 void em_utils_empty_trash (struct _GtkWidget *parent);

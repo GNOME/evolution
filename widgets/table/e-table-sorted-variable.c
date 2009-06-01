@@ -133,7 +133,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 
 	if (etss->n_map + 1 > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
-		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
+		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(gint));
 	}
 	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
@@ -149,7 +149,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 				etsv->insert_idle_id = g_idle_add_full(40, (GSourceFunc) etsv_insert_idle, etsv, NULL);
 			}
 			i = e_table_sorting_utils_insert(etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
-			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
+			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(gint));
 		}
 	}
 	etss->map_table[i] = row;
@@ -173,7 +173,7 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 
 	if (etss->n_map + rows > etssv->n_vals_allocated){
 		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
-		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(int));
+		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(gint));
 	}
 	for (i = 0; i < rows; i++)
 		etss->map_table[etss->n_map++] = i;

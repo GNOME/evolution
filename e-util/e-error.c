@@ -98,7 +98,7 @@ static struct {
 	{ "GTK_RESPONSE_HELP", GTK_RESPONSE_HELP },
 };
 
-static int
+static gint
 map_response(const gchar *name)
 {
 	gint i;
@@ -121,7 +121,7 @@ static struct {
 	{ "error", GTK_STOCK_DIALOG_ERROR, N_("Evolution Error") },
 };
 
-static int
+static gint
 map_type(const gchar *name)
 {
 	gint i;

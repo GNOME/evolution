@@ -29,7 +29,7 @@
 
 G_DEFINE_TYPE (ETableMemoryCalbacks, e_table_memory_callbacks, E_TABLE_MEMORY_TYPE)
 
-static int
+static gint
 etmc_column_count (ETableModel *etm)
 {
 	ETableMemoryCalbacks *etmc = E_TABLE_MEMORY_CALLBACKS(etm);

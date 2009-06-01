@@ -363,7 +363,7 @@ etgl_decrement (ETableGroup *etg, gint position, gint amount)
 	}
 }
 
-static int
+static gint
 etgl_row_count (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);

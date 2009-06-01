@@ -35,7 +35,7 @@ typedef struct {
 	GConfValueType type;
 	union {
 		gboolean v_bool;
-		float v_float;
+		gfloat v_float;
 		long v_long;
 		gchar *v_str;
 	} value;
@@ -230,7 +230,7 @@ add_key (EConfigListener *cl, const gchar *key, GConfValueType type,
 		memcpy (&kd->value.v_bool, value, sizeof (gboolean));
 		break;
 	case GCONF_VALUE_FLOAT :
-		memcpy (&kd->value.v_float, value, sizeof (float));
+		memcpy (&kd->value.v_float, value, sizeof (gfloat));
 		break;
 	case GCONF_VALUE_INT :
 		memcpy (&kd->value.v_long, value, sizeof (long));
@@ -305,20 +305,20 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 	return value;
 }
 
-float
+gfloat
 e_config_listener_get_float (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_float_with_default (cl, key, 0.0, NULL);
 }
 
-float
+gfloat
 e_config_listener_get_float_with_default (EConfigListener *cl,
 					  const gchar *key,
-					  float def,
+					  gfloat def,
 					  gboolean *used_default)
 {
 	GConfValue *conf_value;
-	float value;
+	gfloat value;
 	KeyData *kd;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
@@ -355,13 +355,13 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 	return value;
 }
 
-long
+glong
 e_config_listener_get_long (EConfigListener *cl, const gchar *key)
 {
 	return e_config_listener_get_long_with_default (cl, key, 0, NULL);
 }
 
-long
+glong
 e_config_listener_get_long_with_default (EConfigListener *cl,
 					 const gchar *key,
 					 long def,
@@ -481,7 +481,7 @@ e_config_listener_set_boolean (EConfigListener *cl, const gchar *key, gboolean v
 }
 
 void
-e_config_listener_set_float (EConfigListener *cl, const gchar *key, float value)
+e_config_listener_set_float (EConfigListener *cl, const gchar *key, gfloat value)
 {
 	KeyData *kd;
 	GError *err = NULL;

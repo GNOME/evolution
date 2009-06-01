@@ -181,7 +181,7 @@ org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
 	if (! g_strrstr (target->uri, "exchange://") ||
 	    !exchange_account_get_folder (account, fixed_path)) {
 		g_free (fixed_path);
-		return ;
+		return;
 	}
 
 	g_free (fixed_path);

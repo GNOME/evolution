@@ -252,7 +252,7 @@ filetype_changed_cb (GtkWidget *combobox, ImportData *data)
 }
 
 #if 0
-static int
+static gint
 compare_info_name (gconstpointer data1, const void  *data2)
 {
 	const Bonobo_ServerInfo *info1 = (Bonobo_ServerInfo *)data1;

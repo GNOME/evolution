@@ -808,7 +808,7 @@ calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, vpane_pos, NULL);
 }
 
-float
+gfloat
 calendar_config_get_tag_vpane_pos	(void)
 {
 	calendar_config_init ();
@@ -818,7 +818,7 @@ calendar_config_get_tag_vpane_pos	(void)
 
 
 void
-calendar_config_set_tag_vpane_pos	(float	      vpane_pos)
+calendar_config_set_tag_vpane_pos	(gfloat	      vpane_pos)
 {
 	calendar_config_init ();
 

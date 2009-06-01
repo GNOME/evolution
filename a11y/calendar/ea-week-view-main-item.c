@@ -536,7 +536,7 @@ ea_week_view_main_item_get_row_label (EaWeekViewMainItem *ea_main_item,
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
-		return 0 ;
+		return 0;
 
 	return g_snprintf (buffer, buffer_size, "the %i week",
 			   row + 1);

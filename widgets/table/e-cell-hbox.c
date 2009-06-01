@@ -204,7 +204,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 /*
  * ECell::height method
  */
-static int
+static gint
 ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
@@ -221,7 +221,7 @@ ecv_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 /*
  * ECell::max_width method
  */
-static int
+static gint
 ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;

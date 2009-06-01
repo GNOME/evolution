@@ -27,7 +27,7 @@
 
 #include "e-tree-simple.h"
 
-static int
+static gint
 simple_column_count (ETableModel *etm)
 {
 	ETreeSimple *simple = E_TREE_SIMPLE(etm);

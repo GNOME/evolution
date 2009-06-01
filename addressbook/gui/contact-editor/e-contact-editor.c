@@ -444,7 +444,7 @@ name_to_style (const EContactName *name, const gchar *company, gint style)
 	return string;
 }
 
-static int
+static gint
 file_as_get_style (EContactEditor *editor)
 {
 	GtkEntry *file_as = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (glade_xml_get_widget(editor->gui, "combo-file-as"))));
@@ -1482,7 +1482,7 @@ fill_in_im (EContactEditor *editor)
 
 	/* Clear */
 
-	for (record_n = 1 ; record_n <= IM_SLOTS; record_n++) {
+	for (record_n = 1; record_n <= IM_SLOTS; record_n++) {
 		fill_in_im_record (editor, record_n, -1, NULL, -1);
 	}
 

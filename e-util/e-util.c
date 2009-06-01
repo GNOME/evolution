@@ -1448,7 +1448,7 @@ e_util_read_file (const gchar *filename, gboolean filename_is_uri, gchar **buffe
 		gchar *buff;
 
 		sz = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
-		buff = g_malloc (sizeof (char) * sz);
+		buff = g_malloc (sizeof (gchar) * sz);
 
 		if (buff) {
 			GInputStream *stream;

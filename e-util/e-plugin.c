@@ -131,7 +131,7 @@ ep_set_enabled (const gchar *id, gint state)
 		GCONF_VALUE_STRING, ep_disabled, NULL);
 }
 
-static int
+static gint
 ep_construct (EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
@@ -420,7 +420,7 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 	return ep;
 }
 
-static int
+static gint
 ep_load(const gchar *filename, gint load_level)
 {
 	xmlDocPtr doc;
@@ -445,7 +445,7 @@ ep_load(const gchar *filename, gint load_level)
 	pdoc->doc = doc;
 	pdoc->filename = g_strdup(filename);
 
-	for (root = root->children; root ; root = root->next) {
+	for (root = root->children; root; root = root->next) {
 		if (strcmp((gchar *)root->name, "e-plugin") == 0) {
 			gchar *plugin_load_level, *is_system_plugin;
 
@@ -503,7 +503,7 @@ ep_load(const gchar *filename, gint load_level)
 /* This loads a hook that was pending on a given plugin but the type wasn't registered yet */
 /* This works in conjunction with ep_construct and e_plugin_hook_register_type to make sure
    everything works nicely together.  Apparently. */
-static int
+static gint
 ep_load_pending(EPlugin *ep, EPluginHookClass *type)
 {
 	gint res = 0;
@@ -988,7 +988,7 @@ static gpointer epl_parent_class;
 
 static GList *missing_symbols = NULL;
 
-static int
+static gint
 epl_loadmodule(EPlugin *ep, gboolean fatal)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
@@ -1070,7 +1070,7 @@ epl_get_symbol(EPlugin *ep, const gchar *name)
 	return symbol;
 }
 
-static int
+static gint
 epl_construct(EPlugin *ep, xmlNodePtr root)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
@@ -1234,7 +1234,7 @@ e_plugin_lib_get_type (void)
 
 static gpointer eph_parent_class;
 
-static int
+static gint
 eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	eph->plugin = ep;
@@ -1484,7 +1484,7 @@ e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const
 
 static gpointer epth_parent_class;
 
-static int
+static gint
 epth_load_plugin(gpointer d)
 {
 	EPluginHook *eph = d;
@@ -1500,7 +1500,7 @@ epth_load_plugin(gpointer d)
 	return FALSE;
 }
 
-static int
+static gint
 epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	EPluginTypeHook *epth = E_PLUGIN_TYPE_HOOK (eph);

@@ -228,7 +228,7 @@ async_external_editor (EMsgComposer *composer)
 		g_idle_add ((GSourceFunc) run_error_dialog,
 			    "org.gnome.evolution.plugins.external-editor:no-temp-file");
 		g_idle_add ((GSourceFunc) enable_composer, composer);
-		return ;
+		return;
 	}
 
 	gconf = gconf_client_get_default ();
@@ -253,7 +253,7 @@ async_external_editor (EMsgComposer *composer)
 
 		g_free (filename);
 		g_free (editor_cmd_line);
-		return ;
+		return;
 	}
 	g_free (editor_cmd_line);
 
@@ -264,7 +264,7 @@ async_external_editor (EMsgComposer *composer)
 #endif
 		d(printf ("\n\nsome problem here with external editor\n\n"));
 		g_idle_add ((GSourceFunc) enable_composer, composer);
-		return ;
+		return;
 	} else {
 		gchar *buf;
 
@@ -294,7 +294,7 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	if (editor_running()) {
 		d(printf("not opening editor, because it's still running\n"));
-		return ;
+		return;
 	}
 
 	disable_composer (composer);

@@ -70,7 +70,7 @@ menu_position_cb (GtkMenu *menu,
    that we unset the state of the toggle button when the pop-up menu
    disappears.  */
 
-static int
+static gint
 menu_deactivate_cb (GtkMenuShell *menu_shell,
 		    gpointer data)
 {

@@ -163,7 +163,7 @@ void e_event_remove_items(EEvent *emp, gpointer handle);
 
 void e_event_emit(EEvent *, const gchar *id, EEventTarget *);
 
-gpointer e_event_target_new(EEvent *, gint type, size_t size);
+gpointer e_event_target_new(EEvent *, gint type, gsize size);
 void e_event_target_free(EEvent *, gpointer );
 
 /* ********************************************************************** */

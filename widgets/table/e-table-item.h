@@ -227,9 +227,9 @@ void        e_table_item_get_cell_geometry   (ETableItem        *eti,
 					      gint               *width,
 					      gint               *height);
 
-int	    e_table_item_row_diff	     (ETableItem	*eti,
-					      int		 start_row,
-					      int		 end_row);
+gint	    e_table_item_row_diff	     (ETableItem	*eti,
+					      gint		 start_row,
+					      gint		 end_row);
 
 G_END_DECLS
 

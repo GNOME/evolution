@@ -247,7 +247,7 @@ CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
 /* for implementers */
 EMFormatHTMLPObject *
 		em_format_html_add_pobject	(EMFormatHTML *efh,
-						 size_t size,
+						 gsize size,
 						 const gchar *classid,
 						 CamelMimePart *part,
 						 EMFormatHTMLPObjectFunc func);

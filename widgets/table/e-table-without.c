@@ -114,7 +114,7 @@ remove_row (ETableWithout *etw, gint view_row)
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
 	e_table_model_pre_change (E_TABLE_MODEL (etw));
-	memmove (etss->map_table + view_row, etss->map_table + view_row + 1, (etss->n_map - view_row - 1) * sizeof (int));
+	memmove (etss->map_table + view_row, etss->map_table + view_row + 1, (etss->n_map - view_row - 1) * sizeof (gint));
 	etss->n_map --;
 	e_table_model_row_deleted (E_TABLE_MODEL (etw), view_row);
 }

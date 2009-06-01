@@ -643,7 +643,7 @@ nth_weekday (gint pos, icalrecurrencetype_weekday weekday)
 {
 	g_assert (pos > 0 && pos <= 5);
 
-	return (pos << 3) | (int) weekday;
+	return (pos << 3) | (gint) weekday;
 }
 #endif
 
@@ -1312,7 +1312,7 @@ make_recurrence_special (RecurrencePage *rpage)
 }
 
 /* Counts the elements in the by_xxx fields of an icalrecurrencetype */
-static int
+static gint
 count_by_xxx (short *field, gint max_elements)
 {
 	gint i;

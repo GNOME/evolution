@@ -452,7 +452,7 @@ static gboolean
 folder_can_delete (AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
-	ESource *source ;
+	ESource *source;
 	const gchar *source_uri;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));

@@ -590,7 +590,7 @@ e_table_group_get_header (ETableGroup *etg)
 	return etg->header;
 }
 
-static int
+static gint
 etg_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ETableGroup *etg = E_TABLE_GROUP (item);

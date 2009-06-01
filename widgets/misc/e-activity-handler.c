@@ -69,7 +69,7 @@ G_DEFINE_TYPE (EActivityHandler, e_activity_handler, G_TYPE_OBJECT)
 
 static void handle_error (ETaskWidget *task);
 
-static unsigned int
+static guint
 get_new_activity_id (EActivityHandler *activity_handler)
 {
 	EActivityHandlerPrivate *priv;
@@ -104,7 +104,7 @@ lookup_activity (GList *list,
 
 /* ETaskWidget actions.  */
 
-static int
+static gint
 task_widget_button_press_event_callback (GtkWidget *widget,
 					 GdkEventButton *button_event,
 					 gpointer data)

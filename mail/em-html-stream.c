@@ -38,7 +38,7 @@ static void em_html_stream_class_init (EMHTMLStreamClass *klass);
 static void em_html_stream_init (CamelObject *object);
 static void em_html_stream_finalize (CamelObject *object);
 
-static ssize_t emhs_sync_write(CamelStream *stream, const gchar *buffer, size_t n);
+static gssize emhs_sync_write(CamelStream *stream, const gchar *buffer, gsize n);
 static gint emhs_sync_close(CamelStream *stream);
 static gint emhs_sync_flush(CamelStream *stream);
 
@@ -103,8 +103,8 @@ em_html_stream_finalize (CamelObject *object)
 	}
 }
 
-static ssize_t
-emhs_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
+static gssize
+emhs_sync_write(CamelStream *stream, const gchar *buffer, gsize n)
 {
 	EMHTMLStream *emhs = EM_HTML_STREAM (stream);
 
@@ -116,10 +116,10 @@ emhs_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
 
 	gtk_html_stream_write(emhs->html_stream, buffer, n);
 
-	return (ssize_t) n;
+	return (gssize) n;
 }
 
-static int
+static gint
 emhs_sync_flush(CamelStream *stream)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;
@@ -132,7 +132,7 @@ emhs_sync_flush(CamelStream *stream)
 	return 0;
 }
 
-static int
+static gint
 emhs_sync_close(CamelStream *stream)
 {
 	EMHTMLStream *emhs = (EMHTMLStream *)stream;

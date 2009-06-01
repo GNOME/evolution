@@ -263,7 +263,7 @@ ep_add_static_items(EPopup *emp)
 	}
 }
 
-static int
+static gint
 ep_cmp(gconstpointer ap, gconstpointer bp)
 {
 	struct _item_node *a = *((gpointer *)ap);
@@ -648,7 +648,7 @@ e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f)
  *
  * Allocate a new popup target suitable for this popup type.
  **/
-gpointer e_popup_target_new(EPopup *ep, gint type, size_t size)
+gpointer e_popup_target_new(EPopup *ep, gint type, gsize size)
 {
 	EPopupTarget *t;
 
@@ -853,7 +853,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;

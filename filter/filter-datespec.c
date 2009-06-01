@@ -66,7 +66,7 @@ typedef struct _timespan {
 	const gchar *past_plural;
 	const gchar *future_singular;
 	const gchar *future_plural;
-	float max;
+	gfloat max;
 } timespan;
 
 #ifdef ngettext
@@ -195,7 +195,7 @@ validate (FilterElement *fe)
 	return valid;
 }
 
-static int
+static gint
 date_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterDatespec *fd = (FilterDatespec *)fe, *cd = (FilterDatespec *)cm;
@@ -228,13 +228,13 @@ xml_encode (FilterElement *fe)
 	work = xmlNewChild (value, NULL, (const guchar *)"datespec", NULL);
 	sprintf (str, "%d", fds->type);
 	xmlSetProp (work, (const guchar *)"type", (guchar *)str);
-	sprintf (str, "%d", (int)fds->value);
+	sprintf (str, "%d", (gint)fds->value);
 	xmlSetProp (work, (const guchar *)"value", (guchar *)str);
 
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterDatespec *fds = (FilterDatespec *)fe;
@@ -263,7 +263,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	return 0;
 }
 
-static int
+static gint
 get_best_span (time_t val)
 {
 	gint i;
@@ -508,13 +508,13 @@ format_sexp (FilterElement *fe, GString *out)
 		g_string_append (out, "(get-current-date)");
 		break;
 	case FDST_SPECIFIED:
-		g_string_append_printf (out, "%d", (int) fds->value);
+		g_string_append_printf (out, "%d", (gint) fds->value);
 		break;
 	case FDST_X_AGO:
-		g_string_append_printf (out, "(- (get-current-date) %d)", (int) fds->value);
+		g_string_append_printf (out, "(- (get-current-date) %d)", (gint) fds->value);
 		break;
 	case FDST_X_FUTURE:
-		g_string_append_printf (out, "(+ (get-current-date) %d)", (int) fds->value);
+		g_string_append_printf (out, "(+ (get-current-date) %d)", (gint) fds->value);
 		break;
 	}
 }

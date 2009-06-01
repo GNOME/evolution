@@ -53,10 +53,10 @@ static void memos_control_activate_cb		(BonoboControl		*control,
 						 gpointer		 user_data);
 static void memos_control_open_memo_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void memos_control_new_memo_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void memos_control_cut_cmd               (BonoboUIComponent      *uic,
 						 gpointer                data,
 						 const gchar            *path);
@@ -68,13 +68,13 @@ static void memos_control_paste_cmd             (BonoboUIComponent      *uic,
 						 const gchar            *path);
 static void memos_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void memos_control_print_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void memos_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 
 struct focus_changed_data {
 	BonoboControl *control;
@@ -296,7 +296,7 @@ memos_control_deactivate (BonoboControl *control, EMemos *memos)
 
 static void memos_control_open_memo_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path)
+						 const gchar		*path)
 {
 	EMemos *memos;
 
@@ -307,7 +307,7 @@ static void memos_control_open_memo_cmd		(BonoboUIComponent	*uic,
 static void
 memos_control_new_memo_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
-					 const char		*path)
+					 const gchar		*path)
 {
 	EMemos *memos;
 
@@ -365,7 +365,7 @@ memos_control_paste_cmd                 (BonoboUIComponent      *uic,
 static void
 memos_control_delete_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
-					 const char		*path)
+					 const gchar		*path)
 {
 	EMemos *memos;
 

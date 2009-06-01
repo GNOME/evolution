@@ -126,7 +126,7 @@ emfp_free(EConfig *ec, GSList *items, gpointer data)
 	g_free (prop_data);
 }
 
-static int
+static gint
 add_numbered_row (GtkTable *table, gint row, const gchar *description, const gchar *format, gint num)
 {
 	gchar *str;
@@ -197,7 +197,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			else
 				descr = g_strdup_printf (_("Quota usage"));
 
-			procs = (int) ((((double) info->used) / ((double) info->total)) * 100.0 + 0.5);
+			procs = (gint) ((((double) info->used) / ((double) info->total)) * 100.0 + 0.5);
 
 			row = add_numbered_row (GTK_TABLE (table), row, descr, "%d%%", procs);
 

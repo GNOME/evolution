@@ -89,7 +89,7 @@ e_reflow_pick_line (EReflow *reflow, double x)
 	return x;
 }
 
-static int
+static gint
 er_find_item (EReflow *reflow, GnomeCanvasItem *item)
 {
 	gint i;
@@ -162,7 +162,7 @@ static gboolean
 do_adjustment (gpointer user_data)
 {
 	gint row;
-	GtkAdjustment *adj ;
+	GtkAdjustment *adj;
 	gfloat value, min_value, max_value;
 	EReflow *reflow = user_data;
 
@@ -389,7 +389,7 @@ item_removed (EReflowModel *model, gint i, EReflow *reflow)
 	if (reflow->items[i])
 		gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
 
-	memmove (reflow->heights + i, reflow->heights + i + 1, (reflow->count - i - 1) * sizeof (int));
+	memmove (reflow->heights + i, reflow->heights + i + 1, (reflow->count - i - 1) * sizeof (gint));
 	memmove (reflow->items + i, reflow->items + i + 1, (reflow->count - i - 1) * sizeof (GnomeCanvasItem *));
 
 	reflow->count --;
@@ -424,7 +424,7 @@ items_inserted (EReflowModel *model, gint position, gint count, EReflow *reflow)
 		reflow->heights = g_renew (int, reflow->heights, reflow->allocated_count);
 		reflow->items = g_renew (GnomeCanvasItem *, reflow->items, reflow->allocated_count);
 	}
-	memmove (reflow->heights + position + count, reflow->heights + position, (reflow->count - position - count) * sizeof (int));
+	memmove (reflow->heights + position + count, reflow->heights + position, (reflow->count - position - count) * sizeof (gint));
 	memmove (reflow->items + position + count, reflow->items + position, (reflow->count - position - count) * sizeof (GnomeCanvasItem *));
 	for (i = position; i < position + count; i++) {
 		reflow->items[i] = NULL;
@@ -1126,7 +1126,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	i /= column_width + E_REFLOW_FULL_GUTTER;
 	running_width += i * (column_width + E_REFLOW_FULL_GUTTER);
 
-	for ( ; i < reflow->column_count; i++) {
+	for (; i < reflow->column_count; i++) {
 		if ( running_width > x + width )
 			break;
 		x_rect = running_width;
@@ -1161,7 +1161,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		i /= column_width + E_REFLOW_FULL_GUTTER;
 		running_width += i * (column_width + E_REFLOW_FULL_GUTTER);
 
-		for ( ; i < reflow->column_count; i++) {
+		for (; i < reflow->column_count; i++) {
 			if ( running_width > x + width )
 				break;
 			x_rect = running_width;
@@ -1271,14 +1271,14 @@ e_reflow_point (GnomeCanvasItem *item,
 
 	if (GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->point)
 		distance = GNOME_CANVAS_ITEM_CLASS(e_reflow_parent_class)->point (item, x, y, cx, cy, actual_item);
-	if ((int) (distance * item->canvas->pixels_per_unit + 0.5) <= item->canvas->close_enough && *actual_item)
+	if ((gint) (distance * item->canvas->pixels_per_unit + 0.5) <= item->canvas->close_enough && *actual_item)
 		return distance;
 
 	*actual_item = item;
 	return 0;
 #if 0
 	if (y >= E_REFLOW_BORDER_WIDTH && y <= reflow->height - E_REFLOW_BORDER_WIDTH) {
-		float n_x;
+		gfloat n_x;
 		n_x = x;
 		n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 		n_x = fmod(n_x, (reflow->column_width + E_REFLOW_FULL_GUTTER));
@@ -1337,7 +1337,7 @@ e_reflow_reflow( GnomeCanvasItem *item, gint flags )
 		e_canvas_item_request_parent_reflow(item);
 }
 
-static int
+static gint
 e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event)
 {
 	gint row;

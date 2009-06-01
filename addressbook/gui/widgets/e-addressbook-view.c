@@ -1447,7 +1447,7 @@ query_changed (ESearchBar *esb, EABView *view)
 	}
 }
 
-static int
+static gint
 compare_subitems (gconstpointer a, gconstpointer b)
 {
 	const ESearchBarItem *subitem_a = a;
@@ -1946,7 +1946,7 @@ void
 eab_view_save_as (EABView *view, gboolean all)
 {
 	GList *list = NULL;
-	EBook *book ;
+	EBook *book;
 
 	g_object_get(view->model,
 		     "book", &book,

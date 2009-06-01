@@ -79,7 +79,7 @@ get_dialog_hooks (GtkWidget *dialog)
 /* Converts an mapped value to the appropriate index in an item group.  The
  * values for the items are provided as a -1-terminated array.
  */
-static int
+static gint
 value_to_index (const gint *value_map, gint value)
 {
 	gint i;
@@ -94,7 +94,7 @@ value_to_index (const gint *value_map, gint value)
 /* Converts an index in an item group to the appropriate mapped value.  See the
  * function above.
  */
-static int
+static gint
 index_to_value (const gint *value_map, gint index)
 {
 	gint i;
@@ -408,7 +408,7 @@ e_dialog_spin_set (GtkWidget *widget, double value)
  *
  * Return value: Numeric value.
  **/
-double
+gdouble
 e_dialog_spin_get_double (GtkWidget *widget)
 {
 	GtkAdjustment *adj;
@@ -437,7 +437,7 @@ e_dialog_spin_get_int (GtkWidget *widget)
 	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), -1);
 
 	value = e_dialog_spin_get_double (widget);
-	return (int) floor (value);
+	return (gint) floor (value);
 }
 
 /**

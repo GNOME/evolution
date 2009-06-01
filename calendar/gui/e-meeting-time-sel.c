@@ -872,7 +872,7 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)(widget);
 }
 
-static int
+static gint
 get_cell_height (GtkTreeView *tree)
 {
 	GtkTreeViewColumn *column;

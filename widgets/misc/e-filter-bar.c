@@ -661,7 +661,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 	}
 }
 
-static int
+static gint
 xml_get_prop_int (xmlNodePtr node, const gchar *prop)
 {
 	gchar *buf;

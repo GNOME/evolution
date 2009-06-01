@@ -432,7 +432,7 @@ e_week_view_layout_get_span_position	(EWeekViewEvent *event,
 	if (span->row >= rows_per_compressed_cell) {
 		if (multi_week_view) {
 			if (compress_weekend) {
-				/* If it ends on a Saturday and is 1 day long
+				/* If it ends on a Saturday and is 1 day glong
 				   we skip it, else we shorten it. If it ends
 				   on a Sunday it must be 1 day long and we
 				   skip it. */

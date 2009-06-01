@@ -209,7 +209,7 @@ button_query_tooltip (GtkWidget  *widget,
 
 /* Layout. */
 
-static int
+static gint
 layout_buttons (ESidebar *sidebar)
 {
 	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;

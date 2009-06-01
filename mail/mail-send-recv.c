@@ -93,7 +93,7 @@ typedef enum {
 	SEND_SEND,		/* sender */
 	SEND_UPDATE,		/* imap-like 'just update folder info' */
 	SEND_INVALID
-} send_info_t ;
+} send_info_t;
 
 typedef enum {
 	SEND_ACTIVE,
@@ -254,7 +254,7 @@ dialog_response(GtkDialog *gd, gint button, struct _send_data *data)
 	}
 }
 
-static int
+static gint
 operation_status_timeout(gpointer data)
 {
 	struct _send_info *info = data;

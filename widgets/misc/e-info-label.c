@@ -51,7 +51,7 @@ el_destroy (GtkObject *o)
 	((GtkObjectClass *)el_parent)->destroy(o);
 }
 
-static int
+static gint
 el_expose_event(GtkWidget *w, GdkEventExpose *event)
 {
 	gint x = ((GtkContainer *)w)->border_width;
@@ -66,7 +66,7 @@ el_expose_event(GtkWidget *w, GdkEventExpose *event)
 	return ((GtkWidgetClass *)el_parent)->expose_event(w, event);
 }
 
-static int
+static gint
 get_text_full_width (GtkWidget *label)
 {
 	PangoLayout *layout;

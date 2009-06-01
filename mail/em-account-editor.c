@@ -611,7 +611,7 @@ emae_signature_added(ESignatureList *signatures, ESignature *sig, EMAccountEdito
 	gtk_combo_box_set_active(emae->priv->signatures_dropdown, gtk_tree_model_iter_n_children(model, NULL)-1);
 }
 
-static int
+static gint
 emae_signature_get_iter(EMAccountEditor *emae, ESignature *sig, GtkTreeModel **modelp, GtkTreeIter *iter)
 {
 	GtkTreeModel *model;
@@ -1225,7 +1225,7 @@ emae_path_changed(GtkWidget *widget, EMAccountEditorService *service)
 	emae_service_url_path_changed(service, camel_url_set_path, widget);
 }
 
-static int
+static gint
 emae_ssl_update(EMAccountEditorService *service, CamelURL *url)
 {
 	gint id = gtk_combo_box_get_active(service->use_ssl);
@@ -2727,7 +2727,7 @@ struct _server_prefill {
 	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"}
 };
 
-static int
+static gint
 check_servers (gchar *server)
 {
 	gint len = G_N_ELEMENTS(mail_servers), i;

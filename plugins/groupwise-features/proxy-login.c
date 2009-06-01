@@ -174,7 +174,7 @@ proxy_login_new (void)
 	return prd;
 }
 
-static int
+static gint
 proxy_get_password (EAccount *account, gchar **user_name, gchar **password)
 {
 	const gchar *failed_auth;
@@ -308,9 +308,9 @@ proxy_soap_login (gchar *email)
 	EAccount *srcAccount;
 	EAccount *dstAccount;
 	EGwConnection *proxy_cnc, *cnc;
-	CamelURL *uri = NULL, *parent = NULL ;
+	CamelURL *uri = NULL, *parent = NULL;
 	gchar *password = NULL, *user_name = NULL;
-	gchar *proxy_source_url = NULL, *parent_source_url = NULL ;
+	gchar *proxy_source_url = NULL, *parent_source_url = NULL;
 	gchar *name;
 	gint i;
 	gint permissions = 0;

@@ -439,7 +439,7 @@ et_get_text_before_offset (AtkText *text,
 		break;
 	case ATK_TEXT_BOUNDARY_WORD_START:
 		end = find_word_start (full_text, offset - 1, -1);
-		start = find_word_start (full_text, end - 1, -1) ;
+		start = find_word_start (full_text, end - 1, -1);
 		break;
 	case ATK_TEXT_BOUNDARY_WORD_END:
 		end = find_word_end (full_text, offset, -1);

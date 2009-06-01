@@ -170,7 +170,7 @@ all_rows_deleted (EAlarmList *alarm_list)
 	i = g_list_length (alarm_list->list);
 	gtk_tree_path_append_index (path, i);
 
-	for ( ; i >= 0; i--) {
+	for (; i >= 0; i--) {
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (alarm_list), path);
 		gtk_tree_path_prev (path);
 	}

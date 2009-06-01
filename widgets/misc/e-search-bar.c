@@ -748,7 +748,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	entry_focus_out_cb (esb->entry, NULL, esb);
 }
 
-static int
+static gint
 find_id (GtkWidget *menu, gint idin, const gchar *type, GtkWidget **widget)
 {
 	GList *l = GTK_MENU_SHELL (menu)->children;
@@ -1614,7 +1614,7 @@ e_search_bar_get_text (ESearchBar *search_bar)
 void e_search_bar_scope_enable (ESearchBar *esb, gint did, gboolean state)
 {
 	GtkWidget *widget=NULL;
-	GList *l ;
+	GList *l;
 	gint id;
 	gpointer *pointer;
 

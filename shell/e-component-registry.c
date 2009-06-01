@@ -89,7 +89,7 @@ component_info_free (EComponentInfo *info)
 	g_free (info);
 }
 
-static int
+static gint
 component_info_compare_func (EComponentInfo *a,
 			     EComponentInfo *b)
 {

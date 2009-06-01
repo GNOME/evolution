@@ -167,7 +167,7 @@ struct _EAddrConduitCfg {
  *       in UTF-8 format. A conversion must take place before calling
  *       this function (see e_pilot_utf8_to_pchar() in e-pilot-util.c)
  */
-static int
+static gint
 e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *category)
 {
 	gint i, j;
@@ -965,7 +965,7 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 		if (empty)
 			continue;
 
-		for ( ; priority_label[l] != -1; l++)
+		for (; priority_label[l] != -1; l++)
 			if (phonelabel == priority_label[l])
 				break;
 
@@ -1268,7 +1268,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 				phone++;
 			}
 		}
-		for ( ; phone <= entryPhone5; phone++)
+		for (; phone <= entryPhone5; phone++)
 			local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 		local->addr->showPhone = 0;
 	} else {

@@ -321,11 +321,11 @@ prop_binding_sync_prop_to_pref (PropBinding *binding)
         case G_TYPE_DOUBLE:
                 gconf_value = gconf_value_new (GCONF_VALUE_FLOAT);
 #ifdef HAVE_CORBA_GCONF
-                /* FIXME we cast to a float explicitly as CORBA GConf
+                /* FIXME we cast to a gfloat explicitly as CORBA GConf
                  * uses doubles in its API, but treats them as floats
                  * when transporting them over CORBA. See #322837 */
                 gconf_value_set_float (gconf_value,
-                                       (float) g_value_get_double (&value));
+                                       (gfloat) g_value_get_double (&value));
 #else
                 gconf_value_set_float (gconf_value,
                                        g_value_get_double (&value));

@@ -50,13 +50,13 @@
 /* dont scan more often than this */
 #define TEMP_SCAN (60)
 
-static int
+static gint
 expire_dir_rec(const gchar *base, time_t now)
 {
 	GDir *dir;
 	const gchar *d;
 	GString *path;
-	size_t len;
+	gsize len;
 	struct stat st;
 	gint count = 0;
 
@@ -120,7 +120,7 @@ get_dir (gboolean make)
 	g_free(tmpdir);
 #else
 	path = g_string_new("/tmp/evolution-");
-	g_string_append_printf (path, "%d", (int) getuid ());
+	g_string_append_printf (path, "%d", (gint) getuid ());
 	if (make) {
 		gint ret;
 

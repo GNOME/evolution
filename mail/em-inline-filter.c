@@ -39,8 +39,8 @@ static void em_inline_filter_class_init (EMInlineFilterClass *klass);
 static void em_inline_filter_init (CamelObject *object);
 static void em_inline_filter_finalize (CamelObject *object);
 
-static void emif_filter(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace);
-static void emif_complete(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace);
+static void emif_filter(CamelMimeFilter *f, gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace);
+static void emif_complete(CamelMimeFilter *f, gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace);
 static void emif_reset(CamelMimeFilter *f);
 
 static CamelMimeFilterClass *parent_class = NULL;
@@ -190,8 +190,8 @@ emif_add_part(EMInlineFilter *emif, const gchar *data, gint len)
 	emif->parts = g_slist_append(emif->parts, part);
 }
 
-static int
-emif_scan(CamelMimeFilter *f, gchar *in, size_t len, gint final)
+static gint
+emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 {
 	EMInlineFilter *emif = (EMInlineFilter *)f;
 	gchar *inptr = in, *inend = in+len;
@@ -337,7 +337,7 @@ emif_scan(CamelMimeFilter *f, gchar *in, size_t len, gint final)
 }
 
 static void
-emif_filter(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace)
+emif_filter(CamelMimeFilter *f, gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace)
 {
 	emif_scan(f, in, len, FALSE);
 
@@ -347,7 +347,7 @@ emif_filter(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **
 }
 
 static void
-emif_complete(CamelMimeFilter *f, gchar *in, size_t len, size_t prespace, gchar **out, size_t *outlen, size_t *outprespace)
+emif_complete(CamelMimeFilter *f, gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace)
 {
 	emif_scan(f, in, len, TRUE);
 

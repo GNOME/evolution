@@ -300,7 +300,7 @@ ec_add_static_items(EConfig *ec)
 	}
 }
 
-static int
+static gint
 ep_cmp(gconstpointer ap, gconstpointer bp)
 {
 	struct _widget_node *a = *((gpointer *)ap);
@@ -1193,7 +1193,7 @@ e_config_class_remove_factory(EConfigClass *klass, EConfigFactory *f)
  * Allocate a new config target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
-gpointer e_config_target_new(EConfig *ep, gint type, size_t size)
+gpointer e_config_target_new(EConfig *ep, gint type, gsize size)
 {
 	EConfigTarget *t;
 
@@ -1438,7 +1438,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;

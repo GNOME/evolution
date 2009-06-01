@@ -1636,7 +1636,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	ECalComponent *comp;
 	ECalComponentAlarm *alarm;
 	icalattach *attach;
-	int	flag = 0;
+	gint	flag = 0;
 
 	d(printf("%s:%d (audio_notification)\n",__FILE__, __LINE__));
 

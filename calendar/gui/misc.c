@@ -55,7 +55,7 @@ string_is_empty (const gchar *value)
 	if (value) {
 		p = value;
 		while (*p) {
-			if (!isspace ((unsigned char) *p)) {
+			if (!isspace ((guchar) *p)) {
 				empty = FALSE;
 				break;
 			}
@@ -123,7 +123,7 @@ calculate_time (time_t start, time_t end)
 	}
 	if (i == 0 || difference != 0) {
 		/* TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third") */
-		times[i++] = g_strdup_printf (ngettext("%d second", "%d seconds", difference), (int)difference);
+		times[i++] = g_strdup_printf (ngettext("%d second", "%d seconds", difference), (gint)difference);
 	}
 
 	times[i] = NULL;

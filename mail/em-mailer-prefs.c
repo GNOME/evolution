@@ -730,7 +730,7 @@ mark_seen_timeout_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
 {
 	gint timeout;
 
-	timeout = (int) (gtk_spin_button_get_value (prefs->timeout) * 1000.0);
+	timeout = (gint) (gtk_spin_button_get_value (prefs->timeout) * 1000.0);
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/mark_seen_timeout", timeout, NULL);
 }
 
@@ -739,7 +739,7 @@ address_compress_count_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
 {
 	gint count;
 
-	count = (int) gtk_spin_button_get_value (prefs->address_count);
+	count = (gint) gtk_spin_button_get_value (prefs->address_count);
 
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/address_count", count, NULL);
 }
@@ -749,13 +749,13 @@ mlimit_count_changed (GtkSpinButton *spin, EMMailerPrefs *prefs)
 {
 	gint count;
 
-	count = (int) gtk_spin_button_get_value (prefs->mlimit_count);
+	count = (gint) gtk_spin_button_get_value (prefs->mlimit_count);
 
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/message_text_part_limit", count, NULL);
 }
 
 static void
-spin_button_init (EMMailerPrefs *prefs, GtkSpinButton *spin, const gchar *key, float div, GCallback value_changed)
+spin_button_init (EMMailerPrefs *prefs, GtkSpinButton *spin, const gchar *key, gfloat div, GCallback value_changed)
 {
 	GError *err = NULL;
 	double min, max;

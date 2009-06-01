@@ -46,13 +46,13 @@ static void e_week_view_event_item_set_property	(GObject	 *object,
 static void e_week_view_event_item_update	(GnomeCanvasItem *item,
 						 double		 *affine,
 						 ArtSVP		 *clip_path,
-						 int		  flags);
+						 gint		  flags);
 static void e_week_view_event_item_draw		(GnomeCanvasItem *item,
 						 GdkDrawable	 *drawable,
-						 int		  x,
-						 int		  y,
-						 int		  width,
-						 int		  height);
+						 gint		  x,
+						 gint		  y,
+						 gint		  width,
+						 gint		  height);
 static void e_week_view_draw_time		(EWeekView	*week_view,
 						 GdkDrawable	*drawable,
 						 gint		 time_x,
@@ -74,8 +74,8 @@ static void e_week_view_event_item_draw_triangle (EWeekViewEventItem *wveitem,
 static double e_week_view_event_item_point	(GnomeCanvasItem *item,
 						 double		  x,
 						 double		  y,
-						 int		  cx,
-						 int		  cy,
+						 gint		  cx,
+						 gint		  cy,
 						 GnomeCanvasItem **actual_item);
 static gint e_week_view_event_item_event	(GnomeCanvasItem *item,
 						 GdkEvent	 *event);
@@ -179,7 +179,7 @@ static void
 e_week_view_event_item_update (GnomeCanvasItem *item,
 			       double	       *affine,
 			       ArtSVP	       *clip_path,
-			       int		flags)
+			       gint		flags)
 {
 	EWeekViewEventItem *wveitem;
 	EWeekView *week_view;
@@ -226,10 +226,10 @@ e_week_view_event_item_update (GnomeCanvasItem *item,
 static void
 e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			     GdkDrawable      *drawable,
-			     int	       x,
-			     int	       y,
-			     int	       width,
-			     int	       height)
+			     gint	       x,
+			     gint	       y,
+			     gint	       width,
+			     gint	       height)
 {
 	EWeekViewEventItem *wveitem;
 	EWeekView *week_view;

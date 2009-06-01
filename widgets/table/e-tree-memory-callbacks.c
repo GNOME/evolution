@@ -39,7 +39,7 @@ etmc_icon_at (ETreeModel *etm, ETreePath node)
 	return etmc->icon_at (etm, node, etmc->model_data);
 }
 
-static int
+static gint
 etmc_column_count (ETreeModel *etm)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);

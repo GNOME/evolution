@@ -46,7 +46,7 @@ ExchangeConfigListenerStatus exchange_is_offline (gint *mode);
 gboolean exchange_operations_tokenize_string (gchar **string, gchar *token, gchar delimit, guint maxsize);
 
 gboolean exchange_operations_cta_add_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent, const gchar *nuri);
-void exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const gchar *nuri, const gchar *ruri, GtkTreeSelection *selection) ;
+void exchange_operations_cta_select_node_from_tree (GtkTreeStore *store, GtkTreeIter *parent, const gchar *nuri, const gchar *ruri, GtkTreeSelection *selection);
 
 void exchange_operations_report_error (ExchangeAccount *account, ExchangeAccountResult result);
 

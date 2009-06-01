@@ -136,7 +136,7 @@ e_asn1_object_get_type (void)
    as defined by the DER (Distinguised Encoding Rules) of
    ASN1.
 */
-static int
+static gint
 get_integer_256 (guchar *data, guint nb)
 {
 	gint val;

@@ -161,11 +161,11 @@ ets_class_init (ETableSorterClass *klass)
 	object_class->set_property              = ets_set_property;
 	object_class->get_property              = ets_get_property;
 
-	sorter_class->model_to_sorted           = ets_model_to_sorted           ;
-	sorter_class->sorted_to_model           = ets_sorted_to_model           ;
-	sorter_class->get_model_to_sorted_array = ets_get_model_to_sorted_array ;
-	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;
-	sorter_class->needs_sorting             = ets_needs_sorting             ;
+	sorter_class->model_to_sorted           = ets_model_to_sorted;
+	sorter_class->sorted_to_model           = ets_sorted_to_model;
+	sorter_class->get_model_to_sorted_array = ets_get_model_to_sorted_array;
+	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array;
+	sorter_class->needs_sorting             = ets_needs_sorting;
 
 	g_object_class_install_property (object_class, PROP_SORT_INFO,
 					 g_param_spec_object ("sort_info",
@@ -268,7 +268,7 @@ static GCompareFunc *compare_closure;
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
-static int
+static gint
 qsort_callback(gconstpointer data1, gconstpointer data2)
 {
 	gint row1 = *(gint *)data1;
@@ -355,7 +355,7 @@ ets_sort(ETableSorter *ets)
 		ascending_closure[j] = column.ascending;
 	}
 
-		qsort(ets->sorted, rows, sizeof(int), qsort_callback);
+		qsort(ets->sorted, rows, sizeof(gint), qsort_callback);
 
 	g_free(vals_closure);
 	g_free(ascending_closure);

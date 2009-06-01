@@ -64,18 +64,18 @@ static void
 track_status (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EMPopupTargetSelect *t = (EMPopupTargetSelect *)data;
-	CamelMimeMessage *msg = NULL ;
-	const CamelInternetAddress *from ;
-	const gchar *namep, *addp ;
+	CamelMimeMessage *msg = NULL;
+	const CamelInternetAddress *from;
+	const gchar *namep, *addp;
 
-	GtkDialog *d ;
-	GtkTable *table ;
+	GtkDialog *d;
+	GtkTable *table;
 	GtkWidget *widget;
 	GtkScrolledWindow *win;
 	GtkVBox *vbox;
 
-	time_t time ;
-	gchar *time_str ;
+	time_t time;
+	gchar *time_str;
 
 	gchar *boldmsg;
 
@@ -87,8 +87,8 @@ track_status (EPopup *ep, EPopupItem *item, gpointer data)
 	/*Get message*/
 	msg = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, 0), NULL);
 	if (!msg) {
-		g_print ("Error!! No message\n") ;
-		return ;
+		g_print ("Error!! No message\n");
+		return;
 	}
 
 	/*Create the dialog*/
@@ -120,8 +120,8 @@ track_status (EPopup *ep, EPopupItem *item, gpointer data)
 	row++;
 
 	/*From*/
-	from = camel_mime_message_get_from (msg) ;
-	camel_internet_address_get (from, 0, &namep, &addp) ;
+	from = camel_mime_message_get_from (msg);
+	camel_internet_address_get (from, 0, &namep, &addp);
 	boldmsg = g_strdup_printf ("<b>%s</b>", _("From:"));
 	widget = gtk_label_new (boldmsg);
 	g_free (boldmsg);
@@ -134,8 +134,8 @@ track_status (EPopup *ep, EPopupItem *item, gpointer data)
 	row++;
 
 	/*creation date*/
-	time = camel_mime_message_get_date (msg, NULL) ;
-	time_str = ctime (&time) ;
+	time = camel_mime_message_get_date (msg, NULL);
+	time_str = ctime (&time);
 	time_str[strlen(time_str)-1] = '\0' ;
 	boldmsg = g_strdup_printf ("<b>%s</b>", _("Creation date:"));
 	widget = gtk_label_new (boldmsg);

@@ -455,7 +455,7 @@ etsm_selected_count (ESelectionModel *selection)
 	return g_hash_table_size (etsm->priv->paths);
 }
 
-static int
+static gint
 etsm_row_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
@@ -783,23 +783,23 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	object_class->get_property = etsm_get_property;
 	object_class->set_property = etsm_set_property;
 
-	esm_class->is_row_selected    = etsm_is_row_selected    ;
-	esm_class->foreach            = etsm_foreach            ;
-	esm_class->clear              = etsm_clear              ;
-	esm_class->selected_count     = etsm_selected_count     ;
-	esm_class->select_all         = etsm_select_all         ;
-	esm_class->invert_selection   = etsm_invert_selection   ;
-	esm_class->row_count          = etsm_row_count          ;
+	esm_class->is_row_selected    = etsm_is_row_selected;
+	esm_class->foreach            = etsm_foreach;
+	esm_class->clear              = etsm_clear;
+	esm_class->selected_count     = etsm_selected_count;
+	esm_class->select_all         = etsm_select_all;
+	esm_class->invert_selection   = etsm_invert_selection;
+	esm_class->row_count          = etsm_row_count;
 
-	esm_class->change_one_row     = etsm_change_one_row     ;
-	esm_class->change_cursor      = etsm_change_cursor      ;
-	esm_class->cursor_row         = etsm_cursor_row         ;
-	esm_class->cursor_col         = etsm_cursor_col         ;
+	esm_class->change_one_row     = etsm_change_one_row;
+	esm_class->change_cursor      = etsm_change_cursor;
+	esm_class->cursor_row         = etsm_cursor_row;
+	esm_class->cursor_col         = etsm_cursor_col;
 
-	esm_class->select_single_row  = etsm_select_single_row  ;
-	esm_class->toggle_single_row  = etsm_toggle_single_row  ;
-	esm_class->move_selection_end = etsm_move_selection_end ;
-	esm_class->set_selection_end  = etsm_set_selection_end  ;
+	esm_class->select_single_row  = etsm_select_single_row;
+	esm_class->toggle_single_row  = etsm_toggle_single_row;
+	esm_class->move_selection_end = etsm_move_selection_end;
+	esm_class->set_selection_end  = etsm_set_selection_end;
 
 	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",

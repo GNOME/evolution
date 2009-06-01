@@ -212,7 +212,7 @@ completed_toggled (GtkToggleButton *button, gpointer user_data)
 		followup->completed_date = 0;
 }
 
-static int
+static gint
 get_week_start_day (void)
 {
 	GConfClient *gconf;

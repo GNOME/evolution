@@ -472,7 +472,7 @@ get_unique_file_names (GSList *parts)
 				/* if we have an extension, then place number before it (at p is ".ext"),
 				   otherwise just append number in brackets */
 				if (p)
-					new_name = g_strdup_printf ("%.*s(%d)%s", (int) (p - name), name, counter, p);
+					new_name = g_strdup_printf ("%.*s(%d)%s", (gint) (p - name), name, counter, p);
 				else
 					new_name = g_strdup_printf ("%s(%d)", name, counter);
 
@@ -953,7 +953,7 @@ em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GP
 
 /* This kind of sucks, because for various reasons most callers need to run synchronously
    in the gui thread, however this could take a long, blocking time, to run */
-static int
+static gint
 em_utils_write_messages_to_stream(CamelFolder *folder, GPtrArray *uids, CamelStream *stream)
 {
 	CamelStreamFilter *filtered_stream;
@@ -998,7 +998,7 @@ em_utils_write_messages_to_stream(CamelFolder *folder, GPtrArray *uids, CamelStr
 
 /* This kind of sucks, because for various reasons most callers need to run synchronously
    in the gui thread, however this could take a long, blocking time, to run */
-static int
+static gint
 em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 {
 	CamelException *ex = camel_exception_new();
@@ -1533,7 +1533,7 @@ em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 void
 em_utils_adjustment_page(GtkAdjustment *adj, gboolean down)
 {
-	float page_size = adj->page_size - adj->step_increment;
+	gfloat page_size = adj->page_size - adj->step_increment;
 
 	if (down) {
 		if (adj->value < adj->upper - adj->page_size - page_size)
@@ -1606,7 +1606,7 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * Return Value: The part in displayable html format.
  **/
 gchar *
-em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
+em_utils_part_to_html(CamelMimePart *part, gssize *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1656,7 +1656,7 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
  * Return value: The html version.
  **/
 gchar *
-em_utils_message_to_html(CamelMimeMessage *message, const gchar *credits, guint32 flags, ssize_t *len, EMFormat *source, const gchar *append)
+em_utils_message_to_html(CamelMimeMessage *message, const gchar *credits, guint32 flags, gssize *len, EMFormat *source, const gchar *append)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;

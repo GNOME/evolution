@@ -211,7 +211,7 @@ etsv_sort_info_changed (ETableSortInfo *info, ETreeSortedVariable *etsv)
 }
 
 /* This takes source rows. */
-static int
+static gint
 etsv_compare(ETreeSortedVariable *etsv, const ETreePath *path1, const ETreePath *path2)
 {
 	gint j;
@@ -249,7 +249,7 @@ gint *ascending_closure;
 gint *col_idx_closure;
 GCompareFunc *compare_closure;
 
-static int
+static gint
 etsv_compare_closure(const ETreePath *path1, const ETreePath *path2)
 {
 	gint j;
@@ -275,7 +275,7 @@ etsv_compare_closure(const ETreePath *path1, const ETreePath *path2)
 	return comp_val;
 }
 
-static int
+static gint
 qsort_callback(gconstpointer data1, gconstpointer data2)
 {
 	GNode *node1 = *(GNode **)data1;
@@ -283,7 +283,7 @@ qsort_callback(gconstpointer data1, gconstpointer data2)
 	return etsv_compare_closure(node1->data, node2->data);
 }
 
-static int
+static gint
 qsort_callback_source(gconstpointer data1, gconstpointer data2)
 {
 	return etsv_compare_closure(data1, data2);

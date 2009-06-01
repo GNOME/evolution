@@ -107,7 +107,7 @@ e_cal_model_calendar_finalize (GObject *object)
 }
 
 /* ETableModel methods */
-static int
+static gint
 ecmc_column_count (ETableModel *etm)
 {
 	return E_CAL_MODEL_CALENDAR_FIELD_LAST;

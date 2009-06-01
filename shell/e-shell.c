@@ -346,7 +346,7 @@ impl_Shell_findComponent(PortableServer_Servant servant,
 
 /* EShellWindow handling and bookkeeping.  */
 
-static int
+static gint
 window_delete_event_cb (GtkWidget *widget,
 		      GdkEventAny *ev,
 		      gpointer data)
@@ -752,7 +752,7 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 	return new;
 }
 
-static int
+static gint
 remove_dir(const gchar *root, const gchar *path)
 {
 	GDir *dir;

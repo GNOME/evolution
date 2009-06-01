@@ -449,7 +449,7 @@ auth_func_cb (ECal *ecal, const gchar * prompt, const gchar *key, gpointer user_
 	return password;
 }
 
-static int
+static gint
 start_calendar_server (EToDoConduitContext *ctxt)
 {
 	gchar *str_uri = NULL;

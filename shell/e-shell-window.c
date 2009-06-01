@@ -113,7 +113,7 @@ struct _EShellWindowPrivate {
 	GtkWidget *menu_hint_label;
 
 	/* The timeout for saving the window size */
-	guint      store_window_size_timer;
+	guint      store_window_gsizeimer;
 	gboolean destroyed;
 };
 
@@ -842,9 +842,9 @@ impl_dispose (GObject *object)
 		priv->ui_component = NULL;
 	}
 
-	if (priv->store_window_size_timer) {
-		g_source_remove (priv->store_window_size_timer);
-		self->priv->store_window_size_timer = 0;
+	if (priv->store_window_gsizeimer) {
+		g_source_remove (priv->store_window_gsizeimer);
+		self->priv->store_window_gsizeimer = 0;
 
 		/* There was a timer. Let us store the settings.*/
 		store_window_size (GTK_WIDGET (self));
@@ -870,11 +870,11 @@ impl_finalize (GObject *object)
 
 /* GtkWidget methods */
 static void
-e_shell_window_remove_resize_timer (EShellWindow* self)
+e_shell_window_remove_regsizeimer (EShellWindow* self)
 {
-	if (self->priv->store_window_size_timer) {
-		g_source_remove (self->priv->store_window_size_timer);
-		self->priv->store_window_size_timer = 0;
+	if (self->priv->store_window_gsizeimer) {
+		g_source_remove (self->priv->store_window_gsizeimer);
+		self->priv->store_window_gsizeimer = 0;
 	}
 }
 
@@ -892,7 +892,7 @@ impl_window_state (GtkWidget *widget, GdkEventWindowState* ev)
 	}
 
 	if ((ev->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) != 0) {
-		e_shell_window_remove_resize_timer (E_SHELL_WINDOW (widget));
+		e_shell_window_remove_regsizeimer (E_SHELL_WINDOW (widget));
 	}
 
 	if (GTK_WIDGET_CLASS (e_shell_window_parent_class)->window_state_event) {
@@ -912,7 +912,7 @@ store_window_size (GtkWidget* widget)
 			      widget->allocation.height, NULL);
 	g_object_unref(client);
 
-	E_SHELL_WINDOW (widget)->priv->store_window_size_timer = 0;
+	E_SHELL_WINDOW (widget)->priv->store_window_gsizeimer = 0;
 	return FALSE; /* remove this timeout */
 }
 
@@ -920,11 +920,11 @@ static void
 impl_size_alloc (GtkWidget* widget, GtkAllocation* alloc)
 {
 	EShellWindow* self = E_SHELL_WINDOW (widget);
-	e_shell_window_remove_resize_timer(self);
+	e_shell_window_remove_regsizeimer(self);
 
 	if (GTK_WIDGET_REALIZED(widget) && !(gdk_window_get_state(widget->window) & GDK_WINDOW_STATE_MAXIMIZED)) {
 		/* update the size storage timer */
-		self->priv->store_window_size_timer = g_timeout_add_seconds (1, (GSourceFunc)store_window_size, self);
+		self->priv->store_window_gsizeimer = g_timeout_add_seconds (1, (GSourceFunc)store_window_size, self);
 	}
 
 	if (GTK_WIDGET_CLASS (e_shell_window_parent_class)->size_allocate) {

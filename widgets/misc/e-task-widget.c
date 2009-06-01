@@ -252,7 +252,7 @@ e_task_widget_update (ETaskWidget *task_widget,
 		text = g_strdup_printf (_("%s (...)"), information);
 	} else {
 		gint percent_complete;
-		percent_complete = (int) (completion * 100.0 + .5);
+		percent_complete = (gint) (completion * 100.0 + .5);
 		/* For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 		   %d is a number between 0 and 100, describing the percentage of operation complete */
 		text = g_strdup_printf (_("%s (%d%% complete)"), information, percent_complete);

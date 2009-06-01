@@ -207,7 +207,7 @@ set_special_mail_folder (ExchangeAccount *account, const gchar *folder_type,
 		return;
 	physical_uri = e_folder_get_physical_uri (folder);
 
-	/* remove ; form the uri */
+	/* remove; form the uri */
 	camel_url = camel_url_new (physical_uri, NULL);
 	url_string = camel_url_to_string (camel_url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (camel_url);
@@ -311,7 +311,7 @@ add_account_esources (ExchangeAccount *account,
 	    !e_source_list_add_group (tasks_source_list, tasks_source_group, -1)) {
 		goto done;
 	}
-	for ( ; folders != NULL ; folders = g_slist_next (folders)) {
+	for (; folders != NULL; folders = g_slist_next (folders)) {
 		/* Create source for each folder and add to the group */
 
 		folder = folders->data;
@@ -537,7 +537,7 @@ remove_account_esource (ExchangeAccount *account,
 	groups = e_source_list_peek_groups (source_list);
 	found_group = FALSE;
 
-	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL && !found_group; groups = g_slist_next (groups)) {
 		group = E_SOURCE_GROUP (groups->data);
 
 		if (strcmp (e_source_group_peek_name (group), account->account_name) == 0
@@ -545,7 +545,7 @@ remove_account_esource (ExchangeAccount *account,
                     strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			sources = e_source_group_peek_sources (group);
 
-			for( ; sources != NULL; sources = g_slist_next (sources)) {
+			for(; sources != NULL; sources = g_slist_next (sources)) {
 				source = E_SOURCE (sources->data);
 				source_uid = e_source_peek_uid (source);
 
@@ -1193,7 +1193,7 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 
 	groups = e_source_list_peek_groups (c_source_list);
 
-	for ( ; groups != NULL; groups = g_slist_next (groups)) {
+	for (; groups != NULL; groups = g_slist_next (groups)) {
 		group = E_SOURCE_GROUP (groups->data);
 		if (!strcmp (e_source_group_peek_name (group), old_name)) {
 			e_source_group_set_name (group, new_name);
@@ -1203,7 +1203,7 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 
 	groups = e_source_list_peek_groups (t_source_list);
 
-	for ( ; groups != NULL; groups = g_slist_next (groups)) {
+	for (; groups != NULL; groups = g_slist_next (groups)) {
 		group = E_SOURCE_GROUP (groups->data);
 		if (!strcmp (e_source_group_peek_name (group), old_name)) {
 			e_source_group_set_name (group, new_name);
@@ -1213,7 +1213,7 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 
 	groups = e_source_list_peek_groups (a_source_list);
 
-	for ( ; groups != NULL; groups = g_slist_next (groups)) {
+	for (; groups != NULL; groups = g_slist_next (groups)) {
 		group = E_SOURCE_GROUP (groups->data);
 		if (!strcmp (e_source_group_peek_name (group), old_name)) {
 			e_source_group_set_name (group, new_name);
@@ -1252,7 +1252,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 	sl = e_source_list_new_for_gconf (gc_client, CONF_KEY_CONTACTS);
 	groups = e_source_list_peek_groups (sl);
 
-	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL && !found_group; groups = g_slist_next (groups)) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 
 		if (strcmp (e_source_group_peek_name (group), account->account_name) == 0
@@ -1260,7 +1260,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 		    strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for( ; sources != NULL; sources = g_slist_next (sources)) {
+			for(; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *absolute_uri;
 
@@ -1372,7 +1372,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const gchar *gco
 	groups = e_source_list_peek_groups (source_list);
 	found_group = FALSE;
 
-	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL && !found_group; groups = g_slist_next (groups)) {
 		group = E_SOURCE_GROUP (groups->data);
 
 		if (strcmp (e_source_group_peek_name (group), account->account_name) == 0
@@ -1380,7 +1380,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const gchar *gco
                     strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			sources = e_source_group_peek_sources (group);
 
-			for( ; sources != NULL; sources = g_slist_next (sources)) {
+			for(; sources != NULL; sources = g_slist_next (sources)) {
 				source = E_SOURCE (sources->data);
 				source_uid = e_source_peek_uid (source);
 

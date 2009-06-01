@@ -2416,9 +2416,9 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 	E_CALENDAR_VIEW (priv->views [view_type])->in_focus = TRUE;
 
 	gtk_notebook_set_current_page (
-		GTK_NOTEBOOK (priv->notebook), (int) view_type);
+		GTK_NOTEBOOK (priv->notebook), (gint) view_type);
 
-	for (i = 0; i < GNOME_CAL_LAST_VIEW ; i++) {
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 		if (i == view_type)
 			continue;
 		E_CALENDAR_VIEW (priv->views [i])->in_focus = FALSE;

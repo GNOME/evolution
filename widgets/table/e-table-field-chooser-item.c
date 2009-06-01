@@ -575,7 +575,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 /*
  * Handles the events on the ETableFieldChooserItem
  */
-static int
+static gint
 etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);

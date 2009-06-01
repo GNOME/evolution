@@ -1096,7 +1096,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 		flags |= EM_FORMAT_QUOTE_CITE;
 
 	for (i = 0; i < messages->len; i++) {
-		ssize_t len;
+		gssize len;
 
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
@@ -2200,7 +2200,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	gchar *text, *credits;
 	CamelMimePart *part;
 	GConfClient *gconf;
-	ssize_t len = 0;
+	gssize len = 0;
 	gboolean start_bottom;
 
 	gconf = mail_config_get_gconf_client ();
@@ -2259,7 +2259,7 @@ gchar *
 em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 {
 	gchar *text, *credits;
-	ssize_t len = 0;
+	gssize len = 0;
 	gboolean start_bottom = 0;
 
 	credits = attribution_format (ATTRIBUTION, message);

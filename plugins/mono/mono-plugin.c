@@ -159,13 +159,13 @@ epm_invoke(EPlugin *ep, const gchar *name, gpointer data)
 
 	if (res) {
 		gpointer *p = mono_object_unbox(res);
-		d(printf("mono method returned '%p' %ld\n", *p, (long int)*p));
+		d(printf("mono method returned '%p' %ld\n", *p, (long gint)*p));
 		return *p;
 	} else
 		return NULL;
 }
 
-static int
+static gint
 epm_construct(EPlugin *ep, xmlNodePtr root)
 {
 	if (((EPluginClass *)epm_parent_class)->construct(ep, root) == -1)

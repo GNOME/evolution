@@ -195,7 +195,7 @@ emmb_window_size_allocate (GtkWidget *widget,
 	g_object_unref (client);
 }
 
-static int
+static gint
 emmb_key_press_event_cb (EMMessageBrowser *emmb,
                          GdkEventKey *event)
 {

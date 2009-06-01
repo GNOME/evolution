@@ -266,7 +266,7 @@ e_logger_get_logs (ELogger *logger,
 
 	while (!feof (fp)) {
 		gchar *tmp;
-		size_t len;
+		gsize len;
 
 		tmp = fgets (buf, sizeof (buf), fp);
 		if (!tmp)

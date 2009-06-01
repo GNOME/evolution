@@ -1994,8 +1994,8 @@ _do_tooltip (gpointer data)
 	gdk_window_get_origin (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->window, &canvas_x, &canvas_y);
 	pixel_origin.x += canvas_x;
 	pixel_origin.y += canvas_y;
-	pixel_origin.x -= (int) gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
-	pixel_origin.y -= (int) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
+	pixel_origin.x -= (gint) gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
+	pixel_origin.y -= (gint) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
 
 	tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (tooltip_window), 1);
@@ -2798,7 +2798,7 @@ e_text_reset_im_context (EText *text)
 
 /* fixme: */
 
-static int
+static gint
 next_word (EText *text, gint start)
 {
 	gchar *p = g_utf8_offset_to_pointer (text->text, start);
@@ -2827,7 +2827,7 @@ next_word (EText *text, gint start)
 	return g_utf8_pointer_to_offset (text->text, p);
 }
 
-static int
+static gint
 find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line)
 {
 	gchar *p;
@@ -2861,7 +2861,7 @@ find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line
 
 /* direction = TRUE (move forward), FALSE (move backward)
    Any error shall return length(text->text) or 0 or text->selection_end (as deemed fit) */
-static int
+static gint
 _get_updated_position (EText *text, gboolean direction)
 {
 	PangoLogAttr *log_attrs = NULL;
@@ -2927,7 +2927,7 @@ _get_updated_position (EText *text, gboolean direction)
 
 
 
-static int
+static gint
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	gint length, obj_num;

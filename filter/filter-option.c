@@ -211,7 +211,7 @@ filter_option_remove_all (FilterOption *fo)
 	fo->current = NULL;
 }
 
-static int
+static gint
 option_eq(FilterElement *fe, FilterElement *cm)
 {
 	FilterOption *fo = (FilterOption *)fe, *co = (FilterOption *)cm;
@@ -322,7 +322,7 @@ xml_encode (FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;

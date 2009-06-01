@@ -504,7 +504,7 @@ static PangoLayout *
 layout_with_preedit (ECellTextView *text_view, gint row, const gchar *text, gint width)
 {
 	CellEdit *edit = text_view->edit;
-	PangoAttrList *attrs ;
+	PangoAttrList *attrs;
 	PangoLayout *layout;
 	GString *tmp_string = g_string_new (NULL);
 	PangoAttrList *preedit_attrs = NULL;
@@ -567,7 +567,7 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	PangoAttrList *attrs ;
+	PangoAttrList *attrs;
 	PangoLayout *layout;
 	PangoContext *context;
 	cairo_font_options_t *font_options;
@@ -1145,7 +1145,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 /*
  * ECell::height method
  */
-static int
+static gint
 ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
@@ -1430,7 +1430,7 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	return 16 + 8;
 }
 
-static int
+static gint
 ect_max_width (ECellView *ecell_view,
 	       gint model_col,
 	       gint view_col)
@@ -1456,7 +1456,7 @@ ect_max_width (ECellView *ecell_view,
 	return max_width + 8;
 }
 
-static int
+static gint
 ect_max_width_by_row (ECellView *ecell_view,
 		      gint model_col,
 		      gint view_col,
@@ -1558,8 +1558,8 @@ ect_show_tooltip (ECellView *ecell_view,
 			       &canvas_x, &canvas_y);
 	pixel_origin.x += canvas_x;
 	pixel_origin.y += canvas_y;
-	pixel_origin.x -= (int) gtk_layout_get_hadjustment (GTK_LAYOUT (text_view->canvas))->value;
-	pixel_origin.y -= (int) gtk_layout_get_vadjustment (GTK_LAYOUT (text_view->canvas))->value;
+	pixel_origin.x -= (gint) gtk_layout_get_hadjustment (GTK_LAYOUT (text_view->canvas))->value;
+	pixel_origin.y -= (gint) gtk_layout_get_vadjustment (GTK_LAYOUT (text_view->canvas))->value;
 
 	window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (window), 1);
@@ -2163,7 +2163,7 @@ _blink_scroll_timeout (gpointer data)
 	return TRUE;
 }
 
-static int
+static gint
 next_word (CellEdit *edit, gint start)
 {
 	gchar *p;
@@ -2185,7 +2185,7 @@ next_word (CellEdit *edit, gint start)
 	return p - edit->text;
 }
 
-static int
+static gint
 _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
 	gint length;

@@ -188,7 +188,7 @@ struct _GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImpo
 void e_import_status(EImport *, EImportTarget *, const gchar *what, gint pc);
 void e_import_complete(EImport *, EImportTarget *);
 
-gpointer e_import_target_new(EImport *ep, gint type, size_t size);
+gpointer e_import_target_new(EImport *ep, gint type, gsize size);
 void e_import_target_free(EImport *ep, gpointer o);
 
 EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const gchar *duri);

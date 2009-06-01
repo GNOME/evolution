@@ -85,7 +85,7 @@ org_gnome_accept (EPlugin *ep, ECalPopupTargetSelect *target)
 		return;
 
 	if (! g_strrstr (uri, "groupwise://"))
-		return ;
+		return;
 
 	/* for translation*/
 	if (!first) {
@@ -347,7 +347,7 @@ org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
 		return;
 
 	if (! g_strrstr (uri, "groupwise://"))
-		return ;
+		return;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -451,7 +451,7 @@ retract_object (gpointer val)
 	}
 	g_free (rid);
 
-	free_thread_data (data)	;
+	free_thread_data (data);
 	return GINT_TO_POINTER (0);
 }
 
@@ -466,7 +466,7 @@ object_created_cb (CompEditor *ce, gpointer data)
 
 	response = e_error_run (NULL, "org.gnome.evolution.process_meeting:resend-retract", NULL);
 	if (response == GTK_RESPONSE_NO) {
-		free_thread_data (data)	;
+		free_thread_data (data);
 		return;
 	}
 

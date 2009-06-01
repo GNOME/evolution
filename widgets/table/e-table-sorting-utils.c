@@ -31,7 +31,7 @@
 #define d(x)
 
 /* This takes source rows. */
-static int
+static gint
 etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2)
 {
 	gint j;
@@ -77,7 +77,7 @@ typedef struct {
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
-static int
+static gint
 e_sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	gint row1 = *(gint *)data1;
@@ -142,7 +142,7 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 	}
 
 	g_qsort_with_data (
-		map_table, rows, sizeof(int), e_sort_callback, &closure);
+		map_table, rows, sizeof(gint), e_sort_callback, &closure);
 
 	g_free(closure.vals);
 	g_free(closure.ascending);
@@ -218,7 +218,7 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 
 
 /* This takes source rows. */
-static int
+static gint
 etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2)
 {
 	gint j;
@@ -243,7 +243,7 @@ etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *f
 	return comp_val;
 }
 
-static int
+static gint
 e_sort_tree_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ETreePath *path1 = *(ETreePath *)data1;
@@ -296,7 +296,7 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 	}
 
 	g_qsort_with_data (
-		map, count, sizeof(int), e_sort_callback, &closure);
+		map, count, sizeof(gint), e_sort_callback, &closure);
 
 	map_copy = g_new(ETreePath, count);
 	for (i = 0; i < count; i++) {
@@ -340,8 +340,8 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 gint
 e_table_sorting_utils_tree_insert(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count, ETreePath path)
 {
-	size_t start;
-	size_t end;
+	gsize start;
+	gsize end;
 	ETreeSortClosure closure;
 
 	closure.tree = source;

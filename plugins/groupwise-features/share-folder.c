@@ -133,7 +133,7 @@ free_user_node(EShUsers *user)
 		g_free(user->email);
 		user->email = NULL;
 	}
-	return ;
+	return;
 }
 
 static void
@@ -144,7 +144,7 @@ free_node(SharedUser *usr)
 		g_free(user->email);
 		user->email = NULL;
 	}
-	return ;
+	return;
 }
 
 static SharedUser *
@@ -153,11 +153,11 @@ find_node(GList *list, gchar *email)
 	SharedUser *user = NULL;
 	EShUsers *usr = NULL;
 	GList *tmp;
-	gint i ;
+	gint i;
 
 	if(list){
 		tmp = g_list_first(list);
-		for(i=0; tmp  ; i++)
+		for(i=0; tmp; i++)
 		{
 			user = tmp->data;
 			usr = user->user_node;
@@ -346,7 +346,7 @@ add_clicked(GtkButton *button, ShareFolder *sf)
 			if (!g_ascii_strcasecmp (email, "" )) {
 				e_error_run (NULL, "org.gnome.evolution.mail_shared_folder:no-user",NULL);
 
-				return ;
+				return;
 			}
 
 
@@ -354,7 +354,7 @@ add_clicked(GtkButton *button, ShareFolder *sf)
 			if (sf->users_list && email){
 				new_user = find_node (sf->users_list, (gchar *)email);
 				if (new_user)
-					return ;
+					return;
 
 			}
 			usr = g_new0 (EShUsers, 1);
@@ -586,7 +586,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	path = gtk_tree_path_new_from_string (arg1);
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)){
 		gtk_tree_path_free (path);
-		return ;
+		return;
 	}
 	gtk_tree_model_get ((GtkTreeModel *) sf->model, &(sf->iter), 0, &email, 1, &right , -1);
 	usr = find_node(sf->users_list, email);

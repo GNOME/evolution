@@ -102,8 +102,8 @@ toggle_cell_action (GalA11yECell *cell)
 	e_table_item_get_cell_geometry (cell->item, &row, &col,
 					&x, &y, &width, &height);
 
-	event.x = x + width / 2 + (int)(GNOME_CANVAS_ITEM (cell->item)->x1);
-	event.y = y + height / 2 + (int)(GNOME_CANVAS_ITEM (cell->item)->y1);
+	event.x = x + width / 2 + (gint)(GNOME_CANVAS_ITEM (cell->item)->x1);
+	event.y = y + height / 2 + (gint)(GNOME_CANVAS_ITEM (cell->item)->y1);
 
 	event.type = GDK_BUTTON_PRESS;
 	event.window = GTK_LAYOUT(GNOME_CANVAS_ITEM(cell->item)->canvas)->bin_window;

@@ -244,7 +244,7 @@ validate (FilterElement *fe)
 	return TRUE;
 }
 
-static int
+static gint
 element_eq (FilterElement *fe, FilterElement *cm)
 {
 	return ((fe->name && cm->name && strcmp (fe->name, cm->name) == 0)

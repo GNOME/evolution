@@ -361,7 +361,7 @@ ec_query_tooltip (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, Gtk
 
 	e_cal_component_get_organizer (new_comp, &organizer);
 	if (organizer.cn) {
-		gchar *ptr ;
+		gchar *ptr;
 		ptr = strchr( organizer.value, ':');
 
 		if (ptr) {

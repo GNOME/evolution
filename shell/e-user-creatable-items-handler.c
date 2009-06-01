@@ -445,7 +445,7 @@ add_verbs (EUserCreatableItemsHandler *handler,
 
 /* Generic menu construction code */
 
-static int
+static gint
 item_types_sort_func (gconstpointer a,
 		      gconstpointer b)
 {
@@ -470,9 +470,9 @@ item_types_sort_func (gconstpointer a,
 			continue;
 		}
 
-		if (toupper ((int) *p1) < toupper ((int) *p2))
+		if (toupper ((gint) *p1) < toupper ((gint) *p2))
 			return -1;
-		else if (toupper ((int) *p1) > toupper ((int) *p2))
+		else if (toupper ((gint) *p1) > toupper ((gint) *p2))
 			return +1;
 
 		p1 ++, p2 ++;
@@ -489,7 +489,7 @@ item_types_sort_func (gconstpointer a,
 }
 
 typedef void (*EUserCreatableItemsHandlerMenuItemFunc) (EUserCreatableItemsHandler *, gpointer, MenuItem *, gboolean);
-typedef void (*EUserCreatableItemsHandlerSeparatorFunc) (EUserCreatableItemsHandler *, gpointer, int);
+typedef void (*EUserCreatableItemsHandlerSeparatorFunc) (EUserCreatableItemsHandler *, gpointer, gint);
 
 static void
 construct_menu (EUserCreatableItemsHandler *handler, gpointer menu,

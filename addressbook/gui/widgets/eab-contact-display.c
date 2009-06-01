@@ -188,11 +188,11 @@ eab_uri_popup_free(EPopup *ep, GSList *list, gpointer data)
 		}
 }
 
-static int
+static gint
 eab_uri_popup_event(EABContactDisplay *display, GdkEvent *event, const gchar *uri)
 {
 	EABPopup *emp;
-	EABPopupTargetURI *t ;
+	EABPopupTargetURI *t;
 	GtkMenu *menu;
 	GSList *menus = NULL;
 	gint i;
@@ -801,8 +801,8 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 					max_dimension = calced_height;
 
 				if (max_dimension > MAX_COMPACT_IMAGE_DIMENSION) {
-					calced_width *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
-					calced_height *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_width *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_height *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 				}
 			}
 
@@ -923,7 +923,7 @@ eab_contact_display_render (EABContactDisplay *display, EContact *contact,
 	}
 }
 
-static int
+static gint
 eab_html_press_event (GtkWidget *widget, GdkEvent *event,EABContactDisplay *display)
 {
 	gchar *uri;

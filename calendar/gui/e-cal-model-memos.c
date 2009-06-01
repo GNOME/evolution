@@ -108,7 +108,7 @@ e_cal_model_memos_finalize (GObject *object)
 }
 
 /* ETableModel methods */
-static int
+static gint
 ecmm_column_count (ETableModel *etm)
 {
 	return E_CAL_MODEL_MEMOS_FIELD_LAST;

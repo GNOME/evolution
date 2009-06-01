@@ -50,7 +50,7 @@ static void em_icon_stream_class_init (EMIconStreamClass *klass);
 static void em_icon_stream_init (CamelObject *object);
 static void em_icon_stream_finalize (CamelObject *object);
 
-static ssize_t emis_sync_write(CamelStream *stream, const gchar *buffer, size_t n);
+static gssize emis_sync_write(CamelStream *stream, const gchar *buffer, gsize n);
 static gint emis_sync_close(CamelStream *stream);
 static gint emis_sync_flush(CamelStream *stream);
 
@@ -132,8 +132,8 @@ em_icon_stream_finalize(CamelObject *object)
 	emis_cleanup(emis);
 }
 
-static ssize_t
-emis_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
+static gssize
+emis_sync_write(CamelStream *stream, const gchar *buffer, gsize n)
 {
 	EMIconStream *emis = EM_ICON_STREAM (stream);
 
@@ -145,10 +145,10 @@ emis_sync_write(CamelStream *stream, const gchar *buffer, size_t n)
 		return -1;
 	}
 
-	return (ssize_t) n;
+	return (gssize) n;
 }
 
-static int
+static gint
 emis_sync_flush(CamelStream *stream)
 {
 	return 0;
@@ -190,7 +190,7 @@ emis_fit(GdkPixbuf *pixbuf, gint maxwidth, gint maxheight, gint *scale)
 	return mini;
 }
 
-static int
+static gint
 emis_sync_close(CamelStream *stream)
 {
 	EMIconStream *emis = (EMIconStream *)stream;

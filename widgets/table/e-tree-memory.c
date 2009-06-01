@@ -84,7 +84,7 @@ check_children (ETreeMemory *memory, ETreePath node)
 	}
 }
 
-static int
+static gint
 e_tree_memory_path_depth (ETreeMemoryPath *path)
 {
 	gint depth = 0;
@@ -636,7 +636,7 @@ typedef struct {
 	ETreeMemorySortCallback callback;
 } MemoryAndClosure;
 
-static int
+static gint
 sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ETreePath path1 = *(ETreePath *)data1;

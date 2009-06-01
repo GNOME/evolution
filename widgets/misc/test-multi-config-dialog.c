@@ -59,7 +59,7 @@ add_pages (EMultiConfigDialog *multi_config_dialog)
 	}
 }
 
-static int
+static gint
 delete_event_callback (GtkWidget *widget,
 		       GdkEventAny *event,
 		       gpointer data)

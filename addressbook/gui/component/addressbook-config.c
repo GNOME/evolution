@@ -306,7 +306,7 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 	return ldap_error;
 }
 
-static int
+static gint
 addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 			    const gchar **attrs, LDAPMessage **resp)
 {

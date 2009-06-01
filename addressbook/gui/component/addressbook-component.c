@@ -332,7 +332,7 @@ impl_handleURI (PortableServer_Servant servant,
 		EUri *euri = e_uri_new (uri);
 		const gchar *p;
 		gchar *header, *content;
-		size_t len, clen;
+		gsize len, clen;
 
 		p = euri->query;
 		if (p) {

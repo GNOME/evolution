@@ -56,13 +56,13 @@ gboolean              e_config_listener_get_boolean_with_default (EConfigListene
 								  const gchar *key,
 								  gboolean def,
 								  gboolean *used_default);
-float                 e_config_listener_get_float (EConfigListener *cl, const gchar *key);
-float                 e_config_listener_get_float_with_default (EConfigListener *cl,
+gfloat                 e_config_listener_get_float (EConfigListener *cl, const gchar *key);
+gfloat                 e_config_listener_get_float_with_default (EConfigListener *cl,
 								const gchar *key,
-								float def,
+								gfloat def,
 								gboolean *used_default);
-long                  e_config_listener_get_long (EConfigListener *cl, const gchar *key);
-long                  e_config_listener_get_long_with_default (EConfigListener *cl,
+glong                  e_config_listener_get_long (EConfigListener *cl, const gchar *key);
+glong                  e_config_listener_get_long_with_default (EConfigListener *cl,
 							       const gchar *key,
 							       long def,
 							       gboolean *used_default);
@@ -76,7 +76,7 @@ void                  e_config_listener_set_boolean (EConfigListener *cl,
 						     gboolean value);
 void                  e_config_listener_set_float (EConfigListener *cl,
 						   const gchar *key,
-						   float value);
+						   gfloat value);
 void                  e_config_listener_set_long (EConfigListener *cl,
 						  const gchar *key,
 						  long value);

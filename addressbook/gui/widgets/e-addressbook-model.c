@@ -188,7 +188,7 @@ create_contact(EBookView *book_view,
 		model->data = g_renew(EContact *, model->data, model->allocated_count);
 	}
 
-	for ( ; contacts; contacts = contacts->next) {
+	for (; contacts; contacts = contacts->next) {
 		model->data[model->data_count++] = contacts->data;
 		g_object_ref (contacts->data);
 	}
@@ -235,7 +235,7 @@ modify_contact(EBookView *book_view,
 	       const GList *contacts,
 	       EABModel *model)
 {
-	for ( ; contacts; contacts = contacts->next) {
+	for (; contacts; contacts = contacts->next) {
 		gint i;
 		for ( i = 0; i < model->data_count; i++) {
 			if ( !strcmp(e_contact_get_const(model->data[i], E_CONTACT_UID),

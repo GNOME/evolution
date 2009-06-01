@@ -481,7 +481,7 @@ efhd_get_uri_puri (GtkWidget *html, GdkEventButton *event, EMFormatHTMLDisplay *
 	g_free (img_url);
 }
 
-static int
+static gint
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
 	gchar *uri = NULL;

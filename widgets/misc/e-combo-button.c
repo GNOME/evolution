@@ -285,7 +285,7 @@ e_combo_button_popup (EComboButton *combo_button, GdkEventButton *event)
 }
 /* GtkWidget methods.  */
 
-static int
+static gint
 impl_button_press_event (GtkWidget *widget,
 			 GdkEventButton *event)
 {
@@ -315,7 +315,7 @@ impl_button_press_event (GtkWidget *widget,
 	return TRUE;
 }
 
-static int
+static gint
 impl_leave_notify_event (GtkWidget *widget,
 			 GdkEventCrossing *event)
 {
@@ -335,7 +335,7 @@ impl_leave_notify_event (GtkWidget *widget,
 	return FALSE;
 }
 
-static int
+static gint
 impl_expose_event (GtkWidget *widget,
 		   GdkEventExpose *event)
 {

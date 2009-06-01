@@ -138,7 +138,7 @@ emss_stream_write (CamelStream *stream, const gchar *string, gsize len)
 	return (gssize) len;
 }
 
-static int
+static gint
 emss_stream_flush (CamelStream *stream)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
@@ -154,7 +154,7 @@ emss_stream_flush (CamelStream *stream)
 	return 0;
 }
 
-static int
+static gint
 emss_stream_close (CamelStream *stream)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);

@@ -147,7 +147,7 @@ e_canvas_new (void)
 /* Emits an event for an item in the canvas, be it the current item, grabbed
  * item, or focused item, as appropriate.
  */
-static int
+static gint
 emit_event (GnomeCanvas *canvas, GdkEvent *event)
 {
 	GdkEvent *ev;
@@ -316,7 +316,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, gint 
  */
 #define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
 #define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
-static int
+static gint
 pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 {
 	gint button_down;
@@ -392,8 +392,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 		/* canvas pixel coords */
 
-		cx = (int) (x + 0.5);
-		cy = (int) (y + 0.5);
+		cx = (gint) (x + 0.5);
+		cy = (gint) (y + 0.5);
 
 		/* world coords */
 

@@ -122,15 +122,15 @@ gal_view_minicard_class_init      (GObjectClass *object_class)
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
 	gal_view_minicard_parent_class  = g_type_class_ref (PARENT_TYPE);
 
-	gal_view_class->edit          = NULL			       ;
-	gal_view_class->load          = gal_view_minicard_load         ;
-	gal_view_class->save          = gal_view_minicard_save         ;
-	gal_view_class->get_title     = gal_view_minicard_get_title    ;
-	gal_view_class->set_title     = gal_view_minicard_set_title    ;
+	gal_view_class->edit          = NULL;
+	gal_view_class->load          = gal_view_minicard_load;
+	gal_view_class->save          = gal_view_minicard_save;
+	gal_view_class->get_title     = gal_view_minicard_get_title;
+	gal_view_class->set_title     = gal_view_minicard_set_title;
 	gal_view_class->get_type_code = gal_view_minicard_get_type_code;
-	gal_view_class->clone         = gal_view_minicard_clone        ;
+	gal_view_class->clone         = gal_view_minicard_clone;
 
-	object_class->dispose         = gal_view_minicard_dispose      ;
+	object_class->dispose         = gal_view_minicard_dispose;
 }
 
 static void

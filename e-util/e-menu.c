@@ -366,13 +366,13 @@ void e_menu_activate(EMenu *em, struct _BonoboUIComponent *uic, gint act)
 		for (mw = (struct _menu_node *)p->menus.head;mw->next;mw=mw->next) {
 			struct _item_node *inode;
 
-			for (l = mw->uis; l ; l = g_slist_next(l)) {
+			for (l = mw->uis; l; l = g_slist_next(l)) {
 				EMenuUIFile *ui = l->data;
 
 				bonobo_ui_util_set_ui(uic, ui->appdir, ui->filename, ui->appname, NULL);
 			}
 
-			for (l = mw->pixmaps; l ; l = g_slist_next(l)) {
+			for (l = mw->pixmaps; l; l = g_slist_next(l)) {
 				EMenuPixmap *pm = l->data;
 
 				if (pm->pixmap)
@@ -538,7 +538,7 @@ e_menu_class_remove_factory(EMenuClass *klass, EMenuFactory *f)
  * to specify the actual target size, which may vary depending on the
  * implementing class.
  **/
-gpointer e_menu_target_new(EMenu *ep, gint type, size_t size)
+gpointer e_menu_target_new(EMenu *ep, gint type, gsize size)
 {
 	EMenuTarget *t;
 
@@ -821,7 +821,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
