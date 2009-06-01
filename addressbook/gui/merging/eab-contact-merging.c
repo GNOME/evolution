@@ -183,7 +183,7 @@ dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
 	return;
 }
 
-static int
+static gint
 mergeit (EContactMergingLookup *lookup)
 {
 	GtkWidget *scrolled_window, *label, *hbox, *dropdown;
@@ -218,7 +218,7 @@ mergeit (EContactMergingLookup *lookup)
 	num_of_email = g_list_length (email_attr_list);
 
 	/*we match all the string fields of the already existing contact and the new contact.*/
-	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
+	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 		dropdown_data *data = NULL;
 		string = (gchar *)e_contact_get_const (lookup->contact, field);
 		string1 = (gchar *)e_contact_get_const (lookup->match, field);
@@ -369,7 +369,7 @@ check_if_same (EContact *contact, EContact *match)
 	gint num_of_email;
 	gchar *str = NULL, *string = NULL, *string1 = NULL;
 
-	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) ; field++) {
+	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 		email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
 		num_of_email = g_list_length (email_attr_list);
 

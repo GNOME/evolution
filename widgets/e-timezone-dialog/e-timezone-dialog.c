@@ -323,7 +323,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 }
 
 #if 0
-static int
+static gint
 get_local_offset (void)
 {
 	time_t now = time(NULL), t_gmt, t_local;
@@ -396,8 +396,8 @@ e_timezone_dialog_new (void)
 }
 
 static void
-format_utc_offset			(int		 utc_offset,
-					 char		*buffer)
+format_utc_offset			(gint		 utc_offset,
+					 gchar		*buffer)
 {
   const gchar *sign = "+";
   gint hours, minutes, seconds;

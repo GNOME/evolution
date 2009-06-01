@@ -575,7 +575,7 @@ static MailMsgInfo vfolder_setup_info = {
 };
 
 /* sources_uri should be camel uri's */
-static int
+static gint
 vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
 {
 	struct _setup_msg *m;
@@ -610,8 +610,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	CamelFolder *folder;
 	CamelStore *store;
 	GPtrArray *folders;
-	GList *folder_list_account = NULL ;
-	GList *l, *folder_list = NULL ;
+	GList *folder_list_account = NULL;
+	GList *l, *folder_list = NULL;
 	CamelException *ex;
 	ex = camel_exception_new ();
 
@@ -1054,7 +1054,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, gint act)
 		EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 
 		/* Stop button */
-		state = mail_msg_active((unsigned int)-1);
+		state = mail_msg_active((guint)-1);
 		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", state?"1":"0", NULL);
 
 //		/* HideDeleted */

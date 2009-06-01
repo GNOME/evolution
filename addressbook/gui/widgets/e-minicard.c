@@ -875,7 +875,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, g
 	g_list_free (emails);
 }
 
-static int
+static gint
 get_left_width (EMinicard *e_minicard, gboolean is_list)
 {
 	gchar *name;

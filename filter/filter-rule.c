@@ -203,7 +203,7 @@ filter_rule_validate (FilterRule *fr)
 	return FILTER_RULE_GET_CLASS (fr)->validate (fr);
 }
 
-static int
+static gint
 validate (FilterRule *fr)
 {
 	gint valid = TRUE;
@@ -240,7 +240,7 @@ filter_rule_eq (FilterRule *fr, FilterRule *cm)
 		&& FILTER_RULE_GET_CLASS (fr)->eq (fr, cm);
 }
 
-static int
+static gint
 list_eq(GList *al, GList *bl)
 {
 	gint truth = TRUE;
@@ -256,7 +256,7 @@ list_eq(GList *al, GList *bl)
 	return truth && al == NULL && bl == NULL;
 }
 
-static int
+static gint
 rule_eq (FilterRule *fr, FilterRule *cm)
 {
 	return fr->enabled == cm->enabled
@@ -387,7 +387,7 @@ filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	return res;
 }
 
-static int
+static gint
 xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
 	xmlNodePtr work;

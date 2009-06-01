@@ -65,7 +65,7 @@ static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 gint             view_col);
 static void e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde);
 static void e_cell_date_edit_select_matching_time(ECellDateEdit	*ecde,
-						  char		*time);
+						  gchar		*time);
 static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 						 gint             row,
 						 gint             view_col);
@@ -565,7 +565,7 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 
 static void
 e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
-					 char		*time)
+					 gchar		*time)
 {
 	gboolean found = FALSE;
 	gboolean valid;
@@ -667,7 +667,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
 	*y += y1 + 1
-		- (int)((GnomeCanvas *)canvas)->layout.vadjustment->value
+		- (gint)((GnomeCanvas *)canvas)->layout.vadjustment->value
 		+ ((GnomeCanvas *)canvas)->zoom_yofs;
 
 	avail_height = gdk_screen_height () - *y;
@@ -713,7 +713,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 
 /* This handles key press events in the popup window. If the Escape key is
    pressed we hide the popup, and do not change the cell contents. */
-static int
+static gint
 e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellDateEdit	*ecde)
@@ -731,7 +731,7 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 /* This handles button press events in the popup window. If the button is
    pressed outside the popup, we hide it and do not change the cell contents.
 */
-static int
+static gint
 e_cell_date_edit_button_press		(GtkWidget	*popup_window,
 					 GdkEventButton	*event,
 					 ECellDateEdit	*ecde)

@@ -41,7 +41,7 @@
 
 #include "misc/e-send-options.h"
 
-static ESendOptionsDialog * dialog = NULL ;
+static ESendOptionsDialog * dialog = NULL;
 
 void org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t);
 
@@ -69,12 +69,12 @@ feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 	if (state == GTK_RESPONSE_OK) {
 		if (dialog->data->gopts->reply_enabled) {
 			if (dialog->data->gopts->reply_convenient)
-				e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
+				e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" );
 			else if (dialog->data->gopts->reply_within) {
 				time_t t;
 				t = add_day_to_time (time (NULL), dialog->data->gopts->reply_within);
 				strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
-				e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
+				e_msg_composer_add_header (comp, X_REPLY_WITHIN , value);
 			}
 		}
 
@@ -83,33 +83,33 @@ feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 				time_t t;
 				t = add_day_to_time (time (NULL), dialog->data->gopts->expire_after);
 				strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
-				e_msg_composer_add_header (comp, X_EXPIRE_AFTER, value) ;
+				e_msg_composer_add_header (comp, X_EXPIRE_AFTER, value);
 			}
 		}
 		if (dialog->data->gopts->delay_enabled) {
 			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&dialog->data->gopts->delay_until));
-			e_msg_composer_add_header (comp, X_DELAY_UNTIL, value) ;
+			e_msg_composer_add_header (comp, X_DELAY_UNTIL, value);
 		}
 
 		/*Status Tracking Options*/
 		if (dialog->data->sopts->tracking_enabled) {
-			temp = g_strdup_printf ("%d",dialog->data->sopts->track_when) ;
-			e_msg_composer_add_header (comp, X_TRACK_WHEN, temp) ;
-			g_free (temp) ;
+			temp = g_strdup_printf ("%d",dialog->data->sopts->track_when);
+			e_msg_composer_add_header (comp, X_TRACK_WHEN, temp);
+			g_free (temp);
 		}
 
 		if (dialog->data->sopts->autodelete) {
-			e_msg_composer_add_header (comp, X_AUTODELETE, "1") ;
+			e_msg_composer_add_header (comp, X_AUTODELETE, "1");
 		}
 		if (dialog->data->sopts->opened) {
-			temp = g_strdup_printf ("%d",dialog->data->sopts->opened) ;
-			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_OPEN, temp) ;
-			g_free (temp) ;
+			temp = g_strdup_printf ("%d",dialog->data->sopts->opened);
+			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_OPEN, temp);
+			g_free (temp);
 		}
 		if (dialog->data->sopts->declined) {
-			temp = g_strdup_printf ("%d",dialog->data->sopts->declined) ;
-			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp) ;
-			g_free (temp) ;
+			temp = g_strdup_printf ("%d",dialog->data->sopts->declined);
+			e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp);
+			g_free (temp);
 		}
 
 		if (dialog->data->gopts->priority) {
@@ -142,7 +142,7 @@ void
 org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 {
 
-	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
+	EMsgComposer *comp = (struct _EMsgComposer *)t->composer;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 	gchar *temp = NULL;
@@ -152,17 +152,17 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 	if (!account)
 		return;
 
-	temp = strstr (account->transport->url, "groupwise") ;
+	temp = strstr (account->transport->url, "groupwise");
 	if (!temp) {
 		return;
 	}
 	e_msg_composer_set_send_options (comp, TRUE);
 	/* display the send options dialog */
 	if (!dialog) {
-		g_print ("New dialog\n\n") ;
-		dialog = e_sendoptions_dialog_new () ;
+		g_print ("New dialog\n\n");
+		dialog = e_sendoptions_dialog_new ();
 	}
-	e_sendoptions_dialog_run (dialog, GTK_WIDGET (comp), E_ITEM_MAIL) ;
+	e_sendoptions_dialog_run (dialog, GTK_WIDGET (comp), E_ITEM_MAIL);
 
 	g_signal_connect (dialog, "sod_response",
 				  G_CALLBACK (feed_input_data), comp);

@@ -116,7 +116,7 @@ filter_colour_new (void)
 	return (FilterColour *) g_object_new (FILTER_TYPE_COLOUR, NULL, NULL);
 }
 
-static int
+static gint
 colour_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterColour *fc = (FilterColour *) fe;
@@ -151,7 +151,7 @@ xml_encode (FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterColour *fc = (FilterColour *)fe;

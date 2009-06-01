@@ -88,7 +88,7 @@ typedef struct
 
 	GList *notifications;
 
-	float	     vpane_pos;
+	gfloat	     vpane_pos;
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
@@ -112,7 +112,7 @@ struct _CalendarComponentPrivate {
 static void
 calcomp_vpane_realized (GtkWidget *vpane, CalendarComponentView *view)
 {
-	gtk_paned_set_position (GTK_PANED (vpane), (int)(view->vpane_pos*vpane->allocation.height));
+	gtk_paned_set_position (GTK_PANED (vpane), (gint)(view->vpane_pos*vpane->allocation.height));
 
 }
 
@@ -121,7 +121,7 @@ calcomp_vpane_resized (GtkWidget *vpane, GdkEventButton *e, CalendarComponentVie
 {
 
 	view->vpane_pos = gtk_paned_get_position (GTK_PANED (vpane));
-	calendar_config_set_tag_vpane_pos (view->vpane_pos/(float)vpane->allocation.height);
+	calendar_config_set_tag_vpane_pos (view->vpane_pos/(gfloat)vpane->allocation.height);
 
 	return FALSE;
 }
@@ -294,7 +294,7 @@ impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environm
 		EUri *euri = e_uri_new (uri);
 		const gchar *p;
 		gchar *header, *content;
-		size_t len, clen;
+		gsize len, clen;
 		time_t start = -1, end = -1;
 
 		p = euri->query;

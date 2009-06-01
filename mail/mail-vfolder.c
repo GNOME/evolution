@@ -171,7 +171,7 @@ static MailMsgInfo vfolder_setup_info = {
 };
 
 /* sources_uri should be camel uri's */
-static int
+static gint
 vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList *sources_folder)
 {
 	struct _setup_msg *m;
@@ -302,7 +302,7 @@ static MailMsgInfo vfolder_adduri_info = {
 
 
 /* uri should be a camel uri */
-static int
+static gint
 vfolder_adduri(const gchar *uri, GList *folders, gint remove)
 {
 	struct _adduri_msg *m;
@@ -333,7 +333,7 @@ mv_find_folder(GList *l, CamelStore *store, const gchar *uri)
 }
 
 /* uri is a camel uri */
-static int
+static gint
 uri_is_ignore(CamelStore *store, const gchar *uri)
 {
 	EAccountList *accounts;
@@ -396,7 +396,7 @@ uri_is_ignore(CamelStore *store, const gchar *uri)
 }
 
 /* so special we never use it */
-static int
+static gint
 uri_is_spethal(CamelStore *store, const gchar *uri)
 {
 	CamelURL *url;

@@ -438,7 +438,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 	const gchar *p;
 	CamelStore *local_store;
 	gboolean done = FALSE;
-	size_t base_len;
+	gsize base_len;
 
 	local_store = e_mail_shell_backend_get_local_store (global_mail_shell_backend);
 
@@ -450,7 +450,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 	}
 
 	if ((p = strrchr (folder->full_name, '/')))
-		base_len = (size_t) (p - folder->full_name);
+		base_len = (gsize) (p - folder->full_name);
 	else
 		base_len = 0;
 
@@ -578,7 +578,7 @@ static MailMsgInfo create_folder_info = {
 };
 
 
-static int
+static gint
 emfu_create_folder_real (CamelStore *store, const gchar *full_name, void (* done) (CamelFolderInfo *fi, gpointer user_data), gpointer user_data)
 {
 	gchar *name, *namebuf = NULL;

@@ -240,7 +240,7 @@ build_month (gint month, gint year, gint *days, gint *start, gint *end)
 	/* Note that months are zero-based, so September is month 8 */
 
 	if ((year == 1752) && (month == 8)) {
-		memcpy (days, sept_1752, 42 * sizeof (int));
+		memcpy (days, sept_1752, 42 * sizeof (gint));
 
 		if (start)
 			*start = SEPT_1752_START;
@@ -818,7 +818,7 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	row = 0;
 	hour_minute_x = left + width * 0.58;
 	for (i = pdi->start_hour; i < pdi->end_hour; i++) {
-		y = top + yinc * (row + 1) ;
+		y = top + yinc * (row + 1);
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_set_source_rgb (cr, 0, 0, 0);
 
@@ -2646,7 +2646,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 						     categories);
 		top = bound_text (context, font, categories_string, -1,
 				  0.0, top, width, height, TRUE, &page_start, &pages);
-		top += get_font_size (font) - 6 ;
+		top += get_font_size (font) - 6;
 		g_free (categories_string);
 	}
 

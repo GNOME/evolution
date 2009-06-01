@@ -1105,7 +1105,7 @@ action_changed_cb (GtkWidget *action_combo, gpointer data)
 	gint page = 0, i;
 
 	action = e_dialog_combo_box_get (dialog->action_combo, action_map);
-	for (i = 0; action_map[i] != -1 ; i++) {
+	for (i = 0; action_map[i] != -1; i++) {
 		if (action == action_map[i]) {
 			page = i;
 			break;

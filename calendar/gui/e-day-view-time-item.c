@@ -274,11 +274,11 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 static void
 edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		GdkDrawable	   *drawable,
-		int		    x,
-		int		    y,
-		int		    width,
-		int		    height,
-		int		    x_offset,
+		gint		    x,
+		gint		    y,
+		gint		    width,
+		gint		    height,
+		gint		    x_offset,
 		icaltimezone       *use_zone)
 {
 	EDayView *day_view;
@@ -609,10 +609,10 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 static void
 e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			   GdkDrawable	   *drawable,
-			   int		    x,
-			   int		    y,
-			   int		    width,
-			   int		    height)
+			   gint		    x,
+			   gint		    y,
+			   gint		    width,
+			   gint		    height)
 {
 	EDayViewTimeItem *dvtmitem;
 

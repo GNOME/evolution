@@ -239,7 +239,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	gchar *new, *ob;
 	const gchar *ib;
-	size_t ibl, obl;
+	gsize ibl, obl;
 
 	if (!string) return NULL;
 
@@ -297,7 +297,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	gchar *new, *ob;
 	const gchar *ib;
-	size_t ibl, obl;
+	gsize ibl, obl;
 
 	if (!string) return NULL;
 
@@ -601,7 +601,7 @@ e_utf8_xml1_encode (const gchar *text)
 gint
 e_unichar_to_utf8 (gint c, gchar *outbuf)
 {
-  size_t len = 0;
+  gsize len = 0;
   gint first;
   gint i;
 
@@ -1962,7 +1962,7 @@ e_canonical_decomposition (gunichar ch, gunichar * buf)
 	      /* Found it.  */
 	      gint i;
 	      /* We store as a double-nul terminated string.  */
-	      for (len = 0; (e_decomp_table[half].expansion[len] || e_decomp_table[half].expansion[len + 1]); len += 2) ;
+	      for (len = 0; (e_decomp_table[half].expansion[len] || e_decomp_table[half].expansion[len + 1]); len += 2);
 
 	      /* We've counted twice as many bytes as there are
 		 characters.  */

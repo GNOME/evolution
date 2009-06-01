@@ -267,7 +267,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;

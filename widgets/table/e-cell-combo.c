@@ -411,7 +411,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we add 1. */
 	*y += y1 + 1
-		- (int)((GnomeCanvas *)canvas)->layout.vadjustment->value
+		- (gint)((GnomeCanvas *)canvas)->layout.vadjustment->value
 		+ ((GnomeCanvas *)canvas)->zoom_yofs;
 
 	scrollbar_width = popup->vscrollbar->requisition.width
@@ -595,7 +595,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 
 /* This handles key press events in the popup window. If the Escape key is
    pressed we hide the popup, and do not change the cell contents. */
-static int
+static gint
 e_cell_combo_key_press			(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellCombo	*ecc)

@@ -328,7 +328,7 @@ static void
 send_options_copy_check_changed (EGwSendOptions *n_opts)
 {
 	EGwSendOptionsGeneral *ggopts, *o_gopts;
-	EGwSendOptionsStatusTracking *gmopts, *o_gmopts ;
+	EGwSendOptionsStatusTracking *gmopts, *o_gmopts;
 	EGwSendOptionsStatusTracking *gcopts, *o_gcopts;
 	EGwSendOptionsStatusTracking *gtopts, *o_gtopts;
 

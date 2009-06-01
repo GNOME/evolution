@@ -421,7 +421,7 @@ ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 	gint value;
 
 	str = gtk_entry_get_text (GTK_ENTRY (widget));
-	value = (int) g_ascii_strtod (str, NULL);
+	value = (gint) g_ascii_strtod (str, NULL);
 
 	calendar_config_set_ba_reminder (NULL, &value, NULL);
 }

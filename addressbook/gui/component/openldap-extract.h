@@ -147,7 +147,7 @@ struct token {
 	gchar *sval;
 };
 
-static int
+static gint
 get_token( const gchar ** sp, gchar ** token_val )
 {
 	gint kind;
@@ -743,7 +743,7 @@ ldap_str2objectclass( LDAP_CONST gchar * s,
 
 static gchar *ldap_utf8_strchr( const gchar *str, const gchar *chr )
 {
-	for( ; *str != '\0'; LDAP_UTF8_INCR(str) ) {
+	for(; *str != '\0'; LDAP_UTF8_INCR(str) ) {
 		if( ldap_x_utf8_to_ucs4( str ) == ldap_x_utf8_to_ucs4( chr ) ) {
 			return (gchar *) str;
 		}
@@ -752,7 +752,7 @@ static gchar *ldap_utf8_strchr( const gchar *str, const gchar *chr )
 	return NULL;
 }
 
-static size_t ldap_utf8_strcspn( const gchar *str, const gchar *set )
+static gsize ldap_utf8_strcspn( const gchar *str, const gchar *set )
 {
 	const gchar *cstr;
 	const gchar *cset;
@@ -768,7 +768,7 @@ static size_t ldap_utf8_strcspn( const gchar *str, const gchar *set )
 	return cstr - str;
 }
 
-static size_t ldap_utf8_strspn( const gchar *str, const gchar *set )
+static gsize ldap_utf8_strspn( const gchar *str, const gchar *set )
 {
 	const gchar *cstr;
 	const gchar *cset;
@@ -843,15 +843,15 @@ static gchar *ldap_utf8_strtok(gchar *str, const gchar *sep, gchar **last)
 
 typedef struct ldap_url_desc {
 	struct ldap_url_desc *lud_next;
-	char	*lud_scheme;
-	char	*lud_host;
-	int		lud_port;
-	char	*lud_dn;
-	char	**lud_attrs;
-	int		lud_scope;
-	char	*lud_filter;
-	char	**lud_exts;
-	int		lud_crit_exts;
+	gchar	*lud_scheme;
+	gchar	*lud_host;
+	gint		lud_port;
+	gchar	*lud_dn;
+	gchar	**lud_attrs;
+	gint		lud_scope;
+	gchar	*lud_filter;
+	gchar	**lud_exts;
+	gint		lud_crit_exts;
 } LDAPURLDesc;
 
 /* from url.c */
@@ -979,7 +979,7 @@ ldap_free_urldesc( LDAPURLDesc *ludp )
 	LDAP_FREE( ludp );
 }
 
-static int
+static gint
 ldap_int_unhex( gint c )
 {
 	return( c >= '0' && c <= '9' ? c - '0'
@@ -994,7 +994,7 @@ ldap_pvt_hex_unescape( gchar *s )
 	 * Remove URL hex escapes from s... done in place.  The basic concept for
 	 * this routine is borrowed from the WWW library HTUnEscape() routine.
 	 */
-	char	*p;
+	gchar	*p;
 
 	for ( p = s; *s != '\0'; ++s ) {
 		if ( *s == '%' ) {
@@ -1017,10 +1017,10 @@ ldap_pvt_hex_unescape( gchar *s )
 static gchar **
 ldap_str2charray( const gchar *str_in, const gchar *brkstr )
 {
-	char	**res;
-	char	*str, *s;
-	char	*lasts;
-	int	i;
+	gchar	**res;
+	gchar	*str, *s;
+	gchar	*lasts;
+	gint	i;
 
 	/* protect the input string from strtok */
 	str = LDAP_STRDUP( str_in );
@@ -1051,7 +1051,7 @@ ldap_str2charray( const gchar *str_in, const gchar *brkstr )
 		res[i] = LDAP_STRDUP( s );
 
 		if(res[i] == NULL) {
-			for( --i ; i >= 0 ; i-- ) {
+			for( --i; i >= 0; i-- ) {
 				LDAP_FREE( res[i] );
 			}
 			LDAP_FREE( res );
@@ -1068,7 +1068,7 @@ ldap_str2charray( const gchar *str_in, const gchar *brkstr )
 	return( res );
 }
 
-static int
+static gint
 ldap_url_parse_ext( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 {
 /*
@@ -1076,8 +1076,8 @@ ldap_url_parse_ext( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
  */
 
 	LDAPURLDesc	*ludp;
-	char	*p, *q, *r;
-	int		i, enclosed;
+	gchar	*p, *q, *r;
+	gint		i, enclosed;
 	const gchar *scheme = NULL;
 	const gchar *url_tmp;
 	gchar *url;
@@ -1162,7 +1162,7 @@ ldap_url_parse_ext( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 	}
 
 	if ( q != NULL ) {
-		char	*next;
+		gchar	*next;
 
 		*q++ = '\0';
 		ldap_pvt_hex_unescape( q );
@@ -1392,7 +1392,7 @@ ldap_url_parse_ext( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 	return LDAP_URL_SUCCESS;
 }
 
-static int
+static gint
 ldap_url_parse( LDAP_CONST gchar *url_in, LDAPURLDesc **ludpp )
 {
 	gint rc = ldap_url_parse_ext( url_in, ludpp );

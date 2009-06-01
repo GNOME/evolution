@@ -690,8 +690,8 @@ table_canvas_reflow_idle (ETable *e_table)
 		      "height", &height,
 		      "width", &width,
 		      NULL);
-	height = MAX ((int)height, alloc->height);
-	width = MAX((int)width, alloc->width);
+	height = MAX ((gint)height, alloc->height);
+	width = MAX((gint)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
 					NULL, NULL, &oldwidth, &oldheight);
@@ -720,7 +720,7 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	g_object_get (e_table->canvas_vbox,
 		      "height", &height,
 		      NULL);
-	height = MAX ((int)height, alloc->height);
+	height = MAX ((gint)height, alloc->height);
 
 	g_object_set (e_table->canvas_vbox,
 		      "width", width,

@@ -57,55 +57,55 @@ static void	ecp_realize		(ECellView	*ecv);
 static void	ecp_unrealize		(ECellView	*ecv);
 static void	ecp_draw		(ECellView	*ecv,
 					 GdkDrawable	*drawable,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
 					 ECellFlags	 flags,
-					 int		 x1,
-					 int		 y1,
-					 int		 x2,
-					 int		 y2);
+					 gint		 x1,
+					 gint		 y1,
+					 gint		 x2,
+					 gint		 y2);
 static gint	ecp_event		(ECellView	*ecv,
 					 GdkEvent	*event,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
 					 ECellFlags	 flags,
 					 ECellActions	*actions);
-static int	ecp_height		(ECellView	*ecv,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row);
+static gint	ecp_height		(ECellView	*ecv,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row);
 static gpointer	ecp_enter_edit		(ECellView	*ecv,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row);
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row);
 static void	ecp_leave_edit		(ECellView	*ecv,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
 					 void		*edit_context);
 static void	ecp_print		(ECellView	*ecv,
 					 GtkPrintContext *context,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
 					 double		 width,
 					 double		 height);
 static gdouble	ecp_print_height	(ECellView	*ecv,
 					 GtkPrintContext *context,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
 					 double		 width);
-static int	ecp_max_width		(ECellView	*ecv,
-					 int		 model_col,
-					 int		 view_col);
+static gint	ecp_max_width		(ECellView	*ecv,
+					 gint		 model_col,
+					 gint		 view_col);
 static void	ecp_show_tooltip	(ECellView	*ecv,
-					 int		 model_col,
-					 int		 view_col,
-					 int		 row,
-					 int		 col_width,
+					 gint		 model_col,
+					 gint		 view_col,
+					 gint		 row,
+					 gint		 col_width,
 					 ETableTooltip	*tooltip);
 static gchar *ecp_get_bg_color (ECellView *ecell_view, gint row);
 
@@ -368,7 +368,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
 /*
  * ECell::height method
  */
-static int
+static gint
 ecp_height (ECellView *ecv, gint model_col, gint view_col, gint row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
@@ -426,7 +426,7 @@ ecp_print_height (ECellView *ecv, GtkPrintContext *context,
 }
 
 
-static int
+static gint
 ecp_max_width (ECellView *ecv,
 	       gint model_col,
 	       gint view_col)

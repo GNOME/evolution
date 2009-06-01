@@ -550,7 +550,7 @@ reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	camel_mime_part_set_content((CamelMimePart *)new,
-			cont, (int) g_utf8_strlen(cont, -1), "text");
+			cont, (gint) g_utf8_strlen(cont, -1), "text");
 
 	/* Create the composer */
 	em_utils_edit_message (new, templates_folder);

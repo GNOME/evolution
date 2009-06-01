@@ -729,7 +729,7 @@ get_folders(CamelFolderInfo *fi, GPtrArray *folders)
 	}
 }
 
-static int
+static gint
 folder_cmp(gconstpointer ap, gconstpointer bp)
 {
 	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];

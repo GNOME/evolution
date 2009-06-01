@@ -101,7 +101,7 @@ finalize (GObject *object)
 		g_free (config_listener->priv);
 	}
 
-	for ( list = g_list_first (hula_accounts); list ; list = g_list_next (list) ) {
+	for ( list = g_list_first (hula_accounts); list; list = g_list_next (list) ) {
 
 		info = (HulaAccountInfo *) (list->data);
 
@@ -147,7 +147,7 @@ static HulaAccountInfo*
 lookup_account_info (const gchar *key)
 {
 	GList *list;
-        HulaAccountInfo *info ;
+        HulaAccountInfo *info;
 	gint found = 0;
 
         if (!key)
@@ -176,7 +176,7 @@ add_esource (const gchar *conf_key, const gchar *group_name,  const gchar *sourc
 	ESourceGroup *group;
 	ESource *source;
         GConfClient *client;
-	GSList *ids, *temp ;
+	GSList *ids, *temp;
 	gboolean result;
 	gchar *source_selection_key;
 	gchar *relative_uri;
@@ -253,14 +253,14 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 
 	found_group = FALSE;
 
-	for ( ; groups != NULL && !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL && !found_group; groups = g_slist_next (groups)) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 
 		if (strcmp (e_source_group_peek_name (group), group_name) == 0 &&
 		   strcmp (e_source_group_peek_base_uri (group), HULA_CALDAV_URI_PREFIX ) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for( ; sources != NULL; sources = g_slist_next (sources)) {
+			for(; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *source_relative_uri;
 
@@ -325,7 +325,7 @@ modify_esource (const gchar * conf_key, HulaAccountInfo *old_account_info, const
 
 	found_group = FALSE;
 
-	for ( ; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
 
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 
@@ -333,7 +333,7 @@ modify_esource (const gchar * conf_key, HulaAccountInfo *old_account_info, const
 		    strcmp (e_source_group_peek_base_uri (group), HULA_CALDAV_URI_PREFIX) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for ( ; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *source_relative_uri;
 
@@ -544,11 +544,11 @@ camel_hula_listener_construct (CamelHulaListener *config_listener)
 {
 	EIterator *iter;
 	EAccount *account;
-	HulaAccountInfo *info ;
+	HulaAccountInfo *info;
 
 	config_listener->priv->account_list = e_account_list_new (config_listener->priv->gconf_client);
 
-	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ) ; e_iterator_is_valid (iter); e_iterator_next (iter) ) {
+	for ( iter = e_list_get_iterator (E_LIST ( config_listener->priv->account_list) ); e_iterator_is_valid (iter); e_iterator_next (iter) ) {
 
 		account = E_ACCOUNT (e_iterator_get (iter));
 

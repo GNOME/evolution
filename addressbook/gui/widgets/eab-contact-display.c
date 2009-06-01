@@ -783,8 +783,8 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 					max_dimension = calced_height;
 
 				if (max_dimension > MAX_COMPACT_IMAGE_DIMENSION) {
-					calced_width *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
-					calced_height *= ((float)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_width *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
+					calced_height *= ((gfloat)MAX_COMPACT_IMAGE_DIMENSION / max_dimension);
 				}
 			}
 
@@ -891,7 +891,7 @@ eab_contact_display_render_compact (EABContactDisplay *display,
 	gtk_html_end (GTK_HTML (display), html_stream, GTK_HTML_STREAM_OK);
 }
 
-static int
+static gint
 contact_display_button_press_event (GtkWidget *widget,
                                     GdkEvent *event,
                                     EABContactDisplay *display)

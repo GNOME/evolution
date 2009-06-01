@@ -60,37 +60,37 @@ static void e_calendar_item_unmap	(GnomeCanvasItem *item);
 static void e_calendar_item_update	(GnomeCanvasItem *item,
 					 double		 *affine,
 					 ArtSVP		 *clip_path,
-					 int		  flags);
+					 gint		  flags);
 static void e_calendar_item_draw	(GnomeCanvasItem *item,
 					 GdkDrawable	 *drawable,
-					 int		  x,
-					 int		  y,
-					 int		  width,
-					 int		  height);
+					 gint		  x,
+					 gint		  y,
+					 gint		  width,
+					 gint		  height);
 static void e_calendar_item_draw_month	(ECalendarItem   *calitem,
 					 GdkDrawable	 *drawable,
-					 int		  x,
-					 int		  y,
-					 int		  width,
-					 int		  height,
-					 int		  row,
-					 int		  col);
+					 gint		  x,
+					 gint		  y,
+					 gint		  width,
+					 gint		  height,
+					 gint		  row,
+					 gint		  col);
 static void e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					      GdkDrawable	*drawable,
-					      int		 width,
-					      int		 height,
-					      int		 row,
-					      int		 col,
-					      int		 year,
-					      int		 month,
-					      int		 start_weekday,
+					      gint		 width,
+					      gint		 height,
+					      gint		 row,
+					      gint		 col,
+					      gint		 year,
+					      gint		 month,
+					      gint		 start_weekday,
 					      gint		 cells_x,
 					      gint		 cells_y);
 static double e_calendar_item_point	(GnomeCanvasItem *item,
 					 double		  x,
 					 double		  y,
-					 int		  cx,
-					 int		  cy,
+					 gint		  cx,
+					 gint		  cy,
 					 GnomeCanvasItem **actual_item);
 static void e_calendar_item_stop_selecting (ECalendarItem *calitem,
 					    guint32 time);
@@ -891,7 +891,7 @@ static void
 e_calendar_item_update		(GnomeCanvasItem *item,
 				 double		 *affine,
 				 ArtSVP		 *clip_path,
-				 int		  flags)
+				 gint		  flags)
 {
 	ECalendarItem *calitem;
 	GtkStyle *style;
@@ -1024,10 +1024,10 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 static void
 e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 				 GdkDrawable	 *drawable,
-				 int		  x,
-				 int		  y,
-				 int		  width,
-				 int		  height)
+				 gint		  x,
+				 gint		  y,
+				 gint		  width,
+				 gint		  height)
 {
 	ECalendarItem *calitem;
 	GtkStyle *style;
@@ -1151,12 +1151,12 @@ layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, gint day_index
 static void
 e_calendar_item_draw_month	(ECalendarItem   *calitem,
 				 GdkDrawable	 *drawable,
-				 int		  x,
-				 int		  y,
-				 int		  width,
-				 int		  height,
-				 int		  row,
-				 int		  col)
+				 gint		  x,
+				 gint		  y,
+				 gint		  width,
+				 gint		  height,
+				 gint		  row,
+				 gint		  col)
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
@@ -1395,13 +1395,13 @@ get_digit_fomat ()
 static void
 e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				  GdkDrawable	*drawable,
-				  int		 width,
-				  int		 height,
-				  int		 row,
-				  int		 col,
-				  int		 year,
-				  int		 month,
-				  int		 start_weekday,
+				  gint		 width,
+				  gint		 height,
+				  gint		 row,
+				  gint		 col,
+				  gint		 year,
+				  gint		 month,
+				  gint		 start_weekday,
 				  gint		 cells_x,
 				  gint		 cells_y)
 {

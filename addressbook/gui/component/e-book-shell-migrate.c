@@ -144,7 +144,7 @@ dialog_set_progress (MigrationContext *context, double percent)
 {
 	gchar text[5];
 
-	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	snprintf (text, sizeof (text), "%d%%", (gint) (percent * 100.0f));
 
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (context->progress), percent);
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (context->progress), text);
@@ -188,7 +188,7 @@ get_source_name (ESourceGroup *group, const gchar *path)
 	gboolean conflict;
 	GString *s = g_string_new ("");
 
-	for (i = 0; p[i]; i ++) ;
+	for (i = 0; p[i]; i ++);
 
 	num_elements = i;
 	i--;
@@ -586,7 +586,7 @@ get_string_child (xmlNode *node,
 	return retval;
 }
 
-static int
+static gint
 get_integer_child (xmlNode *node,
 		   const gchar *name,
 		   gint defval)
@@ -784,7 +784,7 @@ migrate_completion_folders (MigrationContext *context)
 
 				   if the physical_uri is anything
 				   else, we strip off the args
-				   (anything after ;) before searching
+				   (anything after;) before searching
 				   for the uri. */
 
 				if (!strncmp (physical_uri, "file://", 7)) {
@@ -1023,9 +1023,9 @@ migrate_pilot_data (const gchar *old_path, const gchar *new_path)
 		     ((ext = strrchr (dent, '.')) && !strcmp (ext, ".db")))) {
 			/* src and dest file formats are identical for both map and changelog files */
 			guchar inbuf[4096];
-			size_t nread, nwritten;
+			gsize nread, nwritten;
 			gint fd0, fd1;
-			ssize_t n;
+			gssize n;
 
 			filename = g_build_filename (old_path, dent, NULL);
 			if ((fd0 = g_open (filename, O_RDONLY | O_BINARY, 0)) == -1) {

@@ -2711,7 +2711,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			data->cal_view = (ECalendarView *)view;
 			data->day = -1;
 			data->event_num = event_num;
-			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, int)) tooltip_get_view_event;
+			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
 			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
@@ -3295,7 +3295,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		data->cal_view = (ECalendarView *)week_view;
 		data->day = -1;
 		data->event_num = nevent;
-		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, int)) tooltip_get_view_event;
+		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 		pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
 		g_object_set_data ((GObject *)week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 

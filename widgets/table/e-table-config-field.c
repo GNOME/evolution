@@ -81,7 +81,7 @@ e_table_config_field_new       (ETableSpecification *spec,
 	return (ETableConfigField *) etcf;
 }
 
-inline static int
+inline static gint
 etcf_get_count (ETableConfigField *etcf)
 {
 	if (etcf->grouping)

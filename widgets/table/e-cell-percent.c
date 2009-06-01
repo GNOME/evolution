@@ -90,7 +90,7 @@ ecp_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
 	if (text) {
 		p = text;
 		while (*p) {
-			if (!isspace ((unsigned char) *p)) {
+			if (!isspace ((guchar) *p)) {
 				empty = FALSE;
 				break;
 			}

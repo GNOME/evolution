@@ -30,7 +30,7 @@
 
 G_DEFINE_TYPE (ETableSimple, e_table_simple, E_TABLE_MODEL_TYPE)
 
-static int
+static gint
 simple_column_count (ETableModel *etm)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);
@@ -41,7 +41,7 @@ simple_column_count (ETableModel *etm)
 		return 0;
 }
 
-static int
+static gint
 simple_row_count (ETableModel *etm)
 {
 	ETableSimple *simple = E_TABLE_SIMPLE(etm);

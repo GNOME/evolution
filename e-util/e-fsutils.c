@@ -60,7 +60,7 @@
  * Return value: The number of 1024 byte blocks used by the
  * filesystem.
  **/
-long e_fsutils_usage(const gchar *inpath)
+glong e_fsutils_usage(const gchar *inpath)
 {
 	GDir *dir;
 	const gchar *d;
@@ -128,7 +128,7 @@ fail:
  * number of disk blocks, expressed as system-independent, 1024 byte
  * blocks.
  **/
-long
+glong
 e_fsutils_avail(const gchar *path)
 {
 #if defined(HAVE_STATVFS)

@@ -292,7 +292,7 @@ setup_create_ecal (MemosComponent *component, MemosComponentView *component_view
 	/* Save the primary source for use elsewhere */
 	calendar_config_set_primary_memos (e_source_peek_uid (source));
 
-	return priv->create_ecal ;
+	return priv->create_ecal;
 }
 
 /* Ensures the calendar is selected */

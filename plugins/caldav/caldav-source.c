@@ -90,7 +90,7 @@ replace_at_sign (const gchar *str)
 
 	res = g_strdup (str);
 	while (at = strchr (res, '@'), at) {
-		gchar *tmp = g_malloc0 (sizeof (char) * (1 + strlen (res) + 2));
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (res) + 2));
 
 		strncpy (tmp, res, at - res);
 		strcat (tmp, "%40");

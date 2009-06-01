@@ -145,7 +145,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 {
 	ESourceGroup *group;
 	ESource *source;
-	GSList *ids, *temp ;
+	GSList *ids, *temp;
 	GError *error = NULL;
 	gchar *relative_uri;
 	const gchar *soap_port;

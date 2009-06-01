@@ -135,7 +135,7 @@ static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *mul
  * Return Value: The part in displayable html format.
  **/
 static gchar *
-emcu_part_to_html (CamelMimePart *part, ssize_t *len, EMFormat *source)
+emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;

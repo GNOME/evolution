@@ -112,7 +112,7 @@ e_cal_model_tasks_finalize (GObject *object)
 }
 
 /* ETableModel methods */
-static int
+static gint
 ecmt_column_count (ETableModel *etm)
 {
 	return E_CAL_MODEL_TASKS_FIELD_LAST;
@@ -310,7 +310,7 @@ get_geo (ECalModelComponent *comp_data)
 	return (gpointer) "";
 }
 
-static int
+static gint
 get_percent (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;

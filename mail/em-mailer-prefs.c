@@ -160,7 +160,7 @@ mark_seen_timeout_transform (const GValue *src_value,
 {
 	gdouble v_double;
 
-	/* Shell Settings (int) -> Spin Button (double) */
+	/* Shell Settings (gint) -> Spin Button (double) */
 	v_double = (gdouble) g_value_get_int (src_value);
 	g_value_set_double (dst_value, v_double / 1000.0);
 
@@ -174,7 +174,7 @@ mark_seen_timeout_reverse_transform (const GValue *src_value,
 {
 	gdouble v_double;
 
-	/* Spin Button (double) -> Shell Settings (int) */
+	/* Spin Button (double) -> Shell Settings (gint) */
 	v_double = g_value_get_double (src_value);
 	g_value_set_int (dst_value, v_double * 1000);
 

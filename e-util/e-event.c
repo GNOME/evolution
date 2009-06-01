@@ -218,7 +218,7 @@ e_event_remove_items(EEvent *emp, gpointer handle)
 	}
 }
 
-static int
+static gint
 ee_cmp(gconstpointer ap, gconstpointer bp)
 {
 	gint a = ((struct _event_info **)ap)[0]->item->priority;
@@ -306,7 +306,7 @@ e_event_emit(EEvent *emp, const gchar *id, EEventTarget *target)
  * the implementation to define the available target types and their
  * structure.
  **/
-gpointer e_event_target_new(EEvent *ep, gint type, size_t size)
+gpointer e_event_target_new(EEvent *ep, gint type, gsize size)
 {
 	EEventTarget *t;
 
@@ -455,7 +455,7 @@ error:
 	return NULL;
 }
 
-static int
+static gint
 emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;

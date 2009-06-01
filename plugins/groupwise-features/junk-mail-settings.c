@@ -132,7 +132,7 @@ org_gnome_junk_settings(EPlugin *ep, EMPopupTargetSelect *t)
 	static gint first = 0;
 
 	if (! g_strrstr (t->uri, "groupwise://"))
-		return ;
+		return;
 
 	/* for translation*/
 	if (!first) {

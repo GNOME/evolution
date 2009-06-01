@@ -87,7 +87,7 @@ static guint signals[LAST_SIGNAL] = {0};
 /* exchange_send_options_get_widgets_data(ExchangeSendOptionsDialog *sod)
    Return Value:This function returns a -1 if an error occurs. In case of error-free operation a 1 is returned.
 */
-static int
+static gint
 exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 {
 	ExchangeSendOptionsDialogPrivate *priv;

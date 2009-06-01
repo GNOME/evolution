@@ -159,7 +159,7 @@ write_to_ipod (GString *str, gchar *path, gchar *filename)
 	guchar		*utf8;
 	gunichar2	*utf16;
 	guchar		bom[2] = {0xFF, 0xFE};
-	int			i, count;
+	gint			i, count;
 
 	output_path = g_build_path (G_DIR_SEPARATOR_S,
 										ipod_info.mount_point,

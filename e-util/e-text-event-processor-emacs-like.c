@@ -435,11 +435,11 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						key.keyval -= 'A' - 'a';
 
 					if ((key.keyval >= 'a') && (key.keyval <= 'z')) {
-						command.position = control_keys[(int) (key.keyval - 'a')].position;
-						if (control_keys[(int) (key.keyval - 'a')].action != E_TEP_MOVE)
-							command.action = control_keys[(int) (key.keyval - 'a')].action;
-						command.value = control_keys[(int) (key.keyval - 'a')].value;
-						command.string = control_keys[(int) (key.keyval - 'a')].string;
+						command.position = control_keys[(gint) (key.keyval - 'a')].position;
+						if (control_keys[(gint) (key.keyval - 'a')].action != E_TEP_MOVE)
+							command.action = control_keys[(gint) (key.keyval - 'a')].action;
+						command.value = control_keys[(gint) (key.keyval - 'a')].value;
+						command.string = control_keys[(gint) (key.keyval - 'a')].string;
 					}
 
 					if (key.keyval == ' ') {
@@ -461,11 +461,11 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						key.keyval -= 'A' - 'a';
 
 					if ((key.keyval >= 'a') && (key.keyval <= 'z')) {
-						command.position = alt_keys[(int) (key.keyval - 'a')].position;
-						if (alt_keys[(int) (key.keyval - 'a')].action != E_TEP_MOVE)
-							command.action = alt_keys[(int) (key.keyval - 'a')].action;
-						command.value = alt_keys[(int) (key.keyval - 'a')].value;
-						command.string = alt_keys[(int) (key.keyval - 'a')].string;
+						command.position = alt_keys[(gint) (key.keyval - 'a')].position;
+						if (alt_keys[(gint) (key.keyval - 'a')].action != E_TEP_MOVE)
+							command.action = alt_keys[(gint) (key.keyval - 'a')].action;
+						command.value = alt_keys[(gint) (key.keyval - 'a')].value;
+						command.string = alt_keys[(gint) (key.keyval - 'a')].string;
 					}
 				} else if (!(key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK) && key.length > 0) {
 					if (key.keyval >= GDK_KP_0 && key.keyval <= GDK_KP_9) {

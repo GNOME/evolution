@@ -302,10 +302,10 @@ void		em_format_add_header		(EMFormat *emf,
 /* FIXME: Need a 'clone' api to copy details about the current view (inlines etc)
    Or maybe it should live with sub-classes? */
 
-int		em_format_is_attachment		(EMFormat *emf,
+gint		em_format_is_attachment		(EMFormat *emf,
 						 CamelMimePart *part);
 
-int		em_format_is_inline		(EMFormat *emf,
+gint		em_format_is_inline		(EMFormat *emf,
 						 const gchar *partid,
 						 CamelMimePart *part,
 						 const EMFormatHandler *handle);
@@ -332,7 +332,7 @@ const EMFormatHandler *
 
 /* puri is short for pending uri ... really */
 EMFormatPURI *	em_format_add_puri		(EMFormat *emf,
-						 size_t size,
+						 gsize size,
 						 const gchar *uri,
 						 CamelMimePart *part,
 						 EMFormatPURIFunc func);

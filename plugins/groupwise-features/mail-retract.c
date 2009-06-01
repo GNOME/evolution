@@ -115,5 +115,5 @@ void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t)
 
 		e_popup_add_items (t->target.popup, menus, NULL, popup_free, t->folder);
 	}
-	return ;
+	return;
 }

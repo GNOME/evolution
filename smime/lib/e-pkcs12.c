@@ -207,7 +207,7 @@ prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
 					   NULL);
 
 	if (passwd) {
-		size_t len = strlen (passwd);
+		gsize len = strlen (passwd);
 		const gchar *inptr = passwd;
 		guchar *outptr;
 		gunichar2 c;

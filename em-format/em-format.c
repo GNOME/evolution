@@ -356,7 +356,7 @@ em_format_fallback_handler(EMFormat *emf, const gchar *mime_type)
 	if (s == NULL)
 		mime = (gchar *)mime_type;
 	else {
-		size_t len = (s-mime_type)+1;
+		gsize len = (s-mime_type)+1;
 
 		mime = alloca(len+2);
 		strncpy(mime, mime_type, len);
@@ -391,7 +391,7 @@ em_format_fallback_handler(EMFormat *emf, const gchar *mime_type)
  * are resolved by forgetting the old PURI in the global index.
  **/
 EMFormatPURI *
-em_format_add_puri(EMFormat *emf, size_t size, const gchar *cid, CamelMimePart *part, EMFormatPURIFunc func)
+em_format_add_puri(EMFormat *emf, gsize size, const gchar *cid, CamelMimePart *part, EMFormatPURIFunc func)
 {
 	EMFormatPURI *puri;
 	const gchar *tmp;
@@ -1204,8 +1204,8 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
-	size_t size;
-	size_t max;
+	gsize size;
+	gsize max;
 	GConfClient *gconf;
 
 	if (emf->charset) {

@@ -2334,7 +2334,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	e_cal_component_get_organizer (newcomp, &organiser);
 	if (organiser.cn) {
-		gchar *ptr ;
+		gchar *ptr;
 		ptr = strchr(organiser.value, ':');
 
 		if (ptr) {

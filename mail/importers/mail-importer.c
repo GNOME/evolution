@@ -237,7 +237,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			guint32 flags = 0;
 
 			if (st.st_size > 0)
-				pc = (int)(100.0 * ((double)camel_mime_parser_tell(mp) / (double)st.st_size));
+				pc = (gint)(100.0 * ((double)camel_mime_parser_tell(mp) / (double)st.st_size));
 			camel_operation_progress(NULL, pc);
 
 			msg = camel_mime_message_new();

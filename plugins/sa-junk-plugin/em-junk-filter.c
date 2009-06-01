@@ -103,7 +103,7 @@ static gboolean em_junk_sa_allow_tell_tested = FALSE;
 gchar *em_junk_sa_spamc_gconf_binary = NULL;
 gchar *em_junk_sa_spamd_gconf_binary = NULL;
 
-static int
+static gint
 pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gint rv_err, gint wait_for_termination, GByteArray *output_buffer, GError **error)
 {
 	gint result, status, errnosav, fds[2], out_fds[2];
@@ -253,7 +253,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 		return 0;
 }
 
-static int
+static gint
 pipe_to_sa (CamelMimeMessage *msg, const gchar *in, const gchar **argv, GError **error)
 {
 	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, error);
@@ -513,7 +513,7 @@ em_junk_sa_is_available (GError **error)
 
 	/* While we're at it, see if spamd is running with --allow-tell */
 	if (!em_junk_sa_allow_tell_tested)
-		em_junk_sa_test_allow_tell () ;
+		em_junk_sa_test_allow_tell ();
 
 	pthread_mutex_unlock (&em_junk_sa_init_lock);
 

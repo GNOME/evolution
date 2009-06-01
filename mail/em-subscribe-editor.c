@@ -246,7 +246,7 @@ static MailMsgInfo sub_subscribe_folder_info = {
 };
 
 /* spath is tree path in string form */
-static int
+static gint
 sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, gint state, const gchar *spath)
 {
 	struct _zsubscribe_msg *m;
@@ -421,7 +421,7 @@ static MailMsgInfo sub_folderinfo_info = {
 	(MailMsgFreeFunc) sub_folderinfo_free
 };
 
-static int
+static gint
 sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 {
 	struct _emse_folderinfo_msg *m;

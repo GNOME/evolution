@@ -153,9 +153,9 @@ static void on_date_popup_date_selected		(ECalendarItem	*calitem,
 						 EDateEdit	*dedit);
 static void hide_date_popup			(EDateEdit	*dedit);
 static void rebuild_time_popup			(EDateEdit	*dedit);
-static gboolean field_set_to_none		(const char	*text);
+static gboolean field_set_to_none		(const gchar	*text);
 static gboolean e_date_edit_parse_date		(EDateEdit	*dedit,
-						 const char	*date_text,
+						 const gchar	*date_text,
 						 struct tm	*date_tm);
 static gboolean e_date_edit_parse_time		(EDateEdit	*dedit,
 						 const gchar	*time_text,
@@ -1504,7 +1504,7 @@ field_set_to_none (const gchar *text)
 	gint n;
 
 	pos = text;
-	while (n = (int)((unsigned char)*pos), isspace (n))
+	while (n = (gint)((guchar)*pos), isspace (n))
 		pos++;
 
 	none_string = _("None");

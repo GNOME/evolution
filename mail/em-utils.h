@@ -83,7 +83,7 @@ void em_utils_adjustment_page(GtkAdjustment *adj, gboolean down);
 gchar *em_utils_get_proxy_uri (const gchar *uri);
 
 /* FIXME: should this have an override charset? */
-gchar *em_utils_message_to_html(CamelMimeMessage *msg, const gchar *credits, guint32 flags, ssize_t *len, struct _EMFormat *source, const gchar *append);
+gchar *em_utils_message_to_html(CamelMimeMessage *msg, const gchar *credits, guint32 flags, gssize *len, struct _EMFormat *source, const gchar *append);
 
 void em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder);
 void em_utils_empty_trash (GtkWidget *parent);

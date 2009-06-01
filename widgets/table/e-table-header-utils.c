@@ -67,7 +67,7 @@ build_header_layout (GtkWidget *widget, const gchar *str)
  *
  * Return value: The height of the button, in pixels.
  **/
-double
+gdouble
 e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
 {
 	gint ythick;
@@ -98,7 +98,7 @@ e_table_header_compute_height (ETableCol *ecol, GtkWidget *widget)
 	return height;
 }
 
-double
+gdouble
 e_table_header_width_extras (GtkStyle *style)
 {
 	g_return_val_if_fail (style != NULL, -1);
@@ -179,7 +179,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 				else
 					xfactor = width;
 
-				p[3] = ((int) p[3] * xfactor * yfactor / (width * height));
+				p[3] = ((gint) p[3] * xfactor * yfactor / (width * height));
 				p += 4;
 			}
 		}

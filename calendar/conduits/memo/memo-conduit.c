@@ -356,7 +356,7 @@ static gchar *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
-static int
+static gint
 start_calendar_server (EMemoConduitContext *ctxt)
 {
 	g_return_val_if_fail (ctxt != NULL, -2);

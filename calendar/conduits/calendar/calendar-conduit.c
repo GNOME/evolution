@@ -461,7 +461,7 @@ auth_func_cb (ECal *ecal, const gchar * prompt, const gchar *key, gpointer user_
 	return password;
 }
 
-static int
+static gint
 start_calendar_server (ECalConduitContext *ctxt)
 {
 	gchar *str_uri = NULL;
@@ -575,7 +575,7 @@ get_ical_day (gint day)
 	return ICAL_NO_WEEKDAY;
 }
 
-static int
+static gint
 get_pilot_day (icalrecurrencetype_weekday wd)
 {
 	switch (wd) {

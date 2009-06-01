@@ -97,7 +97,7 @@ emm_load_xml (const gchar *dirname, const gchar *filename)
 	return doc;
 }
 
-static int
+static gint
 emm_save_xml (xmlDocPtr doc, const gchar *dirname, const gchar *filename)
 {
 	gchar *path;
@@ -1189,7 +1189,7 @@ em_migrate_set_progress (double percent)
 {
 	gchar text[5];
 
-	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	snprintf (text, sizeof (text), "%d%%", (gint) (percent * 100.0f));
 
 	gtk_progress_bar_set_fraction (progress, percent);
 	gtk_progress_bar_set_text (progress, text);
@@ -1370,9 +1370,9 @@ static gboolean
 cp (const gchar *src, const gchar *dest, gboolean show_progress, gint mode)
 {
 	guchar readbuf[65536];
-	ssize_t nread, nwritten;
+	gssize nread, nwritten;
 	gint errnosav, readfd, writefd;
-	size_t total = 0;
+	gsize total = 0;
 	struct stat st;
 	struct utimbuf ut;
 
@@ -1453,7 +1453,7 @@ cp_r (const gchar *src, const gchar *dest, const gchar *pattern, gint mode)
 {
 	GString *srcpath, *destpath;
 	struct dirent *dent;
-	size_t slen, dlen;
+	gsize slen, dlen;
 	struct stat st;
 	DIR *dir;
 
@@ -1568,7 +1568,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 	/* Manually copy local mbox files, its much faster */
 	if (!strncmp (uri, "mbox:", 5)) {
 		static const gchar *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
-		size_t slen, dlen;
+		gsize slen, dlen;
 		FILE *fp;
 		gchar *p;
 		gint mode;
@@ -2000,7 +2000,7 @@ em_migrate_pop_uid_caches_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
-	size_t olen, nlen;
+	gsize olen, nlen;
 	gchar *cache_dir;
 	DIR *dir;
 	gboolean success = TRUE;
@@ -2109,7 +2109,7 @@ static gboolean
 em_migrate_folder_expand_state_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
-	size_t slen, dlen, rlen;
+	gsize slen, dlen, rlen;
 	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
@@ -2207,7 +2207,7 @@ static gboolean
 em_migrate_folder_view_settings_1_4 (const gchar *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
-	size_t slen, dlen, rlen;
+	gsize slen, dlen, rlen;
 	gchar *evo14_mbox_root;
 	struct dirent *dent;
 	struct stat st;
@@ -2243,7 +2243,7 @@ em_migrate_folder_view_settings_1_4 (const gchar *data_dir, GError **error)
 	while ((dent = readdir (dir))) {
 		gchar *full_name, *inptr, *buf = NULL;
 		const gchar *filename, *ext;
-		size_t prelen = 0;
+		gsize prelen = 0;
 		GString *new;
 
 		if (dent->d_name[0] == '.')

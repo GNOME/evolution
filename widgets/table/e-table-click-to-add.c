@@ -313,7 +313,7 @@ etcta_unrealize (GnomeCanvasItem *item)
 
 static void finish_editing (ETableClickToAdd *etcta);
 
-static int
+static gint
 item_key_press (ETableItem *item, gint row, gint col, GdkEvent *event, ETableClickToAdd *etcta)
 {
 	switch (event->key.keyval) {
@@ -374,7 +374,7 @@ finish_editing (ETableClickToAdd *etcta)
 /*
  * Handles the events on the ETableClickToAdd, particularly it creates the ETableItem and passes in some events.
  */
-static int
+static gint
 etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);

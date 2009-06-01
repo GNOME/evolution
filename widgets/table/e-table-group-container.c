@@ -198,7 +198,7 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 }
 
 
-static int
+static gint
 etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
@@ -572,7 +572,7 @@ etgc_remove (ETableGroup *etg, gint row)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list;
 
-	for (list = etgc->children ; list; list = g_list_next (list)) {
+	for (list = etgc->children; list; list = g_list_next (list)) {
 		ETableGroupContainerChildNode *child_node = list->data;
 		ETableGroup                   *child = child_node->child;
 
@@ -593,7 +593,7 @@ etgc_remove (ETableGroup *etg, gint row)
 	return FALSE;
 }
 
-static int
+static gint
 etgc_row_count (ETableGroup *etg)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
@@ -613,7 +613,7 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list = etgc->children;
 
-	for (list = etgc->children ; list; list = g_list_next (list))
+	for (list = etgc->children; list; list = g_list_next (list))
 		e_table_group_increment (((ETableGroupContainerChildNode *)list->data)->child,
 					 position, amount);
 }
@@ -624,7 +624,7 @@ etgc_decrement (ETableGroup *etg, gint position, gint amount)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list = etgc->children;
 
-	for (list = etgc->children ; list; list = g_list_next (list))
+	for (list = etgc->children; list; list = g_list_next (list))
 		e_table_group_decrement (((ETableGroupContainerChildNode *)list->data)->child,
 					 position, amount);
 }
@@ -1220,8 +1220,8 @@ e_table_group_container_print_page  (EPrintable *ep,
 		cairo_save (cr);
 		cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
 		cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
-		cairo_set_source_rgb (cr, .7, .7, .7) ;
-		cairo_fill(cr) ;
+		cairo_set_source_rgb (cr, .7, .7, .7);
+		cairo_fill(cr);
 		cairo_restore (cr);
 
 		cairo_save (cr);
@@ -1245,7 +1245,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 		pango_cairo_show_layout (cr, layout);
 		g_free(string);
 
-		cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT) ;
+		cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
 		cairo_move_to(cr, 0, 0);
 		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
 		cairo_clip(cr);

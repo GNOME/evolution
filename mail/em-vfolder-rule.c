@@ -207,7 +207,7 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const gchar *last)
 	return NULL;
 }
 
-static int
+static gint
 validate(FilterRule *fr)
 {
 	g_return_val_if_fail(fr != NULL, 0);
@@ -229,7 +229,7 @@ validate(FilterRule *fr)
 	return FILTER_RULE_CLASS(parent_class)->validate(fr);
 }
 
-static int
+static gint
 list_eq(GList *al, GList *bl)
 {
 	gint truth = TRUE;
@@ -245,7 +245,7 @@ list_eq(GList *al, GList *bl)
 	return truth && al == NULL && bl == NULL;
 }
 
-static int
+static gint
 vfolder_eq(FilterRule *fr, FilterRule *cm)
 {
         return FILTER_RULE_CLASS(parent_class)->eq(fr, cm)
@@ -292,7 +292,7 @@ set_with(EMVFolderRule *vr, const gchar *name)
 	vr->with = 0;
 }
 
-static int
+static gint
 xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
 	xmlNodePtr set, work;

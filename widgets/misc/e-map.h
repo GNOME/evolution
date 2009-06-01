@@ -96,7 +96,7 @@ void e_map_world_to_window (EMap *map,
 
 /* --- Zoom --- */
 
-double e_map_get_magnification (EMap *map);
+gdouble e_map_get_magnification (EMap *map);
 
 /* Pass TRUE if we want the smooth zoom hack */
 void e_map_set_smooth_zoom (EMap *map, gboolean state);

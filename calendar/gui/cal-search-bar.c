@@ -288,10 +288,10 @@ get_current_category (CalSearchBar *cal_search)
 static gchar *
 get_show_option_sexp (CalSearchBar *cal_search)
 {
-	CalSearchBarPrivate *priv ;
-	gint viewid ;
+	CalSearchBarPrivate *priv;
+	gint viewid;
 	gchar *start, *end, *due, *ret = NULL;
-	const gchar *category = NULL ;
+	const gchar *category = NULL;
 	time_t start_range, end_range;
 
 	priv = cal_search->priv;
@@ -830,7 +830,7 @@ cal_search_bar_new (guint32 flags)
 }
 
 /* Used from qsort() */
-static int
+static gint
 compare_categories_cb (gconstpointer a, gconstpointer b)
 {
 	const gchar **ca, **cb;

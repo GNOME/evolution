@@ -98,7 +98,7 @@ ECell     *e_cell_text_construct(ECellText *cell, const gchar *fontname, GtkJust
 /* Gets the value from the model and converts it into a string. In ECellText
    itself, the value is assumed to be a gchar * and so needs no conversion.
    In subclasses the ETableModel value may be a more complicated datatype. */
-char	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, gint col, gint row);
+gchar	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, gint col, gint row);
 
 /* Frees the value returned by e_cell_text_get_text(). */
 void	   e_cell_text_free_text (ECellText *cell, gchar *text);

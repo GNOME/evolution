@@ -151,7 +151,7 @@ ethi_dispose (GObject *object){
 		(*G_OBJECT_CLASS (ethi_parent_class)->dispose) (object);
 }
 
-static int
+static gint
 e_table_header_item_get_height (ETableHeaderItem *ethi)
 {
 	ETableHeader *eth;
@@ -387,7 +387,7 @@ ethi_get_property (GObject *object,
 	}
 }
 
-static int
+static gint
 ethi_find_col_by_x (ETableHeaderItem *ethi, gint x)
 {
 	const gint cols = e_table_header_count (ethi->eth);
@@ -417,7 +417,7 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, gint x)
 	return cols - 1;
 }
 
-static int
+static gint
 ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, gint x)
 {
 	const gint cols = e_table_header_count (ethi->eth);
@@ -1685,7 +1685,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 /*
  * Handles the events on the ETableHeaderItem, particularly it handles resizing
  */
-static int
+static gint
 ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
@@ -1782,7 +1782,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			gint width = 0;
 			g_signal_emit_by_name (ethi->eth,
 					       "request_width",
-					       (int)ethi->resize_col, &width);
+					       (gint)ethi->resize_col, &width);
 			/* Add 10 to stop it from "..."ing */
 			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
 

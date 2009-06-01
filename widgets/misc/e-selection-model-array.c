@@ -357,7 +357,7 @@ esma_invert_selection (ESelectionModel *selection)
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(esma), -1, -1);
 }
 
-static int
+static gint
 esma_row_count (ESelectionModel *selection)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
@@ -405,14 +405,14 @@ esma_change_range(ESelectionModel *selection, gint start, gint end, gboolean gro
 	}
 }
 
-static int
+static gint
 esma_cursor_row (ESelectionModel *selection)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
 	return esma->cursor_row;
 }
 
-static int
+static gint
 esma_cursor_col (ESelectionModel *selection)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
@@ -569,25 +569,25 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 	object_class->get_property = esma_get_property;
 	object_class->set_property = esma_set_property;
 
-	esm_class->is_row_selected    = esma_is_row_selected    ;
-	esm_class->foreach            = esma_foreach            ;
-	esm_class->clear              = esma_clear              ;
-	esm_class->selected_count     = esma_selected_count     ;
-	esm_class->select_all         = esma_select_all         ;
-	esm_class->invert_selection   = esma_invert_selection   ;
-	esm_class->row_count          = esma_row_count          ;
+	esm_class->is_row_selected    = esma_is_row_selected;
+	esm_class->foreach            = esma_foreach;
+	esm_class->clear              = esma_clear;
+	esm_class->selected_count     = esma_selected_count;
+	esm_class->select_all         = esma_select_all;
+	esm_class->invert_selection   = esma_invert_selection;
+	esm_class->row_count          = esma_row_count;
 
-	esm_class->change_one_row     = esma_change_one_row     ;
-	esm_class->change_cursor      = esma_change_cursor      ;
-	esm_class->cursor_row         = esma_cursor_row         ;
-	esm_class->cursor_col         = esma_cursor_col         ;
+	esm_class->change_one_row     = esma_change_one_row;
+	esm_class->change_cursor      = esma_change_cursor;
+	esm_class->cursor_row         = esma_cursor_row;
+	esm_class->cursor_col         = esma_cursor_col;
 
-	esm_class->select_single_row  = esma_select_single_row  ;
-	esm_class->toggle_single_row  = esma_toggle_single_row  ;
-	esm_class->move_selection_end = esma_move_selection_end ;
-	esm_class->set_selection_end  = esma_set_selection_end  ;
+	esm_class->select_single_row  = esma_select_single_row;
+	esm_class->toggle_single_row  = esma_toggle_single_row;
+	esm_class->move_selection_end = esma_move_selection_end;
+	esm_class->set_selection_end  = esma_set_selection_end;
 
-	klass->get_row_count          = NULL                    ;
+	klass->get_row_count          = NULL;
 
 	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",

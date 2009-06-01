@@ -157,7 +157,7 @@ validate(FilterElement *fe)
 	}
 }
 
-static int
+static gint
 folder_eq(FilterElement *fe, FilterElement *cm)
 {
         return FILTER_ELEMENT_CLASS(parent_class)->eq(fe, cm)
@@ -192,7 +192,7 @@ xml_encode(FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode(FilterElement *fe, xmlNodePtr node)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;

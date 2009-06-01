@@ -620,7 +620,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gdouble date_fraction;
 	gboolean short_event = FALSE, resize_flag = FALSE;
 	const gchar *end_resize_suffix;
-	gchar *end_resize_time;
+	gchar *end_regsizeime;
 	gint start_hour, start_display_hour, start_minute, start_suffix_width;
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	gboolean show_span = FALSE, format_time;
@@ -972,12 +972,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 32, item_y + item_h - 8);
-				end_resize_time = g_strdup_printf ("%2i:%02i",
+				end_regsizeime = g_strdup_printf ("%2i:%02i",
 					 end_display_hour, end_minute);
 
 			} else {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 48, item_y + item_h - 8);
-				end_resize_time = g_strdup_printf ("%2i:%02i%s",
+				end_regsizeime = g_strdup_printf ("%2i:%02i%s",
 						 end_display_hour, end_minute,
 						 end_resize_suffix);
 			}
@@ -987,7 +987,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
 			cairo_set_font_options (cr, font_options);
-			cairo_show_text (cr, end_resize_time);
+			cairo_show_text (cr, end_regsizeime);
 			cairo_close_path (cr);
 			cairo_restore (cr);
 		}
@@ -1021,7 +1021,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		cairo_restore (cr);
 
 		/* This is for achieving the white stripes in vbar across event color */
-		for (i = 0; i <= (bar_y2 - bar_y1) ; i+=4) {
+		for (i = 0; i <= (bar_y2 - bar_y1); i+=4) {
 			cairo_set_source_rgb (cr, 1, 1, 1);
 			cairo_set_line_width (cr, 0.3);
 			cairo_move_to (cr, item_x + 1, bar_y1 + i);

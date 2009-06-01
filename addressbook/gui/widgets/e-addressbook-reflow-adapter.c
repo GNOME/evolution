@@ -98,7 +98,7 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 }
 
 
-static int
+static gint
 text_height (PangoLayout *layout, const gchar *text)
 {
 	gint height;
@@ -124,7 +124,7 @@ addressbook_set_width (EReflowModel *erm, gint width)
 }
 
 /* This function returns the number of items in our EReflowModel. */
-static int
+static gint
 addressbook_count (EReflowModel *erm)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
@@ -134,7 +134,7 @@ addressbook_count (EReflowModel *erm)
 }
 
 /* This function returns the height of the minicontact in question */
-static int
+static gint
 addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
@@ -180,7 +180,7 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 	return height;
 }
 
-static int
+static gint
 addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
@@ -222,7 +222,7 @@ addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 	}
 }
 
-static int
+static gint
 adapter_drag_begin (EMinicard *card, GdkEvent *event, EAddressbookReflowAdapter *adapter)
 {
 	gint ret_val = 0;

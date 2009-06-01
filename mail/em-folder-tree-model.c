@@ -138,7 +138,7 @@ folder_tree_model_load_state (EMFolderTreeModel *model,
 	xmlSetProp (node, (const guchar *)"expand", (const guchar *)"true");
 }
 
-static int
+static gint
 folder_tree_model_sort (GtkTreeModel *model,
                         GtkTreeIter *a,
                         GtkTreeIter *b,

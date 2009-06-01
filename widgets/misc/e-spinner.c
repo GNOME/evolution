@@ -315,7 +315,7 @@ e_spinner_images_load (GdkScreen *screen,
 	n = 0;
 	for (y = 0; y < grid_height; y += size)
 	{
-		for (x = 0; x < grid_width ; x += size)
+		for (x = 0; x < grid_width; x += size)
 		{
 			pixbuf = extract_frame (icon_pixbuf, x, y, size);
 
@@ -633,7 +633,7 @@ e_spinner_init (ESpinner *spinner)
 	details->need_load = TRUE;
 }
 
-static int
+static gint
 e_spinner_expose (GtkWidget *widget,
 		     GdkEventExpose *event)
 {

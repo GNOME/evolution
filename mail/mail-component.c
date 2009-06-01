@@ -427,7 +427,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_THREADS:
 		/* should we keep cancelling? */
-		if (mail_msg_active((unsigned int)-1))
+		if (mail_msg_active((guint)-1))
 			return FALSE;
 
 		mail_session_shutdown ();

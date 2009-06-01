@@ -165,15 +165,15 @@ gal_view_etable_class_init      (GalViewEtableClass *klass)
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	gal_view_class->edit          = gal_view_etable_edit         ;
-	gal_view_class->load          = gal_view_etable_load         ;
-	gal_view_class->save          = gal_view_etable_save         ;
-	gal_view_class->get_title     = gal_view_etable_get_title    ;
-	gal_view_class->set_title     = gal_view_etable_set_title    ;
+	gal_view_class->edit          = gal_view_etable_edit;
+	gal_view_class->load          = gal_view_etable_load;
+	gal_view_class->save          = gal_view_etable_save;
+	gal_view_class->get_title     = gal_view_etable_get_title;
+	gal_view_class->set_title     = gal_view_etable_set_title;
 	gal_view_class->get_type_code = gal_view_etable_get_type_code;
-	gal_view_class->clone         = gal_view_etable_clone        ;
+	gal_view_class->clone         = gal_view_etable_clone;
 
-	object_class->dispose         = gal_view_etable_dispose      ;
+	object_class->dispose         = gal_view_etable_dispose;
 }
 
 static void

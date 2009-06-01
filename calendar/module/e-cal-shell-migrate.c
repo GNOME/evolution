@@ -177,7 +177,7 @@ dialog_set_progress (double percent)
 {
 	gchar text[5];
 
-	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	snprintf (text, sizeof (text), "%d%%", (gint) (percent * 100.0f));
 
 	gtk_progress_bar_set_fraction (progress, percent);
 	gtk_progress_bar_set_text (progress, text);
@@ -213,7 +213,7 @@ get_source_name (ESourceGroup *group, const gchar *path)
 	gboolean conflict;
 	GString *s = g_string_new (NULL);
 
-	for (i = 0; p[i]; i ++) ;
+	for (i = 0; p[i]; i ++);
 
 	num_elements = i;
 	i--;
@@ -383,9 +383,9 @@ migrate_pilot_data (const gchar *component, const gchar *conduit, const gchar *o
 		    ((ext = strrchr (dent, '.')) && !strcmp (ext, ".xml"))) {
 			/* pilot map file - src and dest file formats are identical */
 			guchar inbuf[4096];
-			size_t nread, nwritten;
+			gsize nread, nwritten;
 			gint fd0, fd1;
-			ssize_t n;
+			gssize n;
 
 			filename = g_build_filename (old_path, dent, NULL);
 			if ((fd0 = g_open (filename, O_RDONLY|O_BINARY, 0)) == -1) {

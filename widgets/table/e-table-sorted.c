@@ -218,7 +218,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row
 		}
 	}
 
-	etss->map_table = g_realloc (etss->map_table, (etss->n_map + count) * sizeof(int));
+	etss->map_table = g_realloc (etss->map_table, (etss->n_map + count) * sizeof(gint));
 
 	for (; count > 0; count --) {
 		if (!full_change)
@@ -237,7 +237,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, gint row
 					ets->insert_idle_id = g_idle_add_full(40, (GSourceFunc) ets_insert_idle, ets, NULL);
 				}
 				i = e_table_sorting_utils_insert(etss->source, ets->sort_info, ets->full_header, etss->map_table, etss->n_map, row);
-				memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
+				memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(gint));
 			}
 		}
 		etss->map_table[i] = row;
@@ -271,7 +271,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, gint row,
 			if (etss->map_table[i] == row + j) {
 				if (shift)
 					e_table_model_pre_change (etm);
-				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
+				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(gint));
 				etss->n_map --;
 				if (shift)
 					e_table_model_row_deleted (etm, i);

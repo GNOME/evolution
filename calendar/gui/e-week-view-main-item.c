@@ -38,13 +38,13 @@ static void e_week_view_main_item_set_property	(GObject	 *object,
 static void e_week_view_main_item_update	(GnomeCanvasItem *item,
 						 double		 *affine,
 						 ArtSVP		 *clip_path,
-						 int		  flags);
+						 gint		  flags);
 static void e_week_view_main_item_draw		(GnomeCanvasItem *item,
 						 GdkDrawable	 *drawable,
-						 int		  x,
-						 int		  y,
-						 int		  width,
-						 int		  height);
+						 gint		  x,
+						 gint		  y,
+						 gint		  width,
+						 gint		  height);
 static void e_week_view_main_item_draw_day	(EWeekViewMainItem *wvmitem,
 						 gint		   day,
 						 GDate		  *date,
@@ -56,8 +56,8 @@ static void e_week_view_main_item_draw_day	(EWeekViewMainItem *wvmitem,
 static double e_week_view_main_item_point	(GnomeCanvasItem *item,
 						 double		  x,
 						 double		  y,
-						 int		  cx,
-						 int		  cy,
+						 gint		  cx,
+						 gint		  cy,
 						 GnomeCanvasItem **actual_item);
 
 /* The arguments we take */
@@ -129,7 +129,7 @@ static void
 e_week_view_main_item_update (GnomeCanvasItem *item,
 			      double	      *affine,
 			      ArtSVP	      *clip_path,
-			      int	       flags)
+			      gint	       flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (e_week_view_main_item_parent_class)->update)
 		(* GNOME_CANVAS_ITEM_CLASS (e_week_view_main_item_parent_class)->update) (item, affine, clip_path, flags);
@@ -148,10 +148,10 @@ e_week_view_main_item_update (GnomeCanvasItem *item,
 static void
 e_week_view_main_item_draw (GnomeCanvasItem  *canvas_item,
 			    GdkDrawable      *drawable,
-			    int		      x,
-			    int		      y,
-			    int		      width,
-			    int		      height)
+			    gint		      x,
+			    gint		      y,
+			    gint		      width,
+			    gint		      height)
 {
 	EWeekViewMainItem *wvmitem;
 	EWeekView *week_view;

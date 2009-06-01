@@ -297,7 +297,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 
 	e_cal_component_get_organizer (new_comp, &organizer);
 	if (organizer.cn) {
-		gchar *ptr ;
+		gchar *ptr;
 		ptr = strchr( organizer.value, ':');
 
 		if (ptr) {

@@ -391,7 +391,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	uri_text = e_source_get_uri (source);
 	if (uri_text && strncmp (uri_text, "exchange", 8)) {
 		g_free (uri_text);
-		return ;
+		return;
 	}
 
 	status = exchange_is_offline (&offline_status);

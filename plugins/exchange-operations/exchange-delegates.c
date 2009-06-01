@@ -472,7 +472,7 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 			    -1);
 }
 
-static int
+static gint
 get_selected_row (GtkWidget *tree_view, GtkTreeIter *iter)
 {
 	GtkTreeSelection *selection;

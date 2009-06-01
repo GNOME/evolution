@@ -55,14 +55,14 @@ set_esource_props (const gchar *path, EAccount *a, GConfClient *client, const gc
         list = e_source_list_new_for_gconf (client, path);
 	groups = e_source_list_peek_groups (list);
 
-	for ( ; groups != NULL; groups = g_slist_next (groups)) {
+	for (; groups != NULL; groups = g_slist_next (groups)) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 
 		if (strcmp (e_source_group_peek_name (group), name) == 0 &&
 		    strcmp (e_source_group_peek_base_uri (group), GROUPWISE_BASE_URI) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for ( ; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 
 				if (a->source->auto_check) {

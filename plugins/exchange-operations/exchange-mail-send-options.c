@@ -185,8 +185,8 @@ org_gnome_exchange_send_options (EPlugin *ep, EMEventTargetComposer *target)
 	e_msg_composer_set_send_options (composer, TRUE);
 	/*disply the send options dialog*/
 	if (!dialog) {
-		g_print ("New dialog\n\n") ;
-		dialog = exchange_sendoptions_dialog_new () ;
+		g_print ("New dialog\n\n");
+		dialog = exchange_sendoptions_dialog_new ();
 	}
 	exchange_sendoptions_dialog_run (dialog, GTK_WIDGET (composer));
 	g_signal_connect (dialog, "sod_response", G_CALLBACK (append_to_header), GTK_WIDGET (composer));

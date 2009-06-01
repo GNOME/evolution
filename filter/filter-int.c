@@ -144,7 +144,7 @@ filter_int_set_value (FilterInt *fi, gint val)
 	fi->val = val;
 }
 
-static int
+static gint
 int_eq (FilterElement *fe, FilterElement *cm)
 {
         return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
@@ -193,7 +193,7 @@ xml_encode (FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterInt *fs = (FilterInt *)fe;

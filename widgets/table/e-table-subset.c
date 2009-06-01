@@ -131,7 +131,7 @@ etss_finalize (GObject *object)
 	G_OBJECT_CLASS (etss_parent_class)->finalize (object);
 }
 
-static int
+static gint
 etss_column_count (ETableModel *etm)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
@@ -139,7 +139,7 @@ etss_column_count (ETableModel *etm)
 	return e_table_model_column_count (etss->source);
 }
 
-static int
+static gint
 etss_row_count (ETableModel *etm)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
@@ -394,7 +394,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, gint nvals)
 	gint i;
 
 	if (nvals) {
-		buffer = (guint *) g_malloc (sizeof (unsigned int) * nvals);
+		buffer = (guint *) g_malloc (sizeof (guint) * nvals);
 		if (buffer == NULL)
 			return NULL;
 	} else

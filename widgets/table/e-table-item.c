@@ -609,7 +609,7 @@ eti_remove_header_model (ETableItem *eti)
  * Returns the height used by row @row.  This does not include the one-pixel
  * used as a separator between rows
  */
-static int
+static gint
 eti_row_height_real (ETableItem *eti, gint row)
 {
 	const gint cols = e_table_header_count (eti->header);
@@ -698,7 +698,7 @@ calculate_height_cache (ETableItem *eti)
  * Returns the height used by row @row.  This does not include the one-pixel
  * used as a separator between rows
  */
-static int
+static gint
 eti_row_height (ETableItem *eti, gint row)
 {
 	if (eti->uniform_row_height) {
@@ -734,7 +734,7 @@ eti_row_height (ETableItem *eti, gint row)
  * when the height is computed by using the first row as the size for
  * every other row in the ETableItem.
  */
-static int
+static gint
 eti_get_height (ETableItem *eti)
 {
 	const gint rows = eti->rows;
@@ -1169,7 +1169,7 @@ eti_table_model_rows_inserted (ETableModel *table_model, gint row, gint count, E
 	if (eti->height_cache) {
 		gint i;
 		eti->height_cache = g_renew(int, eti->height_cache, eti->rows);
-		memmove(eti->height_cache + row + count, eti->height_cache + row, (eti->rows - count - row) * sizeof(int));
+		memmove(eti->height_cache + row + count, eti->height_cache + row, (eti->rows - count - row) * sizeof(gint));
 		for (i = row; i < row + count; i++)
 			eti->height_cache[i] = -1;
 	}
@@ -1195,7 +1195,7 @@ eti_table_model_rows_deleted (ETableModel *table_model, gint row, gint count, ET
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache && (eti->rows > row)) {
-		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
+		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(gint));
 	}
 
 	eti_unfreeze (eti);
@@ -1372,7 +1372,7 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
-static int
+static gint
 eti_request_column_width (ETableHeader *eth, gint col, ETableItem *eti)
 {
 	gint width = 0;
@@ -2222,7 +2222,7 @@ eti_cursor_move_right (ETableItem *eti)
 }
 
 #ifdef DO_TOOLTIPS
-static int
+static gint
 _do_tooltip (ETableItem *eti)
 {
 	ECellView *ecell_view;
@@ -2312,7 +2312,7 @@ eti_e_cell_event     (ETableItem *item, ECellView *ecell_view, GdkEvent *event, 
 }
 
 /* FIXME: cursor */
-static int
+static gint
 eti_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
@@ -2674,7 +2674,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
 
-		d(g_print("%s: GDK_KEY_PRESS received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
+		d(g_print("%s: GDK_KEY_PRESS received, keyval: %d\n", __FUNCTION__, (gint) e->key.keyval));
 
 		g_object_get(eti->selection,
 			     "cursor_row", &cursor_row,
@@ -2881,7 +2881,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_RELEASE: {
 		gint cursor_row, cursor_col;
 
-		d(g_print("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (int) e->key.keyval));
+		d(g_print("%s: GDK_KEY_RELEASE received, keyval: %d\n", __FUNCTION__, (gint) e->key.keyval));
 
 		g_object_get(eti->selection,
 			     "cursor_row", &cursor_row,
@@ -3464,7 +3464,7 @@ e_table_item_compute_mouse_over (ETableItem        *eti,
 
 	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM (eti), &realx, &realy);
 
-	if (!find_cell (eti, (int)realx, (int)realy, col, row, NULL, NULL)) {
+	if (!find_cell (eti, (gint)realx, (gint)realy, col, row, NULL, NULL)) {
 		*row = -1;
 		*col = -1;
 	}
@@ -3590,7 +3590,7 @@ e_table_item_print_page  (EPrintable *ep,
 	}
 	yd++;
 
-	for (row = rows_printed; row < rows ; row++){
+	for (row = rows_printed; row < rows; row++){
 		gdouble xd = 1, row_height;
 		row_height = eti_printed_row_height(eti, widths, context, row);
 

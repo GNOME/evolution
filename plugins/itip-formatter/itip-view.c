@@ -145,8 +145,8 @@ format_date_and_time_x		(struct tm	*date_tm,
 				 gboolean	 use_24_hour_format,
 				 gboolean	 show_midnight,
 				 gboolean	 show_zero_seconds,
-				 char		*buffer,
-				 int		 buffer_size)
+				 gchar		*buffer,
+				 gint		 buffer_size)
 {
 	gchar *format;
 	struct tm tomorrow_tm, week_tm;

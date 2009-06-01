@@ -570,12 +570,12 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 
 	line = g_string_new("");
 	while (1) {
-		c = fgetc (f) ;
+		c = fgetc (f);
 		if (c == EOF)
 			return NULL;
 		if (c == '\n') {
 			g_string_append_c (line, c);
-			break ;
+			break;
 		}
 		if (c == '"') {
 			g_string_append_c (line, c);
@@ -594,12 +594,12 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 		g_string_free (line, TRUE);
 		line = g_string_new("");
 		while (1) {
-			c = fgetc (f) ;
+			c = fgetc (f);
 			if (c == EOF)
 				return NULL;
 			if (c == '\n') {
 				g_string_append_c (line, c);
-				break ;
+				break;
 			}
 			if (c == '"') {
 				g_string_append_c (line, c);

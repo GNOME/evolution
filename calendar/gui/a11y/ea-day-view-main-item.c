@@ -551,7 +551,7 @@ ea_day_view_main_item_get_row_label (EaDayViewMainItem *ea_main_item,
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (ea_main_item);
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj)
-		return 0 ;
+		return 0;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
 	day_view = main_item->day_view;

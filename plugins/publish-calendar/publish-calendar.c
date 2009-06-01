@@ -394,7 +394,7 @@ update_timestamp (EPublishUri *uri)
 
 	if (uri->last_pub_time)
 		g_free (uri->last_pub_time);
-	uri->last_pub_time = g_strdup_printf ("%d", (int) time (NULL));
+	uri->last_pub_time = g_strdup_printf ("%d", (gint) time (NULL));
 
 	uris = g_slist_prepend (uris, e_publish_uri_to_xml (uri));
 

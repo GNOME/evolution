@@ -126,7 +126,7 @@ clear_drag_data (EMinicardView *view)
 	view->drag_list = NULL;
 }
 
-static int
+static gint
 e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event, EMinicardView *view)
 {
 	GdkDragContext *context;
@@ -475,7 +475,7 @@ do_remove (gint i, gpointer user_data)
 }
 
 #if 0
-static int
+static gint
 compare_to_utf_str (EMinicard *card, const gchar *utf_str)
 {
 	g_return_val_if_fail(card != NULL, 0);

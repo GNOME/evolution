@@ -43,7 +43,7 @@ commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 	if (strncmp (uri_text, "groupwise", 9)) {
 		g_free (uri_text);
 
-		return ;
+		return;
 	}
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	relative_uri = g_strconcat (";", e_source_peek_name (source), NULL);

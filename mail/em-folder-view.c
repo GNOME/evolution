@@ -572,7 +572,7 @@ mst_free (struct mst_t *mst)
 	g_free (mst);
 }
 
-static int
+static gint
 do_mark_seen (gpointer user_data)
 {
 	struct mst_t *mst = user_data;
@@ -798,7 +798,7 @@ emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu
 	return des_menu;
 }
 
-static int
+static gint
 emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, CamelMimePart *part, EMFolderView *emfv)
 {
 	GtkMenu *menu = NULL;

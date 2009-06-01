@@ -109,7 +109,7 @@ import_contact(EBook *book, gchar *line)
 	GList *list;
 	/*EContactName *name;*/
 	EContact *card;
-	size_t len;
+	gsize len;
 
 	card = e_contact_new();
 	strings = g_strsplit(line, "\t", 5);
@@ -168,7 +168,7 @@ import_contacts(void)
 	gchar *name;
 	GString *line;
 	FILE *fp;
-	size_t offset;
+	gsize offset;
 
 	printf("importing pine addressbook\n");
 
@@ -197,7 +197,7 @@ import_contacts(void)
 	g_string_set_size(line, 256);
 	offset = 0;
 	while (fgets(line->str+offset, 256, fp)) {
-		size_t len;
+		gsize len;
 
 		len = strlen(line->str+offset)+offset;
 		if (line->str[len-1] == '\n')
@@ -324,7 +324,7 @@ static MailMsgInfo pine_import_info = {
 	(MailMsgFreeFunc) pine_import_free
 };
 
-static int
+static gint
 mail_importer_pine_import(EImport *ei, EImportTarget *target)
 {
 	struct _pine_import_msg *m;

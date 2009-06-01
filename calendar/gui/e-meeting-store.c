@@ -217,7 +217,7 @@ get_flags (GtkTreeModel *model)
 	return GTK_TREE_MODEL_ITERS_PERSIST | GTK_TREE_MODEL_LIST_ONLY;
 }
 
-static int
+static gint
 get_n_columns (GtkTreeModel *model)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (model), 0);
@@ -400,7 +400,7 @@ iter_has_child (GtkTreeModel *model, GtkTreeIter *iter)
 	return FALSE;
 }
 
-static int
+static gint
 iter_n_children (GtkTreeModel *model, GtkTreeIter *iter)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (model), -1);

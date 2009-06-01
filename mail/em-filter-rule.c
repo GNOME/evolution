@@ -171,7 +171,7 @@ em_filter_rule_build_action(EMFilterRule *fr, GString *out)
 	g_string_append(out, ")\n");
 }
 
-static int
+static gint
 validate(FilterRule *fr)
 {
 	EMFilterRule *ff =(EMFilterRule *)fr;
@@ -190,7 +190,7 @@ validate(FilterRule *fr)
 	return valid;
 }
 
-static int
+static gint
 list_eq(GList *al, GList *bl)
 {
 	gint truth = TRUE;
@@ -206,7 +206,7 @@ list_eq(GList *al, GList *bl)
 	return truth && al == NULL && bl == NULL;
 }
 
-static int
+static gint
 filter_eq(FilterRule *fr, FilterRule *cm)
 {
         return FILTER_RULE_CLASS(parent_class)->eq(fr, cm)
@@ -262,7 +262,7 @@ load_set(xmlNodePtr node, EMFilterRule *ff, RuleContext *rc)
 	}
 }
 
-static int
+static gint
 xml_decode(FilterRule *fr, xmlNodePtr node, RuleContext *rc)
 {
 	EMFilterRule *ff =(EMFilterRule *)fr;

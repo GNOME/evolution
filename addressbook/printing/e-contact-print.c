@@ -298,7 +298,7 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 	}
 }
 
-static int
+static gint
 contact_compare (EContact *contact1, EContact *contact2)
 {
 	const gchar *field1, *field2;

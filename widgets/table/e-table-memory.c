@@ -64,7 +64,7 @@ etmm_finalize (GObject *object)
 	G_OBJECT_CLASS (e_table_memory_parent_class)->finalize (object);
 }
 
-static int
+static gint
 etmm_row_count (ETableModel *etm)
 {
 	ETableMemory *etmm = E_TABLE_MEMORY (etm);

@@ -87,14 +87,14 @@ addressbook_dispose(GObject *object)
 }
 
 /* This function returns the number of columns in our ETableModel. */
-static int
+static gint
 addressbook_col_count (ETableModel *etc)
 {
 	return COLS;
 }
 
 /* This function returns the number of rows in our ETableModel. */
-static int
+static gint
 addressbook_row_count (ETableModel *etc)
 {
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);

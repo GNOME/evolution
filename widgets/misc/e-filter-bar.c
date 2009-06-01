@@ -551,7 +551,7 @@ filter_bar_get_property (GObject *object,
 	}
 }
 
-static int
+static gint
 xml_get_prop_int (xmlNodePtr node, const gchar *prop)
 {
 	gchar *buf;

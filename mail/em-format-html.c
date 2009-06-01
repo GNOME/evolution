@@ -1153,7 +1153,7 @@ em_format_html_file_part(EMFormatHTML *efh, const gchar *mime_type, const gchar 
 /* all this api is a pain in the bum ... */
 
 EMFormatHTMLPObject *
-em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const gchar *classid, CamelMimePart *part, EMFormatHTMLPObjectFunc func)
+em_format_html_add_pobject(EMFormatHTML *efh, gsize size, const gchar *classid, CamelMimePart *part, EMFormatHTMLPObjectFunc func)
 {
 	EMFormatHTMLPObject *pobj;
 
@@ -1263,7 +1263,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 	CamelURL *url;
 	CamelContentType *content_type;
 	CamelHttpStream *tmp_stream;
-	ssize_t n, total = 0, pc_complete = 0, nread = 0;
+	gssize n, total = 0, pc_complete = 0, nread = 0;
 	gchar buffer[1500];
 	const gchar *length;
 
@@ -1822,7 +1822,7 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 		s = d = url;
 		while (*s) {
 			/* FIXME: use camel_isspace */
-			if (!isspace ((unsigned char)*s))
+			if (!isspace ((guchar)*s))
 				*d++ = *s;
 			s++;
 		}

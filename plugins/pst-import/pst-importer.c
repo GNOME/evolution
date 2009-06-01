@@ -755,7 +755,7 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 		camel_mime_part_set_content (part, attach->data, strlen (attach->data), mimetype);
 	} else {
 		gchar *buf = NULL;
-		size_t size;
+		gsize size;
 		size = pst_attach_to_mem (&m->pst, attach, &buf);
 
 		camel_mime_part_set_content (part, (gchar *) buf, size, mimetype);
@@ -1617,7 +1617,7 @@ pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 	g_mutex_unlock (importer->status_lock);
 }
 
-static int
+static gint
 pst_import (EImport *ei, EImportTarget *target)
 {
 	PstImporter *m;

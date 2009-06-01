@@ -241,7 +241,7 @@ set_image_from_data (EImageChooser *chooser,
 		GdkPixbuf *scaled;
 		GdkPixbuf *composite;
 
-		float scale;
+		gfloat scale;
 		gint new_height, new_width;
 
 		new_height = gdk_pixbuf_get_height (pixbuf);
@@ -259,17 +259,17 @@ set_image_from_data (EImageChooser *chooser,
 			/* we need to scale down */
 			printf ("we need to scale down\n");
 			if (new_height > new_width)
-				scale = (float)chooser->priv->image_height / new_height;
+				scale = (gfloat)chooser->priv->image_height / new_height;
 			else
-				scale = (float)chooser->priv->image_width / new_width;
+				scale = (gfloat)chooser->priv->image_width / new_width;
 		}
 		else {
 			/* we need to scale up */
 			printf ("we need to scale up\n");
 			if (new_height > new_width)
-				scale = (float)new_height / chooser->priv->image_height;
+				scale = (gfloat)new_height / chooser->priv->image_height;
 			else
-				scale = (float)new_width / chooser->priv->image_width;
+				scale = (gfloat)new_width / chooser->priv->image_width;
 		}
 
 		printf ("scale = %g\n", scale);

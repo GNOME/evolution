@@ -654,7 +654,7 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 		sender = itip_get_comp_attendee (comp, NULL);
 		if (sender) {
 
-			for (l = alist; l != NULL ; l = l->next) {
+			for (l = alist; l != NULL; l = l->next) {
 				a = l->data;
 				if ((sender && *sender) && (g_ascii_strcasecmp (itip_strip_mailto (a->value), sender) || (a->sentby && g_ascii_strcasecmp (itip_strip_mailto (a->sentby), sender))))
 					break;
@@ -1160,7 +1160,7 @@ append_cal_attachments (EMsgComposer *composer,
 	struct CalMimeAttach *mime_attach;
 	GSList *l;
 
-	for (l = attach_list; l ; l = l->next) {
+	for (l = attach_list; l; l = l->next) {
 		CamelMimePart *attachment;
 
 		mime_attach = (struct CalMimeAttach *) l->data;

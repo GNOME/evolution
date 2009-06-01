@@ -93,7 +93,7 @@ e_cell_tree_get_tree_table_adapter (ETableModel *table_model, gint row)
 	return e_table_model_value_at (table_model, -3, row);
 }
 
-static int
+static gint
 visible_depth_of_node (ETableModel *model, gint row)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(model, row);
@@ -427,7 +427,7 @@ event_in_expander (GdkEvent *event, gint offset, gint height)
 /*
  * ECell::height method
  */
-static int
+static gint
 ect_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
@@ -567,7 +567,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 /*
  * ECell::max_width method
  */
-static int
+static gint
 ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;

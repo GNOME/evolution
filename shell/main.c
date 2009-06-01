@@ -342,7 +342,7 @@ idle_cb (gchar **uris)
    thread. So if we have to redirect the signal if the crash happens in another
    thread.  */
 
-static void (*gnome_segv_handler) (int);
+static void (*gnome_segv_handler) (gint);
 static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
 static pthread_t main_thread;
 

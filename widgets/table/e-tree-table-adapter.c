@@ -73,7 +73,7 @@ struct ETreeTableAdapterPriv {
 
 	gint          pre_change_id;
 	gint          no_change_id;
-	int	     rebuilt_id;
+	gint	     rebuilt_id;
 	gint          node_changed_id;
 	gint          node_data_changed_id;
 	gint          node_col_changed_id;
@@ -259,7 +259,7 @@ update_child_counts(GNode *gnode, gint delta)
 	}
 }
 
-static int
+static gint
 delete_children(ETreeTableAdapter *etta, GNode *gnode)
 {
 	node_t *node = (node_t *)gnode->data;
@@ -566,7 +566,7 @@ etta_dispose (GObject *object)
 	G_OBJECT_CLASS (etta_parent_class)->dispose (object);
 }
 
-static int
+static gint
 etta_column_count (ETableModel *etm)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
@@ -599,7 +599,7 @@ etta_has_change_pending (ETableModel *etm)
 }
 
 
-static int
+static gint
 etta_row_count (ETableModel *etm)
 {
 	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;

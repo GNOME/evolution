@@ -175,7 +175,7 @@ validate (FilterElement *fe)
 		pattern = fi->values->data;
 
 		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
-			size_t reglen;
+			gsize reglen;
 			gchar *regmsg;
 
 			/* regerror gets called twice to get the full error string
@@ -200,7 +200,7 @@ validate (FilterElement *fe)
 	return valid;
 }
 
-static int
+static gint
 list_eq (GList *al, GList *bl)
 {
 	gint truth = TRUE;
@@ -214,7 +214,7 @@ list_eq (GList *al, GList *bl)
 	return truth && al == NULL && bl == NULL;
 }
 
-static int
+static gint
 input_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterInput *fi = (FilterInput *)fe, *ci = (FilterInput *)cm;
@@ -263,7 +263,7 @@ xml_encode (FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterInput *fi = (FilterInput *)fe;

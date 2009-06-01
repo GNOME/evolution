@@ -297,7 +297,7 @@ e_mail_address_free (EMailAddress *addr)
 /* Note: by the time this function is called, the strings have already
    been normalised which means we can assume all lowercase chars and
    we can just use strcmp for the final comparison. */
-static int
+static gint
 e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 {
 	const EMailAddress *addr1 = address1;
@@ -359,7 +359,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 /* Note: by the time this function is called, the strings have already
    been normalised which means we can assume all lowercase chars and
    we can just use strcmp for the final comparison. */
-static int
+static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
 #ifdef SMART_ADDRESS_COMPARE
@@ -479,12 +479,12 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, gint c
 			subject += 3;
 
 			/* jump over any spaces */
-			while (*subject && isspace ((int) *subject))
+			while (*subject && isspace ((gint) *subject))
 				subject++;
 		}
 
 		/* jump over any spaces */
-		while (*subject && isspace ((int) *subject))
+		while (*subject && isspace ((gint) *subject))
 			subject++;
 
 		string = (const gchar *) subject;
@@ -865,7 +865,7 @@ message_list_paste(MessageList *ml)
 /*
  * SimpleTableModel::col_count
  */
-static int
+static gint
 ml_column_count (ETreeModel *etm, gpointer data)
 {
 	return COL_LAST;
@@ -1140,7 +1140,7 @@ ml_tree_icon_at (ETreeModel *etm, ETreePath path, gpointer model_data)
 }
 
 /* return true if there are any unread messages in the subtree */
-static int
+static gint
 subtree_unread(MessageList *ml, ETreePath node)
 {
 	CamelMessageInfo *info;
@@ -1235,7 +1235,7 @@ sanitize_recipients (const gchar *string)
 	return g_string_free (recipients, FALSE);
 }
 
-static int
+static gint
 get_all_labels (MessageList *message_list,
                 CamelMessageInfo *msg_info,
                 gchar **label_str,
@@ -1384,7 +1384,7 @@ get_trimmed_subject (CamelMessageInfo *info)
 			subject += 3;
 
 			/* jump over any spaces */
-			while (*subject && isspace ((int) *subject))
+			while (*subject && isspace ((gint) *subject))
 				subject++;
 		}
 
@@ -1396,13 +1396,13 @@ get_trimmed_subject (CamelMessageInfo *info)
 			found_mlist = TRUE;
 
 			/* jump over any spaces */
-			while (*subject && isspace ((int) *subject))
+			while (*subject && isspace ((gint) *subject))
 				subject++;
 		}
 	} while (found_mlist);
 
 	/* jump over any spaces */
-	while (*subject && isspace ((int) *subject))
+	while (*subject && isspace ((gint) *subject))
 		subject++;
 
 	return subject;
@@ -3017,7 +3017,7 @@ build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, gint
 
 /* compares a thread tree node with the etable tree node to see if they point to
    the same object */
-static int
+static gint
 node_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 {
 	CamelMessageInfo *info;
@@ -3032,7 +3032,7 @@ node_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 
 #ifndef BROKEN_ETREE
 /* debug function - compare the two trees to see if they are the same */
-static int
+static gint
 tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp)
 {
 	CamelMessageInfo *info;
@@ -3157,7 +3157,7 @@ build_subtree_diff(MessageList *ml, ETreePath parent, ETreePath path, CamelFolde
 				gpointer olduid, oldrow;
 				/* if this is a message row, check/update the row id map */
 				if (g_hash_table_lookup_extended(ml->uid_rowmap, camel_message_info_uid(bp->message), &olduid, &oldrow)) {
-					if ((int)oldrow != (*row)) {
+					if ((gint)oldrow != (*row)) {
 						g_hash_table_insert(ml->uid_rowmap, olduid, (gpointer)(*row));
 					}
 				} else {
@@ -3900,7 +3900,7 @@ message_list_ensure_message (MessageList *ml, const gchar *uid)
 }
 
 /* returns the number of messages displayable *after* expression hiding has taken place */
-unsigned int
+guint
 message_list_length (MessageList *ml)
 {
 	return ml->hide_unhidden;
@@ -3928,7 +3928,7 @@ glib_crapback(gpointer key, gpointer data, gpointer x)
 }
 
 /* returns 0 or 1 depending if there are hidden messages */
-unsigned int
+guint
 message_list_hidden(MessageList *ml)
 {
 	guint hidden = 0;
@@ -3991,7 +3991,7 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 
 			uid =  e_mempool_strdup (ml->hidden_pool, uids->pdata[i]);
 			g_hash_table_insert (ml->hidden, uid, uid);
-			for ( ; i < uids->len; i++) {
+			for (; i < uids->len; i++) {
 				if (g_hash_table_lookup (ml->uid_nodemap, uids->pdata[i])) {
 					uid =  e_mempool_strdup (ml->hidden_pool, uids->pdata[i]);
 					g_hash_table_insert (ml->hidden, uid, uid);
@@ -4657,7 +4657,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 }
 
 
-double
+gdouble
 message_list_get_scrollbar_position (MessageList *ml)
 {
 	return gtk_range_get_value ((GtkRange *) ((GtkScrolledWindow *) ml)->vscrollbar);

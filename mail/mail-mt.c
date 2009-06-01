@@ -384,7 +384,7 @@ gint mail_msg_active(guint msgid)
 	gint active;
 
 	MAIL_MT_LOCK(mail_msg_lock);
-	if (msgid == (unsigned int)-1)
+	if (msgid == (guint)-1)
 		active = g_hash_table_size(mail_msg_active_table) > 0;
 	else
 		active = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid)) != NULL;
@@ -688,7 +688,7 @@ do_async_event(struct _proxy_msg *m)
 	g_mutex_unlock(m->ea->lock);
 }
 
-static int
+static gint
 idle_async_event(gpointer mm)
 {
 	do_async_event(mm);
@@ -831,7 +831,7 @@ do_call(struct _call_msg *m)
 	case MAIL_CALL_p_ppippp:
 		p1 = va_arg(ap, gpointer );
 		p2 = va_arg(ap, gpointer );
-		i1 = va_arg(ap, int);
+		i1 = va_arg(ap, gint);
 		p3 = va_arg(ap, gpointer );
 		p4 = va_arg(ap, gpointer );
 		p5 = va_arg(ap, gpointer );

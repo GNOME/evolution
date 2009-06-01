@@ -689,7 +689,7 @@ e_map_world_to_window (EMap *map, double world_longitude, double world_latitude,
 /* --- Zoom --- */
 
 
-double
+gdouble
 e_map_get_magnification (EMap *map)
 {
 	EMapPrivate *priv;
@@ -1153,8 +1153,8 @@ repaint_point (EMap *map, EMapPoint *point)
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
-	area.x = (int) px - 2;
-	area.y = (int) py - 2;
+	area.x = (gint) px - 2;
+	area.y = (gint) py - 2;
 	area.width = 5;
 	area.height = 5;
 	request_paint_area (map, &area);

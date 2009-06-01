@@ -142,11 +142,11 @@ find_node(GList *list, gchar *match)
 	JunkEntry *one_entry = NULL;
 	EGwJunkEntry *ent = NULL;
 	GList *tmp;
-	gint i ;
+	gint i;
 
 	if(list){
 		tmp = g_list_first(list);
-		for(i=0; tmp  ; i++)
+		for(i=0; tmp; i++)
 		{
 			one_entry = tmp->data;
 			ent = one_entry->entry;

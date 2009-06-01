@@ -249,7 +249,7 @@ find_column_in_spec (ETableSpecification *spec, gint model_col)
 	return NULL;
 }
 
-static int
+static gint
 find_model_column_by_name (ETableSpecification *spec, const gchar *s)
 {
 	ETableColumnSpecification **column;
@@ -1047,7 +1047,7 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 	for (column = columns; column; column = column->next) {
 		gint row = GPOINTER_TO_INT (column->data);
 
-		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (int) * (config->temp_state->col_count - row - 1));
+		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (gint) * (config->temp_state->col_count - row - 1));
 		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (double) * (config->temp_state->col_count - row - 1));
 		config->temp_state->col_count --;
 	}

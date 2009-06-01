@@ -184,7 +184,7 @@ validate (FilterElement *fe)
 	return TRUE;
 }
 
-static int
+static gint
 file_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterFile *ff = (FilterFile *)fe, *cf = (FilterFile *)cm;
@@ -224,7 +224,7 @@ xml_encode (FilterElement *fe)
 	return value;
 }
 
-static int
+static gint
 xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterFile *file = (FilterFile *)fe;

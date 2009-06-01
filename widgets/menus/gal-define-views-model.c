@@ -60,14 +60,14 @@ gdvm_dispose(GObject *object)
 }
 
 /* This function returns the number of columns in our ETableModel. */
-static int
+static gint
 gdvm_col_count (ETableModel *etc)
 {
 	return 1;
 }
 
 /* This function returns the number of rows in our ETableModel. */
-static int
+static gint
 gdvm_row_count (ETableModel *etc)
 {
 	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);

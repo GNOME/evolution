@@ -29,7 +29,7 @@
 
 G_DEFINE_TYPE (ETableOne, e_table_one, E_TABLE_MODEL_TYPE)
 
-static int
+static gint
 one_column_count (ETableModel *etm)
 {
 	ETableOne *one = E_TABLE_ONE(etm);
@@ -40,7 +40,7 @@ one_column_count (ETableModel *etm)
 		return 0;
 }
 
-static int
+static gint
 one_row_count (ETableModel *etm)
 {
 	return 1;

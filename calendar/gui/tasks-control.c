@@ -55,13 +55,13 @@ static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gpointer		 user_data);
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void tasks_control_purge_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
-						 const char		*path);
+						 const gchar		*path);
 static void tasks_control_assign_cmd           (BonoboUIComponent      *uic,
                                                 gpointer               data,
                                                 const gchar             *path);
@@ -269,7 +269,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 static void
 tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
-					 const char		*path)
+					 const gchar		*path)
 {
 	ETasks *tasks;
 
@@ -280,7 +280,7 @@ tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 static void
 tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
-					 const char		*path)
+					 const gchar		*path)
 {
 	ETasks *tasks;
 
@@ -325,7 +325,7 @@ confirm_purge (ETasks *tasks)
 static void
 tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 			 gpointer		 data,
-			 const char		*path)
+			 const gchar		*path)
 {
 	ETasks *tasks;
 

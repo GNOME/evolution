@@ -50,7 +50,7 @@ add_pages (EPreferencesWindow *preferences_window)
 	}
 }
 
-static int
+static gint
 delete_event_callback (GtkWidget *widget,
 		       GdkEventAny *event,
 		       gpointer data)

@@ -298,13 +298,13 @@ e_cal_model_finalize (GObject *object)
 
 /* ETableModel methods */
 
-static int
+static gint
 ecm_column_count (ETableModel *etm)
 {
 	return E_CAL_MODEL_FIELD_LAST;
 }
 
-static int
+static gint
 ecm_row_count (ETableModel *etm)
 {
 	ECalModelPrivate *priv;

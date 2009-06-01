@@ -151,7 +151,7 @@ em_filter_source_element_new(void)
 	return (EMFilterSourceElement *)g_object_new(em_filter_source_element_get_type(), NULL, NULL);
 }
 
-static int
+static gint
 source_eq(FilterElement *fe, FilterElement *cm)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe, *cs = (EMFilterSourceElement *)cm;

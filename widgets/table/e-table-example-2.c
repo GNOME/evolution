@@ -133,13 +133,13 @@ gboolean importance_data[ROWS];
 static GdkColor *color1;
 static GdkColor *color2;
 
-static int
+static gint
 my_col_count (ETableModel *etc, gpointer data)
 {
 	return VIRTUAL_COLS;
 }
 
-static int
+static gint
 my_row_count (ETableModel *etc, gpointer data)
 {
 	return ROWS;
@@ -232,9 +232,9 @@ static gchar *
 my_value_to_string (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
 	if (col == COLOR_COLUMN){
-		return g_strdup_printf("%d", (int) value);
+		return g_strdup_printf("%d", (gint) value);
 	} else if (col == IMPORTANCE_COLUMN){
-		return g_strdup_printf("%d", (int) value);
+		return g_strdup_printf("%d", (gint) value);
 	} else {
 		return g_strdup(value);
 	}

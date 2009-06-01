@@ -1065,7 +1065,7 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		}
 		parent_path->num_children ++;
 		parent_path->children = g_renew(ETreeSortedPath *, parent_path->children, parent_path->num_children);
-		memmove(parent_path->children + i + 1, parent_path->children + i, (parent_path->num_children - 1 - i) * sizeof(int));
+		memmove(parent_path->children + i + 1, parent_path->children + i, (parent_path->num_children - 1 - i) * sizeof(gint));
 		parent_path->children[i] = path;
 		for (j = i; j < parent_path->num_children; j++) {
 			parent_path->children[j]->position = j;
