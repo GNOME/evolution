@@ -325,6 +325,9 @@ emif_scan(CamelMimeFilter *f, gchar *in, size_t len, gint final)
 	}
 
 	if (final) {
+		/* always stop as plain, especially when not read those tags fully */
+		emif->state = EMIF_PLAIN;
+
 		emif_add_part(emif, data_start, inend-data_start);
 	} else {
 		g_byte_array_append(emif->data, (guchar *)data_start, inend-data_start);
