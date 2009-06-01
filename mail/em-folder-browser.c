@@ -1939,8 +1939,12 @@ emfb_gui_folder_changed(CamelFolder *folder, gpointer dummy, EMFolderBrowser *em
 
 		mi = camel_folder_get_message_info(emfb->view.folder, emfb->priv->select_uid);
 		if (mi) {
+			/* because some sub-functions might free the pointer before it's done here */
+			gchar *uid = g_strdup (emfb->priv->select_uid);
+
 			camel_folder_free_message_info(emfb->view.folder, mi);
-			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, FALSE);
+			em_folder_view_set_message (&emfb->view, uid, FALSE);
+			g_free (uid);
 			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = NULL;
 		}
