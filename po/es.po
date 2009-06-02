@@ -5754,7 +5754,7 @@ msgid ""
 msgstr ""
 "durante\n"
 "hasta\n"
-"siempre\n"
+"siempre"
 
 #: ../calendar/gui/dialogs/send-comp.c:116
 msgid "Send my alarms with this event"
