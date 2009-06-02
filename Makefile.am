@@ -84,15 +84,29 @@ if WITH_HELP
 SUBDIRS += help
 endif
 
-DISTCLEANFILES = 		\
-	doltcompile		\
-	doltlibtool		\
-	intltool-extract	\
-	intltool-merge 		\
-	intltool-update 	\
-	iconv-detect.h 		\
-	gnome-doc-utils.make 	\
+DISTCLEANFILES = 			\
+	$(srcdir)/doltcompile		\
+	$(srcdir)/doltlibtool		\
+	$(srcdir)/intltool-extract	\
+	$(srcdir)/intltool-merge 	\
+	$(srcdir)/intltool-update 	\
+	$(srcdir)/iconv-detect.h	\
 	$(pkgconfig_DATA)
+
+MAINTAINERCLEANFILES =			\
+	$(srcdir)/INSTALL		\
+	$(srcdir)/aclocal.m4		\
+	$(srcdir)/autoscan.log		\
+	$(srcdir)/config.guess		\
+	$(srcdir)/config.h.in		\
+	$(srcdir)/config.sub		\
+	$(srcdir)/configure.scan	\
+	$(srcdir)/depcomp		\
+	$(srcdir)/install-sh		\
+	$(srcdir)/ltmain.sh		\
+	$(srcdir)/missing		\
+	$(srcdir)/mkinstalldirs		\
+	$(srcdir)/gnome-doc-utils.make
 
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
