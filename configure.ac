@@ -1293,26 +1293,6 @@ else
 fi
 AM_CONDITIONAL(ENABLE_EXCHANGE, [test x$enable_exchange = xyes])
 
-dnl ******************
-dnl CDE dtappintegrate
-dnl ******************
-
-AC_ARG_WITH([cde-path],
-	    AC_HELP_STRING([--with-cde-path=PATH],
-			   [Location of CDE installation]),
-	    [with_cde_path=$withval],[with_cde_path=/usr/dt])
-
-AC_MSG_CHECKING(for dtappintegrate)
-if test -x "$with_cde_path/bin/dtappintegrate" ; then
-	DTAPPINTEGRATE="$with_cde_path/bin/dtappintegrate"
-else
-	DTAPPINTEGRATE="no"
-fi
-AC_MSG_RESULT([$DTAPPINTEGRATE])
-
-AC_SUBST(DTAPPINTEGRATE)
-AM_CONDITIONAL(HAVE_DTAPPINTEGRATE, [test x$DTAPPINTEGRATE != xno])
-
 dnl *****************
 dnl killall or pkill?
 dnl *****************
@@ -2006,17 +1986,6 @@ addressbook/tools/csv2vcard
 addressbook/util/Makefile
 art/Makefile
 data/Makefile
-data/cde_app_root/Makefile
-data/cde_app_root/dt/Makefile
-data/cde_app_root/dt/appconfig/Makefile
-data/cde_app_root/dt/appconfig/appmanager/Makefile
-data/cde_app_root/dt/appconfig/appmanager/C/Makefile
-data/cde_app_root/dt/appconfig/appmanager/C/Ximian/Makefile
-data/cde_app_root/dt/appconfig/icons/Makefile
-data/cde_app_root/dt/appconfig/icons/C/Makefile
-data/cde_app_root/dt/appconfig/types/Makefile
-data/cde_app_root/dt/appconfig/types/C/Makefile
-data/cde_app_root/dt/appconfig/types/C/Ximian.dt
 data/icons/Makefile
 e-util/Makefile
 filter/Makefile

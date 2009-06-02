@@ -208,23 +208,6 @@ install-evolution: $(install-privsolibLTLIBRARIES)
 uninstall-evolution:
 	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 
-if HAVE_DTAPPINTEGRATE
-
-install-exec-local: install-evolution
-	$(mkinstalldirs) $(DESTDIR)$(libexecdir)
-	mv $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) $(DESTDIR)$(libexecdir)/evolution-$(BASE_VERSION)
-	$(INSTALL_PROGRAM) evolution-nognome $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) 
-
-uninstall-local: uninstall-evolution
-	rm -rf $(DESTDIR)$(libexecdir)/evolution-$(BASE_VERSION)
-	rm -rf $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)/evolution-nognome
-else
-
-install-exec-local: install-evolution
-uninstall-local: uninstall-evolution
-
-endif
-
 # Extra dist stuff
 
 EXTRA_DIST = 					\
