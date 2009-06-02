@@ -40,7 +40,7 @@ org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 	if (!fp) {
 		gchar *name;
 
-		name = g_strdup_printf("eprofile.%ld", (long gint)getpid());
+		name = g_strdup_printf("eprofile.%ld", (glong) getpid());
 		fp = fopen(name, "w");
 		if (fp)
 			fprintf(stderr, "Generating profiling data in `%s'\n", name);
