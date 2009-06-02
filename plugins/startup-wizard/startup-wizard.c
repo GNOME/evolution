@@ -46,7 +46,7 @@ static EImportImporter *import_importer;
 static GtkWidget *import_dialog, *import_progress, *import_label;
 static GSList *import_iterator, *import_importers;
 
-static void
+G_GNUC_NORETURN static void
 startup_wizard_delete (void) {
 	gtk_main_quit ();
 	_exit (0);
