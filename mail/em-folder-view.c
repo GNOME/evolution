@@ -2506,33 +2506,6 @@ emfv_list_done_message_selected(CamelFolder *folder, const gchar *uid, CamelMime
 
 
 static gboolean
-emfv_spin(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
-{
-	GtkWidget *ep;
-
-	if (!strcmp(eb->classid, "spinner")) {
-		GtkWidget *box, *label;
-		gchar *msg = g_strdup_printf("<b>%s</b>", _("Retrieving Message..."));
-
-		label = gtk_label_new (NULL);
-		gtk_label_set_markup ((GtkLabel *)label, msg);
-		box = gtk_hbox_new (FALSE, 0);
-		g_free (msg);
-
-		ep = e_spinner_new_spinning_small_shown ();
-		gtk_box_pack_start ((GtkBox *)box, ep, FALSE, FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)box, label, FALSE, FALSE, 0);
-
-		gtk_container_add ((GtkContainer *)eb, box);
-		gtk_widget_show_all ((GtkWidget *)eb);
-
-		g_signal_handlers_disconnect_by_func(efh, emfv_spin, NULL);
-	}
-
-	return TRUE;
-}
-
-static gboolean
 emfv_message_selected_timeout(gpointer data)
 {
 	EMFolderView *emfv = data;
@@ -2547,15 +2520,6 @@ emfv_message_selected_timeout(gpointer data)
 			g_object_ref (emfv);
 			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 			e_profile_event_emit("goto.load", emfv->displayed_uid, 0);
-/*			hstream = gtk_html_begin(((EMFormatHTML *)emfv->preview)->html);
-
-			g_signal_connect(((EMFormatHTML *)emfv->preview)->html, "object_requested", G_CALLBACK(emfv_spin), NULL);
-
-			gtk_html_stream_printf(hstream, "<object classid=\"spinner\"><h2>%s</h2><p>%s</p></object>",
-						       _("Retrieving Message"),
-						       emfv->displayed_uid);
-			gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
-*/
 			mail_get_messagex(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_msg_fast_ordered_push);
 		} else {
 			e_profile_event_emit("goto.empty", "", 0);

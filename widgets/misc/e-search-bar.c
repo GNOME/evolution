@@ -678,7 +678,7 @@ set_menu (ESearchBar *esb,
 /* /\* Callback used when an option item is destroyed.  We have to destroy its */
 /*  * suboption items. */
 /*  *\/ */
-/* static gpointer /
+/* static gpointer */
 /* option_item_destroy_cb (GtkObject *object, gpointer data) */
 /* { */
 /* /\*	ESearchBarSubitem *subitems; *\/ */
