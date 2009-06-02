@@ -1293,6 +1293,10 @@ efhd_add_bar (EMFormatHTML *efh,
 	EMFormatHTMLDisplayPrivate *priv;
 	GtkWidget *widget;
 
+	/* XXX See note in efhd_message_add_bar(). */
+	if (!EM_IS_FORMAT_HTML_DISPLAY (efh))
+		return FALSE;
+
 	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	widget = e_mail_attachment_bar_new ();
@@ -1315,6 +1319,10 @@ efhd_message_add_bar (EMFormat *emf,
 {
 	const gchar *classid = "attachment-bar";
 
+	/* XXX Apparently this installs the callback for -all-
+	 *     EMFormatHTML subclasses, not just this subclass.
+	 *     Bad idea.  So we have to filter out other types
+	 *     in the callback. */
 	em_format_html_add_pobject (
 		EM_FORMAT_HTML (emf),
 		sizeof (EMFormatHTMLPObject),
