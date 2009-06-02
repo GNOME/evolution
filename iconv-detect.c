@@ -52,9 +52,9 @@ enum {
 
 
 typedef struct {
-	gchar *charset;
-	gchar *format;
-	gint id;
+	char *charset;
+	char *format;
+	int id;
 } CharInfo;
 
 
@@ -67,7 +67,7 @@ static CharInfo iso8859_tests[] = {
 	{ "8859-1",      "%d-%d",     NO_ISO_D_DASH_D },
 };
 
-static gint num_iso8859_tests = sizeof (iso8859_tests) / sizeof (CharInfo);
+static int num_iso8859_tests = sizeof (iso8859_tests) / sizeof (CharInfo);
 
 static CharInfo iso2022_tests[] = {
 	{ "iso-2022-jp", "iso-%d-%s", ISO_DASH_D_DASH_S_LOWER },
@@ -75,7 +75,7 @@ static CharInfo iso2022_tests[] = {
 	{ "ISO2022-JP",  "ISO%d-%s",  ISO_D_DASH_S },
 };
 
-static gint num_iso2022_tests = sizeof (iso2022_tests) / sizeof (CharInfo);
+static int num_iso2022_tests = sizeof (iso2022_tests) / sizeof (CharInfo);
 
 static CharInfo iso10646_tests[] = {
 	{ "iso-10646-1", "iso-%d-%d",  ISO_DASH_D_DASH_D_LOWER },
@@ -87,16 +87,16 @@ static CharInfo iso10646_tests[] = {
 	{ "UCS-4BE",     "UCS-4BE",    UCS4 },
 };
 
-static gint num_iso10646_tests = sizeof (iso10646_tests) / sizeof (CharInfo);
+static int num_iso10646_tests = sizeof (iso10646_tests) / sizeof (CharInfo);
 
 
-gint main (gint argc, gchar **argv)
+int main (int argc, char **argv)
 {
-	guint iso8859, iso2022, iso10646;
+	unsigned int iso8859, iso2022, iso10646;
 	CharInfo *info;
 	iconv_t cd;
 	FILE *fp;
-	gint i;
+	int i;
 
 	fp = fopen ("iconv-detect.h", "w");
 	if (fp == NULL)
