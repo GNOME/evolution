@@ -40,7 +40,7 @@ endif
 noinst_MANS = evolution.1
 noinst_DATA = $(keys_file) $(desktop_file)
 
-SUBDIRS = cde_app_root icons
+SUBDIRS = icons
 
 install-data-local: install-kde-applnk $(desktop_file) $(keys_file) $(mime_file)
 	$(mkinstalldirs) $(DESTDIR)$(desktopdir);							\
@@ -56,20 +56,6 @@ uninstall-local: uninstall-kde-applnk
 	rm -rf $(DESTDIR)$(keysdir)/$(keys_file) ;	\
 	rm -rf $(DESTDIR)$(mimedir)/$(mime_file) ;
 
-# CDE Stuff
-
-if HAVE_DTAPPINTEGRATE
-
-# This installs Evolution into the Application Manager on CDE
-dtappintegrate:
-	$(DTAPPINTEGRATE) -s $(privdatadir)/cde_app_root
-
-# ...And this uninstalls it
-dtappunintegrate:
-	$(DTAPPINTEGRATE) -u -s $(privdatadir)/cde_app_root
-
-endif
-
 CLEANFILES =					\
 	$(desktop_file)				\
 	$(keys_file)
@@ -79,7 +65,5 @@ EXTRA_DIST =					\
 	$(mime_file)				\
 	$(keys_in_file)				\
 	$(noinst_MANS)
-
-
 
 -include $(top_srcdir)/git.mk
