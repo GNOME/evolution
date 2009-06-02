@@ -286,7 +286,7 @@ errordir = $(privdatadir)/errors
 em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \
 	cat $(srcdir)/filtertypes.xml $(srcdir)/vfoldertypes.xml $(srcdir)/searchtypes.xml |	      \
-		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
+		sed -n -e 's:.*<title>\(.*\)</title>:gchar *s = N_("\1");:p' | \
 		sort -u >> $@
 
 glade_DATA = mail-config.glade mail-dialogs.glade
