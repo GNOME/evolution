@@ -60,13 +60,9 @@ SUBDIRS += help
 endif
 
 DISTCLEANFILES = 			\
-	$(srcdir)/doltcompile		\
-	$(srcdir)/doltlibtool		\
-	$(srcdir)/intltool-extract	\
-	$(srcdir)/intltool-merge 	\
-	$(srcdir)/intltool-update 	\
-	$(srcdir)/iconv-detect.h	\
-	$(pkgconfig_DATA)
+	$(builddir)/doltcompile		\
+	$(builddir)/doltlibtool		\
+	$(builddir)/iconv-detect.h
 
 MAINTAINERCLEANFILES =			\
 	$(srcdir)/INSTALL		\
