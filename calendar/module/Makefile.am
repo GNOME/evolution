@@ -77,3 +77,5 @@ libevolution_module_calendar_la_LIBADD =		\
 
 libevolution_module_calendar_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)
+
+-include $(top_srcdir)/git.mk
