@@ -183,6 +183,7 @@ typedef struct _EMAccountEditorPrivate {
 	/* for druid page preparation */
 	guint identity_set:1;
 	guint receive_set:1;
+	guint send_set:1;
 	guint management_set:1;
 } EMAccountEditorPrivate;
 
@@ -1420,7 +1421,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 			current[len] = 0;
 		}
 	} else {
-		current = g_strdup("imap");
+		current = "imap";
 	}
 
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -1465,7 +1466,6 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 		}
 		i++;
 	}
-
 
 	gtk_cell_layout_clear((GtkCellLayout *)dropdown);
 	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
@@ -2788,28 +2788,33 @@ emae_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 				gtk_entry_set_text(emae->priv->transport.username, user);
 				if (uri && (url = camel_url_new(uri, NULL)) != NULL) {
 					refresh = TRUE;
-					camel_url_set_protocol(url, mail_servers[index].proto);
-					camel_url_set_param(url, "use_ssl", mail_servers[index].ssl);
-					camel_url_set_host (url, mail_servers[index].recv);
 					camel_url_set_user (url, user);
-					gtk_entry_set_text(emae->priv->source.hostname, mail_servers[index].recv);
-					gtk_entry_set_text(emae->priv->transport.hostname, mail_servers[index].send);
+					if (index != -1) {
+						camel_url_set_protocol(url, mail_servers[index].proto);
+						camel_url_set_param(url, "use_ssl", mail_servers[index].ssl);
+						camel_url_set_host (url, mail_servers[index].recv);
+						gtk_entry_set_text(emae->priv->source.hostname, mail_servers[index].recv);
+						gtk_entry_set_text(emae->priv->transport.hostname, mail_servers[index].send);
+						camel_url_set_host (url, mail_servers[index].recv);
+
+					} else {
+						camel_url_set_host (url, "");
+					}
+					camel_url_set_user (url, user);
 					uri = camel_url_to_string(url, 0);
 					e_account_set_string(emae->account, E_ACCOUNT_SOURCE_URL, uri);
-
 					g_free(uri);
 					camel_url_free(url);
-				} else {
-					g_warning("buz1\n");
 				}
 
 			}
 		} else if (!strcmp(pageid, "30.send")) {
+			if (!emae->priv->send_set) {
 				CamelURL *url;
 				gchar *at, *user;
 				gint index;
 				gchar *uri = (gchar *)e_account_get_string(emae->account, E_ACCOUNT_TRANSPORT_URL);
-
+				emae->priv->send_set = 1;
 				tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr(tmp, '@');
 				user = g_alloca(at-tmp+1);
@@ -2818,7 +2823,7 @@ emae_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 				at++;
 
 				index = check_servers(at);
-				if (uri  && (url = camel_url_new(uri, NULL)) != NULL) {
+				if (index != -1 && uri  && (url = camel_url_new(uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
 					camel_url_set_param(url, "use_ssl", mail_servers[index].ssl);
@@ -2828,11 +2833,9 @@ emae_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 					e_account_set_string(emae->account, E_ACCOUNT_TRANSPORT_URL, uri);
 					g_free(uri);
 					camel_url_free(url);
-				} else {
-					g_warning("buz2\n");
 				}
 
-
+			}
 		} else if (!strcmp(pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
 			    && emae->priv->extra_provider != emae->priv->source.provider) {
