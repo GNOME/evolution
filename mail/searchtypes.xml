@@ -329,7 +329,7 @@
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="string" name="recipient"/>
  </part>
 
  <part name="subject">
@@ -764,17 +764,28 @@
 </partset>
 
   <ruleset>
-
     <rule grouping="any" source="demand">
-      <_title>Subject or Sender contains</_title>
+      <_title>Subject or Addresses contains</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="contains"/>
           <value name="subject" type="string"/>
-        </part>
+	</part>
         <part name="sender">
           <value name="sender-type" type="option" value="contains"/>
           <value name="sender" type="string"/>
+        </part>
+         <part name="to">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="address"/>
+        </part>
+         <part name="to">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="address"/>
+        </part>
+        <part name="to">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="address"/>
         </part>
       </partset>
       <sources/>
@@ -790,6 +801,21 @@
          <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
           <value name="recipient" type="address"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
+      <_title>Subject or Sender contains</_title>
+      <partset>
+        <part name="subject">
+          <value name="subject-type" type="option" value="contains"/>
+          <value name="subject" type="string"/>
+        </part>
+        <part name="sender">
+          <value name="sender-type" type="option" value="contains"/>
+          <value name="sender" type="string"/>
         </part>
       </partset>
       <sources/>
