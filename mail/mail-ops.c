@@ -72,7 +72,7 @@
 #define w(x)
 #define d(x)
 
-extern const gchar *x_mailer;
+const gchar *x_mailer;
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
