@@ -1032,6 +1032,28 @@ e_composer_header_table_get_header (EComposerHeaderTable *table,
 	return table->priv->headers[type];
 }
 
+void
+e_composer_header_table_set_header_visible (EComposerHeaderTable *table,
+                                            EComposerHeaderType type,
+                                            gboolean visible)
+{
+	EComposerHeader *header;
+
+	header = e_composer_header_table_get_header (table, type);
+	e_composer_header_set_visible (header, visible);
+
+	/* Signature widgets track the "From" header. */
+	if (type == E_COMPOSER_HEADER_FROM) {
+		if (visible) {
+			gtk_widget_show (table->priv->signature_label);
+			gtk_widget_show (table->priv->signature_combo_box);
+		} else {
+			gtk_widget_hide (table->priv->signature_label);
+			gtk_widget_hide (table->priv->signature_combo_box);
+		}
+	}
+}
+
 EAccount *
 e_composer_header_table_get_account (EComposerHeaderTable *table)
 {
