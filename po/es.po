@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-06-02 18:21+0000\n"
-"PO-Revision-Date: 2009-06-02 20:23+0200\n"
+"POT-Creation-Date: 2009-06-03 14:16+0000\n"
+"PO-Revision-Date: 2009-06-03 20:13+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4986,7 +4986,6 @@ msgid "Due "
 msgstr "Vence "
 
 #: ../calendar/gui/dialogs/comp-editor.c:221
-#| msgid "Could not save the attachment"
 msgid "Could not save attachments"
 msgstr "No se pudieron guardar los adjuntos"
 
@@ -9624,19 +9623,17 @@ msgstr "_Para:"
 msgid "_Cc:"
 msgstr "_Cc:"
 
-# #En conflicto con _Mensaje
-#: ../composer/e-composer-header-table.c:947
-msgid "Show CC"
-msgstr "Mostrar Cc"
+#: ../composer/e-composer-header-table.c:947 ../mail/em-filter-i18n.h:8
+msgid "CC"
+msgstr "Cc"
 
 #: ../composer/e-composer-header-table.c:953
 msgid "_Bcc:"
 msgstr "Cc_o:"
 
-# #En conflicto con _Mensaje
-#: ../composer/e-composer-header-table.c:953
-msgid "Show BCC"
-msgstr "Mostrar Cco"
+#: ../composer/e-composer-header-table.c:953 ../mail/em-filter-i18n.h:6
+msgid "BCC"
+msgstr "Cco"
 
 #: ../composer/e-composer-header-table.c:958
 msgid "_Post To:"
@@ -10683,30 +10680,30 @@ msgstr "Añadir un script de firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:1104 ../mail/em-format-quote.c:416
+#: ../mail/em-composer-utils.c:1108 ../mail/em-format-quote.c:416
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1556
+#: ../mail/em-composer-utils.c:1560
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/em-composer-utils.c:1562
+#: ../mail/em-composer-utils.c:1566
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../mail/em-composer-utils.c:2030
+#: ../mail/em-composer-utils.c:2034
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2077
+#: ../mail/em-composer-utils.c:2081
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10714,7 +10711,7 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2220
+#: ../mail/em-composer-utils.c:2224
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
@@ -10735,17 +10732,9 @@ msgstr "Asignar color"
 msgid "Assign Score"
 msgstr "Asignar puntuación"
 
-#: ../mail/em-filter-i18n.h:6
-msgid "BCC"
-msgstr "Cco"
-
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
 msgstr "Pitar"
-
-#: ../mail/em-filter-i18n.h:8
-msgid "CC"
-msgstr "Cc"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
@@ -14978,10 +14967,15 @@ msgid "Subject contains"
 msgstr "El asunto contiene"
 
 #: ../mail/searchtypes.xml.h:6
+#| msgid "Subject or Sender contains"
+msgid "Subject or Addresses contains"
+msgstr "El asunto o las direcciones contienen"
+
+#: ../mail/searchtypes.xml.h:7
 msgid "Subject or Recipients contains"
 msgstr "El asunto o el destinatarios contiene"
 
-#: ../mail/searchtypes.xml.h:7
+#: ../mail/searchtypes.xml.h:8
 msgid "Subject or Sender contains"
 msgstr "El asunto o el remitente contiene"
 
@@ -22960,6 +22954,14 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3790 ../widgets/text/e-text.c:3791
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+# #En conflicto con _Mensaje
+#~ msgid "Show CC"
+#~ msgstr "Mostrar Cc"
+
+# #En conflicto con _Mensaje
+#~ msgid "Show BCC"
+#~ msgstr "Mostrar Cco"
 
 #~ msgid "Retrieving Message..."
 #~ msgstr "Obteniendo mensaje…"
