@@ -27,7 +27,6 @@
 #include <string.h>
 
 #include <glib.h>
-#include <libgnome/gnome-init.h>
 
 /* localedir uses system codepage as it is passed to the non-UTF8ified
  * gettext library
