@@ -1,3 +1,10 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS =				\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(GNOME_PLATFORM_LIBS)
+endif
+
 INCLUDES =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
@@ -14,7 +21,8 @@ liborg_gnome_evolution_bbdb_la_SOURCES = bbdb.c bbdb.h gaimbuddies.c
 liborg_gnome_evolution_bbdb_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_evolution_bbdb_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(NO_UNDEFINED_REQUIRED_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml
 

@@ -1,3 +1,10 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS =				\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(GNOME_PLATFORM_LIBS)
+endif
+
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\
@@ -12,7 +19,8 @@ liborg_gnome_audio_inline_la_SOURCES = audio-inline.c
 liborg_gnome_audio_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_audio_inline_la_LIBADD =	\
 	$(GSTREAMER_LIBS)		\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS)			\
+	$(NO_UNDEFINED_REQUIRED_LIBS)
 
 EXTRA_DIST = org-gnome-audio-inline.eplug.xml
 
