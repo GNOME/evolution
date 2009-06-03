@@ -28,7 +28,7 @@ INCLUDES =							\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
-noinst_PROGRAMS = evolution
+bin_PROGRAMS = evolution
 
 if NM_SUPPORT
 NM_SUPPORT_FILES = e-shell-nm.c 
@@ -165,13 +165,6 @@ install-data-local:
 		done									\
 	fi
 endif
-
-install-evolution: $(install-privsolibLTLIBRARIES)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution$(EXEEXT) $(DESTDIR)$(bindir)/evolution$(EXEEXT)
-
-uninstall-evolution:
-	$(LIBTOOL) --mode=uninstall rm -rf $(DESTDIR)$(bindir)/evolution$(EXEEXT)
 
 # Extra dist stuff
 
