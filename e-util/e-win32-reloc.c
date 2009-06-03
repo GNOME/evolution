@@ -104,7 +104,8 @@ setup (void)
         }
 
 	/* This requires that the libeutil DLL is installed in $bindir */
-        gnome_win32_get_prefixes (hmodule, &full_prefix, &cp_prefix);
+        full_prefix = g_win32_get_package_installation_directory_of_module(hmodule);
+        cp_prefix = g_win32_locale_filename_from_utf8(full_prefix);
 
         localedir = replace_prefix (cp_prefix, EVOLUTION_LOCALEDIR);
 
