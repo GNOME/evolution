@@ -2430,10 +2430,14 @@ attachment_save_got_output_stream (SaveContext *save_context)
 	camel_data_wrapper_decode_to_stream (wrapper, stream);
 	camel_object_unref (stream);
 
-	/* Load the buffer into a GMemoryInputStream. */
-	input_stream = g_memory_input_stream_new_from_data (
-		buffer->data, (gssize) buffer->len,
-		(GDestroyNotify) g_free);
+	/* Load the buffer into a GMemoryInputStream.
+	 * But watch out for zero length MIME parts. */
+	input_stream = g_memory_input_stream_new ();
+	if (buffer->len > 0)
+		g_memory_input_stream_add_data (
+			G_MEMORY_INPUT_STREAM (input_stream),
+			buffer->data, (gssize) buffer->len,
+			(GDestroyNotify) g_free);
 	save_context->input_stream = input_stream;
 	save_context->total_num_bytes = (goffset) buffer->len;
 	g_byte_array_free (buffer, FALSE);
