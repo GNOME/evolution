@@ -235,12 +235,18 @@ libevolution_mail_shared_la_SOURCES =		\
 	message-tag-followup.c			\
 	message-tag-followup.h
 
+if OS_WIN32
+LIBEVOMAIL=$(top_builddir)/win32/libevolution-mail.la
+endif
+
 libevolution_mail_shared_la_LIBADD =				\
+	$(LIBEVOMAIL) \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/widgets/menus/libmenus.la		\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(SMIME_LIBS)						\
 	$(THREADS_LIBS)
 
