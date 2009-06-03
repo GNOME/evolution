@@ -1320,9 +1320,11 @@ GList *
 e_attachment_list_apps (EAttachment *attachment)
 {
 	GList *app_info_list;
+	GList *guessed_infos;
 	GFileInfo *file_info;
 	const gchar *content_type;
 	const gchar *display_name;
+	gboolean type_is_unknown;
 	gchar *allocated;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
@@ -1336,18 +1338,22 @@ e_attachment_list_apps (EAttachment *attachment)
 	g_return_val_if_fail (content_type != NULL, NULL);
 
 	app_info_list = g_app_info_get_all_for_type (content_type);
+	type_is_unknown = g_content_type_is_unknown (content_type);
 
-	if (app_info_list != NULL || display_name == NULL)
+	if (app_info_list != NULL && !type_is_unknown)
 		goto exit;
 
-	if (!g_content_type_is_unknown (content_type))
+	if (display_name == NULL)
 		goto exit;
 
 	allocated = g_content_type_guess (display_name, NULL, 0, NULL);
-	app_info_list = g_app_info_get_all_for_type (allocated);
+	guessed_infos = g_app_info_get_all_for_type (allocated);
+	app_info_list = g_list_concat (guessed_infos, app_info_list);
 	g_free (allocated);
 
 exit:
+	g_debug ("App List Length: %d", g_list_length (app_info_list));
+
 	return app_info_list;
 }
 

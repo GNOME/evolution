@@ -635,9 +635,6 @@ attachment_view_update_actions (EAttachmentView *view)
 		gchar *action_label;
 		gchar *action_name;
 
-		if (!g_app_info_should_show (app_info))
-			continue;
-
 		app_executable = g_app_info_get_executable (app_info);
 		app_icon = g_app_info_get_icon (app_info);
 		app_name = g_app_info_get_name (app_info);
