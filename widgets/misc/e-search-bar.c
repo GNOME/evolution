@@ -1451,7 +1451,9 @@ e_search_bar_set_search_scope (ESearchBar *search_bar, gint id)
 	gint row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-
+	
+	if (!search_bar->scopeoption_menu)
+		return;
 	row = find_id (search_bar->scopeoption_menu, id, "EsbItemId", NULL);
 	if (row == -1)
 		return;
@@ -1504,6 +1506,9 @@ e_search_bar_get_search_scope (ESearchBar *search_bar)
 
 	g_return_val_if_fail (search_bar != NULL, -1);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
+
+	if (!search_bar->scopeoption_menu)
+		return -7 /*Current folder hack */;
 
 	menu_item = gtk_menu_get_active (GTK_MENU (search_bar->scopeoption_menu));
 	scopeitem_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "EsbItemId"));

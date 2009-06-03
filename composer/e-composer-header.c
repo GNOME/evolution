@@ -21,7 +21,7 @@
  */
 
 #include "e-composer-header.h"
-
+#include <glib/gi18n.h>
 #define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
@@ -47,6 +47,7 @@ struct _EComposerHeaderPrivate {
 	gboolean button;
 	gchar *addaction_text;
 	gboolean addaction; /*For Add button.*/
+	GtkWidget *action_label;
 
 	guint sensitive : 1;
 	guint visible   : 1;
@@ -67,8 +68,13 @@ static void
 composer_header_addaction_clicked_cb (GtkButton *button,
 				      EComposerHeader *header)
 {
-	gtk_widget_hide ((GtkWidget *)button);
-	e_composer_header_set_visible (header, TRUE);
+	gboolean show = !e_composer_header_get_visible(header);
+	if (!show) 
+		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
+	else
+		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
+
+	e_composer_header_set_visible (header, show);	
 }
 
 static GObject *
@@ -108,8 +114,13 @@ composer_header_constructor (GType type,
 		tmp = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		tmp = gtk_label_new (NULL);
-		str = g_strdup_printf ("<span foreground='blue' underline='single' underline_color='blue'  >%s</span>", header->priv->addaction_text);
+		str = g_strdup_printf ("<span foreground='blue' underline='single' underline_color='blue'  >%s %s</span>", _("Show"), header->priv->addaction_text);
+		g_object_set_data ((GObject *)tmp, "show", str);
 		gtk_label_set_markup((GtkLabel *)tmp, str);
+		str = g_strdup_printf ("<span foreground='blue' underline='single' underline_color='blue'  >%s %s</span>", _("Hide"), header->priv->addaction_text);
+		g_object_set_data ((GObject *)tmp, "hide", str);
+
+		header->priv->action_label = tmp;
 		gtk_box_pack_start((GtkBox *)box, tmp, FALSE, FALSE, 3);
 		gtk_container_add((GtkContainer *)header->action_widget, box);
 		gtk_widget_show_all(header->action_widget);

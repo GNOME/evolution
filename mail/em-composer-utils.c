@@ -732,7 +732,7 @@ em_utils_compose_lite_new_message (const gchar *fromuri)
  * window. If @url is non-NULL, the composer fields will be filled in
  * according to the values in the mailto url.
  **/
-void
+struct _EMsgComposer *
 em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri)
 {
 	EMsgComposer *composer;
@@ -753,8 +753,12 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 
 	composer_set_no_change (composer, TRUE, url == NULL);
 
-	gtk_widget_show ((GtkWidget *) composer);
-	gdk_window_raise (((GtkWidget *) composer)->window);
+	if (!e_msg_composer_get_lite()) {
+		gtk_widget_show ((GtkWidget *) composer);
+		gdk_window_raise (((GtkWidget *) composer)->window);
+	}
+
+	return composer;
 }
 
 /* Editing messages... */

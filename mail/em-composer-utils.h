@@ -53,7 +53,7 @@ void em_utils_compose_new_message (const gchar *fromuri);
 struct _EMsgComposer * em_utils_compose_lite_new_message (const gchar *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
-void em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
+struct _EMsgComposer * em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
 
 void em_utils_edit_message (struct _CamelMimeMessage *message, struct _CamelFolder *folder);
 void em_utils_edit_messages (struct _CamelFolder *folder, GPtrArray *uids, gboolean replace);
