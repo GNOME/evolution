@@ -1352,8 +1352,6 @@ e_attachment_list_apps (EAttachment *attachment)
 	g_free (allocated);
 
 exit:
-	g_debug ("App List Length: %d", g_list_length (app_info_list));
-
 	return app_info_list;
 }
 
