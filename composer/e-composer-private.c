@@ -177,6 +177,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_container_add((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
 
+/*		
 		path = "/main-toolbar/pre-main-toolbar/attach";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 		tmp = gtk_hbox_new (FALSE, 0);
@@ -193,7 +194,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
 		gtk_container_add((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
-
+*/
 		gtk_widget_show(tmp_box);
 		gtk_box_pack_end ((GtkBox *)exp_box, tmp_box, TRUE, TRUE, 0);
 		gtk_box_pack_end ((GtkBox *)editor->vbox, exp_box, FALSE, FALSE, 3);
