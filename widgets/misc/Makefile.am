@@ -61,7 +61,6 @@ widgetsinclude_HEADERS =			\
 	e-file-activity.h			\
 	e-gui-utils.h				\
 	e-hsv-utils.h				\
-	e-icon-entry.h				\
 	e-image-chooser.h			\
 	e-map.h					\
 	e-menu-tool-button.h			\
@@ -124,7 +123,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-file-activity.c			\
 	e-gui-utils.c				\
 	e-hsv-utils.c				\
-	e-icon-entry.c				\
 	e-image-chooser.c			\
 	e-map.c					\
 	e-menu-tool-button.c			\

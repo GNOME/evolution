@@ -23,13 +23,13 @@
 
 #include <glib/gi18n.h>
 
-#include <filter/rule-editor.h>
-#include <widgets/misc/e-action-combo-box.h>
-#include <widgets/misc/e-icon-entry.h>
+#include "e-util/e-binding.h"
+#include "filter/rule-editor.h"
+#include "widgets/misc/e-action-combo-box.h"
 
-#include <e-shell-backend.h>
-#include <e-shell-view.h>
-#include <e-shell-window-actions.h>
+#include "e-shell-backend.h"
+#include "e-shell-view.h"
+#include "e-shell-window-actions.h"
 
 #define E_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -95,8 +95,9 @@ action_search_execute_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EIconEntry *icon_entry;
-	GtkStateType visual_state;
+	GtkWidget *widget;
+	const GdkColor *base_color;
+	const GdkColor *text_color;
 	const gchar *search_text;
 
 	/* EShellView subclasses are responsible for actually
@@ -108,15 +109,22 @@ action_search_execute_cb (GtkAction *action,
 	if (!e_shell_view_is_active (shell_view))
 		return;
 
-	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
+	widget = shell_content->priv->search_entry;
 	search_text = e_shell_content_get_search_text (shell_content);
 
-	if (search_text != NULL && *search_text != '\0')
-		visual_state = GTK_STATE_SELECTED;
-	else
-		visual_state = GTK_STATE_NORMAL;
+	if (search_text != NULL && *search_text != '\0') {
+		GtkStyle *style;
 
-	e_icon_entry_set_visual_state (icon_entry, visual_state);
+		style = gtk_widget_get_default_style ();
+		base_color = &style->base[GTK_STATE_SELECTED];
+		text_color = &style->text[GTK_STATE_SELECTED];
+	} else {
+		base_color = NULL;
+		text_color = NULL;
+	}
+
+	gtk_widget_modify_base (widget, GTK_STATE_NORMAL, base_color);
+	gtk_widget_modify_text (widget, GTK_STATE_NORMAL, text_color);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 	gtk_action_set_sensitive (action, TRUE);
@@ -154,16 +162,12 @@ shell_content_entry_focus_in_cb (EShellContent *shell_content,
                                  GdkEventFocus *focus_event,
                                  GtkWidget *entry)
 {
-	EIconEntry *icon_entry;
-	GtkStateType visual_state;
-
-	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
-	visual_state = e_icon_entry_get_visual_state (icon_entry);
-
-	if (visual_state == GTK_STATE_INSENSITIVE)
+	/* Clear the "background" text. */
+	if (shell_content->priv->search_state == GTK_STATE_INSENSITIVE)
 		gtk_entry_set_text (GTK_ENTRY (entry), "");
 
-	e_icon_entry_set_visual_state (icon_entry, GTK_STATE_NORMAL);
+	gtk_widget_modify_base (entry, GTK_STATE_NORMAL, NULL);
+	gtk_widget_modify_text (entry, GTK_STATE_NORMAL, NULL);
 
 	return FALSE;
 }
@@ -175,6 +179,48 @@ shell_content_entry_focus_out_cb (EShellContent *shell_content,
 {
 	/* FIXME */
 	return FALSE;
+}
+
+static void
+shell_content_entry_icon_press_cb (EShellContent *shell_content,
+                                   GtkEntryIconPosition icon_pos,
+                                   GdkEvent *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+
+	/* Show the search options menu when the icon is pressed. */
+
+	if (icon_pos != GTK_ENTRY_ICON_PRIMARY)
+		return;
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
+	gtk_action_activate (action);
+}
+
+static void
+shell_content_entry_icon_release_cb (EShellContent *shell_content,
+                                     GtkEntryIconPosition icon_pos,
+                                     GdkEvent *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+
+	/* Clear the search when the icon is pressed and released. */
+
+	if (icon_pos != GTK_ENTRY_ICON_SECONDARY)
+		return;
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+	gtk_action_activate (action);
 }
 
 static gboolean
@@ -500,7 +546,6 @@ shell_content_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	EIconEntry *icon_entry;
 	GtkSizeGroup *size_group;
 	GtkAction *action;
 	GtkWidget *widget;
@@ -508,11 +553,17 @@ shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
 	size_group = e_shell_view_get_size_group (shell_view);
 
+	widget = shell_content->priv->search_entry;
+
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-	e_icon_entry_add_action_end (icon_entry, action);
+	e_binding_new (
+		G_OBJECT (action), "sensitive",
+		G_OBJECT (widget), "secondary-icon-sensitive");
+	e_binding_new (
+		G_OBJECT (action), "stock-id",
+		G_OBJECT (widget), "secondary-icon-stock");
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
 	g_signal_connect (
@@ -520,7 +571,12 @@ shell_content_constructed (GObject *object)
 		G_CALLBACK (action_search_execute_cb), shell_content);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
-	e_icon_entry_add_action_start (icon_entry, action);
+	e_binding_new (
+		G_OBJECT (action), "sensitive",
+		G_OBJECT (widget), "primary-icon-sensitive");
+	e_binding_new (
+		G_OBJECT (action), "stock-id",
+		G_OBJECT (widget), "primary-icon-stock");
 
 	widget = shell_content->priv->search_bar;
 	gtk_size_group_add_widget (size_group, widget);
@@ -773,7 +829,6 @@ shell_content_init (EShellContent *shell_content)
 	GtkLabel *label;
 	GtkWidget *mnemonic;
 	GtkWidget *widget;
-	EIconEntry *icon_entry;
 
 	shell_content->priv = E_SHELL_CONTENT_GET_PRIVATE (shell_content);
 
@@ -826,37 +881,51 @@ shell_content_init (EShellContent *shell_content)
 
 	/* Search Entry Widgets */
 
-	widget = e_icon_entry_new ();
+	widget = gtk_entry_new ();
 	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
 	shell_content->priv->search_entry = g_object_ref (widget);
 	shell_content->priv->search_state = GTK_STATE_NORMAL;
 	gtk_widget_show (widget);
 
-	icon_entry = E_ICON_ENTRY (widget);
+	g_signal_connect_swapped (
+		widget, "activate",
+		G_CALLBACK (shell_content_entry_activated_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "focus-in-event",
+		G_CALLBACK (shell_content_entry_focus_in_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "focus-out-event",
+		G_CALLBACK (shell_content_entry_focus_out_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "icon-press",
+		G_CALLBACK (shell_content_entry_icon_press_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "icon-release",
+		G_CALLBACK (shell_content_entry_icon_release_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "key-press-event",
+		G_CALLBACK (shell_content_entry_key_press_cb),
+		shell_content);
+
+	mnemonic = widget;
 
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mnemonic);
 	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
 	shell_content->priv->search_label = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = e_icon_entry_get_entry (icon_entry);
-	gtk_label_set_mnemonic_widget (label, widget);
-	g_signal_connect_swapped (
-		widget, "activate",
-		G_CALLBACK (shell_content_entry_activated_cb), shell_content);
-	g_signal_connect_swapped (
-		widget, "focus-in-event",
-		G_CALLBACK (shell_content_entry_focus_in_cb), shell_content);
-	g_signal_connect_swapped (
-		widget, "focus-out-event",
-		G_CALLBACK (shell_content_entry_focus_out_cb), shell_content);
-	g_signal_connect_swapped (
-		widget, "key-press-event",
-		G_CALLBACK (shell_content_entry_key_press_cb), shell_content);
 }
 
 GType
@@ -967,6 +1036,7 @@ e_shell_content_set_filter_action (EShellContent *shell_content,
 	combo_box = E_ACTION_COMBO_BOX (shell_content->priv->filter_combo_box);
 
 	e_action_combo_box_set_action (combo_box, filter_action);
+
 	g_object_notify (G_OBJECT (shell_content), "filter-action");
 }
 
@@ -993,6 +1063,7 @@ e_shell_content_set_filter_value (EShellContent *shell_content,
 	combo_box = E_ACTION_COMBO_BOX (shell_content->priv->filter_combo_box);
 
 	e_action_combo_box_set_current_value (combo_box, filter_value);
+
 	g_object_notify (G_OBJECT (shell_content), "filter-value");
 }
 
@@ -1076,40 +1147,38 @@ e_shell_content_set_search_rule (EShellContent *shell_content,
 		g_object_unref (shell_content->priv->search_rule);
 
 	shell_content->priv->search_rule = search_rule;
+
 	g_object_notify (G_OBJECT (shell_content), "search-rule");
 }
 
 const gchar *
 e_shell_content_get_search_text (EShellContent *shell_content)
 {
-	EIconEntry *icon_entry;
-	GtkWidget *text_entry;
+	GtkEntry *entry;
 
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 
 	if (shell_content->priv->search_state == GTK_STATE_INSENSITIVE)
 		return "";
 
-	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
-	text_entry = e_icon_entry_get_entry (icon_entry);
+	entry = GTK_ENTRY (shell_content->priv->search_entry);
 
-	return gtk_entry_get_text (GTK_ENTRY (text_entry));
+	return gtk_entry_get_text (entry);
 }
 
 void
 e_shell_content_set_search_text (EShellContent *shell_content,
                                  const gchar *search_text)
 {
-	EIconEntry *icon_entry;
-	GtkWidget *text_entry;
+	GtkEntry *entry;
 
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
-	text_entry = e_icon_entry_get_entry (icon_entry);
-
+	entry = GTK_ENTRY (shell_content->priv->search_entry);
 	search_text = (search_text != NULL) ? search_text : "";
-	gtk_entry_set_text (GTK_ENTRY (text_entry), search_text);
+
+	gtk_entry_set_text (entry, search_text);
+
 	g_object_notify (G_OBJECT (shell_content), "search-text");
 }
 
@@ -1159,6 +1228,7 @@ e_shell_content_set_scope_action (EShellContent *shell_content,
 	combo_box = E_ACTION_COMBO_BOX (shell_content->priv->scope_combo_box);
 
 	e_action_combo_box_set_action (combo_box, scope_action);
+
 	g_object_notify (G_OBJECT (shell_content), "scope-action");
 }
 
@@ -1185,6 +1255,7 @@ e_shell_content_set_scope_value (EShellContent *shell_content,
 	combo_box = E_ACTION_COMBO_BOX (shell_content->priv->scope_combo_box);
 
 	e_action_combo_box_set_current_value (combo_box, scope_value);
+
 	g_object_notify (G_OBJECT (shell_content), "scope-value");
 }
 
