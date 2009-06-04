@@ -9,13 +9,15 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-05-05 00:57+0000\n"
-"PO-Revision-Date: 2009-05-07 19:12+0530\n"
+"PO-Revision-Date: 2009-06-04 17:55+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -5311,12 +5313,13 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 #| msgid "until"
 msgid ""
 "for\n"
 "until"
-msgstr "ଯେପର୍ଯ୍ଯନ୍ତ"
+msgstr ""
+"ପାଇଁ\n"
+"ଯେ ପର୍ଯ୍ଯନ୍ତ"
 
 #: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2485
 msgid "Memo"
@@ -5740,15 +5743,13 @@ msgid "%s for an unknown trigger type"
 msgstr "ଗୋଟିଏ ଅଜଣା ଟ୍ରିଗର ପ୍ରକାର ପାଇଁ %s"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
-#, fuzzy
 #| msgid "Import"
 msgid "I_mport"
-msgstr "ଆୟତ କରନ୍ତୁ"
+msgstr "ଆମଦାନୀ କରନ୍ତୁ (_m)"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
-#, fuzzy
 msgid "Select a Calendar"
-msgstr "ମନୋନୀତ କର କ୍ଯାଲେଣ୍ଡର"
+msgstr "ଗୋଟିଏ କ୍ଯାଲେଣ୍ଡର ବାଛନ୍ତୁ"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
 #, fuzzy
