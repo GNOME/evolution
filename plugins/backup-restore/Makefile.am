@@ -28,6 +28,10 @@ evolution_backup_SOURCES = backup.c
 evolution_backup_LDADD = $(SHELL_LIBS)		\
 	$(top_builddir)/e-util/libeutil.la
 
+if OS_WIN32
+evolution_backup_LDFLAGS = -mwindows
+endif
+
 
 EXTRA_DIST = 					\
 	org-gnome-backup-restore.eplug.xml	\

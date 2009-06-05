@@ -53,6 +53,10 @@ evolution_alarm_notify_LDADD =						\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
+if OS_WIN32
+evolution_alarm_notify_LDFLAGS = -mwindows
+endif
+
 server_in_files = GNOME_Evolution_Calendar_AlarmNotify.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
 @EVO_SERVER_RULE@
