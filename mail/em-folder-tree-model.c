@@ -449,12 +449,12 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	guint unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
-	gboolean load = FALSE;
+	gboolean load = FALSE, is_drafts = FALSE, is_templates = FALSE;
 	struct _CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const gchar *name;
 	const gchar *icon_name;
-	guint32 flags;
+	guint32 flags, add_flags = 0;
 	EMEventTargetCustomIcon *target;
 
 	/* make sure we don't already know about it? */
@@ -513,8 +513,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	if (si->store == mail_component_peek_local_store(NULL)) {
 		if (!strcmp(fi->full_name, "Drafts")) {
 			name = _("Drafts");
+			is_drafts = TRUE;
 		} else if (!strcmp(fi->full_name, "Templates")) {
 			name = _("Templates");
+			is_templates = TRUE;
 		} else if (!strcmp(fi->full_name, "Inbox")) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_INBOX;
 			name = _("Inbox");
@@ -527,8 +529,31 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		}
 	}
 
+	if (si->account && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
+		if (!is_drafts && si->account->drafts_folder_uri) {
+			gchar *curi = em_uri_to_camel (si->account->drafts_folder_uri);
+			is_drafts = camel_store_folder_uri_equal (si->store, fi->uri, curi);
+			g_free (curi);
+		}
+
+		if (si->account->sent_folder_uri) {
+			gchar *curi = em_uri_to_camel (si->account->sent_folder_uri);
+			if (camel_store_folder_uri_equal (si->store, fi->uri, curi)) {
+				add_flags = CAMEL_FOLDER_TYPE_SENT;
+			}
+			g_free(curi);
+		}
+	}
+
 	/* Choose an icon name for the folder. */
-	icon_name = em_folder_utils_get_icon_name (flags);
+	icon_name = em_folder_utils_get_icon_name (flags | add_flags);
+
+	if (g_str_equal (icon_name, "folder")) {
+		if (is_drafts)
+			icon_name = "accessories-text-editor";
+		else if (is_templates)
+			icon_name = "text-x-generic-template";
+	}
 
 	gtk_tree_store_set (
 		tree_store, iter,
