@@ -27,6 +27,10 @@ evolution_addressbook_export_SOURCES =				\
 evolution_addressbook_export_LDADD =				\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
+if OS_WIN32
+evolution_addressbook_export_LDFLAGS = -mwindows
+endif
+
 EXTRA_DIST = $(privlibexec_SCRIPTS) \
 	evolution-addressbook-clean.in
 
