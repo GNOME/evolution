@@ -1,5 +1,7 @@
 if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
+WIN32_BOOTSTRAP_LIBS = \
+	$(top_builddir)/win32/libevolution-mail-shared.la \
+	$(top_builddir)/win32/libevolution-mail.la
 endif
 
 privsolib_LTLIBRARIES = libevolution-mail-importers.la
