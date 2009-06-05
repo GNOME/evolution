@@ -21,34 +21,137 @@ EXPORTS
 	e_activity_handler_set_logger
 	e_activity_handler_set_message
 	e_activity_handler_unset_message
-	e_attachment_bar_add_attachment
-	e_attachment_bar_add_attachment_silent
-	e_attachment_bar_attach
-	e_attachment_bar_attach_mime_part
-	e_attachment_bar_attach_remote_file
-	e_attachment_bar_bonobo_ui_populate_with_recent
-	e_attachment_bar_create_attachment_cache
-	e_attachment_bar_edit_selected
-	e_attachment_bar_get_all_attachments
-	e_attachment_bar_get_attachment
-	e_attachment_bar_get_download_count
-	e_attachment_bar_get_num_attachments
-	e_attachment_bar_get_parts
-	e_attachment_bar_get_selected
-	e_attachment_bar_get_selector
-	e_attachment_bar_get_type
-	e_attachment_bar_new
-	e_attachment_bar_recent_action_new
-	e_attachment_bar_refresh
-	e_attachment_bar_remove_selected
-	e_attachment_bar_set_width
-	e_attachment_bar_to_multipart
-	e_attachment_build_remote_file
-	e_attachment_edit
+	e_attachment_add_to_multipart
+	e_attachment_button_get_attachment
+	e_attachment_button_get_expandable
+	e_attachment_button_get_expanded
+	e_attachment_button_get_type
+	e_attachment_button_get_view
+	e_attachment_button_new
+	e_attachment_button_set_attachment
+	e_attachment_button_set_expandable
+	e_attachment_button_set_expanded
+	e_attachment_cancel
+	e_attachment_dialog_get_attachment
+	e_attachment_dialog_get_type
+	e_attachment_dialog_new
+	e_attachment_dialog_set_attachment
+	e_attachment_get_can_show
+	e_attachment_get_description
+	e_attachment_get_disposition
+	e_attachment_get_encrypted
+	e_attachment_get_file
+	e_attachment_get_file_info
+	e_attachment_get_loading
+	e_attachment_get_mime_part
+	e_attachment_get_percent
+	e_attachment_get_reference
+	e_attachment_get_saving
+	e_attachment_get_shown
+	e_attachment_get_signed
+	e_attachment_get_thumbnail_path
 	e_attachment_get_type
+	e_attachment_handler_get_drag_actions
+	e_attachment_handler_get_target_table
+	e_attachment_handler_get_type
+	e_attachment_handler_get_view
+	e_attachment_handler_image_get_type
+	e_attachment_handler_sendto_get_type
+	e_attachment_icon_view_get_type
+	e_attachment_icon_view_new
+	e_attachment_is_rfc822
+	e_attachment_list_apps
+	e_attachment_load_async
+	e_attachment_load_finish
+	e_attachment_load_handle_error
 	e_attachment_new
-	e_attachment_new_from_mime_part
-	e_attachment_new_remote_file
+	e_attachment_new_for_message
+	e_attachment_new_for_path
+	e_attachment_new_for_uri
+	e_attachment_open_async
+	e_attachment_open_finish
+	e_attachment_open_handle_error
+	e_attachment_paned_drag_data_received
+	e_attachment_paned_get_active_view
+	e_attachment_paned_get_content_area
+	e_attachment_paned_get_expanded
+	e_attachment_paned_get_type
+	e_attachment_paned_new
+	e_attachment_paned_set_active_view
+	e_attachment_paned_set_expanded
+	e_attachment_save_async
+	e_attachment_save_finish
+	e_attachment_save_handle_error
+	e_attachment_set_can_show
+	e_attachment_set_disposition
+	e_attachment_set_encrypted
+	e_attachment_set_file
+	e_attachment_set_mime_part
+	e_attachment_set_reference
+	e_attachment_set_shown
+	e_attachment_set_signed
+	e_attachment_store_add_attachment
+	e_attachment_store_add_to_multipart
+	e_attachment_store_get_attachments
+	e_attachment_store_get_current_folder
+	e_attachment_store_get_num_attachments
+	e_attachment_store_get_num_loading
+	e_attachment_store_get_total_size
+	e_attachment_store_get_type
+	e_attachment_store_get_uris_async
+	e_attachment_store_get_uris_finish
+	e_attachment_store_new
+	e_attachment_store_remove_attachment
+	e_attachment_store_run_file_chooser_dialog
+	e_attachment_store_run_load_dialog
+	e_attachment_store_run_save_dialog
+	e_attachment_store_save_async
+	e_attachment_store_save_finish
+	e_attachment_store_set_current_folder
+	e_attachment_tree_view_get_type
+	e_attachment_tree_view_new
+	e_attachment_view_add_action_group
+	e_attachment_view_button_press_event
+	e_attachment_view_button_release_event
+	e_attachment_view_dispose
+	e_attachment_view_drag_begin
+	e_attachment_view_drag_data_get
+	e_attachment_view_drag_data_received
+	e_attachment_view_drag_dest_set
+	e_attachment_view_drag_dest_unset
+	e_attachment_view_drag_drop
+	e_attachment_view_drag_end
+	e_attachment_view_drag_motion
+	e_attachment_view_drag_source_set
+	e_attachment_view_drag_source_unset
+	e_attachment_view_finalize
+	e_attachment_view_get_action
+	e_attachment_view_get_action_group
+	e_attachment_view_get_drag_actions
+	e_attachment_view_get_editable
+	e_attachment_view_get_path_at_pos
+	e_attachment_view_get_popup_menu
+	e_attachment_view_get_private
+	e_attachment_view_get_selected_attachments
+	e_attachment_view_get_selected_paths
+	e_attachment_view_get_store
+	e_attachment_view_get_target_list
+	e_attachment_view_get_type
+	e_attachment_view_get_ui_manager
+	e_attachment_view_init
+	e_attachment_view_key_press_event
+	e_attachment_view_open_path
+	e_attachment_view_path_is_selected
+	e_attachment_view_recent_action_new
+	e_attachment_view_remove_selected
+	e_attachment_view_select_all
+	e_attachment_view_select_path
+	e_attachment_view_set_editable
+	e_attachment_view_show_popup_menu
+	e_attachment_view_sync_selection
+	e_attachment_view_unselect_all
+	e_attachment_view_unselect_path
+	e_attachment_view_update_actions
 	e_auto_kill_popup_menu_on_selection_done
 	e_black DATA
 	e_calendar_get_border_size
@@ -180,19 +283,6 @@ EXPORTS
 	e_dropdown_button_construct
 	e_dropdown_button_get_type
 	e_dropdown_button_new
-	e_expander_get_expanded
-	e_expander_get_label
-	e_expander_get_label_widget
-	e_expander_get_spacing
-	e_expander_get_type
-	e_expander_get_use_underline
-	e_expander_new
-	e_expander_new_with_mnemonic
-	e_expander_set_expanded
-	e_expander_set_label
-	e_expander_set_label_widget
-	e_expander_set_spacing
-	e_expander_set_use_underline
 	e_glade_xml_connect_widget
 	e_glade_xml_set_sensitive
 	e_hsv_to_rgb
@@ -277,6 +367,7 @@ EXPORTS
 	e_search_bar_get_text
 	e_search_bar_get_type
 	e_search_bar_get_viewitem_id
+	e_search_bar_lite_new
 	e_search_bar_new
 	e_search_bar_paint
 	e_search_bar_scope_enable
@@ -398,3 +489,4 @@ EXPORTS
 	e_xml_get_translated_utf8_string_prop_by_name
 	icon_data DATA
 	send_options_make_dateedit
+	
