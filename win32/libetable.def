@@ -433,6 +433,7 @@ EXPORTS
 	e_tree_model_node_traverse
 	e_tree_model_node_traverse_preorder
 	e_tree_model_pre_change
+	e_tree_model_rebuilt
 	e_tree_model_set_value_at
 	e_tree_model_sort_value_at
 	e_tree_model_to_view_row

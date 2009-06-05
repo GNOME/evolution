@@ -248,7 +248,6 @@ EXPORTS
 	calendar_config_add_notification_day_second_zone
 	calendar_config_add_notification_day_start_hour
 	calendar_config_add_notification_day_start_minute
-	calendar_config_add_notification_daylight_saving
 	calendar_config_add_notification_dnav_show_week_no
 	calendar_config_add_notification_dview_show_week_no
 	calendar_config_add_notification_free_busy_template
@@ -257,6 +256,7 @@ EXPORTS
 	calendar_config_add_notification_hide_completed_tasks_value
 	calendar_config_add_notification_marcus_bains
 	calendar_config_add_notification_memos_selected
+	calendar_config_add_notification_month_scroll_by_week
 	calendar_config_add_notification_preview_state
 	calendar_config_add_notification_primary_calendar
 	calendar_config_add_notification_primary_memos
@@ -265,6 +265,7 @@ EXPORTS
 	calendar_config_add_notification_tasks_selected
 	calendar_config_add_notification_time_divisions
 	calendar_config_add_notification_timezone
+	calendar_config_add_notification_use_system_timezone
 	calendar_config_add_notification_week_start_day
 	calendar_config_add_notification_working_days
 	calendar_config_free_day_second_zones
@@ -280,7 +281,6 @@ EXPORTS
 	calendar_config_get_day_second_zones
 	calendar_config_get_day_start_hour
 	calendar_config_get_day_start_minute
-	calendar_config_get_daylight_saving
 	calendar_config_get_default_reminder_interval
 	calendar_config_get_default_reminder_units
 	calendar_config_get_dir_path
@@ -296,6 +296,7 @@ EXPORTS
 	calendar_config_get_marcus_bains
 	calendar_config_get_memos_selected
 	calendar_config_get_month_hpane_pos
+	calendar_config_get_month_scroll_by_week
 	calendar_config_get_month_vpane_pos
 	calendar_config_get_preview_state
 	calendar_config_get_primary_calendar
@@ -315,7 +316,9 @@ EXPORTS
 	calendar_config_get_tasks_selected
 	calendar_config_get_time_divisions
 	calendar_config_get_timezone
+	calendar_config_get_timezone_stored
 	calendar_config_get_use_default_reminder
+	calendar_config_get_use_system_timezone
 	calendar_config_get_vpane_pos
 	calendar_config_get_week_start_day
 	calendar_config_get_working_days
@@ -333,7 +336,6 @@ EXPORTS
 	calendar_config_set_day_second_zone
 	calendar_config_set_day_start_hour
 	calendar_config_set_day_start_minute
-	calendar_config_set_daylight_saving
 	calendar_config_set_default_reminder_interval
 	calendar_config_set_default_reminder_units
 	calendar_config_set_dir_path
@@ -346,6 +348,7 @@ EXPORTS
 	calendar_config_set_hpane_pos
 	calendar_config_set_memos_selected
 	calendar_config_set_month_hpane_pos
+	calendar_config_set_month_scroll_by_week
 	calendar_config_set_month_vpane_pos
 	calendar_config_set_preview_state
 	calendar_config_set_primary_calendar
@@ -366,6 +369,7 @@ EXPORTS
 	calendar_config_set_time_divisions
 	calendar_config_set_timezone
 	calendar_config_set_use_default_reminder
+	calendar_config_set_use_system_timezone
 	calendar_config_set_vpane_pos
 	calendar_config_set_week_start_day
 	calendar_config_set_working_days
@@ -461,6 +465,7 @@ EXPORTS
 	e_alarm_list_new
 	e_alarm_list_remove
 	e_alarm_list_set_alarm
+	e_attachment_handler_calendar_get_type
 	e_cal_comp_preview_url_requested_cb
 	e_cal_component_memo_preview_clear
 	e_cal_component_memo_preview_display
@@ -547,26 +552,8 @@ EXPORTS
 	e_cal_popup_get_type
 	e_cal_popup_hook_get_type
 	e_cal_popup_new
-	e_cal_popup_target_new_attachments
 	e_cal_popup_target_new_select
 	e_cal_popup_target_new_source
-	e_calendar_marshal_VOID__ENUM_ENUM
-	e_calendar_marshal_VOID__ENUM_STRING
-	e_calendar_marshal_VOID__INT_BOOLEAN
-	e_calendar_marshal_VOID__INT_INT
-	e_calendar_marshal_VOID__INT_OBJECT
-	e_calendar_marshal_VOID__INT_POINTER
-	e_calendar_marshal_VOID__INT_STRING
-	e_calendar_marshal_VOID__LONG_LONG
-	e_calendar_marshal_VOID__POINTER_ENUM
-	e_calendar_marshal_VOID__POINTER_POINTER
-	e_calendar_marshal_VOID__POINTER_STRING
-	e_calendar_marshal_VOID__STRING_BOOLEAN_INT_INT
-	e_calendar_marshal_VOID__STRING_INT
-	e_calendar_marshal_VOID__STRING_INT_INT
-	e_calendar_marshal_VOID__STRING_POINTER_POINTER
-	e_calendar_marshal_VOID__STRING_STRING
-	e_calendar_marshal_VOID__STRING_STRING_STRING
 	e_calendar_table_complete_selected
 	e_calendar_table_config_get_table
 	e_calendar_table_config_get_type
@@ -617,6 +604,7 @@ EXPORTS
 	e_calendar_view_new_appointment_for
 	e_calendar_view_new_appointment_full
 	e_calendar_view_open_event
+	e_calendar_view_open_event_with_flags
 	e_calendar_view_paste_clipboard
 	e_calendar_view_set_activity_handler
 	e_calendar_view_set_calendar
@@ -1119,4 +1107,3 @@ EXPORTS
 	weekday_picker_set_blocked_days
 	weekday_picker_set_days
 	weekday_picker_set_week_start_day
-	
