@@ -1,4 +1,4 @@
-# translation of evolution.gnome-2-26.or.po to Oriya
+# translation of or.po to Oriya
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #: ../shell/main.c:603
@@ -6,16 +6,17 @@
 # Manoj Kumar Giri <mgiri@redhat.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.gnome-2-26.or\n"
+"Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2009-06-03 17:57+0000\n"
-"PO-Revision-Date: 2009-06-04 18:58+0530\n"
+"POT-Creation-Date: 2009-06-04 14:13+0000\n"
+"PO-Revision-Date: 2009-06-05 19:07+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -945,8 +946,8 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
-"କାର୍ଡ ଏବଂ ତାଲିକା ଦୃଶ୍ୟଗୁଡ଼ିକ ମଧ୍ଯରେ ଏବଂ ପ୍ରାକଦର୍ଶନ ପଟ୍ଟିକା ମଧ୍ଯରେ,"
-"ଭୂଲମ୍ବ ପଟ୍ଟିକର ଅବସ୍ଥାନ, ପିକସେଲରେ।"
+"କାର୍ଡ ଏବଂ ତାଲିକା ଦୃଶ୍ୟଗୁଡ଼ିକ ମଧ୍ଯରେ ଏବଂ ପ୍ରାକଦର୍ଶନ ପଟ୍ଟିକା ମଧ୍ଯରେ,ଭୂଲମ୍ବ ପଟ୍ଟିକର ଅବସ୍ଥାନ, "
+"ପିକସେଲରେ।"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:5
 msgid "Show autocompleted name with an address"
@@ -1192,8 +1193,8 @@ msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
 msgstr ""
-"ଆପଣଙ୍କ Evolution ଫୋଲଡର ତାଲିକାରେ ଦର୍ଶାଯିବାକୁ ଥିବା ସର୍ଭରର ନାମ। "
-"ଏହା କେବଳ ପ୍ରଦର୍ଶନ ଉଦ୍ଦେଶ୍ୟ ପାଇଁ।"
+"ଆପଣଙ୍କ Evolution ଫୋଲଡର ତାଲିକାରେ ଦର୍ଶାଯିବାକୁ ଥିବା ସର୍ଭରର ନାମ। ଏହା କେବଳ ପ୍ରଦର୍ଶନ ଉଦ୍ଦେଶ୍ୟ "
+"ପାଇଁ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
@@ -4722,8 +4723,8 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"ଗୋଟିଏ Evolution କ୍ୟାଲେଣ୍ଡର ଆରମ୍ଭ ହେବାକୁ ଯାଉଛି। ଏହି ସ୍ମରଣକାରୀଟି ନିମ୍ନଲିଖିତ ପ୍ରଗ୍ରାମକୁ "
-"ଚଲାଇବା ପାଇଁ ବିନ୍ୟାସ କରାଯାଇଛି:\n"
+"ଗୋଟିଏ Evolution କ୍ୟାଲେଣ୍ଡର ଆରମ୍ଭ ହେବାକୁ ଯାଉଛି। ଏହି ସ୍ମରଣକାରୀଟି ନିମ୍ନଲିଖିତ ପ୍ରଗ୍ରାମକୁ ଚଲାଇବା "
+"ପାଇଁ ବିନ୍ୟାସ କରାଯାଇଛି:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -15912,33 +15913,30 @@ msgid "Backup current Evolution data"
 msgstr "ସାମ୍ପ୍ରତିକ Evolution ତଥ୍ୟର ନକଲ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:266
-#, fuzzy
 msgid "Extracting files from backup"
-msgstr "ଫାଇଲ ମାନ ଠାରୁ"
+msgstr "ନକଲ ସଂରକ୍ଷଣରୁ ଫାଇଲଗୁଡ଼ିକୁ କାଢ଼ୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:273
 msgid "Loading Evolution settings"
 msgstr "Evolutionର ବିନ୍ଯାସକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:277
-#, fuzzy
 msgid "Removing temporary backup files"
-msgstr "ଫାଇଲ ମାନ"
+msgstr "ଅସ୍ଥାୟୀ ନକଲ ସଂରକ୍ଷଣ ଫାଇଲଗୁଡ଼ିକୁ କାଢ଼ୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:284
-#, fuzzy
 msgid "Ensuring local sources"
-msgstr "ସ୍ଥାନୀୟ"
+msgstr "ସ୍ଥାନୀୟ ଉତ୍ସଗୁଡ଼ିକୁ ନିଶ୍ଚିତ କରୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "Backing up to the folder %s"
-msgstr "ଉପର କୁ"
+msgstr "ଫୋଲଡର %sକୁ ନକଲ ସଂରକ୍ଷଣ କରୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "Restoring from the folder %s"
-msgstr "ଠାରୁ"
+msgstr "ଫୋଲଡ଼ର %sରୁ ପୁନଃସ୍ଥାପନ କରୁଅଛି"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:478
@@ -15947,42 +15945,36 @@ msgstr "Evolution ଠିକଣା ପୁସ୍ତିକା"
 
 #: ../plugins/backup-restore/backup.c:478
 msgid "Evolution Restore"
-msgstr "Evolution ଠିକଣା ପୁସ୍ତିକା"
+msgstr "Evolution ପୁନଃସ୍ଥାପନ"
 
 #: ../plugins/backup-restore/backup.c:513
-#, fuzzy
 msgid "Backing up Evolution Data"
-msgstr "ଉପର କ୍ରମବିକାଶ  ତଥ୍ଯ"
+msgstr "Evolution ତଥ୍ୟକୁ ନକଲ ସଂରକ୍ଷଣ କରୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:514
-#, fuzzy
 msgid "Please wait while Evolution is backing up your data."
-msgstr "ଦୟାକରି କ୍ରମବିକାଶ  ଅଟେ ଉପର ତଥ୍ଯ."
+msgstr "Evolution ଆପଣଙ୍କର ତଥ୍ୟର ନକଲ ସଂରକ୍ଷଣ କରିବା ସମୟରେ ଦୟାକରି ଅପେକ୍ଷା କରନ୍ତୁ।"
 
 #: ../plugins/backup-restore/backup.c:516
 msgid "Restoring Evolution Data"
 msgstr "Evolution ତଥ୍ୟକୁ ପୁନଃସ୍ଥାପନ କରୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:517
-#, fuzzy
 msgid "Please wait while Evolution is restoring your data."
-msgstr "ଦୟାକରି କ୍ରମବିକାଶ  ଅଟେ ତଥ୍ଯ."
+msgstr "Evolution ଆପଣଙ୍କର ତଥ୍ୟକୁ ପୁନଃସ୍ଥାପନ କରିବା ସମୟରେ ଦୟାକରି ଅପେକ୍ଷା କରନ୍ତୁ।"
 
 #: ../plugins/backup-restore/backup.c:535
-#, fuzzy
 msgid "This may take a while depending on the amount of data in your account."
-msgstr "a ରେ ର ତଥ୍ଯ ଇଞ୍ଚ."
+msgstr "ଆପଣଙ୍କର ଖାତାରେ କେତେ ତଥ୍ୟ ଅଛି ତାହା ଉପରେ ନିର୍ଭର କରି ଏହା କିଛି ସମୟ ନେଇପାରେ।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "A ପାଇଁ ଉପର ଏବଂ କ୍ରମବିକାଶ  ତଥ୍ଯ ଏବଂ."
+msgstr "Evolution ତଥ୍ୟ ଏବଂ ସଂରଚନାର ନକଲ ସଂରକ୍ଷଣ ଏବଂ ପୁନଃସ୍ଥାପନ କରିବା ପାଇଁ ଗୋଟିଏ ପ୍ଲଗଇନ।"
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Backup and restore plugin"
-msgstr "ଏବଂ"
+msgstr "ପ୍ଲଗଇନର ନକଲ ସଂରକ୍ଷଣ ଏବଂ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -16010,7 +16002,7 @@ msgstr "ଅପର୍ଯ୍ଯାପ୍ତ ଅନୁମତି"
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 #, fuzzy
 msgid "Invalid Evolution backup file"
-msgstr "ଅବୈଧ କ୍ରମବିକାଶ  ଫାଇଲ"
+msgstr "ଅବୈଧ Evolution ନକଲ ସଂରକ୍ଷଣ ଫାଇଲ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid "Please select a valid backup file to restore."
@@ -16019,7 +16011,7 @@ msgstr "ପୁନଃସ୍ଥାପନ କରିବା ପାଇଁ ଦୟାକ
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 #, fuzzy
 msgid "The selected folder is not writable."
-msgstr "ଚୟିତ ଅଟେ ନୁହେଁ."
+msgstr "ବଚ୍ଛିତ ଫୋଲଡରଟି ଲିଖନ ଯୋଗ୍ୟ ନୁହେଁ।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 #, fuzzy
@@ -16030,13 +16022,15 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"ବିଲୋପ କର ସମସ୍ତ କ୍ରମବିକାଶ  ତଥ୍ଯ ଏବଂ ଏବଂ ଠାରୁ କ୍ରମବିକାଶ  ଆରମ୍ଭ କ୍ରମବିକାଶ  ଅଟେ ନୁହେଁ ଚାଲୁଅଛି "
-"ଦୟାକରି ବନ୍ଦ କରନ୍ତୁ ସମସ୍ତ ପୂର୍ବରୁ କ୍ରମବିକାଶ  କୁ ପୁନର୍ଚାଳନ ପୁନର୍ଚାଳନ ପରେ ସକ୍ରିୟ ଅଦଳବଦଳ କରନ୍ତୁ ବଟନ."
+"ଏହା ଆପଣଙ୍କର ପ୍ରଚଳିତ ସମସ୍ତ Evolution ତଥ୍ୟ ଏବଂ ସଂରଚନାକୁ ନକଲ ସଂରକ୍ଷଣରୁ ବିଲୋପ କରିଦେବ।"
+"Evolution ଚାଲୁନଥିବା ସମୟରେ Evolution ପୁନଃସ୍ଥାପନ ଆରମ୍ଭ ହୋଇଥାଏ। ଦୟାକରି ନିଶ୍ଚିତ କରନ୍ତୁ ଯେ "
+"ଅଗ୍ରସର ହେବା ପୂର୍ବରୁ ଆପଣ ସମସ୍ତ ୱିଣ୍ଡୋକୁ ବନ୍ଦ କରିଛନ୍ତି। ଯଦି ଆପଣ ଚାହାନ୍ତି ତେବେ ପୁନଃସ୍ଥାପନ କରିବା ପୂର୍ବରୁ "
+"Evolution ସ୍ୱୟଂଚାଳିତ ଭାବରେ ପୁନଃଚାଳନ ହେବ, ଦୟାକରି ଅଦଳବଦଳ ବଟନକୁ ସକ୍ରିୟ କରନ୍ତୁ।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 #, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "ଏବଂ କ୍ରମବିକାଶ  ତଥ୍ଯ ଏବଂ"
+msgstr "Evolution ତଥ୍ୟ ଏବଂ ସଂରଚନାଗୁଡ଼ିକୁ ନକଲ ସଂରକ୍ଷଣ ଏବଂ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
@@ -16059,18 +16053,18 @@ msgstr ""
 #: ../plugins/bbdb/bbdb.c:645
 #, fuzzy
 msgid "Select Address book for Automatic Contacts"
-msgstr "ମନୋନୀତ କର ଠିକଣା ପାଇଁ ସ୍ବଯଂଚାଳିତ ଯୋଗାଯୋଗ"
+msgstr "ସ୍ବୟଂଚାଳିତ ଯୋଗାଯୋଗ ପାଇଁ ଠିକଣା ପୁସ୍ତକ ବାଛନ୍ତୁ"
 
 #: ../plugins/bbdb/bbdb.c:660
 #, fuzzy
 msgid "Instant Messaging Contacts"
-msgstr "ଜ୍ବଳନ୍ତ ଯୋଗାଯୋଗ"
+msgstr "ତୁରନ୍ତ ସନ୍ଦେଶ ପ୍ରବାହ ଯୋଗାଯୋଗ"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:675
 #, fuzzy
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr "ସମକାଳୀନ ସମ୍ପର୍କ info ଏବଂ ଠାରୁ ତାଲିକା"
+msgstr "Pidgin ସାଥି ତାଲିକାରୁ ଯୋଗାଯୋଗ ସୂଚନା ଏବଂ ପ୍ରତିଛବିଗୁଡ଼ିକୁ ସମକାଳୀନ କରନ୍ତୁ"
 
 #: ../plugins/bbdb/bbdb.c:681
 msgid "Select Address book for Pidgin buddy list"
@@ -16625,7 +16619,7 @@ msgstr "ତଥାପି ଆପଣଙ୍କ ପାଖରେ ମୋର ବ୍ୟ�
 #: ../plugins/exchange-operations/exchange-delegates-user.c:405
 #, fuzzy, c-format
 msgid "You have been designated as a delegate for %s"
-msgstr "ଆପଣ a ପାଇଁ"
+msgstr "%s ପାଇଁ ଆପଣଙ୍କୁ ପ୍ରତିନିଧି ଭାବରେ ନିଯୁକ୍ତ କରାଯାଇଛି"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To"
@@ -17617,7 +17611,7 @@ msgstr "ସହଭାଗ ଫୋଲଡର ବିଜ୍ଞାପନ"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "ଅଂଶଗ୍ରହଣକାରୀମାନେ ନିମ୍ନଲିଖିତ ବିଜ୍ଞପ୍ତି ଗ୍ରହଣ କରିବେ।\n"
 
 #: ../plugins/groupwise-features/properties.glade.h:12
 msgid "_Not Shared"
@@ -17650,12 +17644,12 @@ msgstr "ସମ୍ପର୍କଗୁଡ଼ିକ (_t)"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:7
 #, fuzzy
 msgid "Modify _folders/options/rules/"
-msgstr "ପରିବର୍ତ୍ତନ କର ବିକଳ୍ପ ମାନ"
+msgstr "ଫୋଲଡ଼ର/ବିକଳ୍ପ/ନିୟମଗୁଡ଼ିକୁ/ ପରିବର୍ତ୍ତନ କରନ୍ତୁ (_f)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:8
 #, fuzzy
 msgid "Read items marked _private"
-msgstr "ପଢନ୍ତୁ ଆଇଟମ୍ଗୁଡିକ"
+msgstr "ବ୍ୟକ୍ତିଗତ ଭାବରେ ଚିହ୍ନିତ ବସ୍ତୁଗୁଡ଼ିକୁ ପଢନ୍ତୁ (_p)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:9
 #, fuzzy
@@ -17665,12 +17659,12 @@ msgstr "ସ୍ମାରକ ଟିପପ୍ଣୀଗୁଡିକ"
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:10
 #, fuzzy
 msgid "Subscribe to my _alarms"
-msgstr "କିଣନ୍ତୁ କୁ"
+msgstr "ମୋର ଚେତାବନୀକୁ କିଣନ୍ତୁ (_a)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:11
 #, fuzzy
 msgid "Subscribe to my _notifications"
-msgstr "କିଣନ୍ତୁ କୁ"
+msgstr "ମୋର ବିଜ୍ଞପ୍ତିକୁ କିଣନ୍ତୁ (_n)"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:13
 msgid "_Write"
@@ -17681,7 +17675,7 @@ msgstr "ଲେଖନ୍ତୁ (_W)"
 #, fuzzy
 #| msgid "Permission denied"
 msgid "permission to read|_Read"
-msgstr "ଅନୁମତି ନିଷିଦ୍ଧ"
+msgstr "ପଢ଼ନ୍ତୁ (_R)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-listing.glade.h:2
@@ -17691,7 +17685,7 @@ msgstr "ପ୍ରକ୍ସି"
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 #, fuzzy
 msgid "<b>Account Name</b>"
-msgstr "<b> ହିସାବ ଖାତା ନାମ</b>"
+msgstr "<b>ହିସାବ ଖାତା ନାମ</b>"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
@@ -17705,7 +17699,7 @@ msgstr "ପ୍ରକ୍ସି ଲଗଇନ"
 #: ../plugins/groupwise-features/send-options.c:85
 #, fuzzy, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "ଗୁପ୍ତଶବ୍ଦ ପାଇଁ ବ୍ଯବହାରକାରୀ"
+msgstr "%sପ୍ରବେଶ ସଂକେତ ଭରଣ କରନ୍ତୁ %s ପାଇଁ (ଚାଳକ %s)"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
@@ -17713,24 +17707,24 @@ msgstr "ଗୁପ୍ତଶବ୍ଦ ପାଇଁ ବ୍ଯବହାରକାର�
 #: ../plugins/groupwise-features/proxy-login.c:510
 #, fuzzy
 msgid "_Proxy Login..."
-msgstr "ପ୍ରକ୍ସି ଲଗଇନ."
+msgstr "ପ୍ରକ୍ସି ଲଗଇନ (_P)..."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:692
 #, fuzzy
 msgid "The Proxy tab will be available only when the account is online."
-msgstr "ପ୍ରକ୍ସି ଟ୍ଯାବ ଉପଲବ୍ଧ ଅଟେ."
+msgstr "ଖାତା ଅନଲାଇନ ଥିବା ସମୟରେ ପ୍ରକ୍ସି ଟ୍ଯାବ ଉପଲବ୍ଧ ହେବ।"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:698
 #, fuzzy
 msgid "The Proxy tab will be available only when the account is enabled."
-msgstr "ପ୍ରକ୍ସି ଟ୍ଯାବ ଉପଲବ୍ଧ ଅଟେ."
+msgstr "ଖାତା ସକ୍ରିୟ ଥିବା ସମୟରେ ପ୍ରକ୍ସି ଟ୍ଯାବ ଉପଲବ୍ଧ ହେବ।"
 
 #: ../plugins/groupwise-features/send-options.c:214
 #, fuzzy
 msgid "Advanced send options"
-msgstr "ଉନ୍ନତ ବିକଳ୍ପ ମାନ"
+msgstr "ଉନ୍ନତ ପ୍ରେରଣ ବିକଳ୍ପମାନ"
 
 #: ../plugins/groupwise-features/share-folder-common.c:321
 #: ../plugins/groupwise-features/share-folder.c:751
@@ -17740,12 +17734,12 @@ msgstr "ଚାଳକ"
 #: ../plugins/groupwise-features/share-folder-common.c:322
 #, fuzzy
 msgid "Enter the users and set permissions"
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ଏବଂ ସେଟ"
+msgstr "ଚାଳକମାନଙ୍କୁ ପ୍ରବେଶ କରାନ୍ତୁ ଏବଂ ଅନୁମତି ନିର୍ଦ୍ଧାରଣ କରନ୍ତୁ"
 
 #: ../plugins/groupwise-features/share-folder-common.c:341
 #, fuzzy
 msgid "New _Shared Folder..."
-msgstr "ନୂତନ ସହଭାଗ କରାଯାଇଛି ଫୋଲଡର."
+msgstr "ନୂତନ ସହଭାଗ ଫୋଲଡର (_S)..."
 
 #: ../plugins/groupwise-features/share-folder-common.c:449
 msgid "Sharing"
@@ -17755,32 +17749,32 @@ msgstr "ସହଭାଗ"
 #, fuzzy
 #| msgid "Justification"
 msgid "Custom Notification"
-msgstr "ଯଥାର୍ଥତା"
+msgstr "ଇଚ୍ଛାମୁତାବକ ବିଜ୍ଞପ୍ତି"
 
 #: ../plugins/groupwise-features/share-folder.c:756
 #, fuzzy
 #| msgid "_Add "
 msgid "Add   "
-msgstr "ଯୋଗ କରନ୍ତୁ (_A)"
+msgstr "ଯୋଗ କରନ୍ତୁ..."
 
 #: ../plugins/groupwise-features/share-folder.c:762
 #, fuzzy
 #| msgid "Modified"
 msgid "Modify"
-msgstr "ପରିବର୍ତ୍ତନ କର"
+msgstr "ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../plugins/groupwise-features/status-track.c:97
 #, fuzzy
 #| msgid "_Messages"
 msgid "Message Status"
-msgstr "ସନ୍ଦେଶ (_M)"
+msgstr "ସନ୍ଦେଶ ସ୍ଥିତି"
 
 #. Subject
 #: ../plugins/groupwise-features/status-track.c:111
 #, fuzzy
 #| msgid "By Su_bject"
 msgid "Subject:"
-msgstr "ବିଷଯ:"
+msgstr "ବିଷୟ:"
 
 #: ../plugins/groupwise-features/status-track.c:125
 msgid "From:"
@@ -17790,60 +17784,60 @@ msgstr "ଠାରୁ:"
 #, fuzzy
 #| msgid "Completion date"
 msgid "Creation date:"
-msgstr "ସମ୍ପନ୍ନ ତାରିଖ"
+msgstr "ନିର୍ମାଣ ତାରିଖ:"
 
 #: ../plugins/groupwise-features/status-track.c:179
 #, fuzzy
 #| msgid "Description:"
 msgid "Recipient: "
-msgstr "ବର୍ଣ୍ଣନା:"
+msgstr "ଗ୍ରହଣକର୍ତ୍ତା:"
 
 #: ../plugins/groupwise-features/status-track.c:186
 #, fuzzy
 #| msgid "_Delivered"
 msgid "Delivered: "
-msgstr "ପଠାଗଲା (_D)"
+msgstr "ପଠାଗଲା:"
 
 #: ../plugins/groupwise-features/status-track.c:192
 #, fuzzy
 #| msgid "Open"
 msgid "Opened: "
-msgstr "ଖୋଲନ୍ତୁ"
+msgstr "ଖୋଲାଅଛି:"
 
 #: ../plugins/groupwise-features/status-track.c:197
 #, fuzzy
 #| msgid "Accepted"
 msgid "Accepted: "
-msgstr "ସ୍ବୀକୃତ"
+msgstr "ସ୍ବୀକୃତ:"
 
 #: ../plugins/groupwise-features/status-track.c:202
 #, fuzzy
 #| msgid "Delete"
 msgid "Deleted: "
-msgstr "ଅପସାରଣ କରନ୍ତୁ"
+msgstr "ଅପସାରଣ କରାଯାଇଛି:"
 
 #: ../plugins/groupwise-features/status-track.c:207
 #, fuzzy
 #| msgid "Declined"
 msgid "Declined: "
-msgstr "ଅସ୍ବୀକୃତ"
+msgstr "ଅସ୍ବୀକୃତ: "
 
 #: ../plugins/groupwise-features/status-track.c:212
 #, fuzzy
 #| msgid "Completed "
 msgid "Completed: "
-msgstr "ସମାପ୍ତ"
+msgstr "ସମାପ୍ତ: "
 
 #: ../plugins/groupwise-features/status-track.c:217
 #, fuzzy
 #| msgid "_Delivered"
 msgid "Undelivered: "
-msgstr "ପଠାଗଲା (_D)"
+msgstr "ପଠାଗଲା:"
 
 #: ../plugins/groupwise-features/status-track.c:241
 #, fuzzy
 msgid "Track Message Status..."
-msgstr "ଟ୍ରାକ ସନ୍ଦେଶ ଅବସ୍ଥିତି."
+msgstr "ସନ୍ଦେଶ ଅବସ୍ଥିତି ଟ୍ରାକ କରନ୍ତୁ..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 #, fuzzy
@@ -17859,36 +17853,36 @@ msgstr "Hula ହିସାବ ଖାତା ସେଟଅପ"
 #, fuzzy
 #| msgid "Custom _message"
 msgid "Custom Headers"
-msgstr "ସନ୍ଦେଶକୁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ (_m)"
+msgstr "ଶୀର୍ଷକଗୁଡ଼ିକୁ ଇଚ୍ଛାମୁତାବକ କରନ୍ତୁ"
 
 #: ../plugins/imap-features/imap-headers.c:333
 #, fuzzy
 #| msgid "Header"
 msgid "IMAP Headers"
-msgstr "ଶୀର୍ଷକ"
+msgstr "IMAP ଶୀର୍ଷକଗୁଡ଼ିକ"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 #, fuzzy
 #| msgid "<b>Att_endees</b>"
 msgid "<b>Custom Headers</b>"
-msgstr "<b>ଶ୍ରୋତା (_e)</b>"
+msgstr "<b>ଶୀର୍ଷକଗୁଡ଼ିକୁ ଇଚ୍ଛାମୁତାବକ କରନ୍ତୁ</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
 #, fuzzy
 #| msgid "<b>Att_endees</b>"
 msgid "<b>IMAP Headers</b>"
-msgstr "<b>ଶ୍ରୋତା (_e)</b>"
+msgstr "<b>IMAP ଶୀର୍ଷକଗୁଡ଼ିକ</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 #, fuzzy
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr "ମୌଳିକ ଏବଂ ତାଲିକା ଶୀର୍ଷକଗୁଡିକ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr "ମୌଳିକ ଏବଂ ମେଲ ତାଲିକା ଶୀର୍ଷକଗୁଡିକ (ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ) (_M)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 #, fuzzy
 #| msgid "Full Header"
 msgid "Fetch A_ll Headers"
-msgstr "ସମ୍ପୂର୍ଣ୍ଣ ଶୀର୍ଷକ"
+msgstr "ସମସ୍ତ ଶୀର୍ଷକଗୁଡ଼ିକୁ ଆଣନ୍ତୁ (_l)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:5
 #, fuzzy
@@ -17903,14 +17897,18 @@ msgstr "କୁ ଇଞ୍ଚ କୁ ବିଷଯରେ ଏହା ସମସ୍ତ 
 msgid ""
 "Select your IMAP Header Preferences. \n"
 "The more headers you have the more time it will take to download."
-msgstr "ମନୋନୀତ କର IMAP ଶୀର୍ଷକ ପସନ୍ଦ କୁ."
+msgstr ""
+"ଆପଣଙ୍କର IMAP ଶୀର୍ଷକ ପସନ୍ଦଗୁଡ଼ିକୁ ବାଛନ୍ତୁ। \n"
+"ଆପଣଙ୍କ ପାଖରେ ଯେତେ ଅଧିକ ଶୀର୍ଷକ ଅଛି ଆହରଣ କରିବା ପାଇଁ ଆପଣଙ୍କୁ ସେତେ ଅଧିକ ସମୟ ଲାଗିବ।"
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 #, fuzzy
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
-msgstr "ମୌଳିକ ଶୀର୍ଷକଗୁଡିକ ଏହା ନୁହେଁ ରେ"
+msgstr ""
+"ମୌଳିକ ଶୀର୍ଷକଗୁଡିକ - (ତୀବ୍ରତର) (_B) \n"
+"ମେଲ ତାଲିକା ଉପରେ ଆଧାରିତ ଛାଣକ ନଥିଲେ ଏହାକୁ ବ୍ୟବହାର କରନ୍ତୁ"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 #, fuzzy
@@ -17920,7 +17918,7 @@ msgstr "A ପାଇଁ ଇଞ୍ଚ IMAP ଆକାଉଣ୍ଟ ଗୁଡିକ."
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 #, fuzzy
 msgid "IMAP Features"
-msgstr "IMAP  ଲକ୍ଷଣଗୁଡିକ "
+msgstr "IMAP ଲକ୍ଷଣଗୁଡିକ"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:78
 #, fuzzy
@@ -17967,7 +17965,7 @@ msgstr "କୁ କାଲେଣ୍ଡର."
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:49
 #, fuzzy
 msgid "Hardware Abstraction Layer not loaded"
-msgstr "ହାର୍ଡୱେର ସ୍ତର ନୁହେଁ"
+msgstr "ହାର୍ଡୱେର ଛାଣିବା ସ୍ତରକୁ ଧାରଣ କରାଯାଇନାହିଁ"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:50
 #, fuzzy
@@ -17979,7 +17977,7 @@ msgstr "ଅଟେ ନୁହେଁ ଚାଲୁଅଛି ଦୟାକରି ସ�
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:83
 #, fuzzy
 msgid "Search for an iPod failed"
-msgstr "ଖୋଜନ୍ତୁ ପାଇଁ"
+msgstr "iPod ସନ୍ଧାନ ବିଫଳ ହୋଇଛି"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:84
 #, fuzzy
@@ -18001,7 +17999,7 @@ msgstr "ସମକାଳୀନ ଚୟିତ କାଲେଣ୍ଡର ସହିତ
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 #, fuzzy
 msgid "Synchronize to iPod"
-msgstr "ସମକାଳୀନ କୁ"
+msgstr "iPod ସହିତ ସମକାଳୀନ କରନ୍ତୁ"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
@@ -18011,142 +18009,142 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:606
 #, fuzzy, c-format
 msgid "Failed to load the calendar '%s'"
-msgstr "ବିଫଳ ହୋଇଛି କୁ କାଲେଣ୍ଡର"
+msgstr "କାଲେଣ୍ଡର '%s'କୁ ଧାରଣ କରିବାରେ ବିଫଳ ହୋଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:626
 #, fuzzy, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "ଇଞ୍ଚ କାଲେଣ୍ଡର ସହିତ  ଏହା"
+msgstr "କ୍ୟାଲେଣ୍ଡର '%s' ରେ ଥିବା ଗୋଟିଏ ସାକ୍ଷାତକାର ଏହି ସାକ୍ଷାକତକାର ସହିତ ଦ୍ୱନ୍ଦ ସୃଷ୍ଟି କରୁଅଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:662
 #, fuzzy, c-format
 msgid "Found the appointment in the calendar '%s'"
-msgstr "ଇଞ୍ଚ କାଲେଣ୍ଡର"
+msgstr "କ୍ୟାଲେଣ୍ଡର '%s' ରେ ଗୋଟିଏ ସାକ୍ଷାତକାର ମିଳିଲା"
 
 #: ../plugins/itip-formatter/itip-formatter.c:752
 #, fuzzy
 msgid "Unable to find any calendars"
-msgstr "କୁ ଖୋଜନ୍ତୁ କୌଣସି"
+msgstr "କୌଣସି କ୍ୟାଲେଣ୍ଡରକୁ ଖୋଜିବାରେ ଅସମର୍ଥ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:759
 #, fuzzy
 msgid "Unable to find this meeting in any calendar"
-msgstr "କୁ ଖୋଜନ୍ତୁ ଏହା ଇଞ୍ଚ କୌଣସି କାଲେଣ୍ଡର"
+msgstr "କ୍ୟାଲେଣ୍ଡରରେ ଯେକୌଣସି ସାକ୍ଷାତକାରକୁ ଖୋଜିବାରେ ଅସମର୍ଥ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:763
 #, fuzzy
 msgid "Unable to find this task in any task list"
-msgstr "କୁ ଖୋଜନ୍ତୁ ଏହା ଇଞ୍ଚ କୌଣସି ତାଲିକା"
+msgstr "କୌଣସି କାର୍ଯ୍ୟ ସୂଚୀରେ ଏହି କାର୍ଯ୍ୟକୁ ଖୋଜିବାରେ ଅସମର୍ଥ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:767
 #, fuzzy
 #| msgid "Unable to open memos in '%s'."
 msgid "Unable to find this memo in any memo list"
-msgstr "'%s' ରେ ସ୍ମାରକପତ୍ରକୁ ଖୋଲିବାରେ ଅସମର୍ଥ।"
+msgstr "କୌଣସି ସ୍ମାରକପତ୍ର ତାଲିକାରେ ଏହି ସ୍ମାରକପତ୍ରକୁ ଖୋଜିବାରେ ଅସମର୍ଥ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:838
 #, fuzzy
 msgid "Searching for an existing version of this appointment"
-msgstr "ସନ୍ଧାନ କରୁଅଛି ପାଇଁ ର ଏହା"
+msgstr "ଏହି ସାକ୍ଷାତକାରର ଗୋଟିଏ ସ୍ଥିତବାନ ସଂସ୍କରଣକୁ ସନ୍ଧାନ କରୁଅଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1020
 #, fuzzy
 msgid "Unable to parse item"
-msgstr "କୁ ବସ୍ତୁ"
+msgstr "ବସ୍ତୁକୁ ବିଶ୍ଳେଷଣ କରିବାରେ ଅସମର୍ଥ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1107
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "କୁ ବସ୍ତୁ କୁ କାଲେଣ୍ଡର"
+msgstr "କାଲେଣ୍ଡର '%s'କୁ ବସ୍ତୁ ପଠାଇବାରେ ଅସମର୍ଥ।  %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1119
 #, fuzzy, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "ପଠାଯାଇଛି କୁ କାଲେଣ୍ଡର"
+msgstr "ଗ୍ରହଣୀୟ ଭାବରେ କାଲେଣ୍ଡର '%s'କୁ ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1123
 #, fuzzy, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "ପଠାଯାଇଛି କୁ କାଲେଣ୍ଡର"
+msgstr "ଅସ୍ଥାୟୀ ଭାବରେ କାଲେଣ୍ଡର '%s'କୁ ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1128
 #, fuzzy, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "ପଠାଯାଇଛି କୁ କାଲେଣ୍ଡର"
+msgstr "ଅସ୍ୱୀକୃତ ଭାବରେ କାଲେଣ୍ଡର '%s'କୁ ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1133
 #, fuzzy, c-format
 msgid "Sent to calendar '%s' as canceled"
-msgstr "ପଠାଯାଇଛି କୁ କାଲେଣ୍ଡର"
+msgstr "ବାତିଲ ଭାବରେ କାଲେଣ୍ଡର '%s'କୁ ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1227
 #, fuzzy, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "ସଙ୍ଗଠକ "
+msgstr "ଆୟୋଜକ ପ୍ରତିନିଧି %s କୁ କାଢ଼ିଦେଇଛନ୍ତି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1234
 #, fuzzy
 msgid "Sent a cancelation notice to the delegate"
-msgstr "ପଠାଯାଇଛି a କୁ"
+msgstr "ପ୍ରତିନିଧିଙ୍କ ପାଖକୁ ବାତିଲ ହୋଇଥିବା ବିଜ୍ଞପ୍ତି ପଠାନ୍ତୁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1236
 #, fuzzy
 msgid "Could not send the cancelation notice to the delegate"
-msgstr "ନୁହେଁ କୁ"
+msgstr "ପ୍ରତିନିଧିଙ୍କ ପାଖକୁ ବାତିଲ ହୋଇଥିବା ବିଜ୍ଞପ୍ତି ପଠାଇ ପାରିଲା ନାହିଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1342
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "ଶ୍ରୋତା ନୁହେଁ ଅଟେ ଅମାନ୍ଯ"
+msgstr "ଶ୍ରୋତାମାନଙ୍କ ସ୍ଥିତିକୁ ଅଦ୍ୟତନ କରାଯାଇପାରିଲା ନାହିଁ କାରଣ ସ୍ଥିତିଟି ଅବୈଧ ଅଟେ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1371
 #, fuzzy, c-format
 msgid "Unable to update attendee. %s"
-msgstr "କୁ"
+msgstr "ଶ୍ରୋତାମାନଙ୍କୁ ଅଦ୍ୟତନ କରିବାରେ ଅସମର୍ଥ. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1375
 #, fuzzy
 msgid "Attendee status updated"
-msgstr "ଶ୍ରୋତା"
+msgstr "ଶ୍ରୋତାମାନଙ୍କ ସ୍ଥିତିକୁ ଅଦ୍ୟତନ କରାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1401
 #, fuzzy
 #| msgid "Meeting Information"
 msgid "Meeting information sent"
-msgstr "ସଭା ସୂଚନା"
+msgstr "ସଭା ସୂଚନା ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1404
 #, fuzzy
 #| msgid "Contact information"
 msgid "Task information sent"
-msgstr "ସମ୍ପର୍କ ସୂଚନା"
+msgstr "କାର୍ଯ୍ୟ ସୂଚନା ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1407
 #, fuzzy
 #| msgid "Contact information"
 msgid "Memo information sent"
-msgstr "ସମ୍ପର୍କ ସୂଚନା"
+msgstr "ସ୍ମାରକ ପତ୍ର ସୂଚନା ପଠାଯାଇଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1416
 #, fuzzy
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr "କୁ ନୁହେଁ"
+msgstr "ସଭା ସୂଚନା ପଠାଇବାରେ ଅସମର୍ଥ, ସଭା ଅବସ୍ଥିତ ନାହିଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1419
 #, fuzzy
 msgid "Unable to send task information, the task does not exist"
-msgstr "କୁ ନୁହେଁ"
+msgstr "କାର୍ଯ୍ୟ ସୂଚନା ପଠାଇବାରେ ଅସମର୍ଥ, କାର୍ଯ୍ୟ ଅବସ୍ଥିତ ନାହିଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1422
 #, fuzzy
 msgid "Unable to send memo information, the memo does not exist"
-msgstr "କୁ ନୁହେଁ"
+msgstr "ସ୍ମାରକପତ୍ର ସୂଚନା ପଠାଇବାରେ ଅସମର୍ଥ, ସ୍ମାରକପତ୍ର ଅବସ୍ଥିତ ନାହିଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1491
 #: ../plugins/itip-formatter/itip-formatter.c:1502
 #, fuzzy
 msgid "The calendar attached is not valid"
-msgstr "କାଲେଣ୍ଡର ଅଟେ ନୁହେଁ"
+msgstr "ସଂଲଗ୍ନ କରାଯାଇଥିବା କାଲେଣ୍ଡର ବୈଧ ନୁହଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1492
 #: ../plugins/itip-formatter/itip-formatter.c:1503
@@ -18154,14 +18152,16 @@ msgstr "କାଲେଣ୍ଡର ଅଟେ ନୁହେଁ"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
-msgstr "କୁ a କାଲେଣ୍ଡର କାଲେଣ୍ଡର ଅଟେ ନୁହେଁ a."
+msgstr ""
+"ସନ୍ଦେଶଟି ଗୋଟିଏ କ୍ୟାଲେଣ୍ଡର ଧାରଣ କରିଅଛି ବୋଲି ଅଭିଯୋଗ କରୁଅଛି, କିନ୍ତୁ କ୍ୟାଲେଣ୍ଡରଟି ଗୋଟିଏ "
+"ବୈଧ iCalendar ନୁହଁ।"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1543
 #: ../plugins/itip-formatter/itip-formatter.c:1571
 #: ../plugins/itip-formatter/itip-formatter.c:1663
 #, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "ବସ୍ତୁ ଇଞ୍ଚ କାଲେଣ୍ଡର ଅଟେ ନୁହେଁ"
+msgstr "କାଲେଣ୍ଡର ଭିତରେ ଥିବା ବସ୍ତୁଟି ବୈଧ ନୁହଁ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1544
 #: ../plugins/itip-formatter/itip-formatter.c:1572
@@ -18175,7 +18175,7 @@ msgstr "a କାଲେଣ୍ଡର କାଲେଣ୍ଡର ଧାରଣ କର�
 #: ../plugins/itip-formatter/itip-formatter.c:1583
 #, fuzzy
 msgid "The calendar attached contains multiple items"
-msgstr "କାଲେଣ୍ଡର ଧାରଣ କରିଥାଏ ଆଇଟମ୍ଗୁଡିକ"
+msgstr "ସଂଲଗ୍ନ ହୋଇଥିବା କାଲେଣ୍ଡରଟି ଏକାଧିକ ବସ୍ତୁ ଧାରଣ କରିଅଛି"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1584
 #, fuzzy
@@ -18201,13 +18201,13 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-formatter.c:2548
 #, fuzzy
 msgid "_Delete message after acting"
-msgstr "ବିଲୋପ କର ପରେ"
+msgstr "କାର୍ୟ୍ୟ ସମାପ୍ତ ହେବା ପରେ ସନ୍ଦେଶକୁ ଅପସାରଣ କରନ୍ତୁ (_D)"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2558
 #: ../plugins/itip-formatter/itip-formatter.c:2590
 #, fuzzy
 msgid "Conflict Search"
-msgstr "ବିରୋଧ ଖୋଜନ୍ତୁ"
+msgstr "ଦ୍ୱନ୍ଦ ସନ୍ଧାନ"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:2573
