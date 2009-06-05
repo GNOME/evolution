@@ -188,7 +188,7 @@ emfq_format_error(EMFormat *emf, CamelStream *stream, const gchar *txt)
 static void
 emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const gchar *label, const gchar *value, guint32 flags, gint is_html)
 {
-	const gchar *fmt, *html;
+	const gchar *html;
 	gchar *mhtml = NULL;
 
 	if (value == NULL)
@@ -203,11 +203,10 @@ emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const gchar *
 		html = value;
 
 	if (flags & EM_FORMAT_HEADER_BOLD)
-		fmt = "<b>%s</b>: %s<br>";
+		camel_stream_printf (stream, "<b>%s</b>: %s<br>", label, html);
 	else
-		fmt = "%s: %s<br>";
+		camel_stream_printf (stream, "%s: %s<br>", label, html);
 
-	camel_stream_printf (stream, fmt, label, html);
 	g_free (mhtml);
 }
 

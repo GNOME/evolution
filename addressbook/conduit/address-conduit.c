@@ -470,7 +470,7 @@ addrconduit_load_configuration (guint32 pilot_id)
 	g_assert (c != NULL);
 
 	c->pilot_id = pilot_id;
-	management = gnome_pilot_conduit_management_new ("e_address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
+	management = gnome_pilot_conduit_management_new ((gchar*)"e_address_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	g_object_ref_sink (management);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
 	g_object_ref_sink (config);
@@ -1558,14 +1558,15 @@ addressbook_authenticate (EBook *book,
 	e_uri_free (e_uri);
 
 	passwd = e_passwords_get_password (component_name, pass_key);
-	if (passwd)
-		passwd = "";
+	if (!passwd)
+		passwd = g_strdup ("");
 
 	if (book)
 		if (!e_book_authenticate_user (book, user, passwd, auth, NULL))
 			LOG (g_warning ("Authentication failed"));
 	g_free (pass_key);
 	g_free (str_uri);
+	g_free (passwd);
 
 	return;
 }
@@ -2182,7 +2183,7 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
 	LOG (g_message ( "in address's conduit_get_gpilot_conduit\n" ));
 
-	retval = gnome_pilot_conduit_sync_abs_new ("AddressDB", 0x61646472);
+	retval = gnome_pilot_conduit_sync_abs_new ((gchar*)"AddressDB", 0x61646472);
 	g_assert (retval != NULL);
 
 	ctxt = e_addr_context_new (pilot_id);

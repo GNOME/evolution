@@ -59,7 +59,7 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-Wno-unused-parameter
 	-Wdeclaration-after-statement
 	-Werror-implicit-function-declaration
-	-Wformat-nonliteral -Wformat-security -Winit-self
+	-Wformat-security -Winit-self
 	-Wmissing-declarations -Wmissing-include-dirs
 	-Wmissing-noreturn -Wnested-externs -Wpointer-arith
 	-Wredundant-decls -Wundef -Wwrite-strings")
@@ -70,6 +70,7 @@ AC_SUBST(WARNING_FLAGS)
 #
 #	-Wmissing-format-attribute
 #	-Wshadow
+#	-Wformat-nonliteral
 
 CFLAGS="$CFLAGS $WARNING_FLAGS"
 

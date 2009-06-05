@@ -178,7 +178,7 @@ add_esource (const gchar *conf_key, const gchar *group_name,  const gchar *sourc
         GConfClient *client;
 	GSList *ids, *temp;
 	gboolean result;
-	gchar *source_selection_key;
+	const gchar *source_selection_key;
 	gchar *relative_uri;
 	const gchar *cal_port = "8081";
 	/* const gchar *use_ssl = ""; */
@@ -245,7 +245,7 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 	GConfClient* client;
 	GSList *ids;
 	GSList *node_tobe_deleted;
-	gchar *source_selection_key;
+	const gchar *source_selection_key;
 
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);

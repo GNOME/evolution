@@ -126,7 +126,7 @@ memoconduit_load_configuration (guint32 pilot_id)
 
 	c->pilot_id = pilot_id;
 
-	management = gnome_pilot_conduit_management_new ("e_memo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
+	management = gnome_pilot_conduit_management_new ((gchar*)"e_memo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	g_object_ref_sink (management);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
 	g_object_ref_sink (config);
@@ -314,7 +314,8 @@ print_local (EMemoLocalRecord *local)
 		return buff;
 	}
 
-	return "";
+	strcpy (buff, "");
+	return buff;
 }
 
 static gchar *print_remote (GnomePilotRecord *remote)
@@ -1382,7 +1383,7 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
 	LOG (g_message ( "in memo's conduit_get_gpilot_conduit\n" ));
 
-	retval = gnome_pilot_conduit_sync_abs_new ("MemoDB", 0x6D656D6F);
+	retval = gnome_pilot_conduit_sync_abs_new ((gchar*)"MemoDB", 0x6D656D6F);
 	g_assert (retval != NULL);
 
 	ctxt = e_memo_context_new (pilot_id);
