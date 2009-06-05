@@ -226,7 +226,7 @@ async_external_editor (EMsgComposer *composer)
 	} else {
 		g_warning ("Temporary file fd is null");
 		g_idle_add ((GSourceFunc) run_error_dialog,
-			    "org.gnome.evolution.plugins.external-editor:no-temp-file");
+			    (gpointer)"org.gnome.evolution.plugins.external-editor:no-temp-file");
 		g_idle_add ((GSourceFunc) enable_composer, composer);
 		return;
 	}
@@ -248,7 +248,7 @@ async_external_editor (EMsgComposer *composer)
 	{
 		g_warning ("Unable to launch %s: ", editor_cmd_line);
 		g_idle_add ((GSourceFunc) run_error_dialog,
-			    "org.gnome.evolution.plugins.external-editor:editor-not-launchable");
+			    (gpointer)"org.gnome.evolution.plugins.external-editor:editor-not-launchable");
 		g_idle_add ((GSourceFunc) enable_composer, composer);
 
 		g_free (filename);

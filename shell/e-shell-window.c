@@ -51,7 +51,7 @@
 
 #include <string.h>
 
-#if NM_SUPPORT
+#if defined(NM_SUPPORT) && NM_SUPPORT
 gboolean e_shell_dbus_initialise (EShell *shell);
 #endif
 
@@ -572,7 +572,7 @@ setup_statusbar_notebook (EShellWindow *window)
 static void
 setup_nm_support (EShellWindow *window)
 {
-#if NM_SUPPORT
+#if defined(NM_SUPPORT) && NM_SUPPORT
        e_shell_dbus_initialise (window->priv->shell.eshell);
 #endif
 }

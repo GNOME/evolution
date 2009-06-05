@@ -329,7 +329,7 @@ get_priority (ECalModelComponent *comp_data)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
 	if (prop)
-		return e_cal_util_priority_to_string (icalproperty_get_priority (prop));
+		return (gpointer) e_cal_util_priority_to_string (icalproperty_get_priority (prop));
 
 	return (gpointer) "";
 }

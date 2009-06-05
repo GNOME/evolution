@@ -2587,11 +2587,9 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		/* Priority */
 		e_cal_component_get_priority (comp, &priority);
 		if (priority && *priority >= 0) {
-			gchar *priority_string, *pri_text;
+			gchar *pri_text;
 
-			priority_string = e_cal_util_priority_to_string (*priority);
-
-			pri_text = g_strdup_printf (_("Priority: %s"), priority_string);
+			pri_text = g_strdup_printf (_("Priority: %s"), e_cal_util_priority_to_string (*priority));
 			top = bound_text (context, font, pri_text, -1,
 					  0.0, top, width, height, FALSE, &page_start, &pages);
 			top += get_font_size (font) - 6;

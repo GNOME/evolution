@@ -45,18 +45,17 @@ ipod_check_status (gboolean silent)
 	{
 		if (!silent) {
 			GtkWidget *message;
-			gchar *msg1, *msg2;
+			gchar *msg1;
 			msg1 = g_strdup_printf("<span weight=\"bold\" size=\"larger\">%s</span>\n\n", _("Hardware Abstraction Layer not loaded"));
-			msg2 = g_strdup_printf("%s%s", msg1, _("The \"hald\" service is required but not currently "
-								"running. Please enable the service and rerun this "
-								"program, or contact your system administrator.") );
 
-			message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, msg2);
+			message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+				"%s%s", msg1, _("The \"hald\" service is required but not currently "
+						"running. Please enable the service and rerun this "
+						"program, or contact your system administrator."));
 
 			gtk_dialog_run (GTK_DIALOG (message));
 
 			g_free(msg1);
-			g_free(msg2);
 			gtk_widget_destroy (message);
 		}
 		return FALSE;
@@ -79,18 +78,17 @@ ipod_check_status (gboolean silent)
 		 * the iPod when we finish syncing. */
 		if (!silent) {
 			GtkWidget *message;
-			gchar *msg1, *msg2;
+			gchar *msg1;
 			msg1 = g_strdup_printf("<span weight=\"bold\" size=\"larger\">%s</span>\n\n", _("Search for an iPod failed"));
-			msg2 = g_strdup_printf("%s%s", msg1, _("Evolution could not find an iPod to synchronize with. "
-								"Either the iPod is not connected to the system or it "
-								"is not powered on."));
 
-			message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, msg2);
+			message = gtk_message_dialog_new_with_markup (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+				"%s%s", msg1, _("Evolution could not find an iPod to synchronize with. "
+						"Either the iPod is not connected to the system or it "
+						"is not powered on."));
 
 			gtk_dialog_run (GTK_DIALOG (message));
 
 			g_free(msg1);
-			g_free(msg2);
 			gtk_widget_destroy (message);
 		}
 

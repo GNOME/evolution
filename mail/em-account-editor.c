@@ -1421,7 +1421,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 			current[len] = 0;
 		}
 	} else {
-		current = "imap";
+		current = (gchar*)"imap";
 	}
 
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -2257,7 +2257,7 @@ section:
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
 			w = emae_option_toggle(service, url, entries[i].text, entries[i].name, atoi(entries[i].value));
 			gtk_table_attach((GtkTable *)parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-			g_hash_table_insert(extra, entries[i].name, w);
+			g_hash_table_insert(extra, (gpointer)entries[i].name, w);
 			if (depw)
 				depl = g_slist_prepend(depl, w);
 			row++;
@@ -2278,7 +2278,7 @@ section:
 			}
 			row++;
 			/* FIXME: this is another hack for exchange/groupwise connector */
-			g_hash_table_insert(item->extra_table, entries[i].name, w);
+			g_hash_table_insert(item->extra_table, (gpointer)entries[i].name, w);
 			break;
 		case CAMEL_PROVIDER_CONF_CHECKSPIN:
 			w = emae_option_checkspin(service, url, entries[i].name, entries[i].text, entries[i].value);
@@ -3053,7 +3053,7 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 
 		for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++) {
 			struct _receive_options_item *item;
-			gchar *name = entries[i].name;
+			const gchar *name = entries[i].name;
 			gint myindex = index;
 
 			if (entries[i].type != CAMEL_PROVIDER_CONF_SECTION_START
@@ -3068,7 +3068,7 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 			item = g_malloc0(sizeof(*item));
 			item->item.type = E_CONFIG_SECTION_TABLE;
 			item->item.path = g_strdup_printf("20.receive_options/%02d.%s", myindex, name?name:"unnamed");
-			item->item.label = entries[i].text;
+			item->item.label = g_strdup (entries[i].text);
 
 			l = g_slist_prepend(l, item);
 
@@ -3076,12 +3076,12 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 			item->item.type = E_CONFIG_ITEM_TABLE;
 			item->item.path = g_strdup_printf("20.receive_options/%02d.%s/80.camelitem", myindex, name?name:"unnamed");
 			item->item.factory = emae_receive_options_extra_item;
-			item->item.user_data = entries[i].name;
+			item->item.user_data = g_strdup (entries[i].name);
 
 			l = g_slist_prepend(l, item);
 
 			index += 10;
-			g_hash_table_insert(have, entries[i].name, have);
+			g_hash_table_insert(have, (gpointer)entries[i].name, have);
 		}
 	}
 	g_hash_table_destroy(have);

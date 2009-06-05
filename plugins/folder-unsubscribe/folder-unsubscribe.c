@@ -56,10 +56,11 @@ folder_unsubscribe_desc (struct _folder_unsub_t *msg)
 		_("Unsubscribing from folder \"%s\""), msg->uri);
 }
 
+extern CamelSession *session;
+
 static void
 folder_unsubscribe_exec (struct _folder_unsub_t *msg)
 {
-	extern CamelSession *session;
 	const gchar *path = NULL;
 	CamelStore *store;
 	CamelURL *url;

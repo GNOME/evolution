@@ -34,9 +34,9 @@
 static void em_stripsig_filter_class_init (EMStripSigFilterClass *klass);
 static void em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass);
 
-static void filter_filter (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
+static void filter_filter (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
 			   gchar **out, gsize *outlen, gsize *outprespace);
-static void filter_complete (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
+static void filter_complete (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
 			     gchar **out, gsize *outlen, gsize *outprespace);
 static void filter_reset (CamelMimeFilter *filter);
 
@@ -83,7 +83,7 @@ em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass)
 }
 
 static void
-strip_signature (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
+strip_signature (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
 		 gchar **out, gsize *outlen, gsize *outprespace, gint flush)
 {
 	EMStripSigFilter *stripsig = (EMStripSigFilter *) filter;
@@ -126,20 +126,20 @@ strip_signature (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
 	else if (!start)
 		inptr = inend;
 
-	*out = in;
+	*out = (gchar*)in;
 	*outlen = inptr - in;
 	*outprespace = prespace;
 }
 
 static void
-filter_filter (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
+filter_filter (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
 	       gchar **out, gsize *outlen, gsize *outprespace)
 {
 	strip_signature (filter, in, len, prespace, out, outlen, outprespace, FALSE);
 }
 
 static void
-filter_complete (CamelMimeFilter *filter, gchar *in, gsize len, gsize prespace,
+filter_complete (CamelMimeFilter *filter, const gchar *in, gsize len, gsize prespace,
 		 gchar **out, gsize *outlen, gsize *outprespace)
 {
 	strip_signature (filter, in, len, prespace, out, outlen, outprespace, TRUE);
