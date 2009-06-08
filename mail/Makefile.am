@@ -247,7 +247,9 @@ libevolution_mail_shared_la_LIBADD =				\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(SMIME_LIBS)						\
+	$(EVOLUTION_MAIL_LIBS)					\
 	$(THREADS_LIBS)
 
 libevolution_mail_shared_la_LDFLAGS = $(NO_UNDEFINED)
