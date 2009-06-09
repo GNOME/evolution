@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-06-04 12:28+0000\n"
-"PO-Revision-Date: 2009-06-05 18:49+0530\n"
+"PO-Revision-Date: 2009-06-09 13:09+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -14596,6 +14597,10 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
+"Evolution ନକଲ ସଂରକ୍ଷଣ କେବଳ Evolution ଚାଲୁନଥିବା ସମୟରେ ଆରମ୍ଭ ହୋଇଥାଏ। ଦୟାକରି "
+"ସୁନିଶ୍ଚିତ କରନ୍ତୁ ଯେ ଆପଣ ଅଗ୍ରସର ହେବା ପୂର୍ବରୁ ସମସ୍ତ ଅସଂରକ୍ଷିତ ୱିଣ୍ଡୋଗୁଡ଼ିକୁ ସଂରକ୍ଷଣ କରି ବନ୍ଦ "
+"କରିଛନ୍ତି। ଯଦି ଆପଣ ଚାହାନ୍ତି ତେବେ Evolution ସ୍ୱୟଂଚାଳିତ ଭାବରେ ନକଲ ସଂରକ୍ଷଣ ପରେ ପୁନଃଚାଳନ "
+"ହେବ, ଦୟାକରି ଅଦଳବଦଳ ବଟନକୁ ସକ୍ରିୟ କରନ୍ତୁ।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Insufficient Permissions"
@@ -16522,7 +16527,9 @@ msgstr "ହାର୍ଡୱେର ଛାଣିବା ସ୍ତରକୁ ଧାର
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
-msgstr "ଅଟେ ନୁହେଁ ଚାଲୁଅଛି ଦୟାକରି ସକ୍ରିୟ ଏବଂ ଏହା ପ୍ରୋଗ୍ରାମ କିମ୍ବା ସମ୍ପର୍କ ତନ୍ତ୍ର."
+msgstr ""
+"\"hald\" ସର୍ଭିସଟି ଆବଶ୍ୟକ କିନ୍ତୁ ବର୍ତ୍ତମାନ ଚାଲୁନାହିଁ। ଦୟାକରି ଏହି ସର୍ଭିସକୁ ସକ୍ରିୟ କରନ୍ତୁ ଏବଂ ଏହି ପ୍ରଗ୍ରାମକୁ ପୁଣି ଚଲାନ୍ତୁ, "
+"କିମ୍ବା ଆପଣଙ୍କର ତନ୍ତ୍ର ପ୍ରଶାସକଙ୍କ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ।"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:83
 msgid "Search for an iPod failed"
@@ -16550,7 +16557,7 @@ msgstr "Apple iPod ସହିତ ଆପଣଙ୍କର ତଥ୍ୟକୁ ସମ�
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr ""
+msgstr "iPod ସମକାଳୀନ"
 
 #: ../plugins/itip-formatter/itip-formatter.c:482
 #: ../plugins/itip-formatter/itip-formatter.c:607
@@ -16742,7 +16749,7 @@ msgstr "ଦ୍ୱନ୍ଦ ସନ୍ଧାନ"
 #: ../plugins/itip-formatter/itip-formatter.c:2586
 #, fuzzy
 msgid "Select the calendars to search for meeting conflicts"
-msgstr "ମନୋନୀତ କର କୁ ପାଇଁ"
+msgstr "ସାକ୍ଷାତକାର ଦ୍ୱନ୍ଦଗୁଡ଼ିକୁ ସନ୍ଧାନ କରିବା ପାଇଁ ଗୋଟିଏ କ୍ୟାଲେଣ୍ଡର ବାଛନ୍ତୁ"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:191 ../ui/evolution-calendar.xml.h:34
@@ -16755,21 +16762,21 @@ msgstr "ଆଜି"
 #: ../plugins/itip-formatter/itip-view.c:196
 #, fuzzy
 msgid "Today %H:%M"
-msgstr "ଆଜି H M"
+msgstr "ଆଜି %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:200
 #, fuzzy
 msgid "Today %H:%M:%S"
-msgstr "ଆଜି H M S"
+msgstr "ଆଜି %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:209
 #, fuzzy
 msgid "Today %l:%M:%S %p"
-msgstr "ଆଜି M S"
+msgstr "ଆଜି %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:219
@@ -16781,69 +16788,69 @@ msgstr "ଆସନ୍ତାକାଲି"
 #: ../plugins/itip-formatter/itip-view.c:224
 #, fuzzy
 msgid "Tomorrow %H:%M"
-msgstr "ଆସନ୍ତାକାଲି H M"
+msgstr "ଆସନ୍ତାକାଲି %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:228
 #, fuzzy
 msgid "Tomorrow %H:%M:%S"
-msgstr "ଆସନ୍ତାକାଲି H M S"
+msgstr "ଆସନ୍ତାକାଲି %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:233
 #, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "ଆସନ୍ତାକାଲି M"
+msgstr "ଆସନ୍ତାକାଲି %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:237
 #, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "ଆସନ୍ତାକାଲି M S"
+msgstr "ଆସନ୍ତାକାଲି %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:256
 #, fuzzy, c-format
 msgid "%A"
-msgstr "A"
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:261
 #, fuzzy
 msgid "%A %H:%M"
-msgstr "A H M"
+msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:265
 #, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "A H M S"
+msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:270
 #, fuzzy
 msgid "%A %l:%M %p"
-msgstr "A M"
+msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:274
 #, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "A M S"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:283
 #, fuzzy
 msgid "%A, %B %e"
-msgstr "A B e"
+msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
@@ -16851,62 +16858,62 @@ msgstr "A B e"
 #: ../plugins/itip-formatter/itip-view.c:289
 #, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "A B e H M"
+msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:293
 #, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "A B e H M S"
+msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:298
 #, fuzzy
 msgid "%A, %B %e %l:%M %p"
-msgstr "A B e M"
+msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:302
 #, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "A B e M S"
+msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:308
 #, fuzzy
 msgid "%A, %B %e, %Y"
-msgstr "A B e Y"
+msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:313
 #, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "A B e Y H M"
+msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:317
 #, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "A B e Y H M S"
+msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:322
 #, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "A B e Y M"
+msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:326
 #, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "A B e Y M S"
+msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:351
 #: ../plugins/itip-formatter/itip-view.c:439
@@ -17116,12 +17123,12 @@ msgstr "<b></b> କୁ ଯୋଗ କରନ୍ତୁ କୁ:"
 #: ../plugins/itip-formatter/itip-view.c:543
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to add to an existing memo:"
-msgstr "<b></b> କୁ ଯୋଗ କରନ୍ତୁ କୁ:"
+msgstr "<b>%s</b> ଗୋଟିଏ ସ୍ଥିତବାନ ସ୍ମାରକ ପତ୍ରରେ ଯୋଗ କରିବା ପାଇଁ ଇଚ୍ଛାକରିଥାଏ:"
 
 #: ../plugins/itip-formatter/itip-view.c:547
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has canceled the following shared memo:"
-msgstr "<b></b> ନିମ୍ନଲିଖିତ:"
+msgstr "<b>%s</b> %s ମାଧ୍ଯମରେ ନିମ୍ନଲିଖିତ ସହଭାଗୀ ସ୍ମାରକପତ୍ରକୁ ବାତିଲ କରିଛି:"
 
 #: ../plugins/itip-formatter/itip-view.c:549
 #, c-format
@@ -17219,14 +17226,14 @@ msgstr "ପାର୍ଶ୍ବ ପଟିକୁ ପ୍ରଦର୍ଶନ କରନ
 #: ../plugins/itip-formatter/itip-view.c:1155
 #, fuzzy
 msgid "_Preserve my reminder"
-msgstr "ସଂରକ୍ଷଣ"
+msgstr "ମୋର ସ୍ମାରକକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ (_P)"
 
 #. To Translators: This is a check box to inherit a reminder.
 #: ../plugins/itip-formatter/itip-view.c:1161
 #, fuzzy
 #| msgid "Sh_ow a reminder"
 msgid "_Inherit reminder"
-msgstr "ଗୋଟିଏ ସ୍ମାରକପତ୍ର ଦେଖାନ୍ତୁ (_o)"
+msgstr "ଗୋଟିଏ ସ୍ମାରକପତ୍ର ଦେଖାନ୍ତୁ (_I)"
 
 #: ../plugins/itip-formatter/itip-view.c:1917
 msgid "_Memos:"
@@ -17383,17 +17390,17 @@ msgstr "ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରେ ଚିତ୍ର�
 #: ../plugins/mail-notification/mail-notification.c:569
 #, fuzzy
 msgid "B_link icon in notification area"
-msgstr "B ସଂଯୋଗ ଚିତ୍ରସଙ୍କେତ ଇଞ୍ଚ"
+msgstr "ସୂଚନା ପରିସରରେ ଦପଦପ ଚିତ୍ରସଙ୍କେତ (_l)"
 
 #: ../plugins/mail-notification/mail-notification.c:571
 #, fuzzy
 msgid "Popup _message together with the icon"
-msgstr "ପପ-ଅପ ସହିତ  ଚିତ୍ରସଙ୍କେତ"
+msgstr "ଚିତ୍ରସଙ୍କେତ ସହିତ ପପ-ଅପ ସନ୍ଦେଶ (_m)"
 
 #: ../plugins/mail-notification/mail-notification.c:752
 #, fuzzy
 msgid "_Play sound when new messages arrive"
-msgstr "ବଜାଅ ନୂତନ"
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଧ୍ୱନି ଚଲାନ୍ତୁ (_P)"
 
 #: ../plugins/mail-notification/mail-notification.c:758
 msgid "_Beep"
@@ -17418,7 +17425,7 @@ msgstr "ଚଲାନ୍ତୁ (_a)"
 #: ../plugins/mail-notification/mail-notification.c:829
 #, fuzzy
 msgid "Notify new messages for _Inbox only"
-msgstr "ସୂଚୀତ କରନ୍ତୁ  ନୂତନ ପାଇଁ ଇନବକ୍ସ"
+msgstr "କେବଳ ଇନବକ୍ସ ପାଇଁ ନୂତନ ସନ୍ଦେଶ ସୂଚୀତ କରନ୍ତୁ (_I)"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
@@ -17547,12 +17554,12 @@ msgstr "ତାଲିକାରେ ସନ୍ଦେଶ ପୋଷ୍ଟ କରନ୍
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
 #, fuzzy
 msgid "_Subscribe to list"
-msgstr "କିଣନ୍ତୁ କୁ ତାଲିକା"
+msgstr "ତାଲିକାକୁ କିଣନ୍ତୁ (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
 #, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "କୁ ତାଲିକା"
+msgstr "ତାଲିକାକୁ କିଣନ୍ତୁ ନାହିଁ (_U)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -17625,7 +17632,7 @@ msgstr "ସନ୍ଦେଶ ପଠାନ୍ତୁ (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
-msgstr ""
+msgstr "ସମ୍ପର୍କ ତାଲିକା ମାଲିକ (_O)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
@@ -17638,12 +17645,12 @@ msgstr "ତାଲିକା ଅଭିଲେଖନ ପ୍ରାପ୍ତ କରନ
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 #, fuzzy
 msgid "Get List _Usage Information"
-msgstr "ପ୍ରାପ୍ତ କର ତାଲିକା ବ୍ୟବହାର ବିଧି ସୂଚନା"
+msgstr "ବ୍ୟବହାର ବିଧି ସୂଚନା ତାଲିକା ପ୍ରାପ୍ତ କରନ୍ତୁ (_U)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #, fuzzy
 msgid "Get an archive of the list this message belongs to"
-msgstr "ପ୍ରାପ୍ତ କର ର ତାଲିକା ଏହା କୁ"
+msgstr "ଏହି ସନ୍ଦେଶଟି ଯେଉଁଠୁ ଆସିଛି ସେହି ମେଲ ତାଲିକାର ଗୋଟିଏ ଆଲେଖୀ ଗ୍ରହଣ କରନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 #, fuzzy
@@ -17653,17 +17660,17 @@ msgstr "ପ୍ରାପ୍ତ କର ବିଷଯରେ ର ତାଲିକା �
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 #, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "ପୋଷ୍ଟ a କୁ ତାଲିକା ଏହା କୁ"
+msgstr "ଏହି ସନ୍ଦେଶଟି ଯେଉଁଠୁ ଆସିଛି ସେହି ମେଲ ତାଲିକାରେ ଗୋଟିଏ ସନ୍ଦେଶ ଦିଅନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
 #, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "କିଣନ୍ତୁ କୁ ତାଲିକା ଏହା କୁ"
+msgstr "ଏହି ସନ୍ଦେଶଟି ଯେଉଁଠୁ ଆସିଛି ସେହି ମେଲ ତାଲିକାକୁ ସ୍ବୀକାରକ୍ତି ଦିଅନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 #, fuzzy
 msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "ଅସ୍ବୀକାରକ୍ତି କୁ ତାଲିକା ଏହା କୁ"
+msgstr "ଏହି ସନ୍ଦେଶଟି ଯେଉଁଠୁ ଆସିଛି ସେହି ମେଲ ତାଲିକାକୁ ଅସ୍ବୀକାରକ୍ତି ଦିଅନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 msgid "_Post Message to List"
@@ -19068,7 +19075,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Forget"
-msgstr ""
+msgstr "ଭୁଲିଯାଏ (_F)"
 
 #: ../shell/shell.error.xml.h:33
 msgid "_Keep Data"
@@ -19076,7 +19083,7 @@ msgstr "ତଥ୍ଯ ରଖନ୍ତୁ (_K)"
 
 #: ../shell/shell.error.xml.h:34
 msgid "_Remind Me Later"
-msgstr ""
+msgstr "ମୋତେ ପରେ ସ୍ମରଣ କରାନ୍ତୁ (_R)"
 
 #: ../shell/shell.error.xml.h:35
 msgid ""
@@ -19395,7 +19402,7 @@ msgstr "ହସ୍ତାକ୍ଷର କରନ୍ତୁ"
 
 #: ../smime/lib/e-cert.c:409
 msgid "Encrypt"
-msgstr ""
+msgstr "ସଂଗୁପ୍ତ"
 
 #: ../smime/lib/e-cert.c:514
 msgid "Version"
@@ -19484,11 +19491,11 @@ msgstr "ଇ-ଡାକ"
 
 #: ../smime/lib/e-cert.c:850
 msgid "Signing"
-msgstr ""
+msgstr "ହସ୍ତାକ୍ଷର କରୁଅଛି"
 
 #: ../smime/lib/e-cert.c:854
 msgid "Non-repudiation"
-msgstr ""
+msgstr "ଅଖଣ୍ଡନ"
 
 #: ../smime/lib/e-cert.c:858
 msgid "Key Encipherment"
@@ -19504,11 +19511,11 @@ msgstr "କି ଚୁକ୍ତିପତ୍ର"
 
 #: ../smime/lib/e-cert.c:870
 msgid "Certificate Signer"
-msgstr ""
+msgstr "ପ୍ରମାଣପତ୍ର ହସ୍ତାକ୍ଷର କାରୀ"
 
 #: ../smime/lib/e-cert.c:874
 msgid "CRL Signer"
-msgstr ""
+msgstr "CRL ହସ୍ତାକ୍ଷରକାରୀ"
 
 #: ../smime/lib/e-cert.c:922
 msgid "Critical"
@@ -19557,7 +19564,7 @@ msgstr "PKCS12 ଫାଇଲ ପାଇଁ ପ୍ରବେଶ ସଂକେତ ଭ�
 
 #: ../smime/lib/e-pkcs12.c:348
 msgid "Imported Certificate"
-msgstr ""
+msgstr "ଆମଦାନୀ କରାଯାଇଥିବା ପ୍ରମାଣପତ୍ର"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -19721,7 +19728,7 @@ msgstr "ଦେଖାଅ ସମ୍ପର୍କ ୱିଣ୍ଡୋ"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
-msgstr ""
+msgstr "ଅଟକନ୍ତୁ (_o)"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
