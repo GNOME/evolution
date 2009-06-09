@@ -1134,64 +1134,85 @@ e_strdup_append_strings (gchar *first_string, ...)
 	return buffer;
 }
 
+/* font options cache */
+static gchar *fo_antialiasing = NULL, *fo_hinting = NULL, *fo_subpixel_order = NULL;
+static GStaticMutex fo_lock = G_STATIC_MUTEX_INIT;
+
+static void
+fo_option_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	#define update_value(key,variable)	\
+		g_free (variable);		\
+		variable = gconf_client_get_string (client, "/desktop/gnome/font_rendering/" key, NULL);
+
+	g_static_mutex_lock (&fo_lock);
+	update_value ("antialiasing", fo_antialiasing);
+	update_value ("hinting", fo_hinting);
+	update_value ("rgba_order", fo_subpixel_order);
+	g_static_mutex_unlock (&fo_lock);
+
+	#undef update_value
+}
+
 cairo_font_options_t *
 get_font_options (void)
 {
-	gchar *antialiasing, *hinting, *subpixel_order;
-	GConfClient *gconf = gconf_client_get_default ();
+	static GConfClient *fo_gconf = NULL;
 	cairo_font_options_t *font_options = cairo_font_options_create ();
 
+	if (fo_gconf == NULL) {
+		fo_gconf = gconf_client_get_default ();
+
+		gconf_client_add_dir (fo_gconf, "/desktop/gnome/font_rendering", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/antialiasing", fo_option_changed, NULL, NULL, NULL);
+		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/hinting", fo_option_changed, NULL, NULL, NULL);
+		gconf_client_notify_add (fo_gconf, "/desktop/gnome/font_rendering/rgba_order", fo_option_changed, NULL, NULL, NULL);
+
+		fo_option_changed (fo_gconf, 0, NULL, NULL);
+	}
+	
+	g_static_mutex_lock (&fo_lock);
+
 	/* Antialiasing */
-	antialiasing = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/antialiasing", NULL);
-	if (antialiasing == NULL)
+	if (fo_antialiasing == NULL)
 		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
-	else {
-		if (strcmp (antialiasing, "grayscale") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
-		else if (strcmp (antialiasing, "rgba") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
-		else if (strcmp (antialiasing, "none") == 0)
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
-		else
-			cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
-	}
-	hinting = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/hinting", NULL);
-	if (hinting == NULL)
+	else if (strcmp (fo_antialiasing, "grayscale") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
+	else if (strcmp (fo_antialiasing, "rgba") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
+	else if (strcmp (fo_antialiasing, "none") == 0)
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
+	else
+		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
+
+	if (fo_hinting == NULL)
 		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
-	else {
-		if (strcmp (hinting, "full") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
-		else if (strcmp (hinting, "medium") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
-		else if (strcmp (hinting, "slight") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
-		else if (strcmp (hinting, "none") == 0)
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
-		else
-			cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
-	}
-	subpixel_order = gconf_client_get_string (gconf,
-			"/desktop/gnome/font_rendering/rgba_order", NULL);
-	if (subpixel_order == NULL)
+	else if (strcmp (fo_hinting, "full") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
+	else if (strcmp (fo_hinting, "medium") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
+	else if (strcmp (fo_hinting, "slight") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
+	else if (strcmp (fo_hinting, "none") == 0)
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
+	else
+		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
+
+	if (fo_subpixel_order == NULL)
 		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
-	else {
-		if (strcmp (subpixel_order, "rgb") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
-		else if (strcmp (subpixel_order, "bgr") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
-		else if (strcmp (subpixel_order, "vrgb") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
-		else if (strcmp (subpixel_order, "vbgr") == 0)
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
-		else
-			cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
-	}
-	g_free (antialiasing);
-	g_free (hinting);
-	g_free (subpixel_order);
-	g_object_unref (gconf);
+	else if (strcmp (fo_subpixel_order, "rgb") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
+	else if (strcmp (fo_subpixel_order, "bgr") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
+	else if (strcmp (fo_subpixel_order, "vrgb") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
+	else if (strcmp (fo_subpixel_order, "vbgr") == 0)
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
+	else
+		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
+
+	g_static_mutex_unlock (&fo_lock);
+
 	return font_options;
 }
 
