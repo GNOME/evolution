@@ -451,6 +451,29 @@ action_contact_save_as_cb (GtkAction *action,
 }
 
 static void
+action_contact_search_cb (GtkRadioAction *action,
+                          GtkRadioAction *current,
+                          EBookShellView *book_shell_view)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *search_hint;
+
+	/* XXX Figure out a way to handle this in EShellContent
+	 *     instead of every shell view having to handle it.
+	 *     The problem is EShellContent does not know what
+	 *     the search option actions are for this view.  It
+	 *     would have to dig up the popup menu and retrieve
+	 *     the action for each menu item.  Seems messy. */
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	search_hint = gtk_action_get_label (GTK_ACTION (current));
+	e_shell_content_set_search_hint (shell_content, search_hint);
+}
+
+static void
 action_contact_select_all_cb (GtkAction *action,
                               EBookShellView *book_shell_view)
 {
@@ -865,7 +888,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		action_group, contact_search_entries,
 		G_N_ELEMENTS (contact_search_entries),
 		CONTACT_SEARCH_NAME_CONTAINS,
-		NULL, NULL);
+		G_CALLBACK (action_contact_search_cb), book_shell_view);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);

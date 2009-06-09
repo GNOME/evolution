@@ -60,6 +60,7 @@ widgetsinclude_HEADERS =			\
 	e-dateedit.h				\
 	e-file-activity.h			\
 	e-gui-utils.h				\
+	e-hinted-entry.h			\
 	e-hsv-utils.h				\
 	e-image-chooser.h			\
 	e-map.h					\
@@ -122,6 +123,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-dateedit.c				\
 	e-file-activity.c			\
 	e-gui-utils.c				\
+	e-hinted-entry.c			\
 	e-hsv-utils.c				\
 	e-image-chooser.c			\
 	e-map.c					\

@@ -123,8 +123,8 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/widgets/misc/.libs/e-action-combo-box.o		\
 	$(top_builddir)/widgets/misc/.libs/e-activity.o			\
 	$(top_builddir)/widgets/misc/.libs/e-activity-proxy.o		\
-	$(top_builddir)/widgets/misc/.libs/e-icon-entry.o		\
 	$(top_builddir)/widgets/misc/.libs/e-gui-utils.o		\
+	$(top_builddir)/widgets/misc/.libs/e-hinted-entry.o		\
 	$(top_builddir)/widgets/misc/.libs/e-menu-tool-button.o		\
 	$(top_builddir)/widgets/misc/.libs/e-online-button.o		\
 	$(top_builddir)/widgets/misc/.libs/e-popup-menu.o		\

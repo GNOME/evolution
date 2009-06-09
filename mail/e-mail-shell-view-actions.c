@@ -613,6 +613,29 @@ action_mail_preview_cb (GtkToggleAction *action,
 }
 
 static void
+action_mail_search_cb (GtkRadioAction *action,
+                       GtkRadioAction *current,
+                       EMailShellView *mail_shell_view)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *search_hint;
+
+	/* XXX Figure out a way to handle this in EShellContent
+	 *     instead of every shell view having to handle it.
+	 *     The problem is EShellContent does not know what
+	 *     the search option actions are for this view.  It
+	 *     would have to dig up the popup menu and retrieve
+	 *     the action for each menu item.  Seems messy. */
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	search_hint = gtk_action_get_label (GTK_ACTION (current));
+	e_shell_content_set_search_hint (shell_content, search_hint);
+}
+
+static void
 action_mail_show_hidden_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
@@ -1360,14 +1383,7 @@ static GtkRadioActionEntry mail_scope_entries[] = {
 	  N_("Current Folder"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_FOLDER },
-
-	{ "mail-scope-current-message",
-	  NULL,
-	  N_("Current Message"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_MESSAGE }
+	  MAIL_SCOPE_CURRENT_FOLDER }
 };
 
 void
@@ -1409,7 +1425,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		action_group, mail_search_entries,
 		G_N_ELEMENTS (mail_search_entries),
 		MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS,
-		NULL, NULL);
+		G_CALLBACK (action_mail_search_cb), mail_shell_view);
 	gtk_action_group_add_radio_actions (
 		action_group, mail_scope_entries,
 		G_N_ELEMENTS (mail_scope_entries),

@@ -106,6 +106,9 @@ void		e_shell_content_add_filter_separator_after
 						 gint action_value);
 RuleContext *	e_shell_content_get_search_context
 						(EShellContent *shell_content);
+const gchar *	e_shell_content_get_search_hint	(EShellContent *shell_content);
+void		e_shell_content_set_search_hint	(EShellContent *shell_content,
+						 const gchar *search_hint);
 FilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
 void		e_shell_content_set_search_rule (EShellContent *shell_content,
 						 FilterRule *search_rule);

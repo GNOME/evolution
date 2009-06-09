@@ -26,6 +26,7 @@
 #include "e-util/e-binding.h"
 #include "filter/rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
+#include "widgets/misc/e-hinted-entry.h"
 
 #include "e-shell-backend.h"
 #include "e-shell-view.h"
@@ -64,6 +65,7 @@ enum {
 	PROP_FILTER_VALUE,
 	PROP_FILTER_VISIBLE,
 	PROP_SEARCH_CONTEXT,
+	PROP_SEARCH_HINT,
 	PROP_SEARCH_RULE,
 	PROP_SEARCH_TEXT,
 	PROP_SEARCH_VISIBLE,
@@ -96,8 +98,6 @@ action_search_execute_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkWidget *widget;
-	const GdkColor *base_color;
-	const GdkColor *text_color;
 	const gchar *search_text;
 
 	/* EShellView subclasses are responsible for actually
@@ -110,21 +110,24 @@ action_search_execute_cb (GtkAction *action,
 		return;
 
 	widget = shell_content->priv->search_entry;
+
 	search_text = e_shell_content_get_search_text (shell_content);
 
 	if (search_text != NULL && *search_text != '\0') {
 		GtkStyle *style;
+		const GdkColor *color;
 
-		style = gtk_widget_get_default_style ();
-		base_color = &style->base[GTK_STATE_SELECTED];
-		text_color = &style->text[GTK_STATE_SELECTED];
+		style = gtk_widget_get_style (widget);
+		color = &style->base[GTK_STATE_SELECTED];
+		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, color);
+
+		style = gtk_widget_get_style (widget);
+		color = &style->text[GTK_STATE_SELECTED];
+		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, color);
 	} else {
-		base_color = NULL;
-		text_color = NULL;
+		/* Text color will be updated when we move the focus. */
+		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, NULL);
 	}
-
-	gtk_widget_modify_base (widget, GTK_STATE_NORMAL, base_color);
-	gtk_widget_modify_text (widget, GTK_STATE_NORMAL, text_color);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 	gtk_action_set_sensitive (action, TRUE);
@@ -155,30 +158,6 @@ shell_content_entry_activated_cb (EShellContent *shell_content,
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
 	gtk_action_activate (action);
-}
-
-static gboolean
-shell_content_entry_focus_in_cb (EShellContent *shell_content,
-                                 GdkEventFocus *focus_event,
-                                 GtkWidget *entry)
-{
-	/* Clear the "background" text. */
-	if (shell_content->priv->search_state == GTK_STATE_INSENSITIVE)
-		gtk_entry_set_text (GTK_ENTRY (entry), "");
-
-	gtk_widget_modify_base (entry, GTK_STATE_NORMAL, NULL);
-	gtk_widget_modify_text (entry, GTK_STATE_NORMAL, NULL);
-
-	return FALSE;
-}
-
-static gboolean
-shell_content_entry_focus_out_cb (EShellContent *shell_content,
-                                  GdkEventFocus *focus_event,
-                                  GtkWidget *entry)
-{
-	/* FIXME */
-	return FALSE;
 }
 
 static void
@@ -351,6 +330,12 @@ shell_content_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SEARCH_HINT:
+			e_shell_content_set_search_hint (
+				E_SHELL_CONTENT (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_SEARCH_RULE:
 			e_shell_content_set_search_rule (
 				E_SHELL_CONTENT (object),
@@ -425,6 +410,12 @@ shell_content_get_property (GObject *object,
 		case PROP_SEARCH_CONTEXT:
 			g_value_set_object (
 				value, e_shell_content_get_search_context (
+				E_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_SEARCH_HINT:
+			g_value_set_string (
+				value, e_shell_content_get_search_hint (
 				E_SHELL_CONTENT (object)));
 			return;
 
@@ -564,6 +555,9 @@ shell_content_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (action), "stock-id",
 		G_OBJECT (widget), "secondary-icon-stock");
+	e_binding_new (
+		G_OBJECT (action), "tooltip",
+		G_OBJECT (widget), "secondary-icon-tooltip-text");
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
 	g_signal_connect (
@@ -577,6 +571,9 @@ shell_content_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (action), "stock-id",
 		G_OBJECT (widget), "primary-icon-stock");
+	e_binding_new (
+		G_OBJECT (action), "tooltip",
+		G_OBJECT (widget), "primary-icon-tooltip-text");
 
 	widget = shell_content->priv->search_bar;
 	gtk_size_group_add_widget (size_group, widget);
@@ -748,6 +745,16 @@ shell_content_class_init (EShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SEARCH_HINT,
+		g_param_spec_string (
+			"search-hint",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SEARCH_RULE,
 		g_param_spec_object (
 			"search-rule",
@@ -827,7 +834,6 @@ shell_content_init (EShellContent *shell_content)
 {
 	GtkBox *box;
 	GtkLabel *label;
-	GtkWidget *mnemonic;
 	GtkWidget *widget;
 
 	shell_content->priv = E_SHELL_CONTENT_GET_PRIVATE (shell_content);
@@ -836,14 +842,20 @@ shell_content_init (EShellContent *shell_content)
 
 	/*** Build the Search Bar ***/
 
-	widget = gtk_hbox_new (FALSE, 3);
+	widget = gtk_hbox_new (FALSE, 24);
 	gtk_widget_set_parent (widget, GTK_WIDGET (shell_content));
 	shell_content->priv->search_bar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	box = GTK_BOX (widget);
-
 	/* Filter Combo Widgets */
+
+	box = GTK_BOX (shell_content->priv->search_bar);
+
+	widget = gtk_hbox_new (FALSE, 3);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	box = GTK_BOX (widget);
 
 	/* Translators: The "Show:" label precedes a combo box that
 	 * allows the user to filter the current view.  Examples of
@@ -862,27 +874,28 @@ shell_content_init (EShellContent *shell_content)
 	shell_content->priv->filter_combo_box = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Scope Combo Widgets */
+	/* Search Entry Widgets */
 
-	widget = e_action_combo_box_new ();
-	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->scope_combo_box = g_object_ref (widget);
+	box = GTK_BOX (shell_content->priv->search_bar);
+
+	widget = gtk_hbox_new (FALSE, 3);
+	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	mnemonic = widget;
+	box = GTK_BOX (widget);
 
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
-	widget = gtk_label_new_with_mnemonic (_("i_n"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), mnemonic);
-	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->scope_label = g_object_ref (widget);
+	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	shell_content->priv->search_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Search Entry Widgets */
+	label = GTK_LABEL (widget);
 
-	widget = gtk_entry_new ();
-	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
+	widget = e_hinted_entry_new ();
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	shell_content->priv->search_entry = g_object_ref (widget);
 	shell_content->priv->search_state = GTK_STATE_NORMAL;
 	gtk_widget_show (widget);
@@ -890,16 +903,6 @@ shell_content_init (EShellContent *shell_content)
 	g_signal_connect_swapped (
 		widget, "activate",
 		G_CALLBACK (shell_content_entry_activated_cb),
-		shell_content);
-
-	g_signal_connect_swapped (
-		widget, "focus-in-event",
-		G_CALLBACK (shell_content_entry_focus_in_cb),
-		shell_content);
-
-	g_signal_connect_swapped (
-		widget, "focus-out-event",
-		G_CALLBACK (shell_content_entry_focus_out_cb),
 		shell_content);
 
 	g_signal_connect_swapped (
@@ -917,14 +920,21 @@ shell_content_init (EShellContent *shell_content)
 		G_CALLBACK (shell_content_entry_key_press_cb),
 		shell_content);
 
-	mnemonic = widget;
+	/* Scope Combo Widgets */
 
 	/* Translators: This is part of the quick search interface.
 	 * example: Search: [_______________] in [ Current Folder ] */
-	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mnemonic);
-	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->search_label = g_object_ref (widget);
+	widget = gtk_label_new_with_mnemonic (_("i_n"));
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	shell_content->priv->scope_label = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	widget = e_action_combo_box_new ();
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	shell_content->priv->scope_combo_box = g_object_ref (widget);
 	gtk_widget_show (widget);
 }
 
@@ -1124,6 +1134,33 @@ e_shell_content_get_search_context (EShellContent *shell_content)
 	return shell_content->priv->search_context;
 }
 
+const gchar *
+e_shell_content_get_search_hint (EShellContent *shell_content)
+{
+	EHintedEntry *entry;
+
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+
+	entry = E_HINTED_ENTRY (shell_content->priv->search_entry);
+
+	return e_hinted_entry_get_hint (entry);
+}
+
+void
+e_shell_content_set_search_hint (EShellContent *shell_content,
+                                 const gchar *search_hint)
+{
+	EHintedEntry *entry;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	entry = E_HINTED_ENTRY (shell_content->priv->search_entry);
+
+	e_hinted_entry_set_hint (entry, search_hint);
+
+	g_object_notify (G_OBJECT (shell_content), "search-hint");
+}
+
 FilterRule *
 e_shell_content_get_search_rule (EShellContent *shell_content)
 {
@@ -1154,30 +1191,26 @@ e_shell_content_set_search_rule (EShellContent *shell_content,
 const gchar *
 e_shell_content_get_search_text (EShellContent *shell_content)
 {
-	GtkEntry *entry;
+	EHintedEntry *entry;
 
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 
-	if (shell_content->priv->search_state == GTK_STATE_INSENSITIVE)
-		return "";
+	entry = E_HINTED_ENTRY (shell_content->priv->search_entry);
 
-	entry = GTK_ENTRY (shell_content->priv->search_entry);
-
-	return gtk_entry_get_text (entry);
+	return e_hinted_entry_get_text (entry);
 }
 
 void
 e_shell_content_set_search_text (EShellContent *shell_content,
                                  const gchar *search_text)
 {
-	GtkEntry *entry;
+	EHintedEntry *entry;
 
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
-	entry = GTK_ENTRY (shell_content->priv->search_entry);
-	search_text = (search_text != NULL) ? search_text : "";
+	entry = E_HINTED_ENTRY (shell_content->priv->search_entry);
 
-	gtk_entry_set_text (entry, search_text);
+	e_hinted_entry_set_text (entry, search_text);
 
 	g_object_notify (G_OBJECT (shell_content), "search-text");
 }
