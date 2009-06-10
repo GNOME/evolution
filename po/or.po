@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-06-04 14:13+0000\n"
-"PO-Revision-Date: 2009-06-10 18:27+0530\n"
+"PO-Revision-Date: 2009-06-10 22:20+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -415,6 +416,9 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and GroupWise Personal Contacts folders."
 msgstr ""
+"ବର୍ତ୍ତମାନ ଆପଣ କେବଳ ଶ୍ରେଣୀ ଅନୁଯାୟୀ ତନ୍ତ୍ର ଠିକଣା ବହିକୁ Evolution ଅଭିଗମ୍ୟ କରିପାରିବେ।"
+"ଶ୍ରେଣୀ ଅନୁଯାୟୀ ଦୈନନ୍ଦିନ ଯୋଗାଯୋଗଗୁଡ଼ିକୁ ପାଇବା ପାଇଁ, ଦୟାକରି ଅନ୍ୟ କିଛି ଶ୍ରେଣୀ ଅନୁଯାୟୀ ମେଲ "
+"ଗ୍ରାହକଙ୍କୁ ଏବଂ ଶ୍ରେଣୀ ଅନୁଯାୟୀ ବ୍ୟକ୍ତିଗତ ଫୋଲଡରଗୁଡ଼ିକୁ ଥରେ ବ୍ୟବହାର କରନ୍ତୁ।"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -469,6 +473,9 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
+"ଏହି LDAP ସର୍ଭର LDAP ର କୌଣସି ପୁରୁଣା ସଂସ୍କରଣକୁ ବ୍ୟବହାର କରିପାରେ, ଯାହାକି ଏହି ଫଳନକୁ "
+"ସମର୍ଥନ କରିନପାରେ ଅଥବା ଏହା ଭୁଲ ଭାବରେ ବିନ୍ୟାସିତ ହୋଇଥାଏପାରେ। ସମର୍ଥିତ ସନ୍ଧାନ ଆଧାର "
+"ପାଇଁ ଆପଣଙ୍କର ପ୍ରଶାସକଙ୍କୁ ପଚାରନ୍ତୁ।"
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book could not be opened."
@@ -515,6 +522,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
+"ଆପଣ ଗୋଟିଏ ସମ୍ପର୍କକୁ ଗୋଟିଏ ଠିକଣାରୁ ଅନ୍ୟ ଗୋଟିକୁ ସ୍ଥାନାନ୍ତରିତ କରିବା ପାଇଁ ଚେଷ୍ଟାକରୁଛନ୍ତି କିନ୍ତୁ "
+"ଏହାକୁ ଉତ୍ସରୁ କଢ଼ାଯାଇପାରିବ ନାହିଁ। ଏହା ପରିବର୍ତ୍ତେ ଆପଣ ଗୋଟିଏ ନକଲକୁ ସଂରକ୍ଷଣ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid ""
@@ -522,6 +531,9 @@ msgid ""
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr ""
+"ଆପଣ ଗୋଟିଏ ଅସମର୍ଥିତ ଶ୍ରେଣୀ ଅନୁଯାୟୀ ସର୍ଭର ସହିତ ସଂଯୁକ୍ତ ହେଉଛନ୍ତି ଏବଂ Evolution ବ୍ୟବହାର କରି "
+"ସମସ୍ୟାର ସମ୍ମୁଖିନ ହୋଇପାରନ୍ତି। ଉତ୍ତମ ଫଳାଫଳ ପାଇଁ ସର୍ଭରକୁ ସମର୍ଥିତ ସଂସ୍କରଣକୁ "
+"ଉନ୍ନୟନ କରାଯିବା ଉଚିତ"
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
@@ -824,6 +836,10 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"Evolution ସମ୍ପର୍କ ଫୋଲଡରଗୁଡ଼ିକର ଅବସ୍ଥାନ ଏବଂ ଅନୁକ୍ରମ Evolution 1.x ପରଠାରୁ "
+"ପରିବର୍ତ୍ତନ ହୋଇଛି।\n"
+"\n"
+"ଦୟାକରି Evolution ଆପଣଙ୍କର ଫୋଲଡରଗୁଡ଼ିକୁ ସ୍ଥାନାନ୍ତରଣ କରିବା ସମୟରେ ଧୈର୍ଯ୍ୟ ରଖନ୍ତୁ..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1151
 msgid ""
@@ -1124,18 +1140,25 @@ msgid ""
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
 msgstr ""
+"ସନ୍ଧାନ ଛାଣକଟି ହେଉଛି, ସନ୍ଧାନ କରୁଥିବା ସମୟରେ ବସ୍ତୁଗୁଡ଼ିକୁ ଛଣାଯାଉଥିବା ପ୍ରକାର। "
+"ଯଦି ଏହାକୁ ପରିବର୍ତ୍ତନ କରାନଯାଏ, ତେବେ ପୂର୍ବନିର୍ଦ୍ଧାରିତ ଭାବରେ ସନ୍ଧାନଗୁଡ଼ିକ ବସ୍ତୁ ଶ୍ରେଣୀରେ "
+"ପ୍ରକାର \"person\" ପରି କାର୍ଯ୍ୟକାରୀ ହୋଇଥାଏ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL."
 msgstr ""
+"ଏହି ବିକଳ୍ପକୁ ବାଛିବା ମାନେ ହେଉଛି Evolution ଆପଣଙ୍କର LDAP "
+"ସର୍ଭର ସହିତ ସଂଯୁକ୍ତ ହେବ ଯଦି ଆପଣଙ୍କର LDAP ସର୍ଭର SSLକୁ ସମର୍ଥନ କରିଥାଏ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports TLS."
 msgstr ""
+"ଏହି ବିକଳ୍ପକୁ ବାଛିବା ମାନେ ହେଉଛି Evolution ଆପଣଙ୍କର LDAP "
+"ସର୍ଭର ସହିତ ସଂଯୁକ୍ତ ହେବ ଯଦି ଆପଣଙ୍କର LDAP ସର୍ଭର TLSକୁ ସମର୍ଥନ କରିଥାଏ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:35
 msgid ""
@@ -1143,6 +1166,9 @@ msgid ""
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
 msgstr ""
+"ଏହି ବିକଳ୍ପକୁ ବାଛିବା ମାନେ ହେଉଛି ଆପଣଙ୍କର ସର୍ଭର SSL କିମ୍ବା TLS କୁ ସମର୍ଥନ କରେନାହିଁ।"
+"ଏହା ମାନେ ହେଉଛି ଆପଣଙ୍କର ସଂଯୋଗ ଅସୁରକ୍ଷିତ ହେବ, ଏବଂ ଆପଣ ସୁରକ୍ଷା "
+"ସମସ୍ୟାର ସମ୍ମୁଖିନ ହେବେ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -1186,6 +1212,8 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
+"ଏହି ହେଉଛି ଆହରଣ କରାଯାଉଥିବା ଭରଣର ସର୍ବାଧିକ ସଂଖ୍ୟା। ଏହି ସଂଖ୍ୟାକୁ ଅତ୍ୟଧିକ ବଡ଼ ବିନ୍ୟାସ "
+"କରିବା ଦ୍ୱାରା ଆପଣଙ୍କର ଠିକଣା ବହି ମନ୍ଥର ହୋଇପାରେ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
@@ -1193,6 +1221,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
+"ଏହା ହେଉଛି ଆପଣଙ୍କୁ ବୈଧିକୃତ କରିବା ପାଇଁ Evolution ବ୍ୟବହାର କରୁଥିବା ପଦ୍ଧତି।  ମନେରଖନ୍ତୁ ଯେ "
+"ଏହାକୁ \"ଇମେଲ ଠିକଣା\" ଭାବରେ ବିନ୍ୟାସ କରିବା ପାଇଁ ଆପଣଙ୍କର LDAP ସର୍ଭରରେ "
+"ଅଜ୍ଞାତ ଅଭିଗମ୍ୟତା ଆବଶ୍ୟକ କରିଥାଏ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
@@ -1208,6 +1239,9 @@ msgid ""
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
 msgstr ""
+"ଏହା ହେଉଛି LDAP ସର୍ଭରରେ ଥିବା ସଂଯୋଗିକୀ ଯାହାକୁକି Evolution ସଂଯୋଗ କରିବା ପାଇଁ ଚେଷ୍ଟାକରିଥାଏ। "
+"ମାନକ ସଂଯୋଗିକୀର ଗୋଟିଏ ତାଲିକା ପ୍ରଦାନ କରାଯାଇଛି। କେଉଁ ସଂଯୋଗିକୀକୁ ଉଲ୍ଲେଖ କରିବା ଉଚିତ ତାହା ପାଇଁ "
+"ଆପଣଙ୍କର ତନ୍ତ୍ର ପ୍ରଶାସକଙ୍କ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
 msgid "Using distinguished name (DN)"
@@ -3603,6 +3637,9 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
+"ଏହି ଠିକଣା ବହିକୁ ଖୋଲାଯାଇପାରିବ ନାହିଁ। ଏହା ମାନେ ହେଉଛି ଏହି ବହିଟିକୁ ଅଫଲାଇନ ବ୍ୟବହାର ପାଇଁ ଚିହ୍ନିଟ କରାଯାଇନାହିଁ ଅଥବା "
+"ଏପର୍ଯ୍ୟନ୍ତ ଆହରଣ କରାଯାଇନାହିଁ। ଦୟାକରି ଏହାର ବିଷୟବସ୍ତୁଗୁଡ଼ିକୁ ଆହରଣ କରିବା ପାଇଁ ଠିକଣା ବହିକୁ "
+"ଅନଲାଇନ ଧାରାରେ ଥରେ ଧାରଣ କରନ୍ତୁ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:119
 #, c-format
@@ -3610,18 +3647,24 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
+"ଏହି ଠିକଣା ବହିକୁ ଖୋଲାଯାଇପାରିବ ନାହିଁ। ଦୟାକରି ଯାଞ୍ଚକରନ୍ତୁ ଯେ ପଥ %s ଅବସ୍ଥିତ ଏବଂ ସେହି "
+"ଅନୁମତିଗୁଡ଼ିକୁ ଅଭିଗମ୍ୟ କରିବା ପାଇଁ ଅନୁମତି ସେଟ କରାଯାଇଛି।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:131
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
+"Evolutionର ଏହି ସଂସ୍କରଣରେ LDAP ସମର୍ଥନ ନାହିଁ। LDAP କୁ Evolution ରେ ବ୍ୟବହାର କରିବା ପାଇଁ "
+"LDAP-ସକ୍ରିୟ Evolution ପ୍ୟାକେଜକୁ ନିଶ୍ଚିତ ଭାବରେ ସ୍ଥାପନ କରିବା ଉଚିତ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
+"ଏହି ଠିକଣା ବହିକୁ ଖୋଲାଯାଇପାରିବ ନାହିଁ। ଏହା ମାନେ ହେଉଛି ଗୋଟିଏ ଭୁଲ URI ଭରଣ "
+"ହୋଇଛି, ଅଥବା ସର୍ଭରଟି ଅପହଞ୍ଚ ଅଟେ।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
 msgid "Detailed error message:"
@@ -4265,6 +4308,8 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"ଇମେଲ ଆମନ୍ତ୍ରଣଗୁଡ଼ିକୁ ସମସ୍ତ ଅଂଶଗ୍ରହଣକାରୀମାନଙ୍କ ପାଖକୁ ପଠାଯିବ ଏବଂ ସେମାନଙ୍କୁ ଏହି "
+"କାର୍ଯ୍ୟଭାର ଗ୍ରହଣ କରିବା ପାଇଁ ଅନୁମତି ଦିଆଯିବ।"
 
 #: ../calendar/calendar.error.xml.h:39
 msgid "Email invitations will be sent to all participants and allow them to reply."
