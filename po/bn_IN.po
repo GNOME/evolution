@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-11 21:11+0000\n"
-"PO-Revision-Date: 2009-03-13 01:20+0530\n"
+"PO-Revision-Date: 2009-06-11 01:29+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <discuss@lists.ankur.org.in>\n"
 "MIME-Version: 1.0\n"
@@ -404,7 +404,7 @@ msgid ""
 "Currently you can access only GroupWise System Address Book from Evolution. "
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and GroupWise Personal Contacts folders."
-msgstr ""
+msgstr "বর্তমানে Evolution থেকে শুধুমাত্র GroupWise System Address Book ব্যবহার করা যাবে। GroupWise Frequent Contacts ও GroupWise Personal Contacts ফোল্ডারগুলি প্রাপ্ত করার জন্য অনুগ্রহ করে GroupWise মেইল ক্লায়েন্ট একবার ব্যবহার করা আবশ্যক।"
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -1001,7 +1001,7 @@ msgstr "উলম্ভ পেইনের অবস্থান"
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
-msgstr ""
+msgstr "স্বয়ংক্রিয়ভাবে সম্পূর্ণ করা এন্ট্রির ক্ষেত্রে নামের সাথে বাধ্যতামূলকভাবে ই-মেইল ঠিকানা প্রদর্শন করা হবে কি না।"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
@@ -1009,7 +1009,7 @@ msgstr "পূর্বপ্রদর্শন পেইন প্রদর্�
 
 #: ../addressbook/gui/component/autocompletion-config.c:175
 msgid "Always _show address of the autocompleted contact"
-msgstr ""
+msgstr "স্বয়ংক্রিয়ভাবে সম্পূর্ণ করা পরিচিতির ঠিকানা সর্বদা প্রদর্শিত হবে (_s)"
 
 #: ../addressbook/gui/component/autocompletion-config.c:180
 msgid "Look up in address books"
@@ -1142,7 +1142,7 @@ msgid ""
 "Search filter is the type of the objects searched for, while performing the "
 "search. If this is not modified, by  default search will be performed on "
 "objectclass of the type \"person\"."
-msgstr ""
+msgstr "অনুসন্ধানের জন্য চিহ্নিত সামগ্রীর ধরনগুলি ফিল্টার দ্বারা সনাক্ত করা হয়। ফিল্টারের মান পরিবর্তন না করা হলে \"person\" নামক objectclass-র ভিত্তিতে অনুসন্ধান করা হবে।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -1165,7 +1165,7 @@ msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
-msgstr ""
+msgstr "এই বিকল্পটি নির্বাচিত হলে, সার্ভার দ্বারা SSL অথবা TLS সমর্থনের অক্ষমতার ইঙ্গিত দেওয়া হয়। অর্থাৎ, ব্যবহৃত সংযোগটি নিরাপদ হবে না ও নিরাপত্তার হানিকারী অনুপ্রবেশের শিকার হতে পারেন।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 msgid "Sub"
@@ -1189,7 +1189,7 @@ msgid ""
 "The search base is the distinguished name (DN) of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr ""
+msgstr "অনুসন্ধান আরম্ভের জন্য চিহ্নিত স্থানের ডিস্টিংগুইশড নেম (DN) দ্বারা অনুসন্ধানের মূল স্থান নির্ধারিত হবে। এই মান ফাঁকা রাখা হলে, ডিরেক্টরি ট্রির মূল স্থানে এই অনুসন্ধান আরম্ভ করা হয়।"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -3716,6 +3716,10 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
+"এই অনুসন্ধান থেকে প্রাপ্ত কার্ডের সংখ্যা, ফলাফল রূপে সার্ভার দ্বারা উল্লেখ করার জন্য \n"
+"কনফিগার করা কার্ডের সংখ্যা অথবা Evolution দ্বারা প্রদর্শনযোগ্য কার্ডের সংখ্যা থেকে বেশি।\n"
+"অনুগ্রহ করে অনুসন্ধানযোগ্য তথ্য অধিক পুঙ্খানুপুঙ্খ বর্ণনা উল্লেখ করুন অথবা \n"
+"এই ঠিকানা বইয়ের জন্য ডিরেক্টরি সার্ভারের মধ্যে অনুসন্ধানের ফলাফল সংক্রান্ত সীমা বৃদ্ধি করুন।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
 msgid ""
@@ -3724,6 +3728,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this address book."
 msgstr ""
+"এই অনুসন্ধান সঞ্চালনার জন্য ব্যাস হওয়া সময়, সার্ভারের জন্য অথবা \n"
+"এই ঠিকানা বইয়ের জন্য কনফিগার করা সময়ের থেকে বেশি।\n"
+"অনুগ্রহ করে অনুসন্ধানযোগ্য তথ্য অধিক পুঙ্খানুপুঙ্খ বর্ণনা উল্লেখ করুন অথবা \n"
+"এই ঠিকানা বইয়ের জন্য ডিরেক্টরি সার্ভারের মধ্যে অনুসন্ধানের সময়সীমা বৃদ্ধি করুন।"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
 msgid "The backend for this address book was unable to parse this query."
@@ -5028,7 +5036,7 @@ msgstr "সর্বশেষ সতর্কবাণীর সময়"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:29
 #: ../mail/evolution-mail.schemas.in.h:72
 msgid "Level beyond which the message should be logged."
-msgstr ""
+msgstr "চিহ্নিত মাত্রা অতিক্রান্ত হলে বার্তাটি লগ করা হবে।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:30
 msgid "List of recently used second time zones in a Day View."
@@ -5054,11 +5062,11 @@ msgstr "মার্কাস বেইন লাইনের রং - সময়
 msgid ""
 "Maximum number of recently used timezones to remember in a "
 "'day_second_zones' list."
-msgstr ""
+msgstr "'day_second_zones' তালিকার মধ্যে স্মরণ করার জন্য সম্প্রতি ব্যবহৃত সময়ের অঞ্চলের সর্বাধিক চিহ্নিত সংখ্যা।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:36
 msgid "Maximum number of recently used timezones to remember."
-msgstr ""
+msgstr "স্মরণ করার জন্য সম্প্রতি ব্যবহৃত সময়ের অঞ্চলের সর্বাধিক চিহ্নিত সংখ্যা।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:37
 msgid "Minute the workday ends on, 0 to 59."
@@ -5202,7 +5210,7 @@ msgstr "তারিখ নেভিগেটরে সপ্তাহের স
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key."
-msgstr ""
+msgstr "মান নির্ধারিত হলে, দিন অনুযায়ী প্রদর্শনের ক্ষেত্রে দ্বিতীয় সময়ের অঞ্চল প্রদর্শন করা হয়। 'timezone'-কি দ্বারা চিহ্নিত মানের সমতূল্য মান ব্যবহার করা হয়।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid "Tasks due today color"
@@ -5217,7 +5225,7 @@ msgstr "কর্ম সংক্রান্ত উলম্ব পেইনে
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr ""
+msgstr "মুক্ত/ব্যস্ত তথ্যের ফল-ব্যাক রূপে ব্যবহারযোগ্য URL টেমপ্লেট,  %u-র পরিবর্তে মেইল ঠিকানার ব্যবহারকারীর নামের অংশ প্রয়োগ করা হয় ও %d-র পরিবর্তে ডোমেইনের তথ্য।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
 msgid ""
@@ -5256,7 +5264,7 @@ msgstr "সময়-অঞ্চল"
 msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
-msgstr ""
+msgstr "বর্ষপঞ্জি অনুযায়ী প্রদর্শন ক্ষেত্রে স্বচ্ছতার মাত্রা, 0 (স্বচ্ছ) থেকে 1-র (নিরেট) মধ্যে একটি মান নির্ধারণ করুন।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:77
 msgid "Twenty four hour time format"
@@ -5352,7 +5360,7 @@ msgstr "তারিখ নেভিগেটরের উপর সপ্তা
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:100
 msgid "Whether to use daylight savings time while displaying events."
-msgstr ""
+msgstr "অনুষ্ঠান প্রদর্শনকালে দিবালোক সঞ্চয়কারী সময় প্রয়োগ করা হবে কি না।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
 msgid "Work days"
@@ -5376,7 +5384,7 @@ msgstr "কার্যদিবস আরম্ভের মিনিট"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:106
 msgid "daylight savings time"
-msgstr ""
+msgstr "দিবালোক সঞ্চয়কারী সময়"
 
 #: ../calendar/gui/cal-search-bar.c:75
 msgid "Summary contains"
@@ -5935,7 +5943,7 @@ msgstr "<span weight=\"bold\">কর্ম সপ্তাহ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Adjust for daylight sa_ving time"
-msgstr ""
+msgstr "দিবালোক সঞ্চয়কারী সময় অনুসারে পরিবর্তন করা হবে (_v)"
 
 # FIXME
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
@@ -6469,7 +6477,7 @@ msgstr "_RSVP"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1490
 msgid "Toggles whether the RSVP field is displayed"
-msgstr ""
+msgstr "RSVP ক্ষেত্র প্রদর্শন করা হবে কি না তা টগল করা হয়"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1496
 msgid "_Status Field"
@@ -6485,7 +6493,7 @@ msgstr "ধরনের ক্ষেত্র (_T)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1506
 msgid "Toggles whether the Attendee Type is displayed"
-msgstr ""
+msgstr "যোগদানকারীর ধরন প্রদর্শন করা হবে কি না তা টগল করা হবে"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1828
 #: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1376
@@ -10873,7 +10881,7 @@ msgstr "বার্তার গুরুত্ব 'উচ্চ' রূপে 
 
 #: ../composer/e-composer-actions.c:582
 msgid "Re_quest Read Receipt"
-msgstr "মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে (_q)"
+msgstr "বার্তা-পাঠের সূচনা প্রদানের অনুরোধ করা হবে (_q)"
 
 #: ../composer/e-composer-actions.c:584
 msgid "Get delivery notification when your message is read"
@@ -11943,7 +11951,7 @@ msgstr "উদ্দিষ্ট ঠিকানা উল্লিখিত ন
 
 #: ../mail/em-composer-utils.c:1608
 msgid "No account found to use, forward of the message has been cancelled."
-msgstr ""
+msgstr "ব্যবহারযোগ্য কোনো অ্যাকাউন্ট পাওয়া যায়নি, বার্তা অনুবর্তন বাতিল করা হয়েছে।"
 
 #: ../mail/em-composer-utils.c:2058
 msgid "an unknown sender"
@@ -12456,7 +12464,7 @@ msgstr "আবর্জনা ফাঁকা করা হবে (_E)"
 
 #: ../mail/em-folder-tree.c:2243
 msgid "_Unread Search Folder"
-msgstr ""
+msgstr "না পড়া অনুসন্ধানের ফোল্ডার (_U)"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -12875,7 +12883,7 @@ msgstr "চিহ্নিত প্রোগ্রাম সহযোগে খ
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
-msgstr ""
+msgstr "অত্যাধিক বড় হওয়া ফলে এই বার্তাটি Evolution দ্বারা প্রদর্শন করা সম্ভব হয়নি। ফরম্যাট বিনা এটি প্রদর্শন করা যাবে অথবা কোনো স্বতন্ত্র টেক্সট এডিটর সহযোগে এটি খোলা যাবে।"
 
 #: ../mail/em-format-html-print.c:157
 #, c-format
@@ -13267,15 +13275,15 @@ msgstr "\"মেইল প্রেরণ এবং গ্রহণ করুন
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Allows Evolution to display text part of limited size"
-msgstr ""
+msgstr "Evolution দ্বারা সীমিত মাপের টেক্সটের অংশ প্রদর্শনের অনুমতি প্রদান করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Always request read receipt"
-msgstr "সর্বদা মেইল-পাঠের সূচনা প্রদানের অনুরোধ করা হবে"
+msgstr "সর্বদা বার্তা-পাঠের সূচনা প্রদানের অনুরোধ করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "Automatic emoticon recognition"
-msgstr ""
+msgstr "স্বয়ংক্রিয়ভাবে ভাব-প্রতীক(emoticon) সনাক্তকরণ"
 
 #: ../mail/evolution-mail.schemas.in.h:8
 msgid "Automatic link recognition"
@@ -13303,23 +13311,23 @@ msgstr "কম্পোসার উইন্ডোর ডিফল্ট প্
 
 #: ../mail/evolution-mail.schemas.in.h:14
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "কম্পোসার লোড/সংযুক্তকরণের ডিরেক্টরি"
 
 #: ../mail/evolution-mail.schemas.in.h:15
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "প্রাপক/অনু-প্রা/অপ্র-অনু-প্রা ক্ষেত্রগুলির মধ্যে ঠিকানার প্রদর্শন সংকুচিত করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
-msgstr ""
+msgstr "address_count দ্বারা চিহ্নিত সংখ্যা অব্দি প্রাপক/অনু-প্রা/অপ্র-অনু-প্রা ক্ষেত্রগুলির মধ্যে ঠিকানার প্রদর্শন সংকুচিত করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
-msgstr ""
+msgstr "স্থামীম পরিবর্তনগুলি দূরবর্তী মেইল সার্ভারের সাথে সুসংগতির বিরতির হার নিয়ন্ত্রণ করতে ব্যবহৃত হয়। বিরতির মান অন্তত ৩০ সেকেন্ড হওয়া আবশ্যক।"
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13329,7 +13337,7 @@ msgstr "আবর্জনা পরীক্ষা করার জন্য �
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তা পরীক্ষণের সময় ব্যবহারযোগ্য স্বনির্ধারিত হেডার। তালিকায়র বস্তুগুলি \"headername=value\" বিন্যাসের উল্লিখিত হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
@@ -13369,7 +13377,7 @@ msgstr "উত্তর লেখার ডিফল্ট বিন্যাস
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
-msgstr ""
+msgstr "থ্রেড প্রসারণের অবস্থার ডিফল্ট মান"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid "Default width of the Composer Window."
@@ -13403,7 +13411,7 @@ msgid ""
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
-msgstr ""
+msgstr "ঠিকানা-বইয়ের মধ্যে প্রেরকের ই-মেইল ঠিকানাটি অনুসন্ধান করা হবে কি না তা নির্ধারণ করে। ঠিকানা সনাক্ত হলে সেটি অবাঞ্ছিত বার্তা রূপে চিহ্নিত হবে না। স্বয়ংক্রিয় তথ্য সম্পূর্ণ করার জন্য চিহ্নিত বইগুলিতে অনুসন্ধান করা হয়। দূরবর্তী ঠিকানা বইগুলি (যেমন LDAP) যদি স্বয়ংক্রিয় তথ্য সম্পূর্ণের জন্য চিহ্নিত হয় তাহলে ধীর গতিতে এই কাজ সঞ্চালিত হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
@@ -13416,13 +13424,13 @@ msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তা পরীক্ষার জন্য স্বনির্ধারিত হেডার পরীক্ষা করা হবে কি না তা নির্ধারণ করে। এই বিকল্পটি সক্রিয় করে হেডার উল্লেখ করা হলে, অবাঞ্ছিত বার্তা পরীক্ষণের গতিবৃদ্ধি হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
-msgstr ""
+msgstr "উলম্ব দিশায় প্রদর্শন ক্ষেত্রে \"বার্তা\" নামক কলামে  \"প্রেরক\" ও \"বিষয়\" শীর্ষক পংক্তিরগুলিতে একই ফন্ট ব্যবহার করা হবে কি না তা নির্ধারণ করে।"
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
@@ -13434,7 +13442,7 @@ msgstr "মেইলের সাথের সামগ্রী সংরক্
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in side bar"
-msgstr ""
+msgstr "সাইড-বারের মধ্যে ফোল্ডারের নামে ইলিপসিস চিহ্নের ব্যবহার নিষ্ক্রিয় অথবা সক্রিয় করুন"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -13466,7 +13474,7 @@ msgstr "ম্যাজিক স্পেস বার সক্রিয় অ�
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Enable or disable type ahead search feature"
-msgstr ""
+msgstr "টাইপ করার সময় অনুসন্ধানের বৈশিষ্ট্য সক্রিয় অথবা নিষ্ক্রিয় করুন।"
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Enable search folders"
@@ -13482,17 +13490,17 @@ msgid ""
 "by typing in the text. Use is that you can easily find a folder in that side "
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
-msgstr ""
+msgstr "টেক্সট টাইপ করার সময় ইন্টারেক্টিভ অনুসন্ধান আরম্ভ করার উদ্দেশ্যে সাইড-বার থেকে অনুসন্ধানের বৈশিষ্ট্য সক্রিয় করুন। কোনো ফোল্ডার অনুসন্ধানের জন্য এটি ব্যবহারের উদ্দেশ্যে সাইড-বারে ফোল্ডাটি নাম টাইপ করা হলে স্বয়ংক্রিয়ভাবে সংশ্লিষ্ট ফোল্ডারটি নির্বাচিত হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:53
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
-msgstr ""
+msgstr "বার্তার পূর্বপ্রদর্শন ক্ষেত্রে, বার্তার তালিকায় ও ফোল্ডারের মধ্যে স্ক্রোল করার জন্য স্পেস-বার কি ব্যবহার করার জন্য এটি সক্রিয় করুন।"
 
 #: ../mail/evolution-mail.schemas.in.h:54
 msgid "Enable to render message text part of limited size."
-msgstr ""
+msgstr "বার্তার সীমিত মাপের টেক্সটের অংশ প্রদর্শনের জন্য সক্রিয় করুন।"
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid "Enable/disable caret mode"
@@ -13500,14 +13508,14 @@ msgstr "ক্যারেট মোড সক্রিয়/নিষ্ক্র
 
 #: ../mail/evolution-mail.schemas.in.h:56 ../mail/mail-config.glade.h:81
 msgid "Encode file names in an Outlook/GMail way"
-msgstr ""
+msgstr "Outlook/GMail-র অনুকরণে ফাইলের নাম এনকোড করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid ""
 "Encode file names in the mail headers same as Outlook or GMail does, to let "
 "them understand localized file names sent by Evolution, because they do not "
 "follow the RFC 2231, but uses incorrect RFC 2047 standard."
-msgstr ""
+msgstr "Outlook অথবা GMail-র অনুরূপ মেইল হেডারের মধ্যে ফাইলের নাম এনকোড করা হবে। এর ফলে Evolution দ্বারা RFC 2231-র পরিবর্তে RFC 2047 মান প্রয়োগকারী স্থানীয়করণ অনুযায়ী নির্ধারিত ফাইলের নামগুলি বোধগম্য হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:58
 msgid "Height of the message-list pane"
@@ -13552,7 +13560,7 @@ msgstr ""
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
-msgstr ""
+msgstr "\"মেইল প্রেরণ এবং গ্রহণ করুন\" উইন্ডোর প্রারম্ভিক উচ্চতা। ব্যবহারকারী দ্বারা এই উইন্ডোর উচ্চতা বৃদ্ধি করা হলে এই মান পরিবর্তন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid ""
@@ -13561,38 +13569,38 @@ msgid ""
 "particular value is not used by Evolution since the \"Send and Receive Mail"
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
-msgstr ""
+msgstr "\"মেইল প্রেরণ এবং গ্রহণ করুন\" উইন্ডোর প্রারম্ভিক সর্বাধিক মাপ। ব্যবহারকারী দ্বারা এই উইন্ডোর মাপ বৃড় অথবা ছোট করা হলে এই মান পরিবর্তন করা হবে। উল্লেখ্য, \"মেইল প্রেরণ এবং গ্রহণ করুন\" উইন্ডোটি সর্বাধিক মাপে স্থাপন করা সম্ভব নয় এবং এই কারণে Evolution দ্বারা এই মাপটি ব্যবহার করা হয় না। শুধুমাত্র কার্যকরী বিবরণের জন্য এই কি-টি প্রয়োজন।"
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
-msgstr ""
+msgstr "\"মেইল প্রেরণ এবং গ্রহণ করুন\" উইন্ডোর প্রারম্ভিক প্রস্থ। ব্যবহারকারী দ্বারা এই উইন্ডোর প্রস্থ বৃদ্ধি করা হলে এই মান পরিবর্তন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "It disables/enables the prompt while marking multiple messages."
-msgstr ""
+msgstr "একাধিক বার্তা চিহ্নিত করার সময় প্রম্পট নিষ্ক্রিয়/সক্রিয় করা হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
-msgstr ""
+msgstr "অফ-লাইন মোডে স্থাপনার পূর্বে অফ-লাইন কাজের জন্য নিয়মিত জিজ্ঞাসার প্রদর্শন নিষ্ক্রিয়/সক্রিয় করতে ব্যবহৃত হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
-msgstr ""
+msgstr "অনুসন্ধানের ফোল্ডার থেকে বার্তা মুছে ফেলা হলে সেগুলি শুধুমাত্র অনুসন্ধানের ফলাফল থেকে না সরিয়ে স্থায়ীরূপে বর্জন সম্পর্কে অবিরত সতর্কবার্তা প্রদর্শনের ব্যবস্থা এর দ্বারা সক্রিয়/নিষ্ক্রিয় করা হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Last time empty junk was run"
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তা মুছে ফেলার কর্ম সর্বশেষ চালনার সময়"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "আবর্জনার বাক্স সর্বশেষ যে সময় ফাঁকা করা হয়েছিল"
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid "List of Labels and their associated colors"
@@ -13732,7 +13740,7 @@ msgstr "বিষয়হীন বার্তা প্রেরণ করার
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr ""
+msgstr "ব্যবহারকারী অবিলম্বে অফ-লাইন যেতে ইচ্ছুক কি না জানতে জিজ্ঞাসা করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:104
 msgid "Prompt when deleting messages in search folder"
@@ -13866,7 +13874,7 @@ msgstr "টার্মিন্যালের ফন্ট"
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "Text message part limit"
-msgstr ""
+msgstr "টেক্সট বার্তার অংশে সীমা"
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "The default plugin for Junk hook"
@@ -13874,11 +13882,11 @@ msgstr "অবাঞ্ছিত বার্তা আটক করতে ব�
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তাগুলি যে সময় সর্বশেষ ফাঁকা করা হয়েছিল, জানুয়ারি ১-লা ১৯৭০ থেকে দিন অনুযায়ী গণনা করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "আবর্জনার বাক্স সর্বশেষ ফাঁকা করার সময়কাল, দিন হিসাবে।"
+msgstr "আবর্জনার বাক্স যে সময় সর্বশেষ ফাঁকা করা হয়েছিল, জানুয়ারি ১-লা ১৯৭০ থেকে দিন অনুযায়ী গণনা করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid "The terminal font for mail display."
@@ -13900,20 +13908,20 @@ msgstr ""
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
-msgstr ""
+msgstr "Evolution-র অধীন ফরম্যাট করার যোগ্য টেক্সট অংশের সর্বাধিক মাপ এটি দ্বারা নির্ধারিত হয়। ডিফল্ট মান হল ৪ মেগাবাইট / ৪০৯৬ কিলোবাইট এবং এই ক্ষেত্রে কিলোবাইট অনুযায়ী মান ধার্য হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
-msgstr ""
+msgstr "একাধিক প্লাগ-ইন সক্রিয় করা হলেও অবাঞ্ছিত বার্তার জন্য ডিফল্ট প্লাগ-ইন রূপে এই প্লাগ-ইনটি নির্ধারিত রয়েছে। ডিফল্ট প্লাগ-ইন নিষ্ক্রিয় করা হলে তালিকায় উপস্থিত অন্য কোনো প্লাগ-ইন ব্যবহার করা হবে না।"
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
-msgstr ""
+msgstr "কি-র মান শুধুমাত্র একবার পড়া হয় ও পড়ার পরে \"false\" হিসাবে এটি ধার্য করা হয়। এর ফলে তালিকায় উপস্থিত বার্তাগুলি নির্বাচনমুক্ত করা হয় ও সংশ্লিষ্ট ফোল্ডারের পূর্বরূপ প্রদর্শন বন্ধ করা হয়।"
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid ""
@@ -13935,26 +13943,26 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "This option would help in improving the speed of fetching."
-msgstr ""
+msgstr "মেইল প্রাপ্ত করার গতি এই বিকল্পের ফলে উন্নত হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:149
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr ""
+msgstr "তালিকা অনুসারে প্রদর্শনের জন্য ঠিকানাগুলির সংখ্যা এর দ্বারা নির্ধারিত হয়, এবং এই সংখ্যা অতিক্রান্ত হলে '...' প্রদর্শন করা হবে।"
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
-msgstr ""
+msgstr "ডিফল্টরূপে বার্তার বিষয়ের ধারাগুলি প্রসারিত অথবা সংকুচিত অবস্থায় প্রদর্শনের জন্য এই বৈশিষ্ট্য দ্বারা চিহ্নিত হয়। এই ক্ষেত্রে Evolution পুনরায় আরম্ভ করা আবশ্যক।"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
-msgstr ""
+msgstr "বার্তা প্রাপ্তির তারিখের পরিবর্তে প্রতিটি ধারার সর্বশেষ প্রাপ্ত বার্তা অনুযায়ী ধারাগুলি সুবিন্যাস্ত করা হবে কি না তা এই বৈশিষ্ট্য দ্বারা চিহ্নিত হবে। এই ক্ষেত্রে Evolution পুনরায় আরম্ভ করা আবশ্যক।"
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message list."
@@ -13982,7 +13990,7 @@ msgstr "ডিফল্ট অ্যাকাউন্টের জন্য UID
 
 #: ../mail/evolution-mail.schemas.in.h:158
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr ""
+msgstr "ইন-লাইন বানান পরীক্ষণ ব্যবহারকালে, ভুল বানান চিহ্নিত করার জন্য ব্যবহৃত রং।"
 
 #: ../mail/evolution-mail.schemas.in.h:159
 msgid "Use SpamAssassin daemon and client"
@@ -14010,7 +14018,7 @@ msgstr "শুধুমাত্র স্থানীয় স্প্যাম 
 
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "Use side-by-side or wide layout"
-msgstr ""
+msgstr "পাশা-পাশি অথবা প্রসস্ত বিন্যাস ব্যবহার করা হবে"
 
 #: ../mail/evolution-mail.schemas.in.h:166
 msgid "Variable width font"
@@ -14058,11 +14066,11 @@ msgstr "ভিউ/প্রত্যুত্তর মেনুর বস্ত
 
 #: ../mail/evolution-mail.schemas.in.h:177
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr ""
+msgstr "ডিফল্টরূপে, প্রতিটি বার্তার জন্য স্বয়ংক্রিয়ভাবে বার্তা-পাঠের সূচনার অনুরোধ জানানো হবে কি না।"
 
 #: ../mail/evolution-mail.schemas.in.h:178
 msgid "Whether disable ellipsizing feature of folder names in side bar."
-msgstr ""
+msgstr "সাইড-বারের মধ্যে ফোল্ডারের নামের জন্য ইলিপসিস প্রদর্শনের বৈশিষ্ট্য নিষ্ক্রিয় করা হবে কি না।"
 
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid ""
@@ -14074,7 +14082,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:180
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "ধারার মধ্যে সর্বশেষ প্রাপ্ত বার্তা অনুযায়ী ধারাগুলির ক্রমবিন্যাস করা হবে কি না"
 
 #: ../mail/evolution-mail.schemas.in.h:181
 msgid "Width of the message-list pane"
@@ -14275,7 +14283,7 @@ msgstr "<b>স্বাক্ষর (_n)</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr ""
+msgstr "<b>টপ-পোস্টিংয়ের বিকল্প</b> (প্রস্তাবিত নয়)"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<b>_Languages</b>"
@@ -14500,11 +14508,11 @@ msgstr "বাহিরগামী বার্তা ডিজিট্যা�
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not format messages when text si_ze exceeds"
-msgstr ""
+msgstr "টেক্সটের মাপ চিহ্নিত মাপের চেয়ে বেশি হলে বার্তা ফরম্যাট করা হবে না (_z)"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr ""
+msgstr "বার্তার প্রেরকের তথ্য ঠিকানা বইয়ের মধ্যে উপস্থিত থাকলে তাদের থেলে প্রাপ্ত বার্তাগুলি অবাঞ্ছিত বার্তা রূপে চিহ্নিত হবে না (_k)"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Do not quote"
@@ -14588,7 +14596,7 @@ msgstr "ইনলাইন"
 
 #: ../mail/mail-config.glade.h:97
 msgid "Inline (Outlook style)"
-msgstr ""
+msgstr "ইন-লাইন (Outlook-র বিন্যাস)"
 
 #: ../mail/mail-config.glade.h:99
 msgid "KB"
@@ -14620,7 +14628,7 @@ msgstr "বার্তা কম্পোসার"
 
 #: ../mail/mail-config.glade.h:107
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "এর জন্য কোনো প্রক্সি চিহ্নিত হয়নি: (_P)"
 
 #: ../mail/mail-config.glade.h:108
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -14634,7 +14642,7 @@ msgstr "উল্লেখ্য: প্রথমবার সংযোগ ন�
 
 #: ../mail/mail-config.glade.h:110
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr ""
+msgstr "অবাঞ্ছিত বার্তার স্বনির্ধারিত হেডারের সাথে মিল পাওয়া গেলে এই বিকল্পটি উপেক্ষা করা হবে।"
 
 #: ../mail/mail-config.glade.h:111
 msgid "Or_ganization:"
@@ -14785,7 +14793,7 @@ msgstr "বানান পরীক্ষণ"
 
 #: ../mail/mail-config.glade.h:149
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "উত্তর লেখার সময় নীচের অংশে টাইপ আরম্ভ করা হবে (_t)"
 
 #: ../mail/mail-config.glade.h:150
 msgid "T_ype: "
@@ -15595,7 +15603,7 @@ msgstr "নিষ্ক্রিয় করা হবে"
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
-msgstr ""
+msgstr "অফ-লাইন ব্যবহারের জন্য চিহ্নিত ফোল্ডারগুলি কি স্থানীয়ভাবে সুসংগত করা হবে?"
 
 #: ../mail/mail.error.xml.h:53
 msgid "Do you want to mark all messages as read?"
@@ -15915,6 +15923,9 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
+"সতর্কবার্তা: অনুসন্ধানের ফোল্ডার থেকে বার্তা মুছে ফেলা হলে আপনার স্থানীয় অথবা দূরবর্তী একটি "
+"ফোল্ডার থেকে সংশ্লিষ্ট মূল বার্তাটি মুছে যাবে।\n"
+"আপনি কি নিশ্চিতরূপে এগিয়ে যেতে ইচ্ছুক?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -16091,7 +16102,7 @@ msgstr "ফোন করুন"
 
 #: ../mail/message-tag-followup.c:56
 msgid "Do Not Forward"
-msgstr "ফরওয়ার্ড করবে না"
+msgstr "অনুবর্তন করা হবে না"
 
 #: ../mail/message-tag-followup.c:57
 msgid "Follow-Up"
@@ -16161,13 +16172,13 @@ msgstr "স্থানীয় ঠিকানাবইয়ের জন্য ম
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
-msgstr ""
+msgstr "সংযুক্ত বস্তুর তাগাদা সম্বন্ধীয় প্লাগ-ইন দ্বারা বার্তার মূল অংশে অনুসন্ধানের জন্য ব্যবহারযোগ্য সূত্র"
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
-msgstr ""
+msgstr "সংযুক্ত বস্তুর তাগাদা সম্বন্ধীয় প্লাগ-ইন দ্বারা বার্তার মূল অংশে অনুসন্ধানের জন্য ব্যবহারযোগ্য সূত্র।"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 #: ../plugins/templates/templates.c:390
@@ -16177,19 +16188,19 @@ msgstr "প্রাসঙ্গিক-শব্দ"
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
 msgid "Attachment Reminder"
-msgstr ""
+msgstr "সংযুক্ত বস্তু সম্বন্ধীয় তাগাদা"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
-msgstr ""
+msgstr "বার্তার মধ্যে সংযুক্ত বস্তু সম্পর্কে তথ্যের সূত্র অনুসন্ধান করা হবে ও বস্তুটি অনুপস্থিত থাকলে সতর্কবার্তা প্রদর্শন করা হবে"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
-msgstr ""
+msgstr "Evolution দ্বারা বার্তার মধ্যে প্রাপ্ত কিছু শব্দের ফলে জানা গিয়েছে যে এই বার্তার সাথে একটি বস্তু সংযুক্ত থাকা আবশ্যক, কিন্তু বর্তমানে এটি উপস্থিত নেই।"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "Message has no attachments"
@@ -16237,6 +16248,9 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
+"ব্যাক-আপ থেকে Evolution পুনরুদ্ধার করা যাবে।  সকল বার্তা, বর্ষপঞ্জি, কর্ম, মেমো ও "
+"পরিচিতি সংক্রান্ত তথ্য পুনরায় পাওয়া যাবে। \n"
+"আপনার ব্যক্তিগত ব্যবহারের বৈশিষ্ট্য, মেইল ফিল্টার ইত্যাদিও পুনরায় স্থাপন করা যাবে।"
 
 #: ../plugins/backup-restore/backup-restore.c:295
 msgid "_Restore Evolution from the backup file"
@@ -16496,7 +16510,7 @@ msgstr "বার্তার বিষয়বস্তু Unicode-এ রূপ�
 msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
-msgstr ""
+msgstr "ভিন্ন ক্যারেক্টার-সেট প্রয়োগকারী স্প্যাম/হ্যাম টোকেনগুলিকে একত্রিত করার জন্য সকল বার্তাগুলি Unicode UTF-8-এ রূপান্তর করা হবে।"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 msgid "Bogofilter Options"
@@ -16731,6 +16745,8 @@ msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
+"স্বনির্ধারিত হেডারের কি-র মান নির্ধারণের বিন্যাস হল:\n"
+"\";\" চিহ্ন দ্বারা বিভাজিত স্বনির্ধারিত হেডার কি মানের নাম।"
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
@@ -16754,7 +16770,7 @@ msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
-msgstr ""
+msgstr "পাঠানোর জন্য প্রস্তুত বার্তার মধ্যে যোগ করার জন্য উপলব্ধ স্বনির্ধারিত হেডারের তালিকা এই কি দ্বারা চিহ্নিত করা হয়। হেডার ও হেডারের মান নির্ধারণের বিন্যাস হল: স্বনির্ধারিত হেডারের নাম \"=\" ও মান ও দুটি জুটির মধ্যে \";\" চিহ্ন সহযোগে বিভাজন করা হবে"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -16900,6 +16916,8 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
+"Evolution বর্তমানে অফ-লাইন মোডে চলছে এবং এই মুহূর্তে কোনো ফোল্ডার নির্মাণ অথবা পরিবর্তন করা যাবে না।\n"
+"অনুগ্রহ করে এই ধরনে কাজ করার জন্য অন-লাইন মোডে পরিবর্তন করুন।"
 
 #. User entered a wrong existing
 #. * password. Prompt him again.
@@ -16975,7 +16993,7 @@ msgstr "%s-র জন্য নির্ধারিত অনুমতি"
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
-msgstr ""
+msgstr "আপনি একজন প্রতিনিধি রূপে চিহ্নিত হয়েছেন এবং এই সীচনা প্রদানের উদ্দেশ্যে Evolution দ্বারা স্বয়ংক্রিয়ভাবে এই বার্তা পাঠানো হয়েছে। আমার প্রতিনিধি রূপে আপনি এখন বার্তা পাঠাতে পারবেন।"
 
 #. To translators: Another chunk of the same message.
 #.
@@ -16988,19 +17006,19 @@ msgstr "আমার ফোল্ডার ব্যবহারকালে ন
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:366
 msgid "You are also permitted to see my private items."
-msgstr ""
+msgstr "আমার ব্যক্তিগত সামগ্রগুলিও আপনার জন্য প্রদর্শিত হবে।"
 
 #. To translators: This message is included if the delegatee has not been given access
 #. to the private items.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:373
 msgid "However you are not permitted to see my private items."
-msgstr ""
+msgstr "কিন্তু, আমার ব্যক্তিগত সামগ্রীগুলি আপনার প্রদর্শনের জন্য উপলব্ধ করা হবে না।"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:405
 #, c-format
 msgid "You have been designated as a delegate for %s"
-msgstr ""
+msgstr "আপনাকে %s-র প্রতিনিধি রূপে চিহ্নিত করা হয়েছে"
 
 # FIXME
 #: ../plugins/exchange-operations/exchange-delegates.c:417
@@ -17271,7 +17289,7 @@ msgstr "<b>বার্তা সংক্রান্ত বৈশিষ্ট�
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
 msgid "<b>Tracking Options</b>"
-msgstr ""
+msgstr "<b>অনুসরণের বিকল্প</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
 msgid "Exchange - Send Options"
@@ -17305,11 +17323,11 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
-msgstr ""
+msgstr "এই বার্তাটি প্রাপ্তির সংবাদ জানানোর অনুরোধ করুন (_d)"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:13
 msgid "Request a _read receipt for this message"
-msgstr ""
+msgstr "এই বার্তা পাঠের সংবাদ জানানোর অনুরোধ করুন (_r)"
 
 # FIXME
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:14
@@ -17344,7 +17362,7 @@ msgstr "অন্যান্য ব্যবহারকারীর বর্�
 msgid ""
 "A plugin that manages a collection of Exchange account specific operations "
 "and features."
-msgstr ""
+msgstr "Exchange অ্যাকাউন্ট সংক্রান্ত সুনির্দিষ্ট কর্ম ও বৈশিষ্ট্যের সংকলন পরিচালনার একটি প্লাগ-ইন।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -17352,7 +17370,7 @@ msgstr "Exchange সংক্রান্ত কর্ম"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot access the \"Exchange settings\" tab in offline mode."
-msgstr ""
+msgstr "অফ-লাইন মোডে \"Exchange সংক্রান্ত বৈশিষ্ট্য\" ট্যাবটি ব্যবহার করতে ব্যর্থ।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot change password due to configuration problems."
@@ -17438,7 +17456,7 @@ msgstr "অফিসে-অনুপস্থিত অবস্থা আপড
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr ""
+msgstr "সাবস্ক্রাইব করা ব্যবহারকারীর মেইল বাক্স লোড করার জন্য Evolution পুনরায় আরম্ভ করা আবশ্যক"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:23
 msgid "Exchange Account is offline."
@@ -17527,7 +17545,7 @@ msgstr "পাসওয়ার্ড সাফল্যের সাথে পর
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "Please enter a Delegate's ID or deselect the Send as a Delegate option."
-msgstr ""
+msgstr "অনুগ্রহ করে প্রতিনিধির ID লিখুন অথবা 'প্রতিনিধি রূপে প্রেরণ করুন' বিকল্পটির নির্বাচন বাতিল করুন।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 msgid "Please make sure the Global Catalog Server name is correct."
@@ -17611,7 +17629,7 @@ msgstr "এই সার্ভারে মেইল সংরক্ষণের
 msgid ""
 "You are permitted to send a message on behalf of only one delegator at a "
 "time."
-msgstr ""
+msgstr "আপনি প্রতিবার শুধুমাত্র একজন বণ্টনকারীর প্রতিনিধি রূপে একটি বার্তা পাঠাতে পারবেন।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:76
 msgid "You cannot make yourself your own delegate"
@@ -17679,13 +17697,13 @@ msgstr "ডিফল্ট স্বত্বন্ত্র সম্পাদ�
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "এডিটর রূপে ব্যবহারযোগ্য ডিফল্ট কমান্ড।"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
-msgstr ""
+msgstr "বার্তা রচনার জন্য একটি বহিস্থিত এডিটর ব্যবহারের একটি প্লাগ-ইন। শুধুমাত্র প্লেইন-টেক্সট বার্তা পাঠানো যাবে।"
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17704,13 +17722,13 @@ msgstr "এডিটর আরম্ভ করা সম্ভব নয়"
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
-msgstr ""
+msgstr "আপনার বার্তা সংরক্ষণের জন্য Evolution দ্বারা একটি অস্থায়ী ফাইল নির্মাণ করা সম্ভব হয়নি। অনুগ্রহ করে কিছুক্ষণ পরে পুনরায় প্রচেষ্টা করুন।"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr ""
+msgstr "প্লাগ-ইন সংক্রান্ত পছন্দগুলির মধ্যে নির্ধারিত বহিস্থিত এডিটরটি আরম্ভ করা যায়নি। অনুগ্রহ করে একটি ভিন্ন এডিটর ব্যবহার করুন।"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in _External Editor"
@@ -17881,21 +17899,21 @@ msgstr "অনাকাঙ্ক্ষিত বস্তুর তালিক�
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message Retract"
-msgstr ""
+msgstr "বার্তা প্রত্যাহার"
 
 #: ../plugins/groupwise-features/mail-retract.c:58
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
-msgstr ""
+msgstr "বার্তা প্রত্যাহার করা হলে, প্রাপকের মেইল-বাক্স থেকে তা অপসারিত হওয়ার সম্ভাবনা রয়েছে।  আপনি কি এগিয়ে যেতে ইচ্ছুক?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
-msgstr ""
+msgstr "সাফল্যের সাথে বার্তাটি প্রত্যাহার করা হয়েছে"
 
 #: ../plugins/groupwise-features/mail-retract.c:87
 msgid "Retract Mail"
-msgstr ""
+msgstr "বার্তা প্রত্যাহার করুন"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to GroupWise messages"
@@ -17911,11 +17929,11 @@ msgstr "Groupwise সংক্রান্ত বৈশিষ্ট্য"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
 msgid "Message retract failed"
-msgstr ""
+msgstr "বার্তা প্রত্যাহার করতে ব্যর্থ"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:2
 msgid "The server did not allow the selected message to be retracted."
-msgstr ""
+msgstr "সার্ভার দ্বারা নির্বাচিত বার্তাটি প্রত্যাহারের অনুমতি প্রদান করা হয়নি।"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
@@ -17941,7 +17959,7 @@ msgstr "চিহ্নিত ব্যবহারকারীর জন্য 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr ""
+msgstr "প্রক্সির অধিকার জ্ঞাপন করার উদ্দেশ্যে বৈধ ব্যবহারকারীর নাম উল্লেখ করা আবশ্যক।"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -17957,7 +17975,7 @@ msgstr "অ্যাকাউন্ট বর্তমানে উপস্থ�
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
-msgstr ""
+msgstr "&quot;{0}&quot; পরিচয়ে প্রক্সি লগ-ইন করতে ব্যর্থ। অনুগ্রহ করে ই-মেইল ঠিকানা পরীক্ষা করে পুনরায় প্রচেষ্টা করুন।"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -18218,7 +18236,7 @@ msgstr "<b>IMAP হেডার</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr ""
+msgstr "মৌলিক ও মেইলিং-লিস্টের হেডার (ডিফল্ট মান) (_M)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -18230,18 +18248,25 @@ msgid ""
 "standard headers. \n"
 "You can ignore this if you choose \"All Headers\"."
 msgstr ""
+"উপরে উল্লিখিত সাধারণ হেডারগুলি ব্যতীত মেইল প্রাপ্ত করার জন্য প্রয়োজনীয় অতিরিক্ত "
+"হেডারগুলি উল্লেখ করুন। \n"
+"\"সকল হেডার\" নির্বাচন করা হলে এটি উপেক্ষা করা হবে।"
 
 #: ../plugins/imap-features/imap-headers.glade.h:7
 msgid ""
 "Select your IMAP Header Preferences. \n"
 "The more headers you have the more time it will take to download."
 msgstr ""
+"IMAP হেডার সংক্রান্ত পছন্দগুলি নির্বাচন করুন। \n"
+"হেডারের সংখ্যা বেশি হলে, ডাউনলোড করার সময় বেশি ব্যয় হবে।"
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
+"মৌলিক হেডার (সবচেয়ে দ্রুত) (_B) \n"
+"মেইলিং-লিস্টের উপর ভিত্তি করে ফিল্টার নির্মিত না হলে এটি প্রয়োগ করুন"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
@@ -18287,13 +18312,13 @@ msgstr "বর্ষপঞ্জির মধ্যে ICS-র সংযুক�
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:49
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "হার্ডওয়্যার অ্যাবস্ট্রেকশন লেয়ার (HAL) লোড করা হয়নি"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:50
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
-msgstr ""
+msgstr "আবশ্যক \"hald\" পরিসেবা বর্তমানে চলছে না। অনুগ্রহ করে এই পরিসেবাটি আরম্ভ করে এই প্রোগ্রাম পুনরায় সঞ্চালন করুন অথবা আপনার সিস্টেম অ্যাডমিনিস্ট্রেটরের সাথে যোগাযোগ করুন।"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:83
 msgid "Search for an iPod failed"
@@ -18303,7 +18328,7 @@ msgstr "iPod অনুসন্ধান ব্যর্থ"
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
-msgstr ""
+msgstr "তথ্য সুসংগত করার উদ্দেশ্যে Evolution দ্বারা কোনো iPod সনাক্ত করা সম্ভব হয়নি। সম্ভবত iPod-টি সিস্টেমের সাথে সংযুক্ত নয় অথবা সেটি চালু করা হয়নি।"
 
 #: ../plugins/ipod-sync/ical-format.c:119
 #: ../plugins/save-calendar/ical-format.c:164
@@ -18962,7 +18987,7 @@ msgstr "মুক্ত হিসাবে সময় প্রদর্শন �
 
 #: ../plugins/itip-formatter/itip-view.c:1152
 msgid "_Preserve my reminder"
-msgstr ""
+msgstr "আমার তাগাদাটি সংরক্ষণ করা হবে (_P)"
 
 #. To Translators: This is a check box to inherit a reminder.
 #: ../plugins/itip-formatter/itip-view.c:1158
@@ -19021,7 +19046,7 @@ msgstr "বিপ শব্দ করা হবে অথবা শব্দে�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "সূচনাপ্রদানের অংশে আইকন ঝলকানো হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
@@ -21672,7 +21697,7 @@ msgstr "সাবস্ক্রিপশন...(_S)"
 
 #: ../ui/evolution-mail-global.xml.h:33
 msgid "_Vertical View"
-msgstr "উলম্ব দিয়ায় প্রদর্শন (_V)"
+msgstr "উলম্ব দিশায় প্রদর্শন (_V)"
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the name of this folder"
