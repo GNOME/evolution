@@ -149,6 +149,8 @@ void		e_mail_shell_view_private_finalize
 
 void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_restore_state
+					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_execute_search
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_create_filter_from_selected

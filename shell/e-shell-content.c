@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-binding.h"
+#include "e-util/e-util.h"
 #include "filter/rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
@@ -35,6 +36,10 @@
 #define E_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_CONTENT, EShellContentPrivate))
+
+#define STATE_KEY_SEARCH_FILTER		"SearchFilter"
+#define STATE_KEY_SEARCH_SCOPE		"SearchScope"
+#define STATE_KEY_SEARCH_TEXT		"SearchText"
 
 struct _EShellContentPrivate {
 
@@ -55,8 +60,6 @@ struct _EShellContentPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *scope_label;
 	GtkWidget *scope_combo_box;
-
-	GtkStateType search_state;
 };
 
 enum {
@@ -138,7 +141,10 @@ action_search_execute_cb (GtkAction *action,
 	/* Direct the focus away from the search entry, so that a
 	 * focus-in event is required before the text can be changed.
 	 * This will reset the entry to the appropriate visual state. */
-	gtk_widget_grab_focus (gtk_bin_get_child (GTK_BIN (shell_content)));
+	widget = gtk_bin_get_child (GTK_BIN (shell_content));
+	if (GTK_IS_PANED (widget))
+		widget = gtk_paned_get_child1 (GTK_PANED (widget));
+	gtk_widget_grab_focus (widget);
 }
 
 static void
@@ -897,7 +903,6 @@ shell_content_init (EShellContent *shell_content)
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	shell_content->priv->search_entry = g_object_ref (widget);
-	shell_content->priv->search_state = GTK_STATE_NORMAL;
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
@@ -1485,4 +1490,70 @@ run:
 exit:
 	g_object_unref (rule);
 	gtk_widget_destroy (dialog);
+}
+
+void
+e_shell_content_restore_state (EShellContent *shell_content,
+                               const gchar *group_name)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GKeyFile *key_file;
+	GtkAction *action;
+	GtkWidget *widget;
+	const gchar *key;
+	gchar *string;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+	g_return_if_fail (group_name != NULL);
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	/* Changing the combo boxes triggers searches, so block
+	 * the search action until the state is fully restored. */
+	action = e_shell_window_get_action (shell_window, "search-execute");
+	gtk_action_block_activate (action);
+
+	key = STATE_KEY_SEARCH_FILTER;
+	string = g_key_file_get_string (key_file, group_name, key, NULL);
+	if (string != NULL && *string != '\0')
+		action = e_shell_window_get_action (shell_window, string);
+	else
+		action = NULL;
+	if (action != NULL)
+		gtk_action_activate (action);
+	else {
+		/* Pick the first combo box item. */
+		widget = shell_content->priv->filter_combo_box;
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+	}
+	g_free (string);
+
+	key = STATE_KEY_SEARCH_SCOPE;
+	string = g_key_file_get_string (key_file, group_name, key, NULL);
+	if (string != NULL && *string != '\0')
+		action = e_shell_window_get_action (shell_window, string);
+	else
+		action = NULL;
+	if (action != NULL)
+		gtk_action_activate (action);
+	else {
+		/* Pick the first combo box item. */
+		widget = shell_content->priv->scope_combo_box;
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+	}
+	g_free (string);
+
+	key = STATE_KEY_SEARCH_TEXT;
+	string = g_key_file_get_string (key_file, group_name, key, NULL);
+	e_shell_content_set_search_text (shell_content, string);
+	g_free (string);
+
+	action = e_shell_window_get_action (shell_window, "search-execute");
+	gtk_action_unblock_activate (action);
+
+	/* Now execute the search. */
+	gtk_action_activate (action);
 }

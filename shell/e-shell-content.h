@@ -140,6 +140,8 @@ void		e_shell_content_run_edit_searches_dialog
 						(EShellContent *shell_content);
 void		e_shell_content_run_save_search_dialog
 						(EShellContent *shell_content);
+void		e_shell_content_restore_state	(EShellContent *shell_content,
+						 const gchar *group_name);
 
 G_END_DECLS
 

@@ -30,27 +30,23 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          guint32 flags,
                                          EMFolderTree *folder_tree)
 {
+	EShellView *shell_view;
 	EMailReader *reader;
 	gboolean folder_selected;
 
+	shell_view = E_SHELL_VIEW (mail_shell_view);
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 
 	folder_selected =
 		!(flags & CAMEL_FOLDER_NOSELECT) &&
 		full_name != NULL;
 
-	if (folder_selected) {
-		EMFolderTreeModel *model;
-
-		model = em_folder_tree_get_model (folder_tree);
-		em_folder_tree_model_set_selected (model, uri);
-		em_folder_tree_model_save_state (model);
-
+	if (folder_selected)
 		e_mail_reader_set_folder_uri (reader, uri);
-	} else
+	else
 		e_mail_reader_set_folder (reader, NULL, NULL);
 
-	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
+	e_shell_view_update_actions (shell_view);
 }
 
 static void
@@ -122,7 +118,8 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
 }
 
 static void
-mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view)
+mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
+                                   EMailReader *reader)
 {
 	EMailShellContent *mail_shell_content;
 
@@ -218,7 +215,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFormatHTMLDisplay *html_display;
-	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
 	RuleContext *context;
 	FilterRule *rule = NULL;
@@ -229,7 +225,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	GtkHTML *html;
 	const gchar *source;
 	guint merge_id;
-	gchar *uri;
 	gint ii = 0;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -298,6 +293,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	g_signal_connect_swapped (
+		reader, "folder-loaded",
+		G_CALLBACK (e_mail_shell_view_restore_state),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
 		tree_model, "row-changed",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view);
@@ -336,24 +336,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		priv->search_rules[ii++] = g_object_ref (rule);
 	}
 	g_assert (ii == MAIL_NUM_SEARCH_RULES);
-
-	/* Restore the previously selected folder. */
-	folder_tree_model = em_folder_tree_get_model (folder_tree);
-	uri = em_folder_tree_model_get_selected (folder_tree_model);
-	if (uri != NULL) {
-		gboolean expanded;
-
-		expanded = em_folder_tree_model_get_expanded_uri (
-			folder_tree_model, uri);
-		em_folder_tree_set_selected (folder_tree, uri, FALSE);
-		e_mail_reader_set_folder_uri (reader, uri);
-
-		if (!expanded)
-			em_folder_tree_model_set_expanded_uri (
-				folder_tree_model, uri, expanded);
-
-		g_free (uri);
-	}
 }
 
 void
@@ -374,6 +356,33 @@ void
 e_mail_shell_view_private_finalize (EMailShellView *mail_shell_view)
 {
 	/* XXX Nothing to do? */
+}
+
+void
+e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EMailReader *reader;
+	MessageList *message_list;
+	const gchar *folder_uri;
+	gchar *group_name;
+
+	/* XXX Move this to EMailShellContent. */
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+	g_return_if_fail (folder_uri != NULL);
+
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+	e_shell_content_restore_state (shell_content, group_name);
+	g_free (group_name);
 }
 
 void
@@ -538,7 +547,7 @@ filter:
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-received-date) "
-					"(- (get_current_date) 86400))))",
+					"(- (get-current-date) 86400))))",
 					query);
 			g_free (query);
 			query = temp;
@@ -555,7 +564,7 @@ filter:
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-received-date) "
-					"(- (get_current_date) 432000))))",
+					"(- (get-current-date) 432000))))",
 					query);
 			g_free (query);
 			query = temp;

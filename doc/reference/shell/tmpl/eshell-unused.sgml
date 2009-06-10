@@ -525,6 +525,22 @@ intelligent
 @shutdown: 
 @migrate: 
 
+<!-- ##### SIGNAL EShellView::capture-state ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShellView::restore-state ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+@arg1: 
+
 <!-- ##### ARG EShellView:shell-module ##### -->
 <para>
 

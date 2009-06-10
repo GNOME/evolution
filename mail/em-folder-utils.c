@@ -355,17 +355,24 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 /* FIXME: this interface references the folderinfo without copying it  */
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, gint delete)
+em_folder_utils_copy_folder (EMFolderTreeModel *model,
+                             CamelFolderInfo *folderinfo,
+                             gint delete)
 {
 	struct _copy_folder_data *cfd;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (folderinfo != NULL);
 
 	cfd = g_malloc (sizeof (*cfd));
 	cfd->fi = folderinfo;
 	cfd->delete = delete;
 
-	em_select_folder (NULL, _("Select folder"), delete?_("_Move"):_("C_opy"),
-			  NULL, emfu_copy_folder_exclude,
-			  emfu_copy_folder_selected, cfd);
+	em_select_folder (
+		model, _("Select folder"),
+		delete ? _("_Move") : _("C_opy"),
+		NULL, emfu_copy_folder_exclude,
+		emfu_copy_folder_selected, cfd);
 }
 
 static void
@@ -696,6 +703,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 
 	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	em_folder_tree_clone_expanded (folder_tree);
 
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)

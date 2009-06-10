@@ -24,22 +24,18 @@
 #ifndef EM_FOLDER_SELECTION_H
 #define EM_FOLDER_SELECTION_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <mail/em-folder-tree-model.h>
 
-#include "em-folder-tree.h"
+G_BEGIN_DECLS
 
-struct _GtkWindow;
+void		em_select_folder		(EMFolderTreeModel *model,
+						 const gchar *title,
+						 const gchar *oklabel,
+						 const gchar *default_uri,
+						 EMFTExcludeFunc exclude,
+						 void (*done)(const gchar *uri, gpointer data),
+						 gpointer data);
 
-void em_select_folder (struct _GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
-		       EMFTExcludeFunc exclude,
-		       void (*done)(const gchar *uri, gpointer data),
-		       gpointer data);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_FOLDER_SELECTION_H */

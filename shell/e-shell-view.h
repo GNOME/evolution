@@ -171,6 +171,8 @@ EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
 EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
+GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
+void		e_shell_view_set_state_dirty	(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,

@@ -62,7 +62,13 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          ETaskShellView *task_shell_view)
 {
-	e_task_shell_view_execute_search (task_shell_view);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
 }
 
 static void

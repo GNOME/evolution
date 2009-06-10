@@ -57,6 +57,8 @@ gint		e_action_compare_by_label	(GtkAction *action1,
 						 GtkAction *action2);
 void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
+GtkRadioAction *e_radio_action_get_current_action
+						(GtkRadioAction *radio_action);
 
 gchar *		e_str_without_underscores	(const gchar *s);
 gint		e_str_compare			(gconstpointer x,

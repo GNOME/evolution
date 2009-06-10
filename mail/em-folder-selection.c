@@ -33,53 +33,48 @@
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 
-#include "e-mail-shell-backend.h"
-
 /* TODO: rmeove this file, it could just go on em-folder-selection or em-utils */
 
-struct _select_folder_data {
-	void (*done) (const gchar *uri, gpointer data);
-	gpointer data;
-};
-
-static void
-emfs_selector_response(EMFolderSelector *emfs, gint response, struct _select_folder_data *d)
-{
-	if (response == GTK_RESPONSE_OK) {
-		const gchar *uri = em_folder_selector_get_selected_uri(emfs);
-
-		d->done(uri, d->data);
-	}
-
-	gtk_widget_destroy((GtkWidget *)emfs);
-}
-
 void
-em_select_folder (GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
-		  EMFTExcludeFunc exclude,
-		  void (*done) (const gchar *uri, gpointer user_data), gpointer user_data)
+em_select_folder (EMFolderTreeModel *model,
+                  const gchar *title,
+                  const gchar *oklabel,
+                  const gchar *default_uri,
+                  EMFTExcludeFunc exclude,
+                  void (*done) (const gchar *uri, gpointer user_data),
+                  gpointer user_data)
 {
-	struct _select_folder_data *d;
-	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 	EMFolderTree *emft;
 
-	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (done != NULL);
+
+	/* XXX Do we leak this reference? */
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	em_folder_tree_clone_expanded (emft);
+
 	if (exclude)
-		em_folder_tree_set_excluded_func(emft, exclude, user_data);
+		em_folder_tree_set_excluded_func (emft, exclude, user_data);
 	else
-		em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
+		em_folder_tree_set_excluded (
+			emft, EMFT_EXCLUDE_NOSELECT |
+			EMFT_EXCLUDE_VIRTUAL | EMFT_EXCLUDE_VTRASH);
 
-	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL, oklabel);
+	dialog = em_folder_selector_new (
+		emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL, oklabel);
 
-	d = g_malloc0(sizeof(*d));
-	d->data = user_data;
-	d->done = done;
-	g_signal_connect(dialog, "response", G_CALLBACK (emfs_selector_response), d);
-	g_object_set_data_full((GObject *)dialog, "e-select-data", d, (GDestroyNotify)g_free);
-	gtk_widget_show(dialog);
+	if (default_uri != NULL)
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog), default_uri);
 
-	if (default_uri)
-		em_folder_selector_set_selected((EMFolderSelector *)dialog, default_uri);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		const gchar *uri;
+
+		uri = em_folder_selector_get_selected_uri (
+			EM_FOLDER_SELECTOR (dialog));
+		done (uri, user_data);
+	}
+
+	gtk_widget_destroy (dialog);
 }

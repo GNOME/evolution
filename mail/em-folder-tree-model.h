@@ -24,7 +24,6 @@
 #define EM_FOLDER_TREE_MODEL_H
 
 #include <gtk/gtk.h>
-#include <libxml/tree.h>
 #include <camel/camel-store.h>
 #include <libedataserver/e-account-list.h>
 #include <mail/e-mail-shell-backend.h>
@@ -64,6 +63,7 @@ enum {
 	COL_UINT_UNREAD,          /* unread count */
 	COL_UINT_FLAGS,		/* FolderInfo.flags */
 
+	COL_BOOL_EXPANDED,        /* node is expanded in sidebar */
 	COL_BOOL_IS_STORE,        /* toplevel store node? */
 	COL_BOOL_IS_FOLDER,       /* folder (not a store) */
 	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
@@ -93,9 +93,6 @@ struct _EMFolderTreeModel {
 	GtkTreeStore parent;
 	EMFolderTreeModelPrivate *priv;
 
-	gchar *filename;            /* state filename */
-	xmlDocPtr state;           /* saved expanded state from previous session */
-
 	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
 	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
 
@@ -120,9 +117,6 @@ struct _EMFolderTreeModelClass {
 	void     (* folder_added)       (EMFolderTreeModel *model,
 					 const gchar *path,
 					 const gchar *uri);
-
-	void     (* store_added)        (EMFolderTreeModel *model,
-					 const gchar *uri);
 };
 
 
@@ -141,20 +135,6 @@ void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store
 void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
 void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
 					  GtkTreeIter *toplevel);
-
-gchar *em_folder_tree_model_get_selected (EMFolderTreeModel *model);
-void em_folder_tree_model_set_selected (EMFolderTreeModel *model, const gchar *uri);
-
-gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const gchar *key);
-void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const gchar *key, gboolean expanded);
-
-gboolean em_folder_tree_model_get_expanded_uri (EMFolderTreeModel *model, const gchar *uri);
-void em_folder_tree_model_set_expanded_uri (EMFolderTreeModel *model, const gchar *uri, gboolean expanded);
-
-void em_folder_tree_model_save_state (EMFolderTreeModel *model);
-
-typedef void (* EMFTModelExpandFunc) (EMFolderTreeModel *model, const gchar *path, gpointer user_data);
-void em_folder_tree_model_expand_foreach (EMFolderTreeModel *model, EMFTModelExpandFunc func, gpointer user_data);
 
 void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const gchar *path, gint unread);
 gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const gchar *full);

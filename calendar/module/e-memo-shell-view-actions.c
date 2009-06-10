@@ -548,7 +548,13 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          EMemoShellView *memo_shell_view)
 {
-	e_memo_shell_view_execute_search (memo_shell_view);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
 }
 
 static GtkActionEntry memo_entries[] = {

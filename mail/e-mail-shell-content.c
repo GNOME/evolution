@@ -44,6 +44,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
 
+#define STATE_KEY_SCROLLBAR_POSITION	"ScrollbarPosition"
+#define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
+
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *message_list;
@@ -51,8 +54,6 @@ struct _EMailShellContentPrivate {
 
 	EMFormatHTMLDisplay *html_display;
 	GalViewInstance *view_instance;
-
-	gchar *selected_uid;
 
 	/* ETable scrolling hack */
 	gdouble default_scrollbar_position;
@@ -97,52 +98,78 @@ static void
 mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_content,
                                              MessageList *message_list)
 {
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
 	const gchar *key;
+	gchar *group_name;
 	gdouble position;
-	gchar *value;
 
 	/* Save the scrollbar position for the current folder. */
 
-	if (message_list->folder == NULL)
+	folder_uri = message_list->folder_uri;
+
+	if (folder_uri == NULL)
 		return;
 
-	key = "evolution:list_scroll_position";
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	key = STATE_KEY_SCROLLBAR_POSITION;
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
 	position = message_list_get_scrollbar_position (message_list);
-	value = g_strdup_printf ("%f", position);
 
-	if (camel_object_meta_set (message_list->folder, key, value))
-		camel_object_state_write (message_list->folder);
+	g_key_file_set_double (key_file, group_name, key, position);
+	e_shell_view_set_state_dirty (shell_view);
 
-	g_free (value);
+	g_free (group_name);
 }
 
 static gboolean
 mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
 {
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
+	EShellContent *shell_content;
+	EShellView *shell_view;
 	MessageList *message_list;
 	EMailReader *reader;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
 	const gchar *key;
-	gdouble position;
-	gchar *value;
+	gchar *group_name;
 
 	/* Initialize the scrollbar position for the current folder
 	 * and setup a callback to handle scrollbar position changes. */
 
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
 	reader = E_MAIL_READER (mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	position = priv->default_scrollbar_position;
+	folder_uri = message_list->folder_uri;
 
-	key = "evolution:list_scroll_position";
-	value = camel_object_meta_get (message_list->folder, key);
+	if (folder_uri == NULL)
+		goto skip;
 
-	if (value != NULL) {
-		position = strtod (value, NULL);
-		g_free (value);
+	/* Restore the message list scrollbar position. */
+
+	key = STATE_KEY_SCROLLBAR_POSITION;
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+	if (g_key_file_has_key (key_file, group_name, key, NULL)) {
+		gdouble position;
+
+		position = g_key_file_get_double (
+			key_file, group_name, key, NULL);
+		message_list_set_scrollbar_position (message_list, position);
 	}
 
-	message_list_set_scrollbar_position (message_list, position);
+	g_free (group_name);
 
+skip:
 	priv->message_list_scrolled_id = g_signal_connect_swapped (
 		message_list, "message-list-scrolled",
 		G_CALLBACK (mail_shell_content_message_list_scrolled_cb),
@@ -158,36 +185,58 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
                                           MessageList *message_list)
 {
 	EMailShellContentPrivate *priv = mail_shell_content->priv;
+	EShellContent *shell_content;
+	EShellView *shell_view;
 	GtkScrolledWindow *scrolled_window;
 	GtkWidget *vscrollbar;
-	gdouble position = 0.0;
+	GKeyFile *key_file;
+	gchar *uid;
 
 	g_signal_handler_disconnect (
 		message_list, priv->message_list_built_id);
 	priv->message_list_built_id = 0;
 
-	if (message_list->cursor_uid == NULL && priv->selected_uid != NULL) {
-		CamelMessageInfo *info;
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
 
-		/* If the message isn't in the folder yet, keep selected_uid
-		 * around, as it could be caught by a set_folder() at some
-		 * later date. */
-		info = camel_folder_get_message_info (
-			message_list->folder, priv->selected_uid);
-		if (info != NULL) {
-			camel_folder_free_message_info (
-				message_list->folder, info);
-			e_mail_reader_set_message (
-				E_MAIL_READER (mail_shell_content),
-				priv->selected_uid, TRUE);
-			g_free (priv->selected_uid);
-			priv->selected_uid = NULL;
-		}
+	if (message_list->cursor_uid != NULL)
+		uid = NULL;
 
-		position = message_list_get_scrollbar_position (message_list);
+	else if (message_list->folder_uri == NULL)
+		uid = NULL;
+
+	else if (mail_shell_content->priv->suppress_message_selection)
+		uid = NULL;
+
+	else {
+		const gchar *folder_uri;
+		const gchar *key;
+		gchar *group_name;
+
+		key = STATE_KEY_SELECTED_MESSAGE;
+		folder_uri = message_list->folder_uri;
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		uid = g_key_file_get_string (key_file, group_name, key, NULL);
+		g_free (group_name);
 	}
 
-	priv->default_scrollbar_position = position;
+	if (uid != NULL) {
+		CamelFolder *folder;
+		CamelMessageInfo *info;
+
+		folder = message_list->folder;
+		info = camel_folder_get_message_info (folder, uid);
+		if (info != NULL) {
+			EMailReader *reader;
+
+			reader = E_MAIL_READER (mail_shell_content);
+			e_mail_reader_set_message (reader, uid, TRUE);
+			camel_folder_free_message_info (folder, info);
+		}
+
+		g_free (uid);
+	}
 
 	/* FIXME This is a gross workaround for an ETable bug that I can't
 	 *       fix (Ximian bug #55303).
@@ -227,25 +276,38 @@ mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
 
 static void
 mail_shell_content_message_selected_cb (EMailShellContent *mail_shell_content,
-                                        const gchar *selected_uid,
+                                        const gchar *message_uid,
                                         MessageList *message_list)
 {
-	const gchar *key = "evolution:selected_uid";
-	CamelFolder *folder;
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+	const gchar *key;
+	gchar *group_name;
 
-	folder = message_list->folder;
+	folder_uri = message_list->folder_uri;
 
 	/* This also gets triggered when selecting a store name on
 	 * the sidebar such as "On This Computer", in which case
-	 * 'folder' will be NULL. */
-	if (folder == NULL)
+	 * 'folder_uri' will be NULL. */
+	if (folder_uri == NULL)
 		return;
 
-	if (camel_object_meta_set (folder, key, selected_uid))
-		camel_object_state_write (folder);
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	key_file = e_shell_view_get_state_key_file (shell_view);
 
-	g_free (mail_shell_content->priv->selected_uid);
-	mail_shell_content->priv->selected_uid = NULL;
+	key = STATE_KEY_SELECTED_MESSAGE;
+	group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+	if (message_uid != NULL)
+		g_key_file_set_string (key_file, group_name, key, message_uid);
+	else
+		g_key_file_remove_key (key_file, group_name, key, NULL);
+	e_shell_view_set_state_dirty (shell_view);
+
+	g_free (group_name);
 }
 
 static void
@@ -342,19 +404,6 @@ mail_shell_content_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
-mail_shell_content_finalize (GObject *object)
-{
-	EMailShellContentPrivate *priv;
-
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
-
-	g_free (priv->selected_uid);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
@@ -543,7 +592,6 @@ mail_shell_content_set_folder (EMailReader *reader,
 	EMailReaderIface *default_iface;
 	MessageList *message_list;
 	gboolean different_folder;
-	gchar *meta_data;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
@@ -569,15 +617,6 @@ mail_shell_content_set_folder (EMailReader *reader,
 	 * unless we're actually switching to a different folder. */
 	if (different_folder)
 		priv->suppress_message_selection = FALSE;
-
-	if (!priv->suppress_message_selection)
-		meta_data = camel_object_meta_get (
-			folder, "evolution:selected_uid");
-	else
-		meta_data = NULL;
-
-	g_free (priv->selected_uid);
-	priv->selected_uid = meta_data;
 
 	/* This is a one-time-only callback. */
 	if (message_list->cursor_uid == NULL && priv->message_list_built_id == 0)
@@ -613,7 +652,6 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	object_class->set_property = mail_shell_content_set_property;
 	object_class->get_property = mail_shell_content_get_property;
 	object_class->dispose = mail_shell_content_dispose;
-	object_class->finalize = mail_shell_content_finalize;
 	object_class->constructed = mail_shell_content_constructed;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);

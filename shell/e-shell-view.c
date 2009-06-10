@@ -33,9 +33,14 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
 
+#define STATE_SAVE_TIMEOUT_SECONDS 3
+
 struct _EShellViewPrivate {
 
 	gpointer shell_window;  /* weak pointer */
+
+	GKeyFile *state_key_file;
+	guint state_save_source_id;
 
 	gchar *title;
 	gchar *view_id;
@@ -115,6 +120,72 @@ shell_view_update_view_id (EShellView *shell_view,
 	view_id = gal_view_instance_get_current_view_id (view_instance);
 	e_shell_view_set_view_id (shell_view, view_id);
 	g_free (view_id);
+}
+
+static void
+shell_view_load_state (EShellView *shell_view)
+{
+	EShellBackend *shell_backend;
+	GKeyFile *key_file;
+	const gchar *config_dir;
+	gchar *filename;
+	GError *error = NULL;
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	filename = g_build_filename (config_dir, "state", NULL);
+
+	/* XXX Should do this asynchronously. */
+	key_file = shell_view->priv->state_key_file;
+	g_key_file_load_from_file (key_file, filename, 0, &error);
+
+	if (error == NULL)
+		goto exit;
+
+	if (!g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
+		g_warning ("%s", error->message);
+
+	g_error_free (error);
+
+exit:
+	g_free (filename);
+}
+
+static void
+shell_view_save_state (EShellView *shell_view)
+{
+	EShellBackend *shell_backend;
+	GKeyFile *key_file;
+	const gchar *config_dir;
+	gchar *contents;
+	gchar *filename;
+	GError *error = NULL;
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	filename = g_build_filename (config_dir, "state", NULL);
+
+	/* XXX Should do this asynchronously. */
+	key_file = shell_view->priv->state_key_file;
+	contents = g_key_file_to_data (key_file, NULL, NULL);
+	g_file_set_contents (filename, contents, -1, &error);
+	g_free (contents);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_free (filename);
+}
+
+static gboolean
+shell_view_state_timeout_cb (EShellView *shell_view)
+{
+	shell_view_save_state (shell_view);
+	shell_view->priv->state_save_source_id = 0;
+
+	return FALSE;
 }
 
 static void
@@ -267,6 +338,13 @@ shell_view_dispose (GObject *object)
 
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
+	/* Expedite any pending state saves. */
+	if (priv->state_save_source_id > 0) {
+		g_source_remove (priv->state_save_source_id);
+		priv->state_save_source_id = 0;
+		shell_view_save_state (E_SHELL_VIEW (object));
+	}
+
 	if (priv->shell_window != NULL) {
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->shell_window), &priv->shell_window);
@@ -304,6 +382,8 @@ shell_view_finalize (GObject *object)
 
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
+	g_key_file_free (priv->state_key_file);
+
 	g_free (priv->title);
 	g_free (priv->view_id);
 
@@ -329,6 +409,8 @@ shell_view_constructed (GObject *object)
 	id = class->ui_manager_id;
 
 	e_plugin_ui_register_manager (ui_manager, id, shell_view);
+
+	shell_view_load_state (shell_view);
 
 	/* Invoke factory methods. */
 
@@ -598,6 +680,7 @@ shell_view_init (EShellView *shell_view,
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+	shell_view->priv->state_key_file = g_key_file_new ();
 	shell_view->priv->size_group = size_group;
 }
 
@@ -944,6 +1027,48 @@ e_shell_view_get_shell_taskbar (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return E_SHELL_TASKBAR (shell_view->priv->shell_taskbar);
+}
+
+/**
+ * e_shell_view_get_state_key_file:
+ * @shell_view: an #EShellView
+ *
+ * Returns the #GKeyFile holding widget state data for @shell_view.
+ *
+ * Returns: the #GKeyFile for @shell_view
+ **/
+GKeyFile *
+e_shell_view_get_state_key_file (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->state_key_file;
+}
+
+/**
+ * e_shell_view_set_state_dirty:
+ * @shell_view: an #EShellView
+ *
+ * Marks the widget state data as modified (or "dirty") and schedules it
+ * to be saved to disk after a short delay.  The delay caps the frequency
+ * of saving to disk.
+ **/
+void
+e_shell_view_set_state_dirty (EShellView *shell_view)
+{
+	guint source_id;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	/* If a timeout is already scheduled, do nothing. */
+	if (shell_view->priv->state_save_source_id > 0)
+		return;
+
+	source_id = g_timeout_add_seconds (
+		STATE_SAVE_TIMEOUT_SECONDS, (GSourceFunc)
+		shell_view_state_timeout_cb, shell_view);
+
+	shell_view->priv->state_save_source_id = source_id;
 }
 
 /**

@@ -21,6 +21,10 @@
 
 #include "e-mail-shell-view-private.h"
 
+#define STATE_KEY_SEARCH_FILTER		"SearchFilter"
+#define STATE_KEY_SEARCH_SCOPE		"SearchScope"
+#define STATE_KEY_SEARCH_TEXT		"SearchText"
+
 static void
 action_gal_save_custom_view_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
@@ -135,6 +139,7 @@ action_mail_folder_copy_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -142,7 +147,8 @@ action_mail_folder_copy_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	em_folder_utils_copy_folder (folder_info, FALSE);
+	model = em_folder_tree_get_model (folder_tree);
+	em_folder_utils_copy_folder (model, folder_info, FALSE);
 }
 
 static void
@@ -230,6 +236,7 @@ action_mail_folder_move_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -237,7 +244,8 @@ action_mail_folder_move_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	em_folder_utils_copy_folder (folder_info, TRUE);
+	model = em_folder_tree_get_model (folder_tree);
+	em_folder_utils_copy_folder (model, folder_info, TRUE);
 }
 
 static void
@@ -600,19 +608,6 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
-action_mail_preview_cb (GtkToggleAction *action,
-                        EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-	gboolean active;
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	active = gtk_toggle_action_get_active (action);
-
-	e_mail_shell_content_set_preview_visible (mail_shell_content, active);
-}
-
-static void
 action_mail_search_cb (GtkRadioAction *action,
                        GtkRadioAction *current,
                        EMailShellView *mail_shell_view)
@@ -883,13 +878,45 @@ action_search_execute_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
+	EMailReader *reader;
+	MessageList *message_list;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	/* All shell views respond to the activation of this action,
 	 * which is defined by EShellWindow.  But only the currently
 	 * active shell view proceeds with executing the search. */
-	shell_view = E_SHELL_VIEW (mail_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+
+	if (folder_uri != NULL) {
+		const gchar *key;
+		const gchar *string;
+		gchar *group_name;
+
+		key = STATE_KEY_SEARCH_TEXT;
+		string = e_shell_content_get_search_text (shell_content);
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+		if (string != NULL && *string != '\0')
+			g_key_file_set_string (
+				key_file, group_name, key, string);
+		else
+			g_key_file_remove_key (
+				key_file, group_name, key, NULL);
+		e_shell_view_set_state_dirty (shell_view);
+
+		g_free (group_name);
+	}
 
 	e_mail_shell_view_execute_search (mail_shell_view);
 }
@@ -899,7 +926,37 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_execute_search (mail_shell_view);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EMailReader *reader;
+	MessageList *message_list;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+
+	if (folder_uri != NULL) {
+		const gchar *key;
+		const gchar *string;
+		gchar *group_name;
+
+		key = STATE_KEY_SEARCH_FILTER;
+		string = gtk_action_get_name (GTK_ACTION (current));
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+		g_key_file_set_string (key_file, group_name, key, string);
+		e_shell_view_set_state_dirty (shell_view);
+
+		g_free (group_name);
+	}
+
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
 }
 
 static void
@@ -907,7 +964,37 @@ action_search_scope_cb (GtkRadioAction *action,
                         GtkRadioAction *current,
                         EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_execute_search (mail_shell_view);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EMailReader *reader;
+	MessageList *message_list;
+	GKeyFile *key_file;
+	const gchar *folder_uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	key_file = e_shell_view_get_state_key_file (shell_view);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+
+	if (folder_uri != NULL) {
+		const gchar *key;
+		const gchar *string;
+		gchar *group_name;
+
+		key = STATE_KEY_SEARCH_SCOPE;
+		string = gtk_action_get_name (GTK_ACTION (current));
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+
+		g_key_file_set_string (key_file, group_name, key, string);
+		e_shell_view_set_state_dirty (shell_view);
+
+		g_free (group_name);
+	}
+
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
 }
 
 static GtkActionEntry mail_entries[] = {
@@ -1205,7 +1292,7 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  N_("Show Message _Preview"),
 	  "<Control>m",
 	  N_("Show message preview pane"),
-	  G_CALLBACK (action_mail_preview_cb),
+	  NULL,  /* Handled by property bindings */
 	  TRUE },
 
 	{ "mail-threads-group-by",
@@ -1467,6 +1554,10 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
 	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	e_mutual_binding_new (
+		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
+		G_OBJECT (shell_content), "preview-visible");
 
 	/* XXX The boolean sense of the GConf key is the inverse of
 	 *     the menu item, so we have to maintain two properties. */
