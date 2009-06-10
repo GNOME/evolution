@@ -9,13 +9,15 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-06-04 14:13+0000\n"
-"PO-Revision-Date: 2009-06-09 13:00+0530\n"
+"PO-Revision-Date: 2009-06-10 18:27+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -395,6 +397,9 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"ଆପଣଙ୍କର ପ୍ରବେଶ ସଂକେତର ବନାନ ଠିକ ଅଛି କି ନାହିଁ ଏବଂ ଆପଣ ଗୋଟିଏ ସମର୍ଥିତ ଲଗଇନ ପଦ୍ଧତି ବ୍ୟବହାର "
+"କରୁଛନ୍ତି କି ନାହିଁ ତାହା ନିଶ୍ଚିତ କରିବା ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ। ମନେରଖନ୍ତୁ ଯେ ଅନେକ ପ୍ରବେଶ ସଂକେତଗୁଡ଼ିକ ଅକ୍ଷର ନିର୍ଦ୍ଦିଷ୍ଟ; "
+"ଆପଣଙ୍କର କ୍ୟାପ୍ସ ଲକ ଅନ ଥାଇପାରେ।"
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
@@ -18871,9 +18876,8 @@ msgid "Mailing _List"
 msgstr "ମେଲ ତାଲିକା (_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-#, fuzzy
 msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
-msgstr "ପାଇଁ ତାଲିକା."
+msgstr "ସାଧାରଣ ମେଲ ତାଲିକା ନିର୍ଦ୍ଦେଶଗୁଡ଼ିକ ପାଇଁ କାର୍ଯ୍ୟ ପ୍ରଦାନ କରନ୍ତୁ (ଗ୍ରାହକ ହୁଅନ୍ତୁ, ଗ୍ରାହକ ହୁଅନ୍ତୁ ନାହିଁ...)।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -18892,14 +18896,18 @@ msgid "Action not available"
 msgstr "କାର୍ଯ୍ୟ ଉପଲବ୍ଧ ନାହିଁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
-#, fuzzy
 msgid ""
 "An e-mail message will be sent to the URL \"{0}\". You can either send the "
 "message automatically, or see and change it first.\n"
 "\n"
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
-msgstr "e ଡାକ କୁ URL ଆପଣ କିମ୍ବା ଏବଂ ପ୍ରଥମ ନାଁ ଠାରୁ ତାଲିକା ପରେ."
+msgstr ""
+"URL \"{0}\" କୁ ଗୋଟିଏ ଇ-ମୋଲ ତାଲିକା ପଠାଯିବ। ଆପଣ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ସେହି ସନ୍ଦେଶକୁ "
+"ପଠାଇପାରିବେ, ଅଥବା ପ୍ରଥମେ ସେଗୁଡ଼ିକୁ ଦେଖନ୍ତୁ ଏବଂ ପରିବର୍ତ୍ତନ କରନ୍ତୁ।\n"
+"\n"
+"ସନ୍ଦେଶ ପଠାଇସାରିବା ପରେ ଆପଣ ଅତିଶିଘ୍ର ମେଲ ତାଲିକାରୁ ଗୋଟିଏ "
+"ଉତ୍ତର ପାଇପାରିବେ।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Malformed header"
@@ -18914,39 +18922,44 @@ msgid "Posting not allowed"
 msgstr "ପଠାଇବା ଅନୁମୋଦିତ ନୁହଁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
-#, fuzzy
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
-msgstr "କୁ ଏହା ତାଲିକା ଅଟେ ନୁହେଁ ଏହା ଅଟେ a ପଢନ୍ତୁ ତାଲିକା ସମ୍ପର୍କ ତାଲିକା ପାଇଁ."
+msgstr ""
+"ଏହି ମେଲ ତାଲିକାରେ ଦାଖଲ କରିବା ପାଇଁ ଅନୁମତି ନାହିଁ। ସମ୍ଭବତଃ, ଏହା ଗୋଟିଏ ପଠନ-ଯୋଗ୍ୟ "
+"ମେଲ ତାଲିକା। ବିସ୍ତୃତ ବିବରଣୀ ପାଇଁ ତାଲିକା ମାଲିକଙ୍କ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "Send e-mail message to mailing list?"
 msgstr "ମେଲ ତାଲିକାକୁ ଇ-ମେଲ ସନ୍ଦେଶ ପଠାଇବେ କି?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. The header for this action did not "
 "contain any action that could be processed.\n"
 "\n"
 "Header: {0}"
-msgstr "ନୁହେଁ ଶୀର୍ଷକ ପାଇଁ ଏହା ନୁହେଁ କୌଣସି ନାଁ"
+msgstr ""
+"ଏହି କାର୍ଯ୍ୟକୁ କାର୍ଯ୍ୟକାରୀ କରାହୋଇପାରିଲା ନାହିଁ। ଏହି କାର୍ଯ୍ୟ ପାଇଁ ଶୀର୍ଷକରେ "
+"କାର୍ଯ୍ୟକାରୀ ହେଇପାରୁଥିବା କୌଣସି ପ୍ରକାର କାର୍ଯ୍ୟ ନଥାଏ।\n"
+"\n"
+"ଶୀର୍ଷକ: {0}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:13
-#, fuzzy
 msgid ""
 "The {0} header of this message is malformed and could not be processed.\n"
 "\n"
 "Header: {1}"
-msgstr "ଶୀର୍ଷକ ର ଏହା ଅଟେ ଏବଂ ନୁହେଁ ନାଁ"
+msgstr ""
+"ସନ୍ଦେଶର ଏହି {0} ଶୀର୍ଷକଟି ତ୍ରୁଟିଯୁକ୍ତ ଏବଂ କାର୍ଯ୍ୟକାରୀ କରାଯାଇପାରିବ ନାହିଁ।\n"
+"\n"
+"ଶୀର୍ଷକ: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
-#, fuzzy
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "ନୁହେଁ ଶୀର୍ଷକ ପାଇଁ ଏହା."
+msgstr "ଏହି କାର୍ଯ୍ୟ ପାଇଁ ଆବଶ୍ୟକୀୟ ଶୀର୍ଷକ ସୂଚନା ଏହି ସନ୍ଦେଶରେ ନାହିଁ।"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -18977,9 +18990,8 @@ msgid "Get an archive of the list this message belongs to"
 msgstr "ଏହି ସନ୍ଦେଶଟି ଯେଉଁଠୁ ଆସିଛି ସେହି ମେଲ ତାଲିକାର ଗୋଟିଏ ଆଲେଖୀ ଗ୍ରହଣ କରନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-#, fuzzy
 msgid "Get information about the usage of the list this message belongs to"
-msgstr "ପ୍ରାପ୍ତ କର ବିଷଯରେ ର ତାଲିକା ଏହା କୁ"
+msgstr "ଏହି ସନ୍ଦେଶଟି ଯାହାର ତାହାର ବ୍ୟବହାର ବିଧି ବିଷୟରେ ସୂଚନା ଗ୍ରହଣ କରନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 msgid "Post a message to the mailing list this message belongs to"
@@ -19010,11 +19022,12 @@ msgid "Also mark messages in subfolders?"
 msgstr "ଉପ-ଫୋଲଡରରେ ସନ୍ଦେଶଗୁଡ଼ିକୁ ଚିହ୍ନଟ କରିବେ କି?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
-msgstr "କୁ ପଢନ୍ତୁ ଇଞ୍ଚ କିମ୍ବା ଇଞ୍ଚ ସମସ୍ତ?"
+msgstr ""
+"ଆପଣ କେବଳ ପ୍ରଚଳିତ ଫୋଲଡରରେ ସନ୍ଦେଶଗୁଡ଼ିକୁ ପଢ଼ାଯାଇଥିବା ପରି ଚିହ୍ନଟ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି କି, "
+"କିମ୍ବା ପ୍ରଚଳିତ ଫୋଲଡରରେ ଏବଂ ସମସ୍ତ ଉପ ଫୋଲଡରଗୁଡ଼ିକରେ ମଧ୍ଯ?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 msgid "Current Folder and _Subfolders"
@@ -19084,13 +19097,16 @@ msgid "Plugin"
 msgstr "ପ୍ଲଗ-ଇନ"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A test plugin which demonstrates a formatter plugin which lets you choose to "
 "disable HTML messages.\n"
 "\n"
 "This plugin is unsupported demonstration code only.\n"
-msgstr "A a କୁ ନିଷ୍କ୍ରିୟ HTML ନାଁ ଅଟେ ନାଁ"
+msgstr ""
+"ଗୋଟିଏ ପରୀକ୍ଷଣ ପ୍ଲଗଇନ ଯାହାକି ଗୋଟିଏ ସଜ୍ଜିକରଣ ପ୍ଲଗଇନକୁ ବର୍ଣ୍ଣନା କରିଥାଏ ଯାହା ଆପଣଙ୍କୁ HTML ସନ୍ଦେଶଗୁଡ଼ିକୁ "
+"ନିଷ୍କ୍ରିୟ କରିବା ପାଇଁ ଚୟନ କରିବାକୁ ଦେଇଥାଏ।\n"
+"\n"
+"ଏହି ପ୍ଲଗଇନଟି ଗୋଟିଏ ଅସମର୍ଥିତ ବର୍ଣ୍ଣନା ସଂକେତ ମାତ୍ର।\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -19341,11 +19357,12 @@ msgid "I_nclude remote tests"
 msgstr "ସୂଦୂର ପରୀକ୍ଷଣକୁ ଅନ୍ତର୍ଭୁକ୍ତ କରନ୍ତୁ (_n)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr "ଫିଲ୍ଟରଗୁଡିକ କୁ."
+msgstr ""
+"ଜଙ୍କ ସନ୍ଦେଶଗୁଡ଼ିକୁ SpamAssassin ଛାଣିଥାଏ। ଏହି ପ୍ଲଗଇନ ପାଇଁ "
+"SpamAssassin ସ୍ଥାପନ କରିବା ଆବଶ୍ୟକ।"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin Options"
@@ -19356,9 +19373,10 @@ msgid "SpamAssassin junk plugin"
 msgstr "SpamAssassin ଜଙ୍କ ପ୍ଲଗଇନ"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr "A ପାଇଁ ସମସ୍ତ କିମ୍ବା ଅଂଶ ର a ଏଠାରେ."
+msgstr ""
+"ସମସ୍ତ ସଂଲଗ୍ନକଗୁଡ଼ିକୁ ଏବଂ ଗୋଟିଏ ସନ୍ଦେଶର ଅଂଶଗୁଡ଼ିକୁ ଏକାଥରକେ "
+"ସଂରକ୍ଷଣ କରିବା ପାଇଁ ଥିବା ଗୋଟିଏ ପ୍ଲଗଇନ।"
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
@@ -19816,25 +19834,28 @@ msgid "The machine name to proxy socks through."
 msgstr "ଏସ୍.ଓ.ସି.କେ.ଏସ୍. ଛାୟା ପାଇଁ ଯନ୍ତ୍ରର ନାମ."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
-#, fuzzy
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr "ରେ ଦ୍ବାରା ନେଟୱାର୍କ config ଆଧାର."
+msgstr ""
+"\"/apps/evolution/shell/network_config/http_host\" ଦ୍ୱାରା "
+"ବ୍ୟାଖ୍ୟା କରାଯାଇଥିବା ସଂଯୋଗିକୀ ଯାହା ମାଧ୍ଯମରେ ଆପଣ ପ୍ରକ୍ସି କରିଥାନ୍ତି।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
-#, fuzzy
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr "ରେ ଦ୍ବାରା ନେଟୱାର୍କ config ଆଧାର."
+msgstr ""
+"\"/apps/evolution/shell/network_config/secure_host\" ଦ୍ୱାରା "
+"ବ୍ୟାଖ୍ୟା କରାଯାଇଥିବା ସଂଯୋଗିକୀ ଯାହା ମାଧ୍ଯମରେ ଆପଣ ପ୍ରକ୍ସି କରିଥାନ୍ତି।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
-#, fuzzy
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr "ରେ ଦ୍ବାରା ନେଟୱାର୍କ config ଆଧାର."
+msgstr ""
+"\"/apps/evolution/shell/network_config/socks_host\" ଦ୍ୱାରା "
+"ବ୍ୟାଖ୍ୟା କରାଯାଇଥିବା ସଂଯୋଗିକୀ ଯାହା ମାଧ୍ଯମରେ ଆପଣ ପ୍ରକ୍ସି କରିଥାନ୍ତି।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
@@ -19938,15 +19959,16 @@ msgid "Choose the destination for this import"
 msgstr "ଏହି ଆମଦାନୀ ପାଇଁ ଲକ୍ଷ୍ଯ ସ୍ଥଳ ବାଛନ୍ତୁ"
 
 #: ../shell/e-shell-importer.c:144
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"କ୍ରମବିକାଶ  ଯାଞ୍ଜ କରାଗଲା ପାଇଁ କୁ ଠାରୁ ନିମ୍ନଲିଖିତ Pine Netscape ନାଁ ମିଳିଛି  ସଦୃଶ କୁ ଦବାନ୍ତୁ ପଛ "
-"ବଟନ ନାଁ"
+"ନିମ୍ନଲିଖିତ ପ୍ରୟୋଗ: Pine, Netscape, Elm, iCalendar ଆମଦାନୀ\n"
+"କରିବା ପାଇଁ ସଂରଚନାକୁ Evolution ଯାଞ୍ଜ କରିଥିଲା। କୌଣସି ଆମଦାନୀ ଯୋଗ୍ୟ\n"
+"ସଂରଚନା ମିଳିଲା ନାହିଁ। ଯଦି ଆପଣ ପୁଣିଥରେ ଚେଷ୍ଟାକରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି,\n"
+"ତେବେ ଦୟାକରି \"ପଛକୁ\" ବଟନକୁ କ୍ଲିକ କରନ୍ତୁ।\n"
 
 #: ../shell/e-shell-importer.c:282
 msgid "F_ilename:"
@@ -20128,7 +20150,7 @@ msgstr ""
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:221
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -20146,8 +20168,6 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"ପାଇଁ କୁ ଏହା କ୍ରମବିକାଶ  ନାଁ ର କ୍ରମବିକାଶ  ଅଟେ ନୁହେଁ ଅଟେ ବନ୍ଦ କରନ୍ତୁ କିମ୍ବା ନୁହେଁ ନାଁ a ର "
-"କ୍ରମବିକାଶ  କୁ ଏବଂ ନାଁ ଖୋଜନ୍ତୁ କୁ us ଏଠାରେ ସହିତ  ନାଁ ଏବଂ ଅଟେ ନୁହେଁ ପାଇଁ କୁ ର ନାଁ ର ଏବଂ ନାଁ"
 
 #: ../shell/main.c:245
 msgid ""
@@ -20178,9 +20198,8 @@ msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Evolution 1.4 ରୁ ବାଧ୍ୟତାମୂଳକ ଭାବରେ ସ୍ଥାନ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../shell/main.c:495
-#, fuzzy
 msgid "Send the debugging output of all components to a file."
-msgstr "ପଠାଅ ର ସମସ୍ତ କୁ a ଫାଇଲ."
+msgstr "ସମସ୍ତ ଉପାଦାନର ତ୍ରୁଟି ନିବାରଣ ଫଳାଫଳକୁ ଗୋଟିଏ ଫାଇଲ ମଧ୍ଯକୁ ପଠାନ୍ତୁ।"
 
 #: ../shell/main.c:497
 msgid "Disable loading of any plugins."
@@ -20240,7 +20259,6 @@ msgid "Really delete old data?"
 msgstr "ପ୍ରକୃତରେ ପୁରୁଣା ତଥ୍ୟକୁ ଅପସାରଣ କରିବେ?"
 
 #: ../shell/shell.error.xml.h:10
-#, fuzzy
 msgid ""
 "The entire contents of the &quot;evolution&quot; directory are about to be "
 "permanently removed.\n"
@@ -20252,12 +20270,17 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"ର&quot;&quot; ଡିରେକ୍ଟୋରୀ ବିଷଯରେ କୁ ନାଁ ଅଟେ ହସ୍ତକୃତ ଭାବରେ ସମସ୍ତ ର ଡାକ ସମ୍ପର୍କ ଏବଂ "
-"କାଲେଣ୍ଡର ତଥ୍ଯ ଅଟେ ଏବଂ ଏହା ର କ୍ରମବିକାଶ  ପୂର୍ବରୁ ଏହା ତଥ୍ଯ ନାଁ ବିଲୋପ ହୋଇଛି କୁ ର କ୍ରମବିକାଶ  "
-"ମେନ୍ଯୁଆଲ ନାଁ"
+"&quot;evolution&quot; ଡିରେକ୍ଟୋରୀର ସମସ୍ତ ତଥ୍ୟ ସବୁଦିନ ପାଇଁ କଢ଼ାହେବାକୁ "
+"ଯାଉଛି।\n"
+"\n"
+"ଏହା ପ୍ରସ୍ଥାବିତ ଯେ ଆପଣ ହସ୍ତକୃତ ଭାବରେ ତାହାକୁ ଯାଞ୍ଚ କରନ୍ତୁ ଯେ ଆପଣଙ୍କର ସମସ୍ତ ମେଲ, ଯୋଗାଯୋଗ, "
+"ଏବଂ କ୍ୟାଲେଣ୍ଡର ତଥ୍ୟ ଉପସ୍ଥିତ ଅଛି, ଏବଂ Evolution ର ଏହି ସଂସ୍କରଣ ପୁରୁଣା ତଥ୍ୟକୁ ଅପସାରଣ କରିବା "
+"ପୂର୍ବରୁ ସଠିକ ଭାବରେ କାର୍ଯ୍ୟକରିଥାଏ।\n"
+"\n"
+"ଥରେ ଅପସାରଣ କରିସାରିବା ପରେ, ହସ୍ତକୃତ ନିୟନ୍ତ୍ରଣ ବିନା ଆପଣ Evolutionର ପଛ "
+"ସଂସ୍କରଣକୁ ଯାଇପାରିବେ ନାହିଁ।\n"
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
 msgid ""
 "The previous version of Evolution stored its data in a different location.\n"
 "\n"
@@ -20266,15 +20289,18 @@ msgid ""
 "this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
-"ର କ୍ରମବିକାଶ  ତଥ୍ଯ ଇଞ୍ଚ a ନାଁ କୁ କାଢ଼ନ୍ତୁ ଏହା ତଥ୍ଯ ର&quot;&quot; ଡିରେକ୍ଟୋରୀ କୁ ଏହା ତଥ୍ଯ "
-"ହସ୍ତକୃତ ଭାବରେ କାଢ଼ନ୍ତୁ ର&quot;&quot; ଏଠାରେ ନାଁ"
+"Evolutionର ପୂର୍ବ ସଂସ୍କରଣ ଭିନ୍ନ ଏକ ସ୍ଥାନରେ ଏହାର ତଥ୍ୟ ସଂରକ୍ଷଣ କରିଥାଏ।\n"
+"\n"
+"ଯଦି ଆପଣ ଏହି ତଥ୍ୟକୁ କାଢ଼ିଦେବାକୁ ଚାହୁଁଛନ୍ତି, ତେବେ &quot;"
+"evolution&quot; ଡିରେକ୍ଟୋରୀର ସମସ୍ତ ତଥ୍ୟ ସବୁଦିନ ପାଇଁ କଢ଼ାହୋଇଯିବ। ଯଦି ଆପଣ "
+"ଏହି ତଥ୍ୟକୁ ରଖିବାକୁ ଚାହୁଁଛନ୍ତି, ତେବେ ଆପଣ ହସ୍ତକୃତ ଭାବରେ &quot;evolution&quot; ର "
+"ତଥ୍ୟକୁ ଆପଣଙ୍କ ଇଚ୍ଛା ଅନୁସାରେ କାଢ଼ିପାରିବେ।\n"
 
 #: ../shell/shell.error.xml.h:20
 msgid "Upgrade from previous version failed: {0}"
 msgstr "ପୂର୍ବ ସଂସ୍କରଣରୁ ଉନ୍ନୟନ ବିଫଳ ହୋଇଛି: {0}"
 
 #: ../shell/shell.error.xml.h:21
-#, fuzzy
 msgid ""
 "Upgrading your data and settings will require up to {0} of disk space, but "
 "you only have {1} available.\n"
@@ -20282,8 +20308,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"ଅପ୍‌ଗ୍ରେଡ୍ କରାହେଉଛି  ତଥ୍ଯ ଏବଂ ଉପର କୁ ର ଖାଲି ସ୍ଥାନ (space) ଉପଲବ୍ଧ ନାଁ କୁ ଖାଲି ସ୍ଥାନ (space) "
-"ଉପଲବ୍ଧ ଇଞ୍ଚ ମୂଳସ୍ଥାନ ଡିରେକ୍ଟୋରୀ ପୂର୍ବରୁ."
+"ଆପଣଙ୍କର ତଥ୍ୟକୁ ଉନ୍ନୟନ କରାଯାଉଛି ଏବଂ ଏହା ପାଇଁ {0} ପର୍ଯ୍ୟନ୍ତ ଡିସ୍କ ସ୍ଥାନ ଆବଶ୍ୟକ କରିଥାଏ, କିନ୍ତୁ "
+"ଆପଣଙ୍କ ପାଖରେ କେବଳ {1} ଉପଲବ୍ଧ ଅଛି।\n"
+"\n"
+"ଆପଣଙ୍କୁ ଅଗ୍ରସର ହେବା ପୂର୍ବରୁ ମୂଳ ଡିରେକ୍ଟୋରୀରେ ଅଧିକ ଖାଲି ସ୍ଥାନ "
+"ସୃଷ୍ଟି କରିବାକୁ ହେବ।"
 
 #: ../shell/shell.error.xml.h:24
 msgid ""
@@ -20383,7 +20412,7 @@ msgstr "ନାମ"
 #: ../smime/gui/certificate-manager.c:284
 #: ../smime/gui/certificate-manager.c:506
 msgid "Purposes"
-msgstr ""
+msgstr "ଉଦ୍ଦେଶ୍ୟ"
 
 #: ../smime/gui/certificate-manager.c:293 ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:553
@@ -20392,7 +20421,7 @@ msgstr "କ୍ରମିକ ସଂଖ୍ଯା"
 
 #: ../smime/gui/certificate-manager.c:301
 msgid "Expires"
-msgstr ""
+msgstr "ସମୟ ସମାପ୍ତ"
 
 #: ../smime/gui/certificate-manager.c:392
 msgid "All email certificate files"
@@ -20432,6 +20461,8 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
+"କୁ ନ୍ୟସ୍ତ:\n"
+"  ବିଷୟ: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:118
 #, c-format
@@ -20439,6 +20470,8 @@ msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
+"ଦ୍ୱାରା ନ୍ୟସ୍ତ:\n"
+"  ବିଷୟ: %s\n"
 
 #: ../smime/gui/e-cert-selector.c:170
 msgid "Select certificate"
@@ -20454,7 +20487,7 @@ msgstr "<b> କ୍ଷେତ୍ରଗୁଡିକ</b>"
 
 #: ../smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "<b>ପ୍ରମାଣପତ୍ର ଅନୁକ୍ରମ</b>"
 
 #: ../smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
@@ -20482,11 +20515,11 @@ msgstr "<b>ବୈଧତା ତାରିଖ</b>"
 
 #: ../smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "ପ୍ରାଧିକାରୀ"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "ନକଲ ସଂରକ୍ଷଣ"
 
 #: ../smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
@@ -20500,15 +20533,15 @@ msgstr "ପୂର୍ବରୁ ଏହା ପାଇଁ କୌଣସି ଏବଂ �
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1060
 msgid "Certificate"
-msgstr ""
+msgstr "ପ୍ରମାଣପତ୍ର"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr ""
+msgstr "ପ୍ରମାଣପତ୍ର ପ୍ରାଧିକରଣ ସଂସ୍ଥା"
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr ""
+msgstr "ପ୍ରମାଣପତ୍ର ବିସ୍ତୃତ ବିବରଣୀ"
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Certificates Table"
@@ -22593,6 +22626,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"ଯଦି ସେଟ କରାଯାଇଛି, ତେବେ ପାଠ୍ୟରେ ଗୋଟିଏ ଅବରେଖନ ପରବର୍ତ୍ତୀ ଅକ୍ଷରକୁ ବ୍ୟବହାର କରିବାକୁ "
+"ସ୍ମରକ ତ୍ୱରଣ କି ପାଇଁ ସୂଚାଇଥାଏ"
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
@@ -22682,6 +22717,8 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
+"ସମୟ ମଣ୍ଡଳ ବାଛିବା ପାଇଁ ମାଉସ ଆଧାରିତ ପାରସ୍ପରିକ କାର୍ଯ୍ୟକ୍ଷମ ମ୍ୟାପ ୱିଜେଟ। କିବୋର୍ଡ ଚାଳକମାନେ "
+"ନିମ୍ନରେ ଥିବା ଡ୍ରପଡାଉନ ସଂଯୁକ୍ତ ବାକ୍ସରୁ ସମୟ ମଣ୍ଡଳକୁ ବାଛିବା ଉଚିତ।"
 
 #: ../widgets/misc/e-online-button.c:106
 msgid "Online"
