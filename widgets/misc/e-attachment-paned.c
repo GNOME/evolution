@@ -45,6 +45,7 @@ struct _EAttachmentPanedPrivate {
 	GtkWidget *expander;
 	GtkWidget *notebook;
 	GtkWidget *combo_box;
+	GtkWidget *controls_container;
 	GtkWidget *icon_view;
 	GtkWidget *tree_view;
 	GtkWidget *show_hide_label;
@@ -574,6 +575,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 
 	widget = gtk_hbox_new (FALSE, 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	paned->priv->controls_container = widget;
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -775,3 +777,16 @@ e_attachment_paned_drag_data_received (EAttachmentPaned *paned,
 		paned->priv->icon_view, "drag-data-received",
 		context, x, y, selection, info, time);
 }
+
+GtkWidget *
+e_attachment_paned_get_controls_container (EAttachmentPaned *paned)
+{
+	return paned->priv->controls_container;
+}
+
+GtkWidget *
+e_attachment_paned_get_view_combo (EAttachmentPaned *paned)
+{
+	return paned->priv->combo_box;
+}
+
