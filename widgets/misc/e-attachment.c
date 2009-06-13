@@ -1957,7 +1957,6 @@ attachment_open_file (GFile *file,
 {
 	GdkAppLaunchContext *context;
 	GSimpleAsyncResult *simple;
-	GList *file_list;
 	gboolean success;
 	GError *error = NULL;
 
@@ -1965,41 +1964,29 @@ attachment_open_file (GFile *file,
 	simple = open_context->simple;
 	open_context->simple = NULL;
 
-	/* Find a default app based on content type. */
-	if (open_context->app_info == NULL) {
-		EAttachment *attachment;
-		GFileInfo *file_info;
-		const gchar *content_type;
+	context = gdk_app_launch_context_new ();
 
-		attachment = open_context->attachment;
-		file_info = e_attachment_get_file_info (attachment);
-		if (file_info == NULL)
-			goto exit;
+	if (open_context->app_info != NULL) {
+		GList *file_list;
 
-		content_type = g_file_info_get_content_type (file_info);
-		if (content_type == NULL)
-			goto exit;
+		file_list = g_list_prepend (NULL, file);
+		success = g_app_info_launch (
+			open_context->app_info, file_list,
+			G_APP_LAUNCH_CONTEXT (context), &error);
+		g_list_free (file_list);
+	} else {
+		gchar *uri;
 
-		open_context->app_info = g_app_info_get_default_for_type (
-			content_type, FALSE);
+		uri = g_file_get_uri (file);
+		success = g_app_info_launch_default_for_uri (
+			uri, G_APP_LAUNCH_CONTEXT (context), &error);
+		g_free (uri);
 	}
 
-	if (open_context->app_info == NULL)
-		goto exit;
-
-	context = gdk_app_launch_context_new ();
-	file_list = g_list_prepend (NULL, file);
-
-	success = g_app_info_launch (
-		open_context->app_info, file_list,
-		G_APP_LAUNCH_CONTEXT (context), &error);
+	g_object_unref (context);
 
 	g_simple_async_result_set_op_res_gboolean (simple, success);
 
-	g_list_free (file_list);
-	g_object_unref (context);
-
-exit:
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);
 		g_error_free (error);
