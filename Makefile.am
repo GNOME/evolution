@@ -28,6 +28,7 @@ EXTRA_DIST = 			\
 	intltool-extract.in	\
 	evolution-zip.in	\
 	gnome-doc-utils.make    \
+	gtk-doc.make		\
 	$(pkgconfig_DATA:.pc=.pc.in)
 
 if ENABLE_SMIME
@@ -102,7 +103,8 @@ MAINTAINERCLEANFILES =			\
 	$(srcdir)/ltmain.sh		\
 	$(srcdir)/missing		\
 	$(srcdir)/mkinstalldirs		\
-	$(srcdir)/gnome-doc-utils.make
+	$(srcdir)/gnome-doc-utils.make	\
+	$(srcdir)/gtk-doc.make
 
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
