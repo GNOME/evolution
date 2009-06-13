@@ -614,7 +614,8 @@ emft_expand_node (EMFolderTreeModel *model, const gchar *key, EMFolderTree *emft
 		return;
 	}
 
-	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
+	si = em_folder_tree_model_lookup_store_info (priv->model, store);
+	if (si == NULL) {
 		camel_object_unref (store);
 		return;
 	}
@@ -658,7 +659,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 			    COL_BOOL_IS_STORE, &is_store,
 			    -1);
 
-	si = g_hash_table_lookup (model->store_hash, store);
+	si = em_folder_tree_model_lookup_store_info (model, store);
 	if ((account = e_get_account_by_name (si->display_name))) {
 		key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
 	} else if (CAMEL_IS_VEE_STORE (store)) {
@@ -1781,7 +1782,8 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	if (!gtk_tree_row_reference_valid (m->root))
 		return;
 
-	if (!(si = g_hash_table_lookup (priv->model->store_hash, m->store))) {
+	si = em_folder_tree_model_lookup_store_info (priv->model, m->store);
+	if (si == NULL) {
 		/* store has been removed in the interim - do nothing */
 		return;
 	}
@@ -2354,18 +2356,6 @@ em_folder_tree_get_model (EMFolderTree *emft)
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
 
 	return emft->priv->model;
-}
-
-EMFolderTreeModelStoreInfo *
-em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store)
-{
-	struct _EMFolderTreePrivate *priv = emft->priv;
-	struct _EMFolderTreeModelStoreInfo *si;
-
-	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
-		g_return_val_if_reached (NULL);
-	}
-	return si;
 }
 
 void

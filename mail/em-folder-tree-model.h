@@ -73,7 +73,6 @@ enum {
 	NUM_COLUMNS
 };
 
-
 struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
@@ -92,53 +91,69 @@ struct _EMFolderTreeModelStoreInfo {
 struct _EMFolderTreeModel {
 	GtkTreeStore parent;
 	EMFolderTreeModelPrivate *priv;
-
-	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
-	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
-
-	EAccountList *accounts;
-	GHashTable *account_hash;  /* maps accounts to store-info's */
-	gulong account_changed_id;
-	gulong account_removed_id;
 };
 
 struct _EMFolderTreeModelClass {
 	GtkTreeStoreClass parent_class;
 
 	/* signals */
-	void     (* loading_row)        (EMFolderTreeModel *model,
-					 GtkTreePath *path,
-					 GtkTreeIter *iter);
+	void		(*loading_row)		(EMFolderTreeModel *model,
+						 GtkTreePath *path,
+						 GtkTreeIter *iter);
 
-	void     (* loaded_row)         (EMFolderTreeModel *model,
-					 GtkTreePath *path,
-					 GtkTreeIter *iter);
+	void		(*loaded_row)		(EMFolderTreeModel *model,
+						 GtkTreePath *path,
+						 GtkTreeIter *iter);
 
-	void     (* folder_added)       (EMFolderTreeModel *model,
-					 const gchar *path,
-					 const gchar *uri);
+	void		(*folder_added)		(EMFolderTreeModel *model,
+						 const gchar *path,
+						 const gchar *uri);
 };
-
 
 GType		em_folder_tree_model_get_type	(void);
 EMFolderTreeModel *
-		em_folder_tree_model_new	(EMailShellBackend *mail_shell_backend);
+		em_folder_tree_model_new(EMailShellBackend *mail_shell_backend);
 EMailShellBackend *
 		em_folder_tree_model_get_mail_shell_backend
-						(EMFolderTreeModel *model);
-
-void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
-					   struct _EMFolderTreeModelStoreInfo *si,
-					   CamelFolderInfo *fi, gint fully_loaded);
-
-void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const gchar *display_name);
-void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
-void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
-					  GtkTreeIter *toplevel);
-
-void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const gchar *path, gint unread);
-gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
-gchar * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
+					(EMFolderTreeModel *model);
+void		em_folder_tree_model_set_folder_info
+					(EMFolderTreeModel *model,
+					 GtkTreeIter *iter,
+					 EMFolderTreeModelStoreInfo *si,
+					 CamelFolderInfo *fi,
+					 gint fully_loaded);
+void		em_folder_tree_model_add_store
+					(EMFolderTreeModel *model,
+					 CamelStore *store,
+					 const gchar *display_name);
+void		em_folder_tree_model_remove_store
+					(EMFolderTreeModel *model,
+					 CamelStore *store);
+void		em_folder_tree_model_remove_folders
+					(EMFolderTreeModel *model,
+					 EMFolderTreeModelStoreInfo *si,
+					 GtkTreeIter *toplevel);
+void		em_folder_tree_model_set_unread_count
+					(EMFolderTreeModel *model,
+					 CamelStore *store,
+					 const gchar *path,
+					 gint unread);
+gboolean	em_folder_tree_model_is_type_inbox
+					(EMFolderTreeModel *model,
+					 CamelStore *store,
+					 const gchar *full);
+gchar *		em_folder_tree_model_get_folder_name
+					(EMFolderTreeModel *model,
+					 CamelStore *store,
+					 const gchar *full);
+EMFolderTreeModelStoreInfo *
+		em_folder_tree_model_lookup_store_info
+					(EMFolderTreeModel *model,
+					 CamelStore *store);
+GtkTreeRowReference *
+		em_folder_tree_model_lookup_uri
+					(EMFolderTreeModel *model,
+					 const gchar *uri);
 
 G_END_DECLS
 

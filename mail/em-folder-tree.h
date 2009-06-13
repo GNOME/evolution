@@ -105,7 +105,6 @@ CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
 CamelFolderInfo *em_folder_tree_get_selected_folder_info (EMFolderTree *emft);
 
 EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
-EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store);
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const gchar *full_name, const gchar *uri);
 void em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip);

@@ -57,7 +57,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
 	GtkTreeIter iter;
-	GHashTable *hash_table;
 	GKeyFile *key_file;
 	gboolean valid;
 	gchar *selected;
@@ -70,7 +69,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	folder_tree_model = em_folder_tree_get_model (folder_tree);
-	hash_table = folder_tree_model->uri_hash;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	tree_model = GTK_TREE_MODEL (folder_tree_model);
@@ -128,7 +126,8 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 		if (!expanded)
 			continue;
 
-		reference = g_hash_table_lookup (hash_table, uri);
+		reference = em_folder_tree_model_lookup_uri (
+			folder_tree_model, uri);
 		if (reference == NULL)
 			continue;
 

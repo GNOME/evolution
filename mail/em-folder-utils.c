@@ -639,6 +639,7 @@ static void
 emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer data)
 {
 	EMFolderTreeModelStoreInfo *si;
+	EMFolderTreeModel *model;
 	const gchar *uri, *path;
 	CamelException ex;
 	CamelStore *store;
@@ -662,7 +663,9 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 		return;
 	}
 
-	if (!(si = em_folder_tree_get_model_storeinfo (emfs->emft, store))) {
+	model = em_folder_tree_get_model (emfs->emft);
+	si = em_folder_tree_model_lookup_store_info (model, store);
+	if (si == NULL) {
 		camel_object_unref (store);
 		g_return_if_reached();
 	}
