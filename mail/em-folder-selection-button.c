@@ -256,7 +256,6 @@ folder_selection_button_clicked (GtkButton *button)
 
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (priv->model);
 
-	em_folder_tree_clone_expanded (emft);
 	em_folder_tree_set_multiselect (emft, priv->multiple_select);
 	em_folder_tree_set_excluded (
 		emft, EMFT_EXCLUDE_NOSELECT |

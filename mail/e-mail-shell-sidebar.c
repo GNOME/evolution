@@ -91,10 +91,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 	 *    (these are all stores) and expand those that have no
 	 *    corresponding "Expanded" key in the state file.  This
 	 *    ensures that new stores are expanded by default.
-	 *
-	 * The expanded state is recorded and maintained in the tree model
-	 * so that folder trees in other contexts can duplicate it using
-	 * em_folder_tree_clone_expanded().
 	 */
 
 	/* Stage 1 */
@@ -135,12 +131,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 		gtk_tree_model_get_iter (tree_model, &iter, path);
 		gtk_tree_view_expand_row (tree_view, path, FALSE);
 		gtk_tree_path_free (path);
-
-		/* The expanded column is used to clone the sidebar's
-		 * expanded state in other EMFolderTree instances. */
-		gtk_tree_store_set (
-			GTK_TREE_STORE (tree_model), &iter,
-			COL_BOOL_EXPANDED, TRUE, -1);
 	}
 
 	g_strfreev (groups);
@@ -168,12 +158,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 			path = gtk_tree_model_get_path (tree_model, &iter);
 			gtk_tree_view_expand_row (tree_view, path, FALSE);
 			gtk_tree_path_free (path);
-
-			/* The expanded column is used to clone the sidebar's
-			 * expanded state in other EMFolderTree instances. */
-			gtk_tree_store_set (
-				GTK_TREE_STORE (tree_model), &iter,
-				COL_BOOL_EXPANDED, TRUE, -1);
 		}
 
 		g_free (group_name);
@@ -211,12 +195,6 @@ mail_shell_sidebar_row_collapsed_cb (EShellSidebar *shell_sidebar,
 		COL_BOOL_IS_FOLDER, &is_folder, -1);
 
 	g_return_if_fail (is_store || is_folder);
-
-	/* The expanded column is used to clone the sidebar's
-	 * expanded state in other EMFolderTree instances. */
-	gtk_tree_store_set (
-		GTK_TREE_STORE (model), iter,
-		COL_BOOL_EXPANDED, FALSE, -1);
 
 	key = STATE_KEY_EXPANDED;
 	if (is_store)
@@ -265,12 +243,6 @@ mail_shell_sidebar_row_expanded_cb (EShellSidebar *shell_sidebar,
 			COL_BOOL_IS_FOLDER, &is_folder, -1);
 
 		g_return_if_fail (is_store || is_folder);
-
-		/* The expanded column is used to clone the sidebar's
-		 * expanded state in other EMFolderTree instances. */
-		gtk_tree_store_set (
-			GTK_TREE_STORE (model), &iter,
-			COL_BOOL_EXPANDED, TRUE, -1);
 
 		key = STATE_KEY_EXPANDED;
 		if (is_store)
@@ -487,7 +459,10 @@ mail_shell_sidebar_constructed (GObject *object)
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	mail_shell_sidebar_restore_state (mail_shell_sidebar);
+	if (em_folder_tree_model_get_selection (folder_tree_model) == NULL)
+		mail_shell_sidebar_restore_state (mail_shell_sidebar);
+
+	em_folder_tree_model_set_selection (folder_tree_model, selection);
 
 	g_signal_connect_swapped (
 		tree_view, "row-collapsed",

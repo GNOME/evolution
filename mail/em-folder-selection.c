@@ -52,7 +52,6 @@ em_select_folder (EMFolderTreeModel *model,
 
 	/* XXX Do we leak this reference? */
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	em_folder_tree_clone_expanded (emft);
 
 	if (exclude)
 		em_folder_tree_set_excluded_func (emft, exclude, user_data);

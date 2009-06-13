@@ -84,7 +84,6 @@ struct _EMFolderTreeClass {
 
 GType em_folder_tree_get_type (void);
 GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
-void em_folder_tree_clone_expanded (EMFolderTree *emft);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 

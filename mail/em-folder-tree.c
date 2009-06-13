@@ -523,6 +523,51 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 }
 
 static void
+folder_tree_copy_expanded_cb (GtkTreeView *unused,
+                              GtkTreePath *path,
+                              GtkTreeView *tree_view)
+{
+	gtk_tree_view_expand_row (tree_view, path, FALSE);
+}
+
+static void
+folder_tree_copy_selection_cb (GtkTreeModel *model,
+                               GtkTreePath *path,
+                               GtkTreeIter *iter,
+                               GtkTreeView *tree_view)
+{
+	GtkTreeSelection *selection;
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_select_path (selection, path);
+
+	/* Center the tree view on the selected path. */
+	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5, 0.0);
+}
+
+static void
+folder_tree_copy_state (EMFolderTree *emft,
+                        EMFolderTreeModel *model)
+{
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+
+	selection = em_folder_tree_model_get_selection (model);
+	if (selection == NULL)
+		return;
+
+	tree_view = gtk_tree_selection_get_tree_view (selection);
+
+	gtk_tree_view_map_expanded_rows (
+		tree_view, (GtkTreeViewMappingFunc)
+		folder_tree_copy_expanded_cb, emft);
+
+	gtk_tree_selection_selected_foreach (
+		selection, (GtkTreeSelectionForeachFunc)
+		folder_tree_copy_selection_cb, emft);
+}
+
+static void
 em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
@@ -530,6 +575,7 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 
 	priv->model = model;
 	folder_tree_new (emft, model);
+	folder_tree_copy_state (emft, model);
 	gtk_widget_show (GTK_WIDGET (emft));
 
 	g_signal_connect (emft, "row-expanded", G_CALLBACK (emft_tree_row_expanded), emft);
@@ -701,38 +747,6 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	atk_object_set_name (a11y, _("Mail Folder Tree"));
 
 	return (GtkWidget *) emft;
-}
-
-static gboolean
-folder_tree_clone_expanded (GtkTreeModel *model,
-                            GtkTreePath *path,
-                            GtkTreeIter *iter,
-                            GtkTreeView *tree_view)
-{
-	gboolean expanded;
-
-	gtk_tree_model_get (model, iter, COL_BOOL_EXPANDED, &expanded, -1);
-
-	if (expanded)
-		gtk_tree_view_expand_row (tree_view, path, FALSE);
-	else
-		gtk_tree_view_collapse_row (tree_view, path);
-
-	return FALSE;
-}
-
-void
-em_folder_tree_clone_expanded (EMFolderTree *emft)
-{
-	GtkTreeModel *model;
-
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emft));
-
-	gtk_tree_model_foreach (
-		model, (GtkTreeModelForeachFunc)
-		folder_tree_clone_expanded, emft);
 }
 
 static void
@@ -2042,7 +2056,8 @@ emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft)
 }
 
 static void
-emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
+emft_tree_selection_changed (GtkTreeSelection *selection,
+                             EMFolderTree *emft)
 {
 	gchar *full_name, *uri;
 	GtkTreeModel *model;
@@ -2075,9 +2090,13 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 }
 
 void
-em_folder_tree_set_selected (EMFolderTree *emft, const gchar *uri, gboolean expand_only)
+em_folder_tree_set_selected (EMFolderTree *emft,
+                             const gchar *uri,
+                             gboolean expand_only)
 {
 	GList *l = NULL;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 
 	if (uri && uri[0])
 		l = g_list_append(l, (gpointer)uri);
@@ -2231,7 +2250,6 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 	return;
 }
 
-
 gchar *
 em_folder_tree_get_selected_uri (EMFolderTree *emft)
 {
@@ -2246,8 +2264,10 @@ em_folder_tree_get_selected_uri (EMFolderTree *emft)
 	tree_view = GTK_TREE_VIEW (emft);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-		gtk_tree_model_get(model, &iter, COL_STRING_URI, &uri, -1);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return NULL;
+
+	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
 
 	return uri;
 }
@@ -2266,8 +2286,10 @@ em_folder_tree_get_selected_path (EMFolderTree *emft)
 	tree_view = GTK_TREE_VIEW (emft);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-		gtk_tree_model_get(model, &iter, COL_STRING_FULL_NAME, &name, -1);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return NULL;
+
+	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &name, -1);
 
 	return name;
 }

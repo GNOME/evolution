@@ -167,8 +167,6 @@ action_mail_copy_cb (GtkAction *action,
 
 	folder = message_list->folder;
 
-	em_folder_tree_clone_expanded (folder_tree);
-
 	em_folder_tree_set_excluded (
 		EM_FOLDER_TREE (folder_tree),
 		EMFT_EXCLUDE_NOSELECT | EMFT_EXCLUDE_VIRTUAL |
@@ -578,8 +576,6 @@ action_mail_move_cb (GtkAction *action,
 	selected = message_list_get_selected (message_list);
 
 	folder = message_list->folder;
-
-	em_folder_tree_clone_expanded (folder_tree);
 
 	em_folder_tree_set_excluded (
 		EM_FOLDER_TREE (folder_tree),

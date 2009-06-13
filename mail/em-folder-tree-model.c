@@ -63,6 +63,11 @@
 struct _EMFolderTreeModelPrivate {
 	gpointer shell_backend;  /* weak pointer */
 
+	/* This is set by EMailShellSidebar.  It allows new EMFolderTree
+	 * instances to initialize their selection and expanded states to
+	 * mimic the sidebar. */
+	GtkTreeSelection *selection;  /* weak reference */
+
 	EAccountList *accounts;
 
 	/* EAccount -> EMFolderTreeStoreInfo */
@@ -80,7 +85,8 @@ struct _EMFolderTreeModelPrivate {
 
 enum {
 	PROP_0,
-	PROP_SHELL_BACKEND
+	PROP_SHELL_BACKEND,
+	PROP_SELECTION
 };
 
 enum {
@@ -230,6 +236,14 @@ account_removed_cb (EAccountList *accounts,
 }
 
 static void
+folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
+{
+	model->priv->selection = NULL;
+
+	g_object_notify (G_OBJECT (model), "selection");
+}
+
+static void
 folder_tree_model_set_shell_backend (EMFolderTreeModel *model,
                                     EShellBackend *shell_backend)
 {
@@ -254,6 +268,12 @@ folder_tree_model_set_property (GObject *object,
 				EM_FOLDER_TREE_MODEL (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SELECTION:
+			em_folder_tree_model_set_selection (
+				EM_FOLDER_TREE_MODEL (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -272,9 +292,34 @@ folder_tree_model_get_property (GObject *object,
 				em_folder_tree_model_get_mail_shell_backend (
 				EM_FOLDER_TREE_MODEL (object)));
 			return;
+
+		case PROP_SELECTION:
+			g_value_set_object (
+				value,
+				em_folder_tree_model_get_selection (
+				EM_FOLDER_TREE_MODEL (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_tree_model_dispose (GObject *object)
+{
+	EMFolderTreeModelPrivate *priv;
+
+	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
+
+	if (priv->selection != NULL) {
+		g_object_weak_unref (
+			G_OBJECT (priv->selection), (GWeakNotify)
+			folder_tree_model_selection_finalized_cb, object);
+		priv->selection = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -308,6 +353,7 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_tree_model_set_property;
 	object_class->get_property = folder_tree_model_get_property;
+	object_class->dispose = folder_tree_model_dispose;
 	object_class->finalize = folder_tree_model_finalize;
 
 	g_object_class_install_property (
@@ -320,6 +366,16 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SELECTION,
+		g_param_spec_object (
+			"selection",
+			"Selection",
+			NULL,
+			GTK_TYPE_TREE_SELECTION,
+			G_PARAM_READWRITE));
 
 	signals[LOADING_ROW] = g_signal_new (
 		"loading-row",
@@ -369,7 +425,6 @@ folder_tree_model_init (EMFolderTreeModel *model)
 		G_TYPE_STRING,   /* uri */
 		G_TYPE_UINT,     /* unread count */
 		G_TYPE_UINT,     /* flags */
-		G_TYPE_BOOLEAN,  /* is expanded in sidebar */
 		G_TYPE_BOOLEAN,  /* is a store node */
 		G_TYPE_BOOLEAN,  /* is a folder node */
 		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
@@ -455,6 +510,40 @@ em_folder_tree_model_get_mail_shell_backend (EMFolderTreeModel *model)
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
 	return model->priv->shell_backend;
+}
+
+GtkTreeSelection *
+em_folder_tree_model_get_selection (EMFolderTreeModel *model)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+
+	return GTK_TREE_SELECTION (model->priv->selection);
+}
+
+void
+em_folder_tree_model_set_selection (EMFolderTreeModel *model,
+                                    GtkTreeSelection *selection)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (selection != NULL)
+		g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+
+	if (model->priv->selection != NULL) {
+		g_object_weak_unref (
+			G_OBJECT (model->priv->selection), (GWeakNotify)
+			folder_tree_model_selection_finalized_cb, model);
+		model->priv->selection = NULL;
+	}
+
+	model->priv->selection = selection;
+
+	if (model->priv->selection != NULL)
+		g_object_weak_ref (
+			G_OBJECT (model->priv->selection), (GWeakNotify)
+			folder_tree_model_selection_finalized_cb, model);
+
+	g_object_notify (G_OBJECT (model), "selection");
 }
 
 void

@@ -63,7 +63,6 @@ enum {
 	COL_UINT_UNREAD,          /* unread count */
 	COL_UINT_FLAGS,		/* FolderInfo.flags */
 
-	COL_BOOL_EXPANDED,        /* node is expanded in sidebar */
 	COL_BOOL_IS_STORE,        /* toplevel store node? */
 	COL_BOOL_IS_FOLDER,       /* folder (not a store) */
 	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
@@ -116,6 +115,12 @@ EMFolderTreeModel *
 EMailShellBackend *
 		em_folder_tree_model_get_mail_shell_backend
 					(EMFolderTreeModel *model);
+GtkTreeSelection *
+		em_folder_tree_model_get_selection
+					(EMFolderTreeModel *model);
+void		em_folder_tree_model_set_selection
+					(EMFolderTreeModel *model,
+					 GtkTreeSelection *selection);
 void		em_folder_tree_model_set_folder_info
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter,

@@ -2408,7 +2408,6 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
 	folder_tree = em_folder_tree_new_with_model (model);
 
-	em_folder_tree_clone_expanded (EM_FOLDER_TREE (folder_tree));
 	em_folder_tree_set_multiselect (EM_FOLDER_TREE (folder_tree), TRUE);
 
 	em_folder_tree_set_excluded (

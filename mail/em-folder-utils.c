@@ -706,7 +706,6 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 
 	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	em_folder_tree_clone_expanded (folder_tree);
 
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)
