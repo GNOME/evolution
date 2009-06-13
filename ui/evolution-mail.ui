@@ -68,13 +68,14 @@
     <placeholder name='mail-toolbar-navigation'/>
   </toolbar>
   <popup name='mail-folder-popup'>
+    <placeholder name='mail-folder-popup-actions'/>
+    <separator/>
     <menuitem action='mail-popup-folder-new'/>
     <menuitem action='mail-popup-folder-copy'/>
     <menuitem action='mail-popup-folder-move'/>
     <separator/>
     <menuitem action='mail-popup-folder-delete'/>
     <separator/>
-    <placeholder name='mail-folder-popup-actions'/>
     <menuitem action='mail-popup-folder-rename'/>
     <menuitem action='mail-popup-folder-refresh'/>
     <menuitem action='mail-popup-flush-outbox'/>
