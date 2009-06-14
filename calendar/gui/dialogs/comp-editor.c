@@ -261,8 +261,8 @@ get_attachment_list (CompEditor *editor)
 	EAttachmentView *view;
 	GFile *destination;
 	GSList *list = NULL;
-	const char *comp_uid = NULL;
-	const char *local_store;
+	const gchar *comp_uid = NULL;
+	const gchar *local_store;
 	gchar *uri;
 	gint ii;
 

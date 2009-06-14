@@ -126,7 +126,7 @@ strip_signature (CamelMimeFilter *filter, const gchar *in, gsize len, gsize pres
 	else if (!start)
 		inptr = inend;
 
-	*out = (gchar*)in;
+	*out = (gchar *)in;
 	*outlen = inptr - in;
 	*outprespace = prespace;
 }

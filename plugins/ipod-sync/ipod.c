@@ -70,7 +70,7 @@ try_mount (gchar *device)
 	GError *err = NULL;
 	gint exit_status;
 
-	argv[0] = (gchar*)MOUNT;
+	argv[0] = (gchar *)MOUNT;
 	argv[1] = device;
 	argv[2] = NULL;
 
@@ -94,7 +94,7 @@ try_umount (gchar *device)
 	GError *err = NULL;
 	gint exit_status;
 
-	argv[0] = (gchar*)UMOUNT;
+	argv[0] = (gchar *)UMOUNT;
 	argv[1] = device;
 	argv[2] = NULL;
 

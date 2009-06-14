@@ -340,9 +340,9 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 static void
 emif_filter(CamelMimeFilter *f, const gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace)
 {
-	emif_scan(f, (gchar*)in, len, FALSE);
+	emif_scan(f, (gchar *)in, len, FALSE);
 
-	*out = (gchar*)in;
+	*out = (gchar *)in;
 	*outlen = len;
 	*outprespace = prespace;
 }
@@ -350,9 +350,9 @@ emif_filter(CamelMimeFilter *f, const gchar *in, gsize len, gsize prespace, gcha
 static void
 emif_complete(CamelMimeFilter *f, const gchar *in, gsize len, gsize prespace, gchar **out, gsize *outlen, gsize *outprespace)
 {
-	emif_scan(f, (gchar*)in, len, TRUE);
+	emif_scan(f, (gchar *)in, len, TRUE);
 
-	*out = (gchar*)in;
+	*out = (gchar *)in;
 	*outlen = len;
 	*outprespace = prespace;
 }
