@@ -169,10 +169,13 @@ e_composer_private_init (EMsgComposer *composer)
 
 	if (composer->lite) {
 		GtkWidget *tmp, *tmp1, *tmp_box, *container;
-		GtkWidget *combo = e_attachment_paned_get_view_combo (widget);
+		GtkWidget *combo;
 
+		combo = e_attachment_paned_get_view_combo (
+			E_ATTACHMENT_PANED (widget));
 		gtk_widget_hide (combo);
-		container = e_attachment_paned_get_controls_container (widget);
+		container = e_attachment_paned_get_controls_container (
+			E_ATTACHMENT_PANED (widget));
 		
 		tmp_box = gtk_hbox_new (FALSE, 0);
 
@@ -209,7 +212,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
 
 		gtk_widget_show(tmp_box);
-		gtk_box_pack_end (container, tmp_box, FALSE, FALSE, 3);
+		gtk_box_pack_end (GTK_BOX (container), tmp_box, FALSE, FALSE, 3);
 	}
 
 	g_object_set_data ((GObject *)composer, "vbox", editor->vbox);
