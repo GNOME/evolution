@@ -181,7 +181,6 @@ case "$host" in
     SA_JUNK_PLUGIN=''
     BF_JUNK_PLUGIN=''
     DL_LIB=''
-    SOFTOKN3_LIB=''
     HAL_REQUIREMENT=''
     ;;
 *)  os_win32=no
@@ -190,7 +189,6 @@ case "$host" in
     SA_JUNK_PLUGIN=sa-junk-plugin 
     BF_JUNK_PLUGIN=bogo-junk-plugin
     DL_LIB='-ldl'
-    SOFTOKN3_LIB='-lsoftokn3'
     HAL_REQUIREMENT='hal'
     ;;
 esac
@@ -1222,7 +1220,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		      		LIBS="$nsslibs $nsprlibs"
 				AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
 				if test "$ac_cv_moz_nss_libs" = no; then
-					nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
+					nsslibs="-lssl3 -lsmime3 -lnss3"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")	
 				fi
