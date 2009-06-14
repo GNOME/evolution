@@ -1207,7 +1207,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 					esac
 				fi
 			else
-		 		nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
+		 		nsslibs="-lssl3 -lsmime3 -lnss3"
 	 		fi	
 			
 			AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
@@ -1217,7 +1217,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		      		LIBS="$nsslibs $nsprlibs"
 				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
 				if test "$moz_nss_libs" = no; then
-					nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
+					nsslibs="-lssl3 -lsmime3 -lnss3"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 					AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
 				fi
