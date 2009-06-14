@@ -176,7 +176,7 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_widget_hide (combo);
 		container = e_attachment_paned_get_controls_container (
 			E_ATTACHMENT_PANED (widget));
-		
+
 		tmp_box = gtk_hbox_new (FALSE, 0);
 
 		tmp = gtk_hbox_new (FALSE, 0);

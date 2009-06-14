@@ -34,17 +34,17 @@ GtkWidget * e_calendar_http_secure (EPlugin *epl, EConfigHookItemFactoryData *da
 GtkWidget *e_calendar_http_auth (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 /* replaces all '@' with '%40' in str; returns newly allocated string */
-static char *
-replace_at_sign (const char *str)
+static gchar *
+replace_at_sign (const gchar *str)
 {
-	char *res, *at;
+	gchar *res, *at;
 
 	if (!str)
 		return NULL;
 
 	res = g_strdup (str);
 	while (at = strchr (res, '@'), at) {
-		char *tmp = g_malloc0 (sizeof (char) * (1 + strlen (res) + 2));
+		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (res) + 2));
 
 		strncpy (tmp, res, at - res);
 		strcat (tmp, "%40");
@@ -386,7 +386,7 @@ static void
 username_changed (GtkEntry *entry, ESource *source)
 {
 	const gchar *username;
-	char *uri;
+	gchar *uri;
 
 	username = gtk_entry_get_text (GTK_ENTRY (entry));
 
@@ -401,7 +401,7 @@ username_changed (GtkEntry *entry, ESource *source)
 	uri = e_source_get_uri (source);
 	if (uri != NULL) {
 		EUri *euri;
-		char *ruri;
+		gchar *ruri;
 
 		if (username && !*username)
 			username = NULL;

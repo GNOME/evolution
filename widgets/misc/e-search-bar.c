@@ -1451,7 +1451,7 @@ e_search_bar_set_search_scope (ESearchBar *search_bar, gint id)
 	gint row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-	
+
 	if (!search_bar->scopeoption_menu)
 		return;
 	row = find_id (search_bar->scopeoption_menu, id, "EsbItemId", NULL);

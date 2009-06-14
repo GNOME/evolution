@@ -78,9 +78,9 @@ void		e_attachment_paned_drag_data_received
 						 GtkSelectionData *selection,
 						 guint info,
 						 guint time);
-GtkWidget *	e_attachment_paned_get_controls_container 
+GtkWidget *	e_attachment_paned_get_controls_container
 						(EAttachmentPaned *paned);
-GtkWidget *	e_attachment_paned_get_view_combo 
+GtkWidget *	e_attachment_paned_get_view_combo
 						(EAttachmentPaned *paned);
 
 G_END_DECLS

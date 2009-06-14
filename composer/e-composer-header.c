@@ -69,12 +69,12 @@ composer_header_addaction_clicked_cb (GtkButton *button,
 				      EComposerHeader *header)
 {
 	gboolean show = !e_composer_header_get_visible(header);
-	if (!show) 
+	if (!show)
 		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
 	else
 		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
 
-	e_composer_header_set_visible (header, show);	
+	e_composer_header_set_visible (header, show);
 }
 
 static GObject *

@@ -1170,7 +1170,7 @@ get_font_options (void)
 
 		fo_option_changed (fo_gconf, 0, NULL, NULL);
 	}
-	
+
 	g_static_mutex_lock (&fo_lock);
 
 	/* Antialiasing */
