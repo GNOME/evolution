@@ -776,7 +776,7 @@ action_publish (EPlugin *ep, ECalMenuTargetSelect *t)
 		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
 }
 
-static void
+static gpointer
 publish_uris_set_timeout (GSList *uris)
 {
 	GSList *l;
@@ -804,6 +804,8 @@ publish_uris_set_timeout (GSList *uris)
 	}
 	g_slist_foreach (uris, (GFunc) g_free, NULL);
 	g_slist_free (uris);
+
+	return NULL;
 }
 
 gint
