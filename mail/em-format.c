@@ -1576,6 +1576,73 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	}
 }
 
+/* RFC 4155 */
+static void
+emf_application_mbox (EMFormat *emf,
+                      CamelStream *stream,
+                      CamelMimePart *mime_part,
+                      const EMFormatHandler *info)
+{
+	const EMFormatHandler *handle;
+	CamelMimeParser *parser;
+	CamelStream *mem_stream;
+	camel_mime_parser_state_t state;
+
+	/* Extract messages from the application/mbox part and
+	 * render them as a flat list of messages. */
+
+	/* XXX If the mbox has multiple messages, maybe render them
+	 *     as a multipart/digest so each message can be expanded
+	 *     or collapsed individually.
+	 *
+	 *     See attachment_handler_mail_x_uid_list() for example. */
+
+	/* XXX This is based on em_utils_read_messages_from_stream().
+	 *     Perhaps refactor that function to return an array of
+	 *     messages instead of assuming we want to append them
+	 *     to a folder? */
+
+	handle = em_format_find_handler (emf, "x-evolution/message/rfc822");
+	g_return_if_fail (handle != NULL);
+
+	parser = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (parser, TRUE);
+
+	mem_stream = camel_stream_mem_new ();
+	camel_data_wrapper_decode_to_stream (
+		CAMEL_DATA_WRAPPER (mime_part), mem_stream);
+	camel_seekable_stream_seek (
+		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET);
+	camel_mime_parser_init_with_stream (parser, mem_stream);
+	camel_object_unref (mem_stream);
+
+	/* Extract messages from the mbox. */
+	state = camel_mime_parser_step (parser, NULL, NULL);
+	while (state == CAMEL_MIME_PARSER_STATE_FROM) {
+		CamelMimeMessage *message;
+
+		message = camel_mime_message_new ();
+		mime_part = CAMEL_MIME_PART (message);
+
+		if (camel_mime_part_construct_from_parser (mime_part, parser) == -1) {
+			camel_object_unref (message);
+			break;
+		}
+
+		/* Render the message. */
+		handle->handler (emf, stream, mime_part, handle);
+
+		camel_object_unref (message);
+
+		/* Skip past CAMEL_MIME_PARSER_STATE_FROM_END. */
+		state = camel_mime_parser_step (parser, NULL, NULL);
+
+		state = camel_mime_parser_step (parser, NULL, NULL);
+	}
+
+	camel_object_unref (parser);
+}
+
 static void
 emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
@@ -1739,6 +1806,7 @@ static EMFormatHandler type_builtin_table[] = {
 #ifdef ENABLE_SMIME
 	{ (gchar *) "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
+	{ (gchar *) "application/mbox", emf_application_mbox, EM_FORMAT_HANDLER_INLINE },
 	{ (gchar *) "multipart/alternative", emf_multipart_alternative },
 	{ (gchar *) "multipart/appledouble", emf_multipart_appledouble },
 	{ (gchar *) "multipart/encrypted", emf_multipart_encrypted },
