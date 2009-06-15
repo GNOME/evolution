@@ -2110,7 +2110,9 @@ save_messages_exec (struct _save_messages_msg *m)
 		if (camel_stream_write_string(stream, from) == -1
 		    || camel_stream_flush(stream) == -1
 		    || camel_data_wrapper_write_to_stream((CamelDataWrapper *)message, (CamelStream *)filtered_stream) == -1
-		    || camel_stream_flush((CamelStream *)filtered_stream) == -1) {
+		    || camel_stream_flush((CamelStream *)filtered_stream) == -1
+		    || camel_stream_write_string(stream, "\n") == -1
+		    || camel_stream_flush(stream) == -1) {
 			camel_exception_setv(&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Error saving messages to: %s:\n %s"), m->path, g_strerror(errno));
 			g_free(from);
