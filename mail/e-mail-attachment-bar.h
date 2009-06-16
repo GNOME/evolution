@@ -23,7 +23,7 @@
 #define E_MAIL_ATTACHMENT_BAR_H
 
 #include <gtk/gtk.h>
-#include <widgets/misc/e-attachment-view.h>
+#include <misc/e-attachment-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_ATTACHMENT_BAR \

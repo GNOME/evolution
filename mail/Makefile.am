@@ -105,10 +105,6 @@ mailinclude_HEADERS =				\
 libevolution_mail_la_SOURCES =			\
 	$(MAIL_IDL_GENERATED)			\
 	$(mailinclude_HEADERS)			\
-	e-attachment-handler-mail.c		\
-	e-attachment-handler-mail.h		\
-	e-mail-attachment-bar.c			\
-	e-mail-search-bar.c			\
 	e-searching-tokenizer.c			\
 	em-account-prefs.c			\
 	em-account-prefs.h			\
@@ -174,6 +170,10 @@ libevolution_mail_la_DEPENDENCIES =		\
 	libevolution-mail-shared.la
 
 libevolution_mail_shared_la_SOURCES =		\
+	e-attachment-handler-mail.c		\
+	e-attachment-handler-mail.h		\
+	e-mail-attachment-bar.c			\
+	e-mail-search-bar.c			\
 	em-account-editor.c			\
 	em-account-editor.h			\
 	em-event.c				\
