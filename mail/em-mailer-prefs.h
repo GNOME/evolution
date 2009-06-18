@@ -25,20 +25,8 @@
 
 #include <gtk/gtk.h>
 #include <shell/Evolution.h>
-
-struct _ESignature;
-struct _GtkToggleButton;
-struct _GtkOptionMenu;
-struct _GtkComboBox;
-struct _GdkPixbuf;
-struct _GtkWidget;
-struct _GladeXML;
-struct _GtkFileChooserbutton;
-struct _GtkFontButton;
-struct _GConfClient;
-struct _GtkButton;
-struct _GtkTreeView;
-struct _GtkWindow;
+#include <gconf/gconf-client.h>
+#include <e-util/e-signature.h>
 
 #define EM_MAILER_PREFS_TYPE        (em_mailer_prefs_get_type ())
 #define EM_MAILER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_MAILER_PREFS_TYPE, EMMailerPrefs))
@@ -69,70 +57,70 @@ struct _EMMailerPrefs {
 	/* General tab */
 
 	/* Message Display */
-	struct _GtkToggleButton *timeout_toggle;
-	struct _GtkSpinButton *timeout;
-	struct _GtkToggleButton *address_toggle;
-	struct _GtkSpinButton *address_count;
-	struct _GtkToggleButton *mlimit_toggle;
-	struct _GtkSpinButton *mlimit_count;
-	struct _GtkOptionMenu *charset;
-	struct _GtkToggleButton *citation_highlight;
-	struct _GtkColorButton *citation_color;
-	struct _GtkToggleButton *enable_search_folders;
-	struct _GtkToggleButton *magic_spacebar;
+	GtkToggleButton *timeout_toggle;
+	GtkSpinButton *timeout;
+	GtkToggleButton *address_toggle;
+	GtkSpinButton *address_count;
+	GtkToggleButton *mlimit_toggle;
+	GtkSpinButton *mlimit_count;
+	GtkOptionMenu *charset;
+	GtkToggleButton *citation_highlight;
+	GtkColorButton *citation_color;
+	GtkToggleButton *enable_search_folders;
+	GtkToggleButton *magic_spacebar;
 
 	/* Deleting Mail */
-	struct _GtkToggleButton *empty_trash;
-	struct _GtkComboBox *empty_trash_days;
-	struct _GtkToggleButton *confirm_expunge;
+	GtkToggleButton *empty_trash;
+	GtkComboBox *empty_trash_days;
+	GtkToggleButton *confirm_expunge;
 
 	/* HTML Mail tab */
-	struct _GtkFontButton *font_variable;
-	struct _GtkFontButton *font_fixed;
-	struct _GtkToggleButton *font_share;
+	GtkFontButton *font_variable;
+	GtkFontButton *font_fixed;
+	GtkToggleButton *font_share;
 
 	/* Loading Images */
-	struct _GtkToggleButton *images_always;
-	struct _GtkToggleButton *images_sometimes;
-	struct _GtkToggleButton *images_never;
+	GtkToggleButton *images_always;
+	GtkToggleButton *images_sometimes;
+	GtkToggleButton *images_never;
 
-	struct _GtkToggleButton *show_animated;
-	struct _GtkToggleButton *autodetect_links;
-	struct _GtkToggleButton *prompt_unwanted_html;
+	GtkToggleButton *show_animated;
+	GtkToggleButton *autodetect_links;
+	GtkToggleButton *prompt_unwanted_html;
 
 	/* Labels and Colours tab */
-	struct _GtkWidget *label_add;
-	struct _GtkWidget *label_edit;
-	struct _GtkWidget *label_remove;
-	struct _GtkWidget *label_tree;
+	GtkWidget *label_add;
+	GtkWidget *label_edit;
+	GtkWidget *label_remove;
+	GtkWidget *label_tree;
 	guint labels_change_notify_id; /* mail_config's notify id */
 
 	/* Headers tab */
-	struct _GtkButton *add_header;
-	struct _GtkButton *remove_header;
-	struct _GtkEntry *entry_header;
-	struct _GtkTreeView *header_list;
-	struct _GtkListStore *header_list_store;
-	struct _GtkToggleButton *photo_show;
-	struct _GtkToggleButton *photo_local;
+	GtkButton *add_header;
+	GtkButton *remove_header;
+	GtkEntry *entry_header;
+	GtkTreeView *header_list;
+	GtkListStore *header_list_store;
+	GtkToggleButton *photo_show;
+	GtkToggleButton *photo_local;
 
 	/* Junk prefs */
-	struct _GtkToggleButton *check_incoming;
-	struct _GtkToggleButton *empty_junk;
-	struct _GtkComboBox *empty_junk_days;
+	GtkToggleButton *check_incoming;
+	GtkToggleButton *empty_junk;
+	GtkComboBox *empty_junk_days;
 
-	struct _GtkToggleButton *sa_local_tests_only;
-	struct _GtkToggleButton *sa_use_daemon;
-	struct _GtkComboBox *default_junk_plugin;
-	struct _GtkLabel *plugin_status;
-	struct _GtkImage *plugin_image;
+	GtkToggleButton *sa_local_tests_only;
+	GtkToggleButton *sa_use_daemon;
+	GtkComboBox *default_junk_plugin;
+	GtkLabel *plugin_status;
+	GtkImage *plugin_image;
 
-	struct _GtkToggleButton *junk_header_check;
-	struct _GtkTreeView *junk_header_tree;
-	struct _GtkButton *junk_header_add;
-	struct _GtkButton *junk_header_remove;
-	struct _GtkToggleButton *junk_book_lookup;
-	struct _GtkToggleButton *junk_lookup_local_only;
+	GtkToggleButton *junk_header_check;
+	GtkTreeView *junk_header_tree;
+	GtkButton *junk_header_add;
+	GtkButton *junk_header_remove;
+	GtkToggleButton *junk_book_lookup;
+	GtkToggleButton *junk_lookup_local_only;
 };
 
 struct _EMMailerPrefsClass {
@@ -145,7 +133,7 @@ struct _EMMailerPrefsClass {
 GType em_mailer_prefs_get_type (void);
 GtkWidget * create_combo_text_widget (void);
 
-struct _GtkWidget *em_mailer_prefs_new (void);
+GtkWidget *em_mailer_prefs_new (void);
 
 EMMailerPrefsHeader *em_mailer_prefs_header_from_xml(const gchar *xml);
 gchar *em_mailer_prefs_header_to_xml(EMMailerPrefsHeader *header);

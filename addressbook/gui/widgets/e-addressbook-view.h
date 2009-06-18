@@ -29,14 +29,12 @@
 #include <libebook/e-book.h>
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
+#include "eab-menu.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "misc/e-search-bar.h"
 #include "misc/e-filter-bar.h"
 
 G_BEGIN_DECLS
-
-struct _EABMenu;
-struct _EABMenuTargetSelect;
 
 /* EABView - A card displaying information about a contact.
  *
@@ -157,7 +155,7 @@ gboolean   eab_view_can_stop            (EABView  *view);
 gboolean   eab_view_can_copy_to_folder  (EABView  *view);
 gboolean   eab_view_can_move_to_folder  (EABView  *view);
 
-struct _EABMenuTargetSelect *eab_view_get_menu_target (EABView *view, struct _EABMenu *menu);
+EABMenuTargetSelect *eab_view_get_menu_target (EABView *view, EABMenu *menu);
 
 G_END_DECLS
 

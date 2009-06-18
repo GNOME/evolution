@@ -42,13 +42,13 @@ typedef struct _MessageTagFollowUpClass MessageTagFollowUpClass;
 struct _MessageTagFollowUp {
 	MessageTagEditor parent;
 
-	struct _GtkTreeView *message_list;
+	GtkTreeView *message_list;
 
-	struct _GtkComboBox *combo_entry;
+	GtkComboBox *combo_entry;
 
 	struct _EDateEdit *target_date;
-	struct _GtkToggleButton *completed;
-	struct _GtkButton *clear;
+	GtkToggleButton *completed;
+	GtkButton *clear;
 
 	time_t completed_date;
 };

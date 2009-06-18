@@ -25,12 +25,11 @@
 #define __EAB_MENU_H__
 
 #include <glib-object.h>
+#include <libebook/e-book.h>
 
 #include "e-util/e-menu.h"
 
 G_BEGIN_DECLS
-
-struct _EBook;
 
 typedef struct _EABMenu EABMenu;
 typedef struct _EABMenuClass EABMenuClass;

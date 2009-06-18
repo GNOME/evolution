@@ -84,7 +84,7 @@
 
 static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
 
-extern struct _CamelSession *session;
+extern CamelSession *session;
 
 #define d(x)
 
@@ -681,7 +681,7 @@ emu_add_address_cb(BonoboListener *listener, const gchar *name, const CORBA_any 
 
 /* one of email or vcard should be always NULL, never both of them */
 static void
-emu_add_address_or_vcard (struct _GtkWidget *parent, const gchar *email, const gchar *vcard)
+emu_add_address_or_vcard (GtkWidget *parent, const gchar *email, const gchar *vcard)
 {
 	GtkWidget *win;
 	GtkWidget *control;
@@ -742,7 +742,7 @@ emu_add_address_or_vcard (struct _GtkWidget *parent, const gchar *email, const g
  * Add address @email to the addressbook.
  **/
 void
-em_utils_add_address (struct _GtkWidget *parent, const gchar *email)
+em_utils_add_address (GtkWidget *parent, const gchar *email)
 {
 	emu_add_address_or_vcard (parent, email, NULL);
 }
@@ -752,7 +752,7 @@ em_utils_add_address (struct _GtkWidget *parent, const gchar *email)
  * Adds whole vCard to the addressbook.
  **/
 void
-em_utils_add_vcard (struct _GtkWidget *parent, const gchar *vcard)
+em_utils_add_vcard (GtkWidget *parent, const gchar *vcard)
 {
 	emu_add_address_or_vcard (parent, NULL, vcard);
 }
@@ -2191,8 +2191,8 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 	return found;
 }
 
-struct _CamelMimePart *
-em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
+CamelMimePart *
+em_utils_contact_photo (CamelInternetAddress *cia, gboolean local)
 {
 	const gchar *addr;
 	gint stop = FALSE, found = FALSE;

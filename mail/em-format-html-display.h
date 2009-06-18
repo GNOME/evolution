@@ -74,7 +74,7 @@ struct _EMFormatHTMLDisplayClass {
 	/* a link clicked normally */
 	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const gchar *uri);
 	/* a part or a link button pressed event */
-	gint (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, struct _CamelMimePart *part);
+	gint (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, CamelMimePart *part);
 	/* the mouse is over a link */
 	void (*on_url)(EMFormatHTMLDisplay *efhd, const gchar *uri);
 };

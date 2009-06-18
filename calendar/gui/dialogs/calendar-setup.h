@@ -24,19 +24,20 @@
 #ifndef __CALENDAR_SETUP_H__
 #define __CALENDAR_SETUP_H__
 
-struct _GtkWindow;
-struct _ESource;
+#include <gtk/gtk.h>
+#include <libedataserver/e-source.h>
+#include <libedataserver/e-source-group.h>
 
 G_BEGIN_DECLS
 
-void calendar_setup_edit_calendar  (struct _GtkWindow *parent, struct _ESource *source, struct _ESourceGroup *group);
-void calendar_setup_new_calendar   (struct _GtkWindow *parent);
+void calendar_setup_edit_calendar  (GtkWindow *parent, ESource *source, ESourceGroup *group);
+void calendar_setup_new_calendar   (GtkWindow *parent);
 
-void calendar_setup_edit_task_list (struct _GtkWindow *parent, struct _ESource *source);
-void calendar_setup_new_task_list  (struct _GtkWindow *parent);
+void calendar_setup_edit_task_list (GtkWindow *parent, ESource *source);
+void calendar_setup_new_task_list  (GtkWindow *parent);
 
-void calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source);
-void calendar_setup_new_memo_list (struct _GtkWindow *parent);
+void calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source);
+void calendar_setup_new_memo_list (GtkWindow *parent);
 
 G_END_DECLS
 

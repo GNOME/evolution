@@ -25,6 +25,7 @@
 #define __EM_POPUP_H__
 
 #include <glib-object.h>
+#include <camel/camel-folder.h>
 
 #include "e-util/e-popup.h"
 
@@ -183,7 +184,7 @@ struct _EMPopupTargetURI {
  **/
 struct _EMPopupTargetSelect {
 	EPopupTarget target;
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	gchar *uri;
 	GPtrArray *uids;
 };
@@ -202,7 +203,7 @@ struct _EMPopupTargetSelect {
 struct _EMPopupTargetPart {
 	EPopupTarget target;
 	gchar *mime_type;
-	struct _CamelMimePart *part;
+	CamelMimePart *part;
 };
 
 /**
@@ -236,8 +237,8 @@ GType em_popup_get_type(void);
 EMPopup *em_popup_new(const gchar *menuid);
 
 EMPopupTargetURI *em_popup_target_new_uri(EMPopup *emp, const gchar *uri);
-EMPopupTargetSelect *em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids);
-EMPopupTargetPart *em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const gchar *mime_type);
+EMPopupTargetSelect *em_popup_target_new_select(EMPopup *emp, CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids);
+EMPopupTargetPart *em_popup_target_new_part(EMPopup *emp, CamelMimePart *part, const gchar *mime_type);
 EMPopupTargetFolder *em_popup_target_new_folder(EMPopup *emp, const gchar *uri, guint32 info_flags, guint32 popup_flags);
 
 /* ********************************************************************** */

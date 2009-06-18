@@ -26,12 +26,13 @@
 
 #include <gtk/gtk.h>
 
-G_BEGIN_DECLS
+#include <mail/em-config.h>
 
-struct _EAccount;
+G_BEGIN_DECLS
 
 typedef struct _EMAccountEditor EMAccountEditor;
 typedef struct _EMAccountEditorClass EMAccountEditorClass;
+typedef struct _EMAccountEditorPrivate EMAccountEditorPrivate;
 
 typedef enum {
 	EMAE_NOTEBOOK,
@@ -42,15 +43,15 @@ typedef enum {
 struct _EMAccountEditor {
 	GObject gobject;
 
-	struct _EMAccountEditorPrivate *priv;
+	EMAccountEditorPrivate *priv;
 
 	em_account_editor_t type;
-	struct _GtkWidget *editor; /* gtknotebook or druid, depending on type */
+	GtkWidget *editor; /* gtknotebook or druid, depending on type */
 
-	struct _EMConfig *config; /* driver object */
+	EMConfig *config; /* driver object */
 
-	struct _EAccount *account; /* working account, must instant apply to this */
-	struct _EAccount *original; /* original account, not changed unless commit is invoked */
+	EAccount *account; /* working account, must instant apply to this */
+	EAccount *original; /* original account, not changed unless commit is invoked */
 
 	GtkWidget **pages; /* Pages for Anjal's page type editor */
 
@@ -63,18 +64,18 @@ struct _EMAccountEditorClass {
 
 GType em_account_editor_get_type(void);
 
-EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, const gchar *id);
-EMAccountEditor *em_account_editor_new_for_pages(struct _EAccount *account, em_account_editor_t type, gchar *id, struct _GtkWidget **pages);
+EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, const gchar *id);
+EMAccountEditor *em_account_editor_new_for_pages(EAccount *account, em_account_editor_t type, gchar *id, GtkWidget **pages);
 void em_account_editor_commit (EMAccountEditor *emae);
 void em_account_editor_check (EMAccountEditor *emae, const gchar *page);
 
 gboolean em_account_editor_save (EMAccountEditor *gui);
 void em_account_editor_destroy (EMAccountEditor *gui);
 
-gboolean em_account_editor_identity_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
-gboolean em_account_editor_source_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
-gboolean em_account_editor_transport_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
-gboolean em_account_editor_management_complete (EMAccountEditor *gui, struct _GtkWidget **incomplete);
+gboolean em_account_editor_identity_complete (EMAccountEditor *gui, GtkWidget **incomplete);
+gboolean em_account_editor_source_complete (EMAccountEditor *gui, GtkWidget **incomplete);
+gboolean em_account_editor_transport_complete (EMAccountEditor *gui, GtkWidget **incomplete);
+gboolean em_account_editor_management_complete (EMAccountEditor *gui, GtkWidget **incomplete);
 
 void em_account_editor_build_extra_conf (EMAccountEditor *gui, const gchar *url);
 

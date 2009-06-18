@@ -36,15 +36,14 @@ G_BEGIN_DECLS
 
 typedef struct _ETextModel ETextModel;
 typedef struct _ETextModelClass ETextModelClass;
-
-struct _ETextModelPrivate;
+typedef struct _ETextModelPrivate ETextModelPrivate;
 
 typedef gint (*ETextModelReposFn) (gint, gpointer);
 
 struct _ETextModel {
 	GObject item;
 
-	struct _ETextModelPrivate *priv;
+	ETextModelPrivate *priv;
 };
 
 struct _ETextModelClass {

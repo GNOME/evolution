@@ -147,7 +147,7 @@ emhs_sync_close(CamelStream *stream)
 }
 
 static void
-emhs_gtkhtml_destroy(struct _GtkHTML *html, EMHTMLStream *emhs)
+emhs_gtkhtml_destroy(GtkHTML *html, EMHTMLStream *emhs)
 {
 	d(printf("%p: emhs gtkhtml destroy\n", emhs));
 	emhs->sync.cancel = TRUE;
@@ -157,7 +157,7 @@ emhs_gtkhtml_destroy(struct _GtkHTML *html, EMHTMLStream *emhs)
 /* TODO: Could pass NULL for html_stream, and do a gtk_html_begin
    on first data -> less flashing */
 CamelStream *
-em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream)
+em_html_stream_new(GtkHTML *html, GtkHTMLStream *html_stream)
 {
 	EMHTMLStream *new;
 

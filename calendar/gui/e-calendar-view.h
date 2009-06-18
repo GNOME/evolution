@@ -171,8 +171,8 @@ void           e_calendar_view_modify_and_send (ECalComponent *comp,
 					       CalObjModType mod,
 					       GtkWindow *toplevel,
 					       gboolean new);
-void e_calendar_utils_show_error_silent (struct _GtkWidget *widget);
-void e_calendar_utils_show_info_silent(struct _GtkWidget *widget);
+void e_calendar_utils_show_error_silent (GtkWidget *widget);
+void e_calendar_utils_show_info_silent(GtkWidget *widget);
 
 gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
 

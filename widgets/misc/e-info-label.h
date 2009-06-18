@@ -36,8 +36,8 @@ typedef struct _EInfoLabelClass EInfoLabelClass;
 struct _EInfoLabel {
 	GtkHBox parent;
 
-	struct _GtkWidget *location;
-	struct _GtkWidget *info;
+	GtkWidget *location;
+	GtkWidget *info;
 };
 
 struct _EInfoLabelClass {

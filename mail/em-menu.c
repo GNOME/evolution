@@ -134,7 +134,7 @@ EMMenu *em_menu_new(const gchar *menuid)
  * Return value:
  **/
 EMMenuTargetSelect *
-em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
+em_menu_target_new_select(EMMenu *emp, CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
 {
 	EMMenuTargetSelect *t = e_menu_target_new(&emp->popup, EM_MENU_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
@@ -231,7 +231,7 @@ em_menu_target_new_select(EMMenu *emp, struct _CamelFolder *folder, const gchar 
  * Return value:
  **/
 EMMenuTargetWidget *
-em_menu_target_new_widget(EMMenu *emp, struct _GtkWidget *w)
+em_menu_target_new_widget(EMMenu *emp, GtkWidget *w)
 {
 	EMMenuTargetWidget *t = e_menu_target_new(&emp->popup, EM_MENU_TARGET_WIDGET, sizeof(*t));
 	guint32 mask = ~0;

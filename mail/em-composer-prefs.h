@@ -24,6 +24,8 @@
 #define __EM_COMPOSER_PREFS_H__
 
 #include <gtk/gtk.h>
+#include <glade/glade.h>
+#include <gtkhtml/gtkhtml.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_COMPOSER_PREFS \
@@ -55,7 +57,7 @@ struct _GladeXML;
 struct _EMComposerPrefs {
 	GtkVBox parent;
 
-	struct _GladeXML *gui;
+	GladeXML *gui;
 
 	/* General tab */
 
@@ -76,9 +78,9 @@ struct _EMComposerPrefs {
 	GtkButton *sig_add_script;
 	GtkButton *sig_edit;
 	GtkButton *sig_delete;
-	struct _GtkHTML *sig_preview;
+	GtkHTML *sig_preview;
 
-	struct _GladeXML *sig_script_gui;
+	GladeXML *sig_script_gui;
 	GtkWidget *sig_script_dialog;
 
 	guint sig_added_id;

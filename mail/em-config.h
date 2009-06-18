@@ -24,15 +24,17 @@
 #define __EM_CONFIG_H__
 
 #include <glib-object.h>
+#include <gconf/gconf-client.h>
+#include <camel/camel-folder.h>
+#include <libedataserver/e-account.h>
 
 #include "e-util/e-config.h"
 
 G_BEGIN_DECLS
 
-struct _GConfClient;
-
 typedef struct _EMConfig EMConfig;
 typedef struct _EMConfigClass EMConfigClass;
+typedef struct _EMConfigPrivate EMConfigPrivate;
 
 /* Current target description */
 /* Types of popup tagets */
@@ -49,7 +51,7 @@ typedef struct _EMConfigTargetAccount EMConfigTargetAccount;
 struct _EMConfigTargetFolder {
 	EConfigTarget target;
 
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	gchar *uri;
 };
 
@@ -57,13 +59,13 @@ struct _EMConfigTargetPrefs {
 	EConfigTarget target;
 
 	/* preferences are global from gconf */
-	struct _GConfClient *gconf;
+	GConfClient *gconf;
 };
 
 struct _EMConfigTargetAccount {
 	EConfigTarget target;
 
-	struct _EAccount *account;
+	EAccount *account;
 	/* Need also: working account, not just real account, so changes can be propagated around
 	   And some mechamism for controlling the gui if we're running inside a druid, e.g. enabling 'next' */
 };
@@ -74,7 +76,7 @@ typedef struct _EConfigItem EMConfigItem;
 struct _EMConfig {
 	EConfig config;
 
-	struct _EMConfigPrivate *priv;
+	EMConfigPrivate *priv;
 };
 
 struct _EMConfigClass {
@@ -85,9 +87,9 @@ GType em_config_get_type(void);
 
 EMConfig *em_config_new(gint type, const gchar *menuid);
 
-EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const gchar *uri);
-EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, struct _GConfClient *gconf);
-EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, struct _EAccount *account);
+EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, CamelFolder *folder, const gchar *uri);
+EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, GConfClient *gconf);
+EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, EAccount *account);
 
 /* ********************************************************************** */
 

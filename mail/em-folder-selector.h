@@ -26,16 +26,13 @@
 
 #include <gtk/gtk.h>
 
-#ifdef cplusplus
-extern "C" {
-#pragma }
-#endif /* cplusplus */
-
 #define EM_TYPE_FOLDER_SELECTOR			(em_folder_selector_get_type ())
 #define EM_FOLDER_SELECTOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelector))
 #define EM_FOLDER_SELECTOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorClass))
 #define EM_IS_FOLDER_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
 #define EM_IS_FOLDER_SELECTOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFolderSelector        EMFolderSelector;
 typedef struct _EMFolderSelectorPrivate EMFolderSelectorPrivate;
@@ -47,7 +44,7 @@ struct _EMFolderSelector {
 	guint32 flags;
 	struct _EMFolderTree *emft;
 
-	struct _GtkEntry *name_entry;
+	GtkEntry *name_entry;
 	gchar *selected_path;
 	gchar *selected_uri;
 
@@ -87,8 +84,6 @@ const gchar *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
 GList *em_folder_selector_get_selected_uris (EMFolderSelector *emfs);
 GList *em_folder_selector_get_selected_paths (EMFolderSelector *emfs);
 
-#ifdef cplusplus
-}
-#endif /* cplusplus */
+G_END_DECLS
 
 #endif /* EM_FOLDER_SELECTOR_H */

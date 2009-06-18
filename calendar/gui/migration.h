@@ -29,9 +29,7 @@
 #include "tasks-component.h"
 #include "memos-component.h"
 
-struct _GError;
-
-gboolean migrate_calendars (CalendarComponent *component, gint major, gint minor, gint revision, struct _GError **err);
-gboolean migrate_tasks (TasksComponent *component, gint major, gint minor, gint revision, struct _GError **err);
-gboolean migrate_memos (MemosComponent *component, gint major, gint minor, gint revision, struct _GError **err);
+gboolean migrate_calendars (CalendarComponent *component, gint major, gint minor, gint revision, GError **err);
+gboolean migrate_tasks (TasksComponent *component, gint major, gint minor, gint revision, GError **err);
+gboolean migrate_memos (MemosComponent *component, gint major, gint minor, gint revision, GError **err);
 #endif

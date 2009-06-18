@@ -190,7 +190,7 @@ EMConfig *em_config_new(gint type, const gchar *menuid)
 }
 
 EMConfigTargetFolder *
-em_config_target_new_folder(EMConfig *emp, struct _CamelFolder *folder, const gchar *uri)
+em_config_target_new_folder(EMConfig *emp, CamelFolder *folder, const gchar *uri)
 {
 	EMConfigTargetFolder *t = e_config_target_new(&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof(*t));
 

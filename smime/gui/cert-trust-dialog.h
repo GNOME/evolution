@@ -24,9 +24,12 @@
 #ifndef _CERT_TRUST_DIALOG_H_
 #define _CERT_TRUST_DIALOG_H
 
-struct _GtkWidget;
-struct _ECert;
+#include <gtk/gtk.h>
 
-struct _GtkWidget* cert_trust_dialog_show (struct _ECert *cert);
+G_BEGIN_DECLS
+
+GtkWidget* cert_trust_dialog_show (ECert *cert);
+
+G_END_DECLS
 
 #endif /* _CERT_TRUST_DIALOG_H_ */

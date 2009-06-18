@@ -62,8 +62,8 @@
    This is still kind of yucky, we should maintian a full tree of all this data,
    along with/as part of the puri tree */
 struct _EMFormatCache {
-	struct _CamelCipherValidity *valid; /* validity copy */
-	struct _CamelMimePart *secured;	/* encrypted subpart */
+	CamelCipherValidity *valid; /* validity copy */
+	CamelMimePart *secured;	/* encrypted subpart */
 
 	guint state:2;		/* inline state */
 
@@ -822,7 +822,7 @@ em_format_redraw (EMFormat *emf)
  * encrypted messages viewed.
  **/
 void
-em_format_set_session(EMFormat *emf, struct _CamelSession *s)
+em_format_set_session(EMFormat *emf, CamelSession *s)
 {
 	if (s)
 		camel_object_ref(s);
@@ -1083,7 +1083,7 @@ void em_format_format_error(EMFormat *emf, CamelStream *stream, const gchar *fmt
 }
 
 void
-em_format_format_secure(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, struct _CamelCipherValidity *valid)
+em_format_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
 {
 	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_secure(emf, stream, part, valid);
 

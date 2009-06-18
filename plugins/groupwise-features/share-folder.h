@@ -40,45 +40,31 @@ G_BEGIN_DECLS
 typedef struct _ShareFolder ShareFolder;
 typedef struct _ShareFolderClass ShareFolderClass;
 
-struct _GtkWidget;
-struct _GladeXML;
-struct _GtkButton;
-struct _GtkTreeView;
-struct _GtkLabel;
-struct _GtkEntry;
-struct _GtkWindow;
-struct _GtkRadioButton;
-struct _GtkListStore;
-struct _GtkCellRenderer;
-struct _GtkTreeViewColumn;
-struct _GtkFrame;
-struct _GtkVBox;
-
 struct _ShareFolder {
 	GtkVBox parent_object;
 
-	struct _GladeXML *xml;
+	GladeXML *xml;
 
 	/* General tab */
 
 	/* Default Behavior */
-	struct _GtkTreeView *user_list;
-	struct _GtkTextView *message;
-	struct _GtkButton *add_button;
-	struct _GtkButton *remove;
-	struct _GtkButton *add_book;
-	struct _GtkButton *notification;
-	struct _GtkEntry *name;
-	struct _GtkEntry *subject;
-	struct _GtkRadioButton *shared;
-	struct _GtkRadioButton *not_shared;
-	struct _GtkWidget *scrolled_window;
-	struct _GtkListStore *model;
-	struct _GtkCellRenderer *cell;
-	struct _GtkTreeViewColumn *column;
-	struct _GtkVBox  *vbox;
-	struct _GtkVBox  *table;
-	struct _GtkWidget *window;
+	GtkTreeView *user_list;
+	GtkTextView *message;
+	GtkButton *add_button;
+	GtkButton *remove;
+	GtkButton *add_book;
+	GtkButton *notification;
+	GtkEntry *name;
+	GtkEntry *subject;
+	GtkRadioButton *shared;
+	GtkRadioButton *not_shared;
+	GtkWidget *scrolled_window;
+	GtkListStore *model;
+	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
+	GtkVBox  *vbox;
+	GtkVBox  *table;
+	GtkWidget *window;
 
 	GList *users_list;
 	EGwContainer *gcontainer;

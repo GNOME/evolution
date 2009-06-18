@@ -32,14 +32,14 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
+#include <e-util/e-popup.h>
 
+#include "e-cal-menu.h"
 #include "e-calendar-table.h"
 
 G_BEGIN_DECLS
 
 
-
-struct _EPopup;
 
 #define GNOME_TYPE_CALENDAR            (gnome_calendar_get_type ())
 #define GNOME_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
@@ -140,14 +140,14 @@ GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
-struct _ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
-struct _ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
-struct _ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal);
+ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
+ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
+ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal);
 
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 
-void gnome_calendar_view_popup_factory (GnomeCalendar *gcal, struct _EPopup *ep, const gchar *prefix);
+void gnome_calendar_view_popup_factory (GnomeCalendar *gcal, EPopup *ep, const gchar *prefix);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,

@@ -155,7 +155,7 @@ EMPopup *em_popup_new(const gchar *menuid)
  * Return value:
  **/
 EMPopupTargetSelect *
-em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
+em_popup_target_new_select(EMPopup *emp, CamelFolder *folder, const gchar *folder_uri, GPtrArray *uids)
 {
 	EMPopupTargetSelect *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_SELECT, sizeof(*t));
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
@@ -273,7 +273,7 @@ em_popup_target_new_uri(EMPopup *emp, const gchar *uri)
 }
 
 EMPopupTargetPart *
-em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const gchar *mime_type)
+em_popup_target_new_part(EMPopup *emp, CamelMimePart *part, const gchar *mime_type)
 {
 	EMPopupTargetPart *t = e_popup_target_new(&emp->popup, EM_POPUP_TARGET_PART, sizeof(*t));
 	guint32 mask = ~0;

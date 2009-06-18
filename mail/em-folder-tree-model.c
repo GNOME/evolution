@@ -450,7 +450,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load = FALSE, is_drafts = FALSE, is_templates = FALSE;
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const gchar *name;
 	const gchar *icon_name;

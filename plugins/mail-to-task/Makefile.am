@@ -1,5 +1,6 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 

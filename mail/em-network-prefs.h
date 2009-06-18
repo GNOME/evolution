@@ -24,6 +24,8 @@
 #define __EM_NETWORK_PREFS_H__
 
 #include <gtk/gtk.h>
+#include <glade/glade.h>
+#include <gconf/gconf-client.h>
 
 #define EM_NETWORK_PREFS_TYPE        (em_network_prefs_get_type ())
 #define EM_NETWORK_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_NETWORK_PREFS_TYPE, EMNetworkPrefs))
@@ -36,11 +38,6 @@ G_BEGIN_DECLS
 typedef struct _EMNetworkPrefs EMNetworkPrefs;
 typedef struct _EMNetworkPrefsClass EMNetworkPrefsClass;
 
-struct _GtkToggleButton;
-struct _GtkEntry;
-struct _GladeXML;
-struct _GConfClient;
-
 typedef enum {
 	NETWORK_PROXY_SYS_SETTINGS,
 	NETWORK_PROXY_DIRECT_CONNECTION,
@@ -52,43 +49,43 @@ typedef enum {
 struct _EMNetworkPrefs {
 	GtkVBox parent_object;
 
-	struct _GConfClient *gconf;
+	GConfClient *gconf;
 
-	struct _GladeXML *gui;
+	GladeXML *gui;
 
 	/* Default Behavior */
-	struct _GtkToggleButton *sys_proxy;
-	struct _GtkToggleButton *no_proxy;
-	struct _GtkToggleButton *manual_proxy;
+	GtkToggleButton *sys_proxy;
+	GtkToggleButton *no_proxy;
+	GtkToggleButton *manual_proxy;
 #if 0
-	struct _GtkToggleButton *auto_proxy;
+	GtkToggleButton *auto_proxy;
 #endif
-	struct _GtkToggleButton *use_auth;
+	GtkToggleButton *use_auth;
 
-	struct _GtkEntry *http_host;
-	struct _GtkEntry *https_host;
-	struct _GtkEntry *ignore_hosts;
+	GtkEntry *http_host;
+	GtkEntry *https_host;
+	GtkEntry *ignore_hosts;
 #if 0
-	struct _GtkEntry *auto_proxy_url;
+	GtkEntry *auto_proxy_url;
 #endif
-	struct _GtkEntry *auth_user;
-	struct _GtkEntry *auth_pwd;
+	GtkEntry *auth_user;
+	GtkEntry *auth_pwd;
 
-	struct _GtkLabel *lbl_http_host;
-	struct _GtkLabel *lbl_http_port;
-	struct _GtkLabel *lbl_https_host;
-	struct _GtkLabel *lbl_https_port;
-	struct _GtkLabel *lbl_ignore_hosts;
-	struct _GtkLabel *lbl_auth_user;
-	struct _GtkLabel *lbl_auth_pwd;
+	GtkLabel *lbl_http_host;
+	GtkLabel *lbl_http_port;
+	GtkLabel *lbl_https_host;
+	GtkLabel *lbl_https_port;
+	GtkLabel *lbl_ignore_hosts;
+	GtkLabel *lbl_auth_user;
+	GtkLabel *lbl_auth_pwd;
 
-	struct _GtkSpinButton *http_port;
-	struct _GtkSpinButton *https_port;
+	GtkSpinButton *http_port;
+	GtkSpinButton *https_port;
 #if 0
-	struct _GtkLabel *lbl_socks_host;
-	struct _GtkEntry *socks_host;
-	struct _GtkLabel *lbl_socks_port;
-	struct _GtkSpinButton *socks_port;
+	GtkLabel *lbl_socks_host;
+	GtkEntry *socks_host;
+	GtkLabel *lbl_socks_port;
+	GtkSpinButton *socks_port;
 #endif
 };
 
@@ -101,7 +98,7 @@ struct _EMNetworkPrefsClass {
 
 GType em_network_prefs_get_type (void);
 
-struct _GtkWidget *em_network_prefs_new (void);
+GtkWidget *em_network_prefs_new (void);
 
 /* needed by global config */
 #define EM_NETWORK_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_NetworkPrefs_ConfigControl:" BASE_VERSION

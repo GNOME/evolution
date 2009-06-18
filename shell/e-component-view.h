@@ -24,11 +24,10 @@
 #ifndef _E_COMPONENT_VIEW_H_
 #define _E_COMPONENT_VIEW_H_
 
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-object.h>
 
 G_BEGIN_DECLS
-
-struct _GtkWidget;
 
 typedef struct _EComponentView        EComponentView;
 typedef struct _EComponentViewPrivate EComponentViewPrivate;
@@ -62,7 +61,7 @@ struct _EComponentViewClass {
 };
 
 GType           e_component_view_get_type(void);
-EComponentView *e_component_view_new(GNOME_Evolution_ShellView shell_view, const gchar *id, struct _GtkWidget *side, struct _GtkWidget *view, struct _GtkWidget *status);
+EComponentView *e_component_view_new(GNOME_Evolution_ShellView shell_view, const gchar *id, GtkWidget *side, GtkWidget *view, GtkWidget *status);
 EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, const gchar *id, struct _BonoboControl *side, struct _BonoboControl *view, struct _BonoboControl *statusbar);
 
 void e_component_view_set_title(EComponentView *ecv, const gchar *title);

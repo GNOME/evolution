@@ -31,17 +31,14 @@ G_BEGIN_DECLS
 #define EM_HTML_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_HTML_STREAM_TYPE, EMHTMLStreamClass))
 #define EM_IS_HTML_STREAM(o)    (CAMEL_CHECK_TYPE((o), EM_HTML_STREAM_TYPE))
 
-struct _GtkHTML;
-struct _GtkHTMLStream;
-
 #include "mail/em-sync-stream.h"
 
 typedef struct _EMHTMLStream {
 	EMSyncStream sync;
 
 	guint destroy_id;
-	struct _GtkHTML *html;
-	struct _GtkHTMLStream *html_stream;
+	GtkHTML *html;
+	GtkHTMLStream *html_stream;
 	GtkHTMLBeginFlags flags;
 } EMHTMLStream;
 
@@ -54,7 +51,7 @@ typedef struct {
 CamelType    em_html_stream_get_type (void);
 
 /* the html_stream is closed when we are finalised (with an error), or closed (ok) */
-CamelStream *em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream);
+CamelStream *em_html_stream_new(GtkHTML *html, GtkHTMLStream *html_stream);
 void em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags);
 
 G_END_DECLS

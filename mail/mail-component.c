@@ -1359,7 +1359,7 @@ mail_component_peek_activity_handler (MailComponent *component)
 	return component->priv->activity_handler;
 }
 
-struct _CamelSession *mail_component_peek_session(MailComponent *component)
+CamelSession *mail_component_peek_session(MailComponent *component)
 {
 	MAIL_COMPONENT_DEFAULT(component);
 
@@ -1546,7 +1546,7 @@ mail_component_peek_local_store (MailComponent *mc)
  *
  * Return value:
  **/
-struct _CamelFolder *
+CamelFolder *
 mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 {
 	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);

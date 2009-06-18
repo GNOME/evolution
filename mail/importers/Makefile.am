@@ -9,6 +9,7 @@ privsolib_LTLIBRARIES = libevolution-mail-importers.la
 INCLUDES = -I.. 					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(IMPORTERS_CFLAGS)

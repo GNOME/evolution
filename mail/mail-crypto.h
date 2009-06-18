@@ -25,10 +25,8 @@
 
 G_BEGIN_DECLS
 
-struct _EAccount;
-
 /* PGP/MIME convenience wrappers */
-struct _CamelCipherContext *mail_crypto_get_pgp_cipher_context(struct _EAccount *account);
+CamelCipherContext *mail_crypto_get_pgp_cipher_context(EAccount *account);
 
 G_END_DECLS
 

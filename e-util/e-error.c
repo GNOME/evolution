@@ -580,8 +580,8 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
  * Return value: A GtkDialog which can be used for showing an error
  * dialog asynchronously.
  **/
-struct _GtkWidget *
-e_error_new(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
+GtkWidget *
+e_error_new(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 {
 	GtkWidget *w;
 	va_list ap;
@@ -683,7 +683,7 @@ remove_parent(GtkWidget *w, GtkWidget *parent)
  * destruction state.
  **/
 void
-e_error_default_parent(struct _GtkWindow *parent)
+e_error_default_parent(GtkWindow *parent)
 {
 	if (g_slist_find(ee_parent_list, parent) == NULL) {
 		ee_parent_list = g_slist_prepend(ee_parent_list, parent);

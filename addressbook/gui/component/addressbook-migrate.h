@@ -26,8 +26,6 @@
 
 #include "addressbook-component.h"
 
-struct _GError;
-
-gint addressbook_migrate (AddressbookComponent *component, gint major, gint minor, gint revision, struct _GError **err);
+gint addressbook_migrate (AddressbookComponent *component, gint major, gint minor, gint revision, GError **err);
 
 #endif /* _ADDRESSBOOK_MIGRATE_H_ */

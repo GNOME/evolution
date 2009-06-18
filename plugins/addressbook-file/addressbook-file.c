@@ -25,9 +25,9 @@
 #include <libedataserver/e-source.h>
 #include <string.h>
 
-struct _GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-struct _GtkWidget *
+GtkWidget *
 e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;

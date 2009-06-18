@@ -43,8 +43,8 @@ typedef void (*EMFormatHookFunc)(struct _EPlugin *plugin, EMFormatHookTarget *da
 
 struct _EMFormatHookTarget {
 	struct _EMFormat *format;
-	struct _CamelStream *stream;
-	struct _CamelMimePart *part;
+	CamelStream *stream;
+	CamelMimePart *part;
 	struct _EMFormatHookItem *item;
 };
 

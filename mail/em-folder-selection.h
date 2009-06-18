@@ -24,13 +24,12 @@
 #ifndef EM_FOLDER_SELECTION_H
 #define EM_FOLDER_SELECTION_H
 
-G_BEGIN_DECLS
-
+#include <gtk/gtk.h>
 #include "em-folder-tree.h"
 
-struct _GtkWindow;
+G_BEGIN_DECLS
 
-void em_select_folder (struct _GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
+void em_select_folder (GtkWindow *parent_window, const gchar *title, const gchar *oklabel, const gchar *default_uri,
 		       EMFTExcludeFunc exclude,
 		       void (*done)(const gchar *uri, gpointer data),
 		       gpointer data);

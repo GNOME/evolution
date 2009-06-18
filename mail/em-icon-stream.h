@@ -23,17 +23,14 @@
 #ifndef EM_ICON_STREAM_H
 #define EM_ICON_STREAM_H
 
-G_BEGIN_DECLS
+#include "mail/em-sync-stream.h"
 
 #define EM_ICON_STREAM_TYPE     (em_icon_stream_get_type ())
 #define EM_ICON_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_ICON_STREAM_TYPE, EMIconStream))
 #define EM_ICON_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_ICON_STREAM_TYPE, EMIconStreamClass))
 #define EM_IS_ICON_STREAM(o)    (CAMEL_CHECK_TYPE((o), EM_ICON_STREAM_TYPE))
 
-struct _GtkHTML;
-struct _GtkIconStream;
-
-#include "mail/em-sync-stream.h"
+G_BEGIN_DECLS
 
 typedef struct _EMIconStream {
 	EMSyncStream sync;
@@ -41,7 +38,7 @@ typedef struct _EMIconStream {
 	guint width, height;
 	guint destroy_id;
 	struct _GdkPixbufLoader *loader;
-	struct _GtkImage *image;
+	GtkImage *image;
 	gchar *key;
 
 	guint keep:1;

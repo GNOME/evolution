@@ -22,9 +22,7 @@
 #define _E_UTIL_LABELS_H
 
 #include <gtk/gtk.h>
-
-struct _GtkWindow;
-struct _GConfClient;
+#include <gconf/gconf-client.h>
 
 typedef struct {
 	gchar *tag;
@@ -38,7 +36,7 @@ GSList *    e_util_labels_parse         (struct _GConfClient *client);
 void        e_util_labels_free          (GSList *labels);
 
 gchar *      e_util_labels_add           (const gchar *name, const GdkColor *color);
-gchar *      e_util_labels_add_with_dlg  (struct _GtkWindow *parent, const gchar *tag);
+gchar *      e_util_labels_add_with_dlg  (GtkWindow *parent, const gchar *tag);
 gboolean    e_util_labels_remove        (const gchar *tag);
 gboolean    e_util_labels_set_data      (const gchar *tag, const gchar *name, const GdkColor *color);
 

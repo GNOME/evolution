@@ -24,13 +24,10 @@
 #ifndef __E_IMPORT_H__
 #define __E_IMPORT_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
+#include <gtk/gtk.h>
+#include <libedataserver/e-msgport.h>
 
 G_BEGIN_DECLS
-
-struct _GtkWindow;
-struct _GtkWidget;
 
 /* This is an importer function */
 
@@ -47,7 +44,7 @@ typedef void (*EImportStatusFunc)(EImport *ei, const gchar *what, gint pc, gpoin
 typedef void (*EImportFactoryFunc)(EImport *ei, gpointer data);
 typedef void (*EImportImporterFunc)(EImportImporter *importer, gpointer data);
 typedef gboolean (*EImportSupportedFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
-typedef struct _GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
+typedef GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
 typedef void (*EImportImportFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
 
 /* The global target types, implementors may add additional ones */
@@ -180,7 +177,7 @@ EImport *e_import_construct(EImport *, const gchar *id);
 void e_import_import(EImport *ei, EImportTarget *, EImportImporter *, EImportStatusFunc status, EImportCompleteFunc done, gpointer data);
 void e_import_cancel(EImport *, EImportTarget *, EImportImporter *);
 
-struct _GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImporter *);
+GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImporter *);
 
 void e_import_status(EImport *, EImportTarget *, const gchar *what, gint pc);
 void e_import_complete(EImport *, EImportTarget *);

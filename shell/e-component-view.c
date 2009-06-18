@@ -93,7 +93,7 @@ e_component_view_init (EComponentView *shell)
 {
 }
 
-EComponentView *e_component_view_new(GNOME_Evolution_ShellView parent, const gchar *id, struct _GtkWidget *side, struct _GtkWidget *view, struct _GtkWidget *statusbar)
+EComponentView *e_component_view_new(GNOME_Evolution_ShellView parent, const gchar *id, GtkWidget *side, GtkWidget *view, GtkWidget *statusbar)
 {
 	EComponentView *new = g_object_new (e_component_view_get_type (), NULL);
 	CORBA_Environment ev = { NULL };
