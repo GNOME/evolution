@@ -26,9 +26,7 @@
 
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EDayViewTimeItem - canvas item which displays the times down the left of
@@ -71,8 +69,6 @@ GType    e_day_view_time_item_get_type      (void);
 gint	 e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DAY_VIEW_TIME_ITEM_H_ */

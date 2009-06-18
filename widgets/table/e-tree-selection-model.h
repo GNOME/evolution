@@ -28,9 +28,7 @@
 #include <misc/e-selection-model.h>
 #include <table/e-tree-model.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef void (*ETreeForeachFunc) (ETreePath path,
 				  gpointer closure);
@@ -69,9 +67,7 @@ void             e_tree_selection_model_change_cursor       (ETreeSelectionModel
 							     ETreePath            path);
 ETreePath        e_tree_selection_model_get_cursor          (ETreeSelectionModel *etsm);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_TREE_SELECTION_MODEL_H_ */

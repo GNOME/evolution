@@ -26,9 +26,7 @@
 
 #include "e-week-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EWeekViewEventItem - displays the background, times and icons for an event
@@ -63,8 +61,6 @@ GType    e_week_view_event_item_get_type      (void);
 
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_WEEK_VIEW_EVENT_ITEM_H_ */

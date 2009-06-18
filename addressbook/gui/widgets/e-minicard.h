@@ -27,10 +27,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libebook/e-contact.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EMinicard - A small card displaying information about a contact.
  *
@@ -125,9 +122,7 @@ gint         e_minicard_selected     (EMinicard *minicard,
 				     GdkEvent  *event);
 void        e_minicard_activate_editor	(EMinicard *minicard);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_MINICARD_H__ */

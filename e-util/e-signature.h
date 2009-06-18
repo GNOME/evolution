@@ -26,10 +26,7 @@
 
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_SIGNATURE            (e_signature_get_type ())
 #define E_SIGNATURE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SIGNATURE, ESignature))
@@ -69,8 +66,6 @@ gboolean e_signature_set_from_xml (ESignature *sig, const gchar *xml);
 
 gchar *e_signature_to_xml (ESignature *sig);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_SIGNATURE_H__ */

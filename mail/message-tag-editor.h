@@ -28,10 +28,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-summary.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define MESSAGE_TAG_EDITOR_TYPE            (message_tag_editor_get_type ())
 #define MESSAGE_TAG_EDITOR(obj)		   (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_EDITOR_TYPE, MessageTagEditor))
@@ -65,8 +62,6 @@ GType message_tag_editor_get_type (void);
 CamelTag *message_tag_editor_get_tag_list (MessageTagEditor *editor);
 void      message_tag_editor_set_tag_list (MessageTagEditor *editor, CamelTag *tags);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __MESSAGE_TAG_EDITOR_H__ */

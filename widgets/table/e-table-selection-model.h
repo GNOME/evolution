@@ -29,9 +29,7 @@
 #include <table/e-table-model.h>
 #include <table/e-table-header.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
 #define E_TABLE_SELECTION_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
@@ -68,9 +66,7 @@ typedef struct {
 GType                 e_table_selection_model_get_type            (void);
 ETableSelectionModel *e_table_selection_model_new                 (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_TABLE_SELECTION_MODEL_H_ */

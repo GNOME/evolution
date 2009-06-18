@@ -26,9 +26,7 @@
 #include "ea-cal-view.h"
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_DAY_VIEW                     (ea_day_view_get_type ())
 #define EA_DAY_VIEW(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_DAY_VIEW, EaDayView))
@@ -54,8 +52,6 @@ struct _EaDayViewClass
 
 AtkObject*     ea_day_view_new         (GtkWidget       *widget);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_DAY_VIEW_H__ */

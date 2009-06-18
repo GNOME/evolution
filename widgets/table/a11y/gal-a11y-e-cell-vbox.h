@@ -27,9 +27,7 @@
 
 #include "gal-a11y-e-cell.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_A11Y_TYPE_E_CELL_VBOX            (gal_a11y_e_cell_vbox_get_type ())
 #define GAL_A11Y_E_CELL_VBOX(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_CELL_VBOX, GalA11yECellVbox))
@@ -61,7 +59,5 @@ AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 					 gint         view_col,
 					 gint         row);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 #endif /* __GAL_A11Y_E_CELL_VBOX_H__ */

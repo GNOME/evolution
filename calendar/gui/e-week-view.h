@@ -29,9 +29,7 @@
 #include "e-calendar-view.h"
 #include "gnome-cal.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EWeekView - displays the Week & Month views of the calendar.
@@ -449,8 +447,6 @@ gboolean e_week_view_is_jump_button_visible (EWeekView *week_view,
 					     gint day);
 void e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_WEEK_VIEW_H_ */

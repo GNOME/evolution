@@ -27,10 +27,7 @@
 #include <glib-object.h>
 #include "libedataserver/e-msgport.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* This is an abstract popup menu management/merging class.
 
@@ -303,8 +300,6 @@ GType e_popup_hook_get_type(void);
 /* for implementors */
 void e_popup_hook_class_add_target_map(EPopupHookClass *klass, const EPopupHookTargetMap *);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_POPUP_H__ */

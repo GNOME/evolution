@@ -25,10 +25,7 @@
 #include <e2k-security-descriptor.h>
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EXCHANGE_TYPE_DELEGATES_USER			(exchange_delegates_user_get_type ())
 #define EXCHANGE_DELEGATES_USER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EXCHANGE_TYPE_DELEGATES_USER, ExchangeDelegatesUser))
@@ -81,8 +78,6 @@ gboolean  exchange_delegates_user_edit (ExchangeAccount  *account, ExchangeDeleg
 
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_DELEGATES_USER_H__ */

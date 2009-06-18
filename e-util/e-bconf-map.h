@@ -28,10 +28,7 @@
 
 #include <libxml/tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 enum {
 	E_BCONF_MAP_END = 0,        /* end of table */
@@ -95,8 +92,6 @@ typedef struct {
 
 gint e_bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb, e_gconf_map_list_t *remap_list);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_BCONF_MAP_H__ */

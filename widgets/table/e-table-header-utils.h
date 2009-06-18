@@ -28,9 +28,7 @@
 
 #include <table/e-table-col.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 gdouble  e_table_header_compute_height (ETableCol *ecol,
 				       GtkWidget *widget);
@@ -48,8 +46,6 @@ void    e_table_header_draw_button     (GdkDrawable    *drawable,
 					gint             button_height,
 					ETableColArrow  arrow);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif

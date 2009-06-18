@@ -26,10 +26,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "e-minicard-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_MINICARD_VIEW			(ea_minicard_view_get_type ())
 #define EA_MINICARD_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_MINICARD_VIEW, EaMinicardView))
@@ -56,9 +53,7 @@ GType ea_minicard_view_get_type (void);
 
 AtkObject* ea_minicard_view_new(GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_MINICARD_VIEW_H__ */

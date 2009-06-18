@@ -30,10 +30,7 @@
 
 #include "em-format/em-format.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EMFormatHookItem EMFormatHookItem;
 typedef struct _EMFormatHookGroup EMFormatHookGroup;
@@ -91,8 +88,6 @@ GType em_format_hook_get_type(void);
 /* register a type as a possible formatter hook point */
 void em_format_hook_register_type(GType type);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_FORMAT_HOOK_H__ */

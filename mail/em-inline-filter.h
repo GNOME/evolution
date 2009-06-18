@@ -24,10 +24,7 @@
 #ifndef EM_INLINE_FILTER_H
 #define EM_INLINE_FILTER_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_INLINE_FILTER_TYPE     (em_inline_filter_get_type ())
 #define EM_INLINE_FILTER(obj)     (CAMEL_CHECK_CAST((obj), EM_INLINE_FILTER_TYPE, EMInlineFilter))
@@ -58,8 +55,6 @@ CamelType    em_inline_filter_get_type(void);
 EMInlineFilter *em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *type);
 struct _CamelMultipart *em_inline_filter_get_multipart(EMInlineFilter *emif);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_INLINE_FILTER_H */

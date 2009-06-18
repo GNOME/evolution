@@ -26,10 +26,7 @@
 
 #include "mail/em-folder-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EMFolderBrowser EMFolderBrowser;
 typedef struct _EMFolderBrowserClass EMFolderBrowserClass;
@@ -60,8 +57,6 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfv, gboolean state);
 gboolean em_folder_browser_get_wide(EMFolderBrowser *emfv);
 void em_folder_browser_suppress_message_selection(EMFolderBrowser *emfb);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* ! _EM_FOLDER_BROWSER_H */

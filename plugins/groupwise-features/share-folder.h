@@ -24,10 +24,7 @@
 #ifndef __SHARE_FOLDER_H__
 #define __SHARE_FOLDER_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
@@ -112,8 +109,6 @@ void share_folder(struct _ShareFolder *sf);
 gchar * get_container_id (EGwConnection *cnc, const gchar *fname);
 EGwConnection * get_cnc (CamelStore *store);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __SHARE_FOLDER_H__ */

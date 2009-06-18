@@ -30,10 +30,7 @@
 
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* This is an abstract event management class. */
 
@@ -231,8 +228,6 @@ GType e_event_hook_get_type(void);
 /* for implementors */
 void e_event_hook_class_add_target_map(EEventHookClass *klass, const EEventHookTargetMap *);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_EVENT_H__ */

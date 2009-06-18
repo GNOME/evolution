@@ -27,10 +27,7 @@
 #include <mail/message-tag-editor.h>
 #include <time.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define MESSAGE_TAG_FOLLOWUP_TYPE            (message_tag_followup_get_type ())
 #define MESSAGE_TAG_FOLLOWUP(obj)	     (G_TYPE_CHECK_INSTANCE_CAST (obj, MESSAGE_TAG_FOLLOWUP_TYPE, MessageTagFollowUp))
@@ -72,8 +69,6 @@ void message_tag_followup_append_message (MessageTagFollowUp *editor,
 					  const gchar *from,
 					  const gchar *subject);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __MESSAGE_TAG_FOLLOWUP_H__ */

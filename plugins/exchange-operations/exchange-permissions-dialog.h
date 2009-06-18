@@ -26,10 +26,7 @@
 #include "e-folder.h"
 #include "exchange-types.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EXCHANGE_TYPE_PERMISSIONS_DIALOG            (exchange_permissions_dialog_get_type ())
 #define EXCHANGE_PERMISSIONS_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EXCHANGE_TYPE_PERMISSIONS_DIALOG, ExchangePermissionsDialog))
@@ -54,8 +51,6 @@ void       exchange_permissions_dialog_new      (ExchangeAccount *account,
 						 EFolder         *folder,
 						 GtkWidget       *parent);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_PERMISSIONS_DIALOG_H__ */

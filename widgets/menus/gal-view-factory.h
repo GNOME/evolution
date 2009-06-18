@@ -27,9 +27,7 @@
 #include <glib-object.h>
 #include <widgets/menus/gal-view.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_VIEW_FACTORY_TYPE        (gal_view_factory_get_type ())
 #define GAL_VIEW_FACTORY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_FACTORY_TYPE, GalViewFactory))
@@ -71,9 +69,7 @@ const gchar *gal_view_factory_get_type_code  (GalViewFactory *factory);
 GalView    *gal_view_factory_new_view       (GalViewFactory *factory,
 					     const gchar     *name);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _GAL_VIEW_FACTORY_H_ */

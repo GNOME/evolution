@@ -26,10 +26,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-text-event-processor-types.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ETextEventProcessor - Turns events on a text widget into commands.
  *
@@ -67,9 +64,7 @@ struct _ETextEventProcessorClass
 GType      e_text_event_processor_get_type (void);
 gint       e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_TEXT_EVENT_PROCESSOR_H__ */

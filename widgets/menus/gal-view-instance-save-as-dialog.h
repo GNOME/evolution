@@ -28,10 +28,7 @@
 #include <widgets/menus/gal-view-collection.h>
 #include <widgets/menus/gal-view-instance.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* GalViewInstanceSaveAsDialog - A dialog displaying information about a contact.
  *
@@ -83,9 +80,7 @@ GType      gal_view_instance_save_as_dialog_get_type  (void);
 
 void       gal_view_instance_save_as_dialog_save      (GalViewInstanceSaveAsDialog *dialog);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__ */

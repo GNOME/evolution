@@ -25,10 +25,7 @@
 
 #include <camel/camel-mime-filter.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_TYPE_STRIPSIG_FILTER            (em_stripsig_filter_get_type ())
 #define EM_STRIPSIG_FILTER(obj)            (CAMEL_CHECK_CAST ((obj), EM_TYPE_STRIPSIG_FILTER, EMStripSigFilter))
@@ -56,8 +53,6 @@ CamelType em_stripsig_filter_get_type (void);
 
 CamelMimeFilter *em_stripsig_filter_new (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_STRIPSIG_FILTER_H__ */

@@ -32,10 +32,7 @@
 #include <libecal/e-cal-component.h>
 #include "e-meeting-types.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_MEETING_ATTENDEE			(e_meeting_attendee_get_type ())
 #define E_MEETING_ATTENDEE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MEETING_ATTENDEE, EMeetingAttendee))
@@ -169,8 +166,6 @@ gboolean e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 
 void e_meeting_attendee_clear_busy_periods (EMeetingAttendee *ia);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_MEETING_ATTENDEE_H_ */

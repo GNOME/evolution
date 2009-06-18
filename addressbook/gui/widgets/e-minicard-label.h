@@ -26,10 +26,7 @@
 #include <glib.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EMinicardLabel - A label doing focus with non-marching ants.
  *
@@ -81,9 +78,7 @@ GType      e_minicard_label_get_type (void);
 GnomeCanvasItem *e_minicard_label_new(GnomeCanvasGroup *parent);
 void e_minicard_label_construct (GnomeCanvasItem *item);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_MINICARD_LABEL_H__ */

@@ -24,16 +24,11 @@
 #include <exchange-types.h>
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 void exchange_delegates (ExchangeAccount *account, GtkWidget *parent);
 const gchar *email_look_up (const gchar *delegate_legacy, ExchangeAccount *account);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_DELEGATES_CONTROL_H__ */

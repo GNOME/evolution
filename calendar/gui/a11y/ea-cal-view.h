@@ -27,9 +27,7 @@
 #include <gtk/gtk.h>
 #include "e-calendar-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_CAL_VIEW                     (ea_cal_view_get_type ())
 #define EA_CAL_VIEW(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_CAL_VIEW, EaCalView))
@@ -55,8 +53,6 @@ struct _EaCalViewClass
 
 AtkObject* ea_cal_view_new (GtkWidget *widget);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_CAL_VIEW_H__ */

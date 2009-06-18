@@ -27,9 +27,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "e-day-view-main-item.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_DAY_VIEW_MAIN_ITEM                     (ea_day_view_main_item_get_type ())
 #define EA_DAY_VIEW_MAIN_ITEM(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_DAY_VIEW_MAIN_ITEM, EaDayViewMainItem))
@@ -55,8 +53,6 @@ struct _EaDayViewMainItemClass
 
 AtkObject*     ea_day_view_main_item_new         (GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_DAY_VIEW_MAIN_ITEM_H__ */

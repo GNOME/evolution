@@ -23,16 +23,11 @@
 
 #include <exchange-types.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 gchar *exchange_get_new_password (const gchar *existing_password,
 				 gboolean    voluntary);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_CHANGE_PASSWORD_H__ */

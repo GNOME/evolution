@@ -28,9 +28,7 @@
 #include <misc/e-selection-model.h>
 #include <e-util/e-bit-array.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_SELECTION_MODEL_ARRAY_TYPE        (e_selection_model_array_get_type ())
 #define E_SELECTION_MODEL_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArray))
@@ -89,9 +87,7 @@ void     e_selection_model_array_confirm_row_count  (ESelectionModelArray *esm);
 /* Protected Virtual Function */
 gint     e_selection_model_array_get_row_count      (ESelectionModelArray *esm);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_SELECTION_MODEL_ARRAY_H_ */

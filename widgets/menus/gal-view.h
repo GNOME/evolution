@@ -27,9 +27,7 @@
 #include <gtk/gtk.h>
 #include <libxml/tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_VIEW_TYPE        (gal_view_get_type ())
 #define GAL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_TYPE, GalView))
@@ -91,8 +89,6 @@ GalView    *gal_view_clone          (GalView    *view);
 void        gal_view_changed        (GalView    *view);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _GAL_VIEW_H_ */

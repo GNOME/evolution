@@ -28,9 +28,7 @@
 #include <widgets/menus/gal-view.h>
 #include <widgets/menus/gal-view-collection.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_DEFINE_VIEWS_MODEL_TYPE        (gal_define_views_model_get_type ())
 #define GAL_DEFINE_VIEWS_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
@@ -65,8 +63,6 @@ void         gal_define_views_model_delete_view  (GalDefineViewsModel *model,
 void         gal_define_views_model_copy_view    (GalDefineViewsModel *model,
 						  gint                  i);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _GAL_DEFINE_VIEWS_MODEL_H_ */

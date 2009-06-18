@@ -26,9 +26,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include <misc/e-calendar-item.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_CALENDAR_ITEM                   (ea_calendar_item_get_type ())
 #define EA_CALENDAR_ITEM(obj)                   (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_CALENDAR_ITEM, EaCalendarItem))
@@ -64,9 +62,7 @@ gboolean e_calendar_item_get_date_for_offset (ECalendarItem *calitem,
 gint e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 						 gint year, gint month);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_CALENDAR_ITEM_H__ */

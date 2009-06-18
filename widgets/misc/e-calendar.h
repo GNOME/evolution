@@ -27,9 +27,7 @@
 #include <misc/e-canvas.h>
 #include "e-calendar-item.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * ECalendar - displays a table of monthly calendars, allowing highlighting
@@ -110,8 +108,6 @@ void	   e_calendar_get_border_size	(ECalendar	*cal,
 
 void       e_calendar_set_focusable (ECalendar *cal, gboolean focusable);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CALENDAR_H_ */

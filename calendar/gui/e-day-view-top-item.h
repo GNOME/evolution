@@ -26,9 +26,7 @@
 
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EDayViewTopItem - displays the top part of the Day/Work Week calendar view.
@@ -62,8 +60,6 @@ void e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
 					gchar *buffer, gint buffer_len);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DAY_VIEW_TOP_ITEM_H_ */

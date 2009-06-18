@@ -24,9 +24,7 @@
 #ifndef __E_TABLE_DEFINES__
 #define __E_TABLE_DEFINES__ 1
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define BUTTON_HEIGHT        10
 #define BUTTON_PADDING       2
@@ -37,9 +35,7 @@ extern "C" {
 
 #define MIN_ARROW_SIZE 10
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif

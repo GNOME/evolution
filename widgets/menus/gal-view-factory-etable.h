@@ -28,9 +28,7 @@
 #include <widgets/menus/gal-view-factory.h>
 #include <table/e-table-specification.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_VIEW_FACTORY_ETABLE_TYPE        (gal_view_factory_etable_get_type ())
 #define GAL_VIEW_FACTORY_ETABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtable))
@@ -55,8 +53,6 @@ GalViewFactory *gal_view_factory_etable_new        (ETableSpecification  *spec);
 GalViewFactory *gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
 						    ETableSpecification  *spec);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _GAL_VIEW_FACTORY_ETABLE_H_ */

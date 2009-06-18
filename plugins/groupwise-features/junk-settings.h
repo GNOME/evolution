@@ -24,10 +24,7 @@
 #ifndef __JUNK_SETTINGS_H__
 #define __JUNK_SETTINGS_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
@@ -95,8 +92,6 @@ GType junk_settings_get_type (void);
 struct _JunkSettings * junk_settings_new (EGwConnection *ccnc);
 void commit_changes (JunkSettings *js);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __JUNK_SETTINGS_H__ */

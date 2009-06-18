@@ -24,10 +24,7 @@
 #ifndef MAIL_OPS_H
 #define MAIL_OPS_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include "mail-mt.h"
 
@@ -169,8 +166,6 @@ void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **a
 gint mail_check_service(const gchar *url, CamelProviderType type,
 		       void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data), gpointer data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* MAIL_OPS_H */

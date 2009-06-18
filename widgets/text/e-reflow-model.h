@@ -27,9 +27,7 @@
 #include <glib-object.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_REFLOW_MODEL_TYPE        (e_reflow_model_get_type ())
 #define E_REFLOW_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_REFLOW_MODEL_TYPE, EReflowModel))
@@ -105,8 +103,6 @@ void             e_reflow_model_item_removed       (EReflowModel     *e_reflow_m
 void             e_reflow_model_item_changed       (EReflowModel     *e_reflow_model,
 						    gint               n);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_REFLOW_MODEL_H_ */

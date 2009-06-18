@@ -27,9 +27,7 @@
 
 #include <libgnomecanvas/gnome-canvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * ECalendarItem - canvas item displaying a calendar.
@@ -367,8 +365,6 @@ gint e_calendar_item_get_week_number	(ECalendarItem *calitem,
 void e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CALENDAR_ITEM_H_ */

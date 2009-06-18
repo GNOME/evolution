@@ -26,9 +26,7 @@
 
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_SORTER_TYPE        (e_sorter_get_type ())
 #define E_SORTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SORTER_TYPE, ESorter))
@@ -75,8 +73,6 @@ void      e_sorter_get_sorted_to_model_array  (ESorter  *sorter,
 
 gboolean  e_sorter_needs_sorting              (ESorter  *sorter);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_SORTER_H_ */

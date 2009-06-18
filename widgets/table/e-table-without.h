@@ -27,9 +27,7 @@
 #include <glib-object.h>
 #include <table/e-table-subset.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_WITHOUT_TYPE        (e_table_without_get_type ())
 #define E_TABLE_WITHOUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_WITHOUT_TYPE, ETableWithout))
@@ -82,9 +80,7 @@ void         e_table_without_hide_adopt (ETableWithout                 *etw,
 void         e_table_without_show       (ETableWithout                 *etw,
 					 void                          *key);
 void         e_table_without_show_all   (ETableWithout                 *etw);
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_TABLE_WITHOUT_H_ */

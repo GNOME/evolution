@@ -29,10 +29,7 @@
 #include <libecal/e-cal.h>
 #include "e-util/e-config.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif
+G_BEGIN_DECLS
 
 typedef struct _ECalConfig ECalConfig;
 typedef struct _ECalConfigClass ECalConfigClass;
@@ -89,8 +86,6 @@ struct _ECalConfigHookClass {
 
 GType e_cal_config_hook_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

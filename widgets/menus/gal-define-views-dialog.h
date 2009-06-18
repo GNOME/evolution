@@ -28,10 +28,7 @@
 
 #include <widgets/menus/gal-view-collection.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* GalDefineViewsDialog - A dialog displaying information about a contact.
  *
@@ -70,9 +67,7 @@ struct _GalDefineViewsDialogClass
 GtkWidget               *gal_define_views_dialog_new          (GalViewCollection *collection);
 GType                    gal_define_views_dialog_get_type     (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GAL_DEFINE_VIEWS_DIALOG_H__ */

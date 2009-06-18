@@ -31,10 +31,7 @@
 #include <camel/camel-folder.h>
 #include <shell/e-shell-backend.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MESSAGE_LIST_TYPE, MessageList))
@@ -246,8 +243,6 @@ void           message_list_set_scrollbar_position (MessageList *ml, double pos)
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
 #define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _MESSAGE_LIST_H_ */

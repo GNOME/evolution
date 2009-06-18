@@ -23,16 +23,11 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 void exchange_folder_size_display (GtkListStore *model, GtkWidget *parent);
 gchar * exchange_folder_size_get_val (GtkListStore *model, const gchar *folder_name);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_FOLDER_SIZE_DISPLAY_H__ */

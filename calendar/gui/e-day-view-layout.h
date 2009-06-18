@@ -26,9 +26,7 @@
 
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* I've split these functions away from EDayView so we can use them for
    printing. */
@@ -51,8 +49,6 @@ gboolean   e_day_view_find_long_event_days	(EDayViewEvent	*event,
 						 gint		*start_day,
 						 gint		*end_day);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DAY_VIEW_LAYOUT_H_ */

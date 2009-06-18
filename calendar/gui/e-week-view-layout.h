@@ -26,9 +26,7 @@
 
 #include "e-week-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* I've split these functions away from EWeekView so we can use them for
    printing. */
@@ -63,8 +61,6 @@ gboolean e_week_view_layout_get_span_position (EWeekViewEvent *event,
 					       gboolean	 compress_weekend,
 					       gint	*span_num_days);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_WEEK_VIEW_LAYOUT_H_ */

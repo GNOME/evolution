@@ -26,9 +26,7 @@
 
 #include <misc/e-selection-model-array.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_SELECTION_MODEL_SIMPLE_TYPE        (e_selection_model_simple_get_type ())
 #define E_SELECTION_MODEL_SIMPLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_SIMPLE_TYPE, ESelectionModelSimple))
@@ -62,9 +60,7 @@ void                   e_selection_model_simple_move_row       (ESelectionModelS
 void                   e_selection_model_simple_set_row_count  (ESelectionModelSimple *selection,
 								gint                    row_count);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_SELECTION_MODEL_SIMPLE_H_ */
 

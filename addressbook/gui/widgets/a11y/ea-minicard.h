@@ -27,10 +27,7 @@
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_MINICARD			(ea_minicard_get_type ())
 #define EA_MINICARD(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_MINICARD, EaMinicard))
@@ -55,9 +52,7 @@ struct _EaMinicardClass
 GType ea_minicard_get_type (void);
 AtkObject* ea_minicard_new(GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_MINICARD_H__ */

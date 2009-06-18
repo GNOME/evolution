@@ -26,9 +26,7 @@
 
 #include <atk/atkgobjectaccessible.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_JUMP_BUTTON                   (ea_jump_button_get_type ())
 #define EA_JUMP_BUTTON(obj)                   (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_JUMP_BUTTON, EaJumpButton))
@@ -54,9 +52,7 @@ struct _EaJumpButtonClass
 
 AtkObject *ea_jump_button_new (GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_JUMP_BUTTON_H__ */

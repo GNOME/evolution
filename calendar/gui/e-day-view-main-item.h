@@ -25,9 +25,7 @@
 
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EDayViewMainItem - canvas item which displays most of the appointment
@@ -57,8 +55,6 @@ typedef struct {
 GType    e_day_view_main_item_get_type      (void);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DAY_VIEW_MAIN_ITEM_H_ */

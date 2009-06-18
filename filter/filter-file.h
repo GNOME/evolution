@@ -24,10 +24,7 @@
 #ifndef __FILTER_FILE_H__
 #define __FILTER_FILE_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include "filter-element.h"
 
@@ -66,8 +63,6 @@ FilterFile *filter_file_new_type_name (const gchar *type);
 /* methods */
 void filter_file_set_path (FilterFile *file, const gchar *path);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* ! __FILTER_FILE_H__ */

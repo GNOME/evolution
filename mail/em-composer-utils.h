@@ -26,10 +26,7 @@
 
 #include <glib.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
@@ -79,8 +76,6 @@ struct _EDestination ** em_utils_camel_address_to_destination (struct _CamelInte
 
 void em_configure_new_composer (struct _EMsgComposer *composer);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_COMPOSER_UTILS_H__ */
