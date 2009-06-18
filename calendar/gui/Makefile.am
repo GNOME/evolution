@@ -51,7 +51,6 @@ privsolib_LTLIBRARIES = libcal-gui.la
 #	cal-search-bar.c
 # 	cal-search-bar.h
 # 	gnome-cal.c
-# 	gnome-cal.h
 
 libcal_gui_la_SOURCES =		\
 	e-attachment-handler-calendar.c		\
@@ -165,6 +164,7 @@ libcal_gui_la_SOURCES =		\
 	e-timezone-entry.h			\
 	goto.c					\
 	goto.h					\
+	gnome-cal.h				\
 	itip-utils.c				\
 	itip-utils.h				\
 	misc.c					\

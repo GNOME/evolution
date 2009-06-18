@@ -1788,7 +1788,7 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"

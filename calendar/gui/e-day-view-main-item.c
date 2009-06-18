@@ -32,7 +32,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
-#include "a11y/ea-calendar.h"
+/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
 #include "e-calendar-view.h"
 #include "comp-util.h"
 #include <libecal/e-cal-time-util.h>

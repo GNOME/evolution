@@ -29,7 +29,6 @@
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
 
-#include "em-folder-view.h"
 #include "em-search-context.h"
 #include "em-utils.h"
 #include "mail-config.h"

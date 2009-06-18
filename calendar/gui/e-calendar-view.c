@@ -40,7 +40,6 @@
 #include <shell/e-shell.h>
 
 #include "common/authentication.h"
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
@@ -55,7 +54,7 @@
 #include "dialogs/select-source-dialog.h"
 #include "print.h"
 #include "goto.h"
-#include "a11y/ea-calendar.h"
+/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
 #include "e-cal-popup.h"
 #include "misc.h"
 

@@ -23,11 +23,12 @@
 #ifndef E_ADDRESSBOOK_VIEW_H
 #define E_ADDRESSBOOK_VIEW_H
 
-#include <e-shell-view.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
-#include <widgets/menus/gal-view-instance.h>
-#include <widgets/misc/e-selection-model.h>
+
+#include <menus/gal-view-instance.h>
+#include <misc/e-selection-model.h>
+#include <shell/e-shell-view.h>
 
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"

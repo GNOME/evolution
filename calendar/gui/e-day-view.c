@@ -26,7 +26,7 @@
 #endif
 
 #include "e-day-view.h"
-#include "a11y/ea-calendar.h"
+/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
 
 #include <math.h>
 #include <time.h>

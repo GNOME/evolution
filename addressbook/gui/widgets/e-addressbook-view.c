@@ -30,7 +30,7 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <filter/rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
-#include <e-shell-sidebar.h>
+#include <shell/e-shell-sidebar.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "a11y/ea-addressbook.h"

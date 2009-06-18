@@ -32,6 +32,8 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-stream.h>
 
+#include <mail/e-mail-reader.h>
+
 G_BEGIN_DECLS
 
 struct _EMFormat;
@@ -55,7 +57,7 @@ void em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *
 void em_utils_add_address(GtkWindow *parent, const gchar *email);
 void em_utils_add_vcard(GtkWindow *parent, const gchar *vcard);
 
-void em_utils_flag_for_followup (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
+void em_utils_flag_for_followup (EMailReader *reader, CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 void em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 

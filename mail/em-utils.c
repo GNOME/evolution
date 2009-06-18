@@ -75,7 +75,6 @@
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
-#include "em-folder-view.h"
 #include "em-format-quote.h"
 #include "em-account-editor.h"
 #include "e-attachment.h"
@@ -775,59 +774,9 @@ em_utils_add_vcard (GtkWindow *parent, const gchar *vcard)
 /* ********************************************************************** */
 /* Flag-for-Followup... */
 
-/* tag-editor callback data */
-struct ted_t {
-	EMFolderView *emfv;
-	MessageTagEditor *editor;
-	CamelFolder *folder;
-	GPtrArray *uids;
-};
-
-static void
-ted_free (struct ted_t *ted)
-{
-	camel_object_unref (ted->folder);
-	em_utils_uids_free (ted->uids);
-	g_free (ted);
-}
-
-static void
-tag_editor_response (GtkWidget *dialog, gint button, struct ted_t *ted)
-{
-	CamelFolder *folder;
-	CamelTag *tags, *t;
-	GPtrArray *uids;
-	gint i;
-
-	if (button == GTK_RESPONSE_OK && (tags = message_tag_editor_get_tag_list (ted->editor))) {
-		folder = ted->folder;
-		uids = ted->uids;
-
-		camel_folder_freeze (folder);
-		for (i = 0; i < uids->len; i++) {
-			CamelMessageInfo *mi = camel_folder_get_message_info(folder, uids->pdata[i]);
-
-			if (mi) {
-				for (t = tags; t; t = t->next)
-					camel_message_info_set_user_tag(mi, t->name, t->value);
-
-				camel_message_info_free(mi);
-			}
-		}
-
-		camel_folder_thaw (folder);
-		camel_tag_list_free (&tags);
-
-		if (ted->emfv->preview)
-			em_format_redraw (EM_FORMAT (ted->emfv->preview));
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 /**
  * em_utils_flag_for_followup:
- * @parent: parent window
+ * @reader: an #EMailReader
  * @folder: folder containing messages to flag
  * @uids: uids of messages to flag
  *
@@ -835,37 +784,38 @@ tag_editor_response (GtkWidget *dialog, gint button, struct ted_t *ted)
  * @folder and @uids.
  **/
 void
-em_utils_flag_for_followup (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup (EMailReader *reader,
+                            CamelFolder *folder,
+                            GPtrArray *uids)
 {
-	GtkWidget *editor;
-	struct ted_t *ted;
+	EMFormatHTMLDisplay *html_display;
+	MessageTagEditor *editor;
+	GtkWindow *parent;
+	CamelTag *tags;
 	gint i;
 
-	g_return_if_fail (GTK_IS_WINDOW (parent));
+	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	editor = (GtkWidget *) message_tag_followup_new ();
+	editor = message_tag_followup_new ();
+	parent = e_mail_reader_get_window (reader);
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
-
-	camel_object_ref (folder);
-
-	ted = g_new (struct ted_t, 1);
-	ted->emfv = (EMFolderView *) parent;
-	ted->editor = MESSAGE_TAG_EDITOR (editor);
-	ted->folder = folder;
-	ted->uids = uids;
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;
 
 		info = camel_folder_get_message_info (folder, uids->pdata[i]);
-		if (info) {
-			message_tag_followup_append_message (MESSAGE_TAG_FOLLOWUP (editor),
-							     camel_message_info_from (info),
-							     camel_message_info_subject (info));
-			camel_message_info_free(info);
-		}
+
+		if (info == NULL)
+			continue;
+
+		message_tag_followup_append_message (
+			MESSAGE_TAG_FOLLOWUP (editor),
+			camel_message_info_from (info),
+			camel_message_info_subject (info));
+
+		camel_message_info_free(info);
 	}
 
 	/* special-case... */
@@ -874,18 +824,49 @@ em_utils_flag_for_followup (GtkWindow *parent, CamelFolder *folder, GPtrArray *u
 
 		info = camel_folder_get_message_info (folder, uids->pdata[0]);
 		if (info) {
-			const CamelTag *tags = camel_message_info_user_tags(info);
+			tags = (CamelTag *) camel_message_info_user_tags (info);
 
 			if (tags)
-				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), (CamelTag *)tags);
-			camel_message_info_free(info);
+				message_tag_editor_set_tag_list (editor, tags);
+			camel_message_info_free (info);
 		}
 	}
 
-	g_signal_connect (editor, "response", G_CALLBACK (tag_editor_response), ted);
-	g_object_weak_ref ((GObject *) editor, (GWeakNotify) ted_free, ted);
+	if (gtk_dialog_run (GTK_DIALOG (editor)) != GTK_RESPONSE_OK)
+		goto exit;
 
-	gtk_widget_show (editor);
+	tags = message_tag_editor_get_tag_list (editor);
+	if (tags == NULL)
+		goto exit;
+
+	camel_folder_freeze (folder);
+	for (i = 0; i < uids->len; i++) {
+		CamelMessageInfo *info;
+		CamelTag *iter;
+
+		info = camel_folder_get_message_info(folder, uids->pdata[i]);
+
+		if (info == NULL)
+			continue;
+
+		for (iter = tags; iter != NULL; iter = iter->next)
+			camel_message_info_set_user_tag (
+				info, iter->name, iter->value);
+
+		camel_message_info_free (info);
+	}
+
+	camel_folder_thaw (folder);
+	camel_tag_list_free (&tags);
+
+	html_display = e_mail_reader_get_html_display (reader);
+	em_format_redraw (EM_FORMAT (html_display));
+
+exit:
+	/* XXX We shouldn't be freeing this. */
+	em_utils_uids_free (uids);
+
+	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
 /**

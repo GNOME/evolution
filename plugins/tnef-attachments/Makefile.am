@@ -1,5 +1,6 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(localedir)\""			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
