@@ -24,8 +24,8 @@
 #ifndef __E_MENU_H__
 #define __E_MENU_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
+#include <gtk/gtk.h>
+#include <libedataserver/e-msgport.h>
 
 G_BEGIN_DECLS
 
@@ -150,7 +150,7 @@ struct _EMenuUIFile {
 struct _EMenuTarget {
 	struct _EMenu *menu;	/* used for virtual methods */
 
-	struct _GtkWidget *widget;	/* used if you need a parent toplevel, if available */
+	GtkWidget *widget;	/* used if you need a parent toplevel, if available */
 	guint32 type;		/* for implementors */
 
 	guint32 mask;		/* enable/visible mask */

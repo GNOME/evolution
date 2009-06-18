@@ -96,7 +96,7 @@ struct _EMFormatHTMLCache {
 };
 
 struct _EMFormatHTMLPrivate {
-	struct _CamelMimeMessage *last_part;	/* not reffed, DO NOT dereference */
+	CamelMimeMessage *last_part;	/* not reffed, DO NOT dereference */
 	volatile gint format_id;		/* format thread id */
 	guint format_timeout_id;
 	struct _format_msg *format_timeout_msg;

@@ -25,6 +25,8 @@
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <gtkhtml/gtkhtml.h>
+
 #include <shell/e-shell.h>
 
 /* Standard GObject macros */
@@ -70,7 +72,7 @@ struct _EMComposerPrefs {
 	GtkComboBox *reply_style;
 
 	/* Signatures */
-	struct _GtkHTML *sig_preview;
+	GtkHTML *sig_preview;
 };
 
 struct _EMComposerPrefsClass {

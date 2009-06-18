@@ -91,34 +91,34 @@ typedef struct _EMAccountEditorService {
 	EMAccountEditor *emae;	/* parent pointer, for callbacks */
 
 	/* NOTE: keep all widgets together, first frame last check_dialog */
-	struct _GtkWidget *frame;
-	struct _GtkWidget *container;
+	GtkWidget *frame;
+	GtkWidget *container;
 
-	struct _GtkComboBox *providers;
+	GtkComboBox *providers;
 
-	struct _GtkLabel *description;
-	struct _GtkLabel *hostlabel;
-	struct _GtkEntry *hostname;
-	struct _GtkLabel *userlabel;
-	struct _GtkEntry *username;
-	struct _GtkEntry *path;
-	struct _GtkLabel *pathlabel;
-	struct _GtkWidget *pathentry;
+	GtkLabel *description;
+	GtkLabel *hostlabel;
+	GtkEntry *hostname;
+	GtkLabel *userlabel;
+	GtkEntry *username;
+	GtkEntry *path;
+	GtkLabel *pathlabel;
+	GtkWidget *pathentry;
 
-	struct _GtkWidget *ssl_frame;
-	struct _GtkComboBox *use_ssl;
-	struct _GtkWidget *ssl_hbox;
-	struct _GtkWidget *no_ssl;
+	GtkWidget *ssl_frame;
+	GtkComboBox *use_ssl;
+	GtkWidget *ssl_hbox;
+	GtkWidget *no_ssl;
 
-	struct _GtkWidget *auth_frame;
-	struct _GtkComboBox *authtype;
+	GtkWidget *auth_frame;
+	GtkComboBox *authtype;
 
-	struct _GtkWidget *authitem;
-	struct _GtkToggleButton *remember;
-	struct _GtkButton *check_supported;
-	struct _GtkToggleButton *needs_auth;
+	GtkWidget *authitem;
+	GtkToggleButton *remember;
+	GtkButton *check_supported;
+	GtkToggleButton *needs_auth;
 
-	struct _GtkWidget *check_dialog;
+	GtkWidget *check_dialog;
 	gint check_id;
 
 	GList *authtypes;	/* if "Check supported" */
@@ -128,12 +128,12 @@ typedef struct _EMAccountEditorService {
 	gint auth_changed_id;
 } EMAccountEditorService;
 
-typedef struct _EMAccountEditorPrivate {
+struct _EMAccountEditorPrivate {
 	struct _EMConfig *config;
 	GList *providers;
 
 	/* signatures */
-	struct _GtkComboBox *signatures_dropdown;
+	GtkComboBox *signatures_dropdown;
 	guint sig_added_id;
 	guint sig_removed_id;
 	guint sig_changed_id;
@@ -151,31 +151,31 @@ typedef struct _EMAccountEditorPrivate {
 
 	/* account management */
 	GtkEntry *identity_entries[5];
-	struct _GtkToggleButton *default_account;
-	struct _GtkWidget *management_frame;
+	GtkToggleButton *default_account;
+	GtkWidget *management_frame;
 
 	/* special folders */
-	struct _GtkButton *drafts_folder_button;
-	struct _GtkButton *sent_folder_button;
-	struct _GtkButton *restore_folders_button;
+	GtkButton *drafts_folder_button;
+	GtkButton *sent_folder_button;
+	GtkButton *restore_folders_button;
 
 	/* Security */
-	struct _GtkEntry *pgp_key;
-	struct _GtkToggleButton *pgp_encrypt_to_self;
-	struct _GtkToggleButton *pgp_always_sign;
-	struct _GtkToggleButton *pgp_no_imip_sign;
-	struct _GtkToggleButton *pgp_always_trust;
+	GtkEntry *pgp_key;
+	GtkToggleButton *pgp_encrypt_to_self;
+	GtkToggleButton *pgp_always_sign;
+	GtkToggleButton *pgp_no_imip_sign;
+	GtkToggleButton *pgp_always_trust;
 
-	struct _GtkToggleButton *smime_sign_default;
-	struct _GtkEntry *smime_sign_key;
-	struct _GtkButton *smime_sign_key_select;
-	struct _GtkButton *smime_sign_key_clear;
-	struct _GtkButton *smime_sign_select;
-	struct _GtkToggleButton *smime_encrypt_default;
-	struct _GtkToggleButton *smime_encrypt_to_self;
-	struct _GtkEntry *smime_encrypt_key;
-	struct _GtkButton *smime_encrypt_key_select;
-	struct _GtkButton *smime_encrypt_key_clear;
+	GtkToggleButton *smime_sign_default;
+	GtkEntry *smime_sign_key;
+	GtkButton *smime_sign_key_select;
+	GtkButton *smime_sign_key_clear;
+	GtkButton *smime_sign_select;
+	GtkToggleButton *smime_encrypt_default;
+	GtkToggleButton *smime_encrypt_to_self;
+	GtkEntry *smime_encrypt_key;
+	GtkButton *smime_encrypt_key_select;
+	GtkButton *smime_encrypt_key_clear;
 
 	/* for e-config callbacks, each page sets up its widgets, then they are dealed out by the get_widget callback in order*/
 	GtkWidget *widgets[5];
@@ -186,7 +186,7 @@ typedef struct _EMAccountEditorPrivate {
 	guint identity_set:1;
 	guint receive_set:1;
 	guint management_set:1;
-} EMAccountEditorPrivate;
+};
 
 static void emae_refresh_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
 static void em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, const gchar *id);
@@ -1809,7 +1809,7 @@ emae_queue_widgets(EMAccountEditor *emae, GladeXML *xml, const gchar *first, ...
 }
 
 static GtkWidget *
-emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_identity_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
@@ -1882,7 +1882,7 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 }
 
 static GtkWidget *
-emae_receive_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_receive_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
@@ -2177,7 +2177,7 @@ emae_option_options (EMAccountEditorService *service, CamelURL *url, const gchar
 }
 
 static GtkWidget *
-emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_receive_options_item(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	GtkWidget *w, *box, *spin;
@@ -2214,7 +2214,7 @@ emae_receive_options_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *par
 }
 
 static GtkWidget *
-emae_receive_options_extra_item(EConfig *ec, EConfigItem *eitem, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_receive_options_extra_item(EConfig *ec, EConfigItem *eitem, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	struct _receive_options_item *item = (struct _receive_options_item *)eitem;
@@ -2348,7 +2348,7 @@ section:
 }
 
 static GtkWidget *
-emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_send_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
@@ -2403,7 +2403,7 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 }
 
 static GtkWidget *
-emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_defaults_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
@@ -2461,7 +2461,7 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 }
 
 static GtkWidget *
-emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_security_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 #if defined (HAVE_NSS)
@@ -2525,7 +2525,7 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 }
 
 static GtkWidget *
-emae_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	gint i;
@@ -2576,7 +2576,7 @@ static EMConfigItem emae_editor_items[] = {
 static gboolean emae_editor_items_translated = FALSE;
 
 static GtkWidget *
-emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_management_page(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
 	EMAccountEditorPrivate *gui = emae->priv;
@@ -2606,7 +2606,7 @@ emae_management_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 }
 
 static GtkWidget *
-emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emae_widget_druid_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	GladeXML *druidxml;
 	GtkWidget *w;

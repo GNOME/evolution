@@ -82,8 +82,6 @@ struct _EMNetworkPrefs {
 	GtkLabel *lbl_http_port;
 	GtkLabel *lbl_https_host;
 	GtkLabel *lbl_https_port;
-	GtkLabel *lbl_socks_host;
-	GtkLabel *lbl_socks_port;
 	GtkLabel *lbl_ignore_hosts;
 	GtkLabel *lbl_auth_user;
 	GtkLabel *lbl_auth_pwd;

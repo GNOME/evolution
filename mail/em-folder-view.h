@@ -24,8 +24,13 @@
 #define EM_FOLDER_VIEW_H
 
 #include <gtk/gtk.h>
+#include <bonobo/bonobo-ui-component.h>
+
+#include "mail/em-format-html-display.h"
+#include "mail/em-menu.h"
 #include "mail/em-popup.h"
-#include "message-list.h"
+#include "mail/mail-mt.h"
+#include "mail/message-list.h"
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_VIEW \
@@ -47,10 +52,6 @@
 	((obj), EM_TYPE_FOLDER_VIEW, EMFolderViewClass))
 
 G_BEGIN_DECLS
-
-struct _EMFormatHTMLDisplay;
-struct _CamelFolder;
-struct _CamelMedium;
 
 typedef struct _EMFolderView EMFolderView;
 typedef struct _EMFolderViewClass EMFolderViewClass;
@@ -82,9 +83,9 @@ struct _EMFolderView {
 
 	MessageList *list;
 
-	struct _EMFormatHTMLDisplay *preview;
+	EMFormatHTMLDisplay *preview;
 
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	gchar *folder_uri;
 
 	gchar *displayed_uid;	/* only used to stop re-loads, don't use it to represent any selection state */
@@ -94,12 +95,12 @@ struct _EMFolderView {
 	const gchar *ui_app_name;
 
 	/* used to manage some menus, particularly plugins */
-	struct _EMMenu *menu;
+	EMMenu *menu;
 
 	/* for proxying jobs to main or other threads */
-	struct _MailAsyncEvent *async;
+	MailAsyncEvent *async;
 
-	struct _BonoboUIComponent *uic;	/* if we're active, this will be set */
+	BonoboUIComponent *uic;	/* if we're active, this will be set */
 	GSList *enable_map;	/* bonobo menu enable map, entries are 0-terminated EMFolderViewEnable arryas
 				   TODO: should this be on class? */
 
@@ -118,10 +119,10 @@ struct _EMFolderViewClass {
 	guint update_message_style:1;
 
 	/* if used as a control, used to activate/deactivate custom menu's */
-	void (*activate)(EMFolderView *, struct _BonoboUIComponent *uic, gint state);
+	void (*activate)(EMFolderView *, BonoboUIComponent *uic, gint state);
 
 	void (*set_folder_uri)(EMFolderView *emfv, const gchar *uri);
-	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const gchar *uri);
+	void (*set_folder)(EMFolderView *emfv, CamelFolder *folder, const gchar *uri);
 	void (*set_message)(EMFolderView *emfv, const gchar *uid, gint nomarkseen);
 
 	void (*show_search_bar)(EMFolderView *emfv);

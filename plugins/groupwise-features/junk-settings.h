@@ -39,41 +39,27 @@ G_BEGIN_DECLS
 typedef struct _JunkSettings JunkSettings;
 typedef struct _JunkSettingsClass JunkSettingsClass;
 
-struct _GtkWidget;
-struct _GladeXML;
-struct _GtkButton;
-struct _GtkTreeView;
-struct _GtkLabel;
-struct _GtkEntry;
-struct _GtkWindow;
-struct _GtkRadioButton;
-struct _GtkListStore;
-struct _GtkCellRenderer;
-struct _GtkTreeViewColumn;
-struct _GtkFrame;
-struct _GtkVBox;
-
 struct _JunkSettings {
 	GtkVBox parent_object;
 
-	struct _GladeXML *xml;
+	GladeXML *xml;
 
 	/* General tab */
 
 	/* Default Behavior */
-	struct _GtkTreeView *entry_list;
-	struct _GtkButton *add_button;
-	struct _GtkButton *remove;
-	struct _GtkEntry *entry;
-	struct _GtkRadioButton *enable;
-	struct _GtkRadioButton *disable;
-	struct _GtkWidget *scrolled_window;
-	struct _GtkListStore *model;
-	struct _GtkCellRenderer *cell;
-	struct _GtkTreeViewColumn *column;
-	struct _GtkVBox  *vbox;
-	struct _GtkVBox  *table;
-	struct _GtkWidget *window;
+	GtkTreeView *entry_list;
+	GtkButton *add_button;
+	GtkButton *remove;
+	GtkEntry *entry;
+	GtkRadioButton *enable;
+	GtkRadioButton *disable;
+	GtkWidget *scrolled_window;
+	GtkListStore *model;
+	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
+	GtkVBox  *vbox;
+	GtkVBox  *table;
+	GtkWidget *window;
 
 	GList *junk_list;
 	gint users;
@@ -89,7 +75,7 @@ struct _JunkSettingsClass {
 };
 
 GType junk_settings_get_type (void);
-struct _JunkSettings * junk_settings_new (EGwConnection *ccnc);
+JunkSettings * junk_settings_new (EGwConnection *ccnc);
 void commit_changes (JunkSettings *js);
 
 G_END_DECLS

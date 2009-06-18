@@ -696,7 +696,7 @@ http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 
 
 static GtkWidget *
-emmp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emmp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMMailerPrefs *prefs = data;
 

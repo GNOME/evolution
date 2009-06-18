@@ -40,6 +40,7 @@ G_BEGIN_DECLS
 typedef struct _CamelGwListener CamelGwListener;
 typedef struct _CamelGwListenerClass CamelGwListenerClass;
 typedef struct _CamelGwListenerPrivate CamelGwListenerPrivate;
+
 struct _CamelGwListener {
        GObject parent;
 

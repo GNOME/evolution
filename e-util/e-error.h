@@ -26,8 +26,6 @@
 #include <stdarg.h>
 #include <gtk/gtk.h>
 
-struct _GtkWindow;
-
 /*
  * Some standard errors, if these are altered or added to,
  * update devel-docs/misc/errors.txt
@@ -50,14 +48,14 @@ struct _GtkWindow;
 #define E_ERROR_NO_LOAD_FILE "system:no-save-file"
 
 /* Note that all errors returned are standard GtkDialoge's */
-struct _GtkWidget *e_error_new(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
-struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
+GtkWidget *e_error_new(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+GtkWidget *e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
 
-gint e_error_run(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
-gint e_error_runv(struct _GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
+gint e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...);
+gint e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap);
 
 guint e_error_count_buttons (GtkDialog *dialog);
 
-void e_error_default_parent(struct _GtkWindow *parent);
+void e_error_default_parent(GtkWindow *parent);
 
 #endif /* !_E_ERROR_H */

@@ -24,12 +24,11 @@
 #ifndef _MAIL_AUTOFILTER_H
 #define _MAIL_AUTOFILTER_H
 
-struct _FilterRule;
-struct _EMVFolderContext;
-struct _EMFilterContext;
-struct _CamelMimeMessage;
-struct _CamelInternetAddress;
-struct _CamelStore;
+#include <camel/camel-mime-message.h>
+
+#include <filter/filter-rule.h>
+#include <mail/em-filter-context.h>
+#include <mail/em-vfolder-context.h>
 
 enum {
 	AUTO_SUBJECT = 1,
@@ -38,15 +37,15 @@ enum {
 	AUTO_MLIST = 8
 };
 
-struct _FilterRule *em_vfolder_rule_from_message(struct _EMVFolderContext *context, struct _CamelMimeMessage *msg, gint flags, const gchar *source);
-struct _FilterRule *filter_rule_from_message(struct _EMFilterContext *context, struct _CamelMimeMessage *msg, gint flags);
-struct _FilterRule *em_vfolder_rule_from_address(struct _EMVFolderContext *context, struct _CamelInternetAddress *addr, gint flags, const gchar *source);
+FilterRule *em_vfolder_rule_from_message(EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source);
+FilterRule *filter_rule_from_message(EMFilterContext *context, CamelMimeMessage *msg, gint flags);
+FilterRule *em_vfolder_rule_from_address(EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source);
 
 /* easiest place to put this */
-void  filter_gui_add_from_message(struct _CamelMimeMessage *msg, const gchar *source, gint flags);
+void  filter_gui_add_from_message(CamelMimeMessage *msg, const gchar *source, gint flags);
 
 /* Also easiest place for these, we should really share a global rule context for this stuff ... */
-void mail_filter_rename_uri(struct _CamelStore *store, const gchar *olduri, const gchar *newuri);
-void mail_filter_delete_uri(struct _CamelStore *store, const gchar *uri);
+void mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newuri);
+void mail_filter_delete_uri(CamelStore *store, const gchar *uri);
 
 #endif

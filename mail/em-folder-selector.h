@@ -57,7 +57,7 @@ struct _EMFolderSelector {
 	guint32 flags;
 	struct _EMFolderTree *emft;
 
-	struct _GtkEntry *name_entry;
+	GtkEntry *name_entry;
 	gchar *selected_path;
 	gchar *selected_uri;
 

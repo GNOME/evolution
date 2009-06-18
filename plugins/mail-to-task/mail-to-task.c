@@ -323,7 +323,7 @@ report_error_idle (const gchar *format, const gchar *param)
 
 typedef struct {
 	ECal *client;
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	GPtrArray *uids;
 	gchar *selected_text;
 	gboolean with_attendees;
@@ -333,7 +333,7 @@ static gboolean
 do_mail_to_event (AsyncData *data)
 {
 	ECal *client = data->client;
-	struct _CamelFolder *folder = data->folder;
+	CamelFolder *folder = data->folder;
 	GPtrArray *uids = data->uids;
 	GError *err = NULL;
 	gboolean readonly = FALSE;

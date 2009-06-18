@@ -31,9 +31,6 @@
 
 G_BEGIN_DECLS
 
-struct _CamelFolder;
-struct _CamelMimeMessage;
-
 typedef struct _EProfileEvent EProfileEvent;
 typedef struct _EProfileEventClass EProfileEventClass;
 

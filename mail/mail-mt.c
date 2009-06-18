@@ -51,7 +51,7 @@
 #define d(x)
 
 static void set_stop(gint sensitive);
-static void mail_operation_status(struct _CamelOperation *op, const gchar *what, gint pc, gpointer data);
+static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data);
 
 #ifdef LOG_LOCKS
 #define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: lock " # x "\n", e_util_pthread_id(pthread_self())):0, pthread_mutex_lock(&x))
@@ -932,7 +932,7 @@ void mail_disable_stop(void)
 struct _op_status_msg {
 	MailMsg base;
 
-	struct _CamelOperation *op;
+	CamelOperation *op;
 	gchar *what;
 	gint pc;
 	gpointer data;
@@ -1047,7 +1047,7 @@ static MailMsgInfo op_status_info = {
 };
 
 static void
-mail_operation_status (struct _CamelOperation *op, const gchar *what, gint pc, gpointer data)
+mail_operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _op_status_msg *m;
 

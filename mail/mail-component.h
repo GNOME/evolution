@@ -28,8 +28,9 @@
 #include <bonobo/bonobo-object.h>
 #include "shell/evolution-component.h"
 #include "mail/Evolution-Mail.h"
-
-struct _CamelStore;
+#include "mail/em-folder-tree-model.h"
+#include "filter/rule-context.h"
+#include "misc/e-activity-handler.h"
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())
 #define MAIL_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_COMPONENT, MailComponent))
@@ -68,18 +69,18 @@ MailComponent *mail_component_peek  (void);
 
 /* NOTE: Using NULL as the component implies using the default component */
 const gchar       *mail_component_peek_base_directory    (MailComponent *component);
-struct _RuleContext      *mail_component_peek_search_context    (MailComponent *component);
-struct _EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
+RuleContext      *mail_component_peek_search_context    (MailComponent *component);
+EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
 
 void        mail_component_add_store            (MailComponent *component,
-						 struct _CamelStore    *store,
+						 CamelStore    *store,
 						 const gchar    *name);
-struct _CamelStore *mail_component_load_store_by_uri    (MailComponent *component,
+CamelStore *mail_component_load_store_by_uri    (MailComponent *component,
 						 const gchar    *uri,
 						 const gchar    *name);
 
 void        mail_component_remove_store         (MailComponent *component,
-						 struct _CamelStore    *store);
+						 CamelStore    *store);
 void        mail_component_remove_store_by_uri  (MailComponent *component,
 						 const gchar    *uri);
 
@@ -88,12 +89,12 @@ void         mail_component_stores_foreach   (MailComponent *component,
 					      GHFunc         func,
 					      void          *data);
 
-void mail_component_remove_folder (MailComponent *component, struct _CamelStore *store, const gchar *path);
+void mail_component_remove_folder (MailComponent *component, CamelStore *store, const gchar *path);
 
-struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
+EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
 
-struct _CamelStore *mail_component_peek_local_store (MailComponent *mc);
-struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
+CamelStore *mail_component_peek_local_store (MailComponent *mc);
+CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
 const gchar *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 
 gint status_check (GNOME_Evolution_ShellState shell_state);

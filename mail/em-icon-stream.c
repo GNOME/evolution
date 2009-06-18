@@ -238,7 +238,7 @@ emis_sync_close(CamelStream *stream)
 }
 
 static void
-emis_image_destroy(struct _GtkImage *image, EMIconStream *emis)
+emis_image_destroy(GtkImage *image, EMIconStream *emis)
 {
 	emis_cleanup(emis);
 }

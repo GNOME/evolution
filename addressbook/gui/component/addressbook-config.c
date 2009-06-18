@@ -524,7 +524,7 @@ eabc_type_changed(GtkComboBox *dropdown, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_general_type(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkComboBox *dropdown;
@@ -590,7 +590,7 @@ offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	const gchar *uri;
@@ -629,7 +629,7 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 
 
 static GtkWidget *
-eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_general_offline(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *offline_setting;
@@ -720,7 +720,7 @@ ssl_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 
 
 static GtkWidget *
-eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	const gchar *tmp;
@@ -809,7 +809,7 @@ auth_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_general_auth(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
@@ -878,7 +878,7 @@ scope_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_details_search(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
@@ -972,7 +972,7 @@ canbrowse_toggled_cb (GtkWidget *toggle_button, ESource *source)
 }
 
 static GtkWidget *
-eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eabc_details_limit(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;

@@ -24,8 +24,8 @@
 #ifndef __E_POPUP_H__
 #define __E_POPUP_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
+#include <gtk/gtk.h>
+#include <libedataserver/e-msgport.h>
 
 G_BEGIN_DECLS
 
@@ -141,7 +141,7 @@ struct _EPopupItem {
 struct _EPopupTarget {
 	struct _EPopup *popup;	/* used for virtual methods */
 
-	struct _GtkWidget *widget;	/* used if you need a parent toplevel, if available */
+	GtkWidget *widget;	/* used if you need a parent toplevel, if available */
 	guint32 type;		/* targe type, for implementors */
 
 	guint32 mask;		/* depends on type, visibility mask */
@@ -207,8 +207,8 @@ void e_popup_add_items(EPopup *, GSList *items, const gchar *domain, EPopupItems
 
 void e_popup_add_static_items(EPopup *emp, EPopupTarget *target);
 /* do not call e_popup_create_menu, it can leak structures if not used right */
-struct _GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 mask);
-struct _GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 mask);
+GtkMenu *e_popup_create_menu(EPopup *, EPopupTarget *, guint32 mask);
+GtkMenu *e_popup_create_menu_once(EPopup *emp, EPopupTarget *, guint32 mask);
 
 gpointer e_popup_target_new(EPopup *, gint type, gsize size);
 void e_popup_target_free(EPopup *, gpointer );

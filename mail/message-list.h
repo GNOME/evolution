@@ -24,6 +24,7 @@
 #define _MESSAGE_LIST_H_
 
 #include <gtk/gtk.h>
+#include <camel/camel-folder-thread.h>
 
 #include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>
@@ -161,7 +162,7 @@ struct _MessageList {
 	gchar *frozen_search;	/* to save search took place while we were frozen */
 
 	/* the current camel folder thread tree, if any */
-	struct _CamelFolderThread *thread_tree;
+	CamelFolderThread *thread_tree;
 
 	/* for message/folder chagned event handling */
 	struct _MailAsyncEvent *async_event;

@@ -23,19 +23,13 @@
 #ifndef MAIL_CONFIG_H
 #define MAIL_CONFIG_H
 
-#include <glib-object.h>
-#include <camel/camel-folder.h>
+#include <gtk/gtk.h>
 #include <camel/camel-provider.h>
+#include <libedataserver/e-account.h>
+#include <libedataserver/e-account-list.h>
 
-struct _EAccount;
-struct _EAccountList;
-struct _EAccountService;
-
-struct _ESignature;
-struct _ESignatureList;
-
-struct _GConfClient;
-struct _GtkWindow;
+#include <e-util/e-signature.h>
+#include <e-util/e-signature-list.h>
 
 G_BEGIN_DECLS
 
@@ -78,22 +72,22 @@ void mail_config_clear (void);
 void mail_config_write (void);
 void mail_config_write_on_exit (void);
 
-struct _GConfClient *mail_config_get_gconf_client (void);
+GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
 const gchar **mail_config_get_allowable_mime_types (void);
 
-void mail_config_service_set_save_passwd (struct _EAccountService *service, gboolean save_passwd);
+void mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd);
 
 /* accounts */
-struct _EAccount *mail_config_get_account_by_source_url (const gchar *url);
-struct _EAccount *mail_config_get_account_by_transport_url (const gchar *url);
+EAccount *mail_config_get_account_by_source_url (const gchar *url);
+EAccount *mail_config_get_account_by_transport_url (const gchar *url);
 
 gint mail_config_get_address_count (void);
 gint mail_config_get_message_limit (void);
 gboolean mail_config_get_enable_magic_spacebar (void);
 
-struct _EAccountService  *mail_config_get_default_transport (void);
+EAccountService  *mail_config_get_default_transport (void);
 
 /* uri's got changed by the store, etc */
 void mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new);

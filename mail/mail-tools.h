@@ -24,39 +24,35 @@
 #define MAIL_TOOLS_H
 
 #include <glib.h>
-
-struct _CamelFolder;
-struct _CamelException;
-struct _CamelMimeMessage;
-struct _CamelMimePart;
-struct _camel_header_raw;
+#include <camel/camel-folder.h>
+#include <camel/camel-mime-message.h>
 
 /* Get the "inbox" for a url (uses global session) */
-struct _CamelFolder *mail_tool_get_inbox (const gchar *url, struct _CamelException *ex);
+CamelFolder *mail_tool_get_inbox (const gchar *url, CamelException *ex);
 
 /* Get the "trash" for a url (uses global session) */
-struct _CamelFolder *mail_tool_get_trash (const gchar *url, gint connect, struct _CamelException *ex);
+CamelFolder *mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex);
 
 /* Does a camel_movemail into the local movemail folder
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */
-gchar *mail_tool_do_movemail (const gchar *source_url, struct _CamelException *ex);
+gchar *mail_tool_do_movemail (const gchar *source_url, CamelException *ex);
 
-struct _camel_header_raw *mail_tool_remove_xevolution_headers (struct _CamelMimeMessage *message);
-void mail_tool_restore_xevolution_headers (struct _CamelMimeMessage *message, struct _camel_header_raw *);
+struct _camel_header_raw *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
+void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, struct _camel_header_raw *);
 
 /* Generates the subject for a message forwarding @msg */
-gchar *mail_tool_generate_forward_subject (struct _CamelMimeMessage *msg);
+gchar *mail_tool_generate_forward_subject (CamelMimeMessage *msg);
 
 /* Make a message into an attachment */
-struct _CamelMimePart *mail_tool_make_message_attachment (struct _CamelMimeMessage *message);
+CamelMimePart *mail_tool_make_message_attachment (CamelMimeMessage *message);
 
-/* Parse the ui into a real struct _CamelFolder any way we know how. */
-struct _CamelFolder *mail_tool_uri_to_folder (const gchar *uri, guint32 flags, struct _CamelException *ex);
+/* Parse the ui into a real CamelFolder any way we know how. */
+CamelFolder *mail_tool_uri_to_folder (const gchar *uri, guint32 flags, CamelException *ex);
 
-GHashTable *mail_lookup_url_table (struct _CamelMimeMessage *mime_message);
+GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message);
 
-struct _CamelFolder *mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids);
+CamelFolder *mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids);
 
-gchar *mail_tools_folder_to_url (struct _CamelFolder *folder);
+gchar *mail_tools_folder_to_url (CamelFolder *folder);
 
 #endif

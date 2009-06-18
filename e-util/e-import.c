@@ -211,7 +211,7 @@ void e_import_cancel(EImport *ei, EImportTarget *t, EImportImporter *im)
  * Return value: NULL if the importer doesn't support/require
  * a destination.
  **/
-struct _GtkWidget *
+GtkWidget *
 e_import_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	g_return_val_if_fail(im != NULL, NULL);
@@ -438,7 +438,7 @@ static gboolean eih_supported(EImport *ei, EImportTarget *target, EImportImporte
 	return e_plugin_invoke(hook->hook.plugin, ihook->supported, target) != NULL;
 }
 
-static struct _GtkWidget *eih_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
+static GtkWidget *eih_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
 	EImportHook *hook = im->user_data;

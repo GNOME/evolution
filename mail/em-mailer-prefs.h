@@ -72,9 +72,9 @@ struct _EMMailerPrefs {
 	GtkOptionMenu *charset;
 
 	/* Deleting Mail */
-	struct _GtkToggleButton *empty_trash;
-	struct _GtkComboBox *empty_trash_days;
-	struct _GtkToggleButton *confirm_expunge;
+	GtkToggleButton *empty_trash;
+	GtkComboBox *empty_trash_days;
+	GtkToggleButton *confirm_expunge;
 
 	/* HTML Mail tab */
 	GtkFontButton *font_variable;

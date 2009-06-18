@@ -159,7 +159,7 @@ toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const gchar 
 }
 
 static GtkWidget *
-emnp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emnp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMNetworkPrefs *prefs = data;
 

@@ -155,7 +155,7 @@ add_numbered_row (GtkTable *table, gint row, const gchar *description, const gch
 }
 
 static GtkWidget *
-emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+emfp_get_folder_item(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	GtkWidget *w, *table, *label;
 	struct _prop_data *prop_data = data;

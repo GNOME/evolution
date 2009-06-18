@@ -25,16 +25,13 @@
 #define __E_CAL_POPUP_H__
 
 #include <glib-object.h>
+#include <libedataserverui/e-source-selector.h>
 
-#include "e-util/e-popup.h"
+#include <e-util/e-popup.h>
 #include "dialogs/comp-editor.h"
+#include "e-cal-model.h"
 
 G_BEGIN_DECLS
-
-typedef struct _ECalPopup ECalPopup;
-typedef struct _ECalPopupClass ECalPopupClass;
-
-struct _ECalendarView;
 
 /**
  * enum _e_cal_popup_target_t - A list of mail popup target types.
@@ -141,7 +138,7 @@ typedef struct _ECalPopupTargetAttachments ECalPopupTargetAttachments;
 struct _ECalPopupTargetSelect {
 	EPopupTarget target;
 
-	struct _ECalModel *model;
+	ECalModel *model;
 	GPtrArray *events;
 };
 
@@ -156,7 +153,7 @@ struct _ECalPopupTargetSelect {
 struct _ECalPopupTargetSource {
 	EPopupTarget target;
 
-	struct _ESourceSelector *selector;
+	ESourceSelector *selector;
 };
 
 /**
@@ -175,11 +172,15 @@ struct _ECalPopupTargetAttachments {
 
 typedef struct _EPopupItem ECalPopupItem;
 
+typedef struct _ECalPopup ECalPopup;
+typedef struct _ECalPopupClass ECalPopupClass;
+typedef struct _ECalPopupPrivate ECalPopupPrivate;
+
 /* The object */
 struct _ECalPopup {
 	EPopup popup;
 
-	struct _ECalPopupPrivate *priv;
+	ECalPopupPrivate *priv;
 };
 
 struct _ECalPopupClass {
@@ -190,8 +191,8 @@ GType e_cal_popup_get_type(void);
 
 ECalPopup *e_cal_popup_new(const gchar *menuid);
 
-ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
-ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
+ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, ECalModel *model, GPtrArray *events);
+ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector);
 
 /* ********************************************************************** */
 

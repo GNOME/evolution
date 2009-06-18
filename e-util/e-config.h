@@ -24,13 +24,10 @@
 #ifndef __E_CONFIG_H__
 #define __E_CONFIG_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
+#include <gtk/gtk.h>
+#include <libedataserver/e-msgport.h>
 
 G_BEGIN_DECLS
-
-struct _GtkWindow;
-struct _GtkWidget;
 
 /* This is a config window management/merging class. */
 
@@ -47,7 +44,7 @@ typedef gboolean (*EConfigCheckFunc)(EConfig *ec, const gchar *pageid, gpointer 
 
 typedef void (*EConfigItemsFunc)(EConfig *ec, GSList *items, gpointer data);
 
-typedef struct _GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data);
+typedef GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *, GtkWidget *parent, GtkWidget *old, gpointer data);
 
 /* ok so this is all a bit bogussy
    we need to map to glade stuff instead */
@@ -161,7 +158,7 @@ struct _EConfigItem {
  **/
 struct _EConfigTarget {
 	struct _EConfig *config;
-	struct _GtkWidget *widget;	/* used if you need a parent toplevel, if available */
+	GtkWidget *widget;	/* used if you need a parent toplevel, if available */
 
 	guint32 type;
 
@@ -197,8 +194,8 @@ struct _EConfig {
 
 	EConfigTarget *target;
 
-	struct _GtkWidget *widget; /* the generated internal */
-	struct _GtkWidget *window; /* the window widget, GtkWindow or GtkDialog */
+	GtkWidget *widget; /* the generated internal */
+	GtkWidget *window; /* the window widget, GtkWindow or GtkDialog */
 };
 
 /**
@@ -236,14 +233,14 @@ void e_config_add_items(EConfig *, GSList *items, EConfigItemsFunc commitfunc, E
 void e_config_add_page_check(EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
 
 void e_config_set_target(EConfig *emp, EConfigTarget *target);
-struct _GtkWidget *e_config_create_widget(EConfig *);
-struct _GtkWidget *e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const gchar *title);
+GtkWidget *e_config_create_widget(EConfig *);
+GtkWidget *e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title);
 
 void e_config_target_changed(EConfig *emp, e_config_target_change_t how);
 
 gboolean e_config_page_check(EConfig *, const gchar *);
 
-struct _GtkWidget *e_config_page_get(EConfig *ec, const gchar *pageid);
+GtkWidget *e_config_page_get(EConfig *ec, const gchar *pageid);
 const gchar *e_config_page_next(EConfig *ec, const gchar *pageid);
 const gchar *e_config_page_prev(EConfig *ec, const gchar *pageid);
 
@@ -295,8 +292,8 @@ struct _EConfigHookItemFactoryData {
 	EConfig *config;
 	EConfigItem *item;
 	EConfigTarget *target;
-	struct _GtkWidget *parent;
-	struct _GtkWidget *old;
+	GtkWidget *parent;
+	GtkWidget *old;
 };
 
 /**

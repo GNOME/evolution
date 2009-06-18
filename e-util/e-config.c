@@ -65,8 +65,8 @@ struct _widget_node {
 
 	struct _menu_node *context;
 	EConfigItem *item;
-	struct _GtkWidget *widget; /* widget created by the factory, if any */
-	struct _GtkWidget *frame; /* if created by us */
+	GtkWidget *widget; /* widget created by the factory, if any */
+	GtkWidget *frame; /* if created by us */
 
 	guint empty:1;		/* set if empty (i.e. hidden) */
 };
@@ -892,7 +892,7 @@ ec_dialog_response(GtkWidget *d, gint id, EConfig *ec)
  * Return value: The window widget.  This is also stored in @emp.window.
  **/
 GtkWidget *
-e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const gchar *title)
+e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
 {
 	GtkWidget *w;
 
@@ -1341,7 +1341,7 @@ emph_free_group(struct _EConfigHookGroup *group)
 	g_free(group);
 }
 
-static struct _GtkWidget *
+static GtkWidget *
 ech_config_widget_factory(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
@@ -1355,7 +1355,7 @@ ech_config_widget_factory(EConfig *ec, EConfigItem *item, GtkWidget *parent, Gtk
 		hdata.parent = parent;
 		hdata.old = old;
 
-		return (struct _GtkWidget *)e_plugin_invoke(group->hook->hook.plugin, (gchar *)item->user_data, &hdata);
+		return (GtkWidget *)e_plugin_invoke(group->hook->hook.plugin, (gchar *)item->user_data, &hdata);
 	} else
 		return NULL;
 }

@@ -24,15 +24,16 @@
 #ifndef EM_INLINE_FILTER_H
 #define EM_INLINE_FILTER_H
 
-G_BEGIN_DECLS
+#include <camel/camel-mime-filter.h>
+#include <camel/camel-mime-utils.h>
+#include <camel/camel-multipart.h>
 
 #define EM_INLINE_FILTER_TYPE     (em_inline_filter_get_type ())
 #define EM_INLINE_FILTER(obj)     (CAMEL_CHECK_CAST((obj), EM_INLINE_FILTER_TYPE, EMInlineFilter))
 #define EM_INLINE_FILTER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_INLINE_FILTER_TYPE, EMInlineFilterClass))
 #define EM_IS_INLINE_FILTER(o)    (CAMEL_CHECK_TYPE((o), EM_INLINE_FILTER_TYPE))
 
-#include <camel/camel-mime-filter.h>
-#include <camel/camel-mime-utils.h>
+G_BEGIN_DECLS
 
 typedef struct _EMInlineFilter {
 	CamelMimeFilter filter;
@@ -53,7 +54,7 @@ typedef struct _EMInlineFilterClass {
 
 CamelType    em_inline_filter_get_type(void);
 EMInlineFilter *em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *type);
-struct _CamelMultipart *em_inline_filter_get_multipart(EMInlineFilter *emif);
+CamelMultipart *em_inline_filter_get_multipart(EMInlineFilter *emif);
 
 G_END_DECLS
 

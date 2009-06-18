@@ -64,7 +64,7 @@ static const EPluginHookTargetKey emfh_flag_map[] = {
 };
 
 static void
-emfh_format_format(EMFormat *md, struct _CamelStream *stream, struct _CamelMimePart *part, const EMFormatHandler *info)
+emfh_format_format(EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	struct _EMFormatHookItem *item = (EMFormatHookItem *)info;
 

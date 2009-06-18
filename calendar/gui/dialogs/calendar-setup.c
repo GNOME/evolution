@@ -211,7 +211,7 @@ name_changed (GtkEntry *entry, ECalConfigTargetSource *t)
 }
 
 static GtkWidget *
-eccp_get_source_name (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eccp_get_source_name (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	static GtkWidget *label, *entry;
 	gint row;
@@ -252,7 +252,7 @@ offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
 }
 
 static GtkWidget *
-eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eccp_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	GtkWidget *offline_setting = NULL;
@@ -318,7 +318,7 @@ choose_initial_color (void)
 }
 
 static GtkWidget *
-eccp_get_source_color (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, gpointer data)
+eccp_get_source_color (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	static GtkWidget *label, *color_button;
@@ -431,7 +431,7 @@ cs_load_sources (CalendarSourceDialog *sdialog, const gchar *conf_key, ESourceGr
  * Show calendar properties for @source.
  **/
 void
-calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourceGroup *group)
+calendar_setup_edit_calendar (GtkWindow *parent, ESource *source, ESourceGroup *group)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;
@@ -482,13 +482,13 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 }
 
 void
-calendar_setup_new_calendar (struct _GtkWindow *parent)
+calendar_setup_new_calendar (GtkWindow *parent)
 {
 	calendar_setup_edit_calendar (parent, NULL, NULL);
 }
 
 void
-calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
+calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;
@@ -538,13 +538,13 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 }
 
 void
-calendar_setup_new_task_list (struct _GtkWindow *parent)
+calendar_setup_new_task_list (GtkWindow *parent)
 {
 	calendar_setup_edit_task_list (parent, NULL);
 }
 
 void
-calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
+calendar_setup_edit_memo_list (GtkWindow *parent, ESource *source)
 {
 	CalendarSourceDialog *sdialog = g_new0 (CalendarSourceDialog, 1);
 	gchar *xml;
@@ -594,7 +594,7 @@ calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source)
 }
 
 void
-calendar_setup_new_memo_list (struct _GtkWindow *parent)
+calendar_setup_new_memo_list (GtkWindow *parent)
 {
 	calendar_setup_edit_memo_list (parent, NULL);
 }

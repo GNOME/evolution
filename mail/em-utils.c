@@ -2176,8 +2176,8 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 	return found;
 }
 
-struct _CamelMimePart *
-em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
+CamelMimePart *
+em_utils_contact_photo (CamelInternetAddress *cia, gboolean local)
 {
 	const gchar *addr;
 	gint stop = FALSE, found = FALSE;

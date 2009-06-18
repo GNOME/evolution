@@ -27,6 +27,7 @@
 #include "e-util/e-plugin.h"
 
 #include <camel/camel-junk-plugin.h>
+#include <camel/camel-mime-message.h>
 
 G_BEGIN_DECLS
 
@@ -46,7 +47,7 @@ GQuark em_junk_error_quark (void);
 #define EM_JUNK_ERROR em_junk_error_quark ()
 
 struct _EMJunkHookTarget {
-	struct _CamelMimeMessage *m;
+	CamelMimeMessage *m;
 	GError *error;
 };
 
