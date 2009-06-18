@@ -49,9 +49,9 @@
 
 #include "google-contacts-source.h"
 
-#define CALENDAR_LOCATION "http://www.google.com/calendar/feeds/"
+#define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
-#define URL_GET_SUBSCRIBED_CALENDARS "http://www.google.com/calendar/feeds/default/allcalendars/full"
+#define URL_GET_SUBSCRIBED_CALENDARS "://www.google.com/calendar/feeds/default/allcalendars/full"
 
 #define d(x)
 
@@ -99,19 +99,6 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 
 
 /********************************************************************************************************************/
-#if 0
-
-FIXME: Not sure why this function is declared but called no where. This needs fixing.
-
-static void
-ssl_changed (GtkToggleButton *button, ESource *source)
-{
-	e_source_set_property(source, "ssl",
-			      gtk_toggle_button_get_active(button) ? "1" : "0");
-}
-
-#endif
-
 
 static gboolean
 is_email (const gchar *address)
@@ -149,12 +136,12 @@ sanitize_user_mail (const gchar *user)
 }
 
 static gchar *
-construct_default_uri (const gchar *username)
+construct_default_uri (const gchar *username, gboolean is_ssl)
 {
 	gchar *user, *uri;
 
 	user = sanitize_user_mail (username);
-	uri = g_strconcat (CALENDAR_LOCATION, user, CALENDAR_DEFAULT_PATH, NULL);
+	uri = g_strconcat (is_ssl ? "https" : "http", CALENDAR_LOCATION, user, CALENDAR_DEFAULT_PATH, NULL);
 	g_free (user);
 
 	return uri;
@@ -165,40 +152,43 @@ static gboolean
 is_default_uri (const gchar *given_uri, const gchar *username)
 {
 	gchar *uri, *at;
-	gint ats;
-	gboolean res;
+	gint ats, i;
+	gboolean res = FALSE;
 
 	if (!given_uri)
 		return TRUE;
 
-	uri = construct_default_uri (username);
+	for (i = 0; !res && i < 2; i++) {
+		/* try both versions here, with and without ssl */
+		uri = construct_default_uri (username, i == 0);
 
-	/* count number of '@' in given_uri to know how much memory will be required */
-	ats = 0;
-	for (at = strchr (given_uri, '@'); at; at = strchr (at + 1, '@')) {
-		ats++;
-	}
-
-	if (!ats)
-		res = g_ascii_strcasecmp (given_uri, uri) == 0;
-	else {
-		const gchar *last;
-		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (given_uri) + (2 * ats)));
-
-		last = given_uri;
-		for (at = strchr (last, '@'); at; at = strchr (at + 1, '@')) {
-			strncat (tmp, last, at - last);
-			strcat (tmp, "%40");
-			last = at + 1;
+		/* count number of '@' in given_uri to know how much memory will be required */
+		ats = 0;
+		for (at = strchr (given_uri, '@'); at; at = strchr (at + 1, '@')) {
+			ats++;
 		}
-		strcat (tmp, last);
 
-		res = g_ascii_strcasecmp (tmp, uri) == 0;
+		if (!ats)
+			res = g_ascii_strcasecmp (given_uri, uri) == 0;
+		else {
+			const gchar *last;
+			gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (given_uri) + (2 * ats)));
 
-		g_free (tmp);
+			last = given_uri;
+			for (at = strchr (last, '@'); at; at = strchr (at + 1, '@')) {
+				strncat (tmp, last, at - last);
+				strcat (tmp, "%40");
+				last = at + 1;
+			}
+			strcat (tmp, last);
+
+			res = g_ascii_strcasecmp (tmp, uri) == 0;
+
+			g_free (tmp);
+		}
+
+		g_free (uri);
 	}
-
-	g_free (uri);
 
 	return res;
 }
@@ -209,15 +199,16 @@ static void
 user_changed (GtkEntry *editable, ESource *source)
 {
 	gchar       *uri;
-	const gchar *user;
+	const gchar *user, *ssl;
 
 	/* two reasons why set readonly to FALSE:
 	   a) the e_source_set_relative_uri does nothing for readonly sources
 	   b) we are going to set default uri, which should be always writeable */
 	e_source_set_readonly (source, FALSE);
 
+	ssl = e_source_get_property (source, "ssl");
 	user = gtk_entry_get_text (GTK_ENTRY (editable));
-	uri = construct_default_uri (user);
+	uri = construct_default_uri (user, !ssl || g_str_equal (ssl, "1"));
 	e_source_set_relative_uri (source, uri);
 	g_free (uri);
 
@@ -360,8 +351,10 @@ cal_combo_changed (GtkComboBox *combo, ESource *source)
 
 		gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COL_TITLE, &title, COL_URL_PATH, &uri, COL_READ_ONLY, &readonly, -1);
 
-		if (!uri)
-			uri = construct_default_uri (e_source_get_property (source, "username"));
+		if (!uri) {
+			const gchar *ssl = e_source_get_property (source, "ssl");
+			uri = construct_default_uri (e_source_get_property (source, "username"), !ssl || g_str_equal (ssl, "1"));
+		}
 
 		if (is_default_uri (uri, e_source_get_property (source, "username"))) {
 			/* do not store title when we use default uri */
@@ -404,7 +397,8 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	GDataGoogleService *service;
 	GDataFeed *feed;
 	gchar *password, *tmp;
-	const gchar *username;
+	const gchar *username, *ssl;
+	gchar *get_subscribed_url;
 	GError *error = NULL;
 	GtkWindow *parent;
 
@@ -434,7 +428,10 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	memset (password, 0, strlen (password));
 	g_free (password);
 
-	feed = gdata_service_get_feed (GDATA_SERVICE (service), URL_GET_SUBSCRIBED_CALENDARS, &error);
+	ssl = e_source_get_property (source, "ssl");
+	get_subscribed_url = g_strconcat ((!ssl || g_str_equal (ssl, "1")) ? "https" : "http", URL_GET_SUBSCRIBED_CALENDARS, NULL);
+	feed = gdata_service_get_feed (GDATA_SERVICE (service), get_subscribed_url, &error);
+	g_free (get_subscribed_url);
 
 	if (feed) {
 		GSList *l;
@@ -544,6 +541,20 @@ retrieve_list_sensitize (GtkEntry *username_entry,
 	gtk_widget_set_sensitive (button, sensitive);
 }
 
+static void
+ssl_toggled (GtkToggleButton *check, ESource *source)
+{
+	g_return_if_fail (check != NULL);
+	g_return_if_fail (source != NULL);
+
+	if (gtk_toggle_button_get_active (check))
+		e_source_set_property (source, "ssl", "1");
+	else
+		e_source_set_property (source, "ssl", "0");
+
+	user_changed (GTK_ENTRY (g_object_get_data (G_OBJECT (check), "username")), source);
+}
+
 GtkWidget *
 plugin_google  (EPlugin                    *epl,
 	     EConfigHookItemFactoryData *data)
@@ -585,19 +596,27 @@ plugin_google  (EPlugin                    *epl,
 		return NULL;
 	}
 
+	e_uri_free (euri);
+
 	username = e_source_get_property (source, "username");
-	g_free (euri->user);
-	euri->user = NULL;
-	uri = e_uri_to_string (euri, FALSE);
 
 	ssl_prop = e_source_get_property (source, "ssl");
-	if (ssl_prop && ssl_prop[0] == '1') {
+	if (!ssl_prop || g_str_equal (ssl_prop, "1")) {
 		ssl_enabled = TRUE;
 	} else {
 		ssl_enabled = FALSE;
 	}
 
-	e_source_set_property (source, "ssl", "1");
+	if (!ssl_prop) {
+		e_source_set_property (source, "ssl", "1");
+	} else if (ssl_enabled) {
+		const gchar *rel_uri = e_source_peek_relative_uri (source);
+
+		if (rel_uri && g_str_has_prefix (rel_uri, "http://")) {
+			ssl_enabled = FALSE;
+			e_source_set_property (source, "ssl", "0");
+		}
+	}
 
 	/* Build up the UI */
 	parent = data->parent;
@@ -664,12 +683,13 @@ plugin_google  (EPlugin                    *epl,
 
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 2, row + 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
+	g_object_set_data (G_OBJECT (cssl), "username", user);
+	g_signal_connect (cssl, "toggled", G_CALLBACK (ssl_toggled), source);
+
 	g_signal_connect (G_OBJECT (user),
 			  "changed",
 			  G_CALLBACK (user_changed),
 			  source);
-
-        g_free (uri);
 
 	label = gtk_label_new_with_mnemonic (_("Cal_endar:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
