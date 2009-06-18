@@ -26,10 +26,7 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EShell        EShell;
 typedef struct _EShellPrivate EShellPrivate;
@@ -141,8 +138,6 @@ const gchar *e_shell_construct_result_to_string (EShellConstructResult result);
 typedef gboolean (*EMainShellFunc) (EShell *shell, EShellWindow *window, gpointer user_data);
 void e_shell_foreach_shell_window (EShell *shell, EMainShellFunc func, gpointer user_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_SHELL_H_ */

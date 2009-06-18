@@ -26,10 +26,7 @@
 
 #include "e-multi-config-dialog.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_SHELL_SETTINGS_DIALOG			(e_shell_settings_dialog_get_type ())
 #define E_SHELL_SETTINGS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_SETTINGS_DIALOG, EShellSettingsDialog))
@@ -58,8 +55,6 @@ GtkWidget *e_shell_settings_dialog_new       (void);
 void       e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog,
 					      const gchar           *type);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_SHELL_SETTINGS_DIALOG_H_ */

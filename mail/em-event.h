@@ -29,10 +29,7 @@
 #include "e-util/e-event.h"
 #include "mail/em-folder-browser.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
@@ -177,8 +174,6 @@ struct _EMEventHookClass {
 
 GType em_event_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_EVENT_H__ */

@@ -31,10 +31,7 @@
 #include <glib.h>
 #include "e-meeting-types.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 
@@ -73,8 +70,6 @@ struct _EMeetingFreeBusyPeriod
 	EMeetingFreeBusyType busy_type;
 };
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_MEETING_TYPES_H_ */

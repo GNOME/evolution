@@ -21,10 +21,7 @@
 #ifndef MAIL_TYPES_H
 #define MAIL_TYPES_H 1
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus }*/
+G_BEGIN_DECLS
 
 
 typedef struct  _FolderBrowser     FolderBrowser;
@@ -33,8 +30,6 @@ typedef struct  _SubscribeDialog   SubscribeDialog;
 typedef struct  _MessageList       MessageList;
 typedef struct  _MailDisplay       MailDisplay;
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* MAIL_TYPES_H */

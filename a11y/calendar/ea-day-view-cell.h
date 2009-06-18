@@ -27,9 +27,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "e-day-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_DAY_VIEW_CELL                     (e_day_view_cell_get_type ())
 #define E_DAY_VIEW_CELL(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DAY_VIEW_CELL, EDayViewCell))
@@ -82,8 +80,6 @@ struct _EaDayViewCellClass
 
 AtkObject*     ea_day_view_cell_new         (GObject *gobj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_DAY_VIEW_CELL_H__ */

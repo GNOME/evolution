@@ -27,10 +27,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-window.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_USER_CREATABLE_ITEMS_HANDLER		(e_user_creatable_items_handler_get_type ())
 #define E_USER_CREATABLE_ITEMS_HANDLER(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_USER_CREATABLE_ITEMS_HANDLER, EUserCreatableItemsHandler))
@@ -63,8 +60,6 @@ EUserCreatableItemsHandler *e_user_creatable_items_handler_new        (const gch
 void                        e_user_creatable_items_handler_activate   (EUserCreatableItemsHandler *handler,
 								       BonoboUIComponent          *ui_component);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_USER_CREATABLE_ITEMS_HANDLER_H_ */

@@ -29,10 +29,7 @@
 
 #include <bonobo/bonobo-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_CORBA_CONFIG_PAGE			(e_corba_config_page_get_type ())
 #define E_CORBA_CONFIG_PAGE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CORBA_CONFIG_PAGE, ECorbaConfigPage))
@@ -61,8 +58,6 @@ GtkWidget *e_corba_config_page_new_from_objref  (GNOME_Evolution_ConfigControl  
 gboolean   e_corba_config_page_construct        (ECorbaConfigPage              *corba_config_page,
 						 GNOME_Evolution_ConfigControl  objref);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CORBA_CONFIG_PAGE_H_ */

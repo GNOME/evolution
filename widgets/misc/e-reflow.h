@@ -28,10 +28,7 @@
 #include <misc/e-selection-model.h>
 #include <e-util/e-sorter-array.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EReflow - A canvas item container.
  *
@@ -139,8 +136,6 @@ struct _EReflowClass
  */
 GType    e_reflow_get_type       (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_REFLOW_H__ */

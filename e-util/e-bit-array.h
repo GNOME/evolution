@@ -26,9 +26,7 @@
 
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_BIT_ARRAY_TYPE        (e_bit_array_get_type ())
 #define E_BIT_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_BIT_ARRAY_TYPE, EBitArray))
@@ -95,9 +93,7 @@ void       e_bit_array_move_row            (EBitArray    *esm,
 gboolean   e_bit_array_cross_and           (EBitArray    *esm);
 gboolean   e_bit_array_cross_or            (EBitArray    *esm);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_BIT_ARRAY_H_ */

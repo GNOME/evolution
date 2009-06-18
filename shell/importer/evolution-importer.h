@@ -27,10 +27,7 @@
 #include <bonobo/bonobo-object.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* cplusplus */
+G_BEGIN_DECLS
 
 #define EVOLUTION_TYPE_IMPORTER            (evolution_importer_get_type ())
 #define EVOLUTION_IMPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_IMPORTER, EvolutionImporter))
@@ -93,8 +90,6 @@ EvolutionImporter *evolution_importer_new (EvolutionImporterCreateControlFn  cre
 					   void                             *closure);
 
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

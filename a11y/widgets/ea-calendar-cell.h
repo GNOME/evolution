@@ -26,9 +26,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "misc/e-calendar-item.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_CALENDAR_CELL                     (e_calendar_cell_get_type ())
 #define E_CALENDAR_CELL(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CALENDAR_CELL, ECalendarCell))
@@ -83,8 +81,6 @@ struct _EaCalendarCellClass
 
 AtkObject*     ea_calendar_cell_new         (GObject *gobj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_CALENDAR_CELL_H__ */

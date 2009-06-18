@@ -26,10 +26,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_INFO_LABEL_GET_CLASS(emfv)  ((EInfoLabelClass *) G_OBJECT_GET_CLASS (emfv))
 
@@ -52,8 +49,6 @@ GType e_info_label_get_type(void);
 GtkWidget *e_info_label_new(const gchar *icon);
 void e_info_label_set_info(EInfoLabel *, const gchar *loc, const gchar *info);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* ! _E_INFO_LABEL_H */

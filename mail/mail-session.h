@@ -27,10 +27,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <camel/camel-session.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 void mail_session_init (const gchar *base_directory);
 void mail_session_shutdown (void);
@@ -57,8 +54,6 @@ void mail_session_set_junk_headers (const gchar **name, const gchar **value, gin
 
 extern CamelSession *session;
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* ! MAIL_SESSION_H */

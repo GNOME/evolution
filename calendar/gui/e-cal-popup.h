@@ -29,10 +29,7 @@
 #include "e-util/e-popup.h"
 #include "dialogs/comp-editor.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _ECalPopup ECalPopup;
 typedef struct _ECalPopupClass ECalPopupClass;
@@ -211,8 +208,6 @@ struct _ECalPopupHookClass {
 
 GType e_cal_popup_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_CAL_POPUP_H__ */

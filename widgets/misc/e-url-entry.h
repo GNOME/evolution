@@ -29,10 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_URL_ENTRY			(e_url_entry_get_type ())
 #define E_URL_ENTRY(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_URL_ENTRY, EUrlEntry))
@@ -61,8 +58,6 @@ GType      e_url_entry_get_type  (void);
 GtkWidget *e_url_entry_new       (void);
 GtkWidget *e_url_entry_get_entry (EUrlEntry *url_entry);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_URL_ENTRY_H_ */

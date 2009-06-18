@@ -24,10 +24,7 @@
 #ifndef EM_HTML_STREAM_H
 #define EM_HTML_STREAM_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_HTML_STREAM_TYPE     (em_html_stream_get_type ())
 #define EM_HTML_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_HTML_STREAM_TYPE, EMHTMLStream))
@@ -60,8 +57,6 @@ CamelType    em_html_stream_get_type (void);
 CamelStream *em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream);
 void em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_HTML_STREAM_H */

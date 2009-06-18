@@ -28,10 +28,7 @@
 
 #include <camel/camel-junk-plugin.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EMJunkHookItem EMJunkHookItem;
 typedef struct _EMJunkHookGroup EMJunkHookGroup;
@@ -99,8 +96,6 @@ struct _EMJunkClass {
 
 GType emj_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_JUNK_HOOK_H__ */

@@ -27,9 +27,7 @@
 #include "ea-cal-view.h"
 #include "e-week-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_WEEK_VIEW                     (ea_week_view_get_type ())
 #define EA_WEEK_VIEW(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_WEEK_VIEW, EaWeekView))
@@ -55,9 +53,7 @@ struct _EaWeekViewClass
 
 AtkObject*     ea_week_view_new         (GtkWidget       *widget);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_WEEK_VIEW_H__ */

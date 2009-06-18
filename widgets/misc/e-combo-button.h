@@ -29,10 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_COMBO_BUTTON			(e_combo_button_get_type ())
 #define E_COMBO_BUTTON(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMBO_BUTTON, EComboButton))
@@ -76,8 +73,6 @@ GtkWidget *e_combo_button_get_label  (EComboButton *combo_button);
 
 gboolean   e_combo_button_popup_menu (EComboButton *combo_button);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_COMBO_BUTTON_H_ */

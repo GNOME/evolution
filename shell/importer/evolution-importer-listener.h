@@ -28,10 +28,7 @@
 #include <importer/GNOME_Evolution_Importer.h>
 #include "evolution-importer.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* cplusplus */
+G_BEGIN_DECLS
 
 #define EVOLUTION_TYPE_IMPORTER_LISTENER            (evolution_importer_listener_get_type ())
 #define EVOLUTION_IMPORTER_LISTENER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_IMPORTER_LISTENER, EvolutionImporterListener))
@@ -64,8 +61,6 @@ GType evolution_importer_listener_get_type (void);
 EvolutionImporterListener *evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
 							    gpointer closure);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

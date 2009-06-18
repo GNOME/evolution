@@ -27,10 +27,7 @@
 #include <glib-object.h>
 #include "libedataserver/e-msgport.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _GtkWindow;
 struct _GtkWidget;
@@ -386,8 +383,6 @@ GType e_config_hook_get_type(void);
 /* for implementors */
 void e_config_hook_class_add_target_map(EConfigHookClass *klass, const EConfigHookTargetMap *);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_CONFIG_H__ */

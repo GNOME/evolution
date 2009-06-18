@@ -29,10 +29,7 @@
 
 #include "e-util/e-event.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
@@ -103,8 +100,6 @@ struct _EProfileEventHookClass {
 
 GType e_profile_event_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_PROFILE_EVENT_H__ */

@@ -27,10 +27,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_TASK_BAR			(e_task_bar_get_type ())
 #define E_TASK_BAR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TASK_BAR, ETaskBar))
@@ -74,8 +71,6 @@ void	    e_task_bar_remove_task_from_id (ETaskBar *task_bar,
 ETaskWidget *e_task_bar_get_task_widget  (ETaskBar    *task_bar,
 					  gint          n);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TASK_BAR_H_ */

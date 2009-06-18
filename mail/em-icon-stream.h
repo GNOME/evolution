@@ -23,10 +23,7 @@
 #ifndef EM_ICON_STREAM_H
 #define EM_ICON_STREAM_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_ICON_STREAM_TYPE     (em_icon_stream_get_type ())
 #define EM_ICON_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_ICON_STREAM_TYPE, EMIconStream))
@@ -62,8 +59,6 @@ gint em_icon_stream_is_resized(const gchar *key, guint maxwidth, guint maxheight
 
 void em_icon_stream_clear_cache(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_ICON_STREAM_H */

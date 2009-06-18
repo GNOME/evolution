@@ -27,9 +27,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-sorter.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_SELECTION_MODEL_TYPE         (e_selection_model_get_type ())
 #define E_SELECTION_MODEL(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_TYPE, ESelectionModel))
@@ -160,9 +158,7 @@ void      e_selection_model_selection_row_changed  (ESelectionModel *selection,
 						    gint              row);
 void      e_selection_model_selection_changed      (ESelectionModel *selection);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* _E_SELECTION_MODEL_H_ */

@@ -26,9 +26,7 @@
 #include <gtk/gtk.h>
 #include "gnome-cal.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_GNOME_CALENDAR            (ea_gnome_calendar_get_type ())
 #define EA_GNOME_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_GNOME_CALENDAR, EaGnomeCalendar))
@@ -56,9 +54,7 @@ AtkObject*     ea_gnome_calendar_new         (GtkWidget       *widget);
 
 const gchar *	ea_gnome_calendar_get_label_description (GnomeCalendar *gcal);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_GNOME_CALENDAR_H__ */

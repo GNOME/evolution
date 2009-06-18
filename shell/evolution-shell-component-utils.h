@@ -25,10 +25,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EPixmap {
 	const gchar *path;
@@ -45,8 +42,6 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache);
 
 gchar *e_get_activation_failure_msg  (CORBA_Environment *ev);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EVOLUTION_SHELL_COMPONENT_UTILS_H__ */

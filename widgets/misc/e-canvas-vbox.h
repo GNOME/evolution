@@ -26,10 +26,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ECanvasVbox - A canvas item container.
  *
@@ -84,9 +81,7 @@ void       e_canvas_vbox_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *i
 void       e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 GType      e_canvas_vbox_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_CANVAS_VBOX_H__ */

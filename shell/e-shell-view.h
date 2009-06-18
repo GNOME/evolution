@@ -26,10 +26,7 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _EShell;
 
@@ -62,9 +59,7 @@ struct _EShellViewClass {
 GType                e_shell_view_get_type   (void);
 EShellView *e_shell_view_new(struct _EShellWindow *window);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_SHELL_VIEW_H_ */
 

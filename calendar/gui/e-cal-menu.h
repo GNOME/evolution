@@ -28,10 +28,7 @@
 
 #include "e-util/e-menu.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _ECalMenu ECalMenu;
 typedef struct _ECalMenuClass ECalMenuClass;
@@ -119,8 +116,6 @@ struct _ECalMenuHookClass {
 
 GType e_cal_menu_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_CAL_MENU_H__ */

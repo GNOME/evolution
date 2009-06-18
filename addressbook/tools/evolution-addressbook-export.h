@@ -26,10 +26,7 @@
 
 #include <glib.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define SUCCESS 0
 #define FAILED  -1
@@ -74,8 +71,6 @@ guint action_list_folders_init (ActionContext * p_actctx);
 /*action list cards*/
 guint action_list_cards_init (ActionContext * p_actctx);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _EVOLUTION_ADDRESSBOOK_EXPORT_H_ */

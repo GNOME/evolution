@@ -26,10 +26,7 @@
 
 #include <bonobo/bonobo-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _GtkWidget;
 
@@ -71,9 +68,7 @@ EComponentView *e_component_view_new_controls(GNOME_Evolution_ShellView parent, 
 void e_component_view_set_title(EComponentView *ecv, const gchar *title);
 void e_component_view_set_button_icon (EComponentView *ecv, const gchar *iconName);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_COMPONENT_VIEW_H_ */
 

@@ -26,9 +26,7 @@
 
 #include "e-week-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EWeekViewMainItem - displays the background grid and dates for the Week and
@@ -59,8 +57,6 @@ GType    e_week_view_main_item_get_type      (void);
 
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_WEEK_VIEW_MAIN_ITEM_H_ */

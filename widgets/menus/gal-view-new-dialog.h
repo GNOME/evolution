@@ -27,10 +27,7 @@
 #include <glade/glade.h>
 #include <gal-view-collection.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* GalViewNewDialog - A dialog displaying information about a contact.
  *
@@ -76,9 +73,7 @@ GType      gal_view_new_dialog_get_type   (void);
 GtkWidget *gal_view_new_dialog_construct  (GalViewNewDialog  *dialog,
 					   GalViewCollection *collection);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GAL_VIEW_NEW_DIALOG_H__ */

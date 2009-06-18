@@ -26,10 +26,7 @@
 
 #include <e-util/e-text-event-processor.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ETextEventProcessorEmacsLike - Turns events on a text widget into commands.  Uses an emacs-ish interface.
  *
@@ -62,9 +59,7 @@ struct _ETextEventProcessorEmacsLikeClass
 GType      e_text_event_processor_emacs_like_get_type (void);
 ETextEventProcessor *e_text_event_processor_emacs_like_new (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__ */

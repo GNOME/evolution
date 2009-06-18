@@ -28,10 +28,7 @@
 #include <importer/evolution-importer.h>
 #include <importer/evolution-importer-listener.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif
+G_BEGIN_DECLS
 
 #define EVOLUTION_TYPE_IMPORTER_CLIENT (evolution_importer_client_get_type ())
 #define EVOLUTION_IMPORTER_CLIENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_IMPORTER_CLIENT, EvolutionImporterClient))
@@ -67,8 +64,6 @@ void evolution_importer_client_process_item (EvolutionImporterClient *client,
 					     EvolutionImporterListener *listener);
 const gchar *evolution_importer_client_get_error (EvolutionImporterClient *client);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

@@ -29,10 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_DROPDOWN_BUTTON		  (e_dropdown_button_get_type ())
 #define E_DROPDOWN_BUTTON(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DROPDOWN_BUTTON, EDropdownButton))
@@ -63,8 +60,6 @@ void       e_dropdown_button_construct  (EDropdownButton *dropdown_button,
 GtkWidget *e_dropdown_button_new        (const gchar      *label_text,
 					 GtkMenu         *menu);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DROPDOWN_BUTTON_H_ */

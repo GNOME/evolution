@@ -26,10 +26,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _EAccount;
 
@@ -83,8 +80,6 @@ void em_account_editor_build_extra_conf (EMAccountEditor *gui, const gchar *url)
 
 void em_account_editor_auto_detect_extra_conf (EMAccountEditor *gui);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_ACCOUNT_EDITOR_H */

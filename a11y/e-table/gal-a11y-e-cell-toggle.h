@@ -26,9 +26,7 @@
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-e-cell-toggle.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GAL_A11Y_TYPE_E_CELL_TOGGLE            (gal_a11y_e_cell_toggle_get_type ())
 #define GAL_A11Y_E_CELL_TOGGLE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_CELL_TOGGLE, GalA11yECellToggle))
@@ -60,9 +58,7 @@ AtkObject *gal_a11y_e_cell_toggle_new  (ETableItem *item,
                                         gint         view_col,
                                         gint         row);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __GAL_A11Y_E_CELL_TOGGLE_H__ */

@@ -28,10 +28,7 @@
 
 #include "e-util/e-event.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _EShell;  /* Avoid including "e-shell.h" */
 
@@ -120,8 +117,6 @@ struct _ESEventHookClass {
 
 GType es_event_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __ES_EVENT_H__ */

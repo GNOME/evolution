@@ -31,10 +31,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_MULTI_CONFIG_DIALOG			(e_multi_config_dialog_get_type ())
 #define E_MULTI_CONFIG_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialog))
@@ -69,8 +66,6 @@ void  e_multi_config_dialog_add_page  (EMultiConfigDialog *dialog,
 void  e_multi_config_dialog_show_page (EMultiConfigDialog *dialog,
 				       gint                 page);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_MULTI_CONFIG_DIALOG_H_ */

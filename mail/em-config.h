@@ -27,10 +27,7 @@
 
 #include "e-util/e-config.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _GConfClient;
 
@@ -107,8 +104,6 @@ struct _EMConfigHookClass {
 
 GType em_config_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_CONFIG_H__ */

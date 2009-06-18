@@ -29,10 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_CONFIG_PAGE			(e_config_page_get_type ())
 #define E_CONFIG_PAGE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONFIG_PAGE, EConfigPage))
@@ -60,8 +57,6 @@ struct _EConfigPageClass {
 GType      e_config_page_get_type    (void);
 GtkWidget *e_config_page_new         (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CONFIG_PAGE_H_ */

@@ -29,10 +29,7 @@
 #include "exchange-config-listener.h"
 #include <exchange-account.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define ERROR_DOMAIN "org-gnome-exchange-operations"
 
@@ -54,8 +51,6 @@ void exchange_operations_update_child_esources (ESource *source, const gchar *ol
 
 gboolean is_exchange_personal_folder (ExchangeAccount *account, gchar *uri);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif

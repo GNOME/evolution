@@ -40,10 +40,7 @@ struct _GtkWindow;
 
 struct _CamelFolder;
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _MailConfigSignature {
 	gint id;
@@ -166,8 +163,6 @@ GType evolution_mail_config_get_type (void);
 
 gboolean evolution_mail_config_factory_init (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* MAIL_CONFIG_H */

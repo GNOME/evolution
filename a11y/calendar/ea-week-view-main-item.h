@@ -28,9 +28,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "e-week-view-main-item.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_WEEK_VIEW_MAIN_ITEM                     (ea_week_view_main_item_get_type ())
 #define EA_WEEK_VIEW_MAIN_ITEM(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_WEEK_VIEW_MAIN_ITEM, EaWeekViewMainItem))
@@ -56,8 +54,6 @@ struct _EaWeekViewMainItemClass
 
 AtkObject*     ea_week_view_main_item_new         (GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_WEEK_VIEW_MAIN_ITEM_H__ */

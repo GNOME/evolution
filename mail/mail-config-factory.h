@@ -23,10 +23,7 @@
 #ifndef __MAIL_CONFIG_FACTORY_H__
 #define __MAIL_CONFIG_FACTORY_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #include <bonobo/bonobo-generic-factory.h>
 #include "evolution-config-control.h"
@@ -37,8 +34,6 @@ gboolean mail_config_register_factory (GNOME_Evolution_Shell shell);
 
 BonoboObject *mail_config_control_factory_cb (BonoboGenericFactory *factory, const gchar *component_id, gpointer user_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __MAIL_CONFIG_FACTORY_H__ */

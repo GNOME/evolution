@@ -23,18 +23,13 @@
 #ifndef MAIL_CRYPTO_H
 #define MAIL_CRYPTO_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus  */
+G_BEGIN_DECLS
 
 struct _EAccount;
 
 /* PGP/MIME convenience wrappers */
 struct _CamelCipherContext *mail_crypto_get_pgp_cipher_context(struct _EAccount *account);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* ! MAIL_CRYPTO_H */

@@ -27,9 +27,7 @@
 #include <atk/atkgobjectaccessible.h>
 #include "e-week-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_WEEK_VIEW_CELL                     (e_week_view_cell_get_type ())
 #define E_WEEK_VIEW_CELL(obj)                     (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_WEEK_VIEW_CELL, EWeekViewCell))
@@ -82,8 +80,6 @@ struct _EaWeekViewCellClass
 
 AtkObject*     ea_week_view_cell_new         (GObject *gobj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EA_WEEK_VIEW_CELL_H__ */

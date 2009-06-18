@@ -33,10 +33,7 @@
 
 #include <shell/Evolution.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define EM_ACCOUNT_PREFS_TYPE        (em_account_prefs_get_type ())
@@ -84,8 +81,6 @@ GtkWidget *em_account_prefs_new (GNOME_Evolution_Shell shell);
 /* needed by global config */
 #define EM_ACCOUNT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_AccountPrefs_ConfigControl:" BASE_VERSION
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif /* __EM_ACCOUNT_PREFS_H__ */

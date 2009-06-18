@@ -29,10 +29,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define E_TYPE_COMPONENT_REGISTRY		(e_component_registry_get_type ())
@@ -97,8 +94,6 @@ GNOME_Evolution_Component  e_component_registry_activate  (EComponentRegistry *r
 							   CORBA_Environment  *ev);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __E_COMPONENT_REGISTRY_H__ */

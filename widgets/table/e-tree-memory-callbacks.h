@@ -25,9 +25,7 @@
 
 #include <table/e-tree-memory.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TREE_MEMORY_CALLBACKS_TYPE        (e_tree_memory_callbacks_get_type ())
 #define E_TREE_MEMORY_CALLBACKS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_MEMORY_CALLBACKS_TYPE, ETreeMemoryCallbacks))
@@ -112,8 +110,6 @@ ETreeModel *e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 
 					  gpointer                                 model_data);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TREE_MEMORY_CALLBACKS_H_ */

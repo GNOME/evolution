@@ -23,11 +23,6 @@
 #ifndef __EM_NETWORK_PREFS_H__
 #define __EM_NETWORK_PREFS_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
 #include <gtk/gtk.h>
 
 #define EM_NETWORK_PREFS_TYPE        (em_network_prefs_get_type ())
@@ -35,6 +30,8 @@ extern "C" {
 #define EM_NETWORK_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_NETWORK_PREFS_TYPE, EMNetworkPrefsClass))
 #define EM_IS_NETWORK_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_NETWORK_PREFS_TYPE))
 #define EM_IS_NETWORK_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_NETWORK_PREFS_TYPE))
+
+G_BEGIN_DECLS
 
 typedef struct _EMNetworkPrefs EMNetworkPrefs;
 typedef struct _EMNetworkPrefsClass EMNetworkPrefsClass;
@@ -109,8 +106,6 @@ struct _GtkWidget *em_network_prefs_new (void);
 /* needed by global config */
 #define EM_NETWORK_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_NetworkPrefs_ConfigControl:" BASE_VERSION
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_NETWORK_PREFS_H__ */

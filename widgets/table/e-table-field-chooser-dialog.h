@@ -27,10 +27,7 @@
 #include <table/e-table-field-chooser.h>
 #include <table/e-table-header.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ETableFieldChooserDialog - A dialog displaying information about a contact.
  *
@@ -70,9 +67,7 @@ struct _ETableFieldChooserDialogClass
 GtkWidget *e_table_field_chooser_dialog_new(void);
 GType      e_table_field_chooser_dialog_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_TABLE_FIELD_CHOOSER_DIALOG_H__ */

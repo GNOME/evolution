@@ -24,18 +24,13 @@
 #ifndef __EM_FOLDER_PROPERTIES_H__
 #define __EM_FOLDER_PROPERTIES_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _CamelFolder;
 struct _GtkWindow;
 
 void em_folder_properties_show(struct _GtkWindow *parent, struct _CamelFolder *folder, const gchar *uri);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_FOLDER_PROPERTIES_H__ */

@@ -26,10 +26,7 @@
 
 #include <glib.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
@@ -85,8 +82,6 @@ void em_utils_get_reply_all (struct _CamelMimeMessage *message, struct _CamelInt
 struct _EMsgComposer * em_utils_reply_to_message (struct _CamelFolder *, const gchar *uid, struct _CamelMimeMessage *message, gint mode, struct _EMFormat *source);
 struct _EDestination ** em_utils_camel_address_to_destination (struct _CamelInternetAddress *iaddr);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_COMPOSER_UTILS_H__ */

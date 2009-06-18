@@ -29,10 +29,7 @@
 
 #include "mail/em-folder-tree-model.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_TYPE_FOLDER_TREE            (em_folder_tree_get_type ())
 #define EM_FOLDER_TREE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_TREE, EMFolderTree))
@@ -97,8 +94,6 @@ gboolean em_folder_tree_create_folder (EMFolderTree *emft, const gchar *full_nam
 GtkWidget * em_folder_tree_get_tree_view (EMFolderTree *emft);
 void em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_FOLDER_TREE_H__ */

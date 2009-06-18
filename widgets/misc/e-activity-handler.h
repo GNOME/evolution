@@ -27,10 +27,7 @@
 #include "e-util/e-logger.h"
 #include <glib-object.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_ACTIVITY_HANDLER			(e_activity_handler_get_type ())
 #define E_ACTIVITY_HANDLER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ACTIVITY_HANDLER, EActivityHandler))
@@ -101,8 +98,6 @@ e_activity_handler_operation_set_error (EActivityHandler *activity_handler,
 void
 e_activity_handler_set_error_flush_time (EActivityHandler *handler, gint time);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_ACTIVITY_HANDLER_H_ */

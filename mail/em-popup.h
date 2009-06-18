@@ -28,10 +28,7 @@
 
 #include "e-util/e-popup.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef struct _EMPopup EMPopup;
 typedef struct _EMPopupClass EMPopupClass;
@@ -258,8 +255,6 @@ struct _EMPopupHookClass {
 
 GType em_popup_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_POPUP_H__ */

@@ -27,10 +27,7 @@
 #include <bonobo/bonobo-object.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EVOLUTION_TYPE_INTELLIGENT_IMPORTER            (evolution_intelligent_importer_get_type ())
 #define EVOLUTION_INTELLIGENT_IMPORTER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_INTELLIGENT_IMPORTER, EvolutionIntelligentImporter))
@@ -67,8 +64,6 @@ EvolutionIntelligentImporter *evolution_intelligent_importer_new (EvolutionIntel
 								  const gchar *message,
 								  gpointer closure);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

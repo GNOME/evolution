@@ -29,10 +29,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 typedef enum {
 	CONFIG_LISTENER_STATUS_OK,
@@ -82,8 +79,6 @@ void exchange_config_listener_modify_esource_group_name (ExchangeConfigListener 
 ExchangeAccountResult exchange_config_listener_authenticate (ExchangeConfigListener *excl,
 							ExchangeAccount *account);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EXCHANGE_CONFIG_LISTENER_H__ */

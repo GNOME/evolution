@@ -27,10 +27,7 @@
 struct _GtkWindow;
 struct _ESource;
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif
+G_BEGIN_DECLS
 
 void calendar_setup_edit_calendar  (struct _GtkWindow *parent, struct _ESource *source, struct _ESourceGroup *group);
 void calendar_setup_new_calendar   (struct _GtkWindow *parent);
@@ -41,8 +38,6 @@ void calendar_setup_new_task_list  (struct _GtkWindow *parent);
 void calendar_setup_edit_memo_list (struct _GtkWindow *parent, ESource *source);
 void calendar_setup_new_memo_list (struct _GtkWindow *parent);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif /* __CALENDAR_SETUP_H__ */

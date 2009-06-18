@@ -28,10 +28,7 @@
 
 #include "e-util/e-menu.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 struct _EBook;
 
@@ -103,8 +100,6 @@ struct _EABMenuHookClass {
 
 GType eab_menu_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EAB_MENU_H__ */

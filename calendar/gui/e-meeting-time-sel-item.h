@@ -33,9 +33,7 @@
 
 #include "e-meeting-time-sel.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 
 #define E_MEETING_TIME_SELECTOR_ITEM(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), e_meeting_time_selector_item_get_type (), EMeetingTimeSelectorItem))

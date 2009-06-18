@@ -28,10 +28,7 @@
 
 #include "e-util/e-event.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif
+G_BEGIN_DECLS
 
 typedef struct _ECalEvent ECalEvent;
 typedef struct _ECalEventClass ECalEventClass;
@@ -82,8 +79,6 @@ struct _ECalEventHookClass {
 
 GType e_cal_event_hook_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif /* __E_CAL_EVENT_H__ */

@@ -26,10 +26,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ECanvas - A class derived from canvas for the purpose of adding
  * evolution specific canvas hacks.
@@ -148,9 +145,7 @@ void       e_canvas_popup_tooltip                        (ECanvas               
 							  gint                              y);
 void       e_canvas_hide_tooltip                         (ECanvas                         *canvas);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_CANVAS_H__ */

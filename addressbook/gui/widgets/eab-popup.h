@@ -28,10 +28,7 @@
 
 #include "e-util/e-popup.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define ADAPTED_TO_E_NAME_SELECTOR 1
 
@@ -194,8 +191,6 @@ struct _EABPopupHookClass {
 
 GType eab_popup_hook_get_type(void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EAB_POPUP_H__ */

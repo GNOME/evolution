@@ -26,10 +26,7 @@
 #include <gtk/gtk.h>
 #include "e-addressbook-view.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EA_TYPE_AB_VIEW			(ea_ab_view_get_type ())
 #define EA_AB_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EA_TYPE_AB_VIEW, EaABView))
@@ -54,9 +51,7 @@ struct _EaABViewClass
 GType ea_ab_view_get_type (void);
 AtkObject* ea_ab_view_new(GObject *obj);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __EA_ADDRESSBOOK_VIEW_H__ */

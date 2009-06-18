@@ -23,11 +23,6 @@
 #ifndef __EM_MAILER_PREFS_H__
 #define __EM_MAILER_PREFS_H__
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
 #include <gtk/gtk.h>
 #include <shell/Evolution.h>
 
@@ -50,6 +45,8 @@ struct _GtkWindow;
 #define EM_MAILER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_MAILER_PREFS_TYPE, EMMailerPrefsClass))
 #define EM_IS_MAILER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_MAILER_PREFS_TYPE))
 #define EM_IS_MAILER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_MAILER_PREFS_TYPE))
+
+G_BEGIN_DECLS
 
 typedef struct _EMMailerPrefs EMMailerPrefs;
 typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
@@ -157,8 +154,6 @@ void em_mailer_prefs_header_free(EMMailerPrefsHeader *header);
 /* needed by global config */
 #define EM_MAILER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_MailerPrefs_ConfigControl:" BASE_VERSION
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_MAILER_PREFS_H__ */

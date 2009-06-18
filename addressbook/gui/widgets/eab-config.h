@@ -28,10 +28,7 @@
 
 #include "e-util/e-config.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif
+G_BEGIN_DECLS
 
 typedef struct _EABConfig EABConfig;
 typedef struct _EABConfigClass EABConfigClass;
@@ -78,8 +75,6 @@ struct _EABConfigHookClass {
 
 GType eab_config_hook_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif
+G_END_DECLS
 
 #endif

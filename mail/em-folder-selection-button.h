@@ -26,10 +26,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_TYPE_FOLDER_SELECTION_BUTTON            (em_folder_selection_button_get_type ())
 #define EM_FOLDER_SELECTION_BUTTON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButton))
@@ -68,8 +65,6 @@ GList *em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *b
 void     em_folder_selection_button_set_multiselect (EMFolderSelectionButton *button, gboolean value);
 gboolean em_folder_selection_button_get_multiselect (EMFolderSelectionButton *button);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_FOLDER_SELECTION_BUTTON_H__ */

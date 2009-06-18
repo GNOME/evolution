@@ -25,10 +25,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_TASK_WIDGET			(e_task_widget_get_type ())
 #define E_TASK_WIDGET(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TASK_WIDGET, ETaskWidget))
@@ -75,8 +72,6 @@ void		e_task_wiget_alert		(ETaskWidget *task_widget);
 void		e_task_wiget_unalert		(ETaskWidget *task_widget);
 const gchar *	e_task_widget_get_component_id	(ETaskWidget *task_widget);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TASK_WIDGET_H_ */

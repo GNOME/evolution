@@ -32,10 +32,7 @@
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EFilterBar - A filter rule driven search bar.
  *
@@ -137,9 +134,7 @@ e_filter_bar_new_construct	  (RuleContext *context,
 				   EFilterBarConfigRule config,
 				   gpointer data ,EFilterBar *bar );
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_FILTER_BAR_H__ */

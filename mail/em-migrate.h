@@ -25,15 +25,10 @@
 
 #include <camel/camel-exception.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 gint em_migrate (const gchar *evolution_dir, gint major, gint minor, gint revision, CamelException *ex);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_MIGRATE_H__ */

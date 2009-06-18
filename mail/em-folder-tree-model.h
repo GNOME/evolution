@@ -31,10 +31,7 @@
 
 #include <libedataserver/e-account-list.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define EM_TYPE_FOLDER_TREE_MODEL		(em_folder_tree_model_get_type ())
 #define EM_FOLDER_TREE_MODEL(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModel))
@@ -150,8 +147,6 @@ void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore
 gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
 gchar * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const gchar *full);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* __EM_FOLDER_TREE_MODEL_H__ */
