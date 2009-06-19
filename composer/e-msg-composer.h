@@ -27,8 +27,8 @@
 #include <camel/camel-mime-message.h>
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
-#include <gtkhtml-editor.h>
-#include <widgets/misc/e-attachment-view.h>
+#include <editor/gtkhtml-editor.h>
+#include <misc/e-attachment-view.h>
 
 #include "e-composer-header-table.h"
 
