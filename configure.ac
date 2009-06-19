@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.52)
+AC_PREREQ(2.54)
 
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
@@ -81,10 +81,10 @@ GTK_DOC_CHECK(1.10)
 # The extra brackets are to foil regex-based scans.
 m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION) 
-AM_CONFIG_HEADER(config.h)
-
+AM_INIT_AUTOMAKE([gnu])
+AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
+
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
 dnl Put the ACLOCAL flags in the Makefile

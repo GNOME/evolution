@@ -1,3 +1,6 @@
+# Suppress the Posix / GNU Make Warnings
+AUTOMAKE_OPTIONS=-Wno-portability
+
 SUBDIRS = quickref
 
 include $(top_srcdir)/gnome-doc-utils.make
