@@ -1314,6 +1314,12 @@ comp_editor_dispose (GObject *object)
 
 	priv = COMP_EDITOR_GET_PRIVATE (object);
 
+	if (priv->shell != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell), &priv->shell);
+		priv->shell = NULL;
+	}
+
 	if (priv->client) {
 		g_object_unref (priv->client);
 		priv->client = NULL;

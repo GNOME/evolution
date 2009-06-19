@@ -331,7 +331,7 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	folder = message_list->folder;
 	uids = message_list_get_selected (message_list);
 
-	em_utils_flag_for_followup (window, folder, uids);
+	em_utils_flag_for_followup (reader, folder, uids);
 }
 
 static void

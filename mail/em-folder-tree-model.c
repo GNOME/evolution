@@ -311,6 +311,12 @@ folder_tree_model_dispose (GObject *object)
 
 	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
 
+	if (priv->shell_backend != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell_backend), &priv->shell_backend);
+		priv->shell_backend = NULL;
+	}
+
 	if (priv->selection != NULL) {
 		g_object_weak_unref (
 			G_OBJECT (priv->selection), (GWeakNotify)

@@ -484,6 +484,12 @@ shell_dispose (GObject *object)
 	g_list_free (priv->loaded_backends);
 	priv->loaded_backends = NULL;
 
+	if (priv->preparing_for_line_change != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->preparing_for_line_change),
+			&priv->preparing_for_line_change);
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }

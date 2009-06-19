@@ -116,6 +116,12 @@ shell_backend_dispose (GObject *object)
 
 	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
 
+	if (priv->shell != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell), &priv->shell);
+		priv->shell = NULL;
+	}
+
 	if (priv->shell_view_class != NULL) {
 		g_type_class_unref (priv->shell_view_class);
 		priv->shell_view_class = NULL;

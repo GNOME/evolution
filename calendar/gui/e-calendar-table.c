@@ -595,6 +595,12 @@ calendar_table_dispose (GObject *object)
 
 	priv = E_CALENDAR_TABLE_GET_PRIVATE (object);
 
+	if (priv->shell_view != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell_view), &priv->shell_view);
+		priv->shell_view = NULL;
+	}
+
 	if (priv->model != NULL) {
 		g_object_unref (priv->model);
 		priv->model = NULL;
