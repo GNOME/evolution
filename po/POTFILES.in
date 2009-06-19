@@ -343,8 +343,9 @@ plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
 plugins/groupwise-features/org-gnome-mail-retract.error.xml
-plugins/groupwise-features/org-gnome-proxy.error.xml
+plugins/groupwise-features/org-gnome-process-meeting.error.xml
 plugins/groupwise-features/org-gnome-proxy-login.error.xml
+plugins/groupwise-features/org-gnome-proxy.error.xml
 plugins/groupwise-features/org-gnome-shared-folder.error.xml
 plugins/groupwise-features/process-meeting.c
 plugins/groupwise-features/properties.glade
