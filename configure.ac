@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.52)
+AC_PREREQ(2.54)
 
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
@@ -79,10 +79,10 @@ GNOME_DOC_INIT
 # The extra brackets are to foil regex-based scans.
 m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION) 
-AM_CONFIG_HEADER(config.h)
-
+AM_INIT_AUTOMAKE([gnu])
+AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
+
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
 dnl Put the ACLOCAL flags in the Makefile
@@ -1131,7 +1131,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				nsprlibs="$DL_LIB -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 			fi
 			
-			AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
+			AC_CACHE_CHECK([for Mozilla nspr libraries], ac_cv_moz_nspr_libs,
 			[
 		       		LIBS_save="$LIBS"
 				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
@@ -1144,12 +1144,12 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		       			LDFLAGS="$LDFLAGS"
 				fi
 				
-				AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
+				AC_TRY_LINK_FUNC(PR_Init, ac_cv_moz_nspr_libs="yes", ac_cv_moz_nspr_libs="no")
 				CFLAGS="$CFLAGS_save"
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
 			])
-			if test "x$moz_nspr_libs" != "xno"; then
+			if test "x$ac_cv_moz_nspr_libs" != "xno"; then
 				have_nspr_libs="yes"
 				MANUAL_NSPR_LIBS="-L$with_nspr_libs $nsprlibs"
 			else
@@ -1210,21 +1210,21 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		 		nsslibs="-lssl3 -lsmime3 -lnss3"
 	 		fi	
 			
-			AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
+			AC_CACHE_CHECK([for Mozilla nss libraries], ac_cv_moz_nss_libs,
 			[
 	 			LIBS_save="$LIBS"
 				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 		      		LIBS="$nsslibs $nsprlibs"
-				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
-				if test "$moz_nss_libs" = no; then
+				AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
+				if test "$ac_cv_moz_nss_libs" = no; then
 					nsslibs="-lssl3 -lsmime3 -lnss3"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-					AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
+					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")	
 				fi
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
 			])
-			if test "$moz_nss_libs" != no; then
+			if test "$ac_cv_moz_nss_libs" != no; then
 				AC_DEFINE(HAVE_NSS)
 				AC_DEFINE(HAVE_SSL)
 				AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"$with_nss_libs", [Define to the full path of mozilla nss library])
