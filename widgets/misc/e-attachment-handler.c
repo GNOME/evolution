@@ -91,6 +91,23 @@ attachment_handler_constructed (GObject *object)
 }
 
 static void
+attachment_handler_dispose (GObject *object)
+{
+	EAttachmentHandlerPrivate *priv;
+
+	priv = E_ATTACHMENT_HANDLER_GET_PRIVATE (object);
+
+	if (priv->view != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->view), &priv->view);
+		priv->view = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 attachment_handler_class_init (EAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
@@ -102,6 +119,7 @@ attachment_handler_class_init (EAttachmentHandlerClass *class)
 	object_class->set_property = attachment_handler_set_property;
 	object_class->get_property = attachment_handler_get_property;
 	object_class->constructed = attachment_handler_constructed;
+	object_class->dispose = attachment_handler_dispose;
 
 	g_object_class_install_property (
 		object_class,
