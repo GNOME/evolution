@@ -65,6 +65,44 @@ account_combo_box_has_dupes (GList *list,
 	return (count > 1);
 }
 
+static EAccount *
+account_combo_box_choose_account (EAccountComboBox *combo_box)
+{
+	EAccountList *account_list;
+	EAccount *account;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	account_list = e_account_combo_box_get_account_list (combo_box);
+	g_return_val_if_fail (account_list != NULL, NULL);
+
+	/* First try the default account. */
+
+	/* XXX EAccountList misuses const. */
+	account = (EAccount *)
+		e_account_list_get_default (account_list);
+
+	/* If there is no default account, give up. */
+	if (account == NULL)
+		return NULL;
+
+	/* Make sure the default account appears in the combo box. */
+	if (g_hash_table_lookup (combo_box->priv->index, account) != NULL)
+		return account;
+
+	/* Default account is disabled or otherwise unusable,
+	 * so fall back to the first account in the combo box. */
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+
+	if (!gtk_tree_model_get_iter_first (model, &iter))
+		return NULL;
+
+	gtk_tree_model_get (model, &iter, COLUMN_ACCOUNT, &account, -1);
+
+	return account;
+}
+
 static gboolean
 account_combo_box_test_account (EAccount *account)
 {
@@ -417,11 +455,12 @@ e_account_combo_box_set_active (EAccountComboBox *combo_box,
 	account_list = combo_box->priv->account_list;
 	g_return_val_if_fail (account_list != NULL, FALSE);
 
-	/* NULL means select the default account. */
-	/* XXX EAccountList misuses const. */
+	/* NULL means choose an account ourselves. */
 	if (account == NULL)
-		account = (EAccount *)
-			e_account_list_get_default (account_list);
+		account = account_combo_box_choose_account (combo_box);
+
+	if (account == NULL)
+		return FALSE;
 
 	/* Lookup the tree row reference for the account. */
 	reference = g_hash_table_lookup (combo_box->priv->index, account);

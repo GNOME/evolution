@@ -1212,7 +1212,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 					esac
 				fi
 			else
-		 		nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
+		 		nsslibs="-lssl3 -lsmime3 -lnss3"
 	 		fi	
 			
 			AC_CACHE_CHECK([for Mozilla nss libraries], ac_cv_moz_nss_libs,

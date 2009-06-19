@@ -2707,8 +2707,6 @@ emae_service_complete(EMAccountEditor *emae, EMAccountEditorService *service)
 	if (CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)) {
 		if (url->host == NULL || url->host[0] == 0)
 			ok = FALSE;
-		else
-			gtk_entry_set_text(service->hostname, url->host);
 	}
 	/* We only need the user if the service needs auth as well, i think */
 	if (ok
@@ -2792,7 +2790,7 @@ emae_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 			if (!emae->priv->receive_set) {
 				gchar *user, *at;
 				gint index;
-				gchar *uri = (gchar *)e_account_get_string(emae->account, E_ACCOUNT_SOURCE_URL);
+				gchar *uri = g_strdup(e_account_get_string(emae->account, E_ACCOUNT_SOURCE_URL));
 				CamelURL *url;
 
 				emae->priv->receive_set = 1;
@@ -2819,8 +2817,6 @@ emae_check_complete(EConfig *ec, const gchar *pageid, gpointer data)
 
 					g_free(uri);
 					camel_url_free(url);
-				} else {
-					g_warning("buz1\n");
 				}
 
 			}

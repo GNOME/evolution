@@ -47,6 +47,7 @@ struct _EComposerHeaderPrivate {
 	gboolean button;
 	gchar *addaction_text;
 	gboolean addaction; /*For Add button.*/
+	GtkWidget *action_label;
 
 	guint sensitive : 1;
 	guint visible   : 1;
@@ -67,8 +68,13 @@ static void
 composer_header_addaction_clicked_cb (GtkButton *button,
 				      EComposerHeader *header)
 {
-	gtk_widget_hide ((GtkWidget *)button);
-	e_composer_header_set_visible (header, TRUE);
+	gboolean show = !e_composer_header_get_visible(header);
+	if (!show)
+		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
+	else
+		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
+
+	e_composer_header_set_visible (header, show);
 }
 
 static GObject *
