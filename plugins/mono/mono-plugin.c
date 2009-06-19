@@ -159,7 +159,7 @@ epm_invoke(EPlugin *ep, const gchar *name, gpointer data)
 
 	if (res) {
 		gpointer *p = mono_object_unbox(res);
-		d(printf("mono method returned '%p' %ld\n", *p, (long gint)*p));
+		d(printf("mono method returned '%p' %ld\n", *p, (glong)*p));
 		return *p;
 	} else
 		return NULL;
