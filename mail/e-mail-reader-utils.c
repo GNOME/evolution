@@ -109,6 +109,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	check_button = gtk_check_button_new_with_label (label);
 	gtk_box_pack_start (
 		GTK_BOX (content_area), check_button, TRUE, TRUE, 6);
+	gtk_widget_show (check_button);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
