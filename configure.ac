@@ -11,6 +11,14 @@ m4_define([evo_stable_version],
           [evo_major_version.m4_eval(evo_minor_version - 1)],
           [evo_version])])
 
+# Base version : This is for api/versioning tracking for things like bonobo .server files
+# This should always be the major/minor of the stable version or stable version to be
+m4_define([base_version], [2.28])
+
+# Upgrade Revision: This is for triggering migration calls between 
+# varying versions. This should be reset to 0 whenever BASE_VERSION changes.
+m4_define([upgrade_revision], [0])
+
 AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
@@ -96,26 +104,10 @@ if test "$evo_version" != "$evo_stable_version"; then
                   [Define to the latest stable version if this version is unstable])
 fi
 
-dnl *************************************************************************************************
-dnl Base Version
-dnl
-dnl This is for api/versioning tracking for things like bonobo .server files
-dnl
-dnl This should always be the major/minor of the stable version or stable version to be
-dnl *************************************************************************************************
-BASE_VERSION=2.28
-AC_SUBST(BASE_VERSION)
+AC_SUBST([BASE_VERSION],[base-version])
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
-dnl *************************************************************************************************
-dnl Upgrade Revision
-dnl
-dnl This is for triggering migration calls between varying versions.
-dnl
-dnl This should be reset to 0 whenever BASE_VERSION changes
-dnl *************************************************************************************************
-UPGRADE_REVISION=0
-AC_SUBST(UPGRADE_REVISION)
+AC_SUBST([UPGRADE_REVISION],[upgrade_revision])
 AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
 
 AC_ISC_POSIX
@@ -133,7 +125,7 @@ case $YACC in
 	AC_MSG_ERROR(You need bison to build Evolution)
 	;;
 esac
-AC_STDC_HEADERS
+AC_HEADER_STDC
 AC_ARG_PROGRAM
 AC_PROG_INSTALL
 AC_PROG_LN_S
