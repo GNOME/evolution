@@ -45,7 +45,7 @@ etspec_DATA =				\
 	e-cal-list-view.etspec		\
 	e-memo-table.etspec
 
-privsolib_LTLIBRARIES = libcal-gui.la
+noinst_LTLIBRARIES = libcal-gui.la
 
 # Removed from SOURCES
 #	cal-search-bar.c
