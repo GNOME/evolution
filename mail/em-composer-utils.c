@@ -2401,6 +2401,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
                         EMailShellBackend *mail_shell_backend)
 {
 	EMFolderTreeModel *model;
+	GtkTreeSelection *selection;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
@@ -2408,7 +2409,8 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
 	folder_tree = em_folder_tree_new_with_model (model);
 
-	em_folder_tree_set_multiselect (EM_FOLDER_TREE (folder_tree), TRUE);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
 	em_folder_tree_set_excluded (
 		EM_FOLDER_TREE (folder_tree),

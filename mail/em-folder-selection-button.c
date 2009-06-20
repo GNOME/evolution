@@ -251,12 +251,20 @@ folder_selection_button_clicked (GtkButton *button)
 	EMFolderSelectionButtonPrivate *priv;
 	EMFolderTree *emft;
 	GtkWidget *dialog;
+	GtkTreeSelection *selection;
+	GtkSelectionMode mode;
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (priv->model);
 
-	em_folder_tree_set_multiselect (emft, priv->multiple_select);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
+	if (priv->multiple_select)
+		mode = GTK_SELECTION_MULTIPLE;
+	else
+		mode = GTK_SELECTION_SINGLE;
+	gtk_tree_selection_set_mode (selection, mode);
+
 	em_folder_tree_set_excluded (
 		emft, EMFT_EXCLUDE_NOSELECT |
 		EMFT_EXCLUDE_VIRTUAL | EMFT_EXCLUDE_VTRASH);

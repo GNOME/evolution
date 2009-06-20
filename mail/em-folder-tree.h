@@ -87,7 +87,6 @@ GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 
-void em_folder_tree_set_multiselect (EMFolderTree *emft, gboolean mode);
 void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags);
 void em_folder_tree_set_excluded_func(EMFolderTree *emft, EMFTExcludeFunc exclude, gpointer data);
 
