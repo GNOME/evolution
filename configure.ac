@@ -11,12 +11,13 @@ m4_define([evo_stable_version],
           [evo_major_version.m4_eval(evo_minor_version - 1)],
           [evo_version])])
 
-# Base version : This is for api/versioning tracking for things like bonobo .server files
-# This should always be the major/minor of the stable version or stable version to be
+# Base Version: This is for API/version tracking for things like
+# Bonobo server files.  This should always be the major/minor of
+# the stable version or stable version to be.
 m4_define([base_version], [2.28])
 
-# Upgrade Revision: This is for triggering migration calls between 
-# varying versions. This should be reset to 0 whenever BASE_VERSION changes.
+# Upgrade Revision: This is for triggering migration calls between
+# varying versions. Reset to 0 whenever BASE_VERSION changes.
 m4_define([upgrade_revision], [0])
 
 AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
@@ -106,11 +107,11 @@ if test "$evo_version" != "$evo_stable_version"; then
                   [Define to the latest stable version if this version is unstable])
 fi
 
-AC_SUBST([BASE_VERSION],[base-version])
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
+AC_SUBST([BASE_VERSION],[base_version])
+AC_DEFINE_UNQUOTED(BASE_VERSION, ["$BASE_VERSION"], [Base version (Major.Minor)])
 
 AC_SUBST([UPGRADE_REVISION],[upgrade_revision])
-AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
+AC_DEFINE_UNQUOTED(UPGRADE_REVISION, ["$UPGRADE_REVISION"], [The number of times we've upgraded since the BASE_VERSION release])
 
 AC_ISC_POSIX
 AC_PROG_CC
