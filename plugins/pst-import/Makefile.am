@@ -9,6 +9,7 @@ endif
 INCLUDES =						\
 	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
 	$(EVOLUTION_CFLAGS)				\
