@@ -389,7 +389,7 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 		/* backup was canceled, delete the backup file as it is not needed now */
 		gchar *cmd, *filename;
 
-		g_message ("Backup cancelled, removing partial backup file.");
+		g_message ("Backup canceled, removing partial backup file.");
 
 		filename = g_shell_quote (bk_file);
 		cmd = g_strconcat ("rm ", filename, NULL);
