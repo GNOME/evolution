@@ -174,7 +174,7 @@ case "$host" in
 *)  os_win32=no
     NO_UNDEFINED=''
     SOEXT='.so'
-    SA_JUNK_PLUGIN=sa-junk-plugin 
+    SA_JUNK_PLUGIN=sa-junk-plugin
     BF_JUNK_PLUGIN=bogo-junk-plugin
     DL_LIB='-ldl'
     SOFTOKN3_LIB='-lsoftokn3'
@@ -453,7 +453,7 @@ AC_CACHE_CHECK([if ctime_r wants three arguments], ac_cv_ctime_r_three_args,
 		ac_cv_ctime_r_three_args=no
 	])
 ])
-	
+
 if test x"$ac_cv_ctime_r_three_args" = xyes ; then
 	AC_DEFINE(CTIME_R_THREE_ARGS, 1, [Solaris-style ctime_r])
 fi
@@ -486,7 +486,7 @@ AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_
 		ac_cv_gethostbyname_r_five_args=no
 	])
 ])])
-	
+
 if test "x$ac_cv_gethostbyname_r_five_args" = "xyes" ; then
 	AC_DEFINE(GETHOSTBYNAME_R_FIVE_ARGS, 1, [Solaris-style gethostbyname_r])
 fi
@@ -519,7 +519,7 @@ AC_CACHE_CHECK([if gethostbyaddr_r wants seven arguments], ac_cv_gethostbyaddr_r
 		ac_cv_gethostbyaddr_r_seven_args=no
 	])
 ])])
-	
+
 if test "x$ac_cv_gethostbyaddr_r_seven_args" = "xyes" ; then
 	AC_DEFINE(GETHOSTBYADDR_R_SEVEN_ARGS, 1, [Solaris-style gethostbyaddr_r])
 fi
@@ -747,7 +747,7 @@ int main (int argc, char **argv)
 {
 	const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
 	size_t utf8_real_len = strlen (utf8);
-	char *pstring;	
+	char *pstring;
 
 	if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
 		exit (1);
@@ -818,7 +818,7 @@ AC_ARG_WITH([krb4-includes],
 msg_krb5="no"
 if test "x${with_krb5}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
-	
+
 	mitlibs="-lkrb5 -lk5crypto -lcom_err -lgssapi_krb5"
 	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken -lgssapi"
 	sunlibs="-lkrb5 -lgss"
@@ -828,7 +828,7 @@ if test "x${with_krb5}" != "xno"; then
 		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
 		[
 			LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $heimlibs"
-			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs", 
+			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs",
 			[
 				LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $sunlibs"
 				AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$sunlibs", ac_cv_lib_kerberos5="no")
@@ -886,7 +886,7 @@ if test "x${with_krb4}" != "xno"; then
 		# Look for MIT krb5 compat krb4
 		LDFLAGS="$LDFLAGS -L$with_krb4_libs $mitcompatlibs"
 		AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="$mitcompatlibs")
-		
+
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			# Look for KTH krb4
 			LDFLAGS="$LDFLAGS_save -L$with_krb4_libs -lkrb -lcrypto -lcom_err -lroken"
@@ -918,7 +918,7 @@ if test "x${with_krb4}" != "xno"; then
 			KRB4_CFLAGS="-I$with_krb4_includes"
 		fi
 		KRB4_LIBS="-L$with_krb4_libs $ac_cv_lib_kerberos4"
-		
+
 		CFLAGS_save="$CFLAGS"
 		CFLAGS="$CFLAGS $KRB4_CFLAGS"
 		AC_TRY_COMPILE([#include "krb.h"
@@ -997,7 +997,7 @@ fi
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
 dnl
-dnl The following voodoo does detection of mozilla libraries (nspr and nss) 
+dnl The following voodoo does detection of mozilla libraries (nspr and nss)
 dnl needed by Camel (SSL and S/MIME).
 dnl
 dnl The Evolution security extensions are only built if these libraries are found
@@ -1007,21 +1007,21 @@ msg_smime="no"
 
 dnl these 2 enable's are inverses of each other
 
-AC_ARG_ENABLE([nss], 
+AC_ARG_ENABLE([nss],
 	      AC_HELP_STRING([--enable-nss=@<:@yes/no/static@:>@],
 			     [Attempt to use Mozilla libnss for SSL support.]),
 	      [enable_nss=$enableval],[enable_nss=yes])
 
-AC_ARG_ENABLE([smime], 
+AC_ARG_ENABLE([smime],
 	      AC_HELP_STRING([--enable-smime],
 			     [Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)]),
 	      [enable_smime=$enableval],[enable_smime=yes])
 
-AC_ARG_WITH([nspr-includes], 
+AC_ARG_WITH([nspr-includes],
 	    AC_HELP_STRING([--with-nspr-includes=PATH],
 			   [Location of Mozilla nspr4 includes.]))
 
-AC_ARG_WITH([nspr-libs], 
+AC_ARG_WITH([nspr-libs],
 	    AC_HELP_STRING([--with-nspr-libs=PATH],
 			   [Location of Mozilla nspr4 libs.]))
 
@@ -1039,7 +1039,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	else
 		check_manually="no"
 	fi
-	
+
 	if test "x${check_manually}" = "xno"; then
 		AC_MSG_CHECKING(Mozilla NSPR pkg-config module name)
 		mozilla_nspr_pcs="nspr mozilla-nspr firefox-nspr xulrunner-nspr seamonkey-nspr"
@@ -1050,7 +1050,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				break;
 			fi
 		done
-		
+
 		AC_MSG_CHECKING(Mozilla NSS pkg-config module name)
 		mozilla_nss_pcs="nss mozilla-nss firefox-nss xulrunner-nss seamonkey-nss"
 		for pc in $mozilla_nss_pcs; do
@@ -1060,7 +1060,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				break;
 			fi
 		done
-		
+
 		if test -n "$mozilla_nspr" -a -n "$mozilla_nss"; then
 			msg_ssl="yes (Mozilla NSS)"
 			if test "x$enable_smime" = "xyes"; then
@@ -1080,20 +1080,20 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			mozilla_nss=""
 		fi
 	fi
-	
+
 	if test "x${check_manually}" = "xyes"; then
 		mozilla_nss=""
 		have_nspr_includes="no"
 		if test "x${with_nspr_includes}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
-			
+
 			AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes)
 			AC_MSG_RESULT("")
-			
+
 			CPPFLAGS="$CPPFLAGS -I$with_nspr_includes"
 			AC_CHECK_HEADERS(nspr.h prio.h, [ moz_nspr_includes="yes" ])
 			CPPFLAGS="$CPPFLAGS_save"
-			
+
 			if test "x{$moz_nspr_includes}" != "xno" -a "x{$moz_nspr_includes}" != "x" ; then
 				have_nspr_includes="yes"
 				MANUAL_NSPR_CFLAGS="-I$with_nspr_includes"
@@ -1102,12 +1102,12 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			AC_MSG_CHECKING(for Mozilla nspr4 includes)
 			AC_MSG_RESULT(no)
 		fi
-		
+
 		have_nspr_libs="no"
 		if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 			CFLAGS_save="$CFLAGS"
 			LDFLAGS_save="$LDFLAGS"
-			
+
 			if test "$enable_nss" = "static"; then
 				if test -z "${with_nspr_libs}"; then
 					AC_MSG_ERROR([Static linkage requested, but path to nspr libraries not set.]
@@ -1119,12 +1119,12 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			else
 				nsprlibs="$DL_LIB -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 			fi
-			
+
 			AC_CACHE_CHECK([for Mozilla nspr libraries], ac_cv_moz_nspr_libs,
 			[
 		       		LIBS_save="$LIBS"
 				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
-				
+
 				if test "x${with_nspr_libs}" != "x"; then
 		       			LIBS="$nsprlibs"
 		       			LDFLAGS="$LDFLAGS -L$with_nspr_libs"
@@ -1132,7 +1132,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		       			LIBS="$nsprlibs"
 		       			LDFLAGS="$LDFLAGS"
 				fi
-				
+
 				AC_TRY_LINK_FUNC(PR_Init, ac_cv_moz_nspr_libs="yes", ac_cv_moz_nspr_libs="no")
 				CFLAGS="$CFLAGS_save"
 				LDFLAGS="$LDFLAGS_save"
@@ -1148,26 +1148,26 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			AC_MSG_CHECKING(for Mozilla nspr4 libraries)
 			AC_MSG_RESULT(no)
 		fi
-		
+
 		if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
-			
+
 			AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
 			AC_MSG_RESULT("")
-			
+
 			if test "x${with_nspr_includes}" != "x"; then
 				CPPFLAGS="$CPPFLAGS -I$with_nspr_includes -I$with_nss_includes"
 			else
 				CPPFLAGS="$CPPFLAGS -I$with_nss_includes"
 			fi
-			
+
 			AC_CHECK_HEADERS(nss.h ssl.h smime.h,
-				[ have_nss_includes="yes" ], 
+				[ have_nss_includes="yes" ],
 				[ have_nss_includes="no" ])
-			
+
 			CPPFLAGS="$CPPFLAGS_save"
-			
-			if test "x${have_nss_includes}" = "xyes"; then	
+
+			if test "x${have_nss_includes}" = "xyes"; then
 				have_nss_includes="yes"
 				MANUAL_NSS_CFLAGS="-I$with_nss_includes"
 			else
@@ -1178,10 +1178,10 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			AC_MSG_CHECKING(for Mozilla nss3 includes)
 			AC_MSG_RESULT(no)
 		fi
-		
+
 		if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 			LDFLAGS_save="$LDFLAGS"
-			
+
 			if test "$enable_nss" = "static"; then
 		    		if test -z "${with_nss_libs}"; then
 					AC_MSG_ERROR([Static linkage requested, but path to nss libraries not set.]
@@ -1197,8 +1197,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				fi
 			else
 		 		nsslibs="-lssl3 -lsmime3 -lnss3"
-	 		fi	
-			
+			fi
+
 			AC_CACHE_CHECK([for Mozilla nss libraries], ac_cv_moz_nss_libs,
 			[
 	 			LIBS_save="$LIBS"
@@ -1208,7 +1208,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				if test "$ac_cv_moz_nss_libs" = no; then
 					nsslibs="-lssl3 -lsmime3 -lnss3"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")	
+					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
 				fi
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
@@ -1236,7 +1236,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			AC_MSG_CHECKING(for Mozilla nss libraries)
 			AC_MSG_RESULT(no)
 		fi
-		
+
 		MANUAL_NSS_CFLAGS="$MANUAL_NSPR_CFLAGS $MANUAL_NSS_CFLAGS"
 		MANUAL_NSS_LIBS="$MANUAL_NSPR_LIBS $MANUAL_NSS_LIBS"
 	fi
@@ -1253,18 +1253,18 @@ dnl **************************************************
 dnl Check if we should build the weather calendar plugin
 dnl **************************************************
 AC_MSG_CHECKING(if we should build the weather calendar plugin)
-AC_ARG_WITH([weather], 
+AC_ARG_WITH([weather],
   [AS_HELP_STRING([--with-weather], [Build the weather calendar setup plugin (default=yes)])],
-  [use_gweather=$withval], 
+  [use_gweather=$withval],
   [use_gweather=yes])
 AC_MSG_RESULT($use_gweather)
 
 if test $use_gweather = yes; then
-	PKG_CHECK_MODULES([LIBGWEATHER], 
+	PKG_CHECK_MODULES([LIBGWEATHER],
 	   [gweather >= gweather_minimum_version],
-	   [CALENDAR_WEATHER="calendar-weather"], 
+	   [CALENDAR_WEATHER="calendar-weather"],
 	   [AC_MSG_ERROR([The weather calendar setup plugin requires GWeather >= gweather_minimum_version. Alternatively, you may specify --without-weather as a configure option to avoid building the plugin.])])
-else 
+else
 	CALENDAR_WEATHER=""
 fi
 
@@ -1314,14 +1314,14 @@ dnl 		with_openssl_includes="$withval", with_openssl_includes="/usr/include")
 dnl 	have_openssl_includes="no"
 dnl 	if test "x${with_openssl_includes}" != "xno"; then
 dnl 		CPPFLAGS_save="$CPPFLAGS"
-dnl 		
+dnl
 dnl 		AC_MSG_CHECKING(for OpenSSL includes)
 dnl 		AC_MSG_RESULT("")
-dnl 		
+dnl
 dnl 		CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
 dnl 		AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
 dnl 		CPPFLAGS="$CPPFLAGS_save"
-dnl 		
+dnl
 dnl 		if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
 dnl 			have_openssl_includes="yes"
 dnl 			OPENSSL_CFLAGS="-I$with_openssl_includes"
@@ -1332,17 +1332,17 @@ dnl 	else
 dnl 		AC_MSG_CHECKING(for OpenSSL includes)
 dnl 		AC_MSG_RESULT(no)
 dnl 	fi
-dnl 	
+dnl
 dnl 	AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
 dnl 		with_openssl_libs="$withval")
 dnl 	if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
 dnl 		LDFLAGS_save="$LDFLAGS"
-dnl 	
+dnl
 dnl 		case $with_openssl_libs in
 dnl 		""|-L*) ;;
 dnl 		*) with_openssl_libs="-L$with_openssl_libs" ;;
 dnl 		esac
-dnl 	
+dnl
 dnl 		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
 dnl 		AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
 dnl 		[
@@ -1366,8 +1366,8 @@ dnl 	fi
 dnl else
 dnl 	OPENSSL_CFLAGS=""
 dnl 	OPENSSL_LDFLAGS=""
-dnl 
-dnl 
+dnl
+dnl
 dnl AC_SUBST(OPENSSL_CFLAGS)
 dnl AC_SUBST(OPENSSL_LDFLAGS)
 
@@ -1466,7 +1466,7 @@ else
 fi
 
 AC_MSG_CHECKING([for yTNEF])
-AC_TRY_COMPILE([#include <stdio.h> 
+AC_TRY_COMPILE([#include <stdio.h>
 		#include <ytnef.h>],
 	[TNEFStruct *tnef;], tnef_ok=yes, tnef_ok=no)
 if test "$tnef_ok" = "yes"; then
@@ -1474,7 +1474,7 @@ if test "$tnef_ok" = "yes"; then
 	TNEF_ATTACHMENTS="tnef-attachments"
 	TNEF_CFLAGS="-DHAVE_YTNEF_H"
 else
-	AC_TRY_COMPILE([#include <stdio.h> 
+	AC_TRY_COMPILE([#include <stdio.h>
 			#include <libytnef/ytnef.h>],
 		[TNEFStruct *tnef;], tnef_ok=yes, tnef_ok=no)
 	if test "$tnef_ok" = "yes"; then
@@ -1540,7 +1540,7 @@ AC_SUBST(TZDIALOG_LIBS)
 EVO_SET_COMPILE_FLAGS(E_WIDGETS, libbonoboui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
- 
+
 EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libbonoboui-2.0 libgnomeui-2.0 libebook-$EDS_PACKAGE)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
@@ -1555,17 +1555,17 @@ NM_SUPPORT_PACKAGES=""
 
 PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
 AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
-if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then 
+if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then
 	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
 	NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1"
 else
         NM_SUPPORT=no
-fi	   
+fi
 
 AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
 
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES)   
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1764,7 +1764,7 @@ AC_ARG_ENABLE([plugins],
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup mail-account-disable publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
-plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
+plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN "
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
 plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
@@ -1860,7 +1860,7 @@ if ${PKG_CONFIG} --exists dbus-glib-1 ; then
 	AC_DEFINE(HAVE_DBUS,1,[Define if you have DBUS support])
 	AC_SUBST(HAVE_DBUS)
 	AM_CONDITIONAL(ENABLE_DBUS, true)
-	
+
 else
 	echo "warning: dbus-glib-1 was not found, Mail notification plugins's dbus message support not built"
 	AM_CONDITIONAL(ENABLE_DBUS, false)
