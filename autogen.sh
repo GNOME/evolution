@@ -5,7 +5,7 @@ srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Evolution"
-REQUIRED_AUTOMAKE_VERSION=1.6
+REQUIRED_AUTOMAKE_VERSION=1.9
 
 (test -f $srcdir/configure.ac \
   && test -f $srcdir/ChangeLog \
