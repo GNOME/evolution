@@ -21,16 +21,12 @@ m4_define([upgrade_revision], [0])
 # Autoconf / Automake Initialization
 AC_PREREQ(2.54)
 AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
-AM_INIT_AUTOMAKE([gnu])
+AM_INIT_AUTOMAKE([gnu 1.9])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
 
 # Gnome Doc Initialization
 GNOME_DOC_INIT
-
-# Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
-# The extra brackets are to foil regex-based scans.
-m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
 
 # Some requirements have versioned package names
 # XXX In the spirit of getting rid of versioned
