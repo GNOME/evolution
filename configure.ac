@@ -1,6 +1,4 @@
-# Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.54)
-
+# Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
 m4_define([evo_micro_version], [3])
@@ -20,8 +18,19 @@ m4_define([base_version], [2.28])
 # varying versions. Reset to 0 whenever BASE_VERSION changes.
 m4_define([upgrade_revision], [0])
 
+# Autoconf / Automake Initialization
+AC_PREREQ(2.54)
 AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AM_INIT_AUTOMAKE([gnu])
+AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
+
+# Gnome Doc Initialization
+GNOME_DOC_INIT
+
+# Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
+# The extra brackets are to foil regex-based scans.
+m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
 
 # Some requirements have versioned package names
 # XXX In the spirit of getting rid of versioned
@@ -83,17 +92,7 @@ AC_SUBST(WARNING_FLAGS)
 
 CFLAGS="$CFLAGS $WARNING_FLAGS"
 
-# GNOME Documentation
-GNOME_DOC_INIT
-GTK_DOC_CHECK(1.10)
-# Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
-# The extra brackets are to foil regex-based scans.
-m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
-
-AM_INIT_AUTOMAKE([gnu])
-AC_CONFIG_HEADERS(config.h)
 AC_CANONICAL_HOST
-
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
 dnl Put the ACLOCAL flags in the Makefile
