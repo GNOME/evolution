@@ -242,7 +242,7 @@ have_iconv=no
 AC_ARG_WITH([libiconv],
 	    AC_HELP_STRING([--with-libiconv=PATH],
 			   [Prefix where libiconv is installed]))
-if test -d $withval; then
+if test -d "$withval"; then
 	ICONV_CFLAGS="-I$withval/include"
 	ICONV_LIBS="-L$withval/lib"
 fi
