@@ -28,6 +28,9 @@ AC_CONFIG_SRCDIR(README)
 # Gnome Doc Initialization
 GNOME_DOC_INIT
 
+# Automake 1.11 - Silent Build Rules
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
 # Some requirements have versioned package names
 # XXX In the spirit of getting rid of versioned
 #     files, can we please drop these suffixes?
