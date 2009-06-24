@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-11 21:11+0000\n"
-"PO-Revision-Date: 2009-06-11 01:29+0530\n"
+"PO-Revision-Date: 2009-06-24 19:41+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <discuss@lists.ankur.org.in>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "বর্ষপঞ্জি অনুযায়ী প্রদর্শ�
 
 #: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
-msgstr ""
+msgstr "ফোকাস আটক করা হবে"
 
 #: ../a11y/calendar/ea-cal-view.c:299
 msgid "New Appointment"
@@ -12067,7 +12067,7 @@ msgstr "এক্সপ্রেশন"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "Follow Up"
-msgstr ""
+msgstr "অনুবৃত্তি"
 
 #: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1056
 msgid "Important"
@@ -12560,7 +12560,7 @@ msgstr "অনাকাঙ্ক্ষিত নয় হিসাবে চিহ
 
 #: ../mail/em-folder-view.c:1354
 msgid "Mark for Follo_w Up..."
-msgstr ""
+msgstr "অনুবৃত্তির জন্য চিহ্নিত করুন...(_w)"
 
 #: ../mail/em-folder-view.c:1356
 msgid "_Label"
@@ -13939,7 +13939,7 @@ msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
-msgstr ""
+msgstr "lookup_addressbook কি-র সাথে যুক্ত এই বিকল্পটির সাহায্যে অবাঞ্ছিত বার্তা বাছাই করার উদ্দেশ্যে শুধুমাত্র স্থানীয় ঠিকানা বইয়ের মধ্যে উপস্থিত পরিচিতদের থেকে প্রাপ্ত বার্তাগুলি অবাঞ্ছিত বার্তা রূপে চিহ্নিত করা হবে না।"
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "This option would help in improving the speed of fetching."
@@ -14632,7 +14632,7 @@ msgstr "এর জন্য কোনো প্রক্সি চিহ্ন�
 
 #: ../mail/mail-config.glade.h:108
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "উল্লেখ্য: লেবেলের নামের মধ্যে অন্তর্ভুক্ত আন্ডার-স্কোর চিহ্ন মেনুর মধ্যর স্মৃতিসহায়ক রূপে ব্যবহার করা হয়।"
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
@@ -14949,7 +14949,7 @@ msgstr "বার্তার পূর্বরূপ প্রদর্শন�
 
 #: ../mail/mail-config.glade.h:191
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr ""
+msgstr "প্রাপক/অনু-প্রা/অপ্র-অনু-প্রা ক্ষেত্রগুলি চিহ্নিত মাপ অবধি সংকুচন করা হবে (_S)"
 
 #: ../mail/mail-config.glade.h:192
 msgid "_Use Secure Connection:"
@@ -15021,7 +15021,7 @@ msgstr "বার্তার মধ্যে খোঁজ করুন"
 
 #: ../mail/mail-dialogs.glade.h:12 ../mail/message-tag-followup.c:276
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "অনুবৃত্তির জন্য চিহ্নিত ফ্ল্যাগ"
 
 #: ../mail/mail-dialogs.glade.h:13
 msgid "Folder Subscriptions"
@@ -15052,6 +15052,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"অনুবৃত্তির জন্য চিহ্নিত বার্তাগুলি নীচে উল্লিখিত হয়েছে।\n"
+"অনুগ্রহ করে, \"ফ্ল্যাগ\" মেনু থেকে, অনুবৃত্তির উদ্দেশ্যে একটি কর্ম নির্বাচন করুন।"
 
 #: ../mail/mail-dialogs.glade.h:21
 msgid "_Accept License"
@@ -16057,7 +16059,7 @@ msgstr "বার্তার তালিকা প্রস্তুত কর
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
-msgstr ""
+msgstr "অনুসন্ধানের মান অনুযায়ী কোনো বার্তা চিহ্নিত করা হয়নি। অনুসন্ধান->মুছে ফেলুন শীর্ষক মেনু থেকে এই অনুসন্ধান মুছে ফেলুন অথবা এটি পরিবর্তন করুন।"
 
 #: ../mail/message-list.c:4291
 msgid "There are no messages in this folder."
@@ -16077,7 +16079,7 @@ msgstr "ফ্ল্যাগ করা"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "অনুবৃত্তির ফ্ল্যাগ"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
@@ -16094,7 +16096,7 @@ msgstr "মাপ"
 
 #: ../mail/message-list.etspec.h:19
 msgid "Subject - Trimmed"
-msgstr ""
+msgstr "বিষয় - ছাঁটাই করা"
 
 #: ../mail/message-tag-followup.c:55
 msgid "Call"
@@ -16106,7 +16108,7 @@ msgstr "অনুবর্তন করা হবে না"
 
 #: ../mail/message-tag-followup.c:57
 msgid "Follow-Up"
-msgstr ""
+msgstr "অনুবৃত্তি"
 
 #: ../mail/message-tag-followup.c:58
 msgid "For Your Information"
@@ -16388,7 +16390,7 @@ msgid ""
 "sure that you save and close all your unsaved windows before proceeding.  If "
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
-msgstr ""
+msgstr "Evolution বন্ধ করা অবস্থায় Evolution ব্যাক-আপ আরম্ভ করা সম্ভব। অনুগ্রহ করে, এগিয়ে চলার পূর্বে, অসংক্ষিত তথ্য সম্বলিত সকল উইন্ডো বন্ধ করুন। ব্যাক-আপের পরে স্বয়ংক্রিয়ভাবে Evolution পুনরারম্ভ করার জন্য অনুগ্রহ করে টগল বাটন সক্রিয় করুন।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Insufficient Permissions"
@@ -16413,7 +16415,7 @@ msgid ""
 "not running. Please make sure that you close all your unsaved windows before "
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
-msgstr ""
+msgstr "এর ফলে, Evolution-র বর্তমান সকল তথ্য ও বৈশিষ্ট্য মুছে ফেলা হবে ও ব্যাক-আপ থেকে তা পুনরুদ্ধার করা হবে। Evolution বন্ধ করা অবস্থায় Evolution-র পুনরুদ্ধার আরম্ভ করা সম্ভব। অনুগ্রহ করে, এগিয়ে চলার পূর্বে, অসংক্ষিত তথ্য সম্বলিত সকল উইন্ডো বন্ধ করুন। পুনরুদ্ধারের পরে স্বয়ংক্রিয়ভাবে Evolution পুনরারম্ভ করার জন্য অনুগ্রহ করে টগল বাটন সক্রিয় করুন।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -17477,6 +17479,18 @@ msgid ""
 "{0}\n"
 "  "
 msgstr ""
+"Exchange Connector-র সঠিক চালনার জন্য\n"
+"Exchange Server-র কিছু বৈশিষ্ট্যের ব্যবহার করা প্রয়োজন\n"
+"এবং সম্ভবত এইগুলি নিষ্ক্রিয় অথবা উপলব্ধ নয়। (এই অবস্থা \n"
+"ইচ্ছাকৃত নয়।) Evolution Exchange Connector-র ব্যবহার উপলব্ধ \n"
+"করার জন্য Exchange অ্যাডমিনিস্ট্রেটর দ্বারা\n"
+"এই বৈশিষ্ট্যগুলি সক্রিয় করা আবশ্যক।\n"
+"\n"
+"Exchange অ্যাডমিনিস্ট্রেটরের জন্য তথ্য\n"
+"সংগ্রহের জন্য নিম্নলিখিত লিংকের ঠিকানা দেখুন:\n"
+"\n"
+"{0}\n"
+"  "
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:36
 msgid "Failed to update delegates:"
@@ -17591,6 +17605,11 @@ msgid ""
 "\n"
 "Or you might have just typed your password wrong."
 msgstr ""
+"সম্ভবত আপনার ব্যবহৃত সার্ভারের ক্ষেত্রে ব্যবহারকারী \n"
+"অ্যাকাউন্টের অংশ হিসাবে Windows ডোমেইনের \n"
+"নাম উল্লেখ করা আবশ্যক (উদাহরণ, &quot;DOMAIN\\user&quot;).\n"
+"\n"
+"অথবা সম্ভবত আপনি পাসওয়ার্ড ভুল লিখেছেন।"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:67
 msgid "Try again with a different password."
@@ -17767,7 +17786,7 @@ msgid ""
 "Attach Face header to outgoing messages. First time the user needs to "
 "configure a 48*48 png image. It is base64 encoded and stored in ~/.evolution/"
 "faces This will be used in messages that are sent further."
-msgstr ""
+msgstr "বাহিরগামী বার্তার জন্য মুখের ছবির হেডার সংযুক্ত করা হবে। প্রথমবার, ব্যবহারকারীকে একটি ৪৮*৪৮ মাপের png ছবি কনফিগার করতে হবে। base64 সহ এনকোড করা এই ছবিটি ~/.evolution/faces-র মধ্যে সংরক্ষিত হবে ও ভবিষ্যতে প্রেরিত বার্তাগুলির সাথে এটি যুক্ত করা হবে।"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:56
 #, c-format
@@ -17854,6 +17873,16 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
+"ব্যবহারকারী '%s' আপনার সাথে একটি ফোল্ডার যৌথরূপে ব্যবহার করতে ইচ্ছুক\n"
+"\n"
+"'%s' থেকে প্রাপ্ত বার্তা\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"যৌথ ব্যবহারের ফোল্ডারটি ইনস্টল করার জন্য 'পরবর্তী' টিপুন\n"
+"\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
 msgid "Install the shared folder"
@@ -18034,7 +18063,7 @@ msgstr "যৌথরূপে ব্যবহৃত নয় (_N)"
 
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Shared With..."
-msgstr ""
+msgstr "চিহ্নিত ব্যক্তিদের সাথে যৌথ ব্যবহার করা হবে...(_S)"
 
 #: ../plugins/groupwise-features/properties.glade.h:15
 msgid "_Sharing"
@@ -19080,7 +19109,7 @@ msgstr "আইকন সহযোগে বার্তা পপ-আপ কর�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr ""
+msgstr "নতুন বার্তা প্রাপ্ত হলে, বিজ্ঞপ্তিস্থলের মধ্যে নতুন মেইলের আইকন প্রদর্শন করা হবে।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
@@ -19096,11 +19125,11 @@ msgstr "নতুন বার্তা প্রাপ্ত হলে শব�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "নতুন বার্তা প্রাপ্ত হলে, আইকনের উপর বার্তা প্রদর্শন করা হবে কি না।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
-msgstr ""
+msgstr "আইকন ঝলকাবে কি না।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
@@ -19190,7 +19219,7 @@ msgstr "শুধুমাত্র ইনবক্স নতুন বার্
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr ""
+msgstr "নতুন বার্তা প্রাপ্ত হলে একটি D-Bus বার্তা উৎপন্ন হবে অথবা বিজ্ঞপ্তিস্থলে আইকন প্রদর্শন ও সূচনা বার্তা দ্বারা ব্যবহারকারীকে নতুন বার্তা আগমন সম্প্রর্কে জানানো হবে।"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Mail Notification"
@@ -19219,7 +19248,7 @@ msgstr "বর্ষপঞ্জি খোলা যাচ্ছে না। %s
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
-msgstr ""
+msgstr "নির্বাচিত উৎস্থলটি শুধুমাত্র পাঠযোগ্য ও এইখানে কোনো কর্ম নির্মাণ করা সম্ভব নয়। অনুগ্রহ করে একটি ভিন্ন উৎসস্থল নির্বাচন করুন।"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 msgid ""
@@ -19434,7 +19463,7 @@ msgstr "বার্তা পড়া-হয়েছে হিসাবে চি�
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
-msgstr ""
+msgstr "ফোল্ডারের মধ্যে উপস্থিত সকল বার্তাগুলির জন্য পঠিত বার্তা রূপে চিহ্নিত করা হবে"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
@@ -19528,7 +19557,7 @@ msgstr "Evolution Profiler"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
-msgstr ""
+msgstr "তথ্য প্রোফাইল করার ইভেন্টগুলির লগ নির্মাণ করতে ব্যবহৃত হয়।"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -19691,7 +19720,7 @@ msgstr "Python EPlugin লোডারের পরীক্ষামূলক �
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using Python."
-msgstr ""
+msgstr "Python-র সাহায্যে নির্মিত প্লাগ-ইন লোড করার জন্য ব্যবহৃত একটি প্লাগ-ইন।"
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
 msgid "Python Loader"
@@ -19749,7 +19778,7 @@ msgstr "দূরবর্তী পরীক্ষণ অন্তর্ভু�
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr ""
+msgstr "SpamAssassin সহযোগে অবাঞ্ছিত বার্তাগুলি ফিল্টার করুন। এই প্লাগ-ইন ব্যবহারের জন্য SpamAssassin ইনস্টল থাকা আবশ্যক।"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin Options"
@@ -19920,7 +19949,7 @@ msgstr "শুধুমাত্র চিহ্নিত কর্মের ত
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr ""
+msgstr "অ্যাকাউন্ট নির্মাণের প্রারম্ভিক ধাপগুলির জন্য সহায়তা উপলব্ধ করা হয়।"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Setup Assistant"
@@ -19993,7 +20022,7 @@ msgstr "বিষয় অনুসারে বার্তার থ্রেড
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
-msgstr ""
+msgstr "Templates প্লাগ-ইন দ্বারা বার্তার প্রধান অংশে প্রতিস্থাপের জন্য অভিব্যক্তি/মান সম্বলিত জুটিগুলির তালিকা।"
 
 #: ../plugins/templates/templates.c:603
 msgid "No title"
@@ -20010,11 +20039,11 @@ msgstr "টেমপ্লেট রূপে সংরক্ষণ করুন
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "খসড়া ভিত্তিক টেমপ্লেটের প্লাগ-ইন"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr ""
+msgstr "TNEF সংযুক্ত বস্তুগুলি ডিকোড করার উদ্দেশ্যে yTNEF প্রয়োগকারী একটি সহজ প্লাগ-ইন।"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -20118,6 +20147,8 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
+"মান true (সত্য) হলে, প্রক্সি সার্ভারের সাথে সংযোগের ক্ষেত্রে অনুমোদন আবশ্যক। \"/apps/evolution/shell/network_config/"
+"authentication_user\" নামক GConf-কি থেকে ব্যবহারকারীর নাম প্রাপ্ত করা হয়, ও gnome-keyring অথবা ~/.gnome2_private/Evolution পাসওয়ার্ড ফাইল থেকে পাসওয়ার্ড উদ্ধার করা হয়।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -20161,7 +20192,7 @@ msgid ""
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
-msgstr ""
+msgstr "প্রক্সি কনফিগারেশনের মোড নির্বাচন করুন। সম্ভাব্য মানগুলি হল: \"use system settings\"-র (সিস্টেমের বৈশিষ্ট্য ব্যবহার) জন্য 0 (০), \"no proxy\"-র (প্রক্সিবিহীন) জন্য 1 (১), \"use manual proxy configuration\"-র (স্বনির্ধারিত প্রক্সি কনফিগারেশন) জন্য 2 (২) ও \"use proxy configuration provided in the autoconfig url\"-র (autoconfig url-র মধ্যে উপলব্ধ প্রক্সি কনফিগারেশন ব্যবহার) জন্য 3 (৩)।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Sidebar is visible"
@@ -20223,19 +20254,19 @@ msgstr "socks প্রক্সির জন্য ব্যবহারযো�
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr ""
+msgstr "প্রক্সি রূপে ব্যবহৃত \"/apps/evolution/shell/network_config/http_host\"-এ চিহ্নিত মেশিনটির পোর্ট।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr ""
+msgstr "প্রক্সি রূপে ব্যবহৃত \"/apps/evolution/shell/network_config/secure_host\"-এ চিহ্নিত মেশিনটির পোর্ট।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr ""
+msgstr "প্রক্সি রূপে ব্যবহৃত \"/apps/evolution/shell/network_config/socks_host\"-এ চিহ্নিত মেশিনটির পোর্ট।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
@@ -20253,7 +20284,7 @@ msgid ""
 "than via the proxy (if it is active). The values can be hostnames, domains "
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
-msgstr ""
+msgstr "প্রক্সির পরিবর্তে সরাসরি সংযুক্ত হোস্টগুলির (সক্রিয় প্রক্সি থাকলে) তালিকা এই কি-র মধ্যে উপস্থিত রয়েছে। সম্ভাব্য মানগুলি হল হোস্ট-নেম, ডোমেইন (প্রারম্ভিক ওয়াইল্ড-কার্ড যেমন *.foo.com সহযোগে), IP হোস্টের ঠিকানা (IPv4 ও IPv6) উভয় ও নেটমাস্ক সহ নেটওয়ার্কের ঠিকানা (যেমন, 192.168.0.0/24)।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "Toolbar is visible"
@@ -21166,20 +21197,21 @@ msgid "Signing"
 msgstr "স্বাক্ষর করা হচ্ছে"
 
 #: ../smime/lib/e-cert.c:854
+# from thefreedictionary.com: In regard to digital security, non-repudiation means that it can be verified that the sender and the recipient were, in fact, the parties who claimed to send or receive the message, respectively.
 msgid "Non-repudiation"
-msgstr ""
+msgstr "সুনিশ্চিত পরিচিতি"
 
 #: ../smime/lib/e-cert.c:858
 msgid "Key Encipherment"
-msgstr "Key Encipherment"
+msgstr "কি সাইফার করার প্রক্রিয়া"
 
 #: ../smime/lib/e-cert.c:862
 msgid "Data Encipherment"
-msgstr "Data Encipherment"
+msgstr "তথ্য সাইফার করার প্রক্রিয়া"
 
 #: ../smime/lib/e-cert.c:866
 msgid "Key Agreement"
-msgstr "কী (Key) সংক্রান্ত চুক্তি"
+msgstr "কি (Key) সংক্রান্ত চুক্তি"
 
 #: ../smime/lib/e-cert.c:870
 msgid "Certificate Signer"
@@ -21650,7 +21682,7 @@ msgstr "বার্তা-তলিকায় নীচে বার্তা �
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview side-by-side with the message list"
-msgstr ""
+msgstr "বার্তা তালিকার পাশাপাশি বার্তার পূর্বদৃশ্য প্রদর্শন করা হবে"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "Show message preview window"
@@ -21981,11 +22013,11 @@ msgstr "নির্বাচিত বার্তাগুলিতে অন�
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
-msgstr ""
+msgstr "অনুবৃত্তির জন্য নির্বাচিত বার্তাগুলিকে ফ্ল্যাগ করুন"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr ""
+msgstr "অনুবৃত্তি...(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -22117,7 +22149,7 @@ msgstr "রি-ডাইরেক্ট করুন (_d)"
 
 #: ../ui/evolution-mail-message.xml.h:79
 msgid "Redirect (bounce) the selected message to someone"
-msgstr ""
+msgstr "নির্বাচিত বার্তাটি অন্য কোনো ব্যক্তির দিকে প্রেরিত হবে (রি-ডিরেক্ট/বাউন্স)"
 
 #: ../ui/evolution-mail-message.xml.h:84
 msgid "Reset the text to its original size"
@@ -22594,7 +22626,7 @@ msgstr "কার্যসপ্তাহ ভিউ (_W)"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr ""
+msgstr "প্রসারিত প্রদর্শন ক্ষেত্রের মধ্যে প্রেরিত সামগ্রীর ফোল্ডার রূপে (_d)"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -22614,11 +22646,11 @@ msgstr "বিষয় অনুযায়ী (_b)"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr ""
+msgstr "অনুবৃত্তির ফ্ল্যাগ অনুযায়ী (_F)"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
-msgstr ""
+msgstr "প্রসারিত প্রদর্শনের জন্য (_W)"
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
@@ -22834,7 +22866,7 @@ msgstr "GDK পূরণ করতে ব্যবহৃত রং"
 #: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3663
 #: ../widgets/text/e-text.c:3664
 msgid "Fill stipple"
-msgstr ""
+msgstr "ক্ষুদ্র বিন্দু সহযোগে ভরাট"
 
 #: ../widgets/misc/e-canvas-background.c:482
 #: ../widgets/misc/e-canvas-background.c:483
@@ -23139,7 +23171,7 @@ msgstr "অন-লাইন"
 
 #: ../widgets/misc/e-online-button.c:107
 msgid "The button state is online"
-msgstr ""
+msgstr "বাটনের জন্য অন-লাইন অবস্থা ধার্য হয়েছে"
 
 # The equivalent for Sync escapes me now
 #: ../widgets/misc/e-pilot-settings.c:102
@@ -23413,7 +23445,7 @@ msgstr "নির্বাচিত কলাম"
 
 #: ../widgets/table/e-cell-pixbuf.c:367
 msgid "Focused Column"
-msgstr ""
+msgstr "ফোকাস করা কলাম"
 
 #: ../widgets/table/e-cell-pixbuf.c:374
 msgid "Unselected Column"
@@ -23421,23 +23453,23 @@ msgstr "অনির্বাচিত কলাম"
 
 #: ../widgets/table/e-cell-text.c:1794
 msgid "Strikeout Column"
-msgstr ""
+msgstr "কলামে মধ্যরেখাঙ্কন করা হবে"
 
 #: ../widgets/table/e-cell-text.c:1801
 msgid "Underline Column"
-msgstr "কলামের নিম্নরেখাঙ্কন করা হবে"
+msgstr "কলামে নিম্নরেখাঙ্কন করা হবে"
 
 #: ../widgets/table/e-cell-text.c:1808
 msgid "Bold Column"
-msgstr ""
+msgstr "কলামকে উজ্জ্বল করা হবে"
 
 #: ../widgets/table/e-cell-text.c:1815
 msgid "Color Column"
-msgstr ""
+msgstr "কলাম রঙীন করা হবে"
 
 #: ../widgets/table/e-cell-text.c:1829
 msgid "BG Color Column"
-msgstr ""
+msgstr "কলামের পএভূমির রং"
 
 #: ../widgets/table/e-table-config.c:152
 msgid "State"
@@ -23573,6 +23605,8 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"টেবিলের মধ্যে কলাম যোগ করার জন্য,\n"
+"প্রদর্শনের জন্য চিহ্নিত স্থানে তা টেনে আনুন।"
 
 #: ../widgets/table/e-table-group-container.c:344
 #, c-format
@@ -23594,7 +23628,7 @@ msgstr[1] "%s (%d-টি বস্তু)"
 #: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 msgid "Alternating Row Colors"
-msgstr ""
+msgstr "একটি সারি অন্তর এক রং ব্যবহার করা হবে"
 
 #: ../widgets/table/e-table-group-container.c:934
 #: ../widgets/table/e-table-group-container.c:935
@@ -23603,7 +23637,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 #: ../widgets/table/e-tree.c:3343 ../widgets/table/e-tree.c:3344
 msgid "Horizontal Draw Grid"
-msgstr ""
+msgstr "আনুভূমিক দিশায় আঁকা গ্রিড"
 
 #: ../widgets/table/e-table-group-container.c:941
 #: ../widgets/table/e-table-group-container.c:942
@@ -23612,7 +23646,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-tree.c:3349 ../widgets/table/e-tree.c:3350
 msgid "Vertical Draw Grid"
-msgstr ""
+msgstr "উলম্ব দিশায় আঁকা গ্রিড"
 
 #: ../widgets/table/e-table-group-container.c:948
 #: ../widgets/table/e-table-group-container.c:949
@@ -23621,7 +23655,7 @@ msgstr ""
 #: ../widgets/table/e-table-item.c:3049 ../widgets/table/e-table-item.c:3050
 #: ../widgets/table/e-tree.c:3355 ../widgets/table/e-tree.c:3356
 msgid "Draw focus"
-msgstr ""
+msgstr "ফোকাস আঁকা হবে"
 
 #: ../widgets/table/e-table-group-container.c:955
 #: ../widgets/table/e-table-group-container.c:956
@@ -23647,7 +23681,7 @@ msgstr "নির্বাচনের মডেল"
 #: ../widgets/table/e-table.c:3324 ../widgets/table/e-tree.c:3337
 #: ../widgets/table/e-tree.c:3338
 msgid "Length Threshold"
-msgstr ""
+msgstr "দৈঘ্যের প্রান্তিক মাপ"
 
 #: ../widgets/table/e-table-group-container.c:976
 #: ../widgets/table/e-table-group-container.c:977
@@ -23657,14 +23691,14 @@ msgstr ""
 #: ../widgets/table/e-table.c:3331 ../widgets/table/e-tree.c:3369
 #: ../widgets/table/e-tree.c:3370
 msgid "Uniform row height"
-msgstr ""
+msgstr "সমান উচ্চতার সারি"
 
 #: ../widgets/table/e-table-group-container.c:983
 #: ../widgets/table/e-table-group-container.c:984
 #: ../widgets/table/e-table-group-leaf.c:656
 #: ../widgets/table/e-table-group-leaf.c:657
 msgid "Frozen"
-msgstr ""
+msgstr "আবদ্ধ"
 
 #: ../widgets/table/e-table-header-item.c:1452
 msgid "Customize Current View"
@@ -23786,7 +23820,7 @@ msgstr "গাড়"
 
 #: ../widgets/text/e-text.c:3577 ../widgets/text/e-text.c:3578
 msgid "Strikeout"
-msgstr ""
+msgstr "মধ্যরেখাঙ্কিত"
 
 #: ../widgets/text/e-text.c:3584 ../widgets/text/e-text.c:3585
 msgid "Anchor"
@@ -23806,11 +23840,11 @@ msgstr "উচ্চতা হ্রাস করা হবে"
 
 #: ../widgets/text/e-text.c:3613 ../widgets/text/e-text.c:3614
 msgid "Clip"
-msgstr ""
+msgstr "হ্রাস করা হবে"
 
 #: ../widgets/text/e-text.c:3620 ../widgets/text/e-text.c:3621
 msgid "Fill clip rectangle"
-msgstr ""
+msgstr "হ্রাস করা আয়তক্ষেত্র ভরাট করা হবে"
 
 #: ../widgets/text/e-text.c:3627 ../widgets/text/e-text.c:3628
 msgid "X Offset"
@@ -23830,11 +23864,11 @@ msgstr "হরফের উচ্চতা"
 
 #: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
 msgid "Use ellipsis"
-msgstr ""
+msgstr "ইলিপসিস প্রয়োগ করা হবে"
 
 #: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
 msgid "Ellipsis"
-msgstr ""
+msgstr "ইলিপসিস"
 
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Line wrap"
@@ -23842,7 +23876,7 @@ msgstr "লাইন গুটানো"
 
 #: ../widgets/text/e-text.c:3713 ../widgets/text/e-text.c:3714
 msgid "Break characters"
-msgstr ""
+msgstr "বিভাজনের অক্ষর"
 
 #: ../widgets/text/e-text.c:3720 ../widgets/text/e-text.c:3721
 msgid "Max lines"
