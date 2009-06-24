@@ -46,7 +46,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "a11y/gal-a11y-e-text.h"
+#include "gal-a11y-e-text.h"
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"
 #include "e-util/e-unicode.h"

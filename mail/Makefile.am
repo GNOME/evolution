@@ -1,4 +1,4 @@
-SUBDIRS = default
+SUBDIRS = . default importers
 
 mailincludedir = $(privincludedir)/mail
 
@@ -31,158 +31,125 @@ INCLUDES =						\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
-module_LTLIBRARIES =					\
-	libevolution-module-mail.la
+privsolib_LTLIBRARIES = libevolution-mail.la
 
-libevolution_module_mail_la_SOURCES =			\
-	evolution-module-mail.c				\
-	e-attachment-handler-mail.c			\
-	e-attachment-handler-mail.h			\
-	e-mail-attachment-bar.c				\
+mailinclude_HEADERS =					\
 	e-mail-attachment-bar.h				\
-	e-mail-browser.c				\
 	e-mail-browser.h				\
-	e-mail-display.c				\
 	e-mail-display.h				\
-	e-mail-label-dialog.c				\
 	e-mail-label-dialog.h				\
-	e-mail-label-list-store.c			\
 	e-mail-label-list-store.h			\
-	e-mail-label-manager.c				\
 	e-mail-label-manager.h				\
-	e-mail-label-tree-view.c			\
 	e-mail-label-tree-view.h			\
-	e-mail-local.c					\
 	e-mail-local.h					\
-	e-mail-reader.c					\
 	e-mail-reader.h					\
-	e-mail-reader-utils.c				\
 	e-mail-reader-utils.h				\
-	e-mail-search-bar.c				\
 	e-mail-search-bar.h				\
-	e-mail-shell-backend.c				\
-	e-mail-shell-backend.h				\
-	e-mail-shell-content.c				\
-	e-mail-shell-content.h				\
-	e-mail-shell-migrate.c				\
-	e-mail-shell-migrate.h				\
-	e-mail-shell-settings.c				\
-	e-mail-shell-settings.h				\
-	e-mail-shell-sidebar.c				\
-	e-mail-shell-sidebar.h				\
-	e-mail-shell-view.c				\
-	e-mail-shell-view.h				\
-	e-mail-shell-view-actions.c			\
-	e-mail-shell-view-actions.h			\
-	e-mail-shell-view-private.c			\
-	e-mail-shell-view-private.h			\
-	e-mail-store.c					\
 	e-mail-store.h					\
-	e-searching-tokenizer.c				\
 	e-searching-tokenizer.h				\
-	em-account-editor.c				\
-	em-account-editor.h				\
-	em-account-prefs.c				\
-	em-account-prefs.h				\
-	em-composer-prefs.c				\
-	em-composer-prefs.h				\
-	em-composer-utils.c				\
 	em-composer-utils.h				\
-	em-config.c					\
 	em-config.h					\
-	em-event.c					\
 	em-event.h					\
-	em-filter-context.c				\
 	em-filter-context.h				\
-	em-filter-editor.c				\
 	em-filter-editor.h				\
-	em-filter-folder-element.c			\
 	em-filter-folder-element.h			\
-	em-filter-rule.c				\
 	em-filter-rule.h				\
-	em-filter-source-element.c			\
 	em-filter-source-element.h			\
-	em-folder-properties.c				\
 	em-folder-properties.h				\
-	em-folder-selection.c				\
 	em-folder-selection.h				\
-	em-folder-selector.c				\
 	em-folder-selector.h				\
-	em-folder-selection-button.c			\
 	em-folder-selection-button.h			\
-	em-folder-tree.c				\
 	em-folder-tree.h				\
-	em-folder-tree-model.c				\
 	em-folder-tree-model.h				\
-	em-folder-utils.c				\
 	em-folder-utils.h				\
-	em-format-hook.c				\
 	em-format-hook.h				\
-	em-format-html.c				\
 	em-format-html.h				\
-	em-format-html-display.c			\
 	em-format-html-display.h			\
-	em-format-html-print.c				\
 	em-format-html-print.h				\
-	em-html-stream.c				\
 	em-html-stream.h				\
-	em-icon-stream.c				\
 	em-icon-stream.h				\
-	em-inline-filter.c				\
 	em-inline-filter.h				\
-	em-junk-hook.c					\
 	em-junk-hook.h					\
-	em-mailer-prefs.c				\
-	em-mailer-prefs.h				\
-	em-menu.c					\
 	em-menu.h					\
-	em-network-prefs.c				\
-	em-network-prefs.h				\
-	em-popup.c					\
 	em-popup.h					\
-	em-search-context.c				\
 	em-search-context.h				\
-	em-subscribe-editor.c				\
 	em-subscribe-editor.h				\
-	em-sync-stream.c				\
 	em-sync-stream.h				\
-	em-utils.c					\
 	em-utils.h					\
-	em-vfolder-context.c				\
 	em-vfolder-context.h				\
-	em-vfolder-editor.c				\
 	em-vfolder-editor.h				\
-	em-vfolder-rule.c				\
 	em-vfolder-rule.h				\
-	mail-autofilter.c				\
 	mail-autofilter.h				\
-	mail-config.c					\
 	mail-config.h					\
-	mail-folder-cache.c				\
 	mail-folder-cache.h				\
-	mail-mt.c					\
 	mail-mt.h					\
-	mail-ops.c					\
 	mail-ops.h					\
-	mail-send-recv.c				\
 	mail-send-recv.h				\
-	mail-session.c					\
 	mail-session.h					\
-	mail-tools.c					\
 	mail-tools.h					\
-	mail-vfolder.c					\
 	mail-vfolder.h					\
-	message-list.c					\
 	message-list.h					\
-	message-tag-editor.c				\
 	message-tag-editor.h				\
-	message-tag-followup.c				\
-	message-tag-followup.h				\
-	importers/mail-importer.c			\
-	importers/mail-importer.h			\
-	importers/elm-importer.c			\
-	importers/pine-importer.c			\
-	importers/evolution-mbox-importer.c
+	message-tag-followup.h
+
+libevolution_mail_la_SOURCES =				\
+	e-mail-attachment-bar.c				\
+	e-mail-browser.c				\
+	e-mail-display.c				\
+	e-mail-label-dialog.c				\
+	e-mail-label-list-store.c			\
+	e-mail-label-manager.c				\
+	e-mail-label-tree-view.c			\
+	e-mail-local.c					\
+	e-mail-reader.c					\
+	e-mail-reader-utils.c				\
+	e-mail-search-bar.c				\
+	e-mail-store.c					\
+	e-searching-tokenizer.c				\
+	em-composer-utils.c				\
+	em-config.c					\
+	em-event.c					\
+	em-filter-context.c				\
+	em-filter-editor.c				\
+	em-filter-folder-element.c			\
+	em-filter-rule.c				\
+	em-filter-source-element.c			\
+	em-folder-properties.c				\
+	em-folder-selection.c				\
+	em-folder-selector.c				\
+	em-folder-selection-button.c			\
+	em-folder-tree.c				\
+	em-folder-tree-model.c				\
+	em-folder-utils.c				\
+	em-format-hook.c				\
+	em-format-html.c				\
+	em-format-html-display.c			\
+	em-format-html-print.c				\
+	em-html-stream.c				\
+	em-icon-stream.c				\
+	em-inline-filter.c				\
+	em-junk-hook.c					\
+	em-menu.c					\
+	em-popup.c					\
+	em-search-context.c				\
+	em-subscribe-editor.c				\
+	em-sync-stream.c				\
+	em-utils.c					\
+	em-vfolder-context.c				\
+	em-vfolder-editor.c				\
+	em-vfolder-rule.c				\
+	mail-autofilter.c				\
+	mail-config.c					\
+	mail-folder-cache.c				\
+	mail-mt.c					\
+	mail-ops.c					\
+	mail-send-recv.c				\
+	mail-session.c					\
+	mail-tools.c					\
+	mail-vfolder.c					\
+	message-list.c					\
+	message-tag-editor.c				\
+	message-tag-followup.c
 
 if ENABLE_SMIME
 SMIME_LIBS =						\
@@ -190,7 +157,7 @@ SMIME_LIBS =						\
 	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libevolution_module_mail_la_LIBADD =			\
+libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/composer/libcomposer.la		\
@@ -199,20 +166,10 @@ libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)
 
-#libevolution_mail_la_LIBADD =					\
-#	$(top_builddir)/widgets/misc/libefilterbar.la		\
-#	$(top_builddir)/filter/libfilter.la			\
-#	$(top_builddir)/widgets/menus/libmenus.la		\
-#	$(top_builddir)/addressbook/util/libeabutil.la		\
-#	$(EVOLUTION_MAIL_LIBS)					\
-#	$(GTKHTML_LIBS)						\
-#	$(REGEX_LIBS)						\
-#	$(THREADS_LIBS)
-
-libevolution_module_mail_la_LDFLAGS = 			\
-	-avoid-version -module $(NO_UNDEFINED)
+libevolution_mail_la_LDFLAGS = $(NO_UNDEFINED)
 
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 

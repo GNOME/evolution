@@ -26,7 +26,6 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
-#include <mail/e-mail-shell-backend.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */

@@ -45,8 +45,8 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "a11y/gal-a11y-e-cell-registry.h"
-#include "a11y/gal-a11y-e-cell-text.h"
+#include "gal-a11y-e-cell-registry.h"
+#include "gal-a11y-e-cell-text.h"
 #include "text/e-text.h"
 #include <glib/gi18n.h>
 #include "e-util/e-text-event-processor.h"

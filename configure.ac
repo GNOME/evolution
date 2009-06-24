@@ -25,8 +25,11 @@ AM_INIT_AUTOMAKE([gnu 1.9])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
 
-# Gnome Doc Initialization
+# User Documentation
 GNOME_DOC_INIT
+
+# Developer Documentation
+GTK_DOC_CHECK(1.9)
 
 # Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -1787,7 +1790,7 @@ plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS 
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
-enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mark-all-read plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
+enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http default-source external-editor google-account-setup hula-account-setup imap-features mail-notification plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
 
 dnl PLUGINS NOT BUILDING YET
 dnl ------------------------
@@ -1803,6 +1806,7 @@ dnl ipod-sync
 dnl itip-formatter
 dnl mailing-list-actions
 dnl mail-to-task
+dnl mark-all-read
 dnl mono
 dnl prefer-plain
 dnl pst-import
@@ -1994,7 +1998,6 @@ a11y/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
 addressbook/gui/Makefile
-addressbook/gui/component/Makefile
 addressbook/gui/contact-editor/Makefile
 addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
@@ -2056,7 +2059,6 @@ calendar/conduits/memo/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
-calendar/module/Makefile
 composer/Makefile
 mail/Makefile
 mail/default/Makefile
@@ -2080,6 +2082,11 @@ mail/default/sr/Makefile
 mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
 mail/default/hu/Makefile
+mail/importers/Makefile
+modules/Makefile
+modules/addressbook/Makefile
+modules/calendar/Makefile
+modules/mail/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile

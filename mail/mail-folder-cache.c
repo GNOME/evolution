@@ -64,6 +64,7 @@
 #include "em-folder-tree-model.h"
 
 #include "em-event.h"
+#include "em-utils.h"
 
 #include "e-mail-local.h"
 #include "e-mail-store.h"
@@ -629,7 +630,6 @@ folder_to_url(CamelStore *store, const gchar *full_name)
 static void
 rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbase, CamelFolderInfo *fi)
 {
-	EShellBackend *shell_backend;
 	gchar *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
 	struct _folder_update *up;
@@ -689,8 +689,7 @@ rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbas
 #endif
 
 	/* rename the meta-data we maintain ourselves */
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-	config_dir = e_shell_backend_get_config_dir (shell_backend);
+	config_dir = em_utils_get_config_dir ();
 	olduri = folder_to_url(si->store, old);
 	e_filename_make_safe(olduri);
 	newuri = folder_to_url(si->store, fi->full_name);

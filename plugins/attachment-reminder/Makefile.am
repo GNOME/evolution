@@ -28,7 +28,7 @@ liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
+	$(top_builddir)/mail/libevolution-mail.la \
 	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

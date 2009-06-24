@@ -34,7 +34,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 #include "e-util/e-util.h"
-#include "a11y/ea-addressbook.h"
+#include "ea-addressbook.h"
 
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,

@@ -70,12 +70,12 @@
 #include "mail-vfolder.h"
 
 #include "e-mail-local.h"
-#include "e-mail-shell-backend.h"
 
 #define w(x)
 #define d(x)
 
-extern const gchar *x_mailer;
+/* XXX Make this a preprocessor definition. */
+const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
@@ -247,11 +247,8 @@ static gchar *
 uid_cachename_hack (CamelStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	EShellBackend *shell_backend;
 	gchar *encoded_url, *filename;
 	const gchar *data_dir;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -259,7 +256,7 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
@@ -1762,17 +1759,14 @@ empty_trash_desc (struct _empty_trash_msg *m)
 static void
 empty_trash_exec (struct _empty_trash_msg *m)
 {
-	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	CamelFolder *trash;
 	gchar *uri;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-
 	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		uri = g_strdup_printf ("mbox:%s/local", data_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);

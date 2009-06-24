@@ -36,7 +36,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "a11y/gal-a11y-e-table.h"
+#include "gal-a11y-e-table.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"

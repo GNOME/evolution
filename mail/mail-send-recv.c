@@ -51,7 +51,6 @@
 #include "e-util/gconf-bridge.h"
 
 #include "e-mail-local.h"
-#include "e-mail-shell-backend.h"
 
 #define d(x)
 

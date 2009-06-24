@@ -38,8 +38,8 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "a11y/gal-a11y-e-cell-registry.h"
-#include "a11y/gal-a11y-e-cell-tree.h"
+#include "gal-a11y-e-cell-registry.h"
+#include "gal-a11y-e-cell-tree.h"
 #include "e-util/e-util.h"
 
 #include "e-cell-tree.h"

@@ -63,9 +63,8 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
-
+#include "em-utils.h"
 #include "e-mail-local.h"
-#include "e-mail-shell-backend.h"
 
 typedef struct {
 	GConfClient *gconf;
@@ -773,13 +772,11 @@ mail_config_get_default_transport (void)
 static gchar *
 uri_to_evname (const gchar *uri, const gchar *prefix)
 {
-	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	gchar *safe;
 	gchar *tmp;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
@@ -908,13 +905,10 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
-	EShellBackend *shell_backend;
 	gchar *url, *basename, *filename;
 	const gchar *config_dir;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-	config_dir = e_shell_backend_get_config_dir (shell_backend);
-
+	config_dir = em_utils_get_config_dir ();
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
 	filename = g_build_filename (config_dir, basename, NULL);

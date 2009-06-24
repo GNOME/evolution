@@ -52,7 +52,6 @@
 
 #include "e-mail-local.h"
 #include "e-mail-store.h"
-#include "e-mail-shell-backend.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
@@ -533,7 +532,6 @@ done:
 void
 mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 {
-	EShellBackend *shell_backend;
 	FilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
@@ -549,8 +547,6 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 	d(printf ("Deleting uri to check: %s\n", uri));
 
 	g_return_if_fail (mail_in_main_thread());
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	changed = g_string_new ("");
 
@@ -612,7 +608,7 @@ done:
 		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save ((RuleContext *) context, user);
 		g_free (user);
@@ -627,7 +623,6 @@ done:
 void
 mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 {
-	EShellBackend *shell_backend;
 	FilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
@@ -640,8 +635,6 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 		return;
 
 	g_return_if_fail (mail_in_main_thread());
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	from = em_uri_from_camel(cfrom);
 	to = em_uri_from_camel(cto);
@@ -683,7 +676,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 		gchar *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -837,7 +830,6 @@ store_folder_created(CamelObject *o, gpointer event_data, gpointer data)
 static void
 store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 {
-	EShellBackend *shell_backend;
 	CamelStore *store = (CamelStore *)o;
 	CamelFolderInfo *info = event_data;
 	FilterRule *rule;
@@ -845,8 +837,6 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 
 	d(printf("Folder deleted: %s\n", info->name));
 	store = store;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	/* Warning not thread safe, but might be enough */
 
@@ -864,7 +854,7 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -878,14 +868,11 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 static void
 store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 {
-	EShellBackend *shell_backend;
 	CamelRenameInfo *info = event_data;
 	FilterRule *rule;
 	gchar *user;
 
 	gpointer key, folder;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	/* This should be more-or-less thread-safe */
 
@@ -913,7 +900,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		filter_rule_set_name(rule, info->new->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -931,14 +918,11 @@ vfolder_load_storage(void)
 	/* lock for loading storage, it is safe to call it more than once */
 	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
-	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	gchar *user, *storeuri;
 	FilterRule *rule;
 	gchar *xmlfile;
 	GConfClient *gconf;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	pthread_mutex_lock (&lock);
 
@@ -953,7 +937,7 @@ vfolder_load_storage(void)
 	pthread_mutex_unlock (&lock);
 
 	/* first, create the vfolder store, and set it up */
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
@@ -1010,14 +994,11 @@ vfolder_load_storage(void)
 void
 vfolder_revert(void)
 {
-	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	gchar *user;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-
 	d(printf("vfolder_revert\n"));
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 	user = g_build_filename (data_dir, "vfolders.xml", NULL);
 	rule_context_revert((RuleContext *)context, user);
 	g_free(user);
@@ -1064,10 +1045,6 @@ vfolder_edit (EShellView *shell_view)
 static void
 edit_rule_response(GtkWidget *w, gint button, gpointer data)
 {
-	EShellBackend *shell_backend;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		gchar *user;
@@ -1075,7 +1052,7 @@ edit_rule_response(GtkWidget *w, gint button, gpointer data)
 		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		filter_rule_copy(orig, rule);
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
@@ -1132,10 +1109,6 @@ vfolder_edit_rule(const gchar *uri)
 static void
 new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 {
-	EShellBackend *shell_backend;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		gchar *user;
@@ -1154,7 +1127,7 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);

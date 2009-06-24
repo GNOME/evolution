@@ -1,5 +1,5 @@
 if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail-shared.la
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
 SUBDIRS = alarm-notify dialogs
@@ -24,7 +24,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/a11y/calendar			\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -177,30 +176,30 @@ libcal_gui_la_SOURCES =		\
 	weekday-picker.h
 
 # no gnome-cal no a11y. FIXME: KILL-BONOBO
-#	a11y/ea-calendar.c			\
-#	a11y/ea-calendar.h			\
-#	a11y/ea-calendar-helpers.c		\
-#	a11y/ea-calendar-helpers.h		\
-#	a11y/ea-cal-view.c			\
-#	a11y/ea-cal-view.h			\
-#	a11y/ea-cal-view-event.c		\
-#	a11y/ea-cal-view-event.h		\
-#	a11y/ea-day-view.c			\
-#	a11y/ea-day-view.h			\
-#	a11y/ea-day-view-main-item.c		\
-#	a11y/ea-day-view-main-item.h		\
-#	a11y/ea-day-view-cell.c			\
-#	a11y/ea-day-view-cell.h			\
-#	a11y/ea-week-view.c			\
-#	a11y/ea-week-view.h			\
-#	a11y/ea-week-view-main-item.c		\
-#	a11y/ea-week-view-main-item.h		\
-#	a11y/ea-week-view-cell.c		\
-#	a11y/ea-week-view-cell.h		\
-#	a11y/ea-jump-button.c			\
-#	a11y/ea-jump-button.h			\
-#	a11y/ea-gnome-calendar.c		\
-#	a11y/ea-gnome-calendar.h
+#	ea-calendar.c			\
+#	ea-calendar.h			\
+#	ea-calendar-helpers.c		\
+#	ea-calendar-helpers.h		\
+#	ea-cal-view.c			\
+#	ea-cal-view.h			\
+#	ea-cal-view-event.c		\
+#	ea-cal-view-event.h		\
+#	ea-day-view.c			\
+#	ea-day-view.h			\
+#	ea-day-view-main-item.c		\
+#	ea-day-view-main-item.h		\
+#	ea-day-view-cell.c			\
+#	ea-day-view-cell.h			\
+#	ea-week-view.c			\
+#	ea-week-view.h			\
+#	ea-week-view-main-item.c		\
+#	ea-week-view-main-item.h		\
+#	ea-week-view-cell.c		\
+#	ea-week-view-cell.h		\
+#	ea-jump-button.c			\
+#	ea-jump-button.h			\
+#	ea-gnome-calendar.c		\
+#	ea-gnome-calendar.h
 
 libcal_gui_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la				\

@@ -33,7 +33,7 @@ liborg_gnome_external_editor_la_LIBADD = 			\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la 		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
+	$(top_builddir)/mail/libevolution-mail.la		\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 

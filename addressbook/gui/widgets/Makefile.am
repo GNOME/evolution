@@ -52,14 +52,14 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-minicard.h			\
 	gal-view-factory-minicard.c		\
 	gal-view-factory-minicard.h		\
-	a11y/ea-minicard.c			\
-	a11y/ea-minicard.h			\
-	a11y/ea-minicard-view.c			\
-	a11y/ea-minicard-view.h			\
-	a11y/ea-addressbook-view.c		\
-	a11y/ea-addressbook-view.h		\
-	a11y/ea-addressbook.c			\
-	a11y/ea-addressbook.h
+	ea-minicard.c			\
+	ea-minicard.h			\
+	ea-minicard-view.c			\
+	ea-minicard-view.h			\
+	ea-addressbook-view.c		\
+	ea-addressbook-view.h		\
+	ea-addressbook.c			\
+	ea-addressbook.h
 
 libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\

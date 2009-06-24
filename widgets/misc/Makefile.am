@@ -84,9 +84,9 @@ widgetsinclude_HEADERS =			\
 	e-spinner.h				\
 	e-timeout-activity.h			\
 	e-url-entry.h				\
-	a11y/ea-calendar-cell.h			\
-	a11y/ea-calendar-item.h			\
-	a11y/ea-widgets.h
+	ea-calendar-cell.h			\
+	ea-calendar-item.h			\
+	ea-widgets.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -145,9 +145,9 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-tree-view.c			\
 	e-timeout-activity.c			\
 	e-url-entry.c				\
-	a11y/ea-calendar-cell.c			\
-	a11y/ea-calendar-item.c			\
-	a11y/ea-widgets.c
+	ea-calendar-cell.c			\
+	ea-calendar-item.c			\
+	ea-widgets.c
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 

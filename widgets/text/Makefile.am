@@ -14,8 +14,8 @@ libetext_la_SOURCES =				\
 	e-text.c				\
 	e-reflow.c				\
 	e-reflow-model.c			\
-	a11y/gal-a11y-e-text-factory.c		\
-	a11y/gal-a11y-e-text.c
+	gal-a11y-e-text-factory.c		\
+	gal-a11y-e-text.c
 
 libetextincludedir = $(privincludedir)/text
 
@@ -25,8 +25,8 @@ libetextinclude_HEADERS = 			\
 	e-text.h				\
 	e-reflow.h				\
 	e-reflow-model.h			\
-	a11y/gal-a11y-e-text-factory.h		\
-	a11y/gal-a11y-e-text.h
+	gal-a11y-e-text-factory.h		\
+	gal-a11y-e-text.h
 
 libetext_la_LDFLAGS = $(NO_UNDEFINED)
 

@@ -38,7 +38,7 @@
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <libebook/e-destination.h>
-#include "a11y/ea-addressbook.h"
+#include "ea-addressbook.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *class);

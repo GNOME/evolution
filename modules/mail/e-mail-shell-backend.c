@@ -45,6 +45,7 @@
 #include "e-mail-browser.h"
 #include "e-mail-reader.h"
 #include "e-mail-store.h"
+#include "em-account-editor.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
@@ -75,9 +76,6 @@ struct _EMailShellBackendPrivate {
 	guint mail_sync_timeout_source_id;
 };
 
-/* XXX Make this a preprocessor definition. */
-const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
-
 static gpointer parent_class;
 static GType mail_shell_backend_type;
 
@@ -87,6 +85,30 @@ static GType mail_shell_backend_type;
 EMailShellBackend *global_mail_shell_backend = NULL;
 
 extern gint camel_application_is_exiting;
+
+static gboolean
+mail_shell_backend_run_account_druid (GtkWindow *parent)
+{
+	EAccountList *account_list;
+	EMAccountEditor *account_editor;
+
+	account_editor = em_account_editor_new (
+		NULL, EMAE_DRUID,
+		"org.gnome.evolution.mail.config.accountDruid");
+	if (GTK_IS_WINDOW (parent))
+		gtk_window_set_transient_for (
+			GTK_WINDOW (account_editor->editor), parent);
+	g_object_weak_ref (
+		G_OBJECT (account_editor->editor),
+		(GWeakNotify) gtk_main_quit, NULL);
+	gtk_widget_show (account_editor->editor);
+	gtk_grab_add (account_editor->editor);
+	gtk_main ();
+
+	account_list = e_get_account_list ();
+
+	return (e_list_length ((EList *) account_list) > 0);
+}
 
 static void
 mail_shell_backend_init_hooks (void)
@@ -163,7 +185,6 @@ static void
 action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
-	GtkWindow *window = GTK_WINDOW (shell_window);
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
@@ -171,7 +192,7 @@ action_mail_message_new_cb (GtkAction *action,
 	const gchar *view_name;
 	gchar *uri = NULL;
 
-	if (!em_utils_check_user_can_send_mail (window))
+	if (!em_utils_check_user_can_send_mail ())
 		return;
 
 	/* Take care not to unnecessarily load the mail shell view. */
@@ -312,7 +333,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
                                         CamelFolder *folder,
                                         gpointer user_data)
 {
-	EMailShellBackend *mail_shell_backend = user_data;
+	EShellBackend *shell_backend = user_data;
 	CamelURL *url = user_data;
 	const gchar *forward;
 	const gchar *reply;
@@ -358,7 +379,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		GtkWidget *browser;
 
 		/* FIXME Should pass in the shell module. */
-		browser = e_mail_browser_new (mail_shell_backend);
+		browser = e_mail_browser_new (shell_backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (
@@ -378,7 +399,7 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 	gboolean handled = TRUE;
 
 	if (g_str_has_prefix (uri, "mailto:")) {
-		if (em_utils_check_user_can_send_mail (NULL))
+		if (em_utils_check_user_can_send_mail ())
 			em_utils_compose_new_message_with_mailto (uri, NULL);
 
 	} else if (g_str_has_prefix (uri, "email:")) {
@@ -579,7 +600,7 @@ mail_shell_backend_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_init (E_MAIL_SHELL_BACKEND (shell_backend));
+	mail_session_init (shell_backend);
 
 	mail_shell_backend_init_hooks ();
 	mail_shell_backend_init_importers ();

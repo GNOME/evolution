@@ -26,7 +26,7 @@
 #endif
 
 #include "e-calendar-item.h"
-#include "a11y/ea-widgets.h"
+#include "ea-widgets.h"
 
 #include <time.h>
 #include <string.h>

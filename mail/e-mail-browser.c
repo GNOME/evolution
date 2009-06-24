@@ -32,7 +32,6 @@
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-search-bar.h"
-#include "mail/e-mail-shell-backend.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
@@ -705,14 +704,13 @@ e_mail_browser_get_type (void)
 }
 
 GtkWidget *
-e_mail_browser_new (EMailShellBackend *mail_shell_backend)
+e_mail_browser_new (EShellBackend *shell_backend)
 {
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
 	return g_object_new (
 		E_TYPE_MAIL_BROWSER,
-		"shell-backend", mail_shell_backend, NULL);
+		"shell-backend", shell_backend, NULL);
 }
 
 void

@@ -45,12 +45,12 @@
 #include <camel/camel-stream-mem.h>
 
 #include "e-util/e-util-private.h"
+#include "shell/e-shell-backend.h"
 
-#include "mail/mail-mt.h"
-#include "mail/mail-tools.h"
-
-#include "mail/e-mail-local.h"
-#include "mail/e-mail-shell-backend.h"
+#include "mail-mt.h"
+#include "mail-tools.h"
+#include "e-mail-local.h"
+#include "em-utils.h"
 
 #include "mail-importer.h"
 
@@ -358,7 +358,6 @@ struct _import_folders_data {
 static void
 import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const gchar *folderparent)
 {
-	EShellBackend *shell_backend;
 	GDir *dir;
 	const gchar *d;
 	struct stat st;
@@ -370,8 +369,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	if (dir == NULL)
 		return;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);

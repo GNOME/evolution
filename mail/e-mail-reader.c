@@ -40,7 +40,6 @@
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-display.h"
 #include "mail/e-mail-reader-utils.h"
-#include "mail/e-mail-shell-backend.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-selector.h"
@@ -342,9 +341,6 @@ action_mail_forward_cb (GtkAction *action,
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
-
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
@@ -364,9 +360,6 @@ action_mail_forward_attached_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
-
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
@@ -388,9 +381,6 @@ action_mail_forward_inline_cb (GtkAction *action,
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
-
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
@@ -410,9 +400,6 @@ action_mail_forward_quoted_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
-
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
@@ -517,9 +504,6 @@ action_mail_message_edit_cb (GtkAction *action,
 	window = e_mail_reader_get_window (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
-
 	folder = message_list->folder;
 	uids = message_list_get_selected (message_list);
 
@@ -535,9 +519,6 @@ action_mail_message_new_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
-
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
 
 	em_utils_compose_new_message (message_list->folder_uri);
 }
@@ -746,9 +727,6 @@ action_mail_redirect_cb (GtkAction *action,
 	uid = message_list->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
-
 	em_utils_redirect_message_by_uid (folder, uid);
 }
 
@@ -861,7 +839,6 @@ action_mail_show_source_cb (GtkAction *action,
                             EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	EMailShellBackend *mail_shell_backend;
 	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelFolder *folder;
@@ -871,14 +848,13 @@ action_mail_show_source_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
 	g_return_if_fail (uids->len > 0);
 
-	browser = e_mail_browser_new (mail_shell_backend);
+	browser = e_mail_browser_new (shell_backend);
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);
 	em_format_set_mode (EM_FORMAT (html_display), EM_FORMAT_SOURCE);
@@ -2251,6 +2227,8 @@ e_mail_reader_check_state (EMailReader *reader)
 			can_flag_for_followup = TRUE;
 	}
 
+	if (em_utils_check_user_can_send_mail ())
+		state |= E_MAIL_READER_HAVE_ACCOUNT;
 	if (uids->len == 1)
 		state |= E_MAIL_READER_SELECTION_SINGLE;
 	if (uids->len > 1)
@@ -2284,8 +2262,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	if (has_unread)
 		state |= E_MAIL_READER_SELECTION_HAS_UNREAD;
 #if 0  /* FIXME */
-	if (has_callto_uri)
-		state |= E_MAIL_READER_SELECTION_HAS_URI_CALLTO;
 	if (has_http_uri)
 		state |= E_MAIL_READER_SELECTION_HAS_URI_HTTP;
 	if (has_mailto_uri)
@@ -2318,7 +2294,7 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gboolean enable_flag_clear;
 	gboolean enable_flag_completed;
 	gboolean enable_flag_for_followup;
-	gboolean single_message_selected;
+	gboolean have_an_account;
 	gboolean multiple_messages_selected;
 	gboolean selection_has_deleted_messages;
 	gboolean selection_has_important_messages;
@@ -2329,6 +2305,7 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gboolean selection_has_unimportant_messages;
 	gboolean selection_has_unread_messages;
 	gboolean selection_is_mailing_list;
+	gboolean single_message_selected;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
@@ -2342,6 +2319,8 @@ e_mail_reader_update_actions (EMailReader *reader)
 	disable_printing = e_shell_settings_get_boolean (
 		shell_settings, "disable-printing");
 
+	have_an_account =
+		(state & E_MAIL_READER_HAVE_ACCOUNT);
 	single_message_selected =
 		(state & E_MAIL_READER_SELECTION_SINGLE);
 	multiple_messages_selected =
@@ -2397,22 +2376,22 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward";
-	sensitive = any_messages_selected;
+	sensitive = have_an_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-attached";
-	sensitive = any_messages_selected;
+	sensitive = have_an_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-inline";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-quoted";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2452,7 +2431,12 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-message-edit";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-new";
+	sensitive = have_an_account;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2502,22 +2486,23 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-redirect";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-all";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-list";
-	sensitive = single_message_selected && selection_is_mailing_list;
+	sensitive = have_an_account && single_message_selected &&
+		selection_is_mailing_list;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-sender";
-	sensitive = single_message_selected;
+	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 

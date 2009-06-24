@@ -51,12 +51,12 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 
-#include <e-util/e-signature-list.h>
-
 #include "e-util/e-error.h"
 #include "e-util/e-account-utils.h"
+#include "e-util/e-signature-list.h"
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
+#include "misc/e-signature-editor.h"
 
 #include "e-mail-local.h"
 #include "em-config.h"
@@ -64,7 +64,6 @@
 #include "em-account-editor.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
-#include "e-signature-editor.h"
 #include "em-utils.h"
 #include "em-composer-prefs.h"
 #include "mail-config.h"

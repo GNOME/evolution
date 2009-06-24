@@ -25,11 +25,11 @@
 
 #include <glib.h>
 #include <camel/camel-session.h>
-#include <mail/e-mail-shell-backend.h>
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 
-void mail_session_init (EMailShellBackend *mail_shell_backend);
+void mail_session_init (EShellBackend *shell_backend);
 void mail_session_shutdown (void);
 gboolean mail_session_get_interactive (void);
 void mail_session_set_interactive (gboolean interactive);

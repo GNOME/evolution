@@ -33,7 +33,7 @@
 #include <shell/e-shell-sidebar.h>
 
 #include "addressbook/printing/e-contact-print.h"
-#include "a11y/ea-addressbook.h"
+#include "ea-addressbook.h"
 
 #include "e-util/e-print.h"
 #include "e-util/e-util.h"

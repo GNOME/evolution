@@ -29,7 +29,7 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "a11y/gal-a11y-e-table-click-to-add.h"
+#include "gal-a11y-e-table-click-to-add.h"
 #include "text/e-text.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"

@@ -38,13 +38,15 @@ G_BEGIN_DECLS
 
 struct _EMFormat;
 
+const gchar *	em_utils_get_data_dir		(void);
+const gchar *	em_utils_get_config_dir		(void);
+
 gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, const gchar *arg0, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);
 
-gboolean em_utils_configure_account (GtkWindow *parent);
-gboolean em_utils_check_user_can_send_mail (GtkWindow *parent);
+gboolean em_utils_check_user_can_send_mail (void);
 
 void em_utils_edit_filters (GtkWidget *parent);
 void em_filename_make_safe (gchar *string);

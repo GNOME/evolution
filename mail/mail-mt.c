@@ -34,6 +34,7 @@
 #include <camel/camel-url.h>
 #include <camel/camel-operation.h>
 
+#include "shell/e-shell.h"
 #include "misc/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
@@ -42,8 +43,6 @@
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-mt.h"
-
-#include "e-mail-shell-backend.h"
 
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
@@ -142,9 +141,11 @@ mail_msg_new (MailMsgInfo *info)
 static void
 end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
 {
+	EShell *shell;
 	EShellBackend *shell_backend;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	if (error == NULL) {
 		e_activity_complete (activity);
@@ -941,6 +942,7 @@ struct _op_status_msg {
 static void
 op_status_exec (struct _op_status_msg *m)
 {
+	EShell *shell;
 	EShellBackend *shell_backend;
 	MailMsg *msg;
 	MailMsgPrivate *data;
@@ -949,7 +951,8 @@ op_status_exec (struct _op_status_msg *m)
 
 	g_return_if_fail (mail_in_main_thread ());
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	MAIL_MT_LOCK (mail_msg_lock);
 

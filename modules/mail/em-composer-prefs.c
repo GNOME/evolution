@@ -48,13 +48,13 @@
 #include <editor/gtkhtml-spell-language.h>
 
 #include "misc/e-charset-picker.h"
+#include "misc/e-signature-editor.h"
 #include "misc/e-signature-manager.h"
 #include "misc/e-signature-preview.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
 #include "mail-config.h"
-#include "e-signature-editor.h"
 #include "em-config.h"
 
 static gpointer parent_class;

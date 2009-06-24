@@ -71,20 +71,48 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
+#include "shell/e-shell.h"
 #include "widgets/misc/e-alert-activity.h"
 #include "widgets/misc/e-attachment.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
-#include "em-account-editor.h"
-
 #include "e-mail-local.h"
-#include "e-mail-shell-backend.h"
 
 static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
 
 #define d(x)
+
+const gchar *
+em_utils_get_data_dir (void)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+
+	/* XXX This is a temporary solution until I can figure out a
+	 *     better way.  Ideally, nothing below the module layer
+	 *     should need to know about the user data directory. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	return e_shell_backend_get_data_dir (shell_backend);
+}
+
+const gchar *
+em_utils_get_config_dir (void)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+
+	/* XXX This is a temporary solution until I can figure out a
+	 *     better way.  Ideally, nothing below the module layer
+	 *     should need to know about the user config directory. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	return e_shell_backend_get_config_dir (shell_backend);
+}
 
 /**
  * em_utils_prompt_user:
@@ -174,69 +202,22 @@ em_utils_uids_free (GPtrArray *uids)
 	g_ptr_array_free (uids, TRUE);
 }
 
-static void
-druid_destroy_cb (gpointer user_data, GObject *deadbeef)
-{
-	gtk_main_quit ();
-}
-
-/**
- * em_utils_configure_account:
- * @parent: parent window for the druid to be a child of.
- *
- * Displays a druid allowing the user to configure an account. If
- * @parent is non-NULL, then the druid will be created as a child
- * window of @parent's toplevel window.
- *
- * Returns %TRUE if an account has been configured or %FALSE
- * otherwise.
- **/
-gboolean
-em_utils_configure_account (GtkWindow *parent)
-{
-	EMAccountEditor *emae;
-	EAccountList *account_list;
-
-	g_return_val_if_fail (GTK_IS_WINDOW (parent), FALSE);
-
-	emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
-	gtk_window_set_transient_for (GTK_WINDOW (emae->editor), parent);
-
-	g_object_weak_ref((GObject *)emae->editor, (GWeakNotify) druid_destroy_cb, NULL);
-	gtk_widget_show(emae->editor);
-	gtk_grab_add(emae->editor);
-	gtk_main();
-
-	account_list = e_get_account_list ();
-
-	return (e_list_length ((EList *) account_list) > 0);
-}
-
 /**
  * em_utils_check_user_can_send_mail:
- * @parent: parent window for the druid to be a child of.
- *
- * If no accounts have been configured, the user will be given a
- * chance to configure an account. In the case that no accounts are
- * configured, a druid will be created. If @parent is non-NULL, then
- * the druid will be created as a child window of @parent's toplevel
- * window.
  *
  * Returns %TRUE if the user has an account configured (to send mail)
  * or %FALSE otherwise.
  **/
 gboolean
-em_utils_check_user_can_send_mail (GtkWindow *parent)
+em_utils_check_user_can_send_mail (void)
 {
 	EAccountList *account_list;
 	EAccount *account;
 
 	account_list = e_get_account_list ();
 
-	if (e_list_length ((EList *) account_list) == 0) {
-		if (!em_utils_configure_account (parent))
-			return FALSE;
-	}
+	if (e_list_length ((EList *) account_list) == 0)
+		return FALSE;
 
 	if (!(account = e_get_default_account ()))
 		return FALSE;
@@ -255,16 +236,13 @@ static GtkWidget *filter_editor = NULL;
 static void
 em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
 {
-	EShellBackend *shell_backend;
 	EMFilterContext *fc;
-
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		gchar *user;
 
-		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		data_dir = em_utils_get_data_dir ();
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml", data_dir);
 		rule_context_save ((RuleContext *) fc, user);
@@ -293,7 +271,6 @@ static EMFilterSource em_filter_source_element_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
-	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
@@ -303,8 +280,7 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = em_utils_get_data_dir ();
 
 	fc = em_filter_context_new ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
@@ -2292,10 +2268,12 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 void
 em_utils_show_error_silent (GtkWidget *widget)
 {
+	EShell *shell;
 	EShellBackend *shell_backend;
 	EActivity *activity;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	activity = e_alert_activity_new_warning (widget);
 	e_shell_backend_add_activity (shell_backend, activity);
@@ -2310,10 +2288,12 @@ em_utils_show_error_silent (GtkWidget *widget)
 void
 em_utils_show_info_silent (GtkWidget *widget)
 {
+	EShell *shell;
 	EShellBackend *shell_backend;
 	EActivity *activity;
 
-	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	activity = e_alert_activity_new_info (widget);
 	e_shell_backend_add_activity (shell_backend, activity);

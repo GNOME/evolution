@@ -83,7 +83,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-static EMailShellBackend *session_mail_shell_backend;
+static EShellBackend *session_shell_backend;
 static CamelSessionClass *ms_parent_class;
 
 static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
@@ -503,7 +503,6 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
 {
-	EShellBackend *shell_backend;
 	CamelFilterDriver *driver;
 	FilterRule *rule = NULL;
 	const gchar *data_dir;
@@ -512,9 +511,8 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 	RuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
-	shell_backend = E_SHELL_BACKEND (session_mail_shell_backend);
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	data_dir = e_shell_backend_get_data_dir (session_shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
@@ -708,17 +706,15 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (EMailShellBackend *mail_shell_backend)
+mail_session_init (EShellBackend *shell_backend)
 {
 	EShell *shell;
-	EShellBackend *shell_backend;
 	GConfClient *gconf;
 	gboolean online;
 	const gchar *data_dir;
 
-	session_mail_shell_backend = mail_shell_backend;
+	session_shell_backend = shell_backend;
 
-	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	online = e_shell_get_online (shell);
 

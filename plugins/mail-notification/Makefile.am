@@ -18,10 +18,10 @@ plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = 	\
 	-module -avoid-version $(NO_UNDEFINED)
-liborg_gnome_mail_notification_la_LIBADD = 			\
-	$(LIBNOTIFY_LIBS)					\
-	$(top_builddir)/e-util/libeutil.la 			\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
+liborg_gnome_mail_notification_la_LIBADD = 		\
+	$(LIBNOTIFY_LIBS)				\
+	$(top_builddir)/e-util/libeutil.la 		\
+	$(top_builddir)/mail/libevolution-mail.la	\
 	$(GNOME_PLATFORM_LIBS)
 
 if ENABLE_DBUS

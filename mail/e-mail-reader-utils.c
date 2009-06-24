@@ -190,7 +190,6 @@ e_mail_reader_mark_selected (EMailReader *reader,
 guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
-	EMailShellBackend *mail_shell_backend;
 	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelFolder *folder;
@@ -205,8 +204,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
 	window = e_mail_reader_get_window (reader);
-
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
@@ -280,7 +277,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 
-		browser = e_mail_browser_new (mail_shell_backend);
+		browser = e_mail_browser_new (shell_backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (
@@ -404,9 +401,6 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	folder = message_list->folder;
 	uid = message_list->cursor_uid;
 	g_return_if_fail (uid != NULL);
-
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
 
 	if (!gtk_html_command (html, "is-selection-active"))
 		goto whole_message;

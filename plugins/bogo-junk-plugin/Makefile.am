@@ -11,9 +11,9 @@ plugin_LTLIBRARIES = liborg-gnome-bogo-junk-plugin.la
 liborg_gnome_bogo_junk_plugin_la_SOURCES = bf-junk-filter.c
 liborg_gnome_bogo_junk_plugin_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_bogo_junk_plugin_la_LIBADD =	\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(EVOLUTION_MAIL_LIBS)			\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

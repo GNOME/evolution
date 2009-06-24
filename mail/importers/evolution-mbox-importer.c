@@ -42,7 +42,6 @@
 
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-store.h"
-#include "mail/e-mail-shell-backend.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/mail-mt.h"

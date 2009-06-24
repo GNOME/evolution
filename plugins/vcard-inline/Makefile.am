@@ -11,7 +11,7 @@ plugin_LTLIBRARIES = liborg-gnome-vcard-inline.la
 liborg_gnome_vcard_inline_la_SOURCES = vcard-inline.c
 liborg_gnome_vcard_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_vcard_inline_la_LIBADD =	\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
+	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la		\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la		\

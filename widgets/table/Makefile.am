@@ -73,22 +73,22 @@ libetable_la_SOURCES = 				\
 	e-tree-sorted.c				\
 	e-tree-table-adapter.c			\
 	e-tree.c				\
-	a11y/gal-a11y-e-cell.c			\
-	a11y/gal-a11y-e-cell-popup.c		\
-	a11y/gal-a11y-e-cell-registry.c		\
-	a11y/gal-a11y-e-cell-text.c		\
-	a11y/gal-a11y-e-cell-toggle.c		\
-	a11y/gal-a11y-e-cell-tree.c		\
-	a11y/gal-a11y-e-cell-vbox.c		\
-	a11y/gal-a11y-e-table.c			\
-	a11y/gal-a11y-e-table-click-to-add.c	\
-	a11y/gal-a11y-e-table-click-to-add-factory.c	\
-	a11y/gal-a11y-e-table-column-header.c	\
-	a11y/gal-a11y-e-table-factory.c		\
-	a11y/gal-a11y-e-table-item.c		\
-	a11y/gal-a11y-e-table-item-factory.c	\
-	a11y/gal-a11y-e-tree.c			\
-	a11y/gal-a11y-e-tree-factory.c
+	gal-a11y-e-cell.c			\
+	gal-a11y-e-cell-popup.c			\
+	gal-a11y-e-cell-registry.c		\
+	gal-a11y-e-cell-text.c			\
+	gal-a11y-e-cell-toggle.c		\
+	gal-a11y-e-cell-tree.c			\
+	gal-a11y-e-cell-vbox.c			\
+	gal-a11y-e-table.c			\
+	gal-a11y-e-table-click-to-add.c		\
+	gal-a11y-e-table-click-to-add-factory.c	\
+	gal-a11y-e-table-column-header.c	\
+	gal-a11y-e-table-factory.c		\
+	gal-a11y-e-table-item.c			\
+	gal-a11y-e-table-item-factory.c		\
+	gal-a11y-e-tree.c			\
+	gal-a11y-e-tree-factory.c
 
 libetableincludedir = $(privincludedir)/table
 
@@ -155,22 +155,22 @@ libetableinclude_HEADERS = 			\
 	e-tree-sorted.h				\
 	e-tree-table-adapter.h			\
 	e-tree.h				\
-	a11y/gal-a11y-e-cell.h			\
-	a11y/gal-a11y-e-cell-popup.h		\
-	a11y/gal-a11y-e-cell-registry.h		\
-	a11y/gal-a11y-e-cell-text.h		\
-	a11y/gal-a11y-e-cell-toggle.h		\
-	a11y/gal-a11y-e-cell-tree.h		\
-	a11y/gal-a11y-e-cell-vbox.h		\
-	a11y/gal-a11y-e-table.h			\
-	a11y/gal-a11y-e-table-click-to-add.h	\
-	a11y/gal-a11y-e-table-click-to-add-factory.h	\
-	a11y/gal-a11y-e-table-column-header.h	\
-	a11y/gal-a11y-e-table-factory.h		\
-	a11y/gal-a11y-e-table-item.h		\
-	a11y/gal-a11y-e-table-item-factory.h	\
-	a11y/gal-a11y-e-tree.h			\
-	a11y/gal-a11y-e-tree-factory.h
+	gal-a11y-e-cell.h			\
+	gal-a11y-e-cell-popup.h			\
+	gal-a11y-e-cell-registry.h		\
+	gal-a11y-e-cell-text.h			\
+	gal-a11y-e-cell-toggle.h		\
+	gal-a11y-e-cell-tree.h			\
+	gal-a11y-e-cell-vbox.h			\
+	gal-a11y-e-table.h			\
+	gal-a11y-e-table-click-to-add.h		\
+	gal-a11y-e-table-click-to-add-factory.h	\
+	gal-a11y-e-table-column-header.h	\
+	gal-a11y-e-table-factory.h		\
+	gal-a11y-e-table-item.h			\
+	gal-a11y-e-table-item-factory.h		\
+	gal-a11y-e-tree.h			\
+	gal-a11y-e-tree-factory.h
 
 libetable_la_LDFLAGS = $(NO_UNDEFINED)
 

@@ -12,9 +12,9 @@ liborg_gnome_sa_junk_plugin_la_SOURCES = em-junk-filter.c
 liborg_gnome_sa_junk_plugin_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_sa_junk_plugin_la_LIBADD =	\
-	$(top_builddir)/mail/libevolution-module-mail.la	\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(EVOLUTION_MAIL_LIBS)			\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 
 BUILT_SOURCES = $(plugin_DATA) $(error_DATA)
