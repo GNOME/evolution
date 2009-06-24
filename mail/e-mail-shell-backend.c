@@ -44,12 +44,12 @@
 #include "e-attachment-handler-mail.h"
 #include "e-mail-browser.h"
 #include "e-mail-reader.h"
+#include "e-mail-store.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
 #include "em-config.h"
 #include "em-event.h"
-#include "em-folder-tree-model.h"
 #include "em-folder-utils.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
@@ -58,8 +58,6 @@
 #include "em-network-prefs.h"
 #include "em-utils.h"
 #include "mail-config.h"
-#include "mail-folder-cache.h"
-#include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
@@ -72,35 +70,7 @@
 
 #define BACKEND_NAME "mail"
 
-typedef struct _StoreInfo StoreInfo;
-
-/* XXX Temporary */
-CamelStore *vfolder_store;
-
-struct _StoreInfo {
-	CamelStore *store;
-	gint ref_count;
-	gchar *name;
-
-	/* Keep a reference to these so they remain around for the session. */
-	CamelFolder *vtrash;
-	CamelFolder *vjunk;
-
-	/* Initialization callback. */
-	void (*done) (CamelStore *store,
-		      CamelFolderInfo *info,
-		      gpointer user_data);
-	gpointer done_user_data;
-
-	guint removed : 1;
-};
-
 struct _EMailShellBackendPrivate {
-	GHashTable *store_hash;
-	MailAsyncEvent *async_event;
-	EMFolderTreeModel *folder_tree_model;
-	CamelStore *local_store;
-
 	gint mail_sync_in_progress;
 	guint mail_sync_timeout_source_id;
 };
@@ -111,168 +81,12 @@ const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
 static gpointer parent_class;
 static GType mail_shell_backend_type;
 
-/* The array elements correspond to EMailFolderType. */
-static struct {
-	const gchar *name;
-	gchar *uri;
-	CamelFolder *folder;
-} default_local_folders[] = {
-	{ N_("Inbox") },
-	{ N_("Drafts") },
-	{ N_("Outbox") },
-	{ N_("Sent") },
-	{ N_("Templates") },
-	{ "Inbox" }  /* "always local" inbox */
-};
-
 /* XXX So many things need the shell backend that it's
  *     just easier for now to make it globally available.
  *     We should fix this, though. */
 EMailShellBackend *global_mail_shell_backend = NULL;
 
 extern gint camel_application_is_exiting;
-
-static StoreInfo *
-store_info_new (CamelStore *store,
-                const gchar *name)
-{
-	CamelService *service;
-	StoreInfo *si;
-
-	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
-
-	service = CAMEL_SERVICE (store);
-
-	si = g_slice_new0 (StoreInfo);
-	si->ref_count = 1;
-
-	if (name == NULL)
-		si->name = camel_service_get_name (service, TRUE);
-	else
-		si->name = g_strdup (name);
-
-	si->store = store;
-	camel_object_ref (store);
-
-	/* If these are vfolders then they need to be opened now,
-	 * otherwise they won't keep track of all folders. */
-	if (store->flags & CAMEL_STORE_VTRASH)
-		si->vtrash = camel_store_get_trash (store, NULL);
-	if (store->flags & CAMEL_STORE_VJUNK)
-		si->vjunk = camel_store_get_junk (store, NULL);
-
-	return si;
-}
-
-static StoreInfo *
-store_info_ref (StoreInfo *si)
-{
-	g_return_val_if_fail (si != NULL, si);
-	g_return_val_if_fail (si->ref_count > 0, si);
-
-	g_atomic_int_add (&si->ref_count, 1);
-
-	return si;
-}
-
-static void
-store_info_unref (StoreInfo *si)
-{
-	g_return_if_fail (si != NULL);
-	g_return_if_fail (si->ref_count > 0);
-
-	if (g_atomic_int_exchange_and_add (&si->ref_count, -1) > 1)
-		return;
-
-	if (si->vtrash != NULL)
-		camel_object_unref (si->vtrash);
-	if (si->vjunk != NULL)
-		camel_object_unref (si->vjunk);
-	camel_object_unref (si->store);
-	g_free (si->name);
-
-	g_slice_free (StoreInfo, si);
-}
-
-static void
-store_hash_free (StoreInfo *si)
-{
-	si->removed = 1;
-	store_info_unref (si);
-}
-
-static gboolean
-mail_shell_backend_add_store_done (CamelStore *store,
-                                   CamelFolderInfo *info,
-                                   gpointer user_data)
-{
-	StoreInfo *si = user_data;
-
-	if (si->done != NULL)
-		si->done (store, info, si);
-
-	if (!si->removed) {
-		/* Let the counters know about the already-opened
-		 * junk and trash folders. */
-		if (si->vtrash != NULL)
-			mail_note_folder (si->vtrash);
-		if (si->vjunk != NULL)
-			mail_note_folder (si->vjunk);
-	}
-
-	store_info_unref (si);
-
-	return TRUE;
-}
-
-static void
-mail_shell_backend_add_store (EMailShellBackend *mail_shell_backend,
-                              CamelStore *store,
-                              const gchar *name,
-                              void (*done) (CamelStore *store,
-                                            CamelFolderInfo *info,
-                                            gpointer user_data))
-{
-	EMFolderTreeModel *folder_tree_model;
-	GHashTable *store_hash;
-	StoreInfo *si;
-
-	store_hash = mail_shell_backend->priv->store_hash;
-	folder_tree_model = mail_shell_backend->priv->folder_tree_model;
-
-	si = store_info_new (store, name);
-	si->done = done;
-	g_hash_table_insert (store_hash, store, si);
-
-	em_folder_tree_model_add_store (folder_tree_model, store, si->name);
-
-	mail_note_store (
-		mail_shell_backend, store, NULL,
-		mail_shell_backend_add_store_done, store_info_ref (si));
-}
-
-static void
-mail_shell_backend_add_local_store_done (CamelStore *store,
-                                         CamelFolderInfo *info,
-                                         gpointer unused)
-{
-	gint ii;
-
-	for (ii = 0; ii < G_N_ELEMENTS (default_local_folders); ii++) {
-		if (default_local_folders[ii].folder != NULL)
-			mail_note_folder (default_local_folders[ii].folder);
-	}
-}
-
-static void
-mail_shell_backend_add_local_store (EMailShellBackend *mail_shell_backend,
-                                    CamelStore *local_store,
-                                    const gchar *name)
-{
-	mail_shell_backend_add_store (
-		mail_shell_backend, local_store, name,
-		mail_shell_backend_add_local_store_done);
-}
 
 static void
 mail_shell_backend_init_hooks (void)
@@ -306,109 +120,6 @@ mail_shell_backend_init_importers (void)
 
 	importer = pine_importer_peek ();
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
-}
-
-static void
-mail_shell_backend_init_local_store (EShellBackend *shell_backend)
-{
-	EMailShellBackendPrivate *priv;
-	CamelException ex;
-	CamelService *service;
-	CamelURL *url;
-	MailAsyncEvent *async_event;
-	const gchar *data_dir;
-	gchar *temp;
-	gint ii;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
-
-	camel_exception_init (&ex);
-
-	async_event = priv->async_event;
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	url = camel_url_new ("mbox:", NULL);
-	temp = g_build_filename (data_dir, "local", NULL);
-	camel_url_set_path (url, temp);
-	g_free (temp);
-
-	temp = camel_url_to_string (url, 0);
-	service = camel_session_get_service (
-		session, temp, CAMEL_PROVIDER_STORE, &ex);
-	g_free (temp);
-
-	if (service == NULL)
-		goto fail;
-
-	for (ii = 0; ii < G_N_ELEMENTS (default_local_folders); ii++) {
-		/* FIXME Should this URI be account relative? */
-		camel_url_set_fragment (url, default_local_folders[ii].name);
-		default_local_folders[ii].uri = camel_url_to_string (url, 0);
-		default_local_folders[ii].folder = camel_store_get_folder (
-			CAMEL_STORE (service), default_local_folders[ii].name,
-			CAMEL_STORE_FOLDER_CREATE, &ex);
-		camel_exception_clear (&ex);
-	}
-
-	camel_url_free (url);
-
-	camel_object_ref (service);
-	g_object_ref (shell_backend);
-
-	mail_async_event_emit (
-		async_event, MAIL_ASYNC_GUI,
-		(MailAsyncFunc) mail_shell_backend_add_local_store,
-		shell_backend, service, _("On This Computer"));
-
-	priv->local_store = CAMEL_STORE (service);
-
-	return;
-
-fail:
-	g_warning ("Could not initialize local store/folder: %s", ex.desc);
-
-	camel_exception_clear (&ex);
-	camel_url_free (url);
-}
-
-static void
-mail_shell_backend_load_accounts (EShellBackend *shell_backend)
-{
-	EAccountList *account_list;
-	EIterator *iter;
-
-	account_list = e_get_account_list ();
-
-	for (iter = e_list_get_iterator ((EList *) account_list);
-		e_iterator_is_valid (iter); e_iterator_next (iter)) {
-
-		EAccountService *service;
-		EAccount *account;
-		const gchar *name;
-		const gchar *url;
-
-		account = (EAccount *) e_iterator_get (iter);
-		service = account->source;
-		name = account->name;
-		url = service->url;
-
-		if (!account->enabled)
-			continue;
-
-		if (url == NULL || *url == '\0')
-			continue;
-
-		/* HACK: mbox URL's are handled by the local store setup
-		 *       above.  Any that come through as account sources
-		 *       are really movemail sources! */
-		if (g_str_has_prefix (url, "mbox:"))
-			continue;
-
-		e_mail_shell_backend_load_store_by_uri (
-			E_MAIL_SHELL_BACKEND (shell_backend), url, name);
-	}
-
-	g_object_unref (iter);
 }
 
 static void
@@ -577,9 +288,8 @@ mail_shell_backend_mail_sync (EMailShellBackend *mail_shell_backend)
 	if (session == NULL || !camel_session_is_online (session))
 		goto exit;
 
-	e_mail_shell_backend_stores_foreach (
-		mail_shell_backend, (GHFunc)
-		mail_shell_backend_sync_store_cb,
+	e_mail_store_foreach (
+		(GHFunc) mail_shell_backend_sync_store_cb,
 		mail_shell_backend);
 
 exit:
@@ -741,9 +451,8 @@ mail_shell_backend_prepare_for_offline_cb (EShell *shell,
 		camel_session_set_network_state (session, FALSE);
 	}
 
-	e_mail_shell_backend_stores_foreach (
-		mail_shell_backend, (GHFunc)
-		mail_shell_store_prepare_for_offline_cb, activity);
+	e_mail_store_foreach (
+		(GHFunc) mail_shell_store_prepare_for_offline_cb, activity);
 }
 
 /* Helper for mail_shell_backend_prepare_for_online_cb() */
@@ -766,9 +475,8 @@ mail_shell_backend_prepare_for_online_cb (EShell *shell,
 {
 	camel_session_set_online (session, TRUE);
 
-	e_mail_shell_backend_stores_foreach (
-		mail_shell_backend, (GHFunc)
-		mail_shell_store_prepare_for_online_cb, activity);
+	e_mail_store_foreach (
+		(GHFunc) mail_shell_store_prepare_for_online_cb, activity);
 }
 
 static void
@@ -858,48 +566,12 @@ mail_shell_backend_window_created_cb (EShell *shell,
 }
 
 static void
-mail_shell_backend_dispose (GObject *object)
-{
-	EMailShellBackendPrivate *priv;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (object);
-
-	g_hash_table_remove_all (priv->store_hash);
-
-	if (priv->folder_tree_model != NULL) {
-		g_object_unref (priv->folder_tree_model);
-		priv->folder_tree_model = NULL;
-	}
-
-	if (priv->local_store != NULL) {
-		camel_object_unref (priv->local_store);
-		priv->local_store = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
-mail_shell_backend_finalize (GObject *object)
-{
-	EMailShellBackendPrivate *priv;
-
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->store_hash);
-	mail_async_event_destroy (priv->async_event);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
 mail_shell_backend_constructed (GObject *object)
 {
 	EMailShellBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
+	const gchar *data_dir;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (object);
 
@@ -916,16 +588,6 @@ mail_shell_backend_constructed (GObject *object)
 
 	/* XXX This never gets unreffed. */
 	global_mail_shell_backend = g_object_ref (shell_backend);
-
-	priv->store_hash = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) store_hash_free);
-
-	priv->async_event = mail_async_event_new ();
-
-	priv->folder_tree_model = em_folder_tree_model_new (
-		E_MAIL_SHELL_BACKEND (shell_backend));
 
 	g_signal_connect (
 		shell, "notify::online",
@@ -960,8 +622,8 @@ mail_shell_backend_constructed (GObject *object)
 	mail_config_init ();
 	mail_msg_init ();
 
-	mail_shell_backend_init_local_store (shell_backend);
-	mail_shell_backend_load_accounts (shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	e_mail_store_init (data_dir);
 
 	/* Initialize settings before initializing preferences,
 	 * since the preferences bind to the shell settings. */
@@ -1009,8 +671,6 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 	g_type_class_add_private (class, sizeof (EMailShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = mail_shell_backend_dispose;
-	object_class->finalize = mail_shell_backend_finalize;
 	object_class->constructed = mail_shell_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
@@ -1057,194 +717,6 @@ e_mail_shell_backend_register_type (GTypeModule *type_module)
 	mail_shell_backend_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_BACKEND,
 		"EMailShellBackend", &type_info, 0);
-}
-
-/******************************** Public API *********************************/
-
-CamelFolder *
-e_mail_shell_backend_get_folder (EMailShellBackend *mail_shell_backend,
-                                 EMailFolderType folder_type)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-
-	return default_local_folders[folder_type].folder;
-}
-
-const gchar *
-e_mail_shell_backend_get_folder_uri (EMailShellBackend *mail_shell_backend,
-                                     EMailFolderType folder_type)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-
-	return default_local_folders[folder_type].uri;
-}
-
-EMFolderTreeModel *
-e_mail_shell_backend_get_folder_tree_model (EMailShellBackend *mail_shell_backend)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-
-	return mail_shell_backend->priv->folder_tree_model;
-}
-
-void
-e_mail_shell_backend_add_store (EMailShellBackend *mail_shell_backend,
-                                CamelStore *store,
-                                const gchar *name)
-{
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (name != NULL);
-
-	mail_shell_backend_add_store (mail_shell_backend, store, name, NULL);
-}
-
-CamelStore *
-e_mail_shell_backend_get_local_store (EMailShellBackend *mail_shell_backend)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-
-	return mail_shell_backend->priv->local_store;
-}
-
-CamelStore *
-e_mail_shell_backend_load_store_by_uri (EMailShellBackend *mail_shell_backend,
-                                        const gchar *uri,
-                                        const gchar *name)
-{
-	CamelStore *store;
-	CamelProvider *provider;
-	CamelException ex;
-
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-
-	camel_exception_init (&ex);
-
-	/* Load the service, but don't connect.  Check its provider,
-	 * and if this belongs in the shell's folder list, add it. */
-
-	provider = camel_provider_get (uri, &ex);
-	if (provider == NULL)
-		goto fail;
-
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return NULL;
-
-	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, &ex);
-	if (store == NULL)
-		goto fail;
-
-	e_mail_shell_backend_add_store (mail_shell_backend, store, name);
-
-	camel_object_unref (store);
-
-	return store;
-
-fail:
-	/* FIXME: Show an error dialog. */
-	g_warning (
-		"Couldn't get service: %s: %s", uri,
-		camel_exception_get_description (&ex));
-	camel_exception_clear (&ex);
-
-	return NULL;
-}
-
-/* Helper for e_mail_shell_backend_remove_store() */
-static void
-mail_shell_backend_remove_store_cb (CamelStore *store,
-                                    gpointer event_data,
-                                    gpointer user_data)
-{
-	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	camel_object_unref (store);
-}
-
-void
-e_mail_shell_backend_remove_store (EMailShellBackend *mail_shell_backend,
-                                   CamelStore *store)
-{
-	GHashTable *store_hash;
-	MailAsyncEvent *async_event;
-	EMFolderTreeModel *folder_tree_model;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
-	g_return_if_fail (CAMEL_IS_STORE (store));
-
-	store_hash = mail_shell_backend->priv->store_hash;
-	async_event = mail_shell_backend->priv->async_event;
-	folder_tree_model = mail_shell_backend->priv->folder_tree_model;
-
-	/* Because the store hash holds a reference to each store used
-	 * as a key in it, none of them will ever be gc'ed, meaning any
-	 * call to camel_session_get_{service,store} with the same URL
-	 * will always return the same object.  So this works. */
-
-	if (g_hash_table_lookup (store_hash, store) == NULL)
-		return;
-
-	camel_object_ref (store);
-	g_hash_table_remove (store_hash, store);
-	mail_note_store_remove (store);
-	em_folder_tree_model_remove_store (folder_tree_model, store);
-
-	mail_async_event_emit (
-		async_event, MAIL_ASYNC_THREAD,
-		(MailAsyncFunc) mail_shell_backend_remove_store_cb,
-		store, NULL, NULL);
-}
-
-void
-e_mail_shell_backend_remove_store_by_uri (EMailShellBackend *mail_shell_backend,
-                                          const gchar *uri)
-{
-	CamelStore *store;
-	CamelProvider *provider;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
-	g_return_if_fail (uri != NULL);
-
-	provider = camel_provider_get (uri, NULL);
-	if (provider == NULL)
-		return;
-
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return;
-
-	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
-	if (store != NULL) {
-		e_mail_shell_backend_remove_store (mail_shell_backend, store);
-		camel_object_unref (store);
-	}
-}
-
-void
-e_mail_shell_backend_stores_foreach (EMailShellBackend *mail_shell_backend,
-                                     GHFunc func,
-                                     gpointer user_data)
-{
-	GHashTable *store_hash;
-	GHashTableIter iter;
-	gpointer key, value;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
-	g_return_if_fail (func != NULL);
-
-	store_hash = mail_shell_backend->priv->store_hash;
-
-	g_hash_table_iter_init (&iter, store_hash);
-
-	while (g_hash_table_iter_next (&iter, &key, &value))
-		func (key, ((StoreInfo *) value)->name, user_data);
 }
 
 /******************* Code below here belongs elsewhere. *******************/

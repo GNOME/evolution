@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
 #include <libedataserver/e-account-list.h>
-#include <mail/e-mail-shell-backend.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_TREE_MODEL \
@@ -111,10 +110,9 @@ struct _EMFolderTreeModelClass {
 
 GType		em_folder_tree_model_get_type	(void);
 EMFolderTreeModel *
-		em_folder_tree_model_new(EMailShellBackend *mail_shell_backend);
-EMailShellBackend *
-		em_folder_tree_model_get_mail_shell_backend
-					(EMFolderTreeModel *model);
+		em_folder_tree_model_new	(void);
+EMFolderTreeModel *
+		em_folder_tree_model_get_default(void);
 GtkTreeSelection *
 		em_folder_tree_model_get_selection
 					(EMFolderTreeModel *model);

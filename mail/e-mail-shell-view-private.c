@@ -755,7 +755,6 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 void
 e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 {
-	EMailShellBackend *mail_shell_backend;
 	EMailShellContent *mail_shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
@@ -777,7 +776,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	mail_shell_backend = mail_shell_view->priv->mail_shell_backend;
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -788,7 +786,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	folder_uri = message_list->folder_uri;
 	folder = message_list->folder;
 
-	local_store = e_mail_shell_backend_get_local_store (mail_shell_backend);
+	local_store = e_mail_local_get_store ();
 
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */

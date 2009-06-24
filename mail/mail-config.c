@@ -64,6 +64,7 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
+#include "e-mail-local.h"
 #include "e-mail-shell-backend.h"
 
 typedef struct {
@@ -857,10 +858,10 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 	const gchar *local_sent_folder_uri;
 
 	/* assumes these can't be removed ... */
-	local_drafts_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
-	local_sent_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+	local_sent_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
 
 	account_list = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) account_list);

@@ -69,7 +69,8 @@
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
 
-#include "e-mail-shell-backend.h"
+#include "e-mail-local.h"
+#include "e-mail-store.h"
 
 #define d(x)
 
@@ -281,7 +282,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 
 	camel_exception_init (&ex);
 
-	local_store = e_mail_shell_backend_get_local_store (global_mail_shell_backend);
+	local_store = e_mail_local_get_store ();
 
 	if (!(fromstore = camel_session_get_store (session, cfd->fi->uri, &ex))) {
 		e_error_run(NULL,
@@ -355,13 +356,11 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 /* FIXME: this interface references the folderinfo without copying it  */
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_copy_folder (EMFolderTreeModel *model,
-                             CamelFolderInfo *folderinfo,
+em_folder_utils_copy_folder (CamelFolderInfo *folderinfo,
                              gint delete)
 {
 	struct _copy_folder_data *cfd;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (folderinfo != NULL);
 
 	cfd = g_malloc (sizeof (*cfd));
@@ -369,7 +368,7 @@ em_folder_utils_copy_folder (EMFolderTreeModel *model,
 	cfd->delete = delete;
 
 	em_select_folder (
-		model, _("Select folder"),
+		_("Select folder"),
 		delete ? _("_Move") : _("C_opy"),
 		NULL, emfu_copy_folder_exclude,
 		emfu_copy_folder_selected, cfd);
@@ -412,7 +411,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	GtkWidget *dialog;
 	gint flags = 0;
 
-	local_store = e_mail_shell_backend_get_local_store (global_mail_shell_backend);
+	local_store = e_mail_local_get_store ();
 
 	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
 		dialog = e_error_new (NULL, "mail:no-delete-special-folder", folder->full_name, NULL);
@@ -447,7 +446,7 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 	gboolean done = FALSE;
 	gsize base_len;
 
-	local_store = e_mail_shell_backend_get_local_store (global_mail_shell_backend);
+	local_store = e_mail_local_get_store ();
 
 	/* don't allow user to rename one of the special local folders */
 	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
@@ -639,7 +638,7 @@ static void
 emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer data)
 {
 	EMFolderTreeModelStoreInfo *si;
-	EMFolderTreeModel *model;
+	GtkTreeModel *model;
 	const gchar *uri, *path;
 	CamelException ex;
 	CamelStore *store;
@@ -663,8 +662,9 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 		return;
 	}
 
-	model = em_folder_tree_get_model (emfs->emft);
-	si = em_folder_tree_model_lookup_store_info (model, store);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
+	si = em_folder_tree_model_lookup_store_info (
+		EM_FOLDER_TREE_MODEL (model), store);
 	if (si == NULL) {
 		camel_object_unref (store);
 		g_return_if_reached();
@@ -701,11 +701,9 @@ void
 em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, GtkWindow *parent)
 {
 	EMFolderTree *folder_tree;
-	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 
-	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
-	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	folder_tree = (EMFolderTree *) em_folder_tree_new ();
 
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)

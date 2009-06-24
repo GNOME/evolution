@@ -37,8 +37,6 @@
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
 
-#include "e-mail-shell-backend.h"
-
 #define d(x)
 
 static gboolean validate(FilterElement *fe);
@@ -249,7 +247,6 @@ static GtkWidget *
 get_widget(FilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
-	EMFolderTreeModel *model;
 	GtkWidget *button;
 	gchar *uri;
 
@@ -257,9 +254,11 @@ get_widget(FilterElement *fe)
 		uri = ff->uri;
 	else
 		uri = em_uri_to_camel (ff->uri);
-	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
-	button = em_folder_selection_button_new (model, _("Select Folder"), NULL);
-	em_folder_selection_button_set_selection(EM_FOLDER_SELECTION_BUTTON(button), uri);
+
+	button = em_folder_selection_button_new (_("Select Folder"), NULL);
+
+	em_folder_selection_button_set_selection(
+		EM_FOLDER_SELECTION_BUTTON (button), uri);
 
 	if (!ff->store_camel_uri)
 		g_free(uri);

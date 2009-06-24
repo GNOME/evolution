@@ -56,10 +56,10 @@ static void
 folder_selector_destroy (GtkObject *object)
 {
 	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
-	EMFolderTreeModel *model;
+	GtkTreeModel *model;
 
 	if (emfs->created_id != 0) {
-		model = em_folder_tree_get_model (emfs->emft);
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
 		g_signal_handler_disconnect (model, emfs->created_id);
 		emfs->created_id = 0;
 	}

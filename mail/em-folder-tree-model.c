@@ -52,7 +52,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
 
-#include "e-mail-shell-backend.h"
+#include "e-mail-local.h"
 
 #define d(x)
 
@@ -61,8 +61,6 @@
 	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
 
 struct _EMFolderTreeModelPrivate {
-	gpointer shell_backend;  /* weak pointer */
-
 	/* This is set by EMailShellSidebar.  It allows new EMFolderTree
 	 * instances to initialize their selection and expanded states to
 	 * mimic the sidebar. */
@@ -85,7 +83,6 @@ struct _EMFolderTreeModelPrivate {
 
 enum {
 	PROP_0,
-	PROP_SHELL_BACKEND,
 	PROP_SELECTION
 };
 
@@ -244,31 +241,12 @@ folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
 }
 
 static void
-folder_tree_model_set_shell_backend (EMFolderTreeModel *model,
-                                    EShellBackend *shell_backend)
-{
-	g_return_if_fail (model->priv->shell_backend == NULL);
-
-	model->priv->shell_backend = shell_backend;
-
-	g_object_add_weak_pointer (
-		G_OBJECT (shell_backend),
-		&model->priv->shell_backend);
-}
-
-static void
 folder_tree_model_set_property (GObject *object,
                                 guint property_id,
                                 const GValue *value,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHELL_BACKEND:
-			folder_tree_model_set_shell_backend (
-				EM_FOLDER_TREE_MODEL (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_SELECTION:
 			em_folder_tree_model_set_selection (
 				EM_FOLDER_TREE_MODEL (object),
@@ -286,13 +264,6 @@ folder_tree_model_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHELL_BACKEND:
-			g_value_set_object (
-				value,
-				em_folder_tree_model_get_mail_shell_backend (
-				EM_FOLDER_TREE_MODEL (object)));
-			return;
-
 		case PROP_SELECTION:
 			g_value_set_object (
 				value,
@@ -310,12 +281,6 @@ folder_tree_model_dispose (GObject *object)
 	EMFolderTreeModelPrivate *priv;
 
 	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
-
-	if (priv->shell_backend != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->shell_backend), &priv->shell_backend);
-		priv->shell_backend = NULL;
-	}
 
 	if (priv->selection != NULL) {
 		g_object_weak_unref (
@@ -361,17 +326,6 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 	object_class->get_property = folder_tree_model_get_property;
 	object_class->dispose = folder_tree_model_dispose;
 	object_class->finalize = folder_tree_model_finalize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_BACKEND,
-		g_param_spec_object (
-			"shell-backend",
-			_("Shell Backend"),
-			NULL,
-			E_TYPE_SHELL_BACKEND,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -500,22 +454,20 @@ em_folder_tree_model_get_type (void)
 }
 
 EMFolderTreeModel *
-em_folder_tree_model_new (EMailShellBackend *mail_shell_backend)
+em_folder_tree_model_new (void)
 {
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
-
-	return g_object_new (
-		EM_TYPE_FOLDER_TREE_MODEL,
-		"shell-backend", mail_shell_backend, NULL);
+	return g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
 }
 
-EMailShellBackend *
-em_folder_tree_model_get_mail_shell_backend (EMFolderTreeModel *model)
+EMFolderTreeModel *
+em_folder_tree_model_get_default (void)
 {
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+	static EMFolderTreeModel *default_folder_tree_model;
 
-	return model->priv->shell_backend;
+	if (G_UNLIKELY (default_folder_tree_model == NULL))
+		default_folder_tree_model = em_folder_tree_model_new ();
+
+	return default_folder_tree_model;
 }
 
 GtkTreeSelection *
@@ -559,8 +511,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       CamelFolderInfo *fi,
                                       gint fully_loaded)
 {
-	EShellBackend *shell_backend;
-	EMailShellBackend *mail_shell_backend;
 	GtkTreeRowReference *uri_row, *path_row;
 	GtkTreeStore *tree_store;
 	guint unread;
@@ -581,8 +531,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		return;
 
 	tree_store = GTK_TREE_STORE (model);
-	shell_backend = model->priv->shell_backend;
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
@@ -605,10 +553,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		CamelFolder *local_drafts;
 		CamelFolder *local_outbox;
 
-		local_drafts = e_mail_shell_backend_get_folder (
-			mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
-		local_outbox = e_mail_shell_backend_get_folder (
-			mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+		local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 
 		if (folder == local_outbox) {
 			gint total;
@@ -641,7 +587,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
 	flags = fi->flags;
 	name = fi->name;
-	if (si->store == e_mail_shell_backend_get_local_store (mail_shell_backend)) {
+	if (si->store == e_mail_local_get_store ()) {
 		if (!strcmp(fi->full_name, "Drafts")) {
 			name = _("Drafts");
 			is_drafts = TRUE;

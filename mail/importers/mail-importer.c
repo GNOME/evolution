@@ -48,6 +48,8 @@
 
 #include "mail/mail-mt.h"
 #include "mail/mail-tools.h"
+
+#include "mail/e-mail-local.h"
 #include "mail/e-mail-shell-backend.h"
 
 #include "mail-importer.h"
@@ -202,8 +204,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	}
 
 	if (m->uri == NULL || m->uri[0] == 0)
-		folder = e_mail_shell_backend_get_folder (
-			global_mail_shell_backend, E_MAIL_FOLDER_INBOX);
+		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
 	else
 		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 

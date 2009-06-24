@@ -24,12 +24,11 @@
 #ifndef EM_FOLDER_SELECTION_H
 #define EM_FOLDER_SELECTION_H
 
-#include <mail/em-folder-tree-model.h>
+#include <glib.h>
 
 G_BEGIN_DECLS
 
-void		em_select_folder		(EMFolderTreeModel *model,
-						 const gchar *title,
+void		em_select_folder		(const gchar *title,
 						 const gchar *oklabel,
 						 const gchar *default_uri,
 						 EMFTExcludeFunc exclude,

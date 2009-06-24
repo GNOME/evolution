@@ -40,8 +40,6 @@
 	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
 
 struct _EMFolderSelectionButtonPrivate {
-	gpointer model;  /* weak pointer */
-
 	GtkWidget *icon;
 	GtkWidget *label;
 
@@ -57,7 +55,6 @@ struct _EMFolderSelectionButtonPrivate {
 enum {
 	PROP_0,
 	PROP_CAPTION,
-	PROP_MODEL,
 	PROP_MULTISELECT,
 	PROP_TITLE
 };
@@ -114,18 +111,6 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 }
 
 static void
-folder_selection_button_set_model (EMFolderSelectionButton *button,
-                                   EMFolderTreeModel *model)
-{
-	g_return_if_fail (button->priv->model == NULL);
-
-	button->priv->model = model;
-
-	g_object_add_weak_pointer (
-		G_OBJECT (model), &button->priv->model);
-}
-
-static void
 folder_selection_button_set_property (GObject *object,
                                       guint property_id,
                                       const GValue *value,
@@ -136,12 +121,6 @@ folder_selection_button_set_property (GObject *object,
 			em_folder_selection_button_set_caption (
 				EM_FOLDER_SELECTION_BUTTON (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_MODEL:
-			folder_selection_button_set_model (
-				EM_FOLDER_SELECTION_BUTTON (object),
-				g_value_get_object (value));
 			return;
 
 		case PROP_MULTISELECT:
@@ -174,13 +153,6 @@ folder_selection_button_get_property (GObject *object,
 				EM_FOLDER_SELECTION_BUTTON (object)));
 			return;
 
-		case PROP_MODEL:
-			g_value_set_object (
-				value,
-				em_folder_selection_button_get_model (
-				EM_FOLDER_SELECTION_BUTTON (object)));
-			return;
-
 		case PROP_MULTISELECT:
 			g_value_set_boolean (
 				value,
@@ -197,23 +169,6 @@ folder_selection_button_get_property (GObject *object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-folder_selection_button_dispose (GObject *object)
-{
-	EMFolderSelectionButtonPrivate *priv;
-
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
-
-	if (priv->model != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->model), &priv->model);
-		priv->model = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -256,7 +211,7 @@ folder_selection_button_clicked (GtkButton *button)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
-	emft = (EMFolderTree *) em_folder_tree_new_with_model (priv->model);
+	emft = (EMFolderTree *) em_folder_tree_new ();
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
 	if (priv->multiple_select)
@@ -318,7 +273,6 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_selection_button_set_property;
 	object_class->get_property = folder_selection_button_get_property;
-	object_class->dispose = folder_selection_button_dispose;
 	object_class->finalize = folder_selection_button_finalize;
 
 	gtk_object_class = GTK_OBJECT_CLASS (class);
@@ -335,17 +289,6 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
-		g_param_spec_object (
-			"model",
-			NULL,
-			NULL,
-			EM_TYPE_FOLDER_TREE_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -436,24 +379,12 @@ em_folder_selection_button_get_type (void)
 }
 
 GtkWidget *
-em_folder_selection_button_new (EMFolderTreeModel *model,
-                                const gchar *title,
+em_folder_selection_button_new (const gchar *title,
                                 const gchar *caption)
 {
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-
 	return g_object_new (
 		EM_TYPE_FOLDER_SELECTION_BUTTON,
-		"model", model, "title", title,
-		"caption", caption, NULL);
-}
-
-EMFolderTreeModel *
-em_folder_selection_button_get_model (EMFolderSelectionButton *button)
-{
-	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
-
-	return button->priv->model;
+		"title", title, "caption", caption, NULL);
 }
 
 const gchar *

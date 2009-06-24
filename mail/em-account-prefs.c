@@ -36,9 +36,9 @@
 
 #include "e-util/e-error.h"
 
+#include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
-#include "e-mail-shell-backend.h"
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -59,9 +59,7 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view)
 	account = e_account_tree_view_get_selected (tree_view);
 	g_return_if_fail (account != NULL);
 
-	e_mail_shell_backend_load_store_by_uri (
-		global_mail_shell_backend,
-		account->source->url, account->name);
+	e_mail_store_add_by_uri (account->source->url, account->name);
 }
 
 static void
@@ -94,8 +92,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view)
 
 	e_account_list_remove_account_proxies (account_list, account);
 
-	e_mail_shell_backend_remove_store_by_uri (
-		global_mail_shell_backend, account->source->url);
+	e_mail_store_remove_by_uri (account->source->url);
 }
 
 static void
@@ -216,8 +213,7 @@ account_prefs_delete_account (EAccountManager *manager)
 
 	/* Remove the account from the folder tree. */
 	if (account->enabled && account->source && account->source->url)
-		e_mail_shell_backend_remove_store_by_uri (
-			global_mail_shell_backend, account->source->url);
+		e_mail_store_remove_by_uri (account->source->url);
 
 	/* Remove all the proxies the account has created. */
 	if (has_proxies)

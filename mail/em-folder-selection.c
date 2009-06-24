@@ -36,8 +36,7 @@
 /* TODO: rmeove this file, it could just go on em-folder-selection or em-utils */
 
 void
-em_select_folder (EMFolderTreeModel *model,
-                  const gchar *title,
+em_select_folder (const gchar *title,
                   const gchar *oklabel,
                   const gchar *default_uri,
                   EMFTExcludeFunc exclude,
@@ -47,11 +46,10 @@ em_select_folder (EMFolderTreeModel *model,
 	GtkWidget *dialog;
 	EMFolderTree *emft;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (done != NULL);
 
 	/* XXX Do we leak this reference? */
-	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	emft = (EMFolderTree *) em_folder_tree_new ();
 
 	if (exclude)
 		em_folder_tree_set_excluded_func (emft, exclude, user_data);

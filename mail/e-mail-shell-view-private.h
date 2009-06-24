@@ -41,7 +41,9 @@
 
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-list-store.h"
+#include "e-mail-local.h"
 #include "e-mail-reader.h"
+#include "e-mail-store.h"
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"

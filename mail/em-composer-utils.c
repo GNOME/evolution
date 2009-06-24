@@ -41,6 +41,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-account-utils.h"
 
+#include "e-mail-local.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
@@ -59,8 +60,6 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-nntp-address.h>
 #include <camel/camel-vee-folder.h>
-
-#include "e-mail-shell-backend.h"
 
 #ifdef G_OS_WIN32
 /* Undef the similar macro from pthread.h, it doesn't check if
@@ -448,7 +447,7 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	struct _send_data *send;
-	CamelFolder *mail_folder;
+	CamelFolder *folder;
 	EAccount *account;
 
 	table = e_msg_composer_get_header_table (composer);
@@ -463,9 +462,8 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	if ((message = composer_get_message (composer, FALSE)) == NULL)
 		return;
 
-	mail_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
-	camel_object_ref (mail_folder);
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	camel_object_ref (folder);
 
 	/* mail the message */
 	info = camel_message_info_new (NULL);
@@ -482,9 +480,9 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	e_msg_composer_set_enable_autosave (composer, FALSE);
 
 	mail_append_mail (
-		mail_folder, message, info, composer_send_queued_cb, send);
+		folder, message, info, composer_send_queued_cb, send);
 
-	camel_object_unref (mail_folder);
+	camel_object_unref (folder);
 	camel_object_unref (message);
 }
 
@@ -594,11 +592,10 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	 * get destroyed while we're in mail_msg_wait() a little lower
 	 * down, waiting for the folder to open */
 
-	local_drafts_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
-
-	local_drafts_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	local_drafts_folder =
+		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
 
 	g_object_ref (composer);
 	msg = e_msg_composer_get_message_draft (composer);
@@ -1521,9 +1518,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	}
 
 	/* Send the receipt */
-	out_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
+	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
 }
@@ -1618,9 +1614,8 @@ em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, co
 	g_free (subject);
 
 	/* and send it */
-	out_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
+	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, forward, info, emu_forward_raw_done, NULL);
 }
@@ -2397,17 +2392,14 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 }
 
 static void
-post_header_clicked_cb (EComposerPostHeader *header,
-                        EMailShellBackend *mail_shell_backend)
+post_header_clicked_cb (EComposerPostHeader *header)
 {
-	EMFolderTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
 
-	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
-	folder_tree = em_folder_tree_new_with_model (model);
+	folder_tree = em_folder_tree_new ();
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
@@ -2498,6 +2490,5 @@ em_configure_new_composer (EMsgComposer *composer)
 	 *       the folder selector dialog.  See the handler function. */
 	g_signal_connect (
 		header, "clicked",
-		G_CALLBACK (post_header_clicked_cb),
-		global_mail_shell_backend);
+		G_CALLBACK (post_header_clicked_cb), NULL);
 }

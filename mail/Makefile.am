@@ -52,6 +52,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-label-manager.h				\
 	e-mail-label-tree-view.c			\
 	e-mail-label-tree-view.h			\
+	e-mail-local.c					\
+	e-mail-local.h					\
 	e-mail-reader.c					\
 	e-mail-reader.h					\
 	e-mail-reader-utils.c				\
@@ -74,6 +76,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-shell-view-actions.h			\
 	e-mail-shell-view-private.c			\
 	e-mail-shell-view-private.h			\
+	e-mail-store.c					\
+	e-mail-store.h					\
 	e-searching-tokenizer.c				\
 	e-searching-tokenizer.h				\
 	em-account-editor.c				\

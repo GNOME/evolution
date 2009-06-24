@@ -26,8 +26,6 @@
 
 #include <gtk/gtk.h>
 
-#include <mail/em-folder-tree-model.h>
-
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_SELECTION_BUTTON \
 	(em_folder_selection_button_get_type ())
@@ -68,12 +66,8 @@ struct _EMFolderSelectionButtonClass {
 
 GType		em_folder_selection_button_get_type (void);
 GtkWidget *	em_folder_selection_button_new
-					(EMFolderTreeModel *model,
-					 const gchar *title,
+					(const gchar *title,
 					 const gchar *caption);
-EMFolderTreeModel *
-		em_folder_selection_button_get_model
-					(EMFolderSelectionButton *button);
 const gchar *	em_folder_selection_button_get_caption
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_caption

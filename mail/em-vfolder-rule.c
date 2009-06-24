@@ -34,13 +34,12 @@
 #include "camel/camel-url.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
+#include "mail/e-mail-store.h"
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
-
-#include "e-mail-shell-backend.h"
 
 #define d(x)
 
@@ -506,12 +505,10 @@ static void
 source_add(GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
-	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 
-	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
-	emft =(EMFolderTree *)em_folder_tree_new_with_model (model);
-	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT);
+	emft =(EMFolderTree *) em_folder_tree_new ();
+	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
 
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));
 	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));

@@ -50,6 +50,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"
 
+#include "e-mail-local.h"
 #include "e-mail-shell-backend.h"
 
 #define d(x)
@@ -164,8 +165,8 @@ setup_send_data(void)
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) free_folder_info);
-		data->inbox = e_mail_shell_backend_get_folder (
-			global_mail_shell_backend, E_MAIL_FOLDER_LOCAL_INBOX);
+		data->inbox = e_mail_local_get_folder (
+			E_MAIL_FOLDER_LOCAL_INBOX);
 		camel_object_ref(data->inbox);
 		data->active = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
@@ -690,13 +691,12 @@ receive_done (const gchar *uri, gpointer data)
 
 	/* if we've been called to run again - run again */
 	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
-		CamelFolder *local_outbox_folder;
+		CamelFolder *local_outbox;
 
-		local_outbox_folder = e_mail_shell_backend_get_folder (
-			global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 
 		info->again = 0;
-		mail_send_queue (local_outbox_folder,
+		mail_send_queue (local_outbox,
 				 info->uri,
 				 FILTER_SOURCE_OUTGOING,
 				 info->cancel,
@@ -908,7 +908,9 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	struct _send_info *info = data;
 
 	if (store) {
-		mail_note_store(global_mail_shell_backend, store, info->cancel, receive_update_got_folderinfo, info);
+		mail_note_store(
+			store, info->cancel,
+			receive_update_got_folderinfo, info);
 	} else {
 		receive_done("", info);
 	}
@@ -917,7 +919,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 GtkWidget *
 mail_send_receive (GtkWindow *parent)
 {
-	CamelFolder *outbox_folder;
+	CamelFolder *local_outbox;
 	struct _send_data *data;
 	EAccountList *accounts;
 	EAccount *account;
@@ -940,10 +942,9 @@ mail_send_receive (GtkWindow *parent)
 
 	accounts = e_get_account_list ();
 
-	outbox_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	data = build_dialog (
-		parent, accounts, outbox_folder, account->transport->url);
+		parent, accounts, local_outbox, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
@@ -959,7 +960,7 @@ mail_send_receive (GtkWindow *parent)
 			break;
 		case SEND_SEND:
 			/* todo, store the folder in info? */
-			mail_send_queue(outbox_folder, info->uri,
+			mail_send_queue(local_outbox, info->uri,
 					FILTER_SOURCE_OUTGOING,
 					info->cancel,
 					receive_get_folder, info,
@@ -1129,7 +1130,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 {
 	struct _send_info *info;
 	struct _send_data *data;
-	CamelFolder *outbox_folder;
+	CamelFolder *local_outbox;
 	send_info_t type;
 
 	data = setup_send_data();
@@ -1174,9 +1175,8 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
-		outbox_folder = e_mail_shell_backend_get_folder (
-			global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
-		mail_send_queue (outbox_folder, info->uri,
+		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+		mail_send_queue (local_outbox, info->uri,
 				 FILTER_SOURCE_OUTGOING,
 				 info->cancel,
 				 receive_get_folder, info,
@@ -1194,7 +1194,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 void
 mail_send (void)
 {
-	CamelFolder *outbox_folder;
+	CamelFolder *local_outbox;
 	EAccountService *transport;
 	struct _send_info *info;
 	struct _send_data *data;
@@ -1237,9 +1237,8 @@ mail_send (void)
 	g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 
 	/* todo, store the folder in info? */
-	outbox_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
-	mail_send_queue (outbox_folder, info->uri,
+	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	mail_send_queue (local_outbox, info->uri,
 			 FILTER_SOURCE_OUTGOING,
 			 info->cancel,
 			 receive_get_folder, info,

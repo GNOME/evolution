@@ -27,7 +27,8 @@
 #include "em-utils.h"
 #include "em-folder-utils.h"
 
-#include "e-mail-shell-backend.h"
+#include "e-mail-local.h"
+#include "e-mail-store.h"
 
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -52,7 +53,6 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
@@ -68,10 +68,9 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder_tree_model = em_folder_tree_get_model (folder_tree);
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
-	tree_model = GTK_TREE_MODEL (folder_tree_model);
+	tree_model = gtk_tree_view_get_model (tree_view);
 
 	/* Restore selected folder. */
 
@@ -123,7 +122,7 @@ mail_shell_sidebar_restore_state (EMailShellSidebar *mail_shell_sidebar)
 			continue;
 
 		reference = em_folder_tree_model_lookup_uri (
-			folder_tree_model, uri);
+			EM_FOLDER_TREE_MODEL (tree_model), uri);
 		if (reference == NULL)
 			continue;
 
@@ -410,14 +409,12 @@ mail_shell_sidebar_finalize (GObject *object)
 static void
 mail_shell_sidebar_constructed (GObject *object)
 {
-	EMailShellBackend *mail_shell_backend;
 	EMailShellSidebar *mail_shell_sidebar;
-	EMFolderTreeModel *folder_tree_model;
 	EShellSidebar *shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
+	GtkTreeModel *model;
 	GtkWidget *container;
 	GtkWidget *widget;
 
@@ -426,13 +423,8 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (object);
-
-	folder_tree_model = e_mail_shell_backend_get_folder_tree_model (
-		mail_shell_backend);
 
 	/* Build sidebar widgets. */
 
@@ -449,7 +441,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = em_folder_tree_new_with_model (folder_tree_model);
+	widget = em_folder_tree_new ();
 	em_folder_tree_set_excluded (EM_FOLDER_TREE (widget), 0);
 	em_folder_tree_enable_drag_and_drop (EM_FOLDER_TREE (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
@@ -458,11 +450,14 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
 
-	if (em_folder_tree_model_get_selection (folder_tree_model) == NULL)
+	if (em_folder_tree_model_get_selection (
+		EM_FOLDER_TREE_MODEL (model)) == NULL)
 		mail_shell_sidebar_restore_state (mail_shell_sidebar);
 
-	em_folder_tree_model_set_selection (folder_tree_model, selection);
+	em_folder_tree_model_set_selection (
+		EM_FOLDER_TREE_MODEL (model), selection);
 
 	g_signal_connect_swapped (
 		tree_view, "row-collapsed",
@@ -475,7 +470,7 @@ mail_shell_sidebar_constructed (GObject *object)
 		shell_sidebar);
 
 	g_signal_connect_swapped (
-		folder_tree_model, "loaded-row",
+		model, "loaded-row",
 		G_CALLBACK (mail_shell_sidebar_model_loaded_row_cb),
 		shell_sidebar);
 
@@ -488,9 +483,7 @@ mail_shell_sidebar_constructed (GObject *object)
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
-	EMailShellBackend *mail_shell_backend;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMFolderTree *folder_tree;
 	GtkTreeSelection *selection;
@@ -512,10 +505,8 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	guint32 state = 0;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
-	local_store = e_mail_shell_backend_get_local_store (mail_shell_backend);
+	local_store = e_mail_local_get_store ();
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);

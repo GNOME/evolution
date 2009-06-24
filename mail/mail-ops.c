@@ -69,6 +69,7 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
+#include "e-mail-local.h"
 #include "e-mail-shell-backend.h"
 
 #define w(x)
@@ -280,8 +281,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 
-	fm->destination = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_LOCAL_INBOX);
+	fm->destination = e_mail_local_get_folder (E_MAIL_FOLDER_LOCAL_INBOX);
 	if (fm->destination == NULL)
 		goto fail;
 	camel_object_ref (fm->destination);
@@ -586,8 +586,7 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 		}
 
 		if (!folder) {
-			folder = e_mail_shell_backend_get_folder (
-				global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+			folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 			camel_object_ref(folder);
 		}
 
@@ -600,8 +599,7 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 
-			sent_folder = e_mail_shell_backend_get_folder (
-				global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+			sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const gchar *name;
@@ -703,8 +701,7 @@ send_queue_exec (struct _send_queue_msg *m)
 
 	d(printf("sending queue\n"));
 
-	sent_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+	sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;

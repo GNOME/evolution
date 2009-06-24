@@ -50,6 +50,8 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
+#include "e-mail-local.h"
+#include "e-mail-store.h"
 #include "e-mail-shell-backend.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
@@ -339,26 +341,23 @@ uri_is_ignore(CamelStore *store, const gchar *uri)
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
-	const gchar *local_drafts_folder_uri;
-	const gchar *local_outbox_folder_uri;
-	const gchar *local_sent_folder_uri;
+	const gchar *local_drafts_uri;
+	const gchar *local_outbox_uri;
+	const gchar *local_sent_uri;
 	gint found = FALSE;
 
-	local_drafts_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
-	local_outbox_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
-	local_sent_folder_uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+	local_drafts_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_OUTBOX);
+	local_sent_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
 
 	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
-		local_outbox_folder_uri,
-		local_sent_folder_uri,
-		local_drafts_folder_uri));
+		local_outbox_uri,
+		local_sent_uri,
+		local_drafts_uri));
 
-	found = camel_store_folder_uri_equal(store, local_outbox_folder_uri, uri)
-		|| camel_store_folder_uri_equal(store, local_sent_folder_uri, uri)
-		|| camel_store_folder_uri_equal(store, local_drafts_folder_uri, uri);
+	found = camel_store_folder_uri_equal(store, local_outbox_uri, uri)
+		|| camel_store_folder_uri_equal(store, local_sent_uri, uri)
+		|| camel_store_folder_uri_equal(store, local_drafts_uri, uri);
 
 	if (found)
 		return found;
@@ -987,8 +986,7 @@ vfolder_load_storage(void)
 	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 	/* load store to mail component */
-	e_mail_shell_backend_load_store_by_uri (
-		global_mail_shell_backend, storeuri, _("Search Folders"));
+	e_mail_store_add_by_uri (storeuri, _("Search Folders"));
 
 	/* and setup the rules we have */
 	rule = NULL;

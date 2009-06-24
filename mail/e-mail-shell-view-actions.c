@@ -49,14 +49,12 @@ static void
 action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
-	EMailShellBackend *mail_shell_backend;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	EAccountList *account_list;
 	EAccount *account;
 	gchar *folder_uri;
 
-	mail_shell_backend = mail_shell_view->priv->mail_shell_backend;
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -72,8 +70,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	account->enabled = !account->enabled;
 	e_account_list_change (account_list, account);
-	e_mail_shell_backend_remove_store_by_uri (
-		mail_shell_backend, folder_uri);
+	e_mail_store_remove_by_uri (folder_uri);
 
 	if (account->parent_uid != NULL)
 		e_account_list_remove (account_list, account);
@@ -94,8 +91,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 static void
 action_mail_download_foreach_cb (CamelService *service)
 {
-	if (CAMEL_IS_DISCO_STORE (service) ||
-		CAMEL_IS_OFFLINE_STORE (service))
+	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
 		mail_store_prepare_offline (CAMEL_STORE (service));
 }
 
@@ -103,13 +99,7 @@ static void
 action_mail_download_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	EMailShellBackend *mail_shell_backend;
-
-	mail_shell_backend = mail_shell_view->priv->mail_shell_backend;
-
-	e_mail_shell_backend_stores_foreach (
-		mail_shell_backend, (GHFunc)
-		action_mail_download_foreach_cb, NULL);
+	e_mail_store_foreach ((GHFunc) action_mail_download_foreach_cb, NULL);
 }
 
 static void
@@ -139,7 +129,6 @@ action_mail_folder_copy_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
-	EMFolderTreeModel *model;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -147,8 +136,7 @@ action_mail_folder_copy_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	model = em_folder_tree_get_model (folder_tree);
-	em_folder_utils_copy_folder (model, folder_info, FALSE);
+	em_folder_utils_copy_folder (folder_info, FALSE);
 }
 
 static void
@@ -236,7 +224,6 @@ action_mail_folder_move_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
-	EMFolderTreeModel *model;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -244,8 +231,7 @@ action_mail_folder_move_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	model = em_folder_tree_get_model (folder_tree);
-	em_folder_utils_copy_folder (model, folder_info, TRUE);
+	em_folder_utils_copy_folder (folder_info, TRUE);
 }
 
 static void

@@ -82,8 +82,8 @@ struct _EMFolderTreeClass {
 	void		(*popup_event)		(EMFolderTree *emft);
 };
 
-GType em_folder_tree_get_type (void);
-GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
+GType		em_folder_tree_get_type		(void);
+GtkWidget *	em_folder_tree_new		(void);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 
@@ -101,8 +101,6 @@ gchar *em_folder_tree_get_selected_uri (EMFolderTree *emft);
 gchar *em_folder_tree_get_selected_path (EMFolderTree *emft);
 CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
 CamelFolderInfo *em_folder_tree_get_selected_folder_info (EMFolderTree *emft);
-
-EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const gchar *full_name, const gchar *uri);
 void em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip);

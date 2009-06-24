@@ -148,9 +148,7 @@ static void
 action_mail_copy_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	EShellBackend *shell_backend;
 	MessageList *message_list;
-	EMFolderTreeModel *model;
 	CamelFolder *folder;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
@@ -158,11 +156,8 @@ action_mail_copy_cb (GtkAction *action,
 	const gchar *uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-	model = e_mail_shell_backend_get_folder_tree_model (
-		E_MAIL_SHELL_BACKEND (shell_backend));
 
-	folder_tree = em_folder_tree_new_with_model (model);
+	folder_tree = em_folder_tree_new ();
 	selected = message_list_get_selected (message_list);
 
 	folder = message_list->folder;
@@ -558,9 +553,7 @@ static void
 action_mail_move_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	EShellBackend *shell_backend;
 	MessageList *message_list;
-	EMFolderTreeModel *model;
 	CamelFolder *folder;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
@@ -568,11 +561,8 @@ action_mail_move_cb (GtkAction *action,
 	const gchar *uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-	model = e_mail_shell_backend_get_folder_tree_model (
-		E_MAIL_SHELL_BACKEND (shell_backend));
 
-	folder_tree = em_folder_tree_new_with_model (model);
+	folder_tree = em_folder_tree_new ();
 	selected = message_list_get_selected (message_list);
 
 	folder = message_list->folder;

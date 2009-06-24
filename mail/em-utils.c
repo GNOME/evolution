@@ -72,13 +72,14 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "widgets/misc/e-alert-activity.h"
+#include "widgets/misc/e-attachment.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 #include "em-account-editor.h"
-#include "e-attachment.h"
 
+#include "e-mail-local.h"
 #include "e-mail-shell-backend.h"
 
 static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
@@ -1382,8 +1383,8 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	gint is = FALSE;
 	gchar *templates_uri;
 
-	local_templates_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_TEMPLATES);
+	local_templates_folder =
+		e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
 	if (folder == local_templates_folder)
 		return TRUE;
@@ -1433,8 +1434,8 @@ em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri)
 	gint is = FALSE;
 	gchar *drafts_uri;
 
-	local_drafts_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	local_drafts_folder =
+		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
 
 	if (folder == local_drafts_folder)
 		return TRUE;
@@ -1484,8 +1485,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri)
 	gint is = FALSE;
 	gchar *sent_uri;
 
-	local_sent_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+	local_sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
@@ -1530,8 +1530,8 @@ em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_outbox_folder;
 
-	local_outbox_folder = e_mail_shell_backend_get_folder (
-		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+	local_outbox_folder =
+		e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 
 	/* <Highlander>There can be only one.</Highlander> */
 	return folder == local_outbox_folder;

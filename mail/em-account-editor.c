@@ -58,6 +58,7 @@
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
 
+#include "e-mail-local.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 #include "em-account-editor.h"
@@ -69,8 +70,6 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
-
-#include "e-mail-shell-backend.h"
 
 #if defined (HAVE_NSS)
 #include "smime/gui/e-cert-selector.h"
@@ -469,13 +468,11 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	EMAccountEditor *emae = user_data;
 	const gchar *uri;
 
-	uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
 	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
 
-	uri = e_mail_shell_backend_get_folder_uri (
-		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
+	uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
 	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
 }
@@ -486,10 +483,8 @@ GtkWidget *em_account_editor_folder_selector_button_new (gchar *widget_name, gch
 GtkWidget *
 em_account_editor_folder_selector_button_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
-	EMFolderTreeModel *model;
-
-	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
-	return (GtkWidget *)em_folder_selection_button_new(model, string1 ? string1 : _("Select Folder"), NULL);
+	return (GtkWidget *)em_folder_selection_button_new (
+		string1 ? string1 : _("Select Folder"), NULL);
 }
 
 GtkWidget *em_account_editor_dropdown_new(gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
@@ -497,7 +492,7 @@ GtkWidget *em_account_editor_dropdown_new(gchar *widget_name, gchar *string1, gc
 GtkWidget *
 em_account_editor_dropdown_new(gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
 {
-	return (GtkWidget *)gtk_combo_box_new();
+	return gtk_combo_box_new ();
 }
 
 GtkWidget *em_account_editor_ssl_selector_new(gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
@@ -927,8 +922,7 @@ emae_account_folder(EMAccountEditor *emae, const gchar *name, gint item, gint de
 	} else {
 		const gchar *uri;
 
-		uri = e_mail_shell_backend_get_folder_uri (
-			global_mail_shell_backend, deffolder);
+		uri = e_mail_local_get_folder_uri (deffolder);
 		em_folder_selection_button_set_selection(folder, uri);
 	}
 
@@ -3018,21 +3012,17 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 
 		emae->do_signature = TRUE;
 	} else {
-		const gchar *uri;
-
 		/* TODO: have a get_default_account thing?? */
 		emae->account = e_account_new();
 		emae->account->enabled = TRUE;
 
-		uri = e_mail_shell_backend_get_folder_uri (
-			global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
 		e_account_set_string (
-			emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI, uri);
+			emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI,
+			e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS));
 
-		uri = e_mail_shell_backend_get_folder_uri (
-			global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 		e_account_set_string (
-			emae->account, E_ACCOUNT_SENT_FOLDER_URI, uri);
+			emae->account, E_ACCOUNT_SENT_FOLDER_URI,
+			e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT));
 	}
 
 	/* sort the providers, remote first */
