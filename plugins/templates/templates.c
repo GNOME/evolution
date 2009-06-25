@@ -34,10 +34,10 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
 
+#include <mail/e-mail-local.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-popup.h>
 #include <mail/mail-session.h>
-#include <mail/mail-component.h>
 #include <mail/mail-ops.h>
 #include <e-util/e-error.h>
 #include <e-util/e-plugin.h>
@@ -506,7 +506,7 @@ reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 	gchar *cont;
 
 	/* We get the templates folder and all the uids of the messages in there */
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
+	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
 	/* Get from the currently selected folder, the currently selected message */
 	reply_to = camel_folder_get_message (userdata->t->folder,
@@ -666,14 +666,14 @@ org_gnome_templates_popup (EPlugin *ep, EMPopupTargetSelect *t)
 	GSList *list = NULL;
 
 	/* We get the templates folder and all the uids of the messages in there */
-	store = mail_component_peek_local_store (NULL);
+	store = e_mail_local_get_store ();
 
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
+	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
-	templates_info = camel_store_get_folder_info (store,
-			templates_folder->full_name,
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST,
-			NULL);
+	templates_info = camel_store_get_folder_info (
+		store, templates_folder->full_name,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 
 	/* Get subfolders and fill it */
 	list = fill_submenu (store, templates_info, list, t);
@@ -692,7 +692,7 @@ action_template_cb (GtkAction *action,
 	CamelFolder *templates_folder;
 
 	/* We get the templates folder and all the uids of the messages in there */
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
+	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 	msg = e_msg_composer_get_message_draft (composer);
 	info = camel_message_info_new (NULL);
 
