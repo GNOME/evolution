@@ -89,6 +89,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_SUBTHREAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-subthread")
+#define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_UNSUBSCRIBE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-folder-unsubscribe")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-forward")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_ATTACHED(window) \

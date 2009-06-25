@@ -718,6 +718,72 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 	gtk_widget_show (dialog);
 }
 
+struct _folder_unsub_t {
+	MailMsg base;
+	gchar *folder_uri;
+};
+
+static gchar *
+emfu_unsubscribe_folder__desc (struct _folder_unsub_t *msg)
+{
+	return g_strdup_printf (
+		_("Unsubscribing from folder \"%s\""), msg->folder_uri);
+}
+
+static void
+emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
+{
+	CamelStore *store;
+	CamelURL *url;
+	const gchar *path = NULL;
+	gint url_flags;
+
+	store = camel_session_get_store (
+		session, msg->folder_uri, &msg->base.ex);
+	if (store == NULL)
+		return;
+
+	url = camel_url_new (msg->folder_uri, NULL);
+	url_flags = CAMEL_SERVICE (store)->provider->url_flags;
+
+	if (url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+		path = url->fragment;
+	else if (url->path != NULL && *url->path != '\0')
+		path = url->path + 1;
+
+	if (path != NULL)
+		camel_store_unsubscribe_folder (store, path, &msg->base.ex);
+
+	camel_url_free (url);
+}
+
+static void
+emfu_unsubscribe_folder__free (struct _folder_unsub_t *msg)
+{
+	g_free (msg->folder_uri);
+}
+
+static MailMsgInfo unsubscribe_info = {
+	sizeof (struct _folder_unsub_t),
+	(MailMsgDescFunc) emfu_unsubscribe_folder__desc,
+	(MailMsgExecFunc) emfu_unsubscribe_folder__exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) emfu_unsubscribe_folder__free
+};
+
+void
+em_folder_utils_unsubscribe_folder (const gchar *folder_uri)
+{
+	struct _folder_unsub_t *unsub;
+
+	g_return_if_fail (folder_uri != NULL);
+
+	unsub = mail_msg_new (&unsubscribe_info);
+	unsub->folder_uri = g_strdup (folder_uri);
+
+	mail_msg_unordered_push (unsub);
+}
+
 const gchar *
 em_folder_utils_get_icon_name (guint32 flags)
 {

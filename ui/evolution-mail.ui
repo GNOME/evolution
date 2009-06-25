@@ -51,6 +51,8 @@
         <menuitem action='mail-folder-refresh'/>
         <menuitem action='mail-folder-delete'/>
         <separator/>
+        <menuitem action='mail-folder-unsubscribe'/>
+        <separator/>
         <menuitem action='mail-folder-properties'/>
       </menu>
       <menu action='mail-message-menu'/>
@@ -81,6 +83,8 @@
     <menuitem action='mail-popup-flush-outbox'/>
     <menuitem action='mail-popup-empty-trash'/>
     <menuitem action='mail-popup-account-disable'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-unsubscribe'/>
     <separator/>
     <menuitem action='mail-popup-folder-properties'/>
   </popup>

@@ -385,6 +385,22 @@ action_mail_folder_select_subthread_cb (GtkAction *action,
 }
 
 static void
+action_mail_folder_unsubscribe_cb (GtkAction *action,
+                                   EMailShellView *mail_shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	gchar *folder_uri;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
+	em_folder_utils_unsubscribe_folder (folder_uri);
+	g_free (folder_uri);
+}
+
+static void
 action_mail_hide_deleted_cb (GtkToggleAction *action,
                              EMailShellView *mail_shell_view)
 {
@@ -1104,6 +1120,13 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Select all replies to the currently selected message"),
 	  G_CALLBACK (action_mail_folder_select_subthread_cb) },
 
+	{ "mail-folder-unsubscribe",
+	  NULL,
+	  N_("_Unsubscribe"),
+	  NULL,
+	  N_("Unsubscribe from the selected folder"),
+	  G_CALLBACK (action_mail_folder_unsubscribe_cb) },
+
 	{ "mail-label-new",
 	  NULL,
 	  N_("_New Label"),
@@ -1259,7 +1282,11 @@ static EPopupActionEntry mail_popup_entries[] = {
 
 	{ "mail-popup-folder-rename",
 	  NULL,
-	  "mail-folder-rename" }
+	  "mail-folder-rename" },
+
+	{ "mail-popup-folder-unsubscribe",
+	  NULL,
+	  "mail-folder-unsubscribe" }
 };
 
 static GtkToggleActionEntry mail_toggle_entries[] = {

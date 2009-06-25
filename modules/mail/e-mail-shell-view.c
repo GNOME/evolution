@@ -191,6 +191,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
+	sensitive = !folder_is_store && folder_can_be_deleted;
+	gtk_action_set_sensitive (action, sensitive);
+
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }
 

@@ -1785,7 +1785,7 @@ plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-in
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="face folder-unsubscribe external-editor hula-account-setup"
+plugins_experimental_always="face external-editor hula-account-setup"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS $PYTHON_PLUGIN"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
@@ -1797,7 +1797,6 @@ dnl ------------------------
 dnl backup-restore
 dnl calendar-weather
 dnl exchange-operations
-dnl folder-unsubscribe
 dnl groupwise-features
 dnl ipod-sync
 dnl itip-formatter
@@ -2098,7 +2097,6 @@ plugins/email-custom-header/Makefile
 plugins/exchange-operations/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
-plugins/folder-unsubscribe/Makefile
 plugins/google-account-setup/Makefile
 plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
