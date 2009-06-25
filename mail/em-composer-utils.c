@@ -788,7 +788,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 
 		content = camel_medium_get_content_object ((CamelMedium *) message);
 		if (!content)
-			return;
+			return NULL;
 
 		/*
 		 * Get non-multipart content from multipart message.
@@ -801,11 +801,11 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		}
 
 		if (!mime_part)
-			return;
+			return NULL;
 
 		type = camel_mime_part_get_content_type (mime_part);
 		if (!camel_content_type_is (type, "text", "plain"))
-			return;
+			return NULL;
 
 		mem = camel_stream_mem_new ();
 		camel_data_wrapper_decode_to_stream (content, mem);
@@ -928,7 +928,7 @@ GtkWidget *
 em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder)
 {
 	GtkWidget *composer = NULL;
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	if (folder)
 		composer = edit_message (message, folder, NULL);
