@@ -414,6 +414,25 @@ folder_selected_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, gui
 	}
 }
 
+static void
+tree_hidden_key_event_cb (EMFolderTree *emft, GdkEvent *event, EMFolderView *view)
+{
+	if (event && event->type == GDK_KEY_PRESS && view && view->list) {
+		switch (event->key.keyval) {
+		case '[':
+		case ',':
+			gtk_widget_grab_focus ((GtkWidget *) view->list);
+			message_list_select (view->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
+			break;
+		case ']':
+		case '.':
+			gtk_widget_grab_focus ((GtkWidget *) view->list);
+			message_list_select (view->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
+			break;
+		}
+	}
+}
+
 static gint
 check_autosave(gpointer data)
 {
@@ -786,6 +805,7 @@ impl_createView (PortableServer_Servant servant,
 
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
+	g_signal_connect (tree_widget, "hidden-key-event", G_CALLBACK (tree_hidden_key_event_cb), view_widget);
 
 	g_signal_connect((EMFolderBrowser *)view_widget, "account_search_cleared", G_CALLBACK (enable_folder_tree), tree_widget);
 	g_signal_connect(((EMFolderBrowser *)view_widget), "account_search_activated", G_CALLBACK (disable_folder_tree), tree_widget);

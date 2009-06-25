@@ -115,6 +115,7 @@ struct _EMFolderTreePrivate {
 enum {
 	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
 	FOLDER_SELECTED,
+	HIDDEN_KEY_EVENT,
 	LAST_SIGNAL
 };
 
@@ -239,6 +240,15 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
+
+	signals[HIDDEN_KEY_EVENT] =
+		g_signal_new ("hidden-key-event",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMFolderTreeClass, hidden_key_event),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__BOXED,
+			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 
 static gboolean
@@ -2285,7 +2295,9 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 static gboolean
 emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft)
 {
-	if (e && e->type == GDK_KEY_PRESS && e->key.keyval == GDK_space) {
+	if (e && e->type == GDK_KEY_PRESS && (e->key.keyval == GDK_space || e->key.keyval == '.' || e->key.keyval == ',' || e->key.keyval == '[' || e->key.keyval == ']')) {
+		g_signal_emit (emft, signals [HIDDEN_KEY_EVENT], 0, e);
+
 		return TRUE;
 	}
 	if (!emft->priv->do_multiselect)
