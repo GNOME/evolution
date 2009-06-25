@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-06-18 13:55+0000\n"
-"PO-Revision-Date: 2009-06-19 17:25+0300\n"
+"POT-Creation-Date: 2009-06-24 14:19+0000\n"
+"PO-Revision-Date: 2009-06-25 17:49+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -439,7 +439,7 @@ msgid "Could not load address book"
 msgstr "Aadressiraamatut pole võimalik laadida"
 
 msgid "Could not read pilot's Address application block"
-msgstr "Pilot'i aadressirakenduse blokki pole võimalik lugeda"
+msgstr "Piloti aadressirakenduse blokki pole võimalik lugeda"
 
 msgid "Autocompletion"
 msgstr "Automaatlõpetus"
@@ -1890,10 +1890,10 @@ msgid "Importing..."
 msgstr "Importimine..."
 
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr "Outlook'i CSV või Tab (.csv, .tab)"
+msgstr "Outlooki CSV või Tab (.csv, .tab)"
 
 msgid "Outlook CSV and Tab Importer"
-msgstr "Outlook'i CSV ja Tab-i importija"
+msgstr "Outlooki CSV ja Tab-i importija"
 
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozilla CSV või Tab (.csv, .tab)"
@@ -2323,22 +2323,22 @@ msgid "Could not start evolution-data-server"
 msgstr "Andmeserverit pole võimalik käivitada (evolution-data-server)"
 
 msgid "Could not read pilot's Calendar application block"
-msgstr "Pilot'i kalendrirakenduse blokki pole võimalik lugeda"
+msgstr "Piloti kalendrirakenduse blokki pole võimalik lugeda"
 
 msgid "Could not read pilot's Memo application block"
-msgstr "Pilot'i märkmerakenduse blokki pole võimalik lugeda"
+msgstr "Piloti märkmerakenduse blokki pole võimalik lugeda"
 
 msgid "Could not write pilot's Memo application block"
-msgstr "Pilot'i märkmerakenduse blokki pole võimalik kirjutada"
+msgstr "Piloti märkmerakenduse blokki pole võimalik kirjutada"
 
 msgid "Default Priority:"
 msgstr "Vaikimisi tähtsus:"
 
 msgid "Could not read pilot's ToDo application block"
-msgstr "Pilot'i ülesanderakenduse blokki pole võimalik lugeda"
+msgstr "Piloti ülesanderakenduse blokki pole võimalik lugeda"
 
 msgid "Could not write pilot's ToDo application block"
-msgstr "Pilot'i ülesanderakenduse blokki pole võimalik kirjutada"
+msgstr "Piloti ülesanderakenduse blokki pole võimalik kirjutada"
 
 msgid "Calendar and Tasks"
 msgstr "Kalender ja ülesanded"
@@ -2531,10 +2531,10 @@ msgstr ""
 
 msgid ""
 "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr "Marcus Bains'i joone värvus ajaribal (vaikimisi tühi)."
+msgstr "Marcus Bainsi joone värvus ajaribal (vaikimisi tühi)."
 
 msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr "Marcus Bains'i joone värvus päeva vaatel."
+msgstr "Marcus Bainsi joone värvus päeva vaatel."
 
 msgid "Compress weekends in month view"
 msgstr "Kuuvaatel kuvatakse nädalalõpud kokkusurutud vormis"
@@ -2606,13 +2606,13 @@ msgid "List of server URLs for free/busy publishing."
 msgstr "Serveri url-ide loend vaba/hõivatud andmete avaldamiseks."
 
 msgid "Marcus Bains Line"
-msgstr "Marcus Bains'i joon"
+msgstr "Marcus Bainsi joon"
 
 msgid "Marcus Bains Line Color - Day View"
-msgstr "Marcus Bains'i joone värv - päeva vaade"
+msgstr "Marcus Bainsi joone värv - päeva vaade"
 
 msgid "Marcus Bains Line Color - Time bar"
-msgstr "Marcus Bains'i joone värv - ajariba"
+msgstr "Marcus Bainsi joone värv - ajariba"
 
 msgid ""
 "Maximum number of recently used timezones to remember in a "
@@ -2826,8 +2826,7 @@ msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
 
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr ""
-"Kas kalendris kuvatakse Marcus Bains'i joont (joon praeguse aja kohal)."
+msgstr "Kas kalendris kuvatakse Marcus Bainsi joont (joon praeguse aja kohal)."
 
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "Kas lõpetatud ülesanded peidetakse ülesandevaates."
@@ -6890,15 +6889,11 @@ msgstr "Kellele-vastata välja kuvamise sisse- või väljalülitamine"
 msgid "Save Draft"
 msgstr "Mustandi salvestamine"
 
-#, fuzzy
-#| msgid "Sho_w: "
 msgid "Show"
-msgstr "_Kategooria: "
+msgstr ""
 
-#, fuzzy
-#| msgid "_Hide"
 msgid "Hide"
-msgstr "_Peida"
+msgstr ""
 
 msgid "Enter the recipients of the message"
 msgstr "Sisesta sõnumi adressaadid"
@@ -7074,7 +7069,7 @@ msgid ""
 msgstr ""
 "HTML-redaktori juhtimist pole võimalik aktiveerida.\n"
 "\n"
-"Palun veendu, et sul on paigaldatud korreksed gtkhtml'i ja libgtkhtml'i "
+"Palun veendu, et sul on paigaldatud korreksed gtkhtmli ja libgtkhtmli "
 "versioonid."
 
 msgid "Unable to activate the address selector control."
@@ -7264,7 +7259,7 @@ msgstr "Sama sisuga silt on serveris juba olemas. Palun muuda oma sildi nime."
 
 #, c-format
 msgid "GConf error: %s"
-msgstr "GConf'i viga: %s"
+msgstr "GConfi viga: %s"
 
 msgid "All further errors shown only on terminal."
 msgstr "Kõiki ülejäänud vigu näidatakse ainult terminalil."
@@ -7866,10 +7861,8 @@ msgstr "Sõnum on rämps"
 msgid "Message is not Junk"
 msgstr "Sõnum ei ole rämpspost"
 
-#, fuzzy
-#| msgid "Message contains"
 msgid "Message Location"
-msgstr "Sõnum sisaldab"
+msgstr "Sõnumi asukoht"
 
 msgid "Move to Folder"
 msgstr "Tõsta kausta"
@@ -9372,10 +9365,10 @@ msgid "Underline color for misspelled words when using inline spelling."
 msgstr ""
 
 msgid "Use SpamAssassin daemon and client"
-msgstr "SpamAssassin'i deemoni ja kliendi kasutamine"
+msgstr "SpamAssassini deemoni ja kliendi kasutamine"
 
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "SpamAssassin'i deemoni ja kliendi (spamc/spamd) kasutamine."
+msgstr "SpamAssassini deemoni ja kliendi (spamc/spamd) kasutamine."
 
 msgid "Use custom fonts"
 msgstr "Kohandatud kirjatüüpide kasutamine"
@@ -9422,10 +9415,10 @@ msgid "Width of the message-list pane."
 msgstr "Sõnumiloendi paani laius."
 
 msgid "Importing Elm data"
-msgstr "Elm'i andmete importimine"
+msgstr "Elmi andmete importimine"
 
 msgid "Evolution Elm importer"
-msgstr "Evolutioni Elm'i importija"
+msgstr "Evolutioni Elmi importija"
 
 msgid "Import mail from Elm."
 msgstr "Postkasti importimine programmist Elm."
@@ -9560,7 +9553,7 @@ msgid "(Note: Requires restart of the application)"
 msgstr "(Märkus: rakendus tuleb taaskäivitada)"
 
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b>Käesolev Evolition ehitatud ilma SSL'i toeta</b>"
+msgstr "<b>Käesolev Evolition ehitatud ilma SSL-i toeta</b>"
 
 msgid "<b>Sender Photograph</b>"
 msgstr "<b>Saatja foto</b>"
@@ -9673,13 +9666,11 @@ msgstr "Krüptitud sõnumi saatmisel krüptitakse alati ka _enda jaoks"
 msgid "Always request rea_d receipt"
 msgstr "_Lugemiskinnitust küsitakse alati"
 
-#, fuzzy
-#| msgid "Attachment Reminder"
 msgid ""
 "Attachment\n"
 "Inline\n"
 "Quoted"
-msgstr "Manuste meeldetuletaja"
+msgstr ""
 
 msgid ""
 "Attachment\n"
@@ -10360,7 +10351,7 @@ msgstr "Puhverkataloogi `%s' pole võimalik luua: %s"
 
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "Movemail'i proovimine mitte-mbox allikaga `%s'"
+msgstr "Movemaili proovimine mitte-mbox allikaga `%s'"
 
 #, c-format
 msgid "Forwarded message - %s"
@@ -11005,10 +10996,8 @@ msgstr "Saatja sisaldab"
 msgid "Subject contains"
 msgstr "Teema sisaldab"
 
-#, fuzzy
-#| msgid "Subject or Sender contains"
 msgid "Subject or Addresses contains"
-msgstr "Teema või saatja sisaldab"
+msgstr "Teema või aadressid sisaldavad"
 
 msgid "Subject or Recipients contains"
 msgstr "Teema või vastuvõtja sisaldab"
@@ -11016,10 +11005,8 @@ msgstr "Teema või vastuvõtja sisaldab"
 msgid "Subject or Sender contains"
 msgstr "Teema või saatja sisaldab"
 
-#, fuzzy
-#| msgid "List local address book folders"
 msgid "Add local address books to Evolution."
-msgstr "Kohalike aadressiraamatute kaustade nimekiri"
+msgstr "Kohalike aadressiraamatute lisamine Evolutioni."
 
 msgid "Local Address Books"
 msgstr "Kohalikud aadressiraamatud"
@@ -11064,10 +11051,8 @@ msgstr "_Lisa manus..."
 msgid "_Edit Message"
 msgstr "_Redigeeri sõnumit"
 
-#, fuzzy
-#| msgid "Audio inline plugin"
 msgid "Audio Inline"
-msgstr "Audioesitamine"
+msgstr ""
 
 msgid "Play audio attachments directly from Evolution."
 msgstr "Audiomanuste esitamine otse Evolutionis."
@@ -11186,10 +11171,8 @@ msgstr "Sõltuvalt andmete hulgast, võib see veidi aega võtta."
 msgid "Backup and Restore"
 msgstr "Varundamine ja taastamine"
 
-#, fuzzy
-#| msgid "Backup and restore Evolution data and settings"
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Evolutioni andmete ja seadistuste varundamine"
+msgstr "Sinu Evolutioni andmete ja seadistuste varundamine"
 
 msgid "Are you sure you want to close Evolution?"
 msgstr "Kas sa soovid Evolutioni sulgeda?"
@@ -11260,10 +11243,10 @@ msgstr "Kiirsuhtluse kontaktid"
 
 #. Enable Gaim Checkbox
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr "Kontaktandmete ja piltide sünkroniseerimine Pidgin'i sõbranimekirjaga"
+msgstr "Kontaktandmete ja piltide sünkroniseerimine Pidgini sõbranimekirjaga"
 
 msgid "Select Address book for Pidgin buddy list"
-msgstr "Vali Pidgin'i sõbranimekirja jaoks aadressiraamat"
+msgstr "Vali Pidgini sõbranimekirja jaoks aadressiraamat"
 
 #. Synchronize now button.
 msgid "Synchronize with _buddy list now"
@@ -11319,16 +11302,12 @@ msgstr ""
 "(rämps)postifiltrid saaksid universaalselt käitleda erinevates "
 "kooditabelites olevaid sõnumeid."
 
-#, fuzzy
-#| msgid "Bogofilter junk plugin"
 msgid "Bogofilter Junk Filter"
-msgstr "Bogofilter - rämpspostiplugin"
+msgstr "Bogofilter - rämpspostifilter"
 
 msgid "Bogofilter Options"
 msgstr "Bogofiltri valikud"
 
-#, fuzzy
-#| msgid "Filters junk messages using Bogofilter."
 msgid "Filter junk messages using Bogofilter."
 msgstr "Rämpsposti filtreerimine Bogofiltri abil."
 
@@ -11499,8 +11478,6 @@ msgid "Email Custom Header"
 msgstr "E-posti kohandatud päised"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
-#, fuzzy
-#| msgid "Adds custom header to outgoing messages."
 msgid "Add custom headers to outgoing mail messages."
 msgstr "Kohandatud päise lisamine väljaminevatele sõnumitele."
 
@@ -12017,7 +11994,7 @@ msgid "Could not determine folder permissions for delegates."
 msgstr "Kataloogi pääsuõiguseid delegaatidele pole võimalik tuvastada."
 
 msgid "Could not find Exchange Web Storage System."
-msgstr "Exchange Web Storage System'it pole võimalik leida."
+msgstr "Exchange Web Storage Systemit pole võimalik leida."
 
 msgid "Could not locate server {0}."
 msgstr "Serveri {0} asukohta pole võimalik tuvastada."
@@ -12285,10 +12262,8 @@ msgstr ""
 "Evolutionil pole võimalik sõnumi salvestamiseks ajutist faili luua. Proovi "
 "hiljem uuesti."
 
-#, fuzzy
-#| msgid "External Editor"
 msgid "External editor still running"
-msgstr "Väline redaktor"
+msgstr "Väline redaktor pole veel lõpetanud"
 
 msgid ""
 "The external editor is still running. The mail composer window cannot be "
@@ -12305,21 +12280,15 @@ msgstr ""
 msgid "Command to be executed to launch the editor: "
 msgstr "Redaktori käivitamiseks kasutatav käsk: "
 
-#, fuzzy
-#| msgid ""
-#| "For Emacs use \"xemacs\"\n"
-#| "For VI use \"gvim\""
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim -f\""
 msgstr ""
-"Emacs'i jaoks kasuta \"xemacs\"\n"
-"VI jaoks kasuta \"gvim\""
+"Emacsi jaoks kasuta \"xemacs\"\n"
+"VI jaoks kasuta \"gvim -f\""
 
-#, fuzzy
-#| msgid "Compose in _External Editor"
 msgid "Compose in External Editor"
-msgstr "Koostamine _välise redaktor abil"
+msgstr "Koostamine välise redaktor abil"
 
 msgid "Select a (48*48) png of size < 700bytes"
 msgstr "Vali PNG-pilt mõõtmetega 48x48 ja suurusega mitte rohkem kui 700 baiti"
@@ -12472,10 +12441,8 @@ msgstr "E-posti tagasivõtmine"
 msgid "Add Send Options to GroupWise messages"
 msgstr "Saatmisvalikute lisamine GroupWise'i sõnumitele"
 
-#, fuzzy
-#| msgid "A plugin for the features in GroupWise accounts."
 msgid "Fine-tune your GroupWise accounts."
-msgstr "Plugin GroupWise kontode võimaluste jaoks."
+msgstr ""
 
 msgid "GroupWise Features"
 msgstr "GroupWise'i võimalused"
@@ -12486,8 +12453,58 @@ msgstr ""
 msgid "The server did not allow the selected message to be retracted."
 msgstr ""
 
+#, fuzzy
+#| msgid "Are you sure you want to delete this meeting?"
+msgid "Do you want to resend the meeting ?"
+msgstr "Kas sa soovid kustutada seda koosolekut?"
+
+#, fuzzy
+#| msgid "Are you sure you want to delete this meeting?"
+msgid "Do you want to resend the recurring meeting ?"
+msgstr "Kas sa soovid kustutada seda koosolekut?"
+
+#, fuzzy
+#| msgid "Do you want to recover unfinished messages?"
+msgid "Do you want to retract the original item ?"
+msgstr "Kas sa soovid lõpetamata sõnumid taastada?"
+
+msgid "The original will be removed from the recipient's mailbox."
+msgstr ""
+
+msgid "This is a recurring meeting"
+msgstr "See on korduv kohtumine"
+
+msgid "This will create a new meeting using the existing meeting details."
+msgstr ""
+
+msgid ""
+"This will create a new meeting with the existing meeting details. The "
+"recurrence rule needs to be re-entered."
+msgstr ""
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+msgid "Would you like to accept it?"
+msgstr "Kas nõustud sellega?"
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+msgid "Would you like to decline it?"
+msgstr "Kas lükkad selle tagasi?"
+
+msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
+msgstr "Konto &quot;{0}&quot; on juba olemas. Palun kontrolli oma kaustapuud."
+
+msgid "Account Already Exists"
+msgstr "Konto on juba olemas"
+
 msgid "Invalid user"
 msgstr "Vigane kasutaja"
+
+msgid ""
+"Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
+"address and try again."
+msgstr ""
+"Proksisse kasutajana &quot;{0}&quot; sisselogimine nurjus. Palun kontrolli "
+"oma e-posti aadressi ja proovi uuesti."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
@@ -12503,19 +12520,6 @@ msgstr "Sa oled sellele kasutajale juba proksile ligipääsu andnud."
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
-
-msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "Konto &quot;{0}&quot; on juba olemas. Palun kontrolli oma kaustapuud."
-
-msgid "Account Already Exists"
-msgstr "Konto on juba olemas"
-
-msgid ""
-"Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
-"address and try again."
-msgstr ""
-"Proksisse kasutajana &quot;{0}&quot; sisselogimine nurjus. Palun kontrolli "
-"oma e-posti aadressi ja proovi uuesti."
 
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
 msgstr "Sul pole võimalik kausta määratud kasutajale &quot;{0}&quot; jagada"
@@ -12753,28 +12757,28 @@ msgstr ""
 "programm uuesti või võta ühendust oma süsteemiülemaga."
 
 msgid "Search for an iPod failed"
-msgstr "Tõrge iPod'i leidmisel"
+msgstr "Tõrge iPodi leidmisel"
 
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
-"Evolution ei leia sünkroniseerimiseks iPod'i. iPod pole kas ühendatud või "
+"Evolution ei leia sünkroniseerimiseks iPodi. iPod pole kas ühendatud või "
 "pole see sisse lülitatud."
 
 msgid "iCalendar format (.ics)"
 msgstr "iKalendri vorming (.ics)"
 
 msgid "Synchronize to iPod"
-msgstr "Sünkroniseeri iPod'iga"
+msgstr "Sünkroniseeri iPodiga"
 
 #, fuzzy
 #| msgid "Synchronize to iPod"
 msgid "Synchronize your data with your Apple iPod."
-msgstr "Sünkroniseeri iPod'iga"
+msgstr "Sünkroniseeri iPodiga"
 
 msgid "iPod Synchronization"
-msgstr "iPod'iga sünkroniseerimine"
+msgstr "iPodiga sünkroniseerimine"
 
 #, c-format
 msgid "Failed to load the calendar '%s'"
@@ -13680,10 +13684,8 @@ msgstr "Kõigi loetuksmärkimine"
 msgid "Mark Me_ssages as Read"
 msgstr "Märgi sõnumid _loetuks"
 
-#, fuzzy
-#| msgid "Mark all messages in the folder as read"
 msgid "Mark all messages in a folder as read."
-msgstr "Kõigi selles kaustas olevate sõnumite märkimine loetuks"
+msgstr "Kõigi kaustas olevate sõnumite märkimine loetuks."
 
 msgid "Mono Loader"
 msgstr "Mono laadur"
@@ -13748,10 +13750,10 @@ msgid "Profile data events in Evolution (for developers only)."
 msgstr ""
 
 msgid "Import Outlook messages from PST file"
-msgstr "Outlook'i kirjade importimine PST failist"
+msgstr "Outlooki kirjade importimine PST failist"
 
 msgid "Outlook PST import"
-msgstr "Outlook'i PST importija"
+msgstr "Outlooki PST importija"
 
 msgid "Outlook personal folders (.pst)"
 msgstr ""
@@ -13769,7 +13771,7 @@ msgid "_Journal entries"
 msgstr "_Päeviku sissekanded"
 
 msgid "Importing Outlook data"
-msgstr "Outlook'i andmete importimine"
+msgstr "Outlooki andmete importimine"
 
 msgid "Calendar Publishing"
 msgstr "Kalendri avalikustamine"
@@ -13777,23 +13779,19 @@ msgstr "Kalendri avalikustamine"
 msgid "Locations"
 msgstr "Asukohad"
 
-#, fuzzy
-#| msgid "Allows calendars to be published to the web"
 msgid "Publish calendars to the web."
-msgstr "Plugin kalendrite avalikustamiseks veebis"
+msgstr "Kalendrite avalikustamine veebis."
 
 msgid "_Publish Calendar Information"
 msgstr "_Publitseeri kalendri andmed"
 
-#, fuzzy, c-format
-#| msgid "Could not open source"
+#, c-format
 msgid "Could not open %s:"
-msgstr "Lähteallika avamine nurjus"
+msgstr ""
 
-#, fuzzy, c-format
-#| msgid "Could not parse PGP message: Unknown error"
+#, c-format
 msgid "Could not open %s: Unknown error"
-msgstr "PGP-sõnumit pole võimalik analüüsida: Tundmatu viga"
+msgstr "%s avamine pole võimalik: Tundmatu viga"
 
 #, c-format
 msgid "There was an error while publishing to %s:"
@@ -13925,7 +13923,7 @@ msgstr "Pythoni laadur"
 
 #, c-format
 msgid "SpamAssassin not found, code: %d"
-msgstr "SpamAssassin'it ei leitud, kood: %d"
+msgstr "SpamAssassinit ei leitud, kood: %d"
 
 #, c-format
 msgid "Failed to create pipe: %s"
@@ -13937,7 +13935,7 @@ msgstr "Viga pärast fork'i: %s"
 
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr "SpamAssassin'i lapsprotsess ei vasta ja seetõttu kõrvaldatakse..."
+msgstr "SpamAssassini lapsprotsess ei vasta ja seetõttu kõrvaldatakse..."
 
 #, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
@@ -13957,18 +13955,14 @@ msgstr "See teeb filtri usaldusväärsemaks, kuid samas ka aeglasemaks"
 msgid "I_nclude remote tests"
 msgstr "_Kaasatakse ka välised testid"
 
-#, fuzzy
-#| msgid "Filters junk messages using Bogofilter."
 msgid "Filter junk messages using SpamAssassin."
-msgstr "Rämpsposti filtreerimine Bogofiltri abil."
+msgstr "Rämpsposti filtreerimine SpamAssassini abil."
 
-#, fuzzy
-#| msgid "SpamAssassin junk plugin"
 msgid "SpamAssassin Junk Filter"
-msgstr "SpamAssassin rämpspostiplugin"
+msgstr "SpamAssassin - rämpspostifilter"
 
 msgid "SpamAssassin Options"
-msgstr "SpamAssassin'i valikud"
+msgstr "SpamAssassini valikud"
 
 #.
 #. * Translator: the %F %T is the thirth argument for a strftime function.
@@ -14031,10 +14025,8 @@ msgstr "Komaga eraldatud väärtuste vorming (.csv)"
 msgid "Save Selected"
 msgstr "Valitu salvestamine"
 
-#, fuzzy
-#| msgid "Saves selected calendar or tasks list to disk."
 msgid "Save a calendar or task list to disk."
-msgstr "Valitud kalendri või ülesannete salvestamine kettale."
+msgstr "Kalendri või ülesannete salvestamine kettale."
 
 msgid "_Save to Disk"
 msgstr "_Salvesta kettale"
@@ -14160,8 +14152,6 @@ msgstr "Kogu vKaardi kuvamine"
 msgid "Show Compact vCard"
 msgstr "Kompaktse vKaardi näitamine"
 
-#| msgid "There is one other contact."
-#| msgid_plural "There are %d other contacts."
 msgid "There is one other contact."
 msgstr ""
 
@@ -14171,18 +14161,14 @@ msgid_plural "There are %d other contacts."
 msgstr[0] ""
 msgstr[1] ""
 
-#, fuzzy
-#| msgid "Save in address book"
 msgid "Save in Address Book"
 msgstr "Salvesta aadressiraamatusse"
 
-#, fuzzy
-#| msgid "WebDAV contacts"
 msgid "Add WebDAV contacts to Evolution."
-msgstr "WebDAV'i kontaktid"
+msgstr "WebDAVi kontaktidd lisamine Evolutioni."
 
 msgid "WebDAV contacts"
-msgstr "WebDAV'i kontaktid"
+msgstr "WebDAVi kontaktid"
 
 msgid "WebDAV"
 msgstr "WebDAV"
@@ -14488,10 +14474,9 @@ msgstr "%s - Evolution"
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr "GNOME Pilot vahendid ei paista sellesse süsteemi paigaldatud olevat."
 
-#, fuzzy, c-format
-#| msgid "Error executing %s."
+#, c-format
 msgid "Error executing %s. (%s)"
-msgstr "Viga %s käivitamisel."
+msgstr "Viga %s käivitamisel. (%s)"
 
 msgid "Bug buddy is not installed."
 msgstr "Veateatamisprogramm ei ole paigaldatud."
@@ -14558,7 +14543,7 @@ msgid "Invalid arguments"
 msgstr "Vigased argumendid"
 
 msgid "Cannot register on OAF"
-msgstr "OAF'i pole võimalik registreerida"
+msgstr "OAF-i pole võimalik registreerida"
 
 msgid "Configuration Database not found"
 msgstr "Ei leia seadistuste andmebaasi"
@@ -16083,7 +16068,7 @@ msgid "Send queued items and retrieve new items"
 msgstr "Järjekorras olevate sõnumite ärasaatmine ja uute vastuvõtmine"
 
 msgid "Set up Pilot configuration"
-msgstr "Pilot'i sätete määramine"
+msgstr "Piloti sätete määramine"
 
 msgid "Show Side _Bar"
 msgstr "Näita _külgpaani"
@@ -16349,10 +16334,9 @@ msgstr "Manuste meeldetuletaja"
 msgid "Could not save '%s'"
 msgstr "'%s' käivitamine pole võimalik: %s\n"
 
-#, fuzzy, c-format
-#| msgid "Select folder to save all attachments"
+#, c-format
 msgid "Could not save the attachment"
-msgstr "Kõikide manuste salvestamiseks kataloogi valimine"
+msgstr "Manust pole võimalik salvestada"
 
 msgid "Attachment Properties"
 msgstr "Manuse omadused"
@@ -16363,10 +16347,8 @@ msgstr "_Failinimi:"
 msgid "MIME Type:"
 msgstr "MIME-tüüp:"
 
-#, fuzzy
-#| msgid "Set as _Background"
 msgid "Could not set as background"
-msgstr "Säti _taustapildiks"
+msgstr "Tausta pole võimalik määrata"
 
 msgid "Could not send attachment"
 msgid_plural "Could not send attachments"
@@ -16378,10 +16360,8 @@ msgstr[1] "Manuseid pole võimalik saata"
 msgid "_Send To..."
 msgstr "Kellele saata:"
 
-#, fuzzy
-#| msgid "Select folder to save selected attachments..."
 msgid "Send the selected attachments somewhere"
-msgstr "Valitud manuste salvestamiseks kataloogi valimine..."
+msgstr ""
 
 msgid "Loading"
 msgstr "Laadimine"
@@ -16395,39 +16375,30 @@ msgstr "Peida _manuseriba"
 msgid "Show _Attachment Bar"
 msgstr "Näita _manuseriba"
 
-#, fuzzy
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgid "Add Attachment"
-msgstr "manus"
+msgstr ""
 
 msgid "A_ttach"
 msgstr "_Manusta"
 
-#, fuzzy
-#| msgid "Save attachments"
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "Manuste salvestamine"
+msgstr[0] "Manuse salvestamine"
 msgstr[1] "Manuste salvestamine"
 
 msgid "S_ave All"
 msgstr "_Salvesta kõik"
 
-#, fuzzy
-#| msgid "_Add attachment..."
 msgid "A_dd Attachment..."
 msgstr "_Lisa manus..."
 
-#, fuzzy, c-format
-#| msgid "Open in %s..."
+#, c-format
 msgid "Open with \"%s\""
-msgstr "Ava programmiga %s..."
+msgstr "Ava programmiga \"%s\"..."
 
-#, fuzzy, c-format
-#| msgid "Save attachment as"
+#, c-format
 msgid "Open this attachment in %s"
-msgstr "Manuse salvestamine kui"
+msgstr ""
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 msgid "%B %Y"
@@ -17566,15 +17537,6 @@ msgstr ""
 
 #~ msgid "A plugin to setup GroupWise calendar and contacts sources."
 #~ msgstr "Plugin GroupWise kalendri- ja kontaktiallikate seadistamiseks."
-
-#~ msgid "This is a recurring meeting"
-#~ msgstr "See on korduv kohtumine"
-
-#~ msgid "Would you like to accept it?"
-#~ msgstr "Kas nõustud sellega?"
-
-#~ msgid "Would you like to decline it?"
-#~ msgstr "Kas lükkad selle tagasi?"
 
 #~ msgid "A plugin to setup hula calendar sources."
 #~ msgstr "Plugin Hula kalendriallikate seadistamiseks."
