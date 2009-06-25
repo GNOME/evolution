@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-util/e-plugin-ui.h>
-#include <mail/e-mail-shell-sidebar.h>
 #include <mail/em-folder-tree.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-mt.h>
@@ -37,6 +36,7 @@
 #include "e-util/e-error.h"
 
 #include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-window-actions.h>
 
@@ -272,16 +272,12 @@ static void
 action_mail_mark_read_recursive_cb (GtkAction *action,
                                     EShellView *shell_view)
 {
-	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
 	const gchar *folder_uri;
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
-	g_return_if_fail (E_IS_MAIL_SHELL_SIDEBAR (shell_sidebar));
-
-	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	g_return_if_fail (folder_uri != NULL);
 

@@ -1790,7 +1790,7 @@ plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS 
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
-enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http default-source external-editor google-account-setup hula-account-setup imap-features mail-notification plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
+enable_plugins="attachment-reminder addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mark-all-read plugin-manager profiler sa-junk-plugin save-calendar subject-thread $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
 
 dnl PLUGINS NOT BUILDING YET
 dnl ------------------------
@@ -1806,7 +1806,6 @@ dnl ipod-sync
 dnl itip-formatter
 dnl mailing-list-actions
 dnl mail-to-task
-dnl mark-all-read
 dnl mono
 dnl prefer-plain
 dnl pst-import
