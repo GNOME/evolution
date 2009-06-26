@@ -32,10 +32,12 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <gtkhtml/gtkhtml.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
 #include <libedataserver/e-account.h>
 #include <libedataserverui/e-source-selector-dialog.h>
+
 #include <camel/camel-folder.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
@@ -43,15 +45,31 @@
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-utf8.h>
-#include "mail/em-menu.h"
-#include "mail/em-popup.h"
-#include "mail/em-utils.h"
-#include "mail/em-folder-view.h"
-#include "mail/em-format-html.h"
-#include "mail/mail-config.h"
-#include "e-util/e-dialog-utils.h"
-#include <gtkhtml/gtkhtml.h>
+
+#include <mail/em-menu.h>
+#include <mail/em-popup.h>
+#include <mail/em-utils.h>
+#include <mail/em-folder-view.h>
+#include <mail/em-format-html.h>
+#include <mail/mail-config.h>
+#include <e-util/e-account-utils.h>
+#include <e-util/e-dialog-utils.h>
 #include <calendar/common/authentication.h>
+#include <misc/e-popup-action.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window-actions.h>
+
+#define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-event")
+#define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-meeting")
+#define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-memo")
+#define E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-task")
+
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
+						 EShellView *shell_view);
 
 static gchar *
 clean_name(const guchar *s)
@@ -214,7 +232,7 @@ set_organizer (ECalComponent *comp)
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 	gchar *res;
 
-	account = mail_config_get_default_account ();
+	account = e_get_default_account ();
 	if (!account)
 		return NULL;
 
@@ -476,12 +494,6 @@ do_mail_to_event (AsyncData *data)
 	return TRUE;
 }
 
-static void
-copy_uids (gchar *uid, GPtrArray *uid_array)
-{
-	g_ptr_array_add (uid_array, g_strdup (uid));
-}
-
 static gboolean
 text_contains_nonwhitespace (const gchar *text, gint len)
 {
@@ -509,47 +521,51 @@ text_contains_nonwhitespace (const gchar *text, gint len)
 
 /* should be freed with g_free after done with it */
 static gchar *
-get_selected_text (EMFolderView *emfv)
+get_selected_text (EMailReader *reader)
 {
+	EMFormatHTMLDisplay *html_display;
+	GtkHTML *html;
 	gchar *text = NULL;
 	gint len;
 
-	if (!emfv || !emfv->preview || !gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active"))
+	html_display = e_mail_reader_get_html_display (reader);
+	html = EM_FORMAT_HTML (html_display)->html;
+
+	if (!gtk_html_command (html, "is-selection-active"))
 		return NULL;
 
-	if (gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active")
-	    && (text = gtk_html_get_selection_plain_text (((EMFormatHTML *)emfv->preview)->html, &len))
-	    && len && text && text[0] && text_contains_nonwhitespace (text, len)) {
-		/* selection is ok, so use it as returned from gtkhtml widget */
-	} else {
+	text = gtk_html_get_selection_plain_text (html, &len);
+
+	if (text == NULL || !text_contains_nonwhitespace (text, len)) {
 		g_free (text);
-		text = NULL;
+		return NULL;
 	}
 
 	return text;
 }
 
 static void
-mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *uids, CamelFolder *folder, EMFolderView *emfv)
+mail_to_event (ECalSourceType source_type,
+               gboolean with_attendees,
+               EShellView *shell_view)
 {
-	GPtrArray *uid_array = NULL;
+	EShellContent *shell_content;
+	EMailReader *reader;
+	MessageList *message_list;
+	CamelFolder *folder;
+	GPtrArray *selected;
 	ESourceList *source_list = NULL;
 	gboolean done = FALSE;
 	GSList *groups, *p;
 	ESource *source = NULL;
 	GError *error = NULL;
 
-	g_return_if_fail (uids != NULL);
-	g_return_if_fail (folder != NULL);
-	g_return_if_fail (emfv != NULL);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	if (uids->len > 0) {
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		/* nothing selected */
-		return;
-	}
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	selected = message_list_get_selected (message_list);
+	folder = message_list->folder;
 
 	if (!e_cal_get_sources (&source_list, source_type, &error)) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
@@ -615,11 +631,11 @@ mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *u
 		data = g_new0 (AsyncData, 1);
 		data->client = client;
 		data->folder = folder;
-		data->uids = uid_array;
+		data->uids = selected;
 		data->with_attendees = with_attendees;
 
-		if (uid_array->len == 1)
-			data->selected_text = get_selected_text (emfv);
+		if (selected->len == 1)
+			data->selected_text = get_selected_text (reader);
 		else
 			data->selected_text = NULL;
 
@@ -633,70 +649,135 @@ mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *u
 	g_object_unref (source_list);
 }
 
-/* ************************************************************************* */
-
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
-void org_gnome_mail_to_event (gpointer ep, EMPopupTargetSelect *t);
-void org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_meeting (gpointer ep, EMPopupTargetSelect *t);
-void org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_task (gpointer ep, EMPopupTargetSelect *t);
-void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t);
-void org_gnome_mail_to_memo (gpointer ep, EMPopupTargetSelect *t);
-void org_gnome_mail_to_memo_menu (EPlugin *ep, EMMenuTargetSelect *t);
-
-gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+static void
+action_mail_convert_to_event_cb (GtkAction *action,
+                                 EShellView *shell_view)
 {
-	return 0;
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, shell_view);
 }
 
-void
-org_gnome_mail_to_event (gpointer ep, EMPopupTargetSelect *t)
+static void
+action_mail_convert_to_meeting_cb (GtkAction *action,
+                                   EShellView *shell_view)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, shell_view);
 }
 
-void
-org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t)
+static void
+action_mail_convert_to_memo_cb (GtkAction *action,
+                                EShellView *shell_view)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, shell_view);
 }
 
-void
-org_gnome_mail_to_meeting (gpointer ep, EMPopupTargetSelect *t)
+static void
+action_mail_convert_to_task_cb (GtkAction *action,
+                                EShellView *shell_view)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+	mail_to_event (E_CAL_SOURCE_TYPE_TODO, FALSE, shell_view);
 }
 
-void
-org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t)
+static GtkActionEntry entries[] = {
+
+	{ "mail-convert-to-event",
+	  "appointment-new",
+	  N_("Convert to an _Event"),
+	  NULL,
+	  N_("Convert the selected messages to an event"),
+	  G_CALLBACK (action_mail_convert_to_event_cb) },
+
+	{ "mail-convert-to-meeting",
+	  "stock_new-meeting",
+	  N_("Convert to a _Meeting"),
+	  NULL,
+	  N_("Convert the selected messages to a meeting"),
+	  G_CALLBACK (action_mail_convert_to_meeting_cb) },
+
+	{ "mail-convert-to-memo",
+	  "stock_insert-note",
+	  N_("Convert to a Mem_o"),
+	  NULL,
+	  N_("Convert the selected messages to a memo"),
+	  G_CALLBACK (action_mail_convert_to_memo_cb) },
+
+	{ "mail-convert-to-task",
+	  "stock_todo",
+	  N_("Convert to a _Task"),
+	  NULL,
+	  N_("Convert the selected messages to a task"),
+	  G_CALLBACK (action_mail_convert_to_task_cb) }
+};
+
+static EPopupActionEntry popup_entries[] = {
+
+	{ "mail-popup-convert-to-event",
+	  NULL,
+	  "mail-convert-to-event" },
+
+	{ "mail-popup-convert-to-meeting",
+	  NULL,
+	  "mail-convert-to-meeting" },
+
+	{ "mail-popup-convert-to-memo",
+	  NULL,
+	  "mail-convert-to-memo" },
+
+	{ "mail-popup-convert-to-task",
+	  NULL,
+	  "mail-convert-to-task" }
+};
+
+static void
+update_actions_cb (EShellView *shell_view)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	gboolean sensitive;
+	guint32 state;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	state = e_mail_reader_check_state (E_MAIL_READER (shell_content));
+
+	sensitive =
+		(state & E_MAIL_READER_SELECTION_SINGLE) ||
+		(state & E_MAIL_READER_SELECTION_MULTIPLE);
+
+	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
 }
 
-void
-org_gnome_mail_to_task (gpointer ep, EMPopupTargetSelect *t)
+gboolean
+e_plugin_ui_init (GtkUIManager *ui_manager,
+                  EShellView *shell_view)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_TODO, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
-}
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
 
-void
-org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
-{
-	mail_to_event (E_CAL_SOURCE_TYPE_TODO, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
-}
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = e_shell_window_get_action_group (shell_window, "mail");
 
-void
-org_gnome_mail_to_memo (gpointer ep, EMPopupTargetSelect *t)
-{
-	/* do not set organizer and attendees for memos */
-	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
-}
+	gtk_action_group_add_actions (
+		action_group, entries,
+		G_N_ELEMENTS (entries), shell_view);
+	e_action_group_add_popup_actions (
+		action_group, popup_entries,
+		G_N_ELEMENTS (popup_entries));
 
-void
-org_gnome_mail_to_memo_menu (EPlugin *ep, EMMenuTargetSelect *t)
-{
-	/* do not set organizer and attendees for memos */
-	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+	g_signal_connect (
+		shell_view, "update-actions",
+		G_CALLBACK (update_actions_cb), NULL);
+
+	return TRUE;
 }

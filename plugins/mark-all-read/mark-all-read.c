@@ -38,7 +38,6 @@
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
-#include <shell/e-shell-window-actions.h>
 
 #define PRIMARY_TEXT \
 	N_("Also mark messages in subfolders?")
@@ -283,6 +282,8 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 
 	mail_get_folder (
 		folder_uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
+
+	g_object_unref (folder_tree);
 }
 
 static GtkActionEntry entries[] = {
@@ -303,9 +304,9 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 	GtkActionGroup *action_group;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
+	action_group = e_shell_window_get_action_group (shell_window, "mail");
 
-	/* Add actions to the "shell" action group. */
+	/* Add actions to the "mail" action group. */
 	gtk_action_group_add_actions (
 		action_group, entries,
 		G_N_ELEMENTS (entries), shell_view);

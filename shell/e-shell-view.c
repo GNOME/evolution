@@ -188,6 +188,31 @@ shell_view_state_timeout_cb (EShellView *shell_view)
 	return FALSE;
 }
 
+static gboolean
+shell_view_register_ui_manager (EShellView *shell_view)
+{
+	EShellViewClass *shell_view_class;
+	EShellWindow *shell_window;
+	GtkUIManager *ui_manager;
+	const gchar *id;
+
+	/* This is a one-time, post-construction idle callback. */
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	id = shell_view_class->ui_manager_id;
+
+	e_plugin_ui_register_manager (ui_manager, id, shell_view);
+
+	if (e_shell_view_is_active (shell_view)) {
+		e_plugin_ui_enable_manager (ui_manager, id);
+		e_shell_view_update_actions (shell_view);
+	}
+
+	return FALSE;
+}
+
 static void
 shell_view_emit_toggled (EShellView *shell_view)
 {
@@ -394,35 +419,34 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
-	EShellWindow *shell_window;
+	EShellViewClass *shell_view_class;
 	EShellView *shell_view;
-	EShellViewClass *class;
-	GtkUIManager *ui_manager;
 	GtkWidget *widget;
-	const gchar *id;
 
 	shell_view = E_SHELL_VIEW (object);
-	class = E_SHELL_VIEW_GET_CLASS (object);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	id = class->ui_manager_id;
-
-	e_plugin_ui_register_manager (ui_manager, id, shell_view);
+	/* Defer EPluginUI registration to an idle callback to give the
+	 * shell view subclass a chance to register its own actions and
+	 * action groups.  Registration will immediately load EPlugins
+	 * that specify the shell view's GtkUIManager ID, and their
+	 * initialization routines may require those actions or action
+	 * groups that have not yet been added. */
+	g_idle_add ((GSourceFunc) shell_view_register_ui_manager, shell_view);
 
 	shell_view_load_state (shell_view);
 
 	/* Invoke factory methods. */
 
-	widget = class->new_shell_content (shell_view);
+	widget = shell_view_class->new_shell_content (shell_view);
 	shell_view->priv->shell_content = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	widget = class->new_shell_sidebar (shell_view);
+	widget = shell_view_class->new_shell_sidebar (shell_view);
 	shell_view->priv->shell_sidebar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	widget = class->new_shell_taskbar (shell_view);
+	widget = shell_view_class->new_shell_taskbar (shell_view);
 	shell_view->priv->shell_taskbar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 }
@@ -431,24 +455,25 @@ static void
 shell_view_toggled (EShellView *shell_view)
 {
 	EShellViewPrivate *priv = shell_view->priv;
-	EShellViewClass *class;
+	EShellViewClass *shell_view_class;
 	EShellWindow *shell_window;
 	GtkUIManager *ui_manager;
-	const gchar *basename;
+	const gchar *basename, *id;
 	gboolean view_is_active;
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_is_active = e_shell_view_is_active (shell_view);
-	basename = class->ui_definition;
+	basename = shell_view_class->ui_definition;
+	id = shell_view_class->ui_manager_id;
 
 	if (view_is_active && priv->merge_id == 0) {
 		priv->merge_id = e_load_ui_definition (ui_manager, basename);
-		e_plugin_ui_enable_manager (ui_manager, class->ui_manager_id);
+		e_plugin_ui_enable_manager (ui_manager, id);
 
 	} else if (!view_is_active && priv->merge_id != 0) {
-		e_plugin_ui_disable_manager (ui_manager, class->ui_manager_id);
+		e_plugin_ui_disable_manager (ui_manager, id);
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
 		priv->merge_id = 0;
 	}

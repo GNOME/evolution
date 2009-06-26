@@ -60,9 +60,6 @@ mail_shell_view_toggled (EShellView *shell_view)
 	const gchar *basename;
 	gboolean view_is_active;
 
-	/* Chain up to parent's toggled() method. */
-	E_SHELL_VIEW_CLASS (parent_class)->toggled (shell_view);
-
 	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -80,7 +77,8 @@ mail_shell_view_toggled (EShellView *shell_view)
 		priv->merge_id = 0;
 	}
 
-	gtk_ui_manager_ensure_update (ui_manager);
+	/* Chain up to parent's toggled() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->toggled (shell_view);
 }
 
 static void

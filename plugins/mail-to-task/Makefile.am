@@ -6,7 +6,7 @@ INCLUDES =						\
 
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = org-gnome-mail-to-task.eplug org-gnome-mail-to-task.xml
+plugin_DATA = org-gnome-mail-to-task.eplug
 plugin_LTLIBRARIES = liborg-gnome-mail-to-task.la
 
 liborg_gnome_mail_to_task_la_SOURCES = mail-to-task.c
@@ -18,8 +18,7 @@ liborg_gnome_mail_to_task_la_LIBADD =	\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
 
-EXTRA_DIST = org-gnome-mail-to-task.eplug.xml \
-	     org-gnome-mail-to-task.xml
+EXTRA_DIST = org-gnome-mail-to-task.eplug.xml
 
 BUILT_SOURCES = org-gnome-mail-to-task.eplug
 CLEANFILES = $(BUILT_SOURCES)

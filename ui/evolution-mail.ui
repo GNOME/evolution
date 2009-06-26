@@ -37,6 +37,7 @@
       <menu action='mail-folder-menu'>
         <menuitem action='mail-folder-new'/>
         <menuitem action='mail-tools-subscriptions'/>
+        <menuitem action='mail-folder-unsubscribe'/>
         <separator/>
         <menuitem action='mail-folder-copy'/>
         <menuitem action='mail-folder-move'/>
@@ -51,11 +52,8 @@
         <menuitem action='mail-folder-refresh'/>
         <menuitem action='mail-folder-delete'/>
         <separator/>
-        <menuitem action='mail-folder-unsubscribe'/>
-        <separator/>
         <menuitem action='mail-folder-properties'/>
       </menu>
-      <menu action='mail-message-menu'/>
     </placeholder>
     <menu action='search-menu'>
       <placeholder name='search-actions'>
@@ -110,6 +108,8 @@
       <separator/>
       <menuitem action='mail-label-new'/>
     </menu>
+    <separator/>
+    <placeholder name='mail-message-popup-actions'/>
   </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-subject-or-sender-contains'/>
