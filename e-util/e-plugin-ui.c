@@ -261,10 +261,13 @@ plugin_ui_hook_construct (EPluginHook *hook,
 	/* Chain up to parent's construct() method. */
 	E_PLUGIN_HOOK_CLASS (parent_class)->construct (hook, plugin, node);
 
-	for (node = node->children; node != NULL; node = node->next) {
+	for (node = xmlFirstElementChild (node); node != NULL;
+		node = xmlNextElementSibling (node)) {
+
 		xmlNodePtr child;
 		xmlBufferPtr buffer;
-		const gchar *content;
+		GString *content;
+		const gchar *temp;
 		gchar *id;
 
 		if (strcmp ((gchar *) node->name, "ui-manager") != 0)
@@ -276,18 +279,21 @@ plugin_ui_hook_construct (EPluginHook *hook,
 			continue;
 		}
 
+		content = g_string_sized_new (1024);
+
 		/* Extract the XML content below <ui-manager> */
 		buffer = xmlBufferCreate ();
-		child = node->children;
-		while (child != NULL && xmlNodeIsText (child))
-			child = child->next;
-		if (child != NULL)
+		for (child = xmlFirstElementChild (node); child != NULL;
+			child = xmlNextElementSibling (child)) {
+
 			xmlNodeDump (buffer, node->doc, child, 2, 1);
-		content = (const gchar *) xmlBufferContent (buffer);
+			temp = (const gchar *) xmlBufferContent (buffer);
+			g_string_append (content, temp);
+		}
 
 		g_hash_table_insert (
 			priv->ui_definitions,
-			id, g_strdup (content));
+			id, g_string_free (content, FALSE));
 
 		xmlBufferFree (buffer);
 	}
