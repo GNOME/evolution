@@ -142,6 +142,54 @@ mail_shell_view_reader_status_message_cb (EMailShellView *mail_shell_view,
 }
 
 static void
+mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
+                           GtkOrientation orientation,
+                           GtkScrollType scroll_type,
+                           gfloat position,
+                           GtkHTML *html)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailReader *reader;
+	MessageList *message_list;
+	gboolean magic_spacebar;
+
+	if (html->binding_handled)
+		return;
+
+	if (orientation != GTK_ORIENTATION_VERTICAL)
+		return;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	magic_spacebar = e_shell_settings_get_boolean (
+		shell_settings, "mail-magic-spacebar");
+
+	if (!magic_spacebar)
+		return;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
+		gtk_widget_grab_focus (GTK_WIDGET (message_list));
+		message_list_select (
+			message_list, MESSAGE_LIST_SELECT_NEXT,
+			0, CAMEL_MESSAGE_SEEN);
+	} else {
+		gtk_widget_grab_focus (GTK_WIDGET (message_list));
+		message_list_select (
+			message_list, MESSAGE_LIST_SELECT_PREVIOUS,
+			0, CAMEL_MESSAGE_SEEN);
+	}
+}
+
+static void
 mail_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -316,6 +364,12 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		html, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view);
+
+	g_signal_connect_data (
+		html, "scroll",
+		G_CALLBACK (mail_shell_view_scroll_cb),
+		mail_shell_view, (GClosureNotify) NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
 	g_signal_connect_swapped (
 		html, "status-message",

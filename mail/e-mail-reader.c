@@ -1784,7 +1784,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	cursor_uid = message_list->cursor_uid;
 	format_uid = EM_FORMAT (html_display)->uid;
 
-	if (cursor_uid != NULL) {
+	if (message_list->last_sel_single) {
 		if (g_strcmp0 (cursor_uid, format_uid) != 0)
 			mail_get_messagex (
 				message_list->folder, cursor_uid,

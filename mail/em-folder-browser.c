@@ -215,25 +215,25 @@ static ESearchBarItem emfb_search_scope_items[] = {
 
 static EMFolderViewClass *emfb_parent;
 
-static void
-html_scroll (GtkHTML *html,
-	GtkOrientation orientation,
-	GtkScrollType  scroll_type,
-	gfloat         position,
-	EMFolderBrowser *emfb)
-
-{
-	if (html->binding_handled || orientation != GTK_ORIENTATION_VERTICAL || !mail_config_get_enable_magic_spacebar ())
-		return;
-
-	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
-		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
-		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
-	} else if (scroll_type == GTK_SCROLL_PAGE_BACKWARD) {
-		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
-		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
-	}
-}
+//static void
+//html_scroll (GtkHTML *html,
+//	GtkOrientation orientation,
+//	GtkScrollType  scroll_type,
+//	gfloat         position,
+//	EMFolderBrowser *emfb)
+//
+//{
+//	if (html->binding_handled || orientation != GTK_ORIENTATION_VERTICAL || !mail_config_get_enable_magic_spacebar ())
+//		return;
+//
+//	if (scroll_type == GTK_SCROLL_PAGE_FORWARD) {
+//		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
+//		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
+//	} else if (scroll_type == GTK_SCROLL_PAGE_BACKWARD) {
+//		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
+//		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
+//	}
+//}
 
 static void
 emfb_init(GObject *o)
@@ -251,7 +251,7 @@ emfb_init(GObject *o)
 	emfb->view.preview_active = TRUE;
 	emfb->view.list_active = TRUE;
 
-	g_signal_connect_after (((EMFormatHTML *)(emfb->view.preview))->html, "scroll", G_CALLBACK (html_scroll), emfb);
+//	g_signal_connect_after (((EMFormatHTML *)(emfb->view.preview))->html, "scroll", G_CALLBACK (html_scroll), emfb);
 
 //	g_slist_foreach (emfb->view.ui_files, free_one_ui_file, NULL);
 //	g_slist_free(emfb->view.ui_files);
