@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-28 13:58+0200\n"
-"PO-Revision-Date: 2009-06-28 14:09+0200\n"
+"PO-Revision-Date: 2009-06-28 14:33+0200\n"
 "Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -19200,7 +19200,7 @@ msgstr "Kein Titel"
 
 #: ../plugins/templates/templates.c:711
 msgid "Save as _Template"
-msgstr "Als _Entwurf speichern"
+msgstr "Als V_orlage speichern"
 
 #: ../plugins/templates/templates.c:713
 msgid "Save as Template"
