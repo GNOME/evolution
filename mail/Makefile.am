@@ -47,6 +47,7 @@ mailinclude_HEADERS =					\
 	e-mail-search-bar.h				\
 	e-mail-store.h					\
 	e-searching-tokenizer.h				\
+	em-account-editor.h				\
 	em-composer-utils.h				\
 	em-config.h					\
 	em-event.h					\
@@ -106,6 +107,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-search-bar.c				\
 	e-mail-store.c					\
 	e-searching-tokenizer.c				\
+	em-account-editor.c				\
 	em-composer-utils.c				\
 	em-config.c					\
 	em-event.c					\

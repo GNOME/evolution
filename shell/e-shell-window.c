@@ -23,8 +23,6 @@
 
 #include <gconf/gconf-client.h>
 
-#include <es-event.h>
-
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 

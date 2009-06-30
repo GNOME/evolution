@@ -84,10 +84,6 @@ GtkWidget *	em_composer_prefs_new		(EShell *shell);
 void		em_composer_prefs_new_signature (GtkWindow *parent,
 						 gboolean html_mode);
 
-/* needed by global config */
-#define EM_COMPOSER_PREFS_CONTROL_ID \
-	"OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION
-
 G_END_DECLS
 
 #endif /* EM_COMPOSER_PREFS_H */

@@ -29,6 +29,7 @@
 #include <libgnomeui/gnome-druid-page-standard.h>
 #include "e-util/e-error.h"
 #include "e-util/e-import.h"
+#include "shell/e-shell.h"
 #include "shell/es-event.h"
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
@@ -47,7 +48,7 @@ static GtkWidget *import_dialog, *import_progress, *import_label;
 static GSList *import_iterator, *import_importers;
 
 G_GNUC_NORETURN static void
-startup_wizard_delete (void) {
+startup_wizard_terminate (void) {
 	gtk_main_quit ();
 	_exit (0);
 }
@@ -55,10 +56,10 @@ startup_wizard_delete (void) {
 void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
-	GConfClient *client;
-	GSList *accounts;
 	EMAccountEditor *emae;
 	GnomeDruidPageEdge *start_page;
+	GConfClient *client;
+	GSList *accounts;
 
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
@@ -79,20 +80,29 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 	 *
 	 * The new mail account druid.
 	 */
-	emae = em_account_editor_new (NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountWizard");
+	emae = em_account_editor_new (
+		NULL, EMAE_DRUID,
+		"org.gnome.evolution.mail.config.accountWizard");
 
-	gtk_window_set_title (GTK_WINDOW (emae->editor), _("Evolution Setup Assistant"));
+	gtk_window_set_title (
+		GTK_WINDOW (emae->editor), _("Evolution Setup Assistant"));
 
-	start_page = GNOME_DRUID_PAGE_EDGE (e_config_page_get ((EConfig *) emae->config, "0.start"));
+	start_page = GNOME_DRUID_PAGE_EDGE (
+		e_config_page_get ((EConfig *) emae->config, "0.start"));
 	gnome_druid_page_edge_set_title (start_page, _("Welcome"));
-	gnome_druid_page_edge_set_text (start_page, _(""
-					"Welcome to Evolution. The next few screens will allow Evolution to connect "
-					"to your email accounts, and to import files from other applications. \n"
-					"\n"
-					"Please click the \"Forward\" button to continue. "));
-	g_signal_connect (emae->editor, "delete-event", G_CALLBACK (startup_wizard_delete), NULL);
+	gnome_druid_page_edge_set_text (
+		start_page, _(""
+		"Welcome to Evolution. The next few screens will allow Evolution to connect "
+		"to your email accounts, and to import files from other applications. \n"
+		"\n"
+		"Please click the \"Forward\" button to continue. "));
+
+	g_signal_connect (
+		emae->editor, "delete-event",
+		G_CALLBACK (startup_wizard_terminate), NULL);
 
 	gtk_widget_show (emae->editor);
+
 	gtk_main ();
 }
 
@@ -188,10 +198,16 @@ import_done(EImport *ei, gpointer d)
 void
 startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	gchar *location;
 
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	/* Use System Timezone by default */
-	calendar_config_set_use_system_timezone (TRUE);
+	e_shell_settings_set_boolean (
+		shell_settings, "cal-use-system-timezone", TRUE);
 	location = e_cal_util_get_system_timezone_location ();
 	calendar_config_set_timezone (location);
 	g_free (location);
@@ -217,6 +233,5 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 void
 startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target)
 {
-	gtk_main_quit ();
-	_exit (0);
+	startup_wizard_terminate ();
 }

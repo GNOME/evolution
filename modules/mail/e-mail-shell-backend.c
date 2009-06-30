@@ -86,30 +86,6 @@ EMailShellBackend *global_mail_shell_backend = NULL;
 
 extern gint camel_application_is_exiting;
 
-static gboolean
-mail_shell_backend_run_account_druid (GtkWindow *parent)
-{
-	EAccountList *account_list;
-	EMAccountEditor *account_editor;
-
-	account_editor = em_account_editor_new (
-		NULL, EMAE_DRUID,
-		"org.gnome.evolution.mail.config.accountDruid");
-	if (GTK_IS_WINDOW (parent))
-		gtk_window_set_transient_for (
-			GTK_WINDOW (account_editor->editor), parent);
-	g_object_weak_ref (
-		G_OBJECT (account_editor->editor),
-		(GWeakNotify) gtk_main_quit, NULL);
-	gtk_widget_show (account_editor->editor);
-	gtk_grab_add (account_editor->editor);
-	gtk_main ();
-
-	account_list = e_get_account_list ();
-
-	return (e_list_length ((EList *) account_list) > 0);
-}
-
 static void
 mail_shell_backend_init_hooks (void)
 {

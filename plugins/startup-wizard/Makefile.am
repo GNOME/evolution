@@ -16,7 +16,7 @@ liborg_gnome_evolution_startup_wizard_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
+	$(top_builddir)/calendar/gui/libcal-gui.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)

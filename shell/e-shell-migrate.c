@@ -32,6 +32,8 @@
 #include "e-util/e-fsutils.h"
 #include "e-util/e-util.h"
 
+#include "es-event.h"
+
 #define GCONF_VERSION_KEY	"/apps/evolution/version"
 #define GCONF_LAST_VERSION_KEY	"/apps/evolution/last_version"
 
@@ -195,6 +197,7 @@ fail:
 gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
+	ESEvent *ese;
 	GConfClient *client;
 	const gchar *key;
 	const gchar *old_data_dir;
@@ -283,7 +286,7 @@ check_old:
 		string = g_strdup_printf (
 			"%d.%d.%d", last_major, last_minor, last_micro);
 		response = e_error_run (
-			NULL, "shel:upgrade-remove-1-4", string, NULL);
+			NULL, "shell:upgrade-remove-1-4", string, NULL);
 		g_free (string);
 
 		switch (response) {
@@ -318,6 +321,20 @@ check_old:
 		"%d.%d.%d", last_major, last_minor, last_micro);
 	gconf_client_set_string (client, key, string, NULL);
 	g_free (string);
+
+	/** @Event: Shell attempted upgrade
+	 * @Shell: an #EShell
+	 * @Id: upgrade.done
+	 * @Target: ESMenuTargetState
+	 *
+	 * This event is emitted whenever the shell successfully attempts
+	 * an upgrade.
+	 **/
+	ese = es_event_peek ();
+	e_event_emit (
+		(EEvent *) ese, "upgrade.done",
+		(EEventTarget *) es_event_target_new_upgrade (
+		ese, curr_major, curr_minor, curr_micro));
 
 	return TRUE;
 }

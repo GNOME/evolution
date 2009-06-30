@@ -279,8 +279,6 @@ show_development_warning(void)
 
 	gtk_widget_destroy (warning_dialog);
 
-	idle_cb (NULL);
-
 	return skip;
 }
 
@@ -631,7 +629,11 @@ create_default_shell (void)
 
 	g_object_unref (conf_client);
 
-	default_shell = shell;
+	/* EShell keeps its own reference to the first instance for use
+	 * in e_shell_get_default(), so it's safe to unreference here. */
+	g_object_unref (shell);
+
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
 gint
@@ -662,7 +664,7 @@ main (gint argc, gchar **argv)
 	gtk_init_with_args (
 		&argc, &argv,
 		_("- The Evolution PIM and Email Client"),
-		entries, GETTEXT_PACKAGE, &error);
+		entries, (gchar *) GETTEXT_PACKAGE, &error);
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
@@ -756,11 +758,6 @@ main (gint argc, gchar **argv)
 		gconf_client_set_bool (
 			client, SKIP_WARNING_DIALOG_KEY,
 			show_development_warning (), NULL);
-	else
-		g_idle_add ((GSourceFunc) idle_cb, remaining_args);
-
-#else
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 #endif
 
 	g_object_unref (client);
@@ -769,7 +766,8 @@ main (gint argc, gchar **argv)
 
 	gtk_main ();
 
-	/* Emit a warning if the shell is not finalized. */
+	/* Drop what should be the last reference to the shell.
+	 * Emit a warning if references are leaking somewhere. */
 	g_object_unref (default_shell);
 	if (E_IS_SHELL (default_shell))
 		g_warning ("Shell not finalized on exit");

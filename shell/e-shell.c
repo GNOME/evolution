@@ -525,6 +525,12 @@ shell_constructed (GObject *object)
 
 	shell_load_modules (E_SHELL (object));
 	shell_create_backends (E_SHELL (object));
+
+	/* e_shell_migrate_attempt() leads to code paths that rely on
+	 * e_shell_get_default(), so set the default shell first. */
+	if (default_shell == NULL)
+		default_shell = g_object_ref (object);
+
 	e_shell_migrate_attempt (E_SHELL (object));
 }
 

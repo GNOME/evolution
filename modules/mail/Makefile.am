@@ -30,8 +30,6 @@ libevolution_module_mail_la_SOURCES =					\
 	e-mail-shell-view-actions.h					\
 	e-mail-shell-view-private.c					\
 	e-mail-shell-view-private.h					\
-	em-account-editor.c						\
-	em-account-editor.h						\
 	em-account-prefs.c						\
 	em-account-prefs.h						\
 	em-composer-prefs.c						\
