@@ -175,8 +175,8 @@ rule_editor_new (RuleContext *rc, const gchar *source, const gchar *label)
 	gui = glade_xml_new (filter_glade, "rule_editor", NULL);
 	g_free (filter_glade);
 	rule_editor_construct (re, rc, gui, source, label);
-	gtk_widget_hide(glade_xml_get_widget (gui, "label17"));
-	gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "label17"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "filter_source_combobox"));
 	g_object_unref (gui);
 
 	return re;

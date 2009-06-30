@@ -113,7 +113,8 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	g_free (gladefile);
 
 	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, "incoming", _("Search _Folders"));
-        gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "label17"));
+	gtk_widget_hide (glade_xml_get_widget (gui, "filter_source_combobox"));
 	g_object_unref (gui);
 
 	return ve;
