@@ -139,7 +139,8 @@ static void e_calendar_item_get_day_style	(ECalendarItem	*calitem,
 						 GdkColor      **bg_color,
 						 GdkColor      **fg_color,
 						 GdkColor      **box_color,
-						 gboolean	*bold);
+						 gboolean	*bold,
+						 gboolean	*italic);
 static void e_calendar_item_check_selection_end	(ECalendarItem	*calitem,
 						 gint		 start_month,
 						 gint		 start_day,
@@ -1420,7 +1421,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	gint week_num, mon, days_from_week_start;
 	gint years[3], months[3], days_in_month[3];
 	gboolean today, selected, has_focus, drop_target = FALSE;
-	gboolean bold, draw_day, finished = FALSE;
+	gboolean bold, italic, draw_day, finished = FALSE;
 	gint today_year, today_month, today_mday, month_offset;
 	gchar buffer[9];
 	gint day_style = 0;
@@ -1579,6 +1580,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				else
 					has_focus = FALSE;
 
+				bold = FALSE;
+				italic = FALSE;
+
 				if (calitem->style_callback)
 					(*calitem->style_callback)
 						(calitem,
@@ -1595,6 +1599,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 						 &fg_color,
 						 &box_color,
 						 &bold,
+						 &italic,
 						 calitem->style_callback_data);
 				else
 					e_calendar_item_get_day_style
@@ -1611,7 +1616,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 						 &bg_color,
 						 &fg_color,
 						 &box_color,
-						 &bold);
+						 &bold,
+						 &italic);
 
 				/* Draw the background, if set. */
 				if (bg_color) {
@@ -1664,6 +1670,13 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				} else {
 					pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
 				}
+
+				if (italic) {
+					pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
+				} else {
+					pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
+				}
+
 				pango_layout_set_font_description (layout, font_desc);
 				pango_layout_set_text (layout, buffer, num_chars);
 				cairo_translate (cr, day_x, day_y);
@@ -2053,7 +2066,8 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 					 GdkColor      **bg_color,
 					 GdkColor      **fg_color,
 					 GdkColor      **box_color,
-					 gboolean	*bold)
+					 gboolean	*bold,
+					 gboolean	*italic)
 {
 	GtkWidget *widget;
 	GtkStyle *style;
@@ -2064,10 +2078,9 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 	*bg_color = NULL;
 	*fg_color = NULL;
 	*box_color = NULL;
-	*bold = FALSE;
 
-	if (day_style == 1)
-		*bold = TRUE;
+	*bold = (day_style & E_CALENDAR_ITEM_MARK_BOLD) == E_CALENDAR_ITEM_MARK_BOLD;
+	*italic = (day_style & E_CALENDAR_ITEM_MARK_ITALIC) == E_CALENDAR_ITEM_MARK_ITALIC;
 
 	if (today)
 		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
@@ -2849,12 +2862,14 @@ e_calendar_item_clear_marks	(ECalendarItem	*calitem)
 }
 
 
+/* add_day_style - whether bit-or with the actual style or change the style fully */
 void
 e_calendar_item_mark_day	(ECalendarItem	*calitem,
 				 gint		 year,
 				 gint		 month,
 				 gint		 day,
-				 guint8		 day_style)
+				 guint8		 day_style,
+				 gboolean        add_day_style)
 {
 	gint month_offset;
 
@@ -2865,7 +2880,7 @@ e_calendar_item_mark_day	(ECalendarItem	*calitem,
 	if (!calitem->styles)
 		calitem->styles = g_new0 (guint8, (calitem->rows * calitem->cols + 2) * 32);
 
-	calitem->styles[(month_offset + 1) * 32 + day] = day_style;
+	calitem->styles[(month_offset + 1) * 32 + day] = (add_day_style ? calitem->styles[(month_offset + 1) * 32 + day] : 0) | day_style;
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
@@ -2879,7 +2894,8 @@ e_calendar_item_mark_days	(ECalendarItem	*calitem,
 				 gint		 end_year,
 				 gint		 end_month,
 				 gint		 end_day,
-				 guint8		 day_style)
+				 guint8		 day_style,
+				 gboolean        add_day_style)
 {
 	gint month_offset, end_month_offset, day;
 
@@ -2920,7 +2936,7 @@ e_calendar_item_mark_days	(ECalendarItem	*calitem,
 #if 0
 		g_print ("Marking Month:%i Day:%i\n", month_offset, day);
 #endif
-		calitem->styles[(month_offset + 1) * 32 + day] = day_style;
+		calitem->styles[(month_offset + 1) * 32 + day] = (add_day_style ? calitem->styles[(month_offset + 1) * 32 + day] : 0) | day_style;
 
 		day++;
 		if (day == 32) {
