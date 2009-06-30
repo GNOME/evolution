@@ -2,7 +2,7 @@ SUBDIRS = . default importers
 
 mailincludedir = $(privincludedir)/mail
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\

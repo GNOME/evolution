@@ -7,7 +7,7 @@ if OS_WIN32
 PLATFORM_SOURCES = e-win32-reloc.c
 endif
 
-INCLUDES =								\
+AM_CPPFLAGS =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\

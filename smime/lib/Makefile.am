@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-smime\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/shell				\

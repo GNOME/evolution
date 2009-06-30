@@ -5,7 +5,7 @@ privlibexec_SCRIPTS =					\
 privlibexec_PROGRAMS =			\
 	evolution-addressbook-export	
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook-tools\"	\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\

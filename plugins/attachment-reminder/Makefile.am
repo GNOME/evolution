@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\

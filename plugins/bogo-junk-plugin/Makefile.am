@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" 	\
 	$(EVOLUTION_MAIL_CFLAGS)

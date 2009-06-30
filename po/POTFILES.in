@@ -172,6 +172,7 @@ mail/e-mail-reader-utils.c
 mail/e-mail-reader.c
 mail/e-mail-search-bar.c
 mail/e-mail-store.c
+mail/em-account-editor.c
 mail/em-composer-utils.c
 mail/em-filter-editor.c
 mail/em-filter-folder-element.c
@@ -255,7 +256,6 @@ modules/mail/e-mail-shell-migrate.c
 modules/mail/e-mail-shell-view-actions.c
 modules/mail/e-mail-shell-view-private.c
 modules/mail/e-mail-shell-view.c
-modules/mail/em-account-editor.c
 modules/mail/em-account-prefs.c
 modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
@@ -328,8 +328,6 @@ plugins/external-editor/org-gnome-external-editor.eplug.xml
 plugins/external-editor/org-gnome-external-editor.error.xml
 plugins/face/face.c
 plugins/face/org-gnome-face.eplug.xml
-plugins/folder-unsubscribe/folder-unsubscribe.c
-plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
 plugins/google-account-setup/google-contacts-source.c
 plugins/google-account-setup/google-source.c
 plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
@@ -374,7 +372,6 @@ plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
-plugins/mail-to-task/org-gnome-mail-to-task.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml

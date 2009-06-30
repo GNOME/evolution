@@ -49,7 +49,6 @@
 #include <mail/em-menu.h>
 #include <mail/em-popup.h>
 #include <mail/em-utils.h>
-#include <mail/em-folder-view.h>
 #include <mail/em-format-html.h>
 #include <mail/mail-config.h>
 #include <e-util/e-account-utils.h>

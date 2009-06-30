@@ -7,7 +7,7 @@ endif
 privlibexec_PROGRAMS =		\
 	$(PLATFORM_DEP_TOOLS)
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-tools\"		\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\

@@ -2,7 +2,7 @@ if ENABLE_TEST_COMPONENT
 SUBDIRS = . test
 endif
 
-INCLUDES =							\
+AM_CPPFLAGS =							\
 	-I$(top_srcdir)/e-util					\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/menus				\

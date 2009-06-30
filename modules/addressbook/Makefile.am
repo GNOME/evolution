@@ -2,7 +2,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
-INCLUDES =							\
+AM_CPPFLAGS =							\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\

@@ -32,7 +32,11 @@ EXTRA_DIST = 			\
 	$(pkgconfig_DATA:.pc=.pc.in)
 
 if ENABLE_SMIME
-SMIME_DIR=smime
+SMIME_SUBDIR=smime
+endif
+
+if WITH_HELP
+HELP_SUBDIR=help
 endif
 
 SUBDIRS = 			\
@@ -43,7 +47,7 @@ SUBDIRS = 			\
 	filter			\
 	widgets			\
 	shell			\
-	$(SMIME_DIR)		\
+	$(SMIME_SUBDIR)		\
 	em-format		\
 	composer		\
 	addressbook		\
@@ -57,11 +61,8 @@ SUBDIRS = 			\
 	views			\
 	tools			\
 	po			\
-	sounds
-
-if WITH_HELP
-SUBDIRS += help
-endif
+	sounds			\
+	$(HELP_SUBDIR)
 
 DISTCLEANFILES = 			\
 	$(builddir)/doltcompile		\
@@ -89,6 +90,7 @@ MAINTAINERCLEANFILES =			\
 DISTCHECK_CONFIGURE_FLAGS =		\
 	--enable-gtk-doc		\
 	--disable-scrollkeeper		\
-	--enable-test-component
+	--enable-test-component		\
+	--with-help
 
 -include $(top_srcdir)/git.mk

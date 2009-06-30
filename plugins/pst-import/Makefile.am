@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\

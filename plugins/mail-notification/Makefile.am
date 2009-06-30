@@ -1,11 +1,11 @@
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(EVOLUTION_MAIL_CFLAGS)		\
 	$(LIBNOTIFY_CFLAGS)			
 
 if ENABLE_DBUS
-INCLUDES += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
+AM_CPPFLAGS += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
 		-DFOUND_DBUS_VERSION=$(FOUND_DBUS_VERSION)          \
 		$(NMN_CFLAGS)
 endif
