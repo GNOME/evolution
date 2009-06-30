@@ -256,12 +256,9 @@ AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv,
 	       AC_TRY_LINK([
 #include <iconv.h>
 #include <stdlib.h>],[
-int main (int argc, char **argv)
-{
         iconv_t cd;
         cd = iconv_open ("UTF-8", "ISO-8859-1");
         exit (0);
-}
 ], [ac_cv_libiconv=yes], [ac_cv_libiconv=no]))
 
 if test $ac_cv_libiconv = yes; then
