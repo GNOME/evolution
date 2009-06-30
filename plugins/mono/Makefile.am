@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	$(E_UTIL_CFLAGS)				\
 	$(MONO_CFLAGS)

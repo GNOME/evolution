@@ -1,4 +1,4 @@
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)          \

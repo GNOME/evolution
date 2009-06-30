@@ -19,7 +19,7 @@ libcomposerinclude_HEADERS = 			\
 	e-composer-autosave.h			\
 	e-msg-composer.h
 
-INCLUDES =								\
+AM_CPPFLAGS =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_builddir)/composer					\

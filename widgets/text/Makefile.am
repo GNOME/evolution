@@ -2,7 +2,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 endif
 
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(E_UTIL_CFLAGS)			\

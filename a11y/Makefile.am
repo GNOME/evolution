@@ -13,7 +13,7 @@ endif
 
 privsolib_LTLIBRARIES = libevolution-a11y.la
 
-INCLUDES =				\
+AM_CPPFLAGS =				\
 	$(A11Y_CFLAGS)
 
 libevolution_a11y_la_SOURCES =		\

@@ -6,7 +6,7 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(EVOLUTION_MAIL_LIBS)
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\

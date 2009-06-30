@@ -1,4 +1,4 @@
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
 	$(GNOME_PLATFORM_CFLAGS)		\

@@ -2,7 +2,7 @@ if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS = $(top_builddir)/mail/libevolution-mail.la
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\

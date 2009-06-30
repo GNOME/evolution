@@ -1,4 +1,4 @@
-INCLUDES = 								\
+AM_CPPFLAGS = 								\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\

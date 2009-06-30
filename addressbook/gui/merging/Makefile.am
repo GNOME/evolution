@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"eab-contact-merging\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(top_srcdir)					\

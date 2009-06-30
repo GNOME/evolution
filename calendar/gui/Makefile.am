@@ -38,7 +38,7 @@ search_files = tasktypes.xml memotypes.xml caltypes.xml
 ruledir = $(privdatadir)
 rule_DATA = $(search_files)
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\

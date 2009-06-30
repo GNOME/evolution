@@ -8,7 +8,7 @@ glade_DATA = 					\
 	e-table-config.glade			\
 	e-table-field-chooser.glade
 
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
 	$(E_WIDGETS_CFLAGS)			\

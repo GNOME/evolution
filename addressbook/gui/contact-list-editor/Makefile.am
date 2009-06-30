@@ -2,7 +2,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-addressbook.la
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook/			\

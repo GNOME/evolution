@@ -5,7 +5,7 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(GNOME_PLATFORM_LIBS)
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(GSTREAMER_CFLAGS)

@@ -6,7 +6,7 @@ endif
 
 privsolib_LTLIBRARIES = libevolution-mail-importers.la
 
-INCLUDES = -I.. 					\
+AM_CPPFLAGS = -I.. 					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\

@@ -4,7 +4,7 @@ ecps_DATA  =				\
 	medbook.ecps			\
 	phonelist.ecps
 
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)				\

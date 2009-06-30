@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\

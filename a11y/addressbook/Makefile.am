@@ -6,7 +6,7 @@ endif
 
 privsolib_LTLIBRARIES = libevolution-addressbook-a11y.la
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
 	-I$(top_srcdir)		                        \
 	-I$(top_srcdir)/a11y				\

@@ -1,4 +1,4 @@
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-DPREFIX=\"$(prefix)\"				\
 	-DSYSCONFDIR=\"$(sysconfdir)\"			\
 	-DDATADIR=\"$(datadir)\"			\

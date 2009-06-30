@@ -1,4 +1,4 @@
-INCLUDES = 						\
+AM_CPPFLAGS = 						\
 	-I .						\
 	-I$(top_srcdir)	                                \
 	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\

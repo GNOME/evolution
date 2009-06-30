@@ -5,7 +5,7 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(GNOME_PLATFORM_LIBS)
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\

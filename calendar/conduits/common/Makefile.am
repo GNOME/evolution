@@ -1,4 +1,4 @@
-INCLUDES = 					\
+AM_CPPFLAGS = 					\
 	-I$(top_srcdir)			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\

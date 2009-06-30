@@ -1,7 +1,7 @@
 
 glade_DATA = filter.glade
 
-INCLUDES = 					\
+AM_CPPFLAGS = 					\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/widgets/misc		\

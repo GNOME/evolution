@@ -6,7 +6,7 @@ NO_UNDEFINED_REQUIRED_LIBS = 				\
 	$(top_builddir)/mail/libevolution-mail.la
 endif
 
-INCLUDES =						\
+AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(localedir)\""			\

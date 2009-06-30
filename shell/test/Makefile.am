@@ -1,6 +1,6 @@
 component_LTLIBRARIES = libevolution-test.la
 
-INCLUDES =					\
+AM_CPPFLAGS =					\
 	-I$(top_srcdir)/shell			\
 	-I$(top_srcdir)/widgets/misc		\
 	-I$(top_builddir)/shell			\
