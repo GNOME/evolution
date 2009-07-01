@@ -1,3 +1,51 @@
+Evolution 2.27.3 2009-06-15
+---------------------------
+
+Bugs Fixed:
+	#585523 - Don't link against libsoftoken3 explicitly (Jeff Cai)
+	#584902 - Disabled default account hides "From" in composer (Matthew Barnes)
+	#585554 - Opening PDF attachment crashes in e_attachment_open_handle_error()
+		  (Matthew Barnes)
+	#584733 - Fixed account setup to work after Anjal merge (Srinivasa Ragavan)
+	#573263 - Crash in reset_layout (text) at e-text.c (Milan Crha)
+	#362907 - Give icons to Drafts/Sent/Templates folders (Milan Crha)
+	#584733 - Cannot create new account (Srinivasa Ragavan)
+	#581780 - Remember passwords in keyring for web calendars too (Milan Crha)
+	#572543 – Doesn't show correct application for pdf attachments (Matthew Barnes)
+	#581280 - Wrong attachment name in event (Matthew Barnes)
+	#582939 - Drop support for CDE (Matthew Barnes)
+	#574940 - Do not use freed memory in EMFolderView/Browser (Milan Crha)
+	#337082 - Do not produce unnamed folders in a folder tree (Milan Crha)
+	#580212 - Report inline parts only when found both tags (Milan Crha)
+	#323037 - Folder emblem to show new mail arrival (Milan Crha)
+	#583446 - refresh folder hook (Lucian Langa)
+	#584154 – custom icon folder hook does not work (Milan Crha)
+	#583991 - "Suggest automatic display of attachment" does not work (Matthew Barnes)
+	#583441 - bbdb plugin is getting information from composer now (Milan Crha)
+	#535516 - Crash in GConf Bridge while replying (Milan Crha)
+	#540269 - Do not crash in em_format_is_attachment (Milan Crha)
+	#540269 - Do not crash in em_format_is_attachment (Milan Crha)
+	#578335 - CalDAV - replace '@' in username to "%40" (Milan Crha)
+	#524497 - Change the order of getting an account (Jeff Cai)
+	
+Translations:
+	Manoj Kumar (or)
+	Runa Bhattacharjee (bn_IN)
+	Claude Paroz (fr)
+	Kjartan Maraas (nb)
+	Jorge Gonzalez (es)
+	Gabor Kelemen (hu)
+	Ask H. Larsen (da)
+
+Other Fixes:
+	Added couple of APIS for EAttachmentPaned to hide combo and get the
+	widget's container.(Srinivasa Ragavan)
+	Fix a runtime warning for zero-length attachments. (Matthew Barnes)
+	Fix Compiler warnings. (Matthew Barnes)
+	Fix build on Windows: link with needed libraries. (Tor Lillqvist)
+	(Fridrich Strba)
+	Replace libgnome function with equivalent glib functions. (Fridrich Strba)
+
 Evolution 2.27.2 2009-05-25
 ---------------------------
 

@@ -1,3 +1,10 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS =				\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(GNOME_PLATFORM_LIBS)
+endif
+
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\

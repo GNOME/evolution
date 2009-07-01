@@ -1606,10 +1606,12 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 			break;
 
 		case GDK_period:
+		case GDK_bracketleft:
 			action_name = "mail-next-unread";
 			break;
 
 		case GDK_comma:
+		case GDK_bracketright:
 			action_name = "mail-previous-unread";
 			break;
 
@@ -1623,7 +1625,7 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 			break;
 #endif
 
-		case '!':
+		case GDK_exclam:
 			action_name = "mail-toggle-important";
 			break;
 

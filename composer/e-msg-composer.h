@@ -29,7 +29,7 @@
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
-#include <widgets/misc/e-attachment-view.h>
+#include <misc/e-attachment-view.h>
 
 #include "e-composer-header-table.h"
 

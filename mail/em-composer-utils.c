@@ -760,7 +760,7 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 
 /* Editing messages... */
 
-static void
+static GtkWidget *
 edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 {
 	EMsgComposer *composer;
@@ -785,7 +785,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 
 		content = camel_medium_get_content_object ((CamelMedium *) message);
 		if (!content)
-			return;
+			return NULL;
 
 		/*
 		 * Get non-multipart content from multipart message.
@@ -798,11 +798,11 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		}
 
 		if (!mime_part)
-			return;
+			return NULL;
 
 		type = camel_mime_part_get_content_type (mime_part);
 		if (!camel_content_type_is (type, "text", "plain"))
-			return;
+			return NULL;
 
 		mem = camel_stream_mem_new ();
 		camel_data_wrapper_decode_to_stream (content, mem);
@@ -909,7 +909,10 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	if (!e_msg_composer_get_lite())
+		gtk_widget_show (GTK_WIDGET (composer));
+
+	return (GtkWidget *)composer;
 }
 
 /**
@@ -920,15 +923,18 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
  * Opens a composer filled in with the headers/mime-parts/etc of
  * @message.
  **/
-void
+GtkWidget *
 em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder)
 {
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	GtkWidget *composer = NULL;
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	if (folder)
-		edit_message (message, folder, NULL);
+		composer = edit_message (message, folder, NULL);
 	else
-		edit_message (message, NULL, NULL);
+		composer = edit_message (message, NULL, NULL);
+
+	return composer;
 }
 
 static void

@@ -1074,8 +1074,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		e_cal_component_get_categories_list (comp, &categories_list);
 
 		if (num_icons != 0) {
-			if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD)
-			    * num_icons) {
+			if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD) * num_icons) {
 				icon_x_inc = 0;
 				icon_y_inc = E_DAY_VIEW_ICON_HEIGHT
 					+ E_DAY_VIEW_ICON_Y_PAD;
@@ -1085,7 +1084,9 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_y_inc = 0;
 			}
 
-			if (draw_reminder_icon) {
+			#define fit_in_event() icon_x + icon_x_inc < item_x + item_w && icon_y + icon_y_inc < item_y + item_h
+
+			if (draw_reminder_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
@@ -1104,7 +1105,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_y += icon_y_inc;
 			}
 
-			if (draw_recurrence_icon) {
+			if (draw_recurrence_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
@@ -1122,7 +1123,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;
 			}
-			if (draw_attach_icon) {
+			if (draw_attach_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
@@ -1139,7 +1140,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;
 			}
-			if (draw_timezone_icon) {
+			if (draw_timezone_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
@@ -1159,7 +1160,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			}
 
 
-			if (draw_meeting_icon) {
+			if (draw_meeting_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
 					- E_DAY_VIEW_EVENT_BORDER_WIDTH;
 				max_icon_h = item_y + item_h - icon_y
@@ -1175,7 +1176,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			}
 
 			/* draw categories icons */
-			for (elem = categories_list; elem; elem = elem->next) {
+			for (elem = categories_list; elem && fit_in_event (); elem = elem->next) {
 				gchar *category;
 				GdkPixmap *pixmap = NULL;
 				GdkBitmap *mask = NULL;
@@ -1207,6 +1208,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;
 			}
+
+			#undef  fit_in_event
 
 			gdk_gc_set_clip_mask (gc, NULL);
 		}

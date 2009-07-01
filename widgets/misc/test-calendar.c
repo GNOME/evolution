@@ -120,9 +120,9 @@ on_date_range_changed (ECalendarItem *calitem)
 
 	/* These days should windowear bold. Remember month is 0 to 11. */
 	e_calendar_item_mark_day (calitem, 2000, 7, 26, /* 26th Aug 2000. */
-				  E_CALENDAR_ITEM_MARK_BOLD);
+				  E_CALENDAR_ITEM_MARK_BOLD, FALSE);
 	e_calendar_item_mark_day (calitem, 2000, 8, 13, /* 13th Sep 2000. */
-				  E_CALENDAR_ITEM_MARK_BOLD);
+				  E_CALENDAR_ITEM_MARK_BOLD, FALSE);
 }
 
 

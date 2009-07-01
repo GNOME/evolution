@@ -1,7 +1,7 @@
 # Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
-m4_define([evo_micro_version], [3])
+m4_define([evo_micro_version], [4])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -52,7 +52,7 @@ m4_define([gconf_minimum_version], [2.0.0])             # XXX Just a Guess
 m4_define([libglade_minimum_version], [2.0.0])          # XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
 m4_define([libgnomeui_minimum_version], [2.0.0])        # XXX Just a Guess
-m4_define([libxml_minimum_version], [2.0.0])            # XXX Just a Guess
+m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([unique_minimum_version], [1.0])              # XXX Just a Guess
 
@@ -261,12 +261,9 @@ AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv,
 	       AC_TRY_LINK([
 #include <iconv.h>
 #include <stdlib.h>],[
-int main (int argc, char **argv)
-{
         iconv_t cd;
         cd = iconv_open ("UTF-8", "ISO-8859-1");
         exit (0);
-}
 ], [ac_cv_libiconv=yes], [ac_cv_libiconv=no]))
 
 if test $ac_cv_libiconv = yes; then

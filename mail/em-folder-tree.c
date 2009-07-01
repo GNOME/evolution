@@ -535,9 +535,6 @@ emft_key_press_event (GtkWidget *widget,
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	if (event->keyval == GDK_space)
-		return TRUE;
-
 	if (gtk_tree_selection_get_mode (selection) == GTK_SELECTION_SINGLE)
 		emft_clear_selected_list (EM_FOLDER_TREE (widget));
 

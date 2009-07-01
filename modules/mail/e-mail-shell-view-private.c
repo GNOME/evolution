@@ -49,6 +49,51 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 	e_shell_view_update_actions (shell_view);
 }
 
+static gboolean
+mail_shell_view_folder_tree_key_press_event_cb (EMailShellView *mail_shell_view,
+                                                GdkEventKey *event)
+{
+	EMailReader *reader;
+	gboolean handled = FALSE;
+
+	if ((event->state & GDK_CONTROL_MASK) != 0)
+		goto ctrl;
+
+	/* <keyval> alone */
+	switch (event->keyval) {
+		case GDK_period:
+		case GDK_comma:
+		case GDK_bracketleft:
+		case GDK_bracketright:
+			goto emit;
+
+		default:
+			goto exit;
+	}
+
+ctrl:
+	/* Ctrl + <keyval> */
+	switch (event->keyval) {
+		case GDK_period:
+		case GDK_comma:
+			goto emit;
+
+		default:
+			goto exit;
+	}
+
+	/* All branches jump past this. */
+	g_return_val_if_reached (FALSE);
+
+emit:
+	/* Forward the key press to the EMailReader interface. */
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	g_signal_emit_by_name (reader, "key-press-event", event, &handled);
+
+exit:
+	return handled;
+}
+
 static void
 mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
                                             GdkEventButton *event)
@@ -312,6 +357,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_swapped (
 		folder_tree, "folder-selected",
 		G_CALLBACK (mail_shell_view_folder_tree_selected_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		folder_tree, "key-press-event",
+		G_CALLBACK (mail_shell_view_folder_tree_key_press_event_cb),
 		mail_shell_view);
 
 	g_signal_connect_swapped (

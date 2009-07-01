@@ -3047,9 +3047,11 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	const gchar *tmp;
 	EAccount *ea;
 	gboolean refresh = FALSE;
+	gboolean edit;
 
 	account = em_account_editor_get_modified_account (emae);
 	original_account = em_account_editor_get_modified_account (emae);
+	edit = (original_account != NULL);
 
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
@@ -3088,7 +3090,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				index = check_servers (at);
 				gtk_entry_set_text (emae->priv->source.username, user);
 				gtk_entry_set_text (emae->priv->transport.username, user);
-				if (uri && (url = camel_url_new (uri, NULL)) != NULL) {
+				if (!edit && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, mail_servers[index].proto);
 					camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);

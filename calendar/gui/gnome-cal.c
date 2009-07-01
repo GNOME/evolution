@@ -546,7 +546,7 @@ gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
 }
 
 static void
-get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_t *start_time, time_t *end_time)
+get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_t *start_time, time_t *end_time, time_t *select_time)
 {
 	GnomeCalendarPrivate *priv;
 	gint shown, display_start;
@@ -615,6 +615,9 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 
 		*start_time = icaltime_as_timet_with_zone (tt, priv->zone);
 		*end_time = time_add_day_with_zone (*start_time, days_shown, priv->zone);
+
+		if (select_time && E_DAY_VIEW (priv->views[view_type])->selection_start_day == -1)
+			time (select_time);
 		break;
 	case GNOME_CAL_WEEK_VIEW:
 		/* FIXME We should be using the same day of the week enum every where */
@@ -622,6 +625,9 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 
 		*start_time = time_week_begin_with_zone (*start_time, display_start, priv->zone);
 		*end_time = time_add_week_with_zone (*start_time, 1, priv->zone);
+
+		if (select_time && E_WEEK_VIEW (priv->views[view_type])->selection_start_day == -1)
+			time (select_time);
 		break;
 	case GNOME_CAL_MONTH_VIEW:
 		shown = e_week_view_get_weeks_shown (E_WEEK_VIEW (priv->views[view_type]));
@@ -632,6 +638,9 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 			*start_time = time_month_begin_with_zone (*start_time, priv->zone);
 		*start_time = time_week_begin_with_zone (*start_time, display_start, priv->zone);
 		*end_time = time_add_week_with_zone (*start_time, shown, priv->zone);
+
+		if (select_time && E_WEEK_VIEW (priv->views[view_type])->selection_start_day == -1)
+			time (select_time);
 		break;
 	case GNOME_CAL_LIST_VIEW:
 		/* FIXME What to do here? */
@@ -843,7 +852,7 @@ set_search_query (GnomeCalendar *gcal, const gchar *sexp)
 			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views [i]), sexp, start, end);
 		} else {
 			start = priv->base_view_time;
-			get_times_for_views (gcal, GNOME_CAL_LIST_VIEW, &start, &end);
+			get_times_for_views (gcal, GNOME_CAL_LIST_VIEW, &start, &end, NULL);
 
 			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views [i]), sexp, start, end);
 
@@ -1788,19 +1797,22 @@ update_view_times (GnomeCalendar *gcal, time_t start_time)
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
 	time_t real_start_time = start_time;
-	time_t end_time;
+	time_t end_time, select_time = 0;
 
 	priv = gcal->priv;
 
 	priv->base_view_time = start_time;
 
 	model = e_calendar_view_get_model (priv->views [priv->current_view_type]);
-	get_times_for_views (gcal, priv->current_view_type, &real_start_time, &end_time);
+	get_times_for_views (gcal, priv->current_view_type, &real_start_time, &end_time, &select_time);
 
 	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)
 		return;
 
 	e_cal_model_set_time_range (model, real_start_time, end_time);
+
+	if (select_time != 0 && select_time >= real_start_time && select_time <= end_time)
+		e_calendar_view_set_selected_time_range (priv->views [priv->current_view_type], select_time, select_time);
 }
 
 static void

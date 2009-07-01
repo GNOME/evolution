@@ -797,8 +797,15 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 	camel_exception_init (&ex);
 
 	while (info) {
-		if (camel_store_can_refresh_folder (store, info, &ex))
-			g_ptr_array_add (folders, g_strdup (info->uri));
+		if (camel_store_can_refresh_folder (store, info, &ex)) {
+			CamelURL *url = camel_url_new (info->uri, NULL);
+
+			if (url && (!camel_url_get_param (url, "noselect") || !g_str_equal (camel_url_get_param (url, "noselect"), "yes")))
+				g_ptr_array_add (folders, g_strdup (info->uri));
+
+			if (url)
+				camel_url_free (url);
+		}
 		camel_exception_clear (&ex);
 
 		get_folders (store, folders, info->child);

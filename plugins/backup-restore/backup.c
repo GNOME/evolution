@@ -51,11 +51,11 @@ static gchar *chk_file = NULL;
 static gboolean restart_arg = FALSE;
 static gboolean gui_arg = FALSE;
 static gchar **opt_remaining = NULL;
-static gint result=0;
+static gint result = 0;
 static GtkWidget *progress_dialog;
 static GtkWidget *pbar;
 static gchar *txt = NULL;
-gboolean complete = FALSE;
+static gboolean complete = FALSE;
 
 static GOptionEntry options[] = {
 	{ "backup", '\0', 0, G_OPTION_ARG_NONE, &backup_op,
@@ -76,8 +76,10 @@ static GOptionEntry options[] = {
 #define d(x)
 
 #define print_and_run(x) G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
-
 #define CANCEL(x) if (x) return;
+
+static gboolean check (const gchar *filename);
+
 
 static GString *
 replace_string (const gchar *text, const gchar *find, const gchar *replace)
@@ -228,6 +230,20 @@ restore (const gchar *filename)
 	gchar *quotedfname;
 
 	g_return_if_fail (filename && *filename);
+
+	if (!check (filename)) {
+		g_message ("Cannot restore from an incorrect archive '%s'.", filename);
+
+		if (restart_arg) {
+			CANCEL (complete);
+			txt = _("Restarting Evolution");
+			complete=TRUE;
+			run_cmd (EVOLUTION);
+		}
+
+		return;
+	}
+
 	quotedfname = g_shell_quote(filename);
 
 	/* FIXME Will the versioned setting always work? */
@@ -273,38 +289,51 @@ restore (const gchar *filename)
 
 }
 
-static void
+static gboolean
 check (const gchar *filename)
 {
 	gchar *command;
 	gchar *quotedfname;
 
-	g_return_if_fail (filename && *filename);
+	g_return_val_if_fail (filename && *filename, FALSE);
 	quotedfname = g_shell_quote(filename);
+
+	command = g_strdup_printf ("tar ztf %s 1>/dev/null", quotedfname);
+	result = system (command);
+	g_free (command);
+
+	g_message ("First result %d", result);
+	if (result) {
+		g_free (quotedfname);
+		return FALSE;
+	}
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
 	result = system (command);
 	g_free (command);
 
-	g_message ("First result %d", result);
-	if (result)
-		exit (result);
+	g_message ("Second result %d", result);
+	if (result) {
+		g_free (quotedfname);
+		return FALSE;
+	}
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/%s$\"", quotedfname, GCONF_DUMP_FILE);
 	result = system (command);
 	g_free (command);
 	g_free (quotedfname);
 
-	g_message ("Second result %d", result);
+	g_message ("Third result %d", result);
 
+	return result != 0;
 }
 
 static gboolean
-pbar_update()
+pbar_update (gpointer data)
 {
 	if (!complete) {
-		 gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
-		 gtk_progress_bar_set_text ((GtkProgressBar *)pbar, txt);
+		gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
+		gtk_progress_bar_set_text ((GtkProgressBar *)pbar, txt);
 		return TRUE;
 	}
 
@@ -334,7 +363,7 @@ idle_cb(gpointer data)
 
 	if (gui_arg) {
 		/* Show progress dialog */
-		 gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
+		gtk_progress_bar_pulse ((GtkProgressBar *)pbar);
 		g_timeout_add (50, pbar_update, NULL);
 	}
 
@@ -355,6 +384,21 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 
 	/* We will kill just the tar operation. Rest of the them will be just a second of microseconds.*/
 	run_cmd ("pkill tar");
+
+	if (bk_file && backup_op && response == GTK_RESPONSE_REJECT) {
+		/* backup was canceled, delete the backup file as it is not needed now */
+		gchar *cmd, *filename;
+
+		g_message ("Backup canceled, removing partial backup file.");
+
+		filename = g_shell_quote (bk_file);
+		cmd = g_strconcat ("rm ", filename, NULL);
+
+		run_cmd (cmd);
+
+		g_free (cmd);
+		g_free (filename);
+	}
 
 	gtk_main_quit ();
 }
@@ -495,9 +539,9 @@ main (gint argc, gchar **argv)
 		g_signal_connect (progress_dialog, "response", G_CALLBACK(dlg_response), NULL);
 		gtk_widget_show_all (progress_dialog);
 	} else if (check_op) {
-		 /* For sanity we don't need gui */
-		 check (chk_file);
-		 exit (result);
+		/* For sanity we don't need gui */
+		check (chk_file);
+		exit (result == 0 ? 0 : 1);
 	}
 
 	g_idle_add (idle_cb, NULL);

@@ -98,13 +98,18 @@ tag_calendar_cb (ECalComponent *comp,
 	struct calendar_tag_closure *c = data;
 	struct icaltimetype start_tt, end_tt;
 	ECalComponentTransparency transparency;
+	guint8 style = 0;
 
 	/* If we are skipping TRANSPARENT events, return if the event is
 	   transparent. */
-	if (c->skip_transparent_events) {
-		e_cal_component_get_transparency (comp, &transparency);
-		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
+	e_cal_component_get_transparency (comp, &transparency);
+	if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+		if (c->skip_transparent_events)
 			return TRUE;
+
+		style = E_CALENDAR_ITEM_MARK_ITALIC;
+	} else {
+		style = E_CALENDAR_ITEM_MARK_BOLD;
 	}
 
 	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
@@ -114,7 +119,8 @@ tag_calendar_cb (ECalComponent *comp,
 				   start_tt.day,
 				   end_tt.year, end_tt.month - 1,
 				   end_tt.day,
-				   E_CALENDAR_ITEM_MARK_BOLD);
+				   style,
+				   TRUE);
 
 	return TRUE;
 }

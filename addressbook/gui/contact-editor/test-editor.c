@@ -29,18 +29,17 @@
 #include "ebook/e-card.h"
 
 #define TEST_VCARD \
-"BEGIN:VCARD" \
-"FN:Nat" \
-"N:Friedman;Nat;D;Mr." \
-"BDAY:1977-08-06" \
-"TEL;WORK:617 679 1984" \
-"TEL;CELL:123 456 7890" \
-"EMAIL;INTERNET:nat@nat.org" \
-"EMAIL;INTERNET:nat@ximian.com" \
-"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;" \
-"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA" \
-"END:VCARD" \
-""
+"BEGIN:VCARD\n" \
+"FN:Nat\n" \
+"N:Friedman;Nat;D;Mr.\n" \
+"BDAY:1977-08-06\n" \
+"TEL;WORK:617 679 1984\n" \
+"TEL;CELL:123 456 7890\n" \
+"EMAIL;INTERNET:nat@nat.org\n" \
+"EMAIL;INTERNET:nat@ximian.com\n" \
+"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;\n" \
+"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA\n" \
+"END:VCARD\n"
 
 static gchar *
 read_file (gchar *name)

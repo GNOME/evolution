@@ -4687,8 +4687,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (num_icons > 0) {
 			if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD) * num_icons)
 				icons_offset = E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD * 2;
-			else
-				icons_offset = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD) * num_icons + E_DAY_VIEW_ICON_X_PAD;
 		}
 
 		if (!event->canvas_item) {

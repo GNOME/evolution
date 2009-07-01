@@ -69,10 +69,6 @@ composer_header_addaction_clicked_cb (GtkButton *button,
 				      EComposerHeader *header)
 {
 	gboolean show = !e_composer_header_get_visible(header);
-	if (!show)
-		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
-	else
-		gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
 
 	e_composer_header_set_visible (header, show);
 }
@@ -105,6 +101,7 @@ composer_header_constructor (GType type,
 			GTK_LABEL (widget), header->input_widget);
 	}
 
+	header->priv->action_label = NULL;
 	if (header->priv->addaction) {
 		GtkWidget *box, *tmp;
 		gchar *str;
@@ -428,6 +425,12 @@ e_composer_header_set_visible (EComposerHeader *header,
 
 	header->priv->visible = visible;
 
+	if (header->priv->action_label) {
+		if (!visible)
+			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
+		else
+			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));	
+	}
 	g_object_notify (G_OBJECT (header), "visible");
 }
 

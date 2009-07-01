@@ -1,6 +1,15 @@
+if OS_WIN32
+NO_UNDEFINED_REQUIRED_LIBS =				\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_CALENDAR_LIBS)			\
+	$(EVOLUTION_MAIL_LIBS)
+endif
+
 AM_CPPFLAGS =						\
 	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
 	$(EVOLUTION_CFLAGS)				\

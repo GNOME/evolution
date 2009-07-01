@@ -41,7 +41,8 @@ G_BEGIN_DECLS
 #define E_CALENDAR_COLS_PER_MONTH	7
 
 /* Used to mark days as bold in e_calendar_item_mark_day(). */
-#define E_CALENDAR_ITEM_MARK_BOLD	1
+#define E_CALENDAR_ITEM_MARK_BOLD	(1 << 0)
+#define E_CALENDAR_ITEM_MARK_ITALIC     (1 << 1)
 
 /*
  * These are the padding sizes between various pieces of the calendar.
@@ -101,6 +102,7 @@ typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 					      GdkColor	       **fg_color,
 					      GdkColor	       **box_color,
 					      gboolean		*bold,
+					      gboolean		*italic,
 					      gpointer		 data);
 
 /* The type of the callback function optionally used to get the current time.
@@ -329,7 +331,8 @@ void	 e_calendar_item_mark_day		(ECalendarItem	*calitem,
 						 gint		 year,
 						 gint		 month,
 						 gint		 day,
-						 guint8		 day_style);
+						 guint8		 day_style,
+						 gboolean        add_day_style);
 
 /* Mark a range of days. Any days outside the currently shown range are
    ignored. */
@@ -340,7 +343,8 @@ void	 e_calendar_item_mark_days		(ECalendarItem	*calitem,
 						 gint		 end_year,
 						 gint		 end_month,
 						 gint		 end_day,
-						 guint8		 day_style);
+						 guint8		 day_style,
+						 gboolean        add_day_style);
 
 /* Sets the function to call to get the colors to use for a particular day. */
 void	 e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
