@@ -91,11 +91,10 @@ es_event_get_type(void)
 
 /**
  * es_event_peek:
- * @void:
  *
  * Get the singular instance of the shell event handler.
  *
- * Return value:
+ * Return: the shell event handler
  **/
 ESEvent *es_event_peek(void)
 {

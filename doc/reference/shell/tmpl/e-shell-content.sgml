@@ -191,6 +191,24 @@ EShellContent
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_content_get_search_hint ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_content_set_search_hint ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_hint: 
+
+
 <!-- ##### FUNCTION e_shell_content_get_search_rule ##### -->
 <para>
 
@@ -339,5 +357,14 @@ EShellContent
 </para>
 
 @shell_content: 
+
+
+<!-- ##### FUNCTION e_shell_content_restore_state ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@group_name: 
 
 

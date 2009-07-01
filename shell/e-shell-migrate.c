@@ -323,7 +323,6 @@ check_old:
 	g_free (string);
 
 	/** @Event: Shell attempted upgrade
-	 * @Shell: an #EShell
 	 * @Id: upgrade.done
 	 * @Target: ESMenuTargetState
 	 *

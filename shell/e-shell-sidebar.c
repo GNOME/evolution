@@ -551,6 +551,8 @@ e_shell_sidebar_get_icon_name (EShellSidebar *shell_sidebar)
 
 /**
  * e_shell_sidebar_set_icon_name:
+ * @shell_sidebar: an #EShellSidebar
+ * @icon_name: a themed icon name
  *
  * Sets the icon name displayed at the top of the sidebar.
  **/

@@ -103,9 +103,9 @@ gpointer	e_shell_settings_get_object	(EShellSettings *shell_settings,
 void		e_shell_settings_set_object	(EShellSettings *shell_settings,
 						 const gchar *property_name,
 						 gpointer v_object);
-gpointer	e_shell_settings_get_pointer	(EShellSettings *shell_setting,
+gpointer	e_shell_settings_get_pointer	(EShellSettings *shell_settings,
 						 const gchar *property_name);
-void		e_shell_settings_set_pointer	(EShellSettings *shell_setting,
+void		e_shell_settings_set_pointer	(EShellSettings *shell_settings,
 						 const gchar *property_name,
 						 gpointer v_pointer);
 

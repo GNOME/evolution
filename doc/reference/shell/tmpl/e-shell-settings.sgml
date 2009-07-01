@@ -134,7 +134,7 @@ EShellSettings
 
 </para>
 
-@shell_setting: 
+@shell_settings: 
 @property_name: 
 @Returns: 
 
@@ -144,7 +144,7 @@ EShellSettings
 
 </para>
 
-@shell_setting: 
+@shell_settings: 
 @property_name: 
 @v_pointer: 
 

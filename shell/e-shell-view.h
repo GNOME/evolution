@@ -101,6 +101,7 @@ struct _EShellView {
  *			for subclasses, but subclasses are still responsible
  *			for adding the appropriate #GalView factories to the
  *			view collection.
+ * @shell_backend:	The corresponding #EShellBackend for the shell view.
  * @new_shell_content:	Factory method for the shell view's #EShellContent.
  *			See e_shell_view_get_shell_content().
  * @new_shell_sidebar:	Factory method for the shell view's #EShellSidebar.

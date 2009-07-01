@@ -237,6 +237,23 @@ EShellView
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_view_get_state_key_file ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_set_state_dirty ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
 <!-- ##### FUNCTION e_shell_view_update_actions ##### -->
 <para>
 
