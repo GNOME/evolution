@@ -71,11 +71,6 @@ struct _EMMailerPrefs {
 	GtkSpinButton *timeout;
 	GtkOptionMenu *charset;
 
-	/* Deleting Mail */
-	GtkToggleButton *empty_trash;
-	GtkComboBox *empty_trash_days;
-	GtkToggleButton *confirm_expunge;
-
 	/* HTML Mail tab */
 	GtkFontButton *font_variable;
 	GtkFontButton *font_fixed;
@@ -102,10 +97,6 @@ struct _EMMailerPrefs {
 	GtkEntry *entry_header;
 	GtkTreeView *header_list;
 	GtkListStore *header_list_store;
-
-	/* Junk prefs */
-	GtkToggleButton *empty_junk;
-	GtkComboBox *empty_junk_days;
 
 	GtkToggleButton *sa_local_tests_only;
 	GtkToggleButton *sa_use_daemon;

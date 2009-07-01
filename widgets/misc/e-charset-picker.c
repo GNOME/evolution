@@ -107,7 +107,6 @@ static ECharset charsets[] = {
 	{ "ISO-8859-1", E_CHARSET_WESTERN_EUROPEAN, NULL },
 	{ "ISO-8859-15", E_CHARSET_WESTERN_EUROPEAN_NEW, NULL },
 };
-static const gint num_charsets = sizeof (charsets) / sizeof (charsets[0]);
 
 static void
 select_item (GtkMenuShell *menu_shell, GtkWidget *item)
@@ -301,13 +300,13 @@ e_charset_picker_new (const gchar *default_charset)
 
 	if (!default_charset)
 		default_charset = locale_charset;
-	for (def = 0; def < num_charsets; def++) {
+	for (def = 0; def < G_N_ELEMENTS (charsets); def++) {
 		if (!g_ascii_strcasecmp (charsets[def].name, default_charset))
 			break;
 	}
 
 	menu = gtk_menu_new ();
-	for (i = 0; i < num_charsets; i++) {
+	for (i = 0; i < G_N_ELEMENTS (charsets); i++) {
 		item = add_charset (menu, &charsets[i], FALSE);
 		if (i == def) {
 			activate (item, menu);
@@ -318,7 +317,7 @@ e_charset_picker_new (const gchar *default_charset)
 	/* do the Unknown/Other section */
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_menu_item_new ());
 
-	if (def == num_charsets) {
+	if (def == G_N_ELEMENTS (charsets)) {
 		ECharset other = { NULL, E_CHARSET_UNKNOWN, NULL };
 
 		/* Add an entry for @default_charset */
@@ -359,79 +358,6 @@ e_charset_picker_get_charset (GtkWidget *menu)
 	charset = g_object_get_data ((GObject *) item, "charset");
 
 	return g_strdup (charset);
-}
-
-/**
- * e_charset_picker_dialog:
- * @title: title for the dialog box
- * @prompt: prompt string for the dialog box
- * @default_charset: as for e_charset_picker_new()
- * @parent: a parent window for the dialog box, or %NULL
- *
- * This creates a new dialog box with the given @title and @prompt and
- * a character set picker menu. It then runs the dialog and returns
- * the selected character set, or %NULL if the user clicked "Cancel".
- *
- * Return value: the selected character set (which must be freed with
- * g_free()), or %NULL.
- **/
-gchar *
-e_charset_picker_dialog (const gchar *title, const gchar *prompt,
-			 const gchar *default_charset, GtkWindow *parent)
-{
-	GtkDialog *dialog;
-	GtkWidget *label, *omenu, *picker, *vbox, *hbox;
-	gchar *charset = NULL;
-
-	dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (title,
-							  parent,
-							  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							  GTK_STOCK_OK, GTK_RESPONSE_OK,
-							  NULL));
-
-	gtk_dialog_set_has_separator (dialog, FALSE);
-	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
-
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), vbox, FALSE, FALSE, 0);
-	gtk_widget_show (vbox);
-
-	label = gtk_label_new (prompt);
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
-
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show (hbox);
-
-	label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
-
-	picker = e_charset_picker_new (default_charset);
-	omenu = gtk_option_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), picker);
-	gtk_box_pack_start (GTK_BOX (hbox), omenu, TRUE, TRUE, 0);
-	gtk_widget_show (omenu);
-
-	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog->action_area), 12);
-
-	gtk_widget_show_all (GTK_WIDGET (dialog));
-
-	g_object_ref (dialog);
-
-	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK)
-		charset = e_charset_picker_get_charset (picker);
-
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-	g_object_unref (dialog);
-
-	return charset;
 }
 
 /**

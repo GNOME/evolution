@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef E_CHARSETPICKER_H
-#define E_CHARSETPICKER_H
+#ifndef E_CHARSET_PICKER_H
+#define E_CHARSET_PICKER_H
 
 #include <gtk/gtk.h>
 
@@ -27,11 +27,6 @@ G_BEGIN_DECLS
 
 GtkWidget *	e_charset_picker_new		(const gchar *default_charset);
 gchar *		e_charset_picker_get_charset	(GtkWidget *picker);
-gchar *		e_charset_picker_dialog		(const gchar *title,
-						 const gchar *prompt,
-						 const gchar *default_charset,
-						 GtkWindow *parent);
-
 GSList *	e_charset_add_radio_actions	(GtkActionGroup *action_group,
 						 const gchar *action_prefix,
 						 const gchar *default_charset,
@@ -40,4 +35,4 @@ GSList *	e_charset_add_radio_actions	(GtkActionGroup *action_group,
 
 G_END_DECLS
 
-#endif /* E_CHARSETPICKER_H */
+#endif /* E_CHARSET_PICKER_H */

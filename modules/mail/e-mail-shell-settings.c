@@ -155,6 +155,18 @@ e_mail_shell_settings_init (EShell *shell)
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
+			"mail-empty-junk-on-exit",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-empty-junk-on-exit",
+		"/apps/evolution/mail/junk/empty_on_exit");
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
 			"mail-empty-trash-on-exit",
 			NULL,
 			NULL,

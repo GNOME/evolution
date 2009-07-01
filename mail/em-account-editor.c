@@ -60,6 +60,7 @@
 #include "widgets/misc/e-signature-editor.h"
 
 #include "e-mail-local.h"
+#include "e-mail-store.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 #include "em-account-editor.h"
@@ -191,6 +192,7 @@ struct _EMAccountEditorPrivate {
 	/* for druid page preparation */
 	guint identity_set:1;
 	guint receive_set:1;
+	guint send_set:1;
 	guint management_set:1;
 };
 
@@ -3047,11 +3049,11 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	const gchar *tmp;
 	EAccount *ea;
 	gboolean refresh = FALSE;
-	gboolean edit;
+	gboolean new_account;
 
 	account = em_account_editor_get_modified_account (emae);
-	original_account = em_account_editor_get_modified_account (emae);
-	edit = (original_account != NULL);
+	original_account = em_account_editor_get_original_account (emae);
+	new_account = (original_account == NULL);
 
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
@@ -3090,28 +3092,35 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				index = check_servers (at);
 				gtk_entry_set_text (emae->priv->source.username, user);
 				gtk_entry_set_text (emae->priv->transport.username, user);
-				if (!edit && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+				if (new_account && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
-					camel_url_set_protocol (url, mail_servers[index].proto);
-					camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);
-					camel_url_set_host (url, mail_servers[index].recv);
 					camel_url_set_user (url, user);
-					gtk_entry_set_text (emae->priv->source.hostname, mail_servers[index].recv);
-					gtk_entry_set_text (emae->priv->transport.hostname, mail_servers[index].send);
+					if (index != -1) {
+						camel_url_set_protocol (url, mail_servers[index].proto);
+						camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);
+						camel_url_set_host (url, mail_servers[index].recv);
+						gtk_entry_set_text (emae->priv->source.hostname, mail_servers[index].recv);
+						gtk_entry_set_text (emae->priv->transport.hostname, mail_servers[index].send);
+					} else {
+						camel_url_set_host (url, "");
+					}
+					g_free (uri);
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
 
-					g_free (uri);
 					camel_url_free (url);
 				}
+				g_free (uri);
 
 			}
 		} else if (!strcmp (pageid, "30.send")) {
+			if (!emae->priv->send_set) {
 				CamelURL *url;
 				gchar *at, *user;
 				gint index;
 				gchar *uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 
+				emae->priv->send_set = 1;
 				tmp = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr (tmp, '@');
 				user = g_alloca (at-tmp+1);
@@ -3120,7 +3129,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				at++;
 
 				index = check_servers (at);
-				if (uri  && (url = camel_url_new (uri, NULL)) != NULL) {
+				if (index != -1 && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
 					camel_url_set_param (url, "use_ssl", mail_servers[index].ssl);
@@ -3130,9 +3139,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
 					g_free (uri);
 					camel_url_free (url);
-				} else {
-					g_warning ("buz2\n");
 				}
+			}
 
 		} else if (!strcmp (pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
@@ -3223,15 +3231,12 @@ em_account_editor_check (EMAccountEditor *emae, const gchar *page)
 static void
 add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 {
-#if 0  /* KILL-BONOBO: Try to actually fix this? */
-	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
 
 	if (store == NULL)
 		return;
 
-	mail_component_add_store (component, store, account->name);
-#endif
+	e_mail_store_add (store, account->name);
 }
 
 static void
