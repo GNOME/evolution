@@ -1030,7 +1030,7 @@ e_shell_save_settings (EShell *shell)
 	GConfClient *client;
 	gboolean is_offline;
 
-	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE || e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_FORCED_OFFLINE);
+	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
 
 	client = gconf_client_get_default ();
 	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", is_offline, NULL);
@@ -1132,20 +1132,20 @@ e_shell_set_line_status (EShell *shell,
 	GSList *p;
 	CORBA_Environment ev;
 	GConfClient *client;
-	gboolean status;
+	gboolean is_online;
 	gboolean forced = FALSE;
 
 	priv = shell->priv;
 
 	if (shell_state == GNOME_Evolution_FORCED_OFFLINE || shell_state == GNOME_Evolution_USER_OFFLINE) {
-		status = FALSE;
+		is_online = FALSE;
 		if (shell_state == GNOME_Evolution_FORCED_OFFLINE)
 			forced = TRUE;
 	} else
-		status = TRUE;
+		is_online = TRUE;
 
-	if ((status && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
-	    || (!status && priv->line_status == E_SHELL_LINE_STATUS_OFFLINE && !forced))
+	if ((is_online && priv->line_status == E_SHELL_LINE_STATUS_ONLINE)
+	    || (!is_online && priv->line_status == E_SHELL_LINE_STATUS_OFFLINE && !forced))
 		return;
 
 	/* we use 'going offline' to mean 'changing status' now */
@@ -1153,10 +1153,11 @@ e_shell_set_line_status (EShell *shell,
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 
 	client = gconf_client_get_default ();
-	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", !status, NULL);
+	if (!forced)
+		gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", !is_online, NULL);
 	g_object_unref (client);
 
-	priv->line_status_working = status?E_SHELL_LINE_STATUS_ONLINE: forced?E_SHELL_LINE_STATUS_FORCED_OFFLINE:E_SHELL_LINE_STATUS_OFFLINE;
+	priv->line_status_working = is_online ? E_SHELL_LINE_STATUS_ONLINE: forced?E_SHELL_LINE_STATUS_FORCED_OFFLINE:E_SHELL_LINE_STATUS_OFFLINE;
 	/* we start at 2: setLineStatus could recursively call back, we therefore
 	   `need to not complete till we're really complete */
 	priv->line_status_pending += 2;
