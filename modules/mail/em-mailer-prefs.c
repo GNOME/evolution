@@ -33,7 +33,6 @@
 #include <camel/camel-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
-#include "misc/e-charset-picker.h"
 
 #include <glade/glade.h>
 
@@ -43,6 +42,7 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-util-private.h"
+#include "widgets/misc/e-charset-combo-box.h"
 
 #include "e-mail-label-manager.h"
 #include "mail-config.h"
@@ -565,43 +565,6 @@ toggle_button_init (EMMailerPrefs *prefs, GtkToggleButton *toggle, gint not, con
 }
 
 static void
-charset_activate (GtkWidget *item, EMMailerPrefs *prefs)
-{
-	GtkWidget *menu;
-	gchar *string;
-
-	menu = gtk_option_menu_get_menu (prefs->charset);
-	if (!(string = e_charset_picker_get_charset (menu)))
-		string = g_strdup (camel_iconv_locale_charset ());
-
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/charset", string, NULL);
-	g_free (string);
-}
-
-static void
-charset_menu_init (EMMailerPrefs *prefs)
-{
-	GtkWidget *menu, *item;
-	GList *items;
-	gchar *buf;
-
-	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/charset", NULL);
-	menu = e_charset_picker_new (buf && *buf ? buf : camel_iconv_locale_charset ());
-	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	g_free (buf);
-
-	items = GTK_MENU_SHELL (menu)->children;
-	while (items) {
-		item = items->data;
-		g_signal_connect (item, "activate", G_CALLBACK (charset_activate), prefs);
-		items = items->next;
-	}
-
-	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/charset", NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->charset, FALSE);
-}
-
-static void
 trash_days_changed (GtkComboBox *combo_box,
                     EMMailerPrefs *prefs)
 {
@@ -941,8 +904,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_OBJECT (shell_settings), "mail-magic-spacebar",
 		G_OBJECT (widget), "active");
 
-	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
-	charset_menu_init (prefs);
+	widget = e_charset_combo_box_new ();
+	container = glade_xml_get_widget (gui, "hboxDefaultCharset");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "mail-charset",
+		G_OBJECT (widget), "charset");
 
 	widget = glade_xml_get_widget (gui, "chkHighlightCitations");
 	e_mutual_binding_new (

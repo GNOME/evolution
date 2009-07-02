@@ -30,11 +30,11 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#include "e-util/e-util.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-charset.h"
+#include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
-#include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-popup-action.h"
 
 #include "mail/e-mail-browser.h"

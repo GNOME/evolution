@@ -137,6 +137,7 @@ composer/mail-composer.error.xml
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
 e-util/e-categories-config.c
+e-util/e-charset.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
 e-util/e-logger.c
@@ -481,7 +482,7 @@ widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-canvas-background.c
 widgets/misc/e-canvas-vbox.c
-widgets/misc/e-charset-picker.c
+widgets/misc/e-charset-combo-box.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-image-chooser.c
 widgets/misc/e-map.c

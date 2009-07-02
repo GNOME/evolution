@@ -95,14 +95,14 @@ e_mail_shell_settings_init (EShell *shell)
 
 	e_shell_settings_install_property (
 		g_param_spec_string (
-			"mail-charset-default",
+			"mail-charset",
 			NULL,
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
 
 	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-charset-default",
+		shell_settings, "mail-charset",
 		"/apps/evolution/mail/display/charset");
 
 	e_shell_settings_install_property (
@@ -398,6 +398,18 @@ e_mail_shell_settings_init (EShell *shell)
 
 
 	/*** Composer Preferences ***/
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"composer-charset",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "composer-charset",
+		"/apps/evolution/mail/composer/charset");
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (

@@ -315,8 +315,8 @@ For example: "Work" or "Personal"</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <accessibility>
-                                  <atkrelation type="labelled-by" target="identity_address_label"/>
                                   <atkrelation type="labelled-by" target="label464"/>
+                                  <atkrelation type="labelled-by" target="identity_address_label"/>
                                 </accessibility>
                               </widget>
                               <packing>
@@ -360,8 +360,8 @@ For example: "Work" or "Personal"</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <accessibility>
-                                  <atkrelation type="labelled-by" target="label464"/>
                                   <atkrelation type="labelled-by" target="identity_full_name_label"/>
+                                  <atkrelation type="labelled-by" target="label464"/>
                                 </accessibility>
                               </widget>
                               <packing>
@@ -488,8 +488,8 @@ For example: "Work" or "Personal"</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <accessibility>
-                              <atkrelation type="labelled-by" target="identity_organization_label"/>
                               <atkrelation type="labelled-by" target="label466"/>
+                              <atkrelation type="labelled-by" target="identity_organization_label"/>
                             </accessibility>
                           </widget>
                           <packing>
@@ -520,8 +520,8 @@ For example: "Work" or "Personal"</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <accessibility>
-                              <atkrelation type="labelled-by" target="label466"/>
                               <atkrelation type="labelled-by" target="reply_to_label"/>
+                              <atkrelation type="labelled-by" target="label466"/>
                             </accessibility>
                           </widget>
                           <packing>
@@ -2653,144 +2653,6 @@ For example: "Work" or "Personal"</property>
       </widget>
     </child>
   </widget>
-  <widget class="GtkWindow" id="accounts_tab">
-    <property name="title" translatable="yes">Email Accounts</property>
-    <child>
-      <widget class="GtkHBox" id="toplevel">
-        <property name="visible">True</property>
-        <property name="spacing">6</property>
-        <child>
-          <widget class="Custom" id="etableMailAccounts">
-            <property name="visible">True</property>
-            <property name="creation_function">em_account_prefs_treeview_new</property>
-          </widget>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkVBox" id="vboxMailFunctions">
-            <property name="visible">True</property>
-            <property name="spacing">6</property>
-            <child>
-              <widget class="GtkVButtonBox" id="vbuttonboxMailAccounts">
-                <property name="visible">True</property>
-                <property name="spacing">6</property>
-                <property name="layout_style">start</property>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountAdd">
-                    <property name="label">gtk-add</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountEdit">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="receives_default">False</property>
-                    <child>
-                      <widget class="GtkAlignment" id="alignment33">
-                        <property name="visible">True</property>
-                        <property name="xscale">0</property>
-                        <property name="yscale">0</property>
-                        <child>
-                          <widget class="GtkHBox" id="hbox224">
-                            <property name="visible">True</property>
-                            <property name="spacing">2</property>
-                            <child>
-                              <widget class="GtkImage" id="image8">
-                                <property name="visible">True</property>
-                                <property name="stock">gtk-properties</property>
-                                <property name="icon-size">4</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="label557">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">_Edit</property>
-                                <property name="use_underline">True</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountDelete">
-                    <property name="label">gtk-delete</property>
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_stock">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountDefault">
-                    <property name="label" translatable="yes">De_fault</property>
-                    <property name="width_request">89</property>
-                    <property name="height_request">36</property>
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
   <widget class="GtkWindow" id="preferences_tab">
     <property name="title" translatable="yes">Mail Preferences</property>
     <child>
@@ -3218,7 +3080,6 @@ For example: "Work" or "Personal"</property>
                                     <property name="label" translatable="yes">Default character e_ncoding:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">center</property>
-                                    <property name="mnemonic_widget">omenuCharset</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3227,16 +3088,7 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkOptionMenu" id="omenuCharset">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                               </widget>
                               <packing>
@@ -4458,21 +4310,6 @@ Quoted</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkOptionMenu" id="omenuCharset1">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="GtkLabel" id="lblForwardStyle">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
@@ -4490,13 +4327,27 @@ Quoted</property>
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">C_haracter set:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">omenuCharset1</property>
                                   </widget>
                                   <packing>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkHBox" id="hboxComposerCharset">
+                                    <property name="visible">True</property>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="x_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -4683,7 +4534,6 @@ Quoted</property>
                     <property name="label" translatable="yes">&lt;b&gt;Sig_natures&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">listSignatures</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

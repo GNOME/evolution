@@ -29,6 +29,7 @@
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-attachment-paned.h"

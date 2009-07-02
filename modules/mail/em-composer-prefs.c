@@ -47,12 +47,12 @@
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
 
-#include "misc/e-charset-picker.h"
-#include "misc/e-signature-editor.h"
-#include "misc/e-signature-manager.h"
-#include "misc/e-signature-preview.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "widgets/misc/e-charset-combo-box.h"
+#include "widgets/misc/e-signature-editor.h"
+#include "widgets/misc/e-signature-manager.h"
+#include "widgets/misc/e-signature-preview.h"
 
 #include "mail-config.h"
 #include "em-config.h"
@@ -320,54 +320,6 @@ spell_setup (EMComposerPrefs *prefs)
 	g_list_free (active_languages);
 }
 
-static void
-charset_activate (GtkWidget *item,
-                  EMComposerPrefs *prefs)
-{
-	GConfClient *client;
-	GtkWidget *menu;
-	gchar *string;
-
-	client = mail_config_get_gconf_client ();
-	menu = gtk_option_menu_get_menu (prefs->charset);
-	string = e_charset_picker_get_charset (menu);
-
-	if (string == NULL)
-		string = g_strdup (camel_iconv_locale_charset ());
-
-	gconf_client_set_string (
-		client, "/apps/evolution/mail/composer/charset",
-		string, NULL);
-
-	g_free (string);
-}
-
-static void
-option_menu_connect (EMComposerPrefs *prefs,
-                     GtkOptionMenu *omenu,
-                     GCallback callback,
-                     const gchar *key)
-{
-	GConfClient *client;
-	GtkWidget *menu;
-	GList *list;
-
-	client = mail_config_get_gconf_client ();
-	menu = gtk_option_menu_get_menu (omenu);
-	list = GTK_MENU_SHELL (menu)->children;
-
-	while (list != NULL) {
-		GtkWidget *widget = list->data;
-
-		g_object_set_data (G_OBJECT (widget), "key", (gpointer) key);
-		g_signal_connect (widget, "activate", callback, prefs);
-		list = list->next;
-	}
-
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (GTK_WIDGET (omenu), FALSE);
-}
-
 static GtkWidget *
 emcp_widget_glade (EConfig *ec,
                    EConfigItem *item,
@@ -405,7 +357,7 @@ static void
 em_composer_prefs_construct (EMComposerPrefs *prefs,
                              EShell *shell)
 {
-	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
+	GtkWidget *toplevel, *widget, *info_pixmap;
 	GtkWidget *container;
 	EShellSettings *shell_settings;
 	ESignatureList *signature_list;
@@ -417,7 +369,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkCellRenderer *renderer;
 	GConfBridge *bridge;
 	GConfClient *client;
-	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
@@ -497,18 +448,13 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_OBJECT (shell_settings), "composer-inline-spelling",
 		G_OBJECT (widget), "active");
 
-	prefs->charset = GTK_OPTION_MENU (
-		glade_xml_get_widget (gui, "omenuCharset1"));
-	buf = gconf_client_get_string (
-		client, "/apps/evolution/mail/composer/charset", NULL);
-	menu = e_charset_picker_new (
-		buf && *buf ? buf : camel_iconv_locale_charset ());
-	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
-	option_menu_connect (
-		prefs, prefs->charset,
-		G_CALLBACK (charset_activate),
-		"/apps/evolution/mail/composer/charset");
-	g_free (buf);
+	widget = e_charset_combo_box_new ();
+	container = glade_xml_get_widget (gui, "hboxComposerCharset");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-charset",
+		G_OBJECT (widget), "charset");
 
 	/* Spell Checking */
 	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");

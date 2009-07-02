@@ -43,6 +43,7 @@ eutilinclude_HEADERS = 				\
 	e-bconf-map.h				\
 	e-binding.h				\
 	e-categories-config.h			\
+	e-charset.h				\
 	e-config.h				\
 	e-config-listener.h			\
 	e-cursor.h				\
@@ -86,6 +87,7 @@ libeutil_la_SOURCES =				\
 	e-bconf-map.c				\
 	e-binding.c				\
 	e-categories-config.c			\
+	e-charset.c				\
 	e-config-listener.c			\
 	e-config.c				\
 	e-cursor.c				\

@@ -22,8 +22,6 @@
 #include <fcntl.h>
 #include <e-util/e-error.h>
 
-#include "misc/e-charset-picker.h"
-
 static void
 action_attach_cb (GtkAction *action,
                   EMsgComposer *composer)

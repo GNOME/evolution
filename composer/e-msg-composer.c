@@ -48,7 +48,6 @@
 #include <glade/glade.h>
 
 #include "e-util/e-dialog-utils.h"
-#include "misc/e-charset-picker.h"
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-plugin-ui.h"

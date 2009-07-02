@@ -57,7 +57,7 @@ widgetsinclude_HEADERS =			\
 	e-canvas-utils.h			\
 	e-canvas-vbox.h				\
 	e-cell-renderer-combo.h			\
-	e-charset-picker.h			\
+	e-charset-combo-box.h			\
 	e-colors.h				\
 	e-combo-cell-editable.h			\
 	e-cursors.h				\
@@ -120,7 +120,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-canvas-utils.c			\
 	e-canvas-vbox.c				\
 	e-cell-renderer-combo.c			\
-	e-charset-picker.c			\
+	e-charset-combo-box.c			\
 	e-colors.c				\
 	e-combo-cell-editable.c			\
 	e-cursors.c				\
