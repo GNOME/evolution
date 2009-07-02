@@ -74,7 +74,7 @@
 #include "smime/gui/e-cert-selector.h"
 #endif
 
-#define d (x)
+#define d(x)
 
 /* econfig item for the extra config hings */
 struct _receive_options_item {
