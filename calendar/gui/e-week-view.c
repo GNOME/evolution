@@ -4053,7 +4053,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 		return FALSE;
 
 	/* Add a new event covering the selected range. */
-	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)));
+	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), TRUE);
 	if (!icalcomp)
 		return FALSE;
 	uid = icalcomponent_get_uid (icalcomp);

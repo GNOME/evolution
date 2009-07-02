@@ -4838,7 +4838,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
 		return FALSE;
 
-	icalcomp = e_cal_model_create_component_with_defaults (model);
+	icalcomp = e_cal_model_create_component_with_defaults (model, day_view->selection_in_top_canvas);
 	if (!icalcomp)
 		return FALSE;
 

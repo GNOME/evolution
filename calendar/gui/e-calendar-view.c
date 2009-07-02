@@ -1970,7 +1970,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	else
 		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
 
-	icalcomp = e_cal_model_create_component_with_defaults (priv->model);
+	icalcomp = e_cal_model_create_component_with_defaults (priv->model, all_day);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
 

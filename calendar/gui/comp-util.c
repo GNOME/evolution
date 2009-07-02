@@ -278,12 +278,12 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client)
  * cal_comp_event_new_with_defaults:
  *
  * Creates a new VEVENT component and adds any default alarms to it as set in
- * the program's configuration values.
+ * the program's configuration values, but only if not the all_day event.
  *
  * Return value: A newly-created calendar component.
  **/
 ECalComponent *
-cal_comp_event_new_with_defaults (ECal *client)
+cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 {
 	icalcomponent *icalcomp;
 	ECalComponent *comp;
@@ -303,7 +303,7 @@ cal_comp_event_new_with_defaults (ECal *client)
 		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
 	}
 
-	if (!calendar_config_get_use_default_reminder ())
+	if (all_day || !calendar_config_get_use_default_reminder ())
 		return comp;
 
 	interval = calendar_config_get_default_reminder_interval ();
@@ -361,7 +361,7 @@ cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
 	ECalComponentDateTime dt;
 	icaltimezone *zone;
 
-	comp = cal_comp_event_new_with_defaults (client);
+	comp = cal_comp_event_new_with_defaults (client, all_day);
 
 	g_return_val_if_fail (comp, NULL);
 

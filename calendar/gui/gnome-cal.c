@@ -3510,7 +3510,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	flags |= COMP_EDITOR_NEW_ITEM;
 	editor = task_editor_new (ecal, flags);
 
-	icalcomp = e_cal_model_create_component_with_defaults (model);
+	icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
 
