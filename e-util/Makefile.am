@@ -45,7 +45,6 @@ eutilinclude_HEADERS = 				\
 	e-categories-config.h			\
 	e-charset.h				\
 	e-config.h				\
-	e-config-listener.h			\
 	e-cursor.h				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
@@ -88,7 +87,6 @@ libeutil_la_SOURCES =				\
 	e-binding.c				\
 	e-categories-config.c			\
 	e-charset.c				\
-	e-config-listener.c			\
 	e-config.c				\
 	e-cursor.c				\
 	e-dialog-utils.c			\

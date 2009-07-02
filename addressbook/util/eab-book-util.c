@@ -27,18 +27,6 @@
 #include <string.h>
 #include <glib.h>
 #include <glib-object.h>
-#include <e-util/e-config-listener.h>
-
-EConfigListener *
-eab_get_config_database (void)
-{
-	static EConfigListener *config_db;
-
-	if (config_db == NULL)
-		config_db = e_config_listener_new ();
-
-	return config_db;
-}
 
 /*
  *

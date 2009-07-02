@@ -48,7 +48,6 @@
 #include <e-pilot-map.h>
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
-#include <e-config-listener.h>
 #include <libecalendar-common-conduit.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
@@ -507,15 +506,16 @@ get_timezone (ECal *client, const gchar *tzid)
 static icaltimezone *
 get_default_timezone (void)
 {
-	EConfigListener *listener;
+	GConfClient *client;
 	icaltimezone *timezone = NULL;
+	const gchar *key;
 	gchar *location;
 
-	listener = e_config_listener_new ();
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/display/timezone";
+	location = gconf_client_get_string (client, key, NULL);
 
-	location = e_config_listener_get_string_with_default (listener,
-		"/apps/evolution/calendar/display/timezone", "UTC", NULL);
-	if (!location || !location[0]) {
+	if (location == NULL || *location == '\0') {
 		g_free (location);
 		location = g_strdup ("UTC");
 	}
@@ -523,7 +523,7 @@ get_default_timezone (void)
 	timezone = icaltimezone_get_builtin_timezone (location);
 	g_free (location);
 
-	g_object_unref (listener);
+	g_object_unref (client);
 
 	return timezone;
 }

@@ -25,14 +25,10 @@
 #define __EAB_UTIL_H__
 
 #include <libebook/e-book.h>
-#include "e-util/e-config-listener.h"
 
 G_BEGIN_DECLS
 
 typedef void (*EABHaveAddressCallback) (EBook *book, const gchar *addr, EContact *contact, gpointer closure);
-
-/* config database interface. */
-EConfigListener       *eab_get_config_database       (void);
 
 /* Specialized Name/Email Queries */
 guint                  eab_name_and_email_query      (EBook                    *book,
