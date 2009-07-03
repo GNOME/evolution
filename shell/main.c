@@ -27,6 +27,12 @@
 
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
+#ifdef DATADIR
+#undef DATADIR
+#endif
+#include <io.h>
+#include <conio.h>
+#define _WIN32_WINNT 0x0500
 #include <windows.h>
 #endif
 
@@ -566,6 +572,28 @@ gint
 main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
+    if (fileno (stdout) != -1 &&
+ 	  _get_osfhandle (fileno (stdout)) != -1)
+	{
+	  /* stdout is fine, presumably redirected to a file or pipe */
+	}
+    else
+    {
+	  typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
+
+	  AttachConsole_t p_AttachConsole =
+	    (AttachConsole_t) GetProcAddress (GetModuleHandle ("kernel32.dll"), "AttachConsole");
+
+	  if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
+      {
+	      freopen ("CONOUT$", "w", stdout);
+	      dup2 (fileno (stdout), 1);
+	      freopen ("CONOUT$", "w", stderr);
+	      dup2 (fileno (stderr), 2);
+
+      }
+	}
+
 	extern void link_shutdown (void);
 #endif
 
