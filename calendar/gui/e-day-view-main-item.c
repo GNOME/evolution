@@ -175,9 +175,10 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	gint work_day_start_y, work_day_end_y;
 	gint day_x, day_w, work_day;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
-	struct icaltimetype day_start_tt;
+	struct icaltimetype day_start_tt, today_tt;
 	gint weekday;
 	cairo_t *cr;
+	gboolean today = FALSE;
 
 	cr = gdk_cairo_create (drawable);
 
@@ -196,6 +197,9 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	work_day_start_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute) - y;
 	gc = day_view->main_gc;
 	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
+
+	today_tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+						  e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	for (day = 0; day < day_view->days_shown; day++) {
 		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
@@ -216,8 +220,17 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 			cairo_fill (cr);
 			cairo_restore (cr);
 
+			if (day_view->days_shown > 1) {
+				/* Check if we are drawing today */
+				today =  day_start_tt.year == today_tt.year
+					&& day_start_tt.month == today_tt.month
+					&& day_start_tt.day == today_tt.day;
+			} else {
+				today = FALSE;
+			}
+
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+			gdk_cairo_set_source_color (cr, &day_view->colors[today ? E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY : E_DAY_VIEW_COLOR_BG_WORKING]);
 
 			cairo_rectangle (cr, day_x, work_day_start_y, day_w,
 					work_day_end_y - work_day_start_y);

@@ -2686,3 +2686,26 @@ e_calendar_utils_show_info_silent (GtkWidget *widget)
 
 	e_activity_handler_make_error (handler, "calendar", E_LOG_WARNINGS, widget);
 }
+
+/* returns either light or dark yellow, based on the base_background,
+   which is the default background color */
+GdkColor
+get_today_background (const GdkColor base_background)
+{
+	GdkColor res = base_background;
+
+	if (res.red > 0x7FFF) {
+		/* light yellow for a light theme */
+		res.red   = 0xFFFF;
+		res.green = 0xFFFF;
+		res.blue  = 0xC0C0;
+	} else {
+		/* dark yellow for a dark theme */
+		res.red   = 0x3F3F;
+		res.green = 0x3F3F;
+		res.blue  = 0x0000;
+	}
+
+	return res;
+}
+

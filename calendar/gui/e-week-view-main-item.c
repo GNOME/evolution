@@ -257,6 +257,17 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
 		E_WEEK_VIEW_DATE_LINE_T_PAD;
 
+	if (!today) {
+		struct icaltimetype tt;
+
+		/* Check if we are drawing today */
+		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
+						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		today = g_date_get_year (date) == tt.year
+			&& g_date_get_month (date) == tt.month
+			&& g_date_get_day (date) == tt.day;
+	}
+
 	working_days = calendar_config_get_working_days ();
 
 	/* Draw the background of the day. In the month view odd months are
@@ -264,7 +275,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	   month starts (defaults are white for odd - January, March, ... and
 	   light gray for even). In the week view the background is always the
 	   same color, the color used for the odd months in the month view. */
-	if ((working_days & day_of_week) == 0)
+	if (today)
+		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND];
+	else if ((working_days & day_of_week) == 0)
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY];
 	else if (week_view->multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
@@ -377,21 +390,11 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	if (selected) {
 		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	} else if (week_view->multi_week_view) {
-		struct icaltimetype tt;
-
-		/* Check if we are drawing today */
-		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		if (g_date_get_year (date) == tt.year
-		    && g_date_get_month (date) == tt.month
-		    && g_date_get_day (date) == tt.day) {
+		if (today) {
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
-			today = TRUE;
-		}
-		else {
+		} else {
 			gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
-
-			}
+		}
 	} else {
 		gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}

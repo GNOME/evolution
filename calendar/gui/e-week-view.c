@@ -775,6 +775,7 @@ e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = widget->style->text[GTK_STATE_NORMAL];
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = widget->style->text[GTK_STATE_SELECTED];
 	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = widget->style->base[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
 	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
 }
 

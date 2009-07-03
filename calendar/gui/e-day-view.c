@@ -1193,6 +1193,7 @@ e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = widget->style->dark[GTK_STATE_NORMAL];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = widget->style->bg[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = widget->style->light[GTK_STATE_NORMAL];
