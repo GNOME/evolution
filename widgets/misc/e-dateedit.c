@@ -1729,11 +1729,17 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		   %x the preferred date representation for the current locale without the time,
 		   but has forced to use 4 digit year */
 		gchar *format = e_time_get_d_fmt_with_4digit_year ();
+		time_t tt;
 
 		tmp_tm.tm_year = priv->year;
 		tmp_tm.tm_mon = priv->month;
 		tmp_tm.tm_mday = priv->day;
 		tmp_tm.tm_isdst = -1;
+
+		/* initialize all 'struct tm' members properly */
+		tt = mktime (&tmp_tm);
+		if (tt && localtime (&tt))
+			tmp_tm = *localtime (&tt);
 
 		e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
 		g_free (format);
