@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include "e-week-view-main-item.h"
 #include "ea-calendar.h"
+#include "calendar-config.h"
 
 static void e_week_view_main_item_set_property	(GObject	 *object,
 						 guint		  property_id,
@@ -189,6 +190,23 @@ e_week_view_main_item_draw (GnomeCanvasItem  *canvas_item,
 	}
 }
 
+static gint
+gdate_to_cal_weekdays (GDateWeekday wd)
+{
+	switch (wd) {
+	case G_DATE_MONDAY: return CAL_MONDAY;
+	case G_DATE_TUESDAY: return CAL_TUESDAY;
+	case G_DATE_WEDNESDAY: return CAL_WEDNESDAY;
+	case G_DATE_THURSDAY: return CAL_THURSDAY;
+	case G_DATE_FRIDAY: return CAL_FRIDAY;
+	case G_DATE_SATURDAY: return CAL_SATURDAY;
+	case G_DATE_SUNDAY: return CAL_SUNDAY;
+	default: break;
+	}
+
+	return 0;
+}
+
 static void
 e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 				gint		   day,
@@ -205,7 +223,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
 	gchar buffer[128], *format_string;
-	gint month, day_of_month, max_width;
+	gint day_of_week, month, day_of_month, max_width;
 	GdkColor *bg_color;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
@@ -213,6 +231,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	PangoLayout *layout;
 	gboolean today = FALSE;
 	cairo_t *cr;
+	CalWeekdays working_days;
 
 #if 0
 	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
@@ -230,6 +249,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 	g_return_if_fail (gc != NULL);
 
+	day_of_week = gdate_to_cal_weekdays (g_date_get_weekday (date));
 	month = g_date_get_month (date);
 	day_of_month = g_date_get_day (date);
 	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
@@ -237,12 +257,16 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
 		E_WEEK_VIEW_DATE_LINE_T_PAD;
 
+	working_days = calendar_config_get_working_days ();
+
 	/* Draw the background of the day. In the month view odd months are
 	   one color and even months another, so you can easily see when each
 	   month starts (defaults are white for odd - January, March, ... and
 	   light gray for even). In the week view the background is always the
 	   same color, the color used for the odd months in the month view. */
-	if (week_view->multi_week_view && (month % 2 == 0))
+	if ((working_days & day_of_week) == 0)
+		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY];
+	else if (week_view->multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
 	else
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
