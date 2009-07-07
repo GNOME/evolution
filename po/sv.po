@@ -13746,7 +13746,7 @@ msgstr "Väntar..."
 #: ../mail/mail-send-recv.c:813
 #, c-format
 msgid "Checking for new mail"
-msgstr "Kontrollerar ny e-post"
+msgstr "Kontroll av ny e-post"
 
 #: ../mail/mail-session.c:211
 #, c-format
