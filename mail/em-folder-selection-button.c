@@ -131,7 +131,7 @@ set_contents (EMFolderSelectionButton *button)
 
 		if (account) {
 			gchar *tmp = folder_name;
-			folder_name = g_strdup_printf ("%s/%s", e_account_get_string (account, E_ACCOUNT_NAME), _(folder_name));
+			folder_name = g_strdup_printf ("%s/%s", e_account_get_string (account, E_ACCOUNT_NAME), folder_name);
 			g_free (tmp);
 			gtk_label_set_text (GTK_LABEL (priv->label), folder_name);
 		} else
