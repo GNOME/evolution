@@ -624,12 +624,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	cairo_font_options_t *font_options;
 	guint16 red, green, blue;
 	gint i;
-	gdouble radius, x0, y0, rect_height, rect_width;
+	gdouble radius, x0, y0, rect_height, rect_width, text_x_offset = 0.0;
 	gfloat alpha;
 	gboolean gradient;
 	gdouble cc = 65535.0;
 	gdouble date_fraction;
-	gboolean short_event = FALSE, resize_flag = FALSE;
+	gboolean short_event = FALSE, resize_flag = FALSE, is_editing;
 	const gchar *end_resize_suffix;
 	gchar *end_regsizeime;
 	gint start_hour, start_display_hour, start_minute, start_suffix_width;
@@ -705,10 +705,13 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			}
 	}
 
+	is_editing = day_view->editing_event_day == day && day_view->editing_event_num == event_num;
+
+	if (event->canvas_item)
+		g_object_get (G_OBJECT (event->canvas_item), "x_offset", &text_x_offset, NULL);
+
 	/* Draw shadow around the event when selected */
-	if (day_view->editing_event_day == day
-	    && day_view->editing_event_num == event_num  && (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas)))
-	{
+	if (is_editing && (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))) {
 		/* For embossing Item selection */
 		item_x -= 1;
 		item_y -= 2;
@@ -903,8 +906,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	else
 		short_event = FALSE;
 
-	if (day_view->editing_event_day == day
-	    && day_view->editing_event_num == event_num)
+	if (is_editing)
 		short_event = TRUE;
 
 	if (gradient) {
@@ -1045,7 +1047,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the reminder & recurrence icons, if needed. */
-	if (!resize_flag) {
+	if (!resize_flag && (!is_editing || text_x_offset > E_DAY_VIEW_ICON_X_PAD)) {
 		num_icons = 0;
 		draw_reminder_icon = FALSE;
 		draw_recurrence_icon = FALSE;
