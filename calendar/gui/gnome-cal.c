@@ -1437,12 +1437,30 @@ static gboolean
 update_marcus_bains_line_cb (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
+	time_t now, day_begin;
 
 	priv = gcal->priv;
 
 	if ((priv->current_view_type == GNOME_CAL_DAY_VIEW) ||
 	    (priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW)) {
 		e_day_view_update_marcus_bains (E_DAY_VIEW (gnome_calendar_get_current_view_widget (gcal)));
+	}
+
+	time (&now);
+	day_begin = time_day_begin (now);
+
+	/* check in the first two minutes */
+	if (now >= day_begin && now <= day_begin + 120) {
+		ECalendarView *view = priv->views[priv->current_view_type];
+		time_t start_time = 0, end_time = 0;
+
+		g_return_val_if_fail (view != NULL, TRUE);
+
+		e_calendar_view_get_selected_time_range (view, &start_time, &end_time);
+
+		if (end_time >= time_add_day (day_begin, -1) && start_time <= day_begin) {
+			gnome_calendar_goto (gcal, now);
+		}
 	}
 
 	return TRUE;
