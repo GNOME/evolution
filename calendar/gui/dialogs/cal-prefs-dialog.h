@@ -75,6 +75,7 @@ struct _CalendarPrefsDialog {
 	GtkWidget *tasks_hide_completed_units;
 
 	/* Alarms tab */
+	GtkWidget *notify_with_tray;
 	GtkWidget *scrolled_window;
 	ESourceList *alarms_list;
 	GtkWidget *alarm_list_widget;

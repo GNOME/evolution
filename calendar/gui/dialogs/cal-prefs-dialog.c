@@ -434,6 +434,18 @@ ba_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 }
 
 static void
+notify_with_tray_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	GConfClient *gconf;
+
+	g_return_if_fail (toggle != NULL);
+
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/calendar/notify/notify_with_tray", gtk_toggle_button_get_active (toggle), NULL);
+	g_object_unref (gconf);
+}
+
+static void
 alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 {
 	ESourceList *source_list = prefs->alarms_list;
@@ -557,6 +569,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 			  G_CALLBACK (ba_reminder_interval_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->ba_reminder_units), "changed", G_CALLBACK (ba_reminder_units_changed), prefs);
 
+	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
 
 
@@ -630,14 +643,19 @@ initialize_selection (ESourceSelector *selector, ESourceList *source_list)
 static void
 show_alarms_config (CalendarPrefsDialog *prefs)
 {
-	if (!e_cal_get_sources (&prefs->alarms_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
-		return;
+	GConfClient *gconf;
 
-	prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
-	atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Alarms"));
-	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);
-	gtk_widget_show (prefs->alarm_list_widget);
-	initialize_selection (E_SOURCE_SELECTOR (prefs->alarm_list_widget), prefs->alarms_list);
+	if (e_cal_get_sources (&prefs->alarms_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+		prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
+		atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Alarms"));
+		gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);
+		gtk_widget_show (prefs->alarm_list_widget);
+		initialize_selection (E_SOURCE_SELECTOR (prefs->alarm_list_widget), prefs->alarms_list);
+	}
+
+	gconf = gconf_client_get_default ();
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->notify_with_tray), gconf_client_get_bool (gconf, "/apps/evolution/calendar/notify/notify_with_tray", NULL));
+	g_object_unref (gconf);
 }
 
 /* Shows the current config settings in the dialog. */
@@ -836,6 +854,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 
 
 	/* Alarms tab */
+	prefs->notify_with_tray = glade_xml_get_widget (gui, "notify_with_tray");
 	prefs->scrolled_window = glade_xml_get_widget (gui, "calendar-source-scrolled-window");
 
 	/* Free/Busy tab */
