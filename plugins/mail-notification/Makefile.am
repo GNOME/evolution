@@ -30,7 +30,7 @@ liborg_gnome_mail_notification_la_LIBADD = 	\
 	$(NO_UNDEFINED_REQUIRED_LIBS)
 
 if ENABLE_DBUS
-liborg_gnome_mail_notification_la_LDFLAGS += $(NMN_LIBS)
+liborg_gnome_mail_notification_la_LIBADD += $(NMN_LIBS)
 endif 
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
