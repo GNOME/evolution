@@ -1873,7 +1873,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	else
 		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
 
-	icalcomp = e_cal_model_create_component_with_defaults (priv->model);
+	icalcomp = e_cal_model_create_component_with_defaults (priv->model, all_day);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
 
@@ -2571,3 +2571,26 @@ error_response(GtkWidget *widget, gint response, gpointer data)
 	else if (response == GTK_RESPONSE_OK)
 		gtk_widget_destroy(widget);
 }
+
+/* returns either light or dark yellow, based on the base_background,
+   which is the default background color */
+GdkColor
+get_today_background (const GdkColor base_background)
+{
+	GdkColor res = base_background;
+
+	if (res.red > 0x7FFF) {
+		/* light yellow for a light theme */
+		res.red   = 0xFFFF;
+		res.green = 0xFFFF;
+		res.blue  = 0xC0C0;
+	} else {
+		/* dark yellow for a dark theme */
+		res.red   = 0x3F3F;
+		res.green = 0x3F3F;
+		res.blue  = 0x0000;
+	}
+
+	return res;
+}
+

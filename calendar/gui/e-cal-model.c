@@ -856,7 +856,7 @@ ecm_append_row (ETableModel *etm, ETableModel *source, gint row)
 	if (!(comp_data.client && e_cal_get_load_state (comp_data.client) == E_CAL_LOAD_LOADED))
 		return;
 
-	comp_data.icalcomp = e_cal_model_create_component_with_defaults (model);
+	comp_data.icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
 
 	/* set values for our fields */
 	set_categories (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
@@ -2139,7 +2139,7 @@ e_cal_model_set_search_query_with_time_range (ECalModel *model, const gchar *sex
  * e_cal_model_create_component_with_defaults
  */
 icalcomponent *
-e_cal_model_create_component_with_defaults (ECalModel *model)
+e_cal_model_create_component_with_defaults (ECalModel *model, gboolean all_day)
 {
 	ECalModelPrivate *priv;
 	ECalComponent *comp;
@@ -2158,7 +2158,7 @@ e_cal_model_create_component_with_defaults (ECalModel *model)
 
 	switch (priv->kind) {
 	case ICAL_VEVENT_COMPONENT :
-		comp = cal_comp_event_new_with_defaults (client);
+		comp = cal_comp_event_new_with_defaults (client, all_day);
 		break;
 	case ICAL_VTODO_COMPONENT :
 		comp = cal_comp_task_new_with_defaults (client);

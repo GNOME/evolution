@@ -163,7 +163,7 @@ void                e_cal_model_set_time_range                 (ECalModel       
 const gchar         *e_cal_model_get_search_query               (ECalModel           *model);
 void                e_cal_model_set_search_query               (ECalModel           *model,
 								const gchar         *sexp);
-icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel           *model);
+icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel           *model, gboolean all_day);
 const gchar        *e_cal_model_get_color_for_component        (ECalModel           *model,
 								ECalModelComponent  *comp_data);
 gboolean            e_cal_model_get_rgb_color_for_component    (ECalModel           *model,

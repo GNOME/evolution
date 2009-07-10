@@ -1194,6 +1194,7 @@ e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = widget->style->dark[GTK_STATE_NORMAL];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = widget->style->bg[GTK_STATE_SELECTED];
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = widget->style->light[GTK_STATE_NORMAL];
@@ -4687,6 +4688,10 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (num_icons > 0) {
 			if (item_h >= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD) * num_icons)
 				icons_offset = E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD * 2;
+			else if (item_h <= (E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD) * 2 || num_icons == 1)
+				icons_offset = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD) * num_icons + E_DAY_VIEW_ICON_X_PAD;
+			else
+				icons_offset = E_DAY_VIEW_ICON_X_PAD;
 		}
 
 		if (!event->canvas_item) {
@@ -4841,7 +4846,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
 		return FALSE;
 
-	icalcomp = e_cal_model_create_component_with_defaults (model);
+	icalcomp = e_cal_model_create_component_with_defaults (model, day_view->selection_in_top_canvas);
 	if (!icalcomp)
 		return FALSE;
 

@@ -186,6 +186,8 @@ void           draw_curved_rectangle (cairo_t *cr,
                                       double rect_height,
                                       double radius);
 
+GdkColor get_today_background (GdkColor event_background);
+
 G_END_DECLS
 
 #endif

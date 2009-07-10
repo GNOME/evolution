@@ -741,6 +741,27 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
 }
 
+static GdkColor
+color_inc (GdkColor c, gint amount)
+{
+	#define dec(x)				\
+		if (x + amount >= 0		\
+		    && x + amount <= 0xFFFF)	\
+			x += amount;		\
+		else if (amount <= 0)		\
+			x = 0;			\
+		else				\
+			x = 0xFFFF;
+
+	dec (c.red);
+	dec (c.green);
+	dec (c.blue);
+
+	#undef dec
+
+	return c;
+}
+
 static void
 e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
 {
@@ -755,6 +776,8 @@ e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = widget->style->text[GTK_STATE_NORMAL];
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = widget->style->text[GTK_STATE_SELECTED];
 	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = widget->style->base[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
 }
 
 static void
@@ -4061,7 +4084,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *
 		return FALSE;
 
 	/* Add a new event covering the selected range. */
-	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)));
+	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), TRUE);
 	if (!icalcomp)
 		return FALSE;
 	uid = icalcomponent_get_uid (icalcomp);

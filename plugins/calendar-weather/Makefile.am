@@ -15,10 +15,11 @@ plugin_DATA = org-gnome-calendar-weather.eplug
 plugin_LTLIBRARIES = liborg-gnome-calendar-weather.la
 
 liborg_gnome_calendar_weather_la_SOURCES = calendar-weather.c
-liborg_gnome_calendar_weather_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(LIBGWEATHER_LIBS)
+liborg_gnome_calendar_weather_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_calendar_weather_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)				\
+	$(LIBGWEATHER_LIBS)
 
 EXTRA_DIST =					\
 	org-gnome-calendar-weather.eplug.xml	\

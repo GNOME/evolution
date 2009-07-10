@@ -1709,8 +1709,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 			break;
 	}
 
-	/* Reset pango weight */
+	/* Reset pango weight and style */
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
+	pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
 
 	/* Reset the foreground color. */
 	gdk_gc_set_foreground (fg_gc, &style->fg[GTK_STATE_NORMAL]);

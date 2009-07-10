@@ -19,7 +19,7 @@ m4_define([base_version], [2.28])
 m4_define([upgrade_revision], [0])
 
 # Autoconf / Automake Initialization
-AC_PREREQ(2.54)
+AC_PREREQ(2.58)
 AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AM_INIT_AUTOMAKE([gnu 1.9])
 AC_CONFIG_HEADERS(config.h)
@@ -126,7 +126,7 @@ AC_SUBST(PERL)
 
 case $YACC in
 *yacc*)
-	AC_MSG_ERROR(You need bison to build Evolution)
+	AC_MSG_ERROR([You need bison to build Evolution])
 	;;
 esac
 AC_HEADER_STDC
@@ -205,7 +205,7 @@ AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
 AC_SUBST(WINDRES)
 
 # Check for base dependencies early.
-PKG_CHECK_MODULES(GNOME_PLATFORM,
+PKG_CHECK_MODULES([GNOME_PLATFORM],
         [glib-2.0 >= glib_minimum_version
          gtk+-2.0 >= gtk_minimum_version
          gconf-2.0 >= gconf_minimum_version
@@ -220,7 +220,7 @@ PKG_CHECK_MODULES(GNOME_PLATFORM,
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
-PKG_CHECK_MODULES(EVOLUTION_DATA_SERVER,
+PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
         [libebook-$EDS_PACKAGE >= eds_minimum_version
          libecal-$EDS_PACKAGE >= eds_minimum_version
          libedataserver-$EDS_PACKAGE >= eds_minimum_version
@@ -235,19 +235,19 @@ dnl User Documentation
 dnl ******************
 AC_MSG_CHECKING([whether to build user documentation])
 AC_ARG_WITH([help],
-	[AC_HELP_STRING([--with-help],
+	[AS_HELP_STRING([--with-help],
 	[Build user documentation [default=yes]])],
-	with_help="$withval", with_help="yes")
+	[with_help="$withval"],[with_help="yes"])
 AM_CONDITIONAL(WITH_HELP, test "x$with_help" != "xno")
-AC_MSG_RESULT($with_help)
+AC_MSG_RESULT([$with_help])
 
 dnl ******************************
 dnl iconv checking
 dnl ******************************
 have_iconv=no
 AC_ARG_WITH([libiconv],
-	    AC_HELP_STRING([--with-libiconv=PATH],
-			   [Prefix where libiconv is installed]))
+	AS_HELP_STRING([--with-libiconv=PATH],
+	[Prefix where libiconv is installed]))
 if test -d "$withval"; then
 	ICONV_CFLAGS="-I$withval/include"
 	ICONV_LIBS="-L$withval/lib"
@@ -328,14 +328,14 @@ AC_SUBST(ICONV_LIBS)
 
 CFLAGS="$CFLAGS -I$srcdir"
 
-AC_MSG_CHECKING(preferred charset name formats for system iconv)
+AC_MSG_CHECKING([preferred charset name formats for system iconv])
 AC_TRY_RUN([
 #define CONFIGURE_IN
 #include "iconv-detect.c"
 ],[
-        AC_MSG_RESULT(found)
+        AC_MSG_RESULT([found])
 ],[
-	AC_MSG_RESULT(not found)
+	AC_MSG_RESULT([not found])
 	AC_WARN([
 	*** The iconv-detect program was unable to determine the
 	*** preferred charset name formats recognized by your
@@ -351,7 +351,7 @@ AC_TRY_RUN([
 		echo '#define ICONV_ISO_S_FORMAT "iso-%d-%s"' >>iconv-detect.h
 		echo '#define ICONV_10646 "UCS-4BE"' >>iconv-detect.h
 	else
-		AC_MSG_RESULT(unknown)
+		AC_MSG_RESULT([unknown])
 		AC_WARN([
 	*** We can't determine the preferred charset name formats
 	*** recognized by your iconv library. You are
@@ -372,18 +372,18 @@ AC_CHECK_HEADERS(sys/wait.h)
 
 if test x$os_win32 != xyes; then
 	dnl check for socklen_t (in Unix98)
-	AC_MSG_CHECKING(for socklen_t)
+	AC_MSG_CHECKING([for socklen_t])
 	AC_TRY_COMPILE([#include <sys/types.h>
 	#include <sys/socket.h>
 	socklen_t x;
-	],[],[AC_MSG_RESULT(yes)],[
+	],[],[AC_MSG_RESULT([yes])],[
 	AC_TRY_COMPILE([#include <sys/types.h>
 	#include <sys/socket.h>
 	int accept (int, struct sockaddr *, size_t *);
 	],[],[
-	AC_MSG_RESULT(size_t)
+	AC_MSG_RESULT([size_t])
 	AC_DEFINE(socklen_t,size_t,[Define to appropriate type if socklen_t is not defined])], [
-	AC_MSG_RESULT(int)
+	AC_MSG_RESULT([int])
 	AC_DEFINE(socklen_t,int)])])
 fi
 
@@ -396,9 +396,9 @@ dnl **************
 dnl Test Component
 dnl **************
 AC_ARG_ENABLE([test-component],
-	      AC_HELP_STRING([--enable-test-component],
-			     [Enable test component.]),
-	      [enable_test_comp=$enableval],[enable_test_comp=no])
+	AS_HELP_STRING([--enable-test-component],
+	[Enable test component.]),
+	[enable_test_comp=$enableval],[enable_test_comp=no])
 
 AM_CONDITIONAL(ENABLE_TEST_COMPONENT, [test x$enable_test_comp = xyes])
 
@@ -542,12 +542,12 @@ AC_CHECK_FUNCS(statfs)
 dnl **************************************************
 dnl * Gnome Icon Theme
 dnl **************************************************
-PKG_CHECK_MODULES(GIT, gnome-icon-theme >= gnome_icon_theme_minimum_version)
+PKG_CHECK_MODULES([GIT], [gnome-icon-theme >= gnome_icon_theme_minimum_version])
 
 dnl **************************************************
 dnl * Accessibility support
 dnl **************************************************
-PKG_CHECK_MODULES(A11Y, atk)
+PKG_CHECK_MODULES([A11Y], [atk])
 AC_SUBST(A11Y_CFLAGS)
 AC_SUBST(A11Y_LIBS)
 
@@ -563,7 +563,7 @@ AC_COMPILE_IFELSE([
 	],
 	have_xfree=yes
 )
-AC_MSG_CHECKING(for X11 XFree86 headers)
+AC_MSG_CHECKING([for X11 XFree86 headers])
 AC_MSG_RESULT([$have_xfree])
 if test x"$have_xfree" = "xyes" ; then
 	AC_DEFINE(HAVE_XFREE, 1, [defined if you have X11/XF86keysym.h])
@@ -636,9 +636,9 @@ dnl **************************************************
 dnl NNTP support.
 dnl **************************************************
 AC_ARG_ENABLE([nntp],
-	      AC_HELP_STRING([--enable-nntp],
-			     [Build Usenet news (NNTP) backend]),
-	      [enable_nntp=$enableval],[enable_nntp=yes])
+	AS_HELP_STRING([--enable-nntp],
+	[Build Usenet news (NNTP) backend]),
+	[enable_nntp=$enableval],[enable_nntp=yes])
 if test "x$enable_nntp" = "xyes"; then
 	AC_DEFINE(ENABLE_NNTP,1,[Build NNTP backend])
 	msg_nntp=yes
@@ -651,9 +651,9 @@ dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
 AC_ARG_ENABLE([imapp],
-	      AC_HELP_STRING([--enable-imapp],
-			     [Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code]),,
-	      [enable_imapp=no])
+	AS_HELP_STRING([--enable-imapp],
+	[Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code]),,
+	[enable_imapp=no])
 if test "x$enable_imapp" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAPP,1,[Really don't try this at home])
 	msg_imapp=yes
@@ -666,9 +666,9 @@ dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
 AC_ARG_ENABLE([imap4],
-	      AC_HELP_STRING([--enable-imap4],
-			     [Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation]),,
-	      [enable_imap4=yes])
+	AS_HELP_STRING([--enable-imap4],
+	[Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation]),,
+	[enable_imap4=yes])
 if test "x$enable_imap4" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAP4,1,[Really don't try this at home])
 	msg_imap4=yes
@@ -716,7 +716,7 @@ AC_CHECK_FUNCS(regexec,,[AC_CHECK_LIB(regex,regexec,
 AC_SUBST(REGEX_LIBS)
 
 # XXX Drop the version from the package name?
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.14 >= libgtkhtml_minimum_version)
+PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-3.14 >= libgtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.14`
@@ -724,48 +724,45 @@ AC_SUBST(GTKHTML_DATADIR)
 GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.14`
 AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
 
-
-
-
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
 AC_ARG_ENABLE([pilot-conduits],
-	      AC_HELP_STRING([--enable-pilot-conduits],
-			     [Enable support for building pilot conduits.]),,
-	      [enable_pilot_conduits=no])
+	AS_HELP_STRING([--enable-pilot-conduits],
+	[Enable support for building pilot conduits.]),,
+	[enable_pilot_conduits=no])
 if test "x$enable_pilot_conduits" = "xyes"; then
-	PKG_CHECK_MODULES(GNOME_PILOT, gnome-pilot-2.0 >= gnome_pilot_minimum_version)
+	PKG_CHECK_MODULES([GNOME_PILOT], [gnome-pilot-2.0 >= gnome_pilot_minimum_version])
 
 	CFLAGS_save="$CFLAGS"
 	CFLAGS="$CFLAGS $GNOME_PILOT_CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
 	LDFLAGS="$GNOME_PILOT_LIBS $LDFLAGS"
 
-	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions], ac_cv_pilot_link_utf8, AC_TRY_RUN([
+	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],
+	[ac_cv_pilot_link_utf8], AC_TRY_RUN([
+		#include <stdlib.h>
+		#include <string.h>
+		#include <pi-util.h>
 
-#include <stdlib.h>
-#include <string.h>
-#include <pi-util.h>
+		int main (int argc, char **argv)
+		{
+			const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
+			size_t utf8_real_len = strlen (utf8);
+			char *pstring;
 
-int main (int argc, char **argv)
-{
-	const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
-	size_t utf8_real_len = strlen (utf8);
-	char *pstring;
-
-	if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
-		exit (1);
-
-	exit (0);
-}
-], ac_cv_pilot_link_utf8=yes, ac_cv_pilot_link_utf8=no, ac_cv_pilot_link_utf8=no))
+			if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
+				exit (1);
+			exit (0);
+		}
+	],
+	[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
 
 	CFLAGS="$CFLAGS_save"
 	LDFLAGS="$LDFLAGS_save"
 
 	if test "$ac_cv_pilot_link_utf8" = no; then
-		AC_MSG_ERROR(evolution requires pilot-link to have working UTF-8 conversion routines)
+		AC_MSG_ERROR([evolution requires pilot-link to have working UTF-8 conversion routines])
 	fi
 fi
 AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, [test x$enable_pilot_conduits = xyes])
@@ -795,30 +792,29 @@ dnl ********
 dnl Kerberos
 dnl ********
 AC_ARG_WITH([krb5],
-	    AC_HELP_STRING([--with-krb5=PATH],
-			   [Location of Kerberos 5 install dir]),
-	    [with_krb5=$withval],[with_krb5=no])
+	AS_HELP_STRING([--with-krb5=PATH],
+	[Location of Kerberos 5 install dir]),
+	[with_krb5=$withval],[with_krb5=no])
 AC_ARG_WITH([krb5-libs],
-	    AC_HELP_STRING([--with-krb5-libs=PATH],
-			   [Location of Kerberos 5 libraries]),
-	    [with_krb5_libs=$withval],[with_krb5_libs=$with_krb5/lib])
+	AS_HELP_STRING([--with-krb5-libs=PATH],
+	[Location of Kerberos 5 libraries]),
+	[with_krb5_libs=$withval],[with_krb5_libs=$with_krb5/lib])
 AC_ARG_WITH([krb5-includes],
-	    AC_HELP_STRING([--with-krb5-includes=PATH],
-			   [Location of Kerberos 5 headers]),
-	    [with_krb5_includes=$withval],[with_krb5_includes=""])
+	AS_HELP_STRING([--with-krb5-includes=PATH],
+	[Location of Kerberos 5 headers]),
+	[with_krb5_includes=$withval],[with_krb5_includes=""])
 AC_ARG_WITH([krb4],
-	    AC_HELP_STRING([--with-krb4=PATH],
-			   [Location of Kerberos 4 install dir]),
-	    [with_krb4=$withval],[with_krb4=no])
+	AS_HELP_STRING([--with-krb4=PATH],
+	[Location of Kerberos 4 install dir]),
+	[with_krb4=$withval],[with_krb4=no])
 AC_ARG_WITH([krb4-libs],
-	    AC_HELP_STRING([--with-krb4-libs=PATH],
-			   [Location of Kerberos 4 libraries]),
-	    [with_krb4_libs=$withval],[with_krb4_libs=$with_krb4/lib])
+	AS_HELP_STRING([--with-krb4-libs=PATH],
+	[Location of Kerberos 4 libraries]),
+	[with_krb4_libs=$withval],[with_krb4_libs=$with_krb4/lib])
 AC_ARG_WITH([krb4-includes],
-	    AC_HELP_STRING([--with-krb4-includes=PATH],
-			   [Location of Kerberos 4 headers]),
-	    [with_krb4_includes=$withval],[with_krb4_includes=""])
-
+	AS_HELP_STRING([--with-krb4-includes=PATH],
+	[Location of Kerberos 4 headers]),
+	[with_krb4_includes=$withval],[with_krb4_includes=""])
 
 msg_krb5="no"
 if test "x${with_krb5}" != "xno"; then
@@ -827,7 +823,7 @@ if test "x${with_krb5}" != "xno"; then
 	mitlibs="-lkrb5 -lk5crypto -lcom_err -lgssapi_krb5"
 	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken -lgssapi"
 	sunlibs="-lkrb5 -lgss"
-	AC_CACHE_CHECK([for Kerberos 5], ac_cv_lib_kerberos5,
+	AC_CACHE_CHECK([for Kerberos 5], [ac_cv_lib_kerberos5],
 	[
 		LDFLAGS="$LDFLAGS -L$with_krb5_libs $mitlibs"
 		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
@@ -873,8 +869,8 @@ if test "x${with_krb5}" != "xno"; then
 		KRB5_LIBS="-L$with_krb5_libs $ac_cv_lib_kerberos5"
 	fi
 else
-	AC_MSG_CHECKING(for Kerberos 5)
-	AC_MSG_RESULT($with_krb5)
+	AC_MSG_CHECKING([for Kerberos 5])
+	AC_MSG_RESULT([$with_krb5])
 fi
 
 AC_CHECK_HEADER([et/com_err.h],[AC_DEFINE([HAVE_ET_COM_ERR_H], 1, [Have et/comm_err.h])])
@@ -883,7 +879,7 @@ AC_CHECK_HEADER([com_err.h],[AC_DEFINE([HAVE_COM_ERR_H], 1, [Have comm_err.h])])
 msg_krb4="no"
 if test "x${with_krb4}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
-	AC_CACHE_CHECK(for Kerberos 4, ac_cv_lib_kerberos4,
+	AC_CACHE_CHECK([for Kerberos 4], [ac_cv_lib_kerberos4],
 	[
 		ac_cv_lib_kerberos4="no"
 
@@ -932,8 +928,8 @@ if test "x${with_krb4}" != "xno"; then
 		CFLAGS="$CFLAGS_save"
 	fi
 else
-	AC_MSG_CHECKING(for Kerberos 4)
-	AC_MSG_RESULT(${with_krb4})
+	AC_MSG_CHECKING([for Kerberos 4])
+	AC_MSG_RESULT([${with_krb4}])
 fi
 
 AC_SUBST(KRB5_CFLAGS)
@@ -948,11 +944,11 @@ dnl turn on the mono plugin or not.
 MONO_CFLAGS=
 MONO_LIBS=
 AC_ARG_ENABLE([mono],
-	      AC_HELP_STRING([--enable-mono],
-			     [Add Mono embedded hooks.]),
-	      [enable_mono=$enableval],[enable_mono=no])
+	AS_HELP_STRING([--enable-mono],
+	[Add Mono embedded hooks.]),
+	[enable_mono=$enableval],[enable_mono=no])
 if test "x${enable_mono}" = "xyes"; then
-	PKG_CHECK_MODULES(MONO, "mono")
+	PKG_CHECK_MODULES([MONO], ["mono"])
 	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
 	MONO_PLUGIN="mono"
 fi
@@ -965,14 +961,14 @@ dnl turn on the python plugin or not.
 dnl (Thanks to Pidgin)
 
 AC_ARG_ENABLE([python],
-	      AC_HELP_STRING([--enable-python],
-			     [Add python embedded hooks.]),
-	      [enable_python=$enableval],[enable_python=no])
+	AS_HELP_STRING([--enable-python],
+	[Add python embedded hooks.]),
+	[enable_python=$enableval],[enable_python=no])
 
 if test "x${enable_python}" = "xyes"; then
 	AC_PATH_PROG(pythonpath, python)
 	if test "_$pythonpath" != _ ; then
-	   	AC_MSG_CHECKING(for python compile flags)
+		AC_MSG_CHECKING([for python compile flags])
 		PY_PREFIX=`$pythonpath -c 'import sys ; print sys.prefix'`
 		PY_EXEC_PREFIX=`$pythonpath -c 'import sys ; print sys.exec_prefix'`
 		changequote(<<, >>)dnl
@@ -983,7 +979,7 @@ if test "x${enable_python}" = "xyes"; then
 		if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h -a "$PY_MAJOR" = "2."; then
 		   	PY_LIBS="-lpython$PY_VERSION -L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
 			PY_INCLUDES="-I$PY_PREFIX/include/python$PY_VERSION"
-			AC_MSG_RESULT(ok)
+			AC_MSG_RESULT([ok])
 			python_package="python-devel"
 			PYTHON_PLUGIN="python"
 		else
@@ -1013,30 +1009,30 @@ msg_smime="no"
 dnl these 2 enable's are inverses of each other
 
 AC_ARG_ENABLE([nss],
-	      AC_HELP_STRING([--enable-nss=@<:@yes/no/static@:>@],
-			     [Attempt to use Mozilla libnss for SSL support.]),
-	      [enable_nss=$enableval],[enable_nss=yes])
+	AS_HELP_STRING([--enable-nss=@<:@yes/no/static@:>@],
+	[Attempt to use Mozilla libnss for SSL support.]),
+	[enable_nss=$enableval],[enable_nss=yes])
 
 AC_ARG_ENABLE([smime],
-	      AC_HELP_STRING([--enable-smime],
-			     [Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)]),
-	      [enable_smime=$enableval],[enable_smime=yes])
+	AS_HELP_STRING([--enable-smime],
+	[Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)]),
+	[enable_smime=$enableval],[enable_smime=yes])
 
 AC_ARG_WITH([nspr-includes],
-	    AC_HELP_STRING([--with-nspr-includes=PATH],
-			   [Location of Mozilla nspr4 includes.]))
+	AS_HELP_STRING([--with-nspr-includes=PATH],
+	[Location of Mozilla nspr4 includes.]))
 
 AC_ARG_WITH([nspr-libs],
-	    AC_HELP_STRING([--with-nspr-libs=PATH],
-			   [Location of Mozilla nspr4 libs.]))
+	AS_HELP_STRING([--with-nspr-libs=PATH],
+	[Location of Mozilla nspr4 libs.]))
 
 AC_ARG_WITH([nss-includes],
-	    AC_HELP_STRING([--with-nss-includes=PATH],
-			   [Location of Mozilla nss3 includes.]))
+	AS_HELP_STRING([--with-nss-includes=PATH],
+	[Location of Mozilla nss3 includes.]))
 
 AC_ARG_WITH([nss-libs],
-	    AC_HELP_STRING([--with-nss-libs=PATH],
-			   [Location of Mozilla nss3 libs.]))
+	AS_HELP_STRING([--with-nss-libs=PATH],
+	[Location of Mozilla nss3 libs.]))
 
 if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	if test -n "${with_nspr_includes}" || test -n "${with_nspr_libs}" || test -n "${with_nss_includes}" || test -n "${with_nss_libs}" || test "x${enable_nss}" = "xstatic"; then
@@ -1046,21 +1042,21 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	fi
 
 	if test "x${check_manually}" = "xno"; then
-		AC_MSG_CHECKING(Mozilla NSPR pkg-config module name)
+		AC_MSG_CHECKING([Mozilla NSPR pkg-config module name])
 		mozilla_nspr_pcs="nspr mozilla-nspr firefox-nspr xulrunner-nspr seamonkey-nspr"
 		for pc in $mozilla_nspr_pcs; do
 			if $PKG_CONFIG --exists $pc; then
-				AC_MSG_RESULT($pc)
+				AC_MSG_RESULT([$pc])
 				mozilla_nspr=$pc
 				break;
 			fi
 		done
 
-		AC_MSG_CHECKING(Mozilla NSS pkg-config module name)
+		AC_MSG_CHECKING([Mozilla NSS pkg-config module name])
 		mozilla_nss_pcs="nss mozilla-nss firefox-nss xulrunner-nss seamonkey-nss"
 		for pc in $mozilla_nss_pcs; do
 			if $PKG_CONFIG --exists $pc; then
-				AC_MSG_RESULT($pc)
+				AC_MSG_RESULT([$pc])
 				mozilla_nss=$pc
 				break;
 			fi
@@ -1092,8 +1088,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		if test "x${with_nspr_includes}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
 
-			AC_MSG_CHECKING(for Mozilla nspr4 includes in $with_nspr_includes)
-			AC_MSG_RESULT("")
+			AC_MSG_CHECKING([for Mozilla nspr4 includes in $with_nspr_includes])
+			AC_MSG_RESULT([""])
 
 			CPPFLAGS="$CPPFLAGS -I$with_nspr_includes"
 			AC_CHECK_HEADERS(nspr.h prio.h, [ moz_nspr_includes="yes" ])
@@ -1104,8 +1100,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				MANUAL_NSPR_CFLAGS="-I$with_nspr_includes"
 			fi
 		else
-			AC_MSG_CHECKING(for Mozilla nspr4 includes)
-			AC_MSG_RESULT(no)
+			AC_MSG_CHECKING([for Mozilla nspr4 includes])
+			AC_MSG_RESULT([no])
 		fi
 
 		have_nspr_libs="no"
@@ -1116,16 +1112,16 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			if test "$enable_nss" = "static"; then
 				if test -z "${with_nspr_libs}"; then
 					AC_MSG_ERROR([Static linkage requested, but path to nspr libraries not set.]
-[Please specify the path to libnspr4.a]
-[Example: --with-nspr-libs=/usr/lib])
-       				else
-	       				nsprlibs="$DL_LIB $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
+					[Please specify the path to libnspr4.a]
+					[Example: --with-nspr-libs=/usr/lib])
+				else
+					nsprlibs="$DL_LIB $with_nspr_libs/libplc4.a $with_nspr_libs/libplds4.a $with_nspr_libs/libnspr4.a $PTHREAD_LIB"
 				fi
 			else
 				nsprlibs="$DL_LIB -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 			fi
 
-			AC_CACHE_CHECK([for Mozilla nspr libraries], ac_cv_moz_nspr_libs,
+			AC_CACHE_CHECK([for Mozilla nspr libraries], [ac_cv_moz_nspr_libs],
 			[
 		       		LIBS_save="$LIBS"
 				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
@@ -1150,15 +1146,15 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				MANUAL_NSPR_CLFAGS=""
 			fi
 		else
-			AC_MSG_CHECKING(for Mozilla nspr4 libraries)
-			AC_MSG_RESULT(no)
+			AC_MSG_CHECKING([for Mozilla nspr4 libraries])
+			AC_MSG_RESULT([no])
 		fi
 
 		if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 			CPPFLAGS_save="$CPPFLAGS"
 
-			AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
-			AC_MSG_RESULT("")
+			AC_MSG_CHECKING([for Mozilla nss3 includes in $with_nss_includes])
+			AC_MSG_RESULT([""])
 
 			if test "x${with_nspr_includes}" != "x"; then
 				CPPFLAGS="$CPPFLAGS -I$with_nspr_includes -I$with_nss_includes"
@@ -1180,8 +1176,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				MANUAL_NSPR_LIBS=""
 			fi
 		else
-			AC_MSG_CHECKING(for Mozilla nss3 includes)
-			AC_MSG_RESULT(no)
+			AC_MSG_CHECKING([for Mozilla nss3 includes])
+			AC_MSG_RESULT([no])
 		fi
 
 		if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
@@ -1190,8 +1186,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			if test "$enable_nss" = "static"; then
 		    		if test -z "${with_nss_libs}"; then
 					AC_MSG_ERROR([Static linkage requested, but path to nss libraries not set.]
-[Please specify the path to libnss3.a]
-[Example: --with-nspr-libs=/usr/lib/mozilla])
+					[Please specify the path to libnss3.a]
+					[Example: --with-nspr-libs=/usr/lib/mozilla])
 				else
 					nsslibs="-ldb1 $with_nss_libs/libnssckfw.a $with_nss_libs/libasn1.a $with_nss_libs/libcrmf.a $with_nss_libs/libswfci.a $with_nss_libs/libjar.a $with_nss_libs/libpkcs12.a $with_nss_libs/libpkcs7.a $with_nss_libs/libpki1.a $with_nss_libs/libsmime.a $with_nss_libs/libssl.a $with_nss_libs/libnss.a $with_nss_libs/libpk11wrap.a $with_nss_libs/libsoftokn.a $with_nss_libs/libfreebl.a $with_nss_libs/libnsspki.a $with_nss_libs/libnssdev.a $with_nss_libs/libcryptohi.a $with_nss_libs/libcerthi.a $with_nss_libs/libcertdb.a $with_nss_libs/libsecutil.a $with_nss_libs/libnssb.a"
 					case "$host" in
@@ -1204,7 +1200,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		 		nsslibs="-lssl3 -lsmime3 -lnss3"
 			fi
 
-			AC_CACHE_CHECK([for Mozilla nss libraries], ac_cv_moz_nss_libs,
+			AC_CACHE_CHECK([for Mozilla nss libraries], [ac_cv_moz_nss_libs],
 			[
 	 			LIBS_save="$LIBS"
 				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
@@ -1238,8 +1234,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				MANUAL_NSPR_LIBS=""
 			fi
 		else
-			AC_MSG_CHECKING(for Mozilla nss libraries)
-			AC_MSG_RESULT(no)
+			AC_MSG_CHECKING([for Mozilla nss libraries])
+			AC_MSG_RESULT([no])
 		fi
 
 		MANUAL_NSS_CFLAGS="$MANUAL_NSPR_CFLAGS $MANUAL_NSS_CFLAGS"
@@ -1257,12 +1253,12 @@ AC_SUBST(MANUAL_NSS_LIBS)
 dnl **************************************************
 dnl Check if we should build the weather calendar plugin
 dnl **************************************************
-AC_MSG_CHECKING(if we should build the weather calendar plugin)
+AC_MSG_CHECKING([if we should build the weather calendar plugin])
 AC_ARG_WITH([weather],
-  [AS_HELP_STRING([--with-weather], [Build the weather calendar setup plugin (default=yes)])],
-  [use_gweather=$withval],
-  [use_gweather=yes])
-AC_MSG_RESULT($use_gweather)
+	[AS_HELP_STRING([--with-weather],
+	[Build the weather calendar setup plugin (default=yes)])],
+	[use_gweather=$withval],[use_gweather=yes])
+AC_MSG_RESULT([$use_gweather])
 
 if test $use_gweather = yes; then
 	PKG_CHECK_MODULES([LIBGWEATHER],
@@ -1277,9 +1273,10 @@ dnl **************************************************
 dnl Exchange support.
 dnl **************************************************
 AC_ARG_ENABLE([exchange],
-	      AC_HELP_STRING([--enable-exchange],
-			     [Build Exchange plugins]),
-	      [enable_exchange=$enableval],[enable_exchange=yes])
+	AS_HELP_STRING([--enable-exchange],
+	[Build Exchange plugins]),
+	[enable_exchange=$enableval],[enable_exchange=yes])
+
 if test "x$enable_exchange" = "xyes"; then
 	msg_exchange=yes
 	EXCHANGE_PLUGIN="exchange-operations"
@@ -1349,7 +1346,7 @@ dnl 		*) with_openssl_libs="-L$with_openssl_libs" ;;
 dnl 		esac
 dnl
 dnl 		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
-dnl 		AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
+dnl 		AC_CACHE_CHECK([for OpenSSL libraries], [ac_cv_openssl_libs],
 dnl 		[
 dnl 			LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
 dnl 			AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
@@ -1389,7 +1386,7 @@ dnl **************************
 dnl Check for X libs and -lX11
 dnl **************************
 
-PKG_CHECK_MODULES(X, x11, :, [
+PKG_CHECK_MODULES([X], [x11], [:], [
 # pkg-config modules not found (only present since X11R7 aka Xorg); use
 # old-style detection
 AC_PATH_XTRA
@@ -1432,9 +1429,9 @@ CFLAGS="$evolution_save_cflags"
 
 AM_PATH_ORBIT2(2.9.8)
 
-AC_MSG_CHECKING(for CORBA include paths)
+AC_MSG_CHECKING([for CORBA include paths])
 IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.2`
-AC_MSG_RESULT($IDL_INCLUDES)
+AC_MSG_RESULT([$IDL_INCLUDES])
 AC_SUBST(IDL_INCLUDES)
 
 dnl Utility macro to set compiler flags for a specific lib.
@@ -1460,7 +1457,7 @@ AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
 AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
-PKG_CHECK_MODULES(HAL, hal >= hal_minimum_version, HAVE_HAL="yes", HAVE_HAL="no")
+PKG_CHECK_MODULES([HAL], [hal >= hal_minimum_version], [HAVE_HAL="yes"], [HAVE_HAL="no"])
 if test "x$HAVE_HAL" = "xyes"; then
    AC_DEFINE(HAVE_HAL, 1, [hal available])
    HAL_REQUIREMENT="hal"
@@ -1487,7 +1484,7 @@ else
 		TNEF_ATTACHMENTS="tnef-attachments"
 		TNEF_CFLAGS="-DHAVE_LIBYTNEF_YTNEF_H"
 	else
-		AC_MSG_RESULT(no)
+		AC_MSG_RESULT([no])
 		TNEF_ATTACHMENTS=""
 		TNEF_CFLAGS=""
 	fi
@@ -1560,7 +1557,7 @@ dnl --- evolution (shell) flags
 
 NM_SUPPORT_PACKAGES=""
 
-PKG_CHECK_MODULES(NM, dbus-glib-1, NM_SUPPORT="yes", NM_SUPPORT="no")
+PKG_CHECK_MODULES([NM], [dbus-glib-1], [NM_SUPPORT="yes"], [NM_SUPPORT="no"])
 AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
 if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then
 	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
@@ -1593,7 +1590,7 @@ fi
 
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES(LIBNOTIFY, libnotify >= libnotify_minimum_version, HAVE_LIBNOTIFY="yes", HAVE_LIBNOTIFY="no")
+PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
 	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
 	libnotify="libnotify"
@@ -1632,13 +1629,13 @@ AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-
 DATASERVER_EXEC_VERSION=`pkg-config --variable=execversion evolution-data-server-1.2`
 AC_SUBST(DATASERVER_EXEC_VERSION)
 
-AC_MSG_CHECKING(for evolution-data-server IDL)
+AC_MSG_CHECKING([for evolution-data-server IDL])
 DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.2`/Evolution-DataServer.idl
 if test -f "$DATASERVER_IDL"; then
-	AC_MSG_RESULT($DATASERVER_IDL)
-	 AC_SUBST(DATASERVER_IDL)
+	AC_MSG_RESULT([$DATASERVER_IDL])
+	AC_SUBST(DATASERVER_IDL)
 else
-	AC_MSG_ERROR(no)
+	AC_MSG_ERROR([no])
 fi
 
 dnl --- evolution-test flags
@@ -1767,9 +1764,9 @@ EVO_PLUGIN_RULE=$srcdir/plugin.mk
 AC_SUBST_FILE(EVO_PLUGIN_RULE)
 
 AC_ARG_ENABLE([plugins],
-	      AC_HELP_STRING([--enable-plugins=[no/base/all/experimental/list]],
-			     [Enable plugins.]),
-	      [enable_plugins="$enableval"],[enable_plugins=all])
+	AS_HELP_STRING([--enable-plugins=[no/base/all/experimental/list]],
+	[Enable plugins.]),
+	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup publish-calendar caldav imap-features google-account-setup webdav-account-setup"
@@ -1827,9 +1824,10 @@ xexperimental)
 esac
 
 AC_ARG_ENABLE([profiling],
-	      AC_HELP_STRING([--enable-profiling],
-			     [Enable profiling plugin.]),
-	      [enable_profiling=$enableval],[enable_profiling=no])
+	AS_HELP_STRING([--enable-profiling],
+	[Enable profiling plugin.]),
+	[enable_profiling=$enableval],[enable_profiling=no])
+
 case x"$enable_profiling" in
 x | xyes)
 	plugins_enabled="$plugins_enabled profiler"
@@ -1861,7 +1859,7 @@ then
 		dnl *********************
 		dnl gstreamer
 		dnl *********************
-		PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10)
+		PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10])
 		AC_SUBST(GSTREAMER_CFLAGS)
 		AC_SUBST(GSTREAMER_LIBS)
 	else
@@ -1875,7 +1873,7 @@ if ${PKG_CONFIG} --exists dbus-glib-1 ; then
 	dnl **************************************************
 	dnl * Mail Notification plugin's DBus messages
 	dnl **************************************************
-	PKG_CHECK_MODULES(NMN, dbus-glib-1)
+	PKG_CHECK_MODULES([NMN], [dbus-glib-1])
 	AC_SUBST(NMN_CFLAGS)
 	AC_SUBST(NMN_LIBS)
 
@@ -1895,7 +1893,7 @@ else
 fi
 
 if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
-	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version, have_libexchange="yes", have_libexchange="no")
+	PKG_CHECK_MODULES([LIBEXCHANGESTORAGE], [libexchange-storage-$EDS_PACKAGE >= eds_minimum_version], [have_libexchange="yes"], [have_libexchange="no"])
 	if test "x$have_libexchange" = "xyes"; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin
@@ -1916,7 +1914,7 @@ then
 		dnl *********************
 		dnl libpst
 		dnl *********************
-		PKG_CHECK_MODULES(LIBPST, libpst)
+		PKG_CHECK_MODULES([LIBPST], [libpst])
 		AC_SUBST(LIBPST_CFLAGS)
 		AC_SUBST(LIBPST_LIBS)
 	else
@@ -1936,15 +1934,15 @@ dnl ******************
 dnl Sub-version number
 dnl ******************
 AC_ARG_WITH([sub-version],
-	    AC_HELP_STRING([--with-sub-version=VERSION],
-			   [Specify a sub-version string]))
+	AS_HELP_STRING([--with-sub-version=VERSION],
+	[Specify a sub-version string]))
 
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version", [Version substring, for packagers])
 
 AC_ARG_ENABLE([default-binary],
-	      AC_HELP_STRING([--disable-default-binary],
-			     [Do not install as the default "evolution" binary]),,
-	      [enable_default_binary=no])
+	AS_HELP_STRING([--disable-default-binary],
+	[Do not install as the default "evolution" binary]),,
+	[enable_default_binary=no])
 
 AM_CONDITIONAL(DEFAULT_BINARY, test x$enable_default_binary = xyes)
 
@@ -1952,9 +1950,9 @@ dnl ********************
 dnl KDE applnk directory
 dnl ********************
 AC_ARG_WITH([kde-applnk-path],
-	    AC_HELP_STRING([--with-kde-applnk-path=PATH],
-			   [Location of KDE applnk files]),
-            [with_kde_applnk_path=$withval], [with_kde_applnk_path="no"])
+	AS_HELP_STRING([--with-kde-applnk-path=PATH],
+	[Location of KDE applnk files]),
+	[with_kde_applnk_path=$withval], [with_kde_applnk_path="no"])
 
 if test x"$with_kde_applnk_path" != x"no"; then
 	if test -z "$with_kde_applnk_path"; then
@@ -1979,7 +1977,7 @@ export plugindir
 EVOLUTION_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(EVOLUTION_DIR)
 
-AC_OUTPUT([ po/Makefile.in
+AC_CONFIG_FILES([ po/Makefile.in
 Makefile
 win32/Makefile
 a11y/Makefile
@@ -2127,6 +2125,8 @@ evolution-zip
 evolution-shell.pc
 evolution-plugin.pc
 ])
+
+AC_OUTPUT
 
 if test "x$with_sub_version" != "x"; then
 echo "

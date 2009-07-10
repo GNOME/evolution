@@ -96,6 +96,39 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	return DBUS_HANDLER_RESULT_HANDLED;
 }
 
+static void
+check_initial_state (EShell *shell)
+{
+	DBusMessage *message = NULL, *response = NULL;
+	guint32 state = -1;
+	DBusError error = DBUS_ERROR_INIT;
+
+	message = dbus_message_new_method_call (
+		NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "state");
+
+	/* assuming this should be safe to call syncronously */
+	response = dbus_connection_send_with_reply_and_block (
+		dbus_connection, message, 100, &error);
+
+	if (response)
+		dbus_message_get_args (
+			response, &error, DBUS_TYPE_UINT32,
+			&state, DBUS_TYPE_INVALID);
+	else {
+		g_warning ("%s", error.message);
+		dbus_error_free (&error);
+		return;
+	}
+
+	/* Update the state only in the absence of a network connection,
+	 * otherwise let the old state prevail. */
+	if (state == NM_STATE_DISCONNECTED)
+		e_shell_set_network_available (shell, FALSE);
+
+	dbus_message_unref (message);
+	dbus_message_unref (response);
+}
+
 gboolean
 e_shell_dbus_initialize (EShell *shell)
 {
@@ -118,6 +151,8 @@ e_shell_dbus_initialize (EShell *shell)
 
 	if (!dbus_connection_add_filter (dbus_connection, e_shell_network_monitor, shell, NULL))
 		goto exception;
+
+	check_initial_state (shell);
 
 	dbus_bus_add_match (dbus_connection,
 			    "type='signal',"
