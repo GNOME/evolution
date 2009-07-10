@@ -24,6 +24,8 @@
 #include <string.h>
 #include <camel/camel.h>
 
+#include "e-util/e-binding.h"
+
 #include "em-utils.h"
 #include "em-folder-utils.h"
 
@@ -410,8 +412,11 @@ static void
 mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebar *mail_shell_sidebar;
+	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShell *shell;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
@@ -423,6 +428,10 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (object);
 
@@ -447,6 +456,10 @@ mail_shell_sidebar_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-side-bar-search",
+		G_OBJECT (widget), "enable-search");
 
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);

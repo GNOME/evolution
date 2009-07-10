@@ -386,6 +386,18 @@ e_mail_shell_settings_init (EShell *shell)
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
+			"mail-side-bar-search",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-side-bar-search",
+		"/apps/evolution/mail/display/side_bar_search");
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
 			"mail-use-custom-fonts",
 			NULL,
 			NULL,

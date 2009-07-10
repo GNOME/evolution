@@ -888,11 +888,9 @@ folder_tree_new (EMFolderTree *emft)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkWidget *tree;
-	gboolean side_bar_search;
 	GConfClient *gconf;
 
 	gconf = mail_config_get_gconf_client ();
-	side_bar_search = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/side_bar_search", NULL);
 
 	/* FIXME[KILL-BONOBO] Gross hack */
 	tree = GTK_WIDGET (emft);
@@ -923,7 +921,6 @@ folder_tree_new (EMFolderTree *emft)
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
 	gtk_tree_view_set_search_column((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
-	gtk_tree_view_set_enable_search((GtkTreeView *)tree, side_bar_search);
 
 	return (GtkTreeView *) tree;
 }
