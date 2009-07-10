@@ -677,8 +677,6 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 	shell_backend_class->schemes = "mailto:email";
 	shell_backend_class->sort_order = 200;
 	shell_backend_class->start = mail_shell_backend_start;
-	shell_backend_class->is_busy = NULL;
-	shell_backend_class->shutdown = NULL;
 	shell_backend_class->migrate = e_mail_shell_migrate;
 }
 

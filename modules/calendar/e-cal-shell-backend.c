@@ -607,8 +607,6 @@ cal_shell_backend_class_init (ECalShellBackendClass *class)
 	shell_backend_class->schemes = "calendar";
 	shell_backend_class->sort_order = 400;
 	shell_backend_class->start = NULL;
-	shell_backend_class->is_busy = NULL;
-	shell_backend_class->shutdown = NULL;
 	shell_backend_class->migrate = e_cal_shell_backend_migrate;
 
 	g_object_class_install_property (

@@ -562,8 +562,6 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 	shell_backend_class->schemes = "task";
 	shell_backend_class->sort_order = 600;
 	shell_backend_class->start = NULL;
-	shell_backend_class->is_busy = NULL;
-	shell_backend_class->shutdown = NULL;
 	shell_backend_class->migrate = e_task_shell_backend_migrate;
 
 	g_object_class_install_property (

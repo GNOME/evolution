@@ -554,8 +554,6 @@ memo_shell_backend_class_init (EMemoShellBackendClass *class)
 	shell_backend_class->schemes = "memo";
 	shell_backend_class->sort_order = 500;
 	shell_backend_class->start = NULL;
-	shell_backend_class->is_busy = NULL;
-	shell_backend_class->shutdown = NULL;
 	shell_backend_class->migrate = e_memo_shell_backend_migrate;
 
 	g_object_class_install_property (

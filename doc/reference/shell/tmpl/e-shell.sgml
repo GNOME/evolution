@@ -56,6 +56,14 @@ EShell
 @eshell: the object which received the signal.
 @arg1: 
 
+<!-- ##### SIGNAL EShell::prepare-for-shutdown ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
 <!-- ##### SIGNAL EShell::send-receive ##### -->
 <para>
 
@@ -261,31 +269,12 @@ EShell
 @event_data: 
 
 
-<!-- ##### FUNCTION e_shell_is_busy ##### -->
-<para>
-
-</para>
-
-@shell: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_do_quit ##### -->
-<para>
-
-</para>
-
-@shell: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_shell_quit ##### -->
 <para>
 
 </para>
 
 @shell: 
-@Returns: 
 
 
 <!-- ##### MACRO E_SHELL_MIGRATE_ERROR ##### -->

@@ -1,0 +1,2 @@
+These files are copied from libegg for session management support.
+Delete this when the functionality finally lands in GTK+ or GLib.

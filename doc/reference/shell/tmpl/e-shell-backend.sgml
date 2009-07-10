@@ -99,24 +99,6 @@ EShellBackend
 @shell_backend: 
 
 
-<!-- ##### FUNCTION e_shell_backend_is_busy ##### -->
-<para>
-
-</para>
-
-@shell_backend: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_backend_shutdown ##### -->
-<para>
-
-</para>
-
-@shell_backend: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_shell_backend_migrate ##### -->
 <para>
 

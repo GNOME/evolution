@@ -1835,6 +1835,22 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_backend_is_busy ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_backend_shutdown ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_content_get_context ##### -->
 <para>
 
@@ -1868,6 +1884,14 @@ intelligent
 @search_value: 
 
 <!-- ##### FUNCTION e_shell_create_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_do_quit ##### -->
 <para>
 
 </para>
@@ -1948,6 +1972,14 @@ intelligent
 
 @shell: 
 @uri: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_is_busy ##### -->
+<para>
+
+</para>
+
+@shell: 
 @Returns: 
 
 <!-- ##### FUNCTION e_shell_list_modules ##### -->

@@ -3,7 +3,6 @@ SUBDIRS = . test
 endif
 
 AM_CPPFLAGS =							\
-	-I$(top_srcdir)/e-util					\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
@@ -99,6 +98,7 @@ libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(SHELL_LIBS)

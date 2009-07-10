@@ -396,6 +396,16 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 }
 
 static void
+book_shell_backend_prepare_for_shutdown_cb (EShellBackend *shell_backend,
+                                            EActivity *activity)
+{
+	/* FIXME Should specify whether Cancel is allowed.  Currently,
+	 *       clicking Cancel when prompted to save during shutdown
+	 *       just discards changes. */
+	eab_editor_request_close_all ();
+}
+
+static void
 book_shell_backend_window_created_cb (EShellBackend *shell_backend,
                                       GtkWindow *window)
 {
@@ -476,24 +486,16 @@ book_shell_backend_constructed (GObject *object)
 		shell_backend);
 
 	g_signal_connect_swapped (
+		shell, "prepare-for-shutdown",
+		G_CALLBACK (book_shell_backend_prepare_for_shutdown_cb),
+		shell_backend);
+
+	g_signal_connect_swapped (
 		shell, "window-created",
 		G_CALLBACK (book_shell_backend_window_created_cb),
 		shell_backend);
 
 	autocompletion_config_init (shell);
-}
-
-static gboolean
-book_shell_backend_is_busy (EShellBackend *shell_backend)
-{
-	return !eab_editor_request_close_all ();
-}
-
-static gboolean
-book_shell_backend_shutdown (EShellBackend *shell_backend)
-{
-	/* FIXME */
-	return TRUE;
 }
 
 static void
@@ -517,8 +519,6 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 	shell_backend_class->schemes = "";
 	shell_backend_class->sort_order = 300;
 	shell_backend_class->start = NULL;
-	shell_backend_class->is_busy = book_shell_backend_is_busy;
-	shell_backend_class->shutdown = book_shell_backend_shutdown;
 	shell_backend_class->migrate = e_book_shell_backend_migrate;
 
 	g_object_class_install_property (

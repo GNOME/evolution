@@ -50,6 +50,7 @@ struct _EShellPrivate {
 	GHashTable *backends_by_scheme;
 
 	gpointer preparing_for_line_change;  /* weak pointer */
+	gpointer preparing_for_shutdown;     /* weak pointer */
 
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
@@ -69,6 +70,7 @@ enum {
 	HANDLE_URI,
 	PREPARE_FOR_OFFLINE,
 	PREPARE_FOR_ONLINE,
+	PREPARE_FOR_SHUTDOWN,
 	SEND_RECEIVE,
 	WINDOW_CREATED,
 	WINDOW_DESTROYED,
@@ -122,7 +124,9 @@ shell_window_delete_event_cb (EShell *shell,
 		return FALSE;
 
 	/* Otherwise we initiate application shutdown. */
-	return !e_shell_quit (shell);
+	e_shell_quit (shell);
+
+	return TRUE;
 }
 
 static gboolean
@@ -272,6 +276,40 @@ shell_prepare_for_online (EShell *shell)
 }
 
 static void
+shell_ready_for_shutdown (EShell *shell,
+                          EActivity *activity,
+                          gboolean is_last_ref)
+{
+	GList *list;
+
+	if (!is_last_ref)
+		return;
+
+	/* Increment the reference count so we can safely emit
+	 * a signal without triggering the toggle reference. */
+	g_object_ref (activity);
+
+	e_activity_complete (activity);
+
+	g_object_remove_toggle_ref (
+		G_OBJECT (activity), (GToggleNotify)
+		shell_ready_for_shutdown, shell);
+
+	/* Finalize the activity. */
+	g_object_ref (activity);
+
+	g_message ("Shutdown preparations complete.");
+
+	/* Destroy all watched windows.  Note, we iterate over a -copy-
+	 * of the watched windows list because the act of destroying a
+	 * watched window will modify the watched windows list, which
+	 * would derail the iteration. */
+	list = g_list_copy (e_shell_get_watched_windows (shell));
+	g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
+	g_list_free (list);
+}
+
+static void
 shell_load_modules (EShell *shell)
 {
 	GList *modules;
@@ -356,54 +394,6 @@ shell_create_backends (EShell *shell)
 	}
 
 	g_free (children);
-}
-
-static gboolean
-shell_shutdown_timeout (EShell *shell)
-{
-	GList *list, *iter;
-	gboolean proceed = TRUE;
-	static guint source_id = 0;
-	static guint message_timer = 1;
-
-	/* Module list is read-only; do not free. */
-	list = e_shell_get_shell_backends (shell);
-
-	/* Any backend can defer shutdown if it's still busy. */
-	for (iter = list; proceed && iter != NULL; iter = iter->next) {
-		EShellBackend *shell_backend = iter->data;
-		proceed = e_shell_backend_shutdown (shell_backend);
-
-		/* Emit a message every few seconds to indicate
-		 * which backend(s) we're still waiting on. */
-		if (proceed || message_timer == 0)
-			continue;
-
-		g_message (
-			_("Waiting for the \"%s\" backend to finish..."),
-			E_SHELL_BACKEND_GET_CLASS (shell_backend)->name);
-	}
-
-	message_timer = (message_timer + 1) % 10;
-
-	/* If we're go for shutdown, destroy all shell windows.  Note,
-	 * we iterate over a /copy/ of the active windows list because
-	 * the act of destroying a shell window will modify the active
-	 * windows list, which would otherwise derail the iteration. */
-	if (proceed) {
-		list = g_list_copy (shell->priv->watched_windows);
-		g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
-		g_list_free (list);
-
-	/* If a backend is still busy, try again after a short delay. */
-	} else if (source_id == 0)
-		source_id = g_timeout_add (
-			SHUTDOWN_TIMEOUT, (GSourceFunc)
-			shell_shutdown_timeout, shell);
-
-	/* Return TRUE to repeat the timeout, FALSE to stop it.  This
-	 * may seem backwards if the function was called directly. */
-	return !proceed;
 }
 
 static void
@@ -753,6 +743,31 @@ shell_class_init (EShellClass *class)
 	 **/
 	signals[PREPARE_FOR_ONLINE] = g_signal_new (
 		"prepare-for-online",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
+
+	/**
+	 * EShell::prepare-for-shutdown
+	 * @shell: the #EShell which emitted the signal
+	 * @activity: the #EActivity for shutdown preparations
+	 *
+	 * Emitted when the user elects to quit the application.  An
+	 * #EShellBackend should listen for this signal and make
+	 * preparations for shutting down.
+	 *
+	 * If preparations for shutting down cannot immediately be completed
+	 * (such as when there are uncompleted network operations), the
+	 * #EShellBackend should reference the @activity until preparations
+	 * are complete, and then unreference the @activity.  This will
+	 * delay Evolution from actually shutting down until all backends
+	 * have unreferenced @activity.
+	 **/
+	signals[PREPARE_FOR_SHUTDOWN] = g_signal_new (
+		"prepare-for-shutdown",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
@@ -1411,23 +1426,38 @@ e_shell_event (EShell *shell,
 	g_signal_emit (shell, signals[EVENT], detail, event_data);
 }
 
-gboolean
-e_shell_is_busy (EShell *shell)
-{
-	/* FIXME */
-	return FALSE;
-}
-
-gboolean
-e_shell_do_quit (EShell *shell)
-{
-	/* FIXME */
-	return TRUE;
-}
-
-gboolean
+void
 e_shell_quit (EShell *shell)
 {
-	/* FIXME */
-	return TRUE;
+	GList *list, *iter;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	/* Are preparations already in progress? */
+	if (shell->priv->preparing_for_shutdown != NULL)
+		return;
+
+	g_message ("Preparing for shutdown...");
+
+	shell->priv->preparing_for_shutdown =
+		e_activity_new (_("Preparing to shut down..."));
+
+	g_object_add_toggle_ref (
+		G_OBJECT (shell->priv->preparing_for_shutdown),
+		(GToggleNotify) shell_ready_for_shutdown, shell);
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell->priv->preparing_for_shutdown),
+		&shell->priv->preparing_for_shutdown);
+
+	g_signal_emit (
+		shell, signals[PREPARE_FOR_SHUTDOWN], 0,
+		shell->priv->preparing_for_shutdown);
+
+	g_object_unref (shell->priv->preparing_for_shutdown);
+
+	/* Desensitize all watched windows to prevent user action. */
+	list = e_shell_get_watched_windows (shell);
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
 }

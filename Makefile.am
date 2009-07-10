@@ -42,6 +42,7 @@ endif
 SUBDIRS = 			\
 	win32			\
 	data			\
+	smclient		\
 	e-util			\
 	a11y			\
 	filter			\

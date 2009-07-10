@@ -54,7 +54,7 @@ m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
 m4_define([libgnomeui_minimum_version], [2.0.0])        # XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
-m4_define([unique_minimum_version], [1.0])              # XXX Just a Guess
+m4_define([unique_minimum_version], [1.0.8])
 
 # Optional Packages
 #
@@ -1438,7 +1438,7 @@ dnl Utility macro to set compiler flags for a specific lib.
 dnl  EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
 AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
 	PKG_CHECK_MODULES([$1], [$2])
-	$1_CFLAGS="[$]$1_CFLAGS \$(WERROR) $3"
+	$1_CFLAGS="[$]$1_CFLAGS $3"
 	$1_LIBS="[$]$1_LIBS $4"
 ])
 
@@ -1643,6 +1643,12 @@ dnl --- evolution-test flags
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, gtk+-2.0 gconf-2.0 libxml-2.0 unique-1.0)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
+
+dnl --- eggsmclient flags
+
+EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-2.0)
+AC_SUBST(EGG_SMCLIENT_CFLAGS)
+AC_SUBST(EGG_SMCLIENT_LIBS)
 
 dnl *******************
 dnl Special directories
@@ -2116,6 +2122,7 @@ plugins/templates/Makefile
 plugins/tnef-attachments/Makefile
 plugins/vcard-inline/Makefile
 plugins/webdav-account-setup/Makefile
+smclient/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

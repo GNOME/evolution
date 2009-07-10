@@ -58,7 +58,6 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-client.h>
 
 #include <bonobo/bonobo-exception.h>
 
@@ -427,8 +426,7 @@ static void
 set_paths (void)
 {
 	/* Set PATH to include the Evolution executable's folder
-	 * and the lib/evolution/$(BASE_VERSION)/components folder.
-	 */
+	 * and the lib/evolution/$(BASE_VERSION)/components folder. */
 	wchar_t exe_filename[MAX_PATH];
 	wchar_t *p;
 	gchar *exe_folder_utf8;
@@ -449,18 +447,16 @@ set_paths (void)
 
 	*p = L'\0';
 	top_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
-	components_folder_utf8 =
-		g_strconcat (top_folder_utf8,
-			     "/lib/evolution/" BASE_VERSION "/components",
-			     NULL);
+	components_folder_utf8 = g_strconcat (
+		top_folder_utf8, "/lib/evolution/"
+		BASE_VERSION "/components", NULL);
 
-	path = g_build_path (";",
-			     exe_folder_utf8,
-			     components_folder_utf8,
-			     g_getenv ("PATH"),
-			     NULL);
+	path = g_build_path (
+		";", exe_folder_utf8,
+		components_folder_utf8, g_getenv ("PATH"), NULL);
 	if (!g_setenv ("PATH", path, TRUE))
-		g_warning ("Could not set PATH for Evolution and its child processes");
+		g_warning ("Could not set PATH for Evolution "
+		           "and its child processes");
 
 	g_free (path);
 	g_free (exe_folder_utf8);
@@ -477,118 +473,15 @@ shell_window_destroyed_cb (EShell *shell)
 		gtk_main_quit ();
 }
 
-static gint
-master_client_save_yourself_cb (GnomeClient *client,
-                                GnomeSaveStyle save_style,
-                                gint shutdown,
-                                GnomeInteractStyle interact_style,
-                                gint fast,
-                                gpointer user_data)
-{
-	EShell *shell = user_data;
-
-	return !e_shell_is_busy (shell);
-}
-
-static void
-master_client_die_cb (GnomeClient *client,
-                      gpointer user_data)
-{
-	EShell *shell = user_data;
-
-	e_shell_do_quit (shell);
-}
-
-/* taken from nautilus */
-static guint32
-slowly_and_stupidly_obtain_timestamp (GdkDisplay *display)
-{
-	Display *xdisplay;
-	Window xwindow;
-	XEvent event;
-	XSetWindowAttributes attrs;
-	Atom atom_name;
-	Atom atom_type;
-	const gchar *name;
-
-	xdisplay = GDK_DISPLAY_XDISPLAY (display);
-
-	attrs.override_redirect = True;
-	attrs.event_mask = PropertyChangeMask | StructureNotifyMask;
-
-	xwindow = XCreateWindow (
-		xdisplay, RootWindow (xdisplay, 0),
-		-100, -100, 1, 1,
-		0,
-		CopyFromParent,
-		CopyFromParent,
-		CopyFromParent,
-		CWOverrideRedirect | CWEventMask,
-		&attrs);
-
-	atom_name = XInternAtom (xdisplay, "WM_NAME", TRUE);
-	g_assert (atom_name != None);
-
-	atom_type = XInternAtom (xdisplay, "STRING", TRUE);
-	g_assert (atom_type != None);
-
-	name = "Fake Window";
-	XChangeProperty (
-		xdisplay, xwindow, atom_name, atom_type,
-		8, PropModeReplace, (guchar *) name,
-		strlen (name));
-
-	XWindowEvent (
-		xdisplay, xwindow, PropertyChangeMask, &event);
-
-	XDestroyWindow (xdisplay, xwindow);
-
-	return event.xproperty.time;
-}
-
-static gchar *
-pick_startup_id (void)
-{
-	GdkDisplay *display;
-	const gchar *startup_id;
-	gchar *id;
-
-	/* XXX This copies logic from unique_app_new(), which we can't use
-	 *     because we're subclassing UniqueApp.  I already sent ebassi
-	 *     a patch to fix this. */
-
-	display = gdk_display_get_default ();
-
-	/* Try and get the startup notification ID from GDK, the
-	 * environment or, if everything else failed, fake one. */
-	startup_id = gdk_x11_display_get_startup_notification_id (display);
-
-	if (!startup_id || startup_id[0] == '\0')
-		startup_id = g_getenv ("DESKTOP_STARTUP_ID");
-
-	if (!startup_id || startup_id[0] == '\0') {
-		guint32 timestamp;
-
-		timestamp = slowly_and_stupidly_obtain_timestamp (display);
-		id = g_strdup_printf ("_TIME%lu", (gulong) timestamp);
-	} else
-		id = g_strdup (startup_id);
-
-	return id;
-}
-
 static void
 create_default_shell (void)
 {
 	EShell *shell;
 	GConfClient *conf_client;
-	GnomeClient *master_client;
 	gboolean online = TRUE;
-	gchar *startup_id;
 	GError *error = NULL;
 
 	conf_client = gconf_client_get_default ();
-	master_client = gnome_master_client ();
 
 	if (start_online)
 		online = TRUE;
@@ -608,30 +501,15 @@ create_default_shell (void)
 		}
 	}
 
-	startup_id = pick_startup_id ();
-
 	shell = g_object_new (
 		E_TYPE_SHELL,
 		"name", "org.gnome.evolution",
 		"online", online,
-		"startup-id", startup_id,
 		NULL);
-
-	g_free (startup_id);
 
 	g_signal_connect (
 		shell, "window-destroyed",
 		G_CALLBACK (shell_window_destroyed_cb), NULL);
-
-	if (master_client != NULL) {
-		g_signal_connect (
-			master_client, "save_yourself",
-			G_CALLBACK (master_client_save_yourself_cb), shell);
-
-		g_signal_connect (
-			master_client, "die",
-			G_CALLBACK (master_client_die_cb), shell);
-	}
 
 	g_object_unref (conf_client);
 

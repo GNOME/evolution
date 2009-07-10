@@ -91,14 +91,6 @@ struct _EShellBackend {
  *			corresponding #EShellView subclass.  It allows the
  *			backend to delay initialization steps that consume
  *			significant resources until they are actually needed.
- * @is_busy:		Method for querying whether the backend has operations
- *			in progress that cannot be cancelled or finished
- *			immediately.  Returning %TRUE prevents the application
- *			from shutting down.
- * @shutdown:		Method for notifying the backend to begin shutting
- *			down.  Returning %FALSE indicates there are still
- *			unfinished operations and the #EShell should check
- *			back shortly.
  * @migrate:		Method for notifying the backend to migrate data and
  *			settings from the given version.  Returns %TRUE if the
  *			migration was successful or if no action was necessary.
@@ -119,8 +111,6 @@ struct _EShellBackendClass {
 
 	/* Methods */
 	void		(*start)		(EShellBackend *shell_backend);
-	gboolean	(*is_busy)		(EShellBackend *shell_backend);
-	gboolean	(*shutdown)		(EShellBackend *shell_backend);
 	gboolean	(*migrate)		(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,
@@ -138,8 +128,6 @@ struct _EShell *e_shell_backend_get_shell	(EShellBackend *shell_backend);
 void		e_shell_backend_add_activity	(EShellBackend *shell_backend,
 						 EActivity *activity);
 void		e_shell_backend_start		(EShellBackend *shell_backend);
-gboolean	e_shell_backend_is_busy		(EShellBackend *shell_backend);
-gboolean	e_shell_backend_shutdown	(EShellBackend *shell_backend);
 gboolean	e_shell_backend_migrate		(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,

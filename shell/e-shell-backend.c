@@ -370,67 +370,6 @@ e_shell_backend_start (EShellBackend *shell_backend)
 }
 
 /**
- * e_shell_backend_is_busy:
- * @shell_backend: an #EShellBackend
- *
- * Returns %TRUE if @shell_backend is busy and cannot be shutdown at
- * present.  Each backend must define what "busy" means to them and
- * determine an appropriate response.
- *
- * XXX This function is likely to change or disappear.  I'm toying with
- *     the idea of just having it check whether there are any unfinished
- *     #EActivity<!-- -->'s left, so we have a consistent and easily
- *     testable definition of what "busy" means.
- *
- * Returns: %TRUE if the backend is busy
- **/
-gboolean
-e_shell_backend_is_busy (EShellBackend *shell_backend)
-{
-	EShellBackendClass *class;
-
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), FALSE);
-
-	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
-
-	if (class->is_busy == NULL)
-		return FALSE;
-
-	return class->is_busy (shell_backend);
-}
-
-/**
- * e_shell_backend_shutdown:
- * @shell_backend: an #EShellBackend
- *
- * Alerts @shell_backend to begin shutdown procedures.  If the backend is
- * busy and cannot immediately shut down, the function returns %FALSE.
- * A %TRUE response implies @shell_backend has successfully shut down.
- *
- * XXX This function is likely to change or disappear.  I'm toying with
- *     the idea of just having it check whether there are any unfinished
- *     #EActivity<!-- -->'s left, so we have a consistent and easily
- *     testable definition of what "busy" means.
- *
- * Returns: %TRUE if the backend has shut down, %FALSE if the backend is
- *          busy and cannot immediately shut down
- */
-gboolean
-e_shell_backend_shutdown (EShellBackend *shell_backend)
-{
-	EShellBackendClass *class;
-
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), TRUE);
-
-	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
-
-	if (class->shutdown == NULL)
-		return TRUE;
-
-	return class->shutdown (shell_backend);
-}
-
-/**
  * e_shell_migrate:
  * @shell_backend: an #EShellBackend
  * @major: major part of version to migrate from
