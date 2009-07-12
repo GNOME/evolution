@@ -329,7 +329,7 @@ idle_cb (gchar **uris)
 		gtk_main_quit ();
 
 	/* This must be done after EShell has loaded all the backends.
-	 * For example the mail backend makes the global variable `session`
+	 * For example the mail backend makes the global variable 'session'
 	 * which is being used by several EPlugins */
 	else if (uris == NULL && !disable_eplugin)
 		e_plugin_load_plugins_with_missing_symbols ();
