@@ -226,30 +226,50 @@ book_shell_backend_init_importers (void)
 }
 
 static void
-book_shell_backend_book_loaded_cb (EBook *book,
+book_shell_backend_new_contact_cb (EBook *book,
                                    EBookStatus status,
                                    gpointer user_data)
 {
+	EShell *shell;
 	EContact *contact;
-	GtkAction *action;
-	GtkWidget *editor;
-	const gchar *action_name;
+	EABEditor *editor;
 
 	/* XXX Handle errors better. */
 	if (status != E_BOOK_ERROR_OK)
 		return;
 
 	contact = e_contact_new ();
-	action = GTK_ACTION (user_data);
-	action_name = gtk_action_get_name (action);
+	shell = E_SHELL (user_data);
 
-	if (strcmp (action_name, "contact-new") == 0)
-		editor = e_contact_editor_new (book, contact, TRUE, TRUE);
+	editor = e_contact_editor_new (
+		shell, book, contact, TRUE, TRUE);
 
-	if (strcmp (action_name, "contact-new-list") == 0)
-		editor = e_contact_list_editor_new (book, contact, TRUE, TRUE);
+	eab_editor_show (editor);
 
-	eab_editor_show (EAB_EDITOR (editor));
+	g_object_unref (contact);
+	g_object_unref (book);
+}
+
+static void
+book_shell_backend_new_contact_list_cb (EBook *book,
+                                        EBookStatus status,
+                                        gpointer user_data)
+{
+	EShell *shell;
+	EContact *contact;
+	EABEditor *editor;
+
+	/* XXX Handle errors better. */
+	if (status != E_BOOK_ERROR_OK)
+		return;
+
+	contact = e_contact_new ();
+	shell = E_SHELL (user_data);
+
+	editor = e_contact_list_editor_new (
+		shell, book, contact, TRUE, TRUE);
+
+	eab_editor_show (editor);
 
 	g_object_unref (contact);
 	g_object_unref (book);
@@ -263,6 +283,7 @@ action_contact_new_cb (GtkAction *action,
 	EBook *book = NULL;
 	GConfClient *client;
 	ESourceList *source_list;
+	const gchar *action_name;
 	const gchar *key;
 	gchar *uid;
 
@@ -275,6 +296,7 @@ action_contact_new_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 	client = e_shell_get_gconf_client (shell);
+	action_name = gtk_action_get_name (action);
 
 	key = "/apps/evolution/addressbook/display/primary_addressbook";
 	uid = gconf_client_get_string (client, key, NULL);
@@ -291,8 +313,15 @@ action_contact_new_cb (GtkAction *action,
 	if (book == NULL)
 		book = e_book_new_default_addressbook (NULL);
 
-	e_book_async_open (
-		book, FALSE, book_shell_backend_book_loaded_cb, action);
+	if (strcmp (action_name, "contact-new") == 0)
+		e_book_async_open (
+			book, FALSE,
+			book_shell_backend_new_contact_cb, shell);
+
+	if (strcmp (action_name, "contact-list-new") == 0)
+		e_book_async_open (
+			book, FALSE,
+			book_shell_backend_new_contact_list_cb, shell);
 }
 
 static void
@@ -396,16 +425,6 @@ book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 }
 
 static void
-book_shell_backend_prepare_for_shutdown_cb (EShellBackend *shell_backend,
-                                            EActivity *activity)
-{
-	/* FIXME Should specify whether Cancel is allowed.  Currently,
-	 *       clicking Cancel when prompted to save during shutdown
-	 *       just discards changes. */
-	eab_editor_request_close_all ();
-}
-
-static void
 book_shell_backend_window_created_cb (EShellBackend *shell_backend,
                                       GtkWindow *window)
 {
@@ -483,11 +502,6 @@ book_shell_backend_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell, "handle-uri",
 		G_CALLBACK (book_shell_backend_handle_uri_cb),
-		shell_backend);
-
-	g_signal_connect_swapped (
-		shell, "prepare-for-shutdown",
-		G_CALLBACK (book_shell_backend_prepare_for_shutdown_cb),
 		shell_backend);
 
 	g_signal_connect_swapped (

@@ -143,8 +143,7 @@ shell_window_set_shell (EShellWindow *shell_window,
 	shell_window->priv->shell = shell;
 
 	g_object_add_weak_pointer (
-		G_OBJECT (shell_window),
-		&shell_window->priv->shell);
+		G_OBJECT (shell), &shell_window->priv->shell);
 
 	/* Need to disconnect these when the window is closing. */
 

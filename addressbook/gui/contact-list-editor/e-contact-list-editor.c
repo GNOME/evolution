@@ -881,6 +881,36 @@ contact_list_editor_create_name_selector (gchar *name,
                                           gint int1,
                                           gint int2);
 
+static gpointer
+contact_editor_fudge_new (EBook *book,
+                          EContact *contact,
+                          gboolean is_new,
+                          gboolean editable)
+{
+	EShell *shell = e_shell_get_default ();
+
+	/* XXX Putting this function signature in libedataserverui
+	 *     was a terrible idea.  Now we're stuck with it. */
+
+	return e_contact_editor_new (
+		shell, book, contact, is_new, editable);
+}
+
+static gpointer
+contact_list_editor_fudge_new (EBook *book,
+                               EContact *contact,
+                               gboolean is_new,
+                               gboolean editable)
+{
+	EShell *shell = e_shell_get_default ();
+
+	/* XXX Putting this function signature in libedataserverui
+	 *     was a terrible idea.  Now we're stuck with it. */
+
+	return e_contact_list_editor_new (
+		shell, book, contact, is_new, editable);
+}
+
 GtkWidget *
 contact_list_editor_create_name_selector (gchar *name,
                                           gchar *string1,
@@ -901,9 +931,9 @@ contact_list_editor_create_name_selector (gchar *name,
 		name_selector, "Members");
 
 	e_name_selector_entry_set_contact_editor_func (
-		name_selector_entry, e_contact_editor_new);
+		name_selector_entry, contact_editor_fudge_new);
 	e_name_selector_entry_set_contact_list_editor_func (
-		name_selector_entry, e_contact_list_editor_new);
+		name_selector_entry, contact_list_editor_fudge_new);
 	gtk_widget_show (GTK_WIDGET (name_selector_entry));
 
 	g_signal_connect (
@@ -1319,26 +1349,20 @@ e_contact_list_editor_get_type (void)
 	return type;
 }
 
-static void
-contact_list_editor_destroy_notify (gpointer data,
-				    GObject *where_the_object_was)
+EABEditor *
+e_contact_list_editor_new (EShell *shell,
+                           EBook *book,
+                           EContact *list_contact,
+                           gboolean is_new_list,
+                           gboolean editable)
 {
-	eab_editor_remove (EAB_EDITOR (data));
-}
+	EABEditor *editor;
 
-GtkWidget *
-e_contact_list_editor_new (EBook *book,
-			   EContact *list_contact,
-			   gboolean is_new_list,
-			   gboolean editable)
-{
-	EContactListEditor *editor;
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	editor = g_object_new (E_TYPE_CONTACT_LIST_EDITOR, NULL);
-
-	eab_editor_add (EAB_EDITOR (editor));
-	g_object_weak_ref (
-		G_OBJECT (editor), contact_list_editor_destroy_notify, editor);
+	editor = g_object_new (
+		E_TYPE_CONTACT_LIST_EDITOR,
+		"shell", shell, NULL);
 
 	g_object_set (editor,
 		      "book", book,
@@ -1347,7 +1371,7 @@ e_contact_list_editor_new (EBook *book,
 		      "editable", editable,
 		      NULL);
 
-	return GTK_WIDGET (editor);
+	return editor;
 }
 
 EBook *

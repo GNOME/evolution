@@ -457,6 +457,14 @@ intelligent
 @minor: 
 @revision: 
 
+<!-- ##### SIGNAL EShell::prepare-for-shutdown ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
 <!-- ##### ARG EShell:online-mode ##### -->
 <para>
 

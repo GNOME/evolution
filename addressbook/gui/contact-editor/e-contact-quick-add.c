@@ -194,7 +194,12 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		GtkWidget *contact_editor = e_contact_editor_new (book, qa->contact, TRUE, TRUE /* XXX */);
+		EShell *shell;
+		EABEditor *contact_editor;
+
+		shell = e_shell_get_default ();
+		contact_editor = e_contact_editor_new (
+			shell, book, qa->contact, TRUE, TRUE /* XXX */);
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
 		g_object_set (contact_editor,

@@ -108,7 +108,8 @@ struct _EContactEditorClass
 };
 
 GType		e_contact_editor_get_type	(void);
-GtkWidget	*e_contact_editor_new		(EBook *book,
+EABEditor	*e_contact_editor_new		(EShell *shell,
+						 EBook *book,
 						 EContact *contact,
 						 gboolean is_new_contact,
 						 gboolean editable);

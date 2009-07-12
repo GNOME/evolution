@@ -24,42 +24,42 @@
 #ifndef __EAB_EDITOR_H__
 #define __EAB_EDITOR_H__
 
-#include <glade/glade.h>
-
+#include <gtk/gtk.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
+#include <shell/e-shell.h>
 
-#include <gtk/gtk.h>
+/* Standard GObject macros */
+#define EAB_TYPE_EDITOR \
+	(eab_editor_get_type ())
+#define EAB_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EAB_TYPE_EDITOR, EABEditor))
+#define EAB_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EAB_TYPE_EDITOR, EABEditorClass))
+#define EAB_IS_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EAB_TYPE_EDITOR))
+#define EAB_IS_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EAB_TYPE_EDITOR))
+#define EAB_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EAB_EDITOR_TYPE, EABEditorClass))
 
 G_BEGIN_DECLS
 
-/* EABEditor - A dialog displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- * card         ECard *         RW              The card currently being edited
- */
+typedef struct _EABEditor EABEditor;
+typedef struct _EABEditorClass EABEditorClass;
+typedef struct _EABEditorPrivate EABEditorPrivate;
 
-#define EAB_TYPE_EDITOR			(eab_editor_get_type ())
-#define EAB_EDITOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EAB_TYPE_EDITOR, EABEditor))
-#define EAB_EDITOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), EAB_TYPE_EDITOR, EABEditorClass))
-#define EAB_IS_EDITOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EAB_TYPE_EDITOR))
-#define EAB_IS_EDITOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), EAB_TYPE_EDITOR))
-#define EAB_EDITOR_GET_CLASS(o)         (G_TYPE_INSTANCE_GET_CLASS ((o), EAB_EDITOR_TYPE, EABEditorClass))
-
-
-typedef struct _EABEditor       EABEditor;
-typedef struct _EABEditorClass  EABEditorClass;
-
-struct _EABEditor
-{
+struct _EABEditor {
 	GObject parent;
+	EABEditorPrivate *priv;
 };
 
-struct _EABEditorClass
-{
+struct _EABEditorClass {
 	GObjectClass parent_class;
 
 	/* virtual functions */
@@ -78,31 +78,35 @@ struct _EABEditorClass
 	void (* editor_closed)    (EABEditor *editor);
 };
 
-GType           eab_editor_get_type          (void);
+GType		eab_editor_get_type		(void);
+EShell *	eab_editor_get_shell		(EABEditor *editor);
+GSList *	eab_editor_get_all_editors	(void);
 
 /* virtual functions */
-void            eab_editor_show              (EABEditor *editor);
-void            eab_editor_close             (EABEditor *editor);
-void            eab_editor_raise             (EABEditor *editor);
-void            eab_editor_save_contact      (EABEditor *editor, gboolean should_close);
-gboolean        eab_editor_is_valid          (EABEditor *editor);
-gboolean        eab_editor_is_changed        (EABEditor *editor);
-GtkWindow*      eab_editor_get_window        (EABEditor *editor);
+void		eab_editor_show			(EABEditor *editor);
+void		eab_editor_close		(EABEditor *editor);
+void		eab_editor_raise		(EABEditor *editor);
+void		eab_editor_save_contact		(EABEditor *editor,
+						 gboolean should_close);
+gboolean	eab_editor_is_valid		(EABEditor *editor);
+gboolean	eab_editor_is_changed		(EABEditor *editor);
+GtkWindow *	eab_editor_get_window		(EABEditor *editor);
 
-gboolean        eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window);
+gboolean	eab_editor_prompt_to_save_changes
+						(EABEditor *editor,
+						 GtkWindow *window);
 
 /* these four generate EABEditor signals */
-void		eab_editor_contact_added     (EABEditor *editor, EBookStatus status, EContact *contact);
-void		eab_editor_contact_modified  (EABEditor *editor, EBookStatus status, EContact *contact);
-void		eab_editor_contact_deleted   (EABEditor *editor, EBookStatus status, EContact *contact);
-void		eab_editor_closed            (EABEditor *editor);
-
-/* these maintain the global list of editors so we can prompt the user
-   if there are unsaved changes when they exit. */
-void            eab_editor_add               (EABEditor *editor);
-void            eab_editor_remove            (EABEditor *editor);
-gboolean        eab_editor_request_close_all (void);
-const GSList*   eab_editor_get_all_editors   (void);
+void		eab_editor_contact_added	(EABEditor *editor,
+						 EBookStatus status,
+						 EContact *contact);
+void		eab_editor_contact_modified	(EABEditor *editor,
+						 EBookStatus status,
+						 EContact *contact);
+void		eab_editor_contact_deleted	(EABEditor *editor,
+						 EBookStatus status,
+						 EContact *contact);
+void		eab_editor_closed		(EABEditor *editor);
 
 G_END_DECLS
 

@@ -332,12 +332,19 @@ static void
 action_contact_new_cb (GtkAction *action,
                        EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
 	GtkWidget *editor;
 	EBook *book;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
@@ -348,7 +355,7 @@ action_contact_new_cb (GtkAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
-	editor = e_contact_editor_new (book, contact, TRUE, TRUE);
+	editor = e_contact_editor_new (shell, book, contact, TRUE, TRUE);
 	eab_editor_show (EAB_EDITOR (editor));
 	g_object_unref (contact);
 }
@@ -357,12 +364,19 @@ static void
 action_contact_new_list_cb (GtkAction *action,
                             EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
 	GtkWidget *editor;
 	EBook *book;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
@@ -373,7 +387,7 @@ action_contact_new_list_cb (GtkAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
-	editor = e_contact_list_editor_new (book, contact, TRUE, TRUE);
+	editor = e_contact_list_editor_new (shell, book, contact, TRUE, TRUE);
 	eab_editor_show (EAB_EDITOR (editor));
 	g_object_unref (contact);
 }

@@ -32,8 +32,6 @@
 #include "e-shell-migrate.h"
 #include "e-shell-window.h"
 
-#define SHUTDOWN_TIMEOUT	500  /* milliseconds */
-
 #define E_SHELL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL, EShellPrivate))
@@ -50,11 +48,12 @@ struct _EShellPrivate {
 	GHashTable *backends_by_scheme;
 
 	gpointer preparing_for_line_change;  /* weak pointer */
-	gpointer preparing_for_shutdown;     /* weak pointer */
+	gpointer preparing_for_quit;         /* weak pointer */
 
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
 	guint online		: 1;
+	guint quit_cancelled	: 1;
 	guint safe_mode		: 1;
 };
 
@@ -70,7 +69,8 @@ enum {
 	HANDLE_URI,
 	PREPARE_FOR_OFFLINE,
 	PREPARE_FOR_ONLINE,
-	PREPARE_FOR_SHUTDOWN,
+	PREPARE_FOR_QUIT,
+	QUIT_REQUESTED,
 	SEND_RECEIVE,
 	WINDOW_CREATED,
 	WINDOW_DESTROYED,
@@ -123,7 +123,7 @@ shell_window_delete_event_cb (EShell *shell,
 	if (g_list_length (shell->priv->watched_windows) > 1)
 		return FALSE;
 
-	/* Otherwise we initiate application shutdown. */
+	/* Otherwise we initiate application quit. */
 	e_shell_quit (shell);
 
 	return TRUE;
@@ -276,9 +276,9 @@ shell_prepare_for_online (EShell *shell)
 }
 
 static void
-shell_ready_for_shutdown (EShell *shell,
-                          EActivity *activity,
-                          gboolean is_last_ref)
+shell_ready_for_quit (EShell *shell,
+                      EActivity *activity,
+                      gboolean is_last_ref)
 {
 	GList *list;
 
@@ -293,12 +293,12 @@ shell_ready_for_shutdown (EShell *shell,
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
-		shell_ready_for_shutdown, shell);
+		shell_ready_for_quit, shell);
 
 	/* Finalize the activity. */
 	g_object_ref (activity);
 
-	g_message ("Shutdown preparations complete.");
+	g_message ("Quit preparations complete.");
 
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
@@ -750,13 +750,13 @@ shell_class_init (EShellClass *class)
 		E_TYPE_ACTIVITY);
 
 	/**
-	 * EShell::prepare-for-shutdown
+	 * EShell::prepare-for-quit
 	 * @shell: the #EShell which emitted the signal
-	 * @activity: the #EActivity for shutdown preparations
+	 * @activity: the #EActivity for quit preparations
 	 *
-	 * Emitted when the user elects to quit the application.  An
-	 * #EShellBackend should listen for this signal and make
-	 * preparations for shutting down.
+	 * Emitted when the user elects to quit the application, after
+	 * #EShell::quit-requested.  An #EShellBackend should listen for
+	 * this signal and make preparations for shutting down.
 	 *
 	 * If preparations for shutting down cannot immediately be completed
 	 * (such as when there are uncompleted network operations), the
@@ -765,14 +765,35 @@ shell_class_init (EShellClass *class)
 	 * delay Evolution from actually shutting down until all backends
 	 * have unreferenced @activity.
 	 **/
-	signals[PREPARE_FOR_SHUTDOWN] = g_signal_new (
-		"prepare-for-shutdown",
+	signals[PREPARE_FOR_QUIT] = g_signal_new (
+		"prepare-for-quit",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_ACTIVITY);
+
+	/**
+	 * EShell::quit-requested
+	 * @shell: the #EShell which emitted the signal
+	 *
+	 * Emitted when the user elects to quit the application, before
+	 * #EShell::prepare-for-quit.
+	 *
+	 * #EShellBackend<!-- -->s and editor windows can listen for
+	 * this signal to prompt the user to save changes or finish
+	 * scheduled operations immediately (such as sending mail in
+	 * Outbox).  If the user elects to cancel, the signal handler
+	 * should call e_shell_cancel_quit() to abort the quit.
+	 **/
+	signals[QUIT_REQUESTED] = g_signal_new (
+		"quit-requested",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	/**
 	 * EShell::send-receive
@@ -1433,30 +1454,57 @@ e_shell_quit (EShell *shell)
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	/* Are preparations already in progress? */
-	if (shell->priv->preparing_for_shutdown != NULL)
+	if (shell->priv->preparing_for_quit != NULL)
 		return;
 
-	g_message ("Preparing for shutdown...");
+	/* First give backends a chance to cancel quit. */
+	shell->priv->quit_cancelled = FALSE;
+	g_signal_emit (shell, signals[QUIT_REQUESTED], 0);
+	if (shell->priv->quit_cancelled)
+		return;
 
-	shell->priv->preparing_for_shutdown =
-		e_activity_new (_("Preparing to shut down..."));
+	g_message ("Preparing to quit...");
+
+	shell->priv->preparing_for_quit =
+		e_activity_new (_("Preparing to quit..."));
 
 	g_object_add_toggle_ref (
-		G_OBJECT (shell->priv->preparing_for_shutdown),
-		(GToggleNotify) shell_ready_for_shutdown, shell);
+		G_OBJECT (shell->priv->preparing_for_quit),
+		(GToggleNotify) shell_ready_for_quit, shell);
 
 	g_object_add_weak_pointer (
-		G_OBJECT (shell->priv->preparing_for_shutdown),
-		&shell->priv->preparing_for_shutdown);
+		G_OBJECT (shell->priv->preparing_for_quit),
+		&shell->priv->preparing_for_quit);
 
 	g_signal_emit (
-		shell, signals[PREPARE_FOR_SHUTDOWN], 0,
-		shell->priv->preparing_for_shutdown);
+		shell, signals[PREPARE_FOR_QUIT], 0,
+		shell->priv->preparing_for_quit);
 
-	g_object_unref (shell->priv->preparing_for_shutdown);
+	g_object_unref (shell->priv->preparing_for_quit);
 
 	/* Desensitize all watched windows to prevent user action. */
 	list = e_shell_get_watched_windows (shell);
 	for (iter = list; iter != NULL; iter = iter->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
+}
+
+/**
+ * e_shell_cancel_quit:
+ * @shell: an #EShell
+ *
+ * This function may only be called from #EShell::quit-requested signal
+ * handlers to prevent Evolution from quitting.  Calling this will stop
+ * further emission of the #EShell::quit-requested signal.
+ *
+ * Note: This function has no effect during a #EShell::prepare-for-quit
+ * signal emission.
+ **/
+void
+e_shell_cancel_quit (EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	shell->priv->quit_cancelled = TRUE;
+
+	g_signal_stop_emission (shell, signals[QUIT_REQUESTED], 0);
 }

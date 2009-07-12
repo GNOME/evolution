@@ -56,13 +56,20 @@ EShell
 @eshell: the object which received the signal.
 @arg1: 
 
-<!-- ##### SIGNAL EShell::prepare-for-shutdown ##### -->
+<!-- ##### SIGNAL EShell::prepare-for-quit ##### -->
 <para>
 
 </para>
 
 @eshell: the object which received the signal.
 @arg1: 
+
+<!-- ##### SIGNAL EShell::quit-requested ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
 
 <!-- ##### SIGNAL EShell::send-receive ##### -->
 <para>

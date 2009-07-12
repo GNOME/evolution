@@ -32,10 +32,17 @@ open_contact (EBookShellView *book_shell_view,
               gboolean is_new_contact,
               EAddressbookView *view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EAddressbookModel *model;
-	GtkWidget *editor;
+	EABEditor *editor;
 	EBook *book;
 	gboolean editable;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	model = e_addressbook_view_get_model (view);
 	book = e_addressbook_model_get_book (model);
@@ -43,12 +50,12 @@ open_contact (EBookShellView *book_shell_view,
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		editor = e_contact_list_editor_new (
-			book, contact, is_new_contact, editable);
+			shell, book, contact, is_new_contact, editable);
 	else
 		editor = e_contact_editor_new (
-			book, contact, is_new_contact, editable);
+			shell, book, contact, is_new_contact, editable);
 
-	eab_editor_show (EAB_EDITOR (editor));
+	eab_editor_show (editor);
 }
 
 static void

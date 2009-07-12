@@ -2253,7 +2253,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 			editor->image_set = TRUE;
 		}
 		else {
-			gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
+			gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
 			e_image_chooser_set_from_file (E_IMAGE_CHOOSER (widget), file_name);
 			editor->image_set = FALSE;
 			g_free (file_name);
@@ -3518,7 +3518,7 @@ static void
 supported_fields_cb (EBook *book, EBookStatus status,
 		     EList *fields, EContactEditor *ce)
 {
-	if (!g_slist_find ((GSList*)eab_editor_get_all_editors (), ce)) {
+	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning ("supported_fields_cb called for book that's still around, but contact editor that's been destroyed.");
 		return;
 	}
@@ -3537,7 +3537,7 @@ required_fields_cb (EBook *book, EBookStatus status,
 		    EList *fields, EContactEditor *ce)
 {
 
-	if (!g_slist_find ((GSList*)eab_editor_get_all_editors (), ce)) {
+	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning ("supported_fields_cb called for book that's still around, but contact editor that's been destroyed.");
 		return;
 	}
@@ -3549,31 +3549,22 @@ required_fields_cb (EBook *book, EBookStatus status,
 
 }
 
-
-static void
-contact_editor_destroy_notify (gpointer data,
-			       GObject *where_the_object_was)
+EABEditor *
+e_contact_editor_new (EShell *shell,
+                      EBook *book,
+                      EContact *contact,
+                      gboolean is_new_contact,
+                      gboolean editable)
 {
-	eab_editor_remove (EAB_EDITOR (data));
-}
+	EABEditor *editor;
 
-GtkWidget *
-e_contact_editor_new (EBook *book,
-		      EContact *contact,
-		      gboolean is_new_contact,
-		      gboolean editable)
-{
-	EContactEditor *ce;
-
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (E_IS_BOOK (book), NULL);
 	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
 
-	ce = g_object_new (E_TYPE_CONTACT_EDITOR, NULL);
+	editor = g_object_new (E_TYPE_CONTACT_EDITOR, "shell", shell, NULL);
 
-	eab_editor_add (EAB_EDITOR (ce));
-	g_object_weak_ref (G_OBJECT (ce), contact_editor_destroy_notify, ce);
-
-	g_object_set (ce,
+	g_object_set (editor,
 		      "source_book", book,
 		      "contact", contact,
 		      "is_new_contact", is_new_contact,
@@ -3581,9 +3572,10 @@ e_contact_editor_new (EBook *book,
 		      NULL);
 
 	if (book)
-		e_book_async_get_supported_fields (book, (EBookEListCallback)supported_fields_cb, ce);
+		e_book_async_get_supported_fields (
+			book, (EBookEListCallback)supported_fields_cb, editor);
 
-	return GTK_WIDGET (ce);
+	return editor;
 }
 
 static void
