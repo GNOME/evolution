@@ -63,7 +63,6 @@ void     e_cell_hbox_append    (ECellHbox *vbox,
 				gint model_col,
 				gint size);
 
-
 G_END_DECLS
 
 #endif /* _E_CELL_HBOX_H_ */

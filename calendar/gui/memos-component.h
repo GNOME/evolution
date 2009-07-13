@@ -29,13 +29,11 @@
 #include <widgets/misc/e-activity-handler.h>
 #include "Evolution.h"
 
-
 #define MEMOS_TYPE_COMPONENT			(memos_component_get_type ())
 #define MEMOS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MEMOS_TYPE_COMPONENT, MemosComponent))
 #define MEMOS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), MEMOS_TYPE_COMPONENT, MemosComponentClass))
 #define MEMOS_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), MEMOS_TYPE_COMPONENT))
 #define MEMOS_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), MEMOS_TYPE_COMPONENT))
-
 
 typedef struct _MemosComponent        MemosComponent;
 typedef struct _MemosComponentPrivate MemosComponentPrivate;
@@ -52,7 +50,6 @@ struct _MemosComponentClass {
 
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType             memos_component_get_type  (void);
 MemosComponent   *memos_component_peek  (void);

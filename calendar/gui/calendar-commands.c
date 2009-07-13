@@ -126,7 +126,6 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *pat
 	gnome_calendar_set_view (gcal, GNOME_CAL_MONTH_VIEW);
 }
 
-
 static void
 show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
@@ -136,7 +135,6 @@ show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path
 
 	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
 }
-
 
 static void
 purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)

@@ -69,7 +69,6 @@ typedef struct {
 	/* Return an allocated string. */
 	gchar       *(*value_to_string)    (ETableModel *etm, gint col, gconstpointer value);
 
-
 	/*
 	 * Signals
 	 */
@@ -123,7 +122,6 @@ gchar       *e_table_model_get_save_id         (ETableModel *etm,
 
 /**/
 gboolean    e_table_model_has_change_pending  (ETableModel *etm);
-
 
 /**/
 void       *e_table_model_duplicate_value     (ETableModel *e_table_model,

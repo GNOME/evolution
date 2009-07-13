@@ -528,7 +528,6 @@ get_default_timezone (void)
 	key = "/apps/evolution/calendar/display/timezone";
 	location = gconf_client_get_string (client, key, NULL);
 
-
 	if (location == NULL || *location == '\0') {
 		g_free (location);
 		location = g_strdup ("UTC");
@@ -541,7 +540,6 @@ get_default_timezone (void)
 
 	return timezone;
 }
-
 
 static gchar *
 map_name (ECalConduitContext *ctxt)
@@ -1362,7 +1360,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 				e_cal_recur_generate_instances (in_comp, -1, -1, find_last_cb, &elast,
 							      e_cal_resolve_tzid_cb, client,
 							      timezone);
-
 
 				if (last == elast) {
 					recur.until = icaltime_null_time ();

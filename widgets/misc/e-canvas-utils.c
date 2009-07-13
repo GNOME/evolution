@@ -63,7 +63,6 @@ compute_offset(gint top, gint bottom, gint page_top, gint page_bottom)
 	return offset;
 }
 
-
 static void
 e_canvas_show_area (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
 {
@@ -95,7 +94,6 @@ e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2,
 
 	e_canvas_show_area(item->canvas, x1, y1, x2, y2);
 }
-
 
 static gboolean
 e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)

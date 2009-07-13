@@ -88,7 +88,6 @@ GalView    *gal_view_clone          (GalView    *view);
 /* Changed signal */
 void        gal_view_changed        (GalView    *view);
 
-
 G_END_DECLS
 
 #endif /* _GAL_VIEW_H_ */

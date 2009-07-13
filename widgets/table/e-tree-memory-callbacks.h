@@ -33,7 +33,6 @@ G_BEGIN_DECLS
 #define E_IS_TREE_MEMORY_CALLBACKS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_MEMORY_CALLBACKS_TYPE))
 #define E_IS_TREE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_MEMORY_CALLBACKS_TYPE))
 
-
 typedef GdkPixbuf* (*ETreeMemoryCallbacksIconAtFn)             (ETreeModel *etree, ETreePath path, gpointer model_data);
 
 typedef gint       (*ETreeMemoryCallbacksColumnCountFn)        (ETreeModel *etree, gpointer model_data);

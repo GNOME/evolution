@@ -66,8 +66,6 @@ cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone)
 	e_cal_component_free_exdate_list (list);
 }
 
-
-
 /* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
 static gboolean
 e_cal_component_compare_tzid (const gchar *tzid1, const gchar *tzid2)

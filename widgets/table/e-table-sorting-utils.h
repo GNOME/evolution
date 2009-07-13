@@ -33,8 +33,6 @@ gboolean  e_table_sorting_utils_affects_sort         (ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
 						      gint             col);
 
-
-
 void      e_table_sorting_utils_sort                 (ETableModel    *source,
 						      ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
@@ -52,8 +50,6 @@ gint       e_table_sorting_utils_check_position       (ETableModel    *source,
 						      gint            *map_table,
 						      gint             rows,
 						      gint             view_row);
-
-
 
 void      e_table_sorting_utils_tree_sort            (ETreeModel     *source,
 						      ETableSortInfo *sort_info,

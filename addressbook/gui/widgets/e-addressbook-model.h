@@ -55,7 +55,6 @@ struct _EAddressbookModel {
 	EAddressbookModelPrivate *priv;
 };
 
-
 struct _EAddressbookModelClass {
 	GObjectClass parent_class;
 

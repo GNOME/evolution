@@ -306,7 +306,6 @@ e_asn1_object_new (void)
 	return E_ASN1_OBJECT (g_object_new (E_TYPE_ASN1_OBJECT, NULL));
 }
 
-
 void
 e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag)
 {

@@ -226,7 +226,6 @@ em_folder_selector_new (EMFolderTree *emft, guint32 flags, const gchar *title, c
 	return (GtkWidget *) emfs;
 }
 
-
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
@@ -273,7 +272,6 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const gchar *t
 
 	return (GtkWidget *) emfs;
 }
-
 
 void
 em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri)

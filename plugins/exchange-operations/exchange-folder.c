@@ -24,7 +24,6 @@
 #include "config.h"
 #endif
 
-
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
@@ -61,7 +60,6 @@ void popup_ab_free (EPopup *ep, GSList *items, gpointer data);
 static void exchange_get_folder (gchar *uri, CamelFolder *folder, gpointer data);
 
 #define CONF_KEY_SELECTED_CAL_SOURCES "/apps/evolution/calendar/display/selected_calendars"
-
 
 static EPopupItem popup_inbox_items[] = {
 	{ E_POPUP_ITEM, (gchar *) "29.inbox_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
@@ -142,7 +140,6 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer
 
 	/* To get the CamelStore/Folder */
 	mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_msg_unordered_push);
-
 
 }
 
@@ -538,7 +535,6 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
 	gtk_widget_show (dialog);
 	unsubscribe_dialog_response (GTK_DIALOG (dialog), response, data);
 }
-
 
 void
 org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, const gchar *fname)

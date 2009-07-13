@@ -57,7 +57,6 @@ struct _EMemosClass {
         void (* source_removed)    (EMemos *memos, ESource *source);
 };
 
-
 GType      e_memos_get_type        (void);
 GtkWidget *e_memos_construct       (EMemos *memos);
 
@@ -72,7 +71,6 @@ void       e_memos_open_memo         (EMemos		*memos);
 void       e_memos_new_memo          (EMemos            *memos);
 void       e_memos_complete_selected (EMemos            *memos);
 void       e_memos_delete_selected   (EMemos            *memos);
-
 
 void e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic);
 void e_memos_discard_view_menus (EMemos *memos);

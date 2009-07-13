@@ -28,7 +28,6 @@
 
 #include "e-printable.h"
 
-
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
 
 G_DEFINE_TYPE (EPrintable, e_printable, GTK_TYPE_OBJECT)

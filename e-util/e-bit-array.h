@@ -51,7 +51,6 @@ typedef struct {
 	GObjectClass parent_class;
 } EBitArrayClass;
 
-
 GType      e_bit_array_get_type            (void);
 EBitArray *e_bit_array_new                 (gint           count);
 
@@ -94,6 +93,5 @@ gboolean   e_bit_array_cross_and           (EBitArray    *esm);
 gboolean   e_bit_array_cross_or            (EBitArray    *esm);
 
 G_END_DECLS
-
 
 #endif /* _E_BIT_ARRAY_H_ */

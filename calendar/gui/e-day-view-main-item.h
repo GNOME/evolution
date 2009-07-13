@@ -51,9 +51,7 @@ typedef struct {
 
 } EDayViewMainItemClass;
 
-
 GType    e_day_view_main_item_get_type      (void);
-
 
 G_END_DECLS
 

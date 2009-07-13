@@ -89,5 +89,4 @@ gint     e_selection_model_array_get_row_count      (ESelectionModelArray *esm);
 
 G_END_DECLS
 
-
 #endif /* _E_SELECTION_MODEL_ARRAY_H_ */

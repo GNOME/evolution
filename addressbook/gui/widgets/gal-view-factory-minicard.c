@@ -94,4 +94,3 @@ gal_view_factory_minicard_construct  (GalViewFactoryMinicard *factory)
 	return GAL_VIEW_FACTORY(factory);
 }
 
-

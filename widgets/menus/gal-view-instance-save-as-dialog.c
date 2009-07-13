@@ -108,7 +108,6 @@ gvisad_setup_validate_button (GalViewInstanceSaveAsDialog *dialog)
 	}
 }
 
-
 static void
 gvisad_setup_radio_buttons (GalViewInstanceSaveAsDialog *dialog)
 {
@@ -154,7 +153,6 @@ gvisad_entry_changed (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
 {
 	gvisad_setup_validate_button (dialog);
 }
-
 
 /* Method override implementations */
 static void

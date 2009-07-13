@@ -39,7 +39,6 @@
 #define E_IS_CELL_COMBO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_COMBO_TYPE))
 #define E_IS_CELL_COMBO_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_COMBO_TYPE))
 
-
 typedef struct {
 	ECellPopup parent;
 
@@ -51,7 +50,6 @@ typedef struct {
 typedef struct {
 	ECellPopupClass parent_class;
 } ECellComboClass;
-
 
 GType      e_cell_combo_get_type		(void);
 ECell     *e_cell_combo_new			(void);

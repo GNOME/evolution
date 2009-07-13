@@ -300,7 +300,6 @@ set_has_cursor (EMinicard *minicard, gboolean has_cursor)
 	minicard->has_cursor = has_cursor;
 }
 
-
 static void
 e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
@@ -435,8 +434,6 @@ e_minicard_dispose (GObject *object)
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
-
-
 
 static void
 e_minicard_finalize (GObject *object)
@@ -768,7 +765,6 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 					"width", e_minicard->width - 4.0,
 					NULL );
 
-
 #ifdef notyet
 	g_object_set(E_MINICARD_LABEL(new_item)->field,
 		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
@@ -787,7 +783,6 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	g_free(name);
 	g_free(string);
 }
-
 
 static const gchar *
 get_email_location (EVCardAttribute *attr)

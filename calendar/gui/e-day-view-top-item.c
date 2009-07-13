@@ -74,7 +74,6 @@ static double e_day_view_top_item_point		(GnomeCanvasItem *item,
 static gint e_day_view_top_item_event		(GnomeCanvasItem *item,
 						 GdkEvent	 *event);
 
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -119,14 +118,12 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 			G_PARAM_WRITABLE));
 }
 
-
 static void
 e_day_view_top_item_init (EDayViewTopItem *dvtitem)
 {
 	dvtitem->day_view = NULL;
 	dvtitem->show_dates = FALSE;
 }
-
 
 static void
 e_day_view_top_item_set_property (GObject *object,
@@ -150,7 +147,6 @@ e_day_view_top_item_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
 static void
 e_day_view_top_item_update (GnomeCanvasItem *item,
 			    double	    *affine,
@@ -166,7 +162,6 @@ e_day_view_top_item_update (GnomeCanvasItem *item,
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -718,7 +713,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 
-
 /* This draws a little triangle to indicate that an event extends past
    the days visible on screen. */
 static void
@@ -806,7 +800,6 @@ e_day_view_top_item_point (GnomeCanvasItem *item, double x, double y,
 	*actual_item = item;
 	return 0.0;
 }
-
 
 static gint
 e_day_view_top_item_event (GnomeCanvasItem *item, GdkEvent *event)

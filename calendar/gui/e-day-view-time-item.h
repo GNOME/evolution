@@ -62,12 +62,9 @@ typedef struct {
 
 } EDayViewTimeItemClass;
 
-
 GType    e_day_view_time_item_get_type      (void);
 
-
 gint	 e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem);
-
 
 G_END_DECLS
 

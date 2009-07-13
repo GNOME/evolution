@@ -163,7 +163,6 @@ static const gint sept_1752[42] = {
 #define SEPT_1752_START 2		/* Start day within month */
 #define SEPT_1752_END 20		/* End day within month */
 
-
 struct pdinfo
 {
 	gint days_shown;
@@ -225,7 +224,6 @@ convert_timet_to_struct_tm (time_t time, icaltimezone *zone)
 
 	return &my_tm;
 }
-
 
 /* Fills the 42-element days array with the day numbers for the specified month.  Slots outside the
  * bounds of the month are filled with zeros.  The starting and ending indexes of the days are
@@ -360,7 +358,6 @@ print_border_with_triangles (GtkPrintContext *pc,
 
 	cairo_restore (cr);
 }
-
 
 /* Prints a rectangle, with or without a border, and filled or outline.
    width      = width of border, -ve means no border.
@@ -762,7 +759,6 @@ bound_text (GtkPrintContext *context,
 	return y1 + pango_units_to_double (layout_height);
 }
 
-
 /* Draw the borders, lines, and times down the left of the day view. */
 static void
 print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
@@ -866,7 +862,6 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	pango_font_description_free (font_minute);
 }
 
-
 /* This adds one event to the view, adding it to the appropriate array. */
 static gint
 print_day_add_event (ECalModelComponent *comp_data,
@@ -941,7 +936,6 @@ print_day_add_event (ECalModelComponent *comp_data,
 	return E_DAY_VIEW_LONG_EVENT;
 }
 
-
 static gboolean
 print_day_details_cb (ECalComponent *comp, time_t istart, time_t iend,
 		      gpointer data)
@@ -955,7 +949,6 @@ print_day_details_cb (ECalComponent *comp, time_t istart, time_t iend,
 
 	return TRUE;
 }
-
 
 static void
 free_event_array (GArray *array)
@@ -1165,7 +1158,6 @@ print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	g_free (text);
 }
 
-
 static void
 print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		 double left, double right, double top, double bottom,
@@ -1243,7 +1235,6 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	g_free (text);
 }
-
 
 static void
 print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
@@ -1343,7 +1334,6 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	/* Now adjust to get rid of the time column. */
 	left += DAY_VIEW_TIME_COLUMN_WIDTH;
 
-
 	/* lay out the short events, within the day. */
 	e_day_view_layout_day_events (pdi.events[0], DAY_VIEW_ROWS,
 				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row, -1);
@@ -1388,7 +1378,6 @@ print_is_one_day_week_event (EWeekViewEvent *event,
 
 	return FALSE;
 }
-
 
 static void
 print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
@@ -1456,7 +1445,6 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	print_text_size (context, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
 }
 
-
 static void
 print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		      struct psinfo *psi,
@@ -1494,7 +1482,6 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);
 }
-
 
 static void
 print_week_event (GtkPrintContext *context, PangoFontDescription *font,
@@ -1555,7 +1542,6 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 				 + psi->header_row_height
 				 + span->row * psi->row_height;
 			y2 = y1 + psi->row_height * 0.5;
-
 
 			red = .9;
 			green = .9;
@@ -1620,7 +1606,6 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	g_free (text);
 }
-
 
 static void
 print_week_view_background (GtkPrintContext *context,
@@ -1806,7 +1791,6 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 		cell_height = (bottom - top) / 6;
 	}
 
-
 	/* Calculate the row height, using the normal font and with room for
 	   space or a rectangle around it. */
 	psi.row_height = font_size * 1.2;
@@ -1840,7 +1824,6 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	g_array_free (spans, TRUE);
 #endif
 }
-
 
 /* XXX Evolution doesn't have a "year" view. */
 #if 0
@@ -1964,7 +1947,6 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 			    left, right, top, bottom);
 }
 
-
 static void
 print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		    time_t start, time_t end,
@@ -2048,7 +2030,6 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		y = bound_text (context, font_summary, summary.value, -1,
 				x + 14, y + 4, xend, yend, FALSE, NULL, NULL);
 
-
 		y += get_font_size (font_summary)-5;
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_move_to (cr, x, y);
@@ -2105,13 +2086,11 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, date, date, FALSE);
 
-
 		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
 		print_month_small (context, gcal,
 				   time_add_month_with_zone (date, 1, zone),
 				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
-
 
 		/* Print the date, e.g. '8th May, 2001'. */
 		format_date (date, DATE_DAY | DATE_MONTH | DATE_YEAR,
@@ -2168,7 +2147,6 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 			    0.0, width,
 			    HEADER_HEIGHT + 20, height);
 
-
 	/* Print the border around the main view. */
 	print_border (context, 0.0, width, HEADER_HEIGHT ,
 		      height, 1.0, -1.0);
@@ -2205,7 +2183,6 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 			      3, width,
 			      24 + 3, 24 + 3 + 24);
 }
-
 
 static void
 print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
@@ -2622,7 +2599,6 @@ print_comp_draw_real (GtkPrintOperation *operation,
 					  0.0, top, width, height, FALSE, &page_start, &pages);
 			top += get_font_size (font) - 6;
 		}
-
 
 		/* URL */
 		e_cal_component_get_url (comp, &url);

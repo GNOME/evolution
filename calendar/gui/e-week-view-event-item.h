@@ -56,10 +56,7 @@ typedef struct {
 
 } EWeekViewEventItemClass;
 
-
 GType    e_week_view_event_item_get_type      (void);
-
-
 
 G_END_DECLS
 

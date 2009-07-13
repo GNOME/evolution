@@ -95,7 +95,6 @@ ETableModel *e_table_simple_new                      (ETableSimpleColumnCountFn 
 						      ETableSimpleValueToStringFn    value_to_string,
 						      void                          *data);
 
-
 /* Helper functions for if your values are all just strings. */
 void        *e_table_simple_string_duplicate_value   (ETableModel                   *etm,
 						      gint                            col,

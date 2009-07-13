@@ -153,7 +153,6 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 	const gchar *poa_address;
 	const gchar *offline_sync;
 
-
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return;

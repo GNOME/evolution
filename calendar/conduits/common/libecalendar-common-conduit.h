@@ -24,7 +24,6 @@
 
 #define PILOT_MAX_CATEGORIES 16
 
-
 gint e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *category);
 void e_pilot_local_category_to_remote(gint * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
 void e_pilot_remote_category_to_local(gint   pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);

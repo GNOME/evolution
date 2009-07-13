@@ -55,7 +55,6 @@ struct ETreeSortedClass {
 	void       (*node_resorted)         (ETreeSorted *etm, ETreePath node);
 };
 
-
 GType        e_tree_sorted_get_type            (void);
 void         e_tree_sorted_construct           (ETreeSorted    *etree,
 						ETreeModel     *source,

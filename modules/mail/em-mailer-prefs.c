@@ -308,7 +308,6 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 	}
 }
 
-
 static GtkListStore *
 init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
 {
@@ -544,7 +543,6 @@ custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->junk_header_remove, FALSE);
 	}
 
-
 }
 
 static void
@@ -666,7 +664,6 @@ http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", when, NULL);
 }
-
 
 static GtkWidget *
 emmp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
@@ -1205,7 +1202,6 @@ em_mailer_prefs_new (EShell *shell)
 
 	return GTK_WIDGET (new);
 }
-
 
 static struct _EMMailerPrefsHeader *
 emmp_header_from_xmldoc (xmlDocPtr doc)

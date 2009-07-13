@@ -35,7 +35,6 @@
 
 void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t);
 
-
 static void retract_mail_settings (EPopup *ep, EPopupItem *item, gpointer data)
 {
 	EGwConnection *cnc;

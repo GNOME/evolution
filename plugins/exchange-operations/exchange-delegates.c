@@ -280,7 +280,6 @@ get_folder_security (ExchangeDelegates *delegates)
 	return TRUE;
 }
 
-
 static const gchar *delegation_props[] = {
 	PR_DELEGATES_DISPLAY_NAMES,
 	PR_DELEGATES_ENTRYIDS,
@@ -603,7 +602,6 @@ remove_button_clicked_cb (GtkWidget *widget, gpointer data)
 	g_object_unref (user);
 }
 
-
 static gboolean
 proppatch_sd (E2kContext *ctx, ExchangeDelegatesFolder *folder)
 {
@@ -886,7 +884,6 @@ delegates_destroy (ExchangeDelegates *delegates)
 
 	g_free (delegates);
 }
-
 
 static void
 dialog_response (GtkDialog *dialog, gint response, gpointer user_data)

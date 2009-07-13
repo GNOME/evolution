@@ -174,7 +174,6 @@ bbdb_sync_buddy_list (void)
 
 	}
 
-
 	/* Update the last-sync'd time */
 	{
 		GConfClient *gconf;
@@ -406,7 +405,6 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 		g_free (icon);
 		icon = path;
 	}
-
 
 	return icon;
 }

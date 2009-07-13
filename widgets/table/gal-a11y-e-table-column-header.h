@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifndef __GAL_A11Y_E_TABLE_COLUMN_HEADER_H__
 #define __GAL_A11Y_E_TABLE_COLUMN_HEADER_H__
 
@@ -45,7 +44,6 @@ struct _GalA11yETableColumnHeader {
 struct _GalA11yETableColumnHeaderClass {
 	AtkGObjectAccessibleClass parent_class;
 };
-
 
 /* Standard Glib function */
 GType      gal_a11y_e_table_column_header_get_type  (void);

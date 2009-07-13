@@ -69,7 +69,6 @@ ipod_check_status (gboolean silent)
 	if (!libhal_ctx_init(ctx, NULL))
 		return FALSE;
 
-
 	mount_point = find_ipod_mount_point (ctx);
 
 	if (mount_point == NULL) {

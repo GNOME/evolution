@@ -64,6 +64,5 @@ GtkWidget *
 e_book_groupwise_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 
-
 	return NULL;
 }

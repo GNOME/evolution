@@ -81,7 +81,6 @@ comp_editor_dates (CompEditorPageDates *dates, ECalComponent *comp)
 	e_cal_component_get_completed (comp, &dates->complete);
 }
 
-
 /* This frees the dates in the CompEditorPageDates struct. But it doesn't free
  * the struct (as that is usually static).
  */
@@ -108,7 +107,6 @@ comp_editor_free_dates (CompEditorPageDates *dates)
 	if (dates->complete)
 		e_cal_component_free_icaltimetype (dates->complete);
 }
-
 
 /* dtstart is only passed in if tt is the dtend. */
 static void
@@ -249,7 +247,6 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 	return GTK_WIDGET (dedit);
 }
 
-
 /* Returns the current time, for EDateEdit widgets and ECalendar items in the
    dialogs.
    FIXME: Should probably use the timezone from somewhere in the component
@@ -277,8 +274,6 @@ comp_editor_get_current_time (GtkObject *object, gpointer data)
 
 	return tmp_tm;
 }
-
-
 
 /**
  * comp_editor_strip_categories:

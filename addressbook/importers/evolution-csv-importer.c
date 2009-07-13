@@ -221,7 +221,6 @@ static import_fields csv_fields_mozilla[] = {
 	{"Custom 4", NOMAP},
 	{"Notes", NOMAP},
 
-
 };
 
 static import_fields csv_fields_evolution[] = {
@@ -828,7 +827,6 @@ csv_cancel(EImport *ei, EImportTarget *target, EImportImporter *im) {
 	if(gci)
 		gci->state = 1;
 }
-
 
 static EImportImporter csv_outlook_importer = {
 	E_IMPORT_TARGET_URI,

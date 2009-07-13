@@ -34,9 +34,7 @@ static void filter_code_class_init (FilterCodeClass *class);
 static void filter_code_init (FilterCode *fc);
 static void filter_code_finalise (GObject *obj);
 
-
 static FilterInputClass *parent_class;
-
 
 GType
 filter_code_get_type (void)
@@ -88,7 +86,6 @@ filter_code_finalise (GObject *obj)
 {
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
-
 
 /**
  * filter_code_new:

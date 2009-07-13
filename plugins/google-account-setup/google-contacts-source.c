@@ -360,4 +360,3 @@ plugin_google_contacts (EPlugin                    *epl,
     return NULL;
 }
 
-

@@ -45,11 +45,9 @@ typedef struct {
 	guint editable : 1;
 } GalDefineViewsModel;
 
-
 typedef struct {
 	ETableModelClass parent_class;
 } GalDefineViewsModelClass;
-
 
 GType        gal_define_views_model_get_type     (void);
 ETableModel *gal_define_views_model_new          (void);

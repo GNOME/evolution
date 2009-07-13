@@ -30,7 +30,6 @@
 
 #include "em-stripsig-filter.h"
 
-
 static void em_stripsig_filter_class_init (EMStripSigFilterClass *klass);
 static void em_stripsig_filter_init (EMStripSigFilter *filter, EMStripSigFilterClass *klass);
 
@@ -40,9 +39,7 @@ static void filter_complete (CamelMimeFilter *filter, const gchar *in, gsize len
 			     gchar **out, gsize *outlen, gsize *outprespace);
 static void filter_reset (CamelMimeFilter *filter);
 
-
 static CamelMimeFilterClass *parent_class = NULL;
-
 
 CamelType
 em_stripsig_filter_get_type (void)
@@ -62,7 +59,6 @@ em_stripsig_filter_get_type (void)
 
 	return type;
 }
-
 
 static void
 em_stripsig_filter_class_init (EMStripSigFilterClass *klass)
@@ -153,7 +149,6 @@ filter_reset (CamelMimeFilter *filter)
 
 	stripsig->midline = FALSE;
 }
-
 
 /**
  * em_stripsig_filter_new:

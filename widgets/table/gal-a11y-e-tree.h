@@ -48,7 +48,6 @@ struct _GalA11yETreeClass {
 	GtkAccessibleClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_tree_get_type  (void);
 AtkObject *gal_a11y_e_tree_new       (GObject *tree);

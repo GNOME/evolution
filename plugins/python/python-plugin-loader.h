@@ -44,5 +44,4 @@ struct _EPluginPythonClass {
 
 gpointer org_gnome_evolution_python_get_type(gpointer a, gpointer b);
 
-
 #endif /* ! _ORG_GNOME_EVOLUTION_PYTHON_H */

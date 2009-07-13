@@ -37,7 +37,6 @@
 #define E_IS_TIMEZONE_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TIMEZONE_DIALOG))
 #define E_IS_TIMEZONE_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TIMEZONE_DIALOG))
 
-
 typedef struct _ETimezoneDialog		ETimezoneDialog;
 typedef struct _ETimezoneDialogClass	ETimezoneDialogClass;
 typedef struct _ETimezoneDialogPrivate	ETimezoneDialogPrivate;
@@ -52,7 +51,6 @@ struct _ETimezoneDialog {
 struct _ETimezoneDialogClass {
 	GObjectClass parent_class;
 };
-
 
 GType            e_timezone_dialog_get_type     (void);
 ETimezoneDialog *e_timezone_dialog_construct    (ETimezoneDialog  *etd);

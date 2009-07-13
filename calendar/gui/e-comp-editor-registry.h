@@ -55,7 +55,6 @@ struct _ECompEditorRegistryClass {
 
 typedef void (* ECompEditorRegistryForeachFn) (CompEditor *editor, gpointer data);
 
-
 
 
 GType     e_comp_editor_registry_get_type  (void);
@@ -70,5 +69,4 @@ gboolean    e_comp_editor_registry_close_all (ECompEditorRegistry *reg);
 G_END_DECLS
 
 #endif /* _E_COMP_EDITOR_REGISTRY_H_ */
-
 

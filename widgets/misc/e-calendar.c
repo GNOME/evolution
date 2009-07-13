@@ -99,7 +99,6 @@ static void e_calendar_stop_auto_move	(ECalendar	*cal);
 
 G_DEFINE_TYPE (ECalendar, e_calendar, E_CANVAS_TYPE)
 
-
 static void
 e_calendar_class_init (ECalendarClass *class)
 {
@@ -119,7 +118,6 @@ e_calendar_class_init (ECalendarClass *class)
 	widget_class->drag_leave	   = e_calendar_drag_leave;
 	widget_class->focus                = e_calendar_focus;
 }
-
 
 static void
 e_calendar_init (ECalendar *cal)
@@ -202,7 +200,6 @@ e_calendar_init (ECalendar *cal)
 	cal->timeout_id = 0;
 }
 
-
 /**
  * e_calendar_new:
  * @Returns: a new #ECalendar.
@@ -221,7 +218,6 @@ e_calendar_new			(void)
 
 	return cal;
 }
-
 
 static void
 e_calendar_destroy		(GtkObject *object)
@@ -242,7 +238,6 @@ e_calendar_destroy		(GtkObject *object)
 		(* GTK_OBJECT_CLASS (e_calendar_parent_class)->destroy) (object);
 }
 
-
 static void
 e_calendar_realize (GtkWidget *widget)
 {
@@ -253,7 +248,6 @@ e_calendar_realize (GtkWidget *widget)
 	gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
 				   &widget->style->bg[GTK_STATE_NORMAL]);
 }
-
 
 static void
 e_calendar_style_set		(GtkWidget	*widget,
@@ -273,7 +267,6 @@ e_calendar_style_set		(GtkWidget	*widget,
 					   &widget->style->bg[GTK_STATE_NORMAL]);
 	e_calendar_item_style_set (widget, e_calendar->calitem);
 }
-
 
 static void
 e_calendar_size_request		(GtkWidget      *widget,
@@ -297,7 +290,6 @@ e_calendar_size_request		(GtkWidget      *widget,
 	requisition->width = width + style->xthickness * 2;
 	requisition->height = height + style->ythickness * 2;
 }
-
 
 static void
 e_calendar_size_allocate	(GtkWidget	*widget,
@@ -338,7 +330,6 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 			       "x2", new_x2,
 			       "y2", new_y2,
 			       NULL);
-
 
 	/* Position the arrow buttons. */
 	arrow_button_size =
@@ -391,7 +382,6 @@ e_calendar_set_minimum_size	(ECalendar	*cal,
 	gtk_widget_queue_resize (GTK_WIDGET (cal));
 }
 
-
 void
 e_calendar_set_maximum_size	(ECalendar	*cal,
 				 gint		 rows,
@@ -409,7 +399,6 @@ e_calendar_set_maximum_size	(ECalendar	*cal,
 
 	gtk_widget_queue_resize (GTK_WIDGET (cal));
 }
-
 
 /* Returns the border size on each side of the month displays. */
 void
@@ -434,7 +423,6 @@ e_calendar_get_border_size	(ECalendar	*cal,
 		*top = *bottom = *left = *right = 0;
 	}
 }
-
 
 static void
 e_calendar_on_prev_pressed	(ECalendar	*cal)
@@ -462,7 +450,6 @@ e_calendar_start_auto_move	(ECalendar	*cal,
 
 }
 
-
 static gboolean
 e_calendar_auto_move_handler	(gpointer	 data)
 {
@@ -489,20 +476,17 @@ e_calendar_auto_move_handler	(gpointer	 data)
 	return TRUE;
 }
 
-
 static void
 e_calendar_on_prev_released	(ECalendar	*cal)
 {
 	e_calendar_stop_auto_move (cal);
 }
 
-
 static void
 e_calendar_on_next_released	(ECalendar	*cal)
 {
 	e_calendar_stop_auto_move (cal);
 }
-
 
 static void
 e_calendar_stop_auto_move	(ECalendar	*cal)
@@ -527,7 +511,6 @@ e_calendar_on_next_clicked      (ECalendar      *cal)
 		cal->calitem->month + 1);
 }
 
-
 static gint
 e_calendar_drag_motion (GtkWidget      *widget,
 			GdkDragContext *context,
@@ -541,7 +524,6 @@ e_calendar_drag_motion (GtkWidget      *widget,
 
 	return FALSE;
 }
-
 
 static void
 e_calendar_drag_leave (GtkWidget      *widget,

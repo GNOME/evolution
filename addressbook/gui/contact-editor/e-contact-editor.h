@@ -49,7 +49,6 @@ G_BEGIN_DECLS
 #define E_IS_CONTACT_EDITOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_EDITOR))
 #define E_IS_CONTACT_EDITOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_EDITOR))
 
-
 typedef struct _EContactEditor       EContactEditor;
 typedef struct _EContactEditorClass  EContactEditorClass;
 

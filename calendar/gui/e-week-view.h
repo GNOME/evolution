@@ -147,11 +147,9 @@ struct _EWeekViewEvent {
 	guint8 num_spans;
 };
 
-
 #define E_WEEK_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_week_view_get_type (), EWeekView)
 #define E_WEEK_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_week_view_get_type (), EWeekViewClass)
 #define E_IS_WEEK_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_week_view_get_type ())
-
 
 typedef struct _EWeekView       EWeekView;
 typedef struct _EWeekViewClass  EWeekViewClass;
@@ -348,7 +346,6 @@ struct _EWeekViewClass
 {
 	ECalendarViewClass parent_class;
 };
-
 
 GType		   e_week_view_get_type			(void);
 GtkWidget* e_week_view_new			(ECalModel *model);

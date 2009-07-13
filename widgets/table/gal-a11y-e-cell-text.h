@@ -51,7 +51,6 @@ struct _GalA11yECellTextClass {
 	GalA11yECellClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_cell_text_get_type   (void);
 AtkObject *gal_a11y_e_cell_text_new        (ETableItem *item,

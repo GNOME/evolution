@@ -175,7 +175,6 @@ struct _attach_puri {
         camel_cipher_validity_encrypt_t encrypt;
 };
 
-
 static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
 
 static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);

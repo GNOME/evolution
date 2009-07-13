@@ -396,7 +396,6 @@ e_bit_array_toggle_single_row (EBitArray *eba, gint row)
 		eba->data[BOX(row)] |= BITMASK(row);
 }
 
-
 static void
 e_bit_array_init (EBitArray *eba)
 {

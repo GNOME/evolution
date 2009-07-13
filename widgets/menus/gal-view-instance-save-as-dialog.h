@@ -82,5 +82,4 @@ void       gal_view_instance_save_as_dialog_save      (GalViewInstanceSaveAsDial
 
 G_END_DECLS
 
-
 #endif /* __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__ */

@@ -103,7 +103,6 @@ get_cnc (GtkWindow *parent_window)
 	return cnc;
 }
 
-
 static void
 e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
 {
@@ -364,7 +363,6 @@ get_source (ESourceList *list)
 	gchar **temp = g_strsplit (account->source->url, ";", -1);
 	gchar *uri = temp [0];
 
-
 	l = e_source_list_peek_groups (list);
 
 	for (p = l; p != NULL; p = p->next) {
@@ -558,5 +556,4 @@ send_options_abort (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	send_options_finalize ();
 }
-
 

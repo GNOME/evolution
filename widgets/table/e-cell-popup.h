@@ -66,7 +66,6 @@ typedef struct {
 	ETableModel	*popup_model;
 } ECellPopup;
 
-
 typedef struct {
 	ECellClass parent_class;
 
@@ -74,13 +73,11 @@ typedef struct {
 	gint	   (*popup)        (ECellPopup *ecp, GdkEvent *event, gint row, gint view_col);
 } ECellPopupClass;
 
-
 struct _ECellPopupView {
 	ECellView	 cell_view;
 
 	ECellView	*child_view;
 };
-
 
 GType    e_cell_popup_get_type           (void);
 ECell   *e_cell_popup_new                (void);

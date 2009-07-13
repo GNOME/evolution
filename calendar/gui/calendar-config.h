@@ -47,7 +47,6 @@ typedef enum
 	CAL_SATURDAY	= 1 << 6
 } CalWeekdays;
 
-
 /* Units for settings. */
 typedef enum
 {
@@ -55,7 +54,6 @@ typedef enum
 	CAL_HOURS,
 	CAL_MINUTES
 } CalUnits;
-
 
 void calendar_config_remove_notification (guint id);
 
@@ -169,7 +167,6 @@ guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc fu
 /* The pane position */
 gint      calendar_config_get_task_vpane_pos    (void);
 void      calendar_config_set_task_vpane_pos    (gint         vpane_pos);
-
 
 /* The current list of memo lists selected */
 GSList   *calendar_config_get_memos_selected (void);

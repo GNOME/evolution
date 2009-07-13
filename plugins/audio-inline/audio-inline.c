@@ -62,7 +62,6 @@ org_gnome_audio_inline_pobject_free (EMFormatHTMLPObject *o)
 
 	d(printf ("audio inline formatter: pobject free\n"));
 
-
 	if (po->play_button) {
 		g_object_unref (po->play_button);
 		po->play_button = NULL;
@@ -245,7 +244,6 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
         if (cur_state >= GST_STATE_PAUSED) {
 		gst_element_set_state (po->playbin, GST_STATE_READY);
 	}
-
 
 	if (po->playbin) {
 		/* start playing */

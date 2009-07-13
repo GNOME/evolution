@@ -483,7 +483,6 @@ mail_config_clear (void)
 	config_clear_mime_types ();
 }
 
-
 void
 mail_config_write (void)
 {

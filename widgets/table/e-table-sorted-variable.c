@@ -119,7 +119,6 @@ etsv_insert_idle(ETableSortedVariable *etsv)
 	return FALSE;
 }
 
-
 static void
 etsv_add       (ETableSubsetVariable *etssv,
 		gint                  row)

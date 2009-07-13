@@ -44,7 +44,6 @@ G_BEGIN_DECLS
 #define E_IS_TABLE_FIELD_CHOOSER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
 #define E_IS_TABLE_FIELD_CHOOSER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_TYPE))
 
-
 typedef struct _ETableFieldChooser       ETableFieldChooser;
 typedef struct _ETableFieldChooserClass  ETableFieldChooserClass;
 
@@ -69,7 +68,6 @@ struct _ETableFieldChooserClass
 {
 	GtkVBoxClass parent_class;
 };
-
 
 GtkWidget *e_table_field_chooser_new(void);
 GType      e_table_field_chooser_get_type (void);

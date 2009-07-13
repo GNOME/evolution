@@ -373,7 +373,6 @@ accum_address (GString *gstr, EContact *contact, const gchar *html_label, EConta
 		else
 			g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">", html_label, _("map"));
 
-
 		if (adr->po && *adr->po) g_string_append_printf (gstr, "%s<br>", adr->po);
 		if (adr->ext && *adr->ext) g_string_append_printf (gstr, "%s<br>", adr->ext);
 		if (adr->street && *adr->street) g_string_append_printf (gstr, "%s<br>", adr->street);
@@ -412,7 +411,6 @@ accum_name_value (GString *gstr, const gchar *label, const gchar *str, const gch
 
 	g_free (value);
 }
-
 
 static void
 accum_attribute (GString *gstr, EContact *contact, const gchar *html_label, EContactField field, const gchar *icon, guint html_flags)
@@ -698,7 +696,6 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 			gtk_html_stream_printf (html_stream, "<h2>%s</h2>", html);
 			g_free (html);
 		}
-
 
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
 			render_contact_list (html_stream, contact);

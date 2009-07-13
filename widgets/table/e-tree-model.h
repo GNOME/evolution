@@ -28,9 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glib-object.h>
 
-
 G_BEGIN_DECLS
-
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
 #define E_TREE_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
@@ -119,7 +117,6 @@ struct ETreeModelClass {
 	 */
 	void       (*node_request_collapse) (ETreeModel *etm, ETreePath node);
 };
-
 
 GType       e_tree_model_get_type                (void);
 ETreeModel *e_tree_model_new                     (void);
@@ -226,7 +223,6 @@ void        e_tree_model_node_deleted            (ETreeModel     *tree_model,
 						  ETreePath       deleted_node);
 void        e_tree_model_node_request_collapse   (ETreeModel     *tree_model,
 						  ETreePath       deleted_node);
-
 
 G_END_DECLS
 

@@ -233,7 +233,6 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	gchar *uri;
 	gint response = 0;
 
-
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));
 

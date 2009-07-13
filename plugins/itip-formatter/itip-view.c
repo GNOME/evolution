@@ -562,7 +562,6 @@ set_journal_sender_text (ItipView *view)
 	g_free (sender);
 }
 
-
 static void
 set_sender_text (ItipView *view)
 {
@@ -1568,7 +1567,6 @@ itip_view_get_comment (ItipView *view)
 	return priv->comment;
 }
 
-
 void
 itip_view_set_description (ItipView *view, const gchar *description)
 {
@@ -1599,7 +1597,6 @@ itip_view_get_description (ItipView *view)
 
 	return priv->description;
 }
-
 
 void
 itip_view_set_start (ItipView *view, struct tm *start)

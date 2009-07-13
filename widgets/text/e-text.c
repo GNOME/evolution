@@ -1657,7 +1657,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
-
 	if (text->clip) {
 		gdk_gc_set_clip_rectangle (main_gc, NULL);
 	}
@@ -2030,8 +2029,6 @@ _do_tooltip (gpointer data)
 					      "justification", text->justification,
 					      NULL);
 
-
-
 	if (text->draw_borders)
 		e_canvas_item_move_absolute(tooltip_text, 1 + BORDER_INDENT, 1 + BORDER_INDENT);
 	else
@@ -2348,10 +2345,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
 					       e_tep_event.key.keyval, e_tep_event.key.state);
 
-
 			if (e_tep_event.key.string)
 				g_free ((gpointer) e_tep_event.key.string);
-
 
 			return ret;
 		}
@@ -2564,7 +2559,6 @@ e_text_select_all (EText *text)
 	command.value = 0;
 	e_text_command(text->tep, &command, text);
 }
-
 
 static void
 primary_get_cb (GtkClipboard     *clipboard,
@@ -2857,8 +2851,6 @@ find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line
 	}
 }
 
-
-
 /* direction = TRUE (move forward), FALSE (move backward)
    Any error shall return length(text->text) or 0 or text->selection_end (as deemed fit) */
 static gint
@@ -2924,8 +2916,6 @@ _get_updated_position (EText *text, gboolean direction)
 
 	return new_pos;
 }
-
-
 
 static gint
 _get_position(EText *text, ETextEventProcessorCommand *command)
@@ -3147,7 +3137,6 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			text->selection_start = 0;
 		else
 			text->selection_start = g_utf8_pointer_to_offset (text->text, p);
-
 
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start);
 
@@ -3486,7 +3475,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
-
 /* Class initialization function for the text item */
 static void
 e_text_class_init (ETextClass *klass)
@@ -3590,7 +3578,6 @@ e_text_class_init (ETextClass *klass)
 							    GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
 							    G_PARAM_READWRITE));
 
-
 	g_object_class_install_property (gobject_class, PROP_JUSTIFICATION,
 					 g_param_spec_enum ("justification",
 							    _( "Justification" ),
@@ -3654,7 +3641,6 @@ e_text_class_init (ETextClass *klass)
 							     GDK_TYPE_COLOR,
 							     G_PARAM_READWRITE));
 
-
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
 							    _( "GDK fill color" ),
@@ -3682,7 +3668,6 @@ e_text_class_init (ETextClass *klass)
 							      _( "Text height" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
-
 
 	g_object_class_install_property (gobject_class, PROP_EDITABLE,
 					 g_param_spec_boolean ("editable",
@@ -3732,7 +3717,6 @@ e_text_class_init (ETextClass *klass)
 							      _( "Width" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
-
 
 	g_object_class_install_property (gobject_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
@@ -3887,10 +3871,8 @@ e_text_init (EText *text)
 
 	text->handle_popup            = FALSE;
 
-
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
-
 
 /* IM Context Callbacks */
 static void

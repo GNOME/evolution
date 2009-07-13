@@ -43,7 +43,6 @@ static GtkTargetEntry target_table[] = {
 
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
-
 static void on_date_range_changed	(ECalendarItem *calitem);
 static void on_selection_changed	(ECalendarItem *calitem);
 
@@ -84,12 +83,10 @@ main (gint argc, gchar **argv)
 	g_signal_connect (calitem, "selection_changed",
 			  G_CALLBACK (on_selection_changed), NULL);
 
-
 	gtk_drag_dest_set (cal,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
-
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), cal, TRUE, TRUE, 0);
@@ -102,7 +99,6 @@ main (gint argc, gchar **argv)
 
 	return 0;
 }
-
 
 static void
 on_date_range_changed (ECalendarItem *calitem)
@@ -124,7 +120,6 @@ on_date_range_changed (ECalendarItem *calitem)
 	e_calendar_item_mark_day (calitem, 2000, 8, 13, /* 13th Sep 2000. */
 				  E_CALENDAR_ITEM_MARK_BOLD, FALSE);
 }
-
 
 static void
 on_selection_changed (ECalendarItem *calitem)

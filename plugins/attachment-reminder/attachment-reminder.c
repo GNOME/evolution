@@ -62,7 +62,6 @@ typedef struct {
 	GtkListStore *store;
 } UIData;
 
-
 enum {
 	CLUE_KEYWORD_COLUMN,
 	CLUE_N_COLUMNS
@@ -156,7 +155,6 @@ check_for_attachment_clues (gchar *msg)
 	guint msg_length;
 
 	gconf = gconf_client_get_default ();
-
 
 	/* Get the list from gconf */
 	clue_list = gconf_client_get_list ( gconf, GCONF_KEY_ATTACH_REMINDER_CLUES, GCONF_VALUE_STRING, NULL );

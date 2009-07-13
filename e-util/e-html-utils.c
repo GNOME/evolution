@@ -435,7 +435,6 @@ e_text_to_html (const gchar *input, guint flags)
 	return e_text_to_html_full (input, flags, 0);
 }
 
-
 #ifdef E_HTML_UTILS_TEST
 
 struct {

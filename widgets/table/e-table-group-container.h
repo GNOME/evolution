@@ -93,7 +93,6 @@ typedef struct {
         gint count;
 } ETableGroupContainerChildNode;
 
-
 ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
 						ETableModel *model, ETableSortInfo *sort_info, gint n);
 void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,

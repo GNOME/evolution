@@ -204,7 +204,6 @@ categories_icon_theme_hack (void)
 	g_free (dirname);
 }
 
-
 #ifdef DEVELOPMENT
 
 /* Warning dialog to scare people off a little bit.  */
@@ -456,7 +455,7 @@ set_paths (void)
 		components_folder_utf8, g_getenv ("PATH"), NULL);
 	if (!g_setenv ("PATH", path, TRUE))
 		g_warning ("Could not set PATH for Evolution "
-		           "and its child processes");
+			   "and its child processes");
 
 	g_free (path);
 	g_free (exe_folder_utf8);
@@ -524,26 +523,22 @@ gint
 main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
-    if (fileno (stdout) != -1 &&
- 	  _get_osfhandle (fileno (stdout)) != -1)
-	{
-	  /* stdout is fine, presumably redirected to a file or pipe */
-	}
-    else
-    {
-	  typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
+	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
+		/* stdout is fine, presumably redirected to a file or pipe */
+	} else {
+		typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
 
-	  AttachConsole_t p_AttachConsole =
-	    (AttachConsole_t) GetProcAddress (GetModuleHandle ("kernel32.dll"), "AttachConsole");
+		AttachConsole_t p_AttachConsole =
+			(AttachConsole_t) GetProcAddress (
+			GetModuleHandle ("kernel32.dll"), "AttachConsole");
 
-	  if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
+		if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
       {
-	      freopen ("CONOUT$", "w", stdout);
-	      dup2 (fileno (stdout), 1);
-	      freopen ("CONOUT$", "w", stderr);
-	      dup2 (fileno (stderr), 2);
-
-      }
+			freopen ("CONOUT$", "w", stdout);
+			dup2 (fileno (stdout), 1);
+			freopen ("CONOUT$", "w", stderr);
+			dup2 (fileno (stderr), 2);
+		}
 	}
 
 	extern void link_shutdown (void);

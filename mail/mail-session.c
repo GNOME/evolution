@@ -151,7 +151,6 @@ mail_session_get_type (void)
 	return mail_session_type;
 }
 
-
 static gchar *
 make_key (CamelService *service, const gchar *item)
 {

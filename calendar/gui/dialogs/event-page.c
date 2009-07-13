@@ -1273,7 +1273,6 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_set_dtstart (comp, &start_date);
 	e_cal_component_set_dtend (comp, &end_date);
 
-
 	/* Categories */
 
 	cat = e_dialog_editable_get (priv->categories);
@@ -1456,7 +1455,6 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 					_("At least one attendee is required."));
 			return FALSE;
 		}
-
 
 		if (flags & COMP_EDITOR_DELEGATE) {
 			GSList *attendee_list, *l;
@@ -1985,7 +1983,6 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage)
 	return FALSE;
 }
 
-
 static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, EventPage *epage)
 {
@@ -2259,7 +2256,6 @@ get_widgets (EventPage *epage)
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 
-
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->start_time = GW ("start-time");
 	gtk_widget_show (priv->start_time);
@@ -2306,7 +2302,6 @@ summary_changed_cb (GtkEditable *editable,
 	g_free (summary);
 }
 
-
 /* Note that this assumes that the start_tt and end_tt passed to it are the
    dates visible to the user. For DATE values, we have to add 1 day to the
    end_tt before emitting the signal. */
@@ -2347,7 +2342,6 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 					       &dates);
 }
 
-
 static gboolean
 check_start_before_end (struct icaltimetype *start_tt,
 			icaltimezone *start_zone,
@@ -2384,7 +2378,6 @@ check_start_before_end (struct icaltimetype *start_tt,
 
 	return FALSE;
 }
-
 
 /*
  * This is called whenever the start or end dates or timezones is changed.
@@ -2462,7 +2455,6 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 				set_start_date = TRUE;
 		}
 	}
-
 
 	if (set_start_date) {
 		g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -2828,7 +2820,6 @@ init_widgets (EventPage *epage)
 	/* Summary */
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), epage);
-
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));

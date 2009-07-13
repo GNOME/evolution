@@ -66,9 +66,7 @@ static void em_network_prefs_init       (EMNetworkPrefs *dialog);
 static void em_network_prefs_destroy    (GtkObject *obj);
 static void em_network_prefs_finalise   (GObject *obj);
 
-
 static GtkVBoxClass *parent_class = NULL;
-
 
 GType
 em_network_prefs_get_type (void)

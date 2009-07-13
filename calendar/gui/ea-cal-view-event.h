@@ -54,5 +54,4 @@ AtkObject *ea_cal_view_event_new (GObject *obj);
 
 G_END_DECLS
 
-
 #endif /* __EA_CAL_VIEW_EVENT_H__ */

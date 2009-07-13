@@ -51,7 +51,6 @@ struct _GalA11yECellTreeClass {
 	GalA11yECellClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_cell_tree_get_type   (void);
 AtkObject *gal_a11y_e_cell_tree_new	   (ETableItem *item,

@@ -542,7 +542,6 @@ e_selection_model_array_get_row_count (ESelectionModelArray *esma)
 		return 0;
 }
 
-
 static void
 e_selection_model_array_init (ESelectionModelArray *esma)
 {

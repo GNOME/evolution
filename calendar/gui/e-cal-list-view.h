@@ -40,7 +40,6 @@ G_BEGIN_DECLS
 #define E_CAL_LIST_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_cal_list_view_get_type (), ECalListViewClass)
 #define E_IS_CAL_LIST_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_cal_list_view_get_type ())
 
-
 typedef struct _ECalListView       ECalListView;
 typedef struct _ECalListViewClass  ECalListViewClass;
 
@@ -72,7 +71,6 @@ struct _ECalListViewClass
 	ECalendarViewClass parent_class;
 };
 
-
 GType		   e_cal_list_view_get_type		(void);
 GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view);
 
@@ -82,7 +80,6 @@ void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 
 gboolean   e_cal_list_view_get_range_shown      (ECalListView *cal_list_view, GDate *start_date,
 						 gint *days_shown);
-
 
 G_END_DECLS
 

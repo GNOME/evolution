@@ -29,7 +29,6 @@
 #include <misc/e-gui-utils.h>
 #include "addressbook/printing/e-contact-print.h"
 
-
 struct _EAddressbookReflowAdapterPrivate {
 	EAddressbookModel *model;
 
@@ -96,7 +95,6 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 
 	priv->model = NULL;
 }
-
 
 static gint
 text_height (PangoLayout *layout, const gchar *text)

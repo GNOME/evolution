@@ -42,7 +42,6 @@ G_BEGIN_DECLS
 #define E_IS_CELL_TREE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TREE_TYPE))
 #define E_IS_CELL_TREE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TREE_TYPE))
 
-
 typedef struct {
 	ECell parent;
 
@@ -74,5 +73,4 @@ ECellView *e_cell_tree_view_get_subcell_view (ECellView *ect);
 G_END_DECLS
 
 #endif /* _E_CELL_TREE_H_ */
-
 

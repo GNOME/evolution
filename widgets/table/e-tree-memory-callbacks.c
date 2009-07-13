@@ -50,7 +50,6 @@ etmc_column_count (ETreeModel *etm)
 		return 0;
 }
 
-
 static gboolean
 etmc_has_save_id (ETreeModel *etm)
 {
@@ -129,7 +128,6 @@ etmc_is_editable (ETreeModel *etm, ETreePath node, gint col)
 
 	return etmc->is_editable (etm, node, col, etmc->model_data);
 }
-
 
 /* The default for etmc_duplicate_value is to return the raw value. */
 static gpointer

@@ -48,7 +48,6 @@ e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
 	ecd->zone = zone;
 }
 
-
 void
 e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 					      gboolean use_24_hour)
@@ -57,7 +56,6 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 
 	ecd->use_24_hour_format = use_24_hour;
 }
-
 
 static gchar *
 ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
@@ -82,13 +80,11 @@ ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 	return g_strdup (buffer);
 }
 
-
 static void
 ecd_free_text (ECellText *cell, gchar *text)
 {
 	g_free (text);
 }
-
 
 /* FIXME: We need to set the "transient_for" property for the dialog. */
 static void
@@ -122,7 +118,6 @@ show_date_warning (ECellDateEditText *ecd)
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
-
 
 static void
 ecd_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
@@ -176,7 +171,6 @@ ecd_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
 	e_table_model_set_value_at (model, col, row, value);
 }
 
-
 static void
 e_cell_date_edit_text_class_init (ECellDateEditTextClass *ecdet)
 {
@@ -187,14 +181,12 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *ecdet)
 	ectc->set_value = ecd_set_value;
 }
 
-
 static void
 e_cell_date_edit_text_init (ECellDateEditText *ecd)
 {
 	ecd->zone = icaltimezone_get_utc_timezone ();
 	ecd->use_24_hour_format = TRUE;
 }
-
 
 /**
  * e_cell_date_edit_text_new:

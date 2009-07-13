@@ -41,7 +41,6 @@ static FilterRule *create_rule (RuleEditor *re);
 
 static RuleEditorClass *parent_class = NULL;
 
-
 static void
 em_vfolder_editor_finalise (GObject *obj)
 {

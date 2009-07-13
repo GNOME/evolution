@@ -44,7 +44,6 @@ static void filter_colour_class_init (FilterColourClass *klass);
 static void filter_colour_init (FilterColour *fc);
 static void filter_colour_finalise (GObject *obj);
 
-
 static FilterElementClass *parent_class;
 
 GType

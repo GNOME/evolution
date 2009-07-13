@@ -874,7 +874,6 @@ ethi_realize (GnomeCanvasItem *item)
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
-
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
 
@@ -946,7 +945,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wi
 	gint x1, x2;
 	gint col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-
 
 	if (ethi->sort_info) {
 		gint length = e_table_sort_info_grouping_get_count(ethi->sort_info);

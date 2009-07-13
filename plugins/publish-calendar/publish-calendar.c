@@ -826,7 +826,6 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 		GThread *thread = NULL;
 		GError *error = NULL;
 
-
 		client = gconf_client_get_default ();
 		uris = gconf_client_get_list (client, "/apps/evolution/calendar/publish/uris", GCONF_VALUE_STRING, NULL);
 		thread = g_thread_create ((GThreadFunc) publish_uris_set_timeout, uris, FALSE, &error);

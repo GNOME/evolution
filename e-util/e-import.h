@@ -258,7 +258,6 @@ GType e_import_hook_get_type(void);
 /* for implementors */
 void e_import_hook_class_add_target_map(EImportHookClass *klass, const EImportHookTargetMap *);
 
-
 G_END_DECLS
 
 #endif /* __E_IMPORT_H__ */

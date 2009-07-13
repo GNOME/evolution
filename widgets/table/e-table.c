@@ -53,7 +53,6 @@
 #include "e-table-subset.h"
 #include "e-table-utils.h"
 
-
 #define COLUMN_HEADER_HEIGHT 16
 
 G_DEFINE_TYPE (ETable, e_table, GTK_TYPE_TABLE)
@@ -958,7 +957,6 @@ et_build_groups (ETable *et)
 	g_signal_connect (G_OBJECT (et->group), "start_drag",
 			  G_CALLBACK (group_start_drag), et);
 
-
 	if (!(et->is_grouped) && was_grouped)
 		et_disconnect_model (et);
 
@@ -1228,7 +1226,6 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 
-
 	e_table->white_item = gnome_canvas_item_new(
 		gnome_canvas_root(e_table->table_canvas),
 		e_canvas_background_get_type(),
@@ -1430,7 +1427,6 @@ e_table_get_state_object (ETable *e_table)
 	state->sort_info = e_table->sort_info;
 	g_object_ref(state->sort_info);
 
-
 	state->col_count = e_table_header_count (e_table->header);
 	full_col_count = e_table_header_count (e_table->full_header);
 	state->columns = g_new(int, state->col_count);
@@ -1562,7 +1558,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->sort_info_change_id =
 		g_signal_connect (G_OBJECT (e_table->sort_info), "sort_info_changed",
 				  G_CALLBACK (sort_info_changed), e_table);
-
 
 	g_value_set_object (val, e_table->sort_info);
 	g_object_set_property (G_OBJECT(e_table->header), "sort_info", val);
@@ -2072,7 +2067,6 @@ e_table_invert_selection (ETable *table)
 
 	e_selection_model_invert_selection (E_SELECTION_MODEL (table->selection));
 }
-
 
 /**
  * e_table_get_printable:
@@ -2914,7 +2908,6 @@ scroll_timeout (gpointer data)
 			       et->last_drop_y,
 			       et->last_drop_time);
 
-
 	return TRUE;
 }
 
@@ -2999,7 +2992,6 @@ et_drag_motion(GtkWidget *widget,
 				  x,
 				  y,
 				  time);
-
 
 	if (y < 20)
 		direction |= ET_SCROLL_UP;

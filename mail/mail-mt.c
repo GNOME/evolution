@@ -159,7 +159,6 @@ end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
 	}
 }
 
-
 #ifdef MALLOC_CHECK
 #include <mcheck.h>
 
@@ -351,7 +350,6 @@ void mail_msg_cancel(guint msgid)
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 }
-
 
 /* waits for a message to be finished processing (freed)
    the messageid is from MailMsg->seq */

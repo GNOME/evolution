@@ -59,8 +59,6 @@ static GtkVBoxClass *parent_class = NULL;
 
 GtkWidget *cal_prefs_dialog_create_time_edit (void);
 
-
-
 static void
 calendar_prefs_dialog_finalize (GObject *obj)
 {
@@ -565,7 +563,6 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
 
-
 	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
 }
 
@@ -702,7 +699,6 @@ show_config (CalendarPrefsDialog *prefs)
 	sensitive = calendar_config_locale_supports_12_hour_format ();
 	gtk_widget_set_sensitive (prefs->use_12_hour, sensitive);
 	gtk_widget_set_sensitive (prefs->use_24_hour, sensitive);
-
 
 	/* Time Divisions. */
 	time_divisions = calendar_config_get_time_divisions ();
@@ -859,7 +855,6 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	prefs->tasks_hide_completed = glade_xml_get_widget (gui, "tasks_hide_completed");
 	prefs->tasks_hide_completed_interval = glade_xml_get_widget (gui, "tasks_hide_completed_interval");
 	prefs->tasks_hide_completed_units = glade_xml_get_widget (gui, "tasks_hide_completed_units");
-
 
 	/* Alarms tab */
 	prefs->notify_with_tray = glade_xml_get_widget (gui, "notify_with_tray");

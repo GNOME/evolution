@@ -2216,7 +2216,6 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 
 	if (limit > 0 && i>(limit)) {
 
-
 		if (!strcmp (field, _("To"))) {
 			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);
 		}

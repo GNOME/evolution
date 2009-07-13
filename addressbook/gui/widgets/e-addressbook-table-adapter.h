@@ -41,11 +41,9 @@ struct _EAddressbookTableAdapter {
 	EAddressbookTableAdapterPrivate *priv;
 };
 
-
 struct _EAddressbookTableAdapterClass {
 	ETableModelClass parent_class;
 };
-
 
 GType        eab_table_adapter_get_type (void);
 void         eab_table_adapter_construct (EAddressbookTableAdapter *adapter,

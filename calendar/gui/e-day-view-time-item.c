@@ -35,7 +35,6 @@
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <libedataserver/e-data-server-util.h>
 
-
 /* The spacing between items in the time column. GRID_X_PAD is the space down
    either side of the column, i.e. outside the main horizontal grid lines.
    HOUR_L_PAD & HOUR_R_PAD are the spaces on the left & right side of the
@@ -127,7 +126,6 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 			G_PARAM_WRITABLE));
 }
 
-
 static void
 e_day_view_time_item_init (EDayViewTimeItem *dvtmitem)
 {
@@ -197,7 +195,6 @@ e_day_view_time_item_update (GnomeCanvasItem *item,
 	item->y2 = INT_MAX;
 }
 
-
 /* Returns the minimum width needed for the column, by adding up all the
    maximum widths of the strings. The string widths are all calculated in
    the style_set handlers of EDayView and EDayViewTimeCanvas. */
@@ -266,7 +263,6 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 
 	return dvtmitem->column_width;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -642,7 +638,6 @@ e_day_view_time_item_increment_time	(gint	*hour,
 	}
 }
 
-
 static double
 e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
 			    gint cx, gint cy,
@@ -651,7 +646,6 @@ e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
 	*actual_item = item;
 	return 0.0;
 }
-
 
 static gint
 e_day_view_time_item_event (GnomeCanvasItem *item,
@@ -823,7 +817,6 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 			event->button.button, event->button.time);
 }
 
-
 static void
 e_day_view_time_item_on_set_divisions (GtkWidget *item,
 				       EDayViewTimeItem *dvtmitem)
@@ -841,7 +834,6 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 	e_day_view_set_mins_per_row (day_view, divisions);
 	calendar_config_set_time_divisions (divisions);
 }
-
 
 static void
 e_day_view_time_item_on_button_press (EDayViewTimeItem *dvtmitem,
@@ -873,7 +865,6 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *dvtmitem,
 		dvtmitem->dragging_selection = TRUE;
 	}
 }
-
 
 static void
 e_day_view_time_item_on_button_release (EDayViewTimeItem *dvtmitem,
@@ -920,7 +911,6 @@ e_day_view_time_item_on_motion_notify (EDayViewTimeItem *dvtmitem,
 		e_day_view_check_auto_scroll (day_view, -1, (gint) window_y);
 	}
 }
-
 
 /* Returns the row corresponding to the y position, or -1. */
 static gint

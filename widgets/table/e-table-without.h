@@ -82,6 +82,5 @@ void         e_table_without_show       (ETableWithout                 *etw,
 void         e_table_without_show_all   (ETableWithout                 *etw);
 G_END_DECLS
 
-
 #endif /* _E_TABLE_WITHOUT_H_ */
 

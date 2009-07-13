@@ -48,7 +48,6 @@ struct _EMStripSigFilterClass {
 
 };
 
-
 CamelType em_stripsig_filter_get_type (void);
 
 CamelMimeFilter *em_stripsig_filter_new (void);

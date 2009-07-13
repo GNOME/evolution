@@ -64,5 +64,4 @@ gint e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 
 G_END_DECLS
 
-
 #endif /* __EA_CALENDAR_ITEM_H__ */

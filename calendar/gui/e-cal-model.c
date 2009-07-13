@@ -257,7 +257,6 @@ e_cal_model_dispose (GObject *object)
 
 			priv->clients = g_list_remove (priv->clients, client_data);
 
-
 			g_object_unref (client_data->client);
 			if (client_data->query)
 				g_object_unref (client_data->query);
@@ -1798,7 +1797,6 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	update_e_cal_view_for_client (model, client_data);
 }
 
-
 static ECalModelClient *
 add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 {
@@ -2318,7 +2316,6 @@ copy_ecdv (ECellDateEditValue *ecdv)
 	return new_ecdv;
 } */
 
-
 struct _ECalModelComponentPrivate {
 	gchar nouse;
 };
@@ -2339,7 +2336,6 @@ e_cal_model_component_class_init (ECalModelComponentClass *klass)
 
 	object_class->finalize = e_cal_model_component_finalize;
 }
-
 
 static void
 e_cal_model_component_finalize (GObject *object)

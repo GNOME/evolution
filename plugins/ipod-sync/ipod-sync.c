@@ -54,7 +54,6 @@ void org_gnome_sync_tasks (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_memos (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_sync_addressbook (EPlugin *ep, EABPopupTargetSource *target);
 
-
 static void
 display_error_message (GtkWidget *parent, const gchar *message)
 {
@@ -112,8 +111,6 @@ open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 
 	return NULL;
 }
-
-
 
 static void
 destination_save_addressbook  (EPlugin *ep, EABPopupTargetSource *target)

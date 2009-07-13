@@ -702,7 +702,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	}
 }
 
-
 static void
 folder_subscribed (CamelStore *store,
                    CamelFolderInfo *fi,

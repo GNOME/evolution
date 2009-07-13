@@ -50,7 +50,6 @@ typedef struct {
 	gpointer e_table_config;
 } ETableConfigSortWidgets;
 
-
 typedef struct {
 	GObject parent;
 

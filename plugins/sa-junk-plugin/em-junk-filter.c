@@ -70,7 +70,6 @@ static void em_junk_sa_init (void);
 static void em_junk_sa_finalize (void);
 static void em_junk_sa_kill_spamd (void);
 
-
 static gboolean em_junk_sa_tested = FALSE;
 static gboolean em_junk_sa_spamd_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
@@ -110,7 +109,6 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 	CamelStream *stream;
 	gchar *program;
 	pid_t pid;
-
 
 	if (camel_debug_start ("junk")) {
 		gint i;
@@ -297,7 +295,6 @@ em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 
 	return rv;
 }
-
 
 /*
   One time test to see if spamd is running with --allow-tell.  The call
@@ -670,7 +667,6 @@ get_spamassassin_version ()
 			}
 		}
 
-
 		if(out)
 			g_byte_array_free (out, TRUE);
 	}
@@ -927,5 +923,4 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 	gtk_widget_show_all (vbox);
 	return (GtkWidget *)vbox;
 }
-
 

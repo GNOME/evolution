@@ -72,7 +72,6 @@ struct _RuleEditorPrivate {
 
 static GtkDialogClass *parent_class = NULL;
 
-
 GType
 rule_editor_get_type (void)
 {

@@ -239,7 +239,6 @@ calendar_config_get_24_hour_format	(void)
 	return TRUE;
 }
 
-
 void
 calendar_config_set_24_hour_format	(gboolean     use_24_hour)
 {
@@ -268,7 +267,6 @@ calendar_config_get_week_start_day	(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WEEK_START, NULL);
 }
-
 
 void
 calendar_config_set_week_start_day	(gint	      week_start_day)
@@ -299,7 +297,6 @@ calendar_config_get_day_start_hour	(void)
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_HOUR, NULL);
 }
 
-
 void
 calendar_config_set_day_start_hour	(gint	      day_start_hour)
 {
@@ -327,7 +324,6 @@ calendar_config_get_day_start_minute	(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, NULL);
 }
-
 
 void
 calendar_config_set_day_start_minute	(gint	      day_start_min)
@@ -357,7 +353,6 @@ calendar_config_get_day_end_hour	(void)
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_HOUR, NULL);
 }
 
-
 void
 calendar_config_set_day_end_hour	(gint	      day_end_hour)
 {
@@ -385,7 +380,6 @@ calendar_config_get_day_end_minute	(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, NULL);
 }
-
 
 void
 calendar_config_set_day_end_minute	(gint	      day_end_min)
@@ -415,7 +409,6 @@ calendar_config_get_time_divisions	(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, NULL);
 }
-
 
 void
 calendar_config_set_time_divisions	(gint	      divisions)
@@ -487,7 +480,6 @@ calendar_config_get_marcus_bains (gboolean *show_line, const gchar **dayview_col
 	*timebar_color = tcolor;
 }
 
-
 void
 calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor)
 {
@@ -506,7 +498,6 @@ calendar_config_get_dview_show_week_no (void)
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, NULL);
 }
-
 
 void
 calendar_config_set_dview_show_week_no (gboolean show_week_no)
@@ -537,7 +528,6 @@ calendar_config_get_dnav_show_week_no	(void)
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, NULL);
 }
 
-
 void
 calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 {
@@ -567,7 +557,6 @@ calendar_config_get_hpane_pos		(void)
 	return gconf_client_get_int (config, CALENDAR_CONFIG_HPANE_POS, NULL);
 }
 
-
 void
 calendar_config_set_hpane_pos		(gint	      hpane_pos)
 {
@@ -576,7 +565,6 @@ calendar_config_set_hpane_pos		(gint	      hpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
 }
 
-
 gint
 calendar_config_get_vpane_pos		(void)
 {
@@ -584,7 +572,6 @@ calendar_config_get_vpane_pos		(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_VPANE_POS, NULL);
 }
-
 
 void
 calendar_config_set_vpane_pos		(gint	      vpane_pos)
@@ -601,7 +588,6 @@ calendar_config_get_preview_state		(void)
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, NULL);
 }
-
 
 void
 calendar_config_set_preview_state		(gboolean state)
@@ -631,7 +617,6 @@ calendar_config_get_month_hpane_pos	(void)
 	return gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, NULL);
 }
 
-
 void
 calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 {
@@ -640,7 +625,6 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, hpane_pos, NULL);
 }
 
-
 gint
 calendar_config_get_month_vpane_pos	(void)
 {
@@ -648,7 +632,6 @@ calendar_config_get_month_vpane_pos	(void)
 
 	return  gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, NULL);
 }
-
 
 void
 calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
@@ -665,7 +648,6 @@ calendar_config_get_tag_vpane_pos	(void)
 
 	return  gconf_client_get_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, NULL);
 }
-
 
 void
 calendar_config_set_tag_vpane_pos	(gfloat	      vpane_pos)
@@ -721,7 +703,6 @@ calendar_config_set_primary_tasks (const gchar *primary_uid)
 	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, primary_uid, NULL);
 }
 
-
 guint
 calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data)
 {
@@ -741,7 +722,6 @@ calendar_config_get_task_vpane_pos	(void)
 
 	return  gconf_client_get_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, NULL);
 }
-
 
 void
 calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
@@ -799,7 +779,6 @@ calendar_config_set_primary_memos (const gchar *primary_uid)
 	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, primary_uid, NULL);
 }
 
-
 guint
 calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data)
 {
@@ -821,7 +800,6 @@ calendar_config_get_compress_weekend	(void)
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, NULL);
 }
-
 
 void
 calendar_config_set_compress_weekend	(gboolean     compress)
@@ -852,7 +830,6 @@ calendar_config_get_show_event_end	(void)
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_EVENT_END, NULL);
 }
 
-
 void
 calendar_config_set_show_event_end	(gboolean     show_end)
 {
@@ -882,7 +859,6 @@ calendar_config_get_working_days	(void)
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WORKING_DAYS, NULL);
 }
 
-
 void
 calendar_config_set_working_days	(CalWeekdays  days)
 {
@@ -911,7 +887,6 @@ calendar_config_get_hide_completed_tasks	(void)
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, NULL);
 }
-
 
 void
 calendar_config_set_hide_completed_tasks	(gboolean	hide)
@@ -955,7 +930,6 @@ calendar_config_get_hide_completed_tasks_units	(void)
 	return cu;
 }
 
-
 void
 calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 {
@@ -998,7 +972,6 @@ calendar_config_get_hide_completed_tasks_value	(void)
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, NULL);
 }
-
 
 void
 calendar_config_set_hide_completed_tasks_value	(gint		value)
@@ -1081,7 +1054,6 @@ calendar_config_set_confirm_purge (gboolean confirm)
 
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
 }
-
 
 /**
  * calendar_config_get_tasks_due_today_color:

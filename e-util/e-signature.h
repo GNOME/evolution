@@ -54,7 +54,6 @@ struct _ESignatureClass {
 
 };
 
-
 GType e_signature_get_type (void);
 
 ESignature *e_signature_new (void);

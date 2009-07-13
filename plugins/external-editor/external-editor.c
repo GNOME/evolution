@@ -205,7 +205,6 @@ run_error_dialog (gchar *text)
 	return FALSE;
 }
 
-
 void
 async_external_editor (EMsgComposer *composer)
 {

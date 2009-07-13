@@ -97,7 +97,6 @@ void org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, 
 void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
 gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 
-
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
    so declare the functions here
    TODO: sort out whether this should really be private
@@ -210,7 +209,6 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 	g_free (target->uri_dest);
 	target->uri_dest = g_strdup (em_folder_selection_button_get_selection (button));
 }
-
 
 /**
  * Suggest a folder to import data into

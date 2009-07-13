@@ -40,7 +40,6 @@ xmlNode *e_xml_get_child_by_name_by_lang_list        (const xmlNode *parent,
 xmlNode *e_xml_get_child_by_name_no_lang             (const xmlNode *parent,
                                                       const gchar   *name);
 
-
 gint     e_xml_get_integer_prop_by_name              (const xmlNode *parent,
                                                       const xmlChar *prop_name);
 gint     e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent,
@@ -50,7 +49,6 @@ void     e_xml_set_integer_prop_by_name              (xmlNode       *parent,
                                                       const xmlChar *prop_name,
                                                       gint           value);
 
-
 guint    e_xml_get_uint_prop_by_name                 (const xmlNode *parent,
                                                       const xmlChar *prop_name);
 guint    e_xml_get_uint_prop_by_name_with_default    (const xmlNode *parent,
@@ -59,7 +57,6 @@ guint    e_xml_get_uint_prop_by_name_with_default    (const xmlNode *parent,
 void     e_xml_set_uint_prop_by_name                 (xmlNode       *parent,
                                                       const xmlChar *prop_name,
                                                       guint          value);
-
 
 gboolean e_xml_get_bool_prop_by_name                 (const xmlNode *parent,
                                                       const xmlChar *prop_name);
@@ -78,7 +75,6 @@ gdouble  e_xml_get_double_prop_by_name_with_default  (const xmlNode *parent,
 void      e_xml_set_double_prop_by_name              ( xmlNode       *parent,
                                                       const xmlChar *prop_name,
                                                       gdouble        value);
-
 
 gchar    *e_xml_get_string_prop_by_name              (const xmlNode *parent,
                                                       const xmlChar *prop_name);

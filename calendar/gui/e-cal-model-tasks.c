@@ -199,7 +199,6 @@ ensure_task_partially_complete (ECalModelComponent *comp_data)
 		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_INPROCESS));
 }
 
-
 /* This makes sure a task is marked as incomplete. It clears the
    "Date Completed" property. If the percent is set to 100 it removes it,
    and if the status is "Completed" it sets it to "Needs Action".
@@ -409,7 +408,6 @@ typedef enum {
 	E_CAL_MODEL_TASKS_DUE_OVERDUE,
 	E_CAL_MODEL_TASKS_DUE_COMPLETE
 } ECalModelTasksDueStatus;
-
 
 static ECalModelTasksDueStatus
 get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)

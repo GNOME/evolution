@@ -126,7 +126,6 @@ e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *class)
 			G_PARAM_WRITABLE));
 }
 
-
 static void
 e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 {
@@ -148,7 +147,6 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	item->x2 = 0;
 	item->y2 = 0;
 }
-
 
 static void
 e_meeting_time_selector_item_dispose (GObject *object)
@@ -173,7 +171,6 @@ e_meeting_time_selector_item_dispose (GObject *object)
 	G_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->dispose (object);
 }
 
-
 static void
 e_meeting_time_selector_item_set_property (GObject *object,
                                            guint property_id,
@@ -192,7 +189,6 @@ e_meeting_time_selector_item_set_property (GObject *object,
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
-
 
 static void
 e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
@@ -213,7 +209,6 @@ e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
 	mts_item->stipple_gc = gdk_gc_new (window);
 }
 
-
 static void
 e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 {
@@ -230,7 +225,6 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 		(*GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)(item);
 }
 
-
 static void
 e_meeting_time_selector_item_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
 {
@@ -243,7 +237,6 @@ e_meeting_time_selector_item_update (GnomeCanvasItem *item, double *affine, ArtS
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -381,7 +374,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	else
 		e_meeting_time_selector_item_paint_busy_periods (mts_item, drawable, &date, x, y, width, height);
 
-
 	/* Draw the currently-selected meeting time vertical bars. */
 	if (show_meeting_time) {
 		if (is_display_top) {
@@ -413,7 +405,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 	cairo_destroy (cr);
 }
-
 
 static void
 e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
@@ -510,7 +501,6 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	g_object_unref (layout);
 }
 
-
 /* This paints the colored bars representing busy periods for the combined
    list of attendees. For now we just paint the bars for each attendee of
    each other. If we want to speed it up we could optimise it later. */
@@ -560,7 +550,6 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	g_free (first_periods);
 	cairo_destroy (cr);
 }
-
 
 static void
 e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
@@ -632,9 +621,7 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 				    2, height - unused_y);
 	}
 
-
 }
-
 
 /* This paints the colored bars representing busy periods for the individual
    attendees. */
@@ -685,7 +672,6 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 	cairo_destroy (cr);
 }
 
-
 /* This subtracts the attendees longest_period_in_days from the given date,
    and does a binary search of the attendee's busy periods array to find the
    first one which could possible end on the given day or later.
@@ -716,7 +702,6 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
 
 	return period_num;
 }
-
 
 /* This paints the visible busy periods for one attendee which are of a certain
    busy type, e.g out of office. It is passed the index of the first visible
@@ -789,7 +774,6 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 	}
 }
 
-
 /*
  * CANVAS ITEM ROUTINES - functions to be a GnomeCanvasItem.
  */
@@ -805,7 +789,6 @@ e_meeting_time_selector_item_point (GnomeCanvasItem *item, double x, double y,
 	*actual_item = item;
 	return 0.0;
 }
-
 
 static gint
 e_meeting_time_selector_item_event (GnomeCanvasItem *item, GdkEvent *event)
@@ -830,7 +813,6 @@ e_meeting_time_selector_item_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	return FALSE;
 }
-
 
 /* This handles all button press events for the item. If the cursor is over
    one of the meeting time vertical bars we start a drag. If not we set the
@@ -940,10 +922,8 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 						  end_time.hour,
 						  end_time.minute);
 
-
 	return FALSE;
 }
-
 
 /* This handles all button release events for the item. If we were dragging,
    we finish the drag. */
@@ -965,7 +945,6 @@ e_meeting_time_selector_item_button_release (EMeetingTimeSelectorItem *mts_item,
 
 	return FALSE;
 }
-
 
 /* This handles all motion notify events for the item. If button1 is pressed
    we check if a drag is in progress. If not, we set the cursor if we are over
@@ -1010,7 +989,6 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 	return FALSE;
 }
 
-
 static EMeetingTimeSelectorPosition
 e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_item,
 						gint x, gint y)
@@ -1037,7 +1015,6 @@ e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_it
 
 	return E_MEETING_TIME_SELECTOR_POS_NONE;
 }
-
 
 static gboolean
 e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,

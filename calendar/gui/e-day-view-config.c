@@ -281,7 +281,6 @@ day_end_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 	set_day_end_hour (priv->view);
 }
 
-
 static void
 set_day_end_minute (EDayView *day_view)
 {

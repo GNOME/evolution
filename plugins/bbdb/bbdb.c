@@ -448,8 +448,6 @@ add_email_to_contact (EContact *contact, const gchar *email)
 	e_contact_set (contact, E_CONTACT_EMAIL, (gpointer) emails);
 }
 
-
-
 /* Code to implement the configuration user interface follows */
 
 static void

@@ -343,7 +343,6 @@ em_filename_make_safe (gchar *string)
 	}
 }
 
-
 /* Saving messages... */
 
 static const gchar *
@@ -535,7 +534,6 @@ em_utils_save_parts (GtkWindow *parent, const gchar *prompt, GSList *parts)
 exit:
 	gtk_widget_destroy (file_chooser);
 }
-
 
 /**
  * em_utils_save_part_to_file:
@@ -2263,7 +2261,6 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 		g_object_unref (iter);
 	}
 }
-
 
 void
 em_utils_show_error_silent (GtkWidget *widget)

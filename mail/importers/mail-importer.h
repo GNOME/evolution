@@ -73,7 +73,6 @@ BonoboObject *outlook_importer_new(void);
 
 BonoboObject *mail_importer_factory_cb(BonoboGenericFactory *factory, const gchar *iid, gpointer data);
 
-
 /* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
 /* Evolution only cares about these headers I think */
 #define MSG_FLAG_READ 0x0001

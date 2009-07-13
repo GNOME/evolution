@@ -37,14 +37,11 @@
 
 #include "e-signature.h"
 
-
 static void e_signature_class_init (ESignatureClass *klass);
 static void e_signature_init (ESignature *sig, ESignatureClass *klass);
 static void e_signature_finalize (GObject *object);
 
-
 static GObjectClass *parent_class = NULL;
-
 
 GType
 e_signature_get_type (void)
@@ -97,7 +94,6 @@ e_signature_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-
 /**
  * e_signature_new:
  *
@@ -114,7 +110,6 @@ e_signature_new (void)
 
 	return signature;
 }
-
 
 /**
  * e_signature_new_from_xml:
@@ -136,7 +131,6 @@ e_signature_new_from_xml (const gchar *xml)
 
 	return signature;
 }
-
 
 static gboolean
 xml_set_bool (xmlNodePtr node, const gchar *name, gboolean *val)
@@ -201,7 +195,6 @@ xml_set_content (xmlNodePtr node, gchar **val)
 	}
 }
 
-
 /**
  * e_signature_uid_from_xml:
  * @xml: an XML signature description
@@ -231,7 +224,6 @@ e_signature_uid_from_xml (const gchar *xml)
 
 	return uid;
 }
-
 
 /**
  * e_signature_set_from_xml:
@@ -313,7 +305,6 @@ e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 
 	return changed;
 }
-
 
 /**
  * e_signature_to_xml:

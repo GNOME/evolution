@@ -91,7 +91,6 @@ enum {
 	PROP_BG_COLOR_COLUMN
 };
 
-
 enum {
 	E_SELECTION_PRIMARY,
 	E_SELECTION_CLIPBOARD
@@ -121,7 +120,6 @@ typedef struct {
 	gint ref_count;
 } ECellTextLineBreaks;
 
-
 typedef struct _CellEdit CellEdit;
 
 typedef struct {
@@ -136,7 +134,6 @@ typedef struct {
 	 * During editing.
 	 */
 	CellEdit    *edit;
-
 
 	gint xofs, yofs;                 /* This gets added to the x
                                            and y for the cell text. */
@@ -361,12 +358,10 @@ ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	text_view->cell_view.kill_view_cb = NULL;
         text_view->cell_view.kill_view_cb_data = NULL;
 
-
 	text_view->canvas = canvas;
 
 	text_view->xofs = 0.0;
 	text_view->yofs = 0.0;
-
 
 	return (ECellView *)text_view;
 }
@@ -454,7 +449,6 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 	}
 }
 
-
 static PangoAttrList*
 build_attr_list (ECellTextView *text_view, gint row, gint text_length)
 {
@@ -512,7 +506,6 @@ layout_with_preedit (ECellTextView *text_view, gint row, const gchar *text, gint
 	gint preedit_length = 0;
 	gint text_length = strlen (text);
 	gint mlen = MIN(edit->selection_start,text_length);
-
 
 	gtk_im_context_get_preedit_string (edit->im_context,
 					&preedit_string,&preedit_attrs,
@@ -658,7 +651,6 @@ generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint r
 
 	return layout;
 }
-
 
 static void
 draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoRectangle rect)
@@ -874,7 +866,6 @@ ect_get_bg_color(ECellView *ecell_view, gint row)
 
 	return color_spec;
 }
-
 
 /*
  * Selects the entire string
@@ -1344,7 +1335,6 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 	gchar *string;
 	double ty, ly, text_width = 0.0, text_height = 0.0;
 
-
 	cr = gtk_print_context_get_cairo_context (context);
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 
@@ -1793,8 +1783,6 @@ e_cell_text_class_init (ECellTextClass *klass)
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);
 
-
-
 	g_object_class_install_property (object_class, PROP_STRIKEOUT_COLUMN,
 					 g_param_spec_int ("strikeout_column",
 							   _("Strikeout Column"),
@@ -1851,7 +1839,6 @@ e_cell_text_class_init (ECellTextClass *klass)
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TEXT_TYPE, gal_a11y_e_cell_text_new);
 }
-
 
 /* IM Context Callbacks */
 
@@ -2064,7 +2051,6 @@ e_cell_text_new (const gchar *fontname, GtkJustification justify)
 
 	return (ECell *) ect;
 }
-
 
 /* fixme: Handle Font attributes */
 /* position is in BYTES */

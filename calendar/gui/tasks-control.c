@@ -49,7 +49,6 @@
 
 #define FIXED_MARGIN                            .05
 
-
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
@@ -245,7 +244,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	bonobo_ui_component_add_listener(uic, "ViewPreview", tasks_control_view_preview, tasks);
 	bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 }
-
 
 void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)

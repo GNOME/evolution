@@ -34,7 +34,6 @@ static const gchar * action_name[] = {
 	N_("New Contact List")
 };
 
-
 static G_CONST_RETURN gchar * ea_minicard_view_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar * ea_minicard_view_get_description (AtkObject *accessible);
 

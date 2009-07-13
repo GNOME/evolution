@@ -148,7 +148,6 @@ etsv_insert_idle(ETreeSortedVariable *etsv)
 	return FALSE;
 }
 
-
 ETableModel *
 e_tree_sorted_variable_new (ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
@@ -241,7 +240,6 @@ etsv_compare(ETreeSortedVariable *etsv, const ETreePath *path1, const ETreePath 
 		comp_val = -comp_val;
 	return comp_val;
 }
-
 
 static ETreeSortedVariable *etsv_closure;
 gint cols_closure;
@@ -408,7 +406,6 @@ etsv_add_node (ETreeSortedVariable *etsv, ETreePath *path, GNode *root)
 	}
 
 	etsv_sort_node(etsv, new_node);
-
 
 #if 0
 	g_node_prepend(root, new_node);

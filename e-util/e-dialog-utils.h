@@ -48,5 +48,4 @@ GtkWidget * e_file_get_save_filesel (GtkWindow *parent, const gchar *title, cons
 gboolean e_file_can_save(GtkWindow *parent, const gchar *uri);
 gboolean e_file_check_local(const gchar *name);
 
-
 #endif

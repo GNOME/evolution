@@ -56,7 +56,6 @@
 #include "e-cal-menu.h"
 #include "e-cal-model-tasks.h"
 
-
 /* Private part of the GnomeCalendar structure */
 struct _ETasksPrivate {
 	/* The task lists for display */
@@ -244,7 +243,6 @@ table_drag_begin (ETable         *table,
 
 }
 
-
 static void
 table_drag_end (ETable         *table,
 		gint             row,
@@ -327,7 +325,6 @@ setup_widgets (ETasks *tasks)
 	gtk_paned_add1 (GTK_PANED (priv->paned), priv->tasks_view);
 	gtk_widget_show (priv->tasks_view);
 
-
 	e_table_drag_source_set (etable, GDK_BUTTON1_MASK,
 				 list_drag_types, num_list_drag_types,
 				 GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
@@ -407,7 +404,6 @@ e_tasks_class_init (ETasksClass *class)
 	class->source_added = NULL;
 	class->source_removed = NULL;
 }
-
 
 /* Object initialization function for the gnome calendar */
 static void
@@ -524,7 +520,6 @@ open_ecal (ETasks *tasks, ECal *cal, gboolean only_if_exists, open_func of)
 	zone = calendar_config_get_icaltimezone ();
 	e_cal_set_default_timezone (cal, zone, NULL);
 
-
 	set_status_message (tasks, _("Opening tasks at %s"), e_cal_get_uri (cal));
 
 	g_signal_connect (G_OBJECT (cal), "cal_opened", G_CALLBACK (of), tasks);
@@ -594,7 +589,6 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	if (!client)
 		return TRUE;
 
-
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, tasks);
@@ -603,7 +597,6 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	e_cal_model_remove_client (model, client);
 
 	g_hash_table_remove (priv->clients, uid);
-
 
 	g_signal_emit (tasks, e_tasks_signals[SOURCE_REMOVED], 0, source);
 

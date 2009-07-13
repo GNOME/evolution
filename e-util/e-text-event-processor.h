@@ -60,11 +60,9 @@ struct _ETextEventProcessorClass
 	gint (* event) (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 };
 
-
 GType      e_text_event_processor_get_type (void);
 gint       e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
 G_END_DECLS
-
 
 #endif /* __E_TEXT_EVENT_PROCESSOR_H__ */

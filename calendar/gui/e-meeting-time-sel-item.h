@@ -35,11 +35,9 @@
 
 G_BEGIN_DECLS
 
-
 #define E_MEETING_TIME_SELECTOR_ITEM(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), e_meeting_time_selector_item_get_type (), EMeetingTimeSelectorItem))
 #define E_MEETING_TIME_SELECTOR_ITEM_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), e_meeting_time_selector_item_get_type (), EMeetingTimeSelectorItemClass))
 #define IS_E_MEETING_TIME_SELECTOR_ITEM(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), e_meeting_time_selector_item_get_type ()))
-
 
 typedef struct _EMeetingTimeSelectorItem       EMeetingTimeSelectorItem;
 typedef struct _EMeetingTimeSelectorItemClass  EMeetingTimeSelectorItemClass;
@@ -65,7 +63,6 @@ struct _EMeetingTimeSelectorItem
 	GdkCursor *last_cursor_set;
 };
 
-
 struct _EMeetingTimeSelectorItemClass
 {
 	GnomeCanvasItemClass parent_class;
@@ -73,6 +70,5 @@ struct _EMeetingTimeSelectorItemClass
 
 GType e_meeting_time_selector_item_get_type (void);
 void e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_item);
-
 
 #endif /* _E_MEETING_TIME_SELECTOR_ITEM_H_ */

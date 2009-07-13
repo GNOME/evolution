@@ -846,7 +846,6 @@ add_ca_cert (CertificateManagerData *cfm, ECert *cert)
 		}
 	}
 
-
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, parent_iter);
 
 	if (e_cert_get_cn (cert))
@@ -941,7 +940,6 @@ unload_certs (CertificateManagerData *cfm,
 
 		cfm->authoritycerts_root_hash = g_hash_table_new_full (g_str_hash, g_str_equal,
 								       destroy_key, destroy_value);
-
 
 		break;
 	case E_CERT_UNKNOWN:

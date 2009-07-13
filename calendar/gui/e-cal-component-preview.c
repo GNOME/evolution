@@ -92,7 +92,6 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 		zone = NULL;
 	}
 
-
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);

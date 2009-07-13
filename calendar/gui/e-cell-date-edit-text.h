@@ -59,7 +59,6 @@ GType      e_cell_date_edit_text_get_type (void);
 ECell     *e_cell_date_edit_text_new      (const gchar *fontname,
 					   GtkJustification justify);
 
-
 void	   e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
 					       icaltimezone *zone);
 void	   e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,

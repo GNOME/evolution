@@ -47,7 +47,6 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 	return 0;
 }
 
-
 GtkWidget *
 org_gnome_evolution_hula_account_setup (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {

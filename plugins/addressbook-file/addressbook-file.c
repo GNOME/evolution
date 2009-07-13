@@ -45,7 +45,6 @@ e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	relative_uri = e_source_peek_relative_uri (source);
 	g_free (uri_text);
 
-
 	if (relative_uri && *relative_uri) {
 		return NULL;
 	}

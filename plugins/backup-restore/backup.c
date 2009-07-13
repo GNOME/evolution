@@ -80,7 +80,6 @@ static GOptionEntry options[] = {
 
 static gboolean check (const gchar *filename);
 
-
 static GString *
 replace_string (const gchar *text, const gchar *find, const gchar *replace)
 {

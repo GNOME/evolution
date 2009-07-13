@@ -98,13 +98,11 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 #endif
 }
 
-
 static void
 e_week_view_main_item_init (EWeekViewMainItem *wvmitem)
 {
 	wvmitem->week_view = NULL;
 }
-
 
 static void
 e_week_view_main_item_set_property (GObject *object,
@@ -125,7 +123,6 @@ e_week_view_main_item_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
 static void
 e_week_view_main_item_update (GnomeCanvasItem *item,
 			      double	      *affine,
@@ -141,7 +138,6 @@ e_week_view_main_item_update (GnomeCanvasItem *item,
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -454,5 +450,4 @@ e_week_view_main_item_point (GnomeCanvasItem *item, double x, double y,
 	*actual_item = item;
 	return 0.0;
 }
-
 

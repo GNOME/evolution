@@ -95,7 +95,6 @@ G_BEGIN_DECLS
 /* The gap between rows in the top canvas. */
 #define E_DAY_VIEW_TOP_CANVAS_Y_GAP	2
 
-
 /* These are used to get/set the working days in the week. The bit-flags are
    combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
    day values used by localtime etc. */
@@ -109,7 +108,6 @@ typedef enum
 	E_DAY_VIEW_FRIDAY	= 1 << 5,
 	E_DAY_VIEW_SATURDAY	= 1 << 6
 } EDayViewDays;
-
 
 /* These are used to specify the type of an appointment. They match those
    used in EMeetingTimeSelector. */
@@ -184,11 +182,9 @@ struct _EDayViewEvent {
 	guint8 num_columns;
 };
 
-
 #define E_DAY_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_day_view_get_type (), EDayView)
 #define E_DAY_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_day_view_get_type (), EDayViewClass)
 #define E_IS_DAY_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_day_view_get_type ())
-
 
 typedef struct _EDayView       EDayView;
 typedef struct _EDayViewClass  EDayViewClass;
@@ -486,7 +482,6 @@ struct _EDayViewClass
 	ECalendarViewClass parent_class;
 };
 
-
 GType		   e_day_view_get_type			(void);
 GtkWidget* e_day_view_new			(ECalModel *model);
 
@@ -599,7 +594,6 @@ void	   e_day_view_convert_time_to_display	(EDayView	*day_view,
 						 const gchar	**suffix,
 						 gint		*suffix_width);
 gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
-
 
 gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);

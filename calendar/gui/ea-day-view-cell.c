@@ -258,7 +258,6 @@ ea_day_view_cell_ref_state_set (AtkObject *obj)
   atk_component_get_extents (ATK_COMPONENT (parent), &parent_x, &parent_y,
 			     &parent_width, &parent_height, ATK_XY_WINDOW);
 
-
   if (x + width < parent_x || x > parent_x + parent_width ||
       y + height < parent_y || y > parent_y + parent_height)
 	  /* the cell is out of the main canvas */

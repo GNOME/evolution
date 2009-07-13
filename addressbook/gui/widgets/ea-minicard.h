@@ -43,7 +43,6 @@ struct _EaMinicard
 	AtkGObjectAccessible parent;
 };
 
-
 struct _EaMinicardClass
 {
 	AtkGObjectAccessibleClass parent_class;
@@ -53,6 +52,5 @@ GType ea_minicard_get_type (void);
 AtkObject* ea_minicard_new(GObject *obj);
 
 G_END_DECLS
-
 
 #endif /* __EA_MINICARD_H__ */

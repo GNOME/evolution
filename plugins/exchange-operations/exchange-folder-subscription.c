@@ -25,7 +25,6 @@
 #include "config.h"
 #endif
 
-
 #include <glade/glade-xml.h>
 #include <gtk/gtk.h>
 #include <e-util/e-error.h>
@@ -56,7 +55,6 @@ user_clicked (GtkWidget *button, ENameSelector *name_selector)
 	gtk_window_set_modal (GTK_WINDOW (name_selector_dialog), TRUE);
 	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
-
 
 static GtkWidget *
 setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)

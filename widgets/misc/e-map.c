@@ -37,12 +37,10 @@
 
 #define SCROLL_STEP_SIZE 32
 
-
 /* */
 
 #define E_MAP_GET_WIDTH(map) gdk_pixbuf_get_width(((EMapPrivate *) E_MAP(map)->priv)->map_render_pixbuf)
 #define E_MAP_GET_HEIGHT(map) gdk_pixbuf_get_height(((EMapPrivate *) E_MAP(map)->priv)->map_render_pixbuf)
-
 
 /* Zoom state - keeps track of animation hacks */
 
@@ -54,7 +52,6 @@ typedef enum
 	E_MAP_ZOOMING_OUT
 }
 EMapZoomState;
-
 
 /* Private part of the EMap structure */
 
@@ -81,7 +78,6 @@ typedef struct
 	GPtrArray *points;
 }
 EMapPrivate;
-
 
 /* Internal prototypes */
 
@@ -116,11 +112,9 @@ static void repaint_point (EMap *map, EMapPoint *point);
 
 static GtkWidgetClass *parent_class;
 
-
 /* ----------------- *
  * Widget management *
  * ----------------- */
-
 
 /**
  * e_map_get_type:
@@ -200,7 +194,6 @@ e_map_class_init (EMapClass *class)
 	widget_class->key_press_event = e_map_key_press;
 }
 
-
 /* Object initialization function for the map view */
 
 static void
@@ -223,7 +216,6 @@ e_map_init (EMap *view)
 	GTK_WIDGET_UNSET_FLAGS (view, GTK_NO_WINDOW);
 }
 
-
 /* Destroy handler for the map view */
 
 static void
@@ -244,7 +236,6 @@ e_map_destroy (GtkObject *object)
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
-
 
 /* Finalize handler for the map view */
 
@@ -285,7 +276,6 @@ e_map_finalize (GObject *object)
 		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
 /* Unmap handler for the map view */
 
 static void
@@ -297,7 +287,6 @@ e_map_unmap (GtkWidget *widget)
 	if (GTK_WIDGET_CLASS (parent_class)->unmap)
 		(*GTK_WIDGET_CLASS (parent_class)->unmap) (widget);
 }
-
 
 /* Realize handler for the map view */
 
@@ -335,7 +324,6 @@ e_map_realize (GtkWidget *widget)
 	update_render_pixbuf (E_MAP (widget), GDK_INTERP_BILINEAR, TRUE);
 }
 
-
 /* Unrealize handler for the map view */
 
 static void
@@ -347,7 +335,6 @@ e_map_unrealize (GtkWidget *widget)
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
-
 
 /* Size_request handler for the map view */
 
@@ -369,7 +356,6 @@ e_map_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	requisition->width = gdk_pixbuf_get_width (priv->map_pixbuf);
 	requisition->height = gdk_pixbuf_get_height (priv->map_pixbuf);
 }
-
 
 /* Size_allocate handler for the map view */
 
@@ -403,7 +389,6 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
 }
 
-
 /* Button press handler for the map view */
 
 static gint
@@ -412,7 +397,6 @@ e_map_button_press (GtkWidget *widget, GdkEventButton *event)
 	if (!GTK_WIDGET_HAS_FOCUS (widget)) gtk_widget_grab_focus (widget);
 	return TRUE;
 }
-
 
 /* Button release handler for the map view */
 
@@ -424,7 +408,6 @@ e_map_button_release (GtkWidget *widget, GdkEventButton *event)
 	gdk_pointer_ungrab (event->time);
 	return TRUE;
 }
-
 
 /* Motion handler for the map view */
 
@@ -446,7 +429,6 @@ e_map_motion (GtkWidget *widget, GdkEventMotion *event)
  */
 }
 
-
 /* Expose handler for the map view */
 
 static gint
@@ -463,7 +445,6 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 	request_paint_area (view, &event->area);
 	return TRUE;
 }
-
 
 /* Set_scroll_adjustments handler for the map view */
 
@@ -528,7 +509,6 @@ e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustm
 
 	if (need_adjust) adjustment_changed_cb (NULL, view);
 }
-
 
 /* Key press handler for the map view */
 
@@ -601,11 +581,9 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 	return TRUE;
 }
 
-
 /* ---------------- *
  * Widget interface *
  * ---------------- */
-
 
 /**
  * e_map_new:
@@ -630,9 +608,7 @@ e_map_new (void)
 	return (E_MAP (widget));
 }
 
-
 /* --- Coordinate translation --- */
-
 
 /* These functions translate coordinates between longitude/latitude and
  * the image x/y offsets, using the equidistant cylindrical projection.
@@ -660,7 +636,6 @@ e_map_window_to_world (EMap *map, double win_x, double win_y, double *world_long
 		((double) height / 2.0) * 90.0;
 }
 
-
 void
 e_map_world_to_window (EMap *map, double world_longitude, double world_latitude, double *win_x, double *win_y)
 {
@@ -685,9 +660,7 @@ e_map_world_to_window (EMap *map, double world_longitude, double world_latitude,
 #endif
 }
 
-
 /* --- Zoom --- */
-
 
 gdouble
 e_map_get_magnification (EMap *map)
@@ -698,7 +671,6 @@ e_map_get_magnification (EMap *map)
 	if (priv->zoom_state == E_MAP_ZOOMED_IN) return 2.0;
 	else return 1.0;
 }
-
 
 void
 e_map_zoom_to_location (EMap *map, double longitude, double latitude)
@@ -720,7 +692,6 @@ e_map_zoom_to_location (EMap *map, double longitude, double latitude)
 	zoom_do (map);
 }
 
-
 void
 e_map_zoom_out (EMap *map)
 {
@@ -738,13 +709,11 @@ e_map_zoom_out (EMap *map)
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
 }
 
-
 void
 e_map_set_smooth_zoom (EMap *map, gboolean state)
 {
 	((EMapPrivate *) map->priv)->smooth_zoom = state;
 }
-
 
 gboolean
 e_map_get_smooth_zoom (EMap *map)
@@ -752,13 +721,11 @@ e_map_get_smooth_zoom (EMap *map)
 	return (((EMapPrivate *) map->priv)->smooth_zoom);
 }
 
-
 void
 e_map_freeze (EMap *map)
 {
 	((EMapPrivate *) map->priv)->frozen = TRUE;
 }
-
 
 void
 e_map_thaw (EMap *map)
@@ -767,9 +734,7 @@ e_map_thaw (EMap *map)
 	update_and_paint (map);
 }
 
-
 /* --- Point manipulation --- */
-
 
 EMapPoint *
 e_map_add_point (EMap *map, gchar *name, double longitude, double latitude, guint32 color_rgba)
@@ -796,7 +761,6 @@ e_map_add_point (EMap *map, gchar *name, double longitude, double latitude, guin
 	return point;
 }
 
-
 void
 e_map_remove_point (EMap *map, EMapPoint *point)
 {
@@ -817,7 +781,6 @@ e_map_remove_point (EMap *map, EMapPoint *point)
 	g_free (point);
 }
 
-
 void
 e_map_point_get_location (EMapPoint *point, double *longitude, double *latitude)
 {
@@ -825,20 +788,17 @@ e_map_point_get_location (EMapPoint *point, double *longitude, double *latitude)
 	*latitude = point->latitude;
 }
 
-
 gchar *
 e_map_point_get_name (EMapPoint *point)
 {
 	return point->name;
 }
 
-
 guint32
 e_map_point_get_color_rgba (EMapPoint *point)
 {
 	return point->rgba;
 }
-
 
 void
 e_map_point_set_color_rgba (EMap *map, EMapPoint *point, guint32 color_rgba)
@@ -854,20 +814,17 @@ e_map_point_set_color_rgba (EMap *map, EMapPoint *point, guint32 color_rgba)
 	}
 }
 
-
 void
 e_map_point_set_data (EMapPoint *point, gpointer data)
 {
 	point->user_data = data;
 }
 
-
 gpointer
 e_map_point_get_data (EMapPoint *point)
 {
 	return point->user_data;
 }
-
 
 gboolean
 e_map_point_is_in_view (EMap *map, EMapPoint *point)
@@ -886,7 +843,6 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 
 	return FALSE;
 }
-
 
 EMapPoint *
 e_map_get_closest_point (EMap *map, double longitude, double latitude, gboolean in_view)
@@ -918,11 +874,9 @@ e_map_get_closest_point (EMap *map, double longitude, double latitude, gboolean 
 	return point_chosen;
 }
 
-
 /* ------------------ *
  * Internal functions *
  * ------------------ */
-
 
 static void
 repaint_visible (EMap *map)
@@ -937,14 +891,12 @@ repaint_visible (EMap *map)
 	request_paint_area (map, &area);
 }
 
-
 static void
 update_and_paint (EMap *map)
 {
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
 	repaint_visible (map);
 }
-
 
 static gint
 load_map_background (EMap *view, gchar *name)
@@ -964,7 +916,6 @@ load_map_background (EMap *view, gchar *name)
 
 	return TRUE;
 }
-
 
 static void
 update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
@@ -1031,7 +982,6 @@ update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays)
 
 	set_scroll_area (map);
 }
-
 
 /* Queues a repaint of the specified area in window coordinates */
 
@@ -1106,7 +1056,6 @@ put_pixel_with_clipping (GdkPixbuf *pixbuf, gint x, gint y, guint rgba)
 	}
 }
 
-
 /* Redraw point in client pixbuf */
 
 static void
@@ -1140,7 +1089,6 @@ update_render_point (EMap *map, EMapPoint *point)
 	put_pixel_with_clipping (pb, px + 1, py + 1, 0x000000ff);
 }
 
-
 /* Repaint point on X server */
 
 static void
@@ -1159,7 +1107,6 @@ repaint_point (EMap *map, EMapPoint *point)
 	area.height = 5;
 	request_paint_area (map, &area);
 }
-
 
 static void
 center_at (EMap *map, gint x, gint y, gboolean scroll)
@@ -1186,7 +1133,6 @@ center_at (EMap *map, gint x, gint y, gboolean scroll)
 		priv->yofs = y;
 	}
 }
-
 
 static void
 smooth_center_at (EMap *map, gint x, gint y)
@@ -1217,7 +1163,6 @@ smooth_center_at (EMap *map, gint x, gint y)
 		scroll_to (map, priv->xofs + dx, priv->yofs + dy);
 	}
 }
-
 
 /* Scrolls the view to the specified offsets.  Does not perform range checking!  */
 
@@ -1321,7 +1266,6 @@ scroll_to (EMap *view, gint x, gint y)
 	}
 }
 
-
 static gint divide_seq[] =
 {
 	/* Dividends for divisor of 2 */
@@ -1397,14 +1341,12 @@ static gint divide_seq[] =
 	0
 };
 
-
 typedef enum
 {
 	AXIS_X,
 	AXIS_Y
 }
 AxisType;
-
 
 static void
 blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, gint target_y, gint total_width, gint total_height, gfloat zoom_factor)
@@ -1418,7 +1360,6 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 	gint area_width, area_height;
 	gint i, j;
 	gint line;
-
 
 	/* Set up the GC we'll be using */
 
@@ -1541,7 +1482,6 @@ blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, 
 	g_object_unref (gc);
 }
 
-
 static void
 zoom_in_smooth (EMap *map)
 {
@@ -1598,7 +1538,6 @@ zoom_in_smooth (EMap *map)
 	request_paint_area (map, &area);
 }
 
-
 static void
 zoom_in (EMap *map)
 {
@@ -1623,7 +1562,6 @@ zoom_in (EMap *map)
 
 	request_paint_area (map, &area);
 }
-
 
 static void
 zoom_out (EMap *map)
@@ -1654,7 +1592,6 @@ zoom_out (EMap *map)
 	repaint_visible (map);
 }
 
-
 static void
 zoom_do (EMap *map)
 {
@@ -1681,7 +1618,6 @@ zoom_do (EMap *map)
 	set_scroll_area(map);
 }
 
-
 /* Callback used when an adjustment is changed */
 
 static void
@@ -1695,7 +1631,6 @@ adjustment_changed_cb (GtkAdjustment *adj, gpointer data)
 
 	scroll_to (view, priv->hadj->value, priv->vadj->value);
 }
-
 
 static void
 set_scroll_area (EMap *view)

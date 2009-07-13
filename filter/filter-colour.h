@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifndef _FILTER_COLOUR_H
 #define _FILTER_COLOUR_H
 

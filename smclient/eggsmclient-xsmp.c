@@ -65,7 +65,7 @@ typedef enum
   XSMP_STATE_CONNECTION_CLOSED
 } EggSMClientXSMPState;
 
-static const char *state_names[] = {
+static const gchar *state_names[] = {
   "idle",
   "save-yourself",
   "interact-request",
@@ -82,12 +82,12 @@ struct _EggSMClientXSMP
   EggSMClient parent;
 
   SmcConn connection;
-  char *client_id;
+  gchar *client_id;
 
   EggSMClientXSMPState state;
-  char **restart_command;
+  gchar **restart_command;
   gboolean set_restart_command;
-  int restart_style;
+  gint restart_style;
 
   guint idle;
 
@@ -113,10 +113,10 @@ struct _EggSMClientXSMPClass
 };
 
 static void     sm_client_xsmp_startup (EggSMClient *client,
-					const char  *client_id);
+					const gchar  *client_id);
 static void     sm_client_xsmp_set_restart_command (EggSMClient  *client,
-						    int           argc,
-						    const char  **argv);
+						    gint           argc,
+						    const gchar  **argv);
 static void     sm_client_xsmp_will_quit (EggSMClient *client,
 					  gboolean     will_quit);
 static gboolean sm_client_xsmp_end_session (EggSMClient         *client,
@@ -125,9 +125,9 @@ static gboolean sm_client_xsmp_end_session (EggSMClient         *client,
 
 static void xsmp_save_yourself      (SmcConn   smc_conn,
 				     SmPointer client_data,
-				     int       save_style,
+				     gint       save_style,
 				     Bool      shutdown,
-				     int       interact_style,
+				     gint       interact_style,
 				     Bool      fast);
 static void xsmp_die                (SmcConn   smc_conn,
 				     SmPointer client_data);
@@ -138,21 +138,21 @@ static void xsmp_shutdown_cancelled (SmcConn   smc_conn,
 static void xsmp_interact           (SmcConn   smc_conn,
 				     SmPointer client_data);
 
-static SmProp *array_prop        (const char    *name,
+static SmProp *array_prop        (const gchar    *name,
 				  ...);
-static SmProp *ptrarray_prop     (const char    *name,
+static SmProp *ptrarray_prop     (const gchar    *name,
 				  GPtrArray     *values);
-static SmProp *string_prop       (const char    *name,
-				  const char    *value);
-static SmProp *card8_prop        (const char    *name,
-				  unsigned char  value);
+static SmProp *string_prop       (const gchar    *name,
+				  const gchar    *value);
+static SmProp *card8_prop        (const gchar    *name,
+				  guchar  value);
 
 static void set_properties         (EggSMClientXSMP *xsmp, ...);
 static void delete_properties      (EggSMClientXSMP *xsmp, ...);
 
-static GPtrArray *generate_command (char       **restart_command,
-				    const char  *client_id,
-				    const char  *state_file);
+static GPtrArray *generate_command (gchar       **restart_command,
+				    const gchar  *client_id,
+				    const gchar  *state_file);
 
 static void save_state            (EggSMClientXSMP *xsmp);
 static void do_save_yourself      (EggSMClientXSMP *xsmp);
@@ -162,10 +162,10 @@ static void     ice_init             (void);
 static gboolean process_ice_messages (IceConn       ice_conn);
 static void     smc_error_handler    (SmcConn       smc_conn,
 				      Bool          swap,
-				      int           offending_minor_opcode,
+				      gint           offending_minor_opcode,
 				      unsigned long offending_sequence,
-				      int           error_class,
-				      int           severity,
+				      gint           error_class,
+				      gint           severity,
 				      SmPointer     values);
 
 G_DEFINE_TYPE (EggSMClientXSMP, egg_sm_client_xsmp, EGG_TYPE_SM_CLIENT)
@@ -204,7 +204,7 @@ sm_client_xsmp_set_initial_properties (gpointer user_data)
   EggSMClientXSMP *xsmp = user_data;
   EggDesktopFile *desktop_file;
   GPtrArray *clone, *restart;
-  char pid_str[64];
+  gchar pid_str[64];
 
   if (xsmp->idle)
     {
@@ -221,12 +221,12 @@ sm_client_xsmp_set_initial_properties (gpointer user_data)
   if (desktop_file)
     {
       GError *err = NULL;
-      char *cmdline, **argv;
-      int argc;
+      gchar *cmdline, **argv;
+      gint argc;
 
       if (xsmp->restart_style == SmRestartIfRunning)
 	{
-	  if (egg_desktop_file_get_boolean (desktop_file, 
+	  if (egg_desktop_file_get_boolean (desktop_file,
 					    "X-GNOME-AutoRestart", NULL))
 	    xsmp->restart_style = SmRestartImmediately;
 	}
@@ -237,7 +237,7 @@ sm_client_xsmp_set_initial_properties (gpointer user_data)
 	  if (cmdline && g_shell_parse_argv (cmdline, &argc, &argv, &err))
 	    {
 	      egg_sm_client_set_restart_command (EGG_SM_CLIENT (xsmp),
-						 argc, (const char **)argv);
+						 argc, (const gchar **)argv);
 	      g_strfreev (argv);
 	    }
 	  else
@@ -310,12 +310,12 @@ sm_client_xsmp_disconnect (EggSMClientXSMP *xsmp)
 
 static void
 sm_client_xsmp_startup (EggSMClient *client,
-			const char  *client_id)
+			const gchar  *client_id)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *)client;
   SmcCallbacks callbacks;
-  char *ret_client_id;
-  char error_string_ret[256];
+  gchar *ret_client_id;
+  gchar error_string_ret[256];
 
   xsmp->client_id = g_strdup (client_id);
 
@@ -387,15 +387,15 @@ sm_client_xsmp_startup (EggSMClient *client,
 
 static void
 sm_client_xsmp_set_restart_command (EggSMClient  *client,
-				    int           argc,
-				    const char  **argv)
+				    gint           argc,
+				    const gchar  **argv)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *)client;
-  int i;
+  gint i;
 
   g_strfreev (xsmp->restart_command);
 
-  xsmp->restart_command = g_new (char *, argc + 1);
+  xsmp->restart_command = g_new (gchar *, argc + 1);
   for (i = 0; i < argc; i++)
     xsmp->restart_command[i] = g_strdup (argv[i]);
   xsmp->restart_command[i] = NULL;
@@ -447,7 +447,7 @@ sm_client_xsmp_end_session (EggSMClient         *client,
 			    gboolean             request_confirmation)
 {
   EggSMClientXSMP *xsmp = (EggSMClientXSMP *)client;
-  int save_type;
+  gint save_type;
 
   /* To end the session via XSMP, we have to send a
    * SaveYourselfRequest. We aren't allowed to do that if anything
@@ -587,7 +587,7 @@ update_pending_events (EggSMClientXSMP *xsmp)
 }
 
 static void
-fix_broken_state (EggSMClientXSMP *xsmp, const char *message,
+fix_broken_state (EggSMClientXSMP *xsmp, const gchar *message,
 		  gboolean send_interact_done,
 		  gboolean send_save_yourself_done)
 {
@@ -611,9 +611,9 @@ fix_broken_state (EggSMClientXSMP *xsmp, const char *message,
 static void
 xsmp_save_yourself (SmcConn   smc_conn,
 		    SmPointer client_data,
-		    int       save_type,
+		    gint       save_type,
 		    Bool      shutdown,
-		    int       interact_style,
+		    gint       interact_style,
 		    Bool      fast)
 {
   EggSMClientXSMP *xsmp = client_data;
@@ -666,13 +666,13 @@ xsmp_save_yourself (SmcConn   smc_conn,
    * different combinations of save_type, shutdown and interact_style.
    * We interpret them as follows:
    *
-   *   Type  Shutdown  Interact	 Interpretation
-   *     G      F       A/E/N  	 do nothing (1)
-   *     G      T         N    	 do nothing (1)*
-   *     G      T        A/E   	 quit_requested (2)
-   *    L/B     F       A/E/N  	 save_state (3)
-   *    L/B     T         N    	 save_state (3)*
-   *    L/B     T        A/E   	 quit_requested, then save_state (4)
+   *   Type  Shutdown  Interact  Interpretation
+   *     G      F       A/E/N    do nothing (1)
+   *     G      T         N      do nothing (1)*
+   *     G      T        A/E     quit_requested (2)
+   *    L/B     F       A/E/N    save_state (3)
+   *    L/B     T         N      save_state (3)*
+   *    L/B     T        A/E     quit_requested, then save_state (4)
    *
    *   1. Do nothing, because the SM asked us to do something
    *      uninteresting (save open files, but then don't quit
@@ -769,10 +769,10 @@ static void
 save_state (EggSMClientXSMP *xsmp)
 {
   GKeyFile *state_file;
-  char *state_file_path, *data;
+  gchar *state_file_path, *data;
   EggDesktopFile *desktop_file;
   GPtrArray *restart;
-  int offset, fd;
+  gint offset, fd;
 
   /* We set xsmp->state before emitting save_state, but our caller is
    * responsible for setting it back afterward.
@@ -795,7 +795,7 @@ save_state (EggSMClientXSMP *xsmp)
   if (desktop_file)
     {
       GKeyFile *merged_file;
-      char *desktop_file_path;
+      gchar *desktop_file_path;
 
       merged_file = g_key_file_new ();
       desktop_file_path =
@@ -807,7 +807,7 @@ save_state (EggSMClientXSMP *xsmp)
 				     G_KEY_FILE_KEEP_TRANSLATIONS, NULL))
 	{
 	  guint g, k, i;
-	  char **groups, **keys, *value, *exec;
+	  gchar **groups, **keys, *value, *exec;
 
 	  groups = g_key_file_get_groups (state_file, NULL);
 	  for (g = 0; groups[g]; g++)
@@ -837,8 +837,8 @@ save_state (EggSMClientXSMP *xsmp)
 	  for (i = 0; i < restart->len; i++)
 	    restart->pdata[i] = g_shell_quote (restart->pdata[i]);
 	  g_ptr_array_add (restart, NULL);
-	  exec = g_strjoinv (" ", (char **)restart->pdata);
-	  g_strfreev ((char **)restart->pdata);
+	  exec = g_strjoinv (" ", (gchar **)restart->pdata);
+	  g_strfreev ((gchar **)restart->pdata);
 	  g_ptr_array_free (restart, FALSE);
 
 	  g_key_file_set_string (state_file, EGG_DESKTOP_FILE_GROUP,
@@ -881,7 +881,7 @@ save_state (EggSMClientXSMP *xsmp)
 	    }
 	  else if (errno == ENOTDIR || errno == ENOENT)
 	    {
-	      char *sep = strrchr (state_file_path, G_DIR_SEPARATOR);
+	      gchar *sep = strrchr (state_file_path, G_DIR_SEPARATOR);
 
 	      *sep = '\0';
 	      if (g_mkdir_with_parents (state_file_path, 0755) != 0)
@@ -1041,25 +1041,25 @@ xsmp_shutdown_cancelled (SmcConn   smc_conn,
  * then free the array, but not its contents.
  */
 static GPtrArray *
-generate_command (char **restart_command, const char *client_id,
-		  const char *state_file)
+generate_command (gchar **restart_command, const gchar *client_id,
+		  const gchar *state_file)
 {
   GPtrArray *cmd;
-  int i;
+  gint i;
 
   cmd = g_ptr_array_new ();
   g_ptr_array_add (cmd, restart_command[0]);
 
   if (client_id)
     {
-      g_ptr_array_add (cmd, (char *)"--sm-client-id");
-      g_ptr_array_add (cmd, (char *)client_id);
+      g_ptr_array_add (cmd, (gchar *)"--sm-client-id");
+      g_ptr_array_add (cmd, (gchar *)client_id);
     }
 
   if (state_file)
     {
-      g_ptr_array_add (cmd, (char *)"--sm-client-state-file");
-      g_ptr_array_add (cmd, (char *)state_file);
+      g_ptr_array_add (cmd, (gchar *)"--sm-client-state-file");
+      g_ptr_array_add (cmd, (gchar *)state_file);
     }
 
   for (i = 1; restart_command[i]; i++)
@@ -1107,7 +1107,7 @@ static void
 delete_properties (EggSMClientXSMP *xsmp, ...)
 {
   GPtrArray *props;
-  char *prop;
+  gchar *prop;
   va_list ap;
 
   if (!xsmp->connection)
@@ -1116,12 +1116,12 @@ delete_properties (EggSMClientXSMP *xsmp, ...)
   props = g_ptr_array_new ();
 
   va_start (ap, xsmp);
-  while ((prop = va_arg (ap, char *)))
+  while ((prop = va_arg (ap, gchar *)))
     g_ptr_array_add (props, prop);
   va_end (ap);
 
   SmcDeleteProperties (xsmp->connection, props->len,
-		       (char **)props->pdata);
+		       (gchar **)props->pdata);
 
   g_ptr_array_free (props, TRUE);
 }
@@ -1131,22 +1131,22 @@ delete_properties (EggSMClientXSMP *xsmp, ...)
  * until you're done with the SmProp.
  */
 static SmProp *
-array_prop (const char *name, ...) 
+array_prop (const gchar *name, ...)
 {
   SmProp *prop;
   SmPropValue pv;
   GArray *vals;
-  char *value;
+  gchar *value;
   va_list ap;
 
   prop = g_new (SmProp, 1);
-  prop->name = (char *)name;
-  prop->type = (char *)SmLISTofARRAY8;
+  prop->name = (gchar *)name;
+  prop->type = (gchar *)SmLISTofARRAY8;
 
   vals = g_array_new (FALSE, FALSE, sizeof (SmPropValue));
 
   va_start (ap, name);
-  while ((value = va_arg (ap, char *)))
+  while ((value = va_arg (ap, gchar *)))
     {
       pv.length = strlen (value);
       pv.value = value;
@@ -1166,7 +1166,7 @@ array_prop (const char *name, ...)
  * remain valid until you're done with the SmProp.
  */
 static SmProp *
-ptrarray_prop (const char *name, GPtrArray *values)
+ptrarray_prop (const gchar *name, GPtrArray *values)
 {
   SmProp *prop;
   SmPropValue pv;
@@ -1174,8 +1174,8 @@ ptrarray_prop (const char *name, GPtrArray *values)
   guint i;
 
   prop = g_new (SmProp, 1);
-  prop->name = (char *)name;
-  prop->type = (char *)SmLISTofARRAY8;
+  prop->name = (gchar *)name;
+  prop->type = (gchar *)SmLISTofARRAY8;
 
   vals = g_array_new (FALSE, FALSE, sizeof (SmPropValue));
 
@@ -1199,29 +1199,29 @@ ptrarray_prop (const char *name, GPtrArray *values)
  * done with the SmProp.
  */
 static SmProp *
-string_prop (const char *name, const char *value)
+string_prop (const gchar *name, const gchar *value)
 {
   SmProp *prop;
 
   prop = g_new (SmProp, 1);
-  prop->name = (char *)name;
-  prop->type = (char *)SmARRAY8;
+  prop->name = (gchar *)name;
+  prop->type = (gchar *)SmARRAY8;
 
   prop->num_vals = 1;
   prop->vals = g_new (SmPropValue, 1);
 
   prop->vals[0].length = strlen (value);
-  prop->vals[0].value = (char *)value;
+  prop->vals[0].value = (gchar *)value;
 
   return prop;
 }
 
-/* Takes a char and creates a CARD8 property. */
+/* Takes a gchar and creates a CARD8 property. */
 static SmProp *
-card8_prop (const char *name, unsigned char value)
+card8_prop (const gchar *name, guchar value)
 {
   SmProp *prop;
-  char *card8val;
+  gchar *card8val;
 
   /* To avoid having to allocate and free prop->vals[0], we cheat and
    * make vals a 2-element-long array and then use the second element
@@ -1229,12 +1229,12 @@ card8_prop (const char *name, unsigned char value)
    */
 
   prop = g_new (SmProp, 1);
-  prop->name = (char *)name;
-  prop->type = (char *)SmCARD8;
+  prop->name = (gchar *)name;
+  prop->type = (gchar *)SmCARD8;
 
   prop->num_vals = 1;
   prop->vals = g_new (SmPropValue, 2);
-  card8val = (char *)(&prop->vals[1]);
+  card8val = (gchar *)(&prop->vals[1]);
   card8val[0] = value;
 
   prop->vals[0].length = 1;
@@ -1258,10 +1258,10 @@ card8_prop (const char *name, unsigned char value)
 
 static void        ice_error_handler    (IceConn        ice_conn,
 					 Bool           swap,
-					 int            offending_minor_opcode,
+					 gint            offending_minor_opcode,
 					 unsigned long  offending_sequence,
-					 int            error_class,
-					 int            severity,
+					 gint            error_class,
+					 gint            severity,
 					 IcePointer     values);
 static void        ice_io_error_handler (IceConn        ice_conn);
 static void        ice_connection_watch (IceConn        ice_conn,
@@ -1322,7 +1322,7 @@ ice_connection_watch (IceConn     ice_conn,
   if (opening)
     {
       GIOChannel *channel;
-      int fd = IceConnectionNumber (ice_conn);
+      gint fd = IceConnectionNumber (ice_conn);
 
       fcntl (fd, F_SETFD, fcntl (fd, F_GETFD, 0) | FD_CLOEXEC);
       channel = g_io_channel_unix_new (fd);
@@ -1342,28 +1342,28 @@ ice_connection_watch (IceConn     ice_conn,
 static void
 ice_error_handler (IceConn       ice_conn,
 		   Bool          swap,
-		   int           offending_minor_opcode,
+		   gint           offending_minor_opcode,
 		   unsigned long offending_sequence,
-		   int           error_class,
-		   int           severity,
+		   gint           error_class,
+		   gint           severity,
 		   IcePointer    values)
 {
   /* Do nothing */
-} 
+}
 
 static void
 ice_io_error_handler (IceConn ice_conn)
 {
   /* Do nothing */
-} 
+}
 
 static void
 smc_error_handler (SmcConn       smc_conn,
                    Bool          swap,
-                   int           offending_minor_opcode,
+                   gint           offending_minor_opcode,
                    unsigned long offending_sequence,
-                   int           error_class,
-                   int           severity,
+                   gint           error_class,
+                   gint           severity,
                    SmPointer     values)
 {
   /* Do nothing */

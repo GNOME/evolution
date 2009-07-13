@@ -615,7 +615,6 @@ e_meeting_attendee_get_atype (EMeetingAttendee *ia)
 	return E_MEETING_ATTENDEE_OPTIONAL_PERSON;
 }
 
-
 EMeetingAttendeeEditLevel
 e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
 {
@@ -641,7 +640,6 @@ e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLev
 
 	priv->edit_level = level;
 }
-
 
 static gint
 compare_times (EMeetingTime *time1,

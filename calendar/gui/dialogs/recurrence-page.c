@@ -2387,7 +2387,6 @@ recurrence_page_new (CompEditor *editor)
 	return rpage;
 }
 
-
 GtkWidget *make_exdate_date_edit (void);
 
 GtkWidget *

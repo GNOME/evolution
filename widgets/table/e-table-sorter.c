@@ -306,7 +306,6 @@ ets_clean(ETableSorter *ets)
 	ets->needs_sorting = -1;
 }
 
-
 static void
 ets_sort(ETableSorter *ets)
 {
@@ -380,7 +379,6 @@ ets_backsort(ETableSorter *ets)
 	}
 }
 
-
 static gint
 ets_model_to_sorted (ESorter *es, gint row)
 {
@@ -444,7 +442,6 @@ ets_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 			*count = e_table_model_row_count(ets->source);
 	}
 }
-
 
 static gboolean
 ets_needs_sorting(ESorter *es)

@@ -55,7 +55,6 @@ GType                e_pkcs12_get_type     (void);
 
 EPKCS12*             e_pkcs12_new (void);
 
-
 #if 0
 /* XXX we're not going to support additional slots in the initial ssl
    stuff, so we just always default to the internal token (and thus

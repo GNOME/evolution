@@ -389,7 +389,6 @@ get_recipients (ECalComponent *comp)
 	return "";
 }
 
-
 static gboolean
 fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 {

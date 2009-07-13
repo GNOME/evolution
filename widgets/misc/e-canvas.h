@@ -50,7 +50,6 @@ typedef gint            (*ECanvasItemSelectionCompareFunc)      (GnomeCanvasItem
 								 gpointer         data2,
 								 gint             flags);
 
-
 typedef struct _ECanvas       ECanvas;
 typedef struct _ECanvasClass  ECanvasClass;
 
@@ -101,7 +100,6 @@ struct _ECanvasClass
 	void (* reflow) (ECanvas *canvas);
 };
 
-
 GType      e_canvas_get_type                             (void);
 GtkWidget *e_canvas_new                                  (void);
 
@@ -146,6 +144,5 @@ void       e_canvas_popup_tooltip                        (ECanvas               
 void       e_canvas_hide_tooltip                         (ECanvas                         *canvas);
 
 G_END_DECLS
-
 
 #endif /* __E_CANVAS_H__ */

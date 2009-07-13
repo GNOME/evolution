@@ -42,7 +42,6 @@ G_BEGIN_DECLS
  * y2                   double		RW              If you need the rectangle to have negative coordinates, use an affine.
  */
 
-
 #define E_CANVAS_BACKGROUND_TYPE            (e_canvas_background_get_type ())
 #define E_CANVAS_BACKGROUND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_CANVAS_BACKGROUND_TYPE, ECanvasBackground))
 #define E_CANVAS_BACKGROUND_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_CANVAS_BACKGROUND_TYPE, ECanvasBackgroundClass))
@@ -63,7 +62,6 @@ struct _ECanvasBackgroundClass {
 	GnomeCanvasItemClass parent_class;
 	void        (*style_set)        (ECanvasBackground *eti, GtkStyle *previous_style);
 };
-
 
 /* Standard Gtk function */
 GType e_canvas_background_get_type (void);

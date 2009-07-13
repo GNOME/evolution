@@ -64,7 +64,6 @@ struct _SchedulePageClass {
 	CompEditorPageClass parent_class;
 };
 
-
 GType		schedule_page_get_type		(void);
 SchedulePage *	schedule_page_construct		(SchedulePage *mpage,
 						 EMeetingStore *ems);

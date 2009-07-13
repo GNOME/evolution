@@ -81,7 +81,6 @@ EABContactDisplayMode
 void		eab_contact_display_set_mode	(EABContactDisplay *display,
 						 EABContactDisplayMode mode);
 
-
 G_END_DECLS
 
 #endif /* EAB_CONTACT_DISPLAY_H */

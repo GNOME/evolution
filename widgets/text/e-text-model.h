@@ -82,7 +82,6 @@ void        e_text_model_cancel_completion (ETextModel *model);
 void        e_text_model_reposition        (ETextModel *model, ETextModelReposFn fn, gpointer repos_data);
 gint        e_text_model_validate_position (ETextModel *model, gint pos);
 
-
 /* Functions for manipulating the underlying text. */
 
 const gchar *e_text_model_get_text        (ETextModel *model);
@@ -93,7 +92,6 @@ void         e_text_model_insert_length   (ETextModel *model, gint position, con
 void         e_text_model_prepend         (ETextModel *model, const gchar *text);
 void         e_text_model_append          (ETextModel *model, const gchar *text);
 void         e_text_model_delete          (ETextModel *model, gint position, gint length);
-
 
 /* Functions for accessing embedded objects. */
 

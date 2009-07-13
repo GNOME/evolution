@@ -1746,7 +1746,6 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 		i++;
 	}
 
-
 	gtk_cell_layout_clear ((GtkCellLayout *)dropdown);
 	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
 	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);

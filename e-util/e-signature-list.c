@@ -51,9 +51,7 @@ static void e_signature_list_init (ESignatureList *list, ESignatureListClass *kl
 static void e_signature_list_finalize (GObject *object);
 static void e_signature_list_dispose (GObject *object);
 
-
 static EListClass *parent_class = NULL;
-
 
 GType
 e_signature_list_get_type (void)
@@ -76,7 +74,6 @@ e_signature_list_get_type (void)
 
 	return type;
 }
-
 
 static void
 e_signature_list_class_init (ESignatureListClass *klass)
@@ -325,7 +322,6 @@ e_signature_list_construct (ESignatureList *signature_list, GConfClient *gconf)
 	}
 }
 
-
 /**
  * e_signature_list_save:
  * @signature_list: an #ESignatureList
@@ -363,7 +359,6 @@ e_signature_list_save (ESignatureList *signature_list)
 	gconf_client_suggest_sync (signature_list->priv->gconf, NULL);
 }
 
-
 /**
  * e_signature_list_add:
  * @signatures: signature list
@@ -379,7 +374,6 @@ e_signature_list_add (ESignatureList *signatures, ESignature *signature)
 	g_signal_emit (signatures, signals[SIGNATURE_ADDED], 0, signature);
 }
 
-
 /**
  * e_signature_list_change:
  * @signatures: signature list
@@ -393,7 +387,6 @@ e_signature_list_change (ESignatureList *signatures, ESignature *signature)
 	/* maybe the signature should do this itself ... */
 	g_signal_emit (signatures, signals[SIGNATURE_CHANGED], 0, signature);
 }
-
 
 /**
  * e_signature_list_remove:
@@ -413,7 +406,6 @@ e_signature_list_remove (ESignatureList *signatures, ESignature *signature)
 	g_signal_emit (signatures, signals[SIGNATURE_REMOVED], 0, signature);
 	g_object_unref (signature);
 }
-
 
 /**
  * e_signature_list_find:

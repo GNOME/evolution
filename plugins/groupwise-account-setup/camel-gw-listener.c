@@ -64,7 +64,6 @@ static GObjectClass *parent_class = NULL;
 static void dispose (GObject *object);
 static void finalize (GObject *object);
 
-
 static void
 camel_gw_listener_class_init (CamelGwListenerClass *class)
 {
@@ -197,7 +196,6 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
-
 	offline_sync = camel_url_get_param (url, "offline_sync");
 
 	client = gconf_client_get_default();
@@ -209,7 +207,6 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 
 	if (!can_create)
 		e_source_group_set_property (group, "create_source", "no");
-
 
 	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
 	source = e_source_new (source_name, relative_uri);
@@ -327,7 +324,6 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 
 		}
 
-
 	}
 
 	g_object_unref (list);
@@ -410,7 +406,6 @@ modify_esource (const gchar * conf_key, GwAccountInfo *old_account_info, EAccoun
 	camel_url_free (url);
 	g_free (old_relative_uri);
 
-
 }
 /* add sources for calendar and tasks if the account added is groupwise account
    adds the new account info to  groupwise_accounts list */
@@ -426,7 +421,6 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	add_esource ("/apps/evolution/memos/sources", info, _("Notes"), url, NULL, TRUE);
 
 	camel_url_free (url);
-
 
 }
 
@@ -682,7 +676,6 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 	GConfClient *client;
 	const gchar *poa_address;
 
-
 	url = camel_url_new (existing_account_info->source_url, NULL);
 	if (url == NULL) {
 		return;
@@ -747,7 +740,6 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 	camel_url_free (url);
 	g_object_unref (client);
 
-
 }
 
 static void
@@ -797,7 +789,6 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	g_object_unref (client);
 	g_free (base_uri);
 	camel_url_free (url);
-
 
 }
 
@@ -856,7 +847,6 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	g_free (info->source_url);
         g_free (info);
 }
-
 
 static void
 account_changed (EAccountList *account_listener, EAccount *account)

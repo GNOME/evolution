@@ -34,8 +34,6 @@
 #include "util.h"
 #include "e-util/e-util-private.h"
 
-
-
 enum {
 	ALARM_DISPLAY_COLUMN,
 	ALARM_SUMMARY_COLUMN,
@@ -331,7 +329,6 @@ notified_alarms_dialog_new (void)
 	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
 			G_CALLBACK (an_update_hrs_label), an);
 
-
 	na = g_new0 (AlarmNotificationsDialog, 1);
 
 	na->treeview = an->treeview;
@@ -339,7 +336,6 @@ notified_alarms_dialog_new (void)
 
 	return na;
 }
-
 
 /**
  * add_alarm_to_notified_alarms_dialog:
@@ -437,8 +433,6 @@ tree_selection_changed_cb (GtkTreeSelection *selection, gpointer user_data)
 		gtk_widget_set_sensitive (an->snooze_btn, FALSE);
 	}
 }
-
-
 
 static void
 fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,

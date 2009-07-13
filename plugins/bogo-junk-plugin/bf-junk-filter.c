@@ -52,7 +52,6 @@
 #include <camel/camel-debug.h>
 #include <gconf/gconf-client.h>
 
-
 #ifndef BOGOFILTER_BINARY
 #define BOGOFILTER_BINARY "/usr/bin/bogofilter"
 #endif
@@ -60,7 +59,6 @@
 #define BOGOFILTER_ERROR 3
 
 #define EM_JUNK_BF_GCONF_DIR "/apps/evolution/mail/junk/bogofilter"
-
 
 #define d(x) (camel_debug("junk")?(x):0)
 
@@ -83,7 +81,6 @@ static gint pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GErro
 gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 
 #define EM_JUNK_BF_GCONF_DIR_LENGTH (G_N_ELEMENTS (em_junk_bf_gconf_dir) - 1)
-
 
 static gboolean em_junk_bf_unicode = TRUE;
 
@@ -379,5 +376,4 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 	gtk_widget_show (check);
 	return (GtkWidget *)check;
 }
-
 

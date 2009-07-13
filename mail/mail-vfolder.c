@@ -301,7 +301,6 @@ static MailMsgInfo vfolder_adduri_info = {
 	(MailMsgFreeFunc) vfolder_adduri_free
 };
 
-
 /* uri should be a camel uri */
 static gint
 vfolder_adduri(const gchar *uri, GList *folders, gint remove)
@@ -1123,7 +1122,6 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 			e_error_run((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
 			return;
 		}
-
 
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);

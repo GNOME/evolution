@@ -94,7 +94,6 @@ e_container_change_tab_order_destroy_notify(gpointer data)
 	g_list_free(list);
 }
 
-
 static gint
 e_container_change_tab_order_callback(GtkContainer *container,
 				      GtkDirectionType direction,

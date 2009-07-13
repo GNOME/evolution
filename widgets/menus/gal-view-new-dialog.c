@@ -254,7 +254,6 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 	}
 }
 
-
 static void
 gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {

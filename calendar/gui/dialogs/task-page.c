@@ -910,7 +910,6 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			return FALSE;
 		}
 
-
 		if (flags & COMP_EDITOR_DELEGATE ) {
 			GSList *attendee_list, *l;
 			gint i;
@@ -981,7 +980,6 @@ static void edit_clicked_cb (GtkButton *btn, TaskPage *tpage)
 	gtk_tree_view_set_cursor (GTK_TREE_VIEW (priv->list_view), path, focus_col, TRUE);
 	gtk_tree_path_free (path);
 }
-
 
 static gboolean
 existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
@@ -1295,7 +1293,6 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
 
 	return FALSE;
 }
-
 
 static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
@@ -1683,7 +1680,6 @@ times_updated (TaskPage *tpage, gboolean adjust_end_time)
 		else
 			set_start_date = TRUE;
 	}
-
 
 	if (set_start_date) {
 		g_signal_handlers_block_matched (priv->start_date, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, tpage);

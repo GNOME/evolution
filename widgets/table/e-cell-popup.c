@@ -45,9 +45,7 @@
 #define E_CELL_POPUP_ARROW_XPAD		3
 #define E_CELL_POPUP_ARROW_YPAD		3
 
-
 static void	e_cell_popup_dispose	(GObject	*object);
-
 
 static ECellView* ecp_new_view		(ECell		*ecell,
 					 ETableModel	*table_model,
@@ -143,14 +141,12 @@ e_cell_popup_class_init		(ECellPopupClass	*klass)
                                                 gal_a11y_e_cell_popup_new);
 }
 
-
 static void
 e_cell_popup_init		(ECellPopup	*ecp)
 {
 	ecp->popup_shown = FALSE;
 	ecp->popup_model = NULL;
 }
-
 
 /**
  * e_cell_popup_new:
@@ -167,7 +163,6 @@ e_cell_popup_new		(void)
 	return (ECell*) ecp;
 }
 
-
 /*
  * GtkObject::destroy method
  */
@@ -182,8 +177,6 @@ e_cell_popup_dispose (GObject *object)
 
 	G_OBJECT_CLASS (e_cell_popup_parent_class)->dispose (object);
 }
-
-
 
 /*
  * ECell::new_view method
@@ -211,7 +204,6 @@ ecp_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	return (ECellView*) ecp_view;
 }
 
-
 /*
  * ECell::kill_view method
  */
@@ -231,7 +223,6 @@ ecp_kill_view (ECellView *ecv)
 	g_free (ecp_view);
 }
 
-
 /*
  * ECell::realize method
  */
@@ -246,7 +237,6 @@ ecp_realize (ECellView *ecv)
 		(* E_CELL_CLASS (e_cell_popup_parent_class)->realize) (ecv);
 }
 
-
 /*
  * ECell::unrealize method
  */
@@ -260,7 +250,6 @@ ecp_unrealize (ECellView *ecv)
 	if (E_CELL_CLASS (e_cell_popup_parent_class)->unrealize)
 		(* E_CELL_CLASS (e_cell_popup_parent_class)->unrealize) (ecv);
 }
-
 
 /*
  * ECell::draw method
@@ -321,7 +310,6 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 	}
 }
 
-
 /*
  * ECell::event method
  */
@@ -364,7 +352,6 @@ ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
 			     row, flags, actions);
 }
 
-
 /*
  * ECell::height method
  */
@@ -376,7 +363,6 @@ ecp_height (ECellView *ecv, gint model_col, gint view_col, gint row)
 	return e_cell_height (ecp_view->child_view, model_col, view_col, row);
 }
 
-
 /*
  * ECellView::enter_edit method
  */
@@ -387,7 +373,6 @@ ecp_enter_edit (ECellView *ecv, gint model_col, gint view_col, gint row)
 
 	return e_cell_enter_edit (ecp_view->child_view, model_col, view_col, row);
 }
-
 
 /*
  * ECellView::leave_edit method
@@ -402,7 +387,6 @@ ecp_leave_edit (ECellView *ecv, gint model_col, gint view_col, gint row,
 			   edit_context);
 }
 
-
 static void
 ecp_print (ECellView *ecv, GtkPrintContext *context,
 	   gint model_col, gint view_col, gint row, double width, double height)
@@ -412,7 +396,6 @@ ecp_print (ECellView *ecv, GtkPrintContext *context,
 	e_cell_print (ecp_view->child_view, context, model_col, view_col, row,
 		      width, height);
 }
-
 
 static gdouble
 ecp_print_height (ECellView *ecv, GtkPrintContext *context,
@@ -425,7 +408,6 @@ ecp_print_height (ECellView *ecv, GtkPrintContext *context,
 				    view_col, row, width);
 }
 
-
 static gint
 ecp_max_width (ECellView *ecv,
 	       gint model_col,
@@ -435,7 +417,6 @@ ecp_max_width (ECellView *ecv,
 
 	return e_cell_max_width (ecp_view->child_view, model_col, view_col);
 }
-
 
 static void
 ecp_show_tooltip (ECellView *ecv,
@@ -459,8 +440,6 @@ ecp_get_bg_color (ECellView *ecell_view, gint row)
 	return e_cell_get_bg_color (ecp_view->child_view, row);
 }
 
-
-
 ECell*
 e_cell_popup_get_child			(ECellPopup	*ecp)
 {
@@ -468,7 +447,6 @@ e_cell_popup_get_child			(ECellPopup	*ecp)
 
 	return ecp->child;
 }
-
 
 void
 e_cell_popup_set_child			(ECellPopup	*ecp,
@@ -482,7 +460,6 @@ e_cell_popup_set_child			(ECellPopup	*ecp,
 	ecp->child = child;
 	g_object_ref (child);
 }
-
 
 static gint
 e_cell_popup_do_popup			(ECellPopupView	*ecp_view,

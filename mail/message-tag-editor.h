@@ -55,7 +55,6 @@ struct _MessageTagEditorClass {
 	/* signals */
 };
 
-
 GType message_tag_editor_get_type (void);
 
 /* methods */

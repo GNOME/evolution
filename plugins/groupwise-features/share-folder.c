@@ -182,7 +182,6 @@ free_all (ShareFolder *sf)
 	/* e_gw_connection_free_container_list (sf->container_list); */
 }
 
-
 static void
 display_container (EGwContainer *container , ShareFolder *sf)
 {
@@ -297,7 +296,6 @@ get_container_list (ShareFolder *sf)
 	}
 }
 
-
 static void
 shared_clicked (GtkRadioButton *button, ShareFolder *sf)
 {
@@ -348,7 +346,6 @@ add_clicked(GtkButton *button, ShareFolder *sf)
 
 				return;
 			}
-
 
 			/*check whether already exists*/
 			if (sf->users_list && email){
@@ -448,7 +445,6 @@ share_folder (ShareFolder *sf)
 				g_warning("Container is Null");
 			}
 
-
 		} else {
 			if (new_list) {
 				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, new_list, sf->sub, sf->mesg, 0) == E_GW_CONNECTION_STATUS_OK) {
@@ -504,7 +500,6 @@ not_cancel_clicked(GtkButton *button, GtkWidget *window)
 {
 	gtk_widget_destroy(window);
 }
-
 
 static void
 notification_clicked(GtkButton *button, ShareFolder *sf)
@@ -788,5 +783,4 @@ share_folder_new (EGwConnection *ccnc, gchar *id)
 
 	return (ShareFolder *) new;
 }
-
 

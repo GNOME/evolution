@@ -59,7 +59,6 @@ struct _ESignatureListClass {
 	void (* signature_removed) (ESignatureList *, ESignature *);
 };
 
-
 GType e_signature_list_get_type (void);
 
 ESignatureList *e_signature_list_new (GConfClient *gconf);

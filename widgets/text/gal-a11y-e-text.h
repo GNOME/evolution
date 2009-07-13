@@ -48,7 +48,6 @@ struct _GalA11yETextClass {
 	AtkObject parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_text_get_type  (void);
 

@@ -38,7 +38,6 @@ G_BEGIN_DECLS
 #define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE))
 #define E_IS_TEXT_EVENT_PROCESSOR_EMACS_LIKE_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_TYPE))
 
-
 typedef struct _ETextEventProcessorEmacsLike       ETextEventProcessorEmacsLike;
 typedef struct _ETextEventProcessorEmacsLikeClass  ETextEventProcessorEmacsLikeClass;
 
@@ -55,11 +54,9 @@ struct _ETextEventProcessorEmacsLikeClass
 	ETextEventProcessorClass parent_class;
 };
 
-
 GType      e_text_event_processor_emacs_like_get_type (void);
 ETextEventProcessor *e_text_event_processor_emacs_like_new (void);
 
 G_END_DECLS
-
 
 #endif /* __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__ */

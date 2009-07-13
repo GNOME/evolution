@@ -33,7 +33,6 @@ G_DEFINE_TYPE (GalView, gal_view, G_TYPE_OBJECT)
 
 d(static gint depth = 0;)
 
-
 enum {
 	CHANGED,
 	LAST_SIGNAL

@@ -395,7 +395,6 @@ emfv_edit_paste(BonoboUIComponent *uid, gpointer data, const gchar *path)
 //
 //}
 
-
 //static void
 //emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, gpointer data)
 //{
@@ -652,7 +651,6 @@ emfv_list_done_message_selected(CamelFolder *folder, const gchar *uid, CamelMime
 	emfv_enable_menus(emfv);
 	g_object_unref (emfv);
 }
-
 
 static gboolean
 emfv_message_selected_timeout(gpointer data)

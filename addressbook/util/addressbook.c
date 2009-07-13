@@ -241,8 +241,6 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	g_free (uri);
 }
 
-
-
 static void
 auth_required_cb (EBook *book, gpointer data)
 {
@@ -252,8 +250,6 @@ auth_required_cb (EBook *book, gpointer data)
 	load_source_data->cancelled = FALSE;
 	addressbook_authenticate (book, FALSE, load_source_data->source,
 				  load_source_auth_cb, load_source_data);
-
-
 
 }
 static void

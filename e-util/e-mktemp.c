@@ -185,7 +185,6 @@ e_mktemp (const gchar *template)
 	return ret;
 }
 
-
 gint
 e_mkstemp (const gchar *template)
 {
@@ -207,7 +206,6 @@ e_mkstemp (const gchar *template)
 
 	return fd;
 }
-
 
 gchar *
 e_mkdtemp (const gchar *template)

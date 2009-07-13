@@ -46,7 +46,6 @@ G_BEGIN_DECLS
 #define E_IS_MINICARD_LABEL(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_LABEL))
 #define E_IS_MINICARD_LABEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_LABEL))
 
-
 typedef struct _EMinicardLabel       EMinicardLabel;
 typedef struct _EMinicardLabelClass  EMinicardLabelClass;
 
@@ -73,12 +72,10 @@ struct _EMinicardLabelClass
 	void (* style_set) (EMinicardLabel *label, GtkStyle *previous_style);
 };
 
-
 GType      e_minicard_label_get_type (void);
 GnomeCanvasItem *e_minicard_label_new(GnomeCanvasGroup *parent);
 void e_minicard_label_construct (GnomeCanvasItem *item);
 
 G_END_DECLS
-
 
 #endif /* __E_MINICARD_LABEL_H__ */

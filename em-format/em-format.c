@@ -1990,7 +1990,6 @@ em_format_snoop_type (CamelMimePart *part)
 	} else
 		res = name_type;
 
-
 	if (res != name_type)
 		g_free (name_type);
 

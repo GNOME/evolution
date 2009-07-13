@@ -250,7 +250,6 @@ config_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *en
 	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_TODO);
 }
 
-
 static void
 config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
@@ -262,7 +261,6 @@ config_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *en
 {
 	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_JOURNAL);
 }
-
 
 static void
 config_primary_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
@@ -630,7 +628,6 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 		}
 	}
 }
-
 
 /* GObject methods.  */
 

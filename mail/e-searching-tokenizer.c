@@ -90,7 +90,6 @@ loop:
 	return v;
 }
 
-
 /* note: our tags of interest are 7 bit ascii, only, no need to do any fancy utf8 stuff */
 /* tags should be upper case
    if this list gets longer than 10 entries, consider binary search */

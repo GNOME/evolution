@@ -462,4 +462,3 @@ oge_caldav  (EPlugin                    *epl,
 	return widget;
 }
 
-

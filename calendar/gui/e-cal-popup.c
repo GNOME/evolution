@@ -315,8 +315,6 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	if (!read_only)
 		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
 
-
-
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 	    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
 		mask &= ~E_CAL_POPUP_SELECT_ASSIGNABLE;

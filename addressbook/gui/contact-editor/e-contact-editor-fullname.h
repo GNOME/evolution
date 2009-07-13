@@ -44,7 +44,6 @@ G_BEGIN_DECLS
 #define E_IS_CONTACT_EDITOR_FULLNAME(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_EDITOR_FULLNAME))
 #define E_IS_CONTACT_EDITOR_FULLNAME_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_EDITOR_FULLNAME))
 
-
 typedef struct _EContactEditorFullname       EContactEditorFullname;
 typedef struct _EContactEditorFullnameClass  EContactEditorFullnameClass;
 
@@ -64,7 +63,6 @@ struct _EContactEditorFullnameClass
 {
 	GtkDialogClass parent_class;
 };
-
 
 GtkWidget *e_contact_editor_fullname_new(const EContactName *name);
 GType      e_contact_editor_fullname_get_type (void);

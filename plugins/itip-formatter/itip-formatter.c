@@ -139,7 +139,6 @@ struct _itip_puri {
 
 };
 
-
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 static void itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
@@ -463,7 +462,6 @@ set_buttons_sensitive (struct _itip_puri *pitip)
 
 	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), pitip->current_ecal != NULL && !read_only);
 }
-
 
 static void
 cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
@@ -1493,7 +1491,6 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	ECalComponent *comp;
 	gchar *my_address;
 
-
 	if (!pitip->vcalendar) {
 		set_itip_error (pitip, container,
 				_("The calendar attached is not valid"),
@@ -1920,7 +1917,6 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		g_message ("Deleting!");
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 	}
-
 
         if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
                 ECalComponent *comp = NULL;
@@ -2366,7 +2362,6 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	return TRUE;
 }
 
-
 static void
 puri_free (EMFormatPURI *puri)
 {
@@ -2421,7 +2416,6 @@ puri_free (EMFormatPURI *puri)
 	g_free (pitip->uid);
 }
 
-
 void
 format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
@@ -2464,7 +2458,6 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	else
 		puri->vcalendar = g_strndup ((gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 	camel_object_unref (mem);
-
 
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);

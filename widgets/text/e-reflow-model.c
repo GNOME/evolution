@@ -32,7 +32,6 @@ G_DEFINE_TYPE (EReflowModel, e_reflow_model, G_TYPE_OBJECT)
 
 d(static gint depth = 0;)
 
-
 enum {
 	MODEL_CHANGED,
 	COMPARISON_CHANGED,
@@ -321,7 +320,6 @@ e_reflow_model_item_removed    (EReflowModel     *e_reflow_model,
 		       n);
 	d(depth--);
 }
-
 
 /**
  * e_reflow_model_item_changed:

@@ -45,7 +45,6 @@ G_BEGIN_DECLS
 #define E_IS_CANVAS_VBOX(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_CANVAS_VBOX_TYPE))
 #define E_IS_CANVAS_VBOX_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_CANVAS_VBOX_TYPE))
 
-
 typedef struct _ECanvasVbox       ECanvasVbox;
 typedef struct _ECanvasVboxClass  ECanvasVboxClass;
 
@@ -82,6 +81,5 @@ void       e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasI
 GType      e_canvas_vbox_get_type (void);
 
 G_END_DECLS
-
 
 #endif /* __E_CANVAS_VBOX_H__ */

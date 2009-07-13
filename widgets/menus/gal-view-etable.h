@@ -72,7 +72,6 @@ void     gal_view_etable_attach_tree   (GalViewEtable       *view,
 					ETree               *tree);
 void     gal_view_etable_detach        (GalViewEtable       *view);
 
-
 G_END_DECLS
 
 #endif /* _GAL_VIEW_ETABLE_H_ */

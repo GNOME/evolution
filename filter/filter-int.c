@@ -45,9 +45,7 @@ static void filter_int_class_init (FilterIntClass *klass);
 static void filter_int_init (FilterInt *fi);
 static void filter_int_finalise (GObject *obj);
 
-
 static FilterElementClass *parent_class;
-
 
 GType
 filter_int_get_type (void)

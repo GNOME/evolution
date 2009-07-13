@@ -1791,7 +1791,6 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 	gtk_tree_view_set_drag_dest_row(tree_view, NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
-
 #define SCROLL_EDGE_SIZE 15
 
 static gboolean
@@ -2107,7 +2106,6 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 	}
 }
 
-
 #if 0
 static void
 dump_fi (CamelFolderInfo *fi, gint depth)
@@ -2143,7 +2141,6 @@ em_folder_tree_set_selected (EMFolderTree *emft,
 	em_folder_tree_set_selected_list(emft, l, expand_only);
 	g_list_free(l);
 }
-
 
 void
 em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders)

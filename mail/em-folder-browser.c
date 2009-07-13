@@ -910,7 +910,6 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri
 	message_list_thaw(emfv->list);
 }
 
-
 static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)
 {

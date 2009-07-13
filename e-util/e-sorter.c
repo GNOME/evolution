@@ -63,7 +63,6 @@ e_sorter_new (void)
 	return es;
 }
 
-
 static gint
 es_model_to_sorted (ESorter *es, gint row)
 {
@@ -76,7 +75,6 @@ es_sorted_to_model (ESorter *es, gint row)
 	return row;
 }
 
-
 static void
 es_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
@@ -86,7 +84,6 @@ static void
 es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
 }
-
 
 static gboolean
 es_needs_sorting(ESorter *es)
@@ -118,7 +115,6 @@ e_sorter_sorted_to_model (ESorter *es, gint row)
 		return -1;
 }
 
-
 void
 e_sorter_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
@@ -136,7 +132,6 @@ e_sorter_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 	if (E_SORTER_GET_CLASS(es)->get_sorted_to_model_array)
 		E_SORTER_GET_CLASS(es)->get_sorted_to_model_array (es, array, count);
 }
-
 
 gboolean
 e_sorter_needs_sorting(ESorter *es)

@@ -25,7 +25,6 @@
  * window to edit it.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -99,7 +98,6 @@ static void e_cell_date_edit_update_cell	(ECellDateEdit	*ecde,
 static void e_cell_date_edit_on_time_selected	(GtkTreeSelection *selection, ECellDateEdit *ecde);
 static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
 
-
 /* Our arguments. */
 enum {
 	PROP_0,
@@ -113,7 +111,6 @@ enum {
 };
 
 G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE)
-
 
 static void
 e_cell_date_edit_class_init (ECellDateEditClass *class)
@@ -206,7 +203,6 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 			24,
 			G_PARAM_READWRITE));
 }
-
 
 static void
 e_cell_date_edit_init (ECellDateEdit *ecde)
@@ -328,7 +324,6 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 			    G_CALLBACK (e_cell_date_edit_on_ok_clicked),
 			    ecde);
 
-
 	g_signal_connect((ecde->popup_window),
 			    "key_press_event",
 			    G_CALLBACK (e_cell_date_edit_key_press),
@@ -338,7 +333,6 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 			    G_CALLBACK (e_cell_date_edit_button_press),
 			    ecde);
 }
-
 
 /**
  * e_cell_date_edit_new:
@@ -352,7 +346,6 @@ e_cell_date_edit_new			(void)
 {
 	return g_object_new (e_cell_date_edit_get_type (), NULL);
 }
-
 
 /*
  * GtkObject::destroy method
@@ -369,7 +362,6 @@ e_cell_date_edit_destroy		(GtkObject *object)
 
 	GTK_OBJECT_CLASS (e_cell_date_edit_parent_class)->destroy (object);
 }
-
 
 static void
 e_cell_date_edit_get_property		(GObject	*object,
@@ -407,7 +399,6 @@ e_cell_date_edit_get_property		(GObject	*object,
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
-
 
 static void
 e_cell_date_edit_set_property		(GObject	*object,
@@ -481,7 +472,6 @@ e_cell_date_edit_set_property		(GObject	*object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
 static gint
 e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 					 GdkEvent	*event,
@@ -501,7 +491,6 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 
 	return TRUE;
 }
-
 
 static void
 e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
@@ -562,7 +551,6 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	e_cell_text_free_text (ecell_text, cell_text);
 }
 
-
 static void
 e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 					 gchar		*time)
@@ -602,7 +590,6 @@ e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 	}
 }
 
-
 static void
 e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 					 gint             row,
@@ -625,7 +612,6 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecde), TRUE);
 }
-
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
@@ -710,7 +696,6 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	*height = popup_requisition.height;
 }
 
-
 /* This handles key press events in the popup window. If the Escape key is
    pressed we hide the popup, and do not change the cell contents. */
 static gint
@@ -726,7 +711,6 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 
 	return TRUE;
 }
-
 
 /* This handles button press events in the popup window. If the button is
    pressed outside the popup, we hide it and do not change the cell contents.
@@ -745,7 +729,6 @@ e_cell_date_edit_button_press		(GtkWidget	*popup_window,
 
 	return TRUE;
 }
-
 
 /* Clears the time list and rebuilds it using the lower_hour, upper_hour
    and use_24_hour_format settings. */
@@ -792,7 +775,6 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 	ecde->need_time_list_rebuild = FALSE;
 }
 
-
 static void
 e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
@@ -837,7 +819,6 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	e_cell_date_edit_hide_popup (ecde);
 }
 
-
 static void
 e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 {
@@ -868,7 +849,6 @@ e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 	gtk_widget_destroy (dialog);
 }
 
-
 static void
 e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
@@ -892,7 +872,6 @@ e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
 	e_cell_date_edit_hide_popup (ecde);
 }
 
-
 static void
 e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
@@ -900,7 +879,6 @@ e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
 	e_cell_date_edit_update_cell (ecde, "");
 	e_cell_date_edit_hide_popup (ecde);
 }
-
 
 static void
 e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
@@ -929,7 +907,6 @@ e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 	e_cell_date_edit_hide_popup (ecde);
 }
 
-
 static void
 e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 					 const gchar	*text)
@@ -957,7 +934,6 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 	e_cell_text_free_text (ecell_text, old_text);
 }
 
-
 static void
 e_cell_date_edit_on_time_selected (GtkTreeSelection *selection, ECellDateEdit *ecde)
 {
@@ -977,7 +953,6 @@ e_cell_date_edit_on_time_selected (GtkTreeSelection *selection, ECellDateEdit *e
 	g_free (list_item_text);
 }
 
-
 static void
 e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde)
 {
@@ -985,7 +960,6 @@ e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde)
 	gtk_widget_hide (ecde->popup_window);
 	e_cell_popup_set_shown (E_CELL_POPUP (ecde), FALSE);
 }
-
 
 /* These freeze and thaw the rebuilding of the time list. They are useful when
    setting several properties which result in rebuilds of the list, e.g. the
@@ -997,7 +971,6 @@ e_cell_date_edit_freeze			(ECellDateEdit	*ecde)
 
 	ecde->freeze_count++;
 }
-
 
 void
 e_cell_date_edit_thaw			(ECellDateEdit	*ecde)
@@ -1011,7 +984,6 @@ e_cell_date_edit_thaw			(ECellDateEdit	*ecde)
 			e_cell_date_edit_rebuild_time_list (ecde);
 	}
 }
-
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the

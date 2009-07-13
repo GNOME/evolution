@@ -34,7 +34,6 @@ G_BEGIN_DECLS
 #define EA_IS_MINICARD_VIEW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EA_TYPE_MINICARD_VIEW))
 #define EA_IS_MINICARD_VIEW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), EA_TYPE_MINICARD_VIEW))
 
-
 typedef struct _EaMinicardView       EaMinicardView;
 typedef struct _EaMinicardViewClass  EaMinicardViewClass;
 
@@ -42,7 +41,6 @@ struct _EaMinicardView
 {
 	AtkGObjectAccessible parent;
 };
-
 
 struct _EaMinicardViewClass
 {
@@ -54,6 +52,5 @@ GType ea_minicard_view_get_type (void);
 AtkObject* ea_minicard_view_new(GObject *obj);
 
 G_END_DECLS
-
 
 #endif /* __EA_MINICARD_VIEW_H__ */

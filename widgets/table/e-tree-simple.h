@@ -36,7 +36,6 @@ G_BEGIN_DECLS
 #define E_IS_TREE_SIMPLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SIMPLE_TYPE))
 #define E_TREE_SIMPLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_SIMPLE_TYPE, ETreeSimpleClass))
 
-
 typedef GdkPixbuf* (*ETreeSimpleIconAtFn)     (ETreeModel *etree, ETreePath *path, gpointer model_data);
 typedef gpointer       (*ETreeSimpleValueAtFn)    (ETreeModel *etree, ETreePath *path, gint col, gpointer model_data);
 typedef void       (*ETreeSimpleSetValueAtFn) (ETreeModel *etree, ETreePath *path, gint col, gconstpointer val, gpointer model_data);

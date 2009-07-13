@@ -86,7 +86,6 @@ free_value (ETableMemoryStore *etms, gint col, gpointer value)
 	}
 }
 
-
 static gint
 etms_column_count (ETableModel *etm)
 {
@@ -322,7 +321,6 @@ e_table_memory_store_construct (ETableMemoryStore *etms, ETableMemoryStoreColumn
 
 	return E_TABLE_MODEL (etms);
 }
-
 
 void
 e_table_memory_store_adopt_value_at (ETableMemoryStore *etms, gint col, gint row, gpointer value)

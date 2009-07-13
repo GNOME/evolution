@@ -68,7 +68,6 @@ recur_component_dialog (ECal *client,
 		return FALSE;
 	}
 
-
 	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);

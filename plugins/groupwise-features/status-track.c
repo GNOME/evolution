@@ -42,7 +42,6 @@
 #include <e-gw-connection.h>
 #include "share-folder.h"
 
-
 void org_gnome_track_status (gpointer ep, EMPopupTargetSelect *t);
 
 static gchar *

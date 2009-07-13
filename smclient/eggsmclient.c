@@ -25,9 +25,9 @@
 #include "eggsmclient.h"
 #include "eggsmclient-private.h"
 
-static void egg_sm_client_debug_handler (const char *log_domain,
+static void egg_sm_client_debug_handler (const gchar *log_domain,
 					 GLogLevelFlags log_level,
-					 const char *message,
+					 const gchar *message,
 					 gpointer user_data);
 
 enum {
@@ -116,7 +116,7 @@ egg_sm_client_class_init (EggSMClientClass *klass)
    * handling this signal; if the user has requested that the session
    * be saved when logging out, then ::save_state will be emitted
    * separately.
-   * 
+   *
    * If the application agrees to quit, it should then wait for either
    * the ::quit_cancelled or ::quit signals to be emitted.
    **/
@@ -176,9 +176,9 @@ egg_sm_client_class_init (EggSMClientClass *klass)
 }
 
 static gboolean sm_client_disable = FALSE;
-static char *sm_client_state_file = NULL;
-static char *sm_client_id = NULL;
-static char *sm_config_prefix = NULL;
+static gchar *sm_client_state_file = NULL;
+static gchar *sm_client_id = NULL;
+static gchar *sm_config_prefix = NULL;
 
 static gboolean
 sm_client_post_parse_func (GOptionContext  *context,
@@ -391,7 +391,7 @@ GKeyFile *
 egg_sm_client_get_state_file (EggSMClient *client)
 {
   EggSMClientPrivate *priv = EGG_SM_CLIENT_GET_PRIVATE (client);
-  char *state_file_path;
+  gchar *state_file_path;
   GError *err = NULL;
 
   g_return_val_if_fail (client == global_client, NULL);
@@ -435,8 +435,8 @@ egg_sm_client_get_state_file (EggSMClient *client)
  **/
 void
 egg_sm_client_set_restart_command (EggSMClient  *client,
-				   int           argc,
-				   const char  **argv)
+				   gint           argc,
+				   const gchar  **argv)
 {
   g_return_if_fail (EGG_IS_SM_CLIENT (client));
 
@@ -511,7 +511,7 @@ GKeyFile *
 egg_sm_client_save_state (EggSMClient *client)
 {
   GKeyFile *state_file;
-  char *group;
+  gchar *group;
 
   g_return_val_if_fail (client == global_client, NULL);
 
@@ -574,12 +574,12 @@ egg_sm_client_quit (EggSMClient *client)
 }
 
 static void
-egg_sm_client_debug_handler (const char *log_domain,
+egg_sm_client_debug_handler (const gchar *log_domain,
 			     GLogLevelFlags log_level,
-			     const char *message,
+			     const gchar *message,
 			     gpointer user_data)
 {
-  static int debug = -1;
+  static gint debug = -1;
 
   if (debug < 0)
     debug = (g_getenv ("EGG_SM_CLIENT_DEBUG") != NULL);

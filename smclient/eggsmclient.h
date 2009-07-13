@@ -68,10 +68,10 @@ struct _EggSMClientClass
 
   /* virtual methods */
   void	   (*startup)             (EggSMClient          *client,
-				   const char           *client_id);
+				   const gchar           *client_id);
   void	   (*set_restart_command) (EggSMClient          *client,
-				   int                   argc,
-				   const char          **argv);
+				   gint                   argc,
+				   const gchar          **argv);
   void	   (*will_quit)           (EggSMClient          *client,
 				   gboolean              will_quit);
   gboolean (*end_session)         (EggSMClient          *client,
@@ -100,8 +100,8 @@ GKeyFile        *egg_sm_client_get_state_file      (EggSMClient *client);
 
 /* Alternate means of saving state */
 void             egg_sm_client_set_restart_command (EggSMClient  *client,
-						    int           argc,
-						    const char  **argv);
+						    gint           argc,
+						    const gchar  **argv);
 
 /* Handling "quit_requested" signal */
 void             egg_sm_client_will_quit           (EggSMClient *client,
@@ -112,6 +112,5 @@ gboolean         egg_sm_client_end_session         (EggSMClientEndStyle  style,
 						    gboolean             request_confirmation);
 
 G_END_DECLS
-
 
 #endif /* __EGG_SM_CLIENT_H__ */

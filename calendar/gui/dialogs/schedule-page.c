@@ -242,7 +242,6 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 
 }
 
-
 /* Fills the widgets with default values */
 static void
 clear_widgets (SchedulePage *spage)

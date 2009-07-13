@@ -168,7 +168,6 @@ task_details_page_focus_main_widget (CompEditorPage *page)
 	gtk_widget_grab_focus (priv->status_combo);
 }
 
-
 static TaskEditorPriority
 priority_value_to_index (gint priority_value)
 {
@@ -491,7 +490,6 @@ get_widgets (TaskDetailsPage *tdpage)
 		&& priv->url_label
 		&& priv->url);
 }
-
 
 static void
 complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)

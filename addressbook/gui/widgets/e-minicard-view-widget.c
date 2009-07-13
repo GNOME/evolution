@@ -371,7 +371,6 @@ e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 		GTK_WIDGET_CLASS(parent_class)->style_set (widget, previous_style);
 }
 
-
 static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {

@@ -315,7 +315,6 @@ eti_ref_accessible_at_point (AtkComponent *component,
 	}
 }
 
-
 static void
 cell_destroyed (gpointer data)
 {
@@ -343,7 +342,6 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 
 	if (atk_state_set_contains_state (priv->state_set, ATK_STATE_DEFUNCT))
 		return NULL;
-
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
 	if (!item)
@@ -842,7 +840,6 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 	if (reorder_found)
 		g_signal_emit_by_name (G_OBJECT(a11y_item), "column_reordered");
 
-
 	if (removed_found) {
 		for (i = 0; i < prev_n_cols; i ++ ) {
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
@@ -872,7 +869,6 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 	g_free (priv->columns);
 	priv->columns = cols;
 }
-
 
 static void
 eti_real_initialize (AtkObject *obj,
@@ -999,7 +995,6 @@ gal_a11y_e_table_item_get_type (void)
 			NULL
 		};
 
-
 		factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
 		parent_type = atk_object_factory_get_accessible_type (factory);
 
@@ -1035,7 +1030,6 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SENSITIVE);
 	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SHOWING);
 	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_VISIBLE);
-
 
 	accessible  = ATK_OBJECT(a11y);
 
@@ -1121,7 +1115,6 @@ gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y)
 
 	g_return_val_if_fail (priv->selection_change_id != 0, FALSE);
 	g_return_val_if_fail (priv->cursor_change_id != 0, FALSE);
-
 
 	g_signal_handler_disconnect (priv->selection,
 				     priv->selection_change_id);

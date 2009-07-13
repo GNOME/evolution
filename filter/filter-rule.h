@@ -97,7 +97,6 @@ struct _FilterRuleClass {
 	void (*changed) (FilterRule *fr);
 };
 
-
 GType       filter_rule_get_type     (void);
 FilterRule *filter_rule_new          (void);
 
@@ -131,6 +130,5 @@ void        filter_rule_emit_changed (FilterRule *fr);
 /* static functions */
 FilterRule *filter_rule_next_list    (GList *l, FilterRule *last, const gchar *source);
 FilterRule *filter_rule_find_list    (GList *l, const gchar *name, const gchar *source);
-
 
 #endif /* ! _FILTER_RULE_H */

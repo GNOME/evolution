@@ -187,7 +187,6 @@ typedef struct {
 } ETableItemClass;
 GType       e_table_item_get_type            (void);
 
-
 /*
  * Focus
  */

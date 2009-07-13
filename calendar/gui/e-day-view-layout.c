@@ -52,7 +52,6 @@ static void e_day_view_recalc_cols_per_row (gint           rows,
 					    guint8	  *cols_per_row,
 					    guint16       *group_starts);
 
-
 void
 e_day_view_layout_long_events (GArray	   *events,
 			       gint	   days_shown,
@@ -85,7 +84,6 @@ e_day_view_layout_long_events (GArray	   *events,
 	/* Free the grid. */
 	g_free (grid);
 }
-
 
 static void
 e_day_view_layout_long_event (EDayViewEvent *event,
@@ -127,7 +125,6 @@ e_day_view_layout_long_event (EDayViewEvent *event,
 	/* Update the number of rows in the top canvas if necessary. */
 	*rows_in_top_display = MAX (*rows_in_top_display, free_row + 1);
 }
-
 
 /* returns maximum number of columns among all rows */
 gint
@@ -196,7 +193,6 @@ e_day_view_layout_day_events (GArray	   *events,
 
 	return res;
 }
-
 
 /* Finds the first free position to place the event in.
    Increments the number of events in each of the rows it covers, and makes
@@ -275,7 +271,6 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	}
 }
 
-
 /* For each group of rows, find the max number of events in all the
    rows, and set the number of cols in each of the rows to that. */
 static void
@@ -298,7 +293,6 @@ e_day_view_recalc_cols_per_row (gint      rows,
 		start_row = next_start_row;
 	}
 }
-
 
 /* Expands the event horizontally to fill any free space. */
 static void
@@ -332,7 +326,6 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 		event->num_columns++;
 	}
 }
-
 
 /* Find the start and end days for the event. */
 gboolean
@@ -368,5 +361,4 @@ e_day_view_find_long_event_days (EDayViewEvent	*event,
 
 	return TRUE;
 }
-
 

@@ -26,8 +26,6 @@
 
 #include <gtk/gtk.h>
 
-
-
 #define EXCHANGE_TYPE_SENDOPTIONS_DIALOG       (exchange_sendoptions_dialog_get_type ())
 #define EXCHANGE_SENDOPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), EXCHANGE_TYPE_SENDOPTIONS_DIALOG, ExchangeSendOptionsDialog))
 #define EXCHANGE_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EXCHANGE_TYPE_SENDOPTIONS_DIALOG, ExchangeSendOptionsDialogClass))
@@ -72,7 +70,6 @@ struct _ExchangeSendOptionsDialog {
 	/* Private data */
 	ExchangeSendOptionsDialogPrivate *priv;
 };
-
 
 struct _ExchangeSendOptionsDialogClass {
 	GObjectClass parent_class;

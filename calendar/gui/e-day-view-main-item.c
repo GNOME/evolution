@@ -116,13 +116,11 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 #endif
 }
 
-
 static void
 e_day_view_main_item_init (EDayViewMainItem *dvtitem)
 {
 	dvtitem->day_view = NULL;
 }
-
 
 static void
 e_day_view_main_item_set_property (GObject *object,
@@ -143,7 +141,6 @@ e_day_view_main_item_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
 static void
 e_day_view_main_item_update (GnomeCanvasItem *item,
 			    double *affine,
@@ -159,7 +156,6 @@ e_day_view_main_item_update (GnomeCanvasItem *item,
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -371,7 +367,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 						      day);
 	}
 
-
 	if (e_day_view_get_show_marcus_bains (day_view)) {
 		icaltimezone *zone;
 		struct icaltimetype time_now, day_start;
@@ -412,7 +407,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	}
 	cairo_destroy (cr);
 }
-
 
 static void
 e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
@@ -455,7 +449,6 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 				}
 		}
 
-
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -493,7 +486,6 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 	cairo_restore (cr);
 	cairo_destroy (cr);
 }
-
 
 static void
 e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
@@ -582,7 +574,6 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 	cairo_restore (cr);
 	cairo_destroy (cr);
 }
-
 
 static void
 e_day_view_main_item_draw_day_events (EDayViewMainItem *dvmitem,
@@ -1013,7 +1004,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	else if (bar_y2 < scroll_flag)
 		event->end_minute -= day_view->mins_per_row;
 
-
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -1173,7 +1163,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 				icon_x += icon_x_inc;
 				icon_y += icon_y_inc;
 			}
-
 
 			if (draw_meeting_icon && fit_in_event ()) {
 				max_icon_w = item_x + item_w - icon_x
@@ -1342,7 +1331,6 @@ e_day_view_main_item_point (GnomeCanvasItem *item, double x, double y,
 	return 0.0;
 }
 
-
 static gint
 e_day_view_main_item_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -1359,5 +1347,4 @@ e_day_view_main_item_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	return FALSE;
 }
-
 

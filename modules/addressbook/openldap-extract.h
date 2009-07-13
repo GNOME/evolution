@@ -97,7 +97,6 @@ typedef struct ldap_objectclass {
 	gchar **oc_at_oids_may;	/* OPTIONAL */
 } LDAPObjectClass;
 
-
 static void
 vfree(gpointer *vec)
 {

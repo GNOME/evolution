@@ -113,7 +113,6 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 							dialog->options->delegate_address);
 		}
 
-
 		else {
 			e_msg_composer_remove_header (composer, "Sender");
 			e_msg_composer_add_header (composer, "From", sender_id);

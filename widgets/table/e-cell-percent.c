@@ -40,7 +40,6 @@
 
 G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_CELL_TEXT_TYPE)
 
-
 static gchar *
 ecp_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 {

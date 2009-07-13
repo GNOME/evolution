@@ -66,8 +66,6 @@ GtkWidget *      plugin_google               (EPlugin                    *epl,
 /*****************************************************************************/
 /* plugin intialization */
 
-
-
 static void
 ensure_google_source_group (void)
 {
@@ -96,7 +94,6 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 
 	return 0;
 }
-
 
 /********************************************************************************************************************/
 
@@ -654,7 +651,6 @@ plugin_google  (EPlugin                    *epl,
 			  0, 1,
 			  row + 2, row + 3,
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
-
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);

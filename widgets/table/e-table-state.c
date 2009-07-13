@@ -262,7 +262,6 @@ e_table_state_save_to_node      (ETableState *state,
 			e_xml_set_double_prop_by_name(new_node, (const guchar *)"expansion", expansion);
 	}
 
-
 	e_table_sort_info_save_to_node(state->sort_info, node);
 
 	return node;

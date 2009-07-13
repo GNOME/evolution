@@ -41,9 +41,7 @@ static void filter_part_class_init (FilterPartClass *klass);
 static void filter_part_init (FilterPart *fp);
 static void filter_part_finalise (GObject *obj);
 
-
 static GObjectClass *parent_class = NULL;
-
 
 GType
 filter_part_get_type (void)
@@ -234,7 +232,6 @@ filter_part_xml_encode (FilterPart *fp)
 	return part;
 }
 
-
 gint
 filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 {
@@ -332,7 +329,6 @@ filter_part_find_element (FilterPart *ff, const gchar *name)
 
 	return NULL;
 }
-
 
 GtkWidget *
 filter_part_get_widget (FilterPart *ff)

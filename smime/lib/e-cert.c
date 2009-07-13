@@ -278,7 +278,6 @@ e_cert_new_from_der (gchar *data, guint32 len)
 	return e_cert_new (cert);
 }
 
-
 
 
 CERTCertificate*
@@ -676,7 +675,6 @@ get_oid_text (SECItem *oid, gchar **text)
 	return TRUE;
 }
 
-
 static gboolean
 process_raw_bytes (SECItem *data, gchar **text)
 {
@@ -1068,7 +1066,6 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 		return FALSE;
 	e_asn1_object_append_child (sequence, subitem);
 	g_object_unref (subitem);
-
 
 	if (!process_sec_algorithm_id (&cert->priv->cert->signature, &subitem))
 		return FALSE;

@@ -25,7 +25,6 @@
  * specific to the calendar component have been flagged by some comments
  * fwiw */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

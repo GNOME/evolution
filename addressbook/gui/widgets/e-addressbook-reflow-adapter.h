@@ -41,7 +41,6 @@ struct _EAddressbookReflowAdapter {
 	EAddressbookReflowAdapterPrivate *priv;
 };
 
-
 struct _EAddressbookReflowAdapterClass {
 	EReflowModelClass parent_class;
 
@@ -53,7 +52,6 @@ struct _EAddressbookReflowAdapterClass {
 	void		(*open_contact)		(EAddressbookReflowAdapter *adapter,
 						 EContact *contact);
 };
-
 
 GType         e_addressbook_reflow_adapter_get_type          (void);
 void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,

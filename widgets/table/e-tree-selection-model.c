@@ -202,7 +202,6 @@ etsm_node_deleted (ETreeModel *etm, ETreePath child, ETreeSelectionModel *etsm)
 	restore_cursor (etsm, etm);
 }
 
-
 static void
 add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 {
@@ -379,7 +378,6 @@ etsm_is_row_selected (ESelectionModel *selection,
 	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
 	return etsm_is_path_selected (etsm, path);
 }
-
 
 typedef struct {
 	ETreeSelectionModel *etsm;
@@ -740,7 +738,6 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 {
 	return etsm->priv->cursor_path;
 }
-
 
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)

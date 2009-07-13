@@ -66,14 +66,11 @@ display_error_message (GtkWidget *parent, GError *error)
 	gtk_widget_destroy (dialog);
 }
 
-
 enum { /* CSV helper enum */
 	ECALCOMPONENTTEXT,
 	ECALCOMPONENTATTENDEE,
 	CONSTCHAR
 };
-
-
 
 /* Some helpers for the csv stuff */
 static GString *
@@ -202,7 +199,6 @@ string_needsquotes (const gchar *value, CsvConfig *config)
 			needquotes = strstr (value, config->quote) ? TRUE:FALSE;
 	}
 
-
 	/*
 	 * If the special-char is char+onespace (so like {, } {" }, {\n }) and it occurs
 	 * the value that is going to be written
@@ -217,7 +213,6 @@ string_needsquotes (const gchar *value, CsvConfig *config)
 	 * there's a {,} behind {Mom} and the delimiter is {, } (so we searched only the
 	 * first character of {, } and didn't trust the user).
 	 */
-
 
 	if (!needquotes) {
 		gint len = strlen (config->delimiter);
@@ -521,10 +516,6 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	return;
 }
 
-
-
-
-
 static GtkWidget *
 create_options_widget (FormatHandler *handler)
 {
@@ -569,7 +560,6 @@ create_options_widget (FormatHandler *handler)
 	gtk_widget_show_all (vbox);
 
 	gtk_container_add (GTK_CONTAINER (csv_options), vbox);
-
 
 	return csv_options;
 }

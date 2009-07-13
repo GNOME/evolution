@@ -49,5 +49,4 @@ EggSMClient *egg_sm_client_osx_new      (void);
 
 G_END_DECLS
 
-
 #endif /* __EGG_SM_CLIENT_PRIVATE_H__ */

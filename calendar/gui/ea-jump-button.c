@@ -51,7 +51,6 @@ ea_jump_button_get_type (void)
 	GTypeQuery query;
 	GType derived_atk_type;
 
-
 	if (!type) {
 		static GTypeInfo tinfo = {
 			sizeof (EaJumpButtonClass),

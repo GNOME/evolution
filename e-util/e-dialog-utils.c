@@ -242,7 +242,6 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 	gdk_window_set_transient_for (gtk_widget_get_window (GTK_WIDGET (dialog)), parent);
 }
 
-
 
 static void
 save_ok (GtkWidget *widget, gpointer data)

@@ -41,9 +41,7 @@ static void em_filter_editor_class_init (EMFilterEditorClass *klass);
 static void em_filter_editor_init (EMFilterEditor *fe);
 static void em_filter_editor_finalise (GObject *obj);
 
-
 static RuleEditorClass *parent_class = NULL;
-
 
 GType
 em_filter_editor_get_type (void)

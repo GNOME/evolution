@@ -53,7 +53,6 @@ static void alarm_notify_class_init (AlarmNotifyClass *klass);
 static void alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass);
 static void alarm_notify_finalize (GObject *object);
 
-
 static BonoboObjectClass *parent_class;
 
 

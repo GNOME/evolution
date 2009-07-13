@@ -39,7 +39,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
 
-
 #ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
 #endif
@@ -1347,8 +1346,6 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 				g_source_remove (tray_blink_id);
 			tray_blink_id = -1;
 
-
-
 			gtk_status_icon_set_visible (tray_icon, FALSE);
 			g_object_unref (tray_icon);
 			tray_icon = NULL;
@@ -1408,7 +1405,6 @@ tray_icon_blink_cb (gpointer data)
 
 	return tray_blink_countdown > 0;
 }
-
 
 /* Add a new data to tray list */
 
@@ -1582,7 +1578,6 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	e_cal_component_get_summary (comp, &text);
 	e_cal_component_get_organizer (comp, &organiser);
 
-
 	if (text.value)
 		summary = text.value;
 	else
@@ -1624,7 +1619,6 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	g_free (alarm_str);
 	g_free (time_str);
 	g_free (str);
-
 
 }
 #endif
@@ -2058,7 +2052,6 @@ remove_comp_by_id (gpointer key, gpointer value, gpointer userdata) {
 
 	return TRUE;
 }
-
 
 /* Removes all the alarms queued for a particular calendar client */
 static void

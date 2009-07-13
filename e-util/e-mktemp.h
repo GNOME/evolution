@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifndef __E_MKTEMP_H__
 #define __E_MKTEMP_H__
 

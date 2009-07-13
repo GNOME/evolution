@@ -72,7 +72,6 @@ e_popup_menu_create (EPopupMenu *menu_list,
 						NULL);
 }
 
-
 GtkMenu *
 e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				 guint32 disable_mask,

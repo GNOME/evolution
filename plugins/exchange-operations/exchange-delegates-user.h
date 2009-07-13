@@ -76,8 +76,6 @@ ExchangeDelegatesUser *exchange_delegates_user_new_from_gc (E2kGlobalCatalog    
 gboolean  exchange_delegates_user_edit (ExchangeAccount  *account, ExchangeDelegatesUser *user,
 					GtkWidget *parent_window);
 
-
-
 G_END_DECLS
 
 #endif /* __EXCHANGE_DELEGATES_USER_H__ */

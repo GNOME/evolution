@@ -177,7 +177,6 @@ finalize (GObject *object)
 
 E2K_MAKE_TYPE (exchange_config_listener, ExchangeConfigListener, class_init, init, PARENT_TYPE)
 
-
 #define EVOLUTION_URI_PREFIX     "evolution:/"
 #define EVOLUTION_URI_PREFIX_LEN (sizeof (EVOLUTION_URI_PREFIX) - 1)
 
@@ -250,7 +249,6 @@ add_defaults_for_account (ExchangeConfigListener *config_listener,
 		e_account_list_save (E_ACCOUNT_LIST (config_listener));
 	}
 }
-
 
 static gboolean
 is_active_exchange_account (EAccount *account)
@@ -354,7 +352,6 @@ add_account_esources (ExchangeAccount *account,
 #endif
 			g_object_unref (source);
 			g_free (relative_uri);
-
 
 		}
 		else if (folder->type == EXCHANGE_TASKS_FOLDER){
@@ -1281,7 +1278,6 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 }
 #endif
 
-
 /**
  * exchange_camel_urls_is_equal
  *
@@ -1331,7 +1327,6 @@ exchange_camel_urls_is_equal (const gchar *url1, const gchar *url2)
 	return TRUE;
 }
 
-
 /**
  * remove_selected_non_offline_esources
  *
@@ -1355,7 +1350,6 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const gchar *gco
 	ESourceList *source_list = NULL;
 	const gchar *offline_mode=NULL;
 	gchar *selected_gconf_key;
-
 
 	if (gconf_key && !strcmp (gconf_key, CONF_KEY_CAL)) {
 		selected_gconf_key = g_strdup (CONF_KEY_SELECTED_CAL_SOURCES);

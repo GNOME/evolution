@@ -50,9 +50,7 @@ static void filter_file_class_init (FilterFileClass *klass);
 static void filter_file_init (FilterFile *ff);
 static void filter_file_finalise (GObject *obj);
 
-
 static FilterElementClass *parent_class = NULL;
-
 
 GType
 filter_file_get_type (void)
@@ -128,7 +126,6 @@ filter_file_new (void)
 {
 	return (FilterFile *) g_object_new (FILTER_TYPE_FILE, NULL, NULL);
 }
-
 
 FilterFile *
 filter_file_new_type_name (const gchar *type)

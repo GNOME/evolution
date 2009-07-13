@@ -55,7 +55,6 @@ enum {
 	PROP_EDITABLE
 };
 
-
 enum {
 	CREATE_CONTACT,
 	CREATE_CONTACT_LIST,

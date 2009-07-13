@@ -89,7 +89,6 @@ static ECalendarViewPosition e_week_view_event_item_get_position (EWeekViewEvent
 							      gdouble x,
 							      gdouble y);
 
-
 /* The arguments we take */
 enum {
 	PROP_0,
@@ -139,14 +138,12 @@ e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 			G_PARAM_WRITABLE));
 }
 
-
 static void
 e_week_view_event_item_init (EWeekViewEventItem *wveitem)
 {
 	wveitem->event_num = -1;
 	wveitem->span_num = -1;
 }
-
 
 static void
 e_week_view_event_item_set_property (GObject *object,
@@ -173,7 +170,6 @@ e_week_view_event_item_set_property (GObject *object,
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
-
 
 static void
 e_week_view_event_item_update (GnomeCanvasItem *item,
@@ -720,7 +716,6 @@ e_week_view_draw_time	(EWeekView	*week_view,
 	g_object_unref (layout);
 }
 
-
 static void
 e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				   GdkDrawable        *drawable,
@@ -859,7 +854,6 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 
-
 /* This draws a little triangle to indicate that an event extends past
    the days visible on screen. */
 static void
@@ -922,7 +916,6 @@ e_week_view_event_item_draw_triangle (EWeekViewEventItem *wveitem,
 	cairo_save (cr);
 	gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 
-
 	/* If the height is odd we can use the same central point for both
 	   lines. If it is even we use different end-points. */
 	c1 = c2 = y + (h / 2);
@@ -951,7 +944,6 @@ e_week_view_event_item_point (GnomeCanvasItem *item, double x, double y,
 	return 0.0;
 }
 
-
 static gint
 e_week_view_event_item_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -974,7 +966,6 @@ e_week_view_event_item_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	return FALSE;
 }
-
 
 static gboolean
 e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
@@ -1045,7 +1036,6 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	return FALSE;
 }
 
-
 static gboolean
 e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 				       GdkEvent		  *event)
@@ -1108,7 +1098,6 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 
 	return TRUE;
 }
-
 
 static ECalendarViewPosition
 e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,

@@ -52,7 +52,6 @@
 #include "e-memos.h"
 #include "common/authentication.h"
 
-
 /* Private part of the GnomeCalendar structure */
 struct _EMemosPrivate {
 	/* The memo lists for display */
@@ -268,7 +267,6 @@ e_memos_class_init (EMemosClass *klass)
 	klass->source_added = NULL;
 	klass->source_removed = NULL;
 }
-
 
 static void
 categories_changed_cb (gpointer object, gpointer user_data)

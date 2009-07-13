@@ -36,7 +36,6 @@ void e_day_view_layout_long_events	(GArray	   *events,
 					 time_t	   *day_starts,
 					 gint	   *rows_in_top_display);
 
-
 gint e_day_view_layout_day_events	(GArray	   *events,
 					 gint	    rows,
 					 gint	    mins_per_row,

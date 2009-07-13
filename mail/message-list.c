@@ -719,7 +719,6 @@ message_list_select_all (MessageList *message_list)
 	e_selection_model_select_all (etsm);
 }
 
-
 typedef struct thread_select_info {
 	MessageList *ml;
 	GPtrArray *paths;
@@ -1080,7 +1079,6 @@ static const gchar *score_map[] = {
 	N_("Higher"),
 	N_("Highest"),
 };
-
 
 static gchar *
 ml_value_to_string (ETreeModel *etm, gint col, gconstpointer value, gpointer data)
@@ -2700,7 +2698,6 @@ message_list_construct (MessageList *message_list)
 	g_signal_connect((message_list->tree), "selection_change",
 			 G_CALLBACK (on_selection_changed_cmd), message_list);
 
-
 	e_tree_drag_source_set(message_list->tree, GDK_BUTTON1_MASK,
 			       ml_drag_types, sizeof(ml_drag_types)/sizeof(ml_drag_types[0]),
 			       GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
@@ -2842,7 +2839,6 @@ is_node_selectable (MessageList *ml, CamelMessageInfo *info)
 
 	return FALSE;
 }
-
 
 /* We try and find something that is selectable in our tree.  There is
  * actually no assurance that we'll find something that will still be
@@ -3381,7 +3377,6 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 
 }
 #endif /* ! BROKEN_ETREE */
-
 
 static void
 mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChangeInfo **changes, gint flag)
@@ -4391,7 +4386,6 @@ regen_list_done (struct _regen_list_msg *m)
 	if (m->ml->priv->destroyed)
 		return;
 
-
 	if (!m->complete)
 		return;
 
@@ -4656,13 +4650,11 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	}
 }
 
-
 gdouble
 message_list_get_scrollbar_position (MessageList *ml)
 {
 	return gtk_range_get_value ((GtkRange *) ((GtkScrolledWindow *) ml)->vscrollbar);
 }
-
 
 void
 message_list_set_scrollbar_position (MessageList *ml, double pos)

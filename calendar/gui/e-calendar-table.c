@@ -644,7 +644,6 @@ calendar_table_constructed (GObject *object)
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 
-
 	/*
 	 * Date fields.
 	 */
@@ -999,7 +998,6 @@ e_calendar_table_get_model (ECalendarTable *cal_table)
 
 	return cal_table->priv->model;
 }
-
 
 /**
  * e_calendar_table_get_table:
@@ -1580,7 +1578,6 @@ e_calendar_table_load_state (ECalendarTable *cal_table,
 	table = e_calendar_table_get_table (cal_table);
 	e_table_load_state (table, filename);
 }
-
 
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void

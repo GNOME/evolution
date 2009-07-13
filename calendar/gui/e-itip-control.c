@@ -981,7 +981,6 @@ set_message (GtkHTML *html, GtkHTMLStream *html_stream, const gchar *message, gb
 	if (message == NULL)
 		return;
 
-
 	if (err) {
 		gtk_html_stream_printf (html_stream, "<b><font color=\"#ff0000\">%s</font></b><br><br>", message);
 	} else {
@@ -1245,7 +1244,6 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_end (GTK_HTML (priv->html), html_stream, GTK_HTML_STREAM_OK);
 }
 
-
 static gchar *
 get_publish_options (void)
 {
@@ -1292,7 +1290,6 @@ get_cancel_options (gboolean found, icalcomponent_kind kind)
 
 	return g_strdup_printf ("<object classid=\"itip:cancel_options\"></object>");
 }
-
 
 static ECalComponent *
 get_real_item (EItipControl *itip)
@@ -1816,7 +1813,6 @@ e_itip_control_get_view_only (EItipControl *itip)
 	return priv->view_only;
 }
 
-
 void
 e_itip_control_set_delegator_address (EItipControl *itip, const gchar *address)
 {
@@ -1839,7 +1835,6 @@ e_itip_control_get_delegator_address (EItipControl *itip)
 
 	return priv->delegator_address;
 }
-
 
 void
 e_itip_control_set_delegator_name (EItipControl *itip, const gchar *name)
@@ -1886,7 +1881,6 @@ e_itip_control_get_calendar_uid (EItipControl *itip)
 
 	return priv->calendar_uid;
 }
-
 
 static gboolean
 change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_partstat status)

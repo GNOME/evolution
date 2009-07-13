@@ -83,7 +83,6 @@ ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 					   ETableSortInfo *sort_info);
 GType        e_table_group_leaf_get_type  (void);
 
-
 G_END_DECLS
 
 #endif /* _E_TABLE_GROUP_LEAF_H_ */

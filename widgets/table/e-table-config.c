@@ -504,7 +504,6 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		? config->sort [0].combo
 		: config->group [0].combo));
 
-
 	if (is_sort)
 		dialog = GTK_DIALOG (config->dialog_sort);
 	else
@@ -591,7 +590,6 @@ do_fields_config_dialog (ETableConfig *config)
 
 	config_fields_info_update (config);
 }
-
 
 static ETableMemoryStoreColumnInfo store_columns[] = {
 	E_TABLE_MEMORY_STORE_STRING,
@@ -974,7 +972,6 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		config->group [i].e_table_config = config;
 	}
 
-
 	for (l = config->column_names; l; l = l->next){
 		gchar *label = l->data;
 
@@ -1130,7 +1127,6 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 	/* if no columns left, just return */
 	if (columns == NULL)
 		return;
-
 
 	new_shown = g_new (int, config->temp_state->col_count);
 	new_expansions = g_new (double, config->temp_state->col_count);

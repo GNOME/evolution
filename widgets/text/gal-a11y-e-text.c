@@ -419,7 +419,6 @@ et_get_character_at_offset (AtkText *text,
 	return g_utf8_get_char_validated (at_offset, -1);
 }
 
-
 static gchar *
 et_get_text_before_offset (AtkText *text,
 			   gint offset,
@@ -492,7 +491,6 @@ et_get_caret_offset (AtkText *text)
 	return offset;
 }
 
-
 static AtkAttributeSet*
 et_get_run_attributes (AtkText *text,
 		       gint offset,
@@ -503,14 +501,12 @@ et_get_run_attributes (AtkText *text,
 	return NULL;
 }
 
-
 static AtkAttributeSet*
 et_get_default_attributes (AtkText *text)
 {
 	/* Unimplemented */
 	return NULL;
 }
-
 
 static void
 et_get_character_extents (AtkText *text,
@@ -584,7 +580,6 @@ et_get_character_extents (AtkText *text,
 	}
 }
 
-
 static gint
 et_get_character_count (AtkText *text)
 {
@@ -592,7 +587,6 @@ et_get_character_count (AtkText *text)
 
 	return g_utf8_strlen (full_text, -1);
 }
-
 
 static gint
 et_get_offset_at_point (AtkText *text,
@@ -658,7 +652,6 @@ et_get_offset_at_point (AtkText *text,
         return g_utf8_pointer_to_offset (etext->text, etext->text + index + trailing);
 }
 
-
 static gint
 et_get_n_selections (AtkText *text)
 {
@@ -668,7 +661,6 @@ et_get_n_selections (AtkText *text)
 		return 1;
 	return 0;
 }
-
 
 static gchar *
 et_get_selection (AtkText *text,
@@ -701,7 +693,6 @@ et_get_selection (AtkText *text,
 
 	return NULL;
 }
-
 
 static gboolean
 et_add_selection (AtkText *text,
@@ -741,7 +732,6 @@ et_add_selection (AtkText *text,
 	return FALSE;
 }
 
-
 static gboolean
 et_remove_selection (AtkText *text,
 		     gint selection_num)
@@ -766,7 +756,6 @@ et_remove_selection (AtkText *text,
 	return FALSE;
 }
 
-
 static gboolean
 et_set_selection (AtkText *text,
 		  gint selection_num,
@@ -784,7 +773,6 @@ et_set_selection (AtkText *text,
                 return et_add_selection (text, start_offset, end_offset);
         return FALSE;
 }
-
 
 static gboolean
 et_set_caret_offset (AtkText *text,

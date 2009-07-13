@@ -100,7 +100,6 @@ void                   gal_view_collection_add_factory              (GalViewColl
 void                   gal_view_collection_display_view             (GalViewCollection *collection,
 								     GalView           *view);
 
-
 /* Query the view collection. */
 gint                   gal_view_collection_get_count                (GalViewCollection *collection);
 GalView               *gal_view_collection_get_view                 (GalViewCollection *collection,
@@ -143,8 +142,6 @@ const gchar            *gal_view_collection_get_default_view         (GalViewCol
 void                   gal_view_collection_set_default_view         (GalViewCollection *collection,
 								     const gchar        *id);
 
-
 G_END_DECLS
-
 
 #endif /* _GAL_VIEW_COLLECTION_H_ */

@@ -801,7 +801,6 @@ static void sub_editor_busy(EMSubscribeEditor *se, gint dir)
 	}
 }
 
-
 #define DEFAULT_WIDTH  600
 #define DEFAULT_HEIGHT 400
 

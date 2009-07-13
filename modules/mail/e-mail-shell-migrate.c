@@ -1089,7 +1089,6 @@ em_migrate_session_new (const gchar *path)
 	return session;
 }
 
-
 #endif	/* !G_OS_WIN32 */
 
 static GtkWidget *window;
@@ -2941,12 +2940,10 @@ migrate_to_db (EShellBackend *shell_backend)
 	i++;
 	em_migrate_set_progress ( (double)i/(len+1));
 
-
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
 		const gchar *name;
-
 
 		service = account->source;
 		name = account->name;
@@ -3090,7 +3087,6 @@ e_mail_shell_migrate (EShellBackend *shell_backend,
 		g_error ("Upgrading from ancient versions not supported on Windows");
 #endif
 	}
-
 
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();

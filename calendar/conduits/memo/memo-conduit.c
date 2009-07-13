@@ -117,7 +117,6 @@ memoconduit_load_configuration (guint32 pilot_id)
 	GnomePilotConduitConfig *config;
 	gchar prefix[256];
 
-
 	g_snprintf (prefix, 255, "e-memo-conduit/Pilot_%u", pilot_id);
 
 	c = g_new0 (EMemoConduitCfg,1);
@@ -637,7 +636,6 @@ local_record_from_uid (EMemoLocalRecord *local,
 	g_clear_error (&error);
 }
 
-
 static ECalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
@@ -736,7 +734,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		g_free(txt2);
 		free(txt3);
 	}
-
 
 	e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_NONE);
 
@@ -954,7 +951,6 @@ post_sync (GnomePilotConduit *conduit,
 					   _("Could not write pilot's Memo application block"));
 		return -1;
 	}
-
 
 	LOG (g_message ( "post_sync: Memo Conduit v.%s", CONDUIT_VERSION ));
 

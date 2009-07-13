@@ -119,7 +119,6 @@ todoconduit_load_configuration (guint32 pilot_id)
 	GnomePilotConduitConfig *config;
 	gchar prefix[256];
 
-
 	g_snprintf (prefix, 255, "e-todo-conduit/Pilot_%u", pilot_id);
 
 	c = g_new0 (EToDoConduitCfg,1);
@@ -806,7 +805,6 @@ local_record_from_uid (EToDoLocalRecord *local,
 	g_clear_error (&error);
 }
 
-
 static ECalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
@@ -1141,7 +1139,6 @@ post_sync (GnomePilotConduit *conduit,
 					   _("Could not write pilot's ToDo application block"));
 		return -1;
 	}
-
 
 	LOG (g_message ( "post_sync: ToDo Conduit v.%s", CONDUIT_VERSION ));
 

@@ -45,7 +45,6 @@ static gint e_week_view_find_span_end	(gboolean	 multi_week_view,
 					 gint		 display_start_day,
 					 gint		 day);
 
-
 GArray*
 e_week_view_layout_events	(GArray		*events,
 				 GArray		*old_spans,
@@ -107,7 +106,6 @@ e_week_view_layout_events	(GArray		*events,
 
 	return spans;
 }
-
 
 static void
 e_week_view_layout_event	(EWeekViewEvent	*event,
@@ -211,7 +209,6 @@ e_week_view_layout_event	(EWeekViewEvent	*event,
 	event->num_spans = num_spans;
 }
 
-
 /* Finds the day containing the given time.
    If include_midnight_in_prev_day is TRUE then if the time exactly
    matches the start of a day the previous day is returned. This is useful
@@ -240,7 +237,6 @@ e_week_view_find_day		(time_t		 time_to_find,
 
 	g_return_val_if_reached (days_shown);
 }
-
 
 /* This returns the last possible day in the same span as the given day.
    A span is all the days which are displayed next to each other from left to
@@ -278,7 +274,6 @@ e_week_view_find_span_end	(gboolean	 multi_week_view,
 		return day;
 	}
 }
-
 
 void
 e_week_view_layout_get_day_position	(gint		 day,
@@ -402,7 +397,6 @@ e_week_view_layout_get_day_position	(gint		 day,
 		#undef wk
 	}
 }
-
 
 /* Returns TRUE if the event span is visible or FALSE if it isn't.
    It also returns the number of days of the span that are visible.

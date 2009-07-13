@@ -251,7 +251,6 @@ e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, gint n, ETableSortCo
 	e_table_sort_info_group_info_changed(info);
 }
 
-
 /**
  * e_table_sort_info_get_count:
  * @info: The ETableSortInfo object
@@ -471,5 +470,4 @@ e_table_sort_info_get_can_group       (ETableSortInfo   *info)
 {
 	return info->can_group;
 }
-
 

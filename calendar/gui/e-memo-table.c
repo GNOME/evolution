@@ -782,7 +782,6 @@ e_memo_table_get_model (EMemoTable *memo_table)
 	return memo_table->priv->model;
 }
 
-
 /**
  * e_memo_table_get_table:
  * @memo_table: A calendar table.
@@ -1207,7 +1206,6 @@ e_memo_table_load_state	(EMemoTable *memo_table,
 	table = e_memo_table_get_table (memo_table);
 	e_table_load_state (table, filename);
 }
-
 
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void

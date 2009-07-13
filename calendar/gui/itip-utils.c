@@ -300,7 +300,6 @@ typedef struct {
 	icalcomponent *zones;
 } ItipUtilTZData;
 
-
 static void
 foreach_tzid_callback (icalparameter *param, gpointer data)
 {
@@ -410,7 +409,6 @@ comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 			return NULL;
 		}
 		return g_strdup (itip_strip_mailto (organizer.value));
-
 
 	default:
 		if (!e_cal_component_has_attendees (comp))
@@ -1396,21 +1394,17 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 		e_cal_component_free_text_list (text_list);
 
-
 		e_cal_component_get_summary (comp, &text);
 		if (text.value)
 			subject = g_strdup (text.value);
-
 
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value)
 			orig_from = g_strdup (itip_strip_mailto (organizer.value));
 
-
 		e_cal_component_get_location (comp, &location);
 		if (!location)
 			location = "Unspecified";
-
 
 		e_cal_component_get_dtstart (comp, &dtstart);
 		if (dtstart.value) {
@@ -1426,7 +1420,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 			start = icaltime_as_timet_with_zone (*dtstart.value, start_zone);
 			time = g_strdup (ctime (&start));
 		}
-
 
 		body = g_string_new ("<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>");
 
