@@ -186,8 +186,7 @@ Click &quot;Forward&quot; to begin. </property>
 	      <child>
 		<widget class="GtkLabel" id="management_help">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Please enter a descriptive name for this account in the space below.
-This name will be used for display purposes only.</property>
+		  <property name="label" translatable="yes">Please enter a descriptive name for this account in the space below. This name will be used for display purposes only.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8892,8 +8891,7 @@ Quoted</property>
 		    <widget class="GtkLabel" id="label456">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">The output of this script will be used as your
-signature. The name you specify will be used
-for display purposes only. </property>
+signature. The name you specify will be used for display purposes only.</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>

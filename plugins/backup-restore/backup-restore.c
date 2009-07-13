@@ -286,7 +286,9 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	page = gnome_druid_page_standard_new_with_vals (_("Restore from backup"), NULL, NULL);
 	hbox = gtk_hbox_new (FALSE, 6);
-	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. \nIt also restores all your personal settings, mail filters etc."));
+	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
+	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
+	gtk_label_set_single_line_mode ((GtkLabel *)label, FALSE);
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
 	box = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
