@@ -65,8 +65,8 @@ void saveVTask(TNEFStruct *tnef);
 void org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t);
 
 /* Other Prototypes */
-void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]);
-void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]);
+void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
+void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
 void quotedfprint(FILE *fptr, variableLength *vl);
 void cstylefprint(FILE *fptr, variableLength *vl);
 void printRtf(FILE *fptr, variableLength *vl);
@@ -258,9 +258,9 @@ void processTnef(TNEFStruct *tnef) {
                     != MAPI_UNDEFINED) {
                 variableLength *buf;
 		buf = (variableLength *)g_malloc (sizeof(variableLength));
-		buf->data="";
+		buf->data[0]='\0';
 		buf->size=0;
-                if ((buf->data = DecompressRTF(filename, &(buf->size))) != NULL) {
+                if ((buf->data = (gchar *) DecompressRTF(filename, &(buf->size))) != NULL) {
                     if (filepath == NULL) {
                         sprintf(ifilename, "%s.rtf", tnef->subject.data);
                     } else {
@@ -280,7 +280,7 @@ void processTnef(TNEFStruct *tnef) {
                         fclose(fptr);
                     }
                     free(buf->data);
-		    buf->data="";
+		    buf->data[0]='\0';
 		    buf->size=0;
                 }
             }
@@ -315,14 +315,14 @@ void processTnef(TNEFStruct *tnef) {
                 /*  This is an "embedded object", so skip the */
                 /* 16-byte identifier first. */
                 TNEFStruct *emb_tnef;
-		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 DWORD signature;
+		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 memcpy(&signature, filedata->data+16, sizeof(DWORD));
                 if (TNEFCheckForSignature(signature) == 0) {
                     /* Has a TNEF signature, so process it. */
                     TNEFInitialize(emb_tnef);
                     emb_tnef->Debug = tnef->Debug;
-                    if (TNEFParseMemory(filedata->data+16,
+                    if (TNEFParseMemory((guchar *) filedata->data+16,
                              filedata->size-16, emb_tnef) != -1) {
                         processTnef(emb_tnef);
                         RealAttachment = 0;
@@ -331,14 +331,14 @@ void processTnef(TNEFStruct *tnef) {
                 }
             } else {
                 TNEFStruct *emb_tnef;
-		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 DWORD signature;
+		emb_tnef = (TNEFStruct *) g_malloc(sizeof(TNEFStruct));
                 memcpy(&signature, filedata->data, sizeof(DWORD));
                 if (TNEFCheckForSignature(signature) == 0) {
                     /* Has a TNEF signature, so process it. */
                     TNEFInitialize(emb_tnef);
                     emb_tnef->Debug = tnef->Debug;
-                    if (TNEFParseMemory(filedata->data,
+                    if (TNEFParseMemory((guchar *) filedata->data,
                             filedata->size, emb_tnef) != -1) {
                         processTnef(emb_tnef);
                         RealAttachment = 0;
@@ -685,14 +685,14 @@ void saveVCard(TNEFStruct *tnef) {
         /* Birthday */
         if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_SYSTIME, PR_BIRTHDAY))) != MAPI_UNDEFINED) {
             fprintf(fptr, "BDAY:");
-            MAPISysTimetoDTR(vl->data, &thedate);
+            MAPISysTimetoDTR((guchar *) vl->data, &thedate);
             fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
         }
 
         /* Anniversary */
         if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_SYSTIME, PR_WEDDING_ANNIVERSARY))) != MAPI_UNDEFINED) {
             fprintf(fptr, "X-EVOLUTION-ANNIVERSARY:");
-            MAPISysTimetoDTR(vl->data, &thedate);
+            MAPISysTimetoDTR((guchar *) vl->data, &thedate);
             fprintf(fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
         }
         fprintf(fptr, "END:VCARD\n");
@@ -1049,7 +1049,7 @@ void saveVCalendar(TNEFStruct *tnef) {
                 != MAPI_UNDEFINED) {
             variableLength *buf;
 	    buf = (variableLength *)g_malloc (sizeof(variableLength));
-            if ((buf->data = DecompressRTF(filename, &(buf->size))) != NULL) {
+            if ((buf->data = (gchar *) DecompressRTF(filename, &(buf->size))) != NULL) {
                 fprintf(fptr, "DESCRIPTION:");
                 printRtf(fptr, buf);
                 free(buf->data);
@@ -1080,7 +1080,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         if (filename != NULL) {
             fprintf(fptr, "DTSTART:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1096,7 +1096,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         if (filename != NULL) {
             fprintf(fptr, "DTEND:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1106,7 +1106,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         if ((filename=MAPIFindUserProp(&(tnef->MapiProperties),
                         PROP_TAG(PT_SYSTIME, 0x8202))) != MAPI_UNDEFINED) {
             fprintf(fptr, "CREATED:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1223,7 +1223,7 @@ void saveVTask(TNEFStruct *tnef) {
                     PROP_TAG(PT_SYSTIME, PR_CREATION_TIME));
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "DTSTAMP:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1233,7 +1233,7 @@ void saveVTask(TNEFStruct *tnef) {
                     PROP_TAG(PT_SYSTIME, 0x8517));
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "DUE:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1242,7 +1242,7 @@ void saveVTask(TNEFStruct *tnef) {
                     PROP_TAG(PT_SYSTIME, PR_LAST_MODIFICATION_TIME));
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "LAST-MODIFIED:");
-            MAPISysTimetoDTR(filename->data, &thedate);
+            MAPISysTimetoDTR((guchar *) filename->data, &thedate);
             fprintf(fptr,"%04i%02i%02iT%02i%02i%02iZ\n",
                     thedate.wYear, thedate.wMonth, thedate.wDay,
                     thedate.wHour, thedate.wMinute, thedate.wSecond);
@@ -1267,7 +1267,7 @@ void saveVTask(TNEFStruct *tnef) {
 
 }
 
-void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]) {
+void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
     variableLength *vl;
     if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
@@ -1279,7 +1279,7 @@ void fprintProperty(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, 
     }
 }
 
-void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, gchar text[]) {
+void fprintUserProp(TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
     variableLength *vl;
     if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
