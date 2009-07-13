@@ -9,12 +9,11 @@ AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(EVOLUTION_MAIL_CFLAGS)		\
-	$(LIBNOTIFY_CFLAGS)			
+	$(LIBNOTIFY_CFLAGS)
 
-if ENABLE_DBUS
+if DBUS_SUPPORT
 AM_CPPFLAGS += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
-		-DFOUND_DBUS_VERSION=$(FOUND_DBUS_VERSION)          \
-		$(NMN_CFLAGS)
+		$(DBUS_GLIB_CFLAGS)
 endif
 
 @EVO_PLUGIN_RULE@
@@ -29,8 +28,8 @@ liborg_gnome_mail_notification_la_LIBADD = 	\
 	$(LIBNOTIFY_LIBS)			\
 	$(NO_UNDEFINED_REQUIRED_LIBS)
 
-if ENABLE_DBUS
-liborg_gnome_mail_notification_la_LIBADD += $(NMN_LIBS)
+if DBUS_SUPPORT
+liborg_gnome_mail_notification_la_LIBADD += $(DBUS_GLIB_LIBS)
 endif 
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

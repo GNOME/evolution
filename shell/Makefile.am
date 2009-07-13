@@ -23,6 +23,12 @@ AM_CPPFLAGS =							\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
+if NM_SUPPORT
+AM_CPPFLAGS += \
+	$(DBUS_GLIB_CFLAGS) \
+	$(NM_FLAGS)
+endif
+
 bin_PROGRAMS = evolution
 
 # Shell CORBA stuff

@@ -136,24 +136,13 @@ send_dbus_message (const gchar *name, const gchar *data, guint new)
 		return;
 
 	/* Appends the data as an argument to the message */
-	dbus_message_append_args (message,
-#if FOUND_DBUS_VERSION >= 310
-				  DBUS_TYPE_STRING, &data,
-#else
-				  DBUS_TYPE_STRING, data,
-#endif
-				  DBUS_TYPE_INVALID);
+	dbus_message_append_args (message, DBUS_TYPE_STRING, &data, DBUS_TYPE_INVALID);
 
 	if (new) {
 		gchar * display_name = em_utils_folder_name_from_uri (data);
 		dbus_message_append_args (message,
-#if FOUND_DBUS_VERSION >= 310
 					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
-#else
-					  DBUS_TYPE_STRING, display_name, DBUS_TYPE_UINT32, new,
-#endif
 					  DBUS_TYPE_INVALID);
-
 	}
 
 	/* Sends the message */
