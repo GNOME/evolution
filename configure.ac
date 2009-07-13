@@ -242,18 +242,8 @@ dnl ******************************
 dnl iconv checking
 dnl ******************************
 have_iconv=no
-AC_ARG_WITH([libiconv],
-	AS_HELP_STRING([--with-libiconv=PATH],
-	[Prefix where libiconv is installed]))
-if test -d "$withval"; then
-	ICONV_CFLAGS="-I$withval/include"
-	ICONV_LIBS="-L$withval/lib"
-fi
-
-save_CFLAGS="$CFLAGS"
 save_LIBS="$LIBS"
-CFLAGS="$CFLAGS $ICONV_CFLAGS"
-LIBS="$LIBS $ICONV_LIBS -liconv"
+LIBS="$LIBS -liconv"
 AC_CACHE_CHECK([for iconv in -liconv], [ac_cv_libiconv],
 	AC_LINK_IFELSE([AC_LANG_PROGRAM(
 	[[
@@ -267,7 +257,7 @@ AC_CACHE_CHECK([for iconv in -liconv], [ac_cv_libiconv],
 	)],[ac_cv_libiconv=yes],[ac_cv_libiconv=no]))
 
 if test $ac_cv_libiconv = yes; then
-        ICONV_LIBS="$ICONV_LIBS -liconv"
+        ICONV_LIBS="-liconv"
 	if test $os_win32 = yes; then
 		# Don't pointlessly auto-export the global symbols
 		# from a potentially static libiconv.a
@@ -275,7 +265,6 @@ if test $ac_cv_libiconv = yes; then
 	fi
         have_iconv=yes
 else
-        CFLAGS="$save_CFLAGS"
         LIBS="$save_LIBS"
         AC_CHECK_FUNC(iconv, have_iconv=yes, have_iconv=no)
 fi
@@ -321,7 +310,6 @@ fi
 if test "$have_iconv" = no; then
         AC_MSG_ERROR([You need to install a working iconv implementation, such as ftp://ftp.gnu.org/pub/gnu/libiconv])
 fi
-AC_SUBST(ICONV_CFLAGS)
 AC_SUBST(ICONV_LIBS)
 
 CFLAGS="$CFLAGS -I$srcdir"

@@ -10,9 +10,7 @@ AM_CPPFLAGS =								\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_MAIL_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(ICONV_CFLAGS)
-
+	$(GNOME_PLATFORM_CFLAGS)
 
 privsolib_LTLIBRARIES =		\
 	libemiscwidgets.la	\
