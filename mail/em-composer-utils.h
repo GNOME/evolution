@@ -36,7 +36,7 @@ void em_utils_compose_new_message (const gchar *fromuri);
 EMsgComposer * em_utils_compose_lite_new_message (const gchar *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
-void em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
+EMsgComposer * em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri);
 
 GtkWidget * em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder);
 void em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids, gboolean replace);
