@@ -1,3 +1,85 @@
+Evolution 2.27.4 2009-07-13
+---------------------------
+
+Bug Fixes:
+
+Addressbook:
+	#561300 - Edit contact's Notes on its own tab. (Milan Crha)
+
+Calendar:
+	#586251 - Let the SSL checkbox for Google calendar work (Milan Crha)
+	#513451 - Select Today for calendar views on the first showing (Milan Crha)
+	#238058 - Show more from summary for events with icons (Milan Crha)
+	#245723 - Show days with transparent events in italic (Milan Crha)
+	#252296 - Do not preset alarm for all day events (Milan Crha)
+	#525689 - Do not show all days as Sunday in a comp-editor (Milan Crha)
+	#236996 - Calendar display for weekends in month view (Milan Crha)
+	#251694 - Highlight current day in a calendar (Milan Crha)
+	#425582 - Calendar Alarm Display is not noticable enough (Milan Crha)
+	#245723 - Show days with transparent events in italic (Milan Crha)
+	#240605 - auto-select next day at midnight in selected day view (Milan Crha)
+
+Mail:
+	#345775 – Missing blank line between messages in saved mbox (Matthew Barnes)
+	#464131 – Allow inline view of application/mbox attachments (Matthew Barnes)
+	#568302 - Skip "noselect=yes" folders on Send/Receive (Milan Crha)
+	#268644 - unread mail shortcut collides with gtk tree search (Milan Crha)
+	#587699 - Localize only local folder names (Milan Crha)
+
+Plugins:
+	#586332 - Build error (long gint) (Matthew Barnes)
+	#346146 - Appointments in Sent folder should not display actions (Milan Crha)
+	#566369 - backup-restore - recognize broken archive (Milan Crha)
+	#566369 - fix string typo "cancelled" => "canceled" (Milan Crha)
+	#588106 – Makefile.am misuses *_LDFLAGS (Daniel Macks)
+
+Misc:
+	#586378 - Various build cleanups (H.Habighorst)	
+	#586478 – Fix quoting in configure.ac (H.Habighorst)
+	#586631 – Rearrange autotool initialization in configure.ac (H.Habighorst)
+	#586632 – Require automake 1.9 (H.Habighorst)
+	#586629 – Fix whitespace in configure.ac (H.Habighorst)
+	#586806 – Fix iconv cflags/libs in configure.ac (H.Habighorst)
+	#586809 – Enable "silent rules" automake 1.11 option (Matthew Barnes)
+	#587138 - Require libxml2 2.7.3 (Yavor Doganov)
+	#587374 - iconv test broken on some gcc (Matthew Barnes)
+	#586991 – Require autoconf 2.58 / various configure cleanups (H.Habighorst)
+
+Other Fixes:
+
+Mail:
+	Re-arrange attachment bar files for Anjal's and webkit rendering. (Srinivasa Ragavan)
+	Fix properly include paths, since this is one of our public headers (Fridrich Strba)
+	Do not treat edit accounts as new accounts in a case (Srinivasa Ragavan)
+Shell:
+	Check network manager state on startup and set start_offline appropriately (Chenthill Palanisamy)
+
+Misc:
+	Use G_BEGIN_DECLS / G_END_DECLS macros. (Matthew Barnes)
+	Stop abusing forward declarations. (Matthew Barnes)
+	Remove a weak pointer when disposing EAttachmentHandler. (Matthew Barnes)
+	Fix "make check" errors. (Matthew Barnes)
+	Remove INSTALL from source control. (Matthew Barnes)
+	Fixes for anjal (Srinivasa Ragavan)
+	Read entire UI definition in "eplug" files. (Matthew Barnes)
+	Add localized screenshots (Andre Klapper)
+	Hide proper widgets from filter.glade for searches (Milan Crha)
+	Use AM_CPPFLAGS instead of INCLUDE in all Makefile.am. (Matthew Barnes)
+	Fix whitespace issues in em-account-editor.c. (Matthew Barnes)
+	Kill EConfigListener. (Matthew Barnes)
+
+Translations:
+	Manoj Kumar (or)
+	Mark Krapivner (he)
+	Ivar Smolin (et)
+	Jorge Gonzalez (es)
+	drtvasudevan (ta)
+	Runa Bhattacharjee (bn)
+	Andre Klapper (de)
+	Christian Kirbach (de)
+	Daniel Nylander (sv)
+	Maxim V. Dziumanenko (uk)
+
 Evolution 2.27.3 2009-06-15
 ---------------------------
 
