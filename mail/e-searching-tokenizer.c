@@ -73,7 +73,6 @@ struct _SharedState {
 
 /* ********************************************************************** */
 
-
 #if 0
 static SharedState *
 shared_state_new (void)
@@ -149,7 +148,6 @@ loop:
 
 	return v;
 }
-
 
 /* note: our tags of interest are 7 bit ascii, only, no need to do any fancy utf8 stuff */
 /* tags should be upper case

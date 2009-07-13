@@ -47,7 +47,6 @@ G_BEGIN_DECLS
 #define E_IS_REFLOW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_REFLOW_TYPE))
 #define E_IS_REFLOW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
 
-
 typedef struct EReflowPriv    EReflowPriv;
 
 typedef struct _EReflow       EReflow;

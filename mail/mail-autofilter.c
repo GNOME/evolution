@@ -75,7 +75,6 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 	}
 }
 
-
 /* remove 're' part of a subject */
 static const gchar *
 strip_re (const gchar *subject)

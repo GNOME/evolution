@@ -35,7 +35,6 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-listener.h>
 
-
 struct _ECorbaConfigPagePrivate {
 	GNOME_Evolution_ConfigControl config_control_interface;
 };

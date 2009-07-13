@@ -133,7 +133,6 @@ struct _EAddrLocalRecord {
 	struct Address *addr;
 };
 
-
 static void
 addrconduit_destroy_record (EAddrLocalRecord *local)
 {

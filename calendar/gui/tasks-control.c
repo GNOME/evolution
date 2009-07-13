@@ -49,7 +49,6 @@
 
 #define FIXED_MARGIN                            .05
 
-
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
@@ -136,7 +135,6 @@ tasks_control_new (void)
 
 	return control;
 }
-
 
 static void
 tasks_control_activate_cb		(BonoboControl		*control,
@@ -355,7 +353,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
 }
 
-
 void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
@@ -419,7 +416,6 @@ tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
 	GtkWidget *preview;
 
 	tasks = E_TASKS (data);
-
 
 	preview = e_cal_component_preview_get_html (E_CAL_COMPONENT_PREVIEW (e_tasks_get_preview (tasks)));
 	if (preview && GTK_WIDGET_VISIBLE (preview) && GTK_WIDGET_HAS_FOCUS (preview)) {

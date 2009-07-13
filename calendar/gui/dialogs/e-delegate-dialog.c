@@ -114,7 +114,6 @@ e_delegate_dialog_finalize (GObject *object)
 		(* G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize) (object);
 }
 
-
 EDelegateDialog *
 e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gchar *address)
 {
@@ -272,7 +271,6 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 	g_list_free (destinations);
 	return g_strdup (priv->address);
 }
-
 
 gchar *
 e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)

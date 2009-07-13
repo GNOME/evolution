@@ -193,7 +193,6 @@ get_components_from_bonobo (EUserCreatableItemsHandler *handler)
 	CORBA_free (info_list);
 }
 
-
 /* Helper functions.  */
 
 static gboolean
@@ -339,7 +338,6 @@ get_default_action_for_view (EUserCreatableItemsHandler *handler)
 	return priv->fallback_menu_item;
 }
 
-
 /* Verb handling.  */
 
 static void
@@ -441,7 +439,6 @@ add_verbs (EUserCreatableItemsHandler *handler,
 		component_num ++;
 	}
 }
-
 
 /* Generic menu construction code */
 
@@ -609,7 +606,6 @@ create_menu_xml (EUserCreatableItemsHandler *handler)
 	g_string_free (xml, FALSE);
 }
 
-
 /* The GtkMenu for the toolbar button.  */
 
 static void
@@ -760,7 +756,6 @@ setup_toolbar_button (EUserCreatableItemsHandler *handler)
 	g_object_unref (gconf);
 }
 
-
 /* GObject methods.  */
 
 static void
@@ -832,7 +827,6 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (e_user_creatable_items_handler_parent_class)->finalize) (object);
 }
 
-
 static void
 e_user_creatable_items_handler_class_init (EUserCreatableItemsHandlerClass *klass)
 {
@@ -864,7 +858,6 @@ e_user_creatable_items_handler_init (EUserCreatableItemsHandler *handler)
 	handler->priv = priv;
 }
 
-
 EUserCreatableItemsHandler *
 e_user_creatable_items_handler_new (const gchar *component_alias,
 				    EUserCreatableItemsHandlerCreate create_local, gpointer data)
@@ -879,7 +872,6 @@ e_user_creatable_items_handler_new (const gchar *component_alias,
 
 	return handler;
 }
-
 
 /**
  * e_user_creatable_items_handler_activate:

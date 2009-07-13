@@ -398,7 +398,6 @@ e_text_model_insert_length (ETextModel *model, gint position, const gchar *text,
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (length >= 0);
 
-
 	if (text == NULL || length == 0)
 		return;
 

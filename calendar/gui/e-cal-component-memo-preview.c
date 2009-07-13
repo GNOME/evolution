@@ -50,7 +50,6 @@ struct _ECalComponentMemoPreviewPrivate {
 
 G_DEFINE_TYPE (ECalComponentMemoPreview, e_cal_component_memo_preview, GTK_TYPE_TABLE)
 
-
 static void
 on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
 {
@@ -93,7 +92,6 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 		zone = NULL;
 	}
 
-
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);
@@ -133,7 +131,6 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	if (l) {
 		GSList *node;
 		GString *string = g_string_new (NULL);
-
 
 		gtk_html_stream_printf(stream, "<H3>%s: ", _("Categories"));
 

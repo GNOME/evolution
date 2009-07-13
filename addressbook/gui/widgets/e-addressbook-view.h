@@ -56,7 +56,6 @@ typedef enum {
 	EAB_VIEW_TABLE
 } EABViewType;
 
-
 typedef struct _EABView       EABView;
 typedef struct _EABViewClass  EABViewClass;
 

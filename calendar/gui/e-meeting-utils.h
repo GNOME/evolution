@@ -42,4 +42,3 @@ G_END_DECLS
 
 #endif /* _E_MEETING_UTILS_H_ */
 
-

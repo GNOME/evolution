@@ -37,13 +37,11 @@ typedef struct _EShellClass   EShellClass;
 #include "e-component-registry.h"
 #include "e-shell-window.h"
 
-
 #define E_TYPE_SHELL			(e_shell_get_type ())
 #define E_SHELL(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL, EShell))
 #define E_SHELL_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL, EShellClass))
 #define E_IS_SHELL(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL))
 #define E_IS_SHELL_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
-
 
 enum _EShellLineStatus {
 	E_SHELL_LINE_STATUS_ONLINE,
@@ -76,7 +74,6 @@ struct _EShellClass {
 	void (* new_window_created) (EShell *shell, EShellWindow *window);
 };
 
-
 /* ID for registering the shell in the OAF name service.  */
 #define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell:" BASE_VERSION
 
@@ -88,7 +85,6 @@ enum _EShellConstructResult {
 	E_SHELL_CONSTRUCT_RESULT_GENERICERROR
 };
 typedef enum _EShellConstructResult EShellConstructResult;
-
 
 GType                  e_shell_get_type   (void);
 EShellConstructResult  e_shell_construct  (EShell                *shell,
@@ -104,7 +100,6 @@ EShellWindow *e_shell_create_window         (EShell       *shell,
 					     EShellWindow *template_window);
 gboolean      e_shell_request_close_window  (EShell       *shell,
 					     EShellWindow *window);
-
 
 #if 0
 EUriSchemaRegistry *e_shell_peek_uri_schema_registry  (EShell *shell);

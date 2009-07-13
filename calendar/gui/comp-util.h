@@ -31,7 +31,6 @@
 
 void cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone);
 
-
 /* Returns TRUE if the component uses the given timezone for both DTSTART
    and DTEND, or if the UTC offsets of the start and end times are the same
    as in the given zone. */

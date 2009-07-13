@@ -36,7 +36,6 @@
 
 d(static gint depth = 0;)
 
-
 G_DEFINE_TYPE (ETableModel, e_table_model, G_TYPE_OBJECT)
 
 enum {
@@ -67,7 +66,6 @@ e_table_model_column_count (ETableModel *e_table_model)
 
 	return ETM_CLASS (e_table_model)->column_count (e_table_model);
 }
-
 
 /**
  * e_table_model_row_count:
@@ -170,7 +168,6 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, gint col, gint row)
 
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
-
 
 gpointer
 e_table_model_duplicate_value (ETableModel *e_table_model, gint col, gconstpointer value)
@@ -288,7 +285,6 @@ e_table_model_class_init (ETableModelClass *klass)
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
 
 	e_table_model_signals [MODEL_CHANGED] =
 		g_signal_new ("model_changed",

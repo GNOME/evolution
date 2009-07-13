@@ -120,7 +120,6 @@ struct _EShellPrivate {
 	guint crash_recovery : 1;
 };
 
-
 /* Signals.  */
 
 enum {
@@ -131,7 +130,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
 
 /* Utility functions.  */
 
@@ -149,7 +147,6 @@ get_config_start_offline (void)
 
 	return value;
 }
-
 
 /* Interactivity handling.  */
 
@@ -199,7 +196,6 @@ set_interactive (EShell *shell,
 		CORBA_exception_free (&ev);
 	}
 }
-
 
 /* CORBA interface implementation.  */
 
@@ -484,7 +480,6 @@ impl_finalize (GObject *object)
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
-
 
 /* Initialization.  */
 
@@ -996,7 +991,6 @@ e_shell_peek_uri_schema_registry (EShell *shell)
 }
 #endif
 
-
 /**
  * e_shell_peek_component_registry:
  * @shell:
@@ -1012,7 +1006,6 @@ e_shell_peek_component_registry (EShell *shell)
 
 	return shell->priv->component_registry;
 }
-
 
 /**
  * e_shell_save_settings:
@@ -1083,7 +1076,6 @@ e_shell_get_line_status (EShell *shell)
 
 	return shell->priv->line_status;
 }
-
 
 /* Offline/online handling.  */
 
@@ -1222,7 +1214,6 @@ e_shell_send_receive (EShell *shell)
 	}
 }
 
-
 void
 e_shell_show_settings (EShell *shell,
 		       const gchar *type,
@@ -1251,7 +1242,6 @@ e_shell_show_settings (EShell *shell,
 	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog.widget), GTK_WINDOW (shell_window));
 	gtk_widget_show (priv->settings_dialog.widget);
 }
-
 
 const gchar *
 e_shell_construct_result_to_string (EShellConstructResult result)

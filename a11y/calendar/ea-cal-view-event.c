@@ -48,7 +48,6 @@ static gboolean ea_cal_view_event_do_action (AtkAction *action, gint i);
 static gint ea_cal_view_event_get_n_actions (AtkAction *action);
 static G_CONST_RETURN gchar * ea_cal_view_event_action_get_name (AtkAction *action, gint i);
 
-
 #ifdef ACC_DEBUG
 static gint n_ea_cal_view_event_created = 0, n_ea_cal_view_event_destroyed = 0;
 static void ea_cal_view_finalize (GObject *object);
@@ -63,7 +62,6 @@ ea_cal_view_event_get_type (void)
 	AtkObjectFactory *factory;
 	GTypeQuery query;
 	GType derived_atk_type;
-
 
 	if (!type) {
 		static GTypeInfo tinfo = {
@@ -91,7 +89,6 @@ ea_cal_view_event_get_type (void)
                         NULL
                 };
 
-
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (atk object for E_TEXT, in this case)
@@ -112,7 +109,6 @@ ea_cal_view_event_get_type (void)
 					     &atk_component_info);
                 g_type_add_interface_static (type, ATK_TYPE_ACTION,
                                              &atk_action_info);
-
 
 	}
 
@@ -252,7 +248,6 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	const gchar *meeting_string;
 	gchar *summary_string;
         const gchar *summary;
-
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
 

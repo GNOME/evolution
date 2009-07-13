@@ -90,7 +90,6 @@ GtkWidget *e_plugin_lib_get_configure_widget	(EPlugin *epl);
 
 gboolean e_plugin_ui_init	(GtkUIManager *ui_manager, EMsgComposer *composer);
 
-
 /* Thanks to attachment reminder plugin for this*/
 static void commit_changes (UIData *ui);
 
@@ -540,7 +539,6 @@ reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 	/* Set the To: field to the same To: field of the message we are replying to. */
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO,
 			camel_mime_message_get_from (reply_to));
-
 
 	/* Copy the CC and BCC from the template.*/
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_CC,

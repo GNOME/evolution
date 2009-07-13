@@ -433,7 +433,6 @@ save_comp (CompEditor *editor)
 		if (e_cal_component_has_recurrences (priv->comp) && priv->mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (priv->comp, priv->client);
 
-
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
 			e_cal_component_set_rrule_list (priv->comp, NULL);
@@ -1740,7 +1739,6 @@ comp_editor_show_help (CompEditor *editor)
 	e_display_help (GTK_WINDOW (editor), class->help_section);
 }
 
-
 /* Closes the dialog box and emits the appropriate signals */
 static void
 close_dialog (CompEditor *editor)
@@ -1947,7 +1945,6 @@ comp_editor_set_flags (CompEditor *editor,
 
 	g_object_notify (G_OBJECT (editor), "flags");
 }
-
 
 CompEditorFlags
 comp_editor_get_flags (CompEditor *editor)
@@ -2541,7 +2538,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 
 }
 
-
 /**
  * comp_editor_edit_comp:
  * @editor: A component editor
@@ -2677,7 +2673,6 @@ comp_editor_close (CompEditor *editor)
 
 	return close;
 }
-
 
 /* Utility function to get the mime-attachment list from the attachment
  * bar for sending the comp via itip. The list and its contents must

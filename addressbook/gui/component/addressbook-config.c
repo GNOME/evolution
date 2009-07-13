@@ -632,7 +632,6 @@ eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	return w;
 }
 
-
 static GtkWidget *
 eabc_general_offline(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
@@ -722,7 +721,6 @@ ssl_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 
 	gtk_widget_set_tooltip_text (sdialog->ssl_combobox, ldap_get_ssl_tooltip (sdialog->ssl));
 }
-
 
 static GtkWidget *
 eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
@@ -1245,7 +1243,6 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("Address Book Properties"));
 	else
 		sdialog->window = e_config_create_window((EConfig *)ec, NULL, _("New Address Book"));
-
 
 	/* forces initial validation */
 	if (!sdialog->original_source)

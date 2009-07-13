@@ -64,7 +64,6 @@ void e_searching_tokenizer_set_secondary_search_string    (ESearchingTokenizer *
 void e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str);
 void e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
 
-
 gint e_searching_tokenizer_match_count          (ESearchingTokenizer *);
 
 #endif /* __E_SEARCHING_TOKENIZER_H__ */

@@ -122,8 +122,6 @@ init (GObject *object)
 
 E2K_MAKE_TYPE (exchange_permissions_dialog, ExchangePermissionsDialog, class_init, init, PARENT_TYPE)
 
-
-
 static void get_widgets         (ExchangePermissionsDialog *dialog,
 				 GladeXML *xml);
 static void setup_user_list     (ExchangePermissionsDialog *dialog);
@@ -300,7 +298,6 @@ dialog_response (ExchangePermissionsDialog *dialog, gint response,
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
-
 static void
 set_permissions (ExchangePermissionsDialog *dialog, guint32 perms)
 {
@@ -312,7 +309,6 @@ set_permissions (ExchangePermissionsDialog *dialog, guint32 perms)
 
 	dialog->priv->changed = TRUE;
 }
-
 
 /* User list functions */
 
@@ -518,7 +514,6 @@ setup_user_list (ExchangePermissionsDialog *dialog)
 	g_list_free (sids);
 }
 
-
 /* Role option menu functions */
 
 static void
@@ -576,8 +571,6 @@ display_role (ExchangePermissionsDialog *dialog)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->priv->role_optionmenu), role);
 }
-
-
 
 /* Toggle buttons */
 static void
@@ -690,8 +683,6 @@ display_permissions (ExchangePermissionsDialog *dialog)
 
 	dialog->priv->frozen = FALSE;
 }
-
-
 
 static void
 get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)

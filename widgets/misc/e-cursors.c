@@ -61,7 +61,6 @@ static CursorDef cursors [] = {
 	{ NULL, 0,    0,  NULL }
 };
 
-
 static void
 create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gchar **xpm)
 {
@@ -149,7 +148,6 @@ e_cursors_shutdown (void)
 	for (i = 0; cursors [i].hot_x; i++)
 		gdk_cursor_unref (cursors [i].cursor);
 }
-
 
 /* Returns a cursor given its type */
 GdkCursor *

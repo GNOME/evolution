@@ -276,7 +276,6 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 		else
 			arrow_width = ARROW_WIDTH;
 
-
 		lines = pango_layout_get_lines (layout);
 		line = lines->data;
 

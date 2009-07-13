@@ -258,7 +258,6 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	e_cal_view_a11y_init ();
 }
 
-
 void
 e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
 		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas)
@@ -1194,12 +1193,10 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		} else
 			zone = e_calendar_view_get_timezone (cal_view);
 
-
 		if (is_instance)
 			rid = e_cal_component_get_recurid_as_string (comp);
 
 		e_cal_component_free_datetime (&dt);
-
 
 		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
 				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
@@ -1384,7 +1381,6 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 	if (e_cal_get_object (dest_client, uid, NULL, &orig_icalcomp, NULL)) {
 		icalcomponent_free (orig_icalcomp);
 
-
 		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
 			return;
 	} else {
@@ -1537,7 +1533,6 @@ set_attendee_status_for_delegate (icalcomponent *icalcomp, ECal *client)
 
 	address = itip_get_comp_attendee (comp, client);
 
-
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
@@ -1577,7 +1572,6 @@ set_attendee_status_for_delegate (icalcomponent *icalcomp, ECal *client)
 
 		g_free (temp);
 	}
-
 
 	g_free (address);
 	g_object_unref (comp);
@@ -1706,7 +1700,6 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	id = e_cal_component_get_id (comp);
-
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -2107,7 +2100,6 @@ e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, ic
 	const gchar *uid;
 	ECalComponent *comp;
 
-
 	uid = icalcomponent_get_uid (icalcomp);
 
 	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
@@ -2162,7 +2154,6 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
 	}
-
 
 	e_calendar_view_open_event_with_flags (cal_view, client, icalcomp, flags);
 }

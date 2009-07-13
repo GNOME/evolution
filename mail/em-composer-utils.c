@@ -1041,7 +1041,6 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 
 	e_msg_composer_attach (composer, part);
 
-
 	if (uids)
 		setup_forward_attached_callbacks (composer, folder, uids);
 
@@ -1394,7 +1393,6 @@ em_utils_receipt_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageI
 	camel_message_info_free (info);
 	mail_send ();
 }
-
 
 void
 em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
@@ -2007,7 +2005,6 @@ em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, Cam
 	get_reply_all (message, to, cc, postto);
 }
 
-
 enum {
 	ATTRIB_UNKNOWN,
 	ATTRIB_CUSTOM,
@@ -2278,7 +2275,6 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	g_free (credits);
 	return text;
 }
-
 
 static void
 reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gpointer user_data)

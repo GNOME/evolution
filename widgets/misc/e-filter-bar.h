@@ -113,7 +113,6 @@ const gchar * strings[] = {
 };
 #endif
 
-
 GType       e_filter_bar_get_type (void);
 
 EFilterBar *e_filter_bar_new      (RuleContext *context,
@@ -135,6 +134,5 @@ e_filter_bar_new_construct	  (RuleContext *context,
 				   gpointer data ,EFilterBar *bar );
 
 G_END_DECLS
-
 
 #endif /* __E_FILTER_BAR_H__ */

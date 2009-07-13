@@ -263,7 +263,6 @@ edit_existing (OpenClient *oc, const gchar *uid)
 	if (itip_organizer_is_user (comp, oc->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (e_cal_component_has_attendees (comp))
@@ -640,5 +639,4 @@ comp_editor_factory_new (void)
 {
 	return g_object_new (TYPE_COMP_EDITOR_FACTORY, NULL);
 }
-
 

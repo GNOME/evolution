@@ -69,7 +69,6 @@ gal_a11y_e_cell_toggle_get_type (void)
         NULL /* value table */
       };
 
-
       type = g_type_register_static (GAL_A11Y_TYPE_E_CELL,
                                      "GalA11yECellToggle", &tinfo, 0);
       gal_a11y_e_cell_type_add_action_interface (type);
@@ -77,7 +76,6 @@ gal_a11y_e_cell_toggle_get_type (void)
     }
   return type;
 }
-
 
 static void
 gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass)
@@ -137,7 +135,6 @@ model_change_cb (ETableModel *etm,
 			gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, TRUE);
 	}
 }
-
 
 AtkObject*
 gal_a11y_e_cell_toggle_new (ETableItem *item,

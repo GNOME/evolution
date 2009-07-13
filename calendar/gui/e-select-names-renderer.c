@@ -27,7 +27,6 @@
 #include "e-select-names-editable.h"
 #include "e-select-names-renderer.h"
 
-
 struct _ESelectNamesRendererPriv {
 	ESelectNamesEditable *editable;
 	gchar *path;

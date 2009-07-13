@@ -49,7 +49,6 @@ struct _ETimezoneEntryPrivate {
 	GtkWidget *button;
 };
 
-
 enum {
   CHANGED,
   LAST_SIGNAL
@@ -69,7 +68,6 @@ static void add_relation		(ETimezoneEntry *tentry,
 					 GtkWidget *widget);
 
 static void e_timezone_entry_set_entry  (ETimezoneEntry *tentry);
-
 
 static guint timezone_entry_signals[LAST_SIGNAL] = { 0 };
 
@@ -99,7 +97,6 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 	class->changed = NULL;
 }
 
-
 static void
 e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
@@ -128,7 +125,6 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	}
 }
 
-
 /**
  * e_timezone_entry_new:
  *
@@ -149,7 +145,6 @@ e_timezone_entry_new			(void)
 	return GTK_WIDGET (tentry);
 }
 
-
 static void
 e_timezone_entry_destroy		(GtkObject	*object)
 {
@@ -165,7 +160,6 @@ e_timezone_entry_destroy		(GtkObject	*object)
 	if (GTK_OBJECT_CLASS (e_timezone_entry_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (e_timezone_entry_parent_class)->destroy) (object);
 }
-
 
 /* The arrow button beside the date field has been clicked, so we show the
    popup with the ECalendar in. */
@@ -193,14 +187,12 @@ on_button_clicked		(GtkWidget	*widget,
 	g_object_unref (timezone_dialog);
 }
 
-
 static void
 on_entry_changed			(GtkEntry	*entry,
 					 ETimezoneEntry *tentry)
 {
 	g_signal_emit (GTK_OBJECT (tentry), timezone_entry_signals[CHANGED], 0);
 }
-
 
 icaltimezone*
 e_timezone_entry_get_timezone		(ETimezoneEntry	*tentry)
@@ -272,7 +264,6 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 	add_relation (tentry, priv->entry);
 }
 
-
 /* Sets the default timezone. If the current timezone matches this, then the
    entry field is hidden. This is useful since most people do not use timezones
    so it makes the user interface simpler. */
@@ -290,7 +281,6 @@ e_timezone_entry_set_default_timezone	(ETimezoneEntry	*tentry,
 
 	e_timezone_entry_set_entry (tentry);
 }
-
 
 static void
 e_timezone_entry_set_entry (ETimezoneEntry *tentry)
@@ -324,7 +314,6 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 
 	g_free (name_buffer);
 }
-
 
 static gboolean
 e_timezone_entry_mnemonic_activate (GtkWidget *widget,

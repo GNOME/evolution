@@ -22,22 +22,18 @@
 #ifndef __E_COMPONENT_REGISTRY_H__
 #define __E_COMPONENT_REGISTRY_H__
 
-
 #include "Evolution.h"
 
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-
 G_BEGIN_DECLS
-
 
 #define E_TYPE_COMPONENT_REGISTRY		(e_component_registry_get_type ())
 #define E_COMPONENT_REGISTRY(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMPONENT_REGISTRY, EComponentRegistry))
 #define E_COMPONENT_REGISTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_COMPONENT_REGISTRY, EComponentRegistryClass))
 #define E_IS_COMPONENT_REGISTRY(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
 #define E_IS_COMPONENT_REGISTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
-
 
 typedef struct _EComponentRegistry        EComponentRegistry;
 typedef struct _EComponentRegistryPrivate EComponentRegistryPrivate;
@@ -80,7 +76,6 @@ struct _EComponentInfo {
 };
 typedef struct _EComponentInfo EComponentInfo;
 
-
 GType               e_component_registry_get_type  (void);
 EComponentRegistry *e_component_registry_new       (void);
 
@@ -92,7 +87,6 @@ EComponentInfo *e_component_registry_peek_info  (EComponentRegistry *registry,
 GNOME_Evolution_Component  e_component_registry_activate  (EComponentRegistry *registry,
 							   const gchar         *id,
 							   CORBA_Environment  *ev);
-
 
 G_END_DECLS
 

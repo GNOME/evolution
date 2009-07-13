@@ -636,7 +636,6 @@ gal_view_collection_get_view_id_by_index (GalViewCollection *collection, gint n)
 	return g_strdup (collection->view_data[n]->id);
 }
 
-
 void
 gal_view_collection_append                   (GalViewCollection *collection,
 					      GalView           *view)

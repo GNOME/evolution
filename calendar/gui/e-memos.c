@@ -55,7 +55,6 @@
 #include "e-memos.h"
 #include "common/authentication.h"
 
-
 /* Private part of the GnomeCalendar structure */
 struct _EMemosPrivate {
 	/* The memo lists for display */
@@ -522,7 +521,6 @@ setup_widgets (EMemos *memos)
 	gtk_paned_add1 (GTK_PANED (priv->paned), priv->memos_view);
 	gtk_widget_show (priv->memos_view);
 
-
 	e_table_drag_source_set (etable, GDK_BUTTON1_MASK,
 				 list_drag_types, num_list_drag_types,
 				 GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
@@ -593,7 +591,6 @@ e_memos_class_init (EMemosClass *klass)
 	klass->source_removed = NULL;
 }
 
-
 static void
 categories_changed_cb (gpointer object, gpointer user_data)
 {
@@ -651,7 +648,6 @@ e_memos_new (void)
 	return GTK_WIDGET (memos);
 }
 
-
 void
 e_memos_set_ui_component (EMemos *memos,
 			  BonoboUIComponent *ui_component)
@@ -661,7 +657,6 @@ e_memos_set_ui_component (EMemos *memos,
 
 	e_search_bar_set_ui_component (E_SEARCH_BAR (memos->priv->search_bar), ui_component);
 }
-
 
 static void
 e_memos_destroy (GtkObject *object)
@@ -993,7 +988,6 @@ e_memos_remove_memo_source (EMemos *memos, ESource *source)
 	if (!client)
 		return TRUE;
 
-
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, memos);
@@ -1002,7 +996,6 @@ e_memos_remove_memo_source (EMemos *memos, ESource *source)
 	e_cal_model_remove_client (model, client);
 
 	g_hash_table_remove (priv->clients, uid);
-
 
 	g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
 
@@ -1052,7 +1045,6 @@ e_memos_get_default_client (EMemos *memos)
 	return e_cal_model_get_default_client (e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view)));
 }
 
-
 /**
  * e_memos_delete_selected:
  * @memos: A memos control widget.
@@ -1077,7 +1069,6 @@ e_memos_delete_selected (EMemos *memos)
 
 	e_cal_component_memo_preview_clear (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview));
 }
-
 
 /* Callback used from the view collection when we need to display a new view */
 static void

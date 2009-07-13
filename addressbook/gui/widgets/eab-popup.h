@@ -108,7 +108,6 @@ struct _EABPopupTargetSelect {
 	GPtrArray *cards;
 };
 
-
 struct _EABPopupTargetURI {
 	EPopupTarget target;
 	gchar *uri;

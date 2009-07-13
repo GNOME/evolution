@@ -302,7 +302,6 @@ eab_table_adapter_init (GObject *object)
 	priv->model_changed_id = 0;
 }
 
-
 static void
 create_contact (EABModel *model,
 		gint index, gint count,

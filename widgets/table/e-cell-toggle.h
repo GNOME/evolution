@@ -61,4 +61,3 @@ G_END_DECLS
 
 #endif /* _E_CELL_TOGGLE_H_ */
 
-

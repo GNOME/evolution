@@ -89,7 +89,6 @@ EvolutionImporter *evolution_importer_new (EvolutionImporterCreateControlFn  cre
 					   EvolutionImporterGetErrorFn       get_error_fn,
 					   void                             *closure);
 
-
 G_END_DECLS
 
 #endif

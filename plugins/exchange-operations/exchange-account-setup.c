@@ -80,7 +80,6 @@ CamelServiceAuthType camel_exchange_password_authtype = {
 	TRUE
 };
 
-
 typedef struct {
 	gboolean state;
 	gchar *message;
@@ -297,13 +296,11 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	g_signal_connect (radio_oof, "toggled", G_CALLBACK (toggled_state), NULL);
 
-
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (lbl_status), 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (radio_iof), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (radio_oof), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
 
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (tbl_oof_status), FALSE, FALSE, 0);
-
 
 	scrwnd_oof = (GtkScrolledWindow*) g_object_new (GTK_TYPE_SCROLLED_WINDOW, "hscrollbar-policy", GTK_POLICY_AUTOMATIC, "vscrollbar-policy", GTK_POLICY_AUTOMATIC, "shadow-type", GTK_SHADOW_IN, NULL);
 	gtk_box_pack_start (GTK_BOX (vbox_oof), GTK_WIDGET (scrwnd_oof), FALSE, FALSE, 0);
@@ -509,7 +506,6 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 		print_error (owa_url, result);
 
 	camel_url_set_host (url, valid ? exchange_params->host : "");
-
 
 	if (valid)
 		camel_url_set_param (url, "save-passwd", remember_password? "true" : "false");
@@ -963,7 +959,6 @@ exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 	camel_url_free(url_source);
 	camel_url_free(url_transport);
 }
-
 
 GtkWidget *
 org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)

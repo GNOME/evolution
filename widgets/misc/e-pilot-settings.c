@@ -37,12 +37,10 @@ struct _EPilotSettingsPrivate
 	GtkWidget *cat_btn;
 };
 
-
 static void class_init (EPilotSettingsClass *klass);
 static void init (EPilotSettings *ps);
 
 static GObjectClass *parent_class = NULL;
-
 
 GType
 e_pilot_settings_get_type (void)
@@ -85,7 +83,6 @@ init (EPilotSettings *ps)
 
 	ps->priv = priv;
 }
-
 
 static void
 build_ui (EPilotSettings *ps, ESourceList *source_list)

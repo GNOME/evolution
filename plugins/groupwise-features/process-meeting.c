@@ -34,7 +34,6 @@
 #include <e-util/e-error.h>
 #include <libecal/e-cal.h>
 
-
 typedef struct {
 	ECal *ecal;
 	icalcomponent *icalcomp;
@@ -121,7 +120,6 @@ receive_objects (gpointer data)
 {
 	GError *error = NULL;
 	ReceiveData *r_data = data;
-
 
 	icalcomponent_set_method (r_data->icalcomp, ICAL_METHOD_REQUEST);
 
@@ -310,7 +308,6 @@ is_meeting_owner (ECalComponent *comp, ECal *client)
 	g_free (email);
 	return ret_val;
 }
-
 
 typedef struct {
 	ECal *client;

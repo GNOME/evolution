@@ -355,7 +355,6 @@ remove_clicked(GtkButton *button, JunkSettings *js)
 	gtk_list_store_remove (GTK_LIST_STORE (js->model), &(js->iter));
 }
 
-
 static void
 user_selected(GtkTreeSelection *selection, JunkSettings *js)
 {
@@ -437,5 +436,4 @@ junk_settings_new (EGwConnection *ccnc)
 
 	return (JunkSettings *) new;
 }
-
 

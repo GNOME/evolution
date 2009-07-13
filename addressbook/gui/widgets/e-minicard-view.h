@@ -58,7 +58,6 @@ G_BEGIN_DECLS
 #define E_IS_MINICARD_VIEW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW))
 #define E_IS_MINICARD_VIEW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW))
 
-
 typedef struct _EMinicardView       EMinicardView;
 typedef struct _EMinicardViewClass  EMinicardViewClass;
 
@@ -91,7 +90,6 @@ void     e_minicard_view_remove_selection  (EMinicardView *view,
 void     e_minicard_view_jump_to_letter    (EMinicardView *view,
 					    gunichar       letter);
 GList   *e_minicard_view_get_card_list     (EMinicardView *view);
-
 
 G_END_DECLS
 

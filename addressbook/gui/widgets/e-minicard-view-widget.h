@@ -35,7 +35,6 @@ G_BEGIN_DECLS
 #define E_IS_MINICARD_VIEW_WIDGET(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD_VIEW_WIDGET))
 #define E_IS_MINICARD_VIEW_WIDGET_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD_VIEW_WIDGET))
 
-
 typedef struct _EMinicardViewWidget       EMinicardViewWidget;
 typedef struct _EMinicardViewWidgetClass  EMinicardViewWidgetClass;
 
@@ -62,7 +61,6 @@ struct _EMinicardViewWidgetClass
 	void         (*column_width_changed) (EMinicardViewWidget *emvw, double width);
 	guint        (*right_click)          (EMinicardViewWidget *emvw);
 };
-
 
 GType            e_minicard_view_widget_get_type             (void);
 GtkWidget       *e_minicard_view_widget_new                  (EAddressbookReflowAdapter *adapter);

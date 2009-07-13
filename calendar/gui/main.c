@@ -67,7 +67,6 @@ ECompEditorRegistry *comp_editor_registry = NULL;
 /* The component editor factory */
 static CompEditorFactory *comp_editor_factory = NULL;
 
-
 /* Factory function for the calendar component factory; just creates and
  * references a singleton service object.
  */
@@ -83,7 +82,6 @@ comp_editor_factory_fn (void)
 	bonobo_object_ref (BONOBO_OBJECT (comp_editor_factory));
 	return BONOBO_OBJECT (comp_editor_factory);
 }
-
 
 /* Does a simple activation and unreffing of the alarm notification service so
  * that the daemon will be launched if it is not running yet.
@@ -137,7 +135,6 @@ initialize (void)
 #endif
 
 	launch_alarm_daemon ();
-
 
 	/* Initialize plugin system */
 	e_plugin_hook_register_type (e_cal_popup_hook_get_type());

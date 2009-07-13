@@ -802,7 +802,6 @@ impl_createView (PortableServer_Servant servant,
 			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
 			       (GDestroyNotify)g_object_unref);
 
-
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 	g_signal_connect (tree_widget, "hidden-key-event", G_CALLBACK (tree_hidden_key_event_cb), view_widget);

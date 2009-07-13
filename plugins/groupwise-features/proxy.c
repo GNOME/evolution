@@ -366,7 +366,6 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 								return 0;
 							}
 
-
 							e_error_run (NULL, "org.gnome.evolution.proxy:user-is-proxy",email ,NULL);
 							return -1;
 						}
@@ -416,7 +415,6 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 
 	return 0;
 }
-
 
 static gboolean
 proxy_dialog_initialize_widgets (EAccount *account)
@@ -754,7 +752,6 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, E
 			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK)
 				return FALSE;
 
-
 			list_iter = priv->proxy_list;
 
 			for (;list_iter; list_iter = g_list_next(list_iter)) {
@@ -786,7 +783,6 @@ proxy_cancel(GtkWidget *button, EAccount *account)
 	gtk_widget_destroy (priv->main);
 	g_object_unref (priv->xml);
 }
-
 
 static void
 proxy_add_ok (GtkWidget *button, EAccount *account)

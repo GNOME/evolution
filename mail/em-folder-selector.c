@@ -42,18 +42,14 @@
 
 #define d(x)
 
-
 extern CamelSession *session;
-
 
 static void em_folder_selector_class_init (EMFolderSelectorClass *klass);
 static void em_folder_selector_init (EMFolderSelector *emfs);
 static void em_folder_selector_destroy (GtkObject *obj);
 static void em_folder_selector_finalize (GObject *obj);
 
-
 static GtkDialogClass *parent_class = NULL;
-
 
 GType
 em_folder_selector_get_type (void)
@@ -223,7 +219,6 @@ em_folder_selector_new (EMFolderTree *emft, guint32 flags, const gchar *title, c
 	return (GtkWidget *) emfs;
 }
 
-
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
@@ -270,7 +265,6 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const gchar *t
 
 	return (GtkWidget *) emfs;
 }
-
 
 void
 em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri)

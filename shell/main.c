@@ -125,11 +125,10 @@ no_windows_left_cb (EShell *shell, gpointer data)
 
 static void
 shell_weak_notify (gpointer data,
-		   GObject *where_the_object_was)
+                   GObject *where_the_object_was)
 {
 	bonobo_main_quit ();
 }
-
 
 #ifdef KILL_PROCESS_CMD
 
@@ -190,7 +189,6 @@ kill_old_dataserver (void)
 	CORBA_exception_free (&ev);
 }
 #endif
-
 
 #ifdef DEVELOPMENT
 
@@ -573,7 +571,7 @@ main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
     if (fileno (stdout) != -1 &&
- 	  _get_osfhandle (fileno (stdout)) != -1)
+	  _get_osfhandle (fileno (stdout)) != -1)
 	{
 	  /* stdout is fine, presumably redirected to a file or pipe */
 	}

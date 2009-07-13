@@ -29,7 +29,6 @@
 
 #include <glib/gi18n.h>
 
-
 #define SPACING 2
 
 struct _ETaskWidgetPrivate {

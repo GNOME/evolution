@@ -36,7 +36,6 @@
 #define ADDRESSBOOK_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), ADDRESSBOOK_TYPE_COMPONENT))
 #define ADDRESSBOOK_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), ADDRESSBOOK_TYPE_COMPONENT))
 
-
 typedef struct _AddressbookComponent        AddressbookComponent;
 typedef struct _AddressbookComponentPrivate AddressbookComponentPrivate;
 typedef struct _AddressbookComponentClass   AddressbookComponentClass;
@@ -52,7 +51,6 @@ struct _AddressbookComponentClass {
 
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType addressbook_component_get_type (void);
 

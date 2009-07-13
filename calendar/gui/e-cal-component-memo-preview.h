@@ -53,7 +53,6 @@ struct _ECalComponentMemoPreviewClass {
 	void (* selection_changed) (ECalComponentMemoPreview *preview, gint n_selected);
 };
 
-
 GType      e_cal_component_memo_preview_get_type        (void);
 GtkWidget *e_cal_component_memo_preview_new             (void);
 

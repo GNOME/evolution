@@ -151,7 +151,6 @@ quick_add_merge_contact (QuickAdd *qa)
 	addressbook_load (qa->book, merge_cb, qa);
 }
 
-
 /*
  * Raise a contact editor with all fields editable, and hook up all signals accordingly.
  */
@@ -506,7 +505,6 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 			in_quote = !in_quote;
 	}
 
-
 	if (last_at == NULL) {
 		/* No at sign, so we treat it all as the name */
 		name = g_strdup (text);
@@ -539,8 +537,6 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 	if (name == NULL && email == NULL)
 		name = g_strdup (text);
 
-
-
 	/* Clean up email, remove bracketing <>s */
 	if (email && *email) {
 		gboolean changed = FALSE;
@@ -556,7 +552,6 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 		if (changed)
 			g_strstrip (email);
 	}
-
 
 	e_contact_quick_add (name, email, cb, closure);
 	g_free (name);

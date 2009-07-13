@@ -573,7 +573,6 @@ static MailMsgInfo create_folder_info = {
 	(MailMsgFreeFunc) emfu_create_folder__free
 };
 
-
 static gint
 emfu_create_folder_real (CamelStore *store, const gchar *full_name, void (* done) (CamelFolderInfo *fi, gpointer user_data), gpointer user_data)
 {

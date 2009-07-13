@@ -123,7 +123,7 @@ check_initial_state (EShell *shell)
 	}
 
 	/* update the state only in the absence of network connection else let the old state prevail */
-	if (state == NM_STATE_DISCONNECTED)	
+	if (state == NM_STATE_DISCONNECTED)
 		e_shell_set_line_status (shell, GNOME_Evolution_FORCED_OFFLINE);
 
 	dbus_message_unref (message);

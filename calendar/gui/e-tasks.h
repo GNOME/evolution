@@ -57,7 +57,6 @@ struct _ETasksClass {
         void (* source_removed)    (ETasks *tasks, ESource *source);
 };
 
-
 GType      e_tasks_get_type        (void);
 GtkWidget *e_tasks_construct       (ETasks *tasks);
 

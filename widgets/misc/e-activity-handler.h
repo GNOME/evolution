@@ -35,7 +35,6 @@ G_BEGIN_DECLS
 #define E_IS_ACTIVITY_HANDLER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
 #define E_IS_ACTIVITY_HANDLER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
 
-
 typedef struct _EActivityHandler        EActivityHandler;
 typedef struct _EActivityHandlerPrivate EActivityHandlerPrivate;
 typedef struct _EActivityHandlerClass   EActivityHandlerClass;
@@ -52,7 +51,6 @@ struct _EActivityHandler {
 struct _EActivityHandlerClass {
 	GObjectClass parent_class;
 };
-
 
 GType    e_activity_handler_get_type  (void);
 

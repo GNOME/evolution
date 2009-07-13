@@ -106,7 +106,6 @@ esa_backsort(ESorterArray *esa)
 	}
 }
 
-
 static gint
 esa_model_to_sorted (ESorter *es, gint row)
 {

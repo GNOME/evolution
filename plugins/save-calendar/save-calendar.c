@@ -50,7 +50,6 @@ void org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target);
 void org_gnome_save_memos (EPlugin *ep, ECalPopupTargetSource *target);
 
-
 static void
 extra_widget_foreach_hide (GtkWidget *widget, gpointer data)
 {
@@ -73,7 +72,6 @@ on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 
 	gtk_tree_model_get (model, &iter,
 		DEST_HANDLER, &handler, -1);
-
 
 	if (handler->options_widget)
 	{
@@ -154,7 +152,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 		format_handlers = g_list_next (format_handlers);
 	}
 
-
 	g_signal_connect (G_OBJECT(combo), "changed",
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 
@@ -170,7 +167,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
 	gtk_widget_show (GTK_WIDGET(combo));
 	gtk_widget_show (extra_widget);
-
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		gchar *tmp = NULL;

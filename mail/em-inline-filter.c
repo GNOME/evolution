@@ -82,7 +82,6 @@ em_inline_filter_init (CamelObject *object)
 	emif->data = g_byte_array_new();
 }
 
-
 static void
 em_inline_filter_finalize (CamelObject *object)
 {

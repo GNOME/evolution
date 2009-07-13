@@ -103,7 +103,6 @@ struct _GnomeCalendarClass {
         void (* goto_date)              (GnomeCalendar *gcal, GnomeCalendarGotoDateType date);
 };
 
-
 GType      gnome_calendar_get_type		(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
@@ -179,7 +178,6 @@ gint       gnome_calendar_get_num_tasks_selected (GnomeCalendar *gcal);
 
 /* Get the current timezone. */
 icaltimezone *gnome_calendar_get_timezone	(GnomeCalendar	*gcal);
-
 
 /* Clipboard operations */
 void       gnome_calendar_cut_clipboard         (GnomeCalendar  *gcal);

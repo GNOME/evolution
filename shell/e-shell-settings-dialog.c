@@ -257,7 +257,6 @@ load_pages (EShellSettingsDialog *dialog)
 			}
 		}
 
-
 		page_free (page);
 	}
 
@@ -353,5 +352,4 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const gchar *ty
 
 	e_multi_config_dialog_show_page (E_MULTI_CONFIG_DIALOG (dialog), page);
 }
-
 

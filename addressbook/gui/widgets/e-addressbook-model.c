@@ -42,7 +42,6 @@ static GObjectClass *parent_class;
 static void eab_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void eab_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 
-
 enum {
 	PROP_0,
 	PROP_BOOK,
@@ -548,7 +547,6 @@ get_view_idle (EABModel *model)
 	g_object_unref (model);
 	return FALSE;
 }
-
 
 EContact *
 eab_model_get_contact(EABModel *model,

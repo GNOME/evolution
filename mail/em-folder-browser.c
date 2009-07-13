@@ -676,7 +676,6 @@ emfb_class_init(GObjectClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-
 	((GtkObjectClass *)klass)->destroy = emfb_destroy;
 	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
 	((EMFolderViewClass *)klass)->activate = emfb_activate;
@@ -1006,7 +1005,6 @@ get_view_query (ESearchBar *esb, CamelFolder *folder, const gchar *folder_uri)
 
 	return view_sexp;
 }
-
 
 struct _setup_msg {
 	MailMsg base;
@@ -1604,7 +1602,6 @@ emfb_folder_refresh(BonoboUIComponent *uid, gpointer data, const gchar *path)
 	}
 }
 
-
 static void
 emfb_folder_rename(BonoboUIComponent *uid, gpointer data, const gchar *path)
 {
@@ -1807,7 +1804,6 @@ static EPixmap emfb_pixmaps[] = {
 	E_PIXMAP_END
 };
 
-
 static void
 emfb_hide_deleted(BonoboUIComponent *uic, const gchar *path, Bonobo_UIComponent_EventType type, const gchar *state, gpointer data)
 {
@@ -1969,7 +1965,6 @@ emfb_etree_unfreeze (GtkWidget *widget, GdkEvent *event, EMFolderView *emfv)
 	g_object_set_data (G_OBJECT (((GnomeCanvasItem *) item)->canvas), "freeze-cursor", 0);
 }
 
-
 /* TODO: This should probably be handled by message-list, by storing/queueing
    up the select operation if its busy rebuilding the message-list */
 static void
@@ -2050,7 +2045,6 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri
 
 	message_list_thaw(emfv->list);
 }
-
 
 static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const gchar *uri)

@@ -34,7 +34,6 @@
 #define E_IS_SHELL_WINDOW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL_WINDOW))
 #define E_IS_SHELL_WINDOW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_WINDOW))
 
-
 typedef struct _EShellWindow        EShellWindow;
 typedef struct _EShellWindowPrivate EShellWindowPrivate;
 typedef struct _EShellWindowClass   EShellWindowClass;
@@ -51,9 +50,7 @@ struct _EShellWindowClass {
 	void (* component_changed) (EShellWindow *window);
 };
 
-
 #include "e-shell.h"
-
 
 GType  e_shell_window_get_type  (void);
 

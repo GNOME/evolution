@@ -186,7 +186,6 @@ e_timezone_dialog_finalize (GObject *object)
 	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->finalize) (object);
 }
 
-
 static void
 e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 {
@@ -255,7 +254,6 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 
 	g_list_free (list_items);
 }
-
 
 ETimezoneDialog *
 e_timezone_dialog_construct (ETimezoneDialog *etd)
@@ -377,7 +375,6 @@ get_widgets (ETimezoneDialog *etd)
 		&& priv->preview_label);
 }
 
-
 /**
  * e_timezone_dialog_new:
  *
@@ -427,7 +424,6 @@ format_utc_offset			(gint		 utc_offset,
   else
 	  sprintf (buffer, "%s %s%02i:%02i:%02i", _("UTC"), sign, hours, minutes, seconds);
 }
-
 
 static gchar *
 zone_display_name_with_offset (icaltimezone *zone)
@@ -488,7 +484,6 @@ on_map_timeout (gpointer data)
 	return TRUE;
 }
 
-
 static gboolean
 on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 {
@@ -525,7 +520,6 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	return TRUE;
 }
 
-
 static gboolean
 on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 {
@@ -554,7 +548,6 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 	return FALSE;
 }
 
-
 static gboolean
 on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 			   gpointer data)
@@ -580,7 +573,6 @@ on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 
 	return FALSE;
 }
-
 
 static gboolean
 on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
@@ -615,7 +607,6 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 
 	return TRUE;
 }
-
 
 /* Returns the translated timezone location of the given EMapPoint,
    e.g. "Europe/London". */
@@ -654,7 +645,6 @@ get_zone_from_point (ETimezoneDialog *etd,
 
 	g_return_val_if_reached(NULL);
 }
-
 
 /**
  * e_timezone_dialog_get_timezone:
@@ -716,7 +706,6 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	g_free (display);
 }
 
-
 GtkWidget *
 e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
 {
@@ -729,7 +718,6 @@ e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
 
 	return priv->app;
 }
-
 
 static void
 set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
@@ -756,7 +744,6 @@ set_map_timezone (ETimezoneDialog *etd, icaltimezone *zone)
 
 	priv->point_selected = point;
 }
-
 
 static void
 on_combo_changed (GtkComboBox *combo_box, ETimezoneDialog *etd)

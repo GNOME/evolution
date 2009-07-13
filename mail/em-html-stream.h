@@ -47,7 +47,6 @@ typedef struct {
 
 } EMHTMLStreamClass;
 
-
 CamelType    em_html_stream_get_type (void);
 
 /* the html_stream is closed when we are finalised (with an error), or closed (ok) */

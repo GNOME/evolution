@@ -136,7 +136,6 @@ EABPopup *eab_popup_new(const gchar *menuid)
  * Return value:
  **/
 
-
 EABPopupTargetURI *
 eab_popup_target_new_uri(EABPopup *emp, const gchar *uri)
 {
@@ -157,9 +156,6 @@ eab_popup_target_new_uri(EABPopup *emp, const gchar *uri)
 
 	return t;
 }
-
-
-
 
 EABPopupTargetSelect *
 eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, gint readonly, GPtrArray *cards)

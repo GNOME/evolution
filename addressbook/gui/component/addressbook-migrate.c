@@ -205,7 +205,6 @@ get_source_name (ESourceGroup *group, const gchar *path)
 
 		conflict = check_for_conflict (group, s->str);
 
-
 		/* if there was a conflict back up 2 levels (skipping the /subfolder/ element) */
 		if (conflict)
 			starting_index -= 2;
@@ -1207,7 +1206,6 @@ addressbook_migrate (AddressbookComponent *component, gint major, gint minor, gi
 		g_object_unref (on_ldap_servers);
 	if (personal_source)
 		g_object_unref (personal_source);
-
 
 	migration_context_free (context);
 

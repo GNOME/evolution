@@ -38,10 +38,7 @@
 #include "mail/mail-mt.h"
 #include "mail/mail-ops.h"
 
-
 void org_gnome_mail_folder_unsubscribe (EPlugin *plug, EMPopupTargetFolder *target);
-
-
 
 struct _folder_unsub_t {
 	MailMsg base;
@@ -93,7 +90,6 @@ static MailMsgInfo unsubscribe_info = {
 	(MailMsgDoneFunc) NULL,
 	(MailMsgFreeFunc) folder_unsubscribe_free
 };
-
 
 void
 org_gnome_mail_folder_unsubscribe (EPlugin *plug, EMPopupTargetFolder *target)

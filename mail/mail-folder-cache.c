@@ -819,7 +819,6 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 	return res;
 }
 
-
 struct _ping_store_msg {
 	MailMsg base;
 

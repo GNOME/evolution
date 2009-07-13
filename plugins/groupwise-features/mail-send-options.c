@@ -171,4 +171,3 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 				  G_CALLBACK (send_options_commit), dialog);
 }
 
-

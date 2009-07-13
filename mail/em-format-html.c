@@ -207,7 +207,6 @@ efh_insert_cache(EMFormatHTML *efh, const gchar *partid)
 	return efhc;
 }
 
-
 static void
 efh_finalise(GObject *o)
 {
@@ -483,7 +482,6 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, gint cancelled)
 
 	if (instream == NULL) {
 		gchar *proxy;
-
 
 		if (!(job->format->load_http_now
 		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS
@@ -1646,7 +1644,6 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 	}
 
 	if (limit > 0 && i>(limit)) {
-
 
 		if (!strcmp (field, _("To"))) {
 			str = g_strdup_printf ("<a href=\"##TO##\"><img src=\"%s/minus.png\" /></a>  ", EVOLUTION_ICONSDIR);

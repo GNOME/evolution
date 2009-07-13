@@ -261,7 +261,6 @@ get_source_name (ESourceGroup *group, const gchar *path)
 
 		conflict = check_for_conflict (group, s->str);
 
-
 		/* if there was a conflict back up 2 levels (skipping the /subfolder/ element) */
 		if (conflict)
 			starting_index -= 2;
@@ -1147,7 +1146,6 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 	const gchar * use_ssl;
 	const gchar *poa_address;
 	const gchar *offline_sync;
-
 
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)

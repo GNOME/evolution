@@ -75,8 +75,6 @@ guchar getRruleCount(guchar a, guchar b);
 guchar getRruleMonthNum(guchar a, guchar b);
 gchar * getRruleDayname(guchar a);
 
-
-
 void
 org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 {
@@ -193,7 +191,6 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	g_free(name);
 	g_free(tmpdir);
 }
-
 
 gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
 
@@ -477,7 +474,6 @@ void saveVCard(TNEFStruct *tnef) {
             fprintf(fptr,"\n");
         }
 
-
         /* Business Address */
         boolean = 0;
         if ((pobox = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_POST_OFFICE_BOX))) != MAPI_UNDEFINED) {
@@ -632,7 +628,6 @@ void saveVCard(TNEFStruct *tnef) {
             fprintf(fptr,"\n");
         }
 
-
         fprintProperty(tnef, fptr, PT_STRING8, PR_CALLBACK_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-CALLBACK:%s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_TELEPHONE_NUMBER, "TEL;PREF:%s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_MOBILE_TELEPHONE_NUMBER, "TEL;CELL:%s\n");
@@ -652,7 +647,6 @@ void saveVCard(TNEFStruct *tnef) {
         fprintProperty(tnef, fptr, PT_STRING8, PR_PRIMARY_FAX_NUMBER, "TEL;PREF;FAX:%s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_FAX_NUMBER, "TEL;WORK;FAX:%s\n");
         fprintProperty(tnef, fptr, PT_STRING8, PR_HOME_FAX_NUMBER, "TEL;HOME;FAX:%s\n");
-
 
         /* Email addresses */
         if ((vl=MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x8083))) == MAPI_UNDEFINED) {
@@ -679,8 +673,6 @@ void saveVCard(TNEFStruct *tnef) {
 
         fprintProperty(tnef, fptr, PT_STRING8, PR_BUSINESS_HOME_PAGE, "URL:%s\n");
         fprintUserProp(tnef, fptr, PT_STRING8, 0x80d8, "FBURL:%s\n");
-
-
 
         /* Birthday */
         if ((vl=MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_SYSTIME, PR_BIRTHDAY))) != MAPI_UNDEFINED) {
@@ -1186,7 +1178,6 @@ void saveVTask(TNEFStruct *tnef) {
         if (filename != MAPI_UNDEFINED) {
             fprintf(fptr, "ORGANIZER:%s\n", filename->data);
         }
-
 
         if ((filename = MAPIFindProperty(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, PR_DISPLAY_TO))) != MAPI_UNDEFINED) {
             filename = MAPIFindUserProp(&(tnef->MapiProperties), PROP_TAG(PT_STRING8, 0x811f));

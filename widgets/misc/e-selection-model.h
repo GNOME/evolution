@@ -94,7 +94,6 @@ typedef struct {
 
 } ESelectionModelClass;
 
-
 GType     e_selection_model_get_type               (void);
 void      e_selection_model_do_something           (ESelectionModel *esm,
 						    guint            row,
@@ -128,7 +127,6 @@ void      e_selection_model_select_all             (ESelectionModel *esm);
 void      e_selection_model_invert_selection       (ESelectionModel *esm);
 gint       e_selection_model_row_count              (ESelectionModel *esm);
 
-
 /* Private virtual Functions */
 void      e_selection_model_change_one_row         (ESelectionModel *esm,
 						    gint              row,
@@ -159,7 +157,6 @@ void      e_selection_model_selection_row_changed  (ESelectionModel *selection,
 void      e_selection_model_selection_changed      (ESelectionModel *selection);
 
 G_END_DECLS
-
 
 #endif /* _E_SELECTION_MODEL_H_ */
 

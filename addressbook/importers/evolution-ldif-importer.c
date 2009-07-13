@@ -71,7 +71,6 @@ typedef struct {
 
 static void ldif_import_done(LDIFImporter *gci);
 
-
 static struct {
 	const gchar *ldif_attribute;
 	EContactField contact_field;

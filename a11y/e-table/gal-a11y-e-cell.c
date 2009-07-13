@@ -39,7 +39,6 @@
 static GObjectClass *parent_class;
 #define PARENT_TYPE (atk_object_get_type ())
 
-
 #if 0
 static void
 unref_item (gpointer user_data, GObject *obj_loc)
@@ -150,7 +149,6 @@ gal_a11y_e_cell_get_index_in_parent (AtkObject *accessible)
 
 	return (a11y->row + 1) * a11y->item->cols + a11y->view_col;
 }
-
 
 /* Component IFace */
 static void
@@ -264,7 +262,6 @@ gal_a11y_e_cell_init (GalA11yECell *a11y)
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_VISIBLE);
 }
 
-
 static ActionInfo *
 _gal_a11y_e_cell_get_action_info (GalA11yECell *cell,
                             gint     index)
@@ -292,7 +289,6 @@ _gal_a11y_e_cell_destroy_action_info (gpointer action_info,
 	g_free (info->keybinding);
 	g_free (info);
 }
-
 
 gboolean
 gal_a11y_e_cell_add_action ( GalA11yECell * cell,
@@ -638,7 +634,6 @@ gal_a11y_e_cell_construct (AtkObject  *object,
 
 	if (cell_view)
 		g_object_ref (G_OBJECT (cell_view));
-
 
 #endif
 }

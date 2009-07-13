@@ -45,7 +45,6 @@ static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
 
 static gpointer parent_class = NULL;
 
-
 GType
 e_url_entry_get_type (void)
 {
@@ -86,7 +85,6 @@ class_init (EUrlEntryClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->mnemonic_activate = mnemonic_activate;
 }
-
 
 static void
 init (EUrlEntry *url_entry)
@@ -150,7 +148,6 @@ e_url_entry_new (void)
 {
 	return g_object_new (E_TYPE_URL_ENTRY, NULL);
 }
-
 
 GtkWidget *
 e_url_entry_get_entry (EUrlEntry *url_entry)

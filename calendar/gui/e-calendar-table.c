@@ -521,7 +521,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	e_table_extras_add_cell (extras, "calstring", cell);
 
-
 	/*
 	 * Date fields.
 	 */
@@ -541,7 +540,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
 						e_calendar_table_get_current_time,
 						cal_table, NULL);
-
 
 	/*
 	 * Combo fields.
@@ -709,7 +707,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (table);
 
-
 	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
 	g_signal_connect (e_table, "double_click", G_CALLBACK (e_calendar_table_on_double_click), cal_table);
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
@@ -722,7 +719,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	if (a11y)
 		atk_object_set_name (a11y, _("Tasks"));
 }
-
 
 /**
  * e_calendar_table_new:
@@ -740,7 +736,6 @@ e_calendar_table_new (void)
 	return cal_table;
 }
 
-
 /**
  * e_calendar_table_get_model:
  * @cal_table: A calendar table.
@@ -757,7 +752,6 @@ e_calendar_table_get_model (ECalendarTable *cal_table)
 
 	return cal_table->model;
 }
-
 
 static void
 e_calendar_table_destroy (GtkObject *object)
@@ -1806,7 +1800,6 @@ e_calendar_table_load_state	(ECalendarTable *cal_table,
 	}
 }
 
-
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void
 e_calendar_table_save_state (ECalendarTable	*cal_table,
@@ -1844,7 +1837,6 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 	return tmp_tm;
 }
-
 
 #ifdef TRANSLATORS_ONLY
 

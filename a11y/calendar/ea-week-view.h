@@ -55,5 +55,4 @@ AtkObject*     ea_week_view_new         (GtkWidget       *widget);
 
 G_END_DECLS
 
-
 #endif /* __EA_WEEK_VIEW_H__ */

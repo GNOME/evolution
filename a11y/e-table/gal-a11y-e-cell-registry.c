@@ -105,7 +105,6 @@ init_default_registry (void)
 	}
 }
 
-
 AtkObject *
 gal_a11y_e_cell_registry_get_object     (GalA11yECellRegistry     *registry,
 					 ETableItem               *item,

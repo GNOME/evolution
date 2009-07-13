@@ -71,5 +71,4 @@ GalView    *gal_view_factory_new_view       (GalViewFactory *factory,
 
 G_END_DECLS
 
-
 #endif /* _GAL_VIEW_FACTORY_H_ */

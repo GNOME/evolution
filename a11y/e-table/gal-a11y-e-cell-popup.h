@@ -49,7 +49,6 @@ struct _GalA11yECellPopupClass {
 	GalA11yECellClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_cell_popup_get_type   (void);
 AtkObject *gal_a11y_e_cell_popup_new        (ETableItem *item,

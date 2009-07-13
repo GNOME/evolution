@@ -223,7 +223,6 @@ set_prop ( BonoboPropertyBag *bag,
 	}
 }
 
-
 BonoboControl *
 itip_bonobo_control_new (void)
 {

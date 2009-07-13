@@ -48,7 +48,6 @@
 
 #include <string.h>
 
-
 #define EXCHANGE_DELEGATES_USER_CUSTOM    -3
 /* Can't use E2K_PERMISSIONS_ROLE_CUSTOM, because it's -1, which
  * means "end of list" to e_dialog_combo_box_get/set
@@ -79,7 +78,6 @@ static const gchar *folder_names_for_display[] = {
 static const gchar *widget_names[] = {
 	"calendar_perms_combobox", "task_perms_combobox", "inbox_perms_combobox", "contact_perms_combobox",
 };
-
 
 enum {
 	EDITED,
@@ -193,7 +191,6 @@ em_utils_delegates_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	mail_send ();
 }
 
-
 /**
  * exchange_delegates_user_edit:
  * @user: a delegate
@@ -280,7 +277,6 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			modified = TRUE;
 		}
 	}
-
 
 	/* The following piece of code is used to construct a mail message to be sent to a Delegate
 	   summarizing all the permissions set for him on the user's various folders.

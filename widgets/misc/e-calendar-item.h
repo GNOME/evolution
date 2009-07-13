@@ -70,7 +70,6 @@ G_BEGIN_DECLS
 #define	E_CALENDAR_ITEM_XPAD_BEFORE_CELLS		1
 #define	E_CALENDAR_ITEM_XPAD_AFTER_CELLS		4
 
-
 /* These index our colors array. */
 typedef enum
 {
@@ -109,7 +108,6 @@ typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
  */
 typedef struct tm (*ECalendarItemGetTimeCallback) (ECalendarItem *calitem,
 						   gpointer	  data);
-
 
 #define E_CALENDAR_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
         e_calendar_item_get_type (), ECalendarItem))
@@ -265,7 +263,6 @@ struct _ECalendarItemClass
 	void (* selection_preview_changed)	(ECalendarItem *calitem);
 };
 
-
 GType    e_calendar_item_get_type		(void);
 
 /* FIXME: months are 0-11 throughout, but 1-12 may be better. */
@@ -367,7 +364,6 @@ gint e_calendar_item_get_week_number	(ECalendarItem *calitem,
 					 gint		month,
 					 gint		year);
 void e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem);
-
 
 G_END_DECLS
 

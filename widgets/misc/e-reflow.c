@@ -229,7 +229,6 @@ cursor_changed (ESelectionModel *selection, gint row, gint col, EReflow *reflow)
 
 }
 
-
 static void
 incarnate (EReflow *reflow)
 {
@@ -698,7 +697,6 @@ column_width_changed (EReflow *reflow)
 {
 	g_signal_emit (reflow, signals[COLUMN_WIDTH_CHANGED], 0, reflow->column_width);
 }
-
 
 
 
@@ -1424,7 +1422,6 @@ e_reflow_class_init (EReflowClass *klass)
 							      _( "Width" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READABLE));
-
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",

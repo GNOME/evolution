@@ -43,7 +43,6 @@ static GtkObjectClass *parent_class;
 static void eab_popup_control_dispose (GObject *);
 static void eab_popup_control_query   (EABPopupControl *);
 
-
 static void
 eab_popup_control_class_init (EABPopupControlClass *klass)
 {
@@ -296,7 +295,6 @@ eab_popup_control_construct (EABPopupControl *pop)
 	/* Build ContactDisplay */
 	pop->contact_display = eab_contact_display_new ();
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), pop->contact_display, TRUE, TRUE, 0);
-
 
 	/* Final assembly */
 

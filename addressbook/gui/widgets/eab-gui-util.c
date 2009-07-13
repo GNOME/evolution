@@ -334,7 +334,6 @@ eab_show_multiple_contacts (EBook *book,
 	}
 }
 
-
 static gint
 file_exists(GtkWindow *window, const gchar *filename)
 {
@@ -372,7 +371,6 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	const gchar *filename;
 	gchar *uri;
 	gint response = 0;
-
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));

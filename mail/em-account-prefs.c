@@ -48,12 +48,9 @@ static void em_account_prefs_destroy    (GtkObject *object);
 
 static void mail_accounts_load (EMAccountPrefs *prefs);
 
-
 static GtkVBoxClass *parent_class = NULL;
 
-
 #define PREFS_WINDOW(prefs) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW))
-
 
 GType
 em_account_prefs_get_type (void)
@@ -455,8 +452,6 @@ mail_accounts_load (EMAccountPrefs *prefs)
 	g_object_unref (node);
 }
 
-
-
 GtkWidget *em_account_prefs_treeview_new (gchar *widget_name, gchar *string1, gchar *string2,
 					  gint int1, gint int2);
 
@@ -493,7 +488,6 @@ em_account_prefs_treeview_new (gchar *widget_name, gchar *string1, gchar *string
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, TRUE);
 	atk_object_set_name (gtk_widget_get_accessible (table), _("Mail Accounts"));
-
 
 	/* FIXME: column auto-resize? */
 	/* Is this needed?

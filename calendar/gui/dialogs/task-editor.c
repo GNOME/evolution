@@ -434,7 +434,6 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
 
-
 		comp_editor_set_group_item (editor, TRUE);
 		priv->assignment_shown = TRUE;
 	}

@@ -406,7 +406,6 @@ set_values (FilterDatespec *fds)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_type), note_type);
 }
 
-
 static void
 set_combobox_type (GtkComboBox *combobox, FilterDatespec *fds)
 {

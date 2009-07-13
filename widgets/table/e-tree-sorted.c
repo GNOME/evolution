@@ -824,7 +824,6 @@ ets_column_count (ETreeModel *etm)
 	return e_tree_model_column_count(ets->priv->source);
 }
 
-
 static gboolean
 ets_has_save_id (ETreeModel *etm)
 {
@@ -869,7 +868,6 @@ ets_has_change_pending (ETreeModel *etm)
 	return ets->priv->sort_idle_id != 0;
 }
 
-
 static gpointer
 ets_value_at (ETreeModel *etm, ETreePath node, gint col)
 {
@@ -896,7 +894,6 @@ ets_is_editable (ETreeModel *etm, ETreePath node, gint col)
 
 	return e_tree_model_node_is_editable (ets->priv->source, path->corresponding, col);
 }
-
 
 /* The default for ets_duplicate_value is to return the raw value. */
 static gpointer
@@ -1348,7 +1345,6 @@ e_tree_sorted_set_sort_info (ETreeSorted *ets, ETableSortInfo *sort_info)
 {
 
 	g_return_if_fail (ets != NULL);
-
 
 	if (ets->priv->sort_info) {
 		if (ets->priv->sort_info_changed_id != 0)

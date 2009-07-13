@@ -64,7 +64,6 @@ union _ActionContext
 
 typedef union _ActionContext ActionContext;
 
-
 /* action_list_folders */
 guint action_list_folders_init (ActionContext * p_actctx);
 

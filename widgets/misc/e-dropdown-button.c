@@ -141,7 +141,6 @@ e_dropdown_button_class_init (EDropdownButtonClass *klass)
 	toggle_class->toggled = impl_toggled;
 }
 
-
 static void
 e_dropdown_button_init (EDropdownButton *dropdown_button)
 {

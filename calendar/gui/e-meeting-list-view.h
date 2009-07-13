@@ -36,7 +36,6 @@ G_BEGIN_DECLS
 #define E_IS_MEETING_LIST_VIEW(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MEETING_LIST_VIEW))
 #define E_IS_MEETING_LIST_VIEW_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MEETING_LIST_VIEW))
 
-
 typedef struct _EMeetingListView        EMeetingListView;
 typedef struct _EMeetingListViewPrivate EMeetingListViewPrivate;
 typedef struct _EMeetingListViewClass   EMeetingListViewClass;

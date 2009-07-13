@@ -32,7 +32,6 @@
 #define ADDRESSBOOK_IS_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), ADDRESSBOOK_TYPE_VIEW))
 #define ADDRESSBOOK_IS_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), ADDRESSBOOK_TYPE_VIEW))
 
-
 typedef struct _AddressbookView        AddressbookView;
 typedef struct _AddressbookViewPrivate AddressbookViewPrivate;
 typedef struct _AddressbookViewClass   AddressbookViewClass;
@@ -46,7 +45,6 @@ struct _AddressbookView {
 struct _AddressbookViewClass {
 	GObjectClass parent_class;
 };
-
 
 GType addressbook_view_get_type (void);
 

@@ -39,7 +39,6 @@ typedef struct _GalA11yECellPrivate GalA11yECellPrivate;
 typedef struct _ActionInfo ActionInfo;
 typedef void (*ACTION_FUNC) (GalA11yECell *cell);
 
-
 /* This struct should actually be larger as this isn't what we derive from.
  * The GalA11yECellPrivate comes right after the parent class structure.
  **/
@@ -68,8 +67,6 @@ struct _ActionInfo {
 	gchar *keybinding;
 	ACTION_FUNC do_action_func;
 };
-
-
 
 /* Standard Glib function */
 GType      gal_a11y_e_cell_get_type   (void);
@@ -108,6 +105,5 @@ gboolean gal_a11y_e_cell_add_state     (GalA11yECell *cell,
 gboolean gal_a11y_e_cell_remove_state  (GalA11yECell *cell,
 					AtkStateType state_type,
 					gboolean     emit_signal);
-
 
 #endif /* ! __GAL_A11Y_E_CELL_H__ */

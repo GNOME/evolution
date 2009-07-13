@@ -35,7 +35,6 @@ G_BEGIN_DECLS
 #define E_IS_USER_CREATABLE_ITEMS_HANDLER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_USER_CREATABLE_ITEMS_HANDLER))
 #define E_IS_USER_CREATABLE_ITEMS_HANDLER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_USER_CREATABLE_ITEMS_HANDLER))
 
-
 typedef struct _EUserCreatableItemsHandler        EUserCreatableItemsHandler;
 typedef struct _EUserCreatableItemsHandlerPrivate EUserCreatableItemsHandlerPrivate;
 typedef struct _EUserCreatableItemsHandlerClass   EUserCreatableItemsHandlerClass;
@@ -51,7 +50,6 @@ struct _EUserCreatableItemsHandler {
 struct _EUserCreatableItemsHandlerClass {
 	GObjectClass parent_class;
 };
-
 
 GType                       e_user_creatable_items_handler_get_type   (void);
 EUserCreatableItemsHandler *e_user_creatable_items_handler_new        (const gchar *component_alias,

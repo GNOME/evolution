@@ -91,7 +91,6 @@ GalView         *gal_view_instance_get_current_view     (GalViewInstance   *inst
 void             gal_view_instance_set_custom_view      (GalViewInstance   *instance,
 							 GalView           *view);
 
-
 /* Returns true if this instance has ever been used before. */
 gboolean         gal_view_instance_exists               (GalViewInstance   *instance);
 

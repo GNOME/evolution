@@ -65,7 +65,6 @@ void     e_cell_vbox_append    (ECellVbox *vbox,
 				ECell     *subcell,
 				gint model_col);
 
-
 G_END_DECLS
 
 #endif /* _E_CELL_VBOX_H_ */

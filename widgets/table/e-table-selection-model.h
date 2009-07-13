@@ -68,5 +68,4 @@ ETableSelectionModel *e_table_selection_model_new                 (void);
 
 G_END_DECLS
 
-
 #endif /* _E_TABLE_SELECTION_MODEL_H_ */

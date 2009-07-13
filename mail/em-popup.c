@@ -625,7 +625,6 @@ emp_add_vcard (EPopup *ep, EPopupItem *item, gpointer data)
 	CamelDataWrapper *content;
 	CamelStreamMem *mem;
 
-
 	part = ((EMPopupTargetPart *) target)->part;
 
 	if (!part)

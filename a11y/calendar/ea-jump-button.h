@@ -54,5 +54,4 @@ AtkObject *ea_jump_button_new (GObject *obj);
 
 G_END_DECLS
 
-
 #endif /* __EA_JUMP_BUTTON_H__ */

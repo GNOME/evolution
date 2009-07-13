@@ -187,7 +187,6 @@ eab_strstrcase (const gchar *haystack, const gchar *needle)
 	return NULL;
 }
 
-
 GList*
 eab_contact_list_from_string (const gchar *str)
 {

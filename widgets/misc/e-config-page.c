@@ -46,4 +46,3 @@ e_config_page_new (void)
 	return g_object_new (e_config_page_get_type (), NULL);
 }
 
-

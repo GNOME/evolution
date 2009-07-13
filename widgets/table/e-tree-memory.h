@@ -55,7 +55,6 @@ struct ETreeMemoryClass {
 	void (*fill_in_children) (ETreeMemory *model, ETreePath node);
 };
 
-
 GType        e_tree_memory_get_type               (void);
 void         e_tree_memory_construct              (ETreeMemory             *etree);
 ETreeMemory *e_tree_memory_new                    (void);

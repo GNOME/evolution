@@ -37,9 +37,7 @@
 
 #include "e-bconf-map.h"
 
-
 #define d(x)
-
 
 static gchar hexnib[256] = {
 	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
@@ -87,7 +85,6 @@ e_bconf_url_decode (const gchar *val)
 
 	return res;
 }
-
 
 xmlNodePtr
 e_bconf_get_path (xmlDocPtr doc, const gchar *path)
@@ -194,7 +191,6 @@ e_bconf_get_string (xmlNodePtr root, const gchar *name)
 	return res;
 }
 
-
 /* lookup functions */
 typedef gchar * (* bconf_lookup_func) (xmlNodePtr root, const gchar *name, e_bconf_map_t *nap);
 
@@ -234,7 +230,6 @@ bconf_lookup_enum (xmlNodePtr root, const gchar *name, e_bconf_map_t *map)
 
 	return NULL;
 }
-
 
 static bconf_lookup_func lookup_table[] = {
 	bconf_lookup_bool, bconf_lookup_long, bconf_lookup_string, bconf_lookup_enum
@@ -298,7 +293,6 @@ build_xml (xmlNodePtr root, e_bconf_map_t *map, gint index, xmlNodePtr source)
 	}
 }
 
-
 gint
 e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map_t *map,
 			 const gchar *bconf_path, const gchar *gconf_path,
@@ -359,7 +353,6 @@ e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map
 
 	return 0;
 }
-
 
 static gint gconf_type[] = { GCONF_VALUE_BOOL, GCONF_VALUE_BOOL, GCONF_VALUE_INT, GCONF_VALUE_STRING, GCONF_VALUE_STRING };
 

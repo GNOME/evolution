@@ -135,7 +135,6 @@ ecmm_value_at (ETableModel *etm, gint col, gint row)
 	return (gpointer) "";
 }
 
-
 static void
 ecmm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 {

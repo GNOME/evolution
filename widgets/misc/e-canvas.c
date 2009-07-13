@@ -143,7 +143,6 @@ e_canvas_new (void)
 	return GTK_WIDGET (g_object_new (E_CANVAS_TYPE, NULL));
 }
 
-
 /* Emits an event for an item in the canvas, be it the current item, grabbed
  * item, or focused item, as appropriate.
  */
@@ -278,7 +277,6 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 
 	return emit_event (canvas, &full_event);
 }
-
 
 /* This routine invokes the point method of the item.  The argument x, y should
  * be in the parent's item-relative coordinate system.  This routine applies the
@@ -546,7 +544,6 @@ e_canvas_visibility (GtkWidget *widget, GdkEventVisibility *event, ECanvas *canv
 	return FALSE;
 }
 
-
 /**
  * e_canvas_item_grab_focus:
  * @item: A canvas item.
@@ -663,7 +660,6 @@ e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	ec_style_set_recursive (GNOME_CANVAS_ITEM (gnome_canvas_root (GNOME_CANVAS (widget))), previous_style);
 }
-
 
 static void
 e_canvas_realize (GtkWidget *widget)
@@ -796,7 +792,6 @@ e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc 
 {
 	g_object_set_data(G_OBJECT(item), "ECanvasItem::reflow_callback", (gpointer) func);
 }
-
 
 void
 e_canvas_item_set_selection_callback (GnomeCanvasItem *item, ECanvasItemSelectionFunc func)
@@ -1003,7 +998,6 @@ void e_canvas_hide_tooltip  (ECanvas *canvas)
 		canvas->tooltip_window = NULL;
 	}
 }
-
 
 static gboolean
 grab_cancelled_check (gpointer data)

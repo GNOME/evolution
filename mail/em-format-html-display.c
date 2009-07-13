@@ -140,7 +140,6 @@ struct _attach_puri {
         camel_cipher_validity_encrypt_t encrypt;
 };
 
-
 static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh);
 /*static void efhd_url_requested(GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFormatHTMLDisplay *efh);
   static gboolean efhd_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTMLDisplay *efh);*/

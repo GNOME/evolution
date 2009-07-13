@@ -246,7 +246,6 @@ gint output_n_cards_file (FILE * outputfile, GList *contacts, gint size, gint be
 static void fork_to_background (void);
 void set_pre_defined_field (GSList ** pre_defined_fields);
 
-
 /* function declarations*/
 gint
 e_contact_csv_get_contact_field (EContactFieldCSV csv_field)
@@ -278,7 +277,6 @@ e_contact_csv_get_name (EContactFieldCSV csv_field)
 	g_free (name);
 	return quoted_name;
 }
-
 
 gchar *
 e_contact_csv_get (EContact * contact, EContactFieldCSV csv_field)
@@ -398,7 +396,6 @@ e_contact_csv_get (EContact * contact, EContactFieldCSV csv_field)
 	return quoted_field_value;
 }
 
-
 gchar *
 e_contact_csv_get_header_line (GSList * csv_all_fields)
 {
@@ -429,7 +426,6 @@ e_contact_csv_get_header_line (GSList * csv_all_fields)
 
 }
 
-
 gchar *
 e_contact_to_csv (EContact * contact, GSList * csv_all_fields)
 {
@@ -459,7 +455,6 @@ e_contact_to_csv (EContact * contact, GSList * csv_all_fields)
 
 }
 
-
 gchar *
 e_contact_get_csv (EContact * contact, GSList * csv_all_fields)
 {
@@ -468,7 +463,6 @@ e_contact_get_csv (EContact * contact, GSList * csv_all_fields)
 	aline = e_contact_to_csv (contact, csv_all_fields);
 	return aline;
 }
-
 
 gchar *
 check_null_pointer (gchar * orig)
@@ -620,9 +614,6 @@ fork_to_background (void)
 #endif
 }
 
-
-
-
 static void
 action_list_cards (GList *contacts, ActionContext * p_actctx)
 {
@@ -641,7 +632,6 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 				p_actctx->action_list_cards.addressbook_folder_uri : "NULL");
 		exit (-1);
 	}
-
 
 	if (p_actctx->action_list_cards.async_mode == FALSE) {	/* normal mode */
 
@@ -667,7 +657,6 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 		}
 	}
 
-
 	/*async mode */
 	else {
 
@@ -690,7 +679,6 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 				exit (-1);
 			}
 
-
 			if (p_actctx->action_list_cards.IsVCard == TRUE)
 				format = CARD_FORMAT_VCARD;
 			else
@@ -705,7 +693,6 @@ action_list_cards (GList *contacts, ActionContext * p_actctx)
 				fork_to_background ();
 				IsFirstOne = FALSE;
 			}
-
 
 		}
 		while (series_no * size < length);

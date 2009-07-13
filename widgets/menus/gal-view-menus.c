@@ -305,7 +305,6 @@ build_menus(GalViewMenus *menus)
 
 	id = gal_view_instance_get_current_view_id (instance);
 
-
 	length = gal_view_collection_get_count(collection);
 
         menus->priv->listenerClosures = e_list_new (closure_copy, closure_free, menus);
@@ -357,7 +356,6 @@ build_menus(GalViewMenus *menus)
 			bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
 			bonobo_ui_node_set_attr(menuitem, "f", "");
 
-
 			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 			bonobo_ui_node_set_attr(menuitem, "name", "custom_view");
 			bonobo_ui_node_set_attr(menuitem, "id", "custom_view");
@@ -370,7 +368,6 @@ build_menus(GalViewMenus *menus)
 			bonobo_ui_node_set_attr(command, "name", "custom_view");
 			bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
 			bonobo_ui_node_set_attr(command, "_tip", N_("Current view is a customized view"));
-
 
 			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 			bonobo_ui_node_set_attr(menuitem, "name", "SaveCurrentView");

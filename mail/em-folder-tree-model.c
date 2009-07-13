@@ -128,7 +128,6 @@ em_folder_tree_model_get_type (void)
 	return type;
 }
 
-
 static void
 em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 {
@@ -309,7 +308,6 @@ em_folder_tree_model_finalize (GObject *obj)
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
-
 static void
 tree_model_iface_init (GtkTreeModelIface *iface)
 {
@@ -321,7 +319,6 @@ tree_sortable_iface_init (GtkTreeSortableIface *iface)
 {
 	;
 }
-
 
 static void
 em_folder_tree_model_load_state (EMFolderTreeModel *model, const gchar *filename)
@@ -353,7 +350,6 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const gchar *filename
 	xmlSetProp (node, (const guchar *)"name", (const guchar *)"vfolder");
 	xmlSetProp (node, (const guchar *)"expand", (const guchar *)"true");
 }
-
 
 EMFolderTreeModel *
 em_folder_tree_model_new (const gchar *evolution_dir)
@@ -387,7 +383,6 @@ em_folder_tree_model_new (const gchar *evolution_dir)
 
 	return model;
 }
-
 
 static void
 account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
@@ -624,7 +619,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		gtk_tree_path_free (path);
 	}
 }
-
 
 static void
 folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
@@ -925,7 +919,6 @@ em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const gchar *uri)
 	g_hash_table_remove (model->uri_hash, uri);
 }
 
-
 static void
 em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *store)
 {
@@ -941,7 +934,6 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *st
 	/* store_hash owns and frees the si structure, thus free it after done with it */
 	g_hash_table_remove (model->store_hash, si->store);
 }
-
 
 void
 em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si, GtkTreeIter *toplevel)
@@ -979,7 +971,6 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 	g_free (uri);
 }
 
-
 void
 em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
 {
@@ -1000,7 +991,6 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store)
 	/* recursively remove subfolders and finally the toplevel store */
 	em_folder_tree_model_remove_folders (model, si, &iter);
 }
-
 
 static xmlNodePtr
 find_xml_node (xmlNodePtr root, const gchar *name)
@@ -1067,7 +1057,6 @@ em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const gchar *key)
 
 	return FALSE;
 }
-
 
 void
 em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const gchar *key, gboolean expanded)
@@ -1225,7 +1214,6 @@ em_folder_tree_model_save_state (EMFolderTreeModel *model)
 
 	e_xml_save_file (model->filename, model->state);
 }
-
 
 static void
 expand_foreach_r (EMFolderTreeModel *model, xmlNodePtr parent, const gchar *dirname, EMFTModelExpandFunc func, gpointer user_data)
@@ -1403,7 +1391,6 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	emft_model_unread_count_changed (GTK_TREE_MODEL (model), &iter);
 }
 
-
 gchar *
 em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 {
@@ -1434,7 +1421,6 @@ em_folder_tree_model_get_selected (EMFolderTreeModel *model)
 	}
 	return uri;
 }
-
 
 void
 em_folder_tree_model_set_selected (EMFolderTreeModel *model, const gchar *uri)

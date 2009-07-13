@@ -43,7 +43,6 @@ G_BEGIN_DECLS
 #define E_IS_TABLE_FIELD_CHOOSER_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
 #define E_IS_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
 
-
 typedef struct _ETableFieldChooserDialog       ETableFieldChooserDialog;
 typedef struct _ETableFieldChooserDialogClass  ETableFieldChooserDialogClass;
 
@@ -63,11 +62,9 @@ struct _ETableFieldChooserDialogClass
 	GtkDialogClass parent_class;
 };
 
-
 GtkWidget *e_table_field_chooser_dialog_new(void);
 GType      e_table_field_chooser_dialog_get_type (void);
 
 G_END_DECLS
-
 
 #endif /* __E_TABLE_FIELD_CHOOSER_DIALOG_H__ */

@@ -55,7 +55,6 @@ static GHashTable *name_to_icon = NULL;
 static GtkIconTheme *icon_theme = NULL;
 static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
-
 /* Note: takes ownership of the pixbufs (eg. does not ref them) */
 static Icon *
 icon_new (const gchar *name, GdkPixbuf *pixbuf)
@@ -225,7 +224,6 @@ e_icon_factory_shutdown (void)
 	name_to_icon = NULL;
 }
 
-
 /**
  * e_icon_factory_get_icon_filename:
  * @icon_name: name of the icon
@@ -261,7 +259,6 @@ e_icon_factory_get_icon_filename (const gchar *icon_name,
 
 	return filename;
 }
-
 
 /**
  * e_icon_factory_get_icon:

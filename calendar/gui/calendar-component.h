@@ -23,19 +23,16 @@
 #ifndef _CALENDAR_COMPONENT_H_
 #define _CALENDAR_COMPONENT_H_
 
-
 #include <bonobo/bonobo-object.h>
 #include <libedataserver/e-source-list.h>
 #include <widgets/misc/e-activity-handler.h>
 #include "Evolution.h"
-
 
 #define CALENDAR_TYPE_COMPONENT			(calendar_component_get_type ())
 #define CALENDAR_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), CALENDAR_TYPE_COMPONENT, CalendarComponent))
 #define CALENDAR_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), CALENDAR_TYPE_COMPONENT, CalendarComponentClass))
 #define CALENDAR_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), CALENDAR_TYPE_COMPONENT))
 #define CALENDAR_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), CALENDAR_TYPE_COMPONENT))
-
 
 typedef struct _CalendarComponent        CalendarComponent;
 typedef struct _CalendarComponentPrivate CalendarComponentPrivate;
@@ -52,7 +49,6 @@ struct _CalendarComponentClass {
 
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType calendar_component_get_type  (void);
 

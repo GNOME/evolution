@@ -45,7 +45,6 @@ typedef enum {
 	NETWORK_PROXY_AUTOCONFIG
 } NetworkConfigProxyType;
 
-
 struct _EMNetworkPrefs {
 	GtkVBox parent_object;
 

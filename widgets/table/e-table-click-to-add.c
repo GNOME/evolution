@@ -172,7 +172,6 @@ etcta_drop_message (ETableClickToAdd *etcta)
 	etcta->message = NULL;
 }
 
-
 static void
 etcta_dispose (GObject *object)
 {

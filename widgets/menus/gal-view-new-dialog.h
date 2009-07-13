@@ -75,5 +75,4 @@ GtkWidget *gal_view_new_dialog_construct  (GalViewNewDialog  *dialog,
 
 G_END_DECLS
 
-
 #endif /* __GAL_VIEW_NEW_DIALOG_H__ */

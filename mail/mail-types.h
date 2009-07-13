@@ -23,7 +23,6 @@
 
 G_BEGIN_DECLS
 
-
 typedef struct  _FolderBrowser     FolderBrowser;
 typedef struct  _MessageBrowser    MessageBrowser;
 typedef struct  _SubscribeDialog   SubscribeDialog;

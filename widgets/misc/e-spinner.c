@@ -800,7 +800,6 @@ e_spinner_stop (ESpinner *spinner)
 	}
 }
 
-
 /*
  * e_spinner_set_timeout:
  * @spinner: a #ESpinner

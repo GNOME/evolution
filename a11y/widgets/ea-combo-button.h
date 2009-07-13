@@ -44,7 +44,6 @@ struct _EaComboButtonClass {
 	GtkAccessibleClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      ea_combo_button_get_type  (void);
 AtkObject *ea_combo_button_new       (GtkWidget *combo_button);

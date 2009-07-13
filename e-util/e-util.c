@@ -1048,7 +1048,6 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 	      format_char == 'g' || format_char == 'G'))
 		return NULL;
 
-
 	g_snprintf (buffer, buf_len, format, d);
 
 	locale_data = localeconv ();

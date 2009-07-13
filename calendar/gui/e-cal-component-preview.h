@@ -55,7 +55,6 @@ struct _ECalComponentPreviewClass {
 	void (* selection_changed) (ECalComponentPreview *preview, gint n_selected);
 };
 
-
 GType      e_cal_component_preview_get_type        (void);
 GtkWidget *e_cal_component_preview_new             (void);
 

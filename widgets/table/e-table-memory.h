@@ -48,7 +48,6 @@ struct ETableMemoryClass {
 	ETableModelClass parent_class;
 };
 
-
 GType         e_table_memory_get_type     (void);
 void          e_table_memory_construct    (ETableMemory *etable);
 ETableMemory *e_table_memory_new          (void);

@@ -1092,7 +1092,6 @@ em_migrate_session_new (const gchar *path)
 	return session;
 }
 
-
 #endif	/* !G_OS_WIN32 */
 
 static GtkWidget *window;
@@ -2942,7 +2941,6 @@ migrate_to_db()
 		em_migrate_close_progress_dialog ();
 }
 
-
 gint
 em_migrate (const gchar *evolution_dir, gint major, gint minor, gint revision, CamelException *ex)
 {
@@ -3035,7 +3033,6 @@ em_migrate (const gchar *evolution_dir, gint major, gint minor, gint revision, C
 		g_error ("Upgrading from ancient versions not supported on Windows");
 #endif
 	}
-
 
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();

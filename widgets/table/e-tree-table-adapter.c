@@ -598,7 +598,6 @@ etta_has_change_pending (ETableModel *etm)
 	return e_tree_model_has_change_pending (etta->priv->source);
 }
 
-
 static gint
 etta_row_count (ETableModel *etm)
 {
@@ -1160,7 +1159,6 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 	e_table_model_pre_change (E_TABLE_MODEL(etta));
 	e_table_model_pre_change (E_TABLE_MODEL(etta));
 	e_table_model_row_changed(E_TABLE_MODEL(etta), row);
-
 
 	if (expanded) {
 		gint num_children = insert_children(etta, gnode);

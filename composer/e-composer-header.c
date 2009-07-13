@@ -432,7 +432,7 @@ e_composer_header_set_visible (EComposerHeader *header,
 		if (!visible)
 			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
 		else
-			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));	
+			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
 	}
 	g_object_notify (G_OBJECT (header), "visible");
 }

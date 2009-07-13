@@ -48,7 +48,6 @@ G_BEGIN_DECLS
 #define E_MEETING_TIME_SELECTOR_TEXT_Y_PAD		3
 #define E_MEETING_TIME_SELECTOR_TEXT_X_PAD		2
 
-
 /* This is used to specify the format used when displaying the dates.
    The full format is like 'Sunday, September 12, 1999'. The abbreviated format
    is like 'Sun 12/9/99'. The short format is like '12/9/99'. The actual
@@ -61,7 +60,6 @@ typedef enum
 	E_MEETING_TIME_SELECTOR_DATE_SHORT
 } EMeetingTimeSelectorDateFormat;
 
-
 /* This is used to specify a position regarding the vertical bars around the
    current meeting time, so we know which one is being dragged. */
 typedef enum
@@ -70,7 +68,6 @@ typedef enum
 	E_MEETING_TIME_SELECTOR_POS_START,
 	E_MEETING_TIME_SELECTOR_POS_END
 } EMeetingTimeSelectorPosition;
-
 
 /* This is used to specify the autopick option, which determines how we choose
    the previous/next appropriate meeting time. */
@@ -87,11 +84,9 @@ extern const gchar *EMeetingTimeSelectorHours[24];
 /* An array of hour strings for 12 hour time, "12:00am" .. "11:00pm". */
 extern const gchar *EMeetingTimeSelectorHours12[24];
 
-
 #define E_MEETING_TIME_SELECTOR(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_meeting_time_selector_get_type (), EMeetingTimeSelector)
 #define E_MEETING_TIME_SELECTOR_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_meeting_time_selector_get_type (), EMeetingTimeSelectorClass)
 #define IS_E_MEETING_TIME_SELECTOR(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_meeting_time_selector_get_type ())
-
 
 typedef struct _EMeetingTimeSelector       EMeetingTimeSelector;
 typedef struct _EMeetingTimeSelectorClass  EMeetingTimeSelectorClass;
@@ -200,7 +195,6 @@ struct _EMeetingTimeSelector
 	   than every hour. Defaults to FALSE. */
 	gboolean zoomed_out;
 
-
 	/*
 	 * Internal Data.
 	 */
@@ -263,14 +257,12 @@ struct _EMeetingTimeSelector
 	guint style_change_idle_id;
 };
 
-
 struct _EMeetingTimeSelectorClass
 {
 	GtkTableClass parent_class;
 
 	void (* changed) (EMeetingTimeSelector *mts);
 };
-
 
 /*
  * PUBLIC INTERFACE - note that this interface will probably change, when I
@@ -350,8 +342,6 @@ gboolean e_meeting_time_selector_attendee_add_busy_period (EMeetingTimeSelector 
 							   gint end_hour,
 							   gint end_minute,
 							   EMeetingFreeBusyType busy_type);
-
-
 
 /*
  * INTERNAL ROUTINES - functions to communicate with the canvas items within

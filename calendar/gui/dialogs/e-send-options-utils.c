@@ -208,7 +208,6 @@ e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-TRACKINFO");
 	icalcomponent_add_property (icalcomp, prop);
 
-
 	prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->opened));
 	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-OPENED");
 	icalcomponent_add_property (icalcomp, prop);

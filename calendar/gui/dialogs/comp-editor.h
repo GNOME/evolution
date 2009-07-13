@@ -134,7 +134,6 @@ gboolean	comp_editor_send_comp		(CompEditor *editor,
 GSList *	comp_editor_get_mime_attach_list(CompEditor *editor);
 gboolean	comp_editor_close		(CompEditor *editor);
 
-
 void		comp_editor_sensitize_attachment_bar
 						(CompEditor *editor,
 						 gboolean set);

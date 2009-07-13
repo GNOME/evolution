@@ -583,8 +583,6 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 			camel_object_ref(folder);
 		}
 
-
-
 		camel_folder_append_message (folder, message, info, NULL, ex);
 		if (camel_exception_is_set (ex)) {
 			CamelFolder *sent_folder;
@@ -2255,7 +2253,6 @@ mail_save_part (CamelMimePart *part, const gchar *path,
 
 	return id;
 }
-
 
 /* ** PREPARE OFFLINE ***************************************************** */
 

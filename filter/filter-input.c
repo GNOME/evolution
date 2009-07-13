@@ -51,9 +51,7 @@ static void filter_input_class_init (FilterInputClass *klass);
 static void filter_input_init (FilterInput *fi);
 static void filter_input_finalise (GObject *obj);
 
-
 static FilterElementClass *parent_class = NULL;
-
 
 GType
 filter_input_get_type (void)

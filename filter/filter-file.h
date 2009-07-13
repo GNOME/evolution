@@ -53,7 +53,6 @@ struct _FilterFileClass {
 	/* signals */
 };
 
-
 GType filter_file_get_type (void);
 
 FilterFile *filter_file_new (void);

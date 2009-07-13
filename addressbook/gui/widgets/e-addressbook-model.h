@@ -59,7 +59,6 @@ struct _EABModel {
 	guint first_get_view : 1;
 };
 
-
 struct _EABModelClass {
 	GObjectClass parent_class;
 
@@ -78,7 +77,6 @@ struct _EABModelClass {
 	void (*stop_state_changed) (EABModel *model);
 	void (*backend_died)       (EABModel *model);
 };
-
 
 GType              eab_model_get_type                  (void);
 EABModel          *eab_model_new                       (void);

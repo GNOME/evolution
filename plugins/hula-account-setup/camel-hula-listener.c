@@ -31,7 +31,6 @@
 #include <libedataserver/e-account.h>
 #include "camel-hula-listener.h"
 
-
 static	GList *hula_accounts = NULL;
 
 struct _CamelHulaListenerPrivate {
@@ -58,7 +57,6 @@ static GObjectClass *parent_class = NULL;
 
 static void dispose (GObject *object);
 static void finalize (GObject *object);
-
 
 static void
 camel_hula_listener_class_init (CamelHulaListenerClass *class)
@@ -235,7 +233,6 @@ add_esource (const gchar *conf_key, const gchar *group_name,  const gchar *sourc
 	g_free (relative_uri);
 }
 
-
 static void
 remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_name, const gchar * relative_uri)
 {
@@ -293,7 +290,6 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 			}
 
 		}
-
 
 	}
 
@@ -363,7 +359,6 @@ modify_esource (const gchar * conf_key, HulaAccountInfo *old_account_info, const
 	camel_url_free (url);
 	g_free (old_relative_uri);
 
-
 }
 /* add sources for calendar if the account added is HULA account
    adds the new account info to  HULA accounts list */
@@ -377,7 +372,6 @@ add_calendar_sources (HulaAccountInfo *info)
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
 
 	camel_url_free (url);
-
 
 }
 
@@ -456,7 +450,6 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	g_free (info->source_url);
         g_free (info);
 }
-
 
 static void
 account_changed (EAccountList *account_listener, EAccount *account)

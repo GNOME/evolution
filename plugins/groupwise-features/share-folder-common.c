@@ -353,7 +353,6 @@ org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
 	gint i = 0;
 	static gint first = 0;
 
-
 	if (! g_strrstr (t->uri, "groupwise://"))
 		return;
 

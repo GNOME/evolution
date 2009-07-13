@@ -37,13 +37,11 @@
 
 G_BEGIN_DECLS
 
-
 #define E_TYPE_TIMEZONE_ENTRY            (e_timezone_entry_get_type ())
 #define E_TIMEZONE_ENTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntry))
 #define E_TIMEZONE_ENTRY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryClass))
 #define E_IS_TIMEZONE_ENTRY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TIMEZONE_ENTRY))
 #define E_IS_TIMEZONE_ENTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TIMEZONE_ENTRY))
-
 
 typedef struct _ETimezoneEntry        ETimezoneEntry;
 typedef struct _ETimezoneEntryPrivate ETimezoneEntryPrivate;

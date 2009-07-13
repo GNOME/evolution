@@ -372,7 +372,6 @@ model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
 		return;
 	}
 
-
 	update_row (week_view, row);
 }
 
@@ -663,7 +662,6 @@ e_week_view_new (ECalModel *model)
 	return week_view;
 }
 
-
 static void
 e_week_view_destroy (GtkObject *object)
 {
@@ -711,7 +709,6 @@ e_week_view_destroy (GtkObject *object)
 
 	GTK_OBJECT_CLASS (e_week_view_parent_class)->destroy (object);
 }
-
 
 static void
 e_week_view_realize (GtkWidget *widget)
@@ -988,7 +985,6 @@ e_week_view_style_set (GtkWidget *widget,
 	pango_font_metrics_unref (font_metrics);
 }
 
-
 /* This recalculates the sizes of each column. */
 static void
 e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
@@ -1011,7 +1007,6 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (week_view->titles_canvas),
 						0, 0, new_x2, new_y2);
 
-
 	/* Set the scroll region of the main canvas to its allocated width,
 	   but with the height depending on the number of rows needed. */
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (week_view->main_canvas),
@@ -1028,7 +1023,6 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 		e_week_view_check_layout (week_view);
 	}
 }
-
 
 static void
 e_week_view_recalc_cell_sizes (EWeekView *week_view)
@@ -1084,7 +1078,6 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 			- week_view->row_offsets[row];
 	}
 
-
 	/* If the font hasn't been set yet just return. */
 	widget = GTK_WIDGET (week_view);
 	style = gtk_widget_get_style (widget);
@@ -1097,7 +1090,6 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (pango_context, font_desc,
 						  pango_context_get_language (pango_context));
-
 
 	/* Calculate the number of rows of events in each cell, for the large
 	   cells and the compressed weekend cells. */
@@ -1150,7 +1142,6 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	pango_font_metrics_unref (font_metrics);
 }
 
-
 static gint
 e_week_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
@@ -1169,7 +1160,6 @@ e_week_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	return FALSE;
 }
 
-
 static gint
 e_week_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
@@ -1187,7 +1177,6 @@ e_week_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 	return FALSE;
 }
-
 
 /* This draws a shadow around the top display and main display. */
 static gint
@@ -1506,7 +1495,6 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
-
 /* Returns the selected time range. */
 static gboolean
 e_week_view_get_selected_time_range	(ECalendarView	*cal_view,
@@ -1553,7 +1541,6 @@ e_week_view_get_visible_time_range	(ECalendarView	*cal_view,
 	return TRUE;
 }
 
-
 /* Note that the returned date may be invalid if no date has been set yet. */
 void
 e_week_view_get_first_day_shown		(EWeekView	*week_view,
@@ -1561,7 +1548,6 @@ e_week_view_get_first_day_shown		(EWeekView	*week_view,
 {
 	*date = week_view->first_day_shown;
 }
-
 
 /* This sets the first day shown in the view. It will be rounded down to the
    nearest week. */
@@ -1652,7 +1638,6 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
-
 /* Recalculates the time_t corresponding to the start of each day. */
 static void
 e_week_view_recalc_day_starts (EWeekView *week_view,
@@ -1693,7 +1678,6 @@ e_week_view_get_multi_week_view	(EWeekView	*week_view)
 
 	return week_view->multi_week_view;
 }
-
 
 void
 e_week_view_set_multi_week_view	(EWeekView	*week_view,
@@ -1753,7 +1737,6 @@ e_week_view_get_update_base_date (EWeekView *week_view)
 	return week_view->update_base_date;
 }
 
-
 void
 e_week_view_set_update_base_date (EWeekView *week_view, gboolean update_base_date)
 {
@@ -1769,7 +1752,6 @@ e_week_view_get_weeks_shown	(EWeekView	*week_view)
 
 	return week_view->weeks_shown;
 }
-
 
 void
 e_week_view_set_weeks_shown	(EWeekView	*week_view,
@@ -1810,7 +1792,6 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 	}
 }
 
-
 gboolean
 e_week_view_get_compress_weekend	(EWeekView	*week_view)
 {
@@ -1818,7 +1799,6 @@ e_week_view_get_compress_weekend	(EWeekView	*week_view)
 
 	return week_view->compress_weekend;
 }
-
 
 void
 e_week_view_set_compress_weekend	(EWeekView	*week_view,
@@ -1866,7 +1846,6 @@ e_week_view_get_show_event_end_times	(EWeekView	*week_view)
 	return week_view->show_event_end_times;
 }
 
-
 void
 e_week_view_set_show_event_end_times	(EWeekView	*week_view,
 					 gboolean	 show)
@@ -1881,7 +1860,6 @@ e_week_view_set_show_event_end_times	(EWeekView	*week_view,
 	}
 }
 
-
 /* The first day of the week, 0 (Monday) to 6 (Sunday). */
 gint
 e_week_view_get_week_start_day	(EWeekView	*week_view)
@@ -1890,7 +1868,6 @@ e_week_view_get_week_start_day	(EWeekView	*week_view)
 
 	return week_view->week_start_day;
 }
-
 
 void
 e_week_view_set_week_start_day	(EWeekView	*week_view,
@@ -2000,7 +1977,6 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 	}
 }
 
-
 static gboolean
 e_week_view_remove_event_cb (EWeekView *week_view,
 			     gint event_num,
@@ -2062,7 +2038,6 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	return TRUE;
 }
 
-
 void
 e_week_view_get_day_position	(EWeekView	*week_view,
 				 gint		 day,
@@ -2092,7 +2067,6 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 		cell_y ++;
 	}
 }
-
 
 /* Returns the bounding box for a span of an event. Usually this can easily
    be determined by the start & end days and row of the span, which are set in
@@ -2154,8 +2128,6 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 
 	return TRUE;
 }
-
-
 
 static gboolean
 e_week_view_on_button_press (GtkWidget *widget,
@@ -2233,7 +2205,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 	return TRUE;
 }
 
-
 static gboolean
 e_week_view_on_button_release (GtkWidget *widget,
 			       GdkEventButton *event,
@@ -2289,7 +2260,6 @@ e_week_view_on_scroll (GtkWidget *widget,
 	return TRUE;
 }
 
-
 static gboolean
 e_week_view_on_motion (GtkWidget *widget,
 		       GdkEventMotion *mevent,
@@ -2315,7 +2285,6 @@ e_week_view_on_motion (GtkWidget *widget,
 
 	return FALSE;
 }
-
 
 /* Converts a position in the canvas window to a day offset from the first
    day displayed. Returns -1 if the position is outside the grid. */
@@ -2376,7 +2345,6 @@ e_week_view_convert_position_to_day (EWeekView *week_view,
 	return week * 7 + day;
 }
 
-
 static void
 e_week_view_update_selection (EWeekView *week_view,
 			      gint day)
@@ -2416,7 +2384,6 @@ e_week_view_update_selection (EWeekView *week_view,
 		gtk_widget_queue_draw (week_view->main_canvas);
 	}
 }
-
 
 static void
 e_week_view_free_events (EWeekView *week_view)
@@ -2466,7 +2433,6 @@ e_week_view_free_events (EWeekView *week_view)
 		gnome_canvas_item_hide (week_view->jump_buttons[day]);
 	}
 }
-
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
@@ -2542,7 +2508,6 @@ e_week_view_add_event (ECalComponent *comp,
 	return TRUE;
 }
 
-
 /* This lays out the events, or reshapes them, as necessary. */
 static void
 e_week_view_check_layout (EWeekView *week_view)
@@ -2571,7 +2536,6 @@ e_week_view_check_layout (EWeekView *week_view)
 	week_view->events_need_reshape = FALSE;
 }
 
-
 static void
 e_week_view_ensure_events_sorted (EWeekView *week_view)
 {
@@ -2583,7 +2547,6 @@ e_week_view_ensure_events_sorted (EWeekView *week_view)
 		week_view->events_sorted = TRUE;
 	}
 }
-
 
 gint
 e_week_view_event_sort_func (gconstpointer arg1,
@@ -2606,7 +2569,6 @@ e_week_view_event_sort_func (gconstpointer arg1,
 
 	return 0;
 }
-
 
 static void
 e_week_view_reshape_events (EWeekView *week_view)
@@ -2896,7 +2858,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	   the icons in the middle, but making sure we don't go over the times.
 	*/
 
-
 	/* Calculate the space necessary to display a time, e.g. "13:00". */
 	time_width = e_week_view_get_time_string_width (week_view);
 
@@ -3108,7 +3069,6 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	return TRUE;
 }
 
-
 /* This stops any current edit. */
 void
 e_week_view_stop_editing_event (EWeekView *week_view)
@@ -3124,7 +3084,6 @@ e_week_view_stop_editing_event (EWeekView *week_view)
 	if (toplevel && GTK_IS_WINDOW (toplevel))
 		gtk_window_set_focus (GTK_WINDOW (toplevel), NULL);
 }
-
 
 /* Cancels the current edition by resetting the appointment's text to its original value */
 static void
@@ -3299,7 +3258,6 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						       &nevent,
 						       &nspan))
 			return FALSE;
-
 
 		g_object_set_data ((GObject *)item, "event-num", GINT_TO_POINTER (nevent));
 
@@ -3506,7 +3464,6 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
-
 	if (e_cal_component_has_recurrences (comp)) {
 		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 			gtk_widget_queue_draw (week_view->main_canvas);
@@ -3560,7 +3517,6 @@ e_week_view_on_editing_started (EWeekView *week_view,
 
 	g_signal_emit_by_name (week_view, "selection_changed");
 }
-
 
 static void
 e_week_view_on_editing_stopped (EWeekView *week_view,
@@ -3719,7 +3675,6 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	g_signal_emit_by_name (week_view, "selection_changed");
 }
 
-
 gboolean
 e_week_view_find_event_from_item (EWeekView	  *week_view,
 				  GnomeCanvasItem *item,
@@ -3748,7 +3703,6 @@ e_week_view_find_event_from_item (EWeekView	  *week_view,
 
 	return FALSE;
 }
-
 
 /* Finds the index of the event with the given uid.
    Returns TRUE if an event with the uid was found.
@@ -3801,7 +3755,6 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 	return FALSE;
 }
-
 
 gboolean
 e_week_view_is_one_day_event	(EWeekView	*week_view,
@@ -4394,7 +4347,6 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	return FALSE;
 }
 
-
 /* Converts an hour from 0-23 to the preferred time format, and returns the
    suffix to add and the width of it in the normal font. */
 void
@@ -4426,7 +4378,6 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 	}
 }
 
-
 gint
 e_week_view_get_time_string_width	(EWeekView	*week_view)
 {
@@ -4455,7 +4406,6 @@ e_week_view_queue_layout (EWeekView *week_view)
 	}
 }
 
-
 /* Removes any queued layout. */
 static void
 e_week_view_cancel_layout (EWeekView *week_view)
@@ -4465,7 +4415,6 @@ e_week_view_cancel_layout (EWeekView *week_view)
 		week_view->layout_timeout_id = 0;
 	}
 }
-
 
 static gboolean
 e_week_view_layout_timeout_cb (gpointer data)
@@ -4478,7 +4427,6 @@ e_week_view_layout_timeout_cb (gpointer data)
 	week_view->layout_timeout_id = 0;
 	return FALSE;
 }
-
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint

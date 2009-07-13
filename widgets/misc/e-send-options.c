@@ -37,7 +37,6 @@
 #include "e-dateedit.h"
 #include "e-send-options.h"
 
-
 struct _ESendOptionsDialogPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
@@ -380,7 +379,6 @@ page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, gpointe
 	e_send_options_fill_widgets_with_data (sod);
 }
 
-
 static void
 init_widgets (ESendOptionsDialog *sod)
 {
@@ -398,7 +396,6 @@ init_widgets (ESendOptionsDialog *sod)
 
 	if (priv->global)
 		g_signal_connect (priv->notebook, "switch-page", G_CALLBACK (page_changed_cb), sod);
-
 
 }
 
@@ -732,7 +729,6 @@ e_sendoptions_dialog_init (GObject *object)
 	ESendOptionsDialog *sod;
 	ESendOptionsDialogPrivate *priv;
 	ESendOptionsData *new;
-
 
 	sod = E_SENDOPTIONS_DIALOG (object);
 	new = g_new0 (ESendOptionsData, 1);

@@ -175,4 +175,3 @@ e_rgb_to_hsv (gdouble r, gdouble g, gdouble b,
     }
 }
 
-

@@ -328,7 +328,6 @@ paint_search_text (GtkWidget *widget, ESearchBar *esb)
 	else /* no query in search entry .. so set the current option */
 		text = get_selected_item_label (menu_widget);
 
-
 	if (text && *text) {
 		gchar *t;
 
@@ -1000,7 +999,6 @@ e_search_bar_construct (ESearchBar *search_bar,
 	else
 		gtk_box_pack_start (GTK_BOX(search_bar->entry_box), search_bar->icon_entry, TRUE, TRUE, 0);
 
-
 	gtk_widget_show_all (search_bar->entry_box);
 	gtk_widget_set_sensitive (search_bar->clear_button, FALSE);
 
@@ -1464,7 +1462,6 @@ e_search_bar_set_search_scope (ESearchBar *search_bar, gint id)
 	if (!search_bar->block_search)
 		emit_query_changed (search_bar);
 }
-
 
 /**
  * e_search_bar_get_item_id:

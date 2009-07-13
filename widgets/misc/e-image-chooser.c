@@ -50,7 +50,6 @@ enum {
 	LAST_SIGNAL
 };
 
-
 static gint image_chooser_signals [LAST_SIGNAL] = { 0 };
 
 static void e_image_chooser_init	 (EImageChooser		 *chooser);
@@ -118,7 +117,6 @@ e_image_chooser_get_type (void)
 
 	return eic_type;
 }
-
 
 static void
 e_image_chooser_class_init (EImageChooserClass *klass)
@@ -218,7 +216,6 @@ e_image_chooser_dispose (GObject *object)
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
-
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,

@@ -64,7 +64,6 @@ enum {
 static EPrintable *
 etgc_get_printable (ETableGroup *etg);
 
-
 static void
 e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
 					ETableGroupContainerChildNode *child_node)
@@ -196,7 +195,6 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 					   model, sort_info, n);
 	return E_TABLE_GROUP (etgc);
 }
-
 
 static gint
 etgc_event (GnomeCanvasItem *item, GdkEvent *event)
@@ -1019,7 +1017,6 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	if (frozen)
 		return;
 
-
 	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED){
 		gdouble running_height = 0;
 		gdouble running_width = 0;
@@ -1139,14 +1136,11 @@ e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, gpointer c
 	}
 }
 
-
 typedef struct {
 	ETableGroupContainer *etgc;
 	GList *child;
 	EPrintable *child_printable;
 } ETGCPrintContext;
-
-
 
 #define CHECK(x) if((x) == -1) return -1;
 

@@ -75,7 +75,6 @@ enum {
 	NUM_IM_COLUMNS
 };
 
-
 static void e_contact_editor_init		(EContactEditor		 *editor);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
 static void e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
@@ -2675,7 +2674,6 @@ full_name_clicked (GtkWidget *button, EContactEditor *editor)
 	editor->fullname_dialog = GTK_WIDGET (dialog);
 }
 
-
 static void
 categories_response (GtkDialog *dialog, gint response, EContactEditor *editor)
 {
@@ -3005,7 +3003,6 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	if (!ce->target_book)
 		return;
 
-
 	if (ce->target_editable && !e_book_is_writable (ce->source_book)) {
 		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
@@ -3082,7 +3079,6 @@ static const EContactField  non_string_fields [] = {
 	E_CONTACT_BIRTH_DATE,
 	E_CONTACT_ANNIVERSARY
 
-
 };
 
 static gboolean
@@ -3096,7 +3092,6 @@ is_non_string_field (EContactField id)
 	return FALSE;
 
 }
-
 
 /* insert checks here (date format, for instance, etc.) */
 static gboolean
@@ -3150,10 +3145,8 @@ e_contact_editor_is_valid (EABEditor *editor)
 				break;
 			}
 
-
 		}
 	}
-
 
 	if (validation_error) {
 		g_string_append (errmsg, ".");
@@ -3490,9 +3483,7 @@ required_fields_cb (EBook *book, EBookStatus status,
 		      "required_fields", fields,
 		      NULL);
 
-
 }
-
 
 static void
 contact_editor_destroy_notify (gpointer data,

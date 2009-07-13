@@ -35,4 +35,3 @@ gboolean try_umount (gchar *device);
 gchar *find_ipod_mount_point (LibHalContext *ctx);
 gchar *ipod_get_mount (void);
 
-

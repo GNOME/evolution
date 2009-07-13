@@ -144,7 +144,6 @@ cert_trust_dialog_show (ECert *cert)
 	else
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (ctd_data->notrust_button), TRUE);
 
-
 	icert = e_cert_get_internal_cert(ctd_data->cacert);
 	if (e_cert_trust_has_trusted_ca(icert->trust, FALSE, TRUE, FALSE))
 		gtk_label_set_text((GtkLabel *)ctd_data->label,

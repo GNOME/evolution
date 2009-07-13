@@ -201,7 +201,6 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 	return TRUE;
 }
 
-
 /* Creates the canvas items for the weekday picker.  The items are empty until
  * they are configured elsewhere.
  */

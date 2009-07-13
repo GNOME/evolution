@@ -57,7 +57,6 @@ static ESearchBarItem calendar_search_items[] = {
 	{NULL, -1, 0}
 };
 
-
 /* IDs and option items for the ESearchBar */
 enum {
 	SEARCH_SUMMARY_CONTAINS,
@@ -133,7 +132,6 @@ enum {
 };
 
 static guint cal_search_bar_signals[LAST_SIGNAL] = { 0 };
-
 
 G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_FILTER_BAR_TYPE)
 
@@ -279,7 +277,6 @@ get_current_category (CalSearchBar *cal_search)
 	else
 		return NULL;
 }
-
 
 /* Returns a sexp for the selected category in the drop-down menu.  The "All"
  * option is returned as (const gchar *) 1, and the "Unfiled" option is returned
@@ -604,7 +601,6 @@ setup_category_options (CalSearchBar *cal_search, CALSearchBarItem *subitems, gi
 	subitems[index].search.text = NULL;
 	subitems[index].image = NULL;
 }
-
 
 /* Creates the suboptions menu for the ESearchBar with the list of categories */
 static void

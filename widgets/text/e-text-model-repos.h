@@ -34,7 +34,6 @@ typedef struct {
 
 gint e_repos_shift (gint pos, gpointer data);
 
-
 typedef struct {
 	ETextModel *model;
 	gint pos;  /* Position to move to.  Negative values count from the end buffer.
@@ -42,7 +41,6 @@ typedef struct {
 } EReposAbsolute;
 
 gint e_repos_absolute (gint pos, gpointer data);
-
 
 typedef struct {
 	ETextModel *model;
@@ -52,7 +50,6 @@ typedef struct {
 
 gint e_repos_insert_shift (gint pos, gpointer data);
 
-
 typedef struct {
 	ETextModel *model;
 	gint pos;  /* Location of first deleted character. */
@@ -60,7 +57,6 @@ typedef struct {
 } EReposDeleteShift;
 
 gint e_repos_delete_shift (gint pos, gpointer data);
-
 
 /* For e_repos_clamp, data is a pointer to an ETextModel.  The only repositioning
    that occurs is to avoid buffer overruns. */

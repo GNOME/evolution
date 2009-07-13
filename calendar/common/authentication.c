@@ -102,7 +102,6 @@ auth_new_cal_from_default (ECalSourceType type)
 	if (!e_cal_open_default (&ecal, type, auth_func_cb, NULL, NULL))
 		return NULL;
 
-
 	return ecal;
 }
 

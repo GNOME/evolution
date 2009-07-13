@@ -34,7 +34,6 @@
 #include <libedataserver/e-account-list.h>
 #include <camel/camel-url.h>
 
-
 static void em_filter_source_element_class_init(EMFilterSourceElementClass *klass);
 static void em_filter_source_element_init(EMFilterSourceElement *fs);
 static void em_filter_source_element_finalize(GObject *obj);
@@ -64,9 +63,7 @@ struct _EMFilterSourceElementPrivate {
 	gchar *current_url;
 };
 
-
 static FilterElementClass *parent_class = NULL;
-
 
 GType
 em_filter_source_element_get_type(void)
@@ -318,7 +315,6 @@ format_sexp(FilterElement *fe, GString *out)
 
 	e_sexp_encode_string(out, fs->priv->current_url);
 }
-
 
 static void
 em_filter_source_element_add_source(EMFilterSourceElement *fs, const gchar *account_name, const gchar *name,

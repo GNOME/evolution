@@ -145,7 +145,6 @@ static void emfv_set_seen (EMFolderView *emfv, const gchar *uid);
 static gboolean emfv_on_html_button_released_cb (GtkHTML *html, GdkEventButton *button, EMFolderView *emfv);
 static gboolean emfv_popup_menu (GtkWidget *widget);
 
-
 /* this is added to emfv->enable_map in :init() */
 static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "EditCut",                  EM_POPUP_SELECT_MANY },
@@ -1949,7 +1948,6 @@ emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, gpointer data)
 
 }
 
-
 static void
 emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, gpointer data)
 {
@@ -2133,7 +2131,6 @@ static EPixmap emfv_message_pixmaps[] = {
 
 	E_PIXMAP_END
 };
-
 
 static void
 emfv_enable_menus(EMFolderView *emfv)
@@ -2503,7 +2500,6 @@ emfv_list_done_message_selected(CamelFolder *folder, const gchar *uid, CamelMime
 	emfv_enable_menus(emfv);
 	g_object_unref (emfv);
 }
-
 
 static gboolean
 emfv_message_selected_timeout(gpointer data)

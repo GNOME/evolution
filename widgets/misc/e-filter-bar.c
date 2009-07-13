@@ -52,11 +52,9 @@ enum {
 	PROP_STATE
 };
 
-
 /* Callbacks.  */
 
 static void rule_changed (FilterRule *rule, gpointer user_data);
-
 
 /* rule editor thingy */
 static void
@@ -498,7 +496,6 @@ free_items (ESearchBarItem *items)
 	for (i = 0; items[i].id != -1; i++)
 		g_free (items[i].text);
 
-
 	g_free (items);
 }
 
@@ -705,7 +702,6 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 				if (!strcmp ((gchar *)node->name, "filter-bar")) {
 					FilterRule *rule = NULL;
 
-
 					view_id = xml_get_prop_int (node, "view_id");
 					scope = xml_get_prop_int (node, "searchscope");
 					item_id = xml_get_prop_int (node, "item_id");
@@ -736,7 +732,6 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 						}
 					}
 
-
 					if (rule_set) {
 						esb->block_search = TRUE;
 						e_search_bar_set_text (esb, _("Advanced Search"));
@@ -764,7 +759,6 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					GtkStyle *style = gtk_widget_get_default_style ();
 
 					/* set the text first (it doesn't emit a signal) */
-
 
 					/* now set the item_id and subitem_id */
 					item_id = xml_get_prop_int (node, "item_id");
@@ -803,7 +797,6 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					}
 
 					xmlFree (text);
-
 
 					break;
 				}

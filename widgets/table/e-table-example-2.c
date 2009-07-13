@@ -331,8 +331,6 @@ create_table ()
 	gtk_widget_show_all (window);
 }
 
-
-
 gint
 main (gint argc, gchar *argv [])
 {

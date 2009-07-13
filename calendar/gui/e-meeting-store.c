@@ -76,7 +76,6 @@ struct _EMeetingStoreQueueData {
 	GPtrArray *data;
 };
 
-
 static GObjectClass *parent_class = NULL;
 
 static icalparameter_cutype
@@ -565,7 +564,6 @@ ems_class_init (GObjectClass *klass)
 	klass->finalize = ems_finalize;
 }
 
-
 static void
 ems_init (EMeetingStore *store)
 {
@@ -628,7 +626,6 @@ e_meeting_store_new (void)
 {
 	return g_object_new (E_TYPE_MEETING_STORE, NULL);
 }
-
 
 ECal *
 e_meeting_store_get_e_cal (EMeetingStore *store)
@@ -1203,7 +1200,6 @@ freebusy_async (gpointer data)
 #undef USER_SUB
 #undef DOMAIN_SUB
 
-
 static gboolean
 refresh_busy_periods (gpointer data)
 {
@@ -1278,8 +1274,6 @@ refresh_busy_periods (gpointer data)
 
 	}
 
-
-
 	g_mutex_lock (store->priv->mutex);
 	store->priv->num_threads++;
 	g_mutex_unlock (store->priv->mutex);
@@ -1291,7 +1285,6 @@ refresh_busy_periods (gpointer data)
 		g_list_free (fbd->users);
 		g_free (fbd->email);
 		priv->refresh_idle_id = 0;
-
 
 		g_mutex_lock (store->priv->mutex);
 		store->priv->num_threads--;
@@ -1359,7 +1352,6 @@ refresh_queue_add (EMeetingStore *store, gint row,
 		g_ptr_array_add (qdata->data, data);
 	}
 	g_mutex_unlock (priv->mutex);
-
 
 	g_object_ref (attendee);
 	g_ptr_array_add (priv->refresh_queue, attendee);

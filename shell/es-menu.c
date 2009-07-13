@@ -119,7 +119,6 @@ es_menu_target_new_shell(ESMenu *esm, guint32 flags)
 
 /* ********************************************************************** */
 
-
 static gpointer esph_parent_class;
 #define esph ((ESMenuHook *)eph)
 

@@ -308,7 +308,6 @@ uri_list_to_vcal_string (GSList *uris, ECalSourceType type)
 			continue;
 		}
 
-
 		e_cal_get_object_list (cal, "#t", &objects, NULL);
 
 		for (o = objects; o != NULL; o = o->next)

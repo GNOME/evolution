@@ -36,15 +36,12 @@ G_BEGIN_DECLS
  * Used for calendar events and tasks.
  */
 
-
 #define E_CALENDAR_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_table_get_type (), ECalendarTable)
 #define E_CALENDAR_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_table_get_type (), ECalendarTableClass)
 #define E_IS_CALENDAR_TABLE(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_table_get_type ())
 
-
 typedef struct _ECalendarTable       ECalendarTable;
 typedef struct _ECalendarTableClass  ECalendarTableClass;
-
 
 struct _ECalendarTable {
 	GtkTable table;
@@ -75,7 +72,6 @@ struct _ECalendarTableClass {
 	/* Notification signals */
 	void (* user_created) (ECalendarTable *cal_table);
 };
-
 
 GType		   e_calendar_table_get_type (void);
 GtkWidget* e_calendar_table_new	(void);

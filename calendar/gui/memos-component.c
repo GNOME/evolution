@@ -79,7 +79,6 @@ static BonoboObjectClass *parent_class = NULL;
 /* Memos should have their own registry */
 extern ECompEditorRegistry *comp_editor_registry;
 
-
 typedef struct _MemosComponentView
 {
 	ESourceList *source_list;
@@ -365,7 +364,6 @@ update_primary_selection (MemosComponentView *component_view)
 	}
 
 }
-
 
 /* Callbacks.  */
 /* TODO: doesn't work! */

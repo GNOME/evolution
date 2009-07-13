@@ -52,10 +52,7 @@ typedef struct {
 
 } EWeekViewTitlesItemClass;
 
-
 GType    e_week_view_titles_item_get_type      (void);
-
-
 
 G_END_DECLS
 

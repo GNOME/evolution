@@ -176,7 +176,6 @@ e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
 	return FALSE;
 }
 
-
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
 gint
 e_table_sorting_utils_insert(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint row)
@@ -213,9 +212,6 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 	}
 	return i;
 }
-
-
-
 
 /* This takes source rows. */
 static gint

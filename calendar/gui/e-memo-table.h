@@ -38,15 +38,12 @@ G_BEGIN_DECLS
  * Used for memo events and tasks.
  */
 
-
 #define E_MEMO_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_memo_table_get_type (), EMemoTable)
 #define E_MEMO_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_memo_table_get_type (), EMemoTableClass)
 #define E_IS_MEMO_TABLE(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_memo_table_get_type ())
 
-
 typedef struct _EMemoTable       EMemoTable;
 typedef struct _EMemoTableClass  EMemoTableClass;
-
 
 struct _EMemoTable {
 	GtkTable table;
@@ -77,7 +74,6 @@ struct _EMemoTableClass {
 	/* Notification signals */
 	void (* user_created) (EMemoTable *memo_table);
 };
-
 
 GType		   e_memo_table_get_type (void);
 GtkWidget* e_memo_table_new	(void);

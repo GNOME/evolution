@@ -82,13 +82,11 @@ e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 			G_PARAM_WRITABLE));
 }
 
-
 static void
 e_week_view_titles_item_init (EWeekViewTitlesItem *wvtitem)
 {
 	wvtitem->week_view = NULL;
 }
-
 
 static void
 e_week_view_titles_item_set_property (GObject *object,
@@ -109,7 +107,6 @@ e_week_view_titles_item_set_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-
 static void
 e_week_view_titles_item_update (GnomeCanvasItem *item,
 				double	    *affine,
@@ -125,7 +122,6 @@ e_week_view_titles_item_update (GnomeCanvasItem *item,
 	item->x2 = INT_MAX;
 	item->y2 = INT_MAX;
 }
-
 
 /*
  * DRAWING ROUTINES - functions to paint the canvas item.
@@ -263,7 +259,6 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	g_object_unref (layout);
 }
 
-
 /* This is supposed to return the nearest item the the point and the distance.
    Since we are the only item we just return ourself and 0 for the distance.
    This is needed so that we get button/motion events. */
@@ -275,5 +270,4 @@ e_week_view_titles_item_point (GnomeCanvasItem *item, double x, double y,
 	*actual_item = item;
 	return 0.0;
 }
-
 

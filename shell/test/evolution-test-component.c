@@ -34,7 +34,6 @@
 #include "e-task-bar.h"
 #include "evolution-test-component.h"
 
-
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Test_Factory:" BASE_VERSION
 #define TEST_COMPONENT_ID  "OAFIID:GNOME_Evolution_Test_Component:" BASE_VERSION
 #define CREATE_TEST_ID      "test"
@@ -87,7 +86,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 	g_message ("Upgrading from %d.%d.%d", major, minor, revision);
 }
-
 
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant,

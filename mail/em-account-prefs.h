@@ -35,7 +35,6 @@
 
 G_BEGIN_DECLS
 
-
 #define EM_ACCOUNT_PREFS_TYPE        (em_account_prefs_get_type ())
 #define EM_ACCOUNT_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefs))
 #define EM_ACCOUNT_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefsClass))
@@ -72,7 +71,6 @@ struct _EMAccountPrefsClass {
 	/* signals */
 
 };
-
 
 GType em_account_prefs_get_type (void);
 

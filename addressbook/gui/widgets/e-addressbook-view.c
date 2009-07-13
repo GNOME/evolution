@@ -907,7 +907,6 @@ open_contact (EPopup *ep, EPopupItem *pitem, gpointer data)
 	eab_view_view (contact_and_book->view);
 }
 
-
 static void
 new_card (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
@@ -1225,7 +1224,6 @@ contacts_removed (EABModel *model, gpointer data, EABView *eav)
 	gint i;
 
 	for (i = 0; i < count; i ++) {
-
 
 		if (eav->displayed_contact == g_array_index (indices, gint, i)) {
 
@@ -2104,7 +2102,6 @@ eab_view_move_to_folder (EABView *view, gboolean all)
 {
 	view_transfer_contacts (view, TRUE, all);
 }
-
 
 static gboolean
 eab_view_selection_nonempty (EABView  *view)

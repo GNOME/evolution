@@ -99,7 +99,6 @@ component_info_compare_func (EComponentInfo *a,
 	return strcmp (a->button_label, b->button_label);
 }
 
-
 /* Utility methods.  */
 
 static void
@@ -219,7 +218,6 @@ query_components (EComponentRegistry *registry)
 					      (GCompareFunc) component_info_compare_func);
 }
 
-
 /* GObject methods.  */
 
 static void
@@ -237,7 +235,6 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (e_component_registry_parent_class)->finalize) (object);
 }
 
-
 static void
 e_component_registry_class_init (EComponentRegistryClass *klass)
 {
@@ -247,20 +244,17 @@ e_component_registry_class_init (EComponentRegistryClass *klass)
 	object_class->finalize = impl_finalize;
 }
 
-
 static void
 e_component_registry_init (EComponentRegistry *registry)
 {
 	registry->priv = g_new0 (EComponentRegistryPrivate, 1);
 }
 
-
 EComponentRegistry *
 e_component_registry_new (void)
 {
 	return g_object_new (e_component_registry_get_type (), NULL);
 }
-
 
 GSList *
 e_component_registry_peek_list (EComponentRegistry *registry)
@@ -271,7 +265,6 @@ e_component_registry_peek_list (EComponentRegistry *registry)
 
 	return registry->priv->infos;
 }
-
 
 EComponentInfo *
 e_component_registry_peek_info (EComponentRegistry *registry,

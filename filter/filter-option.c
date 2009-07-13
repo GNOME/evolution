@@ -51,9 +51,7 @@ static void filter_option_class_init (FilterOptionClass *klass);
 static void filter_option_init (FilterOption *fo);
 static void filter_option_finalise (GObject *obj);
 
-
 static FilterElementClass *parent_class;
-
 
 GType
 filter_option_get_type (void)

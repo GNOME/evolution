@@ -190,5 +190,4 @@ gchar *e_search_bar_get_text  (ESearchBar *search_bar);
 void e_search_bar_scope_enable (ESearchBar *search_bar, gint did, gboolean state);
 G_END_DECLS
 
-
 #endif /* __E_SEARCH_BAR_H__ */

@@ -49,7 +49,6 @@ static void message_tag_followup_finalise (GObject *obj);
 static CamelTag *get_tag_list (MessageTagEditor *editor);
 static void set_tag_list (MessageTagEditor *editor, CamelTag *tags);
 
-
 #define DEFAULT_FLAG  2  /* Follow-Up */
 static const gchar *available_flags[] = {
 	N_("Call"),
@@ -67,9 +66,7 @@ static const gchar *available_flags[] = {
 
 static gint num_available_flags = sizeof (available_flags) / sizeof (available_flags[0]);
 
-
 static MessageTagEditorClass *parent_class = NULL;
-
 
 GType
 message_tag_followup_get_type (void)
@@ -119,7 +116,6 @@ message_tag_followup_init (MessageTagFollowUp *editor)
 	editor->completed_date = 0;
 }
 
-
 static void
 message_tag_followup_finalise (GObject *obj)
 {
@@ -129,7 +125,6 @@ message_tag_followup_finalise (GObject *obj)
 
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
-
 
 static CamelTag *
 get_tag_list (MessageTagEditor *editor)

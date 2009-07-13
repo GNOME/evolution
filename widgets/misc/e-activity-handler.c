@@ -34,7 +34,6 @@
 
 #define ICON_SIZE 16
 
-
 struct _ActivityInfo {
 	gchar *component_id;
 	gint error_type;
@@ -101,7 +100,6 @@ lookup_activity (GList *list,
 	return NULL;
 }
 
-
 /* ETaskWidget actions.  */
 
 static gint
@@ -121,7 +119,6 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 
 	return TRUE;
 }
-
 
 /* Creating and destroying ActivityInfos.  */
 
@@ -180,7 +177,6 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 	return E_TASK_WIDGET (widget);
 }
 
-
 /* Task Bar handling.  */
 
 static void
@@ -226,7 +222,6 @@ task_bar_destroy_notify (gpointer data,
 
 	priv->task_bars = g_slist_remove (priv->task_bars, task_bar_instance);
 }
-
 
 /* GObject methods.  */
 
@@ -295,7 +290,6 @@ e_activity_handler_init (EActivityHandler *activity_handler)
 	priv->error_flush_interval = 0;
 	activity_handler->priv = priv;
 }
-
 
 EActivityHandler *
 e_activity_handler_new (void)

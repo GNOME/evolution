@@ -51,7 +51,6 @@ typedef struct {
 	ESelectionModelClass parent_class;
 } ETreeSelectionModelClass;
 
-
 GType            e_tree_selection_model_get_type            (void);
 ESelectionModel *e_tree_selection_model_new                 (void);
 void             e_tree_selection_model_foreach             (ETreeSelectionModel *etsm,
@@ -68,6 +67,5 @@ void             e_tree_selection_model_change_cursor       (ETreeSelectionModel
 ETreePath        e_tree_selection_model_get_cursor          (ETreeSelectionModel *etsm);
 
 G_END_DECLS
-
 
 #endif /* _E_TREE_SELECTION_MODEL_H_ */

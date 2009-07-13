@@ -471,7 +471,6 @@ e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
 
 	e_minicard_label->height = text_height;
 
-
 	g_object_get(e_minicard_label->field,
 		     "text_height", &text_height,
 		     NULL);

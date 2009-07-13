@@ -60,5 +60,4 @@ AtkObject *gal_a11y_e_cell_toggle_new  (ETableItem *item,
 
 G_END_DECLS
 
-
 #endif /* __GAL_A11Y_E_CELL_TOGGLE_H__ */

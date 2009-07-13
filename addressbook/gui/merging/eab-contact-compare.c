@@ -39,7 +39,6 @@ combine_comparisons (EABContactMatchType prev,
 	return (EABContactMatchType) MAX ((gint) prev, (gint) new_info);
 }
 
-
 /*** Name comparisons ***/
 
 /* This *so* doesn't belong here... at least not implemented in a
@@ -352,7 +351,6 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	return EAB_CONTACT_MATCH_NONE;
 }
 
-
 /*** Nickname Comparisons ***/
 
 EABContactMatchType
@@ -363,8 +361,6 @@ eab_contact_compare_nickname (EContact *contact1, EContact *contact2)
 
 	return EAB_CONTACT_MATCH_NOT_APPLICABLE;
 }
-
-
 
 /*** E-mail Comparisons ***/
 
@@ -691,7 +687,6 @@ use_common_book_cb (EBook *book, gpointer closure)
 		g_list_foreach (contact_email, (GFunc)g_free, NULL);
 		g_list_free (contact_email);
 	}
-
 
 	/* Build up our full query from the parts. */
 	query_parts[p] = NULL;

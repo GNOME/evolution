@@ -32,7 +32,6 @@
 #define E_IS_SIDEBAR(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SIDEBAR))
 #define E_IS_SIDEBAR_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SIDEBAR))
 
-
 typedef struct _ESidebar        ESidebar;
 typedef struct _ESidebarPrivate ESidebarPrivate;
 typedef struct _ESidebarClass   ESidebarClass;
@@ -58,7 +57,6 @@ struct _ESidebarClass {
 	void (* button_pressed)  (ESidebar *sidebar, GdkEventButton *event, gint id);
 };
 
-
 GType      e_sidebar_get_type  (void);
 GtkWidget *e_sidebar_new       (void);
 
@@ -83,6 +81,5 @@ void e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode);
 
 void  e_sidebar_set_show_buttons  (ESidebar *sidebar, gboolean show);
 gboolean  e_sidebar_get_show_buttons  (ESidebar *sidebar);
-
 
 #endif /* _E_SIDEBAR_H_ */

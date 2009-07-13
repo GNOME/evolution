@@ -144,7 +144,6 @@ one_dispose (GObject *object)
 {
 	ETableOne *one = E_TABLE_ONE (object);
 
-
 	if (one->data) {
 		gint i;
 		gint col_count;

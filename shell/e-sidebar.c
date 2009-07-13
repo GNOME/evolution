@@ -53,7 +53,6 @@ struct _ESidebarPrivate {
 	gboolean in_toggle;
 };
 
-
 enum {
 	BUTTON_SELECTED,
 	BUTTON_PRESSED,
@@ -126,7 +125,6 @@ update_buttons (ESidebar *sidebar, gint new_selected_id)
 
 	sidebar->priv->in_toggle = FALSE;
 }
-
 
 /* Callbacks.  */
 
@@ -205,7 +203,6 @@ button_query_tooltip (GtkWidget  *widget,
 
 	return FALSE;
 }
-
 
 /* Layout. */
 
@@ -334,7 +331,6 @@ do_layout (ESidebar *sidebar)
 	gtk_widget_size_allocate (sidebar->priv->selection_widget, & child_allocation);
 }
 
-
 /* GtkContainer methods.  */
 
 static void
@@ -379,7 +375,6 @@ impl_remove (GtkContainer *container,
 	}
 }
 
-
 /* GtkWidget methods.  */
 
 static void
@@ -418,7 +413,6 @@ impl_size_allocate (GtkWidget *widget,
 
 	do_layout (E_SIDEBAR (widget));
 }
-
 
 /* GObject methods.  */
 
@@ -465,7 +459,6 @@ impl_finalize (GObject *object)
 
 	(* G_OBJECT_CLASS (e_sidebar_parent_class)->finalize) (object);
 }
-
 
 /* Initialization.  */
 
@@ -526,7 +519,6 @@ e_sidebar_new (void)
 	return GTK_WIDGET (sidebar);
 }
 
-
 void
 e_sidebar_set_selection_widget (ESidebar *sidebar, GtkWidget *widget)
 {
@@ -540,7 +532,6 @@ e_sidebar_set_selection_widget (ESidebar *sidebar, GtkWidget *widget)
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }
-
 
 void
 e_sidebar_add_button (ESidebar *sidebar,
@@ -651,7 +642,6 @@ e_sidebar_get_mode (ESidebar *sidebar)
 {
 	return sidebar->priv->mode;
 }
-
 
 static GConfEnumStringPair toolbar_styles[] = {
          { E_SIDEBAR_MODE_TEXT, "text" },

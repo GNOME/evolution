@@ -32,7 +32,6 @@ G_BEGIN_DECLS
 #define E_POPUP_SEPARATOR  { (gchar *) "", NULL, (NULL), NULL, 0 }
 #define E_POPUP_TERMINATOR { NULL, NULL, (NULL), NULL, 0 }
 
-
 /* In the following, CC = custom closure */
 
 #define E_POPUP_ITEM(name,fn,disable_mask) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), NULL, NULL, 0, 0, 0, 0 }
@@ -46,7 +45,6 @@ G_BEGIN_DECLS
 #define E_POPUP_PIXMAP_WIDGET_ITEM(name,pixmap_widget,fn,disable_mask) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), NULL, 0, 0, 0, 0 }
 #define E_POPUP_PIXMAP_WIDGET_ITEM_CC(name,pixmap_widget,fn,closure,disable_mask) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), (closure), 0, 0, 0, 1 }
 #define E_POPUP_PIXMAP_WIDGET_SUBMENU(name,pixmap_widget,submenu,disable_mask) { (gchar *) (name), NULL, NULL, (submenu), (disable_mask), (pixmap_widget), NULL, 0, 0, 0, 0 }
-
 
 #define E_POPUP_TOGGLE_ITEM(name,fn,disable_mask,value) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), NULL, NULL, 1, 0, value, 0 }
 #define E_POPUP_TOGGLE_ITEM_CC(name,fn,closure,disable_mask,value) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), NULL, (closure), 1, 0, value, 1 }
@@ -66,7 +64,6 @@ G_BEGIN_DECLS
 
 #define E_POPUP_RADIO_PIXMAP_WIDGET_ITEM(name,pixmap_widget,fn,disable_mask) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), NULL, 0, 1, value, 0 }
 #define E_POPUP_RADIO_PIXMAP_WIDGET_ITEM_CC(name,pixmap_widget,fn,closure,disable_mask) { (gchar *) (name), NULL, (fn), NULL, (disable_mask), (pixmap_widget), (closure), 0, 1, value, 1 }
-
 
 typedef struct _EPopupMenu EPopupMenu;
 

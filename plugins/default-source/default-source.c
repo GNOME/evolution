@@ -56,7 +56,6 @@ commit_default_book (EPlugin *epl, EConfigTarget *target)
 	if (e_source_get_property (source, "default"))
 		e_book_set_default_source (source, NULL);
 
-
 }
 
 static void
@@ -68,7 +67,6 @@ default_source_changed (GtkWidget *check_box,  ESource *source)
 	else
 		e_source_set_property (source, "default", NULL);
 }
-
 
 GtkWidget *
 org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)

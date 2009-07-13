@@ -70,7 +70,6 @@ static GtkTargetEntry target_types[] = {
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
-
 extern ECompEditorRegistry *comp_editor_registry;
 
 static void e_memo_table_destroy		(GtkObject	*object);
@@ -120,7 +119,6 @@ static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
 static GdkAtom clipboard_atom = GDK_NONE;
 
 G_DEFINE_TYPE (EMemoTable, e_memo_table, GTK_TYPE_TABLE)
-
 
 static void
 e_memo_table_class_init (EMemoTableClass *klass)
@@ -277,7 +275,6 @@ e_memo_table_init (EMemoTable *memo_table)
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (table);
 
-
 	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
 	g_signal_connect (e_table, "double_click", G_CALLBACK (e_memo_table_on_double_click), memo_table);
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_memo_table_on_right_click), memo_table);
@@ -290,7 +287,6 @@ e_memo_table_init (EMemoTable *memo_table)
 	if (a11y)
 		atk_object_set_name (a11y, _("Memos"));
 }
-
 
 /**
  * e_memo_table_new:
@@ -308,7 +304,6 @@ e_memo_table_new (void)
 	return memo_table;
 }
 
-
 /**
  * e_memo_table_get_model:
  * @memo_table: A calendar table.
@@ -325,7 +320,6 @@ e_memo_table_get_model (EMemoTable *memo_table)
 
 	return memo_table->model;
 }
-
 
 static void
 e_memo_table_destroy (GtkObject *object)
@@ -741,7 +735,6 @@ e_memo_table_paste_clipboard (EMemoTable *memo_table)
 	GtkClipboard *clipboard;
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
-
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
 	g_object_ref (memo_table);
 
@@ -803,7 +796,6 @@ e_memo_table_on_double_click (ETable *table,
 {
 	open_memo_by_row (memo_table, row);
 }
-
 
 static void
 e_memo_table_on_open_memo (EPopup *ep, EPopupItem *pitem, gpointer data)
@@ -1058,7 +1050,6 @@ e_memo_table_load_state	(EMemoTable *memo_table,
 	}
 }
 
-
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void
 e_memo_table_save_state (EMemoTable	*memo_table,
@@ -1096,7 +1087,6 @@ e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 	return tmp_tm;
 }
-
 
 #ifdef TRANSLATORS_ONLY
 

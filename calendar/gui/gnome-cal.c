@@ -223,7 +223,6 @@ typedef enum {
 
 static guint gnome_calendar_signals[LAST_SIGNAL];
 
-
 
 
 static void gnome_calendar_destroy (GtkObject *object);
@@ -334,7 +333,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				NULL, NULL,
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
-
 
 	gnome_calendar_signals[CALENDAR_FOCUS_CHANGE] =
 		g_signal_new ("calendar_focus_change",
@@ -1080,7 +1078,6 @@ view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
 	g_signal_emit (gcal, gnome_calendar_signals[CALENDAR_SELECTION_CHANGED], 0);
 }
 
-
 /**
  * gnome_calendar_emit_user_created_signal
  * Emits "user_created" signal on a gcal and use calendar as a store where was event created.
@@ -1120,7 +1117,6 @@ user_created_cb (GtkWidget *view, GnomeCalendar *gcal)
 
 	gnome_calendar_add_source (gcal, E_CAL_SOURCE_TYPE_EVENT, e_cal_get_source (ecal));
 }
-
 
 /* Callback used when the taskpad receives a focus event.  We emit the
  * corresponding signal so that parents can change the menus as appropriate.
@@ -1589,7 +1585,6 @@ categories_changed_cb (gpointer object, gpointer user_data)
 
 	g_ptr_array_free (cat_array, TRUE);
 }
-
 
 static void
 view_progress_cb (ECalModel *model, const gchar *message, gint percent, ECalSourceType type, GnomeCalendar *gcal)
@@ -2203,7 +2198,6 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 	}
 }
 
-
 static void
 update_view_times (GnomeCalendar *gcal, time_t start_time)
 {
@@ -2370,7 +2364,6 @@ set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_s
 	focus_current_view (gcal);
 }
 
-
 /**
  * gnome_calendar_set_view:
  * @gcal: A calendar.
@@ -2502,7 +2495,6 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 		g_error (G_STRLOC ": Unknown type of view for GnomeCalendar");
 		return;
 	}
-
 
 	display_view (gcal, view_type, TRUE);
 
@@ -3453,7 +3445,6 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 			return FALSE;
 	}
 
-
 	open_ecal (gcal, priv->default_client[source_type], FALSE, default_client_cal_opened_cb);
 
 	return TRUE;
@@ -3557,7 +3548,6 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	gtk_window_present (GTK_WINDOW (editor));
 }
 
-
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */
@@ -3569,7 +3559,6 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 	e_calendar_view_get_selected_time_range (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)),
 					    start_time, end_time);
 }
-
 
 /* Gets the visible time range for the current view. Returns FALSE if no
    time range has been set yet. */
@@ -3779,7 +3768,6 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	else
 		gtk_widget_set_size_request (E_DAY_VIEW (priv->day_view)->time_canvas, priv->hpane_pos - 20, -1);
 
-
 	return FALSE;
 }
 static void
@@ -3868,7 +3856,6 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 		e_memo_table_paste_clipboard (E_MEMO_TABLE (priv->memo));
 }
 
-
 /* Get the current timezone. */
 icaltimezone*
 gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
@@ -3878,7 +3865,6 @@ gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
 
 	return gcal->priv->zone;
 }
-
 
 static void
 gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
@@ -3907,7 +3893,6 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 	}
 	update_memo_view (gcal);
 }
-
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint
@@ -3950,7 +3935,6 @@ gnome_calendar_get_num_tasks_selected (GnomeCalendar *gcal)
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (priv->todo));
 	return e_table_selected_count (etable);
 }
-
 
 void
 gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
@@ -4140,7 +4124,6 @@ ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal)
 
 	return gcal->priv->memopad_menu;
 }
-
 
 void
 gnome_calendar_edit_appointment (GnomeCalendar *gcal,

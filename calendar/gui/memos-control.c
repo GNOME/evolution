@@ -47,7 +47,6 @@
 
 #define FIXED_MARGIN                            .05
 
-
 static void memos_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
@@ -115,7 +114,6 @@ memos_control_new (void)
 
 	return control;
 }
-
 
 static void
 memos_control_activate_cb		(BonoboControl		*control,
@@ -274,7 +272,6 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 
 	bonobo_ui_component_thaw (uic, NULL);
 }
-
 
 void
 memos_control_deactivate (BonoboControl *control, EMemos *memos)

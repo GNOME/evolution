@@ -41,7 +41,6 @@ G_BEGIN_DECLS
 #define E_CALENDAR_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_get_type (), ECalendarClass)
 #define E_IS_CALENDAR(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_get_type ())
 
-
 typedef struct _ECalendar       ECalendar;
 typedef struct _ECalendarClass  ECalendarClass;
 
@@ -72,7 +71,6 @@ struct _ECalendarClass
 {
 	ECanvasClass parent_class;
 };
-
 
 GType		   e_calendar_get_type		(void);
 GtkWidget* e_calendar_new		(void);

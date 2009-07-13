@@ -160,7 +160,6 @@ create_help (const gchar *name)
 	if (i >= num_info)
 		g_warning ("i > num_info\n");
 
-
 	label = gtk_label_new(i < num_info ? _(info[i].text): NULL);
 	gtk_widget_show (label);
 	gtk_label_set_line_wrap((GtkLabel *)label, TRUE);
@@ -754,7 +753,6 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	gtk_box_reorder_child (GTK_BOX (data->importerpage->vbox), html, 0);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->intelligent)->vbox), data->importerpage->vbox, TRUE, TRUE, 0);
-
 
 	/* File selection and file type page */
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");

@@ -433,7 +433,6 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
 /* Initialization.  */
 
 static void
@@ -495,7 +494,6 @@ addressbook_component_init (AddressbookComponent *component)
 		e_import_class_add_importer(klass, evolution_csv_evolution_importer_peek(), NULL, NULL);
 	}
 }
-
 
 /* Public API.  */
 

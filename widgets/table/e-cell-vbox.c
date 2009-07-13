@@ -178,7 +178,6 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		break;
 	}
 
-
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		gint height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 		if (y < subcell_offset + height)
@@ -373,7 +372,6 @@ ecv_print (ECellView *ecell_view, GnomePrintContext *context,
 		width -= subcell_offset;
 	}
 
-
 	e_cell_print (vbox_view->subcell_view, context, model_col, view_col, row, width, height);
 }
 
@@ -453,7 +451,6 @@ e_cell_vbox_init (ECellVbox *ecv)
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
 }
-
 
 /**
  * e_cell_vbox_new:

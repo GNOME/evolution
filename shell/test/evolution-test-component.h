@@ -26,13 +26,11 @@
 #include <bonobo/bonobo-object.h>
 #include "Evolution.h"
 
-
 #define EVOLUTION_TEST_TYPE_COMPONENT			(evolution_test_component_get_type ())
 #define EVOLUTION_TEST_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TEST_TYPE_COMPONENT, EvolutionTestComponent))
 #define EVOLUTION_TEST_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TEST_TYPE_COMPONENT, EvolutionTestComponentClass))
 #define EVOLUTION_TEST_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TEST_TYPE_COMPONENT))
 #define EVOLUTION_TEST_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TEST_TYPE_COMPONENT))
-
 
 typedef struct _EvolutionTestComponent        EvolutionTestComponent;
 typedef struct _EvolutionTestComponentPrivate EvolutionTestComponentPrivate;
@@ -49,7 +47,6 @@ struct _EvolutionTestComponentClass {
 
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType           evolution_test_component_get_type  (void);
 

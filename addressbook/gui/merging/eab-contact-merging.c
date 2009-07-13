@@ -64,7 +64,6 @@ static void match_query_callback (EContact *contact, EContact *match, EABContact
 static GList *merging_queue = NULL;
 static gint running_merge_requests = 0;
 
-
 static void
 add_lookup (EContactMergingLookup *lookup)
 {

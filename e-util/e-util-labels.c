@@ -226,7 +226,6 @@ find_label (GSList *labels, const gchar *tag)
 	return NULL;
 }
 
-
 static gchar *
 tag_from_name (const gchar *name)
 {

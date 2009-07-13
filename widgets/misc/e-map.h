@@ -67,7 +67,6 @@ struct _EMapPoint
 	gpointer user_data;
 };
 
-
 /* --- Widget --- */
 
 GType e_map_get_type (void);

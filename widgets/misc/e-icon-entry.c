@@ -353,7 +353,6 @@ set_cursor (GtkWidget *widget, GdkEventCrossing *event, gpointer dummy)
     else
 	gdk_window_set_cursor (widget->window, gdk_cursor_new (GDK_LEFT_PTR));
 
-
 }
 
 GtkWidget *

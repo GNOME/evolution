@@ -128,4 +128,3 @@ G_END_DECLS
 
 #endif /* _E_CELL_TEXT_H_ */
 
-

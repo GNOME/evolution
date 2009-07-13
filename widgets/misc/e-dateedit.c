@@ -23,7 +23,6 @@
  * time field with popups for entering a date.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -113,9 +112,7 @@ enum {
 	LAST_SIGNAL
 };
 
-
 static gint date_edit_signals [LAST_SIGNAL] = { 0 };
-
 
 static void e_date_edit_class_init		(EDateEditClass	*class);
 static void e_date_edit_init			(EDateEdit	*dedit);
@@ -191,7 +188,6 @@ static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
 						 gint		 hour,
 						 gint		 minute);
 
-
 static GtkHBoxClass *parent_class;
 
 /**
@@ -223,7 +219,6 @@ e_date_edit_get_type		(void)
 	return date_edit_type;
 }
 
-
 static void
 e_date_edit_class_init		(EDateEditClass	*class)
 {
@@ -248,7 +243,6 @@ e_date_edit_class_init		(EDateEditClass	*class)
 
 	class->changed = NULL;
 }
-
 
 static void
 e_date_edit_init		(EDateEdit	*dedit)
@@ -282,7 +276,6 @@ e_date_edit_init		(EDateEdit	*dedit)
 	e_date_edit_set_time (dedit, 0);
 }
 
-
 /**
  * e_date_edit_new:
  *
@@ -303,7 +296,6 @@ e_date_edit_new			(void)
 
 	return GTK_WIDGET (dedit);
 }
-
 
 static void
 create_children			(EDateEdit	*dedit)
@@ -480,7 +472,6 @@ create_children			(EDateEdit	*dedit)
 			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
 }
 
-
 static void
 e_date_edit_dispose		(GObject	*object)
 {
@@ -503,7 +494,6 @@ e_date_edit_dispose		(GObject	*object)
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
-
 
 /* GtkWidget::mnemonic_activate() handler for the EDateEdit */
 static gboolean
@@ -530,7 +520,6 @@ e_date_edit_grab_focus		(GtkWidget	*widget)
 		gtk_widget_grab_focus (GTK_BIN (dedit->priv->time_combo)->child);
 }
 
-
 /**
  * e_date_edit_set_editable:
  * @dedit: an #EDateEdit widget.
@@ -552,7 +541,6 @@ e_date_edit_set_editable (EDateEdit *dedit, gboolean editable)
 	gtk_editable_set_editable (GTK_EDITABLE (priv->date_entry), editable);
 	gtk_widget_set_sensitive (priv->date_button, editable);
 }
-
 
 /**
  * e_date_edit_get_time:
@@ -599,7 +587,6 @@ e_date_edit_get_time		(EDateEdit	*dedit)
 
 	return mktime (&tmp_tm);
 }
-
 
 /**
  * e_date_edit_set_time:
@@ -664,7 +651,6 @@ e_date_edit_set_time		(EDateEdit	*dedit,
 			       date_edit_signals [CHANGED], 0);
 }
 
-
 /**
  * e_date_edit_get_date:
  * @dedit: an #EDateEdit widget.
@@ -701,7 +687,6 @@ e_date_edit_get_date		(EDateEdit	*dedit,
 	return TRUE;
 }
 
-
 /**
  * e_date_edit_set_date:
  * @dedit: an #EDateEdit widget.
@@ -733,7 +718,6 @@ e_date_edit_set_date		(EDateEdit	*dedit,
 		g_signal_emit (dedit,
 			       date_edit_signals [CHANGED], 0);
 }
-
 
 /**
  * e_date_edit_get_time_of_day:
@@ -768,7 +752,6 @@ e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 		return TRUE;
 	}
 }
-
 
 /**
  * e_date_edit_set_time_of_day:
@@ -854,7 +837,6 @@ e_date_edit_get_show_date		(EDateEdit	*dedit)
 	return dedit->priv->show_date;
 }
 
-
 /**
  * e_date_edit_set_show_date:
  * @dedit: an #EDateEdit widget.
@@ -895,7 +877,6 @@ e_date_edit_set_show_date		(EDateEdit	*dedit,
 		gtk_widget_hide (priv->space);
 }
 
-
 /**
  * e_date_edit_get_show_time:
  * @dedit: an #EDateEdit widget
@@ -910,7 +891,6 @@ e_date_edit_get_show_time		(EDateEdit	*dedit)
 
 	return dedit->priv->show_time;
 }
-
 
 /**
  * e_date_edit_set_show_time:
@@ -938,7 +918,6 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 	e_date_edit_update_time_combo_state (dedit);
 }
 
-
 /**
  * e_date_edit_get_make_time_insensitive:
  * @dedit: an #EDateEdit widget
@@ -955,7 +934,6 @@ e_date_edit_get_make_time_insensitive	(EDateEdit	*dedit)
 
 	return dedit->priv->make_time_insensitive;
 }
-
 
 /**
  * e_date_edit_set_make_time_insensitive:
@@ -988,7 +966,6 @@ e_date_edit_set_make_time_insensitive	(EDateEdit	*dedit,
 	e_date_edit_update_time_combo_state (dedit);
 }
 
-
 /**
  * e_date_edit_get_week_start_day:
  * @dedit: an #EDateEdit widget
@@ -1011,7 +988,6 @@ e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 	return week_start_day;
 }
 
-
 /**
  * e_date_edit_set_week_start_day:
  * @dedit: an #EDateEdit widget
@@ -1030,7 +1006,6 @@ e_date_edit_set_week_start_day		(EDateEdit	*dedit,
 			NULL);
 }
 
-
 /* Whether we show week numbers in the date popup. */
 gboolean
 e_date_edit_get_show_week_numbers	(EDateEdit	*dedit)
@@ -1046,7 +1021,6 @@ e_date_edit_get_show_week_numbers	(EDateEdit	*dedit)
 	return show_week_numbers;
 }
 
-
 void
 e_date_edit_set_show_week_numbers	(EDateEdit	*dedit,
 					 gboolean	 show_week_numbers)
@@ -1058,7 +1032,6 @@ e_date_edit_set_show_week_numbers	(EDateEdit	*dedit,
 			NULL);
 }
 
-
 /* Whether we use 24 hour format in the time field & popup. */
 gboolean
 e_date_edit_get_use_24_hour_format	(EDateEdit	*dedit)
@@ -1067,7 +1040,6 @@ e_date_edit_get_use_24_hour_format	(EDateEdit	*dedit)
 
 	return dedit->priv->use_24_hour_format;
 }
-
 
 void
 e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
@@ -1085,7 +1057,6 @@ e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
 	e_date_edit_update_time_entry (dedit);
 }
 
-
 /* Whether we allow the date to be set to 'None'. e_date_edit_get_time() will
    return (time_t) -1 in this case. */
 gboolean
@@ -1095,7 +1066,6 @@ e_date_edit_get_allow_no_date_set	(EDateEdit	*dedit)
 
 	return GTK_WIDGET_VISIBLE (dedit->priv->none_button);
 }
-
 
 void
 e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
@@ -1121,7 +1091,6 @@ e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
 	}
 }
 
-
 /* The range of time to show in the time combo popup. */
 void
 e_date_edit_get_time_popup_range	(EDateEdit	*dedit,
@@ -1133,7 +1102,6 @@ e_date_edit_get_time_popup_range	(EDateEdit	*dedit,
 	*lower_hour = dedit->priv->lower_hour;
 	*upper_hour = dedit->priv->upper_hour;
 }
-
 
 void
 e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
@@ -1161,7 +1129,6 @@ e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
 	e_date_edit_update_time_entry (dedit);
 }
 
-
 /* The arrow button beside the date field has been clicked, so we show the
    popup with the ECalendar in. */
 static void
@@ -1170,7 +1137,6 @@ on_date_button_clicked		(GtkWidget	*widget,
 {
 	e_date_edit_show_date_popup (dedit);
 }
-
 
 static void
 e_date_edit_show_date_popup	(EDateEdit	*dedit)
@@ -1217,7 +1183,6 @@ e_date_edit_show_date_popup	(EDateEdit	*dedit)
 	gdk_window_focus (priv->cal_popup->window, GDK_CURRENT_TIME);
 }
 
-
 /* This positions the date popup below and to the left of the arrow button,
    just before it is shown. */
 static void
@@ -1256,7 +1221,6 @@ position_date_popup		(EDateEdit	*dedit)
 	gtk_window_move (GTK_WINDOW (dedit->priv->cal_popup), x, y);
 }
 
-
 /* A date has been selected in the date popup, so we set the date field
    and hide the popup. */
 static void
@@ -1275,7 +1239,6 @@ on_date_popup_date_selected	(ECalendarItem	*calitem,
 			      g_date_get_day (&start_date));
 }
 
-
 static void
 on_date_popup_now_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
@@ -1283,7 +1246,6 @@ on_date_popup_now_button_clicked	(GtkWidget	*button,
 	hide_date_popup (dedit);
 	e_date_edit_set_time (dedit, 0);
 }
-
 
 static void
 on_date_popup_today_button_clicked	(GtkWidget	*button,
@@ -1308,7 +1270,6 @@ on_date_popup_today_button_clicked	(GtkWidget	*button,
 			      tmp_tm.tm_mon + 1, tmp_tm.tm_mday);
 }
 
-
 static void
 on_date_popup_none_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
@@ -1316,7 +1277,6 @@ on_date_popup_none_button_clicked	(GtkWidget	*button,
 	hide_date_popup (dedit);
 	e_date_edit_set_time (dedit, -1);
 }
-
 
 /* A key has been pressed while the date popup is showing. If it is the Escape
    key we hide the popup. */
@@ -1335,7 +1295,6 @@ on_date_popup_key_press			(GtkWidget	*widget,
 
 	return TRUE;
 }
-
 
 /* A mouse button has been pressed while the date popup is showing.
    Any button press events used to select days etc. in the popup will have
@@ -1373,7 +1332,6 @@ on_date_popup_button_press	(GtkWidget	*widget,
 	return TRUE;
 }
 
-
 /* A delete event has been received for the date popup, so we hide it and
    return TRUE so it doesn't get destroyed. */
 static gint
@@ -1384,7 +1342,6 @@ on_date_popup_delete_event	(GtkWidget	*widget,
 	return TRUE;
 }
 
-
 /* Hides the date popup, removing any grabs. */
 static void
 hide_date_popup			(EDateEdit	*dedit)
@@ -1394,7 +1351,6 @@ hide_date_popup			(EDateEdit	*dedit)
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
 }
-
 
 /* Clears the time popup and rebuilds it using the lower_hour, upper_hour
    and use_24_hour_format settings. */
@@ -1451,7 +1407,6 @@ rebuild_time_popup			(EDateEdit	*dedit)
 	}
 }
 
-
 static gboolean
 e_date_edit_parse_date (EDateEdit *dedit,
 			const gchar *date_text,
@@ -1475,7 +1430,6 @@ e_date_edit_parse_date (EDateEdit *dedit,
 	return TRUE;
 }
 
-
 static gboolean
 e_date_edit_parse_time	(EDateEdit	*dedit,
 			 const gchar	*time_text,
@@ -1492,7 +1446,6 @@ e_date_edit_parse_time	(EDateEdit	*dedit,
 
 	return TRUE;
 }
-
 
 /* Returns TRUE if the string is empty or is "None" in the current locale.
    It ignores whitespace. */
@@ -1514,7 +1467,6 @@ field_set_to_none (const gchar *text)
 	return FALSE;
 }
 
-
 static void
 on_date_edit_time_selected	(GtkComboBox	*combo,
 				 EDateEdit	*dedit)
@@ -1529,7 +1481,6 @@ on_date_edit_time_selected	(GtkComboBox	*combo,
 
 	e_date_edit_check_time_changed (dedit);
 }
-
 
 static gint
 on_date_entry_key_press			(GtkWidget	*widget,
@@ -1554,7 +1505,6 @@ on_date_entry_key_press			(GtkWidget	*widget,
 
 	return FALSE;
 }
-
 
 static gint
 on_time_entry_key_press			(GtkWidget	*widget,
@@ -1611,7 +1561,6 @@ on_time_entry_key_release		(GtkWidget	*widget,
 	return FALSE;
 }
 
-
 static gint
 on_date_entry_focus_out			(GtkEntry	*entry,
 					 GdkEventFocus  *event,
@@ -1646,7 +1595,6 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 	}
 	return FALSE;
 }
-
 
 static gint
 on_time_entry_focus_out			(GtkEntry	*entry,
@@ -1750,7 +1698,6 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 	add_relation (dedit, priv->date_button);
 }
 
-
 /* This sets the text in the time entry according to the current settings. */
 static void
 e_date_edit_update_time_entry		(EDateEdit	*dedit)
@@ -1827,7 +1774,6 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 	add_relation (dedit, priv->time_combo);
 }
 
-
 static void
 e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
 {
@@ -1882,7 +1828,6 @@ e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
 		gtk_widget_hide (priv->space);
 }
 
-
 /* Parses the date, and if it is different from the current settings it
    updates the settings and emits a "date_changed" signal. */
 static void
@@ -1909,7 +1854,6 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 		tmp_tm.tm_mday = 0;
 	}
 
-
 	date_changed = e_date_edit_set_date_internal (dedit, valid, none,
 						      tmp_tm.tm_year,
 						      tmp_tm.tm_mon,
@@ -1919,7 +1863,6 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 		g_signal_emit (dedit,
 			       date_edit_signals [CHANGED], 0);
 }
-
 
 /* Parses the time, and if it is different from the current settings it
    updates the settings and emits a "time_changed" signal. */
@@ -1953,7 +1896,6 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 	}
 }
 
-
 /**
  * e_date_edit_date_is_valid:
  * @dedit: an #EDateEdit widget.
@@ -1980,7 +1922,6 @@ e_date_edit_date_is_valid	(EDateEdit	*dedit)
 
 	return TRUE;
 }
-
 
 /**
  * e_date_edit_time_is_valid:
@@ -2071,7 +2012,6 @@ e_date_edit_set_date_internal	(EDateEdit	*dedit,
 
 	return date_changed;
 }
-
 
 static gboolean
 e_date_edit_set_time_internal	(EDateEdit	*dedit,

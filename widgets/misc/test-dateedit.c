@@ -167,7 +167,6 @@ main (gint argc, gchar **argv)
 	return 0;
 }
 
-
 static void
 delete_event_cb		(GtkWidget	*widget,
 			 GdkEventAny	*event,
@@ -177,7 +176,6 @@ delete_event_cb		(GtkWidget	*widget,
 
 	gtk_main_quit ();
 }
-
 
 static void
 on_get_date_clicked	(GtkWidget	*button,
@@ -198,14 +196,12 @@ on_get_date_clicked	(GtkWidget	*button,
 		g_print ("  Time invalid\n");
 }
 
-
 static void
 on_toggle_24_hour_clicked	(GtkWidget	*button,
 				 EDateEdit	*dedit)
 {
 	e_date_edit_set_use_24_hour_format (dedit, !e_date_edit_get_use_24_hour_format (dedit));
 }
-
 
 #if 0
 static void
@@ -226,7 +222,6 @@ on_date_changed		(EDateEdit	*dedit,
 	}
 }
 
-
 static void
 on_time_changed		(EDateEdit	*dedit,
 			 gchar		*name)
@@ -245,7 +240,6 @@ on_time_changed		(EDateEdit	*dedit,
 	}
 }
 #endif
-
 
 static void
 on_changed		(EDateEdit	*dedit,

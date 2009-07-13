@@ -179,7 +179,6 @@ ect_get_character_at_offset (AtkText *text,
 	return ret_val;
 }
 
-
 static gchar *
 ect_get_text_before_offset (AtkText *text,
 			    gint offset,
@@ -190,7 +189,6 @@ ect_get_text_before_offset (AtkText *text,
 	/* Unimplemented */
 	return NULL;
 }
-
 
 static gint
 ect_get_caret_offset (AtkText *text)
@@ -224,14 +222,12 @@ ect_get_run_attributes (AtkText *text,
 	return NULL;
 }
 
-
 static AtkAttributeSet*
 ect_get_default_attributes (AtkText *text)
 {
 	/* Unimplemented */
 	return NULL;
 }
-
 
 static void
 ect_get_character_extents (AtkText *text,
@@ -244,7 +240,6 @@ ect_get_character_extents (AtkText *text,
 {
 	/* Unimplemented */
 }
-
 
 static gint
 ect_get_character_count (AtkText *text)
@@ -263,7 +258,6 @@ ect_get_character_count (AtkText *text)
 	return ret_val;
 }
 
-
 static gint
 ect_get_offset_at_point (AtkText *text,
 			 gint x,
@@ -273,7 +267,6 @@ ect_get_offset_at_point (AtkText *text,
 	/* Unimplemented */
 	return 0;
 }
-
 
 static gint
 ect_get_n_selections (AtkText *text)
@@ -292,7 +285,6 @@ ect_get_n_selections (AtkText *text)
 		return 1;
 	return 0;
 }
-
 
 static gchar *
 ect_get_selection (AtkText *text,
@@ -339,7 +331,6 @@ ect_get_selection (AtkText *text,
 	return ret_val;
 }
 
-
 static gboolean
 ect_add_selection (AtkText *text,
 		   gint start_offset,
@@ -377,7 +368,6 @@ ect_add_selection (AtkText *text,
 	return FALSE;
 }
 
-
 static gboolean
 ect_remove_selection (AtkText *text,
 		      gint selection_num)
@@ -401,7 +391,6 @@ ect_remove_selection (AtkText *text,
 		return FALSE;
 }
 
-
 static gboolean
 ect_set_selection (AtkText *text,
 		   gint selection_num,
@@ -415,7 +404,6 @@ ect_set_selection (AtkText *text,
 	else
 		return FALSE;
 }
-
 
 static gboolean
 ect_set_caret_offset (AtkText *text,

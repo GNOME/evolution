@@ -857,7 +857,6 @@ void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
-
 void
 org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 {

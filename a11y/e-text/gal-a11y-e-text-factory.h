@@ -43,7 +43,6 @@ struct _GalA11yETextFactoryClass {
 	AtkObjectFactoryClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType              gal_a11y_e_text_factory_get_type         (void);
 

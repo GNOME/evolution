@@ -46,7 +46,6 @@
 
 G_BEGIN_DECLS
 
-
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
  *
  * A clipping rectangle may be specified for the text.  The rectangle is anchored at the text's anchor
@@ -96,7 +95,6 @@ G_BEGIN_DECLS
 #define E_TEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TEXT, ETextClass))
 #define E_IS_TEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TEXT))
 #define E_IS_TEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TEXT))
-
 
 typedef struct _EText EText;
 typedef struct _ETextClass ETextClass;
@@ -230,7 +228,6 @@ struct _ETextClass {
 	void (* populate_popup)  (EText *text, GdkEventButton *ev, gint pos, GtkMenu *menu);
 	void (* style_set)       (EText *text, GtkStyle *previous_style);
 };
-
 
 /* Standard Gtk function */
 GType    e_text_get_type        (void);

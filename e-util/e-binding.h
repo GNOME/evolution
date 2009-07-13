@@ -102,7 +102,6 @@ EMutualBinding *e_mutual_binding_new_with_negation
 						 const gchar *property2);
 void		e_mutual_binding_unbind		(EMutualBinding *binding);
 
-
 /* Useful transformation functions */
 gboolean	e_binding_transform_color_to_string
 						(const GValue *src_value,

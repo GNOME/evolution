@@ -307,7 +307,6 @@ ensure_sources (CalendarComponent *component)
 	g_free (base_uri);
 }
 
-
 /* Utility functions.  */
 
 static gboolean
@@ -844,7 +843,6 @@ config_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *en
 	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_TODO);
 }
 
-
 static void
 config_primary_tasks_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
@@ -856,7 +854,6 @@ config_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *en
 {
 	update_task_memo_selection (data, E_CAL_SOURCE_TYPE_JOURNAL);
 }
-
 
 static void
 config_primary_memos_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
@@ -1024,7 +1021,6 @@ control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
 		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
 	}
 }
-
 
 static void
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
@@ -1421,7 +1417,6 @@ impl_createView (PortableServer_Servant servant,
 	return BONOBO_OBJREF(ecv);
 }
 
-
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant,
 			      CORBA_Environment *ev)
@@ -1613,7 +1608,6 @@ calendar_component_init (CalendarComponent *component)
 	e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL);
 	e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL);
 }
-
 
 /* Public API.  */
 

@@ -84,7 +84,6 @@ free_pixmaps (void)
 	g_slist_free (inited_arrays);
 }
 
-
 /**
  * e_get_activation_failure_msg:
  * @ev: An exception returned by an oaf_activate call.

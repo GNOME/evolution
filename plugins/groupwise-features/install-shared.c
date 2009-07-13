@@ -108,7 +108,6 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 
 			if(e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
-
 				folder = camel_store_get_folder (store, "Mailbox", 0, NULL);
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (gchar *) item_id);

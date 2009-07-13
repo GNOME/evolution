@@ -58,7 +58,6 @@ typedef struct {
         GtkWidget *header_value_combo_box;
 } HeaderValueComboBox;
 
-
 struct _CustomHeaderOptionsDialogClass {
 	GObjectClass parent_class;
 	void (* emch_response) (CustomHeaderOptionsDialog *esd, gint status);

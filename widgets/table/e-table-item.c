@@ -107,7 +107,6 @@ enum {
 #define DOUBLE_CLICK_TIME      250
 #define TRIPLE_CLICK_TIME      500
 
-
 static gint eti_get_height (ETableItem *eti);
 static gint eti_row_height (ETableItem *eti, gint row);
 static void e_table_item_focus (ETableItem *eti, gint col, gint row, GdkModifierType state);
@@ -596,7 +595,6 @@ eti_remove_header_model (ETableItem *eti)
 	}
 	g_object_unref (eti->header);
 
-
 	eti->header_structure_change_id = 0;
 	eti->header_dim_change_id = 0;
 	eti->header_request_width_id = 0;
@@ -690,7 +688,6 @@ calculate_height_cache (ETableItem *eti)
 	free_height_cache(eti);
 	confirm_height_cache(eti);
 }
-
 
 /*
  * eti_row_height:
@@ -1686,7 +1683,6 @@ eti_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
 
-
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	/*
@@ -1811,8 +1807,6 @@ eti_unrealize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
 }
-
-
 
 static void
 eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
@@ -2496,7 +2490,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 #endif
 
-
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
@@ -2504,7 +2497,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				     "cursor_row", &cursor_row,
 				     "cursor_col", &cursor_col,
 				     NULL);
-
 
 			d(g_print("%s: GDK_BUTTON_RELEASE received, button %d, line: %d\n"
 				  "eti_editing: %s, row:%d:%d, col:%d:%d\n", __FUNCTION__, e->button.button, __LINE__,
@@ -3347,7 +3339,6 @@ eti_selection_row_change (ESelectionModel *selection, gint row, ETableItem *eti)
 		e_table_item_redraw_row (eti, model_to_view_row(eti, row));
 	}
 }
-
 
 /**
  * e_table_item_enter_edit

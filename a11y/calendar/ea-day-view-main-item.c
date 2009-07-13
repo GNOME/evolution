@@ -181,7 +181,6 @@ ea_day_view_main_item_get_type (void)
 			NULL
 		};
 
-
 		/*
 		 * Figure out the size of the class and instance
 		 * we are run-time deriving from (GailCanvasItem, in this case)

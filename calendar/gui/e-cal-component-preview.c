@@ -133,7 +133,6 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 		zone = NULL;
 	}
 
-
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);
@@ -169,7 +168,6 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 		gtk_html_stream_printf (stream,
 					"<HTML><BODY><H1><I>%s</I></H1>",
 					_("Untitled"));
-
 
 	/* write icons for the categories */
 	e_cal_component_get_categories_list (comp, &l);

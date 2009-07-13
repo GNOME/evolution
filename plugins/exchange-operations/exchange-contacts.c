@@ -51,7 +51,6 @@ enum {
 gboolean contacts_src_exists = FALSE;
 gchar *contacts_old_src_uri = NULL;
 
-
 static GPtrArray *e_exchange_contacts_get_contacts (void);
 void e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source);
 GtkWidget *e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data);

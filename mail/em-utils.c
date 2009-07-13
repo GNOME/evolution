@@ -73,7 +73,6 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 
-
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-folder-view.h"
@@ -354,7 +353,6 @@ em_filename_make_safe (gchar *string)
 	}
 }
 
-
 /* Saving messages... */
 
 static const gchar *
@@ -542,7 +540,6 @@ em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
 exit:
 	gtk_widget_destroy (file_chooser);
 }
-
 
 /**
  * em_utils_save_part_to_file:
@@ -2353,7 +2350,6 @@ em_utils_snoop_type(CamelMimePart *part)
 	} else
 		res = name_type;
 
-
 	if (res != name_type)
 		g_free (name_type);
 
@@ -2403,7 +2399,6 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 		g_object_unref (iter);
 	}
 }
-
 
 static void error_response(GtkObject *o, gint button, gpointer data)
 {

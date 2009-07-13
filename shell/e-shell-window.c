@@ -75,7 +75,6 @@ struct _ComponentView {
 };
 typedef struct _ComponentView ComponentView;
 
-
 struct _EShellWindowPrivate {
 	union {
 		EShell *eshell;
@@ -116,7 +115,6 @@ struct _EShellWindowPrivate {
 	guint      store_window_gsizeimer;
 	gboolean destroyed;
 };
-
 
 enum {
 	COMPONENT_CHANGED,
@@ -352,7 +350,6 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 	g_signal_emit (window, signals[COMPONENT_CHANGED], 0);
 }
 
-
 /* Functions to update the sensitivity of buttons and menu items depending on the status.  */
 
 static void
@@ -418,7 +415,6 @@ update_send_receive_sensitivity (EShellWindow *window)
 					      "/commands/SendReceive",
 					      "sensitive", "1", NULL);
 }
-
 
 /* Callbacks.  */
 
@@ -517,7 +513,6 @@ ui_engine_remove_hint_callback (BonoboUIEngine *engine,
 	gtk_widget_hide (window->priv->menu_hint_label);
 	gtk_widget_show (window->priv->statusbar_notebook);
 }
-
 
 /* Widgetry.  */
 
@@ -821,7 +816,6 @@ setup_widgets (EShellWindow *window)
 	g_object_unref (gconf_client);
 }
 
-
 /* GObject methods.  */
 
 static void
@@ -978,7 +972,6 @@ e_shell_window_init (EShellWindow *shell_window)
 
 }
 
-
 /* Instantiation.  */
 
 GtkWidget *
@@ -1061,7 +1054,6 @@ e_shell_window_new (EShell *shell,
 	return GTK_WIDGET (window);
 }
 
-
 void
 e_shell_window_switch_to_component (EShellWindow *window, const gchar *component_id)
 {
@@ -1092,7 +1084,6 @@ e_shell_window_switch_to_component (EShellWindow *window, const gchar *component
 	e_sidebar_select_button (E_SIDEBAR (priv->sidebar), view->button_id);
 }
 
-
 const gchar *
 e_shell_window_peek_current_component_id (EShellWindow *window)
 {
@@ -1104,7 +1095,6 @@ e_shell_window_peek_current_component_id (EShellWindow *window)
 	return window->priv->current_view->component_id;
 }
 
-
 EShell *
 e_shell_window_peek_shell (EShellWindow *window)
 {
@@ -1112,7 +1102,6 @@ e_shell_window_peek_shell (EShellWindow *window)
 
 	return window->priv->shell.eshell;
 }
-
 
 BonoboUIComponent *
 e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
@@ -1195,7 +1184,6 @@ e_shell_window_save_defaults (EShellWindow *window)
 				       NULL);
 		g_free (prop);
 	}
-
 
 	g_object_unref (client);
 }

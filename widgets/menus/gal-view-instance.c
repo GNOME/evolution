@@ -49,7 +49,6 @@ G_DEFINE_TYPE (GalViewInstance, gal_view_instance, G_TYPE_OBJECT)
 static const EPopupMenu separator = E_POPUP_SEPARATOR;
 static const EPopupMenu terminator = E_POPUP_TERMINATOR;
 
-
 #define d(x)
 
 enum {

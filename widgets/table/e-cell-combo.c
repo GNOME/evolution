@@ -70,7 +70,6 @@
 
 #define d(x)
 
-
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
 
@@ -119,7 +118,6 @@ e_cell_combo_class_init			(ECellComboClass	*klass)
 
 	ecpc->popup = e_cell_combo_do_popup;
 }
-
 
 static void
 e_cell_combo_init			(ECellCombo	*ecc)
@@ -191,7 +189,6 @@ e_cell_combo_init			(ECellCombo	*ecc)
 			  G_CALLBACK (e_cell_combo_key_press), ecc);
 }
 
-
 /**
  * e_cell_combo_new:
  *
@@ -207,7 +204,6 @@ e_cell_combo_new			(void)
 	return (ECell*) ecc;
 }
 
-
 /*
  * GObject::dispose method
  */
@@ -222,8 +218,6 @@ e_cell_combo_dispose			(GObject *object)
 
 	G_OBJECT_CLASS (e_cell_combo_parent_class)->dispose (object);
 }
-
-
 
 void
 e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
@@ -246,7 +240,6 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 		gtk_list_store_set (store, &iter, 0, utf8_text, -1);
 	}
 }
-
 
 static gint
 e_cell_combo_do_popup			(ECellPopup	*ecp,
@@ -286,7 +279,6 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 
 	return TRUE;
 }
-
 
 static void
 e_cell_combo_select_matching_item	(ECellCombo	*ecc)
@@ -361,7 +353,6 @@ e_cell_combo_show_popup			(ECellCombo	*ecc, gint row, gint view_col)
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), TRUE);
 	d(g_print("%s: popup_shown = TRUE\n", __FUNCTION__));
 }
-
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
@@ -555,7 +546,6 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	return TRUE;
 }
 
-
 /* This handles button release events in the popup window. If the button is
    released inside the list, we want to hide the popup window and update the
    cell with the new selection. */
@@ -592,7 +582,6 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	return TRUE;
 }
 
-
 /* This handles key press events in the popup window. If the Escape key is
    pressed we hide the popup, and do not change the cell contents. */
 static gint
@@ -626,7 +615,6 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 
 	return TRUE;
 }
-
 
 static void
 e_cell_combo_update_cell		(ECellCombo	*ecc)
@@ -665,7 +653,6 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 	g_free (text);
 }
 
-
 static void
 e_cell_combo_restart_edit		(ECellCombo	*ecc)
 {
@@ -677,6 +664,4 @@ e_cell_combo_restart_edit		(ECellCombo	*ecc)
 	e_table_item_enter_edit (eti, ecc->popup_view_col, ecc->popup_row);
 #endif
 }
-
-
 

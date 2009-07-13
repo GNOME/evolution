@@ -518,7 +518,6 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	} else
 		gtk_window_set_title((GtkWindow *)dialog, dgettext(table->translation_domain, type_map[e->type].title));
 
-
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
 		ee_build_label(out, e->primary, args, TRUE);

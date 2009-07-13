@@ -42,7 +42,6 @@ struct _EaABView
 	GtkAccessible parent;
 };
 
-
 struct _EaABViewClass
 {
 	GtkAccessibleClass parent_class;
@@ -52,6 +51,5 @@ GType ea_ab_view_get_type (void);
 AtkObject* ea_ab_view_new(GObject *obj);
 
 G_END_DECLS
-
 
 #endif /* __EA_ADDRESSBOOK_VIEW_H__ */

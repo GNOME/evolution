@@ -139,7 +139,6 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (E_TABLE_ITEM (ecell_view->e_table_item_view)->alternating_row_colors && (row % 2) == 0)
 		cache_seq += 3;
 
-
 	image = toggle->images[value];
 
 	if ((x2 - x1) < gdk_pixbuf_get_width (image)){

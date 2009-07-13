@@ -51,7 +51,6 @@ struct _EMFolderSelectionButtonClass {
 	void  (* selected)  (EMFolderSelectionButton *button);
 };
 
-
 GType    em_folder_selection_button_get_type (void);
 
 GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);

@@ -383,7 +383,6 @@ find_meeting (icalcomponent *icalcomp)
 	return prop ? TRUE: FALSE;
 }
 
-
 static gboolean
 e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
 				      gpointer data)

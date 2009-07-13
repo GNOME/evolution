@@ -28,13 +28,11 @@
 #include <misc/e-activity-handler.h>
 #include "Evolution.h"
 
-
 #define TASKS_TYPE_COMPONENT			(tasks_component_get_type ())
 #define TASKS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), TASKS_TYPE_COMPONENT, TasksComponent))
 #define TASKS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), TASKS_TYPE_COMPONENT, TasksComponentClass))
 #define TASKS_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), TASKS_TYPE_COMPONENT))
 #define TASKS_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), TASKS_TYPE_COMPONENT))
-
 
 typedef struct _TasksComponent        TasksComponent;
 typedef struct _TasksComponentPrivate TasksComponentPrivate;
@@ -51,7 +49,6 @@ struct _TasksComponentClass {
 
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType             tasks_component_get_type  (void);
 TasksComponent   *tasks_component_peek  (void);

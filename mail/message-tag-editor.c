@@ -21,7 +21,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -86,7 +85,6 @@ message_tag_editor_init (MessageTagEditor *editor)
 	gtk_dialog_set_default_response (GTK_DIALOG (editor), GTK_RESPONSE_OK);
 }
 
-
 static void
 message_tag_editor_finalise (GObject *obj)
 {
@@ -108,7 +106,6 @@ message_tag_editor_get_tag_list (MessageTagEditor *editor)
 
 	return MESSAGE_TAG_EDITOR_GET_CLASS (editor)->get_tag_list (editor);
 }
-
 
 static void
 set_tag_list (MessageTagEditor *editor, CamelTag *tags)

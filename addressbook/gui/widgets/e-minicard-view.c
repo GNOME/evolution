@@ -54,7 +54,6 @@ enum {
 	PROP_EDITABLE
 };
 
-
 enum {
 	RIGHT_CLICK,
 	LAST_SIGNAL

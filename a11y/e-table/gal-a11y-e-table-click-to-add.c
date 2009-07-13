@@ -44,7 +44,6 @@ struct _GalA11yETableClickToAddPrivate {
 	gpointer row;
 };
 
-
 static gint
 etcta_get_n_actions (AtkAction *action)
 {
@@ -69,7 +68,6 @@ etcta_action_get_name (AtkAction *action, gint      i)
 
 	return NULL;
 }
-
 
 static gboolean
 idle_do_action (gpointer data)
@@ -118,7 +116,6 @@ atk_action_interface_init (AtkActionIface *iface)
 	iface->get_description = etcta_get_description;
 	iface->get_name = etcta_action_get_name;
 }
-
 
 static G_CONST_RETURN gchar *
 etcta_get_name (AtkObject *obj)
@@ -274,7 +271,6 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
 		g_signal_emit_by_name (a11y, "children_changed::add", 0, NULL, NULL);
 	}
 
-
 	priv->rect = etcta->rect;
 	priv->row = etcta->row;
 
@@ -316,12 +312,10 @@ gal_a11y_e_table_click_to_add_new (GObject *widget)
 
 	etcta = E_TABLE_CLICK_TO_ADD(widget);
 
-
 	atk_object_initialize (ATK_OBJECT (a11y), etcta);
 
 	priv->rect = etcta->rect;
 	priv->row = etcta->row;
-
 
 	g_signal_connect_after (G_OBJECT(widget), "event",
 				G_CALLBACK (etcta_event), a11y);

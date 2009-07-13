@@ -239,7 +239,6 @@ static void et_drag_data_received(GtkWidget *widget,
 				  guint time,
 				  ETree *et);
 
-
 static void scroll_off (ETree *et);
 static void scroll_on (ETree *et, guint scroll_direction);
 static void hover_off (ETree *et);
@@ -1985,7 +1984,6 @@ e_tree_view_to_model_row        (ETree *e_tree,
 		return view_row;
 }
 
-
 gboolean
 e_tree_node_is_expanded (ETree *et, ETreePath path)
 {
@@ -2774,7 +2772,6 @@ scroll_timeout (gpointer data)
 			       et->priv->last_drop_x,
 			       et->priv->last_drop_y,
 			       et->priv->last_drop_time);
-
 
 	return TRUE;
 }

@@ -80,7 +80,6 @@ launch_pilot_settings (void)
 	}
 }
 
-
 /* Command callbacks.  */
 
 static void
@@ -1011,7 +1010,6 @@ command_quick_reference (BonoboUIComponent *uih,
 	}
 }
 
-
 static void
 command_work_offline (BonoboUIComponent *uih,
 		      EShellWindow *window,
@@ -1043,7 +1041,6 @@ command_open_new_window (BonoboUIComponent *uih,
 			       e_shell_window_peek_current_component_id (window),
 			       window);
 }
-
 
 /* Actions menu.  */
 
@@ -1081,7 +1078,6 @@ command_pilot_settings (BonoboUIComponent *uih,
 {
 	launch_pilot_settings ();
 }
-
 
 static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) command_import),
@@ -1148,7 +1144,6 @@ static EPixmap online_pixmaps [] = {
 	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", GTK_ICON_SIZE_MENU),
 	E_PIXMAP_END
 };
-
 
 /* The Work Online / Work Offline menu item.  */
 

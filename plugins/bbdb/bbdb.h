@@ -31,7 +31,6 @@
 #define GAIM_ADDRESSBOOK 1
 #define AUTOMATIC_CONTACTS_ADDRESSBOOK 0
 
-
 /* How often to poll the buddy list for changes (every two minutes) */
 #define BBDB_BLIST_CHECK_INTERVAL (2 * 60)
 
@@ -42,6 +41,5 @@ gboolean bbdb_check_gaim_enabled (void);
 /* gaimbuddies.c */
 void bbdb_sync_buddy_list (void);
 void bbdb_sync_buddy_list_check (void);
-
 
 #endif /* __BBDB_H__ */

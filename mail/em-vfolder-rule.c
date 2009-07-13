@@ -567,7 +567,6 @@ source_remove(GtkWidget *widget, struct _source_data *data)
 	set_sensitive(data);
 }
 
-
 GtkWidget *em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *string2,
 					  gint int1, gint int2);
 

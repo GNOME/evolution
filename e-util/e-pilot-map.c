@@ -268,7 +268,6 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const gchar *uid)
 	g_hash_table_remove (map->uid_map, uid);
 }
 
-
 guint32
 e_pilot_map_lookup_pid (EPilotMap *map, const gchar *uid, gboolean touch)
 {

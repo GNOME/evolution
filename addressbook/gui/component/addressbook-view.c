@@ -1333,7 +1333,6 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		eab_load_error_dialog (NULL /* XXX */, source, status);
 	}
 
-
 	g_object_unref (source);
 }
 

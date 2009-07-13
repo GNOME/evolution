@@ -224,7 +224,6 @@ em_config_target_new_account(EMConfig *emp, struct _EAccount *account)
 	return t;
 }
 
-
 /* ********************************************************************** */
 
 /* Popup menu plugin handler */

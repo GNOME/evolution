@@ -407,7 +407,6 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), (gchar *)nickname);
 	}
 
-
 	if (cert) {
 		/*    PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("got it\n"));*/
 		ECert *ecert = e_cert_new (cert);

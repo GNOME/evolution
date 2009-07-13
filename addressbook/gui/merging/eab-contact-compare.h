@@ -66,7 +66,5 @@ EABContactMatchType eab_contact_compare           (EContact *contact1, EContact 
 void                eab_contact_locate_match      (EContact *contact, EABContactMatchQueryCallback cb, gpointer closure);
 void                eab_contact_locate_match_full (EBook *book, EContact *contact, GList *avoid, EABContactMatchQueryCallback cb, gpointer closure);
 
-
-
 #endif /* __E_CONTACT_COMPARE_H__ */
 

@@ -49,7 +49,6 @@ struct _proxyDialogClass {
 	GObjectClass parent_class;
 };
 
-
 GType proxy_dialog_get_type (void);
 proxyDialog *proxy_dialog_new (void);
 GtkWidget * org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data);

@@ -91,8 +91,6 @@ init (E2kUserDialog *dialog)
 
 E2K_MAKE_TYPE (e2k_user_dialog, E2kUserDialog, class_init, init, PARENT_TYPE)
 
-
-
 static void
 parent_window_destroyed (gpointer user_data, GObject *where_parent_window_was)
 {

@@ -563,7 +563,6 @@ mail_config_clear (void)
 	config_clear_mime_types ();
 }
 
-
 void
 mail_config_write (void)
 {
@@ -1151,7 +1150,6 @@ get_new_signature_filename (void)
 
 	return NULL;
 }
-
 
 ESignature *
 mail_config_signature_new (const gchar *filename, gboolean script, gboolean html)

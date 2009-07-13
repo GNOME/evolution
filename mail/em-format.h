@@ -106,7 +106,6 @@ enum _em_format_handler_t {
 	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1
 };
 
-
 typedef struct _EMFormatPURI EMFormatPURI;
 typedef void (*EMFormatPURIFunc)(EMFormat *md, CamelStream *stream, EMFormatPURI *puri);
 

@@ -49,7 +49,6 @@ struct _GalA11yETableItemClass {
 	AtkGObjectAccessibleClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType      gal_a11y_e_table_item_get_type  (void);
 AtkObject *gal_a11y_e_table_item_new       (ETableItem *item);

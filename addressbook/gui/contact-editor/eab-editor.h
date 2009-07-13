@@ -50,7 +50,6 @@ G_BEGIN_DECLS
 #define EAB_IS_EDITOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), EAB_TYPE_EDITOR))
 #define EAB_EDITOR_GET_CLASS(o)         (G_TYPE_INSTANCE_GET_CLASS ((o), EAB_EDITOR_TYPE, EABEditorClass))
 
-
 typedef struct _EABEditor       EABEditor;
 typedef struct _EABEditorClass  EABEditorClass;
 

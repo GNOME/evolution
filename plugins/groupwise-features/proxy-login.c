@@ -272,7 +272,6 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 	return cnc;
 }
 
-
 static void
 proxy_login_cb (GtkDialog *dialog, gint state)
 {
@@ -371,7 +370,6 @@ proxy_soap_login (gchar *email)
 	g_free (user_name);
 	g_free (password);
 }
-
 
 static void
 proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)

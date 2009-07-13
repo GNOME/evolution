@@ -76,7 +76,6 @@ file_open_event_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	e_calendar_view_open_event (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 }
 
-
 /* Prints the calendar at its current view and time range */
 void
 calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action)
@@ -225,7 +224,6 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *pat
 	gnome_calendar_set_view (gcal, GNOME_CAL_MONTH_VIEW);
 }
 
-
 static void
 show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
@@ -235,7 +233,6 @@ show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path
 
 	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
 }
-
 
 static void
 cut_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)

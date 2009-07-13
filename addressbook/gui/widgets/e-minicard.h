@@ -47,7 +47,6 @@ G_BEGIN_DECLS
 #define E_IS_MINICARD(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MINICARD))
 #define E_IS_MINICARD_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MINICARD))
 
-
 typedef struct _EMinicard       EMinicard;
 typedef struct _EMinicardClass  EMinicardClass;
 typedef enum _EMinicardFocusType EMinicardFocusType;
@@ -125,6 +124,5 @@ gint         e_minicard_selected     (EMinicard *minicard,
 gboolean    e_minicard_activate_editor	(EMinicard *minicard);
 
 G_END_DECLS
-
 
 #endif /* __E_MINICARD_H__ */

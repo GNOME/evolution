@@ -78,7 +78,6 @@ static BonoboObjectClass *parent_class = NULL;
 /* Tasks should have their own registry */
 extern ECompEditorRegistry *comp_editor_registry;
 
-
 typedef struct
 {
 	ESourceList *source_list;

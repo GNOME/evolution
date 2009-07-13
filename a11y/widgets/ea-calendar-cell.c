@@ -328,7 +328,6 @@ component_interface_get_extents (AtkComponent *component,
 
 	g_return_if_fail (EA_IS_CALENDAR_CELL (component));
 
-
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
 	if (!g_obj)
 		/* defunct object*/

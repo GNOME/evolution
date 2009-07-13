@@ -1340,7 +1340,6 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 	gtk_tree_view_set_drag_dest_row(emft->priv->treeview, NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
-
 #define SCROLL_EDGE_SIZE 15
 
 static gboolean
@@ -1651,7 +1650,6 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 			camel_url_free(url);
 	}
 }
-
 
 #if 0
 static void
@@ -2117,7 +2115,6 @@ static EPopupItem emft_popup_items[] = {
 	{ E_POPUP_ITEM, (gchar *) "30.emc.03", (gchar *) N_("Re_fresh"), emft_popup_refresh_folder, NULL, (gchar *) "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
 	{ E_POPUP_ITEM, (gchar *) "30.emc.04", (gchar *) N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, (gchar *) "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
 
-
 	{ E_POPUP_BAR, (gchar *) "99.emc" },
 	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("_Properties"), emft_popup_properties, NULL, (gchar *) "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
@@ -2355,7 +2352,6 @@ em_folder_tree_set_selected (EMFolderTree *emft, const gchar *uri, gboolean expa
 	g_list_free(l);
 }
 
-
 void
 em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders)
 {
@@ -2496,7 +2492,6 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 	return;
 }
 
-
 gchar *
 em_folder_tree_get_selected_uri (EMFolderTree *emft)
 {
@@ -2633,7 +2628,6 @@ emft_save_state (EMFolderTree *emft)
 
 	return FALSE;
 }
-
 
 static void
 emft_queue_save_state (EMFolderTree *emft)

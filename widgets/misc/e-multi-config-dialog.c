@@ -111,7 +111,6 @@ set_page_timeout_callback (gpointer data)
 	return FALSE;
 }
 
-
 /* Button handling.  */
 
 static void
@@ -119,7 +118,6 @@ do_close (EMultiConfigDialog *dialog)
 {
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
-
 
 /* ETable signals.  */
 
@@ -142,7 +140,6 @@ table_cursor_change_callback (ETable *etable,
 	priv->set_page_timeout_page = row;
 }
 
-
 /* GObject methods.  */
 
 static void
@@ -163,7 +160,6 @@ impl_finalize (GObject *object)
 
 	(* G_OBJECT_CLASS (e_multi_config_dialog_parent_class)->finalize) (object);
 }
-
 
 /* GtkDialog methods.  */
 
@@ -209,7 +205,6 @@ static void
 canvas_realize (GtkWidget *widget, EMultiConfigDialog *dialog)
 {
 }
-
 
 static ETableMemoryStoreColumnInfo columns[] = {
 	E_TABLE_MEMORY_STORE_STRING,
@@ -311,7 +306,6 @@ e_multi_config_dialog_new (void)
 {
 	return g_object_new (e_multi_config_dialog_get_type (), NULL);
 }
-
 
 void
 e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,

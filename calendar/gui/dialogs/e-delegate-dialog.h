@@ -35,7 +35,6 @@
 #define E_IS_DELEGATE_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_DELEGATE_DIALOG))
 #define E_IS_DELEGATE_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_DELEGATE_DIALOG))
 
-
 typedef struct _EDelegateDialog		EDelegateDialog;
 typedef struct _EDelegateDialogClass	EDelegateDialogClass;
 typedef struct _EDelegateDialogPrivate	EDelegateDialogPrivate;
@@ -68,7 +67,6 @@ void             e_delegate_dialog_set_delegate      (EDelegateDialog *etd,
 						      const gchar      *address);
 
 GtkWidget*       e_delegate_dialog_get_toplevel      (EDelegateDialog *etd);
-
 
 
 

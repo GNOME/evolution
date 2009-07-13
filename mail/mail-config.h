@@ -41,7 +41,6 @@ typedef struct _MailConfigSignature {
 	gboolean html;
 } MailConfigSignature;
 
-
 typedef enum {
 	MAIL_CONFIG_HTTP_NEVER,
 	MAIL_CONFIG_HTTP_SOMETIMES,
@@ -130,7 +129,6 @@ void mail_config_remove_signature (ESignature *signature);
 void mail_config_save_signatures (void);
 
 gchar *mail_config_signature_run_script (const gchar *script);
-
 
 /* uri's got changed by the store, etc */
 void mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new);

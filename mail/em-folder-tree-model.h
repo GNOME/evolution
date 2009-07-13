@@ -62,7 +62,6 @@ enum {
 	NUM_COLUMNS
 };
 
-
 struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
@@ -113,12 +112,9 @@ struct _EMFolderTreeModelClass {
 					 const gchar *uri);
 };
 
-
 GType em_folder_tree_model_get_type (void);
 
-
 EMFolderTreeModel *em_folder_tree_model_new (const gchar *evolution_dir);
-
 
 void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 					   struct _EMFolderTreeModelStoreInfo *si,

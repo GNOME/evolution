@@ -273,7 +273,6 @@ fix_utf16_endianness (gunichar2 *utf16)
 {
 	gunichar2 *it;
 
-
 	if ((utf16 == NULL) || (*utf16 == '\0')) {
 		return;
 	}

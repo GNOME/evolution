@@ -51,9 +51,7 @@
 #include "tree-expanded.xpm"
 #include "tree-unexpanded.xpm"
 
-
 G_DEFINE_TYPE (ECellTree, e_cell_tree, E_CELL_TYPE)
-
 
 typedef struct {
 	ECellView    cell_view;
@@ -886,7 +884,6 @@ e_cell_tree_construct (ECellTree *ect,
 
 	ect->draw_lines = draw_lines;
 }
-
 
 /**
  * e_cell_tree_new:

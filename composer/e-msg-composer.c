@@ -2287,7 +2287,6 @@ e_msg_composer_new (void)
 	return g_object_new (E_TYPE_MSG_COMPOSER, NULL);
 }
 
-
 void
 e_msg_composer_set_lite (void)
 {

@@ -354,7 +354,6 @@ eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list,
 	return (result == GTK_RESPONSE_ACCEPT);
 }
 
-
 void
 eab_editor_contact_added (EABEditor *editor, EBookStatus status, EContact *contact)
 {

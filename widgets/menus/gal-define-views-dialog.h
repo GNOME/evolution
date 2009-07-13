@@ -69,5 +69,4 @@ GType                    gal_define_views_dialog_get_type     (void);
 
 G_END_DECLS
 
-
 #endif /* __GAL_DEFINE_VIEWS_DIALOG_H__ */

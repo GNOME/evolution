@@ -110,7 +110,6 @@ struct _EMEventTargetFolderBrowser {
 	EMFolderBrowser *emfb;
 };
 
-
 typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {

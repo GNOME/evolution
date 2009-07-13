@@ -55,18 +55,18 @@ static void
 backup (const gchar *filename, gboolean restart)
 {
 	if (restart)
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", "--restart", filename, (char *)NULL);
+		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", "--restart", filename, (gchar *)NULL);
 	else
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", filename, (char *)NULL);
+		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--backup", filename, (gchar *)NULL);
 }
 
 static void
 restore (const gchar *filename, gboolean restart)
 {
 	if (restart)
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", "--restart", filename, (char *)NULL);
+		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", "--restart", filename, (gchar *)NULL);
 	else
-		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", filename, (char *)NULL);
+		execl (EVOLUTION_TOOLSDIR "/evolution-backup", "evolution-backup", "--gui", "--restore", filename, (gchar *)NULL);
 }
 
 static gboolean
@@ -161,7 +161,6 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
 		dir = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (dlg));
 		gtk_widget_destroy (dlg);
-
 
 		if (epbr_perform_pre_backup_checks (dir)) {
 
@@ -309,7 +308,6 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start ((GtkBox *)hbox, button, FALSE, FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (hbox, FALSE);
-
 
 	gtk_container_add ((GtkContainer *) GNOME_DRUID_PAGE_STANDARD (page)->vbox, box);
 	gtk_widget_show_all (box);

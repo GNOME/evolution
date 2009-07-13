@@ -82,7 +82,6 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
 GType
 rule_context_get_type(void)
 {

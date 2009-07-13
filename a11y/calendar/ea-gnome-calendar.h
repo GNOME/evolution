@@ -56,5 +56,4 @@ const gchar *	ea_gnome_calendar_get_label_description (GnomeCalendar *gcal);
 
 G_END_DECLS
 
-
 #endif /* __EA_GNOME_CALENDAR_H__ */

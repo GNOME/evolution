@@ -161,7 +161,6 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 	}
 }
 
-
 static void
 add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 {
@@ -171,9 +170,6 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (const guchar *)"http://www.w3.org/2001/XMLSchema#string");
 	}
 }
-
-
-
 
 static void
 do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri)
@@ -331,7 +327,6 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 			e_cal_component_get_last_modified (comp, &temp_time);
 			add_time_to_rdf (node, "lastModified",temp_time);
-
 
 			/* Important note!
 			 * The documentation is not requiring this!

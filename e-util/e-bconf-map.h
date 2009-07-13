@@ -48,7 +48,6 @@ typedef struct _e_bconf_map {
 	struct _e_bconf_map *child;
 } e_bconf_map_t;
 
-
 gchar *e_bconf_hex_decode (const gchar *val);
 gchar *e_bconf_url_decode (const gchar *val);
 
@@ -63,7 +62,6 @@ gchar *e_bconf_get_string (xmlNodePtr root, const gchar *name);
 gint e_bconf_import_xml_blob (GConfClient *gconf, xmlDocPtr config_xmldb, e_bconf_map_t *map,
 			     const gchar *bconf_path, const gchar *gconf_path,
 			     const gchar *name, const gchar *idparam);
-
 
 enum {
 	E_GCONF_MAP_BOOL,

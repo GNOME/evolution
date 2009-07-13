@@ -44,7 +44,6 @@ struct _GalA11yETableFactoryClass {
 	AtkObjectClass parent_class;
 };
 
-
 /* Standard Glib function */
 GType              gal_a11y_e_table_factory_get_type         (void);
 

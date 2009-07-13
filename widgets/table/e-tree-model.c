@@ -504,7 +504,6 @@ e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath node)
 		return NULL;
 }
 
-
 /**
  * e_tree_model_node_get_next:
  * @etree:
