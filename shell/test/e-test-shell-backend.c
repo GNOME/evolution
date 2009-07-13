@@ -80,22 +80,6 @@ test_shell_backend_start (EShellBackend *shell_backend)
 }
 
 static gboolean
-test_shell_backend_is_busy (EShellBackend *shell_backend)
-{
-	g_debug ("%s", G_STRFUNC);
-
-	return FALSE;
-}
-
-static gboolean
-test_shell_backend_shutdown (EShellBackend *shell_backend)
-{
-	g_debug ("%s", G_STRFUNC);
-
-	return TRUE;
-}
-
-static gboolean
 test_shell_backend_migrate (EShellBackend *shell_backend,
                             gint major,
                             gint minor,
@@ -151,7 +135,7 @@ test_shell_backend_window_destroyed_cb (EShellBackend *shell_backend)
 	g_debug ("%s", G_STRFUNC);
 }
 
-void
+static void
 test_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -200,8 +184,6 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 	shell_backend_class->schemes = "";
 	shell_backend_class->sort_order = 100;
 	shell_backend_class->start = test_shell_backend_start;
-	shell_backend_class->is_busy = test_shell_backend_is_busy;
-	shell_backend_class->shutdown = test_shell_backend_shutdown;
 	shell_backend_class->migrate = test_shell_backend_migrate;
 }
 
