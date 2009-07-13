@@ -1158,7 +1158,7 @@ static gboolean
 source_selector_key_press_event_callback (GtkWidget *widget, GdkEventKey *event, AddressbookView *view)
 {
 	if (event->keyval == GDK_Delete) {
-		delete_addressbook_folder (view);
+		/* suppress delete key press in a source selector */
 		return TRUE;
 	}
 	return FALSE;
