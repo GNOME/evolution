@@ -6,8 +6,8 @@ AM_CPPFLAGS =						\
 	-I$(top_builddir)/smime/lib			\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_builddir)/widgets/misc			\
+	-I$(top_srcdir)/widgets				\
+	-I$(top_builddir)/widgets			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\

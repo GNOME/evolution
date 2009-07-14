@@ -1,5 +1,6 @@
-AM_CPPFLAGS = -I .						\
-	-I$(top_srcdir)	                                \
+AM_CPPFLAGS = -I .					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)

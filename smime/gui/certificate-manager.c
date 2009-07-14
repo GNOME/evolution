@@ -48,9 +48,9 @@
 #include <pkcs11.h>
 #include <pk11func.h>
 
-#include <e-shell.h>
-#include <e-preferences-window.h>
-#include <e-util/e-util-private.h>
+#include "shell/e-shell.h"
+#include "e-util/e-util-private.h"
+#include "widgets/misc/e-preferences-window.h"
 
 typedef struct {
 	GladeXML *gui;

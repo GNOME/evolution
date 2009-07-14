@@ -2,6 +2,7 @@ emformatincludedir = $(privincludedir)/em-format
 
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 privsolib_LTLIBRARIES = libemformat.la
