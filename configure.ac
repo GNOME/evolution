@@ -1,7 +1,7 @@
 # Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
-m4_define([evo_micro_version], [3])
+m4_define([evo_micro_version], [4])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -20,7 +20,7 @@ m4_define([upgrade_revision], [0])
 
 # Autoconf / Automake Initialization
 AC_PREREQ(2.58)
-AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
 AM_INIT_AUTOMAKE([gnu 1.9])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
@@ -30,6 +30,9 @@ GNOME_DOC_INIT
 
 # Developer Documentation
 GTK_DOC_CHECK(1.9)
+
+dnl This is for the autoconf tests only - it set's the language we use
+AC_LANG(C)
 
 # Automake 1.11 - Silent Build Rules
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -57,10 +60,8 @@ m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([unique_minimum_version], [1.0.8])
 
 # Optional Packages
-#
-# FIXME  Minimum versions for dbus-glib-1 and libnm_glib ?
-#
-m4_define([dbus_minimum_version], [1.0.0])
+m4_define([dbus_minimum_version], [0.74])
+m4_define([nm_minimum_version],[0.7])
 m4_define([hal_minimum_version], [0.5.4])
 m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
@@ -114,10 +115,12 @@ AC_DEFINE_UNQUOTED(BASE_VERSION, ["$BASE_VERSION"], [Base version (Major.Minor)]
 AC_SUBST([UPGRADE_REVISION],[upgrade_revision])
 AC_DEFINE_UNQUOTED(UPGRADE_REVISION, ["$UPGRADE_REVISION"], [The number of times we've upgraded since the BASE_VERSION release])
 
-AC_ISC_POSIX
 AC_PROG_CC
-AC_PROG_CPP
 AC_C_INLINE
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
 AM_PROG_LEX
 AC_PROG_YACC
 AC_PROG_AWK
@@ -129,11 +132,7 @@ case $YACC in
 	AC_MSG_ERROR([You need bison to build Evolution])
 	;;
 esac
-AC_HEADER_STDC
 AC_ARG_PROGRAM
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
 
 dnl  Test whether jw is installed
 AC_PATH_PROG(JW,jw,no)
@@ -146,7 +145,7 @@ AM_CONDITIONAL(HAVE_JW, [test x$HAVE_JW = xyes])
 AC_SUBST(HAVE_JW)
 
 dnl I18N stuff
-AC_PROG_INTLTOOL([0.35.5])
+IT_PROG_INTLTOOL([0.35.5])
 
 AM_GLIB_GNU_GETTEXT
 
@@ -158,6 +157,9 @@ localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
 
 dnl Initialize libtool
+dnl if switch to libtool >= 2.2, replace existing with following:
+dnl LT_PREREQ(2.2)
+dnl LT_INIT(disable-static win32-dll)
 AM_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
@@ -245,29 +247,22 @@ dnl ******************************
 dnl iconv checking
 dnl ******************************
 have_iconv=no
-AC_ARG_WITH([libiconv],
-	AS_HELP_STRING([--with-libiconv=PATH],
-	[Prefix where libiconv is installed]))
-if test -d "$withval"; then
-	ICONV_CFLAGS="-I$withval/include"
-	ICONV_LIBS="-L$withval/lib"
-fi
-
-save_CFLAGS="$CFLAGS"
 save_LIBS="$LIBS"
-CFLAGS="$CFLAGS $ICONV_CFLAGS"
-LIBS="$LIBS $ICONV_LIBS -liconv"
-AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv,
-	       AC_TRY_LINK([
-#include <iconv.h>
-#include <stdlib.h>],[
+LIBS="$LIBS -liconv"
+AC_CACHE_CHECK([for iconv in -liconv], [ac_cv_libiconv],
+	AC_LINK_IFELSE([AC_LANG_PROGRAM(
+	[[
+		#include <iconv.h>
+		#include <stdlib.h>
+	]],
+	[[
         iconv_t cd;
         cd = iconv_open ("UTF-8", "ISO-8859-1");
-        exit (0);
-], [ac_cv_libiconv=yes], [ac_cv_libiconv=no]))
+	]]
+	)],[ac_cv_libiconv=yes],[ac_cv_libiconv=no]))
 
 if test $ac_cv_libiconv = yes; then
-        ICONV_LIBS="$ICONV_LIBS -liconv"
+        ICONV_LIBS="-liconv"
 	if test $os_win32 = yes; then
 		# Don't pointlessly auto-export the global symbols
 		# from a potentially static libiconv.a
@@ -275,7 +270,6 @@ if test $ac_cv_libiconv = yes; then
 	fi
         have_iconv=yes
 else
-        CFLAGS="$save_CFLAGS"
         LIBS="$save_LIBS"
         AC_CHECK_FUNC(iconv, have_iconv=yes, have_iconv=no)
 fi
@@ -284,66 +278,62 @@ if test $have_iconv = yes; then
         if test $ac_cv_libiconv = no; then
                 AC_CHECK_FUNCS(gnu_get_libc_version)
         fi
-        AC_CACHE_CHECK([if iconv() handles UTF-8], ac_cv_libiconv_utf8, AC_TRY_RUN([
-#include <iconv.h>
-#include <stdlib.h>
-#include <string.h>
-#ifdef HAVE_GNU_GET_LIBC_VERSION
-#include <gnu/libc-version.h>
-#endif
+AC_CACHE_CHECK([if iconv() handles UTF-8], [ac_cv_libiconv_utf8],
+	AC_RUN_IFELSE([AC_LANG_SOURCE([[
+		#include <iconv.h>
+		#include <stdlib.h>
+		#include <string.h>
+		#ifdef HAVE_GNU_GET_LIBC_VERSION
+		#include <gnu/libc-version.h>
+		#endif
+		int main() {
+			char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
+			char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
+			char *transbuf = malloc (10), *trans = transbuf;
+			iconv_t cd;
+			size_t jp_len = strlen (jp), utf8_len = 10;
+			size_t utf8_real_len = strlen (utf8);
 
-int main (int argc, char **argv)
-{
-        char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
-        char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
-        char *transbuf = malloc (10), *trans = transbuf;
-        iconv_t cd;
-        size_t jp_len = strlen (jp), utf8_len = 10;
-        size_t utf8_real_len = strlen (utf8);
+			#ifdef HAVE_GNU_GET_LIBC_VERSION
+			/* glibc 2.1.2's iconv is broken in hard to test ways. */
+			if (!strcmp (gnu_get_libc_version (), "2.1.2"))
+				exit (1);
+			#endif
 
-#ifdef HAVE_GNU_GET_LIBC_VERSION
-        /* glibc 2.1.2's iconv is broken in hard to test ways. */
-        if (!strcmp (gnu_get_libc_version (), "2.1.2"))
-                exit (1);
-#endif
-
-        cd = iconv_open ("UTF-8", "ISO-2022-JP");
-        if (cd == (iconv_t) -1)
-                exit (1);
-        if (iconv (cd, &jp, &jp_len, &trans, &utf8_len) == -1 || jp_len != 0
-)
-                exit (1);
-        if (memcmp (utf8, transbuf, utf8_real_len) != 0)
-                exit (1);
-
-        exit (0);
-}], ac_cv_libiconv_utf8=yes, [ac_cv_libiconv_utf8=no; have_iconv=no], [ac_cv_libiconv_utf8=hopefully]))
+			cd = iconv_open ("UTF-8", "ISO-2022-JP");
+			if (cd == (iconv_t) -1)
+				exit (1);
+			if (iconv (cd, &jp, &jp_len, &trans, &utf8_len) == -1 || jp_len != 0)
+				exit (1);
+			if (memcmp (utf8, transbuf, utf8_real_len) != 0)
+				exit (1);
+			return (0);}
+		]])
+	],[ac_cv_libiconv_utf8=yes],[ac_cv_libiconv_utf8=no; have_iconv=no],[ac_cv_libiconv_utf8=hopefully]))
 fi
 
 if test "$have_iconv" = no; then
         AC_MSG_ERROR([You need to install a working iconv implementation, such as ftp://ftp.gnu.org/pub/gnu/libiconv])
 fi
-AC_SUBST(ICONV_CFLAGS)
 AC_SUBST(ICONV_LIBS)
 
 CFLAGS="$CFLAGS -I$srcdir"
 
 AC_MSG_CHECKING([preferred charset name formats for system iconv])
-AC_TRY_RUN([
-#define CONFIGURE_IN
-#include "iconv-detect.c"
-],[
-        AC_MSG_RESULT([found])
-],[
-	AC_MSG_RESULT([not found])
-	AC_WARN([
-	*** The iconv-detect program was unable to determine the
-	*** preferred charset name formats recognized by your
-	*** iconv library. It is suggested that you install a
-	*** working iconv library such as the one found at
-	*** ftp://ftp.gnu.org/pub/gnu/libiconv
-])],[
-	if test x$os_win32 = xyes; then
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+	#define CONFIGURE_IN
+	#include "iconv-detect.c"
+	]])],
+	[AC_MSG_RESULT([found])],
+	[AC_MSG_RESULT([not found])
+		AC_MSG_WARN([
+		*** The iconv-detect program was unable to determine the
+		*** preferred charset name formats recognized by your
+		*** iconv library. It is suggested that you install a
+		*** working iconv library such as the one found at
+		*** ftp://ftp.gnu.org/pub/gnu/libiconv
+	])],
+	[if test x$os_win32 = xyes; then
 		AC_MSG_RESULT([using known win32 result])
 		echo '/* This is an auto-generated header, DO NOT EDIT! */' > iconv-detect.h
 		echo  >>iconv-detect.h
@@ -352,11 +342,11 @@ AC_TRY_RUN([
 		echo '#define ICONV_10646 "UCS-4BE"' >>iconv-detect.h
 	else
 		AC_MSG_RESULT([unknown])
-		AC_WARN([
-	*** We can't determine the preferred charset name formats
-	*** recognized by your iconv library. You are
-	*** cross-compiling and supposed to know what you are doing.
-	*** Please construct the iconv-detect.h file manually.
+		AC_MSG_WARN([
+		*** We can't determine the preferred charset name formats
+		*** recognized by your iconv library. You are
+		*** cross-compiling and supposed to know what you are doing.
+		*** Please construct the iconv-detect.h file manually.
 		])
 	fi
 ])
@@ -365,27 +355,10 @@ CFLAGS="$save_CFLAGS"
 LIBS="$save_LIBS"
 
 dnl alloca()
-AC_CHECK_HEADERS(alloca.h)
+AC_FUNC_ALLOCA
 
 dnl waitpid() etc
-AC_CHECK_HEADERS(sys/wait.h)
-
-if test x$os_win32 != xyes; then
-	dnl check for socklen_t (in Unix98)
-	AC_MSG_CHECKING([for socklen_t])
-	AC_TRY_COMPILE([#include <sys/types.h>
-	#include <sys/socket.h>
-	socklen_t x;
-	],[],[AC_MSG_RESULT([yes])],[
-	AC_TRY_COMPILE([#include <sys/types.h>
-	#include <sys/socket.h>
-	int accept (int, struct sockaddr *, size_t *);
-	],[],[
-	AC_MSG_RESULT([size_t])
-	AC_DEFINE(socklen_t,size_t,[Define to appropriate type if socklen_t is not defined])], [
-	AC_MSG_RESULT([int])
-	AC_DEFINE(socklen_t,int)])])
-fi
+AC_HEADER_SYS_WAIT
 
 dnl
 dnl Purify support
@@ -405,35 +378,34 @@ AM_CONDITIONAL(ENABLE_TEST_COMPONENT, [test x$enable_test_comp = xyes])
 dnl ***************
 dnl Timezone checks
 dnl ***************
-AC_CACHE_CHECK(for tm_gmtoff in struct tm, ac_cv_struct_tm_gmtoff,
-	AC_TRY_COMPILE([
-		#include <time.h>
-		], [
+AC_CACHE_CHECK(for tm_gmtoff in struct tm, [ac_cv_struct_tm_gmtoff],
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[	#include <time.h>	]],
+	[[
 		struct tm tm;
 		tm.tm_gmtoff = 1;
-		], ac_cv_struct_tm_gmtoff=yes, ac_cv_struct_tm_gmtoff=no))
+	]]
+	)],[ac_cv_struct_tm_gmtoff=yes],[ac_cv_struct_tm_gmtoff=no]))
 if test $ac_cv_struct_tm_gmtoff = yes; then
 	AC_DEFINE(HAVE_TM_GMTOFF, 1, [Define if struct tm has a tm_gmtoff member])
 else
-	AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
-		AC_TRY_COMPILE([
-			#include <time.h>
-		], [
-			timezone = 1;
-		], ac_cv_var_timezone=yes, ac_cv_var_timezone=no))
+	AC_CACHE_CHECK(for timezone variable, [ac_cv_var_timezone],
+		AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+		[[	#include <time.h> ]],
+		[[	timezone = 1;	]]
+		)],[ac_cv_var_timezone=yes],[ac_cv_var_timezone=no]))
 	if test $ac_cv_var_timezone = yes; then
 		AC_DEFINE(HAVE_TIMEZONE, 1, [Define if libc defines a timezone variable])
-		AC_CACHE_CHECK(for altzone variable, ac_cv_var_altzone,
-			AC_TRY_COMPILE([
-				#include <time.h>
-			], [
-				altzone = 1;
-			], ac_cv_var_altzone=yes, ac_cv_var_altzone=no))
+		AC_CACHE_CHECK(for altzone variable, [ac_cv_var_altzone],
+			AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+			[[	#include <time.h>	]],
+			[[	altzone = 1; ]]
+			)],[ac_cv_var_altzone=yes],[ac_cv_var_altzone=no]))
 		if test $ac_cv_var_altzone = yes; then
 			AC_DEFINE(HAVE_ALTZONE, 1, [Define if libc defines an altzone variable])
 		fi
 	else
-		AC_ERROR(unable to find a way to determine timezone)
+		AC_MSG_ERROR([unable to find a way to determine timezone])
 	fi
 fi
 
@@ -444,19 +416,14 @@ dnl **************************************************
 dnl ctime_r prototype
 dnl **************************************************
 
-AC_CACHE_CHECK([if ctime_r wants three arguments], ac_cv_ctime_r_three_args,
+AC_CACHE_CHECK([if ctime_r wants three arguments], [ac_cv_ctime_r_three_args],
 [
-	AC_TRY_COMPILE([
-		#include <time.h>
-	],[
-		char *buf;
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[	#include <time.h> ]],
+	[[	char *buf;
 		time_t date;
-		ctime_r (&date, buf, 100);
-	],[
-		ac_cv_ctime_r_three_args=yes
-	],[
-		ac_cv_ctime_r_three_args=no
-	])
+		ctime_r (&date, buf, 100); ]]
+	)],[ac_cv_ctime_r_three_args=yes],[ac_cv_ctime_r_three_args=no])
 ])
 
 if test x"$ac_cv_ctime_r_three_args" = xyes ; then
@@ -468,9 +435,10 @@ dnl gethostbyname_r prototype
 dnl **************************************************
 
 AC_CHECK_FUNCS(gethostbyname_r,[
-AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_five_args,
+AC_CACHE_CHECK([if gethostbyname_r wants five arguments], [ac_cv_gethostbyname_r_five_args],
 [
-	AC_TRY_COMPILE([
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[
 		#include "confdefs.h"
 		#include <sys/types.h>
 		#include <sys/socket.h>
@@ -478,18 +446,15 @@ AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_
 		#include <netdb.h>
 
 		#define BUFSIZE (sizeof(struct hostent)+10)
-	],[
+	]],
+	[[
 		struct hostent hent;
 		char buffer[BUFSIZE];
 		int bufsize=BUFSIZE;
 		int h_errno;
-
 		(void)gethostbyname_r ("www.ximian.com", &hent, buffer, bufsize, &h_errno);
-	],[
-		ac_cv_gethostbyname_r_five_args=yes
-	],[
-		ac_cv_gethostbyname_r_five_args=no
-	])
+	]]
+	)],[ac_cv_gethostbyname_r_five_args=yes],[ac_cv_gethostbyname_r_five_args=no])
 ])])
 
 if test "x$ac_cv_gethostbyname_r_five_args" = "xyes" ; then
@@ -501,28 +466,24 @@ dnl gethostbyaddr_r prototype
 dnl **************************************************
 
 AC_CHECK_FUNCS(gethostbyaddr_r,[
-AC_CACHE_CHECK([if gethostbyaddr_r wants seven arguments], ac_cv_gethostbyaddr_r_seven_args,
+AC_CACHE_CHECK([if gethostbyaddr_r wants seven arguments], [ac_cv_gethostbyaddr_r_seven_args],
 [
-	AC_TRY_COMPILE([
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[
 		#include "confdefs.h"
 		#include <sys/types.h>
 		#include <sys/socket.h>
 		#include <netinet/in.h>
 		#include <netdb.h>
-
 		#define BUFSIZE (sizeof(struct hostent)+10)
-	],[
+	]],
+	[[
 		struct hostent hent;
 		char buffer[BUFSIZE];
 		int bufsize=BUFSIZE;
 		int h_errno;
-
-		(void)gethostbyaddr_r ("www.ximian.com", 14, AF_INET, &hent, buffer, bufsize, &h_errno);
-	],[
-		ac_cv_gethostbyaddr_r_seven_args=yes
-	],[
-		ac_cv_gethostbyaddr_r_seven_args=no
-	])
+		(void)gethostbyaddr_r ("www.ximian.com", 14, AF_INET, &hent, buffer, bufsize, &h_errno); ]]
+	)],[ac_cv_gethostbyaddr_r_seven_args=yes],[ac_cv_gethostbyaddr_r_seven_args=no])
 ])])
 
 if test "x$ac_cv_gethostbyaddr_r_seven_args" = "xyes" ; then
@@ -533,10 +494,25 @@ dnl **************************************************
 dnl stat(v)fs location/type
 dnl **************************************************
 
-AC_CHECK_HEADERS(sys/statvfs.h)
+AC_CHECK_HEADERS(sys/statvfs.h,,,
+[[
+	#if HAVE_SYS_STATVFS_H
+	#include <sys/statvfs.h>
+	#endif
+]])
 AC_CHECK_FUNCS(statvfs)
-AC_CHECK_HEADERS(sys/param.h)
-AC_CHECK_HEADERS(sys/mount.h)
+AC_CHECK_HEADERS(sys/param.h,,,
+[[
+	#if HAVE_SYS_PARAM_H
+	#include <sys/param.h>
+	#endif
+]])
+AC_CHECK_HEADERS(sys/mount.h,,,
+[[
+	#if HAVE_SYS_MOUNT_H
+	#include <sys/mount.h>
+	#endif
+]])
 AC_CHECK_FUNCS(statfs)
 
 dnl **************************************************
@@ -555,13 +531,9 @@ dnl **************************************************
 dnl * XF86 multimedia keys support
 dnl **************************************************
 have_xfree=no
-AC_COMPILE_IFELSE([
-	#include <X11/XF86keysym.h>
-	int main(int argc,char **argv) {
-	return 0;
-	}
-	],
-	have_xfree=yes
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[ #include <X11/XF86keysym.h> ]],[[]])],
+	[have_xfree=yes]
 )
 AC_MSG_CHECKING([for X11 XFree86 headers])
 AC_MSG_RESULT([$have_xfree])
@@ -647,36 +619,6 @@ else
 fi
 AM_CONDITIONAL(ENABLE_NNTP, [test x$enable_nntp = xyes])
 
-dnl **************************************************
-dnl New IMAP code support.
-dnl **************************************************
-AC_ARG_ENABLE([imapp],
-	AS_HELP_STRING([--enable-imapp],
-	[Attempt to compile alternative, incomplete, very unsupported IMAPv4r1 code]),,
-	[enable_imapp=no])
-if test "x$enable_imapp" = "xyes"; then
-	AC_DEFINE(ENABLE_IMAPP,1,[Really don't try this at home])
-	msg_imapp=yes
-else
-	msg_imapp=no
-fi
-AM_CONDITIONAL(ENABLE_IMAPP, [test x$enable_imapp = xyes])
-
-dnl **************************************************
-dnl New IMAP code support.
-dnl **************************************************
-AC_ARG_ENABLE([imap4],
-	AS_HELP_STRING([--enable-imap4],
-	[Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation]),,
-	[enable_imap4=yes])
-if test "x$enable_imap4" = "xyes"; then
-	AC_DEFINE(ENABLE_IMAP4,1,[Really don't try this at home])
-	msg_imap4=yes
-else
-	msg_imap4=no
-fi
-AM_CONDITIONAL(ENABLE_IMAP4, [test x$enable_imap4 = xyes])
-
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
 
 dnl **************************************************
@@ -739,24 +681,22 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 	LDFLAGS_save="$LDFLAGS"
 	LDFLAGS="$GNOME_PILOT_LIBS $LDFLAGS"
 
-	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],
-	[ac_cv_pilot_link_utf8], AC_TRY_RUN([
-		#include <stdlib.h>
+	AC_CACHE_CHECK([if pilot-link handles UTF-8 conversions],[ac_cv_pilot_link_utf8],
+	AC_RUN_IFELSE([AC_LANG_SOURCE(
+	[[	#include <stdlib.h>
 		#include <string.h>
 		#include <pi-util.h>
 
-		int main (int argc, char **argv)
-		{
-			const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
-			size_t utf8_real_len = strlen (utf8);
-			char *pstring;
-
-			if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
-				exit (1);
-			exit (0);
+		int main (){
+		const char *utf8 = "\x66\x66\x66\x66\x66\x66\x66\xC2\xA9";
+		size_t utf8_real_len = strlen (utf8);
+		char *pstring;
+		if (convert_ToPilotChar ("UTF-8", utf8, utf8_real_len, &pstring) == -1)
+			exit (1);
+		return (0);
 		}
-	],
-	[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
+	]]
+	)],[ac_cv_pilot_link_utf8=yes],[ac_cv_pilot_link_utf8=no],[ac_cv_pilot_link_utf8=no]))
 
 	CFLAGS="$CFLAGS_save"
 	LDFLAGS="$LDFLAGS_save"
@@ -826,13 +766,16 @@ if test "x${with_krb5}" != "xno"; then
 	AC_CACHE_CHECK([for Kerberos 5], [ac_cv_lib_kerberos5],
 	[
 		LDFLAGS="$LDFLAGS -L$with_krb5_libs $mitlibs"
-		AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$mitlibs",
+		AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context,])],
+		[ac_cv_lib_kerberos5="$mitlibs"],
 		[
 			LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $heimlibs"
-			AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$heimlibs",
+			AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context])],
+			[ac_cv_lib_kerberos5="$heimlibs"],
 			[
 				LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $sunlibs"
-				AC_TRY_LINK_FUNC(krb5_init_context, ac_cv_lib_kerberos5="$sunlibs", ac_cv_lib_kerberos5="no")
+				AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context])],
+				[ac_cv_lib_kerberos5="$sunlibs"], [ac_cv_lib_kerberos5="no"])
 			])
 		])
 		LDFLAGS="$LDFLAGS_save"
@@ -873,8 +816,16 @@ else
 	AC_MSG_RESULT([$with_krb5])
 fi
 
-AC_CHECK_HEADER([et/com_err.h],[AC_DEFINE([HAVE_ET_COM_ERR_H], 1, [Have et/comm_err.h])])
-AC_CHECK_HEADER([com_err.h],[AC_DEFINE([HAVE_COM_ERR_H], 1, [Have comm_err.h])])
+AC_CHECK_HEADER([et/com_err.h],,,
+[[#if HAVE_ET_COM_ERR_H
+#include <et/com_err.h>
+#endif
+]])
+AC_CHECK_HEADER([com_err.h],,,
+[[#if HAVE_ET_COM_ERR_H
+#include <com_err.h>
+#endif
+]])
 
 msg_krb4="no"
 if test "x${with_krb4}" != "xno"; then
@@ -886,20 +837,24 @@ if test "x${with_krb4}" != "xno"; then
 		mitcompatlibs="-lkrb4 -ldes425 -lkrb5 -lk5crypto -lcom_err"
 		# Look for MIT krb5 compat krb4
 		LDFLAGS="$LDFLAGS -L$with_krb4_libs $mitcompatlibs"
-		AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="$mitcompatlibs")
+		AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
+		[ac_cv_lib_kerberos4="$mitcompatlibs"])
 
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			# Look for KTH krb4
 			LDFLAGS="$LDFLAGS_save -L$with_krb4_libs -lkrb -lcrypto -lcom_err -lroken"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -lcrypto -lcom_err -lroken")
+			AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
+			[ac_cv_lib_kerberos4="-lkrb -lcrypto -lcom_err -lroken"])
 		fi
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			# Look for old MIT krb4
 			LDFLAGS="$LDFLAGS_save -L$with_krb4_libs -lkrb"
-			AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb",
+			AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
+			[ac_cv_lib_kerberos4="-lkrb"],
 			[
 				LDFLAGS="$LDFLAGS -ldes"
-				AC_TRY_LINK_FUNC(krb_mk_req, ac_cv_lib_kerberos4="-lkrb -ldes")
+				AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
+				[ac_cv_lib_kerberos4="-lkrb -ldes"])
 			])
 		fi
 	])
@@ -922,9 +877,11 @@ if test "x${with_krb4}" != "xno"; then
 
 		CFLAGS_save="$CFLAGS"
 		CFLAGS="$CFLAGS $KRB4_CFLAGS"
-		AC_TRY_COMPILE([#include "krb.h"
-		int krb_sendauth;
-		],[return 0],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO,1,[Need krb_sendauth proto])],)
+		AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+		[[	#include "krb.h"
+			int krb_sendauth;
+		]]
+		,[[]])],[AC_DEFINE(NEED_KRB_SENDAUTH_PROTO,1,[Need krb_sendauth proto])],[])
 		CFLAGS="$CFLAGS_save"
 	fi
 else
@@ -1092,7 +1049,13 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			AC_MSG_RESULT([""])
 
 			CPPFLAGS="$CPPFLAGS -I$with_nspr_includes"
-			AC_CHECK_HEADERS(nspr.h prio.h, [ moz_nspr_includes="yes" ])
+			AC_CHECK_HEADERS([nspr.h prio.h],[ moz_nspr_includes="yes" ],,
+			[[
+				#if HAVE_NSPR_H
+				#include <nspr.h>
+				#include <prio.h>
+				#endif
+			]])
 			CPPFLAGS="$CPPFLAGS_save"
 
 			if test "x{$moz_nspr_includes}" != "xno" -a "x{$moz_nspr_includes}" != "x" ; then
@@ -1134,7 +1097,8 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		       			LDFLAGS="$LDFLAGS"
 				fi
 
-				AC_TRY_LINK_FUNC(PR_Init, ac_cv_moz_nspr_libs="yes", ac_cv_moz_nspr_libs="no")
+				AC_LINK_IFELSE([AC_LANG_CALL([], [PR_Init])],
+				[ac_cv_moz_nspr_libs="yes"], [ac_cv_moz_nspr_libs="no"])
 				CFLAGS="$CFLAGS_save"
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
@@ -1164,7 +1128,14 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 
 			AC_CHECK_HEADERS(nss.h ssl.h smime.h,
 				[ have_nss_includes="yes" ],
-				[ have_nss_includes="no" ])
+				[ have_nss_includes="no" ],
+				[
+					#if HAVE_NSPR_H
+					#include <nss.h>
+					#include <ssl.h>
+					#include <smime.h>
+					#endif
+				])
 
 			CPPFLAGS="$CPPFLAGS_save"
 
@@ -1205,11 +1176,13 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 	 			LIBS_save="$LIBS"
 				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 		      		LIBS="$nsslibs $nsprlibs"
-				AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
+				AC_LINK_IFELSE([AC_LANG_CALL([], [NSS_Init])],
+				[ac_cv_moz_nss_libs="yes"], [ac_cv_moz_nss_libs="no"])
 				if test "$ac_cv_moz_nss_libs" = no; then
 					nsslibs="-lssl3 -lsmime3 -lnss3"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
+					AC_LINK_IFELSE([AC_LANG_CALL([], [NSS_Init])],
+					[ac_cv_moz_nss_libs="yes"], [ac_cv_moz_nss_libs="no"])
 				fi
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
@@ -1304,75 +1277,6 @@ else
 		[Command to kill processes by name])
 fi
 
-dnl ******************************
-dnl OpenSSL
-dnl ******************************
-
-dnl only continue detecting OpenSSL if we haven't already found all of the
-dnl Mozilla libnss includes/libraries and if user actually wants ssl support
-dnl if test "$msg_ssl" = "no" -a "x${enable_openssl}" != "xno"; then
-dnl 	AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
-dnl 		with_openssl_includes="$withval", with_openssl_includes="/usr/include")
-dnl 	have_openssl_includes="no"
-dnl 	if test "x${with_openssl_includes}" != "xno"; then
-dnl 		CPPFLAGS_save="$CPPFLAGS"
-dnl
-dnl 		AC_MSG_CHECKING(for OpenSSL includes)
-dnl 		AC_MSG_RESULT("")
-dnl
-dnl 		CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
-dnl 		AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
-dnl 		CPPFLAGS="$CPPFLAGS_save"
-dnl
-dnl 		if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
-dnl 			have_openssl_includes="yes"
-dnl 			OPENSSL_CFLAGS="-I$with_openssl_includes"
-dnl 		else
-dnl 			OPENSSL_CFLAGS=""
-dnl 		fi
-dnl 	else
-dnl 		AC_MSG_CHECKING(for OpenSSL includes)
-dnl 		AC_MSG_RESULT(no)
-dnl 	fi
-dnl
-dnl 	AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
-dnl 		with_openssl_libs="$withval")
-dnl 	if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
-dnl 		LDFLAGS_save="$LDFLAGS"
-dnl
-dnl 		case $with_openssl_libs in
-dnl 		""|-L*) ;;
-dnl 		*) with_openssl_libs="-L$with_openssl_libs" ;;
-dnl 		esac
-dnl
-dnl 		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
-dnl 		AC_CACHE_CHECK([for OpenSSL libraries], [ac_cv_openssl_libs],
-dnl 		[
-dnl 			LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-dnl 			AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
-dnl 			LDFLAGS="$LDFLAGS_save"
-dnl 		])
-dnl 		if test "x${openssl_libs}" != "xno"; then
-dnl 			AC_DEFINE(HAVE_OPENSSL,1,[Define if you have OpenSSL])
-dnl 			AC_DEFINE(HAVE_SSL)
-dnl 			msg_ssl="yes (OpenSSL)"
-dnl 			OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-dnl 		else
-dnl 			OPENSSL_CFLAGS=""
-dnl 			OPENSSL_LDFLAGS=""
-dnl 		fi
-dnl 	else
-dnl 		AC_MSG_CHECKING(for OpenSSL libraries)
-dnl 		AC_MSG_RESULT(no)
-dnl 	fi
-dnl else
-dnl 	OPENSSL_CFLAGS=""
-dnl 	OPENSSL_LDFLAGS=""
-dnl
-dnl
-dnl AC_SUBST(OPENSSL_CFLAGS)
-dnl AC_SUBST(OPENSSL_LDFLAGS)
-
 dnl *******************
 dnl GObject marshalling
 dnl *******************
@@ -1453,8 +1357,18 @@ FULL_GNOME_DEPS="libbonoboui-2.0 gconf-2.0 gthread-2.0 gobject-2.0 libgnomeui-2.
 
 CPPFLAGS_save="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
-AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
-AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
+AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h,,,
+[[
+	#if HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
+	#include <libgnomeui/gnome-icon-lookup.h>
+	#endif
+]])
+AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h,,,
+[[
+	#if HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+	#include <libgnomeui/gnome-thumbnail.h>
+	#endif
+]])
 CPPFLAGS="$CPPFLAGS_save"
 
 PKG_CHECK_MODULES([HAL], [hal >= hal_minimum_version], [HAVE_HAL="yes"], [HAVE_HAL="no"])
@@ -1468,17 +1382,25 @@ else
 fi
 
 AC_MSG_CHECKING([for yTNEF])
-AC_TRY_COMPILE([#include <stdio.h>
-		#include <ytnef.h>],
-	[TNEFStruct *tnef;], tnef_ok=yes, tnef_ok=no)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[
+		#include <stdio.h>
+		#include <ytnef.h>
+	]],
+	[[	TNEFStruct *tnef;	]]
+	)],	[tnef_ok=yes], [tnef_ok=no])
 if test "$tnef_ok" = "yes"; then
 	AC_MSG_RESULT([yes])
 	TNEF_ATTACHMENTS="tnef-attachments"
 	TNEF_CFLAGS="-DHAVE_YTNEF_H"
 else
-	AC_TRY_COMPILE([#include <stdio.h>
-			#include <libytnef/ytnef.h>],
-		[TNEFStruct *tnef;], tnef_ok=yes, tnef_ok=no)
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+	[[
+		#include <stdio.h>
+		#include <libytnef/ytnef.h>
+	]],
+	[[	TNEFStruct *tnef;	]]
+	)], [tnef_ok=yes], [tnef_ok=no])
 	if test "$tnef_ok" = "yes"; then
 		AC_MSG_RESULT([yes])
 		TNEF_ATTACHMENTS="tnef-attachments"
@@ -1491,7 +1413,53 @@ else
 fi
 AC_SUBST(TNEF_CFLAGS)
 
-echo "TNEF is "$TNEF_ATTACHMENTS
+dnl Check for dbus-glib-1 and dbus
+AC_ARG_ENABLE([dbus],
+	[AS_HELP_STRING([--enable-dbus],
+	[enable DBUS support (default=yes)])],
+	[enable_dbus=$enableval],[enable_dbus=yes])
+AC_MSG_CHECKING([if dbus support is enabled])
+AC_MSG_RESULT([$enable_dbus])
+if test "$enable_dbus" = "yes"; then
+	PKG_CHECK_MODULES([DBUS_GLIB], [dbus-glib-1 >= dbus_minimum_version],
+	[DBUS_SUPPORT="yes"],
+	[AC_MSG_ERROR([DBUS respectively dbus-glib not found! (or version < dbus_minimum_version)!
+	If you want to disable DBUS, please append --disable-dbus to configure!
+	DBUS is required for NetworkManager - NetworkManager support will then be disabled, too!])])
+	AC_DEFINE(DBUS_SUPPORT, 1, [dbus available])
+	AC_SUBST(HAVE_DBUS)
+	AC_SUBST(DBUS_GLIB_CFLAGS)
+	AC_SUBST(DBUS_GLIB_LIBS)
+elif test "$enable_dbus" = "no" -a "$enable_nm" = "yes"; then
+	AC_MSG_ERROR([DBUS disabled and NetworkManager enabled - this won't work!
+	Disable NetworkManager (append --disable-nm to configure)!])
+else
+	AC_MSG_WARN([DBUS support disabled!])
+	DBUS_SUPPORT="no"
+fi
+AM_CONDITIONAL([DBUS_SUPPORT], [test "$DBUS_SUPPORT" = yes])
+
+dnl Check for NetworkManager
+AC_ARG_ENABLE([nm],
+	[AS_HELP_STRING([--enable-nm],
+	[enable NetworkManager support (default=yes)])],
+	[enable_nm=$enableval],[enable_nm=yes])
+AC_MSG_CHECKING([if NetworkManager support is enabled])
+AC_MSG_RESULT([$enable_nm])
+if test "$enable_nm" = yes; then
+	PKG_CHECK_MODULES([NM], [NetworkManager >= nm_minimum_version],
+	[NM_SUPPORT="yes"],
+	[AC_MSG_ERROR([NetworkManager not found (or version < nm_minimum_version)!
+	If you want to disable NetworkManager, please append --disable-nm to configure!])])
+	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
+	AC_SUBST(HAVE_NM)
+	AC_SUBST(NM_CFLAGS)
+else
+	AC_MSG_WARN([NetworkManager support disabled!])
+	NM_SUPPORT="no"
+fi
+
+AM_CONDITIONAL([NM_SUPPORT], [test "$NM_SUPPORT" = yes])
 
 dnl --- Flags for the various libraries we build
 
@@ -1554,22 +1522,7 @@ AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
-
-NM_SUPPORT_PACKAGES=""
-
-PKG_CHECK_MODULES([NM], [dbus-glib-1], [NM_SUPPORT="yes"], [NM_SUPPORT="no"])
-AC_CHECK_HEADER(NetworkManager/NetworkManager.h, [ nm_header="yes" ] )
-if test "x$NM_SUPPORT" = "xyes" -a "x$nm_header" = "xyes"; then
-	AC_DEFINE(NM_SUPPORT, 1, [network manager available])
-	NM_SUPPORT_PACKAGES="dbus-1 dbus-glib-1"
-else
-        NM_SUPPORT=no
-fi
-
-AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
-
-
-EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES unique-1.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1875,29 +1828,6 @@ then
 	fi
 fi
 
-if ${PKG_CONFIG} --exists dbus-glib-1 ; then
-	dnl **************************************************
-	dnl * Mail Notification plugin's DBus messages
-	dnl **************************************************
-	PKG_CHECK_MODULES([NMN], [dbus-glib-1])
-	AC_SUBST(NMN_CFLAGS)
-	AC_SUBST(NMN_LIBS)
-
-	# Get the version of the DBus API, so we can hack around API changes until the API stabilises:
-	# multiply by 1000 to convert decimal to integer; so e.g. 0.31 become 310
-	# since preprocessor values must be integral
-	FOUND_DBUS_VERSION="`$PKG_CONFIG --modversion dbus-1 | $AWK '{print 1000 * $1}'`"
-	AC_SUBST(FOUND_DBUS_VERSION)
-	AC_DEFINE(HAVE_DBUS,1,[Define if you have DBUS support])
-	AC_SUBST(HAVE_DBUS)
-	AM_CONDITIONAL(ENABLE_DBUS, true)
-
-else
-	echo "warning: dbus-glib-1 was not found, Mail notification plugins's dbus message support not built"
-	AM_CONDITIONAL(ENABLE_DBUS, false)
-
-fi
-
 if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 	PKG_CHECK_MODULES([LIBEXCHANGESTORAGE], [libexchange-storage-$EDS_PACKAGE >= eds_minimum_version], [have_libexchange="yes"], [have_libexchange="no"])
 	if test "x$have_libexchange" = "xyes"; then
@@ -2144,21 +2074,18 @@ echo "
 fi
 
 echo "
-	LDAP support:        $msg_ldap
-	HAL:		     $HAVE_HAL"
-if test "$msg_nntp" = "yes"; then
-echo "\
-	NNTP support:        $msg_nntp"
-fi
-echo "\
-	Pilot conduits:      $msg_pilot
-	Libnotify:	     $HAVE_LIBNOTIFY
-	Kerberos 4/5:        $msg_krb4/$msg_krb5
-	SSL support:         $msg_ssl
-	SMIME support:       $msg_smime
-	Plugins:	     $msg_plugins
-	DBus API version:    $FOUND_DBUS_VERSION
-	User documentation:  $with_help
-	Mono bindings:       $enable_mono
-	Python bindings:     $enable_python
+	LDAP support:       $msg_ldap
+	HAL:                $HAVE_HAL
+	DBUS:               $DBUS_SUPPORT
+	NetworkManager:     $NM_SUPPORT
+	NNTP support:       $msg_nntp
+	Pilot conduits:     $msg_pilot
+	Libnotify:          $HAVE_LIBNOTIFY
+	Kerberos 4/5:       $msg_krb4/$msg_krb5
+	SSL support:        $msg_ssl
+	SMIME support:      $msg_smime
+	Plugins:            $msg_plugins
+	User documentation: $with_help
+	Mono bindings:      $enable_mono
+	Python bindings:    $enable_python
 "

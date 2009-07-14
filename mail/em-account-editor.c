@@ -107,6 +107,7 @@ typedef struct _EMAccountEditorService {
 	GtkEntry *path;
 	GtkLabel *pathlabel;
 	GtkWidget *pathentry;
+	GtkWidget *port_hint;
 
 	GtkWidget *ssl_frame;
 	GtkComboBox *use_ssl;
@@ -1967,6 +1968,12 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 		service->pathlabel = (GtkLabel *)glade_xml_get_widget (xml, info->pathlabel);
 		service->pathentry = glade_xml_get_widget (xml, info->pathentry);
 	}
+
+	service->port_hint = glade_xml_get_widget (xml, "port_hint");
+	if (!service->provider || CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST))
+		gtk_widget_show (service->port_hint);
+	else
+		gtk_widget_hide (service->port_hint);
 
 	service->ssl_frame = glade_xml_get_widget (xml, info->security_frame);
 	gtk_widget_hide (service->ssl_frame);

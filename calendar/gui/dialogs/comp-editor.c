@@ -2034,6 +2034,7 @@ comp_editor_set_flags (CompEditor *editor,
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	editor->priv->flags = flags;
+	editor->priv->user_org = flags & COMP_EDITOR_USER_ORG;
 
 	g_object_notify (G_OBJECT (editor), "flags");
 }
@@ -2494,7 +2495,6 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 		priv->comp = e_cal_component_clone (comp);
 
 	priv->existing_org = e_cal_component_has_organizer (comp);
-	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp, priv->client));
 	priv->warned = FALSE;
 
 	update_window_border (editor, NULL);

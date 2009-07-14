@@ -87,6 +87,7 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 	GList *contact_list;
 	GByteArray *array;
 	const gchar *string;
+	const guint8 padding[2] = {0};
 
 	array = g_byte_array_new ();
 	medium = CAMEL_MEDIUM (mime_part);
@@ -96,11 +97,14 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 	data_wrapper = camel_medium_get_content_object (medium);
 	camel_data_wrapper_decode_to_stream (data_wrapper, stream);
 
+	/* because the result is not NULL-terminated */
+	g_byte_array_append (array, padding, 2);
+
 	string = (gchar *) array->data;
 	contact_list = eab_contact_list_from_string (string);
 	vcard_object->contact_list = contact_list;
 
-	camel_object_unref (data_wrapper);
+	camel_object_unref (mime_part);
 	camel_object_unref (stream);
 }
 

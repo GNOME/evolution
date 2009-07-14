@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-07-09 10:06+0000\n"
-"PO-Revision-Date: 2009-07-09 20:57+0200\n"
+"POT-Creation-Date: 2009-07-10 08:46+0000\n"
+"PO-Revision-Date: 2009-07-11 14:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1267,167 +1267,176 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>Misceláneo</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
+#| msgid "<b>Home</b>"
+msgid "<b>Notes</b>"
+msgstr "<b>Notas</b>"
+
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
 msgstr "<b>Otro</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Telephone</b>"
 msgstr "<b>Teléfono</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Web Addresses</b>"
 msgstr "<b>Página web</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "<b>Work</b>"
 msgstr "<b>Trabajo</b>"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../calendar/gui/dialogs/event-page.glade.h:6
 #: ../calendar/gui/dialogs/memo-page.glade.h:1
 msgid "Ca_tegories..."
 msgstr "Ca_tegorías…"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1158
 #: ../addressbook/gui/widgets/e-minicard.c:198
 msgid "Contact"
 msgstr "Contacto"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:542
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:557
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2443
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
 msgstr "_Nombre completo…"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "Image"
 msgstr "Imagen"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Mailing Address"
 msgstr "Dirección de correo"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Nic_kname:"
 msgstr "Apo_do:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: ../calendar/gui/migration.c:1227
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
+msgid "Notes"
+msgstr "Notas"
+
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "Personal Information"
 msgstr "Información personal"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Telephone"
 msgstr "Teléfono"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "_Address:"
 msgstr "_Dirección:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "_Anniversary:"
 msgstr "_Aniversario:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "_Assistant:"
 msgstr "_Secretaría:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Birthday:"
 msgstr "_Cumpleaños:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 #: ../calendar/gui/dialogs/event-page.c:805
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 #: ../plugins/itip-formatter/itip-view.c:1913
 msgid "_Calendar:"
 msgstr "_Calendario:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_City:"
 msgstr "_Ciudad:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Company:"
 msgstr "_Empresa:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Country:"
 msgstr "_País:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Department:"
 msgstr "_Departamento:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_File under:"
 msgstr "A_rchivar como:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Free/Busy:"
 msgstr "_Disponibilidad:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Home Page:"
 msgstr "_Página personal:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Manager:"
 msgstr "_Jefe:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
-msgid "_Notes:"
-msgstr "_Notas:"
-
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Office:"
 msgstr "_Oficina:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_PO Box:"
 msgstr "_Apdo. de correos:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Profession:"
 msgstr "_Profesión:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Spouse:"
 msgstr "_Cónyuge:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_State/Province:"
 msgstr "E_stado/Provincia:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fullname.glade.h:19
 msgid "_Title:"
 msgstr "_Tratamiento:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Video Chat:"
 msgstr "_Charla por vídeo:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Wants to receive HTML mail"
 msgstr "_Quiere recibir el correo como HTML"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "_Web Log:"
 msgstr "_Diario web:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Where:"
 msgstr "_Dónde:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Zip/Postal Code:"
 msgstr "_Código postal:"
 
@@ -2309,7 +2318,7 @@ msgstr "Charla por vídeo"
 #: ../addressbook/gui/widgets/eab-contact-display.c:629
 #: ../calendar/gui/calendar-commands.c:90
 #: ../calendar/gui/dialogs/calendar-setup.c:368
-#: ../calendar/gui/gnome-cal.c:2535
+#: ../calendar/gui/gnome-cal.c:2553
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
 #: ../plugins/exchange-operations/exchange-folder.c:576
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:424
@@ -3328,7 +3337,7 @@ msgstr "_Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:291 ../calendar/gui/e-memos.c:1132
-#: ../calendar/gui/gnome-cal.c:1830 ../calendar/gui/memos-component.c:566
+#: ../calendar/gui/gnome-cal.c:1848 ../calendar/gui/memos-component.c:566
 #: ../calendar/gui/memos-component.c:884 ../calendar/gui/memos-control.c:389
 #: ../calendar/gui/memos-control.c:405
 msgid "Memos"
@@ -3336,7 +3345,7 @@ msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:723 ../calendar/gui/e-tasks.c:1436
-#: ../calendar/gui/gnome-cal.c:1698 ../calendar/gui/print.c:1991
+#: ../calendar/gui/gnome-cal.c:1716 ../calendar/gui/print.c:1991
 #: ../calendar/gui/tasks-component.c:558 ../calendar/gui/tasks-component.c:880
 #: ../calendar/gui/tasks-control.c:528 ../calendar/gui/tasks-control.c:544
 #: ../calendar/importers/icalendar-importer.c:76
@@ -4604,7 +4613,6 @@ msgstr ""
 "correo-e.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#| msgid "<span weight=\"bold\">Alerts</span>"
 msgid "<span weight=\"bold\">Alarms</span>"
 msgstr "<span weight=\"bold\">Alarmas</span>"
 
@@ -4644,7 +4652,6 @@ msgid "Display"
 msgstr "Mostrar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#| msgid "Show display alarms in notification tray"
 msgid "Display alarms in _notification area only"
 msgstr "Mostrar alarmas sólo en el área de _notificación"
 
@@ -7220,39 +7227,39 @@ msgstr "Seleccione la zona horaria"
 msgid "%d %B"
 msgstr "%e de %B"
 
-#: ../calendar/gui/gnome-cal.c:2660
+#: ../calendar/gui/gnome-cal.c:2678
 msgid "_Custom View"
 msgstr "Vista _personalizada"
 
-#: ../calendar/gui/gnome-cal.c:2661
+#: ../calendar/gui/gnome-cal.c:2679
 msgid "_Save Custom View"
 msgstr "_Guardar vista personalizada"
 
-#: ../calendar/gui/gnome-cal.c:2666
+#: ../calendar/gui/gnome-cal.c:2684
 msgid "_Define Views..."
 msgstr "_Definir vistas…"
 
-#: ../calendar/gui/gnome-cal.c:2903
+#: ../calendar/gui/gnome-cal.c:2921
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Cargando citas de %s"
 
-#: ../calendar/gui/gnome-cal.c:2918
+#: ../calendar/gui/gnome-cal.c:2936
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Cargando tareas de %s"
 
-#: ../calendar/gui/gnome-cal.c:2927
+#: ../calendar/gui/gnome-cal.c:2945
 #, c-format
 msgid "Loading memos at %s"
 msgstr "Cargando notas en %s"
 
-#: ../calendar/gui/gnome-cal.c:3039
+#: ../calendar/gui/gnome-cal.c:3057
 #, c-format
 msgid "Opening %s"
 msgstr "Abriendo %s"
 
-#: ../calendar/gui/gnome-cal.c:4007
+#: ../calendar/gui/gnome-cal.c:4025
 msgid "Purging"
 msgstr "Compactando"
 
@@ -7527,13 +7534,6 @@ msgstr "No es posible migrar el calendario «%s»"
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "No es posible migrar las tareas en «%s»"
-
-#: ../calendar/gui/migration.c:1227
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
-msgid "Notes"
-msgstr "Notas"
 
 #: ../calendar/gui/print.c:514
 msgid "1st"
@@ -22969,6 +22969,9 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3790 ../widgets/text/e-text.c:3791
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+#~ msgid "_Notes:"
+#~ msgstr "_Notas:"
 
 #~| msgid "Are you sure you want to delete this meeting?"
 #~ msgid "Do you want to resend the meeting ?"

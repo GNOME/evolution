@@ -27,10 +27,16 @@ AM_CPPFLAGS =							\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
+if NM_SUPPORT
+AM_CPPFLAGS += \
+	$(DBUS_GLIB_CFLAGS) \
+	$(NM_CFLAGS)
+endif
+
 bin_PROGRAMS = evolution
 
 if NM_SUPPORT
-NM_SUPPORT_FILES = e-shell-nm.c 
+NM_SUPPORT_FILES = e-shell-nm.c
 endif
 
 # Data Server CORBA stuff
@@ -102,6 +108,10 @@ libeshell_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(SHELL_LIBS)
+
+if NM_SUPPORT
+libeshell_la_LIBADD += $(DBUS_GLIB_LIBS)
+endif
 
 # Evolution executable
 
