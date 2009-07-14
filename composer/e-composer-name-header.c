@@ -260,7 +260,7 @@ e_composer_name_header_new (const gchar *label,
 
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", TRUE, "name-selector", name_selector, NULL);
+		"button", !e_msg_composer_get_lite(), "name-selector", name_selector, NULL);
 }
 
 EComposerHeader *
@@ -269,7 +269,7 @@ e_composer_name_header_new_with_label (const gchar *label,
 {
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", TRUE,  "name-selector", name_selector,
+		"button", !e_msg_composer_get_lite(),  "name-selector", name_selector,
 		"addaction", FALSE, "visible", TRUE, NULL);
 }
 
@@ -282,7 +282,7 @@ e_composer_name_header_new_with_action (const gchar *label,
 
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
-		"button", TRUE, "name-selector", name_selector,
+		"button", !e_msg_composer_get_lite(), "name-selector", name_selector,
 		"addaction_text", action_label,
 		"addaction", action_label != NULL, NULL);
 }
