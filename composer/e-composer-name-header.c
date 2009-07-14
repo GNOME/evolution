@@ -18,6 +18,7 @@
  *
  */
 
+#include "e-msg-composer.h"
 #include "e-composer-name-header.h"
 
 #include <glib/gi18n.h>
