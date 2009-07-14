@@ -533,6 +533,19 @@ error_cleanup (EActivityHandler *activity_handler)
 	return berror;
 }
 
+static gboolean
+show_intrusive_errors (void)
+{
+	const char *intrusive = NULL;
+
+	intrusive = g_getenv ("EVO-SHOW-INTRUSIVE-ERRORS");
+
+	if (intrusive && g_str_equal (intrusive, "1"))
+		return TRUE;
+	else
+		return FALSE;
+}
+
 guint
 e_activity_handler_make_error (EActivityHandler *activity_handler,
 				      const gchar *component_id,
@@ -548,6 +561,11 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 
 	priv = activity_handler->priv;
 	activity_id = get_new_activity_id (activity_handler);
+
+	if (show_intrusive_errors ()) {
+		gtk_widget_show (error);
+		return activity_id;
+	}
 
 	activity_info = activity_info_new (component_id, activity_id, information, TRUE);
 	activity_info->error = error;
@@ -622,8 +640,9 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 		g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(activity_id));
 		g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(E_LOG_ERROR));
 		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
+		handle_error (task_widget);
 	}
-
+	
 	if (!activity_handler->priv->error_timer)
 		activity_handler->priv->error_timer = g_timeout_add (activity_handler->priv->error_flush_interval, (GSourceFunc) error_cleanup, activity_handler);
 }
