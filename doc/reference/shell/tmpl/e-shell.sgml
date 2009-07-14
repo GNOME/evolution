@@ -284,6 +284,14 @@ EShell
 @shell: 
 
 
+<!-- ##### FUNCTION e_shell_cancel_quit ##### -->
+<para>
+
+</para>
+
+@shell: 
+
+
 <!-- ##### MACRO E_SHELL_MIGRATE_ERROR ##### -->
 <para>
 
