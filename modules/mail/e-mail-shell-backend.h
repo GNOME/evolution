@@ -63,13 +63,6 @@ struct _EMailShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-/* Globally available shell backend.
- *
- * XXX I don't like having this globally available but passing it around
- *     to all the various utilities that need to access the backend's data
- *     directory is too much of a pain for now. */
-extern EMailShellBackend *global_mail_shell_backend;
-
 GType		e_mail_shell_backend_get_type	(void);
 void		e_mail_shell_backend_register_type
 					(GTypeModule *type_module);

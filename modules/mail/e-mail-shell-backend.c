@@ -79,11 +79,6 @@ struct _EMailShellBackendPrivate {
 static gpointer parent_class;
 static GType mail_shell_backend_type;
 
-/* XXX So many things need the shell backend that it's
- *     just easier for now to make it globally available.
- *     We should fix this, though. */
-EMailShellBackend *global_mail_shell_backend = NULL;
-
 extern gint camel_application_is_exiting;
 
 static void
@@ -582,9 +577,6 @@ mail_shell_backend_constructed (GObject *object)
 	mail_shell_backend_init_importers ();
 
 	e_attachment_handler_mail_get_type ();
-
-	/* XXX This never gets unreffed. */
-	global_mail_shell_backend = g_object_ref (shell_backend);
 
 	g_signal_connect (
 		shell, "notify::online",
