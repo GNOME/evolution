@@ -432,6 +432,8 @@ shell/import.glade
 shell/main.c
 shell/shell.error.xml
 shell/test/e-test-shell-backend.c
+smclient/eggdesktopfile.c
+smclient/eggsmclient.c
 smime/gui/ca-trust-dialog.c
 smime/gui/cert-trust-dialog.c
 smime/gui/certificate-manager.c
