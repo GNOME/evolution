@@ -339,7 +339,7 @@ action_contact_new_cb (GtkAction *action,
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
-	GtkWidget *editor;
+	EABEditor *editor;
 	EBook *book;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -356,7 +356,7 @@ action_contact_new_cb (GtkAction *action,
 
 	contact = e_contact_new ();
 	editor = e_contact_editor_new (shell, book, contact, TRUE, TRUE);
-	eab_editor_show (EAB_EDITOR (editor));
+	eab_editor_show (editor);
 	g_object_unref (contact);
 }
 
@@ -371,7 +371,7 @@ action_contact_new_list_cb (GtkAction *action,
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
-	GtkWidget *editor;
+	EABEditor *editor;
 	EBook *book;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -388,7 +388,7 @@ action_contact_new_list_cb (GtkAction *action,
 
 	contact = e_contact_new ();
 	editor = e_contact_list_editor_new (shell, book, contact, TRUE, TRUE);
-	eab_editor_show (EAB_EDITOR (editor));
+	eab_editor_show (editor);
 	g_object_unref (contact);
 }
 
