@@ -2825,7 +2825,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				gchar *uri = (gchar *)e_account_get_string (emae->account, E_ACCOUNT_TRANSPORT_URL);
 				emae->priv->send_set = 1;
 				tmp = e_account_get_string (emae->account, E_ACCOUNT_ID_ADDRESS);
-				at = strchr (tmp, '@');
+				at = strrchr (tmp, '@');
 				user = g_alloca (at-tmp+1);
 				memcpy (user, tmp, at-tmp);
 				user[at-tmp] = 0;
