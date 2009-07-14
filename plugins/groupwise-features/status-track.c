@@ -48,12 +48,10 @@ static gchar *
 format_date (const gchar * value)
 {
 	time_t time;
-	time_t actual_time;
 	gchar *str;
 
 	time = e_gw_connection_get_date_from_string (value);
-	actual_time = camel_header_decode_date (ctime(&time), NULL);
-	str = ctime (&actual_time);
+	str = ctime (&time);
 
 	str [strlen(str)-1] = '\0';
 	return str;
