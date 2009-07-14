@@ -314,9 +314,6 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		 * (like Arabic and Hebrew) may need to add bidirectional
 		 * formatting codes to take care of the cases the folder
 		 * name appears in either direction.
-		 *
-		 * Do not translate the "folder-display|" part. Remove it
-		 * from your translation.
 		 */
 		display = g_strdup_printf (C_("folder-display", "%s (%u%s)"), name, unread, subdirs_unread ? "+" : "");
 		g_free (name);
