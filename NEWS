@@ -1,10 +1,12 @@
-Evolution 2.27.4 2009-07-13
+Evolution 2.27.4 2009-07-15
 ---------------------------
 
 Bug Fixes:
 
 Addressbook:
 	#561300 - Edit contact's Notes on its own tab. (Milan Crha)
+	#586109 - [vcard-inline] Crash while rendering inline vcard (Milan Crha)
+	#555326 - Suppress Del key press in Contacts source selector (Marcel Stimberg)
 
 Calendar:
 	#586251 - Let the SSL checkbox for Google calendar work (Milan Crha)
@@ -25,6 +27,8 @@ Mail:
 	#568302 - Skip "noselect=yes" folders on Send/Receive (Milan Crha)
 	#268644 - unread mail shortcut collides with gtk tree search (Milan Crha)
 	#587699 - Localize only local folder names (Milan Crha)
+	#214238 - Indicate unread emails in closed tree subfolders (Milan Crha)
+	#586958 - Too long texts instartup wizard (Michael Terry)
 
 Plugins:
 	#586332 - Build error (long gint) (Matthew Barnes)
@@ -44,6 +48,8 @@ Misc:
 	#587138 - Require libxml2 2.7.3 (Yavor Doganov)
 	#587374 - iconv test broken on some gcc (Matthew Barnes)
 	#586991 – Require autoconf 2.58 / various configure cleanups (H.Habighorst)
+	#588277 – Unnecessary special-purpose configure flag (Matthew Barnes)
+	#588018 – NetworkManager & DBUS build check rewrite (H.Habighorst)
 
 Other Fixes:
 
@@ -67,6 +73,8 @@ Misc:
 	Use AM_CPPFLAGS instead of INCLUDE in all Makefile.am. (Matthew Barnes)
 	Fix whitespace issues in em-account-editor.c. (Matthew Barnes)
 	Kill EConfigListener. (Matthew Barnes)
+	Work around deprecation of g_mount_unmount(). (Matthew Barnes)
+
 
 Translations:
 	Manoj Kumar (or)
