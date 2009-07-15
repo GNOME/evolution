@@ -67,7 +67,7 @@ GType em_account_editor_get_type(void);
 EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, const gchar *id);
 EMAccountEditor *em_account_editor_new_for_pages(EAccount *account, em_account_editor_t type, gchar *id, GtkWidget **pages);
 void em_account_editor_commit (EMAccountEditor *emae);
-void em_account_editor_check (EMAccountEditor *emae, const gchar *page);
+gboolean em_account_editor_check (EMAccountEditor *emae, const gchar *page);
 
 gboolean em_account_editor_save (EMAccountEditor *gui);
 void em_account_editor_destroy (EMAccountEditor *gui);

@@ -2924,10 +2924,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	return ok;
 }
 
-void
+gboolean
 em_account_editor_check (EMAccountEditor *emae, const gchar *page)
 {
-	emae_check_complete ((EConfig *)emae->config, page, emae);
+	return emae_check_complete ((EConfig *)emae->config, page, emae);
 }
 
 /* HACK: FIXME: the component should listen to the account object directly */
