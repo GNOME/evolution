@@ -1,21 +1,22 @@
-# translation of evolution.HEAD.gu.po to Gujarati
+# translation of gu.po to Gujarati
 #: ../shell/main.c:603
 # Ankit Patel <ankit644@yahoo.com>, 2005, 2006.
 # Ankit Patel <ankit@redhat.com>, 2007, 2008, 2009.
 # Sweta Kothari <swkothar@redhat.com>, 2008, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.gu\n"
+"Project-Id-Version: gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-10 13:16+0000\n"
-"PO-Revision-Date: 2009-03-16 13:05+0530\n"
-"Last-Translator: Ankit Patel <ankit@redhat.com>\n"
-"Language-Team: Gujarati <fedora-trans-gu@redhat.com>\n"
+"PO-Revision-Date: 2009-07-15 04:38-0400\n"
+"Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
+"Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -392,7 +393,7 @@ msgstr "કોમ્બો બટન"
 
 #: ../a11y/widgets/ea-combo-button.c:66
 msgid "Activate Default"
-msgstr "મૂળભુત સક્રિય કરો"
+msgstr "મૂળભૂત સક્રિય કરો"
 
 #: ../a11y/widgets/ea-combo-button.c:68
 msgid "Popup Menu"
@@ -518,7 +519,7 @@ msgid ""
 "supported search bases."
 msgstr ""
 "આ LDAP સર્વર કદાચ LDAP ની જૂની આવૃત્તિ વાપરે છે; કે જે આ વિધેયોને આધાર આપતું નથી અથવા તે "
-"કદાચ રુપરેખાંકિત થયેલ નથી. તમારા સંચાલકને શોધ માટેના આધારો માટે પૂછો."
+"કદાચ રૂપરેખાંકિત થયેલ નથી. તમારા સંચાલકને શોધ માટેના આધારો માટે પૂછો."
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book could not be opened."
@@ -627,7 +628,7 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:491
 msgid "Default Sync Address:"
-msgstr "મૂળભુત સીંક સરનામુ:"
+msgstr "મૂળભૂત સીંક સરનામુ:"
 
 #: ../addressbook/conduit/address-conduit.c:1521
 #: ../addressbook/conduit/address-conduit.c:1522
@@ -654,7 +655,7 @@ msgstr "પ્રમાણપત્રો"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખાંકિત કરો"
+msgstr "આપોઆપ સંપૂર્ણ અંહિ રૂપરેખાંકિત કરો"
 
 #. ensure the group name is in current locale, not read from configuration
 #. Create the contacts group
@@ -693,7 +694,7 @@ msgstr "ઈવોલ્યુશન S/MIME પ્રમાણપત્ર વ્
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr "ઈવોલ્યુશન ફોલ્ડર સુયોજનો રુપરેખા નિયંત્રણ"
+msgstr "ઈવોલ્યુશન ફોલ્ડર સુયોજનો રૂપરેખા નિયંત્રણ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
@@ -4661,7 +4662,7 @@ msgstr "કેલેન્ડરો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "તમારો ટાઈમઝોન રુપરેખાંકિત કરો, અંહિ કેલેન્ડર અને બાબતોની યાદી"
+msgstr "તમારો ટાઈમઝોન રૂપરેખાંકિત કરો, અંહિ કેલેન્ડર અને બાબતોની યાદી"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
@@ -4669,7 +4670,7 @@ msgstr "ઈવોલ્યુશન કેલેન્ડર અને બાબ
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
-msgstr "ઈવોલ્યુશન કેલેન્ડર રુપરેખાંકન નિયંત્રણ"
+msgstr "ઈવોલ્યુશન કેલેન્ડર રૂપરેખાંકન નિયંત્રણ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
@@ -4793,7 +4794,7 @@ msgstr "કાઢી નાંખો (_D)"
 #: ../ui/evolution-tasks.xml.h:25 ../ui/evolution.xml.h:42
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit"
-msgstr "ફેરફાર કરો (_E)"
+msgstr "ફેરફાર (_E)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "_Snooze"
@@ -4837,7 +4838,7 @@ msgid ""
 msgstr ""
 "ઈવોલ્યુશન ઈ-મેઈલ સૂચનો સાથે હજુ સુધી કેલેન્ડર \n"
 "રીમાઈન્ડર સાથે આધાર આપતા નથી, પરંતુ આ રીમાઈન્ડર\n"
-"ઈ-મેઈલ મોકલવા સાથે રુપરેખાંકિત થયો નથી. ઈવોલ્યુશન\n"
+"ઈ-મેઈલ મોકલવા સાથે રૂપરેખાંકિત થયો નથી. ઈવોલ્યુશન\n"
 "સામાન્ય રીમાઈન્ડર સાથે સંવાદ બોક્સ પ્રદર્શિત થશે."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1728
@@ -4851,7 +4852,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 "ઈવોલ્યુશન કેલેન્ડર રીમાઈન્ડર ફેરબદલી કરવા માટે છે. આ રીમાઈન્ડર નીચેનો કાર્યક્રમ ચલાવવા "
-"માટે રુપરેખાંકિત થયેલ છે:\n"
+"માટે રૂપરેખાંકિત થયેલ છે:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -4933,7 +4934,7 @@ msgstr "ના માટે એલાર્મ ચલાવવાના કે�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr "માર્કસ બેઈન્સ લીટી ટાઈમ બારમાં દોરવા માટેનો રંગ (મૂળભુત માટે ખાલી)."
+msgstr "માર્કસ બેઈન્સ લીટી ટાઈમ બારમાં દોરવા માટેનો રંગ (મૂળભૂત માટે ખાલી)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid "Color to draw the Marcus Bains line in the Day View."
@@ -4953,15 +4954,15 @@ msgstr "દિવસો કે જેના પર કામ કરવાના 
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Default appointment reminder"
-msgstr "મુલાકાત યાદ અપાવનાર મૂળભુત"
+msgstr "મુલાકાત યાદ અપાવનાર મૂળભૂત"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Default reminder units"
-msgstr "મૂળભુત યાદ અપાવનાર એકમો"
+msgstr "મૂળભૂત યાદ અપાવનાર એકમો"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Default reminder value"
-msgstr "મૂળભુત યાદ અપાવનાર કિંમતો"
+msgstr "મૂળભૂત યાદ અપાવનાર કિંમતો"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Directory for saving alarm audio files"
@@ -5216,7 +5217,7 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
-"કેલેન્ડરમાં તારીખો અને સમયો માટે વાપરવાનો મૂળભુત ટાઈમઝોન, \"America/New York\" જેવી "
+"કેલેન્ડરમાં તારીખો અને સમયો માટે વાપરવાનો મૂળભૂત ટાઈમઝોન, \"America/New York\" જેવી "
 "જગ્યા જેવી બિનભાષાંતરિક ઓલ્સન ટાઈમઝોન ડેટાબેઝની જેમ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
@@ -5254,7 +5255,7 @@ msgstr "ચોવીસ કલાક સમય બંધારણ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "મૂળભુત યાદ અપાવનાર માટેના એકમો, \"minutes\", \"hours\" અથવા \"days\"."
+msgstr "મૂળભૂત યાદ અપાવનાર માટેના એકમો, \"minutes\", \"hours\" અથવા \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
@@ -5302,7 +5303,7 @@ msgstr "બાબતોના દેખાવમાં શું પૂર્ણ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
 msgid "Whether to set a default reminder for appointments."
-msgstr "શું મુલાકાતો માટે મૂળભુત યાદ અપાવનાર સુયોજિત કરવું."
+msgstr "શું મુલાકાતો માટે મૂળભૂત યાદ અપાવનાર સુયોજિત કરવું."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -11157,7 +11158,7 @@ msgstr "તમે આ મદદપત્રિકામાં ફાઈલ `{0}'
 
 #: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
-msgstr "તમે મેઈલ કમ્પોઝ કરો તે પહેલા ખાતુ રુપરેખાંકિત કરવાની જરુર છે."
+msgstr "તમે મેઈલ કમ્પોઝ કરો તે પહેલા ખાતુ રૂપરેખાંકિત કરવાની જરુર છે."
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Continue Editing"
@@ -11712,19 +11713,19 @@ msgstr "કમ્પોઝર પસંદગીઓ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Configure mail preferences, including security and message display, here"
-msgstr "મેઈલની પસંદગીઓ રુપરેખાંકિત કરો, સુરક્ષા અને સંદેશા પ્રદર્શનને સમાવીને, અંહિ"
+msgstr "મેઈલની પસંદગીઓ રૂપરેખાંકિત કરો, સુરક્ષા અને સંદેશા પ્રદર્શનને સમાવીને, અંહિ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "અંહિ જોડણી-ચકાસણી, સહીઓ, અને સંદેશા કમ્પોઝર રુપરેખાંકિત કરો"
+msgstr "અંહિ જોડણી-ચકાસણી, સહીઓ, અને સંદેશા કમ્પોઝર રૂપરેખાંકિત કરો"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "તમારા ઈ-મેઈલ ખાતાઓ અંહિ રુપરેખાંકિત કરો"
+msgstr "તમારા ઈ-મેઈલ ખાતાઓ અંહિ રૂપરેખાંકિત કરો"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your network connection settings here"
-msgstr "તમારા નેટવર્ક જોડાણ સુયોજનાઓ અંહિ રુપરેખાંકિત કરો"
+msgstr "તમારા નેટવર્ક જોડાણ સુયોજનાઓ અંહિ રૂપરેખાંકિત કરો"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail"
@@ -11732,7 +11733,7 @@ msgstr "ઈવોલ્યુશન મેઈલ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr "ઈવોલ્યુશન મેઈલ ખાતાઓ રુપરેખાંકન નિયંત્રણ"
+msgstr "ઈવોલ્યુશન મેઈલ ખાતાઓ રૂપરેખાંકન નિયંત્રણ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
@@ -11744,7 +11745,7 @@ msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail composer configuration control"
-msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર રુપરેખાંકન નિયંત્રણ"
+msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર રૂપરેખાંકન નિયંત્રણ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:11
 msgid "Evolution Mail preferences control"
@@ -11835,7 +11836,7 @@ msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
 
 #: ../mail/em-account-editor.c:2385 ../mail/mail-config.glade.h:67
 msgid "Defaults"
-msgstr "મૂળભુતો"
+msgstr "મૂળભૂતો"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2451 ../mail/mail-config.glade.h:132
@@ -11863,7 +11864,7 @@ msgstr "ઈવોલ્યુશન ખાતા મદદનીશ"
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:429
 msgid "[Default]"
-msgstr "[મૂળભુત]"
+msgstr "[મૂળભૂત]"
 
 #: ../mail/em-account-prefs.c:488
 msgid "Account name"
@@ -12579,7 +12580,7 @@ msgstr "મેઈલિંગ લીસ્ટ આધારિત ગાળણ (_
 #: ../plugins/google-account-setup/google-source.c:510
 #: ../plugins/google-account-setup/google-source.c:708
 msgid "Default"
-msgstr "મૂળભુત"
+msgstr "મૂળભૂત"
 
 #: ../mail/em-folder-view.c:2518
 msgid "Unable to retrieve message"
@@ -13239,11 +13240,11 @@ msgstr "સાઈટનો પ્રકાશક રંગ."
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Composer Window default height"
-msgstr "કમ્પોઝર વિન્ડોની મૂળભુત ઊંચાઈ"
+msgstr "કમ્પોઝર વિન્ડોની મૂળભૂત ઊંચાઈ"
 
 #: ../mail/evolution-mail.schemas.in.h:13
 msgid "Composer Window default width"
-msgstr "કમ્પોઝર વિન્ડોની મૂળભુત પહોળાઈ"
+msgstr "કમ્પોઝર વિન્ડોની મૂળભૂત પહોળાઈ"
 
 #: ../mail/evolution-mail.schemas.in.h:14
 msgid "Composer load/attach directory"
@@ -13277,23 +13278,23 @@ msgstr "જ્યારે બગડેલ માટે ચકાસી રહ�
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
-msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે"
+msgstr "અક્ષરોનો મૂળભૂત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Default charset in which to compose messages."
-msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે."
+msgstr "અક્ષરોનો મૂળભૂત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે."
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default charset in which to display messages"
-msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે"
+msgstr "અક્ષરોનો મૂળભૂત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે"
 
 #: ../mail/evolution-mail.schemas.in.h:23
 msgid "Default charset in which to display messages."
-msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે."
+msgstr "અક્ષરોનો મૂળભૂત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે."
 
 #: ../mail/evolution-mail.schemas.in.h:24
 msgid "Default forward style"
-msgstr "મૂળભુત આગળ ધપાવવાની શૈલી"
+msgstr "મૂળભૂત આગળ ધપાવવાની શૈલી"
 
 #: ../mail/evolution-mail.schemas.in.h:25
 msgid "Default height of the Composer Window."
@@ -13309,7 +13310,7 @@ msgstr "ઉમેદવારી સંવાદની મૂળભૂત ઊં
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid "Default reply style"
-msgstr "વળતા જવાબની મૂળભુત શૈલી"
+msgstr "વળતા જવાબની મૂળભૂત શૈલી"
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
@@ -13640,11 +13641,11 @@ msgstr "સંદેશા \"Preview\" માં સાઈટ બનાવવા
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Message Window default height"
-msgstr "સંદેશા વિન્ડોની મૂળભુત ઊંચાઈ"
+msgstr "સંદેશા વિન્ડોની મૂળભૂત ઊંચાઈ"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 msgid "Message Window default width"
-msgstr "સંદેશા વિન્ડોની મૂળભુત પહોળાઈ"
+msgstr "સંદેશા વિન્ડોની મૂળભૂત પહોળાઈ"
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
@@ -13746,11 +13747,11 @@ msgstr "સ્થાનિક સરનામાપુસ્તિકાઓમ�
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Send HTML mail by default"
-msgstr "મૂળભુત રીતે HTML મેઈલ મોકલો"
+msgstr "મૂળભૂત રીતે HTML મેઈલ મોકલો"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Send HTML mail by default."
-msgstr "મૂળભુત રીતે HTML મેઈલ મોકલો."
+msgstr "મૂળભૂત રીતે HTML મેઈલ મોકલો."
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Sender email-address column in the message list"
@@ -13804,11 +13805,11 @@ msgstr "ભાષામાં જોડણી ચકાસો"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Subscribe dialog default height"
-msgstr "સંવાદની મૂળભુત ઊંચાઈ નોંધાવો"
+msgstr "સંવાદની મૂળભૂત ઊંચાઈ નોંધાવો"
 
 #: ../mail/evolution-mail.schemas.in.h:134
 msgid "Subscribe dialog default width"
-msgstr "સંવાદની મૂળભુત પહોળાઈ નોંધાવો"
+msgstr "સંવાદની મૂળભૂત પહોળાઈ નોંધાવો"
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "Terminal font"
@@ -14253,11 +14254,11 @@ msgstr "<span weight=\"bold\">સંદેશાઓ કમ્પોઝ કરી
 
 #: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\">રુપરેખાંકન</span>"
+msgstr "<span weight=\"bold\">રૂપરેખાંકન</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr "<span weight=\"bold\">મૂળભુત વર્તણૂક</span>"
+msgstr "<span weight=\"bold\">મૂળભૂત વર્તણૂક</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
@@ -14326,7 +14327,7 @@ msgstr "<span weight=\"bold\">મોકલાયેલ અને ડ્રાફ
 
 #: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">સર્વર રુપરેખાંકન</span>"
+msgstr "<span weight=\"bold\">સર્વર રૂપરેખાંકન</span>"
 
 #: ../mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">_Authentication Type</span>"
@@ -14433,7 +14434,7 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"અભિનંદન, તમારુ મેઈલ રુપરેખાંકન પૂર્ણ થયું.\n"
+"અભિનંદન, તમારુ મેઈલ રૂપરેખાંકન પૂર્ણ થયું.\n"
 "\n"
 "તમે હવે Evolution દ્વારા મેઈલ મોકલવા અને \n"
 "મેળવવા માટે તૈયાર છો. \n"
@@ -14442,11 +14443,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
-msgstr "મૂળભુત (_f)"
+msgstr "મૂળભૂત (_f)"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr "અક્ષરોની મૂળભુત સંગ્રહપદ્ધતિ (_n):"
+msgstr "અક્ષરોની મૂળભૂત સંગ્રહપદ્ધતિ (_n):"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
@@ -14503,7 +14504,7 @@ msgstr "એનક્રિપ્શન પ્રમાણપત્ર (_p):"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Encrypt out_going messages (by default)"
-msgstr "જતા સંદેશાઓ એનક્રિપ્ટ કરો (મૂળભુત રીતે) (_g)"
+msgstr "જતા સંદેશાઓ એનક્રિપ્ટ કરો (મૂળભૂત રીતે) (_g)"
 
 #: ../mail/mail-config.glade.h:85
 msgid "Fi_xed-width:"
@@ -14563,7 +14564,7 @@ msgstr "ભાષાઓનું કોષ્ટક"
 
 #: ../mail/mail-config.glade.h:102
 msgid "Mail Configuration"
-msgstr "મેઈલ રુપરેખાંકન"
+msgstr "મેઈલ રૂપરેખાંકન"
 
 #: ../mail/mail-config.glade.h:103
 msgid "Mail Headers Table"
@@ -14799,7 +14800,7 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Evolution મેઈલ રુપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
+"Evolution મેઈલ રૂપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
 "\n"
 "શરુઆત કરવા માટે \"આગળ ધપાવો\" પર ક્લિક કરો. "
 
@@ -14845,7 +14846,7 @@ msgstr "સ્થાનિક સરનામાપોથીને ફક્ત 
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Make this my default account"
-msgstr "આને મારુ મૂળભુત ખાતું બનાવો (_M)"
+msgstr "આને મારુ મૂળભૂત ખાતું બનાવો (_M)"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Manual proxy configuration:"
@@ -14906,7 +14907,7 @@ msgstr "સુરક્ષિત જોડાણ વાપરો (_U):"
 
 #: ../mail/mail-config.glade.h:193
 msgid "_Use system defaults"
-msgstr "મૂળભુત સિસ્ટમ વાપરો (_U)"
+msgstr "મૂળભૂત સિસ્ટમ વાપરો (_U)"
 
 #: ../mail/mail-config.glade.h:194
 msgid "_Use the same fonts as other applications"
@@ -15746,7 +15747,7 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"સંપર્ક યાદી કે જે તમે મોકલી રહ્યા છો તે મેળવનારોની યાદી છુપાવો એ રીતે રુપરેખાંકિત થયેલ છે.\n"
+"સંપર્ક યાદી કે જે તમે મોકલી રહ્યા છો તે મેળવનારોની યાદી છુપાવો એ રીતે રૂપરેખાંકિત થયેલ છે.\n"
 "\n"
 "ઘણી સિસ્ટમો જાતે જ સંદેશાને પ્રતિ હેડર ઉમેરી દે છે જે સંદેશાઓને માત્ર ખબર પડ્યા વિના આને પણ "
 "હેડર હોય. જો આ હેડર ઉમેરાશે, તો તે તમારા સંદેશા મેળવનરા બધાનેે યાદીત કરે છે. આની અવગણના "
@@ -15838,11 +15839,11 @@ msgstr "લાઈસન્સ ફાઈલ વાંચવામાં અસમ
 
 #: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
-msgstr "મૂળભુત વાપરો (_D)"
+msgstr "મૂળભૂત વાપરો (_D)"
 
 #: ../mail/mail.error.xml.h:123
 msgid "Use default drafts folder?"
-msgstr "શું મૂળભુત ડ્રાફ્ટ ફોલ્ડર વાપરવું છે?"
+msgstr "શું મૂળભૂત ડ્રાફ્ટ ફોલ્ડર વાપરવું છે?"
 
 #: ../mail/mail.error.xml.h:124
 msgid ""
@@ -16595,23 +16596,23 @@ msgstr "સાધનની નકલ કરો"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "શું Evolution મૂળભુત મેઈલ કરનાર છે તે ચકાસો"
+msgstr "શું Evolution મૂળભૂત મેઈલ કરનાર છે તે ચકાસો"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "દર વખતે Evolution શરૂ થાય, ત્યારે ચકાસો કે શું તે મૂળભુત મેઈલ કરનાર છે કે નહિં."
+msgstr "દર વખતે Evolution શરૂ થાય, ત્યારે ચકાસો કે શું તે મૂળભૂત મેઈલ કરનાર છે કે નહિં."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "ચકાસે છે કે શું Evolution એ શરૂઆત થવા પર મૂળભુત મેઈલ ક્લાઈન્ટ છે."
+msgstr "ચકાસે છે કે શું Evolution એ શરૂઆત થવા પર મૂળભૂત મેઈલ ક્લાઈન્ટ છે."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
-msgstr "મૂળભુત મેઈલ ક્લાઈન્ટ"
+msgstr "મૂળભૂત મેઈલ ક્લાઈન્ટ"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "શું તમે Evolution ને તમારું મૂળભુત ઈ-મેઈલ ક્લાઈન્ટ બનાવવા માંગો છો?"
+msgstr "શું તમે Evolution ને તમારું મૂળભૂત ઈ-મેઈલ ક્લાઈન્ટ બનાવવા માંગો છો?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:599
@@ -19454,7 +19455,7 @@ msgstr "લેખકો"
 
 #: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
-msgstr "રુપરેખાંકન"
+msgstr "રૂપરેખાંકન"
 
 #: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
@@ -20056,11 +20057,11 @@ msgstr "રૂપરેખાંકન આવૃત્તિ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
-msgstr "આડીપટ્ટીની મૂળભુત પહોળાઈ"
+msgstr "આડીપટ્ટીની મૂળભૂત પહોળાઈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Default window height"
-msgstr "મૂળભુત વિન્ડો ઊંચાઈ"
+msgstr "મૂળભૂત વિન્ડો ઊંચાઈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default window state"
@@ -20068,7 +20069,7 @@ msgstr "મૂળભૂત વિન્ડો સ્થિતિ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window width"
-msgstr "મૂળભુત વિન્ડો પહોળાઈ"
+msgstr "મૂળભૂત વિન્ડો પહોળાઈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
@@ -20094,7 +20095,7 @@ msgstr "HTTP પ્રોક્સી વપરાશકર્તા નામ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "શરુઆતમાં ભાગનું ID અથવા ઉપનામ મૂળભુત રીતે દેખાય છે."
+msgstr "શરુઆતમાં ભાગનું ID અથવા ઉપનામ મૂળભૂત રીતે દેખાય છે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid ""
@@ -20172,15 +20173,15 @@ msgstr "Evolution ની રૂપરેખાંકિત આવૃત્તિ
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "The default height for the main window, in pixels."
-msgstr "મુખ્ય વિન્ડો માટે મૂળભુત ઊંચાઈ, પિક્સેલોમાં."
+msgstr "મુખ્ય વિન્ડો માટે મૂળભૂત ઊંચાઈ, પિક્સેલોમાં."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "The default width for the main window, in pixels."
-msgstr "મુખ્ય વિન્ડો માટે મૂળભુત પહોળાઈ, પિક્સેલોમાં."
+msgstr "મુખ્ય વિન્ડો માટે મૂળભૂત પહોળાઈ, પિક્સેલોમાં."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid "The default width for the sidebar, in pixels."
-msgstr "બાજુની પટ્ટી માટે મૂળભુત પહોળાઈ, પિક્સેલોમાં."
+msgstr "બાજુની પટ્ટી માટે મૂળભૂત પહોળાઈ, પિક્સેલોમાં."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid ""
@@ -20452,7 +20453,7 @@ msgstr "OAF પર નોંધ કરાવી શકતા નથી"
 
 #: ../shell/e-shell.c:1267
 msgid "Configuration Database not found"
-msgstr "રુપરેખાંકન ડેટાબેઝ મળ્યો નથી"
+msgstr "રૂપરેખાંકન ડેટાબેઝ મળ્યો નથી"
 
 #: ../shell/e-user-creatable-items-handler.c:678
 #: ../shell/e-user-creatable-items-handler.c:688
@@ -20655,7 +20656,7 @@ msgstr ""
 "ચકાસણી કરો અને પછી Evolution ની આ આવૃત્તિ આ જૂની માહિતી કાઢ્યા પહેલાં યોગ્ય રીતે કામ "
 "કરશે.\n"
 "\n"
-"એક વખત કાઢી નાંખ્યા પછી, જાતે રુપરેખાંકન કર્યા વગર તમે Evolution ની પહેલાની આવૃત્તિ પર "
+"એક વખત કાઢી નાંખ્યા પછી, જાતે રૂપરેખાંકન કર્યા વગર તમે Evolution ની પહેલાની આવૃત્તિ પર "
 "પાછા જઈ શકતા નથી.\n"
 
 #: ../shell/shell.error.xml.h:16
@@ -20696,7 +20697,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"તમારી સિસ્ટમનું રુપરેખાંકન તમારા Evolution ના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"તમારી સિસ્ટમનું રૂપરેખાંકન તમારા Evolution ના રૂપરેખાંકન સાથે બંધબેસતું નથી.\n"
 "\n"
 "વિગતો માટે મદદ પર ક્લિક કરો"
 
@@ -20708,7 +20709,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"તમારી સિસ્ટમનું રુપરેખાંકન તમારા Evolution ના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"તમારી સિસ્ટમનું રૂપરેખાંકન તમારા Evolution ના રૂપરેખાંકન સાથે બંધબેસતું નથી.\n"
 "{0}\n"
 "\n"
 "વિગતો માટે મદદ પર ક્લિક કરો."
@@ -22437,7 +22438,7 @@ msgstr "કતારમાં રહેલી વસ્તુઓ મોકલો
 
 #: ../ui/evolution.xml.h:26
 msgid "Set up Pilot configuration"
-msgstr "પાયલોટ રુપરેખાંકન સુયોજિત કરો"
+msgstr "પાયલોટ રૂપરેખાંકન સુયોજિત કરો"
 
 #: ../ui/evolution.xml.h:28
 msgid "Show Side _Bar"
