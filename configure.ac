@@ -1,7 +1,7 @@
 # Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
-m4_define([evo_micro_version], [4])
+m4_define([evo_micro_version], [5])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -20,7 +20,7 @@ m4_define([upgrade_revision], [0])
 
 # Autoconf / Automake Initialization
 AC_PREREQ(2.58)
-AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
+AC_INIT([evolution],[evo_version.1],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
 AM_INIT_AUTOMAKE([gnu 1.9])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
