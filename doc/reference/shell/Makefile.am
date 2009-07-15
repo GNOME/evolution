@@ -113,6 +113,9 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/filter/.libs/filter-rule.o			\
 	$(top_builddir)/filter/.libs/rule-context.o			\
 	$(top_builddir)/filter/.libs/rule-editor.o			\
+	$(top_builddir)/smclient/.libs/eggdesktopfile.o			\
+	$(top_builddir)/smclient/.libs/eggsmclient.o			\
+	$(top_builddir)/smclient/.libs/eggsmclient-xsmp.o		\
 	$(top_builddir)/widgets/menus/.libs/gal-define-views-dialog.o	\
 	$(top_builddir)/widgets/menus/.libs/gal-view-collection.o	\
 	$(top_builddir)/widgets/menus/.libs/gal-view-factory.o		\

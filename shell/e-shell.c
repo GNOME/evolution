@@ -26,6 +26,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-module.h"
+#include "smclient/eggsmclient.h"
 #include "widgets/misc/e-preferences-window.h"
 
 #include "e-shell-backend.h"
@@ -90,7 +91,7 @@ static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 #if NM_SUPPORT
-void e_shell_dbus_initialize (EShell *shell);
+gboolean e_shell_dbus_initialize (EShell *shell);
 #endif
 
 static void
@@ -309,6 +310,54 @@ shell_ready_for_quit (EShell *shell,
 	g_list_free (list);
 }
 
+void
+shell_prepare_for_quit (EShell *shell)
+{
+	GList *list, *iter;
+
+	/* Are preparations already in progress? */
+	if (shell->priv->preparing_for_quit != NULL)
+		return;
+
+	g_message ("Preparing to quit...");
+
+	shell->priv->preparing_for_quit =
+		e_activity_new (_("Preparing to quit..."));
+
+	g_object_add_toggle_ref (
+		G_OBJECT (shell->priv->preparing_for_quit),
+		(GToggleNotify) shell_ready_for_quit, shell);
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell->priv->preparing_for_quit),
+		&shell->priv->preparing_for_quit);
+
+	g_signal_emit (
+		shell, signals[PREPARE_FOR_QUIT], 0,
+		shell->priv->preparing_for_quit);
+
+	g_object_unref (shell->priv->preparing_for_quit);
+
+	/* Desensitize all watched windows to prevent user action. */
+	list = e_shell_get_watched_windows (shell);
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
+}
+
+gboolean
+shell_request_quit (EShell *shell)
+{
+	/* Are preparations already in progress? */
+	if (shell->priv->preparing_for_quit != NULL)
+		return TRUE;
+
+	/* Give the application a chance to cancel quit. */
+	shell->priv->quit_cancelled = FALSE;
+	g_signal_emit (shell, signals[QUIT_REQUESTED], 0);
+
+	return !shell->priv->quit_cancelled;
+}
+
 static void
 shell_load_modules (EShell *shell)
 {
@@ -394,6 +443,36 @@ shell_create_backends (EShell *shell)
 	}
 
 	g_free (children);
+}
+
+static void
+shell_sm_quit_requested_cb (EShell *shell,
+                            EggSMClient *sm_client)
+{
+	gboolean will_quit;
+
+	/* If preparations are already in progress then we have already
+	 * committed ourselves to quitting, and can answer 'yes'. */
+	if (shell->priv->preparing_for_quit == NULL)
+		will_quit = shell_request_quit (shell);
+	else
+		will_quit = TRUE;
+
+	egg_sm_client_will_quit (sm_client, will_quit);
+}
+
+static void
+shell_sm_quit_cancelled_cb (EShell *shell,
+                            EggSMClient *sm_client)
+{
+	/* Nothing to do.  This is just to aid debugging. */
+}
+
+static void
+shell_sm_quit_cb (EShell *shell,
+                  EggSMClient *sm_client)
+{
+	shell_prepare_for_quit (shell);
 }
 
 static void
@@ -898,6 +977,7 @@ shell_init (EShell *shell)
 {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
+	EggSMClient *sm_client;
 
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
@@ -942,6 +1022,25 @@ shell_init (EShell *shell)
 	e_shell_settings_bind_to_gconf (
 		shell->priv->settings, "disable-save-to-disk",
 		"/desktop/gnome/lockdown/disable_save_to_disk");
+
+	/*** Session Management ***/
+
+	sm_client = egg_sm_client_get ();
+
+	/* Not participating in session saving yet. */
+	egg_sm_client_set_mode (EGG_SM_CLIENT_MODE_NO_RESTART);
+
+	g_signal_connect_swapped (
+		sm_client, "quit-requested",
+		G_CALLBACK (shell_sm_quit_requested_cb), shell);
+
+	g_signal_connect_swapped (
+		sm_client, "quit-cancelled",
+		G_CALLBACK (shell_sm_quit_cancelled_cb), shell);
+
+	g_signal_connect_swapped (
+		sm_client, "quit",
+		G_CALLBACK (shell_sm_quit_cb), shell);
 }
 
 GType
@@ -1449,43 +1548,12 @@ e_shell_event (EShell *shell,
 void
 e_shell_quit (EShell *shell)
 {
-	GList *list, *iter;
-
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	/* Are preparations already in progress? */
-	if (shell->priv->preparing_for_quit != NULL)
+	if (!shell_request_quit (shell))
 		return;
 
-	/* First give backends a chance to cancel quit. */
-	shell->priv->quit_cancelled = FALSE;
-	g_signal_emit (shell, signals[QUIT_REQUESTED], 0);
-	if (shell->priv->quit_cancelled)
-		return;
-
-	g_message ("Preparing to quit...");
-
-	shell->priv->preparing_for_quit =
-		e_activity_new (_("Preparing to quit..."));
-
-	g_object_add_toggle_ref (
-		G_OBJECT (shell->priv->preparing_for_quit),
-		(GToggleNotify) shell_ready_for_quit, shell);
-
-	g_object_add_weak_pointer (
-		G_OBJECT (shell->priv->preparing_for_quit),
-		&shell->priv->preparing_for_quit);
-
-	g_signal_emit (
-		shell, signals[PREPARE_FOR_QUIT], 0,
-		shell->priv->preparing_for_quit);
-
-	g_object_unref (shell->priv->preparing_for_quit);
-
-	/* Desensitize all watched windows to prevent user action. */
-	list = e_shell_get_watched_windows (shell);
-	for (iter = list; iter != NULL; iter = iter->next)
-		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
+	shell_prepare_for_quit (shell);
 }
 
 /**
