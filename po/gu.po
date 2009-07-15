@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-10 13:16+0000\n"
-"PO-Revision-Date: 2009-07-15 04:38-0400\n"
+"PO-Revision-Date: 2009-07-15 04:49-0400\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -4637,7 +4637,7 @@ msgstr "પાયલોટનો મેમો કાર્યક્રમ બ્
 
 #: ../calendar/conduits/todo/todo-conduit.c:241
 msgid "Default Priority:"
-msgstr "મૂળભુ પ્રાધાન્ય:"
+msgstr "મૂળભૂત પ્રાધાન્ય:"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1103
 #: ../calendar/conduits/todo/todo-conduit.c:1106
