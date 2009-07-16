@@ -85,6 +85,7 @@ struct _ESearchBar
 	GtkWidget *clear_button;
 	GtkWidget *entry_box;
 	GtkWidget *icon_entry;
+	GtkWidget *label;
 
 	/* show option widgets */
 	GtkWidget *viewoption_box;

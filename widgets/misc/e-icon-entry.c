@@ -375,6 +375,42 @@ e_icon_entry_create_button (const gchar *stock)
 }
 
 GtkWidget *
+e_icon_entry_create_text (const gchar *text)
+{
+	GtkWidget *eventbox;
+	GtkWidget *image;
+
+	eventbox = gtk_event_box_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (eventbox), 2);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (eventbox), FALSE);
+
+	image = gtk_label_new (text);
+	gtk_container_add (GTK_CONTAINER (eventbox), image);
+	g_object_set_data ((GObject *)eventbox, "lbl", image);
+	g_signal_connect_after (eventbox, "enter-notify-event", (GCallback) set_cursor, NULL);
+	g_signal_connect_after (eventbox, "leave-notify-event", (GCallback) set_cursor, NULL);
+
+	return eventbox;
+}
+
+
+GtkWidget *
+e_icon_entry_create_separator ()
+{
+	GtkWidget *eventbox;
+	GtkWidget *image;
+
+	eventbox = gtk_event_box_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (eventbox), 0);
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX (eventbox), FALSE);
+
+	image = (GtkWidget *)gtk_separator_tool_item_new ();
+	gtk_container_add (GTK_CONTAINER (eventbox), image);
+
+	return eventbox;
+}
+
+GtkWidget *
 e_icon_entry_get_entry (EIconEntry *entry)
 {
 	g_return_val_if_fail (E_IS_ICON_ENTRY (entry), NULL);

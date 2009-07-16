@@ -75,6 +75,26 @@ static void emit_query_changed (ESearchBar *esb);
 /* Utility functions.  */
 
 static void
+esb_paint_label (GtkWidget *label, gboolean active)
+{
+	static char *sens = NULL;
+	static char *insens = NULL;
+	char *text;
+	
+	if (!label)
+		return;
+
+	if (!sens) {
+		GtkStyle *default_style = gtk_widget_get_default_style ();
+		sens = gdk_color_to_string (&default_style->text[GTK_STATE_SELECTED]);
+		insens = gdk_color_to_string (&default_style->text[GTK_STATE_NORMAL]);
+	}
+	text = g_strdup_printf("<span foreground=\"%s\">%s</span>", active ? sens : insens, _("Search"));
+	gtk_label_set_markup ((GtkLabel *)label, text);
+	g_free(text);
+}
+
+static void
 set_find_now_sensitive (ESearchBar *search_bar,
 			gboolean sensitive)
 {
@@ -371,17 +391,26 @@ entry_activated_cb (GtkWidget *widget,
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		esb_paint_label (esb->label, TRUE);
 		if (!esb->lite)
 			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 	} else {
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
+		esb_paint_label (esb->label, FALSE);
 		if (!esb->lite)
 			gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 
 	emit_search_activated (esb);
+}
+
+static void
+search_entry_press_cb (GtkWidget *w, GdkEventButton *event, ESearchBar *esb)
+{
+	if (event->button == 1)
+		entry_activated_cb (w, esb);
 }
 
 static void
@@ -504,6 +533,7 @@ clear_button_clicked_cb (GtkWidget *widget, GdkEventButton *event,
 	gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
 	gtk_widget_set_sensitive (esb->clear_button, FALSE);
+	esb_paint_label (esb->label, FALSE);
 
 	clear_search (esb);
 	gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
@@ -955,6 +985,7 @@ idle_activate_hack (gpointer ptr)
 	return FALSE;
 }
 
+
 void
 e_search_bar_construct (ESearchBar *search_bar,
 			ESearchBarItem *menu_items,
@@ -985,6 +1016,18 @@ e_search_bar_construct (ESearchBar *search_bar,
 			  G_CALLBACK (entry_focus_out_cb), search_bar);
 	g_signal_connect (search_bar->entry, "key-press-event",
 			  G_CALLBACK (entry_key_press_cb), search_bar);
+
+	search_bar->label = NULL;
+	if (search_bar->lite) {
+		label = e_icon_entry_create_text (_("Search"));
+		g_signal_connect (G_OBJECT (label), "button-press-event", G_CALLBACK(search_entry_press_cb), search_bar);
+		e_icon_entry_pack_widget (E_ICON_ENTRY (search_bar->icon_entry), label, FALSE);
+		search_bar->label = g_object_get_data ((GObject *)label, "lbl");
+		esb_paint_label (search_bar->label, FALSE);
+
+		label = e_icon_entry_create_separator ();
+		e_icon_entry_pack_widget (E_ICON_ENTRY (search_bar->icon_entry), label, FALSE);
+	}
 
 	search_bar->clear_button = e_icon_entry_create_button ("gtk-clear");
 	g_signal_connect (G_OBJECT (search_bar->clear_button), "button-press-event", G_CALLBACK(clear_button_clicked_cb), search_bar);
