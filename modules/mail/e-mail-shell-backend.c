@@ -43,6 +43,7 @@
 
 #include "e-attachment-handler-mail.h"
 #include "e-mail-browser.h"
+#include "e-mail-local.h"
 #include "e-mail-reader.h"
 #include "e-mail-store.h"
 #include "em-account-editor.h"
@@ -472,6 +473,48 @@ mail_shell_backend_prepare_for_online_cb (EShell *shell,
 }
 
 static void
+mail_shell_backend_quit_requested_cb (EShell *shell,
+                                      EShellBackend *shell_backend)
+{
+	CamelFolder *folder;
+	GList *watched_windows;
+	GtkWindow *parent = NULL;
+	guint32 unsent;
+	gint response;
+
+	g_debug ("Quit requested for mail backend");
+
+	/* We can quit immediately if offline. */
+	if (!camel_session_is_online (session))
+		return;
+
+	/* Check Outbox for any unsent messages. */
+
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	if (folder == NULL)
+		return;
+
+	if (camel_object_get (
+		folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) != 0)
+		return;
+
+	if (unsent == 0)
+		return;
+
+	/* Try to find a parent window for the dialog.
+	 * First list item is what's currently focused. */
+	watched_windows = e_shell_get_watched_windows (shell);
+	if (watched_windows != NULL)
+		parent = GTK_WINDOW (watched_windows->data);
+	response = e_error_run (parent, "mail:exit-unsaved", NULL);
+
+	if (response == GTK_RESPONSE_YES)
+		return;
+
+	e_shell_cancel_quit (shell);
+}
+
+static void
 mail_shell_backend_send_receive_cb (EShell *shell,
                                    GtkWindow *parent,
                                    EShellBackend *shell_backend)
@@ -596,6 +639,11 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		shell, "prepare-for-online",
 		G_CALLBACK (mail_shell_backend_prepare_for_online_cb),
+		shell_backend);
+
+	g_signal_connect (
+		shell, "quit-requested",
+		G_CALLBACK (mail_shell_backend_quit_requested_cb),
 		shell_backend);
 
 	g_signal_connect (

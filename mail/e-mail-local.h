@@ -28,8 +28,9 @@
 
 G_BEGIN_DECLS
 
-/* XXX E_MAIL_FOLDER_TEMPLATES is a prime example of why
- *     templates should be a core feature, not a plugin. */
+/* XXX E_MAIL_FOLDER_TEMPLATES is a prime example of why templates
+ *     should be a core feature: the mailer now has to know about
+ *     this specific plugin, which defeats the purpose of plugins. */
 typedef enum {
 	E_MAIL_FOLDER_INBOX,
 	E_MAIL_FOLDER_DRAFTS,
