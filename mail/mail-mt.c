@@ -938,6 +938,13 @@ struct _op_status_msg {
 };
 
 static void
+op_cancelled_cb (EActivity *activity,
+                 gpointer user_data)
+{
+	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
+}
+
+static void
 op_status_exec (struct _op_status_msg *m)
 {
 	EShell *shell;
@@ -1000,10 +1007,10 @@ op_status_exec (struct _op_status_msg *m)
 			e_activity_set_percent (data->activity, 0.0);
 			e_shell_backend_add_activity (shell_backend, data->activity);
 
-			g_signal_connect_swapped (
+			g_signal_connect (
 				data->activity, "cancelled",
-				G_CALLBACK (camel_operation_cancel),
-				msg->cancel);
+				G_CALLBACK (op_cancelled_cb),
+				GUINT_TO_POINTER (msg->seq));
 
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);
