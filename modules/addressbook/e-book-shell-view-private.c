@@ -90,6 +90,7 @@ book_shell_view_selection_change_foreach (gint row,
 	contact = e_addressbook_model_get_contact (model, row);
 
 	e_book_shell_content_set_preview_contact (book_shell_content, contact);
+	book_shell_view->priv->preview_index = row;
 }
 
 static void
@@ -121,24 +122,26 @@ selection_change (EBookShellView *book_shell_view,
 			selection_model, (EForeachFunc)
 			book_shell_view_selection_change_foreach,
 			book_shell_view);
-	else
+	else {
 		e_book_shell_content_set_preview_contact (
 			book_shell_content, NULL);
+		book_shell_view->priv->preview_index = -1;
+	}
 }
 
 static void
 contact_changed (EBookShellView *book_shell_view,
-                 EContact *contact)
+                 gint index,
+                 EAddressbookModel *model)
 {
 	EBookShellContent *book_shell_content;
-	EContact *preview_contact;
+	EContact *contact;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 
-	preview_contact =
-		e_book_shell_content_get_preview_contact (book_shell_content);
+	contact = e_addressbook_model_contact_at (model, index);
 
-	if (contact != preview_contact)
+	if (book_shell_view->priv->preview_index != index)
 		return;
 
 	/* Re-render the same contact. */
@@ -167,6 +170,7 @@ contacts_removed (EBookShellView *book_shell_view,
 
 	/* If not, clear the contact display. */
 	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
+	book_shell_view->priv->preview_index = -1;
 }
 
 static void
@@ -422,6 +426,7 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 
 	priv->uid_to_view = uid_to_view;
 	priv->uid_to_editor = uid_to_editor;
+	priv->preview_index = -1;
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		book_shell_view_load_view_collection (shell_view_class);
@@ -615,6 +620,7 @@ e_book_shell_view_execute_search (EBookShellView *book_shell_view)
 	g_free (query);
 
 	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
+	book_shell_view->priv->preview_index = -1;
 }
 
 void

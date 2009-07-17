@@ -250,7 +250,7 @@ modify_contact(EBookView *book_view,
 			array->pdata[ii] = contact;
 
 			g_signal_emit (
-				model, signals[CONTACT_CHANGED], 0, contact);
+				model, signals[CONTACT_CHANGED], 0, ii);
 			break;
 		}
 
@@ -607,8 +607,8 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, contact_changed),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1, E_TYPE_CONTACT);
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	signals[MODEL_CHANGED] =
 		g_signal_new ("model_changed",

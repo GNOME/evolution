@@ -100,6 +100,8 @@ struct _EBookShellViewPrivate {
 
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
+
+	gint preview_index;
 };
 
 void		e_book_shell_view_private_init
