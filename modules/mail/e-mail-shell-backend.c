@@ -680,8 +680,6 @@ mail_shell_backend_quit_requested_cb (EShell *shell,
 	guint32 unsent;
 	gint response;
 
-	g_debug ("Quit requested for mail backend");
-
 	/* We can quit immediately if offline. */
 	if (!camel_session_is_online (session))
 		return;
