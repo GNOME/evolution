@@ -272,6 +272,7 @@ activity_proxy_init (EActivityProxy *proxy)
 	gtk_widget_hide (widget);
 
 	widget = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	proxy->priv->button = g_object_ref (widget);
 	gtk_widget_hide (widget);

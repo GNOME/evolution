@@ -114,6 +114,11 @@ alert_activity_constructed (GObject *object)
 	activity = E_ACTIVITY (alert_activity);
 	e_activity_set_primary_text (activity, primary_text);
 	e_activity_set_secondary_text (activity, secondary_text);
+
+	/* This is a constructor property, so can't do it in init().
+	 * XXX What we really want to do is override the property's
+	 *     default value, but GObject does not support that. */
+	e_activity_set_clickable (E_ACTIVITY (alert_activity), TRUE);
 }
 
 static void
@@ -181,7 +186,6 @@ alert_activity_init (EAlertActivity *alert_activity)
 {
 	alert_activity->priv = E_ALERT_ACTIVITY_GET_PRIVATE (alert_activity);
 
-	e_activity_set_clickable (E_ACTIVITY (alert_activity), TRUE);
 	e_timeout_activity_set_timeout (E_TIMEOUT_ACTIVITY (alert_activity), 60);
 }
 
