@@ -36,6 +36,8 @@
 #include <e-util/e-plugin.h>
 
 #include <calendar/gui/e-cal-config.h>
+#include <calendar/gui/e-cal-event.h>
+#include <calendar/gui/calendar-component.h>
 
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
@@ -49,6 +51,7 @@
 
 #include "google-contacts-source.h"
 
+#define GOOGLE_BASE_URI "google://"
 #define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
 #define URL_GET_SUBSCRIBED_CALENDARS "://www.google.com/calendar/feeds/default/allcalendars/full"
@@ -58,11 +61,9 @@
 
 /*****************************************************************************/
 /* prototypes */
-gint              e_plugin_lib_enable      (EPluginLib                 *ep,
-					   gint                         enable);
-
-GtkWidget *      plugin_google               (EPlugin                    *epl,
-					   EConfigHookItemFactoryData *data);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
+void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetComponent *data);
 
 /*****************************************************************************/
 /* plugin intialization */
@@ -77,7 +78,7 @@ ensure_google_source_group (void)
 		return;
 	}
 
-	e_source_list_ensure_group (slist, _("Google"), "google://", FALSE);
+	e_source_list_ensure_group (slist, _("Google"), GOOGLE_BASE_URI, FALSE);
 	g_object_unref (slist);
 }
 
@@ -247,17 +248,18 @@ update_source_uris (ESource *source, const gchar *uri)
 static void init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri);
 
 static void
-user_changed (GtkEntry *editable, ESource *source)
+update_user_in_source (ESource *source, const gchar *new_user)
 {
-	gchar       *uri, *eml;
-	const gchar *user, *ssl;
+	gchar       *uri, *eml, *user;
+	const gchar *ssl;
+
+	/* to ensure it will not be freed before the work with it is done */
+	user = g_strdup (new_user);
 
 	/* two reasons why set readonly to FALSE:
 	   a) the e_source_set_relative_uri does nothing for readonly sources
 	   b) we are going to set default uri, which should be always writeable */
 	e_source_set_readonly (source, FALSE);
-
-	user = gtk_entry_get_text (GTK_ENTRY (editable));
 
 	if (user && *user) {
 		/* store the non-encoded email in the "username" property */
@@ -288,6 +290,13 @@ user_changed (GtkEntry *editable, ESource *source)
 	e_source_set_property (source, "auth-domain", NULL);
 
 	g_free (eml);
+	g_free (user);
+}
+
+static void
+user_changed (GtkEntry *editable, ESource *source)
+{
+	update_user_in_source (source, gtk_entry_get_text (GTK_ENTRY (editable)));
 
 	/* we changed user, thus reset the chosen calendar combo too, because
 	   other user means other calendars subscribed */
@@ -644,7 +653,7 @@ plugin_google  (EPlugin                    *epl,
 	group = e_source_peek_group (source);
 
 	widget = NULL;
-	if (g_ascii_strncasecmp ("google://", e_source_group_peek_base_uri (group), 9) != 0) {
+	if (g_ascii_strncasecmp (GOOGLE_BASE_URI, e_source_group_peek_base_uri (group), strlen (GOOGLE_BASE_URI)) != 0) {
 		return NULL;
 	}
 
@@ -773,4 +782,37 @@ plugin_google  (EPlugin                    *epl,
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 3, row + 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	return widget;
+}
+
+void
+e_calendar_google_migrate (EPlugin *epl, ECalEventTargetComponent *data)
+{
+	CalendarComponent *component;
+	ESourceList *source_list;
+	ESourceGroup *google = NULL;
+	gboolean changed = FALSE;
+
+	component = data->component;
+	source_list = calendar_component_peek_source_list (component);
+
+	google = e_source_list_peek_group_by_base_uri (source_list, GOOGLE_BASE_URI);
+	if (google) {
+		GSList *s;
+
+		for (s = e_source_group_peek_sources (google); s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+
+			if (!source)
+				continue;
+
+			/* new source through CalDAV uses absolute uri, thus it should be migrated if not set */
+			if (!e_source_peek_absolute_uri (source)) {
+				update_user_in_source (source, e_source_get_property (source, "username"));
+				changed = TRUE;
+			}
+		}
+	}
+
+	if (changed)
+		e_source_list_sync (source_list, NULL);
 }
