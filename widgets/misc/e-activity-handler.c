@@ -536,7 +536,7 @@ error_cleanup (EActivityHandler *activity_handler)
 static gboolean
 show_intrusive_errors (void)
 {
-	const char *intrusive = NULL;
+	const gchar *intrusive = NULL;
 
 	intrusive = g_getenv ("EVO-SHOW-INTRUSIVE-ERRORS");
 
@@ -642,7 +642,7 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
 		handle_error (task_widget);
 	}
-	
+
 	if (!activity_handler->priv->error_timer)
 		activity_handler->priv->error_timer = g_timeout_add (activity_handler->priv->error_flush_interval, (GSourceFunc) error_cleanup, activity_handler);
 }
