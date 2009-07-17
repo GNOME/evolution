@@ -69,9 +69,7 @@ EActivity *	e_activity_new			(const gchar *primary_text);
 EActivity *	e_activity_newv			(const gchar *format,
 						 ...) G_GNUC_PRINTF (1, 2);
 void		e_activity_cancel		(EActivity *activity);
-void		e_activity_cancel_in_idle	(EActivity *activity);
 void		e_activity_complete		(EActivity *activity);
-void		e_activity_complete_in_idle	(EActivity *activity);
 void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
 gboolean	e_activity_is_cancelled		(EActivity *activity);
@@ -79,9 +77,6 @@ gboolean	e_activity_is_completed		(EActivity *activity);
 gboolean	e_activity_get_allow_cancel	(EActivity *activity);
 void		e_activity_set_allow_cancel	(EActivity *activity,
 						 gboolean allow_cancel);
-gboolean	e_activity_get_blocking		(EActivity *activity);
-void		e_activity_set_blocking		(EActivity *activity,
-						 gboolean blocking);
 gboolean	e_activity_get_clickable	(EActivity *activity);
 void		e_activity_set_clickable	(EActivity *activity,
 						 gboolean clickable);
@@ -97,10 +92,6 @@ void		e_activity_set_primary_text	(EActivity *activity,
 const gchar *	e_activity_get_secondary_text	(EActivity *activity);
 void		e_activity_set_secondary_text	(EActivity *activity,
 						 const gchar *secondary_text);
-void		e_activity_set_error		(EActivity *activity,
-						 const GError *error);
-gboolean	e_activity_propagate_error	(EActivity *activity,
-						 GError **destination);
 
 G_END_DECLS
 

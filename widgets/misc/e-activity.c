@@ -35,11 +35,8 @@ struct _EActivityPrivate {
 	gchar *primary_text;
 	gchar *secondary_text;
 	gdouble percent;
-	guint idle_id;
-	GError *error;
 
 	guint allow_cancel	: 1;
-	guint blocking		: 1;
 	guint cancelled		: 1;
 	guint clickable		: 1;
 	guint completed		: 1;
@@ -48,7 +45,6 @@ struct _EActivityPrivate {
 enum {
 	PROP_0,
 	PROP_ALLOW_CANCEL,
-	PROP_BLOCKING,
 	PROP_CLICKABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
@@ -66,26 +62,6 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
-
-static gboolean
-activity_idle_cancel_cb (EActivity *activity)
-{
-	activity->priv->idle_id = 0;
-	e_activity_cancel (activity);
-	g_object_unref (activity);
-
-	return FALSE;
-}
-
-static gboolean
-activity_idle_complete_cb (EActivity *activity)
-{
-	activity->priv->idle_id = 0;
-	e_activity_complete (activity);
-	g_object_unref (activity);
-
-	return FALSE;
-}
 
 static gboolean
 activity_describe_accumulator (GSignalInvocationHint *ihint,
@@ -110,12 +86,6 @@ activity_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ALLOW_CANCEL:
 			e_activity_set_allow_cancel (
-				E_ACTIVITY (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_BLOCKING:
-			e_activity_set_blocking (
 				E_ACTIVITY (object),
 				g_value_get_boolean (value));
 			return;
@@ -167,12 +137,6 @@ activity_get_property (GObject *object,
 				E_ACTIVITY (object)));
 			return;
 
-		case PROP_BLOCKING:
-			g_value_set_boolean (
-				value, e_activity_get_blocking (
-				E_ACTIVITY (object)));
-			return;
-
 		case PROP_CLICKABLE:
 			g_value_set_boolean (
 				value, e_activity_get_clickable (
@@ -218,12 +182,6 @@ activity_finalize (GObject *object)
 	g_free (priv->primary_text);
 	g_free (priv->secondary_text);
 
-	if (priv->idle_id > 0)
-		g_source_remove (priv->idle_id);
-
-	if (priv->error != NULL)
-		g_error_free (priv->error);
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -232,22 +190,12 @@ static void
 activity_cancelled (EActivity *activity)
 {
 	activity->priv->cancelled = TRUE;
-
-	if (activity->priv->idle_id > 0) {
-		g_source_remove (activity->priv->idle_id);
-		activity->priv->idle_id = 0;
-	}
 }
 
 static void
 activity_completed (EActivity *activity)
 {
 	activity->priv->completed = TRUE;
-
-	if (activity->priv->idle_id > 0) {
-		g_source_remove (activity->priv->idle_id);
-		activity->priv->idle_id = 0;
-	}
 }
 
 static void
@@ -318,17 +266,6 @@ activity_class_init (EActivityClass *class)
 			NULL,
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_BLOCKING,
-		g_param_spec_boolean (
-			"blocking",
-			NULL,
-			NULL,
-			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -500,29 +437,6 @@ e_activity_cancel (EActivity *activity)
 }
 
 void
-e_activity_cancel_in_idle (EActivity *activity)
-{
-	guint old_idle_id;
-
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	/* Be careful not to finalize the activity.  Decrement the
-	 * reference count only after incrementing it, in case this
-	 * is the last reference. */
-
-	old_idle_id = activity->priv->idle_id;
-
-	activity->priv->idle_id = g_idle_add (
-		(GSourceFunc) activity_idle_cancel_cb,
-		g_object_ref (activity));
-
-	if (old_idle_id > 0) {
-		g_source_remove (old_idle_id);
-		g_object_unref (activity);
-	}
-}
-
-void
 e_activity_complete (EActivity *activity)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
@@ -534,29 +448,6 @@ e_activity_complete (EActivity *activity)
 		return;
 
 	g_signal_emit (activity, signals[COMPLETED], 0);
-}
-
-void
-e_activity_complete_in_idle (EActivity *activity)
-{
-	guint old_idle_id;
-
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	/* Be careful not to finalize the activity.  Decrement the
-	 * reference count only after incrementing it, in case this
-	 * is the last reference. */
-
-	old_idle_id = activity->priv->idle_id;
-
-	activity->priv->idle_id = g_idle_add (
-		(GSourceFunc) activity_idle_complete_cb,
-		g_object_ref (activity));
-
-	if (old_idle_id > 0) {
-		g_source_remove (old_idle_id);
-		g_object_unref (activity);
-	}
 }
 
 void
@@ -613,25 +504,6 @@ e_activity_set_allow_cancel (EActivity *activity,
 	activity->priv->allow_cancel = allow_cancel;
 
 	g_object_notify (G_OBJECT (activity), "allow-cancel");
-}
-
-gboolean
-e_activity_get_blocking (EActivity *activity)
-{
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	return activity->priv->blocking;
-}
-
-void
-e_activity_set_blocking (EActivity *activity,
-                         gboolean blocking)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	activity->priv->blocking = blocking;
-
-	g_object_notify (G_OBJECT (activity), "blocking");
 }
 
 gboolean
@@ -730,35 +602,4 @@ e_activity_set_secondary_text (EActivity *activity,
 	activity->priv->secondary_text = g_strdup (secondary_text);
 
 	g_object_notify (G_OBJECT (activity), "secondary-text");
-}
-
-void
-e_activity_set_error (EActivity *activity,
-                      const GError *error)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	if (activity->priv->error != NULL) {
-		g_error_free (activity->priv->error);
-		activity->priv->error = NULL;
-	}
-
-	if (error != NULL)
-		activity->priv->error = g_error_copy (error);
-}
-
-gboolean
-e_activity_propagate_error (EActivity *activity,
-                            GError **destination)
-{
-	gboolean propagated;
-
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	if ((propagated = (activity->priv->error != NULL))) {
-		g_propagate_error (destination, activity->priv->error);
-		activity->priv->error = NULL;
-	}
-
-	return propagated;
 }

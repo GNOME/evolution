@@ -60,7 +60,6 @@ widgetsinclude_HEADERS =			\
 	e-combo-cell-editable.h			\
 	e-cursors.h				\
 	e-dateedit.h				\
-	e-file-activity.h			\
 	e-gui-utils.h				\
 	e-hinted-entry.h			\
 	e-hsv-utils.h				\
@@ -123,7 +122,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-cell-editable.c			\
 	e-cursors.c				\
 	e-dateedit.c				\
-	e-file-activity.c			\
 	e-gui-utils.c				\
 	e-hinted-entry.c			\
 	e-hsv-utils.c				\
