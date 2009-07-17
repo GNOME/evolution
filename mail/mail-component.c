@@ -132,36 +132,6 @@ struct _MailComponentPrivate {
 /* GObject methods.  */
 
 static void
-impl_dispose (GObject *object)
-{
-	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
-
-	if (priv->mail_sync_id) {
-		g_source_remove (priv->mail_sync_id);
-		priv->mail_sync_id = 0;
-	}
-
-	if (priv->activity_handler != NULL) {
-		g_object_unref (priv->activity_handler);
-		priv->activity_handler = NULL;
-	}
-
-	if (priv->search_context != NULL) {
-		g_object_unref (priv->search_context);
-		priv->search_context = NULL;
-	}
-
-	if (priv->local_store != NULL) {
-		camel_object_unref (priv->local_store);
-		priv->local_store = NULL;
-	}
-
-	priv->component_view = NULL;
-
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
 impl_finalize (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
@@ -318,124 +288,6 @@ impl_createView (PortableServer_Servant servant,
 	return BONOBO_OBJREF(component_view);
 }
 
-static CORBA_boolean
-impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	/*MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));*/
-	CamelFolder *folder;
-	guint32 unsent;
-
-	if (!e_msg_composer_request_close_all())
-		return FALSE;
-
-	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
-	if (folder != NULL
-	    && camel_session_is_online(session)
-	    && camel_object_get(folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) == 0
-	    && unsent > 0
-	    && e_error_run(NULL, "mail:exit-unsaved", NULL) != GTK_RESPONSE_YES)
-		return FALSE;
-
-	return TRUE;
-}
-
-static void
-mc_quit_sync_done(CamelStore *store, gpointer data)
-{
-	MailComponent *mc = data;
-
-	mc->priv->quit_count--;
-}
-
-static void
-mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
-{
-	mc->priv->quit_count++;
-	mail_sync_store(store, mc->priv->quit_expunge, mc_quit_sync_done, mc);
-}
-
-static void
-mc_quit_delete (CamelStore *store, struct _store_info *si, MailComponent *mc)
-{
-	CamelFolder *folder = camel_store_get_junk (store, NULL);
-
-	if (folder) {
-		GPtrArray *uids;
-		gint i;
-
-		uids =  camel_folder_get_uids (folder);
-		camel_folder_freeze(folder);
-		for (i=0;i<uids->len;i++)
-			camel_folder_set_message_flags(folder, uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN);
-		camel_folder_thaw(folder);
-		camel_folder_free_uids (folder, uids);
-	}
-}
-
-static CORBA_boolean
-impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
-	EAccountList *account_list;
-
-	if (mc->priv->quit_state == -1)
-		mc->priv->quit_state = MC_QUIT_START;
-
-	account_list = e_get_account_list ();
-	e_account_list_prune_proxies (account_list);
-
-	switch (mc->priv->quit_state) {
-	case MC_QUIT_START: {
-		gint now = time(NULL)/60/60/24, days;
-		gboolean empty_junk;
-
-		GConfClient *gconf = mail_config_get_gconf_client();
-
-		camel_application_is_exiting = TRUE;
-
-		mail_vfolder_shutdown();
-
-		mc->priv->quit_expunge = gconf_client_get_bool(gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL)
-			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
-			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);
-
-		empty_junk = gconf_client_get_bool(gconf, "/apps/evolution/mail/junk/empty_on_exit", NULL)
-			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL)) == 0
-			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/junk/empty_date", NULL)) <= now);
-
-		if (empty_junk) {
-			g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_delete, mc);
-			gconf_client_set_int(gconf, "/apps/evolution/mail/junk/empty_date", now, NULL);
-		}
-
-		g_hash_table_foreach(mc->priv->store_hash, (GHFunc)mc_quit_sync, mc);
-
-		if (mc->priv->quit_expunge)
-			gconf_client_set_int(gconf, "/apps/evolution/mail/trash/empty_date", now, NULL);
-
-		mc->priv->quit_state = MC_QUIT_SYNC;
-	}
-		/* Falls through */
-	case MC_QUIT_SYNC:
-		if (mc->priv->quit_count > 0 || mc->priv->mail_sync_in_progress > 0)
-			return FALSE;
-
-		mail_cancel_all();
-		mc->priv->quit_state = MC_QUIT_THREADS;
-
-		/* Falls through */
-	case MC_QUIT_THREADS:
-		/* should we keep cancelling? */
-		if (mail_msg_active((guint)-1))
-			return FALSE;
-
-		mail_session_shutdown ();
-		return TRUE;
-	}
-
-	return TRUE;
-}
-
 /* Initialization.  */
 
 static void
@@ -450,12 +302,10 @@ mail_component_class_init (MailComponentClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	epv->createView          = impl_createView;
-	epv->requestQuit = impl_requestQuit;
-	epv->quit = impl_quit;
+//	epv->quit = impl_quit;
 //	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 //	epv->requestCreateItem       = impl_requestCreateItem;
 //	epv->handleURI               = impl_handleURI;

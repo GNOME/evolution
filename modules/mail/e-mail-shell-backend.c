@@ -71,6 +71,7 @@
 	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
 
 #define BACKEND_NAME "mail"
+#define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailShellBackendPrivate {
 	gint mail_sync_in_progress;
@@ -472,6 +473,203 @@ mail_shell_backend_prepare_for_online_cb (EShell *shell,
 		(GHFunc) mail_shell_store_prepare_for_online_cb, activity);
 }
 
+/* Helper for mail_shell_backend_prepare_for_quit_cb() */
+static void
+mail_shell_backend_empty_junk (CamelStore *store,
+                               gpointer opaque_store_info,
+                               EMailShellBackend *mail_shell_backend)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	guint32 flags;
+	guint32 mask;
+	guint ii;
+
+	folder = camel_store_get_junk (store, NULL);
+	if (folder == NULL)
+		return;
+
+	uids = camel_folder_get_uids (folder);
+	flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
+
+	camel_folder_freeze (folder);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		const gchar *uid = uids->pdata[ii];
+		camel_folder_set_message_flags (folder, uid, flags, mask);
+	}
+
+	camel_folder_thaw (folder);
+
+	camel_folder_free_uids (folder, uids);
+}
+
+/* Helper for mail_shell_backend_final_sync() */
+static void
+mail_shell_backend_final_sync_done_cb (CamelStore *store,
+                                       gpointer user_data)
+{
+	g_object_unref (E_ACTIVITY (user_data));
+}
+
+/* Helper for mail_shell_backend_prepare_for_quit_cb() */
+static void
+mail_shell_backend_final_sync (CamelStore *store,
+                               gpointer opaque_store_info,
+                               gpointer user_data)
+{
+	struct {
+		EActivity *activity;
+		gboolean empty_trash;
+	} *sync_data = user_data;
+
+	/* Reffing the activity delays quitting; the reference count
+	 * acts like a counting semaphore. */
+	mail_sync_store (
+		store, sync_data->empty_trash,
+		mail_shell_backend_final_sync_done_cb,
+		g_object_ref (sync_data->activity));
+}
+
+/* Helper for mail_shell_backend_prepare_for_quit_cb() */
+static gboolean
+mail_shell_backend_poll_to_quit (EActivity *activity)
+{
+	return mail_msg_active ((guint) -1);
+}
+
+/* Helper for mail_shell_backend_prepare_for_quit_cb() */
+static void
+mail_shell_backend_ready_to_quit (EActivity *activity)
+{
+	mail_session_shutdown ();
+	g_object_unref (activity);
+}
+
+static void
+mail_shell_backend_prepare_for_quit_cb (EShell *shell,
+                                        EActivity *activity,
+                                        EMailShellBackend *mail_shell_backend)
+{
+	EShellSettings *shell_settings;
+	EAccountList *account_list;
+	GConfClient *client;
+	const gchar *key;
+	gboolean empty_junk;
+	gboolean empty_trash;
+	gint empty_date;
+	gint empty_days;
+	gint now;
+	GError *error = NULL;
+
+	struct {
+		EActivity *activity;
+		gboolean empty_trash;
+	} sync_data;
+
+	client = e_shell_get_gconf_client (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	camel_application_is_exiting = TRUE;
+	now = time (NULL) / 60 / 60 / 24;
+
+	account_list = e_get_account_list ();
+	e_account_list_prune_proxies (account_list);
+
+	mail_vfolder_shutdown ();
+
+	empty_junk = e_shell_settings_get_boolean (
+		shell_settings, "mail-empty-junk-on-exit");
+
+	empty_trash = e_shell_settings_get_boolean (
+		shell_settings, "mail-empty-trash-on-exit");
+
+	/* XXX No EShellSettings properties for these keys. */
+
+	empty_date = empty_days = 0;
+
+	if (empty_junk) {
+		key = "/apps/evolution/mail/junk/empty_on_exit_days";
+		empty_days = gconf_client_get_int (client, key, &error);
+		if (error == NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+			empty_trash = FALSE;
+		}
+	}
+
+	if (empty_junk) {
+		key = "/apps/evolution/mail/junk/empty_date";
+		empty_date = gconf_client_get_int (client, key, &error);
+		if (error == NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+			empty_trash = FALSE;
+		}
+	}
+
+	empty_junk &= (empty_days = 0) || (empty_date + empty_days <= now);
+
+	if (empty_junk) {
+		e_mail_store_foreach (
+			(GHFunc) mail_shell_backend_empty_junk,
+			mail_shell_backend);
+
+		key = "/apps/evolution/mail/junk/empty_date";
+		gconf_client_set_int (client, key, now, NULL);
+	}
+
+	empty_date = empty_days = 0;
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_on_exit_days";
+		empty_days = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+			empty_trash = FALSE;
+		}
+	}
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_date";
+		empty_date = gconf_client_get_int (client, key, &error);
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+			empty_trash = FALSE;
+		}
+	}
+
+	empty_trash &= (empty_days == 0) || (empty_date + empty_days <= now);
+
+	sync_data.activity = activity;
+	sync_data.empty_trash = empty_trash;
+
+	e_mail_store_foreach (
+		(GHFunc) mail_shell_backend_final_sync, &sync_data);
+
+	if (empty_trash) {
+		key = "/apps/evolution/mail/trash/empty_date";
+		gconf_client_set_int (client, key, now, NULL);
+	}
+
+	/* Cancel all activities. */
+	mail_cancel_all ();
+
+	/* Now we poll until all activities are actually cancelled.
+	 * Reffing the activity delays quitting; the reference count
+	 * acts like a counting semaphore. */
+	if (mail_msg_active ((guint) -1))
+		g_timeout_add_seconds_full (
+			G_PRIORITY_DEFAULT, QUIT_POLL_INTERVAL,
+			(GSourceFunc) mail_shell_backend_poll_to_quit,
+			g_object_ref (activity),
+			(GDestroyNotify) mail_shell_backend_ready_to_quit);
+	else
+		mail_shell_backend_ready_to_quit (g_object_ref (activity));
+}
+
 static void
 mail_shell_backend_quit_requested_cb (EShell *shell,
                                       EShellBackend *shell_backend)
@@ -639,6 +837,11 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		shell, "prepare-for-online",
 		G_CALLBACK (mail_shell_backend_prepare_for_online_cb),
+		shell_backend);
+
+	g_signal_connect (
+		shell, "prepare-for-quit",
+		G_CALLBACK (mail_shell_backend_prepare_for_quit_cb),
 		shell_backend);
 
 	g_signal_connect (
