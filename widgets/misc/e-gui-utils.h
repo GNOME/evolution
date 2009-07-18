@@ -20,36 +20,16 @@
  *
  */
 
-#ifndef GAL_GUI_UTILS_H
-#define GAL_GUI_UTILS_H
+#ifndef E_GUI_UTILS_H
+#define E_GUI_UTILS_H
 
 #include <gtk/gtk.h>
-#include <glade/glade-xml.h>
 
 G_BEGIN_DECLS
 
 void  e_popup_menu                              (GtkMenu  *menu,
 						 GdkEvent *event);
-void  e_auto_kill_popup_menu_on_selection_done  (GtkMenu  *menu);
-
-void  e_container_foreach_leaf      (GtkContainer *container,
-				     GtkCallback   callback,
-				     gpointer      closure);
-void  e_container_focus_nth_entry   (GtkContainer *container,
-				     gint           n);
-gint  e_container_change_tab_order  (GtkContainer *container,
-				     GList        *widgets);
-
-/* Returns TRUE on success. */
-gboolean  e_glade_xml_connect_widget  (GladeXML      *gui,
-				       gchar          *name,
-				       gchar          *signal,
-				       GCallback      cb,
-				       gpointer       closure);
-gboolean  e_glade_xml_set_sensitive   (GladeXML      *gui,
-				       gchar          *name,
-				       gboolean       sensitive);
 
 G_END_DECLS
 
-#endif /* GAL_GUI_UTILS_H */
+#endif /* E_GUI_UTILS_H */
