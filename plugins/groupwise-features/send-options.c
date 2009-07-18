@@ -203,7 +203,7 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
-	if(!g_strrstr (account->source->url, "groupwise://"))
+	if (!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, 0);

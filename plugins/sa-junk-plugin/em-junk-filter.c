@@ -648,18 +648,18 @@ get_spamassassin_version ()
 		NULL
 	};
 
-	if (!em_junk_sa_checked_spamassassin_version){
+	if (!em_junk_sa_checked_spamassassin_version) {
 		out = g_byte_array_new ();
 
-		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out, NULL) != 0){
-			if(out)
+		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out, NULL) != 0) {
+			if (out)
 				g_byte_array_free (out, TRUE);
 			return em_junk_sa_spamassassin_version;
 		}
 
-		if(out->len > 0){
-			for(i = 0; i < out->len; i++){
-				if(g_ascii_isdigit (out->data[i])){
+		if (out->len > 0) {
+			for (i = 0; i < out->len; i++) {
+				if (g_ascii_isdigit (out->data[i])) {
 					em_junk_sa_spamassassin_version = (out->data[i] - '0');
 					em_junk_sa_checked_spamassassin_version = TRUE;
 					break;
@@ -667,7 +667,7 @@ get_spamassassin_version ()
 			}
 		}
 
-		if(out)
+		if (out)
 			g_byte_array_free (out, TRUE);
 	}
 

@@ -170,7 +170,7 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 
 	rows = e_table_model_row_count(etss->source);
 
-	if (etss->n_map + rows > etssv->n_vals_allocated){
+	if (etss->n_map + rows > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
 		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(gint));
 	}
@@ -190,7 +190,7 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 	ETableSortedVariable *etsv = g_object_new (E_TABLE_SORTED_VARIABLE_TYPE, NULL);
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE (etsv);
 
-	if (e_table_subset_variable_construct (etssv, source) == NULL){
+	if (e_table_subset_variable_construct (etssv, source) == NULL) {
 		g_object_unref (etsv);
 		return NULL;
 	}

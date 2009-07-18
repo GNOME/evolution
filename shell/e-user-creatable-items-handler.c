@@ -669,17 +669,17 @@ gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, gint nth
 static void
 set_combo_button_style (EComboButton *button, const gchar *style, GdkPixbuf *icon)
 {
-	if(!g_ascii_strcasecmp (style,"both-horiz")){
+	if (!g_ascii_strcasecmp (style,"both-horiz")) {
 		e_combo_button_pack_hbox (button);
 		e_combo_button_set_label (button, _("New"));
 		e_combo_button_set_icon (button, icon);
 	}
-	else if(!g_ascii_strcasecmp (style,"icons")){
+	else if (!g_ascii_strcasecmp (style,"icons")) {
 		e_combo_button_pack_hbox (button);
 		e_combo_button_set_icon (button, icon);
 		e_combo_button_set_label (button, "");
 	}
-	else if(!g_ascii_strcasecmp(style,"text")){
+	else if (!g_ascii_strcasecmp(style,"text")) {
 		e_combo_button_pack_hbox (button);
 		e_combo_button_set_label (button, _("New"));
 		e_combo_button_set_icon (button, NULL);

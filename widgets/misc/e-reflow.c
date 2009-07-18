@@ -710,7 +710,7 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 	item = GNOME_CANVAS_ITEM (object);
 	reflow = E_REFLOW (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_HEIGHT:
 		reflow->height = g_value_get_double (value);
 		reflow->need_reflow_columns = TRUE;
@@ -839,7 +839,7 @@ e_reflow_realize (GnomeCanvasItem *item)
 	reflow->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 
 	count = reflow->count;
-	for(i = 0; i < count; i++) {
+	for (i = 0; i < count; i++) {
 		if (reflow->items[i])
 			gnome_canvas_item_set(reflow->items[i],
 					      "width", reflow->column_width,
@@ -899,7 +899,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	reflow = E_REFLOW (item);
 
-	switch( event->type )
+	switch ( event->type )
 		{
 		case GDK_KEY_PRESS:
 			return_val = e_selection_model_key_press(reflow->selection, (GdkEventKey *) event);
@@ -946,7 +946,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 #endif
 		case GDK_BUTTON_PRESS:
-			switch(event->button.button)
+			switch (event->button.button)
 				{
 				case 1:
 					{

@@ -1317,7 +1317,7 @@ e_day_view_style_set (GtkWidget *widget,
 	day_view = E_DAY_VIEW (widget);
 	e_day_view_set_colors(day_view, widget);
 
-	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++){
+	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++) {
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
 			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
 			if (event->canvas_item) {
@@ -1846,7 +1846,7 @@ e_day_view_update_event_label (EDayView *day_view,
 	if ((interval/day_view->mins_per_row) >= 2)
 		short_event = FALSE;
 	else if ((interval%day_view->mins_per_row)==0) {
-		if (((event->end_minute%day_view->mins_per_row)==0) || ((event->start_minute%day_view->mins_per_row)==0)){
+		if (((event->end_minute%day_view->mins_per_row)==0) || ((event->start_minute%day_view->mins_per_row)==0)) {
 			short_event = TRUE;
 		}
 	} else

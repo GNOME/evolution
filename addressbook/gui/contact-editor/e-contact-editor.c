@@ -345,7 +345,7 @@ style_makes_sense (const EContactName *name, const gchar *company, gint style)
 	case 1:
 		return TRUE;
         case 2:
-                if(name) {
+                if (name) {
                         if (name->additional && *name->additional)
                                 return TRUE;
                         else
@@ -399,7 +399,7 @@ name_to_style (const EContactName *name, const gchar *company, gint style)
 		break;
         case 2:
                 midstrptr=midstring;
-                if(name){
+                if (name) {
                         if (name->family && *name->family)
 				*(midstrptr++) = name->family;
                        if (name->given && *name->given)
@@ -2296,7 +2296,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 
 						prompt_response = e_error_run (GTK_WINDOW (editor->app), "addressbook:prompt-resize", NULL);
 
-						if (prompt_response == GTK_RESPONSE_YES){
+						if (prompt_response == GTK_RESPONSE_YES) {
 							if ( width > height) {
 								height = height * 96 / width;
 								width = 96;
@@ -2713,7 +2713,7 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	else if (editor->contact)
 		categories = e_contact_get (editor->contact, E_CONTACT_CATEGORIES);
 
-	if (editor->categories_dialog != NULL){
+	if (editor->categories_dialog != NULL) {
 		gtk_window_present (GTK_WINDOW(editor->categories_dialog));
 		g_free (categories);
 		return;
@@ -3545,7 +3545,7 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 	editor = E_CONTACT_EDITOR (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_SOURCE_BOOK: {
 		gboolean  writable;
 		gboolean  changed = FALSE;

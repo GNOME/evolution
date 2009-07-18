@@ -953,7 +953,7 @@ default_nickname (CERTCertificate *cert)
 		CERT_DestroyCertificate(dummycert);
 		if (tmp != nickname) PR_Free(nickname);
 		count++;
-	} /* end of while(1) */
+	} /* end of while (1) */
 
  loser:
 	if ( nickname ) {

@@ -334,7 +334,7 @@ etfci_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 	item = GNOME_CANVAS_ITEM (object);
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_FULL_HEADER:
 		etfci_drop_full_header (etfci);
 		if (g_value_get_object (value))
@@ -366,7 +366,7 @@ etfci_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 
 	case PROP_DND_CODE:
 		g_value_set_string (value, etfci->dnd_code);
@@ -468,7 +468,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint w
 	state = GTK_WIDGET_STATE (canvas);
 
 	y1 = y2 = 0;
-	for (row = 0; row < rows; row++, y1 = y2){
+	for (row = 0; row < rows; row++, y1 = y2) {
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, row);
@@ -582,7 +582,7 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas *canvas = item->canvas;
 	gint x, y;
 
-	switch (e->type){
+	switch (e->type) {
 	case GDK_MOTION_NOTIFY:
 		gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
 
@@ -593,7 +593,7 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_PRESS:
 		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
 
-		if (e->button.button == 1){
+		if (e->button.button == 1) {
 			etfci->click_x = x;
 			etfci->click_y = y;
 			etfci->maybe_drag = TRUE;

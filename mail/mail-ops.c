@@ -2180,7 +2180,7 @@ save_part_exec (struct _save_part_msg *m)
 	else
 		path = g_filename_to_uri (m->path, NULL, NULL);
 
-	if(!m->readonly){
+	if (!m->readonly) {
 		if (!(stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE))) {
 			camel_exception_setv (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot create output file: %s:\n %s"),

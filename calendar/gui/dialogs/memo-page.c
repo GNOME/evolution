@@ -586,7 +586,7 @@ memo_page_fill_component (CompEditorPage *page,
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	if (!str || strlen (str) == 0){
+	if (!str || strlen (str) == 0) {
 		e_cal_component_set_description_list (comp, NULL);
 	}
 	else {
@@ -596,7 +596,7 @@ memo_page_fill_component (CompEditorPage *page,
 		gchar *txt, *p;
 		gunichar uc;
 
-		for(i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
+		for (i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
 		    i < 50 && p && uc < (gunichar)-2;
 		    i++, p = g_utf8_next_char (p), uc = g_utf8_get_char_validated (p, -1)) {
 			idxToUse = p - str;
@@ -755,7 +755,7 @@ get_widgets (MemoPage *mpage)
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
 	priv->main = GW ("memo-page");
-	if (!priv->main){
+	if (!priv->main) {
 		g_warning("couldn't find memo-page!");
 		return FALSE;
 	}

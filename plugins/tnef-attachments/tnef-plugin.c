@@ -263,7 +263,7 @@ void processTnef(TNEFStruct *tnef) {
                     } else {
                         sprintf(ifilename, "%s/%s.rtf", filepath, tnef->subject.data);
                     }
-                    for(i=0; i<strlen(ifilename); i++)
+                    for (i=0; i<strlen(ifilename); i++)
                         if (ifilename[i] == ' ')
                             ifilename[i] = '_';
 
@@ -295,10 +295,10 @@ void processTnef(TNEFStruct *tnef) {
 
             /* See if the contents are stored as "attached data" */
 	    /* Inside the MAPI blocks. */
-            if((filedata = MAPIFindProperty(&(p->MAPI),
+            if ((filedata = MAPIFindProperty(&(p->MAPI),
                                     PROP_TAG(PT_OBJECT, PR_ATTACH_DATA_OBJ)))
                     == MAPI_UNDEFINED) {
-                if((filedata = MAPIFindProperty(&(p->MAPI),
+                if ((filedata = MAPIFindProperty(&(p->MAPI),
                                     PROP_TAG(PT_BINARY, PR_ATTACH_DATA_OBJ)))
 		   == MAPI_UNDEFINED) {
                     /* Nope, standard TNEF stuff. */
@@ -366,7 +366,7 @@ void processTnef(TNEFStruct *tnef) {
                 } else {
                     sprintf(ifilename, "%s/%s", filepath, filename->data);
                 }
-                for(i=0; i<strlen(ifilename); i++)
+                for (i=0; i<strlen(ifilename); i++)
                     if (ifilename[i] == ' ')
                         ifilename[i] = '_';
 
@@ -431,7 +431,7 @@ void saveVCard(TNEFStruct *tnef) {
             sprintf(ifilename, "%s/%s.vcard", filepath, vl->data);
         }
     }
-    for(i=0; i<strlen(ifilename); i++)
+    for (i=0; i<strlen(ifilename); i++)
         if (ifilename[i] == ' ')
             ifilename[i] = '_';
     printf("%s\n", ifilename);
@@ -931,7 +931,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         if (filename!=NULL) {
             fprintf(fptr, "UID:");
-            for(index=0;index<filename->size;index++) {
+            for (index=0;index<filename->size;index++) {
                 fprintf(fptr,"%02X", (guchar)filename->data[index]);
             }
             fprintf(fptr,"\n");
@@ -1027,7 +1027,7 @@ void saveVCalendar(TNEFStruct *tnef) {
         }
         /* Summary */
         filename = NULL;
-        if((filename=MAPIFindProperty(&(tnef->MapiProperties),
+        if ((filename=MAPIFindProperty(&(tnef->MapiProperties),
                         PROP_TAG(PT_STRING8, PR_CONVERSATION_TOPIC)))
                 != MAPI_UNDEFINED) {
             fprintf(fptr, "SUMMARY:");
@@ -1156,7 +1156,7 @@ void saveVTask(TNEFStruct *tnef) {
     } else {
         sprintf(ifilename, "%s/%s.vcf", filepath, vl->data);
     }
-    for(i=0; i<strlen(ifilename); i++)
+    for (i=0; i<strlen(ifilename); i++)
         if (ifilename[i] == ' ')
             ifilename[i] = '_';
     printf("%s\n", ifilename);
@@ -1324,7 +1324,7 @@ void printRtf(FILE *fptr, variableLength *vl) {
     key = 0;
     brace_ct = 0;
 
-    for(index = 0, byte=vl->data; index < vl->size; index++, byte++) {
+    for (index = 0, byte=vl->data; index < vl->size; index++, byte++) {
         if (*byte == '}') {
             brace_ct--;
             key = 0;

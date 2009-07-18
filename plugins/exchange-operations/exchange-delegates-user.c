@@ -409,7 +409,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			}
 
 			eaccount = exchange_account_fetch (account);
-			if(eaccount) {
+			if (eaccount) {
 				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),
 							 "X-Evolution-Account", eaccount->uid);
 				camel_medium_set_header (CAMEL_MEDIUM (delegate_mail),

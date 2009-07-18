@@ -1039,7 +1039,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointe
 	gcal = GNOME_CALENDAR (data);
 
 	/* Choose List view if the search made in the search bar is based on date */
-	if(sexp != NULL && strstr (sexp, d_sexp ) != NULL) {
+	if (sexp != NULL && strstr (sexp, d_sexp ) != NULL) {
 		gcal->priv->lview_select_daten_range = FALSE;
 		gtk_widget_hide (GTK_WIDGET (gcal->priv->date_navigator));
 		gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);

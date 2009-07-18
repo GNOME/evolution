@@ -456,7 +456,7 @@ folder_can_delete (AddressbookView *view)
 	const gchar *source_uri;
 
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
-	if(source) {
+	if (source) {
 		source_uri = e_source_peek_relative_uri (source);
 		if (source_uri && !strcmp("system", source_uri))
 			return 0;

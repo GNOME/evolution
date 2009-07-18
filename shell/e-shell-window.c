@@ -589,7 +589,7 @@ setup_status_bar (EShellWindow *window)
 	gtk_widget_set_size_request (GTK_WIDGET (priv->status_bar), -1, height * 2);
 
 	gconf_client = gconf_client_get_default ();
-	if(gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
+	if (gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/statusbar_visible",NULL))
 		gtk_widget_show (priv->status_bar);
 	g_object_unref (gconf_client);
 
@@ -1019,7 +1019,7 @@ e_shell_window_new (EShell *shell,
 
 	setup_widgets (window);
 
-	if(gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/sidebar_visible",NULL))
+	if (gconf_client_get_bool (gconf_client,"/apps/evolution/shell/view_defaults/sidebar_visible",NULL))
 		gtk_widget_show (priv->sidebar);
 	else
 		gtk_widget_hide (priv->sidebar);

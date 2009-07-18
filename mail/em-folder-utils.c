@@ -611,7 +611,7 @@ static void
 new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
 {
 	struct _EMCreateFolderTempData *emcftd=user_data;
-	if (fi){
+	if (fi) {
 		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
 
 		/* Exapnding newly created folder */

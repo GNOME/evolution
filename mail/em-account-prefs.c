@@ -147,7 +147,7 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 		emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
 		prefs->druid = emae->editor;
 
-		gtk_window_set_transient_for((GtkWindow *)prefs->druid, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
+		gtk_window_set_transient_for ((GtkWindow *)prefs->druid, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
 		g_object_ref(prefs);
 		/* rather nasty hack to reload the accounts, it should just listen to the e-account-list */
 		g_object_weak_ref((GObject *) prefs->druid, (GWeakNotify) account_add_finished, prefs);
@@ -197,7 +197,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			emae = em_account_editor_new(account, EMAE_NOTEBOOK, "org.gnome.evolution.mail.config.accountEditor");
 			prefs->editor = emae->editor;
 
-			gtk_window_set_transient_for((GtkWindow *)prefs->editor, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
+			gtk_window_set_transient_for ((GtkWindow *)prefs->editor, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
 			g_object_ref(prefs);
 			/* rather nasty hack to reload the accounts, it should just listen to the e-account-list */
 			g_object_weak_ref((GObject *)prefs->editor, (GWeakNotify) account_edit_finished, prefs);
@@ -379,12 +379,12 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs), FALSE);
 	}
 
-	if( url != NULL )
+	if ( url != NULL )
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), !mail_config_has_proxies(account));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
 
-	if(account == default_account)
+	if (account == default_account)
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
 	else
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), state);

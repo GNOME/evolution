@@ -80,12 +80,12 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gch
 	black_color = '.';
 
 	yofs = colors + 1;
-	for (y = 0; y < 32; y++){
-		for (x = 0; x < 32;){
+	for (y = 0; y < 32; y++) {
+		for (x = 0; x < 32;) {
 			gchar value = 0, maskv = 0;
 
-			for (pix = 0; pix < 8; pix++, x++){
-				if (xpm [y + yofs][x] != transparent_color){
+			for (pix = 0; pix < 8; pix++, x++) {
+				if (xpm [y + yofs][x] != transparent_color) {
 					maskv |= 1 << pix;
 
 					/*
@@ -94,7 +94,7 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gch
 					 * We reverse the foreground & background in the next
 					 * routine to compensate.
 					 */
-					if (xpm [y + yofs][x] == black_color){
+					if (xpm [y + yofs][x] == black_color) {
 						value |= 1 << pix;
 					}
 				}
@@ -114,7 +114,7 @@ e_cursors_init (void)
 
 	e_color_init ();
 
-	for (i = 0; cursors [i].hot_x; i++){
+	for (i = 0; cursors [i].hot_x; i++) {
 		if (cursors [i].hot_x < 0)
 			cursors [i].cursor = gdk_cursor_new (cursors [i].hot_y);
 		else {

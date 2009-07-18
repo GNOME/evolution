@@ -913,7 +913,7 @@ ml_get_node_by_id (ETreeModel *etm, const gchar *save_id, gpointer data)
 static gpointer
 ml_duplicate_value (ETreeModel *etm, gint col, gconstpointer value, gpointer data)
 {
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
 	case COL_SCORE:
@@ -947,7 +947,7 @@ ml_duplicate_value (ETreeModel *etm, gint col, gconstpointer value, gpointer dat
 static void
 ml_free_value (ETreeModel *etm, gint col, gpointer value, gpointer data)
 {
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
 	case COL_SCORE:
@@ -981,7 +981,7 @@ ml_free_value (ETreeModel *etm, gint col, gpointer value, gpointer data)
 static gpointer
 ml_initialize_value (ETreeModel *etm, gint col, gpointer data)
 {
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
 	case COL_SCORE:
@@ -1016,7 +1016,7 @@ ml_initialize_value (ETreeModel *etm, gint col, gpointer data)
 static gboolean
 ml_value_is_empty (ETreeModel *etm, gint col, gconstpointer value, gpointer data)
 {
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
 	case COL_SCORE:
@@ -1071,7 +1071,7 @@ ml_value_to_string (ETreeModel *etm, gint col, gconstpointer value, gpointer dat
 {
 	guint i;
 
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 		i = GPOINTER_TO_UINT(value);
 		if (i > 5)
@@ -1340,7 +1340,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
 	g_return_val_if_fail (msg_info != NULL, NULL);
 
-	switch (col){
+	switch (col) {
 	case COL_MESSAGE_STATUS:
 		flags = camel_message_info_flags(msg_info);
 		if (flags & CAMEL_MESSAGE_ANSWERED)
@@ -1532,7 +1532,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 	case COL_SENDER:{
 		gchar **sender_name = NULL;
 		str = camel_message_info_from (msg_info);
-		if(str && str[0] != '\0'){
+		if (str && str[0] != '\0') {
 			gchar *res;
 			sender_name = g_strsplit (str,"<",2);
 			res = g_strdup (*sender_name);
@@ -3736,7 +3736,7 @@ glib_crapback(gpointer key, gpointer data, gpointer x)
 	struct _glibsuxcrap *y = x;
 	CamelMessageInfo *mi;
 
-	if(y->count)
+	if (y->count)
 		return;
 
 	mi = camel_folder_get_message_info(y->folder, key);

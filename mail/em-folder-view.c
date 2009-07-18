@@ -2969,7 +2969,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	tkey = strrchr(entry->key, '/');
 	g_return_if_fail (tkey != NULL);
 
-	switch(GPOINTER_TO_INT(g_hash_table_lookup(emfv_setting_key, tkey+1))) {
+	switch (GPOINTER_TO_INT(g_hash_table_lookup(emfv_setting_key, tkey+1))) {
 	case EMFV_ANIMATE_IMAGES:
 		em_format_html_display_set_animate(emfv->preview, gconf_value_get_bool (value));
 		break;

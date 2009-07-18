@@ -100,7 +100,7 @@ eab_uri_popup_email_address_copy(EPopup *ep, EPopupItem *item, gpointer data)
 
 	email_list = e_contact_get (p->contact, E_CONTACT_EMAIL);
 	for (l = email_list; l; l=l->next) {
-		if(i==email_num)
+		if (i==email_num)
 			html = e_text_to_html (l->data, 0);
 	i++;
         }
@@ -175,7 +175,7 @@ static EPopupItem eab_uri_popups[] = {
 static void
 eab_uri_popup_free(EPopup *ep, GSList *list, gpointer data)
 {
-	while (list){
+	while (list) {
 		GSList *n = list->next;
 		struct _EPopupItem *item = list->data;
 
@@ -929,7 +929,7 @@ eab_html_press_event (GtkWidget *widget, GdkEvent *event,EABContactDisplay *disp
 		return FALSE;
 
 	uri = gtk_html_get_url_at (GTK_HTML (widget), event->button.x, event->button.y);
-	if (uri){
+	if (uri) {
 		eab_uri_popup_event(display,event,uri);
 		}
 

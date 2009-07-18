@@ -53,7 +53,7 @@ make_item (GtkMenu *menu, GtkMenuItem *item, const gchar *name, GtkWidget *pixma
 
 	gtk_container_add (GTK_CONTAINER (item), label);
 
-	if (pixmap && GTK_IS_IMAGE_MENU_ITEM (item)){
+	if (pixmap && GTK_IS_IMAGE_MENU_ITEM (item)) {
 		gtk_widget_show (pixmap);
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), pixmap);
 	}

@@ -145,7 +145,7 @@ static void
 e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG(object);
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_DND_CODE:
 		g_free(etfcd->dnd_code);
 		etfcd->dnd_code = g_strdup(g_value_get_string (value));

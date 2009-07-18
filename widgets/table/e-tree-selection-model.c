@@ -301,7 +301,7 @@ etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_CURSOR_ROW:
 		g_value_set_int (value, get_cursor_row(etsm));
 		break;
@@ -326,7 +326,7 @@ etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_CURSOR_ROW:
 		e_selection_model_do_something(esm, g_value_get_int (value), etsm->priv->cursor_col, 0);
 		break;

@@ -122,7 +122,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
-	if (value < 0 || value >= toggle->n_states){
+	if (value < 0 || value >= toggle->n_states) {
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 			   value, toggle->n_states);
 		return;
@@ -141,7 +141,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	image = toggle->images[value];
 
-	if ((x2 - x1) < gdk_pixbuf_get_width (image)){
+	if ((x2 - x1) < gdk_pixbuf_get_width (image)) {
 		x = x1;
 		width = x2 - x1;
 	} else {
@@ -149,7 +149,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		width = gdk_pixbuf_get_width (image);
 	}
 
-	if ((y2 - y1) < gdk_pixbuf_get_height (image)){
+	if ((y2 - y1) < gdk_pixbuf_get_height (image)) {
 		y = y1;
 		height = y2 - y1;
 	} else {
@@ -194,7 +194,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_co
 		return FALSE;
 #endif
 
-	switch (event->type){
+	switch (event->type) {
 	case GDK_KEY_PRESS:
 		if (event->key.keyval != GDK_space)
 			return FALSE;
@@ -237,7 +237,7 @@ etog_print (ECellView *ecell_view, GtkPrintContext *context,
 			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	cairo_t *cr;
-	if (value >= toggle->n_states){
+	if (value >= toggle->n_states) {
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 				value, toggle->n_states);
 		return;
@@ -360,7 +360,7 @@ e_cell_toggle_construct (ECellToggle *etog, gint border, gint n_states, GdkPixbu
 
 	etog->images = g_new (GdkPixbuf *, n_states);
 
-	for (i = 0; i < n_states; i++){
+	for (i = 0; i < n_states; i++) {
 		etog->images [i] = images [i];
 		if (images[i]) {
 		g_object_ref (images [i]);

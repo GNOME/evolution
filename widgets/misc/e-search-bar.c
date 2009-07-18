@@ -77,10 +77,10 @@ static void emit_query_changed (ESearchBar *esb);
 static void
 esb_paint_label (GtkWidget *label, gboolean active)
 {
-	static char *sens = NULL;
-	static char *insens = NULL;
-	char *text;
-	
+	static gchar *sens = NULL;
+	static gchar *insens = NULL;
+	gchar *text;
+
 	if (!label)
 		return;
 
@@ -564,7 +564,7 @@ scopeoption_changed_cb (GtkWidget *option_menu, ESearchBar *search_bar)
 	if (!(text && *text))
 		gtk_widget_grab_focus (search_bar->entry);
 
-	if(!search_bar->block_search)
+	if (!search_bar->block_search)
 		emit_query_changed (search_bar);
 
 	g_free (text);
@@ -984,7 +984,6 @@ idle_activate_hack (gpointer ptr)
 	emit_search_activated (esb);
 	return FALSE;
 }
-
 
 void
 e_search_bar_construct (ESearchBar *search_bar,

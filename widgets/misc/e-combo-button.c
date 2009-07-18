@@ -452,7 +452,7 @@ e_combo_button_pack_hbox (EComboButton *combo_button)
 
 	priv = combo_button->priv;
 
-	if(priv->is_already_packed){
+	if (priv->is_already_packed) {
 		gtk_widget_destroy (priv->hbox);
 	}
 
@@ -487,7 +487,7 @@ e_combo_button_pack_vbox (EComboButton *combo_button)
 
 	priv = combo_button->priv;
 
-	if(priv->is_already_packed){
+	if (priv->is_already_packed) {
 		gtk_widget_destroy (priv->hbox);
 	}
 

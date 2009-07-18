@@ -65,18 +65,18 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 	gint retval = 0; /* 0 is the Unfiled category */
 	LOG(g_message("e_pilot_add_category_if_possible\n"));
 
-	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
+	for (i=0; i<PILOT_MAX_CATEGORIES; i++) {
 		/* if strlen is 0, then the category is empty
 		   the PalmOS doesn't let 0-length strings for
 		   categories */
-		if(strlen(category->name[i]) == 0){
+		if (strlen(category->name[i]) == 0) {
 			gint cat_to_add_len;
 			gint desktopUniqueID;
 
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
 
-			if(cat_to_add_len > 15){
+			if (cat_to_add_len > 15) {
 				/* Have to truncate the category name */
 				cat_to_add_len = 15;
 			}
@@ -85,18 +85,18 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 			 * '\0' can't do direct mem transfer due to
 			 * declaration type
 			 */
-			for(j=0; j<cat_to_add_len; j++){
+			for (j=0; j<cat_to_add_len; j++) {
 				category->name[i][j] = cat_to_add[j];
 			}
 
-			for(j=cat_to_add_len; j<16; j++) {
+			for (j=cat_to_add_len; j<16; j++) {
 				category->name[i][j] = '\0';
 			}
 
 			/* find a desktop id that is not in use between 128 and 255 */
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
 				gint found = 0;
-				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
+				for (j=0; j<PILOT_MAX_CATEGORIES; j++) {
 					if (category->ID[i] == desktopUniqueID) {
 						found = 1;
 					}
@@ -116,7 +116,7 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 		}
 	}
 
-	if(retval == 0){
+	if (retval == 0) {
 		LOG (g_warning ("*** not adding category - category list already full ***"));
 	}
 
@@ -173,7 +173,7 @@ void e_pilot_remote_category_to_local(gint pilotCategory, ECalComponent *comp, s
 		LOG(g_message("Category: %s\n", category_string));
 
 		/* TODO The calendar editor page and search bar are not updated until a restart of the evolution client */
-		if(e_categories_exist(category_string) == FALSE){
+		if (e_categories_exist(category_string) == FALSE) {
 			/* add if it doesn't exist */
 			LOG(g_message("Category created on pc\n"));
 			e_categories_add(category_string, NULL, NULL, TRUE);
@@ -195,7 +195,7 @@ void e_pilot_remote_category_to_local(gint pilotCategory, ECalComponent *comp, s
 
 		/* remove old item from list so we don't have duplicate entries */
 		newcat_in_list = g_slist_find_custom(c_list, category_string, (GCompareFunc)strcmp);
-		if(newcat_in_list != NULL)
+		if (newcat_in_list != NULL)
 		{
 			c_list = g_slist_remove(c_list, newcat_in_list->data);
 		}

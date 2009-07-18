@@ -281,7 +281,7 @@ set_with(EMVFolderRule *vr, const gchar *name)
 {
 	gint i;
 
-	for(i=0;i<sizeof(with_names)/sizeof(with_names[0]);i++) {
+	for (i=0;i<sizeof(with_names)/sizeof(with_names[0]);i++) {
 		if (!strcmp(name, with_names[i])) {
 			vr->with = i;
 			return;
@@ -511,7 +511,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT);
 
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));
-	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
+	gtk_window_set_transient_for ((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
 	gtk_window_set_modal((GtkWindow *)dialog, TRUE);
 	g_signal_connect(dialog, "response", G_CALLBACK(vfr_folder_response), data);
 	gtk_widget_show(dialog);
@@ -637,7 +637,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);
 
-	for(i = 0; i < BUTTON_LAST; i++) {
+	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] =(GtkButton *)glade_xml_get_widget(gui, edit_buttons[i].name);
 		g_signal_connect(data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}

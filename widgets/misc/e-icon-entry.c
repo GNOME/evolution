@@ -393,7 +393,6 @@ e_icon_entry_create_text (const gchar *text)
 	return eventbox;
 }
 
-
 GtkWidget *
 e_icon_entry_create_separator ()
 {

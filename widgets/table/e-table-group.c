@@ -605,7 +605,7 @@ etg_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		return_val = FALSE;
 	}
-	if (return_val == FALSE){
+	if (return_val == FALSE) {
 		if (GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event)
 			return GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event (item, event);
 	}

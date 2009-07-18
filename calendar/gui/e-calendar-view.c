@@ -2548,7 +2548,7 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
 	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
 		gchar *value = icalproperty_get_value_as_string_r (property);
 
-		if (value && strcmp (category, value) == 0){
+		if (value && strcmp (category, value) == 0) {
 			g_free (value);
 			return TRUE;
 		}
@@ -2659,7 +2659,7 @@ e_calendar_utils_show_error_silent (GtkWidget *widget)
 {
 	EActivityHandler *handler = calendar_component_peek_activity_handler (calendar_component_peek ());
 
-	if(!g_object_get_data ((GObject *) widget, "response-handled")) {
+	if (!g_object_get_data ((GObject *) widget, "response-handled")) {
 		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
 	}
 
@@ -2671,7 +2671,7 @@ e_calendar_utils_show_info_silent (GtkWidget *widget)
 {
 	EActivityHandler *handler = calendar_component_peek_activity_handler (calendar_component_peek ());
 
-	if(!g_object_get_data ((GObject *) widget, "response-handled")) {
+	if (!g_object_get_data ((GObject *) widget, "response-handled")) {
 		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
 	}
 

@@ -148,7 +148,7 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 	height = text_height (layout, string ? string : "") + 10.0;
 	g_free(string);
 
-	for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
+	for (field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
 
 		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
 			continue;

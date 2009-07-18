@@ -205,7 +205,7 @@ e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *va
 	e_minicard_label = E_MINICARD_LABEL (object);
 	item = GNOME_CANVAS_ITEM (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_WIDTH:
 		e_minicard_label->width = g_value_get_double (value);
 		e_minicard_label_resize_children(e_minicard_label);
@@ -347,7 +347,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 
-	switch( event->type ) {
+	switch ( event->type ) {
 	case GDK_KEY_PRESS:
 		if (event->key.keyval == GDK_Escape) {
 			GnomeCanvasItem *parent;

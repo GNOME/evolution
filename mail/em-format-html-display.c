@@ -333,13 +333,13 @@ em_format_html_display_get_type (void)
 static gboolean
 efhd_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd)
 {
-	if(event->state & GDK_CONTROL_MASK)
+	if (event->state & GDK_CONTROL_MASK)
 	{
-		if(event->direction == GDK_SCROLL_UP)
+		if (event->direction == GDK_SCROLL_UP)
 		{
 			gtk_html_zoom_in (efhd->formathtml.html);
 		}
-		else if(event->direction == GDK_SCROLL_DOWN)
+		else if (event->direction == GDK_SCROLL_DOWN)
 		{
 			gtk_html_zoom_out (efhd->formathtml.html);
 		}
@@ -640,7 +640,7 @@ efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 		g_signal_connect(w, "response", G_CALLBACK(efhd_xpkcs7mime_viewcert_foad), po);
 
 		if (w && po->widget)
-			gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)po->widget);
+			gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)po->widget);
 
 		g_object_unref(ec);
 	} else {
@@ -1300,7 +1300,7 @@ efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_pu
 	if (info->shown && info->image) {
 		if (info->fit_width != 0) {
 			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height)) {
-				if(info->fit_width != width) {
+				if (info->fit_width != width) {
 					info->fit_width = width;
 					e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
 				} else {

@@ -270,7 +270,7 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y calendar contents locally for offline operation"));
 		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y task list contents locally for offline operation"));
-		else if(sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
+		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_JOURNAL)
 			offline_setting = gtk_check_button_new_with_mnemonic (_("Cop_y memo list contents locally for offline operation"));
 
 		gtk_widget_show (offline_setting);

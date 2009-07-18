@@ -971,17 +971,17 @@ free_tray_icon_data (TrayIconData *tray_data)
 {
 	g_return_if_fail (tray_data != NULL);
 
-	if (tray_data->summary){
+	if (tray_data->summary) {
 		g_free (tray_data->summary);
 		tray_data->summary = NULL;
 	}
 
-	if (tray_data->description){
+	if (tray_data->description) {
 		g_free (tray_data->description);
 		tray_data->description = NULL;
 	}
 
-	if (tray_data->location){
+	if (tray_data->location) {
 		g_free (tray_data->location);
 		tray_data->location = NULL;
 	}
@@ -1128,7 +1128,7 @@ tray_list_remove_async (Message *msg)
 
 		TrayIconData *tray_data = list->data;
 
-		if (!tray_data->snooze_set){
+		if (!tray_data->snooze_set) {
 			GList *temp = list->next;
 			gboolean status;
 

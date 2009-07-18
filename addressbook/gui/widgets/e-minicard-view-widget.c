@@ -200,7 +200,7 @@ e_minicard_view_widget_set_property (GObject *object,
 
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_BOOK:
 		if (emvw->book)
 			g_object_unref (emvw->book);

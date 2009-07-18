@@ -91,7 +91,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 		addr = camel_header_address_decode (dialog->options->delegate_address, NULL);
 		sender_addr = camel_header_address_decode (sender_id, NULL);
 
-		if(dialog->options->send_as_del_enabled &&
+		if (dialog->options->send_as_del_enabled &&
 			dialog->options->delegate_address &&
 				g_ascii_strcasecmp(addr->v.addr, sender_addr->v.addr)) {
 
@@ -102,7 +102,7 @@ append_to_header (ExchangeSendOptionsDialog *dialog, gint state, gpointer data)
 			 * So for cases where there is no name we append the address
 			 * (only email) within angular braces.
 			 */
-			if(!g_ascii_strcasecmp (addr->name, "")) {
+			if (!g_ascii_strcasecmp (addr->name, "")) {
 				recipient_id = g_strdup_printf ("<%s>",
 						dialog->options->delegate_address);
 				e_msg_composer_add_header (composer, "From", recipient_id);

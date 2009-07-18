@@ -208,7 +208,7 @@ create_table (void)
 	ETableModel *e_table_model = NULL;
 
 	/* First we fill in the simple data. */
-	for (i = 0; i < ROWS; i++){
+	for (i = 0; i < ROWS; i++) {
 		for (j = 0; j < COLS; j++)
 			table_data [i] [j] = g_strdup ("");
 	}

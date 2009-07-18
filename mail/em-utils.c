@@ -199,7 +199,7 @@ em_utils_configure_account (GtkWidget *parent)
 
 	emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
 	if (parent != NULL)
-		e_dialog_set_transient_for((GtkWindow *)emae->editor, parent);
+		e_dialog_set_transient_for ((GtkWindow *)emae->editor, parent);
 
 	g_object_weak_ref((GObject *)emae->editor, (GWeakNotify) druid_destroy_cb, NULL);
 	gtk_widget_show(emae->editor);
@@ -338,7 +338,7 @@ em_filename_make_safe (gchar *string)
 	g_return_if_fail (string != NULL);
 	p = string;
 
-	while(p && *p) {
+	while (p && *p) {
 		c = g_utf8_get_char (p);
 		ts = p;
 		p = g_utf8_next_char (p);
@@ -708,7 +708,7 @@ emu_add_address_or_vcard (GtkWidget *parent, const gchar *email, const gchar *vc
 	}
 
 	if (parent)
-		gtk_window_set_transient_for((GtkWindow *)win, ((GtkWindow *)parent));
+		gtk_window_set_transient_for ((GtkWindow *)win, ((GtkWindow *)parent));
 
 	gtk_window_set_position((GtkWindow *)win, GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_type_hint((GtkWindow *)win, GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -2203,12 +2203,12 @@ em_utils_contact_photo (CamelInternetAddress *cia, gboolean local)
 	EBook *book = NULL;
 	CamelMimePart *part;
 
-	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)){
+	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)) {
 		return NULL;
 	}
 
-	if (!emu_addr_list){
-		if (!e_book_get_addressbooks(&emu_addr_list, &err)){
+	if (!emu_addr_list) {
+		if (!e_book_get_addressbooks(&emu_addr_list, &err)) {
 			g_error_free(err);
 			return NULL;
 		}
@@ -2409,7 +2409,7 @@ void
 em_utils_show_error_silent (GtkWidget *widget)
 {
 	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
-	if(!g_object_get_data ((GObject *) widget, "response-handled"))
+	if (!g_object_get_data ((GObject *) widget, "response-handled"))
 		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
 	e_activity_handler_make_error (handler, "mail", E_LOG_ERROR, widget);
 }
@@ -2418,7 +2418,7 @@ void
 em_utils_show_info_silent (GtkWidget *widget)
 {
 	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
-	if(!g_object_get_data ((GObject *) widget, "response-handled"))
+	if (!g_object_get_data ((GObject *) widget, "response-handled"))
 		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
 	e_activity_handler_make_error (handler, "mail", E_LOG_WARNINGS, widget);
 }

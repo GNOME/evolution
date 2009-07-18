@@ -623,7 +623,7 @@ populate_widgets_from_alarm (Dialog *dialog)
                 g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
 	}
 
-	switch ( trigger->u.rel_duration.is_neg ){
+	switch ( trigger->u.rel_duration.is_neg ) {
 	case 1:
 		e_dialog_combo_box_set (dialog->relative_combo, BEFORE, relative_map);
 		break;

@@ -283,7 +283,7 @@ add_to_notes(EContact *contact, gint i, gchar *val) {
 		return;
 
 	new_text = g_string_new(old_text);
-	if(strlen(new_text->str) != 0)
+	if (strlen(new_text->str) != 0)
 		new_text = g_string_append_c(new_text, '\n');
 	new_text = g_string_append(new_text, field_text);
 	new_text = g_string_append_c(new_text, ':');
@@ -357,12 +357,12 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 		ptr = do_free;
 	}
 
-	while(*ptr != '\n') {
+	while (*ptr != '\n') {
 		value = g_string_new("");
-		while(*ptr != delimiter) {
-			if(*ptr == '\n')
+		while (*ptr != delimiter) {
+			if (*ptr == '\n')
 				break;
-			if(*ptr != '"') {
+			if (*ptr != '"') {
 				g_string_append_unichar (value, g_utf8_get_char (ptr));
 			}
 			else {
@@ -381,13 +381,13 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 		contact_field = NOMAP;
 		flags = FLAG_INVALID;
 
-		if(importer == OUTLOOK_IMPORTER) {
+		if (importer == OUTLOOK_IMPORTER) {
 			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook)) {
 				contact_field = csv_fields_outlook[i].contact_field;
 				flags = csv_fields_outlook[i].flags;
 			}
 		}
-		else if(importer == MOZILLA_IMPORTER) {
+		else if (importer == MOZILLA_IMPORTER) {
 			if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla)) {
 				contact_field = csv_fields_mozilla[i].contact_field;
 				flags = csv_fields_mozilla[i].flags;
@@ -400,12 +400,12 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 			}
 		}
 
-		if(strlen(value->str) != 0) {
+		if (strlen(value->str) != 0) {
 			if (contact_field != NOMAP) {
-				if(importer == OUTLOOK_IMPORTER) {
+				if (importer == OUTLOOK_IMPORTER) {
 					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_outlook))
 						e_contact_set (contact, csv_fields_outlook[i].contact_field, value->str);
-				} else if(importer == MOZILLA_IMPORTER) {
+				} else if (importer == MOZILLA_IMPORTER) {
 					if (i >= 0 && i < G_N_ELEMENTS (csv_fields_mozilla))
 						e_contact_set (contact, csv_fields_mozilla[i].contact_field, value->str);
 				} else {
@@ -421,7 +421,7 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 				switch (flags) {
 
 				case FLAG_HOME_ADDRESS|FLAG_STREET:
-					if(strlen(home_street->str) != 0) {
+					if (strlen(home_street->str) != 0) {
 						home_street = g_string_append(home_street, ",\n");
 					}
 					home_street = g_string_append(home_street, value->str);
@@ -443,7 +443,7 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 					break;
 
 				case FLAG_WORK_ADDRESS|FLAG_STREET:
-					if(strlen(work_street->str) != 0) {
+					if (strlen(work_street->str) != 0) {
 						work_street = g_string_append(work_street, ",\n");
 					}
 					work_street = g_string_append(work_street, value->str);
@@ -465,7 +465,7 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 					break;
 
 				case FLAG_OTHER_ADDRESS|FLAG_STREET:
-					if(strlen(other_street->str) != 0) {
+					if (strlen(other_street->str) != 0) {
 						other_street = g_string_append(other_street, ",\n");
 					}
 					other_street = g_string_append(other_street, value->str);
@@ -515,30 +515,30 @@ parseLine (CSVImporter *gci, EContact *contact, gchar *buf) {
 		}
 		i++;
 		g_string_free(value, TRUE);
-		if(*ptr != '\n')
+		if (*ptr != '\n')
 			ptr = g_utf8_next_char (ptr);
 	}
-	if(strlen(home_street->str) != 0)
+	if (strlen(home_street->str) != 0)
 		home_address->street = g_strdup(home_street->str);
-	if(strlen(work_street->str) != 0)
+	if (strlen(work_street->str) != 0)
 		work_address->street = g_strdup(work_street->str);
-	if(strlen(other_street->str) != 0)
+	if (strlen(other_street->str) != 0)
 		other_address->street = g_strdup(other_street->str);
 	g_string_free(home_street, TRUE);
 	g_string_free(work_street, TRUE);
 	g_string_free(other_street, TRUE);
 
-	if(home_address->locality || home_address->country ||
+	if (home_address->locality || home_address->country ||
 	   home_address->code || home_address->region || home_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_HOME, home_address);
-	if(work_address->locality || work_address->country ||
+	if (work_address->locality || work_address->country ||
 	   work_address->code || work_address->region || work_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_WORK, work_address);
-	if(other_address->locality || other_address->country ||
+	if (other_address->locality || other_address->country ||
 	   other_address->code || other_address->region || other_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_OTHER, other_address);
 
-	if(importer !=  OUTLOOK_IMPORTER) {
+	if (importer !=  OUTLOOK_IMPORTER) {
 		if (bday->day || bday->year || bday->month)
 			e_contact_set(contact, E_CONTACT_BIRTH_DATE, bday);
 	}
@@ -557,11 +557,11 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 	gchar c;
 
 	/*
-	if(!fgets(line, sizeof(line),f))
+	if (!fgets(line, sizeof(line),f))
 		return NULL;
 
-	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
-		if(!fgets(line, sizeof(line),f))
+	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
+		if (!fgets(line, sizeof(line),f))
 			return NULL;
 		gci->count ++;
 	}
@@ -589,7 +589,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 			g_string_append_c (line, c);
 	}
 
-	if(gci->count == 0 && importer != MOZILLA_IMPORTER) {
+	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
 		g_string_free (line, TRUE);
 		line = g_string_new("");
 		while (1) {
@@ -620,7 +620,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 
 	g_string_free (line, TRUE);
 
-	if(strlen(str->str) == 0) {
+	if (strlen(str->str) == 0) {
 		g_string_free(str, TRUE);
 		return NULL;
 	}
@@ -629,7 +629,7 @@ getNextCSVEntry(CSVImporter *gci, FILE *f) {
 
 	buf = str->str;
 
-	if(!parseLine (gci, contact, buf)) {
+	if (!parseLine (gci, contact, buf)) {
 		g_object_unref(contact);
 		return NULL;
 	}
@@ -649,10 +649,10 @@ csv_import_contacts(gpointer d) {
 		e_book_add_contact(gci->book, contact, NULL);
 		gci->contacts = g_slist_prepend(gci->contacts, contact);
 	}
-	if(contact == NULL) {
+	if (contact == NULL) {
 		gci->state = 1;
 	}
-	if(gci->state == 1) {
+	if (gci->state == 1) {
 		csv_import_done(gci);
 		return FALSE;
 	}
@@ -769,7 +769,7 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	EImportTargetURI *s = (EImportTargetURI *) target;
 
 	book = e_book_new(g_datalist_get_data(&target->data, "csv-source"), NULL);
-	if(book == NULL) {
+	if (book == NULL) {
 		g_message("Couldn't Create EBook");
 		e_import_complete(ei, target);
 		return;
@@ -824,7 +824,7 @@ static void
 csv_cancel(EImport *ei, EImportTarget *target, EImportImporter *im) {
 	CSVImporter *gci = g_datalist_get_data(&target->data, "csv-data");
 
-	if(gci)
+	if (gci)
 		gci->state = 1;
 }
 

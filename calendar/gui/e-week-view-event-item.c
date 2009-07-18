@@ -501,7 +501,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 
 		draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-		if (gradient){
+		if (gradient) {
 			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1,
 						rect_x + 2, y2 - 7.25);
 			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);

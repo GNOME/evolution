@@ -266,7 +266,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
-	if(!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
+	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
 		return NULL;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "imap-headers.glade", NULL);

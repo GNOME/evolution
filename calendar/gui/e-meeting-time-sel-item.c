@@ -294,7 +294,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	    && (meeting_end_x - meeting_start_x > 2)) {
 		cairo_save (cr);
 		gdk_cairo_set_source_color (cr, &mts->meeting_time_bg_color);
-		if (is_display_top){
+		if (is_display_top) {
 			cairo_rectangle (cr, meeting_start_x + 1 - x, mts->row_height * 2 - y,
 					    meeting_end_x - meeting_start_x - 2, mts->row_height);
 			cairo_fill (cr);

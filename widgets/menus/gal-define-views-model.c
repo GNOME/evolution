@@ -213,7 +213,7 @@ gal_define_views_model_set_property (GObject *object, guint prop_id, const GValu
 
 	model = GAL_DEFINE_VIEWS_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_EDITABLE:
 		model->editable = g_value_get_boolean (value);
 		break;

@@ -335,7 +335,7 @@ get_values (FilterDatespec *fds)
 {
 	struct _FilterDatespecPrivate *p = PRIV(fds);
 
-	switch(fds->priv->type) {
+	switch (fds->priv->type) {
 	case FDST_SPECIFIED: {
 		guint year, month, day;
 		struct tm tm;

@@ -126,7 +126,7 @@ e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value,
 	item = GNOME_CANVAS_ITEM (object);
 	e_canvas_vbox = E_CANVAS_VBOX (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_WIDTH:
 	case PROP_MINIMUM_WIDTH:
 		e_canvas_vbox->minimum_width = g_value_get_double (value);
@@ -329,7 +329,7 @@ e_canvas_vbox_reflow( GnomeCanvasItem *item, gint flags )
 				max_width = item_width;
 			list = g_list_next(list);
 
-			for(; list; list = g_list_next(list)) {
+			for (; list; list = g_list_next(list)) {
 				running_height += e_canvas_vbox->spacing;
 
 				g_object_get (list->data,

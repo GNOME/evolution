@@ -376,7 +376,7 @@ component_interface_get_extents (AtkComponent *component,
                         *width = week_view->col_widths[cell->column - 1];
                         *x += week_view->col_offsets[cell->column - 1]- scroll_x;
                         *y += week_view->row_offsets[cell->row*2 + 1]- scroll_y;
-                } else if (week_view->compress_weekend && (cell->column > (6 - start_day))){
+                } else if (week_view->compress_weekend && (cell->column > (6 - start_day))) {
                         *height = week_view->row_heights[cell->row*2]*2;
                         *width = week_view->col_widths[cell->column - 1];
                         *x += week_view->col_offsets[cell->column - 1] - scroll_x;

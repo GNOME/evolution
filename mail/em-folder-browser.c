@@ -877,11 +877,11 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, gint id, const gcha
 			for (i=0;i<words->len;i++)
 				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
 			camel_search_words_free (words);
-		} else if(!strcmp(part->name, "sender")) {
+		} else if (!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)
 				filter_input_set_value(input, query);
-		} else if(!strcmp(part->name, "to")) {
+		} else if (!strcmp(part->name, "to")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "recipient");
 			if (input)
 				filter_input_set_value(input, query);
@@ -1652,7 +1652,7 @@ emfb_mark_all_read(BonoboUIComponent *uid, gpointer data, const gchar *path)
 
 	if (emfv->folder == NULL)
 		return;
-	if( em_utils_prompt_user((GtkWindow *)emfv, "/apps/evolution/mail/prompts/mark_all_read","mail:ask-mark-all-read", NULL)){
+	if ( em_utils_prompt_user((GtkWindow *)emfv, "/apps/evolution/mail/prompts/mark_all_read","mail:ask-mark-all-read", NULL)) {
 		uids = message_list_get_uids(emfv->list);
 		camel_folder_freeze(emfv->folder);
 		for (i=0;i<uids->len;i++)
@@ -1727,7 +1727,7 @@ emfb_tools_subscriptions(BonoboUIComponent *uid, gpointer data, const gchar *pat
 		gdk_window_show(emfb->priv->subscribe_editor->window);
 	} else {
 		emfb->priv->subscribe_editor = (GtkWidget *)em_subscribe_editor_new();
-		e_dialog_set_transient_for((GtkWindow *)emfb->priv->subscribe_editor, (GtkWidget *)emfb);
+		e_dialog_set_transient_for ((GtkWindow *)emfb->priv->subscribe_editor, (GtkWidget *)emfb);
 		g_signal_connect(emfb->priv->subscribe_editor, "destroy", G_CALLBACK(emfb_subscribe_editor_destroy), emfb);
 		gtk_widget_show(emfb->priv->subscribe_editor);
 	}

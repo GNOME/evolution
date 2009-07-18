@@ -237,7 +237,7 @@ find_column_in_spec (ETableSpecification *spec, gint model_col)
 {
 	ETableColumnSpecification **column;
 
-	for (column = spec->columns; *column; column++){
+	for (column = spec->columns; *column; column++) {
 		if ((*column)->disabled)
 			continue;
 		if ((*column)->model_col != model_col)
@@ -254,7 +254,7 @@ find_model_column_by_name (ETableSpecification *spec, const gchar *s)
 {
 	ETableColumnSpecification **column;
 
-	for (column = spec->columns; *column; column++){
+	for (column = spec->columns; *column; column++) {
 
 		if ((*column)->disabled)
 			continue;
@@ -270,7 +270,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 	ETableConfigSortWidgets *widgets;
 	gint count, i;
 
-	if (is_sort){
+	if (is_sort) {
 		count = e_table_sort_info_sorting_get_count (
 			config->temp_state->sort_info);
 		widgets = &config->sort [0];
@@ -280,7 +280,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		widgets = &config->group [0];
 	}
 
-	for (i = 0; i < 4; i++){
+	for (i = 0; i < 4; i++) {
 		gboolean sensitive = (i <= count);
 		const gchar *text = "";
 
@@ -296,7 +296,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			widgets [i].combo,
 			widgets [i].changed_id);
 
-		if (i < count){
+		if (i < count) {
 			GtkToggleButton *a, *d;
 			ETableSortColumn col =
 				is_sort
@@ -310,7 +310,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			ETableColumnSpecification *column =
 				find_column_in_spec (config->source_spec, col.column);
 
-			if (!column){
+			if (!column) {
 				/*
 				 * This is a bug in the programmer
 				 * stuff, but by the time we arrive
@@ -372,7 +372,7 @@ config_sort_info_update (ETableConfig *config)
 		ETableColumnSpecification *column;
 
 		column = find_column_in_spec (config->source_spec, col.column);
-		if (!column){
+		if (!column) {
 			g_warning ("Could not find column model in specification");
 			continue;
 		}
@@ -414,7 +414,7 @@ config_group_info_update (ETableConfig *config)
 		ETableColumnSpecification *column;
 
 		column = find_column_in_spec (config->source_spec, col.column);
-		if (!column){
+		if (!column) {
 			g_warning ("Could not find model column in specification");
 			continue;
 		}
@@ -468,8 +468,8 @@ config_fields_info_update (ETableConfig *config)
 	GString *res = g_string_new ("");
 	gint i, j;
 
-	for (i = 0; i < config->state->col_count; i++){
-		for (j = 0, column = config->source_spec->columns; *column; column++, j++){
+	for (i = 0; i < config->state->col_count; i++) {
+		for (j = 0, column = config->source_spec->columns; *column; column++, j++) {
 
 			if ((*column)->disabled)
 				continue;
@@ -513,9 +513,9 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 
 	do {
 		response = gtk_dialog_run (dialog);
-		switch (response){
+		switch (response) {
 		case 0: /* clear fields */
-			if (is_sort){
+			if (is_sort) {
 				e_table_sort_info_sorting_truncate (
 					config->temp_state->sort_info, 0);
 			} else {
@@ -568,7 +568,7 @@ do_fields_config_dialog (ETableConfig *config)
 
 	do {
 		response = gtk_dialog_run (GTK_DIALOG(config->dialog_show_fields));
-		switch (response){
+		switch (response) {
 		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
 			config->state = config->temp_state;
@@ -787,7 +787,7 @@ sort_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *sort)
 		gint col;
 
 		col = find_model_column_by_name (config->source_spec, s);
-		if (col == -1){
+		if (col == -1) {
 			g_warning ("sort: This should not happen (%s)", s);
 			g_free (s);
 			return;
@@ -827,7 +827,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	GSList *l;
 	gint i;
 
-	for (i = 0; i < 4; i++){
+	for (i = 0; i < 4; i++) {
 		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
@@ -855,10 +855,10 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		config->sort [i].e_table_config = config;
 	}
 
-	for (l = config->column_names; l; l = l->next){
+	for (l = config->column_names; l; l = l->next) {
 		gchar *label = l->data;
 
-		for (i = 0; i < 4; i++){
+		for (i = 0; i < 4; i++) {
 			configure_combo_box_add (
 				GTK_COMBO_BOX (config->sort[i].combo),
 				dgettext (config->domain, label), label);
@@ -868,7 +868,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 	/*
 	 * After we have runtime modified things, signal connect
 	 */
-	for (i = 0; i < 4; i++){
+	for (i = 0; i < 4; i++) {
 		config->sort [i].changed_id = g_signal_connect (
 			config->sort [i].combo,
 			"changed", G_CALLBACK (sort_combo_changed),
@@ -897,7 +897,7 @@ group_combo_changed (GtkComboBox *combo_box, ETableConfigSortWidgets *group)
 		gint col;
 
 		col = find_model_column_by_name (config->source_spec, s);
-		if (col == -1){
+		if (col == -1) {
 			g_warning ("grouping: this should not happen, %s", s);
 			g_free (s);
 			return;
@@ -937,7 +937,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 	GSList *l;
 	gint i;
 
-	for (i = 0; i < 4; i++){
+	for (i = 0; i < 4; i++) {
 		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
@@ -972,10 +972,10 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 		config->group [i].e_table_config = config;
 	}
 
-	for (l = config->column_names; l; l = l->next){
+	for (l = config->column_names; l; l = l->next) {
 		gchar *label = l->data;
 
-		for (i = 0; i < 4; i++){
+		for (i = 0; i < 4; i++) {
 			configure_combo_box_add (
 				GTK_COMBO_BOX (config->group[i].combo),
 				dgettext (config->domain, label), label);
@@ -985,7 +985,7 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 	/*
 	 * After we have runtime modified things, signal connect
 	 */
-	for (i = 0; i < 4; i++){
+	for (i = 0; i < 4; i++) {
 		config->group [i].changed_id = g_signal_connect (
 			config->group [i].combo,
 			"changed", G_CALLBACK (group_combo_changed),
@@ -1293,7 +1293,7 @@ e_table_config_construct (ETableConfig        *config,
 
 	config->domain = g_strdup (spec->domain);
 
-	for (column = config->source_spec->columns; *column; column++){
+	for (column = config->source_spec->columns; *column; column++) {
 		gchar *label = (*column)->title;
 
 		if ((*column)->disabled)
@@ -1333,7 +1333,7 @@ e_table_config_new (const gchar          *header,
 {
 	ETableConfig *config = g_object_new (E_TABLE_CONFIG_TYPE, NULL);
 
-	if (e_table_config_construct (config, header, spec, state, parent_window) == NULL){
+	if (e_table_config_construct (config, header, spec, state, parent_window) == NULL) {
 		g_object_unref (config);
 		return NULL;
 	}

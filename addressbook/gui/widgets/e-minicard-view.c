@@ -225,7 +225,7 @@ e_minicard_view_set_property (GObject *object,
 
 	view = E_MINICARD_VIEW (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id || view->stop_state_id) {
@@ -375,7 +375,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	view = E_MINICARD_VIEW (item);
 
-	switch( event->type ) {
+	switch ( event->type ) {
 	case GDK_2BUTTON_PRESS:
 		if (((GdkEventButton *)event)->button == 1) {
 			gboolean editable;

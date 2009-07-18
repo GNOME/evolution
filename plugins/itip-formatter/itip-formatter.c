@@ -1057,7 +1057,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	}
 
 	if ((response != ITIP_VIEW_RESPONSE_CANCEL)
-		&& (response != ITIP_VIEW_RESPONSE_DECLINE)){
+		&& (response != ITIP_VIEW_RESPONSE_DECLINE)) {
 		GSList *attachments = NULL, *new_attachments = NULL, *l;
 		CamelMimeMessage *msg = pitip->msg;
 

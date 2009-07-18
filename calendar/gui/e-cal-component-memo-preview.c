@@ -146,7 +146,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 				one_added = TRUE;
 			}
 			else{
-				if(one_added == FALSE){
+				if (one_added == FALSE) {
 					g_string_append_printf (string, "%s", (const gchar *) node->data);
 					one_added = TRUE;
 				}

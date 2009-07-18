@@ -50,7 +50,7 @@ e_popup_menu (GtkMenu *menu, GdkEvent *event)
 		else if ((event->type == GDK_BUTTON_PRESS) ||
 			 (event->type == GDK_BUTTON_RELEASE) ||
 			 (event->type == GDK_2BUTTON_PRESS) ||
-			 (event->type == GDK_3BUTTON_PRESS)){
+			 (event->type == GDK_3BUTTON_PRESS)) {
 			gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
 					event->button.button,
 					event->button.time);

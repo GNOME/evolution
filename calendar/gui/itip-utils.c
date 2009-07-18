@@ -497,7 +497,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 
 	case E_CAL_COMPONENT_METHOD_REPLY:
 
-		if (reply_all){
+		if (reply_all) {
 			e_cal_component_get_attendee_list (comp, &attendees);
 			len = g_slist_length (attendees);
 
@@ -568,7 +568,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
 				continue;
 
-			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender) || (att->sentby && !g_ascii_strcasecmp (itip_strip_mailto (att->sentby), sender))){
+			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender) || (att->sentby && !g_ascii_strcasecmp (itip_strip_mailto (att->sentby), sender))) {
 
 				if (!(att->delfrom && *att->delfrom))
 					break;
@@ -584,7 +584,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 
 		break;
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
-		if(users) {
+		if (users) {
 			GList *list;
 
 			array = g_ptr_array_new ();
@@ -1367,7 +1367,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string_r (top_level);
 
-	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 
 		GString *body;
 		gchar *orig_from = NULL;
@@ -1385,7 +1385,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 		e_cal_component_get_description_list (comp, &text_list);
 
-		if (text_list){
+		if (text_list) {
 			ECalComponentText text = *((ECalComponentText *)text_list->data);
 			if (text.value)
 				description = text.value;
@@ -1528,7 +1528,7 @@ fb_sort (struct icalperiodtype *ipt, gint fb_count)
 			if (icaltime_compare (ipt[i].start, ipt[j].start) < 0)
 				continue;
 
-			if (icaltime_compare (ipt[i].start, ipt[j].start) == 0){
+			if (icaltime_compare (ipt[i].start, ipt[j].start) == 0) {
 				if (icaltime_compare (ipt[i].end,
 						     ipt[j].start) < 0)
 					continue;

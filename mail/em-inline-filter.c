@@ -213,7 +213,7 @@ emif_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 
 		*inptr++ = 0;
 
-		switch(emif->state) {
+		switch (emif->state) {
 		case EMIF_PLAIN:
 			/* This could use some funky plugin shit, but this'll do for now */
 			if (strncmp(start, "begin ", 6) == 0

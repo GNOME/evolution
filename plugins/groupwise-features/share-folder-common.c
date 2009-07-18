@@ -79,7 +79,7 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 	account = mail_config_get_account_by_source_url (uri);
-	if (!account){
+	if (!account) {
 		return;
 	}
 
@@ -164,7 +164,7 @@ create_folder_done (struct _EMCreateFolder *m)
 
 	if (m->done) {
 		ccnc = get_cnc (store);
-		if(E_IS_GW_CONNECTION (ccnc)) {
+		if (E_IS_GW_CONNECTION (ccnc)) {
 			(ssi->sf)->cnc = ccnc;
 
 			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->full_name));
@@ -198,7 +198,7 @@ new_folder_created_cb (struct _EMCreateFolder *m, gpointer user_data)
 {
 	struct ShareInfo *ssi = (struct ShareInfo *) user_data;
 	EMFolderSelector *emfs = ssi->emfs;
-	if (m->fi){
+	if (m->fi) {
 		refresh_folder_tree (ssi->model, m->store);
 		gtk_widget_destroy ((GtkWidget *) emfs);
 		gtk_widget_destroy ((GtkWidget *) ssi->d);
@@ -470,7 +470,7 @@ get_cnc (CamelStore *store)
 		user = g_strdup (url->user);
 		property_value =  camel_url_get_param (url, "soap_port");
 		use_ssl = g_strdup (camel_url_get_param (url, "use_ssl"));
-		if(property_value == NULL)
+		if (property_value == NULL)
 			port = g_strdup ("7191");
 		else if (strlen(property_value) == 0)
 			port = g_strdup ("7191");
@@ -505,7 +505,7 @@ get_container_id(EGwConnection *cnc, const gchar *fname)
 	gint i = 0, parts = 0;
 
 	names = g_strsplit (fname, "/", -1);
-	if(names){
+	if (names) {
 		while (names [parts])
 			parts++;
 		fname = names[i];

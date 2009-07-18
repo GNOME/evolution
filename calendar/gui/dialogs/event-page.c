@@ -1537,7 +1537,7 @@ time_sel_changed (GtkComboBox *combo, EventPage *epage)
 		gtk_widget_show (priv->end_time);
 		hour_sel_changed (GTK_SPIN_BUTTON (priv->hour_selector), epage);
 		minute_sel_changed (GTK_SPIN_BUTTON (priv->minute_selector), epage);
-	} else if (!selection){
+	} else if (!selection) {
 		gtk_widget_show (priv->time_hour);
 		gtk_widget_hide (priv->end_time);
 

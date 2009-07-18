@@ -431,7 +431,7 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	if (parent == NULL && ee_parent_list)
 		parent = (GtkWindow *)ee_parent_list->data;
 	if (parent)
-		gtk_window_set_transient_for((GtkWindow *)dialog, parent);
+		gtk_window_set_transient_for ((GtkWindow *)dialog, parent);
 	else
 		g_warning("No parent set, or default parent available for error dialog");
 

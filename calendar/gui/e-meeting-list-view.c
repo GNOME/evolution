@@ -396,7 +396,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		gchar *name = names->data, *email = addresses->data;
 		gint existing_row;
 
-		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)){
+		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)) {
 			if (existing_attendee) {
 				removed = TRUE;
 				e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),

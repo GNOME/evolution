@@ -1297,7 +1297,7 @@ e_file_lock_create ()
 	gboolean status = FALSE;
 
 	gint fd = g_creat (fname, S_IRUSR|S_IWUSR);
-	if (fd == -1){
+	if (fd == -1) {
 		g_warning ("Lock file '%s' creation failed, error %d\n", fname, errno);
 	} else {
 		status = TRUE;
@@ -1312,7 +1312,7 @@ e_file_lock_destroy ()
 {
 	const gchar *fname = get_lock_filename ();
 
-	if (g_unlink (fname) == -1){
+	if (g_unlink (fname) == -1) {
 		g_warning ("Lock destroy: failed to unlink file '%s'!",fname);
 	}
 }

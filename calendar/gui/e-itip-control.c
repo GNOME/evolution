@@ -909,7 +909,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	g_string_truncate (buffer, 0);
 
 	e_cal_component_get_dtend (comp, &datetime);
-	if (datetime.value){
+	if (datetime.value) {
 		/* For Translators : 'ends' is ends:date implying a task ends on what date */
 		str = g_strdup_printf ("<b>%s:</b>", _("Ends"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);

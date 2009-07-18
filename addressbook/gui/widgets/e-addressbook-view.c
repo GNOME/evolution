@@ -671,7 +671,7 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 {
 	EABView *eav = EAB_VIEW(object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_BOOK:
 		if (eav->book) {
 			g_object_unref (eav->book);
@@ -1731,7 +1731,7 @@ eab_view_print (EABView *view, GtkPrintOperationAction action)
  */
 static void delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 {
-	switch(status) {
+	switch (status) {
 		case E_BOOK_ERROR_OK :
 		case E_BOOK_ERROR_CANCELLED :
 			break;

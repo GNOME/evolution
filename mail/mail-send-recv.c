@@ -236,7 +236,7 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 static void
 dialog_response(GtkDialog *gd, gint button, struct _send_data *data)
 {
-	switch(button) {
+	switch (button) {
 	case GTK_RESPONSE_CANCEL:
 		d(printf("cancelled whole thing\n"));
 		if (!data->cancelled) {
@@ -937,7 +937,7 @@ mail_send_receive (void)
 	while (scan) {
 		struct _send_info *info = scan->data;
 
-		switch(info->type) {
+		switch (info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep_on_server,
 					FILTER_SOURCE_INCOMING,

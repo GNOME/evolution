@@ -75,7 +75,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 	CamelProvider *provider;
 	EGwConnection *cnc;
 
-	if (response == GTK_RESPONSE_CANCEL){
+	if (response == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (GTK_WIDGET (emfs));
 	} else {
 		model = accept_data->model;
@@ -83,7 +83,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 		uri = em_folder_selector_get_selected_uri (emfs);
 		path = em_folder_selector_get_selected_path (emfs);
 		names = g_strsplit (path, "/", -1);
-		if(names == NULL){
+		if (names == NULL) {
 			folder_name = (gchar *)path;
 			parent_name = NULL;
 		} else {
@@ -103,10 +103,10 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 		}
 
 		cnc = get_cnc (store);
-		if(E_IS_GW_CONNECTION (cnc)) {
+		if (E_IS_GW_CONNECTION (cnc)) {
 			container_id = get_container_id (cnc, parent_name);
 
-			if(e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
+			if (e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
 				folder = camel_store_get_folder (store, "Mailbox", 0, NULL);
 				/*changes = camel_folder_change_info_new ();

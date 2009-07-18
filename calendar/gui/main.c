@@ -168,7 +168,7 @@ factory (BonoboGenericFactory *factory,
 		BonoboObject *object = BONOBO_OBJECT (tasks_component_peek ());
 		bonobo_object_ref (object);
 		return object;
-	} else if (strcmp (component_id, MEMOS_COMPONENT_ID) == 0){
+	} else if (strcmp (component_id, MEMOS_COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (memos_component_peek ());
 		bonobo_object_ref (object);
 		return object;

@@ -172,7 +172,7 @@ eth_finalize (GObject *object)
 	/*
 	 * Destroy columns
 	 */
-	for (i = cols - 1; i >= 0; i--){
+	for (i = cols - 1; i >= 0; i--) {
 		eth_do_remove (eth, i, TRUE);
 	}
 	g_free (eth->columns);
@@ -348,7 +348,7 @@ eth_update_offsets (ETableHeader *eth)
 	gint i;
 	gint x = 0;
 
-	for (i = 0; i < eth->col_count; i++){
+	for (i = 0; i < eth->col_count; i++) {
 		ETableCol *etc = eth->columns [i];
 
 		etc->x = x;
@@ -505,7 +505,7 @@ e_table_header_get_index_at (ETableHeader *eth, gint x_offset)
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	total = 0;
-	for (i = 0; i < eth->col_count; i++){
+	for (i = 0; i < eth->col_count; i++) {
 		total += eth->columns [i]->width;
 
 		if (x_offset < total)
@@ -560,7 +560,7 @@ e_table_header_get_selected (ETableHeader *eth)
 	g_return_val_if_fail (eth != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
-	for (i = 0; i < eth->col_count; i++){
+	for (i = 0; i < eth->col_count; i++) {
 		if (eth->columns [i]->selected)
 			selected++;
 	}
@@ -728,7 +728,7 @@ eth_set_size (ETableHeader *eth, gint idx, gint size)
 	/* (1) If none of the columns to the right are expandable, use
 	 * all the expansion space in this column.
 	 */
-	if(expandable_count == 0) {
+	if (expandable_count == 0) {
 		eth->columns[idx]->expansion = expansion;
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
@@ -827,7 +827,7 @@ e_table_header_col_diff (ETableHeader *eth, gint start_col, gint end_col)
 		end_col = eth->col_count;
 
 	total = 0;
-	for (col = start_col; col < end_col; col++){
+	for (col = start_col; col < end_col; col++) {
 
 		total += eth->columns [col]->width;
 	}

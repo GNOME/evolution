@@ -212,7 +212,7 @@ ecb_set_property (GObject *object,
 	item = GNOME_CANVAS_ITEM (object);
 	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_FILL_COLOR:
 		if (g_value_get_string (value))
 			gdk_color_parse (g_value_get_string (value), &color);
@@ -288,7 +288,7 @@ ecb_get_property (GObject *object,
 
 	ecb = E_CANVAS_BACKGROUND (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_FILL_COLOR_GDK:
 		g_value_set_boxed (value, gdk_color_copy (&ecb->priv->color));
 		break;

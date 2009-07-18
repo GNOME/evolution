@@ -148,13 +148,13 @@ my_row_count (ETableModel *etc, gpointer data)
 static gpointer
 my_value_at (ETableModel *etc, gint col, gint row, gpointer data)
 {
-	if (col == COLOR_COLUMN){
-		if (importance_data[row]){
+	if (col == COLOR_COLUMN) {
+		if (importance_data[row]) {
 			return color1;
 		} else {
 			return color2;
 		}
-	} else if (col == IMPORTANCE_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN) {
 		return (gpointer) importance_data[row];
 	} else {
 		return (gpointer) table_data [row][col];
@@ -164,8 +164,8 @@ my_value_at (ETableModel *etc, gint col, gint row, gpointer data)
 static void
 my_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val, gpointer data)
 {
-	if (col == COLOR_COLUMN){
-	} else if (col == IMPORTANCE_COLUMN){
+	if (col == COLOR_COLUMN) {
+	} else if (col == IMPORTANCE_COLUMN) {
 		importance_data[row] = (gboolean) val;
 	} else {
 		g_free (table_data [row][col]);
@@ -185,9 +185,9 @@ my_is_cell_editable (ETableModel *etc, gint col, gint row, gpointer data)
 static gpointer
 my_duplicate_value (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
-	if (col == COLOR_COLUMN){
+	if (col == COLOR_COLUMN) {
 		return (gpointer) value;
-	} else if (col == IMPORTANCE_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN) {
 		return (gpointer) value;
 	} else {
 		return g_strdup (value);
@@ -197,8 +197,8 @@ my_duplicate_value (ETableModel *etc, gint col, gconstpointer value, gpointer da
 static void
 my_free_value (ETableModel *etc, gint col, gpointer value, gpointer data)
 {
-	if (col == COLOR_COLUMN){
-	} else if (col == IMPORTANCE_COLUMN){
+	if (col == COLOR_COLUMN) {
+	} else if (col == IMPORTANCE_COLUMN) {
 	} else {
 		g_free (value);
 	}
@@ -207,9 +207,9 @@ my_free_value (ETableModel *etc, gint col, gpointer value, gpointer data)
 static gpointer
 my_initialize_value (ETableModel *etc, gint col, gpointer data)
 {
-	if (col == COLOR_COLUMN){
+	if (col == COLOR_COLUMN) {
 		return NULL;
-	} else if (col == IMPORTANCE_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN) {
 		return NULL;
 	} else {
 		return g_strdup ("");
@@ -219,9 +219,9 @@ my_initialize_value (ETableModel *etc, gint col, gpointer data)
 static gboolean
 my_value_is_empty (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
-	if (col == COLOR_COLUMN){
+	if (col == COLOR_COLUMN) {
 		return value == NULL;
-	} else if (col == IMPORTANCE_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN) {
 		return value == NULL;
 	} else {
 		return !(value && *(gchar *)value);
@@ -231,9 +231,9 @@ my_value_is_empty (ETableModel *etc, gint col, gconstpointer value, gpointer dat
 static gchar *
 my_value_to_string (ETableModel *etc, gint col, gconstpointer value, gpointer data)
 {
-	if (col == COLOR_COLUMN){
+	if (col == COLOR_COLUMN) {
 		return g_strdup_printf("%d", (gint) value);
-	} else if (col == IMPORTANCE_COLUMN){
+	} else if (col == IMPORTANCE_COLUMN) {
 		return g_strdup_printf("%d", (gint) value);
 	} else {
 		return g_strdup(value);
@@ -254,8 +254,8 @@ create_table ()
 	GdkPixbuf *pixbuf;
 
 	/* First we fill in the simple data. */
-	for (i = 0; i < ROWS; i++){
-		for (j = 0; j < VIEW_COLS; j++){
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < VIEW_COLS; j++) {
 			table_data[i][j] = g_strdup ("");
 		}
 		importance_data[i] = FALSE;
@@ -290,7 +290,7 @@ create_table ()
 	/* Next we create a column object for each view column and add
 	   them to the header.  We don't create a column object for
 	   the importance column since it will not be shown. */
-	for (i = 0; i < VIEW_COLS; i++){
+	for (i = 0; i < VIEW_COLS; i++) {
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
 						   i, headers [i],

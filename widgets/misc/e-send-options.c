@@ -249,7 +249,7 @@ sensitize_widgets (ESendOptionsDialog *sod)
 	if (!gopts->expiration_enabled)
 		gtk_widget_set_sensitive (priv->expire_after, FALSE);
 
-	if (!gopts->delay_enabled){
+	if (!gopts->delay_enabled) {
 		gtk_widget_set_sensitive (priv->delay_until, FALSE);
 	}
 

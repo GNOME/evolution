@@ -566,7 +566,7 @@ eab_model_set_property (GObject *object, guint prop_id, const GValue *value, GPa
 
 	model = EAB_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_BOOK:
 		if (model->book) {
 			if (model->writable_status_id)

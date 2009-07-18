@@ -105,7 +105,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 	/* This block helps us fetch the address of the delegator(s). If no delegator is selected or more
 	   than one delegatee has been selected then an info dialog is popped up to help the user.
 	*/
-	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
 
 		name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
 		destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY									       (name_selector_entry));
@@ -132,7 +132,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 			options->delegate_email = email;
 		}
 
-		if(count == 0) {
+		if (count == 0) {
 			e_error_run ((GtkWindow *) priv->main,
 				"org-gnome-exchange-operations:no-delegate-selected", NULL, NULL);
 			gtk_widget_grab_focus ((GtkWidget *) name_selector_entry);
@@ -142,7 +142,7 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 			return -1;
 		}
 
-		if(count > 1) {
+		if (count > 1) {
 			e_error_run ((GtkWindow *)priv->main,
 				"org-gnome-exchange-operations:more-delegates-selected", NULL, NULL);
 			gtk_widget_grab_focus ((GtkWidget *) name_selector_entry);
@@ -222,7 +222,7 @@ exchange_send_options_fill_widgets_with_data (ExchangeSendOptionsDialog *sod)
 
 	name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
 
-	if(options->send_as_del_enabled) {
+	if (options->send_as_del_enabled) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled), TRUE);
 		gtk_widget_set_sensitive ((GtkWidget *)name_selector_entry, TRUE);
 		gtk_widget_set_sensitive ((GtkWidget *)priv->button_user, TRUE);
@@ -287,7 +287,7 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 
 	switch (state) {
 		case GTK_RESPONSE_OK:
-		     if(exchange_send_options_get_widgets_data (sod) < 0)
+		     if (exchange_send_options_get_widgets_data (sod) < 0)
 			return;
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
@@ -321,7 +321,7 @@ delegate_option_toggled (GtkCheckButton *button, gpointer func_data)
 
 	name_selector_entry = e_name_selector_peek_section_entry (priv->proxy_name_selector, "Add User");
 
-	if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delegate_enabled))) {
 		gtk_widget_set_sensitive ((GtkWidget *) name_selector_entry, TRUE);
 		gtk_widget_set_sensitive ((GtkWidget *) priv->button_user, TRUE);
 	}
@@ -411,7 +411,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 
 	exchange_send_options_fill_widgets_with_data (sod);
 
-	if(options->delegate_address) {
+	if (options->delegate_address) {
 		e_name_selector_model_peek_section (name_selector_model, "Add User", NULL, &destination_store);
 		des = e_destination_new ();
 		e_destination_set_email (des, options->delegate_email);

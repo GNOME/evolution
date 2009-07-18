@@ -1305,7 +1305,7 @@ view_statusbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	GConfClient *gconf_client;
 
 	is_visible = state[0] == '1';
-	if(is_visible)
+	if (is_visible)
 		gtk_widget_show (status_bar);
 	else
 		gtk_widget_hide (status_bar);
@@ -1326,7 +1326,7 @@ view_sidebar_item_toggled_handler (BonoboUIComponent           *ui_component,
 	GConfClient *gconf_client;
 
 	is_visible = state[0] == '1';
-	if(is_visible)
+	if (is_visible)
 		gtk_widget_show (side_bar);
 	else
 		gtk_widget_hide (side_bar);

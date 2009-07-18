@@ -217,11 +217,11 @@ static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj)
 	GObject *gobj = NULL;
 
 	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
-	if( !state_set )
+	if ( !state_set )
 		state_set = atk_state_set_new ();
 
 	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
-	if( !gobj )
+	if ( !gobj )
 		return state_set;
 
 	atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
@@ -303,7 +303,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (atk_gobj));
 
-	if( !reflow )
+	if ( !reflow )
 		return FALSE;
 
 	e_selection_model_clear (reflow->selection);
@@ -341,7 +341,7 @@ selection_interface_is_child_selected (AtkSelection *selection, gint i)
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (atk_gobj));
 
-	if( !reflow )
+	if ( !reflow )
 		return FALSE;
 
 	return e_selection_model_is_row_selected (reflow->selection, i);
@@ -411,7 +411,7 @@ atk_action_interface_get_description (AtkAction *iface, gint i)
 static G_CONST_RETURN gchar *
 atk_action_interface_get_name (AtkAction *iface, gint i)
 {
-	if( i >= G_N_ELEMENTS (action_name) || i < 0)
+	if ( i >= G_N_ELEMENTS (action_name) || i < 0)
 		return NULL;
 
 	return action_name[i];
