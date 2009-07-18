@@ -30,6 +30,7 @@
 #include <glade/glade.h>
 #include <misc/e-map.h>
 #include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal-system-timezone.h>
 
 #include "e-util/e-util-private.h"
 
@@ -342,9 +343,15 @@ static icaltimezone*
 get_local_timezone(void)
 {
 	icaltimezone *zone;
+	gchar *location;
 
 	tzset();
-	zone =  icaltimezone_get_builtin_timezone_from_offset (-timezone, tzname[0]);
+	location = e_cal_system_timezone_get_location ();
+
+	if (location)
+		zone =  icaltimezone_get_builtin_timezone (location);
+
+	g_free (location);
 
 	return zone;
 }
