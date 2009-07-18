@@ -86,7 +86,7 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 	if (!(a && b && *a && *b))
 		return FALSE;
 
-	if(!e_utf8_casefold_collate (a, b))
+	if (!e_utf8_casefold_collate (a, b))
 		return TRUE;
 
 	/* Check for nicknames.  Yes, the linear search blows. */
@@ -425,7 +425,7 @@ match_email_hostname (const gchar *addr1, const gchar *addr2)
 		--addr1;
 		--addr2;
 	}
-	if((*addr1 == '@' && *addr2 != '@' ) || (*addr2 == '@' && *addr1 != '@'))
+	if ((*addr1 == '@' && *addr2 != '@' ) || (*addr2 == '@' && *addr1 != '@'))
 	       return FALSE;
 
 	return TRUE;
@@ -526,10 +526,10 @@ eab_contact_compare (EContact *contact1, EContact *contact2)
 	g_return_val_if_fail (contact2 && E_IS_CONTACT (contact2), EAB_CONTACT_MATCH_NOT_APPLICABLE);
 
 	result = EAB_CONTACT_MATCH_NONE;
-	if(!e_contact_get (contact1, E_CONTACT_IS_LIST)){
+	if (!e_contact_get (contact1, E_CONTACT_IS_LIST)) {
 		result = combine_comparisons (result, eab_contact_compare_name      (contact1, contact2));
 		result = combine_comparisons (result, eab_contact_compare_nickname  (contact1, contact2));
-		if(!e_contact_get (contact2, E_CONTACT_IS_LIST))
+		if (!e_contact_get (contact2, E_CONTACT_IS_LIST))
 			result = combine_comparisons (result, eab_contact_compare_email (contact1, contact2));
 		result = combine_comparisons (result, eab_contact_compare_address   (contact1, contact2));
 		result = combine_comparisons (result, eab_contact_compare_telephone (contact1, contact2));
@@ -691,7 +691,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	/* Build up our full query from the parts. */
 	query_parts[p] = NULL;
 	qj = g_strjoinv (" ", query_parts);
-	for(i = 0; query_parts[i] != NULL; i++)
+	for (i = 0; query_parts[i] != NULL; i++)
 		g_free(query_parts[i]);
 	if (p > 1) {
 		gchar *s;

@@ -249,7 +249,7 @@ e_event_emit(EEvent *emp, const gchar *id, EEventTarget *target)
 
 	d(printf("emit event %s\n", id));
 
-	if (emp->target != NULL){
+	if (emp->target != NULL) {
 		g_warning ("Event already in progress.\n");
 		return;
 	}

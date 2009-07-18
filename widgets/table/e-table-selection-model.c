@@ -246,7 +246,7 @@ etsm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_MODEL:
 		g_value_set_object (value, etsm->model);
 		break;
@@ -261,7 +261,7 @@ etsm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 {
 	ETableSelectionModel *etsm = E_TABLE_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_MODEL:
 		drop_model(etsm);
 		add_model(etsm, g_value_get_object (value) ? E_TABLE_MODEL(g_value_get_object (value)) : NULL);

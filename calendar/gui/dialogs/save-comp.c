@@ -45,7 +45,7 @@ save_component_dialog (GtkWindow *parent, ECalComponent *comp)
 {
 	ECalComponentVType vtype = e_cal_component_get_vtype(comp);
 
-	switch(vtype) {
+	switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
 			return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
 		case E_CAL_COMPONENT_TODO:

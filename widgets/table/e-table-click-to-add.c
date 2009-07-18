@@ -197,7 +197,7 @@ etcta_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 	item = GNOME_CANVAS_ITEM (object);
 	etcta = E_TABLE_CLICK_TO_ADD (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_HEADER:
 		etcta_drop_table_header (etcta);
 		etcta_add_table_header (etcta, E_TABLE_HEADER(g_value_get_object (value)));
@@ -267,7 +267,7 @@ etcta_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 
 	etcta = E_TABLE_CLICK_TO_ADD (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_HEADER:
 		g_value_set_object (value, etcta->eth);
 		break;
@@ -378,7 +378,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
-	switch (e->type){
+	switch (e->type) {
 	case GDK_FOCUS_CHANGE:
 		if (!e->focus_change.in)
 			return TRUE;

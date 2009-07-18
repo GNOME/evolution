@@ -896,7 +896,7 @@ e_week_view_style_set (GtkWidget *widget,
 				span_num++) {
 			span = &g_array_index (week_view->spans,
 					EWeekViewEventSpan, span_num);
-			if (span->text_item){
+			if (span->text_item) {
 				gnome_canvas_item_set (span->text_item,
 						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 						NULL);
@@ -2247,7 +2247,7 @@ e_week_view_on_scroll (GtkWidget *widget,
 		g_object_set_data (G_OBJECT (week_view), "tooltip-window", NULL);
 	}
 
-	switch (scroll->direction){
+	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		new_value = adj->value - adj->page_increment;
 		break;
@@ -3053,7 +3053,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		/* Unfocussing can cause a removal but not a new
 		 * addition so just run backwards through the
 		 * events */
-		for (event_num--; event_num >= 0; event_num--){
+		for (event_num--; event_num >= 0; event_num--) {
 			event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 			if (event->comp_data == comp_data)
 				break;
@@ -3401,7 +3401,7 @@ e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction
 	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
 	gfloat new_value;
 
-	switch (direction){
+	switch (direction) {
 	case E_CAL_VIEW_MOVE_UP:
 		new_value = adj->value - adj->step_increment;
 		break;

@@ -61,7 +61,7 @@ etss_get_view_row (ETableSubset *etss, gint row)
 	gint initial = MAX (MIN (etss->last_access, end), start);
 
 	for (i = initial; i < end; i++) {
-		if (map_table [i] == row){
+		if (map_table [i] == row) {
 			d(g_print("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -69,15 +69,15 @@ etss_get_view_row (ETableSubset *etss, gint row)
 	}
 
 	for (i = initial - 1; i >= start; i--) {
-		if (map_table [i] == row){
+		if (map_table [i] == row) {
 			d(g_print("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
 		}
 	}
 
-	for (i = 0; i < n; i++){
-		if (map_table [i] == row){
+	for (i = 0; i < n; i++) {
+		if (map_table [i] == row) {
 			d(g_print("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -431,7 +431,7 @@ e_table_subset_new (ETableModel *source, const gint nvals)
 {
 	ETableSubset *etss = g_object_new (E_TABLE_SUBSET_TYPE, NULL);
 
-	if (e_table_subset_construct (etss, source, nvals) == NULL){
+	if (e_table_subset_construct (etss, source, nvals) == NULL) {
 		g_object_unref (etss);
 		return NULL;
 	}

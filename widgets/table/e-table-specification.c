@@ -369,7 +369,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, (const guchar *)"horizontal-resize", specification->horizontal_resize);
 	e_xml_set_bool_prop_by_name (node, (const guchar *)"allow-grouping", specification->allow_grouping);
 
-	switch (specification->selection_mode){
+	switch (specification->selection_mode) {
 	case GTK_SELECTION_SINGLE:
 		s = "single";
 		break;
@@ -390,7 +390,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	xmlSetProp (node, (const guchar *)"_click-to-add-message", (guchar *)specification->click_to_add_message);
 	xmlSetProp (node, (const guchar *)"gettext-domain", (guchar *)specification->domain);
 
-	if (specification->columns){
+	if (specification->columns) {
 		gint i;
 
 		for (i = 0; specification->columns [i]; i++)

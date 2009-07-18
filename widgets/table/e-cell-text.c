@@ -290,7 +290,7 @@ ect_stop_editing (ECellTextView *text_view, gboolean commit)
 	text = edit->text;
 	if (edit->tep)
 		g_object_unref (edit->tep);
-	if (! edit->default_cursor_shown){
+	if (! edit->default_cursor_shown) {
 		gdk_window_set_cursor (GTK_WIDGET(text_view->canvas)->window, NULL);
 		edit->default_cursor_shown = TRUE;
 	}
@@ -412,7 +412,7 @@ ect_unrealize (ECellView *ecv)
 	g_object_unref (text_view->gc);
 	text_view->gc = NULL;
 
-	if (text_view->edit){
+	if (text_view->edit) {
 		ect_cancel_edit (text_view);
 	}
 
@@ -979,7 +979,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 				return 1;
 		}
 
-		if (event->key.keyval == GDK_Escape){
+		if (event->key.keyval == GDK_Escape) {
 			/* if not changed, then pass this even to parent */
 			return_val = text_view->edit != NULL && text_view->edit->text && text_view->edit->old_text && 0 != strcmp (text_view->edit->text, text_view->edit->old_text);
 			ect_cancel_edit (text_view);
@@ -1109,7 +1109,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		edit->pointer_in = TRUE;
 #endif
 		if (edit_display) {
-			if (edit->default_cursor_shown){
+			if (edit->default_cursor_shown) {
 				gdk_window_set_cursor (canvas->window, text_view->i_cursor);
 				edit->default_cursor_shown = FALSE;
 			}
@@ -1120,7 +1120,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		text_view->pointer_in = FALSE;
 #endif
 		if (edit_display) {
-			if (! edit->default_cursor_shown){
+			if (! edit->default_cursor_shown) {
 				gdk_window_set_cursor (canvas->window, NULL);
 				edit->default_cursor_shown = TRUE;
 			}
@@ -1213,8 +1213,8 @@ ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 	edit->text = g_strdup (edit->old_text);
 
 #if 0
-	if (edit->pointer_in){
-		if (edit->default_cursor_shown){
+	if (edit->pointer_in) {
+		if (edit->default_cursor_shown) {
 			gdk_window_set_cursor (GTK_WIDGET(item->canvas)->window, text_view->i_cursor);
 			edit->default_cursor_shown = FALSE;
 		}
@@ -1234,7 +1234,7 @@ ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit = text_view->edit;
 
-	if (edit){
+	if (edit) {
 		ect_stop_editing (text_view, TRUE);
 	} else {
 		/*
@@ -1968,9 +1968,9 @@ e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
 					      edit->text + MIN (edit->selection_start, edit->selection_end));
 	begin_pos += offset;
 	end_pos = begin_pos + n_chars;
-	if(begin_pos < 0 || text_len < begin_pos)
+	if (begin_pos < 0 || text_len < begin_pos)
 		return FALSE;
-	if(end_pos > text_len)
+	if (end_pos > text_len)
 		end_pos = text_len;
 	edit->selection_start = g_utf8_offset_to_pointer (edit->text, begin_pos)
 				- edit->text;
@@ -2009,9 +2009,9 @@ e_cell_text_init (ECellText *ect)
 ECell *
 e_cell_text_construct (ECellText *cell, const gchar *fontname, GtkJustification justify)
 {
-	if(!cell)
+	if (!cell)
 		return E_CELL(NULL);
-	if(fontname)
+	if (fontname)
 		cell->font_name = g_strdup (fontname);
 	cell->justify = justify;
 	return E_CELL(cell);
@@ -2143,7 +2143,7 @@ _blink_scroll_timeout (gpointer data)
 			redraw = TRUE;
 		edit->show_cursor = FALSE;
 	}
-	if (redraw){
+	if (redraw) {
 		ect_queue_redraw (text_view, edit->view_col, edit->row);
 	}
 	return TRUE;
@@ -2561,7 +2561,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		}
 	}
 
-	if (redraw){
+	if (redraw) {
 		ect_queue_redraw (text_view, edit->view_col, edit->row);
 	}
 }

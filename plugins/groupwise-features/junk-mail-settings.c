@@ -100,7 +100,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, gpointer data)
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
 
 	/*We might have to add more options for settings i.e. more pages*/
-	while (page_count > 0 ){
+	while (page_count > 0 ) {
 		notebook = gtk_notebook_new ();
 		gtk_notebook_append_page ((GtkNotebook *)notebook, box, NULL);
 		gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, notebook, TRUE, TRUE, 0);

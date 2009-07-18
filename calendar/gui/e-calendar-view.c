@@ -2454,7 +2454,7 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
 	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
 		gchar *value = icalproperty_get_value_as_string_r (property);
 
-		if (value && strcmp (category, value) == 0){
+		if (value && strcmp (category, value) == 0) {
 			g_free (value);
 			return TRUE;
 		}

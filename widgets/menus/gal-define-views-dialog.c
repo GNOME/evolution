@@ -391,7 +391,7 @@ gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GVal
 
 	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_COLLECTION:
 		if (g_value_get_object (value))
 			gal_define_views_dialog_set_collection(dialog, GAL_VIEW_COLLECTION(g_value_get_object (value)));

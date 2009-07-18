@@ -244,7 +244,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 			use_col      = FALSE;
 			direction    = E_FOCUS_START;
 		}
-		if (change_focus){
+		if (change_focus) {
 			GList *list;
 			for (list = etgc->children; list; list = list->next) {
 				ETableGroupContainerChildNode *child_node;
@@ -471,7 +471,7 @@ etgc_add (ETableGroup *etg, gint row)
 	ETableGroupContainerChildNode *child_node;
 	gint i = 0;
 
-	for (; list; list = g_list_next (list), i++){
+	for (; list; list = g_list_next (list), i++) {
 		gint comp_val;
 
 		child_node = list->data;
@@ -1017,7 +1017,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	if (frozen)
 		return;
 
-	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED){
+	if (GTK_OBJECT_FLAGS(etgc)& GNOME_CANVAS_ITEM_REALIZED) {
 		gdouble running_height = 0;
 		gdouble running_width = 0;
 		gdouble old_height;
@@ -1025,7 +1025,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 
 		old_height = etgc->height;
 		old_width = etgc->width;
-		if (etgc->children == NULL){
+		if (etgc->children == NULL) {
 		} else {
 			GList *list;
 			gdouble extra_height = 0;
@@ -1049,7 +1049,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 
 			running_height = extra_height;
 
-			for ( list = etgc->children; list; list = g_list_next (list)){
+			for ( list = etgc->children; list; list = g_list_next (list)) {
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
 
@@ -1060,7 +1060,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				if (item_width > running_width)
 					running_width = item_width;
 			}
-			for ( list = etgc->children; list; list = g_list_next (list)){
+			for ( list = etgc->children; list; list = g_list_next (list)) {
 				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 				ETableGroup *child = child_node->child;
 				g_object_get (child,
@@ -1114,21 +1114,21 @@ etgc_init (ETableGroupContainer *container)
 void
 e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, gpointer closure)
 {
-	if (E_IS_TABLE_GROUP_CONTAINER (etg)){
+	if (E_IS_TABLE_GROUP_CONTAINER (etg)) {
 		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 		GList *list = etgc->children;
 
 		/* Protect from unrefs in the callback functions */
 		g_object_ref (etg);
 
-		for (list = etgc->children; list; list = list->next){
+		for (list = etgc->children; list; list = list->next) {
 			ETableGroupContainerChildNode *child_node = list->data;
 
 			e_table_group_apply_to_leafs (child_node->child, fn, closure);
 		}
 
 		g_object_unref (etg);
-	} else if (E_IS_TABLE_GROUP_LEAF (etg)){
+	} else if (E_IS_TABLE_GROUP_LEAF (etg)) {
 		(*fn) (E_TABLE_GROUP_LEAF (etg)->item, closure);
 	} else {
 		g_error ("Unknown ETableGroup found: %s",

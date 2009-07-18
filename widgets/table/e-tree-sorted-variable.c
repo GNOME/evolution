@@ -154,7 +154,7 @@ e_tree_sorted_variable_new (ETreeModel *source, ETableHeader *full_header, ETabl
 	ETreeSortedVariable *etsv = g_object_new (E_TREE_SORTED_VARIABLE_TYPE, NULL);
 	ETreeSortedVariable *etsv = E_TABLE_SUBSET_VARIABLE (etsv);
 
-	if (e_table_subset_variable_construct (etsv, source) == NULL){
+	if (e_table_subset_variable_construct (etsv, source) == NULL) {
 		g_object_unref (etsv);
 		return NULL;
 	}

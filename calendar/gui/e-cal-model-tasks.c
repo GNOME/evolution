@@ -444,7 +444,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 			icalparameter *param;
 			const gchar *tzid;
 
-			if(!(param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER)))
+			if (!(param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER)))
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 
 			/* Get the current time in the same timezone as the DUE date.*/
@@ -1214,7 +1214,7 @@ e_cal_model_tasks_update_due_tasks (ECalModelTasks *model)
 	{
 		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 		status = get_due_status (E_CAL_MODEL_TASKS (model), comp_data);
-		if((status == E_CAL_MODEL_TASKS_DUE_TODAY) || (status == E_CAL_MODEL_TASKS_DUE_OVERDUE))
+		if ((status == E_CAL_MODEL_TASKS_DUE_TODAY) || (status == E_CAL_MODEL_TASKS_DUE_OVERDUE))
 		{
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_changed (E_TABLE_MODEL (model), row);

@@ -1402,7 +1402,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			     "height", &thisheight,
 			     NULL);
 
-		if (text->draw_borders){
+		if (text->draw_borders) {
 
 			gtk_paint_shadow (widget->style, drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
@@ -1521,7 +1521,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/* Need to reset the layout to cleanly clear the preedit buffer when
 	 * typing in CJK & using backspace on the preedit */
-	if(!text->preedit_len)
+	if (!text->preedit_len)
 		reset_layout (text);
 
 	if (!pango_layout_get_text (text->layout))
@@ -2048,7 +2048,7 @@ _do_tooltip (gpointer data)
 	tooltip_height = E_TEXT(tooltip_text)->height;
 	tooltip_x = 0;
 	tooltip_y = 0;
-	switch(E_TEXT(tooltip_text)->justification) {
+	switch (E_TEXT(tooltip_text)->justification) {
 	case GTK_JUSTIFY_CENTER:
 		tooltip_x = - tooltip_width / 2;
 		break;
@@ -2060,7 +2060,7 @@ _do_tooltip (gpointer data)
 		tooltip_x = 0;
 		break;
 	}
-	switch(text->anchor) {
+	switch (text->anchor) {
 	case GTK_ANCHOR_NW:
 	case GTK_ANCHOR_N:
 	case GTK_ANCHOR_NE:
@@ -2078,7 +2078,7 @@ _do_tooltip (gpointer data)
 		tooltip_y -= tooltip_height;
 		break;
 	}
-	switch(E_TEXT(tooltip_text)->anchor) {
+	switch (E_TEXT(tooltip_text)->anchor) {
 	case GTK_ANCHOR_NW:
 	case GTK_ANCHOR_W:
 	case GTK_ANCHOR_SW:
@@ -2288,7 +2288,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		if (event->key.keyval == GDK_F10
 		    && (event->key.state & GDK_SHIFT_MASK)
-		    && text->handle_popup ){
+		    && text->handle_popup ) {
 
 			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
 
@@ -2665,7 +2665,7 @@ popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 	GnomeCanvasItem *item = &text->item;
 	GnomeCanvas *parent = item->canvas;
 
-	if (parent){
+	if (parent) {
 		gdk_window_get_origin (((GtkWidget*) parent)->window, x, y);
 		*x += item->x1 + text->width / 2;
 		*y += item->y1 + text->height / 2;
@@ -2746,7 +2746,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 		     popup_menu);
 
       /* If invoked by S-F10 key binding, button will be 0. */
-      if (button->button == 0){
+      if (button->button == 0) {
 	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      popup_menu_placement_cb, (gpointer)text,
 			      button->button, GDK_CURRENT_TIME);
@@ -2868,14 +2868,14 @@ _get_updated_position (EText *text, gboolean direction)
 	length = g_utf8_strlen (text->text, -1);
 
 	/* length checks to make sure we are not wandering off into nonexistant memory... */
-	if((text->selection_end >= length) && (TRUE == direction))	/* forward */
+	if ((text->selection_end >= length) && (TRUE == direction))	/* forward */
 		return length;
 	/* checking for -ve value wont hurt! */
-	if((text->selection_end <= 0) && (FALSE == direction))		/* backward */
+	if ((text->selection_end <= 0) && (FALSE == direction))		/* backward */
 		return 0;
 
 	/* check for validness of full text->text */
-	if(!g_utf8_validate(text->text, -1, NULL))
+	if (!g_utf8_validate(text->text, -1, NULL))
 		return text->selection_end;
 
 	/* get layout's PangoLogAttr to facilitate moving when moving across grapheme cluster as in indic langs */
@@ -2886,32 +2886,32 @@ _get_updated_position (EText *text, gboolean direction)
 	p = g_utf8_offset_to_pointer (text->text, text->selection_end);
 
 	new_pos = text->selection_end;
-	while(1)
+	while (1)
 	{
 		/* check before moving forward/backwards if we have more chars to move or not */
-		if(TRUE == direction)
+		if (TRUE == direction)
 			p = g_utf8_next_char (p);
 		else
 			p = g_utf8_prev_char (p);
 
 		/* validate the new string & return with original position if check fails */
-		if(!g_utf8_validate (p, -1, NULL))
+		if (!g_utf8_validate (p, -1, NULL))
 			break;	/* will return old value of new_pos */
 
 		new_pos = g_utf8_pointer_to_offset (text->text, p);
 
 		/* if is_cursor_position is set, cursor can appear in front of character.
 		   i.e. this is a grapheme boundary AND make some sanity checks */
-		if((new_pos >=0) && (new_pos < n_attrs) && (log_attrs[new_pos].is_cursor_position))
+		if ((new_pos >=0) && (new_pos < n_attrs) && (log_attrs[new_pos].is_cursor_position))
 			break;
-		else if((new_pos < 0) || (new_pos >= n_attrs))
+		else if ((new_pos < 0) || (new_pos >= n_attrs))
 		{
 			new_pos = text->selection_end;
 			break;
 		}
 	}
 
-	if(log_attrs)
+	if (log_attrs)
 		g_free(log_attrs);
 
 	return new_pos;

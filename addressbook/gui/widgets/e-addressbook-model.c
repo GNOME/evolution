@@ -391,7 +391,7 @@ addressbook_model_set_property (GObject *object,
                                 const GValue *value,
                                 GParamSpec *pspec)
 {
-	switch (property_id){
+	switch (property_id) {
 		case PROP_BOOK:
 			e_addressbook_model_set_book (
 				E_ADDRESSBOOK_MODEL (object),

@@ -115,7 +115,7 @@ static void scroll_off (ETableHeaderItem *ethi);
 static void scroll_on (ETableHeaderItem *ethi, guint scroll_direction);
 
 static void
-ethi_dispose (GObject *object){
+ethi_dispose (GObject *object) {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 
 	ethi_drop_table_header (ethi);
@@ -301,7 +301,7 @@ ethi_set_property (GObject *object,
 	item = GNOME_CANVAS_ITEM (object);
 	ethi = E_TABLE_HEADER_ITEM (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_TABLE_HEADER:
 		ethi_drop_table_header (ethi);
 		ethi_add_table_header (ethi, E_TABLE_HEADER(g_value_get_object (value)));
@@ -325,7 +325,7 @@ ethi_set_property (GObject *object,
 		break;
 
 	case PROP_SORT_INFO:
-		if (ethi->sort_info){
+		if (ethi->sort_info) {
 			if (ethi->sort_info_changed_id)
 				g_signal_handler_disconnect (
 					ethi->sort_info,
@@ -374,7 +374,7 @@ ethi_get_property (GObject *object,
 
 	ethi = E_TABLE_HEADER_ITEM (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_FULL_HEADER:
 		g_value_set_object (value, ethi->full_header);
 		break;
@@ -403,7 +403,7 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, gint x)
 		return 0;
 	}
 
-	for (col = 0; col < cols; col++){
+	for (col = 0; col < cols; col++) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		if ((x >= x1) && (x <= x1 + ecol->width)) {
@@ -429,7 +429,7 @@ ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, gint x)
 	if (x < x1)
 		return 0;
 
-	for (col = 0; col < cols; col++){
+	for (col = 0; col < cols; col++) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		x1 += (ecol->width / 2);
@@ -497,7 +497,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, gint col, gboolean recreate)
 	if (col > 0)
 		x += ethi->group_indent_width;
 
-	if (!arrow_up){
+	if (!arrow_up) {
 		arrow_up   = make_shaped_window_from_xpm (arrow_up_xpm);
 		arrow_down = make_shaped_window_from_xpm (arrow_down_xpm);
 	}
@@ -591,7 +591,7 @@ do_drag_motion(ETableHeaderItem *ethi,
 	d(g_print("x = %d, y = %d, ethi->width = %d, ethi->height = %d\n", x, y, ethi->width, ethi->height));
 
 	if ((x >= 0) && (x <= (ethi->width)) &&
-	    (y >= 0) && (y <= (ethi->height))){
+	    (y >= 0) && (y <= (ethi->height))) {
 		gint col;
 		d(g_print("In header\n"));
 
@@ -604,7 +604,7 @@ do_drag_motion(ETableHeaderItem *ethi,
 			ethi_remove_drop_marker (ethi);
 			gdk_drag_status (context, context->suggested_action, time);
 		}
-		else if (col != -1){
+		else if (col != -1) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 
@@ -837,7 +837,7 @@ ethi_drag_drop (GtkWidget *canvas,
 	gboolean successful = FALSE;
 
 	if ((x >= 0) && (x <= (ethi->width)) &&
-	    (y >= 0) && (y <= (ethi->height))){
+	    (y >= 0) && (y <= (ethi->height))) {
 		gint col;
 
 		col = ethi_find_col_by_x_nearest (ethi, x);
@@ -927,7 +927,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 
 	gtk_drag_dest_unset (GTK_WIDGET (item->canvas));
 
-	if (ethi->stipple){
+	if (ethi->stipple) {
 		g_object_unref (ethi->stipple);
 		ethi->stipple = NULL;
 	}
@@ -971,7 +971,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wi
 	ethi->width = e_table_header_total_width (ethi->eth) + ethi->group_indent_width;
 	x1 = x2 = 0;
 	x2 += ethi->group_indent_width;
-	for (col = 0; col < cols; col++, x1 = x2){
+	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		gint col_width;
 
@@ -1024,7 +1024,7 @@ is_pointer_on_division (ETableHeaderItem *ethi, gint pos, gint *the_total, gint 
 	gint col, total;
 
 	total = 0;
-	for (col = 0; col < cols; col++){
+	for (col = 0; col < cols; col++) {
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
 		if (col == 0)
@@ -1032,7 +1032,7 @@ is_pointer_on_division (ETableHeaderItem *ethi, gint pos, gint *the_total, gint 
 
 		total += ecol->width;
 
-		if ((total - TOLERANCE < pos)&& (pos < total + TOLERANCE)){
+		if ((total - TOLERANCE < pos)&& (pos < total + TOLERANCE)) {
 			if (return_col)
 				*return_col = col;
 			if (the_total)
@@ -1073,7 +1073,7 @@ set_cursor (ETableHeaderItem *ethi, gint pos)
 
 			/* Column is not resizable if all columns after it
 			   are also not resizable */
-			for (; c <= last_col; c++){
+			for (; c <= last_col; c++) {
 				ETableCol *ecol2;
 
 				ecol2 = e_table_header_get_column (ethi->eth, c);
@@ -1228,7 +1228,7 @@ ethi_popup_sort_ascending(GtkWidget *widget, EthiHeaderInfo *info)
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth (
 			ethi->sort_info, i);
 
-		if (model_col == column.column){
+		if (model_col == column.column) {
 			column.ascending = 1;
 			e_table_sort_info_grouping_set_nth (
 				ethi->sort_info, i, column);
@@ -1243,7 +1243,7 @@ ethi_popup_sort_ascending(GtkWidget *widget, EthiHeaderInfo *info)
 			ETableSortColumn column =
 				e_table_sort_info_sorting_get_nth(
 					ethi->sort_info, i);
-			if (model_col == column.column || model_col == -1){
+			if (model_col == column.column || model_col == -1) {
 				column.ascending = 1;
 				e_table_sort_info_sorting_set_nth (
 					ethi->sort_info, i, column);
@@ -1282,7 +1282,7 @@ ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 	for (i = 0; i < length; i++) {
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(
 			ethi->sort_info, i);
-		if (model_col == column.column){
+		if (model_col == column.column) {
 			column.ascending = 0;
 			e_table_sort_info_grouping_set_nth(
 				ethi->sort_info, i, column);
@@ -1297,7 +1297,7 @@ ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 				e_table_sort_info_sorting_get_nth(
 					ethi->sort_info, i);
 
-			if (model_col == column.column || model_col == -1){
+			if (model_col == column.column || model_col == -1) {
 				column.ascending = 0;
 				e_table_sort_info_sorting_set_nth (
 					ethi->sort_info, i, column);
@@ -1625,7 +1625,7 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 	length = e_table_sort_info_grouping_get_count(ethi->sort_info);
 	for (i = 0; i < length; i++) {
 		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
-		if (model_col == column.column || model_col == -1){
+		if (model_col == column.column || model_col == -1) {
 			gint ascending = column.ascending;
 			ascending = ! ascending;
 			column.ascending = ascending;
@@ -1641,10 +1641,10 @@ ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 		for (i = 0; i < length; i++) {
 			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
 
-			if (model_col == column.column || model_col == -1){
+			if (model_col == column.column || model_col == -1) {
 				gint ascending = column.ascending;
 
-				if (ascending == 0 && model_col != -1){
+				if (ascending == 0 && model_col != -1) {
 					/*
 					 * This means the user has clicked twice
 					 * already, lets kill sorting of this column now.
@@ -1692,7 +1692,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	gint x, y, start, col;
 	gint was_maybe_drag = 0;
 
-	switch (e->type){
+	switch (e->type) {
 	case GDK_ENTER_NOTIFY:
 		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
 		set_cursor (ethi, x);
@@ -1706,10 +1706,10 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_MOTION_NOTIFY:
 
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
-		if (resizing){
+		if (resizing) {
 			gint new_width;
 
-			if (ethi->resize_guide == NULL){
+			if (ethi->resize_guide == NULL) {
 				/* Quick hack until I actually bind the views */
 				ethi->resize_guide = GINT_TO_POINTER (1);
 
@@ -1725,7 +1725,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			e_table_header_set_size (ethi->eth, ethi->resize_col, new_width);
 
 			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
-		} else if (ethi_maybe_start_drag (ethi, &e->motion)){
+		} else if (ethi_maybe_start_drag (ethi, &e->motion)) {
 			ethi_start_drag (ethi, e);
 		} else
 			set_cursor (ethi, x);
@@ -1737,7 +1737,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		convert (canvas, e->button.x, e->button.y, &x, &y);
 
-		if (is_pointer_on_division (ethi, x, &start, &col) && e->button.button == 1){
+		if (is_pointer_on_division (ethi, x, &start, &col) && e->button.button == 1) {
 			ETableCol *ecol;
 
 				/*
@@ -1755,7 +1755,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			ethi->resize_start_pos = start - ecol->width;
 			ethi->resize_min_width = ecol->min_width;
 		} else {
-			if (e->button.button == 1){
+			if (e->button.button == 1) {
 				ethi->click_x = e->button.x;
 				ethi->click_y = e->button.y;
 				ethi->maybe_drag = TRUE;
@@ -1763,7 +1763,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->selected_col = col;
 				if (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas)))
 					e_canvas_item_grab_focus (item, TRUE);
-			} else if (e->button.button == 3){
+			} else if (e->button.button == 3) {
 				ethi_header_context_menu (ethi, &e->button);
 			} else
 				ethi_button_pressed (ethi, &e->button);
@@ -1796,7 +1796,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		ethi->maybe_drag = FALSE;
 
-		if (ethi->resize_col != -1){
+		if (ethi->resize_col != -1) {
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi);
 		} else if (was_maybe_drag && ethi->sort_info) {

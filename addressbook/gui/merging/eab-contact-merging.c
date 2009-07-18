@@ -102,7 +102,7 @@ free_lookup (EContactMergingLookup *lookup)
 	g_object_unref (lookup->book);
 	g_object_unref (lookup->contact);
 	g_list_free (lookup->avoid);
-	if(lookup->match)
+	if (lookup->match)
 		g_object_unref (lookup->match);
 	g_free (lookup);
 }
@@ -217,7 +217,7 @@ mergeit (EContactMergingLookup *lookup)
 	num_of_email = g_list_length (email_attr_list);
 
 	/*we match all the string fields of the already existing contact and the new contact.*/
-	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
+	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 		dropdown_data *data = NULL;
 		string = (gchar *)e_contact_get_const (lookup->contact, field);
 		string1 = (gchar *)e_contact_get_const (lookup->match, field);
@@ -230,14 +230,14 @@ mergeit (EContactMergingLookup *lookup)
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
 				row++;
 				str = (gchar *)e_contact_get_const (lookup->contact, field);
-				switch(num_of_email)
+				switch (num_of_email)
 				{
 				case 0:
 					field = E_CONTACT_EMAIL_1;
 					break;
 				case 1:
 					/*New contact has email that is NOT equal to email in duplicate contact*/
-					if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str))) {
+					if ((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str))) {
 						field = E_CONTACT_EMAIL_2;
 						break;
 					}
@@ -245,7 +245,7 @@ mergeit (EContactMergingLookup *lookup)
 						continue;
 				case 2:
 					/*New contact has email and it is equal to neither of the 2 emails in the duplicate contact*/
-					if((str && *str) &&
+					if ((str && *str) &&
 							(g_ascii_strcasecmp(str,e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1))) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str))) {
 						field = E_CONTACT_EMAIL_3;
@@ -255,7 +255,7 @@ mergeit (EContactMergingLookup *lookup)
 						continue;
 				case 3:
 					/*New contact has email and it is equal to none of the 3 emails in the duplicate contact*/
-					if((str && *str) &&
+					if ((str && *str) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str)) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str)) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_3),str)))
@@ -302,7 +302,7 @@ mergeit (EContactMergingLookup *lookup)
 			}
 
 			/*for all string fields except name and email*/
-			if(!(string1 && *string1) || (g_ascii_strcasecmp(string, string1))) {
+			if (!(string1 && *string1) || (g_ascii_strcasecmp(string, string1))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name(field));
 				hbox = gtk_hbox_new (FALSE, 0);
@@ -368,26 +368,26 @@ check_if_same (EContact *contact, EContact *match)
 	gint num_of_email;
 	gchar *str = NULL, *string = NULL, *string1 = NULL;
 
-	for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
+	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 		email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
 		num_of_email = g_list_length (email_attr_list);
 
 		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email<4)) {
 			str = (gchar *)e_contact_get_const (contact, field);
-			switch(num_of_email)
+			switch (num_of_email)
 			{
 			case 0:
 				return FALSE;
 			case 1:
-				if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)))
+				if ((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)))
 					return FALSE;
 			case 2:
-				if((str && *str) && (g_ascii_strcasecmp(str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) &&
+				if ((str && *str) && (g_ascii_strcasecmp(str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_2),str)))
 					return FALSE;
 			case 3:
-				if((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) &&
+				if ((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_2),str)) &&
 						(g_ascii_strcasecmp(e_contact_get_const (match, E_CONTACT_EMAIL_3),str)))
 					return FALSE;

@@ -176,7 +176,7 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 
 	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_NAME:
 		e_contact_name_free(e_contact_editor_fullname->name);
 

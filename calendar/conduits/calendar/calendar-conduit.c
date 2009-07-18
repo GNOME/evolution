@@ -419,11 +419,11 @@ static gchar *print_remote (GnomePilotRecord *remote)
 	memset (&appt, 0, sizeof (struct Appointment));
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
@@ -853,7 +853,7 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 	/* Generate pilot record structure */
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return p;
 	}
@@ -908,7 +908,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 		pi_buffer_t * record;
 
 		record = pi_buffer_new(DLP_BUF_SIZE);
-		if(record == NULL){
+		if (record == NULL) {
 			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 			return;
 		}
@@ -1208,11 +1208,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		return NULL;
 	}
 
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		return NULL;
 	}
 
@@ -1604,7 +1604,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return -1;
 	}

@@ -1807,7 +1807,7 @@ et_get_property (GObject *object,
 {
 	ETree *etree = E_TREE (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_ETTA:
 		g_value_set_object (value, etree->priv->etta);
 		break;
@@ -1836,7 +1836,7 @@ et_set_property (GObject *object,
 {
 	ETree *etree = E_TREE (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_LENGTH_THRESHOLD:
 		etree->priv->length_threshold = g_value_get_int (value);
 		if (etree->priv->item) {

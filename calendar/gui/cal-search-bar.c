@@ -420,7 +420,7 @@ notify_e_cal_view_contains (CalSearchBar *cal_search, const gchar *field, const 
 	g_free (text);
 
 	/* Apply the selected view on search */
-	if (view && *view){
+	if (view && *view) {
 	    sexp = g_strconcat ("(and ",sexp, view, ")", NULL);
 	}
 
@@ -710,7 +710,7 @@ make_suboptions (CalSearchBar *cal_search)
 		e_search_bar_set_viewoption_menu ((ESearchBar *)cal_search, menu);
 	}
 
-	if(subitems != NULL)
+	if (subitems != NULL)
 		g_free (subitems);
 }
 

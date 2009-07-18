@@ -241,7 +241,7 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 
 	dialog = GAL_VIEW_NEW_DIALOG (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_NAME:
 		entry = glade_xml_get_widget(dialog->gui, "entry-name");
 		if (entry && GTK_IS_ENTRY(entry)) {

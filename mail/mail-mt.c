@@ -796,7 +796,7 @@ do_call(struct _call_msg *m)
 
 	G_VA_COPY(ap, m->ap);
 
-	switch(m->type) {
+	switch (m->type) {
 	case MAIL_CALL_p_p:
 		p1 = va_arg(ap, gpointer );
 		m->ret = m->func(p1);

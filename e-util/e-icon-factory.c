@@ -152,7 +152,7 @@ load_icon (const gchar *icon_key, const gchar *icon_name, gint size, gint scale)
 
 	g_free (filename);
 	if (unscaled != NULL) {
-		if(gdk_pixbuf_get_width(unscaled) != size || gdk_pixbuf_get_height(unscaled) != size)
+		if (gdk_pixbuf_get_width(unscaled) != size || gdk_pixbuf_get_height(unscaled) != size)
 		{
 			pixbuf = e_icon_factory_pixbuf_scale (unscaled, size, size);
 			g_object_unref (unscaled);

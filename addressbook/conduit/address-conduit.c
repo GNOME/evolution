@@ -172,18 +172,18 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 	gint retval = 0; /* 0 is the Unfiled category */
 	LOG(g_message("e_pilot_add_category_if_possible\n"));
 
-	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
+	for (i=0; i<PILOT_MAX_CATEGORIES; i++) {
 		/* if strlen is 0, then the category is empty
 		   the PalmOS doesn't let 0-length strings for
 		   categories */
-		if(strlen(category->name[i]) == 0){
+		if (strlen(category->name[i]) == 0) {
 			gint cat_to_add_len;
 			gint desktopUniqueID;
 
 			cat_to_add_len = strlen(cat_to_add);
 			retval = i;
 
-			if(cat_to_add_len > 15){
+			if (cat_to_add_len > 15) {
 				gchar tmpstr[16];
 				strncpy(tmpstr, cat_to_add,16);
 				tmpstr[16] = '\0';
@@ -197,11 +197,11 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 			 * '\0' can't do direct mem transfer due to
 			 * declaration type
 			 */
-			for(j=0; j<cat_to_add_len; j++){
+			for (j=0; j<cat_to_add_len; j++) {
 				category->name[i][j] = cat_to_add[j];
 			}
 
-			for(j=cat_to_add_len; j<16; j++) {
+			for (j=cat_to_add_len; j<16; j++) {
 				category->name[i][j] = '\0';
 			}
 
@@ -213,7 +213,7 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 			 */
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
 				gint found = 0;
-				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
+				for (j=0; j<PILOT_MAX_CATEGORIES; j++) {
 					if (category->ID[j] == desktopUniqueID) {
 						found = 1;
 					}
@@ -233,7 +233,7 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 		}
 	}
 
-	if(retval == 0){
+	if (retval == 0) {
 		LOG (g_warning ("*** not adding category - category list already full ***"));
 	}
 
@@ -263,7 +263,7 @@ void e_pilot_local_category_to_remote(gint * pilotCategory,
 		first_category = e_pilot_utf8_to_pchar((const gchar *)c_list->data);
 	}
 	l = c_list;
-	while(l && *pilotCategory == 0) {
+	while (l && *pilotCategory == 0) {
 		/* list != 0, so at least 1 category is assigned */
 		category_string = e_pilot_utf8_to_pchar((const gchar *)l->data);
 		for (i=0; i < PILOT_MAX_CATEGORIES; i++) {
@@ -307,7 +307,7 @@ void e_pilot_remote_category_to_local(gint pilotCategory,
 
 		LOG(g_message("PDA Category: %s\n", category_string));
 
-		if(e_categories_exist(category_string) == FALSE){
+		if (e_categories_exist(category_string) == FALSE) {
 			/* add if it doesn't exist */
 			LOG(g_message("Category created on pc\n"));
 			e_categories_add(category_string, NULL, NULL, TRUE);
@@ -329,7 +329,7 @@ void e_pilot_remote_category_to_local(gint pilotCategory,
 
 		/* remove old item from list so we don't have duplicate entries */
 		newcat_in_list = g_list_find_custom(c_list, category_string, (GCompareFunc)strcmp);
-		if(newcat_in_list != NULL)
+		if (newcat_in_list != NULL)
 		{
 			g_free(newcat_in_list->data);
 			c_list = g_list_remove(c_list, newcat_in_list->data);
@@ -756,11 +756,11 @@ static gchar *print_remote (GnomePilotRecord *remote)
 	memset (&addr, 0, sizeof (struct Address));
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
@@ -1112,7 +1112,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return p;
 	}
@@ -1159,7 +1159,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 #ifdef PILOT_LINK_0_12
 		pi_buffer_t * record;
 		record = pi_buffer_new(DLP_BUF_SIZE);
-		if(record == NULL){
+		if (record == NULL) {
 			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 			return;
 		}
@@ -1371,12 +1371,12 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	memset (&address, 0, sizeof (struct Address));
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return NULL;
 	}
 
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return NULL;
 	}
@@ -1676,7 +1676,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		return pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 	}
 

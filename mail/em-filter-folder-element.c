@@ -211,7 +211,7 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	}
 
 	n = node->children;
-	while(n) {
+	while (n) {
 		if (!strcmp((gchar *)n->name, "folder")) {
 			gchar *uri;
 

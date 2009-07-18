@@ -2477,7 +2477,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 	if (header_sender && header_from && mail_from_delegate) {
 		camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
-		if(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+		if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 			camel_stream_printf (stream, "<td align=\"right\" width=\"100%%\">");
 		else
 			camel_stream_printf (stream, "<td align=\"left\" width=\"100%%\">");

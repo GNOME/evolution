@@ -84,7 +84,7 @@ esm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_SORTER:
 		g_value_set_object (value, esm->sorter);
 		break;
@@ -104,7 +104,7 @@ esm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 {
 	ESelectionModel *esm = E_SELECTION_MODEL (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_SORTER:
 		drop_sorter(esm);
 		add_sorter(esm, g_value_get_object (value) ? E_SORTER(g_value_get_object(value)) : NULL);

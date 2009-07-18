@@ -223,7 +223,7 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 		g_signal_connect(w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 
 		if (w && po->widget)
-			gtk_window_set_transient_for((GtkWindow *)w, (GtkWindow *)po->widget);
+			gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)po->widget);
 
 		g_object_unref(ec);
 	} else {
@@ -1105,7 +1105,7 @@ efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_pu
 	if (info->shown && info->image) {
 		if (info->fit_width != 0) {
 			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height)) {
-				if(info->fit_width != width) {
+				if (info->fit_width != width) {
 					info->fit_width = width;
 					e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
 				} else {

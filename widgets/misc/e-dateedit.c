@@ -200,7 +200,7 @@ e_date_edit_get_type		(void)
 {
 	static GType date_edit_type = 0;
 
-	if (!date_edit_type){
+	if (!date_edit_type) {
 		static const GTypeInfo date_edit_info =  {
 			sizeof (EDateEditClass),
 			NULL,           /* base_init */

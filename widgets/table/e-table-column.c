@@ -141,7 +141,7 @@ e_table_column_index (ETableColumn *etc, const gchar *identifier)
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 	g_return_val_if_fail (identifier != NULL, 0);
 
-	for (i = 0; i < etc->col_count; i++){
+	for (i = 0; i < etc->col_count; i++) {
 		ETableCol *tc = etc->columns [i];
 
 		if (strcmp (i->id, identifier) == 0)
@@ -161,7 +161,7 @@ e_table_column_get_index_at (ETableColumn *etc, gint x_offset)
 	g_return_val_if_fail (identifier != NULL, 0);
 
 	total = 0;
-	for (i = 0; i < etc->col_count; i++){
+	for (i = 0; i < etc->col_count; i++) {
 		total += etc->columns [i]->width;
 
 		if (x_offset < total)
@@ -205,7 +205,7 @@ ve_table_column_get_selected (ETableColumn *etc)
 	g_return_val_if_fail (etc != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_COLUMN (etc), 0);
 
-	for (i = 0; i < etc->col_count; i++){
+	for (i = 0; i < etc->col_count; i++) {
 		if (etc->columns [i]->selected)
 			selected++;
 	}

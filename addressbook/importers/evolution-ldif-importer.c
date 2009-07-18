@@ -137,7 +137,7 @@ getValue( gchar **src )
 	gboolean need_base64 = (*s == ':');
 
  copy_line:
-	while( *s != 0 && *s != '\n' && *s != '\r' )
+	while ( *s != 0 && *s != '\n' && *s != '\r' )
 		dest = g_string_append_c (dest, *s++);
 
 	if (*s == '\r') s++;
@@ -250,7 +250,7 @@ parseLine (LDIFImporter *gci, EContact *contact,
 	}
 
 	/* first, check for a 'continuation' line */
-	if( ptr[0] == ' ' && ptr[1] != '\n' ) {
+	if ( ptr[0] == ' ' && ptr[1] != '\n' ) {
 		g_warning ("unexpected continuation line");
 		return FALSE;
 	}

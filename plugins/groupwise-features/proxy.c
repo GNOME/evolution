@@ -146,7 +146,7 @@ proxy_dialog_finalize (GObject *object)
 	g_return_if_fail (IS_PROXY_DIALOG (prd));
 	priv = prd->priv;
 
-	if(priv->proxy_name_selector)
+	if (priv->proxy_name_selector)
 		g_object_unref (priv->proxy_name_selector);
 
 	if (priv) {
@@ -614,7 +614,7 @@ proxy_update_tree_view (EAccount *account)
 	for (;list_iter; list_iter = g_list_next(list_iter)) {
 		aclInstance = (proxyHandler *) list_iter->data;
 
-		if(! (aclInstance->flags & E_GW_PROXY_DELETED )) {
+		if (! (aclInstance->flags & E_GW_PROXY_DELETED )) {
 			gtk_tree_store_append (priv->store, &iter, NULL);
 			gtk_tree_store_set (priv->store, &iter, 0, broken_image, 1, g_strconcat(aclInstance->proxy_name,"\n",aclInstance->proxy_email, NULL), -1);
 		}
@@ -682,7 +682,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			g_signal_connect (editProxy, "clicked", G_CALLBACK(proxy_edit_account), account);
 
 			priv->proxy_list = NULL;
-		} else if (account->enabled){
+		} else if (account->enabled) {
 			GtkWidget *label;
 			priv->tab_dialog = gtk_vbox_new (TRUE, 10);
 			/*To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation*/

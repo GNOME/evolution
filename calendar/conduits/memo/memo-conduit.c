@@ -332,11 +332,11 @@ static gchar *print_remote (GnomePilotRecord *remote)
 	memset (&memo, 0, sizeof (struct Memo));
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		sprintf (buff, "[NULL]");
 		return buff;
 	}
@@ -482,7 +482,7 @@ local_record_to_pilot_record (EMemoLocalRecord *local,
 	/* Generate pilot record structure */
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return p;
 	}
@@ -543,7 +543,7 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 
 #ifdef PILOT_LINK_0_12
 		record = pi_buffer_new(DLP_BUF_SIZE);
-		if(record == NULL){
+		if (record == NULL) {
 			pi_set_error(ctxt->dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 			return;
 		}
@@ -580,7 +580,7 @@ local_record_from_comp (EMemoLocalRecord *local, ECalComponent *comp, EMemoCondu
 	e_cal_component_get_description_list (comp, &d_list);
 	if (d_list) {
 		description = (ECalComponentText *) d_list->data;
-		if (description && description->value){
+		if (description && description->value) {
 			local->memo->text = e_pilot_utf8_to_pchar (description->value);
 		}
 		else{
@@ -656,11 +656,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		return NULL;
 	}
 
-	if(pi_buffer_append(buffer, remote->record, remote->length)==NULL){
+	if (pi_buffer_append(buffer, remote->record, remote->length)==NULL) {
 		return NULL;
 	}
 
@@ -698,16 +698,16 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		GSList l;
 		ECalComponentText text, sumText;
 
-		for(i = 0; i<ntext && i<50; i++){
-			if(memo.text[i] == '\n'){
+		for (i = 0; i<ntext && i<50; i++) {
+			if (memo.text[i] == '\n') {
 				idxToUse = i;
 				foundNL = TRUE;
 				break;
 			}
 		}
 
-		if(foundNL == FALSE){
-			if(ntext > 50){
+		if (foundNL == FALSE) {
+			if (ntext > 50) {
 				txt2 = g_strndup(memo.text, 50);
 			}
 			else{
@@ -884,7 +884,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 #ifdef PILOT_LINK_0_12
 	buffer = pi_buffer_new(DLP_BUF_SIZE);
-	if(buffer == NULL){
+	if (buffer == NULL) {
 		pi_set_error(dbi->pilot_socket, PI_ERR_GENERIC_MEMORY);
 		return -1;
 	}

@@ -43,7 +43,7 @@ e_bit_array_insert_real(EBitArray *eba, gint row)
 {
 	gint box;
 	gint i;
-	if(eba->bit_count >= 0) {
+	if (eba->bit_count >= 0) {
 		/* Add another word if needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
 			eba->data = g_renew(guint32, eba->data, (eba->bit_count >> 5) + 1);
@@ -70,7 +70,7 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 	gint i;
 	gint last;
 	gint selected = FALSE;
-	if(eba->bit_count >= 0) {
+	if (eba->bit_count >= 0) {
 		guint32 bitmask;
 		box = row >> 5;
 		last = eba->bit_count >> 5;

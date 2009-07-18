@@ -192,7 +192,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.action = E_TEP_NOP;
 			else
 				command.action = E_TEP_MOVE;
-			switch(key.keyval) {
+			switch (key.keyval) {
 			case GDK_Home:
 			case GDK_KP_Home:
 				if (key.state & GDK_CONTROL_MASK)
@@ -275,7 +275,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				break;
 			case GDK_Delete:
 			case GDK_KP_Delete:
-				if (key.state & GDK_CONTROL_MASK){
+				if (key.state & GDK_CONTROL_MASK) {
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_FORWARD_WORD;
 				} else if (key.state & GDK_SHIFT_MASK) {

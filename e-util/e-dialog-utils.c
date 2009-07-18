@@ -147,7 +147,7 @@ window_is_wm_toplevel (Display *display, Window window)
  * @parent_widget: the parent for @dialog
  *
  * This sets the parent for @dialog to be @parent_widget. Unlike
- * gtk_window_set_transient_for(), this doesn't need @parent_widget to
+ * gtk_window_set_transient_for (), this doesn't need @parent_widget to
  * be the actual toplevel, and also works if @parent_widget is
  * embedded as a Bonobo control by an out-of-process container.
  * @parent_widget must already be realized before calling this
@@ -191,7 +191,7 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 	e_dialog_set_transient_for_xid (dialog, parent);
 #endif
 #ifdef GDK_WINDOWING_WIN32
-	g_warning ("Not implemented on Win32: e_dialog_set_transient_for() for plug windows");
+	g_warning ("Not implemented on Win32: e_dialog_set_transient_for () for plug windows");
 #endif
 }
 
@@ -206,7 +206,7 @@ dialog_realized (GtkWindow *dialog, gpointer xid)
  * @dialog: a dialog window
  * @xid: the X Window parent
  *
- * Like e_dialog_set_transient_for(), but use an XID to specify the
+ * Like e_dialog_set_transient_for (), but use an XID to specify the
  * parent window.
  **/
 void

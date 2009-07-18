@@ -173,7 +173,7 @@ ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 {
 	ETreeScrolled *ets = E_TREE_SCROLLED (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_TREE:
 		g_value_set_object (value, ets->tree);
 		break;

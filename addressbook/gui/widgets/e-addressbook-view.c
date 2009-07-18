@@ -491,7 +491,7 @@ addressbook_view_set_property (GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-	switch (property_id){
+	switch (property_id) {
 		case PROP_SHELL_VIEW:
 			addressbook_view_set_shell_view (
 				E_ADDRESSBOOK_VIEW (object),
@@ -1095,7 +1095,7 @@ e_addressbook_view_print (EAddressbookView *view,
 static void
 delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 {
-	switch(status) {
+	switch (status) {
 		case E_BOOK_ERROR_OK :
 		case E_BOOK_ERROR_CANCELLED :
 			break;

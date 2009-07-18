@@ -129,7 +129,7 @@ share_folder_init (ShareFolder *sf)
 static void
 free_user_node(EShUsers *user)
 {
-	if(user){
+	if (user) {
 		g_free(user->email);
 		user->email = NULL;
 	}
@@ -140,7 +140,7 @@ static void
 free_node(SharedUser *usr)
 {
 	EShUsers *user = usr->user_node;
-	if(user){
+	if (user) {
 		g_free(user->email);
 		user->email = NULL;
 	}
@@ -155,13 +155,13 @@ find_node(GList *list, gchar *email)
 	GList *tmp;
 	gint i;
 
-	if(list){
+	if (list) {
 		tmp = g_list_first(list);
-		for(i=0; tmp; i++)
+		for (i=0; tmp; i++)
 		{
 			user = tmp->data;
 			usr = user->user_node;
-			if(!g_ascii_strcasecmp(usr->email, email)){
+			if (!g_ascii_strcasecmp(usr->email, email)) {
 				return user; /*if found, it returns that user*/
 			}
 			tmp= g_list_next(tmp);
@@ -173,7 +173,7 @@ find_node(GList *list, gchar *email)
 static void
 free_all (ShareFolder *sf)
 {
-	if (sf->users_list){
+	if (sf->users_list) {
 		g_list_foreach (sf->users_list,(GFunc) free_node, NULL);
 		g_list_free (sf->users_list);
 		sf->users_list = NULL;
@@ -193,12 +193,12 @@ display_container (EGwContainer *container , ShareFolder *sf)
 	EShUsers *user = NULL;
 
 	sf->gcontainer = container;
-	if(!(byme = e_gw_container_get_is_shared_by_me(container)))
+	if (!(byme = e_gw_container_get_is_shared_by_me(container)))
 		tome = e_gw_container_get_is_shared_to_me(container);
-	if(byme || tome) {
+	if (byme || tome) {
 		e_gw_container_get_user_list (sf->gcontainer, &user_list);
 		sf->users = g_list_length (user_list);
-		if(sf->users != 0) {
+		if (sf->users != 0) {
 			sf->is_shared = TRUE;
 			gtk_toggle_button_set_active((GtkToggleButton *) sf->shared, TRUE);
 			shared_clicked(sf->shared , sf);
@@ -273,13 +273,13 @@ get_container_list (ShareFolder *sf)
 				id_shared = g_strdup(e_gw_container_get_id (container->data));
 
 				/* this has to be done since id changes after the folder is shared*/
-				if( g_str_has_suffix (id_shared, "35")){
+				if ( g_str_has_suffix (id_shared, "35")) {
 					tail = g_strsplit(id_shared, "@", 2);
 					id_unshared = g_strconcat(tail[0], "@", "13", NULL);
 					g_strfreev(tail);
 				}
 
-				if((id_shared && !g_ascii_strcasecmp(id_shared, sf->container_id)) ||(id_unshared && !g_ascii_strcasecmp(id_unshared, sf->container_id))) {
+				if ((id_shared && !g_ascii_strcasecmp(id_shared, sf->container_id)) ||(id_unshared && !g_ascii_strcasecmp(id_unshared, sf->container_id))) {
 
 					display_container (E_GW_CONTAINER (container->data), sf);
 					g_free (id_shared);
@@ -348,7 +348,7 @@ add_clicked(GtkButton *button, ShareFolder *sf)
 			}
 
 			/*check whether already exists*/
-			if (sf->users_list && email){
+			if (sf->users_list && email) {
 				new_user = find_node (sf->users_list, (gchar *)email);
 				if (new_user)
 					return;
@@ -419,20 +419,20 @@ share_folder (ShareFolder *sf)
 	}
 
 	if (E_IS_GW_CONNECTION (sf->cnc)) {
-		if(sf->flag_for_ok == 2){  /* you have to remove all the users*/
+		if (sf->flag_for_ok == 2){  /* you have to remove all the users*/
 		GList *list = NULL;
 
-			if(new_list){
+			if (new_list) {
 				g_list_foreach (new_list, (GFunc) free_user_node, NULL);
 				g_list_free (new_list);
 			}
-			if(update_list){
+			if (update_list) {
 				g_list_foreach (update_list, (GFunc) free_user_node, NULL);
 				g_list_free (update_list);
 			}
 
 			new_list = NULL;
-			if(remove_list){
+			if (remove_list) {
 				g_list_foreach (remove_list,(GFunc) free_user_node, NULL);
 				g_list_free (remove_list);
 			}
@@ -579,7 +579,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	GtkTreePath *path = NULL;
 
 	path = gtk_tree_path_new_from_string (arg1);
-	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)){
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)) {
 		gtk_tree_path_free (path);
 		return;
 	}
@@ -589,7 +589,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if(! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 	if (!right) {
@@ -622,7 +622,7 @@ edit_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if(! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 
@@ -656,7 +656,7 @@ delete_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		gtk_tree_path_free (path);
 		return;
 	}
-	if(! usr->flag)  /* if user was already existing one change the flag to update*/
+	if (! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;
 	user = usr->user_node;
 	if (!right) {

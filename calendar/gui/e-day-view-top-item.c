@@ -426,7 +426,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		GdkColormap *colormap;
 
 		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)){
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
 			red = bg_color.red;
 			green = bg_color.green;
 			blue = bg_color.blue;
@@ -487,7 +487,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	if (gradient){
+	if (gradient) {
 		pat = cairo_pattern_create_linear (item_x - x + 5.5, item_y + 2.5 - y,
 						item_x - x + 5, item_y - y + item_h + 7.5);
 		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);

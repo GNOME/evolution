@@ -485,7 +485,7 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 			for (sub_type_index = 0; sub_type_index < temp_header_ptr->number_of_subtype_header; sub_type_index++) {
 				temp_header_value_ptr = &g_array_index(temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
 
-				if (sub_type_index == g_array_index(priv->header_index_type, gint, index_subtype)){
+				if (sub_type_index == g_array_index(priv->header_index_type, gint, index_subtype)) {
 					e_msg_composer_modify_header (composer, (temp_header_ptr->header_type_value)->str,
 						(temp_header_value_ptr->sub_header_string_value)->str);
 				}
@@ -526,7 +526,7 @@ epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 static gint
 epech_check_existing_composer_window(gconstpointer compowindow, gconstpointer other_compowindow)
 {
-	if ((compowindow) && (other_compowindow)){
+	if ((compowindow) && (other_compowindow)) {
 		if (((EmailCustomHeaderWindow *)compowindow)->epech_window == (GdkWindow *)other_compowindow) {
 			return 0;
 		}
@@ -620,8 +620,8 @@ commit_changes (ConfigData *cd)
 		/* Check if the keyword is not empty */
 		gtk_tree_model_get (model, &iter, HEADER_VALUE_COLUMN, &value, -1);
                 /* Check if the keyword is not empty */
-                if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)){
-                        if ((value) && (g_utf8_strlen(g_strstrip(value), -1) > 0)){
+                if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)) {
+                        if ((value) && (g_utf8_strlen(g_strstrip(value), -1) > 0)) {
                                 keyword = g_strconcat (keyword, "=", value, NULL);
                         }
                         header_config_list = g_slist_append (header_config_list, g_strdup(keyword));

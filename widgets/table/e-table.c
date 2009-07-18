@@ -1817,7 +1817,7 @@ et_build_column_spec (ETable *e_table)
 	columns_shown = xmlNewNode (NULL, "columns-shown");
 
 	col_count = e_table_header_count (e_table->header);
-	for (i = 0; i < col_count; i++){
+	for (i = 0; i < col_count; i++) {
 		gchar *text = g_strdup_printf ("%d", e_table_header_index(e_table->header, i));
 		xmlNewChild (columns_shown, NULL, "column", text);
 		g_free (text);
@@ -2121,7 +2121,7 @@ et_get_property (GObject *object,
 {
 	ETable *etable = E_TABLE (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_MODEL:
 		g_value_set_object (value, etable->model);
 		break;
@@ -2152,7 +2152,7 @@ et_set_property (GObject *object,
 {
 	ETable *etable = E_TABLE (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_LENGTH_THRESHOLD:
 		etable->length_threshold = g_value_get_int (value);
 		if (etable->group) {

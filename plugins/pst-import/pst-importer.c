@@ -514,7 +514,7 @@ pst_import_folders (PstImporter *m, pst_desc_ll *topitem)
 			d_ptr = d_ptr->next;
 		} else {
 			while (d_ptr != topitem && d_ptr->next == NULL) {
-				if(m->folder_uri) {
+				if (m->folder_uri) {
 					g_free(m->folder_uri);
 				}
 
@@ -915,13 +915,13 @@ pst_process_email (PstImporter *m, pst_item *item)
 	info = camel_message_info_new (NULL);
 
 	/* Read message flags (see comments in libpst.c */
-	if(item->email->flag && 0x01)
+	if (item->email->flag && 0x01)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
-	if(item->email->importance == 2)
+	if (item->email->importance == 2)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_FLAGGED, ~0);
 
-	if(item->email->flag && 0x08)
+	if (item->email->flag && 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);

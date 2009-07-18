@@ -326,7 +326,7 @@ add_account_esources (ExchangeAccount *account,
 						   source, -1);
 			g_object_unref (source);
 		}
-		else if (folder->type == EXCHANGE_CALENDAR_FOLDER){
+		else if (folder->type == EXCHANGE_CALENDAR_FOLDER) {
 			relative_uri = g_strdup (folder->uri +
 						 strlen (EXCHANGE_URI_PREFIX));
 			source = e_source_new (folder->name, relative_uri);
@@ -354,7 +354,7 @@ add_account_esources (ExchangeAccount *account,
 			g_free (relative_uri);
 
 		}
-		else if (folder->type == EXCHANGE_TASKS_FOLDER){
+		else if (folder->type == EXCHANGE_TASKS_FOLDER) {
 			relative_uri = g_strdup (folder->uri +
 						 strlen (EXCHANGE_URI_PREFIX));
 			source = e_source_new (folder->name, relative_uri);
@@ -542,7 +542,7 @@ remove_account_esource (ExchangeAccount *account,
                     strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			sources = e_source_group_peek_sources (group);
 
-			for(; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				source = E_SOURCE (sources->data);
 				source_uid = e_source_peek_uid (source);
 
@@ -946,7 +946,7 @@ requires_relogin (gchar *current_url, gchar *new_url)
 				break;
 			}
 		}
-		else if (current_param_val || new_param_val){
+		else if (current_param_val || new_param_val) {
 			/* check for added or deleted parameter */
 			relogin = TRUE;
 			break;
@@ -1257,7 +1257,7 @@ exchange_add_autocompletion_folders (GConfClient *gc_client, ExchangeAccount *ac
 		    strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for(; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *absolute_uri;
 
@@ -1374,7 +1374,7 @@ remove_selected_non_offline_esources (ExchangeAccount *account, const gchar *gco
                     strcmp (e_source_group_peek_base_uri (group), EXCHANGE_URI_PREFIX) == 0) {
 			sources = e_source_group_peek_sources (group);
 
-			for(; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				source = E_SOURCE (sources->data);
 				source_uid = e_source_peek_uid (source);
 

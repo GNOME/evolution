@@ -257,7 +257,7 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 		   strcmp (e_source_group_peek_base_uri (group), HULA_CALDAV_URI_PREFIX ) == 0) {
 			GSList *sources = e_source_group_peek_sources (group);
 
-			for(; sources != NULL; sources = g_slist_next (sources)) {
+			for (; sources != NULL; sources = g_slist_next (sources)) {
 				ESource *source = E_SOURCE (sources->data);
 				const gchar *source_relative_uri;
 

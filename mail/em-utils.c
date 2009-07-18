@@ -328,7 +328,7 @@ em_filename_make_safe (gchar *string)
 	g_return_if_fail (string != NULL);
 	p = string;
 
-	while(p && *p) {
+	while (p && *p) {
 		c = g_utf8_get_char (p);
 		ts = p;
 		p = g_utf8_next_char (p);
@@ -696,7 +696,7 @@ emu_add_address_or_vcard (GtkWindow *parent, const gchar *email, const gchar *vc
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow *)win, _("Add address"));
 
-	gtk_window_set_transient_for((GtkWindow *)win, parent);
+	gtk_window_set_transient_for ((GtkWindow *)win, parent);
 
 	gtk_window_set_position((GtkWindow *)win, GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_type_hint((GtkWindow *)win, GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -2146,12 +2146,12 @@ em_utils_contact_photo (CamelInternetAddress *cia, gboolean local)
 	EBook *book = NULL;
 	CamelMimePart *part;
 
-	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)){
+	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)) {
 		return NULL;
 	}
 
-	if (!emu_addr_list){
-		if (!e_book_get_addressbooks(&emu_addr_list, &err)){
+	if (!emu_addr_list) {
+		if (!e_book_get_addressbooks(&emu_addr_list, &err)) {
 			g_error_free(err);
 			return NULL;
 		}

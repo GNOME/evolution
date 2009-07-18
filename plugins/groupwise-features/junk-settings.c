@@ -115,7 +115,7 @@ junk_settings_init (JunkSettings *js)
 static void
 free_entry_node(EGwJunkEntry *entry)
 {
-	if(entry){
+	if (entry) {
 		g_free(entry->match);
 		entry->match = NULL;
 	}
@@ -128,7 +128,7 @@ free_node(JunkEntry *nentry)
 {
 	EGwJunkEntry *junk_entry = nentry->entry;
 
-	if(junk_entry){
+	if (junk_entry) {
 		g_free(junk_entry->match);
 		junk_entry->match = NULL;
 	}
@@ -144,13 +144,13 @@ find_node(GList *list, gchar *match)
 	GList *tmp;
 	gint i;
 
-	if(list){
+	if (list) {
 		tmp = g_list_first(list);
-		for(i=0; tmp; i++)
+		for (i=0; tmp; i++)
 		{
 			one_entry = tmp->data;
 			ent = one_entry->entry;
-			if(!g_ascii_strcasecmp(ent->match, match)){
+			if (!g_ascii_strcasecmp(ent->match, match)) {
 				return one_entry;
 	/*if found, it returns that user*/
 			}
@@ -164,7 +164,7 @@ find_node(GList *list, gchar *match)
 static void
 free_all (JunkSettings *js)
 {
-	if (js->junk_list){
+	if (js->junk_list) {
 		g_list_foreach (js->junk_list,(GFunc) free_node, NULL);
 		g_list_free (js->junk_list);
 		js->junk_list = NULL;
@@ -240,7 +240,7 @@ commit_changes (JunkSettings *js)
 	}
 
 	if (E_IS_GW_CONNECTION (js->cnc)) {
-		if(js->flag_for_ok == 2 && js->enabled){  /* just turn off the bits*/
+		if (js->flag_for_ok == 2 && js->enabled){  /* just turn off the bits*/
 			use_junk = use_pab = use_block = persistence = 0;
 			if (e_gw_connection_modify_junk_settings (js->cnc, use_junk, use_pab, use_block, persistence) == E_GW_CONNECTION_STATUS_OK) {
 				;
@@ -272,12 +272,12 @@ commit_changes (JunkSettings *js)
 		}
 
 	}
-	if(new_list){
+	if (new_list) {
 		g_list_foreach (new_list, (GFunc) free_entry_node, NULL);
 		g_list_free (new_list);
 	}
 	new_list = NULL;
-	if(remove_list){
+	if (remove_list) {
 		g_list_foreach (remove_list,(GFunc) free_entry_node, NULL);
 		g_list_free (remove_list);
 	}
@@ -314,7 +314,7 @@ add_clicked(GtkButton *button, JunkSettings *js)
 		       return;
 		else {
 			/*check whether already exists*/
-			if (js->junk_list && email){
+			if (js->junk_list && email) {
 				new_entry = find_node (js->junk_list, (gchar *)email);
 				if (new_entry)
 					return;
@@ -361,7 +361,7 @@ user_selected(GtkTreeSelection *selection, JunkSettings *js)
 	GtkTreeModel *model;
 
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-	if (gtk_tree_selection_get_selected (selection, &model, &(js->iter))){
+	if (gtk_tree_selection_get_selected (selection, &model, &(js->iter))) {
 		gtk_widget_set_sensitive (GTK_WIDGET (js->remove), TRUE);
 
 	}

@@ -523,7 +523,7 @@ process_version (SECItem     *versionItem,
 		version = 0;
 	}
 
-	switch (version){
+	switch (version) {
 	case 0:
 		e_asn1_object_set_display_value (item, _("Version 1"));
 		break;
@@ -1006,7 +1006,7 @@ process_name (CERTName *name, gchar **value)
 
 			/* This function returns a string in UTF8 format. */
 			decodeItem = CERT_DecodeAVAValue(&ava->value);
-			if(!decodeItem) {
+			if (!decodeItem) {
 				return FALSE;
 			}
 

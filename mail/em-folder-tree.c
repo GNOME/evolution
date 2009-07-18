@@ -2239,7 +2239,7 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 	tree_view = GTK_TREE_VIEW (emft);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter)){
+	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
 
 		current_path = gtk_tree_model_get_path (model, &iter);
 		do {

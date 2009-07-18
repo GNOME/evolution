@@ -131,7 +131,7 @@ e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_pre_change)
 		(E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_pre_change) (etss, source);
 
-	if (e_table_subset_construct (etss, source, 0) == NULL){
+	if (e_table_subset_construct (etss, source, 0) == NULL) {
 		g_object_unref (ets);
 		return NULL;
 	}
@@ -267,7 +267,7 @@ ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, gint row,
 	shift = row == etss->n_map - count;
 
 	for (j = 0; j < count; j++) {
-		for (i = 0; i < etss->n_map; i++){
+		for (i = 0; i < etss->n_map; i++) {
 			if (etss->map_table[i] == row + j) {
 				if (shift)
 					e_table_model_pre_change (etm);

@@ -311,7 +311,7 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 	item = GNOME_CANVAS_ITEM (object);
 	e_minicard = E_MINICARD (object);
 
-	switch (prop_id){
+	switch (prop_id) {
 	case PROP_WIDTH:
 		if (e_minicard->width != g_value_get_double (value)) {
 			e_minicard->width = g_value_get_double (value);
@@ -548,7 +548,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	e_minicard = E_MINICARD (item);
 
-	switch( event->type ) {
+	switch ( event->type ) {
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
@@ -882,7 +882,7 @@ get_left_width (EMinicard *e_minicard, gboolean is_list)
 		return 0;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas), "");
-	for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
+	for (field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		gint this_width;
 
 		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
@@ -932,7 +932,7 @@ remodel( EMinicard *e_minicard )
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
-		for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) && count < 5; field++) {
+		for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
 			gboolean is_email=FALSE;
 
@@ -1022,7 +1022,7 @@ e_minicard_reflow(GnomeCanvasItem *item, gint flags)
 				       "y2", text_height + 9.0,
 				       NULL);
 
-		for(list = e_minicard->fields; list; list = g_list_next(list)) {
+		for (list = e_minicard->fields; list; list = g_list_next(list)) {
 			EMinicardField *field = E_MINICARD_FIELD(list->data);
 			/* Why not use the item that is passed in? */
 			GnomeCanvasItem *item = field->label;
