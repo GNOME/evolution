@@ -640,7 +640,6 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 		g_object_set_data ((GObject *) task_widget, "activity", GINT_TO_POINTER(activity_id));
 		g_object_set_data ((GObject *) task_widget, "error-type", GINT_TO_POINTER(E_LOG_ERROR));
 		g_signal_connect_swapped (tool, "clicked", G_CALLBACK(handle_error), task_widget);
-		handle_error (task_widget);
 	}
 
 	if (!activity_handler->priv->error_timer)
