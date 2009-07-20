@@ -305,8 +305,10 @@ mail_msg_check_error (gpointer msg)
 
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
-	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID)
+	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID) {
+		mail_component_show_status_bar (FALSE);
 		return;
+	}
 
 	if (active_errors == NULL)
 		active_errors = g_hash_table_new(NULL, NULL);
@@ -329,10 +331,12 @@ mail_msg_check_error (gpointer msg)
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
 	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->info);
-	if (m->priv->cancelable)
+	if (m->priv->cancelable) {
 		m->priv->error = (GtkWidget *) gd;
-	else
+		mail_component_show_status_bar (TRUE);
+	} else
 		gtk_widget_show((GtkWidget *)gd);
+
 }
 
 void mail_msg_cancel(guint msgid)
@@ -482,7 +486,7 @@ mail_msg_idle_cb (void)
 	G_LOCK (idle_source_id);
 	idle_source_id = 0;
 	G_UNLOCK (idle_source_id);
-
+	mail_component_show_status_bar (TRUE);	
 	/* check the main loop queue */
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
 		if (msg->info->exec != NULL)
@@ -499,7 +503,7 @@ mail_msg_idle_cb (void)
 		mail_msg_check_error (msg);
 		mail_msg_unref (msg);
 	}
-
+	mail_component_show_status_bar (FALSE);	
 	return FALSE;
 }
 
@@ -621,6 +625,7 @@ mail_msg_unordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (10));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
+	mail_component_show_status_bar (TRUE);
 }
 
 void
@@ -631,6 +636,7 @@ mail_msg_fast_ordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (1));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
+	mail_component_show_status_bar (TRUE);
 }
 
 void
@@ -641,6 +647,7 @@ mail_msg_slow_ordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (1));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
+	mail_component_show_status_bar (TRUE);
 }
 
 gboolean
@@ -861,9 +868,11 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 	m->func = func;
 	G_VA_COPY(m->ap, ap);
 
-	if (mail_in_main_thread ())
+	if (mail_in_main_thread ()) {
+		mail_component_show_status_bar (TRUE);
 		do_call (m);
-	else {
+		mail_component_show_status_bar (FALSE);
+	} else {
 		mail_msg_ref (m);
 		m->done = e_flag_new ();
 		mail_msg_main_loop_push (m);
