@@ -171,7 +171,11 @@ composer_header_table_notify_widget (GtkWidget *widget,
 {
 	GtkWidget *parent;
 
-	parent = gtk_widget_get_parent (widget);
+	if (composer_lite) {
+		parent = gtk_widget_get_parent (widget);
+		parent = g_object_get_data ((GObject *)parent, "pdata");
+	} else
+		parent = gtk_widget_get_parent (widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -532,12 +536,23 @@ composer_header_table_constructor (GType type,
 		G_OBJECT (priv->signature_combo_box), "visible");
 
 	/* Now add the signature stuff. */
-	gtk_table_attach (
-		GTK_TABLE (object), priv->signature_label,
-		2, 3, ii, ii + 1, 0, 0, 0, 3);
-	gtk_table_attach (
-		GTK_TABLE (object), priv->signature_combo_box,
-		3, 4, ii, ii + 1, 0, 0, 0, 3);
+	if (!composer_lite) {
+		gtk_table_attach (
+			GTK_TABLE (object), priv->signature_label,
+			2, 3, ii, ii + 1, 0, 0, 0, 3);
+		gtk_table_attach (
+			GTK_TABLE (object), priv->signature_combo_box,
+			3, 4, ii, ii + 1, composer_lite ? GTK_FILL: 0, 0, 0, 3);
+	}  else {
+		GtkWidget *box = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)box, priv->signature_label, FALSE, FALSE, 4);
+		gtk_box_pack_end ((GtkBox *)box, priv->signature_combo_box, TRUE, TRUE, 0);
+		g_object_set_data ((GObject *)box, "pdata", object);
+		gtk_table_attach (
+			GTK_TABLE (object), box,
+			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
+		gtk_widget_show (box);
+	}
 
 	if (composer_lite) {
 		ii = E_COMPOSER_HEADER_TO;
@@ -924,7 +939,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 
 	table->priv->actions_container = (GtkHBox *)gtk_hbox_new (FALSE, 6);
 
-	header = e_composer_from_header_new (_("Fr_om:"));
+	header = e_composer_from_header_new_with_action (_("Fr_om:"), _("From"));
 	composer_header_table_bind_header ("account", "changed", header);
 	composer_header_table_bind_header ("account-list", "refreshed", header);
 	composer_header_table_bind_header ("account-name", "changed", header);

@@ -110,6 +110,14 @@ e_composer_from_header_new (const gchar *label)
 		"button", FALSE, NULL);
 }
 
+EComposerHeader *
+e_composer_from_header_new_with_action (const gchar *label, const char *action)
+{
+	return g_object_new (
+		E_TYPE_COMPOSER_FROM_HEADER, "label", label,
+		"button", FALSE, "addaction_text", action, "addaction", action!= NULL, NULL);
+}
+
 EAccountList *
 e_composer_from_header_get_account_list (EComposerFromHeader *header)
 {
