@@ -70,7 +70,7 @@ void	    e_task_bar_remove_task_from_id (ETaskBar *task_bar,
 					    guint id);
 ETaskWidget *e_task_bar_get_task_widget  (ETaskBar    *task_bar,
 					  gint          n);
-
+gint	     e_task_bar_get_num_children (ETaskBar *task_bar);
 G_END_DECLS
 
 #endif /* _E_TASK_BAR_H_ */

@@ -300,3 +300,8 @@ e_task_bar_get_task_widget (ETaskBar *task_bar,
 	return E_TASK_WIDGET (child_info->widget);
 }
 
+gint
+e_task_bar_get_num_children (ETaskBar *task_bar)
+{
+	return g_list_length (GTK_BOX (task_bar->priv->hbox)->children);
+}
