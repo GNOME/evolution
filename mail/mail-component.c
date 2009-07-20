@@ -1625,4 +1625,13 @@ mail_component_show_logger (gpointer top)
 	eni_show_logger(logger, top, MAILER_ERROR_TIME_OUT_KEY, MAILER_ERROR_LEVEL_KEY);
 }
 
+void
+mail_component_show_status_bar (gboolean show)
+{
+	MailComponent *mc = mail_component_peek ();
+
+	/* Nothing to do */
+	return;
+}
+
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)
