@@ -1030,14 +1030,14 @@ setup_forward_attached_callbacks (EMsgComposer *composer, CamelFolder *folder, G
 	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_fad_cb, fad);
 }
 
-static void
+static struct _EMsgComposer *
 forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, CamelMimePart *part, gchar *subject, const gchar *fromuri)
 {
 	EMsgComposer *composer;
 
 	composer = create_new_composer (subject, fromuri, TRUE, FALSE);
 	if (composer == NULL)
-		return;
+		return NULL;
 
 	e_msg_composer_attach (composer, part);
 
@@ -1046,7 +1046,10 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	if (!e_msg_composer_get_lite())
+		gtk_widget_show (GTK_WIDGET (composer));
+
+	return composer;
 }
 
 static void
@@ -1192,7 +1195,7 @@ em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids, const gchar *from
  *
  * Forwards a message in the user's configured default style.
  **/
-void
+struct _EMsgComposer *
 em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 {
 	GPtrArray *messages;
@@ -1200,7 +1203,7 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 	GConfClient *gconf;
 	gchar *subject;
 	gint mode;
-
+	struct _EMsgComposer *composer = NULL;
 	messages = g_ptr_array_new ();
 	g_ptr_array_add (messages, message);
 
@@ -1214,7 +1217,7 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 
 		subject = mail_tool_generate_forward_subject (message);
 
-		forward_attached (NULL, NULL, messages, part, subject, fromuri);
+		composer = forward_attached (NULL, NULL, messages, part, subject, fromuri);
 		camel_object_unref (part);
 		g_free (subject);
 		break;
@@ -1227,6 +1230,8 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 	}
 
 	g_ptr_array_free (messages, TRUE);
+
+	return composer;
 }
 
 /**
