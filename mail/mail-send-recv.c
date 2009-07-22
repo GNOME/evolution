@@ -360,7 +360,7 @@ get_receive_type(const gchar *url)
 }
 
 static struct _send_data *
-build_dialog (EAccountList *accounts, CamelFolder *outbox, const gchar *destination)
+build_dialog (EAccountList *accounts, CamelFolder *outbox, const gchar *destination, gboolean show_dialog)
 {
 	GtkDialog *gd;
 	GtkWidget *table;
@@ -611,7 +611,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const gchar *destinat
 	}
 
 	gtk_widget_show_all (table);
-	gtk_widget_show (GTK_WIDGET (gd));
+	if (show_dialog)
+		gtk_widget_show (GTK_WIDGET (gd));
 
 	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
 
@@ -906,7 +907,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 }
 
 GtkWidget *
-mail_send_receive (void)
+mail_send_receive_dialog (gboolean show_dialog)
 {
 	CamelFolder *outbox_folder;
 	struct _send_data *data;
@@ -915,7 +916,7 @@ mail_send_receive (void)
 	GList *scan;
 
 	if (send_recv_dialog != NULL) {
-		if (GTK_WIDGET_REALIZED(send_recv_dialog)) {
+		if (show_dialog && GTK_WIDGET_REALIZED(send_recv_dialog)) {
 			gdk_window_show(send_recv_dialog->window);
 			gdk_window_raise(send_recv_dialog->window);
 		}
@@ -932,7 +933,7 @@ mail_send_receive (void)
 	accounts = mail_config_get_accounts ();
 
 	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
-	data = build_dialog (accounts, outbox_folder, account->transport->url);
+	data = build_dialog (accounts, outbox_folder, account->transport->url, show_dialog);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
@@ -965,6 +966,12 @@ mail_send_receive (void)
 	}
 
 	return send_recv_dialog;
+}
+
+GtkWidget *
+mail_send_receive ()
+{
+	return mail_send_receive_dialog(TRUE);
 }
 
 struct _auto_data {

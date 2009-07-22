@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 
 /* send/receive all uri's */
 GtkWidget *     mail_send_receive               (void);
+GtkWidget * 	mail_send_receive_dialog (gboolean show_dialog);
 
 /* receive a single uri */
 void            mail_receive_uri                (const gchar *uri,
