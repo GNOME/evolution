@@ -3011,7 +3011,8 @@ em_account_editor_construct (EMAccountEditor *emae, EAccount *account, em_accoun
 		emae->account = e_account_new_from_xml (xml);
 		g_free (xml);
 
-		emae->do_signature = TRUE;
+		if (type != EMAE_PAGES)
+			emae->do_signature = TRUE;
 	} else {
 		/* TODO: have a get_default_account thing?? */
 		emae->account = e_account_new ();
