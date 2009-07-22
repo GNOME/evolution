@@ -4291,6 +4291,8 @@ regen_list_done (struct _regen_list_msg *m)
 			/* space is used to indicate no search too */
 			if (m->ml->search && strcmp (m->ml->search, " ") != 0)
 				e_tree_set_info_message (m->ml->tree, _("No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."));
+			else if (m->ml->hidden)
+				e_tree_set_info_message (m->ml->tree, _("There are only hidden messages in this folder. Use View->Show Hidden Messages to show them."));
 			else
 				e_tree_set_info_message (m->ml->tree, _("There are no messages in this folder."));
 		} else
