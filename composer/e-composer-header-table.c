@@ -506,9 +506,21 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
-		gtk_table_attach (
-			GTK_TABLE (object), priv->headers[ii]->input_widget,
-			1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
+			GtkWidget *box = gtk_hbox_new (FALSE, 0);
+
+			gtk_box_pack_start ((GtkBox *)box, priv->headers[ii]->input_widget, TRUE, TRUE, 3);
+			gtk_box_pack_start ((GtkBox *)box, (GtkWidget *)priv->actions_container, FALSE, FALSE, 0);
+			gtk_widget_show (box);
+			gtk_table_attach (
+				GTK_TABLE (object), box,
+				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		
+		} else {
+			gtk_table_attach (
+				GTK_TABLE (object), priv->headers[ii]->input_widget,
+				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		}
 		if (composer_lite && priv->headers[ii]->action_widget) {
 			/* Pack the widgets to the end. Helps formatting when hiding the From field */
 			gtk_box_pack_end ((GtkBox *)priv->actions_container, priv->headers[ii]->action_widget,
@@ -551,20 +563,7 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), box,
 			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
-		gtk_widget_show (box);
-	}
-
-	if (composer_lite) {
-		ii = E_COMPOSER_HEADER_TO;
-
-		/* Leave room for the action buttons. */
-		gtk_container_child_set (
-			GTK_CONTAINER (object),
-			priv->headers[ii]->input_widget,
-			"right-attach", 2, NULL);
-
-		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO,
-				  E_COMPOSER_HEADER_TO + 1, GTK_FILL, 0, 0, 3);
+		gtk_widget_hide (box);
 	}
 
 	return object;
