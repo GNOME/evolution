@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-07-15 11:18+0000\n"
-"PO-Revision-Date: 2009-07-16 09:12+0200\n"
+"POT-Creation-Date: 2009-07-22 18:16+0000\n"
+"PO-Revision-Date: 2009-07-22 21:29+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -830,7 +830,7 @@ msgid "Details"
 msgstr "Detalles"
 
 #: ../addressbook/gui/component/addressbook-config.c:1031
-#: ../mail/em-folder-browser.c:1022
+#: ../mail/em-folder-browser.c:1021
 msgid "Searching"
 msgstr "Búsqueda"
 
@@ -978,7 +978,7 @@ msgstr "Introduzca la contraseña para %s (usuario %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:414
+#: ../plugins/google-account-setup/google-source.c:500
 #: ../plugins/publish-calendar/publish-calendar.c:216
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1241,7 +1241,7 @@ msgstr "tarjetas"
 #: ../plugins/caldav/caldav-source.c:448
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
-#: ../plugins/google-account-setup/google-source.c:668
+#: ../plugins/google-account-setup/google-source.c:720
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "minutes"
 msgstr "minutos"
@@ -1705,7 +1705,7 @@ msgstr "Editor de listas de contactos"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:211
-#: ../calendar/gui/e-day-view-time-item.c:810
+#: ../calendar/gui/e-day-view-time-item.c:812
 #: ../calendar/gui/e-timezone-entry.c:118
 msgid "Select..."
 msgstr "Seleccionar…"
@@ -3383,7 +3383,7 @@ msgstr[1] "minutos"
 #: ../plugins/caldav/caldav-source.c:449
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:669
+#: ../plugins/google-account-setup/google-source.c:721
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "hours"
 msgid_plural "hours"
@@ -4154,7 +4154,7 @@ msgstr "Purgar acontecimientos anteriores a"
 #: ../plugins/caldav/caldav-source.c:450
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:670
+#: ../plugins/google-account-setup/google-source.c:722
 #: ../plugins/google-account-setup/google-contacts-source.c:332
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -4566,7 +4566,7 @@ msgstr "Adjuntar archivo(s)"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/event-page.c:2959
 #: ../calendar/gui/e-cal-model-tasks.c:671
-#: ../calendar/gui/e-day-view-time-item.c:783
+#: ../calendar/gui/e-day-view-time-item.c:785
 #: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:942
 #: ../mail/em-account-editor.c:706 ../mail/em-account-editor.c:1435
 #: ../mail/em-account-prefs.c:435 ../mail/em-junk-hook.c:93
@@ -6516,12 +6516,12 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:745
+#: ../calendar/gui/e-day-view-time-item.c:747
 #, c-format
 msgid "%02i minute divisions"
 msgstr "divisiones de %02i minutos"
 
-#: ../calendar/gui/e-day-view-time-item.c:766
+#: ../calendar/gui/e-day-view-time-item.c:768
 msgid "Show the second time zone"
 msgstr "Muestra la segunda zona horaria"
 
@@ -9601,11 +9601,11 @@ msgid "Save Draft"
 msgstr "Guardar borrador"
 
 # #En conflicto con _Mensaje
-#: ../composer/e-composer-header.c:114
+#: ../composer/e-composer-header.c:120
 msgid "Show"
 msgstr "Mostrar"
 
-#: ../composer/e-composer-header.c:117
+#: ../composer/e-composer-header.c:123
 msgid "Hide"
 msgstr "Ocultar"
 
@@ -9625,43 +9625,49 @@ msgstr ""
 "Escriba las direcciones que recibirán una copia del mensaje sin aparecer en "
 "la lista de destinatarios del mensaje"
 
-#: ../composer/e-composer-header-table.c:927
+#: ../composer/e-composer-header-table.c:941
 msgid "Fr_om:"
 msgstr "_De:"
 
-#: ../composer/e-composer-header-table.c:936
+#: ../composer/e-composer-header-table.c:941 ../mail/em-format-quote.c:209
+#: ../mail/em-format.c:923 ../mail/em-mailer-prefs.c:75
+#: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:296
+msgid "From"
+msgstr "De"
+
+#: ../composer/e-composer-header-table.c:950
 msgid "_Reply-To:"
 msgstr "_Responder a:"
 
-#: ../composer/e-composer-header-table.c:941
+#: ../composer/e-composer-header-table.c:955
 msgid "_To:"
 msgstr "_Para:"
 
-#: ../composer/e-composer-header-table.c:947
+#: ../composer/e-composer-header-table.c:961
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-composer-header-table.c:947 ../mail/em-filter-i18n.h:8
+#: ../composer/e-composer-header-table.c:961 ../mail/em-filter-i18n.h:8
 msgid "CC"
 msgstr "Cc"
 
-#: ../composer/e-composer-header-table.c:953
+#: ../composer/e-composer-header-table.c:967
 msgid "_Bcc:"
 msgstr "Cc_o:"
 
-#: ../composer/e-composer-header-table.c:953 ../mail/em-filter-i18n.h:6
+#: ../composer/e-composer-header-table.c:967 ../mail/em-filter-i18n.h:6
 msgid "BCC"
 msgstr "Cco"
 
-#: ../composer/e-composer-header-table.c:958
+#: ../composer/e-composer-header-table.c:972
 msgid "_Post To:"
 msgstr "_Publicar en:"
 
-#: ../composer/e-composer-header-table.c:962
+#: ../composer/e-composer-header-table.c:976
 msgid "S_ubject:"
 msgstr "_Asunto:"
 
-#: ../composer/e-composer-header-table.c:971
+#: ../composer/e-composer-header-table.c:985
 msgid "Si_gnature:"
 msgstr "_Firma:"
 
@@ -10454,7 +10460,7 @@ msgstr "Control de configuración de red de Evolution"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:602
 #: ../mail/importers/elm-importer.c:327 ../mail/importers/pine-importer.c:378
 #: ../mail/mail-component.c:620 ../mail/mail-component.c:621
-#: ../mail/mail-component.c:790
+#: ../mail/mail-component.c:793
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
 msgstr "Correo"
@@ -10656,11 +10662,11 @@ msgstr "Opciones de recepción"
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
-#: ../mail/em-account-editor.c:3106 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:3107 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: ../mail/em-account-editor.c:3106 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:3107 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
@@ -10694,30 +10700,30 @@ msgstr "Añadir un script de firma"
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
-#: ../mail/em-composer-utils.c:1113 ../mail/em-format-quote.c:415
+#: ../mail/em-composer-utils.c:1116 ../mail/em-format-quote.c:415
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../mail/em-composer-utils.c:1564
+#: ../mail/em-composer-utils.c:1569
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/em-composer-utils.c:1570
+#: ../mail/em-composer-utils.c:1575
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../mail/em-composer-utils.c:2037
+#: ../mail/em-composer-utils.c:2042
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2084
+#: ../mail/em-composer-utils.c:2089
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10725,7 +10731,7 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2227
+#: ../mail/em-composer-utils.c:2232
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
@@ -11041,11 +11047,11 @@ msgstr "Mensajes importantes"
 msgid "Messages Not Junk"
 msgstr "Mensajes que no son SPAM"
 
-#: ../mail/em-folder-browser.c:1199
+#: ../mail/em-folder-browser.c:1194
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
-#: ../mail/em-folder-browser.c:1252
+#: ../mail/em-folder-browser.c:1256
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
@@ -11149,8 +11155,6 @@ msgstr "Cargando…"
 #.
 #: ../mail/em-folder-tree.c:318
 #, c-format
-#| msgctxt "folder-display"
-#| msgid "%s (%u)"
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
@@ -11385,9 +11389,9 @@ msgstr "Filtro según la lista de _correo"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2232 ../mail/em-folder-view.c:2275
-#: ../plugins/google-account-setup/google-source.c:220
-#: ../plugins/google-account-setup/google-source.c:505
-#: ../plugins/google-account-setup/google-source.c:715
+#: ../plugins/google-account-setup/google-source.c:303
+#: ../plugins/google-account-setup/google-source.c:593
+#: ../plugins/google-account-setup/google-source.c:764
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -11677,12 +11681,6 @@ msgstr " (%R %Z)"
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Este mensaje lo envió <b>%s</b> en nombre de <b>%s</b>"
-
-#: ../mail/em-format-quote.c:209 ../mail/em-format.c:923
-#: ../mail/em-mailer-prefs.c:75 ../mail/message-list.etspec.h:7
-#: ../mail/message-tag-followup.c:296
-msgid "From"
-msgstr "De"
 
 #: ../mail/em-format-quote.c:209 ../mail/em-format.c:924
 #: ../mail/em-mailer-prefs.c:76
@@ -13065,33 +13063,33 @@ msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../mail/mail-component.c:949
+#: ../mail/mail-component.c:952
 msgid "New Mail Message"
 msgstr "Mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:950
+#: ../mail/mail-component.c:953
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: ../mail/mail-component.c:951
+#: ../mail/mail-component.c:954
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: ../mail/mail-component.c:957
+#: ../mail/mail-component.c:960
 msgid "New Mail Folder"
 msgstr "Carpeta de correo nueva"
 
-#: ../mail/mail-component.c:958
+#: ../mail/mail-component.c:961
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Carpeta de correo"
 
-#: ../mail/mail-component.c:959
+#: ../mail/mail-component.c:962
 msgid "Create a new mail folder"
 msgstr "Crea una carpeta de correo nueva"
 
-#: ../mail/mail-component.c:1106
+#: ../mail/mail-component.c:1109
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Falló al actualizar la configuración de correo o carpetas."
 
@@ -13517,9 +13515,6 @@ msgid "Pass_word:"
 msgstr "_Contraseña:"
 
 #: ../mail/mail-config.glade.h:119
-#| msgid ""
-#| "Please enter a descriptive name for this account in the space below.\n"
-#| "This name will be used for display purposes only."
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
@@ -13655,10 +13650,6 @@ msgstr ""
 "hay instalado un diccionario."
 
 #: ../mail/mail-config.glade.h:151
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used\n"
-#| "for display purposes only. "
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
@@ -13683,7 +13674,7 @@ msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
 #: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
-#: ../plugins/google-account-setup/google-source.c:629
+#: ../plugins/google-account-setup/google-source.c:681
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
@@ -13953,11 +13944,11 @@ msgstr "Enviando mensaje %d de %d"
 msgid "Failed to send %d of %d messages"
 msgstr "Falló al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:700
+#: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:701
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:702
+#: ../mail/mail-ops.c:765 ../mail/mail-send-recv.c:703
 msgid "Complete."
 msgstr "Completado."
 
@@ -14116,7 +14107,7 @@ msgstr "Actualizando…"
 msgid "Waiting..."
 msgstr "Esperando…"
 
-#: ../mail/mail-send-recv.c:813
+#: ../mail/mail-send-recv.c:814
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprobando correo nuevo"
@@ -14889,7 +14880,7 @@ msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3981 ../mail/message-list.c:4454
+#: ../mail/message-list.c:3981 ../mail/message-list.c:4456
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -14902,6 +14893,14 @@ msgstr ""
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
 #: ../mail/message-list.c:4295
+msgid ""
+"There are only hidden messages in this folder. Use View->Show Hidden "
+"Messages to show them."
+msgstr ""
+"Sólo hay mensajes ocultos en esta carpeta. Use Ver->Mostrar mensajes ocultos "
+"para mostrarlos."
+
+#: ../mail/message-list.c:4297
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -15096,10 +15095,6 @@ msgid "Restore from backup"
 msgstr "Restaurar desde un respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:289
-#| msgid ""
-#| "You can restore Evolution from your backup. It can restore all the Mails, "
-#| "Calendars, Tasks, Memos, Contacts. \n"
-#| "It also restores all your personal settings, mail filters etc."
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -15414,7 +15409,6 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:390
-#: ../plugins/google-account-setup/google-source.c:622
 #: ../plugins/google-account-setup/google-contacts-source.c:303
 msgid "Use _SSL"
 msgstr "Usar _SSL"
@@ -15423,7 +15417,7 @@ msgstr "Usar _SSL"
 #: ../plugins/caldav/caldav-source.c:433
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
-#: ../plugins/google-account-setup/google-source.c:646
+#: ../plugins/google-account-setup/google-source.c:698
 #: ../plugins/google-account-setup/google-contacts-source.c:322
 msgid "Re_fresh:"
 msgstr "A_ctualizar:"
@@ -15431,7 +15425,7 @@ msgstr "A_ctualizar:"
 #: ../plugins/caldav/caldav-source.c:451
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:671
+#: ../plugins/google-account-setup/google-source.c:723
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
 msgstr "semanas"
@@ -16538,7 +16532,7 @@ msgid "Unknown error looking up {0}"
 msgstr "Error desconocido al buscar {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:516
+#: ../plugins/google-account-setup/google-source.c:604
 #: ../plugins/mail-to-task/mail-to-task.c:343
 #: ../plugins/mail-to-task/mail-to-task.c:555
 msgid "Unknown error."
@@ -16747,19 +16741,19 @@ msgstr ""
 msgid "_Unsubscribe"
 msgstr "Des_uscribir"
 
-#: ../plugins/google-account-setup/google-source.c:79
+#: ../plugins/google-account-setup/google-source.c:81
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:413
+#: ../plugins/google-account-setup/google-source.c:499
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduzca la contraseña para que el usuario %s acceda a la lista de "
 "calendarios suscritos."
 
-#: ../plugins/google-account-setup/google-source.c:516
+#: ../plugins/google-account-setup/google-source.c:604
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -16768,11 +16762,11 @@ msgstr ""
 "No se pueden leer los datos del servidor de Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:690
+#: ../plugins/google-account-setup/google-source.c:739
 msgid "Cal_endar:"
 msgstr "Cal_endario:"
 
-#: ../plugins/google-account-setup/google-source.c:725
+#: ../plugins/google-account-setup/google-source.c:774
 msgid "Retrieve _list"
 msgstr "Obtener _lista"
 
@@ -16960,6 +16954,49 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:4
 msgid "You have to specify a user name which you want to add to the list"
 msgstr "Debe especificar el nombre de usuario que quiere añadir a la lista"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
+msgid "Do you want to resend the meeting ?"
+msgstr "¿Quiere reenviar la reunión?"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
+msgid "Do you want to resend the recurring meeting ?"
+msgstr "¿Quiere reenviar la reunión repetitiva?"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
+msgid "Do you want to retract the original item ?"
+msgstr "¿Quiere retractar el elemento original?"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
+msgid "The original will be removed from the recipient's mailbox."
+msgstr "El original se quitará del buzón de entrada del destinatario."
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
+msgid "This is a recurring meeting"
+msgstr "Esta es una cita repetitiva"
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
+msgid "This will create a new meeting using the existing meeting details."
+msgstr ""
+"Esto creará un mensaje nuevo usando los detalles existentes de la reunión."
+
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
+msgid ""
+"This will create a new meeting with the existing meeting details. The "
+"recurrence rule needs to be re-entered."
+msgstr ""
+"Esto creará una nueva reunión con los detalles existentes de la reunión. Se "
+"debe introducir la regla de repetición."
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
+msgid "Would you like to accept it?"
+msgstr "¿Quiere aceptarlo?"
+
+#. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
+#: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:11
+msgid "Would you like to decline it?"
+msgstr "¿Quiere rechazarlo?"
 
 #: ../plugins/groupwise-features/process-meeting.c:53
 msgid "Accept Tentatively"
@@ -21729,11 +21766,11 @@ msgid "With _Status"
 msgstr "Con _estado"
 
 #. Put the "UTC" entry at the top of the combo's list.
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:226
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:421
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:423
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:425
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:764
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:227
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:428
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:430
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:432
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:771
 msgid "UTC"
 msgstr "UTC"
 
@@ -22299,35 +22336,36 @@ msgstr "Modelo de reflujo"
 msgid "Column width"
 msgstr "Anchura de columna"
 
-#: ../widgets/misc/e-search-bar.c:339 ../widgets/misc/e-search-bar.c:474
-#: ../widgets/misc/e-search-bar.c:476
+#: ../widgets/misc/e-search-bar.c:92 ../widgets/misc/e-search-bar.c:359
+#: ../widgets/misc/e-search-bar.c:503 ../widgets/misc/e-search-bar.c:505
+#: ../widgets/misc/e-search-bar.c:1021
 msgid "Search"
 msgstr "Buscar"
 
-#: ../widgets/misc/e-search-bar.c:339 ../widgets/misc/e-search-bar.c:474
-#: ../widgets/misc/e-search-bar.c:476
+#: ../widgets/misc/e-search-bar.c:359 ../widgets/misc/e-search-bar.c:503
+#: ../widgets/misc/e-search-bar.c:505
 msgid "Click here to change the search type"
 msgstr "Pulse aquí para cambiar el tipo de búsqueda"
 
-#: ../widgets/misc/e-search-bar.c:607
+#: ../widgets/misc/e-search-bar.c:637
 msgid "_Search"
 msgstr "_Buscar"
 
 # En conflicto con _Buscar del menu principal
-#: ../widgets/misc/e-search-bar.c:613
+#: ../widgets/misc/e-search-bar.c:643
 msgid "_Find Now"
 msgstr "B_uscar ahora"
 
 # Conflicto con _Ver del menú principal
-#: ../widgets/misc/e-search-bar.c:614
+#: ../widgets/misc/e-search-bar.c:644
 msgid "_Clear"
 msgstr "_Vaciar"
 
-#: ../widgets/misc/e-search-bar.c:869
+#: ../widgets/misc/e-search-bar.c:899
 msgid "Item ID"
 msgstr "ID de elemento"
 
-#: ../widgets/misc/e-search-bar.c:876 ../widgets/text/e-text.c:3555
+#: ../widgets/misc/e-search-bar.c:906 ../widgets/text/e-text.c:3555
 #: ../widgets/text/e-text.c:3556
 msgid "Text"
 msgstr "Texto"
@@ -22335,17 +22373,17 @@ msgstr "Texto"
 # #En conflicto con _Mensaje
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:1011
+#: ../widgets/misc/e-search-bar.c:1053
 msgid "Sho_w: "
 msgstr "M_ostrar: "
 
-#: ../widgets/misc/e-search-bar.c:1030
+#: ../widgets/misc/e-search-bar.c:1072
 msgid "Sear_ch: "
 msgstr "B_uscar: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:1046
+#: ../widgets/misc/e-search-bar.c:1088
 msgid " i_n "
 msgstr " e_n "
 
@@ -22990,42 +23028,6 @@ msgstr "Tirador emergente"
 
 #~ msgid "_Notes:"
 #~ msgstr "_Notas:"
-
-#~| msgid "Are you sure you want to delete this meeting?"
-#~ msgid "Do you want to resend the meeting ?"
-#~ msgstr "¿Quiere reenviar la reunión?"
-
-#~| msgid "Are you sure you want to delete this meeting?"
-#~ msgid "Do you want to resend the recurring meeting ?"
-#~ msgstr "¿Quiere reenviar la reunión repetitiva?"
-
-#~| msgid "Do you want to recover unfinished messages?"
-#~ msgid "Do you want to retract the original item ?"
-#~ msgstr "¿Quiere retractar el elemento original?"
-
-#~| msgid "_Delete this item from all other recipient's mailboxes?"
-#~ msgid "The original will be removed from the recipient's mailbox."
-#~ msgstr "El original se quitará del buzón de entrada del destinatario."
-
-#~ msgid "This is a recurring meeting"
-#~ msgstr "Esta es una cita repetitiva"
-
-#~ msgid "This will create a new meeting using the existing meeting details."
-#~ msgstr ""
-#~ "Esto creará un mensaje nuevo usando los detalles existentes de la reunión."
-
-#~ msgid ""
-#~ "This will create a new meeting with the existing meeting details. The "
-#~ "recurrence rule needs to be re-entered."
-#~ msgstr ""
-#~ "Esto creará una nueva reunión con los detalles existentes de la reunión. "
-#~ "Se debe introducir la regla de repetición."
-
-#~ msgid "Would you like to accept it?"
-#~ msgstr "¿Quiere aceptarlo?"
-
-#~ msgid "Would you like to decline it?"
-#~ msgstr "¿Quiere rechazarlo?"
 
 #~ msgid "Add attachment"
 #~ msgstr "Añadir adjunto"
