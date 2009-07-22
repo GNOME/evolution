@@ -1450,7 +1450,6 @@ if test "$enable_nm" = yes; then
 	AC_SUBST(HAVE_NM)
 	AC_SUBST(NM_CFLAGS)
 else
-	AC_MSG_WARN([NetworkManager support disabled!])
 	NM_SUPPORT="no"
 fi
 
