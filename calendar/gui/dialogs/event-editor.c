@@ -670,7 +670,7 @@ event_editor_new (ECal *client,
                   CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
-	g_return_val_if_fail (E_IS_SHELL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		TYPE_EVENT_EDITOR,

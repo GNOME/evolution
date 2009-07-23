@@ -326,7 +326,6 @@ cal_component_preview_class_init (ECalComponentPreviewClass *class)
 static void
 cal_component_preview_init (ECalComponentPreview *preview)
 {
-	ECalComponentPreviewPrivate *priv;
 	GtkHTML *html;
 
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
@@ -335,7 +334,7 @@ cal_component_preview_init (ECalComponentPreview *preview)
 	gtk_html_set_default_content_type (html, "charset=utf-8");
 	gtk_html_load_empty (html);
 
-	priv->zone = icaltimezone_get_utc_timezone ();
+	preview->priv->zone = icaltimezone_get_utc_timezone ();
 }
 
 GType

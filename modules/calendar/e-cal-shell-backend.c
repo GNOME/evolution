@@ -326,35 +326,76 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 }
 
 static void
-cal_shell_backend_cal_opened_cb (ECal *cal,
+cal_shell_backend_event_new_cb (ECal *cal,
                                 ECalendarStatus status,
-                                GtkAction *action)
+                                EShell *shell)
 {
-	EShell *shell;
 	ECalComponent *comp;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
-	const gchar *action_name;
-	gboolean all_day;
-
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
 		return;
 
-	action_name = gtk_action_get_name (action);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
+
+	editor = event_editor_new (cal, shell, flags);
+	comp = cal_comp_event_new_with_current_time (cal, FALSE);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
+}
+
+static void
+cal_shell_backend_event_all_day_new_cb (ECal *cal,
+                                        ECalendarStatus status,
+                                        EShell *shell)
+{
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
-	if (strcmp (action_name, "event-meeting-new") == 0)
-		flags |= COMP_EDITOR_MEETING;
-
-	all_day = (strcmp (action_name, "event-all-day-new") == 0);
 
 	editor = event_editor_new (cal, shell, flags);
-	comp = cal_comp_event_new_with_current_time (cal, all_day);
+	comp = cal_comp_event_new_with_current_time (cal, TRUE);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
+}
+
+static void
+cal_shell_backend_event_meeting_new_cb (ECal *cal,
+                                        ECalendarStatus status,
+                                        EShell *shell)
+{
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
+
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
+	flags |= COMP_EDITOR_MEETING;
+
+	editor = event_editor_new (cal, shell, flags);
+	comp = cal_comp_event_new_with_current_time (cal, FALSE);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
@@ -372,6 +413,7 @@ action_event_new_cb (GtkAction *action,
 	ESourceList *source_list;
 	EShellSettings *shell_settings;
 	EShell *shell;
+	const gchar *action_name;
 	gchar *uid;
 
 	/* This callback is used for both appointments and meetings. */
@@ -403,9 +445,23 @@ action_event_new_cb (GtkAction *action,
 
 	g_return_if_fail (cal != NULL);
 
-	g_signal_connect (
-		cal, "cal-opened",
-		G_CALLBACK (cal_shell_backend_cal_opened_cb), action);
+	/* Connect the appropriate signal handler. */
+	action_name = gtk_action_get_name (action);
+	if (strcmp (action_name, "event-all-day-new") == 0)
+		g_signal_connect (
+			cal, "cal-opened",
+			G_CALLBACK (cal_shell_backend_event_all_day_new_cb),
+			shell);
+	else if (strcmp (action_name, "event-meeting-new") == 0)
+		g_signal_connect (
+			cal, "cal-opened",
+			G_CALLBACK (cal_shell_backend_event_meeting_new_cb),
+			shell);
+	else
+		g_signal_connect (
+			cal, "cal-opened",
+			G_CALLBACK (cal_shell_backend_event_new_cb),
+			shell);
 
 	e_cal_open_async (cal, FALSE);
 }
