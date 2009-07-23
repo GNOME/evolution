@@ -2336,18 +2336,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	g_return_val_if_fail(message != NULL, NULL);
 
-	/** @Event: message.replying
-	 * @Title: Message being replied to
-	 * @Target: EMEventTargetMessage
-	 *
-	 * message.replying is emitted when a user starts replying to a message.
-	 */
-
-	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, message, uid,
-					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL : 0);
-	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
-
+	
 	to = camel_internet_address_new();
 	cc = camel_internet_address_new();
 
@@ -2384,6 +2373,18 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	camel_object_unref(cc);
 
 	composer_set_body (composer, message, source);
+
+	/** @Event: message.replying
+	 * @Title: Message being replied to
+	 * @Target: EMEventTargetMessage
+	 *
+	 * message.replying is emitted when a user starts replying to a message.
+	 */
+
+	eme = em_event_peek();
+	target = em_event_target_new_message(eme, folder, message, uid,
+					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL | EM_EVENT_MESSAGE_REPLY : EM_EVENT_MESSAGE_REPLY, composer);
+	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
 
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 

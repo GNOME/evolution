@@ -2462,7 +2462,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const gchar *uid, CamelMime
 	 */
 	/* TODO: do we emit a message.reading with no message when we're looking at nothing or don't care? */
 	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, msg, uid, 0);
+	target = em_event_target_new_message(eme, folder, msg, uid, 0, NULL);
 	e_event_emit((EEvent *)eme, "message.reading", (EEventTarget *)target);
 
 	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
