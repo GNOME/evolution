@@ -160,7 +160,11 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	parent = gtk_widget_get_parent (header->input_widget);
+	if (strcmp (property_name, "destinations-to") == 0) {
+		parent = g_object_get_data((GObject *)header->input_widget, "parent");
+	} else {
+		parent = gtk_widget_get_parent (header->input_widget);
+	}
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -508,7 +512,7 @@ composer_header_table_constructor (GType type,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
 		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
 			GtkWidget *box = gtk_hbox_new (FALSE, 0);
-
+			g_object_set_data ((GObject *)priv->headers[ii]->input_widget, "parent", object);
 			gtk_box_pack_start ((GtkBox *)box, priv->headers[ii]->input_widget, TRUE, TRUE, 3);
 			gtk_box_pack_start ((GtkBox *)box, (GtkWidget *)priv->actions_container, FALSE, FALSE, 0);
 			gtk_widget_show (box);
