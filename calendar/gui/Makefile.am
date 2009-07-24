@@ -54,10 +54,10 @@ noinst_LTLIBRARIES = libcal-gui.la
 libcal_gui_la_SOURCES =		\
 	e-attachment-handler-calendar.c		\
 	e-attachment-handler-calendar.h		\
- 	e-calendar-view.c			\
- 	e-calendar-view.h			\
- 	e-calendar-table.c			\
- 	e-calendar-table.h			\
+	e-calendar-view.c			\
+	e-calendar-view.h			\
+	e-calendar-table.c			\
+	e-calendar-table.h			\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
@@ -141,6 +141,8 @@ libcal_gui_la_SOURCES =		\
 	e-memo-table-config.h			\
 	e-mini-calendar-config.c		\
 	e-mini-calendar-config.h		\
+	e-month-view.c				\
+	e-month-view.h				\
 	e-select-names-editable.c		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\

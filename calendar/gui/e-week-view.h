@@ -48,7 +48,7 @@
 #define E_IS_WEEK_VIEW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_WEEK_VIEW))
-#define E_IS_WEEK_VIEW_GET_CLASS(obj) \
+#define E_WEEK_VIEW_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_WEEK_VIEW, EWeekViewClass))
 
@@ -358,106 +358,122 @@ struct _EWeekView {
 
 struct _EWeekViewClass {
 	ECalendarViewClass parent_class;
+
+	void	(*cursor_key_up)		(EWeekView *week_view);
+	void	(*cursor_key_down)		(EWeekView *week_view);
+	void	(*cursor_key_left)		(EWeekView *week_view);
+	void	(*cursor_key_right)		(EWeekView *week_view);
 };
 
-GType		   e_week_view_get_type			(void);
-GtkWidget* e_week_view_new			(ECalModel *model);
+GType		e_week_view_get_type		(void);
+GtkWidget *	e_week_view_new			(ECalModel *model);
 
 /* The first day shown. Note that it will be rounded down to the start of a
    week when set. The returned value will be invalid if no date has been set
    yet. */
-void	   e_week_view_get_first_day_shown	(EWeekView	*week_view,
-						 GDate		*date);
-void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
-						 GDate		*date);
+void		e_week_view_get_first_day_shown	(EWeekView *week_view,
+						 GDate *date);
+void		e_week_view_set_first_day_shown	(EWeekView *week_view,
+						 GDate *date);
 
 /* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
-void       e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
-							 time_t		 start_time,
-							 time_t		 end_time);
+void		e_week_view_set_selected_time_range_visible
+						(EWeekView *week_view,
+						 time_t start_time,
+						 time_t end_time);
 
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
-gboolean   e_week_view_get_multi_week_view	(EWeekView	*week_view);
-void       e_week_view_set_multi_week_view	(EWeekView	*week_view,
-						 gboolean	 multi_week_view);
+gboolean	e_week_view_get_multi_week_view	(EWeekView *week_view);
+void		e_week_view_set_multi_week_view	(EWeekView *week_view,
+						 gboolean multi_week_view);
 
 /* Whether to update the base date when the time range changes */
-gboolean e_week_view_get_update_base_date (EWeekView *week_view);
-void e_week_view_set_update_base_date (EWeekView *week_view, gboolean update_base_date);
+gboolean	e_week_view_get_update_base_date(EWeekView *week_view);
+void		e_week_view_set_update_base_date(EWeekView *week_view,
+						 gboolean update_base_date);
 
 /* The number of weeks shown in the multi-week view. */
-gint	   e_week_view_get_weeks_shown		(EWeekView	*week_view);
-void	   e_week_view_set_weeks_shown		(EWeekView	*week_view,
-						 gint		 weeks_shown);
+gint e_week_view_get_weeks_shown	(EWeekView *week_view);
+void		e_week_view_set_weeks_shown	(EWeekView *week_view,
+						 gint weeks_shown);
 
 /* Whether the weekend (Sat/Sun) should be compressed into 1 cell in the Month
    view. In the Week view they are always compressed. */
-gboolean   e_week_view_get_compress_weekend	(EWeekView	*week_view);
-void       e_week_view_set_compress_weekend	(EWeekView	*week_view,
-						 gboolean	 compress);
+gboolean	e_week_view_get_compress_weekend(EWeekView *week_view);
+void		e_week_view_set_compress_weekend(EWeekView *week_view,
+						 gboolean compress);
 
 /* Whether we display event end times. */
-gboolean   e_week_view_get_show_event_end_times	(EWeekView	*week_view);
-void	   e_week_view_set_show_event_end_times	(EWeekView	*week_view,
-						 gboolean	 show);
+gboolean	e_week_view_get_show_event_end_times
+						(EWeekView *week_view);
+void		e_week_view_set_show_event_end_times
+						(EWeekView *week_view,
+						 gboolean show);
 
 /* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint	   e_week_view_get_week_start_day	(EWeekView	*week_view);
-void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
-						 gint		 week_start_day);
+gint e_week_view_get_week_start_day	(EWeekView *week_view);
+void		e_week_view_set_week_start_day	(EWeekView *week_view,
+						 gint week_start_day);
 
-void       e_week_view_delete_occurrence        (EWeekView      *week_view);
+void		e_week_view_delete_occurrence	(EWeekView *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
-gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);
+gint e_week_view_get_num_events_selected
+						(EWeekView *week_view);
 
 /*
  * Internal functions called by the associated canvas items.
  */
-void       e_week_view_get_day_position		(EWeekView	*week_view,
-						 gint		 day,
-						 gint		*day_x,
-						 gint		*day_y,
-						 gint		*day_w,
-						 gint		*day_h);
-gboolean   e_week_view_get_span_position	(EWeekView	*week_view,
-						 gint		 event_num,
-						 gint		 span_num,
-						 gint		*span_x,
-						 gint		*span_y,
-						 gint		*span_w);
-gboolean   e_week_view_is_one_day_event		(EWeekView	*week_view,
-						 gint		 event_num);
-gboolean   e_week_view_start_editing_event	(EWeekView	*week_view,
-						 gint		 event_num,
-						 gint		 span_num,
-						 gchar		*initial_text);
-void	   e_week_view_stop_editing_event	(EWeekView	*week_view);
+void		e_week_view_get_day_position	(EWeekView *week_view,
+						 gint day,
+						 gint *day_x,
+						 gint *day_y,
+						 gint *day_w,
+						 gint *day_h);
+gboolean	e_week_view_get_span_position	(EWeekView *week_view,
+						 gint event_num,
+						 gint span_num,
+						 gint *span_x,
+						 gint *span_y,
+						 gint *span_w);
+gboolean	e_week_view_is_one_day_event	(EWeekView *week_view,
+						 gint event_num);
+gboolean	e_week_view_start_editing_event	(EWeekView *week_view,
+						 gint event_num,
+						 gint span_num,
+						 gchar *initial_text);
+void		e_week_view_stop_editing_event	(EWeekView *week_view);
 
-void	   e_week_view_show_popup_menu		(EWeekView	*week_view,
+void		e_week_view_show_popup_menu	(EWeekView *week_view,
 						 GdkEventButton *event,
-						 gint		 event_num);
+						 gint event_num);
 
-void	   e_week_view_convert_time_to_display	(EWeekView	*week_view,
-						 gint		 hour,
-						 gint		*display_hour,
-						 const gchar	**suffix,
-						 gint		*suffix_width);
-gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
+void		e_week_view_convert_time_to_display
+						(EWeekView *week_view,
+						 gint hour,
+						 gint *display_hour,
+						 const gchar **suffix,
+						 gint *suffix_width);
+gint		e_week_view_get_time_string_width
+						(EWeekView *week_view);
 
-gint	   e_week_view_event_sort_func		(const void	*arg1,
-						 const void	*arg2);
+gint		e_week_view_event_sort_func	(gconstpointer arg1,
+						 gconstpointer arg2);
 
-gboolean e_week_view_find_event_from_item (EWeekView	  *week_view,
-					   GnomeCanvasItem *item,
-					   gint		  *event_num_return,
-					   gint		  *span_num_return);
+gboolean	e_week_view_find_event_from_item (EWeekView *week_view,
+						 GnomeCanvasItem *item,
+						 gint *event_num_return,
+						 gint *span_num_return);
 
-gboolean e_week_view_is_jump_button_visible (EWeekView *week_view,
-					     gint day);
-void e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item);
+gboolean	e_week_view_is_jump_button_visible
+						(EWeekView *week_view,
+						 gint day);
+void		e_week_view_jump_to_button_item	(EWeekView *week_view,
+						 GnomeCanvasItem *item);
+void		e_week_view_scroll_a_step	(EWeekView *week_view,
+						 ECalViewMoveDirection direction);
 
 G_END_DECLS
 
