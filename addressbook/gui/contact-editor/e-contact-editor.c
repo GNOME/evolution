@@ -2201,7 +2201,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 			editor->image_set = TRUE;
 		}
 		else {
-			gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
+			gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
 			e_image_chooser_set_from_file (E_IMAGE_CHOOSER (widget), file_name);
 			editor->image_set = FALSE;
 			g_free (file_name);
@@ -2766,7 +2766,7 @@ image_cleared (EContactEditor *editor)
 
 	image_chooser = glade_xml_get_widget (editor->gui, "image-chooser");
 
-	file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
+	file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
 
 	g_signal_handlers_block_by_func (image_chooser, image_chooser_changed, editor);
 	e_image_chooser_set_from_file (E_IMAGE_CHOOSER (image_chooser), file_name);

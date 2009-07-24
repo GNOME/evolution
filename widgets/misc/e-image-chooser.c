@@ -31,6 +31,8 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util.h"
 
+#define d(x)
+
 struct _EImageChooserPrivate {
 
 	GtkWidget *frame;
@@ -244,17 +246,17 @@ set_image_from_data (EImageChooser *chooser,
 		new_height = gdk_pixbuf_get_height (pixbuf);
 		new_width = gdk_pixbuf_get_width (pixbuf);
 
-		printf ("new dimensions = (%d,%d)\n", new_width, new_height);
+		d (printf ("new dimensions = (%d,%d)\n", new_width, new_height));
 
 		if (chooser->priv->image_height == 0
 		    && chooser->priv->image_width == 0) {
-			printf ("initial setting of an image.  no scaling\n");
+			d (printf ("initial setting of an image.  no scaling\n"));
 			scale = 1.0;
 		}
 		else if (chooser->priv->image_height < new_height
 			 || chooser->priv->image_width < new_width) {
 			/* we need to scale down */
-			printf ("we need to scale down\n");
+			d (printf ("we need to scale down\n"));
 			if (new_height > new_width)
 				scale = (gfloat)chooser->priv->image_height / new_height;
 			else
@@ -262,14 +264,14 @@ set_image_from_data (EImageChooser *chooser,
 		}
 		else {
 			/* we need to scale up */
-			printf ("we need to scale up\n");
+			d (printf ("we need to scale up\n"));
 			if (new_height > new_width)
 				scale = (gfloat)new_height / chooser->priv->image_height;
 			else
 				scale = (gfloat)new_width / chooser->priv->image_width;
 		}
 
-		printf ("scale = %g\n", scale);
+		d (printf ("scale = %g\n", scale));
 
 		if (scale == 1.0) {
 			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), pixbuf);
@@ -283,7 +285,7 @@ set_image_from_data (EImageChooser *chooser,
 			new_width = MIN (new_width, chooser->priv->image_width);
 			new_height = MIN (new_height, chooser->priv->image_height);
 
-			printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
+			d (printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height));
 
 			scaled = e_icon_factory_pixbuf_scale (pixbuf, new_width, new_height);
 
@@ -418,7 +420,8 @@ image_drag_data_received_cb (GtkWidget *widget,
 			}
 		}
 
-		g_free (buf);
+		if (!handled)
+			g_free (buf);
 		g_free (uri);
 
 		if (error) {
