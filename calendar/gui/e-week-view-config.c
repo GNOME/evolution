@@ -108,7 +108,7 @@ e_week_view_config_class_init (EWeekViewConfigClass *klass)
 	gobject_class->dispose = e_week_view_config_dispose;
 	gobject_class->finalize = e_week_view_config_finalize;
 
-	spec = g_param_spec_object ("view", NULL, NULL, e_week_view_get_type (),
+	spec = g_param_spec_object ("view", NULL, NULL, E_TYPE_WEEK_VIEW,
 				    G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT);
 	g_object_class_install_property (gobject_class, PROP_VIEW, spec);
 }

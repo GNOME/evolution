@@ -150,6 +150,25 @@ cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
 }
 
 static void
+cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
+                                ECalendarView *calendar_view)
+{
+	ECalShellSidebar *cal_shell_sidebar;
+	ECalModel *model;
+	ECal *client;
+	ESource *source;
+
+	model = e_calendar_view_get_model (calendar_view);
+	client = e_cal_model_get_default_client (model);
+	source = e_cal_get_source (client);
+
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+	e_cal_shell_sidebar_add_source (cal_shell_sidebar, source);
+
+	e_cal_model_add_client (model, client);
+}
+
+static void
 cal_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -271,6 +290,9 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_calendar_item_set_get_time_callback (
 		mini_calendar->calitem, (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
+
+	/* KILL-BONOBO FIXME -- Need to connect to the "user-created"
+	 *                      signal for each ECalendarView. */
 
 #if 0 /* KILL-BONOBO */
 	g_signal_connect_swapped (

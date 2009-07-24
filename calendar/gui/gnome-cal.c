@@ -79,11 +79,6 @@
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"
 
-/* FIXME glib 2.4 and above has this */
-#ifndef G_MAXINT32
-#define G_MAXINT32	((gint32)  0x7fffffff)
-#endif
-
 #define d(x)
 
 /* hash table define for non intrusive error dialog */
@@ -935,46 +930,6 @@ view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
 	g_signal_emit (gcal, gnome_calendar_signals[CALENDAR_SELECTION_CHANGED], 0);
 }
 
-/**
- * gnome_calendar_emit_user_created_signal
- * Emits "user_created" signal on a gcal and use calendar as a store where was event created.
- *
- * @param instance Instance on which emit signal.
- * @param gcal GnomeCalendar, it will store info about used calendar here.
- * @param calendar Used calendar, where was event created.
- **/
-void
-gnome_calendar_emit_user_created_signal (gpointer instance, GnomeCalendar *gcal, ECal *calendar)
-{
-	GnomeCalendarPrivate *priv;
-
-	g_return_if_fail (gcal != NULL);
-
-	priv = gcal->priv;
-	priv->user_created_cal = calendar;
-	g_signal_emit_by_name (instance, "user_created");
-	priv->user_created_cal = NULL;
-}
-
-static void
-user_created_cb (GtkWidget *view, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-	ECal *ecal;
-
-	priv = gcal->priv;
-	ecal = priv->user_created_cal;
-
-	if (!ecal) {
-		ECalModel *model;
-
-		model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
-		ecal = e_cal_model_get_default_client (model);
-	}
-
-	gnome_calendar_add_source (gcal, E_CAL_SOURCE_TYPE_EVENT, e_cal_get_source (ecal));
-}
-
 static void
 set_week_start (GnomeCalendar *calendar)
 {
@@ -1528,9 +1483,6 @@ setup_widgets (GnomeCalendar *gcal)
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 					  GTK_WIDGET (priv->views[i]), gtk_label_new (""));
-
-		g_signal_connect (priv->views[i], "user_created",
-				  G_CALLBACK (user_created_cb), gcal);
 
 		gtk_widget_show (GTK_WIDGET (priv->views[i]));
 	}

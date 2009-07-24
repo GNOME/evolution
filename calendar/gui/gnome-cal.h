@@ -104,8 +104,6 @@ GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
 GtkWidget *gnome_calendar_new			(void);
 
-ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
-
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
@@ -180,8 +178,6 @@ void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
 						 const gchar * src_uid,
 						 const gchar * comp_uid,
 						 const gchar * comp_rid);
-
-void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
 
 G_END_DECLS
 

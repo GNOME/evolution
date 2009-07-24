@@ -92,7 +92,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_calendar_view_signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
 
@@ -173,7 +173,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 							      G_PARAM_READABLE | G_PARAM_WRITABLE));
 
 	/* Create class' signals */
-	e_calendar_view_signals[SELECTION_CHANGED] =
+	signals[SELECTION_CHANGED] =
 		g_signal_new ("selection_changed",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
@@ -181,7 +181,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	e_calendar_view_signals[SELECTED_TIME_CHANGED] =
+	signals[SELECTED_TIME_CHANGED] =
 		g_signal_new ("selected_time_changed",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
@@ -189,7 +189,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-	e_calendar_view_signals[TIMEZONE_CHANGED] =
+	signals[TIMEZONE_CHANGED] =
 		g_signal_new ("timezone_changed",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
@@ -198,7 +198,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
-	e_calendar_view_signals[EVENT_CHANGED] =
+	signals[EVENT_CHANGED] =
 		g_signal_new ("event_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
@@ -208,7 +208,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
-	e_calendar_view_signals[EVENT_ADDED] =
+	signals[EVENT_ADDED] =
 		g_signal_new ("event_added",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
@@ -218,7 +218,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
-	e_calendar_view_signals[USER_CREATED] =
+	signals[USER_CREATED] =
 		g_signal_new ("user_created",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
@@ -227,7 +227,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_calendar_view_signals[OPEN_EVENT] =
+	signals[OPEN_EVENT] =
 		g_signal_new ("open_event",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
@@ -470,7 +470,7 @@ e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone)
 		return;
 
 	e_cal_model_set_timezone (cal_view->priv->model, zone);
-	g_signal_emit (G_OBJECT (cal_view), e_calendar_view_signals[TIMEZONE_CHANGED], 0,
+	g_signal_emit (G_OBJECT (cal_view), signals[TIMEZONE_CHANGED], 0,
 		       old_zone, zone);
 }
 
@@ -1992,9 +1992,7 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 static void
 object_created_cb (CompEditor *ce, ECalendarView *cal_view)
 {
-#if 0  /* KILL-BONOBO */
-	gnome_calendar_emit_user_created_signal (cal_view, e_calendar_view_get_calendar (cal_view), comp_editor_get_client (ce));
-#endif
+	e_calendar_view_emit_user_created (cal_view);
 }
 
 CompEditor *
@@ -2502,6 +2500,14 @@ e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, 
 	}
 
 	return summary;
+}
+
+void
+e_calendar_view_emit_user_created (ECalendarView *cal_view)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	g_signal_emit (cal_view, signals[USER_CREATED], 0);
 }
 
 void

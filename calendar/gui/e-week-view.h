@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef _E_WEEK_VIEW_H_
-#define _E_WEEK_VIEW_H_
+#ifndef E_WEEK_VIEW_H
+#define E_WEEK_VIEW_H
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
@@ -29,11 +29,28 @@
 #include "e-calendar-view.h"
 #include "gnome-cal.h"
 
-G_BEGIN_DECLS
-
 /*
  * EWeekView - displays the Week & Month views of the calendar.
  */
+
+/* Standard GObject macros */
+#define E_TYPE_WEEK_VIEW \
+	(e_week_view_get_type ())
+#define E_WEEK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_WEEK_VIEW, EWeekView))
+#define E_WEEK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_WEEK_VIEW, EWeekViewClass))
+#define E_IS_WEEK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_WEEK_VIEW))
+#define E_IS_WEEK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_WEEK_VIEW))
+#define E_IS_WEEK_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_WEEK_VIEW, EWeekViewClass))
 
 /* The maximum number of weeks we show. 5 is usually enough for 1 month,
    but we allow 6 for longer selections. */
@@ -91,6 +108,8 @@ G_BEGIN_DECLS
    reached anyway. */
 #define E_WEEK_VIEW_MAX_ROWS_PER_CELL	127
 
+G_BEGIN_DECLS
+
 /* These index our colors array. */
 typedef enum
 {
@@ -147,15 +166,10 @@ struct _EWeekViewEvent {
 	guint8 num_spans;
 };
 
-#define E_WEEK_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_week_view_get_type (), EWeekView)
-#define E_WEEK_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_week_view_get_type (), EWeekViewClass)
-#define E_IS_WEEK_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_week_view_get_type ())
+typedef struct _EWeekView EWeekView;
+typedef struct _EWeekViewClass EWeekViewClass;
 
-typedef struct _EWeekView       EWeekView;
-typedef struct _EWeekViewClass  EWeekViewClass;
-
-struct _EWeekView
-{
+struct _EWeekView {
 	ECalendarView cal_view;
 
 	/* The top canvas where the dates are shown. */
@@ -342,8 +356,7 @@ struct _EWeekView
 	time_t before_click_dtend;
 };
 
-struct _EWeekViewClass
-{
+struct _EWeekViewClass {
 	ECalendarViewClass parent_class;
 };
 
@@ -448,4 +461,4 @@ void e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *ite
 
 G_END_DECLS
 
-#endif /* _E_WEEK_VIEW_H_ */
+#endif /* E_WEEK_VIEW_H */

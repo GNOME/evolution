@@ -656,7 +656,7 @@ e_week_view_new (ECalModel *model)
 {
 	GtkWidget *week_view;
 
-	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), NULL));
+	week_view = GTK_WIDGET (g_object_new (E_TYPE_WEEK_VIEW, NULL));
 	e_calendar_view_set_model ((ECalendarView *) week_view, model);
 	init_model ((EWeekView *) week_view, model);
 
@@ -3595,10 +3595,9 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
-#if 0  /* KILL-BONOBO */
 			else
-				gnome_calendar_emit_user_created_signal (week_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)), client);
-#endif
+				e_calendar_view_emit_user_created (
+					E_CALENDAR_VIEW (week_view));
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_week_view_remove_event_cb (week_view, event_num, NULL);

@@ -20,25 +20,35 @@
  *
  */
 
-#ifndef _E_CALENDAR_VIEW_H_
-#define _E_CALENDAR_VIEW_H_
+#ifndef E_CALENDAR_VIEW_H
+#define E_CALENDAR_VIEW_H
 
-#include <libecal/e-cal.h>
 #include <gtk/gtk.h>
+#include <libecal/e-cal.h>
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 #include "dialogs/comp-editor.h"
 
+/* Standard GObject macros */
+#define E_TYPE_CALENDAR_VIEW \
+	(e_calendar_view_get_type ())
+#define E_CALENDAR_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CALENDAR_VIEW, ECalendarView))
+#define E_CALENDAR_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CALENDAR_VIEW, ECalendarViewClass))
+#define E_IS_CALENDAR_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CALENDAR_VIEW))
+#define E_IS_CALENDAR_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CALENDAR_VIEW))
+#define E_CALENDAR_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewClass))
+
 G_BEGIN_DECLS
-
-/*
- * EView - base widget class for the calendar views.
- */
-
-#define E_TYPE_CALENDAR_VIEW          (e_calendar_view_get_type ())
-#define E_CALENDAR_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_view_get_type (), ECalendarView)
-#define E_CALENDAR_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_view_get_type (), ECalendarViewClass)
-#define E_IS_CALENDAR_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_view_get_type ())
 
 typedef enum {
 	E_CALENDAR_VIEW_POS_OUTSIDE,
@@ -60,13 +70,13 @@ typedef enum {
 } ECalViewMoveDirection;
 
 #define E_CALENDAR_VIEW_EVENT_FIELDS \
-        GnomeCanvasItem *canvas_item; \
-        ECalModelComponent *comp_data; \
-        time_t start; \
-        time_t end; \
-        guint16 start_minute; \
-        guint16 end_minute; \
-        guint different_timezone : 1; \
+	GnomeCanvasItem *canvas_item; \
+	ECalModelComponent *comp_data; \
+	time_t start; \
+	time_t end; \
+	guint16 start_minute; \
+	guint16 end_minute; \
+	guint different_timezone : 1; \
 	gboolean is_editable;	\
 	GtkWidget *tooltip; \
 	gint	timeout; \
@@ -77,13 +87,12 @@ typedef struct {
 	E_CALENDAR_VIEW_EVENT_FIELDS
 } ECalendarViewEvent;
 
-typedef struct _ECalendarView        ECalendarView;
-typedef struct _ECalendarViewClass   ECalendarViewClass;
+typedef struct _ECalendarView ECalendarView;
+typedef struct _ECalendarViewClass ECalendarViewClass;
 typedef struct _ECalendarViewPrivate ECalendarViewPrivate;
 
 struct _ECalendarView {
-	GtkTable table;
-
+	GtkTable parent;
 	gboolean in_focus;
 	ECalendarViewPrivate *priv;
 };
@@ -179,6 +188,9 @@ void           e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y);
 const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
 gchar *e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client);
 
+void		e_calendar_view_emit_user_created
+						(ECalendarView *cal_view);
+
 void           draw_curved_rectangle (cairo_t *cr,
                                       double x0,
                                       double y0,
@@ -190,4 +202,4 @@ GdkColor get_today_background (GdkColor event_background);
 
 G_END_DECLS
 
-#endif
+#endif /* E_CALENDAR_VIEW_H */

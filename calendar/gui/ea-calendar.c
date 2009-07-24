@@ -61,7 +61,7 @@ gnome_calendar_a11y_init (void)
 		e_text_type = g_type_class_ref (E_TYPE_TEXT);
 		pixbuf_type = g_type_class_ref (GNOME_TYPE_CANVAS_PIXBUF);
 		e_day_view_type = g_type_class_ref (e_day_view_get_type ());
-		e_week_view_type = g_type_class_ref (e_week_view_get_type ());
+		e_week_view_type = g_type_class_ref (E_TYPE_WEEK_VIEW);
 		e_day_view_main_item_type = g_type_class_ref (e_day_view_main_item_get_type ());
 		e_week_view_main_item_type = g_type_class_ref (e_week_view_main_item_get_type ());
 
@@ -80,7 +80,7 @@ gnome_calendar_a11y_init (void)
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event-after",
-							     e_week_view_get_type()),
+							     E_TYPE_WEEK_VIEW),
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event",
@@ -112,7 +112,7 @@ e_day_view_main_item_a11y_init (void)
 void
 e_week_view_a11y_init (void)
 {
-	EA_SET_FACTORY (e_week_view_get_type(), ea_week_view);
+	EA_SET_FACTORY (E_TYPE_WEEK_VIEW, ea_week_view);
 }
 
 void
