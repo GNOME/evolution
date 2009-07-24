@@ -228,6 +228,11 @@ em_format_html_print_message (EMFormatHTMLPrint *efhp,
 {
 	g_object_ref (efhp);
 
+	/* Wrap flags to display all entries by default.*/
+	((EMFormatHTML *) efhp)->header_wrap_flags |= EM_FORMAT_HTML_HEADER_TO
+						| EM_FORMAT_HTML_HEADER_CC
+						| EM_FORMAT_HTML_HEADER_BCC;
+
 	mail_get_message (
 		folder, uid, emfhp_got_message, efhp, mail_msg_unordered_push);
 }
