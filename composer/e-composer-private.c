@@ -17,6 +17,7 @@
 
 #include "e-composer-private.h"
 #include "e-util/e-util-private.h"
+#include "widgets/misc/e-attachment-icon-view.h"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
