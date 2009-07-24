@@ -40,7 +40,14 @@ enum {
 	PROP_EDITABLE
 };
 
+static int icon_size = GTK_ICON_SIZE_DIALOG;
 static gpointer parent_class;
+
+void
+e_attachment_icon_view_set_default_icon_size (int size)
+{
+	icon_size = size;
+}
 
 static void
 attachment_icon_view_set_property (GObject *object,
@@ -451,7 +458,7 @@ attachment_icon_view_init (EAttachmentIconView *icon_view)
 		GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_DIALOG, NULL);
+	g_object_set (renderer, "stock-size", icon_size, NULL);
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
 	gtk_cell_layout_add_attribute (

@@ -82,6 +82,8 @@ GtkWidget *	e_attachment_paned_get_controls_container
 						(EAttachmentPaned *paned);
 GtkWidget *	e_attachment_paned_get_view_combo
 						(EAttachmentPaned *paned);
+void		e_attachment_paned_set_default_height 
+						(int height);
 
 G_END_DECLS
 
