@@ -46,19 +46,10 @@ struct _ECalShellContentPrivate {
 	GtkWidget *notebook;
 	GtkWidget *vpaned;
 
-	GtkWidget *day_view;
-	GtkWidget *work_week_view;
-	GtkWidget *week_view;
-	GtkWidget *month_view;
-	GtkWidget *list_view;
+	GtkWidget *calendar;
 	GtkWidget *task_table;
 	GtkWidget *memo_table;
 
-	EDayViewConfig *day_view_config;
-	EDayViewConfig *work_week_view_config;
-	EWeekViewConfig *week_view_config;
-	EWeekViewConfig *month_view_config;
-	ECalListViewConfig *list_view_config;
 	ECalendarTableConfig *task_table_config;
 	EMemoTableConfig *memo_table_config;
 
@@ -129,13 +120,15 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 #if 0  /* TEMPORARILY DISABLED */
 	GtkWidget *widget;
 	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
+	ECalendarView calendar_view;
 	ECalendarTable *task_table;
 	EMemoTable *memo_table;
 	ETable *table;
-	ECalendarView *calendar_view;
 
 	calendar = GNOME_CALENDAR (cal_shell_content->priv->calendar);
-	widget = gnome_calendar_get_current_view_widget (calendar);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
 
 	memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
 	task_table = E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
@@ -148,34 +141,34 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	if (GTK_WIDGET_HAS_FOCUS (table->table_canvas))
 		return FOCUS_TASK_TABLE;
 
-	if (E_IS_DAY_VIEW (widget)) {
-		EDayView *view = E_DAY_VIEW (widget);
+	if (E_IS_DAY_VIEW (calendar_view)) {
+		EDayView *day_view = E_DAY_VIEW (calendar_view);
 
-		if (GTK_WIDGET_HAS_FOCUS (view->top_canvas))
+		if (GTK_WIDGET_HAS_FOCUS (day_view->top_canvas))
 			return FOCUS_CALENDAR;
 
-		if (GNOME_CANVAS (view->top_canvas)->focused_item != NULL)
+		if (GNOME_CANVAS (day_view->top_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-		if (GTK_WIDGET_HAS_FOCUS (view->main_canvas))
+		if (GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))
 			return FOCUS_CALENDAR;
 
-		if (GNOME_CANVAS (view->main_canvas)->focused_item != NULL)
+		if (GNOME_CANVAS (day_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-	} else if (E_IS_WEEK_VIEW (widget)) {
-		EWeekView *view = E_WEEK_VIEW (widget);
+	} else if (E_IS_WEEK_VIEW (calendar_view)) {
+		EWeekView *week_view = E_WEEK_VIEW (calendar_view);
 
-		if (GTK_WIDGET_HAS_FOCUS (view->main_canvas))
+		if (GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
 			return FOCUS_CALENDAR;
 
-		if (GNOME_CANVAS (view->main_canvas)->focused_item != NULL)
+		if (GNOME_CANVAS (week_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
-	} else if (E_IS_CAL_LIST_VIEW (widget)) {
-		ECalListView *view = E_CAL_LIST_VIEW (widget);
+	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
+		ECalListView *list_view = E_CAL_LIST_VIEW (widget);
 
-		table = e_table_scrolled_get_table (view->table_scrolled);
+		table = e_table_scrolled_get_table (list_view->table_scrolled);
 		if (GTK_WIDGET_HAS_FOCUS (table))
 			return FOCUS_CALENDAR;
 	}
@@ -230,29 +223,9 @@ cal_shell_content_dispose (GObject *object)
 		priv->vpaned = NULL;
 	}
 
-	if (priv->day_view != NULL) {
-		g_object_unref (priv->day_view);
-		priv->day_view = NULL;
-	}
-
-	if (priv->work_week_view != NULL) {
-		g_object_unref (priv->work_week_view);
-		priv->work_week_view = NULL;
-	}
-
-	if (priv->week_view != NULL) {
-		g_object_unref (priv->week_view);
-		priv->week_view = NULL;
-	}
-
-	if (priv->month_view != NULL) {
-		g_object_unref (priv->month_view);
-		priv->month_view = NULL;
-	}
-
-	if (priv->list_view != NULL) {
-		g_object_unref (priv->list_view);
-		priv->list_view = NULL;
+	if (priv->calendar != NULL) {
+		g_object_unref (priv->calendar);
+		priv->calendar = NULL;
 	}
 
 	if (priv->task_table != NULL) {
@@ -263,31 +236,6 @@ cal_shell_content_dispose (GObject *object)
 	if (priv->memo_table != NULL) {
 		g_object_unref (priv->memo_table);
 		priv->memo_table = NULL;
-	}
-
-	if (priv->day_view_config != NULL) {
-		g_object_unref (priv->day_view_config);
-		priv->day_view_config = NULL;
-	}
-
-	if (priv->work_week_view_config != NULL) {
-		g_object_unref (priv->work_week_view_config);
-		priv->work_week_view_config = NULL;
-	}
-
-	if (priv->week_view_config != NULL) {
-		g_object_unref (priv->week_view_config);
-		priv->week_view_config = NULL;
-	}
-
-	if (priv->month_view_config != NULL) {
-		g_object_unref (priv->month_view_config);
-		priv->month_view_config = NULL;
-	}
-
-	if (priv->list_view_config != NULL) {
-		g_object_unref (priv->list_view_config);
-		priv->list_view_config = NULL;
 	}
 
 	if (priv->task_table_config != NULL) {
@@ -342,6 +290,7 @@ cal_shell_content_constructed (GObject *object)
 	gchar *filename;
 	gchar *markup;
 	gint page_num;
+	gint ii;
 
 	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
 
@@ -402,74 +351,19 @@ cal_shell_content_constructed (GObject *object)
 	container = priv->notebook;
 
 	/* Add views in the order defined by GnomeCalendarViewType, such
-	 * that the notebook page number corresponds to the view type.
-	 * The assertions below ensure that stays true. */
+	 * that the notebook page number corresponds to the view type. */
 
-#if 0  /* Not so fast... get the memo/task pads working first. */
-	/* FIXME Need to establish a calendar and timezone first. */
-	widget = e_day_view_new (E_CAL_MODEL (cal_model));
-	e_calendar_view_set_calendar (
-		E_CALENDAR_VIEW (widget), GNOME_CALENDAR (priv->calendar));
-	e_calendar_view_set_timezone (
-		E_CALENDAR_VIEW (widget), priv->timezone);
-	page_num = gtk_notebook_get_n_pages (GTK_NOTEBOOK (widget));
-	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
-	g_return_if_fail (page_num == GNOME_CAL_DAY_VIEW);
-	priv->day_view = g_object_ref (widget);
-	gtk_widget_show (widget);
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		GnomeCalendar *calendar;
+		ECalendarView *view;
 
-	/* FIXME Need to establish a calendar and timezone first. */
-	widget = e_day_view_new (E_CAL_MODEL (cal_model));
-	e_day_view_set_work_week_view (E_DAY_VIEW (widget), TRUE);
-	e_day_view_set_days_shown (E_DAY_VIEW (widget), 5);
-	e_calendar_view_set_calendar (
-		E_CALENDAR_VIEW (widget), GNOME_CALENDAR (priv->calendar));
-	e_calendar_view_set_timezone (
-		E_CALENDAR_VIEW (widget), priv->timezone);
-	page_num = gtk_notebook_get_n_pages (GTK_NOTEBOOK (widget));
-	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
-	g_return_if_fail (page_num == GNOME_CAL_WORK_WEEK_VIEW);
-	priv->work_week_view = g_object_ref (widget);
-	gtk_widget_show (widget);
+		calendar = GNOME_CALENDAR (priv->calendar);
+		view = gnome_calendar_get_calendar_view (calendar, ii);
 
-	/* FIXME Need to establish a calendar and timezone first. */
-	widget = e_week_view_new (E_CAL_MODEL (cal_model));
-	e_calendar_view_set_calendar (
-		E_CALENDAR_VIEW (widget), GNOME_CALENDAR (priv->calendar));
-	e_calendar_view_set_timezone (
-		E_CALENDAR_VIEW (widget), priv->timezone);
-	page_num = gtk_notebook_get_n_pages (GTK_NOTEBOOK (widget));
-	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
-	g_return_if_fail (page_num == GNOME_CAL_WEEK_VIEW);
-	priv->week_view = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	/* FIXME Need to establish a calendar and timezone first. */
-	widget = e_week_view_new (E_CAL_MODEL (cal_model));
-	e_week_view_set_multi_week_view (E_WEEK_VIEW (widget), TRUE);
-	e_week_view_set_weeks_shown (E_WEEK_VIEW (widget), 6);
-	e_calendar_view_set_calendar (
-		E_CALENDAR_VIEW (widget), GNOME_CALENDAR (priv->calendar));
-	e_calendar_view_set_timezone (
-		E_CALENDAR_VIEW (widget), priv->timezone);
-	page_num = gtk_notebook_get_n_pages (GTK_NOTEBOOK (widget));
-	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
-	g_return_if_fail (page_num == GNOME_CAL_MONTH_VIEW);
-	priv->month_view = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	/* FIXME Need to establish a calendar and timezone first. */
-	widget = e_cal_list_view_new (E_CAL_MODEL (cal_model));
-	e_calendar_view_set_calendar (
-		E_CALENDAR_VIEW (widget), GNOME_CALENDAR (priv->calendar));
-	e_calendar_view_set_timezone (
-		E_CALENDAR_VIEW (widget), priv->timezone);
-	page_num = gtk_notebook_get_n_pages (GTK_NOTEBOOK (widget));
-	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
-	g_return_if_fail (page_num == GNOME_CAL_LIST_VIEW);
-	priv->list_view = g_object_ref (widget);
-	gtk_widget_show (widget);
-#endif
+		gtk_notebook_append_page (
+			GTK_NOTEBOOK (container), GTK_WIDGET (view), NULL);
+		gtk_widget_show (GTK_WIDGET (view));
+	}
 
 	container = priv->vpaned;
 
@@ -523,17 +417,7 @@ cal_shell_content_constructed (GObject *object)
 	e_memo_table_load_state (E_MEMO_TABLE (widget), filename);
 	g_free (filename);
 
-	/* Configuration managers for views and tables. */
-	priv->day_view_config = e_day_view_config_new (
-		E_DAY_VIEW (priv->day_view));
-	priv->work_week_view_config = e_day_view_config_new (
-		E_DAY_VIEW (priv->work_week_view));
-	priv->week_view_config = e_week_view_config_new (
-		E_WEEK_VIEW (priv->week_view));
-	priv->month_view_config = e_week_view_config_new (
-		E_WEEK_VIEW (priv->month_view));
-	priv->list_view_config = e_cal_list_view_config_new (
-		E_CAL_LIST_VIEW (priv->list_view));
+	/* Configuration managers for task and memo tables. */
 	priv->task_table_config = e_calendar_table_config_new (
 		E_CALENDAR_TABLE (priv->task_table));
 	priv->memo_table_config = e_memo_table_config_new (
@@ -587,6 +471,11 @@ cal_shell_content_init (ECalShellContent *cal_shell_content)
 {
 	cal_shell_content->priv =
 		E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
+
+	/* XXX GnomeCalendar is a widget, but we don't pack it.
+	 *     Maybe it should just be a GObject instead? */
+	cal_shell_content->priv->calendar = gnome_calendar_new ();
+	g_object_ref_sink (cal_shell_content->priv->calendar);
 
 	/* Postpone widget construction until we have a shell view. */
 }

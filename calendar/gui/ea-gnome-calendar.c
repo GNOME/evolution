@@ -268,6 +268,8 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 {
 	AtkObject * child = NULL;
 	GnomeCalendar * calendarWidget;
+	GnomeCalendarViewType view_type;
+	ECalendarView *view;
 	GtkWidget *childWidget;
 
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), NULL);
@@ -290,7 +292,9 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		break;
 	case 1:
 		/* for the day/week view */
-		childWidget = gnome_calendar_get_current_view_widget (calendarWidget);
+		view_type = gnome_calendar_get_view (calendarWidget);
+		view = gnome_calendar_get_calendar_view (calendarWidget, view_type);
+		childWidget = GTK_WIDGET (view);
 		child = gtk_widget_get_accessible (childWidget);
 		atk_object_set_parent (child, obj);
 		break;

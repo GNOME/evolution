@@ -59,12 +59,13 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 	EShellWindow *shell_window;
+	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
+	ECalendarView *view;
 	ECalModel *model;
 	ESourceSelector *selector;
 	ESource *source;
 	GtkAction *action;
-	GtkWidget *widget;
 	GList *list, *iter;
 	const gchar *uri = NULL;
 	gboolean user_created_source;
@@ -79,13 +80,14 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	cal_shell_content = priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	widget = gnome_calendar_get_current_view_widget (calendar);
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (widget));
+	view_type = gnome_calendar_get_view (calendar);
+	view = gnome_calendar_get_calendar_view (calendar, view_type);
+	model = e_calendar_view_get_model (view);
 
 	cal_shell_sidebar = priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	list = e_calendar_view_get_selected_events (E_CALENDAR_VIEW (widget));
+	list = e_calendar_view_get_selected_events (view);
 	n_selected = g_list_length (list);
 
 	for (iter = list; iter != NULL; iter = iter->next) {

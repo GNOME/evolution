@@ -37,16 +37,17 @@
 #include "e-cal-menu.h"
 #include "e-calendar-table.h"
 
-G_BEGIN_DECLS
-
-
-
 #define GNOME_TYPE_CALENDAR            (gnome_calendar_get_type ())
 #define GNOME_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
 #define GNOME_CALENDAR_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), GNOME_TYPE_CALENDAR,	\
 					GnomeCalendarClass))
 #define GNOME_IS_CALENDAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CALENDAR))
 #define GNOME_IS_CALENDAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CALENDAR))
+
+G_BEGIN_DECLS
+
+/* Avoid circular inclusion. */
+struct _ECalendarView;
 
 typedef struct _GnomeCalendar GnomeCalendar;
 typedef struct _GnomeCalendarClass GnomeCalendarClass;
@@ -124,11 +125,11 @@ void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
 GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
 void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type);
 
-GtkWidget *gnome_calendar_get_current_view_widget (GnomeCalendar *gcal);
+struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
+							 GnomeCalendarViewType view_type);
 
 GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
-GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);

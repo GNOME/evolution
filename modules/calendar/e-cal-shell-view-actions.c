@@ -197,20 +197,22 @@ action_calendar_print_cb (GtkAction *action,
 {
 #if 0
 	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
+	ECalendarView *view;
 	GtkPrintOperationAction print_action;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	view = gnome_calendar_get_calendar_view (calendar, view_type);
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 
-	if (gnome_calendar_get_view (calendar) == GNOME_CAL_LIST_VIEW) {
+	if (E_IS_CAL_LIST_VIEW (view)) {
 		ECalListView *list_view;
-		GtkWidget *widget;
 		ETable *table;
 
-		widget = gnome_calendar_get_current_view_widget (calendar);
-		list_view = E_CAL_LIST_VIEW (widget);
+		list_view = E_CAL_LIST_VIEW (view);
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
 		print_table (table, _("Print"), _("Calendar"), action);
 	} else {
@@ -228,20 +230,22 @@ action_calendar_print_preview_cb (GtkAction *action,
 {
 #if 0
 	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
+	ECalendarView *view;
 	GtkPrintOperationAction print_action;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	view = gnome_calendar_get_calendar_view (calendar, view_type);
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 
-	if (gnome_calendar_get_view (calendar) == GNOME_CAL_LIST_VIEW) {
+	if (E_IS_CAL_LIST_VIEW (view)) {
 		ECalListView *list_view;
-		GtkWidget *widget;
 		ETable *table;
 
-		widget = gnome_calendar_get_current_view_widget (calendar);
-		list_view = E_CAL_LIST_VIEW (widget);
+		list_view = E_CAL_LIST_VIEW (view);
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
 		print_table (table, _("Print"), _("Calendar"), action);
 	} else {
@@ -512,14 +516,16 @@ action_event_open_cb (GtkAction *action,
 {
 #if 0
 	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
-	GtkWidget *widget;
+	ECalendarView *view;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	widget = gnome_calendar_get_current_view_widget (calendar);
+	view_type = gnome_calendar_get_view (calendar);
+	view = gnome_calendar_get_calendar_view (calendar, view_type);
 
-	e_calendar_view_open_event (E_CALENDAR_VIEW (widget));
+	e_calendar_view_open_event (view);
 #endif
 }
 
