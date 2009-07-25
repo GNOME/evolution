@@ -138,9 +138,6 @@ guint calendar_config_add_notification_dview_show_week_no (GConfClientNotifyFunc
 gint      calendar_config_get_hpane_pos		(void);
 void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
 
-gint      calendar_config_get_vpane_pos		(void);
-void	  calendar_config_set_vpane_pos		(gint	      vpane_pos);
-
 gboolean  calendar_config_get_preview_state	(void);
 void	  calendar_config_set_preview_state	(gboolean     state);
 guint	  calendar_config_add_notification_preview_state (GConfClientNotifyFunc func, gpointer data);

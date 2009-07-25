@@ -145,8 +145,6 @@ struct _GnomeCalendarPrivate {
 	   will work OK after theme changes. */
 	gint	     hpane_pos;
 	gint	     hpane_pos_month_view;
-	gint	     vpane_pos;
-	gint	     vpane_pos_month_view;
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
@@ -198,15 +196,12 @@ static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 static void gnome_calendar_change_view (GnomeCalendar *gcal,
 					 GnomeCalendarViewType view_type);
 
-static void gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal);
 static void update_view_times (GnomeCalendar *gcal, time_t start_time);
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
 static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
 static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
-static void gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal);
-static gboolean gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
 static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 								 GnomeCalendar *gcal);
@@ -1203,9 +1198,7 @@ setup_config (GnomeCalendar *calendar)
 
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
-	priv->vpane_pos = calendar_config_get_vpane_pos ();
 	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
-	priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
 }
 
 static void
@@ -1378,15 +1371,6 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed), gcal);
 	g_signal_connect (w, "scroll-event",
 			  G_CALLBACK (gnome_calendar_date_navigator_scrolled), gcal);
-
-	/* The VPaned widget, to contain the ToDo list & Memo list */
-	priv->vpane = gtk_vpaned_new ();
-	g_signal_connect_after (priv->vpane, "realize",
-				G_CALLBACK(gnome_calendar_vpane_realized), gcal);
-	g_signal_connect (priv->vpane, "button_release_event",
-			  G_CALLBACK (gnome_calendar_vpane_resized), gcal);
-	gtk_widget_show (priv->vpane);
-	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, TRUE, TRUE);
 
 	/* The ToDo list. */
 	vbox = gtk_vbox_new (FALSE, 0);
@@ -2008,8 +1992,6 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 	if (grab_focus)
 		focus_current_view (gcal);
 
-	gnome_calendar_set_pane_positions (gcal);
-
 	/* For the week & month views we want the selection in the date
 	   navigator to be rounded to the nearest week when the arrow buttons
 	   are pressed to move to the previous/next month. */
@@ -2064,22 +2046,6 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 	gnome_calendar_update_date_navigator (gcal);
 	gnome_calendar_notify_dates_shown_changed (gcal);
 
-}
-
-static void
-gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
-	} else {
-		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
-	}
 }
 
 struct _mclient_msg {
@@ -2957,38 +2923,6 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 
 	return FALSE;
 }
-static void
-gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
-	} else {
-		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
-	}
-}
-
-static gboolean
-gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		priv->vpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->vpane));
-		calendar_config_set_month_vpane_pos (priv->vpane_pos_month_view);
-	} else {
-		priv->vpane_pos = gtk_paned_get_position (GTK_PANED (priv->vpane));
-		calendar_config_set_vpane_pos (priv->vpane_pos);
-	}
-
-	return FALSE;
-}
-
 void
 gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 {

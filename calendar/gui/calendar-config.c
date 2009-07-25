@@ -565,22 +565,6 @@ calendar_config_set_hpane_pos		(gint	      hpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
 }
 
-gint
-calendar_config_get_vpane_pos		(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_VPANE_POS, NULL);
-}
-
-void
-calendar_config_set_vpane_pos		(gint	      vpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_VPANE_POS, vpane_pos, NULL);
-}
-
 gboolean
 calendar_config_get_preview_state		(void)
 {
@@ -623,22 +607,6 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 	calendar_config_init ();
 
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, hpane_pos, NULL);
-}
-
-gint
-calendar_config_get_month_vpane_pos	(void)
-{
-	calendar_config_init ();
-
-	return  gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, NULL);
-}
-
-void
-calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_VPANE_POS, vpane_pos, NULL);
 }
 
 gfloat
