@@ -108,7 +108,7 @@ emss_sync_op (EMSyncStream *emss, enum _write_msg_t op,
 	msg.len = len;
 
 	camel_object_ref (emss);
-	
+
 	if (emss->idle_id)
 		g_source_remove (emss->idle_id);
 	emss->idle_id = g_idle_add ((GSourceFunc) emss_process_message, &msg);

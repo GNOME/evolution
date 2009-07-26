@@ -111,7 +111,7 @@ e_composer_from_header_new (const gchar *label)
 }
 
 EComposerHeader *
-e_composer_from_header_new_with_action (const gchar *label, const char *action)
+e_composer_from_header_new_with_action (const gchar *label, const gchar *action)
 {
 	return g_object_new (
 		E_TYPE_COMPOSER_FROM_HEADER, "label", label,

@@ -519,7 +519,7 @@ composer_header_table_constructor (GType type,
 			gtk_table_attach (
 				GTK_TABLE (object), box,
 				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
-		
+
 		} else {
 			gtk_table_attach (
 				GTK_TABLE (object), priv->headers[ii]->input_widget,

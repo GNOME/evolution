@@ -2336,7 +2336,6 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	g_return_val_if_fail(message != NULL, NULL);
 
-	
 	to = camel_internet_address_new();
 	cc = camel_internet_address_new();
 

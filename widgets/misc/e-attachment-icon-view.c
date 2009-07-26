@@ -40,11 +40,11 @@ enum {
 	PROP_EDITABLE
 };
 
-static int icon_size = GTK_ICON_SIZE_DIALOG;
+static gint icon_size = GTK_ICON_SIZE_DIALOG;
 static gpointer parent_class;
 
 void
-e_attachment_icon_view_set_default_icon_size (int size)
+e_attachment_icon_view_set_default_icon_size (gint size)
 {
 	icon_size = size;
 }

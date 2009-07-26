@@ -486,7 +486,7 @@ mail_msg_idle_cb (void)
 	G_LOCK (idle_source_id);
 	idle_source_id = 0;
 	G_UNLOCK (idle_source_id);
-	mail_component_show_status_bar (TRUE);	
+	mail_component_show_status_bar (TRUE);
 	/* check the main loop queue */
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
 		if (msg->info->exec != NULL)
@@ -503,7 +503,7 @@ mail_msg_idle_cb (void)
 		mail_msg_check_error (msg);
 		mail_msg_unref (msg);
 	}
-	mail_component_show_status_bar (FALSE);	
+	mail_component_show_status_bar (FALSE);
 	return FALSE;
 }
 

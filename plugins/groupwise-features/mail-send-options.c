@@ -175,17 +175,17 @@ org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
 void
 org_gnome_composer_message_reply (EPlugin *ep, EMEventTargetMessage *t)
 {
-	EMsgComposer *comp = (struct _EMsgComposer *)t->composer ;
+	EMsgComposer *comp = (struct _EMsgComposer *)t->composer;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
-	char *temp = NULL;
-	
+	gchar *temp = NULL;
+
 	table = e_msg_composer_get_header_table (comp);
 	account = e_composer_header_table_get_account (table);
 	if (!account)
 		return;
- 
-	temp = strstr (account->transport->url, "groupwise") ;
+
+	temp = strstr (account->transport->url, "groupwise");
 	if (!temp) {
 		return;
 	}

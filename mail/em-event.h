@@ -152,7 +152,7 @@ EMEvent *em_event_peek(void);
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const gchar *uri, guint32 flags);
 EMEventTargetFolderBrowser *em_event_target_new_folder_browser (EMEvent *eme, EMFolderBrowser *emfb);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const EMsgComposer *composer, guint32 flags);
-EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags, 
+EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags,
 							EMsgComposer *composer);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags);
 EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);

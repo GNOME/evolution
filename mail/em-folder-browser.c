@@ -1285,7 +1285,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 				    l = l->next;
 			    }
 
-    			    camel_vee_folder_set_expression (efb->all_account_search_vf, search_word);
+			    camel_vee_folder_set_expression (efb->all_account_search_vf, search_word);
 
 			    efb->account_search_cancel = camel_operation_new (NULL, NULL);
 			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, NULL, folder_list, efb->account_search_cancel);

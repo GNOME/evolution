@@ -63,7 +63,7 @@ struct _EComposerFromHeaderClass {
 
 GType		e_composer_from_header_get_type	(void);
 EComposerHeader * e_composer_from_header_new	(const gchar *label);
-EComposerHeader * e_composer_from_header_new_with_action (const gchar *label, const char *action);
+EComposerHeader * e_composer_from_header_new_with_action (const gchar *label, const gchar *action);
 EAccountList *	e_composer_from_header_get_account_list
 						(EComposerFromHeader *header);
 void		e_composer_from_header_set_account_list

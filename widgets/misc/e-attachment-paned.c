@@ -38,7 +38,7 @@
 #define NUM_VIEWS 2
 
 /* Initial height of the lower pane. */
-static int initial_height = 150;
+static gint initial_height = 150;
 
 struct _EAttachmentPanedPrivate {
 	GtkTreeModel *model;
@@ -67,7 +67,7 @@ enum {
 static gpointer parent_class;
 
 void
-e_attachment_paned_set_default_height (int height)
+e_attachment_paned_set_default_height (gint height)
 {
 	initial_height = height;
 }
