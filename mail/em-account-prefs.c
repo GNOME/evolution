@@ -183,7 +183,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 		if (gtk_tree_selection_get_selected (selection, &model, &iter))
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 
-		if (account && !account->parent_uid && !mail_config_has_proxies (account)) {
+		if (account && !account->parent_uid) {
 			EMAccountEditor *emae;
 
 			/** @HookPoint-EMConfig: Mail Account Editor
@@ -380,7 +380,7 @@ account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 	}
 
 	if ( url != NULL )
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), !mail_config_has_proxies(account));
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), TRUE);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), state);
 
