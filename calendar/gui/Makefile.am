@@ -171,33 +171,31 @@ libcal_gui_la_SOURCES =		\
 	tag-calendar.c				\
 	tag-calendar.h				\
 	weekday-picker.c			\
-	weekday-picker.h
-
-# no gnome-cal no a11y. FIXME: KILL-BONOBO
-#	ea-calendar.c			\
-#	ea-calendar.h			\
-#	ea-calendar-helpers.c		\
-#	ea-calendar-helpers.h		\
-#	ea-cal-view.c			\
-#	ea-cal-view.h			\
-#	ea-cal-view-event.c		\
-#	ea-cal-view-event.h		\
-#	ea-day-view.c			\
-#	ea-day-view.h			\
-#	ea-day-view-main-item.c		\
-#	ea-day-view-main-item.h		\
-#	ea-day-view-cell.c			\
-#	ea-day-view-cell.h			\
-#	ea-week-view.c			\
-#	ea-week-view.h			\
-#	ea-week-view-main-item.c		\
-#	ea-week-view-main-item.h		\
-#	ea-week-view-cell.c		\
-#	ea-week-view-cell.h		\
-#	ea-jump-button.c			\
-#	ea-jump-button.h			\
-#	ea-gnome-calendar.c		\
-#	ea-gnome-calendar.h
+	weekday-picker.h			\
+	ea-calendar.c				\
+	ea-calendar.h				\
+	ea-calendar-helpers.c			\
+	ea-calendar-helpers.h			\
+	ea-cal-view.c				\
+	ea-cal-view.h				\
+	ea-cal-view-event.c			\
+	ea-cal-view-event.h			\
+	ea-day-view.c				\
+	ea-day-view.h				\
+	ea-day-view-main-item.c			\
+	ea-day-view-main-item.h			\
+	ea-day-view-cell.c			\
+	ea-day-view-cell.h			\
+	ea-week-view.c				\
+	ea-week-view.h				\
+	ea-week-view-main-item.c		\
+	ea-week-view-main-item.h		\
+	ea-week-view-cell.c			\
+	ea-week-view-cell.h			\
+	ea-jump-button.c			\
+	ea-jump-button.h			\
+	ea-gnome-calendar.c			\
+	ea-gnome-calendar.h
 
 libcal_gui_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la				\

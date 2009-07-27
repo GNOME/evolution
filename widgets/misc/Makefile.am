@@ -87,6 +87,7 @@ widgetsinclude_HEADERS =			\
 	e-url-entry.h				\
 	ea-calendar-cell.h			\
 	ea-calendar-item.h			\
+	ea-cell-table.h				\
 	ea-widgets.h
 
 libemiscwidgets_la_SOURCES =			\
@@ -147,6 +148,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-url-entry.c				\
 	ea-calendar-cell.c			\
 	ea-calendar-item.c			\
+	ea-cell-table.c				\
 	ea-widgets.c
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)

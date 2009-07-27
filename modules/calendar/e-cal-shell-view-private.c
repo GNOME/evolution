@@ -442,7 +442,7 @@ e_cal_shell_view_execute_search (ECalShellView *cal_shell_view)
 	text = e_shell_content_get_search_text (shell_content);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	action = GTK_RADIO_ACTION (ACTION (CAL_SEARCH_ANY_FIELD_CONTAINS));
+	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
 
 	if (text == NULL || *text == '\0') {
@@ -475,7 +475,7 @@ e_cal_shell_view_execute_search (ECalShellView *cal_shell_view)
 	g_string_free (string, TRUE);
 
 	range_search = FALSE;
-	range_start = range_end = 0;
+	start_range = end_range = 0;
 
 	/* Apply selected filter. */
 	value = e_shell_content_get_filter_value (shell_content);

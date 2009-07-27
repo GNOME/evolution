@@ -8,8 +8,6 @@ AM_CPPFLAGS =				\
 
 libevolution_a11y_la_SOURCES =		\
 	ea-factory.h			\
-	ea-cell-table.h			\
-	ea-cell-table.c			\
 	gal-a11y-util.c			\
 	gal-a11y-util.h			\
 	gal-a11y-factory.h

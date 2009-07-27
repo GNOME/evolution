@@ -30,7 +30,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include "ea-calendar-item.h"
 #include "ea-calendar-cell.h"
-#include "a11y/ea-cell-table.h"
+#include "ea-cell-table.h"
 
 #define EA_CALENDAR_COLUMN_NUM E_CALENDAR_COLS_PER_MONTH
 

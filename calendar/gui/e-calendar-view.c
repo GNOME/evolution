@@ -1194,30 +1194,6 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 }
 
 static void
-on_new_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_new_appointment (cal_view);
-}
-
-static void
-on_new_event (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_new_appointment_full (cal_view, TRUE, FALSE, FALSE);
-}
-
-static void
-on_new_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_new_appointment_full (cal_view, FALSE, TRUE, FALSE);
-}
-
-static void
 on_new_task (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 #if 0  /* KILL-BONOBO */
@@ -1746,9 +1722,6 @@ on_paste (EPopup *ep, EPopupItem *pitem, gpointer data)
 }
 
 static EPopupItem ecv_main_items [] = {
-	{ E_POPUP_ITEM, (gchar *) "00.new", (gchar *) N_("New _Appointment..."), on_new_appointment, NULL, (gchar *) "appointment-new", 0, 0 },
-	{ E_POPUP_ITEM, (gchar *) "10.newallday", (gchar *) N_("New All Day _Event"), on_new_event, NULL, (gchar *) "stock_new-24h-appointment", 0, 0},
-	{ E_POPUP_ITEM, (gchar *) "20.meeting", (gchar *) N_("New _Meeting"), on_new_meeting, NULL, (gchar *) "stock_new-meeting", 0, 0},
 	{ E_POPUP_ITEM, (gchar *) "30.task", (gchar *) N_("New _Task"), on_new_task, NULL, (gchar *) "stock_task", 0, 0},
 
 	{ E_POPUP_BAR, (gchar *) "40."},

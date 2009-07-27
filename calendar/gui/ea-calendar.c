@@ -26,13 +26,13 @@
 #include "a11y/ea-factory.h"
 #include "ea-calendar.h"
 
-#include "calendar/ea-cal-view.h"
-#include "calendar/ea-cal-view-event.h"
-#include "calendar/ea-day-view.h"
-#include "calendar/ea-day-view-main-item.h"
-#include "calendar/ea-week-view.h"
-#include "calendar/ea-week-view-main-item.h"
-#include "calendar/ea-gnome-calendar.h"
+#include "calendar/gui/ea-cal-view.h"
+#include "calendar/gui/ea-cal-view-event.h"
+#include "calendar/gui/ea-day-view.h"
+#include "calendar/gui/ea-day-view-main-item.h"
+#include "calendar/gui/ea-week-view.h"
+#include "calendar/gui/ea-week-view-main-item.h"
+#include "calendar/gui/ea-gnome-calendar.h"
 
 EA_FACTORY (EA_TYPE_CAL_VIEW, ea_cal_view, ea_cal_view_new)
 EA_FACTORY (EA_TYPE_DAY_VIEW, ea_day_view, ea_day_view_new)

@@ -397,7 +397,23 @@ static void
 action_event_all_day_new_cb (GtkAction *action,
                              ECalShellView *cal_shell_view)
 {
-        /* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+
+	/* These are just for readability. */
+	gboolean all_day = TRUE;
+	gboolean meeting = FALSE;
+	gboolean no_past_date = FALSE;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_calendar_view_new_appointment_full (
+		calendar_view, all_day, meeting, no_past_date);
 }
 
 static void
@@ -486,7 +502,23 @@ static void
 action_event_meeting_new_cb (GtkAction *action,
                              ECalShellView *cal_shell_view)
 {
-        /* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+
+	/* These are just for readability. */
+	gboolean all_day = FALSE;
+	gboolean meeting = TRUE;
+	gboolean no_past_date = FALSE;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_calendar_view_new_appointment_full (
+		calendar_view, all_day, meeting, no_past_date);
 }
 
 static void
@@ -500,7 +532,17 @@ static void
 action_event_new_cb (GtkAction *action,
                      ECalShellView *cal_shell_view)
 {
-        /* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_calendar_view_new_appointment (calendar_view);
 }
 
 static void

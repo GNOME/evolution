@@ -23,6 +23,7 @@
 
 #include "ea-gnome-calendar.h"
 #include "calendar-commands.h"
+#include "e-calendar-view.h"
 #include <string.h>
 #include <gtk/gtk.h>
 #include <libecal/e-cal-time-util.h>
@@ -36,8 +37,6 @@ static G_CONST_RETURN gchar * ea_gnome_calendar_get_description (AtkObject *acce
 static gint ea_gnome_calendar_get_n_children (AtkObject* obj);
 static AtkObject * ea_gnome_calendar_ref_child (AtkObject *obj, gint i);
 
-static void ea_gcal_switch_view_cb (GtkNotebook *widget, GtkNotebookPage *page,
-				    guint index, gpointer data);
 static void ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data);
 
 static gpointer parent_class = NULL;
@@ -104,7 +103,6 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	GObject *object;
 	AtkObject *accessible;
 	GnomeCalendar *gcal;
-	GtkWidget *notebook;
 
 	g_return_val_if_fail (GNOME_IS_CALENDAR (widget), NULL);
 
@@ -122,12 +120,6 @@ ea_gnome_calendar_new (GtkWidget *widget)
 	g_signal_connect (widget, "dates_shown_changed",
 			  G_CALLBACK (ea_gcal_dates_change_cb),
 			  accessible);
-	notebook = gnome_calendar_get_view_notebook_widget (gcal);
-	if (notebook) {
-		g_signal_connect (notebook, "switch_page",
-				  G_CALLBACK (ea_gcal_switch_view_cb),
-				  accessible);
-	}
 
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea-gnome-calendar created: %p\n", (gpointer)accessible);
@@ -260,7 +252,7 @@ ea_gnome_calendar_get_n_children (AtkObject* obj)
 
 	if (!GTK_ACCESSIBLE (obj)->widget)
 		return -1;
-	return 3;
+	return 2;
 }
 
 static AtkObject *
@@ -295,37 +287,12 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		childWidget = gnome_calendar_get_e_calendar_widget (calendarWidget);
 		child = gtk_widget_get_accessible (childWidget);
 		break;
-	case 2:
-		/* for todo list */
-		childWidget = GTK_WIDGET (gnome_calendar_get_task_pad (calendarWidget));
-		child = gtk_widget_get_accessible (childWidget);
-		break;
 	default:
 		break;
 	}
 	if (child)
 		g_object_ref(child);
 	return child;
-}
-
-static void
-ea_gcal_switch_view_cb (GtkNotebook *widget, GtkNotebookPage *page,
-			guint index, gpointer data)
-{
-	GtkWidget *new_widget;
-
-	new_widget = gtk_notebook_get_nth_page (widget, index);
-
-	/* views are always the second child in gnome calendar
-	 */
-	if (new_widget)
-		g_signal_emit_by_name (G_OBJECT(data), "children_changed::add",
-				       1, gtk_widget_get_accessible (new_widget), NULL);
-
-#ifdef ACC_DEBUG
-	printf ("AccDebug: view switch to widget %p (index=%d) \n",
-		(gpointer)new_widget, index);
-#endif
 }
 
 static void
