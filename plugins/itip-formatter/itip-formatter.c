@@ -1217,7 +1217,7 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 	}
 
 	/* FIXME send the attachments in the request */
-	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL, TRUE);
+	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL, TRUE, FALSE);
 
 	g_object_unref (send_comp);
 
@@ -1369,7 +1369,7 @@ update_attendee_status (struct _itip_puri *pitip)
 
 		if (itip_view_get_update (ITIP_VIEW (pitip->view))) {
 			e_cal_component_commit_sequence (comp);
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE, FALSE);
 		}
 
 		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, rid ? CALOBJ_MOD_THIS : CALOBJ_MOD_ALL, &error)) {
@@ -1399,7 +1399,7 @@ send_item (struct _itip_puri *pitip)
 	comp = get_real_item (pitip);
 
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE, FALSE);
 		g_object_unref (comp);
 
 		switch (pitip->type) {
@@ -1985,7 +1985,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 
                 e_cal_component_rescan (comp);
-                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE)) {
+                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE)) {
 			camel_folder_set_message_flags (pitip->folder, pitip->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
 		}
 

@@ -33,6 +33,17 @@
 
 
 static gboolean
+component_has_new_attendees (ECalComponent *comp)
+{
+	g_return_val_if_fail (comp != NULL, FALSE);
+
+	if (!e_cal_component_has_attendees (comp))
+		return FALSE;
+
+	return g_object_get_data (G_OBJECT (comp), "new-attendees") != NULL;
+}
+
+static gboolean
 have_nonprocedural_alarm (ECalComponent *comp)
 {
 	GList *uids, *l;
@@ -64,6 +75,25 @@ have_nonprocedural_alarm (ECalComponent *comp)
 	return FALSE;
 }
 
+static GtkWidget *
+add_checkbox (GtkBox *where, const gchar *caption)
+{
+	GtkWidget *checkbox, *align;
+
+	g_return_val_if_fail (where != NULL, NULL);
+	g_return_val_if_fail (caption != NULL, NULL);
+
+	checkbox = gtk_check_button_new_with_mnemonic (caption);
+	align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (align), 0, 0, 12, 12);
+	gtk_container_add (GTK_CONTAINER (align), checkbox);
+	gtk_widget_show (checkbox);
+	gtk_box_pack_start (where, align, TRUE, TRUE, 2);
+	gtk_widget_show (align);
+
+	return checkbox;
+}
+
 /**
  * send_component_dialog:
  *
@@ -73,10 +103,12 @@ have_nonprocedural_alarm (ECalComponent *comp)
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms)
+send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees)
 {
 	ECalComponentVType vtype;
 	const gchar *id;
+	GtkWidget *dialog, *sa_checkbox = NULL, *ona_checkbox = NULL;
+	gboolean res;
 
 	if (strip_alarms)
 		*strip_alarms = TRUE;
@@ -108,32 +140,37 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		return FALSE;
 	}
 
-	if (strip_alarms && have_nonprocedural_alarm (comp)) {
-		GtkWidget *dialog, *checkbox, *align;
-		gboolean res;
+	if (only_new_attendees && !component_has_new_attendees (comp)) {
+		/* do not show the check if there is no new attendee and
+		   set as all attendees are required to be notified */
+		*only_new_attendees = FALSE;
 
-		dialog = e_error_new (parent, id, NULL);
-		checkbox = gtk_check_button_new_with_label (_("Send my alarms with this event"));
-		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
-		gtk_container_add (GTK_CONTAINER (align), checkbox);
-		gtk_widget_show (checkbox);
-		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox), align, TRUE, TRUE, 6);
-		gtk_widget_show (align);
-
-		res = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-
-		if (res)
-			*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
-
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-
-		return res;
-	} else {
-		if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
-			return TRUE;
-		else
-			return FALSE;
+		/* pretend it as being passed NULL to simplify code below */
+		only_new_attendees = NULL;
 	}
+
+	if (strip_alarms && !have_nonprocedural_alarm (comp)) {
+		/* pretend it as being passed NULL to simplify code below */
+		strip_alarms = NULL;
+	}
+
+	dialog = e_error_new (parent, id, NULL);
+
+	if (strip_alarms)
+		sa_checkbox = add_checkbox (GTK_BOX (GTK_DIALOG (dialog)->vbox), _("Send my alarms with this event"));
+	if (only_new_attendees)
+		ona_checkbox = add_checkbox (GTK_BOX (GTK_DIALOG (dialog)->vbox), _("Notify new attendees _only"));
+
+	res = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+
+	if (res && strip_alarms)
+		*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (sa_checkbox));
+	if (only_new_attendees)
+		*only_new_attendees = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ona_checkbox));
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return res;
 }
 
 gboolean

@@ -28,7 +28,7 @@
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 
-gboolean send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms);
+gboolean send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms, gboolean *only_new_attendees);
 gboolean send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *comp);
 
 #endif

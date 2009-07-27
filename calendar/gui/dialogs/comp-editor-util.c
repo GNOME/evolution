@@ -35,6 +35,8 @@
 #include "e-util/e-binding.h"
 #include "widgets/misc/e-dateedit.h"
 #include "../calendar-config.h"
+#include "../e-date-edit-config.h"
+#include "../itip-utils.h"
 #include "comp-editor-util.h"
 
 
@@ -346,4 +348,134 @@ comp_editor_strip_categories (const gchar *categories)
 	*new_p = '\0';
 
 	return new_categories;
+}
+
+static GSList *
+manage_new_attendees (const GSList *lst, const gchar *eml, gboolean add)
+{
+	GSList *copy = NULL;
+	const GSList *l;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (eml != NULL, NULL);
+
+	for (l = lst; l; l = l->next) {
+		const gchar *eml2 = l->data;
+
+		if (!eml2)
+			continue;
+
+		if (g_ascii_strcasecmp (eml, eml2) == 0) {
+			found = TRUE;
+			if (add)
+				copy = g_slist_append (copy, g_strdup (eml2));
+		} else {
+			copy = g_slist_append (copy, g_strdup (eml2));
+		}
+	}
+
+	if (!found && add) {
+		copy = g_slist_append (copy, g_strdup (eml));
+	}
+
+	return copy;
+}
+
+static void
+free_slist_strs (gpointer data)
+{
+	GSList *lst = data;
+
+	if (lst) {
+		g_slist_foreach (lst, (GFunc) g_free, NULL);
+		g_slist_free (lst);
+	}
+}
+
+/**
+ * comp_editor_manage_new_attendees:
+ * Manages the 'new-attendees' string of new attendees of the component.
+ * @param comp: The component.
+ * @param ma: An attendee.
+ * @param add: TRUE to add attendee's email to new-attendees, FALSE to remove from it.
+ *
+ * @note The list is just string of emails separated by ';'
+ **/
+void
+comp_editor_manage_new_attendees (ECalComponent *comp, EMeetingAttendee *ma, gboolean add)
+{
+	const gchar *eml;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (ma != NULL);
+
+	eml = e_meeting_attendee_get_address (ma);
+	if (eml)
+		eml = itip_strip_mailto (eml);
+	g_return_if_fail (eml != NULL);
+
+	g_object_set_data_full (G_OBJECT (comp), "new-attendees", manage_new_attendees (g_object_get_data (G_OBJECT (comp), "new-attendees"), eml, add), free_slist_strs);
+}
+
+/**
+ * comp_editor_copy_new_attendees:
+ * Copies "new-attendees" information from src to des component.
+ * @param des: Component, to copy to.
+ * @param src: Component, to copy from.
+ **/
+void
+comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src)
+{
+	GSList *copy = NULL, *l;
+
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (des != NULL);
+
+	for (l = g_object_get_data (G_OBJECT (src), "new-attendees"); l; l = l->next) {
+		copy = g_slist_append (copy, g_strdup (l->data));
+	}
+
+	g_object_set_data_full (G_OBJECT (des), "new-attendees", copy, free_slist_strs);
+}
+
+/**
+ * comp_editor_have_in_new_attendees:
+ * @param comp: Component with the "new-attendees" possibly set.
+ * @param ma: Meeting attendee to check.
+ * @return Whether ma is present in the list of new attendees of the comp.
+ **/
+gboolean
+comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma)
+{
+	const gchar *eml;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (ma != NULL, FALSE);
+
+	eml = e_meeting_attendee_get_address (ma);
+	if (eml)
+		eml = itip_strip_mailto (eml);
+	g_return_val_if_fail (eml != NULL, FALSE);
+
+	return comp_editor_have_in_new_attendees_lst (g_object_get_data (G_OBJECT (comp), "new-attendees"), eml);
+}
+
+/**
+ * comp_editor_have_in_new_attendees_lst:
+ * Same as @ref comp_editor_have_in_new_attendees only parameters are direct GSList and string.
+ **/
+gboolean
+comp_editor_have_in_new_attendees_lst (const GSList *new_attendees, const gchar *eml)
+{
+	const GSList *l;
+
+	if (!eml)
+		return FALSE;
+
+	for (l = new_attendees; l; l = l->next) {
+		if (l->data && g_ascii_strcasecmp (eml, l->data) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
 }

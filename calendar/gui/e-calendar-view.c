@@ -45,6 +45,7 @@
 #include "e-cal-model-calendar.h"
 #include "e-calendar-view.h"
 #include "itip-utils.h"
+#include "dialogs/comp-editor-util.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -416,9 +417,9 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 
 		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-					   client, comp, TRUE, &strip_alarms)) {
+					   client, comp, TRUE, &strip_alarms, NULL)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
-				client, NULL, NULL, NULL, strip_alarms);
+				client, NULL, NULL, NULL, strip_alarms, FALSE);
 		}
 	} else {
 		g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "");
@@ -606,7 +607,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE);
+					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (e_cal_component_is_instance (comp)) {
@@ -1009,7 +1010,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 						event->comp_data->client,
 						comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL, TRUE);
+					event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (!uid || !*uid) {
@@ -1157,7 +1158,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 				e_cal_component_free_datetime (&range.datetime);
 			}
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL, NULL, TRUE);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 		}
 
 		if (is_instance)
@@ -1504,7 +1505,7 @@ on_forward (EPopup *ep, EPopupItem *pitem, gpointer data)
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL, NULL, TRUE);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 
 		g_list_free (selected);
 		g_object_unref (comp);
@@ -1987,11 +1988,13 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				 GtkWindow *toplevel,
 				 gboolean new)
 {
+	gboolean only_new_attendees = FALSE;
+
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		gboolean strip_alarms = TRUE;
 
 		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
-		    send_component_dialog (toplevel, client, comp, new, &strip_alarms)) {
+		    send_component_dialog (toplevel, client, comp, new, &strip_alarms, &only_new_attendees)) {
 			ECalComponent *send_comp = NULL;
 
 			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
@@ -2006,11 +2009,14 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 						icalcomponent_free (icalcomp);
 						g_object_unref (send_comp);
 						send_comp = NULL;
+					} else if (only_new_attendees) {
+						/* copy new-attendees information too if required for later use */
+						comp_editor_copy_new_attendees (send_comp, comp);
 					}
 				}
 			}
 
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL, strip_alarms);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL, strip_alarms, only_new_attendees);
 
 			if (send_comp)
 				g_object_unref (send_comp);

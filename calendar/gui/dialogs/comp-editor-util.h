@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <shell/e-shell-settings.h>
 #include "comp-editor-page.h"
+#include "../e-meeting-attendee.h"
 
 void comp_editor_dates (CompEditorPageDates *date, ECalComponent *comp);
 void comp_editor_free_dates (CompEditorPageDates *dates);
@@ -42,5 +43,10 @@ GtkWidget *	comp_editor_new_date_edit	(EShellSettings *shell_settings,
 struct tm comp_editor_get_current_time (GtkObject *object, gpointer data);
 
 gchar *comp_editor_strip_categories (const gchar *categories);
+
+void comp_editor_manage_new_attendees (ECalComponent *comp, EMeetingAttendee *ma, gboolean add);
+void comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src);
+gboolean comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma);
+gboolean comp_editor_have_in_new_attendees_lst (const GSList *new_attendees, const gchar *eml);
 
 #endif

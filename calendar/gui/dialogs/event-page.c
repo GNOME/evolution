@@ -957,6 +957,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	/* Component for cancellation */
 	priv->comp = e_cal_component_clone (comp);
+	comp_editor_copy_new_attendees (priv->comp, comp);
 
 	e_cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
@@ -1170,6 +1171,8 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	flags = comp_editor_get_flags (editor);
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
+
+	comp_editor_copy_new_attendees (comp, priv->comp);
 
 	/* Summary */
 
@@ -1706,7 +1709,7 @@ existing_attendee (EMeetingAttendee *ia, ECalComponent *comp)
 		if (attendee->sentby)
 			sentby = itip_strip_mailto (attendee->sentby);
 
-		if ((address && !g_ascii_strcasecmp (ia_address, address)) || (sentby && !g_ascii_strcasecmp (ia_sentby, sentby))) {
+		if ((address && !g_ascii_strcasecmp (ia_address, address)) || (sentby && ia_sentby&& !g_ascii_strcasecmp (ia_sentby, sentby))) {
 			e_cal_component_free_attendee_list (attendees);
 			return TRUE;
 		}
@@ -1755,7 +1758,8 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 	while (ia != NULL) {
 		EMeetingAttendee *ib = NULL;
 
-		if (existing_attendee (ia, priv->comp)) {
+		/* do not add to deleted_attendees if user removed new attendee */
+		if (existing_attendee (ia, priv->comp) && !comp_editor_have_in_new_attendees (priv->comp, ia)) {
 			g_object_ref (ia);
 			g_ptr_array_add (priv->deleted_attendees, ia);
 		}
@@ -1763,6 +1767,7 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 		if (e_meeting_attendee_get_delto (ia) != NULL)
 			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
 
+		comp_editor_manage_new_attendees (priv->comp, ia, FALSE);
 		e_meeting_list_view_remove_attendee_from_name_selector (priv->list_view, ia);
 		e_meeting_store_remove_attendee (priv->model, ia);
 
@@ -1851,8 +1856,10 @@ attendee_added_cb (EMeetingListView *emlv,
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
 
-	if (!(flags & COMP_EDITOR_DELEGATE))
+	if (!(flags & COMP_EDITOR_DELEGATE)) {
+		comp_editor_manage_new_attendees (priv->comp, ia, TRUE);
 		return;
+	}
 
 	if (existing_attendee (ia, priv->comp)) {
 		e_meeting_store_remove_attendee (priv->model, ia);
@@ -1867,7 +1874,7 @@ attendee_added_cb (EMeetingListView *emlv,
 
 			e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
 
-			e_meeting_attendee_set_delfrom (ia, g_strdup (delegator_id));
+			e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", delegator_id));
 			gtk_widget_set_sensitive (priv->invite, FALSE);
 			gtk_widget_set_sensitive (priv->add, FALSE);
 			gtk_widget_set_sensitive (priv->edit, FALSE);

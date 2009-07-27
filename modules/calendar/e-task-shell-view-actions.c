@@ -178,7 +178,7 @@ action_task_forward_cb (GtkAction *action,
 	e_cal_component_set_icalcomponent (comp, clone);
 	itip_send_comp (
 		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
-		comp_data->client, NULL, NULL, NULL, TRUE);
+		comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 	g_object_unref (comp);
 }
 
