@@ -6684,9 +6684,11 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 	}
 
 	*item_x = day_view->day_offsets[*start_day] + E_DAY_VIEW_BAR_WIDTH;
-	*item_w = day_view->day_offsets[*end_day + 1] - *item_x
-		- E_DAY_VIEW_GAP_WIDTH;
-	*item_w = MAX (*item_w, 0);
+	if (day_view->days_shown == 1)
+		*item_w = day_view->top_canvas->allocation.width;
+	else
+		*item_w = day_view->day_offsets[*end_day + 1];
+	*item_w = MAX (*item_w - *item_x - E_DAY_VIEW_GAP_WIDTH, 0);
 	*item_y = (event->start_row_or_col) * day_view->top_row_height;
 	*item_h = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	return TRUE;
