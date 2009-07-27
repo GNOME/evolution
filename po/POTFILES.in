@@ -116,6 +116,15 @@ calendar/gui/e-memo-table.etspec
 calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view-main-item.c
 calendar/gui/e-week-view.c
+calendar/gui/ea-cal-view-event.c
+calendar/gui/ea-cal-view.c
+calendar/gui/ea-day-view-main-item.c
+calendar/gui/ea-day-view.c
+calendar/gui/ea-gnome-calendar.c
+calendar/gui/ea-jump-button.c
+calendar/gui/ea-week-view-main-item.c
+calendar/gui/ea-week-view.c
+calendar/gui/gnome-cal.c
 calendar/gui/goto-dialog.glade
 calendar/gui/goto.c
 calendar/gui/itip-utils.c

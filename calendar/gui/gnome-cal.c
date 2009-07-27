@@ -63,7 +63,6 @@
 #include "e-mini-calendar-config.h"
 #include "e-calendar-table-config.h"
 #include "gnome-cal.h"
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "calendar-view.h"
 #include "calendar-view-factory.h"

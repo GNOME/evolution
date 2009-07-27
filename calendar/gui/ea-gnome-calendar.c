@@ -22,7 +22,6 @@
  */
 
 #include "ea-gnome-calendar.h"
-#include "calendar-commands.h"
 #include "e-calendar-view.h"
 #include <string.h>
 #include <gtk/gtk.h>

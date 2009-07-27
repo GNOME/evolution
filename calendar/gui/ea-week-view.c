@@ -24,7 +24,6 @@
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
 #include "ea-gnome-calendar.h"
-#include "calendar-commands.h"
 #include <text/e-text.h>
 #include <glib/gi18n.h>
 

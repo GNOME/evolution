@@ -25,7 +25,6 @@
 
 #include "ea-calendar-helpers.h"
 #include "ea-gnome-calendar.h"
-#include "calendar-commands.h"
 #include <glib.h>
 #include <glib/gi18n.h>
 
