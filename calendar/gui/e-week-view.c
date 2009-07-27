@@ -2130,6 +2130,28 @@ e_week_view_get_span_position	(EWeekView	*week_view,
 }
 
 static gboolean
+ewv_pass_gdkevent_to_etext (EWeekView *week_view, GdkEvent *gevent)
+{
+	g_return_val_if_fail (week_view != NULL, FALSE);
+	g_return_val_if_fail (gevent != NULL, FALSE);
+
+	if (week_view->editing_event_num != -1 && week_view->editing_span_num != -1) {
+		EWeekViewEvent *event;
+		EWeekViewEventSpan *span;
+
+		event = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
+		span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + week_view->editing_span_num);
+
+		if (span->text_item && E_IS_TEXT (span->text_item)) {
+			GNOME_CANVAS_ITEM_GET_CLASS (span->text_item)->event (span->text_item, gevent);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
 e_week_view_on_button_press (GtkWidget *widget,
 			     GdkEventButton *event,
 			     EWeekView *week_view)
@@ -2150,6 +2172,9 @@ e_week_view_on_button_press (GtkWidget *widget,
 	day = e_week_view_convert_position_to_day (week_view, x, y);
 	if (day == -1)
 		return FALSE;
+
+	if (ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)event))
+		return TRUE;
 
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
@@ -2217,6 +2242,8 @@ e_week_view_on_button_release (GtkWidget *widget,
 	if (week_view->selection_drag_pos != E_WEEK_VIEW_DRAG_NONE) {
 		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
 		gdk_pointer_ungrab (event->time);
+	} else {
+		ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)event);
 	}
 
 	return FALSE;
@@ -2282,6 +2309,8 @@ e_week_view_on_motion (GtkWidget *widget,
 		e_week_view_update_selection (week_view, day);
 		return TRUE;
 	}
+
+	ewv_pass_gdkevent_to_etext (week_view, (GdkEvent *)mevent);
 
 	return FALSE;
 }

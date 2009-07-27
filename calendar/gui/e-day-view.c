@@ -3130,8 +3130,10 @@ e_day_view_on_long_event_click (EDayView *day_view,
 
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
-	    && E_TEXT (event->canvas_item)->editing)
+	    && E_TEXT (event->canvas_item)->editing) {
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)bevent);
 		return;
+	}
 
 	if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
@@ -3201,8 +3203,10 @@ e_day_view_on_event_click (EDayView *day_view,
 
 	/* Ignore clicks on the EText while editing. */
 	if (pos == E_CALENDAR_VIEW_POS_EVENT
-	    && E_TEXT (event->canvas_item)->editing)
+	    && E_TEXT (event->canvas_item)->editing) {
+		GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)bevent);
 		return;
+	}
 
 	if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
@@ -3602,6 +3606,9 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			gdk_window_set_cursor (widget->window, cursor);
 		}
 
+		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)mevent);
+		}
 	}
 
 	return FALSE;
@@ -3705,6 +3712,10 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		if (day_view->last_cursor_set_in_main_canvas != cursor) {
 			day_view->last_cursor_set_in_main_canvas = cursor;
 			gdk_window_set_cursor (widget->window, cursor);
+		}
+
+		if (event && E_IS_TEXT (event->canvas_item) && E_TEXT (event->canvas_item)->editing) {
+			GNOME_CANVAS_ITEM_GET_CLASS (event->canvas_item)->event (event->canvas_item, (GdkEvent*)mevent);
 		}
 	}
 
