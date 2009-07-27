@@ -66,7 +66,6 @@
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
 
-#include <libpst/define.h>
 #include <libpst/libpst.h>
 #include <libpst/timeconv.h>
 
@@ -75,8 +74,8 @@ typedef struct _PstImporter PstImporter;
 gint pst_init (pst_file *pst, gchar *filename);
 gchar *get_pst_rootname (pst_file *pst, gchar *filename);
 static void pst_error_msg (const gchar *fmt, ...);
-static void pst_import_folders (PstImporter *m, pst_desc_ll *topitem);
-static void pst_process_item (PstImporter *m, pst_desc_ll *d_ptr);
+static void pst_import_folders (PstImporter *m, pst_desc_tree *topitem);
+static void pst_process_item (PstImporter *m, pst_desc_tree *d_ptr);
 static void pst_process_folder (PstImporter *m, pst_item *item);
 static void pst_process_email (PstImporter *m, pst_item *item);
 static void pst_process_contact (PstImporter *m, pst_item *item);
@@ -447,7 +446,7 @@ pst_import_file (PstImporter *m)
 	gint ret;
 	gchar *filename;
 	pst_item *item = NULL;
-	pst_desc_ll *d_ptr;
+	pst_desc_tree *d_ptr;
 
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
@@ -470,7 +469,7 @@ pst_import_file (PstImporter *m)
 
 	camel_operation_progress_count (NULL, 1);
 
-	if ((item = pst_parse_item (&m->pst, m->pst.d_head)) == NULL) {
+	if ((item = pst_parse_item (&m->pst, m->pst.d_head, NULL)) == NULL) {
 		pst_error_msg ("Could not get root record");
 		return;
 	}
@@ -494,9 +493,9 @@ pst_import_file (PstImporter *m)
 }
 
 static void
-pst_import_folders (PstImporter *m, pst_desc_ll *topitem)
+pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 {
-	pst_desc_ll *d_ptr;
+	pst_desc_tree *d_ptr;
 	gchar *seperator;
 
 	d_ptr = topitem->child;
@@ -538,14 +537,14 @@ pst_import_folders (PstImporter *m, pst_desc_ll *topitem)
 }
 
 static void
-pst_process_item (PstImporter *m, pst_desc_ll *d_ptr)
+pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 {
 	pst_item *item = NULL;
 
 	if (d_ptr->desc == NULL)
 		return;
 
-	item = pst_parse_item (&m->pst, d_ptr);
+	item = pst_parse_item (&m->pst, d_ptr, NULL);
 
 	if (item == NULL)
 		return;
@@ -558,7 +557,7 @@ pst_process_item (PstImporter *m, pst_desc_ll *d_ptr)
 
 	if (item->folder != NULL) {
 		pst_process_folder (m, item);
-		camel_operation_start (NULL, _("Importing `%s'"), item->file_as);
+		camel_operation_start (NULL, _("Importing `%s'"), item->file_as.str);
 	} else {
 		if (m->folder_count && (m->current_item < m->folder_count)) {
 			camel_operation_progress (NULL, (m->current_item * 100) / m->folder_count);
@@ -659,10 +658,10 @@ pst_process_folder (PstImporter *m, pst_item *item)
 	g_free (m->folder_name);
 	g_free (m->folder_uri);
 
-	if (item->file_as != NULL) {
-		m->folder_name = foldername_to_utf8 (item->file_as);
+	if (item->file_as.str != NULL) {
+		m->folder_name = foldername_to_utf8 (item->file_as.str);
 	} else {
-		g_critical ("Folder: No name! item->file_as=%s", item->file_as);
+		g_critical ("Folder: No name! item->file_as=%s", item->file_as.str);
 		m->folder_name = g_strdup ("unknown_name");
 	}
 
@@ -674,7 +673,7 @@ pst_process_folder (PstImporter *m, pst_item *item)
 		m->folder = NULL;
 	}
 
-	m->folder_count = item->folder->email_count;
+	m->folder_count = item->folder->item_count;
 	m->current_item = 0;
 }
 
@@ -735,29 +734,28 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 
 	part = camel_mime_part_new ();
 
-	if (attach->filename2 || attach->filename1) {
-		camel_mime_part_set_filename (part, (attach->filename2 ? attach->filename2 : attach->filename1));
+	if (attach->filename2.str || attach->filename1.str) {
+		camel_mime_part_set_filename (part, (attach->filename2.str ? attach->filename2.str : attach->filename1.str));
 		camel_mime_part_set_disposition (part, "attachment");
 		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
 	} else {
 		camel_mime_part_set_disposition (part, "inline");
 	}
 
-	if (attach->mimetype != NULL) {
-		mimetype = attach->mimetype;
+	if (attach->mimetype.str != NULL) {
+		mimetype = attach->mimetype.str;
 	} else {
 		mimetype = "application/octet-stream";
 	}
 
-	if (attach->data != NULL) {
-		camel_mime_part_set_content (part, attach->data, strlen (attach->data), mimetype);
+	if (attach->data.data != NULL) {
+		camel_mime_part_set_content (part, attach->data.data, attach->data.size, mimetype);
 	} else {
-		gchar *buf = NULL;
-		gsize size;
-		size = pst_attach_to_mem (&m->pst, attach, &buf);
+		pst_binary attach_rc;
+		attach_rc = pst_attach_to_mem (&m->pst, attach);
 
-		camel_mime_part_set_content (part, (gchar *) buf, size, mimetype);
-		free(buf);
+		camel_mime_part_set_content (part, (gchar *) attach_rc.data, attach_rc.size, mimetype);
+		free(attach_rc.data);
 	}
 
 	return part;
@@ -771,6 +769,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	CamelMultipart *mp;
 	CamelMimePart *part;
 	CamelMessageInfo *info;
+	pst_item_attach *attach;
 
 	if (m->folder == NULL) {
 		pst_create_folder (m);
@@ -780,12 +779,12 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	msg = camel_mime_message_new ();
 
-	if (item->email->subject != NULL) {
+	if (item->subject.str != NULL) {
 		gchar *subj;
 
-		subj = string_to_utf8 (item->email->subject->subj);
+		subj = string_to_utf8 (item->subject.str);
 		if (subj == NULL) {
-			g_warning ("Could not convert email subject to utf8: %s", item->email->subject->subj);
+			g_warning ("Could not convert email subject to utf8: %s", item->subject.str);
 			camel_mime_message_set_subject (msg, "(lost subject)");
 		} else {
 			camel_mime_message_set_subject (msg, subj);
@@ -795,12 +794,12 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	addr = camel_internet_address_new ();
 
-	if (item->email->outlook_sender_name != NULL && item->email->outlook_sender != NULL) {
-		camel_internet_address_add (addr, item->email->outlook_sender_name, item->email->outlook_sender);
-	} else if (item->email->outlook_sender_name != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender_name);
-	} else if (item->email->outlook_sender != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender);
+	if (item->email->outlook_sender_name.str != NULL && item->email->outlook_sender.str != NULL) {
+		camel_internet_address_add (addr, item->email->outlook_sender_name.str, item->email->outlook_sender.str);
+	} else if (item->email->outlook_sender_name.str != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender_name.str);
+	} else if (item->email->outlook_sender.str != NULL) {
+		camel_address_decode (CAMEL_ADDRESS (addr), item->email->outlook_sender.str);
 	} else {
 		/* Evo prints a warning if no from is set, so supply an empty address */
 		camel_internet_address_add (addr, "", "");
@@ -810,38 +809,38 @@ pst_process_email (PstImporter *m, pst_item *item)
 	camel_object_unref (addr);
 
 	if (item->email->sent_date != NULL) {
-		camel_mime_message_set_date (msg, fileTimeToUnixTime (item->email->sent_date, 0), 0);
+		camel_mime_message_set_date (msg, pst_fileTimeToUnixTime (item->email->sent_date), 0);
 	}
 
-	if (item->email->messageid != NULL) {
-		camel_mime_message_set_message_id (msg, item->email->messageid);
+	if (item->email->messageid.str != NULL) {
+		camel_mime_message_set_message_id (msg, item->email->messageid.str);
 	}
 
-	if (item->email->header != NULL) {
+	if (item->email->header.str != NULL) {
 		/* Use mime parser to read headers */
 		CamelStream *stream;
 		/*g_debug ("  Email headers length=%zd", strlen (item->email->header));*/
 		/*g_message ("  Email headers... %s...", item->email->header);*/
 
-		stream = camel_stream_mem_new_with_buffer (item->email->header, strlen (item->email->header));
+		stream = camel_stream_mem_new_with_buffer (item->email->header.str, strlen (item->email->header.str));
 		if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)msg, stream) == -1)
 			g_warning ("Error reading headers, skipped");
 
 	} else {
 
-		if (item->email->sentto_address != NULL) {
+		if (item->email->sentto_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->sentto_address) > 0);
+			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->sentto_address.str) > 0);
 				camel_mime_message_set_recipients (msg, "To", addr);
 
 			camel_object_unref (addr);
 		}
 
-		if (item->email->cc_address != NULL) {
+		if (item->email->cc_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->cc_address) > 0);
+			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->cc_address.str) > 0);
 				camel_mime_message_set_recipients (msg, "CC", addr);
 
 			camel_object_unref (addr);
@@ -854,11 +853,11 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/mixed");
 
-	} else if (item->email->htmlbody && item->email->body) {
+	} else if (item->email->htmlbody.str && item->body.str) {
 
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/alternate");
 
-	} else if (item->email->htmlbody) {
+	} else if (item->email->htmlbody.str) {
 
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "text/html");
 
@@ -866,62 +865,56 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	camel_multipart_set_boundary (mp, NULL);
 
-	if (item->email->body != NULL) {
+	if (item->body.str != NULL) {
 		/* Read internet headers */
 
 		/*g_debug ("  Email body length=%zd", strlen (item->email->body));
 		g_message ("  Email body %100s...", item->email->body);*/
 
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, item->email->body, strlen (item->email->body), "text/plain");
+		camel_mime_part_set_content (part, item->body.str, strlen (item->body.str), "text/plain");
 		camel_multipart_add_part (mp, part);
 		camel_object_unref (part);
 	}
 
-	if (item->email->htmlbody != NULL) {
+	if (item->email->htmlbody.str != NULL) {
 		/*g_debug ("  HTML body length=%zd", strlen (item->email->htmlbody));*/
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, item->email->htmlbody, strlen (item->email->htmlbody), "text/html");
+		camel_mime_part_set_content (part, item->email->htmlbody.str, strlen (item->email->htmlbody.str), "text/html");
 		camel_multipart_add_part (mp, part);
 		camel_object_unref (part);
 	}
 
-	item->current_attach = item->attach;
-
-	while (item->current_attach != NULL) {
-		pst_item_attach *attach;
-
-		attach = item->current_attach;
-		part = attachment_to_part(m, attach);
-
-		camel_multipart_add_part (mp, part);
-		camel_object_unref (part);
-
-		item->current_attach = item->current_attach->next;
+	for (attach = item->attach; attach; attach = attach->next) {
+		if (attach->data.data || attach->i_id) {
+			part = attachment_to_part(m, attach);
+			camel_multipart_add_part (mp, part);
+			camel_object_unref (part);
+		}
 	}
 
 	/*camel_mime_message_dump (msg, TRUE);*/
 
-	if (item->email->htmlbody || item->attach) {
+	if (item->email->htmlbody.str || item->attach) {
 		camel_medium_set_content_object (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (mp));
-	} else if (item->email->body) {
-		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->email->body, strlen (item->email->body), "text/plain");
+	} else if (item->body.str) {
+		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), "text/plain");
 	} else {
 		g_warning ("Email without body. Subject:%s",
-				(item->email->subject->subj ? item->email->subject->subj : "(empty)"));
+				(item->subject.str ? item->subject.str : "(empty)"));
 		camel_mime_part_set_content (CAMEL_MIME_PART (msg), "\n", 1, "text/plain");
 	}
 
 	info = camel_message_info_new (NULL);
 
 	/* Read message flags (see comments in libpst.c */
-	if (item->email->flag && 0x01)
+	if(item->flags && 0x01)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	if (item->email->importance == 2)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_FLAGGED, ~0);
 
-	if (item->email->flag && 0x08)
+	if(item->flags && 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);
@@ -1001,7 +994,7 @@ contact_set_date (EContact *contact, EContactField id, FILETIME *date)
 		EContactDate *bday;
 		bday = e_contact_date_new ();
 
-		t1 = fileTimeToUnixTime (date, 0);
+		t1 = pst_fileTimeToUnixTime (date);
 		gmtime_r (&t1, &tm);
 
 		bday->year = tm.tm_year + 1900;
@@ -1024,84 +1017,84 @@ pst_process_contact (PstImporter *m, pst_item *item)
 
 	ec = e_contact_new ();
 	/* pst's fullname field only contains first, middle, surname */
-	if (c->display_name_prefix || c->suffix) {
+	if (c->display_name_prefix.str || c->suffix.str) {
 		GString *name = g_string_sized_new (128);
 
-		if (c->display_name_prefix) {
-			g_string_assign (name, c->display_name_prefix);
+		if (c->display_name_prefix.str) {
+			g_string_assign (name, c->display_name_prefix.str);
 		}
 
-		if (c->first_name) {
-			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->first_name);
+		if (c->first_name.str) {
+			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->first_name.str);
 		}
 
-		if (c->middle_name) {
-			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->middle_name);
+		if (c->middle_name.str) {
+			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->middle_name.str);
 		}
 
-		if (c->surname) {
-			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->surname);
+		if (c->surname.str) {
+			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->surname.str);
 		}
 
-		if (c->suffix) {
-			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->suffix);
+		if (c->surname.str) {
+			g_string_append_printf (name, "%s%s", (name->len ? " " : ""), c->surname.str);
 		}
 
 		contact_set_string (ec, E_CONTACT_FULL_NAME, name->str);
 		g_string_free (name, TRUE);
 
 	} else {
-		contact_set_string (ec, E_CONTACT_FULL_NAME, c->fullname);
+		contact_set_string (ec, E_CONTACT_FULL_NAME, c->fullname.str);
 	}
 
 	/* unknown_field (ec, notes, "initials", c->initials); */
 
-	contact_set_string (ec, E_CONTACT_NICKNAME, c->nickname);
+	contact_set_string (ec, E_CONTACT_NICKNAME, c->nickname.str);
 
-	contact_set_string (ec, E_CONTACT_ORG, c->company_name);
-	contact_set_string (ec, E_CONTACT_ORG_UNIT, c->department);
-	contact_set_string (ec, E_CONTACT_TITLE, c->job_title);
+	contact_set_string (ec, E_CONTACT_ORG, c->company_name.str);
+	contact_set_string (ec, E_CONTACT_ORG_UNIT, c->department.str);
+	contact_set_string (ec, E_CONTACT_TITLE, c->job_title.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_WORK,
-			    c->business_address, c->business_city, c->business_country,
-			    c->business_po_box, c->business_postal_code, c->business_state, c->business_street);
+			    c->business_address.str, c->business_city.str, c->business_country.str, 
+			    c->business_po_box.str, c->business_postal_code.str, c->business_state.str, c->business_street.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_HOME,
-			    c->home_address, c->home_city, c->home_country,
-			    c->home_po_box, c->home_postal_code, c->home_state, c->home_street);
+			    c->home_address.str, c->home_city.str, c->home_country.str, 
+			    c->home_po_box.str, c->home_postal_code.str, c->home_state.str, c->home_street.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_OTHER,
-			    c->other_address, c->other_city, c->other_country,
-			    c->other_po_box, c->other_postal_code, c->other_state, c->other_street);
+			    c->other_address.str, c->other_city.str, c->other_country.str, 
+			    c->other_po_box.str, c->other_postal_code.str, c->other_state.str, c->other_street.str);
 
-	contact_set_string (ec, E_CONTACT_PHONE_ASSISTANT, c->assistant_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_FAX, c->business_fax);
-	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS, c->business_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_2, c->business_phone2);
-	contact_set_string (ec, E_CONTACT_PHONE_CALLBACK, c->callback_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_CAR, c->car_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_COMPANY, c->company_main_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_HOME_FAX, c->home_fax);
-	contact_set_string (ec, E_CONTACT_PHONE_HOME, c->home_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_HOME_2, c->home_phone2);
-	contact_set_string (ec, E_CONTACT_PHONE_ISDN, c->isdn_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_MOBILE, c->mobile_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_OTHER_FAX, c->primary_fax);  /* ? */
-	contact_set_string (ec, E_CONTACT_PHONE_PAGER, c->pager_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_PRIMARY, c->primary_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_RADIO, c->radio_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_TTYTDD, c->ttytdd_phone);
-	contact_set_string (ec, E_CONTACT_PHONE_TELEX, c->telex);
-	unknown_field (ec, notes, "account_name", c->account_name);
+	contact_set_string (ec, E_CONTACT_PHONE_ASSISTANT, c->assistant_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_FAX, c->business_fax.str);
+	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS, c->business_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_BUSINESS_2, c->business_phone2.str);
+	contact_set_string (ec, E_CONTACT_PHONE_CALLBACK, c->callback_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_CAR, c->car_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_COMPANY, c->company_main_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_HOME_FAX, c->home_fax.str);
+	contact_set_string (ec, E_CONTACT_PHONE_HOME, c->home_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_HOME_2, c->home_phone2.str);
+	contact_set_string (ec, E_CONTACT_PHONE_ISDN, c->isdn_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_MOBILE, c->mobile_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_OTHER_FAX, c->primary_fax.str);  /* ? */
+	contact_set_string (ec, E_CONTACT_PHONE_PAGER, c->pager_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_PRIMARY, c->primary_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_RADIO, c->radio_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_TTYTDD, c->ttytdd_phone.str);
+	contact_set_string (ec, E_CONTACT_PHONE_TELEX, c->telex.str);
+	unknown_field (ec, notes, "account_name", c->account_name.str);
 	contact_set_date (ec, E_CONTACT_ANNIVERSARY, c->wedding_anniversary);
-	contact_set_string (ec, E_CONTACT_ASSISTANT, c->assistant_name);
-	unknown_field (ec, notes, "billing_information", c->billing_information);
+	contact_set_string (ec, E_CONTACT_ASSISTANT, c->assistant_name.str);
+	unknown_field (ec, notes, "billing_information", c->billing_information.str);
 	contact_set_date (ec, E_CONTACT_BIRTH_DATE, c->birthday);
 	/* contact_set_string (ec, E_CONTACT_CATEGORIES, c->??); */
 
-	contact_set_string (ec, E_CONTACT_EMAIL_1 , c->address1);
-	contact_set_string (ec, E_CONTACT_EMAIL_2 , c->address2);
-	contact_set_string (ec, E_CONTACT_EMAIL_3 , c->address3);
+	contact_set_string (ec, E_CONTACT_EMAIL_1 , c->address1.str);
+	contact_set_string (ec, E_CONTACT_EMAIL_2 , c->address2.str);
+	contact_set_string (ec, E_CONTACT_EMAIL_3 , c->address3.str);
 
 	/*unknown_field (ec, notes, "address1_desc" , c->address1_desc);
 	unknown_field (ec, notes, "address1_transport" , c->address1_transport);
@@ -1113,43 +1106,42 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	/*unknown_field (ec, notes, "def_postal_address", c->def_postal_address);*/
 
 	/* unknown_field (ec, ??, c->gender); */
-	unknown_field (ec, notes, "access_method", c->access_method);
-	unknown_field (ec, notes, "gov_id", c->gov_id);
-	unknown_field (ec, notes, "customer_id", c->customer_id);
-	unknown_field (ec, notes, "hobbies", c->hobbies);
-	unknown_field (ec, notes, "followup", c->followup);
+	unknown_field (ec, notes, "gov_id", c->gov_id.str);
+	unknown_field (ec, notes, "customer_id", c->customer_id.str);
+	unknown_field (ec, notes, "hobbies", c->hobbies.str);
+	unknown_field (ec, notes, "followup", c->followup.str);
 
-	contact_set_string (ec, E_CONTACT_FREEBUSY_URL , c->free_busy_address);
+	contact_set_string (ec, E_CONTACT_FREEBUSY_URL , c->free_busy_address.str);
 
-	unknown_field (ec, notes, "keyword", c->keyword);
-	unknown_field (ec, notes, "language", c->language);
-	unknown_field (ec, notes, "location", c->location);
-	contact_set_string (ec, E_CONTACT_OFFICE, c->office_loc);
-	unknown_field (ec, notes, "computer_name", c->computer_name);
-	unknown_field (ec, notes, "ftp_site", c->ftp_site);
+	unknown_field (ec, notes, "keyword", c->keyword.str);
+	unknown_field (ec, notes, "language", c->language.str);
+	unknown_field (ec, notes, "location", c->location.str);
+	contact_set_string (ec, E_CONTACT_OFFICE, c->office_loc.str);
+	unknown_field (ec, notes, "computer_name", c->computer_name.str);
+	unknown_field (ec, notes, "ftp_site", c->ftp_site.str);
 
-	contact_set_string (ec, E_CONTACT_MANAGER , c->manager_name);
-	unknown_field (ec, notes, "mileage", c->mileage);
-	unknown_field (ec, notes, "org_id", c->org_id);
-	contact_set_string (ec, E_CONTACT_ROLE, c->profession);
+	contact_set_string (ec, E_CONTACT_MANAGER , c->manager_name.str);
+	unknown_field (ec, notes, "mileage", c->mileage.str);
+	unknown_field (ec, notes, "org_id", c->org_id.str);
+	contact_set_string (ec, E_CONTACT_ROLE, c->profession.str);
 
-	contact_set_string (ec, E_CONTACT_SPOUSE , c->spouse_name);
+	contact_set_string (ec, E_CONTACT_SPOUSE , c->spouse_name.str);
 
-	if (c->personal_homepage) {
-		contact_set_string (ec, E_CONTACT_HOMEPAGE_URL , c->personal_homepage);
-		if (c->business_homepage) {
-			unknown_field (ec, notes, "business_homepage", c->business_homepage);
+	if (c->personal_homepage.str) {
+		contact_set_string (ec, E_CONTACT_HOMEPAGE_URL , c->personal_homepage.str);
+		if (c->business_homepage.str) {
+			unknown_field (ec, notes, "business_homepage", c->business_homepage.str);
 		}
-	} else if (c->business_homepage) {
-		contact_set_string (ec, E_CONTACT_HOMEPAGE_URL , c->business_homepage);
+	} else if (c->business_homepage.str) {
+		contact_set_string (ec, E_CONTACT_HOMEPAGE_URL , c->business_homepage.str);
 	}
 
-	if (item->comment) {
-		g_string_append_printf (notes, "%s\n", item->comment);
+	if (item->comment.str) {
+		g_string_append_printf (notes, "%s\n", item->comment.str);
 	}
 
-	if (item->email && item->email->body) {
-		g_string_append_printf (notes, "%s\n", item->email->body);
+	if (item->email && item->body.str) {
+		g_string_append_printf (notes, "%s\n", item->body.str);
 	}
 
 	contact_set_string (ec, E_CONTACT_NOTE, notes->str);
@@ -1172,24 +1164,11 @@ get_ical_date (FILETIME *date, gboolean is_date)
 	if (date && (date->dwLowDateTime || date->dwHighDateTime) ) {
 		time_t t;
 
-		t = fileTimeToUnixTime (date, 0);
+		t = pst_fileTimeToUnixTime (date);
 		return icaltime_from_timet_with_zone (t, is_date, NULL);
 	} else {
 		return icaltime_null_date ();
 	}
-}
-
-gchar *rfc2445_datetime_format (FILETIME *ft) {
-	static gchar * buffer = NULL;
-	struct tm *stm = NULL;
-
-	if (buffer == NULL) {
-		buffer = malloc (30); // should be enough
-	}
-
-	stm = fileTimeToStructTM (ft);
-	strftime (buffer, 30, "%Y%m%dT%H%M%SZ", stm);
-	return buffer;
 }
 
 static void
@@ -1313,19 +1292,19 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 	}
 
 	if (e) {
-		if (e->subject || e->proc_subject) {
-			if (e->subject) {
-				text.value = e->subject->subj;
-			} else if (e->proc_subject) {
-				text.value = e->proc_subject;
+		if (item->subject.str || e->processed_subject.str) {
+			if (item->subject.str) {
+				text.value = item->subject.str;
+			} else if (e->processed_subject.str) {
+				text.value = e->processed_subject.str;
 			}
 
 			text.altrep = NULL; /* email->proc_subject? */
 			e_cal_component_set_summary (ec, &text);
 		}
-		if (e->body) {
+		if (item->body.str) {
 			GSList l;
-			text.value = e->body;
+			text.value = item->body.str;
 			text.altrep = NULL;
 			l.data = &text;
 			l.next = NULL;
@@ -1335,8 +1314,8 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 		g_warning ("%s without subject / body!", type);
 	}
 
-	if (a->location) {
-		e_cal_component_set_location (ec, a->location);
+	if (a->location.str) {
+		e_cal_component_set_location (ec, a->location.str);
 	}
 
 	if (a->start) {
@@ -1403,7 +1382,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 		}
 
 		if (a->alarm) {
-			if (a->alarm_filename) {
+			if (a->alarm_filename.str) {
 				e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_AUDIO);
 			} else {
 				e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
@@ -1415,7 +1394,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 
 	}
 
-	if (a->recurrence != PST_APP_RECUR_NONE) {
+	if (a->recurrence_description.str != PST_APP_RECUR_NONE) {
 		struct icalrecurrencetype  r;
 		GSList recur_list;
 
@@ -1704,7 +1683,6 @@ pst_init (pst_file *pst, gchar *filename)
 	DEBUG_REGISTER_CLOSE ();
 #endif
 
-	DEBUG_ENT ("main");
 	if (pst_open (pst, filename) < 0) {
 		pst_error_msg ("Error opening PST file %s", filename);
 		return -1;
@@ -1735,7 +1713,7 @@ get_pst_rootname (pst_file *pst, gchar *filename)
 	pst_item *item = NULL;
 	gchar *rootname = NULL;
 
-	if ((item = pst_parse_item (pst, pst->d_head)) == NULL) {
+	if ((item = pst_parse_item (pst, pst->d_head, NULL)) == NULL) {
 		pst_error_msg ("Could not get root record");
 		return NULL;
 	}
@@ -1747,14 +1725,14 @@ get_pst_rootname (pst_file *pst, gchar *filename)
 	}
 
 	/* default the file_as to the same as the main filename if it doesn't exist */
-	if (item->file_as == NULL) {
+	if (item->file_as.str == NULL) {
 		if (filename == NULL) {
 			pst_freeItem (item);
 			return NULL;
 		}
 		rootname = g_path_get_basename (filename);
 	} else {
-		rootname = g_strdup (item->file_as);
+		rootname = g_strdup (item->file_as.str);
 	}
 
 	pst_freeItem (item);
