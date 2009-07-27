@@ -287,14 +287,17 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
 			clip_rect.x = day_view->day_offsets[day] - x;
 			clip_rect.y = 2 - y;
-			clip_rect.width = day_view->day_widths[day];
+			if (day_view->days_shown == 1)
+				clip_rect.width = day_view->top_canvas->allocation.width - day_view->day_offsets[day];
+			else
+				clip_rect.width = day_view->day_widths[day];
 			clip_rect.height = item_height - 2;
 
 			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
 			pango_layout_get_pixel_size (layout, &date_width, NULL);
-			date_x = day_view->day_offsets[day] + (day_view->day_widths[day] - date_width) / 2;
+			date_x = day_view->day_offsets[day] + (clip_rect.width - date_width) / 2;
 
 			gdk_draw_layout (drawable, fg_gc,
 					 date_x - x,
