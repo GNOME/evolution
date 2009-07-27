@@ -351,10 +351,10 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_object_set_data_full (G_OBJECT (menu_item), "LabelTag",
 						g_strdup (strncmp (label->tag, "$Label", 6) == 0 ? label->tag + 6 : label->tag),
 						g_free);
-		}
 
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+			gtk_widget_show (menu_item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+		}
 	}
 
 	for (i = 0; temp_view_items[i].search.id != -1; ++i) {

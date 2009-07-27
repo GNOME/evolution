@@ -42,7 +42,7 @@ create_uri (UrlEditorDialog *dialog)
 			g_free (uri->location);
 		uri->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 	} else {
-		const gchar *method;
+		const gchar *method = "file";
 		gchar *server, *file, *port, *username, *password;
 
 		server   = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));

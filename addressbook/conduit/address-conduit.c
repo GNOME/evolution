@@ -184,7 +184,7 @@ e_pilot_add_category_if_possible(gchar *cat_to_add, struct CategoryAppInfo *cate
 			retval = i;
 
 			if (cat_to_add_len > 15) {
-				gchar tmpstr[16];
+				gchar tmpstr[17];
 				strncpy(tmpstr, cat_to_add,16);
 				tmpstr[16] = '\0';
 				/* Have to truncate the category name */
