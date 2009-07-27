@@ -256,12 +256,29 @@ config_data_get_notify_with_tray (void)
  * triggered while it was not running.
  **/
 void
-config_data_set_last_notification_time (time_t t)
+config_data_set_last_notification_time (ECal *cal, time_t t)
 {
 	GConfClient *client;
 	time_t current_t, now = time (NULL);
 
 	g_return_if_fail (t != -1);
+
+	if (cal) {
+		ESource *source = e_cal_get_source (cal);
+		if (source) {
+			GTimeVal tmval = {0};
+			char *as_text;
+
+			tmval.tv_sec = (glong) t;
+			as_text = g_time_val_to_iso8601 (&tmval);
+
+			if (as_text) {
+				e_source_set_property (source, "last-notified", as_text);
+				g_free (as_text);
+				return;
+			}
+		}
+	}
 
 	if (!(client = config_data_get_conf_client ()))
 		return;
@@ -281,10 +298,26 @@ config_data_set_last_notification_time (time_t t)
  * Return value: The last saved value, or -1 if no value had been saved before.
  **/
 time_t
-config_data_get_last_notification_time (void)
+config_data_get_last_notification_time (ECal *cal)
 {
 	GConfValue *value;
 	GConfClient *client;
+
+	if (cal) {
+		ESource *source = e_cal_get_source (cal);
+		if (source) {
+			const gchar *last_notified = e_source_get_property (source, "last-notified");
+			GTimeVal tmval = {0};
+
+			if (last_notified && *last_notified && g_time_val_from_iso8601 (last_notified, &tmval)) {
+				time_t now = time (NULL), val = (time_t) tmval.tv_sec;
+
+				if (val > now)
+					val = now;
+				return val;
+			}
+		}
+	}
 
 	if (!(client = config_data_get_conf_client ()))
 		return -1;

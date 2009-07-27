@@ -61,12 +61,6 @@ static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
 /* Whether the queueing system has been initialized */
 static gboolean alarm_queue_inited = FALSE;
 
-/* When the alarm queue system is inited, this gets set to the last time an
- * alarm notification was issued.  This lets us present any notifications that
- * should have happened while the alarm daemon was not running.
- */
-static time_t saved_notification_time;
-
 /* Clients we are monitoring for alarms */
 static GHashTable *client_alarms_hash = NULL;
 
@@ -395,9 +389,8 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	cqa = data;
 	comp = cqa->alarms->comp;
 
-	config_data_set_last_notification_time (trigger);
+	config_data_set_last_notification_time (cqa->parent_client->client, trigger);
 	d(printf("%s:%d (alarm_trigger_cb) - Setting Last notification time to %s\n",__FILE__, __LINE__, ctime (&trigger)));
-	saved_notification_time = trigger;
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
 	if (!qa)
@@ -577,11 +570,11 @@ load_alarms_for_today (ClientAlarms *ca)
 	day_start = time_day_begin_with_zone (now, zone);
 
 	/* Make sure we don't miss some events from the last notification.
-	 * We add 1 to the saved_notification_time to make the time ranges
+	 * We add 1 to the saved notification time to make the time ranges
 	 * half-open; we do not want to display the "last" displayed alarm
 	 * twice, once when it occurs and once when the alarm daemon restarts.
 	 */
-	from = MAX (config_data_get_last_notification_time () + 1, day_start);
+	from = MAX (config_data_get_last_notification_time (ca->client) + 1, day_start);
 
 	day_end = time_day_end_with_zone (now, zone);
 	d(printf("%s:%d (load_alarms_for_today) - From %s to %s\n",__FILE__, __LINE__, ctime (&from), ctime(&day_end)));
@@ -713,7 +706,7 @@ query_objects_changed_async (struct _query_msg *msg)
 	ca = msg->data;
 	objects = msg->objects;
 
-	from = config_data_get_last_notification_time ();
+	from = config_data_get_last_notification_time (client);
 	if (from == -1)
 		from = time (NULL);
 	else
@@ -1847,11 +1840,10 @@ alarm_queue_init (gpointer data)
 	client_alarms_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	queue_midnight_refresh ();
 
-	saved_notification_time = config_data_get_last_notification_time ();
-	if (saved_notification_time == -1) {
-		saved_notification_time = time (NULL);
-		d(printf("%s:%d (alarm_queue_init) - Setting last notification time to %s\n",__FILE__, __LINE__, ctime(&saved_notification_time)));
-		config_data_set_last_notification_time (saved_notification_time);
+	if (config_data_get_last_notification_time (NULL) == -1) {
+		time_t tmval = time (NULL);
+		d(printf("%s:%d (alarm_queue_init) - Setting last notification time to %s\n",__FILE__, __LINE__, ctime(&tmval)));
+		config_data_set_last_notification_time (NULL, tmval);
 	}
 
 	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
