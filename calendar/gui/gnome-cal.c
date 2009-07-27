@@ -1542,8 +1542,6 @@ gnome_calendar_destroy (GtkObject *object)
 
 		g_mutex_free (priv->todo_update_lock);
 
-		g_mutex_free (priv->todo_update_lock);
-
 		g_free (priv);
 		gcal->priv = NULL;
 	}
