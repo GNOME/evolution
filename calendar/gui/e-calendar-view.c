@@ -1206,24 +1206,6 @@ on_new_task (EPopup *ep, EPopupItem *pitem, gpointer data)
 }
 
 static void
-on_goto_date (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	goto_dialog (cal_view->priv->calendar);
-}
-
-static void
-on_goto_today (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-#if 0  /* KILL-BONOBO */
-	ECalendarView *cal_view = data;
-
-	gnome_calendar_goto_today (cal_view->priv->calendar);
-#endif
-}
-
-static void
 on_edit_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
 {
 	ECalendarView *cal_view = data;
@@ -1279,28 +1261,6 @@ on_save_as (EPopup *ep, EPopupItem *pitem, gpointer data)
 	e_write_file_uri (filename, ical_string);
 	g_free (ical_string);
 
-	g_list_free (selected);
-}
-
-static void
-on_print_event (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-	ECalendarViewEvent *event;
-	ECalComponent *comp;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	event = (ECalendarViewEvent *) selected->data;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	print_comp (comp, event->comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-
-	g_object_unref (comp);
 	g_list_free (selected);
 }
 
@@ -1733,15 +1693,11 @@ static EPopupItem ecv_main_items [] = {
 	{ E_POPUP_BAR, (gchar *) "60." },
 	/* FIXME: hook in this somehow */
 	{ E_POPUP_SUBMENU, (gchar *) "60.view", (gchar *) N_("_Current View") },
-
-	{ E_POPUP_ITEM, (gchar *) "61.today", (gchar *) N_("Select T_oday"), on_goto_today, NULL, (gchar *) "go-today" },
-	{ E_POPUP_ITEM, (gchar *) "62.todate", (gchar *) N_("_Select Date..."), on_goto_date, NULL, (gchar *) GTK_STOCK_JUMP_TO },
 };
 
 static EPopupItem ecv_child_items [] = {
 	{ E_POPUP_ITEM, (gchar *) "00.open", (gchar *) N_("_Open"), on_edit_appointment, NULL, (gchar *) GTK_STOCK_OPEN, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "20.print", (gchar *) N_("Pri_nt..."), on_print_event, NULL, (gchar *) GTK_STOCK_PRINT, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, (gchar *) "30." },
 

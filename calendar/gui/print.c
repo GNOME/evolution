@@ -575,7 +575,6 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 		   gint titleflags, time_t greystart, time_t greyend,
 		   gint bordertitle)
 {
-#if 0  /* KILL-BONOBO */
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	PangoFontDescription *font, *font_bold, *font_normal;
 	time_t now, next;
@@ -701,7 +700,6 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	}
 	pango_font_description_free (font_normal);
 	pango_font_description_free (font_bold);
-#endif
 }
 
 /* wraps text into the print context, not taking up more than its allowed space */
@@ -1240,7 +1238,6 @@ static void
 print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
-#if 0  /* KILL-BONOBO */
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	EDayViewEvent *event;
 	PangoFontDescription *font;
@@ -1358,7 +1355,6 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	g_array_free (pdi.long_events, TRUE);
 	free_event_array (pdi.events[0]);
 	g_array_free (pdi.events[0], TRUE);
-#endif
 }
 
 /* Returns TRUE if the event is a one-day event (i.e. not a long event). */
@@ -1729,7 +1725,6 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 		    gint month, double font_size,
 		    double left, double right, double top, double bottom)
 {
-#if 0  /* KILL-BONOBO */
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	EWeekViewEvent *event;
 	struct psinfo psi;
@@ -1822,7 +1817,6 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	}
 	g_array_free (psi.events, TRUE);
 	g_array_free (spans, TRUE);
-#endif
 }
 
 /* XXX Evolution doesn't have a "year" view. */
@@ -2379,7 +2373,6 @@ print_calendar_draw_page (GtkPrintOperation *operation,
                           gint page_nr,
                           PrintCalItem *pcali)
 {
-#if 0 /* KILL-BONOBO */
 	switch (gnome_calendar_get_view (pcali->gcal)) {
 		case GNOME_CAL_DAY_VIEW:
 			print_day_view (context, pcali->gcal, pcali->start);
@@ -2394,14 +2387,12 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 		default:
 			g_return_if_reached ();
 	}
-#endif
 }
 
 void
 print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
                 time_t start)
 {
-#if 0  /* KILL-BONOBO */
 	GtkPrintOperation *operation;
 	PrintCalItem pcali;
 
@@ -2421,7 +2412,6 @@ print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
 	gtk_print_operation_run (operation, action, NULL, NULL);
 
 	g_object_unref (operation);
-#endif
 }
 
 /* returns number of required pages, when page_nr is -1 */
