@@ -30,7 +30,7 @@
 static void
 location_changed (GtkFileChooserButton *widget, ESource *source)
 {
-	char *filename;
+	gchar *filename;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (source != NULL);
@@ -129,7 +129,7 @@ maincheck_toggled (GtkToggleButton *check, ESource *source)
 	gtk_widget_set_sensitive (w, enabled);
 
 	if (enabled) {
-		char *file;
+		gchar *file;
 
 		w = g_object_get_data (G_OBJECT (check), "file-chooser");
 		file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (w));
@@ -145,7 +145,7 @@ refresh_type_changed (GtkComboBox *refresh_type, ESource *source)
 {
 	GtkWidget *spin, *combobox;
 	gint active = gtk_combo_box_get_active (refresh_type);
-	char buff[2] = {0};
+	gchar buff[2] = {0};
 
 	spin = g_object_get_data (G_OBJECT (refresh_type), "spin");
 	combobox = g_object_get_data (G_OBJECT (refresh_type), "combobox");
@@ -238,7 +238,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (w2), value);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (maincheck), TRUE);
 	} else {
-		char *uri = NULL;
+		gchar *uri = NULL;
 
 		switch (t->source_type) {
 		case E_CAL_SOURCE_TYPE_EVENT:

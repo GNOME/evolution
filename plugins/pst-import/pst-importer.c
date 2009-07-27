@@ -908,13 +908,13 @@ pst_process_email (PstImporter *m, pst_item *item)
 	info = camel_message_info_new (NULL);
 
 	/* Read message flags (see comments in libpst.c */
-	if(item->flags && 0x01)
+	if (item->flags && 0x01)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	if (item->email->importance == 2)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_FLAGGED, ~0);
 
-	if(item->flags && 0x08)
+	if (item->flags && 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);
@@ -1056,15 +1056,15 @@ pst_process_contact (PstImporter *m, pst_item *item)
 	contact_set_string (ec, E_CONTACT_TITLE, c->job_title.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_WORK,
-			    c->business_address.str, c->business_city.str, c->business_country.str, 
+			    c->business_address.str, c->business_city.str, c->business_country.str,
 			    c->business_po_box.str, c->business_postal_code.str, c->business_state.str, c->business_street.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_HOME,
-			    c->home_address.str, c->home_city.str, c->home_country.str, 
+			    c->home_address.str, c->home_city.str, c->home_country.str,
 			    c->home_po_box.str, c->home_postal_code.str, c->home_state.str, c->home_street.str);
 
 	contact_set_address (ec,E_CONTACT_ADDRESS_OTHER,
-			    c->other_address.str, c->other_city.str, c->other_country.str, 
+			    c->other_address.str, c->other_city.str, c->other_country.str,
 			    c->other_po_box.str, c->other_postal_code.str, c->other_state.str, c->other_street.str);
 
 	contact_set_string (ec, E_CONTACT_PHONE_ASSISTANT, c->assistant_phone.str);

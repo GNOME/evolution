@@ -1,3 +1,48 @@
+Evolution 2.27.5 2009-07-27
+---------------------------
+
+Bug Fixes:
+
+Calendar:
+	#266150 - In list view Delete option not working in menu and toolbar
+	(Milan Crha)
+	#572176 - Allow local iCal files to be selected as calendar source
+	(Milan Crha)
+	#583374 - The broken Google calendar import should be replaced by
+	the working CalDAV support (Milan Crha)
+	#583527 - Provide the option of sending an e-mail to meeting attendees
+	irrespective of the calendar backend (Chenthill Palanisamy)
+	#583972 - Resend meeting dialog isn't coming properly
+	(Chenthill Palanisamy)
+	#588856 - Google calendar backend to CalDAV migration code (Milan Crha)
+
+Contacts:
+	#589580 - Crashes when dragging an image to the contact editor
+	(Milan Crha)
+
+Mail:
+	#589494 - Doesn't print full list of recipients (Bharath Acharya)
+	#589412 - Misleading notice in message list when messages are hidden
+	(Milan Crha)
+
+Miscellaneous:
+	#578945 - Adapt to changes in libpst 0.6.41 (Bharath Acharya)
+	#588787 - Crash on search in an active account or all accounts
+	(Milan Crha)
+	#339361 (BNC) - soap threading not working. (Chenthill Palanisamy)
+	#472079 (BNC) - Cannot Edit Account When Proxy (Bharath Acharya)
+	#480095 (BNC) - Alpha Search In Proxy Dialog Crashes Evolution
+	(Bharath Acharya)
+
+Other Fixes:
+	Don't warn when NM support is explicitly disabled. (Matthew Barnes)
+	Make it possible to send/receive without dialog (Srinivasa Ragavan)
+
+Translations:
+	Mario Blättermann (de)
+	Daniel Nylander (sv)
+	Jorge González (es)
+
 Evolution 2.27.4 2009-07-15
 ---------------------------
 
