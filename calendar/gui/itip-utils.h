@@ -59,7 +59,8 @@ const gchar *itip_strip_mailto (const gchar *address);
 gchar *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
 
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
-			 ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users, gboolean strip_alarms);
+			 ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
+			 gboolean strip_alarms, gboolean only_new_attendees);
 
 gboolean itip_publish_comp (ECal *client, gchar * uri, gchar * username,
 			    gchar * password, ECalComponent **pub_comp);

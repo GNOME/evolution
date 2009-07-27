@@ -60,6 +60,7 @@
 #include "cancel-comp.h"
 #include "recur-comp.h"
 #include "comp-editor.h"
+#include "comp-editor-util.h"
 #include "../e-cal-popup.h"
 #include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
@@ -391,6 +392,7 @@ save_comp (CompEditor *editor)
 	timezones = g_hash_table_new (g_str_hash, g_str_equal);
 
 	clone = e_cal_component_clone (priv->comp);
+	comp_editor_copy_new_attendees (clone, priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
 			g_object_unref (clone);
@@ -520,7 +522,7 @@ save_comp_with_send (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
-	gboolean send;
+	gboolean send, delegated, only_new_attendees = FALSE;
 	gboolean delegate;
 	gboolean strip_alarms = TRUE;
 
@@ -542,7 +544,13 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms))) {
+	delegated = delegate && !e_cal_get_save_schedules (priv->client);
+	if (delegated || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms, !priv->existing_org ? NULL : &only_new_attendees))) {
+		if (delegated)
+			only_new_attendees = FALSE;
+
+		comp_editor_set_flags (editor, (comp_editor_get_flags (editor) & (~COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) | (only_new_attendees ? COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY : 0));
+
 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp, priv->client))) {
 			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH, strip_alarms);
@@ -2377,8 +2385,10 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 		priv->comp = NULL;
 	}
 
-	if (comp)
+	if (comp) {
 		priv->comp = e_cal_component_clone (comp);
+		comp_editor_copy_new_attendees (priv->comp, comp);
+	}
 
 	priv->existing_org = e_cal_component_has_organizer (comp);
 	priv->warned = FALSE;
@@ -2484,6 +2494,8 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 	if (!send_comp)
 		send_comp = e_cal_component_clone (priv->comp);
 
+	comp_editor_copy_new_attendees (send_comp, priv->comp);
+
 	if (e_cal_component_get_vtype (send_comp) == E_CAL_COMPONENT_JOURNAL)
 		get_users_from_memo_comp (send_comp, &users);
 
@@ -2498,7 +2510,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 	if (!e_cal_component_has_attachments (priv->comp)
 	  || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, NULL, users, strip_alarms)) {
+					NULL, NULL, users, strip_alarms, priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			g_object_unref (send_comp);
 			return TRUE;
 		}
@@ -2518,7 +2530,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 		/* mime_attach_list is freed by itip_send_comp */
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, mime_attach_list, users, strip_alarms)) {
+					NULL, mime_attach_list, users, strip_alarms, priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			gboolean saved = save_comp (editor);
 
 			g_object_unref (send_comp);
@@ -2588,6 +2600,7 @@ comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
 	priv = editor->priv;
 
 	comp = e_cal_component_clone (priv->comp);
+	comp_editor_copy_new_attendees (comp, priv->comp);
 	if (priv->changed) {
 		for (l = priv->pages; l != NULL; l = l->next)
 			all_ok = comp_editor_page_fill_component (l->data, comp) && all_ok;

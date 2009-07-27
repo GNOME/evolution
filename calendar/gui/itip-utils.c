@@ -35,6 +35,7 @@
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include <time.h>
+#include "dialogs/comp-editor-util.h"
 
 #include <composer/e-msg-composer.h>
 #include <mail/em-composer-utils.h>
@@ -428,7 +429,7 @@ comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 }
 
 static EDestination **
-comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users, gboolean reply_all)
+comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users, gboolean reply_all, const GSList *only_attendees)
 {
 	ECalComponentOrganizer organizer;
 	GSList *attendees, *l;
@@ -483,6 +484,8 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
+			else if (only_attendees && !comp_editor_have_in_new_attendees_lst (only_attendees, itip_strip_mailto (att->value)))
+				continue;
 
 			destination = e_destination_new ();
 			if (att->cn != NULL)
@@ -513,6 +516,8 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 				ECalComponentAttendee *att = l->data;
 
 				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
+					continue;
+				else if (only_attendees && !comp_editor_have_in_new_attendees_lst (only_attendees, itip_strip_mailto (att->value)))
 					continue;
 
 				destination = e_destination_new ();
@@ -1192,7 +1197,8 @@ append_cal_attachments (EMsgComposer *composer,
 
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users, gboolean strip_alarms)
+		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
+		gboolean strip_alarms, gboolean only_new_attendees)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -1231,7 +1237,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		goto cleanup;
 
 	/* Recipients */
-	destinations = comp_to_list (method, comp, users, FALSE);
+	destinations = comp_to_list (method, comp, users, FALSE, only_new_attendees ? g_object_get_data (G_OBJECT (send_comp), "new-attendees") : NULL);
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (destinations == NULL) {
 			/* We sent them all via the server */
@@ -1346,7 +1352,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		goto cleanup;
 
 	/* Recipients */
-	destinations = comp_to_list (method, comp, users, reply_all);
+	destinations = comp_to_list (method, comp, users, reply_all, NULL);
 
 	/* Subject information */
 	subject = comp_subject (method, comp);

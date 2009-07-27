@@ -639,10 +639,11 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboo
 
 		client = e_meeting_store_get_e_cal (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-				client, NULL, NULL, NULL, strip_alarms);
+				client, NULL, NULL, NULL, strip_alarms, FALSE);
 		g_object_unref (comp);
 
-		return result;
+		if (!result)
+			return result;
 	}
 
  parent:
