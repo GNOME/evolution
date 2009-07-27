@@ -277,6 +277,7 @@ plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in
 plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml
 plugins/caldav/caldav-source.c
 plugins/caldav/org-gnome-evolution-caldav.eplug.xml
+plugins/calendar-file/calendar-file.c
 plugins/calendar-file/org-gnome-calendar-file.eplug.xml
 plugins/calendar-http/calendar-http.c
 plugins/calendar-http/org-gnome-calendar-http.eplug.xml
