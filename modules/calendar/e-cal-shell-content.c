@@ -177,6 +177,9 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 		if (GNOME_CANVAS (day_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
+		if (GTK_WIDGET_HAS_FOCUS (day_view))
+			return FOCUS_CALENDAR;
+
 	} else if (E_IS_WEEK_VIEW (calendar_view)) {
 		EWeekView *week_view = E_WEEK_VIEW (calendar_view);
 
@@ -186,11 +189,17 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 		if (GNOME_CANVAS (week_view->main_canvas)->focused_item != NULL)
 			return FOCUS_CALENDAR;
 
+		if (GTK_WIDGET_HAS_FOCUS (week_view))
+			return FOCUS_CALENDAR;
+
 	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
 		ECalListView *list_view = E_CAL_LIST_VIEW (widget);
 
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
 		if (GTK_WIDGET_HAS_FOCUS (table))
+			return FOCUS_CALENDAR;
+
+		if (GTK_WIDGET_HAS_FOCUS (list_view))
 			return FOCUS_CALENDAR;
 	}
 

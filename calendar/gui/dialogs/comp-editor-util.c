@@ -35,7 +35,6 @@
 #include "e-util/e-binding.h"
 #include "widgets/misc/e-dateedit.h"
 #include "../calendar-config.h"
-#include "../e-date-edit-config.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"
 

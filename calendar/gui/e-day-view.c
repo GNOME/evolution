@@ -2112,9 +2112,11 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		g_array_remove_index (day_view->long_events, event_num);
 		day_view->long_events_need_layout = TRUE;
+		gtk_widget_grab_focus (GTK_WIDGET (day_view->top_canvas));
 	} else {
 		g_array_remove_index (day_view->events[day], event_num);
 		day_view->need_layout[day] = TRUE;
+		gtk_widget_grab_focus (GTK_WIDGET (day_view->main_canvas));
 	}
 	return TRUE;
 }
