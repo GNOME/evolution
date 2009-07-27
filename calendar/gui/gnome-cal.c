@@ -96,8 +96,6 @@ struct _GnomeCalendarPrivate {
 
 	/* Widgets */
 
-	GtkWidget   *search_bar;
-
 	GtkWidget   *hpane;
 	GtkWidget   *notebook;
 	GtkWidget   *vpane;
@@ -800,14 +798,17 @@ update_query (GnomeCalendar *gcal)
 	message_push ((Message *) msg);
 }
 
-static void
-set_search_query (GnomeCalendar *gcal, const gchar *sexp)
+void
+gnome_calendar_set_search_query (GnomeCalendar *gcal,
+                                 const gchar *sexp,
+                                 gboolean range_search,
+                                 time_t start_range,
+                                 time_t end_range)
 {
 	GnomeCalendarPrivate *priv;
 	gint i;
 	time_t start, end;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (sexp != NULL);
 
@@ -815,10 +816,12 @@ set_search_query (GnomeCalendar *gcal, const gchar *sexp)
 
 	/* Set the query on the date navigator */
 
-	if (priv->sexp)
-		g_free (priv->sexp);
-
+	g_free (priv->sexp);
 	priv->sexp = g_strdup (sexp);
+
+	priv->lview_select_daten_range = range_search;
+	start = start_range;
+	end = end_range;
 
 	d(g_print ("Changing the queries %s \n", sexp));
 
@@ -829,7 +832,6 @@ set_search_query (GnomeCalendar *gcal, const gchar *sexp)
 	/* Set the query on the views */
 	if (i == GNOME_CAL_LIST_VIEW) {
 		if (!priv->lview_select_daten_range) {
-			cal_search_bar_get_time_range ((CalSearchBar *)priv->search_bar, &start, &end);
 			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views [i]), sexp, start, end);
 		} else {
 			start = priv->base_view_time;
@@ -865,50 +867,6 @@ get_current_time (ECalendarItem *calitem, gpointer data)
 	tmp_tm = icaltimetype_to_tm (&tt);
 
 	return tmp_tm;
-}
-
-/* Callback used when the sexp changes in the calendar search bar */
-static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const gchar *sexp, gpointer data)
-{
-	GnomeCalendar *gcal;
-	const gchar *d_sexp = "occur-in-time-range?";
-
-	gcal = GNOME_CALENDAR (data);
-
-	/* Choose List view if the search made in the search bar is based on date */
-	if (sexp != NULL && strstr (sexp, d_sexp ) != NULL) {
-		gcal->priv->lview_select_daten_range = FALSE;
-		gtk_widget_hide (GTK_WIDGET (gcal->priv->date_navigator));
-		gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
-	} else {
-		gcal->priv->lview_select_daten_range = TRUE;
-		gtk_widget_show (GTK_WIDGET (gcal->priv->date_navigator));
-	}
-
-	set_search_query (gcal, sexp);
-}
-
-/* Callback used when the selected category in the search bar changes */
-static void
-search_bar_category_changed_cb (CalSearchBar *cal_search, const gchar *category, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	ECalModel *model;
-	gint i;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-		e_calendar_view_set_default_category (E_CALENDAR_VIEW (priv->views[i]),
-						 category);
-	}
-
-	/* [KILL-BONOBO] Delete this when moved to ECalShellView.
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	e_cal_model_set_default_category (model, category); */
 }
 
 static void
@@ -1248,29 +1206,6 @@ month_view_adjustment_changed_cb (GtkAdjustment *adjustment, GnomeCalendar *gcal
 }
 
 static void
-categories_changed_cb (gpointer object, gpointer user_data)
-{
-	GList *cat_list;
-	GPtrArray *cat_array;
-	GnomeCalendarPrivate *priv;
-	GnomeCalendar *gcal = user_data;
-
-	priv = gcal->priv;
-
-	cat_array = g_ptr_array_new ();
-	cat_list = e_categories_get_list ();
-	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const gchar *) cat_list->data))
-			g_ptr_array_add (cat_array, cat_list->data);
-		cat_list = g_list_remove (cat_list, cat_list->data);
-	}
-
-	cal_search_bar_set_categories ((CalSearchBar *)priv->search_bar, cat_array);
-
-	g_ptr_array_free (cat_array, TRUE);
-}
-
-static void
 view_progress_cb (ECalModel *model, const gchar *message, gint percent, ECalSourceType type, GnomeCalendar *gcal)
 {
 	if (type == E_CAL_SOURCE_TYPE_EVENT)
@@ -1320,16 +1255,6 @@ setup_widgets (GnomeCalendar *gcal)
 	gchar *tmp;
 
 	priv = gcal->priv;
-
-	priv->search_bar = cal_search_bar_new (CAL_SEARCH_CALENDAR_DEFAULT);
-	g_signal_connect (priv->search_bar, "sexp_changed",
-			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
-	g_signal_connect (priv->search_bar, "category_changed",
-			  G_CALLBACK (search_bar_category_changed_cb), gcal);
-	categories_changed_cb (NULL, gcal);
-
-	gtk_widget_show (priv->search_bar);
-	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 6);
 
 	/* The main HPaned, with the notebook of calendar views on the left
 	   and the ECalendar and ToDo list on the right. */
@@ -1485,8 +1410,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	if (non_intrusive_error_table == NULL)
 		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
-	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), gcal);
-
 	priv->todo_update_lock = g_mutex_new ();
 
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
@@ -1527,8 +1450,6 @@ gnome_calendar_destroy (GtkObject *object)
 	if (priv) {
 		GList *l;
 		gint i;
-
-		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
 		/* Clean up the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
@@ -2658,9 +2579,6 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
 
-	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
-	e_cal_component_set_categories (comp, category);
-
 	dt.value = &itt;
 	dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (model));
 
@@ -3143,14 +3061,6 @@ gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal)
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	return GTK_WIDGET(gcal->priv->date_navigator);
-}
-
-GtkWidget *
-gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal)
-{
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	return GTK_WIDGET(gcal->priv->search_bar);
 }
 
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)

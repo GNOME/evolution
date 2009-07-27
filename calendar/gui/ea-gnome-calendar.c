@@ -260,7 +260,7 @@ ea_gnome_calendar_get_n_children (AtkObject* obj)
 
 	if (!GTK_ACCESSIBLE (obj)->widget)
 		return -1;
-	return 4;
+	return 3;
 }
 
 static AtkObject *
@@ -283,14 +283,6 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 
 	switch (i) {
 	case 0:
-		/* for the search bar */
-		childWidget = gnome_calendar_get_search_bar_widget (calendarWidget);
-		child = gtk_widget_get_accessible (childWidget);
-		atk_object_set_parent (child, obj);
-		atk_object_set_name (child, _("search bar"));
-		atk_object_set_description (child, _("evolution calendar search bar"));
-		break;
-	case 1:
 		/* for the day/week view */
 		view_type = gnome_calendar_get_view (calendarWidget);
 		view = gnome_calendar_get_calendar_view (calendarWidget, view_type);
@@ -298,12 +290,12 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		child = gtk_widget_get_accessible (childWidget);
 		atk_object_set_parent (child, obj);
 		break;
-	case 2:
+	case 1:
 		/* for calendar */
 		childWidget = gnome_calendar_get_e_calendar_widget (calendarWidget);
 		child = gtk_widget_get_accessible (childWidget);
 		break;
-	case 3:
+	case 2:
 		/* for todo list */
 		childWidget = GTK_WIDGET (gnome_calendar_get_task_pad (calendarWidget));
 		child = gtk_widget_get_accessible (childWidget);

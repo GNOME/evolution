@@ -46,10 +46,6 @@ etspec_DATA =				\
 
 noinst_LTLIBRARIES = libcal-gui.la
 
-# Removed from SOURCES
-#	cal-search-bar.c
-# 	cal-search-bar.h
-
 libcal_gui_la_SOURCES =		\
 	e-attachment-handler-calendar.c		\
 	e-attachment-handler-calendar.h		\

@@ -412,7 +412,7 @@ e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	GtkAction *action;
+	GtkRadioAction *action;
 	GString *string;
 	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
@@ -432,8 +432,8 @@ e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 	text = e_shell_content_get_search_text (shell_content);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	action = ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS);
-	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
+	value = gtk_radio_action_get_current_value (action);
 
 	if (text == NULL || *text == '\0') {
 		text = "";

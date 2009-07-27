@@ -112,6 +112,11 @@ gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ESource *source)
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
+void		gnome_calendar_set_search_query	(GnomeCalendar *gcal,
+						 const gchar *sexp,
+						 gboolean range_search,
+						 time_t start_range,
+						 time_t end_range);
 
 void       gnome_calendar_next		(GnomeCalendar *gcal);
 void       gnome_calendar_previous		(GnomeCalendar *gcal);
@@ -129,7 +134,6 @@ struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 							 GnomeCalendarViewType view_type);
 
 GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal);
-GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
