@@ -56,8 +56,8 @@ static void
 real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const gchar *uid, gboolean archived, gboolean touch)
 {
 	gchar *new_uid;
-	guint32 *new_pid;
-	EPilotMapPidNode *pnode;
+	guint32 *new_pid = NULL;
+	EPilotMapPidNode *pnode = NULL;
 	EPilotMapUidNode *unode;
 
 	g_return_if_fail (map != NULL);

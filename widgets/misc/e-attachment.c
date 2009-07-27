@@ -2250,7 +2250,7 @@ attachment_save_new_candidate (SaveContext *save_context)
 	GFile *candidate;
 	GFileInfo *file_info;
 	EAttachment *attachment;
-	const gchar *display_name;
+	const gchar *display_name = NULL;
 	gchar *basename;
 
 	attachment = save_context->attachment;

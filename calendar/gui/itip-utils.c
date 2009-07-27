@@ -1345,8 +1345,8 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users = NULL;
-	gchar *from;
-	gchar *subject;
+	gchar *from = NULL;
+	gchar *subject = NULL;
 	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
 
