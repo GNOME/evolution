@@ -367,7 +367,7 @@ sensitize_items(BonoboUIComponent *uic, struct _sensitize_item *items, guint32 m
 
 static struct _sensitize_item calendar_sensitize_table[] = {
 	{ "EventOpen", E_CAL_MENU_SELECT_ONE },
-	{ "Cut", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Cut", E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ANY },
 	{ "Copy", E_CAL_MENU_SELECT_ANY },
 	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
 	{ "Delete", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_NONRECURRING },
@@ -413,7 +413,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 
 	t = e_cal_menu_target_new_select(menu, model, events);
 	if (!enable)
-		t->target.mask = ~0;
+		t->target.mask = ~((~t->target.mask) & E_CAL_MENU_SELECT_EDITABLE);
 
 	sensitize_items(uic, calendar_sensitize_table, t->target.mask);
 #if 0
@@ -429,7 +429,7 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 }
 
 static struct _sensitize_item taskpad_sensitize_table[] = {
-	{ "Cut", E_CAL_MENU_SELECT_EDITABLE },
+	{ "Cut", E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ANY },
 	{ "Copy", E_CAL_MENU_SELECT_ANY },
 	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
 	{ "Delete", E_CAL_MENU_SELECT_EDITABLE },
@@ -465,7 +465,7 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 
 	t = e_cal_menu_target_new_select(menu, model, events);
 	if (!enable)
-		t->target.mask = ~0;
+		t->target.mask = ~((~t->target.mask) & E_CAL_MENU_SELECT_EDITABLE);
 
 	sensitize_items(uic, taskpad_sensitize_table, t->target.mask);
 }

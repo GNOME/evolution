@@ -766,7 +766,8 @@ get_focus_location (GnomeCalendar *gcal)
 			if (GTK_WIDGET_HAS_FOCUS (dv->top_canvas)
 			    || GNOME_CANVAS (dv->top_canvas)->focused_item != NULL
 			    || GTK_WIDGET_HAS_FOCUS (dv->main_canvas)
-			    || GNOME_CANVAS (dv->main_canvas)->focused_item != NULL)
+			    || GNOME_CANVAS (dv->main_canvas)->focused_item != NULL
+			    || GTK_WIDGET_HAS_FOCUS (dv))
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
@@ -776,7 +777,8 @@ get_focus_location (GnomeCalendar *gcal)
 			wv = E_WEEK_VIEW (widget);
 
 			if (GTK_WIDGET_HAS_FOCUS (wv->main_canvas)
-			    || GNOME_CANVAS (wv->main_canvas)->focused_item != NULL)
+			    || GNOME_CANVAS (wv->main_canvas)->focused_item != NULL
+			    || GTK_WIDGET_HAS_FOCUS (wv))
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
@@ -784,7 +786,8 @@ get_focus_location (GnomeCalendar *gcal)
 		case GNOME_CAL_LIST_VIEW:
 			lv = E_CAL_LIST_VIEW (widget);
 
-			if (GTK_WIDGET_HAS_FOCUS (e_table_scrolled_get_table (lv->table_scrolled)))
+			if (GTK_WIDGET_HAS_FOCUS (e_table_scrolled_get_table (lv->table_scrolled))
+			    || GTK_WIDGET_HAS_FOCUS (lv))
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
