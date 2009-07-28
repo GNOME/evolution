@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-04 04:57+0200\n"
-"PO-Revision-Date: 2006-08-04 09:55+0100\n"
+"POT-Creation-Date: 2009-07-28 20:47+0200\n"
+"PO-Revision-Date: 2009-07-28 20:48+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -652,7 +652,7 @@ msgstr "Kopiera bokinnehåll lokalt för frånkopplad åtgärd"
 #: ../calendar/gui/dialogs/calendar-setup.c:391
 #: ../mail/em-folder-properties.c:222
 #: ../mail/mail-config.glade.h:86
-#: ../plugins/itip-formatter/itip-formatter.c:2010
+#: ../plugins/itip-formatter/itip-formatter.c:2014
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Allmänt"
@@ -1265,7 +1265,7 @@ msgstr "_Födelsedag:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: ../calendar/gui/dialogs/event-page.c:875
 #: ../calendar/gui/dialogs/event-page.glade.h:16
-#: ../plugins/itip-formatter/itip-view.c:1654
+#: ../plugins/itip-formatter/itip-view.c:1656
 msgid "_Calendar:"
 msgstr "_Kalender:"
 
@@ -2513,7 +2513,7 @@ msgstr "_Välj adressbok"
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact list (%s) ?"
+"to delete contact list (%s)?"
 msgstr ""
 "Är du säker på att du vill\n"
 "ta bort kontaktlistan (%s)?"
@@ -2530,7 +2530,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Are you sure you want\n"
-"to delete contact (%s) ?"
+"to delete contact (%s)?"
 msgstr ""
 "Är du säker på att du vill\n"
 "ta bort kontakten (%s)?"
@@ -2815,7 +2815,7 @@ msgstr "Källkod"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:486
+#: ../calendar/gui/e-meeting-list-view.c:487
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -3058,7 +3058,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:497
+#: ../calendar/gui/e-meeting-list-view.c:498
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:725
 msgid "Role"
@@ -3338,7 +3338,7 @@ msgstr "Protokollet stöds inte"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
 #: ../calendar/gui/e-cal-component-preview.c:234
 #: ../calendar/gui/e-cal-model-tasks.c:349
-#: ../calendar/gui/e-cal-model-tasks.c:657
+#: ../calendar/gui/e-cal-model-tasks.c:664
 #: ../calendar/gui/e-calendar-table.c:462
 #: ../calendar/gui/print.c:2385
 msgid "Canceled"
@@ -3547,6 +3547,7 @@ msgstr "VCard för %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:1033
 #: ../addressbook/gui/widgets/eab-gui-util.c:1051
+#, c-format
 msgid "Contact information"
 msgstr "Kontaktinformation"
 
@@ -4286,7 +4287,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "Kunde inte skriva pilotens att-göra-programblock"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2001
+#: ../plugins/itip-formatter/itip-formatter.c:2005
 msgid "Calendar and Tasks"
 msgstr "Kalender och uppgifter"
 
@@ -4402,7 +4403,7 @@ msgstr "Möten"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1267
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1273
 #: ../calendar/gui/e-itip-control.c:1113
-#: ../plugins/itip-formatter/itip-view.c:882
+#: ../plugins/itip-formatter/itip-view.c:884
 msgid "Location:"
 msgstr "Plats:"
 
@@ -5935,28 +5936,28 @@ msgstr "_Lägg till "
 msgid "Unable to open the calendar '%s'."
 msgstr "Kan inte öppna kalendern \"%s\"."
 
-#: ../calendar/gui/dialogs/event-page.c:2927
+#: ../calendar/gui/dialogs/event-page.c:2928
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d dag före möte"
 msgstr[1] "%d dagar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2935
+#: ../calendar/gui/dialogs/event-page.c:2934
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d timme före möte"
 msgstr[1] "%d timmar före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2943
+#: ../calendar/gui/dialogs/event-page.c:2940
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minut före möte"
 msgstr[1] "%d minuter före möte"
 
-#: ../calendar/gui/dialogs/event-page.c:2959
+#: ../calendar/gui/dialogs/event-page.c:2953
 msgid "Customize"
 msgstr "Anpassa"
 
@@ -5965,9 +5966,9 @@ msgstr "Anpassa"
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/event-page.c:2964
+#: ../calendar/gui/dialogs/event-page.c:2958
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
-#: ../calendar/gui/e-cal-model-tasks.c:649
+#: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-itip-control.c:1099
 #: ../composer/e-msg-composer.c:2271
 #: ../filter/filter-rule.c:889
@@ -5978,7 +5979,7 @@ msgstr "Anpassa"
 #: ../plugins/calendar-weather/calendar-weather.c:370
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:1698
+#: ../plugins/itip-formatter/itip-formatter.c:1702
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: ../widgets/misc/e-cell-date-edit.c:249
 #: ../widgets/misc/e-dateedit.c:475
@@ -6092,14 +6093,14 @@ msgstr "Medlem"
 # http://bugzilla.ximian.com/show_bug.cgi?id=61071
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:509
+#: ../calendar/gui/e-meeting-list-view.c:510
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "OSA"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:521
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
@@ -6185,18 +6186,22 @@ msgid "Task List Name"
 msgstr "Namn på uppgiftslista"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
+#, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Du ändrar ett återkommande evenemang. Vad vill du ändra?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
+#, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Du delegerar ett återkommande evenemang. Vad vill du delegera?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:58
+#, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Du ändrar en återkommande uppgift. Vad vill du ändra?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:62
+#, c-format
 msgid "You are modifying a recurring journal entry. What would you like to modify?"
 msgstr "Du ändrar en återkommande dagsbokspost. Vad vill du ändra?"
 
@@ -6390,7 +6395,7 @@ msgstr "<span weight=\"bold\">Status</span>"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:4
 #: ../calendar/gui/e-cal-component-preview.c:231
 #: ../calendar/gui/e-cal-model-tasks.c:347
-#: ../calendar/gui/e-cal-model-tasks.c:655
+#: ../calendar/gui/e-cal-model-tasks.c:662
 #: ../calendar/gui/e-calendar-table.c:461
 #: ../calendar/gui/e-itip-control.c:891
 #: ../calendar/gui/e-meeting-store.c:193
@@ -6410,8 +6415,8 @@ msgstr "Hög"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:6
 #: ../calendar/gui/e-cal-component-preview.c:228
 #: ../calendar/gui/e-cal-model-tasks.c:345
-#: ../calendar/gui/e-cal-model-tasks.c:653
-#: ../calendar/gui/e-cal-model-tasks.c:728
+#: ../calendar/gui/e-cal-model-tasks.c:660
+#: ../calendar/gui/e-cal-model-tasks.c:735
 #: ../calendar/gui/e-calendar-table.c:460
 #: ../calendar/gui/print.c:2379
 msgid "In Progress"
@@ -6435,7 +6440,7 @@ msgstr "Normal"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:9
 #: ../calendar/gui/e-cal-component-preview.c:238
 #: ../calendar/gui/e-cal-model-tasks.c:343
-#: ../calendar/gui/e-cal-model-tasks.c:651
+#: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:459
 #: ../calendar/gui/print.c:2376
 msgid "Not Started"
@@ -6667,7 +6672,7 @@ msgstr "Förfallodatum:"
 #: ../calendar/gui/e-cal-component-preview.c:224
 #: ../calendar/gui/e-itip-control.c:1127
 #: ../plugins/exchange-operations/exchange-account-setup.c:269
-#: ../plugins/itip-formatter/itip-view.c:907
+#: ../plugins/itip-formatter/itip-view.c:909
 msgid "Status:"
 msgstr "Status:"
 
@@ -6730,7 +6735,7 @@ msgstr "Ledig"
 msgid "Busy"
 msgstr "Upptagen"
 
-#: ../calendar/gui/e-cal-model-tasks.c:603
+#: ../calendar/gui/e-cal-model-tasks.c:610
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -6740,7 +6745,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1005
+#: ../calendar/gui/e-cal-model-tasks.c:1012
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:165
@@ -6750,7 +6755,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Ja"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1005
+#: ../calendar/gui/e-cal-model-tasks.c:1012
 #: ../calendar/gui/e-cal-model.c:924
 #: ../calendar/gui/e-meeting-list-view.c:194
 #: ../calendar/gui/e-meeting-store.c:177
@@ -6772,7 +6777,7 @@ msgstr "Nej"
 #: ../calendar/gui/e-meeting-store.c:221
 #: ../mail/em-utils.c:1309
 #: ../plugins/itip-formatter/itip-formatter.c:240
-#: ../plugins/itip-formatter/itip-formatter.c:1723
+#: ../plugins/itip-formatter/itip-formatter.c:1727
 #: ../plugins/plugin-manager/plugin-manager.c:68
 #: ../widgets/misc/e-attachment-bar.c:669
 #: ../widgets/misc/e-charset-picker.c:63
@@ -7263,10 +7268,10 @@ msgstr "iCalendar-fel"
 #: ../calendar/gui/e-itip-control.c:1049
 #: ../calendar/gui/e-itip-control.c:1060
 #: ../calendar/gui/e-itip-control.c:1077
-#: ../plugins/itip-formatter/itip-view.c:338
-#: ../plugins/itip-formatter/itip-view.c:339
-#: ../plugins/itip-formatter/itip-view.c:406
-#: ../plugins/itip-formatter/itip-view.c:407
+#: ../plugins/itip-formatter/itip-view.c:340
+#: ../plugins/itip-formatter/itip-view.c:341
+#: ../plugins/itip-formatter/itip-view.c:408
+#: ../plugins/itip-formatter/itip-view.c:409
 msgid "An unknown person"
 msgstr "En okänd person"
 
@@ -7280,13 +7285,13 @@ msgstr "<br> Granska följande information, och välj sedan en åtgärd från me
 #: ../calendar/gui/e-meeting-store.c:185
 #: ../calendar/gui/e-meeting-store.c:208
 #: ../calendar/gui/itip-utils.c:669
-#: ../plugins/itip-formatter/itip-formatter.c:1711
+#: ../plugins/itip-formatter/itip-formatter.c:1715
 msgid "Accepted"
 msgstr "Godtaget"
 
 #: ../calendar/gui/e-itip-control.c:1136
 #: ../calendar/gui/itip-utils.c:672
-#: ../plugins/itip-formatter/itip-formatter.c:1714
+#: ../plugins/itip-formatter/itip-formatter.c:1718
 msgid "Tentatively Accepted"
 msgstr "Preliminärt godtaget"
 
@@ -7296,7 +7301,7 @@ msgstr "Preliminärt godtaget"
 #: ../calendar/gui/e-meeting-store.c:210
 #: ../calendar/gui/itip-utils.c:675
 #: ../calendar/gui/itip-utils.c:704
-#: ../plugins/itip-formatter/itip-formatter.c:1717
+#: ../plugins/itip-formatter/itip-formatter.c:1721
 msgid "Declined"
 msgstr "Avslaget"
 
@@ -7511,7 +7516,7 @@ msgid "Attendee status updated\n"
 msgstr "Deltagarstatus är uppdaterad\n"
 
 #: ../calendar/gui/e-itip-control.c:1974
-#: ../plugins/itip-formatter/itip-formatter.c:1080
+#: ../plugins/itip-formatter/itip-formatter.c:1084
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Deltagarstatusen kan inte uppdateras eftersom objektet inte längre finns"
 
@@ -7691,12 +7696,12 @@ msgstr "Preliminärt"
 #: ../calendar/gui/e-meeting-store.c:191
 #: ../calendar/gui/e-meeting-store.c:214
 #: ../calendar/gui/itip-utils.c:678
-#: ../plugins/itip-formatter/itip-formatter.c:1720
+#: ../plugins/itip-formatter/itip-formatter.c:1724
 msgid "Delegated"
 msgstr "Delegerat"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:470
+#: ../calendar/gui/e-meeting-list-view.c:471
 msgid "Attendee                          "
 msgstr "Deltagare                         "
 
@@ -8098,6 +8103,7 @@ msgstr ""
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:765
 #: ../calendar/gui/migration.c:933
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Kan inte migrera gamla inställningar från evolution/config.xmldb"
 
@@ -13684,6 +13690,7 @@ msgid "Waiting..."
 msgstr "Väntar..."
 
 #: ../mail/mail-send-recv.c:709
+#, c-format
 msgid "Checking for new mail"
 msgstr "Kontrollerar ny e-post"
 
@@ -14291,7 +14298,7 @@ msgstr "?"
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../mail/message-list.c:1348
-#: ../plugins/itip-formatter/itip-view.c:198
+#: ../plugins/itip-formatter/itip-view.c:200
 #: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Idag %l.%M"
@@ -15660,142 +15667,142 @@ msgid "Could not open the Evolution calendar/todo list to export data."
 msgstr "Kunde inte öppna Evolutions kalender-/att-göra-lista för att exportera data."
 
 #: ../plugins/itip-formatter/itip-formatter.c:274
-#: ../plugins/itip-formatter/itip-formatter.c:392
+#: ../plugins/itip-formatter/itip-formatter.c:396
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "Misslyckades med att läsa in kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:407
+#: ../plugins/itip-formatter/itip-formatter.c:411
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Ett möte i kalendern \"%s\" är i konflikt med detta sammanträde"
 
-#: ../plugins/itip-formatter/itip-formatter.c:433
+#: ../plugins/itip-formatter/itip-formatter.c:437
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "Hittade mötet i kalendern \"%s\""
 
-#: ../plugins/itip-formatter/itip-formatter.c:494
+#: ../plugins/itip-formatter/itip-formatter.c:498
 msgid "Unable to find any calendars"
 msgstr "Kunde inte hitta några kalendrar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:501
+#: ../plugins/itip-formatter/itip-formatter.c:505
 msgid "Unable to find this meeting in any calendar"
 msgstr "Kunde inte hitta detta sammanträde i någon kalender"
 
-#: ../plugins/itip-formatter/itip-formatter.c:505
+#: ../plugins/itip-formatter/itip-formatter.c:509
 msgid "Unable to find this task in any task list"
 msgstr "Kunde inte hitta denna uppgift i någon uppgiftslista"
 
-#: ../plugins/itip-formatter/itip-formatter.c:509
+#: ../plugins/itip-formatter/itip-formatter.c:513
 msgid "Unable to find this journal entry in any journal"
 msgstr "Kunde inte hitta den här dagboksposten i någon dagbok"
 
-#: ../plugins/itip-formatter/itip-formatter.c:582
+#: ../plugins/itip-formatter/itip-formatter.c:586
 msgid "Searching for an existing version of this appointment"
 msgstr "Söker efter en existerande version av detta möte"
 
-#: ../plugins/itip-formatter/itip-formatter.c:777
+#: ../plugins/itip-formatter/itip-formatter.c:781
 msgid "Unable to parse item"
 msgstr "Kan inte tolka objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:833
+#: ../plugins/itip-formatter/itip-formatter.c:837
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Kan inte skicka objekt till kalendern \"%s\". %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:844
+#: ../plugins/itip-formatter/itip-formatter.c:848
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "Skickade till kalendern \"%s\" som accepterat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:848
+#: ../plugins/itip-formatter/itip-formatter.c:852
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "Skickade till kalendern \"%s\" som preliminärt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:853
+#: ../plugins/itip-formatter/itip-formatter.c:857
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "Skickade till kalendern \"%s\" som avslaget"
 
-#: ../plugins/itip-formatter/itip-formatter.c:858
+#: ../plugins/itip-formatter/itip-formatter.c:862
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "Skickade till kalendern \"%s\" som avbrutet"
 
-#: ../plugins/itip-formatter/itip-formatter.c:951
+#: ../plugins/itip-formatter/itip-formatter.c:955
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organisatören har tagit bort delegaten %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:958
+#: ../plugins/itip-formatter/itip-formatter.c:962
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Skickade ett avbokningsmeddelande till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:960
+#: ../plugins/itip-formatter/itip-formatter.c:964
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Kunde inte skicka en avbokningsnotering till delegaten"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1045
+#: ../plugins/itip-formatter/itip-formatter.c:1049
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Deltagarstatus kunde inte uppdateras eftersom statusen är ogiltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1072
+#: ../plugins/itip-formatter/itip-formatter.c:1076
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Kan inte uppdatera deltagare. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1076
+#: ../plugins/itip-formatter/itip-formatter.c:1080
 msgid "Attendee status updated"
 msgstr "Deltagarstatusen är uppdaterad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1203
+#: ../plugins/itip-formatter/itip-formatter.c:1207
 msgid "The calendar attached is not valid"
 msgstr "Den bifogade kalendern är inte giltig"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1204
+#: ../plugins/itip-formatter/itip-formatter.c:1208
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Meddelandet påstår sig innehålla en kalender, men kalendern är inte en giltig iCalendar."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1238
-#: ../plugins/itip-formatter/itip-formatter.c:1253
-#: ../plugins/itip-formatter/itip-formatter.c:1329
+#: ../plugins/itip-formatter/itip-formatter.c:1242
+#: ../plugins/itip-formatter/itip-formatter.c:1257
+#: ../plugins/itip-formatter/itip-formatter.c:1333
 msgid "The item in the calendar is not valid"
 msgstr "Objektet i kalendern är inte giltigt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1239
-#: ../plugins/itip-formatter/itip-formatter.c:1254
-#: ../plugins/itip-formatter/itip-formatter.c:1330
+#: ../plugins/itip-formatter/itip-formatter.c:1243
+#: ../plugins/itip-formatter/itip-formatter.c:1258
+#: ../plugins/itip-formatter/itip-formatter.c:1334
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Meddelandet innehåller en kalender, men kalendern innehåller inga händelser, uppgifter eller ledig-/upptageninformation"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1264
+#: ../plugins/itip-formatter/itip-formatter.c:1268
 msgid "The calendar attached contains multiple items"
 msgstr "Den bifogade kalendern innehåller flera objekt"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1265
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "För att kunna behandla alla dessa objekt bör filen sparas och kalendern importeras"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2026
+#: ../plugins/itip-formatter/itip-formatter.c:2030
 msgid "_Delete message after acting"
 msgstr "_Ta bort meddelande efter åtgärd"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2036
-#: ../plugins/itip-formatter/itip-formatter.c:2068
+#: ../plugins/itip-formatter/itip-formatter.c:2040
+#: ../plugins/itip-formatter/itip-formatter.c:2072
 msgid "Conflict Search"
 msgstr "Konfliktsökning"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2051
+#: ../plugins/itip-formatter/itip-formatter.c:2055
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Välj de kalendrar som ska genomsökas efter sammanträdeskonflikter"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:184
+#: ../plugins/itip-formatter/itip-view.c:186
 #: ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:241
 #: ../widgets/misc/e-dateedit.c:467
@@ -15804,356 +15811,356 @@ msgstr "Idag"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:189
+#: ../plugins/itip-formatter/itip-view.c:191
 msgid "Today %H:%M"
 msgstr "Idag %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:193
+#: ../plugins/itip-formatter/itip-view.c:195
 msgid "Today %H:%M:%S"
 msgstr "Idag %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:202
+#: ../plugins/itip-formatter/itip-view.c:204
 msgid "Today %l:%M:%S %p"
 msgstr "Idag %l.%M.%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:212
+#: ../plugins/itip-formatter/itip-view.c:214
 msgid "Tomorrow"
 msgstr "Imorgon"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:217
+#: ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow %H:%M"
 msgstr "Imorgon %H.%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:221
+#: ../plugins/itip-formatter/itip-view.c:223
 msgid "Tomorrow %H:%M:%S"
 msgstr "Imorgon %H.%M.%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:226
+#: ../plugins/itip-formatter/itip-view.c:228
 msgid "Tomorrow %l:%M %p"
 msgstr "Imorgon %l.%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:230
+#: ../plugins/itip-formatter/itip-view.c:232
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Imorgon %l.%M.%S %p"
 
 #. strftime format of a weekday.
-#: ../plugins/itip-formatter/itip-view.c:249
+#: ../plugins/itip-formatter/itip-view.c:251
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:254
+#: ../plugins/itip-formatter/itip-view.c:256
 msgid "%A %H:%M"
 msgstr "%A %H.%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:258
+#: ../plugins/itip-formatter/itip-view.c:260
 msgid "%A %H:%M:%S"
 msgstr "%A %H.%M.%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:263
+#: ../plugins/itip-formatter/itip-view.c:265
 msgid "%A %l:%M %p"
 msgstr "%a %l.%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:267
+#: ../plugins/itip-formatter/itip-view.c:269
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l.%M.%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
-#: ../plugins/itip-formatter/itip-view.c:276
+#: ../plugins/itip-formatter/itip-view.c:278
 msgid "%A, %B %e"
 msgstr "%A %e %B"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:282
+#: ../plugins/itip-formatter/itip-view.c:284
 msgid "%A, %B %e %H:%M"
 msgstr "%A %e %B %H.%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:286
+#: ../plugins/itip-formatter/itip-view.c:288
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A %e %B %H.%M.%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:291
+#: ../plugins/itip-formatter/itip-view.c:293
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A %e %B %l.%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:295
+#: ../plugins/itip-formatter/itip-view.c:297
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A %e %B %l.%M.%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:301
+#: ../plugins/itip-formatter/itip-view.c:303
 msgid "%A, %B %e, %Y"
 msgstr "%A %e %B %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:306
+#: ../plugins/itip-formatter/itip-view.c:308
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A %e %B %Y %H.%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:310
+#: ../plugins/itip-formatter/itip-view.c:312
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A %e %B %Y %H.%M.%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:315
+#: ../plugins/itip-formatter/itip-view.c:317
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A %e %B %Y %l.%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:319
+#: ../plugins/itip-formatter/itip-view.c:321
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A %e %B %Y %l.%M.%S %p"
 
-#: ../plugins/itip-formatter/itip-view.c:344
+#: ../plugins/itip-formatter/itip-view.c:346
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> har genom %s publicerat följande sammanträdesinformation:"
 
-#: ../plugins/itip-formatter/itip-view.c:346
+#: ../plugins/itip-formatter/itip-view.c:348
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> har publicerat följande sammanträdesinformation:"
 
-#: ../plugins/itip-formatter/itip-view.c:351
+#: ../plugins/itip-formatter/itip-view.c:353
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
 msgstr "<b>%s</b> har delegerat följande sammanträde till dig:"
 
-#: ../plugins/itip-formatter/itip-view.c:354
+#: ../plugins/itip-formatter/itip-view.c:356
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> begär genom %s din närvaro vid följande sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:356
+#: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> begär din närvaro vid följande sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:362
+#: ../plugins/itip-formatter/itip-view.c:364
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> vill genom %s lägga till i ett befintligt sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:364
+#: ../plugins/itip-formatter/itip-view.c:366
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:367
+#: ../plugins/itip-formatter/itip-view.c:369
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> vill få den senaste informationen för följande sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:370
+#: ../plugins/itip-formatter/itip-view.c:372
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> har skickat tillbaka följande sammanträdessvar:"
 
-#: ../plugins/itip-formatter/itip-view.c:374
+#: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgstr "<b>%s</b> har genom %s avbokat följande sammanträde:"
 
-#: ../plugins/itip-formatter/itip-view.c:376
+#: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> has canceled the following meeting."
 msgstr "<b>%s</b> har avbokat följande sammanträde."
 
-#: ../plugins/itip-formatter/itip-view.c:379
+#: ../plugins/itip-formatter/itip-view.c:381
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> har föreslagit följande sammanträdesändringar."
 
-#: ../plugins/itip-formatter/itip-view.c:383
+#: ../plugins/itip-formatter/itip-view.c:385
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> har genom %s avslagit följande sammanträdesändringar:"
 
-#: ../plugins/itip-formatter/itip-view.c:385
+#: ../plugins/itip-formatter/itip-view.c:387
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> har avslagit följande sammanträdesändringar."
 
-#: ../plugins/itip-formatter/itip-view.c:412
+#: ../plugins/itip-formatter/itip-view.c:414
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> har genom %s publicerat följande uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:414
+#: ../plugins/itip-formatter/itip-view.c:416
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> har publicerat följande uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:419
+#: ../plugins/itip-formatter/itip-view.c:421
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> begär att %s tilldelas följande uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:422
+#: ../plugins/itip-formatter/itip-view.c:424
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> har genom %s tilldelat dig en uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:424
+#: ../plugins/itip-formatter/itip-view.c:426
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> har tilldelat dig en uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:430
+#: ../plugins/itip-formatter/itip-view.c:432
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> genom %s önskar att lägga till i en befintlig uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:432
+#: ../plugins/itip-formatter/itip-view.c:434
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s</b> vill lägga till i en befintlig uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:435
+#: ../plugins/itip-formatter/itip-view.c:437
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following assigned task:"
 msgstr "<b>%s</b> vill få den senaste informationen för följande tilldelade uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:438
+#: ../plugins/itip-formatter/itip-view.c:440
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> har skickat tillbaka följande svar på en tilldelad uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:442
+#: ../plugins/itip-formatter/itip-view.c:444
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgstr "<b>%s</b> har genom %s avbokat följande tilldelade uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:444
+#: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> has canceled the following assigned task:"
 msgstr "<b>%s</b> har avbokat följande tilldelade uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:447
+#: ../plugins/itip-formatter/itip-view.c:449
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> har föreslagit följande ändringar i uppgiftstilldelningen:"
 
-#: ../plugins/itip-formatter/itip-view.c:451
+#: ../plugins/itip-formatter/itip-view.c:453
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr "<b>%s</b> har genom %s avslagit följande tilldelade uppgift:"
 
-#: ../plugins/itip-formatter/itip-view.c:453
+#: ../plugins/itip-formatter/itip-view.c:455
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> har avslagit följande tilldelade uppgift:"
 
 #. Everything gets the open button
-#: ../plugins/itip-formatter/itip-view.c:705
+#: ../plugins/itip-formatter/itip-view.c:707
 msgid "_Open Calendar"
 msgstr "_Öppna kalender"
 
 #. FIXME Is this really the right button?
-#: ../plugins/itip-formatter/itip-view.c:710
+#: ../plugins/itip-formatter/itip-view.c:712
+#: ../plugins/itip-formatter/itip-view.c:717
+#: ../plugins/itip-formatter/itip-view.c:722
+#: ../plugins/itip-formatter/itip-view.c:738
+#: ../plugins/itip-formatter/itip-view.c:743
+msgid "_Accept"
+msgstr "_Acceptera"
+
+#: ../plugins/itip-formatter/itip-view.c:715
+msgid "_Decline all"
+msgstr "A_vslå alla"
+
 #: ../plugins/itip-formatter/itip-view.c:715
 #: ../plugins/itip-formatter/itip-view.c:720
 #: ../plugins/itip-formatter/itip-view.c:736
 #: ../plugins/itip-formatter/itip-view.c:741
-msgid "_Accept"
-msgstr "_Acceptera"
-
-#: ../plugins/itip-formatter/itip-view.c:713
-msgid "_Decline all"
-msgstr "A_vslå alla"
-
-#: ../plugins/itip-formatter/itip-view.c:713
-#: ../plugins/itip-formatter/itip-view.c:718
-#: ../plugins/itip-formatter/itip-view.c:734
-#: ../plugins/itip-formatter/itip-view.c:739
 msgid "_Decline"
 msgstr "A_vslå"
 
-#: ../plugins/itip-formatter/itip-view.c:714
+#: ../plugins/itip-formatter/itip-view.c:716
 msgid "_Tentative all"
 msgstr "_Preliminärt alla"
 
-#: ../plugins/itip-formatter/itip-view.c:714
-#: ../plugins/itip-formatter/itip-view.c:719
-#: ../plugins/itip-formatter/itip-view.c:735
-#: ../plugins/itip-formatter/itip-view.c:740
+#: ../plugins/itip-formatter/itip-view.c:716
+#: ../plugins/itip-formatter/itip-view.c:721
+#: ../plugins/itip-formatter/itip-view.c:737
+#: ../plugins/itip-formatter/itip-view.c:742
 msgid "_Tentative"
 msgstr "_Preliminärt"
 
-#: ../plugins/itip-formatter/itip-view.c:715
+#: ../plugins/itip-formatter/itip-view.c:717
 msgid "_Accept all"
 msgstr "_Acceptera alla"
 
 #. FIXME Is this really the right button?
-#: ../plugins/itip-formatter/itip-view.c:724
+#: ../plugins/itip-formatter/itip-view.c:726
 msgid "_Send Information"
 msgstr "_Skicka information"
 
 #. FIXME Is this really the right button?
-#: ../plugins/itip-formatter/itip-view.c:728
+#: ../plugins/itip-formatter/itip-view.c:730
 msgid "_Update Attendee Status"
 msgstr "_Uppdatera svarandestatus"
 
-#: ../plugins/itip-formatter/itip-view.c:731
+#: ../plugins/itip-formatter/itip-view.c:733
 msgid "_Update"
 msgstr "_Uppdatera"
 
 #. Start time
-#: ../plugins/itip-formatter/itip-view.c:890
+#: ../plugins/itip-formatter/itip-view.c:892
 msgid "Start time:"
 msgstr "Starttid:"
 
 #. End time
-#: ../plugins/itip-formatter/itip-view.c:899
+#: ../plugins/itip-formatter/itip-view.c:901
 msgid "End time:"
 msgstr "Sluttid:"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:915
-#: ../plugins/itip-formatter/itip-view.c:965
+#: ../plugins/itip-formatter/itip-view.c:917
+#: ../plugins/itip-formatter/itip-view.c:967
 msgid "Comment:"
 msgstr "Kommentar: "
 
-#: ../plugins/itip-formatter/itip-view.c:979
+#: ../plugins/itip-formatter/itip-view.c:981
 msgid "Send u_pdates to attendees"
 msgstr "Skicka u_ppdateringar till deltagare"
 
-#: ../plugins/itip-formatter/itip-view.c:988
+#: ../plugins/itip-formatter/itip-view.c:990
 msgid "A_pply to all instances"
 msgstr "_Tillämpa på alla instanser"
 
@@ -16167,7 +16174,7 @@ msgstr "Itip-formatör"
 
 # FIXME: The whitespace before the colon ought to be bug reported.
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-msgid "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate &quot;{1}&quot; ?"
+msgid "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate &quot;{1}&quot;?"
 msgstr "&quot;{0}&quot; har delegerat sammanträdet. Vill du lägga till delegaten &quot;{1}&quot;?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
@@ -16819,6 +16826,7 @@ msgstr "Från %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:235
 #: ../shell/e-shell-importer.c:511
+#, c-format
 msgid "Importing data."
 msgstr "Importerar data."
 
