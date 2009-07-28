@@ -160,7 +160,7 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	if (strcmp (property_name, "destinations-to") == 0)
+	if (composer_lite && strcmp (property_name, "destinations-to") == 0)
 		parent = g_object_get_data (
 			G_OBJECT (header->input_widget), "parent");
 	else
