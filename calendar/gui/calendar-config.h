@@ -277,4 +277,7 @@ gboolean calendar_config_get_month_scroll_by_week (void);
 void calendar_config_set_month_scroll_by_week (gboolean value);
 guint calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data);
 
+/* default count for recurring events */
+gint calendar_config_get_default_count (void);
+
 #endif /* _CALENDAR_CONFIG_H_ */

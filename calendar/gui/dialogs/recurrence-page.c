@@ -437,7 +437,7 @@ clear_widgets (RecurrencePage *rpage)
 	g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	priv->ending_date_tt = icaltime_today ();
-	priv->ending_count = 1;
+	priv->ending_count = calendar_config_get_default_count ();
 
 	g_signal_handlers_block_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_combo_box_set (priv->ending_combo,
