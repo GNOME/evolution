@@ -1002,3 +1002,18 @@ calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gp
 
 	return id;
 }
+
+/* default count for recurring events */
+gint
+calendar_config_get_default_count (void)
+{
+	gint res;
+
+	calendar_config_init ();
+
+	res = gconf_client_get_int (config, CALENDAR_CONFIG_DEF_RECUR_COUNT, NULL);
+	if (res <= 0)
+		res = 2;
+
+	return res;
+}
