@@ -1722,7 +1722,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	 */
 	event = em_event_peek ();
 	target = em_event_target_new_message (
-		event, folder, message, message_uid, 0);
+		event, folder, message, message_uid, 0, NULL);
 	e_event_emit (
 		(EEvent *) event, "message.reading",
 		(EEventTarget *) target);

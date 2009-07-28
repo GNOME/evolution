@@ -712,7 +712,7 @@ em_utils_compose_new_message (const gchar *fromuri)
  * Opens a new composer window as a child window of @parent's toplevel
  * window.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_compose_lite_new_message (const gchar *fromuri)
 {
 	GtkWidget *composer;
@@ -723,7 +723,7 @@ em_utils_compose_lite_new_message (const gchar *fromuri)
 
 	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
 
-	return (struct _EMsgComposer *)composer;
+	return E_MSG_COMPOSER (composer);
 }
 
 /**
@@ -1033,14 +1033,14 @@ setup_forward_attached_callbacks (EMsgComposer *composer, CamelFolder *folder, G
 	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_fad_cb, fad);
 }
 
-static void
+static EMsgComposer *
 forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, CamelMimePart *part, gchar *subject, const gchar *fromuri)
 {
 	EMsgComposer *composer;
 
 	composer = create_new_composer (subject, fromuri, FALSE);
 	if (composer == NULL)
-		return;
+		return NULL;
 
 	e_msg_composer_attach (composer, part);
 
@@ -1049,7 +1049,10 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	if (!e_msg_composer_get_lite())
+		gtk_widget_show (GTK_WIDGET (composer));
+
+	return composer;
 }
 
 static void
@@ -1199,7 +1202,7 @@ em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids, const gchar *from
  *
  * Forwards a message in the user's configured default style.
  **/
-void
+EMsgComposer *
 em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 {
 	GPtrArray *messages;
@@ -1207,7 +1210,7 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 	GConfClient *gconf;
 	gchar *subject;
 	gint mode;
-
+	EMsgComposer *composer = NULL;
 	messages = g_ptr_array_new ();
 	g_ptr_array_add (messages, message);
 
@@ -1221,7 +1224,7 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 
 		subject = mail_tool_generate_forward_subject (message);
 
-		forward_attached (NULL, NULL, messages, part, subject, fromuri);
+		composer = forward_attached (NULL, NULL, messages, part, subject, fromuri);
 		camel_object_unref (part);
 		g_free (subject);
 		break;
@@ -1234,6 +1237,8 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 	}
 
 	g_ptr_array_free (messages, TRUE);
+
+	return composer;
 }
 
 /**
@@ -2311,7 +2316,7 @@ reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *messag
  * may be supplied in order to update the message flags once it has
  * been replied to.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source)
 {
 	CamelInternetAddress *to, *cc;
@@ -2336,18 +2341,6 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	}
 
 	g_return_val_if_fail(message != NULL, NULL);
-
-	/** @Event: message.replying
-	 * @Title: Message being replied to
-	 * @Target: EMEventTargetMessage
-	 *
-	 * message.replying is emitted when a user starts replying to a message.
-	 */
-
-	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, message, uid,
-					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL : 0);
-	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
 
 	to = camel_internet_address_new();
 	cc = camel_internet_address_new();

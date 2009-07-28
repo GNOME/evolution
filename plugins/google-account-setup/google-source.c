@@ -36,6 +36,7 @@
 #include <e-util/e-plugin.h>
 
 #include <calendar/gui/e-cal-config.h>
+#include <calendar/gui/e-cal-event.h>
 
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
@@ -49,19 +50,19 @@
 
 #include "google-contacts-source.h"
 
+#define GOOGLE_BASE_URI "google://"
 #define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
 #define URL_GET_SUBSCRIBED_CALENDARS "://www.google.com/calendar/feeds/default/allcalendars/full"
+#define CALENDAR_CALDAV_URI "caldav://%s@www.google.com/calendar/dav/%s/events"
 
 #define d(x)
 
 /*****************************************************************************/
 /* prototypes */
-gint              e_plugin_lib_enable      (EPluginLib                 *ep,
-					   gint                         enable);
-
-GtkWidget *      plugin_google               (EPlugin                    *epl,
-					   EConfigHookItemFactoryData *data);
+gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
+void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetModule *data);
 
 /*****************************************************************************/
 /* plugin intialization */
@@ -76,7 +77,7 @@ ensure_google_source_group (void)
 		return;
 	}
 
-	e_source_list_ensure_group (slist, _("Google"), "google://", FALSE);
+	e_source_list_ensure_group (slist, _("Google"), GOOGLE_BASE_URI, FALSE);
 	g_object_unref (slist);
 }
 
@@ -96,6 +97,22 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 }
 
 /********************************************************************************************************************/
+
+static gchar *
+decode_at_back (const gchar *user)
+{
+	gchar *res, *at;
+
+	g_return_val_if_fail (user != NULL, NULL);
+
+	res = g_strdup (user);
+	while (at = strstr (res, "%40"), at != NULL) {
+		*at = '@';
+		memmove (at + 1, at + 3, strlen (at + 3) + 1);
+	}
+
+	return res;
+}
 
 static gboolean
 is_email (const gchar *address)
@@ -118,7 +135,9 @@ sanitize_user_mail (const gchar *user)
 	if (!user)
 		return NULL;
 
-	if (!is_email (user)) {
+	if (strstr (user, "%40") != NULL) {
+		return g_strdup (user);
+	} else if (!is_email (user)) {
 		return g_strconcat (user, "%40gmail.com", NULL);
 	} else {
 		gchar *tmp = g_malloc0 (sizeof (gchar) * (1 + strlen (user) + 2));
@@ -190,30 +209,93 @@ is_default_uri (const gchar *given_uri, const gchar *username)
 	return res;
 }
 
+static void
+update_source_uris (ESource *source, const gchar *uri)
+{
+	gchar *abs_uri, *tmp, *user_sanitized, *slash;
+	const gchar *user, *feeds;
+
+	g_return_if_fail (source != NULL);
+	g_return_if_fail (uri != NULL);
+
+	/* this also changes an absolute uri */
+	e_source_set_relative_uri (source, uri);
+
+	user = e_source_get_property (source, "username");
+	g_return_if_fail (user != NULL);
+
+	feeds = strstr (uri, "/feeds/");
+	g_return_if_fail (feeds != NULL);
+	feeds += 7;
+
+	user_sanitized = sanitize_user_mail (user);
+	/* no "%40" in the URL path for caldav, really */
+	tmp = decode_at_back (feeds);
+
+	slash = strchr (tmp, '/');
+	if (slash)
+		*slash = '\0';
+
+	abs_uri = g_strdup_printf (CALENDAR_CALDAV_URI, user_sanitized, tmp);
+	e_source_set_absolute_uri (source, abs_uri);
+
+	g_free (abs_uri);
+	g_free (tmp);
+	g_free (user_sanitized);
+}
+
 static void init_combo_values (GtkComboBox *combo, const gchar *deftitle, const gchar *defuri);
 
 static void
-user_changed (GtkEntry *editable, ESource *source)
+update_user_in_source (ESource *source, const gchar *new_user)
 {
-	gchar       *uri;
-	const gchar *user, *ssl;
+	gchar       *uri, *eml, *user;
+	const gchar *ssl;
+
+	/* to ensure it will not be freed before the work with it is done */
+	user = g_strdup (new_user);
 
 	/* two reasons why set readonly to FALSE:
 	   a) the e_source_set_relative_uri does nothing for readonly sources
 	   b) we are going to set default uri, which should be always writeable */
 	e_source_set_readonly (source, FALSE);
 
+	if (user && *user) {
+		/* store the non-encoded email in the "username" property */
+		if (strstr (user, "@") == NULL && strstr (user, "%40") == NULL)
+			eml = g_strconcat (user, "@gmail.com", NULL);
+		else
+			eml = decode_at_back (user);
+	} else {
+		eml = NULL;
+	}
+
+	/* set username first, as it's used in update_source_uris */
+	e_source_set_property (source, "username", eml);
+
 	ssl = e_source_get_property (source, "ssl");
-	user = gtk_entry_get_text (GTK_ENTRY (editable));
 	uri = construct_default_uri (user, !ssl || g_str_equal (ssl, "1"));
-	e_source_set_relative_uri (source, uri);
+	update_source_uris (source, uri);
 	g_free (uri);
 
-	e_source_set_property (source, "username", user);
-	e_source_set_property (source, "protocol", "google");
-	e_source_set_property (source, "auth-domain", "google");
+	/* "setup-username" is used to this plugin only, to keep what user wrote,
+	   not what uses the backend */
+	e_source_set_property (source, "setup-username", user);
 	e_source_set_property (source, "auth", (user && *user) ? "1" : NULL);
 	e_source_set_property (source, "googlename", NULL);
+
+	/* delete obsolete properties */
+	e_source_set_property (source, "protocol", NULL);
+	e_source_set_property (source, "auth-domain", NULL);
+
+	g_free (eml);
+	g_free (user);
+}
+
+static void
+user_changed (GtkEntry *editable, ESource *source)
+{
+	update_user_in_source (source, gtk_entry_get_text (GTK_ENTRY (editable)));
 
 	/* we changed user, thus reset the chosen calendar combo too, because
 	   other user means other calendars subscribed */
@@ -361,11 +443,13 @@ cal_combo_changed (GtkComboBox *combo, ESource *source)
 
 		/* first set readonly to FALSE, otherwise if TRUE, then e_source_set_readonly does nothing */
 		e_source_set_readonly (source, FALSE);
-		e_source_set_relative_uri (source, uri);
+		update_source_uris (source, uri);
 		e_source_set_readonly (source, readonly);
 		e_source_set_property (source, "googlename", title);
-		e_source_set_property (source, "protocol", "google");
-		e_source_set_property (source, "auth-domain", "google");
+
+		/* delete obsolete properties */
+		e_source_set_property (source, "protocol", NULL);
+		e_source_set_property (source, "auth-domain", NULL);
 
 		g_free (title);
 		g_free (uri);
@@ -393,7 +477,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	ESource *source;
 	GDataGoogleService *service;
 	GDataFeed *feed;
-	gchar *password, *tmp;
+	gchar *user, *password, *tmp;
 	const gchar *username, *ssl;
 	gchar *get_subscribed_url;
 	GError *error = NULL;
@@ -410,17 +494,20 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	username = e_source_get_property (source, "username");
 	g_return_if_fail (username != NULL && *username != '\0');
 
-	tmp = g_strdup_printf (_("Enter password for user %s to access list of subscribed calendars."), username);
+	user = decode_at_back (username);
+	tmp = g_strdup_printf (_("Enter password for user %s to access list of subscribed calendars."), user);
 	password = e_passwords_ask_password (_("Enter password"), "Calendar", "", tmp,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_REPROMPT | E_PASSWORDS_SECRET | E_PASSWORDS_DISABLE_REMEMBER,
 			NULL, parent);
 	g_free (tmp);
 
-	if (!password)
+	if (!password) {
+		g_free (user);
 		return;
+	}
 
 	service = gdata_google_service_new ("cl", "evolution-client-0.0.1");
-	gdata_service_set_credentials (GDATA_SERVICE (service), username, password);
+	gdata_service_set_credentials (GDATA_SERVICE (service), user, password);
 	/* privacy... maybe... */
 	memset (password, 0, strlen (password));
 	g_free (password);
@@ -478,7 +565,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 				if (color)
 					gdk_color_parse (color, &gdkcolor);
 
-				if (default_idx == -1 && is_default_uri (uri, username)) {
+				if (default_idx == -1 && is_default_uri (uri, user)) {
 					/* have the default uri always NULL and first in the combo */
 					uri = NULL;
 					gtk_list_store_insert (store, &iter, 0);
@@ -524,6 +611,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	}
 
 	g_object_unref (service);
+	g_free (user);
 }
 
 static void
@@ -538,20 +626,6 @@ retrieve_list_sensitize (GtkEntry *username_entry,
 	gtk_widget_set_sensitive (button, sensitive);
 }
 
-static void
-ssl_toggled (GtkToggleButton *check, ESource *source)
-{
-	g_return_if_fail (check != NULL);
-	g_return_if_fail (source != NULL);
-
-	if (gtk_toggle_button_get_active (check))
-		e_source_set_property (source, "ssl", "1");
-	else
-		e_source_set_property (source, "ssl", "0");
-
-	user_changed (GTK_ENTRY (g_object_get_data (G_OBJECT (check), "username")), source);
-}
-
 GtkWidget *
 plugin_google  (EPlugin                    *epl,
 	     EConfigHookItemFactoryData *data)
@@ -561,7 +635,6 @@ plugin_google  (EPlugin                    *epl,
 	ESourceGroup *group;
 	EUri         *euri;
 	GtkWidget    *parent;
-	GtkWidget    *cssl;
 	GtkWidget    *widget;
 	GtkWidget    *luser;
 	GtkWidget    *user;
@@ -569,8 +642,6 @@ plugin_google  (EPlugin                    *epl,
 	GtkWidget    *combo;
 	gchar         *uri;
 	const gchar   *username;
-	const gchar   *ssl_prop;
-	gboolean      ssl_enabled;
 	gint           row;
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
@@ -581,7 +652,7 @@ plugin_google  (EPlugin                    *epl,
 	group = e_source_peek_group (source);
 
 	widget = NULL;
-	if (g_ascii_strncasecmp ("google://", e_source_group_peek_base_uri (group), 9) != 0) {
+	if (g_ascii_strncasecmp (GOOGLE_BASE_URI, e_source_group_peek_base_uri (group), strlen (GOOGLE_BASE_URI)) != 0) {
 		return NULL;
 	}
 
@@ -595,37 +666,17 @@ plugin_google  (EPlugin                    *epl,
 
 	e_uri_free (euri);
 
-	username = e_source_get_property (source, "username");
+	username = e_source_get_property (source, "setup-username");
+	if (!username)
+		username = e_source_get_property (source, "username");
 
-	ssl_prop = e_source_get_property (source, "ssl");
-	if (!ssl_prop || g_str_equal (ssl_prop, "1")) {
-		ssl_enabled = TRUE;
-	} else {
-		ssl_enabled = FALSE;
-	}
-
-	if (!ssl_prop) {
-		e_source_set_property (source, "ssl", "1");
-	} else if (ssl_enabled) {
-		const gchar *rel_uri = e_source_peek_relative_uri (source);
-
-		if (rel_uri && g_str_has_prefix (rel_uri, "http://")) {
-			ssl_enabled = FALSE;
-			e_source_set_property (source, "ssl", "0");
-		}
-	}
+	/* google's CalDAV requires SSL, thus forcing it here, and no setup for it */
+	e_source_set_property (source, "ssl", "1");
 
 	/* Build up the UI */
 	parent = data->parent;
 	row = GTK_TABLE (parent)->nrows;
 
-	cssl = gtk_check_button_new_with_mnemonic (_("Use _SSL"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cssl), ssl_enabled);
-	gtk_widget_show (cssl);
-	gtk_table_attach (GTK_TABLE (parent),
-			  cssl, 1, 2,
-			  row + 3, row + 4,
-			  GTK_FILL, 0, 0, 0);
 	luser = gtk_label_new_with_mnemonic (_("User_name:"));
 	gtk_widget_show (luser);
 	gtk_misc_set_alignment (GTK_MISC (luser), 0.0, 0.5);
@@ -679,9 +730,6 @@ plugin_google  (EPlugin                    *epl,
 
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 2, row + 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
-	g_object_set_data (G_OBJECT (cssl), "username", user);
-	g_signal_connect (cssl, "toggled", G_CALLBACK (ssl_toggled), source);
-
 	g_signal_connect (G_OBJECT (user),
 			  "changed",
 			  G_CALLBACK (user_changed),
@@ -690,7 +738,7 @@ plugin_google  (EPlugin                    *epl,
 	label = gtk_label_new_with_mnemonic (_("Cal_endar:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
-	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row + 4, row + 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row + 3, row + 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	store = gtk_list_store_new (
 		NUM_COLUMNS,
@@ -727,10 +775,41 @@ plugin_google  (EPlugin                    *epl,
 	g_signal_connect (user, "changed", G_CALLBACK (retrieve_list_sensitize), label);
 	g_object_set_data (G_OBJECT (label), "ESource", source);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_set_sensitive (label, FALSE);
+	gtk_widget_set_sensitive (label, username && *username);
 
 	gtk_widget_show_all (hbox);
-	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 4, row + 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 3, row + 4, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	return widget;
+}
+
+void
+e_calendar_google_migrate (EPlugin *epl, ECalEventTargetModule *data)
+{
+	ESourceList *source_list;
+	ESourceGroup *google = NULL;
+	gboolean changed = FALSE;
+
+	source_list = data->source_list;
+
+	google = e_source_list_peek_group_by_base_uri (source_list, GOOGLE_BASE_URI);
+	if (google) {
+		GSList *s;
+
+		for (s = e_source_group_peek_sources (google); s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+
+			if (!source)
+				continue;
+
+			/* new source through CalDAV uses absolute uri, thus it should be migrated if not set */
+			if (!e_source_peek_absolute_uri (source)) {
+				update_user_in_source (source, e_source_get_property (source, "username"));
+				changed = TRUE;
+			}
+		}
+	}
+
+	if (changed)
+		e_source_list_sync (source_list, NULL);
 }

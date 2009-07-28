@@ -1,6 +1,7 @@
 AM_CPPFLAGS = 						\
 	-I .						\
-	-I$(top_srcdir)	                                \
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -15,8 +16,9 @@ liborg_gnome_evolution_google_la_SOURCES =        \
 	google-contacts-source.h \
 	google-contacts-source.c
 
-liborg_gnome_evolution_google_la_LIBADD = 	\
-	$(EVOLUTION_CALENDAR_LIBS)		\
+liborg_gnome_evolution_google_la_LIBADD = 			\
+	$(top_builddir)/calendar/gui/libcal-gui.la		\
+	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EPLUGIN_LIBS)		
 
 liborg_gnome_evolution_google_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

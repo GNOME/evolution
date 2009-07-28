@@ -255,7 +255,8 @@ image_drag_data_received_cb (GtkWidget *widget,
 	if (e_util_read_file (uris[0], TRUE, &buf, &read, &error) && read > 0 && buf)
 		handled = set_image_from_data (chooser, buf, read);
 
-	g_free (buf);
+	if (!handled)
+		g_free (buf);
 
 	g_strfreev (uris);
 

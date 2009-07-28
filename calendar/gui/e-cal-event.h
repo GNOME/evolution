@@ -25,6 +25,7 @@
 #define __E_CAL_EVENT_H__
 
 #include <glib-object.h>
+#include <libedataserver/e-source-list.h>
 
 #include "e-util/e-event.h"
 #include "shell/e-shell-backend.h"
@@ -48,6 +49,7 @@ typedef struct _ECalEventTargetModule ECalEventTargetModule;
 struct _ECalEventTargetModule {
 	EEventTarget target;
 	EShellBackend *shell_backend;
+	ESourceList *source_list;
 };
 
 struct _ECalEvent {
@@ -62,7 +64,7 @@ struct _ECalEventClass {
 
 GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, guint32 flags);
+ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
 
 /* ********************************************************************** */
 

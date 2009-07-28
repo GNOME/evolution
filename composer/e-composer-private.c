@@ -164,6 +164,10 @@ e_composer_private_init (EMsgComposer *composer)
 
 	/* Construct the attachment paned. */
 
+	if (composer->lite) {
+		e_attachment_paned_set_default_height (75); /* short attachment bar for Anjal */
+		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
+	}
 	widget = e_attachment_paned_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref (widget);

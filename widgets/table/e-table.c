@@ -1128,7 +1128,7 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 			focus_first_etable_item (etable->group);
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean

@@ -72,7 +72,16 @@
 			   enable="sendoption"
 			/>
 		</hook>
-	
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+			   id="message.replying"
+			   handle="org_gnome_composer_message_reply"
+			   target="message"
+			   enable="reply"
+			/>
+		</hook>
+
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.config.accountEditor" 
 				target="account" commit = "proxy_commit" abort="proxy_abort">

@@ -32,6 +32,7 @@
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-attachment-icon-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
 

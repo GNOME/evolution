@@ -89,6 +89,7 @@ emss_process_message (struct _write_msg *msg)
 			break;
 	}
 
+	emss->idle_id = 0;
 	e_flag_set (msg->done);
 
 	return FALSE;
@@ -108,7 +109,9 @@ emss_sync_op (EMSyncStream *emss, enum _write_msg_t op,
 
 	camel_object_ref (emss);
 
-	g_idle_add ((GSourceFunc) emss_process_message, &msg);
+	if (emss->idle_id)
+		g_source_remove (emss->idle_id);
+	emss->idle_id = g_idle_add ((GSourceFunc) emss_process_message, &msg);
 
 	e_flag_wait (msg.done);
 	e_flag_free (msg.done);
@@ -162,6 +165,8 @@ emss_stream_close (CamelStream *stream)
 	if (emss->cancel)
 		return -1;
 
+	emss->idle_id = 0;
+
 	if (mail_in_main_thread ())
 		return EMSS_CLASS (emss)->sync_close (stream);
 	else
@@ -187,6 +192,8 @@ em_sync_stream_finalize (EMSyncStream *emss)
 {
 	if (emss->buffer != NULL)
 		g_string_free (emss->buffer, TRUE);
+	if (emss->idle_id)
+		g_source_remove (emss->idle_id);
 }
 
 CamelType

@@ -101,5 +101,6 @@ gint status_check (GNOME_Evolution_ShellState shell_state);
 
 void mail_indicate_new_mail (gboolean have_new_mail);
 void mail_component_show_logger (gpointer);
+void mail_component_show_status_bar (gboolean show);
 
 #endif /* _MAIL_COMPONENT_H_ */

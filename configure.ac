@@ -1,7 +1,7 @@
 # Evolution Versions
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
-m4_define([evo_micro_version], [4])
+m4_define([evo_micro_version], [5])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -563,7 +563,7 @@ esac
 
 SAVE_CFLAGS="$CFLAGS"
 SAVE_LIBS="$LIBS"
-LDAP_CFLAGS="-DLDAP_DEPRECATED"
+LDAP_CFLAGS="$LDAP_CFLAGS -DLDAP_DEPRECATED"
 CFLAGS="$CFLAGS $LDAP_CFLAGS"
 LIBS="$LIBS $LDAP_LIBS"
 AC_CHECK_FUNCS(ldap_ntlm_bind)
@@ -1455,7 +1455,6 @@ if test "$enable_nm" = yes; then
 	AC_SUBST(HAVE_NM)
 	AC_SUBST(NM_CFLAGS)
 else
-	AC_MSG_WARN([NetworkManager support disabled!])
 	NM_SUPPORT="no"
 fi
 

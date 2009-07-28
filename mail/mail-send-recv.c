@@ -622,7 +622,9 @@ build_dialog (GtkWindow *parent,
 	}
 
 	gtk_widget_show_all (table);
-	gtk_widget_show (GTK_WIDGET (gd));
+
+	if (parent != NULL)
+		gtk_widget_show (GTK_WIDGET (gd));
 
 	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
 
@@ -932,9 +934,9 @@ mail_send_receive (GtkWindow *parent)
 	GList *scan;
 
 	if (send_recv_dialog != NULL) {
-		if (GTK_WIDGET_REALIZED(send_recv_dialog)) {
-			gdk_window_show(send_recv_dialog->window);
-			gdk_window_raise(send_recv_dialog->window);
+		if (parent != NULL && GTK_WIDGET_REALIZED (send_recv_dialog)) {
+			gdk_window_show (send_recv_dialog->window);
+			gdk_window_raise (send_recv_dialog->window);
 		}
 		return send_recv_dialog;
 	}

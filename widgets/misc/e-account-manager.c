@@ -97,8 +97,6 @@ account_manager_selection_changed_cb (EAccountManager *manager,
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
 	GtkWidget *default_button;
-	const gchar *url = NULL;
-	gboolean has_proxies;
 	gboolean sensitive;
 
 	add_button = manager->priv->add_button;
@@ -110,19 +108,14 @@ account_manager_selection_changed_cb (EAccountManager *manager,
 	account = e_account_tree_view_get_selected (tree_view);
 	account_list = e_account_tree_view_get_account_list (tree_view);
 
-	if (account != NULL)
-		url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-	else
+	if (account == NULL)
 		gtk_widget_grab_focus (add_button);
-
-	has_proxies = (url != NULL) &&
-		e_account_list_account_has_proxies (account_list, account);
 
 	/* XXX EAccountList misuses const */
 	default_account = (EAccount *)
 		e_account_list_get_default (account_list);
 
-	sensitive = (account != NULL) && !has_proxies;
+	sensitive = (account != NULL);
 	gtk_widget_set_sensitive (edit_button, sensitive);
 
 	sensitive = (account != NULL);

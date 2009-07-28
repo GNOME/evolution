@@ -50,7 +50,8 @@ enum {
 
 /* Flags that describe TARGET_MESSAGE */
 enum {
-	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0
+	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0,
+	EM_EVENT_MESSAGE_REPLY = 1<< 1
 };
 
 /* Flags that describe TARGET_COMPOSER */
@@ -85,6 +86,7 @@ struct _EMEventTargetMessage {
 	CamelFolder      *folder;
 	gchar                     *uid;
 	CamelMimeMessage *message;
+	EMsgComposer *composer;
 };
 
 typedef struct _EMEventTargetComposer EMEventTargetComposer;
@@ -134,7 +136,8 @@ EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const gchar *uri, guint32 flags);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const EMsgComposer *composer, guint32 flags);
-EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags);
+EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags,
+							EMsgComposer *composer);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags);
 EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);
 

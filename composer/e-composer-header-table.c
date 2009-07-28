@@ -160,7 +160,11 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	parent = gtk_widget_get_parent (header->input_widget);
+	if (strcmp (property_name, "destinations-to") == 0)
+		parent = g_object_get_data (
+			G_OBJECT (header->input_widget), "parent");
+	else
+		parent = gtk_widget_get_parent (header->input_widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -171,7 +175,11 @@ composer_header_table_notify_widget (GtkWidget *widget,
 {
 	GtkWidget *parent;
 
-	parent = gtk_widget_get_parent (widget);
+	if (composer_lite) {
+		parent = gtk_widget_get_parent (widget);
+		parent = g_object_get_data (G_OBJECT (parent), "pdata");
+	} else
+		parent = gtk_widget_get_parent (widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -502,9 +510,21 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->title_widget,
 			0, 1, ii, ii + 1, GTK_FILL, GTK_FILL, 0, 3);
-		gtk_table_attach (
-			GTK_TABLE (object), priv->headers[ii]->input_widget,
-			1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		if (composer_lite && ii == E_COMPOSER_HEADER_TO) {
+			GtkWidget *box = gtk_hbox_new (FALSE, 0);
+			g_object_set_data ((GObject *)priv->headers[ii]->input_widget, "parent", object);
+			gtk_box_pack_start ((GtkBox *)box, priv->headers[ii]->input_widget, TRUE, TRUE, 3);
+			gtk_box_pack_start ((GtkBox *)box, (GtkWidget *)priv->actions_container, FALSE, FALSE, 0);
+			gtk_widget_show (box);
+			gtk_table_attach (
+				GTK_TABLE (object), box,
+				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+
+		} else {
+			gtk_table_attach (
+				GTK_TABLE (object), priv->headers[ii]->input_widget,
+				1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		}
 		if (composer_lite && priv->headers[ii]->action_widget) {
 			/* Pack the widgets to the end. Helps formatting when hiding the From field */
 			gtk_box_pack_end ((GtkBox *)priv->actions_container, priv->headers[ii]->action_widget,
@@ -531,24 +551,27 @@ composer_header_table_constructor (GType type,
 		G_OBJECT (priv->signature_combo_box), "visible");
 
 	/* Now add the signature stuff. */
-	gtk_table_attach (
-		GTK_TABLE (object), priv->signature_label,
-		2, 3, ii, ii + 1, 0, 0, 0, 3);
-	gtk_table_attach (
-		GTK_TABLE (object), priv->signature_combo_box,
-		3, 4, ii, ii + 1, 0, 0, 0, 3);
+	if (!composer_lite) {
+		gtk_table_attach (
+			GTK_TABLE (object), priv->signature_label,
+			2, 3, ii, ii + 1, 0, 0, 0, 3);
+		gtk_table_attach (
+			GTK_TABLE (object), priv->signature_combo_box,
+			3, 4, ii, ii + 1, composer_lite ? GTK_FILL: 0, 0, 0, 3);
+	} else {
+		GtkWidget *box = gtk_hbox_new (FALSE, 0);
 
-	if (composer_lite) {
-		ii = E_COMPOSER_HEADER_TO;
-
-		/* Leave room for the action buttons. */
-		gtk_container_child_set (
-			GTK_CONTAINER (object),
-			priv->headers[ii]->input_widget,
-			"right-attach", 2, NULL);
-
-		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO,
-				  E_COMPOSER_HEADER_TO + 1, GTK_FILL, 0, 0, 3);
+		gtk_box_pack_start (
+			GTK_BOX (box), priv->signature_label,
+			FALSE, FALSE, 4);
+		gtk_box_pack_end (
+			GTK_BOX (box), priv->signature_combo_box,
+			TRUE, TRUE, 0);
+		g_object_set_data (G_OBJECT (box), "pdata", object);
+		gtk_table_attach (
+			GTK_TABLE (object), box,
+			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
+		gtk_widget_hide (box);
 	}
 
 	return object;
@@ -923,7 +946,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 
 	table->priv->actions_container = (GtkHBox *)gtk_hbox_new (FALSE, 6);
 
-	header = e_composer_from_header_new (_("Fr_om:"));
+	header = e_composer_from_header_new_with_action (_("Fr_om:"), _("From"));
 	composer_header_table_bind_header ("account", "changed", header);
 	composer_header_table_bind_header ("account-list", "refreshed", header);
 	composer_header_table_bind_header ("account-name", "changed", header);

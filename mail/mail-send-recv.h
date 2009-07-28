@@ -36,7 +36,7 @@ GtkWidget *	mail_send_receive		(GtkWindow *parent);
 void		mail_receive_uri		(const gchar *uri,
 						 gboolean keep_on_server);
 
-void            mail_send                       (void);
+void		mail_send			(void);
 
 /* setup auto receive stuff */
 void		mail_autoreceive_init		(EShellBackend *shell_backend,

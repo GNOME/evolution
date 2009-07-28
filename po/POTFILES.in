@@ -288,6 +288,7 @@ plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in
 plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml
 plugins/caldav/caldav-source.c
 plugins/caldav/org-gnome-evolution-caldav.eplug.xml
+plugins/calendar-file/calendar-file.c
 plugins/calendar-file/org-gnome-calendar-file.eplug.xml
 plugins/calendar-http/calendar-http.c
 plugins/calendar-http/org-gnome-calendar-http.eplug.xml
@@ -354,6 +355,7 @@ plugins/groupwise-features/org-gnome-mail-retract.error.xml
 plugins/groupwise-features/org-gnome-proxy-login.error.xml
 plugins/groupwise-features/org-gnome-proxy.error.xml
 plugins/groupwise-features/org-gnome-shared-folder.error.xml
+plugins/groupwise-features/org-gnome-process-meeting.error.xml
 plugins/groupwise-features/process-meeting.c
 plugins/groupwise-features/properties.glade
 plugins/groupwise-features/proxy-add-dialog.glade

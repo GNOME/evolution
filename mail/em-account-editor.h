@@ -92,7 +92,7 @@ EAccount *	em_account_editor_get_modified_account
 EAccount *	em_account_editor_get_original_account
 						(EMAccountEditor *emae);
 void		em_account_editor_commit	(EMAccountEditor *emae);
-void		em_account_editor_check		(EMAccountEditor *emae,
+gboolean	em_account_editor_check		(EMAccountEditor *emae,
 						 const gchar *page);
 gboolean	em_account_editor_save		(EMAccountEditor *emae);
 void		em_account_editor_destroy	(EMAccountEditor *emae);

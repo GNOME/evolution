@@ -1712,8 +1712,8 @@ static EPopupItem ecv_child_items [] = {
 	{ E_POPUP_ITEM, (gchar *) "45.delegate", (gchar *) N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
 	{ E_POPUP_ITEM, (gchar *) "46.schedule", (gchar *) N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
 	{ E_POPUP_ITEM, (gchar *) "47.forward", (gchar *) N_("_Forward as iCalendar..."), on_forward, NULL, (gchar *) "mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "48.reply", (gchar *) N_("_Reply"), on_reply, NULL, (gchar *) "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "49.reply-all", (gchar *) N_("Reply to _All"), on_reply_all, NULL, (gchar *) "mail-reply-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "48.reply", (gchar *) N_("_Reply"), on_reply, NULL, (gchar *) "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "49.reply-all", (gchar *) N_("Reply to _All"), on_reply_all, NULL, (gchar *) "mail-reply-all", E_CAL_POPUP_SELECT_MEETING, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, (gchar *) "50." },
 

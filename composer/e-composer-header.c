@@ -106,6 +106,7 @@ composer_header_constructor (GType type,
 		GtkWidget *box, *tmp;
 		gchar *str;
 
+		header->priv->action_label = gtk_label_new (NULL);
 		header->action_widget = gtk_button_new ();
 		box = gtk_hbox_new (FALSE, 0);
 		tmp = gtk_image_new_from_stock("gtk-add", GTK_ICON_SIZE_BUTTON);
@@ -426,10 +427,16 @@ e_composer_header_set_visible (EComposerHeader *header,
 	header->priv->visible = visible;
 
 	if (header->priv->action_label) {
-		if (!visible)
+		if (!visible) {
 			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
-		else
+			gtk_widget_show (g_object_get_data((GObject *) header->priv->action_label, "add"));
+			gtk_widget_hide (g_object_get_data((GObject *) header->priv->action_label, "remove"));
+
+		}else {
 			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "hide"));
+			gtk_widget_hide (g_object_get_data((GObject *) header->priv->action_label, "add"));
+			gtk_widget_show (g_object_get_data((GObject *) header->priv->action_label, "remove"));
+		}
 	}
 	g_object_notify (G_OBJECT (header), "visible");
 }

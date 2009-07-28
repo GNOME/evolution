@@ -45,7 +45,7 @@ void em_utils_forward_attached (CamelFolder *folder, GPtrArray *uids, const gcha
 void em_utils_forward_inline (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
 void em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
 
-void em_utils_forward_message (CamelMimeMessage *msg, const gchar *fromuri);
+struct _EMsgComposer * em_utils_forward_message (CamelMimeMessage *msg, const gchar *fromuri);
 void em_utils_forward_messages (CamelFolder *folder, GPtrArray *uids, const gchar *fromuri);
 
 void em_utils_redirect_message (CamelMimeMessage *message);

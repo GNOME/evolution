@@ -483,7 +483,6 @@ struct _setup_msg {
 
 	CamelFolder *folder;
 	CamelOperation *cancel;
-	gchar *query;
 	GList *sources_uri;
 	GList *sources_folder;
 };
@@ -504,8 +503,6 @@ vfolder_setup_exec(struct _setup_msg *m)
 		camel_operation_register (m->cancel);
 
 	d(printf("Setting up Search Folder: %s\n", m->folder->full_name));
-
-	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
 	l = m->sources_uri;
 	while (l) {
@@ -549,7 +546,6 @@ vfolder_setup_free (struct _setup_msg *m)
 	GList *l;
 
 	camel_object_unref(m->folder);
-	g_free(m->query);
 
 	l = m->sources_uri;
 	while (l) {
@@ -576,7 +572,7 @@ static MailMsgInfo vfolder_setup_info = {
 
 /* sources_uri should be camel uri's */
 static gint
-vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
+vfolder_setup (CamelFolder *folder, GList *sources_uri, GList *sources_folder, CamelOperation *cancel)
 {
 	struct _setup_msg *m;
 	gint id;
@@ -584,7 +580,6 @@ vfolder_setup(CamelFolder *folder, const gchar *query, GList *sources_uri, GList
 	m = mail_msg_new(&vfolder_setup_info);
 	m->folder = folder;
 	camel_object_ref(folder);
-	m->query = g_strdup(query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
 
@@ -671,14 +666,23 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    efb->account_search_vf = (CamelVeeFolder *)camel_vee_folder_new (vfolder_store,_("Account Search"),CAMEL_STORE_VEE_FOLDER_AUTO);
 
 			    /* Set the search expression  */
+			    camel_vee_folder_set_expression (efb->account_search_vf, search_word);
+
 			    efb->account_search_cancel = camel_operation_new (NULL, NULL);
-			    vfolder_setup ((CamelFolder *)efb->account_search_vf, search_word, NULL, folder_list_account, efb->account_search_cancel);
+			    vfolder_setup ((CamelFolder *)efb->account_search_vf, NULL, folder_list_account, efb->account_search_cancel);
 
 			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->account_search_vf);
 			    emfb_set_search_folder (emfv, (CamelFolder *)efb->account_search_vf, folder_uri);
 			    g_free (folder_uri);
 			    g_free (storeuri);
 		    } else {
+			    /* cancel previous filling first, if under way */
+			    if (efb->account_search_cancel) {
+				    camel_operation_cancel (efb->account_search_cancel);
+				    camel_operation_unref (efb->account_search_cancel);
+				    efb->account_search_cancel = NULL;
+			    }
+
 			    /* Reuse the existing search folder */
 			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->account_search_vf, search_word);
 		    }
@@ -753,8 +757,10 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 				    l = l->next;
 			    }
 
+			    camel_vee_folder_set_expression (efb->all_account_search_vf, search_word);
+
 			    efb->account_search_cancel = camel_operation_new (NULL, NULL);
-			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, search_word, NULL, folder_list, efb->account_search_cancel);
+			    vfolder_setup ((CamelFolder *)efb->all_account_search_vf, NULL, folder_list, efb->account_search_cancel);
 
 			    folder_uri = mail_tools_folder_to_url ((CamelFolder *)efb->all_account_search_vf);
 
@@ -762,6 +768,13 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 			    g_free (folder_uri);
 			    g_free (storeuri);
 		    } else {
+			    /* cancel previous filling first, if under way */
+			    if (efb->account_search_cancel) {
+				    camel_operation_cancel (efb->account_search_cancel);
+				    camel_operation_unref (efb->account_search_cancel);
+				    efb->account_search_cancel = NULL;
+			    }
+
 			    /* Reuse the existing search folder */
 			    camel_vee_folder_set_expression((CamelVeeFolder *)efb->all_account_search_vf, search_word);
 		    }

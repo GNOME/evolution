@@ -53,6 +53,7 @@ struct _EMSyncStream {
 	CamelStream parent;
 	GString *buffer;
 	gboolean cancel;
+	guint idle_id;
 };
 
 struct _EMSyncStreamClass {

@@ -776,7 +776,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 	 */
 	/* Fire off migration event */
 	ece = e_cal_event_peek ();
-	target = e_cal_event_target_new_module (ece, shell_backend, 0);
+	target = e_cal_event_target_new_module (ece, shell_backend, source_list, 0);
 	e_event_emit ((EEvent *) ece, "module.migration", (EEventTarget *) target);
 
 	retval = TRUE;
