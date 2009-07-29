@@ -108,7 +108,7 @@ struct _UrlEditorDialogClass {
 
 GtkWidget *url_editor_dialog_new (GtkTreeModel *url_list_model, EPublishUri *uri);
 GType      url_editor_dialog_get_type (void);
-void       url_editor_dialog_run (UrlEditorDialog *dialog);
+gboolean   url_editor_dialog_run (UrlEditorDialog *dialog);
 
 G_END_DECLS
 

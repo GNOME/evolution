@@ -544,7 +544,7 @@ url_editor_dialog_get_type (void)
 	return type;
 }
 
-void
+gboolean
 url_editor_dialog_run (UrlEditorDialog *dialog)
 {
 	gint response;
@@ -576,4 +576,6 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 			dialog->uri->events = g_slist_append (dialog->uri->events, g_strdup (e_source_peek_uid (p->data)));
 	}
 	gtk_widget_hide_all (GTK_WIDGET (dialog));
+
+	return response == GTK_RESPONSE_OK;
 }
