@@ -540,21 +540,22 @@ url_add_clicked (GtkButton *button, PublishUIData *ui)
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 	url_editor = url_editor_dialog_new (model, NULL);
-	url_editor_dialog_run ((UrlEditorDialog *) url_editor);
 
-	uri = URL_EDITOR_DIALOG (url_editor)->uri;
-	if (uri->location) {
-		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+	if (url_editor_dialog_run ((UrlEditorDialog *) url_editor)) {
+		uri = URL_EDITOR_DIALOG (url_editor)->uri;
+		if (uri->location) {
+			gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    URL_LIST_ENABLED_COLUMN, uri->enabled,
 				    URL_LIST_LOCATION_COLUMN, uri->location,
 				    URL_LIST_URL_COLUMN, uri, -1);
-		url_list_changed (ui);
-		publish_uris = g_slist_prepend (publish_uris, uri);
-		add_timeout (uri);
-		publish_uri_async (uri);
-	} else {
-		g_free (uri);
+			url_list_changed (ui);
+			publish_uris = g_slist_prepend (publish_uris, uri);
+			add_timeout (uri);
+			publish_uri_async (uri);
+		} else {
+			g_free (uri);
+		}
 	}
 	gtk_widget_destroy (url_editor);
 }
@@ -574,19 +575,22 @@ url_edit_clicked (GtkButton *button, PublishUIData *ui)
 
 		gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, 2, &uri, -1);
 		url_editor = url_editor_dialog_new (model, uri);
-		url_editor_dialog_run ((UrlEditorDialog *) url_editor);
 
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		if (url_editor_dialog_run ((UrlEditorDialog *) url_editor)) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    URL_LIST_ENABLED_COLUMN, uri->enabled,
 				    URL_LIST_LOCATION_COLUMN, uri->location,
 				    URL_LIST_URL_COLUMN, uri, -1);
 
-		id = GPOINTER_TO_UINT (g_hash_table_lookup (uri_timeouts, uri));
-		if (id)
-			g_source_remove (id);
-		add_timeout (uri);
-		url_list_changed (ui);
-		publish_uri_async (uri);
+			id = GPOINTER_TO_UINT (g_hash_table_lookup (uri_timeouts, uri));
+			if (id)
+				g_source_remove (id);
+			add_timeout (uri);
+			url_list_changed (ui);
+			publish_uri_async (uri);
+		}
+
+		gtk_widget_destroy (url_editor);
 	}
 }
 
