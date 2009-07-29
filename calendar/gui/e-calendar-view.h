@@ -135,9 +135,6 @@ icaltimezone  *e_calendar_view_get_timezone (ECalendarView *cal_view);
 void           e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone);
 const gchar    *e_calendar_view_get_default_category (ECalendarView *cal_view);
 void           e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *category);
-gboolean       e_calendar_view_get_use_24_hour_format (ECalendarView *view);
-void           e_calendar_view_set_use_24_hour_format (ECalendarView *view, gboolean use_24_hour);
-
 void           e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, gint percent);
 
 GList         *e_calendar_view_get_selected_events (ECalendarView *cal_view);

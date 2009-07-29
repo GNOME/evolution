@@ -291,35 +291,24 @@ setup_e_table (ECalListView *cal_list_view)
 	gtk_widget_show (GTK_WIDGET (cal_list_view->table_scrolled));
 }
 
-GtkWidget *
-e_cal_list_view_construct (ECalListView *cal_list_view)
-{
-	setup_e_table (cal_list_view);
-
-	return GTK_WIDGET (cal_list_view);
-}
-
 /**
  * e_cal_list_view_new:
  * @Returns: a new #ECalListView.
  *
  * Creates a new #ECalListView.
  **/
-GtkWidget *
+ECalendarView *
 e_cal_list_view_new (ECalModel *model)
 {
-	ECalListView *cal_list_view;
+	ECalendarView *cal_list_view;
 
-	cal_list_view = g_object_new (e_cal_list_view_get_type (), "model", model, NULL);
-	if (!e_cal_list_view_construct (cal_list_view)) {
-		g_message (G_STRLOC ": Could not construct the calendar list GUI");
-		g_object_unref (cal_list_view);
-		return NULL;
-	}
+	cal_list_view = g_object_new (
+		E_TYPE_CAL_LIST_VIEW, "model", model, NULL);
+	setup_e_table (E_CAL_LIST_VIEW (cal_list_view));
 
 	g_object_unref (model);
 
-	return GTK_WIDGET (cal_list_view);
+	return cal_list_view;
 }
 
 static void

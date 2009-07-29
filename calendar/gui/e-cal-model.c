@@ -1245,16 +1245,21 @@ e_cal_model_get_use_24_hour_format (ECalModel *model)
  * e_cal_model_set_use_24_hour_format
  */
 void
-e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24)
+e_cal_model_set_use_24_hour_format (ECalModel *model,
+                                    gboolean use_24_hour_format)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	if (model->priv->use_24_hour_format != use24) {
-                e_table_model_pre_change (E_TABLE_MODEL (model));
-                model->priv->use_24_hour_format = use24;
-                /* Get the views to redraw themselves. */
-                e_table_model_changed (E_TABLE_MODEL (model));
-        }
+	if (model->priv->use_24_hour_format == use_24_hour_format)
+		return;
+
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	model->priv->use_24_hour_format = use_24_hour_format;
+
+	/* Get the views to redraw themselves. */
+	e_table_model_changed (E_TABLE_MODEL (model));
+
+	g_object_notify (G_OBJECT (model), "use-24-hour-format");
 }
 
 /**

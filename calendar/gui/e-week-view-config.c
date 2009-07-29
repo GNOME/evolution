@@ -170,11 +170,13 @@ week_start_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointe
 static void
 set_twentyfour_hour (EWeekView *week_view)
 {
+	ECalModel *model;
 	gboolean use_24_hour;
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
-	e_calendar_view_set_use_24_hour_format (E_CALENDAR_VIEW (week_view), use_24_hour);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	e_cal_model_set_use_24_hour_format (model, use_24_hour);
 }
 
 static void

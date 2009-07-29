@@ -59,7 +59,7 @@ struct _EMonthViewClass {
 };
 
 GType		e_month_view_get_type		(void);
-GtkWidget *	e_month_view_new		(ECalModel *model);
+ECalendarView *	e_month_view_new		(ECalModel *model);
 
 G_END_DECLS
 

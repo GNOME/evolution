@@ -337,8 +337,7 @@ impl_handleURI (PortableServer_Servant servant, const gchar *uri, CORBA_Environm
 			if (start != -1) {
 
 				if (end == -1)
-					end = start;
-					gnome_calendar_set_selected_time_range (view->calendar, start, end);
+					gnome_calendar_set_selected_time_range (view->calendar, start);
 			}
 			if (src_uid && uid)
 				gnome_calendar_edit_appointment (view->calendar, src_uid, uid, rid);

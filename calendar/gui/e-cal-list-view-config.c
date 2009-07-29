@@ -146,11 +146,13 @@ e_cal_list_view_config_get_view (ECalListViewConfig *view_config)
 static void
 set_twentyfour_hour (ECalListView *list_view)
 {
+	ECalModel *model;
 	gboolean use_24_hour;
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
-	e_calendar_view_set_use_24_hour_format (E_CALENDAR_VIEW (list_view), use_24_hour);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (list_view));
+	e_cal_model_set_use_24_hour_format (model, use_24_hour);
 }
 
 static void

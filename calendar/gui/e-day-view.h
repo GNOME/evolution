@@ -182,16 +182,30 @@ struct _EDayViewEvent {
 	guint8 num_columns;
 };
 
-#define E_DAY_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_day_view_get_type (), EDayView)
-#define E_DAY_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_day_view_get_type (), EDayViewClass)
-#define E_IS_DAY_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_day_view_get_type ())
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW \
+	(e_day_view_get_type ())
+#define E_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW, EDayView))
+#define E_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW, EDayViewClass))
+#define E_IS_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW))
+#define E_IS_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW))
+#define E_DAY_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DAY_VIEW, EDayViewClass))
 
 typedef struct _EDayView       EDayView;
 typedef struct _EDayViewClass  EDayViewClass;
 
-struct _EDayView
-{
-	ECalendarView cal_view;
+struct _EDayView {
+	ECalendarView parent;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *top_dates_canvas;
@@ -483,7 +497,7 @@ struct _EDayViewClass
 };
 
 GType		   e_day_view_get_type			(void);
-GtkWidget* e_day_view_new			(ECalModel *model);
+ECalendarView *    e_day_view_new			(ECalModel *model);
 
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */

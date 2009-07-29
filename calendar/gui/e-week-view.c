@@ -718,14 +718,14 @@ init_model (EWeekView *week_view, ECalModel *model)
  *
  * Creates a new #EWeekView.
  **/
-GtkWidget *
+ECalendarView *
 e_week_view_new (ECalModel *model)
 {
-	GtkWidget *week_view;
+	ECalendarView *week_view;
 
-	week_view = GTK_WIDGET (g_object_new (E_TYPE_WEEK_VIEW, NULL));
-	e_calendar_view_set_model ((ECalendarView *) week_view, model);
-	init_model ((EWeekView *) week_view, model);
+	week_view = g_object_new (E_TYPE_WEEK_VIEW, NULL);
+	e_calendar_view_set_model (week_view, model);
+	init_model (E_WEEK_VIEW (week_view), model);
 
 	return week_view;
 }
@@ -4285,10 +4285,14 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
+	ECalModel *model;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
 	/* Calculate the actual hour number to display. For 12-hour
 	   format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
-	if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view))) {
+	if (e_cal_model_get_use_24_hour_format (model)) {
 		*suffix = "";
 		*suffix_width = 0;
 	} else {
@@ -4310,7 +4314,10 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 gint
 e_week_view_get_time_string_width	(EWeekView	*week_view)
 {
+	ECalModel *model;
 	gint time_width;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	if (week_view->use_small_font && week_view->small_font_desc)
 		time_width = week_view->digit_width * 2
@@ -4319,7 +4326,7 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 		time_width = week_view->digit_width * 4
 			+ week_view->colon_width;
 
-	if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view)))
+	if (!e_cal_model_get_use_24_hour_format (model))
 		time_width += MAX (week_view->am_string_width,
 				   week_view->pm_string_width);
 

@@ -1059,16 +1059,16 @@ e_day_view_on_canvas_realized (GtkWidget *widget,
  *
  * Creates a new #EDayView.
  **/
-GtkWidget *
+ECalendarView *
 e_day_view_new (ECalModel *model)
 {
-	GObject *day_view;
+	ECalendarView *day_view;
 
-	day_view = g_object_new (e_day_view_get_type (), NULL);
-	e_calendar_view_set_model ((ECalendarView *)day_view, model);
-	init_model ((EDayView *) day_view, model);
+	day_view = g_object_new (E_TYPE_DAY_VIEW, NULL);
+	e_calendar_view_set_model (day_view, model);
+	init_model (E_DAY_VIEW (day_view), model);
 
-	return GTK_WIDGET (day_view);
+	return day_view;
 }
 
 static void
@@ -3513,8 +3513,7 @@ e_day_view_update_calendar_selection_time (EDayView *day_view)
 #if 0
 	calendar = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 	if (calendar)
-		gnome_calendar_set_selected_time_range (calendar,
-							start, end);
+		gnome_calendar_set_selected_time_range (calendar, start);
 #endif
 }
 
@@ -7771,10 +7770,14 @@ e_day_view_convert_time_to_display	(EDayView	*day_view,
 					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
+	ECalModel *model;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
 	/* Calculate the actual hour number to display. For 12-hour
 	   format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
-	if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+	if (e_cal_model_get_use_24_hour_format (model)) {
 		*suffix = "";
 		*suffix_width = 0;
 	} else {
@@ -7796,11 +7799,13 @@ e_day_view_convert_time_to_display	(EDayView	*day_view,
 gint
 e_day_view_get_time_string_width	(EDayView	*day_view)
 {
+	ECalModel *model;
 	gint time_width;
 
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	time_width = day_view->digit_width * 4 + day_view->colon_width;
 
-	if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view)))
+	if (!e_cal_model_get_use_24_hour_format (model))
 		time_width += MAX (day_view->am_string_width,
 				   day_view->pm_string_width);
 

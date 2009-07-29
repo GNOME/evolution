@@ -202,7 +202,7 @@ e_month_view_get_type (void)
 	return type;
 }
 
-GtkWidget *
+ECalendarView *
 e_month_view_new (ECalModel *model)
 {
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);

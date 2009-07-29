@@ -27,13 +27,13 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
-#include "calendar/gui/e-cal-list-view-config.h"
+#include "calendar/gui/calendar-view.h"
+#include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-calendar.h"
 #include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-table-config.h"
-#include "calendar/gui/e-day-view-config.h"
+#include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/e-memo-table-config.h"
-#include "calendar/gui/e-week-view-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -77,7 +77,32 @@ static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
                                    GalView *gal_view)
 {
-	/* FIXME */
+	GnomeCalendar *calendar;
+	CalendarView *gal_calendar_view;
+	GnomeCalendarViewType view_type;
+
+	/* XXX This is confusing: we have CalendarView and ECalendarView.
+	 *     ECalendarView is an abstract base class for calendar view
+	 *     widgets (day view, week view, etc).  CalendarView is a
+	 *     simple GalView subclass that represents a calendar view. */
+
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	if (GAL_IS_VIEW_ETABLE (gal_view)) {
+		ECalendarView *calendar_view;
+		ETable *table;
+
+		view_type = GNOME_CAL_LIST_VIEW;
+		calendar_view = gnome_calendar_get_calendar_view (
+			calendar, view_type);
+		table = e_table_scrolled_get_table (
+			E_CAL_LIST_VIEW (calendar_view)->table_scrolled);
+		gal_view_etable_attach_table (
+			GAL_VIEW_ETABLE (gal_view), table);
+	} else {
+		view_type = calendar_view_get_view_type (
+			CALENDAR_VIEW (gal_view));
+	}
 }
 
 static void

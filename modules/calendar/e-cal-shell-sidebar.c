@@ -349,7 +349,7 @@ cal_shell_sidebar_dispose (GObject *object)
 
 	if (priv->mini_calendar_config != NULL) {
 		g_object_unref (priv->mini_calendar_config);
-		priv->mini_calendar = NULL;
+		priv->mini_calendar_config = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */

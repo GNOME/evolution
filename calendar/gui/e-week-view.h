@@ -170,7 +170,7 @@ typedef struct _EWeekView EWeekView;
 typedef struct _EWeekViewClass EWeekViewClass;
 
 struct _EWeekView {
-	ECalendarView cal_view;
+	ECalendarView parent;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *titles_canvas;
@@ -366,7 +366,7 @@ struct _EWeekViewClass {
 };
 
 GType		e_week_view_get_type		(void);
-GtkWidget *	e_week_view_new			(ECalModel *model);
+ECalendarView *	e_week_view_new			(ECalModel *model);
 
 /* The first day shown. Note that it will be rounded down to the start of a
    week when set. The returned value will be invalid if no date has been set

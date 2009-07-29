@@ -139,8 +139,7 @@ GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
-						   time_t	  start_time,
-						   time_t	  end_time);
+						   time_t	  start_time);
 void	   gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 						   time_t	 *start_time,
 						   time_t	 *end_time);
@@ -175,8 +174,6 @@ void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
 void       gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal);
 void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 						 time_t older_than);
-
-
 
 /* Direct calendar component operations */
 void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,

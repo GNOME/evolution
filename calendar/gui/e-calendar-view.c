@@ -500,37 +500,6 @@ e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *cate
 	cal_view->priv->default_category = g_strdup (category);
 }
 
-/**
- * e_calendar_view_get_use_24_hour_format:
- * @cal_view: A calendar view.
- *
- * Gets whether the view is using 24 hour times or not.
- *
- * Returns: the 24 hour setting.
- */
-gboolean
-e_calendar_view_get_use_24_hour_format (ECalendarView *cal_view)
-{
-	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
-
-	return e_cal_model_get_use_24_hour_format (cal_view->priv->model);
-}
-
-/**
- * e_calendar_view_set_use_24_hour_format
- * @cal_view: A calendar view.
- * @use_24_hour: Whether to use 24 hour times or not.
- *
- * Sets the 12/24 hour times setting for the given view.
- */
-void
-e_calendar_view_set_use_24_hour_format (ECalendarView *cal_view, gboolean use_24_hour)
-{
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	e_cal_model_set_use_24_hour_format (cal_view->priv->model, use_24_hour);
-}
-
 GList *
 e_calendar_view_get_selected_events (ECalendarView *cal_view)
 {
