@@ -1173,6 +1173,8 @@ append_cal_attachments (EMsgComposer *composer,
 		camel_mime_part_set_content (
 			attachment, mime_attach->encoded_data,
 			mime_attach->length, mime_attach->content_type);
+		if (mime_attach->content_id)
+			camel_mime_part_set_content_id (attachment, mime_attach->content_id);
 		if (mime_attach->filename != NULL)
 			camel_mime_part_set_filename (
 				attachment, mime_attach->filename);
@@ -1190,9 +1192,13 @@ append_cal_attachments (EMsgComposer *composer,
 
 		g_free (mime_attach->filename);
 		g_free (mime_attach->content_type);
+		g_free (mime_attach->content_id);
 		g_free (mime_attach->description);
 		g_free (mime_attach->encoded_data);
+		g_free (mime_attach);
 	}
+
+	g_slist_free (attach_list);
 }
 
 gboolean

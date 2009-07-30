@@ -2516,19 +2516,24 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 		}
 	} else {
 		/* Clone the component with attachments set to CID:...  */
-		gint num_attachments, i;
 		GSList *attach_list = NULL;
-		GSList *mime_attach_list;
-
-		num_attachments = e_cal_component_get_num_attachments (send_comp);
-
-		for (i = 0; i < num_attachments; i++) {
-			attach_list = g_slist_append (attach_list, g_strdup ("CID:..."));
-		}
-		e_cal_component_set_attachment_list (send_comp, attach_list);
+		GSList *mime_attach_list, *attach;
 
 		/* mime_attach_list is freed by itip_send_comp */
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
+
+		for (attach = mime_attach_list; attach; attach = attach->next) {
+			struct CalMimeAttach *cma = (struct CalMimeAttach *) attach->data;
+
+			attach_list = g_slist_append (attach_list, cma->content_id);
+		}
+
+		if (attach_list) {
+			e_cal_component_set_attachment_list (send_comp, attach_list);
+
+			g_slist_free (attach_list);
+		}
+
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, mime_attach_list, users, strip_alarms, priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			gboolean saved = save_comp (editor);
@@ -2734,6 +2739,8 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
 		buffer = g_memdup (mstream->buffer->data, mstream->buffer->len);
 
+		camel_mime_part_set_content_id (mime_part, NULL);
+
 		cal_mime_attach->encoded_data = (gchar *)buffer;
 		cal_mime_attach->length = mstream->buffer->len;
 		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename (mime_part));
@@ -2742,6 +2749,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 			desc = _("attachment");
 		cal_mime_attach->description = g_strdup (desc);
 		cal_mime_attach->content_type = g_strdup (camel_data_wrapper_get_mime_type (wrapper));
+		cal_mime_attach->content_id = g_strdup (camel_mime_part_get_content_id (mime_part));
 
 		disp = camel_mime_part_get_disposition (mime_part);
 		if (disp && !g_ascii_strcasecmp(disp, "inline"))
