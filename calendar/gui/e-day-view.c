@@ -431,37 +431,323 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 
+enum {
+	PROP_0,
+	PROP_MARCUS_BAINS_SHOW_LINE,
+	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
+	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
+	PROP_MINS_PER_ROW,
+	PROP_WEEK_START_DAY,
+	PROP_WORK_DAY_END_HOUR,
+	PROP_WORK_DAY_END_MINUTE,
+	PROP_WORK_DAY_START_HOUR,
+	PROP_WORK_DAY_START_MINUTE,
+	PROP_WORKING_DAYS
+};
+
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+
+static void
+day_view_set_property (GObject *object,
+                       guint property_id,
+                       const GValue *value,
+                       GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_MARCUS_BAINS_SHOW_LINE:
+			e_day_view_marcus_bains_set_show_line (
+				E_DAY_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MARCUS_BAINS_DAY_VIEW_COLOR:
+			e_day_view_marcus_bains_set_day_view_color (
+				E_DAY_VIEW (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_MARCUS_BAINS_TIME_BAR_COLOR:
+			e_day_view_marcus_bains_set_time_bar_color (
+				E_DAY_VIEW (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_MINS_PER_ROW:
+			e_day_view_set_mins_per_row (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			e_day_view_set_week_start_day (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			e_day_view_set_work_day_end_hour (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			e_day_view_set_work_day_end_minute (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			e_day_view_set_work_day_start_hour (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			e_day_view_set_work_day_start_minute (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORKING_DAYS:
+			e_day_view_set_working_days (
+				E_DAY_VIEW (object),
+				g_value_get_int (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+day_view_get_property (GObject *object,
+                       guint property_id,
+                       GValue *value,
+                       GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_MARCUS_BAINS_SHOW_LINE:
+			g_value_set_boolean (
+				value,
+				e_day_view_marcus_bains_get_show_line (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_MARCUS_BAINS_DAY_VIEW_COLOR:
+			g_value_set_string (
+				value,
+				e_day_view_marcus_bains_get_day_view_color (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_MARCUS_BAINS_TIME_BAR_COLOR:
+			g_value_set_string (
+				value,
+				e_day_view_marcus_bains_get_time_bar_color (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_MINS_PER_ROW:
+			g_value_set_int (
+				value,
+				e_day_view_get_mins_per_row (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value,
+				e_day_view_get_week_start_day (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			g_value_set_int (
+				value,
+				e_day_view_get_work_day_end_hour (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			g_value_set_int (
+				value,
+				e_day_view_get_work_day_end_minute (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			g_value_set_int (
+				value,
+				e_day_view_get_work_day_start_hour (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			g_value_set_int (
+				value,
+				e_day_view_get_work_day_start_minute (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_WORKING_DAYS:
+			g_value_set_int (
+				value,
+				e_day_view_get_working_days (
+				E_DAY_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 e_day_view_class_init (EDayViewClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	view_class = (ECalendarViewClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = day_view_set_property;
+	object_class->get_property = day_view_get_property;
 
-	/* Method override */
-	object_class->destroy		= e_day_view_destroy;
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = e_day_view_destroy;
 
-	widget_class->realize		= e_day_view_realize;
-	widget_class->unrealize		= e_day_view_unrealize;
-	widget_class->style_set		= e_day_view_style_set;
-	widget_class->size_allocate	= e_day_view_size_allocate;
-	widget_class->focus_in_event	= e_day_view_focus_in;
-	widget_class->focus_out_event	= e_day_view_focus_out;
-	widget_class->key_press_event	= e_day_view_key_press;
-	widget_class->focus             = e_day_view_focus;
-	widget_class->popup_menu        = e_day_view_popup_menu;
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = e_day_view_realize;
+	widget_class->unrealize = e_day_view_unrealize;
+	widget_class->style_set = e_day_view_style_set;
+	widget_class->size_allocate = e_day_view_size_allocate;
+	widget_class->focus_in_event = e_day_view_focus_in;
+	widget_class->focus_out_event = e_day_view_focus_out;
+	widget_class->key_press_event = e_day_view_key_press;
+	widget_class->focus = e_day_view_focus;
+	widget_class->popup_menu = e_day_view_popup_menu;
 
+	view_class = E_CALENDAR_VIEW_CLASS (class);
 	view_class->get_selected_events = e_day_view_get_selected_events;
 	view_class->get_selected_time_range = e_day_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
 	view_class->paste_text = e_day_view_paste_text;
+
+	/* XXX Should these be constructor properties? */
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MARCUS_BAINS_SHOW_LINE,
+		g_param_spec_boolean (
+			"marcus-bains-show-line",
+			"Marcus Bains Show Line",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
+		g_param_spec_string (
+			"marcus-bains-day-view-color",
+			"Marcus Bains Day View Color",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MARCUS_BAINS_TIME_BAR_COLOR,
+		g_param_spec_string (
+			"marcus-bains-time-bar-color",
+			"Marcus Bains Time Bar Color",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MINS_PER_ROW,
+		g_param_spec_int (
+			"mins-per-row",
+			"Minutes Per Row",
+			NULL,
+			5,   /* not a continuous range */
+			60,  /* valid values: 5, 10, 15, 30, 60 */
+			30,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday */
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_HOUR,
+		g_param_spec_int (
+			"work-day-end-hour",
+			"Work Day End Hour",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_MINUTE,
+		g_param_spec_int (
+			"work-day-end-minute",
+			"Work Day End Minute",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_HOUR,
+		g_param_spec_int (
+			"work-day-start-hour",
+			"Work Day Start Hour",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_MINUTE,
+		g_param_spec_int (
+			"work-day-start-minute",
+			"Work Day Start Minute",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	/* FIXME Make this a real GFlags type. */
+	g_object_class_install_property (
+		object_class,
+		PROP_WORKING_DAYS,
+		g_param_spec_int (
+			"working-days",
+			"Working Days",
+			NULL,
+			0x00,
+			0x7f,
+			0,
+			G_PARAM_READWRITE));
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
@@ -762,7 +1048,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->week_start_day = 0;
 	day_view->scroll_to_work_day = TRUE;
 
-	day_view->show_marcus_bains_line = TRUE;
+	day_view->marcus_bains_show_line = TRUE;
 	day_view->marcus_bains_day_view_color = NULL;
 	day_view->marcus_bains_time_bar_color = NULL;
 
@@ -2382,7 +2668,7 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 }
 
 gint
-e_day_view_get_mins_per_row	(EDayView	*day_view)
+e_day_view_get_mins_per_row (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
 
@@ -2390,8 +2676,8 @@ e_day_view_get_mins_per_row	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_mins_per_row	(EDayView	*day_view,
-				 gint		 mins_per_row)
+e_day_view_set_mins_per_row (EDayView *day_view,
+                             gint mins_per_row)
 {
 	gint day;
 
@@ -2408,6 +2694,8 @@ e_day_view_set_mins_per_row	(EDayView	*day_view,
 
 	day_view->mins_per_row = mins_per_row;
 	e_day_view_recalc_num_rows (day_view);
+
+	g_object_notify (G_OBJECT (day_view), "mins-per-row");
 
 	/* If we aren't visible, we'll sort it out later. */
 	if (!E_CALENDAR_VIEW (day_view)->in_focus)
@@ -2433,7 +2721,7 @@ e_day_view_set_mins_per_row	(EDayView	*day_view,
 /* This specifies the working days in the week. The value is a bitwise
    combination of day flags. Defaults to Mon-Fri. */
 EDayViewDays
-e_day_view_get_working_days	(EDayView	*day_view)
+e_day_view_get_working_days (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
 
@@ -2441,8 +2729,8 @@ e_day_view_get_working_days	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_working_days	(EDayView	*day_view,
-				 EDayViewDays	 days)
+e_day_view_set_working_days (EDayView *day_view,
+                             EDayViewDays days)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -2457,6 +2745,8 @@ e_day_view_set_working_days	(EDayView	*day_view,
 	/* We have to do this, as the new working days may have no effect on
 	   the days shown, but we still want the background color to change. */
 	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "working-days");
 }
 
 static void
@@ -2496,86 +2786,162 @@ e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 
 /* The start and end time of the working day. This only affects the background
    colors. */
-void
-e_day_view_get_working_day		(EDayView	*day_view,
-					 gint		*start_hour,
-					 gint		*start_minute,
-					 gint		*end_hour,
-					 gint		*end_minute)
+gint
+e_day_view_get_work_day_start_hour (EDayView *day_view)
 {
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
 
-	*start_hour = day_view->work_day_start_hour;
-	*start_minute = day_view->work_day_start_minute;
-	*end_hour = day_view->work_day_end_hour;
-	*end_minute = day_view->work_day_end_minute;
+	return day_view->work_day_start_hour;
 }
 
 void
-e_day_view_set_working_day		(EDayView	*day_view,
-					 gint		 start_hour,
-					 gint		 start_minute,
-					 gint		 end_hour,
-					 gint		 end_minute)
+e_day_view_set_work_day_start_hour (EDayView *day_view,
+                                    gint work_day_start_hour)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	day_view->work_day_start_hour = start_hour;
-	day_view->work_day_start_minute = start_minute;
-	day_view->work_day_end_hour = end_hour;
-	day_view->work_day_end_minute = end_minute;
+	day_view->work_day_start_hour = work_day_start_hour;
 
 	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "work-day-start-hour");
 }
 
-/* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
-gboolean
-e_day_view_get_show_marcus_bains	(EDayView       *day_view)
+gint
+e_day_view_get_work_day_start_minute (EDayView *day_view)
 {
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), TRUE);
-	return day_view->show_marcus_bains_line;
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
+
+	return day_view->work_day_start_minute;
+}
+
+void
+e_day_view_set_work_day_start_minute (EDayView *day_view,
+                                      gint work_day_start_minute)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	day_view->work_day_start_minute = work_day_start_minute;
+
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "work-day-start-minute");
+}
+
+gint
+e_day_view_get_work_day_end_hour (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
+
+	return day_view->work_day_end_hour;
+}
+
+void
+e_day_view_set_work_day_end_hour (EDayView *day_view,
+                                  gint work_day_end_hour)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	day_view->work_day_end_hour = work_day_end_hour;
+
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "work-day-end-hour");
+}
+
+gint
+e_day_view_get_work_day_end_minute (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
+
+	return day_view->work_day_end_minute;
+}
+
+void
+e_day_view_set_work_day_end_minute (EDayView *day_view,
+                                  gint work_day_end_minute)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	day_view->work_day_end_minute = work_day_end_minute;
+
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "work-day-end-minute");
 }
 
 /* Force a redraw of the Marcus Bains Lines */
 void
-e_day_view_update_marcus_bains		(EDayView *day_view)
+e_day_view_marcus_bains_update (EDayView *day_view)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 	gtk_widget_queue_draw (day_view->main_canvas);
 	gtk_widget_queue_draw (day_view->time_canvas);
 }
 
-/* Update the variables controlling the Marcus Bains Line (display toggle, and colors). */
+gboolean
+e_day_view_marcus_bains_get_show_line (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	return day_view->marcus_bains_show_line;
+}
+
 void
-e_day_view_set_marcus_bains		(EDayView       *day_view,
-					 gboolean        show_line,
-					 const gchar	*dayview_color,
-					 const gchar     *timebar_color)
+e_day_view_marcus_bains_set_show_line (EDayView *day_view,
+                                       gboolean show_line)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if ((day_view->show_marcus_bains_line != show_line) |
-	    (day_view->marcus_bains_day_view_color != dayview_color) |
-	    (day_view->marcus_bains_time_bar_color != timebar_color)) {
+	day_view->marcus_bains_show_line = show_line;
 
-		if (day_view->marcus_bains_day_view_color)
-			g_free (day_view->marcus_bains_day_view_color);
-		if (day_view->marcus_bains_time_bar_color)
-			g_free (day_view->marcus_bains_time_bar_color);
+	e_day_view_marcus_bains_update (day_view);
 
-		day_view->show_marcus_bains_line = show_line;
-		if (dayview_color)
-			day_view->marcus_bains_day_view_color = g_strdup (dayview_color);
-		else
-			day_view->marcus_bains_day_view_color = NULL;
+	g_object_notify (G_OBJECT (day_view), "marcus-bains-show-line");
+}
 
-		if (timebar_color)
-			day_view->marcus_bains_time_bar_color = g_strdup (timebar_color);
-		else
-			day_view->marcus_bains_time_bar_color = NULL;
+const gchar *
+e_day_view_marcus_bains_get_day_view_color (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
 
-		e_day_view_update_marcus_bains (day_view);
-	}
+	return day_view->marcus_bains_day_view_color;
+}
+
+void
+e_day_view_marcus_bains_set_day_view_color (EDayView *day_view,
+                                            const gchar *day_view_color)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	g_free (day_view->marcus_bains_day_view_color);
+	day_view->marcus_bains_day_view_color = g_strdup (day_view_color);
+
+	e_day_view_marcus_bains_update (day_view);
+
+	g_object_notify (G_OBJECT (day_view), "marcus-bains-day-view-color");
+}
+
+const gchar *
+e_day_view_marcus_bains_get_time_bar_color (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
+
+	return day_view->marcus_bains_time_bar_color;
+}
+
+void
+e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
+                                            const gchar *time_bar_color)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	g_free (day_view->marcus_bains_time_bar_color);
+	day_view->marcus_bains_time_bar_color = g_strdup (time_bar_color);
+
+	e_day_view_marcus_bains_update (day_view);
+
+	g_object_notify (G_OBJECT (day_view), "marcus-bains-time-bar-color");
 }
 
 /* Whether we display event end times in the main canvas. */
@@ -2616,7 +2982,7 @@ e_day_view_set_show_times_cb		(EDayView	*day_view,
 
 /* The first day of the week, 0 (Monday) to 6 (Sunday). */
 gint
-e_day_view_get_week_start_day	(EDayView	*day_view)
+e_day_view_get_week_start_day (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
 
@@ -2624,8 +2990,8 @@ e_day_view_get_week_start_day	(EDayView	*day_view)
 }
 
 void
-e_day_view_set_week_start_day	(EDayView	*day_view,
-				 gint		 week_start_day)
+e_day_view_set_week_start_day (EDayView *day_view,
+                               gint week_start_day)
 {
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 	g_return_if_fail (week_start_day >= 0);
@@ -2638,6 +3004,8 @@ e_day_view_set_week_start_day	(EDayView	*day_view,
 
 	if (day_view->work_week_view)
 		e_day_view_recalc_work_week (day_view);
+
+	g_object_notify (G_OBJECT (day_view), "week-start-day");
 }
 
 static void

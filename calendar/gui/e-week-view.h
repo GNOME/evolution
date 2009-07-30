@@ -403,14 +403,14 @@ void		e_week_view_set_weeks_shown	(EWeekView *week_view,
    view. In the Week view they are always compressed. */
 gboolean	e_week_view_get_compress_weekend(EWeekView *week_view);
 void		e_week_view_set_compress_weekend(EWeekView *week_view,
-						 gboolean compress);
+						 gboolean compress_weekend);
 
 /* Whether we display event end times. */
 gboolean	e_week_view_get_show_event_end_times
 						(EWeekView *week_view);
 void		e_week_view_set_show_event_end_times
 						(EWeekView *week_view,
-						 gboolean show);
+						 gboolean show_event_end_times);
 
 /* The first day of the week, 0 (Monday) to 6 (Sunday). */
 gint e_week_view_get_week_start_day	(EWeekView *week_view);

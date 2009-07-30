@@ -413,7 +413,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 			   E_DVTMI_LARGE_HOUR_Y_PAD);
 
 	/* Draw the Marcus Bains Line first, so it appears under other elements. */
-	if (e_day_view_get_show_marcus_bains (day_view)) {
+	if (e_day_view_marcus_bains_get_show_line (day_view)) {
 		struct icaltimetype time_now;
 		gint marcus_bains_y;
 

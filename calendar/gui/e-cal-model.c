@@ -38,6 +38,14 @@
 #include "calendar-config.h"
 #include "e-util/e-util.h"
 
+#define E_CAL_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL, ECalModelPrivate))
+
+#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
+
 typedef struct {
 	ECal *client;
 	ECalView *query;
@@ -83,13 +91,6 @@ struct _ECalModelPrivate {
 	gpointer get_default_time_user_data;
 };
 
-#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
-
-static void e_cal_model_dispose (GObject *object);
-static void e_cal_model_finalize (GObject *object);
-
 static gint ecm_column_count (ETableModel *etm);
 static gint ecm_row_count (ETableModel *etm);
 static gpointer ecm_value_at (ETableModel *etm, gint col, gint row);
@@ -109,7 +110,11 @@ static ECalModelClient *find_client_data (ECalModel *model, ECal *client);
 static void remove_client_objects (ECalModel *model, ECalModelClient *client_data);
 static void remove_client (ECalModel *model, ECalModelClient *client_data);
 
-/* Signal IDs */
+enum {
+	PROP_0,
+	PROP_USE_24_HOUR_FORMAT
+};
+
 enum {
 	TIME_RANGE_CHANGED,
 	ROW_APPENDED,
@@ -119,141 +124,62 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE)
 
 static void
-e_cal_model_class_init (ECalModelClass *klass)
+cal_model_set_property (GObject *object,
+                        guint property_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
-
-	object_class->dispose = e_cal_model_dispose;
-	object_class->finalize = e_cal_model_finalize;
-
-	etm_class->column_count = ecm_column_count;
-	etm_class->row_count = ecm_row_count;
-	etm_class->value_at = ecm_value_at;
-	etm_class->set_value_at = ecm_set_value_at;
-	etm_class->is_cell_editable = ecm_is_cell_editable;
-	etm_class->append_row = ecm_append_row;
-	etm_class->duplicate_value = ecm_duplicate_value;
-	etm_class->free_value = ecm_free_value;
-	etm_class->initialize_value = ecm_initialize_value;
-	etm_class->value_is_empty = ecm_value_is_empty;
-	etm_class->value_to_string = ecm_value_to_string;
-
-	klass->get_color_for_component = ecm_get_color_for_component;
-	klass->fill_component_from_model = NULL;
-
-	signals[TIME_RANGE_CHANGED] =
-		g_signal_new ("time_range_changed",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
-			      NULL, NULL,
-			      e_marshal_VOID__LONG_LONG,
-			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);
-
-	signals[ROW_APPENDED] =
-		g_signal_new ("row_appended",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, row_appended),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	signals[COMPS_DELETED] =
-		g_signal_new ("comps_deleted",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, comps_deleted),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-
-	signals[CAL_VIEW_PROGRESS] =
-		g_signal_new ("cal_view_progress",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
-			      NULL, NULL,
-			      e_marshal_VOID__STRING_INT_INT,
-			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
-	signals[CAL_VIEW_DONE] =
-		g_signal_new ("cal_view_done",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalModelClass, cal_view_done),
-			      NULL, NULL,
-			      e_marshal_VOID__INT_INT,
-			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
-
-}
-
-static void
-e_cal_model_init (ECalModel *model)
-{
-	ECalModelPrivate *priv;
-
-	priv = g_new0 (ECalModelPrivate, 1);
-	model->priv = priv;
-
-	/* match none by default */
-	priv->start = -1;
-	priv->end = -1;
-	priv->search_sexp = NULL;
-	priv->full_sexp = g_strdup ("#f");
-
-	priv->objects = g_ptr_array_new ();
-	priv->kind = ICAL_NO_COMPONENT;
-	priv->flags = 0;
-
-	priv->accounts = itip_addresses_get ();
-
-	priv->use_24_hour_format = TRUE;
-}
-
-static void
-clear_objects_array (ECalModelPrivate *priv)
-{
-	gint i;
-
-	for (i = 0; i < priv->objects->len; i++) {
-		ECalModelComponent *comp_data;
-
-		comp_data = g_ptr_array_index (priv->objects, i);
-		if (comp_data == NULL) {
-			g_warning ("comp_data is null\n");
-			continue;
-		}
-		e_cal_model_free_component_data (comp_data);
+	switch (property_id) {
+		case PROP_USE_24_HOUR_FORMAT:
+			e_cal_model_set_use_24_hour_format (
+				E_CAL_MODEL (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
-	g_ptr_array_set_size (priv->objects, 0);
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-e_cal_model_dispose (GObject *object)
+cal_model_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_USE_24_HOUR_FORMAT:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_use_24_hour_format (
+				E_CAL_MODEL (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+cal_model_dispose (GObject *object)
 {
 	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) object;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-
-	priv = model->priv;
+	priv = E_CAL_MODEL_GET_PRIVATE (object);
 
 	if (priv->clients) {
 		while (priv->clients != NULL) {
 			ECalModelClient *client_data = (ECalModelClient *) priv->clients->data;
 
 			g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, model);
+							      0, 0, NULL, NULL, object);
 			if (client_data->query)
 				g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, model);
+								      0, 0, NULL, NULL, object);
 
 			priv->clients = g_list_remove (priv->clients, client_data);
 
@@ -267,32 +193,146 @@ e_cal_model_dispose (GObject *object)
 		priv->default_client = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->dispose)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-e_cal_model_finalize (GObject *object)
+cal_model_finalize (GObject *object)
 {
 	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) object;
+	gint ii;
 
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-
-	priv = model->priv;
+	priv = E_CAL_MODEL_GET_PRIVATE (object);
 
 	g_free (priv->search_sexp);
 	g_free (priv->full_sexp);
 
 	g_free (priv->default_category);
 
-	clear_objects_array (priv);
+	for (ii = 0; ii < priv->objects->len; ii++) {
+		ECalModelComponent *comp_data;
+
+		comp_data = g_ptr_array_index (priv->objects, ii);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is null\n");
+			continue;
+		}
+		e_cal_model_free_component_data (comp_data);
+	}
 	g_ptr_array_free (priv->objects, FALSE);
 
-	g_free (priv);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
+static void
+e_cal_model_class_init (ECalModelClass *class)
+{
+	GObjectClass *object_class;
+	ETableModelClass *etm_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ECalModelPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = cal_model_set_property;
+	object_class->get_property = cal_model_get_property;
+	object_class->dispose = cal_model_dispose;
+	object_class->finalize = cal_model_finalize;
+
+	etm_class = E_TABLE_MODEL_CLASS (class);
+	etm_class->column_count = ecm_column_count;
+	etm_class->row_count = ecm_row_count;
+	etm_class->value_at = ecm_value_at;
+	etm_class->set_value_at = ecm_set_value_at;
+	etm_class->is_cell_editable = ecm_is_cell_editable;
+	etm_class->append_row = ecm_append_row;
+	etm_class->duplicate_value = ecm_duplicate_value;
+	etm_class->free_value = ecm_free_value;
+	etm_class->initialize_value = ecm_initialize_value;
+	etm_class->value_is_empty = ecm_value_is_empty;
+	etm_class->value_to_string = ecm_value_to_string;
+
+	class->get_color_for_component = ecm_get_color_for_component;
+	class->fill_component_from_model = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_24_HOUR_FORMAT,
+		g_param_spec_boolean (
+			"use-24-hour-format",
+			"Use 24-Hour Format",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	signals[TIME_RANGE_CHANGED] =
+		g_signal_new ("time_range_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
+			      NULL, NULL,
+			      e_marshal_VOID__LONG_LONG,
+			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);
+
+	signals[ROW_APPENDED] =
+		g_signal_new ("row_appended",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, row_appended),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	signals[COMPS_DELETED] =
+		g_signal_new ("comps_deleted",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, comps_deleted),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+
+	signals[CAL_VIEW_PROGRESS] =
+		g_signal_new ("cal_view_progress",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
+			      NULL, NULL,
+			      e_marshal_VOID__STRING_INT_INT,
+			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
+	signals[CAL_VIEW_DONE] =
+		g_signal_new ("cal_view_done",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, cal_view_done),
+			      NULL, NULL,
+			      e_marshal_VOID__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+
+}
+
+static void
+e_cal_model_init (ECalModel *model)
+{
+	ECalModelPrivate *priv;
+
+	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
+
+	/* match none by default */
+	model->priv->start = -1;
+	model->priv->end = -1;
+	model->priv->search_sexp = NULL;
+	model->priv->full_sexp = g_strdup ("#f");
+
+	model->priv->objects = g_ptr_array_new ();
+	model->priv->kind = ICAL_NO_COMPONENT;
+	model->priv->flags = 0;
+
+	model->priv->accounts = itip_addresses_get ();
+
+	model->priv->use_24_hour_format = TRUE;
 }
 
 /* ETableModel methods */
@@ -2327,17 +2367,17 @@ struct _ECalModelComponentPrivate {
 
 static void e_cal_model_component_finalize (GObject *object);
 
-static GObjectClass *parent_class;
+static GObjectClass *component_parent_class;
 
 /* Class initialization function for the calendar component object */
 static void
-e_cal_model_component_class_init (ECalModelComponentClass *klass)
+e_cal_model_component_class_init (ECalModelComponentClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GObjectClass *) class;
 
-	parent_class = g_type_class_peek_parent (klass);
+	component_parent_class = g_type_class_peek_parent (class);
 
 	object_class->finalize = e_cal_model_component_finalize;
 }
@@ -2384,8 +2424,8 @@ e_cal_model_component_finalize (GObject *object)
 		comp_data->color = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (component_parent_class)->finalize)
+		(* G_OBJECT_CLASS (component_parent_class)->finalize) (object);
 }
 
 /* Object initialization function for the calendar component object */

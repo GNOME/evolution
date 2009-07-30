@@ -83,8 +83,6 @@ libcal_gui_la_SOURCES =		\
 	e-cal-popup.c				\
 	e-cal-list-view.c			\
 	e-cal-list-view.h			\
-	e-cal-list-view-config.c		\
-	e-cal-list-view-config.h		\
 	e-cal-model-memos.c			\
 	e-cal-model-memos.h			\
 	e-calendar-table-config.c		\
@@ -101,8 +99,6 @@ libcal_gui_la_SOURCES =		\
 	e-date-edit-config.h			\
 	e-date-time-list.c                      \
 	e-date-time-list.h                      \
-	e-day-view-config.c			\
-	e-day-view-config.h			\
 	e-day-view-layout.c			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.c			\
@@ -144,8 +140,6 @@ libcal_gui_la_SOURCES =		\
 	e-select-names-renderer.h		\
 	e-task-list-selector.c			\
 	e-task-list-selector.h			\
-	e-week-view-config.c			\
-	e-week-view-config.h			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

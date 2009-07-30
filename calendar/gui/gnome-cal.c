@@ -54,13 +54,10 @@
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view.h"
-#include "e-day-view-config.h"
 #include "e-day-view-time-item.h"
 #include "e-month-view.h"
 #include "e-week-view.h"
-#include "e-week-view-config.h"
 #include "e-cal-list-view.h"
-#include "e-cal-list-view-config.h"
 #include "e-mini-calendar-config.h"
 #include "e-calendar-table-config.h"
 #include "gnome-cal.h"
@@ -116,7 +113,6 @@ struct _GnomeCalendarPrivate {
 	   positions of the panes. range_selected is TRUE if a range of dates
 	   was selected in the date navigator to show the view. */
 	ECalendarView    *views[GNOME_CAL_LAST_VIEW];
-	GObject    *configs[GNOME_CAL_LAST_VIEW];
 	GnomeCalendarViewType current_view_type;
 	GList *notifications;
 
@@ -1087,7 +1083,7 @@ update_marcus_bains_line_cb (GnomeCalendar *gcal)
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
 
 	if (E_IS_DAY_VIEW (view))
-		e_day_view_update_marcus_bains (E_DAY_VIEW (view));
+		e_day_view_marcus_bains_update (E_DAY_VIEW (view));
 
 	time (&now);
 	day_begin = time_day_begin (now);
@@ -1316,8 +1312,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, priv->zone);
 	priv->views[GNOME_CAL_DAY_VIEW] = calendar_view;
-	priv->configs[GNOME_CAL_DAY_VIEW] =
-		G_OBJECT (e_day_view_config_new (E_DAY_VIEW (calendar_view)));
 
 	g_signal_connect (
 		calendar_view, "selection-changed",
@@ -1330,8 +1324,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, priv->zone);
 	priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
-	priv->configs[GNOME_CAL_WORK_WEEK_VIEW] =
-		G_OBJECT (e_day_view_config_new (E_DAY_VIEW (calendar_view)));
 
 	/* The Marcus Bains line */
 	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);
@@ -1341,8 +1333,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, priv->zone);
 	priv->views[GNOME_CAL_WEEK_VIEW] = calendar_view;
-	priv->configs[GNOME_CAL_WEEK_VIEW] =
-		G_OBJECT (e_week_view_config_new (E_WEEK_VIEW (calendar_view)));
 
 	g_signal_connect (
 		calendar_view, "selection-changed",
@@ -1367,8 +1357,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (calendar_view), TRUE);
 	e_week_view_set_weeks_shown (E_WEEK_VIEW (calendar_view), 6);
 	priv->views[GNOME_CAL_MONTH_VIEW] = calendar_view;
-	priv->configs[GNOME_CAL_MONTH_VIEW] =
-		G_OBJECT (e_week_view_config_new (E_WEEK_VIEW (calendar_view)));
 
 	g_signal_connect (
 		calendar_view, "selection-changed",
@@ -1385,8 +1373,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, priv->zone);
 	priv->views[GNOME_CAL_LIST_VIEW] = calendar_view;
-	priv->configs[GNOME_CAL_LIST_VIEW] =
-		G_OBJECT (e_cal_list_view_config_new (E_CAL_LIST_VIEW (calendar_view)));
 
 	g_signal_connect (
 		calendar_view, "selection-changed",
@@ -1472,11 +1458,6 @@ gnome_calendar_destroy (GtkObject *object)
 		}
 		priv->default_client = NULL;
 
-		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-			if (priv->configs[i])
-				g_object_unref (priv->configs[i]);
-			priv->configs[i] = NULL;
-		}
 		g_object_unref (priv->date_navigator_config);
 
 		for (l = priv->notifications; l; l = l->next)

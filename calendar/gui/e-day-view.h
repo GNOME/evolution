@@ -309,7 +309,7 @@ struct _EDayView {
 	gint work_day_end_minute;
 
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
-	gboolean show_marcus_bains_line;
+	gboolean marcus_bains_show_line;
 	gchar *marcus_bains_day_view_color;
 	gchar *marcus_bains_time_bar_color;
 
@@ -525,23 +525,36 @@ void	   e_day_view_set_working_days		(EDayView	*day_view,
 
 /* The start and end time of the working day. This only affects the background
    colors. */
-void	   e_day_view_get_working_day		(EDayView	*day_view,
-						 gint		*start_hour,
-						 gint		*start_minute,
-						 gint		*end_hour,
-						 gint		*end_minute);
-void	   e_day_view_set_working_day		(EDayView	*day_view,
-						 gint		 start_hour,
-						 gint		 start_minute,
-						 gint		 end_hour,
-						 gint		 end_minute);
+gint	   e_day_view_get_work_day_start_hour	(EDayView *day_view);
+void	   e_day_view_set_work_day_start_hour	(EDayView *day_view,
+						 gint work_day_start_hour);
+gint	   e_day_view_get_work_day_start_minute	(EDayView *day_view);
+void	   e_day_view_set_work_day_start_minute	(EDayView *day_view,
+						 gint work_day_start_minute);
+gint	   e_day_view_get_work_day_end_hour	(EDayView *day_view);
+void	   e_day_view_set_work_day_end_hour	(EDayView *day_view,
+						 gint work_day_end_hour);
+gint	   e_day_view_get_work_day_end_minute	(EDayView *day_view);
+void	   e_day_view_set_work_day_end_minute	(EDayView *day_view,
+						 gint work_day_end_minute);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
-gboolean   e_day_view_get_show_marcus_bains	(EDayView	*day_view);
-void       e_day_view_set_marcus_bains		(EDayView       *day_view,
-						 gboolean        show_line,
-						 const gchar	*dayview_color,
-						 const gchar     *timebar_color);
+void	   e_day_view_marcus_bains_update	(EDayView *day_view);
+gboolean   e_day_view_marcus_bains_get_show_line(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_show_line(EDayView *day_view,
+						 gboolean show_line);
+const gchar *
+	   e_day_view_marcus_bains_get_day_view_color
+						(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_day_view_color
+						(EDayView *day_view,
+						 const gchar *day_view_color);
+const gchar *
+	   e_day_view_marcus_bains_get_time_bar_color
+						(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_time_bar_color
+						(EDayView *day_view,
+						 const gchar *time_bar_color);
 
 /* Whether we display event end times in the main canvas. */
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
@@ -620,8 +633,6 @@ void e_day_view_update_calendar_selection_time (EDayView *day_view);
 void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,
 				     gint end_row);
-
-void e_day_view_update_marcus_bains (EDayView *day_view);
 
 /* Week number in upper-left corner of the day view widget */
 gboolean e_day_view_get_show_week_number (EDayView *day_view);

@@ -24,6 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
@@ -72,6 +73,19 @@ typedef enum {
 
 static gpointer parent_class;
 static GType cal_shell_content_type;
+
+static gboolean
+transform_week_start_day (const GValue *src_value,
+                          GValue *dst_value)
+{
+	gint v_int;
+
+	/* Transform day numbering from 0 = Sunday to 0 = Monday. */
+	v_int = g_value_get_int (src_value);
+	g_value_set_int (dst_value, (v_int + 6) % 7);
+
+	return TRUE;
+}
 
 static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
@@ -297,15 +311,20 @@ static void
 cal_shell_content_constructed (GObject *object)
 {
 	ECalShellContentPrivate *priv;
-	ECalModelCalendar *cal_model;
+	ECalendarView *calendar_view;
+	ECalModel *calendar_model;
 	ECalModel *memo_model;
 	ECalModel *task_model;
+	EShell *shell;
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *foreign_content;
 	EShellView *foreign_view;
+	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
 	GalViewInstance *view_instance;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -329,11 +348,8 @@ cal_shell_content_constructed (GObject *object)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	config_dir = e_shell_backend_get_config_dir (shell_backend);
 
-	/* Calendar model for the views. */
-	cal_model = e_cal_model_calendar_new ();
-	e_cal_model_set_flags (
-		E_CAL_MODEL (cal_model),
-		E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* We borrow the memopad and taskpad models from the memo
 	 * and task views, loading the views if necessary. */
@@ -378,16 +394,15 @@ cal_shell_content_constructed (GObject *object)
 	/* Add views in the order defined by GnomeCalendarViewType, such
 	 * that the notebook page number corresponds to the view type. */
 
-	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
-		GnomeCalendar *calendar;
-		ECalendarView *view;
+	calendar = GNOME_CALENDAR (priv->calendar);
 
-		calendar = GNOME_CALENDAR (priv->calendar);
-		view = gnome_calendar_get_calendar_view (calendar, ii);
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		calendar_view = gnome_calendar_get_calendar_view (calendar, ii);
 
 		gtk_notebook_append_page (
-			GTK_NOTEBOOK (container), GTK_WIDGET (view), NULL);
-		gtk_widget_show (GTK_WIDGET (view));
+			GTK_NOTEBOOK (container),
+			GTK_WIDGET (calendar_view), NULL);
+		gtk_widget_show (GTK_WIDGET (calendar_view));
 	}
 
 	container = priv->vpaned;
@@ -470,6 +485,148 @@ cal_shell_content_constructed (GObject *object)
 	object = G_OBJECT (priv->vpaned);
 	key = "/apps/evolution/calendar/display/vpane_position";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+
+	/* Bind day view properties to EShellSettings. */
+
+	view_type = GNOME_CAL_DAY_VIEW;
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-show-line",
+		G_OBJECT (calendar_view), "marcus-bains-show-line");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-day-view-color",
+		G_OBJECT (calendar_view), "marcus-bains-day-view-color");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-time-bar-color",
+		G_OBJECT (calendar_view), "marcus-bains-time-bar-color");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-time-divisions",
+		G_OBJECT (calendar_view), "mins-per-row");
+
+	e_binding_new_full (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (calendar_view), "week-start-day",
+		(EBindingTransform) transform_week_start_day,
+		(GDestroyNotify) NULL, NULL);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-end-hour",
+		G_OBJECT (calendar_view), "work-day-end-hour");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-end-minute",
+		G_OBJECT (calendar_view), "work-day-end-minute");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-start-hour",
+		G_OBJECT (calendar_view), "work-day-start-hour");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-start-minute",
+		G_OBJECT (calendar_view), "work-day-start-minute");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days",
+		G_OBJECT (calendar_view), "working-days");
+
+	/* Bind work week view properties to EShellSettings. */
+
+	view_type = GNOME_CAL_WORK_WEEK_VIEW;
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-show-line",
+		G_OBJECT (calendar_view), "marcus-bains-show-line");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-day-view-color",
+		G_OBJECT (calendar_view), "marcus-bains-day-view-color");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-marcus-bains-time-bar-color",
+		G_OBJECT (calendar_view), "marcus-bains-time-bar-color");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-time-divisions",
+		G_OBJECT (calendar_view), "mins-per-row");
+
+	e_binding_new_full (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (calendar_view), "week-start-day",
+		(EBindingTransform) transform_week_start_day,
+		(GDestroyNotify) NULL, NULL);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-end-hour",
+		G_OBJECT (calendar_view), "work-day-end-hour");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-end-minute",
+		G_OBJECT (calendar_view), "work-day-end-minute");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-start-hour",
+		G_OBJECT (calendar_view), "work-day-start-hour");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-work-day-start-minute",
+		G_OBJECT (calendar_view), "work-day-start-minute");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days",
+		G_OBJECT (calendar_view), "working-days");
+
+	/* Bind week view properties to EShellSettings. */
+
+	view_type = GNOME_CAL_WEEK_VIEW;
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-compress-weekend",
+		G_OBJECT (calendar_view), "compress-weekend");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-show-event-end-times",
+		G_OBJECT (calendar_view), "show-event-end-times");
+
+	e_binding_new_full (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (calendar_view), "week-start-day",
+		(EBindingTransform) transform_week_start_day,
+		(GDestroyNotify) NULL, NULL);
+
+	/* Bind month view properties to EShellSettings. */
+
+	view_type = GNOME_CAL_MONTH_VIEW;
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-compress-weekend",
+		G_OBJECT (calendar_view), "compress-weekend");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-show-event-end-times",
+		G_OBJECT (calendar_view), "show-event-end-times");
+
+	e_binding_new_full (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (calendar_view), "week-start-day",
+		(EBindingTransform) transform_week_start_day,
+		(GDestroyNotify) NULL, NULL);
+
+	/* Bind calendar model properties to EShellSettings.
+	 * Note, does not matter from which view we get the
+	 * model, since it's shared across all of them. */
+
+	calendar_model = e_calendar_view_get_model (calendar_view);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-use-24-hour-format",
+		G_OBJECT (calendar_view), "use-24-hour-format");
 
 	g_object_unref (memo_model);
 	g_object_unref (task_model);

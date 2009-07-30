@@ -503,59 +503,72 @@ e_calendar_view_set_default_category (ECalendarView *cal_view, const gchar *cate
 GList *
 e_calendar_view_get_selected_events (ECalendarView *cal_view)
 {
+	ECalendarViewClass *class;
+
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_events)
-		return E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_events (cal_view);
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_val_if_fail (class->get_selected_events != NULL, NULL);
 
-	return NULL;
+	return class->get_selected_events (cal_view);
 }
 
 gboolean
-e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+e_calendar_view_get_selected_time_range (ECalendarView *cal_view,
+                                         time_t *start_time,
+                                         time_t *end_time)
 {
+	ECalendarViewClass *class;
+
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_time_range) {
-		return E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_time_range (
-			cal_view, start_time, end_time);
-	}
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_val_if_fail (class->get_selected_time_range != NULL, FALSE);
 
-	return FALSE;
+	return class->get_selected_time_range (cal_view, start_time, end_time);
 }
 
 void
-e_calendar_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time)
+e_calendar_view_set_selected_time_range (ECalendarView *cal_view,
+                                         time_t start_time,
+                                         time_t end_time)
 {
+	ECalendarViewClass *class;
+
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->set_selected_time_range) {
-		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->set_selected_time_range (
-			cal_view, start_time, end_time);
-	}
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_if_fail (class->set_selected_time_range != NULL);
+
+	class->set_selected_time_range (cal_view, start_time, end_time);
 }
 
 gboolean
-e_calendar_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+e_calendar_view_get_visible_time_range (ECalendarView *cal_view,
+                                        time_t *start_time,
+                                        time_t *end_time)
 {
+	ECalendarViewClass *class;
+
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range) {
-		return E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_visible_time_range (
-			cal_view, start_time, end_time);
-	}
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_val_if_fail (class->get_visible_time_range != NULL, FALSE);
 
-	return FALSE;
+	class->get_visible_time_range (cal_view, start_time, end_time);
 }
 
 void
 e_calendar_view_update_query (ECalendarView *cal_view)
 {
+	ECalendarViewClass *class;
+
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query) {
-		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query (cal_view);
-	}
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_if_fail (class->update_query != NULL);
+
+	class->update_query (cal_view);
 }
 
 void
@@ -846,10 +859,14 @@ clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 static void
 e_calendar_view_paste_text (ECalendarView *cal_view)
 {
+	ECalendarViewClass *class;
+
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text)
-		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text (cal_view);
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_if_fail (class->paste_text != NULL);
+
+	class->paste_text (cal_view);
 }
 
 static void
