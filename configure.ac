@@ -12,7 +12,8 @@ m4_define([evo_stable_version],
 # Base Version: This is for API/version tracking for things like
 # Bonobo server files.  This should always be the major/minor of
 # the stable version or stable version to be.
-m4_define([base_version], [2.28])
+BASE_VERSION=2.28
+AC_SUBST([BASE_VERSION])
 
 # Upgrade Revision: This is for triggering migration calls between
 # varying versions. Reset to 0 whenever BASE_VERSION changes.
@@ -109,7 +110,6 @@ if test "$evo_version" != "$evo_stable_version"; then
                   [Define to the latest stable version if this version is unstable])
 fi
 
-AC_SUBST([BASE_VERSION],[base_version])
 AC_DEFINE_UNQUOTED(BASE_VERSION, ["$BASE_VERSION"], [Base version (Major.Minor)])
 
 AC_SUBST([UPGRADE_REVISION],[upgrade_revision])
