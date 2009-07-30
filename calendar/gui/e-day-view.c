@@ -821,11 +821,6 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
-		e_day_view_free_events (day_view);
-		return;
-	}
-
 	/* Calculate the first day that should be shown, based on start_time
 	   and the days_shown setting. If we are showing 1 day it is just the
 	   start of the day given by start_time, otherwise it is the previous
@@ -839,6 +834,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	/* See if we need to change the days shown. */
 	if (lower != day_view->lower)
 		e_day_view_recalc_day_starts (day_view, lower);
+
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		return;
+	}
 
 	/* If we don't show the new selection, don't preserve it */
 	if (day_view->selection_start_day == -1 || day_view->days_shown <= day_view->selection_start_day)
@@ -3808,6 +3808,9 @@ e_day_view_update_query (EDayView *day_view)
 {
 	gint rows, r;
 
+	if (!E_CALENDAR_VIEW (day_view)->in_focus)
+		return;
+
 	e_day_view_stop_editing_event (day_view);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -4606,11 +4609,13 @@ e_day_view_add_event (ECalComponent *comp,
 
 	add_event_data = data;
 
-	/*
-	g_print ("Day view lower: %s", ctime (&add_event_data->day_view->lower));
-	g_print ("Day view upper: %s", ctime (&add_event_data->day_view->upper));
-	g_print ("Event start: %s", ctime (&start));
-	g_print ("Event end  : %s\n", ctime (&end)); */
+	/*if (end < start || start >= add_event_data->day_view->upper || end < add_event_data->day_view->lower) {
+		g_print ("%s: day_view: %p\n", G_STRFUNC, add_event_data->day_view);
+		g_print ("\tDay view lower: %s", ctime (&add_event_data->day_view->lower));
+		g_print ("\tDay view upper: %s", ctime (&add_event_data->day_view->upper));
+		g_print ("\tEvent start: %s", ctime (&start));
+		g_print ("\tEvent end  : %s\n", ctime (&end));
+	}*/
 
 	/* Check that the event times are valid. */
 	g_return_val_if_fail (start <= end, TRUE);
