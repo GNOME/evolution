@@ -41,6 +41,7 @@ typedef enum {
 struct CalMimeAttach {
 	gchar *filename;
 	gchar *content_type;
+	gchar *content_id;
 	gchar *description;
 	gchar *encoded_data;
 	gboolean disposition;
