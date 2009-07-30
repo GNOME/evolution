@@ -59,6 +59,7 @@ m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
 m4_define([libgnomeui_minimum_version], [2.0.0])        # XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
+m4_define([libpst_minimum_version], [0.6.41])
 m4_define([unique_minimum_version], [1.0.8])
 
 # Optional Packages
@@ -1853,7 +1854,7 @@ then
 		dnl *********************
 		dnl libpst
 		dnl *********************
-		PKG_CHECK_MODULES([LIBPST], [libpst])
+		PKG_CHECK_MODULES([LIBPST], [libpst >= libpst_minimum_version])
 		AC_SUBST(LIBPST_CFLAGS)
 		AC_SUBST(LIBPST_LIBS)
 	else
