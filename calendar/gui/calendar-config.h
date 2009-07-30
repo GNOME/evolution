@@ -280,4 +280,8 @@ guint calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFu
 /* default count for recurring events */
 gint calendar_config_get_default_count (void);
 
+/* event drawing customization, one-time read on start only */
+gboolean calendar_config_get_display_events_gradient (void);
+gfloat   calendar_config_get_display_events_alpha (void);
+
 #endif /* _CALENDAR_CONFIG_H_ */

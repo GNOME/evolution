@@ -27,48 +27,64 @@
 #include <libedataserverui/e-categories-dialog.h>
 #include "e-categories-config.h"
 
+static GHashTable *pixbufs_cache = NULL;
+
+static void
+categories_changed_cb (gpointer object, gpointer user_data)
+{
+	if (pixbufs_cache)
+		g_hash_table_remove_all (pixbufs_cache);
+}
+
+static void
+free_pixbuf_cb (gpointer ptr)
+{
+	GdkPixbuf *pixbuf = ptr;
+
+	if (pixbuf)
+		g_object_unref (pixbuf);
+}
+
 /**
  * e_categories_config_get_icon_for:
  * @category: Category for which to get the icon.
- * @icon: A pointer to where the pixmap will be returned.
- * @mask: A pointer to where the mask will be returned.
+ * @pixbuf: A pointer to where the pixbuf will be returned.
  *
- * Returns the icon (and associated mask) configured for the
- * given category.
+ * Returns the icon configured for the given category.
  */
 gboolean
-e_categories_config_get_icon_for (const gchar *category, GdkPixmap **pixmap, GdkBitmap **mask)
+e_categories_config_get_icon_for (const gchar *category, GdkPixbuf **pixbuf)
 {
-	gchar *icon_file;
-	GdkPixbuf *pixbuf;
-	GdkBitmap *tmp_mask;
+	const gchar *icon_file;
 
-	g_return_val_if_fail (pixmap != NULL, FALSE);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
+	g_return_val_if_fail (category != NULL, FALSE);
 
-	icon_file = (gchar *) e_categories_get_icon_file_for (category);
+	if (!pixbufs_cache) {
+		pixbufs_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, free_pixbuf_cb);
+		e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), NULL);
+	} else {
+		gpointer key = NULL, value = NULL;
+
+		if (g_hash_table_lookup_extended (pixbufs_cache, category, &key, &value)) {
+			*pixbuf = value;
+			if (*pixbuf)
+				g_object_ref (*pixbuf);
+			return *pixbuf != NULL;
+		}
+	}
+
+	icon_file = e_categories_get_icon_file_for (category);
 	if (!icon_file) {
-		*pixmap = NULL;
-		if (mask != NULL)
-			*mask = NULL;
-		return FALSE;
+		*pixbuf = NULL;
+	} else {
+		/* load the icon in our list */
+		*pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
 	}
 
-	/* load the icon in our list */
-	pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
-	if (!pixbuf) {
-		*pixmap = NULL;
-		if (mask != NULL)
-			*mask = NULL;
-		return FALSE;
-	}
+	g_hash_table_insert (pixbufs_cache, g_strdup (category), *pixbuf == NULL ? NULL : g_object_ref (*pixbuf));
 
-	/* render the pixbuf to the pixmap and mask passed */
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, &tmp_mask, 1);
-	if (mask != NULL)
-		*mask = tmp_mask;
-
-	g_object_unref (pixbuf);
-	return TRUE;
+	return *pixbuf != NULL;
 }
 
 /**

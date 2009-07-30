@@ -39,7 +39,7 @@ gboolean cal_comp_util_compare_event_timezones (ECalComponent *comp,
 						icaltimezone *zone);
 
 /* Returns the number of icons owned by the ECalComponent */
-gint     cal_comp_util_get_n_icons (ECalComponent *comp);
+gint     cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs);
 
 gboolean cal_comp_is_on_server (ECalComponent *comp,
 				ECal *client);

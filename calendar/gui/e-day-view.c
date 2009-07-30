@@ -4457,7 +4457,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
-		num_icons += cal_comp_util_get_n_icons (comp);
+		num_icons += cal_comp_util_get_n_icons (comp, NULL);
 	}
 
 	if (!event->canvas_item) {
@@ -4627,7 +4627,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			if (e_cal_component_has_organizer (comp))
 				num_icons++;
 
-			num_icons += cal_comp_util_get_n_icons (comp);
+			num_icons += cal_comp_util_get_n_icons (comp, NULL);
 			g_object_unref(comp);
 		}
 

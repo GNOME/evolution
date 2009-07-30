@@ -103,6 +103,10 @@ G_BEGIN_DECLS
 
 #define CALENDAR_CONFIG_DEF_RECUR_COUNT CALENDAR_CONFIG_PREFIX "/other/def_recur_count"
 
+/* drawing of events */
+#define CALENDAR_CONFIG_DISPLAY_EVENTS_GRADIENT CALENDAR_CONFIG_PREFIX "/display/events_gradient"
+#define CALENDAR_CONFIG_DISPLAY_EVENTS_ALPHA CALENDAR_CONFIG_PREFIX "/display/events_transparency"
+
 G_END_DECLS
 
 #endif

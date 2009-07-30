@@ -428,13 +428,16 @@ cal_comp_memo_new_with_defaults (ECal *client)
 /**
  * cal_comp_util_get_n_icons:
  * @comp: A calendar component object.
+ * @pixbufs: List of pixbufs to use. Can be NULL.
  *
  * Get the number of icons owned by the component.
+ * Each member of pixmaps should be freed with g_object_unref
+ * and the list itself should be freed too.
  *
  * Returns: the number of icons owned by the component.
  **/
 gint
-cal_comp_util_get_n_icons (ECalComponent *comp)
+cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs)
 {
 	GSList *categories_list, *elem;
 	gint num_icons = 0;
@@ -444,16 +447,21 @@ cal_comp_util_get_n_icons (ECalComponent *comp)
 
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
-		gchar *category;
-		GdkPixmap *pixmap = NULL;
-		GdkBitmap *mask = NULL;
+		const gchar *category;
+		GdkPixbuf *pixbuf = NULL;
 
-		category = (gchar *) elem->data;
-		if (e_categories_config_get_icon_for (category, &pixmap, &mask)) {
+		category = elem->data;
+		if (e_categories_config_get_icon_for (category, &pixbuf)) {
+			if (!pixbuf)
+				continue;
+
 			num_icons++;
-			g_object_unref (pixmap);
-			if (mask)
-				g_object_unref (mask);
+
+			if (pixbufs) {
+				*pixbufs = g_slist_append (*pixbufs, pixbuf);
+			} else {
+				g_object_unref (pixbuf);
+			}
 		}
 	}
 	e_cal_component_free_categories_list (categories_list);
