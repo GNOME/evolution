@@ -240,11 +240,6 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		e_week_view_free_events (week_view);
-		return;
-	}
-
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Calculate the weekday of the given date, 0 = Mon. */
@@ -285,6 +280,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 	   signal handler will not try to reload the events. */
 	if (update_adjustment_value)
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		return;
+	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
@@ -1362,6 +1362,9 @@ static void
 e_week_view_update_query (EWeekView *week_view)
 {
 	gint rows, r;
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+		return;
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_free_events (week_view);
@@ -2482,11 +2485,14 @@ e_week_view_add_event (ECalComponent *comp,
 	/* Check that the event times are valid. */
 	num_days = add_event_data->week_view->multi_week_view ? add_event_data->week_view->weeks_shown * 7 : 7;
 
-#if 0
-	g_print ("View start:%li end:%li  Event start:%li end:%li\n",
-		 add_event_data->week_view->day_starts[0], add_event_data->week_view->day_starts[num_days],
-		 start, end);
-#endif
+	/*if (start > end || start >= add_event_data->week_view->day_starts[num_days] || end <= add_event_data->week_view->day_starts[0]) {
+		g_print ("%s: week_view:%p\n", G_STRFUNC, add_event_data->week_view);
+		g_print ("\tstart: %s", ctime (&start));
+		g_print ("\tend: %s", ctime (&end));
+		g_print ("\tday_starts[0]: %s", ctime (&add_event_data->week_view->day_starts[0]));
+		g_print ("\tday_starts[%d]: %s\n", num_days, ctime (&add_event_data->week_view->day_starts[num_days]));
+	}*/
+	
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < add_event_data->week_view->day_starts[num_days], TRUE);
 	g_return_val_if_fail (end > add_event_data->week_view->day_starts[0], TRUE);
