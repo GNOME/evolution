@@ -41,6 +41,8 @@
 #include "calendar-config.h"
 
 static GConfClient *config = NULL;
+static gboolean display_events_gradient = TRUE;
+static gfloat display_events_alpha = 1.0;
 
 static void
 do_cleanup (void)
@@ -59,6 +61,9 @@ calendar_config_init (void)
 	g_atexit ((GVoidFunc) do_cleanup);
 
 	gconf_client_add_dir (config, CALENDAR_CONFIG_PREFIX, GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
+
+	display_events_gradient = gconf_client_get_bool (config, CALENDAR_CONFIG_DISPLAY_EVENTS_GRADIENT, NULL);
+	display_events_alpha = gconf_client_get_float (config, CALENDAR_CONFIG_DISPLAY_EVENTS_ALPHA, NULL);
 }
 
 void
@@ -1016,4 +1021,20 @@ calendar_config_get_default_count (void)
 		res = 2;
 
 	return res;
+}
+
+gboolean
+calendar_config_get_display_events_gradient (void)
+{
+	calendar_config_init ();
+
+	return display_events_gradient;
+}
+
+gfloat
+calendar_config_get_display_events_alpha (void)
+{
+	calendar_config_init ();
+
+	return display_events_alpha;
 }
