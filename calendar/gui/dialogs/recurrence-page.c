@@ -56,6 +56,7 @@ enum month_num_options {
 	MONTH_NUM_SECOND,
 	MONTH_NUM_THIRD,
 	MONTH_NUM_FOURTH,
+	MONTH_NUM_FIFTH,
 	MONTH_NUM_LAST,
 	MONTH_NUM_DAY,
 	MONTH_NUM_OTHER
@@ -66,6 +67,7 @@ static const gint month_num_options_map[] = {
 	MONTH_NUM_SECOND,
 	MONTH_NUM_THIRD,
 	MONTH_NUM_FOURTH,
+	MONTH_NUM_FIFTH,
 	MONTH_NUM_LAST,
 	MONTH_NUM_DAY,
 	MONTH_NUM_OTHER,
@@ -1028,6 +1030,11 @@ make_recur_month_num_combo (gint month_index)
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
 		 */
 		N_("fourth"),
+		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
+		 * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
+		 * the name of a week day (like 'Monday' or 'Friday') always follow.
+		 */
+		N_("fifth"),
 		/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 		 * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 		 * the name of a week day (like 'Monday' or 'Friday') always follow.
