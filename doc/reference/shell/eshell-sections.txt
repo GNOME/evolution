@@ -117,7 +117,7 @@ EShellContentPrivate
 <TITLE>EShellSettings</TITLE>
 EShellSettings
 e_shell_settings_install_property
-e_shell_settings_bind_to_gconf
+e_shell_settings_install_property_for_key
 e_shell_settings_enable_debug
 e_shell_settings_get_boolean
 e_shell_settings_set_boolean

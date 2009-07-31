@@ -31,12 +31,11 @@ EShellSettings
 @pspec: 
 
 
-<!-- ##### FUNCTION e_shell_settings_bind_to_gconf ##### -->
+<!-- ##### FUNCTION e_shell_settings_install_property_for_key ##### -->
 <para>
 
 </para>
 
-@shell_settings: 
 @property_name: 
 @gconf_key: 
 

@@ -626,7 +626,7 @@ cal_shell_content_constructed (GObject *object)
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (calendar_view), "use-24-hour-format");
+		G_OBJECT (calendar_model), "use-24-hour-format");
 
 	g_object_unref (memo_model);
 	g_object_unref (task_model);

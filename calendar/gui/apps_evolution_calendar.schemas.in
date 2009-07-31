@@ -4,6 +4,17 @@
     <!-- Display -->
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/primary_calendar</key>
+      <applyto>/apps/evolution/calendar/display/primary_calendar</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Primary calendar</short>
+        <long>URI of the highlighted ("primary") calendar</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/timezone</key>
       <applyto>/apps/evolution/calendar/display/timezone</applyto>
       <owner>evolution-calendar</owner>
@@ -412,7 +423,44 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/use_system_timezone</key>
+      <applyto>/apps/evolution/calendar/display/use_system_timezone</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Use system timezone</short>
+        <long>Use the system timezone instead of the timezone selected
+        in Evolution.</long>
+      </locale>
+    </schema>
+
+    <!-- Memos -->
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/memos/primary_memos</key>
+      <applyto>/apps/evolution/calendar/memos/primary_memos</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Primary memo list</short>
+        <long>URI of the highlighted ("primary") memo list</long>
+      </locale>
+    </schema>
+
     <!-- Tasks -->
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/tasks/primary_tasks</key>
+      <applyto>/apps/evolution/calendar/tasks/primary_tasks</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Primary task list</short>
+        <long>URI of the highlighted ("primary") task list</long>
+      </locale>
+    </schema>
 
     <schema>
       <key>/schemas/apps/evolution/calendar/tasks/hide_completed</key>

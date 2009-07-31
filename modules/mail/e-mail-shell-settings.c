@@ -36,9 +36,6 @@ e_mail_shell_settings_init (EShell *shell)
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	/* XXX Default values should match the GConf schema.
-	 *     Yes it's redundant, but we're stuck with GConf. */
-
 	/*** Global Objects ***/
 
 	e_shell_settings_install_property (
@@ -67,490 +64,166 @@ e_mail_shell_settings_init (EShell *shell)
 
 	/*** Mail Preferences ***/
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-address-compress",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-address-compress",
+	e_shell_settings_install_property_for_key (
+		"mail-address-compress",
 		"/apps/evolution/mail/display/address_compress");
 
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-address-count",
-			NULL,
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-address-count",
+	e_shell_settings_install_property_for_key (
+		"mail-address-count",
 		"/apps/evolution/mail/display/address_count");
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"mail-charset",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-charset",
+	e_shell_settings_install_property_for_key (
+		"mail-charset",
 		"/apps/evolution/mail/display/charset");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-check-for-junk",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-check-for-junk",
+	e_shell_settings_install_property_for_key (
+		"mail-check-for-junk",
 		"/apps/evolution/mail/junk/check_incoming");
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"mail-citation-color",
-			NULL,
-			NULL,
-			"#737373",
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-citation-color",
+	e_shell_settings_install_property_for_key (
+		"mail-citation-color",
 		"/apps/evolution/mail/display/citation_colour");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-confirm-expunge",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-confirm-expunge",
+	e_shell_settings_install_property_for_key (
+		"mail-confirm-expunge",
 		"/apps/evolution/mail/prompts/expunge");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-confirm-unwanted-html",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-confirm-unwanted-html",
+	e_shell_settings_install_property_for_key (
+		"mail-confirm-unwanted-html",
 		"/apps/evolution/mail/prompts/unwanted_html");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-empty-junk-on-exit",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-empty-junk-on-exit",
+	e_shell_settings_install_property_for_key (
+		"mail-empty-junk-on-exit",
 		"/apps/evolution/mail/junk/empty_on_exit");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-empty-trash-on-exit",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-empty-trash-on-exit",
+	e_shell_settings_install_property_for_key (
+		"mail-empty-trash-on-exit",
 		"/apps/evolution/mail/trash/empty_on_exit");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-enable-search-folders",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-enable-search-folders",
+	e_shell_settings_install_property_for_key (
+		"mail-enable-search-folders",
 		"/apps/evolution/mail/display/enable_vfolders");
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"mail-font-monospace",
-			NULL,
-			NULL,
-			"",
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-font-monospace",
+	e_shell_settings_install_property_for_key (
+		"mail-font-monospace",
 		"/apps/evolution/mail/display/fonts/monospace");
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"mail-font-variable",
-			NULL,
-			NULL,
-			"",
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-font-variable",
+	e_shell_settings_install_property_for_key (
+		"mail-font-variable",
 		"/apps/evolution/mail/display/fonts/variable");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-force-message-limit",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-force-message-limit",
+	e_shell_settings_install_property_for_key (
+		"mail-force-message-limit",
 		"/apps/evolution/mail/display/force_message_limit");
 
 	/* This value corresponds to MailConfigForwardStyle enum. */
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-forward-style",
-			NULL,
-			NULL,
-			0,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-forward-style",
+	e_shell_settings_install_property_for_key (
+		"mail-forward-style",
 		"/apps/evolution/mail/format/forward_style");
 
 	/* This value corresponds to MailConfigHTTPMode enum. */
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-image-loading-policy",
-			NULL,
-			NULL,
-			0,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-image-loading-policy",
+	e_shell_settings_install_property_for_key (
+		"mail-image-loading-policy",
 		"/apps/evolution/mail/display/load_http_images");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-magic-spacebar",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-magic-spacebar",
+	e_shell_settings_install_property_for_key (
+		"mail-magic-spacebar",
 		"/apps/evolution/mail/display/magic_spacebar");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-mark-citations",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-mark-citations",
+	e_shell_settings_install_property_for_key (
+		"mail-mark-citations",
 		"/apps/evolution/mail/display/mark_citations");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-mark-seen",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-mark-seen",
+	e_shell_settings_install_property_for_key (
+		"mail-mark-seen",
 		"/apps/evolution/mail/display/mark_seen");
 
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-mark-seen-timeout",
-			NULL,
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-mark-seen-timeout",
+	e_shell_settings_install_property_for_key (
+		"mail-mark-seen-timeout",
 		"/apps/evolution/mail/display/mark_seen_timeout");
 
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-message-text-part-limit",
-			NULL,
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-message-text-part-limit",
+	e_shell_settings_install_property_for_key (
+		"mail-message-text-part-limit",
 		"/apps/evolution/mail/display/message_text_part_limit");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-only-local-photos",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-only-local-photos",
+	e_shell_settings_install_property_for_key (
+		"mail-only-local-photos",
 		"/apps/evolution/mail/display/photo_local");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-prompt-delete-in-vfolder",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-prompt-delete-in-vfolder",
+	e_shell_settings_install_property_for_key (
+		"mail-prompt-delete-in-vfolder",
 		"/apps/evolution/mail/prompts/delete_in_vfolder");
 
 	/* This value corresponds to MailConfigReplyStyle enum,
 	 * but the ordering of the combo box items in preferences
 	 * has changed.  We use transformation functions there. */
-	e_shell_settings_install_property (
-		g_param_spec_int (
-			"mail-reply-style",
-			NULL,
-			NULL,
-			0,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-reply-style",
+	e_shell_settings_install_property_for_key (
+		"mail-reply-style",
 		"/apps/evolution/mail/format/reply_style");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-show-animated-images",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-show-animated-images",
+	e_shell_settings_install_property_for_key (
+		"mail-show-animated-images",
 		"/apps/evolution/mail/display/animated_images");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-show-sender-photo",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-show-sender-photo",
+	e_shell_settings_install_property_for_key (
+		"mail-show-sender-photo",
 		"/apps/evolution/mail/display/sender_photo");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-side-bar-search",
-			NULL,
-			NULL,
-			TRUE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-side-bar-search",
+	e_shell_settings_install_property_for_key (
+		"mail-side-bar-search",
 		"/apps/evolution/mail/display/side_bar_search");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"mail-use-custom-fonts",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-use-custom-fonts",
+	e_shell_settings_install_property_for_key (
+		"mail-use-custom-fonts",
 		"/apps/evolution/mail/display/fonts/use_custom");
 
 	/*** Composer Preferences ***/
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"composer-charset",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-charset",
+	e_shell_settings_install_property_for_key (
+		"composer-charset",
 		"/apps/evolution/mail/composer/charset");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-format-html",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-format-html",
+	e_shell_settings_install_property_for_key (
+		"composer-format-html",
 		"/apps/evolution/mail/composer/send_html");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-inline-spelling",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-inline-spelling",
+	e_shell_settings_install_property_for_key (
+		"composer-inline-spelling",
 		"/apps/evolution/mail/composer/inline_spelling");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-magic-links",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-magic-links",
+	e_shell_settings_install_property_for_key (
+		"composer-magic-links",
 		"/apps/evolution/mail/composer/magic_links");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-magic-smileys",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-magic-smileys",
+	e_shell_settings_install_property_for_key (
+		"composer-magic-smileys",
 		"/apps/evolution/mail/composer/magic_smileys");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-outlook-filenames",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-outlook-filenames",
+	e_shell_settings_install_property_for_key (
+		"composer-outlook-filenames",
 		"/apps/evolution/mail/composer/outlook_filenames");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-prompt-only-bcc",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-prompt-only-bcc",
+	e_shell_settings_install_property_for_key (
+		"composer-prompt-only-bcc",
 		"/apps/evolution/mail/prompts/only_bcc");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-prompt-empty-subject",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-prompt-empty-subject",
+	e_shell_settings_install_property_for_key (
+		"composer-prompt-empty-subject",
 		"/apps/evolution/mail/prompts/empty_subject");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-reply-start-bottom",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-reply-start-bottom",
+	e_shell_settings_install_property_for_key (
+		"composer-reply-start-bottom",
 		"/apps/evolution/mail/composer/reply_start_bottom");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-request-receipt",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-request-receipt",
+	e_shell_settings_install_property_for_key (
+		"composer-request-receipt",
 		"/apps/evolution/mail/composer/request_receipt");
 
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"composer-spell-color",
-			NULL,
-			NULL,
-			"#ff0000",
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-spell-color",
+	e_shell_settings_install_property_for_key (
+		"composer-spell-color",
 		"/apps/evolution/mail/composer/spell_color");
 
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"composer-top-signature",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_bind_to_gconf (
-		shell_settings, "composer-top-signature",
+	e_shell_settings_install_property_for_key (
+		"composer-top-signature",
 		"/apps/evolution/mail/composer/top_signature");
 }

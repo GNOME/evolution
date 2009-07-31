@@ -73,8 +73,8 @@ struct _EShellSettingsClass {
 GType		e_shell_settings_get_type	(void);
 void		e_shell_settings_install_property
 						(GParamSpec *pspec);
-void		e_shell_settings_bind_to_gconf	(EShellSettings *shell_settings,
-						 const gchar *property_name,
+void		e_shell_settings_install_property_for_key
+						(const gchar *property_name,
 						 const gchar *gconf_key);
 void		e_shell_settings_enable_debug	(EShellSettings *shell_settings);
 

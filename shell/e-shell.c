@@ -924,46 +924,6 @@ shell_class_init (EShellClass *class)
 	/* Install some application-wide settings. */
 
 	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"disable-application-handlers",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"disable-command-line",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"disable-printing",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"disable-print-setup",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
-		g_param_spec_boolean (
-			"disable-save-to-disk",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
 		g_param_spec_string (
 			"file-chooser-folder",
 			NULL,
@@ -1003,24 +963,27 @@ shell_init (EShell *shell)
 		shell, "notify::online",
 		G_CALLBACK (shell_notify_online_cb), NULL);
 
-	e_shell_settings_bind_to_gconf (
-		shell->priv->settings, "disable-application-handlers",
+	/* XXX Do this after creating the EShellSettings instance,
+	 *     otherwise the GConf bindings will not get set up. */
+
+	e_shell_settings_install_property_for_key (
+		"disable-application-handlers",
 		"/desktop/gnome/lockdown/disable_application_handlers");
 
-	e_shell_settings_bind_to_gconf (
-		shell->priv->settings, "disable-command-line",
+	e_shell_settings_install_property_for_key (
+		"disable-command-line",
 		"/desktop/gnome/lockdown/disable_command_line");
 
-	e_shell_settings_bind_to_gconf (
-		shell->priv->settings, "disable-printing",
+	e_shell_settings_install_property_for_key (
+		"disable-printing",
 		"/desktop/gnome/lockdown/disable_printing");
 
-	e_shell_settings_bind_to_gconf (
-		shell->priv->settings, "disable-print-setup",
+	e_shell_settings_install_property_for_key (
+		"disable-print-setup",
 		"/desktop/gnome/lockdown/disable_print_setup");
 
-	e_shell_settings_bind_to_gconf (
-		shell->priv->settings, "disable-save-to-disk",
+	e_shell_settings_install_property_for_key (
+		"disable-save-to-disk",
 		"/desktop/gnome/lockdown/disable_save_to_disk");
 
 	/*** Session Management ***/

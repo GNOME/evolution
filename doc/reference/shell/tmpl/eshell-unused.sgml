@@ -2185,6 +2185,15 @@ intelligent
 @shell: 
 @online_mode: 
 
+<!-- ##### FUNCTION e_shell_settings_bind_to_gconf ##### -->
+<para>
+
+</para>
+
+@shell_settings: 
+@property_name: 
+@gconf_key: 
+
 <!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
 <para>
 
