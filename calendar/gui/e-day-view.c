@@ -472,6 +472,7 @@ static void
 time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
+	EDayViewTimeItem *eti;
 	time_t lower;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
@@ -501,6 +502,11 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	if (day_view->selection_start_row != -1)
 		e_day_view_ensure_rows_visible (day_view, day_view->selection_start_row, day_view->selection_start_row);
+
+	/* update the time canvas to show proper date in it */
+	eti = E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item);
+	if (eti && eti->second_zone)
+		gtk_widget_queue_draw (day_view->time_canvas);
 }
 
 static void
