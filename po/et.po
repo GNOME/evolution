@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-07-28 16:04+0000\n"
-"PO-Revision-Date: 2009-07-31 08:26+0300\n"
+"PO-Revision-Date: 2009-07-31 11:14+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1170,9 +1170,9 @@ msgid ""
 "Dr."
 msgstr ""
 "\n"
-"Härra\n"
-"Proua\n"
-"Perili\n"
+"Hr.\n"
+"Pr.\n"
+"Prl.\n"
 "Dr."
 
 msgid ""
@@ -9198,9 +9198,8 @@ msgstr ""
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr ""
 
-#, fuzzy
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "Krüptitud sõnumi saatmisel krüptitakse see ka _endale"
+msgstr ""
 
 msgid "Show Animations"
 msgstr "Animatsioonide kuvamine"
@@ -9874,13 +9873,12 @@ msgstr "PGP/GPG _võtme ID:"
 msgid "Pass_word:"
 msgstr "Pa_rool:"
 
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
 msgstr ""
-"Palun siselda seda kontot kirjeldav nimi allolevasse kasti.\n"
-"Seda nime kasutatakse ainult kuvamiseks."
+"Palun sisesta allolevasse kasti seda kontot kirjeldav nimi. Seda nime "
+"kasutatakse ainult kuvamiseks."
 
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
@@ -11257,9 +11255,8 @@ msgid "Automatic Contacts"
 msgstr "Automaatsed kontaktid"
 
 #. Enable BBDB checkbox
-#, fuzzy
 msgid "Create _address book entries when sending mails"
-msgstr "Sõnumile vastamisel luuakse automaatselt aa_dressiraamatu kirje"
+msgstr "Sõnumi saatmisel luuakse aa_dressiraamatusse kirjed"
 
 msgid "Select Address book for Automatic Contacts"
 msgstr "Vali automaatsetele kontaktidele aadressiraamat"
@@ -12336,7 +12333,6 @@ msgstr "PNG-failid"
 msgid "_Face"
 msgstr "_Näopilt"
 
-#, fuzzy
 msgid ""
 "Attach a small picture of your face to outgoing messages.\n"
 "\n"
@@ -12344,10 +12340,11 @@ msgid ""
 "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
 "sent messages."
 msgstr ""
-"Näopildi lisamine väljuvate sõnumite päisesse. Esimesel korral peab kasutaja "
-"määrama 48*48 PNG-pildi, mis kodeeritakse BASE64-vormingusse ja "
-"salvestatakse kataloogi ~/.evolution/faces. Seda pilti hakatakse tulevikus "
-"kasutama väljuvatele sõnumitele päisesse lisamiseks."
+"Väikese pildi lisamine väljuvatesse sõnumitesse.\n"
+"\n"
+"Esimesel korral peab kasutaja määrama 48*48 PNG-pildi, mis kodeeritakse "
+"Base64-vormingusse ja salvestatakse kataloogi ~/.evolution/faces. Seda pilti "
+"hakatakse tulevikus väljuvatesse sõnumitesse lisama."
 
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -12557,9 +12554,8 @@ msgstr "Kas lükkad selle tagasi?"
 msgid "Accept Tentatively"
 msgstr "Nõustu katseliselt"
 
-#, fuzzy
 msgid "Rese_nd Meeting..."
-msgstr "_Delegeeri koosolek..."
+msgstr "Saada koosolek _uuesti..."
 
 msgid "<b>Users:</b>"
 msgstr "<b>Kasutajad:</b>"
@@ -13504,7 +13500,7 @@ msgid "Convert to a Mem_o"
 msgstr "Teisenda _märkmeks"
 
 msgid "Convert to a _Meeting"
-msgstr "Teise_nda _koosolekuks"
+msgstr "Teisenda _koosolekuks"
 
 msgid "Convert to a _Task"
 msgstr "Teisenda ü_lesandeks"
@@ -13512,9 +13508,8 @@ msgstr "Teisenda ü_lesandeks"
 msgid "Convert to an _Event"
 msgstr "Teisenda _sündmuseks"
 
-#, fuzzy
 msgid "Mail-to-Task"
-msgstr "Sõnumi teisendamine ülesandeks"
+msgstr "Sõnum-ülesandeks"
 
 msgid "Convert the selected message to a new event"
 msgstr "Valitud sõnumi teisendamine uueks sündmuseks"
@@ -13797,9 +13792,8 @@ msgstr ""
 msgid "Are you sure you want to remove this location?"
 msgstr "Oled sa kindel, et soovid seda asukohta eemaldada?"
 
-#, fuzzy
 msgid "Could not create publish thread."
-msgstr "Sõnumit pole võimalik luua."
+msgstr "Avaldamise lõime pole võimalik luua."
 
 msgid "<span weight=\"bold\">Location</span>"
 msgstr "<span weight=\"bold\">Asukoht</span>"
@@ -13885,6 +13879,7 @@ msgstr ""
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr ""
+"Kalendrit pole võimalik avaldada: Kalendri taustaprogramm ei tööta enam"
 
 msgid "New Location"
 msgstr "Uus asukoht"
@@ -14199,7 +14194,7 @@ msgstr "Akna vaikimisi laius"
 
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr ""
+msgstr "Proksi sätete lubamine HTTP ja HTTPS-i protokollidele."
 
 msgid "HTTP proxy host name"
 msgstr "HTTP-proksi hostinimi"
@@ -14230,7 +14225,7 @@ msgid "Initial file chooser folder"
 msgstr "Failivalija lähtekaust"
 
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "GtkFileChooseri dialoogide algne kataloog."
 
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
@@ -16335,7 +16330,7 @@ msgid "_Send To..."
 msgstr "_Kellele saata..."
 
 msgid "Send the selected attachments somewhere"
-msgstr ""
+msgstr "Valitud manuste edasisaatmine"
 
 msgid "Loading"
 msgstr "Laadimine"
@@ -16372,7 +16367,7 @@ msgstr "Ava programmiga \"%s\"..."
 
 #, c-format
 msgid "Open this attachment in %s"
-msgstr ""
+msgstr "Selle manuse avamine programmiga %s"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 msgid "%B %Y"
