@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-07-28 16:04+0000\n"
-"PO-Revision-Date: 2009-07-28 20:14+0300\n"
-"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
+"PO-Revision-Date: 2009-07-31 08:26+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgid "It has recurrences."
 msgstr "See omab kordumisi."
 
 msgid "It is a meeting."
-msgstr "See on kohtumine."
+msgstr "See on koosolek."
 
 #, c-format
 msgid "Calendar Event: Summary is %s."
@@ -762,6 +762,9 @@ msgid ""
 "636\n"
 "3268"
 msgstr ""
+"389\n"
+"636\n"
+"3268"
 
 msgid "5"
 msgstr "5"
@@ -796,11 +799,12 @@ msgstr ""
 msgid "Lo_gin:"
 msgstr "_Kasutajanimi:"
 
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "Üks tase alla (One)"
+msgstr ""
+"Üks tase alla (One)\n"
+"Kogu alamkataloog (Sub)"
 
 msgid ""
 "SSL encryption\n"
@@ -820,7 +824,6 @@ msgstr "_Otsingupõhi:"
 msgid "Search _filter:"
 msgstr "Otsingu_filter:"
 
-#, fuzzy
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
@@ -1158,7 +1161,6 @@ msgstr ""
 "Kas sa soovid kustutada\n"
 "need kontaktid?"
 
-#, fuzzy
 msgid ""
 "\n"
 "Mr.\n"
@@ -1168,11 +1170,10 @@ msgid ""
 "Dr."
 msgstr ""
 "\n"
-"Hr\n"
-"Prl\n"
-"Pr\n"
+"Härra\n"
+"Proua\n"
 "Perili\n"
-"Dr"
+"Dr."
 
 msgid ""
 "\n"
@@ -1183,6 +1184,9 @@ msgid ""
 "III\n"
 "Esq."
 msgstr ""
+"\n"
+"Sen.\n"
+"Jr."
 
 msgid "Full Name"
 msgstr "Täisnimi"
@@ -2152,7 +2156,7 @@ msgid ""
 "If you do not send a cancelation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad kohtumise "
+"Kui sa ei saada tühistamisteadet, siis ülejäänud osalised võivad koosoleku "
 "tühistamisest mitte teada saada."
 
 msgid ""
@@ -2550,7 +2554,7 @@ msgid "Days on which the start and end of work hours should be indicated."
 msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
 
 msgid "Default appointment reminder"
-msgstr "Kohtumise vaikimisi meeldetuletaja"
+msgstr "Sündmusest vaikimisi meeldetuletaja"
 
 msgid "Default reminder units"
 msgstr "Meeldetuletaja vaikimisi ühikud"
@@ -3184,8 +3188,8 @@ msgid ""
 "start of appointment\n"
 "end of appointment"
 msgstr ""
-"kohtumise algus\n"
-"kohtumise lõpp"
+"sündmuse algus\n"
+"sündmuse lõpp"
 
 msgid "Action/Trigger"
 msgstr "Tegevus/Päästik"
@@ -3844,9 +3848,9 @@ msgid ""
 "1 hour before appointment\n"
 "1 day before appointment"
 msgstr ""
-"15 minutit enne kohtumist\n"
-"1 tund enne kohtumist\n"
-"1 päev enne kohtumist"
+"15 minutit enne sündmust\n"
+"1 tund enne sündmust\n"
+"1 päev enne sündmust"
 
 msgid "Attendee_s..."
 msgstr "_Osalejad..."
@@ -4077,9 +4081,8 @@ msgstr ""
 msgid "Send my alarms with this event"
 msgstr ""
 
-#, fuzzy
 msgid "Notify new attendees _only"
-msgstr "Uutest sõnumitest teatatakse ainult _Sisendkausta kohta"
+msgstr "Teavitatakse ainult _uusi osalejaid"
 
 msgid "Completed date is wrong"
 msgstr "Lõpetamise kuupäev on vale"
@@ -6905,10 +6908,10 @@ msgid "Save Draft"
 msgstr "Mustandi salvestamine"
 
 msgid "Show"
-msgstr ""
+msgstr "Näita"
 
 msgid "Hide"
-msgstr ""
+msgstr "Peida"
 
 msgid "Enter the recipients of the message"
 msgstr "Sisesta sõnumi adressaadid"
@@ -9292,6 +9295,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
+"Siin on kolm võimalikku väärtust. \"0\" vigade jaoks, \"1\" hoiatuste jaoks "
+"ja \"2\" silumisteadete jaoks."
 
 msgid ""
 "This decides the max size of the text part that can be formatted under "
@@ -9976,7 +9981,6 @@ msgstr ""
 "Siinolev keelteloend kajastab ainult keeli, millede jaoks on sõnastik "
 "paigaldatud."
 
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
@@ -11095,14 +11099,13 @@ msgstr "_Pärast taastamist taaskäivitatakse Evolution"
 msgid "Restore from backup"
 msgstr "Taastamine varukoopiast"
 
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
-"Sul on võimalik Evolutioni varukoopiast taastada. Selle abil saab taastada E-"
-"posti, kalenderid, ülesandeid, märkmeid ja aadressiraamatut.\n"
+"Sul on võimalik Evolutioni andmeid varukoopiast taastada. Selle abil saab "
+"taastada E-posti, kalenderid, ülesandeid, märkmeid ja aadressiraamatut. "
 "Samuti saab taastada ka isiklikud sätted, postifiltrid jne."
 
 msgid "_Restore Evolution from the backup file"
@@ -11347,36 +11350,31 @@ msgid "weeks"
 msgstr "nädalat"
 
 msgid "Add CalDAV support to Evolution."
-msgstr ""
+msgstr "CalDAV-i toe lisamine Evolutionile."
 
 msgid "CalDAV Support"
 msgstr "CalDAV-i tugi"
 
-#, fuzzy
 msgid "_Customize options"
-msgstr "Kohandatud"
+msgstr "_Kohanda valikuid"
 
-#, fuzzy
 msgid "File _name:"
-msgstr "Faili nimi:"
+msgstr "Faili _nimi:"
 
-#, fuzzy
 msgid "Choose calendar file"
-msgstr "Vali faili"
+msgstr "Kalendrifaili valimine"
 
-#, fuzzy
 msgid "On open"
-msgstr "Ava"
+msgstr "Avamisel"
 
 msgid "On file change"
-msgstr ""
+msgstr "Faili muutmisel"
 
-#, fuzzy
 msgid "Periodically"
-msgstr "Isiklik"
+msgstr "Perioodiliselt"
 
 msgid "Force read _only"
-msgstr ""
+msgstr "_Kirjutuskaitse on rangelt peal"
 
 msgid "Add local calendars to Evolution."
 msgstr "Kohalike kalendrite lisamine Evolutionile."
@@ -11391,7 +11389,7 @@ msgid "Userna_me:"
 msgstr "Kasutajani_mi:"
 
 msgid "Add web calendars to Evolution."
-msgstr ""
+msgstr "Veebikalendrite lisamine Evolutionile."
 
 msgid "Web Calendars"
 msgstr "Veebikalendrid"
@@ -11436,7 +11434,7 @@ msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr "Mittemeetriline (Fahrenheit, tollid, jms)"
 
 msgid "Add weather calendars to Evolution."
-msgstr ""
+msgstr "Ilmakalendrite lisamine Evolutionile."
 
 msgid "Weather Calendars"
 msgstr "Ilmakalendrid"
@@ -11456,7 +11454,6 @@ msgstr ""
 "Evolutioni iga käivitamise ajal kontrollitakse, kas Evolution on vaikimisi "
 "postiprogramm või mitte."
 
-#, fuzzy
 msgid "Check whether Evolution is the default mail client on startup."
 msgstr ""
 "Käivitumisel kontrollimiseks, kas Evolution on vaikimisi e-postiklient."
@@ -11501,7 +11498,7 @@ msgid "Secret"
 msgstr "Salajane"
 
 msgid "Top secret"
-msgstr ""
+msgstr "Ülimalt salajane"
 
 msgid "_Custom Header"
 msgstr "Kohandatud _päised"
@@ -11622,7 +11619,7 @@ msgid "A_uthenticate"
 msgstr "A_utentimine"
 
 msgid "Mailbox name is _different than user name"
-msgstr ""
+msgstr "Postkasti nimi on kasutajanimest _erinev"
 
 msgid "_Mailbox:"
 msgstr "_Postkast:"
@@ -12279,16 +12276,13 @@ msgid "Default External Editor"
 msgstr "Vaikimisi väline redaktor"
 
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "Redaktori käivitamiseks kasutatav vaikimisi käsk."
 
 msgid "External Editor"
 msgstr "Väline redaktor"
 
-#, fuzzy
 msgid "Use an external editor to compose plain-text mail messages."
-msgstr ""
-"Plugin välise redaktori kasutamiseks e-sõnumi koostamisel. Sellega on "
-"võimalik saata ainult lihttekstilisi sõnumeid."
+msgstr "Plugin välise redaktori kasutamiseks e-sõnumi koostamisel."
 
 msgid "Cannot create Temporary File"
 msgstr "Ajutist faili pole võimalik luua"
@@ -12310,6 +12304,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"Väline redaktor pole veel lõpetanud. Sõnumikoostamise akent pole võimalik "
+"enne välise redaktori töö lõpetamist sulgeda."
 
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
@@ -12527,23 +12523,20 @@ msgstr "Sul pole võimalik kausta määratud kasutajale &quot;{0}&quot; jagada"
 msgid "You have to specify a user name which you want to add to the list"
 msgstr "Sa pead määrama nimekirja lisatava kasutaja nime"
 
-#, fuzzy
 msgid "Do you want to resend the meeting ?"
-msgstr "Kas sa soovid kustutada seda koosolekut?"
+msgstr "Kas soovid seda koosolekut uuesti saata?"
 
-#, fuzzy
 msgid "Do you want to resend the recurring meeting ?"
-msgstr "Kas sa soovid kustutada seda koosolekut?"
+msgstr "Kas soovid seda korduvat koosolekut uuesti saata?"
 
-#, fuzzy
 msgid "Do you want to retract the original item ?"
-msgstr "Kas sa soovid lõpetamata sõnumid taastada?"
+msgstr ""
 
 msgid "The original will be removed from the recipient's mailbox."
 msgstr ""
 
 msgid "This is a recurring meeting"
-msgstr "See on korduv kohtumine"
+msgstr "See on korduv koosolek"
 
 msgid "This will create a new meeting using the existing meeting details."
 msgstr ""
@@ -12727,10 +12720,10 @@ msgid "Track Message Status..."
 msgstr "Jälgi sõnumi olekut..."
 
 msgid "Add Hula support to Evolution."
-msgstr ""
+msgstr "Hula toe lisamine Evolutionile."
 
 msgid "Hula Support"
-msgstr ""
+msgstr "Hula tugi"
 
 msgid "Custom Headers"
 msgstr "Kohandatud päised"
@@ -12803,11 +12796,10 @@ msgid "iCalendar format (.ics)"
 msgstr "iKalendri vorming (.ics)"
 
 msgid "Synchronize to iPod"
-msgstr "Sünkroniseeri iPodiga"
+msgstr "Sünkroniseerimine iPodiga"
 
-#, fuzzy
 msgid "Synchronize your data with your Apple iPod."
-msgstr "Sünkroniseeri iPodiga"
+msgstr "Andmete sünkroniseerimine Apple iPodiga."
 
 msgid "iPod Synchronization"
 msgstr "iPodiga sünkroniseerimine"
@@ -12818,7 +12810,7 @@ msgstr "Tõrge kalendri '%s' laadimisel"
 
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "Kalendris '%s' olev sündmus on selle kohtumisega vastuolus"
+msgstr "Kalendris '%s' olev sündmus on selle koosolekuga vastuolus"
 
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
@@ -12828,7 +12820,7 @@ msgid "Unable to find any calendars"
 msgstr "Ühtegi kalendrit pole võimalik leida"
 
 msgid "Unable to find this meeting in any calendar"
-msgstr "Seda kohtumist pole võimalik ühestki kalendrist leida"
+msgstr "Seda koosolekut pole võimalik ühestki kalendrist leida"
 
 msgid "Unable to find this task in any task list"
 msgstr "Seda ülesannet pole võimalik ühestki ülesannete loendist leida"
@@ -13317,9 +13309,8 @@ msgstr ""
 msgid "_Memos:"
 msgstr "_Märkmed:"
 
-#, fuzzy
 msgid "Display \"text/calendar\" MIME parts in mail messages."
-msgstr "Teksti- ja kalendriosade kuvamine sõnumis."
+msgstr "\"text/calendar\" MIME-tüübiga osade kuvamine sõnumis."
 
 msgid "Itip Formatter"
 msgstr "Itip vormindaja"
@@ -13332,7 +13323,7 @@ msgstr ""
 "{1}&quot;?"
 
 msgid "This meeting has been delegated"
-msgstr "See kohtumine on kustutatud"
+msgstr "See koosolek on kustutatud"
 
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
@@ -13513,7 +13504,7 @@ msgid "Convert to a Mem_o"
 msgstr "Teisenda _märkmeks"
 
 msgid "Convert to a _Meeting"
-msgstr "Teise_nda _kohtumiseks"
+msgstr "Teise_nda _koosolekuks"
 
 msgid "Convert to a _Task"
 msgstr "Teisenda ü_lesandeks"
@@ -13529,7 +13520,7 @@ msgid "Convert the selected message to a new event"
 msgstr "Valitud sõnumi teisendamine uueks sündmuseks"
 
 msgid "Convert the selected message to a new meeting"
-msgstr "Valitud sõnumi teisendamine uueks kohtumiseks"
+msgstr "Valitud sõnumi teisendamine uueks koosolekuks"
 
 msgid "Convert the selected message to a new memo"
 msgstr "Valitud sõnumi teisendamine uueks märkmeks"
@@ -13727,6 +13718,7 @@ msgstr "Lihtteksti eelistamine"
 
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
+"Sõnumite vaatamine lihttekstina isegi juhul, kui need sisaldavad HTML-sisu."
 
 msgid "Show HTML if present"
 msgstr "Kui sõnum sisaldab HTML-i, siis näidatakse HTML-ina"
@@ -13753,7 +13745,7 @@ msgid "Outlook PST import"
 msgstr "Outlooki PST importija"
 
 msgid "Outlook personal folders (.pst)"
-msgstr ""
+msgstr "Outlooki isiklikud kataloogid (.pst)"
 
 #. Address book
 msgid "_Address Book"
@@ -13879,6 +13871,9 @@ msgid ""
 "weeks\n"
 "months"
 msgstr ""
+"päeva\n"
+"nädalat\n"
+"kuud"
 
 msgid ""
 "iCal\n"
