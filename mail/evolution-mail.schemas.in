@@ -47,7 +47,7 @@
 
     <schema>
       <key>/schemas/apps/evolution/mail/composer/magic_smileys</key>
-      <applyto>/apps/evolution/mail/composer/send_smileys</applyto>
+      <applyto>/apps/evolution/mail/composer/magic_smileys</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>false</default>
@@ -56,6 +56,20 @@
          <long>
 	 Recognize emoticons in text and replace them with images.
          </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/reply_start_bottom</key>
+      <applyto>/apps/evolution/mail/composer/reply_start_bottom</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Put the cursor at the bottom of replies</short>
+        <long>Users get all up in arms over where the cursor should go when
+        replying to a message. This determines whether the cursor is placed
+        at the top of the message or the bottom.</long>
       </locale>
     </schema>
 
@@ -220,6 +234,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/top_signature</key>
+      <applyto>/apps/evolution/mail/composer/top_signature</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Put personalized signatures at the top of replies</short>
+        <long>Users get all up in arms over where their signature should go
+        when replying to a message. This determines whether the signature is
+        placed at the top of the message or the bottom.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/width</key>
       <applyto>/apps/evolution/mail/composer/width</applyto>
       <owner>evolution-mail</owner>
@@ -244,6 +272,19 @@
     </schema>
 
     <!-- Display Settings -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/animated_images</key>
+      <applyto>/apps/evolution/mail/display/animated_images</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show image animations</short>
+        <long>Enable animated images in HTML mail. Many users find animated
+        images annoying and prefer to see a static image instead.</long>
+      </locale>
+    </schema>
 
     <schema>
       <key>/schemas/apps/evolution/mail/display/side_bar_search</key>
