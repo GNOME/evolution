@@ -134,7 +134,7 @@ e_day_view_time_item_init (EDayViewTimeItem *dvtmitem)
 	dvtmitem->dragging_selection = FALSE;
 	dvtmitem->second_zone = NULL;
 
-	last = calendar_config_get_day_second_zone();
+	last = calendar_config_get_day_second_zone ();
 
 	if (last) {
 		if (*last)
@@ -360,14 +360,14 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		gint diff;
 		struct tm mn;
 
-		tt = icaltime_today ();
+		tt = icaltime_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
 		diff = (icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
 			icaltimezone_get_utc_offset (cal_zone, &tt, NULL)
 		       ) / 60;
 
-		tt = icaltime_today ();
+		tt = icaltime_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
 		tt.is_date = FALSE;
 		icaltime_set_timezone (&tt, cal_zone);
 		tt = icaltime_convert_to_zone (tt, use_zone);
