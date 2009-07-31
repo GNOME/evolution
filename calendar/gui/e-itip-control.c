@@ -896,7 +896,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 
 	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
-		/* For Translators : 'starts' is starts:date implying a task starts on what date */
+		/* For Translators : 'Starts' is part of "Starts: date", showing when the event starts */
 		str = g_strdup_printf ("<b>%s:</b>", _("Starts"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer->str, buffer->len);
@@ -910,7 +910,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 
 	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value) {
-		/* For Translators : 'ends' is ends:date implying a task ends on what date */
+		/* For Translators : 'Ends' is part of "Ends: date", showing when the event ends */
 		str = g_strdup_printf ("<b>%s:</b>", _("Ends"));
 		write_label_piece (itip, &datetime, buffer, str, "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer->str, buffer->len);
