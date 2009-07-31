@@ -81,6 +81,16 @@ struct _ECalModelPrivate {
 	/* callback, to retrieve start time for newly added rows by click-to-add */
 	ECalModelDefaultTimeFunc get_default_time;
 	gpointer get_default_time_user_data;
+
+	gboolean in_added;
+	gboolean in_modified;
+	gboolean in_removed;
+
+	GList *notify_added;
+	GList *notify_modified;
+	GList *notify_removed;
+
+	GMutex *notify_lock;
 };
 
 #define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
@@ -214,6 +224,14 @@ e_cal_model_init (ECalModel *model)
 	priv->accounts = itip_addresses_get ();
 
 	priv->use_24_hour_format = TRUE;
+
+	priv->in_added = FALSE;
+	priv->in_modified = FALSE;
+	priv->in_removed = FALSE;
+	priv->notify_added = NULL;
+	priv->notify_modified = NULL;
+	priv->notify_removed = NULL;
+	priv->notify_lock = g_mutex_new ();
 }
 
 static void
@@ -288,6 +306,7 @@ e_cal_model_finalize (GObject *object)
 
 	clear_objects_array (priv);
 	g_ptr_array_free (priv->objects, FALSE);
+	g_mutex_free (priv->notify_lock);
 
 	g_free (priv);
 
@@ -1491,10 +1510,11 @@ ensure_dates_are_in_default_zone (icalcomponent *icalcomp)
 	}
 }
 
+static void e_cal_view_objects_added_cb (ECalView *query, GList *objects, ECalModel *model);
+
 static void
-e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data)
+process_added (ECalView *query, GList *objects, ECalModel *model)
 {
-	ECalModel *model = (ECalModel *) user_data;
 	ECalModelPrivate *priv;
 	GList *l;
 
@@ -1565,9 +1585,8 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 }
 
 static void
-e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_data)
+process_modified (ECalView *query, GList *objects, ECalModel *model)
 {
-	ECalModel *model = (ECalModel *) user_data;
 	ECalModelPrivate *priv;
 	GList *l, *list = NULL;
 
@@ -1648,10 +1667,9 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 }
 
 static void
-e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
+process_removed (ECalView *query, GList *ids, ECalModel *model)
 {
 	ECalModelPrivate *priv;
-	ECalModel *model = (ECalModel *) user_data;
 	GList *l;
 
 	priv = model->priv;
@@ -1683,6 +1701,106 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 
 	/* to notify about changes, because in call of row_deleted there are still all events */
 	e_table_model_changed (E_TABLE_MODEL (model));
+}
+
+static gpointer
+copy_comp_id (gpointer id)
+{
+	ECalComponentId *comp_id = (ECalComponentId *) id, *copy;
+
+	g_return_val_if_fail (comp_id != NULL, NULL);
+
+	copy = g_new0 (ECalComponentId, 1);
+	copy->uid = g_strdup (comp_id->uid);
+	copy->rid = g_strdup (comp_id->rid);
+
+	return copy;
+}
+
+static void
+free_comp_id (gpointer id)
+{
+	ECalComponentId *comp_id = (ECalComponentId *) id;
+
+	g_return_if_fail (comp_id != NULL);
+
+	g_free (comp_id->uid);
+	g_free (comp_id->rid);
+	g_free (comp_id);
+}
+
+static void
+process_event (ECalView *query, GList *objects, ECalModel *model,
+	void (*process_fn) (ECalView *query, GList *objects, ECalModel *model), 
+	gboolean *in, GList **save_list, gpointer (*copy_fn) (gpointer data), void (*free_fn)(gpointer data))
+{
+	gboolean skip = FALSE;
+	GList *l;
+
+	g_mutex_lock (model->priv->notify_lock);
+	if (*in) {
+		skip = TRUE;
+		for (l = objects; l; l = l->next) {
+			if (l->data)
+				*save_list = g_list_append (*save_list, copy_fn (l->data));
+		}
+	} else {
+		*in = TRUE;
+	}
+
+	g_mutex_unlock (model->priv->notify_lock);
+
+	if (skip)
+		return;
+
+	/* do it */
+	process_fn (query, objects, model);
+
+	g_mutex_lock (model->priv->notify_lock);
+	while (*save_list) {
+		GList *copy = *save_list;
+		*save_list = NULL;
+		g_mutex_unlock (model->priv->notify_lock);
+
+		/* do it */
+		process_fn (query, copy, model);
+
+		for (l = copy; l; l = l->next) {
+			if (l->data) {
+				free_fn (l->data);
+			}
+		}
+		g_list_free (copy);
+
+		g_mutex_lock (model->priv->notify_lock);
+	}
+
+	*in = FALSE;
+	g_mutex_unlock (model->priv->notify_lock);
+}
+
+static void
+e_cal_view_objects_added_cb (ECalView *query, GList *objects, ECalModel *model)
+{
+	process_event (query, objects, model,
+		process_added, &model->priv->in_added, &model->priv->notify_added,
+		(gpointer (*)(gpointer)) icalcomponent_new_clone, (void (*)(gpointer)) icalcomponent_free);
+}
+
+static void
+e_cal_view_objects_modified_cb (ECalView *query, GList *objects, ECalModel *model)
+{
+	process_event (query, objects, model,
+		process_modified, &model->priv->in_modified, &model->priv->notify_modified,
+		(gpointer (*)(gpointer)) icalcomponent_new_clone, (void (*)(gpointer)) icalcomponent_free);
+}
+
+static void
+e_cal_view_objects_removed_cb (ECalView *query, GList *ids, ECalModel *model)
+{
+	process_event (query, ids, model,
+		process_removed, &model->priv->in_removed, &model->priv->notify_removed,
+		copy_comp_id, free_comp_id);
 }
 
 static void
