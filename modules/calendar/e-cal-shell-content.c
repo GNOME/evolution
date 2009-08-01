@@ -534,7 +534,7 @@ cal_shell_content_constructed (GObject *object)
 		G_OBJECT (calendar_view), "work-day-start-minute");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days",
+		G_OBJECT (shell_settings), "cal-working-days-bitset",
 		G_OBJECT (calendar_view), "working-days");
 
 	/* Bind week view properties to EShellSettings. */
