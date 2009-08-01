@@ -27,42 +27,60 @@
 #include <libical/ical.h>
 #include <table/e-cell-text.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_DATE_EDIT_TEXT \
+	(e_cell_date_edit_text_get_type ())
+#define E_CELL_DATE_EDIT_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditText))
+#define E_CELL_DATE_EDIT_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextClass))
+#define E_IS_CELL_DATE_EDIT_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_DATE_EDIT_TEXT))
+#define E_IS_CELL_DATE_EDIT_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_DATE_EDIT_TEXT))
+#define E_CELL_DATE_EDIT_TEXT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_DATE_EDIT_TEXT_TYPE        (e_cell_date_edit_text_get_type ())
-#define E_CELL_DATE_EDIT_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_DATE_EDIT_TEXT_TYPE, ECellDateEditText))
-#define E_CELL_DATE_EDIT_TEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_DATE_EDIT_TEXT_TYPE, ECellDateEditTextClass))
-#define E_IS_CELL_DATE_EDIT_TEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_DATE_EDIT_TEXT_TYPE))
-#define E_IS_CELL_DATE_EDIT_TEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_DATE_EDIT_TEXT_TYPE))
-
+typedef struct _ECellDateEditText ECellDateEditText;
+typedef struct _ECellDateEditTextClass ECellDateEditTextClass;
+typedef struct _ECellDateEditTextPrivate ECellDateEditTextPrivate;
 typedef struct _ECellDateEditValue ECellDateEditValue;
+
 struct _ECellDateEditValue {
 	struct icaltimetype tt;
 	icaltimezone *zone;
 };
 
-typedef struct {
-	ECellText base;
+struct _ECellDateEditText {
+	ECellText parent;
+	ECellDateEditTextPrivate *priv;
+};
 
-	/* The timezone to display the date in. */
-	icaltimezone *zone;
-
-	/* Whether to display in 24-hour format. */
-	gboolean use_24_hour_format;
-} ECellDateEditText;
-
-typedef struct {
+struct _ECellDateEditTextClass {
 	ECellTextClass parent_class;
-} ECellDateEditTextClass;
+};
 
-GType      e_cell_date_edit_text_get_type (void);
-ECell     *e_cell_date_edit_text_new      (const gchar *fontname,
-					   GtkJustification justify);
+GType		e_cell_date_edit_text_get_type	(void);
+ECell *		e_cell_date_edit_text_new	(const gchar *fontname,
+						 GtkJustification justify);
+icaltimezone *	e_cell_date_edit_text_get_timezone
+						(ECellDateEditText *ecd);
+void		e_cell_date_edit_text_set_timezone
+						(ECellDateEditText *ecd,
+						 icaltimezone *timezone);
+gboolean	e_cell_date_edit_text_get_use_24_hour_format
+						(ECellDateEditText *ecd);
+void		e_cell_date_edit_text_set_use_24_hour_format
+						(ECellDateEditText *ecd,
+						 gboolean use_24_hour);
 
-void	   e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
-					       icaltimezone *zone);
-void	   e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
-							 gboolean use_24_hour);
 G_END_DECLS
 
 #endif /* _E_CELL_DATE_EDIT_TEXT_H_ */

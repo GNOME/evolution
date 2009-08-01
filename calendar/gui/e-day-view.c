@@ -38,6 +38,7 @@
 #include <e-util/e-unicode.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glib/gi18n.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 
@@ -600,6 +601,22 @@ day_view_get_property (GObject *object,
 }
 
 static void
+day_view_constructed (GObject *object)
+{
+	ECalModel *model;
+	EDayView *day_view;
+	EShellSettings *shell_settings;
+
+	day_view = E_DAY_VIEW (object);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	shell_settings = e_cal_model_get_shell_settings (model);
+
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-day-view-show-week-numbers",
+		G_OBJECT (day_view->week_number_label), "visible");
+}
+
+static void
 e_day_view_class_init (EDayViewClass *class)
 {
 	GObjectClass *object_class;
@@ -610,6 +627,7 @@ e_day_view_class_init (EDayViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = day_view_set_property;
 	object_class->get_property = day_view_get_property;
+	object_class->constructed = day_view_constructed;
 
 	gtk_object_class = GTK_OBJECT_CLASS (class);
 	gtk_object_class->destroy = e_day_view_destroy;
@@ -984,12 +1002,6 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 }
 
 static void
-dview_show_week_no_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	e_day_view_set_show_week_number (data, calendar_config_get_dview_show_week_no ());
-}
-
-static void
 e_day_view_init (EDayView *day_view)
 {
 	gint day;
@@ -1094,9 +1106,6 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->week_number_label = gtk_label_new ("");
 	gtk_table_attach (GTK_TABLE (day_view), day_view->week_number_label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	day_view->wn_notif_id = calendar_config_add_notification_dview_show_week_no (dview_show_week_no_changed_cb, day_view);
-	if (calendar_config_get_dview_show_week_no ())
-		gtk_widget_show (day_view->week_number_label);
 
 	/*
 	 * Top Canvas
@@ -1350,8 +1359,9 @@ e_day_view_new (ECalModel *model)
 {
 	ECalendarView *day_view;
 
-	day_view = g_object_new (E_TYPE_DAY_VIEW, NULL);
-	e_calendar_view_set_model (day_view, model);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	day_view = g_object_new (E_TYPE_DAY_VIEW, "model", model, NULL);
 	init_model (E_DAY_VIEW (day_view), model);
 
 	return day_view;
@@ -1368,11 +1378,6 @@ e_day_view_destroy (GtkObject *object)
 	e_day_view_cancel_layout (day_view);
 
 	e_day_view_stop_auto_scroll (day_view);
-
-	if (day_view->wn_notif_id) {
-		calendar_config_remove_notification (day_view->wn_notif_id);
-		day_view->wn_notif_id = 0;
-	}
 
 	if (day_view->large_font_desc) {
 		pango_font_description_free (day_view->large_font_desc);
@@ -2588,27 +2593,6 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	str = g_strdup_printf (_("Week %d"), g_date_get_iso8601_week_of_year (&dt));
 	gtk_label_set_text (GTK_LABEL (day_view->week_number_label), str);
 	g_free (str);
-}
-
-gboolean
-e_day_view_get_show_week_number (EDayView *day_view)
-{
-	g_return_val_if_fail (day_view != NULL, FALSE);
-
-	return GTK_WIDGET_VISIBLE (day_view->week_number_label);
-}
-
-void
-e_day_view_set_show_week_number (EDayView *day_view, gboolean show)
-{
-	g_return_if_fail (day_view != NULL);
-
-	if (e_day_view_get_show_week_number (day_view) != show) {
-		if (show)
-			gtk_widget_show (day_view->week_number_label);
-		else
-			gtk_widget_hide (day_view->week_number_label);
-	}
 }
 
 /* Whether we are displaying a work-week, in which case the display always

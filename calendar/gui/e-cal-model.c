@@ -36,6 +36,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "calendar-config.h"
+#include "e-util/e-binding.h"
 #include "e-util/e-util.h"
 
 #define E_CAL_MODEL_GET_PRIVATE(obj) \
@@ -54,6 +55,8 @@ typedef struct {
 } ECalModelClient;
 
 struct _ECalModelPrivate {
+	EShellSettings *shell_settings;
+
 	/* The list of clients we are managing. Each element is of type ECalModelClient */
 	GList *clients;
 
@@ -112,6 +115,8 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 
 enum {
 	PROP_0,
+	PROP_SHELL_SETTINGS,
+	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT
 };
 
@@ -130,12 +135,34 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE)
 
 static void
+cal_model_set_shell_settings (ECalModel *cal_model,
+                              EShellSettings *shell_settings)
+{
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (cal_model->priv->shell_settings == NULL);
+
+	cal_model->priv->shell_settings = g_object_ref (shell_settings);
+}
+
+static void
 cal_model_set_property (GObject *object,
                         guint property_id,
                         const GValue *value,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_SHELL_SETTINGS:
+			cal_model_set_shell_settings (
+				E_CAL_MODEL (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_TIMEZONE:
+			e_cal_model_set_timezone (
+				E_CAL_MODEL (object),
+				g_value_get_pointer (value));
+			return;
+
 		case PROP_USE_24_HOUR_FORMAT:
 			e_cal_model_set_use_24_hour_format (
 				E_CAL_MODEL (object),
@@ -153,6 +180,20 @@ cal_model_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_SHELL_SETTINGS:
+			g_value_set_object (
+				value,
+				e_cal_model_get_shell_settings (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_TIMEZONE:
+			g_value_set_pointer (
+				value,
+				e_cal_model_get_timezone (
+				E_CAL_MODEL (object)));
+			return;
+
 		case PROP_USE_24_HOUR_FORMAT:
 			g_value_set_boolean (
 				value,
@@ -170,6 +211,11 @@ cal_model_dispose (GObject *object)
 	ECalModelPrivate *priv;
 
 	priv = E_CAL_MODEL_GET_PRIVATE (object);
+
+	if (priv->shell_settings != NULL) {
+		g_object_unref (priv->shell_settings);
+		priv->shell_settings = NULL;
+	}
 
 	if (priv->clients) {
 		while (priv->clients != NULL) {
@@ -227,6 +273,24 @@ cal_model_finalize (GObject *object)
 }
 
 static void
+cal_model_constructed (GObject *object)
+{
+	ECalModel *model;
+	EShellSettings *shell_settings;
+
+	model = E_CAL_MODEL (object);
+	shell_settings = e_cal_model_get_shell_settings (model);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-use-24-hour-format",
+		G_OBJECT (model), "use-24-hour-format");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (model), "timezone");
+}
+
+static void
 e_cal_model_class_init (ECalModelClass *class)
 {
 	GObjectClass *object_class;
@@ -240,6 +304,7 @@ e_cal_model_class_init (ECalModelClass *class)
 	object_class->get_property = cal_model_get_property;
 	object_class->dispose = cal_model_dispose;
 	object_class->finalize = cal_model_finalize;
+	object_class->constructed = cal_model_constructed;
 
 	etm_class = E_TABLE_MODEL_CLASS (class);
 	etm_class->column_count = ecm_column_count;
@@ -256,6 +321,26 @@ e_cal_model_class_init (ECalModelClass *class)
 
 	class->get_color_for_component = ecm_get_color_for_component;
 	class->fill_component_from_model = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_SETTINGS,
+		g_param_spec_object (
+			"shell-settings",
+			_("Shell Settings"),
+			_("Application-wide settings"),
+			E_TYPE_SHELL_SETTINGS,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TIMEZONE,
+		g_param_spec_pointer (
+			"timezone",
+			"Time Zone",
+			NULL,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1169,6 +1254,14 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	return assigned_colors[first_empty].color;
 }
 
+EShellSettings *
+e_cal_model_get_shell_settings (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	return model->priv->shell_settings;
+}
+
 /**
  * e_cal_model_get_component_kind
  */
@@ -1203,12 +1296,9 @@ e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind)
 ECalModelFlags
 e_cal_model_get_flags (ECalModel *model)
 {
-	ECalModelPrivate *priv;
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
 
-	g_return_val_if_fail (E_IS_CAL_MODEL (model), E_CAL_MODEL_FLAGS_INVALID);
-
-	priv = model->priv;
-	return priv->flags;
+	return model->priv->flags;
 }
 
 /**
@@ -1217,12 +1307,9 @@ e_cal_model_get_flags (ECalModel *model)
 void
 e_cal_model_set_flags (ECalModel *model, ECalModelFlags flags)
 {
-	ECalModelPrivate *priv;
-
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	priv = model->priv;
-	priv->flags = flags;
+	model->priv->flags = flags;
 }
 
 /**
@@ -1232,6 +1319,7 @@ icaltimezone *
 e_cal_model_get_timezone (ECalModel *model)
 {
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
 	return model->priv->zone;
 }
 
@@ -1239,35 +1327,35 @@ e_cal_model_get_timezone (ECalModel *model)
  * e_cal_model_set_timezone
  */
 void
-e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
+e_cal_model_set_timezone (ECalModel *model,
+                          icaltimezone *zone)
 {
-	ECalModelPrivate *priv;
-
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	priv = model->priv;
-	if (priv->zone != zone) {
-		e_table_model_pre_change (E_TABLE_MODEL (model));
-		priv->zone = zone;
+	if (model->priv->zone == zone)
+		return;
 
-		/* the timezone affects the times shown for date fields,
-		   so we need to redisplay everything */
-		e_table_model_changed (E_TABLE_MODEL (model));
-	}
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	model->priv->zone = zone;
+
+	/* the timezone affects the times shown for date fields,
+	   so we need to redisplay everything */
+	e_table_model_changed (E_TABLE_MODEL (model));
+
+	g_object_notify (G_OBJECT (model), "timezone");
 }
 
 /**
  * e_cal_model_set_default_category
  */
 void
-e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat)
+e_cal_model_set_default_category (ECalModel *model,
+                                  const gchar *default_category)
 {
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	if (model->priv->default_category)
-		g_free (model->priv->default_category);
-
-	model->priv->default_category = g_strdup (default_cat);
+	g_free (model->priv->default_category);
+	model->priv->default_category = g_strdup (default_category);
 }
 
 /**

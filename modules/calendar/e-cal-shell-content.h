@@ -81,13 +81,13 @@ GType		e_cal_shell_content_get_type	(void);
 void		e_cal_shell_content_register_type
 					(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_content_new	(EShellView *shell_view);
+ECalModel *	e_cal_shell_content_get_model
+					(ECalShellContent *cal_shell_content);
 GnomeCalendar *	e_cal_shell_content_get_calendar
 					(ECalShellContent *cal_shell_content);
 EMemoTable *	e_cal_shell_content_get_memo_table
 					(ECalShellContent *cal_shell_content);
 ECalendarTable *e_cal_shell_content_get_task_table
-					(ECalShellContent *cal_shell_content);
-icaltimezone *	e_cal_shell_content_get_timezone
 					(ECalShellContent *cal_shell_content);
 GalViewInstance *
 		e_cal_shell_content_get_view_instance

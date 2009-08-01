@@ -211,18 +211,6 @@ calendar_config_set_timezone (const gchar *timezone)
 		gconf_client_set_string (config, CALENDAR_CONFIG_TIMEZONE, "UTC", NULL);
 }
 
-guint
-calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIMEZONE, func, data, NULL, NULL);
-
-	return id;
-}
-
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean
 calendar_config_get_24_hour_format	(void)
@@ -239,26 +227,6 @@ calendar_config_get_24_hour_format	(void)
 	return TRUE;
 }
 
-void
-calendar_config_set_24_hour_format	(gboolean     use_24_hour)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_24HOUR, use_24_hour, NULL);
-}
-
-guint
-calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_24HOUR, func, data, NULL, NULL);
-
-	return id;
-}
-
 /* The start day of the week (0 = Sun to 6 = Mon). */
 gint
 calendar_config_get_week_start_day	(void)
@@ -266,26 +234,6 @@ calendar_config_get_week_start_day	(void)
 	calendar_config_init ();
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WEEK_START, NULL);
-}
-
-void
-calendar_config_set_week_start_day	(gint	      week_start_day)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_WEEK_START, week_start_day, NULL);
-}
-
-guint
-calendar_config_add_notification_week_start_day (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WEEK_START, func, data, NULL, NULL);
-
-	return id;
 }
 
 /* The start and end times of the work-day. */
@@ -305,18 +253,6 @@ calendar_config_set_day_start_hour	(gint	      day_start_hour)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_HOUR, day_start_hour, NULL);
 }
 
-guint
-calendar_config_add_notification_day_start_hour (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_HOUR, func, data, NULL, NULL);
-
-	return id;
-}
-
 gint
 calendar_config_get_day_start_minute	(void)
 {
@@ -331,18 +267,6 @@ calendar_config_set_day_start_minute	(gint	      day_start_min)
 	calendar_config_init ();
 
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, day_start_min, NULL);
-}
-
-guint
-calendar_config_add_notification_day_start_minute (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_START_MINUTE, func, data, NULL, NULL);
-
-	return id;
 }
 
 gint
@@ -361,18 +285,6 @@ calendar_config_set_day_end_hour	(gint	      day_end_hour)
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_HOUR, day_end_hour, NULL);
 }
 
-guint
-calendar_config_add_notification_day_end_hour (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_HOUR, func, data, NULL, NULL);
-
-	return id;
-}
-
 gint
 calendar_config_get_day_end_minute	(void)
 {
@@ -387,18 +299,6 @@ calendar_config_set_day_end_minute	(gint	      day_end_min)
 	calendar_config_init ();
 
 	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, day_end_min, NULL);
-}
-
-guint
-calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_END_MINUTE, func, data, NULL, NULL);
-
-	return id;
 }
 
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
@@ -459,66 +359,6 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 	return id;
 }
 
-/* Whether we show the Marcus Bains Line (current time), and in what colors. */
-void
-calendar_config_get_marcus_bains (gboolean *show_line, const gchar **dayview_color, const gchar **timebar_color)
-{
-	static gchar *dcolor = NULL, *tcolor = NULL;
-
-	calendar_config_init ();
-
-	if (dcolor)
-		g_free (dcolor);
-	if (tcolor)
-		g_free (tcolor);
-
-	dcolor = gconf_client_get_string (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_DAYVIEW, NULL);
-	tcolor = gconf_client_get_string (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, NULL);
-
-	*show_line = gconf_client_get_bool (config, CALENDAR_CONFIG_MARCUS_BAINS_LINE, NULL);
-	*dayview_color = dcolor;
-	*timebar_color = tcolor;
-}
-
-void
-calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor)
-{
-	calendar_config_init ();
-
-	*not_show = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_LINE, func, data, NULL, NULL);
-	*not_dcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_DAYVIEW, func, data, NULL, NULL);
-	*not_tcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, func, data, NULL, NULL);
-}
-
-/* Whether we show week number in the Day View. */
-gboolean
-calendar_config_get_dview_show_week_no (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, NULL);
-}
-
-void
-calendar_config_set_dview_show_week_no (gboolean show_week_no)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, show_week_no, NULL);
-}
-
-guint
-calendar_config_add_notification_dview_show_week_no (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, func, data, NULL, NULL);
-
-	return id;
-}
-
 /* Whether we show week numbers in the Date Navigator. */
 gboolean
 calendar_config_get_dnav_show_week_no	(void)
@@ -526,14 +366,6 @@ calendar_config_get_dnav_show_week_no	(void)
 	calendar_config_init ();
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, NULL);
-}
-
-void
-calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, show_week_no, NULL);
 }
 
 guint
@@ -565,34 +397,6 @@ calendar_config_set_hpane_pos		(gint	      hpane_pos)
 	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
 }
 
-gboolean
-calendar_config_get_preview_state		(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, NULL);
-}
-
-void
-calendar_config_set_preview_state		(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_TASK_PREVIEW, state, NULL);
-}
-
-guint
-calendar_config_add_notification_preview_state (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASK_PREVIEW, func, data, NULL, NULL);
-
-	return id;
-}
-
 gint
 calendar_config_get_month_hpane_pos	(void)
 {
@@ -607,22 +411,6 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 	calendar_config_init ();
 
 	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, hpane_pos, NULL);
-}
-
-gfloat
-calendar_config_get_tag_vpane_pos	(void)
-{
-	calendar_config_init ();
-
-	return  gconf_client_get_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, NULL);
-}
-
-void
-calendar_config_set_tag_vpane_pos	(gfloat	      vpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_float (config, CALENDAR_CONFIG_TAG_VPANE_POS, vpane_pos, NULL);
 }
 
 /* The current list of task lists selected */
@@ -681,22 +469,6 @@ calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpoi
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_TASKS, func, data, NULL, NULL);
 
 	return id;
-}
-
-gint
-calendar_config_get_task_vpane_pos	(void)
-{
-	calendar_config_init ();
-
-	return  gconf_client_get_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, NULL);
-}
-
-void
-calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_TASK_VPANE_POS, vpane_pos, NULL);
 }
 
 /***************************************/
@@ -769,55 +541,6 @@ calendar_config_get_compress_weekend	(void)
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, NULL);
 }
 
-void
-calendar_config_set_compress_weekend	(gboolean     compress)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, compress, NULL);
-}
-
-guint
-calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, func, data, NULL, NULL);
-
-	return id;
-}
-
-/* Whether we show event end times. */
-gboolean
-calendar_config_get_show_event_end	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_EVENT_END, NULL);
-}
-
-void
-calendar_config_set_show_event_end	(gboolean     show_end)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_EVENT_END, show_end, NULL);
-}
-
-guint
-calendar_config_add_notification_show_event_end (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SHOW_EVENT_END, func, data, NULL, NULL);
-
-	return id;
-}
-
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays
 calendar_config_get_working_days	(void)
@@ -825,14 +548,6 @@ calendar_config_get_working_days	(void)
 	calendar_config_init ();
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WORKING_DAYS, NULL);
-}
-
-void
-calendar_config_set_working_days	(CalWeekdays  days)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_WORKING_DAYS, days, NULL);
 }
 
 guint
@@ -862,18 +577,6 @@ calendar_config_set_hide_completed_tasks	(gboolean	hide)
 	calendar_config_init ();
 
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
-}
-
-guint
-calendar_config_add_notification_hide_completed_tasks (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED , func, data, NULL, NULL);
-
-	return id;
 }
 
 CalUnits
@@ -921,18 +624,6 @@ calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 	g_free (units);
 }
 
-guint
-calendar_config_add_notification_hide_completed_tasks_units (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS , func, data, NULL, NULL);
-
-	return id;
-}
-
 gint
 calendar_config_get_hide_completed_tasks_value	(void)
 {
@@ -949,18 +640,6 @@ calendar_config_set_hide_completed_tasks_value	(gint		value)
 	gconf_client_set_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, value, NULL);
 }
 
-guint
-calendar_config_add_notification_hide_completed_tasks_value (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE , func, data, NULL, NULL);
-
-	return id;
-}
-
 /**
  * calendar_config_get_confirm_delete:
  *
@@ -975,162 +654,6 @@ calendar_config_get_confirm_delete (void)
 	calendar_config_init ();
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_PROMPT_DELETE, NULL);
-}
-
-/**
- * calendar_config_set_confirm_delete:
- * @confirm: Whether confirmation is required when deleting items.
- *
- * Sets the configuration value for whether a confirmation dialog is presented
- * when deleting calendar/tasks items.
- **/
-void
-calendar_config_set_confirm_delete (gboolean confirm)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_DELETE, confirm, NULL);
-}
-
-/**
- * calendar_config_get_confirm_purge:
- *
- * Queries the configuration value for whether a confirmation dialog is
- * presented when purging calendar/tasks items.
- *
- * Return value: Whether confirmation is required when purging items.
- **/
-gboolean
-calendar_config_get_confirm_purge (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, NULL);
-}
-
-/**
- * calendar_config_set_confirm_purge:
- * @confirm: Whether confirmation is required when purging items.
- *
- * Sets the configuration value for whether a confirmation dialog is presented
- * when purging calendar/tasks items.
- **/
-void
-calendar_config_set_confirm_purge (gboolean confirm)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
-}
-
-/**
- * calendar_config_get_tasks_due_today_color:
- * @color: the location to store the color
- *
- * Queries the color to be used to display tasks that are due today.
- **/
-void
-calendar_config_get_tasks_due_today_color (GdkColor *color)
-{
-	const gchar *key = CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR;
-	GError *error = NULL;
-	gchar *color_spec;
-
-	g_return_if_fail (color != NULL);
-
-	calendar_config_init ();
-
-	color_spec = gconf_client_get_string (config, key, &error);
-
-	if (color_spec != NULL && !gdk_color_parse (color_spec, color))
-		g_warning ("Unknown color \"%s\"", color_spec);
-	else if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	g_free (color_spec);
-}
-
-/**
- * calendar_config_set_tasks_due_today_color:
- * @color: a #GdkColor
- *
- * Sets the color to be used to display tasks that are due today.
- **/
-void
-calendar_config_set_tasks_due_today_color (GdkColor *color)
-{
-	const gchar *key = CALENDAR_CONFIG_TASKS_DUE_TODAY_COLOR;
-	GError *error = NULL;
-	gchar color_spec[16];
-
-	g_return_if_fail (color != NULL);
-
-	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
-		color->red, color->green, color->blue);
-
-	calendar_config_init ();
-
-	if (!gconf_client_set_string (config, key, color_spec, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-}
-
-/**
- * calendar_config_get_tasks_overdue_color:
- * @color: the location to store the color
- *
- * Queries the color to be used to display overdue tasks.
- **/
-void
-calendar_config_get_tasks_overdue_color (GdkColor *color)
-{
-	const gchar *key = CALENDAR_CONFIG_TASKS_OVERDUE_COLOR;
-	GError *error = NULL;
-	gchar *color_spec;
-
-	g_return_if_fail (color != NULL);
-
-	calendar_config_init ();
-
-	color_spec = gconf_client_get_string (config, key, &error);
-
-	if (color_spec != NULL && !gdk_color_parse (color_spec, color))
-		g_warning ("Unknown color \"%s\"", color_spec);
-	else if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	g_free (color_spec);
-}
-
-/**
- * calendar_config_set_tasks_overdue_color:
- * @color: a #GdkColor
- *
- * Sets the color to be used to display overdue tasks.
- **/
-void
-calendar_config_set_tasks_overdue_color (GdkColor *color)
-{
-	const gchar *key = CALENDAR_CONFIG_TASKS_OVERDUE_COLOR;
-	GError *error = NULL;
-	gchar color_spec[16];
-
-	g_return_if_fail (color != NULL);
-
-	g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
-		color->red, color->green, color->blue);
-
-	calendar_config_init ();
-
-	if (!gconf_client_set_string (config, key, color_spec, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
 }
 
 /**

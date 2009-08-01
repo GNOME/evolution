@@ -58,9 +58,11 @@ cal_shell_view_get_current_time (ECalendarItem *calitem,
 	ECalShellContent *cal_shell_content;
 	struct icaltimetype tt;
 	icaltimezone *timezone;
+	ECalModel *model;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	timezone = e_cal_shell_content_get_timezone (cal_shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone);
 
@@ -68,28 +70,28 @@ cal_shell_view_get_current_time (ECalendarItem *calitem,
 }
 
 static void
-cal_shell_view_mini_calendar_date_range_changed_cb (ECalShellView *cal_shell_view,
-                                                    ECalendarItem *calitem)
+cal_shell_view_date_navigator_date_range_changed_cb (ECalShellView *cal_shell_view,
+                                                     ECalendarItem *calitem)
 {
 	/* FIXME gnome-calendar.c calls update_query() here. */
 }
 
 static void
-cal_shell_view_mini_calendar_selection_changed_cb (ECalShellView *cal_shell_view,
-                                                   ECalendarItem *calitem)
+cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_view,
+                                                    ECalendarItem *calitem)
 {
 	/* FIXME */
 }
 
 static void
-cal_shell_view_mini_calendar_scroll_event_cb (ECalShellView *cal_shell_view,
-                                              GdkEventScroll *event,
-                                              ECalendar *mini_calendar)
+cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
+                                               GdkEventScroll *event,
+                                               ECalendar *date_navigator)
 {
 	ECalendarItem *calitem;
 	GDate start_date, end_date;
 
-	calitem = mini_calendar->calitem;
+	calitem = date_navigator->calitem;
 	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
 		return;
 
@@ -112,7 +114,7 @@ cal_shell_view_mini_calendar_scroll_event_cb (ECalShellView *cal_shell_view,
 	 *     we could move this handler into ECalShellSidebar. */
 	e_calendar_item_set_selection (calitem, &start_date, &end_date);
 
-	cal_shell_view_mini_calendar_date_range_changed_cb (
+	cal_shell_view_date_navigator_date_range_changed_cb (
 		cal_shell_view, calitem);
 }
 
@@ -258,11 +260,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GnomeCalendar *calendar;
-	ECalendar *mini_calendar;
+	ECalendar *date_navigator;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
 	ESourceSelector *selector;
-	guint id;
+	ECalModel *model;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -279,16 +281,20 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	priv->cal_shell_sidebar = g_object_ref (shell_sidebar);
 
 	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	model = e_cal_shell_content_get_model (cal_shell_content);
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
 	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	mini_calendar = e_cal_shell_sidebar_get_mini_calendar (cal_shell_sidebar);
+	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
+
+	/* Give GnomeCalendar a handle to the date navigator. */
+	gnome_calendar_set_date_navigator (calendar, date_navigator);
 
 	e_calendar_item_set_get_time_callback (
-		mini_calendar->calitem, (ECalendarItemGetTimeCallback)
+		date_navigator->calitem, (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
 	/* KILL-BONOBO FIXME -- Need to connect to the "user-created"
@@ -302,18 +308,23 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 #endif
 
 	g_signal_connect_swapped (
-		mini_calendar, "scroll-event",
-		G_CALLBACK (cal_shell_view_mini_calendar_scroll_event_cb),
+		model, "notify::timezone",
+		G_CALLBACK (e_cal_shell_view_update_timezone),
 		cal_shell_view);
 
 	g_signal_connect_swapped (
-		mini_calendar->calitem, "date-range-changed",
-		G_CALLBACK (cal_shell_view_mini_calendar_date_range_changed_cb),
+		date_navigator, "scroll-event",
+		G_CALLBACK (cal_shell_view_date_navigator_scroll_event_cb),
 		cal_shell_view);
 
 	g_signal_connect_swapped (
-		mini_calendar->calitem, "selection-changed",
-		G_CALLBACK (cal_shell_view_mini_calendar_selection_changed_cb),
+		date_navigator->calitem, "date-range-changed",
+		G_CALLBACK (cal_shell_view_date_navigator_date_range_changed_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		date_navigator->calitem, "selection-changed",
+		G_CALLBACK (cal_shell_view_date_navigator_selection_changed_cb),
 		cal_shell_view);
 
 	g_signal_connect_swapped (
@@ -355,14 +366,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (e_cal_shell_view_update_search_filter),
 		cal_shell_view);
 
-	/* Listen for configuration changes. */
-
-	/* Timezone */
-	id = calendar_config_add_notification_timezone (
-		cal_shell_view_config_timezone_changed_cb, cal_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
-
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
         e_cal_shell_view_update_search_filter (cal_shell_view);
@@ -399,13 +402,6 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 		g_object_unref (priv->taskpad_activity);
 		priv->taskpad_activity = NULL;
 	}
-
-	for (iter = priv->notifications; iter != NULL; iter = iter->next) {
-		guint notification_id = GPOINTER_TO_UINT (iter->data);
-		calendar_config_remove_notification (notification_id);
-	}
-	g_list_free (priv->notifications);
-	priv->notifications = NULL;
 }
 
 void
@@ -423,7 +419,7 @@ e_cal_shell_view_execute_search (ECalShellView *cal_shell_view)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	GnomeCalendar *calendar;
-	ECalendar *mini_calendar;
+	ECalendar *date_navigator;
 	GtkRadioAction *action;
 	GString *string;
 	FilterRule *rule;
@@ -549,16 +545,16 @@ e_cal_shell_view_execute_search (ECalShellView *cal_shell_view)
 	g_object_unref (rule);
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
-	mini_calendar = e_cal_shell_sidebar_get_mini_calendar (cal_shell_sidebar);
+	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
 
 	if (range_search) {
-		/* Switch to list view and hide the mini calendar. */
+		/* Switch to list view and hide the date navigator. */
 		action = GTK_RADIO_ACTION (ACTION (CALENDAR_VIEW_LIST));
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
-		gtk_widget_hide (GTK_WIDGET (mini_calendar));
+		gtk_widget_hide (GTK_WIDGET (date_navigator));
 	} else {
-		/* Ensure the mini calendar is visible. */
-		gtk_widget_show (GTK_WIDGET (mini_calendar));
+		/* Ensure the date navigator is visible. */
+		gtk_widget_show (GTK_WIDGET (date_navigator));
 	}
 
 	/* Submit the query. */
@@ -789,23 +785,18 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 void
 e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 {
-#if 0
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
-	GnomeCalendarViewType view_type;
-	ECalendarView *calendar_view;
 	icaltimezone *timezone;
+	ECalModel *model;
 	GList *clients, *iter;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	view_type = e_cal_shell_content_get_current_view (cal_shell_content);
-	calendar_view = e_cal_shell_content_get_calendar_view (
-		cal_shell_content, view_type);
+	model = e_cal_shell_content_get_model (cal_shell_content);
+	timezone = e_cal_model_get_timezone (model);
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
-
-	timezone = calendar_config_get_icaltimezone ();
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;
@@ -814,8 +805,5 @@ e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 			e_cal_set_default_timezone (client, timezone, NULL);
 	}
 
-	e_calendar_view_set_icaltimezone (calendar_view, timezone);
-
 	g_list_free (clients);
-#endif
 }

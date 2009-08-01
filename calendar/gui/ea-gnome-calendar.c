@@ -261,6 +261,7 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 	GnomeCalendar * calendarWidget;
 	GnomeCalendarViewType view_type;
 	ECalendarView *view;
+	ECalendar *date_navigator;
 	GtkWidget *childWidget;
 
 	g_return_val_if_fail (EA_IS_GNOME_CALENDAR (obj), NULL);
@@ -283,7 +284,8 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		break;
 	case 1:
 		/* for calendar */
-		childWidget = gnome_calendar_get_e_calendar_widget (calendarWidget);
+		date_navigator = gnome_calendar_get_date_navigator (calendarWidget);
+		childWidget = GTK_WIDGET (date_navigator);
 		child = gtk_widget_get_accessible (childWidget);
 		break;
 	default:

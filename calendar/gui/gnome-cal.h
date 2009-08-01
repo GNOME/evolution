@@ -29,10 +29,10 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-ui-component.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
 #include <e-util/e-popup.h>
+#include <shell/e-shell-settings.h>
 
 #include "e-cal-menu.h"
 #include "e-calendar-table.h"
@@ -100,10 +100,20 @@ struct _GnomeCalendarClass {
         void (* goto_date)              (GnomeCalendar *gcal, GnomeCalendarGotoDateType date);
 };
 
-GType      gnome_calendar_get_type		(void);
-GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
-
-GtkWidget *gnome_calendar_new			(void);
+GType		gnome_calendar_get_type		(void);
+GtkWidget *	gnome_calendar_new		(EShellSettings *shell_settings);
+EShellSettings *gnome_calendar_get_shell_settings
+						(GnomeCalendar *gcal);
+ECalendar *	gnome_calendar_get_date_navigator
+						(GnomeCalendar *gcal);
+void		gnome_calendar_set_date_navigator
+						(GnomeCalendar *gcal,
+						 ECalendar *date_navigator);
+gint		gnome_calendar_get_week_start_day
+						(GnomeCalendar *gcal);
+void		gnome_calendar_set_week_start_day
+						(GnomeCalendar *gcal,
+						 gint week_start_day);
 
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
@@ -132,9 +142,6 @@ void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_ty
 
 struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 							 GnomeCalendarViewType view_type);
-
-GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal);
-GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
 

@@ -58,6 +58,10 @@
 #include "e-cal-popup.h"
 #include "misc.h"
 
+#define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
+
 struct _ECalendarViewPrivate {
 	/* The GnomeCalendar we are associated to */
 	GnomeCalendar *calendar;
@@ -69,12 +73,7 @@ struct _ECalendarViewPrivate {
 	gchar *default_category;
 };
 
-static void e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
-static void e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
-static void e_calendar_view_destroy (GtkObject *object);
-
-/* Property IDs */
-enum props {
+enum {
 	PROP_0,
 	PROP_MODEL
 };
@@ -92,7 +91,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
 
@@ -105,77 +104,125 @@ static GtkTargetEntry target_types[] = {
 	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
 };
 
-static guint n_target_types = G_N_ELEMENTS (target_types);
-
 static void
-e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+calendar_view_set_model (ECalendarView *calendar_view,
+                         ECalModel *model)
 {
-	ECalendarView *cal_view;
+	g_return_if_fail (calendar_view->priv->model == NULL);
+	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	cal_view = E_CALENDAR_VIEW (object);
-
-	switch (property_id) {
-	case PROP_MODEL:
-		e_calendar_view_set_model (cal_view, E_CAL_MODEL (g_value_get_object (value)));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
-	}
+	calendar_view->priv->model = g_object_ref (model);
 }
 
 static void
-e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+calendar_view_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
-	ECalendarView *cal_view;
-
-	cal_view = E_CALENDAR_VIEW (object);
-
 	switch (property_id) {
-	case PROP_MODEL:
-		g_value_set_object (value, e_calendar_view_get_model (cal_view));
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-		break;
+		case PROP_MODEL:
+			calendar_view_set_model (
+				E_CALENDAR_VIEW (object),
+				g_value_get_object (value));
+			return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-e_calendar_view_class_init (ECalendarViewClass *klass)
+calendar_view_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	switch (property_id) {
+		case PROP_MODEL:
+			g_value_set_object (
+				value, e_calendar_view_get_model (
+				E_CALENDAR_VIEW (object)));
+			return;
+	}
 
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+calendar_view_dispose (GObject *object)
+{
+	ECalendarViewPrivate *priv;
+
+	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
+
+	if (priv->model != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->model, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_calendar_view_parent_class)->dispose (object);
+}
+
+static void
+calendar_view_finalize (GObject *object)
+{
+	ECalendarViewPrivate *priv;
+
+	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
+
+	g_free (priv->default_category);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_calendar_view_parent_class)->finalize (object);
+}
+
+static void
+e_calendar_view_class_init (ECalendarViewClass *class)
+{
+	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
 
-	/* Method override */
-	gobject_class->set_property = e_calendar_view_set_property;
-	gobject_class->get_property = e_calendar_view_get_property;
-	object_class->destroy = e_calendar_view_destroy;
+	g_type_class_add_private (class, sizeof (ECalendarViewPrivate));
 
-	klass->selection_changed = NULL;
-	klass->selected_time_changed = NULL;
-	klass->event_changed = NULL;
-	klass->event_added = NULL;
-	klass->user_created = NULL;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = calendar_view_set_property;
+	object_class->get_property = calendar_view_get_property;
+	object_class->dispose = calendar_view_dispose;
+	object_class->finalize = calendar_view_finalize;
 
-	klass->get_selected_events = NULL;
-	klass->get_selected_time_range = NULL;
-	klass->set_selected_time_range = NULL;
-	klass->get_visible_time_range = NULL;
-	klass->update_query = NULL;
-	klass->open_event = e_calendar_view_open_event;
-	klass->paste_text = NULL;
+	class->selection_changed = NULL;
+	class->selected_time_changed = NULL;
+	class->event_changed = NULL;
+	class->event_added = NULL;
+	class->user_created = NULL;
 
-	g_object_class_install_property (gobject_class, PROP_MODEL,
-					 g_param_spec_object ("model", NULL, NULL, E_TYPE_CAL_MODEL,
-							      G_PARAM_READABLE | G_PARAM_WRITABLE));
+	class->get_selected_events = NULL;
+	class->get_selected_time_range = NULL;
+	class->set_selected_time_range = NULL;
+	class->get_visible_time_range = NULL;
+	class->update_query = NULL;
+	class->open_event = e_calendar_view_open_event;
+	class->paste_text = NULL;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			"Model",
+			NULL,
+			E_TYPE_CAL_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	/* Create class' signals */
 	signals[SELECTION_CHANGED] =
 		g_signal_new ("selection_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalendarViewClass, selection_changed),
 			      NULL, NULL,
@@ -183,7 +230,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 0);
 	signals[SELECTED_TIME_CHANGED] =
 		g_signal_new ("selected_time_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalendarViewClass, selected_time_changed),
 			      NULL, NULL,
@@ -191,7 +238,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 0);
 	signals[TIMEZONE_CHANGED] =
 		g_signal_new ("timezone_changed",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalendarViewClass, timezone_changed),
 			      NULL, NULL,
@@ -220,7 +267,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 
 	signals[USER_CREATED] =
 		g_signal_new ("user_created",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalendarViewClass, user_created),
 			      NULL, NULL,
@@ -229,7 +276,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 
 	signals[OPEN_EVENT] =
 		g_signal_new ("open_event",
-			      G_TYPE_FROM_CLASS (klass),
+			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (ECalendarViewClass, open_event),
 			      NULL, NULL,
@@ -240,7 +287,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
          * Key bindings
          */
 
-	binding_set = gtk_binding_set_by_class (klass);
+	binding_set = gtk_binding_set_by_class (class);
 
 	gtk_binding_entry_add_signal (binding_set, GDK_o,
                                       GDK_CONTROL_MASK,
@@ -250,6 +297,12 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	/* init the accessibility support for e_day_view */
 	e_cal_view_a11y_init ();
 #endif
+}
+
+static void
+e_calendar_view_init (ECalendarView *calendar_view)
+{
+	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
 }
 
 void
@@ -377,41 +430,6 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 #endif
 }
 
-static void
-e_calendar_view_init (ECalendarView *cal_view)
-{
-	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
-}
-
-static void
-e_calendar_view_destroy (GtkObject *object)
-{
-	ECalendarView *cal_view = (ECalendarView *) object;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	if (cal_view->priv) {
-		if (cal_view->priv->model) {
-			g_signal_handlers_disconnect_matched (cal_view->priv->model,
-							      G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, cal_view);
-			g_object_unref (cal_view->priv->model);
-			cal_view->priv->model = NULL;
-		}
-
-		if (cal_view->priv->default_category) {
-			g_free (cal_view->priv->default_category);
-			cal_view->priv->default_category = NULL;
-		}
-
-		g_free (cal_view->priv);
-		cal_view->priv = NULL;
-	}
-
-	if (GTK_OBJECT_CLASS (e_calendar_view_parent_class)->destroy)
-		GTK_OBJECT_CLASS (e_calendar_view_parent_class)->destroy (object);
-}
-
 GnomeCalendar *
 e_calendar_view_get_calendar (ECalendarView *cal_view)
 {
@@ -434,21 +452,6 @@ e_calendar_view_get_model (ECalendarView *cal_view)
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
 
 	return cal_view->priv->model;
-}
-
-void
-e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model)
-{
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-	g_return_if_fail (E_IS_CAL_MODEL (model));
-
-	if (cal_view->priv->model) {
-		g_signal_handlers_disconnect_matched (cal_view->priv->model, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, cal_view);
-		g_object_unref (cal_view->priv->model);
-	}
-
-	cal_view->priv->model = g_object_ref (model);
 }
 
 icaltimezone *
@@ -759,13 +762,13 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
 	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
 
-	if (!gtk_clipboard_set_with_data (clipboard, target_types, n_target_types,
+	if (!gtk_clipboard_set_with_data (clipboard, target_types, G_N_ELEMENTS (target_types),
 					  clipboard_get_calendar_cb,
 					  clipboard_clear_calendar_cb,
 					  comp_str)) {
 		g_free (comp_str);
 	} else {
-		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
+		gtk_clipboard_set_can_store (clipboard, target_types + 1, G_N_ELEMENTS (target_types) - 1);
 	}
 
 	/* free memory */

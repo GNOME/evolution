@@ -81,21 +81,22 @@ struct _ECellDateEditClass {
 	ECellPopupClass parent_class;
 };
 
-GType      e_cell_date_edit_get_type		(void);
-ECell     *e_cell_date_edit_new			(void);
+GType		e_cell_date_edit_get_type	(void);
+ECell *		e_cell_date_edit_new		(void);
 
 /* These freeze and thaw the rebuilding of the time list. They are useful when
    setting several properties which result in rebuilds of the list, e.g. the
    lower_hour, upper_hour and use_24_hour_format properties. */
-void	   e_cell_date_edit_freeze		(ECellDateEdit	*ecde);
-void	   e_cell_date_edit_thaw		(ECellDateEdit	*ecde);
+void		e_cell_date_edit_freeze		(ECellDateEdit *ecde);
+void		e_cell_date_edit_thaw		(ECellDateEdit *ecde);
 
 /* Sets a callback to use to get the current time. This is useful if the
    application needs to use its own timezone data rather than rely on the
    Unix timezone. */
-void	   e_cell_date_edit_set_get_time_callback(ECellDateEdit	*ecde,
-						  ECellDateEditGetTimeCallback cb,
-						  gpointer	 data,
-						  GDestroyNotify destroy);
+void		e_cell_date_edit_set_get_time_callback
+						(ECellDateEdit *ecde,
+						 ECellDateEditGetTimeCallback cb,
+						 gpointer data,
+						 GDestroyNotify destroy);
 
 #endif /* _E_CELL_DATE_EDIT_H_ */

@@ -45,9 +45,11 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>
+#include "e-util/e-binding.h"
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "shell/e-shell.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -58,8 +60,6 @@
 #include "e-month-view.h"
 #include "e-week-view.h"
 #include "e-cal-list-view.h"
-#include "e-mini-calendar-config.h"
-#include "e-calendar-table-config.h"
 #include "gnome-cal.h"
 #include "calendar-config.h"
 #include "calendar-view.h"
@@ -78,8 +78,9 @@ static GHashTable *non_intrusive_error_table = NULL;
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
-	/* The clients for display */
+	EShellSettings *shell_settings;
 
+	/* The clients for display */
 	GHashTable *clients;
 	GList *clients_list;
 	ECal *default_client;
@@ -96,7 +97,6 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *hpane;
 
 	ECalendar   *date_navigator;
-	EMiniCalendarConfig *date_navigator_config;
 
 	/* plugin menu managers */
 	ECalMenu    *calendar_menu;
@@ -128,7 +128,7 @@ struct _GnomeCalendarPrivate {
 	guint	     day_selected_id;
 
 	/* Our current week start */
-	gint week_start;
+	gint week_start_day;
 
 	/* Our current timezone. */
 	icaltimezone *zone;
@@ -152,7 +152,12 @@ struct _GnomeCalendarPrivate {
 	GMutex *todo_update_lock;
 };
 
-/* Signal IDs */
+enum {
+	PROP_0,
+	PROP_DATE_NAVIGATOR,
+	PROP_SHELL_SETTINGS,
+	PROP_WEEK_START_DAY
+};
 
 enum {
 	DATES_SHOWN_CHANGED,
@@ -164,9 +169,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint gnome_calendar_signals[LAST_SIGNAL];
-
-
+static guint signals[LAST_SIGNAL];
 
 static void gnome_calendar_destroy (GtkObject *object);
 static void gnome_calendar_goto_date (GnomeCalendar *gcal,
@@ -177,7 +180,6 @@ static void gnome_calendar_change_view (GnomeCalendar *gcal,
 static void update_view_times (GnomeCalendar *gcal, time_t start_time);
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
-static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
 static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
@@ -229,16 +231,334 @@ message_push (Message *msg)
 
 G_DEFINE_TYPE (GnomeCalendar, gnome_calendar, GTK_TYPE_VBOX)
 
+static void
+update_adjustment (GnomeCalendar *gcal,
+                   GtkAdjustment *adjustment,
+                   EWeekView *week_view)
+{
+	GDate date;
+	gint week_offset;
+	struct icaltimetype start_tt = icaltime_null_time ();
+	time_t lower;
+	guint32 old_first_day_julian, new_first_day_julian;
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	/* Determine the first date shown. */
+	date = week_view->base_date;
+	week_offset = floor (adjustment->value + 0.5);
+	g_date_add_days (&date, week_offset * 7);
+
+	/* Convert the old & new first days shown to julian values. */
+	old_first_day_julian = g_date_get_julian (&week_view->first_day_shown);
+	new_first_day_julian = g_date_get_julian (&date);
+
+	/* If we are already showing the date, just return. */
+	if (old_first_day_julian == new_first_day_julian)
+		return;
+
+	/* Convert it to a time_t. */
+	start_tt.year = g_date_get_year (&date);
+	start_tt.month = g_date_get_month (&date);
+	start_tt.day = g_date_get_day (&date);
+
+	lower = icaltime_as_timet_with_zone (start_tt, gcal->priv->zone);
+
+	e_week_view_set_update_base_date (week_view, FALSE);
+	gnome_calendar_set_selected_time_range (gcal, lower);
+	e_week_view_set_update_base_date (week_view, TRUE);
+}
+
+static void
+week_view_adjustment_changed_cb (GtkAdjustment *adjustment,
+                                 GnomeCalendar *gcal)
+{
+	ECalendarView *view;
+
+	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
+	update_adjustment (gcal, adjustment, E_WEEK_VIEW (view));
+}
+
+static void
+month_view_adjustment_changed_cb (GtkAdjustment *adjustment,
+                                  GnomeCalendar *gcal)
+{
+	ECalendarView *view;
+
+	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_MONTH_VIEW);
+	update_adjustment (gcal, adjustment, E_WEEK_VIEW (view));
+}
+
+static void
+view_selection_changed_cb (GnomeCalendar *gcal)
+{
+	g_signal_emit (gcal, signals[CALENDAR_SELECTION_CHANGED], 0);
+}
+
+static void
+view_progress_cb (ECalModel *model,
+                  const gchar *message,
+                  gint percent,
+                  ECalSourceType type,
+                  GnomeCalendar *gcal)
+{
+#if 0  /* KILL-BONOBO */
+	ECalendarView *view;
+
+	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
+	e_calendar_view_set_status_message (view, message, percent);
+#endif
+}
+
+static void
+view_done_cb (ECalModel *model,
+              ECalendarStatus status,
+              ECalSourceType type,
+              GnomeCalendar *gcal)
+{
+#if 0  /* KILL-BONOBO */
+	ECalendarView *view;
+
+	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
+	e_calendar_view_set_status_message (view, NULL, -1);
+#endif
+}
+
+static void
+gnome_calendar_set_shell_settings (GnomeCalendar *gcal,
+                                   EShellSettings *shell_settings)
+{
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (gcal->priv->shell_settings == NULL);
+
+	gcal->priv->shell_settings = g_object_ref (shell_settings);
+}
+
+static void
+gnome_calendar_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_DATE_NAVIGATOR:
+			gnome_calendar_set_date_navigator (
+				GNOME_CALENDAR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SHELL_SETTINGS:
+			gnome_calendar_set_shell_settings (
+				GNOME_CALENDAR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			gnome_calendar_set_week_start_day (
+				GNOME_CALENDAR (object),
+				g_value_get_int (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gnome_calendar_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_DATE_NAVIGATOR:
+			g_value_set_object (
+				value, gnome_calendar_get_date_navigator (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_SHELL_SETTINGS:
+			g_value_set_object (
+				value, gnome_calendar_get_shell_settings (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value, gnome_calendar_get_week_start_day (
+				GNOME_CALENDAR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gnome_calendar_constructed (GObject *object)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (object);
+	EShellSettings *shell_settings;
+	ECalendarView *calendar_view;
+	ECalModel *model;
+	GtkAdjustment *adjustment;
+
+	shell_settings = gnome_calendar_get_shell_settings (gcal);
+
+	/* Create the model for the views. */
+	model = e_cal_model_calendar_new (shell_settings);
+	e_cal_model_set_flags (model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
+
+	g_signal_connect (
+		model, "cal-view-progress",
+		G_CALLBACK (view_progress_cb), gcal);
+
+	g_signal_connect (
+		model, "cal-view-done",
+		G_CALLBACK (view_done_cb), gcal);
+
+	/* Day View */
+	calendar_view = e_day_view_new (model);
+	e_calendar_view_set_calendar (calendar_view, gcal);
+	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
+	gcal->priv->views[GNOME_CAL_DAY_VIEW] = calendar_view;
+
+	e_binding_new (
+		G_OBJECT (gcal), "week-start-day",
+		G_OBJECT (calendar_view), "week-start-day");
+
+	g_signal_connect_swapped (
+		calendar_view, "selection-changed",
+		G_CALLBACK (view_selection_changed_cb), gcal);
+
+	/* Work Week View */
+	calendar_view = e_day_view_new (model);
+	e_day_view_set_work_week_view (E_DAY_VIEW (calendar_view), TRUE);
+	e_day_view_set_days_shown (E_DAY_VIEW (calendar_view), 5);
+	e_calendar_view_set_calendar (calendar_view, gcal);
+	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
+	gcal->priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
+
+	e_binding_new (
+		G_OBJECT (gcal), "week-start-day",
+		G_OBJECT (calendar_view), "week-start-day");
+
+	/* Week View */
+	calendar_view = e_week_view_new (model);
+	e_calendar_view_set_calendar (calendar_view, gcal);
+	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
+	gcal->priv->views[GNOME_CAL_WEEK_VIEW] = calendar_view;
+
+	e_binding_new (
+		G_OBJECT (gcal), "week-start-day",
+		G_OBJECT (calendar_view), "week-start-day");
+
+	g_signal_connect_swapped (
+		calendar_view, "selection-changed",
+		G_CALLBACK (view_selection_changed_cb), gcal);
+
+	adjustment = gtk_range_get_adjustment (
+		GTK_RANGE (E_WEEK_VIEW (calendar_view)->vscrollbar));
+	g_signal_connect (
+		adjustment, "value-changed",
+		G_CALLBACK (week_view_adjustment_changed_cb), gcal);
+
+	/* Month View */
+	calendar_view = e_month_view_new (model);
+	e_week_view_set_multi_week_view (E_WEEK_VIEW (calendar_view), TRUE);
+	e_week_view_set_weeks_shown (E_WEEK_VIEW (calendar_view), 6);
+	e_calendar_view_set_calendar (calendar_view, gcal);
+	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
+	gcal->priv->views[GNOME_CAL_MONTH_VIEW] = calendar_view;
+
+	e_binding_new (
+		G_OBJECT (gcal), "week-start-day",
+		G_OBJECT (calendar_view), "week-start-day");
+
+	g_signal_connect_swapped (
+		calendar_view, "selection-changed",
+		G_CALLBACK (view_selection_changed_cb), gcal);
+
+	adjustment = gtk_range_get_adjustment (
+		GTK_RANGE (E_WEEK_VIEW (calendar_view)->vscrollbar));
+	g_signal_connect (
+		adjustment, "value-changed",
+		G_CALLBACK (month_view_adjustment_changed_cb), gcal);
+
+	/* List View */
+	calendar_view = e_cal_list_view_new (model);
+	e_calendar_view_set_calendar (calendar_view, gcal);
+	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
+	gcal->priv->views[GNOME_CAL_LIST_VIEW] = calendar_view;
+
+	g_signal_connect_swapped (
+		calendar_view, "selection-changed",
+		G_CALLBACK (view_selection_changed_cb), gcal);
+
+	/* Bind to EShellSettings -after- the views are set up. */
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (gcal), "week-start-day");
+}
+
 /* Class initialization function for the gnome calendar */
 static void
 gnome_calendar_class_init (GnomeCalendarClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	GtkBindingSet *binding_set;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = gnome_calendar_set_property;
+	object_class->get_property = gnome_calendar_get_property;
+	object_class->constructed = gnome_calendar_constructed;
 
-	gnome_calendar_signals[DATES_SHOWN_CHANGED] =
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = gnome_calendar_destroy;
+
+	class->dates_shown_changed = NULL;
+	class->calendar_selection_changed = NULL;
+	class->source_added = NULL;
+	class->source_removed = NULL;
+	class->goto_date = gnome_calendar_goto_date;
+	class->change_view = gnome_calendar_change_view;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DATE_NAVIGATOR,
+		g_param_spec_object (
+			"date-navigator",
+			"Date Navigator",
+			NULL,
+			E_TYPE_CALENDAR,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_SETTINGS,
+		g_param_spec_object (
+			"shell-settings",
+			_("Shell Settings"),
+			_("Application-wide settings"),
+			E_TYPE_SHELL_SETTINGS,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday */
+			0,
+			G_PARAM_READWRITE));
+
+	signals[DATES_SHOWN_CHANGED] =
 		g_signal_new ("dates_shown_changed",
 				G_TYPE_FROM_CLASS (object_class),
 				G_SIGNAL_RUN_LAST,
@@ -247,7 +567,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
-	gnome_calendar_signals[CALENDAR_SELECTION_CHANGED] =
+	signals[CALENDAR_SELECTION_CHANGED] =
 		g_signal_new ("calendar_selection_changed",
 				G_TYPE_FROM_CLASS (object_class),
 				G_SIGNAL_RUN_LAST,
@@ -256,7 +576,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
-	gnome_calendar_signals[SOURCE_ADDED] =
+	signals[SOURCE_ADDED] =
 		g_signal_new ("source_added",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -267,7 +587,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
-	gnome_calendar_signals[SOURCE_REMOVED] =
+	signals[SOURCE_REMOVED] =
 		g_signal_new ("source_removed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -278,7 +598,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
-	gnome_calendar_signals[GOTO_DATE] =
+	signals[GOTO_DATE] =
 		g_signal_new ("goto_date",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
@@ -289,7 +609,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      1,
 			      G_TYPE_INT);
 
-	gnome_calendar_signals[CHANGE_VIEW] =
+	signals[CHANGE_VIEW] =
 		g_signal_new ("change_view",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
@@ -299,15 +619,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_INT);
-
-	object_class->destroy = gnome_calendar_destroy;
-
-	class->dates_shown_changed = NULL;
-	class->calendar_selection_changed = NULL;
-	class->source_added = NULL;
-	class->source_removed = NULL;
-	class->goto_date = gnome_calendar_goto_date;
-	class->change_view = gnome_calendar_change_view;
 
 	/*
 	 * Key bindings
@@ -858,37 +1169,6 @@ get_current_time (ECalendarItem *calitem, gpointer data)
 }
 
 static void
-view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
-{
-	g_signal_emit (gcal, gnome_calendar_signals[CALENDAR_SELECTION_CHANGED], 0);
-}
-
-static void
-set_week_start (GnomeCalendar *calendar)
-{
-	time_t start_time;
-	gint ii;
-
-	calendar->priv->week_start = calendar_config_get_week_start_day ();
-
-	/* Only do this if views exist */
-	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++)
-		if (gnome_calendar_get_calendar_view (calendar, ii) == NULL)
-			return;
-
-	start_time = calendar->priv->base_view_time;
-	gnome_calendar_set_selected_time_range (calendar, start_time);
-}
-
-static void
-week_start_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	GnomeCalendar *calendar = data;
-
-	set_week_start (calendar);
-}
-
-static void
 set_working_days (GnomeCalendar *calendar)
 {
 	time_t start_time;
@@ -928,17 +1208,6 @@ set_timezone (GnomeCalendar *calendar)
 			/* FIXME Error checking */
 			e_cal_set_default_timezone (client, priv->zone, NULL);
 	}
-
-	if (priv->views [priv->current_view_type])
-		e_calendar_view_set_timezone (priv->views [priv->current_view_type], priv->zone);
-}
-
-static void
-timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	GnomeCalendar *calendar = data;
-
-	set_timezone (calendar);
 }
 
 struct _mupdate_todo_msg {
@@ -1045,7 +1314,6 @@ process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
 #if 0 /* KILL-BONOBO */
 	GnomeCalendarPrivate *priv;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
 
 	priv = gcal->priv;
@@ -1105,12 +1373,6 @@ update_marcus_bains_line_cb (GnomeCalendar *gcal)
 }
 
 static void
-config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	process_completed_tasks (data, TRUE);
-}
-
-static void
 setup_config (GnomeCalendar *calendar)
 {
 	GnomeCalendarPrivate *priv;
@@ -1118,121 +1380,14 @@ setup_config (GnomeCalendar *calendar)
 
 	priv = calendar->priv;
 
-	/* Week Start */
-	set_week_start (calendar);
-	not = calendar_config_add_notification_week_start_day (week_start_changed_cb, calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
 	/* Working Days */
 	set_working_days (calendar);
 	not = calendar_config_add_notification_working_days (working_days_changed_cb, calendar);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
-	/* Timezone */
-	set_timezone (calendar);
-	not = calendar_config_add_notification_timezone (timezone_changed_cb, calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	/* Hide completed tasks */
-	not = calendar_config_add_notification_hide_completed_tasks (config_hide_completed_tasks_changed_cb,
-							      calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_hide_completed_tasks_units (config_hide_completed_tasks_changed_cb,
-							      calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb,
-							      calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
 	/* Pane positions */
 	priv->hpane_pos = calendar_config_get_hpane_pos ();
 	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
-}
-
-static void
-update_adjustment (GnomeCalendar *gcal, GtkAdjustment *adjustment, EWeekView *week_view)
-{
-	GDate date;
-	gint week_offset;
-	struct icaltimetype start_tt = icaltime_null_time ();
-	time_t lower;
-	guint32 old_first_day_julian, new_first_day_julian;
-
-	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return;
-
-	/* Determine the first date shown. */
-	date = week_view->base_date;
-	week_offset = floor (adjustment->value + 0.5);
-	g_date_add_days (&date, week_offset * 7);
-
-	/* Convert the old & new first days shown to julian values. */
-	old_first_day_julian = g_date_get_julian (&week_view->first_day_shown);
-	new_first_day_julian = g_date_get_julian (&date);
-
-	/* If we are already showing the date, just return. */
-	if (old_first_day_julian == new_first_day_julian)
-		return;
-
-	/* Convert it to a time_t. */
-	start_tt.year = g_date_get_year (&date);
-	start_tt.month = g_date_get_month (&date);
-	start_tt.day = g_date_get_day (&date);
-
-	lower = icaltime_as_timet_with_zone (start_tt, gcal->priv->zone);
-
-	e_week_view_set_update_base_date (week_view, FALSE);
-	gnome_calendar_set_selected_time_range (gcal, lower);
-	e_week_view_set_update_base_date (week_view, TRUE);
-}
-
-static void
-week_view_adjustment_changed_cb (GtkAdjustment *adjustment, GnomeCalendar *gcal)
-{
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
-	update_adjustment (gcal, adjustment, E_WEEK_VIEW (view));
-}
-
-static void
-month_view_adjustment_changed_cb (GtkAdjustment *adjustment, GnomeCalendar *gcal)
-{
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_MONTH_VIEW);
-	update_adjustment (gcal, adjustment, E_WEEK_VIEW (view));
-}
-
-static void
-view_progress_cb (ECalModel *model, const gchar *message, gint percent, ECalSourceType type, GnomeCalendar *gcal)
-{
-#if 0  /* KILL-BONOBO */
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
-	e_calendar_view_set_status_message (view, message, percent);
-#endif
-}
-
-static void
-view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, GnomeCalendar *gcal)
-{
-#if 0  /* KILL-BONOBO */
-	ECalendarView *view;
-
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_WEEK_VIEW);
-	e_calendar_view_set_status_message (view, NULL, -1);
-#endif
-}
-
-GtkWidget *
-gnome_calendar_get_tag (GnomeCalendar *gcal)
-{
-	return GTK_WIDGET (gcal->priv->date_navigator);
 }
 
 static void
@@ -1243,58 +1398,13 @@ setup_widgets (GnomeCalendar *gcal)
 	gchar *filename;
 	ETable *etable;
 	GtkAdjustment *adjustment;
-	ECalModel *w_model;
 	GtkWidget *vbox;
 	GtkWidget *label;
-	ECalendarView *calendar_view;
 	ECalModel *cal_model;
 	gint i;
 	gchar *tmp;
 
 	priv = gcal->priv;
-
-	/* The main HPaned, with the notebook of calendar views on the left
-	   and the ECalendar and ToDo list on the right. */
-	priv->hpane = gtk_hpaned_new ();
-	g_signal_connect_after(priv->hpane, "realize",
-			       G_CALLBACK(gnome_calendar_hpane_realized), gcal);
-	g_signal_connect (priv->hpane, "button_release_event",
-			  G_CALLBACK (gnome_calendar_hpane_resized), gcal);
-	gtk_widget_show (priv->hpane);
-	gtk_box_pack_start (GTK_BOX (gcal), priv->hpane, TRUE, TRUE, 6);
-
-	/* The ECalendar. */
-	w = e_calendar_new ();
-	priv->date_navigator = E_CALENDAR (w);
-	priv->date_navigator_config = e_mini_calendar_config_new (priv->date_navigator);
-	e_calendar_item_set_days_start_week_sel (priv->date_navigator->calitem, 9);
-	e_calendar_item_set_max_days_sel (priv->date_navigator->calitem, 42);
-	gtk_widget_show (w);
-	e_calendar_item_set_get_time_callback (priv->date_navigator->calitem,
-					       (ECalendarItemGetTimeCallback) get_current_time,
-					       gcal, NULL);
-
-	g_signal_connect (priv->date_navigator->calitem, "selection_changed",
-			  G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed), gcal);
-	g_signal_connect (priv->date_navigator->calitem, "date_range_changed",
-			  G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed), gcal);
-	g_signal_connect (w, "scroll-event",
-			  G_CALLBACK (gnome_calendar_date_navigator_scrolled), gcal);
-
-	/* The ToDo list. */
-	vbox = gtk_vbox_new (FALSE, 0);
-	sep = gtk_hseparator_new ();
-	gtk_box_pack_start ((GtkBox *)vbox, sep, FALSE, TRUE, 0);
-
-	label = gtk_label_new (NULL);
-	tmp = g_strdup_printf ("<b> %s </b>", _("Tasks"));
-	gtk_label_set_markup ((GtkLabel *)label, tmp);
-	g_free (tmp);
-	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
-
-	gtk_widget_show (label);
-	gtk_widget_show (vbox);
-	gtk_widget_show (sep);
 
 	/* update_todo_view (gcal); */
 
@@ -1303,80 +1413,8 @@ setup_widgets (GnomeCalendar *gcal)
 	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_todo_view_cb, gcal, NULL);
 #endif
 
-	/* Create the model for the views */
-	cal_model = (ECalModel *) e_cal_model_calendar_new ();
-	e_cal_model_set_flags (cal_model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
-
-	/* The Day View. */
-	calendar_view = e_day_view_new (cal_model);
-	e_calendar_view_set_calendar (calendar_view, gcal);
-	e_calendar_view_set_timezone (calendar_view, priv->zone);
-	priv->views[GNOME_CAL_DAY_VIEW] = calendar_view;
-
-	g_signal_connect (
-		calendar_view, "selection-changed",
-		G_CALLBACK (view_selection_changed_cb), gcal);
-
-	/* The Work Week View. */
-	calendar_view = e_day_view_new (cal_model);
-	e_day_view_set_work_week_view (E_DAY_VIEW (calendar_view), TRUE);
-	e_day_view_set_days_shown (E_DAY_VIEW (calendar_view), 5);
-	e_calendar_view_set_calendar (calendar_view, gcal);
-	e_calendar_view_set_timezone (calendar_view, priv->zone);
-	priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
-
 	/* The Marcus Bains line */
 	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);
-
-	/* The Week View. */
-	calendar_view = e_week_view_new (cal_model);
-	e_calendar_view_set_calendar (calendar_view, gcal);
-	e_calendar_view_set_timezone (calendar_view, priv->zone);
-	priv->views[GNOME_CAL_WEEK_VIEW] = calendar_view;
-
-	g_signal_connect (
-		calendar_view, "selection-changed",
-		G_CALLBACK (view_selection_changed_cb), gcal);
-
-	adjustment = gtk_range_get_adjustment (
-		GTK_RANGE (E_WEEK_VIEW (calendar_view)->vscrollbar));
-	g_signal_connect (
-		adjustment, "value-changed",
-		G_CALLBACK (week_view_adjustment_changed_cb), gcal);
-	w_model = e_calendar_view_get_model (calendar_view);
-	g_signal_connect (
-		w_model, "cal-view-progress",
-		G_CALLBACK (view_progress_cb), gcal);
-	g_signal_connect (w_model, "cal-view-done",
-		G_CALLBACK (view_done_cb), gcal);
-
-	/* The Month View. */
-	calendar_view = e_month_view_new (cal_model);
-	e_calendar_view_set_calendar (calendar_view, gcal);
-	e_calendar_view_set_timezone (calendar_view, priv->zone);
-	e_week_view_set_multi_week_view (E_WEEK_VIEW (calendar_view), TRUE);
-	e_week_view_set_weeks_shown (E_WEEK_VIEW (calendar_view), 6);
-	priv->views[GNOME_CAL_MONTH_VIEW] = calendar_view;
-
-	g_signal_connect (
-		calendar_view, "selection-changed",
-		G_CALLBACK (view_selection_changed_cb), gcal);
-
-	adjustment = gtk_range_get_adjustment (
-		GTK_RANGE (E_WEEK_VIEW (calendar_view)->vscrollbar));
-	g_signal_connect (
-		adjustment, "value-changed",
-		G_CALLBACK (month_view_adjustment_changed_cb), gcal);
-
-	/* The List View. */
-	calendar_view = e_cal_list_view_new (cal_model);
-	e_calendar_view_set_calendar (calendar_view, gcal);
-	e_calendar_view_set_timezone (calendar_view, priv->zone);
-	priv->views[GNOME_CAL_LIST_VIEW] = calendar_view;
-
-	g_signal_connect (
-		calendar_view, "selection-changed",
-		G_CALLBACK (view_selection_changed_cb), gcal);
 
 	update_memo_view (gcal);
 }
@@ -1438,6 +1476,11 @@ gnome_calendar_destroy (GtkObject *object)
 		GList *l;
 		gint i;
 
+		if (priv->shell_settings != NULL) {
+			g_object_unref (priv->shell_settings);
+			priv->shell_settings = NULL;
+		}
+
 		/* Clean up the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
 			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
@@ -1457,8 +1500,6 @@ gnome_calendar_destroy (GtkObject *object)
 			g_object_unref (priv->default_client);
 		}
 		priv->default_client = NULL;
-
-		g_object_unref (priv->date_navigator_config);
 
 		for (l = priv->notifications; l; l = l->next)
 			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
@@ -1540,7 +1581,6 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 	time_t	 new_time = 0;
 	gboolean need_updating = FALSE;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
 
 	priv = gcal->priv;
@@ -1564,11 +1604,11 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 		need_updating = TRUE;
 		break;
 	case GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK:
-		new_time = time_week_begin_with_zone (priv->base_view_time, priv->week_start, priv->zone);
+		new_time = time_week_begin_with_zone (priv->base_view_time, priv->week_start_day, priv->zone);
 		need_updating = TRUE;
 		break;
 	case GNOME_CAL_GOTO_LAST_DAY_OF_WEEK:
-		new_time = time_week_begin_with_zone (priv->base_view_time, priv->week_start, priv->zone);
+		new_time = time_week_begin_with_zone (priv->base_view_time, priv->week_start_day, priv->zone);
 		if (priv->current_view_type == GNOME_CAL_DAY_VIEW ||
 		    priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW) {
 			/* FIXME Shouldn't hard code work week end */
@@ -1605,7 +1645,6 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 	GnomeCalendarPrivate *priv;
 	gint i;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (new_time != -1);
 
@@ -1673,7 +1712,6 @@ gnome_calendar_direction (GnomeCalendar *gcal, gint direction)
 void
 gnome_calendar_next (GnomeCalendar *gcal)
 {
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gnome_calendar_direction (gcal, 1);
@@ -1682,7 +1720,6 @@ gnome_calendar_next (GnomeCalendar *gcal)
 void
 gnome_calendar_previous (GnomeCalendar *gcal)
 {
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gnome_calendar_direction (gcal, -1);
@@ -1693,7 +1730,6 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 {
 	GnomeCalendarPrivate *priv;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
@@ -2013,7 +2049,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		priv->clients_list = g_list_remove (priv->clients_list, ecal);
 		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
+		g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2080,7 +2116,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 			g_object_unref (priv->default_client);
 		priv->default_client = NULL;
 
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
+		g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2175,7 +2211,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	/* e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1); KILL-BONOBO */
 
-	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
+	g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
 
 	g_object_unref (source);
 
@@ -2192,32 +2228,99 @@ backend_died_cb (ECal *ecal, gpointer data)
 }
 
 GtkWidget *
-gnome_calendar_construct (GnomeCalendar *gcal)
+gnome_calendar_new (EShellSettings *shell_settings)
 {
-	GnomeCalendarPrivate *priv;
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
 
-	g_return_val_if_fail (gcal != NULL, NULL);
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	priv = gcal->priv;
-
-	return GTK_WIDGET (gcal);
+	return g_object_new (
+		GNOME_TYPE_CALENDAR,
+		"shell-settings", shell_settings, NULL);
 }
 
-GtkWidget *
-gnome_calendar_new (void)
+EShellSettings *
+gnome_calendar_get_shell_settings (GnomeCalendar *gcal)
 {
-	GnomeCalendar *gcal;
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
-	gcal = g_object_new (gnome_calendar_get_type (), NULL);
+	return gcal->priv->shell_settings;
+}
 
-	if (!gnome_calendar_construct (gcal)) {
-		g_message (G_STRLOC ": Could not construct the calendar GUI");
-		g_object_unref (gcal);
-		return NULL;
+ECalendar *
+gnome_calendar_get_date_navigator (GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return gcal->priv->date_navigator;
+}
+
+void
+gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
+                                   ECalendar *date_navigator)
+{
+	ECalendarItem *calitem;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	if (date_navigator != NULL) {
+		g_return_if_fail (E_IS_CALENDAR (date_navigator));
+		g_object_ref (date_navigator);
 	}
 
-	return GTK_WIDGET (gcal);
+	/* FIXME This ignores the possibility that a date navigator
+	 *       object already exists.  But this function should
+	 *       only be called once anyway. */
+	if (gcal->priv->date_navigator != NULL)
+		g_object_unref (gcal->priv->date_navigator);
+
+	gcal->priv->date_navigator = date_navigator;
+	calitem = date_navigator->calitem;
+
+	e_calendar_item_set_get_time_callback (
+		calitem, (ECalendarItemGetTimeCallback)
+		get_current_time, gcal, NULL);
+
+	g_signal_connect (
+		calitem, "selection-changed",
+		G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed),
+		gcal);
+
+	g_signal_connect (
+		calitem, "date-range-changed",
+		G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed),
+		gcal);
+
+	g_signal_connect (
+		date_navigator, "scroll-event",
+		G_CALLBACK (gnome_calendar_date_navigator_scrolled),
+		gcal);
+
+	g_object_notify (G_OBJECT (gcal), "date-navigator");
+}
+
+gint
+gnome_calendar_get_week_start_day (GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
+
+	return gcal->priv->week_start_day;
+}
+
+void
+gnome_calendar_set_week_start_day (GnomeCalendar *gcal,
+                                   gint week_start_day)
+{
+	time_t start_time;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (week_start_day >= 0);
+	g_return_if_fail (week_start_day < 7);
+
+	gcal->priv->week_start_day = week_start_day;
+
+	start_time = gcal->priv->base_view_time;
+	gnome_calendar_set_selected_time_range (gcal, start_time);
+
+	g_object_notify (G_OBJECT (gcal), "week-start-day");
 }
 
 /**
@@ -2233,7 +2336,6 @@ gnome_calendar_get_calendar_model (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 
-	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	priv = gcal->priv;
@@ -2249,7 +2351,6 @@ gnome_calendar_get_default_client (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 
-	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	priv = gcal->priv;
@@ -2272,7 +2373,6 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ESource *source)
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 
-	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
@@ -2310,7 +2410,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ESource *source)
 	g_hash_table_insert (priv->clients, g_strdup (e_source_peek_uid (source)), client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 
-	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_ADDED], 0, source);
+	g_signal_emit (gcal, signals[SOURCE_ADDED], 0, source);
 
 	open_ecal (gcal, client, FALSE, client_cal_opened_cb);
 
@@ -2332,13 +2432,12 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ESource *source)
 {
 	gboolean result;
 
-	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	result = gnome_calendar_remove_source_by_uid (gcal, e_source_peek_uid (source));
 	if (result)
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
+		g_signal_emit (gcal, signals[SOURCE_REMOVED], 0, source);
 
 	return result;
 }
@@ -2351,7 +2450,6 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const gchar *uid)
 	ECalModel *model;
 	GList *l;
 
-	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
 
@@ -2407,7 +2505,6 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source)
 	GnomeCalendarPrivate *priv;
 	ECal *client;
 
-	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
@@ -2489,7 +2586,6 @@ gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend)
 	ECalComponentDateTime dt;
 	struct icaltimetype itt;
 
-	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
@@ -2576,6 +2672,10 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
+	/* If the ECalendar is not yet set, we just return. */
+	if (priv->date_navigator == NULL)
+		return;
+
 	/* If the ECalendar isn't visible, we just return. */
 	if (!GTK_WIDGET_VISIBLE (priv->date_navigator))
 		return;
@@ -2590,7 +2690,7 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
 		EWeekView *week_view = E_WEEK_VIEW (priv->views[priv->current_view_type]);
 
-		if (priv->week_start == 0
+		if (priv->week_start_day == 0
 		    && (!week_view->multi_week_view || week_view->compress_weekend))
 			g_date_add_days (&start_date, 1);
 	}
@@ -2625,7 +2725,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
 		EWeekView *week_view = E_WEEK_VIEW (priv->views[priv->current_view_type]);
 
-		if (priv->week_start == 0 && (!week_view->multi_week_view || week_view->compress_weekend))
+		if (priv->week_start_day == 0 && (!week_view->multi_week_view || week_view->compress_weekend))
 			g_date_add_days (&start_date, 1);
 	}
 	time_to_gdate_with_zone (&end_date, end, priv->zone);
@@ -2645,7 +2745,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	   Note that if weekends are compressed and the week start day is set
 	   to Sunday we don't actually show complete weeks in the Week view,
 	   so this may need tweaking. */
-	if (g_date_get_weekday (&new_start_date) % 7 == priv->week_start)
+	if (g_date_get_weekday (&new_start_date) % 7 == priv->week_start_day)
 		starts_on_week_start_day = TRUE;
 
 	/* Update selection to be in the new time range */
@@ -2694,20 +2794,6 @@ static void
 gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem, GnomeCalendar *gcal)
 {
 	update_query (gcal);
-}
-
-static void
-gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
-	} else {
-		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
-	}
 }
 
 static void
@@ -2810,7 +2896,6 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 icaltimezone*
 gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
 {
-	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	return gcal->priv->zone;
@@ -2839,7 +2924,7 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 		priv->visible_start = start_time;
 		priv->visible_end = end_time;
 
-		g_signal_emit (gcal, gnome_calendar_signals[DATES_SHOWN_CHANGED], 0);
+		g_signal_emit (gcal, signals[DATES_SHOWN_CHANGED], 0);
 	}
 	update_memo_view (gcal);
 }
@@ -2989,15 +3074,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 }
 
-GtkWidget *
-gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal)
-{
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	return GTK_WIDGET(gcal->priv->date_navigator);
-}
-
-ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
+ECalMenu *
+gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
 {
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 

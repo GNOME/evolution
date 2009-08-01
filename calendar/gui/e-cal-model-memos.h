@@ -29,14 +29,29 @@
 
 #include "e-cal-model.h"
 
+/* Standard GObject macros */
+#define E_TYPE_CAL_MODEL_MEMOS \
+	(e_cal_model_memos_get_type ())
+#define E_CAL_MODEL_MEMOS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_MODEL_MEMOS, ECalModelMemo))
+#define E_CAL_MODEL_MEMOS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_MODEL_MEMOS, ECalModelMemoClass))
+#define E_IS_CAL_MODEL_MEMOS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_MODEL_MEMOS))
+#define E_IS_CAL_MODEL_MEMOS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_MODEL_MEMOS))
+#define E_CAL_MODEL_MEMOS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_MODEL_MEMOS, ECalModelMemoClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_CAL_MODEL_MEMOS            (e_cal_model_memos_get_type ())
-#define E_CAL_MODEL_MEMOS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_MODEL_MEMOS, ECalModelMemo))
-#define E_CAL_MODEL_MEMOS_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CAL_MODEL_MEMOS, ECalModelMemoClass))
-#define E_IS_CAL_MODEL_MEMOS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_MODEL_MEMOS))
-#define E_IS_CAL_MODEL_MEMOS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_MODEL_MEMOS))
-
+typedef struct _ECalModelMemos ECalModelMemos;
+typedef struct _ECalModelMemosClass ECalModelMemosClass;
 typedef struct _ECalModelMemosPrivate ECalModelMemosPrivate;
 
 typedef enum {
@@ -46,18 +61,18 @@ typedef enum {
 
 } ECalModelMemoField;
 
-typedef struct {
-	ECalModel model;
+struct _ECalModelMemos {
+	ECalModel parent;
 	ECalModelMemosPrivate *priv;
-} ECalModelMemos;
+};
 
-typedef struct {
+struct _ECalModelMemosClass {
 	ECalModelClass parent_class;
-} ECalModelMemosClass;
+};
 
 GType		e_cal_model_memos_get_type	(void);
-ECalModel *	e_cal_model_memos_new		(void);
+ECalModel *	e_cal_model_memos_new		(EShellSettings *shell_settings);
 
 G_END_DECLS
 
-#endif
+#endif /* E_CAL_MODEL_MEMOS_H */

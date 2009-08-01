@@ -102,9 +102,6 @@ struct _ECalShellViewPrivate {
 	EActivity *calendar_activity;
 	EActivity *memopad_activity;
 	EActivity *taskpad_activity;
-
-	/* GConf notification IDs */
-	GList *notifications;
 };
 
 void		e_cal_shell_view_private_init

@@ -830,8 +830,9 @@ e_week_view_new (ECalModel *model)
 {
 	ECalendarView *week_view;
 
-	week_view = g_object_new (E_TYPE_WEEK_VIEW, NULL);
-	e_calendar_view_set_model (week_view, model);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	week_view = g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
 	init_model (E_WEEK_VIEW (week_view), model);
 
 	return week_view;

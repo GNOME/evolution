@@ -102,8 +102,7 @@ struct _ETaskShellViewPrivate {
 	EActivity *activity;
 	guint update_timeout;
 
-	/* GConf notification IDs */
-	GList *notifications;
+	guint confirm_purge : 1;
 };
 
 void		e_task_shell_view_private_init

@@ -89,11 +89,9 @@ enum {
 };
 
 static GtkTargetEntry target_types[] = {
-	{ "text/calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
+	{ (gchar *) "text/calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
 };
-
-static guint n_target_types = G_N_ELEMENTS (target_types);
 
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
@@ -102,11 +100,14 @@ static guint signals[LAST_SIGNAL];
 static GdkAtom clipboard_atom;
 
 /* The icons to represent the task. */
-#define E_CALENDAR_MODEL_NUM_ICONS	4
-static const gchar * icon_names[E_CALENDAR_MODEL_NUM_ICONS] = {
-	"stock_task", "stock_task-recurring", "stock_task-assigned", "stock_task-assigned-to"
+#define NUM_ICONS 4
+static const gchar *icon_names[NUM_ICONS] = {
+	"stock_task",
+	"stock_task-recurring",
+	"stock_task-assigned",
+	"stock_task-assigned-to"
 };
-static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { NULL };
+static GdkPixbuf *icon_pixbufs[NUM_ICONS] = { NULL };
 
 static void
 calendar_table_emit_open_component (ECalendarTable *cal_table,
@@ -654,9 +655,21 @@ calendar_table_constructed (GObject *object)
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
 
+	e_mutual_binding_new (
+		G_OBJECT (model), "timezone",
+		G_OBJECT (cell), "timezone");
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (cell), "use-24-hour-format");
+
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (popup_cell), "use-24-hour-format");
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
@@ -799,11 +812,11 @@ calendar_table_constructed (GObject *object)
 	/* Create pixmaps */
 
 	if (!icon_pixbufs[0])
-		for (i = 0; i < E_CALENDAR_MODEL_NUM_ICONS; i++) {
+		for (i = 0; i < NUM_ICONS; i++) {
 			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], GTK_ICON_SIZE_MENU);
 		}
 
-	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
+	cell = e_cell_toggle_new (0, NUM_ICONS, icon_pixbufs);
 	e_table_extras_add_cell(extras, "icon", cell);
 	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
 
@@ -975,14 +988,6 @@ e_calendar_table_new (EShellView *shell_view,
 		"model", model, "shell-view", shell_view, NULL);
 }
 
-EShellView *
-e_calendar_table_get_shell_view (ECalendarTable *cal_table)
-{
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
-
-	return cal_table->priv->shell_view;
-}
-
 /**
  * e_calendar_table_get_model:
  * @cal_table: A calendar table.
@@ -1018,6 +1023,14 @@ e_calendar_table_get_table (ECalendarTable *cal_table)
 	table_scrolled = E_TABLE_SCROLLED (cal_table->etable);
 
 	return e_table_scrolled_get_table (table_scrolled);
+}
+
+EShellView *
+e_calendar_table_get_shell_view (ECalendarTable *cal_table)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
+
+	return cal_table->priv->shell_view;
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -1332,12 +1345,14 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
 	comp_str = icalcomponent_as_ical_string_r (cal_table->tmp_vcal);
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_table), clipboard_atom);
-	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
-					 clipboard_get_calendar_cb,
-					 NULL, comp_str)) {
+	if (!gtk_clipboard_set_with_data (
+		clipboard, target_types, G_N_ELEMENTS (target_types),
+		clipboard_get_calendar_cb, NULL, comp_str)) {
 		/* no-op */
 	} else {
-		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
+		gtk_clipboard_set_can_store (
+			clipboard, target_types + 1,
+			G_N_ELEMENTS (target_types) - 1);
 	}
 
 	/* free memory */
@@ -1628,7 +1643,9 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
  * Hide completed tasks.
  */
 void
-e_calendar_table_process_completed_tasks (ECalendarTable *table, GList *clients_list, gboolean config_changed)
+e_calendar_table_process_completed_tasks (ECalendarTable *table,
+                                          GList *clients_list,
+                                          gboolean config_changed)
 {
 	ECalModel *model;
 	static GMutex *mutex = NULL;

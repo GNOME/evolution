@@ -25,11 +25,11 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
-#include "calendar/gui/e-mini-calendar-config.h"
 #include "calendar/gui/misc.h"
 
 #include "e-cal-shell-backend.h"
@@ -42,17 +42,15 @@
 struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
-	GtkWidget *mini_calendar;
+	GtkWidget *date_navigator;
 
 	/* UID -> Client */
 	GHashTable *client_table;
-
-	EMiniCalendarConfig *mini_calendar_config;
 };
 
 enum {
 	PROP_0,
-	PROP_MINI_CALENDAR,
+	PROP_DATE_NAVIGATOR,
 	PROP_SELECTOR
 };
 
@@ -307,9 +305,9 @@ cal_shell_sidebar_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_MINI_CALENDAR:
+		case PROP_DATE_NAVIGATOR:
 			g_value_set_object (
-				value, e_cal_shell_sidebar_get_mini_calendar (
+				value, e_cal_shell_sidebar_get_date_navigator (
 				E_CAL_SHELL_SIDEBAR (object)));
 			return;
 
@@ -340,17 +338,12 @@ cal_shell_sidebar_dispose (GObject *object)
 		priv->selector = NULL;
 	}
 
-	if (priv->mini_calendar != NULL) {
-		g_object_unref (priv->mini_calendar);
-		priv->mini_calendar = NULL;
+	if (priv->date_navigator != NULL) {
+		g_object_unref (priv->date_navigator);
+		priv->date_navigator = NULL;
 	}
 
 	g_hash_table_remove_all (priv->client_table);
-
-	if (priv->mini_calendar_config != NULL) {
-		g_object_unref (priv->mini_calendar_config);
-		priv->mini_calendar_config = NULL;
-	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -443,11 +436,17 @@ cal_shell_sidebar_constructed (GObject *object)
 	e_calendar_item_set_days_start_week_sel (calitem, 9);
 	e_calendar_item_set_max_days_sel (calitem, 42);
 	gtk_paned_add2 (GTK_PANED (container), widget);
-	priv->mini_calendar = g_object_ref (widget);
+	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	priv->mini_calendar_config =
-		e_mini_calendar_config_new (E_CALENDAR (widget));
+	e_binding_new (
+		G_OBJECT (shell_settings),
+		"cal-date-navigator-show-week-numbers",
+		G_OBJECT (calitem), "show-week-numbers");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (calitem), "week-start-day");
 
 	/* Restore the selector state from the last session. */
 
@@ -547,10 +546,10 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_MINI_CALENDAR,
+		PROP_DATE_NAVIGATOR,
 		g_param_spec_object (
-			"mini-calendar",
-			_("Mini-Calendar Widget"),
+			"date-navigator",
+			_("Date Navigator Widget"),
 			_("This widget displays a miniature calendar"),
 			E_TYPE_CALENDAR,
 			G_PARAM_READABLE));
@@ -665,12 +664,12 @@ e_cal_shell_sidebar_get_clients (ECalShellSidebar *cal_shell_sidebar)
 }
 
 ECalendar *
-e_cal_shell_sidebar_get_mini_calendar (ECalShellSidebar *cal_shell_sidebar)
+e_cal_shell_sidebar_get_date_navigator (ECalShellSidebar *cal_shell_sidebar)
 {
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
 
-	return E_CALENDAR (cal_shell_sidebar->priv->mini_calendar);
+	return E_CALENDAR (cal_shell_sidebar->priv->date_navigator);
 }
 
 ESourceSelector *

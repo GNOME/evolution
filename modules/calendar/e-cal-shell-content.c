@@ -32,9 +32,7 @@
 #include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-calendar.h"
 #include "calendar/gui/e-calendar-table.h"
-#include "calendar/gui/e-calendar-table-config.h"
 #include "calendar/gui/e-calendar-view.h"
-#include "calendar/gui/e-memo-table-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -50,9 +48,6 @@ struct _ECalShellContentPrivate {
 	GtkWidget *calendar;
 	GtkWidget *task_table;
 	GtkWidget *memo_table;
-
-	ECalendarTableConfig *task_table_config;
-	EMemoTableConfig *memo_table_config;
 
 	GalViewInstance *view_instance;
 
@@ -73,19 +68,6 @@ typedef enum {
 
 static gpointer parent_class;
 static GType cal_shell_content_type;
-
-static gboolean
-transform_week_start_day (const GValue *src_value,
-                          GValue *dst_value)
-{
-	gint v_int;
-
-	/* Transform day numbering from 0 = Sunday to 0 = Monday. */
-	v_int = g_value_get_int (src_value);
-	g_value_set_int (dst_value, (v_int + 6) % 7);
-
-	return TRUE;
-}
 
 static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
@@ -277,16 +259,6 @@ cal_shell_content_dispose (GObject *object)
 		priv->memo_table = NULL;
 	}
 
-	if (priv->task_table_config != NULL) {
-		g_object_unref (priv->task_table_config);
-		priv->task_table_config = NULL;
-	}
-
-	if (priv->memo_table_config != NULL) {
-		g_object_unref (priv->memo_table_config);
-		priv->memo_table_config = NULL;
-	}
-
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
@@ -312,7 +284,6 @@ cal_shell_content_constructed (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 	ECalendarView *calendar_view;
-	ECalModel *calendar_model;
 	ECalModel *memo_model;
 	ECalModel *task_model;
 	EShell *shell;
@@ -394,6 +365,10 @@ cal_shell_content_constructed (GObject *object)
 	/* Add views in the order defined by GnomeCalendarViewType, such
 	 * that the notebook page number corresponds to the view type. */
 
+	/* XXX GnomeCalendar is a widget, but we don't pack it.
+	 *     Maybe it should just be a GObject instead? */
+	priv->calendar = gnome_calendar_new (shell_settings);
+	g_object_ref_sink (priv->calendar);
 	calendar = GNOME_CALENDAR (priv->calendar);
 
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
@@ -457,12 +432,6 @@ cal_shell_content_constructed (GObject *object)
 	e_memo_table_load_state (E_MEMO_TABLE (widget), filename);
 	g_free (filename);
 
-	/* Configuration managers for task and memo tables. */
-	priv->task_table_config = e_calendar_table_config_new (
-		E_CALENDAR_TABLE (priv->task_table));
-	priv->memo_table_config = e_memo_table_config_new (
-		E_MEMO_TABLE (priv->memo_table));
-
 	/* Load the view instance. */
 
 	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
@@ -507,12 +476,6 @@ cal_shell_content_constructed (GObject *object)
 		G_OBJECT (shell_settings), "cal-time-divisions",
 		G_OBJECT (calendar_view), "mins-per-row");
 
-	e_binding_new_full (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (calendar_view), "week-start-day",
-		(EBindingTransform) transform_week_start_day,
-		(GDestroyNotify) NULL, NULL);
-
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-work-day-end-hour",
 		G_OBJECT (calendar_view), "work-day-end-hour");
@@ -530,7 +493,7 @@ cal_shell_content_constructed (GObject *object)
 		G_OBJECT (calendar_view), "work-day-start-minute");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days",
+		G_OBJECT (shell_settings), "cal-working-days-bitset",
 		G_OBJECT (calendar_view), "working-days");
 
 	/* Bind work week view properties to EShellSettings. */
@@ -553,12 +516,6 @@ cal_shell_content_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-time-divisions",
 		G_OBJECT (calendar_view), "mins-per-row");
-
-	e_binding_new_full (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (calendar_view), "week-start-day",
-		(EBindingTransform) transform_week_start_day,
-		(GDestroyNotify) NULL, NULL);
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-work-day-end-hour",
@@ -593,12 +550,6 @@ cal_shell_content_constructed (GObject *object)
 		G_OBJECT (shell_settings), "cal-show-event-end-times",
 		G_OBJECT (calendar_view), "show-event-end-times");
 
-	e_binding_new_full (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (calendar_view), "week-start-day",
-		(EBindingTransform) transform_week_start_day,
-		(GDestroyNotify) NULL, NULL);
-
 	/* Bind month view properties to EShellSettings. */
 
 	view_type = GNOME_CAL_MONTH_VIEW;
@@ -611,22 +562,6 @@ cal_shell_content_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-show-event-end-times",
 		G_OBJECT (calendar_view), "show-event-end-times");
-
-	e_binding_new_full (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (calendar_view), "week-start-day",
-		(EBindingTransform) transform_week_start_day,
-		(GDestroyNotify) NULL, NULL);
-
-	/* Bind calendar model properties to EShellSettings.
-	 * Note, does not matter from which view we get the
-	 * model, since it's shared across all of them. */
-
-	calendar_model = e_calendar_view_get_model (calendar_view);
-
-	e_binding_new (
-		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (calendar_model), "use-24-hour-format");
 
 	g_object_unref (memo_model);
 	g_object_unref (task_model);
@@ -653,11 +588,6 @@ cal_shell_content_init (ECalShellContent *cal_shell_content)
 {
 	cal_shell_content->priv =
 		E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
-
-	/* XXX GnomeCalendar is a widget, but we don't pack it.
-	 *     Maybe it should just be a GObject instead? */
-	cal_shell_content->priv->calendar = gnome_calendar_new ();
-	g_object_ref_sink (cal_shell_content->priv->calendar);
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -699,15 +629,26 @@ e_cal_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
+ECalModel *
+e_cal_shell_content_get_model (ECalShellContent *cal_shell_content)
+{
+	GnomeCalendar *calendar;
+
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
+
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	return gnome_calendar_get_calendar_model (calendar);
+}
+
 GnomeCalendar *
 e_cal_shell_content_get_calendar (ECalShellContent *cal_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-        /* FIXME */
-	/*return GNOME_CALENDAR (cal_shell_content->priv->calendar);*/
-        return NULL;
+	return GNOME_CALENDAR (cal_shell_content->priv->calendar);
 }
 
 EMemoTable *
@@ -728,17 +669,6 @@ e_cal_shell_content_get_task_table (ECalShellContent *cal_shell_content)
 	return E_CALENDAR_TABLE (cal_shell_content->priv->task_table);
 }
 
-icaltimezone *
-e_cal_shell_content_get_timezone (ECalShellContent *cal_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
-
-        /* FIXME */
-	/*return cal_shell_content->priv->timezone;*/
-        return NULL;
-}
-
 GalViewInstance *
 e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
 {
@@ -751,7 +681,6 @@ e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
 void
 e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 {
-#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -778,13 +707,11 @@ e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
-#endif
 }
 
 void
 e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 {
-#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -811,13 +738,11 @@ e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
-#endif
 }
 
 void
 e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 {
-#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -844,13 +769,11 @@ e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
-#endif
 }
 
 void
 e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 {
-#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -877,13 +800,11 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
-#endif
 }
 
 void
 e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_content)
 {
-#if 0
 	GnomeCalendar *calendar;
 	FocusLocation focus;
 
@@ -894,5 +815,4 @@ e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_cont
 
 	if (focus == FOCUS_CALENDAR)
 		gnome_calendar_delete_selected_occurrence (calendar);
-#endif
 }

@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
+#include <e-util/e-binding.h>
 #include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
@@ -92,8 +93,6 @@ static GtkTargetEntry target_types[] = {
 	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
 };
 
-static guint n_target_types = G_N_ELEMENTS (target_types);
-
 static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
 static gpointer parent_class;
@@ -101,11 +100,12 @@ static guint signals[LAST_SIGNAL];
 static GdkAtom clipboard_atom;
 
 /* The icons to represent the task. */
-#define E_MEMO_MODEL_NUM_ICONS	2
-static const gchar * icon_names[E_MEMO_MODEL_NUM_ICONS] = {
-	"stock_notes", "stock_insert-note"
+#define NUM_ICONS 2
+static const gchar *icon_names[NUM_ICONS] = {
+	"stock_notes",
+	"stock_insert-note"
 };
-static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
+static GdkPixbuf *icon_pixbufs[NUM_ICONS] = { NULL };
 
 static void
 memo_table_emit_open_component (EMemoTable *memo_table,
@@ -222,6 +222,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 	GString *tmp2;
 	gchar buff[1001];
 	gboolean free_text = FALSE;
+	gboolean use_24_hour_format;
 	ECalComponent *new_comp;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime dtstart, dtdue;
@@ -333,6 +334,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 	}
 
 	tmp2 = g_string_new ("");
+	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
 
 	if (dtstart.value) {
 		buff[0] = 0;
@@ -340,7 +342,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 		tmp_tm = icaltimetype_to_tm_with_zone (
 			dtstart.value, zone, default_zone);
 		e_time_format_date_and_time (
-			&tmp_tm, calendar_config_get_24_hour_format (),
+			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
 		if (buff [0]) {
@@ -355,7 +357,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 		tmp_tm = icaltimetype_to_tm_with_zone (
 			dtdue.value, zone, default_zone);
 		e_time_format_date_and_time (
-			&tmp_tm, calendar_config_get_24_hour_format (),
+			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
 		if (buff [0]) {
@@ -567,9 +569,21 @@ memo_table_constructed (GObject *object)
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell, "bg_color_column", E_CAL_MODEL_FIELD_COLOR, NULL);
 
+	e_mutual_binding_new (
+		G_OBJECT (model), "timezone",
+		G_OBJECT (cell), "timezone");
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (cell), "use-24-hour-format");
+
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (popup_cell), "use-24-hour-format");
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	memo_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
@@ -585,11 +599,11 @@ memo_table_constructed (GObject *object)
 	/* Create pixmaps */
 
 	if (!icon_pixbufs[0])
-		for (i = 0; i < E_MEMO_MODEL_NUM_ICONS; i++) {
+		for (i = 0; i < NUM_ICONS; i++) {
 			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], GTK_ICON_SIZE_MENU);
 		}
 
-	cell = e_cell_toggle_new (0, E_MEMO_MODEL_NUM_ICONS, icon_pixbufs);
+	cell = e_cell_toggle_new (0, NUM_ICONS, icon_pixbufs);
 	e_table_extras_add_cell (extras, "icon", cell);
 	e_table_extras_add_pixbuf (extras, "icon", icon_pixbufs[0]);
 
@@ -757,14 +771,6 @@ e_memo_table_new (EShellView *shell_view,
 		"model", model, "shell-view", shell_view, NULL);
 }
 
-EShellView *
-e_memo_table_get_shell_view (EMemoTable *memo_table)
-{
-	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
-
-	return memo_table->priv->shell_view;
-}
-
 /**
  * e_memo_table_get_model:
  * @memo_table: A calendar table.
@@ -801,6 +807,14 @@ e_memo_table_get_table (EMemoTable *memo_table)
 	table_scrolled = E_TABLE_SCROLLED (memo_table->etable);
 
 	return e_table_scrolled_get_table (table_scrolled);
+}
+
+EShellView *
+e_memo_table_get_shell_view (EMemoTable *memo_table)
+{
+	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
+
+	return memo_table->priv->shell_view;
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -1046,12 +1060,14 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	e_table_selected_row_foreach (etable, copy_row_cb, memo_table);
 	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
-	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
-					 clipboard_get_calendar_cb,
-					 NULL, comp_str)) {
+	if (!gtk_clipboard_set_with_data (
+		clipboard, target_types, G_N_ELEMENTS (target_types),
+		clipboard_get_calendar_cb, NULL, comp_str)) {
 		/* no-op */
 	} else {
-		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
+		gtk_clipboard_set_can_store (
+			clipboard, target_types + 1,
+			G_N_ELEMENTS (target_types) - 1);
 	}
 
 	/* free memory */

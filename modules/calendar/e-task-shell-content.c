@@ -23,13 +23,13 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-table.h"
-#include "calendar/gui/e-calendar-table-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -53,7 +53,6 @@ struct _ETaskShellContentPrivate {
 	GtkWidget *task_preview;
 
 	ECalModel *task_model;
-	ECalendarTableConfig *table_config;
 	GalViewInstance *view_instance;
 
 	gchar *current_uid;
@@ -327,11 +326,6 @@ task_shell_content_dispose (GObject *object)
 		priv->task_model = NULL;
 	}
 
-	if (priv->table_config != NULL) {
-		g_object_unref (priv->table_config);
-		priv->table_config = NULL;
-	}
-
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
@@ -358,7 +352,10 @@ static void
 task_shell_content_constructed (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	EShellContent *shell_content;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 	ETable *table;
@@ -374,6 +371,11 @@ task_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	priv->task_model = e_cal_model_tasks_new (shell_settings);
 
 	/* Build content widgets. */
 
@@ -414,9 +416,6 @@ task_shell_content_constructed (GObject *object)
 
 	widget = E_CALENDAR_TABLE (priv->task_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-
-	priv->table_config = e_calendar_table_config_new (
-		E_CALENDAR_TABLE (priv->task_table));
 
 	e_table_set_state (table, E_CALENDAR_TABLE_DEFAULT_STATE);
 
@@ -584,8 +583,6 @@ task_shell_content_init (ETaskShellContent *task_shell_content)
 {
 	task_shell_content->priv =
 		E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
-
-	task_shell_content->priv->task_model = e_cal_model_tasks_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }

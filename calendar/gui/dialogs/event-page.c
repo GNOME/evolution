@@ -3173,7 +3173,13 @@ GtkWidget *make_date_edit (void);
 GtkWidget *
 make_date_edit (void)
 {
-	return comp_editor_new_date_edit (TRUE, TRUE, TRUE);
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return comp_editor_new_date_edit (shell_settings, TRUE, TRUE, TRUE);
 }
 
 GtkWidget *make_timezone_entry (void);

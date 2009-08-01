@@ -29,7 +29,6 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
-#include "calendar/gui/e-memo-table-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -52,7 +51,6 @@ struct _EMemoShellContentPrivate {
 	GtkWidget *memo_preview;
 
 	ECalModel *memo_model;
-	EMemoTableConfig *table_config;
 	GalViewInstance *view_instance;
 
 	gchar *current_uid;
@@ -328,11 +326,6 @@ memo_shell_content_dispose (GObject *object)
 		priv->memo_model = NULL;
 	}
 
-	if (priv->table_config != NULL) {
-		g_object_unref (priv->table_config);
-		priv->table_config = NULL;
-	}
-
 	if (priv->view_instance != NULL) {
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
@@ -359,7 +352,10 @@ static void
 memo_shell_content_constructed (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	EShellContent *shell_content;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 	ETable *table;
@@ -375,6 +371,11 @@ memo_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	priv->memo_model = e_cal_model_memos_new (shell_settings);
 
 	/* Build content widgets. */
 
@@ -415,9 +416,6 @@ memo_shell_content_constructed (GObject *object)
 
 	widget = E_MEMO_TABLE (priv->memo_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-
-	priv->table_config = e_memo_table_config_new (
-		E_MEMO_TABLE (priv->memo_table));
 
 	e_table_set_state (table, E_MEMO_TABLE_DEFAULT_STATE);
 
@@ -560,8 +558,6 @@ memo_shell_content_init (EMemoShellContent *memo_shell_content)
 {
 	memo_shell_content->priv =
 		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
-
-	memo_shell_content->priv->memo_model = e_cal_model_memos_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }

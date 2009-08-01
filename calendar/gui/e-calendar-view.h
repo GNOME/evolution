@@ -130,7 +130,6 @@ GType          e_calendar_view_get_type (void);
 GnomeCalendar *e_calendar_view_get_calendar (ECalendarView *cal_view);
 void           e_calendar_view_set_calendar (ECalendarView *cal_view, GnomeCalendar *calendar);
 ECalModel     *e_calendar_view_get_model (ECalendarView *cal_view);
-void           e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model);
 icaltimezone  *e_calendar_view_get_timezone (ECalendarView *cal_view);
 void           e_calendar_view_set_timezone (ECalendarView *cal_view, icaltimezone *zone);
 const gchar    *e_calendar_view_get_default_category (ECalendarView *cal_view);

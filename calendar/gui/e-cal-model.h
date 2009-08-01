@@ -29,6 +29,7 @@
 #include <table/e-table-model.h>
 #include <libecal/e-cal.h>
 #include "e-cell-date-edit-text.h"
+#include <shell/e-shell-settings.h>
 
 G_BEGIN_DECLS
 
@@ -129,6 +130,7 @@ typedef time_t (*ECalModelDefaultTimeFunc)(ECalModel *model, gpointer user_data)
 
 GType               e_cal_model_get_type                       (void);
 GType		    e_cal_model_component_get_type	       (void);
+EShellSettings *    e_cal_model_get_shell_settings             (ECalModel           *model);
 icalcomponent_kind  e_cal_model_get_component_kind             (ECalModel           *model);
 void                e_cal_model_set_component_kind             (ECalModel           *model,
 								icalcomponent_kind   kind);

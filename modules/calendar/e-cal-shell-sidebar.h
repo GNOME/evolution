@@ -84,7 +84,7 @@ void		e_cal_shell_sidebar_register_type
 GtkWidget *	e_cal_shell_sidebar_new	(EShellView *shell_view);
 GList *		e_cal_shell_sidebar_get_clients
 					(ECalShellSidebar *cal_shell_sidebar);
-ECalendar *	e_cal_shell_sidebar_get_mini_calendar
+ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector

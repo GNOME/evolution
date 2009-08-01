@@ -1201,9 +1201,14 @@ GtkWidget *memo_page_create_date_edit (void);
 GtkWidget *
 memo_page_create_date_edit (void)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GtkWidget *widget;
 
-	widget = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	widget = comp_editor_new_date_edit (shell_settings, TRUE, FALSE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
 	gtk_widget_show (widget);
 

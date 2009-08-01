@@ -24,12 +24,8 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 
 static void
-task_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,
-                                                        guint id,
-                                                        GConfEntry *entry,
-                                                        gpointer user_data)
+task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 {
-	ETaskShellView *task_shell_view = user_data;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	ECalendarTable *task_table;
@@ -48,17 +44,6 @@ task_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,
 	e_task_shell_view_execute_search (task_shell_view);
 
 	g_list_free (clients);
-}
-
-static void
-task_shell_view_config_timezone_changed_cb (GConfClient *client,
-                                            guint id,
-                                            GConfEntry *entry,
-                                            gpointer user_data)
-{
-	ETaskShellView *task_shell_view = user_data;
-
-	e_task_shell_view_update_timezone (task_shell_view);
 }
 
 static void
@@ -228,11 +213,13 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	EShellView *shell_view;
+	EShell *shell;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
+	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EShellView *shell_view;
 	ECalendarTable *task_table;
 	ECalModel *model;
 	ETable *table;
@@ -244,6 +231,9 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_window_add_action_group (shell_window, "tasks");
 	e_shell_window_add_action_group (shell_window, "tasks-filter");
@@ -260,6 +250,11 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
+	g_signal_connect_swapped (
+		model, "notify::timezone",
+		G_CALLBACK (e_task_shell_view_update_timezone),
+		task_shell_view);
 
 	g_signal_connect_swapped (
 		task_table, "open-component",
@@ -338,28 +333,23 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	/* Listen for configuration changes. */
 
-	/* Timezone */
-	id = calendar_config_add_notification_timezone (
-		task_shell_view_config_timezone_changed_cb, task_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-confirm-purge",
+		G_OBJECT (task_shell_view), "confirm-purge");
 
 	/* Hide Completed Tasks (enable/units/value) */
-	id = calendar_config_add_notification_hide_completed_tasks (
-		task_shell_view_config_hide_completed_tasks_changed_cb,
+	g_signal_connect_swapped (
+		shell_settings, "notify::cal-hide-completed-tasks",
+		G_CALLBACK (task_shell_view_process_completed_tasks),
 		task_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
-	id = calendar_config_add_notification_hide_completed_tasks_units (
-		task_shell_view_config_hide_completed_tasks_changed_cb,
+	g_signal_connect_swapped (
+		shell_settings, "notify::cal-hide-completed-tasks-units",
+		G_CALLBACK (task_shell_view_process_completed_tasks),
 		task_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
-	id = calendar_config_add_notification_hide_completed_tasks_value (
-		task_shell_view_config_hide_completed_tasks_changed_cb,
+	g_signal_connect_swapped (
+		shell_settings, "notify::cal-hide-completed-tasks-value",
+		G_CALLBACK (task_shell_view_process_completed_tasks),
 		task_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
 
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
@@ -390,13 +380,6 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 		g_source_remove (priv->update_timeout);
 		priv->update_timeout = 0;
 	}
-
-	for (iter = priv->notifications; iter != NULL; iter = iter->next) {
-		guint notification_id = GPOINTER_TO_UINT (iter->data);
-		calendar_config_remove_notification (notification_id);
-	}
-	g_list_free (priv->notifications);
-	priv->notifications = NULL;
 }
 
 void

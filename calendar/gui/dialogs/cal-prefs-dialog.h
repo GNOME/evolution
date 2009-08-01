@@ -69,8 +69,6 @@ struct _CalendarPrefsDialog {
 	GtkWidget *week_start_day;
 	GtkWidget *start_of_day;
 	GtkWidget *end_of_day;
-	GtkWidget *use_12_hour;
-	GtkWidget *use_24_hour;
 	GtkWidget *confirm_delete;
 	GtkWidget *default_reminder;
 	GtkWidget *default_reminder_interval;
@@ -86,8 +84,6 @@ struct _CalendarPrefsDialog {
 	GtkWidget *dnav_show_week_no;
 	GtkWidget *dview_show_week_no;
 	GtkWidget *month_scroll_by_week;
-	GtkWidget *tasks_due_today_color;
-	GtkWidget *tasks_overdue_color;
 	GtkWidget *tasks_hide_completed;
 	GtkWidget *tasks_hide_completed_interval;
 	GtkWidget *tasks_hide_completed_units;

@@ -42,6 +42,10 @@
 #include <e-util/e-util.h>
 #include "e-calendar.h"
 
+#define E_DATE_EDIT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DATE_EDIT, EDateEditPrivate))
+
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
@@ -108,16 +112,18 @@ struct _EDateEditPrivate {
 };
 
 enum {
+	PROP_0,
+	PROP_SHOW_WEEK_NUMBERS,
+	PROP_USE_24_HOUR_FORMAT,
+	PROP_WEEK_START_DAY
+};
+
+enum {
 	CHANGED,
 	LAST_SIGNAL
 };
 
-static gint date_edit_signals [LAST_SIGNAL] = { 0 };
-
-static void e_date_edit_class_init		(EDateEditClass	*class);
-static void e_date_edit_init			(EDateEdit	*dedit);
 static void create_children			(EDateEdit	*dedit);
-static void e_date_edit_dispose			(GObject	*object);
 static gboolean e_date_edit_mnemonic_activate	(GtkWidget	*widget,
 						 gboolean	 group_cycling);
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
@@ -188,92 +194,199 @@ static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
 						 gint		 hour,
 						 gint		 minute);
 
-static GtkHBoxClass *parent_class;
+static gpointer parent_class;
+static gint signals[LAST_SIGNAL];
 
-/**
- * e_date_edit_get_type:
- *
- * Returns the GType for the EDateEdit widget
- */
-GType
-e_date_edit_get_type		(void)
+static void
+date_edit_set_property (GObject *object,
+                        guint property_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
 {
-	static GType date_edit_type = 0;
+	switch (property_id) {
+		case PROP_SHOW_WEEK_NUMBERS:
+			e_date_edit_set_show_week_numbers (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
 
-	if (!date_edit_type) {
-		static const GTypeInfo date_edit_info =  {
-			sizeof (EDateEditClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_date_edit_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EDateEdit),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_date_edit_init,
-		};
+		case PROP_USE_24_HOUR_FORMAT:
+			e_date_edit_set_use_24_hour_format (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
 
-		date_edit_type = g_type_register_static (GTK_TYPE_HBOX, "EDateEdit", &date_edit_info, 0);
+		case PROP_WEEK_START_DAY:
+			e_date_edit_set_week_start_day (
+				E_DATE_EDIT (object),
+				g_value_get_int (value));
+			return;
 	}
 
-	return date_edit_type;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-e_date_edit_class_init		(EDateEditClass	*class)
+date_edit_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
 {
-	GObjectClass *object_class = (GObjectClass *) class;
-	GtkWidgetClass *widget_class = (GtkWidgetClass *) class;
+	switch (property_id) {
+		case PROP_SHOW_WEEK_NUMBERS:
+			g_value_set_boolean (
+				value, e_date_edit_get_show_week_numbers (
+				E_DATE_EDIT (object)));
+			return;
 
-	parent_class = g_type_class_ref (GTK_TYPE_HBOX);
+		case PROP_USE_24_HOUR_FORMAT:
+			g_value_set_boolean (
+				value, e_date_edit_get_use_24_hour_format (
+				E_DATE_EDIT (object)));
+			return;
 
-	date_edit_signals [CHANGED] =
-		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EDateEditClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value, e_date_edit_get_week_start_day (
+				E_DATE_EDIT (object)));
+			return;
+	}
 
-	object_class->dispose = e_date_edit_dispose;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
+static void
+date_edit_dispose (GObject *object)
+{
+	EDateEdit *dedit;
+
+	dedit = E_DATE_EDIT (object);
+
+	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
+
+	if (dedit->priv->cal_popup != NULL) {
+		gtk_widget_destroy (dedit->priv->cal_popup);
+		dedit->priv->cal_popup = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+date_edit_class_init (EDateEditClass *class)
+{
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EDateEditPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = date_edit_set_property;
+	object_class->get_property = date_edit_get_property;
+	object_class->dispose = date_edit_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->mnemonic_activate = e_date_edit_mnemonic_activate;
 	widget_class->grab_focus = e_date_edit_grab_focus;
 
-	class->changed = NULL;
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_WEEK_NUMBERS,
+		g_param_spec_boolean (
+			"show-week-numbers",
+			"Show Week Numbers",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_24_HOUR_FORMAT,
+		g_param_spec_boolean (
+			"use-24-hour-format",
+			"Use 24-Hour Format",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday */
+			0,
+			G_PARAM_READWRITE));
+
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EDateEditClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
-e_date_edit_init		(EDateEdit	*dedit)
+date_edit_init (EDateEdit *dedit)
 {
-	EDateEditPrivate *priv;
+	dedit->priv = E_DATE_EDIT_GET_PRIVATE (dedit);
 
-	dedit->priv = priv = g_new0 (EDateEditPrivate, 1);
+	dedit->priv->show_date = TRUE;
+	dedit->priv->show_time = TRUE;
+	dedit->priv->use_24_hour_format = TRUE;
 
-	priv->show_date = TRUE;
-	priv->show_time = TRUE;
-	priv->use_24_hour_format = TRUE;
+	dedit->priv->make_time_insensitive = FALSE;
 
-	priv->make_time_insensitive = FALSE;
+	dedit->priv->lower_hour = 0;
+	dedit->priv->upper_hour = 24;
 
-	priv->lower_hour = 0;
-	priv->upper_hour = 24;
+	dedit->priv->date_is_valid = TRUE;
+	dedit->priv->date_set_to_none = TRUE;
+	dedit->priv->time_is_valid = TRUE;
+	dedit->priv->time_set_to_none = TRUE;
+	dedit->priv->time_callback = NULL;
+	dedit->priv->time_callback_data = NULL;
+	dedit->priv->time_callback_destroy = NULL;
 
-	priv->date_is_valid = TRUE;
-	priv->date_set_to_none = TRUE;
-	priv->time_is_valid = TRUE;
-	priv->time_set_to_none = TRUE;
-	priv->time_callback = NULL;
-	priv->time_callback_data = NULL;
-	priv->time_callback_destroy = NULL;
-
-	priv->twodigit_year_can_future = TRUE;
+	dedit->priv->twodigit_year_can_future = TRUE;
 
 	create_children (dedit);
 
 	/* Set it to the current time. */
 	e_date_edit_set_time (dedit, 0);
+}
+
+GType
+e_date_edit_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info =  {
+			sizeof (EDateEditClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) date_edit_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EDateEdit),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) date_edit_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_HBOX, "EDateEdit", &type_info, 0);
+	}
+
+	return type;
 }
 
 /**
@@ -472,29 +585,6 @@ create_children			(EDateEdit	*dedit)
 			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
 }
 
-static void
-e_date_edit_dispose		(GObject	*object)
-{
-	EDateEdit *dedit;
-
-	g_return_if_fail (E_IS_DATE_EDIT (object));
-
-	dedit = E_DATE_EDIT (object);
-
-	if (dedit->priv) {
-		e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
-
-		gtk_widget_destroy (dedit->priv->cal_popup);
-		dedit->priv->cal_popup = NULL;
-
-		g_free (dedit->priv);
-		dedit->priv = NULL;
-	}
-
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
 /* GtkWidget::mnemonic_activate() handler for the EDateEdit */
 static gboolean
 e_date_edit_mnemonic_activate (GtkWidget *widget, gboolean group_cycling)
@@ -647,8 +737,7 @@ e_date_edit_set_time		(EDateEdit	*dedit,
 
 	/* Emit the signals if the date and/or time has actually changed. */
 	if (date_changed || time_changed)
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 }
 
 /**
@@ -715,8 +804,7 @@ e_date_edit_set_date		(EDateEdit	*dedit,
 
 	/* Emit the signals if the date has actually changed. */
 	if (date_changed)
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 }
 
 /**
@@ -792,8 +880,7 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 	e_date_edit_update_time_entry (dedit);
 
 	if (time_changed)
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 }
 
 void
@@ -818,8 +905,7 @@ e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
 	e_date_edit_update_time_combo_state (dedit);
 
 	if (date_changed || time_changed)
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 }
 
 /**
@@ -969,21 +1055,21 @@ e_date_edit_set_make_time_insensitive	(EDateEdit	*dedit,
 /**
  * e_date_edit_get_week_start_day:
  * @dedit: an #EDateEdit widget
- * @Returns: the week start day, from 0 (Sunday) to 6 (Saturday).
+ * @Returns: the week start day, from 0 (Monday) to 6 (Sunday).
  *
  * Description: Returns the week start day currently used in the calendar
  * popup.
  */
 gint
-e_date_edit_get_week_start_day		(EDateEdit	*dedit)
+e_date_edit_get_week_start_day (EDateEdit *dedit)
 {
 	gint week_start_day;
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), 1);
 
-	g_object_get (E_CALENDAR (dedit->priv->calendar)->calitem,
-		      "week_start_day", &week_start_day,
-		      NULL);
+	g_object_get (
+		E_CALENDAR (dedit->priv->calendar)->calitem,
+		"week_start_day", &week_start_day, NULL);
 
 	return week_start_day;
 }
@@ -991,50 +1077,54 @@ e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 /**
  * e_date_edit_set_week_start_day:
  * @dedit: an #EDateEdit widget
- * @week_start_day: the week start day, from 0 (Sunday) to 6 (Saturday).
+ * @week_start_day: the week start day, from 0 (Monday) to 6 (Sunday).
  *
  * Description: Sets the week start day to use in the calendar popup.
  */
 void
-e_date_edit_set_week_start_day		(EDateEdit	*dedit,
-					 gint		 week_start_day)
+e_date_edit_set_week_start_day (EDateEdit *dedit,
+                                gint week_start_day)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
-			"week_start_day", week_start_day,
-			NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
+		"week_start_day", week_start_day, NULL);
+
+	g_object_notify (G_OBJECT (dedit), "week-start-day");
 }
 
 /* Whether we show week numbers in the date popup. */
 gboolean
-e_date_edit_get_show_week_numbers	(EDateEdit	*dedit)
+e_date_edit_get_show_week_numbers (EDateEdit *dedit)
 {
 	gboolean show_week_numbers;
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	g_object_get (E_CALENDAR (dedit->priv->calendar)->calitem,
-		      "show_week_numbers", &show_week_numbers,
-		      NULL);
+	g_object_get (
+		E_CALENDAR (dedit->priv->calendar)->calitem,
+		"show_week_numbers", &show_week_numbers, NULL);
 
 	return show_week_numbers;
 }
 
 void
-e_date_edit_set_show_week_numbers	(EDateEdit	*dedit,
-					 gboolean	 show_week_numbers)
+e_date_edit_set_show_week_numbers (EDateEdit *dedit,
+                                   gboolean show_week_numbers)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
-			"show_week_numbers", show_week_numbers,
-			NULL);
+	gnome_canvas_item_set (
+		GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
+		"show_week_numbers", show_week_numbers, NULL);
+
+	g_object_notify (G_OBJECT (dedit), "show-week-numbers");
 }
 
 /* Whether we use 24 hour format in the time field & popup. */
 gboolean
-e_date_edit_get_use_24_hour_format	(EDateEdit	*dedit)
+e_date_edit_get_use_24_hour_format (EDateEdit *dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
 
@@ -1042,8 +1132,8 @@ e_date_edit_get_use_24_hour_format	(EDateEdit	*dedit)
 }
 
 void
-e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
-					 gboolean	 use_24_hour_format)
+e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
+                                    gboolean use_24_hour_format)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
@@ -1055,6 +1145,8 @@ e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
 	rebuild_time_popup (dedit);
 
 	e_date_edit_update_time_entry (dedit);
+
+	g_object_notify (G_OBJECT (dedit), "use-24-hour-format");
 }
 
 /* Whether we allow the date to be set to 'None'. e_date_edit_get_time() will
@@ -1399,8 +1491,8 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 			/* For 12-hour am/pm format, we want space padding, not zero padding. This
 			 * can be done with strftime's %l, but it's a potentially unportable extension. */
-			if (!priv->use_24_hour_format && buffer [0] == '0')
-				buffer [0] = ' ';
+			if (!priv->use_24_hour_format && buffer[0] == '0')
+				buffer[0] = ' ';
 
 			gtk_combo_box_append_text (combo, buffer);
 		}
@@ -1736,8 +1828,8 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 
 		/* For 12-hour am/pm format, we want space padding, not zero padding. This
 		 * can be done with strftime's %l, but it's a potentially unportable extension. */
-		if (!priv->use_24_hour_format && buffer [0] == '0')
-			buffer [0] = ' ';
+		if (!priv->use_24_hour_format && buffer[0] == '0')
+			buffer[0] = ' ';
 
 		gtk_entry_set_text (GTK_ENTRY (GTK_BIN (priv->time_combo)->child),
 				    buffer);
@@ -1860,8 +1952,7 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 						      tmp_tm.tm_mday);
 
 	if (date_changed)
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 }
 
 /* Parses the time, and if it is different from the current settings it
@@ -1891,8 +1982,7 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 
 	if (time_changed) {
 		e_date_edit_update_time_entry (dedit);
-		g_signal_emit (dedit,
-			       date_edit_signals [CHANGED], 0);
+		g_signal_emit (dedit, signals[CHANGED], 0);
 	}
 }
 

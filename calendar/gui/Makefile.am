@@ -85,18 +85,12 @@ libcal_gui_la_SOURCES =		\
 	e-cal-list-view.h			\
 	e-cal-model-memos.c			\
 	e-cal-model-memos.h			\
-	e-calendar-table-config.c		\
-	e-calendar-table-config.h		\
 	e-calendar-selector.c			\
 	e-calendar-selector.h			\
-	e-cell-date-edit-config.c		\
-	e-cell-date-edit-config.h		\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
 	e-comp-editor-registry.c		\
 	e-comp-editor-registry.h		\
-	e-date-edit-config.c			\
-	e-date-edit-config.h			\
 	e-date-time-list.c                      \
 	e-date-time-list.h                      \
 	e-day-view-layout.c			\
@@ -128,10 +122,6 @@ libcal_gui_la_SOURCES =		\
 	e-memo-list-selector.h			\
 	e-memo-table.c				\
 	e-memo-table.h				\
-	e-memo-table-config.c			\
-	e-memo-table-config.h			\
-	e-mini-calendar-config.c		\
-	e-mini-calendar-config.h		\
 	e-month-view.c				\
 	e-month-view.h				\
 	e-select-names-editable.c		\

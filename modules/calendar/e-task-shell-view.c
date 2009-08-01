@@ -21,8 +21,47 @@
 
 #include "e-task-shell-view-private.h"
 
+enum {
+	PROP_0,
+	PROP_CONFIRM_PURGE
+};
+
 static gpointer parent_class;
 static GType task_shell_view_type;
+
+static void
+task_shell_view_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CONFIRM_PURGE:
+			e_task_shell_view_set_confirm_purge (
+				E_TASK_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_shell_view_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CONFIRM_PURGE:
+			g_value_set_boolean (
+				value, e_task_shell_view_get_confirm_purge (
+				E_TASK_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 task_shell_view_dispose (GObject *object)
@@ -201,6 +240,8 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	g_type_class_add_private (class, sizeof (ETaskShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = task_shell_view_set_property;
+	object_class->get_property = task_shell_view_get_property;
 	object_class->dispose = task_shell_view_dispose;
 	object_class->finalize = task_shell_view_finalize;
 	object_class->constructed = task_shell_view_constructed;
@@ -215,6 +256,16 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	shell_view_class->new_shell_content = e_task_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
 	shell_view_class->update_actions = task_shell_view_update_actions;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONFIRM_PURGE,
+		g_param_spec_boolean (
+			"confirm-purge",
+			"Confirm Purge",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -252,4 +303,23 @@ e_task_shell_view_register_type (GTypeModule *type_module)
 	task_shell_view_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_VIEW,
 		"ETaskShellView", &type_info, 0);
+}
+
+gboolean
+e_task_shell_view_get_confirm_purge (ETaskShellView *task_shell_view)
+{
+	g_return_val_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view), FALSE);
+
+	return task_shell_view->priv->confirm_purge;
+}
+
+void
+e_task_shell_view_set_confirm_purge (ETaskShellView *task_shell_view,
+                                     gboolean confirm_purge)
+{
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
+
+	task_shell_view->priv->confirm_purge = confirm_purge;
+
+	g_object_notify (G_OBJECT (task_shell_view), "confirm-purge");
 }

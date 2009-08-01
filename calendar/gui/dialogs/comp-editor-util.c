@@ -32,8 +32,9 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
+#include "e-util/e-binding.h"
+#include "widgets/misc/e-dateedit.h"
 #include "../calendar-config.h"
-#include "../e-date-edit-config.h"
 #include "comp-editor-util.h"
 
 
@@ -204,16 +205,9 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 	gtk_label_set_text (GTK_LABEL (label), buffer);
 }
 
-static void
-date_edit_destroy_cb (EDateEdit *date_edit, gpointer data)
-{
-	EDateEditConfig *config = data;
-
-	g_object_unref (config);
-}
-
 /**
  * comp_editor_new_date_edit:
+ * @shell_settings: an #EShellSettings
  * @show_date: Whether to show a date picker in the widget.
  * @show_time: Whether to show a time picker in the widget.
  * @make_time_insensitive: Whether the time field is made insensitive rather
@@ -225,11 +219,14 @@ date_edit_destroy_cb (EDateEdit *date_edit, gpointer data)
  * Return value: A newly-created #EDateEdit widget.
  **/
 GtkWidget *
-comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
-			   gboolean make_time_insensitive)
+comp_editor_new_date_edit (EShellSettings *shell_settings,
+                           gboolean show_date,
+                           gboolean show_time,
+                           gboolean make_time_insensitive)
 {
 	EDateEdit *dedit;
-	EDateEditConfig *config;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
 
 	dedit = E_DATE_EDIT (e_date_edit_new ());
 
@@ -241,8 +238,13 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 	e_date_edit_set_make_time_insensitive (dedit, FALSE);
 #endif
 
-	config = e_date_edit_config_new (dedit);
-	g_signal_connect (G_OBJECT (dedit), "destroy", G_CALLBACK (date_edit_destroy_cb), config);
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-date-navigator-show-week-numbers",
+		G_OBJECT (dedit), "show-week-numbers");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (dedit), "week-start-day");
 
 	return GTK_WIDGET (dedit);
 }

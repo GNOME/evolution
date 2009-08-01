@@ -579,7 +579,7 @@ action_task_purge_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if (!calendar_config_get_confirm_purge ())
+	if (!e_task_shell_view_get_confirm_purge (task_shell_view))
 		goto purge;
 
 	/* XXX This needs reworked.  The dialog looks like ass. */
@@ -608,11 +608,11 @@ action_task_purge_cb (GtkAction *action,
 		return;
 
 	if (active)
-		calendar_config_set_confirm_purge (FALSE);
+		e_task_shell_view_set_confirm_purge (task_shell_view, FALSE);
 
 purge:
 
-	/* FIXME */
+	/* FIXME KILL-BONOBO */
         ;
 }
 
