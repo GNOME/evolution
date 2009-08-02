@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.25.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-19 20:18+0200\n"
-"PO-Revision-Date: 2009-07-19 20:33+0200\n"
+"PO-Revision-Date: 2009-08-02 12:04+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -3378,7 +3378,7 @@ msgstr "Se bort fra _alle"
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../plugins/itip-formatter/itip-view.c:1023
 msgid "Location:"
-msgstr "Plassering:"
+msgstr "Sted:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "Snooze _time:"
@@ -5407,7 +5407,7 @@ msgstr "_Beskrivelse:"
 #: ../plugins/exchange-operations/exchange-calendar.c:247
 #: ../plugins/exchange-operations/exchange-contacts.c:239
 msgid "_Location:"
-msgstr "_Lokasjon:"
+msgstr "_Sted:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 msgid "_Time:"
@@ -6388,7 +6388,7 @@ msgstr "Krever handling"
 #: ../calendar/gui/e-calendar-view.c:2447 ../calendar/gui/print.c:2501
 #, c-format
 msgid "Location: %s"
-msgstr "Plassering: %s"
+msgstr "Sted: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../calendar/gui/e-calendar-view.c:2478
