@@ -4464,7 +4464,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		if (event->different_timezone)
 			num_icons++;
 
-		if (e_cal_component_has_organizer (comp))
+		if (e_cal_component_has_attendees (comp))
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
@@ -4635,7 +4635,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				num_icons++;
 			if (event->different_timezone)
 				num_icons++;
-			if (e_cal_component_has_organizer (comp))
+			if (e_cal_component_has_attendees (comp))
 				num_icons++;
 
 			num_icons += cal_comp_util_get_n_icons (comp, NULL);
