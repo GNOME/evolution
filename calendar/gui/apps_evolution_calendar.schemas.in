@@ -575,6 +575,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/other/def_recur_count</key>
+      <applyto>/apps/evolution/calendar/other/def_recur_count</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>2</default>
+      <locale name="C">
+        <short>Default recurrence count</short>
+        <long>Count of default recurrence for a new event. -1 means forever.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/day_view_show_week_number</key>
       <applyto>/apps/evolution/calendar/display/day_view_show_week_number</applyto>
       <owner>evolution-calendar</owner>

@@ -443,9 +443,11 @@ clear_widgets (RecurrencePage *rpage)
 
 	g_signal_handlers_block_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_combo_box_set (priv->ending_combo,
-				  ENDING_FOR,
+				  priv->ending_count == -1 ? ENDING_FOREVER : ENDING_FOR,
 				  ending_types_map);
 	g_signal_handlers_unblock_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	if (priv->ending_count == -1)
+		priv->ending_count = 2;
 	make_ending_special (rpage);
 	/* Exceptions list */
 	e_date_time_list_clear (priv->exception_list_store);

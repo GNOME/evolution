@@ -1736,7 +1736,7 @@ calendar_config_get_default_count (void)
 	calendar_config_init ();
 
 	res = gconf_client_get_int (config, CALENDAR_CONFIG_DEF_RECUR_COUNT, NULL);
-	if (res <= 0)
+	if (res <= 0 && res != -1)
 		res = 2;
 
 	return res;
