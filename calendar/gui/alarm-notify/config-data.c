@@ -267,7 +267,7 @@ config_data_set_last_notification_time (ECal *cal, time_t t)
 		ESource *source = e_cal_get_source (cal);
 		if (source) {
 			GTimeVal tmval = {0};
-			char *as_text;
+			gchar *as_text;
 
 			tmval.tv_sec = (glong) t;
 			as_text = g_time_val_to_iso8601 (&tmval);
