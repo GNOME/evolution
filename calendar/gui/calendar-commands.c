@@ -91,6 +91,25 @@ calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action)
 		time_t start;
 
 		gnome_calendar_get_current_time_range (gcal, &start, NULL);
+
+		if (gnome_calendar_get_view (gcal) == GNOME_CAL_MONTH_VIEW) {
+			EWeekView *week_view = E_WEEK_VIEW (gnome_calendar_get_current_view_widget (gcal));
+
+			if (week_view && week_view->multi_week_view && week_view->weeks_shown >= 4 && g_date_valid (&week_view->first_day_shown)) {
+				GDate date = week_view->first_day_shown;
+				struct icaltimetype start_tt = icaltime_null_time ();
+
+				g_date_add_days (&date, 7);
+
+				start_tt.is_date = TRUE;
+				start_tt.year = g_date_get_year (&date);
+				start_tt.month = g_date_get_month (&date);
+				start_tt.day = g_date_get_day (&date);
+
+				start = icaltime_as_timet (start_tt);
+			}
+		}
+
 		print_calendar (gcal, action, start);
 	}
 }
