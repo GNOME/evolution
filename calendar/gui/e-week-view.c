@@ -3030,7 +3030,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
-		if (e_cal_component_has_organizer (comp))
+		if (e_cal_component_has_attendees (comp))
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;

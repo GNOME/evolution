@@ -669,7 +669,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
-	if (icon_x <= max_icon_x && e_cal_component_has_organizer (comp)) {
+	if (icon_x <= max_icon_x && e_cal_component_has_attendees (comp)) {
 		cairo_save (cr);
 		gdk_cairo_set_source_pixbuf (cr, day_view->meeting_icon, icon_x, icon_y);
 		cairo_paint (cr);

@@ -1075,7 +1075,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			num_icons++;
 		}
 
-		if (e_cal_component_has_organizer (comp)) {
+		if (e_cal_component_has_attendees (comp)) {
 			draw_meeting_icon = TRUE;
 			num_icons++;
 		}

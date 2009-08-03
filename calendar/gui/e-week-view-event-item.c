@@ -766,7 +766,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
-	if (e_cal_component_has_organizer (comp)) {
+	if (e_cal_component_has_attendees (comp)) {
 		draw_meeting_icon = TRUE;
 		num_icons++;
 	}
