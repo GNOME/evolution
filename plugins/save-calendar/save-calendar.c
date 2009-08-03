@@ -66,7 +66,7 @@ on_type_combobox_changed (GtkComboBox *combobox, gpointer data)
 	GtkTreeModel *model = gtk_combo_box_get_model (combobox);
 
 	gtk_container_foreach (GTK_CONTAINER (extra_widget),
-		extra_widget_foreach_hide, combobox);
+		extra_widget_foreach_hide, g_object_get_data (G_OBJECT (combobox), "format-box"));
 
 	gtk_combo_box_get_active_iter (combobox, &iter);
 
@@ -100,6 +100,8 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	FormatHandler *handler = NULL;
 
 	GtkWidget *extra_widget = gtk_vbox_new (FALSE, 0);
+	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+	GtkLabel *label = GTK_LABEL (gtk_label_new_with_mnemonic (_("_Format:")));
 	GtkComboBox *combo = GTK_COMBO_BOX(gtk_combo_box_new ());
 	GtkTreeModel *model = GTK_TREE_MODEL (gtk_list_store_new
 		(N_DEST_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER));
@@ -119,9 +121,13 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	format_handlers = g_list_append (format_handlers,
 		rdf_format_handler_new ());
 
+	gtk_box_pack_start (GTK_BOX (extra_widget), GTK_WIDGET (hbox), FALSE, FALSE, 0);
+	gtk_label_set_mnemonic_widget (label, GTK_WIDGET (combo));
+
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (label), FALSE, FALSE, 0);
+
 	/* The Type GtkComboBox */
-	gtk_box_pack_start (GTK_BOX (extra_widget), GTK_WIDGET (combo),
-		TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (combo), TRUE, TRUE, 0);
 	gtk_combo_box_set_model (combo, model);
 
 	gtk_list_store_clear (store);
@@ -154,6 +160,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 
 	g_signal_connect (G_OBJECT(combo), "changed",
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
+	g_object_set_data (G_OBJECT (combo), "format-box", hbox);
 
 	dialog = gtk_file_chooser_dialog_new (_("Select destination file"),
 					      NULL,
@@ -165,7 +172,9 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), extra_widget);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
-	gtk_widget_show (GTK_WIDGET(combo));
+	gtk_widget_show (hbox);
+	gtk_widget_show (GTK_WIDGET (label));
+	gtk_widget_show (GTK_WIDGET (combo));
 	gtk_widget_show (extra_widget);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {

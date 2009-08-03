@@ -520,14 +520,14 @@ static GtkWidget *
 create_options_widget (FormatHandler *handler)
 {
 	GtkWidget *table = gtk_table_new (4, 2, FALSE), *label = NULL,
-		  *csv_options = gtk_expander_new (_("Advanced options for the CSV format")),
+		  *csv_options = gtk_expander_new_with_mnemonic (_("A_dvanced options for the CSV format")),
 		  *vbox = gtk_vbox_new (FALSE, 0);
 	CsvPluginData *d = handler->data;
 
 	d->delimiter_entry = gtk_entry_new ();
 	d->newline_entry = gtk_entry_new ();
 	d->quote_entry = gtk_entry_new ();
-	d->header_check = gtk_check_button_new_with_label (_("Prepend a header"));
+	d->header_check = gtk_check_button_new_with_mnemonic (_("Prepend a _header"));
 
 	/* Advanced CSV options */
 	gtk_entry_set_text (GTK_ENTRY(d->delimiter_entry), ", ");
@@ -536,20 +536,23 @@ create_options_widget (FormatHandler *handler)
 
 	gtk_table_set_row_spacings (GTK_TABLE (table), 5);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-	label = gtk_label_new (_("Value delimiter:"));
+	label = gtk_label_new_with_mnemonic (_("_Value delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->delimiter_entry);
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
 			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->delimiter_entry, 1, 2, 0, 1,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	label = gtk_label_new (_("Record delimiter:"));
+	label = gtk_label_new_with_mnemonic (_("_Record delimiter:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->newline_entry);
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
 			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->newline_entry, 1, 2, 1, 2,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	label = gtk_label_new (_("Encapsulate values with:"));
+	label = gtk_label_new_with_mnemonic (_("_Encapsulate values with:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), d->quote_entry);
 	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
 			  (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_table_attach (GTK_TABLE (table), d->quote_entry, 1, 2, 2, 3,
