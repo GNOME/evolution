@@ -2390,7 +2390,8 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 }
 
 void
-print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
+print_calendar (GnomeCalendar *gcal,
+                GtkPrintOperationAction action,
                 time_t start)
 {
 	GtkPrintOperation *operation;
@@ -2398,6 +2399,34 @@ print_calendar (GnomeCalendar *gcal, GtkPrintOperationAction action,
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	if (gnome_calendar_get_view (gcal) == GNOME_CAL_MONTH_VIEW) {
+		GnomeCalendarViewType view_type;
+		ECalendarView *calendar_view;
+		EWeekView *week_view;
+
+		view_type = gnome_calendar_get_view (gcal);
+		calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
+		week_view = E_WEEK_VIEW (calendar_view);
+
+		if (week_view && week_view->multi_week_view &&
+			week_view->weeks_shown >= 4 &&
+			g_date_valid (&week_view->first_day_shown)) {
+
+			GDate date = week_view->first_day_shown;
+			struct icaltimetype start_tt;
+
+			g_date_add_days (&date, 7);
+
+			start_tt = icaltime_null_time ();
+			start_tt.is_date = TRUE;
+			start_tt.year = g_date_get_year (&date);
+			start_tt.month = g_date_get_month (&date);
+			start_tt.day = g_date_get_day (&date);
+
+			start = icaltime_as_timet (start_tt);
+		}
+	}
 
 	pcali.gcal = (GnomeCalendar *)gcal;
 	pcali.start = start;
