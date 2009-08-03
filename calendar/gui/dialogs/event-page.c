@@ -104,6 +104,7 @@ struct _EventPagePrivate {
 	GtkWidget *info_hbox;
 	GtkWidget *info_icon;
 	GtkWidget *info_string;
+	gchar *subscriber_info_text;
 
 	GtkWidget *summary;
 	GtkWidget *summary_label;
@@ -262,6 +263,7 @@ event_page_finalize (GObject *object)
 	g_ptr_array_free (priv->deleted_attendees, TRUE);
 
 	g_free (priv->old_summary);
+	g_free (priv->subscriber_info_text);
 
 	priv->alarm_list_dlg_widget = NULL;
 
@@ -744,6 +746,18 @@ sensitize_widgets (EventPage *epage)
 	delegate = flags & COMP_EDITOR_DELEGATE;
 
 	sensitize = !read_only && sens;
+
+	if (read_only) {
+		gchar *tmp = g_strconcat ("<b>", _("Event cannot be edited, because the selected calendar is read only"), "</b>", NULL);
+		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, tmp);
+		g_free (tmp);
+	} else if (!sens) {
+		gchar *tmp = g_strconcat ("<b>", _("Event cannot be fully edited, because you are not the organizer"), "</b>", NULL);
+		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, tmp);
+		g_free (tmp);
+	} else {
+		event_page_set_info_string (epage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+	}
 
 	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE;
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) ||
@@ -2161,7 +2175,7 @@ event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *ms
 	priv = epage->priv;
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
-	gtk_label_set_text (GTK_LABEL(priv->info_string), msg);
+	gtk_label_set_markup (GTK_LABEL(priv->info_string), msg);
 
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox);
@@ -2642,13 +2656,19 @@ set_subscriber_info_string (EventPage *epage, const gchar *backend_address)
 	client = comp_editor_get_client (editor);
 	source = e_cal_get_source (client);
 
-	if (e_source_get_property (source, "subscriber"))
+	if (e_source_get_property (source, "subscriber")) {
+		g_free (epage->priv->subscriber_info_text);
 		/* Translators: This string is used when we are creating an Event
 		   (meeting or appointment)  on behalf of some other user */
-		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO,
-				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
-	else
+		epage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
+
+		event_page_set_info_string (epage, GTK_STOCK_DIALOG_INFO, epage->priv->subscriber_info_text);
+	} else {
+		g_free (epage->priv->subscriber_info_text);
+		epage->priv->subscriber_info_text = NULL;
+
 		event_page_set_info_string (epage, NULL, NULL);
+	}
 }
 
 static void

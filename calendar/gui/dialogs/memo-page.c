@@ -72,6 +72,7 @@ struct _MemoPagePrivate {
 	GtkWidget *info_hbox;
 	GtkWidget *info_icon;
 	GtkWidget *info_string;
+	gchar *subscriber_info_text;
 
 	/* Organizer */
 	GtkWidget *org_label;
@@ -162,6 +163,8 @@ memo_page_finalize (GObject *object)
 		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
+
+	g_free (priv->subscriber_info_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (memo_page_parent_class)->finalize (object);
@@ -339,6 +342,18 @@ sensitize_widgets (MemoPage *mpage)
 		sens = TRUE;
 
 	sensitize = (!read_only && sens);
+
+	if (read_only) {
+		gchar *tmp = g_strconcat ("<b>", _("Memo cannot be edited, because the selected memo list is read only"), "</b>", NULL);
+		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
+		g_free (tmp);
+	} else if (!sens) {
+		gchar *tmp = g_strconcat ("<b>", _("Memo cannot be fully edited, because you are not the organizer"), "</b>", NULL);
+		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
+		g_free (tmp);
+	} else {
+		memo_page_set_info_string (mpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+	}
 
 	/* The list of organizers is set to be non-editable. Otherwise any
 	* change in the displayed list causes an 'Account not found' error.
@@ -732,7 +747,7 @@ memo_page_set_info_string (MemoPage *mpage, const gchar *icon, const gchar *msg)
 	priv = mpage->priv;
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
-	gtk_label_set_text (GTK_LABEL(priv->info_string), msg);
+	gtk_label_set_markup (GTK_LABEL(priv->info_string), msg);
 
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox);
@@ -888,13 +903,18 @@ set_subscriber_info_string (MemoPage *mpage,
 	client = comp_editor_get_client (editor);
 	source = e_cal_get_source (client);
 
-	if (e_source_get_property (source, "subscriber"))
+	if (e_source_get_property (source, "subscriber")) {
+		g_free (mpage->priv->subscriber_info_text);
 		/* Translators: This string is used when we are creating a Memo
 		   on behalf of some other user */
-		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO,
-				g_strdup_printf(_("You are acting on behalf of %s"), backend_address));
-	else
+		mpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
+		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, mpage->priv->subscriber_info_text);
+	} else {
+		g_free (mpage->priv->subscriber_info_text);
+		mpage->priv->subscriber_info_text = NULL;
+
 		memo_page_set_info_string (mpage, NULL, NULL);
+	}
 }
 
 static void
