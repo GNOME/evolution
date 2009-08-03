@@ -36,4 +36,6 @@ GdkPixbuf *	e_icon_factory_pixbuf_scale	(GdkPixbuf *pixbuf,
 						 gint width,
 						 gint height);
 
+gchar *		e_icon_factory_create_thumbnail (const gchar *filename);
+
 #endif /* _E_ICON_FACTORY_H_ */

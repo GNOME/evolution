@@ -31,7 +31,11 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-vfs.h>
+#include <camel/camel-stream-fs.h>
 
+#include <libedataserver/e-data-server-util.h>
+
+#include "e-util/e-icon-factory.h"
 #include "e-util/e-util.h"
 #include "e-util/e-mktemp.h"
 #include "e-attachment-store.h"
@@ -98,6 +102,48 @@ enum {
 };
 
 static gpointer parent_class;
+
+static gboolean
+create_system_thumbnail (EAttachment *attachment, GIcon **icon)
+{
+	GFile *file;
+	gchar *thumbnail = NULL;
+	
+	g_return_val_if_fail (attachment != NULL, FALSE);
+	g_return_val_if_fail (icon != NULL, FALSE);
+
+	file = e_attachment_get_file (attachment);
+
+	if (file && g_file_has_uri_scheme (file, "file")) {
+		gchar *path = g_file_get_path (file);
+		if (path) {
+			thumbnail = e_icon_factory_create_thumbnail (path);
+			g_free (path);
+		}
+	}
+
+	if (thumbnail) {
+		GFile *gf = g_file_new_for_path (thumbnail);
+
+		g_return_val_if_fail (gf != NULL, FALSE);
+		if (*icon)
+			g_object_unref (*icon);
+
+		*icon = g_file_icon_new (gf);
+		g_object_unref (gf);
+
+		if (file) {
+			GFileInfo *fi = e_attachment_get_file_info (attachment);
+
+			if (fi)
+				g_file_info_set_attribute_byte_string (fi, G_FILE_ATTRIBUTE_THUMBNAIL_PATH, thumbnail);
+		}
+	}
+
+	g_free (thumbnail);
+
+	return thumbnail != NULL;
+}
 
 static gchar *
 attachment_get_default_charset (void)
@@ -228,6 +274,10 @@ attachment_update_icon_column (EAttachment *attachment)
 		file = g_file_new_for_path (thumbnail_path);
 		icon = g_file_icon_new (file);
 		g_object_unref (file);
+
+	/* try the system thumbnailer */
+	} else if (create_system_thumbnail (attachment, &icon)) {
+		/* actually do nothing, just use the icon */
 
 	/* Else use the standard icon for the content type. */
 	} else if (icon != NULL)

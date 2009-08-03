@@ -30,10 +30,11 @@
 
 #include <pthread.h>
 
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-#include <libgnomeui/gnome-thumbnail.h>
-#endif
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
+#undef GNOME_DESKTOP_USE_UNSTABLE_API
 
+#include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
 #include "e-icon-factory.h"
@@ -41,6 +42,7 @@
 
 #include "art/broken-image-16.xpm"
 #include "art/broken-image-24.xpm"
+
 #define d(x)
 
 typedef struct {
@@ -332,10 +334,65 @@ e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf, gint width, gint height)
 	if (height <= 0)
 		height = 1;
 
-#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
 	/* because this can only scale down, not up */
 	if (gdk_pixbuf_get_width (pixbuf) > width && gdk_pixbuf_get_height (pixbuf) > height)
-		return gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
-#endif
+		return gnome_desktop_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+
 	return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+}
+
+/**
+ * e_icon_factory_create_thumbnail
+ * Creates system thumbnail for a file filename.
+ * @param filename The file name to create the thumbnail for.
+ * @return Path to system thumbnail of the file; NULL if couldn't create it. Free it with g_free.
+ **/
+gchar *
+e_icon_factory_create_thumbnail (const gchar *filename)
+{
+	static GnomeDesktopThumbnailFactory *thumbnail_factory = NULL;
+        struct stat file_stat;
+        gchar *thumbnail = NULL;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	if (thumbnail_factory == NULL) {
+		thumbnail_factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
+	}
+
+	if (g_stat (filename, &file_stat) != -1 && S_ISREG (file_stat.st_mode)) {
+		gchar *content_type, *mime = NULL;
+		gboolean uncertain = FALSE;
+
+		content_type = g_content_type_guess (filename, NULL, 0, &uncertain);
+		if (content_type)
+			mime = g_content_type_get_mime_type (content_type);
+
+		if (mime) {
+			gchar *uri = g_filename_to_uri (filename, NULL, NULL);
+
+			g_return_val_if_fail (uri != NULL, NULL);
+
+			thumbnail = gnome_desktop_thumbnail_factory_lookup (thumbnail_factory, uri, file_stat.st_mtime);
+			if (!thumbnail && gnome_desktop_thumbnail_factory_can_thumbnail (thumbnail_factory, uri, mime, file_stat.st_mtime)) {
+				GdkPixbuf *pixbuf;
+
+				pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (thumbnail_factory, uri, mime);
+
+				if (pixbuf) {
+					gnome_desktop_thumbnail_factory_save_thumbnail (thumbnail_factory, pixbuf, uri, file_stat.st_mtime);
+					g_object_unref (pixbuf);
+
+					thumbnail = gnome_desktop_thumbnail_factory_lookup (thumbnail_factory, uri, file_stat.st_mtime);
+				}
+			}
+
+			g_free (uri);
+		}
+
+		g_free (content_type);
+		g_free (mime);
+	}
+
+	return thumbnail;
 }

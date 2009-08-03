@@ -47,6 +47,7 @@ m4_define([glib_minimum_version], [2.20.0])
 m4_define([gtk_minimum_version], [2.16.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
+m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libbonoboui_minimum_version], [2.4.2])
 m4_define([libgtkhtml_minimum_version], [3.25.4])
@@ -215,7 +216,8 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
          libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
          libgnomeui-2.0 >= libgnomeui_minimum_version
          libxml-2.0 >= libxml_minimum_version
-	 shared-mime-info >= shared_mime_info_minimum_version])
+	 shared-mime-info >= shared_mime_info_minimum_version
+	 gnome-desktop-2.0 >= gnome_desktop_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -1353,22 +1355,6 @@ dnl --- Flags to get all the GNOME stuff
 
 FULL_GNOME_DEPS="libbonoboui-2.0 gconf-2.0 gthread-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0"
 
-CPPFLAGS_save="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
-AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h,,,
-[[
-	#if HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
-	#include <libgnomeui/gnome-icon-lookup.h>
-	#endif
-]])
-AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h,,,
-[[
-	#if HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
-	#include <libgnomeui/gnome-thumbnail.h>
-	#endif
-]])
-CPPFLAGS="$CPPFLAGS_save"
-
 PKG_CHECK_MODULES([HAL], [hal >= hal_minimum_version], [HAVE_HAL="yes"], [HAVE_HAL="no"])
 if test "x$HAVE_HAL" = "xyes"; then
    AC_DEFINE(HAVE_HAL, 1, [hal available])
@@ -1496,7 +1482,7 @@ else
 	E_UTIL_X11_CFLAGS=""
 	E_UTIL_X11_LIBS=""
 fi
-EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
