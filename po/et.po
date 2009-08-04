@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-07-28 16:04+0000\n"
-"PO-Revision-Date: 2009-07-31 11:14+0300\n"
+"POT-Creation-Date: 2009-08-04 13:05+0000\n"
+"PO-Revision-Date: 2009-08-04 19:01+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -436,17 +436,14 @@ msgstr "Aadressiraamatut pole võimalik laadida"
 msgid "Could not read pilot's Address application block"
 msgstr "Piloti aadressirakenduse blokki pole võimalik lugeda"
 
-msgid "Autocompletion"
-msgstr "Automaatlõpetus"
-
 msgid "C_ontacts"
 msgstr "K_ontaktid"
 
 msgid "Certificates"
 msgstr "Sertifikaadid"
 
-msgid "Configure autocomplete here"
-msgstr "Seadista automaatlõpetamist siit"
+msgid "Configure contacts and autocompletion here"
+msgstr "Kontaktide ja automaatlõpetamise seadistamine"
 
 #. Create the contacts group
 msgid "Contacts"
@@ -748,8 +745,17 @@ msgstr ""
 msgid "Whether to show the preview pane."
 msgstr "Millal kuvada eelvaatluspaani."
 
+msgid "Autocompletion"
+msgstr "Automaatlõpetus"
+
 msgid "Always _show address of the autocompleted contact"
 msgstr "_Automaatlõpetatud aadressit näidatakse alati"
+
+msgid "Date/Time Format"
+msgstr "Kuupäeva/kellaaja vorming"
+
+msgid "Table column:"
+msgstr "Tabeli veerg:"
 
 msgid "Look up in address books"
 msgstr "Otsitavad aadressiraamatud"
@@ -2550,11 +2556,17 @@ msgstr "Kuuvaatel kuvatakse nädalalõpud kokkusurutud vormis"
 msgid "Confirm expunge"
 msgstr "Kinnituse küsimine enne puhastamist"
 
+msgid "Count of default recurrence for a new event. -1 means forever."
+msgstr ""
+
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
 
 msgid "Default appointment reminder"
 msgstr "Sündmusest vaikimisi meeldetuletaja"
+
+msgid "Default recurrence count"
+msgstr "Korduste vaikimisi arv"
 
 msgid "Default reminder units"
 msgstr "Meeldetuletaja vaikimisi ühikud"
@@ -2581,7 +2593,7 @@ msgid "Gradient of the events in calendar views."
 msgstr "Sündmuste kalle kalendrivaates."
 
 msgid "Hide completed tasks"
-msgstr "Peida lõpetatud ülesanded"
+msgstr "Peida täidetud ülesanded"
 
 msgid "Hide task units"
 msgstr "Ülesandeühikute peitmine"
@@ -2690,6 +2702,15 @@ msgstr ""
 "Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
 "ülesannete loendi vahel, kui ei olda kuuvaates."
 
+msgid "Primary calendar"
+msgstr "Peamine kalender"
+
+msgid "Primary memo list"
+msgstr "Peamine märkmeloend"
+
+msgid "Primary task list"
+msgstr "Peamine ülesandeloend"
+
 msgid "Programs that are allowed to be run by alarms."
 msgstr "Programmid, mida on lubatud alarmide poolt käivitada."
 
@@ -2791,6 +2812,15 @@ msgstr ""
 msgid "Twenty four hour time format"
 msgstr "24-tunnine ajavorming"
 
+msgid "URI of the highlighted (\"primary\") calendar"
+msgstr ""
+
+msgid "URI of the highlighted (\"primary\") memo list"
+msgstr ""
+
+msgid "URI of the highlighted (\"primary\") task list"
+msgstr ""
+
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Vaikimisi meeldetuletaja ühikud, \"minutes\" (minutid), \"hours\" (tunnid) "
@@ -2804,6 +2834,9 @@ msgstr ""
 
 msgid "Use system timezone"
 msgstr "Kasutatakse süsteemi ajavööndit"
+
+msgid "Use the system timezone instead of the timezone selected in Evolution."
+msgstr "Evolutionis valitud ajavööndi asemel süsteemse ajavööndi kasutamine."
 
 msgid "Week start"
 msgstr "Nädala algus"
@@ -2835,7 +2868,7 @@ msgid ""
 msgstr "Kas kalendris kuvatakse Marcus Bainsi joont (joon praeguse aja kohal)."
 
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Kas lõpetatud ülesanded peidetakse ülesandevaates."
+msgstr "Kas täidetud ülesanded peidetakse ülesandevaates."
 
 msgid "Whether to scroll a Month View by a week, not by a month."
 msgstr ""
@@ -2911,7 +2944,7 @@ msgid "Overdue Tasks"
 msgstr "Tähtaja ületanud ülesanded"
 
 msgid "Completed Tasks"
-msgstr "Lõpetatud ülesanded"
+msgstr "Täidetud ülesanded"
 
 msgid "Tasks with Attachments"
 msgstr "Manustega ülesanded"
@@ -3213,6 +3246,12 @@ msgstr "Puudub"
 msgid "Selected Calendars for Alarms"
 msgstr "Alarmidele valitud kalendrid"
 
+msgid "Time and date:"
+msgstr "Kuupäev ja kellaaeg:"
+
+msgid "Date only:"
+msgstr "Ainult kuupäev:"
+
 msgid "(Shown in a Day View)"
 msgstr "(näidatakse päevavaates)"
 
@@ -3241,6 +3280,9 @@ msgstr "<span weight=\"bold\">Alarmid</span>"
 
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Hoiatused</span>"
+
+msgid "<span weight=\"bold\">Date/Time Format</span>"
+msgstr "<span weight=\"bold\">Kuupäeva ja kellaaja vorming</span>"
 
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<span weight=\"bold\">Vaikimisi vaba/hõivatud server</span>"
@@ -3389,7 +3431,7 @@ msgid "_Fri"
 msgstr "_R"
 
 msgid "_Hide completed tasks after"
-msgstr "Lõpetatud ülesanded _peidetakse pärast"
+msgstr "Täidetud ülesanded _peidetakse pärast"
 
 #. Monday
 msgid "_Mon"
@@ -3512,10 +3554,10 @@ msgid " to "
 msgstr " kuni "
 
 msgid " (Completed "
-msgstr " (Valmis "
+msgstr " (Täidetud "
 
 msgid "Completed "
-msgstr "Lõpetatud "
+msgstr "Täidetud"
 
 msgid " (Due "
 msgstr " (Tähtaeg "
@@ -3769,6 +3811,12 @@ msgstr "Osalejate vaba/hõivatud andmete pärimine"
 msgid "Appoint_ment"
 msgstr "Sünd_mus"
 
+msgid "Event cannot be edited, because the selected calendar is read only"
+msgstr ""
+
+msgid "Event cannot be fully edited, because you are not the organizer"
+msgstr ""
+
 msgid "This event has alarms"
 msgstr "See sündmus on alarmidega"
 
@@ -3818,6 +3866,12 @@ msgstr "_Lisa "
 msgid "Unable to open the calendar '%s'."
 msgstr "Kalendrit '%s' pole võimalik avada."
 
+#. Translators: This string is used when we are creating an Event
+#. (meeting or appointment)  on behalf of some other user
+#. Translators: This string is used when we are creating a Memo
+#. on behalf of some other user
+#. Translators: This string is used when we are creating a Task
+#. on behalf of some other user
 #, c-format
 msgid "You are acting on behalf of %s"
 msgstr ""
@@ -3891,6 +3945,12 @@ msgstr ""
 msgid "Memo"
 msgstr "Märge"
 
+msgid "Memo cannot be edited, because the selected memo list is read only"
+msgstr ""
+
+msgid "Memo cannot be fully edited, because you are not the organizer"
+msgstr ""
+
 #, c-format
 msgid "Unable to open memos in '%s'."
 msgstr "Märkmeid pole võimalik '%s'-s avada."
@@ -3954,7 +4014,7 @@ msgstr "järgnevatel nädalapäevadel:"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 msgid "first"
-msgstr "esimene"
+msgstr "esimesel"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -3962,28 +4022,35 @@ msgstr "esimene"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 msgid "second"
-msgstr "teine"
+msgstr "teisel"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 msgid "third"
-msgstr "kolmas"
+msgstr "kolmandal"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 msgid "fourth"
-msgstr "neljas"
+msgstr "neljandal"
+
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
+#. * the name of a week day (like 'Monday' or 'Friday') always follow.
+#.
+msgid "fifth"
+msgstr "viiendal"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 msgid "last"
-msgstr "viimane"
+msgstr "viimasel"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -4085,7 +4152,7 @@ msgid "Notify new attendees _only"
 msgstr "Teavitatakse ainult _uusi osalejaid"
 
 msgid "Completed date is wrong"
-msgstr "Lõpetamise kuupäev on vale"
+msgstr "Täitmise kuupäev on vale"
 
 msgid "Web Page"
 msgstr "Veebileht"
@@ -4115,7 +4182,7 @@ msgid ""
 msgstr ""
 "Pole alustatud\n"
 "Töös\n"
-"Lõpetatud\n"
+"Täidetud\n"
 "Katkestatud"
 
 msgid "P_ercent complete:"
@@ -4147,6 +4214,14 @@ msgstr "_Ülesanne"
 
 msgid "Task Details"
 msgstr "Ülesande üksikasjad"
+
+msgid "Task cannot be edited, because the selected task list is read only"
+msgstr ""
+
+msgid "Task cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Ülesannet pole võimalik üksikasjadeni redigeerida, kuna sa pole selle "
+"organiseerija"
 
 msgid "Organi_zer:"
 msgstr "Ko_rraldaja:"
@@ -4283,7 +4358,7 @@ msgstr "Töös"
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
 msgid "Completed"
-msgstr "Lõpetatud"
+msgstr "Täidetud"
 
 msgid "Not Started"
 msgstr "Pole alanud"
@@ -4433,10 +4508,10 @@ msgid "_Forward as iCalendar"
 msgstr "_Edasta iKalendrina"
 
 msgid "_Mark as Complete"
-msgstr "_Märgi lõpetatuks"
+msgstr "_Märgi täidetuks"
 
 msgid "_Mark Selected Tasks as Complete"
-msgstr "_Märgi valitud ülesanne lõpetatuks"
+msgstr "_Märgi valitud ülesanne täidetuks"
 
 msgid "_Mark as Incomplete"
 msgstr "_Märgi kui lõpetamata"
@@ -4455,7 +4530,7 @@ msgid "% Complete"
 msgstr "(%) valmis"
 
 msgid "Complete"
-msgstr "Lõpetatud"
+msgstr "Täidetud"
 
 msgid "Completion date"
 msgstr "Lõpetamise kuupäev"
@@ -4661,11 +4736,11 @@ msgstr[1] "kokku %d korda"
 msgid ", ending on "
 msgstr ", lõpeb"
 
-#. For Translators : 'starts' is starts:date implying a task starts on what date
+#. For Translators : 'Starts' is part of "Starts: date", showing when the event starts
 msgid "Starts"
 msgstr "Algab"
 
-#. For Translators : 'ends' is ends:date implying a task ends on what date
+#. For Translators : 'Ends' is part of "Ends: date", showing when the event ends
 msgid "Ends"
 msgstr "Lõpeb"
 
@@ -5565,7 +5640,7 @@ msgid ""
 "Really erase these tasks?"
 msgstr ""
 "See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui "
-"lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
+"täidetud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
 "Kas tõesti kustutada need ülesanded?"
 
 msgid "Do not ask me again."
@@ -5576,7 +5651,7 @@ msgstr "Prindi ülesanded"
 
 #, no-c-format
 msgid "% Completed"
-msgstr "% valmis"
+msgstr "% täidetud"
 
 msgid "Cancelled"
 msgstr "Katkestatud"
@@ -7133,6 +7208,31 @@ msgstr "aadressikaart"
 msgid "calendar information"
 msgstr "kalendri andmed"
 
+#. strftime format of a weekday and a date.
+msgid "Today"
+msgstr "Täna"
+
+#. strftime format of a weekday and a date.
+msgid "Tomorrow"
+msgstr "Homme"
+
+msgid "Yesterday"
+msgstr "Eile"
+
+#, c-format
+msgid "%d days from now"
+msgstr ""
+
+#, c-format
+msgid "%d days ago"
+msgstr "%d päeva tagasi"
+
+msgid "Use locale default"
+msgstr "Kasutatakse lokaadi vaikeväärtusi"
+
+msgid "Format:"
+msgstr "Vorming:"
+
 msgid "Evolution Error"
 msgstr "Evolutioni viga"
 
@@ -7488,7 +7588,6 @@ msgstr ""
 "Sõnumi kuupäeva võrreldakse ajahetkega,\n"
 "mis on võrdne filtri käivitamise hetkega."
 
-#, fuzzy
 msgid ""
 "ago\n"
 "in the future"
@@ -7789,7 +7888,7 @@ msgid "Beep"
 msgstr "Piiksu"
 
 msgid "Completed On"
-msgstr "Lõpetatud"
+msgstr "Täidetud"
 
 msgid "Copy to Folder"
 msgstr "Kopeeri kausta"
@@ -8218,7 +8317,7 @@ msgid "_New Label"
 msgstr "_Uus silt"
 
 msgid "Fla_g Completed"
-msgstr "Märgista kui _lõpetatud"
+msgstr "Märgista kui _täidetud"
 
 msgid "Cl_ear Flag"
 msgstr "_Eemalda märgistus"
@@ -8378,14 +8477,15 @@ msgstr "_Vaata sertifikaati"
 msgid "This certificate is not viewable"
 msgstr "See sertifikaat ei ole vaadatav"
 
-msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "Lõpetatud %B %d, %Y, %l:%M %p"
+msgid "Completed on"
+msgstr "Täidetud"
 
 msgid "Overdue:"
 msgstr "Tähtaja ületanud:"
 
-msgid "by %B %d, %Y, %l:%M %p"
-msgstr "sellel ajal: %B %d, %Y, %l:%M %p"
+#. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
+msgid "by"
+msgstr ""
 
 msgid "_View Inline"
 msgstr "_Sisekuva"
@@ -8465,14 +8565,6 @@ msgstr "Pimekoopia"
 #. pseudo-header
 msgid "Mailer"
 msgstr "Postiprogramm"
-
-#. translators: strftime format for local time equivalent in Date header display, with day
-msgid " (%a, %R %Z)"
-msgstr " (%a, %R %Z)"
-
-#. translators: strftime format for local time equivalent in Date header display, without day
-msgid " (%R %Z)"
-msgstr " (%R %Z)"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
@@ -8573,6 +8665,9 @@ msgstr "%s plugin pole saadaval. Palun kontrolli, kas see pakk on paigaldatud."
 
 msgid "No Junk plugin available"
 msgstr "Räpsposti plugin pole saadaval"
+
+msgid "Date header:"
+msgstr ""
 
 #. green
 msgid "To Do"
@@ -8876,6 +8971,11 @@ msgstr "Evolutionist väljumisel kõigi rämpspostikaustade tühjendamine."
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Evolutionist väljumisel kõigi prügikaustade tühjendamine."
 
+msgid ""
+"Enable animated images in HTML mail. Many users find animated images "
+"annoying and prefer to see a static image instead."
+msgstr ""
+
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Kursorirežiimi lubamine - siis on sõnumi lugemisel kursori asukoht näha."
@@ -9156,6 +9256,12 @@ msgstr "Kinnituse küsimine soovimatu HTML saatmise korral"
 msgid "Prompt while marking multiple messages"
 msgstr "Kinnituse küsimine mitme sõnumi märkimise korral"
 
+msgid "Put personalized signatures at the top of replies"
+msgstr ""
+
+msgid "Put the cursor at the bottom of replies"
+msgstr "Kursor viiakse vastuse lõppu"
+
 msgid "Recognize emoticons in text and replace them with images."
 msgstr "Tekstis olevate emotikonide äratundmine ja nende asendamine piltidega."
 
@@ -9212,6 +9318,9 @@ msgstr "Kustutatud sõnumite kuvamine (läbikriipsutatult) sõnumiloendis."
 
 msgid "Show deleted messages in the message-list"
 msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
+
+msgid "Show image animations"
+msgstr "Pildianimatsioonide näitamine"
 
 msgid "Show photo of the sender"
 msgstr "Saatja foto näitamine"
@@ -9400,6 +9509,18 @@ msgstr "Ainult kohalike (mitte-DNS) rämpspostitestide kasutamine."
 
 msgid "Use side-by-side or wide layout"
 msgstr "Külg-külje kõrval paigutuse või laia paigutuse kasutamine"
+
+msgid ""
+"Users get all up in arms over where the cursor should go when replying to a "
+"message. This determines whether the cursor is placed at the top of the "
+"message or the bottom."
+msgstr ""
+
+msgid ""
+"Users get all up in arms over where their signature should go when replying "
+"to a message. This determines whether the signature is placed at the top of "
+"the message or the bottom."
+msgstr ""
 
 msgid "Variable width font"
 msgstr "Muutuva laiusega kirjatüüp"
@@ -12707,7 +12828,7 @@ msgid "Declined: "
 msgstr "Tagasi lükatud: "
 
 msgid "Completed: "
-msgstr "Lõpetatud: "
+msgstr "Täidetud: "
 
 msgid "Undelivered: "
 msgstr "Kohale toimetamata: "
@@ -12943,10 +13064,6 @@ msgstr "Vastuolude otsimine"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Vali kalendrid, millest tuleb koosolekute vastuolusid otsida"
 
-#. strftime format of a weekday and a date.
-msgid "Today"
-msgstr "Täna"
-
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 msgid "Today %H:%M"
@@ -12961,10 +13078,6 @@ msgstr "Täna %H:%M:%S"
 #. in 12-hour format.
 msgid "Today %l:%M:%S %p"
 msgstr "Täna %l:%M:%S %p"
-
-#. strftime format of a weekday and a date.
-msgid "Tomorrow"
-msgstr "Homme"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
@@ -13988,20 +14101,20 @@ msgstr "Osalejajate loend"
 msgid "Modified"
 msgstr "Muudetud"
 
-msgid "Advanced options for the CSV format"
-msgstr "Laiendatud valikus CSV vormingule"
+msgid "A_dvanced options for the CSV format"
+msgstr "Laiendatud valikud _CSV vormingule"
 
-msgid "Prepend a header"
-msgstr "Päise lisamine"
+msgid "Prepend a _header"
+msgstr "_Päise lisamine"
 
-msgid "Value delimiter:"
-msgstr "Väljaeraldaja:"
+msgid "_Value delimiter:"
+msgstr "_Väljaeraldaja:"
 
-msgid "Record delimiter:"
-msgstr "Kirjete eraldaja:"
+msgid "_Record delimiter:"
+msgstr "Kirjete _eraldaja:"
 
-msgid "Encapsulate values with:"
-msgstr "Väärtuste kapseldamine:"
+msgid "_Encapsulate values with:"
+msgstr "Väärtuste _kapseldamine:"
 
 msgid "Comma separated value format (.csv)"
 msgstr "Komaga eraldatud väärtuste vorming (.csv)"
@@ -14025,6 +14138,9 @@ msgstr "%FT%T"
 
 msgid "RDF format (.rdf)"
 msgstr "RDF vorming (.rdf)"
+
+msgid "_Format:"
+msgstr "_Vorming:"
 
 msgid "Select destination file"
 msgstr "Sihtfaili valimine"
@@ -15847,7 +15963,7 @@ msgid "_Find in Message..."
 msgstr "_Otsi sõnumist..."
 
 msgid "_Flag Completed"
-msgstr "Märgista kui _lõpetatud"
+msgstr "Märgista kui _täidetud"
 
 msgid "_Go To"
 msgstr "_Liigu"
@@ -15941,16 +16057,16 @@ msgid "Cut selected tasks"
 msgstr "Valitud ülesannete lõikamine"
 
 msgid "Delete completed tasks"
-msgstr "Lõpetatud ülesannete kustutamine"
+msgstr "Täidetud ülesannete kustutamine"
 
 msgid "Delete selected tasks"
 msgstr "Valitud ülesannete kustutamine"
 
 msgid "Mar_k as Complete"
-msgstr "_Märgi lõpetatuks"
+msgstr "_Märgi täidetuks"
 
 msgid "Mark selected tasks as complete"
-msgstr "Valitud ülesannete märkimine lõpetatuks"
+msgstr "Valitud ülesannete märkimine täidetuks"
 
 msgid "Paste tasks from the clipboard"
 msgstr "Lõikepuhvrist ülesannete asetamine"
@@ -16698,7 +16814,7 @@ msgid "When acce_pted:"
 msgstr "Kui _nõustutakse:"
 
 msgid "When co_mpleted:"
-msgstr "Kui _lõpetatakse:"
+msgstr "Kui _täidetakse:"
 
 msgid "When decli_ned:"
 msgstr "Kui k_eeldutakse:"
@@ -16750,9 +16866,6 @@ msgstr "URL-i avamiseks klõpsa siin"
 
 msgid "popup list"
 msgstr "hüpikakende loend"
-
-msgid "%l:%M %p"
-msgstr "%l:%M %p"
 
 msgid "Selected Column"
 msgstr "Valitud veerg"
