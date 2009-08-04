@@ -39,6 +39,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-datetime-format.h"
+
 
 typedef struct {
 	EvolutionConfigControl *config_control;
@@ -159,7 +161,7 @@ autocompletion_config_control_new (void)
 {
 	AutocompletionConfig *ac;
 	CORBA_Environment ev;
-	GtkWidget *scrolledwin, *vbox, *itembox, *w;
+	GtkWidget *scrolledwin, *vbox, *itembox, *w, *table;
 
 	ac = g_new0 (AutocompletionConfig, 1);
 
@@ -176,6 +178,11 @@ autocompletion_config_control_new (void)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), gconf_client_get_bool (ac->gconf, FORCE_SHOW_ADDRESS, NULL));
 	g_signal_connect (w, "toggled", (GCallback)show_address_check_toggled_cb, ac);
 	gtk_box_pack_start (GTK_BOX (itembox), w, FALSE, FALSE, 0);
+
+	itembox = add_section (vbox, _("Date/Time Format"), FALSE);
+	table = gtk_table_new (1, 3, FALSE);
+	gtk_box_pack_start (GTK_BOX (itembox), table, TRUE, TRUE, 0);
+	e_datetime_format_add_setup_widget (table, 0, "addressbook", "table",  DTFormatKindDateTime, _("Table column:"));
 
 	itembox = add_section (vbox, _("Look up in address books"), TRUE);
 

@@ -33,6 +33,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-error.h>
+#include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
@@ -2222,16 +2223,11 @@ tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 static gchar *
 get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
 {
-        gchar buffer[1000];
         struct tm tmp_tm;
 
 	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
-        e_time_format_date_and_time (&tmp_tm,
-                                     calendar_config_get_24_hour_format (),
-                                     FALSE, FALSE,
-                                     buffer, 1000);
 
-        return g_strdup (buffer);
+	return e_datetime_format_format_tm ("calendar", "table", DTFormatKindDateTime, &tmp_tm);
 }
 
 void

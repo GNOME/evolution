@@ -31,6 +31,7 @@
 #include "../calendar-config.h"
 #include "cal-prefs-dialog.h"
 #include <widgets/misc/e-dateedit.h>
+#include "e-util/e-datetime-format.h"
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
 #include <glib/gi18n.h>
@@ -779,7 +780,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
 	gint i;
-	GtkWidget *toplevel;
+	GtkWidget *toplevel, *table;
 	GSList *l;
 	const gchar *working_day_names[] = {
 		"sun_button",
@@ -858,6 +859,11 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+
+	/* date/time format */
+	table = glade_xml_get_widget (gui, "datetime_format_table");
+	e_datetime_format_add_setup_widget (table, 0, "calendar", "table",  DTFormatKindDateTime, _("Time and date:"));
+	e_datetime_format_add_setup_widget (table, 1, "calendar", "table",  DTFormatKindDate, _("Date only:"));
 
 	show_config (prefs);
 	/* FIXME: weakref? */

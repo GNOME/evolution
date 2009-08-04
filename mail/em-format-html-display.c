@@ -63,6 +63,7 @@
 #include <e-util/e-util-private.h>
 
 #include <libedataserver/e-msgport.h>
+#include "e-util/e-datetime-format.h"
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 
@@ -81,16 +82,6 @@
 #include "e-icon-entry.h"
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
-
-#ifdef G_OS_WIN32
-/* Undefine the similar macro from <pthread.h>,it doesn't check if
- * localtime() returns NULL.
- */
-#undef localtime_r
-
-/* The localtime() in Microsoft's C library is MT-safe */
-#define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
-#endif
 
 #define d(x)
 
@@ -953,9 +944,7 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 {
 	const gchar *flag, *comp, *due;
 	time_t date;
-	gchar due_date[128];
-	struct tm due_tm;
-	gchar *iconpath;
+	gchar *iconpath, *due_date_str;
 
 	if (emf->folder == NULL || emf->uid == NULL
 	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
@@ -986,10 +975,10 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 	camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
 
 	if (comp && comp[0]) {
-		date = camel_header_decode_date(comp, NULL);
-		localtime_r(&date, &due_tm);
-		e_utf8_strftime_fix_am_pm(due_date, sizeof (due_date), _("Completed on %B %d, %Y, %l:%M %p"), &due_tm);
-		camel_stream_printf(stream, "%s, %s", flag, due_date);
+		date = camel_header_decode_date (comp, NULL);
+		due_date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
+		camel_stream_printf (stream, "%s, %s %s", flag, _("Completed on"), due_date_str ? due_date_str : "???");
+		g_free (due_date_str);
 	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->uid, "due-by")) != NULL && due[0]) {
 		time_t now;
 
@@ -998,9 +987,9 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 		if (now > date)
 			camel_stream_printf(stream, "<b>%s</b>&nbsp;", _("Overdue:"));
 
-		localtime_r(&date, &due_tm);
-		e_utf8_strftime_fix_am_pm(due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %p"), &due_tm);
-		camel_stream_printf(stream, "%s %s", flag, due_date);
+		due_date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
+		/* To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009" */
+		camel_stream_printf (stream, "%s %s %s", flag, _("by"), due_date_str ? due_date_str : "???");
 	} else {
 		camel_stream_printf(stream, "%s", flag);
 	}

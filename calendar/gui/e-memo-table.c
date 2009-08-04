@@ -41,6 +41,7 @@
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
+#include <table/e-cell-date.h>
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
@@ -254,6 +255,10 @@ e_memo_table_init (EMemoTable *memo_table)
 	cell = e_cell_toggle_new (0, E_MEMO_MODEL_NUM_ICONS, icon_pixbufs);
 	e_table_extras_add_cell(extras, "icon", cell);
 	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
+
+	/* set proper format component for a default 'date' cell renderer */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
 
 	/* Create the table */
 

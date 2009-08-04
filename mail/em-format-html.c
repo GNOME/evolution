@@ -43,6 +43,7 @@
 
 #include <libedataserver/e-data-server-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include <libedataserver/e-time-utils.h>
+#include "e-util/e-datetime-format.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
@@ -1750,14 +1751,16 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		gint msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
+		gchar *date_str;
 
 		txt = header->value;
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
-		/* Show the local timezone equivalent in brackets if the sender is remote */
 		msg_date = camel_header_decode_date(txt, &msg_offset);
-		e_localtime_with_offset(msg_date, &local, &local_tz);
+		e_localtime_with_offset (msg_date, &local, &local_tz);
+
+		date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, msg_date);
 
 		/* Convert message offset to minutes (e.g. -0400 --> -240) */
 		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
@@ -1765,25 +1768,18 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		msg_offset -= local_tz / 60;
 
 		if (msg_offset) {
-			gchar buf[256], *html;
+			gchar *html;
 
-			msg_offset += (local.tm_hour * 60) + local.tm_min;
-			if (msg_offset >= (24 * 60) || msg_offset < 0) {
-				/* translators: strftime format for local time equivalent in Date header display, with day */
-				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%a, %R %Z)"));
-				e_utf8_strftime(buf, sizeof(buf), msg, &local);
-				g_free(msg);
-			} else {
-				/* translators: strftime format for local time equivalent in Date header display, without day */
-				gchar *msg = g_strdup_printf("<I>%s</I>", _(" (%R %Z)"));
-				e_utf8_strftime(buf, sizeof(buf), msg, &local);
-				g_free(msg);
-			}
+			html = camel_text_to_html (txt, efh->text_html_flags, 0);
+			txt = value = g_strdup_printf ("%s (<I>%s</I>)", date_str, html);
 
-			html = camel_text_to_html(txt, efh->text_html_flags, 0);
-			txt = value = g_strdup_printf("%s %s", html, buf);
-			g_free(html);
+			g_free (html);
+			g_free (date_str);
+
 			flags |= EM_FORMAT_HTML_HEADER_HTML;
+		} else {
+			/* date_str will be freed at the end */
+			txt = value = date_str;
 		}
 
 		flags |= EM_FORMAT_HEADER_BOLD;

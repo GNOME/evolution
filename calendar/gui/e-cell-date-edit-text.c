@@ -33,6 +33,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
+#include <e-util/e-datetime-format.h>
 #include <libecal/e-cal-time-util.h>
 
 #include "e-cell-date-edit-text.h"
@@ -63,7 +64,6 @@ ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
 	struct tm tmp_tm;
-	gchar buffer[64];
 
 	if (!dv)
 		return g_strdup ("");
@@ -74,10 +74,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 	   it will be set to the current timezone. See set_value(). */
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, ecd->zone);
 
-	e_time_format_date_and_time (&tmp_tm, ecd->use_24_hour_format,
-				     !dv->tt.is_date, FALSE,
-				     buffer, sizeof (buffer));
-	return g_strdup (buffer);
+	return e_datetime_format_format_tm ("calendar", "table", dv->tt.is_date ? DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
 }
 
 static void

@@ -115,10 +115,10 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution2:config_item:title" type="string"
-		_value="Autocompletion"/>
+		_value="Contacts"/>
 
 	<oaf_attribute name="evolution2:config_item:description" type="string"
-		_value="Configure autocomplete here"/>
+		_value="Configure contacts and autocompletion here"/>
 
 	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		value="preferences-autocompletion"/>

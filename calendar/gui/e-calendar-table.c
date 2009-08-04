@@ -42,6 +42,7 @@
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
+#include <table/e-cell-date.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <misc/e-cell-date-edit.h>
@@ -686,6 +687,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	pixbuf = e_icon_factory_get_icon ("stock_check-filled", GTK_ICON_SIZE_MENU);
 	e_table_extras_add_pixbuf(extras, "complete", pixbuf);
 	g_object_unref(pixbuf);
+
+	/* set proper format component for a default 'date' cell renderer */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
 
 	/* Create the table */
 

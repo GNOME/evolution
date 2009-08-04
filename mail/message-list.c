@@ -1728,7 +1728,8 @@ static ECell * create_composite_cell (gint col)
 		images [i] = states_pixmaps [i + 6].pixbuf;
 	cell_attach = e_cell_toggle_new (0, 2, images);
 
-	cell_date = e_cell_date_new(NULL, GTK_JUSTIFY_RIGHT);
+	cell_date = e_cell_date_new (NULL, GTK_JUSTIFY_RIGHT);
+	e_cell_date_set_format_component (E_CELL_DATE (cell_date), "mail");
 	g_object_set (G_OBJECT (cell_date),
 		      "bold_column", COL_UNREAD,
 		      "color_column", COL_COLOUR,
@@ -1811,6 +1812,7 @@ message_list_create_extras (void)
 
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "mail");
 	g_object_set (G_OBJECT (cell),
 		      "bold_column", COL_UNREAD,
 		      "color_column", COL_COLOUR,
@@ -1843,6 +1845,10 @@ message_list_create_extras (void)
 
 	cell = create_composite_cell (COL_TO);
 	e_table_extras_add_cell (extras, "render_composite_to", cell);
+
+	/* set proper format component for a default 'date' cell renderer */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "mail");
 
 	return extras;
 }
