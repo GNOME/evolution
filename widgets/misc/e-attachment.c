@@ -1729,6 +1729,8 @@ attachment_load_from_mime_part (LoadContext *load_context)
 		g_file_info_set_attribute_string (
 			file_info, attribute, string);
 
+	/* FIXME This can cause Camel to block while downloading the
+	 *       MIME part in order to determine the content size. */
 	size = (goffset) camel_mime_part_get_content_size (mime_part);
 	g_file_info_set_size (file_info, size);
 
