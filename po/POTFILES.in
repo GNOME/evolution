@@ -147,6 +147,7 @@ data/evolution.desktop.in.in
 data/evolution.keys.in.in
 e-util/e-categories-config.c
 e-util/e-charset.c
+e-util/e-datetime-format.c
 e-util/e-dialog-utils.c
 e-util/e-error.c
 e-util/e-logger.c

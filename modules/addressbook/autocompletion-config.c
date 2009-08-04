@@ -30,6 +30,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 
+#include "e-util/e-datetime-format.h"
 #include "widgets/misc/e-preferences-window.h"
 
 static void
@@ -129,9 +130,9 @@ autocompletion_config_init (EShell *shell)
 
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
-		"autocompletion",
+		"contacts",
 		"preferences-autocompletion",
-		_("Autocompletion"),
+		_("Contacts"),
 		scrolled_window,
 		200);
 }

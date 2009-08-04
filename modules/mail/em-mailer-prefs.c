@@ -41,6 +41,7 @@
 #include "libedataserverui/e-cell-renderer-color.h"
 
 #include "e-util/e-binding.h"
+#include "e-util/e-datetime-format.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-charset-combo-box.h"
 
@@ -811,6 +812,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
 	GtkWidget *container;
+	GtkWidget *table;
 	GtkWidget *widget;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
@@ -1132,6 +1134,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	}
 
 	g_slist_free (header_add_list);
+
+	/* date/time format */
+	table = glade_xml_get_widget (gui, "datetime_format_table");
+	e_datetime_format_add_setup_widget (table, 0, "mail", "header", DTFormatKindDateTime, _("Date header:"));
+	e_datetime_format_add_setup_widget (table, 1, "mail", "table",  DTFormatKindDateTime, _("Table column:"));
 
 	/* Junk prefs */
 	widget = glade_xml_get_widget (gui, "chkCheckIncomingMail");

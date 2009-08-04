@@ -33,6 +33,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
+#include <e-util/e-datetime-format.h>
 #include <libecal/e-cal-time-util.h>
 
 #include "e-cell-date-edit-text.h"
@@ -117,7 +118,6 @@ cell_date_edit_text_get_text (ECellText *cell,
 	gboolean use_24_hour_format;
 	icaltimezone *timezone;
 	struct tm tmp_tm;
-	gchar buffer[64];
 
 	if (!dv)
 		return g_strdup ("");
@@ -131,10 +131,9 @@ cell_date_edit_text_get_text (ECellText *cell,
 	   it will be set to the current timezone. See set_value(). */
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, timezone);
 
-	e_time_format_date_and_time (&tmp_tm, use_24_hour_format,
-				     !dv->tt.is_date, FALSE,
-				     buffer, sizeof (buffer));
-	return g_strdup (buffer);
+	return e_datetime_format_format_tm (
+		"calendar", "table", dv->tt.is_date ?
+		DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
 }
 
 static void

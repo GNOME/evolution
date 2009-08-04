@@ -30,84 +30,28 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-unicode.h"
+#include "e-util/e-datetime-format.h"
 
 #include "e-cell-date.h"
 
 G_DEFINE_TYPE (ECellDate, e_cell_date, E_CELL_TEXT_TYPE)
 
-#ifdef G_OS_WIN32
-/* The localtime() in Microsoft's C library *is* thread-safe */
-#define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
-#endif
-
 static gchar *
 ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
 {
 	time_t date = GPOINTER_TO_INT (e_table_model_value_at(model, col, row));
-	time_t nowdate = time(NULL);
-	time_t yesdate;
-	struct tm then, now, yesterday;
-	gchar buf[100];
-	gchar *temp;
-	gboolean done = FALSE;
+	const gchar *fmt_component, *fmt_part = NULL;
 
 	if (date == 0) {
 		return g_strdup (_("?"));
 	}
 
-	tzset ();
-	localtime_r (&date, &then);
-	localtime_r (&nowdate, &now);
-
-	if (nowdate - date < 60 * 60 * 8 && nowdate > date) {
-		e_utf8_strftime_fix_am_pm (buf, 100, _("%l:%M %p"), &then);
-		done = TRUE;
-	}
-
-	if (!done) {
-		if (then.tm_mday == now.tm_mday &&
-		    then.tm_mon == now.tm_mon &&
-		    then.tm_year == now.tm_year) {
-			e_utf8_strftime_fix_am_pm (buf, 100, _("Today %l:%M %p"), &then);
-			done = TRUE;
-		}
-	}
-	if (!done) {
-		yesdate = nowdate - 60 * 60 * 24;
-		localtime_r (&yesdate, &yesterday);
-		if (then.tm_mday == yesterday.tm_mday &&
-		    then.tm_mon == yesterday.tm_mon &&
-		    then.tm_year == yesterday.tm_year) {
-			e_utf8_strftime_fix_am_pm (buf, 100, _("Yesterday %l:%M %p"), &then);
-			done = TRUE;
-		}
-	}
-	if (!done) {
-		gint i;
-		for (i = 2; i < 7; i++) {
-			yesdate = nowdate - 60 * 60 * 24 * i;
-			localtime_r (&yesdate, &yesterday);
-			if (then.tm_mday == yesterday.tm_mday &&
-			    then.tm_mon == yesterday.tm_mon &&
-			    then.tm_year == yesterday.tm_year) {
-				e_utf8_strftime_fix_am_pm (buf, 100, _("%a %l:%M %p"), &then);
-				done = TRUE;
-				break;
-			}
-		}
-	}
-	if (!done) {
-		if (then.tm_year == now.tm_year) {
-			e_utf8_strftime_fix_am_pm (buf, 100, _("%b %d %l:%M %p"), &then);
-		} else {
-			e_utf8_strftime_fix_am_pm (buf, 100, _("%b %d %Y"), &then);
-		}
-	}
-	temp = buf;
-	while ((temp = strstr (temp, "  "))) {
-		memmove (temp, temp + 1, strlen (temp));
-	}
-	return g_strstrip (g_strdup (buf));
+	fmt_component = g_object_get_data ((GObject *) cell, "fmt-component");
+	if (!fmt_component || !*fmt_component)
+		fmt_component = "Default";
+	else
+		fmt_part = "table";
+	return e_datetime_format_format (fmt_component, fmt_part, DTFormatKindDateTime, date);
 }
 
 static void
@@ -165,3 +109,10 @@ e_cell_date_new (const gchar *fontname, GtkJustification justify)
 	return (ECell *) ecd;
 }
 
+void
+e_cell_date_set_format_component (ECellDate *ecd, const gchar *fmt_component)
+{
+	g_return_if_fail (ecd != NULL);
+
+	g_object_set_data_full ((GObject *)ecd, "fmt-component", g_strdup (fmt_component), g_free);
+}

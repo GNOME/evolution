@@ -44,6 +44,7 @@ typedef struct {
 
 GType      e_cell_date_get_type (void);
 ECell     *e_cell_date_new      (const gchar *fontname, GtkJustification justify);
+void       e_cell_date_set_format_component (ECellDate *ecd, const gchar *fmt_component);
 
 G_END_DECLS
 

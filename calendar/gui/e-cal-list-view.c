@@ -41,6 +41,7 @@
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
+#include <table/e-cell-date.h>
 #include <misc/e-popup-menu.h>
 #include <table/e-cell-date-edit.h>
 #include <e-util/e-categories-config.h>
@@ -268,6 +269,11 @@ setup_e_table (ECalListView *cal_list_view)
 
 	e_table_extras_add_compare (extras, "date-compare",
 				    date_compare_cb);
+
+
+	/* set proper format component for a default 'date' cell renderer */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
 
 	/* Create table view */
 

@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <table/e-table-scrolled.h>
 #include <table/e-table-model.h>
+#include <table/e-cell-date.h>
 #include <misc/e-gui-utils.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <filter/rule-editor.h>
@@ -267,11 +268,19 @@ static void
 addressbook_view_create_table_view (EAddressbookView *view)
 {
 	ETableModel *adapter;
+	ETableExtras *extras;
+	ECell *cell;
 	ETable *table;
 	GtkWidget *widget;
 	gchar *etspecfile;
 
 	adapter = eab_table_adapter_new (view->priv->model);
+
+	extras = e_table_extras_new ();
+
+	/* Set proper format component for a default 'date' cell renderer. */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "addressbook");
 
 	/* Here we create the table.  We give it the three pieces of
 	   the table we've created, the header, the model, and the
@@ -279,7 +288,7 @@ addressbook_view_create_table_view (EAddressbookView *view)
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
 	widget = e_table_scrolled_new_from_spec_file (
-		adapter, NULL, etspecfile, NULL);
+		adapter, extras, etspecfile, NULL);
 	table = E_TABLE (E_TABLE_SCROLLED (widget)->table);
 	g_free (etspecfile);
 
