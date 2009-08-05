@@ -83,7 +83,7 @@ The more headers you have the more time it will take to download.</property>
 		    <widget class="GtkRadioButton" id="allHeaders">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Fetch A_ll Headers</property>
+		      <property name="label" translatable="yes">_Fetch All Headers</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
