@@ -186,17 +186,27 @@ static void
 epif_add_header (GtkButton *button, EPImapFeaturesData *ui)
 {
 	GtkTreeModel *model;
-	GtkTreeIter iter, first;
+	GtkTreeIter iter;
+	GtkTreeSelection *selection;
 
 	model = gtk_tree_view_get_model (ui->custom_headers_tree);
 	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE(model), &iter, 0, gtk_entry_get_text (ui->entry_header), -1);
 
-	if (gtk_tree_model_get_iter_first (model, &first)!=FALSE)
-		gtk_widget_set_sensitive (GTK_WIDGET (ui->remove_header), TRUE);
+	selection = gtk_tree_view_get_selection (ui->custom_headers_tree);
+	gtk_tree_selection_select_iter (selection, &iter);
 
 	gtk_entry_set_text (ui->entry_header, "");
 	epif_add_sensitivity (ui);
+}
+
+static void
+epif_tv_selection_changed (GtkTreeSelection *selection, GtkWidget *button)
+{
+	g_return_if_fail (selection != NULL);
+	g_return_if_fail (button != NULL);
+
+	gtk_widget_set_sensitive (button, gtk_tree_selection_get_selected (selection, NULL, NULL));
 }
 
 static void
@@ -204,14 +214,13 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 {
 	GtkTreeSelection *select;
 	GtkTreeModel *model;
-	GtkTreeIter iter, first;
+	GtkTreeIter iter;
 	GtkTreePath *path;
 	gboolean valid = TRUE;
 
 	select = gtk_tree_view_get_selection (ui->custom_headers_tree);
 
-	if (gtk_tree_selection_get_selected (select, &model, &iter))
-	{
+	if (gtk_tree_selection_get_selected (select, &model, &iter)) {
 		path = gtk_tree_model_get_path (model, &iter);
 		gtk_tree_store_remove(GTK_TREE_STORE(model), &iter);
 
@@ -224,9 +233,6 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 		if (valid)
 			gtk_tree_selection_select_iter (select, &iter);
 	}
-
-	if (gtk_tree_model_get_iter_first (model, &first)==FALSE)
-		gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
 
 	epif_add_sensitivity (ui);
 }
@@ -258,7 +264,8 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GladeXML *gladexml;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	GtkTreeIter first, iter;
+	GtkTreeIter iter;
+	GtkTreeSelection *selection;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
 
 	ui = g_new0 (EPImapFeaturesData, 1);
@@ -288,6 +295,8 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->store = gtk_tree_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL(ui->store));
 
+	selection = gtk_tree_view_get_selection (ui->custom_headers_tree);
+
 	if (url) {
 		gchar *custom_headers;
 
@@ -300,6 +309,9 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 				if (strlen(g_strstrip(ui->custom_headers_array[i]))) {
 					gtk_tree_store_append (ui->store, &iter, NULL);
 					gtk_tree_store_set (ui->store, &iter, 0, ui->custom_headers_array[i], -1);
+
+					if (i == 0)
+						gtk_tree_selection_select_iter (selection, &iter);
 				}
 				i++;
 			}
@@ -321,14 +333,14 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_append_column (ui->custom_headers_tree , column);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->add_header), FALSE);
-	if (gtk_tree_model_get_iter_first (gtk_tree_view_get_model (ui->custom_headers_tree), &first)==FALSE)
-		gtk_widget_set_sensitive (GTK_WIDGET (ui->remove_header), FALSE);
+	epif_tv_selection_changed (selection, GTK_WIDGET (ui->remove_header));
 
 	g_signal_connect (ui->all_headers, "toggled", G_CALLBACK (epif_fetch_all_headers_toggled), ui);
 	g_signal_connect (ui->add_header, "clicked", G_CALLBACK (epif_add_header), ui);
 	g_signal_connect (ui->remove_header, "clicked", G_CALLBACK (epif_remove_header_clicked), ui);
 	g_signal_connect (ui->entry_header, "changed", G_CALLBACK (epif_entry_changed), ui);
 	g_signal_connect (ui->entry_header, "activate", G_CALLBACK (epif_add_header), ui);
+	g_signal_connect (selection, "changed", G_CALLBACK (epif_tv_selection_changed), ui->remove_header);
 
 	gtk_notebook_append_page ((GtkNotebook *)(data->parent), vbox, gtk_label_new(_("IMAP Headers")));
 	gtk_widget_show_all (vbox);
