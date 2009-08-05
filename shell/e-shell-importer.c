@@ -439,7 +439,10 @@ static void
 import_druid_cancel (GnomeDruid *druid,
 		     ImportData *data)
 {
-	gtk_widget_destroy (GTK_WIDGET (data->dialog));
+	if (data->import_dialog)
+		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
+  	else
+		gtk_widget_destroy (GTK_WIDGET (data->dialog));
 }
 
 static gboolean
@@ -459,6 +462,15 @@ import_druid_weak_notify (gpointer blah,
 			  GObject *where_the_object_was)
 {
 	ImportData *data = (ImportData *) blah;
+
+	if (data->import_dialog && (GObject *)data->import_dialog != where_the_object_was) {
+		/* postpone freeing of 'data' after the 'import_dialog' will stop,
+		   but also indicate that the 'dialog' gone already */
+		data->dialog = NULL;
+		g_object_weak_ref ((GObject *)data->import_dialog, import_druid_weak_notify, data);
+		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
+		return;
+	}
 
 	if (data->importerpage->target)
 		e_import_target_free(data->import, data->importerpage->target);
@@ -493,9 +505,16 @@ static void
 import_done(EImport *ei, gpointer d)
 {
 	ImportData *data = d;
+	gboolean have_dialog = data->dialog !=  NULL;
 
-	gtk_widget_destroy(data->import_dialog);
-	gtk_widget_destroy(data->dialog);
+	gtk_widget_destroy (data->import_dialog);
+
+	/* if doesn't have dialog, then the 'data' pointer is freed
+	   on the above destroy call */
+	if (have_dialog) {
+		data->import_dialog = NULL;
+		gtk_widget_destroy (data->dialog);
+	}
 }
 
 static void
