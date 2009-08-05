@@ -24,7 +24,7 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
-#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo.h>
 #include <camel/camel-folder.h>
 
 #include <e-util/e-import.h>
