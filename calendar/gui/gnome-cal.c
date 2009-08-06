@@ -326,6 +326,15 @@ view_done_cb (ECalModel *model,
 }
 
 static void
+gnome_calendar_update_time_range (GnomeCalendar *gcal)
+{
+	time_t start_time;
+
+	start_time = gcal->priv->base_view_time;
+	gnome_calendar_set_selected_time_range (gcal, start_time);
+}
+
+static void
 gnome_calendar_set_shell_settings (GnomeCalendar *gcal,
                                    EShellSettings *shell_settings)
 {
@@ -422,10 +431,6 @@ gnome_calendar_constructed (GObject *object)
 	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
 	gcal->priv->views[GNOME_CAL_DAY_VIEW] = calendar_view;
 
-	e_binding_new (
-		G_OBJECT (gcal), "week-start-day",
-		G_OBJECT (calendar_view), "week-start-day");
-
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
 		G_CALLBACK (view_selection_changed_cb), gcal);
@@ -438,19 +443,15 @@ gnome_calendar_constructed (GObject *object)
 	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
 	gcal->priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
 
-	e_binding_new (
-		G_OBJECT (gcal), "week-start-day",
-		G_OBJECT (calendar_view), "week-start-day");
+	g_signal_connect_swapped (
+		calendar_view, "notify::working-days",
+		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
 	/* Week View */
 	calendar_view = e_week_view_new (model);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
 	gcal->priv->views[GNOME_CAL_WEEK_VIEW] = calendar_view;
-
-	e_binding_new (
-		G_OBJECT (gcal), "week-start-day",
-		G_OBJECT (calendar_view), "week-start-day");
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
@@ -469,10 +470,6 @@ gnome_calendar_constructed (GObject *object)
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	e_calendar_view_set_timezone (calendar_view, gcal->priv->zone);
 	gcal->priv->views[GNOME_CAL_MONTH_VIEW] = calendar_view;
-
-	e_binding_new (
-		G_OBJECT (gcal), "week-start-day",
-		G_OBJECT (calendar_view), "week-start-day");
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
@@ -499,6 +496,8 @@ gnome_calendar_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-week-start-day",
 		G_OBJECT (gcal), "week-start-day");
+
+	gnome_calendar_update_time_range (gcal);
 }
 
 /* Class initialization function for the gnome calendar */
@@ -1147,49 +1146,6 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 	update_todo_view (gcal);
 }
 
-/* Returns the current time, for the ECalendarItem. */
-static struct tm
-get_current_time (ECalendarItem *calitem, gpointer data)
-{
-	GnomeCalendar *cal = data;
-	struct tm tmp_tm = { 0 };
-	struct icaltimetype tt;
-
-	g_return_val_if_fail (cal != NULL, tmp_tm);
-	g_return_val_if_fail (GNOME_IS_CALENDAR (cal), tmp_tm);
-
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-					    cal->priv->zone);
-
-	/* Now copy it to the struct tm and return it. */
-	tmp_tm = icaltimetype_to_tm (&tt);
-
-	return tmp_tm;
-}
-
-static void
-set_working_days (GnomeCalendar *calendar)
-{
-	time_t start_time;
-	gint ii;
-
-	/* Only do this if views exist */
-	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++)
-		if (gnome_calendar_get_calendar_view (calendar, ii) == NULL)
-			return;
-
-	start_time = calendar->priv->base_view_time;
-	gnome_calendar_set_selected_time_range (calendar, start_time);
-}
-
-static void
-working_days_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	GnomeCalendar *calendar = data;
-
-	set_working_days (calendar);
-}
-
 static void
 set_timezone (GnomeCalendar *calendar)
 {
@@ -1372,24 +1328,6 @@ update_marcus_bains_line_cb (GnomeCalendar *gcal)
 }
 
 static void
-setup_config (GnomeCalendar *calendar)
-{
-	GnomeCalendarPrivate *priv;
-	guint not;
-
-	priv = calendar->priv;
-
-	/* Working Days */
-	set_working_days (calendar);
-	not = calendar_config_add_notification_working_days (working_days_changed_cb, calendar);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	/* Pane positions */
-	priv->hpane_pos = calendar_config_get_hpane_pos ();
-	priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
-}
-
-static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
@@ -1441,7 +1379,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->range_selected = FALSE;
 	priv->lview_select_daten_range = TRUE;
 
-	setup_config (gcal);
 	setup_widgets (gcal);
 
 	priv->calendar_menu = e_cal_menu_new("org.gnome.evolution.calendar.view");
@@ -2273,10 +2210,6 @@ gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
 
 	gcal->priv->date_navigator = date_navigator;
 	calitem = date_navigator->calitem;
-
-	e_calendar_item_set_get_time_callback (
-		calitem, (ECalendarItemGetTimeCallback)
-		get_current_time, gcal, NULL);
 
 	g_signal_connect (
 		calitem, "selection-changed",

@@ -108,10 +108,8 @@ gboolean  calendar_config_get_dnav_show_week_no	(void);
 guint calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data);
 
 /* The positions of the panes in the normal and month views. */
-gint      calendar_config_get_hpane_pos		(void);
 void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
 
-gint      calendar_config_get_month_hpane_pos	(void);
 void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 
 /* The current list of task lists selected */

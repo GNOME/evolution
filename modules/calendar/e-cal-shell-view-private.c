@@ -300,12 +300,10 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	/* KILL-BONOBO FIXME -- Need to connect to the "user-created"
 	 *                      signal for each ECalendarView. */
 
-#if 0 /* KILL-BONOBO */
 	g_signal_connect_swapped (
 		calendar, "dates-shown-changed",
 		G_CALLBACK (e_cal_shell_view_update_sidebar),
 		cal_shell_view);
-#endif
 
 	g_signal_connect_swapped (
 		model, "notify::timezone",

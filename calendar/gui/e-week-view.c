@@ -296,6 +296,30 @@ week_view_get_property (GObject *object,
 }
 
 static void
+week_view_constructed (GObject *object)
+{
+	ECalModel *model;
+	EWeekView *week_view;
+	EShellSettings *shell_settings;
+
+	week_view = E_WEEK_VIEW (object);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	shell_settings = e_cal_model_get_shell_settings (model);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-compress-weekend",
+		G_OBJECT (week_view), "compress-weekend");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-show-event-end-times",
+		G_OBJECT (week_view), "show-event-end-times");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (week_view), "week-start-day");
+}
+
+static void
 week_view_cursor_key_up (EWeekView *week_view)
 {
 	if (week_view->selection_start_day == -1)
@@ -366,6 +390,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = week_view_set_property;
 	object_class->get_property = week_view_get_property;
+	object_class->constructed = week_view_constructed;
 
 	gtk_object_class = GTK_OBJECT_CLASS (class);
 	gtk_object_class->destroy = e_week_view_destroy;

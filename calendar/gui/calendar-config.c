@@ -381,28 +381,12 @@ calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, 
 }
 
 /* The positions of the panes in the normal and month views. */
-gint
-calendar_config_get_hpane_pos		(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_HPANE_POS, NULL);
-}
-
 void
 calendar_config_set_hpane_pos		(gint	      hpane_pos)
 {
 	calendar_config_init ();
 
 	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
-}
-
-gint
-calendar_config_get_month_hpane_pos	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, NULL);
 }
 
 void
