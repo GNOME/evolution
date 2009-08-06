@@ -182,7 +182,8 @@ action_save_and_close_cb (GtkAction *action,
 	if (editor->priv->signature != NULL)
 		e_signature_list_change (signature_list, signature);
 	else
-		mail_config_add_signature (signature);
+		e_signature_list_add (signature_list, signature);
+	e_signature_list_save (signature_list);
 
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
