@@ -781,8 +781,9 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		CamelStream *stream;
 		CamelMimePart *part;
 		gint count1 = 0, string_changed = 0;
-		const gchar *cur;
 		gint i;
+		GConfClient *gconf;
+		GSList *clue_list = NULL, *list;
 
 		gchar *str;
 		gint count = 2;
@@ -814,63 +815,76 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 		str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 		camel_object_unref (mem);
 
-		cur = str;
-		for (i = 0; i < strlen(str); i++) {
+		gconf = gconf_client_get_default ();
+		/* Get the list from gconf */
+		clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
+		g_object_unref (gconf);
+
+		for (i = 0; i < strlen (str); i++) {
+			const gchar *cur = str + i;
 			if (!g_ascii_strncasecmp (cur, "$", 1)) {
-				const gchar *end = cur, *check_env;
+				const gchar *end = cur + 1;
 				gchar *out;
-				GConfClient *gconf;
-				GSList *clue_list = NULL, *list;
 				gchar **temp_str;
 
-				gconf = gconf_client_get_default ();
-
-				while (*end && !g_unichar_isspace (*end) && (*end != '"'))
+				while (*end && (g_unichar_isalnum (*end) || *end == '_'))
 					end++;
 
 				out = g_strndup ((const gchar *) cur, end - cur);
-				check_env = out;
 
 				temp_str = g_strsplit (str, out, 2);
-
-				/* Get the list from gconf */
-				clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
-
-				g_object_unref (gconf);
 
 				for (list = clue_list; list; list = g_slist_next (list)) {
 					gchar **temp = g_strsplit (list->data, "=", 2);
 					if (!g_ascii_strcasecmp(temp[0], out+1)) {
-						str = g_strdup_printf("%s%s%s", temp_str[0], temp[1], temp_str[1]);
-						cur = str + i;
+						g_free (str);
+						str = g_strconcat (temp_str[0], temp[1], temp_str[1], NULL);
 						count1 = 1;
 						string_changed = 1;
-					}
-					else
+					} else
 						count1 = 0;
 					g_strfreev(temp);
 				}
 
-				if (clue_list) {
-					g_slist_foreach (clue_list, (GFunc) g_free, NULL);
-					g_slist_free (clue_list);
-				}
-
 				if (!count1) {
-					if (getenv(out+1)) {
-						str = g_strdup_printf("%s%s%s", temp_str[0], getenv(out + 1), temp_str[1]);
-						cur = str + i;
+					if (getenv (out+1)) {
+						g_free (str);
+						str = g_strconcat (temp_str[0], getenv (out + 1), temp_str[1], NULL);
 						count1 = 1;
 						string_changed = 1;
-					}
-					else
+					} else
 						count1 = 0;
 				}
 
-				g_strfreev(temp_str);
+				if (!count1) {
+					const CamelInternetAddress *to;
+					const gchar *name, *addr;
+
+					to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+					if (!camel_internet_address_get (to, 0, &name, &addr))
+						continue;
+
+					if (name && g_ascii_strcasecmp ("sender_name", out + 1) == 0) {
+						g_free (str);
+						str = g_strconcat (temp_str[0], name, temp_str[1], NULL);
+						count1 = 1;
+						string_changed = 1;
+					} else if (addr && g_ascii_strcasecmp ("sender_email", out + 1) == 0) {
+						g_free (str);
+						str = g_strconcat (temp_str[0], addr, temp_str[1], NULL);
+						count1 = 1;
+						string_changed = 1;
+					}
+				}
+
+				g_strfreev (temp_str);
+				g_free (out);
 			}
-			else
-				cur++;
+		}
+
+		if (clue_list) {
+			g_slist_foreach (clue_list, (GFunc) g_free, NULL);
+			g_slist_free (clue_list);
 		}
 
 		if (string_changed) {
@@ -885,7 +899,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 			mail_text = camel_data_wrapper_new ();
 			camel_data_wrapper_set_mime_type_field (mail_text, type);
 
-			camel_stream_printf (stream, "%s", g_strdup(str));
+			camel_stream_printf (stream, "%s", str);
 
 			camel_data_wrapper_construct_from_stream (mail_text, stream);
 			camel_object_unref (stream);
@@ -900,6 +914,8 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 			camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER(body));
 			camel_object_unref (body);
 		}
+
+		g_free (str);
 	}
 
 	composer = e_msg_composer_new_with_message (message);
