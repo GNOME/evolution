@@ -449,6 +449,36 @@ notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 	status_count = 0;
 	g_static_mutex_unlock (&mlock);
 }
+
+/* Function to check if actions are supported by the notification daemon */
+static gboolean
+can_support_actions (void)
+{
+	static gboolean supports_actions = FALSE;
+	static gboolean have_checked = FALSE;
+
+	if (!have_checked) {
+		GList *caps = NULL;
+		GList *c;
+
+		have_checked = TRUE;
+
+		caps = notify_get_server_caps ();
+		if (caps != NULL) {
+			for (c = caps; c != NULL; c = c->next) {
+				if (strcmp ((char*)c->data, "actions") == 0) {
+					supports_actions = TRUE;
+					break;
+				}
+			}
+		}
+
+		g_list_foreach (caps, (GFunc)g_free, NULL);
+		g_list_free (caps);
+	}
+
+	return supports_actions;
+}
 #endif
 
 static void
@@ -495,10 +525,13 @@ new_notify_status (EMEventTargetFolder *t)
 			notify  = notify_notification_new (_("New email"), msg, "mail-unread", NULL);
 			notify_notification_attach_to_status_icon (notify, status_icon);
 
-			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
-			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
-			notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
-			g_timeout_add (500, notification_callback, notify);
+			/* Check if actions are supported */
+			if (can_support_actions ()) {
+				notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
+				notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
+				notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
+				g_timeout_add (500, notification_callback, notify);
+			} 
 		}
 	}
 	#endif
