@@ -1157,14 +1157,18 @@ mail_config_signature_new (const gchar *filename, gboolean script, gboolean html
 	ESignature *sig;
 
 	sig = e_signature_new ();
-	sig->name = g_strdup (_("Unnamed"));
-	sig->script = script;
-	sig->html = html;
+	e_signature_set_name (sig, _("Unnamed"));
+	e_signature_set_is_script (sig, script);
+	e_signature_set_is_html (sig, html);
 
-	if (filename == NULL)
-		sig->filename = get_new_signature_filename ();
-	else
-		sig->filename = g_strdup (filename);
+	if (filename == NULL) {
+		gchar *new_filename;
+
+		new_filename = get_new_signature_filename ();
+		e_signature_set_filename (sig, new_filename);
+		g_free (new_filename);
+	} else
+		e_signature_set_filaname (sig, filename);
 
 	return sig;
 }
@@ -1191,8 +1195,14 @@ mail_config_add_signature (ESignature *signature)
 void
 mail_config_remove_signature (ESignature *signature)
 {
-	if (signature->filename && !signature->script)
-		g_unlink (signature->filename);
+	const gchar *filename;
+	gboolean is_script;
+
+	filename = e_signature_get_filename (signature);
+	is_script = e_signature_get_is_script (signature);
+
+	if (filename == NULL && !is_script)
+		g_unlink (filename);
 
 	e_signature_list_remove (config->signatures, signature);
 	mail_config_save_signatures ();

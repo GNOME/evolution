@@ -132,10 +132,10 @@ action_save_and_close_cb (GtkAction *action,
 		signature = mail_config_signature_new (NULL, FALSE, html);
 	else {
 		signature = g_object_ref (editor->priv->signature);
-		signature->html = html;
+		e_signature_set_is_html (signature, html);
 	}
 
-	filename = signature->filename;
+	filename = e_signature_get_filename (signature);
 	gtkhtml_editor_save (GTKHTML_EDITOR (editor), filename, html, &error);
 
 	if (error != NULL) {
@@ -166,7 +166,7 @@ action_save_and_close_cb (GtkAction *action,
 	 * XXX ESignatureList misuses const. */
 	same_name = (ESignature *) e_signature_list_find (
 		signature_list, E_SIGNATURE_FIND_NAME, signature_name);
-	if (same_name != NULL && strcmp (signature->uid, same_name->uid) != 0) {
+	if (same_name != NULL && !e_signature_is_equal (signature, same_name)) {
 		e_error_run (
 			GTK_WINDOW (editor),
 			"mail:signature-already-exists",
@@ -176,8 +176,8 @@ action_save_and_close_cb (GtkAction *action,
 		return;
 	}
 
-	g_free (signature->name);
-	signature->name = signature_name;
+	e_signature_set_name (signature, signature_name);
+	g_free (signature_name);
 
 	if (editor->priv->signature != NULL)
 		e_signature_list_change (signature_list, signature);
@@ -426,6 +426,7 @@ e_signature_editor_set_signature (ESignatureEditor *editor,
 {
 	const gchar *filename;
 	const gchar *signature_name;
+	gboolean is_html;
 	gchar *contents;
 	gsize length;
 	GError *error = NULL;
@@ -447,9 +448,10 @@ e_signature_editor_set_signature (ESignatureEditor *editor,
 
 	/* Load signature content. */
 
-	filename = signature->filename;
+	filename = e_signature_get_filename (signature);
+	is_html = e_signature_get_is_html (signature);
 
-	if (signature->html)
+	if (is_html)
 		g_file_get_contents (filename, &contents, &length, &error);
 	else {
 		gchar *data;
@@ -462,7 +464,7 @@ e_signature_editor_set_signature (ESignatureEditor *editor,
 
 	if (error == NULL) {
 		gtkhtml_editor_set_html_mode (
-			GTKHTML_EDITOR (editor), signature->html);
+			GTKHTML_EDITOR (editor), is_html);
 		gtkhtml_editor_set_text_html (
 			GTKHTML_EDITOR (editor), contents, length);
 		g_free (contents);
@@ -473,7 +475,7 @@ e_signature_editor_set_signature (ESignatureEditor *editor,
 
 exit:
 	if (signature != NULL)
-		signature_name = signature->name;
+		signature_name = e_signature_get_name (signature);
 	else
 		signature_name = _("Unnamed");
 
