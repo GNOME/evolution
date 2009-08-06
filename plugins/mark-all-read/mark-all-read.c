@@ -159,9 +159,11 @@ prompt_user (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	/* "Current Folder and Subfolders" button */
+	/* To Translators: It's a response button caption on a question
+	   "Do you want to mark messages as read in the current folder
+	   only, or in the current folder as well as all subfolders?" */
 	widget = gtk_button_new_with_mnemonic (
-		_("Current Folder and _Subfolders"));
+		_("In Current Folder and _Subfolders"));
 	g_object_set_data (
 		G_OBJECT (widget), "response",
 		GINT_TO_POINTER (GTK_RESPONSE_YES));
@@ -171,9 +173,11 @@ prompt_user (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	/* "Current Folder Only" button */
+	/* To Translators: It's a response button caption on a question
+	   "Do you want to mark messages as read in the current folder
+	   only, or in the current folder as well as all subfolders?" */
 	widget = gtk_button_new_with_mnemonic (
-		_("Current _Folder Only"));
+		_("In Current _Folder Only"));
 	g_object_set_data (
 		G_OBJECT (widget), "response",
 		GINT_TO_POINTER (GTK_RESPONSE_NO));
