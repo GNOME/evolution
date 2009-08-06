@@ -153,25 +153,29 @@ e_read_signature_file (ESignature *signature,
 	CamelStream *input_stream;
 	CamelStream *output_stream;
 	GByteArray *buffer;
+	const gchar *filename;
+	gboolean is_html;
 	gchar *content;
 	gsize length;
 	gint fd;
 
 	g_return_val_if_fail (E_IS_SIGNATURE (signature), NULL);
 
-	fd = g_open (signature->filename, O_RDONLY, 0);
+	filename = e_signature_get_filename (signature);
+	is_html = e_signature_get_is_html (signature);
+
+	fd = g_open (filename, O_RDONLY, 0);
 	if (fd < 0) {
 		g_set_error (
 			error, G_FILE_ERROR,
 			g_file_error_from_errno (errno),
-			"%s: %s", signature->filename,
-			g_strerror (errno));
+			"%s: %s", filename, g_strerror (errno));
 		return NULL;
 	}
 
 	input_stream = camel_stream_fs_new_with_fd (fd);
 
-	if (!signature->html && convert_to_html) {
+	if (!is_html && convert_to_html) {
 		CamelStreamFilter *filtered_stream;
 		CamelMimeFilter *filter;
 		gint32 flags;

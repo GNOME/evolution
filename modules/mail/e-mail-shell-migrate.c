@@ -1945,7 +1945,7 @@ get_nth_sig (gint id)
 
 	if (i == id && e_iterator_is_valid (iter)) {
 		sig = (ESignature *) e_iterator_get (iter);
-		uid = g_strdup (sig->uid);
+		uid = g_strdup (e_signature_get_uid (sig));
 	}
 
 	g_object_unref (iter);

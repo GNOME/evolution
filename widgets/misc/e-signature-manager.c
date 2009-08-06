@@ -92,9 +92,12 @@ signature_manager_run_script_dialog (ESignatureManager *manager,
 {
 	GtkWidget *dialog;
 	GFile *script_file;
+	const gchar *name;
+	const gchar *filename;
 	const gchar *script_name;
 	gboolean success = FALSE;
 	gpointer parent;
+	gchar *path;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
@@ -102,10 +105,13 @@ signature_manager_run_script_dialog (ESignatureManager *manager,
 	dialog = e_signature_script_dialog_new (parent);
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
-	if (signature->filename != NULL && signature->name != NULL) {
+	name = e_signature_get_name (signature);
+	filename = e_signature_get_filename (signature);
 
-		script_file = g_file_new_for_path (signature->filename);
-		script_name = signature->name;
+	if (filename != NULL && name != NULL) {
+
+		script_file = g_file_new_for_path (filename);
+		script_name = name;
 
 		e_signature_script_dialog_set_script_file (
 			E_SIGNATURE_SCRIPT_DIALOG (dialog), script_file);
@@ -123,11 +129,10 @@ signature_manager_run_script_dialog (ESignatureManager *manager,
 	script_name = e_signature_script_dialog_get_script_name (
 		E_SIGNATURE_SCRIPT_DIALOG (dialog));
 
-	g_free (signature->filename);
-	signature->filename = g_file_get_path (script_file);
-
-	g_free (signature->name);
-	signature->name = g_strdup (script_name);
+	path = g_file_get_path (script_file);
+	e_signature_set_name (signature, script_name);
+	e_signature_set_filename (signature, path);
+	g_free (path);
 
 	g_object_unref (script_file);
 
@@ -291,8 +296,8 @@ signature_manager_add_signature_script (ESignatureManager *manager)
 	signature_list = e_signature_manager_get_signature_list (manager);
 
 	signature = e_signature_new ();
-	signature->script = TRUE;
-	signature->html = TRUE;
+	e_signature_set_is_script (signature, TRUE);
+	e_signature_set_is_html (signature, TRUE);
 
 	if (signature_manager_run_script_dialog (manager, signature, title))
 		e_signature_list_add (signature_list, signature);
@@ -327,7 +332,7 @@ signature_manager_edit_signature (ESignatureManager *manager)
 	ESignature *signature;
 	GtkWidget *editor;
 	const gchar *title;
-	gchar *filename;
+	const gchar *filename;
 
 	tree_view = e_signature_manager_get_tree_view (manager);
 	signature = e_signature_tree_view_get_selected (tree_view);
@@ -336,15 +341,12 @@ signature_manager_edit_signature (ESignatureManager *manager)
 	if (signature == NULL)
 		return;
 
-	if (signature->script)
+	if (e_signature_get_is_script (signature))
 		goto script;
 
-	filename = signature->filename;
-	if (filename == NULL || *filename == '\0') {
-		g_free (filename);
-		filename = g_strdup (_("Unnamed"));
-		signature->filename = filename;
-	}
+	filename = e_signature_get_filename (signature);
+	if (filename == NULL || *filename == '\0')
+		e_signature_set_filename (signature, _("Unnamed"));
 
 	editor = e_signature_editor_new ();
 	e_signature_editor_set_signature (
@@ -373,6 +375,8 @@ signature_manager_remove_signature (ESignatureManager *manager)
 	ESignatureTreeView *tree_view;
 	ESignatureList *signature_list;
 	ESignature *signature;
+	const gchar *filename;
+	gboolean is_script;
 
 	tree_view = e_signature_manager_get_tree_view (manager);
 	signature = e_signature_tree_view_get_selected (tree_view);
@@ -381,8 +385,11 @@ signature_manager_remove_signature (ESignatureManager *manager)
 	if (signature == NULL)
 		return;
 
-	if (signature->filename != NULL && !signature->script)
-		g_unlink (signature->filename);
+	filename = e_signature_get_filename (signature);
+	is_script = e_signature_get_is_script (signature);
+
+	if (filename != NULL && !is_script)
+		g_unlink (filename);
 
 	e_signature_list_remove (signature_list, signature);
 	e_signature_list_save (signature_list);

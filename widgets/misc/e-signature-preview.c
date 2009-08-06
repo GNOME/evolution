@@ -155,6 +155,8 @@ signature_preview_refresh (ESignaturePreview *preview)
 {
 	GtkHTML *html;
 	ESignature *signature;
+	const gchar *filename;
+	gboolean is_script;
 	gchar *content = NULL;
 	gsize length;
 
@@ -166,11 +168,14 @@ signature_preview_refresh (ESignaturePreview *preview)
 	if (signature == NULL)
 		goto clear;
 
-	if (signature->script && !preview->priv->allow_scripts)
+	filename = e_signature_get_filename (signature);
+	is_script = e_signature_get_is_script (signature);
+
+	if (is_script && !preview->priv->allow_scripts)
 		goto clear;
 
-	if (signature->script)
-		content = e_run_signature_script (signature->filename);
+	if (is_script)
+		content = e_run_signature_script (filename);
 	else
 		content = e_read_signature_file (signature, FALSE, NULL);
 
@@ -179,7 +184,7 @@ signature_preview_refresh (ESignaturePreview *preview)
 
 	length = strlen (content);
 
-	if (signature->html)
+	if (e_signature_get_is_html (signature))
 		gtk_html_load_from_string (html, content, length);
 	else {
 		GtkHTMLStream *stream;
