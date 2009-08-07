@@ -223,7 +223,7 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
          libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
          libgnomeui-2.0 >= libgnomeui_minimum_version
          libxml-2.0 >= libxml_minimum_version
-	 gnome-desktop-2.0 >= gnome_desktop_minimum_version
+         gnome-desktop-2.0 >= gnome_desktop_minimum_version
          shared-mime-info >= shared_mime_info_minimum_version
          unique-1.0 >= unique_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
@@ -236,8 +236,8 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
          libedataserverui-$EDS_PACKAGE >= eds_minimum_version
          libegroupwise-$EDS_PACKAGE >= eds_minimum_version
          libebackend-$EDS_PACKAGE >= eds_minimum_version
-	 libgdata-$EDS_PACKAGE >= eds_minimum_version
-	 libgdata-google-$EDS_PACKAGE >= eds_minimum_version])
+         libgdata-$EDS_PACKAGE >= eds_minimum_version
+         libgdata-google-$EDS_PACKAGE >= eds_minimum_version])
 
 dnl ******************
 dnl User Documentation
@@ -1512,7 +1512,7 @@ AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
-EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 gnome-desktop-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)

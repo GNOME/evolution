@@ -4,12 +4,53 @@ endif
 
 SUBDIRS = alarm-notify dialogs
 
+privsolib_LTLIBRARIES = libevolution-calendar.la
+
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =	\
 	e-cal-config.h		\
 	e-cal-popup.h		\
-	itip-utils.h
+	itip-utils.h  		\
+	e-attachment-handler-calendar.h		\
+	calendar-config.h			\
+	calendar-config-keys.h			\
+	comp-util.h				\
+	e-alarm-list.h				\
+	e-cal-config.h				\
+	e-cal-event.h				\
+	e-cal-model-calendar.h			\
+	e-cal-model.h				\
+	e-cal-popup.h				\
+	e-calendar-view.h			\
+	e-cell-date-edit-text.h			\
+	e-comp-editor-registry.h		\
+	e-date-time-list.h                      \
+	e-day-view-layout.h			\
+	e-day-view-main-item.h			\
+	e-day-view-time-item.h			\
+	e-day-view-top-item.h			\
+	e-day-view.h				\
+	e-meeting-attendee.h			\
+	e-meeting-list-view.h			\
+	e-meeting-store.h			\
+	e-meeting-time-sel.h			\
+	e-meeting-time-sel-item.h		\
+	e-meeting-types.h			\
+	e-meeting-utils.h			\
+	e-select-names-editable.h		\
+	e-select-names-renderer.h		\
+	e-week-view-event-item.h		\
+	e-week-view-layout.h			\
+	e-week-view-main-item.h			\
+	e-week-view-titles-item.h		\
+	e-week-view.h				\
+	e-timezone-entry.h			\
+	goto.h					\
+	itip-utils.h				\
+	misc.h					\
+	tag-calendar.h				\
+	weekday-picker.h
 
 search_files = tasktypes.xml memotypes.xml caltypes.xml
 
@@ -44,9 +85,7 @@ etspec_DATA =				\
 	e-cal-list-view.etspec		\
 	e-memo-table.etspec
 
-noinst_LTLIBRARIES = libcal-gui.la
-
-libcal_gui_la_SOURCES =		\
+libevolution_calendar_la_SOURCES = \
 	e-attachment-handler-calendar.c		\
 	e-attachment-handler-calendar.h		\
 	e-calendar-view.c			\
@@ -72,11 +111,8 @@ libcal_gui_la_SOURCES =		\
 	e-cal-event.h				\
 	e-cal-menu.c				\
 	e-cal-menu.h				\
-	e-cal-model-calendar.h			\
 	e-cal-model-calendar.c			\
 	e-cal-model-calendar.h			\
-	e-cal-model-tasks.c			\
-	e-cal-model-tasks.h			\
 	e-cal-model.c				\
 	e-cal-model.h				\
 	e-cal-popup.h				\
@@ -85,6 +121,8 @@ libcal_gui_la_SOURCES =		\
 	e-cal-list-view.h			\
 	e-cal-model-memos.c			\
 	e-cal-model-memos.h			\
+	e-cal-model-tasks.c			\
+	e-cal-model-tasks.h			\
 	e-calendar-selector.c			\
 	e-calendar-selector.h			\
 	e-cell-date-edit-text.h			\
@@ -103,8 +141,6 @@ libcal_gui_la_SOURCES =		\
 	e-day-view-top-item.h			\
 	e-day-view.c				\
 	e-day-view.h				\
-	e-itip-control.h			\
-	e-itip-control.c			\
 	e-meeting-attendee.c			\
 	e-meeting-attendee.h			\
 	e-meeting-list-view.c			\
@@ -181,7 +217,7 @@ libcal_gui_la_SOURCES =		\
 	ea-gnome-calendar.c			\
 	ea-gnome-calendar.h
 
-libcal_gui_la_LIBADD =					\
+libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
@@ -199,7 +235,7 @@ libcal_gui_la_LIBADD =					\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libcal_gui_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
+libevolution_calendar_la_LDFLAGS = $(NO_UNDEFINED)
 
 @INTLTOOL_SERVER_RULE@
 

@@ -62,7 +62,7 @@ libevolution_module_calendar_la_SOURCES =		\
 
 libevolution_module_calendar_la_LIBADD =		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la	\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la	\
 	$(top_builddir)/mail/libevolution-mail.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la	\

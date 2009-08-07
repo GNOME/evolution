@@ -17,7 +17,7 @@ liborg_gnome_evolution_google_la_SOURCES =        \
 	google-contacts-source.c
 
 liborg_gnome_evolution_google_la_LIBADD = 			\
-	$(top_builddir)/calendar/gui/libcal-gui.la		\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EPLUGIN_LIBS)		
 

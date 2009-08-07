@@ -17,7 +17,35 @@ ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
 
 ecalendarinclude_HEADERS =	\
 	comp-editor-page.h	\
-	comp-editor.h
+	comp-editor.h		\
+	alarm-dialog.h		\
+	alarm-list-dialog.h	\
+	cal-attachment-select-file.h \
+	cal-prefs-dialog.h	\
+	calendar-setup.h	\
+	cancel-comp.h		\
+	changed-comp.h		\
+	comp-editor.h		\
+	comp-editor-page.h	\
+	comp-editor-util.h	\
+	copy-source-dialog.h	\
+	delete-comp.h		\
+	delete-error.h		\
+	e-delegate-dialog.h	\
+	e-send-options-utils.h  \
+	event-editor.h		\
+	event-page.h		\
+	memo-editor.h		\
+	memo-page.h		\
+	recurrence-page.h	\
+	recur-comp.h		\
+	save-comp.h		\
+	schedule-page.h		\
+	select-source-dialog.h	\
+	send-comp.h		\
+	task-editor.h		\
+	task-details-page.h	\
+	task-page.h		
 
 noinst_LTLIBRARIES = libcal-dialogs.la
 
