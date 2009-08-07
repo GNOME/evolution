@@ -25,8 +25,6 @@ ecalendarinclude_HEADERS =	\
 	calendar-setup.h	\
 	cancel-comp.h		\
 	changed-comp.h		\
-	comp-editor.h		\
-	comp-editor-page.h	\
 	comp-editor-util.h	\
 	copy-source-dialog.h	\
 	delete-comp.h		\
