@@ -466,7 +466,7 @@ can_support_actions (void)
 		caps = notify_get_server_caps ();
 		if (caps != NULL) {
 			for (c = caps; c != NULL; c = c->next) {
-				if (strcmp ((char*)c->data, "actions") == 0) {
+				if (strcmp ((gchar *)c->data, "actions") == 0) {
 					supports_actions = TRUE;
 					break;
 				}
@@ -531,7 +531,7 @@ new_notify_status (EMEventTargetFolder *t)
 				notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 				notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
 				g_timeout_add (500, notification_callback, notify);
-			} 
+			}
 		}
 	}
 	#endif

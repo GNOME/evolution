@@ -257,7 +257,6 @@ setup_e_table (ECalListView *cal_list_view)
 	e_table_extras_add_compare (extras, "date-compare",
 				    date_compare_cb);
 
-
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
