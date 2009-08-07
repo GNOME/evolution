@@ -95,7 +95,8 @@ composer_autosave_state_open (AutosaveState *state)
 	if (state->file != NULL)
 		return TRUE;
 
-	path = g_build_filename (e_get_user_data_dir (), AUTOSAVE_SEED);
+	path = g_build_filename (
+		e_get_user_data_dir (), AUTOSAVE_SEED, NULL);
 
 	/* Since GIO doesn't have support for creating temporary files
 	 * from a template (and in a given directory), we have to use
