@@ -1168,7 +1168,7 @@ mail_config_signature_new (const gchar *filename, gboolean script, gboolean html
 		e_signature_set_filename (sig, new_filename);
 		g_free (new_filename);
 	} else
-		e_signature_set_filaname (sig, filename);
+		e_signature_set_filename (sig, filename);
 
 	return sig;
 }
