@@ -15,7 +15,7 @@
 	  type="item"
 	  path="70.mail_to_event1"
 	  icon="appointment-new"
-	  _label="Convert to an _Event"
+	  _label="Create an _Event"
 	  enable="many"
 	  visible="many"
 	  activate="org_gnome_mail_to_event"/>
@@ -23,15 +23,15 @@
 	  type="item"
 	  path="70.mail_to_event2"
 	  icon="stock_new-meeting"
-	  _label="Convert to a _Meeting"
-	  enable="many"
+	  _label="Create a _Meeting"
+	  enable="one"
 	  visible="many"
 	  activate="org_gnome_mail_to_meeting"/>
 	<item
 	  type="item"
 	  path="70.mail_to_event3"
 	  icon="stock_todo"
-	  _label="Convert to a _Task"
+	  _label="Create a _Task"
 	  enable="many"
 	  visible="many"
 	  activate="org_gnome_mail_to_task"/>
@@ -39,7 +39,7 @@
 	  type="item"
 	  path="70.mail_to_event4"
 	  icon="stock_insert-note"
-	  _label="Convert to a Mem_o"
+	  _label="Create a Mem_o"
 	  enable="many"
 	  visible="many"
 	  activate="org_gnome_mail_to_memo"/>
@@ -59,7 +59,7 @@
 	  type="item"
 	  verb="ConvertMeeting"
 	  path="/commands/ConvertMeeting"
-	  enable="many"
+	  enable="one"
 	  activate="org_gnome_mail_to_meeting_menu"/>
 	<item
 	  type="item"

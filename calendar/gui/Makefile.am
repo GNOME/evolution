@@ -29,13 +29,14 @@ component_LTLIBRARIES = libevolution-calendar.la
 
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
-ecalendarinclude_HEADERS =	\
-	e-attachment-handler-calendar.h		\
+ecalendarinclude_HEADERS =			\
+	cal-editor-utils.h			\
 	cal-search-bar.h			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
+	e-attachment-handler-calendar.h		\
 	e-cal-config.h				\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
@@ -110,8 +111,8 @@ etspec_DATA =				\
 	e-memo-table.etspec
 
 libevolution_cal_shared_la_SOURCES = \
-	e-attachment-handler-calendar.c		\
-	e-attachment-handler-calendar.h		\
+	cal-editor-utils.c			\
+	cal-editor-utils.h			\
 	cal-search-bar.c			\
 	cal-search-bar.h			\
 	calendar-config.c			\
@@ -121,6 +122,8 @@ libevolution_cal_shared_la_SOURCES = \
 	comp-util.h				\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
+	e-attachment-handler-calendar.c		\
+	e-attachment-handler-calendar.h		\
 	e-cal-config.c				\
 	e-cal-config.h				\
 	e-cal-event.c				\
