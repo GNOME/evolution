@@ -25,18 +25,18 @@
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
 #include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-mem.h>
 
 #define AUTOSAVE_PREFIX		".evolution-composer.autosave"
 #define AUTOSAVE_SEED		AUTOSAVE_PREFIX "-XXXXXX"
-#define AUTOSAVE_INTERVAL	60  /* 60 seconds */
+#define AUTOSAVE_INTERVAL	60 /* seconds */
 
 typedef struct _AutosaveState AutosaveState;
 
 struct _AutosaveState {
-	gchar *filename;
+	GFile *file;
 	gboolean enabled;
 	gboolean saved;
-	gint fd;
 };
 
 static GList *autosave_registry;
@@ -51,13 +51,18 @@ composer_autosave_registry_lookup (const gchar *basename)
 	for (iter = autosave_registry; iter != NULL; iter = iter->next) {
 		EMsgComposer *composer = iter->data;
 		AutosaveState *state;
+		gchar *_basename;
 
 		state = g_object_get_data (G_OBJECT (composer), "autosave");
-		if (state == NULL || state->filename == NULL)
+		if (state == NULL || state->file == NULL)
 			continue;
 
-		if (g_str_has_suffix (state->filename, basename))
+		_basename = g_file_get_basename (state->file);
+		if (strcmp (_basename, basename) == 0) {
+			g_free (_basename);
 			return composer;
+		}
+		g_free (_basename);
 	}
 
 	return NULL;
@@ -69,9 +74,8 @@ composer_autosave_state_new (void)
 	AutosaveState *state;
 
 	state = g_slice_new (AutosaveState);
-	state->filename = NULL;
+	state->file = NULL;
 	state->enabled = TRUE;
-	state->fd = -1;
 
 	return state;
 }
@@ -79,36 +83,34 @@ composer_autosave_state_new (void)
 static void
 composer_autosave_state_free (AutosaveState *state)
 {
-	if (state->fd >= 0)
-		close (state->fd);
-
-	g_free (state->filename);
+	g_object_unref (state->file);
 	g_slice_free (AutosaveState, state);
 }
 
 static gboolean
-composer_autosave_state_open (AutosaveState *state,
-                              GError **error)
+composer_autosave_state_open (AutosaveState *state)
 {
-	if (state->filename != NULL)
+	gchar *path;
+
+	if (state->file != NULL)
 		return TRUE;
 
-	state->filename = g_build_filename (
-		e_get_user_data_dir (), AUTOSAVE_SEED, NULL);
+	path = g_build_filename (e_get_user_data_dir (), AUTOSAVE_SEED);
 
-	errno = 0;
-	if ((state->fd = g_mkstemp (state->filename)) >= 0)
-		return TRUE;
+	/* Since GIO doesn't have support for creating temporary files
+	 * from a template (and in a given directory), we have to use
+	 * mktemp(), which brings a small risk of overwriting another
+	 * autosave file.  The risk is, however, miniscule. */
+	if (mktemp (path) == NULL) {
+		g_free (path);
+		return FALSE;
+	}
 
-	g_set_error (
-		error, G_FILE_ERROR,
-		g_file_error_from_errno (errno),
-		"%s: %s", state->filename, g_strerror (errno));
+	/* Create the GFile */
+	state->file = g_file_new_for_path (path);
+	g_free (path);
 
-	g_free (state->filename);
-	state->filename = NULL;
-
-	return FALSE;
+	return TRUE;
 }
 
 static void
@@ -118,7 +120,7 @@ composer_autosave_foreach (EMsgComposer *composer)
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (e_composer_autosave_get_enabled (composer))
-		e_composer_autosave_snapshot (composer);
+		e_composer_autosave_snapshot_async (composer, NULL, NULL);
 }
 
 static gint
@@ -236,125 +238,223 @@ e_composer_autosave_unregister (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	if (state == NULL || state->filename == NULL)
+	if (state == NULL || state->file == NULL)
 		return;
 
-	close (state->fd);
-
 	if (delete_file)
-		g_unlink (state->filename);
+		g_file_delete (state->file, NULL, NULL);
 
 	g_object_set_data (G_OBJECT (composer), "autosave", NULL);
 }
 
-gboolean
-e_composer_autosave_snapshot (EMsgComposer *composer)
-{
-	GtkhtmlEditor *editor;
-	CamelMimeMessage *message;
+typedef struct {
+	GSimpleAsyncResult *result;
+	EMsgComposer *composer;
 	AutosaveState *state;
-	CamelStream *stream;
-	gint camelfd;
-	const gchar *errmsg;
 
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	/* Transient data */
+	GInputStream *input_stream;
+} AutosaveData;
 
-	editor = GTKHTML_EDITOR (composer);
+static void
+autosave_data_free (AutosaveData *data)
+{
+	g_object_unref (data->composer);
+	g_slice_free (AutosaveData, data);
+}
 
-	/* If the contents are unchanged, exit early. */
-	if (!gtkhtml_editor_get_changed (editor))
-		return TRUE;
+static gboolean
+autosave_snapshot_check_for_error (AutosaveData *data, GError *error)
+{
+	if (error == NULL)
+		return FALSE;
 
-	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_simple_async_result_set_from_error (data->result, error);
+	g_simple_async_result_set_op_res_gboolean (data->result, FALSE);
+	g_simple_async_result_complete (data->result);
+	g_error_free (error);
 
-	/* Open the autosave file on-demand. */
-	if (!composer_autosave_state_open (state, NULL)) {
-		errmsg = _("Could not open autosave file");
-		goto fail;
-	}
+	autosave_data_free (data);
 
-	/* Extract a MIME message from the composer. */
-	message = e_msg_composer_get_message_draft (composer);
-	if (message == NULL) {
-		errmsg = _("Unable to retrieve message from editor");
-		goto fail;
-	}
+	return TRUE;
+}
 
-	/* Move to the beginning of the autosave file. */
-	if (lseek (state->fd, (off_t) 0, SEEK_SET) < 0) {
-		camel_object_unref (message);
-		errmsg = g_strerror (errno);
-		goto fail;
-	}
+static void
+autosave_snapshot_splice_cb (GOutputStream *autosave_stream,
+                             GSimpleAsyncResult *result,
+                             AutosaveData *data)
+{
+	gssize length;
+	GError *error = NULL;
 
-	/* Destroy the contents of the autosave file. */
-	if (ftruncate (state->fd, (off_t) 0) < 0) {
-		camel_object_unref (message);
-		errmsg = g_strerror (errno);
-		goto fail;
-	}
-
-	/* Duplicate the file descriptor for Camel. */
-	if ((camelfd = dup (state->fd)) < 0) {
-		camel_object_unref (message);
-		errmsg = g_strerror (errno);
-		goto fail;
-	}
-
-	/* Open a CamelStream to the autosave file. */
-	stream = camel_stream_fs_new_with_fd (camelfd);
-
-	/* Write the message to the CamelStream. */
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) < 0) {
-		camel_object_unref (message);
-		camel_object_unref (stream);
-		errmsg = g_strerror (errno);
-		goto fail;
-	}
-
-	/* Close the CamelStream. */
-	if (camel_stream_close (CAMEL_STREAM (stream)) < 0) {
-		camel_object_unref (message);
-		camel_object_unref (stream);
-		errmsg = g_strerror (errno);
-		goto fail;
-	}
+	length = g_output_stream_splice_finish (
+		autosave_stream, G_ASYNC_RESULT (result), &error);
+	g_object_unref (data->input_stream);
+	if (autosave_snapshot_check_for_error (data, error))
+		return;
 
 	/* Snapshot was successful; set various flags. */
 	/* do not touch "changed" flag, this is only autosave,
-	   which doesn't mean it's saved permanently */
+	 * which doesn't mean it's saved permanently */
+	e_composer_autosave_set_saved (data->composer, TRUE);
 
-	e_composer_autosave_set_saved (composer, TRUE);
-
-	camel_object_unref (message);
-	camel_object_unref (stream);
-
-	return TRUE;
-
-fail:
-	e_error_run (
-		GTK_WINDOW (composer), "mail-composer:no-autosave",
-		(state->filename != NULL) ? state->filename : "",
-		errmsg, NULL);
-
-	return FALSE;
+	/* Tidy up */
+	autosave_data_free (data);
 }
 
-gint
-e_composer_autosave_get_fd (EMsgComposer *composer)
+static void
+autosave_snapshot_cb (GFile *autosave_file,
+                      GSimpleAsyncResult *result,
+                      AutosaveData *data)
 {
-	AutosaveState *state;
+	CamelMimeMessage *message;
+	GFileOutputStream *output_stream;
+	GInputStream *input_stream;
+	CamelStream *camel_stream;
+	GByteArray *buffer;
+	GError *error = NULL;
 
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), -1);
+	output_stream = g_file_replace_finish (
+		autosave_file, G_ASYNC_RESULT (result), &error);
+	if (autosave_snapshot_check_for_error (data, error))
+		return;
+
+	/* Extract a MIME message from the composer. */
+	message = e_msg_composer_get_message_draft (data->composer);
+	if (message == NULL) {
+		/* If we don't set an error, but return FALSE, the error message
+		 * in this odd case (we don't have an error domain or code)
+		 * will be set in the _finish() function. */
+		g_simple_async_result_set_op_res_gboolean (result, FALSE);
+		g_object_unref (output_stream);
+		autosave_data_free (data);
+		return;
+	}
+
+	/* Decode the MIME part to an in-memory buffer.  We have to do
+	 * this because CamelStream is synchronous-only, and using threads
+	 * (as we do with foo()) is dangerous because CamelDataWrapper
+	 * is not reentrant. */
+	buffer = g_byte_array_new ();
+	camel_stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (camel_stream), buffer);
+	camel_data_wrapper_decode_to_stream (
+		CAMEL_DATA_WRAPPER (message), camel_stream);
+	camel_object_unref (message);
+	camel_object_unref (camel_stream);
+
+	/* Load the buffer into a GMemoryInputStream.
+	 * But watch out for zero length MIME parts. */
+	input_stream = g_memory_input_stream_new ();
+	if (buffer->len > 0)
+		g_memory_input_stream_add_data (
+			G_MEMORY_INPUT_STREAM (input_stream),
+			buffer->data, (gssize) buffer->len,
+			(GDestroyNotify) g_free);
+	g_byte_array_free (buffer, FALSE);
+	data->input_stream = input_stream;
+
+	/* Splice the input and output streams */
+	g_output_stream_splice_async (
+		G_OUTPUT_STREAM (output_stream), input_stream,
+		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
+		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+		G_PRIORITY_DEFAULT, NULL, (GAsyncReadyCallback)
+		autosave_snapshot_splice_cb, data);
+	g_object_unref (output_stream);
+}
+
+void
+e_composer_autosave_snapshot_async (EMsgComposer *composer,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+	AutosaveData *data;
+	AutosaveState *state;
+	GSimpleAsyncResult *result;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	result = g_simple_async_result_new (
+		G_OBJECT (composer), callback, user_data,
+		e_composer_autosave_snapshot_async);
+
+	/* If the contents are unchanged, exit early. */
+	if (!gtkhtml_editor_get_changed (GTKHTML_EDITOR (composer))) {
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
+		g_simple_async_result_complete (result);
+		return;
+	}
 
 	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	g_return_val_if_fail (state != NULL, -1);
+	g_return_if_fail (state != NULL);
 
-	return state->fd;
+	/* Open the autosave file on-demand. */
+	errno = 0;
+	if (!composer_autosave_state_open (state)) {
+		g_simple_async_result_set_error (
+			result, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s", g_strerror (errno));
+		g_simple_async_result_set_op_res_gboolean (result, FALSE);
+		g_simple_async_result_complete (result);
+		return;
+	}
+
+	/* Overwrite the file */
+	data = g_slice_new (AutosaveData);
+	data->composer = composer;
+	data->result = result;
+	data->state = state;
+
+	g_file_replace_async (
+		state->file, NULL, FALSE, G_FILE_CREATE_PRIVATE,
+		G_PRIORITY_DEFAULT, NULL, (GAsyncReadyCallback)
+		autosave_snapshot_cb, data);
 }
 
-const gchar *
+gboolean
+e_composer_autosave_snapshot_finish (EMsgComposer *composer,
+                                     GAsyncResult *async_result,
+                                     GError **error)
+{
+	GSimpleAsyncResult *result;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (async_result), FALSE);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+
+	result = G_SIMPLE_ASYNC_RESULT (async_result);
+	g_warn_if_fail (g_simple_async_result_get_source_tag (result) ==
+			e_composer_autosave_snapshot_async);
+
+	if (g_simple_async_result_propagate_error (result, error) ||
+	    !g_simple_async_result_get_op_res_gboolean (result)) {
+		const gchar *errmsg;
+		gchar *filename;
+
+		/* Sort out the error message; use the GError message if
+		 * possible. The only case where is isn't is where we couldn't
+		 * get the message from the editor. */
+		if (error && *error)
+			errmsg = (*error)->message;
+		else
+			errmsg = _("Unable to retrieve message from editor");
+
+		filename = e_composer_autosave_get_filename (composer);
+		e_error_run (
+			GTK_WINDOW (composer), "mail-composer:no-autosave",
+			(filename != NULL) ? filename : "", errmsg, NULL);
+		g_free (filename);
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+gchar *
 e_composer_autosave_get_filename (EMsgComposer *composer)
 {
 	AutosaveState *state;
@@ -364,7 +464,7 @@ e_composer_autosave_get_filename (EMsgComposer *composer)
 	state = g_object_get_data (G_OBJECT (composer), "autosave");
 	g_return_val_if_fail (state != NULL, NULL);
 
-	return state->filename;
+	return g_file_get_path (state->file);
 }
 
 gboolean

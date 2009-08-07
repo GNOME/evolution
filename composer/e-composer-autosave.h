@@ -28,9 +28,15 @@ GList *		e_composer_autosave_find_orphans (GError **error);
 void		e_composer_autosave_register	 (EMsgComposer *composer);
 void		e_composer_autosave_unregister	 (EMsgComposer *composer,
 						  gboolean delete_file);
-gboolean	e_composer_autosave_snapshot	 (EMsgComposer *composer);
-gint		e_composer_autosave_get_fd	 (EMsgComposer *composer);
-const gchar *	e_composer_autosave_get_filename (EMsgComposer *composer);
+void		e_composer_autosave_snapshot_async
+						 (EMsgComposer *composer,
+						  GAsyncReadyCallback callback,
+						  gpointer user_data);
+gboolean	e_composer_autosave_snapshot_finish
+						 (EMsgComposer *composer,
+						  GAsyncResult *result,
+						  GError **error);
+gchar *		e_composer_autosave_get_filename (EMsgComposer *composer);
 gboolean	e_composer_autosave_get_enabled  (EMsgComposer *composer);
 void		e_composer_autosave_set_enabled	 (EMsgComposer *composer,
 						  gboolean enabled);

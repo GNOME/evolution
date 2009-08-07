@@ -1273,6 +1273,15 @@ set_editor_text (EMsgComposer *composer,
 
 /* Commands.  */
 
+static void
+autosave_load_draft_cb (EMsgComposer *composer, GAsyncResult *result,
+			gchar *filename)
+{
+	if (e_composer_autosave_snapshot_finish (composer, result, NULL))
+		g_unlink (filename);
+	g_free (filename);
+}
+
 static EMsgComposer *
 autosave_load_draft (const gchar *filename)
 {
@@ -1293,8 +1302,13 @@ autosave_load_draft (const gchar *filename)
 
 	composer = e_msg_composer_new_with_message (msg);
 	if (composer) {
-		if (e_composer_autosave_snapshot (composer))
-			g_unlink (filename);
+		/* Mark the message as changed so it gets autosaved again, then
+		 * we can safely remove the old autosave file in
+		 * autosave_load_draft_cb */
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), FALSE);
+		e_composer_autosave_snapshot_async (composer,
+						    (GAsyncReadyCallback) autosave_load_draft_cb,
+						    g_strdup (filename));
 
 		g_signal_connect (
 			composer, "send",
@@ -3918,7 +3932,9 @@ e_msg_composer_request_close_all (void)
 		 *       which is misleading.
 		 */
 		composer->priv->application_exiting = TRUE;
-		e_composer_autosave_snapshot (composer);
+		e_composer_autosave_snapshot_async (composer,
+						    (GAsyncReadyCallback) e_composer_autosave_snapshot_finish,
+						    NULL);
 		gtk_action_activate (ACTION (CLOSE));
 	}
 
