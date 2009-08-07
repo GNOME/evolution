@@ -161,6 +161,7 @@ struct _EventPagePrivate {
 	GtkWidget *remove;
 	GtkWidget *edit;
 	GtkWidget *invite;
+	GtkWidget *invite_label;
 	GtkWidget *attendees_label;
 
 	/* ListView stuff */
@@ -2251,6 +2252,12 @@ get_widgets (EventPage *epage)
 	priv->info_string = GW ("generic-info-msgs");
 
 	priv->invite = GW ("invite");
+	priv->invite_label = GW ("invite-label");
+	if (comp_editor_get_lite ())
+		gtk_widget_hide (priv->invite);
+	else
+		gtk_widget_hide (priv->invite_label);
+			
 	priv->add = GW ("add-attendee");
 	priv->remove = GW ("remove-attendee");
 	priv->edit = GW ("edit-attendee");
