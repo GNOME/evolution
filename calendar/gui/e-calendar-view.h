@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include "e-cal-model.h"
 #include "gnome-cal.h"
-#include "e-activity-handler.h"
+#include <misc/e-activity-handler.h>
 #include "dialogs/comp-editor.h"
 
 G_BEGIN_DECLS
