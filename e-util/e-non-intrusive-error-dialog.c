@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <glib/gstdio.h>
+#include <gconf/gconf-client.h>
 #include "e-non-intrusive-error-dialog.h"
 
 /* eni - non intrusive error */

@@ -26,7 +26,6 @@
 #include "e-error.h"
 #include "e-icon-factory.h"
 #include "e-logger.h"
-#include "e-util/gconf-bridge.h"
 
 G_BEGIN_DECLS
 
