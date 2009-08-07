@@ -204,23 +204,47 @@ run_error_dialog (gchar *text)
 	return FALSE;
 }
 
+static gint
+numlines (const gchar *text, gint pos)
+{
+	gint ctr = 0;
+	gint lineno = 0;
+
+	while (text && *text && ctr <= pos) {
+		if (*text == '\n')
+			lineno++;
+
+		text++;
+		ctr++;
+	}
+
+	if (lineno > 0) {
+		lineno++;
+	}
+
+	return lineno;
+}
+
 void
 async_external_editor (EMsgComposer *composer)
 {
 	gchar *filename = NULL;
 	gint status = 0;
 	GConfClient *gconf;
-	gchar *editor_cmd_line = NULL;
-	gint fd;
+	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
+	gint fd, position = -1, offset = -1;
 
-	fd = g_file_open_tmp (NULL, &filename, NULL);
+	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
+	fd = g_file_open_tmp ("evoXXXXXX", &filename, NULL);
 	if (fd > 0) {
+		gsize length = 0;
+
 		close (fd);
-		/* Push the text (if there is one) from the composer to the file */
-		g_file_set_contents (filename, gtkhtml_editor_get_text_plain(
-					     GTKHTML_EDITOR(composer), NULL),
-				     -1, NULL);
 		d(printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
+
+		/* Push the text (if there is one) from the composer to the file */
+		content = gtkhtml_editor_get_text_plain (GTKHTML_EDITOR (composer), &length);
+		g_file_set_contents (filename, content, length, NULL);
 	} else {
 		g_warning ("Temporary file fd is null");
 		g_idle_add ((GSourceFunc) run_error_dialog,
@@ -230,20 +254,41 @@ async_external_editor (EMsgComposer *composer)
 	}
 
 	gconf = gconf_client_get_default ();
-	editor_cmd_line = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
-	if (!editor_cmd_line) {
-		if (! (editor_cmd_line = g_strdup(g_getenv ("EDITOR"))) )
+	editor_cmd = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
+	if (!editor_cmd) {
+		if (! (editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
 			/* Make gedit the default external editor,
 			   if the default schemas are not installed
 			   and no $EDITOR is set. */
-			editor_cmd_line = g_strdup("gedit");
+			editor_cmd = g_strdup ("gedit");
 	}
 	g_object_unref (gconf);
 
-	editor_cmd_line = g_strconcat(editor_cmd_line, " ", filename, NULL);
+	if (g_strrstr (editor_cmd, "vim") != NULL
+	    && gtk_html_get_cursor_pos (gtkhtml_editor_get_html (GTKHTML_EDITOR (composer)), &position, &offset)
+	    && position >= 0 && offset >= 0) {
+		gchar *tmp = editor_cmd;
+		gint lineno;
+		gboolean set_nofork;
 
-	if (!g_spawn_command_line_sync(editor_cmd_line, NULL, NULL, &status, NULL))
-	{
+		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
+		/* increment 1 so that entering vim insert mode places you in the same
+		 * entry position you were at in the html  */
+		offset++;
+
+		/* calculate the line number that the cursor is in */
+		lineno = numlines (content, position);
+
+		editor_cmd = g_strdup_printf ("%s \"+call cursor(%d,%d)\"%s%s", tmp, lineno, offset, set_nofork ? " " : "", set_nofork ? "--nofork" : "");
+
+		g_free (tmp);
+	}
+
+	g_free (content);
+
+	editor_cmd_line = g_strconcat (editor_cmd, " ", filename, NULL);
+
+	if (!g_spawn_command_line_sync (editor_cmd_line, NULL, NULL, &status, NULL)) {
 		g_warning ("Unable to launch %s: ", editor_cmd_line);
 		g_idle_add ((GSourceFunc) run_error_dialog,
 			    (gpointer)"org.gnome.evolution.plugins.external-editor:editor-not-launchable");
@@ -251,9 +296,11 @@ async_external_editor (EMsgComposer *composer)
 
 		g_free (filename);
 		g_free (editor_cmd_line);
+		g_free (editor_cmd);
 		return;
 	}
 	g_free (editor_cmd_line);
+	g_free (editor_cmd);
 
 #ifdef HAVE_SYS_WAIT_H
 	if (WEXITSTATUS (status) != 0) {
