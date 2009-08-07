@@ -30,9 +30,6 @@ component_LTLIBRARIES = libevolution-calendar.la
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =	\
-	e-cal-config.h		\
-	e-cal-popup.h		\
-	itip-utils.h  		\
 	e-attachment-handler-calendar.h		\
 	cal-search-bar.h			\
 	calendar-config.h			\
@@ -303,6 +300,24 @@ libevolution_calendar_la_LIBADD =					\
 libevolution_calendar_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
 
 libevolution_calendar_la_DEPENDENCIES = libevolution-cal-shared.la
+
+# --- BIG NASTY AUTOMAKE HACK ---
+#
+# Automake apparently sorts Makefile.am rules alphabetically.  And
+# since component_LTLIBRARIES < privsolib_LTLIBRARIES, it tries to
+# install libevolution-calendar.la before libevolution-cal-shared.la,
+# which fails when libtool tries to relink libevolution-calendar.la
+# against the not-yet-installed libevolution-cal-shared.la.
+install-data-am:			\
+	install-privsolibLTLIBRARIES	\
+	install-componentLTLIBRARIES	\
+	install-data-local		\
+	install-etspecDATA		\
+	install-gladeDATA		\
+	install-schemaDATA		\
+	install-ruleDATA		\
+	install-ecalendarincludeHEADERS	\
+	install-serverDATA
 
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
