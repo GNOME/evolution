@@ -9,9 +9,6 @@ privsolib_LTLIBRARIES = libevolution-calendar.la
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =	\
-	e-cal-config.h		\
-	e-cal-popup.h		\
-	itip-utils.h  		\
 	e-attachment-handler-calendar.h		\
 	calendar-config.h			\
 	calendar-config-keys.h			\
