@@ -55,6 +55,7 @@
 #include <misc/e-popup-action.h>
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
+#include <calendar/gui/cal-editor-utils.h>
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-event")
@@ -336,6 +337,267 @@ report_error_idle (const gchar *format, const gchar *param)
 	g_idle_add ((GSourceFunc)do_report_error, err);
 }
 
+struct _manage_comp
+{
+	ECal *client;
+	ECalComponent *comp;
+	icalcomponent *stored_comp; /* the one in client already */
+};
+
+static void
+free_manage_comp_struct (struct _manage_comp *mc)
+{
+	g_return_if_fail (mc != NULL);
+
+	g_object_unref (mc->comp);
+	g_object_unref (mc->client);
+	if (mc->stored_comp)
+		icalcomponent_free (mc->stored_comp);
+	g_free (mc);
+}
+
+static gint
+do_ask (const gchar *text, gboolean is_create_edit_add)
+{
+	gint res;
+	GtkWidget *dialog = gtk_message_dialog_new (NULL,
+		GTK_DIALOG_MODAL, 
+		GTK_MESSAGE_QUESTION,
+		is_create_edit_add ? GTK_BUTTONS_NONE : GTK_BUTTONS_YES_NO,
+		"%s", text);
+
+	if (is_create_edit_add) {
+		gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			GTK_STOCK_EDIT, GTK_RESPONSE_YES,
+			GTK_STOCK_NEW, GTK_RESPONSE_NO,
+			NULL);
+	}
+
+	res = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+
+	return res;
+}
+
+static const gchar *
+get_question_edit_old (ECalSourceType source_type)
+{
+	const gchar *ask = NULL;
+
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		ask = _("Selected calendar contains event '%s' already. Would you like to edit the old event?");
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		ask = _("Selected task list contains task '%s' already. Would you like to edit the old task?");
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		ask = _("Selected memo list contains memo '%s' already. Would you like to edit the old memo?");
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+
+	return ask;
+}
+
+static const gchar *
+get_question_create_new (ECalSourceType source_type)
+{
+	const gchar *ask = NULL;
+
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		ask = _("Selected calendar contains some events for the given mails already. Would you like to create new events anyway?");
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		ask = _("Selected task list contains some tasks for the given mails already. Would you like to create new tasks anyway?");
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		ask = _("Selected memo list contains some memos for the given mails already. Would you like to create new memos anyway?");
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+
+	return ask;
+}
+
+static const gchar *
+get_question_create_new_n (ECalSourceType source_type, gint count)
+{
+	const gchar *ask = NULL;
+
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		ask = ngettext (
+			"Selected calendar contains an event for the given mail already. Would you like to create new event anyway?",
+			"Selected calendar contains events for the given mails already. Would you like to create new events anyway?",
+			count);
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		ask = ngettext (
+			"Selected task list contains a task for the given mail already. Would you like to create new task anyway?",
+			"Selected task list contains tasks for the given mails already. Would you like to create new tasks anyway?",
+			count);
+		break;
+	case E_CAL_SOURCE_TYPE_JOURNAL:
+		ask = ngettext (
+			"Selected memo list contains a memo for the given mail already. Would you like to create new memo anyway?",
+			"Selected memo list contains memos for the given mails already. Would you like to create new memos anyway?",
+			count);
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+
+	return ask;
+}
+
+static gboolean
+do_manage_comp_idle (GSList *manage_comp_datas)
+{
+	GError *error = NULL;
+	guint with_old = 0;
+	gboolean need_editor = FALSE;
+	ECalSourceType source_type = E_CAL_SOURCE_TYPE_LAST;
+	GSList *l;
+
+	g_return_val_if_fail (manage_comp_datas != NULL, FALSE);
+
+	if (manage_comp_datas->data) {
+		struct _manage_comp *mc = manage_comp_datas->data;
+
+		if (mc->comp && (e_cal_component_has_attendees (mc->comp) || e_cal_component_has_organizer (mc->comp)))
+			need_editor = TRUE;
+
+		source_type = e_cal_get_source_type (mc->client);
+	}
+
+	if (source_type == E_CAL_SOURCE_TYPE_LAST) {
+		g_slist_foreach (manage_comp_datas, (GFunc) free_manage_comp_struct, NULL);
+		g_slist_free (manage_comp_datas);
+
+		g_warning ("mail-to-task: Incorrect call of %s, no data given", G_STRFUNC);
+		return FALSE;
+	}
+
+	for (l = manage_comp_datas; l; l = l->next) {
+		struct _manage_comp *mc = l->data;
+
+		if (mc && mc->stored_comp)
+			with_old++;
+	}
+
+	if (need_editor) {
+		for (l = manage_comp_datas; l && !error; l = l->next) {
+			ECalComponent *edit_comp = NULL;
+			struct _manage_comp *mc = l->data;
+
+			if (!mc)
+				continue;
+
+			if (mc->stored_comp) {
+				const gchar *ask = get_question_edit_old (source_type);
+
+				if (ask) {
+					char *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
+					gint chosen;
+
+					chosen = do_ask (msg, TRUE);
+
+					if (chosen == GTK_RESPONSE_YES) {
+						edit_comp = e_cal_component_new ();
+						if (!e_cal_component_set_icalcomponent (edit_comp, icalcomponent_new_clone (mc->stored_comp))) {
+							g_object_unref (edit_comp);
+							edit_comp = NULL;
+
+							error = g_error_new (E_CALENDAR_ERROR, E_CALENDAR_STATUS_INVALID_OBJECT, "%s", _("Invalid object returned from a server"));
+						}
+					} else if (chosen == GTK_RESPONSE_NO) {
+						/* user wants to create a new event, thus generate a new UID */
+						gchar *new_uid = e_cal_component_gen_uid ();
+
+						edit_comp = mc->comp;
+						e_cal_component_set_uid (edit_comp, new_uid);
+						e_cal_component_set_recurid (edit_comp, NULL);
+
+						g_free (new_uid);
+					}
+
+					g_free (msg);
+				}
+			} else {
+				edit_comp = mc->comp;
+			}
+
+			if (edit_comp) {
+				EShell *shell;
+
+				/* FIXME Pass in the EShell instance. */
+				shell = e_shell_get_default ();
+				open_component_editor (
+					shell, mc->client, edit_comp,
+					edit_comp == mc->comp, &error);
+				if (edit_comp != mc->comp)
+					g_object_unref (edit_comp);
+			}
+		}
+	} else {
+		gboolean can = TRUE;
+
+		if (with_old > 0) {
+			const gchar *ask = NULL;
+
+			can = FALSE;
+			
+			if (with_old == g_slist_length (manage_comp_datas)) {
+				ask = get_question_create_new_n (source_type, with_old);
+			} else {
+				ask = get_question_create_new (source_type);
+			}
+
+			if (ask)
+				can = do_ask (ask, FALSE) == GTK_RESPONSE_YES;
+		}
+
+		if (can) {
+			for (l = manage_comp_datas; l && !error; l = l->next) {
+				struct _manage_comp *mc = l->data;
+
+				if (!mc)
+					continue;
+
+				if (mc->stored_comp) {
+					gchar *new_uid = e_cal_component_gen_uid ();
+
+					e_cal_component_set_uid (mc->comp, new_uid);
+					e_cal_component_set_recurid (mc->comp, NULL);
+
+					g_free (new_uid);
+				}
+
+				e_cal_create_object (mc->client, e_cal_component_get_icalcomponent (mc->comp), NULL, &error);
+			}
+		}
+	}
+
+	if (error) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("An error occurred during processing: %s"), error->message);
+		g_error_free (error);
+	}
+
+	g_slist_foreach (manage_comp_datas, (GFunc) free_manage_comp_struct, NULL);
+	g_slist_free (manage_comp_datas);
+
+	return FALSE;
+}
+
 typedef struct {
 	ECal *client;
 	CamelFolder *folder;
@@ -376,6 +638,7 @@ do_mail_to_event (AsyncData *data)
 			}
 		}
 	} else {
+		GSList *mcs = NULL;
 		gint i;
 		ECalSourceType source_type = e_cal_get_source_type (client);
 		ECalComponentDateTime dt, dt2;
@@ -397,6 +660,7 @@ do_mail_to_event (AsyncData *data)
 			ECalComponentText text;
 			icalproperty *icalprop;
 			icalcomponent *icalcomp;
+			struct _manage_comp *mc;
 
 			/* retrieve the message from the CamelFolder */
 			message = camel_folder_get_message (folder, g_ptr_array_index (uids, i), NULL);
@@ -459,22 +723,30 @@ do_mail_to_event (AsyncData *data)
 			/* set attachment files */
 			set_attachments (client, comp, message);
 
+			/* no need to increment a sequence number, this is a new component */
+			e_cal_component_abort_sequence (comp);
+
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 
 			icalprop = icalproperty_new_x ("1");
 			icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
 			icalcomponent_add_property (icalcomp, icalprop);
 
-			/* save the task to the selected source */
-			if (!e_cal_create_object (client, icalcomp, NULL, &err)) {
-				report_error_idle (_("Could not create object. %s"), err ? err->message : _("Unknown error"));
+			mc = g_new0 (struct _manage_comp, 1);
+			mc->client = g_object_ref (client);
+			mc->comp = g_object_ref (comp);
 
-				if (err)
-					g_error_free (err);
-				err = NULL;
-			}
+			if (!e_cal_get_object (client, icalcomponent_get_uid (icalcomp), NULL, &(mc->stored_comp), NULL))
+				mc->stored_comp = NULL;
+
+			mcs = g_slist_append (mcs, mc);
 
 			g_object_unref (comp);
+		}
+
+		if (mcs) {
+			/* process this in the main thread, as we may ask user too */
+			g_idle_add ((GSourceFunc)do_manage_comp_idle, mcs);
 		}
 	}
 
@@ -601,6 +873,8 @@ mail_to_event (ECalSourceType source_type,
 		/* ask the user which tasks list to save to */
 		dialog = e_source_selector_dialog_new (NULL, source_list);
 
+		e_source_selector_dialog_select_default_source (E_SOURCE_SELECTOR_DIALOG (dialog));
+
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
 
@@ -678,30 +952,30 @@ static GtkActionEntry entries[] = {
 
 	{ "mail-convert-to-event",
 	  "appointment-new",
-	  N_("Convert to an _Event"),
+	  N_("Create an _Event"),
 	  NULL,
-	  N_("Convert the selected messages to an event"),
+	  N_("Create a new event from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_event_cb) },
 
 	{ "mail-convert-to-meeting",
 	  "stock_new-meeting",
-	  N_("Convert to a _Meeting"),
+	  N_("Create a _Meeting"),
 	  NULL,
-	  N_("Convert the selected messages to a meeting"),
+	  N_("Create a new meeting from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_meeting_cb) },
 
 	{ "mail-convert-to-memo",
 	  "stock_insert-note",
-	  N_("Convert to a Mem_o"),
+	  N_("Create a Mem_o"),
 	  NULL,
-	  N_("Convert the selected messages to a memo"),
+	  N_("Create a new memo from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_memo_cb) },
 
 	{ "mail-convert-to-task",
 	  "stock_todo",
-	  N_("Convert to a _Task"),
+	  N_("Create a _Task"),
 	  NULL,
-	  N_("Convert the selected messages to a task"),
+	  N_("Create a new task from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_task_cb) }
 };
 
@@ -745,14 +1019,17 @@ update_actions_cb (EShellView *shell_view)
 	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT (shell_window);
 	gtk_action_set_sensitive (action, sensitive);
 
-	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
-
 	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO (shell_window);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK (shell_window);
 	gtk_action_set_sensitive (action, sensitive);
+
+	sensitive = (state & E_MAIL_READER_SELECTION_SINGLE);
+
+	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
+
 }
 
 gboolean

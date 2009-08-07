@@ -8,12 +8,13 @@ privsolib_LTLIBRARIES = libevolution-calendar.la
 
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
-ecalendarinclude_HEADERS =	\
-	e-attachment-handler-calendar.h		\
+ecalendarinclude_HEADERS =			\
+	cal-editor-utils.h			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
+	e-attachment-handler-calendar.h		\
 	e-cal-config.h				\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
@@ -83,12 +84,8 @@ etspec_DATA =				\
 	e-memo-table.etspec
 
 libevolution_calendar_la_SOURCES = \
-	e-attachment-handler-calendar.c		\
-	e-attachment-handler-calendar.h		\
-	e-calendar-view.c			\
-	e-calendar-view.h			\
-	e-calendar-table.c			\
-	e-calendar-table.h			\
+	cal-editor-utils.c			\
+	cal-editor-utils.h			\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
@@ -100,6 +97,8 @@ libevolution_calendar_la_SOURCES = \
 	comp-util.h				\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
+	e-attachment-handler-calendar.c		\
+	e-attachment-handler-calendar.h		\
 	e-cal-component-preview.c		\
 	e-cal-component-preview.h		\
 	e-cal-config.c				\
@@ -122,12 +121,16 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-model-tasks.h			\
 	e-calendar-selector.c			\
 	e-calendar-selector.h			\
+	e-calendar-table.c			\
+	e-calendar-table.h			\
+	e-calendar-view.c			\
+	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
 	e-comp-editor-registry.c		\
 	e-comp-editor-registry.h		\
-	e-date-time-list.c                      \
-	e-date-time-list.h                      \
+	e-date-time-list.c			\
+	e-date-time-list.h			\
 	e-day-view-layout.c			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.c			\
