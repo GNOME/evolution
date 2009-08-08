@@ -2260,7 +2260,7 @@ init_widgets (RecurrencePage *rpage)
 	ecal = E_CALENDAR (priv->preview_calendar);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-date-navigator-show-week-numbers",
+		G_OBJECT (shell_settings), "cal-show-week-numbers",
 		G_OBJECT (ecal->calitem), "show-week-numbers");
 
 	e_binding_new (

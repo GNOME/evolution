@@ -126,15 +126,6 @@ static GtkActionEntry assigned_task_entries[] = {
 };
 
 static void
-task_editor_client_changed_cb (TaskEditor *te)
-{
-	ECal *client;
-
-	client = comp_editor_get_client (COMP_EDITOR (te));
-	e_meeting_store_set_e_cal (te->priv->model, client);
-}
-
-static void
 task_editor_model_changed_cb (TaskEditor *te)
 {
 	if (!te->priv->updating) {
@@ -205,6 +196,31 @@ task_editor_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (task_editor_parent_class)->dispose (object);
+}
+
+static void
+task_editor_constructed (GObject *object)
+{
+	TaskEditorPrivate *priv;
+	EShellSettings *shell_settings;
+	EShell *shell;
+
+	priv = TASK_EDITOR_GET_PRIVATE (object);
+
+	shell = comp_editor_get_shell (COMP_EDITOR (object));
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_binding_new (
+		G_OBJECT (object), "client",
+		G_OBJECT (priv->model), "client");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-free-busy-template",
+		G_OBJECT (priv->model), "free-busy-template");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (priv->model), "timezone");
 }
 
 static void
@@ -284,6 +300,7 @@ task_editor_class_init (TaskEditorClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = task_editor_constructor;
 	object_class->dispose = task_editor_dispose;
+	object_class->constructed = task_editor_constructed;
 
 	editor_class = COMP_EDITOR_CLASS (class);
 	editor_class->help_section = "usage-calendar-todo";
@@ -355,10 +372,6 @@ task_editor_init (TaskEditor *te)
 		g_critical ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
-
-	g_signal_connect (
-		te, "notify::client",
-		G_CALLBACK (task_editor_client_changed_cb), NULL);
 
 	g_signal_connect_swapped (
 		te->priv->model, "row_changed",
@@ -465,7 +478,7 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gbool
 		ECal *client;
 		gboolean result;
 
-		client = e_meeting_store_get_e_cal (priv->model);
+		client = e_meeting_store_get_client (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
 				client, NULL, NULL, NULL, strip_alarms);
 		g_object_unref (comp);

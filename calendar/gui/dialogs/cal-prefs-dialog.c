@@ -95,16 +95,6 @@ eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 }
 
 static void
-timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	icaltimezone *zone;
-
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
-
-	calendar_config_set_timezone (icaltimezone_get_location (zone));
-}
-
-static void
 update_day_second_zone_caption (CalendarPrefsDialog *prefs)
 {
 	gchar *location;
@@ -402,12 +392,6 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 }
 
 static void
-template_url_changed (GtkEntry *entry, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_free_busy_template (gtk_entry_get_text (entry));
-}
-
-static void
 update_system_tz_widgets (EShellSettings *shell_settings,
                           GParamSpec *pspec,
                           CalendarPrefsDialog *prefs)
@@ -427,7 +411,6 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 static void
 setup_changes (CalendarPrefsDialog *prefs)
 {
-	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
@@ -455,20 +438,6 @@ setup_changes (CalendarPrefsDialog *prefs)
 
 	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
-}
-
-/* Shows the current Free/Busy settings in the dialog */
-static void
-show_fb_config (CalendarPrefsDialog *prefs)
-{
-	gchar *template_url;
-
-	template_url = calendar_config_get_free_busy_template ();
-	gtk_entry_set_text (GTK_ENTRY (prefs->template_url), (template_url ? template_url : ""));
-
-	g_free (template_url);
 }
 
 /* Shows the current task list settings in the dialog */
@@ -538,15 +507,8 @@ show_config (CalendarPrefsDialog *prefs)
 	gint mask, day, time_divisions;
 	icaltimezone *zone;
 	gboolean sensitive, set = FALSE;
-	gchar *location;
 	CalUnits units;
 	gint interval;
-
-	/* Timezone. */
-	location = calendar_config_get_timezone_stored ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (prefs->timezone), zone);
-	g_free (location);
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
@@ -572,9 +534,6 @@ show_config (CalendarPrefsDialog *prefs)
 
 	/* Alarms list*/
 	show_alarms_config (prefs);
-
-	/* Free/Busy */
-	show_fb_config (prefs);
 
 	/* Other page */
 	e_dialog_toggle_set (prefs->default_reminder, calendar_config_get_use_default_reminder ());
@@ -662,13 +621,15 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		G_CALLBACK (update_system_tz_widgets), prefs);
 
 	widget = glade_xml_get_widget (gui, "timezone");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (widget), "timezone");
 	e_mutual_binding_new_with_negation (
 		G_OBJECT (shell_settings), "cal-use-system-timezone",
 		G_OBJECT (widget), "sensitive");
 
 	/* General tab */
 	prefs->system_tz_label = glade_xml_get_widget (gui, "system-tz-label");
-	prefs->timezone = glade_xml_get_widget (gui, "timezone");
 	prefs->day_second_zone = glade_xml_get_widget (gui, "day_second_zone");
 
 	widget = glade_xml_get_widget (gui, "sun_button");
@@ -764,7 +725,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	widget = glade_xml_get_widget (gui, "dnav_show_week_no");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-date-navigator-show-week-numbers",
+		G_OBJECT (shell_settings), "cal-show-week-numbers",
 		G_OBJECT (widget), "active");
 
 	widget = glade_xml_get_widget (gui, "dview_show_week_no");
@@ -799,7 +760,10 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	prefs->scrolled_window = glade_xml_get_widget (gui, "calendar-source-scrolled-window");
 
 	/* Free/Busy tab */
-	prefs->template_url = glade_xml_get_widget (gui, "template_url");
+	widget = glade_xml_get_widget (gui, "template_url");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-free-busy-template",
+		G_OBJECT (widget), "text");
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);

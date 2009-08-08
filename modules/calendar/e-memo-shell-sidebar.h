@@ -80,6 +80,8 @@ GType		e_memo_shell_sidebar_get_type	(void);
 void		e_memo_shell_sidebar_register_type
 					(GTypeModule *type_module);
 GtkWidget *	e_memo_shell_sidebar_new(EShellView *shell_view);
+GList *		e_memo_shell_sidebar_get_clients
+					(EMemoShellSidebar *memo_shell_sidebar);
 ESourceSelector *
 		e_memo_shell_sidebar_get_selector
 					(EMemoShellSidebar *memo_shell_sidebar);

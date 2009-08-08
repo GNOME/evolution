@@ -151,10 +151,15 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 	return id;
 }
 
-/* The current timezone, e.g. "Europe/London". It may be NULL, in which case
-   you should assume UTC (though Evolution will show the timezone-setting
-   dialog the next time a calendar or task folder is selected). */
-gchar *
+static gchar *
+calendar_config_get_timezone_stored (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
+}
+
+static gchar *
 calendar_config_get_timezone (void)
 {
 	EShell *shell;
@@ -173,14 +178,6 @@ calendar_config_get_timezone (void)
 	return calendar_config_get_timezone_stored ();
 }
 
-gchar *
-calendar_config_get_timezone_stored (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
-}
-
 icaltimezone *
 calendar_config_get_icaltimezone (void)
 {
@@ -196,19 +193,6 @@ calendar_config_get_icaltimezone (void)
 		g_free (location);
 	}
 	return zone;
-}
-
-/* Sets the timezone. If set to NULL it defaults to UTC.
-   FIXME: Should check it is being set to a valid timezone. */
-void
-calendar_config_set_timezone (const gchar *timezone)
-{
-	calendar_config_init ();
-
-	if (timezone && timezone[0])
-		gconf_client_set_string (config, CALENDAR_CONFIG_TIMEZONE, timezone, NULL);
-	else
-		gconf_client_set_string (config, CALENDAR_CONFIG_TIMEZONE, "UTC", NULL);
 }
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
@@ -860,36 +844,6 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 	}
 
 	return sexp;
-}
-
-gchar *
-calendar_config_get_free_busy_template (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_string (config, CALENDAR_CONFIG_TEMPLATE, NULL);
-}
-
-void
-calendar_config_set_free_busy_template (const gchar *template)
-{
-	calendar_config_init ();
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_TEMPLATE, template, NULL);
-}
-
-guint
-calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
-						     gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TEMPLATE, func, data,
-				      NULL, NULL);
-
-	return id;
 }
 
 void

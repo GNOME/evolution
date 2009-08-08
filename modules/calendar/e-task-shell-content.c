@@ -26,7 +26,6 @@
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-table.h"
@@ -358,6 +357,7 @@ task_shell_content_constructed (GObject *object)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
+	icaltimezone *timezone;
 	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -376,6 +376,9 @@ task_shell_content_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	priv->task_model = e_cal_model_tasks_new (shell_settings);
+
+	timezone = e_shell_settings_get_pointer (
+		shell_settings, "cal-timezone");
 
 	/* Build content widgets. */
 
@@ -406,8 +409,7 @@ task_shell_content_constructed (GObject *object)
 
 	widget = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (
-		E_CAL_COMPONENT_PREVIEW (widget),
-		calendar_config_get_icaltimezone ());
+		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_preview = g_object_ref (widget);
 	gtk_widget_show (widget);

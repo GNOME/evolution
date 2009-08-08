@@ -48,7 +48,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>
 
-#include "calendar-config.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
@@ -1243,12 +1242,15 @@ e_memo_table_save_state (EMemoTable *memo_table,
 static struct tm
 e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 {
+	EMemoTable *memo_table = data;
+	ECalModel *model;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	/* Get the current timezone. */
-	zone = calendar_config_get_icaltimezone ();
+	model = e_memo_table_get_model (memo_table);
+	zone = e_cal_model_get_timezone (model);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 

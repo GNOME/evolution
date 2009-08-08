@@ -25,7 +25,6 @@
 
 #include "e-util/gconf-bridge.h"
 
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
@@ -353,11 +352,12 @@ memo_shell_content_constructed (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
 	EShell *shell;
-	EShellSettings *shell_settings;
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellSettings *shell_settings;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	GalViewInstance *view_instance;
+	icaltimezone *timezone;
 	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -371,11 +371,15 @@ memo_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	priv->memo_model = e_cal_model_memos_new (shell_settings);
+
+	timezone = e_shell_settings_get_pointer (
+		shell_settings, "cal-timezone");
 
 	/* Build content widgets. */
 
@@ -406,8 +410,7 @@ memo_shell_content_constructed (GObject *object)
 
 	widget = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (
-		E_CAL_COMPONENT_PREVIEW (widget),
-		calendar_config_get_icaltimezone ());
+		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->memo_preview = g_object_ref (widget);
 	gtk_widget_show (widget);

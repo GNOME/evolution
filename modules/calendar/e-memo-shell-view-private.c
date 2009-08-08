@@ -67,6 +67,7 @@ memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
 	model = e_memo_table_get_model (memo_table);
 
 	e_cal_model_add_client (model, client);
+	e_memo_shell_view_update_timezone (memo_shell_view);
 }
 
 static void
@@ -198,6 +199,11 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	g_signal_connect_swapped (
+		model, "notify::timezone",
+		G_CALLBACK (e_memo_shell_view_update_timezone),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
 		memo_table, "open-component",
 		G_CALLBACK (e_memo_shell_view_open_memo),
 		memo_shell_view);
@@ -269,6 +275,7 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	e_memo_shell_view_actions_init (memo_shell_view);
 	e_memo_shell_view_update_sidebar (memo_shell_view);
 	e_memo_shell_view_update_search_filter (memo_shell_view);
+	e_memo_shell_view_update_timezone (memo_shell_view);
 
 	e_memo_shell_view_execute_search (memo_shell_view);
 }
@@ -521,4 +528,34 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	e_shell_sidebar_set_secondary_text (shell_sidebar, string->str);
 
 	g_string_free (string, TRUE);
+}
+
+void
+e_memo_shell_view_update_timezone (EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
+	ECalComponentPreview *memo_preview;
+	icaltimezone *timezone;
+	ECalModel *model;
+	GList *clients, *iter;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+	model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	timezone = e_cal_model_get_timezone (model);
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	clients = e_memo_shell_sidebar_get_clients (memo_shell_sidebar);
+
+	for (iter = clients; iter != NULL; iter = iter->next) {
+		ECal *client = iter->data;
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			e_cal_set_default_timezone (client, timezone, NULL);
+	}
+
+	e_cal_component_preview_set_default_timezone (memo_preview, timezone);
+
+	g_list_free (clients);
 }

@@ -35,7 +35,6 @@
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "calendar-config.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-util.h"
 
@@ -1600,14 +1599,16 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	return TRUE;
 }
 
-/* We do this check since the calendar items are downloaded from the server in the open_method,
-   since the default timezone might not be set there */
+/* We do this check since the calendar items are downloaded from the server
+ * in the open_method, since the default timezone might not be set there. */
 static void
-ensure_dates_are_in_default_zone (icalcomponent *icalcomp)
+ensure_dates_are_in_default_zone (ECalModel *model,
+                                  icalcomponent *icalcomp)
 {
 	icaltimetype dt;
-	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	icaltimezone *zone;
 
+	zone = e_cal_model_get_timezone (model);
 	if (!zone)
 		return;
 
@@ -1670,7 +1671,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 
 		e_cal_component_free_id (id);
 		g_object_unref (comp);
-		ensure_dates_are_in_default_zone (l->data);
+		ensure_dates_are_in_default_zone (model, l->data);
 
 		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			RecurrenceExpansionData rdata;

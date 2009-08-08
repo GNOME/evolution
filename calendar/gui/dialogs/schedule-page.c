@@ -218,7 +218,7 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 	if (start_zone != end_zone) {
 		icaltimezone_convert_time (&end_tt, end_zone, start_zone);
 	}
-	e_meeting_store_set_zone (priv->model, priv->zone);
+	e_meeting_store_set_timezone (priv->model, priv->zone);
 
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
@@ -385,10 +385,14 @@ SchedulePage *
 schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv = spage->priv;
+	EShellSettings *shell_settings;
+	EShell *shell;
 	CompEditor *editor;
 	gchar *gladefile;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
+	shell = comp_editor_get_shell (editor);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "schedule-page.glade",
@@ -422,6 +426,18 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 						   calendar_config_get_day_end_minute ());
 	gtk_widget_show (GTK_WIDGET (priv->sel));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-show-week-numbers",
+		G_OBJECT (priv->sel), "show-week-numbers");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-use-24-hour-format",
+		G_OBJECT (priv->sel), "use-24-hour-format");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (priv->sel), "week-start-day");
 
 	if (!init_widgets (spage)) {
 		g_message ("schedule_page_construct(): "

@@ -67,10 +67,7 @@ void	  calendar_config_set_calendars_selected (GSList *selected);
 guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The current timezone, e.g. "Europe/London". */
-gchar *	  calendar_config_get_timezone		(void);
-gchar *	  calendar_config_get_timezone_stored	(void);
 icaltimezone *calendar_config_get_icaltimezone (void);
-void	  calendar_config_set_timezone		(const gchar	     *timezone);
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
@@ -160,11 +157,6 @@ void     calendar_config_set_default_reminder_units (CalUnits units);
 /* Free/Busy Settings */
 GSList * calendar_config_get_free_busy (void);
 void calendar_config_set_free_busy (GSList * url_list);
-
-gchar *calendar_config_get_free_busy_template (void);
-void calendar_config_set_free_busy_template (const gchar *template);
-guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
-							   gpointer data);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */

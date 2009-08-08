@@ -489,12 +489,12 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/prompts/confirm_purge");
 
 	e_shell_settings_install_property_for_key (
-		"cal-date-navigator-show-week-numbers",
-		"/apps/evolution/calendar/date_navigator/show_week_numbers");
-
-	e_shell_settings_install_property_for_key (
 		"cal-day-view-show-week-numbers",
 		"/apps/evolution/calendar/display/day_view_show_week_number");
+
+	e_shell_settings_install_property_for_key (
+		"cal-free-busy-template",
+		"/apps/evolution/calendar/publish/template");
 
 	e_shell_settings_install_property_for_key (
 		"cal-hide-completed-tasks",
@@ -527,6 +527,10 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
 		"/apps/evolution/calendar/display/show_event_end");
+
+	e_shell_settings_install_property_for_key (
+		"cal-show-week-numbers",
+		"/apps/evolution/calendar/date_navigator/show_week_numbers");
 
 	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",
@@ -597,7 +601,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		G_OBJECT (shell_settings), "cal-timezone",
 		transform_string_to_icaltimezone,
 		transform_icaltimezone_to_string,
-		(GDestroyNotify) NULL, shell_settings);
+		(GDestroyNotify) g_object_unref,
+		g_object_ref (shell_settings));
 
 	e_shell_settings_install_property (
 		g_param_spec_int (
@@ -722,5 +727,6 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		G_OBJECT (shell_settings), "cal-working-days-saturday",
 		transform_working_days_bitset_to_saturday,
 		transform_working_days_saturday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		(GDestroyNotify) g_object_unref,
+		g_object_ref (shell_settings));
 }

@@ -287,6 +287,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 	GString *tmp2;
 	gchar buff[1001];
 	gboolean free_text = FALSE;
+	gboolean use_24_hour_format;
 	ECalComponent *new_comp;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime dtstart, dtdue;
@@ -385,6 +386,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 	e_cal_component_get_due (new_comp, &dtdue);
 
 	default_zone = e_cal_model_get_timezone (model);
+	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
 
 	if (dtstart.tzid) {
 		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
@@ -405,7 +407,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 		tmp_tm = icaltimetype_to_tm_with_zone (
 			dtstart.value, zone, default_zone);
 		e_time_format_date_and_time (
-			&tmp_tm, calendar_config_get_24_hour_format (),
+			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
 		if (buff [0]) {
@@ -420,7 +422,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 		tmp_tm = icaltimetype_to_tm_with_zone (
 			dtdue.value, zone, default_zone);
 		e_time_format_date_and_time (
-			&tmp_tm, calendar_config_get_24_hour_format (),
+			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
 		if (buff [0]) {
@@ -1614,12 +1616,15 @@ e_calendar_table_save_state (ECalendarTable *cal_table,
 static struct tm
 e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 {
+	ECalendarTable *cal_table = data;
+	ECalModel *model;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	/* Get the current timezone. */
-	zone = calendar_config_get_icaltimezone ();
+	model = e_calendar_table_get_model (cal_table);
+	zone = e_cal_model_get_timezone (model);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 

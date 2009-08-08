@@ -704,15 +704,16 @@ e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
 	ETaskShellSidebar *task_shell_sidebar;
 	ECalComponentPreview *task_preview;
 	icaltimezone *timezone;
+	ECalModel *model;
 	GList *clients, *iter;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+	model = e_task_shell_content_get_task_model (task_shell_content);
+	timezone = e_cal_model_get_timezone (model);
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
-
-	timezone = calendar_config_get_icaltimezone ();
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;

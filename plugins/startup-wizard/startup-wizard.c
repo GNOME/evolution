@@ -209,7 +209,8 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 	e_shell_settings_set_boolean (
 		shell_settings, "cal-use-system-timezone", TRUE);
 	location = e_cal_util_get_system_timezone_location ();
-	calendar_config_set_timezone (location);
+	e_shell_settings_set_string (
+		shell_settings, "cal-timezone-string", location);
 	g_free (location);
 
 	if (import_importers) {

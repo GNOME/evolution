@@ -723,14 +723,16 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 }
 
-/* We do this check since the calendar items are downloaded from the server in the open_method,
-   since the default timezone might not be set there */
+/* We do this check since the calendar items are downloaded from the server
+ * in the open_method, since the default timezone might not be set there. */
 static void
-ensure_dates_are_in_default_zone (icalcomponent *icalcomp)
+ensure_dates_are_in_default_zone (GnomeCalendar *gcal,
+                                  icalcomponent *icalcomp)
 {
 	icaltimetype dt;
-	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	icaltimezone *zone;
 
+	zone = gnome_calendar_get_timezone (gcal);
 	if (!zone)
 		return;
 
@@ -761,7 +763,7 @@ dn_e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer data)
 	for (l = objects; l; l = l->next) {
 		ECalComponent *comp = NULL;
 
-		ensure_dates_are_in_default_zone (l->data);
+		ensure_dates_are_in_default_zone (gcal, l->data);
 		comp = e_cal_component_new ();
 		if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data))) {
 			g_object_unref (comp);

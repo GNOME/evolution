@@ -120,6 +120,8 @@ void		e_memo_shell_view_update_sidebar
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_update_search_filter
 					(EMemoShellView *memo_shell_view);
+void		e_memo_shell_view_update_timezone
+					(EMemoShellView *memo_shell_view);
 
 G_END_DECLS
 

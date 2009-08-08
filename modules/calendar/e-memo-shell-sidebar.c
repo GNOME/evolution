@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
 #include "calendar/common/authentication.h"
@@ -41,6 +42,7 @@
 
 struct _EMemoShellSidebarPrivate {
 	GtkWidget *selector;
+	icaltimezone *timezone;
 
 	/* UID -> Client */
 	GHashTable *client_table;
@@ -87,33 +89,6 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 	guint signal_id = signals[STATUS_MESSAGE];
 
 	g_signal_emit (memo_shell_sidebar, signal_id, 0, status_message, -1.0);
-}
-
-static void
-memo_shell_sidebar_update_timezone (EMemoShellSidebar *memo_shell_sidebar)
-{
-	GHashTable *client_table;
-	icaltimezone *zone;
-	GList *values;
-
-	zone = calendar_config_get_icaltimezone ();
-	client_table = memo_shell_sidebar->priv->client_table;
-	values = g_hash_table_get_values (client_table);
-
-	while (values != NULL) {
-		ECal *client = values->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, zone, NULL);
-
-		values = g_list_delete_link (values, values);
-	}
-
-	/* XXX Need to call e_cal_component_preview_set_default_timezone()
-	 *     here but the sidebar is not really supposed to access content
-	 *     stuff.  I guess we could emit an "update-timezone" signal
-	 *     here, but that feels wrong.  Maybe this whole thing should
-	 *     be in EMemoShellView instead. */
 }
 
 static void
@@ -483,13 +458,6 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 }
 
 static void
-memo_shell_sidebar_client_added (EMemoShellSidebar *memo_shell_sidebar,
-                                 ECal *client)
-{
-	memo_shell_sidebar_update_timezone (memo_shell_sidebar);
-}
-
-static void
 memo_shell_sidebar_client_removed (EMemoShellSidebar *memo_shell_sidebar,
                                    ECal *client)
 {
@@ -532,7 +500,6 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = memo_shell_sidebar_check_state;
 
-	class->client_added = memo_shell_sidebar_client_added;
 	class->client_removed = memo_shell_sidebar_client_removed;
 
 	g_object_class_install_property (
@@ -630,6 +597,19 @@ e_memo_shell_sidebar_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_MEMO_SHELL_SIDEBAR,
 		"shell-view", shell_view, NULL);
+}
+
+GList *
+e_memo_shell_sidebar_get_clients (EMemoShellSidebar *memo_shell_sidebar)
+{
+	GHashTable *client_table;
+
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar), NULL);
+
+	client_table = memo_shell_sidebar->priv->client_table;
+
+	return g_hash_table_get_values (client_table);
 }
 
 ESourceSelector *
