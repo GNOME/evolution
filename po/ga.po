@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-07 03:05-0600\n"
-"PO-Revision-Date: 2009-08-08 04:17-0600\n"
+"PO-Revision-Date: 2009-08-08 10:55-0600\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -6018,7 +6018,7 @@ msgstr "Dáta Tosaigh:"
 #: ../calendar/gui/e-itip-control.c:1210
 #: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:76
 msgid "Description:"
-msgstr "Cur síos:"
+msgstr "Cur Síos:"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:215
 #: ../calendar/gui/e-cal-component-preview.c:309
@@ -10743,14 +10743,12 @@ msgid "Ask for each message"
 msgstr ""
 
 #: ../mail/em-account-editor.c:1877 ../mail/mail-config.glade.h:101
-#, fuzzy
 msgid "Identity"
 msgstr "Aitheantas"
 
 #: ../mail/em-account-editor.c:1928 ../mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Receiving Email"
-msgstr "Seoltaí Ríomhphoist"
+msgstr "Fáil Ríomhphoist"
 
 #: ../mail/em-account-editor.c:2200
 #, fuzzy
@@ -10778,9 +10776,8 @@ msgstr "Slándáil"
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
 #: ../mail/em-account-editor.c:2560 ../mail/em-account-editor.c:2655
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Roghanna Beochana"
+msgstr "Roghanna Fála"
 
 #: ../mail/em-account-editor.c:2561 ../mail/em-account-editor.c:2656
 #, fuzzy
@@ -12126,9 +12123,8 @@ msgstr "Níl raon roghnaithe agat."
 #. Check buttons
 #: ../mail/em-utils.c:121
 #: ../plugins/attachment-reminder/attachment-reminder.c:129
-#, fuzzy
 msgid "_Do not show this message again."
-msgstr "Ná taispeáin an teachtaireacht seo arís"
+msgstr "_Ná taispeáin an teachtaireacht seo arís."
 
 #: ../mail/em-utils.c:317
 #, fuzzy
@@ -13131,22 +13127,22 @@ msgstr "Iompórtáil Ó Phost OS X"
 #: ../mail/mail-autofilter.c:72
 #, c-format
 msgid "Mail to %s"
-msgstr "Post do %s"
+msgstr "Post chuig %s"
 
 #: ../mail/mail-autofilter.c:235 ../mail/mail-autofilter.c:274
 #, c-format
 msgid "Mail from %s"
-msgstr "Scéal ó %s"
+msgstr "Post ó %s"
 
 #: ../mail/mail-autofilter.c:258
 #, c-format
 msgid "Subject is %s"
-msgstr "Tá an t-ábhar %s"
+msgstr "Is %s an t-ábhar"
 
 #: ../mail/mail-autofilter.c:293
 #, c-format
 msgid "%s mailing list"
-msgstr "líosta ríomhphost %s"
+msgstr "liosta postála %s"
 
 #: ../mail/mail-autofilter.c:364
 #, fuzzy
@@ -13368,9 +13364,8 @@ msgid "<span weight=\"bold\">Proxy Settings</span>"
 msgstr "<span weight=\"bold\">Stádas</span>"
 
 #: ../mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Eolas Riachtanach</span>"
 
 #: ../mail/mail-config.glade.h:30
 #, fuzzy
@@ -13629,15 +13624,16 @@ msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
 msgstr ""
+"Má úsáideann an freastalaí port neamhchaighdeánach, sonraigh an seoladh "
+"freastalaí mar \"ainm-freastalaí:uimhir-phoirt\""
 
 #: ../mail/mail-config.glade.h:104
 msgid "KB"
 msgstr "KB"
 
 #: ../mail/mail-config.glade.h:105 ../mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Labels"
-msgstr "Lipéad"
+msgstr "Lipéid"
 
 #: ../mail/mail-config.glade.h:106
 #, fuzzy
@@ -13682,7 +13678,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:116
 msgid "Or_ganization:"
-msgstr "_Eagrú:"
+msgstr "_Eagras:"
 
 #: ../mail/mail-config.glade.h:117
 msgid "PGP/GPG _Key ID:"
@@ -13710,10 +13706,13 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"Iontráil d'ainm agus do sheoladh ríomhphoist thíos, le do thoil. Ní gá na "
+"réimsí \"roghnach\" thíos a chomhlánú, murar mhaith leat an t-eolas seo a "
+"chur i ríomhphoist a sheolann tú."
 
 #: ../mail/mail-config.glade.h:123
 msgid "Please select among the following options"
-msgstr ""
+msgstr "Cumraigh na roghanna a leanas, le do thoil."
 
 #: ../mail/mail-config.glade.h:124
 msgid "Port:"
@@ -13725,7 +13724,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:126
 msgid "Re_member password"
-msgstr "Meabhraigh _focal faire"
+msgstr "_Meabhraigh focal faire"
 
 #: ../mail/mail-config.glade.h:127
 msgid "Re_ply-To:"
@@ -13785,7 +13784,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:143
 msgid "Server _Type: "
-msgstr "_Cineál Freastalaí: "
+msgstr "C_ineál Freastalaí: "
 
 #: ../mail/mail-config.glade.h:144
 #, fuzzy
@@ -13838,7 +13837,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:156
 msgid "Us_ername:"
-msgstr "Ainm _Úsáideora:"
+msgstr "Ainm Ú_sáideora:"
 
 #: ../mail/mail-config.glade.h:157
 msgid "Use Authe_ntication"
@@ -13905,9 +13904,8 @@ msgid "_Lookup in local address book only"
 msgstr "Ná taispeáin ach fillteáin atá oscailte"
 
 #: ../mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Make this my default account"
-msgstr "Úsáid é seo &mar léitheoir fothaí réamhshocraithe"
+msgstr "S_ocraigh é seo mar mo chuntas réamhshocraithe"
 
 #: ../mail/mail-config.glade.h:174
 #, fuzzy
@@ -13968,9 +13966,8 @@ msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "Ní ghlacann \"mixmaster\" le ceanntásca Cc nó Bcc."
 
 #: ../mail/mail-config.glade.h:190
-#, fuzzy
 msgid "_Use Secure Connection:"
-msgstr "Úsáid nasc daingean:"
+msgstr "Úsáid C_eangal Daingean:"
 
 #: ../mail/mail-config.glade.h:191
 #, fuzzy
@@ -14306,7 +14303,7 @@ msgstr "Ag Fanacht..."
 #: ../mail/mail-send-recv.c:814
 #, c-format
 msgid "Checking for new mail"
-msgstr "Ag lorg poist nua"
+msgstr "Lorg poist nua"
 
 #: ../mail/mail-session.c:210
 #, c-format
@@ -15287,9 +15284,8 @@ msgid "_Restart Evolution after restore"
 msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:287
-#, fuzzy
 msgid "Restore from backup"
-msgstr "Fainéis á léamh ó chúltaca"
+msgstr "Athchóirigh ó chúltaca"
 
 #: ../plugins/backup-restore/backup-restore.c:289
 msgid ""
@@ -15297,15 +15293,17 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
+"Is féidir leat Evolution a athchóiriú ó do chúltaca. Is féidir leis gach "
+"Post, Féilire, Tasc, Meamram agus Teagmháil a athchóiriú. Athchóiríonn sé do "
+"chuid socruithe pearsanta, scagairí poist, srl."
 
 #: ../plugins/backup-restore/backup-restore.c:297
-#, fuzzy
 msgid "_Restore Evolution from the backup file"
-msgstr "Earráid Evolution"
+msgstr "_Athchóirigh Evolution ón gcomhad cúltaca"
 
 #: ../plugins/backup-restore/backup-restore.c:304
 msgid "Please select an Evolution Archive to restore:"
-msgstr ""
+msgstr "Roghnaigh Cartlann Evolution le hathchóiriú, le do thoil:"
 
 #: ../plugins/backup-restore/backup-restore.c:307
 #, fuzzy
@@ -15788,14 +15786,13 @@ msgid "Check whether Evolution is the default mail client on startup."
 msgstr ""
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
-#, fuzzy
 msgid "Default Mail Client"
-msgstr "GenericName=Cliant Ríomhphoist"
+msgstr "Cliant Ríomhphoist Réamhshocraithe"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
 msgstr ""
-"Ar mhaith leat Evolution a úsáid mar do cliant ríomhphoist réamhshocraithe?"
+"Ar mhaith leat Evolution a úsáid mar do chliant ríomhphoist réamhshocraithe?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:627
@@ -16035,7 +16032,7 @@ msgstr "Cineál fíordheimhnithe"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1015
 msgid "Ch_eck for Supported Types"
-msgstr ""
+msgstr "_Lorg Cineáil Tacaithe"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1130
 #: ../plugins/exchange-operations/exchange-contacts.c:217
@@ -19318,6 +19315,10 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Fáilte go Evolution. Ceadófar an chéad cúpla scáileáin eile Evolution nasc "
+"le do chuntais ríomhphoist, agus comhaid a iompórtáil ó fheidhmchlr eile. \n"
+"\n"
+"Cliceáil an cnaipe \"Ar Aghaidh\" chun leanúint ar aghaidh, le do thoil. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:115
 #, fuzzy
