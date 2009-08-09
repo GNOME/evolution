@@ -77,6 +77,7 @@ calendar/gui/alarm-notify/alarm-queue.c
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/alarm-notify/util.c
 calendar/gui/apps_evolution_calendar.schemas.in
+calendar/gui/cal-editor-utils.c
 calendar/gui/cal-search-bar.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-component.c
@@ -187,6 +188,7 @@ e-util/e-non-intrusive-error-dialog.c
 e-util/e-non-intrusive-error-dialog.h
 e-util/e-plugin.c
 e-util/e-print.c
+e-util/e-signature.c
 e-util/e-system.error.xml
 e-util/e-util.c
 e-util/e-util-labels.c
