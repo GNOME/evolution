@@ -17,7 +17,7 @@
             <property name="title" translatable="yes">Mail Configuration</property>
             <property name="text" translatable="yes">Welcome to the Evolution Mail Configuration Assistant.
 
-Click "Forward" to begin. </property>
+Click "Forward" to begin.</property>
           </widget>
         </child>
         <child>
@@ -61,7 +61,7 @@ Click "Forward" to begin. </property>
                   <widget class="GtkLabel" id="extra_help">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Please select among the following options</property>
+                    <property name="label" translatable="yes">Please configure the following account settings.</property>
                     <property name="wrap">True</property>
                   </widget>
                   <packing>
@@ -614,7 +614,7 @@ For example: "Work" or "Personal"</property>
                       <widget class="GtkLabel" id="source_type_label">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Server _Type: </property>
+                        <property name="label" translatable="yes">Server _Type:</property>
                         <property name="use_underline">True</property>
                         <property name="justify">right</property>
                         <property name="mnemonic_widget">source_type_dropdown</property>
@@ -1004,7 +1004,7 @@ For example: "Work" or "Personal"</property>
                                 </child>
                                 <child>
                                   <widget class="GtkButton" id="source_check_supported">
-                                    <property name="label" translatable="yes"> Ch_eck for Supported Types </property>
+                                    <property name="label" translatable="yes"> Ch_eck for Supported Types</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -1098,7 +1098,7 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
-                        <property name="label" translatable="yes">Server _Type: </property>
+                        <property name="label" translatable="yes">Server _Type:</property>
                         <property name="use_underline">True</property>
                         <property name="justify">right</property>
                         <property name="mnemonic_widget">transport_type_dropdown</property>
@@ -1448,7 +1448,7 @@ For example: "Work" or "Personal"</property>
                                           <widget class="GtkLabel" id="transport_auth_label">
                                             <property name="visible">True</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">T_ype: </property>
+                                            <property name="label" translatable="yes">T_ype:</property>
                                             <property name="use_underline">True</property>
                                             <property name="justify">center</property>
                                             <property name="mnemonic_widget">transport_auth_dropdown</property>
