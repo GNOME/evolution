@@ -7,9 +7,9 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 endif
 
 AM_CPPFLAGS =						\
-	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_builddir)				\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
 	$(EVOLUTION_CFLAGS)				\
