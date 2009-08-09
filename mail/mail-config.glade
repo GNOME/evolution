@@ -2694,7 +2694,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					    <widget class="GtkButton" id="transport_check_supported">
 					      <property name="visible">True</property>
 					      <property name="can_focus">True</property>
-					      <property name="label" translatable="yes">Ch_eck for Supported Types </property>
+					      <property name="label" translatable="yes">Ch_eck for Supported Types</property>
 					      <property name="use_underline">True</property>
 					      <property name="relief">GTK_RELIEF_NORMAL</property>
 					      <property name="focus_on_click">True</property>
