@@ -1504,7 +1504,7 @@ For example: "Work" or "Personal"</property>
                                             </child>
                                             <child>
                                               <widget class="GtkButton" id="transport_check_supported">
-                                                <property name="label" translatable="yes">Ch_eck for Supported Types </property>
+                                                <property name="label" translatable="yes">Ch_eck for Supported Types</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
