@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-07 03:05-0600\n"
-"PO-Revision-Date: 2009-08-08 10:55-0600\n"
+"POT-Creation-Date: 2009-08-08 20:24-0600\n"
+"PO-Revision-Date: 2009-08-08 20:34-0600\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgstr "Coinne Nua"
 
 #: ../a11y/calendar/ea-cal-view.c:300
 msgid "New All Day Event"
-msgstr "Teagmhas an Lá ar Fad Nua"
+msgstr "Teagmhas an Lae ar Fad Nua"
 
 #: ../a11y/calendar/ea-cal-view.c:301
 msgid "New Meeting"
@@ -118,8 +118,11 @@ msgstr ""
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tá %d teagmhas aige."
+msgstr[1] "Tá %d teagmhas aige."
+msgstr[2] "Tá %d theagmhas aige."
+msgstr[3] "Tá %d dteagmhas aige."
+msgstr[4] "Tá %d teagmhas aige."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -741,7 +744,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/calendar-setup.c:367
 #: ../calendar/gui/dialogs/calendar-setup.c:378
 #: ../calendar/gui/dialogs/calendar-setup.c:389
-#: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:96
+#: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:95
 #: ../plugins/itip-formatter/itip-formatter.c:2558
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -1109,7 +1112,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:36
 #: ../calendar/gui/dialogs/calendar-setup.c:226
-#: ../mail/mail-config.glade.h:176
+#: ../mail/mail-config.glade.h:175
 #: ../plugins/groupwise-features/properties.glade.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
 msgid "_Name:"
@@ -1124,7 +1127,7 @@ msgid "_Search scope:"
 msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:39
-#: ../mail/mail-config.glade.h:185
+#: ../mail/mail-config.glade.h:184
 #: ../plugins/publish-calendar/publish-calendar.glade.h:27
 msgid "_Server:"
 msgstr "_Freastalaí:"
@@ -3285,7 +3288,7 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/comp-editor.c:1038
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:8
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:168
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:167
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
 #: ../plugins/publish-calendar/publish-calendar.glade.h:22
 #: ../ui/evolution-addressbook.xml.h:51 ../ui/evolution-calendar.xml.h:43
@@ -4298,8 +4301,7 @@ msgstr ""
 msgid "Permission denied to open the calendar"
 msgstr "Diúltaíodh cead chun cáilíocht %S.%S a fháil"
 
-#: ../calendar/gui/comp-editor-factory.c:438
-#: ../plugins/mail-to-task/mail-to-task.c:455 ../shell/e-shell.c:1261
+#: ../calendar/gui/comp-editor-factory.c:438 ../shell/e-shell.c:1261
 msgid "Unknown error"
 msgstr "Earráid anaithnid"
 
@@ -4512,12 +4514,12 @@ msgid "<span weight=\"bold\">Alarms</span>"
 msgstr "<span weight=\"bold\">Aláraim</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: ../mail/mail-config.glade.h:10
+#: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Foláirimh</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#: ../mail/mail-config.glade.h:14
+#: ../mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Date/Time Format</span>"
 msgstr "<span weight=\"bold\">Formáid Dáta/Ama</span>"
 
@@ -4527,7 +4529,7 @@ msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgstr "<b>Roghnachais Féilire</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
-#: ../mail/mail-config.glade.h:18
+#: ../mail/mail-config.glade.h:17
 #: ../plugins/publish-calendar/publish-calendar.glade.h:1
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Ginearálta</span>"
@@ -4599,7 +4601,7 @@ msgstr ""
 "Domhnach"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: ../mail/mail-config.glade.h:119
+#: ../mail/mail-config.glade.h:118
 msgid "Pick a color"
 msgstr "Roghnaigh dath"
 
@@ -5486,7 +5488,7 @@ msgstr "_Am:"
 #: ../calendar/gui/dialogs/event-page.glade.h:19
 #: ../calendar/gui/dialogs/memo-page.glade.h:8
 #: ../calendar/gui/dialogs/task-page.glade.h:10
-#: ../mail/mail-config.glade.h:193 ../mail/mail-dialogs.glade.h:21
+#: ../mail/mail-config.glade.h:192 ../mail/mail-dialogs.glade.h:21
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:5
 #: ../smime/gui/smime-ui.glade.h:49
 msgid ""
@@ -5727,7 +5729,7 @@ msgid "<b>Exceptions</b>"
 msgstr "<b>Eisceachtaí</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
-#: ../mail/mail-config.glade.h:3
+#: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
 msgstr "<b>Réamhamharc</b>"
 
@@ -6016,7 +6018,7 @@ msgstr "Dáta Tosaigh:"
 #: ../calendar/gui/e-cal-component-memo-preview.c:191
 #: ../calendar/gui/e-cal-component-preview.c:285
 #: ../calendar/gui/e-itip-control.c:1210
-#: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:76
+#: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:75
 msgid "Description:"
 msgstr "Cur Síos:"
 
@@ -9479,7 +9481,7 @@ msgstr "An tAigéan Ciúin/Wallis"
 msgid "Pacific/Yap"
 msgstr "An tAigéan Ciúin/Yap"
 
-#: ../composer/e-composer-autosave.c:443
+#: ../composer/e-composer-autosave.c:444
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
@@ -10593,7 +10595,7 @@ msgid "Mail Accounts"
 msgstr "Cuntais Poist"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:15
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:108
 msgid "Mail Preferences"
 msgstr "Sainroghanna Poist"
 
@@ -10742,33 +10744,32 @@ msgstr "I gCónaí"
 msgid "Ask for each message"
 msgstr ""
 
-#: ../mail/em-account-editor.c:1877 ../mail/mail-config.glade.h:101
+#: ../mail/em-account-editor.c:1877 ../mail/mail-config.glade.h:100
 msgid "Identity"
 msgstr "Aitheantas"
 
-#: ../mail/em-account-editor.c:1928 ../mail/mail-config.glade.h:128
+#: ../mail/em-account-editor.c:1928 ../mail/mail-config.glade.h:127
 msgid "Receiving Email"
 msgstr "Fáil Ríomhphoist"
 
 #: ../mail/em-account-editor.c:2200
-#, fuzzy
 msgid "Check for _new messages every"
-msgstr "Ag seiceáil do theachtaireachtaí nua..."
+msgstr "Lorg teachtaireachtaí _nua gach"
 
 #: ../mail/em-account-editor.c:2208
 msgid "minu_tes"
-msgstr "_nóiméad"
+msgstr "nói_méad"
 
-#: ../mail/em-account-editor.c:2398 ../mail/mail-config.glade.h:139
+#: ../mail/em-account-editor.c:2398 ../mail/mail-config.glade.h:138
 msgid "Sending Email"
 msgstr ""
 
-#: ../mail/em-account-editor.c:2457 ../mail/mail-config.glade.h:74
+#: ../mail/em-account-editor.c:2457 ../mail/mail-config.glade.h:73
 msgid "Defaults"
 msgstr "Réamhshocruithe"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2523 ../mail/mail-config.glade.h:134
+#: ../mail/em-account-editor.c:2523 ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Security"
 msgstr "Slándáil"
@@ -10780,18 +10781,16 @@ msgid "Receiving Options"
 msgstr "Roghanna Fála"
 
 #: ../mail/em-account-editor.c:2561 ../mail/em-account-editor.c:2656
-#, fuzzy
 msgid "Checking for New Messages"
-msgstr "Ag seiceáil do theachtaireachtaí nua..."
+msgstr "Lorg Teachtaireachtaí Nua"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:35
+#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Eagarthóir Cuntas"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:90
-#, fuzzy
+#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
-msgstr "Name=Qt Assistant"
+msgstr "Cúntóir Cuntais Evolution"
 
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:426
@@ -10990,7 +10989,7 @@ msgstr "nach bhfuil socruithe"
 msgid "is set"
 msgstr "atá socruithe"
 
-#: ../mail/em-filter-i18n.h:41 ../mail/mail-config.glade.h:103
+#: ../mail/em-filter-i18n.h:41 ../mail/mail-config.glade.h:102
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Dramhphost"
@@ -11606,7 +11605,7 @@ msgstr "Cliceáil chun féilire an mhíosa a fholú"
 
 #: ../mail/em-format-html-display.c:560 ../mail/em-format-html.c:654
 msgid "Unsigned"
-msgstr "Gan Siniú"
+msgstr "Gan síniú"
 
 #: ../mail/em-format-html-display.c:560
 msgid ""
@@ -11616,7 +11615,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:561 ../mail/em-format-html.c:655
 msgid "Valid signature"
-msgstr "Siniú Bhailithe."
+msgstr "Síniú bailí"
 
 #: ../mail/em-format-html-display.c:561
 msgid ""
@@ -11626,7 +11625,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:562 ../mail/em-format-html.c:656
 msgid "Invalid signature"
-msgstr "Siniú neambhailí."
+msgstr "Síniú neamhbhailí"
 
 #: ../mail/em-format-html-display.c:562
 msgid ""
@@ -12429,7 +12428,7 @@ msgstr ""
 msgid "Enable/disable caret mode"
 msgstr "Cumasaigh an &mhód éighníomhach (PASV)"
 
-#: ../mail/evolution-mail.schemas.in.h:58 ../mail/mail-config.glade.h:87
+#: ../mail/evolution-mail.schemas.in.h:58 ../mail/mail-config.glade.h:86
 msgid "Encode file names in an Outlook/GMail way"
 msgstr ""
 
@@ -13260,185 +13259,181 @@ msgid "Failed upgrading Mail settings or folders."
 msgstr ""
 
 #: ../mail/mail-config.glade.h:1
-msgid " Ch_eck for Supported Types "
-msgstr ""
-
-#: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:4
+#: ../mail/mail-config.glade.h:3
 msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:5
+#: ../mail/mail-config.glade.h:4
 #, fuzzy
 msgid "<b>Sender Photograph</b>"
 msgstr "Grian Grianghraf"
 
-#: ../mail/mail-config.glade.h:6
+#: ../mail/mail-config.glade.h:5
 msgid "<b>Sig_natures</b>"
 msgstr "<b>Sí_nithe</b>"
 
-#: ../mail/mail-config.glade.h:7
+#: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:8
+#: ../mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
 msgstr "<b>_Teangacha</b>"
 
-#: ../mail/mail-config.glade.h:9
+#: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\">Eolas Cuntais</span>"
 
-#: ../mail/mail-config.glade.h:11
+#: ../mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">Fíordheimhniú</span>"
 
-#: ../mail/mail-config.glade.h:12
+#: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">Cumadh Teachtaireachtaí</span>"
 
-#: ../mail/mail-config.glade.h:13
+#: ../mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">Cumraíocht</span>"
 
-#: ../mail/mail-config.glade.h:15
+#: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">Oibriú Réamhshocraithe</span>"
 
-#: ../mail/mail-config.glade.h:16
+#: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Scrios Post</span>"
 
-#: ../mail/mail-config.glade.h:17
+#: ../mail/mail-config.glade.h:16
 #, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:19
+#: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels</span>"
 msgstr "<span weight=\"bold\">Lipéid</span>"
 
-#: ../mail/mail-config.glade.h:20
+#: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Luchtú Íomhánna</span>"
 
-#: ../mail/mail-config.glade.h:21
+#: ../mail/mail-config.glade.h:20
 #, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:22
+#: ../mail/mail-config.glade.h:21
 #, fuzzy
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:23
+#: ../mail/mail-config.glade.h:22
 #, fuzzy
 msgid "<span weight=\"bold\">Message Receipts</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:24
+#: ../mail/mail-config.glade.h:23
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">Eolas Roghnach</span>"
 
-#: ../mail/mail-config.glade.h:25
+#: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Roghanna</span>"
 
-#: ../mail/mail-config.glade.h:26
+#: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:27
+#: ../mail/mail-config.glade.h:26
 #, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:27
 #, fuzzy
 msgid "<span weight=\"bold\">Proxy Settings</span>"
 msgstr "<span weight=\"bold\">Stádas</span>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Eolas Riachtanach</span>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:29
 #, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Slándáil</span>"
 
-#: ../mail/mail-config.glade.h:32
+#: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:33
+#: ../mail/mail-config.glade.h:32
 #, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:34
+#: ../mail/mail-config.glade.h:33
 #, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:35
 msgid "Account Management"
 msgstr "Bainistíocht Cuntas"
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
 msgstr "Cuir Síniú _Nua Leis..."
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
 msgstr "Cuir _Script Leis"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:43
+#: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:44
+#: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:45
+#: ../mail/mail-config.glade.h:44
 #, fuzzy
 msgid "Always request rea_d receipt"
 msgstr "Nuair a thagann admháil léite:"
 
-#: ../mail/mail-config.glade.h:46
+#: ../mail/mail-config.glade.h:45
 msgid ""
 "Attachment\n"
 "Inline\n"
 "Quoted"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:49
+#: ../mail/mail-config.glade.h:48
 msgid ""
 "Attachment\n"
 "Inline (Outlook style)\n"
@@ -13446,63 +13441,64 @@ msgid ""
 "Do not quote"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:53
+#: ../mail/mail-config.glade.h:52
 msgid "Automatically insert _emoticon images"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:54
+#: ../mail/mail-config.glade.h:53
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltach (ISO-8859-13)"
 
-#: ../mail/mail-config.glade.h:55
+#: ../mail/mail-config.glade.h:54
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltach (ISO-8859-4)"
 
-#: ../mail/mail-config.glade.h:56
+#: ../mail/mail-config.glade.h:55
 msgid "C_haracter set:"
 msgstr "Tacar c_arachtar:"
 
-#: ../mail/mail-config.glade.h:57
-msgid "Ch_eck for Supported Types "
-msgstr ""
+#: ../mail/mail-config.glade.h:56
+#: ../plugins/exchange-operations/exchange-account-setup.c:1015
+msgid "Ch_eck for Supported Types"
+msgstr "_Lorg Cineáil Tacaithe"
 
-#: ../mail/mail-config.glade.h:58
+#: ../mail/mail-config.glade.h:57
 #, fuzzy
 msgid "Check cu_stom headers for junk"
 msgstr "Post ríomhphost"
 
-#: ../mail/mail-config.glade.h:59
+#: ../mail/mail-config.glade.h:58
 #, fuzzy
 msgid "Check incoming _messages for junk"
 msgstr "Post ríomhphost"
 
-#: ../mail/mail-config.glade.h:60
+#: ../mail/mail-config.glade.h:59
 #, fuzzy
 msgid "Check spelling while I _type"
 msgstr "Seiceáil litriú le linn clóscríofa"
 
-#: ../mail/mail-config.glade.h:61
+#: ../mail/mail-config.glade.h:60
 msgid "Checks incoming mail messages to be Junk"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:62
+#: ../mail/mail-config.glade.h:61
 msgid "Cle_ar"
 msgstr "_Glan"
 
-#: ../mail/mail-config.glade.h:63
+#: ../mail/mail-config.glade.h:62
 msgid "Clea_r"
 msgstr "_Glan"
 
-#: ../mail/mail-config.glade.h:64
+#: ../mail/mail-config.glade.h:63
 #, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "Uath athchuir focail litrithe mícheart"
 
-#: ../mail/mail-config.glade.h:65
+#: ../mail/mail-config.glade.h:64
 msgid "Confirm _when expunging a folder"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:66
+#: ../mail/mail-config.glade.h:65
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -13512,114 +13508,114 @@ msgid ""
 "Click \"Apply\" to save your settings."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:72
+#: ../mail/mail-config.glade.h:71
 msgid "De_fault"
 msgstr "_Réamhshocrú"
 
-#: ../mail/mail-config.glade.h:73
+#: ../mail/mail-config.glade.h:72
 #, fuzzy
 msgid "Default character e_ncoding:"
 msgstr "Tacar carachtar réamhshocraithe:"
 
-#: ../mail/mail-config.glade.h:75
+#: ../mail/mail-config.glade.h:74
 msgid "Delete junk messages on e_xit"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:77
+#: ../mail/mail-config.glade.h:76
 #, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Ag bogadh scéaltaí"
 
-#: ../mail/mail-config.glade.h:78
+#: ../mail/mail-config.glade.h:77
 msgid "Do not format messages when text si_ze exceeds"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:79
+#: ../mail/mail-config.glade.h:78
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:80
+#: ../mail/mail-config.glade.h:79
 msgid "Done"
 msgstr "Déanta"
 
-#: ../mail/mail-config.glade.h:81
+#: ../mail/mail-config.glade.h:80
 msgid "Drafts _Folder:"
 msgstr "_Fillteán Dréachtaí:"
 
-#: ../mail/mail-config.glade.h:82
+#: ../mail/mail-config.glade.h:81
 msgid "Email Accounts"
 msgstr "Cuntasaí Rphoist"
 
-#: ../mail/mail-config.glade.h:83
+#: ../mail/mail-config.glade.h:82
 msgid "Email _Address:"
 msgstr "_Seoladh Ríomhphoist:"
 
-#: ../mail/mail-config.glade.h:84
+#: ../mail/mail-config.glade.h:83
 msgid "Empty trash folders on e_xit"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:85
+#: ../mail/mail-config.glade.h:84
 #, fuzzy
 msgid "Enable Magic S_pacebar"
 msgstr "Bainistigh Gléasanna agus Breiseáin"
 
-#: ../mail/mail-config.glade.h:86
+#: ../mail/mail-config.glade.h:85
 #, fuzzy
 msgid "Enable Sea_rch Folders"
 msgstr "Fillteáin Chuardaigh Shábháilte"
 
-#: ../mail/mail-config.glade.h:88
+#: ../mail/mail-config.glade.h:87
 #, fuzzy
 msgid "Encry_ption certificate:"
 msgstr "Gan Teastas Freastalaí"
 
-#: ../mail/mail-config.glade.h:89
+#: ../mail/mail-config.glade.h:88
 #, fuzzy
 msgid "Encrypt out_going messages (by default)"
 msgstr "Ag bogadh scéaltaí"
 
-#: ../mail/mail-config.glade.h:91
+#: ../mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Fi_xed-width:"
 msgstr "Cló &aonleithid"
 
-#: ../mail/mail-config.glade.h:92
+#: ../mail/mail-config.glade.h:91
 #, fuzzy
 msgid "Fix_ed width Font:"
 msgstr "Cló &aonleithid"
 
-#: ../mail/mail-config.glade.h:93
+#: ../mail/mail-config.glade.h:92
 msgid "Font Properties"
 msgstr "Álbachtaí Clófhoireann"
 
-#: ../mail/mail-config.glade.h:94
+#: ../mail/mail-config.glade.h:93
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Seol mar HTML amháin"
 
-#: ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.glade.h:94
 msgid "Full Nam_e:"
 msgstr "_Ainm Iomlán:"
 
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:96
 msgid "HTML Messages"
 msgstr "Teachtaireachtaí HTML"
 
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:97
 #, fuzzy
 msgid "H_TTP Proxy:"
 msgstr "Bosca _Phoist:"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:98
 msgid "Headers"
 msgstr "Ceanntásca"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:99
 #, fuzzy
 msgid "Highlight _quotations with"
 msgstr "RockRidge le díth ainm"
 
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:101
 msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
@@ -13627,66 +13623,70 @@ msgstr ""
 "Má úsáideann an freastalaí port neamhchaighdeánach, sonraigh an seoladh "
 "freastalaí mar \"ainm-freastalaí:uimhir-phoirt\""
 
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:103
 msgid "KB"
 msgstr "KB"
 
-#: ../mail/mail-config.glade.h:105 ../mail/message-list.etspec.h:8
+#: ../mail/mail-config.glade.h:104 ../mail/message-list.etspec.h:8
 msgid "Labels"
 msgstr "Lipéid"
 
-#: ../mail/mail-config.glade.h:106
+#: ../mail/mail-config.glade.h:105
 #, fuzzy
 msgid "Languages Table"
 msgstr "Cuir Tábla Leis"
 
-#: ../mail/mail-config.glade.h:107
+#: ../mail/mail-config.glade.h:106
 msgid "Mail Configuration"
 msgstr "Socrú Post"
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:107
 #, fuzzy
 msgid "Mail Headers Table"
 msgstr "Tábla gan aimsiú"
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:109
 msgid "Mailbox location"
 msgstr "Áit do Bosca Phoist"
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:110
 msgid "Message Composer"
 msgstr "Scríobhóir Scéal"
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:111
 msgid "No _Proxy for:"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:112
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:113
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:114
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:116
+#: ../mail/mail-config.glade.h:115
 msgid "Or_ganization:"
 msgstr "_Eagras:"
 
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:116
 msgid "PGP/GPG _Key ID:"
 msgstr "ID _Eochar PGP:"
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:117
 msgid "Pass_word:"
 msgstr "_Focal Faire:"
+
+#: ../mail/mail-config.glade.h:119
+msgid "Please configure the following account settings."
+msgstr "Cumraigh na socruithe cuntais a leanas, le do thoil."
 
 #: ../mail/mail-config.glade.h:120
 msgid ""
@@ -13711,286 +13711,281 @@ msgstr ""
 "chur i ríomhphoist a sheolann tú."
 
 #: ../mail/mail-config.glade.h:123
-msgid "Please select among the following options"
-msgstr "Cumraigh na roghanna a leanas, le do thoil."
-
-#: ../mail/mail-config.glade.h:124
 msgid "Port:"
 msgstr "Port:"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:124
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:126
+#: ../mail/mail-config.glade.h:125
 msgid "Re_member password"
 msgstr "_Meabhraigh focal faire"
 
-#: ../mail/mail-config.glade.h:127
+#: ../mail/mail-config.glade.h:126
 msgid "Re_ply-To:"
 msgstr "_Freagra-Chuig:"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:128
 msgid "Remember _password"
 msgstr "Meabhraigh _focal faire"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:129
 msgid "S_earch for sender photograph only in local address books"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:130
 msgid "S_elect..."
 msgstr "_Roghnaigh..."
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:131
 #, fuzzy
 msgid "S_end message receipts:"
 msgstr "[-- DEIREADH TEACHTAIREACHTA PGP --]\n"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:132
 #, fuzzy
 msgid "S_tandard Font:"
 msgstr "Cló Comhrá"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:134
 #, fuzzy
 msgid "Select HTML fixed width font"
 msgstr "Ní cló aonleithid é '%s'"
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:135
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:136
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:137
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:139
 msgid "Sending Mail"
 msgstr "Post á Sheoladh"
 
-#: ../mail/mail-config.glade.h:141
+#: ../mail/mail-config.glade.h:140
 #, fuzzy
 msgid "Sent _Messages Folder:"
 msgstr "&Fillteán na dteachtaireachtaí seolta:"
 
-#: ../mail/mail-config.glade.h:142
+#: ../mail/mail-config.glade.h:141
 msgid "Ser_ver requires authentication"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:143
-msgid "Server _Type: "
-msgstr "C_ineál Freastalaí: "
+#: ../mail/mail-config.glade.h:142
+msgid "Server _Type:"
+msgstr "C_ineál Freastalaí:"
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:143
 #, fuzzy
 msgid "Sig_ning certificate:"
 msgstr "Gan Teastas Freastalaí"
 
-#: ../mail/mail-config.glade.h:145
+#: ../mail/mail-config.glade.h:144
 msgid "Signat_ure:"
 msgstr "_Síniú:"
 
-#: ../mail/mail-config.glade.h:146
+#: ../mail/mail-config.glade.h:145
 msgid "Signatures"
 msgstr "Sínithe"
 
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:146
 #, fuzzy
 msgid "Signatures Table"
 msgstr "Cuir Tábla Leis"
 
-#: ../mail/mail-config.glade.h:148
-#, fuzzy
+#: ../mail/mail-config.glade.h:147
 msgid "Spell Checking"
-msgstr "Seiceáil Litrithe"
+msgstr "Litriú"
 
-#: ../mail/mail-config.glade.h:149
+#: ../mail/mail-config.glade.h:148
 msgid "Start _typing at the bottom on replying"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:150
-msgid "T_ype: "
+#: ../mail/mail-config.glade.h:149
+msgid "T_ype:"
 msgstr "_Cineál:"
 
-#: ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.glade.h:150
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:152
+#: ../mail/mail-config.glade.h:151
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:153
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 
-#: ../mail/mail-config.glade.h:156
+#: ../mail/mail-config.glade.h:155
 msgid "Us_ername:"
 msgstr "Ainm Ú_sáideora:"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:156
 msgid "Use Authe_ntication"
 msgstr "Úsáid Fío_rdheimhniú"
 
-#: ../mail/mail-config.glade.h:158 ../plugins/caldav/caldav-source.c:405
+#: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
 #: ../plugins/google-account-setup/google-source.c:681
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
-msgstr "Ainm _Úsáideora:"
+msgstr "Ai_nm Úsáideora:"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:158
 #, fuzzy
 msgid "V_ariable-width:"
 msgstr "Leithead:"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:159
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
-"Click \"Forward\" to begin. "
+"Click \"Forward\" to begin."
 msgstr ""
 
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:162
 msgid "_Add Signature"
-msgstr "_Suimigh Siniú"
+msgstr "Cuir Síniú _Leis"
 
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Always load images from the Internet"
 msgstr "Cuirfidh %S cosc ar íomhánna ó %S i gcónaí."
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:164
 #, fuzzy
 msgid "_Default junk plugin:"
 msgstr "Comment=Breiseán Gadget"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:165
 msgid "_Direct connection to the Internet"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:166
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:168
 #, fuzzy
 msgid "_Forward style:"
 msgstr "Stíl na hImlíne"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:169
 msgid "_Keep Signature above the original message on replying"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:170
 #, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "Post sceál do tadhall"
 
-#: ../mail/mail-config.glade.h:172
+#: ../mail/mail-config.glade.h:171
 #, fuzzy
 msgid "_Lookup in local address book only"
 msgstr "Ná taispeáin ach fillteáin atá oscailte"
 
-#: ../mail/mail-config.glade.h:173
+#: ../mail/mail-config.glade.h:172
 msgid "_Make this my default account"
 msgstr "S_ocraigh é seo mar mo chuntas réamhshocraithe"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:173
 #, fuzzy
 msgid "_Manual proxy configuration:"
 msgstr "Socrú Post"
 
-#: ../mail/mail-config.glade.h:175
+#: ../mail/mail-config.glade.h:174
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Marcáil teachtaireachtaí mar &leite ó:"
 
-#: ../mail/mail-config.glade.h:177
+#: ../mail/mail-config.glade.h:176
 msgid "_Never load images from the Internet"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:178
+#: ../mail/mail-config.glade.h:177
 msgid "_Path:"
 msgstr "_Cosán:"
 
-#: ../mail/mail-config.glade.h:179
+#: ../mail/mail-config.glade.h:178
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:180
+#: ../mail/mail-config.glade.h:179
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:181
+#: ../mail/mail-config.glade.h:180
 #, fuzzy
 msgid "_Reply style:"
 msgstr "Stíl na hImlíne"
 
-#: ../mail/mail-config.glade.h:182
+#: ../mail/mail-config.glade.h:181
 msgid "_Script:"
 msgstr "_Script:"
 
-#: ../mail/mail-config.glade.h:183
+#: ../mail/mail-config.glade.h:182
 msgid "_Secure HTTP Proxy:"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:184
+#: ../mail/mail-config.glade.h:183
 msgid "_Select..."
 msgstr "_Roghnaigh..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.glade.h:187
+#: ../mail/mail-config.glade.h:186
 #, fuzzy
 msgid "_Show image animations"
 msgstr "Taispeáin cineál na híomhá"
 
-#: ../mail/mail-config.glade.h:188
+#: ../mail/mail-config.glade.h:187
 msgid "_Show the photograph of sender in the message preview"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:189
+#: ../mail/mail-config.glade.h:188
 #, fuzzy
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "Ní ghlacann \"mixmaster\" le ceanntásca Cc nó Bcc."
 
-#: ../mail/mail-config.glade.h:190
+#: ../mail/mail-config.glade.h:189
 msgid "_Use Secure Connection:"
 msgstr "Úsáid C_eangal Daingean:"
 
-#: ../mail/mail-config.glade.h:191
+#: ../mail/mail-config.glade.h:190
 #, fuzzy
 msgid "_Use system defaults"
 msgstr "Úsáid _Réamhshocrú"
 
-#: ../mail/mail-config.glade.h:192
+#: ../mail/mail-config.glade.h:191
 msgid "_Use the same fonts as other applications"
 msgstr ""
 
-#: ../mail/mail-config.glade.h:195
+#: ../mail/mail-config.glade.h:194
 msgid "addresses"
 msgstr "seoltaí"
 
-#: ../mail/mail-config.glade.h:196
+#: ../mail/mail-config.glade.h:195
 msgid "color"
 msgstr "dath"
 
-#: ../mail/mail-config.glade.h:197
+#: ../mail/mail-config.glade.h:196
 msgid "description"
 msgstr "cur síos"
 
-#: ../mail/mail-config.glade.h:198
+#: ../mail/mail-config.glade.h:197
 msgid "seconds"
 msgstr "soicind"
 
@@ -15306,9 +15301,8 @@ msgid "Please select an Evolution Archive to restore:"
 msgstr "Roghnaigh Cartlann Evolution le hathchóiriú, le do thoil:"
 
 #: ../plugins/backup-restore/backup-restore.c:307
-#, fuzzy
 msgid "Choose a file to restore"
-msgstr "Ainm an chomhaid atá le cur ar ais"
+msgstr "Roghnaigh comhad le hathchóiriú"
 
 #: ../plugins/backup-restore/backup.c:62
 #, fuzzy
@@ -16029,10 +16023,6 @@ msgstr "_Post"
 #, fuzzy
 msgid "_Authentication Type"
 msgstr "Cineál fíordheimhnithe"
-
-#: ../plugins/exchange-operations/exchange-account-setup.c:1015
-msgid "Ch_eck for Supported Types"
-msgstr "_Lorg Cineáil Tacaithe"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1130
 #: ../plugins/exchange-operations/exchange-contacts.c:217
@@ -16803,8 +16793,8 @@ msgstr "Ag cuardach ar an gcomhad ceart"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 #: ../plugins/google-account-setup/google-source.c:604
-#: ../plugins/mail-to-task/mail-to-task.c:343
-#: ../plugins/mail-to-task/mail-to-task.c:555
+#: ../plugins/mail-to-task/mail-to-task.c:599
+#: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
 msgstr "Earráid anaithnid."
 
@@ -16954,8 +16944,8 @@ msgid ""
 "For VI use \"gvim -f\""
 msgstr ""
 
-#: ../plugins/external-editor/external-editor.c:307
-#: ../plugins/external-editor/external-editor.c:309
+#: ../plugins/external-editor/external-editor.c:354
+#: ../plugins/external-editor/external-editor.c:356
 #, fuzzy
 msgid "Compose in External Editor"
 msgstr "Leithead fuinneoige réamhshocraithe (i bpicteilíní)"
@@ -18482,35 +18472,121 @@ msgstr "&Fógairt an Chórais"
 msgid "Notifies you when new mail messages arrive."
 msgstr "Ar theacht teachtaireachtaí nua i"
 
-#: ../plugins/mail-to-task/mail-to-task.c:343
+#: ../plugins/mail-to-task/mail-to-task.c:376
+#, c-format
+msgid ""
+"Selected calendar contains event '%s' already. Would you like to edit the "
+"old event?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:379
+#, c-format
+msgid ""
+"Selected task list contains task '%s' already. Would you like to edit the "
+"old task?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:382
+#, c-format
+msgid ""
+"Selected memo list contains memo '%s' already. Would you like to edit the "
+"old memo?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:399
+msgid ""
+"Selected calendar contains some events for the given mails already. Would "
+"you like to create new events anyway?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:402
+msgid ""
+"Selected task list contains some tasks for the given mails already. Would "
+"you like to create new tasks anyway?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:405
+msgid ""
+"Selected memo list contains some memos for the given mails already. Would "
+"you like to create new memos anyway?"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:423
+msgid ""
+"Selected calendar contains an event for the given mail already. Would you "
+"like to create new event anyway?"
+msgid_plural ""
+"Selected calendar contains events for the given mails already. Would you "
+"like to create new events anyway?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:429
+msgid ""
+"Selected task list contains a task for the given mail already. Would you "
+"like to create new task anyway?"
+msgid_plural ""
+"Selected task list contains tasks for the given mails already. Would you "
+"like to create new tasks anyway?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:435
+msgid ""
+"Selected memo list contains a memo for the given mail already. Would you "
+"like to create new memo anyway?"
+msgid_plural ""
+"Selected memo list contains memos for the given mails already. Would you "
+"like to create new memos anyway?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:494
+msgid "[No Summary]"
+msgstr "[Gan Achoimre]"
+
+#: ../plugins/mail-to-task/mail-to-task.c:505
+msgid "Invalid object returned from a server"
+msgstr ""
+
+#: ../plugins/mail-to-task/mail-to-task.c:570
+#, fuzzy, c-format
+msgid "An error occurred during processing: %s"
+msgstr "Tharla earráid anaithnid le linn priontála."
+
+#: ../plugins/mail-to-task/mail-to-task.c:599
 #, fuzzy, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Ní féidir an comhad %1 a oscailt"
 
-#: ../plugins/mail-to-task/mail-to-task.c:350
+#: ../plugins/mail-to-task/mail-to-task.c:606
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
 msgstr ""
 
-#: ../plugins/mail-to-task/mail-to-task.c:353
+#: ../plugins/mail-to-task/mail-to-task.c:609
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
 msgstr ""
 
-#: ../plugins/mail-to-task/mail-to-task.c:356
+#: ../plugins/mail-to-task/mail-to-task.c:612
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
 msgstr ""
 
-#: ../plugins/mail-to-task/mail-to-task.c:455
-#, fuzzy, c-format
-msgid "Could not create object. %s"
-msgstr "Níorbh fhéidir réad \"%1\" a athainmniú."
-
-#: ../plugins/mail-to-task/mail-to-task.c:555
+#: ../plugins/mail-to-task/mail-to-task.c:821
 #, fuzzy, c-format
 msgid "Cannot get source list. %s"
 msgstr ""
@@ -18523,53 +18599,45 @@ msgid "Convert a mail message to a task."
 msgstr "Post an sceál seo"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
-#, fuzzy
-msgid "Convert to a Mem_o"
-msgstr "Tiontaigh go &Cuar"
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
+msgid "Create a Mem_o"
+msgstr "Cruthaigh Meamr_am"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
-#, fuzzy
-msgid "Convert to a _Meeting"
-msgstr "Tiontaigh go &Cuar"
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
+msgid "Create a _Meeting"
+msgstr "Cruthaigh _Cruinniú"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#, fuzzy
-msgid "Convert to a _Task"
-msgstr "Tiontaigh go &Cuar"
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
+msgid "Create a _Task"
+msgstr "Cruthaigh _Tasc"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
-#, fuzzy
-msgid "Convert to an _Event"
-msgstr "Tiontaigh go &Cuar"
+msgid "Create an _Event"
+msgstr "Cruthaigh T_eagmhas"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
 #, fuzzy
 msgid "Mail-to-Task"
 msgstr "Seol ríomhphost chuig '%1'"
 
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
-#, fuzzy
-msgid "Convert the selected message to a new event"
-msgstr "Post an sceál seo"
-
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
-msgid "Convert the selected message to a new meeting"
-msgstr "Post an sceál seo"
-
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
-#, fuzzy
-msgid "Convert the selected message to a new memo"
-msgstr "Post an sceál seo"
-
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
-#, fuzzy
-msgid "Convert the selected message to a new task"
-msgstr "Post an sceál seo"
+msgid "Create a new event from the selected message"
+msgstr "Cruthaigh teagmhas nua ón dteachtaireacht roghnaithe"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
+msgid "Create a new meeting from the selected message"
+msgstr "Cruthaigh cruinniú nua ón dteachtaireacht roghnaithe"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
+msgid "Create a new memo from the selected message"
+msgstr "Cruthaigh meamram nua ón dteachtaireacht roghnaithe"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
+msgid "Create a new task from the selected message"
+msgstr "Cruthaigh tasc nua ón dteachtaireacht roghnaithe"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 #, fuzzy
@@ -19315,8 +19383,9 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Fáilte go Evolution. Ceadófar an chéad cúpla scáileáin eile Evolution nasc "
-"le do chuntais ríomhphoist, agus comhaid a iompórtáil ó fheidhmchlr eile. \n"
+"Fáilte go Evolution. Ceadófar an chéad cúpla scáileáin eile d'Evolution nasc "
+"le do chuntais ríomhphoist, agus comhaid a iompórtáil ó fheidhmchláir "
+"eile. \n"
 "\n"
 "Cliceáil an cnaipe \"Ar Aghaidh\" chun leanúint ar aghaidh, le do thoil. "
 
