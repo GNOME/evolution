@@ -32,7 +32,7 @@
 	  <property name="title" translatable="yes">Mail Configuration</property>
 	  <property name="text" translatable="yes">Welcome to the Evolution Mail Configuration Assistant.
 
-Click &quot;Forward&quot; to begin. </property>
+Click &quot;Forward&quot; to begin.</property>
 	</widget>
       </child>
 
@@ -96,7 +96,7 @@ Click &quot;Forward&quot; to begin. </property>
 	      <child>
 		<widget class="GtkLabel" id="extra_help">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Please select among the following options</property>
+		  <property name="label" translatable="yes">Please configure the following account settings.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1028,7 +1028,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <child>
 		    <widget class="GtkLabel" id="source_type_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Server _Type: </property>
+		      <property name="label" translatable="yes">Server _Type:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -1777,7 +1777,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				<widget class="GtkButton" id="source_check_supported">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes"> Ch_eck for Supported Types </property>
+				  <property name="label" translatable="yes">Ch_eck for Supported Types</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="focus_on_click">True</property>
@@ -1898,7 +1898,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  <child>
 		    <widget class="GtkLabel" id="transport_type_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Server _Type: </property>
+		      <property name="label" translatable="yes">Server _Type:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -2593,7 +2593,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <child>
 					<widget class="GtkLabel" id="transport_auth_label">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">T_ype: </property>
+					  <property name="label" translatable="yes">T_ype:</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_CENTER</property>
