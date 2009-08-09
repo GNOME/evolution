@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-08-09 02:39+0000\n"
-"PO-Revision-Date: 2009-08-09 12:47+0200\n"
+"POT-Creation-Date: 2009-08-09 10:49+0000\n"
+"PO-Revision-Date: 2009-08-09 20:24+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3620,7 +3620,6 @@ msgid "Default appointment reminder"
 msgstr "Recordatorio predeterminado de citas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
-#| msgid "Default reminder units"
 msgid "Default recurrence count"
 msgstr "Conteo de repeticiones predeterminado"
 
@@ -3998,7 +3997,6 @@ msgid "Use system timezone"
 msgstr "Usar la hora del sistema"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
-#| msgid "Check this to use system timezone in Evolution."
 msgid "Use the system timezone instead of the timezone selected in Evolution."
 msgstr ""
 "Usar la zona horaria del sistema en lugar de la zona horaria seleccionada en "
@@ -5886,7 +5884,6 @@ msgid "Send my alarms with this event"
 msgstr "Enviar mis alarmas con este evento"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
-#| msgid "Notify new messages for _Inbox only"
 msgid "Notify new attendees _only"
 msgstr "Notificar sól_o a los participantes"
 
@@ -5978,8 +5975,6 @@ msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "La tarea no se puede editar porque es de sólo lectura"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#| msgid ""
-#| "This message cannot be sent because you have not specified any recipients"
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "La tarea no se puede editar completamente porque no es el organizador"
 
@@ -10027,19 +10022,15 @@ msgstr "Dentro de %d días"
 
 #: ../e-util/e-datetime-format.c:207
 #, c-format
-#| msgid "1 day ago"
-#| msgid_plural "%d days ago"
 msgid "%d days ago"
 msgstr "Hace %d días"
 
 #: ../e-util/e-datetime-format.c:281 ../e-util/e-datetime-format.c:291
 #: ../e-util/e-datetime-format.c:300
-#| msgid "_Use system defaults"
 msgid "Use locale default"
 msgstr "Usar los valores predeterminados del sistema"
 
 #: ../e-util/e-datetime-format.c:495
-#| msgid "Format"
 msgid "Format:"
 msgstr "Formato:"
 
@@ -11692,7 +11683,6 @@ msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
 #: ../mail/em-format-html-display.c:980
-#| msgid "Completed On"
 msgid "Completed on"
 msgstr "Completado en"
 
@@ -11949,7 +11939,6 @@ msgid "No Junk plugin available"
 msgstr "No hay complemento para SPAM disponible"
 
 #: ../mail/em-mailer-prefs.c:1455
-#| msgid "Table header"
 msgid "Date header:"
 msgstr "Cabecera de fecha:"
 
@@ -12706,7 +12695,6 @@ msgid "Put personalized signatures at the top of replies"
 msgstr "Poner firmas personalizas en la parte superior de las respuestas"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#| msgid "Start _typing at the bottom on replying"
 msgid "Put the cursor at the bottom of replies"
 msgstr "Comenzar a escribir en la parte final al responder"
 
@@ -12787,7 +12775,6 @@ msgid "Show deleted messages in the message-list"
 msgstr "Mostrar los mensajes borrados en la lista de mensajes"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#| msgid "_Show image animations"
 msgid "Show image animations"
 msgstr "Mostrar imágenes animadas"
 
@@ -13057,6 +13044,9 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Los usuarios se indignan acerca de dónde debe ir el cursor al responder un "
+"mensaje. Esto determina si el cursor se posiciona en la parte superior del "
+"mensaje o en la inferior."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -13064,6 +13054,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Los usuarios se indignan acerca de dónde debe ir el la firma al responder un "
+"mensaje. Esto determina si la firma se ubica en la parte superior del "
+"mensaje o en la inferior."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13691,7 +13684,6 @@ msgid "Pass_word:"
 msgstr "_Contraseña:"
 
 #: ../mail/mail-config.glade.h:119
-#| msgid "Please select among the following options"
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
@@ -13787,7 +13779,6 @@ msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requiere autenticación"
 
 #: ../mail/mail-config.glade.h:142
-#| msgid "Server _Type: "
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
@@ -13816,7 +13807,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Comenzar a _escribir en la parte final al responder"
 
 #: ../mail/mail-config.glade.h:149
-#| msgid "T_ype: "
 msgid "T_ype:"
 msgstr "T_ipo:"
 
@@ -13864,10 +13854,6 @@ msgid "V_ariable-width:"
 msgstr "An_chura variable:"
 
 #: ../mail/mail-config.glade.h:159
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Forward\" to begin. "
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -15623,22 +15609,18 @@ msgid "CalDAV Support"
 msgstr "Soporte CalDAV"
 
 #: ../plugins/calendar-file/calendar-file.c:204
-#| msgid "Customize"
 msgid "_Customize options"
 msgstr "Opciones de personali_zación"
 
 #: ../plugins/calendar-file/calendar-file.c:224
-#| msgid "File name:"
 msgid "File _name:"
 msgstr "_Nombre del archivo:"
 
 #: ../plugins/calendar-file/calendar-file.c:228
-#| msgid "Choose a file"
 msgid "Choose calendar file"
 msgstr "Elegir un archivo de calendario"
 
 #: ../plugins/calendar-file/calendar-file.c:272
-#| msgid "Open"
 msgid "On open"
 msgstr "Al abrir"
 
@@ -15647,7 +15629,6 @@ msgid "On file change"
 msgstr "Al cambiar un archivo"
 
 #: ../plugins/calendar-file/calendar-file.c:274
-#| msgid "Personal"
 msgid "Periodically"
 msgstr "Periodicamente"
 
@@ -17483,7 +17464,6 @@ msgstr ""
 "Use esto si no tiene filtros basados en listas de correo"
 
 #: ../plugins/imap-features/imap-headers.glade.h:10
-#| msgid "Fetch A_ll Headers"
 msgid "_Fetch All Headers"
 msgstr "Obtener _todas las cabeceras"
 
@@ -18494,7 +18474,6 @@ msgstr[1] ""
 "proporcionados. ¿Quiere crear las notas nuevas de todas formas?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
-#| msgid "No Summary"
 msgid "[No Summary]"
 msgstr "[Sin resumen]"
 
@@ -18504,7 +18483,6 @@ msgstr "Un servidor devolvió un objeto no válido"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
 #, c-format
-#| msgid "An error occurred while printing"
 msgid "An error occurred during processing: %s"
 msgstr "Ocurrió un error al procesar: %s"
 
@@ -18548,25 +18526,21 @@ msgstr "Convertir el mensaje de correo en una tarea."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
-#| msgid "Create a new memo"
 msgid "Create a Mem_o"
 msgstr "Crear una _nota"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#| msgid "Convert to a _Meeting"
 msgid "Create a _Meeting"
 msgstr "Crear una _reunión"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
-#| msgid "Create a new task"
 msgid "Create a _Task"
 msgstr "Crear una _tarea"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
-#| msgid "Convert to an _Event"
 msgid "Create an _Event"
 msgstr "Crear un _acontecimiento"
 
@@ -18575,22 +18549,18 @@ msgid "Mail-to-Task"
 msgstr "Correo a tarea"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new event from the selected message"
 msgstr "Crear un acontecimiento nuevo del mensaje seleccionado"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
-#| msgid "Create a new meeting request"
 msgid "Create a new meeting from the selected message"
 msgstr "Crear una reunión nueva del mensaje seleccionado"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new memo from the selected message"
 msgstr "Crear una nota nueva del mensaje seleccionado"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new task from the selected message"
 msgstr "Crear una tarea nueva del mensaje seleccionado"
 
@@ -18778,12 +18748,10 @@ msgstr ""
 "capeta actual y todas sus subcarpetas?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:166
-#| msgid "Current Folder and _Subfolders"
 msgid "In Current Folder and _Subfolders"
 msgstr "En la carpeta actual y _subcarpetas"
 
 #: ../plugins/mark-all-read/mark-all-read.c:180
-#| msgid "Current _Folder Only"
 msgid "In Current _Folder Only"
 msgstr "Sólo en la ca_rpeta actual"
 
@@ -19210,27 +19178,22 @@ msgid "Modified"
 msgstr "Modificado"
 
 #: ../plugins/save-calendar/csv-format.c:523
-#| msgid "Advanced options for the CSV format"
 msgid "A_dvanced options for the CSV format"
 msgstr "Opciones avan_zadas para el formato CSV"
 
 #: ../plugins/save-calendar/csv-format.c:530
-#| msgid "Prepend a header"
 msgid "Prepend a _header"
 msgstr "Anteponer una ca_becera"
 
 #: ../plugins/save-calendar/csv-format.c:539
-#| msgid "Value delimiter:"
 msgid "_Value delimiter:"
 msgstr "Delimitador de _valor:"
 
 #: ../plugins/save-calendar/csv-format.c:546
-#| msgid "Record delimiter:"
 msgid "_Record delimiter:"
 msgstr "Delimitador de _registro:"
 
 #: ../plugins/save-calendar/csv-format.c:553
-#| msgid "Encapsulate values with:"
 msgid "_Encapsulate values with:"
 msgstr "_Encapsular valores con:"
 
@@ -19264,7 +19227,6 @@ msgid "RDF format (.rdf)"
 msgstr "Formato RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:104
-#| msgid "Format"
 msgid "_Format:"
 msgstr "_Formato:"
 
