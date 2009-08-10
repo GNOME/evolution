@@ -7314,7 +7314,7 @@ msgstr[1] "প্রতি %d দিন"
 #. For Translators : 'Every week' is event Recurring every week
 #. For Translators : 'Every %d weeks' is event Recurring every %d weeks. %d is a digit
 #: ../calendar/gui/e-itip-control.c:785
-#, c-format
+#,fuzzy, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "প্রতি সপ্তাহে"
@@ -7323,7 +7323,7 @@ msgstr[1] "প্রতি সপ্তাহে"
 #. For Translators : 'Every week on' is event Recurring every week on (dayname) and (dayname) and (dayname)
 #. For Translators : 'Every %d weeks on' is event Recurring: every %d weeks on (dayname) and (dayname). %d is a digit
 #: ../calendar/gui/e-itip-control.c:789
-#, c-format
+#, fuzzy, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "প্রতি সপ্তাহের"
@@ -10532,7 +10532,7 @@ msgstr[0] "১ সেকেন্ড পূর্বে"
 msgstr[1] "%d সেকেন্ড পূর্বে"
 
 #: ../filter/filter-datespec.c:80
-#, c-format
+#, fuzzy, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
 msgstr[0] "১ সেকেন্ড পরে"
@@ -10546,7 +10546,7 @@ msgstr[0] "১ মিনিট পূর্বে"
 msgstr[1] "%d মিনিট পূর্বে"
 
 #: ../filter/filter-datespec.c:81
-#, c-format
+#, fuzzy, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "১ মিনিট পরে"
@@ -10560,7 +10560,7 @@ msgstr[0] "১ ঘন্টা পূর্বে"
 msgstr[1] "%d ঘন্টা পূর্বে"
 
 #: ../filter/filter-datespec.c:82
-#, c-format
+#, fuzzy, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "১ ঘন্টা পরে"
@@ -10574,7 +10574,7 @@ msgstr[0] "১ দিন পূর্বে"
 msgstr[1] "%d দিন পূর্বে"
 
 #: ../filter/filter-datespec.c:83
-#, c-format
+#, fuzzy, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
 msgstr[0] "১ দিন পরে"
@@ -10588,7 +10588,7 @@ msgstr[0] "১ সপ্তাহ পূর্বে"
 msgstr[1] "%d সপ্তাহ পূর্বে"
 
 #: ../filter/filter-datespec.c:84
-#, c-format
+#, fuzzy, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
 msgstr[0] "১ সপ্তাহ পরে"
@@ -10602,7 +10602,7 @@ msgstr[0] "১ মাস পূর্বে"
 msgstr[1] "%d মাস পূর্বে"
 
 #: ../filter/filter-datespec.c:85
-#, c-format
+#, fuzzy, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
 msgstr[0] "১ মাস পরে"
@@ -10616,7 +10616,7 @@ msgstr[0] "১ বত্সর পূর্বে"
 msgstr[1] "%d বত্সর পূর্বে"
 
 #: ../filter/filter-datespec.c:86
-#, c-format
+#, fuzzy, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
 msgstr[0] "১ বৎসর"
@@ -17417,7 +17417,7 @@ msgid "When the new-mail status icon is visible, make it blink."
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:132
-#, c-format
+#, fuzzy, c-format
 msgid "You have received %d new message in %s."
 msgid_plural "You have received %d new messages in %s."
 msgstr[0] "%d-টি নতুন বার্তা %s-র মধ্যে প্রাপ্ত করেছেন।"
