@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS=-I m4
+
 changelogs =				\
 	ChangeLog			\
 	ChangeLog.pre-1-4
