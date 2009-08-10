@@ -1,3 +1,63 @@
+Evolution 2.27.90 2009-08-10
+-----------------------------
+
+Bug Fixes:
+
+Calendar:
+	#205137 - Configurable date formats in components (Milan Crha)
+	#587468 - Show meeting icon for component with attendees only (Milan Crha)
+	#320071 - Unclear why you can't edit appointment in calendar (Milan Crha)
+	#314599 - Recurrence Tab Should Not Default To Forever (Milan Crha)
+	#325278 - cannot access parts of "save calendar" without mouse (Milan Crha)
+	#324676 - Print preview displays preview of previous month (Milan Crha)
+	#590392 - Show selected day in day view's second timezone column (Milan Crha)
+	#539334 - Postpone processing event when called recursively (Milan Crha)
+	#328361 - Support for "Fifth Sunday *of the month*" (Marcel Stimberg)
+	#514725 - Critical warnings with appointments (Milan Crha)
+	#273535 - Meeting request with attachments has bogus CID value (Milan Crha)
+	#300567 - Calendar drawing optimizations (Milan Crha)
+	#317290 - [Publish-Calendar] Cancel setup should cancel (Milan Crha)
+	#245829 - Cannot copy (with mouse for pasting) appointment summary (Milan Crha)
+	#203853 - Cut/Copy key bindings don't work in day and week views (Milan Crha)
+	#575581 - All Day Events Should Not Depend On Calendar Scrolling (Milan Crha)
+	#420513 - Be able to notify about meeting only new attendees (Milan Crha)
+	#579646 - Remember alarm's last notified per calendar (Milan Crha)
+
+Mail:
+	#590747 – Composer autosave can easily lose data (Philip Withnall)
+	#562913 – Changed signature format not written to GConf (Matthew Barnes)
+	#401530 - [imap-features] imap-headers.glade issues (Milan Crha)
+	#563795 - Crashed while importing an mbox file in local folder (Milan Crha)
+	#589982 - Fix a critical warning while replying for a mail (Srinivasa Ragavan)	
+
+Plugins:
+	#586076 - [external-editor] Pass cursor pos to vim (Milan Crha)
+	#584030 - [Mail-To-Task] improve duplicate handling and such (Milan Crha)
+	#573919 - [Mail-Notification] Check for 'actions' capability (Ken VanDine)
+	#563041 - Template plugin doesn't work; added new variables (Bharath Acharya)
+	
+Miscellaneous
+	#551127 - Added translators comment and changed strings slightly (Milan Crha)
+	#580895 - Fix evolution build break (Milan Crha)
+	#580895 - Kill libgnomeui/gnome-thumbnail.h (Milan Crha)
+	#325611 - Rephrased translators comments (Milan Crha)
+	#590260 – Minimum requirement of libpst not checked (Matthew Barnes)
+	
+Other Fixes:
+
+Calendar:
+	Allow calendar to be written as a external app and split the huge .so 
+	to (Srinivasa Ragavan)
+
+Translations:
+	Jorge González (es)
+	Seán de Búrca (ga)
+	Iestyn Pryce (cy)
+	Ivar Smolin (et)
+	Kjartan Maraas (nb)
+	Mattias Põldaru (et)
+	
+
 Evolution 2.27.5 2009-07-27
 ---------------------------
 
