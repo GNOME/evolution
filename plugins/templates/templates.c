@@ -570,8 +570,6 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 
 		gtk_action_group_add_action (action_group, action);
 
-		g_debug ("Adding %s/%s", menu_path, action_name);
-
 		gtk_ui_manager_add_ui (
 			ui_manager, merge_id, menu_path, action_name,
 			action_name, GTK_UI_MANAGER_MENU, FALSE);
@@ -625,8 +623,6 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 				message);
 
 			gtk_action_group_add_action (action_group, action);
-
-			g_debug ("Adding %s/%s", path, action_name);
 
 			gtk_ui_manager_add_ui (
 				ui_manager, merge_id, path, action_name,
