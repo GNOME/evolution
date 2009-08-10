@@ -83,7 +83,8 @@ composer_autosave_state_new (void)
 static void
 composer_autosave_state_free (AutosaveState *state)
 {
-	g_object_unref (state->file);
+	if (state->file)
+		g_object_unref (state->file);
 	g_slice_free (AutosaveState, state);
 }
 
