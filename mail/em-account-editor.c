@@ -1987,7 +1987,7 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 	}
 
 	service->port_hint = glade_xml_get_widget (xml, "port_hint");
-	if (!service->provider || CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST))
+	if (emae->type == EMAE_PAGES && (!service->provider || CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)))
 		gtk_widget_show (service->port_hint);
 	else
 		gtk_widget_hide (service->port_hint);
