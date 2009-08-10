@@ -78,7 +78,6 @@
 #include "em-format-html-display.h"
 #include "em-icon-stream.h"
 #include "em-utils.h"
-#include "em-popup.h"
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
 
@@ -841,6 +840,7 @@ efhd_can_process_attachment (GtkWidget *button)
 	return efh && efh->state != EM_FORMAT_HTML_STATE_RENDERING;
 }
 
+#if 0  /* KILL-BONOBO */
 /* if it hasn't been processed yet, format the attachment */
 static void
 efhd_attachment_show(EPopup *ep, EPopupItem *item, gpointer data)
@@ -975,6 +975,7 @@ efhd_attachment_popup_menu(GtkWidget *w, struct _attach_puri *info)
 {
 	return efhd_attachment_popup(w, NULL, info);
 }
+#endif
 
 /* ********************************************************************** */
 
@@ -1132,9 +1133,13 @@ efhd_image_unallocate (struct _EMFormatPURI * puri)
 	struct _attach_puri *info = (struct _attach_puri *) puri;
 	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
 
+#if 0  /* KILL-BONOBO */
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_popup, info);
+#endif
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_change_cursor, info);
+#if 0  /* KILL-BONOBO */
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_attachment_popup_menu, info);
+#endif
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_fit_width, info);
 }
 
@@ -1185,9 +1190,13 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	g_signal_connect(box, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);
 	g_signal_connect (box, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
 
+#if 0  /* KILL-BONOBO */
 	g_signal_connect(box, "button_press_event", G_CALLBACK(efhd_image_popup), info);
+#endif
 	g_signal_connect(box, "enter-notify-event", G_CALLBACK(efhd_change_cursor), info);
+#if 0  /* KILL-BONOBO */
 	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
+#endif
 	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);
 
 	g_object_set_data (G_OBJECT (box), "efh", efh);
@@ -1244,9 +1253,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	g_object_set_data (G_OBJECT (widget), "efh", efh);
 
+#if 0  /* KILL-BONOBO */
 	g_signal_connect (
 		widget, "notify::expanded",
 		G_CALLBACK (efhd_attachment_button_expanded), info);
+#endif
 
 	return TRUE;
 }
@@ -1407,9 +1418,11 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Attachment"));
 
+#if 0  /* KILL-BONOBO */
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
+#endif
 	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(mainbox);

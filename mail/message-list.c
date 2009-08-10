@@ -70,7 +70,6 @@
 #include "table/e-cell-hbox.h"
 
 #include "e-mail-label-list-store.h"
-#include "em-popup.h"
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -2156,6 +2155,7 @@ ml_drop_action(struct _drop_msg *m)
 	mail_msg_unordered_push (m);
 }
 
+#if 0  /* KILL-BONOBO */
 static void
 ml_drop_popup_copy(EPopup *ep, EPopupItem *item, gpointer data)
 {
@@ -2241,6 +2241,7 @@ ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 		ml_drop_action(m);
 	}
 }
+#endif
 
 struct search_child_struct {
 	gboolean found;
@@ -2709,8 +2710,10 @@ message_list_construct (MessageList *message_list)
 			     ml_drop_types, sizeof(ml_drop_types)/sizeof(ml_drop_types[0]),
 			     GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
 
+#if 0  /* KILL-BONOBO */
 	g_signal_connect(message_list->tree, "tree_drag_data_received",
 			 G_CALLBACK(ml_tree_drag_data_received), message_list);
+#endif
 	g_signal_connect(message_list->tree, "drag-motion", G_CALLBACK(ml_tree_drag_motion), message_list);
 }
 

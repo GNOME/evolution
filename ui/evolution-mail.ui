@@ -109,6 +109,8 @@
       <menuitem action='mail-label-new'/>
     </menu>
     <separator/>
+    <placeholder name='mail-message-templates'/>
+    <separator/>
     <placeholder name='mail-message-popup-actions'/>
   </popup>
   <popup name='mail-search-options'>

@@ -29,7 +29,6 @@
 #include <gconf/gconf-client.h>
 #include <e-util/e-error.h>
 #include <glade/glade.h>
-#include "mail/em-menu.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"

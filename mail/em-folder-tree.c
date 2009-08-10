@@ -65,7 +65,6 @@
 #include "mail-vfolder.h"
 
 #include "em-utils.h"
-#include "em-popup.h"
 #include "em-folder-tree.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
@@ -1384,6 +1383,7 @@ tree_drag_data_action(struct _DragDataReceivedAsync *m)
 	mail_msg_unordered_push (m);
 }
 
+#if 0  /* KILL-BONOBO */
 static void
 emft_drop_popup_copy(EPopup *ep, EPopupItem *item, gpointer data)
 {
@@ -1509,6 +1509,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 		tree_drag_data_action(m);
 	}
 }
+#endif
 
 static gboolean
 is_special_local_folder (const gchar *name)
@@ -1952,7 +1953,9 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 	g_signal_connect (tree_view, "drag-begin", G_CALLBACK (tree_drag_begin), emft);
 	g_signal_connect (tree_view, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), emft);
 	g_signal_connect (tree_view, "drag-data-get", G_CALLBACK (tree_drag_data_get), emft);
+#if 0  /* KILL-BONOBO */
 	g_signal_connect (tree_view, "drag-data-received", G_CALLBACK (tree_drag_data_received), emft);
+#endif
 	g_signal_connect (tree_view, "drag-drop", G_CALLBACK (tree_drag_drop), emft);
 	g_signal_connect (tree_view, "drag-end", G_CALLBACK (tree_drag_end), emft);
 	g_signal_connect (tree_view, "drag-leave", G_CALLBACK (tree_drag_leave), emft);

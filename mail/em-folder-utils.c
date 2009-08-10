@@ -61,7 +61,6 @@
 #include "mail-folder-cache.h"
 
 #include "em-utils.h"
-#include "em-popup.h"
 #include "em-folder-tree.h"
 #include "em-folder-tree-model.h"
 #include "em-folder-utils.h"

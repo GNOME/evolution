@@ -46,8 +46,6 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-utf8.h>
 
-#include <mail/em-menu.h>
-#include <mail/em-popup.h>
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>
 #include <mail/mail-config.h>

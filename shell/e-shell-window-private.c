@@ -212,6 +212,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
 	priv->gal_view_merge_id = merge_id;
 
+	gtk_window_set_title (GTK_WINDOW (shell_window), _("Evolution"));
+
 	e_shell_window_actions_init (shell_window);
 
 	accel_group = gtk_ui_manager_get_accel_group (priv->ui_manager);
@@ -335,10 +337,12 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	EShellSettings *shell_settings;
 	EShell *shell;
 	GConfBridge *bridge;
-	GtkActionGroup *action_group;
 	GtkAction *action;
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
 	GObject *object;
 	const gchar *key;
+	const gchar *id;
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -427,6 +431,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
 	shell_window_init_switcher_style (shell_window);
+
+	id = "org.gnome.evolution.shell";
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	e_plugin_ui_register_manager (ui_manager, id, shell_window);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 void

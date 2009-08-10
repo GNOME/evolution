@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include <mail/em-menu.h>
 #include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
 #include <mail/mail-config.h>
