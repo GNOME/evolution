@@ -7188,21 +7188,21 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Yes. (Complex Recurrence)"
 
 #: ../calendar/gui/e-itip-control.c:773
-#, c-format
+#, fuzzy, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "Every day"
 msgstr[1] "Every day"
 
 #: ../calendar/gui/e-itip-control.c:778
-#, c-format
+#, fuzzy, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "Every week"
 msgstr[1] "Every week"
 
 #: ../calendar/gui/e-itip-control.c:780
-#, c-format
+#, fuzzy, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Every week on "
@@ -7223,14 +7223,14 @@ msgid "The %s %s of "
 msgstr "The %s %s of "
 
 #: ../calendar/gui/e-itip-control.c:815
-#, c-format
+#, fuzzy, c-format
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "every month"
 msgstr[1] "every month"
 
 #: ../calendar/gui/e-itip-control.c:819
-#, c-format
+#, fuzzy, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "Every year"
@@ -10535,49 +10535,49 @@ msgid "The orientation of the tray."
 msgstr "The orientation of the tray."
 
 #: ../filter/filter-datespec.c:78
-#, c-format
+#, fuzzy, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 second ago"
 msgstr[1] "1 second ago"
 
 #: ../filter/filter-datespec.c:79
-#, c-format
+#, fuzzy, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 minute ago"
 msgstr[1] "1 minute ago"
 
 #: ../filter/filter-datespec.c:80
-#, c-format
+#, fuzzy, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 hour ago"
 msgstr[1] "1 hour ago"
 
 #: ../filter/filter-datespec.c:81
-#, c-format
+#, fuzzy, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 day ago"
 msgstr[1] "1 day ago"
 
 #: ../filter/filter-datespec.c:82
-#, c-format
+#, fuzzy, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 week ago"
 msgstr[1] "1 week ago"
 
 #: ../filter/filter-datespec.c:83
-#, c-format
+#, fuzzy, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 month ago"
 msgstr[1] "1 month ago"
 
 #: ../filter/filter-datespec.c:84
-#, c-format
+#, fuzzy, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 year ago"
