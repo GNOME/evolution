@@ -3717,9 +3717,9 @@ msgstr "Mencari dalam Buku Alamat..."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
-msgid "There is one other contact."
+msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Ada satu kontak lainnya."
+msgstr[0] "Ada satu %d kontak lainnya."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
