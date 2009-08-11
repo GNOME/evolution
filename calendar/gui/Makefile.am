@@ -279,7 +279,7 @@ libevolution_cal_shared_la_LIBADD =					\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libevolution_cal_shared_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
+libevolution_cal_shared_la_LDFLAGS = $(NO_UNDEFINED)
 
 
 libevolution_calendar_la_LIBADD =					\
