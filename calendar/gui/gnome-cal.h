@@ -34,7 +34,6 @@
 #include <e-util/e-popup.h>
 #include <shell/e-shell-settings.h>
 
-#include "e-cal-menu.h"
 #include "e-calendar-table.h"
 
 #define GNOME_TYPE_CALENDAR            (gnome_calendar_get_type ())
@@ -142,8 +141,6 @@ void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_ty
 
 struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 							 GnomeCalendarViewType view_type);
-
-ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time);

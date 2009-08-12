@@ -68,7 +68,6 @@
 /*#include "a11y/ea-calendar.h"  KILL-BONOBO */
 #include "common/authentication.h"
 #include "e-cal-popup.h"
-#include "e-cal-menu.h"
 
 #define d(x)
 
@@ -96,9 +95,6 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *hpane;
 
 	ECalendar   *date_navigator;
-
-	/* plugin menu managers */
-	ECalMenu    *calendar_menu;
 
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
@@ -1383,8 +1379,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	setup_widgets (gcal);
 
-	priv->calendar_menu = e_cal_menu_new("org.gnome.evolution.calendar.view");
-
 	priv->dn_queries = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 	priv->todo_sexp = g_strdup ("#t");
@@ -1473,11 +1467,6 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->update_marcus_bains_line_timeout) {
 			g_source_remove (priv->update_marcus_bains_line_timeout);
 			priv->update_marcus_bains_line_timeout = 0;
-		}
-
-		if (priv->calendar_menu) {
-			g_object_unref (priv->calendar_menu);
-			priv->calendar_menu = NULL;
 		}
 
 		/* Disconnect all handlers */
@@ -3006,14 +2995,6 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 	g_free (start);
 	g_free (end);
 
-}
-
-ECalMenu *
-gnome_calendar_get_calendar_menu (GnomeCalendar *gcal)
-{
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	return gcal->priv->calendar_menu;
 }
 
 void

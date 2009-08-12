@@ -105,8 +105,6 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-config.h				\
 	e-cal-event.c				\
 	e-cal-event.h				\
-	e-cal-menu.c				\
-	e-cal-menu.h				\
 	e-cal-model-calendar.c			\
 	e-cal-model-calendar.h			\
 	e-cal-model.c				\

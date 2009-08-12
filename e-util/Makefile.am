@@ -57,7 +57,6 @@ eutilinclude_HEADERS = 				\
 	e-import.h				\
 	e-logger.h				\
 	e-marshal.h				\
-	e-menu.h				\
 	e-mktemp.h				\
 	e-module.h				\
 	e-non-intrusive-error-dialog.h		\
@@ -101,7 +100,6 @@ libeutil_la_SOURCES =				\
 	e-import.c				\
 	e-logger.c				\
 	e-marshal.c				\
-	e-menu.c				\
 	e-mktemp.c				\
 	e-module.c				\
 	e-non-intrusive-error-dialog.c		\
