@@ -282,7 +282,6 @@ plugins/backup-restore/backup-restore.c
 plugins/backup-restore/backup.c
 plugins/backup-restore/org-gnome-backup-restore.eplug.xml
 plugins/backup-restore/org-gnome-backup-restore.error.xml
-plugins/backup-restore/org-gnome-backup-restore.xml
 plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
 plugins/bogo-junk-plugin/bf-junk-filter.c

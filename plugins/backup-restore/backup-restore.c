@@ -33,15 +33,16 @@
 #include <glib/gstdio.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
-#include "shell/es-menu.h"
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
 #include "e-util/e-dialog-utils.h"
+#include "shell/e-shell-window.h"
 
-void org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target);
-void org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target);
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
+						 EShellWindow *shell_window);
+
 GtkWidget * backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 void backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target);
 void backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target);
@@ -130,18 +131,19 @@ epbr_perform_pre_backup_checks (gchar * dir)
 }
 
 void
-org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
+action_settings_backup_cb (GtkAction *action,
+                           EShellWindow *shell_window)
 {
 	GtkWidget *dlg;
 	GtkWidget *vbox;
+	GtkWindow *parent;
 	gint response;
 
-	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file"), NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
+	parent = GTK_WINDOW (shell_window);
 
-/*	dlg = gtk_file_chooser_dialog_new (_("Select name of the Evolution backup file"), GTK_WINDOW (target->target.widget),  */
-/*					   GTK_FILE_CHOOSER_ACTION_SAVE,  */
-/*					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
-/*					   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL); */
+	dlg = e_file_get_save_filesel (
+		parent, _("Select name of the Evolution backup file"),
+		NULL, GTK_FILE_CHOOSER_ACTION_SAVE);
 
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dlg), "evolution-backup.tar.gz");
 
@@ -164,7 +166,9 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 
 		if (epbr_perform_pre_backup_checks (dir)) {
 
-			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after backup"), "org.gnome.backup-restore:backup-confirm", NULL);
+			mask = dialog_prompt_user (
+				parent, _("_Restart Evolution after backup"),
+				"org.gnome.backup-restore:backup-confirm", NULL);
 			if (mask & BR_OK)
 				backup (filename, (mask & BR_START) ? TRUE: FALSE);
 		} else {
@@ -181,18 +185,20 @@ org_gnome_backup_restore_backup (EPlugin *ep, ESMenuTargetShell *target)
 }
 
 void
-org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
+action_settings_restore_cb (GtkAction *action,
+                            EShellWindow *shell_window)
 {
 	GtkWidget *dlg;
 	GtkWidget *vbox;
+	GtkWindow *parent;
 	gint response;
 
-	dlg = e_file_get_save_filesel(target->target.widget, _("Select name of the Evolution backup file to restore"), NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
+	parent = GTK_WINDOW (shell_window);
 
-/*	dlg = gtk_file_chooser_dialog_new (_("Select Evolution backup file to restore"), GTK_WINDOW (target->target.widget),  */
-/*					   GTK_FILE_CHOOSER_ACTION_OPEN,  */
-/*					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,  */
-/*					   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL); */
+	dlg = e_file_get_save_filesel (
+		parent,
+		_("Select name of the Evolution backup file to restore"),
+		NULL, GTK_FILE_CHOOSER_ACTION_OPEN);
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
@@ -211,11 +217,13 @@ org_gnome_backup_restore_restore (EPlugin *ep, ESMenuTargetShell *target)
 		if (sanity_check (filename)) {
 			guint32 mask;
 
-			mask = dialog_prompt_user (GTK_WINDOW (target->target.widget), _("_Restart Evolution after restore"), "org.gnome.backup-restore:restore-confirm", NULL);
+			mask = dialog_prompt_user (
+				parent, _("_Restart Evolution after restore"),
+				"org.gnome.backup-restore:restore-confirm", NULL);
 			if (mask & BR_OK)
 				restore (filename, mask & BR_START);
 		} else {
-			e_error_run (GTK_WINDOW (target->target.widget), "org.gnome.backup-restore:invalid-backup", NULL);
+			e_error_run (parent, "org.gnome.backup-restore:invalid-backup", NULL);
 		}
 
 		g_free (filename);
@@ -331,3 +339,35 @@ backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target)
 	/* Nothing really */
 }
 
+static GtkActionEntry entries[] = {
+
+	{ "settings-backup",
+	  NULL,
+	  N_("_Backup Settings..."),
+	  NULL,
+	  N_("Backup Evolution data and settings to an archive file"),
+	  G_CALLBACK (action_settings_backup_cb) },
+
+	{ "settings-restore",
+	  NULL,
+	  N_("R_estore Settings..."),
+	  NULL,
+	  N_("Restore Evolution data and settings from an archive file"),
+	  G_CALLBACK (action_settings_restore_cb) }
+};
+
+gboolean
+e_plugin_ui_init (GtkUIManager *ui_manager,
+                  EShellWindow *shell_window)
+{
+	GtkActionGroup *action_group;
+
+	action_group = e_shell_window_get_action_group (shell_window, "shell");
+
+	/* Add actions to the "shell" action group. */
+	gtk_action_group_add_actions (
+		action_group, entries,
+		G_N_ELEMENTS (entries), shell_window);
+
+	return TRUE;
+}

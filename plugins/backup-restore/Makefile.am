@@ -1,11 +1,12 @@
 AM_CPPFLAGS =						\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
-	-I$(top_srcdir)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(SHELL_CFLAGS)					\
 	$(E_UTIL_CFLAGS)				
@@ -15,7 +16,7 @@ AM_CPPFLAGS =						\
 error_DATA = org-gnome-backup-restore.error
 errordir = $(privdatadir)/errors
 
-plugin_DATA = org-gnome-backup-restore.eplug org-gnome-backup-restore.xml
+plugin_DATA = org-gnome-backup-restore.eplug
 plugin_LTLIBRARIES = liborg-gnome-backup-restore.la
 
 liborg_gnome_backup_restore_la_SOURCES = backup-restore.c
@@ -35,8 +36,7 @@ endif
 
 EXTRA_DIST = 					\
 	org-gnome-backup-restore.eplug.xml	\
-	org-gnome-backup-restore.error.xml	\
-	org-gnome-backup-restore.xml
+	org-gnome-backup-restore.error.xml
 
 BUILT_SOURCES = org-gnome-backup-restore.eplug \
 		org-gnome-backup-restore.error

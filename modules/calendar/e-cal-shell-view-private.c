@@ -656,7 +656,6 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 void
 e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 {
-#if 0  /* KILL-BONOBO */
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
 	GnomeCalendar *calendar;
@@ -777,7 +776,6 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	}
 
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer);
-#endif
 }
 
 void
