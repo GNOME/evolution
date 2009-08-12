@@ -36,17 +36,17 @@ typedef struct _ECalEvent ECalEvent;
 typedef struct _ECalEventClass ECalEventClass;
 
 enum _e_cal_event_target_t {
-	E_CAL_EVENT_TARGET_MODULE,
+	E_CAL_EVENT_TARGET_BACKEND,
 };
 
-/* Flags that describe TARGET_MODULE */
+/* Flags that describe TARGET_BACKEND */
 enum {
 	E_CAL_EVENT_MODULE_MIGRATION = 1 << 0,
 };
 
-typedef struct _ECalEventTargetModule ECalEventTargetModule;
+typedef struct _ECalEventTargetBackend ECalEventTargetBackend;
 
-struct _ECalEventTargetModule {
+struct _ECalEventTargetBackend {
 	EEventTarget target;
 	EShellBackend *shell_backend;
 	ESourceList *source_list;
@@ -64,7 +64,7 @@ struct _ECalEventClass {
 
 GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
+ECalEventTargetBackend* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
 
 /* ********************************************************************** */
 

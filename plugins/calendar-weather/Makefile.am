@@ -1,12 +1,12 @@
 eds_datadir = `pkg-config --variable=privdatadir evolution-data-server-1.2`
 
-AM_CPPFLAGS =									\
-	-I$(top_srcdir)								\
-	-I$(top_builddir)/shell							\
-	$(EVOLUTION_CALENDAR_CFLAGS)						\
-	$(SOURCE_SEL_CFLAGS)							\
-	-DWEATHER_DATADIR=\""$(weatherdatadir)"\"				\
-	-DWEATHER_EDS_DATADIR=\""$(eds_datadir)/weather"\"			\
+AM_CPPFLAGS =							\
+	-I$(top_srcdir)						\
+	-I$(top_srcdir)/widgets					\
+	$(EVOLUTION_CALENDAR_CFLAGS)				\
+	$(SOURCE_SEL_CFLAGS)					\
+	-DWEATHER_DATADIR=\""$(weatherdatadir)"\"		\
+	-DWEATHER_EDS_DATADIR=\""$(eds_datadir)/weather"\"	\
 	$(LIBGWEATHER_CFLAGS)
 
 @EVO_PLUGIN_RULE@

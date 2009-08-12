@@ -24,7 +24,6 @@
 #include "e-util/e-icon-factory.h"
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
-#include <calendar/gui/calendar-component.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
@@ -42,7 +41,7 @@ GtkWidget *e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData
 GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data);
-void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data);
+void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 gint        e_plugin_lib_enable (EPluginLib *epl, gint enable);
 
 #define WEATHER_BASE_URI "weather://"
@@ -93,21 +92,16 @@ exit:
 }
 
 void
-e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
+e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data)
 {
 	/* Perform a migration step here. This allows us to keep the weather calendar completely
 	 * separate from evolution. If the plugin isn't built, the weather source group won't
 	 * show up in the user's evolution. If it is, this will create it if it doesn't exist */
-	CalendarComponent *component;
-	ESourceList *source_list;
 	ESourceGroup *group;
 	GSList *groups;
 	ESourceGroup *weather = NULL;
 
-	component = data->component;
-	source_list = calendar_component_peek_source_list (component);
-
-	groups = e_source_list_peek_groups (source_list);
+	groups = e_source_list_peek_groups (data->source_list);
 	if (groups) {
 		/* groups are already there, we need to search */
 		GSList *g;
@@ -121,7 +115,7 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 
 	if (!weather) {
 		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
+		e_source_list_add_group (data->source_list, group, -1);
 
 		weather = group;
 	}
@@ -129,7 +123,7 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 	if (weather)
 		g_object_unref (weather);
 
-	e_source_list_sync (source_list, NULL);
+	e_source_list_sync (data->source_list, NULL);
 }
 
 static void

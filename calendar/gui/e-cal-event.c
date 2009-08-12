@@ -43,8 +43,8 @@ static void
 ece_target_free (EEvent *ev, EEventTarget *t)
 {
 	switch (t->type) {
-	case E_CAL_EVENT_TARGET_MODULE: {
-		ECalEventTargetModule *s = (ECalEventTargetModule *) t;
+	case E_CAL_EVENT_TARGET_BACKEND: {
+		ECalEventTargetBackend *s = (ECalEventTargetBackend *) t;
 		if (s->shell_backend)
 			g_object_unref (s->shell_backend);
 		if (s->source_list)
@@ -94,10 +94,10 @@ e_cal_event_peek (void)
 	return e_cal_event;
 }
 
-ECalEventTargetModule *
+ECalEventTargetBackend *
 e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags)
 {
-	ECalEventTargetModule *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_MODULE, sizeof (*t));
+	ECalEventTargetBackend *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_BACKEND, sizeof (*t));
 
 	t->shell_backend = g_object_ref (shell_backend);
 	t->source_list = g_object_ref (source_list);
@@ -116,7 +116,7 @@ static const EEventHookTargetMask eceh_module_masks[] = {
 };
 
 static const EEventHookTargetMap eceh_targets[] = {
-	{ "module", E_CAL_EVENT_TARGET_MODULE, eceh_module_masks },
+	{ "module", E_CAL_EVENT_TARGET_BACKEND, eceh_module_masks },
 	{ NULL },
 };
 

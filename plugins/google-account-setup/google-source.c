@@ -62,7 +62,7 @@
 /* prototypes */
 gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
 GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
-void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetModule *data);
+void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 
 /*****************************************************************************/
 /* plugin intialization */
@@ -784,7 +784,7 @@ plugin_google  (EPlugin                    *epl,
 }
 
 void
-e_calendar_google_migrate (EPlugin *epl, ECalEventTargetModule *data)
+e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data)
 {
 	ESourceList *source_list;
 	ESourceGroup *google = NULL;

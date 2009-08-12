@@ -623,7 +623,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 	ESource *personal_source = NULL;
 	ESourceList *source_list;
 	ECalEvent *ece;
-	ECalEventTargetModule *target;
+	ECalEventTargetBackend *target;
 	gboolean retval = FALSE;
 
 	source_list = g_object_get_data (
