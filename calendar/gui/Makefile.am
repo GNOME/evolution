@@ -141,6 +141,8 @@ libevolution_calendar_la_SOURCES = \
 	e-day-view-top-item.h			\
 	e-day-view.c				\
 	e-day-view.h				\
+	e-itip-control.c			\
+	e-itip-control.h			\
 	e-meeting-attendee.c			\
 	e-meeting-attendee.h			\
 	e-meeting-list-view.c			\

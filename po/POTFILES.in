@@ -50,6 +50,7 @@ calendar/gui/alarm-notify/alarm-queue.c
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/alarm-notify/util.c
 calendar/gui/apps_evolution_calendar.schemas.in
+calendar/gui/cal-editor-utils.c
 calendar/gui/calendar-view-factory.c
 calendar/gui/caltypes.xml
 calendar/gui/dialogs/alarm-dialog.c
@@ -200,7 +201,6 @@ mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-format-html.c
 mail/em-junk-hook.c
-mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
@@ -458,11 +458,6 @@ smime/lib/e-cert-db.c
 smime/lib/e-cert.c
 smime/lib/e-pkcs12.c
 tools/killev.c
-ui/evolution-mail-global.xml
-ui/evolution-mail-list.xml
-ui/evolution-mail-message.xml
-ui/evolution-mail-messagedisplay.xml
-ui/evolution.xml
 views/addressbook/galview.xml
 views/calendar/galview.xml
 views/mail/galview.xml
