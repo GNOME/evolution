@@ -61,7 +61,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-file-utils.h>
 
-#include <mail/mail-component.h>
+#include <mail/e-mail-local.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
@@ -225,7 +225,7 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	/* Suggest a folder that is in the same mail storage as the users' inbox,
 	   with a name derived from the .PST file */
-	inbox = mail_component_get_folder_uri (NULL, MAIL_COMPONENT_FOLDER_INBOX);
+	inbox = e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX);
 
 	delim = g_strrstr (inbox, "#");
 	if (delim != NULL) {
@@ -914,7 +914,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 	if (item->email->importance == 2)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_FLAGGED, ~0);
 
-	if (item->email->flag && 0x08)
+	if (item->flags && 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);
