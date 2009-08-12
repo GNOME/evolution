@@ -67,7 +67,6 @@
 #include "misc.h"
 /*#include "a11y/ea-calendar.h"  KILL-BONOBO */
 #include "common/authentication.h"
-#include "e-cal-popup.h"
 
 #define d(x)
 

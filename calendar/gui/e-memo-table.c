@@ -58,7 +58,6 @@
 #include "e-cell-date-edit-text.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
-#include "e-cal-popup.h"
 #include "misc.h"
 
 #define E_MEMO_TABLE_GET_PRIVATE(obj) \

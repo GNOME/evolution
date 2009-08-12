@@ -61,7 +61,6 @@
 #include "recur-comp.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
-#include "../e-cal-popup.h"
 #include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
 #include "widgets/misc/e-attachment-view.h"
