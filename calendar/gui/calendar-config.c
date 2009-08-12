@@ -415,35 +415,6 @@ calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
-/* The primary task list */
-gchar *
-calendar_config_get_primary_tasks (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, NULL);
-}
-
-void
-calendar_config_set_primary_tasks (const gchar *primary_uid)
-{
-	calendar_config_init ();
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, primary_uid, NULL);
-}
-
-guint
-calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_TASKS, func, data, NULL, NULL);
-
-	return id;
-}
-
 /***************************************/
 
 /* The current list of memo lists selected */
@@ -475,34 +446,6 @@ calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
-/* The primary memo list */
-gchar *
-calendar_config_get_primary_memos (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, NULL);
-}
-
-void
-calendar_config_set_primary_memos (const gchar *primary_uid)
-{
-	calendar_config_init ();
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_MEMOS, primary_uid, NULL);
-}
-
-guint
-calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_MEMOS, func, data, NULL, NULL);
-
-	return id;
-}
 /***************************************/
 
 /* Whether we compress the weekend in the week/month views. */

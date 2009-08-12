@@ -42,6 +42,7 @@
 #include "e-util/e-util-private.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-config-keys.h"
+#include "shell/e-shell.h"
 
 #define WEBCAL_BASE_URI "webcal://"
 #define PERSONAL_RELATIVE_URI "system"
@@ -443,6 +444,8 @@ create_task_sources (EShellBackend *shell_backend,
 		     ESourceGroup **on_the_web,
 		     ESource **personal_source)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GSList *groups;
 	ESourceGroup *group;
 	gchar *base_uri, *base_uri_proto;
@@ -451,6 +454,9 @@ create_task_sources (EShellBackend *shell_backend,
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
 	*personal_source = NULL;
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	base_dir = e_shell_backend_get_config_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
@@ -499,14 +505,21 @@ create_task_sources (EShellBackend *shell_backend,
 	}
 
 	if (!*personal_source) {
+		gchar *primary_task_list;
+
 		/* Create the default Person task list */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
-		if (!calendar_config_get_primary_tasks () && !calendar_config_get_tasks_selected ()) {
+		primary_task_list = e_shell_settings_get_string (
+			shell_settings, "cal-primary-task-list");
+
+		if (!primary_task_list && !calendar_config_get_tasks_selected ()) {
 			GSList selected;
 
-			calendar_config_set_primary_tasks (e_source_peek_uid (source));
+			e_shell_settings_set_string (
+				shell_settings, "cal-primary-task-list",
+				e_source_peek_uid (source));
 
 			selected.data = (gpointer)e_source_peek_uid (source);
 			selected.next = NULL;

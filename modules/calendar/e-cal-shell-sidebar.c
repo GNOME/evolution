@@ -368,7 +368,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	ECalShellSidebarPrivate *priv;
 	EShell *shell;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
@@ -393,9 +392,8 @@ cal_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	shell = e_shell_window_get_shell (shell_window);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_cal_shell_backend_get_source_list (

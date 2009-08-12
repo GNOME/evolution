@@ -269,8 +269,12 @@ static void
 task_shell_sidebar_primary_selection_changed_cb (ETaskShellSidebar *task_shell_sidebar,
                                                  ESourceSelector *selector)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
 	ESource *source;
-	const gchar *uid;
 
 	/* XXX ESourceSelector needs a "primary-selection-uid" property
 	 *     so we can just bind the property with GConfBridge. */
@@ -279,8 +283,16 @@ task_shell_sidebar_primary_selection_changed_cb (ETaskShellSidebar *task_shell_s
 	if (source == NULL)
 		return;
 
-	uid = e_source_peek_uid (source);
-	calendar_config_set_primary_tasks (uid);
+	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_shell_settings_set_string (
+		shell_settings, "cal-primary-task-list",
+		e_source_peek_uid (source));
 }
 
 static void
@@ -335,9 +347,11 @@ static void
 task_shell_sidebar_constructed (GObject *object)
 {
 	ETaskShellSidebarPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
 	ESourceSelector *selector;
 	ESourceList *source_list;
 	ESource *source;
@@ -356,6 +370,9 @@ task_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_task_shell_backend_get_source_list (
 		E_TASK_SHELL_BACKEND (shell_backend));
@@ -392,7 +409,8 @@ task_shell_sidebar_constructed (GObject *object)
 		object);
 
 	source = NULL;
-	uid = calendar_config_get_primary_tasks ();
+	uid = e_shell_settings_get_string (
+		shell_settings, "cal-primary-task-list");
 	if (uid != NULL)
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source == NULL)

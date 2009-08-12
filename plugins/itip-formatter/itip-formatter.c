@@ -46,7 +46,6 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-config.h>
-#include <mail/em-format.h>
 #include <mail/em-format-html.h>
 #include <mail/em-utils.h>
 #include <mail/mail-folder-cache.h>
@@ -57,6 +56,7 @@
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
+#include <shell/e-shell.h>
 #include "itip-view.h"
 
 #define CLASSID "itip://"
@@ -715,18 +715,27 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST)
 		    && !pitip->current_ecal) {
 			/* Reuse already declared one or rename? */
+			EShell *shell;
+			EShellSettings *shell_settings;
 			ESource *source = NULL;
 			gchar *uid;
 
+			/* FIXME Find a better way to obtain the shell. */
+			shell = e_shell_get_default ();
+			shell_settings = e_shell_get_shell_settings (shell);
+
 			switch (pitip->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
-				uid = calendar_config_get_primary_calendar ();
+				uid = e_shell_settings_get_string (
+					shell_settings, "cal-primary-calendar");
 				break;
 			case E_CAL_SOURCE_TYPE_TODO:
-				uid = calendar_config_get_primary_tasks ();
+				uid = e_shell_settings_get_string (
+					shell_settings, "cal-primary-task-list");
 				break;
 			case E_CAL_SOURCE_TYPE_JOURNAL:
-				uid = calendar_config_get_primary_memos ();
+				uid = e_shell_settings_get_string (
+					shell_settings, "cal-primary-memo-list");
 				break;
 			default:
 				uid = NULL;

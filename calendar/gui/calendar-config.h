@@ -114,20 +114,10 @@ GSList   *calendar_config_get_tasks_selected (void);
 void	  calendar_config_set_tasks_selected (GSList *selected);
 guint	  calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data);
 
-/* The primary calendar */
-gchar     *calendar_config_get_primary_tasks (void);
-void	  calendar_config_set_primary_tasks (const gchar *primary_uid);
-guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data);
-
 /* The current list of memo lists selected */
 GSList   *calendar_config_get_memos_selected (void);
 void	  calendar_config_set_memos_selected (GSList *selected);
 guint	  calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data);
-
-/* The primary calendar */
-gchar     *calendar_config_get_primary_memos (void);
-void	  calendar_config_set_primary_memos (const gchar *primary_uid);
-guint	  calendar_config_add_notification_primary_memos (GConfClientNotifyFunc func, gpointer data);
 
 /* Settings to hide completed tasks. */
 gboolean  calendar_config_get_hide_completed_tasks	(void);

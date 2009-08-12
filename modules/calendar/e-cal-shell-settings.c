@@ -525,6 +525,14 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/display/primary_calendar");
 
 	e_shell_settings_install_property_for_key (
+		"cal-primary-memo-list",
+		"/apps/evolution/calendar/memos/primary_memos");
+
+	e_shell_settings_install_property_for_key (
+		"cal-primary-task-list",
+		"/apps/evolution/calendar/tasks/primary_tasks");
+
+	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
 		"/apps/evolution/calendar/display/show_event_end");
 

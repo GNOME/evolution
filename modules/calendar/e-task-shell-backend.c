@@ -73,6 +73,8 @@ task_module_ensure_sources (EShellBackend *shell_backend)
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_the_web;
 	ESource *personal;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GSList *groups, *iter;
 	const gchar *data_dir;
 	const gchar *name;
@@ -84,6 +86,9 @@ task_module_ensure_sources (EShellBackend *shell_backend)
 	personal = NULL;
 
 	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
 		g_warning ("Could not get task sources from GConf!");
@@ -174,7 +179,9 @@ task_module_ensure_sources (EShellBackend *shell_backend)
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
 
-		primary = calendar_config_get_primary_tasks ();
+		primary = e_shell_settings_get_string (
+			shell_settings, "cal-primary-task-list");
+
 		selected = calendar_config_get_tasks_selected ();
 
 		if (primary == NULL && selected == NULL) {
@@ -183,7 +190,8 @@ task_module_ensure_sources (EShellBackend *shell_backend)
 			uid = e_source_peek_uid (source);
 			selected = g_slist_prepend (NULL, g_strdup (uid));
 
-			calendar_config_set_primary_tasks (uid);
+			e_shell_settings_set_string (
+				shell_settings, "cal-primary-task-list", uid);
 			calendar_config_set_tasks_selected (selected);
 		}
 
@@ -212,30 +220,46 @@ task_module_ensure_sources (EShellBackend *shell_backend)
 }
 
 static void
-task_module_cal_opened_cb (ECal *cal,
-                           ECalendarStatus status,
-                           GtkAction *action)
+task_shell_backend_task_new_cb (ECal *cal,
+                                ECalendarStatus status,
+                                EShell *shell)
 {
-	EShell *shell;
 	ECalComponent *comp;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
-	const gchar *action_name;
-
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
 		return;
 
-	action_name = gtk_action_get_name (action);
+	flags |= COMP_EDITOR_NEW_ITEM;
+
+	editor = task_editor_new (cal, shell, flags);
+	comp = cal_comp_task_new_with_defaults (cal);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
+}
+
+static void
+task_shell_backend_task_assigned_new_cb (ECal *cal,
+                                         ECalendarStatus status,
+                                         EShell *shell)
+{
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
-	if (strcmp (action_name, "task-assigned-new") == 0) {
-		flags |= COMP_EDITOR_IS_ASSIGNED;
-		flags |= COMP_EDITOR_USER_ORG;
-	}
+	flags |= COMP_EDITOR_IS_ASSIGNED;
+	flags |= COMP_EDITOR_USER_ORG;
 
 	editor = task_editor_new (cal, shell, flags);
 	comp = cal_comp_task_new_with_defaults (cal);
@@ -254,18 +278,25 @@ action_task_new_cb (GtkAction *action,
 	ECal *cal = NULL;
 	ECalSourceType source_type;
 	ESourceList *source_list;
+	EShellSettings *shell_settings;
+	EShell *shell;
+	const gchar *action_name;
 	gchar *uid;
 
 	/* This callback is used for both tasks and assigned tasks. */
 
 	source_type = E_CAL_SOURCE_TYPE_TODO;
 
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
 		g_warning ("Could not get task sources from GConf!");
 		return;
 	}
 
-	uid = calendar_config_get_primary_tasks ();
+	uid = e_shell_settings_get_string (
+		shell_settings, "cal-primary-task-list");
 
 	if (uid != NULL) {
 		ESource *source;
@@ -281,9 +312,18 @@ action_task_new_cb (GtkAction *action,
 
 	g_return_if_fail (cal != NULL);
 
-	g_signal_connect (
-		cal, "cal-opened",
-		G_CALLBACK (task_module_cal_opened_cb), action);
+	/* Connect the appropriate signal handler. */
+	action_name = gtk_action_get_name (action);
+	if (strcmp (action_name, "task-assigned-new") == 0)
+		g_signal_connect (
+			cal, "cal-opened",
+			G_CALLBACK (task_shell_backend_task_assigned_new_cb),
+			shell);
+	else
+		g_signal_connect (
+			cal, "cal-opened",
+			G_CALLBACK (task_shell_backend_task_new_cb),
+			shell);
 
 	e_cal_open_async (cal, FALSE);
 }
