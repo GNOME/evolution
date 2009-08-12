@@ -138,6 +138,8 @@ void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
 
 GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
 void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type);
+void		gnome_calendar_display_view	(GnomeCalendar *gcal,
+						 GnomeCalendarViewType view_type);
 
 struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 							 GnomeCalendarViewType view_type);

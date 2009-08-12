@@ -217,12 +217,3 @@ e_cal_shell_view_register_type (GTypeModule *type_module)
 		type_module, E_TYPE_SHELL_VIEW,
 		"ECalShellView", &type_info, 0);
 }
-
-GnomeCalendar *
-e_cal_shell_view_get_calendar (ECalShellView *cal_shell_view)
-{
-	g_return_val_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view), NULL);
-
-	/* FIXME */
-	return NULL;
-}

@@ -368,6 +368,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_cal_shell_view_update_sidebar (cal_shell_view);
         e_cal_shell_view_update_search_filter (cal_shell_view);
 	e_cal_shell_view_update_timezone (cal_shell_view);
+
+	/* Keep the toolbar view buttons in sync with the calendar. */
+	e_mutual_binding_new (
+		G_OBJECT (calendar), "view",
+		G_OBJECT (ACTION (CALENDAR_VIEW_DAY)), "current-value");
 }
 
 void
@@ -658,6 +663,7 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
+	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view;
 	time_t start_time, end_time;
@@ -672,7 +678,8 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
-	calendar = e_cal_shell_view_get_calendar (cal_shell_view);
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
 	gnome_calendar_get_visible_time_range (
 		calendar, &start_time, &end_time);

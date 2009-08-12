@@ -23,8 +23,6 @@
 #define E_CAL_SHELL_VIEW_H
 
 #include <shell/e-shell-view.h>
-#include <calendar/gui/gnome-cal.h>
-#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_VIEW \
@@ -62,7 +60,6 @@ struct _ECalShellViewClass {
 
 GType		e_cal_shell_view_get_type	(void);
 void		e_cal_shell_view_register_type	(GTypeModule *type_module);
-GnomeCalendar *	e_cal_shell_view_get_calendar	(ECalShellView *cal_shell_view);
 
 G_END_DECLS
 

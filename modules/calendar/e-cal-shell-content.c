@@ -74,7 +74,6 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
                                    GalView *gal_view)
 {
 	GnomeCalendar *calendar;
-	CalendarView *gal_calendar_view;
 	GnomeCalendarViewType view_type;
 
 	/* XXX This is confusing: we have CalendarView and ECalendarView.
@@ -99,6 +98,8 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 		view_type = calendar_view_get_view_type (
 			CALENDAR_VIEW (gal_view));
 	}
+
+	gnome_calendar_display_view (calendar, view_type);
 }
 
 static void
@@ -389,6 +390,10 @@ cal_shell_content_constructed (GObject *object)
 		gtk_widget_show (GTK_WIDGET (calendar_view));
 	}
 
+	e_binding_new (
+		G_OBJECT (priv->calendar), "view",
+		G_OBJECT (priv->notebook), "page");
+
 	container = priv->vpaned;
 
 	widget = gtk_vbox_new (FALSE, 0);
@@ -448,7 +453,8 @@ cal_shell_content_constructed (GObject *object)
 		view_instance, "display-view",
 		G_CALLBACK (cal_shell_content_display_view_cb),
 		object);
-	gal_view_instance_load (view_instance);
+	/* XXX Actually, don't load the view instance just yet.
+	 *     The GtkWidget::map() callback below explains why. */
 	priv->view_instance = view_instance;
 
 	g_signal_connect_swapped (
@@ -469,9 +475,29 @@ cal_shell_content_constructed (GObject *object)
 }
 
 static void
+cal_shell_content_map (GtkWidget *widget)
+{
+	ECalShellContentPrivate *priv;
+	GalViewInstance *view_instance;
+
+	/* XXX Delay loading the GalViewInstance until after ECalShellView
+	 *     has a chance to install the sidebar's date navigator into
+	 *     GnomeCalendar, since loading the GalViewInstance triggers a
+	 *     callback in GnomeCalendar that requires the date navigator.
+	 *     Ordinarily we would do this at the end of constructed(), but
+	 *     that's too soon in this case.  (This feels kind of kludgy.) */
+	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (widget);
+	gal_view_instance_load (priv->view_instance);
+
+	/* Chain up to parent's map() method. */
+	GTK_WIDGET_CLASS (parent_class)->map (widget);
+}
+
+static void
 cal_shell_content_class_init (ECalShellContentClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalShellContentPrivate));
@@ -482,6 +508,9 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 	object_class->dispose = cal_shell_content_dispose;
 	object_class->finalize = cal_shell_content_finalize;
 	object_class->constructed = cal_shell_content_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->map = cal_shell_content_map;
 }
 
 static void

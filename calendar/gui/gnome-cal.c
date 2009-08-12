@@ -150,6 +150,7 @@ enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
 	PROP_SHELL_SETTINGS,
+	PROP_VIEW,
 	PROP_WEEK_START_DAY
 };
 
@@ -358,6 +359,12 @@ gnome_calendar_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_VIEW:
+			gnome_calendar_set_view (
+				GNOME_CALENDAR (object),
+				g_value_get_int (value));
+			return;
+
 		case PROP_WEEK_START_DAY:
 			gnome_calendar_set_week_start_day (
 				GNOME_CALENDAR (object),
@@ -384,6 +391,12 @@ gnome_calendar_get_property (GObject *object,
 		case PROP_SHELL_SETTINGS:
 			g_value_set_object (
 				value, gnome_calendar_get_shell_settings (
+				GNOME_CALENDAR (object)));
+			return;
+
+		case PROP_VIEW:
+			g_value_set_int (
+				value, gnome_calendar_get_view (
 				GNOME_CALENDAR (object)));
 			return;
 
@@ -538,6 +551,18 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			E_TYPE_SHELL_SETTINGS,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VIEW,
+		g_param_spec_int (
+			"view",
+			"View",
+			NULL,
+			GNOME_CAL_DAY_VIEW,
+			GNOME_CAL_LIST_VIEW,
+			0,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -1126,12 +1151,12 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 	/* Set the query on the views */
 	if (i == GNOME_CAL_LIST_VIEW) {
 		if (!priv->lview_select_daten_range) {
-			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views [i]), sexp, start, end);
+			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views[i]), sexp, start, end);
 		} else {
 			start = priv->base_view_time;
 			get_times_for_views (gcal, GNOME_CAL_LIST_VIEW, &start, &end, NULL);
 
-			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views [i]), sexp, start, end);
+			e_cal_model_set_search_query_with_time_range (e_calendar_view_get_model (priv->views[i]), sexp, start, end);
 
 			if (priv->current_view_type == GNOME_CAL_LIST_VIEW)
 				gnome_calendar_update_date_navigator (gcal);
@@ -1596,7 +1621,7 @@ update_view_times (GnomeCalendar *gcal, time_t start_time)
 
 	priv->base_view_time = start_time;
 
-	model = e_calendar_view_get_model (priv->views [priv->current_view_type]);
+	model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
 	get_times_for_views (gcal, priv->current_view_type, &real_start_time, &end_time, &select_time);
 
 	if (priv->current_view_type == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range)
@@ -1605,7 +1630,7 @@ update_view_times (GnomeCalendar *gcal, time_t start_time)
 	e_cal_model_set_time_range (model, real_start_time, end_time);
 
 	if (select_time != 0 && select_time >= real_start_time && select_time <= end_time)
-		e_calendar_view_set_selected_time_range (priv->views [priv->current_view_type], select_time, select_time);
+		e_calendar_view_set_selected_time_range (priv->views[priv->current_view_type], select_time, select_time);
 }
 
 static void
@@ -1700,44 +1725,17 @@ gnome_calendar_get_view (GnomeCalendar *gcal)
 static void
 set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_selected)
 {
-	GnomeCalendarPrivate *priv;
 	ECalendarView *view;
-	const gchar *view_id;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	priv = gcal->priv;
-
-	switch (view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		view_id = "Day_View";
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		view_id = "Work_Week_View";
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		view_id = "Week_View";
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		view_id = "Month_View";
-		break;
-
-	case GNOME_CAL_LIST_VIEW:
-		view_id = "List_View";
-		break;
-
-	default:
-		g_return_if_reached ();
-	}
-
-	priv->range_selected = range_selected;
-	priv->current_view_type = view_type;
+	gcal->priv->range_selected = range_selected;
+	gcal->priv->current_view_type = view_type;
 
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
 	gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	g_object_notify (G_OBJECT (gcal), "view");
 }
 
 /**
@@ -1766,38 +1764,15 @@ gnome_calendar_change_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type
 	gnome_calendar_set_view(gcal, view_type);
 }
 
-/* Callback used when the view collection asks us to display a particular view */
-#if 0  /* KILL-BONOBO */
-static void
-display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
+void
+gnome_calendar_display_view (GnomeCalendar *gcal,
+                             GnomeCalendarViewType view_type)
 {
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
 	CalendarView *cal_view;
-	GnomeCalendarViewType view_type;
 	ECalendarView *view;
 	gboolean preserve_day;
 	time_t start_time;
 	gint ii;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		ETable *table;
-
-		view_type = GNOME_CAL_LIST_VIEW;
-
-		table = e_table_scrolled_get_table (E_CAL_LIST_VIEW (priv->list_view)->table_scrolled);
-		gal_view_etable_attach_table (GAL_VIEW_ETABLE (view), table);
-	} else if (IS_CALENDAR_VIEW (view)) {
-		cal_view = CALENDAR_VIEW (view);
-
-		view_type = calendar_view_get_view_type (cal_view);
-	} else {
-		g_error (G_STRLOC ": Unknown type of view for GnomeCalendar");
-		return;
-	}
 
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
 
@@ -1810,7 +1785,7 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
-		if (!priv->range_selected)
+		if (!gcal->priv->range_selected)
 			e_day_view_set_days_shown (E_DAY_VIEW (view), 1);
 
 		gtk_widget_show (GTK_WIDGET (gcal->priv->date_navigator));
@@ -1827,7 +1802,7 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 		break;
 
 	case GNOME_CAL_MONTH_VIEW:
-		if (!priv->range_selected)
+		if (!gcal->priv->range_selected)
 			e_week_view_set_weeks_shown (E_WEEK_VIEW (view), 6);
 
 		preserve_day = TRUE;
@@ -1835,7 +1810,7 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 		break;
 
 	case GNOME_CAL_LIST_VIEW:
-		if (!priv->lview_select_daten_range)
+		if (!gcal->priv->lview_select_daten_range)
 			gtk_widget_hide (GTK_WIDGET (gcal->priv->date_navigator));
 		else
 			gtk_widget_show (GTK_WIDGET (gcal->priv->date_navigator));
@@ -1845,33 +1820,31 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 		g_return_if_reached ();
 	}
 
-	priv->current_view_type = view_type;
-	E_CALENDAR_VIEW (priv->views [view_type])->in_focus = TRUE;
+	set_view (gcal, view_type, gcal->priv->range_selected);
 
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-		if (i == view_type)
+	/* XXX Move this to set_view()? */
+	E_CALENDAR_VIEW (gcal->priv->views[view_type])->in_focus = TRUE;
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		if (ii == view_type)
 			continue;
-		E_CALENDAR_VIEW (priv->views [i])->in_focus = FALSE;
+		E_CALENDAR_VIEW (gcal->priv->views[ii])->in_focus = FALSE;
 	}
-
-	gtk_widget_grab_focus (GTK_WIDGET (view));
 
 	/* For the week & month views we want the selection in the date
 	   navigator to be rounded to the nearest week when the arrow buttons
 	   are pressed to move to the previous/next month. */
-	g_object_set (G_OBJECT (priv->date_navigator->calitem),
-		      "preserve_day_when_moving", preserve_day,
-		      NULL);
+	g_object_set (
+		gcal->priv->date_navigator->calitem,
+		"preserve_day_when_moving", preserve_day, NULL);
 
-	if (!priv->base_view_time)
+	if (!gcal->priv->base_view_time)
 		start_time = time (NULL);
 	else
-		start_time = priv->base_view_time;
+		start_time = gcal->priv->base_view_time;
 
 	gnome_calendar_set_selected_time_range (gcal, start_time);
 
 }
-#endif
 
 struct _mclient_msg {
 	Message header;
