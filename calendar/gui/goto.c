@@ -94,16 +94,20 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 #if 0  /* KILL-BONOBO */
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
+	ECalModel *model;
 	struct icaltimetype tt = icaltime_null_time ();
+	icaltimezone *timezone;
 	time_t et;
 
+	model = gnome_calendar_get_calendar_model (dlg->gcal);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	timezone = e_cal_model_get_timezone (model);
 
 	tt.year = g_date_get_year (&start_date);
 	tt.month = g_date_get_month (&start_date);
 	tt.day = g_date_get_day (&start_date);
 
-	et = icaltime_as_timet_with_zone (tt, gnome_calendar_get_timezone (dlg->gcal));
+	et = icaltime_as_timet_with_zone (tt, timezone);
 
 	gnome_calendar_goto (dlg->gcal, et);
 

@@ -130,6 +130,7 @@ ea_gnome_calendar_new (GtkWidget *widget)
 const gchar *
 ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 {
+	ECalModel *model;
 	icaltimezone *zone;
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
@@ -138,8 +139,9 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 	gchar end_buffer[256];
 	GnomeCalendarViewType view;
 
+	model = gnome_calendar_get_calendar_model (gcal);
 	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
-	zone = gnome_calendar_get_timezone (gcal);
+	zone = e_cal_model_get_timezone (model);
 
 	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, zone);
 	start_tm.tm_year = start_tt.year - 1900;

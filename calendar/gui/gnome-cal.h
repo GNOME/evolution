@@ -168,9 +168,6 @@ gboolean   gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
 
-/* Get the current timezone. */
-icaltimezone *gnome_calendar_get_timezone	(GnomeCalendar	*gcal);
-
 /* Clipboard operations */
 void       gnome_calendar_cut_clipboard         (GnomeCalendar  *gcal);
 void       gnome_calendar_copy_clipboard        (GnomeCalendar  *gcal);

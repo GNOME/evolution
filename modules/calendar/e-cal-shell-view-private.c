@@ -40,17 +40,6 @@ cal_shell_view_process_completed_tasks (ECalShellView *cal_shell_view,
 #endif
 }
 
-static void
-cal_shell_view_config_timezone_changed_cb (GConfClient *client,
-                                           guint id,
-                                           GConfEntry *entry,
-                                           gpointer user_data)
-{
-	ECalShellView *cal_shell_view = user_data;
-
-	e_cal_shell_view_update_timezone (cal_shell_view);
-}
-
 static struct tm
 cal_shell_view_get_current_time (ECalendarItem *calitem,
                                  ECalShellView *cal_shell_view)
@@ -666,6 +655,7 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view;
+	ECalModel *model;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
 	struct icaltimetype start_tt, end_tt;
@@ -683,7 +673,8 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 
 	gnome_calendar_get_visible_time_range (
 		calendar, &start_time, &end_time);
-	timezone = gnome_calendar_get_timezone (calendar);
+	model = gnome_calendar_get_calendar_model (calendar);
+	timezone = e_cal_model_get_timezone (model);
 	view = gnome_calendar_get_view (calendar);
 
 	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, timezone);
