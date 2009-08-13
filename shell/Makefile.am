@@ -145,9 +145,6 @@ error_DATA = shell.error
 errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
-glade_DATA =						\
-	import.glade
-
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
@@ -180,7 +177,6 @@ endif
 
 EXTRA_DIST = 					\
 	shell.error.xml				\
-	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
 	evolution-nognome.in			\

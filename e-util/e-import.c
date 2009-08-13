@@ -29,10 +29,6 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
-#include <libgnomeui/gnome-druid-page-edge.h>
-
 #include "e-import.h"
 
 #include <glib/gi18n.h>

@@ -27,8 +27,6 @@
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-edge.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
@@ -154,7 +152,7 @@ accept_free(gpointer data)
 }
 
 static void
-accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
+apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 {
 	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
@@ -175,11 +173,10 @@ accept_clicked(GnomeDruidPage *page, GtkWidget *druid, CamelMimeMessage *msg)
 	accept_data->model = model;
 	g_object_set_data_full((GObject *)dialog, "accept-data", accept_data, accept_free);
 	g_signal_connect (dialog, "response", G_CALLBACK (install_folder_response), accept_data);
-	g_object_set_data_full((GObject *)dialog, "druid", druid, (GDestroyNotify)gtk_widget_destroy);
+	g_object_set_data_full((GObject *)dialog, "assistant", assistant, (GDestroyNotify)gtk_widget_destroy);
 	gtk_window_set_title (GTK_WINDOW (dialog), "Install Shared Folder");
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_widget_show (dialog);
-
 }
 
 void
@@ -189,8 +186,6 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	const gchar *name;
 	const gchar *email;
 	GtkWidget *window;
-	GnomeDruid *wizard;
-	GnomeDruidPageEdge *title_page;
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
 	CamelStreamMem *content;
 	CamelDataWrapper *dw;
@@ -217,20 +212,36 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (from_addr && camel_internet_address_get(from_addr, 0, &name, &email)) {
+			GtkWidget *page;
+			GtkAssistant *assistant = GTK_ASSISTANT (gtk_assistant_new ());
+
 			start_message = g_strdup_printf (_("The user '%s' has shared a folder with you\n\n"
 							   "Message from '%s'\n\n\n"
 							   "%s\n\n\n"
-							   "Click 'Forward' to install the shared folder\n\n"),
+							   "Click 'Apply' to install the shared folder\n\n"),
 							   name, name, content->buffer->data);
-			title_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_START, TRUE, _("Install the shared folder"), start_message, NULL, NULL, NULL));
-			g_free(start_message);
-			wizard = GNOME_DRUID (gnome_druid_new_with_window (_("Shared Folder Installation"), NULL, TRUE, (GtkWidget**)(&window)));
-			gtk_window_set_position (GTK_WINDOW (window) , GTK_WIN_POS_CENTER_ALWAYS);
-			gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));
-			gtk_widget_show_all (GTK_WIDGET (title_page));
-			camel_object_ref(msg);
-			g_object_set_data_full((GObject *)title_page, "msg", msg, camel_object_unref);
-			g_signal_connect (title_page, "next", G_CALLBACK(accept_clicked), msg);
+			
+			page = gtk_label_new (start_message);
+			gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
+			gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.0);
+			gtk_misc_set_padding (GTK_MISC (page), 10, 10);
+
+			gtk_assistant_append_page (assistant, page);
+			gtk_assistant_set_page_title (assistant, page, _("Install the shared folder"));
+			gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
+			gtk_assistant_set_page_complete (assistant, page, TRUE);
+
+			gtk_window_set_title (GTK_WINDOW (assistant), _("Shared Folder Installation"));
+			gtk_window_set_position (GTK_WINDOW (assistant) , GTK_WIN_POS_CENTER_ALWAYS);
+
+			camel_object_ref (msg);
+			g_object_set_data_full((GObject *)page, "msg", msg, camel_object_unref);
+
+			g_signal_connect (assistant, "apply", G_CALLBACK (apply_clicked), msg);
+
+			gtk_widget_show_all (GTK_WIDGET (assistant));
+
+			g_free (start_message);
 		} else
 			g_warning ("Could not get the sender name");
 
