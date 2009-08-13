@@ -1361,9 +1361,17 @@ action_work_offline_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 
 	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	e_shell_set_online (shell, FALSE);
+
+	/* XXX The sense of the setting is reversed.  Would be more
+	 *     intuitive and less error-prone as "start-online". */
+	e_shell_settings_set_boolean (
+		shell_settings, "start-offline", TRUE);
 }
 
 /**
@@ -1379,9 +1387,17 @@ action_work_online_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 
 	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	e_shell_set_online (shell, TRUE);
+
+	/* XXX The sense of the setting is reversed.  Would be more
+	 *     intuitive and less error-prone as "start-online". */
+	e_shell_settings_set_boolean (
+		shell_settings, "start-offline", FALSE);
 }
 
 /**

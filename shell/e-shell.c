@@ -967,6 +967,10 @@ shell_init (EShell *shell)
 	 *     otherwise the GConf bindings will not get set up. */
 
 	e_shell_settings_install_property_for_key (
+		"start-offline",
+		"/apps/evolution/shell/start_offline");
+
+	e_shell_settings_install_property_for_key (
 		"disable-application-handlers",
 		"/desktop/gnome/lockdown/disable_application_handlers");
 
