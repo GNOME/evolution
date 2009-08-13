@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-settings.h
+ * e-book-shell-settings.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,15 +19,16 @@
  *
  */
 
-#ifndef E_CAL_SHELL_SETTINGS_H
-#define E_CAL_SHELL_SETTINGS_H
+#include "e-book-shell-settings.h"
 
-#include <shell/e-shell.h>
+void
+e_book_shell_backend_init_settings (EShell *shell)
+{
+	EShellSettings *shell_settings;
 
-G_BEGIN_DECLS
+	shell_settings = e_shell_get_shell_settings (shell);
 
-void		e_cal_shell_backend_init_settings	(EShell *shell);
-
-G_END_DECLS
-
-#endif /* E_CAL_SHELL_SETTINGS_H */
+	e_shell_settings_install_property_for_key (
+		"book-completion-show-address",
+		"/apps/evolution/addressbook/completion/show_address");
+}

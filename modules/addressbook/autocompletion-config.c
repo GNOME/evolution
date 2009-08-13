@@ -92,22 +92,83 @@ initialize_selection (ESourceSelector *source_selector)
 	}
 }
 
+static GtkWidget *
+add_section (GtkWidget *container,
+             const gchar *caption,
+             gboolean expand)
+{
+	GtkWidget *widget;
+	gchar *markup;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, expand, expand, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	markup = g_markup_printf_escaped ("<b>%s</b>", caption);
+	widget = gtk_label_new (markup);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, expand, expand, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	return widget;
+}
+
 void
 autocompletion_config_init (EShell *shell)
 {
+	EShellSettings *shell_settings;
 	ESourceList *source_list;
 	GtkWidget *scrolled_window;
 	GtkWidget *source_selector;
 	GtkWidget *preferences_window;
+	GtkWidget *itembox;
+	GtkWidget *widget;
+	GtkWidget *vbox;
 
 	g_return_if_fail (E_IS_SHELL (shell));
+
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_source_list_new_for_gconf_default (
 		"/apps/evolution/addressbook/sources");
 
-	/* XXX should we watch for the source list to change and
-	   update it in the control?  what about our local changes? */
-	/*	g_signal_connect (ac->source_list, "changed", G_CALLBACK (source_list_changed), ac); */
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_widget_show (vbox);
+
+	itembox = add_section (vbox, _("Date/Time Format"), FALSE);
+
+	widget = gtk_table_new (1, 3, FALSE);
+	gtk_box_pack_start (GTK_BOX (itembox), widget, TRUE, TRUE, 0);
+	e_datetime_format_add_setup_widget (
+		widget, 0, "addressbook", "table",
+		DTFormatKindDateTime, _("Table column:"));
+	gtk_widget_show (widget);
+
+	itembox = add_section (vbox, _("Autocompletion"), TRUE);
+
+	widget = gtk_check_button_new_with_mnemonic (
+		_("Always _show address of the autocompleted contact"));
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "book-completion-show-address",
+		G_OBJECT (widget), "active");
+	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -124,6 +185,8 @@ autocompletion_config_init (EShell *shell)
 	gtk_container_add (GTK_CONTAINER (scrolled_window), source_selector);
 	gtk_widget_show (source_selector);
 
+	gtk_box_pack_start (GTK_BOX (itembox), scrolled_window, TRUE, TRUE, 0);
+
 	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
 	preferences_window = e_shell_get_preferences_window (shell);
@@ -133,6 +196,6 @@ autocompletion_config_init (EShell *shell)
 		"contacts",
 		"preferences-autocompletion",
 		_("Contacts"),
-		scrolled_window,
+		vbox,
 		200);
 }

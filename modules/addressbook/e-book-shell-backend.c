@@ -44,6 +44,7 @@
 #include "autocompletion-config.h"
 
 #include "e-book-shell-migrate.h"
+#include "e-book-shell-settings.h"
 #include "e-book-shell-view.h"
 
 #ifdef ENABLE_SMIME
@@ -509,6 +510,9 @@ book_shell_backend_constructed (GObject *object)
 		G_CALLBACK (book_shell_backend_window_created_cb),
 		shell_backend);
 
+	/* Initialize settings before initializing preferences,
+	 * since the preferences bind to the shell settings. */
+	e_book_shell_backend_init_settings (shell);
 	autocompletion_config_init (shell);
 }
 

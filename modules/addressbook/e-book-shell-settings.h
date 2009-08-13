@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-settings.h
+ * e-book-shell-settings.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,14 +19,14 @@
  *
  */
 
-#ifndef E_CAL_SHELL_SETTINGS_H
-#define E_CAL_SHELL_SETTINGS_H
+#ifndef E_BOOK_SHELL_SETTINGS_H
+#define E_BOOK_SHELL_SETTINGS_H
 
 #include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-void		e_cal_shell_backend_init_settings	(EShell *shell);
+void		e_book_shell_backend_init_settings	(EShell *shell);
 
 G_END_DECLS
 
