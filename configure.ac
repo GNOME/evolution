@@ -761,27 +761,27 @@ AC_ARG_WITH([krb4-includes],
 
 msg_krb5="no"
 if test "x${with_krb5}" != "xno"; then
-	LDFLAGS_save="$LDFLAGS"
+	LIBS_save="$LIBS"
 
 	mitlibs="-lkrb5 -lk5crypto -lcom_err -lgssapi_krb5"
 	heimlibs="-lkrb5 -lcrypto -lasn1 -lcom_err -lroken -lgssapi"
 	sunlibs="-lkrb5 -lgss"
 	AC_CACHE_CHECK([for Kerberos 5], [ac_cv_lib_kerberos5],
 	[
-		LDFLAGS="$LDFLAGS -L$with_krb5_libs $mitlibs"
-		AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context,])],
+		LIBS="$LIBS -L$with_krb5_libs $mitlibs"
+		AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context])],
 		[ac_cv_lib_kerberos5="$mitlibs"],
 		[
-			LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $heimlibs"
+			LIBS="$LIBS_save -L$with_krb5_libs $heimlibs"
 			AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context])],
 			[ac_cv_lib_kerberos5="$heimlibs"],
 			[
-				LDFLAGS="$LDFLAGS_save -L$with_krb5_libs $sunlibs"
+				LIBS="$LIBS_save -L$with_krb5_libs $sunlibs"
 				AC_LINK_IFELSE([AC_LANG_CALL([], [krb5_init_context])],
 				[ac_cv_lib_kerberos5="$sunlibs"], [ac_cv_lib_kerberos5="no"])
 			])
 		])
-		LDFLAGS="$LDFLAGS_save"
+		LIBS="$LIBS_save"
 	])
 	if test "$ac_cv_lib_kerberos5" != "no"; then
 		AC_DEFINE(HAVE_KRB5,1,[Define if you have Krb5])
@@ -834,36 +834,35 @@ AC_CHECK_HEADER([com_err.h],
 
 msg_krb4="no"
 if test "x${with_krb4}" != "xno"; then
-	LDFLAGS_save="$LDFLAGS"
+	LIBS_save="$LIBS"
 	AC_CACHE_CHECK([for Kerberos 4], [ac_cv_lib_kerberos4],
 	[
 		ac_cv_lib_kerberos4="no"
-
 		mitcompatlibs="-lkrb4 -ldes425 -lkrb5 -lk5crypto -lcom_err"
 		dnl Look for MIT krb5 compat krb4
-		LDFLAGS="$LDFLAGS -L$with_krb4_libs $mitcompatlibs"
+		LIBS="$LIBS_save -L$with_krb4_libs $mitcompatlibs"
 		AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
 		[ac_cv_lib_kerberos4="$mitcompatlibs"])
 
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			dnl Look for KTH krb4
-			LDFLAGS="$LDFLAGS_save -L$with_krb4_libs -lkrb -lcrypto -lcom_err -lroken"
+			LIBS="$LIBS_save -L$with_krb4_libs -lkrb -lcrypto -lcom_err -lroken"
 			AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
 			[ac_cv_lib_kerberos4="-lkrb -lcrypto -lcom_err -lroken"])
 		fi
 		if test "$ac_cv_lib_kerberos4" = "no"; then
 			dnl Look for old MIT krb4
-			LDFLAGS="$LDFLAGS_save -L$with_krb4_libs -lkrb"
+			LIBS="$LIBS_save -L$with_krb4_libs -lkrb"
 			AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
 			[ac_cv_lib_kerberos4="-lkrb"],
 			[
-				LDFLAGS="$LDFLAGS -ldes"
+				LIBS="$LIBS_save -ldes"
 				AC_LINK_IFELSE([AC_LANG_CALL([], [krb_mk_req])],
 				[ac_cv_lib_kerberos4="-lkrb -ldes"])
 			])
 		fi
 	])
-	LDFLAGS="$LDFLAGS_save"
+	LIBS="$LIBS_save"
 	if test "$ac_cv_lib_kerberos4" != "no"; then
 		AC_DEFINE(HAVE_KRB4,1,[Define if you have Krb4])
 		msg_krb4="yes"
