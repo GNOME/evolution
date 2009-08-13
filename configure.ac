@@ -72,8 +72,9 @@ m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
 m4_define([gweather_minimum_version], [2.25.3])
 
+dnl ******************************
 dnl Compiler Warning Flags
-
+dnl ******************************
 AS_COMPILER_FLAGS(WARNING_FLAGS,
 	"-DG_DISABLE_DEPRECATED
 	-DPANGO_DISABLE_DEPRECATED
@@ -104,10 +105,14 @@ CFLAGS="$CFLAGS $WARNING_FLAGS"
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
 
+dnl *************************************
 dnl Put the ACLOCAL flags in the Makefile
+dnl *************************************
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
 
+dnl ******************************
 dnl Initialize maintainer mode
+dnl ******************************
 AM_MAINTAINER_MODE
 
 if test "$evo_version" != "$evo_stable_version"; then
@@ -140,7 +145,9 @@ case $YACC in
 esac
 AC_ARG_PROGRAM
 
+dnl ******************************
 dnl  Test whether jw is installed
+dnl ******************************
 AC_PATH_PROG(JW,jw,no)
 if test x$JW = xno; then
 	HAVE_JW="no"
@@ -150,7 +157,9 @@ fi
 AM_CONDITIONAL(HAVE_JW, [test x$HAVE_JW = xyes])
 AC_SUBST(HAVE_JW)
 
+dnl ******************************
 dnl I18N stuff
+dnl ******************************
 IT_PROG_INTLTOOL([0.35.5])
 
 AM_GLIB_GNU_GETTEXT
@@ -162,10 +171,12 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettex
 localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
 
-dnl Initialize libtool
+dnl ******************************
+dnl Initialize libtool \ DOLT
 dnl if switch to libtool >= 2.2, replace existing with following:
 dnl LT_PREREQ(2.2)
 dnl LT_INIT(disable-static win32-dll)
+dnl ******************************
 AM_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
@@ -173,7 +184,9 @@ DOLT
 
 PKG_PROG_PKG_CONFIG
 
+dnl ******************************
 dnl Win32
+dnl ******************************
 AC_MSG_CHECKING([for Win32])
 case "$host" in
 *-mingw*)
@@ -215,7 +228,9 @@ AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
 
 AC_SUBST(WINDRES)
 
+dnl **********************************
 dnl Check for base dependencies early.
+dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gtk+-2.0 >= gtk_minimum_version
@@ -363,15 +378,19 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([[
 CFLAGS="$save_CFLAGS"
 LIBS="$save_LIBS"
 
+dnl ***********
 dnl alloca()
+dnl ***********
 AC_FUNC_ALLOCA
 
+dnl **************
 dnl waitpid() etc
+dnl **************
 AC_HEADER_SYS_WAIT
 
-dnl
+dnl ***************
 dnl Purify support
-dnl
+dnl ***************
 EVO_PURIFY_SUPPORT
 
 dnl **************
@@ -526,19 +545,19 @@ AC_CHECK_HEADER([sys/mount.h],
 AC_CHECK_FUNCS(statfs)
 
 dnl **************************************************
-dnl * Gnome Icon Theme
+dnl Gnome Icon Theme
 dnl **************************************************
 PKG_CHECK_MODULES([GIT], [gnome-icon-theme >= gnome_icon_theme_minimum_version])
 
 dnl **************************************************
-dnl * Accessibility support
+dnl Accessibility support
 dnl **************************************************
 PKG_CHECK_MODULES([A11Y], [atk])
 AC_SUBST(A11Y_CFLAGS)
 AC_SUBST(A11Y_LIBS)
 
 dnl **************************************************
-dnl * XF86 multimedia keys support
+dnl XF86 multimedia keys support
 dnl **************************************************
 have_xfree=no
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
@@ -555,40 +574,40 @@ dnl **************************************************
 dnl LDAP support.
 dnl **************************************************
 if test "$os_win32" != yes; then
-EVO_LDAP_CHECK(no)
-case $with_openldap in
-no)
-	msg_ldap=no
-	;;
-*)
-	case $with_static_ldap in
-	yes)
-		msg_ldap="yes (static)"
+	EVO_LDAP_CHECK(no)
+	case $with_openldap in
+	no)
+		msg_ldap=no
 		;;
 	*)
-		msg_ldap="yes (dynamic)"
+		case $with_static_ldap in
+		yes)
+			msg_ldap="yes (static)"
 		;;
+		*)
+			msg_ldap="yes (dynamic)"
+			;;
+		esac
 	esac
-esac
 
-SAVE_CFLAGS="$CFLAGS"
-SAVE_LIBS="$LIBS"
-LDAP_CFLAGS="$LDAP_CFLAGS -DLDAP_DEPRECATED"
-CFLAGS="$CFLAGS $LDAP_CFLAGS"
-LIBS="$LIBS $LDAP_LIBS"
-AC_CHECK_FUNCS(ldap_ntlm_bind)
-CFLAGS="$SAVE_CFLAGS"
-LIBS="$SAVE_LIBS"
-
-else dnl Win32
-LDAP_CFLAGS="-DLDAP_DEPRECATED"
-LDAP_LIBS="-lwldap32"
-AC_SUBST(LDAP_CFLAGS)
-AC_SUBST(LDAP_LIBS)
-AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
-AM_CONDITIONAL(ENABLE_LDAP, true)
-msg_ldap="yes"
-fi dnl Win32
+	SAVE_CFLAGS="$CFLAGS"
+	SAVE_LIBS="$LIBS"
+	LDAP_CFLAGS="$LDAP_CFLAGS -DLDAP_DEPRECATED"
+	CFLAGS="$CFLAGS $LDAP_CFLAGS"
+	LIBS="$LIBS $LDAP_LIBS"
+	AC_CHECK_FUNCS(ldap_ntlm_bind)
+	CFLAGS="$SAVE_CFLAGS"
+	LIBS="$SAVE_LIBS"
+dnl Win32 support
+else
+	LDAP_CFLAGS="-DLDAP_DEPRECATED"
+	LDAP_LIBS="-lwldap32"
+	AC_SUBST(LDAP_CFLAGS)
+	AC_SUBST(LDAP_LIBS)
+	AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
+	AM_CONDITIONAL(ENABLE_LDAP, true)
+	msg_ldap="yes"
+fi
 
 dnl **************************************************
 dnl SunLDAP support, but if OpenLDAP support, skip check SunLDAP.
@@ -632,7 +651,7 @@ AM_CONDITIONAL(ENABLE_NNTP, [test x$enable_nntp = xyes])
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
 
 dnl **************************************************
-dnl * Posix thread support
+dnl Posix thread support
 dnl **************************************************
 
 dnl GLIB_CONFIG=${GLIB_CONFIG-glib-config}
@@ -657,17 +676,19 @@ AC_SUBST(THREADS_CFLAGS)
 AC_DEFINE(ENABLE_THREADS,1,[Required])
 
 
-dnl *********
-dnl Libraries
-dnl *********
-
+dnl ************
+dnl regex check
+dnl ************
 AC_CHECK_FUNCS(regexec,,[AC_CHECK_LIB(regex,regexec,
 			[REGEX_LIBS=-lregex
 			AC_DEFINE(HAVE_REGEXEC,1,[Define to 1 if you have the regexec function.])],
 			[AC_MSG_ERROR([No regex library found])])])
 AC_SUBST(REGEX_LIBS)
 
+dnl *************************
+dnl GTKHTML check
 dnl XXX Drop the version from the package name?
+dnl *************************
 PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-3.14 >= libgtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
@@ -766,6 +787,9 @@ AC_ARG_WITH([krb4-includes],
 	[Location of Kerberos 4 headers]),
 	[with_krb4_includes=$withval],[with_krb4_includes=""])
 
+dnl ************
+dnl Kerberos 5
+dnl ************
 msg_krb5="no"
 if test "x${with_krb5}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
@@ -839,6 +863,9 @@ AC_CHECK_HEADER([com_err.h],
 		#endif
 	]])
 
+dnl ***********
+dnl Kerberos 4
+dnl ***********
 msg_krb4="no"
 if test "x${with_krb4}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
@@ -906,10 +933,10 @@ AC_SUBST(KRB5_LIBS)
 AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LIBS)
 
+dnl ******************************
 dnl Mono hooks
-dnl This should just define mono CFLAGS etc here, it is used later to
-dnl turn on the mono plugin or not.
-
+dnl This should just define mono CFLAGS etc here, it is used later to turn on the mono plugin or not.
+dnl ******************************
 MONO_CFLAGS=
 MONO_LIBS=
 AC_ARG_ENABLE([mono],
@@ -924,10 +951,11 @@ fi
 AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)
 
+dnl ******************************
 dnl Python hooks
-dnl This should just define python CFLAGS etc here, it is used later to
-dnl turn on the python plugin or not.
+dnl This should just define python CFLAGS etc here, it is used later to turn on the python plugin or not.
 dnl (Thanks to Pidgin)
+dnl ******************************
 
 AC_ARG_ENABLE([python],
 	AS_HELP_STRING([--enable-python],
@@ -1341,7 +1369,9 @@ AC_COMPILE_IFELSE([
 
 CFLAGS="$evolution_save_cflags"
 
-
+dnl *************************
+dnl Orbit / Bonobo
+dnl *************************
 AM_PATH_ORBIT2(2.9.8)
 
 AC_MSG_CHECKING([for CORBA include paths])
@@ -1349,20 +1379,25 @@ IDL_INCLUDES="-I "`${PKG_CONFIG} --variable=idldir libbonobo-2.0`" -I "`${PKG_CO
 AC_MSG_RESULT([$IDL_INCLUDES])
 AC_SUBST(IDL_INCLUDES)
 
+dnl *****************************************************************
 dnl Utility macro to set compiler flags for a specific lib.
 dnl EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
+dnl *****************************************************************
 AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
 	PKG_CHECK_MODULES([$1], [$2])
 	$1_CFLAGS="[$]$1_CFLAGS $3"
 	$1_LIBS="[$]$1_LIBS $4"
 ])
 
-dnl --- Required version numbers
-
+dnl ************************
+dnl Required version numbers
+dnl ************************
 BONOBOUI_REQUIRED=libbonoboui_minimum_version
 AC_SUBST(BONOBOUI_REQUIRED)
 
-dnl --- Flags to get all the GNOME stuff
+dnl ********************************
+dnl Flags to get all the GNOME stuff
+dnl ********************************
 
 FULL_GNOME_DEPS="libbonoboui-2.0 gconf-2.0 gthread-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0"
 
@@ -1376,6 +1411,9 @@ else
 	IPOD_SYNC=""
 fi
 
+dnl ******************************
+dnl TNEF implementation
+dnl ******************************
 AC_MSG_CHECKING([for yTNEF])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
 	[[
@@ -1408,7 +1446,9 @@ else
 fi
 AC_SUBST(TNEF_CFLAGS)
 
+dnl ******************************
 dnl Check for dbus-glib-1 and dbus
+dnl ******************************
 AC_ARG_ENABLE([dbus],
 	[AS_HELP_STRING([--enable-dbus],
 	[enable DBUS support (default=yes)])],
@@ -1434,7 +1474,9 @@ else
 fi
 AM_CONDITIONAL([DBUS_SUPPORT], [test "$DBUS_SUPPORT" = yes])
 
+dnl ******************************
 dnl Check for NetworkManager
+dnl ******************************
 AC_ARG_ENABLE([nm],
 	[AS_HELP_STRING([--enable-nm],
 	[enable NetworkManager support (default=yes)])],
@@ -1455,8 +1497,9 @@ fi
 
 AM_CONDITIONAL([NM_SUPPORT], [test "$NM_SUPPORT" = yes])
 
-dnl --- Flags for the various libraries we build
-
+dnl ******************************
+dnl Camel Flags
+dnl ******************************
 EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
@@ -1474,16 +1517,23 @@ else
 	fi
 fi
 
+dnl ******************************
+dnl CERT_UI Flags
+dnl ******************************
 EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0, $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS, 	$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
+dnl ******************************
+dnl E_NAME Flags
+dnl ******************************
 EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-dnl If Gtk/Gdk is built against X11, e-util uses some
-dnl X11-specific code so link with X11.
+dnl ******************************
+dnl If Gtk/Gdk is built against X11, e-util uses some X11-specific code so link with X11.
+dnl ******************************
 if test "x$GDK_BACKEND_X11" = "xyes"; then
 	E_UTIL_X11_CFLAGS="$X_CFLAGS"
 	E_UTIL_X11_LIBS="$X_LIBS"
@@ -1491,38 +1541,56 @@ else
 	E_UTIL_X11_CFLAGS=""
 	E_UTIL_X11_LIBS=""
 fi
+
+dnl ************
+dnl E_UTIL Flags
+dnl ************
 EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
 E_UTIL_LIBS="$E_UTIL_LIBS $MATH_LIB"
 
+dnl **************
+dnl TZDIALOG Flags
+dnl **************
 EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE, $GNOME_PLATFORM_CFLAGS, $GNOME_PLATFORM_LIBS)
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
+dnl ***************
+dnl E_WIDGETS Flags
+dnl ***************
 EVO_SET_COMPILE_FLAGS(E_WIDGETS, libbonoboui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
+dnl ***************
+dnl IMPORTERS Flags
+dnl ***************
 EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libbonoboui-2.0 libgnomeui-2.0 libebook-$EDS_PACKAGE)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
+dnl ***************
+dnl LIBFILTER Flags
+dnl ***************
 EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnomeui-2.0 libglade-2.0 libedataserver-$EDS_PACKAGE)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
-dnl --- evolution (shell) flags
+dnl ***********
+dnl Shell Flags
+dnl ***********
 EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 gnome-desktop-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
-dnl --- evolution-addressbook flags
-
+dnl *****************
+dnl Addressbook Flags
+dnl *****************
 EVOLUTION_ADDRESSBOOK_DEPS="libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
-
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1533,6 +1601,9 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 fi
 
+dnl ***************
+dnl Libnotify Flags
+dnl ***************
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
 PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
@@ -1545,7 +1616,9 @@ fi
 AC_SUBST(LIBNOTIFY_CFLAGS)
 AC_SUBST(LIBNOTIFY_LIBS)
 
-dnl --- evolution-calendar flags
+dnl **************
+dnl Calendar Flags
+dnl **************
 EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
@@ -1560,14 +1633,16 @@ AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 fi
 
-dnl --- evolution-mail flags
-
+dnl **********
+dnl Mail Flags
+dnl **********
 EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
-dnl -- evolution-data-server IDL and version
-
+dnl ***************************
+dnl Evolution-Data-Server Flags
+dnl ***************************
 AC_DEFINE(DATASERVER_API_VERSION, "1.2", evolution-data-server API version)
 AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`${PKG_CONFIG} --modversion evolution-data-server-1.2`", evolution-data-server version)
 
@@ -1583,14 +1658,16 @@ else
 	AC_MSG_ERROR([no])
 fi
 
-dnl --- evolution-test flags
-
+dnl **********
+dnl Test Flags
+dnl **********
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, gtk+-2.0 gconf-2.0 libxml-2.0 unique-1.0)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
 
-dnl --- eggsmclient flags
-
+dnl *****************
+dnl EggSMClient Flags
+dnl *****************
 EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-2.0)
 AC_SUBST(EGG_SMCLIENT_CFLAGS)
 AC_SUBST(EGG_SMCLIENT_LIBS)
@@ -1599,9 +1676,8 @@ dnl *******************
 dnl Special directories
 dnl *******************
 
-dnl --- If you add something here, consider whether or not you also
-dnl --- need to add it to one or more .pc.in files (for Connector,
-dnl --- etc)
+dnl If you add something here, consider whether or not you also need to add it to one or more .pc.in
+dnl files (for Connector, etc)
 
 privlibdir='${libdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibdir)
@@ -1770,6 +1846,9 @@ xexperimental)
 	;;
 esac
 
+dnl ******************************
+dnl Profiling support
+dnl ******************************
 AC_ARG_ENABLE([profiling],
 	AS_HELP_STRING([--enable-profiling],
 	[Enable profiling plugin.]),
