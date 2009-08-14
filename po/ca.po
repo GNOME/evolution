@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-15 11:15+0200\n"
-"PO-Revision-Date: 2009-04-15 11:14+0200\n"
+"POT-Creation-Date: 2009-08-14 18:15+0200\n"
+"PO-Revision-Date: 2009-08-14 18:15+0200\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -674,7 +674,7 @@ msgstr "Gestioneu els vostres certificats S/MIME aquí"
 #: ../calendar/gui/migration.c:1091 ../calendar/gui/tasks-component.c:194
 #: ../calendar/gui/tasks-component.c:198 ../mail/em-folder-tree-model.c:200
 #: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2990
-#: ../mail/mail-component.c:316 ../mail/mail-vfolder.c:223
+#: ../mail/mail-component.c:316 ../mail/mail-vfolder.c:217
 #: ../mail/message-list.c:1517
 msgid "On This Computer"
 msgstr "En aquest ordinador"
@@ -874,18 +874,18 @@ msgstr ""
 "Espereu mentre l'Evolution migra les vostres dades del Pilot Sync..."
 
 #: ../addressbook/gui/component/addressbook-view.c:422
-#: ../mail/em-folder-utils.c:458
+#: ../mail/em-folder-utils.c:456
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Canvia el nom de la carpeta «%s» a:"
 
 #: ../addressbook/gui/component/addressbook-view.c:425
-#: ../mail/em-folder-utils.c:460
+#: ../mail/em-folder-utils.c:458
 msgid "Rename Folder"
 msgstr "Canvia el nom de la carpeta"
 
 #: ../addressbook/gui/component/addressbook-view.c:430
-#: ../mail/em-folder-utils.c:466
+#: ../mail/em-folder-utils.c:464
 msgid "Folder names cannot contain '/'"
 msgstr "El nom de la carpeta no pot contenir el caràcter «/»"
 
@@ -919,7 +919,7 @@ msgstr "_Suprimeix"
 
 #: ../addressbook/gui/component/addressbook-view.c:957
 #: ../calendar/gui/calendar-component.c:686
-#: ../calendar/gui/dialogs/comp-editor.c:2101
+#: ../calendar/gui/dialogs/comp-editor.c:2103
 #: ../calendar/gui/memos-component.c:517 ../calendar/gui/tasks-component.c:509
 #: ../composer/e-msg-composer.c:1040 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
@@ -947,7 +947,7 @@ msgstr "Introduïu la contrasenya per a %s (usuari %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:423
+#: ../plugins/google-account-setup/google-source.c:417
 #: ../plugins/publish-calendar/publish-calendar.c:191
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1327,10 +1327,10 @@ msgstr "targetes"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
-#: ../plugins/caldav/caldav-source.c:430
-#: ../plugins/calendar-http/calendar-http.c:279
+#: ../plugins/caldav/caldav-source.c:479
+#: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:652
+#: ../plugins/google-account-setup/google-source.c:671
 #: ../plugins/google-account-setup/google-contacts-source.c:375
 msgid "minutes"
 msgstr "minuts"
@@ -1402,7 +1402,7 @@ msgid "Full _Name..."
 msgstr "_Nom complet..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
-#: ../composer/e-msg-composer.c:2494
+#: ../composer/e-msg-composer.c:2401
 msgid "Image"
 msgstr "Imatge"
 
@@ -3041,7 +3041,7 @@ msgid "Save as vCard..."
 msgstr "Desa com a vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:933
-#: ../calendar/gui/dialogs/comp-editor.c:2099
+#: ../calendar/gui/dialogs/comp-editor.c:2101
 #: ../calendar/gui/e-calendar-table.c:1598
 #: ../calendar/gui/e-calendar-view.c:1813 ../calendar/gui/e-memo-table.c:937
 #: ../ui/evolution-addressbook.xml.h:56
@@ -3100,7 +3100,7 @@ msgstr "Re_talla"
 #: ../calendar/gui/dialogs/comp-editor.c:487
 #: ../calendar/gui/e-calendar-table.c:1606
 #: ../calendar/gui/e-calendar-view.c:1820 ../calendar/gui/e-memo-table.c:945
-#: ../composer/e-msg-composer.c:2072 ../mail/em-folder-tree.c:1005
+#: ../composer/e-msg-composer.c:1979 ../mail/em-folder-tree.c:1005
 #: ../mail/em-folder-view.c:1327 ../mail/message-list.c:2105
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-memos.xml.h:15
@@ -3835,22 +3835,22 @@ msgstr "Mou els contactes a"
 msgid "Copy contacts to"
 msgstr "Copia els contactes a"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:901
+#: ../addressbook/gui/widgets/eab-gui-util.c:903
 msgid "Multiple vCards"
 msgstr "vCard múltiples"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:908
+#: ../addressbook/gui/widgets/eab-gui-util.c:910
 #, c-format
 msgid "vCard for %s"
 msgstr "vCard per a %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:920
-#: ../addressbook/gui/widgets/eab-gui-util.c:946
+#: ../addressbook/gui/widgets/eab-gui-util.c:922
+#: ../addressbook/gui/widgets/eab-gui-util.c:948
 #, c-format
 msgid "Contact information"
 msgstr "Informació del contacte"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:948
+#: ../addressbook/gui/widgets/eab-gui-util.c:950
 #, c-format
 msgid "Contact information for %s"
 msgstr "Informació de contacte per a %s"
@@ -4754,10 +4754,10 @@ msgstr[1] "minuts"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/caldav/caldav-source.c:431
-#: ../plugins/calendar-http/calendar-http.c:280
+#: ../plugins/caldav/caldav-source.c:480
+#: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:653
+#: ../plugins/google-account-setup/google-source.c:672
 #: ../plugins/google-account-setup/google-contacts-source.c:376
 msgid "hours"
 msgid_plural "hours"
@@ -4795,7 +4795,7 @@ msgid "_Dismiss"
 msgstr "_Descarta"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1391
+#: ../calendar/gui/dialogs/comp-editor.c:1393
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:170
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -5512,10 +5512,10 @@ msgstr "Buida els esdeveniments anteriors a"
 
 #: ../calendar/gui/calendar-commands.c:326
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
-#: ../plugins/caldav/caldav-source.c:432
-#: ../plugins/calendar-http/calendar-http.c:281
+#: ../plugins/caldav/caldav-source.c:481
+#: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:654
+#: ../plugins/google-account-setup/google-source.c:673
 #: ../plugins/google-account-setup/google-contacts-source.c:377
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -6353,27 +6353,27 @@ msgstr "Missatge adjunt - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:244
-#: ../calendar/gui/dialogs/comp-editor.c:417 ../composer/e-msg-composer.c:1786
-#: ../composer/e-msg-composer.c:2005
+#: ../calendar/gui/dialogs/comp-editor.c:417 ../composer/e-msg-composer.c:1693
+#: ../composer/e-msg-composer.c:1912
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Missatge adjunt"
 msgstr[1] "%d missatges adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:488 ../composer/e-msg-composer.c:2073
+#: ../calendar/gui/dialogs/comp-editor.c:488 ../composer/e-msg-composer.c:1980
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:365
 #: ../mail/em-folder-view.c:1188 ../mail/message-list.c:2106
 msgid "_Move"
 msgstr "_Mou"
 
-#: ../calendar/gui/dialogs/comp-editor.c:490 ../composer/e-msg-composer.c:2075
+#: ../calendar/gui/dialogs/comp-editor.c:490 ../composer/e-msg-composer.c:1982
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2108
 msgid "Cancel _Drag"
 msgstr "Cance_l·la l'arrossegament"
 
 #: ../calendar/gui/dialogs/comp-editor.c:623
-#: ../calendar/gui/dialogs/comp-editor.c:3325 ../mail/em-utils.c:373
+#: ../calendar/gui/dialogs/comp-editor.c:3331 ../mail/em-utils.c:373
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:459
 msgid "attachment"
@@ -6420,174 +6420,174 @@ msgstr "Sense resum"
 msgid "Keep original item?"
 msgstr "Voleu mantenir l'element original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1321
+#: ../calendar/gui/dialogs/comp-editor.c:1323
 msgid "Click here to close the current window"
 msgstr "Feu clic per a tancar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1328
+#: ../calendar/gui/dialogs/comp-editor.c:1330
 msgid "Copy selected text to the clipboard"
 msgstr "Copia el text seleccionat al porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1335
+#: ../calendar/gui/dialogs/comp-editor.c:1337
 msgid "Cut selected text to the clipboard"
 msgstr "Retalla el text seleccionat al porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1342
+#: ../calendar/gui/dialogs/comp-editor.c:1344
 msgid "Click here to view help available"
 msgstr "Feu clic per a veure l'ajuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1349
+#: ../calendar/gui/dialogs/comp-editor.c:1351
 msgid "Paste text from the clipboard"
 msgstr "Enganxa el text del porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1370
+#: ../calendar/gui/dialogs/comp-editor.c:1372
 msgid "Click here to save the current window"
 msgstr "Feu clic per a desar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1377
+#: ../calendar/gui/dialogs/comp-editor.c:1379
 msgid "Select all text"
 msgstr "Selecciona tot el text"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1384
+#: ../calendar/gui/dialogs/comp-editor.c:1386
 msgid "_Classification"
 msgstr "_Classificació"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1398
+#: ../calendar/gui/dialogs/comp-editor.c:1400
 #: ../mail/mail-signature-editor.c:208
 #: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:43
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1405
+#: ../calendar/gui/dialogs/comp-editor.c:1407
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution.xml.h:46
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1412
+#: ../calendar/gui/dialogs/comp-editor.c:1414
 msgid "_Insert"
 msgstr "_Insereix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1419
+#: ../calendar/gui/dialogs/comp-editor.c:1421
 msgid "_Options"
 msgstr "_Opcions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1426 ../mail/em-folder-tree.c:2116
+#: ../calendar/gui/dialogs/comp-editor.c:1428 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
 msgid "_View"
 msgstr "_Visualitza"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1436
+#: ../calendar/gui/dialogs/comp-editor.c:1438
 #: ../composer/e-composer-actions.c:469
 msgid "_Attachment..."
 msgstr "Fitxer _adjunt..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1438
+#: ../calendar/gui/dialogs/comp-editor.c:1440
 msgid "Click here to attach a file"
 msgstr "Feu clic per a adjuntar un fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1446
+#: ../calendar/gui/dialogs/comp-editor.c:1448
 msgid "_Categories"
 msgstr "_Categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1448
+#: ../calendar/gui/dialogs/comp-editor.c:1450
 msgid "Toggles whether to display categories"
 msgstr "Commuta la visualització de categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1454
+#: ../calendar/gui/dialogs/comp-editor.c:1456
 msgid "Time _Zone"
 msgstr "Fus h_orari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1456
+#: ../calendar/gui/dialogs/comp-editor.c:1458
 msgid "Toggles whether the time zone is displayed"
 msgstr "Commuta la visualització del fus horari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1465
+#: ../calendar/gui/dialogs/comp-editor.c:1467
 msgid "Pu_blic"
 msgstr "Pú_blic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1467
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "Classify as public"
 msgstr "Classifica com a públic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1472
+#: ../calendar/gui/dialogs/comp-editor.c:1474
 msgid "_Private"
 msgstr "_Privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1474
+#: ../calendar/gui/dialogs/comp-editor.c:1476
 msgid "Classify as private"
 msgstr "Classifica com a privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1479
+#: ../calendar/gui/dialogs/comp-editor.c:1481
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1481
+#: ../calendar/gui/dialogs/comp-editor.c:1483
 msgid "Classify as confidential"
 msgstr "Classifica com a confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1489
+#: ../calendar/gui/dialogs/comp-editor.c:1491
 msgid "R_ole Field"
 msgstr "Camp del r_ol"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1491
+#: ../calendar/gui/dialogs/comp-editor.c:1493
 msgid "Toggles whether the Role field is displayed"
 msgstr "Commuta la visualització del camp del rol"
 
 # Prové de «Répondez s'il-vous-plaît» (dpm)
-#: ../calendar/gui/dialogs/comp-editor.c:1497
+#: ../calendar/gui/dialogs/comp-editor.c:1499
 msgid "_RSVP"
 msgstr "Esperem la vostra _resposta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1499
+#: ../calendar/gui/dialogs/comp-editor.c:1501
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Commuta si s'ha de mostrar el camp RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1505
+#: ../calendar/gui/dialogs/comp-editor.c:1507
 msgid "_Status Field"
 msgstr "Camp d'e_stat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1507
+#: ../calendar/gui/dialogs/comp-editor.c:1509
 msgid "Toggles whether the Status field is displayed"
 msgstr "Commuta la visualització del camp d'estat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1513
+#: ../calendar/gui/dialogs/comp-editor.c:1515
 msgid "_Type Field"
 msgstr "Camp de _tipus"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1515
+#: ../calendar/gui/dialogs/comp-editor.c:1517
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Commuta la visualització del camp del tipus d'assistent"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1837
+#: ../calendar/gui/dialogs/comp-editor.c:1839
 #: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1385
 msgid "Recent _Documents"
 msgstr "Documents _recents"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1856
+#: ../calendar/gui/dialogs/comp-editor.c:1858
 #: ../composer/e-composer-actions.c:696
 msgid "Attach"
 msgstr "Adjunta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1951
+#: ../calendar/gui/dialogs/comp-editor.c:1953
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> fitxer adjunt"
 msgstr[1] "<b>%d</b> fitxers adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1983
+#: ../calendar/gui/dialogs/comp-editor.c:1985
 msgid "Hide Attachment _Bar"
 msgstr "Amaga la _barra d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1986
-#: ../calendar/gui/dialogs/comp-editor.c:2289
+#: ../calendar/gui/dialogs/comp-editor.c:1988
+#: ../calendar/gui/dialogs/comp-editor.c:2291
 msgid "Show Attachment _Bar"
 msgstr "Mostra la barra _d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2100
+#: ../calendar/gui/dialogs/comp-editor.c:2102
 #: ../calendar/gui/dialogs/event-page.c:1877
 #: ../calendar/gui/dialogs/task-page.c:1201 ../composer/e-msg-composer.c:1039
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6596,30 +6596,30 @@ msgstr "Mostra la barra _d'adjuncions"
 msgid "_Remove"
 msgstr "Sup_rimeix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2103
+#: ../calendar/gui/dialogs/comp-editor.c:2105
 #: ../composer/e-msg-composer.c:1042
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "_Afegeix una adjunció..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:2311
+#: ../calendar/gui/dialogs/comp-editor.c:2313
 #: ../mail/em-format-html-display.c:2384
 msgid "Show Attachments"
 msgstr "Mostra les adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2312
+#: ../calendar/gui/dialogs/comp-editor.c:2314
 msgid "Press space key to toggle attachment bar"
 msgstr "Premeu la barra d'espai per a commutar la barra d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2457
-#: ../calendar/gui/dialogs/comp-editor.c:2505
-#: ../calendar/gui/dialogs/comp-editor.c:3358
+#: ../calendar/gui/dialogs/comp-editor.c:2459
+#: ../calendar/gui/dialogs/comp-editor.c:2507
+#: ../calendar/gui/dialogs/comp-editor.c:3364
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Els canvis realitzats en aquest element es descartaran en produir-se una "
 "actualització"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3387
+#: ../calendar/gui/dialogs/comp-editor.c:3393
 msgid "Unable to use current version!"
 msgstr "No s'ha pogut utilitzar la versió actual"
 
@@ -11046,15 +11046,15 @@ msgstr "Commuta la visualització del camp «Per a»"
 msgid "Save Draft"
 msgstr "Desa com a esborrany"
 
-#: ../composer/e-composer-header-table.c:64
+#: ../composer/e-composer-header-table.c:65
 msgid "Enter the recipients of the message"
 msgstr "Introduïu els destinataris del missatge"
 
-#: ../composer/e-composer-header-table.c:66
+#: ../composer/e-composer-header-table.c:67
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Introduïu les adreces que rebran una còpia del missatge"
 
-#: ../composer/e-composer-header-table.c:69
+#: ../composer/e-composer-header-table.c:70
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -11062,35 +11062,35 @@ msgstr ""
 "Introduïu les adreces que rebran una còpia del missatge sense aparèixer a la "
 "llista de destinataris del missatge"
 
-#: ../composer/e-composer-header-table.c:643
+#: ../composer/e-composer-header-table.c:742
 msgid "Fr_om:"
 msgstr "D_e:"
 
-#: ../composer/e-composer-header-table.c:652
+#: ../composer/e-composer-header-table.c:751
 msgid "_Reply-To:"
 msgstr "_Respon a:"
 
-#: ../composer/e-composer-header-table.c:656
+#: ../composer/e-composer-header-table.c:755
 msgid "_To:"
 msgstr "_Per a:"
 
-#: ../composer/e-composer-header-table.c:661
+#: ../composer/e-composer-header-table.c:760
 msgid "_Cc:"
 msgstr "_CC:"
 
-#: ../composer/e-composer-header-table.c:666
+#: ../composer/e-composer-header-table.c:765
 msgid "_Bcc:"
 msgstr "CC_O:"
 
-#: ../composer/e-composer-header-table.c:671
+#: ../composer/e-composer-header-table.c:770
 msgid "_Post To:"
 msgstr "_Envia a:"
 
-#: ../composer/e-composer-header-table.c:675
+#: ../composer/e-composer-header-table.c:774
 msgid "S_ubject:"
 msgstr "Ass_umpte:"
 
-#: ../composer/e-composer-header-table.c:684
+#: ../composer/e-composer-header-table.c:783
 msgid "Si_gnature:"
 msgstr "Si_gnatura:"
 
@@ -11141,11 +11141,11 @@ msgstr[1] "Fitxers adjunts"
 msgid "Hide _Attachment Bar"
 msgstr "Amaga la _barra de fitxers adjunts"
 
-#: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2813
+#: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2720
 msgid "Compose Message"
 msgstr "Redacta un missatge"
 
-#: ../composer/e-msg-composer.c:4095
+#: ../composer/e-msg-composer.c:4002
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11468,11 +11468,11 @@ msgstr "Voleu sobreescriure el fitxer?"
 msgid "_Overwrite"
 msgstr "S_obreescriu"
 
-#: ../e-util/e-util.c:127
+#: ../e-util/e-util.c:133
 msgid "Could not open the link."
 msgstr "No s'ha pogut obrir l'enllaç."
 
-#: ../e-util/e-util.c:174
+#: ../e-util/e-util.c:183
 msgid "Could not display help for Evolution."
 msgstr "No s'ha pogut mostrar l'ajuda de l'Evolution."
 
@@ -11821,10 +11821,10 @@ msgstr "l'hora actual"
 msgid "the time you specify"
 msgstr "l'hora que indiqueu"
 
-#: ../filter/filter.glade.h:22 ../plugins/caldav/caldav-source.c:433
-#: ../plugins/calendar-http/calendar-http.c:282
+#: ../filter/filter.glade.h:22 ../plugins/caldav/caldav-source.c:482
+#: ../plugins/calendar-http/calendar-http.c:327
 #: ../plugins/calendar-weather/calendar-weather.c:527
-#: ../plugins/google-account-setup/google-source.c:655
+#: ../plugins/google-account-setup/google-source.c:674
 #: ../plugins/google-account-setup/google-contacts-source.c:378
 msgid "weeks"
 msgstr "setmanes"
@@ -12034,31 +12034,31 @@ msgstr "Afegeix un script de signatura"
 msgid "Signature(s)"
 msgstr "Signatures"
 
-#: ../mail/em-composer-utils.c:1150 ../mail/em-format-quote.c:416
+#: ../mail/em-composer-utils.c:1152 ../mail/em-format-quote.c:416
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Missatge reenviat --------"
 
-#: ../mail/em-composer-utils.c:1602
+#: ../mail/em-composer-utils.c:1604
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No s'ha especificat cap adreça de destinació, de manera que s'ha cancel·lat "
 "el reenviament del missatge."
 
-#: ../mail/em-composer-utils.c:1608
+#: ../mail/em-composer-utils.c:1610
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No s'ha trobat cap compte a utilitzar, de manera que s'ha cancel·lat el "
 "reenviament del missatge."
 
-#: ../mail/em-composer-utils.c:2058
+#: ../mail/em-composer-utils.c:2063
 msgid "an unknown sender"
 msgstr "un remitent anònim"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2105
+#: ../mail/em-composer-utils.c:2110
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -12066,7 +12066,7 @@ msgstr ""
 "El ${AbbrevWeekdayName} ${Day} de ${Month} de ${Year} a les ${24Hour}:"
 "${Minute} ${TimeZone}, en/na ${Sender} va escriure:"
 
-#: ../mail/em-composer-utils.c:2248
+#: ../mail/em-composer-utils.c:2253
 msgid "-----Original Message-----"
 msgstr "-----Missatge original-----"
 
@@ -12447,7 +12447,7 @@ msgstr "_Nom de la carpeta:"
 
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:980 ../mail/mail-vfolder.c:1047
+#: ../mail/mail-vfolder.c:961 ../mail/mail-vfolder.c:1028
 msgid "Search Folders"
 msgstr "Carpetes de cerca"
 
@@ -12584,19 +12584,19 @@ msgstr "Seleccioneu una carpeta"
 msgid "C_opy"
 msgstr "C_opia"
 
-#: ../mail/em-folder-utils.c:542
+#: ../mail/em-folder-utils.c:540
 #: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "S'està creant la carpeta «%s»"
 
-#: ../mail/em-folder-utils.c:701
+#: ../mail/em-folder-utils.c:699
 #: ../plugins/groupwise-features/install-shared.c:169
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Create folder"
 msgstr "Crea una carpeta"
 
-#: ../mail/em-folder-utils.c:701
+#: ../mail/em-folder-utils.c:699
 #: ../plugins/groupwise-features/install-shared.c:169
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Specify where to create the folder:"
@@ -12728,9 +12728,9 @@ msgstr "Fil_tre a partir de la llista de correu"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2257 ../mail/em-folder-view.c:2300
-#: ../plugins/google-account-setup/google-source.c:232
-#: ../plugins/google-account-setup/google-source.c:511
-#: ../plugins/google-account-setup/google-source.c:708
+#: ../plugins/google-account-setup/google-source.c:223
+#: ../plugins/google-account-setup/google-source.c:508
+#: ../plugins/google-account-setup/google-source.c:729
 msgid "Default"
 msgstr "Predeterminat"
 
@@ -15055,8 +15055,8 @@ msgstr "Nom d'_usuari:"
 msgid "Use Authe_ntication"
 msgstr "Utilitza au_tenticació"
 
-#: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:387
-#: ../plugins/google-account-setup/google-source.c:615
+#: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:436
+#: ../plugins/google-account-setup/google-source.c:634
 #: ../plugins/google-account-setup/google-contacts-source.c:325
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:349
 msgid "User_name:"
@@ -15508,7 +15508,7 @@ msgstr "S'està actualitzant..."
 msgid "Waiting..."
 msgstr "S'està esperant..."
 
-#: ../mail/mail-send-recv.c:806
+#: ../mail/mail-send-recv.c:813
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprovació de correu nou"
@@ -15577,21 +15577,21 @@ msgstr "La carpeta no és vàlida: «%s»"
 msgid "Setting up Search Folder: %s"
 msgstr "S'està configurant la carpeta de cerca: %s"
 
-#: ../mail/mail-vfolder.c:240
+#: ../mail/mail-vfolder.c:234
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
 msgstr "S'estan actualitzant les carpetes de cerca per a «%s:%s»"
 
-#: ../mail/mail-vfolder.c:247
+#: ../mail/mail-vfolder.c:241
 #, c-format
 msgid "Updating Search Folders for '%s'"
 msgstr "S'estan actualitzant les carpetes de cerca per a «%s»"
 
-#: ../mail/mail-vfolder.c:1086
+#: ../mail/mail-vfolder.c:1067
 msgid "Edit Search Folder"
 msgstr "Edita les carpetes de cerca"
 
-#: ../mail/mail-vfolder.c:1175
+#: ../mail/mail-vfolder.c:1156
 msgid "New Search Folder"
 msgstr "Carpeta de cerca nova"
 
@@ -15794,7 +15794,7 @@ msgstr "No s'ha pogut desar el fitxer de signatura."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete \"{0}\"?"
-msgstr "volu suprimir «{0}»?"
+msgstr "Voleu suprimir «{0}»?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete account?"
@@ -16283,11 +16283,11 @@ msgid "%b %d %Y"
 msgstr "%d de %b del %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3985 ../mail/message-list.c:4456
+#: ../mail/message-list.c:3985 ../mail/message-list.c:4457
 msgid "Generating message list"
 msgstr "S'està generant la llista de missatges"
 
-#: ../mail/message-list.c:4295
+#: ../mail/message-list.c:4296
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -16295,7 +16295,7 @@ msgstr ""
 "No hi ha cap missatge que satisfaci els vostres criteris de cerca. Netegeu "
 "la cerca a través de l'element de menú Cerca -> Neteja, o bé canvieu-la."
 
-#: ../mail/message-list.c:4297
+#: ../mail/message-list.c:4298
 msgid "There are no messages in this folder."
 msgstr "No hi ha cap missatge en aquesta carpeta."
 
@@ -16808,22 +16808,22 @@ msgstr "Filtra els missatges de correu brossa amb el Bogofilter."
 msgid "CalDAV"
 msgstr "CalDAV"
 
-#: ../plugins/caldav/caldav-source.c:348
-#: ../plugins/calendar-http/calendar-http.c:126
+#: ../plugins/caldav/caldav-source.c:397
+#: ../plugins/calendar-http/calendar-http.c:171
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../plugins/caldav/caldav-source.c:372
-#: ../plugins/google-account-setup/google-source.c:608
+#: ../plugins/caldav/caldav-source.c:421
+#: ../plugins/google-account-setup/google-source.c:627
 #: ../plugins/google-account-setup/google-contacts-source.c:348
 msgid "Use _SSL"
 msgstr "Utilitza l'_SSL"
 
 #. add refresh option
-#: ../plugins/caldav/caldav-source.c:415
-#: ../plugins/calendar-http/calendar-http.c:264
+#: ../plugins/caldav/caldav-source.c:464
+#: ../plugins/calendar-http/calendar-http.c:309
 #: ../plugins/calendar-weather/calendar-weather.c:509
-#: ../plugins/google-account-setup/google-source.c:632
+#: ../plugins/google-account-setup/google-source.c:651
 #: ../plugins/google-account-setup/google-contacts-source.c:367
 msgid "Re_fresh:"
 msgstr "Re_fresca:"
@@ -16844,11 +16844,11 @@ msgstr "Calendaris locals"
 msgid "Provides core functionality for local calendars."
 msgstr "Proporciona funcionalitat central per als calendaris locals."
 
-#: ../plugins/calendar-http/calendar-http.c:332
+#: ../plugins/calendar-http/calendar-http.c:377
 msgid "_Secure connection"
 msgstr "Utilitza una connexió _segura"
 
-#: ../plugins/calendar-http/calendar-http.c:397
+#: ../plugins/calendar-http/calendar-http.c:463
 msgid "Userna_me:"
 msgstr "Nom d'_usuari:"
 
@@ -17926,7 +17926,7 @@ msgid "Unknown error looking up {0}"
 msgstr "S'ha produït un error desconegut en cercar {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:522
+#: ../plugins/google-account-setup/google-source.c:519
 msgid "Unknown error."
 msgstr "S'ha produït un error desconegut."
 
@@ -18116,14 +18116,14 @@ msgstr "Cancel·la les subscripcions a carpetes"
 msgid "_Unsubscribe"
 msgstr "Cancel·la la s_ubscripció"
 
-#: ../plugins/google-account-setup/google-source.c:422
+#: ../plugins/google-account-setup/google-source.c:416
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduïu la contrasenya de l'usuari %s per a accedir a la llista de "
 "subscripcions a calendaris."
 
-#: ../plugins/google-account-setup/google-source.c:522
+#: ../plugins/google-account-setup/google-source.c:519
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -18132,11 +18132,11 @@ msgstr ""
 "No es poden llegir les dades del servidor del Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:683
+#: ../plugins/google-account-setup/google-source.c:704
 msgid "Cal_endar:"
 msgstr "_Calendari:"
 
-#: ../plugins/google-account-setup/google-source.c:718
+#: ../plugins/google-account-setup/google-source.c:739
 msgid "Retrieve _list"
 msgstr "Recupera la _llista"
 
@@ -19495,7 +19495,8 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Si s'ha de mostrar un missatge sobre la icona quan arrivi correu nou."
+msgstr ""
+"Si s'ha de mostrar un missatge sobre la icona quan arribin correus nous."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -19887,7 +19888,7 @@ msgstr "Configuració"
 
 #: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Avís: alguns canvis només s'aplicaran després de reinciar"
+msgstr "Avís: alguns canvis només s'aplicaran després de reiniciar"
 
 #: ../plugins/plugin-manager/plugin-manager.c:291
 msgid "Overview"
@@ -22887,7 +22888,7 @@ msgstr "Crea una finestra nova que mostri aquesta carpeta"
 #: ../ui/evolution.xml.h:6
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
-"Visualitza els botons de la finestra fent sevir la configuració de "
+"Visualitza els botons de la finestra utilitzant la configuració de "
 "l'escriptori"
 
 #: ../ui/evolution.xml.h:7
