@@ -261,7 +261,7 @@ static void e_day_view_on_event_right_click (EDayView *day_view,
 					     gint day,
 					     gint event_num);
 static void e_day_view_show_popup_menu (EDayView *day_view,
-					GdkEvent *gdk_event,
+					GdkEventButton *event,
 					gint day,
 					gint event_num);
 
@@ -3748,7 +3748,7 @@ popup_destroyed_cb (gpointer data, GObject *where_object_was)
 
 static void
 e_day_view_show_popup_menu (EDayView *day_view,
-			    GdkEvent *gdk_event,
+			    GdkEventButton *event,
 			    gint day,
 			    gint event_num)
 {
@@ -3757,11 +3757,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 
-#if 0 /* KILL-BONOBO */
-	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (day_view));
-	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, day_view);
-	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0, gdk_event?gdk_event->button.time:gtk_get_current_event_time());
-#endif
+	e_calendar_view_popup_event (E_CALENDAR_VIEW (day_view), event);
 }
 
 static gboolean
@@ -3843,8 +3839,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 				 gint day,
 				 gint event_num)
 {
-	e_day_view_show_popup_menu (day_view, (GdkEvent*)bevent,
-				    day, event_num);
+	e_day_view_show_popup_menu (day_view, bevent, day, event_num);
 }
 
 static gboolean

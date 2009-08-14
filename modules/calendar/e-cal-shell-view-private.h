@@ -34,6 +34,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-popup-action.h"
 
+#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-list-view.h"
@@ -45,6 +46,7 @@
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/event-editor.h"
 #include "calendar/gui/dialogs/memo-editor.h"
+#include "calendar/gui/dialogs/select-source-dialog.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-cal-shell-backend.h"
@@ -127,6 +129,11 @@ void		e_cal_shell_view_set_status_message
 					(ECalShellView *cal_shell_view,
 					 const gchar *status_message,
 					 gdouble percent);
+void		e_cal_shell_view_transfer_item_to
+					(ECalShellView *cal_shell_view,
+					 ECalendarViewEvent *event,
+					 ECal *destination_client,
+					 gboolean remove);
 void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_update_search_filter

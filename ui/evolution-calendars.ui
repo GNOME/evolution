@@ -60,6 +60,7 @@
     <menuitem action='event-new'/>
     <menuitem action='event-all-day-new'/>
     <menuitem action='event-meeting-new'/>
+    <menuitem action='task-new'/>
     <separator/>
     <menuitem action='event-popup-print'/>
     <separator/>

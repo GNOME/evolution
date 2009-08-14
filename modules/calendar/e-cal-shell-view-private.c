@@ -107,6 +107,16 @@ cal_shell_view_date_navigator_scroll_event_cb (ECalShellView *cal_shell_view,
 		cal_shell_view, calitem);
 }
 
+static void
+cal_shell_view_popup_event_cb (EShellView *shell_view,
+                               GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/calendar-event-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+}
+
 static gboolean
 cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
                                         ESource *primary_source,
@@ -254,6 +264,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ECalendarTable *task_table;
 	ESourceSelector *selector;
 	ECalModel *model;
+	gint ii;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -288,6 +299,17 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	/* KILL-BONOBO FIXME -- Need to connect to the "user-created"
 	 *                      signal for each ECalendarView. */
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		ECalendarView *calendar_view;
+
+		calendar_view =
+			gnome_calendar_get_calendar_view (calendar, ii);
+
+		g_signal_connect_swapped (
+			calendar_view, "popup-event",
+			G_CALLBACK (cal_shell_view_popup_event_cb),
+			cal_shell_view);
+	}
 
 	g_signal_connect_swapped (
 		calendar, "dates-shown-changed",
@@ -645,6 +667,119 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 	}
 
 	cal_shell_view->priv->calendar_activity = activity;
+}
+
+void
+e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
+                                   ECalendarViewEvent *event,
+                                   ECal *destination_client,
+                                   gboolean remove)
+{
+	icalcomponent *icalcomp;
+	icalcomponent *icalcomp_clone;
+	icalcomponent *icalcomp_event;
+	gboolean success;
+	const gchar *uid;
+
+	/* XXX This function should be split up into
+	 *     smaller, more understandable pieces. */
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
+	g_return_if_fail (event != NULL);
+	g_return_if_fail (E_IS_CAL (destination_client));
+
+	icalcomp_event = event->comp_data->icalcomp;
+	uid = icalcomponent_get_uid (icalcomp_event);
+
+	/* Put the new object into the destination calendar. */
+
+	success = e_cal_get_object (
+		destination_client, uid, NULL, &icalcomp, NULL);
+
+	if (success) {
+		icalcomponent_free (icalcomp);
+		success = e_cal_modify_object (
+			destination_client, icalcomp_event,
+			CALOBJ_MOD_ALL, NULL);
+		if (!success)
+			return;
+	} else {
+		icalproperty *icalprop;
+		gchar *new_uid;
+
+		if (e_cal_util_component_is_instance (icalcomp_event)) {
+			success = e_cal_get_object (
+				event->comp_data->client,
+				uid, NULL, &icalcomp, NULL);
+			if (success) {
+				/* Use master object when working
+				 * with a recurring event ... */
+				icalcomp_clone =
+					icalcomponent_new_clone (icalcomp);
+				icalcomponent_free (icalcomp);
+			} else {
+				/* ... or remove the recurrence ID ... */
+				icalcomp_clone =
+					icalcomponent_new_clone (icalcomp_event);
+				if (e_cal_util_component_has_recurrences (icalcomp_clone)) {
+					/* ... for non-detached instances,
+					 * to make it a master object. */
+					icalprop = icalcomponent_get_first_property (
+						icalcomp_clone, ICAL_RECURRENCEID_PROPERTY);
+					if (icalprop != NULL)
+						icalcomponent_remove_property (
+							icalcomp_clone, icalprop);
+				}
+			}
+		} else
+			icalcomp_clone =
+				icalcomponent_new_clone (icalcomp_event);
+
+		icalprop = icalproperty_new_x ("1");
+		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
+		icalcomponent_add_property (icalcomp_clone, icalprop);
+
+		if (!remove) {
+			/* Change the UID to avoid problems with
+			 * duplicated UIDs. */
+			new_uid = e_cal_component_gen_uid ();
+			icalcomponent_set_uid (icalcomp_clone, new_uid);
+			g_free (new_uid);
+		}
+
+		new_uid = NULL;
+		success = e_cal_create_object (
+			destination_client, icalcomp_clone, &new_uid, NULL);
+		if (!success) {
+			icalcomponent_free (icalcomp_clone);
+			return;
+		}
+
+		icalcomponent_free (icalcomp_clone);
+		g_free (new_uid);
+	}
+
+	if (remove) {
+		ECal *source_client = event->comp_data->client;
+
+		/* Remove the item from the source calendar. */
+		if (e_cal_util_component_is_instance (icalcomp_event) ||
+			e_cal_util_component_has_recurrences (icalcomp_event)) {
+			icaltimetype icaltime;
+			gchar *rid;
+
+			icaltime =
+				icalcomponent_get_recurrenceid (icalcomp_event);
+			if (!icaltime_is_null_time (icaltime))
+				rid = icaltime_as_ical_string_r (icaltime);
+			else
+				rid = NULL;
+			e_cal_remove_object_with_mod (
+				source_client, uid, rid, CALOBJ_MOD_ALL, NULL);
+			g_free (rid);
+		} else
+			e_cal_remove_object (source_client, uid, NULL);
+	}
 }
 
 void

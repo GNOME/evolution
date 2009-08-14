@@ -57,7 +57,6 @@
 #include "print.h"
 #include "goto.h"
 /*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
-#include "e-cal-popup.h"
 #include "misc.h"
 
 #define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
@@ -83,6 +82,7 @@ enum {
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
 /* Signal IDs */
 enum {
+	POPUP_EVENT,
 	SELECTION_CHANGED,
 	SELECTED_TIME_CHANGED,
 	TIMEZONE_CHANGED,
@@ -221,69 +221,82 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
-	/* Create class' signals */
-	signals[SELECTION_CHANGED] =
-		g_signal_new ("selection_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalendarViewClass, selection_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-	signals[SELECTED_TIME_CHANGED] =
-		g_signal_new ("selected_time_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalendarViewClass, selected_time_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-	signals[TIMEZONE_CHANGED] =
-		g_signal_new ("timezone_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalendarViewClass, timezone_changed),
-			      NULL, NULL,
-			      e_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+	signals[POPUP_EVENT] = g_signal_new (
+		"popup-event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (ECalendarViewClass, popup_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	signals[EVENT_CHANGED] =
-		g_signal_new ("event_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalendarViewClass, event_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
+	signals[SELECTION_CHANGED] = g_signal_new (
+		"selection-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalendarViewClass, selection_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[EVENT_ADDED] =
-		g_signal_new ("event_added",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalendarViewClass, event_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
+	signals[SELECTED_TIME_CHANGED] = g_signal_new (
+		"selected-time-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalendarViewClass, selected_time_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
-	signals[USER_CREATED] =
-		g_signal_new ("user_created",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ECalendarViewClass, user_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[TIMEZONE_CHANGED] = g_signal_new (
+		"timezone-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalendarViewClass, timezone_changed),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
 
-	signals[OPEN_EVENT] =
-		g_signal_new ("open_event",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalendarViewClass, open_event),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	signals[EVENT_CHANGED] = g_signal_new (
+		"event-changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarViewClass, event_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
+
+	signals[EVENT_ADDED] = g_signal_new (
+		"event-added",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarViewClass, event_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
+
+	signals[USER_CREATED] = g_signal_new (
+		"user-created",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalendarViewClass, user_created),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[OPEN_EVENT] = g_signal_new (
+		"open-event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarViewClass, open_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
         /*
          * Key bindings
@@ -291,9 +304,8 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 
 	binding_set = gtk_binding_set_by_class (class);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_o,
-                                      GDK_CONTROL_MASK,
-                                      "open_event", 0);
+	gtk_binding_entry_add_signal (
+		binding_set, GDK_o, GDK_CONTROL_MASK, "open-event", 0);
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
@@ -308,10 +320,19 @@ e_calendar_view_init (ECalendarView *calendar_view)
 }
 
 void
+e_calendar_view_popup_event (ECalendarView *calendar_view,
+                             GdkEventButton *event)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (calendar_view));
+	g_return_if_fail (event != NULL);
+
+	g_signal_emit (calendar_view, signals[POPUP_EVENT], 0, event);
+}
+
+void
 e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
 		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas)
 {
-#if 0  /* KILL-BONOBO */
 	ECalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
 	time_t tt_start, tt_end, new_dtstart = 0;
@@ -429,7 +450,6 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	}
 
 	g_object_unref (comp);
-#endif
 }
 
 GnomeCalendar *
@@ -1183,536 +1203,6 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	g_list_free (selected);
 	g_object_unref (comp);
 }
-
-static void
-on_new_task (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-#if 0  /* KILL-BONOBO */
-	ECalendarView *cal_view = data;
-	time_t dtstart, dtend;
-
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	gnome_calendar_new_task (cal_view->priv->calendar, &dtstart, &dtend);
-#endif
-}
-
-static void
-on_edit_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		if (event)
-			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-						     event->comp_data->icalcomp,
-						     icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
-
-		g_list_free (selected);
-	}
-}
-
-static void
-on_print (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-#if 0  /* KILL-BONOBO */
-	ECalendarView *cal_view = data;
-
-	calendar_command_print (cal_view->priv->calendar, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-#endif
-}
-
-static void
-on_save_as (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-	gchar *filename;
-	gchar *ical_string;
-	ECalendarViewEvent *event;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	filename = e_file_dialog_save (_("Save as..."), NULL);
-	if (filename == NULL)
-		return;
-
-	event = (ECalendarViewEvent *) selected->data;
-	ical_string = e_cal_get_component_as_string (event->comp_data->client, event->comp_data->icalcomp);
-	if (ical_string == NULL) {
-		g_warning ("Couldn't convert item to a string");
-		return;
-	}
-
-	e_write_file_uri (filename, ical_string);
-	g_free (ical_string);
-
-	g_list_free (selected);
-}
-
-static void
-transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_item)
-{
-	const gchar *uid;
-	gchar *new_uid;
-	icalcomponent *orig_icalcomp;
-	icalproperty *icalprop;
-
-	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-
-	/* put the new object into the destination calendar */
-	if (e_cal_get_object (dest_client, uid, NULL, &orig_icalcomp, NULL)) {
-		icalcomponent_free (orig_icalcomp);
-
-		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
-			return;
-	} else {
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
-			icalcomponent *icalcomp = NULL;
-
-			if (e_cal_get_object (event->comp_data->client, uid, NULL, &icalcomp, NULL)) {
-				/* use master object when working with recurring event */
-				orig_icalcomp = icalcomponent_new_clone (icalcomp);
-				icalcomponent_free (icalcomp);
-			} else {
-				/* ... or remove the recurrence id property... */
-				orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
-
-				if (e_cal_util_component_has_recurrences (orig_icalcomp)) {
-					/* ... for non-detached instances, to make it a master object */
-					icalproperty *prop;
-
-					prop = icalcomponent_get_first_property (orig_icalcomp, ICAL_RECURRENCEID_PROPERTY);
-					if (prop)
-						icalcomponent_remove_property (orig_icalcomp, prop);
-				}
-			}
-		} else
-			orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
-
-		icalprop = icalproperty_new_x ("1");
-		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
-		icalcomponent_add_property (orig_icalcomp, icalprop);
-
-		if (!remove_item) {
-			/* change the UID to avoid problems with duplicated UIDs */
-			new_uid = e_cal_component_gen_uid ();
-			icalcomponent_set_uid (orig_icalcomp, new_uid);
-
-			g_free (new_uid);
-		}
-
-		new_uid = NULL;
-		if (!e_cal_create_object (dest_client, orig_icalcomp, &new_uid, NULL)) {
-			icalcomponent_free (orig_icalcomp);
-			return;
-		}
-
-		if (new_uid)
-			g_free (new_uid);
-		icalcomponent_free (orig_icalcomp);
-	}
-
-	/* remove the item from the source calendar */
-	if (remove_item) {
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
-			gchar *rid = NULL;
-			struct icaltimetype recur_id = icalcomponent_get_recurrenceid (event->comp_data->icalcomp);
-
-			if (!icaltime_is_null_time (recur_id))
-				rid = icaltime_as_ical_string_r (recur_id);
-
-			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_ALL, NULL);
-			g_free (rid);
-		} else
-			e_cal_remove_object (event->comp_data->client, uid, NULL);
-	}
-}
-
-static void
-transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
-{
-	GList *selected, *l;
-	ESource *destination_source;
-	ECal *dest_client;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	/* prompt the user for destination source */
-	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *)cal_view), E_CAL_SOURCE_TYPE_EVENT);
-	if (!destination_source)
-		return;
-
-	/* open the destination calendar */
-	dest_client = auth_new_cal_from_source (destination_source, E_CAL_SOURCE_TYPE_EVENT);
-	if (!dest_client || !e_cal_open (dest_client, FALSE, NULL)) {
-		if (dest_client)
-			g_object_unref (dest_client);
-		g_object_unref (destination_source);
-		return;
-	}
-
-#if 0 /* KILL-BONOBO */
-	/* process all selected events */
-	if (remove_item)
-		e_calendar_view_set_status_message (cal_view, _("Moving items"), -1);
-	else
-		e_calendar_view_set_status_message (cal_view, _("Copying items"), -1);
-#endif
-
-	for (l = selected; l != NULL; l = l->next)
-		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, remove_item);
-
-#if 0 /* KILL-BONOBO */
-	e_calendar_view_set_status_message (cal_view, NULL, -1);
-#endif
-
-	/* free memory */
-	g_object_unref (destination_source);
-	g_object_unref (dest_client);
-	g_list_free (selected);
-}
-
-static void
-on_copy_to (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	transfer_selected_items (cal_view, FALSE);
-}
-
-static void
-on_move_to (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	transfer_selected_items (cal_view, TRUE);
-}
-
-static void
-on_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		e_calendar_view_edit_appointment (cal_view, event->comp_data->client, event->comp_data->icalcomp, TRUE);
-
-		g_list_free (selected);
-	}
-}
-
-static void
-set_attendee_status_for_delegate (icalcomponent *icalcomp, ECal *client)
-{
-	icalproperty *prop;
-	icalparameter *param;
-	gchar *address = NULL;
-	ECalComponent *comp;
-	gboolean found = FALSE;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
-
-	address = itip_get_comp_attendee (comp, client);
-
-	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-			prop;
-			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const gchar *attendee = icalproperty_get_attendee (prop);
-
-		if (!g_ascii_strcasecmp (itip_strip_mailto (attendee), address)) {
-			param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
-			icalproperty_set_parameter (prop, param);
-
-			param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
-			icalproperty_set_parameter (prop, param);
-
-			found = TRUE;
-			break;
-		}
-
-	}
-
-	/* We couldn find the attendee in the component, so add a new attendee */
-	if (!found) {
-		gchar *temp = g_strdup_printf ("MAILTO:%s", address);
-
-		prop = icalproperty_new_attendee ((const gchar *) temp);
-		icalcomponent_add_property (icalcomp, prop);
-
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
-		icalproperty_add_parameter (prop, param);
-
-		param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
-		icalproperty_add_parameter (prop, param);
-
-		param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
-		icalproperty_add_parameter (prop, param);
-
-		param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
-		icalproperty_add_parameter (prop, param);
-
-		g_free (temp);
-	}
-
-	g_free (address);
-	g_object_unref (comp);
-}
-
-static void
-on_delegate (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-	guint32 flags = 0;
-	icalcomponent *clone;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		clone = icalcomponent_new_clone (event->comp_data->icalcomp);
-		set_attendee_status_for_delegate (clone, event->comp_data->client);
-
-		flags |= COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE;
-
-		e_calendar_view_open_event_with_flags (cal_view, event->comp_data->client, clone, flags);
-
-		icalcomponent_free (clone);
-		g_list_free (selected);
-	}
-}
-
-static void
-on_forward (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalComponent *comp;
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
-
-		g_list_free (selected);
-		g_object_unref (comp);
-	}
-}
-
-static void
-on_reply (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-	gboolean reply_all = FALSE;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalComponent *comp;
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		reply_to_calendar_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, event->comp_data->client, reply_all, NULL, NULL);
-
-		g_list_free (selected);
-		g_object_unref (comp);
-	}
-}
-
-static void
-on_reply_all (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	GList *selected;
-	gboolean reply_all = TRUE;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalComponent *comp;
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		reply_to_calendar_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, event->comp_data->client, reply_all, NULL, NULL);
-
-		g_list_free (selected);
-		g_object_unref (comp);
-	}
-}
-
-static void
-on_delete_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_delete_selected_event (cal_view);
-}
-
-static void
-on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-	ECalendarViewEvent *event;
-	ECalComponent *comp, *new_comp;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
-	GList *selected;
-	ECal *client;
-	gchar *new_uid;
-	ECalComponentId *id = NULL;
-
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	event = (ECalendarViewEvent *) selected->data;
-	client = g_object_ref (event->comp_data->client);
-
-	date.value = &itt;
-	date.tzid = NULL;
-
-	/* For the recurring object, we add an exception to get rid of the
-	   instance. */
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	id = e_cal_component_get_id (comp);
-
-	/* For the unrecurred instance we duplicate the original object,
-	   create a new uid for it, get rid of the recurrence rules, and set
-	   the start & end times to the instances times. */
-	new_comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-
-	new_uid = e_cal_component_gen_uid ();
-	e_cal_component_set_uid (new_comp, new_uid);
-	g_free (new_uid);
-	e_cal_component_set_recurid (new_comp, NULL);
-	e_cal_component_set_rdate_list (new_comp, NULL);
-	e_cal_component_set_rrule_list (new_comp, NULL);
-	e_cal_component_set_exdate_list (new_comp, NULL);
-	e_cal_component_set_exrule_list (new_comp, NULL);
-
-	date.value = &itt;
-	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (cal_view));
-
-	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_start, FALSE,
-						     e_calendar_view_get_timezone (cal_view));
-	cal_comp_set_dtstart_with_oldzone (client, new_comp, &date);
-	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_end, FALSE,
-						     e_calendar_view_get_timezone (cal_view));
-	cal_comp_set_dtend_with_oldzone (client, new_comp, &date);
-	e_cal_component_commit_sequence (new_comp);
-
-	/* Now update both ECalComponents. Note that we do this last since at
-	 * present the updates happen synchronously so our event may disappear.
-	 */
-
-	if (!e_cal_remove_object_with_mod (client, id->uid, id->rid, CALOBJ_MOD_THIS,
-				NULL))
-		g_message ("on_unrecur_appointment(): Could not remove the old object!");
-
-	e_cal_component_free_id (id);
-	g_object_unref (comp);
-
-	if (!e_cal_create_object (client, e_cal_component_get_icalcomponent (new_comp), &new_uid, NULL))
-		g_message ("on_unrecur_appointment(): Could not update the object!");
-	else
-		g_free (new_uid);
-
-	g_object_unref (new_comp);
-	g_object_unref (client);
-	g_list_free (selected);
-}
-
-static void
-on_delete_occurrence (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_delete_selected_occurrence (cal_view);
-}
-
-static void
-on_cut (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_cut_clipboard (cal_view);
-}
-
-static void
-on_copy (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_copy_clipboard (cal_view);
-}
-
-static void
-on_paste (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	ECalendarView *cal_view = data;
-
-	e_calendar_view_paste_clipboard (cal_view);
-}
-
-static EPopupItem ecv_main_items [] = {
-	{ E_POPUP_ITEM, (gchar *) "30.task", (gchar *) N_("New _Task"), on_new_task, NULL, (gchar *) "stock_task", 0, 0},
-
-	{ E_POPUP_BAR, (gchar *) "40."},
-	{ E_POPUP_ITEM, (gchar *) "40.print", (gchar *) N_("P_rint..."), on_print, NULL, (gchar *) GTK_STOCK_PRINT, 0, 0 },
-
-	{ E_POPUP_BAR, (gchar *) "50." },
-	{ E_POPUP_ITEM, (gchar *) "50.paste", (gchar *) N_("_Paste"), on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
-
-	{ E_POPUP_BAR, (gchar *) "60." },
-	/* FIXME: hook in this somehow */
-	{ E_POPUP_SUBMENU, (gchar *) "60.view", (gchar *) N_("_Current View") },
-};
-
-static EPopupItem ecv_child_items [] = {
-	{ E_POPUP_ITEM, (gchar *) "00.open", (gchar *) N_("_Open"), on_edit_appointment, NULL, (gchar *) GTK_STOCK_OPEN, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-
-	{ E_POPUP_BAR, (gchar *) "30." },
-
-	{ E_POPUP_ITEM, (gchar *) "31.cut", (gchar *) N_("C_ut"), on_cut, NULL, (gchar *) GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ORGANIZER },
-	{ E_POPUP_ITEM, (gchar *) "32.copy", (gchar *) N_("_Copy"), on_copy, NULL, (gchar *) GTK_STOCK_COPY, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_ORGANIZER },
-	{ E_POPUP_ITEM, (gchar *) "33.paste", (gchar *) N_("_Paste"), on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
-
-	{ E_POPUP_BAR, (gchar *) "40." },
-
-	{ E_POPUP_ITEM, (gchar *) "43.copyto", (gchar *) N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "44.moveto", (gchar *) N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "45.delegate", (gchar *) N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
-	{ E_POPUP_ITEM, (gchar *) "46.schedule", (gchar *) N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, (gchar *) "47.forward", (gchar *) N_("_Forward as iCalendar..."), on_forward, NULL, (gchar *) "mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "48.reply", (gchar *) N_("_Reply"), on_reply, NULL, (gchar *) "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, (gchar *) "49.reply-all", (gchar *) N_("Reply to _All"), on_reply_all, NULL, (gchar *) "mail-reply-all", E_CAL_POPUP_SELECT_MEETING, E_CAL_POPUP_SELECT_NOTEDITING },
-
-	{ E_POPUP_BAR, (gchar *) "50." },
-
-	{ E_POPUP_ITEM, (gchar *) "51.delete", (gchar *) N_("_Delete"), on_delete_appointment, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_NONRECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "52.move", (gchar *) N_("Make this Occurrence _Movable"), on_unrecur_appointment, NULL, NULL, E_CAL_POPUP_SELECT_RECURRING | E_CAL_POPUP_SELECT_INSTANCE, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "53.delete", (gchar *) N_("Delete this _Occurrence"), on_delete_occurrence, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "54.delete", (gchar *) N_("Delete _All Occurrences"), on_delete_appointment, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-};
 
 void
 e_calendar_view_open_event (ECalendarView *cal_view)

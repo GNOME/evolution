@@ -271,7 +271,74 @@ static void
 action_calendar_purge_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	GtkSpinButton *spin_button;
+	GtkWidget *container;
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	gint days;
+	time_t tt;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_WARNING,
+		GTK_BUTTONS_OK_CANCEL,
+		_("This operation will permanently erase all events older "
+		  "than the selected amount of time. If you continue, you "
+		  "will not be able to recover these events."));
+
+	gtk_dialog_set_default_response (
+		GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 6);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	/* Translators: This is the first part of the sentence:
+	 * "Purge events older than <<spin-button>> days" */
+	widget = gtk_label_new (_("Purge events older than"));
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 6);
+	gtk_widget_show (widget);
+
+	widget = gtk_spin_button_new_with_range (0.0, 1000.0, 1.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), 60.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 6);
+	gtk_widget_show (widget);
+
+	spin_button = GTK_SPIN_BUTTON (widget);
+
+	/* Translators: This is the last part of the sentence:
+	 * "Purge events older than <<spin-button>> days" */
+	widget = gtk_label_new (_("days"));
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 6);
+	gtk_widget_show (widget);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	days = gtk_spin_button_get_value_as_int (spin_button);
+
+	tt = time (NULL);
+	tt -= (days * (24 * 3600));
+
+	gnome_calendar_purge (calendar, tt);
+
+exit:
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -437,14 +504,157 @@ static void
 action_event_copy_cb (GtkAction *action,
                       ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ESource *destination_source = NULL;
+	ECal *destination_client = NULL;
+	GList *selected, *iter;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (selected != NULL);
+
+	/* Get a destination source from the user. */
+	destination_source = select_source_dialog (
+		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT);
+	if (destination_source == NULL)
+		return;
+
+	/* Open the destination calendar. */
+	destination_client = auth_new_cal_from_source (
+		destination_source, E_CAL_SOURCE_TYPE_EVENT);
+	if (destination_client == NULL)
+		goto exit;
+	if (!e_cal_open (destination_client, FALSE, NULL))
+		goto exit;
+
+	e_cal_shell_view_set_status_message (
+		cal_shell_view, _("Copying Items"), -1.0);
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		ECalendarViewEvent *event = iter->data;
+		gboolean remove = FALSE;
+
+		e_cal_shell_view_transfer_item_to (
+			cal_shell_view, event, destination_client, remove);
+	}
+
+	e_cal_shell_view_set_status_message (cal_shell_view, NULL, -1.0);
+
+exit:
+	if (destination_client != NULL)
+		g_object_unref (destination_client);
+	if (destination_source != NULL)
+		g_object_unref (destination_source);
+	g_list_free (selected);
 }
 
 static void
 action_event_delegate_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECalComponent *component;
+	ECal *client;
+	GList *selected;
+	icalcomponent *clone;
+	icalproperty *property;
+	gboolean found = FALSE;
+	gchar *attendee;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	clone = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+	/* Set the attendee status for the delegate. */
+
+	component = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (
+		component, icalcomponent_new_clone (clone));
+
+	attendee = itip_get_comp_attendee (component, client);
+	property = icalcomponent_get_first_property (
+		clone, ICAL_ATTENDEE_PROPERTY);
+
+	while (property != NULL) {
+		const gchar *candidate;
+
+		candidate = icalproperty_get_attendee (property);
+		candidate = itip_strip_mailto (candidate);
+
+		if (g_ascii_strcasecmp (candidate, attendee) == 0) {
+			icalparameter *parameter;
+
+			parameter = icalparameter_new_role (
+				ICAL_ROLE_NONPARTICIPANT);
+			icalproperty_set_parameter (property, parameter);
+
+			parameter = icalparameter_new_partstat (
+				ICAL_PARTSTAT_DELEGATED);
+			icalproperty_set_parameter (property, parameter);
+
+			found = TRUE;
+			break;
+		}
+
+		property = icalcomponent_get_next_property (
+			clone, ICAL_ATTENDEE_PROPERTY);
+	}
+
+	/* If the attendee is not already in the component, add it. */
+	if (!found) {
+		icalparameter *parameter;
+		gchar *address;
+
+		address = g_strdup_printf ("MAILTO:%s", attendee);
+
+		property = icalproperty_new_attendee (address);
+		icalcomponent_add_property (clone, property);
+
+		parameter = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
+		icalproperty_add_parameter (property, parameter);
+
+		parameter = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
+		icalproperty_add_parameter (property, parameter);
+
+		parameter = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
+		icalproperty_add_parameter (property, parameter);
+
+		g_free (address);
+	}
+
+	g_free (attendee);
+	g_object_unref (component);
+
+	e_calendar_view_open_event_with_flags (
+		calendar_view, event->comp_data->client, clone,
+		COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE);
+
+	icalcomponent_free (clone);
+	g_list_free (selected);
 }
 
 static void
@@ -482,7 +692,39 @@ static void
 action_event_forward_cb (GtkAction *action,
                          ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+	ECalendarViewEvent *event;
+	ECalComponent *component;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	component = e_cal_component_new ();
+
+	e_cal_component_set_icalcomponent (
+		component, icalcomponent_new_clone (icalcomp));
+	itip_send_comp (
+		E_CAL_COMPONENT_METHOD_PUBLISH,
+		component, client, NULL, NULL, NULL, TRUE, FALSE);
+
+	g_object_unref (component);
+
+	g_list_free (selected);
 }
 
 static void
@@ -512,7 +754,60 @@ static void
 action_event_move_cb (GtkAction *action,
                       ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ESource *destination_source = NULL;
+	ECal *destination_client = NULL;
+	GList *selected, *iter;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (selected != NULL);
+
+	/* Get a destination source from the user. */
+	destination_source = select_source_dialog (
+		GTK_WINDOW (shell_window), E_CAL_SOURCE_TYPE_EVENT);
+	if (destination_source == NULL)
+		return;
+
+	/* Open the destination calendar. */
+	destination_client = auth_new_cal_from_source (
+		destination_source, E_CAL_SOURCE_TYPE_EVENT);
+	if (destination_client == NULL)
+		goto exit;
+	if (!e_cal_open (destination_client, FALSE, NULL))
+		goto exit;
+
+	e_cal_shell_view_set_status_message (
+		cal_shell_view, _("Moving Items"), -1.0);
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		ECalendarViewEvent *event = iter->data;
+		gboolean remove = TRUE;
+
+		e_cal_shell_view_transfer_item_to (
+			cal_shell_view, event, destination_client, remove);
+	}
+
+	e_cal_shell_view_set_status_message (cal_shell_view, NULL, -1.0);
+
+exit:
+	if (destination_client != NULL)
+		g_object_unref (destination_client);
+	if (destination_source != NULL)
+		g_object_unref (destination_source);
+	g_list_free (selected);
 }
 
 static void
@@ -536,7 +831,91 @@ static void
 action_event_occurrence_movable_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalModel *model;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECalComponent *exception_component;
+	ECalComponent *recurring_component;
+	ECalComponentDateTime date;
+	ECalComponentId *id;
+	ECal *client;
+	icalcomponent *icalcomp;
+	icaltimetype itt;
+	icaltimezone *timezone;
+	GList *selected;
+	gchar *uid;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	model = e_calendar_view_get_model (calendar_view);
+	timezone = e_cal_model_get_timezone (model);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	/* For the recurring object, we add an exception
+	 * to get rid of the instance. */
+
+	recurring_component = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (
+		recurring_component, icalcomponent_new_clone (icalcomp));
+	id = e_cal_component_get_id (recurring_component);
+
+	/* For the unrecurred instance, we duplicate the original object,
+	 * create a new UID for it, get rid of the recurrence rules, and
+	 * set the start and end times to the instance times. */
+
+	exception_component = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (
+		exception_component, icalcomponent_new_clone (icalcomp));
+
+	uid = e_cal_component_gen_uid ();
+	e_cal_component_set_uid (exception_component, uid);
+	g_free (uid);
+
+	e_cal_component_set_recurid (exception_component, NULL);
+	e_cal_component_set_rdate_list (exception_component, NULL);
+	e_cal_component_set_rrule_list (exception_component, NULL);
+	e_cal_component_set_exdate_list (exception_component, NULL);
+	e_cal_component_set_exrule_list (exception_component, NULL);
+
+	date.value = &itt;
+	date.tzid = icaltimezone_get_tzid (timezone);
+	*date.value = icaltime_from_timet_with_zone (
+		event->comp_data->instance_start, FALSE, timezone);
+	cal_comp_set_dtstart_with_oldzone (client, exception_component, &date);
+	*date.value = icaltime_from_timet_with_zone (
+		event->comp_data->instance_end, FALSE, timezone);
+	cal_comp_set_dtstart_with_oldzone (client, exception_component, &date);
+	e_cal_component_commit_sequence (exception_component);
+
+	/* Now update both ECalComponents.  Note that we do this last
+	*  since at present the updates happend synchronously so our
+	*  event may disappear. */
+
+	e_cal_remove_object_with_mod (
+		client, id->uid, id->rid, CALOBJ_MOD_THIS, NULL);
+
+	e_cal_component_free_id (id);
+	g_object_unref (recurring_component);
+
+	icalcomp = e_cal_component_get_icalcomponent (exception_component);
+	if (e_cal_create_object (client, icalcomp, &uid, NULL))
+		g_free (uid);
+
+	g_object_unref (exception_component);
+
+	g_list_free (selected);
 }
 
 static void
@@ -560,35 +939,195 @@ static void
 action_event_print_cb (GtkAction *action,
                        ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECalComponent *component;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	component = e_cal_component_new ();
+
+	e_cal_component_set_icalcomponent (
+		component, icalcomponent_new_clone (icalcomp));
+	print_comp (
+		component, client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+
+	g_object_unref (component);
+
+	g_list_free (selected);
 }
 
 static void
 action_event_reply_cb (GtkAction *action,
                        ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+	ECalendarViewEvent *event;
+	ECalComponent *component;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+	gboolean reply_all = FALSE;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	component = e_cal_component_new ();
+
+	e_cal_component_set_icalcomponent (
+		component, icalcomponent_new_clone (icalcomp));
+	reply_to_calendar_comp (
+		E_CAL_COMPONENT_METHOD_REPLY,
+		component, client, reply_all, NULL, NULL);
+
+	g_object_unref (component);
+
+	g_list_free (selected);
 }
 
 static void
 action_event_reply_all_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	GnomeCalendar *calendar;
+	ECalendarViewEvent *event;
+	ECalComponent *component;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+	gboolean reply_all = TRUE;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	component = e_cal_component_new ();
+
+	e_cal_component_set_icalcomponent (
+		component, icalcomponent_new_clone (icalcomp));
+	reply_to_calendar_comp (
+		E_CAL_COMPONENT_METHOD_REPLY,
+		component, client, reply_all, NULL, NULL);
+
+	g_object_unref (component);
+
+	g_list_free (selected);
 }
 
 static void
 action_event_save_as_cb (GtkAction *action,
                          ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+	gchar *filename = NULL;
+	gchar *string = NULL;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	filename = e_file_dialog_save (_("Save As..."), NULL);
+	if (filename == NULL)
+		goto exit;
+
+	string = e_cal_get_component_as_string (client, icalcomp);
+	if (string == NULL) {
+		g_warning ("Could not convert item to a string");
+		goto exit;
+	}
+
+	e_write_file_uri (filename, string);
+
+exit:
+	g_free (filename);
+	g_free (string);
+
+	g_list_free (selected);
 }
 
 static void
 action_event_schedule_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECal *client;
+	icalcomponent *icalcomp;
+	GList *selected;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+	client = event->comp_data->client;
+	icalcomp = event->comp_data->icalcomp;
+
+	e_calendar_view_edit_appointment (
+		calendar_view, client, icalcomp, TRUE);
+
+	g_list_free (selected);
 }
 
 static void
@@ -1131,6 +1670,21 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_JUMP_TO);
 	g_object_set (action, "short-label", _("Go To"), NULL);
+
+	action = ACTION (CALENDAR_VIEW_DAY);
+	g_object_set (action, "is-important", TRUE, NULL);
+
+	action = ACTION (CALENDAR_VIEW_LIST);
+	g_object_set (action, "is-important", TRUE, NULL);
+
+	action = ACTION (CALENDAR_VIEW_MONTH);
+	g_object_set (action, "is-important", TRUE, NULL);
+
+	action = ACTION (CALENDAR_VIEW_WEEK);
+	g_object_set (action, "is-important", TRUE, NULL);
+
+	action = ACTION (CALENDAR_VIEW_WORKWEEK);
+	g_object_set (action, "is-important", TRUE, NULL);
 
 	action = ACTION (EVENT_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);

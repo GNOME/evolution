@@ -108,6 +108,7 @@ struct _ECalendarViewClass {
 	GtkTableClass parent_class;
 
 	/* Notification signals */
+	void (* popup_event) (ECalendarView *cal_view, GdkEventButton *event);
 	void (* selection_changed) (ECalendarView *cal_view);
 	void (* selected_time_changed) (ECalendarView *cal_view);
 	void (* timezone_changed) (ECalendarView *cal_view, icaltimezone *old_zone, icaltimezone *new_zone);
@@ -150,7 +151,8 @@ void           e_calendar_view_delete_selected_events (ECalendarView *cal_view);
 void           e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view);
 CompEditor*    e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
-GtkMenu       *e_calendar_view_create_popup_menu (ECalendarView *cal_view);
+void           e_calendar_view_popup_event	(ECalendarView *cal_view,
+						 GdkEventButton *event);
 
 void           e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
 				     icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas);

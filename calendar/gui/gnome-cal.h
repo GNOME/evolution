@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef GNOME_CALENDAR_APP_H
-#define GNOME_CALENDAR_APP_H
+#ifndef GNOME_CALENDAR_H
+#define GNOME_CALENDAR_H
 
 #include <time.h>
 #include <gtk/gtk.h>

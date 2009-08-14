@@ -33,6 +33,8 @@
 #include "calendar/gui/e-cal-model-calendar.h"
 #include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-view.h"
+#include "calendar/gui/e-day-view.h"
+#include "calendar/gui/e-week-view.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -138,12 +140,10 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 static FocusLocation
 cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 {
-        return FOCUS_OTHER;
-#if 0  /* TEMPORARILY DISABLED */
 	GtkWidget *widget;
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view_type;
-	ECalendarView calendar_view;
+	ECalendarView *calendar_view;
 	ECalendarTable *task_table;
 	EMemoTable *memo_table;
 	ETable *table;
@@ -205,7 +205,6 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	}
 
 	return FOCUS_OTHER;
-#endif
 }
 
 static void

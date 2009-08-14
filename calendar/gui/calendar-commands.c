@@ -136,54 +136,6 @@ show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path
 	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
 }
 
-static void
-purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-	GtkWidget *dialog, *parent, *box, *label, *spin;
-	gint response;
-
-	gcal = GNOME_CALENDAR (data);
-
-	/* create the dialog */
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_OK_CANCEL,
-		_("This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
-
-	box = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, FALSE, 6);
-
-	label = gtk_label_new (_("Purge events older than"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-	spin = gtk_spin_button_new_with_range (0.0, 1000.0, 1.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), 60.0);
-	gtk_box_pack_start (GTK_BOX (box), spin, FALSE, FALSE, 6);
-	label = gtk_label_new (_("days"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-
-	gtk_widget_show_all (box);
-
-	/* run the dialog */
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_OK) {
-		gint days;
-		time_t tt;
-
-		days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-		tt = time (NULL);
-		tt -= (days * (24 * 3600));
-
-		gnome_calendar_purge (gcal, tt);
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 struct _sensitize_item {
 	const gchar *command;
 	guint32 enable;
@@ -342,7 +294,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 	BONOBO_UI_VERB ("ShowListView", show_list_view_clicked),
 
-	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
 	BONOBO_UI_VERB ("HelpDebug", help_debug),
 	BONOBO_UI_VERB_END
 };
