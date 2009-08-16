@@ -341,6 +341,7 @@ if test "$have_iconv" = no; then
 fi
 AC_SUBST(ICONV_LIBS)
 
+save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -I$srcdir"
 
 AC_MSG_CHECKING([preferred charset name formats for system iconv])
