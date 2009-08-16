@@ -29,9 +29,12 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-sexp.h>
 
-#include "e-util/e-util.h"
+#include "e-util/e-binding.h"
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
+#include "e-util/e-util.h"
 #include "widgets/misc/e-popup-action.h"
 
 #include "calendar/common/authentication.h"
@@ -41,8 +44,9 @@
 #include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/gnome-cal.h"
-/*#include "calendar/gui/goto.h"*/
+#include "calendar/gui/goto.h"
 #include "calendar/gui/print.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/event-editor.h"
 #include "calendar/gui/dialogs/memo-editor.h"

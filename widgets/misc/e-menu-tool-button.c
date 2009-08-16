@@ -84,7 +84,8 @@ menu_tool_button_update_button (GtkToolButton *tool_button)
 
 	/* If the menu item is a proxy for a GtkAction, extract
 	 * the action's tooltip and use it as our own tooltip. */
-	action = gtk_widget_get_action (GTK_WIDGET (menu_item));
+	action = gtk_activatable_get_related_action (
+		GTK_ACTIVATABLE (menu_item));
 	if (action != NULL)
 		g_object_get (action, "tooltip", &tooltip, NULL);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_button), tooltip);

@@ -30,6 +30,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
 #include "widgets/misc/e-preferences-window.h"
 

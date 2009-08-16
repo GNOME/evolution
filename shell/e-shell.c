@@ -310,7 +310,7 @@ shell_ready_for_quit (EShell *shell,
 	g_list_free (list);
 }
 
-void
+static void
 shell_prepare_for_quit (EShell *shell)
 {
 	GList *list, *iter;
@@ -344,7 +344,7 @@ shell_prepare_for_quit (EShell *shell)
 		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
 }
 
-gboolean
+static gboolean
 shell_request_quit (EShell *shell)
 {
 	/* Are preparations already in progress? */

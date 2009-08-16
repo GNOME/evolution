@@ -114,23 +114,6 @@ mail_importer_add_line (MailImporter *importer,
 	camel_message_info_free(info);
 }
 
-struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const gchar *iid, gpointer data)
-{
-#if 0
-	if (strcmp(iid, ELM_INTELLIGENT_IMPORTER_IID) == 0)
-		return elm_intelligent_importer_new();
-	else if (strcmp(iid, PINE_INTELLIGENT_IMPORTER_IID) == 0)
-		return pine_intelligent_importer_new();
-	else if (strcmp(iid, NETSCAPE_INTELLIGENT_IMPORTER_IID) == 0)
-		return netscape_intelligent_importer_new();
-	else if (strcmp(iid, MBOX_IMPORTER_IID) == 0)
-		return mbox_importer_new();
-	else if (strcmp(iid, OUTLOOK_IMPORTER_IID) == 0)
-		return outlook_importer_new();
-#endif
-	return NULL;
-}
-
 struct _import_mbox_msg {
 	MailMsg base;
 

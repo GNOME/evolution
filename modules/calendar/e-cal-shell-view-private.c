@@ -390,7 +390,6 @@ void
 e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
-	GList *iter;
 
 	DISPOSE (priv->cal_shell_backend);
 	DISPOSE (priv->cal_shell_content);

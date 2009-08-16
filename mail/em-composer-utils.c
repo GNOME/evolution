@@ -2340,8 +2340,6 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	EMsgComposer *composer;
 	EAccount *account;
 	guint32 flags;
-	EMEvent *eme;
-	EMEventTargetMessage *target;
 	struct emcs_t *emcs;
 
 	if (folder && uid && message == NULL) {

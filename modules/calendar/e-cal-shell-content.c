@@ -304,7 +304,6 @@ cal_shell_content_constructed (GObject *object)
 	EShellContent *foreign_content;
 	EShellView *foreign_view;
 	GnomeCalendar *calendar;
-	GnomeCalendarViewType view_type;
 	GalViewInstance *view_instance;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -313,7 +312,6 @@ cal_shell_content_constructed (GObject *object)
 	const gchar *key;
 	gchar *filename;
 	gchar *markup;
-	gint page_num;
 	gint ii;
 
 	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
@@ -477,7 +475,6 @@ static void
 cal_shell_content_map (GtkWidget *widget)
 {
 	ECalShellContentPrivate *priv;
-	GalViewInstance *view_instance;
 
 	/* XXX Delay loading the GalViewInstance until after ECalShellView
 	 *     has a chance to install the sidebar's date navigator into

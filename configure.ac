@@ -81,7 +81,6 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-DGDK_PIXBUF_DISABLE_DEPRECATED
 	-DGDK_DISABLE_DEPRECATED
 	-DG_DISABLE_SINGLE_INCLUDES
-	-DGTK_DISABLE_SINGLE_INCLUDES
 	-Wall -Wextra
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
@@ -99,6 +98,10 @@ dnl These may produce warnings we have no control over.
 dnl	-Wmissing-format-attribute
 dnl	-Wshadow
 dnl	-Wformat-nonliteral
+
+dnl Disabled until libunique fixes its headers.  Think it's
+dnl already fixed in git, just waiting for a formal release.
+dnl	-DGTK_DISABLE_SINGLE_INCLUDES
 
 CFLAGS="$CFLAGS $WARNING_FLAGS"
 

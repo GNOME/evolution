@@ -34,6 +34,7 @@
 #include <glib/gi18n.h>
 
 #include <misc/e-dateedit.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 

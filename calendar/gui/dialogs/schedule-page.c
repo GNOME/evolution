@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>

@@ -130,7 +130,7 @@ epbr_perform_pre_backup_checks (gchar * dir)
 #endif
 }
 
-void
+static void
 action_settings_backup_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
@@ -184,7 +184,7 @@ action_settings_backup_cb (GtkAction *action,
 	gtk_widget_destroy (dlg);
 }
 
-void
+static void
 action_settings_restore_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {

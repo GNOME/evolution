@@ -505,9 +505,8 @@ show_alarms_config (CalendarPrefsDialog *prefs)
 static void
 show_config (CalendarPrefsDialog *prefs)
 {
-	gint mask, day, time_divisions;
-	icaltimezone *zone;
-	gboolean sensitive, set = FALSE;
+	gint time_divisions;
+	gboolean set = FALSE;
 	CalUnits units;
 	gint interval;
 

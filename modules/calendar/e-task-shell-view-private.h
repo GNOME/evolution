@@ -30,6 +30,7 @@
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"

@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
+
+#include "e-util/e-binding.h"
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"

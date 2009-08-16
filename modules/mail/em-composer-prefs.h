@@ -62,9 +62,6 @@ struct _EMComposerPrefs {
 
 	/* General tab */
 
-	/* Default Behavior */
-	GtkOptionMenu *charset;
-
 	GtkTreeModel *language_model;
 
 	/* Forwards and Replies */

@@ -38,6 +38,7 @@
 #include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
+#include <mail/em-utils.h>
 #include <mail/mail-session.h>
 #include <mail/mail-ops.h>
 #include <mail/message-list.h>
@@ -773,6 +774,8 @@ init_shell_actions (GtkUIManager *ui_manager,
 	g_signal_connect (
 		shell_view, "update-actions",
 		G_CALLBACK (update_actions_cb), NULL);
+
+	return TRUE;
 }
 
 gboolean

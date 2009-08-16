@@ -24,6 +24,8 @@
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal-util.h>
 
+#include "e-util/e-binding.h"
+
 static gboolean
 transform_string_to_icaltimezone (const GValue *src_value,
                                   GValue *dst_value,

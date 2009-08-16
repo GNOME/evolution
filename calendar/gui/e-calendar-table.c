@@ -42,6 +42,7 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <table/e-cell-date-edit.h>

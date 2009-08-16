@@ -297,7 +297,7 @@ gboolean	e_meeting_time_selector_get_use_24_hour_format
 void		e_meeting_time_selector_set_use_24_hour_format
 						(EMeetingTimeSelector *mts,
 						 gboolean use_24_hour_format);
-gint		e_meeting_time_seletor_get_week_start_day
+gint		e_meeting_time_selector_get_week_start_day
 						(EMeetingTimeSelector *mts);
 void		e_meeting_time_selector_set_week_start_day
 						(EMeetingTimeSelector *mts,

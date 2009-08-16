@@ -580,7 +580,7 @@ e_calendar_view_get_visible_time_range (ECalendarView *cal_view,
 	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
 	g_return_val_if_fail (class->get_visible_time_range != NULL, FALSE);
 
-	class->get_visible_time_range (cal_view, start_time, end_time);
+	return class->get_visible_time_range (cal_view, start_time, end_time);
 }
 
 void
@@ -1968,15 +1968,6 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 		}
 	}
 	cairo_close_path (cr);
-}
-
-static void
-error_response(GtkWidget *widget, gint response, gpointer data)
-{
-	if (response == GTK_RESPONSE_DELETE_EVENT)
-		gtk_widget_destroy(widget);
-	else if (response == GTK_RESPONSE_OK)
-		gtk_widget_destroy(widget);
 }
 
 /* returns either light or dark yellow, based on the base_background,

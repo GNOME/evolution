@@ -412,8 +412,6 @@ e_cal_model_class_init (ECalModelClass *class)
 static void
 e_cal_model_init (ECalModel *model)
 {
-	ECalModelPrivate *priv;
-
 	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
 
 	/* match none by default */

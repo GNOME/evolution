@@ -264,7 +264,10 @@ action_calendar_properties_cb (GtkAction *action,
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	calendar_setup_edit_calendar (GTK_WINDOW (shell_window), source);
+	/* XXX Does this -really- need a source group parameter? */
+	calendar_setup_edit_calendar (
+		GTK_WINDOW (shell_window), source,
+		e_source_peek_group (source));
 }
 
 static void

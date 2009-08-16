@@ -101,19 +101,19 @@ setup_progress_dialog (void)
 
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_widget_show (w);
-	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
+	gtk_box_pack_start ((GtkBox *) vbox, w, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
-	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, TRUE, TRUE, 0);
 
 	label = (GtkLabel *) gtk_label_new ("");
 	gtk_widget_show ((GtkWidget *) label);
-	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
+	gtk_box_pack_start ((GtkBox *) hbox, (GtkWidget *) label, TRUE, TRUE, 0);
 
 	progress = (GtkProgressBar *) gtk_progress_bar_new ();
 	gtk_widget_show ((GtkWidget *) progress);
-	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
+	gtk_box_pack_start ((GtkBox *) hbox, (GtkWidget *) progress, TRUE, TRUE, 0);
 
 	gtk_widget_show (window);
 }

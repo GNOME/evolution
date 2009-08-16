@@ -69,7 +69,6 @@ struct _EMMailerPrefs {
 
 	/* Message Display */
 	GtkSpinButton *timeout;
-	GtkOptionMenu *charset;
 
 	/* HTML Mail tab */
 	GtkFontButton *font_variable;

@@ -224,7 +224,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ECalModel *model;
 	ETable *table;
 	ESourceSelector *selector;
-	guint id;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -363,7 +362,6 @@ void
 e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
-	GList *iter;
 
 	DISPOSE (priv->task_shell_backend);
 	DISPOSE (priv->task_shell_content);

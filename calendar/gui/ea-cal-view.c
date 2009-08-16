@@ -352,6 +352,7 @@ action_interface_do_action (AtkAction *action, gint index)
 		 e_calendar_view_new_appointment_for (cal_view,
 						 dtstart, dtend, FALSE, TRUE);
 		 break;
+#if 0  /* FIXME Have to go through GnomeCalendar */
 	 case 3:
 		 /* Go to today */
 		 break;
@@ -360,6 +361,7 @@ action_interface_do_action (AtkAction *action, gint index)
 		 /* Go to date */
 		 goto_dialog (e_calendar_view_get_calendar (cal_view));
 		 break;
+#endif
 	 default:
 		 return_value = FALSE;
 		 break;

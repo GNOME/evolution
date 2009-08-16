@@ -29,6 +29,7 @@
 
 #include <e-util/e-util.h>
 #include <e-util/e-binding.h>
+#include <e-util/e-plugin-ui.h>
 #include <e-util/gconf-bridge.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>

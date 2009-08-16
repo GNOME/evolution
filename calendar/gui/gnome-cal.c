@@ -65,7 +65,7 @@
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
 #include "misc.h"
-/*#include "a11y/ea-calendar.h"  KILL-BONOBO */
+#include "ea-calendar.h"
 #include "common/authentication.h"
 
 #define d(x)
