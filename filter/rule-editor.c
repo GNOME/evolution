@@ -363,6 +363,7 @@ static void
 rule_add (GtkWidget *widget, RuleEditor *re)
 {
 	GtkWidget *rules;
+	GtkWidget *content_area;
 
 	if (re->edit != NULL)
 		return;
@@ -384,7 +385,8 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_transient_for ((GtkWindow *) re->dialog, (GtkWindow *) re);
 	gtk_container_set_border_width ((GtkContainer *) re->dialog, 6);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 3);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (re->dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), rules, TRUE, TRUE, 3);
 
 	g_signal_connect (re->dialog, "response", G_CALLBACK (add_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
@@ -442,6 +444,7 @@ static void
 rule_edit (GtkWidget *widget, RuleEditor *re)
 {
 	GtkWidget *rules;
+	GtkWidget *content_area;
 
 	update_selected_rule(re);
 
@@ -465,7 +468,8 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
 	gtk_container_set_border_width ((GtkContainer *) re->dialog, 6);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 3);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (re->dialog));
+	gtk_box_pack_start (GTK_BOX (content_area), rules, TRUE, TRUE, 3);
 
 	g_signal_connect (re->dialog, "response", G_CALLBACK (edit_editor_response), re);
 	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
@@ -828,19 +832,24 @@ void
 rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const gchar *source, const gchar *label)
 {
 	GtkWidget *w;
+	GtkWidget *action_area;
+	GtkWidget *content_area;
 	gint i;
 	gchar *tmp;
 
 	re->context = context;
 	g_object_ref (context);
 
+	action_area = gtk_dialog_get_action_area (GTK_DIALOG (re));
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (re));
+
 	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
 	gtk_window_set_default_size ((GtkWindow *) re, 350, 400);
 	gtk_widget_realize ((GtkWidget *) re);
-	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) re)->action_area, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 
 	w = glade_xml_get_widget(gui, "rule_editor");
-	gtk_box_pack_start((GtkBox *)((GtkDialog *)re)->vbox, w, TRUE, TRUE, 3);
+	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
 
 	for (i = 0; i < BUTTON_LAST; i++) {
 		re->priv->buttons[i] = (GtkButton *) (w = glade_xml_get_widget (gui, edit_buttons[i].name));

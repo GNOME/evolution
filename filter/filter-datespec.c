@@ -426,6 +426,7 @@ static void
 button_clicked (GtkButton *button, FilterDatespec *fds)
 {
 	struct _FilterDatespecPrivate *p = PRIV(fds);
+	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
 	GladeXML *gui;
@@ -458,7 +459,8 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	g_signal_connect (p->combobox_relative, "changed", G_CALLBACK (set_combobox_relative), fds);
 	g_signal_connect (p->combobox_past_future, "changed", G_CALLBACK (set_combobox_past_future), fds);
 
-	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
+	content_area = gtk_dialog_get_content_area (dialog);
+	gtk_box_pack_start (GTK_BOX (content_area), toplevel, TRUE, TRUE, 3);
 
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
 		get_values (fds);

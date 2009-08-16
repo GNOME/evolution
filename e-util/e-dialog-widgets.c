@@ -320,9 +320,11 @@ e_dialog_radio_get (GtkWidget *widget, const gint *value_map)
 	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
 
 	for (i = 0, l = group; l; l = l->next, i++) {
-		widget = GTK_WIDGET (l->data);
+		GtkToggleButton *toggle_button;
 
-		if (GTK_TOGGLE_BUTTON (widget)->active)
+		toggle_button = GTK_TOGGLE_BUTTON (l->data);
+
+		if (gtk_toggle_button_get_active (toggle_button))
 			break;
 	}
 
@@ -373,10 +375,9 @@ e_dialog_toggle_set (GtkWidget *widget, gboolean value)
 gboolean
 e_dialog_toggle_get (GtkWidget *widget)
 {
-	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_TOGGLE_BUTTON (widget), FALSE);
 
-	return GTK_TOGGLE_BUTTON (widget)->active;
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 }
 
 /**
@@ -396,7 +397,7 @@ e_dialog_spin_set (GtkWidget *widget, double value)
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
 
-	adj->value = value;
+	gtk_adjustment_set_value (adj, value);
 	g_signal_emit_by_name (adj, "value_changed", 0);
 }
 
@@ -417,7 +418,8 @@ e_dialog_spin_get_double (GtkWidget *widget)
 	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), 0.0);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
-	return adj->value;
+
+	return gtk_adjustment_get_value (adj);
 }
 
 /**

@@ -711,6 +711,7 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const gchar *title,
 {
 	GtkDialog *dialog;
 	GtkWidget *widget;
+	GtkWidget *content_area;
 
 	d(printf("add rule gui '%s'\n", rule->name));
 
@@ -731,7 +732,8 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const gchar *title,
 	gtk_window_set_default_size((GtkWindow *) dialog, 600, 400);
 	gtk_window_set_resizable((GtkWindow *) dialog, TRUE);
 
-	gtk_box_pack_start((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
+	content_area = gtk_dialog_get_content_area (dialog);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
 	g_object_set_data_full((GObject *) dialog, "rule", rule, g_object_unref);
 	if (path)
