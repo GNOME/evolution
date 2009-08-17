@@ -1493,7 +1493,7 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  "mail-mark-notjunk" },
 
 	{ "mail-popup-mark-read",
-	  N_("Mark as _Read"),
+	  N_("Mar_k as Read"),
 	  "mail-mark-read" },
 
 	{ "mail-popup-mark-unimportant",
