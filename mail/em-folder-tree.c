@@ -1383,49 +1383,6 @@ tree_drag_data_action(struct _DragDataReceivedAsync *m)
 	mail_msg_unordered_push (m);
 }
 
-#if 0  /* KILL-BONOBO */
-static void
-emft_drop_popup_copy(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _DragDataReceivedAsync *m = data;
-
-	m->action = GDK_ACTION_COPY;
-	tree_drag_data_action(m);
-}
-
-static void
-emft_drop_popup_move(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _DragDataReceivedAsync *m = data;
-
-	m->action = GDK_ACTION_MOVE;
-	tree_drag_data_action(m);
-}
-
-static void
-emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _DragDataReceivedAsync *m = data;
-
-	m->aborted = TRUE;
-	mail_msg_unref(m);
-}
-
-static EPopupItem emft_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, (gchar *) "00.emc.00", (gchar *) N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, (gchar *) "00.emc.01", (gchar *) N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), emft_drop_popup_copy, NULL, (gchar *) "folder-copy", 2 },
-	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), emft_drop_popup_move, NULL, (gchar *) "folder-move", 2 },
-	{ E_POPUP_BAR, (gchar *) "10.emc" },
-	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, (gchar *) "dialog-cancel", 0 },
-};
-
-static void
-emft_drop_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-}
-
 static void
 tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
 {
@@ -1438,7 +1395,6 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	CamelStore *store;
 	GtkTreeIter iter;
 	gchar *full_name;
-	gint i;
 
 	tree_view = GTK_TREE_VIEW (emft);
 	model = gtk_tree_view_get_model (tree_view);
@@ -1484,32 +1440,8 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	memcpy(m->selection->data, selection->data, selection->length);
 	m->selection->length = selection->length;
 
-	if (context->action == GDK_ACTION_ASK) {
-		EMPopup *emp;
-		gint mask;
-		GSList *menus = NULL;
-		GtkMenu *menu;
-
-		emp = em_popup_new("org.gnome.mail.storageset.popup.drop");
-		if (info != DND_DROP_TYPE_FOLDER)
-			mask = ~1;
-		else
-			mask = ~2;
-
-		for (i=0;i<sizeof(emft_drop_popup_menu)/sizeof(emft_drop_popup_menu[0]);i++) {
-			EPopupItem *item = &emft_drop_popup_menu[i];
-
-			if ((item->visible & mask) == 0)
-				menus = g_slist_append(menus, item);
-		}
-		e_popup_add_items((EPopup *)emp, menus, NULL, emft_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, mask);
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	} else {
-		tree_drag_data_action(m);
-	}
+	tree_drag_data_action(m);
 }
-#endif
 
 static gboolean
 is_special_local_folder (const gchar *name)
@@ -1947,15 +1879,13 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 		setup = 1;
 	}
 
-	gtk_drag_source_set((GtkWidget *)tree_view, GDK_BUTTON1_MASK, drag_types, NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-	gtk_drag_dest_set((GtkWidget *)tree_view, GTK_DEST_DEFAULT_ALL, drop_types, NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	gtk_drag_source_set((GtkWidget *)tree_view, GDK_BUTTON1_MASK, drag_types, NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_dest_set((GtkWidget *)tree_view, GTK_DEST_DEFAULT_ALL, drop_types, NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	g_signal_connect (tree_view, "drag-begin", G_CALLBACK (tree_drag_begin), emft);
 	g_signal_connect (tree_view, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), emft);
 	g_signal_connect (tree_view, "drag-data-get", G_CALLBACK (tree_drag_data_get), emft);
-#if 0  /* KILL-BONOBO */
 	g_signal_connect (tree_view, "drag-data-received", G_CALLBACK (tree_drag_data_received), emft);
-#endif
 	g_signal_connect (tree_view, "drag-drop", G_CALLBACK (tree_drag_drop), emft);
 	g_signal_connect (tree_view, "drag-end", G_CALLBACK (tree_drag_end), emft);
 	g_signal_connect (tree_view, "drag-leave", G_CALLBACK (tree_drag_leave), emft);

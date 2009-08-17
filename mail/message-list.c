@@ -131,7 +131,7 @@ static struct {
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
-	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_MOVE|GDK_ACTION_COPY },
 	{ "message/rfc822", NULL, GDK_ACTION_COPY },
 	{ "text/uri-list", NULL, GDK_ACTION_COPY },
 };
@@ -2161,49 +2161,6 @@ ml_drop_action(struct _drop_msg *m)
 	mail_msg_unordered_push (m);
 }
 
-#if 0  /* KILL-BONOBO */
-static void
-ml_drop_popup_copy(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->action = GDK_ACTION_COPY;
-	ml_drop_action(m);
-}
-
-static void
-ml_drop_popup_move(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->action = GDK_ACTION_MOVE;
-	ml_drop_action(m);
-}
-
-static void
-ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->aborted = TRUE;
-	mail_msg_unref(m);
-}
-
-static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), ml_drop_popup_copy, NULL, (gchar *) "folder-copy", 0 },
-	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), ml_drop_popup_move, NULL, (gchar *) "folder-move", 0 },
-	{ E_POPUP_BAR, (gchar *) "10.emc" },
-	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
-};
-
-static void
-ml_drop_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-
-	/* FIXME: free data if no item was selected? */
-}
-
 static void
 ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 			    GdkDragContext *context, gint x, gint y,
@@ -2230,24 +2187,8 @@ ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 	memcpy(m->selection->data, data->data, data->length);
 	m->selection->length = data->length;
 
-	if (context->action == GDK_ACTION_ASK) {
-		EMPopup *emp;
-		GSList *menus = NULL;
-		GtkMenu *menu;
-		gint i;
-
-		emp = em_popup_new("org.gnome.mail.messagelist.popup.drop");
-		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++)
-			menus = g_slist_append(menus, &ml_drop_popup_menu[i]);
-
-		e_popup_add_items((EPopup *)emp, menus, NULL, ml_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	} else {
-		ml_drop_action(m);
-	}
+	ml_drop_action(m);
 }
-#endif
 
 struct search_child_struct {
 	gboolean found;
@@ -2306,8 +2247,6 @@ ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint 
 	actions &= context->actions;
 	action = context->suggested_action;
 	if (action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
-		action = GDK_ACTION_MOVE;
-	else if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
 		action = GDK_ACTION_MOVE;
 
 	gdk_drag_status(context, action, time);
@@ -2707,19 +2646,17 @@ message_list_construct (MessageList *message_list)
 
 	e_tree_drag_source_set(message_list->tree, GDK_BUTTON1_MASK,
 			       ml_drag_types, sizeof(ml_drag_types)/sizeof(ml_drag_types[0]),
-			       GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
+			       GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
 	g_signal_connect(message_list->tree, "tree_drag_data_get",
 			 G_CALLBACK(ml_tree_drag_data_get), message_list);
 
 	e_tree_drag_dest_set(message_list->tree, GTK_DEST_DEFAULT_ALL,
 			     ml_drop_types, sizeof(ml_drop_types)/sizeof(ml_drop_types[0]),
-			     GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
+			     GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
-#if 0  /* KILL-BONOBO */
 	g_signal_connect(message_list->tree, "tree_drag_data_received",
 			 G_CALLBACK(ml_tree_drag_data_received), message_list);
-#endif
 	g_signal_connect(message_list->tree, "drag-motion", G_CALLBACK(ml_tree_drag_motion), message_list);
 }
 
