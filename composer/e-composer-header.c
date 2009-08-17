@@ -426,6 +426,7 @@ e_composer_header_set_visible (EComposerHeader *header,
 
 	header->priv->visible = visible;
 
+#if 0  /* FIXME This is horrible.  Needs completely rethought. */
 	if (header->priv->action_label) {
 		if (!visible) {
 			gtk_label_set_markup ((GtkLabel *)header->priv->action_label, g_object_get_data ((GObject *)header->priv->action_label, "show"));
@@ -438,6 +439,8 @@ e_composer_header_set_visible (EComposerHeader *header,
 			gtk_widget_show (g_object_get_data((GObject *) header->priv->action_label, "remove"));
 		}
 	}
+#endif
+
 	g_object_notify (G_OBJECT (header), "visible");
 }
 
