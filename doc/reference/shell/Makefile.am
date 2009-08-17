@@ -71,7 +71,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
 	$(top_builddir)/shell/.libs/e-shell-importer.o			\
 	$(top_builddir)/shell/.libs/e-shell-migrate.o			\
-	$(top_builddir)/shell/.libs/e-shell-nm.o			\
 	$(top_builddir)/shell/.libs/e-shell-settings.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
@@ -136,6 +135,11 @@ GTKDOC_LIBS=								\
 	-ledataserver-1.2						\
 	-ledataserverui-1.2						\
 	$(SHELL_LIBS)
+
+if NM_SUPPORT
+GTKDOC_LIBS += \
+	$(top_builddir)/shell/.libs/e-shell-nm.o
+endif
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make
