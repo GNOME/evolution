@@ -814,8 +814,9 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 
 /* ********************************************************************** */
 
-/* Checks on the widget whether it can be processed, based on the state of EMFormatHTML.
-   The widget should have set "efh" data as the EMFormatHTML instance. */
+/* Checks on the widget whether it can be processed, based on the
+ * state of EMFormatHTML.  The widget should have set "efh" data as
+ * the EMFormatHTML instance. */
 static gboolean
 efhd_can_process_attachment (GtkWidget *button)
 {
@@ -829,19 +830,6 @@ efhd_can_process_attachment (GtkWidget *button)
 	return efh && efh->state != EM_FORMAT_HTML_STATE_RENDERING;
 }
 
-#if 0  /* KILL-BONOBO */
-/* if it hasn't been processed yet, format the attachment */
-static void
-efhd_attachment_show(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _attach_puri *info = data;
-
-	d(printf("show attachment button called %p\n", info));
-
-	info->shown = ~info->shown;
-	em_format_set_inline(info->puri.format, info->puri.part_id, info->shown);
-}
-
 static void
 efhd_attachment_button_expanded (GtkWidget *widget,
                                  GParamSpec *pspec,
@@ -850,121 +838,10 @@ efhd_attachment_button_expanded (GtkWidget *widget,
 	if (!efhd_can_process_attachment (widget))
 		return;
 
-	efhd_attachment_show (NULL, NULL, info);
+	info->shown = ~info->shown;
+	em_format_set_inline (
+		info->puri.format, info->puri.part_id, info->shown);
 }
-
-static void
-efhd_image_fit(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _attach_puri *info = data;
-
-	info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
-	gtk_image_set_from_pixbuf(info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
-}
-
-static void
-efhd_image_unfit(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _attach_puri *info = data;
-
-	info->fit_width = 0;
-	gtk_image_set_from_pixbuf((GtkImage *)info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
-}
-
-static EPopupItem efhd_menu_items[] = {
-	{ E_POPUP_BAR, (gchar *) "05.display" },
-	{ E_POPUP_ITEM, (gchar *) "05.display.00", (gchar *) N_("_View Inline"), efhd_attachment_show },
-	{ E_POPUP_ITEM, (gchar *) "05.display.00", (gchar *) N_("_Hide"), efhd_attachment_show },
-	{ E_POPUP_ITEM, (gchar *) "05.display.01", (gchar *) N_("_Fit to Width"), efhd_image_fit, NULL, NULL, EM_POPUP_PART_IMAGE },
-	{ E_POPUP_ITEM, (gchar *) "05.display.01", (gchar *) N_("Show _Original Size"), efhd_image_unfit, NULL, NULL, EM_POPUP_PART_IMAGE },
-};
-
-static void
-efhd_menu_items_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-}
-
-static void
-efhd_popup_place_widget(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
-{
-	GtkWidget *w = user_data;
-
-	gdk_window_get_origin(gtk_widget_get_parent_window(w), x, y);
-	*x += w->allocation.x + w->allocation.width;
-	*y += w->allocation.y;
-}
-
-static gboolean
-efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *info)
-{
-	GtkMenu *menu;
-	GSList *menus = NULL;
-	EMPopup *emp;
-	EMPopupTargetPart *target;
-
-	d(printf("attachment popup, button %d\n", event->button));
-
-	if (event && event->button != 1 && event->button != 3) {
-		/* ?? gtk_propagate_event(GTK_WIDGET (user_data), (GdkEvent *)event);*/
-		return FALSE;
-	}
-
-	if (!efhd_can_process_attachment (w))
-		return FALSE;
-
-	/** @HookPoint-EMPopup: Attachment Button Context Menu
-	 * @Id: org.gnome.evolution.mail.formathtmldisplay.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetPart
-	 *
-	 * This is the drop-down menu shown when a user clicks on the down arrow
-	 * of the attachment button in inline mail content.
-	 */
-	emp = em_popup_new("org.gnome.evolution.mail.formathtmldisplay.popup");
-	target = em_popup_target_new_part(emp, info->puri.part, info->handle?info->handle->mime_type:NULL);
-	target->target.widget = w;
-
-	/* add our local menus */
-	if (info->handle) {
-		/* show/hide menus, only if we have an inline handler */
-		menus = g_slist_prepend(menus, &efhd_menu_items[0]);
-		menus = g_slist_prepend(menus, &efhd_menu_items[info->shown?2:1]);
-		if (info->shown && info->image) {
-			if (info->fit_width != 0) {
-				if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height))
-				    menus = g_slist_prepend(menus, &efhd_menu_items[4]);
-			} else
-				menus = g_slist_prepend(menus, &efhd_menu_items[3]);
-		}
-	}
-
-	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, info);
-
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
-	if (event)
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
-	else
-		gtk_menu_popup(menu, NULL, NULL, (GtkMenuPositionFunc)efhd_popup_place_widget, w, 0, gtk_get_current_event_time());
-
-	return TRUE;
-}
-
-static gboolean
-efhd_image_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *info)
-{
-	if (event && event->button != 3)
-		return FALSE;
-
-	return efhd_attachment_popup(w, event, info);
-}
-
-static gboolean
-efhd_attachment_popup_menu(GtkWidget *w, struct _attach_puri *info)
-{
-	return efhd_attachment_popup(w, NULL, info);
-}
-#endif
 
 /* ********************************************************************** */
 
@@ -1122,13 +999,7 @@ efhd_image_unallocate (struct _EMFormatPURI * puri)
 	struct _attach_puri *info = (struct _attach_puri *) puri;
 	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
 
-#if 0  /* KILL-BONOBO */
-	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_popup, info);
-#endif
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_change_cursor, info);
-#if 0  /* KILL-BONOBO */
-	g_signal_handlers_disconnect_by_func(info->event_box, efhd_attachment_popup_menu, info);
-#endif
 	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_fit_width, info);
 }
 
@@ -1179,13 +1050,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	g_signal_connect(box, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);
 	g_signal_connect (box, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
 
-#if 0  /* KILL-BONOBO */
-	g_signal_connect(box, "button_press_event", G_CALLBACK(efhd_image_popup), info);
-#endif
 	g_signal_connect(box, "enter-notify-event", G_CALLBACK(efhd_change_cursor), info);
-#if 0  /* KILL-BONOBO */
-	g_signal_connect(box, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
-#endif
 	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);
 
 	g_object_set_data (G_OBJECT (box), "efh", efh);
@@ -1242,11 +1107,9 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	g_object_set_data (G_OBJECT (widget), "efh", efh);
 
-#if 0  /* KILL-BONOBO */
 	g_signal_connect (
 		widget, "notify::expanded",
 		G_CALLBACK (efhd_attachment_button_expanded), info);
-#endif
 
 	return TRUE;
 }
@@ -1407,11 +1270,6 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Attachment"));
 
-#if 0  /* KILL-BONOBO */
-	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
-	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
-	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
-#endif
 	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
 	gtk_widget_show_all(mainbox);
