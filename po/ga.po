@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-15 06:50-0600\n"
-"PO-Revision-Date: 2009-08-15 07:56-0600\n"
+"PO-Revision-Date: 2009-08-17 04:35-0600\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -651,7 +651,7 @@ msgstr "Pearsanta"
 #: ../addressbook/gui/component/addressbook-component.c:209
 msgctxt "New"
 msgid "_Contact"
-msgstr "_Teagmháil"
+msgstr "Te_agmháil"
 
 #: ../addressbook/gui/component/addressbook-component.c:210
 msgid "Create a new contact"
@@ -4010,7 +4010,7 @@ msgstr "Cruinniú nua"
 #: ../calendar/gui/calendar-component.c:1442
 msgctxt "New"
 msgid "M_eeting"
-msgstr "_Cruinniú"
+msgstr "C_ruinniú"
 
 #: ../calendar/gui/calendar-component.c:1443
 msgid "Create a new meeting request"
@@ -4036,7 +4036,7 @@ msgstr "Féilire nua"
 #: ../calendar/gui/calendar-component.c:1458
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr "_Féilire"
+msgstr "Fé_ilire"
 
 #: ../calendar/gui/calendar-component.c:1459
 msgid "Create a new calendar"
@@ -6192,7 +6192,7 @@ msgstr "_Coinne Nua..."
 
 #: ../calendar/gui/e-calendar-view.c:1787
 msgid "New All Day _Event"
-msgstr "_Teagmhas an Lá ar Fad Nua"
+msgstr "_Teagmhas an Lae ar Fad Nua"
 
 #: ../calendar/gui/e-calendar-view.c:1788
 msgid "New _Meeting"
@@ -6876,7 +6876,7 @@ msgstr "%d/%m/%Y"
 
 #: ../calendar/gui/e-meeting-time-sel.c:392
 msgid "Out of Office"
-msgstr "As an Oifig"
+msgstr "As Láthair ón Oifig"
 
 #: ../calendar/gui/e-meeting-time-sel.c:393
 msgid "No Information"
@@ -7241,7 +7241,7 @@ msgstr "Meamram nua"
 #: ../calendar/gui/memos-component.c:1042
 msgctxt "New"
 msgid "Mem_o"
-msgstr "M_eamram"
+msgstr "_Meamram"
 
 #: ../calendar/gui/memos-component.c:1043
 msgid "Create a new memo"
@@ -7254,7 +7254,7 @@ msgstr "Meamram comhroinnte nua"
 #: ../calendar/gui/memos-component.c:1050
 msgctxt "New"
 msgid "_Shared memo"
-msgstr "Meamram _comhroinnte"
+msgstr "M_eamram comhroinnte"
 
 #: ../calendar/gui/memos-component.c:1051
 msgid "Create a shared new memo"
@@ -7560,7 +7560,7 @@ msgstr "Tasc sannta nua"
 #: ../calendar/gui/tasks-component.c:1122
 msgctxt "New"
 msgid "Assigne_d Task"
-msgstr ""
+msgstr "Tasc _Sannta"
 
 #: ../calendar/gui/tasks-component.c:1123
 msgid "Create a new assigned task"
@@ -7573,7 +7573,7 @@ msgstr "Liosta tascanna nua"
 #: ../calendar/gui/tasks-component.c:1130
 msgctxt "New"
 msgid "Tas_k list"
-msgstr "Liosta tas_canna"
+msgstr "Li_osta tascanna"
 
 #: ../calendar/gui/tasks-component.c:1131
 msgid "Create a new task list"
@@ -10526,13 +10526,12 @@ msgid "Language(s)"
 msgstr "Teang(ach)a"
 
 #: ../mail/em-composer-prefs.c:994
-#, fuzzy
 msgid "Add signature script"
-msgstr "Cuir script úsáideora leis:"
+msgstr "Cuir script sínithe leis"
 
 #: ../mail/em-composer-prefs.c:1036
 msgid "Signature(s)"
-msgstr "Síni(ú/uithe)"
+msgstr "Síni(ú/the)"
 
 #: ../mail/em-composer-utils.c:1132 ../mail/em-format-quote.c:415
 msgid "-------- Forwarded Message --------"
@@ -10599,11 +10598,11 @@ msgstr "Cóipeáil go Fillteán"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Date received"
-msgstr ""
+msgstr "Dáta faighte"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
-msgstr ""
+msgstr "Dáta seolta"
 
 #: ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:765
@@ -10618,42 +10617,36 @@ msgid "Deleted"
 msgstr "Scriosta"
 
 #: ../mail/em-filter-i18n.h:17
-#, fuzzy
 msgid "does not end with"
-msgstr "Ní chríochaíonn sainmhíniú ar `%1$s' le `END %1$s'"
+msgstr "nach gcríochnaíonn le"
 
 #: ../mail/em-filter-i18n.h:18
-#, fuzzy
 msgid "does not exist"
-msgstr "níl sé ann"
+msgstr "nach bhfuil ann"
 
 #: ../mail/em-filter-i18n.h:19
-#, fuzzy
 msgid "does not return"
-msgstr "Nach bhfuil ann"
+msgstr "nach bhfilleann"
 
 #: ../mail/em-filter-i18n.h:20
-#, fuzzy
 msgid "does not sound like"
-msgstr "Níl an comhad ann!"
+msgstr "nach bhfuaimnítear cosúil le"
 
 #: ../mail/em-filter-i18n.h:21
-#, fuzzy
 msgid "does not start with"
-msgstr "Ní chríochaíonn sainmhíniú ar `%1$s' le `END %1$s'"
+msgstr "nach tosaíonn le"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "Draft"
 msgstr "Dréacht"
 
 #: ../mail/em-filter-i18n.h:24
-#, fuzzy
 msgid "ends with"
-msgstr "atá críochnaithe le"
+msgstr "a chríochnaíonn le"
 
 #: ../mail/em-filter-i18n.h:26
 msgid "exists"
-msgstr "ann"
+msgstr "atá ann"
 
 #: ../mail/em-filter-i18n.h:27
 #, fuzzy
@@ -10706,9 +10699,8 @@ msgid "Junk"
 msgstr "Dramhphost"
 
 #: ../mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Junk Test"
-msgstr "Nasc &Tástála..."
+msgstr "Tástáil Dramhphoist"
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Label"
@@ -10783,19 +10775,16 @@ msgid "Replied to"
 msgstr "Marcáil \"Freagartha\""
 
 #: ../mail/em-filter-i18n.h:58
-#, fuzzy
 msgid "returns"
-msgstr "Filleann COMPLEX(0;-1) é seo: \"-i\""
+msgstr "a fhilleann"
 
 #: ../mail/em-filter-i18n.h:59
-#, fuzzy
 msgid "returns greater than"
-msgstr "> (&#062;) Comhartha níos mó"
+msgstr "a fhilleann níos mó ná"
 
 #: ../mail/em-filter-i18n.h:60
-#, fuzzy
 msgid "returns less than"
-msgstr "< (&#060;) Comhartha níos lú"
+msgstr "a fhilleann níos lú ná"
 
 #: ../mail/em-filter-i18n.h:61
 msgid "Run Program"
@@ -10810,14 +10799,12 @@ msgid "Sender"
 msgstr "Seoltóir"
 
 #: ../mail/em-filter-i18n.h:64
-#, fuzzy
 msgid "Sender or Recipients"
-msgstr "&Ná seol admháil léite riamh"
+msgstr "Seoltóir nó Faighteoirí"
 
 #: ../mail/em-filter-i18n.h:65
-#, fuzzy
 msgid "Set Label"
-msgstr "Lipéad"
+msgstr "Socraigh Lipéad"
 
 #: ../mail/em-filter-i18n.h:66
 msgid "Set Status"
@@ -10828,7 +10815,6 @@ msgid "Size (kB)"
 msgstr "Méid (kB)"
 
 #: ../mail/em-filter-i18n.h:68
-#, fuzzy
 msgid "sounds like"
 msgstr "a fhuaimnítear cosúil le"
 
@@ -10842,7 +10828,6 @@ msgid "Specific header"
 msgstr "Priontáil an &ceanntásc"
 
 #: ../mail/em-filter-i18n.h:71
-#, fuzzy
 msgid "starts with"
 msgstr "a thosaíonn le"
 
@@ -10873,9 +10858,8 @@ msgid "Add Ac_tion"
 msgstr "Cuir _Gníomh Leis"
 
 #: ../mail/em-folder-browser.c:194
-#, fuzzy
 msgid "C_reate Search Folder From Search..."
-msgstr "Oscail Íomhánna Ó Fhillteán"
+msgstr "C_ruthaigh Fillteán Cuardaigh ó Chuardach..."
 
 #: ../mail/em-folder-browser.c:219
 msgid "All Messages"
@@ -10918,9 +10902,8 @@ msgid "Account Search"
 msgstr "Cuardach Cuntas"
 
 #: ../mail/em-folder-browser.c:1256
-#, fuzzy
 msgid "All Account Search"
-msgstr "Cuardaigh i ngach bileog"
+msgstr "Cuardach Gach Cuntais"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:174
@@ -11033,9 +11016,8 @@ msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:727
-#, fuzzy
 msgid "Mail Folder Tree"
-msgstr "&Fillteán na dteachtaireachtaí seolta:"
+msgstr "Crann Fillteáin Poist"
 
 #: ../mail/em-folder-tree.c:886
 #, c-format
@@ -11048,18 +11030,18 @@ msgid "Copying folder %s"
 msgstr "Fillteán %s á chóipeáil"
 
 #: ../mail/em-folder-tree.c:895 ../mail/message-list.c:2018
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages into folder %s"
-msgstr "Bog Teachtaireachtaí go Fillteán"
+msgstr "Teachtaireachtaí á mbogadh isteach i bhfillteán %s"
 
 #: ../mail/em-folder-tree.c:897 ../mail/message-list.c:2020
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages into folder %s"
-msgstr "Bog Teachtaireachtaí go Fillteán"
+msgstr "Teachtaireachtaí á gcóipeáil isteach i bhfillteán %s"
 
 #: ../mail/em-folder-tree.c:912
 msgid "Cannot drop message(s) into toplevel store"
-msgstr ""
+msgstr "Ní féidir teachtaireacht(aí) a chur isteach i stóráil barrleibhéil"
 
 #: ../mail/em-folder-tree.c:989 ../ui/evolution-mail-message.xml.h:100
 msgid "_Copy to Folder"
@@ -11144,18 +11126,16 @@ msgstr "Cruthaigh fillteán"
 #: ../mail/em-folder-utils.c:695
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:385
-#, fuzzy
 msgid "Specify where to create the folder:"
-msgstr "<qt>Theip ar chruthú na comhadlainne <b>%1</b>.</qt>i "
+msgstr "Sonraigh an áit ina cruthófar an fillteán:"
 
 #: ../mail/em-folder-view.c:1089 ../mail/mail.error.xml.h:70
-#, fuzzy
 msgid "Mail Deletion Failed"
-msgstr "Theip ar scriosadh."
+msgstr "Theip ar Scriosadh Poist"
 
 #: ../mail/em-folder-view.c:1090 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr ""
+msgstr "Níl ceadanna go leor agat an post seo a scriosadh."
 
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
 #: ../mail/em-folder-view.c:1335 ../ui/evolution-mail-message.xml.h:102
@@ -11416,9 +11396,8 @@ msgid "This certificate is not viewable"
 msgstr "Ní teastas sínitheora é seo."
 
 #: ../mail/em-format-html-display.c:980
-#, fuzzy
 msgid "Completed on"
-msgstr "Críochnaithe "
+msgstr "Críochnaithe ar"
 
 #: ../mail/em-format-html-display.c:988
 #, fuzzy
@@ -11446,19 +11425,16 @@ msgid "_Fit to Width"
 msgstr "Oiriúnaigh don _Leithead"
 
 #: ../mail/em-format-html-display.c:1074
-#, fuzzy
 msgid "Show _Original Size"
-msgstr "Taispeáin méid an chomhaid"
+msgstr "Taispeáin _Bunmhéid"
 
 #: ../mail/em-format-html-display.c:1575 ../mail/em-format-html-display.c:1614
-#, fuzzy
 msgid "View _Unformatted"
-msgstr "Téacs neamhfhormáidithe"
+msgstr "Amharc ar Cinn gan _Fhormáidiú"
 
 #: ../mail/em-format-html-display.c:1577
-#, fuzzy
 msgid "Hide _Unformatted"
-msgstr "Téacs neamhfhormáidithe"
+msgstr "Folaigh Cinn gan _Fhormáidiú"
 
 #: ../mail/em-format-html-display.c:1634
 msgid "O_pen With"
@@ -11608,16 +11584,12 @@ msgid "Unknown error verifying signature"
 msgstr "Earráid: Síniú gan deimhniú"
 
 #: ../mail/em-format.c:1772
-#, fuzzy
 msgid "Could not parse PGP message"
-msgstr "Níorbh fhéidir an teachtaireacht PGP a dhíchriptiú"
+msgstr "Níorbh fhéidir teachtaireacht PGP a pharsáil"
 
 #: ../mail/em-format.c:1772
-#, fuzzy
 msgid "Could not parse PGP message: Unknown error"
-msgstr ""
-"[-- Earráid: níorbh fhéidir tosach na teachtaireachta PGP a aimsiú! --]\n"
-"\n"
+msgstr "Níorbh fhéidir teachtaireacht PGP a pharsáil: Earráid anaithnid"
 
 #: ../mail/em-mailer-prefs.c:95
 msgid "Every time"
@@ -11641,14 +11613,12 @@ msgid "Add Custom Junk Header"
 msgstr "Ceanntáisc Saincheaptha"
 
 #: ../mail/em-mailer-prefs.c:336
-#, fuzzy
 msgid "Header Name:"
-msgstr "Ainm _Fillteáin:"
+msgstr "Ainm Ceanntáisc:"
 
 #: ../mail/em-mailer-prefs.c:337
-#, fuzzy
 msgid "Header Value Contains:"
-msgstr "Seoltóir ina bhfuil"
+msgstr "Luach Ceanntáisc ina bhFuil:"
 
 #: ../mail/em-mailer-prefs.c:438 ../widgets/table/e-table-click-to-add.c:500
 #: ../widgets/table/e-table-selection-model.c:309
@@ -11656,9 +11626,8 @@ msgid "Header"
 msgstr "Ceanntásc"
 
 #: ../mail/em-mailer-prefs.c:442
-#, fuzzy
 msgid "Contains Value"
-msgstr "Ar Aghaidh"
+msgstr "Luach Ann"
 
 #: ../mail/em-mailer-prefs.c:465
 msgid "Color"
@@ -12110,9 +12079,8 @@ msgid "Enable or disable type ahead search feature"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:52
-#, fuzzy
 msgid "Enable search folders"
-msgstr "Fillteáin Chuardaigh Shábháilte"
+msgstr "Cumasaigh fillteáin cuardaigh"
 
 #: ../mail/evolution-mail.schemas.in.h:53
 msgid "Enable search folders on startup."
@@ -12135,9 +12103,8 @@ msgid "Enable to render message text part of limited size."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:57
-#, fuzzy
 msgid "Enable/disable caret mode"
-msgstr "Cumasaigh an &mhód éighníomhach (PASV)"
+msgstr "Cumasaigh/díchumasaigh mód carait"
 
 #: ../mail/evolution-mail.schemas.in.h:58 ../mail/mail-config.glade.h:86
 msgid "Encode file names in an Outlook/GMail way"
@@ -12152,14 +12119,12 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:60
-#, fuzzy
 msgid "Height of the message-list pane"
-msgstr "Taispeáin an pána réamhamhairc &faoi liosta na dteachtaireachtaí"
+msgstr "Airde pána an liosta teachtaireachtaí"
 
 #: ../mail/evolution-mail.schemas.in.h:61
-#, fuzzy
 msgid "Height of the message-list pane."
-msgstr "Taispeáin an pána réamhamhairc &faoi liosta na dteachtaireachtaí"
+msgstr "Airde pána an liosta teachtaireachtaí."
 
 #: ../mail/evolution-mail.schemas.in.h:62
 msgid "Hides the per-folder preview and removes the selection"
@@ -12235,10 +12200,8 @@ msgid "List of MIME types to check for Bonobo component viewers"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 msgid "List of accepted licenses"
-msgstr ""
-"  -D,  --domains=LIOSTA            fearainn ghlactha, scartha le camóga.\n"
+msgstr "Liosta ceadúnais glactha leo"
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "List of accounts"
@@ -12269,9 +12232,8 @@ msgid "List of protocol names whose license has been accepted."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:83
-#, fuzzy
 msgid "Load images for HTML messages over HTTP"
-msgstr "Post sceál do tadhall"
+msgstr "Luchtaigh íomhánna do theachtaireachtaí HTML trí HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid ""
@@ -12279,15 +12241,18 @@ msgid ""
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
 msgstr ""
+"Luchtaigh íomhánna do theachtaireachtaí HTML trí HTTP(S). Is iad na "
+"luachanna a d'fhéadfadh a bheith ann: \"0\" - Ná luchtaigh íomhánna ón "
+"idirlíon riamh. \"1\" - Luchtaigh íomhánna i dteachtaireachtaí ó "
+"theagmhálacha. \"2\" - Luchtaigh íomhánna ón idirlíon i gcónaí."
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#, fuzzy
 msgid "Log filter actions"
-msgstr "&Cumasaigh Loga na Scagairí"
+msgstr "Logáil gníomhartha scagaire"
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "Logáil gníomhartha scagaire go dtí an comhad loga sonraithe."
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Logfile to log filter actions"
@@ -12785,7 +12750,6 @@ msgstr "Iompórtáil Ó Phost OS X"
 
 #: ../mail/importers/evolution-mbox-importer.c:79
 #: ../plugins/pst-import/pst-importer.c:309
-#, fuzzy
 msgid "Destination folder:"
 msgstr "Sprioc-fhillteán:"
 
@@ -12813,26 +12777,24 @@ msgstr "Bosca poist á iompórtáil"
 #: ../plugins/pst-import/pst-importer.c:560 ../shell/e-shell-importer.c:555
 #, c-format
 msgid "Importing `%s'"
-msgstr "`%s' á Iompórtáil"
+msgstr "`%s' á iompórtáil"
 
 #: ../mail/importers/mail-importer.c:371
 #, c-format
 msgid "Scanning %s"
-msgstr "%s á Scanadh"
+msgstr "%s á scanadh"
 
 #: ../mail/importers/pine-importer.c:225
 msgid "Importing Pine data"
-msgstr "Sonraí Pine á iompórtáil"
+msgstr "Sonraí Pine á n-iompórtáil"
 
 #: ../mail/importers/pine-importer.c:424
-#, fuzzy
 msgid "Evolution Pine importer"
-msgstr "&GNOME-PIM (Evolution)"
+msgstr "Iompórtálaí Pine Evolution"
 
 #: ../mail/importers/pine-importer.c:425
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "Iompórtáil Ó Phost OS X"
+msgstr "Iompórtáil post ó Pine."
 
 #: ../mail/mail-autofilter.c:72
 #, c-format
@@ -12855,9 +12817,8 @@ msgid "%s mailing list"
 msgstr "liosta postála %s"
 
 #: ../mail/mail-autofilter.c:364
-#, fuzzy
 msgid "Add Filter Rule"
-msgstr "Cuir Riail Nua Leis..."
+msgstr "Cuir Riail Scagaire Leis"
 
 #: ../mail/mail-component.c:573
 #, c-format
@@ -12975,12 +12936,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:3
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr ""
+msgstr "<b>Ní thacaítear le SSL sa tógáil Evolution seo</b>"
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Sender Photograph</b>"
-msgstr "Grian Grianghraf"
+msgstr "<b>Grianghraf Seoltóra</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>Sig_natures</b>"
@@ -13019,9 +12979,8 @@ msgid "<span weight=\"bold\">Delete Mail</span>"
 msgstr "<span weight=\"bold\">Scrios Post</span>"
 
 #: ../mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">_Ceanntáisc Teachtaireachta Taispeánta</span>"
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels</span>"
@@ -13032,19 +12991,16 @@ msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Luchtú Íomhánna</span>"
 
 #: ../mail/mail-config.glade.h:20
-#, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Taispeáint Teachtaireachtaí</span>"
 
 #: ../mail/mail-config.glade.h:21
-#, fuzzy
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Clónna Teachtaireachtaí</span>"
 
 #: ../mail/mail-config.glade.h:22
-#, fuzzy
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Admhála Teachtaireachtaí</span>"
 
 #: ../mail/mail-config.glade.h:23
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
@@ -13057,26 +13013,23 @@ msgstr "<span weight=\"bold\">Roghanna</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: ../mail/mail-config.glade.h:26
-#, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Clónna Priontáilte</span>"
 
 #: ../mail/mail-config.glade.h:27
-#, fuzzy
 msgid "<span weight=\"bold\">Proxy Settings</span>"
-msgstr "<span weight=\"bold\">Stádas</span>"
+msgstr "<span weight=\"bold\">Socruithe Seachfhreastalaí</span>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Eolas Riachtanach</span>"
 
 #: ../mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">MIME Daingean (S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
@@ -13084,17 +13037,15 @@ msgstr "<span weight=\"bold\">Slándáil</span>"
 
 #: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Teachtaireachtaí Seolta agus Dréachtaí</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Cumraíocht Fhreastalaí</span>"
 
 #: ../mail/mail-config.glade.h:33
-#, fuzzy
 msgid "<span weight=\"bold\">_Authentication Type</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Cineál _Fíordheimhnithe</span>"
 
 #: ../mail/mail-config.glade.h:35
 msgid "Account Management"
@@ -13292,18 +13243,16 @@ msgid "Encrypt out_going messages (by default)"
 msgstr "Ag bogadh scéaltaí"
 
 #: ../mail/mail-config.glade.h:90
-#, fuzzy
 msgid "Fi_xed-width:"
-msgstr "Cló &aonleithid"
+msgstr "_Aonleithid:"
 
 #: ../mail/mail-config.glade.h:91
-#, fuzzy
 msgid "Fix_ed width Font:"
-msgstr "Cló &aonleithid"
+msgstr "Cló _Aonleithid:"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Font Properties"
-msgstr "Álbachtaí Clófhoireann"
+msgstr "Airíonna Cló"
 
 #: ../mail/mail-config.glade.h:93
 #, fuzzy
@@ -13492,9 +13441,8 @@ msgid "Sending Mail"
 msgstr "Seoladh Poist"
 
 #: ../mail/mail-config.glade.h:140
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "&Fillteán na dteachtaireachtaí seolta:"
+msgstr "Fillteán _Teachtaireachtaí Seolta:"
 
 #: ../mail/mail-config.glade.h:141
 msgid "Ser_ver requires authentication"
@@ -13505,9 +13453,8 @@ msgid "Server _Type:"
 msgstr "C_ineál Freastalaí:"
 
 #: ../mail/mail-config.glade.h:143
-#, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "Gan Teastas Freastalaí"
+msgstr "Teastas sí_nithe:"
 
 #: ../mail/mail-config.glade.h:144
 msgid "Signat_ure:"
@@ -13518,9 +13465,8 @@ msgid "Signatures"
 msgstr "Sínithe"
 
 #: ../mail/mail-config.glade.h:146
-#, fuzzy
 msgid "Signatures Table"
-msgstr "Cuir Tábla Leis"
+msgstr "Tábla Sínithe"
 
 #: ../mail/mail-config.glade.h:147
 msgid "Spell Checking"
@@ -13567,12 +13513,11 @@ msgstr "Úsáid Fío_rdheimhniú"
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
-msgstr "Ai_nm Úsáideora:"
+msgstr "Ai_nm úsáideora:"
 
 #: ../mail/mail-config.glade.h:158
-#, fuzzy
 msgid "V_ariable-width:"
-msgstr "Leithead:"
+msgstr "_Il-leithid:"
 
 #: ../mail/mail-config.glade.h:159
 msgid ""
@@ -13671,9 +13616,8 @@ msgstr "_Roghnaigh..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:186
-#, fuzzy
 msgid "_Show image animations"
-msgstr "Taispeáin cineál na híomhá"
+msgstr "_Taispeáin íomhánna beo"
 
 #: ../mail/mail-config.glade.h:187
 msgid "_Show the photograph of sender in the message preview"
@@ -13689,13 +13633,12 @@ msgid "_Use Secure Connection:"
 msgstr "Úsáid C_eangal Daingean:"
 
 #: ../mail/mail-config.glade.h:190
-#, fuzzy
 msgid "_Use system defaults"
-msgstr "Úsáid _Réamhshocrú"
+msgstr "Ú_sáid réamhshocruithe an chórais"
 
 #: ../mail/mail-config.glade.h:191
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "Ú_sáid na clónna céanna a úsáideann feidhmchláir eile"
 
 #: ../mail/mail-config.glade.h:194
 msgid "addresses"
@@ -13718,24 +13661,20 @@ msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
-#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr "cuardaigh sa bhfillteán sonraithe"
+msgstr "<b>Foinsí Fillteáin Cuardaigh</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Síniú Digiteach</span>"
 
 #: ../mail/mail-dialogs.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr "<span weight=\"bold\" size=\"x-large\">Clófhoireann</span>"
+msgstr "<span weight=\"bold\">Criptiú</span>"
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "Gach fillteán gníomhach ón fhreastalaí"
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:6
 msgid "All local and active remote folders"
@@ -13784,9 +13723,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:17
-#, fuzzy
 msgid "_Accept License"
-msgstr "Glac leis an Chomhaontú um Cheadúnas."
+msgstr "_Glac le Ceadúnas"
 
 #: ../mail/mail-dialogs.glade.h:18
 #, fuzzy
@@ -13836,19 +13774,18 @@ msgid "Failed to append to local `Sent' folder: %s"
 msgstr ""
 
 #: ../mail/mail-ops.c:724 ../mail/mail-ops.c:805
-#, fuzzy
 msgid "Sending message"
-msgstr "_Seol teachtaireacht"
+msgstr "Teachtaireacht á seoladh"
 
 #: ../mail/mail-ops.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "Sending message %d of %d"
-msgstr "Teachtaireacht á seoladh..."
+msgstr "Teachtaireacht %d as %d á seoladh"
 
 #: ../mail/mail-ops.c:761
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "Theip ar sheoladh an chomhaid méarchláir."
+msgstr "Theip ar sheoladh %d as %d teachtaireacht"
 
 #: ../mail/mail-ops.c:763 ../mail/mail-send-recv.c:701
 msgid "Canceled."
@@ -13859,24 +13796,22 @@ msgid "Complete."
 msgstr "Críochnaithe."
 
 #: ../mail/mail-ops.c:877
-#, fuzzy
 msgid "Saving message to folder"
-msgstr "Bog Teachtaireacht go Fillteán"
+msgstr "Teachtaireacht á sábháil go fillteán"
 
 #: ../mail/mail-ops.c:954
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages to %s"
-msgstr "Teachtaireachtaí á n-aistriú go %S..."
+msgstr "Teachtaireachtaí á mbogadh go %s"
 
 #: ../mail/mail-ops.c:954
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to %s"
-msgstr "Teachtaireachtaí á gcóipeáil go %S..."
+msgstr "Teachtaireachtaí á gcóipeáil go %s"
 
 #: ../mail/mail-ops.c:1171
-#, fuzzy
 msgid "Forwarded messages"
-msgstr "Teachtaireachtaí earráide"
+msgstr "Teachtaireachtaí curtha ar aghaidh"
 
 #: ../mail/mail-ops.c:1212
 #, c-format
@@ -13889,9 +13824,9 @@ msgid "Retrieving quota information for folder %s"
 msgstr "Eolas teagmhála le %s"
 
 #: ../mail/mail-ops.c:1346
-#, fuzzy, c-format
+#, c-format
 msgid "Opening store %s"
-msgstr "Stóráil &mionsamhlacha"
+msgstr "Stóráil %s á oscailt"
 
 #: ../mail/mail-ops.c:1417
 #, c-format
@@ -13899,9 +13834,9 @@ msgid "Removing folder %s"
 msgstr "Fillteán %s á bhaint"
 
 #: ../mail/mail-ops.c:1535
-#, fuzzy, c-format
+#, c-format
 msgid "Storing folder '%s'"
-msgstr "Fillteán Nua"
+msgstr "Fillteán '%s' á stóráil"
 
 #: ../mail/mail-ops.c:1598
 #, c-format
@@ -13909,47 +13844,51 @@ msgid "Expunging and storing account '%s'"
 msgstr ""
 
 #: ../mail/mail-ops.c:1599
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Eolas faoin Chuntas"
+msgstr "Cuntas '%s' á stóráil"
 
 #: ../mail/mail-ops.c:1653
-#, fuzzy
 msgid "Refreshing folder"
-msgstr "Fillteán Nua"
+msgstr "Fillteán á athnuachan"
 
 #: ../mail/mail-ops.c:1693 ../mail/mail-ops.c:1743
-#, fuzzy
 msgid "Expunging folder"
-msgstr "Fillteán Nua"
+msgstr "Fillteán á ghlanadh"
 
 #: ../mail/mail-ops.c:1740
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "Oscail an bruscar i bhfuinneog nua"
+msgstr "Bruscar i '%s' á fholmhú"
 
 #: ../mail/mail-ops.c:1741
 msgid "Local Folders"
 msgstr "Fillteáin Logánta"
 
 #: ../mail/mail-ops.c:1822
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message %s"
-msgstr "Seol &Teachtaireacht..."
+msgstr "Teachtaireacht %s á fáil"
 
 #: ../mail/mail-ops.c:1931
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "Seol &Teachtaireacht..."
-msgstr[1] "Ag Sábháil %d scéal(aí)"
+msgstr[0] "%d teachtaireacht á bhfáil"
+msgstr[1] "%d theachtaireacht á bhfáil"
+msgstr[2] "%d theachtaireacht á bhfáil"
+msgstr[3] "%d dteachtaireacht á bhfáil"
+msgstr[4] "%d teachtaireacht á bhfáil"
 
 #: ../mail/mail-ops.c:2016
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
-msgstr[0] "Seol &Teachtaireacht..."
-msgstr[1] "Ag Sábháil %d scéal(aí)"
+msgstr[0] "%d teachtaireacht á sábháil"
+msgstr[1] "%d theachtaireacht á sábháil"
+msgstr[2] "%d theachtaireacht á sábháil"
+msgstr[3] "%d dteachtaireacht á sábháil"
+msgstr[4] "%d teachtaireacht á sábháil"
 
 #: ../mail/mail-ops.c:2096
 #, c-format
@@ -13961,9 +13900,8 @@ msgstr ""
 " %s"
 
 #: ../mail/mail-ops.c:2168
-#, fuzzy
 msgid "Saving attachment"
-msgstr "&Oscail Iatán"
+msgstr "Iatán á shábháil"
 
 #: ../mail/mail-ops.c:2186 ../mail/mail-ops.c:2194
 #, c-format
@@ -13980,14 +13918,14 @@ msgid "Could not write data: %s"
 msgstr "Níorbh fhéidir sonraí a scríobh: %s"
 
 #: ../mail/mail-ops.c:2354
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting from %s"
-msgstr "Earráid le linn dínasctha ó fam.\n"
+msgstr "Ag dínasc ó %s"
 
 #: ../mail/mail-ops.c:2354
 #, c-format
 msgid "Reconnecting to %s"
-msgstr "Ag Athnasc le %s"
+msgstr "Ag athnasc le %s"
 
 #: ../mail/mail-ops.c:2450
 #, fuzzy, c-format
@@ -13995,9 +13933,8 @@ msgid "Preparing account '%s' for offline"
 msgstr "Míreanna le húsáid as líne"
 
 #: ../mail/mail-ops.c:2536
-#, fuzzy
 msgid "Checking Service"
-msgstr "Seirbhís nua"
+msgstr "Seirbhís á Seiceáil"
 
 #: ../mail/mail-send-recv.c:181
 msgid "Canceling..."
@@ -14017,7 +13954,7 @@ msgstr "Á Nuashonrú..."
 
 #: ../mail/mail-send-recv.c:503 ../mail/mail-send-recv.c:580
 msgid "Waiting..."
-msgstr "Ag Fanacht..."
+msgstr "Ag Feitheamh..."
 
 #: ../mail/mail-send-recv.c:814
 #, c-format
@@ -14056,9 +13993,8 @@ msgid "Edit Signature"
 msgstr "Cuir Síniú in Eagar"
 
 #: ../mail/mail-signature-editor.c:371
-#, fuzzy
 msgid "_Signature Name:"
-msgstr "Cuir Tábla Leis"
+msgstr "Ainm _Sínithe:"
 
 #: ../mail/mail-tools.c:120
 #, fuzzy, c-format
@@ -14335,7 +14271,6 @@ msgid "Delete messages in Search Folder?"
 msgstr "Bog teachtaireachtaí víreasacha go dtí an fillteán roghnaithe"
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
 msgid "Discard changes?"
 msgstr "Cuir athruithe i leataobh?"
 
@@ -14362,9 +14297,8 @@ msgid "Do you want to mark all messages as read?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Ar mhaith leat do chuid athruithe a shábháil roimh scor?"
+msgstr "Ar mhaith leat do chuid athruithe a shábháil?"
 
 #: ../mail/mail.error.xml.h:55
 msgid "Enter password."
@@ -14452,14 +14386,12 @@ msgid "Mark all messages as read"
 msgstr "Marcáil teachtaireachtaí mar &leite ó:"
 
 #: ../mail/mail.error.xml.h:74
-#, fuzzy
 msgid "Missing folder."
-msgstr "Fillteán Ar Iarraidh"
+msgstr "Fillteán ar iarraidh."
 
 #: ../mail/mail.error.xml.h:76
-#, fuzzy
 msgid "No sources selected."
-msgstr "níl aon fhillteán roghnaithe"
+msgstr "Níor roghnaíodh aon fhoinse."
 
 #: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
@@ -14536,14 +14468,12 @@ msgid "Send Receipt"
 msgstr "&Ná seol admháil léite riamh"
 
 #: ../mail/mail.error.xml.h:94
-#, fuzzy
 msgid "Signature Already Exists"
-msgstr "Tá an iontráil seo ann cheana"
+msgstr "Tá an Síniú Ann Cheana"
 
 #: ../mail/mail.error.xml.h:95
-#, fuzzy
 msgid "Synchronize"
-msgstr "Sioncrónaigh"
+msgstr "Sioncronaigh"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
@@ -14621,9 +14551,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 msgid "Unable to connect to the GroupWise server."
-msgstr "Ní féidir nasc a dhéanamh leis an bhfreastalaí Podchraolta."
+msgstr "Ní féidir nasc leis an bhfreastalaí GroupWise."
 
 #: ../mail/mail.error.xml.h:120
 msgid ""
@@ -14632,18 +14561,16 @@ msgid ""
 msgstr ""
 
 #: ../mail/mail.error.xml.h:121
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "Ní féidir comhad glais '%1' a léamh."
+msgstr "Ní féidir comhad ceadúnais a léamh."
 
 #: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
 msgstr "Úsáid _Réamhshocrú"
 
 #: ../mail/mail.error.xml.h:123
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "san fhillteán &réamhshocraithe íosluchtaithe"
+msgstr "Úsáid fillteán dréachtaí réamhshocraithe?"
 
 #: ../mail/mail.error.xml.h:124
 msgid ""
@@ -14665,14 +14592,12 @@ msgid "You may not create two accounts with the same name."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:130
-#, fuzzy
 msgid "You must name this Search Folder."
-msgstr "Caithfidh tú ainm a chur ar an scagaire seo."
+msgstr "Ní mór duit an Fillteán Cuardaigh a ainmniú."
 
 #: ../mail/mail.error.xml.h:131
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Caithfidh tú gníomh a thabhairt"
+msgstr "Ní mór duit fillteán a shonrú."
 
 #: ../mail/mail.error.xml.h:132
 msgid ""
@@ -14690,19 +14615,16 @@ msgid "_Append"
 msgstr "_Iarcheangail"
 
 #: ../mail/mail.error.xml.h:136
-#, fuzzy
 msgid "_Discard changes"
-msgstr "Cuir athruithe i leataobh?"
+msgstr "Cuir athruithe i _leataobh"
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 msgid "_Do not Synchronize"
-msgstr "Ná Cuir Isteach Orm"
+msgstr "_Ná Sioncronaigh"
 
 #: ../mail/mail.error.xml.h:139
-#, fuzzy
 msgid "_Expunge"
-msgstr "Theip ar scriosadh"
+msgstr "_Glan"
 
 #: ../mail/mail.error.xml.h:140
 msgid "_Open Messages"
@@ -14710,50 +14632,41 @@ msgstr "_Oscail Teachtaireachtaí"
 
 #: ../mail/message-list.c:1051
 msgid "Unseen"
-msgstr ""
+msgstr "Gan Fheiceáil"
 
 #: ../mail/message-list.c:1052
-#, fuzzy
 msgid "Seen"
-msgstr "Chonacthas go Deireanach"
+msgstr "Feicthe"
 
 #: ../mail/message-list.c:1053
-#, fuzzy
 msgid "Answered"
 msgstr "Freagartha"
 
 #: ../mail/message-list.c:1054
-#, fuzzy
 msgid "Forwarded"
-msgstr "Cuir Ar Aghaidh"
+msgstr "Curtha ar Aghaidh"
 
 #: ../mail/message-list.c:1055
-#, fuzzy
 msgid "Multiple Unseen Messages"
-msgstr "Cumasaigh Gach Teachtaireacht"
+msgstr "Teachtaireachtaí gan Fheiceáil Iomadúla"
 
 #: ../mail/message-list.c:1056
-#, fuzzy
 msgid "Multiple Messages"
-msgstr "Teachtaireachtaí earráide"
+msgstr "Teachtaireachtaí Iomadúla"
 
 #: ../mail/message-list.c:1060
-#, fuzzy
 msgid "Lowest"
 msgstr "Is Ísle"
 
 #: ../mail/message-list.c:1061
-#, fuzzy
 msgid "Lower"
-msgstr "Íochtarach"
+msgstr "Níos Ísle"
 
 #: ../mail/message-list.c:1065
-#, fuzzy
 msgid "Higher"
 msgstr "Níos Airde"
 
 #: ../mail/message-list.c:1066
-#, fuzzy
 msgid "Highest"
 msgstr "Is Airde"
 
@@ -14785,9 +14698,8 @@ msgstr "%d %b %Y"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:3987 ../mail/message-list.c:4462
-#, fuzzy
 msgid "Generating message list"
-msgstr "Liosta &snáithithe teachtaireachtaí"
+msgstr "Liosta teachtaireachtaí á ghiniúint"
 
 #: ../mail/message-list.c:4299
 msgid ""
@@ -14856,9 +14768,8 @@ msgid "Follow-Up"
 msgstr "Teachtaireacht leantach go %s%s?"
 
 #: ../mail/message-tag-followup.c:57
-#, fuzzy
 msgid "For Your Information"
-msgstr "Mar eolas duit"
+msgstr "Mar Eolas Duit"
 
 #: ../mail/message-tag-followup.c:58 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
@@ -14980,21 +14891,20 @@ msgid "Play audio attachments directly from Evolution."
 msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:139
-#, fuzzy
 msgid "Select name of the Evolution backup file"
-msgstr "Roghnaigh nó iontráil ainm comhaid."
+msgstr "Roghnaigh ainm an chomhaid cúltaca Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:167
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "_Atosaigh Evolution tar éis cúltaca"
 
 #: ../plugins/backup-restore/backup-restore.c:190
 msgid "Select name of the Evolution backup file to restore"
-msgstr ""
+msgstr "Roghnaigh ainm an chomhaid cúltaca Evolution le hathchóiriú"
 
 #: ../plugins/backup-restore/backup-restore.c:214
 msgid "_Restart Evolution after restore"
-msgstr ""
+msgstr "_Atosaigh Evolution tar éis athchóirithe"
 
 #: ../plugins/backup-restore/backup-restore.c:287
 msgid "Restore from backup"
@@ -15033,9 +14943,8 @@ msgid "Restore Evolution directory"
 msgstr "ní féidir an chomhadlann reatha a athchóiriú"
 
 #: ../plugins/backup-restore/backup.c:66
-#, fuzzy
 msgid "Check Evolution Backup"
-msgstr "Stop an tSeirbhís &Chúltaca"
+msgstr "Seiceáil an Cúltaca Evolution"
 
 #: ../plugins/backup-restore/backup.c:68
 msgid "Restart Evolution"
@@ -15048,9 +14957,8 @@ msgstr "*.ui *.UI|Comhaid Chomhéadain"
 
 #: ../plugins/backup-restore/backup.c:188
 #: ../plugins/backup-restore/backup.c:250
-#, fuzzy
 msgid "Shutting down Evolution"
-msgstr "Quanta á mhúchadh"
+msgstr "Evolution á mhúchadh"
 
 #: ../plugins/backup-restore/backup.c:195
 msgid "Backing Evolution accounts and settings"
@@ -15061,15 +14969,14 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 
 #: ../plugins/backup-restore/backup.c:212
-#, fuzzy
 msgid "Backup complete"
-msgstr "Cúltaca críochnaithe."
+msgstr "Cúltaca críochnaithe"
 
 #: ../plugins/backup-restore/backup.c:217
 #: ../plugins/backup-restore/backup.c:238
 #: ../plugins/backup-restore/backup.c:284
 msgid "Restarting Evolution"
-msgstr "Evolution á Atosú"
+msgstr "Evolution á atosú"
 
 #: ../plugins/backup-restore/backup.c:254
 #, fuzzy
@@ -15082,9 +14989,8 @@ msgid "Extracting files from backup"
 msgstr "Fainéis á léamh ó chúltaca"
 
 #: ../plugins/backup-restore/backup.c:266
-#, fuzzy
 msgid "Loading Evolution settings"
-msgstr "Socruithe Draoi an Ghréasáin á Luchtú..."
+msgstr "Socruithe Evolution á luchtú"
 
 #: ../plugins/backup-restore/backup.c:273
 #, fuzzy
@@ -15107,14 +15013,12 @@ msgstr "Ag díliostáil ón bhfillteán %S..."
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:454
-#, fuzzy
 msgid "Evolution Backup"
-msgstr "Conair chúltaca:"
+msgstr "Cúltaca Evolution"
 
 #: ../plugins/backup-restore/backup.c:454
-#, fuzzy
 msgid "Evolution Restore"
-msgstr "Athshlánaigh Cúltaca"
+msgstr "Athchóiriú Evolution"
 
 #: ../plugins/backup-restore/backup.c:489
 #, fuzzy
@@ -15140,19 +15044,18 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and Restore"
-msgstr "Beoigh íoslaghdú agus athchóiriú"
+msgstr "Cúltaca agus Athchóiriú"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Foinse Sonraí na Cáipéise Reatha"
+msgstr ""
+"Déan cúltaca ar do chuid sonraí agus ar do chuid socruithe Evolution agus "
+"athchóirigh iad."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
-#, fuzzy
 msgid "Are you sure you want to close Evolution?"
-msgstr "An bhfuil tú cinnte gur mian leat an seisiún reatha a dhúnadh?"
+msgstr "An bhfuil tú cinnte gur mhaith leat Evolution a dhúnadh?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid ""
@@ -15168,14 +15071,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 msgid "Insufficient Permissions"
-msgstr "Taispeáin Ceadanna"
+msgstr "Diúltaíodh Cead"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#, fuzzy
 msgid "Invalid Evolution backup file"
-msgstr "Comment=Comhad Cúltaca Krecipes"
+msgstr "Comhad cúltaca Evolution neamhbhailí"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 #, fuzzy
@@ -15199,6 +15100,7 @@ msgstr ""
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
 msgstr ""
+"Déan cúltaca ar shonraí agus ar shocruithe Evolution agus athchóirigh iad."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
@@ -15206,7 +15108,7 @@ msgstr "_Athchóirigh Socruithe..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "Déan Cúl_taca ar Socruithe..."
+msgstr "Déan Cúl_taca ar Shocruithe..."
 
 #: ../plugins/bbdb/bbdb.c:622 ../plugins/bbdb/bbdb.c:631
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15224,9 +15126,8 @@ msgid "Select Address book for Automatic Contacts"
 msgstr "Tadhallaí Phoiblí"
 
 #: ../plugins/bbdb/bbdb.c:667
-#, fuzzy
 msgid "Instant Messaging Contacts"
-msgstr "Gan Seoladh le haghaidh Teachtaireachtaí Meandaracha"
+msgstr "Teagmhálacha Chur Teachtaireachtaí Meandaracha"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:682
@@ -15277,14 +15178,12 @@ msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr ""
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:371
-#, fuzzy
 msgid "Convert message text to _Unicode"
-msgstr "&Tiontaigh an teachtaireacht go gnáth-théacs"
+msgstr "Tiontaigh téacs na teachtaireachta go _Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
-#, fuzzy
 msgid "Convert mail messages to Unicode"
-msgstr "&Tiontaigh an teachtaireacht go gnáth-théacs"
+msgstr "Tiontaigh teachtaireachtaí poist go Unicode"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:2
 msgid ""
@@ -15293,9 +15192,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Bogofilter Junk Filter"
-msgstr "Roghanna Beochana"
+msgstr "Scagaire Dramhphoist Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter Options"
@@ -15340,7 +15238,7 @@ msgstr "seachtain"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr "Cuir tacaíocht CalDAV le Evolution."
+msgstr "Cuir tacaíocht le CalDAV le Evolution."
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
 msgid "CalDAV Support"
@@ -15404,44 +15302,36 @@ msgid "Weather: Fog"
 msgstr "Aimsir: Ceo"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
-#, fuzzy
 msgid "Weather: Cloudy"
-msgstr "Aimsir scamallach"
+msgstr "Aimsir: Scamallach"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Cloudy Night"
-msgstr "Aimsir scamallach"
+msgstr "Aimsir: Oíche Scamallach"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
-#, fuzzy
 msgid "Weather: Overcast"
-msgstr "Báisteach Mhaisiúil"
+msgstr "Aimsir: Modartha"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
-#, fuzzy
 msgid "Weather: Showers"
-msgstr "Gráin Shneachta"
+msgstr "Aimsir: Ceathanna"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
-#, fuzzy
 msgid "Weather: Snow"
-msgstr "Gráin Shneachta"
+msgstr "Aimsir: Sneachta"
 
 #: ../plugins/calendar-weather/calendar-weather.c:67
-#, fuzzy
 msgid "Weather: Sunny"
-msgstr "Tuairisc Aimsire"
+msgstr "Aimsir: Grianmhar"
 
 #: ../plugins/calendar-weather/calendar-weather.c:68
-#, fuzzy
 msgid "Weather: Clear Night"
-msgstr "Mionathraigh Féilirí"
+msgstr "Aimsir: Oíche Ghlan"
 
 #: ../plugins/calendar-weather/calendar-weather.c:69
-#, fuzzy
 msgid "Weather: Thunderstorms"
-msgstr "Tuairisc Aimsire"
+msgstr "Aimsir: Stoirmeacha Toirní"
 
 #: ../plugins/calendar-weather/calendar-weather.c:230
 msgid "Select a location"
@@ -15570,9 +15460,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
-#, fuzzy
 msgid "Email Custom Header"
-msgstr "Ceanntáisc Saincheaptha"
+msgstr "Ceanntásc Ríomhphoist Saincheaptha"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
@@ -15580,14 +15469,12 @@ msgid "Add custom headers to outgoing mail messages."
 msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
-#, fuzzy
 msgid "Custom Header"
-msgstr "Ceanntáisc Saincheaptha"
+msgstr "Ceanntásc Saincheaptha"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
-#, fuzzy
 msgid "List of Custom Headers"
-msgstr "Ceanntáisc Saincheaptha"
+msgstr "Liosta Cheanntásc Saincheaptha"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
@@ -15597,9 +15484,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Oscail Fillteán i gCluaisíní"
+msgstr "Oscail Fillteán Úsáideora Eile"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
@@ -15657,9 +15543,8 @@ msgstr "Táim isteach san oifig"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:340
-#, fuzzy
 msgid "Change the password for Exchange account"
-msgstr "Ainm úsáideora agus focal faire do do chuntas IMAP:"
+msgstr "Athraigh an focal faire don chuntas Exchange"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:342
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
@@ -15708,14 +15593,12 @@ msgid "Mailbox name is _different than user name"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:787
-#, fuzzy
 msgid "_Mailbox:"
-msgstr "_Post"
+msgstr "_Bosca poist:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1001
-#, fuzzy
 msgid "_Authentication Type"
-msgstr "Cineál fíordheimhnithe"
+msgstr "Cineál _Fíordheimhnithe"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1130
 #: ../plugins/exchange-operations/exchange-contacts.c:217
@@ -15775,14 +15658,9 @@ msgid "Your current password has expired. Please change your password now."
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-config-listener.c:657
-#, fuzzy, c-format
+#, c-format
 msgid "Your password will expire in the next %d days"
-msgstr ""
-"Rachaidh d'fhocal faire as feidhm amárach.\n"
-"Rachaidh d'fhocal faire as feidhm arú amárach.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá."
+msgstr "Rachaidh d'fhocal faire as feidhm sa chéad %d lá eile"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:142
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:560
@@ -15791,17 +15669,15 @@ msgstr "Saincheaptha"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:168
 msgid "Editor (read, create, edit)"
-msgstr "Eagarthóir (léigh, cruthaigh, cuir in eagar)"
+msgstr "Eagarthóir (inléite, inchruthaithe, inchurtha in eagar)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:172
-#, fuzzy
 msgid "Author (read, create)"
-msgstr "Cruthaigh Téama Nua"
+msgstr "Údar (inléite, inchruthaithe)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:176
-#, fuzzy
 msgid "Reviewer (read-only)"
-msgstr "Ar fáil (inléite amháin)"
+msgstr "Athbhreithneoir (inléite amháin)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:225
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:5
@@ -15813,7 +15689,7 @@ msgstr "Taispeáin Ceadanna"
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:176
 #, c-format
 msgid "Permissions for %s"
-msgstr "Ceadanna le %s"
+msgstr "Ceadanna do %s"
 
 #. To translators: This is a part of the message to be sent to the delegatee
 #. summarizing the permissions assigned to him.
@@ -15938,9 +15814,8 @@ msgid "_Inbox:"
 msgstr "Bosca _Isteach:"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:18
-#, fuzzy
 msgid "_Summarize permissions"
-msgstr "Taispeáin Ceadanna"
+msgstr "Déan _achoimre ar cheadanna"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:20
@@ -15968,33 +15843,30 @@ msgstr "Úsáideoir"
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:309
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
-#, fuzzy
 msgid "Subscribe to Other User's Folder"
-msgstr "Roghnaigh Fillteán Tascanna"
+msgstr "Liostáil le Fillteán Úsáideora Eile"
 
 #: ../plugins/exchange-operations/exchange-folder-tree.glade.h:1
-#, fuzzy
 msgid "Exchange Folder Tree"
-msgstr "Name=Amharc Crainn"
+msgstr "Crann Fillteán Exchange"
 
 #: ../plugins/exchange-operations/exchange-folder.c:65
 #: ../plugins/exchange-operations/exchange-folder.c:233
 #: ../plugins/exchange-operations/exchange-folder.c:243
-#, fuzzy
 msgid "Unsubscribe Folder..."
-msgstr "Fillteán Nua"
+msgstr "Díliostáil Fillteán..."
 
 #: ../plugins/exchange-operations/exchange-folder.c:463
 #: ../plugins/exchange-operations/exchange-folder.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
-msgstr "Oscail Íomhánna Ó Fhillteán"
+msgstr "Díliostáil ó fhillteán \"%s\" i ndáiríre?"
 
 #: ../plugins/exchange-operations/exchange-folder.c:475
 #: ../plugins/exchange-operations/exchange-folder.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribe from \"%s\""
-msgstr "Díliostáil Ó"
+msgstr "Díliostáil ó \"%s\""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:1
 msgid ""
@@ -16002,10 +15874,13 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>Tá do stádas \"As Láthair ón Oifig\" faoi láthair. </b>\n"
+"\n"
+"Ar mhaith leat do stádas a athrú go \"Isteach san Oifige\"? "
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<B>Teachtaireacht As an Oifig:</b>"
+msgstr "<B>Teachtaireacht \"As Láthair ón Oifig\":</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
@@ -16019,28 +15894,24 @@ msgid ""
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
-#, fuzzy
 msgid "I am currently in the office"
-msgstr "%1 CPS isteach, %2 CPS amach faoi láthair"
+msgstr "Táim isteach san oifig faoi láthair"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:9
-#, fuzzy
 msgid "I am currently out of the office"
-msgstr "Cuir Freagraí \"As Láthair Ón Oifig\" in Eagar..."
+msgstr "Táim as láthair ón oifig faoi láthair"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:10
-#, fuzzy
 msgid "No, Don't Change Status"
-msgstr "Téa&cs an bharra stádais a athrú"
+msgstr "Níor Mhaith, Ná hAthraigh Stádas"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:11
-#, fuzzy
 msgid "Out of Office Assistant"
-msgstr "Cuir Freagraí \"As Láthair Ón Oifig\" in Eagar..."
+msgstr "Cúntóir \"As Láthair ón Oifig\""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:12
 msgid "Yes, Change Status"
-msgstr "Tá, Athraigh Stádas"
+msgstr "Ba Mhaith, Athraigh Stádas"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 #, fuzzy
@@ -16048,14 +15919,8 @@ msgid "Password Expiry Warning..."
 msgstr "Rabhadh - Seisiún Nua"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
-#, fuzzy
 msgid "Your password will expire in 7 days..."
-msgstr ""
-"Rachaidh d'fhocal faire as feidhm amárach.\n"
-"Rachaidh d'fhocal faire as feidhm arú amárach.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá.\n"
-"Rachaidh d'fhocal faire as feidhm i %n lá."
+msgstr "Rachaidh d'fhocal faire as feidhm i gceann 7 lá..."
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
@@ -16133,9 +15998,8 @@ msgid "Role: "
 msgstr "Ról:"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Message Settings</b>"
-msgstr "Socruithe an Scáileáin"
+msgstr "<b>Socruithe Teachtaireachta</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:2
 #, fuzzy
@@ -16143,9 +16007,8 @@ msgid "<b>Tracking Options</b>"
 msgstr "Roghanna Beochana"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
-#, fuzzy
 msgid "Exchange - Send Options"
-msgstr "Roghanna Seolta agus HTML"
+msgstr "Exchange - Roghanna Seolta"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -18552,28 +18415,26 @@ msgid "Plain Text Mode"
 msgstr "Mód Gnáth-Théacs"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:3
-#, fuzzy
 msgid "Prefer Plain Text"
-msgstr "Foclóir gnáth-théacs"
+msgstr "Úsáid Gnáth-Théacs de Rogha"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
+"Amharc ar theachtaireachtaí poist mar ghnáth-théacs, fiú má tá ábhar HTML "
+"ann."
 
 #: ../plugins/prefer-plain/prefer-plain.c:189
-#, fuzzy
 msgid "Show HTML if present"
-msgstr "Taispeáin ainmneacha gearra (má tá siad ar fáil)"
+msgstr "Taispeáin HTML má tá sé ann"
 
 #: ../plugins/prefer-plain/prefer-plain.c:190
-#, fuzzy
 msgid "Prefer PLAIN"
-msgstr "Clog Simplí"
+msgstr "Úsáid PLAIN de rogha"
 
 #: ../plugins/prefer-plain/prefer-plain.c:191
-#, fuzzy
 msgid "Only ever show PLAIN"
-msgstr "Ná taispeáin ach fuinneoga íoslaghdaithe"
+msgstr "Ná taispeáin ach PLAIN"
 
 #: ../plugins/prefer-plain/prefer-plain.c:234
 msgid "HTML _Mode"
@@ -18605,7 +18466,7 @@ msgstr ""
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:315
 msgid "_Address Book"
-msgstr "_Leabhar Seoltaí"
+msgstr "Lea_bhar Seoltaí"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:322
@@ -19865,9 +19726,8 @@ msgid ""
 msgstr ""
 
 #: ../shell/shell.error.xml.h:32
-#, fuzzy
 msgid "_Forget"
-msgstr "Ná bac leis na hathruithe"
+msgstr "Déan D_earmad"
 
 #: ../shell/shell.error.xml.h:33
 #, fuzzy
@@ -20562,7 +20422,7 @@ msgstr "Roghnaigh Gach Rud"
 
 #: ../ui/evolution-addressbook.xml.h:35
 msgid "Select _All"
-msgstr "Roghnaigh _Gach rud"
+msgstr "Roghnaigh _Gach Rud"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
@@ -20618,7 +20478,7 @@ msgstr "_Cóipeáil Teagmhĺacha Fillteáin Go"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
-msgstr "_Scrios Teagmháil"
+msgstr "Scr_ios Teagmháil"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
@@ -20822,12 +20682,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Search F_olders"
-msgstr "Cuardaigh F_illteáin"
+msgstr "F_illteáin Cuardaigh"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Show Message _Preview"
-msgstr "Pána Réamhamhairc"
+msgstr "Taispeáin _Réamhamharc Teachtaireachta"
 
 #: ../ui/evolution-mail-global.xml.h:15
 #, fuzzy
@@ -20857,7 +20716,7 @@ msgstr "_Cóipeáil Fillteán Go..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
-msgstr "Í_osluchtaigh Teachtaireachtaí le hAghaidh Úsáide as Líne"
+msgstr "Íosl_uchtaigh Teachtaireachtaí le hAghaidh Úsáide as Líne"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -21383,9 +21242,8 @@ msgid "Search for text in the body of the displayed message"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:87
-#, fuzzy
 msgid "Select _All Text"
-msgstr "Roghnaigh Téacs Uile"
+msgstr "Roghnaigh an Téacs ar _Fad"
 
 #: ../ui/evolution-mail-message.xml.h:88
 #, fuzzy
@@ -21502,7 +21360,7 @@ msgstr "_Léigh"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Save Message..."
-msgstr "_Sábháil Teachtaireacht..."
+msgstr "Sáb_háil Teachtaireacht..."
 
 #: ../ui/evolution-mail-message.xml.h:125
 msgid "_Undelete Message"
@@ -21686,7 +21544,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
-msgstr "_Socrú Leathanaigh..."
+msgstr "So_crú Leathanaigh..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -21698,7 +21556,7 @@ msgstr "Seol / Faigh"
 
 #: ../ui/evolution.xml.h:24
 msgid "Send / _Receive"
-msgstr "Seol / _Faigh"
+msgstr "Seol / Fa_igh"
 
 #: ../ui/evolution.xml.h:25
 msgid "Send queued items and retrieve new items"
@@ -21766,7 +21624,7 @@ msgstr "_Dún Fuinneog"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Forget Passwords"
-msgstr ""
+msgstr "Déan D_earmad ar na Focail Faire"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Frequently Asked Questions"
@@ -21794,7 +21652,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "_Roghanna Sioncronaithe"
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text Only"
