@@ -2141,6 +2141,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_unread = FALSE;
 	gboolean drafts_or_outbox;
 	gboolean store_supports_vjunk = FALSE;
+	gboolean is_mailing_list;
 	guint32 state = 0;
 	guint ii;
 
@@ -2160,8 +2161,13 @@ e_mail_reader_check_state (EMailReader *reader)
 		em_utils_folder_is_drafts (folder, folder_uri) ||
 		em_utils_folder_is_outbox (folder, folder_uri);
 
+	/* Initialize this flag based on whether there are any
+	 * messages selected.  We will update it in the loop. */
+	is_mailing_list = (uids->len > 0);
+
 	for (ii = 0; ii < uids->len; ii++) {
 		CamelMessageInfo *info;
+		const gchar *string;
 		guint32 flags;
 
 		info = camel_folder_get_message_info (
@@ -2227,6 +2233,9 @@ e_mail_reader_check_state (EMailReader *reader)
 				can_flag_completed = TRUE;
 		} else
 			can_flag_for_followup = TRUE;
+
+		string = camel_message_info_mlist (info);
+		is_mailing_list &= (string != NULL && *string != '\0');
 	}
 
 	if (em_utils_check_user_can_send_mail ())
@@ -2237,10 +2246,6 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_MULTIPLE;
 	if (!drafts_or_outbox && uids->len == 1)
 		state |= E_MAIL_READER_SELECTION_CAN_ADD_SENDER;
-#if 0  /* FIXME */
-	if (can_edit)
-		state |= E_MAIL_READER_SELECTION_CAN_EDIT;
-#endif
 	if (can_clear_flags)
 		state |= E_MAIL_READER_SELECTION_FLAG_CLEAR;
 	if (can_flag_completed)
@@ -2263,14 +2268,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_HAS_UNIMPORTANT;
 	if (has_unread)
 		state |= E_MAIL_READER_SELECTION_HAS_UNREAD;
-#if 0  /* FIXME */
-	if (has_http_uri)
-		state |= E_MAIL_READER_SELECTION_HAS_URI_HTTP;
-	if (has_mailto_uri)
-		state |= E_MAIL_READER_SELECTION_HAS_URI_MAILTO;
 	if (is_mailing_list)
 		state |= E_MAIL_READER_SELECTION_IS_MAILING_LIST;
-#endif
 
 	em_utils_uids_free (uids);
 
@@ -2327,7 +2326,7 @@ e_mail_reader_update_actions (EMailReader *reader)
 		(state & E_MAIL_READER_SELECTION_SINGLE);
 	multiple_messages_selected =
 		(state & E_MAIL_READER_SELECTION_MULTIPLE);
-	/* FIXME Missing booleans */
+	/* FIXME Missing CAN_ADD_SENDER */
 	enable_flag_clear =
 		(state & E_MAIL_READER_SELECTION_FLAG_CLEAR);
 	enable_flag_completed =
@@ -2350,7 +2349,6 @@ e_mail_reader_update_actions (EMailReader *reader)
 		(state & E_MAIL_READER_SELECTION_HAS_UNIMPORTANT);
 	selection_has_unread_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
-	/* FIXME Missing booleans */
 	selection_is_mailing_list =
 		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
 
