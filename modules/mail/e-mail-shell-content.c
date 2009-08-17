@@ -230,7 +230,7 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 			EMailReader *reader;
 
 			reader = E_MAIL_READER (mail_shell_content);
-			e_mail_reader_set_message (reader, uid, TRUE);
+			e_mail_reader_set_message (reader, uid);
 			camel_folder_free_message_info (folder, info);
 		}
 
@@ -787,6 +787,18 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 		gtk_widget_show (child);
 	else
 		gtk_widget_hide (child);
+
+	/* If we're showing the preview, tell EMailReader to reload the
+	 * selected message.  This should force it to download the full
+	 * message if necessary, so we don't get an empty preview. */
+	if (preview_visible) {
+		EMailReader *reader;
+		MessageList *message_list;
+
+		reader = E_MAIL_READER (mail_shell_content);
+		message_list = e_mail_reader_get_message_list (reader);
+		e_mail_reader_set_message (reader, message_list->cursor_uid);
+	}
 
 	mail_shell_content->priv->preview_visible = preview_visible;
 

@@ -859,7 +859,7 @@ action_mail_show_source_cb (GtkAction *action,
 	html_display = e_mail_reader_get_html_display (reader);
 	em_format_set_mode (EM_FORMAT (html_display), EM_FORMAT_SOURCE);
 	e_mail_reader_set_folder (reader, folder, folder_uri);
-	e_mail_reader_set_message (reader, uids->pdata[0], FALSE);
+	e_mail_reader_set_message (reader, uids->pdata[0]);
 	gtk_widget_show (browser);
 
 	message_list_free_uids (message_list, uids);
@@ -1787,7 +1787,18 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	format_uid = EM_FORMAT (html_display)->uid;
 
 	if (message_list->last_sel_single) {
-		if (g_strcmp0 (cursor_uid, format_uid) != 0)
+		GtkWidget *widget;
+		gboolean html_display_visible;
+		gboolean selected_uid_changed;
+
+		/* Decide whether to download the full message now. */
+
+		widget = GTK_WIDGET (EM_FORMAT_HTML (html_display)->html);
+
+		html_display_visible = GTK_WIDGET_MAPPED (widget);
+		selected_uid_changed = g_strcmp0 (cursor_uid, format_uid);
+
+		if (html_display_visible && selected_uid_changed)
 			mail_get_messagex (
 				message_list->folder, cursor_uid,
 				mail_reader_message_loaded_cb,
@@ -1810,8 +1821,9 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	guint source_id;
 	gpointer data;
 
-	/* XXX This is kludgy, but we have no other place to store
-	 *     timeout state information. */
+	/* XXX This is kludgy, but we have no other place to store timeout
+	 * state information.  Addendum: See EAttachmentView for an example
+	 * of storing private data in an interface.  Clunky but works. */
 
 	key = "message-selected-timeout";
 	data = g_object_get_data (G_OBJECT (reader), key);
@@ -1864,8 +1876,7 @@ mail_reader_set_folder (EMailReader *reader,
 
 static void
 mail_reader_set_message (EMailReader *reader,
-                         const gchar *uid,
-                         gboolean mark_read)
+                         const gchar *uid)
 {
 	MessageList *message_list;
 
@@ -2681,8 +2692,7 @@ e_mail_reader_set_folder_uri (EMailReader *reader,
 
 void
 e_mail_reader_set_message (EMailReader *reader,
-                           const gchar *uid,
-                           gboolean mark_read)
+                           const gchar *uid)
 {
 	EMailReaderIface *iface;
 
@@ -2691,7 +2701,7 @@ e_mail_reader_set_message (EMailReader *reader,
 	iface = E_MAIL_READER_GET_IFACE (reader);
 	g_return_if_fail (iface->set_message != NULL);
 
-	iface->set_message (reader, uid, mark_read);
+	iface->set_message (reader, uid);
 }
 
 void

@@ -90,8 +90,7 @@ struct _EMailReaderIface {
 						 CamelFolder *folder,
 						 const gchar *folder_uri);
 	void		(*set_message)		(EMailReader *reader,
-						 const gchar *uid,
-						 gboolean mark_read);
+						 const gchar *uid);
 
 	/* Signals */
 	void		(*show_search_bar)	(EMailReader *reader);
@@ -118,8 +117,7 @@ void		e_mail_reader_set_folder	(EMailReader *reader,
 void		e_mail_reader_set_folder_uri	(EMailReader *reader,
 						 const gchar *folder_uri);
 void		e_mail_reader_set_message	(EMailReader *reader,
-						 const gchar *uid,
-						 gboolean mark_read);
+						 const gchar *uid);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,

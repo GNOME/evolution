@@ -553,8 +553,7 @@ mail_browser_get_window (EMailReader *reader)
 
 static void
 mail_browser_set_message (EMailReader *reader,
-                          const gchar *uid,
-                          gboolean mark_read)
+                          const gchar *uid)
 {
 	EMailReaderIface *iface;
 	MessageList *message_list;
@@ -563,7 +562,7 @@ mail_browser_set_message (EMailReader *reader,
 
 	/* Chain up to parent's set_message() method. */
 	iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
-	iface->set_message (reader, uid, mark_read);
+	iface->set_message (reader, uid);
 
 	if (uid == NULL) {
 		e_mail_browser_close (E_MAIL_BROWSER (reader));
@@ -581,9 +580,6 @@ mail_browser_set_message (EMailReader *reader,
 			camel_message_info_subject (info));
 		camel_folder_free_message_info (folder, info);
 	}
-
-	if (mark_read)
-		e_mail_reader_mark_as_read (reader, uid);
 }
 
 static void

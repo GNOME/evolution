@@ -356,8 +356,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		browser = e_mail_browser_new (shell_backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
-		e_mail_reader_set_message (
-			E_MAIL_READER (browser), uid, FALSE);
+		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 		gtk_widget_show (browser);
 	}
 
