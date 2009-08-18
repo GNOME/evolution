@@ -440,7 +440,6 @@ shell/e-shell-window-actions.c
 shell/e-shell-window-private.c
 shell/e-shell-window.c
 shell/e-shell.c
-shell/import.glade
 shell/main.c
 shell/shell.error.xml
 shell/test/e-test-shell-backend.c
