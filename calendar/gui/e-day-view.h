@@ -314,9 +314,6 @@ struct _EDayView {
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;
 
-	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-	gint week_start_day;
-
 	/* This is set to TRUE when the widget is created, so it scrolls to
 	   the start of the working day when first shown. */
 	gboolean scroll_to_work_day;
@@ -558,11 +555,6 @@ void	   e_day_view_marcus_bains_set_time_bar_color
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
 void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
 						 gboolean	 show);
-
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint	   e_day_view_get_week_start_day	(EDayView	*day_view);
-void	   e_day_view_set_week_start_day	(EDayView	*day_view,
-						 gint		 week_start_day);
 
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
 

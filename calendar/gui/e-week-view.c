@@ -197,8 +197,7 @@ G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
 enum {
 	PROP_0,
 	PROP_COMPRESS_WEEKEND,
-	PROP_SHOW_EVENT_END_TIMES,
-	PROP_WEEK_START_DAY
+	PROP_SHOW_EVENT_END_TIMES
 };
 
 static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
@@ -236,6 +235,23 @@ timezone_changed_cb (ECalendarView *cal_view,
 }
 
 static void
+week_view_notify_week_start_day_cb (EWeekView *week_view)
+{
+	GDate *first_day_shown;
+
+	first_day_shown = &week_view->first_day_shown;
+
+	e_week_view_recalc_display_start_day (week_view);
+
+	/* Recalculate the days shown and reload if necessary. */
+	if (g_date_valid (first_day_shown))
+		e_week_view_set_first_day_shown (week_view, first_day_shown);
+
+	gtk_widget_queue_draw (week_view->titles_canvas);
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
 week_view_set_property (GObject *object,
                         guint property_id,
                         const GValue *value,
@@ -252,12 +268,6 @@ week_view_set_property (GObject *object,
 			e_week_view_set_show_event_end_times (
 				E_WEEK_VIEW (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			e_week_view_set_week_start_day (
-				E_WEEK_VIEW (object),
-				g_value_get_int (value));
 			return;
 	}
 
@@ -284,13 +294,6 @@ week_view_get_property (GObject *object,
 				e_week_view_get_show_event_end_times (
 				E_WEEK_VIEW (object)));
 			return;
-
-		case PROP_WEEK_START_DAY:
-			g_value_set_int (
-				value,
-				e_week_view_get_week_start_day (
-				E_WEEK_VIEW (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -315,9 +318,9 @@ week_view_constructed (GObject *object)
 		G_OBJECT (shell_settings), "cal-show-event-end-times",
 		G_OBJECT (week_view), "show-event-end-times");
 
-	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (week_view), "week-start-day");
+	g_signal_connect_swapped (
+		model, "notify::week-start-day",
+		G_CALLBACK (week_view_notify_week_start_day_cb), week_view);
 }
 
 static void
@@ -442,18 +445,6 @@ e_week_view_class_init (EWeekViewClass *class)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
-			G_PARAM_READWRITE));
-
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
@@ -491,7 +482,6 @@ e_week_view_init (EWeekView *week_view)
 	week_view->columns = 2;
 	week_view->compress_weekend = TRUE;
 	week_view->show_event_end_times = TRUE;
-	week_view->week_start_day = 0;		/* Monday. */
 	week_view->display_start_day = 0;	/* Monday. */
 
 	g_date_clear (&week_view->base_date, 1);
@@ -2070,50 +2060,20 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
 }
 
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint
-e_week_view_get_week_start_day (EWeekView *week_view)
-{
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), 0);
-
-	return week_view->week_start_day;
-}
-
-void
-e_week_view_set_week_start_day (EWeekView *week_view,
-                                gint week_start_day)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-	g_return_if_fail (week_start_day >= 0);
-	g_return_if_fail (week_start_day < 7);
-
-	if (week_view->week_start_day == week_start_day)
-		return;
-
-	week_view->week_start_day = week_start_day;
-
-	e_week_view_recalc_display_start_day (week_view);
-
-	/* Recalculate the days shown and reload if necessary. */
-	if (g_date_valid (&week_view->first_day_shown))
-		e_week_view_set_first_day_shown (week_view,
-						 &week_view->first_day_shown);
-
-	gtk_widget_queue_draw (week_view->titles_canvas);
-	gtk_widget_queue_draw (week_view->main_canvas);
-
-	g_object_notify (G_OBJECT (week_view), "week-start-day");
-}
-
 static gboolean
 e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 {
+	ECalModel *model;
+	gint week_start_day;
 	gint display_start_day;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	week_start_day = e_cal_model_get_week_start_day (model);
 
 	/* The display start day defaults to week_start_day, but we have
 	   to use Saturday if the weekend is compressed and week_start_day
 	   is Sunday. */
-	display_start_day = week_view->week_start_day;
+	display_start_day = week_start_day;
 
 	if (display_start_day == 6
 	    && (!week_view->multi_week_view || week_view->compress_weekend))
@@ -4310,14 +4270,6 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		handled = GTK_WIDGET_CLASS (e_week_view_parent_class)->key_press_event (widget, event);
 	return handled;
 #endif
-}
-
-static void
-popup_destroyed_cb (gpointer data, GObject *where_object_was)
-{
-	EWeekView *week_view = data;
-
-	week_view->popup_event_num = -1;
 }
 
 void

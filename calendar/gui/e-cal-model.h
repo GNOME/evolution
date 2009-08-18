@@ -188,6 +188,9 @@ gboolean	e_cal_model_get_use_24_hour_format
 void		e_cal_model_set_use_24_hour_format
 						(ECalModel *model,
 						 gboolean use24);
+gint		e_cal_model_get_week_start_day	(ECalModel *model);
+void		e_cal_model_set_week_start_day	(ECalModel *model,
+						 gint week_start_day);
 ECal *		e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECal *client);

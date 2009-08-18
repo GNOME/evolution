@@ -438,7 +438,6 @@ enum {
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
 	PROP_MINS_PER_ROW,
-	PROP_WEEK_START_DAY,
 	PROP_WORK_DAY_END_HOUR,
 	PROP_WORK_DAY_END_MINUTE,
 	PROP_WORK_DAY_START_HOUR,
@@ -447,6 +446,15 @@ enum {
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+
+static void
+day_view_notify_week_start_day_cb (EDayView *day_view)
+{
+	/* XXX Write a EWorkWeekView subclass, like EMonthView. */
+
+	if (day_view->work_week_view)
+		e_day_view_recalc_work_week (day_view);
+}
 
 static void
 day_view_set_property (GObject *object,
@@ -475,12 +483,6 @@ day_view_set_property (GObject *object,
 
 		case PROP_MINS_PER_ROW:
 			e_day_view_set_mins_per_row (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			e_day_view_set_week_start_day (
 				E_DAY_VIEW (object),
 				g_value_get_int (value));
 			return;
@@ -551,13 +553,6 @@ day_view_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_day_view_get_mins_per_row (
-				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WEEK_START_DAY:
-			g_value_set_int (
-				value,
-				e_day_view_get_week_start_day (
 				E_DAY_VIEW (object)));
 			return;
 
@@ -632,10 +627,6 @@ day_view_constructed (GObject *object)
 		G_OBJECT (day_view), "mins-per-row");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (day_view), "week-start-day");
-
-	e_binding_new (
 		G_OBJECT (shell_settings), "cal-work-day-end-hour",
 		G_OBJECT (day_view), "work-day-end-hour");
 
@@ -654,6 +645,10 @@ day_view_constructed (GObject *object)
 	e_binding_new (
 		G_OBJECT (shell_settings), "cal-working-days-bitset",
 		G_OBJECT (day_view), "working-days");
+
+	g_signal_connect_swapped (
+		model, "notify::week-start-day",
+		G_CALLBACK (day_view_notify_week_start_day_cb), day_view);
 }
 
 static void
@@ -732,18 +727,6 @@ e_day_view_class_init (EDayViewClass *class)
 			5,   /* not a continuous range */
 			60,  /* valid values: 5, 10, 15, 30, 60 */
 			30,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
-		g_param_spec_int (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
-			0,  /* Monday */
-			6,  /* Sunday */
-			0,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1103,7 +1086,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->work_day_end_hour = 17;
 	day_view->work_day_end_minute = 0;
 	day_view->show_event_end_times = TRUE;
-	day_view->week_start_day = 0;
 	day_view->scroll_to_work_day = TRUE;
 
 	day_view->marcus_bains_show_line = TRUE;
@@ -2459,9 +2441,14 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 					 time_t		 start_time)
 {
 	GDate date;
+	ECalModel *model;
+	gint week_start_day;
 	gint weekday, day, i;
 	guint offset;
 	struct icaltimetype tt = icaltime_null_time ();
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	week_start_day = e_cal_model_get_week_start_day (model);
 
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
@@ -2474,7 +2461,7 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	/* Calculate the first working day of the week, 0 (Sun) to 6 (Sat).
 	   It will automatically default to the week start day if no days
 	   are set as working days. */
-	day = (day_view->week_start_day + 1) % 7;
+	day = (week_start_day + 1) % 7;
 	for (i = 0; i < 7; i++) {
 		if (day_view->working_days & (1 << day))
 			break;
@@ -2784,11 +2771,16 @@ e_day_view_set_working_days (EDayView *day_view,
 static void
 e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 {
+	ECalModel *model;
+	gint week_start_day;
 	gint first_day, last_day, i, days_shown;
 	gboolean has_working_days = FALSE;
 
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	week_start_day = e_cal_model_get_week_start_day (model);
+
 	/* Find the first working day in the week, 0 (Sun) to 6 (Sat). */
-	first_day = (day_view->week_start_day + 1) % 7;
+	first_day = (week_start_day + 1) % 7;
 	for (i = 0; i < 7; i++) {
 		if (day_view->working_days & (1 << first_day)) {
 			has_working_days = TRUE;
@@ -2799,7 +2791,7 @@ e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 
 	if (has_working_days) {
 		/* Now find the last working day of the week, backwards. */
-		last_day = day_view->week_start_day % 7;
+		last_day = week_start_day % 7;
 		for (i = 0; i < 7; i++) {
 			if (day_view->working_days & (1 << last_day))
 				break;
@@ -3010,34 +3002,6 @@ e_day_view_set_show_times_cb		(EDayView	*day_view,
 	}
 
 	return TRUE;
-}
-
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint
-e_day_view_get_week_start_day (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
-
-	return day_view->week_start_day;
-}
-
-void
-e_day_view_set_week_start_day (EDayView *day_view,
-                               gint week_start_day)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	g_return_if_fail (week_start_day >= 0);
-	g_return_if_fail (week_start_day < 7);
-
-	if (day_view->week_start_day == week_start_day)
-		return;
-
-	day_view->week_start_day = week_start_day;
-
-	if (day_view->work_week_view)
-		e_day_view_recalc_work_week (day_view);
-
-	g_object_notify (G_OBJECT (day_view), "week-start-day");
 }
 
 static void
@@ -3738,22 +3702,11 @@ e_day_view_on_event_double_click (EDayView *day_view,
 }
 
 static void
-popup_destroyed_cb (gpointer data, GObject *where_object_was)
-{
-	EDayView *day_view = data;
-
-	day_view->popup_event_day = -1;
-	day_view->popup_event_num = -1;
-}
-
-static void
 e_day_view_show_popup_menu (EDayView *day_view,
 			    GdkEventButton *event,
 			    gint day,
 			    gint event_num)
 {
-	GtkMenu *popup;
-
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
 

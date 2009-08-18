@@ -108,12 +108,6 @@ ECalendar *	gnome_calendar_get_date_navigator
 void		gnome_calendar_set_date_navigator
 						(GnomeCalendar *gcal,
 						 ECalendar *date_navigator);
-gint		gnome_calendar_get_week_start_day
-						(GnomeCalendar *gcal);
-void		gnome_calendar_set_week_start_day
-						(GnomeCalendar *gcal,
-						 gint week_start_day);
-
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 

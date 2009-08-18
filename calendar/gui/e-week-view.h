@@ -412,11 +412,6 @@ void		e_week_view_set_show_event_end_times
 						(EWeekView *week_view,
 						 gboolean show_event_end_times);
 
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint e_week_view_get_week_start_day	(EWeekView *week_view);
-void		e_week_view_set_week_start_day	(EWeekView *week_view,
-						 gint week_start_day);
-
 void		e_week_view_delete_occurrence	(EWeekView *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */

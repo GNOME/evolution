@@ -88,6 +88,9 @@ struct _ECalModelPrivate {
 	/* Whether we display dates in 24-hour format. */
         gboolean use_24_hour_format;
 
+	/* First day of the week: 0 (Monday) to 6 (Sunday) */
+	gint week_start_day;
+
 	/* callback, to retrieve start time for newly added rows by click-to-add */
 	ECalModelDefaultTimeFunc get_default_time;
 	gpointer get_default_time_user_data;
@@ -126,7 +129,8 @@ enum {
 	PROP_0,
 	PROP_SHELL_SETTINGS,
 	PROP_TIMEZONE,
-	PROP_USE_24_HOUR_FORMAT
+	PROP_USE_24_HOUR_FORMAT,
+	PROP_WEEK_START_DAY
 };
 
 enum {
@@ -177,6 +181,12 @@ cal_model_set_property (GObject *object,
 				E_CAL_MODEL (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_WEEK_START_DAY:
+			e_cal_model_set_week_start_day (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -207,6 +217,13 @@ cal_model_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_cal_model_get_use_24_hour_format (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value,
+				e_cal_model_get_week_start_day (
 				E_CAL_MODEL (object)));
 			return;
 	}
@@ -293,12 +310,16 @@ cal_model_constructed (GObject *object)
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (model), "timezone");
+
+	e_binding_new (
 		G_OBJECT (shell_settings), "cal-use-24-hour-format",
 		G_OBJECT (model), "use-24-hour-format");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-timezone",
-		G_OBJECT (model), "timezone");
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (model), "week-start-day");
 }
 
 static void
@@ -361,6 +382,18 @@ e_cal_model_class_init (ECalModelClass *class)
 			"Use 24-Hour Format",
 			NULL,
 			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday */
+			0,
 			G_PARAM_READWRITE));
 
 	signals[TIME_RANGE_CHANGED] =
@@ -1279,9 +1312,6 @@ e_cal_model_get_shell_settings (ECalModel *model)
 	return model->priv->shell_settings;
 }
 
-/**
- * e_cal_model_get_component_kind
- */
 icalcomponent_kind
 e_cal_model_get_component_kind (ECalModel *model)
 {
@@ -1293,9 +1323,6 @@ e_cal_model_get_component_kind (ECalModel *model)
 	return priv->kind;
 }
 
-/**
- * e_cal_model_set_component_kind
- */
 void
 e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind)
 {
@@ -1307,9 +1334,6 @@ e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind)
 	priv->kind = kind;
 }
 
-/**
- * e_cal_model_get_flags
- */
 ECalModelFlags
 e_cal_model_get_flags (ECalModel *model)
 {
@@ -1318,9 +1342,6 @@ e_cal_model_get_flags (ECalModel *model)
 	return model->priv->flags;
 }
 
-/**
- * e_cal_model_set_flags
- */
 void
 e_cal_model_set_flags (ECalModel *model, ECalModelFlags flags)
 {
@@ -1329,9 +1350,6 @@ e_cal_model_set_flags (ECalModel *model, ECalModelFlags flags)
 	model->priv->flags = flags;
 }
 
-/**
- * e_cal_model_get_timezone
- */
 icaltimezone *
 e_cal_model_get_timezone (ECalModel *model)
 {
@@ -1340,9 +1358,6 @@ e_cal_model_get_timezone (ECalModel *model)
 	return model->priv->zone;
 }
 
-/**
- * e_cal_model_set_timezone
- */
 void
 e_cal_model_set_timezone (ECalModel *model,
                           icaltimezone *zone)
@@ -1362,9 +1377,6 @@ e_cal_model_set_timezone (ECalModel *model,
 	g_object_notify (G_OBJECT (model), "timezone");
 }
 
-/**
- * e_cal_model_set_default_category
- */
 void
 e_cal_model_set_default_category (ECalModel *model,
                                   const gchar *default_category)
@@ -1375,9 +1387,6 @@ e_cal_model_set_default_category (ECalModel *model,
 	model->priv->default_category = g_strdup (default_category);
 }
 
-/**
- * e_cal_model_get_use_24_hour_format
- */
 gboolean
 e_cal_model_get_use_24_hour_format (ECalModel *model)
 {
@@ -1386,9 +1395,6 @@ e_cal_model_get_use_24_hour_format (ECalModel *model)
 	return model->priv->use_24_hour_format;
 }
 
-/**
- * e_cal_model_set_use_24_hour_format
- */
 void
 e_cal_model_set_use_24_hour_format (ECalModel *model,
                                     gboolean use_24_hour_format)
@@ -1407,9 +1413,30 @@ e_cal_model_set_use_24_hour_format (ECalModel *model,
 	g_object_notify (G_OBJECT (model), "use-24-hour-format");
 }
 
-/**
- * e_cal_model_get_default_client
- */
+gint
+e_cal_model_get_week_start_day (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->week_start_day;
+}
+
+void
+e_cal_model_set_week_start_day (ECalModel *model,
+                                gint week_start_day)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (week_start_day >= 0);
+	g_return_if_fail (week_start_day < 7);
+
+	if (model->priv->week_start_day == week_start_day)
+		return;
+
+	model->priv->week_start_day = week_start_day;
+
+	g_object_notify (G_OBJECT (model), "week-start-day");
+}
+
 ECal *
 e_cal_model_get_default_client (ECalModel *model)
 {
@@ -1465,9 +1492,6 @@ e_cal_model_set_default_client (ECalModel *model, ECal *client)
 	priv->default_client = client_data->client;
 }
 
-/**
- * e_cal_model_get_client_list
- */
 GList *
 e_cal_model_get_client_list (ECalModel *model)
 {
@@ -1485,7 +1509,7 @@ e_cal_model_get_client_list (ECalModel *model)
 }
 
 /**
- * e_cal_model_get_client_for_uri
+ * e_cal_model_get_client_for_uri:
  * @model: A calendar model.
  * @uri: Uri for the client to get.
  */
