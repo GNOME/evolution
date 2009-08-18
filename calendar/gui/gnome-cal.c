@@ -172,16 +172,11 @@ static void gnome_calendar_change_view (GnomeCalendar *gcal,
 static void update_view_times (GnomeCalendar *gcal, time_t start_time);
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
-static void gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data);
 static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
 
-static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
-								 GnomeCalendar *gcal);
 static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 								GnomeCalendar    *gcal);
 static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
-
-static void update_query (GnomeCalendar *gcal);
 
 static void update_todo_view (GnomeCalendar *gcal);
 static void update_memo_view (GnomeCalendar *gcal);
@@ -807,7 +802,7 @@ dn_e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer dat
 	 * and the tag_calendar_by_comp() below would not know how to
 	 * untag the old dates.
 	 */
-	update_query (gcal);
+	gnome_calendar_update_query (gcal);
 }
 
 /* Callback used when the calendar query reports of a removed object */
@@ -819,7 +814,7 @@ dn_e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 
 	/* Just retag the whole thing */
-	update_query (gcal);
+	gnome_calendar_update_query (gcal);
 }
 
 /* Callback used when the calendar query is done */
@@ -1110,10 +1105,12 @@ try_again:
 }
 
 /* Restarts a query for the date navigator in the calendar */
-static void
-update_query (GnomeCalendar *gcal)
+void
+gnome_calendar_update_query (GnomeCalendar *gcal)
 {
 	struct _date_query_msg *msg;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	e_calendar_item_clear_marks (gcal->priv->date_navigator->calitem);
 
@@ -1151,7 +1148,7 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 
 	d(g_print ("Changing the queries %s \n", sexp));
 
-	update_query (gcal);
+	gnome_calendar_update_query (gcal);
 
 	i = priv->current_view_type;
 
@@ -1992,7 +1989,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	add_mclient (model, ecal);
 
 	/* update date navigator query */
-	update_query (gcal);
+	gnome_calendar_update_query (gcal);
 
 	/*e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);  KILL-BONOBO */
 }
@@ -2204,16 +2201,6 @@ gnome_calendar_set_date_navigator (GnomeCalendar *gcal,
 		G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed),
 		gcal);
 
-	g_signal_connect (
-		calitem, "date-range-changed",
-		G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed),
-		gcal);
-
-	g_signal_connect (
-		date_navigator, "scroll-event",
-		G_CALLBACK (gnome_calendar_date_navigator_scrolled),
-		gcal);
-
 	g_object_notify (G_OBJECT (gcal), "date-navigator");
 }
 
@@ -2402,7 +2389,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const gchar *uid)
 	e_cal_model_remove_client (model, client);
 
 	/* update date navigator query */
-	update_query (gcal);
+	gnome_calendar_update_query (gcal);
 
 	g_hash_table_remove (priv->clients, uid);
 
@@ -2643,13 +2630,18 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 
 	starts_on_week_start_day = FALSE;
 
+	view_type = gnome_calendar_get_view (gcal);
 	model = gnome_calendar_get_calendar_model (gcal);
 	timezone = e_cal_model_get_timezone (model);
 	e_cal_model_get_time_range (model, &start, &end);
 
 	time_to_gdate_with_zone (&start_date, start, timezone);
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW) {
-		EWeekView *week_view = E_WEEK_VIEW (priv->views[priv->current_view_type]);
+	if (view_type == GNOME_CAL_MONTH_VIEW) {
+		ECalendarView *calendar_view;
+		EWeekView *week_view;
+
+		calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
+		week_view = E_WEEK_VIEW (calendar_view);
 
 		if (priv->week_start_day == 0 && (!week_view->multi_week_view || week_view->compress_weekend))
 			g_date_add_days (&start_date, 1);
@@ -2714,38 +2706,6 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	set_view (gcal, view_type, TRUE);
 
 	gnome_calendar_notify_dates_shown_changed (gcal);
-}
-
-static void
-gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem, GnomeCalendar *gcal)
-{
-	update_query (gcal);
-}
-
-static void
-gnome_calendar_date_navigator_scrolled (GtkWidget *widget, GdkEventScroll *event, gpointer user_data)
-{
-	GnomeCalendar *gcal = user_data;
-	ECalendarItem *calitem = gcal->priv->date_navigator->calitem;
-	GDate start_date, end_date;
-
-	if (e_calendar_item_get_selection (calitem, &start_date, &end_date)) {
-		switch (event->direction) {
-		case GDK_SCROLL_UP:
-			g_date_subtract_months (&start_date, 1);
-			g_date_subtract_months (&end_date, 1);
-			break;
-		case GDK_SCROLL_DOWN:
-			g_date_add_months (&start_date, 1);
-			g_date_add_months (&end_date, 1);
-			break;
-		default:
-			break;
-
-		}
-		e_calendar_item_set_selection (calitem, &start_date, &end_date);
-		gnome_calendar_on_date_navigator_selection_changed (calitem, gcal);
-	}
 }
 
 static gboolean

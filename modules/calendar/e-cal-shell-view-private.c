@@ -62,7 +62,13 @@ static void
 cal_shell_view_date_navigator_date_range_changed_cb (ECalShellView *cal_shell_view,
                                                      ECalendarItem *calitem)
 {
-	/* FIXME gnome-calendar.c calls update_query() here. */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	gnome_calendar_update_query (calendar);
 }
 
 static void

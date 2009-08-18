@@ -121,6 +121,7 @@ gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ESource *source)
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
+void		gnome_calendar_update_query	(GnomeCalendar *gcal);
 void		gnome_calendar_set_search_query	(GnomeCalendar *gcal,
 						 const gchar *sexp,
 						 gboolean range_search,
