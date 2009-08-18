@@ -5903,7 +5903,6 @@ e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 {
-#if 0  /* KILL-BONOBO */
 	if (day_view->selection_start_day == 0) {
 		gnome_calendar_previous (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
 	} else {
@@ -5917,13 +5916,11 @@ e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 	g_signal_emit_by_name (day_view, "selected_time_changed");
-#endif
 }
 
 static void
 e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 {
-#if 0 /* KILL-BONOBO */
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
 		gnome_calendar_next (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
 	} else {
@@ -5937,7 +5934,6 @@ e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 	g_signal_emit_by_name (day_view, "selected_time_changed");
-#endif
 }
 
 /* Scrolls the main canvas up or down. The pages_to_scroll argument

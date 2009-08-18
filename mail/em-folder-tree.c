@@ -891,7 +891,7 @@ folder_tree_new (EMFolderTree *emft)
 
 	gconf = mail_config_get_gconf_client ();
 
-	/* FIXME[KILL-BONOBO] Gross hack */
+	/* FIXME Gross hack */
 	tree = GTK_WIDGET (emft);
 	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
 

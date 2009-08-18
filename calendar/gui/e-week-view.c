@@ -4037,8 +4037,6 @@ e_week_view_cursor_key_right (EWeekView *week_view)
 static gboolean
 e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *initial_text)
 {
-#if 0  /* KILL-BONOBO */
-	EWeekView *week_view;
 	ECal *ecal;
 	ECalModel *model;
 	ECalComponent *comp;
@@ -4225,7 +4223,6 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_free (initial_text);
 
 	return ret_val;
-#endif
 }
 
 static gint
@@ -4261,7 +4258,6 @@ e_week_view_get_adjust_days_for_move_right (EWeekView *week_view,gint current_da
 static gboolean
 e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 {
-#if 0  /* KILL-BONOBO */
 	gboolean handled = FALSE;
 	handled = e_week_view_do_key_press (widget, event);
 
@@ -4269,7 +4265,6 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (!handled)
 		handled = GTK_WIDGET_CLASS (e_week_view_parent_class)->key_press_event (widget, event);
 	return handled;
-#endif
 }
 
 void
@@ -4294,7 +4289,6 @@ e_week_view_popup_menu (GtkWidget *widget)
 void
 e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item)
 {
-#if 0  /* KILL-BONOBO */
 	gint day;
 	GnomeCalendar *calendar;
 
@@ -4310,7 +4304,6 @@ e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item)
 			return;
 		}
 	}
-#endif
 }
 
 static gboolean
