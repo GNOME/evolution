@@ -57,7 +57,6 @@
 
 #include <glib/gi18n.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-ui-init.h>
 
 #include <bonobo/bonobo-exception.h>
 
