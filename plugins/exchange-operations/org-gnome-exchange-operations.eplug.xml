@@ -33,7 +33,7 @@
 
         <group
                 target="account"
-                id="org.gnome.evolution.mail.config.accountDruid"
+                id="org.gnome.evolution.mail.config.accountAssistant"
 		check="org_gnome_exchange_check_options">
                 <item type="item_table"
                         path="10.receive/10.config/20.owa"

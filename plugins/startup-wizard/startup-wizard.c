@@ -24,9 +24,6 @@
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-edge.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
 #include "e-util/e-error.h"
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
@@ -57,9 +54,11 @@ void
 startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 {
 	EMAccountEditor *emae;
-	GnomeDruidPageEdge *start_page;
+	GtkWidget *start_page;
 	GConfClient *client;
 	GSList *accounts;
+	EConfig *config;
+	GList *page_children;
 
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
@@ -74,28 +73,36 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 
 	/** @HookPoint-EMConfig: New Mail Account Wizard
 	 * @Id: org.gnome.evolution.mail.config.accountWizard
-	 * @Type: E_CONFIG_DRUID
+	 * @Type: E_CONFIG_ASSISTANT
 	 * @Class: org.gnome.evolution.mail.config:1.0
 	 * @Target: EMConfigTargetAccount
 	 *
-	 * The new mail account druid.
+	 * The new mail account assistant.
 	 */
 	emae = em_account_editor_new (
-		NULL, EMAE_DRUID,
+		NULL, EMAE_ASSISTANT,
 		"org.gnome.evolution.mail.config.accountWizard");
 
 	gtk_window_set_title (
 		GTK_WINDOW (emae->editor), _("Evolution Setup Assistant"));
 
-	start_page = GNOME_DRUID_PAGE_EDGE (
-		e_config_page_get ((EConfig *) emae->config, "0.start"));
-	gnome_druid_page_edge_set_title (start_page, _("Welcome"));
-	gnome_druid_page_edge_set_text (
-		start_page, _(""
-		"Welcome to Evolution. The next few screens will allow Evolution to connect "
-		"to your email accounts, and to import files from other applications. \n"
-		"\n"
-		"Please click the \"Forward\" button to continue. "));
+	config = (EConfig *) emae->config;
+	start_page = e_config_page_get (config, "0.start");
+
+	gtk_assistant_set_page_title (GTK_ASSISTANT (config->widget), start_page, _("Welcome"));
+	page_children = gtk_container_get_children (GTK_CONTAINER (start_page));
+	if (page_children) {
+		GtkLabel *label = GTK_LABEL (page_children->data);
+		if (label) {
+			gtk_label_set_text (label, _(""
+				"Welcome to Evolution. The next few screens will allow Evolution to connect "
+				"to your email accounts, and to import files from other applications. \n"
+				"\n"
+				"Please click the \"Forward\" button to continue. "));
+		}
+
+		g_list_free (page_children);
+	}
 
 	g_signal_connect (
 		emae->editor, "delete-event",
@@ -122,13 +129,14 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 	if (import_importers == NULL)
 		return NULL;
 
-	page = gnome_druid_page_standard_new_with_vals (_("Importing files"), NULL, NULL);
+	page = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 
 	label = gtk_label_new (_("Please select the information that you would like to import:"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox), label, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (page), label, FALSE, FALSE, 3);
 
 	sep = gtk_hseparator_new ();
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox), sep, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (page), sep, FALSE, FALSE, 3);
 
 	table = gtk_table_new(g_slist_length(import_importers), 2, FALSE);
 	for (l = import_importers; l; l = l->next) {
@@ -151,10 +159,12 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 			gtk_table_attach((GtkTable *)table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 0);
 		row++;
 	}
-	gtk_widget_show(table);
-	gtk_box_pack_start((GtkBox *)((GnomeDruidPageStandard *)page)->vbox, table, FALSE, FALSE, 3);
 
-	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
+	gtk_box_pack_start (GTK_BOX (page), table, FALSE, FALSE, 3);
+
+	gtk_widget_show_all (page);
+	gtk_assistant_append_page (GTK_ASSISTANT (hook_data->parent), page);
+	gtk_assistant_set_page_title (GTK_ASSISTANT (hook_data->parent), page, _("Importing files"));
 
 	return page;
 }

@@ -31,8 +31,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"
 #include "e-util/e-error.h"
@@ -105,7 +103,7 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, con
 	/* We should hardcode this to true */
 	gtk_toggle_button_set_active ((GtkToggleButton *)check, TRUE);
 	gtk_container_set_border_width((GtkContainer *)check, 12);
-	gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *)gtk_dialog_get_content_area ((GtkDialog *) mbox), check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
 
 	button = gtk_dialog_run ((GtkDialog *) mbox);
@@ -235,77 +233,74 @@ action_settings_restore_cb (GtkAction *action,
 }
 
 static void
-check_toggled (GtkToggleButton *button, GnomeDruid *druid)
+check_toggled (GtkToggleButton *button, GtkAssistant *assistant)
 {
-	 GtkWidget *box = g_object_get_data ((GObject *)button, "box");
-	gboolean state =  gtk_toggle_button_get_active ((GtkToggleButton *)button);
-	gchar *prevfile = g_object_get_data ((GObject *)druid, "restore-file");
+	GtkWidget *box = g_object_get_data ((GObject *)button, "box");
+	gboolean state = gtk_toggle_button_get_active ((GtkToggleButton *)button);
 
 	gtk_widget_set_sensitive (box, state);
-	gnome_druid_set_show_finish (druid, state);
-	if (state && !prevfile)
-		gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE, TRUE);
-	else
-		gnome_druid_set_buttons_sensitive (druid, TRUE, TRUE, TRUE, TRUE);
 
-	g_object_set_data ((GObject *)druid, "restore", GINT_TO_POINTER (state?1:0));
+	g_object_set_data ((GObject *)assistant, "restore", GINT_TO_POINTER (state?1:0));
 
+	e_config_target_changed ((EConfig *) g_object_get_data ((GObject *)assistant, "restore-config"), E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
-restore_wizard (GnomeDruidPage *druidpage, GnomeDruid *druid, gpointer user_data)
+file_changed (GtkFileChooser *chooser, GtkAssistant *assistant)
 {
-	gboolean state = GPOINTER_TO_INT(g_object_get_data((GObject *)druid, "restore")) ? TRUE:FALSE;
-	gchar *file = g_object_get_data ((GObject *)druid, "restore-file");
-
-	if (state) {
-		if (!file ||!sanity_check (file)) {
-			 e_error_run ((GtkWindow *)druid, "org.gnome.backup-restore:invalid-backup", NULL);
-		} else
-			restore (file, TRUE);
-
-	}
-}
-
-static void
-file_changed (GtkFileChooser *chooser, GnomeDruid *druid)
-{
-	gchar *file = NULL, *prevfile=NULL;
+	gchar *file = NULL, *prevfile = NULL;
 	gchar *uri = NULL;
 
-	uri = gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER (chooser));
-	e_file_update_save_path(uri, TRUE);
+	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (chooser));
+	e_file_update_save_path (uri, TRUE);
 
 	file = gtk_file_chooser_get_filename (chooser);
-	prevfile = g_object_get_data ((GObject *)druid, "restore-file");
-	g_object_set_data ((GObject *)druid, "restore-file", file);
+	prevfile = g_object_get_data ((GObject *)assistant, "restore-file");
+	g_object_set_data ((GObject *)assistant, "restore-file", file);
 	g_free (prevfile);
-	if (file) {
-		gnome_druid_set_buttons_sensitive (druid, TRUE, TRUE, TRUE, TRUE);
-	} else
-		gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE, TRUE);
 
+	e_config_target_changed ((EConfig *) g_object_get_data ((GObject *)assistant, "restore-config"), E_CONFIG_TARGET_CHANGED_STATE);
 }
+
+static gboolean
+backup_restore_check (EConfig *ec, const gchar *pageid, gpointer data)
+{
+	GtkAssistant *assistant = data;
+	gint do_restore;
+	gchar *file;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_ASSISTANT (data), FALSE);
+
+	do_restore = GPOINTER_TO_INT (g_object_get_data ((GObject *)assistant, "restore"));
+	file = g_object_get_data ((GObject *)assistant, "restore-file");
+
+	e_config_set_page_is_finish (ec, "0.startup_page.10.backup_restore", do_restore);
+
+	return !do_restore || file;
+}
+
 GtkWidget *
 backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
-	GtkWidget *page;
-	GtkWidget *box, *hbox, *label, *cbox, *button;
+	GtkWidget *page, *hbox, *label, *cbox, *button;
+	GtkAssistant *assistant = GTK_ASSISTANT (hook_data->parent);
 
-	page = gnome_druid_page_standard_new_with_vals (_("Restore from backup"), NULL, NULL);
+	page = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_single_line_mode ((GtkLabel *)label, FALSE);
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
-	box = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
-	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), hook_data->parent);
+	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), assistant);
 	gtk_box_pack_start ((GtkBox *)hbox, cbox, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	g_object_set_data ((GObject *)cbox, "box", hbox);
@@ -313,24 +308,37 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 12);
 
 	button = gtk_file_chooser_button_new (_("Choose a file to restore"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	g_signal_connect (button, "selection-changed", G_CALLBACK (file_changed), hook_data->parent);
+	g_signal_connect (button, "selection-changed", G_CALLBACK (file_changed), assistant);
 	gtk_file_chooser_button_set_width_chars ((GtkFileChooserButton *)button, 20);
 	gtk_box_pack_start ((GtkBox *)hbox, button, FALSE, FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)box, hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive (hbox, FALSE);
 
-	gtk_container_add ((GtkContainer *) GNOME_DRUID_PAGE_STANDARD (page)->vbox, box);
-	gtk_widget_show_all (box);
-	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
-	g_object_set_data ((GObject *)hook_data->parent, "restore", GINT_TO_POINTER (FALSE));
-	g_signal_connect (page, "finish", G_CALLBACK (restore_wizard), NULL);
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_title (assistant, page, _("Restore from backup"));
+	gtk_widget_show_all (page);
+
+	g_object_set_data ((GObject *)assistant, "restore", GINT_TO_POINTER (FALSE));
+	g_object_set_data ((GObject *)assistant, "restore-config", hook_data->config);
+
+	e_config_add_page_check (hook_data->config, "0.startup_page.10.backup_restore", backup_restore_check, assistant);
+
 	return GTK_WIDGET (page);
 }
 void
 backup_restore_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
-	/* Nothing really */
-	printf("commit\n");
+	GtkWidget *assistant = target->target.config->widget;
+	gboolean state = GPOINTER_TO_INT (g_object_get_data ((GObject *)assistant, "restore")) ? TRUE : FALSE;
+	gchar *file = g_object_get_data ((GObject *)assistant, "restore-file");
+
+	if (state) {
+		if (!file || !sanity_check (file)) {
+			e_error_run ((GtkWindow *)assistant, "org.gnome.backup-restore:invalid-backup", NULL);
+		} else {
+			restore (file, TRUE);
+		}
+	}
 }
 
 void

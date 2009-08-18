@@ -54,7 +54,7 @@ typedef struct _EMAccountEditorPrivate EMAccountEditorPrivate;
 
 typedef enum {
 	EMAE_NOTEBOOK,
-	EMAE_DRUID,
+	EMAE_ASSISTANT,
 	EMAE_PAGES
 } EMAccountEditorType;
 
@@ -64,7 +64,7 @@ struct _EMAccountEditor {
 	EMAccountEditorPrivate *priv;
 
 	EMAccountEditorType type;
-	GtkWidget *editor; /* gtknotebook or druid, depending on type */
+	GtkWidget *editor; /* gtknotebook or gtkassistant, depending on type */
 
 	EMConfig *config; /* driver object */
 

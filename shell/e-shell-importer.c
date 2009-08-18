@@ -296,7 +296,7 @@ importer_file_page_new (ImportData *data)
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
 
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
 
 	gtk_widget_show_all (table);
 
@@ -312,7 +312,7 @@ importer_dest_page_new (ImportData *data)
 
 	page->vbox = gtk_vbox_new (FALSE, 5);
 
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
 
 	return page;
 }
@@ -331,7 +331,7 @@ importer_type_page_new (ImportData *data)
 	page->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (page->intelligent),
 								  _("Import a _single file"));
 	gtk_box_pack_start (GTK_BOX (page->vbox), page->file, FALSE, FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
 
 	gtk_widget_show_all (page->vbox);
 
@@ -352,7 +352,7 @@ importer_importer_page_new (ImportData *data)
 	sep = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
 
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
 
 	gtk_widget_show_all (page->vbox);
 
@@ -657,10 +657,15 @@ import_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, gpointer use
 void
 e_shell_importer_start_import (EShellWindow *shell_window)
 {
+	const gchar *empty_xpm_img[] = {
+		"48 1 2 1",
+		" 	c None",
+		".	c #FFFFFF",
+		"                                                "};
 	ImportData *data = g_new0 (ImportData, 1);
 	GtkWidget *html, *page;
 	static gboolean dialog_open = FALSE;
-	GdkPixbuf *icon;
+	GdkPixbuf *icon, *spacer;
 	GtkAssistant *assistant;
 
 	if (dialog_open) {
@@ -670,6 +675,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	data->import = e_import_new ("org.gnome.evolution.shell.importer");
 
 	icon = e_icon_factory_get_icon ("stock_mail-import", GTK_ICON_SIZE_DIALOG);
+	spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
 
 	dialog_open = TRUE;
 	data->window = shell_window;
@@ -677,11 +683,15 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	assistant = GTK_ASSISTANT (data->assistant);
 
+	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
+	gtk_window_set_title (GTK_WINDOW (assistant), _("Evolution Import Assistant"));
+	gtk_window_set_default_size (GTK_WINDOW (assistant), 500, 330);
+
 	/* Start page */
 	page = gtk_label_new ("");
 	gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.0);
-	gtk_misc_set_padding (GTK_MISC (page), 10, 10);
+	gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.5);
+	gtk_misc_set_padding (GTK_MISC (page), 12, 12);
 	gtk_label_set_text (GTK_LABEL (page), _(
 		"Welcome to the Evolution Import Assistant.\n"
 		"With this assistant you will be guided through the process of importing external files into Evolution."));
@@ -690,6 +700,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Evolution Import Assistant"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_INTRO);
+	gtk_assistant_set_page_side_image (assistant, page, spacer);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* Intelligent or direct import page */
@@ -747,6 +758,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Import File"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
+	gtk_assistant_set_page_side_image (assistant, page, spacer);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* setup the rest */
@@ -762,6 +774,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	g_object_weak_ref ((GObject *)assistant, import_assistant_weak_notify, data);
 
 	g_object_unref (icon);
+	g_object_unref (spacer);
 
 	gtk_assistant_update_buttons_state (assistant);
 

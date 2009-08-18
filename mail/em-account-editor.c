@@ -26,7 +26,7 @@
   work before merge can occur:
 
   verify behaviour.
-  work out what to do with the startup druid.
+  work out what to do with the startup assistant.
 
   also need to work out:
   how to remove unecessary items from a service url once
@@ -47,9 +47,6 @@
 #include <gconf/gconf-client.h>
 
 #include <glade/glade.h>
-
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
 
 #include "shell/e-shell.h"
 #include "e-util/e-error.h"
@@ -190,7 +187,7 @@ struct _EMAccountEditorPrivate {
 	const gchar *widgets_name[5];
 	gint widgets_index;
 
-	/* for druid page preparation */
+	/* for assistant page preparation */
 	guint identity_set:1;
 	guint receive_set:1;
 	guint send_set:1;
@@ -2071,6 +2068,60 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 	camel_url_free (url);
 }
 
+static GtkWidget *
+emae_create_basic_assistant_page (GtkAssistant *assistant, const gchar *page_id)
+{
+	const gchar *title = NULL, *label = NULL;
+	GtkAssistantPageType page_type = GTK_ASSISTANT_PAGE_CONTENT;
+	GtkWidget *vbox, *lbl;
+	gboolean fill_space = FALSE;
+
+	g_return_val_if_fail (page_id != NULL, NULL);
+
+	if (g_ascii_strcasecmp (page_id, "start_page") == 0) {
+		page_type = GTK_ASSISTANT_PAGE_INTRO;
+		fill_space = TRUE;
+		title = _("Mail Configuration");
+		label = _("Welcome to the Evolution Mail Configuration Assistant.\n\nClick \"Forward\" to begin.");
+	} else if (g_ascii_strcasecmp (page_id, "identity_page") == 0) {
+		title = _("Identity");
+		label = _("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.");
+	} else if (g_ascii_strcasecmp (page_id, "source_page") == 0) {
+		title = _("Receiving Email");
+		label = _("Please configure the following account settings.");
+	} else if (g_ascii_strcasecmp (page_id, "transport_page") == 0) {
+		title = _("Sending Email");
+		label = _("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.");
+	} else if (g_ascii_strcasecmp (page_id, "management_page") == 0) {
+		title = _("Account Management");
+		label = _("Please enter a descriptive name for this account in the space below.\nThis name will be used for display purposes only.");
+	} else if (g_ascii_strcasecmp (page_id, "finish_page") == 0) {
+		page_type = GTK_ASSISTANT_PAGE_CONFIRM;
+		fill_space = TRUE;
+		title = _("Done");
+		label = _("Congratulations, your mail configuration is complete.\n\nYou are now ready to send and receive email using Evolution.\n\nClick \"Apply\" to save your settings.");
+	} else {
+		g_return_val_if_reached (NULL);
+	}
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+
+	lbl = gtk_label_new (label);
+	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
+	gtk_label_set_line_wrap (GTK_LABEL (lbl), TRUE);
+
+	gtk_box_pack_start (GTK_BOX (vbox), lbl, fill_space, fill_space, 0);
+
+	gtk_widget_show_all (vbox);
+
+	gtk_assistant_append_page (assistant, vbox);
+	gtk_assistant_set_page_title (assistant, vbox, title);
+	gtk_assistant_set_page_type (assistant, vbox, page_type);
+
+	return vbox;
+}
+
 /* do not re-order these, the order is used by various code to look up emae->priv->identity_entries[] */
 static struct {
 	const gchar *name;
@@ -2126,7 +2177,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	xml = glade_xml_new (gladefile, item->label, NULL);
 	g_free (gladefile);
 
-	/* Management & Identity fields, in the druid the management frame is relocated to the last page later on */
+	/* Management & Identity fields, in the assistant the management frame is relocated to the last page later on */
 	for (i=0;i<sizeof (emae_identity_entries)/sizeof (emae_identity_entries[0]);i++)
 		gui->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, xml);
 
@@ -2152,22 +2203,12 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	w = glade_xml_get_widget (xml, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[0], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml;
-		GtkWidget *page;
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "identity_page");
 
-		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-					      "mail-config.glade",
-					      NULL);
-		druidxml = glade_xml_new (gladefile, "identity_page", NULL);
-		g_free (gladefile);
+		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
-		page = glade_xml_get_widget (druidxml, "identity_page");
-
-		gtk_box_pack_start ((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
-		g_object_unref (druidxml);
-		gnome_druid_append_page ((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
 	}
@@ -2203,22 +2244,12 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	w = glade_xml_get_widget (xml, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[1], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml;
-		GtkWidget *page;
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "source_page");
 
-		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-					      "mail-config.glade",
-					      NULL);
-		druidxml = glade_xml_new (gladefile, "source_page", NULL);
-		g_free (gladefile);
+		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
-		page = glade_xml_get_widget (druidxml, "source_page");
-
-		gtk_box_pack_start ((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
-		g_object_unref (druidxml);
-		gnome_druid_append_page ((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
 	}
@@ -2673,22 +2704,12 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	w = glade_xml_get_widget (xml, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[2], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml;
-		GtkWidget *page;
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "transport_page");
 
-		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-					      "mail-config.glade",
-					      NULL);
-		druidxml = glade_xml_new (gladefile, "transport_page", NULL);
-		g_free (gladefile);
+		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
-		page = glade_xml_get_widget (druidxml, "transport_page");
-
-		gtk_box_pack_start ((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
-		g_object_unref (druidxml);
-		gnome_druid_append_page ((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
 	}
@@ -2884,59 +2905,32 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	GtkWidget *w;
 
 	w = gui->management_frame;
-	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
-		GladeXML *druidxml;
-		GtkWidget *page;
-		gchar *gladefile;
+	if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "management_page");
 
-		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-					      "mail-config.glade",
-					      NULL);
-		druidxml = glade_xml_new (gladefile, "management_page", NULL);
-		g_free (gladefile);
+		gtk_widget_reparent (w, page);
 
-		page = glade_xml_get_widget (druidxml, "management_page");
-
-		gtk_widget_reparent (w, ((GnomeDruidPageStandard *)page)->vbox);
 		w = page;
-		g_object_unref (druidxml);
-		gnome_druid_append_page ((GnomeDruid *)parent, (GnomeDruidPage *)page);
 	}
 
 	return w;
 }
 
 static GtkWidget *
-emae_widget_druid_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emae_widget_assistant_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
-	GladeXML *druidxml;
-	GtkWidget *w;
-	gchar *gladefile;
 	EMAccountEditor *emae = (EMAccountEditor *)data;
 
 	if (emae->type == EMAE_PAGES)
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	druidxml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
-
-	w = glade_xml_get_widget (druidxml, item->label);
-	/* i think the glade file has issues, we need to show all on at least the end page */
-	gtk_widget_show_all (w);
-	g_object_unref (druidxml);
-
-	gnome_druid_append_page ((GnomeDruid *)parent, (GnomeDruidPage *)w);
-
-	return w;
+	return emae_create_basic_assistant_page (GTK_ASSISTANT (parent), item->label);
 }
 
-/* plugin meta-data for "org.gnome.evolution.mail.config.accountDruid" */
-static EMConfigItem emae_druid_items[] = {
-	{ E_CONFIG_DRUID, (gchar *) "" },
-	{ E_CONFIG_PAGE_START, (gchar *) "0.start", (gchar *) "start_page", emae_widget_druid_glade },
+/* plugin meta-data for "org.gnome.evolution.mail.config.accountAssistant" */
+static EMConfigItem emae_assistant_items[] = {
+	{ E_CONFIG_ASSISTANT, (gchar *) "" },
+	{ E_CONFIG_PAGE_START, (gchar *) "0.start", (gchar *) "start_page", emae_widget_assistant_page },
 
 	{ E_CONFIG_PAGE, (gchar *) "00.identity", (gchar *) "vboxIdentityBorder", emae_identity_page },
 	{ E_CONFIG_SECTION, (gchar *) "00.identity/00.name", (gchar *) "account_vbox", emae_widget_glade },
@@ -2962,10 +2956,10 @@ static EMConfigItem emae_druid_items[] = {
 
 	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },
 
-	{ E_CONFIG_PAGE_FINISH, (gchar *) "999.end", (gchar *) "finish_page", emae_widget_druid_glade },
+	{ E_CONFIG_PAGE_FINISH, (gchar *) "999.end", (gchar *) "finish_page", emae_widget_assistant_page },
 	{ 0 },
 };
-static gboolean emae_druid_items_translated = FALSE;
+static gboolean emae_assistant_items_translated = FALSE;
 
 static void
 emae_free (EConfig *ec, GSList *items, gpointer data)
@@ -3079,9 +3073,9 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	new_account = (original_account == NULL);
 
 	/* We use the page-check of various pages to 'prepare' or
-	   pre-load their values, only in the druid */
+	   pre-load their values, only in the assistant */
 	if (pageid
-	    && ((EConfig *)emae->priv->config)->type == E_CONFIG_DRUID) {
+	    && ((EConfig *)emae->priv->config)->type == E_CONFIG_ASSISTANT) {
 		if (!strcmp (pageid, "00.identity")) {
 			if (!emae->priv->identity_set) {
 				gchar *uname;
@@ -3342,14 +3336,14 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 			emae_editor_items_translated = TRUE;
 		}
 	} else {
-		ec = em_config_new (E_CONFIG_DRUID, id);
-		items = emae_druid_items;
-		if (!emae_druid_items_translated) {
+		ec = em_config_new (E_CONFIG_ASSISTANT, id);
+		items = emae_assistant_items;
+		if (!emae_assistant_items_translated) {
 			for (i=0;items[i].path;i++) {
 				if (items[i].label)
 					items[i].label = _(items[i].label);
 			}
-			emae_druid_items_translated = TRUE;
+			emae_assistant_items_translated = TRUE;
 		}
 	}
 

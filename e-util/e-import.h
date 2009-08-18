@@ -60,7 +60,7 @@ enum _e_import_target_t {
  * @type: target type
  * @priority: Priority of importer.  Higher values will be processed first.
  * @supported: Callback to see if this target is supported by the importer.
- * @get_widget: A widget factory for this importer, if it needs any extra information in the druid.  It will update the target.
+ * @get_widget: A widget factory for this importer, if it needs any extra information in the assistant.  It will update the target.
  * @import: Run the import.
  * @user_data: User data for the callbacks;
  *

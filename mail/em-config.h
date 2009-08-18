@@ -67,7 +67,7 @@ struct _EMConfigTargetAccount {
 
 	EAccount *account;
 	/* Need also: working account, not just real account, so changes can be propagated around
-	   And some mechamism for controlling the gui if we're running inside a druid, e.g. enabling 'next' */
+	   And some mechamism for controlling the gui if we're running inside an assistant, e.g. enabling 'next' */
 };
 
 typedef struct _EConfigItem EMConfigItem;

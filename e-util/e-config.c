@@ -30,10 +30,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
-#include <libgnomeui/gnome-druid-page-edge.h>
-
 #include "e-config.h"
 
 #include <glib/gi18n.h>
@@ -79,12 +75,19 @@ struct _check_node {
 	gpointer data;
 };
 
+struct _finish_page_node {
+	struct _finish_page_node *next, *prev;
+
+	gchar *pageid;
+	gboolean is_finish;
+	gint orig_type;
+};
+
 struct _EConfigPrivate {
 	EDList menus;
 	EDList widgets;
 	EDList checks;
-
-	struct _widget_node *druid_page; /* current druid page if using the druid */
+	EDList finish_pages;
 };
 
 static GObjectClass *ep_parent;
@@ -100,6 +103,7 @@ ep_init(GObject *o)
 	e_dlist_init(&p->menus);
 	e_dlist_init(&p->widgets);
 	e_dlist_init(&p->checks);
+	e_dlist_init(&p->finish_pages);
 }
 
 static void
@@ -110,6 +114,7 @@ ep_finalise(GObject *o)
 	struct _menu_node *mnode;
 	struct _widget_node *wn;
 	struct _check_node *cn;
+	struct _finish_page_node *fp;
 
 	d(printf("finalising EConfig %p\n", o));
 
@@ -133,6 +138,11 @@ ep_finalise(GObject *o)
 	while ( (cn = (struct _check_node *)e_dlist_remhead(&p->checks)) ) {
 		g_free(cn->pageid);
 		g_free(cn);
+	}
+
+	while ( (fp = (struct _finish_page_node *) e_dlist_remhead (&p->finish_pages)) ) {
+		g_free (fp->pageid);
+		g_free (fp);
 	}
 
 	g_free(p);
@@ -204,7 +214,7 @@ e_config_get_type(void)
  * e_config_construct:
  * @ep: The instance to initialise.
  * @type: The type of configuration manager, @E_CONFIG_BOOK or
- * @E_CONFIG_DRUID.
+ * @E_CONFIG_ASSISTANT.
  * @id: The name of the configuration window this manager drives.
  *
  * Used by implementing classes to initialise base parameters.
@@ -213,7 +223,7 @@ e_config_get_type(void)
  **/
 EConfig *e_config_construct(EConfig *ep, gint type, const gchar *id)
 {
-	g_return_val_if_fail (type == E_CONFIG_BOOK || type == E_CONFIG_DRUID, NULL);
+	g_return_val_if_fail (type == E_CONFIG_BOOK || type == E_CONFIG_ASSISTANT, NULL);
 
 	ep->type = type;
 	ep->id = g_strdup(id);
@@ -269,7 +279,7 @@ e_config_add_items(EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, ECon
  * is being checked.
  *
  * The page check function is used to validate input before allowing
- * the druid to continue or the notebook to close.
+ * the assistant to continue or the notebook to close.
  **/
 void
 e_config_add_page_check(EConfig *ec, const gchar *pageid, EConfigCheckFunc check, gpointer data)
@@ -282,6 +292,48 @@ e_config_add_page_check(EConfig *ec, const gchar *pageid, EConfigCheckFunc check
 	cn->data = data;
 
 	e_dlist_addtail(&ec->priv->checks, (EDListNode *)cn);
+}
+
+static struct _finish_page_node *
+find_page_finish (EConfig *ec, const gchar *pageid)
+{
+	struct _finish_page_node *fp;
+
+	for (fp = (struct _finish_page_node *) ec->priv->finish_pages.head; fp->next; fp = fp->next) {
+		if (g_str_equal (fp->pageid, pageid))
+			return fp;
+	}
+
+	return NULL;
+}
+
+/**
+ * e_config_set_page_is_finish:
+ * @ec: Initialised implementing instance of EConfig.
+ * @pageid: pageid to change the value on.
+ * @can_finish: whether the pageid can finish immediately or not.
+ *
+ * With is_finish set on the pageid the page is treated as the last page in an assistant.
+ **/
+void
+e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish)
+{
+	struct _finish_page_node *fp;
+
+	fp = find_page_finish (ec, pageid);
+
+	if (is_finish) {
+		if (!fp) {
+			fp = g_malloc0 (sizeof (*fp));
+			fp->pageid = g_strdup (pageid);
+			e_dlist_addtail (&ec->priv->finish_pages, (EDListNode *)fp);
+		}
+
+		fp->is_finish = TRUE;
+	} else {
+		if (fp)
+			fp->is_finish = FALSE;
+	}
 }
 
 static void
@@ -309,55 +361,131 @@ ep_cmp(gconstpointer ap, gconstpointer bp)
 	return strcmp(a->item->path, b->item->path);
 }
 
-static void
-ec_druid_check_current(EConfig *ec)
+static struct _widget_node *
+ec_assistant_find_page (EConfig *ec, GtkWidget *page, gint *page_index)
 {
-	g_return_if_fail(ec->priv->druid_page != NULL);
+	struct _widget_node *wn;
 
-	if (e_config_page_check(ec, ec->priv->druid_page->item->path)) {
-		gtk_widget_set_sensitive(((GnomeDruid *)ec->widget)->next, TRUE);
-	} else {
-		gtk_widget_set_sensitive(((GnomeDruid *)ec->widget)->next, FALSE);
+	g_return_val_if_fail (ec != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_ASSISTANT (ec->widget), NULL);
+	g_return_val_if_fail (page != NULL, NULL);
+
+	for (wn = (struct _widget_node *)ec->priv->widgets.head; wn->next; wn = wn->next) {
+		if (wn->frame == page
+		    && (wn->item->type == E_CONFIG_PAGE
+			|| wn->item->type == E_CONFIG_PAGE_START
+			|| wn->item->type == E_CONFIG_PAGE_FINISH))
+				break;
 	}
+
+	if (wn->frame != page)
+		wn = NULL;
+
+	if (page_index) {
+		if (wn) {
+			GtkAssistant *assistant = GTK_ASSISTANT (ec->widget);
+			gint index, count = gtk_assistant_get_n_pages (assistant);
+
+			for (index = 0; index < count; index++) {
+				if (gtk_assistant_get_nth_page (assistant, index) == page)
+					break;
+			}
+
+			if (index == count)
+				index = -1;
+			*page_index = index;
+		} else {
+			*page_index = -1;
+		}
+	}
+
+	return wn;
 }
 
 static void
-ec_druid_cancel(GnomeDruid *druid, struct _widget_node *wn)
+ec_assistant_check_current (EConfig *ec)
 {
-	d(printf("finishing druid, calling abort\n"));
-	e_config_abort(wn->config);
+	struct _widget_node *wn;
+	struct _finish_page_node *fp;
+	GtkAssistant *assistant;
+	GtkWidget *page;
+	gint page_no;
 
-	if (wn->config->window)
-		gtk_widget_destroy(wn->config->window);
+	g_return_if_fail (GTK_IS_ASSISTANT (ec->widget));
+
+	assistant = GTK_ASSISTANT (ec->widget);
+	page_no = gtk_assistant_get_current_page (assistant);
+
+	/* no page selected yet */
+	if (page_no == -1)
+		return;
+
+	page = gtk_assistant_get_nth_page (assistant, page_no);
+	g_return_if_fail (page != NULL);
+
+	wn = ec_assistant_find_page (ec, page, NULL);
+	g_return_if_fail (wn != NULL);
+
+	/* this should come first, as the check function can change the finish state of the page */
+	gtk_assistant_set_page_complete (assistant, page, e_config_page_check (ec, wn->item->path));
+
+	fp = find_page_finish (ec, wn->item->path);
+	if (fp) {
+		GtkAssistantPageType pt = gtk_assistant_get_page_type (assistant, page);
+
+		if (fp->is_finish && pt != GTK_ASSISTANT_PAGE_CONFIRM) {
+			if (fp->orig_type == GTK_ASSISTANT_PAGE_CONTENT)
+				fp->orig_type = pt;
+			gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
+		} else if (!fp->is_finish && pt != fp->orig_type) {
+			gtk_assistant_set_page_type (assistant, page, fp->orig_type);
+		}
+	}
+
+	gtk_assistant_update_buttons_state (assistant);
 }
 
 static void
-ec_druid_finish(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
+ec_assistant_cancel (GtkAssistant *assistant, EConfig *config)
 {
-	d(printf("finishing druid, calling commit\n"));
-	e_config_commit(wn->config);
+	d(printf("finishing assistant, calling abort\n"));
+	e_config_abort (config);
+
+	if (config->window)
+		gtk_widget_destroy (config->window);
+}
+
+static void
+ec_assistant_apply (GtkAssistant *assistant, EConfig *config)
+{
+	d(printf("finishing assistant, calling commit\n"));
+	e_config_commit (config);
 
 	/* TODO: allow the commit to fail?  Do we care? */
-	if (wn->config->window)
-		gtk_widget_destroy(wn->config->window);
+	if (config->window)
+		gtk_widget_destroy (config->window);
 }
 
 static void
-ec_druid_prepare(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
+ec_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, EConfig *config)
 {
-	d(printf("prepare page '%s'\n", wn->item->path));
-	wn->config->priv->druid_page = wn;
-	ec_druid_check_current(wn->config);
+	d(printf("prepare page '%p'\n", page));
+	ec_assistant_check_current (config);
 }
 
-static gboolean
-ec_druid_prev(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
+static gint
+ec_assistant_forward (gint current_page, gpointer user_data)
 {
-	EConfig *ec = wn->config;
+	EConfig *ec = user_data;
+	struct _widget_node *wn;
+	gint next_page = current_page;
 
-	d(printf("prev page from '%s'\n", wn->item->path));
-	if (wn->prev) {
-		for (wn = wn->prev;wn->prev;wn=wn->prev) {
+	d(printf("next page from '%d'\n", current_page));
+
+	wn = ec_assistant_find_page (ec, gtk_assistant_get_nth_page (GTK_ASSISTANT (ec->widget), current_page), NULL);
+
+	if (wn && wn->next) {
+		for (wn = wn->next; wn->next; wn = wn->next) {
 			if (!wn->empty && wn->frame != NULL
 			    && (wn->item->type == E_CONFIG_PAGE
 				|| wn->item->type == E_CONFIG_PAGE_START
@@ -366,53 +494,23 @@ ec_druid_prev(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
 		}
 	}
 
-	if (wn->prev) {
+	if (wn && wn->next) {
 		d(printf(" is %s\n",wn->item->path));
-		gnome_druid_set_page((GnomeDruid *)ec->widget, (GnomeDruidPage *)wn->frame);
-		ec->priv->druid_page = wn;
-	} else {
-		/* do we need to indicate first? */
-		ec->priv->druid_page = NULL;
+		ec_assistant_find_page (ec, wn->frame, &next_page);
 	}
 
-	return wn->prev != NULL;
-}
-
-static gboolean
-ec_druid_next(GnomeDruidPage *page, GnomeDruid *druid, struct _widget_node *wn)
-{
-	EConfig *ec = wn->config;
-
-	d(printf("next page from '%s'\n", wn->item->path));
-	if (wn->next) {
-		for (wn = wn->next;wn->next;wn=wn->next) {
-			if (!wn->empty && wn->frame != NULL
-			    && (wn->item->type == E_CONFIG_PAGE
-				|| wn->item->type == E_CONFIG_PAGE_START
-				|| wn->item->type == E_CONFIG_PAGE_FINISH))
-				break;
-		}
-	}
-
-	if (wn->next) {
-		d(printf(" is %s\n",wn->item->path));
-		gnome_druid_set_page((GnomeDruid *)ec->widget, (GnomeDruidPage *)wn->frame);
-		ec->priv->druid_page = wn;
-	} else {
-		/* do we need to indicate last? */
-		ec->priv->druid_page = NULL;
-	}
-
-	return wn->next != NULL;
+	return next_page;
 }
 
 static void
-ec_rebuild(EConfig *emp)
+ec_rebuild (EConfig *emp)
 {
 	struct _EConfigPrivate *p = emp->priv;
 	struct _widget_node *wn, *sectionnode = NULL, *pagenode = NULL;
-	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL, *druid = NULL;
+	GtkWidget *book = NULL, *page = NULL, *section = NULL, *root = NULL, *assistant = NULL;
 	gint pageno = 0, sectionno = 0, itemno = 0;
+	struct _widget_node *last_active_page = NULL;
+	gboolean is_assistant;
 
 	d(printf("target changed, rebuilding:\n"));
 
@@ -420,6 +518,15 @@ ec_rebuild(EConfig *emp)
 	 * become more complex with time.  It could possibly be split
 	 * into the two base types, but there would be a lot of code
 	 * duplication */
+
+	/* because rebuild destroys pages, and destroying active page causes crashes */
+	is_assistant = emp->widget && GTK_IS_ASSISTANT (emp->widget);
+	if (is_assistant) {
+		gint page_index = gtk_assistant_get_current_page (GTK_ASSISTANT (emp->widget));
+		if (page_index != -1)
+			last_active_page = ec_assistant_find_page (emp, gtk_assistant_get_nth_page (GTK_ASSISTANT (emp->widget), page_index), NULL);
+		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), 0);
+	}
 
 	for (wn = (struct _widget_node *)p->widgets.head;wn->next;wn=wn->next) {
 		struct _EConfigItem *item = wn->item;
@@ -464,35 +571,39 @@ ec_rebuild(EConfig *emp)
 		/* Now process the item */
 		switch (item->type) {
 		case E_CONFIG_BOOK:
-		case E_CONFIG_DRUID:
-			/* Only one of BOOK or DRUID may be define, it
+		case E_CONFIG_ASSISTANT:
+			/* Only one of BOOK or ASSISTANT may be define, it
 			   is used by the defining code to mark the
 			   type of the config window.  It is
 			   cross-checked with the code's defined
 			   type. */
 			if (root != NULL) {
-				g_warning("EConfig book/druid redefined at: %s", item->path);
+				g_warning("EConfig book/assistant redefined at: %s", item->path);
 				break;
 			}
 
 			if (wn->widget == NULL) {
 				if (item->type != emp->type) {
-					g_warning("EConfig book/druid type mismatch");
+					g_warning("EConfig book/assistant type mismatch");
 					break;
 				}
 				if (item->factory) {
 					root = item->factory(emp, item, NULL, wn->widget, wn->context->data);
 				} else if (item->type == E_CONFIG_BOOK) {
-					root = book = gtk_notebook_new();
-					gtk_widget_show(book);
-				} else if (item->type == E_CONFIG_DRUID) {
-					root = druid = gnome_druid_new();
-					gtk_widget_show(druid);
+					root = gtk_notebook_new();
+					gtk_widget_show (root);
+				} else if (item->type == E_CONFIG_ASSISTANT) {
+					root = gtk_assistant_new ();
 				} else
 					abort();
 
-				if (item->type == E_CONFIG_DRUID)
-					g_signal_connect(root, "cancel", G_CALLBACK(ec_druid_cancel), wn);
+				if (item->type == E_CONFIG_ASSISTANT) {
+					g_signal_connect (root, "cancel", G_CALLBACK (ec_assistant_cancel), emp);
+					g_signal_connect (root, "close", G_CALLBACK (ec_assistant_cancel), emp);
+					g_signal_connect (root, "apply", G_CALLBACK (ec_assistant_apply), emp);
+					g_signal_connect (root, "prepare", G_CALLBACK (ec_assistant_prepare), emp);
+					gtk_assistant_set_forward_page_func (GTK_ASSISTANT (root), ec_assistant_forward, emp, NULL);
+				}
 
 				emp->widget = root;
 				wn->widget = root;
@@ -503,7 +614,7 @@ ec_rebuild(EConfig *emp)
 			if (item->type == E_CONFIG_BOOK)
 				book = root;
 			else
-				druid = root;
+				assistant = root;
 
 			page = NULL;
 			pagenode = NULL;
@@ -518,8 +629,8 @@ ec_rebuild(EConfig *emp)
 				g_warning("EConfig page defined before container widget: %s", item->path);
 				break;
 			}
-			if (emp->type != E_CONFIG_DRUID) {
-				g_warning("EConfig druid start/finish pages can't be used on E_CONFIG_BOOKs");
+			if (emp->type != E_CONFIG_ASSISTANT) {
+				g_warning("EConfig assistant start/finish pages can't be used on E_CONFIG_BOOKs");
 				break;
 			}
 
@@ -527,21 +638,41 @@ ec_rebuild(EConfig *emp)
 				if (item->factory) {
 					page = item->factory(emp, item, root, wn->frame, wn->context->data);
 				} else {
-					page = gnome_druid_page_edge_new(item->type == E_CONFIG_PAGE_START?GNOME_EDGE_START:GNOME_EDGE_FINISH);
-					gtk_widget_show(page);
-					gnome_druid_page_edge_set_title((GnomeDruidPageEdge *)page, translated_label);
-					gnome_druid_insert_page((GnomeDruid *)druid, pagenode?(GnomeDruidPage *)pagenode->frame:NULL, (GnomeDruidPage *)page);
+					page = gtk_vbox_new (FALSE, 0);
+					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
+					if (pagenode) {
+						/* put after */
+						gint index = -1;
+						ec_assistant_find_page (emp, pagenode->frame, &index);
+						gtk_assistant_insert_page (GTK_ASSISTANT (assistant), page, index + 1);
+					} else {
+						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
+					}
+
+					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, item->type == E_CONFIG_PAGE_START ? GTK_ASSISTANT_PAGE_INTRO : GTK_ASSISTANT_PAGE_CONFIRM);
+					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
+					gtk_widget_show_all (page);
 				}
-				if (page) {
-					if (item->type == E_CONFIG_PAGE_FINISH) {
-						g_signal_connect(page, "back", G_CALLBACK(ec_druid_prev), wn);
-						g_signal_connect(page, "finish", G_CALLBACK(ec_druid_finish), wn);
-					} else
-						g_signal_connect(page, "next", G_CALLBACK(ec_druid_next), wn);
-				}
+
 				wn->frame = page;
 				wn->widget = page;
+
+				if (page) {
+					const gchar *empty_xpm_img[] = {
+						"48 1 2 1",
+						" 	c None",
+						".	c #FFFFFF",
+						"                                                "};
+
+					/* left side place with a blue background on a start and finish page */
+					GdkPixbuf *spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
+
+					gtk_assistant_set_page_side_image (GTK_ASSISTANT (assistant), page, spacer);
+
+					g_object_unref (spacer);
+				}
 			}
+
 			pageno++;
 			page = NULL;
 			pagenode = wn; /* need this for previous page linking */
@@ -550,15 +681,12 @@ ec_rebuild(EConfig *emp)
 			sectionno = 1; /* never want to hide these */
 			break;
 		case E_CONFIG_PAGE: {
-			gint connect = 0; /* connect druid signals */
-
 			/* CONFIG_PAGEs depend on the config type.
 			   E_CONFIG_BOOK:
 				The page is a VBox, stored in the notebook.
-			   E_CONFIG_DRUID
-				The page is a GnomeDruidPageStandard,
-				any sections automatically added are added to
-				the vbox inside it. */
+			   E_CONFIG_ASSISTANT
+				The page is a VBox, stored in the GtkAssistant,
+				any sections automatically added inside it. */
 			sectionno = 0;
 			if (root == NULL) {
 				g_warning("EConfig page defined before container widget: %s", item->path);
@@ -567,15 +695,8 @@ ec_rebuild(EConfig *emp)
 
 			if (item->factory) {
 				page = item->factory(emp, item, root, wn->frame, wn->context->data);
-				if (emp->type == E_CONFIG_DRUID) {
-					if (page) {
-						if (GNOME_IS_DRUID_PAGE_STANDARD(page)) {
-							connect = wn->frame != page;
-							wn->frame = page;
-							page = ((GnomeDruidPageStandard *)page)->vbox;
-						}
-					} else
-						wn->frame = page;
+				if (emp->type == E_CONFIG_ASSISTANT) {
+					wn->frame = page;
 				} else {
 					wn->frame = page;
 					if (page)
@@ -584,14 +705,22 @@ ec_rebuild(EConfig *emp)
 				if (page)
 					sectionno = 1;
 			} else if (wn->widget == NULL) {
-				if (emp->type == E_CONFIG_DRUID) {
-					w = gnome_druid_page_standard_new();
-					gtk_widget_show(w);
-					gnome_druid_page_standard_set_title((GnomeDruidPageStandard *)w, translated_label);
-					gnome_druid_insert_page((GnomeDruid *)druid, pagenode?(GnomeDruidPage *)pagenode->frame:NULL, (GnomeDruidPage *)w);
-					wn->frame = w;
-					page = ((GnomeDruidPageStandard *)w)->vbox;
-					connect = TRUE;
+				if (emp->type == E_CONFIG_ASSISTANT) {
+					page = gtk_vbox_new (FALSE, 0);
+					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
+					if (pagenode) {
+						/* put after */
+						gint index = -1;
+						ec_assistant_find_page (emp, pagenode->frame, &index);
+						gtk_assistant_insert_page (GTK_ASSISTANT (assistant), page, index + 1);
+					} else {
+						gtk_assistant_prepend_page (GTK_ASSISTANT (assistant), page);
+					}
+					gtk_assistant_set_page_type (GTK_ASSISTANT (assistant), page, GTK_ASSISTANT_PAGE_CONTENT);
+					gtk_assistant_set_page_title (GTK_ASSISTANT (assistant), page, translated_label);
+					gtk_widget_show_all (page);
+
+					wn->frame = page;
 				} else {
 					w = gtk_label_new_with_mnemonic (translated_label);
 					gtk_widget_show(w);
@@ -607,15 +736,8 @@ ec_rebuild(EConfig *emp)
 			d(printf("page %d:%s widget %p\n", pageno, item->path, page));
 
 			if (wn->widget && wn->widget != page) {
-				d(printf("destroy old widget for page '%s'\n", item->path));
-				gtk_widget_destroy(wn->widget);
-			}
-
-			if (connect) {
-				g_signal_connect(wn->frame, "next", G_CALLBACK(ec_druid_next), wn);
-				g_signal_connect(wn->frame, "back", G_CALLBACK(ec_druid_prev), wn);
-				/* GnomeDruid bug, need to connect_after */
-				g_signal_connect_after(wn->frame, "prepare", G_CALLBACK(ec_druid_prepare), wn);
+				d(printf("destroy old widget for page '%s' (%p)\n", item->path, wn->widget));
+				gtk_widget_destroy (wn->widget);
 			}
 
 			pageno++;
@@ -629,8 +751,7 @@ ec_rebuild(EConfig *emp)
 		case E_CONFIG_SECTION:
 		case E_CONFIG_SECTION_TABLE:
 			/* The section factory is always called with
-			   the parent vbox object.  Even for druid
-			   pages. */
+			   the parent vbox object.  Even for assistant pages. */
 			if (page == NULL) {
 				/*g_warning("EConfig section '%s' has no parent page", item->path);*/
 				section = NULL;
@@ -768,6 +889,13 @@ ec_rebuild(EConfig *emp)
 			gtk_notebook_set_show_border((GtkNotebook *)book, FALSE);
 		}
 	}
+
+	if (is_assistant && last_active_page) {
+		gint page_index = -1;
+
+		ec_assistant_find_page (emp, last_active_page->frame, &page_index);
+		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), page_index);
+	}
 }
 
 /**
@@ -805,7 +933,7 @@ ec_widget_destroy(GtkWidget *w, EConfig *ec)
  *
  * Create the widget described by @emp.  Only the core widget
  * appropriate for the given type is created, i.e. a GtkNotebook for
- * the E_CONFIG_BOOK type and a GnomeDruid for the E_CONFIG_DRUID
+ * the E_CONFIG_BOOK type and a GtkAssistant for the E_CONFIG_ASSISTANT
  * type.
  *
  * This object will be self-driving, but will not close itself once
@@ -859,6 +987,11 @@ e_config_create_widget(EConfig *emp)
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
 	if (emp->type == E_CONFIG_BOOK)
 		gtk_notebook_set_current_page((GtkNotebook *)emp->widget, 0);
+	else {
+		gtk_assistant_set_current_page (GTK_ASSISTANT (emp->widget), 0);
+		gtk_window_set_position (GTK_WINDOW (emp->widget), GTK_WIN_POS_CENTER);
+		gtk_widget_show (emp->widget);
+	}
 
 	return emp->widget;
 }
@@ -882,9 +1015,9 @@ ec_dialog_response(GtkWidget *d, gint id, EConfig *ec)
  *
  * Create a managed GtkWindow object from @emp.  This window will be
  * fully driven by the EConfig @emp.  If @emp.type is
- * @E_CONFIG_DRUID, then this will be a toplevel GtkWindow containing
- * a GnomeDruid.  If it is @E_CONFIG_BOOK then it will be a GtkDialog
- * containing a Nnotebook.
+ * @E_CONFIG_ASSISTANT, then this will be a toplevel GtkWindow containing
+ * a GtkAssistant.  If it is @E_CONFIG_BOOK then it will be a GtkDialog
+ * containing a Notebook.
  *
  * Unless reffed otherwise, the management object @emp will be
  * finalised when the widget is.
@@ -913,11 +1046,9 @@ e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
 
 		gtk_box_pack_start((GtkBox *)gtk_dialog_get_content_area (((GtkDialog *)w)), emp->widget, TRUE, TRUE, 0);
 	} else {
-		/* response is handled directly by the druid stuff */
-		w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		/* response is handled directly by the assistant stuff */
+		w = emp->widget;
 		gtk_window_set_title ((GtkWindow *)w, title);
-		gtk_container_add((GtkContainer *)w, emp->widget);
-		gtk_window_set_type_hint((GtkWindow *)w, GDK_WINDOW_TYPE_HINT_DIALOG);
 	}
 
 	emp->window = w;
@@ -926,17 +1057,11 @@ e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
 	return w;
 }
 
-static gboolean
-ec_idle_handler_for_rebuild (gpointer data)
+static void
+ec_call_page_check (EConfig *emp)
 {
-	EConfig *emp = (EConfig*) data;
-
-	ec_rebuild (emp);
-	if (emp->type == E_CONFIG_DRUID) {
-		if (emp->priv->druid_page) {
-			gnome_druid_set_page((GnomeDruid *)emp->widget, (GnomeDruidPage *)emp->priv->druid_page->frame);
-			ec_druid_check_current(emp);
-		}
+	if (emp->type == E_CONFIG_ASSISTANT) {
+		ec_assistant_check_current (emp);
 	} else {
 		if (emp->window) {
 			if (e_config_page_check(emp, NULL)) {
@@ -946,6 +1071,16 @@ ec_idle_handler_for_rebuild (gpointer data)
 			}
 		}
 	}
+}
+
+static gboolean
+ec_idle_handler_for_rebuild (gpointer data)
+{
+	EConfig *emp = (EConfig*) data;
+
+	ec_rebuild (emp);
+	ec_call_page_check (emp);
+
 	return FALSE;
 }
 
@@ -959,29 +1094,15 @@ ec_idle_handler_for_rebuild (gpointer data)
  * %E_CONFIG_TARGET_CHANGED_REBUILD, then the entire configuration
  * widget may be recreated based on the changed target.
  *
- * This is used to sensitise Druid next/back buttons and the Apply
+ * This is used to sensitise Assistant next/back buttons and the Apply
  * button for the Notebook mode.
  **/
 void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
 {
 	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
 		g_idle_add (ec_idle_handler_for_rebuild, emp);
-		return;
-	}
-
-	if (emp->type == E_CONFIG_DRUID) {
-		if (emp->priv->druid_page) {
-			gnome_druid_set_page((GnomeDruid *)emp->widget, (GnomeDruidPage *)emp->priv->druid_page->frame);
-			ec_druid_check_current(emp);
-		}
 	} else {
-		if (emp->window) {
-			if (e_config_page_check(emp, NULL)) {
-				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, TRUE);
-			} else {
-				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, FALSE);
-			}
-		}
+		ec_call_page_check (emp);
 	}
 
 	/* virtual method/signal? */
@@ -992,7 +1113,7 @@ void e_config_target_changed(EConfig *emp, e_config_target_change_t how)
  * @ec:
  *
  * Signify that the stateful configuration changes must be discarded
- * to all listeners.  This is used by self-driven druid or notebook, or
+ * to all listeners.  This is used by self-driven assistant or notebook, or
  * may be used by code using the widget directly.
  **/
 void e_config_abort(EConfig *ec)
@@ -1012,7 +1133,7 @@ void e_config_abort(EConfig *ec)
  * @ec:
  *
  * Signify that the stateful configuration changes should be saved.
- * This is used by the self-driven druid or notebook, or may be used
+ * This is used by the self-driven assistant or notebook, or may be used
  * by code driving the widget directly.
  **/
 void e_config_commit(EConfig *ec)
@@ -1046,8 +1167,9 @@ gboolean e_config_page_check(EConfig *ec, const gchar *pageid)
 		if ((pageid == NULL
 		     || mnode->pageid == NULL
 		     || strcmp(mnode->pageid, pageid) == 0)
-		    && !mnode->check(ec, pageid, mnode->data))
+		    && !mnode->check(ec, pageid, mnode->data)) {
 			return FALSE;
+		    }
 
 	return TRUE;
 }
@@ -1060,7 +1182,7 @@ gboolean e_config_page_check(EConfig *ec, const gchar *pageid)
  * Retrieve the page widget corresponding to @pageid.
  *
  * Return value: The page widget.  It will be the root GtkNotebook
- * container or the GnomeDruidPage object.
+ * container or the GtkVBox object inside the assistant.
  **/
 GtkWidget *e_config_page_get(EConfig *ec, const gchar *pageid)
 {
@@ -1258,7 +1380,7 @@ static gpointer emph_parent_class;
 
 static const EPluginHookTargetKey ech_item_types[] = {
 	{ "book", E_CONFIG_BOOK },
-	{ "druid", E_CONFIG_DRUID },
+	{ "assistant", E_CONFIG_ASSISTANT },
 
 	{ "page", E_CONFIG_PAGE },
 	{ "page_start", E_CONFIG_PAGE_START },

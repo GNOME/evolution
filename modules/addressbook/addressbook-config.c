@@ -91,7 +91,7 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *window;
 
-	/* Source selection (druid only) */
+	/* Source selection (assistant only) */
 	ESourceList *source_list;
 	GSList *menu_source_groups;
 

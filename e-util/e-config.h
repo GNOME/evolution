@@ -76,18 +76,18 @@ enum _e_config_target_change_t {
  * enum _e_config_t - configuration item type.
  *
  * @E_CONFIG_BOOK: A notebook item.  Only one of this or
- * @E_CONFIG_DRUID may be included in the item list for the entire
+ * @E_CONFIG_ASSISTANT may be included in the item list for the entire
  * configuration description.
- * @E_CONFIG_DRUID: A druid item.  Only one of this or @E_CONFIG_BOOK
+ * @E_CONFIG_ASSISTANT: An assistant item.  Only one of this or @E_CONFIG_BOOK
  * may be included in the item list for the entire configutation
  * description.
  * @E_CONFIG_PAGE: A configuration page.  The item @label will be
- * either the notebook tab label or the druid page title if no factory
+ * either the notebook tab label or the assistant page title if no factory
  * is supplied.
- * @E_CONFIG_PAGE_START: A druid start page.  Only one of these may be
- * supplied for a druid and it should be the first page in the druid.
- * @E_CONFIG_PAGE_FINISH: A druid finish page.  Only one of these may
- * be supplied for a druid and it should be the last page of the druid.
+ * @E_CONFIG_PAGE_START: An assistant start page.  Only one of these may be
+ * supplied for a assistant and it should be the first page in the assistant.
+ * @E_CONFIG_PAGE_FINISH: An assistant finish page.  Only one of these may
+ * be supplied for an assistant and it should be the last page of the assistant.
  * @E_CONFIG_SECTION: A section in the configuration page.  A page for
  * this section must have already been defined.  The item @label if
  * supplied will be setup as a borderless hig-compliant frame title.
@@ -109,11 +109,11 @@ enum _e_config_target_change_t {
 enum _e_config_t {
 	/* use one and only one of these for any given config-window id */
 	E_CONFIG_BOOK,
-	E_CONFIG_DRUID,
+	E_CONFIG_ASSISTANT,
 
 	E_CONFIG_PAGE,
-	E_CONFIG_PAGE_START,	/* only allowed in druid types */
-	E_CONFIG_PAGE_FINISH,	/* only allowed in druid types */
+	E_CONFIG_PAGE_START,	/* only allowed in assistant types */
+	E_CONFIG_PAGE_FINISH,	/* only allowed in assistant types */
 	E_CONFIG_SECTION,
 	E_CONFIG_SECTION_TABLE,
 	E_CONFIG_ITEM,
@@ -175,7 +175,7 @@ struct _EConfigTarget {
  * @id: The globally unique identifider for this configuration window,
  * used for hooking into it.
  * @target: The current target.
- * @widget: The GtkNoteBook or GnomeDruid created after
+ * @widget: The GtkNoteBook or GtkAssistant created after
  * :create_widget() is called that represents the merged and combined
  * configuration window.
  * @window: If :create_window() is called, then the containing
@@ -188,7 +188,7 @@ struct _EConfig {
 
 	struct _EConfigPrivate *priv;
 
-	gint type;		/* E_CONFIG_BOOK or E_CONFIG_DRUID */
+	gint type;		/* E_CONFIG_BOOK or E_CONFIG_ASSISTANT */
 
 	gchar *id;
 
@@ -231,6 +231,7 @@ EConfig *e_config_construct(EConfig *, gint type, const gchar *id);
 
 void e_config_add_items(EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data);
 void e_config_add_page_check(EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
+void e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish);
 
 void e_config_set_target(EConfig *emp, EConfigTarget *target);
 GtkWidget *e_config_create_widget(EConfig *);

@@ -45,8 +45,8 @@
 	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
 
 struct _EMAccountPrefsPrivate {
-	gpointer druid;   /* weak pointer */
-	gpointer editor;  /* weak pointer */
+	gpointer assistant; /* weak pointer */
+	gpointer editor;    /* weak pointer */
 };
 
 static gpointer parent_class;
@@ -104,30 +104,30 @@ account_prefs_add_account (EAccountManager *manager)
 
 	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
 
-	if (priv->druid != NULL) {
-		gtk_window_present (GTK_WINDOW (priv->druid));
+	if (priv->assistant != NULL) {
+		gtk_window_present (GTK_WINDOW (priv->assistant));
 		return;
 	}
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-	/** @HookPoint-EMConfig: New Mail Account Druid
-	 * @Id: org.gnome.evolution.mail.config.accountDruid
-	 * @Type: E_CONFIG_DRUID
+	/** @HookPoint-EMConfig: New Mail Account Assistant
+	 * @Id: org.gnome.evolution.mail.config.accountAssistant
+	 * @Type: E_CONFIG_ASSISTANT
 	 * @Class: org.gnome.evolution.mail.config:1.0
 	 * @Target: EMConfigTargetAccount
 	 *
-	 * The new mail account druid.
+	 * The new mail account assistant.
 	 */
 	emae = em_account_editor_new (
-		NULL, EMAE_DRUID,
-		"org.gnome.evolution.mail.config.accountDruid");
-	priv->druid = emae->editor;
+		NULL, EMAE_ASSISTANT,
+		"org.gnome.evolution.mail.config.accountAssistant");
+	priv->assistant = emae->editor;
 
-	g_object_add_weak_pointer (G_OBJECT (priv->druid), &priv->druid);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->druid), parent);
-	gtk_widget_show (priv->druid);
+	g_object_add_weak_pointer (G_OBJECT (priv->assistant), &priv->assistant);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
+	gtk_widget_show (priv->assistant);
 }
 
 static void
@@ -232,10 +232,10 @@ account_prefs_dispose (GObject *object)
 
 	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
 
-	if (priv->druid != NULL) {
+	if (priv->assistant != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->druid), &priv->druid);
-		priv->druid = NULL;
+			G_OBJECT (priv->assistant), &priv->assistant);
+		priv->assistant = NULL;
 	}
 
 	if (priv->editor != NULL) {
