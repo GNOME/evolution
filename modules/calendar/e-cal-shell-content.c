@@ -610,6 +610,8 @@ e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
@@ -617,9 +619,12 @@ e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
 	switch (cal_shell_content_get_focus_location (cal_shell_content)) {
 		case FOCUS_CALENDAR:
-			gnome_calendar_copy_clipboard (calendar);
+			e_calendar_view_copy_clipboard (calendar_view);
 			break;
 
 		case FOCUS_MEMO_TABLE:
@@ -641,6 +646,8 @@ e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
@@ -648,9 +655,12 @@ e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
 	switch (cal_shell_content_get_focus_location (cal_shell_content)) {
 		case FOCUS_CALENDAR:
-			gnome_calendar_cut_clipboard (calendar);
+			e_calendar_view_cut_clipboard (calendar_view);
 			break;
 
 		case FOCUS_MEMO_TABLE:
@@ -672,6 +682,8 @@ e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
@@ -679,9 +691,12 @@ e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
 	switch (cal_shell_content_get_focus_location (cal_shell_content)) {
 		case FOCUS_CALENDAR:
-			gnome_calendar_paste_clipboard (calendar);
+			e_calendar_view_paste_clipboard (calendar_view);
 			break;
 
 		case FOCUS_MEMO_TABLE:
@@ -703,6 +718,8 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
@@ -710,9 +727,12 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
 	switch (cal_shell_content_get_focus_location (cal_shell_content)) {
 		case FOCUS_CALENDAR:
-			gnome_calendar_delete_selection (calendar);
+			e_calendar_view_delete_selected_events (calendar_view);
 			break;
 
 		case FOCUS_MEMO_TABLE:
@@ -732,13 +752,19 @@ void
 e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_content)
 {
 	GnomeCalendar *calendar;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 	FocusLocation focus;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
 	focus = cal_shell_content_get_focus_location (cal_shell_content);
-	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	if (focus != FOCUS_CALENDAR)
+		return;
 
-	if (focus == FOCUS_CALENDAR)
-		gnome_calendar_delete_selected_occurrence (calendar);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_calendar_view_delete_selected_occurrence (calendar_view);
 }

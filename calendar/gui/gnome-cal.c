@@ -2319,27 +2319,6 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 }
 
 /**
- * gnome_calendar_get_selected_time_range:
- * @gcal: A calendar view.
- * @start_time: Return value for the start of the time selection.
- * @end_time: Return value for the end of the time selection.
- *
- * Queries the time selection range on the calendar view.
- **/
-void
-gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
-					time_t	 *start_time,
-					time_t	 *end_time)
-{
-	ECalModel *model;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	model = gnome_calendar_get_model (gcal);
-	e_cal_model_get_time_range (model, start_time, end_time);
-}
-
-/**
  * gnome_calendar_new_task:
  * @gcal: An Evolution calendar.
  * @param dtstart Start time of the task, in same timezone as model.
@@ -2493,47 +2472,6 @@ gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 
 	return FALSE;
 }
-void
-gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
-{
-	GnomeCalendarViewType view_type;
-	ECalendarView *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	view_type = gnome_calendar_get_view (gcal);
-	view = gnome_calendar_get_calendar_view (gcal, view_type);
-
-	e_calendar_view_cut_clipboard (view);
-}
-
-void
-gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
-{
-	GnomeCalendarViewType view_type;
-	ECalendarView *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	view_type = gnome_calendar_get_view (gcal);
-	view = gnome_calendar_get_calendar_view (gcal, view_type);
-
-	e_calendar_view_copy_clipboard (view);
-}
-
-void
-gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
-{
-	GnomeCalendarViewType view_type;
-	ECalendarView *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	view_type = gnome_calendar_get_view (gcal);
-	view = gnome_calendar_get_calendar_view (gcal, view_type);
-
-	e_calendar_view_paste_clipboard (view);
-}
 
 void
 gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
@@ -2589,34 +2527,6 @@ gnome_calendar_get_num_events_selected (GnomeCalendar *gcal)
 		retval = e_week_view_get_num_events_selected (E_WEEK_VIEW (view));
 
 	return retval;
-}
-
-void
-gnome_calendar_delete_selection (GnomeCalendar *gcal)
-{
-	GnomeCalendarViewType view_type;
-	ECalendarView *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	view_type = gnome_calendar_get_view (gcal);
-	view = gnome_calendar_get_calendar_view (gcal, view_type);
-
-	e_calendar_view_delete_selected_events (view);
-}
-
-void
-gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal)
-{
-	GnomeCalendarViewType view_type;
-	ECalendarView *view;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	view_type = gnome_calendar_get_view (gcal);
-	view = gnome_calendar_get_calendar_view (gcal, view_type);
-
-	e_calendar_view_delete_selected_occurrence (view);
 }
 
 static gboolean

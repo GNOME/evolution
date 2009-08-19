@@ -213,6 +213,7 @@ void
 goto_dialog (GnomeCalendar *gcal)
 {
 #if 0  /* KILL-BONOBO */
+	ECalModel *model;
 	time_t start_time;
 	struct icaltimetype tt;
 	gint b;
@@ -243,7 +244,8 @@ goto_dialog (GnomeCalendar *gcal)
 	}
 	dlg->gcal = gcal;
 
-	gnome_calendar_get_selected_time_range (dlg->gcal, &start_time, NULL);
+	model = gnome_calendar_get_model (gcal);
+	e_cal_model_get_time_range (model, &start_time, NULL);
 	tt = icaltime_from_timet_with_zone (start_time, FALSE, gnome_calendar_get_timezone (gcal));
 	dlg->year_val = tt.year;
 	dlg->month_val = tt.month - 1;

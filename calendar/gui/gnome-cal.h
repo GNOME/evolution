@@ -36,12 +36,24 @@
 
 #include "e-calendar-table.h"
 
-#define GNOME_TYPE_CALENDAR            (gnome_calendar_get_type ())
-#define GNOME_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
-#define GNOME_CALENDAR_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), GNOME_TYPE_CALENDAR,	\
-					GnomeCalendarClass))
-#define GNOME_IS_CALENDAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CALENDAR))
-#define GNOME_IS_CALENDAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CALENDAR))
+/* Standard GObject macros */
+#define GNOME_TYPE_CALENDAR \
+	(gnome_calendar_get_type ())
+#define GNOME_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GNOME_TYPE_CALENDAR, GnomeCalendar))
+#define GNOME_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_INSTANCE_CAST_CLASS \
+	((cls), GNOME_TYPE_CALENDAR, GnomeCalendarClass))
+#define GNOME_IS_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GNOME_TYPE_CALENDAR))
+#define GNOME_IS_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GNOME_TYPE_CALENDAR))
+#define GNOME_CALENDAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GNOME_TYPE_CALENDAR, GnomeCalendarClass))
 
 G_BEGIN_DECLS
 
@@ -75,8 +87,6 @@ typedef enum {
 
 struct _GnomeCalendar {
 	GtkVBox vbox;
-
-	/* Private data */
 	GnomeCalendarPrivate *priv;
 };
 
@@ -109,10 +119,14 @@ void		gnome_calendar_set_date_navigator
 						(GnomeCalendar *gcal,
 						 ECalendar *date_navigator);
 ECalModel *	gnome_calendar_get_model	(GnomeCalendar *gcal);
-
-gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
-gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const gchar *uid);
-gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
+gboolean	gnome_calendar_remove_source	(GnomeCalendar *gcal,
+						 ESource *source);
+gboolean	gnome_calendar_remove_source_by_uid
+						(GnomeCalendar *gcal,
+						 const gchar *uid);
+gboolean	gnome_calendar_set_default_source
+						(GnomeCalendar *gcal,
+						 ESource *source);
 void		gnome_calendar_update_query	(GnomeCalendar *gcal);
 void		gnome_calendar_set_search_query	(GnomeCalendar *gcal,
 						 const gchar *sexp,
@@ -120,16 +134,15 @@ void		gnome_calendar_set_search_query	(GnomeCalendar *gcal,
 						 time_t start_range,
 						 time_t end_range);
 
-void       gnome_calendar_next		(GnomeCalendar *gcal);
-void       gnome_calendar_previous		(GnomeCalendar *gcal);
-void       gnome_calendar_goto		(GnomeCalendar *gcal,
+void		gnome_calendar_next		(GnomeCalendar *gcal);
+void		gnome_calendar_previous		(GnomeCalendar *gcal);
+void		gnome_calendar_goto		(GnomeCalendar *gcal,
 						 time_t new_time);
 void		gnome_calendar_update_view_times(GnomeCalendar *gcal,
 						 time_t start_time);
-void       gnome_calendar_dayjump		(GnomeCalendar *gcal,
+void		gnome_calendar_dayjump		(GnomeCalendar *gcal,
 						 time_t time);
-/* Jumps to the current day */
-void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
+void		gnome_calendar_goto_today	(GnomeCalendar *gcal);
 
 GnomeCalendarViewType
 		gnome_calendar_get_view		(GnomeCalendar *gcal);
@@ -150,12 +163,9 @@ void		gnome_calendar_set_range_selected
 void		gnome_calendar_set_selected_time_range
 						(GnomeCalendar *gcal,
 						 time_t start_time);
-void		gnome_calendar_get_selected_time_range
-						(GnomeCalendar *gcal,
-						 time_t *start_time,
-						 time_t *end_time);
-
-void       gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend);
+void		gnome_calendar_new_task		(GnomeCalendar *gcal,
+						 time_t *dtstart,
+						 time_t *dtend);
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
@@ -169,20 +179,14 @@ void		gnome_calendar_notify_dates_shown_changed
 						(GnomeCalendar *gcal);
 
 /* Returns the number of selected events (0 or 1 at present). */
-gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
+gint		gnome_calendar_get_num_events_selected
+						(GnomeCalendar *gcal);
 
-/* Clipboard operations */
-void       gnome_calendar_cut_clipboard         (GnomeCalendar  *gcal);
-void       gnome_calendar_copy_clipboard        (GnomeCalendar  *gcal);
-void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
-
-void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
-void       gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal);
-void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
+void		gnome_calendar_purge		(GnomeCalendar  *gcal,
 						 time_t older_than);
 
 /* Direct calendar component operations */
-void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
+void		gnome_calendar_edit_appointment	(GnomeCalendar *gcal,
 						 const gchar * src_uid,
 						 const gchar * comp_uid,
 						 const gchar * comp_rid);
