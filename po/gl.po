@@ -1,4 +1,4 @@
-# translation of evolution-master-po-gl.po to Galician
+# translation of evolution.gnome-2-28.po to Galician
 # translation of evolution.HEAD.gl.po to
 # Galician translation of Evolution.
 # Copyright (C) 2000 Jesús Bravo Álvarez.
@@ -21,10 +21,10 @@
 #: ../shell/main.c:631
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution-master-po-gl\n"
+"Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 16:44+0200\n"
-"PO-Revision-Date: 2009-07-09 10:51+0200\n"
+"POT-Creation-Date: 2009-08-19 14:44+0200\n"
+"PO-Revision-Date: 2009-08-18 10:56+0200\n"
 "Last-Translator: Antón Méixome <meixome@mancomun.org>\n"
 "Language-Team: Galician <gnome@mancomun.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,8 +54,8 @@ msgstr "Lista de contactos nova"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "o cartafol de axendas de enderezos actual %s ten %d cartón"
-msgstr[1] "o cartafol de axendas de enderezos actual %s ten %d cartóns"
+msgstr[0] "o cartafol de axendas de enderezos actual %s ten %d tarxeta"
+msgstr[1] "o cartafol de axendas de enderezos actual %s ten %d tarxetas"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 msgid "Open"
@@ -71,7 +71,7 @@ msgstr "Contacto: "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
-msgstr "minicartón do Evolution"
+msgstr "minitarxeta do Evolution"
 
 #: ../a11y/calendar/ea-cal-view-event.c:263
 msgid "It has alarms."
@@ -83,7 +83,7 @@ msgstr "Ten recorrencias."
 
 #: ../a11y/calendar/ea-cal-view-event.c:269
 msgid "It is a meeting."
-msgstr "É unha reunión."
+msgstr "É unha cita."
 
 #: ../a11y/calendar/ea-cal-view-event.c:275
 #, c-format
@@ -96,7 +96,7 @@ msgstr "Evento de calendario: non ten resumo."
 
 #: ../a11y/calendar/ea-cal-view-event.c:297
 msgid "calendar view event"
-msgstr "visualización de eventos de calendario"
+msgstr "visualización de actividades de calendario"
 
 #: ../a11y/calendar/ea-cal-view-event.c:525
 msgid "Grab Focus"
@@ -108,11 +108,11 @@ msgstr "Nova cita"
 
 #: ../a11y/calendar/ea-cal-view.c:300
 msgid "New All Day Event"
-msgstr "Novo evento de día completo"
+msgstr "Novo actividade de día completo"
 
 #: ../a11y/calendar/ea-cal-view.c:301
 msgid "New Meeting"
-msgstr "Nova reunión"
+msgstr "Nova cita"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "Go to Today"
@@ -133,7 +133,7 @@ msgstr "unha táboa para ver e seleccionar o intervalo de tempo actual"
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] "Ten %d evento."
+msgstr[0] "Ten %d actividade."
 msgstr[1] "Ten %d eventos."
 
 #. To translators: Here, "It" is either like "Work Week View: July
@@ -357,8 +357,8 @@ msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
-"Xa existe un contacto con ese enderezo. Quere, aínda así, engadir un cartón "
-"novo co mesmo enderezo?"
+"Xa existe un contacto con ese enderezo. Quere, aínda así, engadir unha "
+"tarxeta novo co mesmo enderezo?"
 
 #: ../addressbook/addressbook.error.xml.h:4
 msgid "Address '{0}' already exists."
@@ -600,9 +600,8 @@ msgid "Certificates"
 msgstr "Certificados"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Configure contacts and autocompletion here"
-msgstr "Configurar aquí o completado automático"
+msgstr "Configurar aquí os contactos e o completado automático"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
@@ -627,7 +626,7 @@ msgstr "Visualizador de enderezos da axenda de enderezos do Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book card viewer"
-msgstr "Visualizador de cartóns da axenda de enderezos do Evolution"
+msgstr "Visualizador de tarxetas da axenda de enderezos do Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book component"
@@ -1005,8 +1004,8 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
-"Posición do panel vertical, entre as visualizacións de cartón e de lista e o "
-"panel de previsualización, en píxeles."
+"Posición do panel vertical, entre as visualizacións de tarxeta e de lista e "
+"o panel de previsualización, en píxeles."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:5
 msgid "Show autocompleted name with an address"
@@ -1060,15 +1059,13 @@ msgid "Always _show address of the autocompleted contact"
 msgstr "Mo_strar sempre o enderezo do contacto completado automaticamente"
 
 #: ../addressbook/gui/component/autocompletion-config.c:182
-#, fuzzy
 msgid "Date/Time Format"
-msgstr "Data e hora"
+msgstr "Data/Formato de hora"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
 #: ../mail/em-mailer-prefs.c:1456
-#, fuzzy
 msgid "Table column:"
-msgstr "Modelo da táboa"
+msgstr "Columna da táboa:"
 
 #: ../addressbook/gui/component/autocompletion-config.c:187
 msgid "Look up in address books"
@@ -1250,7 +1247,7 @@ msgstr "_Usar unha conexión segura:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid "cards"
-msgstr "cartóns"
+msgstr "tarxetas"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
@@ -1285,9 +1282,8 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>Varios</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "<b>Notes</b>"
-msgstr "<b>Enderezo</b>"
+msgstr "<b>Notas</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
@@ -1876,7 +1872,7 @@ msgstr "Modelo"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:150
 msgid "Error modifying card"
-msgstr "Erro ao modificar o cartón"
+msgstr "Erro ao modificar a tarxeta"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:158
 msgid "Name begins with"
@@ -2559,7 +2555,7 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
-"Hai máis cartóns coincidentes con esta consulta dos que\n"
+"Hai máis tarxetas coincidentes con esta consulta dos que\n"
 "o servidor está configurado para devolver ou o Evolution para mostrar.\n"
 "Faga unha busca máis específica ou eleve o límite de resultados\n"
 "nas preferencias do servidor de directorio para esta axenda de enderezos."
@@ -2665,7 +2661,7 @@ msgstr[1] "contactos"
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:443
 msgid "card.vcf"
-msgstr "cartón.vcf"
+msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:480
 msgid "Select Address Book"
@@ -2717,7 +2713,7 @@ msgstr "Consultando a axenda de enderezos..."
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:37
 msgid "Card View"
-msgstr "Visualización de cartón"
+msgstr "Visualización de tarxeta"
 
 #: ../addressbook/importers/evolution-csv-importer.c:660
 #: ../addressbook/importers/evolution-ldif-importer.c:512
@@ -2795,7 +2791,7 @@ msgstr "Listar os cartafoles de axendas de enderezos locais"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:52
 msgid "Show cards as vcard or csv file"
-msgstr "Mostrar cartóns como un ficheiro vcard ou csv"
+msgstr "Mostrar tarxetas como un ficheiro vcard ou csv"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
 msgid "[vcard|csv]"
@@ -2905,7 +2901,7 @@ msgstr ""
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Vaise eliminar toda a información desta reunión e non se poderá restaurar."
+"Vaise eliminar toda a información desta cita e non se poderá restaurar."
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "All information on this memo will be deleted and can not be restored."
@@ -2949,7 +2945,7 @@ msgstr "Está seguro de que quere eliminar esta cita?"
 #: ../calendar/gui/dialogs/delete-comp.c:182
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Está seguro de que quere eliminar esta reunión?"
+msgstr "Está seguro de que quere eliminar esta cita?"
 
 #: ../calendar/calendar.error.xml.h:23
 #: ../calendar/gui/dialogs/delete-comp.c:188
@@ -2981,11 +2977,11 @@ msgstr "O repositorio de calendarios está desconectado."
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Cannot create a new event"
-msgstr "Non se pode crear un novo evento"
+msgstr "Non se pode crear un novo actividade"
 
 #: ../calendar/calendar.error.xml.h:30
 msgid "Cannot save event"
-msgstr "Non é posíbel gardar o evento"
+msgstr "Non é posíbel gardar o actividade"
 
 #: ../calendar/calendar.error.xml.h:31
 msgid "Delete calendar '{0}'?"
@@ -3053,7 +3049,7 @@ msgid ""
 "the meeting is canceled."
 msgstr ""
 "Se non envía unha notificación de cancelación, os outros participantes "
-"quizais non saiban que se cancelou a reunión."
+"quizais non saiban que se cancelou a cita."
 
 #: ../calendar/calendar.error.xml.h:46
 msgid ""
@@ -3192,7 +3188,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:74
 msgid "Would you like to send meeting invitations to participants?"
-msgstr "Quere enviar convites para a reunión aos participantes?"
+msgstr "Quere enviar convites para a cita aos participantes?"
 
 #: ../calendar/calendar.error.xml.h:75
 msgid "Would you like to send this task to participants?"
@@ -3200,7 +3196,7 @@ msgstr "Quere enviar esta tarefa aos participantes?"
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "Would you like to send updated meeting information to participants?"
-msgstr "Quere enviar información actualizada da reunión aos participantes?"
+msgstr "Quere enviar información actualizada da cita aos participantes?"
 
 #: ../calendar/calendar.error.xml.h:77
 msgid "Would you like to send updated task information to participants?"
@@ -3597,7 +3593,7 @@ msgstr "Os calendarios nos que se activarán alarmas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Check this to use system timezone in Evolution."
-msgstr "Active isto para empregar o fuso horario do sistema en Evolution"
+msgstr "Active isto para empregar o fuso horario do sistema en Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid ""
@@ -3621,6 +3617,8 @@ msgstr "Confirmar a compactación"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
 msgstr ""
+"Conta de recorrencia predefinida para unha actividade nova. -1 significa "
+"sempre."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -3631,9 +3629,8 @@ msgid "Default appointment reminder"
 msgstr "Aviso de cita predeterminado"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
-#, fuzzy
 msgid "Default recurrence count"
-msgstr "Unidades de aviso predeterminadas"
+msgstr "Conta de recorrencia predefinida"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder units"
@@ -3653,7 +3650,7 @@ msgstr "Gradación de eventos"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:20
 msgid "Event Transparency"
-msgstr "Transparencia de evento"
+msgstr "Transparencia de actividade"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:21
 msgid "Free/busy server URLs"
@@ -3823,19 +3820,16 @@ msgstr ""
 "píxeles."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#, fuzzy
 msgid "Primary calendar"
-msgstr "Imprimir este calendario"
+msgstr "Calendario primario"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#, fuzzy
 msgid "Primary memo list"
-msgstr "Lista de notas nova"
+msgstr "Lista de notas primaria"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
-#, fuzzy
 msgid "Primary task list"
-msgstr "Lista de tarefas nova"
+msgstr "Lista de tarefas primaria"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Programs that are allowed to be run by alarms."
@@ -3979,15 +3973,15 @@ msgstr "Formato de hora en vinte e catro horas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "URI do calendario realzado (\"primario\")"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "URI of the highlighted (\"primary\") memo list"
-msgstr ""
+msgstr "URI da lista de memorización realzada (\"primary\")"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "URI of the highlighted (\"primary\") task list"
-msgstr ""
+msgstr "URI da lista de tarefas realzada (\"primaria\")"
 
 # (pofilter) gconf: do not translate gconf attribute: "minutes", "hours", "days"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
@@ -4008,9 +4002,10 @@ msgid "Use system timezone"
 msgstr "Empregar o fuso horario do sistema"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
-#, fuzzy
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "Active isto para empregar o fuso horario do sistema en Evolution"
+msgstr ""
+"Usar o fuso horario do sistema no canto do fuso horario seleccionado no "
+"Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Week start"
@@ -4132,9 +4127,8 @@ msgid "Workday start minute"
 msgstr "Minuto de comezo da xornada laboral"
 
 #: ../calendar/gui/cal-editor-utils.c:100
-#, fuzzy
 msgid "Invalid object"
-msgstr "Contacto non válido."
+msgstr "O obxecto non é válido"
 
 #: ../calendar/gui/cal-search-bar.c:74
 msgid "Summary contains"
@@ -4295,7 +4289,7 @@ msgstr "R_eunión"
 
 #: ../calendar/gui/calendar-component.c:1443
 msgid "Create a new meeting request"
-msgstr "Crear unha solicitude de reunión nova"
+msgstr "Crear unha solicitude de cita nova"
 
 #: ../calendar/gui/calendar-component.c:1449
 msgid "New all day appointment"
@@ -4639,14 +4633,12 @@ msgid "Selected Calendars for Alarms"
 msgstr "Seleccionar calendario para alarmas"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:865
-#, fuzzy
 msgid "Time and date:"
-msgstr "Fuso horario:"
+msgstr "Hora e data:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:866
-#, fuzzy
 msgid "Date only:"
-msgstr "Data:"
+msgstr "Só data:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "(Shown in a Day View)"
@@ -4675,7 +4667,6 @@ msgstr ""
 "electrónico.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "<span weight=\"bold\">Alarms</span>"
 msgstr "<span weight=\"bold\">Alertas</span>"
 
@@ -4686,9 +4677,8 @@ msgstr "<span weight=\"bold\">Alertas</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #: ../mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Date/Time Format</span>"
-msgstr "<span weight=\"bold\">Hora</span>"
+msgstr "<span weight=\"bold\">Data/Formato de hora</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
@@ -4722,9 +4712,8 @@ msgid "Display"
 msgstr "Mostrar"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#, fuzzy
 msgid "Display alarms in _notification area only"
-msgstr "Mostrar o visualizador da alarma nunha bandexa de notificación"
+msgstr "Mostrar as alertas só na área de _notificación"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
@@ -5003,7 +4992,7 @@ msgstr "Lista de notas nova"
 
 #: ../calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
-msgstr "Eliminouse este evento."
+msgstr "Eliminouse este actividade."
 
 #: ../calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
@@ -5027,7 +5016,7 @@ msgstr "%s Non realizou modificacións. Quere pechar o editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
-msgstr "Este evento foi modificado."
+msgstr "Este actividade foi modificado."
 
 #: ../calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
@@ -5270,9 +5259,8 @@ msgid "Attach"
 msgstr "Anexar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1670
-#, fuzzy
 msgid "Save"
-msgstr "_Gardar"
+msgstr "Gardar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1924
 #: ../calendar/gui/dialogs/comp-editor.c:1973
@@ -5311,7 +5299,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/delete-error.c:55
 msgid "The event could not be deleted due to a corba error"
-msgstr "O evento non se puido eliminar debido a un erro de Corba"
+msgstr "O actividade non se puido eliminar debido a un erro de Corba"
 
 #: ../calendar/gui/dialogs/delete-error.c:58
 msgid "The task could not be deleted due to a corba error"
@@ -5327,7 +5315,7 @@ msgstr "O elemento non se puido eliminar debido a un erro de Corba"
 
 #: ../calendar/gui/dialogs/delete-error.c:71
 msgid "The event could not be deleted because permission was denied"
-msgstr "O evento non se puido eliminar porque se denegou o permiso"
+msgstr "O actividade non se puido eliminar porque se denegou o permiso"
 
 #: ../calendar/gui/dialogs/delete-error.c:74
 msgid "The task could not be deleted because permission was denied"
@@ -5343,7 +5331,7 @@ msgstr "O elemento non se puido eliminar porque se denegou o permiso"
 
 #: ../calendar/gui/dialogs/delete-error.c:87
 msgid "The event could not be deleted due to an error"
-msgstr "O evento non se puido eliminar debido a un erro"
+msgstr "O actividade non se puido eliminar debido a un erro"
 
 #: ../calendar/gui/dialogs/delete-error.c:90
 msgid "The task could not be deleted due to an error"
@@ -5377,7 +5365,7 @@ msgstr "_Alarmas"
 #: ../calendar/gui/dialogs/event-editor.c:204
 msgid "Click here to set or unset alarms for this event"
 msgstr ""
-"Prema aquí para configurar ou desconfigurar as alarmas para este evento"
+"Prema aquí para configurar ou desconfigurar as alarmas para este actividade"
 
 #: ../calendar/gui/dialogs/event-editor.c:209
 msgid "_Recurrence"
@@ -5385,7 +5373,7 @@ msgstr "_Recorrencia"
 
 #: ../calendar/gui/dialogs/event-editor.c:211
 msgid "Make this a recurring event"
-msgstr "Converter en evento recorrente"
+msgstr "Converter en actividade recorrente"
 
 #: ../calendar/gui/dialogs/event-editor.c:216
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
@@ -5405,7 +5393,7 @@ msgstr "Evento de _día completo"
 
 #: ../calendar/gui/dialogs/event-editor.c:228
 msgid "Toggles whether to have All Day Event"
-msgstr "Alterna entre se se ten un evento de día completo ou non"
+msgstr "Alterna entre se se ten un actividade de día completo ou non"
 
 #: ../calendar/gui/dialogs/event-editor.c:234
 msgid "Show Time as _Busy"
@@ -5430,15 +5418,18 @@ msgstr "_Cita"
 #: ../calendar/gui/dialogs/event-page.c:748
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
+"Incluso se non pode ser editada, porque o calendario seleccionado é de só "
+"lectura"
 
 #: ../calendar/gui/dialogs/event-page.c:752
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
+"Incluso se non pode ser totalmente editada porque vostede é o organizador"
 
 #: ../calendar/gui/dialogs/event-page.c:764
 #: ../calendar/gui/dialogs/event-page.c:2769
 msgid "This event has alarms"
-msgstr "Este evento posúe alarmas"
+msgstr "Este actividade ten alarmas"
 
 #: ../calendar/gui/dialogs/event-page.c:827
 #: ../calendar/gui/dialogs/event-page.glade.h:11
@@ -5456,11 +5447,11 @@ msgstr "_Participantes"
 
 #: ../calendar/gui/dialogs/event-page.c:1062
 msgid "Event with no start date"
-msgstr "Evento sen data de comezo"
+msgstr "Actividade sen data de comezo"
 
 #: ../calendar/gui/dialogs/event-page.c:1065
 msgid "Event with no end date"
-msgstr "Evento sen data de finalización"
+msgstr "Actividade sen data de finalización"
 
 #: ../calendar/gui/dialogs/event-page.c:1236
 #: ../calendar/gui/dialogs/memo-page.c:654
@@ -5526,7 +5517,7 @@ msgstr "Non foi posíbel abrir o calendario '%s'."
 #: ../calendar/gui/dialogs/task-page.c:1825
 #, c-format
 msgid "You are acting on behalf of %s"
-msgstr "Está actuando en nome de %s"
+msgstr "Está actuando no nome de %s"
 
 #: ../calendar/gui/dialogs/event-page.c:2967
 #, c-format
@@ -5578,7 +5569,7 @@ msgstr "Alarma personalizada:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "Event Description"
-msgstr "Descrición do evento"
+msgstr "Descrición da actividade"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
@@ -5635,11 +5626,11 @@ msgstr "Nota"
 
 #: ../calendar/gui/dialogs/memo-page.c:347
 msgid "Memo cannot be edited, because the selected memo list is read only"
-msgstr ""
+msgstr "A nota non pode ser editada porque a nota solicitado é de só lectura"
 
 #: ../calendar/gui/dialogs/memo-page.c:351
 msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr ""
+msgstr "A nota non pode ser totalmente editada porque vostede é o organizador"
 
 #: ../calendar/gui/dialogs/memo-page.c:871
 #, c-format
@@ -5671,12 +5662,12 @@ msgstr "_Grupo:"
 #: ../calendar/gui/dialogs/recur-comp.c:53
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr "Está modificando un evento recorrente. Que quere modificar?"
+msgstr "Está modificando unha actividade recorrente. Que quere modificar?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:55
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr "Está delegando un evento recorrente. Que quere delegar?"
+msgstr "Está delegando unha actividade recorrente. Que quere delegar?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:59
 #, c-format
@@ -5715,7 +5706,7 @@ msgstr "A data da recorrencia non é válida"
 #: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "End time of the recurrence was before event's start"
 msgstr ""
-"A hora de finalización da recorrencia era anterior á do comezo do evento"
+"A hora de finalización da recorrencia era anterior á do comezo do actividade"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
@@ -5761,9 +5752,8 @@ msgstr "cuarto"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1039
-#, fuzzy
 msgid "fifth"
-msgstr "Largura"
+msgstr "quinto"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -5892,12 +5882,11 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/send-comp.c:160
 msgid "Send my alarms with this event"
-msgstr "Enviar as miñas alarmas con este evento"
+msgstr "Enviar as miñas alarmas con este actividade"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
-#, fuzzy
 msgid "Notify new attendees _only"
-msgstr "Notificar mensaxes novas só para a caixa de _entrada"
+msgstr "Notificar mensaxes n_ovas"
 
 #: ../calendar/gui/dialogs/task-details-page.c:376
 #: ../calendar/gui/dialogs/task-details-page.c:396
@@ -5985,13 +5974,12 @@ msgstr "Detalles da tarefa"
 #: ../calendar/gui/dialogs/task-page.c:336
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
+"A tarefa non pode ser editada porque a tarefa seleccionada é de só lectura"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#, fuzzy
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr ""
-"Esta mensaxe non pode ser enviada porque non se especificou ningún "
-"destinatario"
+"A tarefa non pode ser editada totalmente porque vostede non é o organizador"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.glade.h:4
@@ -6513,7 +6501,7 @@ msgstr "_Cita nova..."
 
 #: ../calendar/gui/e-calendar-view.c:1787
 msgid "New All Day _Event"
-msgstr "Novo _evento de día completo"
+msgstr "Novo _actividade de día completo"
 
 #: ../calendar/gui/e-calendar-view.c:1788
 msgid "New _Meeting"
@@ -6546,11 +6534,11 @@ msgstr "Mo_ver ao calendario..."
 
 #: ../calendar/gui/e-calendar-view.c:1820
 msgid "_Delegate Meeting..."
-msgstr "_Delegar reunión..."
+msgstr "_Delegar cita..."
 
 #: ../calendar/gui/e-calendar-view.c:1821
 msgid "_Schedule Meeting..."
-msgstr "_Programar reunión..."
+msgstr "_Programar cita..."
 
 #: ../calendar/gui/e-calendar-view.c:1822
 msgid "_Forward as iCalendar..."
@@ -6808,8 +6796,7 @@ msgstr "Aceptado provisionalmente"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr ""
-"A reunión cancelouse, porén non se puido encontrar nos seus calendarios"
+msgstr "A cita cancelouse, porén non se puido encontrar nos seus calendarios"
 
 #: ../calendar/gui/e-itip-control.c:1276
 msgid ""
@@ -6820,62 +6807,62 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1353
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> publicou información sobre unha reunión."
+msgstr "<b>%s</b> publicou información sobre unha cita."
 
 #: ../calendar/gui/e-itip-control.c:1354
 msgid "Meeting Information"
-msgstr "Información da reunión"
+msgstr "Información da cita"
 
 #: ../calendar/gui/e-itip-control.c:1360
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> solicita a presenza de %s nunha reunión."
+msgstr "<b>%s</b> solicita a presenza de %s nunha cita."
 
 #: ../calendar/gui/e-itip-control.c:1362
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> require a súa presenza nunha reunión."
+msgstr "<b>%s</b> require a súa presenza nunha cita."
 
 #: ../calendar/gui/e-itip-control.c:1363
 msgid "Meeting Proposal"
-msgstr "Proposta de reunión"
+msgstr "Proposta de cita"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1369
 #, c-format
 msgid "<b>%s</b> wishes to be added to an existing meeting."
-msgstr "<b>%s</b> quere que se lle engada a unha reunión existente."
+msgstr "<b>%s</b> quere que se lle engada a unha cita existente."
 
 #: ../calendar/gui/e-itip-control.c:1370
 msgid "Meeting Update"
-msgstr "Actualización da reunión"
+msgstr "Actualización da cita"
 
 #: ../calendar/gui/e-itip-control.c:1374
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> quere recibir a última información sobre a reunión."
+msgstr "<b>%s</b> quere recibir a última información sobre a cita."
 
 #: ../calendar/gui/e-itip-control.c:1375
 msgid "Meeting Update Request"
-msgstr "Solicitude de actualización da reunión"
+msgstr "Solicitude de actualización da cita"
 
 #: ../calendar/gui/e-itip-control.c:1382
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> respondeu a unha petición de reunión."
+msgstr "<b>%s</b> respondeu a unha petición de cita."
 
 #: ../calendar/gui/e-itip-control.c:1383
 msgid "Meeting Reply"
-msgstr "Resposta de reunión"
+msgstr "Resposta de cita"
 
 #: ../calendar/gui/e-itip-control.c:1390
 #, c-format
 msgid "<b>%s</b> has canceled a meeting."
-msgstr "<b>%s</b> cancelou unha reunión."
+msgstr "<b>%s</b> cancelou unha cita."
 
 #: ../calendar/gui/e-itip-control.c:1391
 msgid "Meeting Cancelation"
-msgstr "Cancelación da reunión"
+msgstr "Cancelación da cita"
 
 #: ../calendar/gui/e-itip-control.c:1401 ../calendar/gui/e-itip-control.c:1478
 #: ../calendar/gui/e-itip-control.c:1518
@@ -6885,7 +6872,7 @@ msgstr "<b>%s</b> enviou unha mensaxe inintelixíbel."
 
 #: ../calendar/gui/e-itip-control.c:1402
 msgid "Bad Meeting Message"
-msgstr "Mensaxe de reunión incorrecta"
+msgstr "Mensaxe de cita incorrecta"
 
 #: ../calendar/gui/e-itip-control.c:1429
 #, c-format
@@ -7441,7 +7428,7 @@ msgstr "É necesario polo menos un participante"
 
 #: ../calendar/gui/itip-utils.c:635 ../calendar/gui/itip-utils.c:781
 msgid "Event information"
-msgstr "Información do evento"
+msgstr "Información do actividade"
 
 #: ../calendar/gui/itip-utils.c:637 ../calendar/gui/itip-utils.c:784
 msgid "Task information"
@@ -7541,7 +7528,7 @@ msgstr "Información de iCalendar"
 
 #: ../calendar/gui/itip-utils.c:981
 msgid "You must be an attendee of the event."
-msgstr "Debe ser un participante no evento."
+msgstr "Debe ser un participante no actividade."
 
 #: ../calendar/gui/memos-component.c:477
 msgid "_New Memo List"
@@ -10018,7 +10005,7 @@ msgstr "Xestionar o seu correo, contactos e calendario"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
-msgstr "cartón de enderezo"
+msgstr "tarxeta de enderezo"
 
 #: ../data/evolution.keys.in.in.h:2
 msgid "calendar information"
@@ -10036,31 +10023,28 @@ msgid "Tomorrow"
 msgstr "Mañá"
 
 #: ../e-util/e-datetime-format.c:202
-#, fuzzy
 msgid "Yesterday"
-msgstr "Onte ás %l:%M %p"
+msgstr "Onte"
 
 #: ../e-util/e-datetime-format.c:205
 #, c-format
 msgid "%d days from now"
-msgstr ""
+msgstr "%d días desde agora"
 
 # (pofilter) variables: (u'translation contains variables not in original: %d',)
 #: ../e-util/e-datetime-format.c:207
-#, fuzzy, c-format
+#, c-format
 msgid "%d days ago"
-msgstr "hai 1 día"
+msgstr "hai %d días"
 
 #: ../e-util/e-datetime-format.c:281 ../e-util/e-datetime-format.c:291
 #: ../e-util/e-datetime-format.c:300
-#, fuzzy
 msgid "Use locale default"
-msgstr "_Usar os predeterminados do sistema"
+msgstr "Usar os locais predefinidos"
 
 #: ../e-util/e-datetime-format.c:494
-#, fuzzy
 msgid "Format:"
-msgstr "Porto:"
+msgstr "Formato:"
 
 #: ../e-util/e-error.c:78 ../e-util/e-error.c:79 ../e-util/e-error.c:121
 msgid "Evolution Error"
@@ -11337,10 +11321,10 @@ msgstr "Cargando..."
 #. * name appears in either direction.
 #.
 #: ../mail/em-folder-tree.c:318
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (%u)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:727
 msgid "Mail Folder Tree"
@@ -11728,7 +11712,6 @@ msgid "This certificate is not viewable"
 msgstr "Este certificado non é visíbel"
 
 #: ../mail/em-format-html-display.c:980
-#, fuzzy
 msgid "Completed on"
 msgstr "Terminado o"
 
@@ -11739,7 +11722,7 @@ msgstr "Atrasada:"
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:992
 msgid "by"
-msgstr ""
+msgstr "por"
 
 #: ../mail/em-format-html-display.c:1071
 #: ../widgets/misc/e-attachment-view.c:357
@@ -11875,7 +11858,7 @@ msgstr "Grupos de noticias"
 #: ../mail/em-format.c:931 ../mail/em-mailer-prefs.c:84
 #: ../plugins/face/org-gnome-face.eplug.xml.h:4
 msgid "Face"
-msgstr "Face"
+msgstr "Cara"
 
 #: ../mail/em-format.c:1201
 #, c-format
@@ -11986,9 +11969,8 @@ msgid "No Junk plugin available"
 msgstr "Non hai dispoñíbel un plugin de correo non desexado"
 
 #: ../mail/em-mailer-prefs.c:1455
-#, fuzzy
 msgid "Date header:"
-msgstr "Cabeceira da táboa"
+msgstr "Data da cabeceira:"
 
 #. green
 #: ../mail/em-migrate.c:961
@@ -12399,6 +12381,8 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"Activar imaxes animadas no correo HTML. Algúns usuarios encontran as imaxes "
+"animadas repunantes e polo contrario prefiren ver a mensaxe estática."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12751,12 +12735,11 @@ msgstr "Preguntar cando se marquen varias mensaxes"
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Poñer sinaturas personalizadas no inicio das respostas"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Put the cursor at the bottom of replies"
-msgstr "Comezar a escri_bir ao final da resposta"
+msgstr "Poñer o cursor ao fondo da resposta"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Recognize emoticons in text and replace them with images."
@@ -12835,9 +12818,8 @@ msgid "Show deleted messages in the message-list"
 msgstr "Mostrar as mensaxes eliminadas na lista de mensaxes"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid "Show image animations"
-msgstr "_Mostrar animacións de imaxes"
+msgstr "Mostrar as animacións de imaxe "
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "Show photo of the sender"
@@ -13104,6 +13086,9 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Os usuarios teñen nas súas mans determinar onde o cursor debería ir cando se "
+"responde a unha mensaxe. Isto determina se o cursor se sitúa no inicio da "
+"mensaxe ou no fondo."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -13111,6 +13096,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Os usuarios teñen nas súas mans determinar onde debería ir a súa sinatura "
+"cando responden a unha mensaxe. Isto determina se a sinatura se sitúa no "
+"inicio da mensaxe ou no fondo."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13671,6 +13659,8 @@ msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
 msgstr ""
+"Se o servidor usa un porto non estándar entón especifique o enderezo do "
+"servidor tal como \"servidor-nome:porto-número\""
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -13737,18 +13727,16 @@ msgid "Pass_word:"
 msgstr "Con_trasinal:"
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Please configure the following account settings."
-msgstr "Escolla entre as seguintes opcións"
+msgstr "Configure as seguintes opcións de conta."
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
 msgstr ""
 "Introduza un nome descritivo para esta conta no espazo de abaixo.\n"
-"Este nome usarase só para a visualización."
+"Este nome usarase só para os efectos de visualización."
 
 #: ../mail/mail-config.glade.h:121
 msgid ""
@@ -13834,9 +13822,8 @@ msgid "Ser_ver requires authentication"
 msgstr "O ser_vidor require autenticación"
 
 #: ../mail/mail-config.glade.h:142
-#, fuzzy
 msgid "Server _Type:"
-msgstr "_Tipo de servidor: "
+msgstr "_Tipo de servidor:"
 
 #: ../mail/mail-config.glade.h:143
 msgid "Sig_ning certificate:"
@@ -13863,9 +13850,8 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Comezar a escri_bir ao final da resposta"
 
 #: ../mail/mail-config.glade.h:149
-#, fuzzy
 msgid "T_ype:"
-msgstr "T_ipo: "
+msgstr "T_ipo:"
 
 #: ../mail/mail-config.glade.h:150
 msgid ""
@@ -13876,14 +13862,12 @@ msgstr ""
 "instalado un dicionario."
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
 "A saída deste script usarase como a súa\n"
-"sinatura. O nome que especifique usarase\n"
-"só para a visualización. "
+"sinatura. O nome que especifique usarase só para os efectos de visualización."
 
 #: ../mail/mail-config.glade.h:153
 msgid ""
@@ -13913,15 +13897,14 @@ msgid "V_ariable-width:"
 msgstr "Largura v_ariábel:"
 
 #: ../mail/mail-config.glade.h:159
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin."
 msgstr ""
-"Benvido ao asistente de configuración de correo do Evolution.\n"
+"Dámoslle a benvida ao asistente de configuración de correo do Evolution.\n"
 "\n"
-"Prema en \"Adiante\" para comezar. "
+"Prema en \"Adiante\" para comezar."
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Add Signature"
@@ -13941,8 +13924,7 @@ msgstr "Conexión _directa a Internet"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr ""
-"_Non asinar as peticións de reunión (para a compatibilidade co Outlook)"
+msgstr "_Non asinar as peticións de cita (para a compatibilidade co Outlook)"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Forward style:"
@@ -14752,7 +14734,7 @@ msgstr ""
 "Moitos sistemas de correo engaden unha cabeceira Apparently-To ás mensaxes "
 "que só teñen destinatarios Cco. Esta cabeceira, se se engade, listará de "
 "todas as formas todos os destinatarios da súa mensaxe. Para evitar isto "
-"debería engadir polo menos un destinatario Para: ou CC:"
+"debería engadir polo menos un destinatario Para: ou CC:."
 
 #: ../mail/mail.error.xml.h:73
 msgid "Mark all messages as read"
@@ -15132,6 +15114,8 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
+"Só hai mensaxes ocultas neste cartafol. Use Ver -> Mostrar mensaxes ocultas "
+"para velas."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -15328,7 +15312,6 @@ msgid "Restore from backup"
 msgstr "Restaurar dende unha copia de seguranza"
 
 #: ../plugins/backup-restore/backup-restore.c:289
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -15681,37 +15664,32 @@ msgid "CalDAV Support"
 msgstr "Compatibilidade de CalDAV"
 
 #: ../plugins/calendar-file/calendar-file.c:204
-#, fuzzy
 msgid "_Customize options"
-msgstr "Personalizar"
+msgstr "Personalizar as op_cións"
 
 #: ../plugins/calendar-file/calendar-file.c:224
-#, fuzzy
 msgid "File _name:"
 msgstr "Nome do f_icheiro:"
 
 #: ../plugins/calendar-file/calendar-file.c:228
-#, fuzzy
 msgid "Choose calendar file"
-msgstr "Seleccione un ficheiro"
+msgstr "Escoller ficheiro de calendario"
 
 #: ../plugins/calendar-file/calendar-file.c:272
-#, fuzzy
 msgid "On open"
-msgstr "Abrir"
+msgstr "Ao abrir"
 
 #: ../plugins/calendar-file/calendar-file.c:273
 msgid "On file change"
-msgstr ""
+msgstr "Cambio de ficheiro"
 
 #: ../plugins/calendar-file/calendar-file.c:274
-#, fuzzy
 msgid "Periodically"
-msgstr "Persoal"
+msgstr "Periodicamente"
 
 #: ../plugins/calendar-file/calendar-file.c:301
 msgid "Force read _only"
-msgstr ""
+msgstr "Forzar s_ó lectura"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
@@ -16986,7 +16964,7 @@ msgstr "Ficheiros PNG"
 
 #: ../plugins/face/face.c:126
 msgid "_Face"
-msgstr "_Face"
+msgstr "_Cara"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
 msgid ""
@@ -16996,7 +16974,7 @@ msgid ""
 "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
 "sent messages."
 msgstr ""
-"Anexar unha pequena imaxe da súa face para as mensaxes saíntes. \n"
+"Anexar unha pequena imaxe da súa cara para as mensaxes saíntes. \n"
 "\n"
 "A primeira vez a persoa usuaria deberá configurar unha imaxe PNG 48*48. Terá "
 "unha codificación de base64 e será almacenada en ~/.evolution/faces. Esta "
@@ -17238,53 +17216,46 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "Ten que especificar un nome de usuario que queira engadir á lista"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#, fuzzy
 msgid "Do you want to resend the meeting ?"
-msgstr "Está seguro de que quere eliminar esta reunión?"
+msgstr "Está seguro de que quere reenviar esta cita?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 msgid "Do you want to resend the recurring meeting ?"
-msgstr "Está seguro de que quere eliminar esta reunión?"
+msgstr "Está seguro de que quere reenviar esta cita recorrente?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 msgid "Do you want to retract the original item ?"
-msgstr "Quere recuperar as mensaxes non finalizadas?"
+msgstr "Quere retirar o ítem orixinal?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
-#, fuzzy
 msgid "The original will be removed from the recipient's mailbox."
-msgstr ""
-"Quere e_liminar este elemento das caixas de correo de todos os outros "
-"destinatarios?"
+msgstr "O orixinal será eliminado das caixas de correo dos receptores."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
-#, fuzzy
 msgid "This is a recurring meeting"
-msgstr "Converter en evento recorrente"
+msgstr "Esta é unha cita recorrente"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
-msgstr ""
+msgstr "Isto creará unha nova cita usando os detalles coñecidos da cita. "
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
 msgid ""
 "This will create a new meeting with the existing meeting details. The "
 "recurrence rule needs to be re-entered."
 msgstr ""
+"Isto creará unha nova cita cos detalles coñecidos da cita. A regra de "
+"recorrencia é preciso que se reintroduza."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
-#, fuzzy
 msgid "Would you like to accept it?"
-msgstr "Quere gardar os cambios?"
+msgstr "Quere aceptala?"
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:11
-#, fuzzy
 msgid "Would you like to decline it?"
-msgstr "Quere gardar os cambios?"
+msgstr "Quere esquecela?"
 
 #: ../plugins/groupwise-features/process-meeting.c:53
 msgid "Accept Tentatively"
@@ -17292,7 +17263,7 @@ msgstr "Aceptar provisionalmente"
 
 #: ../plugins/groupwise-features/process-meeting.c:319
 msgid "Rese_nd Meeting..."
-msgstr "Ree_nviar reunión..."
+msgstr "Ree_nviar cita..."
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
@@ -17557,7 +17528,6 @@ msgstr ""
 "Use isto se non ten filtros baseados en listas de correo"
 
 #: ../plugins/imap-features/imap-headers.glade.h:10
-#, fuzzy
 msgid "_Fetch All Headers"
 msgstr "Obter to_das as cabeceiras"
 
@@ -17619,7 +17589,7 @@ msgstr "Fallo ao cargar o calendario '%s'"
 #: ../plugins/itip-formatter/itip-formatter.c:627
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "Unha cita no calendario '%s' entra en conflito con esta reunión"
+msgstr "Unha cita no calendario '%s' entra en conflito con esta cita"
 
 #: ../plugins/itip-formatter/itip-formatter.c:663
 #, c-format
@@ -17632,7 +17602,7 @@ msgstr "Non é posíbel localizar ningún calendario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:760
 msgid "Unable to find this meeting in any calendar"
-msgstr "Non é posíbel localizar esta reunión en ningún calendario"
+msgstr "Non é posíbel localizar esta cita en ningún calendario"
 
 #: ../plugins/itip-formatter/itip-formatter.c:764
 msgid "Unable to find this task in any task list"
@@ -17709,7 +17679,7 @@ msgstr "Estado de participación actualizado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1407
 msgid "Meeting information sent"
-msgstr "Información da reunión enviada"
+msgstr "Información da cita enviada"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1410
 msgid "Task information sent"
@@ -17721,7 +17691,7 @@ msgstr "Información da nota enviada"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1422
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr "Non é posíbel enviar información da reunión: a reunión non existe"
+msgstr "Non é posíbel enviar información da cita: a cita non existe"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1425
 msgid "Unable to send task information, the task does not exist"
@@ -17775,7 +17745,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-formatter.c:2335
 msgid "This meeting recurs"
-msgstr "Esta reunión repítese"
+msgstr "Esta cita repítese"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2338
 msgid "This task recurs"
@@ -17950,37 +17920,37 @@ msgstr "Recibido de parte de <b>%s</b>"
 #: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> publicou a seguinte información de reunión a través de %s:"
+msgstr "<b>%s</b> publicou a seguinte información de cita a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:360
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> publicou a seguinte información de reunión:"
+msgstr "<b>%s</b> publicou a seguinte información de cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:365
 #, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> delegoulle a reunión seguinte:"
+msgstr "<b>%s</b> delegoulle a cita seguinte:"
 
 #: ../plugins/itip-formatter/itip-view.c:368
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> require a súa presenza na seguinte reunión a través de %s:"
+msgstr "<b>%s</b> require a súa presenza na seguinte cita a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> require a súa presenza na seguinte reunión:"
+msgstr "<b>%s</b> require a súa presenza na seguinte cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> quere apuntarse a unha reunión existente a través de %s:"
+msgstr "<b>%s</b> quere apuntarse a unha cita existente a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> quere apuntarse a unha reunión existente:"
+msgstr "<b>%s</b> quere apuntarse a unha cita existente:"
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
@@ -17989,55 +17959,55 @@ msgid ""
 "following meeting:"
 msgstr ""
 "<b>%s</b> a través de %s quere recibir a última información para a próxima "
-"reunión:"
+"cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:384
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> quere recibir a última información da seguinte reunión:"
+msgstr "<b>%s</b> quere recibir a última información da seguinte cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:388
 #, c-format
 msgid "<b>%s</b> through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> a través de %s devolveu a seguinte resposta á reunión:"
+msgstr "<b>%s</b> a través de %s devolveu a seguinte resposta á cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:390
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> devolveu a seguinte resposta á reunión:"
+msgstr "<b>%s</b> devolveu a seguinte resposta á cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:394
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
-msgstr "<b>%s</b> a través de %s cancelou a seguinte reunión:"
+msgstr "<b>%s</b> a través de %s cancelou a seguinte cita:"
 
 #: ../plugins/itip-formatter/itip-view.c:396
 #, c-format
 msgid "<b>%s</b> has canceled the following meeting."
-msgstr "<b>%s</b> cancelou a reunión seguinte."
+msgstr "<b>%s</b> cancelou a cita seguinte."
 
 #: ../plugins/itip-formatter/itip-view.c:400
 #, c-format
 msgid "<b>%s</b> through %s has proposed the following meeting changes."
 msgstr ""
-"<b>%s</b> a través de %s propuxo as seguintes modificacións para a reunión."
+"<b>%s</b> a través de %s propuxo as seguintes modificacións para a cita."
 
 #: ../plugins/itip-formatter/itip-view.c:402
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> propuxo as seguintes modificacións para a reunión."
+msgstr "<b>%s</b> propuxo as seguintes modificacións para a cita."
 
 #: ../plugins/itip-formatter/itip-view.c:406
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr ""
-"<b>%s</b> rexeitou as seguintes modificacións para a reunión a través de %s:"
+"<b>%s</b> rexeitou as seguintes modificacións para a cita a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:408
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> rexeitou as seguintes modificacións para a reunión."
+msgstr "<b>%s</b> rexeitou as seguintes modificacións para a cita."
 
 #: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
@@ -18150,7 +18120,7 @@ msgstr "<b>%s</b> publicou a seguinte nota:"
 #: ../plugins/itip-formatter/itip-view.c:541
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> quere sumarse a unha reunión existente a través de %s:"
+msgstr "<b>%s</b> quere sumarse a unha cita existente a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:543
 #, c-format
@@ -18279,11 +18249,11 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot;?"
 msgstr ""
-"&quot;{0}&quot; delegou a reunión. Quere engadir o delegado &quot;{1}&quot;?"
+"&quot;{0}&quot; delegou a cita. Quere engadir o delegado &quot;{1}&quot;?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
-msgstr "Esta reunión foi delegada"
+msgstr "Esta cita foi delegada"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
@@ -18476,6 +18446,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
+"O calendario seleccionado contén xa unha actividade '%s'. Quere editar a  "
+"actividade vella?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
@@ -18483,6 +18455,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"A lista de tarefas seleccionadas contén xa unha tarefa '%s'. Quere editar a "
+"actividade vella?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
@@ -18490,24 +18464,32 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
+"A lista de notas seleccionada xa contén unha nota '%s' . Quere editar a nota "
+"vella?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
 msgstr ""
+"O calendario seleccionado xa contén algunhas actividades para os correos "
+"dados. Quere crear actividades novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
 msgstr ""
+"A lista de tarefas seleccionada xa contén algunhas tarefas para os correos "
+"dados. Quere crear tarefas novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
 msgstr ""
+"A lista de notas seleccionada xa contén algunhas notas para os correos "
+"dados. Quere crear notas novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
@@ -18517,7 +18499,11 @@ msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
 msgstr[0] ""
+"O calendario seleccionado xa contén unha actividade para o correo dado. "
+"Quere crear unha actividade nova de todas maneiras?"
 msgstr[1] ""
+"O calendario seleccionado xa contén unha actividade para o correo dado. "
+"Quere crear actividades novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:429
 msgid ""
@@ -18527,7 +18513,11 @@ msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
 msgstr[0] ""
+"A lista de tarefas seleccionada xa contén unha tarefa para o correo dado. "
+"Quere crear unha actividade nova de todas maneiras?"
 msgstr[1] ""
+"A lista de tarefas seleccionada xa contén tarefas para o correo dado. Quere "
+"crear actividades novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid ""
@@ -18537,21 +18527,24 @@ msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
 msgstr[0] ""
+"A lista de notas seleccionada xa contén unha nota para os correos dados. "
+"Quere crear unha nota nova de todas maneiras?"
 msgstr[1] ""
+"A lista de notas seleccionada xa contén notas para os correos dados. Quere "
+"crear notas novas de todas maneiras?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
-#, fuzzy
 msgid "[No Summary]"
-msgstr "Sen resumo"
+msgstr "[Sen resumo]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "O obxecto devolto polo servidor non é válido"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "An error occurred during processing: %s"
-msgstr "Ocorreu un erro ao imprimir"
+msgstr "Ocorreu un erro no proceso: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #, c-format
@@ -18593,51 +18586,43 @@ msgstr "Converte unha mensaxe nunha tarefa."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
-#, fuzzy
 msgid "Create a Mem_o"
-msgstr "Crear unha nota nova"
+msgstr "Crear unha n_ota"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
 msgid "Create a _Meeting"
-msgstr "Converter en _reunión"
+msgstr "Crear unha _cita"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
-#, fuzzy
 msgid "Create a _Task"
-msgstr "Crear unha tarefa nova"
+msgstr "Crear unha _tarefa"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
-#, fuzzy
 msgid "Create an _Event"
-msgstr "Converter en _evento"
+msgstr "Cr_ear unha actividade"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
 msgid "Mail-to-Task"
 msgstr "Correo para tarefa"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
-#, fuzzy
 msgid "Create a new event from the selected message"
-msgstr "Redactar unha resposta para o remitente da mensaxe seleccionada"
+msgstr "Crear unha actividade nova a partir da mensaxe seleccionada"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
-#, fuzzy
 msgid "Create a new meeting from the selected message"
-msgstr "Crear unha solicitude de reunión nova"
+msgstr "Crear unha cita nova a partir da mensaxe seleccionada"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
-#, fuzzy
 msgid "Create a new memo from the selected message"
-msgstr "Redactar unha resposta para o remitente da mensaxe seleccionada"
+msgstr "Crear unha nota nova a partir da mensaxe seleccionada"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#, fuzzy
 msgid "Create a new task from the selected message"
-msgstr "Redactar unha resposta para o remitente da mensaxe seleccionada"
+msgstr "Crear unha tarefa nova a partir da mensaxe seleccionada"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Contact list _owner"
@@ -18822,12 +18807,10 @@ msgstr ""
 "subcartafoles?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:166
-#, fuzzy
 msgid "In Current Folder and _Subfolders"
-msgstr "No cartafol e _subcartafoles actuais"
+msgstr "No cartafol actual e _subcartafoles"
 
 #: ../plugins/mark-all-read/mark-all-read.c:180
-#, fuzzy
 msgid "In Current _Folder Only"
 msgstr "Só no carta_fol actual"
 
@@ -19256,29 +19239,24 @@ msgid "Modified"
 msgstr "Modificado"
 
 #: ../plugins/save-calendar/csv-format.c:523
-#, fuzzy
 msgid "A_dvanced options for the CSV format"
-msgstr "Opcións avanzadas para o formato CSV"
+msgstr "Opcións avanza_das para o formato CSV"
 
 #: ../plugins/save-calendar/csv-format.c:530
-#, fuzzy
 msgid "Prepend a _header"
-msgstr "Antepor unha cabeceira"
+msgstr "Antepor unha ca_beceira"
 
 #: ../plugins/save-calendar/csv-format.c:539
-#, fuzzy
 msgid "_Value delimiter:"
-msgstr "Delimitador de valor:"
+msgstr "Delimitador de _valor:"
 
 #: ../plugins/save-calendar/csv-format.c:546
-#, fuzzy
 msgid "_Record delimiter:"
-msgstr "Delimitador de rexistro:"
+msgstr "Delimitador de _rexistro:"
 
 #: ../plugins/save-calendar/csv-format.c:553
-#, fuzzy
 msgid "_Encapsulate values with:"
-msgstr "Encapsular valores con:"
+msgstr "_Encapsular valores con:"
 
 #: ../plugins/save-calendar/csv-format.c:575
 msgid "Comma separated value format (.csv)"
@@ -19310,9 +19288,8 @@ msgid "RDF format (.rdf)"
 msgstr "Formato RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:104
-#, fuzzy
 msgid "_Format:"
-msgstr "_Porto:"
+msgstr "_Formato:"
 
 #: ../plugins/save-calendar/save-calendar.c:165
 msgid "Select destination file"
@@ -19909,7 +19886,9 @@ msgstr "Non foi posíbel executar o Bug Buddy."
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:938
 msgid "translator-credits"
-msgstr "Suso Baleato <suso.baleato@xunta.es>"
+msgstr ""
+"Suso Baleato <suso.baleato@xunta.es>, 2009;\n"
+"Antón Méixome <meixome@mancomun.org>, 2009."
 
 #: ../shell/e-shell-window-commands.c:949
 msgid "Evolution Website"
@@ -22069,7 +22048,7 @@ msgstr "Por _empresa"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr "Cartóns de _enderezos"
+msgstr "Tarxetas de _enderezos"
 
 #: ../views/addressbook/galview.xml.h:3 ../views/calendar/galview.xml.h:3
 msgid "_List View"
@@ -23389,51 +23368,3 @@ msgstr "Contexto MI"
 #: ../widgets/text/e-text.c:3774 ../widgets/text/e-text.c:3775
 msgid "Handle Popup"
 msgstr "Tirador emerxente"
-
-#~ msgid "_Notes:"
-#~ msgstr "_Notas:"
-
-#~ msgid "Could not open autosave file"
-#~ msgstr "Non foi posíbel abrir o ficheiro de gardado automático"
-
-#~ msgid "Completed on %B %d, %Y, %l:%M %p"
-#~ msgstr "Terminado o %d de %B de %Y, %l:%M %p"
-
-#~ msgid "by %B %d, %Y, %l:%M %p"
-#~ msgstr "antes do %d de %B de %Y, %l:%M %p"
-
-#~ msgid " (%a, %R %Z)"
-#~ msgstr " (%a, %R %Z)"
-
-#~ msgid " (%R %Z)"
-#~ msgstr " (%R %Z)"
-
-#~ msgid " Ch_eck for Supported Types "
-#~ msgstr " V_erificar os tipos compatíbeis "
-
-#~ msgid "Ch_eck for Supported Types "
-#~ msgstr "V_erificar os tipos compatíbeis "
-
-#~ msgid "Could not create object. %s"
-#~ msgstr "Non se puido crear o obxecto %s"
-
-#~ msgid "Convert to a Mem_o"
-#~ msgstr "Converter en _nota"
-
-#~ msgid "Convert to a _Task"
-#~ msgstr "Converter en _tarefa"
-
-#~ msgid "Convert the selected message to a new event"
-#~ msgstr "Converter a mensaxe seleccionada en un evento nova"
-
-#~ msgid "Convert the selected message to a new meeting"
-#~ msgstr "Converter a mensaxe seleccionada nunha reunión nova"
-
-#~ msgid "Convert the selected message to a new memo"
-#~ msgstr "Converter a mensaxe seleccionada nunha nota nova"
-
-#~ msgid "Convert the selected message to a new task"
-#~ msgstr "Converter a mensaxe seleccionada nunha tarefa nova"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
