@@ -565,7 +565,7 @@ e_cal_shell_content_get_model (ECalShellContent *cal_shell_content)
 
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	return gnome_calendar_get_calendar_model (calendar);
+	return gnome_calendar_get_model (calendar);
 }
 
 GnomeCalendar *

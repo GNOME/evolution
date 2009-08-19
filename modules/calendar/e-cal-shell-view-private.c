@@ -75,7 +75,115 @@ static void
 cal_shell_view_date_navigator_selection_changed_cb (ECalShellView *cal_shell_view,
                                                     ECalendarItem *calitem)
 {
-	/* FIXME */
+	ECalShellContent *cal_shell_content;
+	GnomeCalendarViewType switch_to;
+	GnomeCalendarViewType view_type;
+	GnomeCalendar *calendar;
+	ECalModel *model;
+	GDate start_date, end_date;
+	GDate new_start_date, new_end_date;
+	icaltimetype tt;
+	icaltimezone *timezone;
+	time_t start, end, new_time;
+	gboolean starts_on_week_start_day;
+	gint new_days_shown;
+	gint week_start_day;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+
+	model = gnome_calendar_get_model (calendar);
+	view_type = gnome_calendar_get_view (calendar);
+	switch_to = view_type;
+
+	timezone = e_cal_model_get_timezone (model);
+	week_start_day = e_cal_model_get_week_start_day (model);
+	e_cal_model_get_time_range (model, &start, &end);
+
+	time_to_gdate_with_zone (&start_date, start, timezone);
+	time_to_gdate_with_zone (&end_date, end, timezone);
+
+	if (view_type == GNOME_CAL_MONTH_VIEW) {
+		EWeekView *week_view;
+		ECalendarView *calendar_view;
+		gboolean multi_week_view;
+		gboolean compress_weekend;
+
+		calendar_view = gnome_calendar_get_calendar_view (
+			calendar, GNOME_CAL_MONTH_VIEW);
+
+		week_view = E_WEEK_VIEW (calendar_view);
+		multi_week_view = e_week_view_get_multi_week_view (week_view);
+		compress_weekend = e_week_view_get_compress_weekend (week_view);
+
+		if (week_start_day == 0 && (!multi_week_view || compress_weekend))
+			g_date_add_days (&start_date, 1);
+	}
+
+	g_date_subtract_days (&end_date, 1);
+
+	e_calendar_item_get_selection (
+		calitem, &new_start_date, &new_end_date);
+
+	/* If the selection hasn't changed, just return. */
+	if (g_date_compare (&start_date, &new_start_date) == 0 &&
+		g_date_compare (&end_date, &new_end_date) == 0)
+		return;
+
+	new_days_shown =
+		g_date_get_julian (&new_end_date) -
+		g_date_get_julian (&new_start_date) + 1;
+
+	/* If a complete week is selected we show the week view.
+	 * Note that if weekends are compressed and the week start
+	 * day is set to Sunday, we don't actually show complete
+	 * weeks in the week view, so this may need tweaking. */
+	starts_on_week_start_day =
+		(g_date_get_weekday (&new_start_date) % 7 == week_start_day);
+
+	/* Update selection to be in the new time range. */
+	tt = icaltime_null_time ();
+	tt.year = g_date_get_year (&new_start_date);
+	tt.month = g_date_get_month (&new_start_date);
+	tt.day = g_date_get_day (&new_start_date);
+	new_time = icaltime_as_timet_with_zone (tt, timezone);
+
+	/* Switch views as appropriate, and change the number of
+	 * days or weeks shown. */
+	if (new_days_shown > 9) {
+		if (view_type != GNOME_CAL_LIST_VIEW) {
+			ECalendarView *calendar_view;
+
+			calendar_view = gnome_calendar_get_calendar_view (
+				calendar, GNOME_CAL_MONTH_VIEW);
+			e_week_view_set_weeks_shown (
+				E_WEEK_VIEW (calendar_view),
+				(new_days_shown + 6) / 7);
+			switch_to = GNOME_CAL_MONTH_VIEW;
+		}
+	} else if (new_days_shown == 7 && starts_on_week_start_day)
+		switch_to = GNOME_CAL_WEEK_VIEW;
+	else {
+		ECalendarView *calendar_view;
+
+		calendar_view = gnome_calendar_get_calendar_view (
+			calendar, GNOME_CAL_DAY_VIEW);
+		e_day_view_set_days_shown (
+			E_DAY_VIEW (calendar_view), new_days_shown);
+
+		if (new_days_shown != 5 || !starts_on_week_start_day)
+			switch_to = GNOME_CAL_DAY_VIEW;
+
+		else if (view_type != GNOME_CAL_WORK_WEEK_VIEW)
+			switch_to = GNOME_CAL_DAY_VIEW;
+	}
+
+	/* Make the views display things properly. */
+	gnome_calendar_update_view_times (calendar, new_time);
+	gnome_calendar_set_view (calendar, switch_to);
+	gnome_calendar_set_range_selected (calendar, TRUE);
+
+	gnome_calendar_notify_dates_shown_changed (calendar);
 }
 
 static void
@@ -134,6 +242,36 @@ cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 
 	return TRUE;
+}
+
+static void
+cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
+                                         ECal *client)
+{
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	ECalModel *model;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	model = gnome_calendar_get_model (calendar);
+
+	e_cal_model_add_client (model, client);
+}
+
+static void
+cal_shell_view_selector_client_removed_cb (ECalShellView *cal_shell_view,
+                                           ECal *client)
+{
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	ECalModel *model;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	model = gnome_calendar_get_model (calendar);
+
+	e_cal_model_remove_client (model, client);
 }
 
 static void
@@ -345,6 +483,16 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	g_signal_connect_swapped (
 		selector, "popup-event",
 		G_CALLBACK (cal_shell_view_selector_popup_event_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		cal_shell_sidebar, "client-added",
+		G_CALLBACK (cal_shell_view_selector_client_added_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		cal_shell_sidebar, "client-removed",
+		G_CALLBACK (cal_shell_view_selector_client_removed_cb),
 		cal_shell_view);
 
 	g_signal_connect_swapped (
@@ -794,7 +942,8 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	EShellSidebar *shell_sidebar;
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
-	GnomeCalendarViewType view;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
 	ECalModel *model;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
@@ -811,11 +960,14 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	gnome_calendar_get_visible_time_range (
-		calendar, &start_time, &end_time);
-	model = gnome_calendar_get_calendar_model (calendar);
+	model = gnome_calendar_get_model (calendar);
 	timezone = e_cal_model_get_timezone (model);
-	view = gnome_calendar_get_view (calendar);
+
+	view_type = gnome_calendar_get_view (calendar);
+	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+
+	e_calendar_view_get_visible_time_range (
+		calendar_view, &start_time, &end_time);
 
 	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, timezone);
 	start_tm.tm_year = start_tt.year - 1900;
@@ -840,7 +992,7 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	end_tm.tm_wday = time_day_of_week (
 		end_tt.day, end_tt.month - 1, end_tt.year);
 
-	switch (view) {
+	switch (view_type) {
 		case GNOME_CAL_DAY_VIEW:
 		case GNOME_CAL_WORK_WEEK_VIEW:
 		case GNOME_CAL_WEEK_VIEW:

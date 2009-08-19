@@ -676,7 +676,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				e_cal_model_generate_instances (gnome_calendar_get_calendar_model (gcal), now,
+				e_cal_model_generate_instances (gnome_calendar_get_model (gcal), now,
 								time_day_end_with_zone (now, zone),
 								instance_cb, &found);
 
@@ -1247,7 +1247,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	double font_size, max_font_size;
 	cairo_t *cr;
 
-	ECalModel *model = gnome_calendar_get_calendar_model (gcal);
+	ECalModel *model = gnome_calendar_get_model (gcal);
 
 	start = time_day_begin_with_zone (whence, zone);
 	end = time_day_end_with_zone (start, zone);
@@ -1733,7 +1733,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	GArray *spans;
 	PangoFontDescription *font;
 	double cell_width, cell_height;
-	ECalModel *model = gnome_calendar_get_calendar_model (gcal);
+	ECalModel *model = gnome_calendar_get_model (gcal);
 
 	psi.days_shown = weeks_shown * 7;
 	psi.events = g_array_new (FALSE, FALSE, sizeof (EWeekViewEvent));

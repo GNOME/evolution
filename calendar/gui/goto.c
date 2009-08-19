@@ -77,9 +77,11 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
 #if 0  /* KILL-BONOBO */
 	GoToDialog *dlg = user_data;
+	ECalModel *model;
 	ECal *client;
 
-	client = gnome_calendar_get_default_client (dlg->gcal);
+	model = gnome_calendar_get_model (dlg->gcal);
+	client = e_cal_model_get_default_client (model);
 	if (client)
 		tag_calendar_by_client (dlg->ecal, client);
 #endif
@@ -99,7 +101,7 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 	icaltimezone *timezone;
 	time_t et;
 
-	model = gnome_calendar_get_calendar_model (dlg->gcal);
+	model = gnome_calendar_get_model (dlg->gcal);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 	timezone = e_cal_model_get_timezone (model);
 

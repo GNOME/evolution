@@ -108,10 +108,8 @@ ECalendar *	gnome_calendar_get_date_navigator
 void		gnome_calendar_set_date_navigator
 						(GnomeCalendar *gcal,
 						 ECalendar *date_navigator);
-ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
-ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
+ECalModel *	gnome_calendar_get_model	(GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const gchar *uid);
 gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
@@ -126,39 +124,49 @@ void       gnome_calendar_next		(GnomeCalendar *gcal);
 void       gnome_calendar_previous		(GnomeCalendar *gcal);
 void       gnome_calendar_goto		(GnomeCalendar *gcal,
 						 time_t new_time);
+void		gnome_calendar_update_view_times(GnomeCalendar *gcal,
+						 time_t start_time);
 void       gnome_calendar_dayjump		(GnomeCalendar *gcal,
 						 time_t time);
 /* Jumps to the current day */
 void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
 
-GnomeCalendarViewType gnome_calendar_get_view (GnomeCalendar *gcal);
-void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type);
+GnomeCalendarViewType
+		gnome_calendar_get_view		(GnomeCalendar *gcal);
+void		gnome_calendar_set_view		(GnomeCalendar *gcal,
+						 GnomeCalendarViewType view_type);
 void		gnome_calendar_display_view	(GnomeCalendar *gcal,
 						 GnomeCalendarViewType view_type);
 
-struct _ECalendarView *gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
-							 GnomeCalendarViewType view_type);
+struct _ECalendarView *
+		gnome_calendar_get_calendar_view(GnomeCalendar *gcal,
+						 GnomeCalendarViewType view_type);
 
-void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
-						   time_t	  start_time);
-void	   gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
-						   time_t	 *start_time,
-						   time_t	 *end_time);
+gboolean	gnome_calendar_get_range_selected
+						(GnomeCalendar *gcal);
+void		gnome_calendar_set_range_selected
+						(GnomeCalendar *gcal,
+						 gboolean range_selected);
+void		gnome_calendar_set_selected_time_range
+						(GnomeCalendar *gcal,
+						 time_t start_time);
+void		gnome_calendar_get_selected_time_range
+						(GnomeCalendar *gcal,
+						 time_t *start_time,
+						 time_t *end_time);
 
 void       gnome_calendar_new_task		(GnomeCalendar *gcal, time_t *dtstart, time_t *dtend);
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */
-void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
-						  time_t	 *start_time,
-						  time_t	 *end_time);
+void		gnome_calendar_get_current_time_range
+						(GnomeCalendar *gcal,
+						 time_t *start_time,
+						 time_t *end_time);
 
-/* Gets the visible time range for the current view. Returns FALSE if no
-   time range has been set yet. */
-gboolean   gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
-						  time_t	 *start_time,
-						  time_t	 *end_time);
+void		gnome_calendar_notify_dates_shown_changed
+						(GnomeCalendar *gcal);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
