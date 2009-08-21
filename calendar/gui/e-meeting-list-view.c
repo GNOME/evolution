@@ -774,7 +774,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
-				c_store = dialog->name_selector_model->contact_store;
+				c_store = e_name_selector_dialog_peek_model (dialog)->contact_store;
 				books = e_contact_store_get_books (c_store);
 
 				for (l = books; l; l = l->next) {

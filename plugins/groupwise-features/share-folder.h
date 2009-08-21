@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 #include <camel/camel-store.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-name-selector.h>
+#include <glade/glade-xml.h>
 
 #define _SHARE_FOLDER_TYPE	      (share_folder_get_type ())
 #define SHARE_FOLDER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SHARE_FOLDER, ShareFolder))
