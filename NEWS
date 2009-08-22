@@ -1,3 +1,34 @@
+Evolution 2.27.91 2009-08-24
+----------------------------
+
+Calendar:
+	#591414 - libevolution-cal-shared is linked as a module (Götz Waschk)
+
+Miscellaneous:
+	#591321 - Cosmetic changes and fixes in configure.ac (H.Habighorst)
+	#591326 - Keep m4 macros in their own folder (H.Habighorst)
+	#591377 - Fails to detect krb5 in configure with -as-needed
+	          (H.Habighorst)
+
+Other Fixes:
+	Fix msgfmt check by setting strings to fuzzy (Andre Klapper)
+	Update czech screenshots. (Andre Klapper)
+
+Translations:
+	Alexander Shopov (bg)
+	Jamil Ahmed (bn)
+	Gil Forcada (ca)
+	Carles Ferrando (ca@valencia)
+	Jorge González (es)
+	Mattias Põldaru (et)
+	Ivar Smolin (et)
+	Seán de Búrca (ga)
+	Antón Méixome (gl)
+	Mark Krapivner (he)
+	Changwoo Ryu (ko)
+	Kjartan Maraas (nb)
+	Sandeep Shedmake (mr)
+
 Evolution 2.27.90 2009-08-10
 -----------------------------
 
