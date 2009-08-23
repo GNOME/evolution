@@ -94,7 +94,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-module.o				\
 	$(top_builddir)/e-util/.libs/e-plugin.o				\
 	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\
-	$(top_builddir)/e-util/.libs/e-popup.o				\
 	$(top_builddir)/e-util/.libs/e-print.o				\
 	$(top_builddir)/e-util/.libs/e-unicode.o			\
 	$(top_builddir)/e-util/.libs/e-util.o				\
