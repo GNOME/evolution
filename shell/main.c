@@ -57,17 +57,12 @@
 
 #include <glib/gi18n.h>
 
-#include <bonobo/bonobo-exception.h>
-
-#include <bonobo-activation/bonobo-activation.h>
-
 #include <libedataserver/e-categories.h>
 #include <libedataserverui/e-passwords.h>
 
 #include <glade/glade.h>
 
 #include "e-config-upgrade.h"
-#include "Evolution-DataServer.h"
 
 #include <misc/e-cursors.h>
 #include "e-util/e-error.h"
@@ -111,66 +106,6 @@ static gchar **remaining_args;
 
 /* Defined in <e-shell.h> */
 extern EShell *default_shell;
-
-#ifdef KILL_PROCESS_CMD
-
-static void
-kill_dataserver (void)
-{
-	g_message ("Killing old version of evolution-data-server...");
-
-	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.2 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.4 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.6 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.8 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.10 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.12 2> /dev/null");
-
-	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
-}
-
-static void
-kill_old_dataserver (void)
-{
-	GNOME_Evolution_DataServer_InterfaceCheck iface;
-	CORBA_Environment ev;
-	CORBA_char *version;
-
-	CORBA_exception_init (&ev);
-
-	/* FIXME Should we really kill it off?  We also shouldn't hard code the version */
-	iface = bonobo_activation_activate_from_id (
-		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
-	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
-		kill_dataserver ();
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	version = GNOME_Evolution_DataServer_InterfaceCheck__get_interfaceVersion (iface, &ev);
-	if (BONOBO_EX (&ev)) {
-		kill_dataserver ();
-		CORBA_Object_release (iface, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	if (strcmp (version, DATASERVER_VERSION) != 0) {
-		CORBA_free (version);
-		kill_dataserver ();
-		CORBA_Object_release (iface, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_free (version);
-	CORBA_Object_release (iface, &ev);
-	CORBA_exception_free (&ev);
-}
-#endif
 
 static void
 categories_icon_theme_hack (void)
@@ -307,10 +242,6 @@ static gboolean
 idle_cb (gchar **uris)
 {
 	EShell *shell;
-
-#ifdef KILL_PROCESS_CMD
-	kill_old_dataserver ();
-#endif
 
 	shell = e_shell_get_default ();
 

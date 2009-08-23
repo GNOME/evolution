@@ -204,7 +204,6 @@ main (gint argc, gchar **argv)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) kill_component);
 
-	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/CalFactory:" DATASERVER_API_VERSION);
 	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION);
 	g_hash_table_remove_all (components);
 

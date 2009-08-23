@@ -37,8 +37,6 @@
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #include <camel/camel-iconv.h>
 
 #include <misc/e-gui-utils.h>

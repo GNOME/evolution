@@ -39,23 +39,6 @@ if NM_SUPPORT
 NM_SUPPORT_FILES = e-shell-nm.c
 endif
 
-# Data Server CORBA stuff
-DATASERVER_IDL_GENERATED_H =			\
-	Evolution-DataServer.h
-
-DATASERVER_IDL_GENERATED_C =			\
-	Evolution-DataServer-common.c		\
-	Evolution-DataServer-skels.c		\
-	Evolution-DataServer-stubs.c
-
-DATASERVER_IDL_GENERATED = $(DATASERVER_IDL_GENERATED_C) $(DATASERVER_IDL_GENERATED_H)
-
-$(DATASERVER_IDL_GENERATED_H): $(DATASERVER_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(DATASERVER_IDL)
-
-$(DATASERVER_IDL_GENERATED_C): $(DATASERVER_IDL_GENERATED_H)
-
-
 # Shell library
 
 privsolib_LTLIBRARIES =	\
@@ -120,7 +103,6 @@ EVOLUTIONICONRC = evolution-icon.o
 endif
 
 evolution_SOURCES =				\
-	$(DATASERVER_IDL_GENERATED)		\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
 	main.c					
@@ -200,7 +182,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
