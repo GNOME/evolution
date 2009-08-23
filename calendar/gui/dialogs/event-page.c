@@ -52,7 +52,6 @@
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
-#include "../e-cal-popup.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "../e-alarm-list.h"
@@ -1883,102 +1882,6 @@ attendee_added_cb (EMeetingListView *emlv,
 	}
 }
 
-/* Callbacks for list view*/
-static void
-popup_add_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EventPage *epage = data;
-
-	add_clicked_cb (NULL, epage);
-}
-
-static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EventPage *epage = data;
-
-	remove_clicked_cb (NULL, epage);
-}
-
-enum {
-	ATTENDEE_CAN_DELEGATE = 1<<1,
-	ATTENDEE_CAN_DELETE = 1<<2,
-	ATTENDEE_CAN_ADD = 1<<3,
-	ATTENDEE_LAST = 1<<4
-};
-
-static EPopupItem context_menu_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "10.delete", (gchar *) N_("_Remove"), popup_delete_cb, NULL, (gchar *) GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, (gchar *) "15.add", (gchar *) N_("_Add "), popup_add_cb, NULL, (gchar *) GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
-};
-
-static void
-context_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-}
-
-static gint
-button_press_event (GtkWidget *widget, GdkEventButton *event, EventPage *epage)
-{
-	EventPagePrivate *priv = epage->priv;
-	CompEditor *editor;
-	CompEditorFlags flags;
-	GtkMenu *menu;
-	EMeetingAttendee *ia;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gchar *address;
-	guint32 disable_mask = ~0;
-	GSList *menus = NULL;
-	ECalPopup *ep;
-	gint i;
-
-	/* only process right-clicks */
-	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
-		return FALSE;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
-	flags = comp_editor_get_flags (editor);
-
-	/* only if we right-click on an attendee */
-	if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL)) {
-		GtkTreeSelection *selection;
-
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path)) {
-
-			gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-			ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
-			g_free (address);
-
-			if (ia) {
-				selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-				gtk_tree_selection_unselect_all (selection);
-				gtk_tree_selection_select_path (selection, path);
-
-				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
-					disable_mask &= ~ATTENDEE_CAN_DELETE;
-			}
-		}
-	}
-
-	if (GTK_WIDGET_IS_SENSITIVE(priv->add))
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-	else if (flags & COMP_EDITOR_USER_ORG)
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.meeting.popup");
-
-	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
-		menus = g_slist_prepend(menus, &context_menu_items[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, epage);
-	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
-
-	return TRUE;
-}
-
 static gboolean
 list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage) {
 
@@ -2915,7 +2818,6 @@ init_widgets (EventPage *epage)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
-	g_signal_connect (G_OBJECT (priv->list_view), "button_press_event", G_CALLBACK (button_press_event), epage);
 	g_signal_connect (G_OBJECT (priv->list_view), "event", G_CALLBACK (list_view_event), epage);
 	g_signal_connect (priv->list_view, "key_press_event", G_CALLBACK (list_key_press), epage);
 
