@@ -38,7 +38,9 @@
 
 #include <time.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-config.h"
+#include "e-util/gconf-bridge.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree-model.h"
@@ -100,17 +102,6 @@ is_part_enabled (const gchar *gconf_key)
 	g_object_unref (client);
 
 	return res;
-}
-
-static void
-set_part_enabled (const gchar *gconf_key, gboolean enable)
-{
-	GConfClient *client;
-
-	client = gconf_client_get_default ();
-
-	gconf_client_set_bool (client, gconf_key, enable, NULL);
-	g_object_unref (client);
 }
 
 /* -------------------------------------------------------------------  */
@@ -201,14 +192,6 @@ init_dbus (void)
 	return TRUE;
 }
 
-static void
-toggled_dbus_cb (GtkWidget *widget, gpointer data)
-{
-	g_return_if_fail (widget != NULL);
-
-	set_part_enabled (GCONF_KEY_ENABLED_DBUS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
-}
-
 /* -------------------------------------------------------------------  */
 
 static void
@@ -236,21 +219,6 @@ enable_dbus (gint enable)
 		bus = NULL;
 	}
 }
-
-static GtkWidget *
-get_config_widget_dbus (void)
-{
-	GtkWidget *w;
-
-	w = gtk_check_button_new_with_mnemonic (_("Generate a _D-Bus message"));
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), is_part_enabled (GCONF_KEY_ENABLED_DBUS));
-	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (toggled_dbus_cb), NULL);
-	gtk_widget_show (w);
-
-	return w;
-}
-
 #endif
 
 /* -------------------------------------------------------------------  */
@@ -312,45 +280,6 @@ stop_blinking_cb (gpointer data)
 		gtk_status_icon_set_blinking (status_icon, FALSE);
 
 	return FALSE;
-}
-
-struct _StatusConfigureWidgets
-{
-	GtkWidget *enable;
-	GtkWidget *blink;
-#ifdef HAVE_LIBNOTIFY
-	GtkWidget *message;
-#endif
-};
-
-static void
-toggled_status_cb (GtkWidget *widget, gpointer data)
-{
-	struct _StatusConfigureWidgets *scw = (struct _StatusConfigureWidgets *) data;
-	gboolean enabl;
-
-	g_return_if_fail (scw != NULL);
-	g_return_if_fail (scw->enable != NULL);
-	g_return_if_fail (scw->blink != NULL);
-#ifdef HAVE_LIBNOTIFY
-	g_return_if_fail (scw->message != NULL);
-#endif
-
-	enabl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->enable));
-	if (widget == scw->enable)
-		set_part_enabled (GCONF_KEY_ENABLED_STATUS, enabl);
-
-	#define work_widget(w, key) \
-		gtk_widget_set_sensitive (w, enabl); \
-		if (widget == w) \
-			set_part_enabled (key, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
-
-	work_widget (scw->blink, GCONF_KEY_STATUS_BLINK);
-#ifdef HAVE_LIBNOTIFY
-	work_widget (scw->message, GCONF_KEY_STATUS_NOTIFICATION);
-#endif
-
-	#undef work_widget
 }
 
 /* -------------------------------------------------------------------  */
@@ -562,49 +491,70 @@ read_notify_status (EMEventTargetMessage *t)
 #endif
 }
 
-static void
-enable_status (gint enable)
-{
-	/* this does nothing on enable, it's here just to be
-	   consistent with other parts of this plugin */
-}
-
 static GtkWidget *
 get_config_widget_status (void)
 {
-	GtkWidget *vbox, *parent, *alignment;
-	struct _StatusConfigureWidgets *scw;
+	GtkWidget *vbox;
+	GtkWidget *master;
+	GtkWidget *container;
+	GtkWidget *widget;
+	GConfBridge *bridge;
+	const gchar *text;
 
-	vbox = gtk_vbox_new (FALSE, 0);
-	scw = g_malloc0 (sizeof (struct _StatusConfigureWidgets));
+	bridge = gconf_bridge_get ();
 
-	#define create_check(c, key, desc)							\
-		c = gtk_check_button_new_with_mnemonic (desc);					\
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (c), is_part_enabled (key));	\
-		gtk_box_pack_start (GTK_BOX (parent), c, FALSE, FALSE, 0);			\
-		g_signal_connect (G_OBJECT (c), "toggled", G_CALLBACK (toggled_status_cb), scw);
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
 
-	parent = vbox;
-	create_check (scw->enable,     GCONF_KEY_ENABLED_STATUS,      _("Show icon in _notification area"));
+	container = vbox;
 
-	parent = gtk_vbox_new (FALSE, 0);
-	create_check (scw->blink,      GCONF_KEY_STATUS_BLINK,        _("B_link icon in notification area"));
+	text = _("Show icon in _notification area");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_ENABLED_STATUS,
+		G_OBJECT (widget), "active");
+
+	master = widget;
+
+	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (master), "active",
+		G_OBJECT (widget), "sensitive");
+
+	container = widget;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("B_link icon in notification area");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_STATUS_BLINK,
+		G_OBJECT (widget), "active");
+
 #ifdef HAVE_LIBNOTIFY
-	create_check (scw->message,    GCONF_KEY_STATUS_NOTIFICATION, _("Popup _message together with the icon"));
+	text = _("Popup _message together with the icon");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_STATUS_NOTIFICATION,
+		G_OBJECT (widget), "active");
 #endif
-
-	alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 20, 0);
-	gtk_container_add (GTK_CONTAINER (alignment), parent);
-	gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-
-	#undef create_check
-
-	/* to let structure free properly */
-	g_object_set_data_full (G_OBJECT (vbox), "scw-data", scw, g_free);
-
-	toggled_status_cb (NULL, scw);
-	gtk_widget_show_all (vbox);
 
 	return vbox;
 }
@@ -618,6 +568,7 @@ get_config_widget_status (void)
 
 #define GCONF_KEY_SOUND_BEEP		GCONF_KEY_ROOT "sound-beep"
 #define GCONF_KEY_SOUND_FILE		GCONF_KEY_ROOT "sound-file"
+#define GCONF_KEY_SOUND_PLAY_FILE	GCONF_KEY_ROOT "sound-play-file"
 #define GCONF_KEY_SOUND_USE_THEME       GCONF_KEY_ROOT "sound-use-theme"
 
 static ca_context *mailnotification = NULL;
@@ -645,47 +596,9 @@ struct _SoundConfigureWidgets
 	GtkWidget *beep;
 	GtkWidget *use_theme;
 	GtkWidget *file;
-	GtkWidget *label;
 	GtkWidget *filechooser;
 	GtkWidget *play;
 };
-
-static void
-toggled_sound_cb (GtkWidget *widget, gpointer data)
-{
-	struct _SoundConfigureWidgets *scw = (struct _SoundConfigureWidgets *) data;
-	gboolean enabl;
-
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (scw->enable != NULL);
-	g_return_if_fail (scw->beep != NULL);
-	g_return_if_fail (scw->use_theme != NULL);
-	g_return_if_fail (scw->file != NULL);
-	g_return_if_fail (scw->label != NULL);
-	g_return_if_fail (scw->filechooser != NULL);
-	g_return_if_fail (scw->play != NULL);
-
-	enabl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->enable));
-	if (widget == scw->enable)
-		set_part_enabled (GCONF_KEY_ENABLED_SOUND, enabl);
-
-	gtk_widget_set_sensitive (scw->beep, enabl);
-	gtk_widget_set_sensitive (scw->use_theme, enabl);
-	gtk_widget_set_sensitive (scw->file, enabl);
-	gtk_widget_set_sensitive (scw->label, enabl);
-	gtk_widget_set_sensitive (scw->filechooser, enabl 
-				  && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->file))
-				  && !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->use_theme)));
-	gtk_widget_set_sensitive (scw->play, enabl);
-
-	if (widget == scw->beep || widget == scw->file || widget == scw->use_theme)
-		set_part_enabled (GCONF_KEY_SOUND_BEEP, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->beep)));
-	
-	if (widget == scw->use_theme) {
-		set_part_enabled (GCONF_KEY_SOUND_USE_THEME, gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON (scw->use_theme)));
-		set_part_enabled (GCONF_KEY_SOUND_BEEP, FALSE);
-	}
-}
 
 static void
 sound_file_set_cb (GtkWidget *widget, gpointer data)
@@ -790,42 +703,114 @@ enable_sound (gint enable)
 static GtkWidget *
 get_config_widget_sound (void)
 {
-	GtkWidget *vbox, *alignment, *parent, *hbox;
+	GtkWidget *vbox;
+	GtkWidget *container;
+	GtkWidget *master;
+	GtkWidget *widget;
 	gchar *file;
+	GConfBridge *bridge;
 	GConfClient *client;
+	GSList *group = NULL;
 	struct _SoundConfigureWidgets *scw;
+	const gchar *text;
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	bridge = gconf_bridge_get ();
+
 	scw = g_malloc0 (sizeof (struct _SoundConfigureWidgets));
 
-	scw->enable = gtk_check_button_new_with_mnemonic (_("_Play sound when new messages arrive"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scw->enable), is_part_enabled (GCONF_KEY_ENABLED_SOUND));
-	gtk_box_pack_start (GTK_BOX (vbox), scw->enable, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (scw->enable), "toggled", G_CALLBACK (toggled_sound_cb), scw);
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
 
-	parent = gtk_vbox_new (FALSE, 0);
-	scw->beep = gtk_radio_button_new_with_mnemonic (NULL, _("_Beep"));
-	scw->use_theme = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (scw->beep), _("Use sound _theme"));
-	scw->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (scw->beep), _("Play _sound file"));
+	container = vbox;
 
-	if (is_part_enabled (GCONF_KEY_SOUND_BEEP))
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scw->beep), TRUE);
-	else if (is_part_enabled (GCONF_KEY_SOUND_USE_THEME))
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scw->use_theme), TRUE);
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scw->file), TRUE);
+	text = _("_Play sound when new messages arrive");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
-	g_signal_connect (G_OBJECT (scw->beep), "toggled", G_CALLBACK (toggled_sound_cb), scw);
-	g_signal_connect (G_OBJECT (scw->use_theme), "toggled", G_CALLBACK (toggled_sound_cb), scw);
-	g_signal_connect (G_OBJECT (scw->file), "toggled", G_CALLBACK (toggled_sound_cb), scw);
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_ENABLED_SOUND,
+		G_OBJECT (widget), "active");
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	scw->label = gtk_label_new_with_mnemonic (_("Specify _filename:"));
-	scw->filechooser = gtk_file_chooser_button_new (_("Select sound file"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	scw->play = gtk_button_new_with_mnemonic (_("Pl_ay"));
+	master = widget;
+	scw->enable = widget;
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (scw->label), scw->filechooser);
-	gtk_button_set_image (GTK_BUTTON (scw->play), gtk_image_new_from_icon_name ("media-playback-start", GTK_ICON_SIZE_BUTTON));
+	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 12, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (master), "active",
+		G_OBJECT (widget), "sensitive");
+
+	container = widget;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("_Beep");
+	widget = gtk_radio_button_new_with_mnemonic (group, text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_SOUND_BEEP,
+		G_OBJECT (widget), "active");
+
+	scw->beep = widget;
+
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
+
+	text = _("Use sound _theme");
+	widget = gtk_radio_button_new_with_mnemonic (group, text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_SOUND_USE_THEME,
+		G_OBJECT (widget), "active");
+
+	scw->use_theme = widget;
+
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Play _file:");
+	widget = gtk_radio_button_new_with_mnemonic (group, text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_SOUND_PLAY_FILE,
+		G_OBJECT (widget), "active");
+
+	scw->file = widget;
+
+	text = _("Select sound file");
+	widget = gtk_file_chooser_button_new (
+		text, GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	scw->filechooser = widget;
+
+	widget = gtk_button_new ();
+	gtk_button_set_image (
+		GTK_BUTTON (widget), gtk_image_new_from_icon_name (
+		"media-playback-start", GTK_ICON_SIZE_BUTTON));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	scw->play = widget;
 
 	client = gconf_client_get_default ();
 	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
@@ -836,28 +821,15 @@ get_config_widget_sound (void)
 	g_object_unref (client);
 	g_free (file);
 
-	g_signal_connect (G_OBJECT (scw->filechooser), "file-set", G_CALLBACK (sound_file_set_cb), scw);
-	g_signal_connect (G_OBJECT (scw->play), "clicked", G_CALLBACK (sound_play_cb), scw);
-
-	gtk_box_pack_start (GTK_BOX (hbox), scw->label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), scw->filechooser, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), scw->play, FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (parent), scw->beep, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (parent), scw->use_theme, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (parent), scw->file, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (parent), hbox, FALSE, FALSE, 0);
-
-	alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 20, 0);
-	gtk_container_add (GTK_CONTAINER (alignment), parent);
-	gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
+	g_signal_connect (
+		scw->filechooser, "file-set",
+		G_CALLBACK (sound_file_set_cb), scw);
+	g_signal_connect (
+		scw->play, "clicked",
+		G_CALLBACK (sound_play_cb), scw);
 
 	/* to let structure free properly */
 	g_object_set_data_full (G_OBJECT (vbox), "scw-data", scw, g_free);
-
-	toggled_sound_cb (NULL, scw);
-	gtk_widget_show_all (vbox);
 
 	return vbox;
 }
@@ -866,43 +838,48 @@ get_config_widget_sound (void)
 /*                     Plugin itself part                               */
 /* -------------------------------------------------------------------  */
 
-static void
-toggled_only_inbox_cb (GtkWidget *widget, gpointer data)
-{
-	g_return_if_fail (widget != NULL);
-
-	set_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
-}
-
 static GtkWidget *
 get_cfg_widget (void)
 {
-	GtkWidget *cfg, *vbox, *check;
+	GtkWidget *container;
+	GtkWidget *widget;
+	GConfBridge *bridge;
+	const gchar *text;
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	check = gtk_check_button_new_with_mnemonic (_("Notify new messages for _Inbox only"));
+	bridge = gconf_bridge_get ();
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), is_part_enabled (GCONF_KEY_NOTIFY_ONLY_INBOX));
-	g_signal_connect (G_OBJECT (check), "toggled", G_CALLBACK (toggled_only_inbox_cb), NULL);
-	gtk_widget_show (check);
-	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
+	widget = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Notify new messages for _Inbox only");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_NOTIFY_ONLY_INBOX,
+		G_OBJECT (widget), "active");
 
 #ifdef HAVE_DBUS
-	cfg = get_config_widget_dbus ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
+	text = _("Generate a _D-Bus message");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	gconf_bridge_bind_property (
+		bridge, GCONF_KEY_ENABLED_DBUS,
+		G_OBJECT (widget), "active");
 #endif
-	cfg = get_config_widget_status ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
 
-	cfg = get_config_widget_sound ();
-	if (cfg)
-		gtk_box_pack_start (GTK_BOX (vbox), cfg, FALSE, FALSE, 0);
+	widget = get_config_widget_status ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
-	gtk_widget_show (vbox);
+	widget = get_config_widget_sound ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
-	return vbox;
+	return container;
 }
 
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
@@ -965,9 +942,6 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 		if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 			enable_dbus (enable);
 #endif
-		if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
-			enable_status (enable);
-
 		if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
 			enable_sound (enable);
 
@@ -976,7 +950,6 @@ e_plugin_lib_enable (EPluginLib *ep, gint enable)
 #ifdef HAVE_DBUS
 		enable_dbus (enable);
 #endif
-		enable_status (enable);
 		enable_sound (enable);
 
 		enabled = FALSE;
