@@ -223,8 +223,7 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 	ESourceList *source_list = NULL;
 	gboolean retval = FALSE;
 
-	source_list = g_object_get_data (
-		G_OBJECT (shell_backend), "source-list");
+	g_object_get (shell_backend, "source-list", &source_list, NULL);
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
