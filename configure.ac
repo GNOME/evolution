@@ -1814,7 +1814,7 @@ plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS 
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
-enable_plugins="attachment-reminder addressbook-file audio-inline backup-restore bbdb bogo-junk-plugin caldav calendar-file calendar-http calendar-weather default-mailer default-source email-custom-header external-editor face google-account-setup hula-account-setup imap-features itip-formatter mail-notification mail-to-task mark-all-read plugin-manager prefer-plain profiler pst-import sa-junk-plugin save-calendar startup-wizard subject-thread templates $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
+enable_plugins="attachment-reminder addressbook-file audio-inline backup-restore bbdb bogo-junk-plugin caldav calendar-file calendar-http calendar-weather default-mailer default-source email-custom-header external-editor face google-account-setup hula-account-setup imap-features itip-formatter mail-notification mail-to-task mark-all-read plugin-manager prefer-plain profiler pst-import sa-junk-plugin startup-wizard subject-thread templates $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
 
 dnl PLUGINS NOT BUILDING YET
 dnl ------------------------
@@ -1825,6 +1825,7 @@ dnl mailing-list-actions
 dnl mono
 dnl publish-calendar
 dnl python
+dnl save-calendar
 
 case x"$enable_plugins" in
 xno)

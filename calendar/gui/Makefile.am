@@ -19,7 +19,6 @@ ecalendarinclude_HEADERS =			\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
-	e-cal-popup.h				\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-comp-editor-registry.h		\
@@ -109,8 +108,6 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-model-calendar.h			\
 	e-cal-model.c				\
 	e-cal-model.h				\
-	e-cal-popup.h				\
-	e-cal-popup.c				\
 	e-cal-list-view.c			\
 	e-cal-list-view.h			\
 	e-cal-model-memos.c			\

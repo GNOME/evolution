@@ -53,7 +53,6 @@
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
-#include "../e-cal-popup.h"
 
 #define TASK_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
