@@ -9,6 +9,8 @@ Miscellaneous:
 	#591326 - Keep m4 macros in their own folder (H.Habighorst)
 	#591377 - Fails to detect krb5 in configure with -as-needed
 	          (H.Habighorst)
+	#592680 - Remove deprecated Encoding key from desktop file
+	          (Frederic Peters)
 
 Other Fixes:
 	Fix msgfmt check by setting strings to fuzzy (Andre Klapper)
