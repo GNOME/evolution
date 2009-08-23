@@ -50,7 +50,6 @@
 #include "alarm-notify.h"
 #include "config-data.h"
 #include "util.h"
-#include "e-util/e-popup.h"
 #include "e-util/e-error.h"
 
 #define d(x)

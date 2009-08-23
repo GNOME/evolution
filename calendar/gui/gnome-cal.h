@@ -31,7 +31,6 @@
 #include <gtk/gtk.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
-#include <e-util/e-popup.h>
 #include <shell/e-shell-settings.h>
 
 #include "e-calendar-table.h"

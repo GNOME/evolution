@@ -39,7 +39,6 @@
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
-#include "e-util/e-popup.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-util-private.h"

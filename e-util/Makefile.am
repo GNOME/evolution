@@ -63,7 +63,6 @@ eutilinclude_HEADERS = 				\
 	e-print.h				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
-	e-popup.h				\
 	e-profile-event.h			\
 	e-request.h				\
 	e-signature.h				\
@@ -105,7 +104,6 @@ libeutil_la_SOURCES =				\
 	e-non-intrusive-error-dialog.c		\
 	e-plugin-ui.c				\
 	e-plugin.c				\
-	e-popup.c				\
 	e-print.c				\
 	e-profile-event.c			\
 	e-request.c				\
