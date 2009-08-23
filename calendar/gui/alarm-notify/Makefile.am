@@ -25,7 +25,8 @@ AM_CPPFLAGS = 						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
-	$(EVOLUTION_CALENDAR_CFLAGS)
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
+	$(CANBERRA_CFLAGS)
 
 glade_DATA =		\
 	alarm-notify.glade
@@ -51,7 +52,8 @@ evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(CAMEL_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)					\
+	$(CANBERRA_LIBS)
 
 if OS_WIN32
 evolution_alarm_notify_LDFLAGS = -mwindows

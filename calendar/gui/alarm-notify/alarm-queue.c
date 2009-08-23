@@ -34,7 +34,7 @@
 #include <bonobo/bonobo-main.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-sound.h>
+#include <canberra-gtk.h>
 
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
@@ -1641,13 +1641,23 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	if (attach && icalattach_get_is_url (attach)) {
 		const gchar *url;
+		gchar *filename;
+		GError *error = NULL;
 
 		url = icalattach_get_url (attach);
+		filename = g_filename_from_uri (url, NULL, &error);
 
-		if (url && *url && g_file_test (url, G_FILE_TEST_EXISTS)) {
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 			flag = 1;
-			gnome_sound_play (url); /* this sucks */
+			ca_context_play (
+				ca_gtk_context_get(), 0,
+				CA_PROP_MEDIA_FILENAME, filename, NULL); 
 		}
+
+		g_free (filename);
 	}
 
 	if (!flag)

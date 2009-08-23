@@ -17,6 +17,7 @@ AM_CPPFLAGS =						\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(THREADS_CFLAGS)				\
+	$(CANBERRA_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -164,6 +165,7 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)
 

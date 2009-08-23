@@ -33,7 +33,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <libgnome/gnome-sound.h>
+#include <canberra-gtk.h>
 
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
@@ -462,7 +462,9 @@ static void
 main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
 {
 	if (filename && *filename)
-		gnome_sound_play (filename);
+		ca_context_play(ca_gtk_context_get(), 0,
+				CA_PROP_MEDIA_FILENAME, filename,
+				NULL);
 	else
 		gdk_beep ();
 

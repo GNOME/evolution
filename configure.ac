@@ -259,6 +259,12 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libgdata-$EDS_PACKAGE >= eds_minimum_version
 	 libgdata-google-$EDS_PACKAGE >= eds_minimum_version])
 
+dnl ******************************
+dnl Canberra / Canberra-GTK Sound
+dnl ******************************
+PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk])
+AC_SUBST(CANBERRA_CFLAGS)
+AC_SUBST(CANBERRA_LIBS)
 
 dnl ******************
 dnl User Documentation

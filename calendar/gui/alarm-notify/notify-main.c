@@ -31,7 +31,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-init.h>
-#include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-client.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
@@ -47,8 +46,6 @@
 #include "alarm-notify.h"
 #include "config-data.h"
 #include <camel/camel-object.h>
-
-
 
 static BonoboGenericFactory *factory;
 
@@ -142,8 +139,6 @@ main (gint argc, gchar **argv)
 
 	glade_init ();
 
-	gnome_sound_init ("localhost");
-
 	e_icon_factory_init ();
 
 	init_alarm_service (NULL);
@@ -173,7 +168,6 @@ main (gint argc, gchar **argv)
 	alarm_done ();
 
 	e_passwords_shutdown ();
-	gnome_sound_shutdown ();
 
 	return 0;
 }

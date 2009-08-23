@@ -91,6 +91,17 @@
         <long>Sound file to be played when new messages arrive, if not in beep mode.</long>
       </locale>
     </schema>
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/mail-notification/sound-use-theme</key>
+      <applyto>/apps/evolution/eplugin/mail-notification/sound-use-theme</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>	
+      <locale name="C">
+        <short>Use sound theme</short>
+        <long>Play themed sound when new messages arrive, if not in beep mode.</long>
+      </locale>
+    </schema>	
   </schemalist>
 </gconfschemafile>
 

@@ -37,7 +37,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <libgnome/gnome-sound.h>
 #include <glib/gi18n.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>

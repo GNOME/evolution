@@ -56,7 +56,6 @@
 #include <gconf/gconf-client.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-sound.h>
 
 #include <bonobo/bonobo-exception.h>
 
@@ -635,7 +634,6 @@ main (gint argc, gchar **argv)
 		exit (0);
 
 	categories_icon_theme_hack ();
-	gnome_sound_init ("localhost");
 	gtk_accel_map_load (e_get_accels_filename ());
 
 	if (!disable_eplugin) {
@@ -675,7 +673,6 @@ main (gint argc, gchar **argv)
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
-	gnome_sound_shutdown ();
 	e_cursors_shutdown ();
 #ifdef G_OS_WIN32
 	link_shutdown ();
