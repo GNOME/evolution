@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: Evolution 2.28\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-08-11 14:06+0000\n"
-"PO-Revision-Date: 2009-08-12 07:28+0300\n"
-"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
+"POT-Creation-Date: 2009-08-15 14:12+0000\n"
+"PO-Revision-Date: 2009-08-19 08:46+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2919,10 +2919,9 @@ msgstr "Tund, millal tööpäev algab"
 msgid "Workday start minute"
 msgstr "Minut, millal tööpäev algab"
 
-#, fuzzy
 #| msgid "Invalid contact."
 msgid "Invalid object"
-msgstr "Vigane kontakt."
+msgstr "Vigane objekt."
 
 msgid "Summary contains"
 msgstr "Kokkuvõte sisaldab"
@@ -3710,10 +3709,9 @@ msgstr "_Hiljutised dokumendid"
 msgid "Attach"
 msgstr "Manusta"
 
-#, fuzzy
 #| msgid "_Save"
 msgid "Save"
-msgstr "_Salvesta"
+msgstr "Salvesta"
 
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
@@ -3823,8 +3821,7 @@ msgstr "Sünd_mus"
 
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
-"Sündmust pole võimalik redigeerida, kuna valitud kalender on "
-"kirjutuskaitsega"
+"Sündmust pole võimalik redigeerida, kuna valitud kalender on kirjutuskaitsega"
 
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
@@ -4238,8 +4235,7 @@ msgstr "Ülesande üksikasjad"
 
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
-"Ülesannet pole võimalik muuta, kuna valitud ülesandeloend on "
-"kirjutuskaitsega"
+"Ülesannet pole võimalik muuta, kuna valitud ülesandeloend on kirjutuskaitsega"
 
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr ""
@@ -8542,10 +8538,10 @@ msgid "Retrieving `%s'"
 msgstr "`%s' tõmbamine"
 
 msgid "Unknown external-body part."
-msgstr ""
+msgstr "Tundmatu väliskeha (external-body) osa."
 
 msgid "Malformed external-body part."
-msgstr ""
+msgstr "Väliskeha (external-body) osa on rikutud."
 
 #, c-format
 msgid "Pointer to FTP site (%s)"
@@ -10010,10 +10006,9 @@ msgstr "PGP/GPG _võtme ID:"
 msgid "Pass_word:"
 msgstr "Pa_rool:"
 
-#, fuzzy
 #| msgid "Please select among the following options"
 msgid "Please configure the following account settings."
-msgstr "Palun vali järgnevate valikute vahel"
+msgstr ""
 
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
@@ -13662,18 +13657,17 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#, fuzzy
 #| msgid "No Summary"
 msgid "[No Summary]"
-msgstr "Kokkuvõte puudub"
+msgstr "[Kokkuvõte puudub]"
 
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Server tagastas vigase objekti"
 
-#, fuzzy, c-format
+#, c-format
 #| msgid "An error occurred while printing"
 msgid "An error occurred during processing: %s"
-msgstr "Printimise ajal tekkis viga"
+msgstr "Töötlemise ajal tekkis viga: %s"
 
 #, c-format
 msgid "Cannot open calendar. %s"
@@ -13707,48 +13701,40 @@ msgstr "Allikloendit pole võimalik hankida. %s"
 msgid "Convert a mail message to a task."
 msgstr "Valitud sõnumi teisendamine uueks ülesandeks."
 
-#, fuzzy
 #| msgid "Create a new memo"
 msgid "Create a Mem_o"
-msgstr "Uue märkme loomine"
+msgstr "Loo _märge"
 
-#, fuzzy
 #| msgid "Convert to a _Meeting"
 msgid "Create a _Meeting"
-msgstr "Teisenda _koosolekuks"
+msgstr "Loo _koosolek"
 
-#, fuzzy
 #| msgid "Create a new task"
 msgid "Create a _Task"
-msgstr "Uue ülesande loomine"
+msgstr "Loo ül_esanne"
 
-#, fuzzy
 #| msgid "Convert to an _Event"
 msgid "Create an _Event"
-msgstr "Teisenda _sündmuseks"
+msgstr "Loo _sündmus"
 
 msgid "Mail-to-Task"
 msgstr "Sõnum-ülesandeks"
 
-#, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new event from the selected message"
-msgstr "Vastuse koostamine valitud sõnumi saatjale"
+msgstr "Valitud sõnumi põhjal uue sündmuse loomine"
 
-#, fuzzy
 #| msgid "Create a new meeting request"
 msgid "Create a new meeting from the selected message"
-msgstr "Uue koosolekukutse loomine"
+msgstr "Valitud sõnumi põhjal uue koosoleku loomine"
 
-#, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new memo from the selected message"
-msgstr "Vastuse koostamine valitud sõnumi saatjale"
+msgstr "Valitud sõnumi põhjal uue märkme loomine"
 
-#, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new task from the selected message"
-msgstr "Vastuse koostamine valitud sõnumi saatjale"
+msgstr "Valitud sõnumi põhjal uue ülesande loomine"
 
 msgid "Contact list _owner"
 msgstr "Võta postiloendi _omanikuga ühendust"
