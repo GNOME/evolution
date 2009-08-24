@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-24 11:06+0200\n"
-"PO-Revision-Date: 2009-08-24 11:17+0100\n"
+"PO-Revision-Date: 2009-08-24 21:47+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "Kalenderevenemang: Det har ingen sammanfattning."
 
 #: ../a11y/calendar/ea-cal-view-event.c:297
 msgid "calendar view event"
-msgstr "kalendervisningshändelse"
+msgstr "kalendervyshändelse"
 
 #: ../a11y/calendar/ea-cal-view-event.c:525
 msgid "Grab Focus"
@@ -1041,11 +1041,12 @@ msgid "Lo_gin:"
 msgstr "Inlo_ggning:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "En"
+msgstr ""
+"En\n"
+"Under"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -3446,7 +3447,7 @@ msgstr "Bekräfta tömning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr ""
+msgstr "Standardantal förekomster för ett nytt evenemang. -1 betyder för alltid."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -3457,9 +3458,8 @@ msgid "Default appointment reminder"
 msgstr "Standardmötespåminnelse"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
-#, fuzzy
 msgid "Default recurrence count"
-msgstr "Standardpåminnelseenheter"
+msgstr "Antal standardförekomster"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder units"
@@ -3619,14 +3619,12 @@ msgid "Primary calendar"
 msgstr "Primär kalender"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#, fuzzy
 msgid "Primary memo list"
-msgstr "Ny memolista"
+msgstr "Primär memolista"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
-#, fuzzy
 msgid "Primary task list"
-msgstr "Ny uppgiftslista"
+msgstr "Primär uppgiftslista"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Programs that are allowed to be run by alarms."
@@ -3642,7 +3640,7 @@ msgstr "Katalog för sparade alarmljud"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:59
 msgid "Scroll Month View by a week"
-msgstr ""
+msgstr "Rulla i månadsvy med en vecka"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:60
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -3745,15 +3743,15 @@ msgstr "Tjugofyratimmarstidsformat"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "URI för markerad (\"primär\") kalender"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "URI of the highlighted (\"primary\") memo list"
-msgstr ""
+msgstr "URI för markerad (\"primär\") memolista"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "URI of the highlighted (\"primary\") task list"
-msgstr ""
+msgstr "URI för markerad (\"primära\") uppgiftslista"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -3768,9 +3766,8 @@ msgid "Use system timezone"
 msgstr "Använd systemets tidszon"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
-#, fuzzy
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "Kryssa för denna för att använda systemets tidszon i Evolution."
+msgstr "Använd systemets tidszon istället för tidszonen som valts i Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Week start"
@@ -3813,7 +3810,7 @@ msgstr "Huruvida färdigställda uppgifter i uppgiftsvyn ska döljas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr ""
+msgstr "Huruvida månadsvyn ska rulla med en vecka, inte med en månad."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Whether to set a default reminder for appointments."
@@ -4582,7 +4579,7 @@ msgstr "lördag"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "R_ulla månadsvy med en vecka"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Se_cond zone:"
@@ -5223,11 +5220,11 @@ msgstr "_Möte"
 
 #: ../calendar/gui/dialogs/event-page.c:748
 msgid "Event cannot be edited, because the selected calendar is read only"
-msgstr ""
+msgstr "Evenemanget kan inte redigeras därför att den markerade kalendern är skrivskyddad"
 
 #: ../calendar/gui/dialogs/event-page.c:752
 msgid "Event cannot be fully edited, because you are not the organizer"
-msgstr ""
+msgstr "Evenemanget kan inte redigeras fullständigt eftersom du inte är organisatören"
 
 #: ../calendar/gui/dialogs/event-page.c:764
 #: ../calendar/gui/dialogs/event-page.c:2769
@@ -5431,11 +5428,11 @@ msgstr "Memo"
 
 #: ../calendar/gui/dialogs/memo-page.c:347
 msgid "Memo cannot be edited, because the selected memo list is read only"
-msgstr ""
+msgstr "Memot kan inte redigeras därför att den markerade memolistan är skrivskyddad"
 
 #: ../calendar/gui/dialogs/memo-page.c:351
 msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr ""
+msgstr "Memot kan inte redigeras fullständigt eftersom du inte är organisatören"
 
 #: ../calendar/gui/dialogs/memo-page.c:871
 #, c-format
@@ -5783,12 +5780,11 @@ msgstr "Uppgiftsdetaljer"
 
 #: ../calendar/gui/dialogs/task-page.c:336
 msgid "Task cannot be edited, because the selected task list is read only"
-msgstr ""
+msgstr "Uppgiften kan inte redigeras därför att den markerade uppgiftslistan är skrivskyddad"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#, fuzzy
 msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr "Detta meddelande kan inte skickas eftersom du inte har angivit några mottagare"
+msgstr "Uppgiften kan inte redigeras fullständigt eftersom du inte är organisatören"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.glade.h:4
@@ -9893,9 +9889,8 @@ msgstr "%d dagar sedan"
 #: ../e-util/e-datetime-format.c:281
 #: ../e-util/e-datetime-format.c:291
 #: ../e-util/e-datetime-format.c:300
-#, fuzzy
 msgid "Use locale default"
-msgstr "An_vänd systemets standard"
+msgstr "Använd standardlokal"
 
 #: ../e-util/e-datetime-format.c:494
 msgid "Format:"
@@ -11383,7 +11378,7 @@ msgstr "Markera som _inte skräppost"
 
 #: ../mail/em-folder-view.c:1352
 msgid "Mark for Follo_w Up..."
-msgstr "Markera för _uppföljning..."
+msgstr "Markera för uppf_öljning..."
 
 #: ../mail/em-folder-view.c:1354
 msgid "_Label"
@@ -12208,7 +12203,7 @@ msgstr "Töm alla papperskorgsmappar vid avslutande av Evolution."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead."
-msgstr ""
+msgstr "Aktivera animerade bilder i HTML-meddelanden. Många användare tycker att animerade bilder är störande och föredrar att se en statisk bild istället."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12469,12 +12464,11 @@ msgstr "Fråga vid markering av flera meddelanden"
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Lägg personliga signaturer längst upp i svar"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Put the cursor at the bottom of replies"
-msgstr "Börja s_kriva längst ner vid svar"
+msgstr "Placera markören längst ner vid svar"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Recognize emoticons in text and replace them with images."
@@ -12739,11 +12733,11 @@ msgstr "Använd sida-vid-sida eller bred layout"
 
 #: ../mail/evolution-mail.schemas.in.h:182
 msgid "Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom."
-msgstr ""
+msgstr "Användare blir väldigt irriterade över placeringen av markören när de ska svara på ett meddelande. Detta bestämmer huruvida markören placeras längst upp eller längst ner i meddelandet."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid "Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom."
-msgstr ""
+msgstr "Användare blir väldigt irriterade över placeringen av sin signatur när de ska svara på ett meddelande. Detta bestämmer huruvida signaturen placeras längst upp eller längst ner i meddelandet."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13465,13 +13459,12 @@ msgid "The list of languages here reflects only the languages for which you have
 msgstr "Listan med språk här återspeglar endast de språk för vilka en ordbok är installerad."
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
 "Utdata från detta skript kommer att användas som\n"
-"din signatur. Namnet du anger kommer att endast\n"
+"din signatur. Namnet du anger kommer endast att\n"
 "användas för visning."
 
 #: ../mail/mail-config.glade.h:153
@@ -14784,9 +14777,8 @@ msgid "_Edit Message"
 msgstr "_Redigera meddelande"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Audio Inline"
-msgstr "Insticksmodul för infogade ljud"
+msgstr "Infogat ljud"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Play audio attachments directly from Evolution."
@@ -15022,12 +15014,14 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
 "Automatically fills your address book with names and email addresses as you reply to messages.  Also fills in IM contact information from your buddy lists."
-msgstr "Fyller automatiskt din adressbok med namn och e-postadresser när du svarar på meddelanden. Den fyller också i kontaktinformation från snabbmeddelanden från dina kompislistor."
+msgstr ""
+"Tar hand om arbetet med att hantera din adressbok.\n"
+"\n"
+"Fyller automatiskt din adressbok med namn och e-postadresser när du svarar på meddelanden. Den fyller också i kontaktinformation från snabbmeddelanden från dina kompislistor."
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:158
@@ -15116,9 +15110,8 @@ msgid "CalDAV Support"
 msgstr "CalDAV-stöd"
 
 #: ../plugins/calendar-file/calendar-file.c:204
-#, fuzzy
 msgid "_Customize options"
-msgstr "Anpassa"
+msgstr "An_passningsalternativ"
 
 #: ../plugins/calendar-file/calendar-file.c:224
 msgid "File _name:"
@@ -15129,9 +15122,8 @@ msgid "Choose calendar file"
 msgstr "Välj kalenderfil"
 
 #: ../plugins/calendar-file/calendar-file.c:272
-#, fuzzy
 msgid "On open"
-msgstr "Öppna"
+msgstr "Vid öppning"
 
 #: ../plugins/calendar-file/calendar-file.c:273
 msgid "On file change"
@@ -15456,7 +15448,7 @@ msgstr "A_utentisera"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:774
 msgid "Mailbox name is _different than user name"
-msgstr ""
+msgstr "Brevlådans namn skil_jer sig från användarnamnet"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:787
 msgid "_Mailbox:"
@@ -15936,7 +15928,7 @@ msgstr "Prenumerera på annan användares kalender"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid "Activates the Evolution-Exchange extension package."
-msgstr ""
+msgstr "Aktiverar utökningspaketet Evolution-Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -16027,7 +16019,7 @@ msgstr "Kunde inte uppdatera inte-på-kontoret-tillstånd"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr "Evolution kräver en omstart för att läsa in användarens prenumererade postlåda"
+msgstr "Evolution kräver en omstart för att läsa in användarens prenumererade brevlåda"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:23
 msgid "Exchange Account is offline."
@@ -16266,12 +16258,12 @@ msgstr "Kontrollera mapprättigheter"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "Starta automatiskt redigeraren när tangenten trycks ner i e-postredigeraren"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "Starta automatiskt när ett nytt e-postmeddelande redigeras"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
 msgid "Default External Editor"
@@ -16307,7 +16299,7 @@ msgstr "Extern redigerare körs fortfarande"
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid "The external editor is still running. The mail composer window cannot be closed as long as the editor is active."
-msgstr ""
+msgstr "Den externa redigeraren kör fortfarande. E-postfönstret kan inte stängas så länge som redigeraren är aktiv."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid "The external editor set in your plugin preferences cannot be launched. Try setting a different editor."
@@ -16363,7 +16355,7 @@ msgstr "Säg upp prenumeration på mappar"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
-msgstr ""
+msgstr "Säg upp prenumerationen från en IMAP-mapp genom att högerklicka på den i mappträdet."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -16592,11 +16584,11 @@ msgstr "Detta är ett återkommande sammanträde"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
-msgstr ""
+msgstr "Detta kommer att skapa ett nytt sammanträde med de befintliga detaljerna."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
 msgid "This will create a new meeting with the existing meeting details. The recurrence rule needs to be re-entered."
-msgstr ""
+msgstr "Detta kommer att skapa ett nytt sammanträde med de befintliga detaljerna. Förekomstregeln behöver anges igen."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
@@ -17730,47 +17722,47 @@ msgstr "Informerar dig när nya meddelanden anländer."
 #: ../plugins/mail-to-task/mail-to-task.c:376
 #, c-format
 msgid "Selected calendar contains event '%s' already. Would you like to edit the old event?"
-msgstr ""
+msgstr "Markerad kalender innehåller redan evenemanget \"%s\". Vill du redigera det gamla evenemanget?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
 msgid "Selected task list contains task '%s' already. Would you like to edit the old task?"
-msgstr ""
+msgstr "Markerad uppgiftslista innehåller redan uppgiften \"%s\". Vill du redigera den gamla uppgiften?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
 msgid "Selected memo list contains memo '%s' already. Would you like to edit the old memo?"
-msgstr ""
+msgstr "Markerad memolista innehåller redan memot \"%s\". Vill du redigera det gamla memot?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid "Selected calendar contains some events for the given mails already. Would you like to create new events anyway?"
-msgstr ""
+msgstr "Markerad kalender innehåller redan några evenemang för de angivna meddelandena. Vill du skapa nya evenemang ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid "Selected task list contains some tasks for the given mails already. Would you like to create new tasks anyway?"
-msgstr ""
+msgstr "Markerad uppgiftslista innehåller redan några uppgifter för de angivna meddelandena. Vill du skapa nya uppgifter ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid "Selected memo list contains some memos for the given mails already. Would you like to create new memos anyway?"
-msgstr ""
+msgstr "Markerad memolista innehåller redan några memon för de angivna meddelandena. Vill du skapa nya memon ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid "Selected calendar contains an event for the given mail already. Would you like to create new event anyway?"
 msgid_plural "Selected calendar contains events for the given mails already. Would you like to create new events anyway?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Markerad kalender innehåller redan ett evenemang för det angivna meddelandet. Vill du skapa ett nytt evenemang ändå? "
+msgstr[1] "Markerad kalender innehåller redan evenemang för de angivna meddelandena. Vill du skapa nya evenemang ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:429
 msgid "Selected task list contains a task for the given mail already. Would you like to create new task anyway?"
 msgid_plural "Selected task list contains tasks for the given mails already. Would you like to create new tasks anyway?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Markerad uppgiftslista innehåller redan en uppgift för det angivna meddelandet. Vill du skapa en ny uppgift ändå? "
+msgstr[1] "Markerad uppgiftslista innehåller redan uppgifter för de angivna meddelandena. Vill du skapa nya uppgifter ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid "Selected memo list contains a memo for the given mail already. Would you like to create new memo anyway?"
 msgid_plural "Selected memo list contains memos for the given mails already. Would you like to create new memos anyway?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Markerad memolista innehåller redan ett memo för det angivna meddelandet. Vill du skapa ett nytt memo ändå? "
+msgstr[1] "Markerad memolista innehåller redan memon för de angivna meddelandena. Vill du skapa nya memon ändå? "
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
@@ -17778,7 +17770,7 @@ msgstr "[Ingen sammanfattning]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Ogiltigt objekt returnerat från en server"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
 #, c-format
@@ -18036,7 +18028,7 @@ msgstr "Mono-inläsare"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Support plugins written in Mono."
-msgstr ""
+msgstr "Stöd för insticksmoduler skrivna i Mono."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "Manage your Evolution plugins."
@@ -18112,7 +18104,7 @@ msgstr "Evolution-profilering"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
-msgstr ""
+msgstr "Profilera datahändelser i Evolution (endast för utvecklare)."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -18614,9 +18606,8 @@ msgid "TNEF Decoder"
 msgstr "TNEF-avkodare"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline vCards"
-msgstr "Flera vCard"
+msgstr "Infogade vCard"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:2
 msgid "Show vCards directly in mail messages."
@@ -18739,14 +18730,12 @@ msgid "If true, then connections to the proxy server require authentication. The
 msgstr "Om sant behöver anslutningar till proxyservern autentiseras. Användarnamnet hämtas från GConf-nyckeln \"/apps/evolution/shell/network_config/authentication_user\" och lösenordet hämtas från antingen gnome-keyring eller lösenordsfilen ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
-#, fuzzy
 msgid "Initial attachment view"
-msgstr "Infoga bilaga"
+msgstr "Initial bilagsvy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
-#, fuzzy
 msgid "Initial file chooser folder"
-msgstr "Installera den delade mappen"
+msgstr "Initial mapp för filväljare"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
@@ -18754,7 +18743,7 @@ msgstr "Initial mapp för GtkFileChooser-dialoger."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List View."
-msgstr ""
+msgstr "Initial vy för bilagsradswidgetar. \"0\" är ikonvy, \"1\" är listvy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
