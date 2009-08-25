@@ -1227,7 +1227,7 @@ action_submit_bug_cb (GtkAction *action,
 	const gchar *command_line;
 	GError *error = NULL;
 
-	command_line = "bug-buddy --sm-disable --package=Evolution";
+	command_line = "bug-buddy --package=Evolution";
 
 	g_debug ("Spawning: %s", command_line);
 	g_spawn_command_line_async (command_line, &error);
