@@ -93,6 +93,27 @@ menu_tool_button_update_button (GtkToolButton *tool_button)
 }
 
 static void
+menu_tool_button_size_request (GtkWidget *widget,
+                               GtkRequisition *requisition)
+{
+	gint minimum_width;
+
+	/* Chain up to parent's size_request() method. */
+	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+
+	/* XXX This is a hack.  This widget is only used for the New
+	 *     button in the main window toolbar.  The New button is
+	 *     pretty important, but the word "New" is pretty short
+	 *     (in English, anyway) and this results in a small screen
+	 *     target when using a "text below item" toolbar style.
+	 *
+	 *     We can't go hard-coding a width, but we -can- use a
+	 *     heuristic based on the toolbar button height. */
+	minimum_width = requisition->height * 2;
+	requisition->width = MAX (minimum_width, requisition->width);
+}
+
+static void
 menu_tool_button_clicked (GtkToolButton *tool_button)
 {
 	GtkMenuItem *menu_item;
@@ -108,9 +129,13 @@ menu_tool_button_clicked (GtkToolButton *tool_button)
 static void
 menu_tool_button_class_init (EMenuToolButtonClass *class)
 {
+	GtkWidgetClass *widget_class;
 	GtkToolButtonClass *tool_button_class;
 
 	parent_class = g_type_class_peek_parent (class);
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_request = menu_tool_button_size_request;
 
 	tool_button_class = GTK_TOOL_BUTTON_CLASS (class);
 	tool_button_class->clicked = menu_tool_button_clicked;
