@@ -26,7 +26,7 @@
       <locale name="C">
          <short>Spell check inline</short>
          <long>
-	 Draw spelling error indicators on words as you type.
+         Draw spelling error indicators on words as you type.
          </long>
       </locale>
     </schema>
@@ -40,7 +40,7 @@
       <locale name="C">
          <short>Automatic link recognition</short>
          <long>
-	 Recognize links in text and replace them.
+         Recognize links in text and replace them.
          </long>
       </locale>
     </schema>
@@ -54,7 +54,7 @@
       <locale name="C">
          <short>Automatic emoticon recognition</short>
          <long>
-	 Recognize emoticons in text and replace them with images.
+         Recognize emoticons in text and replace them with images.
          </long>
       </locale>
     </schema>
@@ -82,7 +82,7 @@
       <locale name="C">
          <short>Always request read receipt</short>
          <long>
-	 Whether a read receipt request gets added to every message by default.
+         Whether a read receipt request gets added to every message by default.
          </long>
       </locale>
     </schema>
@@ -364,7 +364,7 @@
       <locale name="C">
          <short>Enable/disable caret mode</short>
          <long>
-	  Enable caret mode, so that you can see a cursor when reading mail.
+          Enable caret mode, so that you can see a cursor when reading mail.
          </long>
       </locale>
     </schema>
@@ -525,7 +525,7 @@
       <locale name="C">
          <short>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</short>
          <long> 
-	 Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.
+         Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.
          </long>
       </locale>
     </schema>
@@ -656,7 +656,7 @@
       <locale name="C">
          <short>Variable width font</short>
          <long>
-	 The variable width font for mail display.
+         The variable width font for mail display.
          </long>
       </locale>
     </schema>
@@ -670,7 +670,7 @@
       <locale name="C">
          <short>Terminal font</short>
          <long>
-	 The terminal font for mail display.
+         The terminal font for mail display.
          </long>
       </locale>
     </schema>
@@ -684,7 +684,7 @@
       <locale name="C">
          <short>Use custom fonts</short>
          <long>
-	 Use custom fonts for displaying mail.
+         Use custom fonts for displaying mail.
          </long>
       </locale>
     </schema>
@@ -712,8 +712,8 @@
       <locale name="C">
          <short>Compress display of addresses in TO/CC/BCC</short>
          <long>
-	 Compress display of addresses in TO/CC/BCC to the number 
-	 specified in address_count.
+         Compress display of addresses in TO/CC/BCC to the number 
+         specified in address_count.
          </long>
       </locale>
     </schema>
@@ -727,7 +727,7 @@
       <locale name="C">
          <short>Allows Evolution to display text part of limited size</short>
          <long>
-	 Enable to render message text part of limited size.
+         Enable to render message text part of limited size.
          </long>
       </locale>
     </schema>
@@ -741,9 +741,9 @@
       <locale name="C">
          <short>Text message part limit</short>
          <long>
-	 This decides the max size of the text part that can be formatted under
-	 Evolution. The default is 4MB / 4096 KB and is specified in terms of KB.
-	 </long>
+         This decides the max size of the text part that can be formatted under
+         Evolution. The default is 4MB / 4096 KB and is specified in terms of KB.
+         </long>
       </locale>
     </schema>
 
@@ -757,7 +757,7 @@
          <short>Number of addresses to display in TO/CC/BCC</short>
          <long>
          This sets the number of addresses to show in default message list
-	 view, beyond which a '...' is shown.
+         view, beyond which a '...' is shown.
          </long>
       </locale>
     </schema>
@@ -786,8 +786,8 @@
       <locale name="C">
          <short>Default value for thread expand state</short>
          <long>
-	  This setting specifies whether the threads should be in expanded
-	  or collapsed state by default. Evolution requires a restart.
+          This setting specifies whether the threads should be in expanded
+          or collapsed state by default. Evolution requires a restart.
          </long>
       </locale>
     </schema>
@@ -801,9 +801,9 @@
       <locale name="C">
          <short>Whether sort threads based on latest message in that thread</short>
          <long>
-	  This setting specifies whether the threads should be sorted based
-	  on latest message in each thread, rather than by message's date.
-	  Evolution requires a restart.
+          This setting specifies whether the threads should be sorted based
+          on latest message in each thread, rather than by message's date.
+          Evolution requires a restart.
          </long>
       </locale>
     </schema>
@@ -1015,8 +1015,8 @@
       <locale name="C">
          <short>Prompt when user tries to open 10 or more messages at once</short>
          <long>
-	  If a user tries to open 10 or more messages at one time, ask the user
-	  if they really want to do it.
+          If a user tries to open 10 or more messages at one time, ask the user
+          if they really want to do it.
          </long>
       </locale>
     </schema>
@@ -1030,7 +1030,7 @@
       <locale name="C">
          <short>Prompt while marking multiple messages</short>
          <long>
-	Enable or disable the prompt whilst marking multiple messages.
+        Enable or disable the prompt whilst marking multiple messages.
          </long>
       </locale>
     </schema>
@@ -1044,8 +1044,8 @@
       <locale name="C">
          <short>Prompt to check if the user wants to go offline immediately </short>
          <long>
-	 It disables/enables the repeated prompts to ask if offline 
-	 sync is required before going into offline mode.
+         It disables/enables the repeated prompts to ask if offline 
+         sync is required before going into offline mode.
          </long>
       </locale>
     </schema>
@@ -1059,9 +1059,9 @@
       <locale name="C">
          <short>Prompt when deleting messages in search folder</short>
          <long>
-	 It disables/enables the repeated prompts to warn that deleting
-	 messages from a search folder permanently deletes the message, not
-	 simply removing it from the search results.
+         It disables/enables the repeated prompts to warn that deleting
+         messages from a search folder permanently deletes the message, not
+         simply removing it from the search results.
          </long>
       </locale>
     </schema>
@@ -1091,7 +1091,7 @@
       <locale name="C">
          <short>Minimum days between emptying the trash on exit</short>
          <long>
-	Minimum time between emptying the trash on exit, in days.
+        Minimum time between emptying the trash on exit, in days.
          </long>
       </locale>
     </schema>
@@ -1105,7 +1105,7 @@
       <locale name="C">
          <short>Last time empty trash was run</short>
          <long>
-	The last time empty trash was run, in days since the epoch.
+        The last time empty trash was run, in days since the epoch.
          </long>
       </locale>
     </schema>
@@ -1119,7 +1119,7 @@
       <locale name="C">
          <short>Amount of time in seconds the error should be shown on the status bar.</short>
          <long>
-	Amount of time in seconds the error should be shown on the status bar.
+        Amount of time in seconds the error should be shown on the status bar.
          </long>
       </locale>
     </schema>
@@ -1197,7 +1197,7 @@
       <locale name="C">
          <short>Minimum days between emptying the junk on exit</short>
          <long>
-	Minimum time between emptying the junk on exit, in days.
+        Minimum time between emptying the junk on exit, in days.
          </long>
       </locale>
     </schema>
@@ -1211,7 +1211,7 @@
       <locale name="C">
          <short>Last time empty junk was run</short>
          <long>
-	The last time empty junk was run, in days since the epoch.
+        The last time empty junk was run, in days since the epoch.
          </long>
       </locale>
     </schema>
@@ -1226,8 +1226,8 @@
          <short>The default plugin for Junk hook</short>
          <long>
           This is the default junk plugin, even though there are multiple plugins
-	  enabled. If the default listed plugin is disabled, then it won't fall back
-	  to the other available plugins.
+          enabled. If the default listed plugin is disabled, then it won't fall back
+          to the other available plugins.
          </long>
       </locale>
     </schema>
@@ -1240,10 +1240,10 @@
       <default>true</default>
       <locale name="C">
          <short>Use only local spam tests.</short>
-	 <long>
-	 Use only the local spam tests (no DNS).
-	 </long>
-      </locale>	
+         <long>
+         Use only the local spam tests (no DNS).
+         </long>
+      </locale>        
     </schema>
 
     <schema>
@@ -1269,7 +1269,7 @@
       <locale name="C">
          <short>Determines whether to lookup in address book for sender email</short>
          <long>
-	 Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.
+         Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion.
          </long>
       </locale>
     </schema>
@@ -1283,7 +1283,7 @@
       <locale name="C">
          <short>Determines whether to look up addresses for junk filtering in local address book only</short>
          <long>
-	 This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering.
+         This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering.
          </long>
       </locale>
     </schema>
@@ -1311,7 +1311,7 @@
       <locale name="C">
          <short>Custom headers to use while checking for junk.</short>
          <long>
-	 Custom headers to use while checking for junk. The list elements
+         Custom headers to use while checking for junk. The list elements
          are string in the format "headername=value".
          </long>
       </locale>
@@ -1392,6 +1392,50 @@
     <!-- Widget States -->
 
     <schema>
+      <key>/schemas/apps/evolution/mail/filter_editor_height</key>
+      <applyto>/apps/evolution/mail/filter_editor_height</applyto>
+      <type>int</type>
+      <default>650</default>
+      <locale name="C">
+        <short>"Filter Editor" window height</short>
+        <long>
+          Initial height of the "Filter Editor" window.
+          The value updates as the user resizes the window vertically.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/filter_editor_maximized</key>
+      <applyto>/apps/evolution/mail/filter_editor_maximized</applyto>
+      <type>bool</type>
+      <locale name="C">
+        <short>"Filter Editor" window maximize state</short>
+        <long>
+          Initial maximize state of the "Filter Editor" window.
+          The value updates when the user maximizes or unmaximizes the
+          window.  Note, this particular value is not used by Evolution
+          since the "Filter Editor" window cannot be maximized.  This
+          key exists only as an implementation detail.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/filter_editor_width</key>
+      <applyto>/apps/evolution/mail/filter_editor_width</applyto>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+        <short>"Filter Editor" window width</short>
+        <long>
+          Initial width of the "Filter Editor" window.
+          The value updates as the user resizes the window horizontally.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/send_recv_height</key>
       <applyto>/apps/evolution/mail/send_recv_height</applyto>
       <owner>evolution-mail</owner>
@@ -1433,6 +1477,50 @@
         <short>"Send and Receive Mail" window width</short>
         <long>
           Initial width of the "Send and Receive Mail" window.
+          The value updates as the user resizes the window horizontally.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/vfolder_editor_height</key>
+      <applyto>/apps/evolution/mail/vfolder_editor_height</applyto>
+      <type>int</type>
+      <default>650</default>
+      <locale name="C">
+        <short>"Search Folder Editor" window height</short>
+        <long>
+          Initial height of the "Search Folder Editor" window.
+          The value updates as the user resizes the window vertically.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/vfolder_editor_maximized</key>
+      <applyto>/apps/evolution/mail/vfolder_editor_maximized</applyto>
+      <type>bool</type>
+      <locale name="C">
+        <short>"Search Folder Editor" window maximize state</short>
+        <long>
+          Initial maximize state of the "Search Folder Editor" window.
+          The value updates when the user maximizes or unmaximizes the
+          window.  Note, this particular value is not used by Evolution
+          since the "Search Folder Editor" window cannot be maximized.
+          This key exists only as an implementation detail.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/vfolder_editor_width</key>
+      <applyto>/apps/evolution/mail/vfolder_editor_width</applyto>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+        <short>"Search Folder Editor" window width</short>
+        <long>
+          Initial width of the "Search Folder Editor" window.
           The value updates as the user resizes the window horizontally.
         </long>
       </locale>

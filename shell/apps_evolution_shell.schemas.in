@@ -60,7 +60,7 @@
 
     <schema>
       <key>/schemas/apps/evolution/shell/current_folder</key>
-      <applyto>/apps/evolution/shell/current-folder</applyto>
+      <applyto>/apps/evolution/shell/current_folder</applyto>
       <owner>evolution</owner>
       <type>string</type>
       <locale name="C">
