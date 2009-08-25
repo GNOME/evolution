@@ -62,7 +62,7 @@ static gpointer parent_class;
 static GType memo_shell_backend_type;
 
 static void
-memo_module_ensure_sources (EShellBackend *shell_backend)
+memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 {
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellBackend? */
@@ -361,8 +361,8 @@ static GtkActionEntry source_entries[] = {
 };
 
 static gboolean
-memo_module_handle_uri_cb (EShellBackend *shell_backend,
-                           const gchar *uri)
+memo_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
+                                  const gchar *uri)
 {
 	EShell *shell;
 	CompEditor *editor;
@@ -500,8 +500,8 @@ exit:
 }
 
 static void
-memo_module_window_created_cb (EShellBackend *shell_backend,
-                               GtkWindow *window)
+memo_shell_backend_window_created_cb (EShellBackend *shell_backend,
+                                      GtkWindow *window)
 {
 	const gchar *module_name;
 
@@ -562,15 +562,17 @@ memo_shell_backend_constructed (GObject *object)
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	memo_module_ensure_sources (shell_backend);
+	memo_shell_backend_ensure_sources (shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (memo_module_handle_uri_cb), shell_backend);
+		G_CALLBACK (memo_shell_backend_handle_uri_cb),
+		shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (memo_module_window_created_cb), shell_backend);
+		G_CALLBACK (memo_shell_backend_window_created_cb),
+		shell_backend);
 }
 
 static void

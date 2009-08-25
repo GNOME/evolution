@@ -247,9 +247,10 @@ idle_cb (gchar **uris)
 
 	/* These calls do the right thing when another Evolution
 	 * process is running. */
-	if (uris != NULL && *uris != NULL)
-		e_shell_handle_uris (shell, uris);
-	else
+	if (uris != NULL && *uris != NULL) {
+		if (e_shell_handle_uris (shell, uris) == 0)
+			gtk_main_quit ();
+	} else
 		e_shell_create_shell_window (shell, requested_view);
 
 	/* If another Evolution process is running, we're done. */

@@ -395,7 +395,7 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 	} else
 		handled = FALSE;
 
-	return TRUE;
+	return handled;
 }
 
 /* Helper for mail_shell_backend_prepare_for_[off|on]line_cb() */

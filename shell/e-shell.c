@@ -1294,7 +1294,9 @@ unique:  /* Send a message to the other Evolution process. */
 	unique_app_send_message (app, UNIQUE_OPEN, data);
 	unique_message_data_free (data);
 
-	return 0;
+	/* As far as we're concerned, all URIs have been handled. */
+
+	return g_strv_length (uris);
 }
 
 /**
