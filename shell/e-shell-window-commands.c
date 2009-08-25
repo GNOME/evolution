@@ -125,7 +125,7 @@ command_submit_bug (BonoboUIComponent *uih,
 	const gchar *command_line;
 	GError *error = NULL;
 
-        command_line = "bug-buddy --sm-disable --package=Evolution";
+        command_line = "bug-buddy --package=Evolution";
 
 	g_debug ("Spawning: %s", command_line);
 
