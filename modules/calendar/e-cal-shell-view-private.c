@@ -780,7 +780,7 @@ e_cal_shell_view_open_event (ECalShellView *cal_shell_view,
 	editor = event_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
-	g_object_ref (comp);
+	g_object_unref (comp);
 
 exit:
 	gtk_window_present (GTK_WINDOW (editor));

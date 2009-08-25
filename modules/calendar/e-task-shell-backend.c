@@ -430,7 +430,7 @@ task_module_handle_uri_cb (EShellBackend *shell_backend,
 		}
 	}
 
-	if (source_uid != NULL || comp_uid != NULL)
+	if (source_uid == NULL || comp_uid == NULL)
 		goto exit;
 
 	/* URI is valid, so consider it handled.  Whether

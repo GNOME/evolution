@@ -184,12 +184,6 @@ gint		gnome_calendar_get_num_events_selected
 void		gnome_calendar_purge		(GnomeCalendar  *gcal,
 						 time_t older_than);
 
-/* Direct calendar component operations */
-void		gnome_calendar_edit_appointment	(GnomeCalendar *gcal,
-						 const gchar * src_uid,
-						 const gchar * comp_uid,
-						 const gchar * comp_rid);
-
 G_END_DECLS
 
 #endif
