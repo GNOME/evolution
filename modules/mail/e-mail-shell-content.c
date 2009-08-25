@@ -839,10 +839,9 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
                                         gboolean vertical_view)
 {
 	GConfBridge *bridge;
-	GtkWidget *old_paned;
-	GtkWidget *new_paned;
-	GtkWidget *child1;
-	GtkWidget *child2;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+	GtkWidget *paned;
 	guint binding_id;
 	const gchar *key;
 
@@ -852,36 +851,28 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
 		return;
 
 	bridge = gconf_bridge_get ();
-	old_paned = mail_shell_content->priv->paned;
+	paned = mail_shell_content->priv->paned;
 	binding_id = mail_shell_content->priv->paned_binding_id;
-
-	child1 = gtk_paned_get_child1 (GTK_PANED (old_paned));
-	child2 = gtk_paned_get_child2 (GTK_PANED (old_paned));
 
 	if (binding_id > 0)
 		gconf_bridge_unbind (bridge, binding_id);
 
 	if (vertical_view) {
-		new_paned = gtk_hpaned_new ();
+		orientation = GTK_ORIENTATION_HORIZONTAL;
 		key = "/apps/evolution/mail/display/hpaned_size";
 	} else {
-		new_paned = gtk_vpaned_new ();
+		orientation = GTK_ORIENTATION_VERTICAL;
 		key = "/apps/evolution/mail/display/paned_size";
 	}
 
-	gtk_widget_reparent (child1, new_paned);
-	gtk_widget_reparent (child2, new_paned);
-	gtk_widget_show (new_paned);
-
-	gtk_widget_destroy (old_paned);
-	gtk_container_add (GTK_CONTAINER (mail_shell_content), new_paned);
+	orientable = GTK_ORIENTABLE (paned);
+	gtk_orientable_set_orientation (orientable, orientation);
 
 	binding_id = gconf_bridge_bind_property_delayed (
-		bridge, key, G_OBJECT (new_paned), "position");
+		bridge, key, G_OBJECT (paned), "position");
 
 	mail_shell_content->priv->vertical_view = vertical_view;
 	mail_shell_content->priv->paned_binding_id = binding_id;
-	mail_shell_content->priv->paned = g_object_ref (new_paned);
 
 	e_mail_shell_content_update_view_instance (mail_shell_content);
 
