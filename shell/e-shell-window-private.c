@@ -404,7 +404,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	key = "/apps/evolution/shell/view_defaults/window";
 	gconf_bridge_bind_window (
-		bridge, key, GTK_WINDOW (shell_window), TRUE, FALSE);
+		bridge, key, GTK_WINDOW (shell_window), TRUE, TRUE);
 
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/component_id";

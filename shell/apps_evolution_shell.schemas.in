@@ -99,6 +99,28 @@
     <!-- View defaults -->
 
     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/window_y</key>
+      <applyto>/apps/evolution/shell/view_defaults/window_y</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>Default window Y coordinate</short>
+        <long>The default Y coordinate for the main window.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/window_x</key>
+      <applyto>/apps/evolution/shell/view_defaults/window_x</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <locale name="C">
+        <short>Default window X coordinate</short>
+        <long>The default X coordinate for the main window.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/window_width</key>
       <applyto>/apps/evolution/shell/view_defaults/window_width</applyto>
       <owner>evolution</owner>
