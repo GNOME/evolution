@@ -24,10 +24,13 @@
 	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
 
 #define ONLINE_TOOLTIP \
-	"Evolution is currently online.  Click this button to work offline."
+	_("Evolution is currently online.  Click this button to work offline.")
 
 #define OFFLINE_TOOLTIP \
-	"Evolution is currently offline.  Click this button to work online."
+	_("Evolution is currently offline.  Click this button to work online.")
+
+#define NETWORK_UNAVAILABLE_TOOLTIP \
+	_("Evolution is currently offline because the network is unavailable.")
 
 struct _EOnlineButtonPrivate {
 	GtkWidget *image;
@@ -40,6 +43,21 @@ enum {
 };
 
 static gpointer parent_class;
+
+static void
+online_button_update_tooltip (EOnlineButton *button)
+{
+	const gchar *tooltip;
+
+	if (e_online_button_get_online (button))
+		tooltip = ONLINE_TOOLTIP;
+	else if (GTK_WIDGET_SENSITIVE (button))
+		tooltip = OFFLINE_TOOLTIP;
+	else
+		tooltip = NETWORK_UNAVAILABLE_TOOLTIP;
+
+	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
+}
 
 static void
 online_button_set_property (GObject *object,
@@ -130,6 +148,14 @@ online_button_init (EOnlineButton *button)
 	gtk_container_add (GTK_CONTAINER (button), widget);
 	button->priv->image = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_signal_connect (
+		button, "notify::online",
+		G_CALLBACK (online_button_update_tooltip), NULL);
+
+	g_signal_connect (
+		button, "notify::sensitive",
+		G_CALLBACK (online_button_update_tooltip), NULL);
 }
 
 GType
@@ -181,7 +207,6 @@ e_online_button_set_online (EOnlineButton *button,
 	GtkIconTheme *icon_theme;
 	const gchar *filename;
 	const gchar *icon_name;
-	const gchar *tooltip;
 
 	g_return_if_fail (E_IS_ONLINE_BUTTON (button));
 
@@ -197,9 +222,6 @@ e_online_button_set_online (EOnlineButton *button,
 	filename = gtk_icon_info_get_filename (icon_info);
 	gtk_image_set_from_file (image, filename);
 	gtk_icon_info_free (icon_info);
-
-	tooltip = _(online ? ONLINE_TOOLTIP : OFFLINE_TOOLTIP);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
 
 	g_object_notify (G_OBJECT (button), "online");
 }

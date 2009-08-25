@@ -388,6 +388,10 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		G_OBJECT (shell), "online",
 		G_OBJECT (action), "visible");
 
+	e_binding_new (
+		G_OBJECT (shell), "network-available",
+		G_OBJECT (action), "sensitive");
+
 	action = ACTION (WORK_ONLINE);
 
 	e_binding_new_with_negation (
@@ -395,8 +399,16 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		G_OBJECT (action), "visible");
 
 	e_binding_new (
+		G_OBJECT (shell), "network-available",
+		G_OBJECT (action), "sensitive");
+
+	e_binding_new (
 		G_OBJECT (shell), "online",
 		G_OBJECT (shell_window->priv->online_button), "online");
+
+	e_binding_new (
+		G_OBJECT (shell), "network-available",
+		G_OBJECT (shell_window->priv->online_button), "sensitive");
 
 	/* Bind GObject properties to GConf keys. */
 
