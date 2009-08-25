@@ -196,7 +196,7 @@ static GtkActionEntry mailto_entries[] = {
 
 	{ "add-to-address-book",
 	  "contact-new",
-	  N_("_Add to Address Book"),
+	  N_("_Add to Address Book..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_add_to_address_book_cb) },

@@ -1428,7 +1428,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-forward-as-menu",
 	  NULL,
-	  N_("F_orward As..."),
+	  N_("F_orward As"),
 	  NULL,
 	  NULL,
 	  NULL },

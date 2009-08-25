@@ -1553,7 +1553,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "submit-bug",
 	  NULL,
-	  N_("Submit _Bug Report"),
+	  N_("Submit _Bug Report..."),
 	  NULL,
 	  N_("Submit a bug report using Bug Buddy"),
 	  G_CALLBACK (action_submit_bug_cb) },
