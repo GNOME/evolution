@@ -42,6 +42,7 @@ HELP_SUBDIR=help
 endif
 
 SUBDIRS = 			\
+	m4			\
 	win32			\
 	data			\
 	smclient		\
@@ -86,7 +87,15 @@ MAINTAINERCLEANFILES =			\
 	$(srcdir)/missing		\
 	$(srcdir)/mkinstalldirs		\
 	$(srcdir)/gnome-doc-utils.make	\
-	$(srcdir)/gtk-doc.make
+	$(srcdir)/gtk-doc.make		\
+	$(srcdir)/m4/gnome-doc-utils.m4	\
+	$(srcdir)/m4/gtk-doc.m4		\
+	$(srcdir)/m4/intltool.m4	\
+	$(srcdir)/m4/libtool.m4		\
+	$(srcdir)/m4/ltoptions.m4	\
+	$(srcdir)/m4/ltsugar.m4		\
+	$(srcdir)/m4/ltversion.m4	\
+	$(srcdir)/m4/lt~obsolete.m4
 
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
