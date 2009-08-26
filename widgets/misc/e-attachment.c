@@ -2658,8 +2658,8 @@ e_attachment_save_finish (EAttachment *attachment,
 	GSimpleAsyncResult *simple;
 	GFile *destination;
 
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	destination = g_simple_async_result_get_op_res_gpointer (simple);
