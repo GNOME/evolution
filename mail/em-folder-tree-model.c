@@ -1159,9 +1159,9 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model,
 	GtkTreeIter iter;
 	gchar *name = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
-	g_return_val_if_fail (full != NULL, FALSE);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (full != NULL, NULL);
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
