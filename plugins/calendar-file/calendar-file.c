@@ -128,6 +128,10 @@ maincheck_toggled (GtkToggleButton *check, ESource *source)
 	w = g_object_get_data (G_OBJECT (check), "child");
 	gtk_widget_set_sensitive (w, enabled);
 
+	/* used with source = NULL to enable widgets only */
+	if (!source)
+		return;
+
 	if (enabled) {
 		gchar *file;
 
@@ -202,7 +206,6 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_table_attach (GTK_TABLE (data->parent), mainbox, 1, 2, GTK_TABLE (data->parent)->nrows, GTK_TABLE (data->parent)->nrows + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 
 	maincheck = gtk_check_button_new_with_mnemonic (_("_Customize options"));
-	g_signal_connect (G_OBJECT (maincheck), "toggled", G_CALLBACK (maincheck_toggled), source);
 	gtk_box_pack_start ((GtkBox *)mainbox, maincheck, TRUE, TRUE, 2);
 
 	box1 = gtk_hbox_new (FALSE, 2);
@@ -228,7 +231,6 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	w2 = gtk_file_chooser_button_new (_("Choose calendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (w2), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
-	g_signal_connect (G_OBJECT (w2), "file-set", G_CALLBACK (location_changed), source);
 	gtk_box_pack_start ((GtkBox *)box2, w2, TRUE, TRUE, 2);
 
 	g_object_set_data (G_OBJECT (maincheck), "file-chooser", w2);
@@ -238,28 +240,33 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (w2), value);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (maincheck), TRUE);
 	} else {
-		gchar *uri = NULL;
+		gchar *file = NULL;
+		const gchar *file_name = NULL;
 
 		switch (t->source_type) {
 		case E_CAL_SOURCE_TYPE_EVENT:
-			uri = g_strconcat (uri_text, "/", "calendar.ics", NULL);
+			file_name = "calendar.ics";
 			break;
 		case E_CAL_SOURCE_TYPE_TODO:
-			uri = g_strconcat (uri_text, "/", "tasks.ics", NULL);
+			file_name = "tasks.ics";
 			break;
 		case E_CAL_SOURCE_TYPE_JOURNAL:
-			uri = g_strconcat (uri_text, "/", "journal.ics", NULL);
+			file_name = "journal.ics";
 			break;
 		case E_CAL_SOURCE_TYPE_LAST:
 			break;
 		}
 
-		if (uri && *uri)
-			gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (w2), uri);
+		file = g_build_filename (g_get_home_dir (), file_name, NULL);
+		if (file && *file)
+			gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (w2), file);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (maincheck), FALSE);
-		g_free (uri);
+		g_free (file);
 	}
-	maincheck_toggled (GTK_TOGGLE_BUTTON (maincheck), source);
+	maincheck_toggled (GTK_TOGGLE_BUTTON (maincheck), NULL);
+
+	g_signal_connect (G_OBJECT (w2), "file-set", G_CALLBACK (location_changed), source);
+	g_signal_connect (G_OBJECT (maincheck), "toggled", G_CALLBACK (maincheck_toggled), source);
 
 	box2 = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_start ((GtkBox *)box1, box2, FALSE, TRUE, 2);
@@ -299,6 +306,8 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (G_OBJECT (w3), "changed", G_CALLBACK (combobox_changed), source);
 
 	w2 = gtk_check_button_new_with_mnemonic (_("Force read _only"));
+	value = e_source_get_property (source, "custom-file-readonly");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w2), value && g_str_equal (value, "1"));
 	g_signal_connect (G_OBJECT (w2), "toggled", G_CALLBACK (force_readonly_toggled), source);
 	gtk_box_pack_start ((GtkBox *)box1, w2, TRUE, TRUE, 2);
 
