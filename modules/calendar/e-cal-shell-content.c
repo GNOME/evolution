@@ -356,14 +356,14 @@ cal_shell_content_constructed (GObject *object)
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	/* FIXME Need to deal with saving and restoring the position.
 	 *       Month view has its own position. */
 	widget = gtk_vpaned_new ();
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
 	priv->vpaned = g_object_ref (widget);
 	gtk_widget_show (widget);
 

@@ -292,7 +292,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->content_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 

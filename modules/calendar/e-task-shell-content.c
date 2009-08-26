@@ -392,7 +392,7 @@ task_shell_content_constructed (GObject *object)
 	container = widget;
 
 	widget = e_calendar_table_new (shell_view, priv->task_model);
-	gtk_paned_add1 (GTK_PANED (container), widget);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -402,7 +402,7 @@ task_shell_content_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
 	container = widget;

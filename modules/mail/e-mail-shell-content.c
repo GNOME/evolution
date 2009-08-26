@@ -448,12 +448,12 @@ mail_shell_content_constructed (GObject *object)
 	container = widget;
 
 	widget = message_list_new (shell_backend);
-	gtk_paned_add1 (GTK_PANED (container), widget);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_vbox_new (FALSE, 1);
-	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
 	container = widget;
