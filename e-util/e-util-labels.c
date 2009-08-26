@@ -539,18 +539,18 @@ e_util_labels_get_color (GSList *labels, const gchar *tag, GdkColor *color)
  * @param labels Cache of labels from call of @ref e_util_labels_parse.
  *        The returned pointer will be taken from this list, so it's alive as long as the list.
  * @param tag Tag of the label of our interest.
- * @return String representation of that label, or NULL, is no such label exists.
+ * @return String representation of that label, or NULL, if no such label exists.
  **/
 const gchar *
 e_util_labels_get_color_str (GSList *labels, const gchar *tag)
 {
 	EUtilLabel *label;
 
-	g_return_val_if_fail (tag != NULL, FALSE);
+	g_return_val_if_fail (tag != NULL, NULL);
 
 	label = find_label (labels, tag);
 	if (!label)
-		return FALSE;
+		return NULL;
 
 	return label->colour;
 }

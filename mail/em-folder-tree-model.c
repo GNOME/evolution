@@ -1308,9 +1308,9 @@ em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *stor
 	GtkTreeIter iter;
 	gchar *name = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
-	g_return_val_if_fail (full != NULL, FALSE);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (full != NULL, NULL);
 
 	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
 		u(printf("  can't find store\n"));
