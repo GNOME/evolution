@@ -404,11 +404,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	e_binding_new (
 		G_OBJECT (shell), "online",
-		G_OBJECT (shell_window->priv->online_button), "online");
+		G_OBJECT (priv->online_button), "online");
 
 	e_binding_new (
 		G_OBJECT (shell), "network-available",
-		G_OBJECT (shell_window->priv->online_button), "sensitive");
+		G_OBJECT (priv->online_button), "sensitive");
 
 	/* Bind GObject properties to GConf keys. */
 
