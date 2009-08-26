@@ -3579,7 +3579,7 @@
      <para>Specify the search criteria from any of the following:</para>
      <itemizedlist>
       <listitem>
-       <para>Name begins with</para>
+       <para>Name contains</para>
       </listitem>
       <listitem>
        <para>Email begins with</para>
