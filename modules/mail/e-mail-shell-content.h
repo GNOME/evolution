@@ -65,11 +65,6 @@ GType		e_mail_shell_content_get_type	(void);
 void		e_mail_shell_content_register_type
 					(GTypeModule *type_module);
 GtkWidget *	e_mail_shell_content_new(EShellView *shell_view);
-gint		e_mail_shell_content_get_preview_size
-					(EMailShellContent *mail_shell_content);
-void		e_mail_shell_content_set_preview_size
-					(EMailShellContent *mail_shell_content,
-					 gint preview_size);
 gboolean	e_mail_shell_content_get_preview_visible
 					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_preview_visible

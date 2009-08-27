@@ -25,9 +25,11 @@
 #include <camel/camel-store.h>
 #include <libedataserver/e-data-server-util.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
+#include "widgets/misc/e-paned.h"
 
 #include "em-search-context.h"
 #include "em-utils.h"
@@ -72,7 +74,6 @@ struct _EMailShellContentPrivate {
 
 enum {
 	PROP_0,
-	PROP_PREVIEW_SIZE,
 	PROP_PREVIEW_VISIBLE,
 	PROP_SHOW_DELETED,
 	PROP_VERTICAL_VIEW
@@ -80,12 +81,6 @@ enum {
 
 static gpointer parent_class;
 static GType mail_shell_content_type;
-
-static void
-mail_shell_content_notify_preview_size (EMailShellContent *mail_shell_content)
-{
-	g_object_notify (G_OBJECT (mail_shell_content), "preview-size");
-}
 
 static void
 mail_shell_content_etree_unfreeze (MessageList *message_list,
@@ -323,12 +318,6 @@ mail_shell_content_set_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_PREVIEW_SIZE:
-			e_mail_shell_content_set_preview_size (
-				E_MAIL_SHELL_CONTENT (object),
-				g_value_get_int (value));
-			return;
-
 		case PROP_PREVIEW_VISIBLE:
 			e_mail_shell_content_set_preview_visible (
 				E_MAIL_SHELL_CONTENT (object),
@@ -358,13 +347,6 @@ mail_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_PREVIEW_SIZE:
-			g_value_set_int (
-				value,
-				e_mail_shell_content_get_preview_size (
-				E_MAIL_SHELL_CONTENT (object)));
-			return;
-
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
 				value,
@@ -384,6 +366,7 @@ mail_shell_content_get_property (GObject *object,
 				value,
 				e_mail_shell_content_get_vertical_view (
 				E_MAIL_SHELL_CONTENT (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -460,15 +443,14 @@ mail_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	widget = gtk_vpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect_swapped (
-		widget, "notify::position",
-		G_CALLBACK (mail_shell_content_notify_preview_size),
-		shell_content);
+	e_binding_new (
+		G_OBJECT (object), "vertical-view",
+		G_OBJECT (widget), "vertical-view");
 
 	container = widget;
 
@@ -512,6 +494,14 @@ mail_shell_content_constructed (GObject *object)
 
 	bridge = gconf_bridge_get ();
 
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/hpaned_size";
+	gconf_bridge_bind_property (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/mail/display/paned_size";
+	gconf_bridge_bind_property (bridge, key, object, "vposition");
+
 	object = G_OBJECT (shell_content);
 	key = "/apps/evolution/mail/display/show_deleted";
 	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
@@ -525,33 +515,6 @@ mail_shell_content_constructed (GObject *object)
 		message_list, "message-selected",
 		G_CALLBACK (mail_shell_content_message_selected_cb),
 		shell_content);
-}
-
-static void
-mail_shell_content_size_allocate (GtkWidget *widget,
-                                  GtkAllocation *allocation)
-{
-	EMailShellContentPrivate *priv;
-	GConfBridge *bridge;
-	const gchar *key;
-
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (widget);
-
-	/* Chain up to parent's size_allocate() method. */
-	GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
-
-	if (priv->paned_binding_id > 0)
-		return;
-
-	bridge = gconf_bridge_get ();
-
-	if (priv->vertical_view)
-		key = "/apps/evolution/mail/display/hpaned_size";
-	else
-		key = "/apps/evolution/mail/display/paned_size";
-
-	priv->paned_binding_id = gconf_bridge_bind_property_delayed (
-		bridge, key, G_OBJECT (widget), "preview-size");
 }
 
 static guint32
@@ -690,7 +653,6 @@ static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -702,24 +664,9 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	object_class->dispose = mail_shell_content_dispose;
 	object_class->constructed = mail_shell_content_constructed;
 
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_allocate = mail_shell_content_size_allocate;
-
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->new_search_context = em_search_context_new;
 	shell_content_class->check_state = mail_shell_content_check_state;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_SIZE,
-		g_param_spec_int (
-			"preview-size",
-			_("Preview Size"),
-			_("Size of the preview pane in pixels"),
-			G_MININT,
-			G_MAXINT,
-			100,
-			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -823,53 +770,6 @@ e_mail_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-gint
-e_mail_shell_content_get_preview_size (EMailShellContent *mail_shell_content)
-{
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-	gint allocation;
-	gint position;
-
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), 0);
-
-	orientable = GTK_ORIENTABLE (mail_shell_content->priv->paned);
-	orientation = gtk_orientable_get_orientation (orientable);
-
-	if (orientation == GTK_ORIENTATION_HORIZONTAL)
-		allocation = GTK_WIDGET (orientable)->allocation.width;
-	else
-		allocation = GTK_WIDGET (orientable)->allocation.height;
-
-	position = gtk_paned_get_position (GTK_PANED (orientable));
-
-	return MAX (0, allocation - position);
-}
-
-void
-e_mail_shell_content_set_preview_size (EMailShellContent *mail_shell_content,
-                                       gint preview_size)
-{
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-	gint allocation;
-	gint position;
-
-	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
-
-	orientable = GTK_ORIENTABLE (mail_shell_content->priv->paned);
-	orientation = gtk_orientable_get_orientation (orientable);
-
-	if (orientation == GTK_ORIENTATION_HORIZONTAL)
-		allocation = GTK_WIDGET (orientable)->allocation.width;
-	else
-		allocation = GTK_WIDGET (orientable)->allocation.height;
-
-	position = MAX (0, allocation - preview_size);
-	gtk_paned_set_position (GTK_PANED (orientable), position);
-}
-
 gboolean
 e_mail_shell_content_get_preview_visible (EMailShellContent *mail_shell_content)
 {
@@ -949,34 +849,13 @@ void
 e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
                                         gboolean vertical_view)
 {
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-	GConfBridge *bridge;
-	guint binding_id;
-
 	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
-
-	bridge = gconf_bridge_get ();
-	binding_id = mail_shell_content->priv->paned_binding_id;
-
-	if (binding_id > 0) {
-		gconf_bridge_unbind (bridge, binding_id);
-		mail_shell_content->priv->paned_binding_id = 0;
-	}
-
-	if (vertical_view)
-		orientation = GTK_ORIENTATION_HORIZONTAL;
-	else
-		orientation = GTK_ORIENTATION_VERTICAL;
-
-	orientable = GTK_ORIENTABLE (mail_shell_content->priv->paned);
-	gtk_orientable_set_orientation (orientable, orientation);
 
 	mail_shell_content->priv->vertical_view = vertical_view;
 
-	e_mail_shell_content_update_view_instance (mail_shell_content);
-
 	g_object_notify (G_OBJECT (mail_shell_content), "vertical-view");
+
+	e_mail_shell_content_update_view_instance (mail_shell_content);
 }
 
 GalViewInstance *
@@ -1015,6 +894,7 @@ e_mail_shell_content_set_search_strings (EMailShellContent *mail_shell_content,
 void
 e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
 {
+	EPaned *paned;
 	EMailReader *reader;
 	EShellContent *shell_content;
 	EShellView *shell_view;
@@ -1052,8 +932,8 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 	mail_shell_content->priv->view_instance = view_instance;
 
-	show_vertical_view =
-		e_mail_shell_content_get_vertical_view (mail_shell_content);
+	paned = E_PANED (mail_shell_content->priv->paned);
+	show_vertical_view = e_paned_get_vertical_view (paned);
 
 	if (show_vertical_view) {
 		gchar *filename;
