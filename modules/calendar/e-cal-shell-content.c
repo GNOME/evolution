@@ -26,6 +26,8 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/menus/gal-view-etable.h"
+#include "widgets/misc/e-paned.h"
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-view.h"
@@ -35,8 +37,6 @@
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-week-view.h"
-
-#include "widgets/menus/gal-view-etable.h"
 
 #define E_CAL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -132,7 +132,7 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 		key = "/apps/evolution/calendar/display/hpane_position";
 
 	binding_id = gconf_bridge_bind_property_delayed (
-		bridge, key, G_OBJECT (paned), "position");
+		bridge, key, G_OBJECT (paned), "hposition");
 
 	cal_shell_content->priv->paned_binding_id = binding_id;
 }
@@ -344,9 +344,7 @@ cal_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	/* FIXME Need to deal with saving and restoring the position.
-	 *       Month view has its own position. */
-	widget = gtk_hpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->hpaned = g_object_ref (widget);
 	gtk_widget_show (widget);

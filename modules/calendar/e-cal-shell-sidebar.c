@@ -27,6 +27,8 @@
 #include "e-util/e-error.h"
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-paned.h"
+
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
@@ -401,7 +403,7 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_WIDGET (shell_sidebar);
 
-	widget = gtk_vpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -497,7 +499,7 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	object = G_OBJECT (priv->paned);
 	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
 static void
