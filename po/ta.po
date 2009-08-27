@@ -1,4 +1,4 @@
-# translation of evolutionta.po to Tamil
+# translation of evoultion.po to Tamil
 # translation of evolution.HEAD.ta.po to
 # translation of evo-ta.po to
 # translation of ta.po to
@@ -15,17 +15,17 @@
 # Dr.T.vasudevan <agnihot3@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolutionta\n"
+"Project-Id-Version: evoultion\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-18 08:08+0530\n"
-"PO-Revision-Date: 2009-07-18 13:54+0530\n"
-"Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
-"Language-Team: Tamil <Ubuntu-l10n-tam@lists.ubuntu.com>\n"
+"POT-Creation-Date: 2009-08-10 14:29+0530\n"
+"PO-Revision-Date: 2009-08-27 12:05+0530\n"
+"Last-Translator: I. Felix <ifelix@redhat.com>\n"
+"Language-Team: Tamil <fedora-trans-ta@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\\n\n"
 "\n"
 "\n"
 
@@ -1682,7 +1682,7 @@ msgstr "தொடர்பு பட்டியல் தொகுப்பி"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:211
-#: ../calendar/gui/e-day-view-time-item.c:810
+#: ../calendar/gui/e-day-view-time-item.c:812
 #: ../calendar/gui/e-timezone-entry.c:118
 msgid "Select..."
 msgstr "தேர்ந்தெடு..."
@@ -4450,7 +4450,7 @@ msgstr "கோப்பு(களை) இணை"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: ../calendar/gui/dialogs/event-page.c:2959
 #: ../calendar/gui/e-cal-model-tasks.c:671
-#: ../calendar/gui/e-day-view-time-item.c:783
+#: ../calendar/gui/e-day-view-time-item.c:785
 #: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:942
 #: ../mail/em-account-editor.c:706 ../mail/em-account-editor.c:1435
 #: ../mail/em-account-prefs.c:435 ../mail/em-junk-hook.c:93
@@ -5432,8 +5432,7 @@ msgstr "(_G)குழு:"
 #: ../calendar/gui/dialogs/recur-comp.c:53
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
-"நீங்கள் மீண்டும் காட்டிய நிகழ்வில் மாற்றம் செய்கிறீர்கள். என்ன மாற்றம் செய்ய விரும்புகிறீர்கள்?"
+msgstr "நீங்கள் மீண்டும் காட்டிய நிகழ்வில் மாற்றம் செய்கிறீர்கள். என்ன மாற்றம் செய்ய விரும்புகிறீர்கள்?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:55
 #, c-format
@@ -6385,12 +6384,12 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:745
+#: ../calendar/gui/e-day-view-time-item.c:747
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i நிமிட பகுப்புகள்"
 
-#: ../calendar/gui/e-day-view-time-item.c:766
+#: ../calendar/gui/e-day-view-time-item.c:768
 msgid "Show the second time zone"
 msgstr "இரண்டாம் நிலை மண்டலத்தை காட்டு"
 
@@ -9451,11 +9450,11 @@ msgstr "பதிலளி நர் புலம் காட்டப்பட
 msgid "Save Draft"
 msgstr "வரைவை சேமி"
 
-#: ../composer/e-composer-header.c:114
+#: ../composer/e-composer-header.c:120
 msgid "Show"
 msgstr "காட்டு"
 
-#: ../composer/e-composer-header.c:117
+#: ../composer/e-composer-header.c:123
 msgid "Hide"
 msgstr "மறை"
 
@@ -9473,43 +9472,49 @@ msgid ""
 "appearing in the recipient list of the message"
 msgstr "இதே செய்தியை மறை நகலாக அனுப்ப வேண்டிய முகவரியை உள்ளிடவும்"
 
-#: ../composer/e-composer-header-table.c:927
+#: ../composer/e-composer-header-table.c:942
 msgid "Fr_om:"
 msgstr "அனுப்புநர்: (_o)"
 
-#: ../composer/e-composer-header-table.c:936
+#: ../composer/e-composer-header-table.c:942 ../mail/em-format-quote.c:209
+#: ../mail/em-format.c:923 ../mail/em-mailer-prefs.c:75
+#: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:296
+msgid "From"
+msgstr "அனுப்புநர்"
+
+#: ../composer/e-composer-header-table.c:951
 msgid "_Reply-To:"
 msgstr "பதில் : (_R)"
 
-#: ../composer/e-composer-header-table.c:941
+#: ../composer/e-composer-header-table.c:956
 msgid "_To:"
 msgstr "பெறுநர்: (_T)"
 
-#: ../composer/e-composer-header-table.c:947
+#: ../composer/e-composer-header-table.c:962
 msgid "_Cc:"
 msgstr "நகல்: (_C)"
 
-#: ../composer/e-composer-header-table.c:947 ../mail/em-filter-i18n.h:8
+#: ../composer/e-composer-header-table.c:962 ../mail/em-filter-i18n.h:8
 msgid "CC"
 msgstr "நகல்"
 
-#: ../composer/e-composer-header-table.c:953
+#: ../composer/e-composer-header-table.c:968
 msgid "_Bcc:"
 msgstr "மறைநகல்: (_B)"
 
-#: ../composer/e-composer-header-table.c:953 ../mail/em-filter-i18n.h:6
+#: ../composer/e-composer-header-table.c:968 ../mail/em-filter-i18n.h:6
 msgid "BCC"
 msgstr "மறை நகல்"
 
-#: ../composer/e-composer-header-table.c:958
+#: ../composer/e-composer-header-table.c:973
 msgid "_Post To:"
 msgstr "சமர்பி: (_P)"
 
-#: ../composer/e-composer-header-table.c:962
+#: ../composer/e-composer-header-table.c:977
 msgid "S_ubject:"
 msgstr "பொருள்: (_u)"
 
-#: ../composer/e-composer-header-table.c:971
+#: ../composer/e-composer-header-table.c:986
 msgid "Si_gnature:"
 msgstr "கையொப்பம்: (_g)"
 
@@ -10525,26 +10530,26 @@ msgstr "கையொப்ப நிரலை சேர்க்கவும்"
 msgid "Signature(s)"
 msgstr "கையொப்பம்(ங்கள்)"
 
-#: ../mail/em-composer-utils.c:1113 ../mail/em-format-quote.c:415
+#: ../mail/em-composer-utils.c:1116 ../mail/em-format-quote.c:415
 msgid "-------- Forwarded Message --------"
 msgstr "-------- அனுப்பும் செய்தி --------"
 
-#: ../mail/em-composer-utils.c:1564
+#: ../mail/em-composer-utils.c:1569
 msgid "No destination address provided, forward of the message has been cancelled."
 msgstr "இலக்கு முகவரி ஏதும் தர வில்லை. செய்தியை மேலனுப்புதல் இரத்து செய்யப்பட்டது"
 
-#: ../mail/em-composer-utils.c:1570
+#: ../mail/em-composer-utils.c:1575
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "பயன்படுத்த கணக்கு ஏதும் இல்லை. செய்தியை மேலனுப்புதல் இரத்து செய்யப்பட்டது"
 
-#: ../mail/em-composer-utils.c:2037
+#: ../mail/em-composer-utils.c:2042
 msgid "an unknown sender"
 msgstr "தெரியாத அனுப்புநர்"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2084
+#: ../mail/em-composer-utils.c:2089
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10552,7 +10557,7 @@ msgstr ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 
-#: ../mail/em-composer-utils.c:2227
+#: ../mail/em-composer-utils.c:2232
 msgid "-----Original Message-----"
 msgstr "-----மூல செய்தி----"
 
@@ -10974,7 +10979,8 @@ msgstr "ஏற்றுகிறது..."
 #. * formatting codes to take care of the cases the folder
 #. * name appears in either direction.
 #.
-#: ../mail/em-folder-tree.c:318, c-format
+#: ../mail/em-folder-tree.c:318
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
@@ -11488,12 +11494,6 @@ msgstr " (%R %Z)"
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "செய்தி <b>%s</b> ஆல் அனுப்பப்பட்டது <b>%s</b> சார்பாக"
-
-#: ../mail/em-format-quote.c:209 ../mail/em-format.c:923
-#: ../mail/em-mailer-prefs.c:75 ../mail/message-list.etspec.h:7
-#: ../mail/message-tag-followup.c:296
-msgid "From"
-msgstr "அனுப்புநர்"
 
 #: ../mail/em-format-quote.c:209 ../mail/em-format.c:924
 #: ../mail/em-mailer-prefs.c:76
@@ -13209,7 +13209,9 @@ msgstr "(_q)குறிப்பிட்டவைகலை தனிப்ப�
 msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
-msgstr "சேவையகம் செந்தரமல்லாத துறை ஒன்றை பயன்படுத்தினால் சேவையக முகவரியை இப்படி குறிப்பிடுக: \"server-name:port-number\""
+msgstr ""
+"சேவையகம் செந்தரமல்லாத துறை ஒன்றை பயன்படுத்தினால் சேவையக முகவரியை இப்படி குறிப்பிடுக: "
+"\"server-name:port-number\""
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -13276,8 +13278,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
 msgstr ""
-"தயவு செய்து இந்த கணக்குக்கு கீழுள்ள இடைவெளியில் விவரமான பெயரை"
-" உள்ளிடுக. இது காட்டுவதற்கு மட்டும் பயன்படும்."
+"தயவு செய்து இந்த கணக்குக்கு கீழுள்ள இடைவெளியில் விவரமான பெயரை உள்ளிடுக. இது "
+"காட்டுவதற்கு மட்டும் பயன்படும்."
 
 #: ../mail/mail-config.glade.h:120
 msgid ""
@@ -14856,8 +14858,7 @@ msgstr "எவல்யூஷன் கணக்குகள் மற்று�
 
 #: ../plugins/backup-restore/backup.c:201
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr ""
-"எவல்யூஷன் தரவுகள் பாதுகாக்கப்படுகிறன. (அஞ்சல்கள், தொடர்புகள் நாள்காட்டி பணிகள் குறிப்புகள்)"
+msgstr "எவல்யூஷன் தரவுகள் பாதுகாக்கப்படுகிறன. (அஞ்சல்கள், தொடர்புகள் நாள்காட்டி பணிகள் குறிப்புகள்)"
 
 #: ../plugins/backup-restore/backup.c:212
 msgid "Backup complete"
@@ -19092,7 +19093,7 @@ msgstr "பக் பட்டியை இயக்க முடியவில
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:938
 msgid "translator-credits"
-msgstr "மொழிபெயர்ப்பாளர்-சன்மானம்"
+msgstr "N. Jayaradha <njayaradha@gmail.com> I. Felix <ifelix@redhat.com>. Dr. T. Vasudevan <agnihot3@gmail.com>"
 
 #: ../shell/e-shell-window-commands.c:949
 msgid "Evolution Website"
@@ -21296,11 +21297,11 @@ msgid "With _Status"
 msgstr "(_S)நிலையுடன்"
 
 #. Put the "UTC" entry at the top of the combo's list.
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:226
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:421
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:423
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:425
-#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:764
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:227
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:428
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:430
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:432
+#: ../widgets/e-timezone-dialog/e-timezone-dialog.c:771
 msgid "UTC"
 msgstr "UTC"
 
@@ -21866,7 +21867,7 @@ msgstr "நிரல் அகலம்"
 
 #: ../widgets/misc/e-search-bar.c:92 ../widgets/misc/e-search-bar.c:359
 #: ../widgets/misc/e-search-bar.c:503 ../widgets/misc/e-search-bar.c:505
-#: ../widgets/misc/e-search-bar.c:1022
+#: ../widgets/misc/e-search-bar.c:1021
 msgid "Search"
 msgstr "தேடு"
 
@@ -21898,17 +21899,17 @@ msgstr "உரை"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:1054
+#: ../widgets/misc/e-search-bar.c:1053
 msgid "Sho_w: "
 msgstr "சுட்டிகாட்டுதல்_w:"
 
-#: ../widgets/misc/e-search-bar.c:1073
+#: ../widgets/misc/e-search-bar.c:1072
 msgid "Sear_ch: "
 msgstr "தேடு(_c):"
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:1089
+#: ../widgets/misc/e-search-bar.c:1088
 msgid " i_n "
 msgstr "_n உள்ளே"
 
@@ -22551,54 +22552,3 @@ msgstr "IM சூழல்"
 msgid "Handle Popup"
 msgstr "மேல்மீட்பினை கையாள்"
 
-#~ msgid "_Notes:"
-#~ msgstr "குறிப்புகள்: (_N)"
-
-#~ msgid "Do you want to resend the meeting ?"
-#~ msgstr "இந்த கூட்டத்தை மீண்டும் அனுப்ப விருப்பமா?"
-
-#~ msgid "Do you want to resend the recurring meeting ?"
-#~ msgstr "இந்த மீள் நிகழ் கூட்டத்தை மீண்டும் அனுப்ப விருப்பமா?"
-
-#~ msgid "Do you want to retract the original item ?"
-#~ msgstr "அசல் உருப்படியை மீட்க விரும்புகிறீர்கள?"
-
-#~ msgid "The original will be removed from the recipient's mailbox."
-#~ msgstr "அசல் பெறுநர் அஞ்சல் பெட்டிகளிலிருந்து அழிக்கப்படும்"
-
-#~ msgid "This is a recurring meeting"
-#~ msgstr "இந்த நிகழ்வை சுருள் நிகழ்வாகச் செய்"
-
-#~ msgid "This will create a new meeting using the existing meeting details."
-#~ msgstr "இது நடப்பு சந்திப்பு விவரங்களுடன் புதிய சந்திப்பை உருவாக்கும்"
-
-#~ msgid ""
-#~ "This will create a new meeting with the existing meeting details. The "
-#~ "recurrence rule needs to be re-entered."
-#~ msgstr ""
-#~ "இது நடப்பு சந்திப்பு விவரங்களுடன் புதிய சந்திப்பை உருவாக்கும். மீள் நிகழ்வு விவரம் "
-#~ "உள்ளிடப்பட வேண்டும்."
-
-#~ msgid "Would you like to accept it?"
-#~ msgstr "அதை ஒப்புக்கொள்ள விருப்பமா?"
-
-#~ msgid "Would you like to decline it?"
-#~ msgstr "அதை வேண்டாமென்று ஒதுக்க விருப்பமா?"
-
-#~ msgid "Show BCC"
-#~ msgstr "மறை நகலை காட்டுக"
-
-#~ msgid "Add attachment"
-#~ msgstr "இணைப்பினை சேர்... (_A)"
-
-#~ msgid "Retrieving Message..."
-#~ msgstr "செய்தி மீட்டல்..."
-
-#~ msgid "Case _sensitive"
-#~ msgstr "எழுத்துணர்வு (_s)"
-
-#~ msgid "F_ind:"
-#~ msgstr "தேடு: (_i)"
-
-#~ msgid "Find in Message"
-#~ msgstr "செய்தியில் கண்டுபிடி"
