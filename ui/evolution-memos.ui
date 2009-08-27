@@ -19,7 +19,14 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
-      <menuitem action='memo-preview'/>
+      <placeholder name='view-custom-menus'>
+        <menu action='memo-preview-menu'>
+          <menuitem action='memo-preview'/>
+          <separator/>
+          <menuitem action='memo-view-classic'/>
+          <menuitem action='memo-view-vertical'/>
+        </menu>
+      </placeholder>
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>

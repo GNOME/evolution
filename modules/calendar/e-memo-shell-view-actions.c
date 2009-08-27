@@ -528,6 +528,32 @@ action_memo_search_cb (GtkRadioAction *action,
 }
 
 static void
+action_memo_view_cb (GtkRadioAction *action,
+                     GtkRadioAction *current,
+                     EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	orientable = GTK_ORIENTABLE (memo_shell_content);
+
+	switch (gtk_radio_action_get_current_value (action)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
+}
+
+static void
 action_search_execute_cb (GtkAction *action,
                           EMemoShellView *memo_shell_view)
 {
@@ -662,7 +688,16 @@ static GtkActionEntry memo_entries[] = {
 	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_memo_save_as_cb) }
+	  G_CALLBACK (action_memo_save_as_cb) },
+
+	/*** Menus ***/
+
+	{ "memo-preview-menu",
+	  NULL,
+	  N_("_Preview"),
+	  NULL,
+	  NULL,
+	  NULL }
 };
 
 static EPopupActionEntry memo_popup_entries[] = {
@@ -729,6 +764,33 @@ static GtkToggleActionEntry memo_toggle_entries[] = {
 	  N_("Show memo preview pane"),
 	  G_CALLBACK (action_memo_preview_cb),
 	  TRUE }
+};
+
+static GtkRadioActionEntry memo_view_entries[] = {
+
+	/* This action represents the initial active memo view.
+	 * It should not be visible in the UI, nor should it be
+	 * possible to switch to it from another shell view. */
+	{ "memo-view-initial",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  -1 },
+
+	{ "memo-view-classic",
+	  NULL,
+	  N_("_Classic View"),
+	  NULL,
+	  N_("Show memo preview below the memo list"),
+	  0 },
+
+	{ "memo-view-vertical",
+	  NULL,
+	  N_("_Vertical View"),
+	  NULL,
+	  N_("Show memo preview alongside the memo list"),
+	  1 }
 };
 
 static GtkRadioActionEntry memo_filter_entries[] = {
@@ -829,6 +891,10 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		action_group, memo_toggle_entries,
 		G_N_ELEMENTS (memo_toggle_entries), memo_shell_view);
 	gtk_action_group_add_radio_actions (
+		action_group, memo_view_entries,
+		G_N_ELEMENTS (memo_view_entries), -1,
+		G_CALLBACK (action_memo_view_cb), memo_shell_view);
+	gtk_action_group_add_radio_actions (
 		action_group, memo_search_entries,
 		G_N_ELEMENTS (memo_search_entries),
 		MEMO_SEARCH_SUMMARY_CONTAINS,
@@ -850,6 +916,10 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	object = G_OBJECT (ACTION (MEMO_PREVIEW));
 	key = "/apps/evolution/calendar/display/show_memo_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (MEMO_VIEW_VERTICAL));
+	key = "/apps/evolution/calendar/display/memo_layout";
+	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
 

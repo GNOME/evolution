@@ -86,14 +86,14 @@ ECalComponentPreview *
 					(ETaskShellContent *task_shell_content);
 ECalendarTable *e_task_shell_content_get_task_table
 					(ETaskShellContent *task_shell_content);
-GalViewInstance *
-		e_task_shell_content_get_view_instance
-					(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
 					(ETaskShellContent *task_shell_content);
 void		e_task_shell_content_set_preview_visible
 					(ETaskShellContent *task_shell_content,
 					 gboolean preview_visible);
+GalViewInstance *
+		e_task_shell_content_get_view_instance
+					(ETaskShellContent *task_shell_content);
 
 G_END_DECLS
 

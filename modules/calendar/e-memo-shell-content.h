@@ -82,14 +82,14 @@ ECalComponentPreview *
 					(EMemoShellContent *memo_shell_content);
 EMemoTable *	e_memo_shell_content_get_memo_table
 					(EMemoShellContent *memo_shell_content);
-GalViewInstance *
-		e_memo_shell_content_get_view_instance
-					(EMemoShellContent *memo_shell_content);
 gboolean	e_memo_shell_content_get_preview_visible
 					(EMemoShellContent *memo_shell_content);
 void		e_memo_shell_content_set_preview_visible
 					(EMemoShellContent *memo_shell_content,
 					 gboolean preview_visible);
+GalViewInstance *
+		e_memo_shell_content_get_view_instance
+					(EMemoShellContent *memo_shell_content);
 
 G_END_DECLS
 

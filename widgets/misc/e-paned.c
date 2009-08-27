@@ -47,6 +47,7 @@ static gpointer parent_class;
 static void
 paned_notify_orientation_cb (EPaned *paned)
 {
+	/* Ignore the next "notify::position" emission. */
 	paned->priv->sync_position = TRUE;
 	gtk_widget_queue_resize (GTK_WIDGET (paned));
 

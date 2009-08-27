@@ -55,6 +55,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-purge")
 #define E_SHELL_WINDOW_ACTION_TASK_SAVE_AS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-save-as")
+#define E_SHELL_WINDOW_ACTION_TASK_VIEW_CLASSIC(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-view-classic")
+#define E_SHELL_WINDOW_ACTION_TASK_VIEW_VERTICAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-view-vertical")
 
 /* Task List Actions */
 #define E_SHELL_WINDOW_ACTION_TASK_LIST_COPY(window) \

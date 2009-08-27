@@ -675,6 +675,32 @@ action_task_search_cb (GtkRadioAction *action,
 	e_shell_content_set_search_hint (shell_content, search_hint);
 }
 
+static void
+action_task_view_cb (GtkRadioAction *action,
+                     GtkRadioAction *current,
+                     ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	orientable = GTK_ORIENTABLE (task_shell_content);
+
+	switch (gtk_radio_action_get_current_value (action)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
+}
+
 static GtkActionEntry task_entries[] = {
 
 	{ "task-assign",
@@ -817,6 +843,13 @@ static GtkActionEntry task_entries[] = {
 	  N_("_Actions"),
 	  NULL,
 	  NULL,
+	  NULL },
+
+	{ "task-preview-menu",
+	  NULL,
+	  N_("_Preview"),
+	  NULL,
+	  NULL,
 	  NULL }
 };
 
@@ -896,6 +929,33 @@ static GtkToggleActionEntry task_toggle_entries[] = {
 	  N_("Show task preview pane"),
 	  G_CALLBACK (action_task_preview_cb),
 	  TRUE }
+};
+
+static GtkRadioActionEntry task_view_entries[] = {
+
+	/* This action represents the inital active memo view.
+	 * It should not be visible in the UI, nor should it be
+	 * possible to switch to it from another shell view. */
+	{ "task-view-initial",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  -1 },
+
+	{ "task-view-classic",
+	  NULL,
+	  N_("_Classic View"),
+	  NULL,
+	  N_("Show task preview below the task list"),
+	  0 },
+
+	{ "task-view-vertical",
+	  NULL,
+	  N_("_Vertical View"),
+	  NULL,
+	  N_("Show task preview alongside the task list"),
+	  1 }
 };
 
 static GtkRadioActionEntry task_filter_entries[] = {
@@ -1031,6 +1091,10 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		action_group, task_toggle_entries,
 		G_N_ELEMENTS (task_toggle_entries), task_shell_view);
 	gtk_action_group_add_radio_actions (
+		action_group, task_view_entries,
+		G_N_ELEMENTS (task_view_entries), -1,
+		G_CALLBACK (action_task_view_cb), task_shell_view);
+	gtk_action_group_add_radio_actions (
 		action_group, task_search_entries,
 		G_N_ELEMENTS (task_search_entries),
 		TASK_SEARCH_SUMMARY_CONTAINS,
@@ -1052,6 +1116,10 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	object = G_OBJECT (ACTION (TASK_PREVIEW));
 	key = "/apps/evolution/calendar/display/show_task_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (TASK_VIEW_VERTICAL));
+	key = "/apps/evolution/calendar/display/task_layout";
+	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
 

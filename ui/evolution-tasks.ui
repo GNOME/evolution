@@ -22,7 +22,14 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
-      <menuitem action='task-preview'/>
+      <placeholder name='view-custom-menus'>
+        <menu action='task-preview-menu'>
+          <menuitem action='task-preview'/>
+          <separator/>
+          <menuitem action='task-view-classic'/>
+          <menuitem action='task-view-vertical'/>
+        </menu>
+      </placeholder>
     </menu>
     <placeholder name='custom-menus'>
       <menu action='task-actions-menu'>

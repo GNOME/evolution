@@ -463,6 +463,10 @@ mail_shell_content_constructed (GObject *object)
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
+	e_binding_new (
+		G_OBJECT (object), "preview-visible",
+		G_OBJECT (widget), "visible");
+
 	container = widget;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -783,21 +787,10 @@ void
 e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
                                           gboolean preview_visible)
 {
-	GtkPaned *paned;
-	GtkWidget *child;
-
 	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
 
 	if (preview_visible == mail_shell_content->priv->preview_visible)
 		return;
-
-	paned = GTK_PANED (mail_shell_content->priv->paned);
-	child = gtk_paned_get_child2 (paned);
-
-	if (preview_visible)
-		gtk_widget_show (child);
-	else
-		gtk_widget_hide (child);
 
 	/* If we're showing the preview, tell EMailReader to reload the
 	 * selected message.  This should force it to download the full

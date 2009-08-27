@@ -1322,7 +1322,7 @@ static GtkRadioActionEntry mail_view_entries[] = {
 	/* This action represents the initial active mail view.
 	 * It should not be visible in the UI, nor should it be
 	 * possible to switch to it from another shell view. */
-	{ "mail-view-internal",
+	{ "mail-view-initial",
 	  NULL,
 	  NULL,
 	  NULL,

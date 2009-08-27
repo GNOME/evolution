@@ -47,6 +47,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-print")
 #define E_SHELL_WINDOW_ACTION_MEMO_SAVE_AS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-save-as")
+#define E_SHELL_WINDOW_ACTION_MEMO_VIEW_CLASSIC(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-view-classic")
+#define E_SHELL_WINDOW_ACTION_MEMO_VIEW_VERTICAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-view-vertical")
 
 /* Memo List Actions */
 #define E_SHELL_WINDOW_ACTION_MEMO_LIST_COPY(window) \

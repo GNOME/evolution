@@ -23,13 +23,14 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/menus/gal-view-etable.h"
+#include "widgets/misc/e-paned.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
-
-#include "widgets/menus/gal-view-etable.h"
 
 #define E_MEMO_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -51,13 +52,17 @@ struct _EMemoShellContentPrivate {
 
 	ECalModel *memo_model;
 	GalViewInstance *view_instance;
+	GtkOrientation orientation;
 
 	gchar *current_uid;
+
+	guint preview_visible	: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_MODEL,
+	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE
 };
 
@@ -258,6 +263,21 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 	memo_shell_content_cursor_change_cb (memo_shell_content, 0, table);
 }
 
+static GtkOrientation
+memo_shell_content_get_orientation (EMemoShellContent *memo_shell_content)
+{
+	return memo_shell_content->priv->orientation;
+}
+
+static void
+memo_shell_content_set_orientation (EMemoShellContent *memo_shell_content,
+                                    GtkOrientation orientation)
+{
+	memo_shell_content->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (memo_shell_content), "orientation");
+}
+
 static void
 memo_shell_content_set_property (GObject *object,
                                  guint property_id,
@@ -265,6 +285,12 @@ memo_shell_content_set_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ORIENTATION:
+			memo_shell_content_set_orientation (
+				E_MEMO_SHELL_CONTENT (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_PREVIEW_VISIBLE:
 			e_memo_shell_content_set_preview_visible (
 				E_MEMO_SHELL_CONTENT (object),
@@ -284,13 +310,22 @@ memo_shell_content_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_MODEL:
 			g_value_set_object (
-				value, e_memo_shell_content_get_memo_model (
+				value,
+				e_memo_shell_content_get_memo_model (
+				E_MEMO_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				memo_shell_content_get_orientation (
 				E_MEMO_SHELL_CONTENT (object)));
 			return;
 
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
-				value, e_memo_shell_content_get_preview_visible (
+				value,
+				e_memo_shell_content_get_preview_visible (
 				E_MEMO_SHELL_CONTENT (object)));
 			return;
 	}
@@ -385,10 +420,14 @@ memo_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	widget = gtk_vpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (object), "orientation",
+		G_OBJECT (widget), "orientation");
 
 	container = widget;
 
@@ -405,6 +444,10 @@ memo_shell_content_constructed (GObject *object)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (object), "preview-visible",
+		G_OBJECT (widget), "visible");
 
 	container = widget;
 
@@ -467,8 +510,12 @@ memo_shell_content_constructed (GObject *object)
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/memo_hpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
 	key = "/apps/evolution/calendar/display/memo_vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
 static guint32
@@ -553,7 +600,11 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 			_("Preview is Visible"),
 			_("Whether the preview pane is visible"),
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_override_property (
+		object_class, PROP_ORIENTATION, "orientation");
 }
 
 static void
@@ -587,9 +638,19 @@ e_memo_shell_content_register_type (GTypeModule *type_module)
 		NULL   /* value_table */
 	};
 
+	static const GInterfaceInfo orientable_info = {
+		(GInterfaceInitFunc) NULL,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
 	memo_shell_content_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_CONTENT,
 		"EMemoShellContent", &type_info, 0);
+
+	g_type_module_add_interface (
+		type_module, memo_shell_content_type,
+		GTK_TYPE_ORIENTABLE, &orientable_info);
 }
 
 GtkWidget *
@@ -630,6 +691,26 @@ e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
 	return E_MEMO_TABLE (memo_shell_content->priv->memo_table);
 }
 
+gboolean
+e_memo_shell_content_get_preview_visible (EMemoShellContent *memo_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), FALSE);
+
+	return memo_shell_content->priv->preview_visible;
+}
+
+void
+e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
+                                          gboolean preview_visible)
+{
+	g_return_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content));
+
+	memo_shell_content->priv->preview_visible = preview_visible;
+
+	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
+}
+
 GalViewInstance *
 e_memo_shell_content_get_view_instance (EMemoShellContent *memo_shell_content)
 {
@@ -637,39 +718,4 @@ e_memo_shell_content_get_view_instance (EMemoShellContent *memo_shell_content)
 		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
 	return memo_shell_content->priv->view_instance;
-}
-
-gboolean
-e_memo_shell_content_get_preview_visible (EMemoShellContent *memo_shell_content)
-{
-	GtkPaned *paned;
-	GtkWidget *child;
-
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), FALSE);
-
-	paned = GTK_PANED (memo_shell_content->priv->paned);
-	child = gtk_paned_get_child2 (paned);
-
-	return GTK_WIDGET_VISIBLE (child);
-}
-
-void
-e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
-                                          gboolean preview_visible)
-{
-	GtkPaned *paned;
-	GtkWidget *child;
-
-	g_return_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content));
-
-	paned = GTK_PANED (memo_shell_content->priv->paned);
-	child = gtk_paned_get_child2 (paned);
-
-	if (preview_visible)
-		gtk_widget_show (child);
-	else
-		gtk_widget_hide (child);
-
-	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
 }
