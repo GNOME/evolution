@@ -24,10 +24,17 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
-      <menuitem action='contact-preview'/>
+      <placeholder name='view-custom-menus'>
+        <menu action='contact-preview-menu'>
+          <menuitem action='contact-preview'/>
+          <separator/>
+          <menuitem action='contact-view-classic'/>
+          <menuitem action='contact-view-vertical'/>
+        </menu>
+      </placeholder>
     </menu>
     <placeholder name='custom-menus'>
-      <menu action='actions-menu'>
+      <menu action='contact-actions-menu'>
         <menuitem action='contact-forward'/>
         <menuitem action='contact-send-message'/>
         <menuitem action='address-book-stop'/>

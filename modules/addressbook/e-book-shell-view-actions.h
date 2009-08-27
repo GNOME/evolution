@@ -73,6 +73,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-select-all")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEND_MESSAGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-send-message")
+#define E_SHELL_WINDOW_ACTION_CONTACT_VIEW_CLASSIC(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-view-classic")
+#define E_SHELL_WINDOW_ACTION_CONTACT_VIEW_VERTICAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-view-vertical")
 
 /* Search Actions */
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_ANY_FIELD_CONTAINS(window) \

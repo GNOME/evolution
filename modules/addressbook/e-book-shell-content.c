@@ -23,7 +23,9 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-paned.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -33,17 +35,22 @@ struct _EBookShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *notebook;
 	GtkWidget *preview;
+
+	GtkOrientation orientation;
+
+	guint preview_visible	: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_CURRENT_VIEW,
+	PROP_ORIENTATION,
 	PROP_PREVIEW_CONTACT,
 	PROP_PREVIEW_VISIBLE
 };
 
 static gpointer parent_class;
-static GType book_shell_view_type;
+static GType book_shell_content_type;
 
 static void
 book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
@@ -53,6 +60,21 @@ book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
 	GList node = { destination, NULL, NULL };
 
 	eab_send_as_to (&node);
+}
+
+static GtkOrientation
+book_shell_content_get_orientation (EBookShellContent *book_shell_content)
+{
+	return book_shell_content->priv->orientation;
+}
+
+static void
+book_shell_content_set_orientation (EBookShellContent *book_shell_content,
+                                    GtkOrientation orientation)
+{
+	book_shell_content->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (book_shell_content), "orientation");
 }
 
 static void
@@ -66,6 +88,12 @@ book_shell_content_set_property (GObject *object,
 			e_book_shell_content_set_current_view (
 				E_BOOK_SHELL_CONTENT (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_ORIENTATION:
+			book_shell_content_set_orientation (
+				E_BOOK_SHELL_CONTENT (object),
+				g_value_get_enum (value));
 			return;
 
 		case PROP_PREVIEW_CONTACT:
@@ -93,19 +121,29 @@ book_shell_content_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_CURRENT_VIEW:
 			g_value_set_object (
-				value, e_book_shell_content_get_current_view (
+				value,
+				e_book_shell_content_get_current_view (
+				E_BOOK_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				book_shell_content_get_orientation (
 				E_BOOK_SHELL_CONTENT (object)));
 			return;
 
 		case PROP_PREVIEW_CONTACT:
 			g_value_set_object (
-				value, e_book_shell_content_get_preview_contact (
+				value,
+				e_book_shell_content_get_preview_contact (
 				E_BOOK_SHELL_CONTENT (object)));
 			return;
 
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
-				value, e_book_shell_content_get_preview_visible (
+				value,
+				e_book_shell_content_get_preview_visible (
 				E_BOOK_SHELL_CONTENT (object)));
 			return;
 	}
@@ -155,17 +193,21 @@ book_shell_content_constructed (GObject *object)
 
 	container = GTK_WIDGET (object);
 
-	widget = gtk_vpaned_new ();
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (object), "orientation",
+		G_OBJECT (widget), "orientation");
 
 	container = widget;
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_add1 (GTK_PANED (container), widget);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -175,8 +217,12 @@ book_shell_content_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
+
+	e_binding_new (
+		G_OBJECT (object), "preview-visible",
+		G_OBJECT (widget), "visible");
 
 	container = widget;
 
@@ -197,8 +243,12 @@ book_shell_content_constructed (GObject *object)
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/addressbook/display/hpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "hposition");
+
+	object = G_OBJECT (priv->paned);
 	key = "/apps/evolution/addressbook/display/vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+	gconf_bridge_bind_property_delayed (bridge, key, object, "vposition");
 }
 
 static guint32
@@ -283,7 +333,11 @@ book_shell_content_class_init (EBookShellContentClass *class)
 			_("Preview is Visible"),
 			_("Whether the preview pane is visible"),
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_override_property (
+		object_class, PROP_ORIENTATION, "orientation");
 }
 
 static void
@@ -298,7 +352,7 @@ book_shell_content_init (EBookShellContent *book_shell_content)
 GType
 e_book_shell_content_get_type (void)
 {
-	return book_shell_view_type;
+	return book_shell_content_type;
 }
 
 void
@@ -317,9 +371,19 @@ e_book_shell_content_register_type (GTypeModule *type_module)
 		NULL   /* value_table */
 	};
 
-	book_shell_view_type = g_type_module_register_type (
+	static const GInterfaceInfo orientable_info = {
+		(GInterfaceInitFunc) NULL,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
+	book_shell_content_type = g_type_module_register_type (
 		type_module, E_TYPE_SHELL_CONTENT,
 		"EBookShellContent", &type_info, 0);
+
+	g_type_module_add_interface (
+		type_module, book_shell_content_type,
+		GTK_TYPE_ORIENTABLE, &orientable_info);
 }
 
 GtkWidget *
@@ -434,34 +498,19 @@ e_book_shell_content_set_preview_contact (EBookShellContent *book_shell_content,
 gboolean
 e_book_shell_content_get_preview_visible (EBookShellContent *book_shell_content)
 {
-	GtkPaned *paned;
-	GtkWidget *child;
-
 	g_return_val_if_fail (
 		E_IS_BOOK_SHELL_CONTENT (book_shell_content), FALSE);
 
-	paned = GTK_PANED (book_shell_content->priv->paned);
-	child = gtk_paned_get_child2 (paned);
-
-	return GTK_WIDGET_VISIBLE (child);
+	return book_shell_content->priv->preview_visible;
 }
 
 void
 e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
                                           gboolean preview_visible)
 {
-	GtkPaned *paned;
-	GtkWidget *child;
-
 	g_return_if_fail (E_IS_BOOK_SHELL_CONTENT (book_shell_content));
 
-	paned = GTK_PANED (book_shell_content->priv->paned);
-	child = gtk_paned_get_child2 (paned);
-
-	if (preview_visible)
-		gtk_widget_show (child);
-	else
-		gtk_widget_hide (child);
+	book_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
 }

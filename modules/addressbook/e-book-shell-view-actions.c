@@ -534,6 +534,32 @@ action_contact_send_message_cb (GtkAction *action,
 }
 
 static void
+action_contact_view_cb (GtkRadioAction *action,
+                        GtkRadioAction *current,
+                        EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	orientable = GTK_ORIENTABLE (book_shell_content);
+
+	switch (gtk_radio_action_get_current_value (action)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
+}
+
+static void
 action_gal_save_custom_view_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
@@ -736,9 +762,16 @@ static GtkActionEntry contact_entries[] = {
 
 	/*** Menus ***/
 
-	{ "actions-menu",
+	{ "contact-actions-menu",
 	  NULL,
 	  N_("_Actions"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "contact-preview-menu",
+	  NULL,
+	  N_("_Preview"),
 	  NULL,
 	  NULL,
 	  NULL }
@@ -812,6 +845,33 @@ static GtkToggleActionEntry contact_toggle_entries[] = {
 	  N_("Show contact preview window"),
 	  G_CALLBACK (action_contact_preview_cb),
 	  TRUE }
+};
+
+static GtkRadioActionEntry contact_view_entries[] = {
+
+	/* This action represents the initial active contact view.
+	 * It should not be visible in the UI, nor should it be
+	 * possible to switch to it from another shell view. */
+	{ "contact-view-initial",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  -1 },
+
+	{ "contact-view-classic",
+	  NULL,
+	  N_("_Classic View"),
+	  NULL,
+	  N_("Show contact preview below the contact list"),
+	  0 },
+
+	{ "contact-view-vertical",
+	  NULL,
+	  N_("_Vertical View"),
+	  NULL,
+	  N_("Show contact preview alongside the contact list"),
+	  1 }
 };
 
 static GtkRadioActionEntry contact_filter_entries[] = {
@@ -905,6 +965,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		action_group, contact_toggle_entries,
 		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);
 	gtk_action_group_add_radio_actions (
+		action_group, contact_view_entries,
+		G_N_ELEMENTS (contact_view_entries), -1,
+		G_CALLBACK (action_contact_view_cb), book_shell_view);
+	gtk_action_group_add_radio_actions (
 		action_group, contact_search_entries,
 		G_N_ELEMENTS (contact_search_entries),
 		CONTACT_SEARCH_NAME_CONTAINS,
@@ -926,6 +990,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	object = G_OBJECT (ACTION (CONTACT_PREVIEW));
 	key = "/apps/evolution/addressbook/display/show_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (CONTACT_VIEW_VERTICAL));
+	key = "/apps/evolution/addressbook/display/layout";
+	gconf_bridge_bind_property (bridge, key, object, "current-value");
 
 	/* Fine tuning. */
 
