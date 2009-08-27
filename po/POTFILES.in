@@ -494,6 +494,7 @@ widgets/misc/e-dateedit.c
 widgets/misc/e-image-chooser.c
 widgets/misc/e-map.c
 widgets/misc/e-online-button.c
+widgets/misc/e-paned.c
 widgets/misc/e-pilot-settings.c
 widgets/misc/e-popup-action.c
 widgets/misc/e-preferences-window.c
