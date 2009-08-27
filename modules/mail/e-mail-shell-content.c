@@ -55,6 +55,7 @@ struct _EMailShellContentPrivate {
 
 	EMFormatHTMLDisplay *html_display;
 	GalViewInstance *view_instance;
+	GtkOrientation orientation;
 
 	/* ETable scrolling hack */
 	gdouble default_scrollbar_position;
@@ -68,15 +69,14 @@ struct _EMailShellContentPrivate {
 
 	guint preview_visible			: 1;
 	guint suppress_message_selection	: 1;
-	guint vertical_view			: 1;
 	guint show_deleted			: 1;
 };
 
 enum {
 	PROP_0,
+	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE,
-	PROP_SHOW_DELETED,
-	PROP_VERTICAL_VIEW
+	PROP_SHOW_DELETED
 };
 
 static gpointer parent_class;
@@ -311,6 +311,23 @@ mail_shell_content_message_selected_cb (EMailShellContent *mail_shell_content,
 	g_free (group_name);
 }
 
+static GtkOrientation
+mail_shell_content_get_orientation (EMailShellContent *mail_shell_content)
+{
+	return mail_shell_content->priv->orientation;
+}
+
+static void
+mail_shell_content_set_orientation (EMailShellContent *mail_shell_content,
+                                    GtkOrientation orientation)
+{
+	mail_shell_content->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (mail_shell_content), "orientation");
+
+	e_mail_shell_content_update_view_instance (mail_shell_content);
+}
+
 static void
 mail_shell_content_set_property (GObject *object,
                                  guint property_id,
@@ -318,6 +335,12 @@ mail_shell_content_set_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ORIENTATION:
+			mail_shell_content_set_orientation (
+				E_MAIL_SHELL_CONTENT (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_PREVIEW_VISIBLE:
 			e_mail_shell_content_set_preview_visible (
 				E_MAIL_SHELL_CONTENT (object),
@@ -326,12 +349,6 @@ mail_shell_content_set_property (GObject *object,
 
 		case PROP_SHOW_DELETED:
 			e_mail_shell_content_set_show_deleted (
-				E_MAIL_SHELL_CONTENT (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_VERTICAL_VIEW:
-			e_mail_shell_content_set_vertical_view (
 				E_MAIL_SHELL_CONTENT (object),
 				g_value_get_boolean (value));
 			return;
@@ -347,6 +364,13 @@ mail_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				mail_shell_content_get_orientation (
+				E_MAIL_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
 				value,
@@ -358,13 +382,6 @@ mail_shell_content_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_shell_content_get_show_deleted (
-				E_MAIL_SHELL_CONTENT (object)));
-			return;
-
-		case PROP_VERTICAL_VIEW:
-			g_value_set_boolean (
-				value,
-				e_mail_shell_content_get_vertical_view (
 				E_MAIL_SHELL_CONTENT (object)));
 			return;
 	}
@@ -449,8 +466,8 @@ mail_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (object), "vertical-view",
-		G_OBJECT (widget), "vertical-view");
+		G_OBJECT (object), "orientation",
+		G_OBJECT (widget), "orientation");
 
 	container = widget;
 
@@ -692,19 +709,12 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VERTICAL_VIEW,
-		g_param_spec_boolean (
-			"vertical-view",
-			_("Vertical View"),
-			_("Whether vertical view is enabled"),
-			FALSE,
-			G_PARAM_READWRITE));
+	g_object_class_override_property (
+		object_class, PROP_ORIENTATION, "orientation");
 }
 
 static void
-mail_shell_content_iface_init (EMailReaderIface *iface)
+mail_shell_content_reader_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_shell_content_get_action_group;
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
@@ -749,8 +759,14 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 		NULL   /* value_table */
 	};
 
-	static const GInterfaceInfo iface_info = {
-		(GInterfaceInitFunc) mail_shell_content_iface_init,
+	static const GInterfaceInfo orientable_info = {
+		(GInterfaceInitFunc) NULL,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
+
+	static const GInterfaceInfo reader_info = {
+		(GInterfaceInitFunc) mail_shell_content_reader_init,
 		(GInterfaceFinalizeFunc) NULL,
 		NULL  /* interface_data */
 	};
@@ -761,7 +777,11 @@ e_mail_shell_content_register_type (GTypeModule *type_module)
 
 	g_type_module_add_interface (
 		type_module, mail_shell_content_type,
-		E_TYPE_MAIL_READER, &iface_info);
+		GTK_TYPE_ORIENTABLE, &orientable_info);
+
+	g_type_module_add_interface (
+		type_module, mail_shell_content_type,
+		E_TYPE_MAIL_READER, &reader_info);
 }
 
 GtkWidget *
@@ -829,28 +849,6 @@ e_mail_shell_content_set_show_deleted (EMailShellContent *mail_shell_content,
 	g_object_notify (G_OBJECT (mail_shell_content), "show-deleted");
 }
 
-gboolean
-e_mail_shell_content_get_vertical_view (EMailShellContent *mail_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), FALSE);
-
-	return mail_shell_content->priv->vertical_view;
-}
-
-void
-e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
-                                        gboolean vertical_view)
-{
-	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
-
-	mail_shell_content->priv->vertical_view = vertical_view;
-
-	g_object_notify (G_OBJECT (mail_shell_content), "vertical-view");
-
-	e_mail_shell_content_update_view_instance (mail_shell_content);
-}
-
 GalViewInstance *
 e_mail_shell_content_get_view_instance (EMailShellContent *mail_shell_content)
 {
@@ -887,7 +885,6 @@ e_mail_shell_content_set_search_strings (EMailShellContent *mail_shell_content,
 void
 e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
 {
-	EPaned *paned;
 	EMailReader *reader;
 	EShellContent *shell_content;
 	EShellView *shell_view;
@@ -895,6 +892,8 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	MessageList *message_list;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
 	gchar *view_id;
@@ -925,8 +924,9 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 	mail_shell_content->priv->view_instance = view_instance;
 
-	paned = E_PANED (mail_shell_content->priv->paned);
-	show_vertical_view = e_paned_get_vertical_view (paned);
+	orientable = GTK_ORIENTABLE (mail_shell_content);
+	orientation = gtk_orientable_get_orientation (orientable);
+	show_vertical_view = (orientation == GTK_ORIENTATION_HORIZONTAL);
 
 	if (show_vertical_view) {
 		gchar *filename;

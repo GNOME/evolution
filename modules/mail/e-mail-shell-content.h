@@ -75,11 +75,6 @@ gboolean	e_mail_shell_content_get_show_deleted
 void		e_mail_shell_content_set_show_deleted
 					(EMailShellContent *mail_shell_content,
 					 gboolean show_deleted);
-gboolean	e_mail_shell_content_get_vertical_view
-					(EMailShellContent *mail_shell_content);
-void		e_mail_shell_content_set_vertical_view
-					(EMailShellContent *mail_shell_content,
-					 gboolean vertical_view);
 GalViewInstance *
 		e_mail_shell_content_get_view_instance
 					(EMailShellContent *mail_shell_content);

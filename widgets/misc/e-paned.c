@@ -38,8 +38,7 @@ struct _EPanedPrivate {
 enum {
 	PROP_0,
 	PROP_HPOSITION,
-	PROP_VPOSITION,
-	PROP_VERTICAL_VIEW
+	PROP_VPOSITION
 };
 
 static gpointer parent_class;
@@ -50,23 +49,26 @@ paned_notify_orientation_cb (EPaned *paned)
 	/* Ignore the next "notify::position" emission. */
 	paned->priv->sync_position = TRUE;
 	gtk_widget_queue_resize (GTK_WIDGET (paned));
-
-	g_object_notify (G_OBJECT (paned), "vertical-view");
 }
 
 static void
 paned_notify_position_cb (EPaned *paned)
 {
 	GtkAllocation *allocation;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
 	gint position;
 
 	if (paned->priv->sync_position)
 		return;
 
+	orientable = GTK_ORIENTABLE (paned);
+	orientation = gtk_orientable_get_orientation (orientable);
+
 	allocation = &GTK_WIDGET (paned)->allocation;
 	position = gtk_paned_get_position (GTK_PANED (paned));
 
-	if (e_paned_get_vertical_view (paned)) {
+	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
 		position = MAX (0, allocation->width - position);
 		e_paned_set_hposition (paned, position);
 	} else {
@@ -93,12 +95,6 @@ paned_set_property (GObject *object,
 				E_PANED (object),
 				g_value_get_int (value));
 			return;
-
-		case PROP_VERTICAL_VIEW:
-			e_paned_set_vertical_view (
-				E_PANED (object),
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -122,12 +118,6 @@ paned_get_property (GObject *object,
 				value, e_paned_get_vposition (
 				E_PANED (object)));
 			return;
-
-		case PROP_VERTICAL_VIEW:
-			g_value_set_boolean (
-				value, e_paned_get_vertical_view (
-				E_PANED (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -138,6 +128,8 @@ paned_size_allocate (GtkWidget *widget,
                      GtkAllocation *allocation)
 {
 	EPaned *paned = E_PANED (widget);
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
 	gint allocated;
 	gint position;
 
@@ -147,7 +139,10 @@ paned_size_allocate (GtkWidget *widget,
 	if (!paned->priv->sync_position)
 		return;
 
-	if (e_paned_get_vertical_view (paned)) {
+	orientable = GTK_ORIENTABLE (paned);
+	orientation = gtk_orientable_get_orientation (orientable);
+
+	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
 		allocated = allocation->width;
 		position = e_paned_get_hposition (paned);
 	} else {
@@ -199,16 +194,6 @@ paned_class_init (EPanedClass *class)
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_VERTICAL_VIEW,
-		g_param_spec_boolean (
-			"vertical-view",
-			_("Vertical View"),
-			_("Whether vertical view is enabled"),
-			FALSE,
 			G_PARAM_READWRITE));
 }
 
@@ -270,6 +255,9 @@ void
 e_paned_set_hposition (EPaned *paned,
                        gint hposition)
 {
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
 	g_return_if_fail (E_IS_PANED (paned));
 
 	if (hposition == paned->priv->hposition)
@@ -279,7 +267,10 @@ e_paned_set_hposition (EPaned *paned,
 
 	g_object_notify (G_OBJECT (paned), "hposition");
 
-	if (e_paned_get_vertical_view (paned)) {
+	orientable = GTK_ORIENTABLE (paned);
+	orientation = gtk_orientable_get_orientation (orientable);
+
+	if (orientation == GTK_ORIENTATION_HORIZONTAL) {
 		paned->priv->sync_position = TRUE;
 		gtk_widget_queue_resize (GTK_WIDGET (paned));
 	}
@@ -297,6 +288,9 @@ void
 e_paned_set_vposition (EPaned *paned,
                        gint vposition)
 {
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
+
 	g_return_if_fail (E_IS_PANED (paned));
 
 	if (vposition == paned->priv->vposition)
@@ -306,40 +300,11 @@ e_paned_set_vposition (EPaned *paned,
 
 	g_object_notify (G_OBJECT (paned), "vposition");
 
-	if (!e_paned_get_vertical_view (paned)) {
-		paned->priv->sync_position = TRUE;
-		gtk_widget_queue_resize (GTK_WIDGET (paned));
-	}
-}
-
-gboolean
-e_paned_get_vertical_view (EPaned *paned)
-{
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-
-	g_return_val_if_fail (E_IS_PANED (paned), FALSE);
-
 	orientable = GTK_ORIENTABLE (paned);
 	orientation = gtk_orientable_get_orientation (orientable);
 
-	return (orientation == GTK_ORIENTATION_HORIZONTAL);
-}
-
-void
-e_paned_set_vertical_view (EPaned *paned,
-                           gboolean vertical_view)
-{
-	GtkOrientable *orientable;
-	GtkOrientation orientation;
-
-	g_return_if_fail (E_IS_PANED (paned));
-
-	if (vertical_view)
-		orientation = GTK_ORIENTATION_HORIZONTAL;
-	else
-		orientation = GTK_ORIENTATION_VERTICAL;
-
-	orientable = GTK_ORIENTABLE (paned);
-	gtk_orientable_set_orientation (orientable, orientation);
+	if (orientation == GTK_ORIENTATION_VERTICAL) {
+		paned->priv->sync_position = TRUE;
+		gtk_widget_queue_resize (GTK_WIDGET (paned));
+	}
 }

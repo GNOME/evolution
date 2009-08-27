@@ -866,13 +866,24 @@ action_mail_view_cb (GtkRadioAction *action,
                      EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
-	gboolean vertical_view;
+	GtkOrientable *orientable;
+	GtkOrientation orientation;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	vertical_view = (gtk_radio_action_get_current_value (action) == 1);
+	orientable = GTK_ORIENTABLE (mail_shell_content);
 
-	e_mail_shell_content_set_vertical_view (
-		mail_shell_content, vertical_view);
+	switch (gtk_radio_action_get_current_value (action)) {
+		case 0:
+			orientation = GTK_ORIENTATION_VERTICAL;
+			break;
+		case 1:
+			orientation = GTK_ORIENTATION_HORIZONTAL;
+			break;
+		default:
+			g_return_if_reached ();
+	}
+
+	gtk_orientable_set_orientation (orientable, orientation);
 }
 
 static void

@@ -66,9 +66,6 @@ void		e_paned_set_hposition		(EPaned *paned,
 gint		e_paned_get_vposition		(EPaned *paned);
 void		e_paned_set_vposition		(EPaned *paned,
 						 gint vposition);
-gboolean	e_paned_get_vertical_view	(EPaned *paned);
-void		e_paned_set_vertical_view	(EPaned *paned,
-						 gboolean vertical_view);
 
 G_END_DECLS
 
