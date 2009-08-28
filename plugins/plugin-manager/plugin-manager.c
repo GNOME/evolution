@@ -103,7 +103,7 @@ eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
 	if (ep) {
 		gchar *string;
 
-		string = g_strdup_printf ("<span size=\"x-large\">%s</span>", ep->name);
+		string = g_strdup_printf ("<span><b>%s</b></span>", ep->name);
 		gtk_label_set_markup (GTK_LABEL (m->items[LABEL_NAME]), string);
 		gtk_label_set_markup (GTK_LABEL (m->config_plugin_label), string);
 		g_free (string);
@@ -250,9 +250,10 @@ action_plugin_manager_cb (GtkAction *action,
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 640, 400);
 	g_object_set (dialog, "has_separator", FALSE, NULL);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 
 	string = g_strdup_printf ("<i>%s</i>", _("Note: Some changes will not take effect until restart"));
@@ -265,7 +266,7 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_widget_show (w);
 	g_free (string);
 
-	gtk_box_pack_start (GTK_BOX (content_area), w, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (content_area), w, FALSE, TRUE, 12);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
@@ -279,8 +280,8 @@ action_plugin_manager_cb (GtkAction *action,
 	overview_page = gtk_vbox_new (FALSE, 0);
 	configure_page = gtk_vbox_new (FALSE, 0);
 	g_object_ref_sink (configure_page);
-	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 10);
-	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 12);
 	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), overview_page, gtk_label_new (_("Overview")), NULL);
 
 	gtk_widget_show (notebook);
@@ -295,7 +296,7 @@ action_plugin_manager_cb (GtkAction *action,
 		"xalign", 0.0,
 		"yalign", 0.0, NULL);
 	gtk_widget_show (m->config_plugin_label);
-	gtk_box_pack_start (GTK_BOX (configure_page), m->config_plugin_label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (configure_page), m->config_plugin_label, FALSE, FALSE, 0);
 
 	store = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
 
@@ -321,7 +322,7 @@ action_plugin_manager_cb (GtkAction *action,
 		cfg_widget = e_plugin_get_configure_widget (ep);
 		if (cfg_widget) {
 			gtk_widget_hide (cfg_widget);
-			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, TRUE, TRUE, 6);
+			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, TRUE, TRUE, 12);
 		}
 
 		gtk_list_store_append (store, &iter);
@@ -364,13 +365,13 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (w), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (m->treeview));
 
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (w), FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (w), FALSE, TRUE, 0);
 
 	/* Show all widgets in hbox before we pack there notebook, because not all widgets in notebook
 	   are going to be visible at one moment. */
 	gtk_widget_show_all (hbox);
 
-	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 0);
 
 	/* this is plugin's name label */
 	subvbox = gtk_vbox_new (FALSE, 6);
@@ -380,7 +381,7 @@ action_plugin_manager_cb (GtkAction *action,
 				    "xalign", 0.0,
 				    "yalign", 0.0, NULL);
 	gtk_box_pack_start (GTK_BOX (subvbox), GTK_WIDGET (m->items[0]), TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 0);
 
 	/* this is every other data */
 	for (i = 1; i < LABEL_LAST; i++) {
@@ -405,7 +406,7 @@ action_plugin_manager_cb (GtkAction *action,
 					    "yalign", 0.0, NULL);
 		gtk_box_pack_start (GTK_BOX (subvbox), GTK_WIDGET (m->items[i]), TRUE, TRUE, 0);
 
-		gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 6);
+		gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 12);
 	}
 
 	gtk_widget_show_all (overview_page);
