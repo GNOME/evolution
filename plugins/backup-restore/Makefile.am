@@ -21,12 +21,15 @@ plugin_LTLIBRARIES = liborg-gnome-backup-restore.la
 
 liborg_gnome_backup_restore_la_SOURCES = backup-restore.c
 liborg_gnome_backup_restore_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
-liborg_gnome_backup_restore_la_LIBADD =	\
-	$(top_builddir)/e-util/libeutil.la
+liborg_gnome_backup_restore_la_LIBADD =		\
+	$(SHELL_LIBS)				\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/shell/libeshell.la
 
 privlibexec_PROGRAMS = evolution-backup
 evolution_backup_SOURCES = backup.c
-evolution_backup_LDADD = $(SHELL_LIBS)		\
+evolution_backup_LDADD =			\
+	$(SHELL_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la
 
 if OS_WIN32

@@ -104,6 +104,7 @@ dnl already fixed in git, just waiting for a formal release.
 dnl	-DGTK_DISABLE_SINGLE_INCLUDES
 
 CFLAGS="$CFLAGS $WARNING_FLAGS"
+LDFLAGS="$LDFLAGS -Wl,--no-undefined"
 
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
