@@ -1,22 +1,22 @@
 # translation of eu.po to Basque
-# Copyright (C) 2001, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2004, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 #
 #: ../shell/main.c:589
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2004.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2005, 2006, 2008.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2005, 2006, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-09 10:30+0000\n"
-"PO-Revision-Date: 2008-09-18 13:01+0200\n"
+"PO-Revision-Date: 2009-08-28 12:50+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
@@ -15954,7 +15954,7 @@ msgstr "gaiak hau dauka"
 
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Recipients contains"
-msgstr "Gaiak edo Bidaltzaileak hau dauka"
+msgstr "Gaiak edo Hartzaileak hau dauka"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Sender contains"
