@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 06:33+0000\n"
-"PO-Revision-Date: 2009-08-28 11:49+0200\n"
+"PO-Revision-Date: 2009-08-28 11:51+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -15049,7 +15049,7 @@ msgstr "Gaiak edo Helbideak hau dauka"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Recipients contains"
-msgstr "Gaiak edo Bidaltzaileak hau dauka"
+msgstr "Gaiak edo Hartzaileak hau dauka"
 
 #: ../mail/searchtypes.xml.h:8
 msgid "Subject or Sender contains"
