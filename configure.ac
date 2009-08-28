@@ -983,7 +983,7 @@ if test "x${enable_python}" = "xyes"; then
 		changequote([, ])dnl
 
 		if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h -a "$PY_MAJOR" = "2."; then
-		   	PY_LIBS="-lpython$PY_VERSION -L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+			PY_LIBS="-lpython$PY_VERSION -L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
 			PY_INCLUDES="-I$PY_PREFIX/include/python$PY_VERSION"
 			AC_MSG_RESULT([ok])
 			python_package="python-devel"
@@ -1135,22 +1135,22 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 
 			AC_CACHE_CHECK([for Mozilla nspr libraries], [ac_cv_moz_nspr_libs],
 			[
-		       		LIBS_save="$LIBS"
+				LIBS_save="$LIBS"
 				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
 
 				if test "x${with_nspr_libs}" != "x"; then
-		       			LIBS="$nsprlibs"
-		       			LDFLAGS="$LDFLAGS -L$with_nspr_libs"
+					LIBS="$nsprlibs"
+					LDFLAGS="$LDFLAGS -L$with_nspr_libs"
 				else
-		       			LIBS="$nsprlibs"
-		       			LDFLAGS="$LDFLAGS"
+					LIBS="$nsprlibs"
+					LDFLAGS="$LDFLAGS"
 				fi
 
 				AC_LINK_IFELSE([AC_LANG_CALL([], [PR_Init])],
 				[ac_cv_moz_nspr_libs="yes"], [ac_cv_moz_nspr_libs="no"])
 				CFLAGS="$CFLAGS_save"
 				LDFLAGS="$LDFLAGS_save"
-	 			LIBS="$LIBS_save"
+				LIBS="$LIBS_save"
 			])
 			if test "x$ac_cv_moz_nspr_libs" != "xno"; then
 				have_nspr_libs="yes"
@@ -1204,7 +1204,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 			LDFLAGS_save="$LDFLAGS"
 
 			if test "$enable_nss" = "static"; then
-		    		if test -z "${with_nss_libs}"; then
+				if test -z "${with_nss_libs}"; then
 					AC_MSG_ERROR([Static linkage requested, but path to nss libraries not set.]
 					[Please specify the path to libnss3.a]
 					[Example: --with-nspr-libs=/usr/lib/mozilla])
@@ -1217,14 +1217,14 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 					esac
 				fi
 			else
-		 		nsslibs="-lssl3 -lsmime3 -lnss3"
+				nsslibs="-lssl3 -lsmime3 -lnss3"
 			fi
 
 			AC_CACHE_CHECK([for Mozilla nss libraries], [ac_cv_moz_nss_libs],
 			[
-	 			LIBS_save="$LIBS"
+				LIBS_save="$LIBS"
 				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-		      		LIBS="$nsslibs $nsprlibs"
+				LIBS="$nsslibs $nsprlibs"
 				AC_LINK_IFELSE([AC_LANG_CALL([], [NSS_Init])],
 				[ac_cv_moz_nss_libs="yes"], [ac_cv_moz_nss_libs="no"])
 				if test "$ac_cv_moz_nss_libs" = no; then
@@ -1234,7 +1234,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 					[ac_cv_moz_nss_libs="yes"], [ac_cv_moz_nss_libs="no"])
 				fi
 				LDFLAGS="$LDFLAGS_save"
-	 			LIBS="$LIBS_save"
+				LIBS="$LIBS_save"
 			])
 			if test "$ac_cv_moz_nss_libs" != no; then
 				AC_DEFINE(HAVE_NSS)
@@ -1242,7 +1242,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"$with_nss_libs", [Define to the full path of mozilla nss library])
 				if test "$enable_nss" = "static"; then
 					msg_ssl="yes (Mozilla NSS:static)"
-		 		else
+				else
 					msg_ssl="yes (Mozilla NSS)"
 				fi
 				dnl static_nss
@@ -1529,7 +1529,7 @@ fi
 dnl ******************************
 dnl CERT_UI Flags
 dnl ******************************
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0, $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS, 	$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0, $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS, $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
