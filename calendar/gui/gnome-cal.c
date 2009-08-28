@@ -134,10 +134,6 @@ struct _GnomeCalendarPrivate {
 	   it uses the date range set in search bar */
 	gboolean lview_select_daten_range;
 
-	/* We should know which calendar has been used to create object, so store it here
-	   before emitting "user_created" signal and make it NULL just after the emit. */
-	ECal *user_created_cal;
-
 	/* used in update_todo_view, to prevent interleaving when called in separate thread */
 	GMutex *todo_update_lock;
 };

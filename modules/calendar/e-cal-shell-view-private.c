@@ -441,8 +441,6 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		date_navigator->calitem, (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
-	/* KILL-BONOBO FIXME -- Need to connect to the "user-created"
-	 *                      signal for each ECalendarView. */
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
 		ECalendarView *calendar_view;
 
@@ -452,6 +450,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		g_signal_connect_swapped (
 			calendar_view, "popup-event",
 			G_CALLBACK (cal_shell_view_popup_event_cb),
+			cal_shell_view);
+
+		g_signal_connect_swapped (
+			calendar_view, "user-created",
+			G_CALLBACK (cal_shell_view_user_created_cb),
 			cal_shell_view);
 	}
 

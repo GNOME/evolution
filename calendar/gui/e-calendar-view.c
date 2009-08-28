@@ -43,6 +43,7 @@
 #include "common/authentication.h"
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "ea-calendar.h"
 #include "e-cal-model-calendar.h"
 #include "e-calendar-view.h"
 #include "itip-utils.h"
@@ -56,7 +57,6 @@
 #include "dialogs/select-source-dialog.h"
 #include "print.h"
 #include "goto.h"
-/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
 #include "misc.h"
 
 #define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
@@ -307,10 +307,8 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	gtk_binding_entry_add_signal (
 		binding_set, GDK_o, GDK_CONTROL_MASK, "open-event", 0);
 
-#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
 	e_cal_view_a11y_init ();
-#endif
 }
 
 static void

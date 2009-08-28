@@ -30,7 +30,7 @@
 #endif
 
 #include "e-week-view.h"
-/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
+#include "ea-calendar.h"
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
@@ -445,10 +445,8 @@ e_week_view_class_init (EWeekViewClass *class)
 			TRUE,
 			G_PARAM_READWRITE));
 
-#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
-#endif
 }
 
 static void

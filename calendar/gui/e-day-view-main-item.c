@@ -32,7 +32,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
-/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
+#include "ea-calendar.h"
 #include "e-calendar-view.h"
 #include "comp-util.h"
 #include "calendar-config.h"
@@ -112,9 +112,7 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 			G_PARAM_WRITABLE));
 
 	/* init the accessibility support for e_day_view */
-#if 0  /* KILL-BONOBO */
 	e_day_view_main_item_a11y_init ();
-#endif
 }
 
 static void

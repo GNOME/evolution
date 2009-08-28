@@ -26,7 +26,7 @@
 #endif
 
 #include "e-day-view.h"
-/*#include "a11y/ea-calendar.h"*/  /* KILL-BONOBO */
+#include "ea-calendar.h"
 
 #include <math.h>
 #include <time.h>
@@ -790,10 +790,8 @@ e_day_view_class_init (EDayViewClass *class)
 			0,
 			G_PARAM_READWRITE));
 
-#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
 	e_day_view_a11y_init ();
-#endif
 }
 
 static void
