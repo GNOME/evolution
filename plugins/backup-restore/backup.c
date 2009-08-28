@@ -324,7 +324,7 @@ check (const gchar *filename)
 
 	g_message ("Third result %d", result);
 
-	return result != 0;
+	return result == 0;
 }
 
 static gboolean
