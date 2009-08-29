@@ -1,4 +1,6 @@
 /*
+ * em-junk.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -14,34 +16,16 @@
  *
  *
  * Authors:
- *		Johnny Jacob <jjohnny@novell.com>
+ *		Vivek Jain <jvivek@novell.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _ORG_GNOME_EVOLUTION_PYTHON_H
-#define _ORG_GNOME_EVOLUTION_PYTHON_H
+#include "em-junk.h"
 
-#include "e-util/e-plugin.h"
-
-typedef struct _EPluginPython EPluginPython;
-typedef struct _EPluginPythonClass EPluginPythonClass;
-
-struct _EPluginPython {
-	EPlugin plugin;
-
-	struct _EPluginPythonPrivate *priv;
-
-	gchar *location;		/* location */
-	gchar *pClass;		/* handler class */
-        gchar *module_name;
-};
-
-struct _EPluginPythonClass {
-	EPluginClass plugin_class;
-};
-
-gpointer org_gnome_evolution_python_get_type(gpointer a, gpointer b);
-
-#endif /* ! _ORG_GNOME_EVOLUTION_PYTHON_H */
+GQuark
+em_junk_error_quark (void)
+{
+	return g_quark_from_static_string ("em-junk-error-quark");
+}

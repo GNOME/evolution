@@ -94,7 +94,7 @@ gboolean org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *
 GtkWidget *org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
    so declare the functions here
@@ -1655,7 +1655,7 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (enable) {
 		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);

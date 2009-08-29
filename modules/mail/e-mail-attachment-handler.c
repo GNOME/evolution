@@ -1,5 +1,5 @@
 /*
- * e-attachment-handler-mail.c
+ * e-mail-attachment-handler.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-attachment-handler-mail.h"
+#include "e-mail-attachment-handler.h"
 
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
@@ -29,15 +29,16 @@
 #include "mail/em-composer-utils.h"
 #include "mail/mail-tools.h"
 
-#define E_ATTACHMENT_HANDLER_MAIL_GET_PRIVATE(obj) \
+#define E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER_MAIL, EAttachmentHandlerMailPrivate))
+	((obj), E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate))
 
-struct _EAttachmentHandlerMailPrivate {
+struct _EMailAttachmentHandlerPrivate {
 	gint placeholder;
 };
 
 static gpointer parent_class;
+static GType mail_attachment_handler_type;
 
 static const gchar *ui =
 "<ui>"
@@ -57,7 +58,7 @@ static GtkTargetEntry target_table[] = {
 };
 
 static void
-attachment_handler_mail_forward (GtkAction *action,
+mail_attachment_handler_forward (GtkAction *action,
                                  EAttachmentView *view)
 {
 	EAttachment *attachment;
@@ -79,7 +80,7 @@ attachment_handler_mail_forward (GtkAction *action,
 }
 
 static void
-attachment_handler_mail_reply_all (GtkAction *action,
+mail_attachment_handler_reply_all (GtkAction *action,
                                    EAttachmentView *view)
 {
 	EAttachment *attachment;
@@ -103,7 +104,7 @@ attachment_handler_mail_reply_all (GtkAction *action,
 }
 
 static void
-attachment_handler_mail_reply_sender (GtkAction *action,
+mail_attachment_handler_reply_sender (GtkAction *action,
                                       EAttachmentView *view)
 {
 	EAttachment *attachment;
@@ -133,25 +134,25 @@ static GtkActionEntry standard_entries[] = {
 	  N_("_Forward"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_mail_forward) },
+	  G_CALLBACK (mail_attachment_handler_forward) },
 
 	{ "mail-reply-all",
 	  "mail-reply-all",
 	  N_("Reply to _All"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_mail_reply_all) },
+	  G_CALLBACK (mail_attachment_handler_reply_all) },
 
 	{ "mail-reply-sender",
 	  "mail-reply-sender",
 	  N_("_Reply to Sender"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (attachment_handler_mail_reply_sender) }
+	  G_CALLBACK (mail_attachment_handler_reply_sender) }
 };
 
 static void
-attachment_handler_mail_message_rfc822 (EAttachmentView *view,
+mail_attachment_handler_message_rfc822 (EAttachmentView *view,
                                         GdkDragContext *drag_context,
                                         gint x,
                                         gint y,
@@ -213,7 +214,7 @@ exit:
 }
 
 static void
-attachment_handler_mail_x_uid_list (EAttachmentView *view,
+mail_attachment_handler_x_uid_list (EAttachmentView *view,
                                     GdkDragContext *drag_context,
                                     gint x,
                                     gint y,
@@ -380,7 +381,7 @@ exit:
 }
 
 static void
-attachment_handler_mail_update_actions (EAttachmentView *view)
+mail_attachment_handler_update_actions (EAttachmentView *view)
 {
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
@@ -413,7 +414,7 @@ exit:
 }
 
 static void
-attachment_handler_mail_constructed (GObject *object)
+mail_attachment_handler_constructed (GObject *object)
 {
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
@@ -443,28 +444,28 @@ attachment_handler_mail_constructed (GObject *object)
 
 	g_signal_connect (
 		view, "update-actions",
-		G_CALLBACK (attachment_handler_mail_update_actions),
+		G_CALLBACK (mail_attachment_handler_update_actions),
 		NULL);
 
 	g_signal_connect (
 		view, "drag-data-received",
-		G_CALLBACK (attachment_handler_mail_message_rfc822),
+		G_CALLBACK (mail_attachment_handler_message_rfc822),
 		NULL);
 
 	g_signal_connect (
 		view, "drag-data-received",
-		G_CALLBACK (attachment_handler_mail_x_uid_list),
+		G_CALLBACK (mail_attachment_handler_x_uid_list),
 		NULL);
 }
 
 static GdkDragAction
-attachment_handler_mail_get_drag_actions (EAttachmentHandler *handler)
+mail_attachment_handler_get_drag_actions (EAttachmentHandler *handler)
 {
 	return GDK_ACTION_COPY;
 }
 
 static const GtkTargetEntry *
-attachment_handler_mail_get_target_table (EAttachmentHandler *handler,
+mail_attachment_handler_get_target_table (EAttachmentHandler *handler,
                                           guint *n_targets)
 {
 	if (n_targets != NULL)
@@ -474,51 +475,51 @@ attachment_handler_mail_get_target_table (EAttachmentHandler *handler,
 }
 
 static void
-attachment_handler_mail_class_init (EAttachmentHandlerMailClass *class)
+mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
 	EAttachmentHandlerClass *handler_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EAttachmentHandlerMailPrivate));
+	g_type_class_add_private (class, sizeof (EMailAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = attachment_handler_mail_constructed;
+	object_class->constructed = mail_attachment_handler_constructed;
 
 	handler_class = E_ATTACHMENT_HANDLER_CLASS (class);
-	handler_class->get_drag_actions = attachment_handler_mail_get_drag_actions;
-	handler_class->get_target_table = attachment_handler_mail_get_target_table;
+	handler_class->get_drag_actions = mail_attachment_handler_get_drag_actions;
+	handler_class->get_target_table = mail_attachment_handler_get_target_table;
 }
 
 static void
-attachment_handler_mail_init (EAttachmentHandlerMail *handler)
+mail_attachment_handler_init (EMailAttachmentHandler *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_MAIL_GET_PRIVATE (handler);
+	handler->priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 }
 
 GType
-e_attachment_handler_mail_get_type (void)
+e_mail_attachment_handler_get_type (void)
 {
-	static GType type = 0;
+	return mail_attachment_handler_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentHandlerMailClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_handler_mail_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentHandlerMail),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_handler_mail_init,
-			NULL   /* value_table */
-		};
+void
+e_mail_attachment_handler_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EMailAttachmentHandlerClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_attachment_handler_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailAttachmentHandler),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_attachment_handler_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_ATTACHMENT_HANDLER,
-			"EAttachmentHandlerMail", &type_info, 0);
-	}
-
-	return type;
+	mail_attachment_handler_type = g_type_module_register_type (
+		type_module, E_TYPE_ATTACHMENT_HANDLER,
+		"EMailAttachmentHandler", &type_info, 0);
 }

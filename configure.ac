@@ -956,10 +956,11 @@ AC_ARG_ENABLE([mono],
 if test "x${enable_mono}" = "xyes"; then
 	PKG_CHECK_MODULES([MONO], ["mono"])
 	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
-	MONO_PLUGIN="mono"
 fi
 AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)
+
+AM_CONDITIONAL(ENABLE_MONO, [test "x$enable_mono" = "xyes"])
 
 dnl ******************************
 dnl Python hooks
@@ -988,18 +989,18 @@ if test "x${enable_python}" = "xyes"; then
 			PY_INCLUDES="-I$PY_PREFIX/include/python$PY_VERSION"
 			AC_MSG_RESULT([ok])
 			python_package="python-devel"
-			PYTHON_PLUGIN="python"
 		else
 			AC_MSG_ERROR([Can't find Python.h])
 			PY_LIBS=""
 			PY_INCLUDES=""
 			python_package=""
-			PYTHON_PLUGIN=""
 		fi
 	fi
 	AC_SUBST(PY_LIBS)
 	AC_SUBST(PY_INCLUDES)
 fi
+
+AM_CONDITIONAL(ENABLE_PYTHON, [test "x$enable_python" = "xyes"])
 
 
 dnl ********************************************************************************
@@ -1808,8 +1809,8 @@ AC_ARG_ENABLE([plugins],
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
-plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN "
-all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
+plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN"
+all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations"
 
 plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
 
@@ -1817,7 +1818,7 @@ plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
 plugins_experimental_always="face external-editor hula-account-setup"
-plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS $PYTHON_PLUGIN"
+plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
@@ -1829,9 +1830,7 @@ dnl exchange-operations
 dnl groupwise-features
 dnl ipod-sync
 dnl mailing-list-actions
-dnl mono
 dnl publish-calendar
-dnl python
 dnl save-calendar
 
 case x"$enable_plugins" in
@@ -1872,17 +1871,6 @@ x | xyes)
 	AC_DEFINE(ENABLE_PROFILING,1,[Profiling Hooks Enabled])
 	;;
 esac
-
-if test "x${enable_mono}" = "xyes"; then
-	plugins_enabled="$plugins_enabled mono"
-	msg_plugins="$msg_plugins (and mono)"
-fi
-
-
-if test "x${enable_python}" = "xyes"; then
-	plugins_enabled="$plugins_enabled python"
-	msg_plugins="$msg_plugins (and python)"
-fi
 
 AC_SUBST(plugins_enabled)
 AC_SUBST(all_plugins_base)
@@ -2088,6 +2076,9 @@ modules/Makefile
 modules/addressbook/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
+modules/plugin-lib/Makefile
+modules/plugin-mono/Makefile
+modules/plugin-python/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
@@ -2116,13 +2107,11 @@ plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
 plugins/mailing-list-actions/Makefile
 plugins/mark-all-read/Makefile
-plugins/mono/Makefile
 plugins/plugin-manager/Makefile
 plugins/prefer-plain/Makefile
 plugins/profiler/Makefile
 plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
-plugins/python/Makefile
 plugins/sa-junk-plugin/Makefile
 plugins/save-calendar/Makefile
 plugins/startup-wizard/Makefile

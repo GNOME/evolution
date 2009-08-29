@@ -192,10 +192,10 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	g_free(tmpdir);
 }
 
-gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable(EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable)
+e_plugin_lib_enable(EPlugin *ep, gint enable)
 {
     if (loaded)
 	    return 0;

@@ -19,6 +19,8 @@
  *
  */
 
+#include "e-book-config-hook.h"
+
 #include "e-book-shell-backend.h"
 #include "e-book-shell-content.h"
 #include "e-book-shell-sidebar.h"
@@ -32,6 +34,8 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
+
+	e_book_config_hook_register_type (type_module);
 
 	e_book_shell_backend_register_type (type_module);
 	e_book_shell_content_register_type (type_module);

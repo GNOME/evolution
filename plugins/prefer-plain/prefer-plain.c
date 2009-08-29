@@ -243,10 +243,10 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	return (GtkWidget *)dropdown;
 }
 
-gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable(EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable)
+e_plugin_lib_enable(EPlugin *ep, gint enable)
 {
 	gchar *key;
 	gint i;

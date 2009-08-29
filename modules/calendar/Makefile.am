@@ -10,6 +10,12 @@ module_LTLIBRARIES =					\
 
 libevolution_module_calendar_la_SOURCES =		\
 	evolution-module-calendar.c			\
+	e-cal-attachment-handler.c			\
+	e-cal-attachment-handler.h			\
+	e-cal-config-hook.c				\
+	e-cal-config-hook.h				\
+	e-cal-event-hook.c				\
+	e-cal-event-hook.h				\
 	e-cal-shell-backend.c				\
 	e-cal-shell-backend.h				\
 	e-cal-shell-content.c				\
@@ -56,9 +62,6 @@ libevolution_module_calendar_la_SOURCES =		\
 	e-task-shell-view-actions.h			\
 	e-task-shell-view-private.c			\
 	e-task-shell-view-private.h
-
-# Removed from all three
-#	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
 
 libevolution_module_calendar_la_LIBADD =		\
 	$(top_builddir)/shell/libeshell.la		\

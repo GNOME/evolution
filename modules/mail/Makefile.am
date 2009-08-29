@@ -12,8 +12,14 @@ module_LTLIBRARIES = libevolution-module-mail.la
 
 libevolution_module_mail_la_SOURCES =					\
 	evolution-module-mail.c						\
-	e-attachment-handler-mail.c					\
-	e-attachment-handler-mail.h					\
+	e-mail-attachment-handler.c					\
+	e-mail-attachment-handler.h					\
+	e-mail-config-hook.c						\
+	e-mail-config-hook.h						\
+	e-mail-event-hook.c						\
+	e-mail-event-hook.h						\
+	e-mail-junk-hook.c						\
+	e-mail-junk-hook.h						\
 	e-mail-shell-backend.c						\
 	e-mail-shell-backend.h						\
 	e-mail-shell-content.c						\

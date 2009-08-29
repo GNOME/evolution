@@ -47,7 +47,7 @@
 
 #include "e-mail-label-manager.h"
 #include "mail-config.h"
-#include "em-junk-hook.h"
+#include "em-junk.h"
 #include "em-config.h"
 #include "mail-session.h"
 
@@ -710,17 +710,17 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
 	while (plugins) {
-		struct _EMJunkHookItem *item = plugins->data;;
+		EMJunkInterface *iface = plugins->data;
 
-		if (item->plugin_name && def_plugin && !strcmp (item->plugin_name, def_plugin)) {
+		if (iface->plugin_name && def_plugin && !strcmp (iface->plugin_name, def_plugin)) {
 			gboolean status;
 
-			session->junk_plugin = CAMEL_JUNK_PLUGIN (&(item->csp));
-			status = e_plugin_invoke (item->hook->hook.plugin, item->validate_binary, NULL) != NULL;
+			session->junk_plugin = CAMEL_JUNK_PLUGIN (&iface->camel);
+			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
 			if ((gboolean)status == TRUE) {
 				gchar *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), iface->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);
@@ -728,7 +728,7 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 			} else {
 				gchar *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
-				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), iface->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);
@@ -761,20 +761,20 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 	}
 
 	while (plugins) {
-		struct _EMJunkHookItem *item = plugins->data;;
+		EMJunkInterface *iface = plugins->data;
 
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), item->plugin_name);
-		if (!def_set && pdefault && item->plugin_name && !strcmp(pdefault, item->plugin_name)) {
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), iface->plugin_name);
+		if (!def_set && pdefault && iface->plugin_name && !strcmp(pdefault, iface->plugin_name)) {
 			gboolean status;
 
 			def_set = TRUE;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
-			status = e_plugin_invoke (item->hook->hook.plugin, item->validate_binary, NULL) != NULL;
+			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
 			if (status) {
 				gchar *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-info", GTK_ICON_SIZE_MENU);
 				/* May be a better text */
-				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is available and the binary is installed."), iface->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);
@@ -783,7 +783,7 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 				gchar *text, *html;
 				gtk_image_set_from_stock (prefs->plugin_image, "gtk-dialog-warning", GTK_ICON_SIZE_MENU);
 				/* May be a better text */
-				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), item->plugin_name);
+				text = g_strdup_printf (_("%s plugin is not available. Please check whether the package is installed."), iface->plugin_name);
 				html = g_strdup_printf ("<i>%s</i>", text);
 				gtk_label_set_markup (prefs->plugin_status, html);
 				g_free (html);

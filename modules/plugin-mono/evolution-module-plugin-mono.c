@@ -1,4 +1,5 @@
 /*
+ * evolution-module-plugin-mono.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,38 +15,27 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
- * Authors:
- *		Sankar P <psankar@novell.com>
- *		Michael Zucchi <notzed@novell.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _ORG_GNOME_EVOLUTION_MONO_H
-#define _ORG_GNOME_EVOLUTION_MONO_H
+#include <config.h>
 
-#include "e-util/e-plugin.h"
+#include "e-plugin-mono.h"
 
-/* ********************************************************************** */
-/* This is ALL private */
+/* Module Entry Points */
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
 
-typedef struct _EPluginMono EPluginMono;
-typedef struct _EPluginMonoClass EPluginMonoClass;
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	/* Register dynamically loaded types. */
 
-struct _EPluginMono {
-	EPlugin plugin;
+	e_plugin_mono_register_type (type_module);
+}
 
-	struct _EPluginMonoPrivate *priv;
-
-	gchar *location;		/* location */
-	gchar *handler;		/* handler class */
-};
-
-struct _EPluginMonoClass {
-	EPluginClass plugin_class;
-};
-
-gpointer org_gnome_evolution_mono_get_type(gpointer a, gpointer b);
-
-#endif /* ! _ORG_GNOME_EVOLUTION_MONO_H */
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
+}

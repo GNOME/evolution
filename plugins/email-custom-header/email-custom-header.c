@@ -79,13 +79,13 @@ static void epech_dialog_dispose (GObject *object);
 static void epech_setup_widgets (CustomHeaderOptionsDialog *mch);
 static gint epech_check_existing_composer_window(gconstpointer a, gconstpointer b);
 static void commit_changes (ConfigData *cd);
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init(GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
         return 0;
 }

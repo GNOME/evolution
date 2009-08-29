@@ -66,21 +66,6 @@ GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
 ECalEventTargetBackend* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
 
-/* ********************************************************************** */
-
-typedef struct _ECalEventHook ECalEventHook;
-typedef struct _ECalEventHookClass ECalEventHookClass;
-
-struct _ECalEventHook {
-	EEventHook hook;
-};
-
-struct _ECalEventHookClass {
-	EEventHookClass hook_class;
-};
-
-GType e_cal_event_hook_get_type (void);
-
 G_END_DECLS
 
 #endif /* __E_CAL_EVENT_H__ */

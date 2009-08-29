@@ -91,21 +91,6 @@ EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, CamelFolder *fo
 EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, GConfClient *gconf);
 EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, EAccount *account);
 
-/* ********************************************************************** */
-
-typedef struct _EMConfigHook EMConfigHook;
-typedef struct _EMConfigHookClass EMConfigHookClass;
-
-struct _EMConfigHook {
-	EConfigHook hook;
-};
-
-struct _EMConfigHookClass {
-	EConfigHookClass hook_class;
-};
-
-GType em_config_hook_get_type(void);
-
 G_END_DECLS
 
 #endif /* __EM_CONFIG_H__ */

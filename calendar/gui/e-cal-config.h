@@ -71,21 +71,6 @@ ECalConfig *e_cal_config_new (gint type, const gchar *menuid);
 ECalConfigTargetSource *e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source);
 ECalConfigTargetPrefs *e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf);
 
-/* ********************************************************************** */
-
-typedef struct _ECalConfigHook ECalConfigHook;
-typedef struct _ECalConfigHookClass ECalConfigHookClass;
-
-struct _ECalConfigHook {
-	EConfigHook hook;
-};
-
-struct _ECalConfigHookClass {
-	EConfigHookClass hook_class;
-};
-
-GType e_cal_config_hook_get_type (void);
-
 G_END_DECLS
 
 #endif

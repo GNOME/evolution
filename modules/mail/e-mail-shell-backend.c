@@ -42,7 +42,6 @@
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
 
-#include "e-attachment-handler-mail.h"
 #include "e-mail-browser.h"
 #include "e-mail-local.h"
 #include "e-mail-reader.h"
@@ -51,12 +50,9 @@
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
-#include "em-config.h"
-#include "em-event.h"
 #include "em-folder-utils.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
-#include "em-junk-hook.h"
 #include "em-mailer-prefs.h"
 #include "em-network-prefs.h"
 #include "em-utils.h"
@@ -83,22 +79,6 @@ static gpointer parent_class;
 static GType mail_shell_backend_type;
 
 extern gint camel_application_is_exiting;
-
-static void
-mail_shell_backend_init_hooks (void)
-{
-	e_plugin_hook_register_type (em_config_hook_get_type ());
-	e_plugin_hook_register_type (em_event_hook_get_type ());
-	e_plugin_hook_register_type (em_junk_hook_get_type ());
-
-	/* EMFormat classes must be registered before EMFormatHook. */
-	em_format_hook_register_type (em_format_get_type ());
-	em_format_hook_register_type (em_format_html_get_type ());
-	em_format_hook_register_type (em_format_html_display_get_type ());
-	e_plugin_hook_register_type (em_format_hook_get_type ());
-
-	em_junk_hook_register_type (emj_get_type ());
-}
 
 static void
 mail_shell_backend_init_importers (void)
@@ -812,10 +792,15 @@ mail_shell_backend_constructed (GObject *object)
 	/* This also initializes Camel, so it needs to happen early. */
 	mail_session_init (shell_backend);
 
-	mail_shell_backend_init_hooks ();
-	mail_shell_backend_init_importers ();
+	/* Register format types for EMFormatHook. */
+	em_format_hook_register_type (em_format_get_type ());
+	em_format_hook_register_type (em_format_html_get_type ());
+	em_format_hook_register_type (em_format_html_display_get_type ());
 
-	e_attachment_handler_mail_get_type ();
+	/* Register plugin hook types. */
+	em_format_hook_get_type ();
+
+	mail_shell_backend_init_importers ();
 
 	g_signal_connect (
 		shell, "notify::online",

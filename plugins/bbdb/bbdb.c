@@ -42,7 +42,7 @@
 #define d(x)
 
 /* Plugin hooks */
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 void bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
@@ -106,7 +106,7 @@ find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	/* Start up the plugin. */
 	if (enable) {

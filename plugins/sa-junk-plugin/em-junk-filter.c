@@ -42,7 +42,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-i18n.h>
-#include <mail/em-junk-hook.h>
+#include <mail/em-junk.h>
 #include <mail/em-utils.h>
 #include <e-util/e-mktemp.h>
 
@@ -58,10 +58,10 @@ static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
 
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
-gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkTarget *target);
+void em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target);
+void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkTarget *target);
 void em_junk_sa_commit_reports (EPlugin *ep);
 gpointer em_junk_sa_validate_binary (EPlugin *ep);
 GtkWidget *org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
@@ -571,7 +571,7 @@ em_junk_sa_respawn_spamd ()
 }
 
 gboolean
-em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
+em_junk_sa_check_junk(EPlugin *ep, EMJunkTarget *target)
 {
 	GByteArray *out = NULL;
 	const gchar *argv[7];
@@ -675,7 +675,7 @@ get_spamassassin_version ()
 }
 
 void
-em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	const gchar *sync_op =
 		(get_spamassassin_version () >= 3)
@@ -715,7 +715,7 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 }
 
 void
-em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_sa_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	const gchar *sync_op =
 		(get_spamassassin_version () >= 3)
@@ -812,7 +812,7 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	em_junk_sa_init();
 

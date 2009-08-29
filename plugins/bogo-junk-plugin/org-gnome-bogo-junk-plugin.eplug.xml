@@ -7,13 +7,12 @@
 		<_description>Filter junk messages using Bogofilter.</_description>
 		<author name="Mikhail Zabaluev" email="mhz@altlinux.org"/>
 		<hook class="org.gnome.evolution.mail.junk:1.0">
-			<group id="EMJunk" >
-				<item name="Bogofilter" report_non_junk="em_junk_bf_report_non_junk"
-				      report_junk="em_junk_bf_report_junk"
-				      check_junk="em_junk_bf_check_junk"
-				      commit_reports="em_junk_bf_commit_reports" 
-				      validate_binary="em_junk_bf_validate_binary"/>
-			</group>
+			<interface name="Bogofilter"
+			  report_non_junk="em_junk_bf_report_non_junk"
+			  report_junk="em_junk_bf_report_junk"
+			  check_junk="em_junk_bf_check_junk"
+			  commit_reports="em_junk_bf_commit_reports" 
+			  validate_binary="em_junk_bf_validate_binary"/>
 		</hook>
 		<!-- hook into the 'mail properties' menu -->
 		<hook class="org.gnome.evolution.mail.config:1.0">

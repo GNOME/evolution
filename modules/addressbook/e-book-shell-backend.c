@@ -39,7 +39,6 @@
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
 
-#include "eab-config.h"
 #include "addressbook-config.h"
 #include "autocompletion-config.h"
 
@@ -497,8 +496,6 @@ book_shell_backend_constructed (GObject *object)
 
 	book_shell_backend_init_importers ();
 	book_shell_backend_ensure_sources (shell_backend);
-
-	e_plugin_hook_register_type (eab_config_get_type ());
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",

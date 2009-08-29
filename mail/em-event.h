@@ -141,21 +141,6 @@ EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *fol
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags);
 EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);
 
-/* ********************************************************************** */
-
-typedef struct _EMEventHook EMEventHook;
-typedef struct _EMEventHookClass EMEventHookClass;
-
-struct _EMEventHook {
-	EEventHook hook;
-};
-
-struct _EMEventHookClass {
-	EEventHookClass hook_class;
-};
-
-GType em_event_hook_get_type(void);
-
 G_END_DECLS
 
 #endif /* __EM_EVENT_H__ */

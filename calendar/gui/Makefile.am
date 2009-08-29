@@ -14,7 +14,6 @@ ecalendarinclude_HEADERS =			\
 	calendar-config-keys.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
-	e-attachment-handler-calendar.h		\
 	e-cal-config.h				\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
@@ -96,8 +95,6 @@ libevolution_calendar_la_SOURCES = \
 	comp-util.h				\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
-	e-attachment-handler-calendar.c		\
-	e-attachment-handler-calendar.h		\
 	e-cal-component-preview.c		\
 	e-cal-component-preview.h		\
 	e-cal-config.c				\

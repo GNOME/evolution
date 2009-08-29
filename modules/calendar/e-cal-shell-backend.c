@@ -38,9 +38,6 @@
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
-#include "calendar/gui/e-attachment-handler-calendar.h"
-#include "calendar/gui/e-cal-config.h"
-#include "calendar/gui/e-cal-event.h"
 #include "calendar/gui/dialogs/cal-prefs-dialog.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
@@ -509,13 +506,6 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-cal_shell_backend_init_hooks (void)
-{
-	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
-	e_plugin_hook_register_type (e_cal_event_hook_get_type ());
-}
-
-static void
 cal_shell_backend_init_importers (void)
 {
 	EImportClass *import_class;
@@ -778,15 +768,12 @@ cal_shell_backend_constructed (GObject *object)
 		G_CALLBACK (cal_shell_backend_window_created_cb),
 		shell_backend);
 
-	cal_shell_backend_init_hooks ();
 	cal_shell_backend_init_importers ();
 
 	/* Initialize settings before initializing preferences,
 	 * since the preferences bind to the shell settings. */
 	e_cal_shell_backend_init_settings (shell);
 	cal_shell_backend_init_preferences (shell);
-
-	e_attachment_handler_calendar_get_type ();
 }
 
 static void

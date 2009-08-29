@@ -257,12 +257,6 @@ idle_cb (gchar **uris)
 	if (unique_app_is_running (UNIQUE_APP (shell)))
 		gtk_main_quit ();
 
-	/* This must be done after EShell has loaded all the backends.
-	 * For example the mail backend makes the global variable 'session'
-	 * which is being used by several EPlugins */
-	else if (uris == NULL && !disable_eplugin)
-		e_plugin_load_plugins_with_missing_symbols ();
-
 	return FALSE;
 }
 
@@ -406,11 +400,11 @@ static void
 create_default_shell (void)
 {
 	EShell *shell;
-	GConfClient *conf_client;
+	GConfClient *client;
 	gboolean online = TRUE;
 	GError *error = NULL;
 
-	conf_client = gconf_client_get_default ();
+	client = gconf_client_get_default ();
 
 	if (start_online)
 		online = TRUE;
@@ -421,7 +415,7 @@ create_default_shell (void)
 		gboolean value;
 
 		key = "/apps/evolution/shell/start_offline";
-		value = gconf_client_get_bool (conf_client, key, &error);
+		value = gconf_client_get_bool (client, key, &error);
 		if (error == NULL)
 			online = !value;
 		else {
@@ -440,7 +434,7 @@ create_default_shell (void)
 		shell, "window-destroyed",
 		G_CALLBACK (shell_window_destroyed_cb), NULL);
 
-	g_object_unref (conf_client);
+	g_object_unref (client);
 
 	/* EShell keeps its own reference to the first instance for use
 	 * in e_shell_get_default(), so it's safe to unreference here. */
@@ -568,18 +562,6 @@ main (gint argc, gchar **argv)
 	categories_icon_theme_hack ();
 	gtk_accel_map_load (e_get_accels_filename ());
 
-	if (!disable_eplugin) {
-		e_plugin_register_type (e_plugin_lib_get_type ());
-		e_plugin_hook_register_type (es_event_hook_get_type ());
-#ifdef ENABLE_PROFILING
-		e_plugin_hook_register_type (e_profile_event_hook_get_type ());
-#endif
-		e_plugin_hook_register_type (e_plugin_type_hook_get_type ());
-		e_plugin_hook_register_type (e_import_hook_get_type ());
-		e_plugin_hook_register_type (E_TYPE_PLUGIN_UI_HOOK);
-		e_plugin_load_plugins ();
-	}
-
 #ifdef DEVELOPMENT
 	skip_warning_dialog = gconf_client_get_bool (
 		client, SKIP_WARNING_DIALOG_KEY, NULL);
@@ -593,6 +575,20 @@ main (gint argc, gchar **argv)
 	g_object_unref (client);
 
 	create_default_shell ();
+
+	if (!disable_eplugin) {
+		/* Register built-in plugin hook types. */
+		es_event_hook_get_type ();
+#ifdef ENABLE_PROFILING
+		e_profile_event_hook_get_type ();
+#endif
+		e_import_hook_get_type ();
+		e_plugin_ui_hook_get_type ();
+
+		/* All EPlugin and EPluginHook subclasses should be
+		 * registered in GType now, so load plugins now. */
+		e_plugin_load_plugins ();
+	}
 
 	gtk_main ();
 

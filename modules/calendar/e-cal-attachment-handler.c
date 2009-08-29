@@ -1,5 +1,5 @@
 /*
- * e-attachment-handler-calendar.c
+ * e-cal-attachment-handler.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-attachment-handler-calendar.h"
+#include "e-cal-attachment-handler.h"
 
 #include <glib/gi18n.h>
 #include <libical/ical.h>
@@ -29,13 +29,13 @@
 
 #include "calendar/common/authentication.h"
 
-#define E_ATTACHMENT_HANDLER_CALENDAR_GET_PRIVATE(obj) \
+#define E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER_CALENDAR, EAttachmentHandlerCalendarPrivate))
+	((obj), E_TYPE_CAL_ATTACHMENT_HANDLER, ECalAttachmentHandlerPrivate))
 
 typedef struct _ImportContext ImportContext;
 
-struct _EAttachmentHandlerCalendarPrivate {
+struct _ECalAttachmentHandlerPrivate {
 	gint placeholder;
 };
 
@@ -46,6 +46,7 @@ struct _ImportContext {
 };
 
 static gpointer parent_class;
+static GType cal_attachment_handler_type;
 
 static const gchar *ui =
 "<ui>"
@@ -388,7 +389,7 @@ static GtkActionEntry standard_entries[] = {
 };
 
 static void
-attachment_handler_calendar_update_actions (EAttachmentView *view)
+cal_attachment_handler_update_actions (EAttachmentView *view)
 {
 	EAttachment *attachment;
 	GtkAction *action;
@@ -431,7 +432,7 @@ exit:
 }
 
 static void
-attachment_handler_calendar_constructed (GObject *object)
+cal_attachment_handler_constructed (GObject *object)
 {
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
@@ -461,51 +462,51 @@ attachment_handler_calendar_constructed (GObject *object)
 
 	g_signal_connect (
 		view, "update_actions",
-		G_CALLBACK (attachment_handler_calendar_update_actions),
+		G_CALLBACK (cal_attachment_handler_update_actions),
 		NULL);
 }
 
 static void
-attachment_handler_calendar_class_init (EAttachmentHandlerCalendarClass *class)
+cal_attachment_handler_class_init (ECalAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EAttachmentHandlerCalendarPrivate));
+	g_type_class_add_private (class, sizeof (ECalAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = attachment_handler_calendar_constructed;
+	object_class->constructed = cal_attachment_handler_constructed;
 }
 
 static void
-attachment_handler_calendar_init (EAttachmentHandlerCalendar *handler)
+cal_attachment_handler_init (ECalAttachmentHandler *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_CALENDAR_GET_PRIVATE (handler);
+	handler->priv = E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 }
 
 GType
-e_attachment_handler_calendar_get_type (void)
+e_cal_attachment_handler_get_type (void)
 {
-	static GType type = 0;
+	return cal_attachment_handler_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentHandlerCalendarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_handler_calendar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentHandlerCalendar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_handler_calendar_init,
-			NULL   /* value_table */
-		};
+void
+e_cal_attachment_handler_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (ECalAttachmentHandlerClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) cal_attachment_handler_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ECalAttachmentHandler),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) cal_attachment_handler_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_ATTACHMENT_HANDLER,
-			"EAttachmentHandlerCalendar", &type_info, 0);
-	}
-
-	return type;
+	cal_attachment_handler_type = g_type_module_register_type (
+		type_module, E_TYPE_ATTACHMENT_HANDLER,
+		"ECalAttachmentHandler", &type_info, 0);
 }

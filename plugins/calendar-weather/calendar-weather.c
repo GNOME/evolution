@@ -42,12 +42,12 @@ GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData 
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data);
-gint        e_plugin_lib_enable (EPluginLib *epl, gint enable);
+gint        e_plugin_lib_enable (EPlugin *epl, gint enable);
 
 #define WEATHER_BASE_URI "weather://"
 
 gint
-e_plugin_lib_enable (EPluginLib *epl, gint enable)
+e_plugin_lib_enable (EPlugin *epl, gint enable)
 {
 	GList *l;
 	const gchar *tmp;

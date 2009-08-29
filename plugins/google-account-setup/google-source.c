@@ -60,7 +60,7 @@
 
 /*****************************************************************************/
 /* prototypes */
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
 void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 
@@ -82,7 +82,7 @@ ensure_google_source_group (void)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 
 	if (enable) {

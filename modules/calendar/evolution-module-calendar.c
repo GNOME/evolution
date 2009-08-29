@@ -19,6 +19,11 @@
  *
  */
 
+#include "e-cal-attachment-handler.h"
+
+#include "e-cal-config-hook.h"
+#include "e-cal-event-hook.h"
+
 #include "e-cal-shell-backend.h"
 #include "e-cal-shell-content.h"
 #include "e-cal-shell-sidebar.h"
@@ -42,6 +47,11 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
+
+	e_cal_attachment_handler_register_type (type_module);
+
+	e_cal_config_hook_register_type (type_module);
+	e_cal_event_hook_register_type (type_module);
 
 	e_cal_shell_backend_register_type (type_module);
 	e_cal_shell_content_register_type (type_module);

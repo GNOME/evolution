@@ -71,7 +71,7 @@ mailinclude_HEADERS =					\
 	em-html-stream.h				\
 	em-icon-stream.h				\
 	em-inline-filter.h				\
-	em-junk-hook.h					\
+	em-junk.h					\
 	em-search-context.h				\
 	em-subscribe-editor.h				\
 	em-sync-stream.h				\
@@ -129,7 +129,7 @@ libevolution_mail_la_SOURCES =				\
 	em-html-stream.c				\
 	em-icon-stream.c				\
 	em-inline-filter.c				\
-	em-junk-hook.c					\
+	em-junk.c					\
 	em-search-context.c				\
 	em-subscribe-editor.c				\
 	em-sync-stream.c				\

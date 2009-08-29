@@ -19,6 +19,12 @@
  *
  */
 
+#include "e-mail-attachment-handler.h"
+
+#include "e-mail-config-hook.h"
+#include "e-mail-event-hook.h"
+#include "e-mail-junk-hook.h"
+
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-content.h"
 #include "e-mail-shell-sidebar.h"
@@ -33,6 +39,12 @@ G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
+
+	e_mail_attachment_handler_register_type (type_module);
+
+	e_mail_config_hook_register_type (type_module);
+	e_mail_event_hook_register_type (type_module);
+	e_mail_junk_hook_register_type (type_module);
 
 	e_mail_shell_backend_register_type (type_module);
 	e_mail_shell_content_register_type (type_module);
