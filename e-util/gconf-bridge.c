@@ -1083,17 +1083,17 @@ gconf_bridge_bind_string_list_store (GConfBridge  *bridge,
                                           (list_store_binding_store_changed_cb),
                                           binding);
         binding->row_changed_id =
-                g_signal_connect_swapped (list_store, "row-inserted",
+                g_signal_connect_swapped (list_store, "row-changed",
                                           G_CALLBACK
                                           (list_store_binding_store_changed_cb),
                                           binding);
         binding->row_deleted_id =
-                g_signal_connect_swapped (list_store, "row-inserted",
+                g_signal_connect_swapped (list_store, "row-deleted",
                                           G_CALLBACK
                                           (list_store_binding_store_changed_cb),
                                           binding);
         binding->rows_reordered_id =
-                g_signal_connect_swapped (list_store, "row-inserted",
+                g_signal_connect_swapped (list_store, "rows-reordered",
                                           G_CALLBACK
                                           (list_store_binding_store_changed_cb),
                                           binding);

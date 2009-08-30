@@ -33,35 +33,40 @@
 #include "filter/filter-option.h"
 #include "filter/filter-int.h"
 
-static FilterElement *em_search_new_element(RuleContext *rc, const gchar *type);
+static gpointer parent_class;
 
-static RuleContextClass *parent_class = NULL;
-
-static void
-em_search_context_finalise (GObject *obj)
+static FilterElement *
+search_context_new_element (RuleContext *context,
+                            const gchar *type)
 {
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	if (strcmp (type, "system-flag") == 0)
+		return (FilterElement *) filter_option_new ();
+
+	if (strcmp (type, "score") == 0)
+		return (FilterElement *) filter_int_new_type ("score", -3, 3);
+
+	/* Chain up to parent's new_element() method. */
+	return RULE_CONTEXT_CLASS (parent_class)->new_element (context, type);
 }
 
 static void
-em_search_context_class_init (EMSearchContextClass *klass)
+search_context_class_init (EMSearchContextClass *class)
 {
-	parent_class = g_type_class_ref (RULE_TYPE_CONTEXT);
+	RuleContextClass *rule_context_class;
 
-	((GObjectClass *)klass)->finalize = em_search_context_finalise;
-	((RuleContextClass *)klass)->new_element = em_search_new_element;
+	parent_class = g_type_class_peek_parent (class);
+
+	rule_context_class = RULE_CONTEXT_CLASS (class);
+	rule_context_class->new_element = search_context_new_element;
 }
 
 static void
-em_search_context_init (EMSearchContext *vc)
+search_context_init (EMSearchContext *vc)
 {
-	rule_context_add_part_set ((RuleContext *)vc, "partset", filter_part_get_type (),
-				   rule_context_add_part, rule_context_next_part);
+	RuleContext *rule_context;
 
-	rule_context_add_rule_set ((RuleContext *)vc, "ruleset", filter_rule_get_type (),
-				   rule_context_add_rule, rule_context_next_rule);
-
-	((RuleContext *)vc)->flags = RULE_CONTEXT_THREADING | RULE_CONTEXT_GROUPING;
+	rule_context = RULE_CONTEXT (vc);
+	rule_context->flags = RULE_CONTEXT_THREADING | RULE_CONTEXT_GROUPING;
 }
 
 GType
@@ -69,46 +74,29 @@ em_search_context_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EMSearchContextClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_search_context_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) search_context_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
 			sizeof (EMSearchContext),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_search_context_init,
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) search_context_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static (RULE_TYPE_CONTEXT, "EMSearchContext", &info, 0);
+		type = g_type_register_static (
+			RULE_TYPE_CONTEXT, "EMSearchContext", &type_info, 0);
 	}
 
 	return type;
 }
 
-/**
- * em_search_context_new:
- *
- * Create a new EMSearchContext object.
- *
- * Return value: A new #EMSearchContext object.
- **/
-EMSearchContext *
+RuleContext *
 em_search_context_new (void)
 {
-	return (EMSearchContext *) g_object_new (EM_SEARCH_TYPE_CONTEXT, NULL, NULL);
-}
-
-static FilterElement *
-em_search_new_element(RuleContext *rc, const gchar *type)
-{
-	if (!strcmp (type, "system-flag")) {
-		return (FilterElement *) filter_option_new ();
-	} else if (!strcmp (type, "score")) {
-		return (FilterElement *) filter_int_new_type("score", -3, 3);
-	} else {
-		return parent_class->new_element(rc, type);
-	}
+	return g_object_new (EM_SEARCH_TYPE_CONTEXT, NULL);
 }

@@ -21,7 +21,7 @@
 #ifndef _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
-#include <misc/e-reflow-model.h>
+#include <text/e-reflow-model.h>
 #include <libebook/e-contact.h>
 #include "e-addressbook-model.h"
 
@@ -47,13 +47,16 @@ struct _EAddressbookReflowAdapterClass {
 	/*
 	 * Signals
 	 */
-	gint (* drag_begin) (EAddressbookReflowAdapter *adapter, GdkEvent *event);
+	gint		(*drag_begin)		(EAddressbookReflowAdapter *adapter,
+						 GdkEvent *event);
+	void		(*open_contact)		(EAddressbookReflowAdapter *adapter,
+						 EContact *contact);
 };
 
 GType         e_addressbook_reflow_adapter_get_type          (void);
 void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,
-							      EABModel         *model);
-EReflowModel *e_addressbook_reflow_adapter_new               (EABModel         *model);
+							      EAddressbookModel         *model);
+EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel         *model);
 
 /* Returns object with ref count of 1. */
 EContact     *e_addressbook_reflow_adapter_get_contact       (EAddressbookReflowAdapter *adapter,

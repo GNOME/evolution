@@ -9,7 +9,8 @@ AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(EVOLUTION_MAIL_CFLAGS)		\
-	$(LIBNOTIFY_CFLAGS)
+	$(LIBNOTIFY_CFLAGS)			\
+	$(CANBERRA_CFLAGS)
 
 if DBUS_SUPPORT
 AM_CPPFLAGS += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
@@ -24,9 +25,12 @@ plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = 	\
 	-module -avoid-version $(NO_UNDEFINED)
-liborg_gnome_mail_notification_la_LIBADD = 	\
-	$(LIBNOTIFY_LIBS)			\
-	$(NO_UNDEFINED_REQUIRED_LIBS)
+liborg_gnome_mail_notification_la_LIBADD = 		\
+	$(CANBERRA_LIBS)				\
+	$(LIBNOTIFY_LIBS)				\
+	$(top_builddir)/e-util/libeutil.la 		\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(GNOME_PLATFORM_LIBS)
 
 if DBUS_SUPPORT
 liborg_gnome_mail_notification_la_LIBADD += $(DBUS_GLIB_LIBS)

@@ -28,7 +28,7 @@
 	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeader))
 #define E_COMPOSER_HEADER_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderClass))
+	((cls), E_TYPE_COMPOSER_HEADER, EComposerHeaderClass))
 #define E_IS_COMPOSER_HEADER(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_COMPOSER_HEADER))
@@ -55,6 +55,10 @@ struct _EComposerHeader {
 
 struct _EComposerHeaderClass {
 	GObjectClass parent_class;
+
+	/* Signals */
+	void		(*changed)		(EComposerHeader *header);
+	void		(*clicked)		(EComposerHeader *header);
 };
 
 GType		e_composer_header_get_type	(void);

@@ -25,31 +25,47 @@
 #ifndef _E_MEMO_TABLE_H_
 #define _E_MEMO_TABLE_H_
 
-#include <gtk/gtk.h>
+#include <shell/e-shell-view.h>
 #include <table/e-table-scrolled.h>
-#include <widgets/misc/e-cell-date-edit.h>
-#include "e-activity-handler.h"
+#include <table/e-cell-date-edit.h>
 #include "e-cal-model.h"
-
-G_BEGIN_DECLS
 
 /*
  * EMemoTable - displays the iCalendar objects in a table (an ETable).
  * Used for memo events and tasks.
+ *
+ * XXX We should look at merging this back into ECalendarTable, or at
+ *     least making ECalendarTable subclassable so we don't have so
+ *     much duplicate code.
  */
 
-#define E_MEMO_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_memo_table_get_type (), EMemoTable)
-#define E_MEMO_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_memo_table_get_type (), EMemoTableClass)
-#define E_IS_MEMO_TABLE(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_memo_table_get_type ())
+/* Standard GObject macros */
+#define E_TYPE_MEMO_TABLE \
+	(e_memo_table_get_type ())
+#define E_MEMO_TABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MEMO_TABLE, EMemoTable))
+#define E_MEMO_TABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MEMO_TABLE, EMemoTableClass))
+#define E_IS_MEMO_TABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MEMO_TABLE))
+#define E_IS_MEMO_TABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MEMO_TABLE))
+#define E_MEMO_TABLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MEMO_TABLE, EMemoTableClass))
 
-typedef struct _EMemoTable       EMemoTable;
-typedef struct _EMemoTableClass  EMemoTableClass;
+G_BEGIN_DECLS
+
+typedef struct _EMemoTable EMemoTable;
+typedef struct _EMemoTableClass EMemoTableClass;
+typedef struct _EMemoTablePrivate EMemoTablePrivate;
 
 struct _EMemoTable {
-	GtkTable table;
-
-	/* The model that we use */
-	ECalModel *model;
+	GtkTable parent;
 
 	GtkWidget *etable;
 
@@ -59,50 +75,51 @@ struct _EMemoTable {
 	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
 
-	/* Activity ID for the EActivityHandler (i.e. the status bar).  */
-	EActivityHandler *activity_handler;
-	guint activity_id;
-
-	/* We should know which calendar has been used to create object, so store it here
-	   before emitting "user_created" signal and make it NULL just after the emit. */
-	ECal *user_created_cal;
+	EMemoTablePrivate *priv;
 };
 
 struct _EMemoTableClass {
 	GtkTableClass parent_class;
 
-	/* Notification signals */
-	void (* user_created) (EMemoTable *memo_table);
+	/* Signals */
+	void	(*open_component)		(EMemoTable *memo_table,
+						 ECalModelComponent *comp_data);
+	void	(*popup_event)			(EMemoTable *memo_table,
+						 GdkEvent *event);
+	void	(*status_message)		(EMemoTable *memo_table,
+						 const gchar *message,
+						 gdouble percent);
+	void	(*user_created)			(EMemoTable *memo_table);
 };
 
-GType		   e_memo_table_get_type (void);
-GtkWidget* e_memo_table_new	(void);
-
-ECalModel *e_memo_table_get_model (EMemoTable *memo_table);
-
-ETable    *e_memo_table_get_table (EMemoTable *memo_table);
-
-void       e_memo_table_open_selected (EMemoTable *memo_table);
-void       e_memo_table_delete_selected (EMemoTable *memo_table);
-
-GSList    *e_memo_table_get_selected (EMemoTable *memo_table);
+GType		e_memo_table_get_type		(void);
+GtkWidget *	e_memo_table_new		(EShellView *shell_view,
+						 ECalModel *model);
+ECalModel *	e_memo_table_get_model		(EMemoTable *memo_table);
+ETable *	e_memo_table_get_table		(EMemoTable *memo_table);
+EShellView *	e_memo_table_get_shell_view	(EMemoTable *memo_table);
+icaltimezone *	e_memo_table_get_timezone	(EMemoTable *memo_table);
+void		e_memo_table_set_timezone	(EMemoTable *memo_table,
+						 icaltimezone *timezone);
+gboolean	e_memo_table_get_use_24_hour_format
+						(EMemoTable *memo_table);
+void		e_memo_table_set_use_24_hour_format
+						(EMemoTable *memo_table,
+						 gboolean use_24_hour_format);
+void		e_memo_table_delete_selected	(EMemoTable *memo_table);
+GSList *	e_memo_table_get_selected	(EMemoTable *memo_table);
 
 /* Clipboard related functions */
-void       e_memo_table_cut_clipboard       (EMemoTable *memo_table);
-void       e_memo_table_copy_clipboard      (EMemoTable *memo_table);
-void       e_memo_table_paste_clipboard     (EMemoTable *memo_table);
+void		e_memo_table_cut_clipboard	(EMemoTable *memo_table);
+void		e_memo_table_copy_clipboard	(EMemoTable *memo_table);
+void		e_memo_table_paste_clipboard	(EMemoTable *memo_table);
 
 /* These load and save the state of the table (headers shown etc.) to/from
    the given file. */
-void	   e_memo_table_load_state		(EMemoTable *memo_table,
-						 gchar		*filename);
-void	   e_memo_table_save_state		(EMemoTable *memo_table,
-						 gchar		*filename);
-
-void       e_memo_table_set_activity_handler (EMemoTable *memo_table,
-					      EActivityHandler *activity_handler);
-void       e_memo_table_set_status_message (EMemoTable *memo_table,
-					    const gchar *message);
+void		e_memo_table_load_state		(EMemoTable *memo_table,
+						 const gchar *filename);
+void		e_memo_table_save_state		(EMemoTable *memo_table,
+						 const gchar *filename);
 
 G_END_DECLS
 

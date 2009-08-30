@@ -382,6 +382,7 @@ create_shared_folder(EPopup *ep, EPopupItem *p, gpointer data)
 
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
+
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	uri = em_folder_tree_get_selected_uri(folder_tree);
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);

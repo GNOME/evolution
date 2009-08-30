@@ -17,17 +17,22 @@
  *
  */
 
-#ifndef CAL_EDITOR_UTILS_HEADER
-#define CAL_EDITOR_UTILS_HEADER
+#ifndef CAL_EDITOR_UTILS_H
+#define CAL_EDITOR_UTILS_H
 
 #include <glib.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
+#include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-void open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GError **error);
+void		open_component_editor		(EShell *shell,
+						 ECal *client,
+						 ECalComponent *comp,
+						 gboolean is_new,
+						 GError **error);
 
 G_END_DECLS
 
-#endif
+#endif /* CAL_EDITOR_UTILS_H */

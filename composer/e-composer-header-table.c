@@ -160,11 +160,11 @@ composer_header_table_notify_header (EComposerHeader *header,
 {
 	GtkWidget *parent;
 
-	if (composer_lite && strcmp (property_name, "destinations-to") == 0) {
-		parent = g_object_get_data((GObject *)header->input_widget, "parent");
-	} else {
+	if (composer_lite && strcmp (property_name, "destinations-to") == 0)
+		parent = g_object_get_data (
+			G_OBJECT (header->input_widget), "parent");
+	else
 		parent = gtk_widget_get_parent (header->input_widget);
-	}
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
 	g_object_notify (G_OBJECT (parent), property_name);
 }
@@ -177,7 +177,7 @@ composer_header_table_notify_widget (GtkWidget *widget,
 
 	if (composer_lite) {
 		parent = gtk_widget_get_parent (widget);
-		parent = g_object_get_data ((GObject *)parent, "pdata");
+		parent = g_object_get_data (G_OBJECT (parent), "pdata");
 	} else
 		parent = gtk_widget_get_parent (widget);
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (parent));
@@ -534,7 +534,6 @@ composer_header_table_constructor (GType type,
 
 	if (composer_lite)
 		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
-
 	ii = E_COMPOSER_HEADER_FROM;
 
 	/* Leave room in the "From" row for signature stuff. */
@@ -559,11 +558,16 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->signature_combo_box,
 			3, 4, ii, ii + 1, composer_lite ? GTK_FILL: 0, 0, 0, 3);
-	}  else {
+	} else {
 		GtkWidget *box = gtk_hbox_new (FALSE, 0);
-		gtk_box_pack_start ((GtkBox *)box, priv->signature_label, FALSE, FALSE, 4);
-		gtk_box_pack_end ((GtkBox *)box, priv->signature_combo_box, TRUE, TRUE, 0);
-		g_object_set_data ((GObject *)box, "pdata", object);
+
+		gtk_box_pack_start (
+			GTK_BOX (box), priv->signature_label,
+			FALSE, FALSE, 4);
+		gtk_box_pack_end (
+			GTK_BOX (box), priv->signature_combo_box,
+			TRUE, TRUE, 0);
+		g_object_set_data (G_OBJECT (box), "pdata", object);
 		gtk_table_attach (
 			GTK_TABLE (object), box,
 			3, 4, ii, ii + 1, GTK_FILL, 0, 0, 3);
@@ -962,13 +966,13 @@ composer_header_table_init (EComposerHeaderTable *table)
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
 	header = e_composer_name_header_new_with_action (
-		_("_Cc:"), _("CC"), name_selector);
+		_("_Cc:"), _("Show CC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
 	header = e_composer_name_header_new_with_action (
-		_("_Bcc:"), _("BCC"), name_selector);
+		_("_Bcc:"), _("Show BCC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
@@ -1048,28 +1052,6 @@ e_composer_header_table_get_header (EComposerHeaderTable *table,
 	g_return_val_if_fail (type < E_COMPOSER_NUM_HEADERS, NULL);
 
 	return table->priv->headers[type];
-}
-
-void
-e_composer_header_table_set_header_visible (EComposerHeaderTable *table,
-                                            EComposerHeaderType type,
-                                            gboolean visible)
-{
-	EComposerHeader *header;
-
-	header = e_composer_header_table_get_header (table, type);
-	e_composer_header_set_visible (header, visible);
-
-	/* Signature widgets track the "From" header. */
-	if (type == E_COMPOSER_HEADER_FROM) {
-		if (visible) {
-			gtk_widget_show (table->priv->signature_label);
-			gtk_widget_show (table->priv->signature_combo_box);
-		} else {
-			gtk_widget_hide (table->priv->signature_label);
-			gtk_widget_hide (table->priv->signature_combo_box);
-		}
-	}
 }
 
 EAccount *

@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#include <glade/glade.h>
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-config.h>
@@ -34,14 +35,17 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
 
+#include <mail/e-mail-local.h>
+#include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
-#include <mail/em-popup.h>
+#include <mail/em-utils.h>
 #include <mail/mail-session.h>
-#include <mail/mail-component.h>
 #include <mail/mail-ops.h>
+#include <mail/message-list.h>
 #include <e-util/e-error.h>
 #include <e-util/e-plugin.h>
-#include <glade/glade.h>
+#include <e-util/e-util.h>
+#include <shell/e-shell-view.h>
 
 #include <composer/e-msg-composer.h>
 
@@ -63,32 +67,10 @@ enum {
 	CLUE_N_COLUMNS
 };
 
-typedef struct {
-    CamelMimeMessage *msg;
-    EMPopupTargetSelect *t;
-} UserData;
-
-static gchar * get_content	(CamelMimeMessage *message);
-
-static void reply_with_template	(EPopup *ep, EPopupItem *item, gpointer data);
-
-static void popup_free		(EPopup *ep, GSList *l, gpointer data);
-
-static GSList *fill_submenu	(CamelStore *store,
-				CamelFolderInfo *info,
-				GSList *list,
-				EMPopupTargetSelect *t);
-
-static GSList *append_to_menu	(CamelFolder *folder,
-				GPtrArray *uids,
-				GSList *list,
-				EMPopupTargetSelect *t);
-
-void org_gnome_templates_popup	(EPlugin *ep, EMPopupTargetSelect *t);
-
 GtkWidget *e_plugin_lib_get_configure_widget	(EPlugin *epl);
 
-gboolean e_plugin_ui_init	(GtkUIManager *ui_manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init	(GtkUIManager *ui_manager, GObject *object);
+gint e_plugin_lib_enable	(EPlugin *plugin, gboolean enabled);
 
 /* Thanks to attachment reminder plugin for this*/
 static void commit_changes (UIData *ui);
@@ -101,6 +83,8 @@ static void  value_cell_edited_callback (GtkCellRendererText *cell, gchar *path_
 
 static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
 					*path, GtkTreeIter *iter, UIData *ui);
+
+static gboolean plugin_enabled;
 
 static void
 selection_changed (GtkTreeSelection *selection, UIData *ui)
@@ -496,32 +480,23 @@ get_content (CamelMimeMessage *message)
 }
 
 static void
-reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
+action_reply_with_template_cb (GtkAction *action,
+                               CamelMimeMessage *message)
 {
-	CamelMimeMessage *new, *template, *reply_to;
-	CamelFolder *templates_folder;
+	CamelMimeMessage *new, *template;
+	CamelFolder *folder;
 	struct _camel_header_raw *header;
-	UserData *userdata = item->user_data;
 	gchar *cont;
 
-	/* We get the templates folder and all the uids of the messages in there */
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
-
-	/* Get from the currently selected folder, the currently selected message */
-	reply_to = camel_folder_get_message (userdata->t->folder,
-			g_ptr_array_index (userdata->t->uids, 0),
-			NULL);
-
-	/* The message we'll be using has been stored when building the menu */
-	template = userdata->msg;
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	template = g_object_get_data (G_OBJECT (action), "template");
 
 	/* The new message we are creating */
 	new = camel_mime_message_new();
 
 	/* Add the headers from the message we are replying to, so CC and that
-	 * stuff is preserved.
-	 */
-	header = ((CamelMimePart *)reply_to)->headers;
+	 * stuff is preserved. */
+	header = ((CamelMimePart *)message)->headers;
 	while (header) {
 		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0) {
 			camel_medium_add_header((CamelMedium *) new,
@@ -538,7 +513,7 @@ reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 
 	/* Set the To: field to the same To: field of the message we are replying to. */
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO,
-			camel_mime_message_get_from (reply_to));
+			camel_mime_message_get_from (message));
 
 	/* Copy the CC and BCC from the template.*/
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_CC,
@@ -551,160 +526,144 @@ reply_with_template (EPopup *ep, EPopupItem *item, gpointer data)
 			cont, (gint) g_utf8_strlen(cont, -1), "text");
 
 	/* Create the composer */
-	em_utils_edit_message (new, templates_folder);
+	em_utils_edit_message (new, folder);
 
 	camel_object_unref(new);
 }
 
 static void
-popup_free (EPopup *ep, GSList *l, gpointer data)
+build_template_menus_recurse (GtkUIManager *ui_manager,
+                              GtkActionGroup *action_group,
+                              const gchar *menu_path,
+                              guint *action_count,
+                              guint merge_id,
+                              CamelFolderInfo *folder_info,
+                              CamelMimeMessage *message)
 {
-	g_slist_free (l);
-}
-
-static GSList
-*append_to_menu (CamelFolder *folder, GPtrArray *uids, GSList *list, EMPopupTargetSelect *t)
-{
-	gint i;
-
-	for (i = 0; i < uids->len; i++) {
-		const gchar *subject;
-		gchar *path;
-		EPopupItem *item;
-		CamelMimeMessage *message;
-		UserData *user_data;
-		const gchar *uid;
-
-		uid = g_strdup (g_ptr_array_index (uids, i));
-
-		/* Same as in fill_submenu */
-		if (!g_str_has_suffix (folder->name, "Templates"))
-			path = g_strdup_printf ("80.%s", folder->full_name);
-		else
-			path = g_strdup ("80.Templates");
-
-		/* If this uid is trashed, ignore it */
-		if (camel_folder_get_message_flags (folder, uid) & CAMEL_MESSAGE_DELETED)
-			continue;
-
-		/* Get the message for this uid */
-		message = camel_folder_get_message (folder,
-				uid,
-				NULL);
-
-		subject = camel_mime_message_get_subject (message);
-
-		/* Create the menu item for it */
-		item = g_slice_alloc0(sizeof(*item));
-		item->type = E_POPUP_ITEM;
-		item->path = g_strdup_printf ("%s/%02d", path, i);
-		item->label = g_strdup ((strlen(subject) > 0) ? subject : _("No title"));
-		item->visible = EM_POPUP_SELECT_MANY | EM_POPUP_SELECT_ONE;
-
-		/* Make some info available to the callback */
-		user_data = g_slice_new(UserData);
-		user_data->msg = message;
-		user_data->t = t;
-
-		item->user_data = user_data;
-		item->activate = reply_with_template;
-
-		list = g_slist_prepend (list, item);
-	}
-
-	return list;
-}
-
-static GSList
-*fill_submenu (CamelStore *store, CamelFolderInfo *info, GSList *list, EMPopupTargetSelect *t)
-{
-	while (info) {
-		CamelFolder *folder;
-		GPtrArray *uids;
-		EPopupItem *item;
-
-		folder = camel_store_get_folder (store, info->full_name, 0, NULL);
-
-		item = g_slice_alloc0(sizeof(*item));
-		item->type = E_POPUP_SUBMENU;
-		item->label = folder->name;
-		item->visible = EM_POPUP_SELECT_MANY | EM_POPUP_SELECT_ONE;
-
-		/* To avoid having a Templates dir, we ignore the top level */
-		if (!g_str_has_suffix (folder->name, "Templates"))
-			item->path = g_strdup_printf ("80.%s", folder->full_name);
-		else
-			item->path = g_strdup ("80.Templates");
-
-		list = g_slist_prepend (list, item);
-
-		/* Get the uids for this folder and fill them in the menu */
-		uids = camel_folder_get_uids (folder);
-		list = append_to_menu (folder, uids, list, t);
-		camel_folder_free_uids (folder, uids);
-
-		/* If the folder has a child, call this function again */
-		if (info->child) {
-			list = fill_submenu (store, info->child, list, t);
-		}
-
-		info = info->next;
-	}
-
-	return list;
-}
-
-void
-org_gnome_templates_popup (EPlugin *ep, EMPopupTargetSelect *t)
-{
-	CamelFolder *templates_folder;
-	CamelFolderInfo *templates_info;
 	CamelStore *store;
 
-	GSList *list = NULL;
+	store = e_mail_local_get_store ();
 
-	/* We get the templates folder and all the uids of the messages in there */
-	store = mail_component_peek_local_store (NULL);
+	while (folder_info != NULL) {
+		CamelFolder *folder;
+		GPtrArray *uids;
+		GtkAction *action;
+		const gchar *action_label;
+		gchar *action_name;
+		gchar *path;
+		guint ii;
 
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
+		folder = camel_store_get_folder (
+			store, folder_info->full_name, 0, NULL);
 
-	templates_info = camel_store_get_folder_info (store,
-			templates_folder->full_name,
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST,
-			NULL);
+		action_name = g_strdup_printf (
+			"templates-menu-%d", *action_count);
+		*action_count = *action_count + 1;
 
-	/* Get subfolders and fill it */
-	list = fill_submenu (store, templates_info, list, t);
+		/* To avoid having a Templates dir, we ignore the top level */
+		if (g_str_has_suffix (folder->name, "Templates"))
+			action_label = _("Templates");
+		else
+			action_label = folder->name;
 
-	e_popup_add_items (t->target.popup, list, NULL, popup_free, NULL);
+		action = gtk_action_new (
+			action_name, action_label, NULL, NULL);
 
-	return;
+		gtk_action_group_add_action (action_group, action);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, merge_id, menu_path, action_name,
+			action_name, GTK_UI_MANAGER_MENU, FALSE);
+
+		path = g_strdup_printf ("%s/%s", menu_path, action_name);
+
+		g_object_unref (action);
+		g_free (action_name);
+
+		/* Add submenus, if any. */
+		if (folder_info->child != NULL)
+			build_template_menus_recurse (
+				ui_manager, action_group,
+				path, action_count, merge_id,
+				folder_info->child, message);
+
+		/* Get the UIDs for this folder and add them to the menu. */
+		uids = camel_folder_get_uids (folder);
+		for (ii = 0; ii < uids->len; ii++) {
+			CamelMimeMessage *template;
+			const gchar *uid = uids->pdata[ii];
+			guint32 flags;
+
+			/* If the UIDs is marked for deletion, skip it. */
+			flags = camel_folder_get_message_flags (folder, uid);
+			if (flags & CAMEL_MESSAGE_DELETED)
+				continue;
+
+			template = camel_folder_get_message (folder, uid, NULL);
+			camel_object_ref (template);
+
+			action_label =
+				camel_mime_message_get_subject (template);
+			if (action_label == NULL || *action_label == '\0')
+				action_label = _("No Title");
+
+			action_name = g_strdup_printf (
+				"templates-item-%d", *action_count);
+			*action_count = *action_count + 1;
+
+			action = gtk_action_new (
+				action_name, action_label, NULL, NULL);
+
+			g_object_set_data_full (
+				G_OBJECT (action), "template", template,
+				(GDestroyNotify) camel_object_unref);
+
+			g_signal_connect (
+				action, "activate",
+				G_CALLBACK (action_reply_with_template_cb),
+				message);
+
+			gtk_action_group_add_action (action_group, action);
+
+			gtk_ui_manager_add_ui (
+				ui_manager, merge_id, path, action_name,
+				action_name, GTK_UI_MANAGER_MENUITEM, FALSE);
+
+			g_object_unref (action);
+			g_free (action_name);
+		}
+		camel_folder_free_uids (folder, uids);
+
+		g_free (path);
+
+		folder_info = folder_info->next;
+	}
 }
 
 static void
 action_template_cb (GtkAction *action,
-		EMsgComposer *composer)
+                    EMsgComposer *composer)
 {
 	CamelMessageInfo *info;
 	CamelMimeMessage *msg;
-	CamelFolder *templates_folder;
+	CamelFolder *folder;
 
-	/* We get the templates folder and all the uids of the messages in there */
-	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
+	/* Get the templates folder and all UIDs of the messages there. */
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+
 	msg = e_msg_composer_get_message_draft (composer);
 	info = camel_message_info_new (NULL);
 
 	/* FIXME: what's the ~0 for? :) */
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
+	camel_message_info_set_flags (
+		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
 
-	mail_append_mail (templates_folder, msg, info, NULL, composer);
-
-	return;
+	mail_append_mail (folder, msg, info, NULL, composer);
 }
 
-static GtkActionEntry entries[] = {
+static GtkActionEntry composer_entries[] = {
 
-	{ "Template",
+	{ "template",
 	  GTK_STOCK_SAVE,
 	  N_("Save as _Template"),
 	  "<Shift><Control>t",
@@ -712,9 +671,73 @@ static GtkActionEntry entries[] = {
 	  G_CALLBACK (action_template_cb) }
 };
 
-gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
-                  EMsgComposer *composer)
+static void
+update_actions_cb (EShellView *shell_view)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	MessageList *message_list;
+	CamelMimeMessage *message;
+	CamelFolderInfo *folder_info;
+	CamelFolder *folder;
+	CamelStore *store;
+	EMailReader *reader;
+	GPtrArray *uids;
+	guint action_count = 0;
+	guint merge_id;
+	gpointer data;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	action_group = e_lookup_action_group (ui_manager, "templates");
+	data = g_object_get_data (G_OBJECT (action_group), "merge-id");
+	merge_id = GPOINTER_TO_UINT (data);
+	g_return_if_fail (merge_id > 0);
+
+	gtk_ui_manager_remove_ui (ui_manager, merge_id);
+	e_action_group_remove_all_actions (action_group);
+
+	if (!plugin_enabled)
+		return;
+
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	folder = message_list->folder;
+	uids = message_list_get_selected (message_list);
+
+	if (uids->len != 1)
+		goto exit;
+
+	/* This is the source message to use in replying with a template. */
+	message = camel_folder_get_message (folder, uids->pdata[0], NULL);
+
+	/* Now recursively build template submenus in the pop-up menu. */
+
+	store = e_mail_local_get_store ();
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+
+	folder_info = camel_store_get_folder_info (
+		store, folder->full_name,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_FAST, NULL);
+
+	build_template_menus_recurse (
+		ui_manager, action_group,
+		"/mail-message-popup/mail-message-templates",
+		&action_count, merge_id, folder_info, message);
+
+exit:
+	em_utils_uids_free (uids);
+}
+
+static gboolean
+init_composer_actions (GtkUIManager *ui_manager,
+                       EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
 
@@ -723,7 +746,64 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
 		gtkhtml_editor_get_action_group (editor, "composer"),
-		entries, G_N_ELEMENTS (entries), composer);
+		composer_entries, G_N_ELEMENTS (composer_entries), composer);
 
 	return TRUE;
+}
+
+static gboolean
+init_shell_actions (GtkUIManager *ui_manager,
+                    EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GtkActionGroup *action_group;
+	guint merge_id;
+
+	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+
+	/* This is where we keep dynamically-built menu items. */
+	e_shell_window_add_action_group (shell_window, "templates");
+	action_group = e_lookup_action_group (ui_manager, "templates");
+
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+	g_object_set_data (
+		G_OBJECT (action_group), "merge-id",
+		GUINT_TO_POINTER (merge_id));
+
+	g_signal_connect (
+		shell_view, "update-actions",
+		G_CALLBACK (update_actions_cb), NULL);
+
+	return TRUE;
+}
+
+gboolean
+e_plugin_ui_init (GtkUIManager *ui_manager,
+                  GObject *object)
+{
+	/* XXX This is a scenario I hadn't considered when designing
+	 *     EPluginUI: two different UI manager IDs with different
+	 *     closures sharing the same plugin entry point.  We know
+	 *     the closures are both GObjects so we query the type.
+	 *     Awkward, but it should work for now. */
+
+	if (E_IS_MSG_COMPOSER (object))
+		return init_composer_actions (
+			ui_manager, E_MSG_COMPOSER (object));
+
+	if (E_IS_SHELL_WINDOW (object))
+		return init_shell_actions (
+			ui_manager, E_SHELL_WINDOW (object));
+
+	return FALSE;
+}
+
+gint
+e_plugin_lib_enable (EPlugin *plugin,
+                     gboolean enabled)
+{
+	plugin_enabled = enabled;
+
+	return 0;
 }

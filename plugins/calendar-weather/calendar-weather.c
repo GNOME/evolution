@@ -24,7 +24,6 @@
 #include "e-util/e-icon-factory.h"
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
-#include <calendar/gui/calendar-component.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
@@ -42,17 +41,17 @@ GtkWidget *e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData
 GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data);
-void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data);
-gint        e_plugin_lib_enable (EPluginLib *epl, gint enable);
+void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data);
+gint        e_plugin_lib_enable (EPlugin *epl, gint enable);
 
 #define WEATHER_BASE_URI "weather://"
 
 gint
-e_plugin_lib_enable (EPluginLib *epl, gint enable)
+e_plugin_lib_enable (EPlugin *epl, gint enable)
 {
 	GList *l;
-	gboolean found = FALSE;
 	const gchar *tmp;
+	gint ii;
 
 	static struct {
 		const gchar *description;
@@ -74,43 +73,35 @@ e_plugin_lib_enable (EPluginLib *epl, gint enable)
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
-		if (!strcmp ((const gchar *)l->data, tmp)) {
-			found = TRUE;
-			break;
-		}
+		if (!strcmp ((const gchar *)l->data, tmp))
+			goto exit;
 	}
 
-	if (!found) {
-		gint i;
+	for (ii = 0; categories[ii].description; ii++) {
+		gchar *filename;
 
-		for (i = 0; categories[i].description; i++) {
-			gchar *filename;
-
-			filename = e_icon_factory_get_icon_filename (categories[i].icon_name, GTK_ICON_SIZE_MENU);
-			e_categories_add (_(categories[i].description), NULL, filename, FALSE);
-			g_free (filename);
-		}
+		filename = e_icon_factory_get_icon_filename (
+			categories[ii].icon_name, GTK_ICON_SIZE_MENU);
+		e_categories_add (
+			_(categories[ii].description), NULL, filename, FALSE);
+		g_free (filename);
 	}
 
+exit:
 	return 0;
 }
 
 void
-e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
+e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetBackend *data)
 {
 	/* Perform a migration step here. This allows us to keep the weather calendar completely
 	 * separate from evolution. If the plugin isn't built, the weather source group won't
 	 * show up in the user's evolution. If it is, this will create it if it doesn't exist */
-	CalendarComponent *component;
-	ESourceList *source_list;
 	ESourceGroup *group;
 	GSList *groups;
 	ESourceGroup *weather = NULL;
 
-	component = data->component;
-	source_list = calendar_component_peek_source_list (component);
-
-	groups = e_source_list_peek_groups (source_list);
+	groups = e_source_list_peek_groups (data->source_list);
 	if (groups) {
 		/* groups are already there, we need to search */
 		GSList *g;
@@ -124,7 +115,7 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 
 	if (!weather) {
 		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
+		e_source_list_add_group (data->source_list, group, -1);
 
 		weather = group;
 	}
@@ -132,7 +123,7 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 	if (weather)
 		g_object_unref (weather);
 
-	e_source_list_sync (source_list, NULL);
+	e_source_list_sync (data->source_list, NULL);
 }
 
 static void

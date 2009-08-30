@@ -24,10 +24,8 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
-#include <bonobo/bonobo-generic-factory.h>
-#include <camel/camel-folder.h>
-
 #include <e-util/e-import.h>
+#include <camel/camel-folder.h>
 
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {
@@ -56,22 +54,6 @@ EImportImporter *mbox_importer_peek(void);
 
 EImportImporter *elm_importer_peek(void);
 EImportImporter *pine_importer_peek(void);
-
-#define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer:" BASE_VERSION
-#define PINE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Pine_Intelligent_Importer:" BASE_VERSION
-#define NETSCAPE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer:" BASE_VERSION
-
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
-#define OUTLOOK_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Outlook_Importer:" BASE_VERSION
-
-BonoboObject *elm_intelligent_importer_new(void);
-BonoboObject *pine_intelligent_importer_new(void);
-BonoboObject *netscape_intelligent_importer_new(void);
-
-BonoboObject *mbox_importer_new(void);
-BonoboObject *outlook_importer_new(void);
-
-BonoboObject *mail_importer_factory_cb(BonoboGenericFactory *factory, const gchar *iid, gpointer data);
 
 /* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
 /* Evolution only cares about these headers I think */

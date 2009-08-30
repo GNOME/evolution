@@ -329,7 +329,7 @@
      </code>
     </option>
    </input>
-   <input type="string" name="recipient"/>
+   <input type="address" name="recipient"/>
  </part>
 
  <part name="subject">
@@ -569,7 +569,7 @@
    </option>
   </input>
   <input type="optionlist" name="versus">
-     <dynamic func="e_util_labels_get_filter_options"/>
+     <dynamic func="e_mail_labels_get_filter_options"/>
   </input>
  </part>
 
@@ -764,28 +764,17 @@
 </partset>
 
   <ruleset>
+
     <rule grouping="any" source="demand">
-      <_title>Subject or Addresses contains</_title>
+      <_title>Subject or Sender contains</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="contains"/>
           <value name="subject" type="string"/>
-	</part>
+        </part>
         <part name="sender">
           <value name="sender-type" type="option" value="contains"/>
           <value name="sender" type="string"/>
-        </part>
-         <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
-        </part>
-         <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
-        </part>
-        <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
         </part>
       </partset>
       <sources/>
@@ -801,21 +790,6 @@
          <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
           <value name="recipient" type="address"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Subject or Sender contains</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string"/>
-        </part>
-        <part name="sender">
-          <value name="sender-type" type="option" value="contains"/>
-          <value name="sender" type="string"/>
         </part>
       </partset>
       <sources/>

@@ -28,14 +28,29 @@
 
 #include "e-cal-model.h"
 
+/* Standard GObject macros */
+#define E_TYPE_CAL_MODEL_TASKS \
+	(e_cal_model_tasks_get_type ())
+#define E_CAL_MODEL_TASKS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasks))
+#define E_CAL_MODEL_TASKS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksClass))
+#define E_IS_CAL_MODEL_TASKS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_MODEL_TASKS))
+#define E_IS_CAL_MODEL_TASKS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_MODEL_TASKS))
+#define E_CAL_MODEL_TASKS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_CAL_MODEL_TASKS            (e_cal_model_tasks_get_type ())
-#define E_CAL_MODEL_TASKS(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasks))
-#define E_CAL_MODEL_TASKS_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksClass))
-#define E_IS_CAL_MODEL_TASKS(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_MODEL_TASKS))
-#define E_IS_CAL_MODEL_TASKS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_MODEL_TASKS))
-
+typedef struct _ECalModelTasks ECalModelTasks;
+typedef struct _ECalModelTasksClass ECalModelTasksClass;
 typedef struct _ECalModelTasksPrivate ECalModelTasksPrivate;
 
 typedef enum {
@@ -54,22 +69,36 @@ typedef enum {
 	E_CAL_MODEL_TASKS_FIELD_LAST
 } ECalModelTasksField;
 
-typedef struct {
-	ECalModel model;
+struct _ECalModelTasks {
+	ECalModel parent;
 	ECalModelTasksPrivate *priv;
-} ECalModelTasks;
+};
 
-typedef struct {
+struct _ECalModelTasksClass {
 	ECalModelClass parent_class;
-} ECalModelTasksClass;
+};
 
-GType           e_cal_model_tasks_get_type (void);
-ECalModelTasks *e_cal_model_tasks_new (void);
-
-void            e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelComponent *comp_data);
-void            e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelComponent *comp_data);
-void e_cal_model_tasks_update_due_tasks (ECalModelTasks *model);
+GType		e_cal_model_tasks_get_type	(void);
+ECalModel *	e_cal_model_tasks_new		(EShellSettings *shell_settings);
+const gchar *	e_cal_model_tasks_get_color_due_today
+						(ECalModelTasks *model);
+void		e_cal_model_tasks_set_color_due_today
+						(ECalModelTasks *model,
+						 const gchar *color_due_today);
+const gchar *	e_cal_model_tasks_get_color_overdue
+						(ECalModelTasks *model);
+void		e_cal_model_tasks_set_color_overdue
+						(ECalModelTasks *model,
+						 const gchar *color_overdue);
+void		e_cal_model_tasks_mark_comp_complete
+						(ECalModelTasks *model,
+						 ECalModelComponent *comp_data);
+void		e_cal_model_tasks_mark_comp_incomplete
+						(ECalModelTasks *model,
+						 ECalModelComponent *comp_data);
+void		e_cal_model_tasks_update_due_tasks
+						(ECalModelTasks *model);
 
 G_END_DECLS
 
-#endif
+#endif /* E_CAL_MODEL_TASKS_H */

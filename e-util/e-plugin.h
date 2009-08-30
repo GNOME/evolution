@@ -64,8 +64,6 @@ struct _EPluginAuthor {
  * @object: Superclass.
  * @id: Unique identifier for plugin instance.
  * @path: Filename where the xml definition resides.
- * @hooks_pending: A list hooks which can't yet be loaded.  This is
- * the xmlNodePtr to the root node of the hook definition.
  * @description: A description of the plugin's purpose.
  * @name: The name of the plugin.
  * @domain: The translation domain for this plugin.
@@ -82,7 +80,6 @@ struct _EPlugin {
 
 	gchar *id;
 	gchar *path;
-	GSList *hooks_pending;
 
 	gchar *description;
 	gchar *name;
@@ -134,10 +131,7 @@ GType e_plugin_get_type(void);
 gint e_plugin_construct(EPlugin *ep, xmlNodePtr root);
 void e_plugin_add_load_path(const gchar *);
 gint e_plugin_load_plugins(void);
-void e_plugin_load_plugins_with_missing_symbols(void);
 GSList * e_plugin_list_plugins(void);
-
-void e_plugin_register_type(GType type);
 
 gpointer e_plugin_get_symbol(EPlugin *ep, const gchar *name);
 gpointer e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data);
@@ -152,73 +146,6 @@ gchar *e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *d
 gint e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def);
 gchar *e_plugin_xml_content(xmlNodePtr node);
 gchar *e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain);
-
-/* ********************************************************************** */
-#include <gmodule.h>
-
-/* Standard GObject macros */
-#define E_TYPE_PLUGIN_LIB \
-	(e_plugin_lib_get_type ())
-#define E_PLUGIN_LIB(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_PLUGIN_LIB, EPluginLib))
-#define E_PLUGIN_LIB_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_PLUGIN_LIB, EPluginLibClass))
-#define E_IS_PLUGIN_LIB(obj) \
-	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_PLUGIN_LIB))
-#define E_IS_PLUGIN_LIB_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_PLUGIN_LIB))
-#define E_PLUGIN_LIB_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_PLUGIN_LIB, EPluginLibClass))
-
-typedef struct _EPluginLib EPluginLib;
-typedef struct _EPluginLibClass EPluginLibClass;
-
-/* The callback signature used for epluginlib methods */
-typedef gpointer (*EPluginLibFunc)(EPluginLib *ep, gpointer data);
-/* The setup method, this will be called when the plugin is
- * initialised.  In the future it may also be called when the plugin
- * is disabled. */
-typedef gint (*EPluginLibEnableFunc)(EPluginLib *ep, gint enable);
-typedef gpointer (*EPluginLibGetConfigureWidgetFunc)(EPluginLib *ep);
-
-/**
- * struct _EPluginLib -
- *
- * @plugin: Superclass.
- * @location: The filename of the shared object.
- * @module: The GModule once it is loaded.
- *
- * This is a concrete EPlugin class.  It loads and invokes dynamically
- * loaded libraries using GModule.  The shared object isn't loaded
- * until the first callback is invoked.
- *
- * When the plugin is loaded, and if it exists, "e_plugin_lib_enable"
- * will be invoked to initialise the
- **/
-struct _EPluginLib {
-	EPlugin plugin;
-
-	gchar *location;
-	GModule *module;
-};
-
-/**
- * struct _EPluginLibClass -
- *
- * @plugin_class: Superclass.
- *
- * The plugin library needs no additional class data.
- **/
-struct _EPluginLibClass {
-	EPluginClass plugin_class;
-};
-
-GType e_plugin_lib_get_type(void);
 
 /* ********************************************************************** */
 
@@ -323,57 +250,12 @@ struct _EPluginHookClass {
 
 GType e_plugin_hook_get_type(void);
 
-void e_plugin_hook_register_type(GType type);
-
 EPluginHook * e_plugin_hook_new(EPlugin *ep, xmlNodePtr root);
 void e_plugin_hook_enable(EPluginHook *eph, gint state);
 
 /* static methods */
 guint32 e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
 guint32 e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const gchar *prop);
-
-/* ********************************************************************** */
-
-/* EPluginTypeHook lets a plugin register a new plugin type.
-  <hook class="org.gnome.evolution.plugin.type:1.0">
-   <plugin-type get-type="e_plugin_mono_get_type/>
-  </hook>
-*/
-
-/* Standard GObject macros */
-#define E_TYPE_PLUGIN_TYPE_HOOK \
-	(e_plugin_type_hook_get_type ())
-#define E_PLUGIN_TYPE_HOOK(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_PLUGIN_TYPE_HOOK, EPluginTypeHook))
-#define E_PLUGIN_TYPE_HOOK_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_PLUGIN_TYPE_HOOK, EPluginTypeHookClass))
-#define E_IS_PLUGIN_TYPE_HOOK(obj) \
-	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_PLUGIN_TYPE_HOOK))
-#define E_IS_PLUGIN_TYPE_HOOK_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_PLUGIN_TYPE_HOOK))
-#define E_PLUGIN_TYPE_HOOK_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_PLUGIN_TYPE_HOOK, EPluginTypeHookClass))
-
-typedef struct _EPluginTypeHook EPluginTypeHook;
-typedef struct _EPluginTypeHookClass EPluginTypeHookClass;
-
-struct _EPluginTypeHook {
-	EPluginHook hook;
-
-	gchar *get_type;
-	guint idle;
-};
-
-struct _EPluginTypeHookClass {
-	EPluginHookClass hook_class;
-};
-
-GType e_plugin_type_hook_get_type(void);
 
 /* README: Currently there is only one flag.
    But we may need more in the future and hence makes

@@ -71,7 +71,8 @@ gint mail_get_folder (const gchar *uri, guint32 flags,
 
 /* get quota information for a folder */
 gint mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, gpointer data),
+		 const gchar *folder_uri,
+		 void (*done)(CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, gpointer data),
 		 gpointer data, MailMsgDispatchFunc dispatch);
 
 /* and for a store */

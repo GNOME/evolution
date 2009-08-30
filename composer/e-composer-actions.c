@@ -21,11 +21,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <e-util/e-error.h>
-#include <mail/em-event.h>
-#include <mail/em-format-html-print.h>
-#include <mail/em-composer-utils.h>
-
-#include "misc/e-charset-picker.h"
 
 static void
 action_attach_cb (GtkAction *action,
@@ -50,7 +45,7 @@ action_charset_cb (GtkRadioAction *action,
 	if (action != current)
 		return;
 
-	charset = gtk_action_get_name (GTK_ACTION (current));
+	charset = g_object_get_data (G_OBJECT (action), "charset");
 
 	g_free (composer->priv->charset);
 	composer->priv->charset = g_strdup (charset);
@@ -128,15 +123,9 @@ action_print_cb (GtkAction *action,
                  EMsgComposer *composer)
 {
 	GtkPrintOperationAction print_action;
-	CamelMimeMessage *message;
-	EMFormatHTMLPrint *efhp;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	message = e_msg_composer_get_message (composer, 1);
-
-	efhp = em_format_html_print_new (NULL, print_action);
-	em_format_html_print_raw_message (efhp, message);
-	g_object_unref (efhp);
+	e_msg_composer_print (composer, print_action);
 }
 
 static void
@@ -144,15 +133,9 @@ action_print_preview_cb (GtkAction *action,
                          EMsgComposer *composer)
 {
 	GtkPrintOperationAction print_action;
-	CamelMimeMessage *message;
-	EMFormatHTMLPrint *efhp;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	message = e_msg_composer_get_message_print (composer, 1);
-
-	efhp = em_format_html_print_new (NULL, print_action);
-	em_format_html_print_raw_message (efhp, message);
-	g_object_unref (efhp);
+	e_msg_composer_print (composer, print_action);
 }
 
 static void
@@ -263,6 +246,8 @@ static void
 action_send_options_cb (GtkAction *action,
                         EMsgComposer *composer)
 {
+	/* FIXME: KILL-BONOBO - should this be here when -no-undefined removed? */
+	/*
 	EMEvent *event = em_event_peek ();
 	EMEventTargetComposer *target;
 
@@ -274,6 +259,7 @@ action_send_options_cb (GtkAction *action,
 		(EEvent *) event,
 		"composer.selectsendoption",
 		(EEventTarget *) target);
+	*/
 
 	if (!composer->priv->send_invoked)
 		e_error_run (
@@ -283,9 +269,12 @@ action_send_options_cb (GtkAction *action,
 
 static void
 action_new_message_cb (GtkAction *action,
-                        EMsgComposer *composer)
+                       EMsgComposer *composer)
 {
-	em_utils_compose_new_message (NULL);
+	EMsgComposer *new_composer;
+
+	new_composer = e_msg_composer_new ();
+	gtk_widget_show (GTK_WIDGET (new_composer));
 }
 
 static void
@@ -508,7 +497,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	gtk_action_group_set_translation_domain (
 		action_group, GETTEXT_PACKAGE);
 	e_charset_add_radio_actions (
-		action_group, composer->priv->charset,
+		action_group, "charset-", composer->priv->charset,
 		G_CALLBACK (action_charset_cb), composer);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 

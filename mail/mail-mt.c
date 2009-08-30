@@ -34,14 +34,13 @@
 #include <camel/camel-url.h>
 #include <camel/camel-operation.h>
 
+#include "shell/e-shell.h"
 #include "misc/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
-
-#include "e-activity-handler.h"
+#include "widgets/misc/e-alert-activity.h"
 
 #include "mail-config.h"
-#include "mail-component.h"
 #include "mail-session.h"
 #include "mail-mt.h"
 
@@ -65,7 +64,7 @@ static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc
 struct _MailMsgPrivate {
 	gint activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
 				   pointer itself for locking/race conditions */
-	gint activity_id;
+	EActivity *activity;
 	GtkWidget *error;
 	gboolean cancelable;
 };
@@ -140,19 +139,23 @@ mail_msg_new (MailMsgInfo *info)
 }
 
 static void
-end_event_callback (CamelObject *o, gpointer event_data, gpointer error)
+end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
 {
-	MailComponent *component;
-	EActivityHandler *activity_handler;
-	guint activity_id = GPOINTER_TO_INT (event_data);
+	EShell *shell;
+	EShellBackend *shell_backend;
 
-	component = mail_component_peek ();
-	activity_handler = mail_component_peek_activity_handler (component);
-	if (!error) {
-		e_activity_handler_operation_finished (activity_handler, activity_id);
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	if (error == NULL) {
+		e_activity_complete (activity);
+		g_object_unref (activity);
 	} else {
-		d(printf("Yahooooo, we got it nonintrusively\n"));
-		e_activity_handler_operation_set_error (activity_handler, activity_id, error);
+		if (activity != NULL)
+			g_object_unref (activity);
+		activity = e_alert_activity_new_warning (error);
+		e_shell_backend_add_activity (shell_backend, activity);
+		g_object_unref (activity);
 	}
 }
 
@@ -183,6 +186,9 @@ checkmem(gpointer p)
 static void
 mail_msg_free (MailMsg *mail_msg)
 {
+	if (mail_msg->priv->activity != NULL)
+		g_object_unref (mail_msg->priv->activity);
+
 	if (mail_msg->cancel != NULL) {
 		camel_operation_mute (mail_msg->cancel);
 		camel_operation_unref (mail_msg->cancel);
@@ -209,7 +215,7 @@ void
 mail_msg_unref (gpointer msg)
 {
 	MailMsg *mail_msg = msg;
-	gint activity_id;
+	EActivity *activity = NULL;
 	GtkWidget *error = NULL;
 
 	g_return_if_fail (mail_msg != NULL);
@@ -253,24 +259,21 @@ mail_msg_unref (gpointer msg)
 		MAIL_MT_UNLOCK(mail_msg_lock);
 		return;
 	} else {
-		activity_id = mail_msg->priv->activity_id;
+		activity = mail_msg->priv->activity;
+		if (activity != NULL)
+			g_object_ref (activity);
 		error = mail_msg->priv->error;
-		if (error && !activity_id) {
-			e_activity_handler_make_error (mail_component_peek_activity_handler (mail_component_peek ()), "mail", E_LOG_ERROR, error);
-			printf("Making error\n");
-		}
-
 	}
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	mail_msg_free (mail_msg);
 
-	if (activity_id != 0)
+	if (activity != NULL)
 		mail_async_event_emit (
 			mail_async_event, MAIL_ASYNC_GUI,
 			(MailAsyncFunc) end_event_callback,
-			NULL, GINT_TO_POINTER (activity_id), error);
+			NULL, activity, error);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -305,10 +308,8 @@ mail_msg_check_error (gpointer msg)
 
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
-	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID) {
-		mail_component_show_status_bar (FALSE);
+	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID)
 		return;
-	}
 
 	if (active_errors == NULL)
 		active_errors = g_hash_table_new(NULL, NULL);
@@ -331,10 +332,9 @@ mail_msg_check_error (gpointer msg)
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
 	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->info);
-	if (m->priv->cancelable) {
+	if (m->priv->cancelable)
 		m->priv->error = (GtkWidget *) gd;
-		mail_component_show_status_bar (TRUE);
-	} else
+	else
 		gtk_widget_show((GtkWidget *)gd);
 
 }
@@ -486,7 +486,6 @@ mail_msg_idle_cb (void)
 	G_LOCK (idle_source_id);
 	idle_source_id = 0;
 	G_UNLOCK (idle_source_id);
-	mail_component_show_status_bar (TRUE);
 	/* check the main loop queue */
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
 		if (msg->info->exec != NULL)
@@ -503,7 +502,6 @@ mail_msg_idle_cb (void)
 		mail_msg_check_error (msg);
 		mail_msg_unref (msg);
 	}
-	mail_component_show_status_bar (FALSE);
 	return FALSE;
 }
 
@@ -625,7 +623,6 @@ mail_msg_unordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (10));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
-	mail_component_show_status_bar (TRUE);
 }
 
 void
@@ -636,7 +633,6 @@ mail_msg_fast_ordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (1));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
-	mail_component_show_status_bar (TRUE);
 }
 
 void
@@ -647,7 +643,6 @@ mail_msg_slow_ordered_push (gpointer msg)
 	g_once (&once, (GThreadFunc) create_thread_pool, GINT_TO_POINTER (1));
 
 	g_thread_pool_push ((GThreadPool *) once.retval, msg, NULL);
-	mail_component_show_status_bar (TRUE);
 }
 
 gboolean
@@ -868,11 +863,9 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 	m->func = func;
 	G_VA_COPY(m->ap, ap);
 
-	if (mail_in_main_thread ()) {
-		mail_component_show_status_bar (TRUE);
+	if (mail_in_main_thread ())
 		do_call (m);
-		mail_component_show_status_bar (FALSE);
-	} else {
+	else {
 		mail_msg_ref (m);
 		m->done = e_flag_new ();
 		mail_msg_main_loop_push (m);
@@ -944,15 +937,26 @@ struct _op_status_msg {
 };
 
 static void
+op_cancelled_cb (EActivity *activity,
+                 gpointer user_data)
+{
+	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
+}
+
+static void
 op_status_exec (struct _op_status_msg *m)
 {
-	EActivityHandler *activity_handler = mail_component_peek_activity_handler (mail_component_peek ());
+	EShell *shell;
+	EShellBackend *shell_backend;
 	MailMsg *msg;
 	MailMsgPrivate *data;
 	gchar *out, *p, *o, c;
 	gint pc;
 
 	g_return_if_fail (mail_in_main_thread ());
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
 	MAIL_MT_LOCK (mail_msg_lock);
 
@@ -977,7 +981,7 @@ op_status_exec (struct _op_status_msg *m)
 
 	pc = m->pc;
 
-	if (data->activity_id == 0) {
+	if (data->activity == NULL) {
 		gchar *what;
 
 		/* its being created/removed?  well leave it be */
@@ -997,28 +1001,39 @@ op_status_exec (struct _op_status_msg *m)
 				what = g_strdup("");
 			}
 
-			data->activity_id = e_activity_handler_cancelable_operation_started (activity_handler, "evolution-mail", what, TRUE, (void (*) (gpointer)) camel_operation_cancel, msg->cancel);
+			data->activity = e_activity_new (what);
+			e_activity_set_allow_cancel (data->activity, TRUE);
+			e_activity_set_percent (data->activity, 0.0);
+			e_shell_backend_add_activity (shell_backend, data->activity);
+
+			g_signal_connect (
+				data->activity, "cancelled",
+				G_CALLBACK (op_cancelled_cb),
+				GUINT_TO_POINTER (msg->seq));
 
 			g_free (what);
 			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
-				gint activity_id = data->activity_id;
+				EActivity *activity;
+
+				activity = g_object_ref (data->activity);
 
 				MAIL_MT_UNLOCK (mail_msg_lock);
 				mail_msg_free (msg);
 
-				if (activity_id != 0)
-					mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
-								NULL, GINT_TO_POINTER (activity_id), NULL);
+				if (activity != 0)
+					mail_async_event_emit (
+						mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
+								NULL, activity, NULL);
 			} else {
 				data->activity_state = 2;
 				MAIL_MT_UNLOCK (mail_msg_lock);
 			}
 			return;
 		}
-	} else if (data->activity_id != 0) {
+	} else if (data->activity != NULL) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
-		e_activity_handler_operation_progressing (activity_handler, data->activity_id, out, (double)(pc/100.0));
+		e_activity_set_percent (data->activity, pc / 100.0);
 	} else {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
@@ -1071,6 +1086,5 @@ set_stop (gint sensitive)
 	if (last == sensitive)
 		return;
 
-	/*bonobo_ui_component_set_prop (uic, "/commands/MailStop", "sensitive", sensitive ? "1" : "0", NULL);*/
 	last = sensitive;
 }

@@ -72,8 +72,6 @@ const gchar       *mail_component_peek_base_directory    (MailComponent *compone
 RuleContext      *mail_component_peek_search_context    (MailComponent *component);
 EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
 
-CamelSession *mail_component_peek_session(MailComponent *);
-
 void        mail_component_add_store            (MailComponent *component,
 						 CamelStore    *store,
 						 const gchar    *name);

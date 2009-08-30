@@ -392,7 +392,7 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 						      day, draw_region);
 	}
 
-	if (e_day_view_get_show_marcus_bains (day_view)) {
+	if (e_day_view_marcus_bains_get_show_line (day_view)) {
 		icaltimezone *zone;
 		struct icaltimetype time_now, day_start;
 		gint marcus_bains_y;
@@ -610,6 +610,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	ECalModel *model;
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
 	GdkGC *gc;
 	GdkColor bg_color;
@@ -643,6 +644,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint row_y;
 
 	day_view = dvmitem->day_view;
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
@@ -975,7 +977,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			cairo_clip (cr);
 			cairo_new_path (cr);
 
-			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+			if (e_cal_model_get_use_24_hour_format (model)) {
 				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 32, item_y + item_h - 8);
 				end_regsizeime = g_strdup_printf ("%2i:%02i",
 					 end_display_hour, end_minute);
@@ -1177,7 +1179,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 						    &end_suffix,
 						    &end_suffix_width);
 
-		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+		if (e_cal_model_get_use_24_hour_format (model)) {
 			if (day_view->show_event_end_times && show_span) {
 				/* 24 hour format with end time. */
 				text = g_strdup_printf

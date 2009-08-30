@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef __E_LOGGER_H__
-#define __E_LOGGER_H__
+#ifndef E_LOGGER_H
+#define E_LOGGER_H
 
 #include <glib-object.h>
 
@@ -52,34 +52,32 @@ typedef struct _ELoggerPrivate ELoggerPrivate;
 
 typedef void (*ELogFunction) (gchar *line, gpointer data);
 
-enum e_log_level_t {
+typedef enum {
 	E_LOG_ERROR,
-	E_LOG_WARNINGS,
+	E_LOG_WARNING,
 	E_LOG_DEBUG
-};
+} ELogLevel;
 
-/* The object */
 struct _ELogger {
 	GObject parent;
-
-	struct _ELoggerPrivate *priv;
+	ELoggerPrivate *priv;
 };
 
 struct _ELoggerClass {
-	GObjectClass popup_class;
+	GObjectClass parent_class;
 };
 
 GType		e_logger_get_type		(void);
-ELogger *	e_logger_create			(const gchar *component);
-const gchar *	e_logger_get_component		(ELogger *logger);
+ELogger *	e_logger_new			(const gchar *name);
+const gchar *	e_logger_get_name		(ELogger *logger);
 void		e_logger_log			(ELogger *logger,
-						 gint level,
+						 ELogLevel level,
 						 gchar *primary,
 						 gchar *secondary);
 void		e_logger_get_logs		(ELogger *logger,
 						 ELogFunction func,
-						 gpointer data);
+						 gpointer user_data);
 
 G_END_DECLS
 
-#endif /* __E_LOGGER_H__ */
+#endif /* E_LOGGER_H */

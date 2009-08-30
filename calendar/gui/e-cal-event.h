@@ -25,8 +25,10 @@
 #define __E_CAL_EVENT_H__
 
 #include <glib-object.h>
+#include <libedataserver/e-source-list.h>
 
 #include "e-util/e-event.h"
+#include "shell/e-shell-backend.h"
 
 G_BEGIN_DECLS
 
@@ -34,20 +36,20 @@ typedef struct _ECalEvent ECalEvent;
 typedef struct _ECalEventClass ECalEventClass;
 
 enum _e_cal_event_target_t {
-	E_CAL_EVENT_TARGET_COMPONENT
+	E_CAL_EVENT_TARGET_BACKEND,
 };
 
-/* Flags that describe TARGET_COMPONENT */
+/* Flags that describe TARGET_BACKEND */
 enum {
-	E_CAL_EVENT_COMPONENT_MIGRATION = 1 << 0
+	E_CAL_EVENT_MODULE_MIGRATION = 1 << 0,
 };
 
-typedef struct _ECalEventTargetComponent ECalEventTargetComponent;
+typedef struct _ECalEventTargetBackend ECalEventTargetBackend;
 
-struct _ECalEventTargetComponent {
+struct _ECalEventTargetBackend {
 	EEventTarget target;
-
-	struct _CalendarComponent *component;
+	EShellBackend *shell_backend;
+	ESourceList *source_list;
 };
 
 struct _ECalEvent {
@@ -62,22 +64,7 @@ struct _ECalEventClass {
 
 GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetComponent* e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *component, guint32 flags);
-
-/* ********************************************************************** */
-
-typedef struct _ECalEventHook ECalEventHook;
-typedef struct _ECalEventHookClass ECalEventHookClass;
-
-struct _ECalEventHook {
-	EEventHook hook;
-};
-
-struct _ECalEventHookClass {
-	EEventHookClass hook_class;
-};
-
-GType e_cal_event_hook_get_type (void);
+ECalEventTargetBackend* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags);
 
 G_END_DECLS
 

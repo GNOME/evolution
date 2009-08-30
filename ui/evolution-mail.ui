@@ -1,0 +1,127 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='long-running-actions'>
+        <menuitem action='mail-empty-trash'/>
+        <menuitem action='mail-download'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='administrative-actions'>
+        <menuitem action='mail-tools-filters'/>
+        <menuitem action='mail-tools-search-folders'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <placeholder name='view-custom-menus'>
+        <menu action='mail-preview-menu'>
+          <menuitem action='mail-preview'/>
+          <separator/>
+          <menuitem action='mail-view-classic'/>
+          <menuitem action='mail-view-vertical'/>
+        </menu>
+      </placeholder>
+      <separator/>
+      <placeholder name='mail-message-list-actions'>
+        <menuitem action='mail-threads-group-by'/>
+        <menuitem action='mail-threads-expand-all'/>
+        <menuitem action='mail-threads-collapse-all'/>
+        <separator/>
+        <menuitem action='mail-hide-deleted'/>
+        <menuitem action='mail-hide-selected'/>
+        <menuitem action='mail-hide-read'/>
+        <menuitem action='mail-show-hidden'/>
+      </placeholder>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='mail-folder-menu'>
+        <menuitem action='mail-folder-new'/>
+        <menuitem action='mail-tools-subscriptions'/>
+        <menuitem action='mail-folder-unsubscribe'/>
+        <separator/>
+        <menuitem action='mail-folder-copy'/>
+        <menuitem action='mail-folder-move'/>
+        <separator/>
+        <menuitem action='mail-folder-select-all'/>
+        <menuitem action='mail-folder-select-thread'/>
+        <menuitem action='mail-folder-select-subthread'/>
+        <menuitem action='mail-folder-mark-all-as-read'/>
+        <menuitem action='mail-folder-expunge'/>
+        <separator/>
+        <menuitem action='mail-folder-rename'/>
+        <menuitem action='mail-folder-refresh'/>
+        <menuitem action='mail-folder-delete'/>
+        <separator/>
+        <menuitem action='mail-folder-properties'/>
+      </menu>
+    </placeholder>
+    <menu action='search-menu'>
+      <placeholder name='search-actions'>
+        <menuitem action='mail-create-search-folder'/>
+      </placeholder>
+    </menu>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <placeholder name='mail-toolbar-common'/>
+    <toolitem action='mail-stop'/>
+    <separator/>
+    <placeholder name='mail-toolbar-navigation'/>
+  </toolbar>
+  <popup name='mail-folder-popup'>
+    <placeholder name='mail-folder-popup-actions'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-new'/>
+    <menuitem action='mail-popup-folder-copy'/>
+    <menuitem action='mail-popup-folder-move'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-delete'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-rename'/>
+    <menuitem action='mail-popup-folder-refresh'/>
+    <menuitem action='mail-popup-flush-outbox'/>
+    <menuitem action='mail-popup-empty-trash'/>
+    <menuitem action='mail-popup-account-disable'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-unsubscribe'/>
+    <separator/>
+    <menuitem action='mail-popup-folder-properties'/>
+  </popup>
+  <popup name='mail-message-popup'>
+    <placeholder name='mail-message-popup-common-actions'/>
+    <separator/>
+    <menuitem action='mail-popup-delete'/>
+    <menuitem action='mail-popup-undelete'/>
+    <menuitem action='mail-popup-copy'/>
+    <menuitem action='mail-popup-move'/>
+    <separator/>
+    <menuitem action='mail-popup-mark-read'/>
+    <menuitem action='mail-popup-mark-unread'/>
+    <menuitem action='mail-popup-mark-important'/>
+    <menuitem action='mail-popup-mark-unimportant'/>
+    <menuitem action='mail-popup-mark-junk'/>
+    <menuitem action='mail-popup-mark-notjunk'/>
+    <menuitem action='mail-popup-flag-for-followup'/>
+    <menu action='mail-label-menu'>
+      <menuitem action='mail-label-none'/>
+      <separator/>
+      <placeholder name='mail-label-actions'/>
+      <separator/>
+      <menuitem action='mail-label-new'/>
+    </menu>
+    <separator/>
+    <placeholder name='mail-message-templates'/>
+    <separator/>
+    <placeholder name='mail-message-popup-actions'/>
+  </popup>
+  <popup name='mail-search-options'>
+    <menuitem action='mail-search-subject-or-sender-contains'/>
+    <menuitem action='mail-search-subject-or-recipients-contains'/>
+    <menuitem action='mail-search-recipients-contain'/>
+    <menuitem action='mail-search-message-contains'/>
+    <menuitem action='mail-search-subject-contains'/>
+    <menuitem action='mail-search-sender-contains'/>
+    <menuitem action='mail-search-body-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
+</ui>

@@ -369,6 +369,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
+	ECalModel *model;
 	ECalComponent *comp;
 	gchar buffer[16];
 	gint hour, display_hour, minute, offset, time_width, time_x;
@@ -389,6 +390,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gdouble x0, y0, rect_height, rect_width, radius;
 
 	day_view = dvtitem->day_view;
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
 	cr = gdk_cairo_create (drawable);
 
 	gradient = calendar_config_get_display_events_gradient ();
@@ -561,7 +564,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		e_day_view_convert_time_to_display (day_view, hour,
 						    &display_hour,
 						    &suffix, &suffix_width);
-		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+		if (e_cal_model_get_use_24_hour_format (model)) {
 			g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 				    display_hour, minute);
 		} else {
@@ -610,7 +613,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 							    &display_hour,
 							    &suffix,
 							    &suffix_width);
-			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+			if (e_cal_model_get_use_24_hour_format (model)) {
 				g_snprintf (buffer, sizeof (buffer),
 					    "%i:%02i", display_hour, minute);
 			} else {

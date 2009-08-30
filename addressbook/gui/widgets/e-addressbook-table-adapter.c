@@ -31,7 +31,7 @@
 #include <libxml/xmlmemory.h>
 
 struct _EAddressbookTableAdapterPrivate {
-	EABModel *model;
+	EAddressbookModel *model;
 
 	gint create_contact_id, remove_contact_id, modify_contact_id, model_changed_id;
 
@@ -100,7 +100,7 @@ addressbook_row_count (ETableModel *etc)
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
-	return eab_model_contact_count (priv->model);
+	return e_addressbook_model_contact_count (priv->model);
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
@@ -111,10 +111,10 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	const gchar *value;
 
-	if ( col >= COLS || row >= eab_model_contact_count (priv->model) )
+	if ( col >= COLS || row >= e_addressbook_model_contact_count (priv->model) )
 		return NULL;
 
-	value = e_contact_get_const((EContact*)eab_model_contact_at (priv->model, row), col);
+	value = e_contact_get_const((EContact*)e_addressbook_model_contact_at (priv->model, row), col);
 
 	if (value && *value && (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3)) {
 		gchar *val = g_hash_table_lookup (priv->emails, value);
@@ -156,13 +156,13 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
-	if (eab_model_editable (priv->model)) {
+	if (e_addressbook_model_get_editable (priv->model)) {
 		EContact *contact;
 
-		if (col >= COLS || row >= eab_model_contact_count (priv->model))
+		if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
 			return;
 
-		contact = eab_model_get_contact (priv->model, row);
+		contact = e_addressbook_model_get_contact (priv->model, row);
 		if (!contact)
 			return;
 
@@ -177,7 +177,7 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 		}
 
 		e_contact_set(contact, col, (gpointer) val);
-		eab_merging_book_commit_contact (eab_model_get_ebook (priv->model),
+		eab_merging_book_commit_contact (e_addressbook_model_get_book (priv->model),
 						 contact, contact_modified_cb, etc);
 
 		g_object_unref (contact);
@@ -196,12 +196,12 @@ addressbook_is_cell_editable (ETableModel *etc, gint col, gint row)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	const EContact *contact;
 
-	if (row >= 0 && row < eab_model_contact_count (priv->model))
-		contact = eab_model_contact_at (priv->model, row);
+	if (row >= 0 && row < e_addressbook_model_contact_count (priv->model))
+		contact = e_addressbook_model_contact_at (priv->model, row);
 	else
 		contact = NULL;
 
-	if (!eab_model_editable(priv->model))
+	if (!e_addressbook_model_editable(priv->model))
 		return FALSE;
 	else if (contact && e_contact_get ((EContact *) contact, E_CONTACT_IS_LIST))
 		/* we only allow editing of the name and file as for
@@ -229,7 +229,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 		e_contact_set (contact, col, (gpointer) val);
 	}
 
-	eab_merging_book_add_contact (eab_model_get_ebook (priv->model), contact, NULL, NULL);
+	eab_merging_book_add_contact (e_addressbook_model_get_book (priv->model), contact, NULL, NULL);
 
 	g_object_unref (contact);
 }
@@ -303,7 +303,7 @@ eab_table_adapter_init (GObject *object)
 }
 
 static void
-create_contact (EABModel *model,
+create_contact (EAddressbookModel *model,
 		gint index, gint count,
 		EAddressbookTableAdapter *adapter)
 {
@@ -312,7 +312,7 @@ create_contact (EABModel *model,
 }
 
 static void
-remove_contacts (EABModel *model,
+remove_contacts (EAddressbookModel *model,
 		gpointer data,
 		EAddressbookTableAdapter *adapter)
 {
@@ -330,7 +330,7 @@ remove_contacts (EABModel *model,
 }
 
 static void
-modify_contact (EABModel *model,
+modify_contact (EAddressbookModel *model,
 		gint index,
 		EAddressbookTableAdapter *adapter)
 {
@@ -342,7 +342,7 @@ modify_contact (EABModel *model,
 }
 
 static void
-model_changed (EABModel *model,
+model_changed (EAddressbookModel *model,
 	       EAddressbookTableAdapter *adapter)
 {
 	/* clear whole cache */
@@ -378,7 +378,7 @@ eab_table_adapter_get_type (void)
 
 void
 eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
-				       EABModel *model)
+				       EAddressbookModel *model)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
@@ -406,7 +406,7 @@ eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
 }
 
 ETableModel *
-eab_table_adapter_new (EABModel *model)
+eab_table_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookTableAdapter *et;
 

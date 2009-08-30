@@ -204,17 +204,7 @@ main (gint argc, gchar **argv)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) kill_component);
 
-	add_matching_repo_id ("IDL:GNOME/Evolution/Shell:" BASE_VERSION);
-	g_hash_table_remove_all (components);
-
-	add_matching_repo_id ("IDL:GNOME/Evolution/Component:" BASE_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/CalFactory:" DATASERVER_API_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/DataServer/BookFactory:" DATASERVER_API_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/Importer:" BASE_VERSION);
-	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:" BASE_VERSION);
-
 	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION);
-	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.1");
 	g_hash_table_remove_all (components);
 
 	g_hash_table_destroy (components);

@@ -279,6 +279,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 {
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
+	ECalModel *model;
 	GtkStyle *style;
 	const gchar *suffix;
 	gchar buffer[64], *midnight_day = NULL, *midnight_month = NULL;
@@ -301,6 +302,8 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	dvtmitem = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = dvtmitem->day_view;
 	g_return_if_fail (day_view != NULL);
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	small_font_desc = style->font_desc;
@@ -410,7 +413,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 			   E_DVTMI_LARGE_HOUR_Y_PAD);
 
 	/* Draw the Marcus Bains Line first, so it appears under other elements. */
-	if (e_day_view_get_show_marcus_bains (day_view)) {
+	if (e_day_view_marcus_bains_get_show_line (day_view)) {
 		struct icaltimetype time_now;
 		gint marcus_bains_y;
 
@@ -485,7 +488,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 				strcpy (buffer, midnight_day);
 				strcat (buffer, " ");
 				strcat (buffer, midnight_month);
-			} else if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+			} else if (e_cal_model_get_use_24_hour_format (model)) {
 				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 					    display_hour, minute);
 			} else {
@@ -565,7 +568,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 				if (show_midnight_date)
 					strcpy (buffer, midnight_month);
 				else if (minute == 0
-				    && !e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+				    && !e_cal_model_get_use_24_hour_format (model)) {
 					strcpy (buffer, suffix);
 				} else {
 					g_snprintf (buffer, sizeof (buffer),

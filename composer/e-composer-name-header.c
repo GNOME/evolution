@@ -48,18 +48,6 @@ struct _EComposerNameHeaderPrivate {
 static gpointer parent_class;
 
 static void
-composer_name_header_clicked_cb (EComposerNameHeader *header)
-{
-	ENameSelectorDialog *dialog;
-
-	dialog = e_name_selector_peek_dialog (header->priv->name_selector);
-	e_name_selector_dialog_set_destination_index (
-		dialog, header->priv->destination_index);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_hide (GTK_WIDGET (dialog));
-}
-
-static void
 composer_name_header_entry_changed_cb (ENameSelectorEntry *entry,
                                        EComposerNameHeader *header)
 {
@@ -133,10 +121,6 @@ composer_name_header_constructor (GType type,
 		NULL);
 	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
 
-	g_signal_connect (
-		object, "clicked",
-		G_CALLBACK (composer_name_header_clicked_cb), NULL);
-
 	return object;
 }
 
@@ -195,9 +179,25 @@ composer_name_header_dispose (GObject *object)
 }
 
 static void
+composer_name_header_clicked (EComposerHeader *header)
+{
+	EComposerNameHeaderPrivate *priv;
+	ENameSelectorDialog *dialog;
+
+	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+
+	dialog = e_name_selector_peek_dialog (priv->name_selector);
+	e_name_selector_dialog_set_destination_index (
+		dialog, priv->destination_index);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_hide (GTK_WIDGET (dialog));
+}
+
+static void
 composer_name_header_class_init (EComposerNameHeaderClass *class)
 {
 	GObjectClass *object_class;
+	EComposerHeaderClass *header_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerNameHeaderPrivate));
@@ -207,6 +207,9 @@ composer_name_header_class_init (EComposerNameHeaderClass *class)
 	object_class->set_property = composer_name_header_set_property;
 	object_class->get_property = composer_name_header_get_property;
 	object_class->dispose = composer_name_header_dispose;
+
+	header_class = E_COMPOSER_HEADER_CLASS (class);
+	header_class->clicked = composer_name_header_clicked;
 
 	g_object_class_install_property (
 		object_class,

@@ -1,9 +1,9 @@
 
 SUBDIRS =			\
-	table			\
-	text			\
 	misc			\
+	text			\
 	e-timezone-dialog	\
+	table			\
 	menus
 
 EXTRA_DIST =			\

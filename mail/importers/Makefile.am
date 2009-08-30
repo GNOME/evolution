@@ -1,6 +1,5 @@
 if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = \
-	$(top_builddir)/win32/libevolution-mail-shared.la \
 	$(top_builddir)/win32/libevolution-mail.la
 endif
 
@@ -10,6 +9,7 @@ AM_CPPFLAGS = -I.. 					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(IMPORTERS_CFLAGS)
@@ -27,6 +27,7 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(WIN32_BOOTSTRAP_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/mail/libevolution-mail.la	\
 	$(IMPORTERS_LIBS)
 
 -include $(top_srcdir)/git.mk

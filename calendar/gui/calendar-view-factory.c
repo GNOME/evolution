@@ -181,7 +181,7 @@ calendar_view_factory_new_view (GalViewFactory *factory, const gchar *name)
  *
  * Return value: The same value as @cal_view_factory.
  **/
-CalendarViewFactory *
+GalViewFactory *
 calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
 				 GnomeCalendarViewType view_type)
 {
@@ -194,7 +194,7 @@ calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
 
 	priv->view_type = view_type;
 
-	return cal_view_factory;
+	return GAL_VIEW_FACTORY (cal_view_factory);
 }
 
 /**
@@ -205,7 +205,7 @@ calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
  *
  * Return value: A newly-created calendar view factory.
  **/
-CalendarViewFactory *
+GalViewFactory *
 calendar_view_factory_new (GnomeCalendarViewType view_type)
 {
 	CalendarViewFactory *cal_view_factory;

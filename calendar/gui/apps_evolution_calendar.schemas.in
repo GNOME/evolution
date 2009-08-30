@@ -279,16 +279,91 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/evolution/calendar/display/tag_vpane_position</key>
-      <applyto>/apps/evolution/calendar/display/tag_vpane_position</applyto>
+      <key>/schemas/apps/evolution/calendar/display/date_navigator_pane_position</key>
+      <applyto>/apps/evolution/calendar/display/date_navigator_pane_position</applyto>
       <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>0.5</default>
+      <type>int</type>
+      <default>150</default>
       <locale name="C">
         <short>Month view vertical pane position </short>
         <long>Position of the vertical pane, between the calendar lists and the date navigator calendar.</long>
       </locale>
     </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/memo_layout</key>
+      <applyto>/apps/evolution/calendar/display/memo_layout</applyto>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Memo layout style</short>
+        <long>
+          The layout style determines where to place the preview pane
+          in relation to the memo list.  "0" (Classic View) places the
+          preview pane below the memo list.  "1" (Vertical View) places
+          the preview pane next to the memo list.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/show_memo_preview</key>
+      <applyto>/apps/evolution/calendar/display/show_memo_preview</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Show the memo preview pane</short>
+         <long>
+           If "true", show the memo preview pane in the main window.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/memo_hpane_position</key>
+      <applyto>/apps/evolution/calendar/display/memo_hpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>200</default>
+      <locale name="C">
+        <short>Memo preview pane position (horizontal)</short>
+        <long>
+          Position of the task preview pane when oriented horizontally.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/memo_vpane_position</key>
+      <applyto>/apps/evolution/calendar/display/memo_vpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+        <short>Memo preview pane position (vertical)</short>
+        <long>
+          Position of the memo preview pane when oriented vertically.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/task_layout</key>
+      <applyto>/apps/evolution/calendar/display/task_layout</applyto>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Task layout style</short>
+        <long>
+          The layout style determines where to place the preview pane
+          in relation to the task list.  "0" (Classic View) places the
+          preview pane below the task list.  "1" (Vertical View) places
+          the preview pane next to the task list.
+        </long>
+      </locale>
+    </schema>
+
     <schema>
       <key>/schemas/apps/evolution/calendar/display/show_task_preview</key>
       <applyto>/apps/evolution/calendar/display/show_task_preview</applyto>
@@ -296,10 +371,24 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Show the "Preview" pane</short>
+         <short>Show the task preview pane</short>
          <long>
-          Show the "Preview" pane.
+           If "true", show the task preview pane in the main window.
          </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/task_hpane_position</key>
+      <applyto>/apps/evolution/calendar/display/task_hpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>200</default>
+      <locale name="C">
+        <short>Task preview pane position (horizontal)</short>
+        <long>
+          Position of the task preview pane when oriented horizontally.
+        </long>
       </locale>
     </schema>
 
@@ -310,8 +399,10 @@
       <type>int</type>
       <default>400</default>
       <locale name="C">
-        <short>Tasks vertical pane position </short>
-        <long>Position of the vertical pane, between the task list and the task preview pane, in pixels.</long>
+        <short>Task preview pane position (vertical)</short>
+        <long>
+          Position of the task preview pane when oriented vertically.
+        </long>
       </locale>
     </schema>
 

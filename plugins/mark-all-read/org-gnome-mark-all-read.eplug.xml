@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-		<e-plugin
-			id="org.gnome.evolution.mail.folder.mark_all_read"
-			type="shlib"
-			domain="@GETTEXT_PACKAGE@"
-			_name="Mark All Read"
-			location="@PLUGINDIR@/liborg-gnome-mark-all-read@SOEXT@">
-		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
-		<_description>Mark all messages in a folder as read.</_description>
+  <e-plugin id="org.gnome.evolution.mail.folder.mark_all_read"
+        type="shlib"
+        domain="@GETTEXT_PACKAGE@"
+        _name="Mark All Read"
+        location="@PLUGINDIR@/liborg-gnome-mark-all-read@SOEXT@">
+    <author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
+    <_description>Mark all messages in a folder as read.</_description>
 
-		<hook class="org.gnome.evolution.mail.popup:1.0">
-			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
-				<item type="item" path="30.emc.01" icon="mail-mark-read" _label="Mark Me_ssages as Read" activate="org_gnome_mark_all_read" enable="folder" visible="folder"/>
-			</menu>
-		</hook>
-	</e-plugin>
+    <hook class="org.gnome.evolution.ui:1.0">
+      <ui-manager id="org.gnome.evolution.mail">
+        <popup name="mail-folder-popup">
+          <placeholder name="mail-folder-popup-actions">
+            <menuitem action="mail-mark-read-recursive"/>
+          </placeholder>
+        </popup>
+      </ui-manager>
+    </hook>
+  </e-plugin>
 </e-plugin-list>

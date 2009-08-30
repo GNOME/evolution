@@ -6,7 +6,6 @@ EXTRA_DIST =				\
 	libevolution-addressbook.def	\
 	libevolution-calendar.def	\
 	libevolution-mail.def		\
-	libevolution-mail-shared.def		\
 	libfilter.def
 
 if OS_WIN32
@@ -17,7 +16,6 @@ BOOTSTRAP_LIBS =			\
 	libevolution-addressbook.la	\
 	libevolution-calendar.la	\
 	libevolution-mail.la		\
-	libevolution-mail-shared.la		\
 	libfilter.la
 endif
 
@@ -57,11 +55,6 @@ libevolution-mail.la: dummy.la libevolution-mail.def
 	sed -e s!%DLL%!libevolution-mail! -e s!%LIB%!libevolution-mail! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
 	$(DLLTOOL) --output-lib=.libs/libevolution-mail.dll.a --dllname=libevolution-mail.dll --input-def=libevolution-mail.def
-
-libevolution-mail-shared.la: dummy.la libevolution-mail-shared.def
-	sed -e s!%DLL%!libevolution-mail-shared-0! -e s!%LIB%!libevolution-mail-shared! -e s!%PFX%!$(prefix)! <dummy.la >$@
-	mkdir -p .libs
-	$(DLLTOOL) --output-lib=.libs/libevolution-mail-shared.dll.a --dllname=libevolution-mail-shared-0.dll --input-def=libevolution-mail-shared.def
 
 libfilter.la: dummy.la libfilter.def
 	sed -e s!%DLL%!libfilter-0! -e s!%LIB%!libfilter! -e s!%PFX%!$(prefix)! <dummy.la >$@

@@ -66,71 +66,6 @@ typedef struct {
 	guint taskpad_focused : 1;
 } FocusData;
 
-static void
-file_open_event_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	e_calendar_view_open_event (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
-}
-
-/* Prints the calendar at its current view and time range */
-void
-calendar_command_print (GnomeCalendar *gcal, GtkPrintOperationAction action)
-{
-	if (gnome_calendar_get_view (gcal) == GNOME_CAL_LIST_VIEW) {
-		ECalListView *list_view;
-		ETable *table;
-
-		list_view = E_CAL_LIST_VIEW (gnome_calendar_get_current_view_widget (gcal));
-		table = e_table_scrolled_get_table (list_view->table_scrolled);
-		print_table (table, _("Print"), _("Calendar"), action);
-	} else {
-		time_t start;
-
-		gnome_calendar_get_current_time_range (gcal, &start, NULL);
-
-		if (gnome_calendar_get_view (gcal) == GNOME_CAL_MONTH_VIEW) {
-			EWeekView *week_view = E_WEEK_VIEW (gnome_calendar_get_current_view_widget (gcal));
-
-			if (week_view && week_view->multi_week_view && week_view->weeks_shown >= 4 && g_date_valid (&week_view->first_day_shown)) {
-				GDate date = week_view->first_day_shown;
-				struct icaltimetype start_tt = icaltime_null_time ();
-
-				g_date_add_days (&date, 7);
-
-				start_tt.is_date = TRUE;
-				start_tt.year = g_date_get_year (&date);
-				start_tt.month = g_date_get_month (&date);
-				start_tt.day = g_date_get_day (&date);
-
-				start = icaltime_as_timet (start_tt);
-			}
-		}
-
-		print_calendar (gcal, action, start);
-	}
-}
-
-/* File/Print callback */
-static void
-file_print_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal = GNOME_CALENDAR (data);
-
-	calendar_command_print (gcal, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-}
-
-static void
-file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal = GNOME_CALENDAR (data);
-
-	calendar_command_print (gcal, GTK_PRINT_OPERATION_ACTION_PREVIEW);
-}
-
 /* Sets a clock cursor for the specified calendar window */
 static void
 set_clock_cursor (GnomeCalendar *gcal)
@@ -149,58 +84,6 @@ set_normal_cursor (GnomeCalendar *gcal)
 {
 	gdk_window_set_cursor (GTK_WIDGET (gcal)->window, NULL);
 	gdk_flush ();
-}
-
-static void
-previous_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_previous (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-next_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_next (gcal);
-	set_normal_cursor (gcal);
-}
-
-void
-calendar_goto_today (GnomeCalendar *gcal)
-{
-	set_clock_cursor (gcal);
-	gnome_calendar_goto_today (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-today_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	calendar_goto_today (gcal);
-}
-
-static void
-goto_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	goto_dialog (gcal);
 }
 
 static void
@@ -253,113 +136,6 @@ show_list_view_clicked (BonoboUIComponent *uic, gpointer data, const gchar *path
 	gnome_calendar_set_view (gcal, GNOME_CAL_LIST_VIEW);
 }
 
-static void
-cut_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-	set_clock_cursor (gcal);
-	gnome_calendar_cut_clipboard (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-copy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_copy_clipboard (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-paste_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_paste_clipboard (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-delete_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_delete_selection (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-delete_occurrence_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	set_clock_cursor (gcal);
-	gnome_calendar_delete_selected_occurrence (gcal);
-	set_normal_cursor (gcal);
-}
-
-static void
-purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-	GtkWidget *dialog, *parent, *box, *label, *spin;
-	gint response;
-
-	gcal = GNOME_CALENDAR (data);
-
-	/* create the dialog */
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_OK_CANCEL,
-		_("This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
-
-	box = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, FALSE, 6);
-
-	label = gtk_label_new (_("Purge events older than"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-	spin = gtk_spin_button_new_with_range (0.0, 1000.0, 1.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), 60.0);
-	gtk_box_pack_start (GTK_BOX (box), spin, FALSE, FALSE, 6);
-	label = gtk_label_new (_("days"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-
-	gtk_widget_show_all (box);
-
-	/* run the dialog */
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_OK) {
-		gint days;
-		time_t tt;
-
-		days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-		tt = time (NULL);
-		tt -= (days * (24 * 3600));
-
-		gnome_calendar_purge (gcal, tt);
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 struct _sensitize_item {
 	const gchar *command;
 	guint32 enable;
@@ -382,69 +158,6 @@ sensitize_items(BonoboUIComponent *uic, struct _sensitize_item *items, guint32 m
 					      NULL);
 		items++;
 	}
-}
-
-static struct _sensitize_item calendar_sensitize_table[] = {
-	{ "EventOpen", E_CAL_MENU_SELECT_ONE },
-	{ "Cut", E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_ANY },
-	{ "Copy", E_CAL_MENU_SELECT_ANY },
-	{ "Paste", E_CAL_MENU_SELECT_EDITABLE },
-	{ "Delete", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_NONRECURRING },
-	{ "DeleteOccurrence", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
-	{ "DeleteAllOccurrences", E_CAL_MENU_SELECT_EDITABLE|E_CAL_MENU_SELECT_RECURRING },
-	{ NULL }
-};
-
-/* Sensitizes the UI Component menu/toolbar calendar commands based on the
- * number of selected events. (This will always be 0 or 1 currently.)  If enable
- * is FALSE, all will be disabled.  Otherwise, the currently-selected number of
- * events will be used.
- */
-void
-calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalendar *gcal, gboolean enable)
-{
-	BonoboUIComponent *uic;
-	GtkWidget *view;
-	ECalMenu *menu;
-	ECalModel *model;
-	GPtrArray *events;
-	GList *selected, *l;
-	ECalMenuTargetSelect *t;
-
-	uic = bonobo_control_get_ui_component (control);
-	g_return_if_fail (uic != NULL);
-
-	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
-		return;
-
-	view = gnome_calendar_get_current_view_widget (gcal);
-
-	menu = gnome_calendar_get_calendar_menu (gcal);
-	model = e_calendar_view_get_model((ECalendarView *)view);
-	events = g_ptr_array_new();
-	selected = e_calendar_view_get_selected_events((ECalendarView *)view);
-	for (l=selected;l;l=g_list_next(l)) {
-		ECalendarViewEvent *event = l->data;
-		if (event && event->comp_data)
-			g_ptr_array_add (events, e_cal_model_copy_component_data(event->comp_data));
-	}
-	g_list_free(selected);
-
-	t = e_cal_menu_target_new_select(menu, model, events);
-	if (!enable)
-		t->target.mask = ~((~t->target.mask) & E_CAL_MENU_SELECT_EDITABLE);
-
-	sensitize_items(uic, calendar_sensitize_table, t->target.mask);
-#if 0
-	/* retrieve read-onlyness of the default client */
-	e_cal = e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal));
-	if (e_cal)
-		e_cal_is_read_only (e_cal, &default_read_only, NULL);
-	else
-		default_read_only = TRUE;
-#endif
-
-	e_menu_update_target((EMenu *)menu, (EMenuTarget *)t);
 }
 
 static struct _sensitize_item taskpad_sensitize_table[] = {
@@ -574,21 +287,6 @@ help_debug (BonoboUIComponent *uid, gpointer data, const gchar *path)
 }
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("EventOpen", file_open_event_cb),
-	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
-	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
-
-	BONOBO_UI_VERB ("Cut", cut_cmd),
-	BONOBO_UI_VERB ("Copy", copy_cmd),
-	BONOBO_UI_VERB ("Paste", paste_cmd),
-	BONOBO_UI_VERB ("Delete", delete_cmd),
-	BONOBO_UI_VERB ("DeleteOccurrence", delete_occurrence_cmd),
-	BONOBO_UI_VERB ("DeleteAllOccurrences", delete_cmd),
-
-	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
-	BONOBO_UI_VERB ("CalendarToday", today_clicked),
-	BONOBO_UI_VERB ("CalendarNext", next_clicked),
-	BONOBO_UI_VERB ("CalendarGoto", goto_clicked),
 
 	BONOBO_UI_VERB ("ShowDayView", show_day_view_clicked),
 	BONOBO_UI_VERB ("ShowWorkWeekView", show_work_week_view_clicked),
@@ -596,38 +294,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 	BONOBO_UI_VERB ("ShowListView", show_list_view_clicked),
 
-	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
 	BONOBO_UI_VERB ("HelpDebug", help_debug),
 	BONOBO_UI_VERB_END
-};
-
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/CalendarPrev", "go-previous", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarPrint", "document-print", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/DeleteAllOccurrences", "edit-delete", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/DeleteOccurrence", "edit-delete", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarGoto", "go-jump", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarNext", "go-next", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarPrintPreview", "document-print-preview", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/Copy", "edit-copy", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/Cut", "edit-cut", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/Delete", "edit-delete", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/Paste", "edit-paste", GTK_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarToday", "go-today", GTK_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/Print", "document-print", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Delete", "edit-delete", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Prev", "go-previous", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Next", "go-next", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Goto", "go-jump", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/DayView", "view-calendar-day", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WorkWeekView", "view-calendar-workweek", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WeekView", "view-calendar-week", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MonthView",	"view-calendar-month", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/ListView", "view-calendar-list", GTK_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Today", "go-today", GTK_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
 };
 
 void
@@ -660,8 +328,6 @@ calendar_control_activate (BonoboControl *control,
 			       "evolution-calendar",
 			       NULL);
 	g_free (xmlfile);
-
-	e_pixmaps_update (uic, pixmaps);
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 

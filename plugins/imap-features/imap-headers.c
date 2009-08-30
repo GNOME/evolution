@@ -31,8 +31,7 @@
 
 #include <gtk/gtk.h>
 
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
+#include "e-util/e-account-utils.h"
 
 #include <camel/camel-url.h>
 #include <camel/camel-exception.h>
@@ -84,7 +83,7 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 	if (g_str_has_prefix (account->source->url, "imap://") ||
 			(use_imap && g_str_has_prefix (account->source->url, "groupwise://"))) {
 		EAccount *temp = NULL;
-		EAccountList *accounts = mail_config_get_accounts ();
+		EAccountList *accounts = e_get_account_list ();
 		CamelURL *url = NULL;
 		CamelException ex;
 		GtkTreeModel *model;

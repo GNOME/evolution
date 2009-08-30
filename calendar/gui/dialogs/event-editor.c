@@ -34,9 +34,9 @@
 #include <glib/gi18n.h>
 
 #include <misc/e-dateedit.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
-#include <evolution-shell-component-utils.h>
 
 #include "event-page.h"
 #include "recurrence-page.h"
@@ -249,15 +249,6 @@ static GtkActionEntry meeting_entries[] = {
 };
 
 static void
-event_editor_client_changed_cb (EventEditor *ee)
-{
-	ECal *client;
-
-	client = comp_editor_get_client (COMP_EDITOR (ee));
-	e_meeting_store_set_e_cal (ee->priv->model, client);
-}
-
-static void
 event_editor_model_changed_cb (EventEditor *ee)
 {
 	if (!ee->priv->updating) {
@@ -370,6 +361,31 @@ event_editor_dispose (GObject *object)
 }
 
 static void
+event_editor_constructed (GObject *object)
+{
+	EventEditorPrivate *priv;
+	EShellSettings *shell_settings;
+	EShell *shell;
+
+	priv = EVENT_EDITOR_GET_PRIVATE (object);
+
+	shell = comp_editor_get_shell (COMP_EDITOR (object));
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_binding_new (
+		G_OBJECT (object), "client",
+		G_OBJECT (priv->model), "client");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-free-busy-template",
+		G_OBJECT (priv->model), "free-busy-template");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (priv->model), "timezone");
+}
+
+static void
 event_editor_show_categories (CompEditor *editor,
                               gboolean visible)
 {
@@ -446,6 +462,7 @@ event_editor_class_init (EventEditorClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = event_editor_constructor;
 	object_class->dispose = event_editor_dispose;
+	object_class->constructed = event_editor_constructed;
 
 	editor_class = COMP_EDITOR_CLASS (class);
 	editor_class->help_section = "usage-calendar-apts";
@@ -466,6 +483,7 @@ event_editor_init (EventEditor *ee)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	const gchar *id;
 	GError *error = NULL;
 
 	ee->priv = EVENT_EDITOR_GET_PRIVATE (ee);
@@ -488,7 +506,10 @@ event_editor_init (EventEditor *ee)
 
 	ui_manager = comp_editor_get_ui_manager (editor);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("event-editor", ui_manager, ee);
+
+	id = "org.gnome.evolution.event-editor";
+	e_plugin_ui_register_manager (ui_manager, id, ee);
+	e_plugin_ui_enable_manager (ui_manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);
@@ -498,10 +519,6 @@ event_editor_init (EventEditor *ee)
 	/* Hide send options. */
 	action = comp_editor_get_action (editor, "send-options");
 	gtk_action_set_visible (action, FALSE);
-
-	g_signal_connect (
-		ee, "notify::client",
-		G_CALLBACK (event_editor_client_changed_cb), NULL);
 
 	g_signal_connect_swapped (
 		ee->priv->model, "row_changed",
@@ -637,7 +654,7 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboo
 		ECal *client;
 		gboolean result;
 
-		client = e_meeting_store_get_e_cal (priv->model);
+		client = e_meeting_store_get_client (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
 				client, NULL, NULL, NULL, strip_alarms, FALSE);
 		g_object_unref (comp);
@@ -663,13 +680,16 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboo
  * editor could not be created.
  **/
 CompEditor *
-event_editor_new (ECal *client, CompEditorFlags flags)
+event_editor_new (ECal *client,
+                  EShell *shell,
+                  CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		TYPE_EVENT_EDITOR,
-		"flags", flags, "client", client, NULL);
+		"client", client, "flags", flags, "shell", shell, NULL);
 }
 
 void

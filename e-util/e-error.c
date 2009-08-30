@@ -412,6 +412,8 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	struct _e_error *e;
 	struct _e_error_button *b;
 	GtkWidget *hbox, *w, *scroll=NULL;
+	GtkWidget *action_area;
+	GtkWidget *content_area;
 	gchar *tmp, *domain, *id;
 	GString *out, *oerr;
 	GPtrArray *args;
@@ -422,11 +424,14 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 		ee_load_tables();
 
 	dialog = (GtkDialog *)gtk_dialog_new();
+	action_area = gtk_dialog_get_action_area (dialog);
+	content_area = gtk_dialog_get_content_area (dialog);
+
 	gtk_dialog_set_has_separator(dialog, FALSE);
 
 	gtk_widget_ensure_style ((GtkWidget *)dialog);
-	gtk_container_set_border_width ((GtkContainer *)(dialog->vbox), 0);
-	gtk_container_set_border_width ((GtkContainer *)(dialog->action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
 	if (parent == NULL && ee_parent_list)
 		parent = (GtkWindow *)ee_parent_list->data;
@@ -454,7 +459,7 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 		gtk_label_set_markup((GtkLabel *)w, tmp);
 		GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 		gtk_widget_show(w);
-		gtk_box_pack_start((GtkBox *)dialog->vbox, w, TRUE, TRUE, 12);
+		gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 12);
 
 		return (GtkWidget *)dialog;
 	}
@@ -557,7 +562,7 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 
 	gtk_widget_show_all(hbox);
 
-	gtk_box_pack_start((GtkBox *)dialog->vbox, hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 	g_object_set_data_full ((GObject *) dialog, "primary", perr, g_free);
 	g_object_set_data_full ((GObject *) dialog, "secondary", serr, g_free);
 
@@ -645,14 +650,14 @@ e_error_run(GtkWindow *parent, const gchar *tag, const gchar *arg0, ...)
 guint
 e_error_count_buttons (GtkDialog *dialog)
 {
-	GtkContainer *action_area;
+	GtkWidget *container;
 	GList *children, *iter;
 	guint n_buttons = 0;
 
 	g_return_val_if_fail (GTK_DIALOG (dialog), 0);
 
-	action_area = GTK_CONTAINER (dialog->action_area);
-	children = gtk_container_get_children (action_area);
+	container = gtk_dialog_get_action_area (dialog);
+	children = gtk_container_get_children (GTK_CONTAINER (container));
 
 	/* Iterate over the children looking for buttons. */
 	for (iter = children; iter != NULL; iter = iter->next)

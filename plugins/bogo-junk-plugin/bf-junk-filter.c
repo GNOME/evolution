@@ -44,7 +44,7 @@
 #include <gtk/gtk.h>
 #include <e-util/e-plugin.h>
 #include "mail/em-config.h"
-#include <mail/em-junk-hook.h>
+#include <mail/em-junk.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-mime-parser.h>
@@ -70,15 +70,15 @@ static const gchar em_junk_bf_gconf_dir[] = EM_JUNK_BF_GCONF_DIR;
 GtkWidget * org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 /* plugin fonction prototypes */
-gboolean em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target);
-gpointer em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
-void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
+gboolean em_junk_bf_check_junk (EPlugin *ep, EMJunkTarget *target);
+gpointer em_junk_bf_validate_binary (EPlugin *ep, EMJunkTarget *target);
+void em_junk_bf_report_junk (EPlugin *ep, EMJunkTarget *target);
+void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target);
+void em_junk_bf_commit_reports (EPlugin *ep, EMJunkTarget *target);
 static gint pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error);
 
 /* eplugin stuff */
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 #define EM_JUNK_BF_GCONF_DIR_LENGTH (G_N_ELEMENTS (em_junk_bf_gconf_dir) - 1)
 
@@ -241,7 +241,7 @@ em_junk_bf_setting_notify (GConfClient *gconf,
 }
 
 gboolean
-em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_bf_check_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
 	gint rv;
@@ -266,7 +266,7 @@ em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target)
 }
 
 void
-em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_bf_report_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
 
@@ -287,7 +287,7 @@ em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 }
 
 void
-em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
 
@@ -308,18 +308,18 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 }
 
 void
-em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_bf_commit_reports (EPlugin *ep, EMJunkTarget *target)
 {
 }
 
 gpointer
-em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
+em_junk_bf_validate_binary (EPlugin *ep, EMJunkTarget *target)
 {
 	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (gpointer) "1" : NULL;
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	GConfClient *gconf;
 

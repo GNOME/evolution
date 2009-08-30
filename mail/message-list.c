@@ -50,9 +50,11 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
-#include "e-util/e-util-labels.h"
 
 #include "misc/e-gui-utils.h"
+
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
 
 #include "table/e-cell-checkbox.h"
 #include "table/e-cell-hbox.h"
@@ -67,7 +69,7 @@
 #include "table/e-cell-vbox.h"
 #include "table/e-cell-hbox.h"
 
-#include "em-popup.h"
+#include "e-mail-label-list-store.h"
 #include "em-utils.h"
 #include "mail-config.h"
 #include "mail-mt.h"
@@ -97,6 +99,10 @@
 #define d(x)
 #define t(x)
 
+#define MESSAGE_LIST_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
+
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -106,6 +112,8 @@ struct _MLSelection {
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
+	EShellBackend *shell_backend;
+
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
@@ -113,12 +121,17 @@ struct _MessageListPrivate {
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 };
 
+enum {
+	PROP_0,
+	PROP_SHELL_BACKEND
+};
+
 static struct {
 	const gchar *target;
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
-	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "x-uid-list", NULL, GDK_ACTION_MOVE|GDK_ACTION_COPY },
 	{ "message/rfc822", NULL, GDK_ACTION_COPY },
 	{ "text/uri-list", NULL, GDK_ACTION_COPY },
 };
@@ -808,7 +821,7 @@ message_list_invert_selection (MessageList *message_list)
 void
 message_list_copy(MessageList *ml, gboolean cut)
 {
-	struct _MessageListPrivate *p = ml->priv;
+	MessageListPrivate *p = ml->priv;
 	GPtrArray *uids;
 
 	clear_selection(ml, &p->clipboard);
@@ -1220,50 +1233,121 @@ sanitize_recipients (const gchar *string)
 }
 
 static gint
-get_all_labels (CamelMessageInfo *msg_info, gchar **label_str, gboolean get_tags)
+get_all_labels (MessageList *message_list,
+                CamelMessageInfo *msg_info,
+                gchar **label_str,
+                gboolean get_tags)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	EMailLabelListStore *store;
+	GtkTreeIter iter;
 	GString *str;
+	const gchar *property_name;
 	const gchar *old_label;
+	gchar *new_label;
 	gint count = 0;
 	const CamelFlag *flag;
-	GSList *labels;
 
-	labels = mail_config_get_labels ();
+	shell_backend = message_list_get_shell_backend (message_list);
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	property_name = "mail-label-list-store";
+	store = e_shell_settings_get_object (shell_settings, property_name);
+
 	str = g_string_new ("");
 
 	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next) {
-		const gchar *name = e_util_labels_get_name (labels, flag->name);
+		gchar *item;
 
-		if (name) {
-			if (str->len)
-				g_string_append (str, ", ");
+		if (!e_mail_label_list_store_lookup (store, flag->name, &iter))
+			continue;
 
-			if (get_tags)
-				name = flag->name;
+		if (get_tags)
+			item = e_mail_label_list_store_get_tag (store, &iter);
+		else
+			item = e_mail_label_list_store_get_name (store, &iter);
 
-			g_string_append (str, name);
-			count++;
-		}
+		if (str->len)
+			g_string_append (str, ", ");
+
+		g_string_append (str, item);
+		count++;
+
+		g_free (item);
 	}
 
-	old_label = e_util_labels_get_new_tag (camel_message_info_user_tag (msg_info, "label"));
+	old_label = camel_message_info_user_tag (msg_info, "label");
+	if (old_label == NULL)
+		goto exit;
 
-	if (old_label != NULL) {
-		const gchar *name = NULL;
+	/* Convert old-style labels ("<name>") to "$Label<name>". */
+	new_label = g_alloca (strlen (old_label) + 10);
+	g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
+
+	if (e_mail_label_list_store_lookup (store, new_label, &iter)) {
+		gchar *name = NULL;
 
 		if (str->len)
 			g_string_append (str, ", ");
 
 		if (!get_tags)
-			name = e_util_labels_get_name (labels, old_label);
+			name = e_mail_label_list_store_get_name (store, &iter);
 
 		g_string_append (str, (get_tags || !name) ? old_label : name);
-		++count;
+		count++;
+
+		g_free (name);
 	}
 
+exit:
 	*label_str = g_string_free (str, FALSE);
 
+	g_object_unref (store);
+
 	return count;
+}
+
+static const gchar *
+get_label_color (MessageList *message_list,
+                 const gchar *tag)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	EMailLabelListStore *store;
+	GtkTreeIter iter;
+	GdkColor color;
+	const gchar *property_name;
+	const gchar *interned = NULL;
+	gchar *color_spec;
+
+	/* FIXME get_all_labels() should return an array of tree iterators,
+	 *       not strings.  Now we just have to lookup the tag again. */
+
+	shell_backend = message_list_get_shell_backend (message_list);
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	property_name = "mail-label-list-store";
+	store = e_shell_settings_get_object (shell_settings, property_name);
+
+	if (!e_mail_label_list_store_lookup (store, tag, &iter))
+		goto exit;
+
+	e_mail_label_list_store_get_color (store, &iter, &color);
+
+	/* XXX Hack to avoid returning an allocated string. */
+	color_spec = gdk_color_to_string (&color);
+	interned = g_intern_string (color_spec);
+	g_free (color_spec);
+
+exit:
+	g_object_unref (store);
+
+	return interned;
 }
 
 static const gchar *
@@ -1467,9 +1551,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
 		followup = camel_message_info_user_tag(msg_info, "follow-up");
 		if (colour == NULL) {
-			if ((n = get_all_labels (msg_info,  &labels_string, TRUE)) == 1) {
-
-				colour = e_util_labels_get_color_str (mail_config_get_labels (), labels_string);
+			if ((n = get_all_labels (message_list, msg_info,  &labels_string, TRUE)) == 1) {
+				colour = get_label_color (message_list, labels_string);
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
@@ -1548,7 +1631,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 
 		cleansed_str = g_string_new ("");
 
-		if (get_all_labels (msg_info, &str, FALSE)) {
+		if (get_all_labels (message_list, msg_info, &str, FALSE)) {
 			gint i;
 			for (i = 0; str[i] != '\0'; ++i) {
 				if (str[i] != '_') {
@@ -1950,7 +2033,7 @@ ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 static gboolean
 ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageList *ml)
 {
-	struct _MessageListPrivate *p = ml->priv;
+	MessageListPrivate *p = ml->priv;
 
 	clear_selection(ml, &p->clipboard);
 
@@ -2079,48 +2162,6 @@ ml_drop_action(struct _drop_msg *m)
 }
 
 static void
-ml_drop_popup_copy(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->action = GDK_ACTION_COPY;
-	ml_drop_action(m);
-}
-
-static void
-ml_drop_popup_move(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->action = GDK_ACTION_MOVE;
-	ml_drop_action(m);
-}
-
-static void
-ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, gpointer data)
-{
-	struct _drop_msg *m = data;
-
-	m->aborted = TRUE;
-	mail_msg_unref(m);
-}
-
-static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), ml_drop_popup_copy, NULL, (gchar *) "folder-copy", 0 },
-	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), ml_drop_popup_move, NULL, (gchar *) "folder-move", 0 },
-	{ E_POPUP_BAR, (gchar *) "10.emc" },
-	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
-};
-
-static void
-ml_drop_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-
-	/* FIXME: free data if no item was selected? */
-}
-
-static void
 ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 			    GdkDragContext *context, gint x, gint y,
 			    GtkSelectionData *data, guint info,
@@ -2146,22 +2187,7 @@ ml_tree_drag_data_received (ETree *tree, gint row, ETreePath path, gint col,
 	memcpy(m->selection->data, data->data, data->length);
 	m->selection->length = data->length;
 
-	if (context->action == GDK_ACTION_ASK) {
-		EMPopup *emp;
-		GSList *menus = NULL;
-		GtkMenu *menu;
-		gint i;
-
-		emp = em_popup_new("org.gnome.mail.messagelist.popup.drop");
-		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++)
-			menus = g_slist_append(menus, &ml_drop_popup_menu[i]);
-
-		e_popup_add_items((EPopup *)emp, menus, NULL, ml_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	} else {
-		ml_drop_action(m);
-	}
+	ml_drop_action(m);
 }
 
 struct search_child_struct {
@@ -2222,8 +2248,6 @@ ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint 
 	action = context->suggested_action;
 	if (action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
 		action = GDK_ACTION_MOVE;
-	else if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
-		action = GDK_ACTION_MOVE;
 
 	gdk_drag_status(context, action, time);
 
@@ -2245,12 +2269,24 @@ on_model_row_changed (ETableModel *model, gint row, MessageList *ml)
 /*
  * GObject::init
  */
+
+static void
+message_list_set_shell_backend (MessageList *message_list,
+                               EShellBackend *shell_backend)
+{
+	g_return_if_fail (message_list->priv->shell_backend == NULL);
+
+	message_list->priv->shell_backend = g_object_ref (shell_backend);
+}
+
 static void
 message_list_init (MessageList *message_list)
 {
-	struct _MessageListPrivate *p;
+	MessageListPrivate *p;
 	GtkAdjustment *adjustment;
 	GdkAtom matom;
+
+	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
 	adjustment = (GtkAdjustment *) gtk_adjustment_new (0.0, 0.0, G_MAXDOUBLE, 0.0, 0.0, 0.0);
 	gtk_scrolled_window_set_vadjustment ((GtkScrolledWindow *) message_list, adjustment);
@@ -2280,7 +2316,7 @@ message_list_init (MessageList *message_list)
 	message_list->regen_lock = g_mutex_new ();
 
 	/* TODO: Should this only get the selection if we're realised? */
-	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
+	p = message_list->priv;
 	p->invisible = gtk_invisible_new();
 	p->destroyed = FALSE;
 	g_object_ref_sink(p->invisible);
@@ -2301,7 +2337,7 @@ static void
 message_list_destroy(GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	struct _MessageListPrivate *p = message_list->priv;
+	MessageListPrivate *p = message_list->priv;
 
 	p->destroyed = TRUE;
 
@@ -2353,14 +2389,65 @@ message_list_destroy(GtkObject *object)
 		message_list->seen_id = 0;
 	}
 
+	/* Chain up to parent's destroy() method. */
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
 }
 
 static void
-message_list_finalise (GObject *object)
+message_list_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_BACKEND:
+			message_list_set_shell_backend (
+				MESSAGE_LIST (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+message_list_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_BACKEND:
+			g_value_set_object (
+				value, message_list_get_shell_backend (
+				MESSAGE_LIST (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+message_list_dispose (GObject *object)
+{
+	MessageListPrivate *priv;
+
+	priv = MESSAGE_LIST_GET_PRIVATE (object);
+
+	if (priv->shell_backend != NULL) {
+		g_object_unref (priv->shell_backend);
+		priv->shell_backend = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (message_list_parent_class)->dispose (object);
+}
+
+static void
+message_list_finalize (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	struct _MessageListPrivate *p = message_list->priv;
+	MessageListPrivate *priv = message_list->priv;
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
@@ -2390,10 +2477,9 @@ message_list_finalise (GObject *object)
 	g_free(message_list->folder_uri);
 	message_list->folder_uri = NULL;
 
-	clear_selection(message_list, &p->clipboard);
+	clear_selection(message_list, &priv->clipboard);
 
-	g_free(p);
-
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
 }
 
@@ -2401,17 +2487,36 @@ message_list_finalise (GObject *object)
  * GObjectClass::init
  */
 static void
-message_list_class_init (MessageListClass *message_list_class)
+message_list_class_init (MessageListClass *class)
 {
-	GObjectClass *object_class = (GObjectClass *) message_list_class;
-	GtkObjectClass *gtkobject_class = (GtkObjectClass *) message_list_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	gint i;
 
 	for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
 		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
-	object_class->finalize = message_list_finalise;
-	gtkobject_class->destroy = message_list_destroy;
+	g_type_class_add_private (class, sizeof (MessageListPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = message_list_set_property;
+	object_class->get_property = message_list_get_property;
+	object_class->dispose = message_list_dispose;
+	object_class->finalize = message_list_finalize;
+
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = message_list_destroy;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_BACKEND,
+		g_param_spec_object (
+			"shell-backend",
+			_("Shell Backend"),
+			_("The mail shell backend"),
+			E_TYPE_SHELL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",
@@ -2541,14 +2646,14 @@ message_list_construct (MessageList *message_list)
 
 	e_tree_drag_source_set(message_list->tree, GDK_BUTTON1_MASK,
 			       ml_drag_types, sizeof(ml_drag_types)/sizeof(ml_drag_types[0]),
-			       GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
+			       GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
 	g_signal_connect(message_list->tree, "tree_drag_data_get",
 			 G_CALLBACK(ml_tree_drag_data_get), message_list);
 
 	e_tree_drag_dest_set(message_list->tree, GTK_DEST_DEFAULT_ALL,
 			     ml_drop_types, sizeof(ml_drop_types)/sizeof(ml_drop_types[0]),
-			     GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
+			     GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
 	g_signal_connect(message_list->tree, "tree_drag_data_received",
 			 G_CALLBACK(ml_tree_drag_data_received), message_list);
@@ -2563,17 +2668,28 @@ message_list_construct (MessageList *message_list)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (void)
+message_list_new (EShellBackend *shell_backend)
 {
 	MessageList *message_list;
+
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
 	message_list = MESSAGE_LIST (g_object_new(message_list_get_type (),
 						  "hadjustment", NULL,
 						  "vadjustment", NULL,
+						  "shell-backend", shell_backend,
 						  NULL));
 	message_list_construct (message_list);
 
 	return GTK_WIDGET (message_list);
+}
+
+EShellBackend *
+message_list_get_shell_backend (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+
+	return message_list->priv->shell_backend;
 }
 
 static void
@@ -4069,9 +4185,8 @@ regen_list_exec (struct _regen_list_msg *m)
 
 					if ((!is_deleted || (is_deleted && !m->hidedel)) && (!is_junk || (is_junk && !m->hidejunk)))
 						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
-
-					camel_folder_free_message_info (m->folder, looking_info);
 				}
+
 			}
 		}
 	}

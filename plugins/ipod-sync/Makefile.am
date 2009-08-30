@@ -17,7 +17,7 @@ liborg_gnome_ipod_sync_evolution_la_SOURCES = \
 	format-handler.h                \
 	evolution-ipod-sync.h
 
-liborg_gnome_ipod_sync_evolution_la_LDFLAGS = -module -avoid-version
+liborg_gnome_ipod_sync_evolution_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_ipod_sync_evolution_la_LIBADD = 			\
 	$(EVOLUTION_CALENDAR_LIBS)
 

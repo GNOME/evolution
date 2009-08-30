@@ -60,21 +60,6 @@ EABConfig *eab_config_new (gint type, const gchar *menuid);
 
 EABConfigTargetSource *eab_config_target_new_source (EABConfig *ecp, struct _ESource *source);
 
-/* ********************************************************************** */
-
-typedef struct _EABConfigHook EABConfigHook;
-typedef struct _EABConfigHookClass EABConfigHookClass;
-
-struct _EABConfigHook {
-	EConfigHook hook;
-};
-
-struct _EABConfigHookClass {
-	EConfigHookClass hook_class;
-};
-
-GType eab_config_hook_get_type (void);
-
 G_END_DECLS
 
 #endif

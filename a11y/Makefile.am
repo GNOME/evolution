@@ -1,13 +1,3 @@
-# Somewhat odd looking to have "." in SUBDIRS, but apparently it works?
-SUBDIRS = e-text e-table . calendar widgets addressbook
-
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS =					\
-	$(top_builddir)/win32/libemiscwidgets.la	\
-	$(top_builddir)/win32/libetable.la		\
-	$(top_builddir)/win32/libetext.la
-endif
-
 # for debug
 #A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror
 
@@ -18,8 +8,6 @@ AM_CPPFLAGS =				\
 
 libevolution_a11y_la_SOURCES =		\
 	ea-factory.h			\
-	ea-cell-table.h			\
-	ea-cell-table.c			\
 	gal-a11y-util.c			\
 	gal-a11y-util.h			\
 	gal-a11y-factory.h
@@ -27,9 +15,6 @@ libevolution_a11y_la_SOURCES =		\
 libevolution_a11y_la_LDFLAGS = $(NO_UNDEFINED)
 
 libevolution_a11y_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)			\
-	e-text/libgal-a11y-etext.la		\
-	e-table/libgal-a11y-etable.la		\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PLATFORM_LIBS)
 

@@ -61,7 +61,7 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-file-utils.h>
 
-#include <mail/mail-component.h>
+#include <mail/e-mail-local.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
@@ -94,7 +94,7 @@ gboolean org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *
 GtkWidget *org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImportImporter *im);
 void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
    so declare the functions here
@@ -225,7 +225,7 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	/* Suggest a folder that is in the same mail storage as the users' inbox,
 	   with a name derived from the .PST file */
-	inbox = mail_component_get_folder_uri (NULL, MAIL_COMPONENT_FOLDER_INBOX);
+	inbox = e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX);
 
 	delim = g_strrstr (inbox, "#");
 	if (delim != NULL) {
@@ -255,10 +255,11 @@ get_suggested_foldername (EImportTargetURI *target)
 	}
 
 	if (mail_tool_uri_to_folder (foldername->str, 0, NULL) != NULL) {
+		CamelFolder *folder;
+
 		/* Folder exists - add a number */
 		gint i, len;
 		len = foldername->len;
-		CamelFolder *folder;
 
 		for (i=1; i<10000; i++) {
 			g_string_truncate (foldername, len);
@@ -350,7 +351,7 @@ pst_import_describe (PstImporter *m, gint complete)
 }
 
 static ECal*
-open_ecal (ECalSourceType type, gchar *name)
+open_ecal (ECalSourceType type, const gchar *name)
 {
 	/* Hack - grab the first calendar we can find
 		TODO - add a selection mechanism in get_widget */
@@ -730,7 +731,7 @@ static CamelMimePart *
 attachment_to_part (PstImporter *m, pst_item_attach *attach)
 {
 	CamelMimePart *part;
-	gchar *mimetype;
+	const gchar *mimetype;
 
 	part = camel_mime_part_new ();
 
@@ -831,7 +832,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 		if (item->email->sentto_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->sentto_address.str) > 0);
+			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->sentto_address.str) > 0)
 				camel_mime_message_set_recipients (msg, "To", addr);
 
 			camel_object_unref (addr);
@@ -840,7 +841,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 		if (item->email->cc_address.str != NULL) {
 			addr = camel_internet_address_new ();
 
-			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->cc_address.str) > 0);
+			if (camel_address_decode (CAMEL_ADDRESS (addr), item->email->cc_address.str) > 0)
 				camel_mime_message_set_recipients (msg, "CC", addr);
 
 			camel_object_unref (addr);
@@ -941,7 +942,7 @@ contact_set_string (EContact *contact, EContactField id, gchar *string)
 }
 
 static void
-unknown_field (EContact *contact, GString *notes, gchar *name, gchar *string)
+unknown_field (EContact *contact, GString *notes, const gchar *name, gchar *string)
 {
 	/* Field could not be mapped directly so add to notes field */
 	if (string != NULL) {
@@ -1010,9 +1011,9 @@ pst_process_contact (PstImporter *m, pst_item *item)
 {
 	pst_item_contact *c;
 	EContact *ec;
-	c = item->contact;
 	GString *notes;
 
+	c = item->contact;
 	notes = g_string_sized_new (2048);
 
 	ec = e_contact_new ();
@@ -1274,11 +1275,12 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 	pst_item_appointment *a;
 	pst_item_email *e;
 
-	a = item->appointment;
-	e = item->email;
 	ECalComponentText text;
 	struct icaltimetype tt_start, tt_end;
 	ECalComponentDateTime dt_start, dt_end;
+
+	a = item->appointment;
+	e = item->email;
 
 	if (item->create_date) {
 		struct icaltimetype tt;
@@ -1653,7 +1655,7 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (enable) {
 		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);

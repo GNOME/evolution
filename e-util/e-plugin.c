@@ -72,12 +72,6 @@ static GHashTable *ep_types;
 static GSList *ep_path;
 /* global table of plugins by plugin.id */
 static GHashTable *ep_plugins;
-/* a table of GSLists of plugins by hook class for hooks not loadable yet */
-static GHashTable *ep_plugins_pending_hooks;
-/* list of all cached xml docs:struct _plugin_doc's */
-static EDList ep_plugin_docs = E_DLIST_INITIALISER(ep_plugin_docs);
-/* gconf client */
-static GConfClient *ep_gconf;
 /* the list of disabled plugins from gconf */
 static GSList *ep_disabled;
 
@@ -110,6 +104,8 @@ ep_check_enabled (const gchar *id)
 static void
 ep_set_enabled (const gchar *id, gint state)
 {
+	GConfClient *client;
+
 	/* Bail out if no change to state, when expressed as a boolean: */
 	if ((state == 0) == (ep_check_enabled(id) == 0))
 		return;
@@ -126,9 +122,11 @@ ep_set_enabled (const gchar *id, gint state)
 	} else
 		ep_disabled = g_slist_prepend (ep_disabled, g_strdup (id));
 
-	gconf_client_set_list(
-		ep_gconf, "/apps/evolution/eplugin/disabled",
+	client = gconf_client_get_default ();
+	gconf_client_set_list (
+		client, "/apps/evolution/eplugin/disabled",
 		GCONF_VALUE_STRING, ep_disabled, NULL);
+	g_object_unref (client);
 }
 
 static gint
@@ -182,21 +180,6 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 				} else {
 					ep->hooks = g_slist_append(ep->hooks, hook);
 				}
-			} else {
-				gpointer l, oldclass;
-
-				if (ep_plugins_pending_hooks == NULL)
-					ep_plugins_pending_hooks = g_hash_table_new(g_str_hash, g_str_equal);
-				if (!g_hash_table_lookup_extended (ep_plugins_pending_hooks, class, &oldclass, &l)) {
-					oldclass = class;
-					l = NULL;
-				}
-				else {
-					g_free(class);
-				}
-				l = g_slist_prepend (l, ep);
-				g_hash_table_insert (ep_plugins_pending_hooks, oldclass, l);
-				ep->hooks_pending = g_slist_prepend (ep->hooks_pending, node);
 			}
 		} else if (strcmp((gchar *)node->name, "description") == 0) {
 			ep->description = e_plugin_xml_content_domain(node, ep->domain);
@@ -276,7 +259,6 @@ ep_finalize (GObject *object)
 	g_free (ep->description);
 	g_free (ep->name);
 	g_free (ep->domain);
-	g_slist_free (ep->hooks_pending);
 
 	g_slist_foreach (ep->hooks, (GFunc) g_object_unref, NULL);
 	g_slist_free (ep->hooks);
@@ -425,9 +407,7 @@ ep_load(const gchar *filename, gint load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
-	gint res = -1;
 	EPlugin *ep = NULL;
-	gint cache = FALSE;
 	struct _plugin_doc *pdoc;
 
 	doc = e_xml_parse_file (filename);
@@ -478,80 +458,12 @@ ep_load(const gchar *filename, gint load_level)
 				g_free (is_system_plugin);
 
 				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
-				cache |= (ep->hooks_pending != NULL);
 				ep = NULL;
 			}
-			cache |= pdoc->plugins != NULL;
 		}
 	}
 
-	res = 0;
-
-	if (cache) {
-		pd(printf("Caching plugin description '%s' for unknown future hooks\n", filename));
-		e_dlist_addtail(&ep_plugin_docs, (EDListNode *)pdoc);
-	} else {
-		pd(printf("freeing plugin description '%s', nothing uses it\n", filename));
-		xmlFreeDoc(pdoc->doc);
-		g_free(pdoc->filename);
-		g_free(pdoc);
-	}
-
-	return res;
-}
-
-/* This loads a hook that was pending on a given plugin but the type wasn't registered yet */
-/* This works in conjunction with ep_construct and e_plugin_hook_register_type to make sure
-   everything works nicely together.  Apparently. */
-static gint
-ep_load_pending(EPlugin *ep, EPluginHookClass *type)
-{
-	gint res = 0;
-	GSList *l, *p;
-
-	phd(printf("New hook type registered '%s', loading pending hooks on plugin '%s'\n", type->id, ep->id));
-
-	l = ep->hooks_pending;
-	p = NULL;
-	while (l) {
-		GSList *n = l->next;
-		xmlNodePtr node = l->data;
-		gchar *class = (gchar *)xmlGetProp(node, (const guchar *)"class");
-		EPluginHook *hook;
-
-		phd(printf(" checking pending hook '%s'\n", class?class:"<unknown>"));
-
-		if (class) {
-			if (strcmp(class, type->id) == 0) {
-				hook = g_object_new(G_OBJECT_CLASS_TYPE(type), NULL);
-
-				/* Don't bother loading hooks for plugins that are not anyway enabled */
-				if (ep->enabled) {
-					res = type->construct(hook, ep, node);
-					if (res == -1) {
-						g_warning("Plugin '%s' failed to load hook '%s'", ep->name, type->id);
-						g_object_unref(hook);
-					} else {
-						ep->hooks = g_slist_append(ep->hooks, hook);
-					}
-				}
-
-				if (p)
-					p->next = n;
-				else
-					ep->hooks_pending = n;
-				g_slist_free_1(l);
-				l = p;
-			}
-
-			xmlFree(class);
-		}
-
-		p = l;
-		l = n;
-	}
-
-	return res;
+	return 0;
 }
 
 /**
@@ -574,6 +486,69 @@ e_plugin_add_load_path(const gchar *path)
 	ep_path = g_slist_append(ep_path, g_strdup(path));
 }
 
+static void
+plugin_load_subclasses (void)
+{
+	GType *children;
+	guint n_children, ii;
+
+	ep_types = g_hash_table_new (g_str_hash, g_str_equal);
+	eph_types = g_hash_table_new (g_str_hash, g_str_equal);
+	ep_plugins = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* Load EPlugin subclasses. */
+
+	children = g_type_children (E_TYPE_PLUGIN, &n_children);
+
+	for (ii = 0; ii < n_children; ii++) {
+		EPluginClass *class;
+
+		class = g_type_class_ref (children[ii]);
+		g_hash_table_insert (ep_types, (gpointer) class->type, class);
+	}
+
+	g_free (children);
+
+	/* Load EPluginHook subclasses. */
+
+	children = g_type_children (E_TYPE_PLUGIN_HOOK, &n_children);
+
+	for (ii = 0; ii < n_children; ii++) {
+		EPluginHookClass *hook_class;
+		EPluginHookClass *dupe_class;
+
+		hook_class = g_type_class_ref (children[ii]);
+
+		/* Sanity check the hook class. */
+		if (hook_class->id == NULL || *hook_class->id == '\0') {
+			g_warning (
+				"%s has no hook ID, so skipping",
+				G_OBJECT_CLASS_NAME (hook_class));
+			g_type_class_unref (hook_class);
+			continue;
+		}
+
+		/* Check for class ID collisions. */
+		dupe_class = g_hash_table_lookup (eph_types, hook_class->id);
+		if (dupe_class != NULL) {
+			g_warning (
+				"%s and %s have the same hook "
+				"ID ('%s'), so skipping %s",
+				G_OBJECT_CLASS_NAME (dupe_class),
+				G_OBJECT_CLASS_NAME (hook_class),
+				hook_class->id,
+				G_OBJECT_CLASS_NAME (hook_class));
+			g_type_class_unref (hook_class);
+			continue;
+		}
+
+		g_hash_table_insert (
+			eph_types, (gpointer) hook_class->id, hook_class);
+	}
+
+	g_free (children);
+}
+
 /**
  * e_plugin_load_plugins:
  *
@@ -585,13 +560,23 @@ e_plugin_add_load_path(const gchar *path)
 gint
 e_plugin_load_plugins(void)
 {
+	GConfClient *client;
 	GSList *l;
 	gint i;
 
-	if (ep_types == NULL) {
-		g_warning("no plugin types defined");
+	if (eph_types != NULL)
 		return 0;
-	}
+
+	/* We require that all GTypes for EPlugin and EPluginHook
+	 * subclasses be registered prior to loading any plugins.
+	 * It greatly simplifies the loading process. */
+	plugin_load_subclasses ();
+
+	client = gconf_client_get_default ();
+	ep_disabled = gconf_client_get_list (
+		client, "/apps/evolution/eplugin/disabled",
+		GCONF_VALUE_STRING, NULL);
+	g_object_unref (client);
 
 	for (i=0; i < 3; i++) {
 		for (l = ep_path;l;l = g_slist_next(l)) {
@@ -621,70 +606,6 @@ e_plugin_load_plugins(void)
 	}
 
 	return 0;
-}
-
-/**
- * e_plugin_register_type:
- * @type: The GObject type of the plugin loader.
- *
- * Register a new plugin type with the plugin system.  Each type must
- * subclass EPlugin and must override the type member of the
- * EPluginClass with a unique name.
- **/
-void
-e_plugin_register_type(GType type)
-{
-	EPluginClass *class;
-	struct _plugin_doc *pdoc, *ndoc;
-
-	if (ep_types == NULL) {
-		ep_types = g_hash_table_new(g_str_hash, g_str_equal);
-		ep_plugins = g_hash_table_new(g_str_hash, g_str_equal);
-		/* TODO: notify listening */
-		ep_gconf = gconf_client_get_default();
-		ep_disabled = gconf_client_get_list(ep_gconf, "/apps/evolution/eplugin/disabled", GCONF_VALUE_STRING, NULL);
-	}
-
-	class = g_type_class_ref(type);
-
-	pd(printf("register plugin type '%s'\n", class->type));
-
-	g_hash_table_insert(ep_types, (gpointer)class->type, class);
-
-	/* check for pending plugins */
-	pdoc = (struct _plugin_doc *)ep_plugin_docs.head;
-	ndoc = pdoc->next;
-	while (ndoc) {
-		if (pdoc->plugins) {
-			GSList *l, *add = NULL;
-
-			for (l=pdoc->plugins;l;l=g_slist_next(l)) {
-				xmlNodePtr root = l->data;
-				gchar *prop_type;
-
-				prop_type = (gchar *)xmlGetProp(root, (const guchar *)"type");
-				if (!strcmp(prop_type, class->type))
-					add = g_slist_append(add, l->data);
-				xmlFree(prop_type);
-			}
-
-			for (l=add;l;l=g_slist_next(l)) {
-				xmlNodePtr root = l->data;
-				EPlugin *ep;
-
-				pdoc->plugins = g_slist_remove(pdoc->plugins, root);
-				ep = ep_load_plugin(root, pdoc);
-				if (ep)
-					pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
-				/* TODO: garbage collect plugin doc? */
-			}
-
-			g_slist_free(add);
-		}
-
-		pdoc = ndoc;
-		ndoc = ndoc->next;
-	}
 }
 
 static void
@@ -973,265 +894,6 @@ e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain)
 
 /* ********************************************************************** */
 
-static gpointer epl_parent_class;
-
-/* TODO:
-   We need some way to manage lifecycle.
-   We need some way to manage state.
-
-   Maybe just the g module init method will do, or we could add
-   another which returns context.
-
-   There is also the question of per-instance context, e.g. for config
-   pages.
-*/
-
-static GList *missing_symbols = NULL;
-
-static gint
-epl_loadmodule(EPlugin *ep, gboolean fatal)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-	EPluginLibEnableFunc enable;
-
-	if (epl->module != NULL)
-		return 0;
-
-	if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-		if (fatal)
-			g_warning("can't load plugin '%s': %s", epl->location, g_module_error());
-		else
-			missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
-		return -1;
-	}
-
-	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (gpointer)&enable)) {
-		if (enable(epl, TRUE) != 0) {
-			ep->enabled = FALSE;
-			g_module_close(epl->module);
-			epl->module = NULL;
-			return -1;
-		}
-	}
-
-	return 0;
-}
-
-void
-e_plugin_load_plugins_with_missing_symbols (void)
-{
-	GList *list = missing_symbols;
-
-	while (list) {
-		EPlugin *ep = list->data;
-		epl_loadmodule (ep, TRUE);
-		g_object_unref (ep);
-		list = g_list_next (list);
-	}
-
-	g_list_free (missing_symbols);
-	missing_symbols = NULL;
-}
-
-static gpointer
-epl_invoke(EPlugin *ep, const gchar *name, gpointer data)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-	EPluginLibFunc cb;
-
-	if (!ep->enabled) {
-		g_warning("trying to invoke '%s' on disabled plugin '%s'", name, ep->id);
-		return NULL;
-	}
-
-	if (epl_loadmodule(ep, FALSE) != 0)
-		return NULL;
-
-	if (!g_module_symbol(epl->module, name, (gpointer)&cb)) {
-		g_warning("Cannot resolve symbol '%s' in plugin '%s' (not exported?)", name, epl->location);
-		return NULL;
-	}
-
-	return cb(epl, data);
-}
-
-static gpointer
-epl_get_symbol(EPlugin *ep, const gchar *name)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-	gpointer symbol;
-
-	if (epl_loadmodule (ep, FALSE) != 0)
-		return NULL;
-
-	if (!g_module_symbol (epl->module, name, &symbol))
-		return NULL;
-
-	return symbol;
-}
-
-static gint
-epl_construct(EPlugin *ep, xmlNodePtr root)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-
-	if (E_PLUGIN_CLASS (epl_parent_class)->construct (ep, root) == -1)
-		return -1;
-
-	epl->location = e_plugin_xml_prop(root, "location");
-
-	if (epl->location == NULL) {
-		g_warning("Library plugin '%s' has no location", ep->id);
-		return -1;
-	}
-#ifdef G_OS_WIN32
-	{
-		gchar *mapped_location =
-			e_util_replace_prefix (EVOLUTION_PREFIX,
-					       e_util_get_prefix (),
-					       epl->location);
-		g_free (epl->location);
-		epl->location = mapped_location;
-	}
-#endif
-	/* If we're enabled, check for the load-on-startup property */
-	if (ep->enabled) {
-		xmlChar *tmp;
-
-		tmp = xmlGetProp(root, (const guchar *)"load-on-startup");
-		if (tmp) {
-			if (strcmp ((const gchar *)tmp, "after-ui") == 0) {
-				missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
-			} else {
-				if (epl_loadmodule(ep, FALSE) != 0) {
-					xmlFree(tmp);
-					return -1;
-				}
-			}
-			xmlFree(tmp);
-		}
-	}
-
-	return 0;
-}
-
-static GtkWidget *
-epl_get_configure_widget (EPlugin *ep)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-	EPluginLibGetConfigureWidgetFunc get_configure_widget;
-
-	pd (printf ("\n epl_get_configure_widget \n"));
-
-	if (epl_loadmodule (ep, FALSE) != 0) {
-		pd (printf ("\n epl_loadmodule  \n"));
-		return NULL;
-	}
-
-	if (g_module_symbol (epl->module, "e_plugin_lib_get_configure_widget", (gpointer)&get_configure_widget)) {
-		pd (printf ("\n g_module_symbol is loaded\n"));
-		return (GtkWidget*) get_configure_widget (epl);
-	}
-	return NULL;
-}
-
-static void
-epl_enable(EPlugin *ep, gint state)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (ep);
-	EPluginLibEnableFunc enable;
-
-	E_PLUGIN_CLASS (epl_parent_class)->enable (ep, state);
-
-	/* if we're disabling and it isn't loaded, nothing to do */
-	if (!state && epl->module == NULL)
-		return;
-
-	/* this will noop if we're disabling since we tested it above */
-	if (epl_loadmodule(ep, FALSE) != 0)
-		return;
-
-	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (gpointer)&enable)) {
-		if (enable(epl, state) != 0)
-			return;
-	}
-#if 0
-	if (!state) {
-		g_module_close(epl->module);
-		epl->module = NULL;
-	}
-#endif
-}
-
-static void
-epl_finalize (GObject *object)
-{
-	EPluginLib *epl = E_PLUGIN_LIB (object);
-
-	g_free (epl->location);
-
-	if (epl->module)
-		g_module_close (epl->module);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (epl_parent_class)->finalize (object);
-}
-
-static void
-epl_class_init (EPluginClass *class)
-{
-	GObjectClass *object_class;
-
-	epl_parent_class = g_type_class_peek_parent (class);
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = epl_finalize;
-
-	class->construct = epl_construct;
-	class->invoke = epl_invoke;
-	class->get_symbol = epl_get_symbol;
-	class->enable = epl_enable;
-	class->get_configure_widget = epl_get_configure_widget;
-	class->type = "shlib";
-}
-
-/**
- * e_plugin_lib_get_type:
- *
- * Standard GObject function to retrieve the EPluginLib type.  Use to
- * register the type with the plugin system if you want to use shared
- * library plugins.
- *
- * Return value: The EPluginLib type.
- **/
-GType
-e_plugin_lib_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPluginLibClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) epl_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPluginLib),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			e_plugin_get_type (), "EPluginLib", &type_info, 0);
-	}
-
-	return type;
-}
-
-/* ********************************************************************** */
-
 static gpointer eph_parent_class;
 
 static gint
@@ -1312,83 +974,6 @@ e_plugin_hook_enable (EPluginHook *eph, gint state)
 	g_return_if_fail (class->enable != NULL);
 
 	class->enable (eph, state);
-}
-
-/**
- * e_plugin_hook_register_type:
- * @type:
- *
- * Register a new plugin hook type with the plugin system.  Each type
- * must subclass EPluginHook and must override the id member of the
- * EPluginHookClass with a unique identification string.
- **/
-void
-e_plugin_hook_register_type(GType type)
-{
-	EPluginHookClass *klass, *oldklass;
-	GSList *l;
-
-	gpointer plugins; /* GSList */
-	gpointer class;
-
-	if (eph_types == NULL)
-		eph_types = g_hash_table_new(g_str_hash, g_str_equal);
-
-	klass = g_type_class_ref(type);
-
-	oldklass = g_hash_table_lookup(eph_types, (gpointer)klass->id);
-	if (oldklass == klass) {
-		g_type_class_unref(klass);
-		return;
-	} else if (oldklass != NULL) {
-		g_warning("Trying to re-register hook type '%s'", klass->id);
-		return;
-	}
-
-	phd(printf("register plugin hook type '%s'\n", klass->id));
-	g_hash_table_insert(eph_types, (gpointer)klass->id, klass);
-
-	/* if we've already loaded a plugin that needed this hook but it didn't exist, re-load it now */
-
-	if (ep_plugins_pending_hooks
-	    && g_hash_table_lookup_extended (ep_plugins_pending_hooks, klass->id, &class, &plugins)) {
-		struct _plugin_doc *pdoc, *ndoc;
-
-		g_hash_table_remove (ep_plugins_pending_hooks, class);
-		g_free (class);
-		for (l = plugins; l; l = g_slist_next(l)) {
-			EPlugin *ep = l->data;
-
-			ep_load_pending (ep, klass);
-		}
-		g_slist_free (plugins);
-
-		/* See if we can now garbage collect the xml definition since its been fully loaded */
-
-		/* This is all because libxml doesn't refcount! */
-
-		pdoc = (struct _plugin_doc *)ep_plugin_docs.head;
-		ndoc = pdoc->next;
-		while (ndoc) {
-			if (pdoc->doc) {
-				gint cache = pdoc->plugins != NULL;
-
-				for (l=pdoc->plugin_hooks;!cache && l;l=g_slist_next(l))
-					cache |= (((EPlugin *)l->data)->hooks_pending != NULL);
-
-				if (!cache) {
-					pd(printf("Gargabe collecting plugin description '%s'\n", pdoc->filename));
-					e_dlist_remove((EDListNode *)pdoc);
-					xmlFreeDoc(pdoc->doc);
-					g_free(pdoc->filename);
-					g_free(pdoc);
-				}
-			}
-
-			pdoc = ndoc;
-			ndoc = ndoc->next;
-		}
-	}
 }
 
 /**
@@ -1477,119 +1062,4 @@ e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const
 	xmlFree(val);
 
 	return ~0;
-}
-
-/* ********************************************************************** */
-/* Plugin plugin */
-
-static gpointer epth_parent_class;
-
-static gint
-epth_load_plugin(gpointer d)
-{
-	EPluginHook *eph = d;
-	EPluginTypeHook *epth = d;
-	GType type;
-
-	epth->idle = 0;
-
-	type = GPOINTER_TO_UINT(e_plugin_invoke(eph->plugin, epth->get_type, eph->plugin));
-	if (type != 0)
-		e_plugin_register_type(type);
-
-	return FALSE;
-}
-
-static gint
-epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
-{
-	EPluginTypeHook *epth = E_PLUGIN_TYPE_HOOK (eph);
-	xmlNodePtr node;
-
-	phd(printf("loading plugin hook\n"));
-
-	if (((EPluginHookClass *)epth_parent_class)->construct(eph, ep, root) == -1)
-		return -1;
-
-	node = root->children;
-	while (node) {
-		if (strcmp((gchar *)node->name, "plugin-type") == 0) {
-			epth->get_type = e_plugin_xml_prop(node, "get-type");
-			/* We need to run this in an idle handler,
-			 * since at this point the parent EPlugin wont
-			 * be fully initialised ... darn */
-			if (epth->get_type)
-				epth->idle = g_idle_add(epth_load_plugin, epth);
-			else
-				g_warning("Plugin type plugin missing get-type callback");
-		}
-		node = node->next;
-	}
-
-	eph->plugin = ep;
-
-	return 0;
-}
-
-static void
-epth_finalize (GObject *object)
-{
-	EPluginTypeHook *epth = E_PLUGIN_TYPE_HOOK (object);
-
-	if (epth->idle != 0)
-		g_source_remove (epth->idle);
-
-	g_free (epth->get_type);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (epth_parent_class)->finalize (object);
-}
-
-static void
-epth_class_init (EPluginTypeHookClass *class)
-{
-	GObjectClass *object_class;
-	EPluginHookClass *hook_class;
-
-	epth_parent_class = g_type_class_peek_parent (class);
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = epth_finalize;
-
-	hook_class = E_PLUGIN_HOOK_CLASS (class);
-	hook_class->construct = epth_construct;
-	hook_class->id = "org.gnome.evolution.plugin.type:1.0";
-}
-
-/**
- * e_plugin_type_hook_get_type:
- *
- * Get the type for the plugin plugin hook.
- *
- * Return value: The type of the plugin type hook.
- **/
-GType
-e_plugin_type_hook_get_type(void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPluginTypeHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) epth_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPluginTypeHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_PLUGIN_HOOK, "EPluginTypeHook", &type_info, 0);
-	}
-
-	return type;
 }

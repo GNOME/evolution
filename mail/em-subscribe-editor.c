@@ -35,8 +35,9 @@
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
-#include "libedataserver/e-account-list.h"
 #include "libedataserver/e-msgport.h"
+
+#include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
 
 #include "em-subscribe-editor.h"
@@ -820,7 +821,8 @@ window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	g_object_unref (gconf);
 }
 
-GtkDialog *em_subscribe_editor_new(void)
+GtkWidget *
+em_subscribe_editor_new(void)
 {
 	EMSubscribeEditor *se;
 	EAccountList *accounts;
@@ -895,7 +897,7 @@ GtkDialog *em_subscribe_editor_new(void)
 		1, TRUE,
 		-1);
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	for (iter = e_list_get_iterator ((EList *) accounts);
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
@@ -945,5 +947,5 @@ GtkDialog *em_subscribe_editor_new(void)
 	gtk_window_set_default_size ((GtkWindow *) se->dialog, window_size.width, window_size.height);
 	g_signal_connect (se->dialog, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
 
-	return se->dialog;
+	return GTK_WIDGET (se->dialog);
 }

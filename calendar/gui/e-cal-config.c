@@ -28,7 +28,6 @@
 #include "e-cal-config.h"
 
 static GObjectClass *ecp_parent_class;
-static GObjectClass *ecph_parent_class;
 
 struct _ECalConfigPrivate {
 	guint source_changed_id;
@@ -165,50 +164,4 @@ e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf)
 		g_object_ref (gconf);
 
 	return t;
-}
-
-static const EConfigHookTargetMask ecph_no_masks[] = {
-	{ NULL }
-};
-
-static const EConfigHookTargetMap ecph_targets[] = {
-	{ "source", EC_CONFIG_TARGET_SOURCE, ecph_no_masks },
-	{ "prefs", EC_CONFIG_TARGET_PREFS, ecph_no_masks },
-	{ NULL },
-};
-
-static void
-ecph_class_init (EPluginHookClass *klass)
-{
-	gint i;
-
-	klass->id = "org.gnome.evolution.calendar.config:1.0";
-
-	for (i = 0; ecph_targets[i].type; i++) {
-		e_config_hook_class_add_target_map ((EConfigHookClass *)klass, &ecph_targets[i]);
-	}
-
-	((EConfigHookClass *)klass)->config_class = g_type_class_ref (e_cal_config_get_type ());
-}
-
-GType
-e_cal_config_hook_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (ECalConfigHookClass),
-			NULL, NULL,
-			(GClassInitFunc) ecph_class_init,
-			NULL, NULL,
-			sizeof (ECalConfigHook), 0,
-			(GInstanceInitFunc) NULL
-		};
-
-		ecph_parent_class = g_type_class_ref (e_config_hook_get_type ());
-		type = g_type_register_static (e_config_hook_get_type (), "ECalConfigHook", &info, 0);
-	}
-
-	return type;
 }

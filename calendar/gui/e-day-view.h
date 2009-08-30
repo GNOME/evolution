@@ -182,16 +182,30 @@ struct _EDayViewEvent {
 	guint8 num_columns;
 };
 
-#define E_DAY_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_day_view_get_type (), EDayView)
-#define E_DAY_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_day_view_get_type (), EDayViewClass)
-#define E_IS_DAY_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_day_view_get_type ())
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW \
+	(e_day_view_get_type ())
+#define E_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW, EDayView))
+#define E_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW, EDayViewClass))
+#define E_IS_DAY_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW))
+#define E_IS_DAY_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW))
+#define E_DAY_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DAY_VIEW, EDayViewClass))
 
 typedef struct _EDayView       EDayView;
 typedef struct _EDayViewClass  EDayViewClass;
 
-struct _EDayView
-{
-	ECalendarView cal_view;
+struct _EDayView {
+	ECalendarView parent;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *top_dates_canvas;
@@ -219,8 +233,6 @@ struct _EDayView
 
 	/* label showing week number in upper-left corner */
 	GtkWidget *week_number_label;
-	/* option change notification id for week number */
-	guint wn_notif_id;
 
 	/* S-expression for query and the query object */
 	ECalView *query;
@@ -295,15 +307,12 @@ struct _EDayView
 	gint work_day_end_minute;
 
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
-	gboolean show_marcus_bains_line;
+	gboolean marcus_bains_show_line;
 	gchar *marcus_bains_day_view_color;
 	gchar *marcus_bains_time_bar_color;
 
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;
-
-	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-	gint week_start_day;
 
 	/* This is set to TRUE when the widget is created, so it scrolls to
 	   the start of the working day when first shown. */
@@ -483,7 +492,7 @@ struct _EDayViewClass
 };
 
 GType		   e_day_view_get_type			(void);
-GtkWidget* e_day_view_new			(ECalModel *model);
+ECalendarView *    e_day_view_new			(ECalModel *model);
 
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */
@@ -511,33 +520,41 @@ void	   e_day_view_set_working_days		(EDayView	*day_view,
 
 /* The start and end time of the working day. This only affects the background
    colors. */
-void	   e_day_view_get_working_day		(EDayView	*day_view,
-						 gint		*start_hour,
-						 gint		*start_minute,
-						 gint		*end_hour,
-						 gint		*end_minute);
-void	   e_day_view_set_working_day		(EDayView	*day_view,
-						 gint		 start_hour,
-						 gint		 start_minute,
-						 gint		 end_hour,
-						 gint		 end_minute);
+gint	   e_day_view_get_work_day_start_hour	(EDayView *day_view);
+void	   e_day_view_set_work_day_start_hour	(EDayView *day_view,
+						 gint work_day_start_hour);
+gint	   e_day_view_get_work_day_start_minute	(EDayView *day_view);
+void	   e_day_view_set_work_day_start_minute	(EDayView *day_view,
+						 gint work_day_start_minute);
+gint	   e_day_view_get_work_day_end_hour	(EDayView *day_view);
+void	   e_day_view_set_work_day_end_hour	(EDayView *day_view,
+						 gint work_day_end_hour);
+gint	   e_day_view_get_work_day_end_minute	(EDayView *day_view);
+void	   e_day_view_set_work_day_end_minute	(EDayView *day_view,
+						 gint work_day_end_minute);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
-gboolean   e_day_view_get_show_marcus_bains	(EDayView	*day_view);
-void       e_day_view_set_marcus_bains		(EDayView       *day_view,
-						 gboolean        show_line,
-						 const gchar	*dayview_color,
-						 const gchar     *timebar_color);
+void	   e_day_view_marcus_bains_update	(EDayView *day_view);
+gboolean   e_day_view_marcus_bains_get_show_line(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_show_line(EDayView *day_view,
+						 gboolean show_line);
+const gchar *
+	   e_day_view_marcus_bains_get_day_view_color
+						(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_day_view_color
+						(EDayView *day_view,
+						 const gchar *day_view_color);
+const gchar *
+	   e_day_view_marcus_bains_get_time_bar_color
+						(EDayView *day_view);
+void	   e_day_view_marcus_bains_set_time_bar_color
+						(EDayView *day_view,
+						 const gchar *time_bar_color);
 
 /* Whether we display event end times in the main canvas. */
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
 void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
 						 gboolean	 show);
-
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint	   e_day_view_get_week_start_day	(EDayView	*day_view);
-void	   e_day_view_set_week_start_day	(EDayView	*day_view,
-						 gint		 week_start_day);
 
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
 
@@ -606,12 +623,6 @@ void e_day_view_update_calendar_selection_time (EDayView *day_view);
 void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,
 				     gint end_row);
-
-void e_day_view_update_marcus_bains (EDayView *day_view);
-
-/* Week number in upper-left corner of the day view widget */
-gboolean e_day_view_get_show_week_number (EDayView *day_view);
-void e_day_view_set_show_week_number (EDayView *day_view, gboolean show);
 
 G_END_DECLS
 

@@ -24,12 +24,14 @@
 #ifndef __EM_FOLDER_PROPERTIES_H__
 #define __EM_FOLDER_PROPERTIES_H__
 
-#include <gtk/gtk.h>
 #include <camel/camel-folder.h>
+#include <shell/e-shell-view.h>
 
 G_BEGIN_DECLS
 
-void em_folder_properties_show(GtkWindow *parent, CamelFolder *folder, const gchar *uri);
+void		em_folder_properties_show	(EShellView *shell_view,
+						 CamelFolder *folder,
+						 const gchar *uri);
 
 G_END_DECLS
 

@@ -20,24 +20,37 @@
  *
  */
 
-#ifndef _E_MEETING_STORE_H_
-#define _E_MEETING_STORE_H_
+#ifndef E_MEETING_STORE_H
+#define E_MEETING_STORE_H
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include "e-meeting-attendee.h"
 
+/* Standard GObject macros */
+#define E_TYPE_MEETING_STORE \
+	(e_meeting_store_get_type ())
+#define E_MEETING_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_MEETING_STORE, EMeetingStore))
+#define E_MEETING_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MEETING_STORE, EMeetingStoreClass))
+#define E_IS_MEETING_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_MEETING_STORE))
+#define E_IS_MEETING_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_MEETING_STORE))
+#define E_MEETING_STORE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_MEETING_STORE, EMeetingStoreClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_MEETING_STORE		(e_meeting_store_get_type ())
-#define E_MEETING_STORE(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MEETING_STORE, EMeetingStore))
-#define E_MEETING_STORE_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MEETING_STORE, EMeetingStoreClass))
-#define E_IS_MEETING_STORE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MEETING_STORE))
-#define E_IS_MEETING_STORE_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MEETING_STORE))
-
-typedef struct _EMeetingStore        EMeetingStore;
+typedef struct _EMeetingStore EMeetingStore;
+typedef struct _EMeetingStoreClass EMeetingStoreClass;
 typedef struct _EMeetingStorePrivate EMeetingStorePrivate;
-typedef struct _EMeetingStoreClass   EMeetingStoreClass;
 
 typedef enum {
 	E_MEETING_STORE_ADDRESS_COL,
@@ -57,7 +70,6 @@ typedef enum {
 
 struct _EMeetingStore {
 	GtkListStore parent;
-
 	EMeetingStorePrivate *priv;
 };
 
@@ -65,48 +77,64 @@ struct _EMeetingStoreClass {
 	GtkListStoreClass parent_class;
 };
 
-typedef gboolean (* EMeetingStoreRefreshCallback) (gpointer data);
+typedef gboolean (*EMeetingStoreRefreshCallback) (gpointer data);
 
-GType    e_meeting_store_get_type (void);
-GObject *e_meeting_store_new      (void);
+GType		e_meeting_store_get_type	(void);
+GObject *	e_meeting_store_new		(void);
+void		e_meeting_store_set_value	(EMeetingStore *meeting_store,
+						 gint row,
+						 gint col,
+						 const gchar *val);
+ECal *		e_meeting_store_get_client	(EMeetingStore *meeting_store);
+void		e_meeting_store_set_client	(EMeetingStore *meeting_store,
+						 ECal *client);
+const gchar *	e_meeting_store_get_free_busy_template
+						(EMeetingStore *meeting_store);
+void		e_meeting_store_set_free_busy_template
+						(EMeetingStore *meeting_store,
+						 const gchar *free_busy_template);
+icaltimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
+void		e_meeting_store_set_timezone	(EMeetingStore *meeting_store,
+						 icaltimezone *timezone);
+void		e_meeting_store_add_attendee	(EMeetingStore *meeting_store,
+						 EMeetingAttendee *attendee);
+EMeetingAttendee *
+		e_meeting_store_add_attendee_with_defaults
+						(EMeetingStore *meeting_store);
+void		e_meeting_store_remove_attendee	(EMeetingStore *meeting_store,
+						 EMeetingAttendee *attendee);
+void		e_meeting_store_remove_all_attendees
+						(EMeetingStore *meeting_store);
+EMeetingAttendee *
+		e_meeting_store_find_attendee	(EMeetingStore *meeting_store,
+						 const gchar *address,
+						 gint *row);
+EMeetingAttendee *
+		e_meeting_store_find_attendee_at_row
+						(EMeetingStore *meeting_store,
+						 gint row);
+GtkTreePath *	e_meeting_store_find_attendee_path
+						(EMeetingStore *meeting_store,
+						 EMeetingAttendee *attendee);
+gint		e_meeting_store_count_actual_attendees
+						(EMeetingStore *meeting_store);
+const GPtrArray *
+		e_meeting_store_get_attendees	(EMeetingStore *meeting_store);
+void		e_meeting_store_refresh_all_busy_periods
+						(EMeetingStore *meeting_store,
+						 EMeetingTime *start,
+						 EMeetingTime *end,
+						 EMeetingStoreRefreshCallback call_back,
+						 gpointer data);
+void		e_meeting_store_refresh_busy_periods
+						(EMeetingStore *meeting_store,
+						 gint row,
+						 EMeetingTime *start,
+						 EMeetingTime *end,
+						 EMeetingStoreRefreshCallback call_back,
+						 gpointer data);
 
-void e_meeting_store_set_value (EMeetingStore *im, gint row, gint col, const gchar *val);
-
-ECal *e_meeting_store_get_e_cal (EMeetingStore *im);
-void e_meeting_store_set_e_cal (EMeetingStore *im, ECal *client);
-
-icaltimezone *e_meeting_store_get_zone (EMeetingStore *im);
-void e_meeting_store_set_zone (EMeetingStore *im, icaltimezone *zone);
-
-gchar *e_meeting_store_get_fb_uri (EMeetingStore *im);
-void e_meeting_store_set_fb_uri (EMeetingStore *im, const gchar *fb_uri);
-
-void e_meeting_store_add_attendee (EMeetingStore *im, EMeetingAttendee *ia);
-EMeetingAttendee *e_meeting_store_add_attendee_with_defaults (EMeetingStore *im);
-
-void e_meeting_store_remove_attendee (EMeetingStore *im, EMeetingAttendee *ia);
-void e_meeting_store_remove_all_attendees (EMeetingStore *im);
-
-EMeetingAttendee *e_meeting_store_find_attendee (EMeetingStore *im, const gchar *address, gint *row);
-EMeetingAttendee *e_meeting_store_find_attendee_at_row (EMeetingStore *im, gint row);
-GtkTreePath *e_meeting_store_find_attendee_path (EMeetingStore *store, EMeetingAttendee *attendee);
-
-gint e_meeting_store_count_actual_attendees (EMeetingStore *im);
-const GPtrArray *e_meeting_store_get_attendees (EMeetingStore *im);
-
-void e_meeting_store_refresh_all_busy_periods (EMeetingStore *im,
-					       EMeetingTime *start,
-					       EMeetingTime *end,
-					       EMeetingStoreRefreshCallback call_back,
-					       gpointer data);
-void e_meeting_store_refresh_busy_periods (EMeetingStore *im,
-					   gint row,
-					   EMeetingTime *start,
-					   EMeetingTime *end,
-					   EMeetingStoreRefreshCallback call_back,
-					   gpointer data);
-
-guint e_meeting_store_get_num_queries (EMeetingStore *store);
+guint		e_meeting_store_get_num_queries	(EMeetingStore *meeting_store);
 
 G_END_DECLS
 

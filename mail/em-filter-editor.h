@@ -22,17 +22,32 @@
  *
  */
 
-#ifndef _EM_FILTER_EDITOR_H
-#define _EM_FILTER_EDITOR_H
+#ifndef EM_FILTER_EDITOR_H
+#define EM_FILTER_EDITOR_H
 
 #include "filter/rule-editor.h"
 #include "em-filter-context.h"
 
-#define EM_FILTER_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_editor_get_type(), EMFilterEditor))
-#define EM_FILTER_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_editor_get_type(), EMFilterEditorClass))
-#define EM_IS_FILTER_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_filter_editor_get_type()))
-#define EM_IS_FILTER_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_filter_editor_get_type()))
-#define EM_FILTER_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_filter_editor_get_type(), EMFilterEditorClass))
+/* Standard GObject macros */
+#define EM_TYPE_FILTER_EDITOR \
+	(em_filter_editor_get_type ())
+#define EM_FILTER_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FILTER_EDITOR, EMFilterEditor))
+#define EM_FILTER_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FILTER_EDITOR, EMFilterEditorClass))
+#define EM_IS_FILTER_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FILTER_EDITOR))
+#define EM_IS_FILTER_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FILTER_EDITOR))
+#define EM_FILTER_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FILTER_EDITOR, EMFilterEditorClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFilterEditor EMFilterEditor;
 typedef struct _EMFilterEditorClass EMFilterEditorClass;
@@ -45,16 +60,19 @@ struct _EMFilterSource {
 };
 
 struct _EMFilterEditor {
-	RuleEditor parent_object;
+	RuleEditor parent;
 };
 
 struct _EMFilterEditorClass {
 	RuleEditorClass parent_class;
 };
 
-GType em_filter_editor_get_type (void);
+GType		em_filter_editor_get_type	(void);
+EMFilterEditor *em_filter_editor_new		(EMFilterContext *f,
+						 const EMFilterSource *source_names);
+void		em_filter_editor_construct	(EMFilterEditor *fe,
+						 EMFilterContext *fc,
+						 GladeXML *gui,
+						 const EMFilterSource *source_names);
 
-EMFilterEditor *em_filter_editor_new (EMFilterContext *f, const EMFilterSource *source_names);
-void em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names);
-
-#endif /* ! _EM_FILTER_EDITOR_H */
+#endif /* EM_FILTER_EDITOR_H */

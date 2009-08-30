@@ -241,12 +241,16 @@ e_calendar_destroy		(GtkObject *object)
 static void
 e_calendar_realize (GtkWidget *widget)
 {
+	GtkStyle *style;
+	GdkWindow *window;
+
 	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->realize) (widget);
 
 	/* Set the background of the canvas window to the normal color,
 	   or the arrow buttons are not displayed properly. */
-	gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
-				   &widget->style->bg[GTK_STATE_NORMAL]);
+	style = gtk_widget_get_style (widget);
+	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
+	gdk_window_set_background (window, &style->bg[GTK_STATE_NORMAL]);
 }
 
 static void
@@ -254,6 +258,7 @@ e_calendar_style_set		(GtkWidget	*widget,
 				 GtkStyle	*previous_style)
 {
 	ECalendar *e_calendar;
+	GtkWidget *parent;
 
 	e_calendar = E_CALENDAR(widget);
 	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
@@ -262,9 +267,15 @@ e_calendar_style_set		(GtkWidget	*widget,
 
 	/* Set the background of the canvas window to the normal color,
 	   or the arrow buttons are not displayed properly. */
-	if (GTK_WIDGET_REALIZED (widget->parent))
-		gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
-					   &widget->style->bg[GTK_STATE_NORMAL]);
+	parent = gtk_widget_get_parent (widget);
+	if (GTK_WIDGET_REALIZED (parent)) {
+		GtkStyle *style;
+		GdkWindow *window;
+
+		style = gtk_widget_get_style (widget);
+		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
+		gdk_window_set_background (window, &style->bg[GTK_STATE_NORMAL]);
+	}
 	e_calendar_item_style_set (widget, e_calendar->calitem);
 }
 
@@ -277,7 +288,7 @@ e_calendar_size_request		(GtkWidget      *widget,
 	gint col_width, row_height, width, height;
 
 	cal = E_CALENDAR (widget);
-	style = GTK_WIDGET (cal)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
 	g_object_get((cal->calitem),
 			"row_height", &row_height,
@@ -296,6 +307,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 				 GtkAllocation	*allocation)
 {
 	ECalendar *cal;
+	GtkStyle *style;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -303,8 +315,9 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 	gdouble xthickness, ythickness, arrow_button_size;
 
 	cal = E_CALENDAR (widget);
-	xthickness = widget->style->xthickness;
-	ythickness = widget->style->ythickness;
+	style = gtk_widget_get_style (widget);
+	xthickness = style->xthickness;
+	ythickness = style->ythickness;
 
 	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->size_allocate) (widget, allocation);
 
@@ -412,7 +425,7 @@ e_calendar_get_border_size	(ECalendar	*cal,
 
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
-	style = GTK_WIDGET (cal)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
 	if (style) {
 		*top    = style->ythickness;

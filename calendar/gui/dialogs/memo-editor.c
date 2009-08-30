@@ -34,7 +34,6 @@
 
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
-#include <evolution-shell-component-utils.h>
 
 #include "memo-page.h"
 #include "cancel-comp.h"
@@ -135,6 +134,7 @@ memo_editor_init (MemoEditor *me)
 {
 	CompEditor *editor = COMP_EDITOR (me);
 	GtkUIManager *ui_manager;
+	const gchar *id;
 	GError *error = NULL;
 
 	me->priv = MEMO_EDITOR_GET_PRIVATE (me);
@@ -142,7 +142,10 @@ memo_editor_init (MemoEditor *me)
 
 	ui_manager = comp_editor_get_ui_manager (editor);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("memo-editor", ui_manager, me);
+
+	id = "org.gnome.evolution.memo-editor";
+	e_plugin_ui_register_manager (ui_manager, id, me);
+	e_plugin_ui_enable_manager (ui_manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);
@@ -160,11 +163,14 @@ memo_editor_init (MemoEditor *me)
  * editor could not be created.
  **/
 CompEditor *
-memo_editor_new (ECal *client, CompEditorFlags flags)
+memo_editor_new (ECal *client,
+                 EShell *shell,
+                 CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		TYPE_MEMO_EDITOR,
-		"flags", flags, "client", client, NULL);
+		"client", client, "flags", flags, "shell", shell, NULL);
 }

@@ -629,6 +629,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 			 gint		 hour,
 			 gint		 minute)
 {
+	ECalModel *model;
 	GtkStyle *style;
 	GdkGC *gc;
 	gint hour_to_display, suffix_width;
@@ -637,6 +638,8 @@ e_week_view_draw_time	(EWeekView	*week_view,
 	gchar buffer[128];
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	small_font_desc = week_view->small_font_desc;
@@ -687,7 +690,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 		time_x += week_view->small_digit_width * 2;
 
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
-		if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view))) {
+		if (!e_cal_model_get_use_24_hour_format (model)) {
 			pango_layout_set_text (layout, suffix, -1);
 
 			gdk_draw_layout (drawable, gc,

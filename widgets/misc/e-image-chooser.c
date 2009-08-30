@@ -1,4 +1,6 @@
 /*
+ * e-image-chooser.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,9 +15,6 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
- * Authors:
- *		Chris Toshok <toshok@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
@@ -28,23 +27,20 @@
 #include <glib/gi18n.h>
 
 #include "e-image-chooser.h"
-#include "e-util/e-icon-factory.h"
 #include "e-util/e-util.h"
 
-#define d(x)
+#define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate))
 
 struct _EImageChooserPrivate {
-
 	GtkWidget *frame;
 	GtkWidget *image;
-	GtkWidget *browse_button;
 
 	gchar *image_buf;
-	gint   image_buf_size;
-	gint   image_width;
-	gint   image_height;
-
-	gboolean editable;
+	gint image_buf_size;
+	gint image_width;
+	gint image_height;
 };
 
 enum {
@@ -52,182 +48,24 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint image_chooser_signals [LAST_SIGNAL] = { 0 };
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
-static void e_image_chooser_init	 (EImageChooser		 *chooser);
-static void e_image_chooser_class_init	 (EImageChooserClass	 *klass);
-#if 0
-static void e_image_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void e_image_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
-#endif
-static void e_image_chooser_dispose      (GObject *object);
-
-static gboolean image_drag_motion_cb (GtkWidget *widget,
-				      GdkDragContext *context,
-				      gint x, gint y, guint time, EImageChooser *chooser);
-static void image_drag_leave_cb (GtkWidget *widget,
-				 GdkDragContext *context,
-				 guint time, EImageChooser *chooser);
-static gboolean image_drag_drop_cb (GtkWidget *widget,
-				    GdkDragContext *context,
-				    gint x, gint y, guint time, EImageChooser *chooser);
-static void image_drag_data_received_cb (GtkWidget *widget,
-					 GdkDragContext *context,
-					 gint x, gint y,
-					 GtkSelectionData *selection_data,
-					 guint info, guint time, EImageChooser *chooser);
-
-static GtkObjectClass *parent_class = NULL;
-#define PARENT_TYPE GTK_TYPE_VBOX
-
-enum DndTargetType {
-	DND_TARGET_TYPE_URI_LIST
-};
 #define URI_LIST_TYPE "text/uri-list"
-
-static GtkTargetEntry image_drag_types[] = {
-	{ (gchar *) URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
-};
-static const gint num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
-
-GtkWidget *
-e_image_chooser_new (void)
-{
-	return g_object_new (E_TYPE_IMAGE_CHOOSER, NULL);
-}
-
-GType
-e_image_chooser_get_type (void)
-{
-	static GType eic_type = 0;
-
-	if (!eic_type) {
-		static const GTypeInfo eic_info =  {
-			sizeof (EImageChooserClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_image_chooser_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EImageChooser),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_image_chooser_init,
-		};
-
-		eic_type = g_type_register_static (PARENT_TYPE, "EImageChooser", &eic_info, 0);
-	}
-
-	return eic_type;
-}
-
-static void
-e_image_chooser_class_init (EImageChooserClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	image_chooser_signals [CHANGED] =
-		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EImageChooserClass, changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	/*
-	object_class->set_property = e_image_chooser_set_property;
-	object_class->get_property = e_image_chooser_get_property;
-	*/
-	object_class->dispose = e_image_chooser_dispose;
-}
-
-#ifdef UI_CHANGE_OK
-static void
-browse_for_image_cb (GtkWidget *button, gpointer data)
-{
-}
-#endif
-
-static void
-e_image_chooser_init (EImageChooser *chooser)
-{
-	EImageChooserPrivate *priv;
-	GtkWidget *alignment;
-
-	priv = chooser->priv = g_new0 (EImageChooserPrivate, 1);
-
-	alignment = gtk_alignment_new (0, 0, 0, 0);
-	priv->frame = gtk_frame_new ("");
-	priv->image = gtk_image_new ();
-
-	gtk_container_add (GTK_CONTAINER (alignment), priv->image);
-
-#ifdef UI_CHANGE_OK
-	priv->browse_button = gtk_button_new_with_label (_("Choose Image"));
-#endif
-
-	gtk_frame_set_shadow_type (GTK_FRAME (priv->frame), GTK_SHADOW_NONE);
-
-	gtk_container_add (GTK_CONTAINER (priv->frame), alignment);
-	gtk_box_set_homogeneous (GTK_BOX (chooser), FALSE);
-	gtk_box_pack_start (GTK_BOX (chooser), priv->frame, TRUE, TRUE, 0);
-#ifdef UI_CHANGE_OK
-	gtk_box_pack_start (GTK_BOX (chooser), priv->browse_button, FALSE, FALSE, 0);
-
-	g_signal_connect (priv->browse_button, "clicked", G_CALLBACK (browse_for_image_cb), NULL);
-#endif
-
-	gtk_drag_dest_set (priv->image, 0, image_drag_types, num_image_drag_types, GDK_ACTION_COPY);
-	g_signal_connect (priv->image,
-			  "drag_motion", G_CALLBACK (image_drag_motion_cb), chooser);
-	g_signal_connect (priv->image,
-			  "drag_leave", G_CALLBACK (image_drag_leave_cb), chooser);
-	g_signal_connect (priv->image,
-			  "drag_drop", G_CALLBACK (image_drag_drop_cb), chooser);
-	g_signal_connect (priv->image,
-			  "drag_data_received", G_CALLBACK (image_drag_data_received_cb), chooser);
-
-	gtk_widget_show_all (priv->frame);
-#ifdef UI_CHANGE_OK
-	gtk_widget_show (priv->browse_button);
-#endif
-
-	/* we default to being editable */
-	priv->editable = TRUE;
-}
-
-static void
-e_image_chooser_dispose (GObject *object)
-{
-	EImageChooser *eic = E_IMAGE_CHOOSER (object);
-
-	if (eic->priv) {
-		EImageChooserPrivate *priv = eic->priv;
-
-		if (priv->image_buf) {
-			g_free (priv->image_buf);
-			priv->image_buf = NULL;
-		}
-
-		g_free (eic->priv);
-		eic->priv = NULL;
-	}
-
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,
-		     gchar *data, gint length)
+                     gchar *data,
+                     gint length)
 {
-	gboolean rv = FALSE;
-	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+	GdkPixbufLoader *loader;
 	GdkPixbuf *pixbuf;
+	gfloat scale;
+	gint new_height;
+	gint new_width;
 
-	gdk_pixbuf_loader_write (loader, (guchar *)data, length, NULL);
+	loader = gdk_pixbuf_loader_new ();
+	gdk_pixbuf_loader_write (loader, (guchar *) data, length, NULL);
 	gdk_pixbuf_loader_close (loader, NULL);
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
@@ -236,98 +74,92 @@ set_image_from_data (EImageChooser *chooser,
 
 	g_object_unref (loader);
 
-	if (pixbuf) {
+	if (pixbuf == NULL)
+		return FALSE;
+
+	new_height = gdk_pixbuf_get_height (pixbuf);
+	new_width = gdk_pixbuf_get_width (pixbuf);
+
+	if (chooser->priv->image_height == 0
+	    && chooser->priv->image_width == 0) {
+		scale = 1.0;
+	} else if (chooser->priv->image_height < new_height
+		 || chooser->priv->image_width < new_width) {
+		/* we need to scale down */
+		if (new_height > new_width)
+			scale = (gfloat)chooser->priv->image_height / new_height;
+		else
+			scale = (gfloat)chooser->priv->image_width / new_width;
+	} else {
+		/* we need to scale up */
+		if (new_height > new_width)
+			scale = (gfloat)new_height / chooser->priv->image_height;
+		else
+			scale = (gfloat)new_width / chooser->priv->image_width;
+	}
+
+	if (scale == 1.0) {
+		gtk_image_set_from_pixbuf (
+			GTK_IMAGE (chooser->priv->image), pixbuf);
+		chooser->priv->image_width = new_width;
+		chooser->priv->image_height = new_height;
+	} else {
 		GdkPixbuf *scaled;
 		GdkPixbuf *composite;
 
-		gfloat scale;
-		gint new_height, new_width;
+		new_width *= scale;
+		new_height *= scale;
+		new_width = MIN (new_width, chooser->priv->image_width);
+		new_height = MIN (new_height, chooser->priv->image_height);
 
-		new_height = gdk_pixbuf_get_height (pixbuf);
-		new_width = gdk_pixbuf_get_width (pixbuf);
+		scaled = gdk_pixbuf_scale_simple (
+			pixbuf, new_width, new_height,
+			GDK_INTERP_BILINEAR);
 
-		d (printf ("new dimensions = (%d,%d)\n", new_width, new_height));
+		composite = gdk_pixbuf_new (
+			GDK_COLORSPACE_RGB, TRUE,
+			gdk_pixbuf_get_bits_per_sample (pixbuf),
+			chooser->priv->image_width,
+			chooser->priv->image_height);
 
-		if (chooser->priv->image_height == 0
-		    && chooser->priv->image_width == 0) {
-			d (printf ("initial setting of an image.  no scaling\n"));
-			scale = 1.0;
-		}
-		else if (chooser->priv->image_height < new_height
-			 || chooser->priv->image_width < new_width) {
-			/* we need to scale down */
-			d (printf ("we need to scale down\n"));
-			if (new_height > new_width)
-				scale = (gfloat)chooser->priv->image_height / new_height;
-			else
-				scale = (gfloat)chooser->priv->image_width / new_width;
-		}
-		else {
-			/* we need to scale up */
-			d (printf ("we need to scale up\n"));
-			if (new_height > new_width)
-				scale = (gfloat)new_height / chooser->priv->image_height;
-			else
-				scale = (gfloat)new_width / chooser->priv->image_width;
-		}
+		gdk_pixbuf_fill (composite, 0x00000000);
 
-		d (printf ("scale = %g\n", scale));
+		gdk_pixbuf_copy_area (
+			scaled, 0, 0, new_width, new_height,
+			composite,
+			chooser->priv->image_width / 2 - new_width / 2,
+			chooser->priv->image_height / 2 - new_height / 2);
 
-		if (scale == 1.0) {
-			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), pixbuf);
+		gtk_image_set_from_pixbuf (
+			GTK_IMAGE (chooser->priv->image), composite);
 
-			chooser->priv->image_width = new_width;
-			chooser->priv->image_height = new_height;
-		}
-		else {
-			new_width *= scale;
-			new_height *= scale;
-			new_width = MIN (new_width, chooser->priv->image_width);
-			new_height = MIN (new_height, chooser->priv->image_height);
-
-			d (printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height));
-
-			scaled = e_icon_factory_pixbuf_scale (pixbuf, new_width, new_height);
-
-			composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
-						    chooser->priv->image_width, chooser->priv->image_height);
-
-			gdk_pixbuf_fill (composite, 0x00000000);
-
-			gdk_pixbuf_copy_area (scaled, 0, 0, new_width, new_height,
-					      composite,
-					      chooser->priv->image_width / 2 - new_width / 2,
-					      chooser->priv->image_height / 2 - new_height / 2);
-
-			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), composite);
-			g_object_unref (scaled);
-			g_object_unref (composite);
-		}
-
-		g_object_unref (pixbuf);
-
-		g_free (chooser->priv->image_buf);
-		chooser->priv->image_buf = data;
-		chooser->priv->image_buf_size = length;
-
-		g_signal_emit (chooser,
-			       image_chooser_signals [CHANGED], 0);
-
-		rv = TRUE;
+		g_object_unref (scaled);
+		g_object_unref (composite);
 	}
 
-	return rv;
+	g_object_unref (pixbuf);
+
+	g_free (chooser->priv->image_buf);
+	chooser->priv->image_buf = data;
+	chooser->priv->image_buf_size = length;
+
+	g_signal_emit (chooser, signals[CHANGED], 0);
+
+	return TRUE;
 }
 
 static gboolean
 image_drag_motion_cb (GtkWidget *widget,
-		      GdkDragContext *context,
-		      gint x, gint y, guint time, EImageChooser *chooser)
+                      GdkDragContext *context,
+                      gint x,
+                      gint y,
+                      guint time,
+                      EImageChooser *chooser)
 {
+	GtkFrame *frame;
 	GList *p;
 
-	if (!chooser->priv->editable)
-		return FALSE;
+	frame = GTK_FRAME (chooser->priv->frame);
 
 	for (p = context->targets; p != NULL; p = p->next) {
 		gchar *possible_type;
@@ -336,37 +168,45 @@ image_drag_motion_cb (GtkWidget *widget,
 		if (!strcmp (possible_type, URI_LIST_TYPE)) {
 			g_free (possible_type);
 			gdk_drag_status (context, GDK_ACTION_COPY, time);
-			gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_IN);
+			gtk_frame_set_shadow_type (frame, GTK_SHADOW_IN);
 			return TRUE;
 		}
 
 		g_free (possible_type);
 	}
 
-	gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_NONE);
+	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
+
 	return FALSE;
 }
 
 static void
 image_drag_leave_cb (GtkWidget *widget,
-		     GdkDragContext *context,
-		     guint time, EImageChooser *chooser)
+                     GdkDragContext *context,
+                     guint time,
+                     EImageChooser *chooser)
 {
-	gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_NONE);
+	GtkFrame *frame;
+
+	frame = GTK_FRAME (chooser->priv->frame);
+	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 }
 
 static gboolean
 image_drag_drop_cb (GtkWidget *widget,
-		    GdkDragContext *context,
-		    gint x, gint y, guint time, EImageChooser *chooser)
+                    GdkDragContext *context,
+                    gint x,
+                    gint y,
+                    guint time,
+                    EImageChooser *chooser)
 {
+	GtkFrame *frame;
 	GList *p;
 
-	if (!chooser->priv->editable)
-		return FALSE;
+	frame = GTK_FRAME (chooser->priv->frame);
 
 	if (context->targets == NULL) {
-		gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_NONE);
+		gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 		return FALSE;
 	}
 
@@ -376,77 +216,205 @@ image_drag_drop_cb (GtkWidget *widget,
 		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
 		if (!strcmp (possible_type, URI_LIST_TYPE)) {
 			g_free (possible_type);
-			gtk_drag_get_data (widget, context,
-					   GDK_POINTER_TO_ATOM (p->data),
-					   time);
-			gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_NONE);
+			gtk_drag_get_data (
+				widget, context,
+				GDK_POINTER_TO_ATOM (p->data), time);
+			gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
 			return TRUE;
 		}
 
 		g_free (possible_type);
 	}
 
-	gtk_frame_set_shadow_type (GTK_FRAME (chooser->priv->frame), GTK_SHADOW_NONE);
+	gtk_frame_set_shadow_type (frame, GTK_SHADOW_NONE);
+
 	return FALSE;
 }
 
 static void
 image_drag_data_received_cb (GtkWidget *widget,
-			     GdkDragContext *context,
-			     gint x, gint y,
-			     GtkSelectionData *selection_data,
-			     guint info, guint time, EImageChooser *chooser)
+                             GdkDragContext *context,
+                             gint x,
+                             gint y,
+                             GtkSelectionData *selection_data,
+                             guint info,
+                             guint time,
+                             EImageChooser *chooser)
 {
-	gchar *target_type;
 	gboolean handled = FALSE;
+	gchar **uris;
+	gchar *buf = NULL;
+	gsize read = 0;
+	GError *error = NULL;
 
-	target_type = gdk_atom_name (selection_data->target);
+	uris = gtk_selection_data_get_uris (selection_data);
 
-	if (!strcmp (target_type, URI_LIST_TYPE)) {
-		GError *error = NULL;
-		gchar *uri;
-		gchar *nl = strstr ((gchar *)selection_data->data, "\r\n");
-		gchar *buf = NULL;
-		gsize read = 0;
+	if (uris == NULL)
+		goto exit;
 
-		if (nl)
-			uri = g_strndup ((gchar *)selection_data->data, nl - (gchar *)selection_data->data);
-		else
-			uri = g_strdup ((gchar *)selection_data->data);
+	if (e_util_read_file (uris[0], TRUE, &buf, &read, &error) && read > 0 && buf)
+		handled = set_image_from_data (chooser, buf, read);
 
-		if (e_util_read_file (uri, TRUE, &buf, &read, &error) && read > 0 && buf) {
-			if (set_image_from_data (chooser, buf, read)) {
-				handled = TRUE;
-			}
-		}
+	if (!handled)
+		g_free (buf);
 
-		if (!handled)
-			g_free (buf);
-		g_free (uri);
+	g_strfreev (uris);
 
-		if (error) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+	if (error) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 	}
 
+exit:
 	gtk_drag_finish (context, handled, FALSE, time);
 }
 
-
+static void
+image_chooser_dispose (GObject *object)
+{
+	EImageChooserPrivate *priv;
+
+	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
+
+	if (priv->frame != NULL) {
+		g_object_unref (priv->frame);
+		priv->frame = NULL;
+	}
+
+	if (priv->image != NULL) {
+		g_object_unref (priv->image);
+		priv->image = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+image_chooser_finalize (GObject *object)
+{
+	EImageChooserPrivate *priv;
+
+	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
+
+	g_free (priv->image_buf);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+e_image_chooser_class_init (EImageChooserClass *class)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EImageChooserPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = image_chooser_dispose;
+	object_class->finalize = image_chooser_finalize;
+
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EImageChooserClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+static void
+e_image_chooser_init (EImageChooser *chooser)
+{
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	chooser->priv = E_IMAGE_CHOOSER_GET_PRIVATE (chooser);
+
+	container = GTK_WIDGET (chooser);
+
+	widget = gtk_frame_new ("");
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	chooser->priv->frame = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_alignment_new (0, 0, 0, 0);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_image_new ();
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	chooser->priv->image = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	gtk_drag_dest_set (widget, 0, NULL, 0, GDK_ACTION_COPY);
+	gtk_drag_dest_add_uri_targets (widget);
+
+	g_signal_connect (
+		widget, "drag-motion",
+		G_CALLBACK (image_drag_motion_cb), chooser);
+	g_signal_connect (
+		widget, "drag-leave",
+		G_CALLBACK (image_drag_leave_cb), chooser);
+	g_signal_connect (
+		widget, "drag-drop",
+		G_CALLBACK (image_drag_drop_cb), chooser);
+	g_signal_connect (
+		widget, "drag-data-received",
+		G_CALLBACK (image_drag_data_received_cb), chooser);
+}
+
+GType
+e_image_chooser_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info =  {
+			sizeof (EImageChooserClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_image_chooser_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL, /* class_data */
+			sizeof (EImageChooser),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_image_chooser_init,
+			NULL  /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_VBOX, "EImageChooser", &type_info, 0);
+	}
+
+	return type;
+}
+
+GtkWidget *
+e_image_chooser_new (void)
+{
+	return g_object_new (E_TYPE_IMAGE_CHOOSER, NULL);
+}
 
 gboolean
-e_image_chooser_set_from_file (EImageChooser *chooser, const gchar *filename)
+e_image_chooser_set_from_file (EImageChooser *chooser,
+                               const gchar *filename)
 {
 	gchar *data;
 	gsize data_length;
 
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
-	g_return_val_if_fail (filename, FALSE);
+	g_return_val_if_fail (filename != NULL, FALSE);
 
-	if (!g_file_get_contents (filename, &data, &data_length, NULL)) {
+	if (!g_file_get_contents (filename, &data, &data_length, NULL))
 		return FALSE;
-	}
 
 	if (!set_image_from_data (chooser, data, data_length))
 		g_free (data);
@@ -454,18 +422,10 @@ e_image_chooser_set_from_file (EImageChooser *chooser, const gchar *filename)
 	return TRUE;
 }
 
-void
-e_image_chooser_set_editable (EImageChooser *chooser, gboolean editable)
-{
-	g_return_if_fail (E_IS_IMAGE_CHOOSER (chooser));
-
-	chooser->priv->editable = editable;
-
-	gtk_widget_set_sensitive (chooser->priv->browse_button, editable);
-}
-
 gboolean
-e_image_chooser_get_image_data (EImageChooser *chooser, gchar **data, gsize *data_length)
+e_image_chooser_get_image_data (EImageChooser *chooser,
+                                gchar **data,
+                                gsize *data_length)
 {
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
@@ -479,7 +439,9 @@ e_image_chooser_get_image_data (EImageChooser *chooser, gchar **data, gsize *dat
 }
 
 gboolean
-e_image_chooser_set_image_data (EImageChooser *chooser, gchar *data, gsize data_length)
+e_image_chooser_set_image_data (EImageChooser *chooser,
+                                gchar *data,
+                                gsize data_length)
 {
 	gchar *buf;
 

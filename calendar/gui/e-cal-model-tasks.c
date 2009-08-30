@@ -31,16 +31,21 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
+
+#include "e-util/e-binding.h"
 #include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
 #include "misc.h"
 
-struct _ECalModelTasksPrivate {
-	guint reserved;
-};
+#define E_CAL_MODEL_TASKS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate))
 
-static void e_cal_model_tasks_finalize (GObject *object);
+struct _ECalModelTasksPrivate {
+	gchar *color_due_today;
+	gchar *color_overdue;
+};
 
 static gint ecmt_column_count (ETableModel *etm);
 static gpointer ecmt_value_at (ETableModel *etm, gint col, gint row);
@@ -59,56 +64,153 @@ static void commit_component_changes (ECalModelComponent *comp_data);
 
 G_DEFINE_TYPE (ECalModelTasks, e_cal_model_tasks, E_TYPE_CAL_MODEL)
 
+enum {
+	PROP_0,
+	PROP_COLOR_DUE_TODAY,
+	PROP_COLOR_OVERDUE
+};
+
 static void
-e_cal_model_tasks_class_init (ECalModelTasksClass *klass)
+cal_model_tasks_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
-	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
+	switch (property_id) {
+		case PROP_COLOR_DUE_TODAY:
+			e_cal_model_tasks_set_color_due_today (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_string (value));
+			return;
 
-	object_class->finalize = e_cal_model_tasks_finalize;
+		case PROP_COLOR_OVERDUE:
+			e_cal_model_tasks_set_color_overdue (
+				E_CAL_MODEL_TASKS (object),
+				g_value_get_string (value));
+			return;
+	}
 
-	etm_class->column_count = ecmt_column_count;
-	etm_class->value_at = ecmt_value_at;
-	etm_class->set_value_at = ecmt_set_value_at;
-	etm_class->is_cell_editable = ecmt_is_cell_editable;
-	etm_class->duplicate_value = ecmt_duplicate_value;
-	etm_class->free_value = ecmt_free_value;
-	etm_class->initialize_value = ecmt_initialize_value;
-	etm_class->value_is_empty = ecmt_value_is_empty;
-	etm_class->value_to_string = ecmt_value_to_string;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
-	model_class->get_color_for_component = ecmt_get_color_for_component;
-	model_class->fill_component_from_model = ecmt_fill_component_from_model;
+static void
+cal_model_tasks_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_COLOR_DUE_TODAY:
+			g_value_set_string (
+				value,
+				e_cal_model_tasks_get_color_due_today (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+
+		case PROP_COLOR_OVERDUE:
+			g_value_set_string (
+				value,
+				e_cal_model_tasks_get_color_overdue (
+				E_CAL_MODEL_TASKS (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+cal_model_tasks_finalize (GObject *object)
+{
+	ECalModelTasksPrivate *priv;
+
+	priv = E_CAL_MODEL_TASKS_GET_PRIVATE (object);
+
+	g_free (priv->color_due_today);
+	g_free (priv->color_overdue);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
+}
+
+static void
+cal_model_tasks_constructed (GObject *object)
+{
+	ECalModel *model;
+	EShellSettings *shell_settings;
+
+	model = E_CAL_MODEL (object);
+	shell_settings = e_cal_model_get_shell_settings (model);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-tasks-color-due-today",
+		G_OBJECT (model), "color-due-today");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-tasks-color-overdue",
+		G_OBJECT (model), "color-overdue");
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->constructed (object);
+}
+
+static void
+e_cal_model_tasks_class_init (ECalModelTasksClass *class)
+{
+	GObjectClass *object_class;
+	ETableModelClass *table_model_class;
+	ECalModelClass *cal_model_class;
+
+	g_type_class_add_private (class, sizeof (ECalModelTasksPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = cal_model_tasks_set_property;
+	object_class->get_property = cal_model_tasks_get_property;
+	object_class->finalize = cal_model_tasks_finalize;
+	object_class->constructed = cal_model_tasks_constructed;
+
+	table_model_class = E_TABLE_MODEL_CLASS (class);
+	table_model_class->column_count = ecmt_column_count;
+	table_model_class->value_at = ecmt_value_at;
+	table_model_class->set_value_at = ecmt_set_value_at;
+	table_model_class->is_cell_editable = ecmt_is_cell_editable;
+	table_model_class->duplicate_value = ecmt_duplicate_value;
+	table_model_class->free_value = ecmt_free_value;
+	table_model_class->initialize_value = ecmt_initialize_value;
+	table_model_class->value_is_empty = ecmt_value_is_empty;
+	table_model_class->value_to_string = ecmt_value_to_string;
+
+	cal_model_class = E_CAL_MODEL_CLASS (class);
+	cal_model_class->get_color_for_component = ecmt_get_color_for_component;
+	cal_model_class->fill_component_from_model = ecmt_fill_component_from_model;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLOR_DUE_TODAY,
+		g_param_spec_string (
+			"color-due-today",
+			"Color Due Today",
+			NULL,
+			"#1e90ff",
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLOR_OVERDUE,
+		g_param_spec_string (
+			"color-overdue",
+			"Color Overdue",
+			NULL,
+			"#ff0000",
+			G_PARAM_READWRITE));
 }
 
 static void
 e_cal_model_tasks_init (ECalModelTasks *model)
 {
-	ECalModelTasksPrivate *priv;
+	model->priv = E_CAL_MODEL_TASKS_GET_PRIVATE (model);
 
-	priv = g_new0 (ECalModelTasksPrivate, 1);
-	model->priv = priv;
-
-	e_cal_model_set_component_kind (E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
-}
-
-static void
-e_cal_model_tasks_finalize (GObject *object)
-{
-	ECalModelTasksPrivate *priv;
-	ECalModelTasks *model = (ECalModelTasks *) object;
-
-	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
-
-	priv = model->priv;
-	if (priv) {
-		g_free (priv);
-		model->priv = NULL;
-	}
-
-	if (G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->finalize (object);
+	e_cal_model_set_component_kind (
+		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
 }
 
 /* ETableModel methods */
@@ -1038,11 +1140,9 @@ ecmt_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 /* ECalModel class methods */
 
 static const gchar *
-ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
+ecmt_get_color_for_component (ECalModel *model,
+                              ECalModelComponent *comp_data)
 {
-	static gchar color_spec[16];
-	GdkColor color;
-
 	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
 	g_return_val_if_fail (comp_data != NULL, NULL);
 
@@ -1051,24 +1151,19 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 
 	switch (get_due_status ((ECalModelTasks *) model, comp_data)) {
 	case E_CAL_MODEL_TASKS_DUE_TODAY:
-		/* XXX ugly hack */
-		calendar_config_get_tasks_due_today_color (&color);
-		g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
-			color.red, color.green, color.blue);
-		return color_spec;
+		return e_cal_model_tasks_get_color_due_today (
+			E_CAL_MODEL_TASKS (model));
 	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
-		/* XXX ugly hack */
-		calendar_config_get_tasks_overdue_color (&color);
-		g_snprintf (color_spec, sizeof (color_spec), "#%04x%04x%04x",
-			color.red, color.green, color.blue);
-		return color_spec;
+		return e_cal_model_tasks_get_color_overdue (
+			E_CAL_MODEL_TASKS (model));
 	case E_CAL_MODEL_TASKS_DUE_NEVER:
 	case E_CAL_MODEL_TASKS_DUE_FUTURE:
 	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
 		break;
 	}
 
-	return E_CAL_MODEL_CLASS (e_cal_model_tasks_parent_class)->get_color_for_component (model, comp_data);
+	return E_CAL_MODEL_CLASS (e_cal_model_tasks_parent_class)->
+		get_color_for_component (model, comp_data);
 }
 
 static void
@@ -1103,13 +1198,56 @@ ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
 }
 
-/**
- * e_cal_model_tasks_new
- */
-ECalModelTasks *
-e_cal_model_tasks_new (void)
+ECalModel *
+e_cal_model_tasks_new (EShellSettings *shell_settings)
 {
-	return g_object_new (E_TYPE_CAL_MODEL_TASKS, NULL);
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
+
+	return g_object_new (
+		E_TYPE_CAL_MODEL_TASKS,
+		"shell-settings", shell_settings, NULL);
+}
+
+const gchar *
+e_cal_model_tasks_get_color_due_today (ECalModelTasks *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
+
+	return model->priv->color_due_today;
+}
+
+void
+e_cal_model_tasks_set_color_due_today (ECalModelTasks *model,
+                                       const gchar *color_due_today)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+	g_return_if_fail (color_due_today != NULL);
+
+	g_free (model->priv->color_due_today);
+	model->priv->color_due_today = g_strdup (color_due_today);
+
+	g_object_notify (G_OBJECT (model), "color-due-today");
+}
+
+const gchar *
+e_cal_model_tasks_get_color_overdue (ECalModelTasks *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL_TASKS (model), NULL);
+
+	return model->priv->color_overdue;
+}
+
+void
+e_cal_model_tasks_set_color_overdue (ECalModelTasks *model,
+                                     const gchar *color_overdue)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+	g_return_if_fail (color_overdue != NULL);
+
+	g_free (model->priv->color_overdue);
+	model->priv->color_overdue = g_strdup (color_overdue);
+
+	g_object_notify (G_OBJECT (model), "color-overdue");
 }
 
 /**

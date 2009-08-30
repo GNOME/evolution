@@ -4,7 +4,7 @@ endif
 
 AM_CPPFLAGS =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/a11y/widgets					\
+	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
@@ -13,8 +13,7 @@ AM_CPPFLAGS =								\
 	$(GNOME_PLATFORM_CFLAGS)
 
 privsolib_LTLIBRARIES =		\
-	libemiscwidgets.la	\
-	libefilterbar.la
+	libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
 filterbarincludedir = $(privincludedir)/misc
@@ -32,7 +31,12 @@ glade_DATA = e-send-options.glade
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
 	e-account-combo-box.h			\
-	e-activity-handler.h			\
+	e-account-manager.h			\
+	e-account-tree-view.h			\
+	e-action-combo-box.h			\
+	e-activity.h				\
+	e-activity-proxy.h			\
+	e-alert-activity.h			\
 	e-attachment.h				\
 	e-attachment-button.h			\
 	e-attachment-dialog.h			\
@@ -44,54 +48,59 @@ widgetsinclude_HEADERS =			\
 	e-attachment-store.h			\
 	e-attachment-tree-view.h		\
 	e-attachment-view.h			\
-	e-spinner.c				\
-	e-spinner.h				\
 	e-calendar.h				\
 	e-calendar-item.h			\
-	e-cell-date-edit.h			\
-	e-cell-percent.h			\
-	e-cell-renderer-combo.h			\
-	e-charset-picker.h			\
-	e-combo-cell-editable.h			\
-	e-config-page.h				\
-	e-combo-button.h			\
-	e-dateedit.h				\
-	e-dropdown-button.h			\
-	e-icon-entry.h				\
-	e-image-chooser.h			\
-	e-info-label.h				\
-	e-map.h					\
-	e-multi-config-dialog.h			\
-	e-online-button.h			\
-	e-search-bar.h				\
-	e-task-bar.h				\
-	e-task-widget.h				\
-	e-send-options.h			\
-	e-url-entry.h				\
+	e-canvas.h				\
 	e-canvas-background.h			\
 	e-canvas-utils.h			\
 	e-canvas-vbox.h				\
-	e-canvas.h				\
+	e-cell-renderer-combo.h			\
+	e-charset-combo-box.h			\
+	e-colors.h				\
+	e-combo-cell-editable.h			\
 	e-cursors.h				\
+	e-dateedit.h				\
 	e-gui-utils.h				\
+	e-hinted-entry.h			\
 	e-hsv-utils.h				\
+	e-image-chooser.h			\
+	e-map.h					\
+	e-menu-tool-button.h			\
+	e-online-button.h			\
+	e-paned.h				\
+	e-popup-action.h			\
 	e-popup-menu.h				\
+	e-preferences-window.h			\
 	e-printable.h				\
-	e-reflow-model.h			\
-	e-reflow.h				\
+	e-selection-model.h			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
-	e-selection-model.h			\
+	e-send-options.h			\
 	e-signature-combo-box.h			\
-	e-unicode.h				\
-	e-colors.h
+	e-signature-editor.h			\
+	e-signature-manager.h			\
+	e-signature-preview.h			\
+	e-signature-script-dialog.h		\
+	e-signature-tree-view.h			\
+	e-spinner.c				\
+	e-spinner.h				\
+	e-timeout-activity.h			\
+	e-url-entry.h				\
+	ea-calendar-cell.h			\
+	ea-calendar-item.h			\
+	ea-cell-table.h				\
+	ea-widgets.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
 	$(pilot_sources)			\
 	e-account-combo-box.c			\
-	e-activity-handler.c			\
-	e-calendar.c				\
+	e-account-manager.c			\
+	e-account-tree-view.c			\
+	e-action-combo-box.c			\
+	e-activity.c				\
+	e-activity-proxy.c			\
+	e-alert-activity.c			\
 	e-attachment.c				\
 	e-attachment-button.c			\
 	e-attachment-dialog.c			\
@@ -103,78 +112,62 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-store.c			\
 	e-attachment-tree-view.c		\
 	e-attachment-view.c			\
+	e-calendar.c				\
 	e-calendar-item.c			\
-	e-cell-date-edit.c			\
-	e-cell-percent.c			\
-	e-cell-renderer-combo.c			\
-	e-charset-picker.c			\
-	e-combo-cell-editable.c			\
-	e-config-page.c				\
-	e-combo-button.c			\
-	e-dateedit.c				\
-	e-dropdown-button.c			\
-	e-icon-entry.c				\
-	e-image-chooser.c			\
-	e-info-label.c				\
-	e-map.c					\
-	e-multi-config-dialog.c			\
-	e-online-button.c			\
-	e-search-bar.c				\
-	e-task-bar.c				\
-	e-task-widget.c				\
-	e-send-options.c			\
-	e-url-entry.c				\
+	e-canvas.c				\
 	e-canvas-background.c			\
 	e-canvas-utils.c			\
 	e-canvas-vbox.c				\
-	e-canvas.c				\
+	e-cell-renderer-combo.c			\
+	e-charset-combo-box.c			\
+	e-colors.c				\
+	e-combo-cell-editable.c			\
 	e-cursors.c				\
+	e-dateedit.c				\
 	e-gui-utils.c				\
+	e-hinted-entry.c			\
 	e-hsv-utils.c				\
+	e-image-chooser.c			\
+	e-map.c					\
+	e-menu-tool-button.c			\
+	e-online-button.c			\
+	e-paned.c				\
+	e-popup-action.c			\
 	e-popup-menu.c				\
+	e-preferences-window.c			\
 	e-printable.c				\
-	e-reflow-model.c			\
-	e-reflow.c				\
+	e-selection-model.c			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\
-	e-selection-model.c			\
+	e-send-options.c			\
 	e-signature-combo-box.c			\
-	e-unicode.c				\
-	e-colors.c
-
+	e-signature-editor.c			\
+	e-signature-manager.c			\
+	e-signature-preview.c			\
+	e-signature-script-dialog.c		\
+	e-signature-tree-view.c			\
+	e-timeout-activity.c			\
+	e-url-entry.c				\
+	ea-calendar-cell.c			\
+	ea-calendar-item.c			\
+	ea-cell-table.c				\
+	ea-widgets.c
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
-libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/widgets/table/libetable.la			\
-	$(top_builddir)/widgets/text/libetext.la			\
-	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
-	$(top_builddir)/a11y/libevolution-a11y.la			\
-	$(EVOLUTION_MAIL_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)						\
-	$(EVOLUTON_MAIL_LIBS)						\
+libemiscwidgets_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/a11y/libevolution-a11y.la	\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(MATH_LIB)					\
 	$(ICONV_LIBS)
-
-filterbarinclude_HEADERS = e-filter-bar.h
-
-libefilterbar_la_SOURCES =	\
-	e-filter-bar.c		\
-	$(filterbarinclude_HEADERS)
-
-libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
-
-libefilterbar_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)			\
-	libemiscwidgets.la			\
-	$(E_WIDGETS_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
-	test-dropdown-button		\
-	test-multi-config-dialog 	\
-	test-info-label
+	test-preferences-window	
 
 # test-calendar
 
@@ -184,6 +177,7 @@ test_calendar_SOURCES = 	\
 test_calendar_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 # test-dateedit
@@ -194,36 +188,18 @@ test_dateedit_SOURCES = 	\
 test_dateedit_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
-# test-dropdown-button
+# test-preferences-window
 
-test_dropdown_button_SOURCES = 	\
-	test-dropdown-button.c
+test_preferences_window_SOURCES =		\
+	test-preferences-window.c
 
-test_dropdown_button_LDADD =			\
-	libemiscwidgets.la			\
-	$(top_builddir)/e-util/libeutil.la  	\
-	$(E_WIDGETS_LIBS)
-
-# test-multi-config-dialog
-
-test_multi_config_dialog_SOURCES = 	\
-	test-multi-config-dialog.c
-
-test_multi_config_dialog_LDADD = 		\
+test_preferences_window_LDADD = 		\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(E_WIDGETS_LIBS)
-
-# test-info-label
-
-test_info_label_SOURCES = 	\
-	test-info-label.c
-
-test_info_label_LDADD = 			\
-	libemiscwidgets.la			\
-	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 
 

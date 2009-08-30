@@ -30,8 +30,6 @@
 
 G_BEGIN_DECLS
 
-struct _EShell;  /* Avoid including "e-shell.h" */
-
 typedef struct _ESEvent ESEvent;
 typedef struct _ESEventClass ESEventClass;
 
@@ -56,8 +54,6 @@ typedef struct _ESEventTargetComponent ESEventTargetComponent;
 
 struct _ESEventTargetShell {
 	EEventTarget target;
-
-	struct _EShell *shell;
 };
 
 struct _ESEventTargetState {
@@ -97,8 +93,8 @@ GType es_event_get_type(void);
 
 ESEvent *es_event_peek(void);
 
+ESEventTargetShell *es_event_target_new(ESEvent *eme);
 ESEventTargetState *es_event_target_new_state(ESEvent *emp, gint state);
-ESEventTargetShell *es_event_target_new_shell(ESEvent *eme, struct _EShell *shell);
 ESEventTargetUpgrade *es_event_target_new_upgrade(ESEvent *emp, gint major, gint minor, gint revision);
 ESEventTargetComponent *es_event_target_new_component(ESEvent *eme, const gchar *id);
 

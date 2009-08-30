@@ -349,7 +349,7 @@ get_local_timezone(void)
 	location = e_cal_system_timezone_get_location ();
 
 	if (location)
-		zone =  icaltimezone_get_builtin_timezone (location);
+		zone = icaltimezone_get_builtin_timezone (location);
 
 	g_free (location);
 

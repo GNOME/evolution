@@ -33,7 +33,6 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include <misc/e-gui-utils.h>
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-category-completion.h>
@@ -41,7 +40,7 @@
 
 #include <camel/camel.h>
 
-#include "addressbook/gui/component/addressbook.h"
+#include "addressbook/util/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
@@ -49,9 +48,9 @@
 #include "misc/e-dateedit.h"
 #include "misc/e-image-chooser.h"
 #include "misc/e-url-entry.h"
-#include "shell/evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
+#include "shell/e-shell.h"
 
 #include "eab-contact-merging.h"
 
@@ -198,6 +197,54 @@ static const gint email_default [] = { 0, 1, 2, 2 };
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
 
+static void
+e_contact_editor_contact_added (EABEditor *editor,
+                                EBookStatus status,
+                                EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error adding contact"), status);
+}
+
+static void
+e_contact_editor_contact_modified (EABEditor *editor,
+                                   EBookStatus status,
+                                   EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error modifying contact"), status);
+}
+
+static void
+e_contact_editor_contact_deleted (EABEditor *editor,
+                                  EBookStatus status,
+                                  EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error removing contact"), status);
+}
+
+static void
+e_contact_editor_closed (EABEditor *editor)
+{
+	g_object_unref (editor);
+}
+
 GType
 e_contact_editor_get_type (void)
 {
@@ -241,6 +288,10 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 	editor_class->save_contact = e_contact_editor_save_contact;
 	editor_class->is_changed = e_contact_editor_is_changed;
 	editor_class->get_window = e_contact_editor_get_window;
+	editor_class->contact_added = e_contact_editor_contact_added;
+	editor_class->contact_modified = e_contact_editor_contact_modified;
+	editor_class->contact_deleted = e_contact_editor_contact_deleted;
+	editor_class->editor_closed = e_contact_editor_closed;
 
 	g_object_class_install_property (object_class, PROP_SOURCE_BOOK,
 					 g_param_spec_object ("source_book",
@@ -3322,6 +3373,7 @@ static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
+	EShell *shell;
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
 	gchar *gladefile;
@@ -3399,6 +3451,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	/* show window */
 	gtk_widget_show (e_contact_editor->app);
+
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+	e_shell_watch_window (shell, GTK_WINDOW (e_contact_editor->app));
 }
 
 static void
@@ -3455,7 +3511,7 @@ static void
 supported_fields_cb (EBook *book, EBookStatus status,
 		     EList *fields, EContactEditor *ce)
 {
-	if (!g_slist_find ((GSList*)eab_editor_get_all_editors (), ce)) {
+	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning ("supported_fields_cb called for book that's still around, but contact editor that's been destroyed.");
 		return;
 	}
@@ -3474,7 +3530,7 @@ required_fields_cb (EBook *book, EBookStatus status,
 		    EList *fields, EContactEditor *ce)
 {
 
-	if (!g_slist_find ((GSList*)eab_editor_get_all_editors (), ce)) {
+	if (!g_slist_find (eab_editor_get_all_editors (), ce)) {
 		g_warning ("supported_fields_cb called for book that's still around, but contact editor that's been destroyed.");
 		return;
 	}
@@ -3485,30 +3541,22 @@ required_fields_cb (EBook *book, EBookStatus status,
 
 }
 
-static void
-contact_editor_destroy_notify (gpointer data,
-			       GObject *where_the_object_was)
+EABEditor *
+e_contact_editor_new (EShell *shell,
+                      EBook *book,
+                      EContact *contact,
+                      gboolean is_new_contact,
+                      gboolean editable)
 {
-	eab_editor_remove (EAB_EDITOR (data));
-}
+	EABEditor *editor;
 
-EContactEditor *
-e_contact_editor_new (EBook *book,
-		      EContact *contact,
-		      gboolean is_new_contact,
-		      gboolean editable)
-{
-	EContactEditor *ce;
-
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (E_IS_BOOK (book), NULL);
 	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
 
-	ce = g_object_new (E_TYPE_CONTACT_EDITOR, NULL);
+	editor = g_object_new (E_TYPE_CONTACT_EDITOR, "shell", shell, NULL);
 
-	eab_editor_add (EAB_EDITOR (ce));
-	g_object_weak_ref (G_OBJECT (ce), contact_editor_destroy_notify, ce);
-
-	g_object_set (ce,
+	g_object_set (editor,
 		      "source_book", book,
 		      "contact", contact,
 		      "is_new_contact", is_new_contact,
@@ -3516,9 +3564,10 @@ e_contact_editor_new (EBook *book,
 		      NULL);
 
 	if (book)
-		e_book_async_get_supported_fields (book, (EBookEListCallback)supported_fields_cb, ce);
+		e_book_async_get_supported_fields (
+			book, (EBookEListCallback)supported_fields_cb, editor);
 
-	return ce;
+	return editor;
 }
 
 static void

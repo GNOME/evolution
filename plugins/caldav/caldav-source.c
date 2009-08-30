@@ -42,7 +42,7 @@
 
 /*****************************************************************************/
 /* prototypes */
-gint              e_plugin_lib_enable      (EPluginLib                 *ep,
+gint              e_plugin_lib_enable      (EPlugin                 *ep,
 					   gint                         enable);
 
 GtkWidget *      oge_caldav               (EPlugin                    *epl,
@@ -66,7 +66,7 @@ ensure_caldav_source_group (ECalSourceType source_type)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 
 	if (enable) {

@@ -807,8 +807,12 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 			GtkAdjustment *adjustment;
 
 			adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (w));
-			if (adjustment)
-				gtk_adjustment_set_value (adjustment, adjustment->upper);
+			if (adjustment) {
+				gdouble upper;
+
+				upper = gtk_adjustment_get_upper (adjustment);
+				gtk_adjustment_set_value (adjustment, upper);
+			}
 
 		}
 	}

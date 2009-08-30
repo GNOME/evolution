@@ -43,7 +43,7 @@ gchar *e_file_dialog_save             (const gchar      *title, const gchar *fna
 
 gchar *e_file_dialog_save_folder	     (const gchar      *title);
 
-GtkWidget * e_file_get_save_filesel (GtkWidget *parent, const gchar *title, const gchar *name, GtkFileChooserAction action);
+GtkWidget * e_file_get_save_filesel (GtkWindow *parent, const gchar *title, const gchar *name, GtkFileChooserAction action);
 
 gboolean e_file_can_save(GtkWindow *parent, const gchar *uri);
 gboolean e_file_check_local(const gchar *name);

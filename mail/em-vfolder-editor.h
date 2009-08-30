@@ -21,32 +21,47 @@
  *
  */
 
-#ifndef _EM_VFOLDER_EDITOR_H
-#define _EM_VFOLDER_EDITOR_H
+#ifndef EM_VFOLDER_EDITOR_H
+#define EM_VFOLDER_EDITOR_H
 
 #include "filter/rule-editor.h"
 #include "em-vfolder-context.h"
 
-#define EM_VFOLDER_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_vfolder_editor_get_type(), EMVFolderEditor))
-#define EM_VFOLDER_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_vfolder_editor_get_type(), EMVFolderEditorClass))
-#define EM_IS_VFOLDER_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_vfolder_editor_get_type()))
-#define EM_IS_VFOLDER_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_vfolder_editor_get_type()))
-#define EM_VFOLDER_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_vfolder_editor_get_type(), EMVFolderEditorClass))
+/* Standard GObject macros */
+#define EM_TYPE_VFOLDER_EDITOR \
+	(em_vfolder_editor_get_type ())
+#define EM_VFOLDER_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_VFOLDER_EDITOR, EMVFolderEditor))
+#define EM_VFOLDER_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_VFOLDER_EDITOR, EMVFolderEditorClass))
+#define EM_IS_VFOLDER_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_VFOLDER_EDITOR))
+#define EM_IS_VFOLDER_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_VFOLDER_EDITOR))
+#define EM_VFOLDER_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_VFOLDER_EDITOR, EMVFolderEditorClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMVFolderEditor EMVFolderEditor;
 typedef struct _EMVFolderEditorClass EMVFolderEditorClass;
 
 struct _EMVFolderEditor {
-	RuleEditor parent_object;
-
+	RuleEditor parent;
 };
 
 struct _EMVFolderEditorClass {
 	RuleEditorClass parent_class;
 };
 
-GType em_vfolder_editor_get_type (void);
+GType		em_vfolder_editor_get_type	(void);
+GtkWidget *	em_vfolder_editor_new		(EMVFolderContext *vc);
 
-EMVFolderEditor *em_vfolder_editor_new (EMVFolderContext *vc);
+G_END_DECLS
 
-#endif /* ! _EM_VFOLDER_EDITOR_H */
+#endif /* EM_VFOLDER_EDITOR_H */

@@ -25,6 +25,7 @@
 
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-session.h>
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
@@ -67,21 +68,21 @@ struct _EMsgComposerClass {
 	GtkhtmlEditorClass parent_class;
 };
 
-struct _EAttachmentBar;
-
 GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(void);
-EMsgComposer *  e_msg_composer_lite_new	(void);
-
+void		e_msg_composer_set_lite		(void);
+gboolean	e_msg_composer_get_lite		(void);
+EMsgComposer *	e_msg_composer_lite_new		(void);
 EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
 EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,
 						 const gchar *resent_from);
-void		e_msg_composer_set_lite	(void);
-gboolean	e_msg_composer_get_lite	(void);
+CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_draft	(EMsgComposer *composer);
+void		e_msg_composer_print		(EMsgComposer *composer,
+						 GtkPrintOperationAction action);
 
 void		e_msg_composer_set_alternative	(EMsgComposer *composer,
 						 gboolean alt);
@@ -129,9 +130,6 @@ void		e_msg_composer_set_enable_autosave
 						(EMsgComposer *composer,
 						 gboolean enabled);
 
-gchar *		e_msg_composer_get_sig_file_content
-						(const gchar *sigfile,
-						 gboolean in_html);
 void		e_msg_composer_add_message_attachments
 						(EMsgComposer *composer,
 						 CamelMimeMessage *message,

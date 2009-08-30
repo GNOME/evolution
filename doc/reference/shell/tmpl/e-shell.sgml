@@ -1,0 +1,310 @@
+<!-- ##### SECTION Title ##### -->
+EShell
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShell ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL EShell::event ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@Param2: 
+
+<!-- ##### SIGNAL EShell::handle-uri ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+@Returns: 
+
+<!-- ##### SIGNAL EShell::prepare-for-offline ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::prepare-for-online ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::prepare-for-quit ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::quit-requested ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+
+<!-- ##### SIGNAL EShell::send-receive ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::window-created ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::window-destroyed ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+
+<!-- ##### ARG EShell:network-available ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShell:online ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShell:shell-settings ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION e_shell_get_default ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_shell_backends ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_canonical_name ##### -->
+<para>
+
+</para>
+
+@shell: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_backend_by_name ##### -->
+<para>
+
+</para>
+
+@shell: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_backend_by_scheme ##### -->
+<para>
+
+</para>
+
+@shell: 
+@scheme: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_shell_settings ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_gconf_client ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_create_shell_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@view_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_handle_uris ##### -->
+<para>
+
+</para>
+
+@shell: 
+@uris: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_watch_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@window: 
+
+
+<!-- ##### FUNCTION e_shell_get_watched_windows ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_send_receive ##### -->
+<para>
+
+</para>
+
+@shell: 
+@parent: 
+
+
+<!-- ##### FUNCTION e_shell_get_network_available ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_set_network_available ##### -->
+<para>
+
+</para>
+
+@shell: 
+@network_available: 
+
+
+<!-- ##### FUNCTION e_shell_get_online ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_set_online ##### -->
+<para>
+
+</para>
+
+@shell: 
+@online: 
+
+
+<!-- ##### FUNCTION e_shell_get_preferences_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_event ##### -->
+<para>
+
+</para>
+
+@shell: 
+@event_name: 
+@event_data: 
+
+
+<!-- ##### FUNCTION e_shell_quit ##### -->
+<para>
+
+</para>
+
+@shell: 
+
+
+<!-- ##### FUNCTION e_shell_cancel_quit ##### -->
+<para>
+
+</para>
+
+@shell: 
+
+
+<!-- ##### MACRO E_SHELL_MIGRATE_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION e_shell_migrate_attempt ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+

@@ -52,12 +52,4 @@ struct _CalendarComponentClass {
 
 GType calendar_component_get_type  (void);
 
-CalendarComponent *calendar_component_peek  (void);
-
-const gchar       *calendar_component_peek_base_directory    (CalendarComponent *component);
-const gchar       *calendar_component_peek_config_directory  (CalendarComponent *component);
-ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
-EActivityHandler *calendar_component_peek_activity_handler  (CalendarComponent *component);
-void calendar_component_show_logger (gpointer);
-
 #endif /* _CALENDAR_COMPONENT_H_ */

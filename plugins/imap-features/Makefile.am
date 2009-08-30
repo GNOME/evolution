@@ -18,9 +18,10 @@ plugin_LTLIBRARIES = liborg-gnome-imap-features.la
 liborg_gnome_imap_features_la_SOURCES = 	\
 	imap-headers.c	
 
-liborg_gnome_imap_features_la_LIBADD=		\
-	$(NO_UNDEFINED_REQUIRED_LIBS)		\
-	$(EVOLUTION_MAIL_LIBS)					
+liborg_gnome_imap_features_la_LIBADD=			\
+	$(top_builddir)/e-util/libeutil.la 		\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_MAIL_LIBS)
 
 
 liborg_gnome_imap_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

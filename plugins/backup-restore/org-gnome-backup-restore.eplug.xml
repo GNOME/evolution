@@ -9,31 +9,24 @@
     <author name="JP Rosevear" email="jpr@novell.com"/>
     <_description>Backup and restore your Evolution data and settings.</_description>
 
-    <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
-
-      <menu id="org.gnome.evolution.shell" target="shell">
-	<!-- the path to the bonobo menu description -->
-	<ui file="@PLUGINDIR@/org-gnome-backup-restore.xml"/>
-	<item
-	  type="item"
-	  verb="EPBRBackup"
-	  path="/commands/EPBRBackup"
-	  enable="one"
-	  activate="org_gnome_backup_restore_backup"/>
-	<item
-	  type="item"
-	  verb="EPBRRestore"
-	  path="/commands/EPBRRestore"
-	  enable="one"
-	  activate="org_gnome_backup_restore_restore"/>
-      </menu>
-
+    <hook class="org.gnome.evolution.ui:1.0">
+      <ui-manager id="org.gnome.evolution.shell">
+        <menubar name='main-menu'>
+          <menu action='file-menu'>
+            <placeholder name='file-actions'>
+              <menuitem action='settings-backup'/>
+              <menuitem action='settings-restore'/>
+            </placeholder>
+          </menu>
+        </menubar>
+      </ui-manager>
     </hook>
-	    <hook class="org.gnome.evolution.mail.config:1.0">
-		      <group target="account" id="org.gnome.evolution.mail.config.accountWizard" commit="backup_restore_commit" abort="backup_restore_abort">
-			<item type="page" path="0.startup_page.10" factory="backup_restore_page"/>
-		      </group>
-	    </hook>
+
+    <hook class="org.gnome.evolution.mail.config:1.0">
+      <group target="account" id="org.gnome.evolution.mail.config.accountWizard" commit="backup_restore_commit" abort="backup_restore_abort">
+        <item type="page" path="0.startup_page.10.backup_restore" factory="backup_restore_page"/>
+      </group>
+    </hook>
 
   </e-plugin>
 </e-plugin-list>

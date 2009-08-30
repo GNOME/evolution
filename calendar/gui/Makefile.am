@@ -1,53 +1,27 @@
 if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail-shared.la
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
-
-## CORBA stuff
-
-IDLS =								\
-	$(top_srcdir)/calendar/idl/evolution-calendar.idl
-
-CALENDAR_IDL_GENERATED_H =		\
-	evolution-calendar.h
-CALENDAR_IDL_GENERATED_C =		\
-	evolution-calendar-common.c	\
-	evolution-calendar-skels.c	\
-	evolution-calendar-stubs.c
-CALENDAR_IDL_GENERATED = $(CALENDAR_IDL_GENERATED_C) $(CALENDAR_IDL_GENERATED_H)
-
-$(CALENDAR_IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(top_srcdir)/calendar/idl/evolution-calendar.idl
-$(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
-
-IDL_GENERATED = $(CALENDAR_IDL_GENERATED)
 
 SUBDIRS = alarm-notify dialogs
 
-privsolib_LTLIBRARIES = libevolution-cal-shared.la
-component_LTLIBRARIES = libevolution-calendar.la
+privsolib_LTLIBRARIES = libevolution-calendar.la
 
 ecalendarincludedir = $(privincludedir)/calendar/gui
 
 ecalendarinclude_HEADERS =			\
 	cal-editor-utils.h			\
-	cal-search-bar.h			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
 	comp-util.h				\
 	e-alarm-list.h				\
-	e-attachment-handler-calendar.h		\
 	e-cal-config.h				\
 	e-cal-event.h				\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
-	e-cal-popup.h				\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-comp-editor-registry.h		\
-	e-date-edit-config.h			\
 	e-date-time-list.h                      \
-	e-day-view-config.h			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.h			\
 	e-day-view-time-item.h			\
@@ -60,10 +34,8 @@ ecalendarinclude_HEADERS =			\
 	e-meeting-time-sel-item.h		\
 	e-meeting-types.h			\
 	e-meeting-utils.h			\
-	e-mini-calendar-config.h		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.h		\
-	e-week-view-config.h			\
 	e-week-view-event-item.h		\
 	e-week-view-layout.h			\
 	e-week-view-main-item.h			\
@@ -89,7 +61,6 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/a11y/calendar			\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -110,20 +81,22 @@ etspec_DATA =				\
 	e-cal-list-view.etspec		\
 	e-memo-table.etspec
 
-libevolution_cal_shared_la_SOURCES = \
+libevolution_calendar_la_SOURCES = \
 	cal-editor-utils.c			\
 	cal-editor-utils.h			\
-	cal-search-bar.c			\
-	cal-search-bar.h			\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
+	calendar-view.c				\
+	calendar-view.h				\
+	calendar-view-factory.c			\
+	calendar-view-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
-	e-attachment-handler-calendar.c		\
-	e-attachment-handler-calendar.h		\
+	e-cal-component-preview.c		\
+	e-cal-component-preview.h		\
 	e-cal-config.c				\
 	e-cal-config.h				\
 	e-cal-event.c				\
@@ -132,20 +105,24 @@ libevolution_cal_shared_la_SOURCES = \
 	e-cal-model-calendar.h			\
 	e-cal-model.c				\
 	e-cal-model.h				\
-	e-cal-popup.h				\
-	e-cal-popup.c				\
+	e-cal-list-view.c			\
+	e-cal-list-view.h			\
+	e-cal-model-memos.c			\
+	e-cal-model-memos.h			\
+	e-cal-model-tasks.c			\
+	e-cal-model-tasks.h			\
+	e-calendar-selector.c			\
+	e-calendar-selector.h			\
+	e-calendar-table.c			\
+	e-calendar-table.h			\
 	e-calendar-view.c			\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
 	e-comp-editor-registry.c		\
 	e-comp-editor-registry.h		\
-	e-date-edit-config.c			\
-	e-date-edit-config.h			\
-	e-date-time-list.c                      \
-	e-date-time-list.h                      \
-	e-day-view-config.c			\
-	e-day-view-config.h			\
+	e-date-time-list.c			\
+	e-date-time-list.h			\
 	e-day-view-layout.c			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.c			\
@@ -156,6 +133,8 @@ libevolution_cal_shared_la_SOURCES = \
 	e-day-view-top-item.h			\
 	e-day-view.c				\
 	e-day-view.h				\
+	e-itip-control.c			\
+	e-itip-control.h			\
 	e-meeting-attendee.c			\
 	e-meeting-attendee.h			\
 	e-meeting-list-view.c			\
@@ -169,14 +148,18 @@ libevolution_cal_shared_la_SOURCES = \
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
-	e-mini-calendar-config.c		\
-	e-mini-calendar-config.h		\
+	e-memo-list-selector.c			\
+	e-memo-list-selector.h			\
+	e-memo-table.c				\
+	e-memo-table.h				\
+	e-month-view.c				\
+	e-month-view.h				\
 	e-select-names-editable.c		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
 	e-select-names-renderer.h		\
-	e-week-view-config.c			\
-	e-week-view-config.h			\
+	e-task-list-selector.c			\
+	e-task-list-selector.h			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\
@@ -191,140 +174,63 @@ libevolution_cal_shared_la_SOURCES = \
 	e-timezone-entry.h			\
 	goto.c					\
 	goto.h					\
+	gnome-cal.c				\
+	gnome-cal.h				\
 	itip-utils.c				\
 	itip-utils.h				\
 	misc.c					\
 	misc.h					\
+	print.c					\
+	print.h					\
 	tag-calendar.c				\
 	tag-calendar.h				\
 	weekday-picker.c			\
-	weekday-picker.h
-
-libevolution_calendar_la_SOURCES =		\
-	$(IDL_GENERATED)			\
-	calendar-commands.c			\
-	calendar-commands.h			\
-	calendar-component.c			\
-	calendar-component.h			\
-	calendar-view.c				\
-	calendar-view.h				\
-	calendar-view-factory.c			\
-	calendar-view-factory.h			\
-	comp-editor-factory.c			\
-	comp-editor-factory.h			\
-	control-factory.c			\
-	control-factory.h			\
-	e-cal-component-preview.c		\
-	e-cal-component-preview.h		\
-	e-cal-component-memo-preview.c		\
-	e-cal-component-memo-preview.h		\
-	e-cal-menu.c				\
-	e-cal-menu.h				\
-	e-cal-model-tasks.c			\
-	e-cal-model-tasks.h			\
-	e-cal-list-view.c			\
-	e-cal-list-view.h			\
-	e-cal-list-view-config.c		\
-	e-cal-list-view-config.h		\
-	e-cal-model-memos.c			\
-	e-cal-model-memos.h			\
-	e-calendar-table.c			\
-	e-calendar-table.h			\
-	e-calendar-table-config.c		\
-	e-calendar-table-config.h		\
-	e-cell-date-edit-config.c		\
-	e-cell-date-edit-config.h		\
-	e-itip-control.h			\
-	e-itip-control.c			\
-	e-memo-table.c				\
-	e-memo-table.h				\
-	e-memo-table-config.c			\
-	e-memo-table-config.h			\
-	e-memos.c				\
-	e-memos.h				\
-	e-tasks.c				\
-	e-tasks.h				\
-	gnome-cal.c				\
-	gnome-cal.h				\
-	itip-bonobo-control.c			\
-	itip-bonobo-control.h			\
-	main.c					\
-	memos-component.c			\
-	memos-component.h			\
-	memos-control.c				\
-	memos-control.h				\
-	migration.c				\
-	migration.h				\
-	print.c					\
-	print.h					\
-	tasks-component.c			\
-	tasks-component.h			\
-	tasks-control.c				\
-	tasks-control.h				
-
-libevolution_cal_shared_la_LIBADD =					\
-	$(WIN32_BOOTSTRAP_LIBS)						\
-	$(top_builddir)/widgets/menus/libmenus.la			\
-	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
-	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
-	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
-	$(top_builddir)/widgets/misc/libefilterbar.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
-	$(LIBSOUP_LIBS)							\
-	$(CAMEL_LIBS)							\
-	$(EVOLUTION_CALENDAR_LIBS)
-
-libevolution_cal_shared_la_LDFLAGS = $(NO_UNDEFINED)
-
+	weekday-picker.h			\
+	ea-calendar.c				\
+	ea-calendar.h				\
+	ea-calendar-helpers.c			\
+	ea-calendar-helpers.h			\
+	ea-cal-view.c				\
+	ea-cal-view.h				\
+	ea-cal-view-event.c			\
+	ea-cal-view-event.h			\
+	ea-day-view.c				\
+	ea-day-view.h				\
+	ea-day-view-main-item.c			\
+	ea-day-view-main-item.h			\
+	ea-day-view-cell.c			\
+	ea-day-view-cell.h			\
+	ea-week-view.c				\
+	ea-week-view.h				\
+	ea-week-view-main-item.c		\
+	ea-week-view-main-item.h		\
+	ea-week-view-cell.c			\
+	ea-week-view-cell.h			\
+	ea-jump-button.c			\
+	ea-jump-button.h			\
+	ea-gnome-calendar.c			\
+	ea-gnome-calendar.h
 
 libevolution_calendar_la_LIBADD =					\
-	$(top_builddir)/calendar/gui/libevolution-cal-shared.la		\
-	$(WIN32_BOOTSTRAP_LIBS)						\
+	$(top_builddir)/composer/libcomposer.la				\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
-	$(top_builddir)/widgets/misc/libefilterbar.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libevolution_calendar_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
+libevolution_calendar_la_LDFLAGS = $(NO_UNDEFINED)
 
-libevolution_calendar_la_DEPENDENCIES = libevolution-cal-shared.la
-
-# --- BIG NASTY AUTOMAKE HACK ---
-#
-# Automake apparently sorts Makefile.am rules alphabetically.  And
-# since component_LTLIBRARIES < privsolib_LTLIBRARIES, it tries to
-# install libevolution-calendar.la before libevolution-cal-shared.la,
-# which fails when libtool tries to relink libevolution-calendar.la
-# against the not-yet-installed libevolution-cal-shared.la.
-install-data-am:			\
-	install-privsolibLTLIBRARIES	\
-	install-componentLTLIBRARIES	\
-	install-data-local		\
-	install-etspecDATA		\
-	install-gladeDATA		\
-	install-schemaDATA		\
-	install-ruleDATA		\
-	install-ecalendarincludeHEADERS	\
-	install-serverDATA
-
-server_in_files = GNOME_Evolution_Calendar.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-@EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 # GConf schemas
@@ -339,10 +245,8 @@ EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	$(schema_in_files)              \
 	$(etspec_DATA)			\
-	$(server_in_files)		\
 	$(search_files) 
 
-BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)

@@ -1,0 +1,86 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='task-open'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='task-list-print-preview'/>
+        <menuitem action='task-list-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='task-clipboard-cut'/>
+        <menuitem action='task-clipboard-copy'/>
+        <menuitem action='task-clipboard-paste'/>
+        <separator/>
+        <menuitem action='task-delete'/>
+        <separator/>
+        <menuitem action='task-mark-complete'/>
+        <menuitem action='task-mark-incomplete'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <placeholder name='view-custom-menus'>
+        <menu action='task-preview-menu'>
+          <menuitem action='task-preview'/>
+          <separator/>
+          <menuitem action='task-view-classic'/>
+          <menuitem action='task-view-vertical'/>
+        </menu>
+      </placeholder>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='task-actions-menu'>
+        <menuitem action='task-purge'/>
+        <menuitem action='task-assign'/>
+        <menuitem action='task-forward'/>
+      </menu>
+    </placeholder>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <toolitem action='task-clipboard-cut'/>
+    <toolitem action='task-clipboard-copy'/>
+    <toolitem action='task-clipboard-paste'/>
+    <separator/>
+    <toolitem action='task-print'/>
+    <toolitem action='task-delete'/>
+  </toolbar>
+  <popup name='task-popup'>
+    <menuitem action='task-new'/>
+    <separator/>
+    <menuitem action='task-popup-open'/>
+    <menuitem action='task-popup-open-url'/>
+    <menuitem action='task-popup-save-as'/>
+    <menuitem action='task-popup-print'/>
+    <separator/>
+    <menuitem action='task-popup-clipboard-cut'/>
+    <menuitem action='task-popup-clipboard-copy'/>
+    <menuitem action='task-popup-clipboard-paste'/>
+    <separator/>
+    <menuitem action='task-popup-assign'/>
+    <menuitem action='task-popup-forward'/>
+    <menuitem action='task-popup-mark-complete'/>
+    <menuitem action='task-popup-mark-incomplete'/>
+    <separator/>
+    <menuitem action='task-popup-delete'/>
+  </popup>
+  <popup name='task-list-popup'>
+    <menuitem action='task-list-new'/>
+    <menuitem action='task-list-popup-copy'/>
+    <menuitem action='task-list-popup-rename'/>
+    <separator/>
+    <menuitem action='task-list-popup-delete'/>
+    <menuitem action='task-list-popup-select-one'/>
+    <separator/>
+    <menuitem action='task-list-popup-properties'/>
+  </popup>
+  <popup name='task-search-options'>
+    <menuitem action='task-search-summary-contains'/>
+    <menuitem action='task-search-description-contains'/>
+    <menuitem action='task-search-any-field-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
+</ui>

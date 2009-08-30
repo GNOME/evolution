@@ -1,5 +1,6 @@
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@
@@ -10,6 +11,11 @@ plugin_LTLIBRARIES = liborg-gnome-sa-junk-plugin.la
 liborg_gnome_sa_junk_plugin_la_SOURCES = em-junk-filter.c
 liborg_gnome_sa_junk_plugin_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
+liborg_gnome_sa_junk_plugin_la_LIBADD =	\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 BUILT_SOURCES = $(plugin_DATA) $(error_DATA)
 

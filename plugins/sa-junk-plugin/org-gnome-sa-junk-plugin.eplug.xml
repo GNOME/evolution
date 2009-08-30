@@ -6,14 +6,12 @@
 		<_description>Filter junk messages using SpamAssassin.</_description>
 		<author name="Vivek Jain" email="jvivek@novell.com"/>
 		<hook class="org.gnome.evolution.mail.junk:1.0">
-			<group id="EMJunk" >
-				<item   name="SpamAssassin" 
-				        check_junk="em_junk_sa_check_junk" 
-				        report_junk="em_junk_sa_report_junk" 
-					report_non_junk="em_junk_sa_report_non_junk" 
-					commit_reports="em_junk_sa_commit_reports"
-					validate_binary="em_junk_sa_validate_binary"/>
-			</group>
+			<interface name="SpamAssassin" 
+			  check_junk="em_junk_sa_check_junk" 
+			  report_junk="em_junk_sa_report_junk" 
+			  report_non_junk="em_junk_sa_report_non_junk" 
+			  commit_reports="em_junk_sa_commit_reports"
+			  validate_binary="em_junk_sa_validate_binary"/>
 		</hook>
 		<!-- hook into the 'mail properties' menu -->
 		<hook class="org.gnome.evolution.mail.config:1.0">
@@ -21,6 +19,6 @@
 				<item type="section_table" path="40.junk/10.options" _label="SpamAssassin Options"/>
 				<item type="item_table" path="40.junk/20.options" factory="org_gnome_sa_use_remote_tests"/>
 		        </group>
-			    </hook>
+		</hook>
 	</e-plugin>
 </e-plugin-list>

@@ -21,49 +21,72 @@
  *
  */
 
-#ifndef __E_SEARCHING_TOKENIZER_H__
-#define __E_SEARCHING_TOKENIZER_H__
+#ifndef E_SEARCHING_TOKENIZER_H
+#define E_SEARCHING_TOKENIZER_H
 
 #include <glib.h>
 #include <gtkhtml/htmltokenizer.h>
 
-#define E_TYPE_SEARCHING_TOKENIZER        (e_searching_tokenizer_get_type ())
-#define E_SEARCHING_TOKENIZER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizer))
-#define E_SEARCHING_TOKENIZER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizerClass))
-#define E_IS_SEARCHING_TOKENIZER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_SEARCHING_TOKENIZER))
-#define E_IS_SEARCHING_TOKENIZER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_SEARCHING_TOKENIZER))
+/* Standard GObject macros */
+#define E_TYPE_SEARCHING_TOKENIZER \
+	(e_searching_tokenizer_get_type ())
+#define E_SEARCHING_TOKENIZER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizer))
+#define E_SEARCHING_TOKENIZER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizerClass))
+#define E_IS_SEARCHING_TOKENIZER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SEARCHING_TOKENIZER))
+#define E_IS_SEARCHING_TOKENIZER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SEARCHING_TOKENIZER))
+#define E_SEARCH_TOKENIZER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizerClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ESearchingTokenizer ESearchingTokenizer;
 typedef struct _ESearchingTokenizerClass ESearchingTokenizerClass;
-
-struct _ESearchingTokenizerPrivate;
+typedef struct _ESearchingTokenizerPrivate ESearchingTokenizerPrivate;
 
 struct _ESearchingTokenizer {
 	HTMLTokenizer parent;
-
-	struct _ESearchingTokenizerPrivate *priv;
+	ESearchingTokenizerPrivate *priv;
 };
 
 struct _ESearchingTokenizerClass {
 	HTMLTokenizerClass parent_class;
 
-	void (*match) (ESearchingTokenizer *);
+	void		(*match)	(ESearchingTokenizer *tokenizer);
 };
 
-GType e_searching_tokenizer_get_type (void);
+GType		e_searching_tokenizer_get_type	(void);
+ESearchingTokenizer *
+		e_searching_tokenizer_new	(void);
+void		e_searching_tokenizer_set_primary_search_string
+						(ESearchingTokenizer *tokenizer,
+						 const gchar *primary_string);
+void		e_searching_tokenizer_add_primary_search_string
+						(ESearchingTokenizer *tokenizer,
+						 const gchar *primary_string);
+void		e_searching_tokenizer_set_primary_case_sensitivity
+						(ESearchingTokenizer *tokenizer,
+						 gboolean case_sensitive);
+void		e_searching_tokenizer_set_secondary_search_string
+						(ESearchingTokenizer *tokenizer,
+						 const gchar *secondary_string);
+void		e_searching_tokenizer_add_secondary_search_string
+						(ESearchingTokenizer *tokenizer,
+						 const gchar *secondary_string);
+void		e_searching_tokenizer_set_secondary_case_sensitivity
+						(ESearchingTokenizer *tokenizer,
+						 gboolean case_sensitive);
+gint		e_searching_tokenizer_match_count
+						(ESearchingTokenizer *tokenizer);
 
-ESearchingTokenizer *e_searching_tokenizer_new (void);
+G_END_DECLS
 
-/* For now, just a simple API */
-
-void e_searching_tokenizer_set_primary_search_string    (ESearchingTokenizer *, const gchar *);
-void e_searching_tokenizer_add_primary_search_string    (ESearchingTokenizer *, const gchar *);
-void e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
-
-void e_searching_tokenizer_set_secondary_search_string    (ESearchingTokenizer *, const gchar *);
-void e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str);
-void e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
-
-gint e_searching_tokenizer_match_count          (ESearchingTokenizer *);
-
-#endif /* __E_SEARCHING_TOKENIZER_H__ */
+#endif /* E_SEARCHING_TOKENIZER_H */

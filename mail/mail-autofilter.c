@@ -32,7 +32,6 @@
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
-#include "mail-component.h"
 #include "em-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
@@ -345,14 +344,15 @@ void
 filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint flags)
 {
 	EMFilterContext *fc;
+	const gchar *data_dir;
 	gchar *user, *system;
 	FilterRule *rule;
 
 	g_return_if_fail (msg != NULL);
 
 	fc = em_filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml",
-				mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = em_utils_get_data_dir ();
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (system);
@@ -370,6 +370,7 @@ void
 mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newuri)
 {
 	EMFilterContext *fc;
+	const gchar *data_dir;
 	gchar *user, *system;
 	GList *changed;
 	gchar *eolduri, *enewuri;
@@ -378,7 +379,8 @@ mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newu
 	enewuri = em_uri_from_camel(newuri);
 
 	fc = em_filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = em_utils_get_data_dir ();
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (system);
@@ -402,6 +404,7 @@ void
 mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 {
 	EMFilterContext *fc;
+	const gchar *data_dir;
 	gchar *user, *system;
 	GList *deleted;
 	gchar *euri;
@@ -409,7 +412,8 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 	euri = em_uri_from_camel(uri);
 
 	fc = em_filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = em_utils_get_data_dir ();
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (system);

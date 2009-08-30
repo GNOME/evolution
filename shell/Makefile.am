@@ -4,6 +4,7 @@ endif
 
 AM_CPPFLAGS =							\
 	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
@@ -11,8 +12,11 @@ AM_CPPFLAGS =							\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
+	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
+	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
@@ -26,61 +30,14 @@ AM_CPPFLAGS =							\
 if NM_SUPPORT
 AM_CPPFLAGS += \
 	$(DBUS_GLIB_CFLAGS) \
-	$(NM_FLAGS)
+	$(NM_CFLAGS)
 endif
 
 bin_PROGRAMS = evolution
 
-# Shell CORBA stuff
-
-IDLS = \
-	Evolution-ConfigControl.idl		\
-	Evolution-Component.idl			\
-	Evolution-Shell.idl			\
-	Evolution.idl
-
-IDL_GENERATED_H = \
-	Evolution.h
-
-IDL_GENERATED_C = 		\
-	Evolution-common.c	\
-	Evolution-skels.c	\
-	Evolution-stubs.c
-
-idl_defines = \
-	-D__evolution_shell_COMPILATION
-
-IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
-
-$(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(idl_defines) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
-
-$(IDL_GENERATED_C): $(IDL_GENERATED_H)
-
 if NM_SUPPORT
-NM_SUPPORT_FILES = e-shell-nm.c 
+NM_SUPPORT_FILES = e-shell-nm.c
 endif
-
-# Data Server CORBA stuff
-DATASERVER_IDL_GENERATED_H =			\
-	Evolution-DataServer.h
-
-DATASERVER_IDL_GENERATED_C =			\
-	Evolution-DataServer-common.c		\
-	Evolution-DataServer-skels.c		\
-	Evolution-DataServer-stubs.c
-
-DATASERVER_IDL_GENERATED = $(DATASERVER_IDL_GENERATED_C) $(DATASERVER_IDL_GENERATED_H)
-
-$(DATASERVER_IDL_GENERATED_H): $(DATASERVER_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(DATASERVER_IDL)
-
-$(DATASERVER_IDL_GENERATED_C): $(DATASERVER_IDL_GENERATED_H)
-
-
-# IDL install
-
-idl_DATA = $(IDLS)
 
 # Shell library
 
@@ -90,32 +47,54 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
-	Evolution.h				\
-	e-component-view.h			\
-	e-user-creatable-items-handler.h	\
-	evolution-config-control.h		\
-	evolution-component.h			\
-	evolution-listener.h			\
-	evolution-shell-component-utils.h	\
-	es-event.h				\
-	es-menu.h
+	e-shell.h				\
+	e-shell-backend.h			\
+	e-shell-common.h			\
+	e-shell-content.h			\
+	e-shell-settings.h			\
+	e-shell-sidebar.h			\
+	e-shell-switcher.h			\
+	e-shell-taskbar.h			\
+	e-shell-view.h				\
+	e-shell-window.h			\
+	es-event.h
 
 libeshell_la_SOURCES =				\
+	$(NM_SUPPORT_FILES)			\
 	$(IDL_GENERATED)			\
-	e-component-view.c			\
-	evolution-component.c			\
-	evolution-listener.c			\
-	e-user-creatable-items-handler.c	\
-	evolution-config-control.c		\
-	evolution-shell-component-utils.c	\
-	$(eshellinclude_HEADERS)
+	e-shell.c				\
+	e-shell-backend.c			\
+	e-shell-content.c			\
+	e-shell-settings.c			\
+	e-shell-sidebar.c			\
+	e-shell-switcher.c			\
+	e-shell-taskbar.c			\
+	e-shell-view.c				\
+	e-shell-window.c			\
+	e-shell-window-private.c		\
+	e-shell-window-private.h		\
+	$(eshellinclude_HEADERS)		\
+	e-shell-importer.c			\
+	e-shell-importer.h			\
+	e-shell-migrate.c			\
+	e-shell-migrate.h			\
+	e-shell-window-actions.h		\
+	e-shell-window-actions.c		\
+	es-event.c
 
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/smclient/libeggsmclient.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(SHELL_LIBS)
+
+if NM_SUPPORT
+libeshell_la_LIBADD += $(DBUS_GLIB_LIBS)
+endif
 
 # Evolution executable
 
@@ -124,36 +103,14 @@ EVOLUTIONICONRC = evolution-icon.o
 endif
 
 evolution_SOURCES =				\
-	$(DATASERVER_IDL_GENERATED)		\
-	$(NM_SUPPORT_FILES)			\
-	e-component-registry.c			\
-	e-component-registry.h			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
-	e-corba-config-page.c			\
-	e-corba-config-page.h			\
-	e-shell.c				\
-	e-shell.h				\
-	e-shell-constants.h			\
-	e-shell-importer.c			\
-	e-shell-importer.h			\
-	e-shell-settings-dialog.c		\
-	e-shell-settings-dialog.h		\
-	e-shell-window-commands.c		\
-	e-shell-window-commands.h		\
-	e-shell-window.c			\
-	e-shell-window.h			\
-	e-shell-view.c				\
-	e-shell-view.h				\
-	e-sidebar.c				\
-	e-sidebar.h				\
-	es-event.c				\
-	es-menu.c				\
 	main.c					
 
 evolution_LDADD =							\
 	libeshell.la							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
+	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(TZDIALOG_LIBS)						\
@@ -166,18 +123,9 @@ endif
 
 # Misc stuff
 
-server_in_files = GNOME_Evolution_Shell.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-@EVO_SERVER_RULE@
-@INTLTOOL_SERVER_RULE@
-
 error_DATA = shell.error
 errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
-
-glade_DATA =						\
-	e-active-connection-dialog.glade		\
-	import.glade
 
 # GConf schemas
 
@@ -210,10 +158,7 @@ endif
 # Extra dist stuff
 
 EXTRA_DIST = 					\
-	$(IDLS)					\
-	$(server_in_files)			\
 	shell.error.xml				\
-	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
 	evolution-nognome.in			\
@@ -237,7 +182,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)

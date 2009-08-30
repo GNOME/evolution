@@ -57,6 +57,8 @@ struct _EMinicardViewWidget
 struct _EMinicardViewWidgetClass
 {
 	ECanvasClass parent_class;
+	void         (*create_contact)       (EMinicardViewWidget *emvw);
+	void         (*create_contact_list)  (EMinicardViewWidget *emvw);
 	void         (*selection_change)     (EMinicardViewWidget *emvw);
 	void         (*column_width_changed) (EMinicardViewWidget *emvw, double width);
 	guint        (*right_click)          (EMinicardViewWidget *emvw);

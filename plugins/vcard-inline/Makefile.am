@@ -18,10 +18,13 @@ plugin_LTLIBRARIES = liborg-gnome-vcard-inline.la
 liborg_gnome_vcard_inline_la_SOURCES = vcard-inline.c
 liborg_gnome_vcard_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_vcard_inline_la_LIBADD =	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS) \
-	$(EVOLUTION_MAIL_LIBS)			\
-	$(EVOLUTION_ADDRESSBOOK_LIBS) \
-	$(NO_UNDEFINED_REQUIRED_LIBS)
+	$(top_builddir)/mail/libevolution-mail.la		\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la		\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la		\
+	$(top_builddir)/addressbook/printing/libecontactprint.la		\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)	\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-vcard-inline.eplug.xml
 

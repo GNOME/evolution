@@ -38,16 +38,13 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "gal-define-views-dialog.h"
 #include "gal-view-instance.h"
 #include "gal-view-instance-save-as-dialog.h"
 
 G_DEFINE_TYPE (GalViewInstance, gal_view_instance, G_TYPE_OBJECT)
-
-static const EPopupMenu separator = E_POPUP_SEPARATOR;
-static const EPopupMenu terminator = E_POPUP_TERMINATOR;
 
 #define d(x)
 
@@ -465,141 +462,4 @@ gal_view_instance_exists (GalViewInstance *instance)
 	else
 		return FALSE;
 
-}
-
-typedef struct {
-	GalViewInstance *instance;
-	gchar *id;
-} ListenerClosure;
-
-static void
-view_item_cb (GtkWidget *widget,
-	      gpointer user_data)
-{
-	ListenerClosure *closure = user_data;
-
-	if (GTK_CHECK_MENU_ITEM (widget)->active) {
-		gal_view_instance_set_current_view_id (closure->instance, closure->id);
-	}
-}
-
-static void
-add_popup_radio_item (EPopupMenu *menu_item,
-		      const gchar *title,
-		      GCallback fn,
-		      gpointer closure,
-		      gboolean value)
-{
-	EPopupMenu menu_item_struct =
-		E_POPUP_RADIO_ITEM_CC (title,
-				       fn,
-				       closure,
-				       0,
-				       0);
-	menu_item_struct.is_active = value;
-
-	e_popup_menu_copy_1 (menu_item, &menu_item_struct);
-}
-
-static void
-add_popup_menu_item (EPopupMenu *menu_item,
-		     const gchar *title,
-		     GCallback fn,
-		     gpointer closure)
-{
-	EPopupMenu menu_item_struct =
-		E_POPUP_ITEM_CC (title,
-				 fn,
-				 closure,
-				 0);
-
-	e_popup_menu_copy_1 (menu_item, &menu_item_struct);
-}
-
-static void
-define_views_dialog_response(GtkWidget *dialog, gint id, GalViewInstance *instance)
-{
-	if (id == GTK_RESPONSE_OK) {
-		gal_view_collection_save(instance->collection);
-	}
-	gtk_widget_destroy (dialog);
-}
-
-static void
-define_views_cb(GtkWidget *widget,
-		GalViewInstance *instance)
-{
-	GtkWidget *dialog = gal_define_views_dialog_new(instance->collection);
-	g_signal_connect(dialog, "response",
-			 G_CALLBACK(define_views_dialog_response), instance);
-	gtk_widget_show(dialog);
-}
-
-static void
-save_current_view_cb(GtkWidget *widget,
-		     GalViewInstance      *instance)
-{
-	gal_view_instance_save_as (instance);
-}
-
-EPopupMenu *
-gal_view_instance_get_popup_menu (GalViewInstance *instance)
-{
-	EPopupMenu *ret_val;
-	gint length;
-	gint i;
-	gboolean found = FALSE;
-	gchar *id;
-
-	length = gal_view_collection_get_count(instance->collection);
-	id = gal_view_instance_get_current_view_id (instance);
-
-	ret_val = g_new (EPopupMenu, length + 6);
-
-	for (i = 0; i < length; i++) {
-		gboolean value = FALSE;
-		GalViewCollectionItem *item = gal_view_collection_get_view_item(instance->collection, i);
-		ListenerClosure *closure;
-
-		closure            = g_new (ListenerClosure, 1);
-		closure->instance  = instance;
-		closure->id        = item->id;
-		g_object_ref (closure->instance);
-
-		if (!found && id && !strcmp (id, item->id)) {
-			found = TRUE;
-			value = TRUE;
-		}
-
-		add_popup_radio_item (ret_val + i, item->title, G_CALLBACK (view_item_cb), closure, value);
-	}
-
-	if (!found) {
-		e_popup_menu_copy_1 (ret_val + i++, &separator);
-
-		add_popup_radio_item (ret_val + i++, N_("Custom View"), NULL, NULL, TRUE);
-		add_popup_menu_item (ret_val + i++, N_("Save Custom View"), G_CALLBACK (save_current_view_cb), instance);
-	}
-
-	e_popup_menu_copy_1 (ret_val + i++, &separator);
-	add_popup_menu_item (ret_val + i++, N_("Define Views..."), G_CALLBACK (define_views_cb), instance);
-	e_popup_menu_copy_1 (ret_val + i++, &terminator);
-
-	if (id)
-		g_free (id);
-
-	return ret_val;
-}
-
-void
-gal_view_instance_free_popup_menu (GalViewInstance *instance, EPopupMenu *menu)
-{
-	gint i;
-	/* This depends on the first non-custom closure to be a separator or a terminator. */
-	for (i = 0; menu[i].name && *(menu[i].name); i++) {
-		g_object_unref (((ListenerClosure *)(menu[i].closure))->instance);
-		g_free (menu[i].closure);
-	}
-
-	e_popup_menu_free (menu);
 }

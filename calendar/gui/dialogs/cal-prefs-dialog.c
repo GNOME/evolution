@@ -31,15 +31,12 @@
 #include "../calendar-config.h"
 #include "cal-prefs-dialog.h"
 #include <widgets/misc/e-dateedit.h>
-#include "e-util/e-datetime-format.h"
+#include <e-util/e-binding.h>
+#include <e-util/e-datetime-format.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
 #include <glib/gi18n.h>
 #include <string.h>
-
-static const gint week_start_day_map[] = {
-	1, 2, 3, 4, 5, 6, 0, -1
-};
 
 static const gint time_division_map[] = {
 	60, 30, 15, 10, 5, -1
@@ -96,32 +93,6 @@ eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	CalendarPrefsDialog *prefs = data;
 
 	return glade_xml_get_widget (prefs->gui, item->label);
-}
-
-static void
-working_days_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	CalWeekdays working_days = 0;
-	guint32 mask = 1;
-	gint day;
-
-	for (day = 0; day < 7; day++) {
-		if (e_dialog_toggle_get (prefs->working_days[day]))
-			working_days |= mask;
-		mask <<= 1;
-	}
-
-	calendar_config_set_working_days (working_days);
-}
-
-static void
-timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	icaltimezone *zone;
-
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
-
-	calendar_config_set_timezone (icaltimezone_get_location (zone));
 }
 
 static void
@@ -268,27 +239,6 @@ end_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 	calendar_config_set_day_end_hour (end_hour);
 	calendar_config_set_day_end_minute (end_minute);
 }
-static void
-week_start_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	gint week_start_day;
-
-	week_start_day = e_dialog_combo_box_get (prefs->week_start_day, week_start_day_map);
-	calendar_config_set_week_start_day (week_start_day);
-}
-
-static void
-use_24_hour_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	gboolean use_24_hour;
-
-	use_24_hour = gtk_toggle_button_get_active (toggle);
-
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (prefs->start_of_day), use_24_hour);
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (prefs->end_of_day), use_24_hour);
-
-	calendar_config_set_24_hour_format (use_24_hour);
-}
 
 static void
 time_divisions_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
@@ -297,30 +247,6 @@ time_divisions_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 
 	time_divisions = e_dialog_combo_box_get (prefs->time_divisions, time_division_map);
 	calendar_config_set_time_divisions (time_divisions);
-}
-
-static void
-show_end_times_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_show_event_end (gtk_toggle_button_get_active (toggle));
-}
-
-static void
-compress_weekend_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_compress_weekend (gtk_toggle_button_get_active (toggle));
-}
-
-static void
-dnav_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_dnav_show_week_no (gtk_toggle_button_get_active (toggle));
-}
-
-static void
-dview_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_dview_show_week_no (gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -353,30 +279,6 @@ hide_completed_tasks_units_changed (GtkWidget *widget, CalendarPrefsDialog *pref
 {
 	calendar_config_set_hide_completed_tasks_units (
 		e_dialog_combo_box_get (prefs->tasks_hide_completed_units, hide_completed_units_map));
-}
-
-static void
-tasks_due_today_set_color (GtkColorButton *color_button, CalendarPrefsDialog *prefs)
-{
-	GdkColor color;
-
-	gtk_color_button_get_color (color_button, &color);
-	calendar_config_set_tasks_due_today_color (&color);
-}
-
-static void
-tasks_overdue_set_color (GtkColorButton *color_button, CalendarPrefsDialog *prefs)
-{
-	GdkColor color;
-
-	gtk_color_button_get_color (color_button, &color);
-	calendar_config_set_tasks_overdue_color (&color);
-}
-
-static void
-confirm_delete_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_confirm_delete (gtk_toggle_button_get_active (toggle));
 }
 
 static void
@@ -491,13 +393,9 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 }
 
 static void
-template_url_changed (GtkEntry *entry, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_free_busy_template (gtk_entry_get_text (entry));
-}
-
-static void
-update_system_tz_widgets (CalendarPrefsDialog *prefs)
+update_system_tz_widgets (EShellSettings *shell_settings,
+                          GParamSpec *pspec,
+                          CalendarPrefsDialog *prefs)
 {
 	icaltimezone *zone;
 
@@ -509,42 +407,18 @@ update_system_tz_widgets (CalendarPrefsDialog *prefs)
 	} else {
 		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), "(UTC)");
 	}
-
-	gtk_widget_set_sensitive (prefs->timezone, !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check)));
-}
-
-static void
-use_system_tz_changed (GtkWidget *check, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_use_system_timezone (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)));
-	update_system_tz_widgets (prefs);
 }
 
 static void
 setup_changes (CalendarPrefsDialog *prefs)
 {
-	gint i;
-
-	for (i = 0; i < 7; i ++)
-		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->use_system_tz_check), "toggled", G_CALLBACK (use_system_tz_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->end_of_day), "changed", G_CALLBACK (end_of_day_changed), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->week_start_day), "changed", G_CALLBACK (week_start_day_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->use_24_hour), "toggled", G_CALLBACK (use_24_hour_toggled), prefs);
-
 	g_signal_connect (G_OBJECT (prefs->time_divisions), "changed", G_CALLBACK (time_divisions_changed), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->show_end_times), "toggled", G_CALLBACK (show_end_times_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->compress_weekend), "toggled", G_CALLBACK (compress_weekend_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->dnav_show_week_no), "toggled", G_CALLBACK (dnav_show_week_no_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->dview_show_week_no), "toggled", G_CALLBACK (dview_show_week_no_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->month_scroll_by_week), "toggled", G_CALLBACK (month_scroll_by_week_toggled), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed), "toggled",
@@ -552,12 +426,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed_interval), "value-changed",
 			  G_CALLBACK (hide_completed_tasks_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed_units), "changed", G_CALLBACK (hide_completed_tasks_units_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->tasks_due_today_color), "color-set",
-			  G_CALLBACK (tasks_due_today_set_color), prefs);
-	g_signal_connect (G_OBJECT (prefs->tasks_overdue_color), "color-set",
-			  G_CALLBACK (tasks_overdue_set_color), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->confirm_delete), "toggled", G_CALLBACK (confirm_delete_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->default_reminder), "toggled", G_CALLBACK (default_reminder_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->default_reminder_interval), "changed",
 			  G_CALLBACK (default_reminder_interval_changed), prefs);
@@ -570,38 +439,14 @@ setup_changes (CalendarPrefsDialog *prefs)
 
 	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->template_url), "changed", G_CALLBACK (template_url_changed), prefs);
-}
-
-/* Shows the current Free/Busy settings in the dialog */
-static void
-show_fb_config (CalendarPrefsDialog *prefs)
-{
-	gchar *template_url;
-
-	template_url = calendar_config_get_free_busy_template ();
-	gtk_entry_set_text (GTK_ENTRY (prefs->template_url), (template_url ? template_url : ""));
-
-	g_free (template_url);
 }
 
 /* Shows the current task list settings in the dialog */
 static void
 show_task_list_config (CalendarPrefsDialog *prefs)
 {
-	GtkColorButton *color_button;
-	GdkColor color;
 	CalUnits units;
 	gboolean hide_completed_tasks;
-
-	color_button = GTK_COLOR_BUTTON (prefs->tasks_due_today_color);
-	calendar_config_get_tasks_due_today_color (&color);
-	gtk_color_button_set_color (color_button, &color);
-
-	color_button = GTK_COLOR_BUTTON (prefs->tasks_overdue_color);
-	calendar_config_get_tasks_overdue_color (&color);
-	gtk_color_button_set_color (color_button, &color);
 
 	/* Hide Completed Tasks. */
 	hide_completed_tasks = calendar_config_get_hide_completed_tasks ();
@@ -660,39 +505,16 @@ show_alarms_config (CalendarPrefsDialog *prefs)
 static void
 show_config (CalendarPrefsDialog *prefs)
 {
-	CalWeekdays working_days;
-	gint mask, day, week_start_day, time_divisions;
-	icaltimezone *zone;
-	gboolean sensitive, set = FALSE;
-	gchar *location;
+	gint time_divisions;
+	gboolean set = FALSE;
 	CalUnits units;
 	gint interval;
-
-	/* Use system timezone */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check), calendar_config_get_use_system_timezone ());
-	gtk_widget_set_sensitive (prefs->system_tz_label, FALSE);
-	update_system_tz_widgets (prefs);
-
-	/* Timezone. */
-	location = calendar_config_get_timezone_stored ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (prefs->timezone), zone);
-	g_free (location);
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
 
-	/* Working Days. */
-	working_days = calendar_config_get_working_days ();
-	mask = 1 << 0;
-	for (day = 0; day < 7; day++) {
-		e_dialog_toggle_set (prefs->working_days[day], (working_days & mask) ? TRUE : FALSE);
-		mask <<= 1;
-	}
-
-	/* Week Start Day. */
-	week_start_day = calendar_config_get_week_start_day ();
-	e_dialog_combo_box_set (prefs->week_start_day, week_start_day, week_start_day_map);
+	/* Day's second zone */
+	update_day_second_zone_caption (prefs);
 
 	/* Start of Day. */
 	e_date_edit_set_time_of_day (E_DATE_EDIT (prefs->start_of_day), calendar_config_get_day_start_hour (), calendar_config_get_day_start_minute ());
@@ -700,31 +522,9 @@ show_config (CalendarPrefsDialog *prefs)
 	/* End of Day. */
 	e_date_edit_set_time_of_day (E_DATE_EDIT (prefs->end_of_day), calendar_config_get_day_end_hour (), calendar_config_get_day_end_minute ());
 
-	/* 12/24 Hour Format. */
-	if (calendar_config_get_24_hour_format ())
-		e_dialog_toggle_set (prefs->use_24_hour, TRUE);
-	else
-		e_dialog_toggle_set (prefs->use_12_hour, TRUE);
-
-	sensitive = calendar_config_locale_supports_12_hour_format ();
-	gtk_widget_set_sensitive (prefs->use_12_hour, sensitive);
-	gtk_widget_set_sensitive (prefs->use_24_hour, sensitive);
-
 	/* Time Divisions. */
 	time_divisions = calendar_config_get_time_divisions ();
 	e_dialog_combo_box_set (prefs->time_divisions, time_divisions, time_division_map);
-
-	/* Show Appointment End Times. */
-	e_dialog_toggle_set (prefs->show_end_times, calendar_config_get_show_event_end ());
-
-	/* Compress Weekend. */
-	e_dialog_toggle_set (prefs->compress_weekend, calendar_config_get_compress_weekend ());
-
-	/* Date Navigator - Show Week Numbers. */
-	e_dialog_toggle_set (prefs->dnav_show_week_no, calendar_config_get_dnav_show_week_no ());
-
-	/* Day/Work Week view - Show Week Number. */
-	e_dialog_toggle_set (prefs->dview_show_week_no, calendar_config_get_dview_show_week_no ());
 
 	/* Month View - Scroll by a week */
 	e_dialog_toggle_set (prefs->month_scroll_by_week, calendar_config_get_month_scroll_by_week ());
@@ -735,11 +535,7 @@ show_config (CalendarPrefsDialog *prefs)
 	/* Alarms list*/
 	show_alarms_config (prefs);
 
-	/* Free/Busy */
-	show_fb_config (prefs);
-
 	/* Other page */
-	e_dialog_toggle_set (prefs->confirm_delete, calendar_config_get_confirm_delete ());
 	e_dialog_toggle_set (prefs->default_reminder, calendar_config_get_use_default_reminder ());
 	e_dialog_spin_set (prefs->default_reminder_interval, calendar_config_get_default_reminder_interval ());
 	e_dialog_combo_box_set (prefs->default_reminder_units, calendar_config_get_default_reminder_units (), default_reminder_units_map);
@@ -774,24 +570,25 @@ eccp_free (EConfig *ec, GSList *items, gpointer data)
 }
 
 static void
-calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
+calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
+                                 EShell *shell)
 {
 	GladeXML *gui;
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
+	EShellSettings *shell_settings;
+	gboolean locale_supports_12_hour_format;
 	gint i;
-	GtkWidget *toplevel, *table;
+	GtkWidget *toplevel;
+	GtkWidget *widget;
+	GtkWidget *table;
 	GSList *l;
-	const gchar *working_day_names[] = {
-		"sun_button",
-		"mon_button",
-		"tue_button",
-		"wed_button",
-		"thu_button",
-		"fri_button",
-		"sat_button",
-	};
 	gchar *gladefile;
+
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	locale_supports_12_hour_format =
+		calendar_config_locale_supports_12_hour_format ();
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "cal-prefs-dialog.glade",
@@ -816,19 +613,97 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 		l = g_slist_prepend (l, &eccp_items[i]);
 	e_config_add_items ((EConfig *) ec, l, NULL, NULL, eccp_free, prefs);
 
+	widget = glade_xml_get_widget (gui, "use-system-tz-check");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-use-system-timezone",
+		G_OBJECT (widget), "active");
+	g_signal_connect (
+		G_OBJECT (shell_settings), "notify::cal-use-system-timezone",
+		G_CALLBACK (update_system_tz_widgets), prefs);
+
+	widget = glade_xml_get_widget (gui, "timezone");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-timezone",
+		G_OBJECT (widget), "timezone");
+	e_mutual_binding_new_with_negation (
+		G_OBJECT (shell_settings), "cal-use-system-timezone",
+		G_OBJECT (widget), "sensitive");
+
 	/* General tab */
-	prefs->use_system_tz_check = glade_xml_get_widget (gui, "use-system-tz-check");
 	prefs->system_tz_label = glade_xml_get_widget (gui, "system-tz-label");
-	prefs->timezone = glade_xml_get_widget (gui, "timezone");
 	prefs->day_second_zone = glade_xml_get_widget (gui, "day_second_zone");
-	for (i = 0; i < 7; i++)
-		prefs->working_days[i] = glade_xml_get_widget (gui, working_day_names[i]);
-	prefs->week_start_day = glade_xml_get_widget (gui, "week_start_day");
-	prefs->start_of_day = glade_xml_get_widget (gui, "start_of_day");
-	prefs->end_of_day = glade_xml_get_widget (gui, "end_of_day");
-	prefs->use_12_hour = glade_xml_get_widget (gui, "use_12_hour");
-	prefs->use_24_hour = glade_xml_get_widget (gui, "use_24_hour");
-	prefs->confirm_delete = glade_xml_get_widget (gui, "confirm_delete");
+
+	widget = glade_xml_get_widget (gui, "sun_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-sunday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "mon_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-monday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "tue_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-tuesday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "wed_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-wednesday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "thu_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-thursday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "fri_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-friday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "sat_button");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-working-days-saturday",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "week_start_day");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-week-start-day",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "start_of_day");
+	prefs->start_of_day = widget;  /* XXX delete this */
+	if (locale_supports_12_hour_format)
+		e_binding_new (
+			G_OBJECT (shell_settings), "cal-use-24-hour-format",
+			G_OBJECT (widget), "use-24-hour-format");
+
+	widget = glade_xml_get_widget (gui, "end_of_day");
+	prefs->end_of_day = widget;  /* XXX delete this */
+	if (locale_supports_12_hour_format)
+		e_binding_new (
+			G_OBJECT (shell_settings), "cal-use-24-hour-format",
+			G_OBJECT (widget), "use-24-hour-format");
+
+	widget = glade_xml_get_widget (gui, "use_12_hour");
+	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
+	e_mutual_binding_new_with_negation (
+		G_OBJECT (shell_settings), "cal-use-24-hour-format",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "use_24_hour");
+	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-use-24-hour-format",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "confirm_delete");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-confirm-delete",
+		G_OBJECT (widget), "active");
+
 	prefs->default_reminder = glade_xml_get_widget (gui, "default_reminder");
 	prefs->default_reminder_interval = glade_xml_get_widget (gui, "default_reminder_interval");
 	prefs->default_reminder_units = glade_xml_get_widget (gui, "default_reminder_units");
@@ -838,13 +713,45 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 
 	/* Display tab */
 	prefs->time_divisions = glade_xml_get_widget (gui, "time_divisions");
-	prefs->show_end_times = glade_xml_get_widget (gui, "show_end_times");
-	prefs->compress_weekend = glade_xml_get_widget (gui, "compress_weekend");
-	prefs->dnav_show_week_no = glade_xml_get_widget (gui, "dnav_show_week_no");
-	prefs->dview_show_week_no = glade_xml_get_widget (gui, "dview_show_week_no");
+
+	widget = glade_xml_get_widget (gui, "show_end_times");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-show-event-end-times",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "compress_weekend");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-compress-weekend",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "dnav_show_week_no");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-show-week-numbers",
+		G_OBJECT (widget), "active");
+
+	widget = glade_xml_get_widget (gui, "dview_show_week_no");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-day-view-show-week-numbers",
+		G_OBJECT (widget), "active");
+
 	prefs->month_scroll_by_week = glade_xml_get_widget (gui, "month_scroll_by_week");
-	prefs->tasks_due_today_color = glade_xml_get_widget (gui, "tasks_due_today_color");
-	prefs->tasks_overdue_color = glade_xml_get_widget (gui, "tasks_overdue_color");
+
+	widget = glade_xml_get_widget (gui, "tasks_due_today_color");
+	e_mutual_binding_new_full (
+		G_OBJECT (shell_settings), "cal-tasks-color-due-today",
+		G_OBJECT (widget), "color",
+		e_binding_transform_string_to_color,
+		e_binding_transform_color_to_string,
+		(GDestroyNotify) NULL, NULL);
+
+	widget = glade_xml_get_widget (gui, "tasks_overdue_color");
+	e_mutual_binding_new_full (
+		G_OBJECT (shell_settings), "cal-tasks-color-overdue",
+		G_OBJECT (widget), "color",
+		e_binding_transform_string_to_color,
+		e_binding_transform_color_to_string,
+		(GDestroyNotify) NULL, NULL);
+
 	prefs->tasks_hide_completed = glade_xml_get_widget (gui, "tasks_hide_completed");
 	prefs->tasks_hide_completed_interval = glade_xml_get_widget (gui, "tasks_hide_completed_interval");
 	prefs->tasks_hide_completed_units = glade_xml_get_widget (gui, "tasks_hide_completed_units");
@@ -854,7 +761,10 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->scrolled_window = glade_xml_get_widget (gui, "calendar-source-scrolled-window");
 
 	/* Free/Busy tab */
-	prefs->template_url = glade_xml_get_widget (gui, "template_url");
+	widget = glade_xml_get_widget (gui, "template_url");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-free-busy-template",
+		G_OBJECT (widget), "text");
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);
@@ -893,14 +803,18 @@ calendar_prefs_dialog_get_type (void)
 }
 
 GtkWidget *
-calendar_prefs_dialog_new (void)
+calendar_prefs_dialog_new (EShell *shell)
 {
 	CalendarPrefsDialog *dialog;
 
-	dialog = (CalendarPrefsDialog *) g_object_new (calendar_prefs_dialog_get_type (), NULL);
-	calendar_prefs_dialog_construct (dialog);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	return (GtkWidget *) dialog;
+	dialog = g_object_new (CALENDAR_TYPE_PREFS_DIALOG, NULL);
+
+	/* FIXME Kill this function. */
+	calendar_prefs_dialog_construct (dialog, shell);
+
+	return GTK_WIDGET (dialog);
 }
 
 /* called by libglade to create our custom EDateEdit widgets. */
@@ -912,7 +826,6 @@ cal_prefs_dialog_create_time_edit (void)
 	dedit = e_date_edit_new ();
 
 	gtk_widget_show (GTK_WIDGET (dedit));
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (dedit), calendar_config_get_24_hour_format ());
 	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 0, 24);
 	e_date_edit_set_show_date (E_DATE_EDIT (dedit), FALSE);
 

@@ -34,10 +34,6 @@
 
 #include <glib/gi18n.h>
 
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-edge.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
-
 #include "misc/e-gui-utils.h"
 
 #include "e-util/e-dialog-utils.h"
@@ -48,7 +44,6 @@
 
 #include "e-shell.h"
 #include "e-shell-window.h"
-#include "e-shell-constants.h"
 
 #include "e-shell-importer.h"
 
@@ -84,9 +79,7 @@ typedef struct _ImportDialogImporterPage {
 typedef struct _ImportData {
 	EShellWindow *window;
 
-	GladeXML *wizard;
-	GtkWidget *dialog;
-	GtkWidget *druid;
+	GtkWidget *assistant;
 	ImportDialogFilePage *filepage;
 	ImportDialogDestPage *destpage;
 	ImportDialogTypePage *typepage;
@@ -96,8 +89,6 @@ typedef struct _ImportData {
 	GtkWidget *typedialog;
 	GtkWidget *destdialog;
 	GtkWidget *intelligent;
-	GnomeDruidPageEdge *start;
-	GnomeDruidPageEdge *finish;
 	GtkWidget *vbox;
 
 	EImport *import;
@@ -236,7 +227,7 @@ filename_changed (GtkWidget *widget,
 		}
 	}
 
-	gnome_druid_set_buttons_sensitive(GNOME_DRUID (data->druid), TRUE, fileok, TRUE, FALSE);
+	gtk_assistant_set_page_complete (GTK_ASSISTANT (data->assistant), page->vbox, fileok);
 }
 
 static void
@@ -249,29 +240,6 @@ filetype_changed_cb (GtkWidget *combobox, ImportData *data)
 	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox)), &iter, 2, &data->filepage->importer, -1);
 	filename_changed (data->filepage->filename, data);
 }
-
-#if 0
-static gint
-compare_info_name (gconstpointer data1, const void  *data2)
-{
-	const Bonobo_ServerInfo *info1 = (Bonobo_ServerInfo *)data1;
-	const Bonobo_ServerInfo *info2 = (Bonobo_ServerInfo *)data2;
-	const gchar *name1 = get_name_from_component_info (info1);
-	const gchar *name2 = get_name_from_component_info (info2);
-
-	/* If we can't find a name for a plug-in, its iid will be used
-	 * for display. Put such plug-ins at the end of the list since
-	 * their displayed name won't be really user-friendly
-	 */
-	if (name1 == NULL) {
-		return -1;
-	}
-	if (name2 == NULL) {
-		return 1;
-	}
-	return g_utf8_collate (name1, name2);
-}
-#endif
 
 static ImportDialogFilePage *
 importer_file_page_new (ImportData *data)
@@ -328,6 +296,8 @@ importer_file_page_new (ImportData *data)
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
 
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
+
 	gtk_widget_show_all (table);
 
 	return page;
@@ -341,6 +311,8 @@ importer_dest_page_new (ImportData *data)
 	page = g_new0 (ImportDialogDestPage, 1);
 
 	page->vbox = gtk_vbox_new (FALSE, 5);
+
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
 
 	return page;
 }
@@ -359,7 +331,10 @@ importer_type_page_new (ImportData *data)
 	page->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (page->intelligent),
 								  _("Import a _single file"));
 	gtk_box_pack_start (GTK_BOX (page->vbox), page->file, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
+
 	gtk_widget_show_all (page->vbox);
+
 	return page;
 }
 
@@ -377,23 +352,25 @@ importer_importer_page_new (ImportData *data)
 	sep = gtk_hseparator_new ();
 	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
 
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
+
 	gtk_widget_show_all (page->vbox);
 
 	return page;
 }
 
-static gboolean
-prepare_intelligent_page (GnomeDruidPage *dpage,
-			  GnomeDruid *druid,
-			  ImportData *data)
+static void
+prepare_intelligent_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
 {
 	GSList *l;
 	GtkWidget *table;
 	gint row;
 	ImportDialogImporterPage *page = data->importerpage;
 
-	if (page->target != NULL)
-		return FALSE;
+	if (page->target != NULL) {
+		gtk_assistant_set_page_complete (assistant, apage, FALSE);
+		return;
+	}
 
 	page->target = e_import_target_new_home(data->import, g_get_home_dir());
 
@@ -403,8 +380,8 @@ prepare_intelligent_page (GnomeDruidPage *dpage,
 
 	if (l == NULL) {
 		gtk_box_pack_start(GTK_BOX (data->importerpage->vbox), create_help("nodata_html"), FALSE, TRUE, 0);
-		gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
-		return TRUE;
+		gtk_assistant_set_page_complete (assistant, apage, FALSE);
+		return;
 	}
 
 	table = gtk_table_new(g_slist_length(l), 2, FALSE);
@@ -432,33 +409,30 @@ prepare_intelligent_page (GnomeDruidPage *dpage,
 	gtk_widget_show(table);
 	gtk_box_pack_start((GtkBox *)data->importerpage->vbox, table, FALSE, FALSE, 0);
 
-	return FALSE;
+	gtk_assistant_set_page_complete (assistant, apage, TRUE);
 }
 
 static void
-import_druid_cancel (GnomeDruid *druid,
-		     ImportData *data)
+import_assistant_cancel (GtkAssistant *assistant, ImportData *data)
 {
 	if (data->import_dialog)
 		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
 	else
-		gtk_widget_destroy (GTK_WIDGET (data->dialog));
+		gtk_widget_destroy (GTK_WIDGET (data->assistant));
 }
 
 static gboolean
-import_druid_esc (GnomeDruid *druid,
-		  GdkEventKey *event,
-		  ImportData *data)
+import_assistant_esc (GtkAssistant *assistant, GdkEventKey *event, ImportData *data)
 {
 	if (event->keyval == GDK_Escape) {
-		gtk_widget_destroy (GTK_WIDGET (data->dialog));
+		gtk_widget_destroy (GTK_WIDGET (assistant));
 		return TRUE;
 	} else
 		return FALSE;
 }
 
 static void
-import_druid_weak_notify (gpointer blah,
+import_assistant_weak_notify (gpointer blah,
 			  GObject *where_the_object_was)
 {
 	ImportData *data = (ImportData *) blah;
@@ -466,8 +440,8 @@ import_druid_weak_notify (gpointer blah,
 	if (data->import_dialog && (GObject *)data->import_dialog != where_the_object_was) {
 		/* postpone freeing of 'data' after the 'import_dialog' will stop,
 		   but also indicate that the 'dialog' gone already */
-		data->dialog = NULL;
-		g_object_weak_ref ((GObject *)data->import_dialog, import_druid_weak_notify, data);
+		data->assistant = NULL;
+		g_object_weak_ref ((GObject *)data->import_dialog, import_assistant_weak_notify, data);
 		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
 		return;
 	}
@@ -481,7 +455,6 @@ import_druid_weak_notify (gpointer blah,
 
 	g_object_unref(data->import);
 
-	g_object_unref(data->wizard);
 	g_free(data);
 }
 
@@ -505,7 +478,7 @@ static void
 import_done(EImport *ei, gpointer d)
 {
 	ImportData *data = d;
-	gboolean have_dialog = data->dialog !=  NULL;
+	gboolean have_dialog = data->assistant !=  NULL;
 
 	gtk_widget_destroy (data->import_dialog);
 
@@ -513,7 +486,7 @@ import_done(EImport *ei, gpointer d)
 	   on the above destroy call */
 	if (have_dialog) {
 		data->import_dialog = NULL;
-		gtk_widget_destroy (data->dialog);
+		gtk_widget_destroy (data->assistant);
 	}
 }
 
@@ -532,9 +505,7 @@ import_intelligent_done(EImport *ei, gpointer d)
 }
 
 static void
-import_druid_finish (GnomeDruidPage *page,
-		     GnomeDruid *druid,
-		     ImportData *data)
+import_assistant_apply (GtkAssistant *assistant, ImportData *data)
 {
 	EImportCompleteFunc done = NULL;
 	gchar *msg = NULL;
@@ -567,16 +538,14 @@ import_druid_finish (GnomeDruidPage *page,
 
 		e_import_import(data->import, data->import_target, data->import_importer, import_status, import_done, data);
 	} else {
-		gtk_widget_destroy(data->dialog);
+		gtk_widget_destroy(data->assistant);
 	}
 
 	g_free(msg);
 }
 
-static gboolean
-prepare_file_page (GnomeDruidPage *dpage,
-		   GnomeDruid *druid,
-		   ImportData *data)
+static void
+prepare_file_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
 {
 	GSList *importers, *imp;
 	GtkListStore *store;
@@ -584,7 +553,7 @@ prepare_file_page (GnomeDruidPage *dpage,
 
 	if (page->target != NULL) {
 		filename_changed(data->filepage->filename, data);
-		return FALSE;
+		return;
 	}
 
 	page->target = e_import_target_new_uri(data->import, NULL, NULL);
@@ -613,23 +582,10 @@ prepare_file_page (GnomeDruidPage *dpage,
 	filename_changed (data->filepage->filename, data);
 
 	g_signal_connect (page->filetype, "changed", G_CALLBACK (filetype_changed_cb), data);
-
-	return FALSE;
 }
 
 static gboolean
-next_file_page (GnomeDruidPage *page,
-		GnomeDruid *druid,
-		ImportData *data)
-{
-	/* We dont sensitise the next button if we're not already usable */
-	return FALSE;
-}
-
-static gboolean
-prepare_dest_page (GnomeDruidPage *dpage,
-		   GnomeDruid *druid,
-		   ImportData *data)
+prepare_dest_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
 {
 	ImportDialogDestPage *page = data->destpage;
 
@@ -643,55 +599,10 @@ prepare_dest_page (GnomeDruidPage *dpage,
 		gtk_widget_show(page->control);
 	}
 
-	gtk_box_pack_start((GtkBox *)data->destpage->vbox, page->control, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *)data->destpage->vbox, page->control, TRUE, TRUE, 0);
+	gtk_assistant_set_page_complete (assistant, apage, TRUE);
 
 	return FALSE;
-}
-
-static gboolean
-next_dest_page (GnomeDruidPage *page,
-		GnomeDruid *druid,
-		ImportData *data)
-{
-	gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish));
-	return TRUE;
-}
-
-static gboolean
-next_type_page (GnomeDruidPage *page,
-		GnomeDruid *druid,
-		ImportData *data)
-{
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->intelligent));
-	} else {
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
-	}
-
-	return TRUE;
-}
-
-static gboolean
-back_finish_page (GnomeDruidPage *page,
-		  GnomeDruid *druid,
-		  ImportData *data)
-{
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->intelligent));
-	} else {
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->destdialog));
-	}
-
-	return TRUE;
-}
-
-static gboolean
-back_intelligent_page (GnomeDruidPage *page,
-		       GnomeDruid *druid,
-		       ImportData *data)
-{
-	gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->typedialog));
-	return TRUE;
 }
 
 static void
@@ -703,114 +614,169 @@ dialog_weak_notify (gpointer data,
 	*dialog_open = FALSE;
 }
 
+enum {
+	PAGE_START,
+	PAGE_INTELI_OR_DIRECT,
+	PAGE_INTELI_SOURCE,
+	PAGE_FILE_CHOOSE,
+	PAGE_FILE_DEST,
+	PAGE_FINISH
+};
+
+static gint
+forward_cb (gint current_page, gpointer user_data)
+{
+	ImportData *data = user_data;
+
+	switch (current_page) {
+	case PAGE_INTELI_OR_DIRECT:
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent)))
+			return PAGE_INTELI_SOURCE;
+		else
+			return PAGE_FILE_CHOOSE;
+	case PAGE_INTELI_SOURCE:
+		return PAGE_FINISH;
+	}
+
+	return current_page + 1;
+}
+
+static void
+import_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
+{
+	ImportData *data = user_data;
+
+	if (page == data->importerpage->vbox)
+		prepare_intelligent_page (assistant, page, data);
+	else if (page == data->filepage->vbox)
+		prepare_file_page (assistant, page, data);
+	else  if (page == data->destpage->vbox)
+		prepare_dest_page (assistant, page, data);
+}
+
 void
 e_shell_importer_start_import (EShellWindow *shell_window)
 {
+	const gchar *empty_xpm_img[] = {
+		"48 1 2 1",
+		" 	c None",
+		".	c #FFFFFF",
+		"                                                "};
 	ImportData *data = g_new0 (ImportData, 1);
-	GtkWidget *html;
+	GtkWidget *html, *page;
 	static gboolean dialog_open = FALSE;
-	GdkPixbuf *icon;
-	gchar *gladefile;
+	GdkPixbuf *icon, *spacer;
+	GtkAssistant *assistant;
 
 	if (dialog_open) {
 		return;
 	}
 
-	data->import = e_import_new("org.gnome.evolution.shell.importer");
+	data->import = e_import_new ("org.gnome.evolution.shell.importer");
 
 	icon = e_icon_factory_get_icon ("stock_mail-import", GTK_ICON_SIZE_DIALOG);
+	spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
 
 	dialog_open = TRUE;
 	data->window = shell_window;
+	data->assistant = gtk_assistant_new ();
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "import.glade", NULL);
-	data->wizard = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
-	gtk_window_set_default_size (GTK_WINDOW (data->dialog), 480, 320);
-	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
-				"Evolution:shell");
-	e_dialog_set_transient_for (GTK_WINDOW (data->dialog), GTK_WIDGET (shell_window));
-	g_object_weak_ref ((GObject *)data->dialog, dialog_weak_notify, &dialog_open);
+	assistant = GTK_ASSISTANT (data->assistant);
 
-	data->druid = glade_xml_get_widget (data->wizard, "druid1");
-	g_signal_connect (data->druid, "cancel",
-			  G_CALLBACK (import_druid_cancel), data);
-	g_signal_connect (data->druid, "key_press_event",
-			  G_CALLBACK (import_druid_esc), data);
-
-	gtk_button_set_use_underline ((GtkButton *)((GnomeDruid *)data->druid)->finish, TRUE);
-	gtk_button_set_label((GtkButton *)((GnomeDruid *)data->druid)->finish, _("_Import"));
+	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
+	gtk_window_set_title (GTK_WINDOW (assistant), _("Evolution Import Assistant"));
+	gtk_window_set_default_size (GTK_WINDOW (assistant), 500, 330);
 
 	/* Start page */
-	data->start = GNOME_DRUID_PAGE_EDGE (glade_xml_get_widget (data->wizard, "page0"));
-	gnome_druid_page_edge_set_logo (data->start, icon);
+	page = gtk_label_new ("");
+	gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.5);
+	gtk_misc_set_padding (GTK_MISC (page), 12, 12);
+	gtk_label_set_text (GTK_LABEL (page), _(
+		"Welcome to the Evolution Import Assistant.\n"
+		"With this assistant you will be guided through the process of importing external files into Evolution."));
+
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Evolution Import Assistant"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_INTRO);
+	gtk_assistant_set_page_side_image (assistant, page, spacer);
+	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* Intelligent or direct import page */
-	data->typedialog = glade_xml_get_widget (data->wizard, "page1");
-	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->typedialog), icon);
-	g_signal_connect (data->typedialog, "next",
-			  G_CALLBACK (next_type_page), data);
 	data->typepage = importer_type_page_new (data);
 	html = create_help ("type_html");
 	gtk_box_pack_start (GTK_BOX (data->typepage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->typepage->vbox), html, 0);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->typedialog)->vbox), data->typepage->vbox, TRUE, TRUE, 0);
+	page = data->typepage->vbox;
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Importer Type"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
+	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* Intelligent importer source page */
-	data->intelligent = glade_xml_get_widget (data->wizard, "page2-intelligent");
-	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->intelligent), icon);
-	g_signal_connect (data->intelligent, "back",
-			  G_CALLBACK (back_intelligent_page), data);
-	g_signal_connect_after (data->intelligent, "prepare",
-			  G_CALLBACK (prepare_intelligent_page), data);
-
 	data->importerpage = importer_importer_page_new (data);
 	html = create_help ("intelligent_html");
 	gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->importerpage->vbox), html, 0);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->intelligent)->vbox), data->importerpage->vbox, TRUE, TRUE, 0);
+	page = data->importerpage->vbox;
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Select Information to Import"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 	/* File selection and file type page */
-	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");
-	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->filedialog), icon);
-	g_signal_connect_after (data->filedialog, "prepare",
-			  G_CALLBACK (prepare_file_page), data);
-	g_signal_connect (data->filedialog, "next",
-			  G_CALLBACK (next_file_page), data);
 	data->filepage = importer_file_page_new (data);
-
 	html = create_help ("file_html");
 	gtk_box_pack_start (GTK_BOX (data->filepage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->filepage->vbox), html, 0);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->filedialog)->vbox), data->filepage->vbox, TRUE, TRUE, 0);
+	page = data->filepage->vbox;
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Select a File"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 	/* File destination page */
-	data->destdialog = glade_xml_get_widget (data->wizard, "page3-file");
-	g_signal_connect_after (data->destdialog, "prepare",
-			  G_CALLBACK (prepare_dest_page), data);
-	g_signal_connect (data->destdialog, "next",
-			  G_CALLBACK (next_dest_page), data);
-
 	data->destpage = importer_dest_page_new (data);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (data->destdialog)->vbox), data->destpage->vbox, TRUE, TRUE, 0);
+	page = data->destpage->vbox;
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Import Location"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 	/* Finish page */
-	data->finish = GNOME_DRUID_PAGE_EDGE (glade_xml_get_widget (data->wizard, "page4"));
-	gnome_druid_page_edge_set_logo (data->finish, icon);
-	g_signal_connect (data->finish, "back",
-			  G_CALLBACK (back_finish_page), data);
+	page = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (page), 0.5, 0.5);
+	gtk_label_set_text (GTK_LABEL (page), _("Click \"Apply\" to begin importing the file into Evolution."));
 
-	g_signal_connect (data->finish, "finish",
-			  G_CALLBACK (import_druid_finish), data);
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, icon);
+	gtk_assistant_set_page_title (assistant, page, _("Import File"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
+	gtk_assistant_set_page_side_image (assistant, page, spacer);
+	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
-	g_object_weak_ref ((GObject *)data->dialog, import_druid_weak_notify, data);
+	/* setup the rest */
+	g_object_weak_ref ((GObject *)assistant, dialog_weak_notify, &dialog_open);
+
+	gtk_assistant_set_forward_page_func (assistant, forward_cb, data, NULL);
+
+	g_signal_connect (assistant, "key_press_event", G_CALLBACK (import_assistant_esc), data);
+	g_signal_connect (assistant, "cancel", G_CALLBACK (import_assistant_cancel), data);
+	g_signal_connect (assistant, "prepare", G_CALLBACK (import_assistant_prepare), data);
+	g_signal_connect (assistant, "apply", G_CALLBACK (import_assistant_apply), data);
+
+	g_object_weak_ref ((GObject *)assistant, import_assistant_weak_notify, data);
 
 	g_object_unref (icon);
+	g_object_unref (spacer);
 
-	gtk_widget_show_all (data->dialog);
+	gtk_assistant_update_buttons_state (assistant);
+
+	gtk_widget_show_all (data->assistant);
 }

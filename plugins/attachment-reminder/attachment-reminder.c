@@ -67,7 +67,7 @@ enum {
 	CLUE_N_COLUMNS
 };
 
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
 void org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t);
@@ -85,7 +85,7 @@ static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
 					*path, GtkTreeIter *iter, UIData *ui);
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	return 0;
 }

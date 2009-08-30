@@ -29,6 +29,9 @@
 #include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>
 
+#include <camel/camel-folder.h>
+#include <shell/e-shell-backend.h>
+
 G_BEGIN_DECLS
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
@@ -83,11 +86,13 @@ enum {
 #define ML_HIDE_SAME (2147483646)
 
 typedef struct _MessageList MessageList;
+typedef struct _MessageListClass MessageListClass;
+typedef struct _MessageListPrivate MessageListPrivate;
 
 struct _MessageList {
 	ETreeScrolled parent;
 
-	struct _MessageListPrivate *priv;
+	MessageListPrivate *priv;
 
 	/* The table */
 	ETreeModel   *model;
@@ -163,14 +168,14 @@ struct _MessageList {
 	struct _MailAsyncEvent *async_event;
 };
 
-typedef struct {
+struct _MessageListClass {
 	ETreeScrolledClass parent_class;
 
 	/* signals - select a message */
 	void (*message_selected) (MessageList *ml, const gchar *uid);
 	void (*message_list_built) (MessageList *ml);
 	void (*message_list_scrolled) (MessageList *ml);
-} MessageListClass;
+};
 
 typedef enum {
 	MESSAGE_LIST_SELECT_NEXT = 0,
@@ -180,7 +185,8 @@ typedef enum {
 } MessageListSelectDirection;
 
 GType          message_list_get_type   (void);
-GtkWidget     *message_list_new        (void);
+GtkWidget     *message_list_new        (EShellBackend *shell_backend);
+EShellBackend  *message_list_get_shell_backend (MessageList *message_list);
 void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const gchar *uri, gboolean outgoing);
 
 void	       message_list_freeze(MessageList *ml);

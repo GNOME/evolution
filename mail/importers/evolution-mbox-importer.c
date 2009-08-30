@@ -40,9 +40,10 @@
 
 #include <camel/camel-exception.h>
 
+#include "mail/e-mail-local.h"
+#include "mail/e-mail-store.h"
 #include "mail/em-folder-selection-button.h"
-
-#include "mail/mail-component.h"
+#include "mail/em-folder-tree-model.h"
 #include "mail/mail-mt.h"
 
 #include "mail-importer.h"
@@ -73,15 +74,18 @@ static GtkWidget *
 mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
+	const gchar *local_inbox_uri;
+
+	local_inbox_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 
 	w = gtk_label_new(_("Destination folder:"));
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
-	w = em_folder_selection_button_new(_("Select folder"), _("Select folder to import into"));
-	em_folder_selection_button_set_selection((EMFolderSelectionButton *)w,
-						 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_INBOX));
+	w = em_folder_selection_button_new(
+		_("Select folder"), _("Select folder to import into"));
+	em_folder_selection_button_set_selection((EMFolderSelectionButton *)w, local_inbox_uri);
 	g_signal_connect(w, "selected", G_CALLBACK(folder_selected), target);
 	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
 

@@ -28,14 +28,29 @@
 
 #include "e-cal-model.h"
 
+/* Standard GObject macros */
+#define E_TYPE_CAL_MODEL_CALENDAR \
+	(e_cal_model_calendar_get_type ())
+#define E_CAL_MODEL_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_MODEL_CALENDAR, ECalModelCalendar))
+#define E_CAL_MODEL_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_MODEL_CALENDAR, ECalModelCalendarClass))
+#define E_IS_CAL_MODEL_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_MODEL_CALENDAR))
+#define E_IS_CAL_MODEL_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_MODEL_CALENDAR))
+#define E_CAL_MODEL_CALENDAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_MODEL_CALENDAR, ECalModelCalendarClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_CAL_MODEL_CALENDAR            (e_cal_model_calendar_get_type ())
-#define E_CAL_MODEL_CALENDAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_MODEL_CALENDAR, ECalModelCalendar))
-#define E_CAL_MODEL_CALENDAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CAL_MODEL_CALENDAR, ECalModelCalendarClass))
-#define E_IS_CAL_MODEL_CALENDAR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_MODEL_CALENDAR))
-#define E_IS_CAL_MODEL_CALENDAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_MODEL_CALENDAR))
-
+typedef struct _ECalModelCalendar ECalModelCalendar;
+typedef struct _ECalModelCalendarClass ECalModelCalendarClass;
 typedef struct _ECalModelCalendarPrivate ECalModelCalendarPrivate;
 
 typedef enum {
@@ -47,18 +62,18 @@ typedef enum {
 	E_CAL_MODEL_CALENDAR_FIELD_LAST
 } ECalModelCalendarField;
 
-typedef struct {
-	ECalModel model;
+struct _ECalModelCalendar {
+	ECalModel parent;
 	ECalModelCalendarPrivate *priv;
-} ECalModelCalendar;
+};
 
-typedef struct {
+struct _ECalModelCalendarClass {
 	ECalModelClass parent_class;
-} ECalModelCalendarClass;
+};
 
-GType              e_cal_model_calendar_get_type (void);
-ECalModelCalendar *e_cal_model_calendar_new (void);
+GType		e_cal_model_calendar_get_type (void);
+ECalModel *	e_cal_model_calendar_new	(EShellSettings *shell_settings);
 
 G_END_DECLS
 
-#endif
+#endif /* E_CAL_MODEL_CALENDAR_H */

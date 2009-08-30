@@ -29,7 +29,6 @@
 #include <gconf/gconf-client.h>
 #include <e-util/e-error.h>
 #include <glade/glade.h>
-#include "mail/em-menu.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
@@ -80,13 +79,13 @@ static void epech_dialog_dispose (GObject *object);
 static void epech_setup_widgets (CustomHeaderOptionsDialog *mch);
 static gint epech_check_existing_composer_window(gconstpointer a, gconstpointer b);
 static void commit_changes (ConfigData *cd);
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 gboolean e_plugin_ui_init(GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
         return 0;
 }
@@ -549,13 +548,13 @@ destroy_compo_data (gpointer data)
 static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *composer)
 
 {
-	GtkUIManager  *manager;
+	GtkUIManager  *ui_manager;
 	GtkWidget     *menuitem;
 	CustomHeaderOptionsDialog *dialog = NULL;
 	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
 
-	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	menuitem = gtk_ui_manager_get_widget (manager, "/main-menu/insert-menu/insert-menu-top/Custom Header");
+	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	menuitem = gtk_ui_manager_get_widget (ui_manager, "/main-menu/insert-menu/insert-menu-top/Custom Header");
 
 	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
 

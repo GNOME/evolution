@@ -25,11 +25,9 @@
 #endif
 
 #include <string.h>
-
-#include <e-util/e-util.h>
 #include <glib/gi18n.h>
+#include <e-util/e-util.h>
 
-#include "mail-component.h"
 #include "mail-config.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
@@ -37,21 +35,15 @@
 
 #include "em-folder-selection-button.h"
 
-static void em_folder_selection_button_class_init (EMFolderSelectionButtonClass *klass);
-static void em_folder_selection_button_init (EMFolderSelectionButton *emfsb);
-static void em_folder_selection_button_destroy (GtkObject *obj);
-static void em_folder_selection_button_finalize (GObject *obj);
-static void em_folder_selection_button_clicked (GtkButton *button);
-
-static GtkButtonClass *parent_class = NULL;
+#define EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
 
 struct _EMFolderSelectionButtonPrivate {
 	GtkWidget *icon;
 	GtkWidget *label;
 
-	GtkWidget *selector;
-
-	gchar *uri;   /* for single-select mode */
+	gchar *uri;  /* for single-select mode */
 	GList *uris; /* for multi-select mode */
 
 	gchar *title;
@@ -61,223 +53,377 @@ struct _EMFolderSelectionButtonPrivate {
 };
 
 enum {
+	PROP_0,
+	PROP_CAPTION,
+	PROP_MULTISELECT,
+	PROP_TITLE
+};
+
+enum {
 	SELECTED,
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
+
+static void
+folder_selection_button_unselected (EMFolderSelectionButton *button)
+{
+	const gchar *text;
+
+	text = _("<click here to select a folder>");
+	gtk_image_set_from_pixbuf (GTK_IMAGE (button->priv->icon), NULL);
+	gtk_label_set_text (GTK_LABEL (button->priv->label), text);
+}
+
+static void
+folder_selection_button_set_contents (EMFolderSelectionButton *button)
+{
+	EAccount *account;
+	GtkLabel *label;
+	const gchar *uri;
+	gchar *folder_name;
+
+	uri = button->priv->uri;
+	label = GTK_LABEL (button->priv->label);
+	folder_name = em_utils_folder_name_from_uri (uri);
+
+	if (folder_name == NULL) {
+		folder_selection_button_unselected (button);
+		return;
+	}
+
+	account = mail_config_get_account_by_source_url (uri);
+
+	if (account != NULL) {
+		gchar *tmp = folder_name;
+
+		folder_name = g_strdup_printf (
+			"%s/%s", e_account_get_string (
+			account, E_ACCOUNT_NAME), _(folder_name));
+		gtk_label_set_text (label, folder_name);
+		g_free (tmp);
+	} else
+		gtk_label_set_text (label, _(folder_name));
+
+	g_free (folder_name);
+}
+
+static void
+folder_selection_button_set_property (GObject *object,
+                                      guint property_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CAPTION:
+			em_folder_selection_button_set_caption (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_MULTISELECT:
+			em_folder_selection_button_set_multiselect (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TITLE:
+			em_folder_selection_button_set_title (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_selection_button_get_property (GObject *object,
+                                      guint property_id,
+                                      GValue *value,
+                                      GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CAPTION:
+			g_value_set_string (
+				value,
+				em_folder_selection_button_get_caption (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
+		case PROP_MULTISELECT:
+			g_value_set_boolean (
+				value,
+				em_folder_selection_button_get_multiselect (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
+		case PROP_TITLE:
+			g_value_set_string (
+				value,
+				em_folder_selection_button_get_title (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_selection_button_finalize (GObject *object)
+{
+	EMFolderSelectionButtonPrivate *priv;
+
+	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
+
+	g_list_foreach (priv->uris, (GFunc) g_free, NULL);
+	g_list_free (priv->uris);
+
+	g_free (priv->title);
+	g_free (priv->caption);
+	g_free (priv->uri);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+folder_selection_button_destroy (GtkObject *object)
+{
+	EMFolderSelectionButtonPrivate *priv;
+
+	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
+
+	/* Chain up to parent's destroy() method. */
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+}
+
+static void
+folder_selection_button_clicked (GtkButton *button)
+{
+	EMFolderSelectionButtonPrivate *priv;
+	EMFolderTree *emft;
+	GtkWidget *dialog;
+	GtkTreeSelection *selection;
+	GtkSelectionMode mode;
+
+	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
+
+	emft = (EMFolderTree *) em_folder_tree_new ();
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
+	if (priv->multiple_select)
+		mode = GTK_SELECTION_MULTIPLE;
+	else
+		mode = GTK_SELECTION_SINGLE;
+	gtk_tree_selection_set_mode (selection, mode);
+
+	em_folder_tree_set_excluded (
+		emft, EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL | EMFT_EXCLUDE_VTRASH);
+
+	dialog = em_folder_selector_new (
+		emft, EM_FOLDER_SELECTOR_CAN_CREATE,
+		priv->title, priv->caption, NULL);
+
+	if (priv->multiple_select)
+		em_folder_selector_set_selected_list (
+			EM_FOLDER_SELECTOR (dialog), priv->uris);
+	else
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog), priv->uri);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	if (priv->multiple_select) {
+		GList *uris;
+
+		uris = em_folder_selector_get_selected_uris (
+			EM_FOLDER_SELECTOR (dialog));
+		em_folder_selection_button_set_selection_mult (
+			EM_FOLDER_SELECTION_BUTTON (button), uris);
+	} else {
+		const gchar *uri;
+
+		uri = em_folder_selector_get_selected_uri (
+			EM_FOLDER_SELECTOR (dialog));
+		em_folder_selection_button_set_selection (
+			EM_FOLDER_SELECTION_BUTTON (button), uri);
+	}
+
+	g_signal_emit (button, signals[SELECTED], 0);
+
+exit:
+	gtk_widget_destroy (dialog);
+}
+
+static void
+folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
+{
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
+	GtkButtonClass *button_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFolderSelectionButtonPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = folder_selection_button_set_property;
+	object_class->get_property = folder_selection_button_get_property;
+	object_class->finalize = folder_selection_button_finalize;
+
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = folder_selection_button_destroy;
+
+	button_class = GTK_BUTTON_CLASS (class);
+	button_class->clicked = folder_selection_button_clicked;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAPTION,
+		g_param_spec_string (
+			"caption",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MULTISELECT,
+		g_param_spec_boolean (
+			"multiselect",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TITLE,
+		g_param_spec_string (
+			"title",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	signals[SELECTED] = g_signal_new (
+		"selected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderSelectionButtonClass, selected),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+static void
+folder_selection_button_init (EMFolderSelectionButton *emfsb)
+{
+	GtkWidget *box;
+
+	emfsb->priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (emfsb);
+
+	emfsb->priv->multiple_select = FALSE;
+
+	box = gtk_hbox_new (FALSE, 4);
+
+	emfsb->priv->icon = gtk_image_new ();
+	gtk_widget_show (emfsb->priv->icon);
+	gtk_box_pack_start (GTK_BOX (box), emfsb->priv->icon, FALSE, TRUE, 0);
+
+	emfsb->priv->label = gtk_label_new ("");
+	gtk_widget_show (emfsb->priv->label);
+	gtk_label_set_justify (GTK_LABEL (emfsb->priv->label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (emfsb->priv->label), 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (box), emfsb->priv->label, TRUE, TRUE, 0);
+
+	gtk_widget_show (box);
+	gtk_container_add (GTK_CONTAINER (emfsb), box);
+
+	folder_selection_button_set_contents (emfsb);
+}
 
 GType
 em_folder_selection_button_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EMFolderSelectionButtonClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_folder_selection_button_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) folder_selection_button_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
 			sizeof (EMFolderSelectionButton),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_folder_selection_button_init,
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) folder_selection_button_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static (GTK_TYPE_BUTTON, "EMFolderSelectionButton", &info, 0);
+		type = g_type_register_static (
+			GTK_TYPE_BUTTON, "EMFolderSelectionButton",
+			&type_info, 0);
 	}
 
 	return type;
 }
 
-static void
-em_folder_selection_button_class_init (EMFolderSelectionButtonClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
-	GtkButtonClass *button_class = GTK_BUTTON_CLASS (klass);
-
-	parent_class = g_type_class_ref (GTK_TYPE_BUTTON);
-
-	object_class->finalize = em_folder_selection_button_finalize;
-	gtk_object_class->destroy = em_folder_selection_button_destroy;
-	button_class->clicked = em_folder_selection_button_clicked;
-
-	signals[SELECTED] = g_signal_new ("selected",
-					  G_OBJECT_CLASS_TYPE (object_class),
-					  G_SIGNAL_RUN_FIRST,
-					  G_STRUCT_OFFSET (EMFolderSelectionButtonClass, selected),
-					  NULL, NULL,
-					  g_cclosure_marshal_VOID__VOID,
-					  G_TYPE_NONE, 0);
-}
-
-static void
-set_contents_unselected (EMFolderSelectionButton *button)
-{
-	gtk_image_set_from_pixbuf (GTK_IMAGE (button->priv->icon), NULL);
-	gtk_label_set_text (GTK_LABEL (button->priv->label), _("<click here to select a folder>"));
-}
-
-static void
-set_contents (EMFolderSelectionButton *button)
-{
-	struct _EMFolderSelectionButtonPrivate *priv = button->priv;
-	gchar *folder_name = em_utils_folder_name_from_uri (priv->uri);
-
-	if (folder_name) {
-		EAccount *account = mail_config_get_account_by_source_url (priv->uri);
-
-		if (account) {
-			gchar *tmp = folder_name;
-			folder_name = g_strdup_printf ("%s/%s", e_account_get_string (account, E_ACCOUNT_NAME), folder_name);
-			g_free (tmp);
-			gtk_label_set_text (GTK_LABEL (priv->label), folder_name);
-		} else
-			gtk_label_set_text (GTK_LABEL (priv->label), _(folder_name));
-
-		g_free (folder_name);
-	} else {
-		set_contents_unselected (button);
-	}
-}
-
-static void
-em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
-{
-	struct _EMFolderSelectionButtonPrivate *priv;
-	GtkWidget *box;
-
-	priv = g_new0 (struct _EMFolderSelectionButtonPrivate, 1);
-	emfsb->priv = priv;
-
-	priv->multiple_select = FALSE;
-
-	box = gtk_hbox_new (FALSE, 4);
-
-	priv->icon = gtk_image_new ();
-	gtk_widget_show (priv->icon);
-	gtk_box_pack_start (GTK_BOX (box), priv->icon, FALSE, TRUE, 0);
-
-	priv->label = gtk_label_new ("");
-	gtk_widget_show (priv->label);
-	gtk_label_set_justify (GTK_LABEL (priv->label), GTK_JUSTIFY_LEFT);
-	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.0);
-	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
-
-	gtk_widget_show (box);
-	gtk_container_add (GTK_CONTAINER (emfsb), box);
-
-	set_contents (emfsb);
-}
-
-static void
-em_folder_selection_button_destroy (GtkObject *obj)
-{
-	struct _EMFolderSelectionButtonPrivate *priv = ((EMFolderSelectionButton *) obj)->priv;
-
-	if (priv->selector) {
-		gtk_widget_destroy(priv->selector);
-		priv->selector = NULL;
-	}
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
-}
-
-static void
-em_folder_selection_button_finalize (GObject *obj)
-{
-	struct _EMFolderSelectionButtonPrivate *priv = ((EMFolderSelectionButton *) obj)->priv;
-
-	GList *lst = ((EMFolderSelectionButton*) obj)->priv->uris;
-	g_list_foreach (lst, (GFunc) g_free, NULL);
-	g_list_free (lst);
-
-	g_free (priv->title);
-	g_free (priv->caption);
-	g_free (priv->uri);
-	g_free (priv);
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-static void
-emfsb_selector_response (EMFolderSelector *emfs, gint response, EMFolderSelectionButton *button)
-{
-	if (response == GTK_RESPONSE_OK) {
-		if (button->priv->multiple_select) {
-			GList *uris = em_folder_selector_get_selected_uris (emfs);
-
-			em_folder_selection_button_set_selection_mult (button, uris);
-			g_signal_emit (button, signals[SELECTED], 0);
-		} else {
-			const gchar *uri = em_folder_selector_get_selected_uri (emfs);
-
-			em_folder_selection_button_set_selection (button, uri);
-			g_signal_emit (button, signals[SELECTED], 0);
-		}
-	}
-
-	gtk_widget_destroy ((GtkWidget *) emfs);
-}
-
-static void
-em_folder_selection_button_clicked (GtkButton *button)
-{
-	struct _EMFolderSelectionButtonPrivate *priv = EM_FOLDER_SELECTION_BUTTON (button)->priv;
-	EMFolderTreeModel *model;
-	EMFolderTree *emft;
-	GtkWidget *dialog;
-
-	if (GTK_BUTTON_CLASS (parent_class)->clicked != NULL)
-		(* GTK_BUTTON_CLASS (parent_class)->clicked) (button);
-
-	if (priv->selector) {
-		gtk_window_present((GtkWindow *)priv->selector);
-		return;
-	}
-
-	model = mail_component_peek_tree_model (mail_component_peek ());
-	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	g_object_unref (model);
-	em_folder_tree_set_multiselect (emft, priv->multiple_select);
-	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
-	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE, priv->title, priv->caption, NULL);
-	if (priv->multiple_select)
-		em_folder_selector_set_selected_list ((EMFolderSelector *) dialog, priv->uris);
-	else
-		em_folder_selector_set_selected ((EMFolderSelector *) dialog, priv->uri);
-	g_signal_connect (dialog, "response", G_CALLBACK (emfsb_selector_response), button);
-	priv->selector = dialog;
-	g_signal_connect(dialog, "destroy", G_CALLBACK(gtk_widget_destroyed), &priv->selector);
-	gtk_widget_show (dialog);
-}
-
 GtkWidget *
-em_folder_selection_button_new (const gchar *title, const gchar *caption)
+em_folder_selection_button_new (const gchar *title,
+                                const gchar *caption)
 {
-	EMFolderSelectionButton *button = g_object_new (EM_TYPE_FOLDER_SELECTION_BUTTON, NULL);
+	return g_object_new (
+		EM_TYPE_FOLDER_SELECTION_BUTTON,
+		"title", title, "caption", caption, NULL);
+}
 
-	button->priv->title = g_strdup (title);
-	button->priv->caption = g_strdup (caption);
+const gchar *
+em_folder_selection_button_get_caption (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
 
-	return GTK_WIDGET (button);
+	return button->priv->caption;
 }
 
 void
-em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri)
+em_folder_selection_button_set_caption (EMFolderSelectionButton *button,
+                                        const gchar *caption)
 {
-	struct _EMFolderSelectionButtonPrivate *priv = button->priv;
-
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
-	if (priv->uri != uri) {
-		g_free (priv->uri);
-		priv->uri = g_strdup (uri);
-	}
+	g_free (button->priv->caption);
+	button->priv->caption = g_strdup (caption);
 
-	set_contents (button);
+	g_object_notify (G_OBJECT (button), "caption");
+}
+
+gboolean
+em_folder_selection_button_get_multiselect (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), FALSE);
+
+	return button->priv->multiple_select;
+}
+
+void
+em_folder_selection_button_set_multiselect (EMFolderSelectionButton *button,
+                                            gboolean multiselect)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	button->priv->multiple_select = multiselect;
+
+	g_object_notify (G_OBJECT (button), "multiselect");
 }
 
 const gchar *
@@ -289,20 +435,40 @@ em_folder_selection_button_get_selection (EMFolderSelectionButton *button)
 }
 
 void
-em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button, GList *uris)
+em_folder_selection_button_set_selection (EMFolderSelectionButton *button,
+                                          const gchar *uri)
 {
-	struct _EMFolderSelectionButtonPrivate *priv = button->priv;
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (g_strcmp0 (button->priv->uri, uri) == 0)
+		return;
+
+	g_free (button->priv->uri);
+	button->priv->uri = g_strdup (uri);
+
+	folder_selection_button_set_contents (button);
+}
+
+GList *
+em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+
+	return button->priv->uris;
+}
+
+void
+em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button,
+                                               GList *uris)
+{
 	gchar *caption, *tmp, *tmp2;
 
 	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
-	if (priv->uris) {
-		g_list_foreach (priv->uris, (GFunc) g_free, NULL);
-		g_list_free (priv->uris);
-		priv->uris = NULL;
-	}
+	g_list_foreach (button->priv->uris, (GFunc) g_free, NULL);
+	g_list_free (button->priv->uris);
 
-	priv->uris = uris;
+	button->priv->uris = uris;
 
 	/* compile the name */
 	caption = g_strdup ("");
@@ -319,34 +485,36 @@ em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button, 
 			/* apparently, we do not know this folder, so we'll just skip it */
 			g_free (uris->data);
 			uris = g_list_next (uris);
-			priv->uris = g_list_remove (priv->uris, uris->data);
+			button->priv->uris = g_list_remove (
+				button->priv->uris, uris->data);
 		}
 	}
 
 	if (caption[0])
-		gtk_label_set_text (GTK_LABEL (priv->label), caption + 2);
+		gtk_label_set_text (
+			GTK_LABEL (button->priv->label), caption + 2);
 	else
-		set_contents_unselected (button);
+		folder_selection_button_unselected (button);
 
 	g_free (caption);
 }
 
-GList *
-em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *button)
+const gchar *
+em_folder_selection_button_get_title (EMFolderSelectionButton *button)
 {
-	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+	g_return_val_if_fail (EM_FOLDER_SELECTION_BUTTON (button), NULL);
 
-	return button->priv->uris;
+	return button->priv->title;
 }
 
 void
-em_folder_selection_button_set_multiselect (EMFolderSelectionButton *button, gboolean value)
+em_folder_selection_button_set_title (EMFolderSelectionButton *button,
+                                      const gchar *title)
 {
-	button->priv->multiple_select = value;
-}
+	g_return_if_fail (EM_FOLDER_SELECTION_BUTTON (button));
 
-gboolean
-em_folder_selection_button_get_multiselect (EMFolderSelectionButton *button)
-{
-	return button->priv->multiple_select;
+	g_free (button->priv->title);
+	button->priv->title = g_strdup (title);
+
+	g_object_notify (G_OBJECT (button), "title");
 }

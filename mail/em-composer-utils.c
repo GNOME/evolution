@@ -37,19 +37,22 @@
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
-#include "mail-component.h"
 
 #include "e-util/e-error.h"
+#include "e-util/e-account-utils.h"
 
+#include "e-mail-local.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-autosave.h"
+#include "composer/e-composer-post-header.h"
+#include "em-folder-selector.h"
+#include "em-folder-tree.h"
 #include "em-format-html.h"
+#include "em-format-html-print.h"
 #include "em-format-quote.h"
 #include "em-event.h"
-
-#include "libedataserver/e-account-list.h"
 
 #include <camel/camel-folder.h>
 #include <camel/camel-multipart.h>
@@ -72,6 +75,9 @@
 
 static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
+static void em_utils_composer_send_cb (EMsgComposer *composer);
+static void em_utils_composer_save_draft_cb (EMsgComposer *composer);
+
 struct emcs_t {
 	guint ref_count;
 
@@ -88,28 +94,63 @@ emcs_new (void)
 {
 	struct emcs_t *emcs;
 
-	emcs = g_new (struct emcs_t, 1);
+	emcs = g_new0 (struct emcs_t, 1);
 	emcs->ref_count = 1;
-	emcs->drafts_folder = NULL;
-	emcs->drafts_uid = NULL;
-	emcs->folder = NULL;
-	emcs->flags = 0;
-	emcs->set = 0;
-	emcs->uid = NULL;
 
 	return emcs;
 }
 
 static void
-free_emcs (struct emcs_t *emcs)
+emcs_set_drafts_info (struct emcs_t *emcs,
+                      CamelFolder *drafts_folder,
+                      const gchar *drafts_uid)
 {
-	if (emcs->drafts_folder)
+	g_return_if_fail (emcs != NULL);
+	g_return_if_fail (drafts_folder != NULL);
+	g_return_if_fail (drafts_uid != NULL);
+
+	if (emcs->drafts_folder != NULL)
 		camel_object_unref (emcs->drafts_folder);
 	g_free (emcs->drafts_uid);
 
-	if (emcs->folder)
+	camel_object_ref (drafts_folder);
+	emcs->drafts_folder = drafts_folder;
+	emcs->drafts_uid = g_strdup (drafts_uid);
+}
+
+static void
+emcs_set_folder_info (struct emcs_t *emcs,
+                      CamelFolder *folder,
+                      const gchar *uid,
+                      guint32 flags,
+                      guint32 set)
+{
+	g_return_if_fail (emcs != NULL);
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (uid != NULL);
+
+	if (emcs->folder != NULL)
 		camel_object_unref (emcs->folder);
 	g_free (emcs->uid);
+
+	camel_object_ref (folder);
+	emcs->folder = folder;
+	emcs->uid = g_strdup (uid);
+	emcs->flags = flags;
+	emcs->set = set;
+}
+
+static void
+free_emcs (struct emcs_t *emcs)
+{
+	if (emcs->drafts_folder != NULL)
+		camel_object_unref (emcs->drafts_folder);
+	g_free (emcs->drafts_uid);
+
+	if (emcs->folder != NULL)
+		camel_object_unref (emcs->folder);
+	g_free (emcs->uid);
+
 	g_free (emcs);
 }
 
@@ -125,12 +166,6 @@ emcs_unref (struct emcs_t *emcs)
 	emcs->ref_count--;
 	if (emcs->ref_count == 0)
 		free_emcs (emcs);
-}
-
-static void
-composer_destroy_cb (gpointer user_data, GObject *deadbeef)
-{
-	emcs_unref (user_data);
 }
 
 static gboolean
@@ -226,17 +261,6 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			mail_send ();
 		}
 	} else {
-		if (!emcs) {
-			/* disconnect the previous signal handlers */
-			g_signal_handlers_disconnect_matched (send->composer, G_SIGNAL_MATCH_FUNC, 0,
-							      0, NULL, em_utils_composer_send_cb, NULL);
-			g_signal_handlers_disconnect_matched (send->composer, G_SIGNAL_MATCH_FUNC, 0,
-							      0, NULL, em_utils_composer_save_draft_cb, NULL);
-
-			/* reconnect to the signals using a non-NULL emcs for the callback data */
-			em_composer_utils_setup_default_callbacks (send->composer);
-		}
-
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
 	}
@@ -416,46 +440,49 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	return message;
 }
 
-void
-em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
+static void
+em_utils_composer_send_cb (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	struct _send_data *send;
-	CamelFolder *mail_folder;
+	CamelFolder *folder;
 	EAccount *account;
 
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 	if (!account || !account->enabled) {
-		e_error_run((GtkWindow *)composer, "mail:send-no-account-enabled", NULL);
+		e_error_run (
+			GTK_WINDOW (composer),
+			"mail:send-no-account-enabled", NULL);
 		return;
 	}
 
-	if (!(message = composer_get_message (composer, FALSE)))
+	if ((message = composer_get_message (composer, FALSE)) == NULL)
 		return;
 
-	mail_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
-	camel_object_ref (mail_folder);
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	camel_object_ref (folder);
 
 	/* mail the message */
-	info = camel_message_info_new(NULL);
-	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
+	info = camel_message_info_new (NULL);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	send = g_malloc (sizeof (*send));
-	send->emcs = user_data;
+	send->emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	if (send->emcs)
 		emcs_ref (send->emcs);
 	send->send = TRUE;
-	send->composer = composer;
-	g_object_ref (composer);
+	send->composer = g_object_ref (composer);
 	gtk_widget_hide (GTK_WIDGET (composer));
 
 	e_msg_composer_set_enable_autosave (composer, FALSE);
 
-	mail_append_mail (mail_folder, message, info, composer_send_queued_cb, send);
-	camel_object_unref (mail_folder);
+	mail_append_mail (
+		folder, message, info, composer_send_queued_cb, send);
+
+	camel_object_unref (folder);
 	camel_object_unref (message);
 }
 
@@ -495,16 +522,8 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 
 	composer_set_no_change (sdi->composer, FALSE, FALSE);
 
-	if ((emcs = sdi->emcs) == NULL) {
+	if ((emcs = sdi->emcs) == NULL)
 		emcs = emcs_new ();
-
-		/* disconnect the previous signal handlers */
-		g_signal_handlers_disconnect_by_func (sdi->composer, G_CALLBACK (em_utils_composer_send_cb), NULL);
-		g_signal_handlers_disconnect_by_func (sdi->composer, G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
-
-		/* reconnect to the signals using a non-NULL emcs for the callback data */
-		em_composer_utils_setup_default_callbacks (sdi->composer);
-	}
 
 	if (emcs->drafts_folder) {
 		/* delete the original draft message */
@@ -557,13 +576,13 @@ save_draft_folder (gchar *uri, CamelFolder *folder, gpointer data)
 	}
 }
 
-void
-em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
+static void
+em_utils_composer_save_draft_cb (EMsgComposer *composer)
 {
-	const gchar *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
-	CamelFolder *drafts_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	CamelFolder *local_drafts_folder;
 	EComposerHeaderTable *table;
 	struct _save_draft_info *sdi;
+	const gchar *local_drafts_folder_uri;
 	CamelFolder *folder = NULL;
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
@@ -573,19 +592,24 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 	 * get destroyed while we're in mail_msg_wait() a little lower
 	 * down, waiting for the folder to open */
 
-	g_object_ref(composer);
+	local_drafts_folder =
+		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+
+	g_object_ref (composer);
 	msg = e_msg_composer_get_message_draft (composer);
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 
-	sdi = g_malloc(sizeof(struct _save_draft_info));
+	sdi = g_malloc (sizeof(struct _save_draft_info));
 	sdi->composer = composer;
-	sdi->emcs = user_data;
+	sdi->emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	if (sdi->emcs)
-		emcs_ref(sdi->emcs);
+		emcs_ref (sdi->emcs);
 
 	if (account && account->drafts_folder_uri &&
-	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+	    strcmp (account->drafts_folder_uri, local_drafts_folder_uri) != 0) {
 		gint id;
 
 		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_msg_unordered_push);
@@ -601,11 +625,11 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 				return;
 			}
 
-			folder = drafts_folder;
-			camel_object_ref (drafts_folder);
+			folder = local_drafts_folder;
+			camel_object_ref (local_drafts_folder);
 		}
 	} else {
-		folder = drafts_folder;
+		folder = local_drafts_folder;
 		camel_object_ref (folder);
 	}
 
@@ -617,43 +641,24 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 	camel_object_unref (msg);
 }
 
-void
-em_composer_utils_setup_callbacks (EMsgComposer *composer,
-                                   CamelFolder *folder,
-                                   const gchar *uid,
-				   guint32 flags,
-                                   guint32 set,
-                                   CamelFolder *drafts,
-                                   const gchar *drafts_uid)
+static void
+em_utils_composer_print_cb (EMsgComposer *composer,
+                            GtkPrintOperationAction action)
 {
-	struct emcs_t *emcs;
+	CamelMimeMessage *message;
+	EMFormatHTMLPrint *efhp;
 
-	emcs = emcs_new ();
+	message = e_msg_composer_get_message_print (composer, 1);
 
-	if (folder && uid) {
-		camel_object_ref (folder);
-		emcs->folder = folder;
-		emcs->uid = g_strdup (uid);
-		emcs->flags = flags;
-		emcs->set = set;
-	}
-
-	if (drafts && drafts_uid) {
-		camel_object_ref (drafts);
-		emcs->drafts_folder = drafts;
-		emcs->drafts_uid = g_strdup (drafts_uid);
-	}
-
-	g_signal_connect (composer, "send", G_CALLBACK (em_utils_composer_send_cb), emcs);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (em_utils_composer_save_draft_cb), emcs);
-
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_cb, emcs);
+	efhp = em_format_html_print_new (NULL, action);
+	em_format_html_print_raw_message (efhp, message);
+	g_object_unref (efhp);
 }
 
 /* Composing messages... */
 
 static EMsgComposer *
-create_new_composer (const gchar *subject, const gchar *fromuri, gboolean use_default_callbacks, gboolean lite)
+create_new_composer (const gchar *subject, const gchar *fromuri, gboolean lite)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -678,9 +683,6 @@ create_new_composer (const gchar *subject, const gchar *fromuri, gboolean use_de
 	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 
-	if (use_default_callbacks)
-		em_composer_utils_setup_default_callbacks (composer);
-
 	return composer;
 }
 
@@ -695,7 +697,7 @@ em_utils_compose_new_message (const gchar *fromuri)
 {
 	GtkWidget *composer;
 
-	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE, FALSE);
+	composer = (GtkWidget *) create_new_composer ("", fromuri, FALSE);
 	if (composer == NULL)
 		return;
 
@@ -710,18 +712,18 @@ em_utils_compose_new_message (const gchar *fromuri)
  * Opens a new composer window as a child window of @parent's toplevel
  * window.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_compose_lite_new_message (const gchar *fromuri)
 {
 	GtkWidget *composer;
 
-	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE, TRUE);
+	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE);
 	if (composer == NULL)
 		return NULL;
 
 	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
 
-	return (struct _EMsgComposer *)composer;
+	return E_MSG_COMPOSER (composer);
 }
 
 /**
@@ -732,7 +734,7 @@ em_utils_compose_lite_new_message (const gchar *fromuri)
  * window. If @url is non-NULL, the composer fields will be filled in
  * according to the values in the mailto url.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri)
 {
 	EMsgComposer *composer;
@@ -745,7 +747,6 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 		composer = e_msg_composer_new ();
 
 	table = e_msg_composer_get_header_table (composer);
-	em_composer_utils_setup_default_callbacks (composer);
 
 	if (fromuri
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
@@ -753,7 +754,7 @@ em_utils_compose_new_message_with_mailto (const gchar *url, const gchar *fromuri
 
 	composer_set_no_change (composer, TRUE, url == NULL);
 
-	if (!e_msg_composer_get_lite()) {
+	if (!e_msg_composer_get_lite ()) {
 		gtk_widget_show ((GtkWidget *) composer);
 		gdk_window_raise (((GtkWidget *) composer)->window);
 	}
@@ -919,10 +920,12 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const gchar *uid)
 
 	composer = e_msg_composer_new_with_message (message);
 
-	if (em_utils_folder_is_templates(drafts, NULL) == TRUE)
-		em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, NULL, NULL);
-	else
-		em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, drafts, uid);
+	if (em_utils_folder_is_drafts (drafts, NULL)) {
+		struct emcs_t *emcs;
+
+		emcs = g_object_get_data (G_OBJECT (composer), "emcs");
+		emcs_set_drafts_info (emcs, drafts, uid);
+	}
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
@@ -1046,12 +1049,12 @@ setup_forward_attached_callbacks (EMsgComposer *composer, CamelFolder *folder, G
 	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_fad_cb, fad);
 }
 
-static struct _EMsgComposer *
+static EMsgComposer *
 forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, CamelMimePart *part, gchar *subject, const gchar *fromuri)
 {
 	EMsgComposer *composer;
 
-	composer = create_new_composer (subject, fromuri, TRUE, FALSE);
+	composer = create_new_composer (subject, fromuri, FALSE);
 	if (composer == NULL)
 		return NULL;
 
@@ -1132,7 +1135,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL);
 
 		if (text) {
-			composer = create_new_composer (subject, fromuri, !uids || !uids->pdata [i], FALSE);
+			composer = create_new_composer (subject, fromuri, FALSE);
 
 			if (composer) {
 				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
@@ -1140,8 +1143,12 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 
 				e_msg_composer_set_body_text (composer, text, len);
 
-				if (uids && uids->pdata[i])
-					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
+				if (uids && uids->pdata[i]) {
+					struct emcs_t *emcs;
+
+					emcs = g_object_get_data (G_OBJECT (composer), "emcs");
+					emcs_set_folder_info (emcs, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED);
+				}
 
 				composer_set_no_change (composer, TRUE, FALSE);
 
@@ -1211,7 +1218,7 @@ em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids, const gchar *from
  *
  * Forwards a message in the user's configured default style.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 {
 	GPtrArray *messages;
@@ -1219,7 +1226,7 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 	GConfClient *gconf;
 	gchar *subject;
 	gint mode;
-	struct _EMsgComposer *composer = NULL;
+	EMsgComposer *composer = NULL;
 	messages = g_ptr_array_new ();
 	g_ptr_array_add (messages, message);
 
@@ -1298,8 +1305,6 @@ redirect_get_composer (CamelMimeMessage *message)
 	account = guess_account (message, NULL);
 
 	composer = e_msg_composer_new_redirect (message, account ? account->name : NULL);
-
-	em_composer_utils_setup_default_callbacks (composer);
 
 	return composer;
 }
@@ -1542,8 +1547,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	}
 
 	/* Send the receipt */
-	out_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
+	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
 }
@@ -1638,8 +1643,8 @@ em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, co
 	g_free (subject);
 
 	/* and send it */
-	out_folder = mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
+	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, forward, info, emu_forward_raw_done, NULL);
 }
@@ -1654,10 +1659,10 @@ generate_account_hash (void)
 	EAccountList *accounts;
 	EIterator *iter;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 
-	def = mail_config_get_default_account ();
+	def = e_get_default_account ();
 
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -2327,7 +2332,7 @@ reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *messag
  * may be supplied in order to update the message flags once it has
  * been replied to.
  **/
-struct _EMsgComposer *
+EMsgComposer *
 em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source)
 {
 	CamelInternetAddress *to, *cc;
@@ -2335,8 +2340,7 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	EMsgComposer *composer;
 	EAccount *account;
 	guint32 flags;
-	EMEvent *eme;
-	EMEventTargetMessage *target;
+	struct emcs_t *emcs;
 
 	if (folder && uid && message == NULL) {
 		struct _reply_data *rd = g_malloc0(sizeof(*rd));
@@ -2389,19 +2393,8 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	composer_set_body (composer, message, source);
 
-	/** @Event: message.replying
-	 * @Title: Message being replied to
-	 * @Target: EMEventTargetMessage
-	 *
-	 * message.replying is emitted when a user starts replying to a message.
-	 */
-
-	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, message, uid,
-					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL | EM_EVENT_MESSAGE_REPLY : EM_EVENT_MESSAGE_REPLY, composer);
-	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
-
-	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
+	emcs = g_object_get_data (G_OBJECT (composer), "emcs");
+	emcs_set_folder_info (emcs, folder, uid, flags, flags);
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
@@ -2409,4 +2402,106 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 		gtk_widget_show (GTK_WIDGET (composer));
 
 	return composer;
+}
+
+static void
+post_header_clicked_cb (EComposerPostHeader *header)
+{
+	GtkTreeSelection *selection;
+	GtkWidget *folder_tree;
+	GtkWidget *dialog;
+	GList *list;
+
+	folder_tree = em_folder_tree_new ();
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
+	em_folder_tree_set_excluded (
+		EM_FOLDER_TREE (folder_tree),
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	dialog = em_folder_selector_new (
+		EM_FOLDER_TREE (folder_tree),
+		EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Posting destination"),
+		_("Choose folders to post the message to."),
+		NULL);
+
+	list = e_composer_post_header_get_folders (header);
+	em_folder_selector_set_selected_list (
+		EM_FOLDER_SELECTOR (dialog), list);
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
+		/* Prevent the header's "custom" flag from being reset,
+		 * which is what the default method will do next. */
+		g_signal_stop_emission_by_name (header, "clicked");
+		goto exit;
+	}
+
+	list = em_folder_selector_get_selected_uris (
+		EM_FOLDER_SELECTOR (dialog));
+	e_composer_post_header_set_folders (header, list);
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+
+exit:
+	gtk_widget_destroy (dialog);
+}
+
+/**
+ * em_configure_new_composer:
+ * @composer: a newly created #EMsgComposer
+ *
+ * Integrates a newly created #EMsgComposer into the mail backend.  The
+ * composer can't link directly to the mail backend without introducing
+ * circular library dependencies, so this function finishes configuring
+ * things the #EMsgComposer instance can't do itself.
+ **/
+void
+em_configure_new_composer (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	EComposerHeaderType header_type;
+	EComposerHeader *header;
+	struct emcs_t *emcs;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	header_type = E_COMPOSER_HEADER_POST_TO;
+	table = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (table, header_type);
+
+	emcs = emcs_new ();
+
+	g_object_set_data_full (
+		G_OBJECT (composer), "emcs", emcs,
+		(GDestroyNotify) emcs_unref);
+
+	g_signal_connect (
+		composer, "send",
+		G_CALLBACK (em_utils_composer_send_cb), NULL);
+
+	g_signal_connect (
+		composer, "save-draft",
+		G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
+
+	g_signal_connect (
+		composer, "print",
+		G_CALLBACK (em_utils_composer_print_cb), NULL);
+
+	/* Handle "Post To:" button clicks, which displays a folder tree
+	 * widget.  The composer doesn't know about folder tree widgets,
+	 * so it can't handle this itself.
+	 *
+	 * Note: This is a G_SIGNAL_RUN_LAST signal, which allows us to
+	 *       stop the signal emission if the user cancels or closes
+	 *       the folder selector dialog.  See the handler function. */
+	g_signal_connect (
+		header, "clicked",
+		G_CALLBACK (post_header_clicked_cb), NULL);
 }

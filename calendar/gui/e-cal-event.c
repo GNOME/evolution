@@ -43,10 +43,12 @@ static void
 ece_target_free (EEvent *ev, EEventTarget *t)
 {
 	switch (t->type) {
-	case E_CAL_EVENT_TARGET_COMPONENT: {
-		ECalEventTargetComponent *s = (ECalEventTargetComponent *) t;
-		if (s->component)
-			g_object_unref (s->component);
+	case E_CAL_EVENT_TARGET_BACKEND: {
+		ECalEventTargetBackend *s = (ECalEventTargetBackend *) t;
+		if (s->shell_backend)
+			g_object_unref (s->shell_backend);
+		if (s->source_list)
+			g_object_unref (s->source_list);
 		break; }
 	}
 
@@ -92,69 +94,14 @@ e_cal_event_peek (void)
 	return e_cal_event;
 }
 
-ECalEventTargetComponent *
-e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *component, guint32 flags)
+ECalEventTargetBackend *
+e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, ESourceList *source_list, guint32 flags)
 {
-	ECalEventTargetComponent *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_COMPONENT, sizeof (*t));
+	ECalEventTargetBackend *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_BACKEND, sizeof (*t));
 
-	t->component = g_object_ref (component);
+	t->shell_backend = g_object_ref (shell_backend);
+	t->source_list = g_object_ref (source_list);
 	t->target.mask = ~flags;
 
 	return t;
-}
-
-/* ********************************************************************** */
-
-static gpointer eceh_parent_class;
-
-static const EEventHookTargetMask eceh_component_masks[] = {
-	{ "migration", E_CAL_EVENT_COMPONENT_MIGRATION },
-	{ NULL },
-};
-
-static const EEventHookTargetMap eceh_targets[] = {
-	{ "component", E_CAL_EVENT_TARGET_COMPONENT, eceh_component_masks },
-	{ NULL },
-};
-
-static void
-eceh_finalize (GObject *o)
-{
-	((GObjectClass *) eceh_parent_class)->finalize (o);
-}
-
-static void
-eceh_class_init (EPluginHookClass *klass)
-{
-	gint i;
-
-	((GObjectClass *)klass)->finalize = eceh_finalize;
-	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.events:1.0";
-
-	for (i = 0; eceh_targets[i].type; i++)
-		e_event_hook_class_add_target_map ((EEventHookClass *)klass, &eceh_targets[i]);
-
-	((EEventHookClass *)klass)->event = (EEvent *) e_cal_event_peek ();
-}
-
-GType
-e_cal_event_hook_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (ECalEventHookClass),
-			NULL, NULL,
-			(GClassInitFunc) eceh_class_init,
-			NULL, NULL,
-			sizeof (ECalEventHook), 0,
-			(GInstanceInitFunc) NULL,
-		};
-
-		eceh_parent_class = g_type_class_ref (e_event_hook_get_type ());
-		type = g_type_register_static (e_event_hook_get_type (), "ECalEventHook", &info, 0);
-	}
-
-	return type;
 }

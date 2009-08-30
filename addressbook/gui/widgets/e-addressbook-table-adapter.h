@@ -47,7 +47,7 @@ struct _EAddressbookTableAdapterClass {
 
 GType        eab_table_adapter_get_type (void);
 void         eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
-					  EABModel *model);
-ETableModel *eab_table_adapter_new (EABModel *model);
+					  EAddressbookModel *model);
+ETableModel *eab_table_adapter_new (EAddressbookModel *model);
 
 #endif /* _EAB_TABLE_ADAPTER_H_ */

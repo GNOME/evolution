@@ -29,6 +29,7 @@
 #include <libecal/e-cal.h>
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
+#include <shell/e-shell.h>
 
 /* Standard GObject macros */
 #define TYPE_COMP_EDITOR \
@@ -88,6 +89,8 @@ typedef enum {
 } CompEditorFlags;
 
 GType		comp_editor_get_type		(void);
+gint		comp_editor_compare		(CompEditor *editor_a,
+                                                 CompEditor *editor_b);
 void		comp_editor_set_changed		(CompEditor *editor,
 						 gboolean changed);
 gboolean	comp_editor_get_changed		(CompEditor *editor);
@@ -107,6 +110,7 @@ void		comp_editor_set_classification	(CompEditor *editor,
 						 ECalComponentClassification classification);
 ECalComponentClassification
 		comp_editor_get_classification	(CompEditor *editor);
+EShell *	comp_editor_get_shell		(CompEditor *editor);
 void		comp_editor_set_summary		(CompEditor *editor,
 						 const gchar *summary);
 const gchar *	comp_editor_get_summary		(CompEditor *editor);
@@ -150,9 +154,11 @@ GtkActionGroup *
 						 const gchar *group_name);
 GtkWidget *	comp_editor_get_managed_widget	(CompEditor *editor,
 						 const gchar *widget_path);
+CompEditor *	comp_editor_find_instance	(const gchar *uid);
 
 void		comp_editor_set_lite		(gboolean status);
 gboolean	comp_editor_get_lite		(void);
+
 G_END_DECLS
 
 #endif

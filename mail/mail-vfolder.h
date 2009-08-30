@@ -28,11 +28,12 @@
 #include <filter/filter-part.h>
 #include <filter/filter-rule.h>
 #include <mail/em-vfolder-rule.h>
+#include <shell/e-shell-view.h>
 
 void vfolder_load_storage(void);
 void vfolder_revert(void);
 
-void vfolder_edit (void);
+void vfolder_edit (EShellView *shell_view);
 void vfolder_edit_rule(const gchar *name);
 FilterPart *vfolder_create_part (const gchar *name);
 FilterRule *vfolder_clone_rule (FilterRule *in);

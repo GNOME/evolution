@@ -67,7 +67,7 @@ struct _EMConfigTargetAccount {
 
 	EAccount *account;
 	/* Need also: working account, not just real account, so changes can be propagated around
-	   And some mechamism for controlling the gui if we're running inside a druid, e.g. enabling 'next' */
+	   And some mechamism for controlling the gui if we're running inside an assistant, e.g. enabling 'next' */
 };
 
 typedef struct _EConfigItem EMConfigItem;
@@ -90,21 +90,6 @@ EMConfig *em_config_new(gint type, const gchar *menuid);
 EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, CamelFolder *folder, const gchar *uri);
 EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, GConfClient *gconf);
 EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, EAccount *account);
-
-/* ********************************************************************** */
-
-typedef struct _EMConfigHook EMConfigHook;
-typedef struct _EMConfigHookClass EMConfigHookClass;
-
-struct _EMConfigHook {
-	EConfigHook hook;
-};
-
-struct _EMConfigHookClass {
-	EConfigHookClass hook_class;
-};
-
-GType em_config_hook_get_type(void);
 
 G_END_DECLS
 

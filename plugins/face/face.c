@@ -28,7 +28,6 @@
 #include "composer/e-msg-composer.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <mail/em-menu.h>
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
 

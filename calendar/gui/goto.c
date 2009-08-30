@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include "e-util/e-util-private.h"
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
 #include "goto.h"
@@ -77,9 +76,11 @@ static void
 ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
+	ECalModel *model;
 	ECal *client;
 
-	client = gnome_calendar_get_default_client (dlg->gcal);
+	model = gnome_calendar_get_model (dlg->gcal);
+	client = e_cal_model_get_default_client (model);
 	if (client)
 		tag_calendar_by_client (dlg->ecal, client);
 }
@@ -92,16 +93,20 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
+	ECalModel *model;
 	struct icaltimetype tt = icaltime_null_time ();
+	icaltimezone *timezone;
 	time_t et;
 
+	model = gnome_calendar_get_model (dlg->gcal);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	timezone = e_cal_model_get_timezone (model);
 
 	tt.year = g_date_get_year (&start_date);
 	tt.month = g_date_get_month (&start_date);
 	tt.day = g_date_get_day (&start_date);
 
-	et = icaltime_as_timet_with_zone (tt, gnome_calendar_get_timezone (dlg->gcal));
+	et = icaltime_as_timet_with_zone (tt, timezone);
 
 	gnome_calendar_goto (dlg->gcal, et);
 
@@ -201,8 +206,10 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 void
 goto_dialog (GnomeCalendar *gcal)
 {
+	ECalModel *model;
 	time_t start_time;
 	struct icaltimetype tt;
+	icaltimezone *timezone;
 	gint b;
 	gchar *gladefile;
 
@@ -231,8 +238,10 @@ goto_dialog (GnomeCalendar *gcal)
 	}
 	dlg->gcal = gcal;
 
-	gnome_calendar_get_selected_time_range (dlg->gcal, &start_time, NULL);
-	tt = icaltime_from_timet_with_zone (start_time, FALSE, gnome_calendar_get_timezone (gcal));
+	model = gnome_calendar_get_model (gcal);
+	timezone = e_cal_model_get_timezone (model);
+	e_cal_model_get_time_range (model, &start_time, NULL);
+	tt = icaltime_from_timet_with_zone (start_time, FALSE, timezone);
 	dlg->year_val = tt.year;
 	dlg->month_val = tt.month - 1;
 	dlg->day_val = tt.day;

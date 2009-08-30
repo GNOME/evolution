@@ -57,6 +57,8 @@ gint		e_action_compare_by_label	(GtkAction *action1,
 						 GtkAction *action2);
 void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
+GtkRadioAction *e_radio_action_get_current_action
+						(GtkRadioAction *radio_action);
 
 gchar *		e_str_without_underscores	(const gchar *s);
 gint		e_str_compare			(gconstpointer x,
@@ -69,6 +71,7 @@ gint		e_int_compare                   (gconstpointer x,
 						 gconstpointer y);
 gboolean	e_write_file_uri		(const gchar *filename,
 						 const gchar *data);
+guint32		e_color_to_value		(GdkColor *color);
 
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */
@@ -129,7 +132,8 @@ gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean	e_file_lock_exists		(void);
 
-gchar *		e_util_guess_mime_type		(const gchar *filename, gboolean localfile);
+gchar *		e_util_guess_mime_type		(const gchar *filename,
+                                                 gboolean localfile);
 gchar *		e_util_filename_to_uri		(const gchar *filename);
 gchar *		e_util_uri_to_filename		(const gchar *uri);
 
@@ -138,8 +142,8 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 gchar **buffer,
 						 gsize *read,
 						 GError **error);
-
-GSList *e_util_get_category_filter_options      (void);
+GSList *	e_util_get_category_filter_options
+						(void);
 
 /* Camel uses its own object system, so we have to box
  * CamelObjects to safely use them as GObject properties. */

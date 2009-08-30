@@ -33,7 +33,6 @@
 
 #include "em-filter-folder-element.h"
 #include "mail/em-folder-selection-button.h"
-#include "mail/mail-component.h"
 #include "mail/em-utils.h"
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
@@ -255,8 +254,11 @@ get_widget(FilterElement *fe)
 		uri = ff->uri;
 	else
 		uri = em_uri_to_camel (ff->uri);
-	button = em_folder_selection_button_new(_("Select Folder"), NULL);
-	em_folder_selection_button_set_selection(EM_FOLDER_SELECTION_BUTTON(button), uri);
+
+	button = em_folder_selection_button_new (_("Select Folder"), NULL);
+
+	em_folder_selection_button_set_selection(
+		EM_FOLDER_SELECTION_BUTTON (button), uri);
 
 	if (!ff->store_camel_uri)
 		g_free(uri);

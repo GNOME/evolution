@@ -54,9 +54,6 @@ local_entities =					\
 #	executive-summary/sgml/executive-summary-component-factory-client.sgml	\
 #	executive-summary/sgml/executive-summary-html-view.sgml
 
-#	importer/sgml/evolution-importer.sgml		\
-#	importer/sgml/evolution-importer-client.sgml
-
 installed_content_files = 		\
 	fdl.sgml			\
 	preface.sgml			\

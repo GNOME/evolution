@@ -668,7 +668,7 @@ construct_owa_url (CamelURL *url)
 	return owa_url;
 }
 
-/* used by editor and druid - same code */
+/* used by editor and assistant - same code */
 GtkWidget *
 org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
@@ -734,7 +734,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 			/* url has hostname but not owa_url.
 			 * Account has been created using x-c-s or evo is upgraded to 2.2
-			 * When invoked from druid, hostname will get set after validation,
+			 * When invoked from assistant, hostname will get set after validation,
 			 * so this condition will never be true during account creation.
 			 */
 			owa_url = construct_owa_url (url);

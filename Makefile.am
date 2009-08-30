@@ -30,36 +30,43 @@ EXTRA_DIST = 			\
 	intltool-extract.in	\
 	evolution-zip.in	\
 	gnome-doc-utils.make    \
+	gtk-doc.make		\
 	$(pkgconfig_DATA:.pc=.pc.in)
 
 if ENABLE_SMIME
-SMIME_DIR=smime
+SMIME_SUBDIR=smime
+endif
+
+if WITH_HELP
+HELP_SUBDIR=help
 endif
 
 SUBDIRS = 			\
+	m4			\
 	win32			\
-        data                    \
-        e-util                  \
+	data			\
+	smclient		\
+	e-util			\
 	a11y			\
-        widgets                 \
-        shell                   \
 	filter			\
-	$(SMIME_DIR)		\
-	addressbook		\
-	calendar		\
-        art                     \
+	widgets			\
+	shell			\
+	$(SMIME_SUBDIR)		\
+	em-format		\
 	composer		\
+	addressbook		\
 	mail			\
+	calendar		\
+	art			\
 	plugins			\
+	modules			\
+	doc			\
 	ui			\
 	views			\
 	tools			\
 	po			\
-	sounds
-
-if WITH_HELP
-SUBDIRS += help
-endif
+	sounds			\
+	$(HELP_SUBDIR)
 
 DISTCLEANFILES = 			\
 	$(builddir)/doltcompile		\
@@ -79,12 +86,23 @@ MAINTAINERCLEANFILES =			\
 	$(srcdir)/ltmain.sh		\
 	$(srcdir)/missing		\
 	$(srcdir)/mkinstalldirs		\
-	$(srcdir)/gnome-doc-utils.make
+	$(srcdir)/gnome-doc-utils.make	\
+	$(srcdir)/gtk-doc.make		\
+	$(srcdir)/m4/gnome-doc-utils.m4	\
+	$(srcdir)/m4/gtk-doc.m4		\
+	$(srcdir)/m4/intltool.m4	\
+	$(srcdir)/m4/libtool.m4		\
+	$(srcdir)/m4/ltoptions.m4	\
+	$(srcdir)/m4/ltsugar.m4		\
+	$(srcdir)/m4/ltversion.m4	\
+	$(srcdir)/m4/lt~obsolete.m4
 
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
 DISTCHECK_CONFIGURE_FLAGS =		\
+	--enable-gtk-doc		\
 	--disable-scrollkeeper		\
-	--enable-test-component
+	--enable-test-component		\
+	--with-help
 
 -include $(top_srcdir)/git.mk

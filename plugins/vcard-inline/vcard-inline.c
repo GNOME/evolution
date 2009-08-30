@@ -29,9 +29,9 @@
 #include <camel/camel-stream-mem.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
-#include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/merging/eab-contact-merging.h"
 #include "addressbook/gui/widgets/eab-contact-display.h"
+#include "addressbook/util/addressbook.h"
 #include "addressbook/util/eab-book-util.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
@@ -46,7 +46,6 @@ struct _VCardInlinePObject {
 	GList *contact_list;
 	GtkWidget *contact_display;
 	GtkWidget *message_label;
-	EABContactDisplayRenderMode mode;
 };
 
 static gint org_gnome_vcard_inline_classid;
@@ -149,25 +148,23 @@ org_gnome_vcard_inline_toggle_cb (VCardInlinePObject *vcard_object,
                                   GtkButton *button)
 {
 	EABContactDisplay *contact_display;
+	EABContactDisplayMode mode;
 	const gchar *label;
 
 	contact_display = EAB_CONTACT_DISPLAY (vcard_object->contact_display);
+	mode = eab_contact_display_get_mode (contact_display);
 
 	/* Toggle between "full" and "compact" modes. */
-	if (vcard_object->mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
-		vcard_object->mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
+	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
+		mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
 		label = _("Show Full vCard");
 	} else {
-		vcard_object->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
+		mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 		label = _("Show Compact vCard");
 	}
 
+	eab_contact_display_set_mode (contact_display, mode);
 	gtk_button_set_label (button, label);
-
-	eab_contact_display_render (
-		EAB_CONTACT_DISPLAY (vcard_object->contact_display),
-		E_CONTACT (vcard_object->contact_list->data),
-		vcard_object->mode);
 }
 
 static gboolean
@@ -179,11 +176,16 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 	GtkWidget *button_box;
 	GtkWidget *container;
 	GtkWidget *widget;
+	EContact *contact;
 	guint length;
 
 	vcard_object = (VCardInlinePObject *) object;
 	length = g_list_length (vcard_object->contact_list);
-	g_return_val_if_fail (length > 0, FALSE);
+
+	if (vcard_object->contact_list != NULL)
+		contact = E_CONTACT (vcard_object->contact_list->data);
+	else
+		contact = NULL;
 
 	container = GTK_WIDGET (embedded);
 
@@ -203,14 +205,14 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 	button_box = widget;
 
 	widget = eab_contact_display_new ();
+	eab_contact_display_set_contact (
+		EAB_CONTACT_DISPLAY (widget), contact);
+	eab_contact_display_set_mode (
+		EAB_CONTACT_DISPLAY (widget),
+		EAB_CONTACT_DISPLAY_RENDER_COMPACT);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	vcard_object->contact_display = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	eab_contact_display_render (
-		EAB_CONTACT_DISPLAY (vcard_object->contact_display),
-		E_CONTACT (vcard_object->contact_list->data),
-		vcard_object->mode);
 
 	widget = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
@@ -280,7 +282,6 @@ org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 
 	camel_object_ref (target->part);
 
-	vcard_object->mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
 	vcard_object->object.free = org_gnome_vcard_inline_pobject_free;
 	org_gnome_vcard_inline_decode (vcard_object, target->part);
 

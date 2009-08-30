@@ -32,7 +32,8 @@
 #include <stdio.h>
 
 #include "e-util/e-plugin.h"
-#include "shell/es-menu.h"
+#include "shell/e-shell-window.h"
+#include "shell/e-shell-window-actions.h"
 
 #define d(S) (S)
 
@@ -61,7 +62,6 @@ static struct {
 
 typedef struct _Manager Manager;
 struct _Manager {
-	GtkDialog *dialog;
 	GtkTreeView *treeview;
 	GtkTreeModel *model;
 
@@ -75,13 +75,13 @@ struct _Manager {
 };
 
 /* for tracking if we're shown */
-static GtkDialog *dialog;
 static GtkWidget *notebook;
 static GtkWidget *configure_page;
 static gint last_selected_page;
 static gulong switch_page_handler_id;
 
-void org_gnome_plugin_manager_manage(gpointer ep, ESMenuTargetShell *t);
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
+						 EShellWindow *shell_window);
 
 static void
 eppm_set_label (GtkLabel *l, const gchar *v)
@@ -221,19 +221,15 @@ eppm_free (gpointer data)
 }
 
 static void
-eppm_response (GtkDialog *w, gint button, Manager *m)
-{
-	gtk_widget_destroy (GTK_WIDGET (w));
-	dialog = NULL;
-}
-
-void
-org_gnome_plugin_manager_manage (gpointer ep, ESMenuTargetShell *t)
+action_plugin_manager_cb (GtkAction *action,
+                          EShellWindow *shell_window)
 {
 	Manager *m;
 	gint i;
+	GtkWidget *dialog;
 	GtkWidget *hbox, *w;
 	GtkWidget *overview_page;
+	GtkWidget *content_area;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
@@ -241,26 +237,23 @@ org_gnome_plugin_manager_manage (gpointer ep, ESMenuTargetShell *t)
 	gchar *string;
 	GtkWidget *subvbox;
 
-	if (dialog) {
-		gtk_window_present (GTK_WINDOW (dialog));
-		return;
-	}
-
 	m = g_malloc0 (sizeof (*m));
 
 	/* Setup the ui */
-	m->dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (_("Plugin Manager"),
-							     GTK_WINDOW (gtk_widget_get_toplevel (t->target.widget)),
-							     GTK_DIALOG_DESTROY_WITH_PARENT,
-							     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-							     NULL));
+	dialog = gtk_dialog_new_with_buttons (
+		_("Plugin Manager"),
+		GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 
-	gtk_window_set_default_size (GTK_WINDOW (m->dialog), 640, 400);
-	g_object_set (G_OBJECT (m->dialog), "has_separator", FALSE, NULL);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 640, 400);
+	g_object_set (dialog, "has_separator", FALSE, NULL);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
-	gtk_box_pack_start (GTK_BOX (m->dialog->vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 
 	string = g_strdup_printf ("<i>%s</i>", _("Note: Some changes will not take effect until restart"));
 
@@ -272,7 +265,7 @@ org_gnome_plugin_manager_manage (gpointer ep, ESMenuTargetShell *t)
 	gtk_widget_show (w);
 	g_free (string);
 
-	gtk_box_pack_start (GTK_BOX (m->dialog->vbox), w, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (content_area), w, FALSE, TRUE, 6);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
@@ -423,24 +416,34 @@ org_gnome_plugin_manager_manage (gpointer ep, ESMenuTargetShell *t)
 
 	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (m->treeview)), _("Plugin"));
 
-	g_object_set_data_full (G_OBJECT (m->dialog), "plugin-manager", m, eppm_free);
-	g_signal_connect (m->dialog, "response", G_CALLBACK (eppm_response), m);
+	gtk_dialog_run (GTK_DIALOG (dialog));
 
-	dialog = m->dialog;
-
-	gtk_widget_show (GTK_WIDGET (m->dialog));
+	gtk_widget_destroy (dialog);
+	eppm_free (m);
 }
 
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+static GtkActionEntry entries[] = {
 
-gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+	{ "plugin-manager",
+	  NULL,
+	  N_("_Plugins"),
+	  NULL,
+	  N_("Enable and disable plugins"),
+	  G_CALLBACK (action_plugin_manager_cb) }
+};
+
+gboolean
+e_plugin_ui_init (GtkUIManager *ui_manager,
+                  EShellWindow *shell_window)
 {
-	if (enable) {
-	} else {
-		/* This plugin can't be disabled ... */
-		return -1;
-	}
+	GtkActionGroup *action_group;
 
-	return 0;
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
+
+	/* Add actions to the "shell" action group. */
+	gtk_action_group_add_actions (
+		action_group, entries,
+		G_N_ELEMENTS (entries), shell_window);
+
+	return TRUE;
 }

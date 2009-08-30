@@ -1,18 +1,16 @@
-XML_FILES =					\
-	evolution.xml				\
-	evolution-addressbook.xml		\
-	evolution-calendar.xml			\
-	evolution-mail-message.xml		\
-	evolution-mail-list.xml			\
-	evolution-mail-global.xml		\
-	evolution-mail-messagedisplay.xml	\
-	evolution-memos.xml			\
-	evolution-tasks.xml
+UI_FILES =					\
+	evolution-calendars.ui			\
+	evolution-contacts.ui			\
+	evolution-mail.ui			\
+	evolution-mail-reader.ui		\
+	evolution-memos.ui			\
+	evolution-shell.ui			\
+	evolution-tasks.ui
 
-evolutionui_DATA = $(XML_FILES)
+evolutionui_DATA = $(UI_FILES)
 
 EXTRA_DIST =					\
-	$(XML_FILES)				\
+	$(UI_FILES)				\
 	ChangeLog.pre-1-4
 
 -include $(top_srcdir)/git.mk

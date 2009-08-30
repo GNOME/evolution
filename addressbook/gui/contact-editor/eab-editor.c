@@ -28,16 +28,22 @@
 #include <glib/gi18n.h>
 
 #include "eab-editor.h"
-#include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
 
-static void eab_editor_default_show  (EABEditor *editor);
-static void eab_editor_default_raise (EABEditor *editor);
-static void eab_editor_default_close (EABEditor *editor);
-static void eab_editor_class_init    (EABEditorClass *klass);
-static void eab_editor_init          (EABEditor *editor);
+#define EAB_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EAB_TYPE_EDITOR, EABEditorPrivate))
 
-/* Signal IDs */
+struct _EABEditorPrivate {
+	EShell *shell;
+};
+
+enum {
+	PROP_0,
+	PROP_SHELL
+};
+
 enum {
 	CONTACT_ADDED,
 	CONTACT_MODIFIED,
@@ -46,97 +52,125 @@ enum {
 	LAST_SIGNAL
 };
 
-static GSList *all_editors = NULL;
+static GSList *all_editors;
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
-static GtkObjectClass *parent_class = NULL;
-
-static guint editor_signals[LAST_SIGNAL];
-
-GType
-eab_editor_get_type (void)
+static void
+eab_editor_quit_requested_cb (EABEditor *editor,
+                              EShell *shell)
 {
-	static GType editor_type = 0;
+	GtkWindow *window;
 
-	if (!editor_type) {
-		static const GTypeInfo editor_info =  {
-			sizeof (EABEditorClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) eab_editor_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (EABEditor),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) eab_editor_init,
-		};
+	window = eab_editor_get_window (editor);
 
-		editor_type = g_type_register_static (G_TYPE_OBJECT, "EABEditor", &editor_info, 0);
+	eab_editor_raise (editor);
+	if (!eab_editor_prompt_to_save_changes (editor, window))
+		e_shell_cancel_quit (shell);
+}
+
+static void
+eab_editor_set_shell (EABEditor *editor,
+                      EShell *shell)
+{
+	g_return_if_fail (editor->priv->shell == NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	editor->priv->shell = g_object_ref (shell);
+
+	g_signal_connect_swapped (
+		shell, "quit-requested",
+		G_CALLBACK (eab_editor_quit_requested_cb), editor);
+}
+
+static void
+eab_editor_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL:
+			eab_editor_set_shell (
+				EAB_EDITOR (object),
+				g_value_get_object (value));
+			return;
 	}
 
-	return editor_type;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-eab_editor_default_show (EABEditor *editor)
+eab_editor_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
 {
-	g_warning ("abstract eab_editor_show called");
+	switch (property_id) {
+		case PROP_SHELL:
+			g_value_set_object (
+				value, eab_editor_get_shell (
+				EAB_EDITOR (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-eab_editor_default_close (EABEditor *editor)
+eab_editor_dispose (GObject *object)
 {
-	g_warning ("abstract eab_editor_close called");
+	EABEditorPrivate *priv;
+
+	priv = EAB_EDITOR_GET_PRIVATE (object);
+
+	if (priv->shell != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->shell, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->shell);
+		priv->shell = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-eab_editor_default_raise (EABEditor *editor)
+eab_editor_finalize (GObject *object)
 {
-	g_warning ("abstract eab_editor_raise called");
+	all_editors = g_slist_remove (all_editors, object);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-eab_editor_default_save_contact (EABEditor *editor, gboolean should_close)
+eab_editor_class_init (EABEditorClass *class)
 {
-	g_warning ("abstract eab_editor_save_contact called");
-}
+	GObjectClass *object_class;
 
-static gboolean
-eab_editor_default_is_valid (EABEditor *editor)
-{
-	g_warning ("abstract eab_editor_is_valid called");
-	return FALSE;
-}
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EABEditorPrivate));
 
-static gboolean
-eab_editor_default_is_changed (EABEditor *editor)
-{
-	g_warning ("abstract eab_editor_is_changed called");
-	return FALSE;
-}
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = eab_editor_set_property;
+	object_class->get_property = eab_editor_get_property;
+	object_class->dispose = eab_editor_dispose;
+	object_class->finalize = eab_editor_finalize;
 
-static GtkWindow*
-eab_editor_default_get_window (EABEditor *editor)
-{
-	g_warning ("abstract eab_editor_get_window called");
-	return NULL;
-}
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			_("Shell"),
+			_("The EShell singleton"),
+			E_TYPE_SHELL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
-static void
-eab_editor_class_init (EABEditorClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (G_TYPE_OBJECT);
-
-	klass->show = eab_editor_default_show;
-	klass->close = eab_editor_default_close;
-	klass->raise = eab_editor_default_raise;
-	klass->save_contact = eab_editor_default_save_contact;
-	klass->is_valid = eab_editor_default_is_valid;
-	klass->is_changed = eab_editor_default_is_changed;
-	klass->get_window = eab_editor_default_get_window;
-
-	editor_signals[CONTACT_ADDED] =
+	signals[CONTACT_ADDED] =
 		g_signal_new ("contact_added",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -146,7 +180,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
-	editor_signals[CONTACT_MODIFIED] =
+	signals[CONTACT_MODIFIED] =
 		g_signal_new ("contact_modified",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -156,7 +190,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
-	editor_signals[CONTACT_DELETED] =
+	signals[CONTACT_DELETED] =
 		g_signal_new ("contact_deleted",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -166,7 +200,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
-	editor_signals[EDITOR_CLOSED] =
+	signals[EDITOR_CLOSED] =
 		g_signal_new ("editor_closed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -179,78 +213,143 @@ eab_editor_class_init (EABEditorClass *klass)
 static void
 eab_editor_init (EABEditor *editor)
 {
+	editor->priv = EAB_EDITOR_GET_PRIVATE (editor);
+
+	all_editors = g_slist_prepend (all_editors, editor);
 }
 
-
+GType
+eab_editor_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info =  {
+			sizeof (EABEditorClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) eab_editor_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EABEditor),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) eab_editor_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EABEditor", &type_info,
+			G_TYPE_FLAG_ABSTRACT);
+	}
+
+	return type;
+}
+
+EShell *
+eab_editor_get_shell (EABEditor *editor)
+{
+	g_return_val_if_fail (EAB_IS_EDITOR (editor), NULL);
+
+	return E_SHELL (editor->priv->shell);
+}
+
+GSList *
+eab_editor_get_all_editors (void)
+{
+	return all_editors;
+}
 
 void
 eab_editor_show (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
-	if (EAB_EDITOR_GET_CLASS(editor)->show)
-		EAB_EDITOR_GET_CLASS(editor)->show (editor);
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class->show != NULL);
+
+	class->show (editor);
 }
 
 void
 eab_editor_close (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
-	if (EAB_EDITOR_GET_CLASS(editor)->close)
-		EAB_EDITOR_GET_CLASS(editor)->close (editor);
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class->close != NULL);
+
+	class->close (editor);
 }
 
 void
 eab_editor_raise (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
-	if (EAB_EDITOR_GET_CLASS(editor)->raise)
-		EAB_EDITOR_GET_CLASS(editor)->raise (editor);
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class->raise != NULL);
+
+	class->raise (editor);
 }
 
 void
 eab_editor_save_contact (EABEditor *editor, gboolean should_close)
 {
+	EABEditorClass *class;
+
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
-	if (EAB_EDITOR_GET_CLASS(editor)->save_contact)
-		EAB_EDITOR_GET_CLASS(editor)->save_contact (editor, should_close);
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class->save_contact != NULL);
+
+	class->save_contact (editor, should_close);
 }
 
 gboolean
 eab_editor_is_changed (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), FALSE);
 
-	if (EAB_EDITOR_GET_CLASS(editor)->is_changed)
-		return EAB_EDITOR_GET_CLASS(editor)->is_changed (editor);
-	else
-		return FALSE;
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class->is_changed != NULL, FALSE);
+
+	return class->is_changed (editor);
 }
 
 gboolean
 eab_editor_is_valid (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), FALSE);
 
-	if (EAB_EDITOR_GET_CLASS(editor)->is_valid)
-		return EAB_EDITOR_GET_CLASS(editor)->is_valid (editor);
-	else
-		return FALSE;
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class->is_valid != NULL, FALSE);
+
+	return class->is_valid (editor);
 }
 
 GtkWindow*
 eab_editor_get_window (EABEditor *editor)
 {
+	EABEditorClass *class;
+
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), NULL);
 
-	if (EAB_EDITOR_GET_CLASS(editor)->get_window)
-		return EAB_EDITOR_GET_CLASS(editor)->get_window (editor);
-	else
-		return NULL;
+	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class->get_window != NULL, NULL);
+
+	return class->get_window (editor);
 }
+
 /* This function prompts for saving if editor conents are in changed state and
    save or discards or cancels(just returns with out doing anything) according to user input.
    Editor gets destoryed in case of save and discard case.
@@ -280,108 +379,37 @@ eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 	}
 }
 
-gboolean
-eab_editor_request_close_all (void)
-{
-	GSList *p;
-	GSList *pnext;
-	gboolean retval;
-
-	retval = TRUE;
-	for (p = all_editors; p != NULL; p = pnext) {
-		EABEditor *editor = EAB_EDITOR (p->data);
-		GtkWindow *window = eab_editor_get_window (editor);
-
-		pnext = p->next;
-
-		eab_editor_raise (editor);
-		if (! eab_editor_prompt_to_save_changes (editor, window)) {
-			retval = FALSE;
-			break;
-		}
-	}
-
-	return retval;
-}
-
-const GSList*
-eab_editor_get_all_editors (void)
-{
-	return all_editors;
-}
-
-gboolean
-eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list, gchar *name)
-{
-	GtkWidget *dialog;
-	gint result;
-	gchar *msg;
-
-	if (is_list) {
-		/* contact list(s) */
-		if (!plural)
-			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s)?"),
-						name?name:"");
-		else
-			msg = g_strdup (_("Are you sure you want\nto delete these contact lists?"));
-	}
-	else {
-		/* contact(s) */
-		if (!plural)
-			msg = g_strdup_printf (_("Are you sure you want\nto delete contact (%s)?"),
-						name?name:"");
-		else
-			msg = g_strdup (_("Are you sure you want\nto delete these contacts?"));
-	}
-
-	dialog = gtk_message_dialog_new (parent,
-					 0,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_NONE,
-					 "%s",
-					 msg);
-	g_free (msg);
-
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_DELETE, GTK_RESPONSE_ACCEPT,
-				NULL);
-
-	result = gtk_dialog_run(GTK_DIALOG (dialog));
-
-	gtk_widget_destroy (dialog);
-
-	return (result == GTK_RESPONSE_ACCEPT);
-}
-
 void
-eab_editor_contact_added (EABEditor *editor, EBookStatus status, EContact *contact)
+eab_editor_contact_added (EABEditor *editor,
+                          EBookStatus status,
+                          EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, editor_signals[CONTACT_ADDED], 0,
-		       status, contact);
+	g_signal_emit (editor, signals[CONTACT_ADDED], 0, status, contact);
 }
 
 void
-eab_editor_contact_modified (EABEditor *editor, EBookStatus status, EContact *contact)
+eab_editor_contact_modified (EABEditor *editor,
+                             EBookStatus status,
+                             EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, editor_signals[CONTACT_MODIFIED], 0,
-		       status, contact);
+	g_signal_emit (editor, signals[CONTACT_MODIFIED], 0, status, contact);
 }
 
 void
-eab_editor_contact_deleted (EABEditor *editor, EBookStatus status, EContact *contact)
+eab_editor_contact_deleted (EABEditor *editor,
+                            EBookStatus status,
+                            EContact *contact)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTACT (contact));
 
-	g_signal_emit (editor, editor_signals[CONTACT_DELETED], 0,
-		       status, contact);
+	g_signal_emit (editor, signals[CONTACT_DELETED], 0, status, contact);
 }
 
 void
@@ -389,21 +417,5 @@ eab_editor_closed (EABEditor *editor)
 {
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
-	g_signal_emit (editor, editor_signals[EDITOR_CLOSED], 0);
-}
-
-void
-eab_editor_add (EABEditor *editor)
-{
-	g_return_if_fail (EAB_IS_EDITOR (editor));
-
-	all_editors = g_slist_prepend (all_editors, editor);
-}
-
-void
-eab_editor_remove (EABEditor *editor)
-{
-	g_return_if_fail (EAB_IS_EDITOR (editor));
-
-	all_editors = g_slist_remove (all_editors, editor);
+	g_signal_emit (editor, signals[EDITOR_CLOSED], 0);
 }

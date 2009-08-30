@@ -47,14 +47,19 @@ extern ECompEditorRegistry *comp_editor_registry;
  * It blocks until finished and should be called in the main thread.
  **/
 void
-open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GError **error)
+open_component_editor (EShell *shell,
+                       ECal *client,
+                       ECalComponent *comp,
+                       gboolean is_new,
+                       GError **error)
 {
 	ECalComponentId *id;
 	CompEditorFlags flags = 0;
 	CompEditor *editor = NULL;
 
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (comp != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_CAL (client));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	id = e_cal_component_get_id (comp);
 	g_return_if_fail (id != NULL);
@@ -63,7 +68,7 @@ open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GErro
 	if (is_new) {
 		flags |= COMP_EDITOR_NEW_ITEM;
 	} else {
-		editor = e_comp_editor_registry_find (comp_editor_registry, id->uid);
+		editor = comp_editor_find_instance (id->uid);
 	}
 
 	if (!editor) {
@@ -75,7 +80,7 @@ open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GErro
 			if (e_cal_component_has_attendees (comp))
 				flags |= COMP_EDITOR_MEETING;
 
-			editor = event_editor_new (client, flags);
+			editor = event_editor_new (client, shell, flags);
 
 			if (flags & COMP_EDITOR_MEETING)
 				event_editor_show_meeting (EVENT_EDITOR (editor));
@@ -84,7 +89,7 @@ open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GErro
 			if (e_cal_component_has_attendees (comp))
 				flags |= COMP_EDITOR_IS_ASSIGNED;
 
-			editor = task_editor_new (client, flags);
+			editor = task_editor_new (client, shell, flags);
 
 			if (flags & COMP_EDITOR_IS_ASSIGNED)
 				task_editor_show_assignment (TASK_EDITOR (editor));
@@ -93,7 +98,7 @@ open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GErro
 			if (e_cal_component_has_organizer (comp))
 				flags |= COMP_EDITOR_IS_SHARED;
 
-			editor = memo_editor_new (client, flags);
+			editor = memo_editor_new (client, shell, flags);
 			break;
 		default:
 			if (error)
@@ -106,8 +111,6 @@ open_component_editor (ECal *client, ECalComponent *comp, gboolean is_new, GErro
 
 			/* request save for new events */
 			comp_editor_set_changed (editor, is_new);
-
-			e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 		}
 	}
 

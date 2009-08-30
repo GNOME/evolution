@@ -26,16 +26,16 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
+#include <gconf/gconf-client.h>
 #include <string.h>
 #include <stdio.h>
 
-#include "camel/camel-multipart.h"
-#include "camel/camel-mime-part.h"
-#include "mail/em-format-hook.h"
-#include "mail/em-format.h"
+#include <camel/camel-multipart.h>
+#include <camel/camel-mime-part.h>
 
-#include <gconf/gconf-client.h>
-#include "mail/em-config.h"
+#include <em-format/em-format.h>
+#include <mail/em-config.h>
+#include <mail/em-format-hook.h>
 
 void org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t);
 void org_gnome_prefer_plain_text_html(gpointer ep, EMFormatHookTarget *t);
@@ -243,10 +243,10 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	return (GtkWidget *)dropdown;
 }
 
-gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable(EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable)
+e_plugin_lib_enable(EPlugin *ep, gint enable)
 {
 	gchar *key;
 	gint i;

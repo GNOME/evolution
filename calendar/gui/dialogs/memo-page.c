@@ -948,9 +948,14 @@ to_button_clicked_cb (GtkButton *button,
 static gboolean
 init_widgets (MemoPage *mpage)
 {
+	CompEditor *editor;
 	MemoPagePrivate *priv = mpage->priv;
 	GtkTextBuffer *buffer;
 	GtkTextView *view;
+	GtkAction *action;
+	gboolean active;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 
 	/* Generic informative messages */
 	gtk_widget_hide (priv->info_hbox);
@@ -1015,8 +1020,9 @@ init_widgets (MemoPage *mpage)
 			G_CALLBACK (comp_editor_page_changed), mpage);
 	}
 
-	memo_page_set_show_categories (
-		mpage, calendar_config_get_show_categories());
+	action = comp_editor_get_action (editor, "view-categories");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	memo_page_set_show_categories (mpage, active);
 
 	return TRUE;
 }
@@ -1215,9 +1221,14 @@ GtkWidget *memo_page_create_date_edit (void);
 GtkWidget *
 memo_page_create_date_edit (void)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GtkWidget *widget;
 
-	widget = comp_editor_new_date_edit (TRUE, FALSE, TRUE);
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	widget = comp_editor_new_date_edit (shell_settings, TRUE, FALSE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
 	gtk_widget_show (widget);
 

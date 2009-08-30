@@ -33,7 +33,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <libgnome/gnome-sound.h>
+#include <canberra-gtk.h>
 
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-flag.h>
@@ -42,15 +42,16 @@
 #include <camel/camel-filter-driver.h>
 #include <camel/camel-i18n.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-account-combo-box.h"
+#include "shell/e-shell.h"
 
 #include "em-composer-utils.h"
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -82,6 +83,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
+static EShellBackend *session_shell_backend;
 static CamelSessionClass *ms_parent_class;
 
 static gchar *get_password(CamelSession *session, CamelService *service, const gchar *domain, const gchar *prompt, const gchar *item, guint32 flags, CamelException *ex);
@@ -460,7 +462,9 @@ static void
 main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
 {
 	if (filename && *filename)
-		gnome_sound_play (filename);
+		ca_context_play(ca_gtk_context_get(), 0,
+				CA_PROP_MEDIA_FILENAME, filename,
+				NULL);
 	else
 		gdk_beep ();
 
@@ -502,13 +506,15 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 {
 	CamelFilterDriver *driver;
 	FilterRule *rule = NULL;
+	const gchar *data_dir;
 	gchar *user, *system;
 	GConfClient *gconf;
 	RuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
 
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = e_shell_backend_get_data_dir (session_shell_backend);
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);
@@ -701,12 +707,20 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (const gchar *base_directory)
+mail_session_init (EShellBackend *shell_backend)
 {
-	gchar *camel_dir;
+	EShell *shell;
 	GConfClient *gconf;
+	gboolean online;
+	const gchar *data_dir;
 
-	if (camel_init (base_directory, TRUE) != 0)
+	session_shell_backend = shell_backend;
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	online = e_shell_get_online (shell);
+
+	data_dir = e_get_user_data_dir ();
+	if (camel_init (data_dir, TRUE) != 0)
 		exit (0);
 
 	camel_provider_init();
@@ -715,8 +729,8 @@ mail_session_init (const gchar *base_directory)
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
-	camel_dir = g_strdup_printf ("%s/mail", base_directory);
-	camel_session_construct (session, camel_dir);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	camel_session_construct (session, data_dir);
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -726,10 +740,8 @@ mail_session_init (const gchar *base_directory)
 								session, NULL, NULL);
 	session->junk_plugin = NULL;
 
-	/* The shell will tell us to go online. */
-	camel_session_set_online ((CamelSession *) session, FALSE);
+	camel_session_set_online ((CamelSession *) session, online);
 	mail_config_reload_junk_headers ();
-	g_free (camel_dir);
 }
 
 void
@@ -769,13 +781,6 @@ mail_session_set_interactive (gboolean interactive)
 			gtk_widget_destroy ((GtkWidget *) user_message_dialog);
 		}
 	}
-}
-
-void
-mail_session_forget_passwords (BonoboUIComponent *uih, gpointer user_data,
-			       const gchar *path)
-{
-	e_passwords_forget_passwords ();
 }
 
 void

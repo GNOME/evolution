@@ -6,18 +6,19 @@
     location="@PLUGINDIR@/liborg-gnome-plugin-manager@SOEXT@"
     _name="Plugin Manager"
     system_plugin="true">
-    <_description>Manage your Evolution plugins.</_description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
-    <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
-      <menu id="org.gnome.evolution.shell" target="shell">
-	<!-- the path to the bonobo menu description -->
-	<ui file="@PLUGINDIR@/org-gnome-plugin-manager.xml"/>
-	<item
-	  type="item"
-	  verb="EPluginManagerManage"
-	  path="/commands/EPluginManagerManage"
-	  activate="org_gnome_plugin_manager_manage"/>
-      </menu>
+    <_description>Manage your Evolution plugins.</_description>
+
+    <hook class="org.gnome.evolution.ui:1.0">
+      <ui-manager id="org.gnome.evolution.shell">
+        <menubar name="main-menu">
+          <menu action="edit-menu">
+            <placeholder name="administrative-actions">
+              <menuitem action="plugin-manager"/>
+            </placeholder>
+          </menu>
+        </menubar>
+      </ui-manager>
     </hook>
   </e-plugin>
 </e-plugin-list>

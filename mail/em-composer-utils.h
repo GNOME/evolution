@@ -27,18 +27,10 @@
 #include <glib.h>
 #include <camel/camel-nntp-address.h>
 
-#include <mail/em-format.h>
+#include <em-format/em-format.h>
 #include <composer/e-msg-composer.h>
 
 G_BEGIN_DECLS
-
-void em_composer_utils_setup_callbacks (EMsgComposer *composer, CamelFolder *folder, const gchar *uid,
-					guint32 flags, guint32 set, CamelFolder *drafts, const gchar *drafts_uid);
-
-#define em_composer_utils_setup_default_callbacks(composer) em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, NULL, NULL)
-
-void em_utils_composer_send_cb(EMsgComposer *composer, gpointer user_data);
-void em_utils_composer_save_draft_cb(EMsgComposer *composer, gpointer user_data);
 
 void em_utils_compose_new_message (const gchar *fromuri);
 EMsgComposer * em_utils_compose_lite_new_message (const gchar *fromuri);
@@ -75,6 +67,8 @@ void em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress 
 void em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto);
 EMsgComposer * em_utils_reply_to_message (CamelFolder *, const gchar *uid, CamelMimeMessage *message, gint mode, EMFormat *source);
 EDestination ** em_utils_camel_address_to_destination (CamelInternetAddress *iaddr);
+
+void em_configure_new_composer (struct _EMsgComposer *composer);
 
 G_END_DECLS
 

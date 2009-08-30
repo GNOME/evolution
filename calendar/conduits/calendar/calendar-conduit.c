@@ -27,6 +27,13 @@
 
 #define G_LOG_DOMAIN "ecalconduit"
 
+/* Work around deprecated API usage in GnomePilot. */
+#ifdef GTK_DISABLE_DEPRECATED
+#include <glib-object.h>
+#define GTK_CHECK_CAST G_TYPE_CHECK_INSTANCE_CAST
+typedef GType GtkType;
+#endif
+
 #include <glib/gi18n.h>
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>

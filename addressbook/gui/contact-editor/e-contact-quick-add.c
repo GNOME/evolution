@@ -28,7 +28,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include <addressbook/gui/component/addressbook.h>
+#include <addressbook/util/addressbook.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
@@ -49,7 +49,7 @@ struct _QuickAdd {
 	GtkWidget *dialog;
 	GtkWidget *name_entry;
 	GtkWidget *email_entry;
-	GtkWidget *option_menu;
+	GtkWidget *combo_box;
 
 	gint refs;
 
@@ -193,7 +193,12 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		EContactEditor *contact_editor = e_contact_editor_new (book, qa->contact, TRUE, TRUE /* XXX */);
+		EShell *shell;
+		EABEditor *contact_editor;
+
+		shell = e_shell_get_default ();
+		contact_editor = e_contact_editor_new (
+			shell, book, qa->contact, TRUE, TRUE /* XXX */);
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
 		g_object_set (contact_editor,
@@ -284,7 +289,7 @@ sanitize_widgets (QuickAdd *qa)
 	g_return_if_fail (qa->dialog != NULL);
 
 	/* do not call here e_book_is_writable (qa->book), because it requires opened book, which takes time for remote books */
-	enabled = qa->book != NULL && e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu));
+	enabled = qa->book != NULL && e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box));
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), QUICK_ADD_RESPONSE_EDIT_FULL, enabled);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), GTK_RESPONSE_OK, enabled);
@@ -355,13 +360,13 @@ build_quick_add_dialog (QuickAdd *qa)
 	gconf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
 	g_object_unref (gconf_client);
-	qa->option_menu = e_source_combo_box_new (source_list);
+	qa->combo_box = e_source_combo_box_new (source_list);
 	book = e_book_new_default_addressbook (NULL);
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (qa->option_menu),
+		E_SOURCE_COMBO_BOX (qa->combo_box),
 		e_book_get_source (book));
 
-	if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu))) {
+	if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box))) {
 		/* this means the e_book_new_default_addressbook didn't find any "default" nor "system" source,
 		    and created new one for us. That is wrong, choose one from combo instead. */
 
@@ -371,9 +376,9 @@ build_quick_add_dialog (QuickAdd *qa)
 		}
 
 		book = e_book_new (e_source_list_peek_source_any (source_list), NULL);
-		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (qa->option_menu), e_book_get_source (book));
+		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (qa->combo_box), e_book_get_source (book));
 
-		if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->option_menu))) {
+		if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box))) {
 			/* Does it failed again? What is going on? */
 			if (book)
 				g_object_unref (book);
@@ -386,9 +391,9 @@ build_quick_add_dialog (QuickAdd *qa)
 		qa->book = NULL;
 	}
 	qa->book = book;
-	source_changed (E_SOURCE_COMBO_BOX (qa->option_menu), qa);
+	source_changed (E_SOURCE_COMBO_BOX (qa->combo_box), qa);
 	g_signal_connect (
-		qa->option_menu, "changed",
+		qa->combo_box, "changed",
 		G_CALLBACK (source_changed), qa);
 
 	g_object_unref (source_list);
@@ -420,13 +425,13 @@ build_quick_add_dialog (QuickAdd *qa)
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
 	label = gtk_label_new_with_mnemonic (_("_Select Address Book"));
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, qa->option_menu);
+	gtk_label_set_mnemonic_widget ((GtkLabel *)label, qa->combo_box);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	gtk_table_attach (table, label,
 			  0, 1, 2, 3,
 			  GTK_FILL, 0, xpad, ypad);
-	gtk_table_attach (table, qa->option_menu,
+	gtk_table_attach (table, qa->combo_box,
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 

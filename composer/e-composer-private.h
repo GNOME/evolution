@@ -29,7 +29,10 @@
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
 #include "e-util/e-binding.h"
+#include "e-util/e-charset.h"
+#include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-attachment-icon-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
 
@@ -104,7 +107,6 @@ struct _EMsgComposerPrivate {
 
 	gchar *mime_type, *mime_body, *charset;
 
-	guint32 attachment_bar_visible : 1;
 	guint32 is_alternative         : 1;
 	guint32 autosaved              : 1;
 	guint32 mode_post              : 1;
@@ -112,8 +114,6 @@ struct _EMsgComposerPrivate {
 	guint32 application_exiting    : 1;
 
 	CamelMimeMessage *redirect;
-
-	guint notify_id;
 
 	gboolean send_invoked;
 };

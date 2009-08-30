@@ -29,68 +29,79 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
+#include "e-util/gconf-bridge.h"
 
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
 
-#define d(x)
+static gpointer parent_class;
 
-static FilterRule *create_rule (RuleEditor *re);
+static FilterRule *
+filter_editor_create_rule (RuleEditor *rule_editor)
+{
+	FilterRule *rule = filter_rule_new ();
+	FilterPart *part;
 
-static void em_filter_editor_class_init (EMFilterEditorClass *klass);
-static void em_filter_editor_init (EMFilterEditor *fe);
-static void em_filter_editor_finalise (GObject *obj);
+	/* create a rule with 1 part & 1 action in it */
+	rule = (FilterRule *)em_filter_rule_new ();
+	part = rule_context_next_part (rule_editor->context, NULL);
+	filter_rule_add_part (rule, filter_part_clone (part));
+	part = em_filter_context_next_action (
+		(EMFilterContext *)rule_editor->context, NULL);
+	em_filter_rule_add_action (
+		(EMFilterRule *)rule, filter_part_clone (part));
 
-static RuleEditorClass *parent_class = NULL;
+	return rule;
+}
+
+static void
+filter_editor_class_init (EMFilterEditorClass *class)
+{
+	RuleEditorClass *rule_editor_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	rule_editor_class = RULE_EDITOR_CLASS (class);
+	rule_editor_class->create_rule = filter_editor_create_rule;
+}
+
+static void
+filter_editor_init (EMFilterEditor *filter_editor)
+{
+	GConfBridge *bridge;
+	const gchar *key_prefix;
+
+	bridge = gconf_bridge_get ();
+	key_prefix = "/apps/evolution/mail/filter_editor";
+
+	gconf_bridge_bind_window_size (
+		bridge, key_prefix, GTK_WINDOW (filter_editor));
+}
 
 GType
 em_filter_editor_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EMFilterEditorClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_filter_editor_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) filter_editor_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
 			sizeof (EMFilterEditor),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_filter_editor_init,
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) filter_editor_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static (RULE_TYPE_EDITOR, "EMFilterEditor", &info, 0);
+		type = g_type_register_static (
+			RULE_TYPE_EDITOR, "EMFilterEditor", &type_info, 0);
 	}
 
 	return type;
-}
-
-static void
-em_filter_editor_class_init (EMFilterEditorClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	RuleEditorClass *re_class = (RuleEditorClass *) klass;
-
-	parent_class = g_type_class_ref (rule_editor_get_type ());
-
-	gobject_class->finalize = em_filter_editor_finalise;
-
-	/* override methods */
-	re_class->create_rule = create_rule;
-}
-
-static void
-em_filter_editor_init (EMFilterEditor *fe)
-{
-	;
-}
-
-static void
-em_filter_editor_finalise (GObject *obj)
-{
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -101,15 +112,17 @@ em_filter_editor_finalise (GObject *obj)
  * Return value: A new #EMFilterEditor object.
  **/
 EMFilterEditor *
-em_filter_editor_new (EMFilterContext *fc, const EMFilterSource *source_names)
+em_filter_editor_new (EMFilterContext *fc,
+                      const EMFilterSource *source_names)
 {
-	EMFilterEditor *fe = (EMFilterEditor *) g_object_new (em_filter_editor_get_type(), NULL);
+	EMFilterEditor *fe;
 	GladeXML *gui;
 	gchar *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "filter.glade",
-				      NULL);
+	fe = g_object_new (EM_TYPE_FILTER_EDITOR, NULL);
+
+	gladefile = g_build_filename (
+		EVOLUTION_GLADEDIR, "filter.glade", NULL);
 	gui = glade_xml_new (gladefile, "rule_editor", NULL);
 	g_free (gladefile);
 
@@ -149,7 +162,10 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 }
 
 void
-em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names)
+em_filter_editor_construct (EMFilterEditor *fe,
+                            EMFilterContext *fc,
+                            GladeXML *gui,
+                            const EMFilterSource *source_names)
 {
 	GtkWidget *combobox;
 	gint i;
@@ -174,20 +190,4 @@ em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *g
 	/* Show the Enabled column, we support it here */
 	column = gtk_tree_view_get_column (GTK_TREE_VIEW (RULE_EDITOR (fe)->list), 0);
 	gtk_tree_view_column_set_visible (column, TRUE);
-}
-
-static FilterRule *
-create_rule (RuleEditor *re)
-{
-	FilterRule *rule = filter_rule_new ();
-	FilterPart *part;
-
-	/* create a rule with 1 part & 1 action in it */
-	rule = (FilterRule *)em_filter_rule_new ();
-	part = rule_context_next_part (re->context, NULL);
-	filter_rule_add_part (rule, filter_part_clone (part));
-	part = em_filter_context_next_action ((EMFilterContext *)re->context, NULL);
-	em_filter_rule_add_action ((EMFilterRule *)rule, filter_part_clone (part));
-
-	return rule;
 }

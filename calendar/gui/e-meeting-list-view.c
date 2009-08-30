@@ -27,9 +27,6 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-exception.h>
 #include <glib/gi18n.h>
 #include <libebook/e-book.h>
 #include <libebook/e-vcard.h>
@@ -830,7 +827,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 			name = e_destination_get_name (dest);
 
 			/* Get the field as attendee from the backend */
-			if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
+			if (e_cal_get_ldap_attribute (e_meeting_store_get_client (priv->store),
 						      &attr, NULL)) {
 				/* FIXME this should be more general */
 				if (!g_ascii_strcasecmp (attr, "icscalendar")) {

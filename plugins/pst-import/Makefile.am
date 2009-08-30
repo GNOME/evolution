@@ -24,8 +24,10 @@ plugin_LTLIBRARIES = liborg-gnome-pst-import.la
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 liborg_gnome_pst_import_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
-liborg_gnome_pst_import_la_LIBADD =	\
-	$(NO_UNDEFINED_REQUIRED_LIBS)	\
+liborg_gnome_pst_import_la_LIBADD =			\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(EVOLUTION_CALENDAR_LIBS)			\
+	$(EVOLUTION_MAIL_LIBS)				\
 	$(LIBPST_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml

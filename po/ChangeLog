@@ -1,11 +1,3 @@
-2009-06-09  Manoj Kumar Giri <mgiri@redhat.com>
-
-	* or.po: Updated Oriya Translation.
-
-2009-06-04  Manoj Kumar Giri <mgiri@redhat.com>
-
-        * or.po: Updated Oriya Translation
-
 2009-06-04  Manoj Kumar Giri <mgiri@redhat.com>
 
 	* or.po: Updated Oriya Translation
@@ -111,12 +103,10 @@
 
 	* or.po: Updated Oriya Translation.
 
-<<<<<<< .mine
 2009-03-16  Manoj Kumar Giri  <mgiri@redhat.com>
 
 	* or.po: Updated Oriya Translation.
 
-=======
 2009-03-16  Dwayne Bailey  <dwayne@translate.org.za>
 
 	* af.po: Fix msgfmt errors
@@ -127,7 +117,6 @@
 	Fixes bug #575466.
 	* LINGUAS: Added af.
 
->>>>>>> .r37444
 2009-03-15  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
@@ -425,9 +414,9 @@
 
 	* es.po: Updated Spanish translation.
 
-2009-02-06  Clytie Siddall <clytie@riverland.net.au>
+2009-02-06    Clytie Siddall <clytie@riverland.net.au>
 
-	* vi.po: Updated Vietnamese translation
+	* vi.po    Updated Vietnamese translation
 
 2009-02-05  Sweta Kothari  <swkothar@redhat.com>
 

@@ -38,8 +38,6 @@ AM_CPPFLAGS =								\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 libcomposer_la_SOURCES = 			\
-	$(IDL_GENERATED)			\
-	$(HTML_EDITOR_GENERATED)		\
 	$(libcomposerinclude_HEADERS)		\
 	e-composer-actions.c			\
 	e-composer-autosave.c			\
@@ -52,6 +50,9 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
+libcomposer_la_LIBADD =					\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/em-format/libemformat.la
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui
@@ -61,7 +62,7 @@ EXTRA_DIST =					\
 	mail-composer.error.xml			\
 	ChangeLog.pre-1-4
 
-BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

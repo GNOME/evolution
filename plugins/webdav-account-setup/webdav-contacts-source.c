@@ -52,7 +52,7 @@ GtkWidget *
 plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable);
+e_plugin_lib_enable(EPlugin *ep, gint enable);
 
 static void
 ensure_webdav_contacts_source_group(void)
@@ -341,7 +341,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable)
+e_plugin_lib_enable(EPlugin *ep, gint enable)
 {
 	if (enable) {
 		ensure_webdav_contacts_source_group();

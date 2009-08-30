@@ -28,7 +28,7 @@
 #include "libedataserver/e-msgport.h"
 #include "e-util/e-plugin.h"
 
-#include "mail/em-format.h"
+#include "em-format/em-format.h"
 
 G_BEGIN_DECLS
 

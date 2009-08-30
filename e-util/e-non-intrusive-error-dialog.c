@@ -306,4 +306,3 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const gchar *error_timeout_path,
 
 	gtk_widget_show_all (window);
 }
-

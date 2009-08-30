@@ -20,142 +20,106 @@
  *
  */
 
-#ifndef __EAB_VIEW_H__
-#define __EAB_VIEW_H__
+#ifndef E_ADDRESSBOOK_VIEW_H
+#define E_ADDRESSBOOK_VIEW_H
 
-#include <gtk/gtk.h>
-#include <bonobo/bonobo-ui-component.h>
-#include <widgets/menus/gal-view-instance.h>
 #include <libebook/e-book.h>
+#include <libebook/e-contact.h>
+
+#include <menus/gal-view-instance.h>
+#include <misc/e-selection-model.h>
+#include <shell/e-shell-view.h>
+
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
-#include "eab-menu.h"
-#include "widgets/menus/gal-view-menus.h"
-#include "misc/e-search-bar.h"
-#include "misc/e-filter-bar.h"
+
+/* Standard GObject macros */
+#define E_TYPE_ADDRESSBOOK_VIEW \
+	(e_addressbook_view_get_type ())
+#define E_ADDRESSBOOK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookView))
+#define E_ADDRESSBOOK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewClass))
+#define E_IS_ADDRESSBOOK_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_ADDRESSBOOK_VIEW))
+#define E_IS_ADDRESSBOOK_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_ADDRESSBOOK_VIEW))
+#define E_ADDRESSBOOK_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewClass))
 
 G_BEGIN_DECLS
 
-/* EABView - A card displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- */
+typedef struct _EAddressbookView EAddressbookView;
+typedef struct _EAddressbookViewClass EAddressbookViewClass;
+typedef struct _EAddressbookViewPrivate EAddressbookViewPrivate;
 
-#define E_TYPE_AB_VIEW                          (eab_view_get_type ())
-#define EAB_VIEW(obj)                           (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_AB_VIEW, EABView))
-#define EAB_VIEW_CLASS(klass)                   (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_AB_VIEW, EABViewClass))
-#define E_IS_ADDRESSBOOK_VIEW(obj)              (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_AB_VIEW))
-#define E_IS_ADDRESSBOOK_VIEW_CLASS(klass)      (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_AB_VIEW))
-
-typedef enum {
-	EAB_VIEW_NONE, /* initialized to this */
-	EAB_VIEW_MINICARD,
-	EAB_VIEW_TABLE
-} EABViewType;
-
-typedef struct _EABView       EABView;
-typedef struct _EABViewClass  EABViewClass;
-
-struct _EABView
-{
+struct _EAddressbookView {
 	GtkVBox parent;
-
-	/* item specific fields */
-	EABViewType view_type;
-
-	EABModel   *model;
-
-	GtkWidget *invisible;
-	GList *clipboard_contacts;
-
-	EBook *book;
-	ESource *source;
-	gchar  *query;
-	guint editable : 1;
-
-	gint displayed_contact;
-
-	GObject *object;
-	GtkWidget *widget;
-
-	GtkWidget *contact_display_window;
-	GtkWidget *contact_display;
-	GtkWidget *paned;
-
-	/* Menus handler and the view instance */
-	GalViewInstance *view_instance;
-	GalViewMenus *view_menus;
-	GalView *current_view;
-	BonoboUIComponent *uic;
-
-	/* the search bar and related machinery */
-	EFilterBar  *search;
-	gint         ecml_changed_id;
-	RuleContext *search_context;
-	FilterRule  *search_rule;
+	EAddressbookViewPrivate *priv;
 };
 
-struct _EABViewClass
-{
+struct _EAddressbookViewClass {
 	GtkVBoxClass parent_class;
 
-	/*
-	 * Signals
-	 */
-	void (*status_message)        (EABView *view, const gchar *message);
-	void (*search_result)         (EABView *view, EBookViewStatus status);
-	void (*folder_bar_message)    (EABView *view, const gchar *message);
-	void (*command_state_change)  (EABView *view);
+	/* Signals */
+	void	(*open_contact)			(EAddressbookView *view,
+						 EContact *contact,
+						 gboolean is_new_contact);
+	void	(*popup_event)			(EAddressbookView *view,
+						 GdkEvent *event);
+	void	(*status_message)		(EAddressbookView *view,
+						 const gchar *message);
+	void	(*command_state_change)		(EAddressbookView *view);
+	void	(*selection_change)		(EAddressbookView *view);
 };
 
-GtkWidget *eab_view_new                 (void);
-GType      eab_view_get_type            (void);
+GType		e_addressbook_view_get_type	(void);
+GtkWidget *	e_addressbook_view_new		(EShellView *shell_view,
+						 ESource *source);
+EAddressbookModel *
+		e_addressbook_view_get_model	(EAddressbookView *view);
+GalViewInstance *
+		e_addressbook_view_get_view_instance
+						(EAddressbookView *view);
+GObject *	e_addressbook_view_get_view_object
+						(EAddressbookView *view);
+GtkWidget *	e_addressbook_view_get_view_widget
+						(EAddressbookView *view);
+GList *		e_addressbook_view_get_selected	(EAddressbookView *view);
+ESelectionModel *
+		e_addressbook_view_get_selection_model
+						(EAddressbookView *view);
+EShellView *	e_addressbook_view_get_shell_view
+						(EAddressbookView *view);
+ESource *	e_addressbook_view_get_source	(EAddressbookView *view);
+void		e_addressbook_view_save_as	(EAddressbookView *view,
+						 gboolean all);
+void		e_addressbook_view_view		(EAddressbookView *view);
+void		e_addressbook_view_print	(EAddressbookView *view,
+						 GtkPrintOperationAction action);
+void		e_addressbook_view_delete_selection
+						(EAddressbookView *view,
+						 gboolean is_delete);
+void		e_addressbook_view_cut		(EAddressbookView *view);
+void		e_addressbook_view_copy		(EAddressbookView *view);
+void		e_addressbook_view_paste	(EAddressbookView *view);
+void		e_addressbook_view_select_all	(EAddressbookView *view);
+void		e_addressbook_view_show_all	(EAddressbookView *view);
+void		e_addressbook_view_stop		(EAddressbookView *view);
+void		e_addressbook_view_copy_to_folder
+						(EAddressbookView *view,
+						 gboolean all);
+void		e_addressbook_view_move_to_folder
+						(EAddressbookView *view,
+						 gboolean all);
 
-void       eab_view_show_contact_preview (EABView *view, gboolean show);
-
-void       eab_view_setup_menus         (EABView  *view,
-					 BonoboUIComponent *uic);
-void       eab_view_discard_menus       (EABView  *view);
-
-RuleContext *eab_view_peek_search_context (EABView *view);
-FilterRule  *eab_view_peek_search_rule    (EABView *view);
-
-void       eab_view_save_as             (EABView  *view, gboolean all);
-void       eab_view_view                (EABView  *view);
-void       eab_view_send                (EABView  *view);
-void       eab_view_send_to             (EABView  *view);
-void       eab_view_print               (EABView  *view,
-                                         GtkPrintOperationAction action);
-void       eab_view_delete_selection    (EABView  *view, gboolean is_delete);
-void       eab_view_cut                 (EABView  *view);
-void       eab_view_copy                (EABView  *view);
-void       eab_view_paste               (EABView  *view);
-void       eab_view_select_all          (EABView  *view);
-void       eab_view_show_all            (EABView  *view);
-void       eab_view_stop                (EABView  *view);
-void       eab_view_copy_to_folder      (EABView  *view, gboolean all);
-void       eab_view_move_to_folder      (EABView  *view, gboolean all);
-
-gboolean   eab_view_can_create          (EABView  *view);
-gboolean   eab_view_can_print           (EABView  *view);
-gboolean   eab_view_can_save_as         (EABView  *view);
-gboolean   eab_view_can_view            (EABView  *view);
-gboolean   eab_view_can_send            (EABView  *view);
-gboolean   eab_view_can_send_to         (EABView  *view);
-gboolean   eab_view_can_delete          (EABView  *view);
-gboolean   eab_view_can_cut             (EABView  *view);
-gboolean   eab_view_can_copy            (EABView  *view);
-gboolean   eab_view_can_paste           (EABView  *view);
-gboolean   eab_view_can_select_all      (EABView  *view);
-gboolean   eab_view_can_stop            (EABView  *view);
-gboolean   eab_view_can_copy_to_folder  (EABView  *view);
-gboolean   eab_view_can_move_to_folder  (EABView  *view);
-
-EABMenuTargetSelect *eab_view_get_menu_target (EABView *view, EABMenu *menu);
+gboolean	e_addressbook_view_can_create	(EAddressbookView *view);
 
 G_END_DECLS
 
-#endif /* __EAB_VIEW_H__ */
+#endif /* E_ADDRESSBOOK_VIEW_H */

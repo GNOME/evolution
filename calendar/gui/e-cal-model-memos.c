@@ -260,8 +260,12 @@ ecmm_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 /**
  * e_cal_model_memos_new
  */
-ECalModelMemos *
-e_cal_model_memos_new (void)
+ECalModel *
+e_cal_model_memos_new (EShellSettings *shell_settings)
 {
-	return g_object_new (E_TYPE_CAL_MODEL_MEMOS, NULL);
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
+
+	return g_object_new (
+		E_TYPE_CAL_MODEL_MEMOS,
+		"shell-settings", shell_settings, NULL);
 }

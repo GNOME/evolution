@@ -31,13 +31,17 @@
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
-#include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
 #include "e-meeting-store.h"
 
-#define ROW_VALID(store, row) (row >= 0 && row < store->priv->attendees->len)
+#define ROW_VALID(store, row) \
+	(row >= 0 && row < store->priv->attendees->len)
+
+#define E_MEETING_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEETING_STORE, EMeetingStorePrivate))
 
 struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
@@ -76,7 +80,14 @@ struct _EMeetingStoreQueueData {
 	GPtrArray *data;
 };
 
-static GObjectClass *parent_class = NULL;
+enum {
+	PROP_0,
+	PROP_CLIENT,
+	PROP_FREE_BUSY_TEMPLATE,
+	PROP_TIMEZONE
+};
+
+static gpointer parent_class;
 
 static icalparameter_cutype
 text_to_type (const gchar *type)
@@ -523,13 +534,73 @@ refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
 }
 
 static void
-ems_finalize (GObject *obj)
+meeting_store_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
-	EMeetingStore *store = E_MEETING_STORE (obj);
+	switch (property_id) {
+		case PROP_CLIENT:
+			e_meeting_store_set_client (
+				E_MEETING_STORE (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_FREE_BUSY_TEMPLATE:
+			e_meeting_store_set_free_busy_template (
+				E_MEETING_STORE (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_TIMEZONE:
+			e_meeting_store_set_timezone (
+				E_MEETING_STORE (object),
+				g_value_get_pointer (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+meeting_store_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CLIENT:
+			g_value_set_object (
+				value,
+				e_meeting_store_get_client (
+				E_MEETING_STORE (object)));
+			return;
+
+		case PROP_FREE_BUSY_TEMPLATE:
+			g_value_set_string (
+				value,
+				e_meeting_store_get_free_busy_template (
+				E_MEETING_STORE (object)));
+			return;
+
+		case PROP_TIMEZONE:
+			g_value_set_pointer (
+				value,
+				e_meeting_store_get_timezone (
+				E_MEETING_STORE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+meeting_store_finalize (GObject *object)
+{
 	EMeetingStorePrivate *priv;
 	gint i;
 
-	priv = store->priv;
+	priv = E_MEETING_STORE_GET_PRIVATE (object);
 
 	for (i = 0; i < priv->attendees->len; i++)
 		g_object_unref (g_ptr_array_index (priv->attendees, i));
@@ -539,7 +610,9 @@ ems_finalize (GObject *obj)
 		g_object_unref (priv->client);
 
 	while (priv->refresh_queue->len > 0)
-		refresh_queue_remove (store, g_ptr_array_index (priv->refresh_queue, 0));
+		refresh_queue_remove (
+			E_MEETING_STORE (object),
+			g_ptr_array_index (priv->refresh_queue, 0));
 	g_ptr_array_free (priv->refresh_queue, TRUE);
 	g_hash_table_destroy (priv->refresh_data);
 
@@ -550,75 +623,100 @@ ems_finalize (GObject *obj)
 
 	g_mutex_free (priv->mutex);
 
-	g_free (priv);
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-ems_class_init (GObjectClass *klass)
+meeting_store_class_init (GObjectClass *class)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GObjectClass *object_class;
 
-	klass->finalize = ems_finalize;
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMeetingStorePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = meeting_store_set_property;
+	object_class->get_property = meeting_store_get_property;
+	object_class->finalize = meeting_store_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLIENT,
+		g_param_spec_object (
+			"client",
+			"Client",
+			NULL,
+			E_TYPE_CAL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FREE_BUSY_TEMPLATE,
+		g_param_spec_string (
+			"free-busy-template",
+			"Free/Busy Template",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TIMEZONE,
+		g_param_spec_pointer (
+			"timezone",
+			"Timezone",
+			NULL,
+			G_PARAM_READWRITE));
 }
 
 static void
-ems_init (EMeetingStore *store)
+meeting_store_init (EMeetingStore *store)
 {
-	EMeetingStorePrivate *priv;
+	store->priv = E_MEETING_STORE_GET_PRIVATE (store);
 
-	priv = g_new0 (EMeetingStorePrivate, 1);
+	store->priv->attendees = g_ptr_array_new ();
+	store->priv->refresh_queue = g_ptr_array_new ();
+	store->priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
 
-	store->priv = priv;
+	store->priv->mutex = g_mutex_new ();
 
-	priv->attendees = g_ptr_array_new ();
-
-	priv->zone = calendar_config_get_icaltimezone ();
-
-	priv->fb_uri = calendar_config_get_free_busy_template ();
-
-	priv->refresh_queue = g_ptr_array_new ();
-	priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
-
-	priv->mutex = g_mutex_new ();
-
-	priv->num_queries = 0;
+	store->priv->num_queries = 0;
 }
 
 GType
 e_meeting_store_get_type (void)
 {
-	static GType ems_type = 0;
+	static GType type = 0;
 
-	if (!ems_type) {
-		static const GTypeInfo ems_info = {
-				sizeof (EMeetingStoreClass),
-				NULL,           /* base_init */
-				NULL,           /* base_finalize */
-				(GClassInitFunc) ems_class_init,
-				NULL,           /* class_finalize */
-				NULL,           /* class_data */
-				sizeof (EMeetingStore),
-				0,
-				(GInstanceInitFunc) ems_init };
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMeetingStoreClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) meeting_store_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMeetingStore),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) meeting_store_init,
+			NULL   /* value_table */
+		};
 
 		static const GInterfaceInfo tree_model_info = {
-				(GInterfaceInitFunc) ems_tree_model_init,
-				NULL,
-				NULL };
+			(GInterfaceInitFunc) ems_tree_model_init,
+			NULL,
+			NULL
+		};
 
-		ems_type = g_type_register_static (GTK_TYPE_LIST_STORE,
-						   "EMeetingStore",
-						   &ems_info, 0);
+		type = g_type_register_static (
+			GTK_TYPE_LIST_STORE, "EMeetingStore", &type_info, 0);
 
-		g_type_add_interface_static (ems_type,
-					     GTK_TYPE_TREE_MODEL,
-					     &tree_model_info);
+		g_type_add_interface_static (
+			type, GTK_TYPE_TREE_MODEL, &tree_model_info);
 	}
 
-	return ems_type;
+	return type;
 }
 
 GObject *
@@ -628,24 +726,54 @@ e_meeting_store_new (void)
 }
 
 ECal *
-e_meeting_store_get_e_cal (EMeetingStore *store)
+e_meeting_store_get_client (EMeetingStore *store)
 {
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
+
 	return store->priv->client;
 }
 
 void
-e_meeting_store_set_e_cal (EMeetingStore *store, ECal *client)
+e_meeting_store_set_client (EMeetingStore *store,
+                            ECal *client)
 {
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	if (client != NULL) {
+		g_return_if_fail (E_IS_CAL (client));
+		g_object_ref (client);
+	}
+
 	if (store->priv->client != NULL)
 		g_object_unref (store->priv->client);
 
-	if (client != NULL)
-		g_object_ref (client);
 	store->priv->client = client;
+
+	g_object_notify (G_OBJECT (store), "client");
+}
+
+const gchar *
+e_meeting_store_get_free_busy_template (EMeetingStore *store)
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
+
+	return store->priv->fb_uri;
+}
+
+void
+e_meeting_store_set_free_busy_template (EMeetingStore *store,
+                                        const gchar *free_busy_template)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	g_free (store->priv->fb_uri);
+	store->priv->fb_uri = g_strdup (free_busy_template);
+
+	g_object_notify (G_OBJECT (store), "free-busy-template");
 }
 
 icaltimezone *
-e_meeting_store_get_zone (EMeetingStore *store)
+e_meeting_store_get_timezone (EMeetingStore *store)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
 
@@ -653,28 +781,14 @@ e_meeting_store_get_zone (EMeetingStore *store)
 }
 
 void
-e_meeting_store_set_zone (EMeetingStore *store, icaltimezone *zone)
+e_meeting_store_set_timezone (EMeetingStore *store,
+                              icaltimezone *timezone)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
-	store->priv->zone = zone;
-}
+	store->priv->zone = timezone;
 
-gchar *
-e_meeting_store_get_fb_uri (EMeetingStore *store)
-{
-	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
-
-	return g_strdup (store->priv->fb_uri);
-}
-
-void
-e_meeting_store_set_fb_uri (EMeetingStore *store, const gchar *fb_uri)
-{
-	g_return_if_fail (E_IS_MEETING_STORE (store));
-
-	g_free (store->priv->fb_uri);
-	store->priv->fb_uri = g_strdup (fb_uri);
+	g_object_notify (G_OBJECT (store), "timezone");
 }
 
 static void

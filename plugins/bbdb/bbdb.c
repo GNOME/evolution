@@ -42,7 +42,7 @@
 #define d(x)
 
 /* Plugin hooks */
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 void bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
@@ -51,8 +51,8 @@ struct bbdb_stuff {
 	EMConfigTargetPrefs *target;
 	ESourceList *source_list;
 
-	GtkWidget *option_menu;
-	GtkWidget *gaim_option_menu;
+	GtkWidget *combo_box;
+	GtkWidget *gaim_combo_box;
 	GtkWidget *check;
 	GtkWidget *check_gaim;
 };
@@ -63,7 +63,7 @@ static void bbdb_do_it (EBook *book, const gchar *name, const gchar *email);
 static void add_email_to_contact (EContact *contact, const gchar *email);
 static void enable_toggled_cb (GtkWidget *widget, gpointer data);
 static void source_changed_cb (ESourceComboBox *source_combo_box, struct bbdb_stuff *stuff);
-static GtkWidget *create_addressbook_option_menu (struct bbdb_stuff *stuff, gint type);
+static GtkWidget *create_addressbook_combo_box (struct bbdb_stuff *stuff, gint type);
 static void cleanup_cb (GObject *o, gpointer data);
 
 static ESource *
@@ -106,7 +106,7 @@ find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	/* Start up the plugin. */
 	if (enable) {
@@ -463,7 +463,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
 
-	gtk_widget_set_sensitive (stuff->option_menu, active);
+	gtk_widget_set_sensitive (stuff->combo_box, active);
 
 	addressbook = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
 
@@ -472,7 +472,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 		GError *error = NULL;
 
 		selected_source = e_source_combo_box_get_active (
-			E_SOURCE_COMBO_BOX (stuff->option_menu));
+			E_SOURCE_COMBO_BOX (stuff->combo_box));
 		if (selected_source != NULL)
 			uri = e_source_get_uri (selected_source);
 
@@ -503,10 +503,10 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
 
 	addressbook_gaim = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
-	gtk_widget_set_sensitive (stuff->gaim_option_menu, active);
+	gtk_widget_set_sensitive (stuff->gaim_combo_box, active);
 	if (active && !addressbook_gaim) {
 		selected_source = e_source_combo_box_get_active (
-			E_SOURCE_COMBO_BOX (stuff->gaim_option_menu));
+			E_SOURCE_COMBO_BOX (stuff->gaim_combo_box));
 		gconf_client_set_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source), NULL);
 	}
 
@@ -560,7 +560,7 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 }
 
 static GtkWidget *
-create_addressbook_option_menu (struct bbdb_stuff *stuff, gint type)
+create_addressbook_combo_box (struct bbdb_stuff *stuff, gint type)
 {
 	GtkWidget   *combo_box;
 	ESourceList *source_list;
@@ -604,8 +604,8 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *hbox;
 	GtkWidget *inner_vbox;
 	GtkWidget *check;
-	GtkWidget *option;
-	GtkWidget *gaim_option;
+	GtkWidget *combo_box;
+	GtkWidget *gaim_combo_box;
 	GtkWidget *check_gaim;
 	GtkWidget *label;
 	GtkWidget *gaim_label;
@@ -652,12 +652,12 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	label = gtk_label_new (_("Select Address book for Automatic Contacts"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
-	/* Source selection option menu */
-	option = create_addressbook_option_menu (stuff, AUTOMATIC_CONTACTS_ADDRESSBOOK);
-	g_signal_connect (option, "changed", G_CALLBACK (source_changed_cb), stuff);
-	gtk_widget_set_sensitive (option, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
-	gtk_box_pack_start (GTK_BOX (inner_vbox), option, FALSE, FALSE, 0);
-	stuff->option_menu = option;
+	/* Source selection combo box */
+	combo_box = create_addressbook_combo_box (stuff, AUTOMATIC_CONTACTS_ADDRESSBOOK);
+	g_signal_connect (combo_box, "changed", G_CALLBACK (source_changed_cb), stuff);
+	gtk_widget_set_sensitive (combo_box, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), combo_box, FALSE, FALSE, 0);
+	stuff->combo_box = combo_box;
 
 	/* "Instant Messaging Contacts" */
 	frame = gtk_vbox_new (FALSE, 6);
@@ -688,12 +688,12 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gaim_label = gtk_label_new (_("Select Address book for Pidgin buddy list"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_label, FALSE, FALSE, 0);
 
-	/* Gaim Source Selection Option Menu */
-	gaim_option = create_addressbook_option_menu (stuff, GAIM_ADDRESSBOOK);
-	g_signal_connect (gaim_option, "changed", G_CALLBACK (gaim_source_changed_cb), stuff);
-	gtk_widget_set_sensitive (gaim_option, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
-	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_option, FALSE, FALSE, 0);
-	stuff->gaim_option_menu = gaim_option;
+	/* Gaim Source Selection Combo Box */
+	gaim_combo_box = create_addressbook_combo_box (stuff, GAIM_ADDRESSBOOK);
+	g_signal_connect (gaim_combo_box, "changed", G_CALLBACK (gaim_source_changed_cb), stuff);
+	gtk_widget_set_sensitive (gaim_combo_box, gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE_GAIM, NULL));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), gaim_combo_box, FALSE, FALSE, 0);
+	stuff->gaim_combo_box = gaim_combo_box;
 
 	/* Synchronize now button. */
 	button = gtk_button_new_with_mnemonic (_("Synchronize with _buddy list now"));

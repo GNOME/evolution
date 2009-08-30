@@ -58,7 +58,7 @@ free_exchange_listener (void)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *eplib, gint enable)
+e_plugin_lib_enable (EPlugin *eplib, gint enable)
 {
 	if (!exchange_global_config_listener) {
 		exchange_global_config_listener = exchange_config_listener_new ();

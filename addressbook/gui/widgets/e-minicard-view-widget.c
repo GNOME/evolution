@@ -53,6 +53,8 @@ enum {
 };
 
 enum {
+	CREATE_CONTACT,
+	CREATE_CONTACT_LIST,
 	SELECTION_CHANGE,
 	COLUMN_WIDTH_CHANGED,
 	RIGHT_CLICK,
@@ -139,6 +141,24 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 							      /*_( */"XXX blurb" /*)*/,
 							      0.0, G_MAXDOUBLE, 150.0,
 							      G_PARAM_READWRITE));
+
+	signals [CREATE_CONTACT] =
+		g_signal_new ("create-contact",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	signals [CREATE_CONTACT_LIST] =
+		g_signal_new ("create-contact-list",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, create_contact_list),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	signals [SELECTION_CHANGE] =
 		g_signal_new ("selection_change",
@@ -315,6 +335,18 @@ column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *w
 		       signals [COLUMN_WIDTH_CHANGED], 0, width);
 }
 
+static void
+create_contact (EMinicardView *view, EMinicardViewWidget *widget)
+{
+	g_signal_emit (widget, signals[CREATE_CONTACT], 0);
+}
+
+static void
+create_contact_list (EMinicardView *view, EMinicardViewWidget *widget)
+{
+	g_signal_emit (widget, signals[CREATE_CONTACT_LIST], 0);
+}
+
 static guint
 right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
 {
@@ -368,6 +400,12 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 	g_signal_connect (view->emv,
 			  "column_width_changed",
 			  G_CALLBACK (column_width_changed), view);
+	g_signal_connect (view->emv,
+			  "create-contact",
+			  G_CALLBACK (create_contact), view);
+	g_signal_connect (view->emv,
+			  "create-contact-list",
+			  G_CALLBACK (create_contact_list), view);
 	g_signal_connect (view->emv,
 			  "right_click",
 			  G_CALLBACK (right_click), view);

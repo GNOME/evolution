@@ -372,6 +372,41 @@ e_action_group_remove_all_actions (GtkActionGroup *action_group)
 }
 
 /**
+ * e_radio_action_get_current_action:
+ * @radio_action: a #GtkRadioAction
+ *
+ * Returns the currently active member of the group to which @radio_action
+ * belongs.
+ *
+ * Returns: the currently active group member
+ **/
+GtkRadioAction *
+e_radio_action_get_current_action (GtkRadioAction *radio_action)
+{
+	GSList *group;
+	gint current_value;
+
+	g_return_val_if_fail (GTK_IS_RADIO_ACTION (radio_action), NULL);
+
+	group = gtk_radio_action_get_group (radio_action);
+	current_value = gtk_radio_action_get_current_value (radio_action);
+
+	while (group != NULL) {
+		gint value;
+
+		radio_action = GTK_RADIO_ACTION (group->data);
+		g_object_get (radio_action, "value", &value, NULL);
+
+		if (value == current_value)
+			return radio_action;
+
+		group = g_slist_next (group);
+	}
+
+	return NULL;
+}
+
+/**
  * e_str_without_underscores:
  * @s: the string to strip underscores from.
  *
@@ -519,6 +554,30 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 	}
 
 	return res;
+}
+
+/**
+ * e_color_to_value:
+ * color: a #GdkColor
+ *
+ * Converts a #GdkColor to a 24-bit RGB color value.
+ *
+ * Returns: a 24-bit color value
+ **/
+guint32
+e_color_to_value (GdkColor *color)
+{
+	guint16 red;
+	guint16 green;
+	guint16 blue;
+
+	g_return_val_if_fail (color != NULL, 0);
+
+	red = color->red >> 8;
+	green = color->green >> 8;
+	blue = color->blue >> 8;
+
+	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
 }
 
 static gint

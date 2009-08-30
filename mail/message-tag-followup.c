@@ -288,6 +288,11 @@ construct (MessageTagEditor *editor)
 	gtk_widget_reparent (widget, GTK_DIALOG (editor)->vbox);
 	gtk_box_set_child_packing (GTK_BOX (GTK_DIALOG (editor)->vbox), widget, TRUE, TRUE, 6, GTK_PACK_START);
 
+	widget = glade_xml_get_widget (gui, "pixmap");
+	gtk_image_set_from_icon_name (
+		GTK_IMAGE (widget), "stock_mail-flag-for-followup",
+		GTK_ICON_SIZE_DIALOG);
+
 	followup->message_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "message_list"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (followup->message_list, (GtkTreeModel *) model);

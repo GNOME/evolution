@@ -4,7 +4,6 @@ ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
 if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 PLATFORM_SOURCES = e-win32-reloc.c
 endif
 
@@ -39,11 +38,12 @@ AM_CPPFLAGS =								\
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
+	e-account-utils.h			\
 	e-bconf-map.h				\
 	e-binding.h				\
 	e-categories-config.h			\
+	e-charset.h				\
 	e-config.h				\
-	e-corba-utils.h				\
 	e-cursor.h				\
 	e-datetime-format.h			\
 	e-dialog-utils.h			\
@@ -56,18 +56,18 @@ eutilinclude_HEADERS = 				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-logger.h				\
-	e-non-intrusive-error-dialog.h		\
 	e-marshal.h				\
-	e-menu.h				\
 	e-mktemp.h				\
+	e-module.h				\
+	e-non-intrusive-error-dialog.h		\
 	e-print.h				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
-	e-popup.h				\
 	e-profile-event.h			\
 	e-request.h				\
 	e-signature.h				\
 	e-signature-list.h			\
+	e-signature-utils.h			\
 	e-bit-array.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
@@ -75,16 +75,17 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-util.h				\
-	e-util-labels.h				\
+	e-unicode.h				\
 	e-xml-utils.h
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
+	e-account-utils.c			\
 	e-bconf-map.c				\
 	e-binding.c				\
 	e-categories-config.c			\
+	e-charset.c				\
 	e-config.c				\
-	e-corba-utils.c				\
 	e-cursor.c				\
 	e-datetime-format.c			\
 	e-dialog-utils.c			\
@@ -97,25 +98,25 @@ libeutil_la_SOURCES =				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-logger.c				\
-	e-non-intrusive-error-dialog.c		\
 	e-marshal.c				\
-	e-menu.c				\
 	e-mktemp.c				\
-	e-plugin.c				\
+	e-module.c				\
+	e-non-intrusive-error-dialog.c		\
 	e-plugin-ui.c				\
-	e-popup.c				\
+	e-plugin.c				\
 	e-print.c				\
 	e-profile-event.c			\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
+	e-signature-utils.c			\
 	e-bit-array.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c     \
 	e-text-event-processor.c                \
 	e-util.c				\
-	e-util-labels.c				\
+	e-unicode.c				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	gconf-bridge.c				\
@@ -128,7 +129,6 @@ MARSHAL_GENERATED = e-marshal.c e-marshal.h
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeutil_la_LIBADD = 		\
-	$(WIN32_BOOTSTRAP_LIBS)	\
 	$(ICONV_LIBS)		\
 	$(E_UTIL_LIBS)		\
 	$(GNOME_PILOT_LIBS)	\

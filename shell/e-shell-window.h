@@ -1,4 +1,5 @@
 /*
+ * e-shell-window.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,63 +15,104 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
- * Authors:
- *		Ettore Perazzoli <ettore@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _E_SHELL_WINDOW_H_
-#define _E_SHELL_WINDOW_H_
+/**
+ * SECTION: e-shell-window
+ * @short_description: the main window
+ * @include: shell/e-shell-window.h
+ **/
 
-#include <bonobo/bonobo-window.h>
-#include <bonobo/bonobo-ui-component.h>
-#include "e-sidebar.h"
+#ifndef E_SHELL_WINDOW_H
+#define E_SHELL_WINDOW_H
 
-#define E_TYPE_SHELL_WINDOW			(e_shell_window_get_type ())
-#define E_SHELL_WINDOW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_WINDOW, EShellWindow))
-#define E_SHELL_WINDOW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL_WINDOW, EShellWindowClass))
-#define E_IS_SHELL_WINDOW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SHELL_WINDOW))
-#define E_IS_SHELL_WINDOW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL_WINDOW))
+#include <shell/e-shell.h>
 
-typedef struct _EShellWindow        EShellWindow;
+/* Standard GObject macros */
+#define E_TYPE_SHELL_WINDOW \
+	(e_shell_window_get_type ())
+#define E_SHELL_WINDOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SHELL_WINDOW, EShellWindow))
+#define E_SHELL_WINDOW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SHELL_WINDOW, EShellWindowClass))
+#define E_IS_SHELL_WINDOW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SHELL_WINDOW))
+#define E_IS_SHELL_WINDOW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), E_TYPE_SHELL_WINDOW))
+#define E_SHELL_WINDOW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SHELL_WINDOW, EShellWindowClass))
+
+G_BEGIN_DECLS
+
+/* Avoid including <e-shell-view.h>, because it includes us! */
+struct _EShellView;
+
+typedef struct _EShellWindow EShellWindow;
+typedef struct _EShellWindowClass EShellWindowClass;
 typedef struct _EShellWindowPrivate EShellWindowPrivate;
-typedef struct _EShellWindowClass   EShellWindowClass;
 
+/**
+ * EShellWindow:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellWindow {
-	BonoboWindow parent;
-
+	GtkWindow parent;
 	EShellWindowPrivate *priv;
 };
 
 struct _EShellWindowClass {
-	BonoboWindowClass parent_class;
-
-	void (* component_changed) (EShellWindow *window);
+	GtkWindowClass parent_class;
 };
 
-#include "e-shell.h"
+GType		e_shell_window_get_type		(void);
+GtkWidget *	e_shell_window_new		(EShell *shell,
+						 gboolean safe_mode);
+EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
+struct _EShellView *
+		e_shell_window_get_shell_view	(EShellWindow *shell_window,
+						 const gchar *view_name);
+GtkAction *	e_shell_window_get_shell_view_action
+						(EShellWindow *shell_window,
+						 const gchar *view_name);
+GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
+GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
+						 const gchar *action_name);
+GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *shell_window,
+						 const gchar *group_name);
+GtkWidget *	e_shell_window_get_managed_widget
+						(EShellWindow *shell_window,
+						 const gchar *widget_path);
+const gchar *	e_shell_window_get_active_view	(EShellWindow *shell_window);
+void		e_shell_window_set_active_view	(EShellWindow *shell_window,
+						 const gchar *view_name);
+gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
+void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
+						 gboolean safe_mode);
+void		e_shell_window_add_action_group (EShellWindow *shell_window,
+						 const gchar *group_name);
 
-GType  e_shell_window_get_type  (void);
+/* These should be called from the shell backend's window_created() handler. */
 
-GtkWidget *e_shell_window_new  (EShell     *shell,
-				const gchar *component_id);
+void		e_shell_window_register_new_item_actions
+						(EShellWindow *shell_window,
+						 const gchar *backend_name,
+						 GtkActionEntry *entries,
+						 guint n_entries);
+void		e_shell_window_register_new_source_actions
+						(EShellWindow *shell_window,
+						 const gchar *backend_name,
+						 GtkActionEntry *entries,
+						 guint n_entries);
 
-void        e_shell_window_switch_to_component        (EShellWindow *shell,
-						       const gchar   *component_id);
-const gchar *e_shell_window_peek_current_component_id  (EShellWindow *shell);
+G_END_DECLS
 
-EShell            *e_shell_window_peek_shell                (EShellWindow *window);
-BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *window);
-ESidebar          *e_shell_window_peek_sidebar              (EShellWindow *window);
-GtkWidget         *e_shell_window_peek_statusbar            (EShellWindow *window);
-
-void e_shell_window_set_title(EShellWindow *window, const gchar *component_id, const gchar *title);
-
-void  e_shell_window_save_defaults  (EShellWindow *window);
-void  e_shell_window_show_settings  (EShellWindow *window);
-
-void e_shell_window_change_component_button_icon (EShellWindow *window, const gchar *component_id, const gchar *icon_name);
-
-#endif /* _E_SHELL_WINDOW_H_ */
+#endif /* E_SHELL_WINDOW_H */

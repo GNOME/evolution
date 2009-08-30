@@ -22,9 +22,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-
-#include "mail/em-folder-selector.h"
-#include "mail/em-folder-tree.h"
+#include <camel/camel-url.h>
 
 #define E_COMPOSER_POST_HEADER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -42,10 +40,6 @@ struct _EComposerPostHeaderPrivate {
 };
 
 static gpointer parent_class;
-
-/* Forward Declarations (to avoid pulling in Bonobo stuff) */
-struct _MailComponent *mail_component_peek (void);
-struct _EMFolderTreeModel *mail_component_peek_tree_model (struct _MailComponent *component);
 
 static gchar *
 composer_post_header_folder_name_to_string (EComposerPostHeader *header,
@@ -106,56 +100,6 @@ composer_post_header_split_csv (const gchar *csv)
 	return g_list_reverse (list);
 }
 
-static void
-composer_post_header_changed_cb (EComposerPostHeader *header)
-{
-	header->priv->custom = TRUE;
-}
-
-static void
-composer_post_header_clicked_cb (EComposerPostHeader *header)
-{
-	EMFolderTreeModel *model;
-	GtkWidget *folder_tree;
-	GtkWidget *dialog;
-	GList *list;
-
-	model = mail_component_peek_tree_model (mail_component_peek ());
-	folder_tree = em_folder_tree_new_with_model (model);
-
-	em_folder_tree_set_multiselect (
-		EM_FOLDER_TREE (folder_tree), TRUE);
-	em_folder_tree_set_excluded (
-		EM_FOLDER_TREE (folder_tree),
-		EMFT_EXCLUDE_NOSELECT |
-		EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
-	dialog = em_folder_selector_new (
-		EM_FOLDER_TREE (folder_tree),
-		EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Posting destination"),
-		_("Choose folders to post the message to."),
-		NULL);
-
-	list = e_composer_post_header_get_folders (header);
-	em_folder_selector_set_selected_list (
-		EM_FOLDER_SELECTOR (dialog), list);
-	g_list_foreach (list, (GFunc) g_free, NULL);
-	g_list_free (list);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		list = em_folder_selector_get_selected_uris (
-			EM_FOLDER_SELECTOR (dialog));
-		e_composer_post_header_set_folders (header, list);
-		header->priv->custom = FALSE;
-		g_list_foreach (list, (GFunc) g_free, NULL);
-		g_list_free (list);
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 static GObject *
 composer_post_header_constructor (GType type,
                                   guint n_construct_properties,
@@ -170,14 +114,6 @@ composer_post_header_constructor (GType type,
 	e_composer_header_set_title_tooltip (
 		E_COMPOSER_HEADER (object),
 		_("Click here to select folders to post to"));
-
-	g_signal_connect (
-		object, "changed",
-		G_CALLBACK (composer_post_header_changed_cb), NULL);
-
-	g_signal_connect (
-		object, "clicked",
-		G_CALLBACK (composer_post_header_clicked_cb), NULL);
 
 	return object;
 }
@@ -246,9 +182,30 @@ composer_post_header_finalize (GObject *object)
 }
 
 static void
+composer_post_header_changed (EComposerHeader *header)
+{
+	EComposerPostHeaderPrivate *priv;
+
+	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+
+	priv->custom = TRUE;
+}
+
+static void
+composer_post_header_clicked (EComposerHeader *header)
+{
+	EComposerPostHeaderPrivate *priv;
+
+	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+
+	priv->custom = FALSE;
+}
+
+static void
 composer_post_header_class_init (EComposerPostHeaderClass *class)
 {
 	GObjectClass *object_class;
+	EComposerHeaderClass *header_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerPostHeaderPrivate));
@@ -259,6 +216,10 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 	object_class->get_property = composer_post_header_get_property;
 	object_class->dispose = composer_post_header_dispose;
 	object_class->finalize = composer_post_header_finalize;
+
+	header_class = E_COMPOSER_HEADER_CLASS (class);
+	header_class->changed = composer_post_header_changed;
+	header_class->clicked = composer_post_header_clicked;
 
 	g_object_class_install_property (
 		object_class,

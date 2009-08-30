@@ -1,0 +1,138 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='mail-save-as'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='mail-print-preview'/>
+        <menuitem action='mail-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='mail-clipboard-copy'/>
+        <separator/>
+        <menuitem action='mail-select-all'/>
+        <separator/>
+        <menuitem action='mail-delete'/>
+        <menuitem action='mail-undelete'/>
+        <separator/>
+        <menuitem action='mail-find'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <separator/>
+      <placeholder name='mail-message-list-actions'/>
+      <separator/>
+      <placeholder name='mail-message-view-actions'>
+        <menuitem action='mail-load-images'/>
+        <menuitem action='mail-show-all-headers'/>
+        <menuitem action='mail-caret-mode'/>
+        <menuitem action='mail-show-source'/>
+        <menu action='mail-zoom-menu'>
+          <menuitem action='mail-zoom-in'/>
+          <menuitem action='mail-zoom-out'/>
+          <menuitem action='mail-zoom-100'/>
+        </menu>
+        <separator/>
+        <menu action='mail-encoding-menu'>
+          <menuitem action='mail-charset-default'/>
+          <separator/>
+        </menu>
+      </placeholder>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='mail-message-menu'>
+        <menuitem action='mail-message-new'/>
+        <menuitem action='mail-message-open'/>
+        <menuitem action='mail-message-edit'/>
+        <menuitem action='mail-add-sender'/>
+        <separator/>
+        <menu action='mail-goto-menu'>
+          <menuitem action='mail-next'/>
+          <menuitem action='mail-next-unread'/>
+          <menuitem action='mail-next-important'/>
+          <menuitem action='mail-next-thread'/>
+          <separator/>
+          <menuitem action='mail-previous'/>
+          <menuitem action='mail-previous-unread'/>
+          <menuitem action='mail-previous-important'/>
+        </menu>
+        <menuitem action='mail-reply-sender'/>
+        <menuitem action='mail-reply-list'/>
+        <menuitem action='mail-reply-all'/>
+        <menuitem action='mail-forward'/>
+        <menu action='mail-forward-as-menu'>
+          <menuitem action='mail-forward-attached'/>
+          <menuitem action='mail-forward-inline'/>
+          <menuitem action='mail-forward-quoted'/>
+          <separator/>
+          <menuitem action='mail-redirect'/>
+        </menu>
+        <separator/>
+        <menuitem action='mail-copy'/>
+        <menuitem action='mail-move'/>
+        <separator/>
+        <menu action='mail-mark-as-menu'>
+          <menuitem action="mail-mark-read"/>
+          <menuitem action="mail-mark-unread"/>
+          <separator/>
+          <menuitem action="mail-mark-important"/>
+          <menuitem action="mail-mark-unimportant"/>
+          <separator/>
+          <menuitem action="mail-mark-junk"/>
+          <menuitem action="mail-mark-notjunk"/>
+          <separator/>
+          <menuitem action="mail-flag-for-followup"/>
+          <menuitem action="mail-flag-clear"/>
+          <menuitem action="mail-flag-completed"/>
+        </menu>
+        <menuitem action='mail-filters-apply'/>
+        <menuitem action='mail-check-for-junk'/>
+        <separator/>
+        <menu action='mail-create-rule-menu'>
+          <menuitem action='mail-filter-on-subject'/>
+          <menuitem action='mail-filter-on-sender'/>
+          <menuitem action='mail-filter-on-recipients'/>
+          <menuitem action='mail-filter-on-mailing-list'/>
+          <separator/>
+          <menuitem action='mail-search-folder-from-subject'/>
+          <menuitem action='mail-search-folder-from-sender'/>
+          <menuitem action='mail-search-folder-from-recipients'/>
+          <menuitem action='mail-search-folder-from-mailing-list'/>
+        </menu>
+        <separator/>
+        <placeholder name='mail-message-actions'/>
+      </menu>
+    </placeholder>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <placeholder name='mail-toolbar-common'>
+      <toolitem action='mail-reply-sender'/>
+      <toolitem action='mail-reply-all'/>
+      <toolitem action='mail-forward'/>
+      <separator/>
+      <toolitem action='mail-print'/>
+      <toolitem action='mail-delete'/>
+      <toolitem action='mail-mark-junk'/>
+      <toolitem action='mail-mark-notjunk'/>
+    </placeholder>
+    <separator/>
+    <placeholder name='mail-toolbar-navigation'>
+      <toolitem action='mail-previous'/>
+      <toolitem action='mail-next'/>
+    </placeholder>
+  </toolbar>
+  <popup name='mail-message-popup'>
+    <placeholder name='mail-message-popup-common-actions'>
+      <menuitem action='mail-popup-reply-sender'/>
+      <menuitem action='mail-popup-reply-all'/>
+      <menuitem action='mail-popup-forward'/>
+      <separator/>
+      <menuitem action='mail-popup-message-edit'/>
+      <menuitem action='mail-popup-save-as'/>
+      <menuitem action='mail-popup-print'/>
+    </placeholder>
+  </popup>
+</ui>

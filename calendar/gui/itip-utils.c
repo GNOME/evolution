@@ -38,7 +38,6 @@
 #include "dialogs/comp-editor-util.h"
 
 #include <composer/e-msg-composer.h>
-#include <mail/em-composer-utils.h>
 #include <camel/camel-mime-filter-tohtml.h>
 
 static const gchar *itip_methods[] = {
@@ -1260,7 +1259,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
-	em_composer_utils_setup_default_callbacks (composer);
 
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_account_name (table, from);
@@ -1368,7 +1366,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
-	em_composer_utils_setup_default_callbacks (composer);
 
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_account_name (table, from);

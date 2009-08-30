@@ -43,6 +43,7 @@
 #include <e-util/e-error.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
+#include <e-util/e-account-utils.h>
 
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -303,7 +304,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 static void
 proxy_soap_login (gchar *email)
 {
-	EAccountList *accounts = mail_config_get_accounts();
+	EAccountList *accounts = e_get_account_list ();
 	EAccount *srcAccount;
 	EAccount *dstAccount;
 	EGwConnection *proxy_cnc, *cnc;

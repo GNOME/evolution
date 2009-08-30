@@ -21,8 +21,10 @@ liborg_gnome_evolution_bbdb_la_SOURCES = bbdb.c bbdb.h gaimbuddies.c
 liborg_gnome_evolution_bbdb_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_evolution_bbdb_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(NO_UNDEFINED_REQUIRED_LIBS)
+	$(top_builddir)/composer/libcomposer.la	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml
 

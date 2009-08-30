@@ -1,0 +1,82 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <menu action='new-menu'/>
+      <menuitem action='new-window'/>
+      <separator/>
+      <menuitem action='send-receive'/>
+      <placeholder name='file-actions'/>
+      <separator/>
+      <menuitem action='import'/>
+      <separator/>
+      <menuitem action='page-setup'/>
+      <placeholder name='print-actions'/>
+      <separator/>
+      <placeholder name='long-running-actions'/>
+      <menuitem action='forget-passwords'/>
+      <menuitem action='work-online'/>
+      <menuitem action='work-offline'/>
+      <menuitem action='close'/>
+      <menuitem action='quit'/>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'/>
+      <separator/>
+      <menuitem action='sync-options'/>
+      <placeholder name='administrative-actions'/>
+      <menuitem action='preferences'/>
+    </menu>
+    <menu action='view-menu'>
+      <menu action='gal-view-menu'>
+        <placeholder name='gal-view-list'/>
+        <separator/>
+        <menuitem action='gal-custom-view'/>
+        <menuitem action='gal-save-custom-view'/>
+        <separator/>
+        <menuitem action='gal-define-views'/>
+      </menu>
+      <menu action='window-menu'/>
+      <menu action='layout-menu'>
+        <menuitem action='show-toolbar'/>
+        <menuitem action='show-statusbar'/>
+        <menuitem action='show-sidebar'/>
+      </menu>
+      <placeholder name='view-custom-menus'/>
+      <menu action='switcher-menu'>
+        <menuitem action='switcher-style-both'/>
+        <menuitem action='switcher-style-icons'/>
+        <menuitem action='switcher-style-text'/>
+        <menuitem action='switcher-style-user'/>
+        <separator/>
+        <menuitem action='show-switcher'/>
+      </menu>
+    </menu>
+    <placeholder name='custom-menus'/>
+    <menu action='search-menu'>
+      <menuitem action='search-execute'/>
+      <menuitem action='search-clear'/>
+      <menuitem action='search-advanced'/>
+      <separator/>
+      <menuitem action='search-save'/>
+      <menuitem action='search-edit'/>
+      <separator/>
+      <placeholder name='search-actions'/>
+      <separator/>
+      <placeholder name='custom-rules'/>
+    </menu>
+    <menu action='help-menu'>
+      <menuitem action='contents'/>
+      <menuitem action='quick-reference'/>
+      <separator/>
+      <menuitem action='faq'/>
+      <menuitem action='submit-bug'/>
+      <separator/>
+      <menuitem action='about'/>
+    </menu>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <toolitem action='send-receive'/>
+    <separator/>
+    <placeholder name='toolbar-actions'/>
+  </toolbar>
+</ui>

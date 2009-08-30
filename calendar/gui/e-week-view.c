@@ -39,7 +39,8 @@
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>
 #include <misc/e-gui-utils.h>
-#include <misc/e-unicode.h>
+#include <e-util/e-binding.h>
+#include <e-util/e-unicode.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util.h>
@@ -51,7 +52,6 @@
 #include "comp-util.h"
 #include "itip-utils.h"
 #include <libecal/e-cal-time-util.h>
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "print.h"
 #include "goto.h"
@@ -169,7 +169,6 @@ static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						EWeekView *week_view);
 static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
 static gint e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time);
-static void e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction);
 static void e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt, gboolean is_all_day);
 static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 						  GdkEvent *event,
@@ -195,39 +194,406 @@ static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
 G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
 
+enum {
+	PROP_0,
+	PROP_COMPRESS_WEEKEND,
+	PROP_SHOW_EVENT_END_TIMES
+};
+
+static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
+static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
+
+static void
+timezone_changed_cb (ECalendarView *cal_view,
+                     icaltimezone *old_zone,
+                     icaltimezone *new_zone,
+                     gpointer user_data)
+{
+	struct icaltimetype tt = icaltime_null_time ();
+	time_t lower;
+	EWeekView *week_view = (EWeekView *) cal_view;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (!cal_view->in_focus)
+		return;
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	/* Recalculate the new start of the first week. We just use exactly
+	   the same time, but with the new timezone. */
+	tt.year = g_date_get_year (&week_view->first_day_shown);
+	tt.month = g_date_get_month (&week_view->first_day_shown);
+	tt.day = g_date_get_day (&week_view->first_day_shown);
+
+	lower = icaltime_as_timet_with_zone (tt, new_zone);
+
+	e_week_view_recalc_day_starts (week_view, lower);
+	e_week_view_update_query (week_view);
+}
+
+static void
+week_view_notify_week_start_day_cb (EWeekView *week_view)
+{
+	GDate *first_day_shown;
+
+	first_day_shown = &week_view->first_day_shown;
+
+	e_week_view_recalc_display_start_day (week_view);
+
+	/* Recalculate the days shown and reload if necessary. */
+	if (g_date_valid (first_day_shown))
+		e_week_view_set_first_day_shown (week_view, first_day_shown);
+
+	gtk_widget_queue_draw (week_view->titles_canvas);
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+week_view_set_property (GObject *object,
+                        guint property_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_COMPRESS_WEEKEND:
+			e_week_view_set_compress_weekend (
+				E_WEEK_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_EVENT_END_TIMES:
+			e_week_view_set_show_event_end_times (
+				E_WEEK_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+week_view_get_property (GObject *object,
+                        guint property_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_COMPRESS_WEEKEND:
+			g_value_set_boolean (
+				value,
+				e_week_view_get_compress_weekend (
+				E_WEEK_VIEW (object)));
+			return;
+
+		case PROP_SHOW_EVENT_END_TIMES:
+			g_value_set_boolean (
+				value,
+				e_week_view_get_show_event_end_times (
+				E_WEEK_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+week_view_constructed (GObject *object)
+{
+	ECalModel *model;
+	EWeekView *week_view;
+	EShellSettings *shell_settings;
+
+	week_view = E_WEEK_VIEW (object);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	shell_settings = e_cal_model_get_shell_settings (model);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-compress-weekend",
+		G_OBJECT (week_view), "compress-weekend");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "cal-show-event-end-times",
+		G_OBJECT (week_view), "show-event-end-times");
+
+	g_signal_connect_swapped (
+		model, "notify::week-start-day",
+		G_CALLBACK (week_view_notify_week_start_day_cb), week_view);
+}
+
+static void
+week_view_cursor_key_up (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+
+	week_view->selection_start_day--;
+
+	if (week_view->selection_start_day < 0) {
+		e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
+		week_view->selection_start_day = 6;
+	}
+
+	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+week_view_cursor_key_down (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+
+	week_view->selection_start_day++;
+
+	if (week_view->selection_start_day > 6) {
+		e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
+		week_view->selection_start_day = 0;
+	}
+
+	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+week_view_cursor_key_left (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+
+	week_view->selection_start_day = map_left[week_view->selection_start_day];
+	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void
+week_view_cursor_key_right (EWeekView *week_view)
+{
+	if (week_view->selection_start_day == -1)
+		return;
+
+	week_view->selection_start_day = map_right[week_view->selection_start_day];
+	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
 static void
 e_week_view_class_init (EWeekViewClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	view_class = (ECalendarViewClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = week_view_set_property;
+	object_class->get_property = week_view_get_property;
+	object_class->constructed = week_view_constructed;
 
-	/* Method override */
-	object_class->destroy		= e_week_view_destroy;
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = e_week_view_destroy;
 
-	widget_class->realize		= e_week_view_realize;
-	widget_class->unrealize		= e_week_view_unrealize;
-	widget_class->style_set		= e_week_view_style_set;
-	widget_class->size_allocate	= e_week_view_size_allocate;
-	widget_class->focus_in_event	= e_week_view_focus_in;
-	widget_class->focus_out_event	= e_week_view_focus_out;
-	widget_class->key_press_event	= e_week_view_key_press;
-	widget_class->popup_menu        = e_week_view_popup_menu;
-	widget_class->expose_event	= e_week_view_expose_event;
-	widget_class->focus             = e_week_view_focus;
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = e_week_view_realize;
+	widget_class->unrealize = e_week_view_unrealize;
+	widget_class->style_set = e_week_view_style_set;
+	widget_class->size_allocate = e_week_view_size_allocate;
+	widget_class->focus_in_event = e_week_view_focus_in;
+	widget_class->focus_out_event = e_week_view_focus_out;
+	widget_class->key_press_event = e_week_view_key_press;
+	widget_class->popup_menu = e_week_view_popup_menu;
+	widget_class->expose_event = e_week_view_expose_event;
+	widget_class->focus = e_week_view_focus;
 
+	view_class = E_CALENDAR_VIEW_CLASS (class);
 	view_class->get_selected_events = e_week_view_get_selected_events;
 	view_class->get_selected_time_range = e_week_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
 	view_class->paste_text = e_week_view_paste_text;
 
+	class->cursor_key_up = week_view_cursor_key_up;
+	class->cursor_key_down = week_view_cursor_key_down;
+	class->cursor_key_left = week_view_cursor_key_left;
+	class->cursor_key_right = week_view_cursor_key_right;
+
+	/* XXX This property really belongs in EMonthView,
+	 *     but too much drawing code is tied to it. */
+	g_object_class_install_property (
+		object_class,
+		PROP_COMPRESS_WEEKEND,
+		g_param_spec_boolean (
+			"compress-weekend",
+			"Compress Weekend",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_EVENT_END_TIMES,
+		g_param_spec_boolean (
+			"show-event-end-times",
+			"Show Event End Times",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
+}
+
+static void
+e_week_view_init (EWeekView *week_view)
+{
+	GnomeCanvasGroup *canvas_group;
+	GtkObject *adjustment;
+	GdkPixbuf *pixbuf;
+	gint i;
+
+	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
+
+	week_view->query = NULL;
+	week_view->event_destroyed = FALSE;
+	week_view->events = g_array_new (FALSE, FALSE,
+					 sizeof (EWeekViewEvent));
+	week_view->events_sorted = TRUE;
+	week_view->events_need_layout = FALSE;
+	week_view->events_need_reshape = FALSE;
+
+	week_view->layout_timeout_id = 0;
+
+	week_view->spans = NULL;
+
+	week_view->multi_week_view = FALSE;
+	week_view->month_scroll_by_week = FALSE;
+	week_view->scroll_by_week_notif_id = 0;
+	week_view->update_base_date = TRUE;
+	week_view->weeks_shown = 6;
+	week_view->rows = 6;
+	week_view->columns = 2;
+	week_view->compress_weekend = TRUE;
+	week_view->show_event_end_times = TRUE;
+	week_view->display_start_day = 0;	/* Monday. */
+
+	g_date_clear (&week_view->base_date, 1);
+	g_date_clear (&week_view->first_day_shown, 1);
+
+	week_view->row_height = 10;
+	week_view->rows_per_cell = 1;
+
+	week_view->selection_start_day = -1;
+	week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
+
+	week_view->pressed_event_num = -1;
+	week_view->editing_event_num = -1;
+
+	week_view->last_edited_comp_string = NULL;
+
+	week_view->main_gc = NULL;
+
+	/* Create the small font. */
+	week_view->use_small_font = TRUE;
+
+	week_view->small_font_desc =
+		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc);
+	pango_font_description_set_size (week_view->small_font_desc,
+					 E_WEEK_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
+
+	/* String to use in 12-hour time format for times in the morning. */
+	week_view->am_string = _("am");
+
+	/* String to use in 12-hour time format for times in the afternoon. */
+	week_view->pm_string = _("pm");
+
+	week_view->bc_event_time = 0;
+	week_view->before_click_dtstart = 0;
+	week_view->before_click_dtend = 0;
+
+	/*
+	 * Titles Canvas. Note that we don't show it is only shown in the
+	 * Month view.
+	 */
+	week_view->titles_canvas = e_canvas_new ();
+	gtk_table_attach (GTK_TABLE (week_view), week_view->titles_canvas,
+			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
+
+	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->titles_canvas)->root);
+
+	week_view->titles_canvas_item =
+		gnome_canvas_item_new (canvas_group,
+				       e_week_view_titles_item_get_type (),
+				       "EWeekViewTitlesItem::week_view", week_view,
+				       NULL);
+
+	/*
+	 * Main Canvas
+	 */
+	week_view->main_canvas = e_canvas_new ();
+	gtk_table_attach (GTK_TABLE (week_view), week_view->main_canvas,
+			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 1);
+	gtk_widget_show (week_view->main_canvas);
+
+	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root);
+
+	week_view->main_canvas_item =
+		gnome_canvas_item_new (canvas_group,
+				       e_week_view_main_item_get_type (),
+				       "EWeekViewMainItem::week_view", week_view,
+				       NULL);
+
+	g_signal_connect_after (week_view->main_canvas, "button_press_event",
+				G_CALLBACK (e_week_view_on_button_press), week_view);
+	g_signal_connect (week_view->main_canvas, "button_release_event",
+			  G_CALLBACK (e_week_view_on_button_release), week_view);
+	g_signal_connect (week_view->main_canvas, "scroll_event",
+			  G_CALLBACK (e_week_view_on_scroll), week_view);
+	g_signal_connect (week_view->main_canvas, "motion_notify_event",
+			  G_CALLBACK (e_week_view_on_motion), week_view);
+
+	/* Create the buttons to jump to each days. */
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
+
+	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
+		week_view->jump_buttons[i] = gnome_canvas_item_new
+			(canvas_group,
+			 gnome_canvas_pixbuf_get_type (),
+			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
+			 NULL);
+
+		g_signal_connect (week_view->jump_buttons[i], "event",
+				  G_CALLBACK (e_week_view_on_jump_button_event), week_view);
+	}
+	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
+
+	g_object_unref (pixbuf);
+
+	/*
+	 * Scrollbar.
+	 */
+	adjustment = gtk_adjustment_new (0, -52, 52, 1, 1, 1);
+
+	week_view->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (adjustment));
+	gtk_table_attach (GTK_TABLE (week_view), week_view->vscrollbar,
+			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_widget_show (week_view->vscrollbar);
+
+	/* Create the cursors. */
+	week_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
+	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+	week_view->last_cursor_set = NULL;
+
+		/* connect to ECalendarView's signals */
+	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
+			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
 static void
@@ -451,183 +817,6 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 }
 
 static void
-timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
-		     icaltimezone *new_zone, gpointer user_data)
-{
-	struct icaltimetype tt = icaltime_null_time ();
-	time_t lower;
-	EWeekView *week_view = (EWeekView *) cal_view;
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (!cal_view->in_focus)
-		return;
-
-	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return;
-
-	/* Recalculate the new start of the first week. We just use exactly
-	   the same time, but with the new timezone. */
-	tt.year = g_date_get_year (&week_view->first_day_shown);
-	tt.month = g_date_get_month (&week_view->first_day_shown);
-	tt.day = g_date_get_day (&week_view->first_day_shown);
-
-	lower = icaltime_as_timet_with_zone (tt, new_zone);
-
-	e_week_view_recalc_day_starts (week_view, lower);
-	e_week_view_update_query (week_view);
-}
-
-static void
-e_week_view_init (EWeekView *week_view)
-{
-	GnomeCanvasGroup *canvas_group;
-	GtkObject *adjustment;
-	GdkPixbuf *pixbuf;
-	gint i;
-
-	GTK_WIDGET_SET_FLAGS (week_view, GTK_CAN_FOCUS);
-
-	week_view->query = NULL;
-	week_view->event_destroyed = FALSE;
-	week_view->events = g_array_new (FALSE, FALSE,
-					 sizeof (EWeekViewEvent));
-	week_view->events_sorted = TRUE;
-	week_view->events_need_layout = FALSE;
-	week_view->events_need_reshape = FALSE;
-
-	week_view->layout_timeout_id = 0;
-
-	week_view->spans = NULL;
-
-	week_view->multi_week_view = FALSE;
-	week_view->month_scroll_by_week = FALSE;
-	week_view->scroll_by_week_notif_id = 0;
-	week_view->update_base_date = TRUE;
-	week_view->weeks_shown = 6;
-	week_view->rows = 6;
-	week_view->columns = 2;
-	week_view->compress_weekend = TRUE;
-	week_view->show_event_end_times = TRUE;
-	week_view->week_start_day = 0;		/* Monday. */
-	week_view->display_start_day = 0;	/* Monday. */
-
-	g_date_clear (&week_view->base_date, 1);
-	g_date_clear (&week_view->first_day_shown, 1);
-
-	week_view->row_height = 10;
-	week_view->rows_per_cell = 1;
-
-	week_view->selection_start_day = -1;
-	week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
-
-	week_view->pressed_event_num = -1;
-	week_view->editing_event_num = -1;
-
-	week_view->last_edited_comp_string = NULL;
-
-	week_view->main_gc = NULL;
-
-	/* Create the small font. */
-	week_view->use_small_font = TRUE;
-
-	week_view->small_font_desc =
-		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc);
-	pango_font_description_set_size (week_view->small_font_desc,
-					 E_WEEK_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
-
-	/* String to use in 12-hour time format for times in the morning. */
-	week_view->am_string = _("am");
-
-	/* String to use in 12-hour time format for times in the afternoon. */
-	week_view->pm_string = _("pm");
-
-	week_view->bc_event_time = 0;
-	week_view->before_click_dtstart = 0;
-	week_view->before_click_dtend = 0;
-
-	/*
-	 * Titles Canvas. Note that we don't show it is only shown in the
-	 * Month view.
-	 */
-	week_view->titles_canvas = e_canvas_new ();
-	gtk_table_attach (GTK_TABLE (week_view), week_view->titles_canvas,
-			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
-
-	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->titles_canvas)->root);
-
-	week_view->titles_canvas_item =
-		gnome_canvas_item_new (canvas_group,
-				       e_week_view_titles_item_get_type (),
-				       "EWeekViewTitlesItem::week_view", week_view,
-				       NULL);
-
-	/*
-	 * Main Canvas
-	 */
-	week_view->main_canvas = e_canvas_new ();
-	gtk_table_attach (GTK_TABLE (week_view), week_view->main_canvas,
-			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 1);
-	gtk_widget_show (week_view->main_canvas);
-
-	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root);
-
-	week_view->main_canvas_item =
-		gnome_canvas_item_new (canvas_group,
-				       e_week_view_main_item_get_type (),
-				       "EWeekViewMainItem::week_view", week_view,
-				       NULL);
-
-	g_signal_connect_after (week_view->main_canvas, "button_press_event",
-				G_CALLBACK (e_week_view_on_button_press), week_view);
-	g_signal_connect (week_view->main_canvas, "button_release_event",
-			  G_CALLBACK (e_week_view_on_button_release), week_view);
-	g_signal_connect (week_view->main_canvas, "scroll_event",
-			  G_CALLBACK (e_week_view_on_scroll), week_view);
-	g_signal_connect (week_view->main_canvas, "motion_notify_event",
-			  G_CALLBACK (e_week_view_on_motion), week_view);
-
-	/* Create the buttons to jump to each days. */
-	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
-
-	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
-		week_view->jump_buttons[i] = gnome_canvas_item_new
-			(canvas_group,
-			 gnome_canvas_pixbuf_get_type (),
-			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
-			 NULL);
-
-		g_signal_connect (week_view->jump_buttons[i], "event",
-				  G_CALLBACK (e_week_view_on_jump_button_event), week_view);
-	}
-	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
-
-	g_object_unref (pixbuf);
-
-	/*
-	 * Scrollbar.
-	 */
-	adjustment = gtk_adjustment_new (0, -52, 52, 1, 1, 1);
-
-	week_view->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (adjustment));
-	gtk_table_attach (GTK_TABLE (week_view), week_view->vscrollbar,
-			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show (week_view->vscrollbar);
-
-	/* Create the cursors. */
-	week_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
-	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
-	week_view->last_cursor_set = NULL;
-
-		/* connect to ECalendarView's signals */
-	g_signal_connect (G_OBJECT (week_view), "timezone_changed",
-			  G_CALLBACK (timezone_changed_cb), NULL);
-}
-
-static void
 init_model (EWeekView *week_view, ECalModel *model)
 {
 	/* connect to ECalModel's signals */
@@ -650,14 +839,15 @@ init_model (EWeekView *week_view, ECalModel *model)
  *
  * Creates a new #EWeekView.
  **/
-GtkWidget *
+ECalendarView *
 e_week_view_new (ECalModel *model)
 {
-	GtkWidget *week_view;
+	ECalendarView *week_view;
 
-	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), NULL));
-	e_calendar_view_set_model ((ECalendarView *) week_view, model);
-	init_model ((EWeekView *) week_view, model);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	week_view = g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
+	init_model (E_WEEK_VIEW (week_view), model);
 
 	return week_view;
 }
@@ -1796,7 +1986,7 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 }
 
 gboolean
-e_week_view_get_compress_weekend	(EWeekView	*week_view)
+e_week_view_get_compress_weekend (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
@@ -1804,17 +1994,17 @@ e_week_view_get_compress_weekend	(EWeekView	*week_view)
 }
 
 void
-e_week_view_set_compress_weekend	(EWeekView	*week_view,
-					 gboolean	 compress)
+e_week_view_set_compress_weekend (EWeekView *week_view,
+                                  gboolean compress_weekend)
 {
 	gboolean need_reload = FALSE;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->compress_weekend == compress)
+	if (week_view->compress_weekend == compress_weekend)
 		return;
 
-	week_view->compress_weekend = compress;
+	week_view->compress_weekend = compress_weekend;
 
 	/* The option only affects the month view. */
 	if (!week_view->multi_week_view)
@@ -1838,11 +2028,13 @@ e_week_view_set_compress_weekend	(EWeekView	*week_view,
 
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
+
+	g_object_notify (G_OBJECT (week_view), "compress-weekend");
 }
 
 /* Whether we display event end times. */
 gboolean
-e_week_view_get_show_event_end_times	(EWeekView	*week_view)
+e_week_view_get_show_event_end_times (EWeekView *week_view)
 {
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), TRUE);
 
@@ -1850,61 +2042,36 @@ e_week_view_get_show_event_end_times	(EWeekView	*week_view)
 }
 
 void
-e_week_view_set_show_event_end_times	(EWeekView	*week_view,
-					 gboolean	 show)
+e_week_view_set_show_event_end_times (EWeekView *week_view,
+                                      gboolean show_event_end_times)
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->show_event_end_times != show) {
-		week_view->show_event_end_times = show;
-		e_week_view_recalc_cell_sizes (week_view);
-		week_view->events_need_reshape = TRUE;
-		e_week_view_check_layout (week_view);
-	}
-}
-
-/* The first day of the week, 0 (Monday) to 6 (Sunday). */
-gint
-e_week_view_get_week_start_day	(EWeekView	*week_view)
-{
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), 0);
-
-	return week_view->week_start_day;
-}
-
-void
-e_week_view_set_week_start_day	(EWeekView	*week_view,
-				 gint		 week_start_day)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-	g_return_if_fail (week_start_day >= 0);
-	g_return_if_fail (week_start_day < 7);
-
-	if (week_view->week_start_day == week_start_day)
+	if (week_view->show_event_end_times != show_event_end_times)
 		return;
 
-	week_view->week_start_day = week_start_day;
+	week_view->show_event_end_times = show_event_end_times;
+	e_week_view_recalc_cell_sizes (week_view);
+	week_view->events_need_reshape = TRUE;
+	e_week_view_check_layout (week_view);
 
-	e_week_view_recalc_display_start_day (week_view);
-
-	/* Recalculate the days shown and reload if necessary. */
-	if (g_date_valid (&week_view->first_day_shown))
-		e_week_view_set_first_day_shown (week_view,
-						 &week_view->first_day_shown);
-
-	gtk_widget_queue_draw (week_view->titles_canvas);
-	gtk_widget_queue_draw (week_view->main_canvas);
+	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
 }
 
 static gboolean
 e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 {
+	ECalModel *model;
+	gint week_start_day;
 	gint display_start_day;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	week_start_day = e_cal_model_get_week_start_day (model);
 
 	/* The display start day defaults to week_start_day, but we have
 	   to use Saturday if the weekend is compressed and week_start_day
 	   is Sunday. */
-	display_start_day = week_view->week_start_day;
+	display_start_day = week_start_day;
 
 	if (display_start_day == 6
 	    && (!week_view->multi_week_view || week_view->compress_weekend))
@@ -1940,6 +2107,9 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 			break;
 		}
 	}
+	e_cal_component_free_attendee_list (attendees);
+	g_free (address);
+	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	   If the attendee is not present, it might have come through a mailing list.
@@ -3426,7 +3596,7 @@ e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time)
 		return (event_time - first_day) / (24 * 60 * 60);
 }
 
-static void
+void
 e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction)
 {
 	GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
@@ -3627,7 +3797,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
 			else
-				gnome_calendar_emit_user_created_signal (week_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)), client);
+				e_calendar_view_emit_user_created (
+					E_CALENDAR_VIEW (week_view));
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
@@ -3817,227 +3988,48 @@ e_week_view_is_one_day_event	(EWeekView	*week_view,
 	return FALSE;
 }
 
-static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
-static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
-
 static void
-e_week_view_do_cursor_key_up (EWeekView *week_view)
+e_week_view_cursor_key_up (EWeekView *week_view)
 {
-	if (week_view->selection_start_day == -1)
-		return;
+	EWeekViewClass *week_view_class;
 
-	week_view->selection_start_day--;
+	week_view_class = E_WEEK_VIEW_GET_CLASS (week_view);
+	g_return_if_fail (week_view_class->cursor_key_up != NULL);
 
-	if (week_view->selection_start_day < 0) {
-		e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
-		week_view->selection_start_day = 6;
-	}
-
-	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
+	week_view_class->cursor_key_up (week_view);
 }
 
 static void
-e_week_view_do_cursor_key_down (EWeekView *week_view)
+e_week_view_cursor_key_down (EWeekView *week_view)
 {
-	if (week_view->selection_start_day == -1)
-		return;
+	EWeekViewClass *week_view_class;
 
-	week_view->selection_start_day++;
+	week_view_class = E_WEEK_VIEW_GET_CLASS (week_view);
+	g_return_if_fail (week_view_class->cursor_key_down != NULL);
 
-	if (week_view->selection_start_day > 6) {
-		e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
-		week_view->selection_start_day = 0;
-	}
-
-	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
+	week_view_class->cursor_key_down (week_view);
 }
 
 static void
-e_week_view_do_cursor_key_left (EWeekView *week_view)
+e_week_view_cursor_key_left (EWeekView *week_view)
 {
-	if (week_view->selection_start_day == -1)
-		return;
+	EWeekViewClass *week_view_class;
 
-	week_view->selection_start_day = map_left[week_view->selection_start_day];
-	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
+	week_view_class = E_WEEK_VIEW_GET_CLASS (week_view);
+	g_return_if_fail (week_view_class->cursor_key_left != NULL);
+
+	week_view_class->cursor_key_left (week_view);
 }
 
 static void
-e_week_view_do_cursor_key_right (EWeekView *week_view)
+e_week_view_cursor_key_right (EWeekView *week_view)
 {
-	if (week_view->selection_start_day == -1)
-		return;
+	EWeekViewClass *week_view_class;
 
-	week_view->selection_start_day = map_right[week_view->selection_start_day];
-	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
+	week_view_class = E_WEEK_VIEW_GET_CLASS (week_view);
+	g_return_if_fail (week_view_class->cursor_key_right != NULL);
 
-static void
-e_month_view_do_cursor_key_up (EWeekView *week_view)
-{
-	if (week_view->selection_start_day == -1)
-		return;
-
-	if (week_view->selection_start_day < 7) {
-		/* no easy way to calculate new selection_start_day, therefore
-		 * calculate a time_t value and set_selected_time_range */
-		time_t current;
-		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
-			current = time_add_week(current,-1);
-			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_UP);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);
-		}
-	} else {
-		week_view->selection_start_day -= 7;
-		week_view->selection_end_day = week_view->selection_start_day;
-	}
-
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-static void
-e_month_view_do_cursor_key_down (EWeekView *week_view)
-{
-	gint weeks_shown = e_week_view_get_weeks_shown (week_view);
-
-	if (week_view->selection_start_day == -1)
-		return;
-
-	if (week_view->selection_start_day >= (weeks_shown - 1) * 7) {
-		/* no easy way to calculate new selection_start_day, therefore
-		 * calculate a time_t value and set_selected_time_range */
-		time_t current;
-		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
-			current = time_add_week(current,1);
-			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);
-		}
-	} else {
-		week_view->selection_start_day += 7;
-		week_view->selection_end_day = week_view->selection_start_day;
-	}
-
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-static void
-e_month_view_do_cursor_key_left (EWeekView *week_view)
-{
-	if (week_view->selection_start_day == -1)
-		return;
-
-	if (week_view->selection_start_day == 0) {
-		/* no easy way to calculate new selection_start_day, therefore
-		 * calculate a time_t value and set_selected_time_range */
-		time_t current;
-		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
-			current = time_add_day(current,-1);
-			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_UP);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);
-		}
-	} else {
-		week_view->selection_start_day--;
-		week_view->selection_end_day = week_view->selection_start_day;
-	}
-
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-static void
-e_month_view_do_cursor_key_right (EWeekView *week_view)
-{
-	gint weeks_shown = e_week_view_get_weeks_shown (week_view);
-
-	if (week_view->selection_start_day == -1)
-		return;
-
-	if (week_view->selection_start_day == weeks_shown * 7 - 1) {
-		/* no easy way to calculate new selection_start_day, therefore
-		 * calculate a time_t value and set_selected_time_range */
-		time_t current;
-		if (e_calendar_view_get_selected_time_range(&week_view->cal_view, &current, NULL)) {
-			current = time_add_day(current,1);
-			e_week_view_scroll_a_step(week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
-			e_week_view_set_selected_time_range_visible(week_view,current,current);
-		}
-	} else {
-		week_view->selection_start_day++;
-		week_view->selection_end_day = week_view->selection_start_day;
-	}
-
-	g_signal_emit_by_name (week_view, "selected_time_changed");
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-static void
-e_week_view_cursor_key_up (EWeekView *week_view, GnomeCalendarViewType view_type)
-{
-	switch (view_type) {
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_do_cursor_key_up (week_view);
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-		e_month_view_do_cursor_key_up (week_view);
-		break;
-	default:
-		g_return_if_reached ();
-	}
-}
-
-static void
-e_week_view_cursor_key_down (EWeekView *week_view, GnomeCalendarViewType view_type)
-{
-	switch (view_type) {
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_do_cursor_key_down (week_view);
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-		e_month_view_do_cursor_key_down (week_view);
-		break;
-	default:
-		g_return_if_reached ();
-	}
-}
-
-static void
-e_week_view_cursor_key_left (EWeekView *week_view, GnomeCalendarViewType view_type)
-{
-	switch (view_type) {
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_do_cursor_key_left (week_view);
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-		e_month_view_do_cursor_key_left (week_view);
-		break;
-	default:
-		g_return_if_reached ();
-	}
-}
-
-static void
-e_week_view_cursor_key_right (EWeekView *week_view, GnomeCalendarViewType view_type)
-{
-	switch (view_type) {
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_do_cursor_key_right (week_view);
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-		e_month_view_do_cursor_key_right (week_view);
-		break;
-	default:
-		g_return_if_reached ();
-	}
+	week_view_class->cursor_key_right (week_view);
 }
 
 static gboolean
@@ -4138,7 +4130,6 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	guint keyval;
 	gboolean stop_emission;
 	gboolean ret_val;
-	GnomeCalendarViewType view_type;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
@@ -4158,7 +4149,6 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 #endif
 
 	/* Handle the cursor keys for moving the selection */
-	view_type = gnome_calendar_get_view (e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)));
 	stop_emission = FALSE;
 	if (!(event->state & GDK_SHIFT_MASK)
 		&& !(event->state & GDK_MOD1_MASK)) {
@@ -4177,16 +4167,16 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
 			break;
 		case GDK_Up:
-			e_week_view_cursor_key_up (week_view, view_type);
+			e_week_view_cursor_key_up (week_view);
 			break;
 		case GDK_Down:
-			e_week_view_cursor_key_down (week_view, view_type);
+			e_week_view_cursor_key_down (week_view);
 			break;
 		case GDK_Left:
-			e_week_view_cursor_key_left (week_view, view_type);
+			e_week_view_cursor_key_left (week_view);
 			break;
 		case GDK_Right:
-			e_week_view_cursor_key_right (week_view, view_type);
+			e_week_view_cursor_key_right (week_view);
 			break;
 		default:
 			stop_emission = FALSE;
@@ -4275,26 +4265,14 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	return handled;
 }
 
-static void
-popup_destroyed_cb (gpointer data, GObject *where_object_was)
-{
-	EWeekView *week_view = data;
-
-	week_view->popup_event_num = -1;
-}
-
 void
 e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     GdkEventButton  *bevent,
 			     gint	      event_num)
 {
-	GtkMenu *popup;
-
 	week_view->popup_event_num = event_num;
 
-	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (week_view));
-	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, week_view);
-	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, bevent?bevent->button:0, bevent?bevent->time:gtk_get_current_event_time());
+	e_calendar_view_popup_event (E_CALENDAR_VIEW (week_view), bevent);
 }
 
 static gboolean
@@ -4391,10 +4369,14 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
+	ECalModel *model;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
 	/* Calculate the actual hour number to display. For 12-hour
 	   format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
-	if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view))) {
+	if (e_cal_model_get_use_24_hour_format (model)) {
 		*suffix = "";
 		*suffix_width = 0;
 	} else {
@@ -4416,7 +4398,10 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 gint
 e_week_view_get_time_string_width	(EWeekView	*week_view)
 {
+	ECalModel *model;
 	gint time_width;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	if (week_view->use_small_font && week_view->small_font_desc)
 		time_width = week_view->digit_width * 2
@@ -4425,7 +4410,7 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 		time_width = week_view->digit_width * 4
 			+ week_view->colon_width;
 
-	if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view)))
+	if (!e_cal_model_get_use_24_hour_format (model))
 		time_width += MAX (week_view->am_string_width,
 				   week_view->pm_string_width);
 

@@ -39,7 +39,6 @@
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
-#include "e-util/e-popup.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-util-private.h"
@@ -53,7 +52,6 @@
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
-#include "../e-cal-popup.h"
 
 #define TASK_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -466,12 +464,14 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	CompEditor *editor;
 	CompEditorFlags flags;
+	GtkAction *action;
 	ECal *client;
 	GSList *l;
 	icalcomponent *icalcomp;
 	const gchar *categories, *uid;
 	icaltimezone *zone, *default_zone;
 	gchar *backend_addr = NULL;
+	gboolean active;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -554,7 +554,10 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
 				       zone ? zone : default_zone);
-	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
+
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_timezone (tpage, active);
 
 	if (!(flags & COMP_EDITOR_NEW_ITEM) && !zone) {
 		GtkAction *action;
@@ -1140,15 +1143,10 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 }
 
 static void
-invite_cb (GtkWidget *widget, gpointer data)
+invite_cb (GtkWidget *widget,
+           TaskPage *page)
 {
-	TaskPage *page;
-	TaskPagePrivate *priv;
-
-	page = TASK_PAGE (data);
-	priv = page->priv;
-
-	e_meeting_list_view_invite_others_dialog (priv->list_view);
+	e_meeting_list_view_invite_others_dialog (page->priv->list_view);
 }
 
 static void
@@ -1189,102 +1187,6 @@ attendee_added_cb (EMeetingListView *emlv,
 			gtk_widget_set_sensitive (priv->edit, FALSE);
 		}
 	}
-}
-
-/* Callbacks for list view*/
-static void
-popup_add_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	TaskPage *page = data;
-
-	add_clicked_cb (NULL, page);
-}
-
-static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	TaskPage *page = data;
-
-	remove_clicked_cb (NULL, page);
-}
-
-enum {
-	ATTENDEE_CAN_DELEGATE = 1<<1,
-	ATTENDEE_CAN_DELETE = 1<<2,
-	ATTENDEE_CAN_ADD = 1<<3,
-	ATTENDEE_LAST = 1<<4
-};
-
-static EPopupItem context_menu_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "10.delete", (gchar *) N_("_Remove"), popup_delete_cb, NULL, (gchar *) GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, (gchar *) "15.add", (gchar *) N_("_Add "), popup_add_cb, NULL, (gchar *) GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
-};
-
-static void
-context_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-}
-
-static gint
-button_press_event (GtkWidget *widget, GdkEventButton *event, TaskPage *page)
-{
-	TaskPagePrivate *priv = page->priv;
-	CompEditor *editor;
-	CompEditorFlags flags;
-	GtkMenu *menu;
-	EMeetingAttendee *ia;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gchar *address;
-	guint32 disable_mask = ~0;
-	GSList *menus = NULL;
-	ECalPopup *ep;
-	gint i;
-
-	/* only process right-clicks */
-	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
-		return FALSE;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
-	flags = comp_editor_get_flags (editor);
-
-	/* only if we right-click on an attendee */
-	if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (priv->list_view), event->x, event->y, &path, NULL, NULL, NULL)) {
-		GtkTreeSelection *selection;
-
-		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path)) {
-
-			gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-			ia = e_meeting_store_find_attendee (priv->model, address, &priv->row);
-			g_free (address);
-
-			if (ia) {
-				selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->list_view);
-				gtk_tree_selection_unselect_all (selection);
-				gtk_tree_selection_select_path (selection, path);
-
-				if (e_meeting_attendee_get_edit_level (ia) == E_MEETING_ATTENDEE_EDIT_FULL)
-					disable_mask &= ~ATTENDEE_CAN_DELETE;
-			}
-		}
-	}
-
-	if (GTK_WIDGET_IS_SENSITIVE(priv->add))
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-	else if (flags & COMP_EDITOR_USER_ORG)
-		disable_mask &= ~ATTENDEE_CAN_ADD;
-
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.task.popup");
-
-	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
-		menus = g_slist_prepend(menus, &context_menu_items[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, page);
-	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
-
-	return TRUE;
 }
 
 static gboolean
@@ -1510,17 +1412,16 @@ summary_changed_cb (GtkEditable *editable,
  * other pages in the task editor, so they can update any labels.
  */
 static void
-date_changed_cb (EDateEdit *dedit, gpointer data)
+date_changed_cb (EDateEdit *dedit,
+                 TaskPage *tpage)
 {
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
+	TaskPagePrivate *priv = tpage->priv;
 	CompEditorPageDates dates;
 	gboolean date_set, time_set;
 	ECalComponentDateTime start_dt, due_dt;
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype due_tt = icaltime_null_time();
 
-	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
@@ -1579,33 +1480,24 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 }
 
 static void
-timezone_changed_cb (EDateEdit *dedit, gpointer data)
+timezone_changed_cb (EDateEdit *dedit,
+                     TaskPage *tpage)
 {
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
-
-	date_changed_cb ((EDateEdit *) priv->start_date, tpage);
-	date_changed_cb ((EDateEdit *) priv->due_date, tpage);
+	date_changed_cb ((EDateEdit *) tpage->priv->start_date, tpage);
+	date_changed_cb ((EDateEdit *) tpage->priv->due_date, tpage);
 }
 
 /* Callback used when the categories button is clicked; we must bring up the
  * category list dialog.
  */
 static void
-categories_clicked_cb (GtkWidget *button, gpointer data)
+categories_clicked_cb (GtkWidget *button,
+                       TaskPage *tpage)
 {
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-	GtkWidget *entry;
+	GtkEntry *entry;
 
-	tpage = TASK_PAGE (data);
-	priv = tpage->priv;
-
-	entry = priv->categories;
-	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
+	entry = GTK_ENTRY (tpage->priv->categories);
+	e_categories_config_open_dialog_for_entry (entry);
 }
 
 static gboolean
@@ -1865,11 +1757,16 @@ task_page_sendoptions_clicked_cb (TaskPage *tpage)
 static gboolean
 init_widgets (TaskPage *tpage)
 {
+	CompEditor *editor;
 	TaskPagePrivate *priv;
+	GtkAction *action;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
+	gboolean active;
 
 	priv = tpage->priv;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
@@ -1938,9 +1835,6 @@ init_widgets (TaskPage *tpage)
 		G_CALLBACK (comp_editor_page_changed), tpage);
 
 	g_signal_connect (
-		priv->list_view, "button_press_event",
-		G_CALLBACK (button_press_event), tpage);
-	g_signal_connect (
 		priv->list_view, "event",
 		G_CALLBACK (list_view_event), tpage);
 	g_signal_connect (
@@ -1966,15 +1860,36 @@ init_widgets (TaskPage *tpage)
 	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->timezone), zone);
 
-	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_timezone (tpage, active);
 
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, calendar_config_get_show_role ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, calendar_config_get_show_rsvp ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, calendar_config_get_show_status ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, calendar_config_get_show_type ());
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
 
-	task_page_set_show_categories (tpage, calendar_config_get_show_categories());
+	action = comp_editor_get_action (editor, "view-role");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ROLE_COL, active);
+
+	action = comp_editor_get_action (editor, "view-rsvp");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_RSVP_COL, active);
+
+	action = comp_editor_get_action (editor, "view-status");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_STATUS_COL, active);
+
+	action = comp_editor_get_action (editor, "view-type");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_TYPE_COL, active);
+
+	action = comp_editor_get_action (editor, "view-categories");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_categories (tpage, active);
 
 	return TRUE;
 }
@@ -2159,9 +2074,14 @@ GtkWidget *task_page_create_date_edit (void);
 GtkWidget *
 task_page_create_date_edit (void)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GtkWidget *dedit;
 
-	dedit = comp_editor_new_date_edit (TRUE, TRUE, TRUE);
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	dedit = comp_editor_new_date_edit (shell_settings, TRUE, TRUE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;

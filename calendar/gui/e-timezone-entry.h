@@ -29,50 +29,61 @@
  * timezone.
  */
 
-#ifndef __E_TIMEZONE_ENTRY_H_
-#define __E_TIMEZONE_ENTRY_H_
+#ifndef E_TIMEZONE_ENTRY_H
+#define E_TIMEZONE_ENTRY_H
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TIMEZONE_ENTRY \
+	(e_timezone_entry_get_type ())
+#define E_TIMEZONE_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntry))
+#define E_TIMEZONE_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryClass))
+#define E_IS_TIMEZONE_ENTRY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TIMEZONE_ENTRY))
+#define E_IS_TIMEZONE_ENTRY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TIMEZONE_ENTRY))
+#define E_IS_TIMEZONE_ENTRY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_TIMEZONE_ENTRY            (e_timezone_entry_get_type ())
-#define E_TIMEZONE_ENTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntry))
-#define E_TIMEZONE_ENTRY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryClass))
-#define E_IS_TIMEZONE_ENTRY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TIMEZONE_ENTRY))
-#define E_IS_TIMEZONE_ENTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TIMEZONE_ENTRY))
-
-typedef struct _ETimezoneEntry        ETimezoneEntry;
+typedef struct _ETimezoneEntry ETimezoneEntry;
+typedef struct _ETimezoneEntryClass ETimezoneEntryClass;
 typedef struct _ETimezoneEntryPrivate ETimezoneEntryPrivate;
-typedef struct _ETimezoneEntryClass   ETimezoneEntryClass;
 
 struct _ETimezoneEntry {
-	GtkHBox hbox;
-
-	/*< private >*/
+	GtkHBox parent;
 	ETimezoneEntryPrivate *priv;
 };
 
 struct _ETimezoneEntryClass {
 	GtkHBoxClass parent_class;
 
-	void (* changed)      (ETimezoneEntry    *tentry);
+	void		(*changed)		(ETimezoneEntry *timezone_entry);
 };
 
-GType      e_timezone_entry_get_type		(void);
-GtkWidget* e_timezone_entry_new			(void);
+GType		e_timezone_entry_get_type	(void);
+GtkWidget *	e_timezone_entry_new		(void);
+icaltimezone *	e_timezone_entry_get_timezone	(ETimezoneEntry *timezone_entry);
+void		e_timezone_entry_set_timezone	(ETimezoneEntry *timezone_entry,
+						 icaltimezone *timezone);
 
-icaltimezone*   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);
-void		e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
-						 icaltimezone	*zone);
-
-/* Sets the default timezone. If the current timezone matches this, then the
-   entry field is hidden. This is useful since most people do not use timezones
-   so it makes the user interface simpler. */
-void	   e_timezone_entry_set_default_timezone(ETimezoneEntry	*tentry,
-						 icaltimezone	*zone);
+/* Sets the default timezone. If the current timezone matches this,
+ * then the entry field is hidden. This is useful since most people
+ * do not use timezones so it makes the user interface simpler. */
+void		e_timezone_entry_set_default_timezone
+						(ETimezoneEntry *timezone_entry,
+						 icaltimezone *timezone);
 
 G_END_DECLS
 
-#endif /* __E_TIMEZONE_ENTRY_H_ */
+#endif /* E_TIMEZONE_ENTRY_H */

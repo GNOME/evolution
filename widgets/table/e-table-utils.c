@@ -27,7 +27,7 @@
 #include <string.h>
 
 #include "e-util/e-util.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "e-table-utils.h"
 #include "e-table-header-utils.h"

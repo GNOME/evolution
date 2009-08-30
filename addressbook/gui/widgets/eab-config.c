@@ -27,7 +27,6 @@
 #include "eab-config.h"
 
 static GObjectClass *ecp_parent_class;
-static GObjectClass *ecph_parent_class;
 
 struct _EABConfigPrivate {
 	guint source_changed_id;
@@ -142,49 +141,4 @@ eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
 	g_object_ref (source);
 
 	return t;
-}
-
-static const EConfigHookTargetMask ecph_no_masks[] = {
-	{ NULL }
-};
-
-static const EConfigHookTargetMap ecph_targets[] = {
-	{ "source", EAB_CONFIG_TARGET_SOURCE, ecph_no_masks },
-	{ NULL },
-};
-
-static void
-ecph_class_init (EPluginHookClass *klass)
-{
-	gint i;
-
-	klass->id = "org.gnome.evolution.addressbook.config:1.0";
-
-	for (i = 0; ecph_targets[i].type; i++) {
-		e_config_hook_class_add_target_map ((EConfigHookClass *)klass, &ecph_targets[i]);
-	}
-
-	((EConfigHookClass *)klass)->config_class = g_type_class_ref (eab_config_get_type ());
-}
-
-GType
-eab_config_hook_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EABConfigHookClass),
-			NULL, NULL,
-			(GClassInitFunc) ecph_class_init,
-			NULL, NULL,
-			sizeof (EABConfigHook), 0,
-			(GInstanceInitFunc) NULL
-		};
-
-		ecph_parent_class = g_type_class_ref (e_config_hook_get_type ());
-		type = g_type_register_static (e_config_hook_get_type (), "EABConfigHook", &info, 0);
-	}
-
-	return type;
 }

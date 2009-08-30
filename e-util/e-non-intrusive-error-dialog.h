@@ -37,7 +37,7 @@ struct _log_data {
         GdkPixbuf *pbuf;
 } ldata [] = {
         { E_LOG_ERROR, N_("Error"), N_("Errors"), GTK_STOCK_DIALOG_ERROR },
-        { E_LOG_WARNINGS, N_("Warning"), N_("Warnings and Errors"), GTK_STOCK_DIALOG_WARNING },
+        { E_LOG_WARNING, N_("Warning"), N_("Warnings and Errors"), GTK_STOCK_DIALOG_WARNING },
         { E_LOG_DEBUG, N_("Debug"), N_("Error, Warnings and Debug messages"), GTK_STOCK_DIALOG_INFO }
 };
 

@@ -30,22 +30,36 @@
 #include "e-calendar-view.h"
 #include "gnome-cal.h"
 
-G_BEGIN_DECLS
-
 /*
  * ECalListView - displays calendar events in an ETable.
  */
 
-#define E_CAL_LIST_VIEW(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_cal_list_view_get_type (), ECalListView)
-#define E_CAL_LIST_VIEW_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_cal_list_view_get_type (), ECalListViewClass)
-#define E_IS_CAL_LIST_VIEW(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_cal_list_view_get_type ())
+/* Standard GObject macros */
+#define E_TYPE_CAL_LIST_VIEW \
+	(e_cal_list_view_get_type ())
+#define E_CAL_LIST_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_LIST_VIEW, ECalListView))
+#define E_CAL_LIST_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_LIST_VIEW, ECalListViewClass))
+#define E_IS_CAL_LIST_VIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_LIST_VIEW))
+#define E_IS_CAL_LIST_VIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_LIST_VIEW))
+#define E_CAL_LIST_VIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_LIST_VIEW, ECalListViewClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ECalListView       ECalListView;
 typedef struct _ECalListViewClass  ECalListViewClass;
 
-struct _ECalListView
-{
-	ECalendarView cal_view;
+struct _ECalListView {
+	ECalendarView parent;
 
 	/* The main display table */
 	ETableScrolled *table_scrolled;
@@ -66,15 +80,12 @@ struct _ECalListView
 	gint set_table_id;
 };
 
-struct _ECalListViewClass
-{
+struct _ECalListViewClass {
 	ECalendarViewClass parent_class;
 };
 
 GType		   e_cal_list_view_get_type		(void);
-GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view);
-
-GtkWidget *e_cal_list_view_new			(ECalModel *cal_model);
+ECalendarView *e_cal_list_view_new			(ECalModel *cal_model);
 void e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename);
 void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 

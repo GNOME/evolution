@@ -1,7 +1,7 @@
 AM_CPPFLAGS = 						\
 	-I .						\
-	-I$(top_srcdir)	                                \
-	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)

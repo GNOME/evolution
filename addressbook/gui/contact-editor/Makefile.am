@@ -29,10 +29,13 @@ libecontacteditor_la_SOURCES = 			\
 
 libecontacteditor_la_LDFLAGS = $(NO_UNDEFINED)
 
-libecontacteditor_la_LIBADD =				\
-	$(WIN32_BOOTSTRAP_LIBS)				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/e-util/libeutil.la		\
+libecontacteditor_la_LIBADD =						\
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/addressbook/util/libeabutil.la			\
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la	\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la	\
+	$(top_builddir)/addressbook/printing/libecontactprint.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 glade_DATA = 				\

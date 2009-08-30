@@ -39,7 +39,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
-#include <evolution-shell-component-utils.h>
+#include <shell/e-shell.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-exception.h>
@@ -61,7 +61,6 @@
 #include "recur-comp.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
-#include "../e-cal-popup.h"
 #include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
 #include "widgets/misc/e-attachment-view.h"
@@ -79,6 +78,9 @@ static gboolean comp_lite = FALSE;
 
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
+
+	gpointer shell;  /* weak pointer */
+
 	/* Client to use */
 	ECal *client;
 
@@ -128,6 +130,7 @@ enum {
 	PROP_CHANGED,
 	PROP_CLIENT,
 	PROP_FLAGS,
+	PROP_SHELL,
 	PROP_SUMMARY
 };
 
@@ -136,7 +139,10 @@ static const gchar *ui =
 "  <menubar action='main-menu'>"
 "    <menu action='file-menu'>"
 "      <menuitem action='save'/>"
+"      <separator/>"
+"      <menuitem action='print-preview'/>"
 "      <menuitem action='print'/>"
+"      <separator/>"
 "      <menuitem action='close'/>"
 "    </menu>"
 "    <menu action='edit-menu'>"
@@ -173,8 +179,8 @@ static void close_dialog (CompEditor *editor);
 
 static void page_dates_changed_cb (CompEditor *editor, CompEditorPageDates *dates, CompEditorPage *page);
 
-static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
-static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
+static void obj_modified_cb (ECal *client, GList *objs, CompEditor *editor);
+static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
 
 G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_WINDOW)
 
@@ -183,7 +189,15 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint comp_editor_signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL];
+static GList *active_editors;
+
+static void
+comp_editor_weak_notify_cb (gpointer unused,
+                            GObject *where_the_object_was)
+{
+	active_editors = g_list_remove (active_editors, where_the_object_was);
+}
 
 static void
 attachment_store_changed_cb (CompEditor *editor)
@@ -716,17 +730,22 @@ action_print_cb (GtkAction *action,
                  CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	icalcomponent *component;
+	icalcomponent *clone;
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	component = e_cal_component_get_icalcomponent (priv->comp);
+	clone = icalcomponent_new_clone (component);
+	e_cal_component_set_icalcomponent (comp, clone);
 
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
 
-	print_comp (comp, priv->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_comp (comp, priv->client, print_action);
 
 	g_object_unref (comp);
 }
@@ -736,15 +755,22 @@ action_print_preview_cb (GtkAction *action,
                          CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	icalcomponent *component;
+	icalcomponent *clone;
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	component = e_cal_component_get_icalcomponent (priv->comp);
+	clone = icalcomponent_new_clone (component);
+	e_cal_component_set_icalcomponent (comp, clone);
+
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
-	print_comp (comp, priv->client, TRUE);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	print_comp (comp, priv->client, print_action);
 
 	g_object_unref (comp);
 }
@@ -812,12 +838,10 @@ action_save_cb (GtkAction *action,
 	if (e_cal_component_has_recurrences (priv->comp)) {
 		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 			return;
-
 	} else if (e_cal_component_is_instance (priv->comp))
 		priv->mod = CALOBJ_MOD_THIS;
 
 	comp = comp_editor_get_current_comp (editor, &correct);
-
 	e_cal_component_get_summary (comp, &text);
 	g_object_unref (comp);
 
@@ -1199,6 +1223,17 @@ comp_editor_setup_recent_menu (CompEditor *editor)
 }
 
 static void
+comp_editor_set_shell (CompEditor *editor,
+                       EShell *shell)
+{
+	g_return_if_fail (editor->priv->shell == NULL);
+
+	editor->priv->shell = shell;
+
+	g_object_add_weak_pointer (G_OBJECT (shell), &editor->priv->shell);
+}
+
+static void
 comp_editor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -1221,6 +1256,12 @@ comp_editor_set_property (GObject *object,
 			comp_editor_set_flags (
 				COMP_EDITOR (object),
 				g_value_get_int (value));
+			return;
+
+		case PROP_SHELL:
+			comp_editor_set_shell (
+				COMP_EDITOR (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SUMMARY:
@@ -1258,6 +1299,12 @@ comp_editor_get_property (GObject *object,
 				COMP_EDITOR (object)));
 			return;
 
+		case PROP_SHELL:
+			g_value_set_object (
+				value, comp_editor_get_shell (
+				COMP_EDITOR (object)));
+			return;
+
 		case PROP_SUMMARY:
 			g_value_set_string (
 				value, comp_editor_get_summary (
@@ -1274,6 +1321,12 @@ comp_editor_dispose (GObject *object)
 	CompEditorPrivate *priv;
 
 	priv = COMP_EDITOR_GET_PRIVATE (object);
+
+	if (priv->shell != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell), &priv->shell);
+		priv->shell = NULL;
+	}
 
 	if (priv->client) {
 		g_object_unref (priv->client);
@@ -1333,42 +1386,39 @@ static void
 comp_editor_map (GtkWidget *widget)
 {
 	CompEditor *editor = COMP_EDITOR (widget);
-	GConfBridge *bridge = gconf_bridge_get ();
+	GConfBridge *bridge;
 	GtkAction *action;
+	const gchar *key;
+
+	bridge = gconf_bridge_get ();
 
 	/* Give subclasses a chance to construct their pages before
 	 * we fiddle with their widgets.  That's why we don't do this
 	 * until after object construction. */
 
+	key = "/apps/evolution/calendar/display/show_categories";
 	action = comp_editor_get_action (editor, "view-categories");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_CATEGORIES,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_role";
 	action = comp_editor_get_action (editor, "view-role");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_ROLE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_rsvp";
 	action = comp_editor_get_action (editor, "view-rsvp");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_RSVP,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_status";
 	action = comp_editor_get_action (editor, "view-status");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_STATUS,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_timezone";
 	action = comp_editor_get_action (editor, "view-time-zone");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_TIMEZONE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_type";
 	action = comp_editor_get_action (editor, "view-type");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_TYPE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
 	/* Chain up to parent's map() method. */
 	GTK_WIDGET_CLASS (comp_editor_parent_class)->map (widget);
@@ -1515,6 +1565,17 @@ comp_editor_class_init (CompEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			NULL,
+			NULL,
+			E_TYPE_SHELL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SUMMARY,
 		g_param_spec_string (
 			"summary",
@@ -1523,7 +1584,7 @@ comp_editor_class_init (CompEditorClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
-	comp_editor_signals[OBJECT_CREATED] =
+	signals[OBJECT_CREATED] =
 		g_signal_new ("object_created",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
@@ -1547,10 +1608,17 @@ comp_editor_init (CompEditor *editor)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *scroll;
+	EShell *shell;
 	gint n_targets;
 	GError *error = NULL;
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
+
+	g_object_weak_ref (
+		G_OBJECT (editor), (GWeakNotify)
+		comp_editor_weak_notify_cb, NULL);
+
+	active_editors = g_list_prepend (active_editors, editor);
 
 	priv->pages = NULL;
 	priv->changed = FALSE;
@@ -1734,6 +1802,10 @@ comp_editor_init (CompEditor *editor)
 	g_signal_connect_swapped (
 		store, "row-inserted",
 		G_CALLBACK (attachment_store_changed_cb), editor);
+
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+	e_shell_watch_window (shell, GTK_WINDOW (editor));
 }
 
 static gboolean
@@ -1815,7 +1887,18 @@ close_dialog (CompEditor *editor)
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
-
+gint
+comp_editor_compare (CompEditor *editor_a,
+                     CompEditor *editor_b)
+{
+	const gchar *uid_a = NULL;
+	const gchar *uid_b = NULL;
+
+	e_cal_component_get_uid (editor_a->priv->comp, &uid_a);
+	e_cal_component_get_uid (editor_b->priv->comp, &uid_b);
+
+	return g_strcmp0 (uid_a, uid_b);
+}
 
 void
 comp_editor_set_existing_org (CompEditor *editor, gboolean existing_org)
@@ -1899,6 +1982,14 @@ comp_editor_get_classification (CompEditor *editor)
 
 	action = comp_editor_get_action (editor, "classify-public");
 	return gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+}
+
+EShell *
+comp_editor_get_shell (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->shell;
 }
 
 void
@@ -2010,7 +2101,7 @@ comp_editor_set_flags (CompEditor *editor,
 CompEditorFlags
 comp_editor_get_flags (CompEditor *editor)
 {
-	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
 
 	return editor->priv->flags;
 }
@@ -2066,6 +2157,20 @@ comp_editor_get_managed_widget (CompEditor *editor,
 	g_return_val_if_fail (widget != NULL, NULL);
 
 	return widget;
+}
+
+CompEditor *
+comp_editor_find_instance (const gchar *uid)
+{
+	GList *link;
+
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	link = g_list_find_custom (
+		active_editors, uid,
+		(GCompareFunc) comp_editor_compare);
+
+	return (link != NULL) ? link->data : NULL;
 }
 
 /**
@@ -2391,8 +2496,14 @@ fill_widgets (CompEditor *editor)
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
-	GList *l;
 	GtkAction *action;
+	GList *iter;
+
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
+	store = e_attachment_view_get_store (view);
+
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
+	store = e_attachment_view_get_store (view);
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -2415,12 +2526,14 @@ fill_widgets (CompEditor *editor)
 	}
 
 	action = comp_editor_get_action (editor, "classify-public");
-	g_signal_handlers_block_by_func (action, G_CALLBACK (action_classification_cb), editor);
+	g_signal_handlers_block_by_func (
+		action, G_CALLBACK (action_classification_cb), editor);
 
-	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_fill_widgets (l->data, priv->comp);
+	for (iter = priv->pages; iter != NULL; iter = iter->next)
+		comp_editor_page_fill_widgets (iter->data, priv->comp);
 
-	g_signal_handlers_unblock_by_func (action, G_CALLBACK (action_classification_cb), editor);
+	g_signal_handlers_unblock_by_func (
+		action, G_CALLBACK (action_classification_cb), editor);
 }
 
 static void
@@ -2836,9 +2949,10 @@ page_dates_changed_cb (CompEditor *editor,
 }
 
 static void
-obj_modified_cb (ECal *client, GList *objects, gpointer data)
+obj_modified_cb (ECal *client,
+                 GList *objects,
+                 CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	ECalComponent *comp = NULL;
 
@@ -2871,12 +2985,11 @@ obj_modified_cb (ECal *client, GList *objects, gpointer data)
 }
 
 static void
-obj_removed_cb (ECal *client, GList *uids, gpointer data)
+obj_removed_cb (ECal *client,
+                GList *uids,
+                CompEditor *editor)
 {
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-
-	priv = editor->priv;
+	CompEditorPrivate *priv = editor->priv;
 
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 		close_dialog (editor);

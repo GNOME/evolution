@@ -37,7 +37,6 @@
 
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
-#include <calendar/gui/calendar-component.h>
 
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
@@ -61,9 +60,9 @@
 
 /*****************************************************************************/
 /* prototypes */
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
-void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetComponent *data);
+void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 
 /*****************************************************************************/
 /* plugin intialization */
@@ -83,7 +82,7 @@ ensure_google_source_group (void)
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 
 	if (enable) {
@@ -785,15 +784,13 @@ plugin_google  (EPlugin                    *epl,
 }
 
 void
-e_calendar_google_migrate (EPlugin *epl, ECalEventTargetComponent *data)
+e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data)
 {
-	CalendarComponent *component;
 	ESourceList *source_list;
 	ESourceGroup *google = NULL;
 	gboolean changed = FALSE;
 
-	component = data->component;
-	source_list = calendar_component_peek_source_list (component);
+	source_list = data->source_list;
 
 	google = e_source_list_peek_group_by_base_uri (source_list, GOOGLE_BASE_URI);
 	if (google) {

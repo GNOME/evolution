@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
+#include <gdk/gdkx.h>  /* for copied UniqueApp code */
 #include <glib/gstdio.h>
 
 #ifdef G_OS_WIN32
@@ -40,12 +41,10 @@
 #include "e-util/e-bconf-map.h"
 
 #include <e-util/e-icon-factory.h>
-#include "e-shell-constants.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util.h"
 
 #include "e-shell.h"
-#include "es-menu.h"
 #include "es-event.h"
 
 #include "e-util/e-util-private.h"
@@ -57,22 +56,13 @@
 #include <gconf/gconf-client.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-client.h>
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
-
-#include <bonobo-activation/bonobo-activation.h>
-
+#include <libedataserver/e-categories.h>
 #include <libedataserverui/e-passwords.h>
 
 #include <glade/glade.h>
 
 #include "e-config-upgrade.h"
-#include "Evolution-DataServer.h"
 
 #include <misc/e-cursors.h>
 #include "e-util/e-error.h"
@@ -98,13 +88,11 @@
 #define DEVELOPMENT 1
 #endif
 
-static EShell *shell = NULL;
-
 /* Command-line options.  */
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
-static gboolean killev = FALSE;
+static gboolean force_shutdown = FALSE;
 #ifdef DEVELOPMENT
 static gboolean force_migrate = FALSE;
 #endif
@@ -112,83 +100,42 @@ static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
-static gchar *default_component_id = NULL;
+static gchar *requested_view = NULL;
 static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
-static void
-no_windows_left_cb (EShell *shell, gpointer data)
-{
-	bonobo_object_unref (BONOBO_OBJECT (shell));
-	bonobo_main_quit ();
-}
+/* Defined in <e-shell.h> */
+extern EShell *default_shell;
 
 static void
-shell_weak_notify (gpointer data,
-                   GObject *where_the_object_was)
+categories_icon_theme_hack (void)
 {
-	bonobo_main_quit ();
+	GtkIconTheme *icon_theme;
+	const gchar *category_name;
+	const gchar *filename;
+	gchar *dirname;
+
+	/* XXX Allow the category icons to be referenced as named
+	 *     icons, since GtkAction does not support GdkPixbufs. */
+
+	/* Get the icon file for some default category.  Doesn't matter
+	 * which, so long as it has an icon.  We're just interested in
+	 * the directory components. */
+	category_name = _("Birthday");
+	filename = e_categories_get_icon_file_for (category_name);
+	g_return_if_fail (filename != NULL && *filename != '\0');
+
+	/* Extract the directory components. */
+	dirname = g_path_get_dirname (filename);
+
+	/* Add it to the icon theme's search path.  This relies on
+	 * GtkIconTheme's legacy feature of using image files found
+	 * directly in the search path. */
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, dirname);
+
+	g_free (dirname);
 }
-
-#ifdef KILL_PROCESS_CMD
-
-static void
-kill_dataserver (void)
-{
-	g_message ("Killing old version of evolution-data-server...");
-
-	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.2 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.4 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.6 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.8 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.10 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.12 2> /dev/null");
-
-	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
-}
-
-static void
-kill_old_dataserver (void)
-{
-	GNOME_Evolution_DataServer_InterfaceCheck iface;
-	CORBA_Environment ev;
-	CORBA_char *version;
-
-	CORBA_exception_init (&ev);
-
-	/* FIXME Should we really kill it off?  We also shouldn't hard code the version */
-	iface = bonobo_activation_activate_from_id (
-		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
-	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
-		kill_dataserver ();
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	version = GNOME_Evolution_DataServer_InterfaceCheck__get_interfaceVersion (iface, &ev);
-	if (BONOBO_EX (&ev)) {
-		kill_dataserver ();
-		CORBA_Object_release (iface, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	if (strcmp (version, DATASERVER_VERSION) != 0) {
-		CORBA_free (version);
-		kill_dataserver ();
-		CORBA_Object_release (iface, &ev);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_free (version);
-	CORBA_Object_release (iface, &ev);
-	CORBA_exception_free (&ev);
-}
-#endif
 
 #ifdef DEVELOPMENT
 
@@ -269,8 +216,6 @@ show_development_warning(void)
 
 	gtk_widget_destroy (warning_dialog);
 
-	idle_cb (NULL);
-
 	return skip;
 }
 
@@ -291,124 +236,26 @@ destroy_config (GConfClient *client)
 
 #endif /* DEVELOPMENT */
 
-static void
-open_uris (GNOME_Evolution_Shell corba_shell, gchar **uris)
-{
-	CORBA_Environment ev;
-	guint n_uris, ii;
-
-	g_return_if_fail (uris != NULL);
-	n_uris = g_strv_length (uris);
-
-	CORBA_exception_init (&ev);
-
-	for (ii = 0; ii < n_uris; ii++) {
-		GNOME_Evolution_Shell_handleURI (corba_shell, uris[ii], &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Invalid URI: %s", uris[ii]);
-			CORBA_exception_free (&ev);
-		}
-	}
-
-	CORBA_exception_free (&ev);
-}
-
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gboolean
 idle_cb (gchar **uris)
 {
-	GNOME_Evolution_Shell corba_shell;
-	CORBA_Environment ev;
-	EShellConstructResult result;
-	EShellStartupLineMode startup_line_mode;
+	EShell *shell;
 
-	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
+	shell = e_shell_get_default ();
 
-#ifdef KILL_PROCESS_CMD
-	kill_old_dataserver ();
-#endif
+	/* These calls do the right thing when another Evolution
+	 * process is running. */
+	if (uris != NULL && *uris != NULL) {
+		if (e_shell_handle_uris (shell, uris) == 0)
+			gtk_main_quit ();
+	} else
+		e_shell_create_shell_window (shell, requested_view);
 
-	CORBA_exception_init (&ev);
-
-	if (! start_online && ! start_offline)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
-	else if (start_online)
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_ONLINE;
-	else
-		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
-
-	shell = e_shell_new (startup_line_mode, &result);
-
-	switch (result) {
-	case E_SHELL_CONSTRUCT_RESULT_OK:
-		e_shell_set_crash_recovery (shell, e_file_lock_exists ());
-		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
-		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
-		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
-		break;
-
-	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
-		corba_shell = bonobo_activation_activate_from_id (
-			(Bonobo_ActivationID) E_SHELL_OAFIID, 0, NULL, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
-			e_error_run(NULL, "shell:noshell", NULL);
-			CORBA_exception_free (&ev);
-			bonobo_main_quit ();
-			return FALSE;
-		}
-		break;
-
-	default:
-		e_error_run(NULL, "shell:noshell-reason",
-			    e_shell_construct_result_to_string(result), NULL);
-		CORBA_exception_free (&ev);
-		bonobo_main_quit ();
-		return FALSE;
-
-	}
-
-	if (shell != NULL) {
-		if (uris != NULL)
-			open_uris (corba_shell, uris);
-		else {
-			e_file_lock_create ();
-			e_shell_create_window (shell, default_component_id, NULL);
-		}
-	} else {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		if (uris != NULL)
-			open_uris (corba_shell, uris);
-		else
-			if (default_component_id == NULL)
-				GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
-			else
-				GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
-
-		CORBA_exception_free (&ev);
-	}
-
-	CORBA_Object_release (corba_shell, &ev);
-
-	CORBA_exception_free (&ev);
-
-	if (shell == NULL) {
-		/*there is another instance but because we don't open any windows
-		we must notify the startup was complete manually*/
-		gdk_notify_startup_complete ();
-		bonobo_main_quit ();
-	}
-
-	/* This must be done after Bonobo has created all the components. For
-	 * example the mail component makes the global variable `session` which
-	 * is being used by several EPlugins */
-
-	if (!disable_eplugin) {
-		e_plugin_load_plugins_with_missing_symbols ();
-	}
+	/* If another Evolution process is running, we're done. */
+	if (unique_app_is_running (UNIQUE_APP (shell)))
+		gtk_main_quit ();
 
 	return FALSE;
 }
@@ -470,27 +317,15 @@ setup_segv_redirect (void)
 #define setup_segv_redirect() (void)0
 #endif
 
-static gint
-gnome_master_client_save_yourself_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown, GnomeInteractStyle interact_style, gint fast, gpointer user_data)
-{
-	return !shell || e_shell_can_quit (shell);
-}
-
-static void
-gnome_master_client_die_cb (GnomeClient *client)
-{
-	e_shell_do_quit (shell);
-}
-
-static const GOptionEntry options[] = {
-	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
+static GOptionEntry entries[] = {
+	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
 	  N_("Start in offline mode"), NULL },
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
-	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev,
+	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
 #ifdef DEVELOPMENT
@@ -514,8 +349,7 @@ static void
 set_paths (void)
 {
 	/* Set PATH to include the Evolution executable's folder
-	 * and the lib/evolution/$(BASE_VERSION)/components folder.
-	 */
+	 * and the lib/evolution/$(BASE_VERSION)/components folder. */
 	wchar_t exe_filename[MAX_PATH];
 	wchar_t *p;
 	gchar *exe_folder_utf8;
@@ -536,60 +370,99 @@ set_paths (void)
 
 	*p = L'\0';
 	top_folder_utf8 = g_utf16_to_utf8 (exe_filename, -1, NULL, NULL, NULL);
-	components_folder_utf8 =
-		g_strconcat (top_folder_utf8,
-			     "/lib/evolution/" BASE_VERSION "/components",
-			     NULL);
+	components_folder_utf8 = g_strconcat (
+		top_folder_utf8, "/lib/evolution/"
+		BASE_VERSION "/components", NULL);
 
-	path = g_build_path (";",
-			     exe_folder_utf8,
-			     components_folder_utf8,
-			     g_getenv ("PATH"),
-			     NULL);
+	path = g_build_path (
+		";", exe_folder_utf8,
+		components_folder_utf8, g_getenv ("PATH"), NULL);
 	if (!g_setenv ("PATH", path, TRUE))
-		g_warning ("Could not set PATH for Evolution and its child processes");
+		g_warning ("Could not set PATH for Evolution "
+			   "and its child processes");
 
 	g_free (path);
 	g_free (exe_folder_utf8);
 	g_free (components_folder_utf8);
 
-	/* Set BONOBO_ACTIVATION_PATH */
-	if (g_getenv ("BONOBO_ACTIVATION_PATH" ) == NULL) {
-		path = g_build_filename (top_folder_utf8,
-					 "lib/bonobo/servers",
-					 NULL);
-		if (!g_setenv ("BONOBO_ACTIVATION_PATH", path, TRUE))
-			g_warning ("Could not set BONOBO_ACTIVATION_PATH");
-		g_free (path);
-	}
 	g_free (top_folder_utf8);
 }
 #endif
+
+static void
+shell_window_destroyed_cb (EShell *shell)
+{
+	if (e_shell_get_watched_windows (shell) == NULL)
+		gtk_main_quit ();
+}
+
+static void
+create_default_shell (void)
+{
+	EShell *shell;
+	GConfClient *client;
+	gboolean online = TRUE;
+	GError *error = NULL;
+
+	client = gconf_client_get_default ();
+
+	if (start_online)
+		online = TRUE;
+	else if (start_offline)
+		online = FALSE;
+	else {
+		const gchar *key;
+		gboolean value;
+
+		key = "/apps/evolution/shell/start_offline";
+		value = gconf_client_get_bool (client, key, &error);
+		if (error == NULL)
+			online = !value;
+		else {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
+	}
+
+	shell = g_object_new (
+		E_TYPE_SHELL,
+		"name", "org.gnome.evolution",
+		"online", online,
+		NULL);
+
+	g_signal_connect (
+		shell, "window-destroyed",
+		G_CALLBACK (shell_window_destroyed_cb), NULL);
+
+	g_object_unref (client);
+
+	/* EShell keeps its own reference to the first instance for use
+	 * in e_shell_get_default(), so it's safe to unreference here. */
+	g_object_unref (shell);
+
+	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
+}
 
 gint
 main (gint argc, gchar **argv)
 {
 #ifdef G_OS_WIN32
-    if (fileno (stdout) != -1 &&
-	  _get_osfhandle (fileno (stdout)) != -1)
-	{
-	  /* stdout is fine, presumably redirected to a file or pipe */
-	}
-    else
-    {
-	  typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
+	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
+		/* stdout is fine, presumably redirected to a file or pipe */
+	} else {
+		typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
 
-	  AttachConsole_t p_AttachConsole =
-	    (AttachConsole_t) GetProcAddress (GetModuleHandle ("kernel32.dll"), "AttachConsole");
+		AttachConsole_t p_AttachConsole =
+			(AttachConsole_t) GetProcAddress (
+			GetModuleHandle ("kernel32.dll"), "AttachConsole");
 
-	  if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
+		if (p_AttachConsole != NULL && p_AttachConsole (ATTACH_PARENT_PROCESS))
       {
-	      freopen ("CONOUT$", "w", stdout);
-	      dup2 (fileno (stdout), 1);
-	      freopen ("CONOUT$", "w", stderr);
-	      dup2 (fileno (stderr), 2);
-
-      }
+			freopen ("CONOUT$", "w", stdout);
+			dup2 (fileno (stdout), 1);
+			freopen ("CONOUT$", "w", stderr);
+			dup2 (fileno (stderr), 2);
+		}
 	}
 
 	extern void link_shutdown (void);
@@ -599,10 +472,8 @@ main (gint argc, gchar **argv)
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
-	GnomeProgram *program;
-	GnomeClient *master_client;
-	GOptionContext *context;
 	gchar *filename;
+	GError *error = NULL;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -611,21 +482,19 @@ main (gint argc, gchar **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	context = g_option_context_new (_("- The Evolution PIM and Email Client"));
-
-	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-
-	g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
-
 #ifdef G_OS_WIN32
 	set_paths ();
 #endif
 
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
-				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_GOPTION_CONTEXT, context,
-				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
-				      NULL);
+	gtk_init_with_args (
+		&argc, &argv,
+		_("- The Evolution PIM and Email Client"),
+		entries, (gchar *) GETTEXT_PACKAGE, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		exit (1);
+	}
 
 #ifdef G_OS_WIN32
 	if (strcmp (gettext (""), "") == 0) {
@@ -639,15 +508,14 @@ main (gint argc, gchar **argv)
 	}
 #endif
 	if (start_online && start_offline) {
-		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
+		g_printerr (_("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);
 		exit (1);
 	}
 
-	if (killev) {
-		filename = g_build_filename (EVOLUTION_TOOLSDIR,
-					     "killev",
-					     NULL);
+	if (force_shutdown) {
+		filename = g_build_filename (
+			EVOLUTION_TOOLSDIR, "killev", NULL);
 		execl (filename, "killev", NULL);
 		/* Not reached */
 		exit (0);
@@ -656,11 +524,10 @@ main (gint argc, gchar **argv)
 	client = gconf_client_get_default ();
 
 #ifdef DEVELOPMENT
-
-	if (force_migrate) {
+	if (force_migrate)
 		destroy_config (client);
-	}
 #endif
+
 	if (disable_preview) {
 		gconf_client_set_bool (client, "/apps/evolution/mail/display/show_preview", FALSE, NULL);
 		gconf_client_set_bool (client, "/apps/evolution/mail/display/safe_list", TRUE, NULL);
@@ -682,36 +549,18 @@ main (gint argc, gchar **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	master_client = gnome_master_client ();
-
-	g_signal_connect (G_OBJECT (master_client), "save_yourself", G_CALLBACK (gnome_master_client_save_yourself_cb), NULL);
-	g_signal_connect (G_OBJECT (master_client), "die", G_CALLBACK (gnome_master_client_die_cb), NULL);
-
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
-	e_passwords_init();
+	e_passwords_init ();
 
 	gtk_window_set_default_icon_name ("evolution");
 
 	if (setup_only)
 		exit (0);
 
-	gnome_sound_init ("localhost");
+	categories_icon_theme_hack ();
 	gtk_accel_map_load (e_get_accels_filename ());
-
-	if (!disable_eplugin) {
-		e_plugin_register_type(e_plugin_lib_get_type());
-		e_plugin_hook_register_type(es_menu_hook_get_type());
-		e_plugin_hook_register_type(es_event_hook_get_type());
-#ifdef ENABLE_PROFILING
-		e_plugin_hook_register_type(e_profile_event_hook_get_type());
-#endif
-		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
-		e_plugin_hook_register_type(e_import_hook_get_type());
-		e_plugin_hook_register_type(E_TYPE_PLUGIN_UI_HOOK);
-		e_plugin_load_plugins ();
-	}
 
 #ifdef DEVELOPMENT
 	skip_warning_dialog = gconf_client_get_bool (
@@ -721,24 +570,41 @@ main (gint argc, gchar **argv)
 		gconf_client_set_bool (
 			client, SKIP_WARNING_DIALOG_KEY,
 			show_development_warning (), NULL);
-	else
-		g_idle_add ((GSourceFunc) idle_cb, remaining_args);
-
-#else
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 #endif
+
 	g_object_unref (client);
 
-	bonobo_main ();
+	create_default_shell ();
+
+	if (!disable_eplugin) {
+		/* Register built-in plugin hook types. */
+		es_event_hook_get_type ();
+#ifdef ENABLE_PROFILING
+		e_profile_event_hook_get_type ();
+#endif
+		e_import_hook_get_type ();
+		e_plugin_ui_hook_get_type ();
+
+		/* All EPlugin and EPluginHook subclasses should be
+		 * registered in GType now, so load plugins now. */
+		e_plugin_load_plugins ();
+	}
+
+	gtk_main ();
+
+	/* Drop what should be the last reference to the shell.
+	 * Emit a warning if references are leaking somewhere. */
+	g_object_unref (default_shell);
+	if (E_IS_SHELL (default_shell))
+		g_warning ("Shell not finalized on exit");
 
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
-	g_object_unref (program);
-	gnome_sound_shutdown ();
 	e_cursors_shutdown ();
 #ifdef G_OS_WIN32
 	link_shutdown ();
 #endif
+
 	return 0;
 }

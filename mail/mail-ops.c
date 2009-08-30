@@ -57,11 +57,11 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
 
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -69,10 +69,13 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
+#include "e-mail-local.h"
+
 #define w(x)
 #define d(x)
 
-const gchar *x_mailer;
+/* XXX Make this a preprocessor definition. */
+const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
@@ -245,7 +248,7 @@ uid_cachename_hack (CamelStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	gchar *encoded_url, *filename;
-	const gchar *evolution_dir;
+	const gchar *data_dir;
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -253,8 +256,8 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-	filename = g_build_filename (evolution_dir, "pop", encoded_url, "uid-cache", NULL);
+	data_dir = em_utils_get_data_dir ();
+	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
 	return filename;
@@ -275,9 +278,10 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 
-	if ((fm->destination = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX)) == NULL)
+	fm->destination = e_mail_local_get_folder (E_MAIL_FOLDER_LOCAL_INBOX);
+	if (fm->destination == NULL)
 		goto fail;
-	camel_object_ref(fm->destination);
+	camel_object_ref (fm->destination);
 
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
@@ -473,9 +477,9 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 		gchar *name;
 
 		name = g_strstrip(g_strdup(tmp));
-		if ((account = mail_config_get_account_by_uid(name))
+		if ((account = e_get_account_by_uid (name))
 		    /* 'old' x-evolution-account stored the name, how silly */
-		    || (account = mail_config_get_account_by_name(name))) {
+		    || (account = e_get_account_by_name (name))) {
 			if (account->transport && account->transport->url)
 				transport_url = g_strdup (account->transport->url);
 
@@ -579,7 +583,7 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 		}
 
 		if (!folder) {
-			folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+			folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 			camel_object_ref(folder);
 		}
 
@@ -590,7 +594,7 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 
-			sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+			sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const gchar *name;
@@ -685,12 +689,14 @@ report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, gin
 static void
 send_queue_exec (struct _send_queue_msg *m)
 {
-	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	CamelFolder *sent_folder;
 	GPtrArray *uids, *send_uids = NULL;
 	CamelException ex;
 	gint i, j;
 
 	d(printf("sending queue\n"));
+
+	sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
@@ -1267,7 +1273,8 @@ struct _get_quota_msg {
 
 	CamelFolder *folder;
 	CamelFolderQuotaInfo *quota;
-	void (*done) (CamelFolder *folder, CamelFolderQuotaInfo *quota, gpointer data);
+	void (*done) (CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, gpointer data);
+	gchar *folder_uri;
 	gpointer data;
 };
 
@@ -1287,7 +1294,7 @@ static void
 get_quota_done (struct _get_quota_msg *m)
 {
 	if (m->done)
-		m->done (m->folder, m->quota, m->data);
+		m->done (m->folder, m->folder_uri, m->quota, m->data);
 }
 
 static void
@@ -1297,6 +1304,7 @@ get_quota_free (struct _get_quota_msg *m)
 		camel_object_unref (m->folder);
 	if (m->quota)
 		camel_folder_quota_info_free (m->quota);
+	g_free (m->folder_uri);
 }
 
 static MailMsgInfo get_quota_info = {
@@ -1309,7 +1317,8 @@ static MailMsgInfo get_quota_info = {
 
 gint
 mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, gpointer data),
+		 const gchar *folder_uri,
+		 void (*done)(CamelFolder *folder, const gchar *uri, CamelFolderQuotaInfo *quota, gpointer data),
 		 gpointer data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_quota_msg *m;
@@ -1319,6 +1328,7 @@ mail_get_folder_quota (CamelFolder *folder,
 
 	m = mail_msg_new (&get_quota_info);
 	m->folder = folder;
+	m->folder_uri = g_strdup (folder_uri);
 	m->data = data;
 	m->done = done;
 
@@ -1747,15 +1757,15 @@ empty_trash_desc (struct _empty_trash_msg *m)
 static void
 empty_trash_exec (struct _empty_trash_msg *m)
 {
-	const gchar *evolution_dir;
+	const gchar *data_dir;
 	CamelFolder *trash;
 	gchar *uri;
 
 	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
-		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-		uri = g_strdup_printf ("mbox:%s/local", evolution_dir);
+		data_dir = em_utils_get_data_dir ();
+		uri = g_strdup_printf ("mbox:%s/local", data_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);
 	}

@@ -21,14 +21,33 @@
  *
  */
 
-#ifndef _CAL_PREFS_DIALOG_H_
-#define _CAL_PREFS_DIALOG_H_
+#ifndef CAL_PREFS_DIALOG_H
+#define CAL_PREFS_DIALOG_H
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <libedataserverui/e-source-selector.h>
-#include "evolution-config-control.h"
+#include <shell/e-shell.h>
+
+/* Standard GObject macros */
+#define CALENDAR_TYPE_PREFS_DIALOG \
+	(calendar_prefs_dialog_get_type ())
+#define CALENDAR_PREFS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), CALENDAR_TYPE_PREFS_DIALOG, CalendarPrefsDialog))
+#define CALENDAR_PREFS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), CALENDAR_TYPE_PREFS_DIALOG, CalendarPrefsDialogClass))
+#define CALENDAR_IS_PREFS_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), CALENDAR_TYPE_PREFS_DIALOG))
+#define CALENDAR_IS_PREFS_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), CALENDAR_TYPE_PREFS_DIALOG))
+#define CALENDAR_PREFS_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), CALENDAR_TYPE_PREFS_DIALOG, CalendarPrefsDialogClass))
 
 G_BEGIN_DECLS
 
@@ -43,16 +62,12 @@ struct _CalendarPrefsDialog {
 	GConfClient *gconf;
 
 	/* General tab */
-	GtkWidget *use_system_tz_check;
 	GtkWidget *system_tz_label;
-	GtkWidget *timezone;
 	GtkWidget *day_second_zone;
 	GtkWidget *working_days[7];
 	GtkWidget *week_start_day;
 	GtkWidget *start_of_day;
 	GtkWidget *end_of_day;
-	GtkWidget *use_12_hour;
-	GtkWidget *use_24_hour;
 	GtkWidget *confirm_delete;
 	GtkWidget *default_reminder;
 	GtkWidget *default_reminder_interval;
@@ -68,8 +83,6 @@ struct _CalendarPrefsDialog {
 	GtkWidget *dnav_show_week_no;
 	GtkWidget *dview_show_week_no;
 	GtkWidget *month_scroll_by_week;
-	GtkWidget *tasks_due_today_color;
-	GtkWidget *tasks_overdue_color;
 	GtkWidget *tasks_hide_completed;
 	GtkWidget *tasks_hide_completed_interval;
 	GtkWidget *tasks_hide_completed_units;
@@ -96,9 +109,9 @@ struct _CalendarPrefsDialogClass {
 	GtkVBoxClass parent;
 };
 
-GType      calendar_prefs_dialog_get_type (void);
-GtkWidget *calendar_prefs_dialog_new (void);
+GType		calendar_prefs_dialog_get_type	(void);
+GtkWidget *	calendar_prefs_dialog_new	(EShell *shell);
 
 G_END_DECLS
 
-#endif /* _CAL_PREFS_DIALOG_H_ */
+#endif /* CAL_PREFS_DIALOG_H */

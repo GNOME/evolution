@@ -33,8 +33,8 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "a11y/e-table/gal-a11y-e-cell-popup.h"
-#include "a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal-a11y-e-cell-popup.h"
+#include "gal-a11y-e-cell-registry.h"
 #include "e-util/e-util.h"
 
 #include "e-cell-popup.h"

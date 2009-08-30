@@ -32,7 +32,7 @@
 
 static CamelGwListener *config_listener = NULL;
 
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget* org_gnome_gw_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 void ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target);
 
@@ -114,7 +114,7 @@ free_groupwise_listener ( void )
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (!config_listener) {
 		config_listener = camel_gw_listener_new ();

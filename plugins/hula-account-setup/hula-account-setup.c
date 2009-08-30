@@ -27,7 +27,7 @@
 
 static CamelHulaListener *config_listener = NULL;
 
-gint e_plugin_lib_enable (EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget* org_gnome_evolution_hula_account_setup (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 static void
@@ -37,7 +37,7 @@ free_hula_listener ( void )
 }
 
 gint
-e_plugin_lib_enable (EPluginLib *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (!config_listener) {
 		config_listener = camel_hula_listener_new ();

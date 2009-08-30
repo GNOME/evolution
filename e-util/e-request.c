@@ -64,7 +64,7 @@ e_request_string (GtkWindow *parent,
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 275, -1);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
-	vbox = GTK_DIALOG (dialog)->vbox;
+	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	prompt_label = gtk_label_new (prompt);
 	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 6);

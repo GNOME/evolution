@@ -37,9 +37,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <libgnome/gnome-sound.h>
 #include <glib/gi18n.h>
-#include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-vtrash-folder.h>
@@ -50,12 +48,12 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-msgport.h>
 #include "e-util/e-util.h"
+#include "shell/e-shell.h"
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-session.h"
-#include "mail-component.h"
 #include "mail-tools.h"
 
 /* For notifications of changes */
@@ -65,6 +63,10 @@
 #include "em-folder-tree-model.h"
 
 #include "em-event.h"
+#include "em-utils.h"
+
+#include "e-mail-local.h"
+#include "e-mail-store.h"
 
 #define w(x)
 #define d(x)
@@ -150,14 +152,14 @@ free_update(struct _folder_update *up)
 }
 
 static void
-real_flush_updates(gpointer o, gpointer event_data, gpointer data)
+real_flush_updates (void)
 {
-	struct _MailComponent *component;
-	struct _EMFolderTreeModel *model;
+	EShell *shell;
+	EMFolderTreeModel *default_model;
 	struct _folder_update *up;
 
-	component = mail_component_peek ();
-	model = mail_component_peek_tree_model (component);
+	shell = e_shell_get_default ();
+	default_model = em_folder_tree_model_get_default ();
 
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
@@ -186,17 +188,22 @@ real_flush_updates(gpointer o, gpointer event_data, gpointer data)
 		}
 
 		/* update unread counts */
-		em_folder_tree_model_set_unread_count (model, up->store, up->full_name, up->unread);
+		em_folder_tree_model_set_unread_count (
+			default_model, up->store, up->full_name, up->unread);
 
 		if (up->uri) {
 			EMEvent *e = em_event_peek();
 			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new);
 
-			t->is_inbox = em_folder_tree_model_is_type_inbox (model, up->store, up->full_name);
-			t->name = em_folder_tree_model_get_folder_name (model, up->store, up->full_name);
+			t->is_inbox = em_folder_tree_model_is_type_inbox (
+				default_model, up->store, up->full_name);
+			t->name = em_folder_tree_model_get_folder_name (
+				default_model, up->store, up->full_name);
 
 			if (t->new > 0)
-				mail_indicate_new_mail (TRUE);
+				e_shell_event (
+					shell, "mail-icon",
+					(gpointer) "mail-unread");
 
 			/** @Event: folder.changed
 			 * @Title: Folder changed
@@ -208,6 +215,19 @@ real_flush_updates(gpointer o, gpointer event_data, gpointer data)
 			e_event_emit((EEvent *)e, "folder.changed", (EEventTarget *)t);
 		}
 
+		if (CAMEL_IS_VEE_STORE (up->store) && !up->remove) {
+			/* Normally the vfolder store takes care of the folder_opened event itself,
+			   but we add folder to the noting system later, thus we do not know about
+			   search folders to update them in a tree, thus ensure their changes will
+			   be tracked correctly. */
+			CamelFolder *folder = camel_store_get_folder (up->store, up->full_name, 0, NULL);
+
+			if (folder) {
+				mail_note_folder (folder);
+				camel_object_unref (folder);
+			}
+		}
+
 		free_update(up);
 
 		LOCK(info_lock);
@@ -217,10 +237,13 @@ real_flush_updates(gpointer o, gpointer event_data, gpointer data)
 }
 
 static void
-flush_updates(void)
+flush_updates (void)
 {
 	if (update_id == -1 && !e_dlist_empty(&updates))
-		update_id = mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)real_flush_updates, NULL, NULL, NULL);
+		update_id = mail_async_event_emit (
+			mail_async_event, MAIL_ASYNC_GUI,
+			(MailAsyncFunc) real_flush_updates,
+			NULL, NULL, NULL);
 }
 
 static void
@@ -289,20 +312,26 @@ update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
 {
 	struct _folder_update *up;
 	CamelFolder *folder;
+	CamelFolder *local_drafts;
+	CamelFolder *local_outbox;
+	CamelFolder *local_sent;
 	gint unread = -1;
 	gint deleted;
+
+	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	local_sent = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
 
 	folder = mfi->folder;
 	if (folder) {
 		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
-		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
-		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)
-		    || (count_sent && folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))) {
+		    || folder == local_drafts
+		    || folder == local_outbox
+		    || (count_sent && folder == local_sent)) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);
-			if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
-					|| folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
+			if (folder == local_drafts || folder == local_outbox) {
 				guint32 junked = 0;
 
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
@@ -395,6 +424,9 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	static time_t last_newmail = 0;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
+	CamelFolder *local_drafts;
+	CamelFolder *local_outbox;
+	CamelFolder *local_sent;
 	CamelStore *store = folder->parent_store;
 	CamelMessageInfo *info;
 	struct _store_info *si;
@@ -405,10 +437,14 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 
 	d(printf("folder '%s' changed\n", folder->full_name));
 
+	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	local_sent = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+
 	if (!CAMEL_IS_VEE_FOLDER(folder)
-	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
-	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)
-	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
+	    && folder != local_drafts
+	    && folder != local_outbox
+	    && folder != local_sent
 	    && changes && (changes->uid_added->len > 0)) {
 		/* for each added message, check to see that it is
 		   brand new, not junk and not already deleted */
@@ -596,6 +632,7 @@ rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbas
 	gchar *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
 	struct _folder_update *up;
+	const gchar *config_dir;
 
 	up = g_malloc0(sizeof(*up));
 
@@ -651,17 +688,18 @@ rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbas
 #endif
 
 	/* rename the meta-data we maintain ourselves */
+	config_dir = em_utils_get_config_dir ();
 	olduri = folder_to_url(si->store, old);
 	e_filename_make_safe(olduri);
 	newuri = folder_to_url(si->store, fi->full_name);
 	e_filename_make_safe(newuri);
-	oldfile = g_strdup_printf("%s/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
-	newfile = g_strdup_printf("%s/config/custom_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	oldfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, olduri);
+	newfile = g_strdup_printf("%s/custom_view-%s.xml", config_dir, newuri);
 	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);
-	oldfile = g_strdup_printf("%s/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), olduri);
-	newfile = g_strdup_printf("%s/config/current_view-%s.xml", mail_component_peek_base_directory(NULL), newuri);
+	oldfile = g_strdup_printf("%s/current_view-%s.xml", config_dir, olduri);
+	newfile = g_strdup_printf("%s/current_view-%s.xml", config_dir, newuri);
 	g_rename(oldfile, newfile);
 	g_free(oldfile);
 	g_free(newfile);
@@ -1053,7 +1091,7 @@ mail_folder_cache_get_folder_info_flags (CamelFolder *folder, gint *flags)
 	if (stores == NULL)
 		return FALSE;
 
-	fi.url = camel_url_new(uri, NULL);
+	fi.url = camel_url_new (uri, NULL);
 
 	LOCK(info_lock);
 	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);

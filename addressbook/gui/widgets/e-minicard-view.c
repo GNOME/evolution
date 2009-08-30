@@ -33,7 +33,8 @@
 #include <misc/e-canvas.h>
 #include <glib/gi18n.h>
 #include <string.h>
-#include "a11y/addressbook/ea-addressbook.h"
+#include "e-util/e-util.h"
+#include "ea-addressbook.h"
 
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,
@@ -55,6 +56,8 @@ enum {
 };
 
 enum {
+	CREATE_CONTACT,
+	CREATE_CONTACT_LIST,
 	RIGHT_CLICK,
 	LAST_SIGNAL
 };
@@ -159,7 +162,7 @@ set_empty_message (EMinicardView *view)
 	EBook *book;
 
 	if (view->adapter) {
-		EABModel *model = NULL;
+		EAddressbookModel *model = NULL;
 
 		g_object_get (view->adapter,
 			      "editable", &editable,
@@ -170,7 +173,7 @@ set_empty_message (EMinicardView *view)
 		if (!e_book_check_static_capability (book, "do-initial-query"))
 			perform_initial_query = TRUE;
 
-		searching = model && eab_model_can_stop (model);
+		searching = model && e_addressbook_model_can_stop (model);
 	}
 
 	if (searching) {
@@ -195,13 +198,13 @@ set_empty_message (EMinicardView *view)
 }
 
 static void
-writable_status_change (EABModel *model, gboolean writable, EMinicardView *view)
+writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardView *view)
 {
 	set_empty_message (view);
 }
 
 static void
-stop_state_changed (EABModel *model, EMinicardView *view)
+stop_state_changed (EAddressbookModel *model, EMinicardView *view)
 {
 	set_empty_message (view);
 }
@@ -229,7 +232,7 @@ e_minicard_view_set_property (GObject *object,
 	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id || view->stop_state_id) {
-				EABModel *model;
+				EAddressbookModel *model;
 				g_object_get (view->adapter,
 					      "model", &model,
 					      NULL);
@@ -252,7 +255,7 @@ e_minicard_view_set_property (GObject *object,
 			      "model", view->adapter,
 			      NULL);
 		if (view->adapter) {
-			EABModel *model;
+			EAddressbookModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
@@ -337,7 +340,7 @@ e_minicard_view_dispose (GObject *object)
 
 	if (view->adapter) {
 		if (view->writable_status_id || view->stop_state_id) {
-			EABModel *model;
+			EAddressbookModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
@@ -382,13 +385,8 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			g_object_get(view->adapter, "editable", &editable, NULL);
 
-			if (editable) {
-				EBook *book;
-				g_object_get(view, "book", &book, NULL);
-
-				if (book && E_IS_BOOK (book))
-					eab_show_contact_editor (book, e_contact_new(), TRUE, editable);
-			}
+			if (editable)
+				e_minicard_view_create_contact (view);
 			return TRUE;
 		}
 	case GDK_BUTTON_PRESS:
@@ -546,6 +544,22 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
+	signals [CREATE_CONTACT] =
+		g_signal_new ("create-contact",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	signals [CREATE_CONTACT_LIST] =
+		g_signal_new ("create-contact-list",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
 	signals [RIGHT_CLICK] =
 		g_signal_new ("right_click",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -653,4 +667,20 @@ e_minicard_view_get_card_list (EMinicardView *view)
 
 	mal.list = g_list_reverse (mal.list);
 	return mal.list;
+}
+
+void
+e_minicard_view_create_contact (EMinicardView *view)
+{
+	g_return_if_fail (E_IS_MINICARD_VIEW (view));
+
+	g_signal_emit (view, signals[CREATE_CONTACT], 0);
+}
+
+void
+e_minicard_view_create_contact_list (EMinicardView *view)
+{
+	g_return_if_fail (E_IS_MINICARD_VIEW (view));
+
+	g_signal_emit (view, signals[CREATE_CONTACT_LIST], 0);
 }

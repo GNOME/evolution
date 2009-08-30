@@ -53,69 +53,19 @@ typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;
 typedef struct _EMFormatHTMLDisplayPrivate EMFormatHTMLDisplayPrivate;
 
 struct _EMFormatHTMLDisplay {
-	EMFormatHTML formathtml;
-
+	EMFormatHTML parent;
 	EMFormatHTMLDisplayPrivate *priv;
 
 	struct _ESearchingTokenizer *search_tok;
-
-	guint animate:1;
-	guint caret_mode:1;
-	guint nobar:1;
 };
 
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY (0)
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY (1)
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE (1<<8)
-
 struct _EMFormatHTMLDisplayClass {
-	EMFormatHTMLClass formathtml_class;
-
-	/* a link clicked normally */
-	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const gchar *uri);
-	/* a part or a link button pressed event */
-	gint (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const gchar *uri, CamelMimePart *part);
-	/* the mouse is over a link */
-	void (*on_url)(EMFormatHTMLDisplay *efhd, const gchar *uri);
+	EMFormatHTMLClass parent_class;
 };
 
 GType		em_format_html_display_get_type	(void);
 EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
-
-void		em_format_html_display_goto_anchor
-						(EMFormatHTMLDisplay *efhd,
-						 const gchar *name);
-
-void		em_format_html_display_set_animate
-						(EMFormatHTMLDisplay *efhd,
-						 gboolean state);
-void		em_format_html_display_set_caret_mode
-						(EMFormatHTMLDisplay *efhd,
-						 gboolean state);
-
-void		em_format_html_display_set_search
-						(EMFormatHTMLDisplay *efhd,
-						 gint type,
-						 GSList *strings);
-void		em_format_html_display_search	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_search_with
-						(EMFormatHTMLDisplay *efhd,
-						 gchar *word);
-void		em_format_html_display_search_close
-						(EMFormatHTMLDisplay *efhd);
-
-void		em_format_html_display_cut	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_copy	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_paste	(EMFormatHTMLDisplay *efhd);
-
-void		em_format_html_display_zoom_in	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_zoom_out	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_zoom_reset
-						(EMFormatHTMLDisplay *efhd);
-
-gboolean	em_format_html_display_popup_menu
-						(EMFormatHTMLDisplay *efhd);
 
 G_END_DECLS
 

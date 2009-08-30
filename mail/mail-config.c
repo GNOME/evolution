@@ -37,10 +37,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-
-#ifndef G_OS_WIN32
-#include <sys/wait.h>
-#endif
+#include <glib/gi18n-lib.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
@@ -48,19 +45,11 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
-
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
-#include "e-util/e-util-labels.h"
-
-#include <libedataserver/e-account-list.h>
-#include <e-util/e-signature-list.h>
+#include "e-util/e-account-utils.h"
+#include "e-util/e-signature-utils.h"
 
 #include <camel/camel-service.h>
 #include <camel/camel-stream-mem.h>
@@ -70,21 +59,17 @@
 
 #include <libedataserverui/e-passwords.h>
 
-#include "mail-component.h"
 #include "mail-session.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
+#include "em-utils.h"
+#include "e-mail-local.h"
 
 typedef struct {
 	GConfClient *gconf;
 
-	gboolean corrupt;
-
 	gchar *gtkrc;
-
-	EAccountList *accounts;
-	ESignatureList *signatures;
 
 	GSList *labels;
 
@@ -109,18 +94,6 @@ extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
-
-void
-mail_config_save_accounts (void)
-{
-	e_account_list_save (config->accounts);
-}
-
-void
-mail_config_save_signatures (void)
-{
-	e_signature_list_save (config->signatures);
-}
 
 static void
 config_clear_mime_types (void)
@@ -212,33 +185,6 @@ config_write_style (void)
 	fclose (rc);
 
 	gtk_rc_reparse_all ();
-}
-
-static void
-config_clear_labels (void)
-{
-	if (!config)
-		return;
-
-	e_util_labels_free (config->labels);
-	config->labels = NULL;
-}
-
-static void
-config_cache_labels (GConfClient *client)
-{
-	if (!config)
-		return;
-
-	config->labels = e_util_labels_parse (client);
-}
-
-static void
-gconf_labels_changed (GConfClient *client, guint cnxn_id,
-		      GConfEntry *entry, gpointer user_data)
-{
-	config_clear_labels ();
-	config_cache_labels (client);
 }
 
 static void
@@ -368,9 +314,6 @@ mail_config_init (void)
 
 	mail_config_clear ();
 
-	config->accounts = e_account_list_new (config->gconf);
-	config->signatures = e_signature_list_new (config->gconf);
-
 	gtk_rc_parse (config->gtkrc);
 
 	/* Composer Configuration */
@@ -473,18 +416,6 @@ mail_config_init (void)
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
 
-	/* Label Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, E_UTIL_LABELS_GCONF_KEY,
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	gconf_client_notify_add (
-		config->gconf, E_UTIL_LABELS_GCONF_KEY,
-		gconf_labels_changed, NULL, NULL, NULL);
-
-	config_cache_labels (config->gconf);
-
 	/* MIME Type Configuration */
 
 	gconf_client_add_dir (
@@ -549,28 +480,23 @@ mail_config_clear (void)
 	if (!config)
 		return;
 
-	if (config->accounts) {
-		g_object_unref (config->accounts);
-		config->accounts = NULL;
-	}
-
-	if (config->signatures) {
-		g_object_unref (config->signatures);
-		config->signatures = NULL;
-	}
-
-	config_clear_labels ();
 	config_clear_mime_types ();
 }
 
 void
 mail_config_write (void)
 {
+	EAccountList *account_list;
+	ESignatureList *signature_list;
+
 	if (!config)
 		return;
 
-	e_account_list_save (config->accounts);
-	e_signature_list_save (config->signatures);
+	account_list = e_get_account_list ();
+	signature_list = e_get_signature_list ();
+
+	e_account_list_save (account_list);
+	e_signature_list_save (signature_list);
 
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
@@ -578,6 +504,7 @@ mail_config_write (void)
 void
 mail_config_write_on_exit (void)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 
@@ -591,7 +518,8 @@ mail_config_write_on_exit (void)
 
 	/* then we make sure the ones we want to remember are in the
            session cache */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		gchar *passwd;
 
@@ -620,7 +548,7 @@ mail_config_write_on_exit (void)
 	e_passwords_clear_passwords ("Mail");
 
 	/* then we remember them */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -652,18 +580,6 @@ mail_config_get_gconf_client (void)
 		mail_config_init ();
 
 	return config->gconf;
-}
-
-gboolean
-mail_config_is_configured (void)
-{
-	return e_list_length ((EList *) config->accounts) > 0;
-}
-
-gboolean
-mail_config_is_corrupt (void)
-{
-	return config->corrupt;
 }
 
 gint
@@ -733,74 +649,16 @@ mail_config_get_enable_magic_spacebar ()
 	return config->magic_spacebar;
 }
 
-/**
- * mail_config_get_labels
- *
- * @return list of known labels, each member data is EUtilLabel structure.
- *         Returned list should not be freed, neither data inside it.
- **/
-GSList *
-mail_config_get_labels (void)
-{
-	return config->labels;
-}
-
 const gchar **
 mail_config_get_allowable_mime_types (void)
 {
 	return (const gchar **) config->mime_types->pdata;
 }
 
-gboolean
-mail_config_find_account (EAccount *account)
-{
-	EAccount *acnt;
-	EIterator *iter;
-
-	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		acnt = (EAccount *) e_iterator_get (iter);
-		if (acnt == account) {
-			g_object_unref (iter);
-			return TRUE;
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	return FALSE;
-}
-
-EAccount *
-mail_config_get_default_account (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	if (!config->accounts)
-		return NULL;
-
-	/* should probably return const */
-	return (EAccount *)e_account_list_get_default(config->accounts);
-}
-
-EAccount *
-mail_config_get_account_by_name (const gchar *account_name)
-{
-	return (EAccount *)e_account_list_find(config->accounts, E_ACCOUNT_FIND_NAME, account_name);
-}
-
-EAccount *
-mail_config_get_account_by_uid (const gchar *uid)
-{
-	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
-}
-
 static EAccount *
 mc_get_account_by (const gchar *given_url, const gchar * (get_url_string)(EAccount *account))
 {
+	EAccountList *account_list;
 	EAccount *account = NULL;
 	EIterator *iter;
 	CamelURL *url;
@@ -815,7 +673,8 @@ mc_get_account_by (const gchar *given_url, const gchar * (get_url_string)(EAccou
 	provider = camel_provider_get (given_url, NULL);
 	g_return_val_if_fail (provider != NULL && provider->url_equal != NULL, NULL);
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
 		const gchar *account_url_string;
@@ -877,77 +736,21 @@ mail_config_get_account_by_transport_url (const gchar *transport_url)
 	return mc_get_account_by (transport_url, get_transport_url_string);
 }
 
-gint
-mail_config_has_proxies (EAccount *account)
-{
-	return e_account_list_account_has_proxies (config->accounts, account);
-}
-
-void
-mail_config_remove_account_proxies (EAccount *account)
-{
-	e_account_list_remove_account_proxies (config->accounts, account);
-}
-
-void
-mail_config_prune_proxies (void)
-{
-	e_account_list_prune_proxies (config->accounts);
-}
-
-EAccountList *
-mail_config_get_accounts (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	return config->accounts;
-}
-
-void
-mail_config_add_account (EAccount *account)
-{
-	e_account_list_add(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_remove_account (EAccount *account)
-{
-	e_account_list_remove(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_set_default_account (EAccount *account)
-{
-	e_account_list_set_default(config->accounts, account);
-}
-
-EAccountIdentity *
-mail_config_get_default_identity (void)
-{
-	EAccount *account;
-
-	account = mail_config_get_default_account ();
-	if (account)
-		return account->id;
-	else
-		return NULL;
-}
-
 EAccountService *
 mail_config_get_default_transport (void)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 
-	account = mail_config_get_default_account ();
+	account_list = e_get_account_list ();
+	account = e_get_default_account ();
+
 	if (account && account->enabled && account->transport && account->transport->url && account->transport->url[0])
 		return account->transport;
 
 	/* return the first account with a transport? */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -968,17 +771,19 @@ mail_config_get_default_transport (void)
 static gchar *
 uri_to_evname (const gchar *uri, const gchar *prefix)
 {
-	const gchar *base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	const gchar *data_dir;
 	gchar *safe;
 	gchar *tmp;
+
+	data_dir = em_utils_get_data_dir ();
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", data_dir, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", data_dir, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -986,6 +791,7 @@ uri_to_evname (const gchar *uri, const gchar *prefix)
 void
 mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *new)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 	gint i, work = 0;
@@ -998,7 +804,8 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *ne
 		"*views/custom_view-",
 		NULL };
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -1039,26 +846,33 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const gchar *old, const gchar *ne
 void
 mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 	gint work = 0;
-	/* assumes these can't be removed ... */
-	const gchar *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
-	const gchar *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	const gchar *local_drafts_folder_uri;
+	const gchar *local_sent_folder_uri;
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	/* assumes these can't be removed ... */
+	local_drafts_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+	local_sent_folder_uri =
+		e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
+
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
 		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri)) {
 			g_free (account->sent_folder_uri);
-			account->sent_folder_uri = g_strdup (default_sent_folder_uri);
+			account->sent_folder_uri = g_strdup (local_sent_folder_uri);
 			work = 1;
 		}
 
 		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri)) {
 			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+			account->drafts_folder_uri = g_strdup (local_drafts_folder_uri);
 			work = 1;
 		}
 
@@ -1091,121 +905,16 @@ gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
 	gchar *url, *basename, *filename;
-	const gchar *evolution_dir;
+	const gchar *config_dir;
 
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-
+	config_dir = em_utils_get_config_dir ();
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (evolution_dir, "config", basename, NULL);
+	filename = g_build_filename (config_dir, basename, NULL);
 	g_free (basename);
 	g_free (url);
 
 	return filename;
-}
-
-ESignatureList *
-mail_config_get_signatures (void)
-{
-	return config->signatures;
-}
-
-static gchar *
-get_new_signature_filename (void)
-{
-	const gchar *base_directory;
-	gchar *filename, *id;
-	struct stat st;
-	gint i;
-
-	base_directory = e_get_user_data_dir ();
-	filename = g_build_filename (base_directory, "signatures", NULL);
-	if (g_lstat (filename, &st)) {
-		if (errno == ENOENT) {
-			if (g_mkdir (filename, 0700))
-				g_warning ("Fatal problem creating %s directory.", filename);
-		} else
-			g_warning ("Fatal problem with %s directory.", filename);
-	}
-	g_free (filename);
-
-	filename = g_malloc (strlen (base_directory) + sizeof ("/signatures/signature-") + 12);
-	id = g_stpcpy (filename, base_directory);
-	id = g_stpcpy (id, "/signatures/signature-");
-
-	for (i = 0; i < (INT_MAX - 1); i++) {
-		sprintf (id, "%d", i);
-		if (g_lstat (filename, &st) == -1 && errno == ENOENT) {
-			gint fd;
-
-			fd = g_creat (filename, 0600);
-			if (fd >= 0) {
-				close (fd);
-				return filename;
-			}
-		}
-	}
-
-	g_free (filename);
-
-	return NULL;
-}
-
-ESignature *
-mail_config_signature_new (const gchar *filename, gboolean script, gboolean html)
-{
-	ESignature *sig;
-
-	sig = e_signature_new ();
-	e_signature_set_name (sig, _("Unnamed"));
-	e_signature_set_is_script (sig, script);
-	e_signature_set_is_html (sig, html);
-
-	if (filename == NULL) {
-		gchar *new_filename;
-
-		new_filename = get_new_signature_filename ();
-		e_signature_set_filename (sig, new_filename);
-		g_free (new_filename);
-	} else
-		e_signature_set_filename (sig, filename);
-
-	return sig;
-}
-
-ESignature *
-mail_config_get_signature_by_uid (const gchar *uid)
-{
-	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_UID, uid);
-}
-
-ESignature *
-mail_config_get_signature_by_name (const gchar *name)
-{
-	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_NAME, name);
-}
-
-void
-mail_config_add_signature (ESignature *signature)
-{
-	e_signature_list_add (config->signatures, signature);
-	mail_config_save_signatures ();
-}
-
-void
-mail_config_remove_signature (ESignature *signature)
-{
-	const gchar *filename;
-	gboolean is_script;
-
-	filename = e_signature_get_filename (signature);
-	is_script = e_signature_get_is_script (signature);
-
-	if (filename == NULL && !is_script)
-		g_unlink (filename);
-
-	e_signature_list_remove (config->signatures, signature);
-	mail_config_save_signatures ();
 }
 
 void
@@ -1237,132 +946,4 @@ mail_config_get_lookup_book_local_only (void)
 		mail_config_init ();
 
 	return config->book_lookup_local_only;
-}
-
-gboolean
-mail_config_scripts_disabled (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	return config->scripts_disabled;
-}
-
-gchar *
-mail_config_signature_run_script (const gchar *script)
-{
-#ifndef G_OS_WIN32
-	gint result, status;
-	gint in_fds[2];
-	pid_t pid;
-
-	if (mail_config_scripts_disabled ())
-		return NULL;
-
-	if (pipe (in_fds) == -1) {
-		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
-		return NULL;
-	}
-
-	if (!(pid = fork ())) {
-		/* child process */
-		gint maxfd, i;
-
-		close (in_fds [0]);
-		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
-			_exit (255);
-		close (in_fds [1]);
-
-		setsid ();
-
-		maxfd = sysconf (_SC_OPEN_MAX);
-		for (i = 3; i < maxfd; i++) {
-			if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-				fcntl (i, F_SETFD, FD_CLOEXEC);
-		}
-
-		execlp("/bin/sh", "/bin/sh", "-c", script, NULL);
-		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
-		_exit (255);
-	} else if (pid < 0) {
-		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
-		close (in_fds [0]);
-		close (in_fds [1]);
-		return NULL;
-	} else {
-		CamelStreamFilter *filtered_stream;
-		CamelStreamMem *memstream;
-		CamelMimeFilter *charenc;
-		CamelStream *stream;
-		GByteArray *buffer;
-		gchar *charset;
-		gchar *content;
-
-		/* parent process */
-		close (in_fds[1]);
-
-		stream = camel_stream_fs_new_with_fd (in_fds[0]);
-
-		memstream = (CamelStreamMem *) camel_stream_mem_new ();
-		buffer = g_byte_array_new ();
-		camel_stream_mem_set_byte_array (memstream, buffer);
-
-		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
-		camel_object_unref (stream);
-
-		/* signature scripts are supposed to generate UTF-8 content, but because users
-		   are known to not ever read the manual... we try to do our best if the
-                   content isn't valid UTF-8 by assuming that the content is in the user's
-		   preferred charset. */
-		if (!g_utf8_validate ((gchar *)buffer->data, buffer->len, NULL)) {
-			stream = (CamelStream *) memstream;
-			memstream = (CamelStreamMem *) camel_stream_mem_new ();
-			camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
-
-			filtered_stream = camel_stream_filter_new_with_stream (stream);
-			camel_object_unref (stream);
-
-			charset = gconf_client_get_string (config->gconf, "/apps/evolution/mail/composer/charset", NULL);
-			if (charset && *charset) {
-				if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
-					camel_stream_filter_add (filtered_stream, charenc);
-					camel_object_unref (charenc);
-				}
-			}
-			g_free (charset);
-
-			camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
-			camel_object_unref (filtered_stream);
-			g_byte_array_free (buffer, TRUE);
-
-			buffer = memstream->buffer;
-		}
-
-		camel_object_unref (memstream);
-
-		g_byte_array_append (buffer, (const guchar *)"", 1);
-		content = (gchar *)buffer->data;
-		g_byte_array_free (buffer, FALSE);
-
-		/* wait for the script process to terminate */
-		result = waitpid (pid, &status, 0);
-
-		if (result == -1 && errno == EINTR) {
-			/* child process is hanging... */
-			kill (pid, SIGTERM);
-			sleep (1);
-			result = waitpid (pid, &status, WNOHANG);
-			if (result == 0) {
-				/* ...still hanging, set phasers to KILL */
-				kill (pid, SIGKILL);
-				sleep (1);
-				result = waitpid (pid, &status, WNOHANG);
-			}
-		}
-
-		return content;
-	}
-#else
-	return NULL;
-#endif
 }

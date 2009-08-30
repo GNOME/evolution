@@ -57,10 +57,10 @@ typedef struct {
 
 GType calendar_view_factory_get_type (void);
 
-CalendarViewFactory *calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
+GalViewFactory *calendar_view_factory_construct (CalendarViewFactory *cal_view_factory,
 						      GnomeCalendarViewType view_type);
 
-CalendarViewFactory *calendar_view_factory_new (GnomeCalendarViewType view_type);
+GalViewFactory *calendar_view_factory_new (GnomeCalendarViewType view_type);
 
 
 

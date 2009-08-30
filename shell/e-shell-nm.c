@@ -30,48 +30,40 @@
 #include <string.h>
 #include <glib.h>
 #include <e-shell.h>
-#include <Evolution.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
 #include <dbus/dbus-glib.h>
 #include <NetworkManager/NetworkManager.h>
 
-gboolean e_shell_dbus_initialise (EShell *shell);
+static DBusConnection *dbus_connection;
 
-static DBusConnection *dbus_connection = NULL;
+/* Forward Declaration */
+gboolean e_shell_dbus_initialize (EShell *shell);
 
 static gboolean
-reinit_dbus (gpointer user_data)
+reinit_dbus (EShell *shell)
 {
-	EShell *shell = user_data;
-
-	if (e_shell_dbus_initialise (shell))
-		return FALSE;
-
-	/* keep trying to re-establish dbus connection */
-
-	return TRUE;
+	return !e_shell_dbus_initialize (shell);
 }
 
 static DBusHandlerResult
 e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
-                         DBusMessage *message, gpointer user_data)
+                         DBusMessage *message,
+                         gpointer user_data)
 {
-	const gchar *object;
-	EShell *shell = user_data;
-	GNOME_Evolution_ShellState shell_state;
-	EShellLineStatus line_status;
 	DBusError error = DBUS_ERROR_INIT;
+	EShell *shell = user_data;
+	const gchar *path;
 	guint32 state;
 
-	object = dbus_message_get_path (message);
+	path = dbus_message_get_path (message);
 
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-		object && !strcmp (object, DBUS_PATH_LOCAL)) {
+		path != NULL && strcmp (path, DBUS_PATH_LOCAL) == 0) {
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 
-		g_timeout_add_seconds (3, reinit_dbus, shell);
+		g_timeout_add_seconds (3, (GSourceFunc) reinit_dbus, shell);
 
 		return DBUS_HANDLER_RESULT_HANDLED;
 	}
@@ -89,14 +81,16 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 	}
 
-	line_status = e_shell_get_line_status (shell);
-
-	if (line_status == E_SHELL_LINE_STATUS_ONLINE && (state == NM_STATE_ASLEEP || state == NM_STATE_DISCONNECTED)) {
-		shell_state = GNOME_Evolution_FORCED_OFFLINE;
-		e_shell_set_line_status (shell, shell_state);
-	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && state == NM_STATE_CONNECTED) {
-		shell_state = GNOME_Evolution_USER_ONLINE;
-		e_shell_set_line_status (shell, shell_state);
+	switch (state) {
+		case NM_STATE_CONNECTED:
+			e_shell_set_network_available (shell, TRUE);
+			break;
+		case NM_STATE_ASLEEP:
+		case NM_STATE_DISCONNECTED:
+			e_shell_set_network_available (shell, FALSE);
+			break;
+		default:
+			break;
 	}
 
 	return DBUS_HANDLER_RESULT_HANDLED;
@@ -109,31 +103,38 @@ check_initial_state (EShell *shell)
 	guint32 state = -1;
 	DBusError error = DBUS_ERROR_INIT;
 
-	message = dbus_message_new_method_call (NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "state");
+	message = dbus_message_new_method_call (
+		NM_DBUS_SERVICE, NM_DBUS_PATH, NM_DBUS_INTERFACE, "state");
 
 	/* assuming this should be safe to call syncronously */
-	response = dbus_connection_send_with_reply_and_block (dbus_connection, message, 100, &error);
+	response = dbus_connection_send_with_reply_and_block (
+		dbus_connection, message, 100, &error);
 
 	if (response)
-		dbus_message_get_args (response, &error, DBUS_TYPE_UINT32, &state, DBUS_TYPE_INVALID);
+		dbus_message_get_args (
+			response, &error, DBUS_TYPE_UINT32,
+			&state, DBUS_TYPE_INVALID);
 	else {
-		g_warning ("%s \n", error.message);
+		g_warning ("%s", error.message);
 		dbus_error_free (&error);
 		return;
 	}
 
-	/* update the state only in the absence of network connection else let the old state prevail */
+	/* Update the state only in the absence of a network connection,
+	 * otherwise let the old state prevail. */
 	if (state == NM_STATE_DISCONNECTED)
-		e_shell_set_line_status (shell, GNOME_Evolution_FORCED_OFFLINE);
+		e_shell_set_network_available (shell, FALSE);
 
 	dbus_message_unref (message);
 	dbus_message_unref (response);
 }
 
 gboolean
-e_shell_dbus_initialise (EShell *shell)
+e_shell_dbus_initialize (EShell *shell)
 {
 	DBusError error = DBUS_ERROR_INIT;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	if (dbus_connection != NULL)
 		return TRUE;

@@ -24,7 +24,7 @@
 
 /*
  * EMemoTable - displays the ECalComponent objects in a table (an ETable).
- * Used for memos.
+ * Used for calendar events and tasks.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gdk/gdkkeysyms.h>
+#include <e-util/e-binding.h>
 #include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
@@ -43,110 +43,108 @@
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
 #include <e-util/e-dialog-utils.h>
-#include <widgets/misc/e-cell-date-edit.h>
-#include <widgets/misc/e-cell-percent.h>
+#include <e-util/e-util-private.h>
+#include <table/e-cell-date-edit.h>
+#include <table/e-cell-percent.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-time-utils.h>
 
-#include "calendar-config.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
 #include "e-memo-table.h"
+#include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
-#include "e-comp-editor-registry.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util-private.h>
-#include "e-cal-popup.h"
-#include "e-calendar-table.h"
+#include "misc.h"
 
-enum TargetType{
-	TARGET_TYPE_VCALENDAR
+#define E_MEMO_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_TABLE, EMemoTablePrivate))
+
+struct _EMemoTablePrivate {
+	gpointer shell_view;  /* weak pointer */
+	ECalModel *model;
 };
 
-static GtkTargetEntry target_types[] = {
-	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
-};
-
-static guint n_target_types = G_N_ELEMENTS (target_types);
-
-extern ECompEditorRegistry *comp_editor_registry;
-
-static void e_memo_table_destroy		(GtkObject	*object);
-
-static void e_memo_table_on_double_click	(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEvent	*event,
-						 EMemoTable *memo_table);
-static gint e_memo_table_show_popup_menu	(ETable *table,
-						 GdkEvent *gdk_event,
-						 EMemoTable *memo_table);
-
-static gint e_memo_table_on_right_click		(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEvent       *event,
-						 EMemoTable *memo_table);
-static gboolean e_memo_table_on_popup_menu	(GtkWidget *widget,
-						 gpointer data);
-
-static gint e_memo_table_on_key_press		(ETable		*table,
-						 gint		 row,
-						 gint		 col,
-						 GdkEventKey	*event,
-						 EMemoTable *memo_table);
-static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
-
-static ECalModelComponent *get_selected_comp (EMemoTable *memo_table);
-static void open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data);
-
-/* Signal IDs */
 enum {
+	PROP_0,
+	PROP_MODEL,
+	PROP_SHELL_VIEW
+};
+
+enum {
+	OPEN_COMPONENT,
+	POPUP_EVENT,
+	STATUS_MESSAGE,
 	USER_CREATED,
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+enum {
+	TARGET_TYPE_VCALENDAR
+};
+
+static GtkTargetEntry target_types[] = {
+	{ (gchar *) "text/calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
+};
+
+static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
+
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
+static GdkAtom clipboard_atom;
 
 /* The icons to represent the task. */
-#define E_MEMO_MODEL_NUM_ICONS	2
-static const gchar * icon_names[E_MEMO_MODEL_NUM_ICONS] = {
-	"stock_notes", "stock_insert-note"
+#define NUM_ICONS 2
+static const gchar *icon_names[NUM_ICONS] = {
+	"stock_notes",
+	"stock_insert-note"
 };
-static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
-
-static GdkAtom clipboard_atom = GDK_NONE;
-
-G_DEFINE_TYPE (EMemoTable, e_memo_table, GTK_TYPE_TABLE)
+static GdkPixbuf *icon_pixbufs[NUM_ICONS] = { NULL };
 
 static void
-e_memo_table_class_init (EMemoTableClass *klass)
+memo_table_emit_open_component (EMemoTable *memo_table,
+                                ECalModelComponent *comp_data)
 {
-	GtkObjectClass *object_class;
+	guint signal_id = signals[OPEN_COMPONENT];
 
-	object_class = (GtkObjectClass *) klass;
+	g_signal_emit (memo_table, signal_id, 0, comp_data);
+}
 
-	/* Method override */
-	object_class->destroy		= e_memo_table_destroy;
+static void
+memo_table_emit_popup_event (EMemoTable *memo_table,
+                             GdkEvent *event)
+{
+	guint signal_id = signals[POPUP_EVENT];
 
-	signals[USER_CREATED] =
-		g_signal_new ("user_created",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMemoTableClass, user_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	g_signal_emit (memo_table, signal_id, 0, event);
+}
 
-	/* clipboard atom */
-	if (!clipboard_atom)
-		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+static void
+memo_table_emit_status_message (EMemoTable *memo_table,
+                                const gchar *message,
+                                gdouble percent)
+{
+	guint signal_id = signals[STATUS_MESSAGE];
+
+	g_signal_emit (memo_table, signal_id, 0, message, percent);
+}
+
+static void
+memo_table_emit_user_created (EMemoTable *memo_table)
+{
+	guint signal_id = signals[USER_CREATED];
+
+	g_signal_emit (memo_table, signal_id, 0);
 }
 
 static gint
-date_compare_cb (gconstpointer a, gconstpointer b)
+memo_table_date_compare_cb (gconstpointer a,
+                            gconstpointer b)
 {
 	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
 	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
@@ -174,87 +172,443 @@ date_compare_cb (gconstpointer a, gconstpointer b)
 }
 
 static void
-row_appended_cb (ECalModel *model, EMemoTable *memo_table)
+memo_table_double_click_cb (EMemoTable *memo_table,
+                            gint row,
+                            gint col,
+                            GdkEvent *event)
 {
-	g_signal_emit (memo_table, signals[USER_CREATED], 0);
-}
+	ECalModel *model;
+	ECalModelComponent *comp_data;
 
-static gboolean
-query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
-{
-	EMemoTable *memo_table;
-
-	g_return_val_if_fail (E_IS_MEMO_TABLE (user_data), FALSE);
-
-	memo_table = E_MEMO_TABLE (user_data);
-
-	return ec_query_tooltip (widget, x, y, keyboard_mode, tooltip, GTK_WIDGET (e_memo_table_get_table (memo_table)), memo_table->model);
+	model = e_memo_table_get_model (memo_table);
+	comp_data = e_cal_model_get_component_at (model, row);
+	memo_table_emit_open_component (memo_table, comp_data);
 }
 
 static void
-e_memo_table_init (EMemoTable *memo_table)
+memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
+                                       const gchar *message,
+                                       gint progress,
+                                       ECalSourceType type)
 {
-	GtkWidget *table;
-	ETable *e_table;
+	gdouble percent = (gdouble) progress;
+
+	memo_table_emit_status_message (memo_table, message, percent);
+}
+
+static void
+memo_table_model_cal_view_done_cb (EMemoTable *memo_table,
+                                   ECalendarStatus status,
+                                   ECalSourceType type)
+{
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
+}
+
+static gboolean
+memo_table_query_tooltip_cb (EMemoTable *memo_table,
+                             gint x,
+                             gint y,
+                             gboolean keyboard_mode,
+                             GtkTooltip *tooltip)
+{
+	ECalModel *model;
+	ECalModelComponent *comp_data;
+	gint row = -1, col = -1;
+	GtkWidget *box, *l, *w;
+	GtkStyle *style = gtk_widget_get_default_style ();
+	gchar *tmp;
+	const gchar *str;
+	GString *tmp2;
+	gchar buff[1001];
+	gboolean free_text = FALSE;
+	gboolean use_24_hour_format;
+	ECalComponent *new_comp;
+	ECalComponentOrganizer organizer;
+	ECalComponentDateTime dtstart, dtdue;
+	icalcomponent *clone;
+	icaltimezone *zone, *default_zone;
+	GSList *desc, *p;
+	gint len;
+	ETable *etable;
+	ESelectionModel *esm;
+	struct tm tmp_tm;
+
+	if (keyboard_mode)
+		return FALSE;
+
+	etable = e_memo_table_get_table (memo_table);
+	e_table_get_mouse_over_cell (etable, &row, &col);
+	if (row == -1 || !etable)
+		return FALSE;
+
+	/* Respect sorting option; the 'e_table_get_mouse_over_cell'
+	 * returns sorted row, not the model one. */
+	esm = e_table_get_selection_model (etable);
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
+
+	model = e_memo_table_get_model (memo_table);
+	comp_data = e_cal_model_get_component_at (model, row);
+	if (!comp_data || !comp_data->icalcomp)
+		return FALSE;
+
+	new_comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	if (!e_cal_component_set_icalcomponent (new_comp, clone)) {
+		g_object_unref (new_comp);
+		return FALSE;
+	}
+
+	box = gtk_vbox_new (FALSE, 0);
+
+	str = e_calendar_view_get_icalcomponent_summary (
+		comp_data->client, comp_data->icalcomp, &free_text);
+	if (!(str && *str)) {
+		if (free_text)
+			g_free ((gchar *)str);
+		free_text = FALSE;
+		str = _("* No Summary *");
+	}
+
+	l = gtk_label_new (NULL);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_markup (GTK_LABEL (l), tmp);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	w = gtk_event_box_new ();
+
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
+	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	g_free (tmp);
+
+	if (free_text)
+		g_free ((gchar *)str);
+	free_text = FALSE;
+
+	w = gtk_event_box_new ();
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
+
+	l = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	w = l;
+
+	e_cal_component_get_organizer (new_comp, &organizer);
+	if (organizer.cn) {
+		gchar *ptr;
+		ptr = strchr( organizer.value, ':');
+
+		if (ptr) {
+			ptr++;
+			/* To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+		} else {
+			/* With SunOne accounts, there may be no ':' in organiser.value */
+			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+		}
+
+		l = gtk_label_new (tmp);
+		gtk_label_set_line_wrap (GTK_LABEL (l), FALSE);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+
+	e_cal_component_get_dtstart (new_comp, &dtstart);
+	e_cal_component_get_due (new_comp, &dtdue);
+
+	default_zone = e_cal_model_get_timezone (model);
+
+	if (dtstart.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		if (!zone)
+			e_cal_get_timezone (
+				comp_data->client, dtstart.tzid, &zone, NULL);
+		if (!zone)
+			zone = default_zone;
+	} else {
+		zone = NULL;
+	}
+
+	tmp2 = g_string_new ("");
+	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
+
+	if (dtstart.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtstart.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, use_24_hour_format,
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			g_string_append (tmp2, _("Start: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (dtdue.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtdue.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, use_24_hour_format,
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			if (tmp2->len)
+				g_string_append (tmp2, "; ");
+
+			g_string_append (tmp2, _("Due: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	e_cal_component_free_datetime (&dtstart);
+	e_cal_component_free_datetime (&dtdue);
+
+	tmp2 = g_string_new ("");
+	e_cal_component_get_description_list (new_comp, &desc);
+	for (len = 0, p = desc; p != NULL; p = p->next) {
+		ECalComponentText *text = p->data;
+
+		if (text->value != NULL) {
+			len += strlen (text->value);
+			g_string_append (tmp2, text->value);
+			if (len > 1024) {
+				g_string_set_size (tmp2, 1020);
+				g_string_append (tmp2, "...");
+				break;
+			}
+		}
+	}
+	e_cal_component_free_text_list (desc);
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	gtk_widget_show_all (box);
+	gtk_tooltip_set_custom (tooltip, box);
+
+	g_object_unref (new_comp);
+
+	return TRUE;
+}
+
+static gboolean
+memo_table_popup_menu_cb (EMemoTable *memo_table)
+{
+	memo_table_emit_popup_event (memo_table, NULL);
+
+	return TRUE;
+}
+
+static gint
+memo_table_right_click_cb (EMemoTable *memo_table,
+                           gint row,
+                           gint col,
+                           GdkEvent *event)
+{
+	memo_table_emit_popup_event (memo_table, event);
+
+	return TRUE;
+}
+
+static void
+memo_table_set_model (EMemoTable *memo_table,
+                      ECalModel *model)
+{
+	g_return_if_fail (memo_table->priv->model == NULL);
+
+	memo_table->priv->model = g_object_ref (model);
+
+	g_signal_connect_swapped (
+		model, "row-appended",
+		G_CALLBACK (memo_table_emit_user_created), memo_table);
+
+	g_signal_connect_swapped (
+		model, "cal-view-progress",
+		G_CALLBACK (memo_table_model_cal_view_progress_cb),
+		memo_table);
+
+	g_signal_connect_swapped (
+		model, "cal-view-done",
+		G_CALLBACK (memo_table_model_cal_view_done_cb),
+		memo_table);
+}
+
+static void
+memo_table_set_shell_view (EMemoTable *memo_table,
+                           EShellView *shell_view)
+{
+	g_return_if_fail (memo_table->priv->shell_view == NULL);
+
+	memo_table->priv->shell_view = shell_view;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_view),
+		&memo_table->priv->shell_view);
+}
+
+static void
+memo_table_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_MODEL:
+			memo_table_set_model (
+				E_MEMO_TABLE (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SHELL_VIEW:
+			memo_table_set_shell_view (
+				E_MEMO_TABLE (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+memo_table_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_MODEL:
+			g_value_set_object (
+				value, e_memo_table_get_model (
+				E_MEMO_TABLE (object)));
+			return;
+
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value, e_memo_table_get_shell_view (
+				E_MEMO_TABLE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+memo_table_dispose (GObject *object)
+{
+	EMemoTablePrivate *priv;
+
+	priv = E_MEMO_TABLE_GET_PRIVATE (object);
+
+	if (priv->shell_view != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell_view), &priv->shell_view);
+		priv->shell_view = NULL;
+	}
+
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+memo_table_constructed (GObject *object)
+{
+	EMemoTable *memo_table;
+	GtkWidget *widget;
+	ECalModel *model;
+	ETable *table;
 	ECell *cell, *popup_cell;
 	ETableExtras *extras;
 	gint i;
 	AtkObject *a11y;
 	gchar *etspecfile;
 
-	/* Create the model */
-
-	memo_table->model = (ECalModel *) e_cal_model_memos_new ();
-	g_signal_connect (memo_table->model, "row_appended", G_CALLBACK (row_appended_cb), memo_table);
-
-	memo_table->user_created_cal = NULL;
+	memo_table = E_MEMO_TABLE (object);
+	model = e_memo_table_get_model (memo_table);
 
 	/* Create the header columns */
 
-	extras = e_table_extras_new();
+	extras = e_table_extras_new ();
 
 	/*
 	 * Normal string fields.
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
-
+	g_object_set (cell, "bg_color_column", E_CAL_MODEL_FIELD_COLOR, NULL);
 	e_table_extras_add_cell (extras, "calstring", cell);
 
 	/*
 	 * Date fields.
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
-	g_object_set (G_OBJECT (cell),
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
+	g_object_set (cell, "bg_color_column", E_CAL_MODEL_FIELD_COLOR, NULL);
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "timezone",
+		G_OBJECT (cell), "timezone");
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (cell), "use-24-hour-format");
 
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
+
+	e_mutual_binding_new (
+		G_OBJECT (model), "use-24-hour-format",
+		G_OBJECT (popup_cell), "use-24-hour-format");
+
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	memo_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
-	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
-						e_memo_table_get_current_time,
-						memo_table, NULL);
+	e_cell_date_edit_set_get_time_callback (
+		E_CELL_DATE_EDIT (popup_cell),
+		e_memo_table_get_current_time, memo_table, NULL);
 
 	/* Sorting */
-	e_table_extras_add_compare (extras, "date-compare",
-				    date_compare_cb);
+	e_table_extras_add_compare (
+		extras, "date-compare", memo_table_date_compare_cb);
 
 	/* Create pixmaps */
 
 	if (!icon_pixbufs[0])
-		for (i = 0; i < E_MEMO_MODEL_NUM_ICONS; i++) {
+		for (i = 0; i < NUM_ICONS; i++) {
 			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], GTK_ICON_SIZE_MENU);
 		}
 
-	cell = e_cell_toggle_new (0, E_MEMO_MODEL_NUM_ICONS, icon_pixbufs);
-	e_table_extras_add_cell(extras, "icon", cell);
-	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
+	cell = e_cell_toggle_new (0, NUM_ICONS, icon_pixbufs);
+	e_table_extras_add_cell (extras, "icon", cell);
+	e_table_extras_add_pixbuf (extras, "icon", icon_pixbufs[0]);
+
+	/* set proper format component for a default 'date' cell renderer */
+	cell = e_table_extras_get_cell (extras, "date");
+	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");
@@ -262,51 +616,166 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	/* Create the table */
 
-	etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-				       "e-memo-table.etspec",
-				       NULL);
-	table = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (memo_table->model),
-						     extras,
-						     etspecfile,
-						     NULL);
+	etspecfile = g_build_filename (
+		EVOLUTION_ETSPECDIR, "e-memo-table.etspec", NULL);
+	widget = e_table_scrolled_new_from_spec_file (
+		E_TABLE_MODEL (model), extras, etspecfile, NULL);
+	gtk_table_attach (
+		GTK_TABLE (memo_table), widget, 0, 1, 0, 1,
+		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	memo_table->etable = widget;
+	gtk_widget_show (widget);
 	g_free (etspecfile);
 
-	/* FIXME: this causes a message from GLib about 'extras' having only a floating
-	   reference */
-	/* g_object_unref (extras); */
+	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
+	g_signal_connect_swapped (
+		table, "double-click",
+		G_CALLBACK (memo_table_double_click_cb), memo_table);
+	g_signal_connect_swapped (
+		table, "query-tooltip",
+		G_CALLBACK (memo_table_query_tooltip_cb), memo_table);
+	g_signal_connect_swapped (
+		table, "popup-menu",
+		G_CALLBACK (memo_table_popup_menu_cb), memo_table);
+	g_signal_connect_swapped (
+		table, "right-click",
+		G_CALLBACK (memo_table_right_click_cb), memo_table);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (table), TRUE);
 
-	memo_table->etable = table;
-	gtk_table_attach (GTK_TABLE (memo_table), table, 0, 1, 0, 1,
-			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show (table);
-
-	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
-	g_signal_connect (e_table, "double_click", G_CALLBACK (e_memo_table_on_double_click), memo_table);
-	g_signal_connect (e_table, "right_click", G_CALLBACK (e_memo_table_on_right_click), memo_table);
-	g_signal_connect (e_table, "key_press", G_CALLBACK (e_memo_table_on_key_press), memo_table);
-	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_memo_table_on_popup_menu), memo_table);
-	g_signal_connect (e_table, "query-tooltip", G_CALLBACK (query_tooltip_cb), memo_table);
-	gtk_widget_set_has_tooltip (GTK_WIDGET (e_table), TRUE);
-
-	a11y = gtk_widget_get_accessible (GTK_WIDGET(e_table));
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Memos"));
 }
 
+static void
+memo_table_class_init (EMemoTableClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMemoTablePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = memo_table_set_property;
+	object_class->get_property = memo_table_get_property;
+	object_class->dispose = memo_table_dispose;
+	object_class->constructed = memo_table_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			_("Model"),
+			NULL,
+			E_TYPE_CAL_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			_("Shell View"),
+			NULL,
+			E_TYPE_SHELL_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	signals[OPEN_COMPONENT] = g_signal_new (
+		"open-component",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMemoTableClass, open_component),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_CAL_MODEL_COMPONENT);
+
+	signals[POPUP_EVENT] = g_signal_new (
+		"popup-event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMemoTableClass, popup_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	signals[STATUS_MESSAGE] = g_signal_new (
+		"status-message",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMemoTableClass, status_message),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__STRING,
+		G_TYPE_NONE, 1,
+		G_TYPE_STRING);
+
+	signals[USER_CREATED] = g_signal_new (
+		"user-created",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMemoTableClass, user_created),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+}
+
+static void
+memo_table_init (EMemoTable *memo_table)
+{
+	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
+}
+
+GType
+e_memo_table_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMemoTableClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) memo_table_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMemoTable),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) memo_table_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_TABLE, "EMemoTable", &type_info, 0);
+	}
+
+	return type;
+}
+
 /**
  * e_memo_table_new:
- * @Returns: a new #EMemoTable.
+ * @shell_view: an #EShellView
+ * @model: an #ECalModel for the table
  *
- * Creates a new #EMemoTable.
+ * Returns a new #EMemoTable.
+ *
+ * Returns: a new #EMemoTable
  **/
 GtkWidget *
-e_memo_table_new (void)
+e_memo_table_new (EShellView *shell_view,
+                  ECalModel *model)
 {
-	GtkWidget *memo_table;
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	memo_table = GTK_WIDGET (g_object_new (e_memo_table_get_type (), NULL));
-
-	return memo_table;
+	return g_object_new (
+		E_TYPE_MEMO_TABLE,
+		"model", model, "shell-view", shell_view, NULL);
 }
 
 /**
@@ -323,22 +792,7 @@ e_memo_table_get_model (EMemoTable *memo_table)
 	g_return_val_if_fail (memo_table != NULL, NULL);
 	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
 
-	return memo_table->model;
-}
-
-static void
-e_memo_table_destroy (GtkObject *object)
-{
-	EMemoTable *memo_table;
-
-	memo_table = E_MEMO_TABLE (object);
-
-	if (memo_table->model) {
-		g_object_unref (memo_table->model);
-		memo_table->model = NULL;
-	}
-
-	GTK_OBJECT_CLASS (e_memo_table_parent_class)->destroy (object);
+	return memo_table->priv->model;
 }
 
 /**
@@ -353,20 +807,21 @@ e_memo_table_destroy (GtkObject *object)
 ETable *
 e_memo_table_get_table (EMemoTable *memo_table)
 {
-	g_return_val_if_fail (memo_table != NULL, NULL);
+	ETableScrolled *table_scrolled;
+
 	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
 
-	return e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	table_scrolled = E_TABLE_SCROLLED (memo_table->etable);
+
+	return e_table_scrolled_get_table (table_scrolled);
 }
 
-void
-e_memo_table_open_selected (EMemoTable *memo_table)
+EShellView *
+e_memo_table_get_shell_view (EMemoTable *memo_table)
 {
-	ECalModelComponent *comp_data;
+	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
 
-	comp_data = get_selected_comp (memo_table);
-	if (comp_data != NULL)
-		open_memo (memo_table, comp_data);
+	return memo_table->priv->shell_view;
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -388,10 +843,12 @@ get_selected_row_cb (gint model_row, gpointer data)
 static ECalModelComponent *
 get_selected_comp (EMemoTable *memo_table)
 {
+	ECalModel *model;
 	ETable *etable;
 	gint row;
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	model = e_memo_table_get_model (memo_table);
+	etable = e_memo_table_get_table (memo_table);
 	if (e_table_selected_count (etable) != 1)
 		return NULL;
 
@@ -401,7 +858,7 @@ get_selected_comp (EMemoTable *memo_table)
 				      &row);
 	g_return_val_if_fail (row != -1, NULL);
 
-	return e_cal_model_get_component_at (memo_table->model, row);
+	return e_cal_model_get_component_at (model, row);
 }
 
 struct get_selected_uids_closure {
@@ -415,27 +872,14 @@ add_uid_cb (gint model_row, gpointer data)
 {
 	struct get_selected_uids_closure *closure;
 	ECalModelComponent *comp_data;
+	ECalModel *model;
 
 	closure = data;
 
-	comp_data = e_cal_model_get_component_at (closure->memo_table->model, model_row);
+	model = e_memo_table_get_model (closure->memo_table);
+	comp_data = e_cal_model_get_component_at (model, model_row);
 
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
-}
-
-static GSList *
-get_selected_objects (EMemoTable *memo_table)
-{
-	struct get_selected_uids_closure closure;
-	ETable *etable;
-
-	closure.memo_table = memo_table;
-	closure.objects = NULL;
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
-	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
-
-	return closure.objects;
 }
 
 /* Deletes all of the selected components in the table */
@@ -443,10 +887,12 @@ static void
 delete_selected_components (EMemoTable *memo_table)
 {
 	GSList *objs, *l;
+	const gchar *status_message;
 
-	objs = get_selected_objects (memo_table);
+	objs = e_memo_table_get_selected (memo_table);
 
-	e_memo_table_set_status_message (memo_table, _("Deleting selected objects"));
+	status_message = _("Deleting selected objects");
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -458,24 +904,9 @@ delete_selected_components (EMemoTable *memo_table)
 		g_clear_error (&error);
 	}
 
-	e_memo_table_set_status_message (memo_table, NULL);
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
 
 	g_slist_free (objs);
-}
-
-/**
- * e_memo_table_get_selected:
- * @memo_table:
- *
- * Get the currently selected ECalModelComponent's on the table.
- *
- * Return value: A GSList of the components, which should be
- * g_slist_free'd when finished with.
- **/
-GSList *
-e_memo_table_get_selected (EMemoTable *memo_table)
-{
-	return get_selected_objects(memo_table);
 }
 
 /**
@@ -495,7 +926,7 @@ e_memo_table_delete_selected (EMemoTable *memo_table)
 	g_return_if_fail (memo_table != NULL);
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	etable = e_memo_table_get_table (memo_table);
 
 	n_selected = e_table_selected_count (etable);
 	if (n_selected <= 0)
@@ -523,6 +954,30 @@ e_memo_table_delete_selected (EMemoTable *memo_table)
 }
 
 /**
+ * e_memo_table_get_selected:
+ * @memo_table:
+ *
+ * Get the currently selected ECalModelComponent's on the table.
+ *
+ * Return value: A GSList of the components, which should be
+ * g_slist_free'd when finished with.
+ **/
+GSList *
+e_memo_table_get_selected (EMemoTable *memo_table)
+{
+	struct get_selected_uids_closure closure;
+	ETable *etable;
+
+	closure.memo_table = memo_table;
+	closure.objects = NULL;
+
+	etable = e_memo_table_get_table (memo_table);
+	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
+
+	return closure.objects;
+}
+
+/**
  * e_memo_table_cut_clipboard:
  * @memo_table: A calendar table.
  *
@@ -535,37 +990,6 @@ e_memo_table_cut_clipboard (EMemoTable *memo_table)
 
 	e_memo_table_copy_clipboard (memo_table);
 	delete_selected_components (memo_table);
-}
-
-/* callback for e_table_selected_row_foreach */
-static void
-copy_row_cb (gint model_row, gpointer data)
-{
-	EMemoTable *memo_table;
-	ECalModelComponent *comp_data;
-	gchar *comp_str;
-	icalcomponent *child;
-
-	memo_table = E_MEMO_TABLE (data);
-
-	g_return_if_fail (memo_table->tmp_vcal != NULL);
-
-	comp_data = e_cal_model_get_component_at (memo_table->model, model_row);
-	if (!comp_data)
-		return;
-
-	/* add timezones to the VCALENDAR component */
-	e_cal_util_add_timezones_from_component (memo_table->tmp_vcal, comp_data->icalcomp);
-
-	/* add the new component to the VCALENDAR component */
-	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
-	child = icalparser_parse_string (comp_str);
-	if (child) {
-		icalcomponent_add_component (memo_table->tmp_vcal,
-					     icalcomponent_new_clone (child));
-		icalcomponent_free (child);
-	}
-	g_free (comp_str);
 }
 
 static void
@@ -588,6 +1012,39 @@ clipboard_get_calendar_cb (GtkClipboard *clipboard,
 	}
 }
 
+/* callback for e_table_selected_row_foreach */
+static void
+copy_row_cb (gint model_row, gpointer data)
+{
+	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	ECalModel *model;
+	gchar *comp_str;
+	icalcomponent *child;
+
+	memo_table = E_MEMO_TABLE (data);
+
+	g_return_if_fail (memo_table->tmp_vcal != NULL);
+
+	model = e_memo_table_get_model (memo_table);
+	comp_data = e_cal_model_get_component_at (model, model_row);
+	if (!comp_data)
+		return;
+
+	/* add timezones to the VCALENDAR component */
+	e_cal_util_add_timezones_from_component (memo_table->tmp_vcal, comp_data->icalcomp);
+
+	/* add the new component to the VCALENDAR component */
+	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
+	child = icalparser_parse_string (comp_str);
+	if (child) {
+		icalcomponent_add_component (memo_table->tmp_vcal,
+					     icalcomponent_new_clone (child));
+		icalcomponent_free (child);
+	}
+	g_free (comp_str);
+}
+
 /**
  * e_memo_table_copy_clipboard:
  * @memo_table: A calendar table.
@@ -606,16 +1063,18 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	/* create temporary VCALENDAR object */
 	memo_table->tmp_vcal = e_cal_util_new_top_level ();
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	etable = e_memo_table_get_table (memo_table);
 	e_table_selected_row_foreach (etable, copy_row_cb, memo_table);
 	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
-	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
-					 clipboard_get_calendar_cb,
-					 NULL, comp_str)) {
+	if (!gtk_clipboard_set_with_data (
+		clipboard, target_types, G_N_ELEMENTS (target_types),
+		clipboard_get_calendar_cb, NULL, comp_str)) {
 		/* no-op */
 	} else {
-		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
+		gtk_clipboard_set_can_store (
+			clipboard, target_types + 1,
+			G_N_ELEMENTS (target_types) - 1);
 	}
 
 	/* free memory */
@@ -631,7 +1090,9 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	gchar *uid;
 	ECalComponent *comp;
 	ECal *client;
+	ECalModel *model;
 	icalcomponent_kind kind;
+	const gchar *status_message;
 
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
@@ -645,13 +1106,17 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	/* check the type of the component */
 	kind = icalcomponent_isa (icalcomp);
 	if (kind != ICAL_VCALENDAR_COMPONENT &&
+	    kind != ICAL_VEVENT_COMPONENT &&
+	    kind != ICAL_VTODO_COMPONENT &&
 	    kind != ICAL_VJOURNAL_COMPONENT) {
 		return;
 	}
 
-	client = e_cal_model_get_default_client (memo_table->model);
+	model = e_memo_table_get_model (memo_table);
+	client = e_cal_model_get_default_client (model);
 
-	e_memo_table_set_status_message (memo_table, _("Updating objects"));
+	status_message = _("Updating objects");
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -663,7 +1128,9 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 			vcal_comp, ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VJOURNAL_COMPONENT) {
+			if (child_kind == ICAL_VEVENT_COMPONENT ||
+			    child_kind == ICAL_VTODO_COMPONENT ||
+			    child_kind == ICAL_VJOURNAL_COMPONENT) {
 				ECalComponent *tmp_comp;
 
 				uid = e_cal_component_gen_uid ();
@@ -694,7 +1161,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 		g_object_unref (comp);
 	}
 
-	e_memo_table_set_status_message (memo_table, NULL);
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
 
 static void
@@ -703,7 +1170,7 @@ clipboard_paste_received_cb (GtkClipboard *clipboard,
 			     gpointer data)
 {
 	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ETable *e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable));
+	ETable *e_table = e_memo_table_get_table (memo_table);
 	GnomeCanvas *canvas = e_table->table_canvas;
 	GnomeCanvasItem *item = GNOME_CANVAS (canvas)->focused_item;
 
@@ -738,332 +1205,43 @@ void
 e_memo_table_paste_clipboard (EMemoTable *memo_table)
 {
 	GtkClipboard *clipboard;
+
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
-	g_object_ref (memo_table);
+	clipboard = gtk_widget_get_clipboard (
+		GTK_WIDGET (memo_table), clipboard_atom);
 
-	gtk_clipboard_request_contents (clipboard,
-					gdk_atom_intern (target_types[0].target, FALSE),
-					clipboard_paste_received_cb, memo_table);
-}
-
-/* Opens a task in the task editor */
-static void
-open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
-{
-	CompEditor *medit;
-	const gchar *uid;
-
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-
-	medit = e_comp_editor_registry_find (comp_editor_registry, uid);
-	if (medit == NULL) {
-		ECalComponent *comp;
-		CompEditorFlags flags = 0;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-
-		if (e_cal_component_has_organizer (comp))
-			flags |= COMP_EDITOR_IS_SHARED;
-
-		if (itip_organizer_is_user (comp, comp_data->client))
-			flags |= COMP_EDITOR_USER_ORG;
-
-		medit = memo_editor_new (comp_data->client, flags);
-
-		comp_editor_edit_comp (medit, comp);
-		g_object_unref (comp);
-
-		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
-	}
-
-	gtk_window_present (GTK_WINDOW (medit));
-}
-
-/* Opens the task in the specified row */
-static void
-open_memo_by_row (EMemoTable *memo_table, gint row)
-{
-	ECalModelComponent *comp_data;
-
-	comp_data = e_cal_model_get_component_at (memo_table->model, row);
-	open_memo (memo_table, comp_data);
-}
-
-static void
-e_memo_table_on_double_click (ETable *table,
-			      gint row,
-			      gint col,
-			      GdkEvent *event,
-			      EMemoTable *memo_table)
-{
-	open_memo_by_row (memo_table, row);
-}
-
-static void
-e_memo_table_on_open_memo (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ECalModelComponent *comp_data;
-
-	comp_data = get_selected_comp (memo_table);
-	if (comp_data)
-		open_memo (memo_table, comp_data);
-}
-
-static void
-e_memo_table_on_save_as (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ECalModelComponent *comp_data;
-	gchar *filename;
-	gchar *ical_string;
-
-	comp_data = get_selected_comp (memo_table);
-	if (comp_data == NULL)
-		return;
-
-	filename = e_file_dialog_save (_("Save as..."), NULL);
-	if (filename == NULL)
-		return;
-
-	ical_string = e_cal_get_component_as_string (comp_data->client, comp_data->icalcomp);
-	if (ical_string == NULL) {
-		g_warning ("Couldn't convert item to a string");
-		return;
-	}
-
-	e_write_file_uri (filename, ical_string);
-	g_free (ical_string);
-}
-
-static void
-e_memo_table_on_print_memo (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ECalModelComponent *comp_data;
-	ECalComponent *comp;
-
-	comp_data = get_selected_comp (memo_table);
-	if (comp_data == NULL)
-		return;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-	print_comp (comp, comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-
-	g_object_unref (comp);
-}
-
-static void
-e_memo_table_on_cut (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-
-	e_memo_table_cut_clipboard (memo_table);
-}
-
-static void
-e_memo_table_on_copy (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-
-	e_memo_table_copy_clipboard (memo_table);
-}
-
-static void
-e_memo_table_on_paste (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-
-	e_memo_table_paste_clipboard (memo_table);
-}
-
-static void
-e_memo_table_on_forward (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ECalModelComponent *comp_data;
-
-	comp_data = get_selected_comp (memo_table);
-	if (comp_data) {
-		ECalComponent *comp;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
-
-		g_object_unref (comp);
-	}
-}
-
-/* Opens the URL of the memo */
-static void
-open_url_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-
-	comp_data = get_selected_comp (memo_table);
-	if (!comp_data)
-		return;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
-	if (!prop)
-		return;
-
-	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, icalproperty_get_url (prop));
-}
-
-/* Callback for the "delete tasks" menu item */
-static void
-delete_cb (EPopup *ep, EPopupItem *pitem, gpointer data)
-{
-	EMemoTable *memo_table = E_MEMO_TABLE (data);
-
-	e_memo_table_delete_selected (memo_table);
-}
-
-static EPopupItem memos_popup_items [] = {
-	{ E_POPUP_ITEM, (gchar *) "00.open", (gchar *) N_("_Open"), e_memo_table_on_open_memo, NULL, (gchar *) GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, (gchar *) "05.openweb", (gchar *) N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
-	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), e_memo_table_on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, (gchar *) "20.print", (gchar *) N_("P_rint..."), e_memo_table_on_print_memo, NULL, (gchar *) GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
-
-	{ E_POPUP_BAR, (gchar *) "30.bar" },
-
-	{ E_POPUP_ITEM, (gchar *) "40.cut", (gchar *) N_("C_ut"), e_memo_table_on_cut, NULL, (gchar *) GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "50.copy", (gchar *) N_("_Copy"), e_memo_table_on_copy, NULL, (gchar *) GTK_STOCK_COPY, 0, 0 },
-	{ E_POPUP_ITEM, (gchar *) "60.paste", (gchar *) N_("_Paste"), e_memo_table_on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
-
-	{ E_POPUP_BAR, (gchar *) "70.bar" },
-
-	{ E_POPUP_ITEM, (gchar *) "80.forward", (gchar *) N_("_Forward as iCalendar"), e_memo_table_on_forward, NULL, (gchar *) "mail-forward", E_CAL_POPUP_SELECT_ONE },
-
-	{ E_POPUP_BAR, (gchar *) "90.bar" },
-
-	{ E_POPUP_ITEM, (gchar *) "a0.delete", (gchar *) N_("_Delete"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, (gchar *) "b0.deletemany", (gchar *) N_("_Delete Selected Memos"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
-};
-
-static void
-emt_popup_free(EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free(items);
-}
-
-static gint
-e_memo_table_show_popup_menu (ETable *table,
-				GdkEvent *gdk_event,
-				EMemoTable *memo_table)
-{
-	GtkMenu *menu;
-	GSList *selection, *l, *menus = NULL;
-	GPtrArray *events;
-	ECalPopup *ep;
-	ECalPopupTargetSelect *t;
-	gint i;
-
-	selection = get_selected_objects (memo_table);
-	if (!selection)
-		return TRUE;
-
-	/** @HookPoint-ECalPopup: Tasks Table Context Menu
-	 * @Id: org.gnome.evolution.tasks.table.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSelect
-	 *
-	 * The context menu on the tasks table.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.memos.table.popup");
-
-	events = g_ptr_array_new();
-	for (l=selection;l;l=g_slist_next(l))
-		g_ptr_array_add(events, e_cal_model_copy_component_data((ECalModelComponent *)l->data));
-	g_slist_free(selection);
-
-	t = e_cal_popup_target_new_select(ep, memo_table->model, events);
-	t->target.widget = (GtkWidget *)memo_table;
-
-	for (i=0;i<sizeof(memos_popup_items)/sizeof(memos_popup_items[0]);i++)
-		menus = g_slist_prepend(menus, &memos_popup_items[i]);
-	e_popup_add_items((EPopup *)ep, menus, NULL, emt_popup_free, memo_table);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0,
-		       gdk_event?gdk_event->button.time:gtk_get_current_event_time());
-
-	return TRUE;
-}
-
-static gint
-e_memo_table_on_right_click (ETable *table,
-				 gint row,
-				 gint col,
-				 GdkEvent *event,
-				 EMemoTable *memo_table)
-{
-	return e_memo_table_show_popup_menu (table, event, memo_table);
-}
-
-static gboolean
-e_memo_table_on_popup_menu (GtkWidget *widget, gpointer data)
-{
-	ETable *table = E_TABLE(widget);
-	g_return_val_if_fail(table, FALSE);
-
-	return e_memo_table_show_popup_menu (table, NULL,
-						 E_MEMO_TABLE(data));
-}
-
-static gint
-e_memo_table_on_key_press (ETable *table,
-			       gint row,
-			       gint col,
-			       GdkEventKey *event,
-			       EMemoTable *memo_table)
-{
-	if (event->keyval == GDK_Delete) {
-		delete_cb (NULL, NULL, memo_table);
-		return TRUE;
-	} else if ((event->keyval == GDK_o)
-		   &&(event->state & GDK_CONTROL_MASK)) {
-		open_memo_by_row (memo_table, row);
-		return TRUE;
-	}
-
-	return FALSE;
+	gtk_clipboard_request_contents (
+		clipboard, gdk_atom_intern (target_types[0].target, FALSE),
+		clipboard_paste_received_cb, g_object_ref (memo_table));
 }
 
 /* Loads the state of the table (headers shown etc.) from the given file. */
 void
 e_memo_table_load_state	(EMemoTable *memo_table,
-			 gchar		*filename)
+                         const gchar *filename)
 {
-	struct stat st;
+	ETable *table;
 
 	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+	g_return_if_fail (filename != NULL);
 
-	if (g_stat (filename, &st) == 0 && st.st_size > 0
-	    && S_ISREG (st.st_mode)) {
-		e_table_load_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable)), filename);
-	}
+	table = e_memo_table_get_table (memo_table);
+	e_table_load_state (table, filename);
 }
 
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void
-e_memo_table_save_state (EMemoTable	*memo_table,
-			 gchar		*filename)
+e_memo_table_save_state (EMemoTable *memo_table,
+                         const gchar *filename)
 {
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+	ETable *table;
 
-	e_table_save_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (memo_table->etable)),
-			    filename);
+	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+	g_return_if_fail (filename != NULL);
+
+	table = e_memo_table_get_table (memo_table);
+	e_table_save_state (table, filename);
 }
 
 /* Returns the current time, for the ECellDateEdit items.
@@ -1072,12 +1250,15 @@ e_memo_table_save_state (EMemoTable	*memo_table,
 static struct tm
 e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 {
+	EMemoTable *memo_table = data;
+	ECalModel *model;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	/* Get the current timezone. */
-	zone = calendar_config_get_icaltimezone ();
+	model = e_memo_table_get_model (memo_table);
+	zone = e_cal_model_get_timezone (model);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 
@@ -1091,45 +1272,4 @@ e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 	tmp_tm.tm_isdst = -1;
 
 	return tmp_tm;
-}
-
-#ifdef TRANSLATORS_ONLY
-
-static gchar *test[] = {
-    N_("Click to add a memo")
-};
-
-#endif
-
-void
-e_memo_table_set_activity_handler (EMemoTable *memo_table, EActivityHandler *activity_handler)
-{
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	memo_table->activity_handler = activity_handler;
-}
-
-void
-e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
-{
-        g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	if (!memo_table->activity_handler)
-		return;
-
-        if (!message || !*message) {
-		if (memo_table->activity_id != 0) {
-			e_activity_handler_operation_finished (memo_table->activity_handler, memo_table->activity_id);
-			memo_table->activity_id = 0;
-		}
-        } else if (memo_table->activity_id == 0) {
-                gchar *client_id = g_strdup_printf ("%p", (gpointer) memo_table);
-
-                memo_table->activity_id = e_activity_handler_operation_started (
-			memo_table->activity_handler, client_id, message, TRUE);
-
-                g_free (client_id);
-        } else {
-                e_activity_handler_operation_progressing (memo_table->activity_handler, memo_table->activity_id, message, -1.0);
-	}
 }

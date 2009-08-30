@@ -21,14 +21,8 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <string.h>
-
 #include <glib/gi18n.h>
-
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 
@@ -43,82 +37,83 @@
 #define d(x)
 
 extern CamelSession *session;
+static gpointer parent_class;
 
-static void em_folder_selector_class_init (EMFolderSelectorClass *klass);
-static void em_folder_selector_init (EMFolderSelector *emfs);
-static void em_folder_selector_destroy (GtkObject *obj);
-static void em_folder_selector_finalize (GObject *obj);
+static void
+folder_selector_finalize (GObject *object)
+{
+	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
 
-static GtkDialogClass *parent_class = NULL;
+	g_free (emfs->selected_path);
+	g_free (emfs->selected_uri);
+	g_free (emfs->created_uri);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+folder_selector_destroy (GtkObject *object)
+{
+	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
+	GtkTreeModel *model;
+
+	if (emfs->created_id != 0) {
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
+		g_signal_handler_disconnect (model, emfs->created_id);
+		emfs->created_id = 0;
+	}
+
+	/* Chain up to parent's destroy() method. */
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+}
+
+static void
+folder_selector_class_init (EMFolderSelectorClass *class)
+{
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = folder_selector_finalize;
+
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = folder_selector_destroy;
+}
+
+static void
+folder_selector_init (EMFolderSelector *emfs)
+{
+	emfs->selected_path = NULL;
+	emfs->selected_uri = NULL;
+}
 
 GType
 em_folder_selector_get_type (void)
 {
 	static GType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info = {
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
 			sizeof (EMFolderSelectorClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_folder_selector_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) folder_selector_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
 			sizeof (EMFolderSelector),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_folder_selector_init,
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) folder_selector_init,
+			NULL   /* value_table */
 		};
 
-		type = g_type_register_static (GTK_TYPE_DIALOG, "EMFolderSelector", &info, 0);
+		type = g_type_register_static (
+			GTK_TYPE_DIALOG, "EMFolderSelector", &type_info, 0);
 	}
 
 	return type;
-}
-
-static void
-em_folder_selector_class_init (EMFolderSelectorClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (GTK_TYPE_DIALOG);
-
-	object_class->finalize = em_folder_selector_finalize;
-	gtk_object_class->destroy = em_folder_selector_destroy;
-}
-
-static void
-em_folder_selector_init (EMFolderSelector *emfs)
-{
-	emfs->selected_path = NULL;
-	emfs->selected_uri = NULL;
-}
-
-static void
-em_folder_selector_destroy (GtkObject *obj)
-{
-	EMFolderSelector *emfs = (EMFolderSelector *) obj;
-	EMFolderTreeModel *model;
-
-	if (emfs->created_id != 0) {
-		model = em_folder_tree_get_model (emfs->emft);
-		g_signal_handler_disconnect (model, emfs->created_id);
-		emfs->created_id = 0;
-	}
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
-}
-
-static void
-em_folder_selector_finalize (GObject *obj)
-{
-	EMFolderSelector *emfs = (EMFolderSelector *) obj;
-
-	g_free (emfs->selected_path);
-	g_free (emfs->selected_uri);
-	g_free (emfs->created_uri);
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void
@@ -128,7 +123,9 @@ emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 		return;
 
 	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
-	em_folder_utils_create_folder (NULL, emfs->emft, GTK_WINDOW (dialog));
+
+	/* FIXME Pass a parent window. */
+	em_folder_utils_create_folder (NULL, emfs->emft, NULL);
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }
@@ -168,7 +165,7 @@ folder_activated_cb (EMFolderTree *emft, const gchar *path, const gchar *uri, EM
 void
 em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
 {
-	GtkWidget *label;
+	GtkWidget *widget;
 
 	gtk_window_set_modal (GTK_WINDOW (emfs), FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
@@ -190,19 +187,29 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (emfs), GTK_RESPONSE_OK);
 
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_end (
+		GTK_BOX (GTK_DIALOG (emfs)->vbox), widget, TRUE, TRUE, 6);
+	gtk_widget_show (widget);
+
 	emfs->emft = emft;
-	gtk_widget_show ((GtkWidget *) emft);
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (emft));
+	gtk_widget_show (GTK_WIDGET (emft));
 
 	g_signal_connect (emfs->emft, "folder-selected", G_CALLBACK (folder_selected_cb), emfs);
 	g_signal_connect (emfs->emft, "folder-activated", G_CALLBACK (folder_activated_cb), emfs);
-	gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), (GtkWidget *)emft, TRUE, TRUE, 6);
 
 	if (text != NULL) {
-		label = gtk_label_new (text);
-		gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-		gtk_widget_show (label);
+		widget = gtk_label_new (text);
+		gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
+		gtk_widget_show (widget);
 
-		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), label, FALSE, TRUE, 6);
+		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), widget, FALSE, TRUE, 6);
 	}
 
 	gtk_widget_grab_focus ((GtkWidget *) emfs->emft);

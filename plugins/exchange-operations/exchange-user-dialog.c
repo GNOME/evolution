@@ -22,9 +22,6 @@
 #include "exchange-user-dialog.h"
 #include "e2k-types.h"
 
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-widget.h>
 #include <e-util/e-dialog-utils.h>
 #include <libedataserverui/e-name-selector.h>
 #include "e2k-xml-utils.h"

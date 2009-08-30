@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <gmodule.h>
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-store.h>
@@ -46,10 +45,12 @@
 #include <camel/camel-stream-mem.h>
 
 #include "e-util/e-util-private.h"
+#include "shell/e-shell-backend.h"
 
-#include "mail/mail-mt.h"
-#include "mail/mail-component.h"
-#include "mail/mail-tools.h"
+#include "mail-mt.h"
+#include "mail-tools.h"
+#include "e-mail-local.h"
+#include "em-utils.h"
 
 #include "mail-importer.h"
 
@@ -111,23 +112,6 @@ mail_importer_add_line (MailImporter *importer,
 
 	camel_exception_free (ex);
 	camel_message_info_free(info);
-}
-
-struct _BonoboObject *mail_importer_factory_cb(struct _BonoboGenericFactory *factory, const gchar *iid, gpointer data)
-{
-#if 0
-	if (strcmp(iid, ELM_INTELLIGENT_IMPORTER_IID) == 0)
-		return elm_intelligent_importer_new();
-	else if (strcmp(iid, PINE_INTELLIGENT_IMPORTER_IID) == 0)
-		return pine_intelligent_importer_new();
-	else if (strcmp(iid, NETSCAPE_INTELLIGENT_IMPORTER_IID) == 0)
-		return netscape_intelligent_importer_new();
-	else if (strcmp(iid, MBOX_IMPORTER_IID) == 0)
-		return mbox_importer_new();
-	else if (strcmp(iid, OUTLOOK_IMPORTER_IID) == 0)
-		return outlook_importer_new();
-#endif
-	return NULL;
 }
 
 struct _import_mbox_msg {
@@ -203,7 +187,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	}
 
 	if (m->uri == NULL || m->uri[0] == 0)
-		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
+		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
 	else
 		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 
@@ -360,12 +344,15 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	GDir *dir;
 	const gchar *d;
 	struct stat st;
+	const gchar *data_dir;
 	gchar *filefull, *foldersub, *uri, *utf8_filename;
 	const gchar *folder;
 
 	dir = g_dir_open(filepath, 0, NULL);
 	if (dir == NULL)
 		return;
+
+	data_dir = em_utils_get_data_dir ();
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
@@ -395,9 +382,9 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
-			uri = g_strdup_printf("mbox:%s/local#%s", mail_component_peek_base_directory(NULL), folder);
+			uri = g_strdup_printf("mbox:%s/local#%s", data_dir, folder);
 		} else {
-			uri = g_strdup_printf("mbox:%s/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
+			uri = g_strdup_printf("mbox:%s/local#%s/%s", data_dir, folderparent, folder);
 		}
 
 		printf("importing to uri %s\n", uri);

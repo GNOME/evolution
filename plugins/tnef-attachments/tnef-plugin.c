@@ -46,7 +46,7 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-fs.h>
 
-#include <mail/em-format.h>
+#include <em-format/em-format.h>
 #include <mail/em-format-hook.h>
 #include <mail/em-utils.h>
 #include <e-util/e-error.h>
@@ -158,7 +158,7 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 		camel_medium_set_content_object((CamelMedium *)part, content);
 		camel_object_unref(content);
 
-		type = em_utils_snoop_type(part);
+		type = em_format_snoop_type(part);
 		if (type)
 		    camel_data_wrapper_set_mime_type((CamelDataWrapper *)part, type);
 
@@ -192,10 +192,10 @@ org_gnome_format_tnef(gpointer ep, EMFormatHookTarget *t)
 	g_free(tmpdir);
 }
 
-gint e_plugin_lib_enable(EPluginLib *ep, gint enable);
+gint e_plugin_lib_enable(EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable(EPluginLib *ep, gint enable)
+e_plugin_lib_enable(EPlugin *ep, gint enable)
 {
     if (loaded)
 	    return 0;

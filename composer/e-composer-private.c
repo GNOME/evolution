@@ -17,7 +17,6 @@
 
 #include "e-composer-private.h"
 #include "e-util/e-util-private.h"
-#include "widgets/misc/e-attachment-icon-view.h"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
@@ -28,9 +27,11 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	guint merge_id;
 
 	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	list = gtk_action_group_list_actions (composer->priv->charset_actions);
 	path = "/main-menu/edit-menu/pre-spell-check/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+	list = gtk_action_group_list_actions (composer->priv->charset_actions);
+	list = g_list_sort (list, (GCompareFunc) e_action_compare_by_label);
 
 	while (list != NULL) {
 		GtkAction *action = list->data;
@@ -86,8 +87,8 @@ e_composer_private_init (EMsgComposer *composer)
 
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
-	GtkWidget *widget;
 	GtkWidget *container;
+	GtkWidget *widget;
 	GtkWidget *send_widget;
 	const gchar *path;
 	gchar *filename;
@@ -101,7 +102,7 @@ e_composer_private_init (EMsgComposer *composer)
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
 		gtk_widget_hide (widget);
 		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
-		gtk_toolbar_set_style ((GtkToolbar *)widget, GTK_TOOLBAR_BOTH_HORIZ);
+		gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 		gtk_widget_hide (widget);
 
 	}
@@ -198,7 +199,6 @@ e_composer_private_init (EMsgComposer *composer)
 		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
 		gtk_container_add((GtkContainer *)send_widget, tmp);
 		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
-
 		path = "/main-toolbar/pre-main-toolbar/save-draft";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 		tmp = gtk_hbox_new (FALSE, 0);
@@ -295,6 +295,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->header_table != NULL) {
 		g_object_unref (composer->priv->header_table);
 		composer->priv->header_table = NULL;
+	}
+
+	if (composer->priv->attachment_paned != NULL) {
+		g_object_unref (composer->priv->attachment_paned);
+		composer->priv->attachment_paned = NULL;
 	}
 
 	if (composer->priv->charset_actions != NULL) {

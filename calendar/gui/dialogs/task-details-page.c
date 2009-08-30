@@ -515,16 +515,15 @@ complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
 }
 
 static void
-date_changed_cb (EDateEdit *dedit, gpointer data)
+date_changed_cb (EDateEdit *dedit,
+                 TaskDetailsPage *tdpage)
 {
-	TaskDetailsPage *tdpage;
-	TaskDetailsPagePrivate *priv;
+	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
 	struct icaltimetype completed_tt = icaltime_null_time ();
 	icalproperty_status status;
 	gboolean date_set;
 
-	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tdpage)))
@@ -769,9 +768,14 @@ GtkWidget *task_details_page_create_date_edit (void);
 GtkWidget *
 task_details_page_create_date_edit (void)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GtkWidget *dedit;
 
-	dedit = comp_editor_new_date_edit (TRUE, TRUE, FALSE);
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	dedit = comp_editor_new_date_edit (shell_settings, TRUE, TRUE, FALSE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;

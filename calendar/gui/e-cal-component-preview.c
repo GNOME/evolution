@@ -22,42 +22,41 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-cal-component-preview.h"
 
 #include <string.h>
-#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libedataserver/e-categories.h>
 #include <libecal/e-cal-time-util.h>
-#include <gtkhtml/gtkhtml.h>
+#include <libedataserver/e-categories.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
-#include "e-cal-component-preview.h"
 #include <camel/camel-mime-filter-tohtml.h>
 
-struct _ECalComponentPreviewPrivate {
-	GtkWidget *html;
+#define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
 
+struct _ECalComponentPreviewPrivate {
 	icaltimezone *zone;
 };
 
-G_DEFINE_TYPE (ECalComponentPreview, e_cal_component_preview, GTK_TYPE_TABLE)
+static gpointer parent_class;
 
 static void
-on_link_clicked (GtkHTML *html, const gchar *url, gpointer data)
+cal_component_preview_link_clicked (GtkHTML *html,
+                                    const gchar *uri)
 {
 	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, url);
+	e_show_uri (NULL, uri);
 }
 
 static void
-on_url_cb (GtkHTML *html, const gchar *url, gpointer data)
+cal_component_preview_on_url (GtkHTML *html,
+                              const gchar *url)
 {
 #if 0
 	gchar *msg;
@@ -72,51 +71,11 @@ on_url_cb (GtkHTML *html, const gchar *url, gpointer data)
 #endif
 }
 
-/* Callback used when the user selects a URL in the HTML widget */
-void
-e_cal_comp_preview_url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *html_stream, gpointer data)
-{
-	gint len = strlen ("file:///");
-
-	if (!strncmp ("file:///", url, len)) {
-		GFile *file;
-		const gchar *path = url + len - 1;
-
-		g_return_if_fail (html_stream != NULL);
-		g_return_if_fail (path != NULL);
-
-		file = g_file_new_for_path (path);
-		if (file) {
-			gchar buffer[4096];
-			GInputStream *stream;
-
-			/* ignore errors here */
-			stream = G_INPUT_STREAM (g_file_read (file, NULL, NULL));
-
-			if (stream) {
-				gssize bread;
-
-				do {
-					/* ignore errors here as well */
-					bread = g_input_stream_read (stream, buffer, sizeof (buffer), NULL, NULL);
-					if (bread > 0)
-						gtk_html_stream_write (html_stream, buffer, bread);
-				} while (bread > 0);
-
-				g_input_stream_close (stream, NULL, NULL);
-				g_object_unref (stream);
-
-				gtk_html_stream_close (html_stream, GTK_HTML_STREAM_OK);
-			}
-
-			g_object_unref (file);
-		}
-	}
-}
-
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
-timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *default_zone)
+timet_to_str_with_zone (ECalComponentDateTime *dt,
+                        ECal *ecal,
+                        icaltimezone *default_zone)
 {
 	struct icaltimetype itt;
 	icaltimezone *zone;
@@ -145,12 +104,18 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 }
 
 static void
-write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone *default_zone)
+cal_component_preview_write_html (GtkHTMLStream *stream,
+                                  ECal *ecal,
+                                  ECalComponent *comp,
+                                  icaltimezone *default_zone)
 {
 	ECalComponentText text;
 	ECalComponentDateTime dt;
 	gchar *str;
-	GSList *l;
+	GString *string;
+	GSList *list, *iter;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 	icalproperty_status status;
 	const gchar *location;
 	gint *priority_value;
@@ -170,26 +135,33 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 					_("Untitled"));
 
 	/* write icons for the categories */
-	e_cal_component_get_categories_list (comp, &l);
-	if (l) {
-		GSList *node;
+	string = g_string_new (NULL);
+	e_cal_component_get_categories_list (comp, &list);
+	if (list != NULL)
+		gtk_html_stream_printf (stream, "<H3>%s ", _("Categories:"));
+	for (iter = list; iter != NULL; iter = iter->next) {
+		const gchar *category = iter->data;
+		const gchar *icon_file;
 
-		for (node = l; node != NULL; node = node->next) {
-			const gchar *icon_file;
+		icon_file = e_categories_get_icon_file_for (category);
+		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
+			gchar *uri;
 
-			icon_file = e_categories_get_icon_file_for ((const gchar *) node->data);
-			if (icon_file) {
-				gchar *icon_file_uri = g_filename_to_uri (icon_file, NULL, NULL);
-				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"%s\">",
-							(const gchar *) node->data, icon_file_uri);
-				g_free (icon_file_uri);
-			}
+			uri = g_filename_to_uri (icon_file, NULL, NULL);
+			gtk_html_stream_printf (
+				stream, "<IMG ALT=\"%s\" SRC=\"%s\">",
+				category, uri);
+			g_free (uri);
+		} else {
+			if (iter != list)
+				g_string_append_len (string, ", ", 2);
+			g_string_append (string, category);
 		}
-
-		e_cal_component_free_categories_list (l);
-
-		gtk_html_stream_printf (stream, "<BR><BR><BR>");
 	}
+	if (string->len > 0)
+		gtk_html_stream_printf (stream, "%s</H3>", string->str);
+	e_cal_component_free_categories_list (list);
+	g_string_free (string, TRUE);
 
 	/* Start table */
 	gtk_html_stream_printf (stream, "<TABLE BORDER=\"0\" WIDTH=\"80%%\">"
@@ -235,26 +207,31 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	e_cal_component_free_datetime (&dt);
 
 	/* write status */
-	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
-	e_cal_component_get_status (comp, &status);
-	switch (status) {
-	case ICAL_STATUS_INPROCESS :
-		str = g_strdup (_("In Progress"));
-		break;
-	case ICAL_STATUS_COMPLETED :
-		str = g_strdup (_("Completed"));
-		break;
-	case ICAL_STATUS_CANCELLED :
-		str = g_strdup (_("Canceled"));
-		break;
-	case ICAL_STATUS_NONE :
-	default :
-		str = g_strdup (_("Not Started"));
-		break;
-	}
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	icalprop = icalcomponent_get_first_property (
+		icalcomp, ICAL_STATUS_PROPERTY);
+	if (icalprop != NULL) {
+		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
+		e_cal_component_get_status (comp, &status);
+		switch (status) {
+		case ICAL_STATUS_INPROCESS :
+			str = g_strdup (_("In Progress"));
+			break;
+		case ICAL_STATUS_COMPLETED :
+			str = g_strdup (_("Completed"));
+			break;
+		case ICAL_STATUS_CANCELLED :
+			str = g_strdup (_("Canceled"));
+			break;
+		case ICAL_STATUS_NONE :
+		default :
+			str = g_strdup (_("Not Started"));
+			break;
+		}
 
-	gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
-	g_free (str);
+		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
+		g_free (str);
+	}
 
 	/* write priority */
 	e_cal_component_get_priority (comp, &priority_value);
@@ -278,15 +255,15 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 	/* write description and URL */
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
 
-	e_cal_component_get_description_list (comp, &l);
-	if (l) {
+	e_cal_component_get_description_list (comp, &list);
+	if (list) {
 		GSList *node;
 
 		gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
 
 		gtk_html_stream_printf (stream, "<TD><TT>");
 
-		for (node = l; node != NULL; node = node->next) {
+		for (node = list; node != NULL; node = node->next) {
 			gchar *html;
 
 			text = * (ECalComponentText *) node->data;
@@ -300,7 +277,7 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 
 		gtk_html_stream_printf (stream, "</TT></TD></TR>");
 
-		e_cal_component_free_text_list (l);
+		e_cal_component_free_text_list (list);
 	}
 
 	/* URL */
@@ -317,143 +294,119 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 }
 
 static void
-e_cal_component_preview_init (ECalComponentPreview *preview)
+cal_component_preview_finalize (GObject *object)
 {
 	ECalComponentPreviewPrivate *priv;
-	GtkWidget *scroll;
 
-	priv = g_new0 (ECalComponentPreviewPrivate, 1);
-	preview->priv = priv;
+	priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (object);
 
-	priv->html = gtk_html_new ();
-	gtk_html_set_default_content_type (GTK_HTML (priv->html), "charset=utf-8");
-	gtk_html_load_empty (GTK_HTML (priv->html));
+	/* XXX Nothing to do? */
 
-	g_signal_connect (G_OBJECT (priv->html), "url_requested",
-			  G_CALLBACK (e_cal_comp_preview_url_requested_cb), NULL);
-	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
-			  G_CALLBACK (on_link_clicked), preview);
-	g_signal_connect (G_OBJECT (priv->html), "on_url",
-			  G_CALLBACK (on_url_cb), preview);
-
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
-
-	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
-	gtk_container_add (GTK_CONTAINER (preview), scroll);
-	gtk_widget_show_all (scroll);
-
-	priv->zone = icaltimezone_get_utc_timezone ();
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-e_cal_component_preview_destroy (GtkObject *object)
+cal_component_preview_class_init (ECalComponentPreviewClass *class)
 {
-	ECalComponentPreview *preview;
-	ECalComponentPreviewPrivate *priv;
+	GObjectClass *object_class;
+	GtkHTMLClass *gtkhtml_class;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (object));
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
 
-	preview = E_CAL_COMPONENT_PREVIEW (object);
-	priv = preview->priv;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = cal_component_preview_finalize;
 
-	if (priv) {
+	gtkhtml_class = GTK_HTML_CLASS (class);
+	gtkhtml_class->link_clicked = cal_component_preview_link_clicked;
+	gtkhtml_class->on_url = cal_component_preview_on_url;
+}
 
-		g_free (priv);
-		preview->priv = NULL;
+static void
+cal_component_preview_init (ECalComponentPreview *preview)
+{
+	GtkHTML *html;
+
+	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
+
+	html = GTK_HTML (preview);
+	gtk_html_set_default_content_type (html, "charset=utf-8");
+	gtk_html_load_empty (html);
+
+	preview->priv->zone = icaltimezone_get_utc_timezone ();
+}
+
+GType
+e_cal_component_preview_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (ECalComponentPreviewClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) cal_component_preview_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (ECalComponentPreview),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) cal_component_preview_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_HTML, "ECalComponentPreview", &type_info, 0);
 	}
 
-	if (GTK_OBJECT_CLASS (e_cal_component_preview_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (e_cal_component_preview_parent_class)->destroy) (object);
-}
-
-static void
-e_cal_component_preview_class_init (ECalComponentPreviewClass *klass)
-{
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) klass;
-
-	object_class->destroy = e_cal_component_preview_destroy;
+	return type;
 }
 
 GtkWidget *
 e_cal_component_preview_new (void)
 {
-	ECalComponentPreview *preview;
-
-	preview = g_object_new (e_cal_component_preview_get_type (), NULL);
-
-	return GTK_WIDGET (preview);
+	return g_object_new (E_TYPE_CAL_COMPONENT_PREVIEW, NULL);
 }
 
 icaltimezone *
 e_cal_component_preview_get_default_timezone (ECalComponentPreview *preview)
 {
-	ECalComponentPreviewPrivate *priv;
-
-	g_return_val_if_fail (preview != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview), NULL);
 
-	priv = preview->priv;
-
-	return priv->zone;
+	return preview->priv->zone;
 }
 
 void
-e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview, icaltimezone *zone)
+e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview,
+                                              icaltimezone *zone)
 {
-	ECalComponentPreviewPrivate *priv;
-
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 	g_return_if_fail (zone != NULL);
 
-	priv = preview->priv;
-
-	priv->zone = zone;
+	preview->priv->zone = zone;
 }
 
 void
-e_cal_component_preview_display (ECalComponentPreview *preview, ECal *ecal, ECalComponent *comp)
+e_cal_component_preview_display (ECalComponentPreview *preview,
+                                 ECal *ecal,
+                                 ECalComponent *comp)
 {
-	ECalComponentPreviewPrivate *priv;
 	GtkHTMLStream *stream;
 
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
-	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	priv = preview->priv;
-
-	stream = gtk_html_begin (GTK_HTML (priv->html));
-	write_html (stream, ecal, comp, priv->zone);
+	stream = gtk_html_begin (GTK_HTML (preview));
+	cal_component_preview_write_html (
+		stream, ecal, comp, preview->priv->zone);
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 }
 
 void
 e_cal_component_preview_clear (ECalComponentPreview *preview)
 {
-	ECalComponentPreviewPrivate *priv;
-
-	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
 
-	priv = preview->priv;
-
-	gtk_html_load_empty (GTK_HTML (priv->html));
-}
-
-GtkWidget *
-e_cal_component_preview_get_html (ECalComponentPreview *preview)
-{
-	g_return_val_if_fail (preview != NULL, NULL);
-	g_return_val_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview), NULL);
-
-	return preview->priv->html;
+	gtk_html_load_empty (GTK_HTML (preview));
 }

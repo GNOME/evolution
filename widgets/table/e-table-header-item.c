@@ -912,7 +912,10 @@ ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
-	pango_font_description_free (ethi->font_desc);
+	if (ethi->font_desc != NULL) {
+		pango_font_description_free (ethi->font_desc);
+		ethi->font_desc = NULL;
+	}
 
 	g_signal_handler_disconnect (item->canvas, ethi->drag_motion_id);
 	g_signal_handler_disconnect (item->canvas, ethi->drag_leave_id);

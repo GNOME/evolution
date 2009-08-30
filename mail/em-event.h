@@ -28,7 +28,6 @@
 
 #include "e-util/e-event.h"
 #include "composer/e-msg-composer.h"
-#include "mail/em-folder-browser.h"
 
 G_BEGIN_DECLS
 
@@ -38,16 +37,10 @@ typedef struct _EMEventClass EMEventClass;
 /* Current target description */
 enum _em_event_target_t {
 	EM_EVENT_TARGET_FOLDER,
-	EM_EVENT_TARGET_FOLDER_BROWSER,
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
 	EM_EVENT_TARGET_SEND_RECEIVE,
 	EM_EVENT_TARGET_CUSTOM_ICON
-};
-
-/* Flags for FOLDER BROWSER Events*/
-enum {
-	EM_EVENT_FOLDER_BROWSER = 1<< 0
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -104,14 +97,6 @@ struct _EMEventTargetComposer {
 	EMsgComposer *composer;
 };
 
-typedef struct _EMEventTargetFolderBrowser EMEventTargetFolderBrowser;
-
-struct _EMEventTargetFolderBrowser {
-	EEventTarget target;
-
-	EMFolderBrowser *emfb;
-};
-
 typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {
@@ -150,27 +135,11 @@ GType em_event_get_type(void);
 EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const gchar *uri, guint32 flags);
-EMEventTargetFolderBrowser *em_event_target_new_folder_browser (EMEvent *eme, EMFolderBrowser *emfb);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags,
 							EMsgComposer *composer);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags);
 EMEventTargetCustomIcon * em_event_target_new_custom_icon(EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);
-
-/* ********************************************************************** */
-
-typedef struct _EMEventHook EMEventHook;
-typedef struct _EMEventHookClass EMEventHookClass;
-
-struct _EMEventHook {
-	EEventHook hook;
-};
-
-struct _EMEventHookClass {
-	EEventHookClass hook_class;
-};
-
-GType em_event_hook_get_type(void);
 
 G_END_DECLS
 
