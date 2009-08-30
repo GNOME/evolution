@@ -53,7 +53,6 @@ m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libbonobo_minimum_version], [2.20.3])
-m4_define([libbonoboui_minimum_version], [2.4.2])
 m4_define([libgtkhtml_minimum_version], [3.27.90])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libglade_minimum_version], [2.0.0])		dnl XXX Just a Guess
@@ -240,7 +239,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 gtk+-2.0 >= gtk_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libbonobo-2.0 >= libbonobo_minimum_version
-	 libbonoboui-2.0 >= libbonoboui_minimum_version
 	 libglade-2.0 >= libglade_minimum_version
 	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
 	 libgnomeui-2.0 >= libgnomeui_minimum_version
@@ -1400,17 +1398,11 @@ AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
 	$1_LIBS="[$]$1_LIBS $4"
 ])
 
-dnl ************************
-dnl Required version numbers
-dnl ************************
-BONOBOUI_REQUIRED=libbonoboui_minimum_version
-AC_SUBST(BONOBOUI_REQUIRED)
-
 dnl ********************************
 dnl Flags to get all the GNOME stuff
 dnl ********************************
 
-FULL_GNOME_DEPS="libbonoboui-2.0 gconf-2.0 gthread-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0"
+FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0"
 
 PKG_CHECK_MODULES([HAL], [hal >= hal_minimum_version], [HAVE_HAL="yes"], [HAVE_HAL="no"])
 if test "x$HAVE_HAL" = "xyes"; then
@@ -1536,13 +1528,6 @@ AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
 dnl ******************************
-dnl E_NAME Flags
-dnl ******************************
-EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0)
-AC_SUBST(E_NAME_CFLAGS)
-AC_SUBST(E_NAME_LIBS)
-
-dnl ******************************
 dnl If Gtk/Gdk is built against X11, e-util uses some X11-specific code so link with X11.
 dnl ******************************
 if test "x$GDK_BACKEND_X11" = "xyes"; then
@@ -1556,7 +1541,7 @@ fi
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libglade-2.0 libgnomeui-2.0 gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1572,14 +1557,14 @@ AC_SUBST(TZDIALOG_LIBS)
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, libbonoboui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, gio-2.0 gconf-2.0 gobject-2.0 libgnomeui-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libbonoboui-2.0 libgnomeui-2.0 libebook-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libgnomeui-2.0 libebook-$EDS_PACKAGE)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1593,7 +1578,7 @@ AC_SUBST(LIBFILTER_LIBS)
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 gnome-desktop-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 gnome-desktop-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1601,7 +1586,7 @@ AC_SUBST(SHELL_LIBS)
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="libglade-2.0 libgnomeui-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1634,7 +1619,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnomeui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1647,7 +1632,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1900,7 +1885,7 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 		dnl **************************************************
 		dnl * Exchange Operations plugin
 		dnl **************************************************
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
 		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
 		AC_SUBST(CAMEL_EXCHANGE_LIBS)
 	else
