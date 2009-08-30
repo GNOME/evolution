@@ -25,7 +25,7 @@
 #define _GAL_VIEW_FACTORY_H_
 
 #include <glib-object.h>
-#include <widgets/menus/gal-view.h>
+#include <menus/gal-view.h>
 
 G_BEGIN_DECLS
 

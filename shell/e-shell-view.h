@@ -35,8 +35,8 @@
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
 
-#include <widgets/menus/gal-view-collection.h>
-#include <widgets/menus/gal-view-instance.h>
+#include <menus/gal-view-collection.h>
+#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \

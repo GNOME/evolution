@@ -25,7 +25,7 @@
 #define _GAL_VIEW_INSTANCE_H_
 
 #include <glib-object.h>
-#include <widgets/menus/gal-view-collection.h>
+#include <menus/gal-view-collection.h>
 
 G_BEGIN_DECLS
 
