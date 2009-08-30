@@ -311,7 +311,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		gdk_region_destroy (draw_region);
 		return;
 	}
-	
+
 	cr = gdk_cairo_create (drawable);
 	gradient = calendar_config_get_display_events_gradient ();
 
@@ -469,7 +469,6 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			rect_w -= 2;
 		}
 
-		
 		/* Here we draw the border around the event */
 
 		cx0	   = rect_x;
@@ -501,7 +500,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-			if (gradient){
+			if (gradient) {
 				pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
 				cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 				cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
@@ -784,7 +783,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		icon_x -= icon_x_inc * num_icons;
 
 	#define draw_pixbuf(pf)							\
-		if (can_draw_in_region (draw_region, icon_x, icon_y, 		\
+		if (can_draw_in_region (draw_region, icon_x, icon_y,		\
 		    E_WEEK_VIEW_ICON_WIDTH, E_WEEK_VIEW_ICON_HEIGHT)) {		\
 			cairo_save (cr);					\
 			gdk_cairo_set_source_pixbuf (cr, pf, icon_x, icon_y);	\
@@ -793,7 +792,6 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		}								\
 										\
 		icon_x += icon_x_inc;
-
 
 	if (draw_reminder_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		draw_pixbuf (week_view->reminder_icon);

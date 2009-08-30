@@ -2167,7 +2167,7 @@ get_widgets (EventPage *epage)
 		gtk_widget_hide (priv->invite);
 	else
 		gtk_widget_hide (priv->invite_label);
-			
+
 	priv->add = GW ("add-attendee");
 	priv->remove = GW ("remove-attendee");
 	priv->edit = GW ("edit-attendee");

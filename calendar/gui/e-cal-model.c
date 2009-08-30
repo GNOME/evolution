@@ -1888,7 +1888,7 @@ free_comp_id (gpointer id)
 
 static void
 process_event (ECalView *query, GList *objects, ECalModel *model,
-	void (*process_fn) (ECalView *query, GList *objects, ECalModel *model), 
+	void (*process_fn) (ECalView *query, GList *objects, ECalModel *model),
 	gboolean *in, GList **save_list, gpointer (*copy_fn) (gpointer data), void (*free_fn)(gpointer data))
 {
 	gboolean skip = FALSE;

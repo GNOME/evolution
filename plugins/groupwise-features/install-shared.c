@@ -220,7 +220,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 							   "%s\n\n\n"
 							   "Click 'Apply' to install the shared folder\n\n"),
 							   name, name, content->buffer->data);
-			
+
 			page = gtk_label_new (start_message);
 			gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
 			gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.0);

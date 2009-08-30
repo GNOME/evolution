@@ -108,7 +108,7 @@ create_system_thumbnail (EAttachment *attachment, GIcon **icon)
 {
 	GFile *file;
 	gchar *thumbnail = NULL;
-	
+
 	g_return_val_if_fail (attachment != NULL, FALSE);
 	g_return_val_if_fail (icon != NULL, FALSE);
 

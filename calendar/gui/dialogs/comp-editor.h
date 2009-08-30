@@ -156,8 +156,9 @@ GtkWidget *	comp_editor_get_managed_widget	(CompEditor *editor,
 						 const gchar *widget_path);
 CompEditor *	comp_editor_find_instance	(const gchar *uid);
 
-void		comp_editor_set_lite 		(gboolean status);
+void		comp_editor_set_lite		(gboolean status);
 gboolean	comp_editor_get_lite		(void);
+
 G_END_DECLS
 
 #endif

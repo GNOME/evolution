@@ -361,7 +361,7 @@ do_ask (const gchar *text, gboolean is_create_edit_add)
 {
 	gint res;
 	GtkWidget *dialog = gtk_message_dialog_new (NULL,
-		GTK_DIALOG_MODAL, 
+		GTK_DIALOG_MODAL,
 		GTK_MESSAGE_QUESTION,
 		is_create_edit_add ? GTK_BUTTONS_NONE : GTK_BUTTONS_YES_NO,
 		"%s", text);
@@ -506,7 +506,7 @@ do_manage_comp_idle (GSList *manage_comp_datas)
 				const gchar *ask = get_question_edit_old (source_type);
 
 				if (ask) {
-					char *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
+					gchar *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
 					gint chosen;
 
 					chosen = do_ask (msg, TRUE);
@@ -555,7 +555,7 @@ do_manage_comp_idle (GSList *manage_comp_datas)
 			const gchar *ask = NULL;
 
 			can = FALSE;
-			
+
 			if (with_old == g_slist_length (manage_comp_datas)) {
 				ask = get_question_create_new_n (source_type, with_old);
 			} else {

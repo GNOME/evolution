@@ -153,7 +153,7 @@ static void
 set_format_internal (const gchar *key, const gchar *fmt, GKeyFile *keyfile)
 {
 	ensure_loaded ();
-	
+
 	g_return_if_fail (key != NULL);
 	g_return_if_fail (key2fmt != NULL);
 	g_return_if_fail (keyfile != NULL);
@@ -256,7 +256,7 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 					g_string_append (use_fmt, ad);
 				else if (g_ascii_isspace (fmt [i + 3]))
 					i++;
-					
+
 				g_free (ad);
 			}
 		}
@@ -322,7 +322,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 	};
 
 	const gchar **items = NULL;
-	int i, idx = 0;
+	gint i, idx = 0;
 	const gchar *fmt;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX_ENTRY (combo));
@@ -430,7 +430,6 @@ gen_key (const gchar *component, const gchar *part, DTFormatKind kind)
 
 	g_return_val_if_fail (component != NULL, NULL);
 	g_return_val_if_fail (*component != 0, NULL);
-
 
 	switch (kind) {
 	case DTFormatKindDate:

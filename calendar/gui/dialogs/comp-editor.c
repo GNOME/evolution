@@ -1630,7 +1630,7 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 
 	priv->ui_manager = gtk_ui_manager_new ();
-	
+
 	if (comp_lite)
 		gtk_window_set_default_size ((GtkWindow *) editor, 800, 450);
 	gtk_window_add_accel_group (
@@ -1721,7 +1721,7 @@ comp_editor_init (CompEditor *editor)
 	if (comp_lite) {
 		GtkWidget *tmp, *tmp1, *tmp_box, *cont;
 		GtkWidget *combo;
-	
+
 		e_attachment_paned_set_expanded (E_ATTACHMENT_PANED (widget), TRUE);
 		e_attachment_paned_set_expanded (E_ATTACHMENT_PANED (widget), FALSE);
 
@@ -1738,7 +1738,7 @@ comp_editor_init (CompEditor *editor)
 		tmp1 = gtk_label_new_with_mnemonic (_("Save"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
 		gtk_widget_show_all(tmp);
-		
+
 		combo = gtk_ui_manager_get_widget (priv->ui_manager, "/main-toolbar/save");
 		gtk_widget_reparent (combo, tmp_box);
 		gtk_box_set_child_packing ((GtkBox *)tmp_box, combo, FALSE, FALSE, 6, GTK_PACK_END);
@@ -1746,11 +1746,11 @@ comp_editor_init (CompEditor *editor)
 		combo = gtk_bin_get_child ((GtkBin *)combo);
 		gtk_container_remove((GtkContainer *)combo, gtk_bin_get_child ((GtkBin *)combo));
 		gtk_container_add((GtkContainer *)combo, tmp);
-		gtk_button_set_relief ((GtkButton *)combo, GTK_RELIEF_NORMAL);		
+		gtk_button_set_relief ((GtkButton *)combo, GTK_RELIEF_NORMAL);
 
 		gtk_widget_show(tmp_box);
 		gtk_box_pack_end (GTK_BOX (cont), tmp_box, FALSE, FALSE, 4);
-		
+
 	}
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_view));

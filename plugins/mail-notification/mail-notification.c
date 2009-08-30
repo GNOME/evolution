@@ -395,7 +395,7 @@ can_support_actions (void)
 		caps = notify_get_server_caps ();
 		if (caps != NULL) {
 			for (c = caps; c != NULL; c = c->next) {
-				if (strcmp ((char*)c->data, "actions") == 0) {
+				if (strcmp ((gchar *)c->data, "actions") == 0) {
 					supports_actions = TRUE;
 					break;
 				}
@@ -460,7 +460,7 @@ new_notify_status (EMEventTargetFolder *t)
 				notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 				notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
 				g_timeout_add (500, notification_callback, notify);
-			} 
+			}
 		}
 	}
 #endif
@@ -630,7 +630,7 @@ sound_play_cb (GtkWidget *widget, gpointer data)
 
 	file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (scw->filechooser));
 	do_play_sound (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (scw->beep)),
-		       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (scw->use_theme)), 
+		       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (scw->use_theme)),
 		       file);
 	g_free (file);
 }
@@ -651,7 +651,7 @@ sound_notify_idle_cb (gpointer user_data)
 
 	client = gconf_client_get_default ();
 	file = gconf_client_get_string (client, GCONF_KEY_SOUND_FILE, NULL);
- 
+
 	do_play_sound (is_part_enabled (GCONF_KEY_SOUND_BEEP),
 		       is_part_enabled (GCONF_KEY_SOUND_USE_THEME),
 		       file);
@@ -690,11 +690,13 @@ read_notify_sound (EMEventTargetMessage *t)
 static void
 enable_sound (gint enable)
 {
-	if (enable){
+	if (enable) {
 		ca_context_create(&mailnotification);
-		ca_context_change_props(mailnotification,
-	                        CA_PROP_APPLICATION_NAME, "mailnotification Plugin",
-			        NULL);
+		ca_context_change_props(
+			mailnotification,
+			CA_PROP_APPLICATION_NAME,
+			"mailnotification Plugin",
+			NULL);
 	}
 	else
 		ca_context_destroy(mailnotification);

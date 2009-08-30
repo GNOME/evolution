@@ -417,7 +417,7 @@ import_assistant_cancel (GtkAssistant *assistant, ImportData *data)
 {
 	if (data->import_dialog)
 		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
-  	else
+	else
 		gtk_widget_destroy (GTK_WIDGET (data->assistant));
 }
 

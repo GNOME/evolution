@@ -1654,7 +1654,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 			flag = 1;
 			ca_context_play (
 				ca_gtk_context_get(), 0,
-				CA_PROP_MEDIA_FILENAME, filename, NULL); 
+				CA_PROP_MEDIA_FILENAME, filename, NULL);
 		}
 
 		g_free (filename);

@@ -2662,7 +2662,7 @@ e_week_view_add_event (ECalComponent *comp,
 		g_print ("\tday_starts[0]: %s", ctime (&add_event_data->week_view->day_starts[0]));
 		g_print ("\tday_starts[%d]: %s\n", num_days, ctime (&add_event_data->week_view->day_starts[num_days]));
 	}*/
-	
+
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < add_event_data->week_view->day_starts[num_days], TRUE);
 	g_return_val_if_fail (end > add_event_data->week_view->day_starts[0], TRUE);
