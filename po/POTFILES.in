@@ -90,7 +90,6 @@ calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.c
 calendar/gui/dialogs/task-page.glade
 calendar/gui/e-alarm-list.c
-calendar/gui/e-attachment-handler-calendar.c
 calendar/gui/e-cal-component-preview.c
 calendar/gui/e-cal-list-view.c
 calendar/gui/e-cal-list-view.etspec
@@ -199,7 +198,7 @@ mail/em-folder-utils.c
 mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-format-html.c
-mail/em-junk-hook.c
+mail/em-junk.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
@@ -237,6 +236,7 @@ modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
 modules/addressbook/eab-composer-util.c
 modules/addressbook/ldap-config.glade
+modules/calendar/e-cal-attachment-handler.c
 modules/calendar/e-cal-shell-backend.c
 modules/calendar/e-cal-shell-content.c
 modules/calendar/e-cal-shell-migrate.c
@@ -260,7 +260,8 @@ modules/calendar/e-task-shell-sidebar.c
 modules/calendar/e-task-shell-view-actions.c
 modules/calendar/e-task-shell-view-private.c
 modules/calendar/e-task-shell-view.c
-modules/mail/e-attachment-handler-mail.c
+modules/mail/e-mail-attachment-handler.c
+modules/mail/e-mail-junk-hook.c
 modules/mail/e-mail-shell-backend.c
 modules/mail/e-mail-shell-content.c
 modules/mail/e-mail-shell-migrate.c
@@ -270,6 +271,8 @@ modules/mail/e-mail-shell-view.c
 modules/mail/em-account-prefs.c
 modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
+modules/plugin-python/example/org-gnome-hello-python-ui.xml
+modules/plugin-python/example/org-gnome-hello-python.eplug.xml
 plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
 plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
 plugins/attachment-reminder/attachment-reminder.c
@@ -389,7 +392,6 @@ plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/mark-all-read/mark-all-read.c
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
-plugins/mono/org-gnome-evolution-mono.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
 plugins/plugin-manager/plugin-manager.c
 plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml
@@ -404,9 +406,6 @@ plugins/publish-calendar/publish-calendar.glade
 plugins/publish-calendar/publish-format-fb.c
 plugins/publish-calendar/publish-format-ical.c
 plugins/publish-calendar/url-editor-dialog.c
-plugins/python/example/org-gnome-hello-python-ui.xml
-plugins/python/example/org-gnome-hello-python.eplug.xml
-plugins/python/org-gnome-evolution-python.eplug.xml
 plugins/sa-junk-plugin/em-junk-filter.c
 plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml
 plugins/save-calendar/csv-format.c

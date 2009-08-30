@@ -6,6 +6,7 @@ addressbook/tools/evolution-addressbook-abuse.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-import.c
+calendar/gui/calendar-component.c
 calendar/gui/dialogs/calendar-setup.glade
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/new-calendar.glade
@@ -17,6 +18,8 @@ composer/e-msg-composer-attachment.c
 composer/e-msg-composer-attachment.glade
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
+mail/em-folder-browser.c
+mail/em-folder-view.c
 mail/importers/evolution-outlook-importer.c
 mail/importers/netscape-importer.c
 mail/message-tags.glade
