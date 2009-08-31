@@ -1477,7 +1477,7 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 {
 	EMFormatClass *format_class;
 
-	format_class = EM_FORMAT_GET_CLASS (emf);
+	format_class = EM_FORMAT_CLASS (parent_class);
 	g_return_if_fail (format_class->format_secure != NULL);
 	format_class->format_secure (emf, stream, part, valid);
 
