@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-24 11:06+0200\n"
-"PO-Revision-Date: 2009-08-24 21:47+0100\n"
+"POT-Creation-Date: 2009-09-01 00:18+0200\n"
+"PO-Revision-Date: 2009-09-01 00:19+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1294,7 +1294,7 @@ msgstr "_Ledig/Upptagen:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Home Page:"
-msgstr "_Hemsida:"
+msgstr "_Webbsida:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Manager:"
@@ -2286,7 +2286,7 @@ msgstr "Adress"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:640
 msgid "Home Page"
-msgstr "Hemsida"
+msgstr "Webbsida"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:641
 msgid "Web Log"
@@ -2308,7 +2308,7 @@ msgstr "Jobbtitel"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:889
 msgid "Home page"
-msgstr "Hemsida"
+msgstr "Webbsida"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:897
 msgid "Blog"
