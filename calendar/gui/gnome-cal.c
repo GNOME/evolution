@@ -1337,15 +1337,6 @@ static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	GtkWidget *w, *sep;
-	gchar *filename;
-	ETable *etable;
-	GtkAdjustment *adjustment;
-	GtkWidget *vbox;
-	GtkWidget *label;
-	ECalModel *cal_model;
-	gint i;
-	gchar *tmp;
 
 	priv = gcal->priv;
 
@@ -1402,7 +1393,6 @@ gnome_calendar_destroy (GtkObject *object)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	gchar *filename;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (object));
@@ -1412,7 +1402,6 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
-		gint i;
 
 		if (priv->shell_settings != NULL) {
 			g_object_unref (priv->shell_settings);
@@ -1756,7 +1745,6 @@ void
 gnome_calendar_display_view (GnomeCalendar *gcal,
                              GnomeCalendarViewType view_type)
 {
-	CalendarView *cal_view;
 	ECalendarView *view;
 	gboolean preserve_day;
 	gboolean range_selected;

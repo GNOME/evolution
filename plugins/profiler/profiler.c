@@ -32,6 +32,8 @@
 #include <glib.h>
 #include <e-util/e-profile-event.h>
 
+void org_gnome_evolution_profiler_event (EPlugin *ep, EProfileEventTarget *t);
+
 void
 org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 {
@@ -48,5 +50,5 @@ org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 	}
 
 	if (fp)
-		fprintf(fp, "%d.%d: %s,%s\n", t->tv.tv_sec, t->tv.tv_usec, t->id, t->uid);
+		fprintf(fp, "%d.%d: %s,%s\n", (gint) t->tv.tv_sec, (gint) t->tv.tv_usec, t->id, t->uid);
 }

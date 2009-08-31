@@ -90,7 +90,7 @@ EShell *default_shell = NULL;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
-#if NM_SUPPORT
+#if defined(NM_SUPPORT) && NM_SUPPORT
 gboolean e_shell_dbus_initialize (EShell *shell);
 #endif
 
@@ -953,7 +953,7 @@ shell_init (EShell *shell)
 
 	g_object_ref_sink (shell->priv->preferences_window);
 
-#if NM_SUPPORT
+#if defined(NM_SUPPORT) && NM_SUPPORT
 	e_shell_dbus_initialize (shell);
 #endif
 
