@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <e-plugin-list>
-  <e-plugin type="shlib" location="/home/mbarnes/local/lib/evolution/2.28/plugins/liborg-gnome-mail-to-task.so" id="org.gnome.evolution.plugin.mailToTask" name="Mail-to-Task">
+  <e-plugin type="shlib" location="@PLUGINDIR@/liborg-gnome-mail-to-task@SOEXT@" id="org.gnome.evolution.plugin.mailToTask" name="Mail-to-Task">
     <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
     <_description>Convert a mail message to a task.</_description>
 
