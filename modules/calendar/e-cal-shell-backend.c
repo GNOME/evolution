@@ -523,10 +523,12 @@ cal_shell_backend_init_importers (void)
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
 }
 
-static void
+static gboolean
 cal_shell_backend_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
+
+	/* This is a main loop idle callback. */
 
 	preferences_window = e_shell_get_preferences_window (shell);
 
@@ -537,6 +539,8 @@ cal_shell_backend_init_preferences (EShell *shell)
 		_("Calendar and Tasks"),
 		calendar_prefs_dialog_new (shell),
 		600);
+
+	return FALSE;
 }
 
 static gboolean
@@ -770,10 +774,11 @@ cal_shell_backend_constructed (GObject *object)
 
 	cal_shell_backend_init_importers ();
 
-	/* Initialize settings before initializing preferences,
-	 * since the preferences bind to the shell settings. */
 	e_cal_shell_backend_init_settings (shell);
-	cal_shell_backend_init_preferences (shell);
+
+	/* Initialize preferences after the main loop starts so
+	 * that all EPlugins and EPluginHooks are loaded first. */
+	g_idle_add ((GSourceFunc) cal_shell_backend_init_preferences, shell);
 }
 
 static void

@@ -118,7 +118,7 @@ struct _EShellBackendClass {
 						 GError **error);
 };
 
-GType		e_shell_backend_get_type		(void);
+GType		e_shell_backend_get_type	(void);
 gint		e_shell_backend_compare		(EShellBackend *shell_backend_a,
 						 EShellBackend *shell_backend_b);
 const gchar *	e_shell_backend_get_config_dir	(EShellBackend *shell_backend);

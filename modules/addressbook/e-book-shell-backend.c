@@ -30,10 +30,11 @@
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
 
+#include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-preferences-window.h"
 
-#include "e-util/e-import.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
@@ -359,6 +360,26 @@ static GtkActionEntry source_entries[] = {
 };
 
 static gboolean
+book_shell_backend_init_preferences (EShell *shell)
+{
+	GtkWidget *preferences_window;
+
+	/* This is a main loop idle callback. */
+
+	preferences_window = e_shell_get_preferences_window (shell);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"contacts",
+		"preferences-autocompletion",
+		_("Contacts"),
+		autocompletion_config_new (shell),
+		200);
+
+	return FALSE;
+}
+
+static gboolean
 book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                   const gchar *uri)
 {
@@ -507,10 +528,11 @@ book_shell_backend_constructed (GObject *object)
 		G_CALLBACK (book_shell_backend_window_created_cb),
 		shell_backend);
 
-	/* Initialize settings before initializing preferences,
-	 * since the preferences bind to the shell settings. */
 	e_book_shell_backend_init_settings (shell);
-	autocompletion_config_init (shell);
+
+	/* Initialize preferences after the main loop starts so
+	 * that all EPlugins and EPluginHooks are loaded first. */
+	g_idle_add ((GSourceFunc) book_shell_backend_init_preferences, shell);
 }
 
 static void

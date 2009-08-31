@@ -36,11 +36,15 @@ static const EConfigHookTargetMap targets[] = {
 };
 
 static void
-mail_config_hook_class_init (EPluginHookClass *class)
+mail_config_hook_class_init (EConfigHookClass *class)
 {
+	EPluginHookClass *plugin_hook_class;
 	gint ii;
 
-	class->id = "org.gnome.evolution.mail.config:1.0";
+	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
+	plugin_hook_class->id = "org.gnome.evolution.mail.config:1.0";
+
+	class->config_class = g_type_class_ref (em_config_get_type ());
 
 	for (ii = 0; targets[ii].type != NULL; ii++)
 		e_config_hook_class_add_target_map (

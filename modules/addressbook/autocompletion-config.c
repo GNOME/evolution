@@ -32,7 +32,6 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
-#include "widgets/misc/e-preferences-window.h"
 
 static void
 source_selection_changed_cb (ESourceSelector *source_selector)
@@ -129,19 +128,18 @@ add_section (GtkWidget *container,
 	return widget;
 }
 
-void
-autocompletion_config_init (EShell *shell)
+GtkWidget *
+autocompletion_config_new (EShell *shell)
 {
 	EShellSettings *shell_settings;
 	ESourceList *source_list;
 	GtkWidget *scrolled_window;
 	GtkWidget *source_selector;
-	GtkWidget *preferences_window;
 	GtkWidget *itembox;
 	GtkWidget *widget;
 	GtkWidget *vbox;
 
-	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
@@ -190,13 +188,5 @@ autocompletion_config_init (EShell *shell)
 
 	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
-	preferences_window = e_shell_get_preferences_window (shell);
-
-	e_preferences_window_add_page (
-		E_PREFERENCES_WINDOW (preferences_window),
-		"contacts",
-		"preferences-autocompletion",
-		_("Contacts"),
-		vbox,
-		200);
+	return vbox;
 }

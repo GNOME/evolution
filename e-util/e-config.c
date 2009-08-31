@@ -1654,7 +1654,9 @@ e_config_hook_get_type(void)
  * target map enumates the target types available for the implenting
  * class.
  **/
-void e_config_hook_class_add_target_map(EConfigHookClass *klass, const EConfigHookTargetMap *map)
+void
+e_config_hook_class_add_target_map (EConfigHookClass *klass,
+                                    const EConfigHookTargetMap *map)
 {
 	g_hash_table_insert(klass->target_map, (gpointer)map->type, (gpointer)map);
 }

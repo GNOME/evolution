@@ -60,11 +60,15 @@ static const EEventHookTargetMap targets[] = {
 };
 
 static void
-mail_event_hook_class_init (EPluginHookClass *class)
+mail_event_hook_class_init (EEventHookClass *class)
 {
+	EPluginHookClass *plugin_hook_class;
 	gint ii;
 
-	class->id = "org.gnome.evolution.mail.events:1.0";
+	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
+	plugin_hook_class->id = "org.gnome.evolution.mail.events:1.0";
+
+	class->event = (EEvent *) em_event_peek ();
 
 	for (ii = 0; targets[ii].type != NULL; ii++)
 		e_event_hook_class_add_target_map (

@@ -187,11 +187,13 @@ static GtkActionEntry source_entries[] = {
 	  G_CALLBACK (action_mail_folder_new_cb) }
 };
 
-static void
+static gboolean
 mail_shell_backend_init_preferences (EShell *shell)
 {
 	EAccountList *account_list;
 	GtkWidget *preferences_window;
+
+	/* This is a main loop idle callback. */
 
 	account_list = e_get_account_list ();
 	preferences_window = e_shell_get_preferences_window (shell);
@@ -227,6 +229,8 @@ mail_shell_backend_init_preferences (EShell *shell)
 		_("Network Preferences"),
 		em_network_prefs_new (),
 		500);
+
+	return FALSE;
 }
 
 static void
@@ -848,10 +852,11 @@ mail_shell_backend_constructed (GObject *object)
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	e_mail_store_init (data_dir);
 
-	/* Initialize settings before initializing preferences,
-	 * since the preferences bind to the shell settings. */
 	e_mail_shell_settings_init (shell);
-	mail_shell_backend_init_preferences (shell);
+
+	/* Initialize preferences after the main loop starts so
+	 * that all EPlugins and EPluginHooks are loaded first. */
+	g_idle_add ((GSourceFunc) mail_shell_backend_init_preferences, shell);
 }
 
 static void

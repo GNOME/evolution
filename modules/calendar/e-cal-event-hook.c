@@ -35,15 +35,15 @@ static const EEventHookTargetMap targets[] = {
 };
 
 static void
-cal_event_hook_class_init (EPluginHookClass *class)
+cal_event_hook_class_init (EEventHookClass *class)
 {
-	EEventHookClass *event_hook_class;
+	EPluginHookClass *plugin_hook_class;
 	gint ii;
 
-	event_hook_class = (EEventHookClass *) class;
-	event_hook_class->event = (EEvent *) e_cal_event_peek ();
+	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
+	plugin_hook_class->id = "org.gnome.evolution.calendar.events:1.0";
 
-	class->id = "org.gnome.evolution.calendar.events:1.0";
+	class->event = (EEvent *) e_cal_event_peek ();
 
 	for (ii = 0; targets[ii].type != NULL; ii++)
 		e_event_hook_class_add_target_map (

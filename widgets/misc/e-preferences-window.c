@@ -369,6 +369,12 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 
 	gtk_widget_show (widget);
 	gtk_notebook_append_page (notebook, widget, NULL);
+
+	/* Force GtkIconView to recalculate the text wrap width,
+	 * otherwise we get a really narrow icon list on the left
+	 * side of the preferences window. */
+	gtk_icon_view_set_item_width (icon_view, -1);
+	gtk_widget_queue_resize (GTK_WIDGET (window));
 }
 
 void

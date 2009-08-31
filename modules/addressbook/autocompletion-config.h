@@ -30,7 +30,7 @@
 
 G_BEGIN_DECLS
 
-void		autocompletion_config_init	(EShell *shell);
+GtkWidget *	autocompletion_config_new	(EShell *shell);
 
 G_END_DECLS
 

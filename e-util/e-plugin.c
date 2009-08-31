@@ -508,14 +508,27 @@ plugin_load_subclasses (void)
 	}
 
 	g_free (children);
+}
 
-	/* Load EPluginHook subclasses. */
+static void
+plugin_load_hook_subclasses (GType parent_type)
+{
+	GType *children;
+	guint n_children, ii;
 
-	children = g_type_children (E_TYPE_PLUGIN_HOOK, &n_children);
+	children = g_type_children (parent_type, &n_children);
 
 	for (ii = 0; ii < n_children; ii++) {
 		EPluginHookClass *hook_class;
 		EPluginHookClass *dupe_class;
+		gpointer key;
+
+		/* First load the child's children. */
+		plugin_load_hook_subclasses (children[ii]);
+
+		/* Skip abstract types. */
+		if (G_TYPE_IS_ABSTRACT (children[ii]))
+			continue;
 
 		hook_class = g_type_class_ref (children[ii]);
 
@@ -542,8 +555,8 @@ plugin_load_subclasses (void)
 			continue;
 		}
 
-		g_hash_table_insert (
-			eph_types, (gpointer) hook_class->id, hook_class);
+		key = (gpointer) hook_class->id;
+		g_hash_table_insert (eph_types, key, hook_class);
 	}
 
 	g_free (children);
@@ -571,6 +584,7 @@ e_plugin_load_plugins(void)
 	 * subclasses be registered prior to loading any plugins.
 	 * It greatly simplifies the loading process. */
 	plugin_load_subclasses ();
+	plugin_load_hook_subclasses (E_TYPE_PLUGIN_HOOK);
 
 	client = gconf_client_get_default ();
 	ep_disabled = gconf_client_get_list (
