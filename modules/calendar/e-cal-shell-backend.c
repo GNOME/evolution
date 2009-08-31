@@ -341,6 +341,7 @@ cal_shell_backend_event_new_cb (ECal *cal,
 
 	editor = event_editor_new (cal, shell, flags);
 	comp = cal_comp_event_new_with_current_time (cal, FALSE);
+	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
@@ -367,6 +368,7 @@ cal_shell_backend_event_all_day_new_cb (ECal *cal,
 
 	editor = event_editor_new (cal, shell, flags);
 	comp = cal_comp_event_new_with_current_time (cal, TRUE);
+	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
@@ -394,6 +396,7 @@ cal_shell_backend_event_meeting_new_cb (ECal *cal,
 
 	editor = event_editor_new (cal, shell, flags);
 	comp = cal_comp_event_new_with_current_time (cal, FALSE);
+	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
