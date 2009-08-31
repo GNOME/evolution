@@ -1765,8 +1765,6 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		camel_exception_clear (ex);
 	}
 
-	e_mail_reader_update_actions (reader);
-
 	/* We referenced this in the call to mail_get_messagex(). */
 	g_object_unref (reader);
 }
