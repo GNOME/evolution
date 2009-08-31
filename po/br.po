@@ -2,27 +2,27 @@
 # Copyright (C) 2004-2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 # Jérémy Ar Floc'h <jeremy.lefloch@gmail.com>, 2006.
+# Giulia <Unknown>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution 2-14\n"
+"Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-26 00:20+0000\n"
-"PO-Revision-Date: 2009-08-26 13:24+0100\n"
-"Last-Translator: Denis\n"
-"Language-Team: GNOME Breton team <jeremy.lefloch@gmail.com>\n"
+"PO-Revision-Date: 2009-08-30 08:53+0100\n"
+"Last-Translator: denis <denisarnuad@yahoo.fr>\n"
+"Language-Team: Brenux <brenux@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2009-03-27 07:16+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:178
+#, fuzzy
 msgid "evolution address book"
-msgstr ""
+msgstr "Karned-chomlec'h Evolution"
 
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:208
@@ -32,7 +32,7 @@ msgstr "Darempred nevez"
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:216
 msgid "New Contact List"
-msgstr "Roll darempredoù nevez"
+msgstr "Roll an darempredoù nevez"
 
 #: ../a11y/addressbook/ea-minicard-view.c:161
 #, c-format
@@ -51,7 +51,7 @@ msgstr "Roll an darempredoù "
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr "Darempred: "
+msgstr "Darempred : "
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
@@ -220,7 +220,7 @@ msgstr "Barrenn enklask deiziadur Evolution"
 
 #: ../a11y/calendar/ea-jump-button.c:146
 msgid "Jump button"
-msgstr "Nozelenn sailh"
+msgstr "Afell sailh"
 
 #: ../a11y/calendar/ea-jump-button.c:155
 msgid "Click here, you can find more events."
@@ -251,22 +251,24 @@ msgstr "prenestr-trumm"
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-popup.c:122
 msgid "popup a child"
-msgstr "diskouezh ur mab"
+msgstr "diskouez ur mab"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:616
 msgid "edit"
-msgstr "embann"
+msgstr "kemmañ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-text.c:617
 msgid "begin editing this cell"
 msgstr "kregiñ gant embann ar gell-mañ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:169
+#, fuzzy
 msgid "toggle"
 msgstr "kemmañ"
 
 #. action name
 #: ../a11y/e-table/gal-a11y-e-cell-toggle.c:170
+#, fuzzy
 msgid "toggle the cell"
 msgstr "kemmañ ar gell"
 
@@ -280,7 +282,7 @@ msgstr "astenn al linenn e-barzh an ETree a zalc'h ar gell-mañ"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:216
 msgid "collapse"
-msgstr ""
+msgstr "bihanaat"
 
 #: ../a11y/e-table/gal-a11y-e-cell-tree.c:217
 msgid "collapses the row in the ETree containing this cell"
@@ -302,7 +304,7 @@ msgstr "klikit"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:152
 msgid "sort"
-msgstr "dibab"
+msgstr "rummañ"
 
 #: ../a11y/widgets/ea-calendar-item.c:295
 #: ../a11y/widgets/ea-calendar-item.c:301
@@ -320,7 +322,7 @@ msgstr "Elfenn an deiziadur Evolution"
 
 #: ../a11y/widgets/ea-combo-button.c:56
 msgid "Combo Button"
-msgstr ""
+msgstr "Afell dibunus"
 
 #: ../a11y/widgets/ea-combo-button.c:66
 msgid "Activate Default"
@@ -328,7 +330,7 @@ msgstr "Implij an dibab dre-ziouer"
 
 #: ../a11y/widgets/ea-combo-button.c:68
 msgid "Popup Menu"
-msgstr "Meuziad prenistri trumm"
+msgstr "Lañser prenestroù trumm"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
@@ -353,7 +355,7 @@ msgstr "N'eus ket tu da zilec'hiañ an darempred."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
-msgstr "An aozer rummadoù n'eo ket hegerz."
+msgstr "An embanner rummadoù n'eo ket hegerz."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
@@ -443,8 +445,9 @@ msgid "This server does not support LDAPv3 schema information."
 msgstr "N'eo ket ar c'harned-chomlec'h se 'vit gouzañv keloù stumm-tres LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:29
+#, fuzzy
 msgid "Unable to open address book"
-msgstr ""
+msgstr "N'eus ket tu da zigoriñ ar c'harned chomlec'hioù"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to perform search."
@@ -496,7 +499,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:41
 msgid "_Resize"
-msgstr ""
+msgstr "Ad_mentañ"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
@@ -599,7 +602,7 @@ msgstr ""
 #: ../mail/mail-vfolder.c:217
 #: ../mail/message-list.c:1515
 msgid "On This Computer"
-msgstr ""
+msgstr "War an urzhiater-mañ"
 
 #. Create the LDAP source group
 #: ../addressbook/gui/component/addressbook-component.c:98
@@ -662,7 +665,7 @@ msgstr "Karned chomlec'h nevez"
 #: ../addressbook/gui/component/addressbook-component.c:225
 msgctxt "New"
 msgid "Address _Book"
-msgstr ""
+msgstr "_Karned chomlec'hioù"
 
 #: ../addressbook/gui/component/addressbook-component.c:226
 msgid "Create a new address book"
@@ -686,7 +689,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-config.c:346
 msgid "Base"
-msgstr ""
+msgstr "Diazez"
 
 #: ../addressbook/gui/component/addressbook-config.c:547
 #: ../calendar/gui/dialogs/calendar-setup.c:169
@@ -734,7 +737,7 @@ msgstr "Titour ar servijer"
 
 #: ../addressbook/gui/component/addressbook-config.c:1027
 msgid "Authentication"
-msgstr ""
+msgstr "Dilesadur"
 
 #: ../addressbook/gui/component/addressbook-config.c:1030
 #: ../addressbook/gui/component/ldap-config.glade.h:15
@@ -807,9 +810,9 @@ msgstr ""
 
 #: ../addressbook/gui/component/addressbook-view.c:422
 #: ../mail/em-folder-utils.c:453
-#, c-format
+#, fuzzy, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "Adenvel an teuliad : %s e %s"
 
 #: ../addressbook/gui/component/addressbook-view.c:425
 #: ../mail/em-folder-utils.c:455
@@ -826,8 +829,9 @@ msgid "_New Address Book"
 msgstr "Karned chomlec'h nevez"
 
 #: ../addressbook/gui/component/addressbook-view.c:950
+#, fuzzy
 msgid "Save As vCard..."
-msgstr ""
+msgstr "Enrollañ evel ur vCard..."
 
 #: ../addressbook/gui/component/addressbook-view.c:951
 #: ../calendar/gui/calendar-component.c:628
@@ -1028,7 +1032,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "Search Filter"
-msgstr ""
+msgstr "Sil klask"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 msgid "Search _base:"
@@ -1036,7 +1040,7 @@ msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:26
 msgid "Search _filter:"
-msgstr ""
+msgstr "_Sil klask :"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search filter is the type of object to be searched for. If this is not modified, the default search will be performed on the type \"person\"."
@@ -1097,8 +1101,9 @@ msgid "_Server:"
 msgstr "Servijer :"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
+#, fuzzy
 msgid "_Timeout:"
-msgstr ""
+msgstr "_Diamzeret :"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid "_Use secure connection:"
@@ -1130,7 +1135,7 @@ msgstr "<b>Chomlec'h</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr ""
+msgstr "<b>Postelerezh prim</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
@@ -1142,7 +1147,7 @@ msgstr "<b>A bep seurt</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "<b>Notes</b>"
-msgstr ""
+msgstr "<b>Notennoù</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
@@ -1178,7 +1183,7 @@ msgstr "Darempred"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:556
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2442
 msgid "Contact Editor"
-msgstr "Aozer darempredoù"
+msgstr "Kemmer an darempredoù"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1428,7 +1433,7 @@ msgstr "Kemmet"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2437
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "Aozer darempredoù - %s"
+msgstr "Kemmer an darempredoù - %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2832
 msgid "Please select an image for this contact"
@@ -1436,7 +1441,7 @@ msgstr "Diuzit ur skeudenn evit an darempred-mañ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2833
 msgid "_No image"
-msgstr ""
+msgstr "Skeude_nn ebet"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
 msgid ""
@@ -1460,7 +1465,7 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3141
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' zo goullo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3154
 msgid "Invalid contact."
@@ -1555,20 +1560,21 @@ msgid "_Suffix:"
 msgstr "_Lostger:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#, fuzzy
 msgid "<b>Members</b>"
-msgstr ""
+msgstr "Arveriaded"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:668
 msgid "Contact List Editor"
-msgstr "Aozer ar roll darempredoù"
+msgstr "Kemmer roll an darempredoù"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:212
 #: ../calendar/gui/e-day-view-time-item.c:812
 #: ../calendar/gui/e-timezone-entry.c:118
 msgid "Select..."
-msgstr ""
+msgstr "Diuzañ..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
@@ -1638,7 +1644,7 @@ msgstr ""
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:6
 #: ../addressbook/gui/merging/eab-contact-merging.c:213
 msgid "_Merge"
-msgstr ""
+msgstr "_Toueziañ"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:198
 msgid "Merge Contact"
@@ -1729,8 +1735,9 @@ msgstr "Seurt"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:812
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1971
+#, fuzzy
 msgid "Save as vCard..."
-msgstr ""
+msgstr "Enrollañ evel ur vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:932
 #: ../calendar/gui/e-calendar-table.c:1591
@@ -1749,8 +1756,9 @@ msgid "New Contact _List..."
 msgstr "Roll darempredoù nevez"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
+#, fuzzy
 msgid "_Save as vCard..."
-msgstr ""
+msgstr "Enrollañ evel ur vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:939
 msgid "_Forward Contact"
@@ -1762,23 +1770,23 @@ msgstr "_Treuzkas darempredoù"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
 msgid "Send _Message to Contact"
-msgstr "Kas ur gemennadenn d'an darempred"
+msgstr "Kas ur ge_mennadenn d'an darempred"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "Send _Message to List"
-msgstr "Kas ur gemennadenn d'ar roll"
+msgstr "Kas ur ge_mennadenn d'ar roll"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:943
 msgid "Send _Message to Contacts"
-msgstr "Kas ur gemennadenn d'an darempredoù"
+msgstr "Kas ur ge_mennadenn d'an darempredoù"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "_Print"
-msgstr "Moulañ"
+msgstr "_Moullañ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:947
 msgid "Cop_y to Address Book..."
-msgstr "_Kopiañ er c'harned-chomlec'hioù..."
+msgstr "_Eilañ er c'harned-chomlec'hioù..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:948
 msgid "Mo_ve to Address Book..."
@@ -1786,7 +1794,7 @@ msgstr "K_as d'ar c'harned chomlec'hioù..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:951
 msgid "Cu_t"
-msgstr "Troc'hañ"
+msgstr "_Troc'hañ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:952
 #: ../calendar/gui/e-calendar-table.c:1599
@@ -1801,11 +1809,11 @@ msgstr "Troc'hañ"
 #: ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
 msgid "_Copy"
-msgstr "Kopiañ"
+msgstr "_Eilañ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:953
 msgid "P_aste"
-msgstr "Pegañ"
+msgstr "Peg_añ"
 
 #. All, unmatched, separator
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1534
@@ -1819,8 +1827,9 @@ msgstr "An holl rummadoù"
 #: ../calendar/gui/cal-search-bar.c:628
 #: ../calendar/gui/cal-search-bar.c:671
 #: ../calendar/gui/cal-search-bar.c:690
+#, fuzzy
 msgid "Unmatched"
-msgstr ""
+msgstr "diserr"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:624
@@ -1862,8 +1871,9 @@ msgstr "Rummadoù"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 #: ../addressbook/gui/widgets/eab-contact-display.c:619
+#, fuzzy
 msgid "Company"
-msgstr ""
+msgstr "Embregerezh"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
@@ -1912,7 +1922,7 @@ msgstr "Kazetenn"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 #: ../addressbook/gui/widgets/eab-contact-display.c:623
 msgid "Manager"
-msgstr "Merour"
+msgstr "Ardoer"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 #: ../addressbook/gui/widgets/eab-contact-display.c:644
@@ -1985,7 +1995,7 @@ msgstr "Titl"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
-msgstr ""
+msgstr "Unanenn"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
@@ -2059,6 +2069,9 @@ msgid ""
 "\n"
 "Searching for the Contacts..."
 msgstr ""
+"\n"
+"\n"
+"Klask an darempredoù..."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:180
 msgid ""
@@ -2086,7 +2099,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Klask an darempred"
+"Klask an darempred."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -2131,7 +2144,7 @@ msgstr "_Digeriñ an ere er furcher web"
 #: ../addressbook/gui/widgets/eab-contact-display.c:170
 #: ../mail/em-folder-view.c:2694
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "_Eilañ lec'hiadur an ere"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:171
 #: ../mail/em-popup.c:546
@@ -2141,7 +2154,7 @@ msgstr "_Kas ur gemennadenn nevez da ..."
 #: ../addressbook/gui/widgets/eab-contact-display.c:172
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
-msgstr "Kopiañ ar chomlec'h _postel"
+msgstr "Eilañ ar chomlec'h _postel"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:286
 #: ../addressbook/gui/widgets/eab-contact-display.c:360
@@ -2162,11 +2175,11 @@ msgstr "Roll an implijerion"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:620
 msgid "Department"
-msgstr ""
+msgstr "Departamant"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:621
 msgid "Profession"
-msgstr ""
+msgstr "Micher"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:622
 msgid "Position"
@@ -2174,7 +2187,7 @@ msgstr "Lec'h"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:625
 msgid "Video Chat"
-msgstr ""
+msgstr "Flap video"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:626
 #: ../calendar/gui/calendar-commands.c:89
@@ -2212,26 +2225,28 @@ msgid "Address"
 msgstr "Chomlec'h"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:640
+#, fuzzy
 msgid "Home Page"
-msgstr ""
+msgstr "Pennbajennad :"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:641
+#, fuzzy
 msgid "Web Log"
-msgstr ""
+msgstr "_Kelaouenn kenrouedad:"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:646
 #: ../calendar/gui/e-calendar-view.c:2580
 msgid "Birthday"
-msgstr ""
+msgstr "Deiz-ha-bloaz"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:647
 #: ../calendar/gui/e-calendar-view.c:2581
 msgid "Anniversary"
-msgstr ""
+msgstr "Deiz-ha-bloaz"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:853
 msgid "Job Title"
-msgstr ""
+msgstr "Titl al labour :"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:889
 msgid "Home page"
@@ -2244,7 +2259,7 @@ msgstr "Blog"
 #. E_BOOK_ERROR_OK
 #: ../addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Success"
-msgstr ""
+msgstr "Berzh"
 
 #. E_BOOK_ERROR_INVALID_ARG
 #. E_BOOK_ERROR_BUSY
@@ -2437,11 +2452,11 @@ msgstr[1] ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:324
 msgid "_Don't Display"
-msgstr ""
+msgstr "Ne skrammañ ket"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:325
 msgid "Display _All Contacts"
-msgstr ""
+msgstr "Skr_ammañ an holl darempredoù"
 
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:350
@@ -2468,7 +2483,7 @@ msgstr[1] "Darempredoù"
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:443
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:480
 msgid "Select Address Book"
@@ -2484,7 +2499,7 @@ msgstr "Kas an darempred davet"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:748
 msgid "Copy contact to"
-msgstr "Kopiañ an darempred davet"
+msgstr "Eilañ an darempred davet"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:751
 msgid "Move contacts to"
@@ -2492,16 +2507,16 @@ msgstr "Kas an darempredoù davet"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:753
 msgid "Copy contacts to"
-msgstr "Kopiañ an darempredoù davet"
+msgstr "Eilañ an darempredoù davet"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:901
 msgid "Multiple vCards"
-msgstr ""
+msgstr "Lies vCards"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:908
 #, c-format
 msgid "vCard for %s"
-msgstr ""
+msgstr "vCards evit %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:920
 #: ../addressbook/gui/widgets/eab-gui-util.c:946
@@ -2565,7 +2580,7 @@ msgstr "Enporzhier Evolution LDIF"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:548
 msgid "vCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:549
 msgid "Evolution vCard Importer"
@@ -2591,7 +2606,7 @@ msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:46
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "RESTREC'HANKAD"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:49
 msgid "List local address book folders"
@@ -2808,7 +2823,7 @@ msgstr ""
 #. For Translators: {0} is specify the backend server
 #: ../calendar/calendar.error.xml.h:44
 msgid "Error on '{0}'"
-msgstr ""
+msgstr "Fazi war '{0}'"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "If you do not send a cancelation notice, the other participants may not know the meeting is canceled."
@@ -2855,8 +2870,9 @@ msgid "Some attachments are being downloaded. Saving the task would result in th
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:57
+#, fuzzy
 msgid "Some features may not work properly with your current server."
-msgstr ""
+msgstr "Marteze ne 'z' a ket traoù 'zo en dro gant stad a vremañ ho servijer"
 
 #: ../calendar/calendar.error.xml.h:58
 msgid "The Evolution calendar has quit unexpectedly."
@@ -2974,7 +2990,7 @@ msgstr "_Nullañ ar c'hemmoù"
 #: ../calendar/calendar.error.xml.h:86
 #: ../composer/e-composer-actions.c:343
 msgid "_Save"
-msgstr "Gwarediñ"
+msgstr "En_rollañ"
 
 #: ../calendar/calendar.error.xml.h:87
 msgid "_Save Changes"
@@ -2985,7 +3001,7 @@ msgstr "_Enrollañ ar c'hemmoù"
 #: ../mail/mail.error.xml.h:142
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:6
 msgid "_Send"
-msgstr "Kas"
+msgstr "Ka_s"
 
 #: ../calendar/calendar.error.xml.h:89
 msgid "_Send Notice"
@@ -3066,7 +3082,7 @@ msgstr ""
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
-msgstr "Aozer Evolution evit an deiziadur/traoù d'ober"
+msgstr "Kemmer Evolution evit an deiziadur/traoù d'ober"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution's Calendar component"
@@ -3132,8 +3148,8 @@ msgstr ""
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:100
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "munut"
-msgstr[1] "munutoù"
+msgstr[0] "vunutenn"
+msgstr[1] "a vunutennoù"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:115
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
@@ -3146,8 +3162,8 @@ msgstr[1] "munutoù"
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "hours"
 msgid_plural "hours"
-msgstr[0] "eur"
-msgstr[1] "eurioù"
+msgstr[0] "eurvezh"
+msgstr[1] "eurvezh"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:293
 msgid "Start time"
@@ -3194,7 +3210,7 @@ msgstr ""
 #: ../ui/evolution.xml.h:42
 #: ../widgets/menus/gal-define-views.glade.h:5
 msgid "_Edit"
-msgstr "Aozañ"
+msgstr "K_emmañ"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 msgid "_Snooze"
@@ -3252,8 +3268,9 @@ msgid "Do not ask me about this program again."
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/notify-main.c:141
+#, fuzzy
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "Ne c'hellen ket deraouekaat Bonobo"
 
 #: ../calendar/gui/alarm-notify/notify-main.c:154
 msgid "Could not create the alarm notify service factory, maybe it's already running..."
@@ -3270,8 +3287,8 @@ msgstr "eur direizh"
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d eur"
-msgstr[1] "%d eur"
+msgstr[0] "%d eurvezh"
+msgstr[1] "%d eurvezh"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:75
@@ -3280,8 +3297,8 @@ msgstr[1] "%d eur"
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d munut"
-msgstr[1] "%d munut"
+msgstr[0] "%d vunutenn"
+msgstr[1] "%d a vunutennoù"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
@@ -3621,8 +3638,9 @@ msgid "Time the last alarm ran, in time_t."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
+#, fuzzy
 msgid "Timezone"
-msgstr ""
+msgstr "Gwerzhid-eur:"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
 msgid "Transparency of the events in calendar views, a value between 0 (transparent) and 1 (opaque)."
@@ -3819,7 +3837,7 @@ msgstr ""
 #: ../ui/evolution-memos.xml.h:11
 #: ../ui/evolution-tasks.xml.h:14
 msgid "Print"
-msgstr "Moulañ"
+msgstr "Moullañ"
 
 #: ../calendar/gui/calendar-commands.c:331
 msgid "This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."
@@ -3871,7 +3889,7 @@ msgstr "Deiziadur nevez"
 #: ../calendar/gui/tasks-component.c:471
 #: ../mail/em-folder-tree.c:2114
 msgid "_Copy..."
-msgstr "_Kopiañ..."
+msgstr "_Eilañ..."
 
 #: ../calendar/gui/calendar-component.c:632
 #: ../calendar/gui/memos-component.c:483
@@ -3907,9 +3925,10 @@ msgid "New appointment"
 msgstr "Emgav nevez"
 
 #: ../calendar/gui/calendar-component.c:1434
+#, fuzzy
 msgctxt "New"
 msgid "_Appointment"
-msgstr ""
+msgstr "Emgav"
 
 #: ../calendar/gui/calendar-component.c:1435
 msgid "Create a new appointment"
@@ -3948,27 +3967,31 @@ msgstr "Deiziadur nevez"
 #: ../calendar/gui/calendar-component.c:1458
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr ""
+msgstr "Dei_ziadur"
 
 #: ../calendar/gui/calendar-component.c:1459
 msgid "Create a new calendar"
 msgstr "Krouiñ un deiziadur nevez"
 
 #: ../calendar/gui/calendar-view-factory.c:113
+#, fuzzy
 msgid "Day View"
-msgstr ""
+msgstr "Sell bemdeziek: %s. %s"
 
 #: ../calendar/gui/calendar-view-factory.c:116
+#, fuzzy
 msgid "Work Week View"
-msgstr ""
+msgstr "Sell labour sizhuniek: %s. %s"
 
 #: ../calendar/gui/calendar-view-factory.c:119
+#, fuzzy
 msgid "Week View"
-msgstr ""
+msgstr "Sell sizhunieg: %s. %s"
 
 #: ../calendar/gui/calendar-view-factory.c:122
+#, fuzzy
 msgid "Month View"
-msgstr ""
+msgstr "Sell mizieg: %s. %s"
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/memotypes.xml.h:1
@@ -3980,8 +4003,9 @@ msgstr ""
 #: ../calendar/gui/memotypes.xml.h:3
 #: ../calendar/gui/tasktypes.xml.h:5
 #: ../mail/em-filter-i18n.h:5
+#, fuzzy
 msgid "Attachments"
-msgstr ""
+msgstr "Kenstagadurioù :"
 
 #: ../calendar/gui/caltypes.xml.h:4
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
@@ -3993,7 +4017,7 @@ msgstr ""
 #: ../calendar/gui/memotypes.xml.h:4
 #: ../calendar/gui/tasktypes.xml.h:8
 msgid "Category"
-msgstr ""
+msgstr "Rummad"
 
 #: ../calendar/gui/caltypes.xml.h:6
 #: ../calendar/gui/memotypes.xml.h:5
@@ -4016,7 +4040,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment-tree-view.c:496
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
-msgstr ""
+msgstr "Deskrivadur"
 
 #: ../calendar/gui/caltypes.xml.h:9
 #: ../calendar/gui/memotypes.xml.h:8
@@ -4067,7 +4091,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:563
 #: ../calendar/gui/memotypes.xml.h:13
 msgid "Public"
-msgstr ""
+msgstr "Foran"
 
 #: ../calendar/gui/caltypes.xml.h:16
 #: ../calendar/gui/dialogs/event-editor.c:304
@@ -4081,8 +4105,9 @@ msgstr ""
 #: ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:22
 #: ../plugins/save-calendar/csv-format.c:357
+#, fuzzy
 msgid "Summary"
-msgstr ""
+msgstr "Diverradenn"
 
 #: ../calendar/gui/caltypes.xml.h:18
 #: ../calendar/gui/memotypes.xml.h:15
@@ -4109,7 +4134,7 @@ msgstr ""
 #: ../calendar/gui/tasktypes.xml.h:27
 #: ../mail/em-filter-i18n.h:31
 msgid "is"
-msgstr ""
+msgstr "zo"
 
 #: ../calendar/gui/caltypes.xml.h:22
 #: ../calendar/gui/memotypes.xml.h:19
@@ -4146,13 +4171,15 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:797
 #: ../calendar/gui/e-alarm-list.c:444
+#, fuzzy
 msgid "Play a sound"
-msgstr ""
+msgstr "C'hoari ur son"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:798
 #: ../calendar/gui/e-alarm-list.c:456
+#, fuzzy
 msgid "Run a program"
-msgstr ""
+msgstr "Lansañ ur programm"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:799
 #: ../calendar/gui/e-alarm-list.c:452
@@ -4189,7 +4216,7 @@ msgstr "Ke_mennadenn :"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:8
 msgid "Select A File"
-msgstr ""
+msgstr "Diuzañ ur restr"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:9
 msgid "Send To:"
@@ -4201,7 +4228,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:11
 msgid "_Program:"
-msgstr ""
+msgstr "_Goulev :"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "_Repeat the alarm"
@@ -4209,7 +4236,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Sound:"
-msgstr ""
+msgstr "_Son :"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid ""
@@ -4229,11 +4256,15 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
+#, fuzzy
 msgid ""
 "minutes\n"
 "hours\n"
 "days"
 msgstr ""
+"Munutennoù\n"
+"Eurvezhioù\n"
+"Devezhioù"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid ""
@@ -4295,8 +4326,9 @@ msgid "Selected Calendars for Alarms"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:865
+#, fuzzy
 msgid "Time and date:"
-msgstr ""
+msgstr "Eur ha Deiziad"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:866
 msgid "Date only:"
@@ -4314,11 +4346,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
-"60 munut\n"
-"30 munut\n"
-"15 munut\n"
-"10 munut\n"
-"05 munut"
+"60 a vunutenn\n"
+"30 a vunutenn\n"
+"15 a vunutenn\n"
+"10 a vunutenn\n"
+"05 a vunutenn"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #, no-c-format
@@ -4476,7 +4508,7 @@ msgstr "_Yao"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "Template:"
-msgstr "Patrom:"
+msgstr "Patrom :"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
@@ -4486,12 +4518,13 @@ msgstr "D'ar yaou"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 #: ../calendar/gui/dialogs/event-page.glade.h:13
+#, fuzzy
 msgid "Time _zone:"
-msgstr ""
+msgstr "<b>Gwerzhid-eur</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "Time format:"
-msgstr "Stumm an eur:"
+msgstr "Mentrezh an eur :"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
@@ -4515,8 +4548,9 @@ msgid "Wee_k starts on:"
 msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
+#, fuzzy
 msgid "Work days:"
-msgstr ""
+msgstr "Deizioù labour"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
 msgid "_12 hour (AM/PM)"
@@ -4591,7 +4625,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/calendar-setup.c:153
 msgid "Type:"
-msgstr "Seurt :"
+msgstr "Rizh :"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:270
 msgid "Cop_y calendar contents locally for offline operation"
@@ -4698,12 +4732,12 @@ msgstr " da "
 #: ../calendar/gui/dialogs/comp-editor-util.c:193
 #: ../calendar/gui/print.c:2353
 msgid " (Completed "
-msgstr ""
+msgstr "( Echu"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:195
 #: ../calendar/gui/print.c:2355
 msgid "Completed "
-msgstr ""
+msgstr "Echu"
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:200
 #: ../calendar/gui/print.c:2360
@@ -4785,8 +4819,9 @@ msgid "Click here to save the current window"
 msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1024
+#, fuzzy
 msgid "Select all text"
-msgstr ""
+msgstr "Diuziñ an destenn a-_bezh"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1031
 msgid "_Classification"
@@ -4808,7 +4843,7 @@ msgstr "_Skoazell"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1059
 msgid "_Insert"
-msgstr ""
+msgstr "E_nlakaat"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1066
 msgid "_Options"
@@ -4826,8 +4861,9 @@ msgstr "_Gwelout"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1083
 #: ../composer/e-composer-actions.c:315
+#, fuzzy
 msgid "_Attachment..."
-msgstr ""
+msgstr "Kenstagadur"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1085
 msgid "Click here to attach a file"
@@ -4835,15 +4871,16 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1093
 msgid "_Categories"
-msgstr "Rummadoù"
+msgstr "R_ummadoù"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1095
 msgid "Toggles whether to display categories"
 msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1101
+#, fuzzy
 msgid "Time _Zone"
-msgstr ""
+msgstr "<b>Gwerzhid-eur</b>"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1103
 msgid "Toggles whether the time zone is displayed"
@@ -4907,8 +4944,9 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:1186
 #: ../composer/e-composer-private.c:67
+#, fuzzy
 msgid "Recent _Documents"
-msgstr ""
+msgstr "Teulioù &nevez savet :"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1615
 #: ../composer/e-composer-actions.c:518
@@ -4928,8 +4966,9 @@ msgstr ""
 #: ../calendar/gui/dialogs/comp-editor.c:2801
 #: ../mail/em-utils.c:371
 #: ../plugins/prefer-plain/prefer-plain.c:91
+#, fuzzy
 msgid "attachment"
-msgstr ""
+msgstr "Kenstagadur"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2862
 msgid "Unable to use current version!"
@@ -5032,7 +5071,6 @@ msgstr ""
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
 #: ../widgets/misc/e-send-options.glade.h:18
-#, fuzzy
 msgid "Send Options"
 msgstr "Dibarzhioù kas"
 
@@ -5193,7 +5231,7 @@ msgstr[1] ""
 
 #: ../calendar/gui/dialogs/event-page.c:2992
 msgid "Customize"
-msgstr ""
+msgstr "Personalaet"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid ""
@@ -5234,7 +5272,7 @@ msgstr "_Alarm"
 #: ../calendar/gui/dialogs/task-page.glade.h:8
 #: ../widgets/misc/e-attachment-dialog.c:345
 msgid "_Description:"
-msgstr ""
+msgstr "_Deskrivadur :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../plugins/calendar-weather/calendar-weather.c:372
@@ -5244,8 +5282,9 @@ msgid "_Location:"
 msgstr "Lec'hiadur :"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:18
+#, fuzzy
 msgid "_Time:"
-msgstr ""
+msgstr "_Eur:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:19
 #: ../calendar/gui/dialogs/memo-page.glade.h:8
@@ -5292,7 +5331,7 @@ msgstr ""
 #: ../mail/em-mailer-prefs.c:78
 #: ../mail/message-list.etspec.h:20
 msgid "To"
-msgstr ""
+msgstr "Da"
 
 #: ../calendar/gui/dialogs/memo-page.glade.h:3
 #: ../calendar/gui/dialogs/task-page.glade.h:5
@@ -5307,7 +5346,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/task-page.c:380
 #: ../calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Group:"
-msgstr ""
+msgstr "_Strollad :"
 
 #: ../calendar/gui/dialogs/recur-comp.c:53
 #, c-format
@@ -5342,8 +5381,9 @@ msgid "This and Future Instances"
 msgstr ""
 
 #: ../calendar/gui/dialogs/recur-comp.c:102
+#, fuzzy
 msgid "All Instances"
-msgstr ""
+msgstr "an holl zegouezhioù eus"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:563
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5360,8 +5400,9 @@ msgstr ""
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:961
+#, fuzzy
 msgid "on"
-msgstr ""
+msgstr "deraouekaet"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -5369,7 +5410,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1018
 msgid "first"
-msgstr ""
+msgstr "kentañ"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -5378,7 +5419,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1024
 msgid "second"
-msgstr ""
+msgstr "eilenn"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -5410,7 +5451,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1044
 msgid "last"
-msgstr ""
+msgstr "diwezhañ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -5453,8 +5494,9 @@ msgstr "deiz"
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1240
+#, fuzzy
 msgid "on the"
-msgstr ""
+msgstr "deraouekaet"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1410
 msgid "occurrences"
@@ -5477,17 +5519,18 @@ msgid "Could not get a selection to delete."
 msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:2320
+#, fuzzy
 msgid "Date/Time"
-msgstr ""
+msgstr "Deiziad/Eur"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>Nemedennoù</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:2
 #: ../mail/mail-config.glade.h:2
 msgid "<b>Preview</b>"
-msgstr "<b>Rakwelet</b>"
+msgstr "<b>Alberz</b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
@@ -5569,7 +5612,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "Stat_us:"
-msgstr ""
+msgstr "Sta_d :"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Date completed:"
@@ -5577,8 +5620,9 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:14
 #: ../widgets/misc/e-send-options.glade.h:34
+#, fuzzy
 msgid "_Priority:"
-msgstr ""
+msgstr "<b>Kentwir :</b>"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
@@ -5595,7 +5639,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/task-editor.c:123
 #: ../composer/e-composer-actions.c:371
 msgid "_Send Options"
-msgstr "Dibarzhioù kas"
+msgstr "Dibarzhioù ka_s"
 
 #: ../calendar/gui/dialogs/task-editor.c:317
 msgid "_Task"
@@ -5633,15 +5677,16 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:2
 msgid "Categor_ies..."
-msgstr "Ru_mmoù..."
+msgstr "Ru_mmadoù..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
 msgid "D_ue date:"
 msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
+#, fuzzy
 msgid "Time zone:"
-msgstr ""
+msgstr "Gwerzhid-eur:"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:394
@@ -5708,9 +5753,9 @@ msgstr ""
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../calendar/gui/e-alarm-list.c:535
-#, c-format
+#, fuzzy, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s e-barzh %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
@@ -5721,15 +5766,17 @@ msgstr ""
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
 msgid "I_mport"
-msgstr ""
+msgstr "E_nporzhiañ"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
+#, fuzzy
 msgid "Select a Calendar"
-msgstr ""
+msgstr "Dibab an deiziadur"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
+#, fuzzy
 msgid "Select a Task List"
-msgstr ""
+msgstr "Dibab ur roll labourioù"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:377
 msgid "I_mport to Calendar"
@@ -5764,7 +5811,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.glade.h:4
 #: ../mail/mail-config.glade.h:75
 msgid "Description:"
-msgstr ""
+msgstr "Deskrivadur :"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:215
 #: ../calendar/gui/e-cal-component-preview.c:309
@@ -5775,7 +5822,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:1154
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
-msgstr ""
+msgstr "Diverradenn :"
 
 #: ../calendar/gui/e-cal-component-preview.c:231
 msgid "Due Date:"
@@ -5788,7 +5835,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-account-setup.c:283
 #: ../plugins/itip-formatter/itip-view.c:1054
 msgid "Status:"
-msgstr ""
+msgstr "Stad :"
 
 #: ../calendar/gui/e-cal-component-preview.c:242
 #: ../calendar/gui/e-cal-model-tasks.c:359
@@ -5814,7 +5861,7 @@ msgstr ""
 #: ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "Completed"
-msgstr ""
+msgstr "Echu"
 
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-cal-model-tasks.c:357
@@ -5823,19 +5870,21 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:658
 #: ../calendar/gui/print.c:2539
 #: ../calendar/gui/tasktypes.xml.h:18
+#, fuzzy
 msgid "Not Started"
-msgstr ""
+msgstr "N'eo ket bet kroget"
 
 #: ../calendar/gui/e-cal-component-preview.c:262
+#, fuzzy
 msgid "Priority:"
-msgstr ""
+msgstr "<b>Kentwir :</b>"
 
 #: ../calendar/gui/e-cal-component-preview.c:264
 #: ../calendar/gui/e-calendar-table.c:585
 #: ../calendar/gui/tasktypes.xml.h:14
 #: ../mail/message-list.c:1064
 msgid "High"
-msgstr ""
+msgstr "Uhel"
 
 #: ../calendar/gui/e-cal-component-preview.c:266
 #: ../calendar/gui/e-cal-model.c:1076
@@ -5843,21 +5892,22 @@ msgstr ""
 #: ../calendar/gui/tasktypes.xml.h:17
 #: ../mail/message-list.c:1063
 msgid "Normal"
-msgstr ""
+msgstr "Reizh"
 
 #: ../calendar/gui/e-cal-component-preview.c:268
 #: ../calendar/gui/e-calendar-table.c:587
 #: ../calendar/gui/tasktypes.xml.h:16
 #: ../mail/message-list.c:1062
 msgid "Low"
-msgstr ""
+msgstr "Izel"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:2
 #: ../calendar/gui/e-calendar-table.etspec.h:7
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../plugins/save-calendar/csv-format.c:362
+#, fuzzy
 msgid "Created"
-msgstr ""
+msgstr "Savet"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
 msgid "End Date"
@@ -5866,8 +5916,9 @@ msgstr ""
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 #: ../calendar/gui/e-memo-table.etspec.h:4
+#, fuzzy
 msgid "Last modified"
-msgstr ""
+msgstr "Kemm diwezhañ"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:6
 #: ../calendar/gui/e-memo-table.etspec.h:5
@@ -5876,14 +5927,15 @@ msgstr ""
 
 #: ../calendar/gui/e-cal-model-calendar.c:187
 #: ../calendar/gui/e-calendar-table.c:637
+#, fuzzy
 msgid "Free"
-msgstr ""
+msgstr "Frank"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
 #: ../calendar/gui/e-calendar-table.c:638
 #: ../calendar/gui/e-meeting-time-sel.c:391
 msgid "Busy"
-msgstr ""
+msgstr "Ac'hubet"
 
 #: ../calendar/gui/e-cal-model-tasks.c:625
 msgid ""
@@ -5958,7 +6010,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-table.c:405
 msgid "Start: "
-msgstr ""
+msgstr "Loc'hañ :"
 
 #: ../calendar/gui/e-calendar-table.c:417
 msgid "Due: "
@@ -5967,7 +6019,7 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.c:588
 #: ../calendar/gui/tasktypes.xml.h:24
 msgid "Undefined"
-msgstr ""
+msgstr "Andespizet"
 
 #: ../calendar/gui/e-calendar-table.c:607
 msgid "0%"
@@ -6116,11 +6168,11 @@ msgstr "Klikit evit ouzhpennañ ul labour nevez"
 #: ../calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr ""
+msgstr "% Echu"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:5
 msgid "Complete"
-msgstr ""
+msgstr "Echu"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
@@ -6133,8 +6185,9 @@ msgstr ""
 #: ../calendar/gui/e-calendar-table.etspec.h:10
 #: ../calendar/gui/tasktypes.xml.h:20
 #: ../plugins/save-calendar/csv-format.c:368
+#, fuzzy
 msgid "Priority"
-msgstr ""
+msgstr "Kentwir"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:11
 msgid "Start date"
@@ -6150,7 +6203,7 @@ msgstr ""
 #: ../mail/em-filter-i18n.h:72
 #: ../mail/message-list.etspec.h:17
 msgid "Status"
-msgstr ""
+msgstr "Stad"
 
 #: ../calendar/gui/e-calendar-view.c:1478
 msgid "Moving items"
@@ -6165,8 +6218,9 @@ msgid "New _Appointment..."
 msgstr "E_mgav nevez..."
 
 #: ../calendar/gui/e-calendar-view.c:1787
+#, fuzzy
 msgid "New All Day _Event"
-msgstr ""
+msgstr "Degouezh nevez war un devezh a-bezh"
 
 #: ../calendar/gui/e-calendar-view.c:1788
 msgid "New _Meeting"
@@ -6183,7 +6237,7 @@ msgstr "Diuziñ an deiz a _hiriv"
 
 #: ../calendar/gui/e-calendar-view.c:1802
 msgid "_Select Date..."
-msgstr ""
+msgstr "_Diuz an deiziad..."
 
 #: ../calendar/gui/e-calendar-view.c:1808
 msgid "Pri_nt..."
@@ -6211,7 +6265,7 @@ msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:1823
 msgid "_Reply"
-msgstr ""
+msgstr "_Respont"
 
 #: ../calendar/gui/e-calendar-view.c:1824
 #: ../mail/e-attachment-handler-mail.c:140
@@ -6219,7 +6273,7 @@ msgstr ""
 #: ../mail/em-popup.c:499
 #: ../ui/evolution-mail-message.xml.h:78
 msgid "Reply to _All"
-msgstr ""
+msgstr "Respont d'_an holl"
 
 #: ../calendar/gui/e-calendar-view.c:1829
 msgid "Make this Occurrence _Movable"
@@ -6283,7 +6337,7 @@ msgstr "Lec'hiadur : %s"
 #: ../calendar/gui/e-calendar-view.c:2480
 #, c-format
 msgid "Time: %s %s"
-msgstr ""
+msgstr "Eur : %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:102
@@ -6346,7 +6400,7 @@ msgstr "pm"
 #: ../calendar/gui/e-day-view.c:2309
 #, c-format
 msgid "Week %d"
-msgstr ""
+msgstr "Sizhun %d"
 
 #: ../calendar/gui/e-itip-control.c:758
 msgid "Yes. (Complex Recurrence)"
@@ -6379,9 +6433,9 @@ msgid " and "
 msgstr " ha "
 
 #: ../calendar/gui/e-itip-control.c:815
-#, c-format
+#, fuzzy, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "deiz"
 
 #: ../calendar/gui/e-itip-control.c:831
 #, c-format
@@ -6700,12 +6754,12 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2350
 msgid "Update"
-msgstr ""
+msgstr "Hizivaat"
 
 #: ../calendar/gui/e-itip-control.c:2374
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept"
-msgstr ""
+msgstr "Asañtiñ"
 
 #: ../calendar/gui/e-itip-control.c:2375
 msgid "Tentatively accept"
@@ -6731,11 +6785,11 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2473
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr ""
+msgstr "Nullañ"
 
 #: ../calendar/gui/e-itip-control.glade.h:1
 msgid "--to--"
-msgstr ""
+msgstr "--da--"
 
 #: ../calendar/gui/e-itip-control.glade.h:2
 msgid "Calendar Message"
@@ -6743,7 +6797,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.glade.h:3
 msgid "Date:"
-msgstr ""
+msgstr "Deizad :"
 
 #: ../calendar/gui/e-itip-control.glade.h:5
 msgid "Loading Calendar"
@@ -6774,8 +6828,9 @@ msgid "Optional Participants"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-list-view.c:70
+#, fuzzy
 msgid "Resources"
-msgstr ""
+msgstr "Korvoderioù"
 
 #: ../calendar/gui/e-meeting-list-view.c:162
 #: ../calendar/gui/e-meeting-store.c:84
@@ -6791,21 +6846,22 @@ msgstr ""
 #: ../calendar/gui/print.c:975
 #: ../widgets/table/e-table-config.glade.h:7
 msgid "Group"
-msgstr ""
+msgstr "Strollañ"
 
 #: ../calendar/gui/e-meeting-list-view.c:164
 #: ../calendar/gui/e-meeting-store.c:88
 #: ../calendar/gui/e-meeting-store.c:105
 #: ../calendar/gui/print.c:976
+#, fuzzy
 msgid "Resource"
-msgstr ""
+msgstr "#1 loaz"
 
 #: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:90
 #: ../calendar/gui/e-meeting-store.c:107
 #: ../calendar/gui/print.c:977
 msgid "Room"
-msgstr ""
+msgstr "Sal"
 
 #: ../calendar/gui/e-meeting-list-view.c:176
 #: ../calendar/gui/e-meeting-store.c:119
@@ -6889,7 +6945,7 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.c:429
 msgid "O_ptions"
-msgstr ""
+msgstr "Dibar_zhioù"
 
 #: ../calendar/gui/e-meeting-time-sel.c:446
 msgid "Show _only working hours"
@@ -6944,8 +7000,9 @@ msgid "Click here to add an attendee"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:3
+#, fuzzy
 msgid "Common Name"
-msgstr ""
+msgstr "Anv boutin:"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
@@ -7024,12 +7081,14 @@ msgid "%d %B"
 msgstr ""
 
 #: ../calendar/gui/gnome-cal.c:2673
+#, fuzzy
 msgid "_Custom View"
-msgstr ""
+msgstr "Sell _personelaet"
 
 #: ../calendar/gui/gnome-cal.c:2674
+#, fuzzy
 msgid "_Save Custom View"
-msgstr ""
+msgstr "En_rollañ ar sell personelaet"
 
 #: ../calendar/gui/gnome-cal.c:2679
 msgid "_Define Views..."
@@ -7053,7 +7112,7 @@ msgstr ""
 #: ../calendar/gui/gnome-cal.c:3052
 #, c-format
 msgid "Opening %s"
-msgstr ""
+msgstr "O tigeriñ %s"
 
 #: ../calendar/gui/gnome-cal.c:4012
 msgid "Purging"
@@ -7074,10 +7133,22 @@ msgid ""
 "November\n"
 "December"
 msgstr ""
+"January\n"
+"a viz C'hwevrer\n"
+"a viz Meurzh\n"
+"a viz April\n"
+"a viz Mae\n"
+"June\n"
+"July\n"
+"a viz Eost\n"
+"a viz Gwengolo\n"
+"October\n"
+"November\n"
+"December"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "Select Date"
-msgstr ""
+msgstr "Diuz an deiziad"
 
 #: ../calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
@@ -7114,8 +7185,9 @@ msgid "Free/Busy information"
 msgstr ""
 
 #: ../calendar/gui/itip-utils.c:643
+#, fuzzy
 msgid "Calendar information"
-msgstr ""
+msgstr "Titouroù an deiziadur"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -7171,15 +7243,16 @@ msgstr ""
 #: ../calendar/gui/itip-utils.c:718
 msgctxt "Meeting"
 msgid "Cancel"
-msgstr ""
+msgstr "Nullañ"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
 #: ../calendar/gui/itip-utils.c:725
+#, fuzzy
 msgctxt "Meeting"
 msgid "Refresh"
-msgstr ""
+msgstr "Freskaat"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -7218,8 +7291,8 @@ msgstr[1] ""
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d diuzet"
+msgstr[1] "%d diuzet"
 
 #: ../calendar/gui/memos-component.c:609
 msgid "Failed upgrading memos."
@@ -7317,155 +7390,155 @@ msgstr ""
 
 #: ../calendar/gui/print.c:511
 msgid "1st"
-msgstr ""
+msgstr "1añ"
 
 #: ../calendar/gui/print.c:511
 msgid "2nd"
-msgstr ""
+msgstr "2"
 
 #: ../calendar/gui/print.c:511
 msgid "3rd"
-msgstr ""
+msgstr "3"
 
 #: ../calendar/gui/print.c:511
 msgid "4th"
-msgstr ""
+msgstr "4"
 
 #: ../calendar/gui/print.c:511
 msgid "5th"
-msgstr ""
+msgstr "5"
 
 #: ../calendar/gui/print.c:512
 msgid "6th"
-msgstr ""
+msgstr "6"
 
 #: ../calendar/gui/print.c:512
 msgid "7th"
-msgstr ""
+msgstr "7"
 
 #: ../calendar/gui/print.c:512
 msgid "8th"
-msgstr ""
+msgstr "8"
 
 #: ../calendar/gui/print.c:512
 msgid "9th"
-msgstr ""
+msgstr "9"
 
 #: ../calendar/gui/print.c:512
 msgid "10th"
-msgstr ""
+msgstr "10"
 
 #: ../calendar/gui/print.c:513
 msgid "11th"
-msgstr ""
+msgstr "11"
 
 #: ../calendar/gui/print.c:513
 msgid "12th"
-msgstr ""
+msgstr "12"
 
 #: ../calendar/gui/print.c:513
 msgid "13th"
-msgstr ""
+msgstr "13"
 
 #: ../calendar/gui/print.c:513
 msgid "14th"
-msgstr ""
+msgstr "14"
 
 #: ../calendar/gui/print.c:513
 msgid "15th"
-msgstr ""
+msgstr "15"
 
 #: ../calendar/gui/print.c:514
 msgid "16th"
-msgstr ""
+msgstr "16"
 
 #: ../calendar/gui/print.c:514
 msgid "17th"
-msgstr ""
+msgstr "17"
 
 #: ../calendar/gui/print.c:514
 msgid "18th"
-msgstr ""
+msgstr "18"
 
 #: ../calendar/gui/print.c:514
 msgid "19th"
-msgstr ""
+msgstr "19"
 
 #: ../calendar/gui/print.c:514
 msgid "20th"
-msgstr ""
+msgstr "20"
 
 #: ../calendar/gui/print.c:515
 msgid "21st"
-msgstr ""
+msgstr "21"
 
 #: ../calendar/gui/print.c:515
 msgid "22nd"
-msgstr ""
+msgstr "22"
 
 #: ../calendar/gui/print.c:515
 msgid "23rd"
-msgstr ""
+msgstr "23"
 
 #: ../calendar/gui/print.c:515
 msgid "24th"
-msgstr ""
+msgstr "24"
 
 #: ../calendar/gui/print.c:515
 msgid "25th"
-msgstr ""
+msgstr "25"
 
 #: ../calendar/gui/print.c:516
 msgid "26th"
-msgstr ""
+msgstr "26"
 
 #: ../calendar/gui/print.c:516
 msgid "27th"
-msgstr ""
+msgstr "27"
 
 #: ../calendar/gui/print.c:516
 msgid "28th"
-msgstr ""
+msgstr "28"
 
 #: ../calendar/gui/print.c:516
 msgid "29th"
-msgstr ""
+msgstr "29"
 
 #: ../calendar/gui/print.c:516
 msgid "30th"
-msgstr ""
+msgstr "30"
 
 #: ../calendar/gui/print.c:517
 msgid "31st"
-msgstr ""
+msgstr "31"
 
 #: ../calendar/gui/print.c:593
 msgid "Su"
-msgstr ""
+msgstr "Sul"
 
 #: ../calendar/gui/print.c:593
 msgid "Mo"
-msgstr ""
+msgstr "Lun"
 
 #: ../calendar/gui/print.c:593
 msgid "Tu"
-msgstr ""
+msgstr "Meu"
 
 #: ../calendar/gui/print.c:593
 msgid "We"
-msgstr ""
+msgstr "Mer"
 
 #: ../calendar/gui/print.c:594
 msgid "Th"
-msgstr ""
+msgstr "Yao"
 
 #: ../calendar/gui/print.c:594
 msgid "Fr"
-msgstr ""
+msgstr "Gwe"
 
 #: ../calendar/gui/print.c:594
 msgid "Sa"
-msgstr ""
+msgstr "Sad"
 
 #: ../calendar/gui/print.c:2465
 msgid "Appointment"
@@ -7476,9 +7549,9 @@ msgid "Task"
 msgstr "Labour"
 
 #: ../calendar/gui/print.c:2492
-#, c-format
+#, fuzzy, c-format
 msgid "Summary: %s"
-msgstr ""
+msgstr "<b>Diverradenn</b>"
 
 #: ../calendar/gui/print.c:2515
 msgid "Attendees: "
@@ -7487,12 +7560,12 @@ msgstr ""
 #: ../calendar/gui/print.c:2555
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Stad : %s"
 
 #: ../calendar/gui/print.c:2569
-#, c-format
+#, fuzzy, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "<b>Kentwir :</b>"
 
 #: ../calendar/gui/print.c:2584
 #, c-format
@@ -7548,7 +7621,7 @@ msgstr "Labour nevez"
 #: ../calendar/gui/tasks-component.c:1114
 msgctxt "New"
 msgid "_Task"
-msgstr ""
+msgstr "_Labour"
 
 #: ../calendar/gui/tasks-component.c:1115
 msgid "Create a new task"
@@ -7600,11 +7673,11 @@ msgstr ""
 #: ../calendar/gui/tasktypes.xml.h:2
 #, no-c-format
 msgid "% Completed"
-msgstr ""
+msgstr "% echu"
 
 #: ../calendar/gui/tasktypes.xml.h:7
 msgid "Cancelled"
-msgstr ""
+msgstr "Nullet"
 
 #: ../calendar/gui/tasktypes.xml.h:15
 msgid "In progress"
@@ -9037,7 +9110,7 @@ msgstr ""
 
 #: ../calendar/zones.h:364
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Indez/Inizi Maldivez"
 
 #: ../calendar/zones.h:365
 msgid "Indian/Mauritius"
@@ -9224,7 +9297,7 @@ msgstr ""
 #: ../mail/mail-signature-editor.c:195
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
-msgstr ""
+msgstr "_Serriñ"
 
 #: ../composer/e-composer-actions.c:324
 msgid "Close the current file"
@@ -9238,7 +9311,7 @@ msgstr "Serriñ ar restr red"
 #: ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
-msgstr "_Moulañ..."
+msgstr "_Moullañ..."
 
 #: ../composer/e-composer-actions.c:336
 #: ../ui/evolution-addressbook.xml.h:27
@@ -9247,7 +9320,7 @@ msgstr "_Moulañ..."
 #: ../ui/evolution-memos.xml.h:12
 #: ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr ""
+msgstr "Alberz ar moullañ"
 
 #: ../composer/e-composer-actions.c:345
 msgid "Save the current file"
@@ -9272,7 +9345,7 @@ msgstr ""
 #: ../composer/e-composer-actions.c:364
 #: ../composer/e-composer-private.c:191
 msgid "S_end"
-msgstr ""
+msgstr "_Kas"
 
 #: ../composer/e-composer-actions.c:366
 msgid "Send this message"
@@ -9292,11 +9365,11 @@ msgstr ""
 
 #: ../composer/e-composer-actions.c:387
 msgid "Character _Encoding"
-msgstr ""
+msgstr "Bonegadur ar arouezennoù"
 
 #: ../composer/e-composer-actions.c:394
 msgid "_Security"
-msgstr ""
+msgstr "Diogel_roez"
 
 #: ../composer/e-composer-actions.c:404
 msgid "PGP _Encrypt"
@@ -9384,11 +9457,11 @@ msgstr ""
 
 #: ../composer/e-composer-header.c:120
 msgid "Show"
-msgstr ""
+msgstr "Diskouez"
 
 #: ../composer/e-composer-header.c:123
 msgid "Hide"
-msgstr ""
+msgstr "Kuzhat"
 
 #: ../composer/e-composer-header-table.c:41
 msgid "Enter the recipients of the message"
@@ -9417,11 +9490,11 @@ msgstr "Gant"
 
 #: ../composer/e-composer-header-table.c:954
 msgid "_Reply-To:"
-msgstr ""
+msgstr "_Respont-da :"
 
 #: ../composer/e-composer-header-table.c:959
 msgid "_To:"
-msgstr ""
+msgstr "_Da :"
 
 #: ../composer/e-composer-header-table.c:965
 msgid "_Cc:"
@@ -9447,11 +9520,11 @@ msgstr ""
 
 #: ../composer/e-composer-header-table.c:980
 msgid "S_ubject:"
-msgstr ""
+msgstr "D_anvez :"
 
 #: ../composer/e-composer-header-table.c:989
 msgid "Si_gnature:"
-msgstr ""
+msgstr "_Sinadur :"
 
 #: ../composer/e-composer-name-header.c:116
 msgid "Click here for the address book"
@@ -9484,7 +9557,7 @@ msgstr ""
 #: ../composer/e-msg-composer.c:1350
 #: ../composer/e-msg-composer.c:2189
 msgid "Compose Message"
-msgstr ""
+msgstr "Skrivañ ar gemennadenn"
 
 #: ../composer/e-msg-composer.c:3347
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
@@ -9559,8 +9632,9 @@ msgid "Send options available only for Novell GroupWise and Microsoft Exchange a
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:18
+#, fuzzy
 msgid "Send options not available."
-msgstr ""
+msgstr "Dibarzhioù kas dihegerz"
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
@@ -9602,12 +9676,14 @@ msgid "_Continue Editing"
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:31
+#, fuzzy
 msgid "_Do not Recover"
-msgstr ""
+msgstr "_N'atoriñ ket"
 
 #: ../composer/mail-composer.error.xml.h:32
+#, fuzzy
 msgid "_Recover"
-msgstr ""
+msgstr "Ato_riñ"
 
 #: ../composer/mail-composer.error.xml.h:33
 msgid "_Save Draft"
@@ -9650,7 +9726,7 @@ msgstr "Warc'hoazh"
 
 #: ../e-util/e-datetime-format.c:202
 msgid "Yesterday"
-msgstr ""
+msgstr "Dec'h"
 
 #: ../e-util/e-datetime-format.c:205
 #, c-format
@@ -9660,7 +9736,7 @@ msgstr ""
 #: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d a zeizioù zo"
 
 #: ../e-util/e-datetime-format.c:281
 #: ../e-util/e-datetime-format.c:291
@@ -9700,7 +9776,7 @@ msgstr ""
 
 #: ../e-util/e-logger.c:161
 msgid "Component"
-msgstr ""
+msgstr "Elfenn"
 
 #: ../e-util/e-logger.c:162
 msgid "Name of the component being logged"
@@ -9718,7 +9794,7 @@ msgstr ""
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
 #: ../e-util/e-non-intrusive-error-dialog.c:223
 msgid "second(s)."
-msgstr ""
+msgstr "eilenn"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:229
 msgid "Log Messages:"
@@ -9731,13 +9807,13 @@ msgstr ""
 #: ../e-util/e-non-intrusive-error-dialog.c:282
 #: ../widgets/misc/e-dateedit.c:380
 msgid "Time"
-msgstr ""
+msgstr "Amzer"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:292
 #: ../mail/message-list.c:2527
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
-msgstr ""
+msgstr "Kemennadennoù"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:301
 #: ../ui/evolution-mail-messagedisplay.xml.h:2
@@ -9759,7 +9835,7 @@ msgstr ""
 
 #: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Debug"
-msgstr ""
+msgstr "Diveugañ"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Error, Warnings and Debug messages"
@@ -9772,7 +9848,7 @@ msgstr ""
 #: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:718
 msgid "Enabled"
-msgstr ""
+msgstr "Gweredekaet"
 
 #: ../e-util/e-plugin.c:309
 msgid "Whether the plugin is enabled"
@@ -9800,20 +9876,23 @@ msgid "Because \"{1}\"."
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:2
+#, fuzzy
 msgid "Cannot open file \"{0}\"."
-msgstr ""
+msgstr "N'haller ket digeriñ ar restr '%s' : %s"
 
 #: ../e-util/e-system.error.xml.h:3
+#, fuzzy
 msgid "Cannot save file \"{0}\"."
-msgstr ""
+msgstr "N'haller ket enrollañ ar restr '%s' : %s"
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Do you wish to overwrite it?"
 msgstr ""
 
 #: ../e-util/e-system.error.xml.h:5
+#, fuzzy
 msgid "File exists \"{0}\"."
-msgstr ""
+msgstr "Ar restr a zo endeo"
 
 #: ../e-util/e-system.error.xml.h:6
 msgid "Overwrite file?"
@@ -9838,13 +9917,14 @@ msgstr "_A-bouez"
 
 #. red
 #: ../e-util/e-util-labels.c:46
+#, fuzzy
 msgid "_Work"
-msgstr ""
+msgstr "<b>Labour</b>"
 
 #. orange
 #: ../e-util/e-util-labels.c:47
 msgid "_Personal"
-msgstr ""
+msgstr "_Personel"
 
 #. green
 #: ../e-util/e-util-labels.c:48
@@ -9854,7 +9934,7 @@ msgstr ""
 #. blue
 #: ../e-util/e-util-labels.c:49
 msgid "_Later"
-msgstr ""
+msgstr "_Diwezatoc'h"
 
 #: ../e-util/e-util-labels.c:320
 msgid "Label _Name:"
@@ -9862,11 +9942,11 @@ msgstr "A_nv ar skritellig :"
 
 #: ../e-util/e-util-labels.c:343
 msgid "Edit Label"
-msgstr ""
+msgstr "Embann ar skritellig"
 
 #: ../e-util/e-util-labels.c:343
 msgid "Add Label"
-msgstr ""
+msgstr "OUzhpennañ ur skritellig"
 
 #: ../e-util/e-util-labels.c:362
 msgid "Label name cannot be empty."
@@ -9879,17 +9959,21 @@ msgstr ""
 #: ../e-util/gconf-bridge.c:1222
 #, c-format
 msgid "GConf error: %s"
-msgstr ""
+msgstr "Fazi GConf : %s"
 
 #: ../e-util/gconf-bridge.c:1233
+#, fuzzy
 msgid "All further errors shown only on terminal."
 msgstr ""
+"Fazi GConf:\n"
+"  %s\n"
+"Holl fazi war termenell"
 
 #: ../filter/filter-datespec.c:73
-#, c-format
+#, fuzzy, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] ""
+msgstr[0] "%d eilenn zo"
 msgstr[1] ""
 
 #: ../filter/filter-datespec.c:74
@@ -9900,10 +9984,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../filter/filter-datespec.c:75
-#, c-format
+#, fuzzy, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] ""
+msgstr[0] "%d a vunutenn zo"
 msgstr[1] ""
 
 #: ../filter/filter-datespec.c:76
@@ -9928,10 +10012,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../filter/filter-datespec.c:79
-#, c-format
+#, fuzzy, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] ""
+msgstr[0] "%d a zeizioù zo"
 msgstr[1] ""
 
 #: ../filter/filter-datespec.c:80
@@ -9996,7 +10080,7 @@ msgstr "bremañ"
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:304
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #: ../filter/filter-datespec.c:447
 msgid "Select a time to compare against"
@@ -10008,8 +10092,9 @@ msgstr "Dibabit ur restr"
 
 #: ../filter/filter-part.c:528
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:3
+#, fuzzy
 msgid "Test"
-msgstr ""
+msgstr "Taol arnod"
 
 #: ../filter/filter-rule.c:854
 msgid "R_ule name:"
@@ -10167,15 +10252,15 @@ msgstr ""
 
 #: ../filter/rule-editor.c:381
 msgid "Add Rule"
-msgstr ""
+msgstr "Ouzhpennañ ur reolenn"
 
 #: ../filter/rule-editor.c:462
 msgid "Edit Rule"
-msgstr ""
+msgstr "Kemmañ ar reolenn"
 
 #: ../filter/rule-editor.c:808
 msgid "Rule name"
-msgstr ""
+msgstr "Anv ar reolenn"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
@@ -10244,7 +10329,7 @@ msgstr ""
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:15
 #: ../mail/mail-config.glade.h:108
 msgid "Mail Preferences"
-msgstr "Dibaboù gwellañ ar posteliñ"
+msgstr "Gwellvezioù ar posteliñ"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:16
 msgid "Network Preferences"
@@ -10260,13 +10345,14 @@ msgstr "_Posteloù"
 #: ../mail/em-popup.c:501
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Forward"
-msgstr ""
+msgstr "_War-raok"
 
 #: ../mail/e-attachment-handler-mail.c:147
 #: ../mail/em-folder-view.c:1329
 #: ../ui/evolution-mail-message.xml.h:123
+#, fuzzy
 msgid "_Reply to Sender"
-msgstr ""
+msgstr "_Respont d'ar c'haser"
 
 #. Translators: This is only for multiple messages.
 #: ../mail/e-attachment-handler-mail.c:334
@@ -10278,65 +10364,75 @@ msgstr ""
 #: ../mail/em-format-html-display.c:1642
 #: ../mail/message-list.etspec.h:1
 #: ../widgets/misc/e-attachment-paned.c:147
+#, fuzzy
 msgid "Attachment"
 msgid_plural "Attachments"
-msgstr[0] ""
+msgstr[0] "Kenstagadur"
 msgstr[1] ""
 
 #: ../mail/e-mail-attachment-bar.c:615
 #: ../widgets/misc/e-attachment-paned.c:607
+#, fuzzy
 msgid "Icon View"
-msgstr ""
+msgstr "Sell arlunek"
 
 #: ../mail/e-mail-attachment-bar.c:616
 #: ../widgets/misc/e-attachment-paned.c:608
+#, fuzzy
 msgid "List View"
-msgstr ""
+msgstr "Roll"
 
 #: ../mail/e-mail-search-bar.c:76
-#, c-format
+#, fuzzy, c-format
 msgid "Matches: %d"
-msgstr ""
+msgstr "%S a glotadennoù"
 
 #: ../mail/e-mail-search-bar.c:520
+#, fuzzy
 msgid "Close the find bar"
-msgstr ""
+msgstr "Serriñ ar varrenn glask"
 
 #: ../mail/e-mail-search-bar.c:528
 msgid "Fin_d:"
-msgstr ""
+msgstr "_Klask :"
 
 #: ../mail/e-mail-search-bar.c:540
 msgid "Clear the search"
 msgstr ""
 
 #: ../mail/e-mail-search-bar.c:559
+#, fuzzy
 msgid "_Previous"
-msgstr ""
+msgstr "_Diaraok"
 
 #: ../mail/e-mail-search-bar.c:565
+#, fuzzy
 msgid "Find the previous occurrence of the phrase"
-msgstr ""
+msgstr "Kavout an tamm frazenn kent o klotañ ganti"
 
 #: ../mail/e-mail-search-bar.c:573
+#, fuzzy
 msgid "_Next"
-msgstr ""
+msgstr "_Da heul"
 
 #: ../mail/e-mail-search-bar.c:579
+#, fuzzy
 msgid "Find the next occurrence of the phrase"
-msgstr ""
+msgstr "Kavout an tamm frazenn war-lerc'h o klotañ ganti"
 
 #: ../mail/e-mail-search-bar.c:587
 msgid "Mat_ch case"
 msgstr ""
 
 #: ../mail/e-mail-search-bar.c:615
+#, fuzzy
 msgid "Reached bottom of page, continued from top"
-msgstr ""
+msgstr "Tizhet eo bet derou ar bajenn, kenderc'hel diouzh an diaz"
 
 #: ../mail/e-mail-search-bar.c:637
+#, fuzzy
 msgid "Reached top of page, continued from bottom"
-msgstr ""
+msgstr "Tizhet eo bet derou ar bajenn, kenderc'hel diouzh an diaz"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -10376,7 +10472,7 @@ msgstr ""
 #: ../mail/em-filter-folder-element.c:258
 #: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
-msgstr ""
+msgstr "Diuzañ un teuliad"
 
 #: ../mail/em-account-editor.c:797
 msgid "Never"
@@ -10423,7 +10519,7 @@ msgstr "Dre ziouer"
 #: ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Security"
-msgstr ""
+msgstr "Diogelroez"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
@@ -10450,22 +10546,22 @@ msgstr ""
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:426
 msgid "[Default]"
-msgstr ""
+msgstr "[Dre ziouer]"
 
 #: ../mail/em-account-prefs.c:483
 msgid "Account name"
-msgstr ""
+msgstr "Anv ar gont"
 
 #: ../mail/em-account-prefs.c:485
 msgid "Protocol"
-msgstr ""
+msgstr "Komenad"
 
 #: ../mail/em-composer-prefs.c:318
 #: ../mail/em-composer-prefs.c:452
 #: ../mail/mail-config.c:1160
 #: ../mail/mail-signature-editor.c:481
 msgid "Unnamed"
-msgstr ""
+msgstr "Dianv"
 
 #: ../mail/em-composer-prefs.c:961
 msgid "Language(s)"
@@ -10580,7 +10676,7 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:23
 msgid "Draft"
-msgstr ""
+msgstr "Brouilhed"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "ends with"
@@ -10591,8 +10687,9 @@ msgid "exists"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:27
+#, fuzzy
 msgid "Expression"
-msgstr ""
+msgstr "Doare da lavarout"
 
 #: ../mail/em-filter-i18n.h:28
 msgid "Follow Up"
@@ -10605,7 +10702,7 @@ msgstr ""
 #: ../mail/em-filter-i18n.h:30
 #: ../mail/em-migrate.c:958
 msgid "Important"
-msgstr ""
+msgstr "Pouezus"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "is after"
@@ -10635,7 +10732,7 @@ msgstr ""
 #: ../mail/mail-config.glade.h:102
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr ""
+msgstr "Lastez"
 
 #: ../mail/em-filter-i18n.h:42
 msgid "Junk Test"
@@ -10643,11 +10740,12 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:43
 msgid "Label"
-msgstr ""
+msgstr "Skritellig"
 
 #: ../mail/em-filter-i18n.h:44
+#, fuzzy
 msgid "Mailing list"
-msgstr ""
+msgstr "Roll dasparzhañ"
 
 #: ../mail/em-filter-i18n.h:45
 msgid "Match All"
@@ -10662,8 +10760,9 @@ msgid "Message Header"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:48
+#, fuzzy
 msgid "Message is Junk"
-msgstr ""
+msgstr "Lastez eo ar gemennadenn"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Message is not Junk"
@@ -10683,13 +10782,13 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:53
 msgid "Play Sound"
-msgstr ""
+msgstr "Seniñ ar son"
 
 #. Translators: "Read" as in "has been read" (message-tag-followup.c)
 #: ../mail/em-filter-i18n.h:54
 #: ../mail/message-tag-followup.c:61
 msgid "Read"
-msgstr ""
+msgstr "Lenn"
 
 #: ../mail/em-filter-i18n.h:55
 #: ../mail/message-list.etspec.h:12
@@ -10717,13 +10816,15 @@ msgid "returns less than"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:61
+#, fuzzy
 msgid "Run Program"
-msgstr ""
+msgstr "Lansañ ur programm"
 
 #: ../mail/em-filter-i18n.h:62
 #: ../mail/message-list.etspec.h:13
+#, fuzzy
 msgid "Score"
-msgstr ""
+msgstr "Merk"
 
 #: ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:14
@@ -10740,11 +10841,11 @@ msgstr ""
 
 #: ../mail/em-filter-i18n.h:66
 msgid "Set Status"
-msgstr ""
+msgstr "Arventenniñ ar stad"
 
 #: ../mail/em-filter-i18n.h:67
 msgid "Size (kB)"
-msgstr ""
+msgstr "Ment (kB)"
 
 #: ../mail/em-filter-i18n.h:68
 msgid "sounds like"
@@ -10759,8 +10860,9 @@ msgid "Specific header"
 msgstr ""
 
 #: ../mail/em-filter-i18n.h:71
+#, fuzzy
 msgid "starts with"
-msgstr ""
+msgstr "a grog gant"
 
 #: ../mail/em-filter-i18n.h:73
 msgid "Stop Processing"
@@ -10775,7 +10877,7 @@ msgstr ""
 #: ../plugins/groupwise-features/properties.glade.h:7
 #: ../smime/lib/e-cert.c:1112
 msgid "Subject"
-msgstr ""
+msgstr "Danvez"
 
 #: ../mail/em-filter-i18n.h:75
 msgid "Unset Status"
@@ -10804,7 +10906,7 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:222
 msgid "No Label"
-msgstr ""
+msgstr "Skritellig ebet"
 
 #: ../mail/em-folder-browser.c:229
 msgid "Read Messages"
@@ -10820,7 +10922,7 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:232
 msgid "Messages with Attachments"
-msgstr ""
+msgstr "Kemennadenn gant kenstagadurioù"
 
 #: ../mail/em-folder-browser.c:233
 msgid "Important Messages"
@@ -10832,7 +10934,7 @@ msgstr ""
 
 #: ../mail/em-folder-browser.c:1194
 msgid "Account Search"
-msgstr ""
+msgstr "Klask ur gont"
 
 #: ../mail/em-folder-browser.c:1256
 msgid "All Account Search"
@@ -10872,24 +10974,24 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
-msgstr ""
+msgstr "Boest degemer"
 
 #: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
-msgstr ""
+msgstr "Perzhioù an teuliad"
 
 #: ../mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<klikañ amañ evit diuzañ un teuliad>"
 
 #: ../mail/em-folder-selector.c:249
 msgid "C_reate"
-msgstr ""
+msgstr "K_rouiñ"
 
 #: ../mail/em-folder-selector.c:253
 msgid "Folder _name:"
-msgstr "_Anv ar renkell :"
+msgstr "_Anv an teuliad :"
 
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:195
@@ -10897,7 +10999,7 @@ msgstr "_Anv ar renkell :"
 #: ../mail/mail-vfolder.c:960
 #: ../mail/mail-vfolder.c:1028
 msgid "Search Folders"
-msgstr ""
+msgstr "Klask teuliadoù"
 
 #. UNMATCHED is always last
 #: ../mail/em-folder-tree-model.c:201
@@ -10908,7 +11010,7 @@ msgstr ""
 #: ../mail/em-folder-tree-model.c:510
 #: ../mail/mail-component.c:169
 msgid "Drafts"
-msgstr ""
+msgstr "Brouilhedoù"
 
 #: ../mail/em-folder-tree-model.c:513
 #: ../mail/mail-component.c:172
@@ -10919,7 +11021,7 @@ msgstr "Patromoù"
 #: ../mail/em-folder-tree-model.c:520
 #: ../mail/mail-component.c:170
 msgid "Outbox"
-msgstr ""
+msgstr "Ket kaset"
 
 #: ../mail/em-folder-tree-model.c:522
 #: ../mail/mail-component.c:171
@@ -10950,7 +11052,7 @@ msgstr "O kargañ..."
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr ""
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:727
 msgid "Mail Folder Tree"
@@ -10964,7 +11066,7 @@ msgstr ""
 #: ../mail/em-folder-tree.c:888
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "Oc'h eilañ an teuliad %s"
 
 #: ../mail/em-folder-tree.c:895
 #: ../mail/message-list.c:2018
@@ -10997,7 +11099,7 @@ msgstr ""
 #: ../mail/em-folder-view.c:1186
 #: ../mail/message-list.c:2110
 msgid "_Move"
-msgstr ""
+msgstr "_Dilec'hiañ"
 
 #: ../mail/em-folder-tree.c:994
 #: ../mail/message-list.c:2112
@@ -11017,7 +11119,7 @@ msgstr "Digeriñ e-barzh ur prenestr _nevez"
 #. FIXME: need to disable for nochildren folders
 #: ../mail/em-folder-tree.c:2112
 msgid "_New Folder..."
-msgstr "Renkell _nevez..."
+msgstr "Teuliad _nevez..."
 
 #: ../mail/em-folder-tree.c:2115
 msgid "_Move..."
@@ -11035,7 +11137,7 @@ msgstr ""
 #: ../mail/em-folder-tree.c:2129
 #: ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
-msgstr ""
+msgstr "Goullond_eriñ al lastez"
 
 #: ../mail/em-folder-tree.c:2232
 msgid "_Unread Search Folder"
@@ -11052,24 +11154,24 @@ msgstr ""
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:302
 msgid "Select folder"
-msgstr "Dibab ur renkell"
+msgstr "Dibab un teuliad"
 
 #: ../mail/em-folder-utils.c:362
 #: ../mail/em-folder-view.c:1201
 msgid "C_opy"
-msgstr "K_opiañ"
+msgstr "_Eilañ"
 
 #: ../mail/em-folder-utils.c:537
 #: ../plugins/groupwise-features/share-folder-common.c:144
 #, c-format
 msgid "Creating folder `%s'"
-msgstr "O krouiñ ar renkell `%s'"
+msgstr "O krouiñ an teuliad `%s'"
 
 #: ../mail/em-folder-utils.c:695
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:385
 msgid "Create folder"
-msgstr "Krouiñ ur renkell"
+msgstr "Krouiñ un teuliad"
 
 #: ../mail/em-folder-utils.c:695
 #: ../plugins/groupwise-features/install-shared.c:168
@@ -11091,7 +11193,7 @@ msgstr ""
 #: ../mail/em-folder-view.c:1335
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "K_emmañ evel ur gemanedenn nevez..."
 
 #: ../mail/em-folder-view.c:1341
 msgid "U_ndelete"
@@ -11107,7 +11209,7 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1346
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "Mer_kañ evel lennet"
 
 #: ../mail/em-folder-view.c:1347
 msgid "Mark as _Unread"
@@ -11123,7 +11225,7 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1350
 msgid "Mark as _Junk"
-msgstr ""
+msgstr "Merk evel lastez"
 
 #: ../mail/em-folder-view.c:1351
 msgid "Mark as _Not Junk"
@@ -11135,7 +11237,7 @@ msgstr ""
 
 #: ../mail/em-folder-view.c:1354
 msgid "_Label"
-msgstr ""
+msgstr "Skrite_llig"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
@@ -11146,7 +11248,7 @@ msgstr "_Hini ebet"
 
 #: ../mail/em-folder-view.c:1358
 msgid "_New Label"
-msgstr ""
+msgstr "Skritellig _nevez"
 
 #: ../mail/em-folder-view.c:1362
 msgid "Fla_g Completed"
@@ -11238,7 +11340,7 @@ msgstr ""
 #: ../mail/em-format-html-display.c:560
 #: ../mail/em-format-html.c:654
 msgid "Unsigned"
-msgstr ""
+msgstr "Disinet"
 
 #: ../mail/em-format-html-display.c:560
 msgid "This message is not signed. There is no guarantee that this message is authentic."
@@ -11256,7 +11358,7 @@ msgstr ""
 #: ../mail/em-format-html-display.c:562
 #: ../mail/em-format-html.c:656
 msgid "Invalid signature"
-msgstr ""
+msgstr "Sinadur didalvoudek"
 
 #: ../mail/em-format-html-display.c:562
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
@@ -11319,7 +11421,7 @@ msgstr ""
 #: ../mail/em-format-html-display.c:675
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr ""
+msgstr "G_welout an testeni"
 
 #: ../mail/em-format-html-display.c:690
 msgid "This certificate is not viewable"
@@ -11336,12 +11438,12 @@ msgstr ""
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:992
 msgid "by"
-msgstr ""
+msgstr "gant"
 
 #: ../mail/em-format-html-display.c:1071
 #: ../widgets/misc/e-attachment-view.c:357
 msgid "_View Inline"
-msgstr ""
+msgstr "G_welout enlinnen"
 
 #: ../mail/em-format-html-display.c:1072
 #: ../widgets/misc/e-attachment-view.c:350
@@ -11376,13 +11478,13 @@ msgstr ""
 #: ../mail/em-format-html-print.c:157
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "Pajenn %d diwar %d"
 
 #: ../mail/em-format-html.c:505
 #: ../mail/em-format-html.c:514
 #, c-format
 msgid "Retrieving `%s'"
-msgstr ""
+msgstr "Oc'h adtapout `%s'"
 
 #: ../mail/em-format-html.c:929
 msgid "Unknown external-body part."
@@ -11462,7 +11564,7 @@ msgstr ""
 #: ../mail/em-format.c:924
 #: ../mail/em-mailer-prefs.c:77
 msgid "Reply-To"
-msgstr ""
+msgstr "Respont-da"
 
 #: ../mail/em-format.c:929
 #: ../mail/em-mailer-prefs.c:82
@@ -11484,9 +11586,9 @@ msgid "Face"
 msgstr ""
 
 #: ../mail/em-format.c:1201
-#, c-format
+#, fuzzy, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "Kenstagadur"
 
 #: ../mail/em-format.c:1239
 msgid "Could not parse S/MIME message: Unknown error"
@@ -11572,11 +11674,11 @@ msgstr ""
 
 #: ../mail/em-mailer-prefs.c:465
 msgid "Color"
-msgstr ""
+msgstr "Liv"
 
 #: ../mail/em-mailer-prefs.c:468
 msgid "Tag"
-msgstr ""
+msgstr "Klav"
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1063
@@ -11688,12 +11790,14 @@ msgstr "Skeudenn d_izanv.%s"
 
 #: ../mail/em-popup.c:495
 #: ../widgets/misc/e-attachment-handler-image.c:147
+#, fuzzy
 msgid "Set as _Background"
-msgstr ""
+msgstr "Lakaat da _zrekleur"
 
 #: ../mail/em-popup.c:497
+#, fuzzy
 msgid "_Reply to sender"
-msgstr ""
+msgstr "_Respont d'ar c'haser"
 
 #: ../mail/em-popup.c:498
 #: ../ui/evolution-mail-message.xml.h:79
@@ -11707,9 +11811,9 @@ msgid "_Add to Address Book"
 msgstr "_Ouzhpennañ d'ar c'harned chomlec'hioù"
 
 #: ../mail/em-popup.c:725
-#, c-format
+#, fuzzy, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "Digoret e vo e-barzh :"
 
 #: ../mail/em-subscribe-editor.c:606
 msgid "This store does not support subscriptions, or they are not enabled."
@@ -11721,7 +11825,7 @@ msgstr ""
 
 #: ../mail/em-subscribe-editor.c:643
 msgid "Folder"
-msgstr "Renkell"
+msgstr "Teuliad"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:858
@@ -11740,7 +11844,7 @@ msgstr ""
 
 #: ../mail/em-utils.c:317
 msgid "Message Filters"
-msgstr ""
+msgstr "Siloù ar c'hemennadennoù"
 
 #: ../mail/em-utils.c:369
 msgid "message"
@@ -11762,7 +11866,7 @@ msgstr "Kemennadennoù gant %s"
 
 #: ../mail/em-vfolder-editor.c:114
 msgid "Search _Folders"
-msgstr "Klask er _renkelloù"
+msgstr "Klask en _teuliadoù"
 
 #: ../mail/em-vfolder-rule.c:592
 msgid "Search Folder source"
@@ -12342,8 +12446,9 @@ msgid "Spell checking color"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:148
+#, fuzzy
 msgid "Spell checking languages"
-msgstr ""
+msgstr "Yezhoù an difazier"
 
 #: ../mail/evolution-mail.schemas.in.h:149
 msgid "Subscribe dialog default height"
@@ -12355,7 +12460,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Terminal font"
-msgstr ""
+msgstr "Nodrezh an termenell"
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Text message part limit"
@@ -12528,7 +12633,7 @@ msgstr ""
 #: ../mail/importers/evolution-mbox-importer.c:79
 #: ../plugins/pst-import/pst-importer.c:309
 msgid "Destination folder:"
-msgstr ""
+msgstr "Teuliad pal :"
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:302
@@ -12559,7 +12664,7 @@ msgstr "Oc'h enporzhiañ `%s'"
 #: ../mail/importers/mail-importer.c:371
 #, c-format
 msgid "Scanning %s"
-msgstr ""
+msgstr "O c'hwilervañ %s"
 
 #: ../mail/importers/pine-importer.c:225
 msgid "Importing Pine data"
@@ -12590,40 +12695,40 @@ msgid "Subject is %s"
 msgstr ""
 
 #: ../mail/mail-autofilter.c:293
-#, c-format
+#, fuzzy, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "Roll dasparzhañ"
 
 #: ../mail/mail-autofilter.c:364
 msgid "Add Filter Rule"
 msgstr ""
 
 #: ../mail/mail-component.c:573
-#, c-format
+#, fuzzy, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
-msgstr[0] ""
+msgstr[0] "Diuzet"
 msgstr[1] ""
 
 #: ../mail/mail-component.c:577
-#, c-format
+#, fuzzy, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] ""
+msgstr[0] "%d dilamet"
 msgstr[1] ""
 
 #: ../mail/mail-component.c:584
-#, c-format
+#, fuzzy, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] ""
+msgstr[0] "%d lastez"
 msgstr[1] ""
 
 #: ../mail/mail-component.c:587
-#, c-format
+#, fuzzy, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] ""
+msgstr[0] "%d brouilhed"
 msgstr[1] ""
 
 #: ../mail/mail-component.c:589
@@ -12648,10 +12753,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/mail-component.c:598
-#, c-format
+#, fuzzy, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] ""
+msgstr[0] "Hollad"
 msgstr[1] ""
 
 #: ../mail/mail-component.c:952
@@ -12661,7 +12766,7 @@ msgstr "Postel nevez"
 #: ../mail/mail-component.c:953
 msgctxt "New"
 msgid "_Mail Message"
-msgstr ""
+msgstr "_Postel"
 
 #: ../mail/mail-component.c:954
 msgid "Compose a new mail message"
@@ -12669,16 +12774,16 @@ msgstr "Skrivañ ur postel nevez"
 
 #: ../mail/mail-component.c:960
 msgid "New Mail Folder"
-msgstr ""
+msgstr "Teuliad postel nevez"
 
 #: ../mail/mail-component.c:961
 msgctxt "New"
 msgid "Mail _Folder"
-msgstr ""
+msgstr "_Teuliad postel"
 
 #: ../mail/mail-component.c:962
 msgid "Create a new mail folder"
-msgstr ""
+msgstr "Krouiñ un teuliad postel nevez"
 
 #: ../mail/mail-component.c:1109
 msgid "Failed upgrading Mail settings or folders."
@@ -12698,7 +12803,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>Sig_natures</b>"
-msgstr ""
+msgstr "<b>Si_nadurioù</b>"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
@@ -12738,7 +12843,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Labels</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Skritelligoù</span>"
 
 #: ../mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Loading Images</span>"
@@ -12763,7 +12868,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Options</span>"
-msgstr "<span weight=\"bold\">Dibaboù</span>"
+msgstr "<span weight=\"bold\">Dibarzhioù</span>"
 
 #: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -12787,11 +12892,12 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Diogelroez</span>"
 
 #: ../mail/mail-config.glade.h:31
+#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kemennadoù kaset ha brouilhedoù</span>"
 
 #: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
@@ -12807,11 +12913,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr ""
+msgstr "Ouzhpennañ ur sinadur nevez..."
 
 #: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
-msgstr ""
+msgstr "Ouzhpennañ ur _skript"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
@@ -12862,11 +12968,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:53
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Balteg (ISO-8859-13)"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Balteg (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:55
 msgid "C_haracter set:"
@@ -12895,7 +13001,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:61
 msgid "Cle_ar"
-msgstr ""
+msgstr "Sk_arzhañ"
 
 #: ../mail/mail-config.glade.h:62
 msgid "Clea_r"
@@ -12921,7 +13027,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:71
 msgid "De_fault"
-msgstr ""
+msgstr "Dre-ziouer :"
 
 #: ../mail/mail-config.glade.h:72
 msgid "Default character e_ncoding:"
@@ -12949,15 +13055,15 @@ msgstr "Graet eo"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Drafts _Folder:"
-msgstr ""
+msgstr "_Teuliad ar brouilhedoù :"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Email Accounts"
-msgstr ""
+msgstr "Kontoù postel"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Email _Address:"
-msgstr "_Chomlec'h postel:"
+msgstr "_Chomlec'h postel :"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Empty trash folders on e_xit"
@@ -12989,7 +13095,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:92
 msgid "Font Properties"
-msgstr ""
+msgstr "Perzhioù an nodrezh"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Format messages in _HTML"
@@ -12997,19 +13103,19 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:94
 msgid "Full Nam_e:"
-msgstr "Anv-_familh:"
+msgstr "Anv-_familh :"
 
 #: ../mail/mail-config.glade.h:96
 msgid "HTML Messages"
-msgstr ""
+msgstr "Kemennadoù HTML"
 
 #: ../mail/mail-config.glade.h:97
 msgid "H_TTP Proxy:"
-msgstr ""
+msgstr "Proksi H_TTP :"
 
 #: ../mail/mail-config.glade.h:98
 msgid "Headers"
-msgstr ""
+msgstr "Talbennoù"
 
 #: ../mail/mail-config.glade.h:99
 msgid "Highlight _quotations with"
@@ -13021,12 +13127,12 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
-msgstr ""
+msgstr "Ke"
 
 #: ../mail/mail-config.glade.h:104
 #: ../mail/message-list.etspec.h:8
 msgid "Labels"
-msgstr ""
+msgstr "Skritelligoù"
 
 #: ../mail/mail-config.glade.h:105
 msgid "Languages Table"
@@ -13050,7 +13156,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:111
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "Proksi ebet evit :"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -13070,11 +13176,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:116
 msgid "PGP/GPG _Key ID:"
-msgstr ""
+msgstr "Hennader (ID) an alc'hwez PGP/GPG :"
 
 #: ../mail/mail-config.glade.h:117
 msgid "Pass_word:"
-msgstr ""
+msgstr "_Ger-Tremen :"
 
 #: ../mail/mail-config.glade.h:119
 msgid "Please configure the following account settings."
@@ -13094,7 +13200,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:123
 msgid "Port:"
-msgstr ""
+msgstr "Porzh :"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -13106,11 +13212,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:126
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "Res_pont-da :"
 
 #: ../mail/mail-config.glade.h:128
 msgid "Remember _password"
-msgstr ""
+msgstr "Derc'hel soñj ar _ger-tremen"
 
 #: ../mail/mail-config.glade.h:129
 msgid "S_earch for sender photograph only in local address books"
@@ -13118,7 +13224,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:130
 msgid "S_elect..."
-msgstr "_Diuziñ..."
+msgstr "_Diuzañ..."
 
 #: ../mail/mail-config.glade.h:131
 msgid "S_end message receipts:"
@@ -13126,7 +13232,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:132
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "Nodrezh dre _ziouer :"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Select HTML fixed width font"
@@ -13158,7 +13264,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:142
 msgid "Server _Type:"
-msgstr ""
+msgstr "_Rizh an dafariad :"
 
 #: ../mail/mail-config.glade.h:143
 msgid "Sig_ning certificate:"
@@ -13166,11 +13272,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:144
 msgid "Signat_ure:"
-msgstr ""
+msgstr "Sinad_ur :"
 
 #: ../mail/mail-config.glade.h:145
 msgid "Signatures"
-msgstr ""
+msgstr "Sinadurioù"
 
 #: ../mail/mail-config.glade.h:146
 msgid "Signatures Table"
@@ -13178,7 +13284,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:147
 msgid "Spell Checking"
-msgstr ""
+msgstr "Difaziañ ar reizhskritur"
 
 #: ../mail/mail-config.glade.h:148
 msgid "Start _typing at the bottom on replying"
@@ -13186,7 +13292,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:149
 msgid "T_ype:"
-msgstr ""
+msgstr "R_izh :"
 
 #: ../mail/mail-config.glade.h:150
 msgid "The list of languages here reflects only the languages for which you have a dictionary installed."
@@ -13206,7 +13312,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:155
 msgid "Us_ername:"
-msgstr ""
+msgstr "Anv an arveriad :"
 
 #: ../mail/mail-config.glade.h:156
 msgid "Use Authe_ntication"
@@ -13233,7 +13339,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Add Signature"
-msgstr ""
+msgstr "OUzhpennañ ur sinadur"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Always load images from the Internet"
@@ -13241,11 +13347,12 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Default junk plugin:"
-msgstr ""
+msgstr "Enlugellad lastez dre _ziouer :"
 
 #: ../mail/mail-config.glade.h:165
+#, fuzzy
 msgid "_Direct connection to the Internet"
-msgstr ""
+msgstr "Kevread eeun war genrouedad"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -13273,7 +13380,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:173
 msgid "_Manual proxy configuration:"
-msgstr ""
+msgstr "Keflu_niadur proksi dre zorn :"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Mark messages as read after"
@@ -13285,7 +13392,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:177
 msgid "_Path:"
-msgstr "_Hent :"
+msgstr "_Treug :"
 
 #: ../mail/mail-config.glade.h:178
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -13301,7 +13408,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:181
 msgid "_Script:"
-msgstr ""
+msgstr "_Skript :"
 
 #: ../mail/mail-config.glade.h:182
 msgid "_Secure HTTP Proxy:"
@@ -13309,7 +13416,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:183
 msgid "_Select..."
-msgstr ""
+msgstr "_Diuzañ..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:186
@@ -13338,7 +13445,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:194
 msgid "addresses"
-msgstr ""
+msgstr "chomlec'hioù"
 
 #: ../mail/mail-config.glade.h:195
 msgid "color"
@@ -13346,11 +13453,11 @@ msgstr "liv"
 
 #: ../mail/mail-config.glade.h:196
 msgid "description"
-msgstr ""
+msgstr "deskrivadur"
 
 #: ../mail/mail-config.glade.h:197
 msgid "seconds"
-msgstr ""
+msgstr "eilenn"
 
 #: ../mail/mail-dialogs.glade.h:1
 msgid "    "
@@ -13382,7 +13489,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Co_mpleted"
-msgstr ""
+msgstr "_Echuet"
 
 #: ../mail/mail-dialogs.glade.h:9
 #: ../mail/message-tag-followup.c:270
@@ -13399,11 +13506,11 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:12
 msgid "S_erver:"
-msgstr "_Servijer :"
+msgstr "_Dafariad :"
 
 #: ../mail/mail-dialogs.glade.h:13
 msgid "Security Information"
-msgstr ""
+msgstr "Stlennoù diogelroez"
 
 #: ../mail/mail-dialogs.glade.h:14
 msgid "Specific folders"
@@ -13425,7 +13532,7 @@ msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:19
 msgid "_Flag:"
-msgstr ""
+msgstr "_Baniell :"
 
 #: ../mail/mail-dialogs.glade.h:20
 msgid "_Tick this to accept the license agreement"
@@ -13481,12 +13588,12 @@ msgstr ""
 #: ../mail/mail-ops.c:763
 #: ../mail/mail-send-recv.c:701
 msgid "Canceled."
-msgstr ""
+msgstr "Nullet."
 
 #: ../mail/mail-ops.c:765
 #: ../mail/mail-send-recv.c:703
 msgid "Complete."
-msgstr ""
+msgstr "Echu."
 
 #: ../mail/mail-ops.c:877
 msgid "Saving message to folder"
@@ -13623,7 +13730,7 @@ msgstr ""
 
 #: ../mail/mail-send-recv.c:181
 msgid "Canceling..."
-msgstr ""
+msgstr "O nullañ..."
 
 #: ../mail/mail-send-recv.c:383
 msgid "Send & Receive Mail"
@@ -13635,7 +13742,7 @@ msgstr ""
 
 #: ../mail/mail-send-recv.c:503
 msgid "Updating..."
-msgstr ""
+msgstr "Oc'h hizivaat..."
 
 #: ../mail/mail-send-recv.c:503
 #: ../mail/mail-send-recv.c:580
@@ -13650,11 +13757,11 @@ msgstr ""
 #: ../mail/mail-session.c:210
 #, c-format
 msgid "Enter Passphrase for %s"
-msgstr ""
+msgstr "Roit al lavarenn-tremen evit '%s'"
 
 #: ../mail/mail-session.c:212
 msgid "Enter Passphrase"
-msgstr ""
+msgstr "Roit al lavarenn-tremen"
 
 #: ../mail/mail-session.c:215
 #: ../plugins/exchange-operations/exchange-config-listener.c:705
@@ -13672,15 +13779,15 @@ msgstr ""
 
 #: ../mail/mail-signature-editor.c:202
 msgid "_Save and Close"
-msgstr ""
+msgstr "En_rollañ ha serrinñ"
 
 #: ../mail/mail-signature-editor.c:356
 msgid "Edit Signature"
-msgstr ""
+msgstr "Kemmañ ar sinadur"
 
 #: ../mail/mail-signature-editor.c:371
 msgid "_Signature Name:"
-msgstr ""
+msgstr "Anv ar _sinadur :"
 
 #: ../mail/mail-tools.c:120
 #, c-format
@@ -13704,7 +13811,7 @@ msgstr ""
 #: ../mail/mail-tools.c:298
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Renkell siek : `%s'"
+msgstr "Teuliad didalvoudek : `%s'"
 
 #: ../mail/mail-vfolder.c:89
 #, c-format
@@ -13727,7 +13834,7 @@ msgstr ""
 
 #: ../mail/mail-vfolder.c:1155
 msgid "New Search Folder"
-msgstr ""
+msgstr "Teuliad klask nevez"
 
 #: ../mail/mail.error.xml.h:1
 msgid "A folder named \"{0}\" already exists. Please use a different name."
@@ -13814,7 +13921,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:24
 msgid "Cannot create folder \"{0}\"."
-msgstr ""
+msgstr "N'haller ket krouiñ an teuliad \"{0}\"."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
@@ -13894,11 +14001,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:44
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "Dilemel \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete account?"
-msgstr ""
+msgstr "Dilemel ar gont ?"
 
 #: ../mail/mail.error.xml.h:46
 msgid "Delete messages in Search Folder \"{0}\"?"
@@ -13910,7 +14017,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:48
 msgid "Discard changes?"
-msgstr ""
+msgstr "Nullañ ar c'hemmoù ?"
 
 #: ../mail/mail.error.xml.h:49
 msgid "Do not d_elete"
@@ -13988,11 +14095,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
-msgstr ""
+msgstr "Leuzkez a-gostez"
 
 #: ../mail/mail.error.xml.h:69
 msgid "Invalid authentication"
-msgstr ""
+msgstr "Didalvoudek eo an dilesa"
 
 #: ../mail/mail.error.xml.h:71
 msgid "Mail filters automatically updated."
@@ -14042,7 +14149,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:84
 msgid "Please wait."
-msgstr ""
+msgstr "Gortozit mar plij."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Problem migrating old mail folder \"{0}\"."
@@ -14086,7 +14193,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
-msgstr ""
+msgstr "Sinkronaat"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
@@ -14165,7 +14272,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
-msgstr ""
+msgstr "Arverañ an arventennoù dre ziouer"
 
 #: ../mail/mail.error.xml.h:123
 msgid "Use default drafts folder?"
@@ -14208,16 +14315,17 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:135
+#, fuzzy
 msgid "_Append"
-msgstr ""
+msgstr "Ouzhpennañ"
 
 #: ../mail/mail.error.xml.h:136
 msgid "_Discard changes"
-msgstr ""
+msgstr "_Nullañ ar c'hemmoù"
 
 #: ../mail/mail.error.xml.h:137
 msgid "_Do not Synchronize"
-msgstr ""
+msgstr "_Ne sinkronaat ket"
 
 #: ../mail/mail.error.xml.h:139
 msgid "_Expunge"
@@ -14256,12 +14364,14 @@ msgid "Lowest"
 msgstr ""
 
 #: ../mail/message-list.c:1061
+#, fuzzy
 msgid "Lower"
-msgstr ""
+msgstr "Diskenn"
 
 #: ../mail/message-list.c:1065
+#, fuzzy
 msgid "Higher"
-msgstr ""
+msgstr "uheloc'h."
 
 #: ../mail/message-list.c:1066
 msgid "Highest"
@@ -14270,18 +14380,18 @@ msgstr ""
 #: ../mail/message-list.c:1654
 #: ../widgets/table/e-cell-date.c:46
 msgid "?"
-msgstr ""
+msgstr " ?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../mail/message-list.c:1661
 #: ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "Hiziv %l:%M %p"
 
 #: ../mail/message-list.c:1670
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Dec'h %l:%M %p"
 
 #: ../mail/message-list.c:1682
 msgid "%a %l:%M %p"
@@ -14293,7 +14403,7 @@ msgstr ""
 
 #: ../mail/message-list.c:1692
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:3987
@@ -14331,7 +14441,7 @@ msgstr ""
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
-msgstr ""
+msgstr "Resevet"
 
 #: ../mail/message-list.etspec.h:15
 msgid "Sent Messages"
@@ -14341,7 +14451,7 @@ msgstr ""
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 #: ../widgets/misc/e-attachment-tree-view.c:542
 msgid "Size"
-msgstr ""
+msgstr "Ment"
 
 #: ../mail/message-list.etspec.h:19
 msgid "Subject - Trimmed"
@@ -14349,7 +14459,7 @@ msgstr ""
 
 #: ../mail/message-tag-followup.c:54
 msgid "Call"
-msgstr ""
+msgstr "Gervel"
 
 #: ../mail/message-tag-followup.c:55
 msgid "Do Not Forward"
@@ -14366,7 +14476,7 @@ msgstr ""
 #: ../mail/message-tag-followup.c:58
 #: ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "War-lerc'h"
 
 #: ../mail/message-tag-followup.c:59
 msgid "No Response Necessary"
@@ -14375,12 +14485,12 @@ msgstr ""
 #: ../mail/message-tag-followup.c:62
 #: ../ui/evolution-mail-message.xml.h:76
 msgid "Reply"
-msgstr ""
+msgstr "Respont"
 
 #: ../mail/message-tag-followup.c:63
 #: ../ui/evolution-mail-message.xml.h:77
 msgid "Reply to All"
-msgstr ""
+msgstr "Respont d'an holl"
 
 #: ../mail/message-tag-followup.c:64
 msgid "Review"
@@ -14388,7 +14498,7 @@ msgstr ""
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
-msgstr ""
+msgstr "Korf a endalc'h"
 
 #: ../mail/searchtypes.xml.h:2
 msgid "Message contains"
@@ -14400,15 +14510,15 @@ msgstr ""
 
 #: ../mail/searchtypes.xml.h:4
 msgid "Sender contains"
-msgstr ""
+msgstr "Kaser a endalc'h"
 
 #: ../mail/searchtypes.xml.h:5
 msgid "Subject contains"
-msgstr ""
+msgstr "Danvez a endalc'h"
 
 #: ../mail/searchtypes.xml.h:6
 msgid "Subject or Addresses contains"
-msgstr ""
+msgstr "Danvez pe chomlec'hioù a endalc'h"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Recipients contains"
@@ -14436,8 +14546,9 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:476
 #: ../plugins/templates/templates.c:389
+#, fuzzy
 msgid "Keywords"
-msgstr ""
+msgstr "Gerioù alc'hwez"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
@@ -14462,7 +14573,7 @@ msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Edit Message"
-msgstr ""
+msgstr "K_emmañ ar gemennadenn"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 msgid "Audio Inline"
@@ -14764,7 +14875,7 @@ msgstr "_URL :"
 #: ../plugins/caldav/caldav-source.c:390
 #: ../plugins/google-account-setup/google-contacts-source.c:303
 msgid "Use _SSL"
-msgstr "Implij _SSL"
+msgstr "Arverañ _SSL"
 
 #. add refresh option
 #: ../plugins/caldav/caldav-source.c:433
@@ -14799,7 +14910,7 @@ msgstr ""
 
 #: ../plugins/calendar-file/calendar-file.c:224
 msgid "File _name:"
-msgstr ""
+msgstr "A_nv ar restr :"
 
 #: ../plugins/calendar-file/calendar-file.c:228
 msgid "Choose calendar file"
@@ -14835,7 +14946,7 @@ msgstr ""
 
 #: ../plugins/calendar-http/calendar-http.c:455
 msgid "Userna_me:"
-msgstr ""
+msgstr "A_nv an arveriad :"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "Add web calendars to Evolution."
@@ -14886,8 +14997,9 @@ msgid "Select a location"
 msgstr "Diuzit ul lec'hiadur"
 
 #: ../plugins/calendar-weather/calendar-weather.c:606
+#, fuzzy
 msgid "_Units:"
-msgstr ""
+msgstr "a unanennoù"
 
 #: ../plugins/calendar-weather/calendar-weather.c:613
 msgid "Metric (Celsius, cm, etc)"
@@ -14964,7 +15076,7 @@ msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:333
 msgid "Security:"
-msgstr ""
+msgstr "Diogelroez :"
 
 #: ../plugins/email-custom-header/email-custom-header.c:338
 msgid "Unclassified"
@@ -14975,8 +15087,9 @@ msgid "Protected"
 msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:341
+#, fuzzy
 msgid "Secret"
-msgstr ""
+msgstr "Kuzh"
 
 #: ../plugins/email-custom-header/email-custom-header.c:342
 msgid "Top secret"
@@ -14992,8 +15105,9 @@ msgstr "Alc'hwez"
 
 #: ../plugins/email-custom-header/email-custom-header.c:917
 #: ../plugins/templates/templates.c:395
+#, fuzzy
 msgid "Values"
-msgstr ""
+msgstr "_Gwerzhadoù :"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.glade.h:2
@@ -15029,15 +15143,15 @@ msgstr ""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
-msgstr ""
+msgstr "_Kont :"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
 msgid "_Folder Name:"
-msgstr ""
+msgstr "Anv an teuliad :"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:4
 msgid "_User:"
-msgstr ""
+msgstr "Ar_veriad :"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-operations/exchange-account-setup.c:63
@@ -15085,7 +15199,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-account-setup.c:342
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
-msgstr ""
+msgstr "Kemmañ ar ger-tremen"
 
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:347
@@ -15108,7 +15222,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:373
 msgid "Folders Size"
-msgstr ""
+msgstr "Ment an teuliadoù"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:380
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
@@ -15121,7 +15235,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:752
 msgid "A_uthenticate"
-msgstr ""
+msgstr "Di_lesa"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:774
 msgid "Mailbox name is _different than user name"
@@ -15137,15 +15251,15 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1130
 #: ../plugins/exchange-operations/exchange-contacts.c:217
-#, c-format
+#, fuzzy, c-format
 msgid "%s KB"
-msgstr ""
+msgstr "Ke"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1132
 #: ../plugins/exchange-operations/exchange-contacts.c:219
-#, c-format
+#, fuzzy, c-format
 msgid "0 KB"
-msgstr ""
+msgstr "Ke"
 
 #. FIXME: Take care of i18n
 #: ../plugins/exchange-operations/exchange-account-setup.c:1137
@@ -15174,7 +15288,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:2
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Kadarnaat ar ger-tremen :"
 
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:3
 msgid "Current Password:"
@@ -15200,11 +15314,12 @@ msgstr "Personelaet"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:168
 msgid "Editor (read, create, edit)"
-msgstr "Aozer (lenn, krouiñ, kemmañ)"
+msgstr "Kemmer (lenn, krouiñ, kemmañ)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:172
+#, fuzzy
 msgid "Author (read, create)"
-msgstr ""
+msgstr "Aozer (lenn, krouiñ)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:176
 msgid "Reviewer (read-only)"
@@ -15219,7 +15334,7 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:176
 #, c-format
 msgid "Permissions for %s"
-msgstr ""
+msgstr "Aotreoù evit %s"
 
 #. To translators: This is a part of the message to be sent to the delegatee
 #. summarizing the permissions assigned to him.
@@ -15317,7 +15432,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Permissions for"
-msgstr ""
+msgstr "Aotreoù evit"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:12
 msgid ""
@@ -15332,7 +15447,7 @@ msgstr ""
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr ""
+msgstr "_Boest degemer :"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:18
 msgid "_Summarize permissions"
@@ -15342,20 +15457,20 @@ msgstr ""
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:20
 #: ../plugins/itip-formatter/itip-view.c:1912
 msgid "_Tasks:"
-msgstr "_Labourioù:"
+msgstr "_Labourioù :"
 
 #: ../plugins/exchange-operations/exchange-folder-permission.c:62
 #: ../plugins/exchange-operations/org-gnome-folder-permissions.xml.h:2
 msgid "Permissions..."
-msgstr ""
+msgstr "Aotreoù..."
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:130
 msgid "Folder Name"
-msgstr "Anv ar renkell"
+msgstr "Anv an teuliad"
 
 #: ../plugins/exchange-operations/exchange-folder-size-display.c:134
 msgid "Folder Size"
-msgstr "Ment ar renkell"
+msgstr "Ment an teuliad"
 
 #. FIXME Limit to one user
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:76
@@ -15402,7 +15517,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Stad :</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:6
 msgid ""
@@ -15440,26 +15555,26 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:3
 msgid "_Change Password"
-msgstr "_Cheñch ar ger-tremen"
+msgstr "_Kemmañ ar ger-tremen"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:293
 msgid "(Permission denied.)"
-msgstr ""
+msgstr "(Aotre nac'het.)"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
 msgid "Add User:"
-msgstr "Ouzhpennañ un implijer-ez :"
+msgstr "Ouzhpennañ un arveriad :"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:399
 #: ../plugins/exchange-operations/exchange-send-options.c:410
 #: ../plugins/groupwise-features/proxy.c:932
 #: ../plugins/groupwise-features/share-folder.c:713
 msgid "Add User"
-msgstr "Ouzphennañ un implijer-ez"
+msgstr "Ouzphennañ un arveriad"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:1
 msgid "<b>Permissions</b>"
-msgstr ""
+msgstr "<b>Aotreoù</b>"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:2
 msgid "Cannot Delete"
@@ -15475,7 +15590,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create subfolders"
-msgstr ""
+msgstr "Krouiñ is-teuliadoù"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:6
 msgid "Delete Any Items"
@@ -15510,8 +15625,9 @@ msgid "Read items"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:14
+#, fuzzy
 msgid "Role: "
-msgstr ""
+msgstr "Roll :"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:1
 msgid "<b>Message Settings</b>"
@@ -15557,16 +15673,17 @@ msgid "Send as Delegate"
 msgstr ""
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:15
+#, fuzzy
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "_Kizidigezh :"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:16
 msgid "_User"
-msgstr ""
+msgstr "Ar_veriad"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:134
 msgid "Select User"
-msgstr "Dibab un implijer-ez"
+msgstr "Dibab un arveriad"
 
 #: ../plugins/exchange-operations/exchange-user-dialog.c:172
 msgid "Address Book..."
@@ -15628,8 +15745,9 @@ msgid "Could not connect to Exchange server."
 msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:12
+#, fuzzy
 msgid "Could not connect to server {0}."
-msgstr ""
+msgstr "Dibosupl eo en em lugañ d'ar servijer"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:13
 msgid "Could not determine folder permissions for delegates."
@@ -15820,11 +15938,11 @@ msgstr ""
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
-msgstr ""
+msgstr "Fazi dianav."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:72
 msgid "Unknown type"
-msgstr ""
+msgstr "Rizh dianav"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:73
 msgid "Unsupported operation"
@@ -15904,8 +16022,9 @@ msgid "The default command that must be used as the editor."
 msgstr ""
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
+#, fuzzy
 msgid "External Editor"
-msgstr ""
+msgstr "Aozer diavez"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
 msgid "Use an external editor to compose plain-text mail messages."
@@ -16014,7 +16133,7 @@ msgstr ""
 #: ../plugins/google-account-setup/google-contacts-source.c:270
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:285
 msgid "<b>Server</b>"
-msgstr ""
+msgstr "<b>Dafariad</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
@@ -16073,8 +16192,9 @@ msgid "Junk Mail Settings..."
 msgstr ""
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
+#, fuzzy
 msgid "<b>Junk List:</b>"
-msgstr ""
+msgstr "<b>Roll al lastez :</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -16083,15 +16203,16 @@ msgstr "Postel :"
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
 #: ../plugins/mail-account-disable/mail-account-disable.c:45
 msgid "_Disable"
-msgstr ""
+msgstr "_Deweredekaat"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:6
 msgid "_Enable"
-msgstr ""
+msgstr "Gw_eredekaat"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
+#, fuzzy
 msgid "_Junk List"
-msgstr ""
+msgstr "Roll al _lastez"
 
 #: ../plugins/groupwise-features/mail-retract.c:52
 msgid "Message Retract"
@@ -16134,8 +16255,9 @@ msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
 msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:2
+#, fuzzy
 msgid "Account Already Exists"
-msgstr ""
+msgstr "Kont \"%s\" zo anezhi endeo !"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:3
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:1
@@ -16223,7 +16345,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
-msgstr "<b>Implijerion :</b>"
+msgstr "<b>Arveriaded :</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "C_ustomize notification message"
@@ -16231,7 +16353,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Con_tacts..."
-msgstr ""
+msgstr "Da_rempredoù..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:514
@@ -16255,8 +16377,9 @@ msgid "_Shared With..."
 msgstr ""
 
 #: ../plugins/groupwise-features/properties.glade.h:15
+#, fuzzy
 msgid "_Sharing"
-msgstr ""
+msgstr "<b>E kenimplij</b>"
 
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:1
 msgid "<b>Name</b>"
@@ -16310,7 +16433,7 @@ msgstr "Proksi"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
-msgstr ""
+msgstr "<b>Anv ar gont</b>"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
@@ -16349,7 +16472,7 @@ msgstr ""
 #: ../plugins/groupwise-features/share-folder-common.c:320
 #: ../plugins/groupwise-features/share-folder.c:748
 msgid "Users"
-msgstr "Implijerion"
+msgstr "Arveriaded"
 
 #: ../plugins/groupwise-features/share-folder-common.c:321
 msgid "Enter the users and set permissions"
@@ -16360,8 +16483,9 @@ msgid "New _Shared Folder..."
 msgstr ""
 
 #: ../plugins/groupwise-features/share-folder-common.c:447
+#, fuzzy
 msgid "Sharing"
-msgstr ""
+msgstr "<b>E kenimplij</b>"
 
 #: ../plugins/groupwise-features/share-folder.c:531
 msgid "Custom Notification"
@@ -16369,11 +16493,11 @@ msgstr ""
 
 #: ../plugins/groupwise-features/share-folder.c:753
 msgid "Add   "
-msgstr ""
+msgstr "Ouzhpennañ"
 
 #: ../plugins/groupwise-features/share-folder.c:759
 msgid "Modify"
-msgstr ""
+msgstr "Kemmañ"
 
 #: ../plugins/groupwise-features/status-track.c:94
 msgid "Message Status"
@@ -16385,8 +16509,9 @@ msgid "Subject:"
 msgstr "Danvez :"
 
 #: ../plugins/groupwise-features/status-track.c:122
+#, fuzzy
 msgid "From:"
-msgstr ""
+msgstr "Diouzh :"
 
 #: ../plugins/groupwise-features/status-track.c:137
 msgid "Creation date:"
@@ -16394,7 +16519,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:176
 msgid "Recipient: "
-msgstr ""
+msgstr "Degeme_rer :"
 
 #: ../plugins/groupwise-features/status-track.c:183
 msgid "Delivered: "
@@ -16418,7 +16543,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/status-track.c:209
 msgid "Completed: "
-msgstr ""
+msgstr "Echu :"
 
 #: ../plugins/groupwise-features/status-track.c:214
 msgid "Undelivered: "
@@ -17060,8 +17185,9 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:842
 #: ../plugins/itip-formatter/itip-view.c:858
 #: ../plugins/itip-formatter/itip-view.c:863
+#, fuzzy
 msgid "_Accept"
-msgstr ""
+msgstr "Degemer"
 
 #: ../plugins/itip-formatter/itip-view.c:833
 msgid "_Decline all"
@@ -17085,7 +17211,7 @@ msgstr ""
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:846
 msgid "_Send Information"
-msgstr "_Kas titouroù"
+msgstr "_Kas an titouroù"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:850
@@ -17094,7 +17220,7 @@ msgstr ""
 
 #: ../plugins/itip-formatter/itip-view.c:853
 msgid "_Update"
-msgstr ""
+msgstr "_Hizivaat"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:1033
@@ -17110,7 +17236,7 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:1064
 #: ../plugins/itip-formatter/itip-view.c:1118
 msgid "Comment:"
-msgstr "Evezhiadenn:"
+msgstr "Evezhiadenn :"
 
 #: ../plugins/itip-formatter/itip-view.c:1103
 msgid "Send _reply to sender"
@@ -17271,7 +17397,7 @@ msgstr[1] ""
 #: ../plugins/mail-notification/mail-notification.c:520
 #: ../plugins/mail-notification/mail-notification.c:525
 msgid "New email"
-msgstr ""
+msgstr "Postel nevez"
 
 #: ../plugins/mail-notification/mail-notification.c:588
 msgid "Show icon in _notification area"
@@ -17302,8 +17428,9 @@ msgid "Specify _filename:"
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:793
+#, fuzzy
 msgid "Select sound file"
-msgstr ""
+msgstr "Diuz ur restr son"
 
 #: ../plugins/mail-notification/mail-notification.c:794
 msgid "Pl_ay"
@@ -17463,8 +17590,9 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
+#, fuzzy
 msgid "Mailing _List"
-msgstr ""
+msgstr "Roll dasparzhañ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
@@ -17494,8 +17622,9 @@ msgid ""
 msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
+#, fuzzy
 msgid "Malformed header"
-msgstr ""
+msgstr "Talbennoù gwalll aozet : '%s'"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
 msgid "No e-mail action"
@@ -17533,11 +17662,11 @@ msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
-msgstr ""
+msgstr "K_emmañ ar gemennadenn"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
 msgid "_Send message"
-msgstr ""
+msgstr "Ka_s ur c'hemennad"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact List _Owner"
@@ -17631,19 +17760,20 @@ msgstr ""
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Ardoer enlugelladoù"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
+#, fuzzy
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Gweredekaat ha Diweredekaat an enlugelladoù"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr ""
+msgstr "_Enlugelladoù"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
-msgstr ""
+msgstr "Aozour(ion)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
@@ -17713,8 +17843,9 @@ msgstr ""
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:315
+#, fuzzy
 msgid "_Address Book"
-msgstr ""
+msgstr "Karned chomlec'hioù"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:322
@@ -17748,9 +17879,9 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.c:95
 #: ../plugins/publish-calendar/publish-calendar.c:337
-#, c-format
+#, fuzzy, c-format
 msgid "Could not open %s:"
-msgstr ""
+msgstr "N'eus ket tu da zigeriñ \"%s\""
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
 #, c-format
@@ -17781,12 +17912,14 @@ msgid "Could not create publish thread."
 msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
+#, fuzzy
 msgid "<span weight=\"bold\">Location</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Lec'hiadur</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
+#, fuzzy
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tarzhoù</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -17797,7 +17930,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
 msgid "E_nable"
-msgstr ""
+msgstr "_Gweredekaat"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
 msgid "P_ort:"
@@ -17824,7 +17957,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
-msgstr ""
+msgstr "Ri_zh gwazerzh :"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
 msgid "Time _duration:"
@@ -17844,11 +17977,11 @@ msgstr ""
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Remember password"
-msgstr ""
+msgstr "Derc'hel soñj ar _ger-tremen"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:28
 msgid "_Username:"
-msgstr "_Anv implijer:"
+msgstr "_Anv an ar_veriad :"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:29
 msgid ""
@@ -17970,8 +18103,9 @@ msgid "UID"
 msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:358
+#, fuzzy
 msgid "Description List"
-msgstr ""
+msgstr "Roll taolennadurioù"
 
 #: ../plugins/save-calendar/csv-format.c:359
 msgid "Categories List"
@@ -17987,7 +18121,7 @@ msgstr "Roll an darempredoù"
 
 #: ../plugins/save-calendar/csv-format.c:364
 msgid "Start"
-msgstr "Loc'hanñ"
+msgstr "Loc'hañ"
 
 #: ../plugins/save-calendar/csv-format.c:365
 msgid "End"
@@ -18018,8 +18152,9 @@ msgid "Prepend a _header"
 msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:539
+#, fuzzy
 msgid "_Value delimiter:"
-msgstr ""
+msgstr "Bevenner gwerzh :"
 
 #: ../plugins/save-calendar/csv-format.c:546
 msgid "_Record delimiter:"
@@ -18056,7 +18191,7 @@ msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:372
 msgid "RDF format (.rdf)"
-msgstr "Furmad RDF (.rdf)"
+msgstr "Mentrezh RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:104
 msgid "_Format:"
@@ -18111,7 +18246,7 @@ msgstr ""
 
 #: ../plugins/startup-wizard/startup-wizard.c:115
 msgid "Importing files"
-msgstr ""
+msgstr "Oc'h enporzhiañ restroù"
 
 #: ../plugins/startup-wizard/startup-wizard.c:117
 #: ../shell/e-shell-importer.c:138
@@ -18133,7 +18268,7 @@ msgstr ""
 #: ../plugins/startup-wizard/startup-wizard.c:205
 #: ../shell/e-shell-importer.c:562
 msgid "Please wait"
-msgstr ""
+msgstr "Gortozit mar plij"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Sort mail message threads by subject."
@@ -18162,11 +18297,11 @@ msgstr "Titl ebet"
 
 #: ../plugins/templates/templates.c:709
 msgid "Save as _Template"
-msgstr ""
+msgstr "Enrollañ evel ur pa_trom"
 
 #: ../plugins/templates/templates.c:711
 msgid "Save as Template"
-msgstr ""
+msgstr "Enrollañ evel ur patrom"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
@@ -18253,8 +18388,9 @@ msgid "Authenticate proxy server connections"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
+#, fuzzy
 msgid "Automatic proxy configuration URL"
-msgstr ""
+msgstr "URL ar c'hefluniañ proksi emgefreek :"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
@@ -18431,7 +18567,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Hewel eo ar varrenn-ostilhoù"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid "URL that provides proxy configuration values."
@@ -18523,7 +18659,7 @@ msgstr "Diuzit ur restr"
 
 #: ../shell/e-shell-importer.c:309
 msgid "File _type:"
-msgstr "_Stumm ar restr:"
+msgstr "_Rizh ar restr:"
 
 #: ../shell/e-shell-importer.c:357
 msgid "Import data and settings from _older programs"
@@ -18572,10 +18708,6 @@ msgstr ""
 #: ../shell/e-shell-window-commands.c:938
 msgid "translator-credits"
 msgstr ""
-"Launchpad Contributions:\n"
-"  Jérémy Le Floc'h https://launchpad.net/~jeremy-lefloch\n"
-"  Oublieuse https://launchpad.net/~oublieuse\n"
-"  tangi.bzh https://launchpad.net/~tangidan"
 
 #: ../shell/e-shell-window-commands.c:949
 msgid "Evolution Website"
@@ -18588,11 +18720,11 @@ msgstr ""
 #: ../shell/e-shell-window-commands.c:1176
 #: ../ui/evolution.xml.h:57
 msgid "_Work Offline"
-msgstr ""
+msgstr "_Labourat ezlinenn"
 
 #: ../shell/e-shell-window-commands.c:1189
 msgid "Work Offline"
-msgstr ""
+msgstr "Labourat ezlinenn"
 
 #: ../shell/e-shell-window.c:372
 msgid ""
@@ -18617,7 +18749,7 @@ msgstr ""
 
 #: ../shell/e-shell.c:634
 msgid "Unknown system error."
-msgstr ""
+msgstr "Fazi reizhiad dianav."
 
 #: ../shell/e-shell.c:832
 #: ../shell/e-shell.c:833
@@ -18653,9 +18785,10 @@ msgid "New Test"
 msgstr ""
 
 #: ../shell/test/evolution-test-component.c:104
+#, fuzzy
 msgctxt "New"
 msgid "_Test"
-msgstr ""
+msgstr "_Taol arnod"
 
 #: ../shell/test/evolution-test-component.c:105
 msgid "Create a new test item"
@@ -18671,7 +18804,7 @@ msgstr ""
 
 #: ../shell/import.glade.h:3
 msgid "Import File"
-msgstr ""
+msgstr "Enporzhiañ ar restr"
 
 #: ../shell/import.glade.h:4
 msgid "Import Location"
@@ -18890,28 +19023,29 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:398
 #: ../smime/gui/certificate-manager.c:625
 msgid "All files"
-msgstr ""
+msgstr "An holl restroù"
 
 #: ../smime/gui/certificate-manager.c:275
 #: ../smime/gui/certificate-manager.c:488
 #: ../smime/gui/certificate-manager.c:713
 msgid "Certificate Name"
-msgstr ""
+msgstr "Anv an testeni"
 
 #: ../smime/gui/certificate-manager.c:284
 #: ../smime/gui/certificate-manager.c:506
 msgid "Purposes"
-msgstr ""
+msgstr "Palioù"
 
 #: ../smime/gui/certificate-manager.c:293
 #: ../smime/gui/smime-ui.glade.h:37
 #: ../smime/lib/e-cert.c:552
+#, fuzzy
 msgid "Serial Number"
-msgstr ""
+msgstr "Steudriñv"
 
 #: ../smime/gui/certificate-manager.c:301
 msgid "Expires"
-msgstr ""
+msgstr "Echuiñ a ra"
 
 #: ../smime/gui/certificate-manager.c:392
 msgid "All email certificate files"
@@ -18919,7 +19053,7 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:497
 msgid "E-Mail Address"
-msgstr ""
+msgstr "Chomlec'h postel"
 
 #: ../smime/gui/certificate-manager.c:620
 msgid "All CA certificate files"
@@ -18928,12 +19062,12 @@ msgstr ""
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "Skrammer testeni : %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr ""
+msgstr "Roit ar ger-tremen evit `%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
@@ -18941,8 +19075,9 @@ msgid "Enter new password for certificate database"
 msgstr ""
 
 #: ../smime/gui/component.c:71
+#, fuzzy
 msgid "Enter new password"
-msgstr ""
+msgstr "Roit ur ger-tremen nevez :"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:117
@@ -18961,47 +19096,54 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:170
 msgid "Select certificate"
-msgstr ""
+msgstr "Diuzañ an testeni"
 
 #: ../smime/gui/smime-ui.glade.h:1
+#, fuzzy
 msgid "<Not Part of Certificate>"
-msgstr ""
+msgstr "<N'emañ ket war an testeni>"
 
 #: ../smime/gui/smime-ui.glade.h:2
+#, fuzzy
 msgid "<b>Certificate Fields</b>"
-msgstr ""
+msgstr "Maeziennoù testeni"
 
 #: ../smime/gui/smime-ui.glade.h:3
+#, fuzzy
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "Urzhaz an testenioù"
 
 #: ../smime/gui/smime-ui.glade.h:4
+#, fuzzy
 msgid "<b>Field Value</b>"
-msgstr ""
+msgstr "Gwerzh ar vaezienn"
 
 #: ../smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>Roudoù biz</b>"
 
 #: ../smime/gui/smime-ui.glade.h:6
+#, fuzzy
 msgid "<b>Issued By</b>"
-msgstr ""
+msgstr "Skignet gant :"
 
 #: ../smime/gui/smime-ui.glade.h:7
+#, fuzzy
 msgid "<b>Issued To</b>"
-msgstr ""
+msgstr "Skignet da :"
 
 #: ../smime/gui/smime-ui.glade.h:8
+#, fuzzy
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "Gwiriet eo bet an testeni-mañ evit an arverioù da heul :"
 
 #: ../smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
-msgstr ""
+msgstr "<b>Talvoudegezh</b>"
 
 #: ../smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "Aotrouniezhoù"
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
@@ -19012,13 +19154,14 @@ msgid "Backup All"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:13
+#, fuzzy
 msgid "Before trusting this CA for any purpose, you should examine its certificate and its policy and procedures (if available)."
-msgstr ""
+msgstr "A-raok kaout fiziañs en aotrouniezh testeniañ-mañ evit ne vern pe bal e vefe gwell deoc'h sellout ouzh he zesteni, he buhez prevez hag hec'h araezadurioù (mar hegerz)."
 
 #: ../smime/gui/smime-ui.glade.h:14
 #: ../smime/lib/e-cert.c:1058
 msgid "Certificate"
-msgstr ""
+msgstr "Testeni"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
@@ -19026,7 +19169,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr ""
+msgstr "Munudoù an testeni"
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Certificates Table"
@@ -19034,15 +19177,16 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
-msgstr ""
+msgstr "Anv boutin (AB)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:21
+#, fuzzy
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Na gaout ket fiziañs e gwirded eus an testeni-mañ."
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
@@ -19050,102 +19194,117 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
-msgstr "Embann"
+msgstr "Kemmañ"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:25
+#, fuzzy
 msgid "Email Recipient Certificate"
-msgstr ""
+msgstr "Testeni degemerour ar postel"
 
 #: ../smime/gui/smime-ui.glade.h:26
+#, fuzzy
 msgid "Email Signer Certificate"
-msgstr ""
+msgstr "Testeni sinour ar postel"
 
 #: ../smime/gui/smime-ui.glade.h:27
+#, fuzzy
 msgid "Expires On"
-msgstr ""
+msgstr "Diamzeret e vo d'ar"
 
 #: ../smime/gui/smime-ui.glade.h:29
 msgid "Import"
-msgstr ""
+msgstr "Enporzhiañ"
 
 #: ../smime/gui/smime-ui.glade.h:30
+#, fuzzy
 msgid "Issued On"
-msgstr ""
+msgstr "Skignet war"
 
 #: ../smime/gui/smime-ui.glade.h:31
+#, fuzzy
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "Roudoù biz MD5"
 
 #: ../smime/gui/smime-ui.glade.h:32
+#, fuzzy
 msgid "Organization (O)"
-msgstr ""
+msgstr "Aozadur (A)"
 
 #: ../smime/gui/smime-ui.glade.h:33
+#, fuzzy
 msgid "Organizational Unit (OU)"
-msgstr ""
+msgstr "Unvez aozadurel (UA)"
 
 #: ../smime/gui/smime-ui.glade.h:34
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "Roudoù biz SHA1"
 
 #: ../smime/gui/smime-ui.glade.h:35
 #: ../smime/lib/e-cert.c:800
 msgid "SSL Client Certificate"
-msgstr ""
+msgstr "Testeni an arval SSL"
 
 #: ../smime/gui/smime-ui.glade.h:36
 #: ../smime/lib/e-cert.c:804
 msgid "SSL Server Certificate"
-msgstr ""
+msgstr "Testeni an dafariad SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
+#, fuzzy
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Bezit gant fiziañs e gwirder an testeni-mañ."
 
 #: ../smime/gui/smime-ui.glade.h:39
+#, fuzzy
 msgid "Trust this CA to identify email users."
-msgstr ""
+msgstr "Kaout fiziañ en aotrouniezh testeniañ-mañ evit anaout arveriaded postelioù."
 
 #: ../smime/gui/smime-ui.glade.h:40
+#, fuzzy
 msgid "Trust this CA to identify software developers."
-msgstr ""
+msgstr "Kaout fiziañ en aotrouniezh testeniañ evit anaout an diorrenourion veziantoù."
 
 #: ../smime/gui/smime-ui.glade.h:41
+#, fuzzy
 msgid "Trust this CA to identify web sites."
-msgstr ""
+msgstr "Kaout fiziañ en aotrouniezh testeniañ-mañ evit anaout al lec'hiennoù web."
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
 msgstr "Gwelout"
 
 #: ../smime/gui/smime-ui.glade.h:43
+#, fuzzy
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "Testenioù hoc'h eus a-berzh an aozadurioù-mañ oc'h anaout ac'hanoc'h :"
 
 #: ../smime/gui/smime-ui.glade.h:44
+#, fuzzy
 msgid "You have certificates on file that identify these certificate authorities:"
-msgstr ""
+msgstr "Testenioù hoc'h eus er restr oc'h anaout an aotrouniezh testeniañ-mañ :"
 
 #: ../smime/gui/smime-ui.glade.h:45
+#, fuzzy
 msgid "You have certificates on file that identify these people:"
-msgstr ""
+msgstr "Testenioù ho peus diwar-benn an dud da-heul :"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr ""
+msgstr "Ho testenioù"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "K_emmañ fiziañs e-keñver an aotrouniezh testeniañ"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:652
+#, fuzzy
 msgid "Certificate already exists"
-msgstr ""
+msgstr "An testeni zo anezhañ endeo."
 
 #: ../smime/lib/e-cert.c:222
 #: ../smime/lib/e-cert.c:232
@@ -19178,116 +19337,129 @@ msgid "Version 3"
 msgstr "Handelv 3"
 
 #: ../smime/lib/e-cert.c:616
+#, fuzzy
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD2 gant enrinegañ RSA"
 
 #: ../smime/lib/e-cert.c:619
+#, fuzzy
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 MD5 gant enrinegañ RSA"
 
 #: ../smime/lib/e-cert.c:622
+#, fuzzy
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr ""
+msgstr "PKCS #1 SHA-1 gant enrinegañ RSA"
 
 #: ../smime/lib/e-cert.c:649
+#, fuzzy
 msgid "PKCS #1 RSA Encryption"
-msgstr ""
+msgstr "Enrinegañ PKCS #1 RSA"
 
 #: ../smime/lib/e-cert.c:652
+#, fuzzy
 msgid "Certificate Key Usage"
-msgstr ""
+msgstr "Testeni arverañ an alc'hwez"
 
 #: ../smime/lib/e-cert.c:655
+#, fuzzy
 msgid "Netscape Certificate Type"
-msgstr ""
+msgstr "Rizh testeni Netscape"
 
 #: ../smime/lib/e-cert.c:658
+#, fuzzy
 msgid "Certificate Authority Key Identifier"
-msgstr ""
+msgstr "Naoudi alc'hwez an aotrouniezh testeniañ"
 
 #: ../smime/lib/e-cert.c:670
-#, c-format
+#, fuzzy, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "Naoudi an ergorenn"
 
 #: ../smime/lib/e-cert.c:720
+#, fuzzy
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "Naoudi an treol"
 
 #: ../smime/lib/e-cert.c:728
+#, fuzzy
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "Arventennoù an treol"
 
 #: ../smime/lib/e-cert.c:750
+#, fuzzy
 msgid "Subject Public Key Info"
-msgstr ""
+msgstr "Stlennoù alc'hwez foran an danvez"
 
 #: ../smime/lib/e-cert.c:755
+#, fuzzy
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "Treol danvez an alc'hwez foran"
 
 #: ../smime/lib/e-cert.c:770
 msgid "Subject's Public Key"
-msgstr ""
+msgstr "Alc'hwez foran an danvez"
 
 #: ../smime/lib/e-cert.c:791
 #: ../smime/lib/e-cert.c:840
 msgid "Error: Unable to process extension"
-msgstr ""
+msgstr "Fazi : N'haller ket keweriañ an askouezh"
 
 #: ../smime/lib/e-cert.c:812
 #: ../smime/lib/e-cert.c:824
 msgid "Object Signer"
-msgstr ""
+msgstr "Sinour an ergorenn"
 
 #: ../smime/lib/e-cert.c:816
 msgid "SSL Certificate Authority"
-msgstr ""
+msgstr "Aotrouniezh testeniañ SSL"
 
 #: ../smime/lib/e-cert.c:820
 msgid "Email Certificate Authority"
-msgstr ""
+msgstr "Aotrouniezh testeniañ ar postel"
 
 #: ../smime/lib/e-cert.c:848
 msgid "Signing"
-msgstr ""
+msgstr "O sinañ"
 
 #: ../smime/lib/e-cert.c:852
+#, fuzzy
 msgid "Non-repudiation"
-msgstr ""
+msgstr "Anargas"
 
 #: ../smime/lib/e-cert.c:856
 msgid "Key Encipherment"
-msgstr ""
+msgstr "Alc'hwez an enrinegadur"
 
 #: ../smime/lib/e-cert.c:860
 msgid "Data Encipherment"
-msgstr ""
+msgstr "Enrinegadur ar roadennoù"
 
 #: ../smime/lib/e-cert.c:864
 msgid "Key Agreement"
-msgstr ""
+msgstr "Emglev an alc'hwez"
 
 #: ../smime/lib/e-cert.c:868
 msgid "Certificate Signer"
-msgstr ""
+msgstr "Siner an testeni"
 
 #: ../smime/lib/e-cert.c:872
+#, fuzzy
 msgid "CRL Signer"
-msgstr ""
+msgstr "Siner roll an testenioù dizorniet"
 
 #: ../smime/lib/e-cert.c:920
 msgid "Critical"
-msgstr ""
+msgstr "Eizik"
 
 #: ../smime/lib/e-cert.c:922
 #: ../smime/lib/e-cert.c:925
 msgid "Not Critical"
-msgstr ""
+msgstr "Ket eizik"
 
 #: ../smime/lib/e-cert.c:946
 msgid "Extensions"
-msgstr ""
+msgstr "Askouezhioù"
 
 #: ../smime/lib/e-cert.c:1017
 #, c-format
@@ -19297,23 +19469,27 @@ msgstr ""
 #: ../smime/lib/e-cert.c:1072
 #: ../smime/lib/e-cert.c:1192
 msgid "Certificate Signature Algorithm"
-msgstr ""
+msgstr "Treol sinadur an testenioù"
 
 #: ../smime/lib/e-cert.c:1081
+#, fuzzy
 msgid "Issuer"
-msgstr ""
+msgstr "Skigner"
 
 #: ../smime/lib/e-cert.c:1135
+#, fuzzy
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "ID skigner unel"
 
 #: ../smime/lib/e-cert.c:1154
+#, fuzzy
 msgid "Subject Unique ID"
-msgstr ""
+msgstr "ID danvez unel"
 
 #: ../smime/lib/e-cert.c:1197
+#, fuzzy
 msgid "Certificate Signature Value"
-msgstr ""
+msgstr "Gwerzh sinadur an testeni"
 
 #: ../smime/lib/e-pkcs12.c:249
 msgid "PKCS12 File Password"
@@ -19325,15 +19501,15 @@ msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:348
 msgid "Imported Certificate"
-msgstr ""
+msgstr "Testeni bet enporzhiet"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
 #.
 #: ../tools/killev.c:61
-#, c-format
+#, fuzzy, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr ""
+msgstr "Ne oa ket tu da loc'hañ '%s'"
 
 #: ../tools/killev.c:76
 #, c-format
@@ -19341,8 +19517,9 @@ msgid "Shutting down %s (%s)\n"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:1
+#, fuzzy
 msgid "Address _Book Properties"
-msgstr ""
+msgstr "Perzhioù ar c'harned chomlec'h"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
@@ -19373,7 +19550,7 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:9
 #: ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr ""
+msgstr "Eilañ an diuzad"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
@@ -19392,7 +19569,7 @@ msgstr "Troc'hañ"
 #: ../ui/evolution-addressbook.xml.h:13
 #: ../ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr ""
+msgstr "Troc'hañ an diuzad"
 
 #: ../ui/evolution-addressbook.xml.h:14
 msgid "Del_ete Address Book"
@@ -19407,8 +19584,9 @@ msgid "Delete the selected folder"
 msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:18
+#, fuzzy
 msgid "Forward Contact"
-msgstr ""
+msgstr "_Treuzkas an darempred"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Mo_ve All Contacts To..."
@@ -19435,7 +19613,7 @@ msgstr "Pegañ"
 #: ../ui/evolution-addressbook.xml.h:24
 #: ../ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "Pegañ ar golver"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
@@ -19455,7 +19633,7 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:31
 msgid "Save as VCard..."
-msgstr "Gwarediñ evel VCard..."
+msgstr "Enrollañ evel ur VCard..."
 
 #: ../ui/evolution-addressbook.xml.h:32
 msgid "Save selected contacts as a VCard"
@@ -19467,12 +19645,13 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:34
 #: ../widgets/text/e-text.c:2719
+#, fuzzy
 msgid "Select All"
-msgstr ""
+msgstr "Diuzañ an holl anezho"
 
 #: ../ui/evolution-addressbook.xml.h:35
 msgid "Select _All"
-msgstr ""
+msgstr "Diuz_añ pep tra"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
@@ -19484,7 +19663,7 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr ""
+msgstr "Kas ur gemennadenn d'an darempred"
 
 #: ../ui/evolution-addressbook.xml.h:39
 msgid "Send selected contacts to another person"
@@ -19496,11 +19675,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
-msgstr ""
+msgstr "Pa_ouez"
 
 #: ../ui/evolution-addressbook.xml.h:42
 msgid "Stop"
-msgstr ""
+msgstr "Paouez"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "Stop Loading"
@@ -19513,28 +19692,29 @@ msgstr ""
 #: ../ui/evolution-addressbook.xml.h:45
 #: ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-tasks.xml.h:21
+#, fuzzy
 msgid "_Actions"
-msgstr ""
+msgstr "Oberi_adennoù"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
-msgstr ""
+msgstr "Eilañ an darempred en..."
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
-msgstr ""
+msgstr "_Eilañ an teuliad darempredoù en"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
-msgstr ""
+msgstr "_Dilemel an darempred"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
-msgstr ""
+msgstr "_Treuzkas an darempred..."
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
-msgstr ""
+msgstr "Dilec'hiañ an darempred da..."
 
 #: ../ui/evolution-addressbook.xml.h:54
 msgid "_Move Folder Contacts To"
@@ -19559,11 +19739,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
-msgstr ""
+msgstr "Ka_s ur gemennadenn d'an darempred..."
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
-msgstr ""
+msgstr "Deiz"
 
 #: ../ui/evolution-calendar.xml.h:6
 msgid "Delete _all Occurrences"
@@ -19583,15 +19763,15 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
-msgstr ""
+msgstr "Mont da"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
-msgstr ""
+msgstr "Mont war-gil"
 
 #: ../ui/evolution-calendar.xml.h:13
 msgid "Go forward"
-msgstr ""
+msgstr "Mont war-raok"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -19599,13 +19779,13 @@ msgstr "Roll"
 
 #: ../ui/evolution-calendar.xml.h:15
 msgid "Month"
-msgstr ""
+msgstr "Miz"
 
 #: ../ui/evolution-calendar.xml.h:16
 #: ../ui/evolution-mail-message.xml.h:58
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
-msgstr ""
+msgstr "War-lerc'h"
 
 #: ../ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
@@ -19615,7 +19795,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:70
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
-msgstr ""
+msgstr "Kent"
 
 #: ../ui/evolution-calendar.xml.h:22
 msgid "Print this calendar"
@@ -19632,7 +19812,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
-msgstr ""
+msgstr "Diuzañ an _deiziad"
 
 #: ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
@@ -19677,7 +19857,7 @@ msgstr ""
 
 #: ../ui/evolution-calendar.xml.h:37
 msgid "Week"
-msgstr ""
+msgstr "Sizhun"
 
 #: ../ui/evolution-calendar.xml.h:38
 msgid "Work Week"
@@ -19718,12 +19898,12 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
-msgstr ""
+msgstr "Goullonderiñ al las_tez"
 
 #: ../ui/evolution-mail-global.xml.h:9
 #: ../ui/evolution-mail-list.xml.h:11
 msgid "F_older"
-msgstr "_Renkell"
+msgstr "_Teuliad"
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Move the selected folder into another folder"
@@ -19772,7 +19952,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
-msgstr ""
+msgstr "Siloù ar c'he_mennadennoù"
 
 #: ../ui/evolution-mail-global.xml.h:26
 msgid "_Move Folder To..."
@@ -19784,7 +19964,7 @@ msgstr "_Nevez..."
 
 #: ../ui/evolution-mail-global.xml.h:28
 msgid "_Preview"
-msgstr ""
+msgstr "Al_berz"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -19930,7 +20110,7 @@ msgstr ""
 #: ../ui/evolution-mail-message.xml.h:111
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
 msgid "_Message"
-msgstr ""
+msgstr "Ke_mennadenn"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -19955,7 +20135,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr ""
+msgstr "Gwiriañ al _lastez"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -19983,7 +20163,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
-msgstr ""
+msgstr "Krouiñ ur re_ol"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
@@ -20022,8 +20202,9 @@ msgid "Cut selected messages to the clipboard"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:24
+#, fuzzy
 msgid "Decrease the text size"
-msgstr ""
+msgstr "A vihana ment an destenn"
 
 #: ../ui/evolution-mail-message.xml.h:26
 msgid "Display the next important message"
@@ -20106,12 +20287,13 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:47
+#, fuzzy
 msgid "Increase the text size"
-msgstr ""
+msgstr "A vrasa ment an destenn"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
-msgstr ""
+msgstr "Mer_k evel"
 
 #: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected messages as having been read"
@@ -20159,7 +20341,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr ""
+msgstr "Ket lastez"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
@@ -20231,7 +20413,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Select _All Text"
-msgstr "Diuziñ an destenn a-_bezh"
+msgstr "Diuzañ an destenn a-_bezh"
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Select all the text in a message"
@@ -20264,7 +20446,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:95
 msgid "Zoom _Out"
-msgstr ""
+msgstr "Zoom _bihanaat"
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "_Attached"
@@ -20304,7 +20486,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Junk"
-msgstr ""
+msgstr "_Lastez"
 
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Load Images"
@@ -20312,7 +20494,7 @@ msgstr "_Kargañ ar skeudennoù"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Message Source"
-msgstr ""
+msgstr "Tarzh ar ge_mennadenn"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Next Message"
@@ -20320,11 +20502,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:115
 msgid "_Normal Size"
-msgstr ""
+msgstr "Me_nt reizh"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Not Junk"
-msgstr ""
+msgstr "_Ket lastez"
 
 #: ../ui/evolution-mail-message.xml.h:117
 msgid "_Open in New Window"
@@ -20357,11 +20539,11 @@ msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:127
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoum"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Zoom In"
-msgstr ""
+msgstr "_Zoom brasaat"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 msgid "Close"
@@ -20370,7 +20552,7 @@ msgstr "Serriñ"
 #: ../ui/evolution-mail-messagedisplay.xml.h:3
 #: ../ui/evolution.xml.h:18
 msgid "Main toolbar"
-msgstr ""
+msgstr "Barrenn kentañ an ostilhoù"
 
 #: ../ui/evolution-memos.xml.h:3
 msgid "Copy selected memo"
@@ -20417,8 +20599,9 @@ msgid "Delete completed tasks"
 msgstr ""
 
 #: ../ui/evolution-tasks.xml.h:8
+#, fuzzy
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "Dilemel al labourioù diuzet"
 
 #: ../ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
@@ -20465,8 +20648,9 @@ msgid "Change Evolution's settings"
 msgstr ""
 
 #: ../ui/evolution.xml.h:3
+#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "Cheñch hewelded ar varrenn-statuz"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
@@ -20494,7 +20678,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
-msgstr ""
+msgstr "Kuitaat ar goulev"
 
 #: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -20510,7 +20694,7 @@ msgstr "_Enporzhiañ..."
 
 #: ../ui/evolution.xml.h:15
 msgid "Icons _and Text"
-msgstr ""
+msgstr "_Arlun ha testenn"
 
 #: ../ui/evolution.xml.h:16
 msgid "Import data from other programs"
@@ -20518,7 +20702,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:17
 msgid "Lay_out"
-msgstr ""
+msgstr "Treuzf_ollenn"
 
 #: ../ui/evolution.xml.h:19
 msgid "New _Window"
@@ -20529,12 +20713,13 @@ msgid "Open the Frequently Asked Questions webpage"
 msgstr ""
 
 #: ../ui/evolution.xml.h:21
+#, fuzzy
 msgid "Page Set_up..."
-msgstr ""
+msgstr "Furmad moullañ..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
-msgstr "_Penndibaboù"
+msgstr "_Gwellvezioù"
 
 #: ../ui/evolution.xml.h:23
 msgid "Send / Receive"
@@ -20558,7 +20743,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:29
 msgid "Show _Status Bar"
-msgstr ""
+msgstr "Diskouez ar varrenn _stad"
 
 #: ../ui/evolution.xml.h:30
 msgid "Show _Toolbar"
@@ -20598,7 +20783,7 @@ msgstr "Diskouez/Kuzhat ar varrenn stad"
 
 #: ../ui/evolution.xml.h:39
 msgid "Work _Offline"
-msgstr ""
+msgstr "Labourat e_zlinenn"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
@@ -20622,7 +20807,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:48
 msgid "_Icons Only"
-msgstr ""
+msgstr "Arlun_ioù hepkenn"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Quick Reference"
@@ -20642,7 +20827,7 @@ msgstr ""
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text Only"
-msgstr ""
+msgstr "_Testenn hepken"
 
 #: ../ui/evolution.xml.h:56
 msgid "_Window"
@@ -20658,24 +20843,28 @@ msgstr ""
 
 #: ../views/addressbook/galview.xml.h:3
 #: ../views/calendar/galview.xml.h:3
+#, fuzzy
 msgid "_List View"
-msgstr ""
+msgstr "Roll"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "W_eek View"
 msgstr ""
 
 #: ../views/calendar/galview.xml.h:2
+#, fuzzy
 msgid "_Day View"
-msgstr ""
+msgstr "Sell bemdeziek: %s. %s"
 
 #: ../views/calendar/galview.xml.h:4
+#, fuzzy
 msgid "_Month View"
-msgstr ""
+msgstr "Sell mizieg: %s. %s"
 
 #: ../views/calendar/galview.xml.h:5
+#, fuzzy
 msgid "_Work Week View"
-msgstr ""
+msgstr "Sell labour sizhuniek: %s. %s"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
@@ -20736,7 +20925,7 @@ msgstr ""
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "<b>Diuzad</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
@@ -20777,7 +20966,7 @@ msgstr ""
 #: ../widgets/table/e-table-scrolled.c:215
 #: ../widgets/table/e-table-scrolled.c:216
 msgid "Table"
-msgstr ""
+msgstr "Taolenn"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:223
 msgid "Instance"
@@ -20824,8 +21013,9 @@ msgid "Current view is a customized view"
 msgstr ""
 
 #: ../widgets/menus/gal-view-menus.c:374
+#, fuzzy
 msgid "Save Custom View..."
-msgstr ""
+msgstr "Enrollañ ar sell personelaet"
 
 #: ../widgets/menus/gal-view-menus.c:379
 msgid "Save current custom view"
@@ -20887,9 +21077,9 @@ msgid "Could not load the attachment"
 msgstr ""
 
 #: ../widgets/misc/e-attachment.c:2190
-#, c-format
+#, fuzzy, c-format
 msgid "Could not open '%s'"
-msgstr ""
+msgstr "N'eus ket tu da zigeriñ \"%s\""
 
 #: ../widgets/misc/e-attachment.c:2193
 #, c-format
@@ -20916,7 +21106,7 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment-dialog.c:328
 msgid "_Filename:"
-msgstr ""
+msgstr "Anv ar _restr :"
 
 #: ../widgets/misc/e-attachment-dialog.c:363
 msgid "MIME Type:"
@@ -20934,7 +21124,7 @@ msgstr[1] ""
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:129
 msgid "_Send To..."
-msgstr ""
+msgstr "Ka_set da..."
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
 msgid "Send the selected attachments somewhere"
@@ -20943,12 +21133,12 @@ msgstr ""
 #: ../widgets/misc/e-attachment-icon-view.c:480
 #: ../widgets/misc/e-attachment-tree-view.c:517
 msgid "Loading"
-msgstr ""
+msgstr "O kargañ"
 
 #: ../widgets/misc/e-attachment-icon-view.c:492
 #: ../widgets/misc/e-attachment-tree-view.c:529
 msgid "Saving"
-msgstr ""
+msgstr "Oc'h enrollañ"
 
 #: ../widgets/misc/e-attachment-paned.c:87
 msgid "Hide _Attachment Bar"
@@ -20984,7 +21174,7 @@ msgstr ""
 #: ../widgets/misc/e-attachment-view.c:643
 #, c-format
 msgid "Open with \"%s\""
-msgstr ""
+msgstr "Digeriñ gant \"%s\""
 
 #: ../widgets/misc/e-attachment-view.c:646
 #, c-format
@@ -21004,8 +21194,9 @@ msgstr ""
 #: ../widgets/misc/e-canvas-background.c:455
 #: ../widgets/text/e-text.c:3632
 #: ../widgets/text/e-text.c:3633
+#, fuzzy
 msgid "Fill color"
-msgstr ""
+msgstr "&Liv leuniañ :"
 
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:462
@@ -21063,8 +21254,9 @@ msgstr ""
 
 #: ../widgets/misc/e-canvas-vbox.c:101
 #: ../widgets/misc/e-canvas-vbox.c:102
+#, fuzzy
 msgid "Spacing"
-msgstr ""
+msgstr "Oc'h esaouiñ"
 
 #: ../widgets/misc/e-cell-date-edit.c:296
 msgid "Now"
@@ -21081,35 +21273,35 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
-msgstr ""
+msgstr "Arabic"
 
 #: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
-msgstr ""
+msgstr "Baltic"
 
 #: ../widgets/misc/e-charset-picker.c:59
 msgid "Central European"
-msgstr ""
+msgstr "Central European"
 
 #: ../widgets/misc/e-charset-picker.c:60
 msgid "Chinese"
-msgstr ""
+msgstr "Chinese"
 
 #: ../widgets/misc/e-charset-picker.c:61
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cyrillic"
 
 #: ../widgets/misc/e-charset-picker.c:62
 msgid "Greek"
-msgstr ""
+msgstr "Greek"
 
 #: ../widgets/misc/e-charset-picker.c:63
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebrew"
 
 #: ../widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
-msgstr ""
+msgstr "Japanese"
 
 #: ../widgets/misc/e-charset-picker.c:65
 msgid "Korean"
@@ -21125,7 +21317,7 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:68
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: ../widgets/misc/e-charset-picker.c:69
 msgid "Western European"
@@ -21150,11 +21342,12 @@ msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:98
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukraineg"
 
 #: ../widgets/misc/e-charset-picker.c:101
+#, fuzzy
 msgid "Visual"
-msgstr ""
+msgstr "<b>Gweled</b>"
 
 #: ../widgets/misc/e-charset-picker.c:170
 #, c-format
@@ -21162,14 +21355,16 @@ msgid "Unknown character set: %s"
 msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:215
+#, fuzzy
 msgid "Character Encoding"
-msgstr ""
+msgstr "Bonegadur ar arouezennoù"
 
 #: ../widgets/misc/e-charset-picker.c:230
 msgid "Enter the character set to use"
 msgstr ""
 
 #: ../widgets/misc/e-charset-picker.c:337
+#, fuzzy
 msgid "Other..."
 msgstr "Traoù all..."
 
@@ -21215,35 +21410,35 @@ msgstr ""
 #: ../widgets/misc/e-filter-bar.c:306
 #: ../widgets/misc/e-filter-bar.c:737
 msgid "Advanced Search"
-msgstr ""
+msgstr "Klask kempleshoc'h"
 
 #. FIXME: get the toplevel window...
 #: ../widgets/misc/e-filter-bar.c:229
 msgid "Save Search"
-msgstr ""
+msgstr "Enrollañ ar c'hlask"
 
 #: ../widgets/misc/e-filter-bar.c:266
 msgid "_Searches"
-msgstr ""
+msgstr "Kla_skoù"
 
 #: ../widgets/misc/e-filter-bar.c:268
 msgid "Searches"
-msgstr ""
+msgstr "Klaskoù"
 
 #: ../widgets/misc/e-filter-bar.h:100
 #: ../widgets/misc/e-filter-bar.h:110
 msgid "_Save Search..."
-msgstr ""
+msgstr "En_rollañ ar c'hlask"
 
 #: ../widgets/misc/e-filter-bar.h:101
 #: ../widgets/misc/e-filter-bar.h:111
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "K_emmañ ar c'hlaskoù enrollet..."
 
 #: ../widgets/misc/e-filter-bar.h:102
 #: ../widgets/misc/e-filter-bar.h:112
 msgid "_Advanced Search..."
-msgstr ""
+msgstr "Kl_ask kempleshoc'h..."
 
 #: ../widgets/misc/e-filter-bar.h:103
 msgid "All Accounts"
@@ -21251,19 +21446,19 @@ msgstr ""
 
 #: ../widgets/misc/e-filter-bar.h:104
 msgid "Current Account"
-msgstr ""
+msgstr "Kont bremanel"
 
 #: ../widgets/misc/e-filter-bar.h:105
 msgid "Current Folder"
-msgstr ""
+msgstr "Teuliad bremanel"
 
 #: ../widgets/misc/e-image-chooser.c:168
 msgid "Choose Image"
-msgstr ""
+msgstr "Dibab ur skeudenn"
 
 #: ../widgets/misc/e-map.c:605
 msgid "World Map"
-msgstr ""
+msgstr "Kertann ar bed"
 
 #: ../widgets/misc/e-map.c:607
 msgid "Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."
@@ -21279,7 +21474,7 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:99
 msgid "Sync with:"
-msgstr ""
+msgstr "Sink gant :"
 
 #: ../widgets/misc/e-pilot-settings.c:107
 msgid "Sync Private Records:"
@@ -21287,7 +21482,7 @@ msgstr ""
 
 #: ../widgets/misc/e-pilot-settings.c:116
 msgid "Sync Categories:"
-msgstr ""
+msgstr "Sink ar rummadoù :"
 
 #: ../widgets/misc/e-reflow.c:1435
 #: ../widgets/misc/e-reflow.c:1436
@@ -21302,7 +21497,7 @@ msgstr ""
 #: ../widgets/misc/e-reflow.c:1449
 #: ../widgets/misc/e-reflow.c:1450
 msgid "Column width"
-msgstr ""
+msgstr "Led ar bannoù"
 
 #: ../widgets/misc/e-search-bar.c:92
 #: ../widgets/misc/e-search-bar.c:359
@@ -21338,7 +21533,7 @@ msgstr ""
 #: ../widgets/text/e-text.c:3555
 #: ../widgets/text/e-text.c:3556
 msgid "Text"
-msgstr "Skrid"
+msgstr "Testenn"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
@@ -21412,7 +21607,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Gene_ral Options"
-msgstr "Dibaboù _hollek"
+msgstr "Dibarzioù _hollek"
 
 #: ../widgets/misc/e-send-options.glade.h:9
 msgid ""
@@ -21489,7 +21684,7 @@ msgstr "_Lakaat un deiziad echuiñ"
 
 #: ../widgets/misc/e-send-options.glade.h:36
 msgid "_Until:"
-msgstr "_Betek:"
+msgstr "_Betek :"
 
 #: ../widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
@@ -21497,7 +21692,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:"
-msgstr "Pa vez d_igoret:"
+msgstr "Pa vez d_igoret :"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
 #: ../widgets/misc/e-task-widget.c:251
@@ -21568,7 +21763,7 @@ msgstr "(War zigresk)"
 
 #: ../widgets/table/e-table-config.c:392
 msgid "Not sorted"
-msgstr "Ket urzhiet"
+msgstr "Ket rummet"
 
 #: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
@@ -21576,14 +21771,17 @@ msgstr "Chom hep strollañ"
 
 #: ../widgets/table/e-table-config.c:642
 #: ../widgets/table/e-table-config.glade.h:11
+#, fuzzy
 msgid "Show Fields"
 msgstr "Diskouez takadoù"
 
 #: ../widgets/table/e-table-config.c:663
+#, fuzzy
 msgid "Available Fields"
 msgstr "Takadoù hegerz"
 
 #: ../widgets/table/e-table-config.glade.h:1
+#, fuzzy
 msgid "A_vailable Fields:"
 msgstr "Takadoù _hegerz:"
 
@@ -21594,11 +21792,12 @@ msgstr "War gresk"
 
 #: ../widgets/table/e-table-config.glade.h:3
 msgid "Clear All"
-msgstr "Naetaat pep tra"
+msgstr "Skarzhañ pep tra"
 
 #: ../widgets/table/e-table-config.glade.h:4
+#, fuzzy
 msgid "Clear _All"
-msgstr ""
+msgstr "Naetaat pep tra"
 
 #: ../widgets/table/e-table-config.glade.h:5
 #: ../widgets/table/e-table-header-item.c:1579
@@ -21631,11 +21830,11 @@ msgstr ""
 
 #: ../widgets/table/e-table-config.glade.h:15
 msgid "Sort"
-msgstr "Didoueziañ"
+msgstr "Rummañ"
 
 #: ../widgets/table/e-table-config.glade.h:16
 msgid "Sort Items By"
-msgstr "Didoueziñ an elfennoù dre"
+msgstr "Rummañ an elfennoù dre"
 
 #: ../widgets/table/e-table-config.glade.h:17
 msgid "Then By"
@@ -21666,6 +21865,7 @@ msgid "Add a column..."
 msgstr "Ouzhpennañ ur bann..."
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
+#, fuzzy
 msgid "Field Chooser"
 msgstr "Dibaber takadoù"
 
@@ -21781,6 +21981,7 @@ msgid "Frozen"
 msgstr ""
 
 #: ../widgets/table/e-table-header-item.c:1449
+#, fuzzy
 msgid "Customize Current View"
 msgstr "Personelaat ar gwel red"
 
@@ -21835,12 +22036,12 @@ msgstr "_Rummañ dre"
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1557
 msgid "_Custom"
-msgstr ""
+msgstr "Personel_aat"
 
 #: ../widgets/table/e-table-item.c:2999
 #: ../widgets/table/e-table-item.c:3000
 msgid "Table header"
-msgstr ""
+msgstr "Talbenn an daolenn"
 
 #: ../widgets/table/e-table-item.c:3006
 #: ../widgets/table/e-table-item.c:3007
@@ -21854,7 +22055,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-sorter.c:172
 msgid "Sort Info"
-msgstr "Urzhiañ an titouroù"
+msgstr "Kemmañ an titouroù"
 
 #: ../widgets/table/e-table.c:3330
 #: ../widgets/table/e-tree.c:3372
@@ -21893,8 +22094,9 @@ msgid "Size of the expander arrow"
 msgstr ""
 
 #: ../widgets/text/e-text.c:2731
+#, fuzzy
 msgid "Input Methods"
-msgstr ""
+msgstr "Feson Seziz"
 
 #: ../widgets/text/e-text.c:3548
 #: ../widgets/text/e-text.c:3549
@@ -21908,18 +22110,20 @@ msgstr "Tev"
 
 #: ../widgets/text/e-text.c:3569
 #: ../widgets/text/e-text.c:3570
+#, fuzzy
 msgid "Strikeout"
-msgstr ""
+msgstr "_Barrennet"
 
 #: ../widgets/text/e-text.c:3576
 #: ../widgets/text/e-text.c:3577
 msgid "Anchor"
-msgstr ""
+msgstr "Eor"
 
 #: ../widgets/text/e-text.c:3583
 #: ../widgets/text/e-text.c:3584
+#, fuzzy
 msgid "Justification"
-msgstr ""
+msgstr "Justifians"
 
 #: ../widgets/text/e-text.c:3590
 #: ../widgets/text/e-text.c:3591
@@ -21933,8 +22137,9 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3604
 #: ../widgets/text/e-text.c:3605
+#, fuzzy
 msgid "Clip"
-msgstr ""
+msgstr "Troc'hañ"
 
 #: ../widgets/text/e-text.c:3611
 #: ../widgets/text/e-text.c:3612
@@ -21943,13 +22148,15 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3618
 #: ../widgets/text/e-text.c:3619
+#, fuzzy
 msgid "X Offset"
-msgstr ""
+msgstr "Linkañ X"
 
 #: ../widgets/text/e-text.c:3625
 #: ../widgets/text/e-text.c:3626
+#, fuzzy
 msgid "Y Offset"
-msgstr ""
+msgstr "Linkañ Y"
 
 #: ../widgets/text/e-text.c:3660
 #: ../widgets/text/e-text.c:3661
@@ -21973,8 +22180,9 @@ msgstr ""
 
 #: ../widgets/text/e-text.c:3695
 #: ../widgets/text/e-text.c:3696
+#, fuzzy
 msgid "Line wrap"
-msgstr ""
+msgstr "Linennoù livet"
 
 #: ../widgets/text/e-text.c:3702
 #: ../widgets/text/e-text.c:3703
@@ -22021,619 +22229,4 @@ msgstr ""
 #: ../widgets/text/e-text.c:3775
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "3268"
-#~ msgstr "3268"
-#~ msgid "389"
-#~ msgstr "389"
-#~ msgid "636"
-#~ msgstr "636"
-#~ msgid "<b>Type:</b>"
-#~ msgstr "<b>Seurt :</b>"
-#~ msgid "Add Address Book"
-#~ msgstr "Ouzhpennañ ur c'harned chomlec'h"
-#~ msgid "Email address"
-#~ msgstr "Chomlec'h postel"
-#~ msgid "One"
-#~ msgstr "Unan"
-#~ msgid "_Add Address Book"
-#~ msgstr "Ouzhpennañ ur c'harned chomlec'h"
-#~ msgid "_Notes:"
-#~ msgstr "_Notennoù:"
-#~ msgid "United States"
-#~ msgstr "Stadoù Unanet"
-#~ msgid "Afghanistan"
-#~ msgstr "Afganistan"
-#~ msgid "Albania"
-#~ msgstr "Albani"
-#~ msgid "Algeria"
-#~ msgstr "Aljeri"
-#~ msgid "American Samoa"
-#~ msgstr "Samoa (SU)"
-#~ msgid "Andorra"
-#~ msgstr "Andorre"
-#~ msgid "Angola"
-#~ msgstr "Angola"
-#~ msgid "Anguilla"
-#~ msgstr "Anguilla"
-#~ msgid "Antarctica"
-#~ msgstr "Antartik"
-#~ msgid "Antigua And Barbuda"
-#~ msgstr "Antigua ha Barbuda"
-#~ msgid "Argentina"
-#~ msgstr "Arc'hantin"
-#~ msgid "Armenia"
-#~ msgstr "Armeni"
-#~ msgid "Aruba"
-#~ msgstr "Aruba"
-#~ msgid "Australia"
-#~ msgstr "Aostralia"
-#~ msgid "Austria"
-#~ msgstr "Aotrich"
-#~ msgid "Azerbaijan"
-#~ msgstr "Azerbaijan"
-#~ msgid "Bahamas"
-#~ msgstr "Bahamas"
-#~ msgid "Bahrain"
-#~ msgstr "Bahrain"
-#~ msgid "Bangladesh"
-#~ msgstr "Bangladesh"
-#~ msgid "Barbados"
-#~ msgstr "Barbados"
-#~ msgid "Belarus"
-#~ msgstr "Belarus"
-#~ msgid "Belgium"
-#~ msgstr "Beljik"
-#~ msgid "Belize"
-#~ msgstr "Belize"
-#~ msgid "Benin"
-#~ msgstr "Benin"
-#~ msgid "Bermuda"
-#~ msgstr "Bermuda"
-#~ msgid "Bhutan"
-#~ msgstr "Bhutan"
-#~ msgid "Bolivia"
-#~ msgstr "Bolivi"
-#~ msgid "Bosnia And Herzegowina"
-#~ msgstr "Bosnie Herzegovine"
-#~ msgid "Botswana"
-#~ msgstr "Botswana"
-#~ msgid "Bouvet Island"
-#~ msgstr "Enez Bouvet"
-#~ msgid "Brazil"
-#~ msgstr "Brezil"
-#~ msgid "Brunei Darussalam"
-#~ msgstr "runei Darussalam"
-#~ msgid "Bulgaria"
-#~ msgstr "Bulgari"
-#~ msgid "Burkina Faso"
-#~ msgstr "Burkina Faso"
-#~ msgid "Burundi"
-#~ msgstr "Burundi"
-#~ msgid "Cambodia"
-#~ msgstr "Kambodj"
-#~ msgid "Cameroon"
-#~ msgstr "Kameroun"
-#~ msgid "Canada"
-#~ msgstr "Kanada"
-#~ msgid "Cape Verde"
-#~ msgstr "Kap Gwer"
-#~ msgid "Cayman Islands"
-#~ msgstr "Inizi Cayman"
-#~ msgid "Central African Republic"
-#~ msgstr "Republik Afrika ar C'hreiz"
-#~ msgid "Chad"
-#~ msgstr "Tchad"
-#~ msgid "Chile"
-#~ msgstr "Chili"
-#~ msgid "China"
-#~ msgstr "Sina"
-#~ msgid "Christmas Island"
-#~ msgstr "Enez Nedeleg"
-#~ msgid "Cocos (Keeling) Islands"
-#~ msgstr "Inizi Kokos (Keeling)"
-#~ msgid "Colombia"
-#~ msgstr "Kolombi"
-#~ msgid "Comoros"
-#~ msgstr "Comoros"
-#~ msgid "Congo"
-#~ msgstr "Kongo"
-#~ msgid "Congo, The Democratic Republic Of The"
-#~ msgstr "Kongo, Republik Demokratel ar"
-#~ msgid "Cook Islands"
-#~ msgstr "Inizi Cook"
-#~ msgid "Costa Rica"
-#~ msgstr "Costa Rica"
-#~ msgid "Cote d'Ivoire"
-#~ msgstr "Cote d'Ivoire"
-#~ msgid "Croatia"
-#~ msgstr "Croitia"
-#~ msgid "Cuba"
-#~ msgstr "Cuba"
-#~ msgid "Cyprus"
-#~ msgstr "Cyprus"
-#~ msgid "Czech Republic"
-#~ msgstr "Republik tchek"
-#~ msgid "Denmark"
-#~ msgstr "Danmark"
-#~ msgid "Djibouti"
-#~ msgstr "Djibouti"
-#~ msgid "Dominica"
-#~ msgstr "Dominik"
-#~ msgid "Dominican Republic"
-#~ msgstr "Republik dominikan"
-#~ msgid "Ecuador"
-#~ msgstr "Kehider"
-#~ msgid "Egypt"
-#~ msgstr "Ejipt"
-#~ msgid "El Salvador"
-#~ msgstr "Salvador"
-#~ msgid "Eritrea"
-#~ msgstr "Eritrea"
-#~ msgid "Estonia"
-#~ msgstr "Estoni"
-#~ msgid "Ethiopia"
-#~ msgstr "Ethiopi"
-#~ msgid "Falkland Islands"
-#~ msgstr "Inizi Falklands"
-#~ msgid "Faroe Islands"
-#~ msgstr "Inizi Faroe"
-#~ msgid "Fiji"
-#~ msgstr "Fiji"
-#~ msgid "Finland"
-#~ msgstr "Finlan"
-#~ msgid "France"
-#~ msgstr "Bro-C'hall"
-#~ msgid "French Guiana"
-#~ msgstr "Guine Gallaoued"
-#~ msgid "French Polynesia"
-#~ msgstr "Polinesi Gallaoued"
-#~ msgid "Gabon"
-#~ msgstr "Gabon"
-#~ msgid "Gambia"
-#~ msgstr "Gambi"
-#~ msgid "Georgia"
-#~ msgstr "Jeorji"
-#~ msgid "Germany"
-#~ msgstr "Alamagn"
-#~ msgid "Ghana"
-#~ msgstr "Ghana"
-#~ msgid "Gibraltar"
-#~ msgstr "Gibraltar"
-#~ msgid "Greece"
-#~ msgstr "Gres"
-#~ msgid "Greenland"
-#~ msgstr "Greenland"
-#~ msgid "Grenada"
-#~ msgstr "Grenad"
-#~ msgid "Guadeloupe"
-#~ msgstr "Gwadeloup"
-#~ msgid "Guam"
-#~ msgstr "Guam"
-#~ msgid "Guatemala"
-#~ msgstr "Guatemala"
-#~ msgid "Guernsey"
-#~ msgstr "Guernsey"
-#~ msgid "Guinea"
-#~ msgstr "Guine"
-#~ msgid "Guyana"
-#~ msgstr "Gwiana"
-#~ msgid "Haiti"
-#~ msgstr "Haiti"
-#~ msgid "Heard And McDonald Islands"
-#~ msgstr "Inizi Head ha McDonald"
-#~ msgid "Holy See"
-#~ msgstr "Vatikan"
-#~ msgid "Honduras"
-#~ msgstr "Honduras"
-#~ msgid "Hong Kong"
-#~ msgstr "Hong Kong"
-#~ msgid "Hungary"
-#~ msgstr "Hongri"
-#~ msgid "Iceland"
-#~ msgstr "Island"
-#~ msgid "India"
-#~ msgstr "Indez"
-#~ msgid "Indonesia"
-#~ msgstr "Indonezi"
-#~ msgid "Iran"
-#~ msgstr "Iran"
-#~ msgid "Iraq"
-#~ msgstr "Irak"
-#~ msgid "Ireland"
-#~ msgstr "Iwerzhon"
-#~ msgid "Isle of Man"
-#~ msgstr "Enez Man"
-#~ msgid "Israel"
-#~ msgstr "Israel"
-#~ msgid "Italy"
-#~ msgstr "Itali"
-#~ msgid "Jamaica"
-#~ msgstr "Jamaik"
-#~ msgid "Japan"
-#~ msgstr "Japon"
-#~ msgid "Jersey"
-#~ msgstr "Jersey"
-#~ msgid "Jordan"
-#~ msgstr "Jordan"
-#~ msgid "Kazakhstan"
-#~ msgstr "Kazakhstan"
-#~ msgid "Kenya"
-#~ msgstr "Kenya"
-#~ msgid "Kiribati"
-#~ msgstr "Kiribati"
-#~ msgid "Korea, Republic Of"
-#~ msgstr "Kore, Republik Ar"
-#~ msgid "Kuwait"
-#~ msgstr "Kowait"
-#~ msgid "Kyrgyzstan"
-#~ msgstr "Kyrgyzstan"
-#~ msgid "Laos"
-#~ msgstr "Laos"
-#~ msgid "Latvia"
-#~ msgstr "Letoni"
-#~ msgid "Lebanon"
-#~ msgstr "Liban"
-#~ msgid "Lesotho"
-#~ msgstr "Lesotho"
-#~ msgid "Liberia"
-#~ msgstr "Liberia"
-#~ msgid "Libya"
-#~ msgstr "Libi"
-#~ msgid "Liechtenstein"
-#~ msgstr "Liechtenstein"
-#~ msgid "Lithuania"
-#~ msgstr "Lithuani"
-#~ msgid "Luxembourg"
-#~ msgstr "Luksembourg"
-#~ msgid "Macao"
-#~ msgstr "Macao"
-#~ msgid "Macedonia"
-#~ msgstr "Makedonia"
-#~ msgid "Madagascar"
-#~ msgstr "Madagascar"
-#~ msgid "Malawi"
-#~ msgstr "Malawi"
-#~ msgid "Malaysia"
-#~ msgstr "Malezia"
-#~ msgid "Maldives"
-#~ msgstr "Maldives"
-#~ msgid "Mali"
-#~ msgstr "Mali"
-#~ msgid "Malta"
-#~ msgstr "Malt"
-#~ msgid "Marshall Islands"
-#~ msgstr "Inizi Marshall"
-#~ msgid "Martinique"
-#~ msgstr "Martinik"
-#~ msgid "Mauritania"
-#~ msgstr "MAOURITANI"
-#~ msgid "Mauritius"
-#~ msgstr "Maoris"
-#~ msgid "Mayotte"
-#~ msgstr "Mayotte"
-#~ msgid "Mexico"
-#~ msgstr "Meksik"
-#~ msgid "Micronesia"
-#~ msgstr "Mikronesi"
-#~ msgid "Moldova, Republic Of"
-#~ msgstr "Moldavi, Republik Ar"
-#~ msgid "Monaco"
-#~ msgstr "Monaco"
-#~ msgid "Mongolia"
-#~ msgstr "Mongoli"
-#~ msgid "Montserrat"
-#~ msgstr "Montserrat"
-#~ msgid "Morocco"
-#~ msgstr "Marok"
-#~ msgid "Mozambique"
-#~ msgstr "Mozambik"
-#~ msgid "Myanmar"
-#~ msgstr "Myanmar"
-#~ msgid "Namibia"
-#~ msgstr "Namibi"
-#~ msgid "Nauru"
-#~ msgstr "Nauru"
-#~ msgid "Nepal"
-#~ msgstr "Nepal"
-#~ msgid "Netherlands"
-#~ msgstr "Izelvroioù"
-#~ msgid "Netherlands Antilles"
-#~ msgstr "Antilh Izelvroioù"
-#~ msgid "New Caledonia"
-#~ msgstr "Kaledoni nevez"
-#~ msgid "New Zealand"
-#~ msgstr "Zeland nevez"
-#~ msgid "Nicaragua"
-#~ msgstr "Nicaragua"
-#~ msgid "Niger"
-#~ msgstr "Niger"
-#~ msgid "Nigeria"
-#~ msgstr "Nigeria"
-#~ msgid "Niue"
-#~ msgstr "Niue"
-#~ msgid "Norfolk Island"
-#~ msgstr "Enez Norfolk"
-#~ msgid "Norway"
-#~ msgstr "Norway"
-#~ msgid "Oman"
-#~ msgstr "Oman"
-#~ msgid "Pakistan"
-#~ msgstr "Pakistan"
-#~ msgid "Palau"
-#~ msgstr "Palau"
-#~ msgid "Panama"
-#~ msgstr "Panama"
-#~ msgid "Paraguay"
-#~ msgstr "Paraguay"
-#~ msgid "Peru"
-#~ msgstr "Perou"
-#~ msgid "Philippines"
-#~ msgstr "Filipin"
-#~ msgid "Pitcairn"
-#~ msgstr "Pitcairn"
-#~ msgid "Poland"
-#~ msgstr "Pologn"
-#~ msgid "Portugal"
-#~ msgstr "Portugal"
-#~ msgid "Puerto Rico"
-#~ msgstr "Puerto Rico"
-#~ msgid "Qatar"
-#~ msgstr "Qatar"
-#~ msgid "Reunion"
-#~ msgstr "Reunion"
-#~ msgid "Romania"
-#~ msgstr "Romani"
-#~ msgid "Russian Federation"
-#~ msgstr "Rusi"
-#~ msgid "Rwanda"
-#~ msgstr "Rwanda"
-#~ msgid "Samoa"
-#~ msgstr "Samoa"
-#~ msgid "San Marino"
-#~ msgstr "San Marino"
-#~ msgid "Senegal"
-#~ msgstr "Senegal"
-#~ msgid "Seychelles"
-#~ msgstr "Seychelles"
-#~ msgid "Sierra Leone"
-#~ msgstr "Sierra Leone"
-#~ msgid "Singapore"
-#~ msgstr "Singapour"
-#~ msgid "Slovakia"
-#~ msgstr "Slovaki"
-#~ msgid "Slovenia"
-#~ msgstr "Sloveni"
-#~ msgid "Solomon Islands"
-#~ msgstr "Inizi Solomon"
-#~ msgid "Somalia"
-#~ msgstr "Somali"
-#~ msgid "Spain"
-#~ msgstr "Spagn"
-#~ msgid "Sri Lanka"
-#~ msgstr "Sri Lanka"
-#~ msgid "St. Helena"
-#~ msgstr "St. Elen"
-#~ msgid "St. Pierre And Miquelon"
-#~ msgstr "St. Pierre ha Miquelon"
-#~ msgid "Sudan"
-#~ msgstr "Soudan"
-#~ msgid "Suriname"
-#~ msgstr "Surinam"
-#~ msgid "Svalbard And Jan Mayen Islands"
-#~ msgstr "Inizi Svalbard ha Jan Mayen"
-#~ msgid "Swaziland"
-#~ msgstr "Swaziland"
-#~ msgid "Sweden"
-#~ msgstr "Sued"
-#~ msgid "Switzerland"
-#~ msgstr "Suis"
-#~ msgid "Syria"
-#~ msgstr "Siri"
-#~ msgid "Taiwan"
-#~ msgstr "Taiwan"
-#~ msgid "Tajikistan"
-#~ msgstr "Tajikistan"
-#~ msgid "Thailand"
-#~ msgstr "Thailand"
-#~ msgid "Togo"
-#~ msgstr "Togo"
-#~ msgid "Tokelau"
-#~ msgstr "Tokelau"
-#~ msgid "Tonga"
-#~ msgstr "Tonga"
-#~ msgid "Trinidad And Tobago"
-#~ msgstr "Trinidad ha Tobago"
-#~ msgid "Tunisia"
-#~ msgstr "Tunizi"
-#~ msgid "Turkey"
-#~ msgstr "Turki"
-#~ msgid "Turkmenistan"
-#~ msgstr "Turkmenistan"
-#~ msgid "Tuvalu"
-#~ msgstr "Tuvalu"
-#~ msgid "Uganda"
-#~ msgstr "Uganda"
-#~ msgid "Ukraine"
-#~ msgstr "Ukraine"
-#~ msgid "United Kingdom"
-#~ msgstr "Rouantelezh unanet"
-#~ msgid "Uruguay"
-#~ msgstr "Uruguay"
-#~ msgid "Uzbekistan"
-#~ msgstr "Uzbekistan"
-#~ msgid "Vanuatu"
-#~ msgstr "Vanuatu"
-#~ msgid "Venezuela"
-#~ msgstr "Venezuela"
-#~ msgid "Viet Nam"
-#~ msgstr "Vietnam"
-#~ msgid "Virgin Islands, British"
-#~ msgstr "Inizi Virgin, Saoz"
-#~ msgid "Virgin Islands, U.S."
-#~ msgstr "Inizi Virgin, S.U"
-#~ msgid "Wallis And Futuna Islands"
-#~ msgstr "Inizi Wallis ha Futuna"
-#~ msgid "Western Sahara"
-#~ msgstr "Sahara kornog"
-#~ msgid "Yemen"
-#~ msgstr "Yemen"
-#~ msgid "Zambia"
-#~ msgstr "Zambi"
-#~ msgid "Zimbabwe"
-#~ msgstr "Zimbabwe"
-#~ msgid "AOL Instant Messenger"
-#~ msgstr "AOL Instant Messenger"
-#~ msgid "Yahoo Messenger"
-#~ msgstr "Yahoo Messenger"
-#~ msgid "Service"
-#~ msgstr "Servij"
-#~ msgid "Username"
-#~ msgstr "Anv implijer"
-#~ msgid "Address _2:"
-#~ msgstr "Chomlec'h 2 :"
-#~ msgid "Ci_ty:"
-#~ msgstr "Kêr :"
-#~ msgid "Countr_y:"
-#~ msgstr "Bro :"
-#~ msgid "Full Address"
-#~ msgstr "Chomlec'h leun"
-#~ msgid "I"
-#~ msgstr "I"
-#~ msgid "II"
-#~ msgstr "II"
-#~ msgid "III"
-#~ msgstr "III"
-#~ msgid "Miss"
-#~ msgstr "Dim."
-#~ msgid "Mr."
-#~ msgstr "Ao."
-#~ msgid "Mrs."
-#~ msgstr "It."
-#~ msgid "Ms."
-#~ msgstr "It."
-#~ msgid "Sr."
-#~ msgstr "Ao."
-#~ msgid "Add IM Account"
-#~ msgstr "Ouzhpennañ ur gont IM"
-#~ msgid "_Account name:"
-#~ msgstr "Anv ar _gont:"
-#~ msgid "_IM Service:"
-#~ msgstr "Servij _IM:"
-#~ msgid "10 pt. Tahoma"
-#~ msgstr "10 pt. Tahoma"
-#~ msgid "8 pt. Tahoma"
-#~ msgstr "8 pt. Tahoma"
-#~ msgid "Body"
-#~ msgstr "Korf"
-#~ msgid "Bottom:"
-#~ msgstr "Traoñ:"
-#~ msgid "Dimensions:"
-#~ msgstr "Ment:"
-#~ msgid "F_ont..."
-#~ msgstr "_Nodrezh..."
-#~ msgid "Fonts"
-#~ msgstr "Nodrezhioù"
-#~ msgid "Footer:"
-#~ msgstr "Traoñ-pajenn:"
-#~ msgid "Format"
-#~ msgstr "Furmad"
-#~ msgid "Header/Footer"
-#~ msgstr "Talbenn/Traoñ-pajenn"
-#~ msgid "Headings"
-#~ msgstr "Talbennoù"
-#~ msgid "Height:"
-#~ msgstr "Uhelder :"
-#~ msgid "Include:"
-#~ msgstr "Enlakaat:"
-#~ msgid "Left:"
-#~ msgstr "Kleiz:"
-#~ msgid "Margins"
-#~ msgstr "Marzhoù"
-#~ msgid "Number of columns:"
-#~ msgstr "Niver a vannoù:"
-#~ msgid "Options"
-#~ msgstr "Dibarzhioù"
-#~ msgid "Orientation"
-#~ msgstr "Tuadur"
-#~ msgid "Page"
-#~ msgstr "Pajenn"
-#~ msgid "Page Setup:"
-#~ msgstr "Neuziadoù ar bajenn:"
-#~ msgid "Paper"
-#~ msgstr "Paper"
-#~ msgid "Paper source:"
-#~ msgstr "Orin ar baper:"
-#~ msgid "Preview:"
-#~ msgstr "Rakwelet :"
-#~ msgid "Print using gray shading"
-#~ msgstr "Moulañ en ur implij liveoù gris"
-#~ msgid "Right:"
-#~ msgstr "Dehou:"
-#~ msgid "Sections:"
-#~ msgstr "Rannoù:"
-#~ msgid "Start on a new page"
-#~ msgstr "Kregiñ gant ur bajenn nevez"
-#~ msgid "Style name:"
-#~ msgstr "Anv ar stil:"
-#~ msgid "Top:"
-#~ msgstr "Laez:"
-#~ msgid "Width:"
-#~ msgstr "Led :"
-#~ msgid "_Font..."
-#~ msgstr "_Nodrezh..."
-#~ msgid "after"
-#~ msgstr "goude"
-#~ msgid "before"
-#~ msgstr "a-raok"
-#~ msgid "day(s)"
-#~ msgstr "devezh"
-#~ msgid "hour(s)"
-#~ msgstr "eurvezh"
-#~ msgid "minute(s)"
-#~ msgstr "munutenn"
-#~ msgid "1 day before appointment"
-#~ msgstr "1 devezh a-raok an emgav"
-#~ msgid "1 hour before appointment"
-#~ msgstr "1 eurvezg a-raok an emgav"
-#~ msgid "15 minutes before appointment"
-#~ msgstr "15 munutenn a-raok an emgav"
-#~ msgid "for"
-#~ msgstr "evit"
-#~ msgid "Co_ntacts..."
-#~ msgstr "_Darempredoù..."
-#~ msgid "month(s)"
-#~ msgstr "miz(ioù)"
-#~ msgid "week(s)"
-#~ msgstr "sizhun(ioù)"
-#~ msgid "year(s)"
-#~ msgstr "bloaz(ioù)"
-#~ msgid "S_ave"
-#~ msgstr "_Enrollañ"
-#~ msgid "Server _Type: "
-#~ msgstr "_Doare servijer: "
-#~ msgid "T_ype: "
-#~ msgstr "S_tumm: "
-#~ msgid "F_ind:"
-#~ msgstr "K_lask :"
-#~ msgid "Find in Message"
-#~ msgstr "Klask er gemennadenn"
-#~ msgid "Select Task List"
-#~ msgstr "Dibab ur roll labourioù"
-#~ msgid "Select Calendar"
-#~ msgstr "Dibab an deiziadur"
-#~ msgid "File name:"
-#~ msgstr "Anv ar restr :"
-#~ msgid "_Available Categories:"
-#~ msgstr "Rummadoù _hegerz :"
-#~ msgid "categories"
-#~ msgstr "rummadoù"
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
-#~ msgid "DnD code"
-#~ msgstr "Kod DnD"
-#~ msgid "Full Header"
-#~ msgstr "Talbenn glok"
-#~ msgid "Copyright (C) 2000, Ximian, Inc."
-#~ msgstr "Copyright (C) 2000, Ximian, Inc."
 
