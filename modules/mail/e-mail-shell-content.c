@@ -1018,7 +1018,7 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 		g_free (state_filename);
 	}
 
-	g_signal_connect (
+	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (mail_shell_content_display_view_cb),
 		mail_shell_content);

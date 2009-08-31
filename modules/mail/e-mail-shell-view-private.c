@@ -271,7 +271,7 @@ mail_shell_view_notify_view_id_cb (EMailShellView *mail_shell_view)
 	const gchar *view_id;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	view_instance = NULL;  /* FIXME */
+	view_instance = e_mail_shell_content_get_view_instance (mail_shell_content);
 	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (mail_shell_view));
 
 	/* A NULL view ID implies we're in a custom view.  But you can
