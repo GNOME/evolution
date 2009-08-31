@@ -34,6 +34,7 @@
 #include <camel/camel-url.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-string-utils.h>
 
 #include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
@@ -480,13 +481,15 @@ get_content (CamelMimeMessage *message)
 }
 
 static void
-action_reply_with_template_cb (GtkAction *action,
-                               CamelMimeMessage *message)
+create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gpointer data)
 {
+	GtkAction *action = data;
 	CamelMimeMessage *new, *template;
-	CamelFolder *folder;
 	struct _camel_header_raw *header;
 	gchar *cont;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (message != NULL);
 
 	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 	template = g_object_get_data (G_OBJECT (action), "template");
@@ -532,13 +535,32 @@ action_reply_with_template_cb (GtkAction *action,
 }
 
 static void
+action_reply_with_template_cb (GtkAction *action,
+                               const gchar *message_uid)
+{
+	CamelFolder *folder;
+
+	g_return_if_fail (message_uid != NULL);
+
+	folder = CAMEL_FOLDER (g_object_get_data (G_OBJECT (action), "message_folder"));
+	g_return_if_fail (folder != NULL);
+
+	g_object_ref (G_OBJECT (action));
+
+	mail_get_message (folder, message_uid, create_new_message, action, mail_msg_unordered_push);
+
+	g_object_unref (G_OBJECT (action));
+}
+
+static void
 build_template_menus_recurse (GtkUIManager *ui_manager,
                               GtkActionGroup *action_group,
                               const gchar *menu_path,
                               guint *action_count,
                               guint merge_id,
                               CamelFolderInfo *folder_info,
-                              CamelMimeMessage *message)
+			      CamelFolder *message_folder,
+                              const gchar *message_uid)
 {
 	CamelStore *store;
 
@@ -585,13 +607,13 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			build_template_menus_recurse (
 				ui_manager, action_group,
 				path, action_count, merge_id,
-				folder_info->child, message);
+				folder_info->child, message_folder, message_uid);
 
 		/* Get the UIDs for this folder and add them to the menu. */
 		uids = camel_folder_get_uids (folder);
 		for (ii = 0; ii < uids->len; ii++) {
 			CamelMimeMessage *template;
-			const gchar *uid = uids->pdata[ii];
+			const gchar *uid = uids->pdata[ii], *muid;
 			guint32 flags;
 
 			/* If the UIDs is marked for deletion, skip it. */
@@ -614,6 +636,17 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			action = gtk_action_new (
 				action_name, action_label, NULL, NULL);
 
+			muid = camel_pstring_strdup (message_uid);
+			camel_object_ref (message_folder);
+
+			g_object_set_data_full (
+				G_OBJECT (action), "message_uid", (gpointer) muid,
+				(GDestroyNotify) camel_pstring_free);
+
+			g_object_set_data_full (
+				G_OBJECT (action), "message_folder", message_folder,
+				(GDestroyNotify) camel_object_unref);
+
 			g_object_set_data_full (
 				G_OBJECT (action), "template", template,
 				(GDestroyNotify) camel_object_unref);
@@ -621,7 +654,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			g_signal_connect (
 				action, "activate",
 				G_CALLBACK (action_reply_with_template_cb),
-				message);
+				(gpointer) muid);
 
 			gtk_action_group_add_action (action_group, action);
 
@@ -679,7 +712,6 @@ update_actions_cb (EShellView *shell_view)
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	MessageList *message_list;
-	CamelMimeMessage *message;
 	CamelFolderInfo *folder_info;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -713,9 +745,6 @@ update_actions_cb (EShellView *shell_view)
 	if (uids->len != 1)
 		goto exit;
 
-	/* This is the source message to use in replying with a template. */
-	message = camel_folder_get_message (folder, uids->pdata[0], NULL);
-
 	/* Now recursively build template submenus in the pop-up menu. */
 
 	store = e_mail_local_get_store ();
@@ -729,7 +758,7 @@ update_actions_cb (EShellView *shell_view)
 	build_template_menus_recurse (
 		ui_manager, action_group,
 		"/mail-message-popup/mail-message-templates",
-		&action_count, merge_id, folder_info, message);
+		&action_count, merge_id, folder_info, message_list->folder, uids->pdata[0]);
 
 exit:
 	em_utils_uids_free (uids);
