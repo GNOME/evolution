@@ -205,7 +205,7 @@ best_encoding (GByteArray *buf, const gchar *charset)
 	if (status == (gsize) -1 || status > 0)
 		return -1;
 
-	if (count == 0)
+	if ((count == 0) && (buf->len < LINE_LEN))
 		return CAMEL_TRANSFER_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
 		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
@@ -623,6 +623,7 @@ build_message (EMsgComposer *composer,
 		part = camel_mime_part_new ();
 		camel_medium_set_content_object (CAMEL_MEDIUM (part), html);
 		camel_object_unref (html);
+		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (part);
 
