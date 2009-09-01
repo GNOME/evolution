@@ -23,8 +23,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate))
 
-#define E_PLUGIN_UI_INIT_FUNC		"e_plugin_ui_init"
-#define E_PLUGIN_UI_HOOK_CLASS_ID       "org.gnome.evolution.ui:1.0"
+#define E_PLUGIN_UI_DEFAULT_FUNC	"e_plugin_ui_init"
+#define E_PLUGIN_UI_HOOK_CLASS_ID	"org.gnome.evolution.ui:1.0"
 
 struct _EPluginUIHookPrivate {
 
@@ -51,6 +51,27 @@ struct _EPluginUIHookPrivate {
 	 */
 	GHashTable *ui_definitions;
 
+	/* Table of GtkUIManager ID's to callback function names.
+	 *
+	 * This stores the optional "callback" attribute in the <ui-manager>
+	 * element.  If not specified, it defaults to "e_plugin_ui_init".
+	 *
+	 * This is useful when extending the UI of multiple GtkUIManager IDs
+	 * from a single plugin.
+	 *
+	 * For example:
+	 *
+	 *     <hook class="org.gnome.evolution.ui:1.0">
+	 *       <ui-manager id="org.gnome.evolution.foo" callback="init_foo">
+	 *         ...
+	 *       </ui-manager>
+	 *       <ui-manager id="org.gnome.evolution.bar" callback="init_bar">
+	 *         ...
+	 *       </ui-manager>
+	 *     </hook>
+	 */
+	GHashTable *callbacks;
+
 	/* The registry is the heart of EPluginUI.  It tracks GtkUIManager
 	 * instances, GtkUIManager IDs, and UI merge IDs as a hash table of
 	 * hash tables:
@@ -59,7 +80,7 @@ struct _EPluginUIHookPrivate {
 	 *
 	 * A GtkUIManager instance and ID form a unique key for looking up
 	 * UI merge IDs.  The reason both are needed is because the same
-	 * GtkUIManager instance and be registered under multiple IDs.
+	 * GtkUIManager instance can be registered under multiple IDs.
 	 *
 	 * This is done primarily to support shell views, which share a
 	 * common GtkUIManager instance for a particular shell window.
@@ -147,21 +168,36 @@ plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
 static void
 plugin_ui_hook_register_manager (EPluginUIHook *hook,
                                  GtkUIManager *ui_manager,
+                                 const gchar *id,
                                  gpointer user_data)
 {
 	EPlugin *plugin;
 	EPluginUIInitFunc func;
 	GHashTable *registry;
 	GHashTable *hash_table;
+	const gchar *func_name;
 
 	plugin = ((EPluginHook *) hook)->plugin;
-	func = e_plugin_get_symbol (plugin, E_PLUGIN_UI_INIT_FUNC);
 
-	/* Pass the manager and user_data to the plugin's e_plugin_ui_init()
-	 * function (if it defined one).  The plugin should install whatever
-	 * GtkActions and GtkActionGroups are neccessary to implement the
-	 * action names in its UI definition. */
-	if (func != NULL && !func (ui_manager, user_data))
+	hash_table = hook->priv->callbacks;
+	func_name = g_hash_table_lookup (hash_table, id);
+
+	if (func_name == NULL)
+		func_name = E_PLUGIN_UI_DEFAULT_FUNC;
+
+	func = e_plugin_get_symbol (plugin, func_name);
+
+	if (func == NULL) {
+		g_critical (
+			"Plugin \"%s\" is missing a function named %s()",
+			plugin->name, func_name);
+		return;
+	}
+
+	/* Pass the manager and user_data to the plugin's callback function.
+	 * The plugin should install whatever GtkActions and GtkActionGroups
+	 * are neccessary to implement the actions in its UI definition. */
+	if (!func (ui_manager, user_data))
 		return;
 
 	g_object_weak_ref (
@@ -353,6 +389,7 @@ plugin_ui_hook_finalize (GObject *object)
 			plugin_ui_hook_unregister_manager, object);
 
 	g_hash_table_destroy (priv->ui_definitions);
+	g_hash_table_destroy (priv->callbacks);
 	g_hash_table_destroy (priv->registry);
 
 	/* Chain up to parent's dispose() method. */
@@ -382,6 +419,7 @@ plugin_ui_hook_construct (EPluginHook *hook,
 		xmlBufferPtr buffer;
 		GString *content;
 		const gchar *temp;
+		gchar *callback;
 		gchar *id;
 
 		if (strcmp ((gchar *) node->name, "ui-manager") != 0)
@@ -392,6 +430,12 @@ plugin_ui_hook_construct (EPluginHook *hook,
 			g_warning ("<ui-manager> requires 'id' property");
 			continue;
 		}
+
+		callback = e_plugin_xml_prop (node, "callback");
+		if (callback != NULL)
+			g_hash_table_insert (
+				priv->callbacks,
+				g_strdup (id), callback);
 
 		content = g_string_sized_new (1024);
 
@@ -447,9 +491,15 @@ static void
 plugin_ui_hook_init (EPluginUIHook *hook)
 {
 	GHashTable *ui_definitions;
+	GHashTable *callbacks;
 	GHashTable *registry;
 
 	ui_definitions = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	callbacks = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
@@ -458,6 +508,7 @@ plugin_ui_hook_init (EPluginUIHook *hook)
 
 	hook->priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
 	hook->priv->ui_definitions = ui_definitions;
+	hook->priv->callbacks = callbacks;
 	hook->priv->registry = registry;
 }
 
@@ -522,7 +573,7 @@ e_plugin_ui_register_manager (GtkUIManager *ui_manager,
 
 			/* Register the manager with the hook. */
 			plugin_ui_hook_register_manager (
-				hook, ui_manager, user_data);
+				hook, ui_manager, id, user_data);
 		}
 	}
 }
