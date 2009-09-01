@@ -33,7 +33,7 @@ struct _EPluginUIHookPrivate {
 	 * For example:
 	 *
 	 *     <hook class="org.gnome.evolution.ui:1.0">
-	 *       <ui-manager id="org.gnome.evolution.sample">
+	 *       <ui-manager id="org.gnome.evolution.foo">
 	 *               ... UI definition ...
 	 *       </ui-manager>
 	 *     </hook>
@@ -42,7 +42,7 @@ struct _EPluginUIHookPrivate {
 	 *
 	 *     g_hash_table_insert (
 	 *             ui_definitions,
-	 *             "org.gnome.evolution.sample",
+	 *             "org.gnome.evolution.foo",
 	 *             "... UI definition ...");
 	 *
 	 * See http://library.gnome.org/devel/gtk/unstable/GtkUIManager.html
@@ -69,6 +69,14 @@ struct _EPluginUIHookPrivate {
 	 *         ...
 	 *       </ui-manager>
 	 *     </hook>
+	 *
+	 * Results in:
+	 *
+	 *     g_hash_table_insert (
+	 *             callbacks, "org.gnome.evolution.foo", "init_foo");
+	 *
+	 *     g_hash_table_insert (
+	 *             callbacks, "org.gnome.evolution.bar", "init_bar");
 	 */
 	GHashTable *callbacks;
 
