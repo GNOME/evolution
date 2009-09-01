@@ -68,10 +68,14 @@ enum {
 	CLUE_N_COLUMNS
 };
 
-GtkWidget *e_plugin_lib_get_configure_widget	(EPlugin *epl);
-
-gboolean e_plugin_ui_init	(GtkUIManager *ui_manager, GObject *object);
-gint e_plugin_lib_enable	(EPlugin *plugin, gboolean enabled);
+GtkWidget *	e_plugin_lib_get_configure_widget
+						(EPlugin *plugin);
+gboolean	init_composer_actions		(GtkUIManager *ui_manager,
+						 EMsgComposer *composer);
+gboolean	init_shell_actions		(GtkUIManager *ui_manager,
+						 EShellWindow *shell_window);
+gint		e_plugin_lib_enable		(EPlugin *plugin,
+						 gboolean enabled);
 
 /* Thanks to attachment reminder plugin for this*/
 static void commit_changes (UIData *ui);
@@ -764,7 +768,7 @@ exit:
 	em_utils_uids_free (uids);
 }
 
-static gboolean
+gboolean
 init_composer_actions (GtkUIManager *ui_manager,
                        EMsgComposer *composer)
 {
@@ -780,7 +784,7 @@ init_composer_actions (GtkUIManager *ui_manager,
 	return TRUE;
 }
 
-static gboolean
+gboolean
 init_shell_actions (GtkUIManager *ui_manager,
                     EShellWindow *shell_window)
 {
@@ -805,27 +809,6 @@ init_shell_actions (GtkUIManager *ui_manager,
 		G_CALLBACK (update_actions_cb), NULL);
 
 	return TRUE;
-}
-
-gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
-                  GObject *object)
-{
-	/* XXX This is a scenario I hadn't considered when designing
-	 *     EPluginUI: two different UI manager IDs with different
-	 *     closures sharing the same plugin entry point.  We know
-	 *     the closures are both GObjects so we query the type.
-	 *     Awkward, but it should work for now. */
-
-	if (E_IS_MSG_COMPOSER (object))
-		return init_composer_actions (
-			ui_manager, E_MSG_COMPOSER (object));
-
-	if (E_IS_SHELL_WINDOW (object))
-		return init_shell_actions (
-			ui_manager, E_SHELL_WINDOW (object));
-
-	return FALSE;
 }
 
 gint

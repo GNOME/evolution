@@ -10,8 +10,10 @@
         <author name="Diego Escalante Urrelo" email="diegoe@gnome.org"/>
 
         <hook class="org.gnome.evolution.ui:1.0">
-          <ui-manager id="org.gnome.evolution.shell"/>
-          <ui-manager id="org.gnome.evolution.composer">
+          <ui-manager id="org.gnome.evolution.shell"
+                      callback="init_shell_actions"/>
+          <ui-manager id="org.gnome.evolution.composer"
+                      callback="init_composer_actions">
             <menubar name='main-menu'>
               <placeholder name='pre-edit-menu'>
                 <menu action='file-menu'>
