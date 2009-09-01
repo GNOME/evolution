@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.27.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-21 12:59+0200\n"
-"PO-Revision-Date: 2009-08-21 13:18+0200\n"
+"POT-Creation-Date: 2009-09-01 12:10+0200\n"
+"PO-Revision-Date: 2009-09-01 12:15+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -1217,7 +1217,7 @@ msgstr "kort"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
 #: ../calendar/gui/dialogs/event-page.glade.h:24
 #: ../plugins/caldav/caldav-source.c:448
-#: ../plugins/calendar-file/calendar-file.c:286
+#: ../plugins/calendar-file/calendar-file.c:293
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
 #: ../plugins/google-account-setup/google-source.c:720
@@ -3358,7 +3358,7 @@ msgstr[1] "minutter"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 #: ../plugins/caldav/caldav-source.c:449
-#: ../plugins/calendar-file/calendar-file.c:287
+#: ../plugins/calendar-file/calendar-file.c:294
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
 #: ../plugins/google-account-setup/google-source.c:721
@@ -3868,7 +3868,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "The second timezone for a Day View"
-msgstr ""
+msgstr "Sekundær tidssone for dagvisning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid ""
@@ -3904,7 +3904,7 @@ msgstr "24-timers tidsformat"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "URI for merket («primær») kalender"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "URI of the highlighted (\"primary\") memo list"
@@ -4117,7 +4117,7 @@ msgstr "Slett hendelser eldre enn"
 
 #: ../calendar/gui/calendar-commands.c:342
 #: ../plugins/caldav/caldav-source.c:450
-#: ../plugins/calendar-file/calendar-file.c:288
+#: ../plugins/calendar-file/calendar-file.c:295
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
 #: ../plugins/google-account-setup/google-source.c:722
@@ -5873,7 +5873,8 @@ msgstr "Oppgavedetaljer"
 
 #: ../calendar/gui/dialogs/task-page.c:336
 msgid "Task cannot be edited, because the selected task list is read only"
-msgstr "Oppgaven kan ikke redigeres fordi valgt oppgaveliste er skrivebeskyttet"
+msgstr ""
+"Oppgaven kan ikke redigeres fordi valgt oppgaveliste er skrivebeskyttet"
 
 #: ../calendar/gui/dialogs/task-page.c:340
 msgid "Task cannot be fully edited, because you are not the organizer"
@@ -9687,14 +9688,14 @@ msgstr "Klikk her for å velge mapper å poste til"
 msgid "Save draft"
 msgstr "Lagre utkast"
 
-#: ../composer/e-msg-composer.c:807
+#: ../composer/e-msg-composer.c:808
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Kan ikke signere utgående melding: Ingen sertifikat for signering satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:814
+#: ../composer/e-msg-composer.c:815
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -9702,11 +9703,11 @@ msgstr ""
 "Kan ikke kryptere utgående melding: Sertifikat for kryptering ikke satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:1350 ../composer/e-msg-composer.c:2189
+#: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2190
 msgid "Compose Message"
 msgstr "Skriv melding"
 
-#: ../composer/e-msg-composer.c:3347
+#: ../composer/e-msg-composer.c:3348
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10653,43 +10654,43 @@ msgstr "Identitet"
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: ../mail/em-account-editor.c:2200
+#: ../mail/em-account-editor.c:2216
 msgid "Check for _new messages every"
 msgstr "Se etter _nye meldinger hver(t)"
 
-#: ../mail/em-account-editor.c:2208
+#: ../mail/em-account-editor.c:2224
 msgid "minu_tes"
 msgstr "minu_tter"
 
-#: ../mail/em-account-editor.c:2398 ../mail/mail-config.glade.h:138
+#: ../mail/em-account-editor.c:2420 ../mail/mail-config.glade.h:138
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: ../mail/em-account-editor.c:2457 ../mail/mail-config.glade.h:73
+#: ../mail/em-account-editor.c:2479 ../mail/mail-config.glade.h:73
 msgid "Defaults"
 msgstr "Forvalg"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2523 ../mail/mail-config.glade.h:133
+#: ../mail/em-account-editor.c:2545 ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Security"
 msgstr "Sikkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2560 ../mail/em-account-editor.c:2655
+#: ../mail/em-account-editor.c:2582 ../mail/em-account-editor.c:2677
 msgid "Receiving Options"
 msgstr "Alternativer for mottak"
 
-#: ../mail/em-account-editor.c:2561 ../mail/em-account-editor.c:2656
+#: ../mail/em-account-editor.c:2583 ../mail/em-account-editor.c:2678
 msgid "Checking for New Messages"
 msgstr "Ser etter nye meldinger"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Kontoredigering"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
 msgstr "Evolution kontoassistent"
 
@@ -12599,28 +12600,27 @@ msgstr "Intervall for serversynkronisering"
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "Vis «Bcc» feltet når meldinger sendes"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "Vis «Cc» feltet når meldinger sendes"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Vis «Fra» feltet når du poster til en nyhetsgruppe"
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show \"From\" field when sending a mail message"
-msgstr ""
+msgstr "Vis «Fra» feltet når meldinger sendes"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Vis «Svar-til» feltet når du poster til en nyhetsgruppe"
 
 #: ../mail/evolution-mail.schemas.in.h:129
-#, fuzzy
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "Send krypterte me_ldinger til meg selv når kryptert e-post sendes"
+msgstr "Vis «Svar-til» feltet når meldinger sendes"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -15395,7 +15395,7 @@ msgstr "Bruk _SSL"
 
 #. add refresh option
 #: ../plugins/caldav/caldav-source.c:433
-#: ../plugins/calendar-file/calendar-file.c:267
+#: ../plugins/calendar-file/calendar-file.c:274
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
 #: ../plugins/google-account-setup/google-source.c:698
@@ -15404,7 +15404,7 @@ msgid "Re_fresh:"
 msgstr "O_ppdater"
 
 #: ../plugins/caldav/caldav-source.c:451
-#: ../plugins/calendar-file/calendar-file.c:289
+#: ../plugins/calendar-file/calendar-file.c:296
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
 #: ../plugins/google-account-setup/google-source.c:723
@@ -15420,31 +15420,31 @@ msgstr "Legg til støtte for CalDAV i Evolution."
 msgid "CalDAV Support"
 msgstr "CalDAV-støtte"
 
-#: ../plugins/calendar-file/calendar-file.c:204
+#: ../plugins/calendar-file/calendar-file.c:208
 msgid "_Customize options"
 msgstr "_Tilpass alternativer"
 
-#: ../plugins/calendar-file/calendar-file.c:224
+#: ../plugins/calendar-file/calendar-file.c:227
 msgid "File _name:"
 msgstr "Fil_navn:"
 
-#: ../plugins/calendar-file/calendar-file.c:228
+#: ../plugins/calendar-file/calendar-file.c:231
 msgid "Choose calendar file"
 msgstr "Velg kalenderfil"
 
-#: ../plugins/calendar-file/calendar-file.c:272
+#: ../plugins/calendar-file/calendar-file.c:279
 msgid "On open"
 msgstr "Ved åpning"
 
-#: ../plugins/calendar-file/calendar-file.c:273
+#: ../plugins/calendar-file/calendar-file.c:280
 msgid "On file change"
 msgstr "Ved endring av fil"
 
-#: ../plugins/calendar-file/calendar-file.c:274
+#: ../plugins/calendar-file/calendar-file.c:281
 msgid "Periodically"
 msgstr "Periodisk"
 
-#: ../plugins/calendar-file/calendar-file.c:301
+#: ../plugins/calendar-file/calendar-file.c:308
 msgid "Force read _only"
 msgstr "Tvungen _skrivebeskyttelse"
 
@@ -16972,7 +16972,7 @@ msgstr "Dette vil lage et møte uten å bruke eksisterende møtedetaljer."
 msgid ""
 "This will create a new meeting with the existing meeting details. The "
 "recurrence rule needs to be re-entered."
-msgstr ""
+msgstr "Dette vil lage et nytt møte med eksisterende møtedetaljer. Regel for gjentakelse må lages på nytt."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
@@ -18157,39 +18157,39 @@ msgstr "Varsler når nye meldinger ankommer."
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
-msgstr ""
+msgstr "Valgt kalender inneholder hendelsen «%s» allerede. Vil du redigere den gamle hendelsen?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
-msgstr ""
+msgstr "Valgt oppgaveliste inneholder oppgave «%s» allerede. Vil du redigere den gamle oppgaven?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
-msgstr ""
+msgstr "Valgt notatliste inneholder notatet «%s» allerede. Vil du redigere det gamle notatet?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
-msgstr ""
+msgstr "Valgt kalender inneholder noen hendelser for disse e-postene allerede. Vil du lage nye hendelser likevel?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
-msgstr ""
+msgstr "Valgt oppgaveliste inneholder noen oppgaver for disse meldingene allerede. Vil du lage nye oppgaver likevel?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
-msgstr ""
+msgstr "Valgt notatliste inneholder noen notater for disse meldingene allerede. Vil du lage nye notater likevel?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
