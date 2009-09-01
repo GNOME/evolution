@@ -45,6 +45,7 @@
 #include "e-util/e-util.h"
 
 #include "e-shell.h"
+#include "e-shell-migrate.h"
 #include "es-event.h"
 
 #include "e-util/e-util-private.h"
@@ -589,6 +590,10 @@ main (gint argc, gchar **argv)
 		 * registered in GType now, so load plugins now. */
 		e_plugin_load_plugins ();
 	}
+
+	/* Attempt migration -after- loading all modules and plugins,
+	 * as both shell backends and certain plugins hook into this. */
+	e_shell_migrate_attempt (default_shell);
 
 	gtk_main ();
 

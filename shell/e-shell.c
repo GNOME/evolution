@@ -30,7 +30,6 @@
 #include "widgets/misc/e-preferences-window.h"
 
 #include "e-shell-backend.h"
-#include "e-shell-migrate.h"
 #include "e-shell-window.h"
 
 #define E_SHELL_GET_PRIVATE(obj) \
@@ -598,8 +597,6 @@ shell_constructed (GObject *object)
 
 	shell_load_modules (E_SHELL (object));
 	shell_create_backends (E_SHELL (object));
-
-	e_shell_migrate_attempt (E_SHELL (object));
 }
 
 static gboolean
