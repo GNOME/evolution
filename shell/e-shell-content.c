@@ -102,6 +102,7 @@ action_search_execute_cb (GtkAction *action,
 	EShellWindow *shell_window;
 	GtkWidget *widget;
 	const gchar *search_text;
+	gboolean sensitive;
 
 	/* EShellView subclasses are responsible for actually
 	 * executing the search.  This is all cosmetic stuff. */
@@ -132,8 +133,18 @@ action_search_execute_cb (GtkAction *action,
 		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, NULL);
 	}
 
+	/* XXX The intent here is to distinguish between custom searches
+	 *     and stock searches (from the "Show" combo) and only enable
+	 *     the "search-clear" action for custom searches.  I'm not
+	 *     sure this logic is adequate though.  It needs to account
+	 *     for quick searches, advanced searches and saved searches.
+	 *     We'll probably wind up having to explicitly say whether
+	 *     the search is custom, but this is good enough for now. */
+	sensitive =
+		(search_text != NULL && *search_text != '\0') ||
+		(e_shell_content_get_search_rule (shell_content) != NULL);
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
 	gtk_action_set_sensitive (action, TRUE);
