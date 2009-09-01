@@ -788,7 +788,7 @@ static void
 render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		     GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
 {
-	gboolean is_store, bold;
+	gboolean is_store, bold, subdirs_unread = FALSE;
 	guint unread;
 	gchar *display;
 	gchar *name;
@@ -797,18 +797,29 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			    COL_BOOL_IS_STORE, &is_store,
 			    COL_UINT_UNREAD, &unread, -1);
 
-	if (!(bold = is_store || unread)) {
-		if (gtk_tree_model_iter_has_child (model, iter))
-			bold = subdirs_contain_unread (model, iter);
+	bold = is_store || unread;
+
+	if (gtk_tree_model_iter_has_child (model, iter)) {
+		gboolean expanded = TRUE;
+
+		g_object_get (renderer, "is-expanded", &expanded, NULL);
+
+		if (!bold || !expanded)
+			subdirs_unread = subdirs_contain_unread (model, iter);
 	}
+
+	bold = bold || subdirs_unread;
 
 	if (!is_store && unread) {
 		/* Translators: This is the string used for displaying the
-		 * folder names in folder trees. "%s" will be replaced by
-		 * the folder's name and "%u" will be replaced with the
-		 * number of unread messages in the folder.
+		 * folder names in folder trees. The first "%s" will be
+		 * replaced by the folder's name and "%u" will be replaced
+		 * with the number of unread messages in the folder. The
+		 * second %s will be replaced with a "+" letter for collapsed
+		 * folders with unread messages in some subfolder too,
+		 * or with an empty string for other cases.
 		 *
-		 * Most languages should translate this as "%s (%u)". The
+		 * Most languages should translate this as "%s (%u%s)". The
 		 * languages that use localized digits (like Persian) may
 		 * need to replace "%u" with "%Iu". Right-to-left languages
 		 * (like Arabic and Hebrew) may need to add bidirectional
@@ -818,7 +829,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		 * Do not translate the "folder-display|" part. Remove it
 		 * from your translation.
 		 */
-		display = g_strdup_printf (C_("folder-display", "%s (%u)"), name, unread);
+		display = g_strdup_printf (C_("folder-display", "%s (%u%s)"), name, unread, subdirs_unread ? "+" : "");
 		g_free (name);
 	} else
 		display = name;
