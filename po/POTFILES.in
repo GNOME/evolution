@@ -400,7 +400,6 @@ plugins/profiler/org-gnome-evolution-profiler.eplug.xml
 plugins/pst-import/org-gnome-pst-import.eplug.xml
 plugins/pst-import/pst-importer.c
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
-plugins/publish-calendar/org-gnome-publish-calendar.xml
 plugins/publish-calendar/publish-calendar.c
 plugins/publish-calendar/publish-calendar.glade
 plugins/publish-calendar/publish-format-fb.c

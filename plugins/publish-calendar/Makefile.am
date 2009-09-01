@@ -9,8 +9,7 @@ AM_CPPFLAGS =					\
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = 					\
-	org-gnome-publish-calendar.eplug	\
-	org-gnome-publish-calendar.xml	
+	org-gnome-publish-calendar.eplug
 
 glade_DATA =							\
 	publish-calendar.glade				
@@ -37,7 +36,6 @@ liborg_gnome_publish_calendar_la_LIBADD =			\
 
 EXTRA_DIST =					\
 	org-gnome-publish-calendar.eplug.xml	\
-	org-gnome-publish-calendar.xml		\
 	$(glade_DATA)
 
 CLEANFILES = org-gnome-publish-calendar.eplug

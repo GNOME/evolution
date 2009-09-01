@@ -28,12 +28,14 @@
 #include <gio/gio.h>
 #include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
-#include <calendar/gui/e-cal-popup.h>
 #include <calendar/gui/e-cal-config.h>
-#include <calendar/gui/e-cal-menu.h>
 #include <shell/es-event.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-dialog-utils.h>
+
+#include <shell/e-shell.h>
+#include <shell/e-shell-view.h>
+
 #include "url-editor-dialog.h"
 #include "publish-format-fb.h"
 #include "publish-format-ical.h"
@@ -50,9 +52,6 @@ static guint error_queue_show_idle_id = 0;
 static void  error_queue_add (gchar *descriptions, GError *error);
 
 gint          e_plugin_lib_enable (EPlugin *ep, gint enable);
-void         action_publish (EPlugin *ep, ECalMenuTargetSelect *t);
-void         online_state_changed (EPlugin *ep, ESEventTargetState *target);
-void         publish_calendar_context_activate (EPlugin *ep, ECalPopupTargetSource *target);
 GtkWidget   *publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void  update_timestamp (EPublishUri *uri);
 static void publish (EPublishUri *uri, gboolean can_report_success);
@@ -677,10 +676,10 @@ url_enable_clicked (GtkButton *button, PublishUIData *ui)
 	}
 }
 
-void
-online_state_changed (EPlugin *ep, ESEventTargetState *target)
+static void
+online_state_changed (EShell *shell)
 {
-	online = target->state;
+	online = e_shell_get_online (shell);
 	if (online)
 		while (queued_publishes)
 			publish (queued_publishes->data, FALSE);
@@ -777,17 +776,6 @@ publish_urls (gpointer data)
 	return GINT_TO_POINTER (0);
 }
 
-void
-action_publish (EPlugin *ep, ECalMenuTargetSelect *t)
-{
-	GThread *thread = NULL;
-	GError *error = NULL;
-
-	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
-	if (!thread)
-		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
-}
-
 static gpointer
 publish_uris_set_timeout (GSList *uris)
 {
@@ -825,6 +813,13 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	GSList *uris;
 	GConfClient *client;
+	EShell *shell = e_shell_get_default ();
+
+	if (shell) {
+		g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (online_state_changed), NULL);
+		if (enable)
+			g_signal_connect (shell, "notify::online", G_CALLBACK (online_state_changed), NULL);
+	}
 
 	if (enable) {
 		GThread *thread = NULL;
@@ -928,4 +923,45 @@ error_queue_add (gchar *description, GError *error)
 	if (error_queue_show_idle_id == 0)
 		error_queue_show_idle_id = g_idle_add (error_queue_show_idle, NULL);
 	g_static_mutex_unlock (&error_queue_lock);
+}
+
+static void
+action_calendar_publish_cb (GtkAction *action,
+                            EShellView *shell_view)
+{
+	GThread *thread = NULL;
+	GError *error = NULL;
+
+	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
+	if (!thread)
+		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
+}
+
+static GtkActionEntry entries[] = {
+
+	{ "calendar-publish",
+	  NULL,
+	  N_("_Publish Calendar Information"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_publish_cb) }
+};
+
+gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EShellView *shell_view);
+
+gboolean
+e_plugin_ui_init (GtkUIManager *ui_manager,
+                  EShellView *shell_view)
+{
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = e_shell_window_get_action_group (shell_window, "calendar");
+
+	gtk_action_group_add_actions (
+		action_group, entries,
+		G_N_ELEMENTS (entries), shell_view);
+
+	return TRUE;
 }

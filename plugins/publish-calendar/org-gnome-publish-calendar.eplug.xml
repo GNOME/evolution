@@ -8,16 +8,17 @@
         <_description>Publish calendars to the web.</_description>
 	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
 	<!-- calendar main menu -->
-	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">
-	    <menu id="org.gnome.evolution.calendar.view" target="select">
-	        <ui file="@PLUGINDIR@/org-gnome-publish-calendar.xml" />
-	        <item
-	         type="item"
-	         verb="EPublishCalendarPublish"
-	         path="/commands/EPublishCalendarPublish"
-	         activate="action_publish" />
-	    </menu>
-	</hook>
+        <hook class="org.gnome.evolution.ui:1.0">
+          <ui-manager id="org.gnome.evolution.calendars">
+            <menubar name='main-menu'>
+              <placeholder name='custom-menus'>
+                <menu action="calendar-actions-menu">
+                  <menuitem action="calendar-publish"/>
+                </menu>
+              </placeholder>
+            </menubar>
+          </ui-manager>
+        </hook>
 
 	<!-- config page -->
 	<hook class="org.gnome.evolution.calendar.config:1.0">
@@ -37,11 +38,6 @@
 		 path="30.publishing/00.urls/00.locations"
 		 factory="publish_calendar_locations"/>
 	    </group>
-	</hook>
-
-	<!-- shell hooks -->
-	<hook class="org.gnome.evolution.shell.events:1.0">
-	    <event id="state.changed" handle="online_state_changed" target="state" />
 	</hook>
     </e-plugin>
 </e-plugin-list>
