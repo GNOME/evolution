@@ -48,8 +48,6 @@ evolution_is_default_mailer (const gchar *mailto_command)
         if (mailto_command == NULL)
                 return FALSE;
 
-        g_debug ("mailto URL command: %s", mailto_command);
-
         /* tokenize the mailto command */
         if (!g_shell_parse_argv (mailto_command, &argc, &argv, NULL))
                 return FALSE;
@@ -58,7 +56,6 @@ evolution_is_default_mailer (const gchar *mailto_command)
 
         /* check the basename of the first token */
         basename = g_path_get_basename (argv[0]);
-        g_debug ("mailto URL program: %s", basename);
         is_default = g_str_has_prefix (basename, "evolution");
         g_free (basename);
 
