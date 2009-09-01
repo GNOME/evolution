@@ -319,7 +319,7 @@ action_contact_new_cb (GtkAction *action,
 			book, FALSE,
 			book_shell_backend_new_contact_cb, shell);
 
-	if (strcmp (action_name, "contact-list-new") == 0)
+	if (strcmp (action_name, "contact-new-list") == 0)
 		e_book_async_open (
 			book, FALSE,
 			book_shell_backend_new_contact_list_cb, shell);
