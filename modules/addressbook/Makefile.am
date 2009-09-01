@@ -14,7 +14,6 @@ AM_CPPFLAGS =							\
 	-I$(top_srcdir)/addressbook/gui/contact-editor		\
 	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
-	-I$(top_srcdir)/a11y/addressbook			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\

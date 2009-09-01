@@ -7,7 +7,6 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/a11y/calendar			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 libevolution_calendarprivate_la_SOURCES =	\
