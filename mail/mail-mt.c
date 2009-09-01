@@ -1033,6 +1033,7 @@ op_status_exec (struct _op_status_msg *m)
 		}
 	} else if (data->activity != NULL) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
+		e_activity_set_primary_text (data->activity, out);
 		e_activity_set_percent (data->activity, pc / 100.0);
 	} else {
 		MAIL_MT_UNLOCK (mail_msg_lock);
