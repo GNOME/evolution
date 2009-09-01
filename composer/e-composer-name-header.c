@@ -47,6 +47,36 @@ struct _EComposerNameHeaderPrivate {
 
 static gpointer parent_class;
 
+static gpointer
+contact_editor_fudge_new (EBook *book,
+                          EContact *contact,
+                          gboolean is_new,
+                          gboolean editable)
+{
+	EShell *shell = e_shell_get_default ();
+
+	/* XXX Putting this function signature in libedataserverui
+	 *     was a terrible idea.  Now we're stuck with it. */
+
+	return e_contact_editor_new (
+		shell, book, contact, is_new, editable);
+}
+
+static gpointer
+contact_list_editor_fudge_new (EBook *book,
+                               EContact *contact,
+                               gboolean is_new,
+                               gboolean editable)
+{
+	EShell *shell = e_shell_get_default ();
+
+	/* XXX Putting this function signature in libedataserverui
+	 *     was a terrible idea.  Now we're stuck with it. */
+
+	return e_contact_list_editor_new (
+		shell, book, contact, is_new, editable);
+}
+
 static void
 composer_name_header_entry_changed_cb (ENameSelectorEntry *entry,
                                        EComposerNameHeader *header)
@@ -108,9 +138,9 @@ composer_name_header_constructor (GType type,
 		priv->name_selector, label));
 
 	e_name_selector_entry_set_contact_editor_func (
-		entry, e_contact_editor_new);
+		entry, contact_editor_fudge_new);
 	e_name_selector_entry_set_contact_list_editor_func (
-		entry, e_contact_list_editor_new);
+		entry, contact_list_editor_fudge_new);
 
 	g_signal_connect (
 		entry, "changed",
