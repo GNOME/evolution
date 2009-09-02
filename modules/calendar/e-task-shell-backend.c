@@ -71,18 +71,16 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	ETaskShellBackendPrivate *priv;
 	ESourceGroup *on_this_computer;
-	ESourceGroup *on_the_web;
 	ESource *personal;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	GSList *groups, *iter;
 	const gchar *data_dir;
 	const gchar *name;
-	gchar *base_uri;
+	gchar *base_uri, base_uri_seventh;
 	gchar *filename;
+	gboolean save_list = FALSE;
 
 	on_this_computer = NULL;
-	on_the_web = NULL;
 	personal = NULL;
 
 	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
@@ -100,32 +98,25 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
 
-	groups = e_source_list_peek_groups (priv->source_list);
-	for (iter = groups; iter != NULL; iter = iter->next) {
-		ESourceGroup *source_group = iter->data;
-		const gchar *group_base_uri;
-
-		group_base_uri = e_source_group_peek_base_uri (source_group);
-
-		/* Compare only "file://" part.  If the user's home
-		 * changes, we do not want to create another group. */
-		if (on_this_computer == NULL &&
-			strncmp (base_uri, group_base_uri, 7) == 0)
-			on_this_computer = source_group;
-
-		else if (on_the_web == NULL &&
-			strcmp (WEB_BASE_URI, group_base_uri) == 0)
-			on_the_web = source_group;
+	if (strlen (base_uri) > 7) {
+		/* compare only file:// part. If user home dir name changes we do not want to create
+		   one more group  */
+		base_uri_seventh = base_uri[7];
+		base_uri[7] = 0;
+	} else {
+		base_uri_seventh = -1;
 	}
 
-	name = _("On This Computer");
+	on_this_computer = e_source_list_ensure_group (priv->source_list, _("On This Computer"), base_uri, TRUE);
+	e_source_list_ensure_group (priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+
+	if (base_uri_seventh != -1) {
+		base_uri[7] = base_uri_seventh;
+	}
 
 	if (on_this_computer != NULL) {
-		GSList *sources;
+		GSList *sources, *iter;
 		const gchar *group_base_uri;
-
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_this_computer, name);
 
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
@@ -157,15 +148,9 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 			 *     but that happens in an idle loop and too late
 			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (priv->source_list, NULL);
+			save_list = TRUE;
 		}
 
-	} else {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
 	}
 
 	name = _("Personal");
@@ -176,8 +161,10 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		gchar *primary;
 
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);
+		e_source_set_color_spec (source, "#BECEDD");
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
+		save_list = TRUE;
 
 		primary = e_shell_settings_get_string (
 			shell_settings, "cal-primary-task-list");
@@ -203,20 +190,11 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		e_source_set_name (personal, name);
 	}
 
-	name = _("On The Web");
-
-	if (on_the_web == NULL) {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, WEB_BASE_URI);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
-	} else {
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_the_web, name);
-	}
-
+	g_object_unref (on_this_computer);
 	g_free (base_uri);
+
+	if (save_list)
+		e_source_list_sync (priv->source_list, NULL);
 }
 
 static void

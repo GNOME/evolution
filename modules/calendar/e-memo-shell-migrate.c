@@ -59,7 +59,7 @@ create_memo_sources (EShellBackend *shell_backend,
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	base_dir = e_shell_backend_get_config_dir (shell_backend);
+	base_dir = e_shell_backend_get_data_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);

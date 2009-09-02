@@ -76,24 +76,17 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	ECalShellBackendPrivate *priv;
 	ESourceGroup *on_this_computer;
-	ESourceGroup *on_the_web;
 	ESourceGroup *contacts;
-	ESourceGroup *weather;
 	ESource *birthdays;
 	ESource *personal;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	GSList *groups, *iter;
-	const gchar *data_dir;
-	const gchar *name;
-	gchar *base_uri;
+	const gchar *data_dir, *name;
+	gchar *base_uri, base_uri_seventh;
 	gchar *filename;
 	gchar *property;
+	gboolean save_list = FALSE;
 
-	on_this_computer = NULL;
-	on_the_web = NULL;
-	contacts = NULL;
-	weather = NULL;
 	birthdays = NULL;
 	personal = NULL;
 
@@ -112,40 +105,27 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
 
-	groups = e_source_list_peek_groups (priv->source_list);
-	for (iter = groups; iter != NULL; iter = iter->next) {
-		ESourceGroup *source_group = iter->data;
-		const gchar *group_base_uri;
-
-		group_base_uri = e_source_group_peek_base_uri (source_group);
-
-		/* Compare only "file://" part.  if the user's home
-		 * changes, we do not want to create another group. */
-		if (on_this_computer == NULL &&
-			strncmp (base_uri, group_base_uri, 7) == 0)
-			on_this_computer = source_group;
-
-		else if (on_the_web == NULL &&
-			strcmp (WEB_BASE_URI, group_base_uri) == 0)
-			on_the_web = source_group;
-
-		else if (contacts == NULL &&
-			strcmp (CONTACTS_BASE_URI, group_base_uri) == 0)
-			contacts = source_group;
-
-		else if (weather == NULL &&
-			strcmp (WEATHER_BASE_URI, group_base_uri) == 0)
-			weather = source_group;
+	if (strlen (base_uri) > 7) {
+		/* compare only file:// part. If user home dir name changes we do not want to create
+		   one more group  */
+		base_uri_seventh = base_uri[7];
+		base_uri[7] = 0;
+	} else {
+		base_uri_seventh = -1;
 	}
 
-	name = _("On This Computer");
+	on_this_computer = e_source_list_ensure_group (priv->source_list, _("On This Computer"), base_uri, TRUE);
+	contacts = e_source_list_ensure_group (priv->source_list, _("Contacts"), CONTACTS_BASE_URI, TRUE);
+	e_source_list_ensure_group (priv->source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+	e_source_list_ensure_group (priv->source_list, _("Weather"), WEATHER_BASE_URI, FALSE);
+
+	if (base_uri_seventh != -1) {
+		base_uri[7] = base_uri_seventh;
+	}
 
 	if (on_this_computer != NULL) {
-		GSList *sources;
+		GSList *sources, *iter;
 		const gchar *group_base_uri;
-
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_this_computer, name);
 
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
@@ -177,15 +157,8 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 			 *     but that happens in an idle loop and too late
 			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (priv->source_list, NULL);
+			save_list = TRUE;
 		}
-
-	} else {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
 	}
 
 	name = _("Personal");
@@ -196,8 +169,10 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		gchar *primary;
 
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);
+		e_source_set_color_spec (source, "#BECEDD");
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
+		save_list = TRUE;
 
 		primary = e_shell_settings_get_string (
 			shell_settings, "cal-primary-calendar");
@@ -223,26 +198,8 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		e_source_set_name (personal, name);
 	}
 
-	name = _("On The Web");
-
-	if (on_the_web == NULL) {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, WEB_BASE_URI);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
-	} else {
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (on_the_web, name);
-	}
-
-	name = _("Contacts");
-
 	if (contacts != NULL) {
 		GSList *sources;
-
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (contacts, name);
 
 		sources = e_source_group_peek_sources (contacts);
 
@@ -261,18 +218,10 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 				ESource *source = trash->data;
 				e_source_group_remove_source (contacts, source);
 				trash = g_slist_delete_link (trash, trash);
+				save_list = TRUE;
 			}
 
 		}
-	} else {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, CONTACTS_BASE_URI);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
-
-		/* This is now a borrowed reference. */
-		contacts = source_group;
 	}
 
 	/* XXX e_source_group_get_property() returns a newly-allocated
@@ -287,12 +236,11 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	if (birthdays == NULL) {
 		ESource *source;
-		const gchar *name;
 
-		name = _("Birthdays & Anniversaries");
 		source = e_source_new (name, "/");
 		e_source_group_add_source (contacts, source, -1);
 		g_object_unref (source);
+		save_list = TRUE;
 
 		/* This is now a borrowed reference. */
 		birthdays = source;
@@ -307,20 +255,12 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	if (e_source_peek_color_spec (birthdays) == NULL)
 		e_source_set_color_spec (birthdays, "#DDBECE");
 
-	name = _("Weather");
-
-	if (weather == NULL) {
-		ESourceGroup *source_group;
-
-		source_group = e_source_group_new (name, WEATHER_BASE_URI);
-		e_source_list_add_group (priv->source_list, source_group, -1);
-		g_object_unref (source_group);
-	} else {
-		/* Force the group name to the current locale. */
-		e_source_group_set_name (weather, name);
-	}
-
+	g_object_unref (on_this_computer);
+	g_object_unref (contacts);
 	g_free (base_uri);
+
+	if (save_list)
+		e_source_list_sync (priv->source_list, NULL);
 }
 
 static void

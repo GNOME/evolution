@@ -513,7 +513,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	base_dir = e_shell_backend_get_config_dir (shell_backend);
+	base_dir = e_shell_backend_get_data_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
@@ -733,7 +733,7 @@ e_cal_shell_backend_migrate (EShellBackend *shell_backend,
 			gchar *old_path, *new_path;
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
-			new_path = g_build_filename (e_shell_backend_get_config_dir (shell_backend),
+			new_path = g_build_filename (e_shell_backend_get_data_dir (shell_backend),
 						     "local", "system", NULL);
 			migrate_pilot_data ("calendar", "calendar", old_path, new_path);
 			g_free (new_path);

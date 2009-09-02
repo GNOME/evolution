@@ -223,7 +223,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	if (!(curr_major > major ||
 		(curr_major == major && curr_minor > minor) ||
-		(curr_minor == minor && curr_micro > micro)))
+		(curr_major == major && curr_minor == minor && curr_micro > micro)))
 		goto check_old;
 
 	/* If upgrading from < 1.5, we need to copy most data from
@@ -257,7 +257,7 @@ e_shell_migrate_attempt (EShell *shell)
 		_exit (EXIT_SUCCESS);
 
 	/* Record a successful migration. */
-	string = g_strdup_printf ("%d.%d.%d", major, minor, micro);
+	string = g_strdup_printf ("%d.%d.%d", curr_major, curr_minor, curr_micro);
 	gconf_client_set_string (client, GCONF_VERSION_KEY, string, NULL);
 	g_free (string);
 
