@@ -1007,6 +1007,14 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	g_signal_connect (
 		ACTION (SEARCH_EXECUTE), "activate",
 		G_CALLBACK (action_search_execute_cb), book_shell_view);
+
+	e_binding_new (
+		G_OBJECT (ACTION (CONTACT_PREVIEW)), "active",
+		G_OBJECT (ACTION (CONTACT_VIEW_CLASSIC)), "sensitive");
+
+	e_binding_new (
+		G_OBJECT (ACTION (CONTACT_PREVIEW)), "active",
+		G_OBJECT (ACTION (CONTACT_VIEW_VERTICAL)), "sensitive");
 }
 
 void

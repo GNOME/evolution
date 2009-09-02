@@ -32,6 +32,7 @@
 #include <libedataserver/e-sexp.h>
 #include <libedataserverui/e-source-selector.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-sidebar.h"

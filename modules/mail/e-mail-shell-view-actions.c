@@ -1583,6 +1583,14 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
 		G_OBJECT (shell_content), "preview-visible");
 
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
+		G_OBJECT (ACTION (MAIL_VIEW_CLASSIC)), "sensitive");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
+		G_OBJECT (ACTION (MAIL_VIEW_VERTICAL)), "sensitive");
+
 	/* XXX The boolean sense of the GConf key is the inverse of
 	 *     the menu item, so we have to maintain two properties. */
 	e_mutual_binding_new_with_negation (
