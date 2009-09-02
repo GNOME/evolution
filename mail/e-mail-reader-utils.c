@@ -422,6 +422,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 			camel_medium_add_header (
 				CAMEL_MEDIUM (new_message),
 				header->name, header->value);
+
+		header = header->next;
 	}
 
 	camel_mime_part_set_encoding (
