@@ -83,6 +83,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-initial")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_MENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-menu")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
