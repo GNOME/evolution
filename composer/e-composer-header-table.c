@@ -543,12 +543,12 @@ composer_header_table_constructor (GType type,
 		"right-attach", 2, NULL);
 
 	e_binding_new (
-		G_OBJECT (priv->headers[ii]->input_widget), "visible",
-		G_OBJECT (priv->signature_label), "visible");
+		priv->headers[ii]->input_widget, "visible",
+		priv->signature_label, "visible");
 
 	e_binding_new (
-		G_OBJECT (priv->headers[ii]->input_widget), "visible",
-		G_OBJECT (priv->signature_combo_box), "visible");
+		priv->headers[ii]->input_widget, "visible",
+		priv->signature_combo_box, "visible");
 
 	/* Now add the signature stuff. */
 	if (!composer_lite) {
@@ -998,17 +998,13 @@ composer_header_table_init (EComposerHeaderTable *table)
 	/* XXX EComposerHeader ought to do this itself, but I need to
 	 *     make the title_widget and input_widget members private. */
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
-		GObject *src_object;
-		GObject *dst_object;
-
 		header = table->priv->headers[ii];
-		src_object = G_OBJECT (header);
-
-		dst_object = G_OBJECT (header->title_widget);
-		e_binding_new (src_object, "visible", dst_object, "visible");
-
-		dst_object = G_OBJECT (header->input_widget);
-		e_binding_new (src_object, "visible", dst_object, "visible");
+		e_binding_new (
+			header, "visible",
+			header->title_widget, "visible");
+		e_binding_new (
+			header, "visible",
+			header->input_widget, "visible");
 	}
 }
 

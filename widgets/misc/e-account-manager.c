@@ -285,8 +285,8 @@ account_manager_init (EAccountManager *manager)
 	gtk_widget_show (widget);
 
 	e_mutual_binding_new (
-		G_OBJECT (manager), "account-list",
-		G_OBJECT (widget), "account-list");
+		manager, "account-list",
+		widget, "account-list");
 
 	g_signal_connect_swapped (
 		widget, "key-press-event",

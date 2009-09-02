@@ -142,12 +142,12 @@ cal_model_tasks_constructed (GObject *object)
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-tasks-color-due-today",
-		G_OBJECT (model), "color-due-today");
+		shell_settings, "cal-tasks-color-due-today",
+		model, "color-due-today");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-tasks-color-overdue",
-		G_OBJECT (model), "color-overdue");
+		shell_settings, "cal-tasks-color-overdue",
+		model, "color-overdue");
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_cal_model_tasks_parent_class)->constructed (object);

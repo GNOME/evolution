@@ -525,8 +525,8 @@ get_config_widget_status (void)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (master), "active",
-		G_OBJECT (widget), "sensitive");
+		master, "active",
+		widget, "sensitive");
 
 	container = widget;
 
@@ -743,8 +743,8 @@ get_config_widget_sound (void)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (master), "active",
-		G_OBJECT (widget), "sensitive");
+		master, "active",
+		widget, "sensitive");
 
 	container = widget;
 

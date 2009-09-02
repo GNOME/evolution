@@ -310,16 +310,16 @@ cal_model_constructed (GObject *object)
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-timezone",
-		G_OBJECT (model), "timezone");
+		shell_settings, "cal-timezone",
+		model, "timezone");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (model), "use-24-hour-format");
+		shell_settings, "cal-use-24-hour-format",
+		model, "use-24-hour-format");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (model), "week-start-day");
+		shell_settings, "cal-week-start-day",
+		model, "week-start-day");
 }
 
 static void

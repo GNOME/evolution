@@ -539,8 +539,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	/* Keep the toolbar view buttons in sync with the calendar. */
 	e_mutual_binding_new (
-		G_OBJECT (calendar), "view",
-		G_OBJECT (ACTION (CALENDAR_VIEW_DAY)), "current-value");
+		calendar, "view",
+		ACTION (CALENDAR_VIEW_DAY), "current-value");
 }
 
 void

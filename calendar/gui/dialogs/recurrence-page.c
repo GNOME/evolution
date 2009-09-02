@@ -2269,12 +2269,12 @@ init_widgets (RecurrencePage *rpage)
 	ecal = E_CALENDAR (priv->preview_calendar);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-show-week-numbers",
-		G_OBJECT (ecal->calitem), "show-week-numbers");
+		shell_settings, "cal-show-week-numbers",
+		ecal->calitem, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (ecal->calitem), "week-start-day");
+		shell_settings, "cal-week-start-day",
+		ecal->calitem, "week-start-day");
 
 	g_signal_connect((ecal->calitem), "date_range_changed",
 			    G_CALLBACK (preview_date_range_changed_cb),

@@ -199,8 +199,8 @@ book_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (object), "orientation",
-		G_OBJECT (widget), "orientation");
+		object, "orientation",
+		widget, "orientation");
 
 	container = widget;
 
@@ -221,8 +221,8 @@ book_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (object), "preview-visible",
-		G_OBJECT (widget), "visible");
+		object, "preview-visible",
+		widget, "visible");
 
 	container = widget;
 

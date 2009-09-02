@@ -458,8 +458,8 @@ mail_shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-side-bar-search",
-		G_OBJECT (widget), "enable-search");
+		shell_settings, "mail-side-bar-search",
+		widget, "enable-search");
 
 	tree_view = GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);

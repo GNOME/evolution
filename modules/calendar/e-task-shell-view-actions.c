@@ -1135,12 +1135,12 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		G_CALLBACK (action_search_execute_cb), task_shell_view);
 
 	e_binding_new (
-		G_OBJECT (ACTION (TASK_PREVIEW)), "active",
-		G_OBJECT (ACTION (TASK_VIEW_CLASSIC)), "sensitive");
+		ACTION (TASK_PREVIEW), "active",
+		ACTION (TASK_VIEW_CLASSIC), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (TASK_PREVIEW)), "active",
-		G_OBJECT (ACTION (TASK_VIEW_VERTICAL)), "sensitive");
+		ACTION (TASK_PREVIEW), "active",
+		ACTION (TASK_VIEW_VERTICAL), "sensitive");
 }
 
 void

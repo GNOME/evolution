@@ -311,12 +311,12 @@ week_view_constructed (GObject *object)
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-compress-weekend",
-		G_OBJECT (week_view), "compress-weekend");
+		shell_settings, "cal-compress-weekend",
+		week_view, "compress-weekend");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-show-event-end-times",
-		G_OBJECT (week_view), "show-event-end-times");
+		shell_settings, "cal-show-event-end-times",
+		week_view, "show-event-end-times");
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",

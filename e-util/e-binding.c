@@ -25,6 +25,17 @@
 
 #include "e-binding.h"
 
+static gpointer
+e_binding_warn (GObject *object,
+                const gchar *property_name)
+{
+	g_warning (
+		"%s instances have no `%s' property to bind to",
+		G_OBJECT_TYPE_NAME (object), property_name);
+
+	return NULL;
+}
+
 static gboolean
 e_binding_transform_negate (const GValue *src_value,
                             GValue *dst_value)
@@ -211,9 +222,9 @@ e_binding_link_init (EBindingLink *link,
  *          removed if one of the objects is finalized.
  **/
 EBinding *
-e_binding_new (GObject *src_object,
+e_binding_new (gpointer src_object,
                const gchar *src_property,
-               GObject *dst_object,
+               gpointer dst_object,
                const gchar *dst_property)
 {
 	return e_binding_new_full (
@@ -243,9 +254,9 @@ e_binding_new (GObject *src_object,
  *          removed if one of the objects is finalized.
  **/
 EBinding *
-e_binding_new_full (GObject *src_object,
+e_binding_new_full (gpointer src_object,
                     const gchar *src_property,
-                    GObject *dst_object,
+                    gpointer dst_object,
                     const gchar *dst_property,
                     EBindingTransform transform,
                     GDestroyNotify destroy_notify,
@@ -262,6 +273,11 @@ e_binding_new_full (GObject *src_object,
 		G_OBJECT_GET_CLASS (src_object), src_property);
 	dst_pspec = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (dst_object), dst_property);
+
+	if (src_pspec == NULL)
+		return e_binding_warn (src_object, src_property);
+	if (dst_pspec == NULL)
+		return e_binding_warn (dst_object, dst_property);
 
 	if (transform == NULL)
 		transform = (EBindingTransform) g_value_transform;
@@ -298,9 +314,9 @@ e_binding_new_full (GObject *src_object,
  *         removed if one of the objects is finalized.
  **/
 EBinding *
-e_binding_new_with_negation (GObject *src_object,
+e_binding_new_with_negation (gpointer src_object,
                              const gchar *src_property,
-                             GObject *dst_object,
+                             gpointer dst_object,
                              const gchar *dst_property)
 {
 	EBindingTransform transform;
@@ -346,9 +362,9 @@ e_binding_unbind (EBinding *binding)
  *          removed if one of the objects is finalized.
  **/
 EMutualBinding *
-e_mutual_binding_new (GObject *object1,
+e_mutual_binding_new (gpointer object1,
                       const gchar *property1,
-                      GObject *object2,
+                      gpointer object2,
                       const gchar *property2)
 {
 	return e_mutual_binding_new_full (
@@ -382,9 +398,9 @@ e_mutual_binding_new (GObject *object1,
  *          removed if one of the objects is finalized.
  **/
 EMutualBinding *
-e_mutual_binding_new_full (GObject *object1,
+e_mutual_binding_new_full (gpointer object1,
                            const gchar *property1,
-                           GObject *object2,
+                           gpointer object2,
                            const gchar *property2,
                            EBindingTransform transform,
                            EBindingTransform reverse_transform,
@@ -402,6 +418,11 @@ e_mutual_binding_new_full (GObject *object1,
 		G_OBJECT_GET_CLASS (object1), property1);
 	pspec2 = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (object2), property2);
+
+	if (pspec1 == NULL)
+		return e_binding_warn (object1, property1);
+	if (pspec2 == NULL)
+		return e_binding_warn (object2, property2);
 
 	if (transform == NULL)
 		transform = (EBindingTransform) g_value_transform;
@@ -448,9 +469,9 @@ e_mutual_binding_new_full (GObject *object1,
  *          if one of the objects if finalized.
  **/
 EMutualBinding*
-e_mutual_binding_new_with_negation (GObject *object1,
+e_mutual_binding_new_with_negation (gpointer object1,
                                     const gchar *property1,
-                                    GObject *object2,
+                                    gpointer object2,
                                     const gchar *property2)
 {
 	EBindingTransform transform;

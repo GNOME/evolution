@@ -497,8 +497,8 @@ attachment_button_init (EAttachmentButton *button)
 	gtk_widget_show (widget);
 
 	e_mutual_binding_new (
-		G_OBJECT (button), "expandable",
-		G_OBJECT (widget), "sensitive");
+		button, "expandable",
+		widget, "sensitive");
 
 	widget = gtk_toggle_button_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -527,8 +527,8 @@ attachment_button_init (EAttachmentButton *button)
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
 	e_mutual_binding_new (
-		G_OBJECT (button), "expanded",
-		G_OBJECT (renderer), "is-expanded");
+		button, "expanded",
+		renderer, "is-expanded");
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_BUTTON, NULL);
@@ -661,13 +661,13 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 		gulong handler_id;
 
 		binding = e_mutual_binding_new (
-			G_OBJECT (attachment), "can-show",
-			G_OBJECT (button), "expandable");
+			attachment, "can-show",
+			button, "expandable");
 		button->priv->can_show_binding = binding;
 
 		binding = e_mutual_binding_new (
-			G_OBJECT (attachment), "shown",
-			G_OBJECT (button), "expanded");
+			attachment, "shown",
+			button, "expanded");
 		button->priv->shown_binding = binding;
 
 		handler_id = g_signal_connect_swapped (

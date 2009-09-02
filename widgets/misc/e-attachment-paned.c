@@ -295,32 +295,32 @@ attachment_paned_constructed (GObject *object)
 	/* Set up property-to-property bindings. */
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "active-view",
-		G_OBJECT (priv->combo_box), "active");
+		object, "active-view",
+		priv->combo_box, "active");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "active-view",
-		G_OBJECT (priv->notebook), "page");
+		object, "active-view",
+		priv->notebook, "page");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "editable",
-		G_OBJECT (priv->icon_view), "editable");
+		object, "editable",
+		priv->icon_view, "editable");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "editable",
-		G_OBJECT (priv->tree_view), "editable");
+		object, "editable",
+		priv->tree_view, "editable");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "expanded",
-		G_OBJECT (priv->expander), "expanded");
+		object, "expanded",
+		priv->expander, "expanded");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "expanded",
-		G_OBJECT (priv->combo_box), "sensitive");
+		object, "expanded",
+		priv->combo_box, "sensitive");
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "expanded",
-		G_OBJECT (priv->notebook), "visible");
+		object, "expanded",
+		priv->notebook, "visible");
 
 	/* Set up property-to-GConf bindings. */
 

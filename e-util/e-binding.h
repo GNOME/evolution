@@ -66,39 +66,39 @@ struct _EMutualBinding {
 	EBindingLink  reverse;
 };
 
-EBinding *	e_binding_new			(GObject *src_object,
+EBinding *	e_binding_new			(gpointer src_object,
 						 const gchar *src_property,
-						 GObject *dst_object,
+						 gpointer dst_object,
 						 const gchar *dst_property);
-EBinding *	e_binding_new_full		(GObject *src_object,
+EBinding *	e_binding_new_full		(gpointer src_object,
 						 const gchar *src_property,
-						 GObject *dst_object,
+						 gpointer dst_object,
 						 const gchar *dst_property,
 						 EBindingTransform transform,
 						 GDestroyNotify destroy_notify,
 						 gpointer user_data);
-EBinding *	e_binding_new_with_negation	(GObject *src_object,
+EBinding *	e_binding_new_with_negation	(gpointer src_object,
 						 const gchar *src_property,
-						 GObject *dst_object,
+						 gpointer dst_object,
 						 const gchar *dst_property);
 void		e_binding_unbind		(EBinding *binding);
 
-EMutualBinding *e_mutual_binding_new		(GObject *object1,
+EMutualBinding *e_mutual_binding_new		(gpointer object1,
 						 const gchar *property1,
-						 GObject *object2,
+						 gpointer object2,
 						 const gchar *property2);
-EMutualBinding *e_mutual_binding_new_full	(GObject *object1,
+EMutualBinding *e_mutual_binding_new_full	(gpointer object1,
 						 const gchar *property1,
-						 GObject *object2,
+						 gpointer object2,
 						 const gchar *property2,
 						 EBindingTransform transform,
 						 EBindingTransform reverse_transform,
 						 GDestroyNotify destroy_notify,
 						 gpointer user_data);
 EMutualBinding *e_mutual_binding_new_with_negation
-						(GObject *object1,
+						(gpointer object1,
 						 const gchar *property1,
-						 GObject *object2,
+						 gpointer object2,
 						 const gchar *property2);
 void		e_mutual_binding_unbind		(EMutualBinding *binding);
 

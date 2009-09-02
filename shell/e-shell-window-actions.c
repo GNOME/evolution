@@ -1875,28 +1875,28 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SHOW_SWITCHER)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SHOW_SWITCHER), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SWITCHER_STYLE_BOTH)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SWITCHER_STYLE_BOTH), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SWITCHER_STYLE_ICONS)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SWITCHER_STYLE_ICONS), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SWITCHER_STYLE_TEXT)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SWITCHER_STYLE_TEXT), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SWITCHER_STYLE_USER)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SWITCHER_STYLE_USER), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (SHOW_SIDEBAR)), "active",
-		G_OBJECT (ACTION (SWITCHER_MENU)), "sensitive");
+		ACTION (SHOW_SIDEBAR), "active",
+		ACTION (SWITCHER_MENU), "sensitive");
 }
 
 GtkWidget *

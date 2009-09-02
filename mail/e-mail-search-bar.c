@@ -356,8 +356,8 @@ mail_search_bar_constructed (GObject *object)
 	priv = E_MAIL_SEARCH_BAR_GET_PRIVATE (object);
 
 	e_mutual_binding_new (
-		G_OBJECT (object), "case-sensitive",
-		G_OBJECT (priv->case_sensitive_button), "active");
+		object, "case-sensitive",
+		priv->case_sensitive_button, "active");
 }
 
 static void

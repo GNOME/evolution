@@ -164,8 +164,8 @@ autocompletion_config_new (EShell *shell)
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Always _show address of the autocompleted contact"));
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "book-completion-show-address",
-		G_OBJECT (widget), "active");
+		shell_settings, "book-completion-show-address",
+		widget, "active");
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

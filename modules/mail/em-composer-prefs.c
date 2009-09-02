@@ -405,56 +405,56 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* Default Behavior */
 	widget = glade_xml_get_widget (gui, "chkSendHTML");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-format-html",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-format-html",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkPromptEmptySubject");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-prompt-empty-subject",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-prompt-empty-subject",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkPromptBccOnly");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-prompt-only-bcc",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-prompt-only-bcc",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkAutoSmileys");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-magic-smileys",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-magic-smileys",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkRequestReceipt");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-request-receipt",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-request-receipt",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkReplyStartBottom");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-reply-start-bottom",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-reply-start-bottom",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkOutlookFilenames");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-outlook-filenames",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-outlook-filenames",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkTopSignature");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-top-signature",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-top-signature",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkEnableSpellChecking");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-inline-spelling",
-		G_OBJECT (widget), "active");
+		shell_settings, "composer-inline-spelling",
+		widget, "active");
 
 	widget = e_charset_combo_box_new ();
 	container = glade_xml_get_widget (gui, "hboxComposerCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "composer-charset",
-		G_OBJECT (widget), "charset");
+		shell_settings, "composer-charset",
+		widget, "charset");
 
 	/* Spell Checking */
 	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");
@@ -487,8 +487,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "composer-spell-color",
-		G_OBJECT (widget), "color",
+		shell_settings, "composer-spell-color",
+		widget, "color",
 		transform_string_to_color,
 		transform_color_to_string,
 		NULL, NULL);
@@ -498,13 +498,13 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* Forwards and Replies */
 	widget = glade_xml_get_widget (gui, "comboboxForwardStyle");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-forward-style",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-forward-style",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "comboboxReplyStyle");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "mail-reply-style",
-		G_OBJECT (widget), "active",
+		shell_settings, "mail-reply-style",
+		widget, "active",
 		transform_old_to_new_reply_style,
 		transform_new_to_old_reply_style,
 		NULL, NULL);
@@ -523,12 +523,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_CALLBACK (e_shell_watch_window), shell);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "composer-format-html",
-		G_OBJECT (widget), "prefer-html");
+		shell_settings, "composer-format-html",
+		widget, "prefer-html");
 
 	e_binding_new_with_negation (
-		G_OBJECT (shell_settings), "disable-command-line",
-		G_OBJECT (widget), "allow-scripts");
+		shell_settings, "disable-command-line",
+		widget, "allow-scripts");
 
 	signature_tree_view = e_signature_manager_get_tree_view (
 		E_SIGNATURE_MANAGER (widget));
@@ -539,12 +539,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_widget_show (widget);
 
 	e_binding_new_with_negation (
-		G_OBJECT (shell_settings), "disable-command-line",
-		G_OBJECT (widget), "allow-scripts");
+		shell_settings, "disable-command-line",
+		widget, "allow-scripts");
 
 	e_binding_new (
-		G_OBJECT (signature_tree_view), "selected",
-		G_OBJECT (widget), "signature");
+		signature_tree_view, "selected",
+		widget, "signature");
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, client);

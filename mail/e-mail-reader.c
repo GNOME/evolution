@@ -2061,33 +2061,33 @@ e_mail_reader_init (EMailReader *reader)
 	/* Bind properties. */
 
 	e_binding_new_full (
-		G_OBJECT (shell_settings), "mail-citation-color",
-		G_OBJECT (html_display), "citation-color",
+		shell_settings, "mail-citation-color",
+		html_display, "citation-color",
 		e_binding_transform_string_to_color,
 		NULL, NULL);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-image-loading-policy",
-		G_OBJECT (html_display), "image-loading-policy");
+		shell_settings, "mail-image-loading-policy",
+		html_display, "image-loading-policy");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-only-local-photos",
-		G_OBJECT (html_display), "only-local-photos");
+		shell_settings, "mail-only-local-photos",
+		html_display, "only-local-photos");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-show-animated-images",
-		G_OBJECT (display), "animate");
+		shell_settings, "mail-show-animated-images",
+		display, "animate");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-show-sender-photo",
-		G_OBJECT (html_display), "show-sender-photo");
+		shell_settings, "mail-show-sender-photo",
+		html_display, "show-sender-photo");
 
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
 
 	e_mutual_binding_new (
-		G_OBJECT (action), "active",
-		G_OBJECT (display), "caret-mode");
+		action, "active",
+		display, "caret-mode");
 
 	/* Connect signals. */
 

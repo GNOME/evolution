@@ -429,16 +429,16 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-show-week-numbers",
-		G_OBJECT (priv->sel), "show-week-numbers");
+		shell_settings, "cal-show-week-numbers",
+		priv->sel, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (priv->sel), "use-24-hour-format");
+		shell_settings, "cal-use-24-hour-format",
+		priv->sel, "use-24-hour-format");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (priv->sel), "week-start-day");
+		shell_settings, "cal-week-start-day",
+		priv->sel, "week-start-day");
 
 	if (!init_widgets (spage)) {
 		g_message ("schedule_page_construct(): "

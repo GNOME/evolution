@@ -742,16 +742,16 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit), TRUE);
 
 	e_binding_new (
-		G_OBJECT (mts), "show-week-numbers",
-		G_OBJECT (mts->start_date_edit), "show-week-numbers");
+		mts, "show-week-numbers",
+		mts->start_date_edit, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (mts), "use-24-hour-format",
-		G_OBJECT (mts->start_date_edit), "use-24-hour-format");
+		mts, "use-24-hour-format",
+		mts->start_date_edit, "use-24-hour-format");
 
 	e_binding_new (
-		G_OBJECT (mts), "week-start-day",
-		G_OBJECT (mts->start_date_edit), "week-start-day");
+		mts, "week-start-day",
+		mts->start_date_edit, "week-start-day");
 
 	gtk_table_attach (GTK_TABLE (table), mts->start_date_edit,
 			  1, 2, 0, 1, GTK_FILL, 0, 0, 0);
@@ -779,16 +779,16 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->end_date_edit), TRUE);
 
 	e_binding_new (
-		G_OBJECT (mts), "show-week-numbers",
-		G_OBJECT (mts->end_date_edit), "show-week-numbers");
+		mts, "show-week-numbers",
+		mts->end_date_edit, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (mts), "use-24-hour-format",
-		G_OBJECT (mts->end_date_edit), "use-24-hour-format");
+		mts, "use-24-hour-format",
+		mts->end_date_edit, "use-24-hour-format");
 
 	e_binding_new (
-		G_OBJECT (mts), "week-start-day",
-		G_OBJECT (mts->end_date_edit), "week-start-day");
+		mts, "week-start-day",
+		mts->end_date_edit, "week-start-day");
 
 	gtk_table_attach (GTK_TABLE (table), mts->end_date_edit,
 			  1, 2, 1, 2, GTK_FILL, 0, 0, 0);

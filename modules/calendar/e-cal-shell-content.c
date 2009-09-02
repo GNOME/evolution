@@ -386,8 +386,8 @@ cal_shell_content_constructed (GObject *object)
 	}
 
 	e_binding_new (
-		G_OBJECT (priv->calendar), "view",
-		G_OBJECT (priv->notebook), "page");
+		priv->calendar, "view",
+		priv->notebook, "page");
 
 	container = priv->vpaned;
 

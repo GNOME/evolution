@@ -333,8 +333,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Listen for configuration changes. */
 
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-confirm-purge",
-		G_OBJECT (task_shell_view), "confirm-purge");
+		shell_settings, "cal-confirm-purge",
+		task_shell_view, "confirm-purge");
 
 	/* Hide Completed Tasks (enable/units/value) */
 	g_signal_connect_swapped (

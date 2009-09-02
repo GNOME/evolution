@@ -1507,8 +1507,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	GtkRadioAction *radio_action;
 	GConfBridge *bridge;
 	GObject *object;
-	GObject *src_object;
-	GObject *dst_object;
 	const gchar *key;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
@@ -1565,37 +1563,39 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	/* Fine tuning. */
 
-	src_object = G_OBJECT (ACTION (MAIL_THREADS_GROUP_BY));
+	e_binding_new (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_FOLDER_SELECT_THREAD), "sensitive");
 
-	dst_object = G_OBJECT (ACTION (MAIL_FOLDER_SELECT_THREAD));
-	e_binding_new (src_object, "active", dst_object, "sensitive");
+	e_binding_new (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_FOLDER_SELECT_SUBTHREAD), "sensitive");
 
-	dst_object = G_OBJECT (ACTION (MAIL_FOLDER_SELECT_SUBTHREAD));
-	e_binding_new (src_object, "active", dst_object, "sensitive");
+	e_binding_new (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_COLLAPSE_ALL), "sensitive");
 
-	dst_object = G_OBJECT (ACTION (MAIL_THREADS_COLLAPSE_ALL));
-	e_binding_new (src_object, "active", dst_object, "sensitive");
-
-	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
-	e_binding_new (src_object, "active", dst_object, "sensitive");
+	e_binding_new (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_EXPAND_ALL), "sensitive");
 
 	e_mutual_binding_new (
-		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
-		G_OBJECT (shell_content), "preview-visible");
+		ACTION (MAIL_PREVIEW), "active",
+		shell_content, "preview-visible");
 
 	e_binding_new (
-		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
-		G_OBJECT (ACTION (MAIL_VIEW_CLASSIC)), "sensitive");
+		ACTION (MAIL_PREVIEW), "active",
+		ACTION (MAIL_VIEW_CLASSIC), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (MAIL_PREVIEW)), "active",
-		G_OBJECT (ACTION (MAIL_VIEW_VERTICAL)), "sensitive");
+		ACTION (MAIL_PREVIEW), "active",
+		ACTION (MAIL_VIEW_VERTICAL), "sensitive");
 
 	/* XXX The boolean sense of the GConf key is the inverse of
 	 *     the menu item, so we have to maintain two properties. */
 	e_mutual_binding_new_with_negation (
-		G_OBJECT (shell_content), "show-deleted",
-		G_OBJECT (ACTION (MAIL_HIDE_DELETED)), "active");
+		shell_content, "show-deleted",
+		ACTION (MAIL_HIDE_DELETED), "active");
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

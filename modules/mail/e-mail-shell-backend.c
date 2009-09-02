@@ -728,16 +728,16 @@ mail_shell_backend_window_created_cb (EShell *shell,
 		GList *spell_languages;
 
 		e_binding_new (
-			G_OBJECT (shell_settings), "composer-inline-spelling",
-			G_OBJECT (window), "inline-spelling");
+			shell_settings, "composer-inline-spelling",
+			window, "inline-spelling");
 
 		e_binding_new (
-			G_OBJECT (shell_settings), "composer-magic-links",
-			G_OBJECT (window), "magic-links");
+			shell_settings, "composer-magic-links",
+			window, "magic-links");
 
 		e_binding_new (
-			G_OBJECT (shell_settings), "composer-magic-smileys",
-			G_OBJECT (window), "magic-smileys");
+			shell_settings, "composer-magic-smileys",
+			window, "magic-smileys");
 
 		spell_languages = e_load_spell_languages ();
 		gtkhtml_editor_set_spell_languages (

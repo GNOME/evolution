@@ -935,12 +935,12 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		G_CALLBACK (action_search_execute_cb), memo_shell_view);
 
 	e_binding_new (
-		G_OBJECT (ACTION (MEMO_PREVIEW)), "active",
-		G_OBJECT (ACTION (MEMO_VIEW_CLASSIC)), "sensitive");
+		ACTION (MEMO_PREVIEW), "active",
+		ACTION (MEMO_VIEW_CLASSIC), "sensitive");
 
 	e_binding_new (
-		G_OBJECT (ACTION (MEMO_PREVIEW)), "active",
-		G_OBJECT (ACTION (MEMO_VIEW_VERTICAL)), "sensitive");
+		ACTION (MEMO_PREVIEW), "active",
+		ACTION (MEMO_VIEW_VERTICAL), "sensitive");
 }
 
 void

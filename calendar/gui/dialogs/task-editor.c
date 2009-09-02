@@ -212,16 +212,16 @@ task_editor_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_binding_new (
-		G_OBJECT (object), "client",
-		G_OBJECT (priv->model), "client");
+		object, "client",
+		priv->model, "client");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-free-busy-template",
-		G_OBJECT (priv->model), "free-busy-template");
+		shell_settings, "cal-free-busy-template",
+		priv->model, "free-busy-template");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-timezone",
-		G_OBJECT (priv->model), "timezone");
+		shell_settings, "cal-timezone",
+		priv->model, "timezone");
 }
 
 static void

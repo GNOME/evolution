@@ -267,12 +267,12 @@ e_composer_private_init (EMsgComposer *composer)
 		}
 
 		e_mutual_binding_new (
-			G_OBJECT (header), "sensitive",
-			G_OBJECT (action), "sensitive");
+			header, "sensitive",
+			action, "sensitive");
 
 		e_mutual_binding_new (
-			G_OBJECT (header), "visible",
-			G_OBJECT (action), "active");
+			header, "visible",
+			action, "active");
 	}
 }
 

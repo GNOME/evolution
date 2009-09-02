@@ -607,44 +607,44 @@ day_view_constructed (GObject *object)
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-day-view-show-week-numbers",
-		G_OBJECT (day_view->week_number_label), "visible");
+		shell_settings, "cal-day-view-show-week-numbers",
+		day_view->week_number_label, "visible");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-marcus-bains-show-line",
-		G_OBJECT (day_view), "marcus-bains-show-line");
+		shell_settings, "cal-marcus-bains-show-line",
+		day_view, "marcus-bains-show-line");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-marcus-bains-day-view-color",
-		G_OBJECT (day_view), "marcus-bains-day-view-color");
+		shell_settings, "cal-marcus-bains-day-view-color",
+		day_view, "marcus-bains-day-view-color");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-marcus-bains-time-bar-color",
-		G_OBJECT (day_view), "marcus-bains-time-bar-color");
+		shell_settings, "cal-marcus-bains-time-bar-color",
+		day_view, "marcus-bains-time-bar-color");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-time-divisions",
-		G_OBJECT (day_view), "mins-per-row");
+		shell_settings, "cal-time-divisions",
+		day_view, "mins-per-row");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-work-day-end-hour",
-		G_OBJECT (day_view), "work-day-end-hour");
+		shell_settings, "cal-work-day-end-hour",
+		day_view, "work-day-end-hour");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-work-day-end-minute",
-		G_OBJECT (day_view), "work-day-end-minute");
+		shell_settings, "cal-work-day-end-minute",
+		day_view, "work-day-end-minute");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-work-day-start-hour",
-		G_OBJECT (day_view), "work-day-start-hour");
+		shell_settings, "cal-work-day-start-hour",
+		day_view, "work-day-start-hour");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-work-day-start-minute",
-		G_OBJECT (day_view), "work-day-start-minute");
+		shell_settings, "cal-work-day-start-minute",
+		day_view, "work-day-start-minute");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (day_view), "working-days");
+		shell_settings, "cal-working-days-bitset",
+		day_view, "working-days");
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",

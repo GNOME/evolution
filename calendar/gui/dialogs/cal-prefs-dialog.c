@@ -615,19 +615,19 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	widget = glade_xml_get_widget (gui, "use-system-tz-check");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-use-system-timezone",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-use-system-timezone",
+		widget, "active");
 	g_signal_connect (
-		G_OBJECT (shell_settings), "notify::cal-use-system-timezone",
+		shell_settings, "notify::cal-use-system-timezone",
 		G_CALLBACK (update_system_tz_widgets), prefs);
 
 	widget = glade_xml_get_widget (gui, "timezone");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-timezone",
-		G_OBJECT (widget), "timezone");
+		shell_settings, "cal-timezone",
+		widget, "timezone");
 	e_mutual_binding_new_with_negation (
-		G_OBJECT (shell_settings), "cal-use-system-timezone",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "cal-use-system-timezone",
+		widget, "sensitive");
 
 	/* General tab */
 	prefs->system_tz_label = glade_xml_get_widget (gui, "system-tz-label");
@@ -635,74 +635,74 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	widget = glade_xml_get_widget (gui, "sun_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-sunday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-sunday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "mon_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-monday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-monday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "tue_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-tuesday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-tuesday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "wed_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-wednesday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-wednesday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "thu_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-thursday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-thursday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "fri_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-friday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-friday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "sat_button");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-working-days-saturday",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-working-days-saturday",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "week_start_day");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-week-start-day",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "start_of_day");
 	prefs->start_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
 		e_binding_new (
-			G_OBJECT (shell_settings), "cal-use-24-hour-format",
-			G_OBJECT (widget), "use-24-hour-format");
+			shell_settings, "cal-use-24-hour-format",
+			widget, "use-24-hour-format");
 
 	widget = glade_xml_get_widget (gui, "end_of_day");
 	prefs->end_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
 		e_binding_new (
-			G_OBJECT (shell_settings), "cal-use-24-hour-format",
-			G_OBJECT (widget), "use-24-hour-format");
+			shell_settings, "cal-use-24-hour-format",
+			widget, "use-24-hour-format");
 
 	widget = glade_xml_get_widget (gui, "use_12_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
 	e_mutual_binding_new_with_negation (
-		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-use-24-hour-format",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "use_24_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-use-24-hour-format",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-use-24-hour-format",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "confirm_delete");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-confirm-delete",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-confirm-delete",
+		widget, "active");
 
 	prefs->default_reminder = glade_xml_get_widget (gui, "default_reminder");
 	prefs->default_reminder_interval = glade_xml_get_widget (gui, "default_reminder_interval");
@@ -716,38 +716,38 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	widget = glade_xml_get_widget (gui, "show_end_times");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-show-event-end-times",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-show-event-end-times",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "compress_weekend");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-compress-weekend",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-compress-weekend",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "dnav_show_week_no");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-show-week-numbers",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-show-week-numbers",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "dview_show_week_no");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-day-view-show-week-numbers",
-		G_OBJECT (widget), "active");
+		shell_settings, "cal-day-view-show-week-numbers",
+		widget, "active");
 
 	prefs->month_scroll_by_week = glade_xml_get_widget (gui, "month_scroll_by_week");
 
 	widget = glade_xml_get_widget (gui, "tasks_due_today_color");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-tasks-color-due-today",
-		G_OBJECT (widget), "color",
+		shell_settings, "cal-tasks-color-due-today",
+		widget, "color",
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		(GDestroyNotify) NULL, NULL);
 
 	widget = glade_xml_get_widget (gui, "tasks_overdue_color");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-tasks-color-overdue",
-		G_OBJECT (widget), "color",
+		shell_settings, "cal-tasks-color-overdue",
+		widget, "color",
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		(GDestroyNotify) NULL, NULL);
@@ -763,8 +763,8 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	/* Free/Busy tab */
 	widget = glade_xml_get_widget (gui, "template_url");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "cal-free-busy-template",
-		G_OBJECT (widget), "text");
+		shell_settings, "cal-free-busy-template",
+		widget, "text");
 	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);

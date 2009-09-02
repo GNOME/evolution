@@ -440,12 +440,12 @@ cal_shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-show-week-numbers",
-		G_OBJECT (calitem), "show-week-numbers");
+		shell_settings, "cal-show-week-numbers",
+		calitem, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (calitem), "week-start-day");
+		shell_settings, "cal-week-start-day",
+		calitem, "week-start-day");
 
 	/* Restore the selector state from the last session. */
 

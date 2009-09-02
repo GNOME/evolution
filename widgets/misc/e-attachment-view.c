@@ -801,8 +801,8 @@ e_attachment_view_init (EAttachmentView *view)
 	action_group = e_attachment_view_add_action_group (view, "editable");
 
 	e_mutual_binding_new (
-		G_OBJECT (view), "editable",
-		G_OBJECT (action_group), "visible");
+		view, "editable",
+		action_group, "visible");
 	gtk_action_group_add_actions (
 		action_group, editable_entries,
 		G_N_ELEMENTS (editable_entries), view);

@@ -607,8 +607,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-timezone-string",
-		G_OBJECT (shell_settings), "cal-timezone",
+		shell_settings, "cal-timezone-string",
+		shell_settings, "cal-timezone",
 		transform_string_to_icaltimezone,
 		transform_icaltimezone_to_string,
 		(GDestroyNotify) g_object_unref,
@@ -625,8 +625,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-week-start-day-gconf",
-		G_OBJECT (shell_settings), "cal-week-start-day",
+		shell_settings, "cal-week-start-day-gconf",
+		shell_settings, "cal-week-start-day",
 		transform_weekdays_gconf_to_evolution,
 		transform_weekdays_evolution_to_gconf,
 		(GDestroyNotify) NULL, NULL);
@@ -643,8 +643,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-sunday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-sunday",
 		transform_working_days_bitset_to_sunday,
 		transform_working_days_sunday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -658,8 +658,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-monday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-monday",
 		transform_working_days_bitset_to_monday,
 		transform_working_days_monday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -673,8 +673,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-tuesday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-tuesday",
 		transform_working_days_bitset_to_tuesday,
 		transform_working_days_tuesday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -688,8 +688,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-wednesday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-wednesday",
 		transform_working_days_bitset_to_wednesday,
 		transform_working_days_wednesday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -703,8 +703,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-thursday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-thursday",
 		transform_working_days_bitset_to_thursday,
 		transform_working_days_thursday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -718,8 +718,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-friday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-friday",
 		transform_working_days_bitset_to_friday,
 		transform_working_days_friday_to_bitset,
 		(GDestroyNotify) NULL, shell_settings);
@@ -733,8 +733,8 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			G_PARAM_READWRITE));
 
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "cal-working-days-bitset",
-		G_OBJECT (shell_settings), "cal-working-days-saturday",
+		shell_settings, "cal-working-days-bitset",
+		shell_settings, "cal-working-days-saturday",
 		transform_working_days_bitset_to_saturday,
 		transform_working_days_saturday_to_bitset,
 		(GDestroyNotify) g_object_unref,

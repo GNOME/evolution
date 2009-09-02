@@ -854,8 +854,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* Message Display */
 	widget = glade_xml_get_widget (gui, "chkMarkTimeout");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-mark-seen",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-mark-seen",
+		widget, "active");
 
 	/* The "mark seen" timeout requires special transform functions
 	 * because we display the timeout value to the user in seconds
@@ -863,113 +863,113 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	widget = glade_xml_get_widget (gui, "spinMarkTimeout");
 	prefs->timeout = GTK_SPIN_BUTTON (widget);
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-mark-seen",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-mark-seen",
+		widget, "sensitive");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "mail-mark-seen-timeout",
-		G_OBJECT (widget), "value",
+		shell_settings, "mail-mark-seen-timeout",
+		widget, "value",
 		mark_seen_timeout_transform,
 		mark_seen_timeout_reverse_transform,
 		NULL, NULL);
 
 	widget = glade_xml_get_widget (gui, "mlimit_checkbutton");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-force-message-limit",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-force-message-limit",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "mlimit_spin");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-force-message-limit",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-force-message-limit",
+		widget, "sensitive");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-message-text-part-limit",
-		G_OBJECT (widget), "value");
+		shell_settings, "mail-message-text-part-limit",
+		widget, "value");
 
 	widget = glade_xml_get_widget (gui, "address_checkbox");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-address-compress",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-address-compress",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "address_spin");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-address-compress",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-address-compress",
+		widget, "sensitive");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-address-count",
-		G_OBJECT (widget), "value");
+		shell_settings, "mail-address-count",
+		widget, "value");
 
 	widget = glade_xml_get_widget (gui, "magic_spacebar_checkbox");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-magic-spacebar",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-magic-spacebar",
+		widget, "active");
 
 	widget = e_charset_combo_box_new ();
 	container = glade_xml_get_widget (gui, "hboxDefaultCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-charset",
-		G_OBJECT (widget), "charset");
+		shell_settings, "mail-charset",
+		widget, "charset");
 
 	widget = glade_xml_get_widget (gui, "chkHighlightCitations");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-mark-citations",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-mark-citations",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "colorButtonHighlightCitations");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-mark-citations",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-mark-citations",
+		widget, "sensitive");
 	e_mutual_binding_new_full (
-		G_OBJECT (shell_settings), "mail-citation-color",
-		G_OBJECT (widget), "color",
+		shell_settings, "mail-citation-color",
+		widget, "color",
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		NULL, NULL);
 
 	widget = glade_xml_get_widget (gui, "chkEnableSearchFolders");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-enable-search-folders",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-enable-search-folders",
+		widget, "active");
 
 	/* Deleting Mail */
 	widget = glade_xml_get_widget (gui, "chkEmptyTrashOnExit");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-empty-trash-on-exit",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-empty-trash-on-exit",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "comboboxEmptyTrashDays");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-empty-trash-on-exit",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-empty-trash-on-exit",
+		widget, "sensitive");
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
 	widget = glade_xml_get_widget (gui, "chkConfirmExpunge");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-confirm-expunge",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-confirm-expunge",
+		widget, "active");
 
 	/* Mail Fonts */
 	widget = glade_xml_get_widget (gui, "radFontUseSame");
 	e_mutual_binding_new_with_negation (
-		G_OBJECT (shell_settings), "mail-use-custom-fonts",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-use-custom-fonts",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "FontFixed");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-font-monospace",
-		G_OBJECT (widget), "font-name");
+		shell_settings, "mail-font-monospace",
+		widget, "font-name");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-use-custom-fonts",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-use-custom-fonts",
+		widget, "sensitive");
 
 	widget = glade_xml_get_widget (gui, "FontVariable");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-font-variable",
-		G_OBJECT (widget), "font-name");
+		shell_settings, "mail-font-variable",
+		widget, "font-name");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-use-custom-fonts",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-use-custom-fonts",
+		widget, "sensitive");
 
 	/* HTML Mail tab */
 
@@ -998,13 +998,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	widget = glade_xml_get_widget (gui, "chkShowAnimatedImages");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-show-animated-images",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-show-animated-images",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "chkPromptWantHTML");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-confirm-unwanted-html",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-confirm-unwanted-html",
+		widget, "active");
 
 	container = glade_xml_get_widget (gui, "labels-alignment");
 	widget = e_mail_label_manager_new ();
@@ -1012,24 +1012,24 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "mail-label-list-store",
-		G_OBJECT (widget), "list-store");
+		shell_settings, "mail-label-list-store",
+		widget, "list-store");
 
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
 
 	widget = glade_xml_get_widget (gui, "photo_show");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-show-sender-photo",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-show-sender-photo",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "photo_local");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-show-sender-photo",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-show-sender-photo",
+		widget, "sensitive");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-only-local-photos",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-only-local-photos",
+		widget, "active");
 
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));
@@ -1143,18 +1143,18 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* Junk prefs */
 	widget = glade_xml_get_widget (gui, "chkCheckIncomingMail");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-check-for-junk",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-check-for-junk",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "junk_empty_check");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-empty-junk-on-exit",
-		G_OBJECT (widget), "active");
+		shell_settings, "mail-empty-junk-on-exit",
+		widget, "active");
 
 	widget = glade_xml_get_widget (gui, "junk_empty_combobox");
 	e_mutual_binding_new (
-		G_OBJECT (shell_settings), "mail-empty-junk-on-exit",
-		G_OBJECT (widget), "sensitive");
+		shell_settings, "mail-empty-junk-on-exit",
+		widget, "sensitive");
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 
 	prefs->default_junk_plugin = GTK_COMBO_BOX (glade_xml_get_widget (gui, "default_junk_plugin"));

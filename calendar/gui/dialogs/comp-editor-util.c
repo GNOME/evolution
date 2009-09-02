@@ -240,12 +240,12 @@ comp_editor_new_date_edit (EShellSettings *shell_settings,
 #endif
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-show-week-numbers",
-		G_OBJECT (dedit), "show-week-numbers");
+		shell_settings, "cal-show-week-numbers",
+		dedit, "show-week-numbers");
 
 	e_binding_new (
-		G_OBJECT (shell_settings), "cal-week-start-day",
-		G_OBJECT (dedit), "week-start-day");
+		shell_settings, "cal-week-start-day",
+		dedit, "week-start-day");
 
 	return GTK_WIDGET (dedit);
 }

@@ -530,8 +530,8 @@ signature_manager_init (ESignatureManager *manager)
 	gtk_widget_show (widget);
 
 	e_mutual_binding_new (
-		G_OBJECT (manager), "signature-list",
-		G_OBJECT (widget), "signature-list");
+		manager, "signature-list",
+		widget, "signature-list");
 
 	g_signal_connect_swapped (
 		widget, "key-press-event",
@@ -582,8 +582,8 @@ signature_manager_init (ESignatureManager *manager)
 	gtk_widget_show (widget);
 
 	e_binding_new (
-		G_OBJECT (manager), "allow-scripts",
-		G_OBJECT (widget), "sensitive");
+		manager, "allow-scripts",
+		widget, "sensitive");
 
 	g_signal_connect_swapped (
 		widget, "clicked",

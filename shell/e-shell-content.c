@@ -567,14 +567,14 @@ shell_content_constructed (GObject *object)
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 	e_binding_new (
-		G_OBJECT (action), "sensitive",
-		G_OBJECT (widget), "secondary-icon-sensitive");
+		action, "sensitive",
+		widget, "secondary-icon-sensitive");
 	e_binding_new (
-		G_OBJECT (action), "stock-id",
-		G_OBJECT (widget), "secondary-icon-stock");
+		action, "stock-id",
+		widget, "secondary-icon-stock");
 	e_binding_new (
-		G_OBJECT (action), "tooltip",
-		G_OBJECT (widget), "secondary-icon-tooltip-text");
+		action, "tooltip",
+		widget, "secondary-icon-tooltip-text");
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
 	g_signal_connect (
@@ -583,14 +583,14 @@ shell_content_constructed (GObject *object)
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
 	e_binding_new (
-		G_OBJECT (action), "sensitive",
-		G_OBJECT (widget), "primary-icon-sensitive");
+		action, "sensitive",
+		widget, "primary-icon-sensitive");
 	e_binding_new (
-		G_OBJECT (action), "stock-id",
-		G_OBJECT (widget), "primary-icon-stock");
+		action, "stock-id",
+		widget, "primary-icon-stock");
 	e_binding_new (
-		G_OBJECT (action), "tooltip",
-		G_OBJECT (widget), "primary-icon-tooltip-text");
+		action, "tooltip",
+		widget, "primary-icon-tooltip-text");
 
 	widget = shell_content->priv->search_bar;
 	gtk_size_group_add_widget (size_group, widget);
