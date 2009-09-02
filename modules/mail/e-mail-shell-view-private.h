@@ -80,6 +80,11 @@
 /* ETable Specifications */
 #define ETSPEC_FILENAME		"message-list.etspec"
 
+/* State File Keys */
+#define STATE_KEY_SEARCH_FILTER		"SearchFilter"
+#define STATE_KEY_SEARCH_SCOPE		"SearchScope"
+#define STATE_KEY_SEARCH_TEXT		"SearchText"
+
 G_BEGIN_DECLS
 
 /* Filter items are displayed in ascending order.
@@ -152,8 +157,6 @@ void		e_mail_shell_view_private_finalize
 void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_restore_state
-					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_execute_search
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_create_filter_from_selected
 					(EMailShellView *mail_shell_view,

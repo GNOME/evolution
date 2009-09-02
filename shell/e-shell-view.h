@@ -111,7 +111,10 @@ struct _EShellView {
  * @toggled:		Class method for the #EShellView::toggled signal.
  *			Subclasses should rarely need to override the
  *			default behavior.
- * @update_actions:	Class method for the #EShellView::update_actions
+ * @execute_search:	Class method for the #EShellView::execute-search
+ * 			signal.  There is no default behavior; subclasses
+ * 			should override this.
+ * @update_actions:	Class method for the #EShellView::update-actions
  *			signal.  There is no default behavior; subclasses
  *			should override this.
  *
@@ -150,6 +153,7 @@ struct _EShellViewClass {
 
 	/* Signals */
 	void		(*toggled)		(EShellView *shell_view);
+	void		(*execute_search)	(EShellView *shell_view);
 	void		(*update_actions)	(EShellView *shell_view);
 };
 
@@ -174,6 +178,7 @@ EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
 void		e_shell_view_set_state_dirty	(EShellView *shell_view);
+void		e_shell_view_execute_search	(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,

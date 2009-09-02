@@ -719,7 +719,8 @@ action_custom_rule_cb (GtkAction *action,
 	g_return_if_fail (IS_FILTER_RULE (rule));
 
 	e_shell_content_set_search_rule (shell_content, rule);
-	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+
+	e_shell_view_execute_search (shell_view);
 }
 
 /**
@@ -1024,7 +1025,7 @@ action_search_clear_cb (GtkAction *action,
 	e_shell_content_set_search_rule (shell_content, NULL);
 	e_shell_content_set_search_text (shell_content, NULL);
 
-	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+	e_shell_view_execute_search (shell_view);
 
 	e_shell_window_update_search_menu (shell_window);
 }
@@ -1054,15 +1055,6 @@ action_search_edit_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE:
- * @window: an #EShellWindow
- *
- * Activation of this action executes the current search conditions.
- *
- * Main menu item: Search -> Find Now
- **/
-
-/**
  * E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS:
  * @window: an #EShellWindow
  *
@@ -1084,6 +1076,27 @@ action_search_options_cb (GtkAction *action,
 
 	widget_path = shell_view_class->search_options;
 	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
+}
+
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_QUICK:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action executes the current search conditions.
+ *
+ * Main menu item: Search -> Find Now
+ **/
+static void
+action_search_quick_cb (GtkAction *action,
+                        EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	e_shell_view_execute_search (shell_view);
 }
 
 /**
@@ -1523,19 +1536,19 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Manage your saved searches"),
 	  G_CALLBACK (action_search_edit_cb) },
 
-	{ "search-execute",
-	  GTK_STOCK_FIND,
-	  N_("_Find Now"),
-	  "",      /* Block the default Ctrl+F. */
-	  N_("Execute the current search parameters"),
-	  NULL },  /* Handled by EShellContent and subclasses. */
-
 	{ "search-options",
 	  GTK_STOCK_FIND,
 	  NULL,
 	  NULL,
 	  N_("Click here to change the search type"),
 	  G_CALLBACK (action_search_options_cb) },
+
+	{ "search-quick",
+	  GTK_STOCK_FIND,
+	  N_("_Find Now"),
+	  "",      /* Block the default Ctrl+F. */
+	  N_("Execute the current search parameters"),
+	  G_CALLBACK (action_search_quick_cb) },
 
 	{ "search-save",
 	  NULL,
@@ -1871,6 +1884,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		shell_window);
 
 	/* Fine tuning. */
+
+	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
 
 	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 

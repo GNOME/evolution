@@ -69,6 +69,7 @@ enum {
 
 enum {
 	TOGGLED,
+	EXECUTE_SEARCH,
 	UPDATE_ACTIONS,
 	LAST_SIGNAL
 };
@@ -672,6 +673,23 @@ shell_view_class_init (EShellViewClass *class)
 		G_TYPE_NONE, 0);
 
 	/**
+	 * EShellView::execute-search
+	 * @shell_view: the #EShellView which emitted the signal
+	 *
+	 * #EShellView subclasses should override the
+	 * <structfield>execute_search</structfield> method in
+	 * #EShellViewClass to execute the current search conditions.
+	 **/
+	signals[EXECUTE_SEARCH] = g_signal_new (
+		"execute-search",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EShellViewClass, execute_search),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	/**
 	 * EShellView::update-actions
 	 * @shell_view: the #EShellView which emitted the signal
 	 *
@@ -1094,6 +1112,24 @@ e_shell_view_set_state_dirty (EShellView *shell_view)
 		shell_view_state_timeout_cb, shell_view);
 
 	shell_view->priv->state_save_source_id = source_id;
+}
+
+/**
+ * e_shell_view_execute_search:
+ * @shell_view: an #EShellView
+ *
+ * Emits the #EShellView:;execute-search signal.
+ *
+ * #EShellView subclasses should implement the
+ * <structfield>execute_search</structfield> method in #EShellViewClass
+ * to execute a search based on the current search conditions.
+ **/
+void
+e_shell_view_execute_search (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	g_signal_emit (shell_view, signals[EXECUTE_SEARCH], 0);
 }
 
 /**

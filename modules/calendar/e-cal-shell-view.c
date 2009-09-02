@@ -52,6 +52,162 @@ cal_shell_view_constructed (GObject *object)
 }
 
 static void
+cal_shell_view_execute_search (EShellView *shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	ECalShellSidebar *cal_shell_sidebar;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	GnomeCalendar *calendar;
+	ECalendar *date_navigator;
+	GtkRadioAction *action;
+	GString *string;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	time_t start_range;
+	time_t end_range;
+	gboolean range_search;
+	gchar *start, *end;
+	gchar *query;
+	gchar *temp;
+	gint value;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
+	value = gtk_radio_action_get_current_value (action);
+
+	text = e_shell_content_get_search_text (shell_content);
+
+	if (text == NULL || *text == '\0') {
+		text = "";
+		value = CALENDAR_SEARCH_SUMMARY_CONTAINS;
+	}
+
+	switch (value) {
+		default:
+			text = "";
+			/* fall through */
+
+		case CALENDAR_SEARCH_SUMMARY_CONTAINS:
+			format = "(contains? \"summary\" %s)";
+			break;
+
+		case CALENDAR_SEARCH_DESCRIPTION_CONTAINS:
+			format = "(contains? \"description\" %s)";
+			break;
+
+		case CALENDAR_SEARCH_ANY_FIELD_CONTAINS:
+			format = "(contains? \"any\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
+	g_string_free (string, TRUE);
+
+	range_search = FALSE;
+	start_range = end_range = 0;
+
+	/* Apply selected filter. */
+	value = e_shell_content_get_filter_value (shell_content);
+	switch (value) {
+		case CALENDAR_FILTER_ANY_CATEGORY:
+			break;
+
+		case CALENDAR_FILTER_UNMATCHED:
+			temp = g_strdup_printf (
+				"(and (has-categories? #f) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case CALENDAR_FILTER_ACTIVE_APPOINTMENTS:
+			/* Show a year's worth of appointments. */
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 365);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (occur-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+
+			range_search = TRUE;
+			break;
+
+		case CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS:
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 7);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (occur-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+
+			range_search = TRUE;
+			break;
+
+		default:
+		{
+			GList *categories;
+			const gchar *category_name;
+
+			categories = e_categories_get_list ();
+			category_name = g_list_nth_data (categories, value);
+			g_list_free (categories);
+
+			temp = g_strdup_printf (
+				"(and (has-categories? \"%s\") %s)",
+				category_name, query);
+			g_free (query);
+			query = temp;
+			break;
+		}
+	}
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expressing string to ECalModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
+
+	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
+	date_navigator = e_cal_shell_sidebar_get_date_navigator (cal_shell_sidebar);
+
+	if (range_search) {
+		/* Switch to list view and hide the date navigator. */
+		action = GTK_RADIO_ACTION (ACTION (CALENDAR_VIEW_LIST));
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+		gtk_widget_hide (GTK_WIDGET (date_navigator));
+	} else {
+		/* Ensure the date navigator is visible. */
+		gtk_widget_show (GTK_WIDGET (date_navigator));
+	}
+
+	/* Submit the query. */
+	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	gnome_calendar_set_search_query (
+		calendar, query, range_search, start_range, end_range);
+	g_free (query);
+}
+
+static void
 cal_shell_view_update_actions (EShellView *shell_view)
 {
 #if 0
@@ -178,6 +334,7 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->search_rules = "caltypes.xml";
 	shell_view_class->new_shell_content = e_cal_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
+	shell_view_class->execute_search = cal_shell_view_execute_search;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
 }
 

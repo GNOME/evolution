@@ -701,6 +701,13 @@ intelligent
 
 @window: 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE ##### -->
+<para>
+
+</para>
+
+@window: 
+
 <!-- ##### MACRO E_SUMMARY_STORAGE_NAME ##### -->
 <para>
 

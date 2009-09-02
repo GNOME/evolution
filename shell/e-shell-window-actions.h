@@ -63,10 +63,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "search-clear")
 #define E_SHELL_WINDOW_ACTION_SEARCH_EDIT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-edit")
-#define E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "search-execute")
 #define E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-options")
+#define E_SHELL_WINDOW_ACTION_SEARCH_QUICK(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-quick")
 #define E_SHELL_WINDOW_ACTION_SEARCH_SAVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SEND_RECEIVE(window) \

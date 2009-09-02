@@ -95,26 +95,23 @@ shell_content_dialog_rule_changed (GtkWidget *dialog,
 }
 
 static void
-action_search_execute_cb (GtkAction *action,
-                          EShellContent *shell_content)
+shell_content_execute_search_cb (EShellView *shell_view,
+                                 EShellContent *shell_content)
 {
-	EShellView *shell_view;
 	EShellWindow *shell_window;
+	GtkAction *action;
 	GtkWidget *widget;
 	const gchar *search_text;
 	gboolean sensitive;
 
-	/* EShellView subclasses are responsible for actually
-	 * executing the search.  This is all cosmetic stuff. */
-
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
 	if (!e_shell_view_is_active (shell_view))
 		return;
 
-	widget = shell_content->priv->search_entry;
+	/* EShellView subclasses are responsible for actually
+	 * executing the search.  This is all cosmetic stuff. */
 
+	widget = shell_content->priv->search_entry;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	search_text = e_shell_content_get_search_text (shell_content);
 
 	if (search_text != NULL && *search_text != '\0') {
@@ -159,22 +156,38 @@ action_search_execute_cb (GtkAction *action,
 }
 
 static void
-shell_content_entry_activated_cb (EShellContent *shell_content,
-                                  GtkWidget *entry)
+shell_content_entry_activate_cb (EShellContent *shell_content,
+                                 GtkEntry *entry)
 {
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	GtkAction *action;
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	/* Verify the shell view is active before proceeding. */
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
+	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_activate (action);
+}
+
+static void
+shell_content_entry_changed_cb (EShellContent *shell_content,
+                                GtkEntry *entry)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	const gchar *text;
+	gboolean sensitive;
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	text = gtk_entry_get_text (entry);
+	sensitive = (text != NULL && *text != '\0');
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void
@@ -563,6 +576,11 @@ shell_content_constructed (GObject *object)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	size_group = e_shell_view_get_size_group (shell_view);
 
+	g_signal_connect_after (
+		shell_view, "execute-search",
+		G_CALLBACK (shell_content_execute_search_cb),
+		shell_content);
+
 	widget = shell_content->priv->search_entry;
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
@@ -575,11 +593,6 @@ shell_content_constructed (GObject *object)
 	e_binding_new (
 		action, "tooltip",
 		widget, "secondary-icon-tooltip-text");
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_search_execute_cb), shell_content);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
 	e_binding_new (
@@ -918,7 +931,12 @@ shell_content_init (EShellContent *shell_content)
 
 	g_signal_connect_swapped (
 		widget, "activate",
-		G_CALLBACK (shell_content_entry_activated_cb),
+		G_CALLBACK (shell_content_entry_activate_cb),
+		shell_content);
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (shell_content_entry_changed_cb),
 		shell_content);
 
 	g_signal_connect_swapped (
@@ -1338,7 +1356,6 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	GtkAction *action;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	FilterRule *rule;
@@ -1394,8 +1411,7 @@ run:
 
 	e_shell_content_set_search_rule (shell_content, rule);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
-	gtk_action_activate (action);
+	e_shell_view_execute_search (shell_view);
 
 	if (response == GTK_RESPONSE_APPLY) {
 		if (!rule_context_find_rule (context, rule->name, rule->source))
@@ -1524,7 +1540,7 @@ e_shell_content_restore_state (EShellContent *shell_content,
 
 	/* Changing the combo boxes triggers searches, so block
 	 * the search action until the state is fully restored. */
-	action = e_shell_window_get_action (shell_window, "search-execute");
+	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_block_activate (action);
 
 	key = STATE_KEY_SEARCH_FILTER;
@@ -1562,7 +1578,7 @@ e_shell_content_restore_state (EShellContent *shell_content,
 	e_shell_content_set_search_text (shell_content, string);
 	g_free (string);
 
-	action = e_shell_window_get_action (shell_window, "search-execute");
+	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 	gtk_action_unblock_activate (action);
 
 	/* Now execute the search. */

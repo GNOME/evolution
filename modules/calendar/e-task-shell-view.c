@@ -91,6 +91,182 @@ task_shell_view_constructed (GObject *object)
 }
 
 static void
+task_shell_view_execute_search (EShellView *shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkRadioAction *action;
+	GString *string;
+	ECalComponentPreview *task_preview;
+	ECalendarTable *task_table;
+	ECalModel *model;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	time_t start_range;
+	time_t end_range;
+	gchar *start, *end;
+	gchar *query;
+	gchar *temp;
+	gint value;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	text = e_shell_content_get_search_text (shell_content);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
+	value = gtk_radio_action_get_current_value (action);
+
+	if (text == NULL || *text == '\0') {
+		text = "";
+		value = TASK_SEARCH_SUMMARY_CONTAINS;
+	}
+
+	switch (value) {
+		default:
+			text = "";
+			/* fall through */
+
+		case TASK_SEARCH_SUMMARY_CONTAINS:
+			format = "(contains? \"summary\" %s)";
+			break;
+
+		case TASK_SEARCH_DESCRIPTION_CONTAINS:
+			format = "(contains? \"description\" %s)";
+			break;
+
+		case TASK_SEARCH_ANY_FIELD_CONTAINS:
+			format = "(contains? \"any\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
+	g_string_free (string, TRUE);
+
+	/* Apply selected filter. */
+	value = e_shell_content_get_filter_value (shell_content);
+	switch (value) {
+		case TASK_FILTER_ANY_CATEGORY:
+			break;
+
+		case TASK_FILTER_UNMATCHED:
+			temp = g_strdup_printf (
+				"(and (has-categories? #f) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_NEXT_7_DAYS_TASKS:
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 7);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_ACTIVE_TASKS:
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 365);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")) "
+				"(not (is-completed?)))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_OVERDUE_TASKS:
+			start_range = 0;
+			end_range = time (NULL);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")) "
+				"(not (is-completed?)))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_COMPLETED_TASKS:
+			temp = g_strdup_printf (
+				"(and (is-completed?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_TASKS_WITH_ATTACHMENTS:
+			temp = g_strdup_printf (
+				"(and (has-attachments?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		default:
+		{
+			GList *categories;
+			const gchar *category_name;
+
+			categories = e_categories_get_list ();
+			category_name = g_list_nth_data (categories, value);
+			g_list_free (categories);
+
+			temp = g_strdup_printf (
+				"(and (has-categories? \"%s\") %s)",
+				category_name, query);
+			g_free (query);
+			query = temp;
+			break;
+		}
+	}
+
+	/* Honor the user's preference to hide completed tasks. */
+	temp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
+	if (temp != NULL) {
+		gchar *temp2;
+
+		temp2 = g_strdup_printf ("(and %s %s)", temp, query);
+		g_free (query);
+		g_free (temp);
+		query = temp2;
+	}
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expression string to ECalModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
+
+	/* Submit the query. */
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_calendar_table_get_model (task_table);
+	e_cal_model_set_search_query (model, query);
+	g_free (query);
+
+	task_preview =
+		e_task_shell_content_get_task_preview (task_shell_content);
+	e_cal_component_preview_clear (task_preview);
+}
+
+static void
 task_shell_view_update_actions (EShellView *shell_view)
 {
 	ETaskShellViewPrivate *priv;
@@ -255,6 +431,7 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	shell_view_class->search_rules = "tasktypes.xml";
 	shell_view_class->new_shell_content = e_task_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
+	shell_view_class->execute_search = task_shell_view_execute_search;
 	shell_view_class->update_actions = task_shell_view_update_actions;
 
 	g_object_class_install_property (

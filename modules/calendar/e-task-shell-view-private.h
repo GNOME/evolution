@@ -120,8 +120,6 @@ void		e_task_shell_view_private_finalize
 
 void		e_task_shell_view_actions_init
 					(ETaskShellView *task_shell_view);
-void		e_task_shell_view_execute_search
-					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_open_task
 					(ETaskShellView *task_shell_view,
 					 ECalModelComponent *comp_data);

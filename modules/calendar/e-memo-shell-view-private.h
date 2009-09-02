@@ -108,8 +108,6 @@ void		e_memo_shell_view_private_finalize
 
 void		e_memo_shell_view_actions_init
 					(EMemoShellView *memo_shell_view);
-void		e_memo_shell_view_execute_search
-					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_open_memo
 					(EMemoShellView *memo_shell_view,
 					 ECalModelComponent *comp_data);

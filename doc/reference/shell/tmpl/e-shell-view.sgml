@@ -23,6 +23,13 @@ EShellView
 </para>
 
 
+<!-- ##### SIGNAL EShellView::execute-search ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+
 <!-- ##### SIGNAL EShellView::toggled ##### -->
 <para>
 
@@ -100,6 +107,7 @@ EShellView
 @new_shell_sidebar: 
 @new_shell_taskbar: 
 @toggled: 
+@execute_search: 
 @update_actions: 
 
 <!-- ##### FUNCTION e_shell_view_get_name ##### -->

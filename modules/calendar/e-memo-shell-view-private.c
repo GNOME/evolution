@@ -276,8 +276,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	e_memo_shell_view_update_sidebar (memo_shell_view);
 	e_memo_shell_view_update_search_filter (memo_shell_view);
 	e_memo_shell_view_update_timezone (memo_shell_view);
-
-	e_memo_shell_view_execute_search (memo_shell_view);
 }
 
 void
@@ -301,111 +299,6 @@ void
 e_memo_shell_view_private_finalize (EMemoShellView *memo_shell_view)
 {
 	/* XXX Nothing to do? */
-}
-
-void
-e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
-	GtkRadioAction *action;
-	GString *string;
-	ECalComponentPreview *memo_preview;
-	EMemoTable *memo_table;
-	ECalModel *model;
-	FilterRule *rule;
-	const gchar *format;
-	const gchar *text;
-	gchar *query;
-	gchar *temp;
-	gint value;
-
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	text = e_shell_content_get_search_text (shell_content);
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	action = GTK_RADIO_ACTION (ACTION (MEMO_SEARCH_ANY_FIELD_CONTAINS));
-	value = gtk_radio_action_get_current_value (action);
-
-	if (text == NULL || *text == '\0') {
-		text = "";
-		value = MEMO_SEARCH_SUMMARY_CONTAINS;
-	}
-
-	switch (value) {
-		default:
-			text = "";
-			/* fall through */
-
-		case MEMO_SEARCH_SUMMARY_CONTAINS:
-			format = "(contains? \"summary\" %s)";
-			break;
-
-		case MEMO_SEARCH_DESCRIPTION_CONTAINS:
-			format = "(contains? \"description\" %s)";
-			break;
-
-		case MEMO_SEARCH_ANY_FIELD_CONTAINS:
-			format = "(contains? \"any\" %s)";
-			break;
-	}
-
-	/* Build the query. */
-	string = g_string_new ("");
-	e_sexp_encode_string (string, text);
-	query = g_strdup_printf (format, string->str);
-	g_string_free (string, TRUE);
-
-	/* Apply selected filter. */
-	value = e_shell_content_get_filter_value (shell_content);
-	switch (value) {
-		case MEMO_FILTER_ANY_CATEGORY:
-			break;
-
-		case MEMO_FILTER_UNMATCHED:
-			temp = g_strdup_printf (
-				"(and (has-categories? #f) %s", query);
-			g_free (query);
-			query = temp;
-			break;
-
-		default:
-		{
-			GList *categories;
-			const gchar *category_name;
-
-			categories = e_categories_get_list ();
-			category_name = g_list_nth_data (categories, value);
-			g_list_free (categories);
-
-			temp = g_strdup_printf (
-				"(and (has-categories? \"%s\") %s)",
-				category_name, query);
-			g_free (query);
-			query = temp;
-		}
-	}
-
-	/* XXX This is wrong.  We need to programmatically construct a
-	 *     FilterRule, tell it to build code, and pass the resulting
-	 *     expression string to ECalModel. */
-	rule = filter_rule_new ();
-	e_shell_content_set_search_rule (shell_content, rule);
-	g_object_unref (rule);
-
-	/* Submit the query. */
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	model = e_memo_table_get_model (memo_table);
-	e_cal_model_set_search_query (model, query);
-	g_free (query);
-
-	memo_preview =
-		e_memo_shell_content_get_memo_preview (memo_shell_content);
-	e_cal_component_preview_clear (memo_preview);
 }
 
 void

@@ -42,33 +42,11 @@ action_gal_save_custom_view_cb (GtkAction *action,
 }
 
 static void
-action_search_execute_cb (GtkAction *action,
-                          ETaskShellView *task_shell_view)
-{
-	EShellView *shell_view;
-
-	/* All shell views respond to the activation of this action,
-	 * which is defined by EShellWindow.  But only the currently
-	 * active shell view proceeds with executing the search. */
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	e_task_shell_view_execute_search (task_shell_view);
-}
-
-static void
 action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
-                         ETaskShellView *task_shell_view)
+                         EShellView *shell_view)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+	e_shell_view_execute_search (shell_view);
 }
 
 static void
@@ -1129,10 +1107,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
 		G_CALLBACK (action_gal_save_custom_view_cb), task_shell_view);
-
-	g_signal_connect (
-		ACTION (SEARCH_EXECUTE), "activate",
-		G_CALLBACK (action_search_execute_cb), task_shell_view);
 
 	e_binding_new (
 		ACTION (TASK_PREVIEW), "active",

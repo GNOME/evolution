@@ -21,10 +21,6 @@
 
 #include "e-mail-shell-view-private.h"
 
-#define STATE_KEY_SEARCH_FILTER		"SearchFilter"
-#define STATE_KEY_SEARCH_SCOPE		"SearchScope"
-#define STATE_KEY_SEARCH_TEXT		"SearchText"
-
 static void
 action_gal_save_custom_view_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
@@ -887,70 +883,22 @@ action_mail_view_cb (GtkRadioAction *action,
 }
 
 static void
-action_search_execute_cb (GtkAction *action,
-                          EMailShellView *mail_shell_view)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	EMailReader *reader;
-	MessageList *message_list;
-	GKeyFile *key_file;
-	const gchar *folder_uri;
-
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-
-	/* All shell views respond to the activation of this action,
-	 * which is defined by EShellWindow.  But only the currently
-	 * active shell view proceeds with executing the search. */
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder_uri = message_list->folder_uri;
-
-	if (folder_uri != NULL) {
-		const gchar *key;
-		const gchar *string;
-		gchar *group_name;
-
-		key = STATE_KEY_SEARCH_TEXT;
-		string = e_shell_content_get_search_text (shell_content);
-		group_name = g_strdup_printf ("Folder %s", folder_uri);
-
-		if (string != NULL && *string != '\0')
-			g_key_file_set_string (
-				key_file, group_name, key, string);
-		else
-			g_key_file_remove_key (
-				key_file, group_name, key, NULL);
-		e_shell_view_set_state_dirty (shell_view);
-
-		g_free (group_name);
-	}
-
-	e_mail_shell_view_execute_search (mail_shell_view);
-}
-
-static void
 action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
-                         EMailShellView *mail_shell_view)
+                         EShellView *shell_view)
 {
-	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
 	MessageList *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 	folder_uri = message_list->folder_uri;
 
@@ -969,26 +917,26 @@ action_search_filter_cb (GtkRadioAction *action,
 		g_free (group_name);
 	}
 
-	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+	e_shell_view_execute_search (shell_view);
 }
 
 static void
 action_search_scope_cb (GtkRadioAction *action,
                         GtkRadioAction *current,
-                        EMailShellView *mail_shell_view)
+                        EShellView *shell_view)
 {
-	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellWindow *shell_window;
 	EMailReader *reader;
 	MessageList *message_list;
 	GKeyFile *key_file;
 	const gchar *folder_uri;
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 	folder_uri = message_list->folder_uri;
 
@@ -1007,7 +955,7 @@ action_search_scope_cb (GtkRadioAction *action,
 		g_free (group_name);
 	}
 
-	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+	e_shell_view_execute_search (shell_view);
 }
 
 static GtkActionEntry mail_entries[] = {
@@ -1600,10 +1548,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
 		G_CALLBACK (action_gal_save_custom_view_cb), mail_shell_view);
-
-	g_signal_connect (
-		ACTION (SEARCH_EXECUTE), "activate",
-		G_CALLBACK (action_search_execute_cb), mail_shell_view);
 }
 
 /* Helper for e_mail_shell_view_update_popup_labels() */
