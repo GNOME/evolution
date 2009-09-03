@@ -41,8 +41,11 @@
 #include "calendar/gui/dialogs/cal-prefs-dialog.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
+#include "calendar/gui/e-calendar-view.h"
+#include "calendar/gui/gnome-cal.h"
 #include "calendar/importers/evolution-calendar-importer.h"
 
+#include "e-cal-shell-content.h"
 #include "e-cal-shell-migrate.h"
 #include "e-cal-shell-settings.h"
 #include "e-cal-shell-view.h"
@@ -264,29 +267,34 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 }
 
 static void
-cal_shell_backend_event_new_cb (ECal *cal,
-                                ECalendarStatus status,
-                                EShell *shell)
+cal_new_event (ECal *cal, ECalendarStatus status, EShell *shell, CompEditorFlags flags, gboolean all_day)
 {
 	ECalComponent *comp;
 	CompEditor *editor;
-	CompEditorFlags flags = 0;
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
 		return;
 
 	flags |= COMP_EDITOR_NEW_ITEM;
-	flags |= COMP_EDITOR_USER_ORG;
 
 	editor = event_editor_new (cal, shell, flags);
-	comp = cal_comp_event_new_with_current_time (cal, FALSE);
+	comp = cal_comp_event_new_with_current_time (cal, all_day);
 	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
+}
+
+static void
+cal_shell_backend_event_new_cb (ECal *cal,
+                                ECalendarStatus status,
+                                EShell *shell)
+{
+	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG, FALSE);
+
 	g_object_unref (cal);
 }
 
@@ -295,25 +303,8 @@ cal_shell_backend_event_all_day_new_cb (ECal *cal,
                                         ECalendarStatus status,
                                         EShell *shell)
 {
-	ECalComponent *comp;
-	CompEditor *editor;
-	CompEditorFlags flags = 0;
+	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG, TRUE);
 
-	/* XXX Handle errors better. */
-	if (status != E_CALENDAR_STATUS_OK)
-		return;
-
-	flags |= COMP_EDITOR_NEW_ITEM;
-	flags |= COMP_EDITOR_USER_ORG;
-
-	editor = event_editor_new (cal, shell, flags);
-	comp = cal_comp_event_new_with_current_time (cal, TRUE);
-	e_cal_component_commit_sequence (comp);
-	comp_editor_edit_comp (editor, comp);
-
-	gtk_window_present (GTK_WINDOW (editor));
-
-	g_object_unref (comp);
 	g_object_unref (cal);
 }
 
@@ -322,26 +313,8 @@ cal_shell_backend_event_meeting_new_cb (ECal *cal,
                                         ECalendarStatus status,
                                         EShell *shell)
 {
-	ECalComponent *comp;
-	CompEditor *editor;
-	CompEditorFlags flags = 0;
+	cal_new_event (cal, status, shell, COMP_EDITOR_USER_ORG | COMP_EDITOR_MEETING, FALSE);
 
-	/* XXX Handle errors better. */
-	if (status != E_CALENDAR_STATUS_OK)
-		return;
-
-	flags |= COMP_EDITOR_NEW_ITEM;
-	flags |= COMP_EDITOR_USER_ORG;
-	flags |= COMP_EDITOR_MEETING;
-
-	editor = event_editor_new (cal, shell, flags);
-	comp = cal_comp_event_new_with_current_time (cal, FALSE);
-	e_cal_component_commit_sequence (comp);
-	comp_editor_edit_comp (editor, comp);
-
-	gtk_window_present (GTK_WINDOW (editor));
-
-	g_object_unref (comp);
 	g_object_unref (cal);
 }
 
@@ -353,9 +326,40 @@ action_event_new_cb (GtkAction *action,
 	ECalSourceType source_type;
 	ESourceList *source_list;
 	EShellSettings *shell_settings;
+	EShellView *shell_view;
 	EShell *shell;
 	const gchar *action_name;
 	gchar *uid;
+
+	/* With a 'calendar' active shell view pass the new appointment request to it,
+	   thus the event will inherit selected time from the view. */
+	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+	if (shell_view && g_ascii_strcasecmp (e_shell_view_get_name (shell_view), "calendar") == 0) {
+		EShellContent *shell_content;
+		GnomeCalendar *gcal;
+		GnomeCalendarViewType view_type;
+		ECalendarView *view;
+
+		shell_content = e_shell_view_get_shell_content (shell_view);
+
+		gcal = e_cal_shell_content_get_calendar (E_CAL_SHELL_CONTENT (shell_content));
+
+		view_type = gnome_calendar_get_view (gcal);
+		view = gnome_calendar_get_calendar_view (gcal, view_type);
+
+		if (view) {
+			action_name = gtk_action_get_name (action);
+
+			e_calendar_view_new_appointment_full (
+				view,
+				g_str_equal (action_name, "event-all-day-new"),
+				g_str_equal (action_name, "event-meeting-new"),
+				TRUE);
+
+			return;
+		}
+	}
+
 
 	/* This callback is used for both appointments and meetings. */
 
