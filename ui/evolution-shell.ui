@@ -53,7 +53,7 @@
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>
-      <menuitem action='search-execute'/>
+      <menuitem action='search-quick'/>
       <menuitem action='search-clear'/>
       <menuitem action='search-advanced'/>
       <separator/>
