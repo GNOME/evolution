@@ -73,6 +73,7 @@
     <separator/>
     <menuitem action='task-list-popup-delete'/>
     <menuitem action='task-list-popup-select-one'/>
+    <placeholder name='task-list-popup-actions'/>
     <separator/>
     <menuitem action='task-list-popup-properties'/>
   </popup>

@@ -42,10 +42,12 @@ shell_window_new_view (EShellBackend *shell_backend,
 {
 	GHashTable *loaded_views;
 	EShellView *shell_view;
+	GtkUIManager *ui_manager;
 	GtkNotebook *notebook;
 	GtkAction *action;
 	GtkWidget *widget;
 	const gchar *name;
+	const gchar *id;
 	gint page_num;
 	GType type;
 
@@ -70,6 +72,11 @@ shell_window_new_view (EShellBackend *shell_backend,
 	/* Register the shell view. */
 	loaded_views = shell_window->priv->loaded_views;
 	g_hash_table_insert (loaded_views, g_strdup (name), shell_view);
+
+	/* Register the GtkUIManager ID for the shell view. */
+	id = E_SHELL_VIEW_GET_CLASS (shell_view)->ui_manager_id;
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	e_plugin_ui_register_manager (ui_manager, id, shell_view);
 
 	/* Add pages to the various shell window notebooks. */
 

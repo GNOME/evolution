@@ -29,7 +29,6 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
-#include <calendar/gui/e-cal-popup.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libxml/xmlmemory.h>
@@ -172,7 +171,7 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const gchar *value)
 }
 
 static void
-do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri)
+do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSourceType type, gchar *dest_uri)
 {
 
 	/*
@@ -194,18 +193,18 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	if (!dest_uri)
 		return;
 
-	primary_source = e_source_selector_peek_primary_selection (target->selector);
+	primary_source = e_source_selector_peek_primary_selection (selector);
 
 	/* open source client */
 	source_client = auth_new_cal_from_source (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
 		g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
 
-	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
+	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))), dest_uri, &error);
 
 	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 		xmlBufferPtr buffer=xmlBufferCreate();
@@ -357,7 +356,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	g_object_unref (source_client);
 
 	if (error) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (selector)), error);
 		g_error_free (error);
 	}
 

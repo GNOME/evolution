@@ -189,31 +189,6 @@ shell_view_state_timeout_cb (EShellView *shell_view)
 	return FALSE;
 }
 
-static gboolean
-shell_view_register_ui_manager (EShellView *shell_view)
-{
-	EShellViewClass *shell_view_class;
-	EShellWindow *shell_window;
-	GtkUIManager *ui_manager;
-	const gchar *id;
-
-	/* This is a one-time, post-construction idle callback. */
-
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	id = shell_view_class->ui_manager_id;
-
-	e_plugin_ui_register_manager (ui_manager, id, shell_view);
-
-	if (e_shell_view_is_active (shell_view)) {
-		e_plugin_ui_enable_manager (ui_manager, id);
-		e_shell_view_update_actions (shell_view);
-	}
-
-	return FALSE;
-}
-
 static void
 shell_view_emit_toggled (EShellView *shell_view)
 {
@@ -426,14 +401,6 @@ shell_view_constructed (GObject *object)
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-
-	/* Defer EPluginUI registration to an idle callback to give the
-	 * shell view subclass a chance to register its own actions and
-	 * action groups.  Registration will immediately load EPlugins
-	 * that specify the shell view's GtkUIManager ID, and their
-	 * initialization routines may require those actions or action
-	 * groups that have not yet been added. */
-	g_idle_add ((GSourceFunc) shell_view_register_ui_manager, shell_view);
 
 	shell_view_load_state (shell_view);
 

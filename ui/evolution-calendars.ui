@@ -53,6 +53,7 @@
     <separator/>
     <menuitem action='calendar-popup-delete'/>
     <menuitem action='calendar-popup-select-one'/>
+    <placeholder name='calendar-popup-actions'/>
     <separator/>
     <menuitem action='calendar-popup-properties'/>
   </popup>

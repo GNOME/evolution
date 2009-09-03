@@ -57,6 +57,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-taskbar.h			\
 	e-shell-view.h				\
 	e-shell-window.h			\
+	e-shell-window-actions.h		\
 	es-event.h
 
 libeshell_la_SOURCES =				\
@@ -78,7 +79,6 @@ libeshell_la_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-migrate.c			\
 	e-shell-migrate.h			\
-	e-shell-window-actions.h		\
 	e-shell-window-actions.c		\
 	es-event.c
 

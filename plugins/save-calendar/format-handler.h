@@ -30,7 +30,6 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
-#include <calendar/gui/e-cal-popup.h>
 
 typedef struct _FormatHandler FormatHandler;
 
@@ -43,7 +42,7 @@ struct _FormatHandler
 
 	gpointer data;
 
-	void (*save) (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, gchar *dest_uri);
+	void (*save) (FormatHandler *handler, ESourceSelector *selector, ECalSourceType type, gchar *dest_uri);
 };
 
 FormatHandler *csv_format_handler_new (void);

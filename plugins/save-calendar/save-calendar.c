@@ -33,11 +33,22 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
-#include <calendar/gui/e-cal-popup.h>
 #include <e-util/e-error.h>
 #include <string.h>
 
+#include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
+
 #include "format-handler.h"
+
+/* Plugin entry points */
+gboolean	calendar_save_as_init		(GtkUIManager *ui_manager,
+						 EShellView *shell_view);
+gboolean	memo_list_save_as_init		(GtkUIManager *ui_manager,
+						 EShellView *shell_view);
+gboolean	task_list_save_as_init		(GtkUIManager *ui_manager,
+						 EShellView *shell_view);
 
 enum {  /* GtkComboBox enum */
 	DEST_NAME_COLUMN,
@@ -45,10 +56,6 @@ enum {  /* GtkComboBox enum */
 	N_DEST_COLUMNS
 
 };
-
-void org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_save_memos (EPlugin *ep, ECalPopupTargetSource *target);
 
 static void
 extra_widget_foreach_hide (GtkWidget *widget, gpointer data)
@@ -95,7 +102,7 @@ format_handlers_foreach_free (gpointer data, gpointer user_data)
 }
 
 static void
-ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type)
+ask_destination_and_save (ESourceSelector *selector, ECalSourceType type)
 {
 	FormatHandler *handler = NULL;
 
@@ -197,7 +204,7 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 			dest_uri = temp;
 		}
 
-		handler->save (handler, ep, target, type, dest_uri);
+		handler->save (handler, selector, type, dest_uri);
 	}
 
 	/* Free the handlers */
@@ -258,20 +265,144 @@ open_for_writing (GtkWindow *parent, const gchar *uri, GError **error)
 	return NULL;
 }
 
-void
-org_gnome_save_calendar (EPlugin *ep, ECalPopupTargetSource *target)
+static void
+save_general (EShellView *shell_view,
+              ECalSourceType type)
 {
-	ask_destination_and_save (ep, target, E_CAL_SOURCE_TYPE_EVENT);
+	EShellSidebar *shell_sidebar;
+	ESourceSelector *selector = NULL;
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "selector", &selector, NULL);
+	g_return_if_fail (selector != NULL);
+
+	ask_destination_and_save (selector, type);
+
+	g_object_unref (selector);
 }
 
-void
-org_gnome_save_tasks (EPlugin *ep, ECalPopupTargetSource *target)
+static void
+action_calendar_save_as_cb (GtkAction *action,
+                            EShellView *shell_view)
 {
-	ask_destination_and_save (ep, target, E_CAL_SOURCE_TYPE_TODO);
+	save_general (shell_view, E_CAL_SOURCE_TYPE_EVENT);
 }
 
-void
-org_gnome_save_memos (EPlugin *ep, ECalPopupTargetSource *target)
+static void
+action_memo_list_save_as_cb (GtkAction *action,
+                             EShellView *shell_view)
 {
-	ask_destination_and_save (ep, target, E_CAL_SOURCE_TYPE_JOURNAL);
+	save_general (shell_view, E_CAL_SOURCE_TYPE_JOURNAL);
+}
+
+static void
+action_task_list_save_as_cb (GtkAction *action,
+                             EShellView *shell_view)
+{
+	save_general (shell_view, E_CAL_SOURCE_TYPE_TODO);
+}
+
+gboolean
+calendar_save_as_init (GtkUIManager *ui_manager,
+                       EShellView *shell_view)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	const gchar *tooltip;
+	const gchar *stock_id;
+	const gchar *name;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	name = "calendar-save-as";
+	tooltip = _("Save the selected calendar to disk");
+	stock_id = GTK_STOCK_SAVE_AS;
+	action = gtk_action_new (name, NULL, tooltip, stock_id);
+
+	name = "lockdown-save-to-disk";
+	action_group = e_shell_window_get_action_group (shell_window, name);
+	gtk_action_group_add_action (action_group, action);
+
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_calendar_save_as_cb), shell_view);
+
+	g_object_unref (action);
+
+	return TRUE;
+}
+
+gboolean
+memo_list_save_as_init (GtkUIManager *ui_manager,
+                        EShellView *shell_view)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	const gchar *tooltip;
+	const gchar *stock_id;
+	const gchar *name;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	name = "memo-list-save-as";
+	tooltip = _("Save the selected memo list to disk");
+	stock_id = GTK_STOCK_SAVE_AS;
+	action = gtk_action_new (name, NULL, tooltip, stock_id);
+
+	name = "lockdown-save-to-disk";
+	action_group = e_shell_window_get_action_group (shell_window, name);
+	gtk_action_group_add_action (action_group, action);
+
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_memo_list_save_as_cb), shell_view);
+
+	g_object_unref (action);
+
+	return TRUE;
+}
+
+gboolean
+task_list_save_as_init (GtkUIManager *ui_manager,
+                        EShellView *shell_view)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	const gchar *tooltip;
+	const gchar *stock_id;
+	const gchar *name;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	name = "task-list-save-as";
+	tooltip = _("Save the selected task list to disk");
+	stock_id = GTK_STOCK_SAVE_AS;
+	action = gtk_action_new (name, NULL, tooltip, stock_id);
+
+	name = "lockdown-save-to-disk";
+	action_group = e_shell_window_get_action_group (shell_window, name);
+	gtk_action_group_add_action (action_group, action);
+
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_task_list_save_as_cb), shell_view);
+
+	g_object_unref (action);
+
+	return TRUE;
 }
