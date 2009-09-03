@@ -508,6 +508,11 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
+	if (priv->search_bar != NULL) {
+		g_object_unref (priv->search_bar);
+		priv->search_bar = NULL;
+	}
+
 	if (priv->filter_label != NULL) {
 		g_object_unref (priv->filter_label);
 		priv->filter_label = NULL;
@@ -666,26 +671,6 @@ shell_content_size_allocate (GtkWidget *widget,
 }
 
 static void
-shell_content_remove (GtkContainer *container,
-                      GtkWidget *widget)
-{
-	EShellContentPrivate *priv;
-
-	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
-
-	/* Look in the internal widgets first. */
-
-	if (widget == priv->search_bar) {
-		gtk_widget_unparent (priv->search_bar);
-		gtk_widget_queue_resize (GTK_WIDGET (container));
-		return;
-	}
-
-	/* Chain up to parent's remove() method. */
-	GTK_CONTAINER_CLASS (parent_class)->remove (container, widget);
-}
-
-static void
 shell_content_forall (GtkContainer *container,
                       gboolean include_internals,
                       GtkCallback callback,
@@ -725,7 +710,6 @@ shell_content_class_init (EShellContentClass *class)
 	widget_class->size_allocate = shell_content_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
-	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;
 
 	class->new_search_context = rule_context_new;
@@ -874,7 +858,7 @@ shell_content_init (EShellContent *shell_content)
 
 	widget = gtk_hbox_new (FALSE, 24);
 	gtk_widget_set_parent (widget, GTK_WIDGET (shell_content));
-	shell_content->priv->search_bar = g_object_ref_sink (widget);
+	shell_content->priv->search_bar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	/* Filter Combo Widgets */
