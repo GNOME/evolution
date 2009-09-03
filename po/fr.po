@@ -21091,7 +21091,7 @@ msgstr "Affiche le contact actuel"
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Actions"
-msgstr "_Actions"
+msgstr "A_ctions"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
