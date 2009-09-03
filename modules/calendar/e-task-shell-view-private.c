@@ -47,6 +47,24 @@ task_shell_view_process_completed_tasks (ETaskShellView *task_shell_view)
 }
 
 static void
+task_shell_view_preview_on_url_cb (EShellView *shell_view,
+                                   const gchar *url)
+{
+	EShellTaskbar *shell_taskbar;
+	gchar *message;
+
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
+
+	if (url == NULL || *url == '\0')
+		e_shell_taskbar_set_message (shell_taskbar, NULL);
+	else {
+		message = g_strdup_printf (_("Click to open %s"), url);
+		e_shell_taskbar_set_message (shell_taskbar, message);
+		g_free (message);
+	}
+}
+
+static void
 task_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEventButton *event)
 {
@@ -214,12 +232,13 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	EShell *shell;
+	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	EShellView *shell_view;
+	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
 	ECalModel *model;
 	ETable *table;
@@ -243,6 +262,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	model = e_calendar_table_get_model (task_table);
 	table = e_calendar_table_get_table (task_table);
@@ -253,6 +273,11 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	g_signal_connect_swapped (
 		model, "notify::timezone",
 		G_CALLBACK (e_task_shell_view_update_timezone),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_preview, "on-url",
+		G_CALLBACK (task_shell_view_preview_on_url_cb),
 		task_shell_view);
 
 	g_signal_connect_swapped (

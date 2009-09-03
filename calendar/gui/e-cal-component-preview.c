@@ -46,31 +46,6 @@ struct _ECalComponentPreviewPrivate {
 
 static gpointer parent_class;
 
-static void
-cal_component_preview_link_clicked (GtkHTML *html,
-                                    const gchar *uri)
-{
-	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, uri);
-}
-
-static void
-cal_component_preview_on_url (GtkHTML *html,
-                              const gchar *url)
-{
-#if 0
-	gchar *msg;
-	ECalComponentPreview *preview = data;
-
-	if (url && *url) {
-		msg = g_strdup_printf (_("Click to open %s"), url);
-		e_calendar_table_set_status_message (e_tasks_get_calendar_table (tasks), msg);
-		g_free (msg);
-	} else
-		e_calendar_table_set_status_message (e_tasks_get_calendar_table (tasks), NULL);
-#endif
-}
-
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,
@@ -159,7 +134,9 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		}
 	}
 	if (string->len > 0)
-		gtk_html_stream_printf (stream, "%s</H3>", string->str);
+		gtk_html_stream_printf (stream, "%s", string->str);
+	if (list != NULL)
+		gtk_html_stream_printf (stream, "</H3>");
 	e_cal_component_free_categories_list (list);
 	g_string_free (string, TRUE);
 
@@ -294,33 +271,83 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 }
 
 static void
-cal_component_preview_finalize (GObject *object)
+cal_component_preview_url_requested (GtkHTML *html,
+                                     const gchar *url,
+                                     GtkHTMLStream *html_stream)
 {
-	ECalComponentPreviewPrivate *priv;
+	GFile *file;
+	GFileInputStream *input_stream;
+	gchar buffer[4096];
+	gssize bytes_read;
+	GError *error = NULL;
 
-	priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (object);
+	file = g_file_new_for_uri (url);
 
-	/* XXX Nothing to do? */
+	/* XXX We only handle native files, which I guess minimizes
+	 *     the damage from doing blocking reads here.  Annoying
+	 *     that GtkHTML does not handle this itself. */
+	if (!g_file_is_native (file))
+		goto exit;
 
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	input_stream = g_file_read (file, NULL, &error);
+
+	if (error != NULL)
+		goto fail;
+
+	do {
+		bytes_read = g_input_stream_read (
+			G_INPUT_STREAM (input_stream),
+			buffer, sizeof (buffer), NULL, &error);
+
+		if (bytes_read > 0)
+			gtk_html_stream_write (
+				html_stream, buffer, bytes_read);
+
+	} while (bytes_read > 0);
+
+	if (error != NULL)
+		goto fail;
+
+	gtk_html_stream_close (html_stream, GTK_HTML_STREAM_OK);
+
+	goto exit;
+
+fail:
+	g_warning ("%s", error->message);
+	g_error_free (error);
+
+	gtk_html_stream_close (html_stream, GTK_HTML_STREAM_ERROR);
+
+exit:
+	if (input_stream != NULL)
+		g_object_unref (input_stream);
+
+	g_object_unref (file);
+}
+
+static void
+cal_component_preview_link_clicked (GtkHTML *html,
+                                    const gchar *uri)
+{
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (html));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	e_show_uri (parent, uri);
 }
 
 static void
 cal_component_preview_class_init (ECalComponentPreviewClass *class)
 {
-	GObjectClass *object_class;
 	GtkHTMLClass *gtkhtml_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalComponentPreviewPrivate));
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = cal_component_preview_finalize;
-
 	gtkhtml_class = GTK_HTML_CLASS (class);
+	gtkhtml_class->url_requested = cal_component_preview_url_requested;
 	gtkhtml_class->link_clicked = cal_component_preview_link_clicked;
-	gtkhtml_class->on_url = cal_component_preview_on_url;
 }
 
 static void
