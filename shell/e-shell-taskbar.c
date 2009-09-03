@@ -33,6 +33,10 @@ struct _EShellTaskbarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
 
+	/* Keep a reference to the shell backend since
+	 * we connect to its "activity-added" signal. */
+	EShellBackend *shell_backend;
+
 	GtkWidget *label;
 	GtkWidget *hbox;
 
@@ -166,6 +170,14 @@ shell_taskbar_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
+	if (priv->shell_backend != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->shell_backend, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->shell_backend);
+		priv->shell_backend = NULL;
+	}
+
 	if (priv->label != NULL) {
 		g_object_unref (priv->label);
 		priv->label = NULL;
@@ -205,6 +217,10 @@ shell_taskbar_constructed (GObject *object)
 	shell_taskbar = E_SHELL_TASKBAR (object);
 	shell_view = e_shell_taskbar_get_shell_view (shell_taskbar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	/* Keep a reference to the shell backend so we can
+	 * disconnect the signal handler during dispose(). */
+	shell_taskbar->priv->shell_backend = g_object_ref (shell_backend);
 
 	g_signal_connect_swapped (
 		shell_backend, "activity-added",
