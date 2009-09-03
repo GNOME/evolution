@@ -161,6 +161,14 @@ Shell Actions
 @window: 
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEARCH_QUICK ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEARCH_SAVE ##### -->
 <para>
 

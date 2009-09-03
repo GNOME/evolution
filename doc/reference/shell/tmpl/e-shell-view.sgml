@@ -262,6 +262,14 @@ EShellView
 @shell_view: 
 
 
+<!-- ##### FUNCTION e_shell_view_execute_search ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
 <!-- ##### FUNCTION e_shell_view_update_actions ##### -->
 <para>
 

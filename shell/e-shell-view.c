@@ -1118,7 +1118,7 @@ e_shell_view_set_state_dirty (EShellView *shell_view)
  * e_shell_view_execute_search:
  * @shell_view: an #EShellView
  *
- * Emits the #EShellView:;execute-search signal.
+ * Emits the #EShellView::execute-search signal.
  *
  * #EShellView subclasses should implement the
  * <structfield>execute_search</structfield> method in #EShellViewClass
