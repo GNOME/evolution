@@ -313,6 +313,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EMFolderTree *folder_tree;
 	RuleContext *context;
 	FilterRule *rule = NULL;
+	GtkTreeSelection *selection;
 	GtkTreeModel *tree_model;
 	GtkUIManager *ui_manager;
 	MessageList *message_list;
@@ -353,6 +354,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
 	html = EM_FORMAT_HTML (html_display)->html;
 
@@ -442,6 +444,9 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		priv->search_rules[ii++] = g_object_ref (rule);
 	}
 	g_assert (ii == MAIL_NUM_SEARCH_RULES);
+
+	/* Now that we're all set up, simulate selecting a folder. */
+	g_signal_emit_by_name (selection, "changed");
 }
 
 void

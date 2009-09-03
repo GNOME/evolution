@@ -465,9 +465,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	selection = gtk_tree_view_get_selection (tree_view);
 	model = gtk_tree_view_get_model (tree_view);
 
-	if (em_folder_tree_model_get_selection (
-		EM_FOLDER_TREE_MODEL (model)) == NULL)
-		mail_shell_sidebar_restore_state (mail_shell_sidebar);
+	mail_shell_sidebar_restore_state (mail_shell_sidebar);
 
 	em_folder_tree_model_set_selection (
 		EM_FOLDER_TREE_MODEL (model), selection);
