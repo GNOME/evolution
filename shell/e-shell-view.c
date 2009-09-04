@@ -353,6 +353,18 @@ shell_view_dispose (GObject *object)
 	}
 
 	if (priv->size_group != NULL) {
+		GSList *list;
+
+		/* Remove all widgets from the size group. */
+		list = gtk_size_group_get_widgets (priv->size_group);
+		list = g_slist_copy (list);
+
+		while (list != NULL) {
+			gtk_size_group_remove_widget (
+				priv->size_group, list->data);
+			list = g_slist_delete_link (list, list);
+		}
+
 		g_object_unref (priv->size_group);
 		priv->size_group = NULL;
 	}

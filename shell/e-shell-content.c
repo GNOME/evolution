@@ -50,10 +50,9 @@ struct _EShellContentPrivate {
 	gchar *system_filename;
 	gchar *user_filename;
 
-	/* Container for the following widgets */
 	GtkWidget *search_bar;
 
-	/* Search bar widgets */
+	/* Search bar children (not referenced) */
 	GtkWidget *filter_label;
 	GtkWidget *filter_combo_box;
 	GtkWidget *search_label;
@@ -508,44 +507,9 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
-	if (priv->search_bar != NULL) {
-		g_object_unref (priv->search_bar);
-		priv->search_bar = NULL;
-	}
-
-	if (priv->filter_label != NULL) {
-		g_object_unref (priv->filter_label);
-		priv->filter_label = NULL;
-	}
-
-	if (priv->filter_combo_box != NULL) {
-		g_object_unref (priv->filter_combo_box);
-		priv->filter_combo_box = NULL;
-	}
-
 	if (priv->search_context != NULL) {
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
-	}
-
-	if (priv->search_label != NULL) {
-		g_object_unref (priv->search_label);
-		priv->search_label = NULL;
-	}
-
-	if (priv->search_entry != NULL) {
-		g_object_unref (priv->search_entry);
-		priv->search_entry = NULL;
-	}
-
-	if (priv->scope_label != NULL) {
-		g_object_unref (priv->scope_label);
-		priv->scope_label = NULL;
-	}
-
-	if (priv->scope_combo_box != NULL) {
-		g_object_unref (priv->scope_combo_box);
-		priv->scope_combo_box = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -614,6 +578,24 @@ shell_content_constructed (GObject *object)
 	gtk_size_group_add_widget (size_group, widget);
 
 	shell_content_init_search_context (shell_content);
+}
+
+static void
+shell_content_destroy (GtkObject *gtk_object)
+{
+	EShellContentPrivate *priv;
+
+	priv = E_SHELL_CONTENT_GET_PRIVATE (gtk_object);
+
+	if (priv->search_bar != NULL) {
+		gtk_widget_unparent (priv->search_bar);
+		gtk_widget_destroy (priv->search_bar);
+		g_object_unref (priv->search_bar);
+		priv->search_bar = NULL;
+	}
+
+	/* Chain up to parent's destroy() method. */
+	GTK_OBJECT_CLASS (parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -692,6 +674,7 @@ static void
 shell_content_class_init (EShellContentClass *class)
 {
 	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
@@ -704,6 +687,9 @@ shell_content_class_init (EShellContentClass *class)
 	object_class->dispose = shell_content_dispose;
 	object_class->finalize = shell_content_finalize;
 	object_class->constructed = shell_content_constructed;
+
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = shell_content_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_content_size_request;
@@ -877,7 +863,7 @@ shell_content_init (EShellContent *shell_content)
 	 * "Important Messages", or "Active Appointments". */
 	widget = gtk_label_new_with_mnemonic (_("Sho_w:"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->filter_label = g_object_ref (widget);
+	shell_content->priv->filter_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -885,7 +871,7 @@ shell_content_init (EShellContent *shell_content)
 	widget = e_action_combo_box_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->filter_combo_box = g_object_ref (widget);
+	shell_content->priv->filter_combo_box = widget;
 	gtk_widget_show (widget);
 
 	/* Search Entry Widgets */
@@ -902,7 +888,7 @@ shell_content_init (EShellContent *shell_content)
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("Sear_ch:"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->search_label = g_object_ref (widget);
+	shell_content->priv->search_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -910,7 +896,7 @@ shell_content_init (EShellContent *shell_content)
 	widget = e_hinted_entry_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
-	shell_content->priv->search_entry = g_object_ref (widget);
+	shell_content->priv->search_entry = widget;
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
@@ -944,7 +930,7 @@ shell_content_init (EShellContent *shell_content)
 	 * example: Search: [_______________] in [ Current Folder ] */
 	widget = gtk_label_new_with_mnemonic (_("i_n"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->scope_label = g_object_ref (widget);
+	shell_content->priv->scope_label = widget;
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -952,7 +938,7 @@ shell_content_init (EShellContent *shell_content)
 	widget = e_action_combo_box_new ();
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	shell_content->priv->scope_combo_box = g_object_ref (widget);
+	shell_content->priv->scope_combo_box = widget;
 	gtk_widget_show (widget);
 }
 
