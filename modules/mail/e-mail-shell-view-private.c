@@ -489,7 +489,9 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 	folder_uri = message_list->folder_uri;
-	g_return_if_fail (folder_uri != NULL);
+
+	if (folder_uri == NULL)
+		return;
 
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
 	e_shell_content_restore_state (shell_content, group_name);
