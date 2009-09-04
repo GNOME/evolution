@@ -352,23 +352,6 @@ shell_view_dispose (GObject *object)
 		priv->shell_window = NULL;
 	}
 
-	if (priv->size_group != NULL) {
-		GSList *list;
-
-		/* Remove all widgets from the size group. */
-		list = gtk_size_group_get_widgets (priv->size_group);
-		list = g_slist_copy (list);
-
-		while (list != NULL) {
-			gtk_size_group_remove_widget (
-				priv->size_group, list->data);
-			list = g_slist_delete_link (list, list);
-		}
-
-		g_object_unref (priv->size_group);
-		priv->size_group = NULL;
-	}
-
 	if (priv->shell_content != NULL) {
 		g_object_unref (priv->shell_content);
 		priv->shell_content = NULL;
@@ -429,6 +412,10 @@ shell_view_constructed (GObject *object)
 	widget = shell_view_class->new_shell_taskbar (shell_view);
 	shell_view->priv->shell_taskbar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
+
+	/* Size group should be safe to unreference now. */
+	g_object_unref (shell_view->priv->size_group);
+	shell_view->priv->size_group = NULL;
 }
 
 static void
@@ -956,6 +943,8 @@ e_shell_view_set_page_num (EShellView *shell_view,
  * Returns a #GtkSizeGroup that #EShellContent and #EShellSidebar use
  * to keep the search bar and sidebar banner vertically aligned.  The
  * rest of the application should have no need for this.
+ *
+ * Note, this is only available during #EShellView construction.
  *
  * Returns: a #GtkSizeGroup for internal use
  **/

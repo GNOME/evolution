@@ -587,6 +587,9 @@ shell_content_destroy (GtkObject *gtk_object)
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (gtk_object);
 
+	/* Unparent the widget before destroying it to avoid
+	 * writing a custom GtkContainer::remove() method. */
+
 	if (priv->search_bar != NULL) {
 		gtk_widget_unparent (priv->search_bar);
 		gtk_widget_destroy (priv->search_bar);

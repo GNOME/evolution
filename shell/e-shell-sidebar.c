@@ -21,7 +21,8 @@
 
 #include "e-shell-sidebar.h"
 
-#include <e-shell-view.h>
+#include <e-util/e-binding.h>
+#include <shell/e-shell-view.h>
 
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,9 +33,8 @@ struct _EShellSidebarPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	GtkWidget *event_box;
-	GtkWidget *image;
-	GtkWidget *primary_label;
-	GtkWidget *secondary_label;
+
+	gchar *icon_name;
 	gchar *primary_text;
 	gchar *secondary_text;
 };
@@ -145,26 +145,6 @@ shell_sidebar_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
-	if (priv->image != NULL) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
-	}
-
-	if (priv->event_box != NULL) {
-		g_object_unref (priv->event_box);
-		priv->event_box = NULL;
-	}
-
-	if (priv->primary_label != NULL) {
-		g_object_unref (priv->primary_label);
-		priv->primary_label = NULL;
-	}
-
-	if (priv->secondary_label != NULL) {
-		g_object_unref (priv->secondary_label);
-		priv->secondary_label = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -176,6 +156,7 @@ shell_sidebar_finalize (GObject *object)
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
 
+	g_free (priv->icon_name);
 	g_free (priv->primary_text);
 	g_free (priv->secondary_text);
 
@@ -190,7 +171,6 @@ shell_sidebar_constructed (GObject *object)
 	EShellSidebar *shell_sidebar;
 	GtkSizeGroup *size_group;
 	GtkAction *action;
-	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *label;
 	gchar *icon_name;
@@ -203,33 +183,6 @@ shell_sidebar_constructed (GObject *object)
 	widget = shell_sidebar->priv->event_box;
 	gtk_size_group_add_widget (size_group, widget);
 
-	container = widget;
-
-	widget = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	shell_sidebar->priv->image = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	shell_sidebar->priv->primary_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	shell_sidebar->priv->secondary_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
 	g_object_get (action, "icon-name", &icon_name, NULL);
 	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
 	g_free (icon_name);
@@ -237,6 +190,27 @@ shell_sidebar_constructed (GObject *object)
 	g_object_get (action, "label", &label, NULL);
 	e_shell_sidebar_set_primary_text (shell_sidebar, label);
 	g_free (label);
+}
+
+static void
+shell_sidebar_destroy (GtkObject *gtk_object)
+{
+	EShellSidebarPrivate *priv;
+
+	priv = E_SHELL_SIDEBAR_GET_PRIVATE (gtk_object);
+
+	/* Unparent the widget before destroying it to avoid
+	 * writing a custom GtkContainer::remove() method. */
+
+	if (priv->event_box != NULL) {
+		gtk_widget_unparent (priv->event_box);
+		gtk_widget_destroy (priv->event_box);
+		g_object_unref (priv->event_box);
+		priv->event_box = NULL;
+	}
+
+	/* Chain up to parent's destroy() method. */
+	GTK_OBJECT_CLASS (parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -294,26 +268,6 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 }
 
 static void
-shell_sidebar_remove (GtkContainer *container,
-                      GtkWidget *widget)
-{
-	EShellSidebarPrivate *priv;
-
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (container);
-
-	/* Look in the internal widgets first. */
-
-	if (widget == priv->event_box) {
-		gtk_widget_unparent (priv->event_box);
-		gtk_widget_queue_resize (GTK_WIDGET (container));
-		return;
-	}
-
-	/* Chain up to parent's remove() method. */
-	GTK_CONTAINER_CLASS (parent_class)->remove (container, widget);
-}
-
-static void
 shell_sidebar_forall (GtkContainer *container,
                       gboolean include_internals,
                       GtkCallback callback,
@@ -335,6 +289,7 @@ static void
 shell_sidebar_class_init (EShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
@@ -348,12 +303,14 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->finalize = shell_sidebar_finalize;
 	object_class->constructed = shell_sidebar_constructed;
 
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = shell_sidebar_destroy;
+
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_sidebar_size_request;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
-	container_class->remove = shell_sidebar_remove;
 	container_class->forall = shell_sidebar_forall;
 
 	/**
@@ -424,7 +381,11 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 {
 	GtkStyle *style;
 	GtkWidget *widget;
+	GtkWidget *container;
+	PangoAttribute *attribute;
+	PangoAttrList *attribute_list;
 	const GdkColor *color;
+	const gchar *icon_name;
 
 	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
@@ -438,7 +399,50 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	shell_sidebar->priv->event_box = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Finish initialization once we have a shell view. */
+	container = widget;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	/* Pick a bogus icon name just to get the storage type set. */
+	icon_name = "evolution";
+	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+	widget = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_new (shell_sidebar, "icon-name", widget, "icon-name");
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	attribute_list = pango_attr_list_new ();
+	attribute = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+	pango_attr_list_insert (attribute_list, attribute);
+	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
+	pango_attr_list_unref (attribute_list);
+
+	e_binding_new (shell_sidebar, "primary-text", widget, "label");
+
+	widget = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	attribute_list = pango_attr_list_new ();
+	attribute = pango_attr_scale_new (PANGO_SCALE_SMALL);
+	pango_attr_list_insert (attribute_list, attribute);
+	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
+	pango_attr_list_unref (attribute_list);
+
+	e_binding_new (shell_sidebar, "secondary-text", widget, "label");
 }
 
 GType
@@ -538,15 +542,9 @@ e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 const gchar *
 e_shell_sidebar_get_icon_name (EShellSidebar *shell_sidebar)
 {
-	GtkImage *image;
-	const gchar *icon_name;
-
 	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
 
-	image = GTK_IMAGE (shell_sidebar->priv->image);
-	gtk_image_get_icon_name (image, &icon_name, NULL);
-
-	return icon_name;
+	return shell_sidebar->priv->icon_name;
 }
 
 /**
@@ -560,12 +558,10 @@ void
 e_shell_sidebar_set_icon_name (EShellSidebar *shell_sidebar,
                                const gchar *icon_name)
 {
-	GtkImage *image;
-
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
-	image = GTK_IMAGE (shell_sidebar->priv->image);
-	gtk_image_set_from_icon_name (image, icon_name, GTK_ICON_SIZE_MENU);
+	g_free (shell_sidebar->priv->icon_name);
+	shell_sidebar->priv->icon_name = g_strdup (icon_name);
 
 	g_object_notify (G_OBJECT (shell_sidebar), "icon-name");
 }
@@ -605,21 +601,10 @@ void
 e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
                                   const gchar *primary_text)
 {
-	GtkLabel *label;
-	gchar *markup;
-
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
 	g_free (shell_sidebar->priv->primary_text);
 	shell_sidebar->priv->primary_text = g_strdup (primary_text);
-
-	if (primary_text == NULL)
-		primary_text = "";
-
-	label = GTK_LABEL (shell_sidebar->priv->primary_label);
-	markup = g_markup_printf_escaped ("<b>%s</b>", primary_text);
-	gtk_label_set_markup (label, markup);
-	g_free (markup);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
 	g_object_notify (G_OBJECT (shell_sidebar), "primary-text");
@@ -662,21 +647,10 @@ void
 e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
                                     const gchar *secondary_text)
 {
-	GtkLabel *label;
-	gchar *markup;
-
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
 	g_free (shell_sidebar->priv->secondary_text);
 	shell_sidebar->priv->secondary_text = g_strdup (secondary_text);
-
-	if (secondary_text == NULL)
-		secondary_text = "";
-
-	label = GTK_LABEL (shell_sidebar->priv->secondary_label);
-	markup = g_markup_printf_escaped ("<small>%s</small>", secondary_text);
-	gtk_label_set_markup (label, markup);
-	g_free (markup);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
 	g_object_notify (G_OBJECT (shell_sidebar), "secondary-text");
