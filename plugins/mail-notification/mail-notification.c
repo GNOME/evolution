@@ -31,10 +31,8 @@
 #include <gconf/gconf-client.h>
 #include <canberra-gtk.h>
 
-#ifdef HAVE_DBUS
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
-#endif
 
 #include <time.h>
 
@@ -107,8 +105,6 @@ is_part_enabled (const gchar *gconf_key)
 /* -------------------------------------------------------------------  */
 /*                           DBUS part                                  */
 /* -------------------------------------------------------------------  */
-
-#ifdef HAVE_DBUS
 
 #define DBUS_PATH		"/org/gnome/evolution/mail/newmail"
 #define DBUS_INTERFACE		"org.gnome.evolution.mail.dbus.Signal"
@@ -219,7 +215,6 @@ enable_dbus (gint enable)
 		bus = NULL;
 	}
 }
-#endif
 
 /* -------------------------------------------------------------------  */
 /*                     Notification area part                           */
@@ -864,7 +859,6 @@ get_cfg_widget (void)
 		bridge, GCONF_KEY_NOTIFY_ONLY_INBOX,
 		G_OBJECT (widget), "active");
 
-#ifdef HAVE_DBUS
 	text = _("Generate a _D-Bus message");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -873,7 +867,6 @@ get_cfg_widget (void)
 	gconf_bridge_bind_property (
 		bridge, GCONF_KEY_ENABLED_DBUS,
 		G_OBJECT (widget), "active");
-#endif
 
 	widget = get_config_widget_status ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -900,10 +893,9 @@ org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)
 
 	g_static_mutex_lock (&mlock);
 
-#ifdef HAVE_DBUS
 	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 		new_notify_dbus (t);
-#endif
+
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		new_notify_status (t);
 
@@ -923,10 +915,9 @@ org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t)
 
 	g_static_mutex_lock (&mlock);
 
-#ifdef HAVE_DBUS
 	if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 		read_notify_dbus (t);
-#endif
+
 	if (is_part_enabled (GCONF_KEY_ENABLED_STATUS))
 		read_notify_status (t);
 
@@ -940,18 +931,15 @@ gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (enable) {
-#ifdef HAVE_DBUS
 		if (is_part_enabled (GCONF_KEY_ENABLED_DBUS))
 			enable_dbus (enable);
-#endif
+
 		if (is_part_enabled (GCONF_KEY_ENABLED_SOUND))
 			enable_sound (enable);
 
 		enabled = TRUE;
 	} else {
-#ifdef HAVE_DBUS
 		enable_dbus (enable);
-#endif
 		enable_sound (enable);
 
 		enabled = FALSE;

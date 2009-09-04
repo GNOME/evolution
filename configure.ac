@@ -62,9 +62,9 @@ m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
 m4_define([unique_minimum_version], [1.0.8])
+m4_define([dbus_glib_minimum_version], [0.74])
 
 dnl Optional Packages
-m4_define([dbus_minimum_version], [0.74])
 m4_define([nm_minimum_version],[0.7])
 m4_define([hal_minimum_version], [0.5.4])
 m4_define([libnotify_minimum_version], [0.3.0])
@@ -1452,30 +1452,9 @@ AC_SUBST(TNEF_CFLAGS)
 dnl ******************************
 dnl Check for dbus-glib-1 and dbus
 dnl ******************************
-AC_ARG_ENABLE([dbus],
-	[AS_HELP_STRING([--enable-dbus],
-	[enable DBUS support (default=yes)])],
-	[enable_dbus=$enableval],[enable_dbus=yes])
-AC_MSG_CHECKING([if dbus support is enabled])
-AC_MSG_RESULT([$enable_dbus])
-if test "$enable_dbus" = "yes"; then
-	PKG_CHECK_MODULES([DBUS_GLIB], [dbus-glib-1 >= dbus_minimum_version],
-	[DBUS_SUPPORT="yes"],
-	[AC_MSG_ERROR([DBUS respectively dbus-glib not found! (or version < dbus_minimum_version)!
-	If you want to disable DBUS, please append --disable-dbus to configure!
-	DBUS is required for NetworkManager - NetworkManager support will then be disabled, too!])])
-	AC_DEFINE(DBUS_SUPPORT, 1, [dbus available])
-	AC_SUBST(HAVE_DBUS)
-	AC_SUBST(DBUS_GLIB_CFLAGS)
-	AC_SUBST(DBUS_GLIB_LIBS)
-elif test "$enable_dbus" = "no" -a "$enable_nm" = "yes"; then
-	AC_MSG_ERROR([DBUS disabled and NetworkManager enabled - this won't work!
-	Disable NetworkManager (append --disable-nm to configure)!])
-else
-	AC_MSG_WARN([DBUS support disabled!])
-	DBUS_SUPPORT="no"
-fi
-AM_CONDITIONAL([DBUS_SUPPORT], [test "$DBUS_SUPPORT" = yes])
+PKG_CHECK_MODULES([DBUS_GLIB], [dbus-glib-1 >= dbus_glib_minimum_version])
+AC_SUBST(DBUS_GLIB_CFLAGS)
+AC_SUBST(DBUS_GLIB_LIBS)
 
 dnl ******************************
 dnl Check for NetworkManager
@@ -2127,7 +2106,6 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	HAL:			$HAVE_HAL
-	DBUS:			$DBUS_SUPPORT
 	NetworkManager:		$NM_SUPPORT
 	NNTP support:		$msg_nntp
 	Pilot conduits:		$msg_pilot

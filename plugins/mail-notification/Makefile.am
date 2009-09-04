@@ -9,13 +9,9 @@ AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(EVOLUTION_MAIL_CFLAGS)		\
+	$(DBUS_GLIB_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)			\
 	$(CANBERRA_CFLAGS)
-
-if DBUS_SUPPORT
-AM_CPPFLAGS += 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
-		$(DBUS_GLIB_CFLAGS)
-endif
 
 @EVO_PLUGIN_RULE@
 
@@ -26,15 +22,12 @@ liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = 	\
 	-module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_mail_notification_la_LIBADD = 		\
+	$(DBUS_GLIB_LIBS)				\
 	$(CANBERRA_LIBS)				\
 	$(LIBNOTIFY_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la 		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(GNOME_PLATFORM_LIBS)
-
-if DBUS_SUPPORT
-liborg_gnome_mail_notification_la_LIBADD += $(DBUS_GLIB_LIBS)
-endif 
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)
 schema_in_files = apps-evolution-mail-notification.schemas.in
