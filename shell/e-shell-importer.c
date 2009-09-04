@@ -528,7 +528,12 @@ import_assistant_apply (GtkAssistant *assistant, ImportData *data)
 	}
 
 	if (done) {
-		data->import_dialog = e_error_new(NULL, "shell:importing", msg, NULL);
+		gpointer parent;
+
+		parent = gtk_widget_get_parent (data->assistant);
+		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+		data->import_dialog = e_error_new(parent, "shell:importing", msg, NULL);
 		g_signal_connect(data->import_dialog, "response", G_CALLBACK(import_dialog_response), data);
 		data->import_label = gtk_label_new(_("Please wait"));
 		data->import_progress = gtk_progress_bar_new();

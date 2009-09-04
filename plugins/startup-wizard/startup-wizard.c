@@ -210,10 +210,15 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
+	GtkWindow *parent;
+	GList *windows;
 	gchar *location;
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	windows = e_shell_get_watched_windows (shell);
+	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 	/* Use System Timezone by default */
 	e_shell_settings_set_boolean (
@@ -227,7 +232,7 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 		import_iterator = import_importers;
 		import_importer = import_iterator->data;
 
-		import_dialog = e_error_new(NULL, "shell:importing", _("Importing data."), NULL);
+		import_dialog = e_error_new(parent, "shell:importing", _("Importing data."), NULL);
 		g_signal_connect(import_dialog, "response", G_CALLBACK(import_dialog_response), NULL);
 		import_label = gtk_label_new(_("Please wait"));
 		import_progress = gtk_progress_bar_new();

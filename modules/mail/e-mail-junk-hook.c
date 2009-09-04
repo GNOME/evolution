@@ -25,6 +25,8 @@
 #include <camel/camel-junk-plugin.h>
 
 #include "e-util/e-error.h"
+#include "shell/e-shell.h"
+
 #include "mail/em-junk.h"
 #include "mail/em-utils.h"
 #include "mail/mail-session.h"
@@ -48,10 +50,17 @@ static GType mail_junk_hook_type;
 static gboolean
 mail_junk_hook_idle_cb (struct ErrorData *data)
 {
+	EShell *shell;
+	GtkWindow *parent;
 	GtkWidget *widget;
+	GList *windows;
+
+	shell = e_shell_get_default ();
+	windows = e_shell_get_watched_windows (shell);
+	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 	widget = e_error_new (
-		NULL, data->error_message, data->error->message, NULL);
+		parent, data->error_message, data->error->message, NULL);
 	em_utils_show_error_silent (widget);
 
 	g_error_free (data->error);

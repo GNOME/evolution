@@ -1242,10 +1242,14 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	icalcomponent *icalcomp;
 	ECalComponentTransparency transparency;
 	ECal *default_client = NULL;
+	gpointer parent;
 	guint32 flags = 0;
 	gboolean readonly = FALSE;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (cal_view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	priv = cal_view->priv;
 
@@ -1259,7 +1263,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	if (e_cal_is_read_only (default_client, &readonly, NULL) && readonly) {
 		GtkWidget *widget;
 
-		widget = e_error_new (NULL, "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (default_client)), NULL);
+		widget = e_error_new (parent, "calendar:prompt-read-only-cal", e_source_peek_name (e_cal_get_source (default_client)), NULL);
 
 		g_signal_connect ((GtkDialog *)widget, "response", G_CALLBACK (gtk_widget_destroy),
 				  widget);

@@ -66,7 +66,6 @@ struct _e_error_table {
 };
 
 static GHashTable *error_table;
-static GSList *ee_parent_list;
 
 /* ********************************************************************** */
 
@@ -433,12 +432,12 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
-	if (parent == NULL && ee_parent_list)
-		parent = (GtkWindow *)ee_parent_list->data;
 	if (parent)
 		gtk_window_set_transient_for ((GtkWindow *)dialog, parent);
 	else
-		g_warning("No parent set, or default parent available for error dialog");
+		g_warning (
+			"Something called %s() with a NULL parent window.  "
+			"This is no longer legal, please fix it.", G_STRFUNC);
 
 	domain = alloca(strlen(tag)+1);
 	strcpy(domain, tag);
@@ -668,30 +667,3 @@ e_error_count_buttons (GtkDialog *dialog)
 
 	return n_buttons;
 }
-
-static void
-remove_parent(GtkWidget *w, GtkWidget *parent)
-{
-	ee_parent_list = g_slist_remove(ee_parent_list, parent);
-}
-
-/**
- * e_error_default_parent:
- * @parent:
- *
- * Bit of a hack, set a default parent that will be used to parent any
- * error boxes if none is supplied.
- *
- * This may be called multiple times, and the last call will be the
- * main default.  This function will keep track of the parents
- * destruction state.
- **/
-void
-e_error_default_parent(GtkWindow *parent)
-{
-	if (g_slist_find(ee_parent_list, parent) == NULL) {
-		ee_parent_list = g_slist_prepend(ee_parent_list, parent);
-		g_signal_connect(parent, "destroy", G_CALLBACK(remove_parent), parent);
-	}
-}
-

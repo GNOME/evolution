@@ -56,6 +56,4 @@ gint e_error_runv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_lis
 
 guint e_error_count_buttons (GtkDialog *dialog);
 
-void e_error_default_parent(GtkWindow *parent);
-
 #endif /* !_E_ERROR_H */

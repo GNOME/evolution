@@ -292,9 +292,12 @@ static void error_response(GtkObject *o, gint button, gpointer data)
 void
 mail_msg_check_error (gpointer msg)
 {
+	EShell *shell;
+	GtkWindow *parent;
 	MailMsg *m = msg;
 	gchar *what;
 	GtkDialog *gd;
+	GList *windows;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -322,12 +325,16 @@ mail_msg_check_error (gpointer msg)
 		return;
 	}
 
+	shell = e_shell_get_default ();
+	windows = e_shell_get_watched_windows (shell);
+	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
+
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {
-		gd = (GtkDialog *)e_error_new(NULL, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_error_new(parent, "mail:async-error", what, camel_exception_get_description(&m->ex), NULL);
 		g_free(what);
 	} else
-		gd = (GtkDialog *)e_error_new(NULL, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
+		gd = (GtkDialog *)e_error_new(parent, "mail:async-error-nodescribe", camel_exception_get_description(&m->ex), NULL);
 
 	g_hash_table_insert(active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
