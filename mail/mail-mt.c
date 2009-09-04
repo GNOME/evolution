@@ -147,12 +147,12 @@ end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	if (error == NULL) {
+	if (activity != NULL) {
 		e_activity_complete (activity);
 		g_object_unref (activity);
-	} else {
-		if (activity != NULL)
-			g_object_unref (activity);
+	}
+
+	if (error != NULL) {
 		activity = e_alert_activity_new_warning (error);
 		e_shell_backend_add_activity (shell_backend, activity);
 		g_object_unref (activity);
