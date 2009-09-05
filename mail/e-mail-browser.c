@@ -26,6 +26,7 @@
 #include <camel/camel-folder.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-plugin-ui.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 
@@ -372,6 +373,7 @@ mail_browser_constructed (GObject *object)
 	GtkHTML *html;
 	const gchar *domain;
 	const gchar *key;
+	const gchar *id;
 	guint merge_id;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
@@ -479,6 +481,10 @@ mail_browser_constructed (GObject *object)
 	object = G_OBJECT (reader);
 	key = "/apps/evolution/mail/display/show_deleted";
 	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
+
+	id = "org.gnome.evolution.mail.browser";
+	e_plugin_ui_register_manager (ui_manager, id, object);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 static gboolean

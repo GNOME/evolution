@@ -54,6 +54,7 @@ enum {
 	CHANGED,
 	FOLDER_LOADED,
 	SHOW_SEARCH_BAR,
+	UPDATE_ACTIONS,
 	LAST_SIGNAL
 };
 
@@ -1883,6 +1884,269 @@ mail_reader_set_message (EMailReader *reader,
 }
 
 static void
+mail_reader_update_actions (EMailReader *reader)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	GtkAction *action;
+	GtkActionGroup *action_group;
+	const gchar *action_name;
+	gboolean sensitive;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean any_messages_selected;
+	gboolean disable_printing;
+	gboolean enable_flag_clear;
+	gboolean enable_flag_completed;
+	gboolean enable_flag_for_followup;
+	gboolean have_an_account;
+	gboolean multiple_messages_selected;
+	gboolean selection_has_deleted_messages;
+	gboolean selection_has_important_messages;
+	gboolean selection_has_junk_messages;
+	gboolean selection_has_not_junk_messages;
+	gboolean selection_has_read_messages;
+	gboolean selection_has_undeleted_messages;
+	gboolean selection_has_unimportant_messages;
+	gboolean selection_has_unread_messages;
+	gboolean selection_is_mailing_list;
+	gboolean single_message_selected;
+
+	action_group = e_mail_reader_get_action_group (reader);
+	state = e_mail_reader_check_state (reader);
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	disable_printing = e_shell_settings_get_boolean (
+		shell_settings, "disable-printing");
+
+	have_an_account =
+		(state & E_MAIL_READER_HAVE_ACCOUNT);
+	single_message_selected =
+		(state & E_MAIL_READER_SELECTION_SINGLE);
+	multiple_messages_selected =
+		(state & E_MAIL_READER_SELECTION_MULTIPLE);
+	/* FIXME Missing CAN_ADD_SENDER */
+	enable_flag_clear =
+		(state & E_MAIL_READER_SELECTION_FLAG_CLEAR);
+	enable_flag_completed =
+		(state & E_MAIL_READER_SELECTION_FLAG_COMPLETED);
+	enable_flag_for_followup =
+		(state & E_MAIL_READER_SELECTION_FLAG_FOLLOWUP);
+	selection_has_deleted_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_DELETED);
+	selection_has_important_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_IMPORTANT);
+	selection_has_junk_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_JUNK);
+	selection_has_not_junk_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_NOT_JUNK);
+	selection_has_read_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_READ);
+	selection_has_undeleted_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNDELETED);
+	selection_has_unimportant_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNIMPORTANT);
+	selection_has_unread_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
+	selection_is_mailing_list =
+		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
+
+	any_messages_selected =
+		(single_message_selected || multiple_messages_selected);
+
+	action_name = "mail-check-for-junk";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-copy";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-delete";
+	sensitive = selection_has_undeleted_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-filters-apply";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward";
+	sensitive = have_an_account && any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-attached";
+	sensitive = have_an_account && any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-inline";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-quoted";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-load-images";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-important";
+	sensitive = selection_has_unimportant_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-junk";
+	sensitive = selection_has_not_junk_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-notjunk";
+	sensitive = selection_has_junk_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-read";
+	sensitive = selection_has_unread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-unimportant";
+	sensitive = selection_has_important_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-unread";
+	sensitive = selection_has_read_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-edit";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-new";
+	sensitive = have_an_account;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-open";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-move";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-important";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-thread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-unread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous-important";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous-unread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-print";
+	sensitive = single_message_selected && !disable_printing;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-print-preview";
+	sensitive = single_message_selected && !disable_printing;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-redirect";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-all";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-list";
+	sensitive = have_an_account && single_message_selected &&
+		selection_is_mailing_list;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-sender";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-save-as";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-select-all";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-show-source";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-undelete";
+	sensitive = selection_has_deleted_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-100";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-in";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-out";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+}
+
+static void
 mail_reader_init_charset_actions (EMailReader *reader)
 {
 	GtkActionGroup *action_group;
@@ -1916,6 +2180,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 {
 	iface->set_folder = mail_reader_set_folder;
 	iface->set_message = mail_reader_set_message;
+	iface->update_actions = mail_reader_update_actions;
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -1938,6 +2203,15 @@ mail_reader_class_init (EMailReaderIface *iface)
 		G_OBJECT_CLASS_TYPE (iface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EMailReaderIface, show_search_bar),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[UPDATE_ACTIONS] = g_signal_new (
+		"update-actions",
+		G_OBJECT_CLASS_TYPE (iface),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailReaderIface, update_actions),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -2289,266 +2563,9 @@ e_mail_reader_check_state (EMailReader *reader)
 void
 e_mail_reader_update_actions (EMailReader *reader)
 {
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
-	GtkAction *action;
-	GtkActionGroup *action_group;
-	const gchar *action_name;
-	gboolean sensitive;
-	guint32 state;
-
-	/* Be descriptive. */
-	gboolean any_messages_selected;
-	gboolean disable_printing;
-	gboolean enable_flag_clear;
-	gboolean enable_flag_completed;
-	gboolean enable_flag_for_followup;
-	gboolean have_an_account;
-	gboolean multiple_messages_selected;
-	gboolean selection_has_deleted_messages;
-	gboolean selection_has_important_messages;
-	gboolean selection_has_junk_messages;
-	gboolean selection_has_not_junk_messages;
-	gboolean selection_has_read_messages;
-	gboolean selection_has_undeleted_messages;
-	gboolean selection_has_unimportant_messages;
-	gboolean selection_has_unread_messages;
-	gboolean selection_is_mailing_list;
-	gboolean single_message_selected;
-
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	action_group = e_mail_reader_get_action_group (reader);
-	state = e_mail_reader_check_state (reader);
-
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	disable_printing = e_shell_settings_get_boolean (
-		shell_settings, "disable-printing");
-
-	have_an_account =
-		(state & E_MAIL_READER_HAVE_ACCOUNT);
-	single_message_selected =
-		(state & E_MAIL_READER_SELECTION_SINGLE);
-	multiple_messages_selected =
-		(state & E_MAIL_READER_SELECTION_MULTIPLE);
-	/* FIXME Missing CAN_ADD_SENDER */
-	enable_flag_clear =
-		(state & E_MAIL_READER_SELECTION_FLAG_CLEAR);
-	enable_flag_completed =
-		(state & E_MAIL_READER_SELECTION_FLAG_COMPLETED);
-	enable_flag_for_followup =
-		(state & E_MAIL_READER_SELECTION_FLAG_FOLLOWUP);
-	selection_has_deleted_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_DELETED);
-	selection_has_important_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_IMPORTANT);
-	selection_has_junk_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_JUNK);
-	selection_has_not_junk_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_NOT_JUNK);
-	selection_has_read_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_READ);
-	selection_has_undeleted_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_UNDELETED);
-	selection_has_unimportant_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_UNIMPORTANT);
-	selection_has_unread_messages =
-		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
-	selection_is_mailing_list =
-		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
-
-	any_messages_selected =
-		(single_message_selected || multiple_messages_selected);
-
-	action_name = "mail-check-for-junk";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-copy";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-delete";
-	sensitive = selection_has_undeleted_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-filters-apply";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward";
-	sensitive = have_an_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward-attached";
-	sensitive = have_an_account && any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward-inline";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-forward-quoted";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-load-images";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-important";
-	sensitive = selection_has_unimportant_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-junk";
-	sensitive = selection_has_not_junk_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-notjunk";
-	sensitive = selection_has_junk_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-read";
-	sensitive = selection_has_unread_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-unimportant";
-	sensitive = selection_has_important_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-mark-unread";
-	sensitive = selection_has_read_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-message-edit";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-message-new";
-	sensitive = have_an_account;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-message-open";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-move";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-next-important";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-next-thread";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-next-unread";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-previous-important";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-previous-unread";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-print";
-	sensitive = single_message_selected && !disable_printing;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-print-preview";
-	sensitive = single_message_selected && !disable_printing;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-redirect";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-reply-all";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-reply-list";
-	sensitive = have_an_account && single_message_selected &&
-		selection_is_mailing_list;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-reply-sender";
-	sensitive = have_an_account && single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-save-as";
-	sensitive = any_messages_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-select-all";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-show-source";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-undelete";
-	sensitive = selection_has_deleted_messages;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-zoom-100";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-zoom-in";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-zoom-out";
-	sensitive = single_message_selected;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
+	g_signal_emit (reader, signals[UPDATE_ACTIONS], 0);
 }
 
 GtkAction *

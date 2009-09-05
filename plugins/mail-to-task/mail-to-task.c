@@ -46,6 +46,7 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-utf8.h>
 
+#include <mail/e-mail-browser.h>
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>
 #include <mail/mail-config.h>
@@ -66,7 +67,9 @@
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-task")
 
-gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
+gboolean	mail_browser_init		(GtkUIManager *ui_manager,
+						 EMailBrowser *browser);
+gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 
 static gchar *
@@ -948,7 +951,11 @@ action_mail_convert_to_task_cb (GtkAction *action,
 	mail_to_event (E_CAL_SOURCE_TYPE_TODO, FALSE, shell_view);
 }
 
-static GtkActionEntry entries[] = {
+/* Note, we're not using EPopupActions here because we update the state
+ * of entire actions groups instead of individual actions.  EPopupActions
+ * just proxy the state of individual actions. */
+
+static GtkActionEntry multi_selection_entries[] = {
 
 	{ "mail-convert-to-event",
 	  "appointment-new",
@@ -956,13 +963,6 @@ static GtkActionEntry entries[] = {
 	  NULL,
 	  N_("Create a new event from the selected message"),
 	  G_CALLBACK (action_mail_convert_to_event_cb) },
-
-	{ "mail-convert-to-meeting",
-	  "stock_new-meeting",
-	  N_("Create a _Meeting"),
-	  NULL,
-	  N_("Create a new meeting from the selected message"),
-	  G_CALLBACK (action_mail_convert_to_meeting_cb) },
 
 	{ "mail-convert-to-memo",
 	  "stock_insert-note",
@@ -979,79 +979,106 @@ static GtkActionEntry entries[] = {
 	  G_CALLBACK (action_mail_convert_to_task_cb) }
 };
 
-static EPopupActionEntry popup_entries[] = {
+static GtkActionEntry single_selection_entries[] = {
 
-	{ "mail-popup-convert-to-event",
+	{ "mail-convert-to-meeting",
+	  "stock_new-meeting",
+	  N_("Create a _Meeting"),
 	  NULL,
-	  "mail-convert-to-event" },
-
-	{ "mail-popup-convert-to-meeting",
-	  NULL,
-	  "mail-convert-to-meeting" },
-
-	{ "mail-popup-convert-to-memo",
-	  NULL,
-	  "mail-convert-to-memo" },
-
-	{ "mail-popup-convert-to-task",
-	  NULL,
-	  "mail-convert-to-task" }
+	  N_("Create a new meeting from the selected message"),
+	  G_CALLBACK (action_mail_convert_to_meeting_cb) }
 };
 
 static void
-update_actions_cb (EShellView *shell_view)
+update_actions_any_cb (EMailReader *reader,
+                       GtkActionGroup *action_group)
 {
-	EShellContent *shell_content;
-	EShellWindow *shell_window;
-	GtkAction *action;
 	gboolean sensitive;
 	guint32 state;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	state = e_mail_reader_check_state (E_MAIL_READER (shell_content));
+	state = e_mail_reader_check_state (reader);
 
 	sensitive =
 		(state & E_MAIL_READER_SELECTION_SINGLE) ||
 		(state & E_MAIL_READER_SELECTION_MULTIPLE);
 
-	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_group_set_sensitive (action_group, sensitive);
+}
 
-	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+static void
+update_actions_one_cb (EMailReader *reader,
+                       GtkActionGroup *action_group)
+{
+	gboolean sensitive;
+	guint32 state;
 
-	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	state = e_mail_reader_check_state (reader);
 
 	sensitive = (state & E_MAIL_READER_SELECTION_SINGLE);
 
-	action = E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_group_set_sensitive (action_group, sensitive);
+}
 
+static void
+setup_actions (EMailReader *reader,
+               GtkUIManager *ui_manager)
+{
+	GtkActionGroup *action_group;
+	const gchar *domain = GETTEXT_PACKAGE;
+
+	action_group = gtk_action_group_new ("mail-convert-any");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, multi_selection_entries,
+		G_N_ELEMENTS (multi_selection_entries), reader);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	/* GtkUIManager now owns the action group reference.
+	 * The signal we're connecting to will only be emitted
+	 * during the GtkUIManager's lifetime, so the action
+	 * group will not disappear on us. */
+
+	g_signal_connect (
+		reader, "update-actions",
+		G_CALLBACK (update_actions_any_cb), action_group);
+
+	action_group = gtk_action_group_new ("mail-convert-one");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, single_selection_entries,
+		G_N_ELEMENTS (single_selection_entries), reader);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	/* GtkUIManager now owns the action group reference.
+	 * The signal we're connecting to will only be emitted
+	 * during the GtkUIManager's lifetime, so the action
+	 * group will not disappear on us. */
+
+	g_signal_connect (
+		reader, "update-actions",
+		G_CALLBACK (update_actions_one_cb), action_group);
 }
 
 gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
-                  EShellView *shell_view)
+mail_browser_init (GtkUIManager *ui_manager,
+                   EMailBrowser *browser)
 {
-	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
+	setup_actions (E_MAIL_READER (browser), ui_manager);
 
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	action_group = e_shell_window_get_action_group (shell_window, "mail");
+	return TRUE;
+}
 
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), shell_view);
-	e_action_group_add_popup_actions (
-		action_group, popup_entries,
-		G_N_ELEMENTS (popup_entries));
+gboolean
+mail_shell_view_init (GtkUIManager *ui_manager,
+                      EShellView *shell_view)
+{
+	EShellContent *shell_content;
 
-	g_signal_connect (
-		shell_view, "update-actions",
-		G_CALLBACK (update_actions_cb), NULL);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	setup_actions (E_MAIL_READER (shell_content), ui_manager);
 
 	return TRUE;
 }

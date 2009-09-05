@@ -102,6 +102,7 @@
           <menuitem action='mail-search-folder-from-recipients'/>
           <menuitem action='mail-search-folder-from-mailing-list'/>
         </menu>
+        <placeholder name='mail-message-custom-menus'/>
         <separator/>
         <placeholder name='mail-message-actions'/>
       </menu>

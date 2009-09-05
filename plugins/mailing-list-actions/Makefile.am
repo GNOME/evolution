@@ -6,7 +6,7 @@ AM_CPPFLAGS =						\
 
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = org-gnome-mailing-list-actions.eplug org-gnome-mailing-list-actions.xml
+plugin_DATA = org-gnome-mailing-list-actions.eplug
 plugin_LTLIBRARIES = liborg-gnome-mailing-list-actions.la
 
 liborg_gnome_mailing_list_actions_la_SOURCES = mailing-list-actions.c
@@ -27,7 +27,6 @@ CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = 						\
 	org-gnome-mailing-list-actions.eplug.xml	\
-	org-gnome-mailing-list-actions.error.xml	\
-	org-gnome-mailing-list-actions.xml
+	org-gnome-mailing-list-actions.error.xml
 
 -include $(top_srcdir)/git.mk

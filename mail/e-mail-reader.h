@@ -94,6 +94,7 @@ struct _EMailReaderIface {
 
 	/* Signals */
 	void		(*show_search_bar)	(EMailReader *reader);
+	void		(*update_actions)	(EMailReader *reader);
 };
 
 GType		e_mail_reader_get_type		(void);

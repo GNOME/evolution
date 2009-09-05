@@ -5,7 +5,23 @@
     <_description>Convert a mail message to a task.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
-      <ui-manager id="org.gnome.evolution.mail">
+      <ui-manager id="org.gnome.evolution.mail.browser"
+                  callback="mail_browser_init">
+        <menubar name='main-menu'>
+          <placeholder name='custom-menus'>
+            <menu action="mail-message-menu">
+              <placeholder name="mail-message-actions">
+                <menuitem action="mail-convert-to-event"/>
+                <menuitem action="mail-convert-to-meeting"/>
+                <menuitem action="mail-convert-to-task"/>
+                <menuitem action="mail-convert-to-memo"/>
+              </placeholder>
+            </menu>
+          </placeholder>
+        </menubar>
+      </ui-manager>
+      <ui-manager id="org.gnome.evolution.mail"
+                  callback="mail_shell_view_init">
         <menubar name='main-menu'>
           <placeholder name='custom-menus'>
             <menu action="mail-message-menu">
@@ -20,10 +36,10 @@
         </menubar>
         <popup name="mail-message-popup">
           <placeholder name="mail-message-popup-actions">
-            <menuitem action="mail-popup-convert-to-event"/>
-            <menuitem action="mail-popup-convert-to-meeting"/>
-            <menuitem action="mail-popup-convert-to-task"/>
-            <menuitem action="mail-popup-convert-to-memo"/>
+            <menuitem action="mail-convert-to-event"/>
+            <menuitem action="mail-convert-to-meeting"/>
+            <menuitem action="mail-convert-to-task"/>
+            <menuitem action="mail-convert-to-memo"/>
           </placeholder>
         </popup>
       </ui-manager>

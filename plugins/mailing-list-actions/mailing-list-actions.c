@@ -35,16 +35,28 @@
 #include "camel/camel-exception.h"
 #include "camel/camel-folder.h"
 #include "composer/e-msg-composer.h"
+#include "mail/e-mail-browser.h"
+#include "mail/e-mail-reader.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-hook.h"
-#include "mail/em-format.h"
-#include "mail/em-menu.h"
 #include "mail/em-config.h"
+#include "mail/em-utils.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-config.h"
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-window.h"
+#include "shell/e-shell-window-actions.h"
+
+/* EError Message IDs */
+#define MESSAGE_PREFIX			"org.gnome.mailing-list-actions:"
+#define MESSAGE_NO_ACTION		MESSAGE_PREFIX "no-action"
+#define MESSAGE_NO_HEADER		MESSAGE_PREFIX "no-header"
+#define MESSAGE_ASK_SEND_MESSAGE	MESSAGE_PREFIX "ask-send-message"
+#define MESSAGE_MALFORMED_HEADER	MESSAGE_PREFIX "malformed-header"
+#define MESSAGE_POSTING_NOT_ALLOWED	MESSAGE_PREFIX "posting-not-allowed"
 
 typedef enum {
 	EMLA_ACTION_HELP,
@@ -70,38 +82,22 @@ const EmlaActionHeader emla_action_headers[] = {
 	{ EMLA_ACTION_ARCHIVE,     FALSE, "List-Archive" },
 };
 
-const gint emla_n_action_headers = sizeof(emla_action_headers) / sizeof(EmlaActionHeader);
-
-void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action);
-void emla_list_help (EPlugin *item, EMMenuTargetSelect* sel);
-void emla_list_unsubscribe (EPlugin *item, EMMenuTargetSelect* sel);
-void emla_list_subscribe (EPlugin *item, EMMenuTargetSelect* sel);
-void emla_list_post (EPlugin *item, EMMenuTargetSelect* sel);
-void emla_list_owner (EPlugin *item, EMMenuTargetSelect* sel);
-void emla_list_archive (EPlugin *item, EMMenuTargetSelect* sel);
-
-void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data);
+gboolean	mail_browser_init		(GtkUIManager *ui_manager,
+						 EMailBrowser *browser);
+gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
+						 EShellView *shell_view);
 
 typedef struct {
+	EMailReader *reader;
 	EmlaAction action;
 	gchar * uri;
 } emla_action_data;
 
-void emla_list_action (EPlugin *item, EMMenuTargetSelect* sel, EmlaAction action)
-{
-	emla_action_data *data;
-
-	g_return_if_fail (sel->uids->len == 1);
-
-	data = (emla_action_data *) malloc (sizeof (emla_action_data));
-	data->action = action;
-	data->uri = strdup (sel->uri);
-
-	mail_get_message (sel->folder, (const gchar *) g_ptr_array_index (sel->uids, 0),
-			emla_list_action_do, data, mail_msg_unordered_push);
-}
-
-void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data)
+static void
+emla_list_action_do (CamelFolder *folder,
+                     const gchar *uid,
+                     CamelMimeMessage *msg,
+                     gpointer data)
 {
 	emla_action_data *action_data = (emla_action_data *) data;
 	EmlaAction action = action_data->action;
@@ -111,11 +107,14 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	EMsgComposer *composer;
 	gint send_message_response;
 	EAccount *account;
+	GtkWindow *parent;
 
 	if (msg == NULL)
 		return;
 
-	for (t = 0; t < emla_n_action_headers; t++) {
+	parent = e_mail_reader_get_window (action_data->reader);
+
+	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
 		if (emla_action_headers[t].action == action &&
 		    (header = camel_medium_get_header (CAMEL_MEDIUM (msg), emla_action_headers[t].header)) != NULL)
 			break;
@@ -123,7 +122,7 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 	if (!header) {
 		/* there was no header matching the action */
-		e_error_run (NULL, "org.gnome.mailing-list-actions:no-header", NULL);
+		e_error_run (parent, MESSAGE_NO_HEADER, NULL);
 		goto exit;
 	}
 
@@ -132,7 +131,7 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	if (action == EMLA_ACTION_POST) {
 		while (*headerpos == ' ') headerpos++;
 		if (g_ascii_strcasecmp (headerpos, "NO") == 0) {
-			e_error_run (NULL, "org.gnome.mailing-list-actions:posting-not-allowed", NULL);
+			e_error_run (parent, MESSAGE_POSTING_NOT_ALLOWED, NULL);
 			goto exit;
 		}
 	}
@@ -142,7 +141,9 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 		/* skip whitespace */
 		while (*headerpos == ' ') headerpos++;
 		if (*headerpos != '<' || (end = strchr (headerpos++, '>')) == NULL) {
-			e_error_run (NULL, "org.gnome.mailing-list-actions:malformed-header", emla_action_headers[t].header, header, NULL);
+			e_error_run (
+				parent, MESSAGE_MALFORMED_HEADER,
+				emla_action_headers[t].header, header, NULL);
 			goto exit;
 		}
 
@@ -153,7 +154,9 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 			if (emla_action_headers[t].interactive)
 				send_message_response = GTK_RESPONSE_NO;
 			else
-				send_message_response = e_error_run (NULL, "org.gnome.mailing-list-actions:ask-send-message", url, NULL);
+				send_message_response = e_error_run (
+					parent, MESSAGE_ASK_SEND_MESSAGE,
+					url, NULL);
 
 			if (send_message_response == GTK_RESPONSE_YES) {
 				/* directly send message */
@@ -162,7 +165,7 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 					e_composer_header_table_set_account (
 						e_msg_composer_get_header_table (composer),
 						account);
-				em_utils_composer_send_cb (composer, NULL);
+				e_msg_composer_send (composer);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
 				em_utils_compose_new_message_with_mailto (url, action_data->uri);
@@ -170,8 +173,7 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 
 			goto exit;
 		} else {
-			/* FIXME Pass a parent window. */
-			e_show_uri (NULL, url);
+			e_show_uri (parent, url);
 			goto exit;
 		}
 		g_free (url);
@@ -186,40 +188,196 @@ void emla_list_action_do (CamelFolder *folder, const gchar *uid, CamelMimeMessag
 	}
 
 	/* if we got here, there's no valid action */
-	e_error_run (NULL, "org.gnome.mailing-list-actions:no-action", header, NULL);
+	e_error_run (parent, MESSAGE_NO_ACTION, header, NULL);
 
 exit:
-	free (action_data->uri);
-	free (action_data);
-	g_free(url);
+	g_object_unref (action_data->reader);
+	g_free (action_data->uri);
+	g_free (action_data);
+	g_free (url);
 }
 
-void emla_list_help (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+emla_list_action (EMailReader *reader,
+                  EmlaAction action)
 {
-	emla_list_action (item, sel, EMLA_ACTION_HELP);
+	MessageList *message_list;
+	CamelFolder *folder;
+	GPtrArray *uids;
+	emla_action_data *data;
+	const gchar *folder_uri;
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	folder = message_list->folder;
+	folder_uri = message_list->folder_uri;
+	uids = message_list_get_selected (message_list);
+	g_return_if_fail (uids->len == 1);
+
+	data = g_malloc (sizeof (emla_action_data));
+	data->reader = g_object_ref (reader);
+	data->action = action;
+	data->uri = g_strdup (folder_uri);
+
+	mail_get_message (
+		folder, uids->pdata[0],
+		emla_list_action_do, data,
+		mail_msg_unordered_push);
+
+	em_utils_uids_free (uids);
 }
 
-void emla_list_unsubscribe (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+action_mailing_list_archive_cb (GtkAction *action,
+                                EMailReader *reader)
 {
-	emla_list_action (item, sel, EMLA_ACTION_UNSUBSCRIBE);
+	emla_list_action (reader, EMLA_ACTION_ARCHIVE);
 }
 
-void emla_list_subscribe (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+action_mailing_list_help_cb (GtkAction *action,
+                             EMailReader *reader)
 {
-	emla_list_action (item, sel, EMLA_ACTION_SUBSCRIBE);
+	emla_list_action (reader, EMLA_ACTION_HELP);
 }
 
-void emla_list_post (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+action_mailing_list_owner_cb (GtkAction *action,
+                              EMailReader *reader)
 {
-	emla_list_action (item, sel, EMLA_ACTION_POST);
+	emla_list_action (reader, EMLA_ACTION_OWNER);
 }
 
-void emla_list_owner (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+action_mailing_list_post_cb (GtkAction *action,
+                             EMailReader *reader)
 {
-	emla_list_action (item, sel, EMLA_ACTION_OWNER);
+	emla_list_action (reader, EMLA_ACTION_POST);
 }
 
-void emla_list_archive (EPlugin *item, EMMenuTargetSelect* sel)
+static void
+action_mailing_list_subscribe_cb (GtkAction *action,
+                                  EMailReader *reader)
 {
-	emla_list_action (item, sel, EMLA_ACTION_ARCHIVE);
+	emla_list_action (reader, EMLA_ACTION_SUBSCRIBE);
+}
+
+static void
+action_mailing_list_unsubscribe_cb (GtkAction *action,
+                                    EMailReader *reader)
+{
+	emla_list_action (reader, EMLA_ACTION_UNSUBSCRIBE);
+}
+
+static GtkActionEntry mailing_list_entries[] = {
+
+	{ "mailing-list-archive",
+	  NULL,
+	  N_("Get List _Archive"),
+	  NULL,
+	  N_("Get an archive of the list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_archive_cb) },
+
+	{ "mailing-list-help",
+	  NULL,
+	  N_("Get List _Usage Information"),
+	  NULL,
+	  N_("Get information about the usage of the list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_help_cb) },
+
+	{ "mailing-list-owner",
+	  NULL,
+	  N_("Contact List _Owner"),
+	  NULL,
+	  N_("Contact the owner of the mailing list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_owner_cb) },
+
+	{ "mailing-list-post",
+	  NULL,
+	  N_("_Post Message to List"),
+	  NULL,
+	  N_("Post a message to the mailing list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_post_cb) },
+
+	{ "mailing-list-subscribe",
+	  NULL,
+	  N_("_Subscribe to List"),
+	  NULL,
+	  N_("Subscribe to the mailing list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_subscribe_cb) },
+
+	{ "mailing-list-unsubscribe",
+	  NULL,
+	  N_("_Unsubscribe from List"),
+	  NULL,
+	  N_("Unsubscribe from the mailing list this message belongs to"),
+	  G_CALLBACK (action_mailing_list_unsubscribe_cb) },
+
+	/*** Menus ***/
+
+	{ "mailing-list-menu",
+	  NULL,
+	  N_("Mailing _List"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
+
+static void
+update_actions_cb (EMailReader *reader,
+                   GtkActionGroup *action_group)
+{
+	gboolean sensitive;
+	guint32 state;
+
+	state = e_mail_reader_check_state (reader);
+	sensitive = (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
+	gtk_action_group_set_sensitive (action_group, sensitive);
+}
+
+static void
+setup_actions (EMailReader *reader,
+               GtkUIManager *ui_manager)
+{
+	GtkActionGroup *action_group;
+	const gchar *domain = GETTEXT_PACKAGE;
+
+	action_group = gtk_action_group_new ("mailing-list");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, mailing_list_entries,
+		G_N_ELEMENTS (mailing_list_entries), reader);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	/* GtkUIManager now owns the action group reference.
+	 * The signal we're connecting to will only be emitted
+	 * during the GtkUIManager's lifetime, so the action
+	 * group will not disappear on us. */
+
+	g_signal_connect (
+		reader, "update-actions",
+		G_CALLBACK (update_actions_cb), action_group);
+}
+
+gboolean
+mail_browser_init (GtkUIManager *ui_manager,
+                   EMailBrowser *browser)
+{
+	setup_actions (E_MAIL_READER (browser), ui_manager);
+
+	return TRUE;
+}
+
+gboolean
+mail_shell_view_init (GtkUIManager *ui_manager,
+                      EShellView *shell_view)
+{
+	EShellContent *shell_content;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	setup_actions (E_MAIL_READER (shell_content), ui_manager);
+
+	return TRUE;
 }
