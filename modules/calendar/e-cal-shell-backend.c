@@ -360,7 +360,6 @@ action_event_new_cb (GtkAction *action,
 		}
 	}
 
-
 	/* This callback is used for both appointments and meetings. */
 
 	source_type = E_CAL_SOURCE_TYPE_EVENT;

@@ -112,8 +112,8 @@ struct _EShellView {
  *			Subclasses should rarely need to override the
  *			default behavior.
  * @execute_search:	Class method for the #EShellView::execute-search
- * 			signal.  There is no default behavior; subclasses
- * 			should override this.
+ *			signal.  There is no default behavior; subclasses
+ *			should override this.
  * @update_actions:	Class method for the #EShellView::update-actions
  *			signal.  There is no default behavior; subclasses
  *			should override this.
