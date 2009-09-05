@@ -226,7 +226,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 	dialog = glade_xml_get_widget (xml, "delegate_permissions");
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	e_dialog_set_transient_for (GTK_WINDOW (dialog), parent_window);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
 	g_free (title);
 
 	table = glade_xml_get_widget (xml, "toplevel_table");

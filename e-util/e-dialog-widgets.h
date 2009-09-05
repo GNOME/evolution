@@ -25,35 +25,10 @@
 #ifndef E_DIALOG_WIDGETS_H
 #define E_DIALOG_WIDGETS_H
 
-#include <time.h>
-#include <glade/glade.h>
-
-
-
 void e_dialog_editable_set (GtkWidget *widget, const gchar *value);
 gchar *e_dialog_editable_get (GtkWidget *widget);
 
-void e_dialog_radio_set (GtkWidget *widget, gint value, const gint *value_map);
-gint e_dialog_radio_get (GtkWidget *widget, const gint *value_map);
-
-void e_dialog_toggle_set (GtkWidget *widget, gboolean value);
-gboolean e_dialog_toggle_get (GtkWidget *widget);
-
-void e_dialog_spin_set (GtkWidget *widget, double value);
-gdouble e_dialog_spin_get_double (GtkWidget *widget);
-gint e_dialog_spin_get_int (GtkWidget *widget);
-
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
-
-gboolean e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
-				     gpointer value_var, gpointer info);
-
-void e_dialog_get_values (GtkWidget *dialog);
-
-gboolean e_dialog_xml_widget_hook_value (GladeXML *xml, GtkWidget *dialog, const gchar *widget_name,
-					 gpointer value_var, gpointer info);
-
-
 
 #endif

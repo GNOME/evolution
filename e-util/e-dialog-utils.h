@@ -29,15 +29,6 @@ void  e_notice                       (gpointer         parent,
 				      GtkMessageType   type,
 				      const gchar      *format,
 				      ...);
-void  e_notice_with_xid              (GdkNativeWindow  parent,
-				      GtkMessageType   type,
-				      const gchar      *format,
-				      ...);
-
-void  e_dialog_set_transient_for     (GtkWindow       *dialog,
-				      GtkWidget       *parent_widget);
-void  e_dialog_set_transient_for_xid (GtkWindow       *dialog,
-				      GdkNativeWindow  xid);
 
 gchar *e_file_dialog_save             (const gchar      *title, const gchar *fname);
 

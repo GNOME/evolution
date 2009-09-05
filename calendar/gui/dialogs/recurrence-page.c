@@ -418,12 +418,13 @@ clear_widgets (RecurrencePage *rpage)
 	priv->month_day = MONTH_DAY_NTH;
 
 	g_signal_handlers_block_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_toggle_set (priv->recurs, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->recurs), FALSE);
 	g_signal_handlers_unblock_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
 	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_spin_set (priv->interval_value, 1);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (priv->interval_value), 1);
 	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	g_signal_handlers_block_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
@@ -539,7 +540,7 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	if (flags & COMP_EDITOR_MEETING)
 		sens = flags & COMP_EDITOR_USER_ORG;
 
-	recurs = e_dialog_toggle_get (priv->recurs);
+	recurs = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs));
 
 	/* We can't preview that well for instances right now */
 	if (e_cal_component_is_instance (priv->comp))
@@ -664,7 +665,8 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 	/* Frequency, interval, week start */
 
 	r.freq = e_dialog_combo_box_get (priv->interval_unit_combo, freq_map);
-	r.interval = e_dialog_spin_get_int (priv->interval_value);
+	r.interval = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (priv->interval_value));
 	r.week_start = ICAL_SUNDAY_WEEKDAY
 		+ calendar_config_get_week_start_day ();
 
@@ -801,7 +803,8 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 		g_return_if_fail (priv->ending_count_spin != NULL);
 		g_return_if_fail (GTK_IS_SPIN_BUTTON (priv->ending_count_spin));
 
-		r.count = e_dialog_spin_get_int (priv->ending_count_spin);
+		r.count = gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (priv->ending_count_spin));
 		break;
 
 	case ENDING_UNTIL:
@@ -852,7 +855,7 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	priv = rpage->priv;
 	model = GTK_TREE_MODEL (priv->exception_list_store);
 
-	recurs = e_dialog_toggle_get (priv->recurs);
+	recurs = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->recurs));
 
 	if (recurs && priv->custom) {
 		/* We just keep whatever the component has currently */
@@ -1413,7 +1416,9 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	/* Set the values */
 
-	e_dialog_spin_set (priv->ending_count_spin, priv->ending_count);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (priv->ending_count_spin),
+		priv->ending_count);
 
 	g_signal_connect_swapped (
 		adj, "value-changed",
@@ -1598,7 +1603,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	    && !e_cal_component_has_rrules (comp)
 	    && !e_cal_component_has_exrules (comp)) {
 		g_signal_handlers_block_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-		e_dialog_toggle_set (priv->recurs, FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->recurs), FALSE);
 		g_signal_handlers_unblock_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 		sensitize_buttons (rpage);
@@ -1856,7 +1861,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* If we got here it means it is a simple recurrence */
 
 	g_signal_handlers_block_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_toggle_set (priv->recurs, TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->recurs), TRUE);
 	g_signal_handlers_unblock_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	sensitize_buttons (rpage);
@@ -1864,7 +1869,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
 	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
-	e_dialog_spin_set (priv->interval_value, r->interval);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (priv->interval_value), r->interval);
 	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	fill_ending_date (rpage, r);
@@ -1875,7 +1881,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	g_signal_handlers_block_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	priv->custom = TRUE;
-	e_dialog_toggle_set (priv->recurs, TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->recurs), TRUE);
 	g_signal_handlers_unblock_matched (priv->recurs, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	/* FIXME Desensitize recurrence page */
 

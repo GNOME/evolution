@@ -302,7 +302,9 @@ em_utils_edit_filters (GtkWidget *parent)
 
 	filter_editor = (GtkWidget *) em_filter_editor_new (fc, em_filter_source_element_names);
 	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) filter_editor, parent);
+		gtk_window_set_transient_for (
+			GTK_WINDOW (filter_editor),
+			GTK_WINDOW (parent));
 
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Message Filters"));
 	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GDestroyNotify) g_object_unref);

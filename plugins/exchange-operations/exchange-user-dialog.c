@@ -134,7 +134,7 @@ e2k_user_dialog_construct (E2kUserDialog *dialog,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	e_dialog_set_transient_for (GTK_WINDOW (dialog), parent_window);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
 
 	priv = dialog->priv;
 	priv->section_name = g_strdup (section_name);

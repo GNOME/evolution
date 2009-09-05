@@ -119,7 +119,7 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         table = glade_xml_get_widget (xml, "folder_treeview");
 	g_object_unref (xml);
 
-        e_dialog_set_transient_for (GTK_WINDOW (dialog), parent);
+        gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 	/* fsize->parent = parent; */
 
         /* Set up the table */

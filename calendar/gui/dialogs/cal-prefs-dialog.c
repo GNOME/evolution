@@ -271,7 +271,9 @@ hide_completed_tasks_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *pref
 static void
 hide_completed_tasks_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	calendar_config_set_hide_completed_tasks_value (e_dialog_spin_get_int (prefs->tasks_hide_completed_interval));
+	calendar_config_set_hide_completed_tasks_value (
+		gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (prefs->tasks_hide_completed_interval)));
 }
 
 static void
@@ -450,14 +452,18 @@ show_task_list_config (CalendarPrefsDialog *prefs)
 
 	/* Hide Completed Tasks. */
 	hide_completed_tasks = calendar_config_get_hide_completed_tasks ();
-	e_dialog_toggle_set (prefs->tasks_hide_completed, hide_completed_tasks);
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (prefs->tasks_hide_completed),
+		hide_completed_tasks);
 
 	/* Hide Completed Tasks Units. */
 	units = calendar_config_get_hide_completed_tasks_units ();
 	e_dialog_combo_box_set (prefs->tasks_hide_completed_units, units, hide_completed_units_map);
 
 	/* Hide Completed Tasks Value. */
-	e_dialog_spin_set (prefs->tasks_hide_completed_interval, calendar_config_get_hide_completed_tasks_value ());
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (prefs->tasks_hide_completed_interval),
+		calendar_config_get_hide_completed_tasks_value ());
 
 	gtk_widget_set_sensitive (prefs->tasks_hide_completed_interval, hide_completed_tasks);
 	gtk_widget_set_sensitive (prefs->tasks_hide_completed_units, hide_completed_tasks);
@@ -527,7 +533,9 @@ show_config (CalendarPrefsDialog *prefs)
 	e_dialog_combo_box_set (prefs->time_divisions, time_divisions, time_division_map);
 
 	/* Month View - Scroll by a week */
-	e_dialog_toggle_set (prefs->month_scroll_by_week, calendar_config_get_month_scroll_by_week ());
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (prefs->month_scroll_by_week),
+		calendar_config_get_month_scroll_by_week ());
 
 	/* Task list */
 	show_task_list_config (prefs);
@@ -536,15 +544,21 @@ show_config (CalendarPrefsDialog *prefs)
 	show_alarms_config (prefs);
 
 	/* Other page */
-	e_dialog_toggle_set (prefs->default_reminder, calendar_config_get_use_default_reminder ());
-	e_dialog_spin_set (prefs->default_reminder_interval, calendar_config_get_default_reminder_interval ());
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (prefs->default_reminder),
+		calendar_config_get_use_default_reminder ());
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (prefs->default_reminder_interval),
+		calendar_config_get_default_reminder_interval ());
 	e_dialog_combo_box_set (prefs->default_reminder_units, calendar_config_get_default_reminder_units (), default_reminder_units_map);
 
 	/* Birthdays & Anniversaries reminder */
 	set = calendar_config_get_ba_reminder (&interval, &units);
 
-	e_dialog_toggle_set (prefs->ba_reminder, set);
-	e_dialog_spin_set (prefs->ba_reminder_interval, interval);
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (prefs->ba_reminder), set);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (prefs->ba_reminder_interval), interval);
 	e_dialog_combo_box_set (prefs->ba_reminder_units, units, default_reminder_units_map);
 }
 

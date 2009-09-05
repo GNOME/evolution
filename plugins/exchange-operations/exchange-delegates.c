@@ -580,7 +580,7 @@ remove_button_clicked_cb (GtkWidget *widget, gpointer data)
 					 GTK_BUTTONS_YES_NO,
 					 _("Remove the delegate %s?"),
 					 user->display_name);
-	e_dialog_set_transient_for (GTK_WINDOW (dialog), widget);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), widget);
 
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -929,7 +929,7 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 	g_signal_connect (delegates->dialog, "response",
 			  G_CALLBACK (dialog_response), delegates);
 
-	e_dialog_set_transient_for (GTK_WINDOW (delegates->dialog), parent);
+	gtk_window_set_transient_for (GTK_WINDOW (delegates->dialog), parent);
 	delegates->parent = parent;
 	g_object_weak_ref (G_OBJECT (parent), parent_destroyed, delegates);
 

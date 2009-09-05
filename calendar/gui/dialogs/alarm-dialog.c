@@ -175,7 +175,8 @@ clear_widgets (Dialog *dialog)
 {
 	/* Sane defaults */
 	e_dialog_combo_box_set (dialog->action_combo, E_CAL_COMPONENT_ALARM_DISPLAY, action_map);
-	e_dialog_spin_set (dialog->interval_value, 15);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (dialog->interval_value), 15);
 	e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
 	e_dialog_combo_box_set (dialog->relative_combo, BEFORE, relative_map);
 	e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
@@ -253,24 +254,33 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	e_cal_component_alarm_get_repeat (dialog->alarm, &repeat);
 
 	if ( repeat.repetitions ) {
-		e_dialog_toggle_set (dialog->repeat_toggle, TRUE);
-		e_dialog_spin_set (dialog->repeat_quantity, repeat.repetitions);
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (dialog->repeat_toggle), TRUE);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->repeat_quantity),
+			repeat.repetitions);
 	} else
 		return;
 
 	if ( repeat.duration.minutes ) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_MINUTES, duration_units_map);
-		e_dialog_spin_set (dialog->repeat_value, repeat.duration.minutes);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->repeat_value),
+			repeat.duration.minutes);
 	}
 
 	if ( repeat.duration.hours ) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_HOURS, duration_units_map);
-		e_dialog_spin_set (dialog->repeat_value, repeat.duration.hours);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->repeat_value),
+			repeat.duration.hours);
 	}
 
 	if ( repeat.duration.days ) {
 		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_DAYS, duration_units_map);
-		e_dialog_spin_set (dialog->repeat_value, repeat.duration.days);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->repeat_value),
+			repeat.duration.days);
 	}
 }
 
@@ -279,27 +289,31 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmRepeat repeat;
 
-	if (!e_dialog_toggle_get (dialog->repeat_toggle)) {
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->repeat_toggle))) {
 		repeat.repetitions = 0;
 
 		e_cal_component_alarm_set_repeat (alarm, repeat);
 		return;
 	}
 
-	repeat.repetitions = e_dialog_spin_get_int (dialog->repeat_quantity);
+	repeat.repetitions = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (dialog->repeat_quantity));
 
 	memset (&repeat.duration, 0, sizeof (repeat.duration));
 	switch (e_dialog_combo_box_get (dialog->repeat_unit_combo, duration_units_map)) {
 	case DUR_MINUTES:
-		repeat.duration.minutes = e_dialog_spin_get_int (dialog->repeat_value);
+		repeat.duration.minutes = gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->repeat_value));
 		break;
 
 	case DUR_HOURS:
-		repeat.duration.hours = e_dialog_spin_get_int (dialog->repeat_value);
+		repeat.duration.hours = gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->repeat_value));
 		break;
 
 	case DUR_DAYS:
-		repeat.duration.days = e_dialog_spin_get_int (dialog->repeat_value);
+		repeat.duration.days = gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->repeat_value));
 		break;
 
 	default:
@@ -343,7 +357,8 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	if ( !(url && *url) )
 		return;
 
-	e_dialog_toggle_set (dialog->aalarm_sound, TRUE);
+	gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON (dialog->aalarm_sound), TRUE);
 	gtk_file_chooser_set_uri (
 		GTK_FILE_CHOOSER (dialog->aalarm_file_chooser), url);
 }
@@ -358,7 +373,8 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 	e_cal_component_alarm_get_description (alarm, &description);
 
 	if (description.value) {
-		e_dialog_toggle_set (dialog->dalarm_message, TRUE);
+		gtk_toggle_button_set_active (
+			GTK_TOGGLE_BUTTON (dialog->dalarm_message), TRUE);
 		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
 		gtk_text_buffer_set_text (text_buffer, description.value, -1);
 	}
@@ -635,16 +651,23 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	if ( trigger->u.rel_duration.days ) {
 		e_dialog_combo_box_set (dialog->value_units_combo, DAYS, value_map);
-		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.days);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->interval_value),
+			trigger->u.rel_duration.days);
 	} else if ( trigger->u.rel_duration.hours ) {
 		e_dialog_combo_box_set (dialog->value_units_combo, HOURS, value_map);
-		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.hours);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->interval_value),
+			trigger->u.rel_duration.hours);
 	} else if ( trigger->u.rel_duration.minutes ) {
 		e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
-		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.minutes);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->interval_value),
+			trigger->u.rel_duration.minutes);
 	} else {
 		e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
-		e_dialog_spin_set (dialog->interval_value, 0);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->interval_value), 0);
 	}
 
 	/* Repeat options */
@@ -693,17 +716,20 @@ dialog_to_alarm (Dialog *dialog)
 	switch (e_dialog_combo_box_get (dialog->value_units_combo, value_map)) {
 	case MINUTES:
 		trigger.u.rel_duration.minutes =
-			e_dialog_spin_get_int (dialog->interval_value);
+			gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->interval_value));
 		break;
 
 	case HOURS:
 		trigger.u.rel_duration.hours =
-			e_dialog_spin_get_int (dialog->interval_value);
+			gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->interval_value));
 		break;
 
 	case DAYS:
 		trigger.u.rel_duration.days =
-			e_dialog_spin_get_int (dialog->interval_value);
+			gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->interval_value));
 		break;
 
 	default:
@@ -956,7 +982,7 @@ check_custom_sound (Dialog *dialog)
 		}
 	}
 
-	sens = e_dialog_toggle_get (dialog->aalarm_sound) ? str && *str : TRUE;
+	sens = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->aalarm_sound)) ? str && *str : TRUE;
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
 
 	g_free (str);
@@ -995,7 +1021,7 @@ check_custom_message (Dialog *dialog)
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	sens = e_dialog_toggle_get (dialog->dalarm_message) ? str && *str : TRUE;
+	sens = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->dalarm_message)) ? str && *str : TRUE;
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
 
 	g_free (str);
@@ -1061,7 +1087,7 @@ check_custom_email (Dialog *dialog)
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	sens = (destinations != NULL) && (e_dialog_toggle_get (dialog->malarm_message) ? str && *str : TRUE);
+	sens = (destinations != NULL) && (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->malarm_message)) ? str && *str : TRUE);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
 
 	g_list_free (destinations);

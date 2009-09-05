@@ -269,10 +269,12 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Percent Complete. */
 	e_cal_component_get_percent (comp, &percent);
 	if (percent) {
-		e_dialog_spin_set (priv->percent_complete, *percent);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (priv->percent_complete), *percent);
 	} else {
 		/* FIXME: Could check if task is completed and set 100%. */
-		e_dialog_spin_set (priv->percent_complete, 0);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (priv->percent_complete), 0);
 	}
 
 	/* Status. */
@@ -353,7 +355,8 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	priv = tdpage->priv;
 
 	/* Percent Complete. */
-	percent = e_dialog_spin_get_int (priv->percent_complete);
+	percent = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (priv->percent_complete));
 	e_cal_component_set_percent (comp, &percent);
 
 	/* Status. */
@@ -547,7 +550,8 @@ date_changed_cb (EDateEdit *dedit,
 			e_dialog_combo_box_set (priv->status_combo,
 						  ICAL_STATUS_NONE,
 						  status_map);
-			e_dialog_spin_set (priv->percent_complete, 0);
+			gtk_spin_button_set_value (
+				GTK_SPIN_BUTTON (priv->percent_complete), 0);
 		}
 	} else {
 		if (status != ICAL_STATUS_COMPLETED) {
@@ -555,7 +559,8 @@ date_changed_cb (EDateEdit *dedit,
 						  ICAL_STATUS_COMPLETED,
 						  status_map);
 		}
-		e_dialog_spin_set (priv->percent_complete, 100);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (priv->percent_complete), 100);
 	}
 
 	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), FALSE);
@@ -584,18 +589,22 @@ status_changed (GtkWidget *combo, TaskDetailsPage *tdpage)
 
 	status = e_dialog_combo_box_get (priv->status_combo, status_map);
 	if (status == ICAL_STATUS_NONE) {
-		e_dialog_spin_set (priv->percent_complete, 0);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (priv->percent_complete), 0);
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_INPROCESS) {
-		gint percent_complete = e_dialog_spin_get_int (priv->percent_complete);
+		gint percent_complete = gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (priv->percent_complete));
 		if (percent_complete <= 0 || percent_complete >= 100)
-			e_dialog_spin_set (priv->percent_complete, 50);
+			gtk_spin_button_set_value (
+				GTK_SPIN_BUTTON (priv->percent_complete), 50);
 
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_COMPLETED) {
-		e_dialog_spin_set (priv->percent_complete, 100);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (priv->percent_complete), 100);
 		ctime = time (NULL);
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, ctime, TRUE);
@@ -625,7 +634,8 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 
 	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
-	percent = e_dialog_spin_get_int (priv->percent_complete);
+	percent = gtk_spin_button_get_value_as_int (
+		GTK_SPIN_BUTTON (priv->percent_complete));
 	if (percent == 100) {
 		complete = TRUE;
 		ctime = time (NULL);
