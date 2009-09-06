@@ -41,6 +41,8 @@ typedef enum {
 	E_FOCUS_END
 } EFocus;
 
+typedef void (*ETypeFunc) (GType type, gpointer user_data);
+
 const gchar *	e_get_user_data_dir		(void);
 const gchar *	e_get_accels_filename		(void);
 void		e_show_uri			(GtkWindow *parent,
@@ -59,6 +61,9 @@ void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
 GtkRadioAction *e_radio_action_get_current_action
 						(GtkRadioAction *radio_action);
+void		e_type_traverse			(GType parent_type,
+						 ETypeFunc func,
+						 gpointer user_data);
 
 gchar *		e_str_without_underscores	(const gchar *s);
 gint		e_str_compare			(gconstpointer x,

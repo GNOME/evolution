@@ -201,7 +201,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
-		e_cal_component_preview_clear (task_preview);
+		e_web_view_clear (E_WEB_VIEW (task_preview));
 		return;
 	}
 
@@ -230,7 +230,7 @@ task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1)
-		e_cal_component_preview_clear (task_preview);
+		e_web_view_clear (E_WEB_VIEW (task_preview));
 }
 
 static void
@@ -388,6 +388,7 @@ task_shell_content_constructed (GObject *object)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	EShellContent *shell_content;
+	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
@@ -405,6 +406,7 @@ task_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -455,6 +457,11 @@ task_shell_content_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_preview = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "status-message",
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);
 
 	/* Configure the task table. */
 

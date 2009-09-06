@@ -1,7 +1,7 @@
 ruledir = $(privdatadir)
 rule_DATA = addresstypes.xml
 
-AM_CPPFLAGS =										\
+AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\

@@ -31,6 +31,7 @@
 
 #include "e-plugin.h"
 #include "e-util-private.h"
+#include "e-util.h"
 
 /* plugin debug */
 #define pd(x)
@@ -487,79 +488,50 @@ e_plugin_add_load_path(const gchar *path)
 }
 
 static void
-plugin_load_subclasses (void)
+plugin_load_subclass (GType type,
+                      GHashTable *hash_table)
 {
-	GType *children;
-	guint n_children, ii;
+	EPluginClass *class;
 
-	ep_types = g_hash_table_new (g_str_hash, g_str_equal);
-	eph_types = g_hash_table_new (g_str_hash, g_str_equal);
-	ep_plugins = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* Load EPlugin subclasses. */
-
-	children = g_type_children (E_TYPE_PLUGIN, &n_children);
-
-	for (ii = 0; ii < n_children; ii++) {
-		EPluginClass *class;
-
-		class = g_type_class_ref (children[ii]);
-		g_hash_table_insert (ep_types, (gpointer) class->type, class);
-	}
-
-	g_free (children);
+	class = g_type_class_ref (type);
+	g_hash_table_insert (hash_table, (gpointer) class->type, class);
 }
 
 static void
-plugin_load_hook_subclasses (GType parent_type)
+plugin_hook_load_subclass (GType type,
+                           GHashTable *hash_table)
 {
-	GType *children;
-	guint n_children, ii;
+	EPluginHookClass *hook_class;
+	EPluginHookClass *dupe_class;
+	gpointer key;
 
-	children = g_type_children (parent_type, &n_children);
+	hook_class = g_type_class_ref (type);
 
-	for (ii = 0; ii < n_children; ii++) {
-		EPluginHookClass *hook_class;
-		EPluginHookClass *dupe_class;
-		gpointer key;
-
-		/* First load the child's children. */
-		plugin_load_hook_subclasses (children[ii]);
-
-		/* Skip abstract types. */
-		if (G_TYPE_IS_ABSTRACT (children[ii]))
-			continue;
-
-		hook_class = g_type_class_ref (children[ii]);
-
-		/* Sanity check the hook class. */
-		if (hook_class->id == NULL || *hook_class->id == '\0') {
-			g_warning (
-				"%s has no hook ID, so skipping",
-				G_OBJECT_CLASS_NAME (hook_class));
-			g_type_class_unref (hook_class);
-			continue;
-		}
-
-		/* Check for class ID collisions. */
-		dupe_class = g_hash_table_lookup (eph_types, hook_class->id);
-		if (dupe_class != NULL) {
-			g_warning (
-				"%s and %s have the same hook "
-				"ID ('%s'), so skipping %s",
-				G_OBJECT_CLASS_NAME (dupe_class),
-				G_OBJECT_CLASS_NAME (hook_class),
-				hook_class->id,
-				G_OBJECT_CLASS_NAME (hook_class));
-			g_type_class_unref (hook_class);
-			continue;
-		}
-
-		key = (gpointer) hook_class->id;
-		g_hash_table_insert (eph_types, key, hook_class);
+	/* Sanity check the hook class. */
+	if (hook_class->id == NULL || *hook_class->id == '\0') {
+		g_warning (
+			"%s has no hook ID, so skipping",
+			G_OBJECT_CLASS_NAME (hook_class));
+		g_type_class_unref (hook_class);
+		return;
 	}
 
-	g_free (children);
+	/* Check for class ID collisions. */
+	dupe_class = g_hash_table_lookup (hash_table, hook_class->id);
+	if (dupe_class != NULL) {
+		g_warning (
+			"%s and %s have the same hook "
+			"ID ('%s'), so skipping %s",
+			G_OBJECT_CLASS_NAME (dupe_class),
+			G_OBJECT_CLASS_NAME (hook_class),
+			hook_class->id,
+			G_OBJECT_CLASS_NAME (hook_class));
+		g_type_class_unref (hook_class);
+		return;
+	}
+
+	key = (gpointer) hook_class->id;
+	g_hash_table_insert (hash_table, key, hook_class);
 }
 
 /**
@@ -580,11 +552,19 @@ e_plugin_load_plugins(void)
 	if (eph_types != NULL)
 		return 0;
 
+	ep_types = g_hash_table_new (g_str_hash, g_str_equal);
+	eph_types = g_hash_table_new (g_str_hash, g_str_equal);
+	ep_plugins = g_hash_table_new (g_str_hash, g_str_equal);
+
 	/* We require that all GTypes for EPlugin and EPluginHook
 	 * subclasses be registered prior to loading any plugins.
 	 * It greatly simplifies the loading process. */
-	plugin_load_subclasses ();
-	plugin_load_hook_subclasses (E_TYPE_PLUGIN_HOOK);
+	e_type_traverse (
+		E_TYPE_PLUGIN, (ETypeFunc)
+		plugin_load_subclass, ep_types);
+	e_type_traverse (
+		E_TYPE_PLUGIN_HOOK, (ETypeFunc)
+		plugin_hook_load_subclass, eph_types);
 
 	client = gconf_client_get_default ();
 	ep_disabled = gconf_client_get_list (

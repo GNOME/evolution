@@ -23,9 +23,9 @@
 #ifndef EAB_CONTACT_DISPLAY_H
 #define EAB_CONTACT_DISPLAY_H
 
-#include <gtkhtml/gtkhtml.h>
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>
+#include <misc/e-web-view.h>
 
 /* Standard GObject macros */
 #define EAB_TYPE_CONTACT_DISPLAY \
@@ -58,12 +58,12 @@ typedef enum {
 } EABContactDisplayMode;
 
 struct _EABContactDisplay {
-	GtkHTML parent;
+	EWebView parent;
 	EABContactDisplayPrivate *priv;
 };
 
 struct _EABContactDisplayClass {
-	GtkHTMLClass parent_class;
+	EWebViewClass parent_class;
 
 	/* Signals */
 	void	(*send_message)			(EABContactDisplay *display,

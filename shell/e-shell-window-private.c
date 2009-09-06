@@ -107,23 +107,20 @@ shell_window_init_switcher_style (EShellWindow *shell_window)
 
 static void
 shell_window_menu_item_select_cb (EShellWindow *shell_window,
-                                  GtkWidget *menu_item)
+                                  GtkWidget *widget)
 {
 	GtkAction *action;
 	GtkLabel *label;
-	gchar *tooltip = NULL;
+	const gchar *tooltip;
 
-	action = g_object_get_data (G_OBJECT (menu_item), "action");
-	g_return_if_fail (GTK_IS_ACTION (action));
-
-	g_object_get (action, "tooltip", &tooltip, NULL);
+	action = gtk_widget_get_action (widget);
+	tooltip = gtk_action_get_tooltip (action);
 
 	if (tooltip == NULL)
 		return;
 
 	label = GTK_LABEL (shell_window->priv->tooltip_label);
 	gtk_label_set_text (label, tooltip);
-	g_free (tooltip);
 
 	gtk_widget_show (shell_window->priv->tooltip_label);
 	gtk_widget_hide (shell_window->priv->status_notebook);
@@ -143,11 +140,6 @@ shell_window_connect_proxy_cb (EShellWindow *shell_window,
 {
 	if (!GTK_IS_MENU_ITEM (proxy))
 		return;
-
-	g_object_set_data_full (
-		G_OBJECT (proxy),
-		"action", g_object_ref (action),
-		(GDestroyNotify) g_object_unref);
 
 	g_signal_connect_swapped (
 		proxy, "select",

@@ -387,9 +387,9 @@ plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
 plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
+plugins/mailing-list-actions/mailing-list-actions.c
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
-plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/mark-all-read/mark-all-read.c
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
@@ -505,6 +505,7 @@ widgets/misc/e-signature-editor.c
 widgets/misc/e-signature-manager.c
 widgets/misc/e-signature-script-dialog.c
 widgets/misc/e-url-entry.c
+widgets/misc/e-web-view.c
 widgets/misc/ea-calendar-item.c
 widgets/table/e-cell-combo.c
 widgets/table/e-cell-date-edit.c

@@ -128,7 +128,7 @@ action_task_delete_cb (GtkAction *action,
 	e_calendar_table_delete_selected (task_table);
 	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
 
-	e_cal_component_preview_clear (task_preview);
+	e_web_view_clear (E_WEB_VIEW (task_preview));
 }
 
 static void

@@ -681,7 +681,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 
 	html = EM_FORMAT_HTML (html_display)->html;
 
-	if (gtk_html_command (html, "scroll-backward"))
+	if (e_web_view_scroll_backward (E_WEB_VIEW (html)))
 		return;
 
 	if (caret_mode || !magic_spacebar)
@@ -744,7 +744,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 
 	html = EM_FORMAT_HTML (html_display)->html;
 
-	if (gtk_html_command (html, "scroll-forward"))
+	if (e_web_view_scroll_forward (E_WEB_VIEW (html)))
 		return;
 
 	if (caret_mode || !magic_spacebar)

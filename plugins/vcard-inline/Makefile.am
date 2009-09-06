@@ -6,8 +6,9 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 endif
 
 AM_CPPFLAGS = \
-	-I$(top_srcdir)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)	\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@

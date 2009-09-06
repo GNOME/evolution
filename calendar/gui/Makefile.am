@@ -2,7 +2,9 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
-SUBDIRS = alarm-notify dialogs
+# KILL-BONOBO: Temporarily disabled alarm-notify
+#SUBDIRS = alarm-notify dialogs
+SUBDIRS = dialogs
 
 privsolib_LTLIBRARIES = libevolution-calendar.la
 

@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
-#include <gtkhtml/gtkhtml.h>
+#include <misc/e-web-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_COMPONENT_PREVIEW \
@@ -54,12 +54,12 @@ typedef struct _ECalComponentPreviewClass ECalComponentPreviewClass;
 typedef struct _ECalComponentPreviewPrivate ECalComponentPreviewPrivate;
 
 struct _ECalComponentPreview {
-	GtkHTML parent;
+	EWebView parent;
 	ECalComponentPreviewPrivate *priv;
 };
 
 struct _ECalComponentPreviewClass {
-	GtkHTMLClass parent_class;
+	EWebViewClass parent_class;
 
 	/* Notification signals */
 	void (* selection_changed) (ECalComponentPreview *preview, gint n_selected);
@@ -75,7 +75,6 @@ void		e_cal_component_preview_set_default_timezone
 void		e_cal_component_preview_display	(ECalComponentPreview *preview,
 						 ECal *ecal,
 						 ECalComponent *comp);
-void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
 
 G_END_DECLS
 

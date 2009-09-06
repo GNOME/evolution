@@ -23,8 +23,8 @@
 #define E_MAIL_SEARCH_BAR_H
 
 #include <gtk/gtk.h>
-#include <gtkhtml/gtkhtml.h>
 #include <mail/e-searching-tokenizer.h>
+#include <misc/e-web-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SEARCH_BAR \
@@ -65,10 +65,10 @@ struct _EMailSearchBarClass {
 };
 
 GType		e_mail_search_bar_get_type	(void);
-GtkWidget *	e_mail_search_bar_new		(GtkHTML *html);
+GtkWidget *	e_mail_search_bar_new		(EWebView *web_view);
 void		e_mail_search_bar_clear		(EMailSearchBar *search_bar);
 void		e_mail_search_bar_changed	(EMailSearchBar *search_bar);
-GtkHTML *	e_mail_search_bar_get_html	(EMailSearchBar *search_bar);
+EWebView *	e_mail_search_bar_get_web_view	(EMailSearchBar *search_bar);
 ESearchingTokenizer *
 		e_mail_search_bar_get_tokenizer	(EMailSearchBar *search_bar);
 gboolean	e_mail_search_bar_get_case_sensitive

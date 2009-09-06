@@ -123,21 +123,19 @@ static GtkActionEntry mail_browser_entries[] = {
 
 static void
 mail_browser_menu_item_select_cb (EMailBrowser *browser,
-                                  GtkWidget *menu_item)
+                                  GtkWidget *widget)
 {
 	GtkAction *action;
 	GtkStatusbar *statusbar;
-	gchar *tooltip = NULL;
+	const gchar *tooltip;
 	guint context_id;
 	gpointer data;
 
-	action = g_object_get_data (G_OBJECT (menu_item), "action");
-	g_return_if_fail (GTK_IS_ACTION (action));
+	action = gtk_widget_get_action (widget);
+	tooltip = gtk_action_get_tooltip (action);
 
-	data = g_object_get_data (G_OBJECT (menu_item), "context-id");
+	data = g_object_get_data (G_OBJECT (widget), "context-id");
 	context_id = GPOINTER_TO_UINT (data);
-
-	g_object_get (action, "tooltip", &tooltip, NULL);
 
 	if (tooltip == NULL)
 		return;
@@ -174,11 +172,6 @@ mail_browser_connect_proxy_cb (EMailBrowser *browser,
 
 	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
 	context_id = gtk_statusbar_get_context_id (statusbar, G_STRFUNC);
-
-	g_object_set_data_full (
-		G_OBJECT (proxy),
-		"action", g_object_ref (action),
-		(GDestroyNotify) g_object_unref);
 
 	g_object_set_data (
 		G_OBJECT (proxy), "context-id",
@@ -440,7 +433,7 @@ mail_browser_constructed (GObject *object)
 	priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = e_mail_search_bar_new (EM_FORMAT_HTML (html_display)->html);
+	widget = e_mail_search_bar_new (E_WEB_VIEW (html));
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->search_bar = g_object_ref (widget);
 	gtk_widget_hide (widget);

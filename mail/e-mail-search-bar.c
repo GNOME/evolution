@@ -32,7 +32,7 @@
 	((obj), E_TYPE_MAIL_SEARCH_BAR, EMailSearchBarPrivate))
 
 struct _EMailSearchBarPrivate {
-	GtkHTML *html;
+	EWebView *web_view;
 	GtkWidget *entry;
 	GtkWidget *case_sensitive_button;
 	GtkWidget *wrapped_next_box;
@@ -48,8 +48,8 @@ struct _EMailSearchBarPrivate {
 enum {
 	PROP_0,
 	PROP_CASE_SENSITIVE,
-	PROP_HTML,
-	PROP_TEXT
+	PROP_TEXT,
+	PROP_WEB_VIEW
 };
 
 enum {
@@ -108,14 +108,14 @@ static void
 mail_search_bar_find (EMailSearchBar *search_bar,
                       gboolean search_forward)
 {
-	GtkHTML *html;
+	EWebView *web_view;
 	GtkWidget *widget;
 	gboolean case_sensitive;
 	gboolean new_search;
 	gboolean wrapped = FALSE;
 	gchar *text;
 
-	html = e_mail_search_bar_get_html (search_bar);
+	web_view = e_mail_search_bar_get_web_view (search_bar);
 	case_sensitive = e_mail_search_bar_get_case_sensitive (search_bar);
 	text = e_mail_search_bar_get_text (search_bar);
 
@@ -146,20 +146,23 @@ mail_search_bar_find (EMailSearchBar *search_bar,
 		mail_search_bar_update_tokenizer (search_bar);
 	} else if (search_bar->priv->rerun_search) {
 		gtk_html_engine_search (
-			html, search_bar->priv->active_search,
+			GTK_HTML (web_view),
+			search_bar->priv->active_search,
 			case_sensitive, search_forward, FALSE);
 		search_bar->priv->rerun_search = FALSE;
 		g_free (text);
 	} else {
-		gtk_html_engine_search_set_forward (html, search_forward);
-		if (!gtk_html_engine_search_next (html))
+		gtk_html_engine_search_set_forward (
+			GTK_HTML (web_view), search_forward);
+		if (!gtk_html_engine_search_next (GTK_HTML (web_view)))
 			wrapped = TRUE;
 		g_free (text);
 	}
 
 	if (new_search || wrapped)
 		gtk_html_engine_search (
-			html, search_bar->priv->active_search,
+			GTK_HTML (web_view),
+			search_bar->priv->active_search,
 			case_sensitive, search_forward, FALSE);
 
 	/* Update wrapped label visibility. */
@@ -218,15 +221,17 @@ mail_search_bar_toggled_cb (EMailSearchBar *search_bar)
 }
 
 static void
-mail_search_bar_set_html (EMailSearchBar *search_bar,
-                          GtkHTML *html)
+mail_search_bar_set_web_view (EMailSearchBar *search_bar,
+                              EWebView *web_view)
 {
+	GtkHTML *html;
 	ESearchingTokenizer *tokenizer;
 
-	g_return_if_fail (search_bar->priv->html == NULL);
+	g_return_if_fail (search_bar->priv->web_view == NULL);
 
-	search_bar->priv->html = g_object_ref (html);
+	search_bar->priv->web_view = g_object_ref (web_view);
 
+	html = GTK_HTML (web_view);
 	tokenizer = e_mail_search_bar_get_tokenizer (search_bar);
 	gtk_html_set_tokenizer (html, HTML_TOKENIZER (tokenizer));
 }
@@ -244,16 +249,16 @@ mail_search_bar_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_HTML:
-			mail_search_bar_set_html (
-				E_MAIL_SEARCH_BAR (object),
-				g_value_get_object (value));
-			return;
-
 		case PROP_TEXT:
 			e_mail_search_bar_set_text (
 				E_MAIL_SEARCH_BAR (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_WEB_VIEW:
+			mail_search_bar_set_web_view (
+				E_MAIL_SEARCH_BAR (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -273,15 +278,15 @@ mail_search_bar_get_property (GObject *object,
 				E_MAIL_SEARCH_BAR (object)));
 			return;
 
-		case PROP_HTML:
-			g_value_set_object (
-				value, e_mail_search_bar_get_html (
-				E_MAIL_SEARCH_BAR (object)));
-			return;
-
 		case PROP_TEXT:
 			g_value_take_string (
 				value, e_mail_search_bar_get_text (
+				E_MAIL_SEARCH_BAR (object)));
+			return;
+
+		case PROP_WEB_VIEW:
+			g_value_set_object (
+				value, e_mail_search_bar_get_web_view (
 				E_MAIL_SEARCH_BAR (object)));
 			return;
 	}
@@ -296,9 +301,9 @@ mail_search_bar_dispose (GObject *object)
 
 	priv = E_MAIL_SEARCH_BAR_GET_PRIVATE (object);
 
-	if (priv->html != NULL) {
-		g_object_unref (priv->html);
-		priv->html = NULL;
+	if (priv->web_view != NULL) {
+		g_object_unref (priv->web_view);
+		priv->web_view = NULL;
 	}
 
 	if (priv->entry != NULL) {
@@ -450,17 +455,6 @@ mail_search_bar_class_init (EMailSearchBarClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_HTML,
-		g_param_spec_object (
-			"html",
-			"HTML Display",
-			NULL,
-			GTK_TYPE_HTML,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_TEXT,
 		g_param_spec_string (
 			"text",
@@ -468,6 +462,17 @@ mail_search_bar_class_init (EMailSearchBarClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEB_VIEW,
+		g_param_spec_object (
+			"web-view",
+			"Web View",
+			NULL,
+			E_TYPE_WEB_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -676,11 +681,12 @@ e_mail_search_bar_get_type (void)
 }
 
 GtkWidget *
-e_mail_search_bar_new (GtkHTML *html)
+e_mail_search_bar_new (EWebView *web_view)
 {
-	g_return_val_if_fail (GTK_IS_HTML (html), NULL);
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
-	return g_object_new (E_TYPE_MAIL_SEARCH_BAR, "html", html, NULL);
+	return g_object_new (
+		E_TYPE_MAIL_SEARCH_BAR, "web-view", web_view, NULL);
 }
 
 void
@@ -699,12 +705,12 @@ e_mail_search_bar_changed (EMailSearchBar *search_bar)
 	g_signal_emit (search_bar, signals[CHANGED], 0);
 }
 
-GtkHTML *
-e_mail_search_bar_get_html (EMailSearchBar *search_bar)
+EWebView *
+e_mail_search_bar_get_web_view (EMailSearchBar *search_bar)
 {
 	g_return_val_if_fail (E_IS_MAIL_SEARCH_BAR (search_bar), NULL);
 
-	return search_bar->priv->html;
+	return search_bar->priv->web_view;
 }
 
 ESearchingTokenizer *

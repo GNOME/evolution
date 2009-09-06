@@ -17,8 +17,6 @@ imagesdir=@imagesdir@
 
 execversion=@BASE_VERSION@
 
-IDL_INCLUDES=-I ${idldir} @IDL_INCLUDES@
-
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@

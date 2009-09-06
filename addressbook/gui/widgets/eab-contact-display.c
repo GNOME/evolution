@@ -240,71 +240,6 @@ contact_display_selection_clear_event (EABContactDisplay *display,
 }
 
 static void
-contact_display_on_url_requested (GtkHTML *html,
-                                  const gchar *url,
-                                  GtkHTMLStream *handle,
-                                  EABContactDisplay *display)
-{
-	if (!strcmp (url, "internal-contact-photo:")) {
-		EContactPhoto *photo;
-
-		photo = e_contact_get (display->priv->contact, E_CONTACT_PHOTO);
-		if (!photo)
-			photo = e_contact_get (display->priv->contact, E_CONTACT_LOGO);
-
-		gtk_html_stream_write (handle, (gchar *)photo->data.inlined.data, photo->data.inlined.length);
-
-		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
-
-		e_contact_photo_free (photo);
-	}
-	else if (!strncmp (url, "evo-icon:", strlen ("evo-icon:"))) {
-		gchar *data;
-		gsize data_length;
-		gchar *filename;
-
-		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), GTK_ICON_SIZE_MENU);
-		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
-			gtk_html_stream_write (handle, data, data_length);
-			g_free (data);
-		}
-
-		gtk_html_stream_close (handle, GTK_HTML_STREAM_OK);
-
-		g_free (filename);
-	}
-}
-
-static void
-contact_display_on_link_clicked (GtkHTML *html,
-                                 const gchar *uri,
-                                 EABContactDisplay *display)
-{
-#ifdef HANDLE_MAILTO_INTERNALLY
-	if (!strncmp (uri, "internal-mailto:", strlen ("internal-mailto:"))) {
-		EDestination *destination;
-		EContact *contact;
-		gint email_num;
-
-		email_num = atoi (uri + strlen ("internal-mailto:"));
-		if (email_num == -1)
-			return;
-
-		destination = e_destination_new ();
-		contact = eab_contact_display_get_contact (display);
-		e_destination_set_contact (destination, contact, email_num);
-		g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
-		g_object_unref (destination);
-
-		return;
-	}
-#endif
-
-	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, uri);
-}
-
-static void
 render_name_value (GtkHTMLStream *html_stream, const gchar *label, const gchar *str, const gchar *icon, guint html_flags)
 {
 	gchar *value = e_text_to_html (str, html_flags);
@@ -1033,9 +968,89 @@ contact_display_finalize (GObject *object)
 }
 
 static void
+contact_display_url_requested (GtkHTML *html,
+                               const gchar *url,
+                               GtkHTMLStream *handle)
+{
+	EABContactDisplayPrivate *priv;
+
+	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (html);
+
+	if (strcmp (url, "internal-contact-photo:") == 0) {
+		EContactPhoto *photo;
+
+		photo = e_contact_get (priv->contact, E_CONTACT_PHOTO);
+		if (!photo)
+			photo = e_contact_get (priv->contact, E_CONTACT_LOGO);
+
+		gtk_html_stream_write (handle, (gchar *)photo->data.inlined.data, photo->data.inlined.length);
+
+		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+
+		e_contact_photo_free (photo);
+
+		return;
+	}
+
+	if (strncmp (url, "evo-icon:", strlen ("evo-icon:")) == 0) {
+		gchar *data;
+		gsize data_length;
+		gchar *filename;
+
+		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), GTK_ICON_SIZE_MENU);
+		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
+			gtk_html_stream_write (handle, data, data_length);
+			g_free (data);
+		}
+
+		gtk_html_stream_close (handle, GTK_HTML_STREAM_OK);
+
+		g_free (filename);
+
+		return;
+	}
+
+	/* Chain up to parent's url_requested() method. */
+	GTK_HTML_CLASS (parent_class)->url_requested (html, url, handle);
+}
+
+static void
+contact_display_link_clicked (GtkHTML *html,
+                              const gchar *uri)
+{
+	EABContactDisplay *display;
+
+	display = EAB_CONTACT_DISPLAY (html);
+
+#ifdef HANDLE_MAILTO_INTERNALLY
+	if (!strncmp (uri, "internal-mailto:", strlen ("internal-mailto:"))) {
+		EDestination *destination;
+		EContact *contact;
+		gint email_num;
+
+		email_num = atoi (uri + strlen ("internal-mailto:"));
+		if (email_num == -1)
+			return;
+
+		destination = e_destination_new ();
+		contact = eab_contact_display_get_contact (display);
+		e_destination_set_contact (destination, contact, email_num);
+		g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
+		g_object_unref (destination);
+
+		return;
+	}
+#endif
+
+	/* Chain up to parent's link_clicked() method. */
+	GTK_HTML_CLASS (parent_class)->link_clicked (html, uri);
+}
+
+static void
 eab_contact_display_class_init (EABContactDisplayClass *class)
 {
 	GObjectClass *object_class;
+	GtkHTMLClass *html_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EABContactDisplayPrivate));
@@ -1045,6 +1060,10 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	object_class->get_property = contact_display_get_property;
 	object_class->dispose = contact_display_dispose;
 	object_class->finalize = contact_display_finalize;
+
+	html_class = GTK_HTML_CLASS (class);
+	html_class->url_requested = contact_display_url_requested;
+	html_class->link_clicked = contact_display_link_clicked;
 
 	g_object_class_install_property (
 		object_class,
@@ -1123,12 +1142,6 @@ eab_contact_display_init (EABContactDisplay *display)
 	gtk_html_set_default_content_type (html, "text/html; charset=utf-8");
 
 	g_signal_connect (
-		display, "url-requested",
-		G_CALLBACK (contact_display_on_url_requested), display);
-	g_signal_connect (
-		display, "link-clicked",
-		G_CALLBACK (contact_display_on_link_clicked), display);
-	g_signal_connect (
 		display, "button-press-event",
 		G_CALLBACK (contact_display_button_press_event), display);
 
@@ -1170,7 +1183,7 @@ eab_contact_display_get_type (void)
 		};
 
 		type = g_type_register_static (
-			GTK_TYPE_HTML, "EABContactDisplay", &type_info, 0);
+			E_TYPE_WEB_VIEW, "EABContactDisplay", &type_info, 0);
 	}
 
 	return type;

@@ -24,24 +24,6 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 
 static void
-memo_shell_view_preview_on_url_cb (EShellView *shell_view,
-                                   const gchar *url)
-{
-	EShellTaskbar *shell_taskbar;
-	gchar *message;
-
-	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-
-	if (url == NULL || *url == '\0')
-		e_shell_taskbar_set_message (shell_taskbar, NULL);
-	else {
-		message = g_strdup_printf (_("Click to open %s"), url);
-		e_shell_taskbar_set_message (shell_taskbar, message);
-		g_free (message);
-	}
-}
-
-static void
 memo_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEventButton *event)
 {
@@ -189,7 +171,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 	ECalModel *model;
 	ETable *table;
@@ -210,7 +191,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	priv->memo_shell_sidebar = g_object_ref (shell_sidebar);
 
 	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	model = e_memo_table_get_model (memo_table);
 	table = e_memo_table_get_table (memo_table);
@@ -221,11 +201,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	g_signal_connect_swapped (
 		model, "notify::timezone",
 		G_CALLBACK (e_memo_shell_view_update_timezone),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
-		memo_preview, "on-url",
-		G_CALLBACK (memo_shell_view_preview_on_url_cb),
 		memo_shell_view);
 
 	g_signal_connect_swapped (

@@ -371,7 +371,7 @@ shell_load_modules (EShell *shell)
 	}
 }
 
-/* Helper for shell_process_backend() */
+/* Helper for shell_add_backend() */
 static void
 shell_split_and_insert_items (GHashTable *hash_table,
                               const gchar *items,
@@ -392,13 +392,16 @@ shell_split_and_insert_items (GHashTable *hash_table,
 }
 
 static void
-shell_process_backend (EShell *shell,
-                       EShellBackend *shell_backend)
+shell_add_backend (GType type,
+                   EShell *shell)
 {
 	EShellBackendClass *class;
+	EShellBackend *shell_backend;
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 	const gchar *string;
+
+	shell_backend = g_object_new (type, "shell", shell, NULL);
 
 	shell->priv->loaded_backends = g_list_insert_sorted (
 		shell->priv->loaded_backends, shell_backend,
@@ -422,26 +425,6 @@ shell_process_backend (EShell *shell,
 	if ((string = class->schemes) != NULL)
 		shell_split_and_insert_items (
 			backends_by_scheme, string, shell_backend);
-}
-
-static void
-shell_create_backends (EShell *shell)
-{
-	GType *children;
-	guint ii, n_children;
-
-	/* Create an instance of each EShellBackend subclass. */
-	children = g_type_children (E_TYPE_SHELL_BACKEND, &n_children);
-
-	for (ii = 0; ii < n_children; ii++) {
-		EShellBackend *shell_backend;
-		GType type = children[ii];
-
-		shell_backend = g_object_new (type, "shell", shell, NULL);
-		shell_process_backend (shell, shell_backend);
-	}
-
-	g_free (children);
 }
 
 static void
@@ -596,7 +579,10 @@ shell_constructed (GObject *object)
 	e_file_lock_create ();
 
 	shell_load_modules (E_SHELL (object));
-	shell_create_backends (E_SHELL (object));
+
+	e_type_traverse (
+		E_TYPE_SHELL_BACKEND, (ETypeFunc)
+		shell_add_backend, object);
 }
 
 static gboolean

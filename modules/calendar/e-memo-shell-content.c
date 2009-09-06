@@ -200,7 +200,7 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
-		e_cal_component_preview_clear (memo_preview);
+		e_web_view_clear (E_WEB_VIEW (memo_preview));
 		return;
 	}
 
@@ -231,7 +231,7 @@ memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
 	/* XXX Old code emits a "selection-changed" signal here. */
 
 	if (e_table_selected_count (table) != 1)
-		e_cal_component_preview_clear (memo_preview);
+		e_web_view_clear (E_WEB_VIEW (memo_preview));
 }
 
 static void
@@ -391,6 +391,7 @@ memo_shell_content_constructed (GObject *object)
 	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
+	EShellTaskbar *shell_taskbar;
 	GalViewInstance *view_instance;
 	icaltimezone *timezone;
 	ETable *table;
@@ -407,6 +408,7 @@ memo_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -457,6 +459,11 @@ memo_shell_content_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->memo_preview = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "status-message",
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);
 
 	/* Configure the memo table. */
 

@@ -48,10 +48,6 @@
 
 #include "em-filter-editor.h"
 
-#include <bonobo/bonobo-listener.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-event-source.h>
-
 #include <glib/gi18n.h>
 
 #include <gio/gio.h>
@@ -658,94 +654,6 @@ em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 
 	g_signal_connect(filesel, "response", G_CALLBACK(emu_save_messages_response), data);
 	gtk_widget_show((GtkWidget *)filesel);
-}
-
-/* ********************************************************************** */
-
-static void
-emu_add_address_cb(BonoboListener *listener, const gchar *name, const CORBA_any *any, CORBA_Environment *ev, gpointer data)
-{
-	gchar *type = bonobo_event_subtype(name);
-
-	if (!strcmp(type, "Destroy"))
-		gtk_widget_destroy((GtkWidget *)data);
-
-	g_free(type);
-}
-
-/* one of email or vcard should be always NULL, never both of them */
-static void
-emu_add_address_or_vcard (GtkWindow *parent, const gchar *email, const gchar *vcard)
-{
-	GtkWidget *win;
-	GtkWidget *control;
-	/*GtkWidget *socket;*/
-	gchar *email_buf = NULL;
-
-	if (email) {
-		CamelInternetAddress *cia;
-
-		cia = camel_internet_address_new ();
-		if (camel_address_decode ((CamelAddress *) cia, email) == -1) {
-			camel_object_unref (cia);
-			return;
-		}
-
-		email_buf = camel_address_format ((CamelAddress *) cia);
-		camel_object_unref (cia);
-	}
-
-	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title((GtkWindow *)win, _("Add address"));
-
-	gtk_window_set_transient_for ((GtkWindow *)win, parent);
-
-	gtk_window_set_position((GtkWindow *)win, GTK_WIN_POS_CENTER_ON_PARENT);
-	gtk_window_set_type_hint((GtkWindow *)win, GDK_WINDOW_TYPE_HINT_DIALOG);
-
-	control = bonobo_widget_new_control("OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION, CORBA_OBJECT_NIL);
-
-	if (email_buf)
-		bonobo_widget_set_property ((BonoboWidget *) control, "email", TC_CORBA_string, email_buf, NULL);
-	else
-		bonobo_widget_set_property ((BonoboWidget *) control, "vcard", TC_CORBA_string, vcard, NULL);
-
-	g_free (email_buf);
-
-	bonobo_event_source_client_add_listener(bonobo_widget_get_objref((BonoboWidget *)control), emu_add_address_cb, NULL, NULL, win);
-
-	/*socket = find_socket (GTK_CONTAINER (control));
-	  g_object_weak_ref ((GObject *) socket, (GWeakNotify) gtk_widget_destroy, win);*/
-
-	gtk_container_add((GtkContainer *)win, control);
-	gtk_widget_show_all(win);
-}
-
-/**
- * em_utils_add_address:
- * @parent:
- * @email:
- *
- * Add address @email to the addressbook.
- **/
-void
-em_utils_add_address (GtkWindow *parent, const gchar *email)
-{
-	g_return_if_fail (GTK_IS_WINDOW (parent));
-
-	emu_add_address_or_vcard (parent, email, NULL);
-}
-
-/**
- * em_utils_add_vcard:
- * Adds whole vCard to the addressbook.
- **/
-void
-em_utils_add_vcard (GtkWindow *parent, const gchar *vcard)
-{
-	g_return_if_fail (GTK_IS_WINDOW (parent));
-
-	emu_add_address_or_vcard (parent, NULL, vcard);
 }
 
 /* ********************************************************************** */

@@ -22,8 +22,8 @@
 #ifndef E_MAIL_DISPLAY_H
 #define E_MAIL_DISPLAY_H
 
-#include <gtkhtml/gtkhtml.h>
 #include <mail/em-format-html.h>
+#include <misc/e-web-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_DISPLAY \
@@ -51,48 +51,18 @@ typedef struct _EMailDisplayClass EMailDisplayClass;
 typedef struct _EMailDisplayPrivate EMailDisplayPrivate;
 
 struct _EMailDisplay {
-	GtkHTML parent;
+	EWebView parent;
 	EMailDisplayPrivate *priv;
 };
 
 struct _EMailDisplayClass {
-	GtkHTMLClass parent_class;
-
-	/* Signals */
-	gboolean	(*popup_event)		(EMailDisplay *display,
-						 GdkEventButton *event,
-						 const gchar *uri,
-						 EMFormatPURI *puri);
-	void		(*status_message)	(EMailDisplay *display,
-						 const gchar *status_message);
+	EWebViewClass parent_class;
 };
 
 GType		e_mail_display_get_type		(void);
-gboolean	e_mail_display_get_animate	(EMailDisplay *display);
-void		e_mail_display_set_animate	(EMailDisplay *display,
-						 gboolean animate);
-gboolean	e_mail_display_get_caret_mode	(EMailDisplay *display);
-void		e_mail_display_set_caret_mode	(EMailDisplay *display,
-						 gboolean caret_mode);
 EMFormatHTML *	e_mail_display_get_formatter	(EMailDisplay *display);
 void		e_mail_display_set_formatter	(EMailDisplay *display,
 						 EMFormatHTML *formatter);
-const gchar *	e_mail_display_get_selected_uri	(EMailDisplay *display);
-void		e_mail_display_set_selected_uri	(EMailDisplay *display,
-						 const gchar *uri);
-GtkAction *	e_mail_display_get_action	(EMailDisplay *display,
-						 const gchar *action_name);
-GtkActionGroup *e_mail_display_add_action_group	(EMailDisplay *display,
-						 const gchar *group_name);
-GtkActionGroup *e_mail_display_get_action_group	(EMailDisplay *display,
-						 const gchar *group_name);
-GtkWidget *	e_mail_display_get_popup_menu	(EMailDisplay *display);
-GtkUIManager *	e_mail_display_get_ui_manager	(EMailDisplay *display);
-void		e_mail_display_show_popup_menu	(EMailDisplay *display,
-						 GdkEventButton *event,
-						 GtkMenuPositionFunc func,
-						 gpointer user_data);
-void		e_mail_display_update_actions	(EMailDisplay *display);
 
 G_END_DECLS
 

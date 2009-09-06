@@ -438,7 +438,7 @@ mail_shell_content_constructed (GObject *object)
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkHTML *html;
+	EWebView *web_view;
 	GalViewCollection *view_collection;
 	const gchar *key;
 
@@ -454,7 +454,7 @@ mail_shell_content_constructed (GObject *object)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	view_collection = shell_view_class->view_collection;
 
-	html = EM_FORMAT_HTML (priv->html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (priv->html_display)->html);
 
 	/* Build content widgets. */
 
@@ -492,12 +492,12 @@ mail_shell_content_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (html));
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (web_view));
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (html));
+	gtk_widget_show (GTK_WIDGET (web_view));
 	gtk_widget_show (widget);
 
-	widget = e_mail_search_bar_new (html);
+	widget = e_mail_search_bar_new (web_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->search_bar = g_object_ref (widget);
 	gtk_widget_hide (widget);

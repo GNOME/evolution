@@ -67,15 +67,16 @@ static void
 action_mail_add_sender_cb (GtkAction *action,
                            EMailReader *reader)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
-	GtkWindow *window;
 	GPtrArray *uids;
 	const gchar *address;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
 
 	folder = message_list->folder;
 	uids = message_list_get_selected (message_list);
@@ -91,10 +92,49 @@ action_mail_add_sender_cb (GtkAction *action,
 	if (address == NULL || *address == '\0')
 		goto exit;
 
-	em_utils_add_address (window, address);
+	/* XXX EBookShellBackend should be listening for this
+	 *     event.  Kind of kludgey, but works for now. */
+	shell = e_shell_backend_get_shell (shell_backend);
+	e_shell_event (shell, "contact-quick-add-email", (gpointer) address);
 
 exit:
 	em_utils_uids_free (uids);
+}
+
+static void
+action_add_to_address_book_cb (GtkAction *action,
+                               EMailReader *reader)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMFormatHTMLDisplay *html_display;
+	EWebView *web_view;
+	CamelURL *curl;
+	const gchar *uri;
+
+	/* This action is defined in EMailDisplay. */
+
+	html_display = e_mail_reader_get_html_display (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
+
+	uri = e_web_view_get_selected_uri (web_view);
+	g_return_if_fail (uri != NULL);
+
+	curl = camel_url_new (uri, NULL);
+	g_return_if_fail (curl != NULL);
+
+	if (curl->path == NULL || *curl->path == '\0')
+		goto exit;
+
+	/* XXX EBookShellBackend should be listening for this
+	 *     event.  Kind of kludgey, but works for now. */
+	shell = e_shell_backend_get_shell (shell_backend);
+	e_shell_event (shell, "contact-quick-add-email", curl->path);
+
+exit:
+	camel_url_free (curl);
 }
 
 static void
@@ -955,7 +995,7 @@ action_search_folder_recipient_cb (GtkAction *action,
 {
 	EMFormatHTMLDisplay *html_display;
 	MessageList *message_list;
-	EMailDisplay *display;
+	EWebView *web_view;
 	CamelURL *curl;
 	const gchar *uri;
 
@@ -964,9 +1004,9 @@ action_search_folder_recipient_cb (GtkAction *action,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	uri = e_mail_display_get_selected_uri (display);
+	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
 	curl = camel_url_new (uri, NULL);
@@ -996,7 +1036,7 @@ action_search_folder_sender_cb (GtkAction *action,
 {
 	EMFormatHTMLDisplay *html_display;
 	MessageList *message_list;
-	EMailDisplay *display;
+	EWebView *web_view;
 	CamelURL *curl;
 	const gchar *uri;
 
@@ -1005,9 +1045,9 @@ action_search_folder_sender_cb (GtkAction *action,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	uri = e_mail_display_get_selected_uri (display);
+	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
 	curl = camel_url_new (uri, NULL);
@@ -2252,7 +2292,7 @@ e_mail_reader_init (EMailReader *reader)
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
-	EMailDisplay *display;
+	EWebView *web_view;
 	GtkActionGroup *action_group;
 	MessageList *message_list;
 	GConfBridge *bridge;
@@ -2270,7 +2310,7 @@ e_mail_reader_init (EMailReader *reader)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	display = E_MAIL_DISPLAY (EM_FORMAT_HTML (html_display)->html);
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
@@ -2320,14 +2360,20 @@ e_mail_reader_init (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
+	action_name = "add-to-address-book";
+	action = e_web_view_get_action (web_view, action_name);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_add_to_address_book_cb), reader);
+
 	action_name = "search-folder-recipient";
-	action = e_mail_display_get_action (display, action_name);
+	action = e_web_view_get_action (web_view, action_name);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_search_folder_recipient_cb), reader);
 
 	action_name = "search-folder-sender";
-	action = e_mail_display_get_action (display, action_name);
+	action = e_web_view_get_action (web_view, action_name);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_search_folder_sender_cb), reader);
@@ -2350,7 +2396,7 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_binding_new (
 		shell_settings, "mail-show-animated-images",
-		display, "animate");
+		web_view, "animate");
 
 	e_binding_new (
 		shell_settings, "mail-show-sender-photo",
@@ -2361,16 +2407,16 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_mutual_binding_new (
 		action, "active",
-		display, "caret-mode");
+		web_view, "caret-mode");
 
 	/* Connect signals. */
 
 	g_signal_connect_swapped (
-		display, "button-release-event",
+		web_view, "button-release-event",
 		G_CALLBACK (mail_reader_button_release_event_cb), reader);
 
 	g_signal_connect_swapped (
-		display, "key-press-event",
+		web_view, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
 	g_signal_connect_swapped (

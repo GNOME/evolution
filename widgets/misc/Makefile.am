@@ -86,6 +86,7 @@ widgetsinclude_HEADERS =			\
 	e-spinner.h				\
 	e-timeout-activity.h			\
 	e-url-entry.h				\
+	e-web-view.h				\
 	ea-calendar-cell.h			\
 	ea-calendar-item.h			\
 	ea-cell-table.h				\
@@ -148,6 +149,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-tree-view.c			\
 	e-timeout-activity.c			\
 	e-url-entry.c				\
+	e-web-view.c				\
 	ea-calendar-cell.c			\
 	ea-calendar-item.c			\
 	ea-cell-table.c				\

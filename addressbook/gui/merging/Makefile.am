@@ -2,6 +2,7 @@ AM_CPPFLAGS =						\
 	-DG_LOG_DOMAIN=\"eab-contact-merging\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 

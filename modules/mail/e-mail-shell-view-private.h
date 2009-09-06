@@ -36,6 +36,7 @@
 #include "e-util/gconf-bridge.h"
 #include "e-util/e-account-utils.h"
 #include "filter/filter-part.h"
+#include "widgets/misc/e-web-view.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 

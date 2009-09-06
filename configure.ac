@@ -52,7 +52,6 @@ m4_define([gtk_minimum_version], [2.16.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
-m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libgtkhtml_minimum_version], [3.27.90])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libglade_minimum_version], [2.0.0])		dnl XXX Just a Guess
@@ -238,7 +237,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gtk+-2.0 >= gtk_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
-	 libbonobo-2.0 >= libbonobo_minimum_version
 	 libglade-2.0 >= libglade_minimum_version
 	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
 	 libgnomeui-2.0 >= libgnomeui_minimum_version
@@ -1383,11 +1381,6 @@ dnl Orbit / Bonobo
 dnl *************************
 AM_PATH_ORBIT2(2.9.8)
 
-AC_MSG_CHECKING([for CORBA include paths])
-IDL_INCLUDES="-I "`${PKG_CONFIG} --variable=idldir libbonobo-2.0`" -I "`${PKG_CONFIG} --variable=idldir bonobo-activation-2.0`" -I "`${PKG_CONFIG} --variable=idldir evolution-data-server-1.2`
-AC_MSG_RESULT([$IDL_INCLUDES])
-AC_SUBST(IDL_INCLUDES)
-
 dnl *****************************************************************
 dnl Utility macro to set compiler flags for a specific lib.
 dnl EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
@@ -1611,7 +1604,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor bonobo-activation-2.0 $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnomeui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1671,12 +1664,6 @@ AC_SUBST(componentdir)
 
 moduledir="$privlibdir/modules"
 AC_SUBST(moduledir)
-
-idldir='${datadir}'/idl/evolution-$BASE_VERSION
-AC_SUBST(idldir)
-
-serverdir="$libdir/bonobo/servers"
-AC_SUBST(serverdir)
 
 evolutionuidir="$privdatadir/ui"
 AC_SUBST(evolutionuidir)
@@ -1999,7 +1986,6 @@ widgets/table/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/common/Makefile
-calendar/idl/Makefile
 calendar/conduits/Makefile
 calendar/conduits/common/Makefile
 calendar/conduits/todo/Makefile

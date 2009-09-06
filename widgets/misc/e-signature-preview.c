@@ -113,56 +113,17 @@ signature_preview_dispose (GObject *object)
 }
 
 static void
-signature_preview_url_requested (GtkHTML *html,
-                                 const gchar *url,
-                                 GtkHTMLStream *handle)
-{
-	GtkHTMLStreamStatus status;
-	gchar buffer[128];
-	gchar *filename;
-	gssize size;
-	gint fd;
-
-	/* FIXME Use GInputStream for this. */
-
-	if (g_str_has_prefix (url, "file:"))
-		filename = g_filename_from_uri (url, NULL, NULL);
-	else
-		filename = g_strdup (url);
-	fd = g_open (filename, O_RDONLY, 0);
-	g_free (filename);
-
-	status = GTK_HTML_STREAM_OK;
-	if (fd != -1) {
-		while ((size = read (fd, buffer, sizeof (buffer)))) {
-			if (size == -1) {
-				status = GTK_HTML_STREAM_ERROR;
-				break;
-			} else
-				gtk_html_write (html, handle, buffer, size);
-		}
-	} else
-		status = GTK_HTML_STREAM_ERROR;
-
-	gtk_html_end (html, handle, status);
-
-	if (fd > 0)
-		close (fd);
-}
-
-static void
 signature_preview_refresh (ESignaturePreview *preview)
 {
-	GtkHTML *html;
+	EWebView *web_view;
 	ESignature *signature;
 	const gchar *filename;
 	gboolean is_script;
 	gchar *content = NULL;
-	gsize length;
 
 	/* XXX We should show error messages in the preview. */
 
-	html = GTK_HTML (preview);
+	web_view = E_WEB_VIEW (preview);
 	signature = e_signature_preview_get_signature (preview);
 
 	if (signature == NULL)
@@ -182,27 +143,23 @@ signature_preview_refresh (ESignaturePreview *preview)
 	if (content == NULL || *content == '\0')
 		goto clear;
 
-	length = strlen (content);
-
 	if (e_signature_get_is_html (signature))
-		gtk_html_load_from_string (html, content, length);
+		e_web_view_load_string (web_view, content);
 	else {
-		GtkHTMLStream *stream;
+		gchar *string;
 
-		stream = gtk_html_begin_content (
-			html, "text/html; charset=utf-8");
-		gtk_html_write (html, stream, "<PRE>", 5);
-		if (length > 0)
-			gtk_html_write (html, stream, content, length);
-		gtk_html_write (html, stream, "</PRE>", 6);
-		gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+		string = g_strdup_printf ("<PRE>%s</PRE>", content);
+		e_web_view_load_string (web_view, string);
+		g_free (string);
 	}
 
 	g_free (content);
+
 	return;
 
 clear:
-	gtk_html_load_from_string (html, " ", 1);
+	e_web_view_clear (web_view);
+
 	g_free (content);
 }
 
@@ -210,7 +167,6 @@ static void
 signature_preview_class_init (ESignaturePreviewClass *class)
 {
 	GObjectClass *object_class;
-	GtkHTMLClass *html_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignaturePreviewPrivate));
@@ -219,9 +175,6 @@ signature_preview_class_init (ESignaturePreviewClass *class)
 	object_class->set_property = signature_preview_set_property;
 	object_class->get_property = signature_preview_get_property;
 	object_class->dispose = signature_preview_dispose;
-
-	html_class = GTK_HTML_CLASS (class);
-	html_class->url_requested = signature_preview_url_requested;
 
 	class->refresh = signature_preview_refresh;
 
@@ -282,7 +235,7 @@ e_signature_preview_get_type (void)
 		};
 
 		type = g_type_register_static (
-			GTK_TYPE_HTML, "ESignaturePreview", &type_info, 0);
+			E_TYPE_WEB_VIEW, "ESignaturePreview", &type_info, 0);
 	}
 
 	return type;

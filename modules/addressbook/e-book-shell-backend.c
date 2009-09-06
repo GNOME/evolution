@@ -37,6 +37,7 @@
 
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-editor/e-contact-quick-add.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
 
@@ -379,6 +380,26 @@ book_shell_backend_init_preferences (EShell *shell)
 	return FALSE;
 }
 
+static void
+book_shell_backend_quick_add_email_cb (EShell *shell,
+                                       const gchar *email)
+{
+	/* XXX This is an ugly hack but it's the only way I could think
+	 *     of to integrate this feature with other shell modules. */
+
+	e_contact_quick_add_free_form (email, NULL, NULL);
+}
+
+static void
+book_shell_backend_quick_add_vcard_cb (EShell *shell,
+                                       const gchar *vcard)
+{
+	/* XXX This is an ugly hack but it's the only way I could think
+	 *     of to integrate this feature with other shell modules. */
+
+	e_contact_quick_add_vcard (vcard, NULL, NULL);
+}
+
 static gboolean
 book_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                   const gchar *uri)
@@ -517,6 +538,14 @@ book_shell_backend_constructed (GObject *object)
 
 	book_shell_backend_init_importers ();
 	book_shell_backend_ensure_sources (shell_backend);
+
+	g_signal_connect (
+		shell, "event::contact-quick-add-email",
+		G_CALLBACK (book_shell_backend_quick_add_email_cb), NULL);
+
+	g_signal_connect_swapped (
+		shell, "event::contact-quick-add-vcard",
+		G_CALLBACK (book_shell_backend_quick_add_vcard_cb), NULL);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",

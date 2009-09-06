@@ -22,8 +22,8 @@
 #ifndef E_SIGNATURE_PREVIEW_H
 #define E_SIGNATURE_PREVIEW_H
 
-#include <gtkhtml/gtkhtml.h>
 #include <e-util/e-signature.h>
+#include <misc/e-web-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_PREVIEW \
@@ -51,12 +51,12 @@ typedef struct _ESignaturePreviewClass ESignaturePreviewClass;
 typedef struct _ESignaturePreviewPrivate ESignaturePreviewPrivate;
 
 struct _ESignaturePreview {
-	GtkHTML parent;
+	EWebView parent;
 	ESignaturePreviewPrivate *priv;
 };
 
 struct _ESignaturePreviewClass {
-	GtkHTMLClass parent_class;
+	EWebViewClass parent_class;
 
 	/* Signals */
 	void		(*refresh)		(ESignaturePreview *preview);

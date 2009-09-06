@@ -53,8 +53,8 @@ SUBDIRS = 			\
 	shell			\
 	$(SMIME_SUBDIR)		\
 	em-format		\
-	composer		\
 	addressbook		\
+	composer		\
 	mail			\
 	calendar		\
 	art			\

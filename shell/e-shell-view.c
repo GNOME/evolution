@@ -401,16 +401,18 @@ shell_view_constructed (GObject *object)
 
 	/* Invoke factory methods. */
 
+	/* Create the taskbar widget first so the content and
+	 * sidebar widgets can access it during construction. */
+	widget = shell_view_class->new_shell_taskbar (shell_view);
+	shell_view->priv->shell_taskbar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
 	widget = shell_view_class->new_shell_content (shell_view);
 	shell_view->priv->shell_content = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	widget = shell_view_class->new_shell_sidebar (shell_view);
 	shell_view->priv->shell_sidebar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = shell_view_class->new_shell_taskbar (shell_view);
-	shell_view->priv->shell_taskbar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	/* Size group should be safe to unreference now. */
