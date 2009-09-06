@@ -30,6 +30,7 @@ libecontactlisteditor_la_LIBADD =						\
 	$(top_builddir)/widgets/table/libetable.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la				\
 	$(top_builddir)/e-util/libeutil.la					\
+	$(top_builddir)/shell/libeshell.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 glade_DATA  = contact-list-editor.glade

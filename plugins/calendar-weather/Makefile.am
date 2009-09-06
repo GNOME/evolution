@@ -18,6 +18,7 @@ liborg_gnome_calendar_weather_la_SOURCES = calendar-weather.c
 liborg_gnome_calendar_weather_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_calendar_weather_la_LIBADD =			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(LIBGWEATHER_LIBS)
 

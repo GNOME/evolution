@@ -15,6 +15,7 @@ liborg_gnome_evolution_startup_wizard_la_SOURCES = 	\
 
 liborg_gnome_evolution_startup_wizard_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\

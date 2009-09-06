@@ -52,6 +52,7 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/mail/libevolution-mail.la			\
 	$(top_builddir)/mail/importers/libevolution-mail-importers.la
 
 libevolution_module_mail_la_LDFLAGS =					\
