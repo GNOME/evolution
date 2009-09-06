@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-08-15 14:12+0000\n"
-"PO-Revision-Date: 2009-08-19 08:46+0300\n"
+"PO-Revision-Date: 2009-09-03 10:50+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1663,7 +1663,7 @@ msgstr "Taustaprogramm on hõivatud"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 msgid "Repository offline"
-msgstr "Hoidla offlain"
+msgstr "Hoidla pole võrku ühendatud"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 msgid "Address Book does not exist"
@@ -10082,8 +10082,6 @@ msgstr "Saadetud _sõnumite kaust:"
 msgid "Ser_ver requires authentication"
 msgstr "Server vajab _autentimist"
 
-#, fuzzy
-#| msgid "Server _Type: "
 msgid "Server _Type:"
 msgstr "Serveri l_iik:"
 
@@ -10105,8 +10103,6 @@ msgstr "Õigekirja kontrollimine"
 msgid "Start _typing at the bottom on replying"
 msgstr "_Kursor viiakse vastuse lõppu"
 
-#, fuzzy
-#| msgid "T_ype: "
 msgid "T_ype:"
 msgstr "Lii_k:"
 
@@ -10143,11 +10139,6 @@ msgstr "Kasutaja_nimi:"
 msgid "V_ariable-width:"
 msgstr "_Muutuva laiusega:"
 
-#, fuzzy
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Forward\" to begin. "
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13868,13 +13859,9 @@ msgstr ""
 "Kas soovid ainult valitud kataloogis olevaid sõnumeid loetuks märkida või "
 "tuleb sama teha ka kõigis alamkataloogides?"
 
-#, fuzzy
-#| msgid "Current Folder and _Subfolders"
 msgid "In Current Folder and _Subfolders"
 msgstr "_Käesolevas kaustas ja alamkaustades"
 
-#, fuzzy
-#| msgid "Current _Folder Only"
 msgid "In Current _Folder Only"
 msgstr "Ainult _käesolevas kaustas"
 
