@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-08-17 10:40+0000\n"
-"PO-Revision-Date: 2009-09-03 10:50+0300\n"
+"PO-Revision-Date: 2009-09-07 06:38+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -2557,7 +2557,7 @@ msgid "Confirm expunge"
 msgstr "Kinnituse küsimine enne puhastamist"
 
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr ""
+msgstr "Uue sündmuse kordumiste vaikimisi arv. -1 tähendab lõputut kordumist."
 
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
@@ -2721,7 +2721,7 @@ msgid "Save directory for alarm audio"
 msgstr "Alarmide audio salvestamise kataloog"
 
 msgid "Scroll Month View by a week"
-msgstr ""
+msgstr "Kuu vaate kerimine nädala kaupa"
 
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "RSVP välja kuvamine sündmuste/ülesannete/koosolekute redaktoris"
@@ -2763,6 +2763,8 @@ msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key."
 msgstr ""
+"Kui määratud, siis näidatakse päeva vaates teist ajavööndit. Väärtus on "
+"sarnane 'timezone' võtmes kasutatava väärtusega."
 
 msgid "Tasks due today color"
 msgstr "Tänase tähtajaga ülesannete värvus"
@@ -2786,7 +2788,7 @@ msgstr ""
 "asukohastring Olseni ajavööndite andmebaasist, näiteks \"Europe/Tallinn\"."
 
 msgid "The second timezone for a Day View"
-msgstr ""
+msgstr "Päeva vaate teine ajavöönd"
 
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
@@ -2871,7 +2873,7 @@ msgid "Whether to hide completed tasks in the tasks view."
 msgstr "Kas täidetud ülesanded peidetakse ülesandevaates."
 
 msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr ""
+msgstr "Kas kuu vaadet keritakse nädala kaupa, mitte kuu kaupa."
 
 msgid "Whether to set a default reminder for appointments."
 msgstr "Kas sündmustele seatakse vaikimisi meeldetuletaja."
@@ -3265,11 +3267,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
-"60 minutit\n"
-"30 minutit\n"
-"15 minutit\n"
-"10 minutit\n"
-"05 minutit"
+"60 minuti kaupa\n"
+"30 minuti kaupa\n"
+"15 minuti kaupa\n"
+"10 minuti kaupa\n"
+"05 minuti kaupa"
 
 #, no-c-format
 msgid ""
@@ -3354,7 +3356,7 @@ msgid "Saturday"
 msgstr "Laupäev"
 
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "Kuu vaadet ke_ritakse nädala kaupa"
 
 msgid "Se_cond zone:"
 msgstr "_Teine ajavöönd:"
@@ -3402,7 +3404,7 @@ msgid "Tuesday"
 msgstr "Teisipäev"
 
 msgid "Use s_ystem time zone"
-msgstr "_Süsteemi ajavööndi näitamine"
+msgstr "Näidatakse _süsteemi ajavööndit"
 
 msgid "Wednesday"
 msgstr "Kolmapäev"
@@ -3451,7 +3453,7 @@ msgid "_Show appointment end times in week and month view"
 msgstr "Nädala ja kuu vaadetel näidatakse sündmuste _lõpuaegu"
 
 msgid "_Time divisions:"
-msgstr "Aja _jaotamine:"
+msgstr "Aeg _jaotatakse:"
 
 #. Tuesday
 msgid "_Tue"
@@ -13923,6 +13925,7 @@ msgstr "Evolutioni profileerija"
 
 msgid "Profile data events in Evolution (for developers only)."
 msgstr ""
+"Evolutioni andmesündmuste profileerimine (see on mõeldud arendajatele)."
 
 msgid "Import Outlook messages from PST file"
 msgstr "Outlooki kirjade importimine PST failist"
@@ -13962,7 +13965,7 @@ msgstr "_Publitseeri kalendri andmed"
 
 #, c-format
 msgid "Could not open %s:"
-msgstr ""
+msgstr "%s avamine pole võimalik"
 
 #, c-format
 msgid "Could not open %s: Unknown error"
