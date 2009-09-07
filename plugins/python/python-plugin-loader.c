@@ -20,9 +20,10 @@
  *
  */
 
+#include <Python.h>
+
 #include <sys/types.h>
 #include <string.h>
-#include <Python.h>
 
 #include "python-plugin-loader.h"
 
@@ -93,7 +94,7 @@ epp_invoke(EPlugin *ep, const gchar *name, gpointer data)
 		if (PyCallable_Check(p->pClass))
 			pInstance = PyObject_CallObject(p->pClass, NULL);
 
-		pValue = PyObject_CallMethod(pInstance, name, NULL);
+		pValue = PyObject_CallMethod(pInstance, (gchar *) name, NULL);
 
 	} else {
 
