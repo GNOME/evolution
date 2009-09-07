@@ -52,7 +52,6 @@ libcomposer_la_SOURCES = 			\
 
 libcomposer_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/em-format/libemformat.la
 
 uidir = $(evolutionuidir)
