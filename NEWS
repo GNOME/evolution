@@ -1,3 +1,39 @@
+Evolution 2.27.92 2009-09-07
+----------------------------
+
+Mail:
+	#494531 - Use quoted-printable encoding when necessary (David Liang)
+	#593872 - Forgets which signature is assigned to which account
+	          (Milan Crha)
+
+Calendar:
+	#592873 - Initialize Force Read only check state properly (Milan Crha)
+
+Miscellaneous:
+	#590687 - Evolution not restoring data from backup archive (Milan Crha)
+	#592335 - Submit bug-report doesn't work (Matthew Barnes)
+
+Other Fixes:
+	Fix discrepancy wrt what's actually in the UI (Kjartan Maraas)
+	Fix return types to match the type of function (Kjartan Maraas)
+	Support for Anjal to have provider specific options in acc editor
+	(Srinivasa Ragavan)
+
+Translations:
+	Jiri Eischmann (cs)
+	Mario Blättermann (de)
+	Ivar Smolin (et)
+	Inaki Larranaga (eu)
+	Claude Paroz (fr)
+	Sweta Kothari (gu)
+	Shankar Prasad (kn)
+	Kjartan Maraas (nb)
+	Og B. Maciel (pt_BR)
+	Igor Nestorović (sr)
+	Daniel Nylander (sv)
+	ifelix (ta)
+	Baris Cicek (tr)
+
 Evolution 2.27.91 2009-08-24
 ----------------------------
 
