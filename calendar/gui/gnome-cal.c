@@ -2525,17 +2525,23 @@ gnome_calendar_get_num_events_selected (GnomeCalendar *gcal)
 	return retval;
 }
 
+struct purge_data {
+	gboolean remove;
+	time_t older_than;
+};
+
 static gboolean
 check_instance_cb (ECalComponent *comp,
 		   time_t instance_start,
 		   time_t instance_end,
 		   gpointer data)
 {
-	gboolean *remove = data;
+	struct purge_data *pd = data;
 
-	*remove = FALSE;
+	if (instance_end >= pd->older_than)
+		pd->remove = FALSE;
 
-	return FALSE;
+	return pd->remove;
 }
 
 void
@@ -2578,11 +2584,19 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			/* FIXME write occur-before and occur-after
 			 * sexp funcs so we don't have to use the max
 			 * gint */
-			if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
+			if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+				struct purge_data pd;
+
+				pd.remove = TRUE;
+				pd.older_than = older_than;
+
 				e_cal_generate_instances_for_object (client, m->data,
 							     older_than, G_MAXINT32,
 							     (ECalRecurInstanceFn) check_instance_cb,
-							     &remove);
+							     &pd);
+
+				remove = pd.remove;
+			}
 
 			/* FIXME Better error handling */
 			if (remove) {
