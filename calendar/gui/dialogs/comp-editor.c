@@ -1887,15 +1887,13 @@ close_dialog (CompEditor *editor)
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
-gint
+static gint
 comp_editor_compare (CompEditor *editor_a,
-                     CompEditor *editor_b)
+                     const gchar *uid_b)
 {
 	const gchar *uid_a = NULL;
-	const gchar *uid_b = NULL;
 
 	e_cal_component_get_uid (editor_a->priv->comp, &uid_a);
-	e_cal_component_get_uid (editor_b->priv->comp, &uid_b);
 
 	return g_strcmp0 (uid_a, uid_b);
 }

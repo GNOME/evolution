@@ -89,8 +89,6 @@ typedef enum {
 } CompEditorFlags;
 
 GType		comp_editor_get_type		(void);
-gint		comp_editor_compare		(CompEditor *editor_a,
-                                                 CompEditor *editor_b);
 void		comp_editor_set_changed		(CompEditor *editor,
 						 gboolean changed);
 gboolean	comp_editor_get_changed		(CompEditor *editor);
