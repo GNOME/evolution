@@ -656,7 +656,6 @@ remove_comp (ClientAlarms *ca, ECalComponentId *id)
  */
 struct _query_msg {
 	Message header;
-	ECal *client;
 	GList *objects;
 	gpointer data;
 };
@@ -698,14 +697,12 @@ query_objects_changed_async (struct _query_msg *msg)
 	icaltimezone *zone;
 	CompQueuedAlarms *cqa;
 	GList *l;
-	ECal *client;
 	GList *objects;
 
-	client = msg->client;
 	ca = msg->data;
 	objects = msg->objects;
 
-	from = config_data_get_last_notification_time (client);
+	from = config_data_get_last_notification_time (ca->client);
 	if (from == -1)
 		from = time (NULL);
 	else
@@ -808,7 +805,6 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 
 	msg = g_slice_new0 (struct _query_msg);
 	msg->header.func = (MessageFunc) query_objects_changed_async;
-	msg->client = client;
 	msg->objects = duplicate_ical (objects);
 	msg->data = data;
 
@@ -823,10 +819,8 @@ query_objects_removed_async (struct _query_msg *msg)
 {
 	ClientAlarms *ca;
 	GList *l;
-	ECal *client;
 	GList *objects;
 
-	client = msg->client;
 	ca = msg->data;
 	objects = msg->objects;
 
@@ -852,7 +846,6 @@ query_objects_removed_cb (ECal *client, GList *objects, gpointer data)
 
 	msg = g_slice_new0 (struct _query_msg);
 	msg->header.func = (MessageFunc) query_objects_removed_async;
-	msg->client = client;
 	msg->objects = duplicate_ecal (objects);
 	msg->data = data;
 
@@ -1005,12 +998,10 @@ on_dialog_objs_removed_async (struct _query_msg *msg)
 	const gchar *our_uid;
 	GList *l;
 	TrayIconData *tray_data;
-	ECal *client;
 	GList *objects;
 
 	d(printf("%s:%d (on_dialog_objs_removed_async)\n",__FILE__, __LINE__));
 
-	client = msg->client;
 	tray_data = msg->data;
 	objects = msg->objects;
 
@@ -1041,7 +1032,6 @@ on_dialog_objs_removed_cb (ECal *client, GList *objects, gpointer data)
 
 	msg = g_slice_new0 (struct _query_msg);
 	msg->header.func = (MessageFunc) on_dialog_objs_removed_async;
-	msg->client = client;
 	msg->objects = objects;
 	msg->data = data;
 
