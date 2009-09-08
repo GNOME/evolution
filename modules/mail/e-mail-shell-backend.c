@@ -575,7 +575,7 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
 	if (empty_junk) {
 		key = "/apps/evolution/mail/junk/empty_on_exit_days";
 		empty_days = gconf_client_get_int (client, key, &error);
-		if (error == NULL) {
+		if (error != NULL) {
 			g_warning ("%s", error->message);
 			g_clear_error (&error);
 			empty_trash = FALSE;
@@ -585,7 +585,7 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
 	if (empty_junk) {
 		key = "/apps/evolution/mail/junk/empty_date";
 		empty_date = gconf_client_get_int (client, key, &error);
-		if (error == NULL) {
+		if (error != NULL) {
 			g_warning ("%s", error->message);
 			g_clear_error (&error);
 			empty_trash = FALSE;
