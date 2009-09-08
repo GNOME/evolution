@@ -1992,7 +1992,6 @@ calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/memo/Makefile
 calendar/gui/Makefile
-calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 m4/Makefile
