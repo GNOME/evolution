@@ -21,6 +21,11 @@
 
 #include "e-cal-shell-view-private.h"
 
+/* This is for radio action groups whose value is persistent.  We
+ * initialize it to a bogus value to ensure a "changed" signal is
+ * emitted when a valid value is restored. */
+#define BOGUS_INITIAL_VALUE G_MININT
+
 static void
 action_calendar_copy_cb (GtkAction *action,
                          ECalShellView *cal_shell_view)
@@ -1484,6 +1489,16 @@ static EPopupActionEntry calendar_popup_entries[] = {
 
 static GtkRadioActionEntry calendar_view_entries[] = {
 
+	/* This action represents the initial calendar view.
+	 * It should not be visible in the UI, nor should it be
+	 * possible to switch to it from another calendar view. */
+	{ "calendar-view-initial",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  BOGUS_INITIAL_VALUE },
+
 	{ "calendar-view-day",
 	  "view-calendar-day",
 	  N_("Day"),
@@ -1627,7 +1642,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 		G_N_ELEMENTS (calendar_popup_entries));
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_view_entries,
-		G_N_ELEMENTS (calendar_view_entries), GNOME_CAL_DAY_VIEW,
+		G_N_ELEMENTS (calendar_view_entries), BOGUS_INITIAL_VALUE,
 		G_CALLBACK (action_calendar_view_cb), cal_shell_view);
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_search_entries,

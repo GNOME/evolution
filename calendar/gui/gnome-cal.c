@@ -535,7 +535,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			NULL,
 			GNOME_CAL_DAY_VIEW,
 			GNOME_CAL_LIST_VIEW,
-			0,
+			GNOME_CAL_DAY_VIEW,
 			G_PARAM_READWRITE));
 
 	signals[DATES_SHOWN_CHANGED] =
