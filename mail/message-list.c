@@ -1136,57 +1136,57 @@ ml_tree_icon_at (ETreeModel *etm, ETreePath path, gpointer model_data)
 	return NULL;
 }
 
-/* return true if there are any unread messages in the subtree */
-static gint
-subtree_unread(MessageList *ml, ETreePath node)
+static void
+for_node_and_subtree_if_collapsed (MessageList *ml, ETreePath node,
+		ETreePathFunc func, gpointer data)
 {
-	CamelMessageInfo *info;
+	ETreeModel *etm = ml->model;
 	ETreePath child;
 
-	while (node) {
-		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_return_val_if_fail (info != NULL, FALSE);
+	func (etm, node, data);
 
-		if (!(camel_message_info_flags(info) & CAMEL_MESSAGE_SEEN))
-			return TRUE;
+	child = e_tree_model_node_get_first_child (etm, node);
+	if (child && !e_tree_node_is_expanded (ml->tree, node))
+		e_tree_model_node_traverse (etm, node, func, data);
+}
 
-		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->model), node)))
-			if (subtree_unread(ml, child))
-				return TRUE;
-		node = e_tree_model_node_get_next (ml->model, node);
-	}
+static gboolean
+unread_foreach (ETreeModel *etm, ETreePath node, gpointer data)
+{
+	gboolean *saw_unread = data;
+	CamelMessageInfo *info;
+
+	info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+	g_return_val_if_fail (info != NULL, FALSE);
+
+	if (!(camel_message_info_flags (info) & CAMEL_MESSAGE_SEEN))
+		*saw_unread = TRUE;
+
 	return FALSE;
 }
 
-static time_t
-subtree_latest(MessageList *ml, ETreePath node, gint sent)
+struct LatestData {
+	gboolean sent;
+	time_t latest;
+};
+
+static gboolean
+latest_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 {
+	struct LatestData *ld = data;
 	CamelMessageInfo *info;
-	time_t latest = 0, date;
-	ETreePath *child;
+	time_t date;
 
-	while (node) {
-		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
-		g_return_val_if_fail (info != NULL, 0);
+	info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+	g_return_val_if_fail (info != NULL, FALSE);
 
-		if (sent)
-			date = camel_message_info_date_sent(info);
-		else
-			date = camel_message_info_date_received(info);
+	date = ld->sent ? camel_message_info_date_sent (info)
+			: camel_message_info_date_received (info);
 
-		if (latest == 0 || date > latest)
-			latest = date;
+	if (ld->latest == 0 || date > ld->latest)
+		ld->latest = date;
 
-		if ((child = e_tree_model_node_get_first_child (ml->model, node))) {
-			date = subtree_latest(ml, child, sent);
-			if (latest == 0 || (date != 0 && date > latest))
-				latest = date;
-		}
-
-		node = e_tree_model_node_get_next (ml->model, node);
-	}
-
-	return latest;
+	return FALSE;
 }
 
 static gchar *
@@ -1232,122 +1232,65 @@ sanitize_recipients (const gchar *string)
 	return g_string_free (recipients, FALSE);
 }
 
-static gint
-get_all_labels (MessageList *message_list,
-                CamelMessageInfo *msg_info,
-                gchar **label_str,
-                gboolean get_tags)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
+struct LabelsData {
 	EMailLabelListStore *store;
-	GtkTreeIter iter;
-	GString *str;
-	const gchar *property_name;
-	const gchar *old_label;
-	gchar *new_label;
-	gint count = 0;
-	const CamelFlag *flag;
+	GHashTable *labels_tag2iter;
+};
 
-	shell_backend = message_list_get_shell_backend (message_list);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
+static void
+add_label_if_known (struct LabelsData *ld, const gchar *tag)
+{
+	GtkTreeIter label_defn;
 
-	property_name = "mail-label-list-store";
-	store = e_shell_settings_get_object (shell_settings, property_name);
-
-	str = g_string_new ("");
-
-	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next) {
-		gchar *item;
-
-		if (!e_mail_label_list_store_lookup (store, flag->name, &iter))
-			continue;
-
-		if (get_tags)
-			item = e_mail_label_list_store_get_tag (store, &iter);
-		else
-			item = e_mail_label_list_store_get_name (store, &iter);
-
-		if (str->len)
-			g_string_append (str, ", ");
-
-		g_string_append (str, item);
-		count++;
-
-		g_free (item);
+	if (e_mail_label_list_store_lookup (ld->store, tag, &label_defn)) {
+		g_hash_table_insert (ld->labels_tag2iter,
+			/* Should be the same as the "tag" arg */
+			e_mail_label_list_store_get_tag (ld->store, &label_defn),
+			gtk_tree_iter_copy (&label_defn));
 	}
-
-	old_label = camel_message_info_user_tag (msg_info, "label");
-	if (old_label == NULL)
-		goto exit;
-
-	/* Convert old-style labels ("<name>") to "$Label<name>". */
-	new_label = g_alloca (strlen (old_label) + 10);
-	g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
-
-	if (e_mail_label_list_store_lookup (store, new_label, &iter)) {
-		gchar *name = NULL;
-
-		if (str->len)
-			g_string_append (str, ", ");
-
-		if (!get_tags)
-			name = e_mail_label_list_store_get_name (store, &iter);
-
-		g_string_append (str, (get_tags || !name) ? old_label : name);
-		count++;
-
-		g_free (name);
-	}
-
-exit:
-	*label_str = g_string_free (str, FALSE);
-
-	g_object_unref (store);
-
-	return count;
 }
 
-static const gchar *
-get_label_color (MessageList *message_list,
-                 const gchar *tag)
+static gboolean
+add_all_labels_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 {
-	EShell *shell;
+	struct LabelsData *ld = data;
+	CamelMessageInfo *msg_info;
+	const gchar *old_label;
+	gchar *new_label;
+	const CamelFlag *flag;
+
+	msg_info = e_tree_memory_node_get_data ((ETreeMemory *)etm, node);
+	g_return_val_if_fail (msg_info != NULL, FALSE);
+
+	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next)
+		add_label_if_known (ld, flag->name);
+
+	old_label = camel_message_info_user_tag (msg_info, "label");
+	if (old_label != NULL) {
+		/* Convert old-style labels ("<name>") to "$Label<name>". */
+		new_label = g_alloca (strlen (old_label) + 10);
+		g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
+
+		add_label_if_known (ld, new_label);
+	}
+
+	return FALSE;
+}
+
+static EMailLabelListStore *
+ml_get_label_list_store (MessageList *message_list)
+{
 	EShellBackend *shell_backend;
+	EShell *shell;
 	EShellSettings *shell_settings;
 	EMailLabelListStore *store;
-	GtkTreeIter iter;
-	GdkColor color;
-	const gchar *property_name;
-	const gchar *interned = NULL;
-	gchar *color_spec;
-
-	/* FIXME get_all_labels() should return an array of tree iterators,
-	 *       not strings.  Now we just have to lookup the tag again. */
 
 	shell_backend = message_list_get_shell_backend (message_list);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
+	store = e_shell_settings_get_object (shell_settings, "mail-label-list-store");
 
-	property_name = "mail-label-list-store";
-	store = e_shell_settings_get_object (shell_settings, property_name);
-
-	if (!e_mail_label_list_store_lookup (store, tag, &iter))
-		goto exit;
-
-	e_mail_label_list_store_get_color (store, &iter, &color);
-
-	/* XXX Hack to avoid returning an allocated string. */
-	color_spec = gdk_color_to_string (&color);
-	interned = g_intern_string (color_spec);
-	g_free (color_spec);
-
-exit:
-	g_object_unref (store);
-
-	return interned;
+	return store;
 }
 
 static const gchar *
@@ -1495,23 +1438,22 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 	case COL_SUBJECT_NORM:
 		return (gpointer) get_normalised_string (message_list, msg_info, col);
 	case COL_SENT: {
-		ETreePath child;
+		struct LatestData ld;
+		ld.sent = TRUE;
+		ld.latest = 0;
 
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
-			return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
-		}
+		for_node_and_subtree_if_collapsed (message_list, path, latest_foreach, &ld);
 
-		return GINT_TO_POINTER (camel_message_info_date_sent(msg_info));
+		return GINT_TO_POINTER (ld.latest);
 	}
 	case COL_RECEIVED: {
-		ETreePath child;
+		struct LatestData ld;
+		ld.sent = FALSE;
+		ld.latest = 0;
 
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
-			return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
-		}
-		return GINT_TO_POINTER (camel_message_info_date_received(msg_info));
+		for_node_and_subtree_if_collapsed (message_list, path, latest_foreach, &ld);
+
+		return GINT_TO_POINTER (ld.latest);
 	}
 	case COL_TO:
 		str = camel_message_info_to (msg_info);
@@ -1523,21 +1465,14 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 	case COL_DELETED:
 		return GINT_TO_POINTER ((camel_message_info_flags(msg_info) & CAMEL_MESSAGE_DELETED) != 0);
 	case COL_UNREAD: {
-		ETreePath child;
-		flags = camel_message_info_flags(msg_info);
+		gboolean saw_unread = FALSE;
 
-		child = e_tree_model_node_get_first_child(etm, path);
-		if (child && !e_tree_node_is_expanded(message_list->tree, path)
-		    && (flags & CAMEL_MESSAGE_SEEN)) {
-			return GINT_TO_POINTER (subtree_unread (message_list, child));
-		}
+		for_node_and_subtree_if_collapsed (message_list, path, unread_foreach, &saw_unread);
 
-		return GINT_TO_POINTER (!(flags & CAMEL_MESSAGE_SEEN));
+		return GINT_TO_POINTER (saw_unread);
 	}
 	case COL_COLOUR: {
 		const gchar *colour, *due_by, *completed, *followup;
-		gchar *labels_string = NULL;
-		gint n;
 
 		/* Priority: colour tag; label tag; important flag; due-by tag */
 
@@ -1551,8 +1486,29 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
 		followup = camel_message_info_user_tag(msg_info, "follow-up");
 		if (colour == NULL) {
-			if ((n = get_all_labels (message_list, msg_info,  &labels_string, TRUE)) == 1) {
-				colour = get_label_color (message_list, labels_string);
+			/* Get all applicable labels. */
+			struct LabelsData ld;
+
+			ld.store = ml_get_label_list_store (message_list);
+			ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
+			for_node_and_subtree_if_collapsed (message_list, path, add_all_labels_foreach, &ld);
+
+			if (g_hash_table_size (ld.labels_tag2iter) == 1) {
+				GHashTableIter iter;
+				GtkTreeIter *label_defn;
+				GdkColor colour_val;
+				gchar *colour_alloced;
+
+				/* Extract the single label from the hashtable. */
+				g_hash_table_iter_init (&iter, ld.labels_tag2iter);
+				g_hash_table_iter_next (&iter, NULL, (gpointer *) &label_defn);
+
+				e_mail_label_list_store_get_color (ld.store, label_defn, &colour_val);
+
+				/* XXX Hack to avoid returning an allocated string. */
+				colour_alloced = gdk_color_to_string (&colour_val);
+				colour = g_intern_string (colour_alloced);
+				g_free (colour_alloced);
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
@@ -1562,9 +1518,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 				if ((followup && *followup) || now >= camel_header_decode_date (due_by, NULL))
 					colour = "#A7453E";
 			}
-		}
 
-		g_free (labels_string);
+			g_hash_table_destroy (ld.labels_tag2iter);
+			g_object_unref (ld.store);
+		}
 
 		return (gpointer) colour;
 	}
@@ -1626,21 +1583,37 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 			return (gpointer)("");
 	}
 	case COL_LABELS:{
-		gchar *str = NULL;
-		GString *cleansed_str;
+		struct LabelsData ld;
+		GString *result = g_string_new ("");
 
-		cleansed_str = g_string_new ("");
+		ld.store = ml_get_label_list_store (message_list);
+		ld.labels_tag2iter = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_iter_free);
+		for_node_and_subtree_if_collapsed (message_list, path, add_all_labels_foreach, &ld);
 
-		if (get_all_labels (message_list, msg_info, &str, FALSE)) {
-			gint i;
-			for (i = 0; str[i] != '\0'; ++i) {
-				if (str[i] != '_') {
-					g_string_append_c (cleansed_str, str[i]);
-				}
+		if (g_hash_table_size (ld.labels_tag2iter) > 0) {
+			GHashTableIter iter;
+			GtkTreeIter *label_defn;
+
+			g_hash_table_iter_init (&iter, ld.labels_tag2iter);
+			while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &label_defn)) {
+				gchar *label_name, *label_name_clean;
+				
+				if (result->len > 0)
+					g_string_append (result, ", ");
+
+				label_name = e_mail_label_list_store_get_name (ld.store, label_defn);
+				label_name_clean = e_str_without_underscores (label_name);
+
+				g_string_append (result, label_name_clean);
+
+				g_free(label_name_clean);
+				g_free(label_name);
 			}
-			return (gpointer) (g_string_free (cleansed_str, FALSE));
-		} else
-			return (gpointer) ("");
+		}
+
+		g_hash_table_destroy (ld.labels_tag2iter);
+		g_object_unref (ld.store);
+		return (gpointer) g_string_free (result, FALSE);
 	}
 	default:
 		g_warning ("This shouldn't be reached\n");
@@ -1652,7 +1625,7 @@ static gpointer
 ml_tree_sort_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data)
 {
 	MessageList *message_list = model_data;
-	CamelMessageInfo *msg_info;
+	struct LatestData ld;
 
 	if (!(col == COL_SENT || col == COL_RECEIVED))
 		return ml_tree_value_at (etm, path, col, model_data);
@@ -1660,36 +1633,14 @@ ml_tree_sort_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model
 	if (e_tree_model_node_is_root (etm, path))
 		return NULL;
 
-	/* retrieve the message information array */
-	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
-	g_return_val_if_fail (msg_info != NULL, NULL);
+	ld.sent = (col == COL_SENT);
+	ld.latest = 0;
 
-	if (col == COL_SENT) {
-		if (message_list->priv->thread_latest) {
-			ETreePath child;
+	latest_foreach (etm, path, &ld);
+	if (message_list->priv->thread_latest)
+		e_tree_model_node_traverse (etm, path, latest_foreach, &ld);
 
-			child = e_tree_model_node_get_first_child (etm, path);
-			if (child) {
-				return GINT_TO_POINTER (subtree_latest (message_list, child, 1));
-			}
-		}
-
-		return GINT_TO_POINTER (camel_message_info_date_sent(msg_info));
-	} else if (col == COL_RECEIVED) {
-		if (message_list->priv->thread_latest) {
-			ETreePath child;
-
-			child = e_tree_model_node_get_first_child (etm, path);
-			if (child) {
-				return GINT_TO_POINTER (subtree_latest (message_list, child, 0));
-			}
-		}
-
-		return GINT_TO_POINTER (camel_message_info_date_received(msg_info));
-	}
-
-	return ml_tree_value_at (etm, path, col, model_data);
-
+	return GINT_TO_POINTER (ld.latest);
 }
 
 static void
