@@ -980,6 +980,7 @@ e_mail_labels_get_filter_options (void)
 		option = g_new0 (struct _filter_option, 1);
 		option->title = e_str_without_underscores (name);
 		option->value = tag;  /* takes ownership */
+		list = g_slist_prepend (list, option);
 
 		g_free (name);
 
@@ -988,5 +989,5 @@ e_mail_labels_get_filter_options (void)
 
 	g_object_unref (list_store);
 
-	return list;
+	return g_slist_reverse (list);
 }
