@@ -1787,7 +1787,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	if (message_list->seen_id > 0)
 		g_source_remove (message_list->seen_id);
 
-	if (mark_read) {
+	if (message != NULL && mark_read) {
 		message_list->seen_id = g_timeout_add (
 			timeout_interval, (GSourceFunc)
 			mail_reader_message_read_cb, reader);
