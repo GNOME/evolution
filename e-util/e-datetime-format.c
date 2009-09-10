@@ -171,13 +171,18 @@ static gchar *
 format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, const struct tm *today)
 {
 	gchar *res = g_strdup (get_default_format (DTFormatKindDate, NULL));
+	GDate now, val;
+	gint diff;
 
 	g_return_val_if_fail (value != NULL, res);
 	g_return_val_if_fail (today != NULL, res);
 
+	g_date_set_time_t (&now, ttoday);
+	g_date_set_time_t (&val, tvalue);
+		
+	diff = g_date_get_julian (&now) - g_date_get_julian (&val);
 	/* if it's more than a week, use the default date format */
-	if (ttoday - tvalue > 7 * 24 * 60 * 60 ||
-	    tvalue - ttoday > 7 * 24 * 60 * 60)
+	if (ABS (diff) > 7)
 		return res;
 
 	g_free (res);
@@ -187,14 +192,11 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 	    value->tm_mday == today->tm_mday) {
 		res = g_strdup (_("Today"));
 	} else {
-		gint diff = (gint) (tvalue - ttoday);
-		gint since_midnight = today->tm_sec + (60 * today->tm_min) + (60 * 60 * today->tm_hour);
-		gboolean future = (diff > 0);
+		gboolean future = FALSE;
 
-		if (!future)
-			diff *= -1;
+		if (diff < 0)
+			future = TRUE;
 
-		diff = (diff - since_midnight) / (24 * 60 * 60);
 		if (diff <= 1) {
 			if (future)
 				res = g_strdup (_("Tomorrow"));
