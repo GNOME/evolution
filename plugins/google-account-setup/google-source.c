@@ -41,6 +41,7 @@
 
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-account-list.h>
+#include <libedataserver/e-proxy.h>
 #include <libecal/e-cal.h>
 #include <libedataserverui/e-cell-renderer-color.h>
 #include <libedataserverui/e-passwords.h>
@@ -473,6 +474,24 @@ claim_error (GtkWindow *parent, const gchar *error)
 }
 
 static void
+update_proxy_settings (GDataService *service, const gchar *uri)
+{
+	EProxy *proxy;
+	SoupURI *proxy_uri = NULL;
+
+	proxy = e_proxy_new ();
+	e_proxy_setup_proxy (proxy);
+
+	/* use proxy if necessary */
+	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+	}
+
+	gdata_service_set_proxy (service, proxy_uri);
+	g_object_unref (proxy);
+}
+
+static void
 retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 {
 	ESource *source;
@@ -515,6 +534,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 
 	ssl = e_source_get_property (source, "ssl");
 	get_subscribed_url = g_strconcat ((!ssl || g_str_equal (ssl, "1")) ? "https" : "http", URL_GET_SUBSCRIBED_CALENDARS, NULL);
+	update_proxy_settings (GDATA_SERVICE (service), get_subscribed_url);
 	feed = gdata_service_get_feed (GDATA_SERVICE (service), get_subscribed_url, &error);
 	g_free (get_subscribed_url);
 
