@@ -122,9 +122,14 @@ static void
 action_mail_folder_copy_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -132,7 +137,8 @@ action_mail_folder_copy_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	em_folder_utils_copy_folder (folder_info, FALSE);
+	em_folder_utils_copy_folder (
+		GTK_WINDOW (shell_window), folder_info, FALSE);
 }
 
 static void
@@ -217,9 +223,14 @@ static void
 action_mail_folder_move_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -227,7 +238,8 @@ action_mail_folder_move_cb (GtkAction *action,
 	g_return_if_fail (folder_info != NULL);
 
 	/* XXX Leaking folder_info? */
-	em_folder_utils_copy_folder (folder_info, TRUE);
+	em_folder_utils_copy_folder (
+		GTK_WINDOW (shell_window), folder_info, TRUE);
 }
 
 static void

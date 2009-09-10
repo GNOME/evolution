@@ -192,9 +192,11 @@ action_mail_copy_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
+	GtkWindow *parent;
 	GPtrArray *selected;
 	const gchar *uri;
 
+	parent = e_mail_reader_get_window (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	folder_tree = em_folder_tree_new ();
@@ -208,7 +210,7 @@ action_mail_copy_cb (GtkAction *action,
 		EMFT_EXCLUDE_VTRASH);
 
 	dialog = em_folder_selector_new (
-		EM_FOLDER_TREE (folder_tree),
+		parent, EM_FOLDER_TREE (folder_tree),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Select Folder"), NULL, _("C_opy"));
 
@@ -579,9 +581,11 @@ action_mail_move_cb (GtkAction *action,
 	CamelFolder *folder;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
+	GtkWindow *parent;
 	GPtrArray *selected;
 	const gchar *uri;
 
+	parent = e_mail_reader_get_window (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	folder_tree = em_folder_tree_new ();
@@ -595,7 +599,7 @@ action_mail_move_cb (GtkAction *action,
 		EMFT_EXCLUDE_VTRASH);
 
 	dialog = em_folder_selector_new (
-		EM_FOLDER_TREE (folder_tree),
+		parent, EM_FOLDER_TREE (folder_tree),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Select Folder"), NULL, _("_Move"));
 

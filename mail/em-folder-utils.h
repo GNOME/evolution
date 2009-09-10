@@ -40,7 +40,8 @@ gint		em_folder_utils_copy_folders	(CamelStore *fromstore,
 /* FIXME These API's are really busted.  There is no consistency and
  *       most rely on the wrong data. */
 
-void		em_folder_utils_copy_folder	(CamelFolderInfo *folderinfo,
+void		em_folder_utils_copy_folder	(GtkWindow *parent,
+						 CamelFolderInfo *folderinfo,
 						 gboolean delete);
 void		em_folder_utils_delete_folder	(CamelFolder *folder);
 void		em_folder_utils_rename_folder	(CamelFolder *folder);

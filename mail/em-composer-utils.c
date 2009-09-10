@@ -2405,7 +2405,8 @@ em_utils_reply_to_message(CamelFolder *folder, const gchar *uid, CamelMimeMessag
 }
 
 static void
-post_header_clicked_cb (EComposerPostHeader *header)
+post_header_clicked_cb (EComposerPostHeader *header,
+                        EMsgComposer *composer)
 {
 	GtkTreeSelection *selection;
 	GtkWidget *folder_tree;
@@ -2424,6 +2425,7 @@ post_header_clicked_cb (EComposerPostHeader *header)
 		EMFT_EXCLUDE_VTRASH);
 
 	dialog = em_folder_selector_new (
+		GTK_WINDOW (composer),
 		EM_FOLDER_TREE (folder_tree),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Posting destination"),
@@ -2503,5 +2505,5 @@ em_configure_new_composer (EMsgComposer *composer)
 	 *       the folder selector dialog.  See the handler function. */
 	g_signal_connect (
 		header, "clicked",
-		G_CALLBACK (post_header_clicked_cb), NULL);
+		G_CALLBACK (post_header_clicked_cb), composer);
 }

@@ -25,6 +25,7 @@
 #define EM_FOLDER_SELECTOR_H
 
 #include <gtk/gtk.h>
+#include <mail/em-folder-tree.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_SELECTOR \
@@ -55,7 +56,7 @@ struct _EMFolderSelector {
 	GtkDialog parent;
 
 	guint32 flags;
-	struct _EMFolderTree *emft;
+	EMFolderTree *emft;
 
 	GtkEntry *name_entry;
 	gchar *selected_path;
@@ -78,24 +79,37 @@ enum {
 	EM_FOLDER_SELECTOR_RESPONSE_NEW = 1
 };
 
-GType em_folder_selector_get_type (void);
-
-void em_folder_selector_construct (EMFolderSelector *emfs, struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel);
-
-/* for selecting folders */
-GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel);
-
-/* for creating folders */
-GtkWidget *em_folder_selector_create_new (struct _EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text);
-
-void em_folder_selector_set_selected (EMFolderSelector *emfs, const gchar *uri);
-void em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list);
-
-const gchar *em_folder_selector_get_selected_uri (EMFolderSelector *emfs);
-const gchar *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
-
-GList *em_folder_selector_get_selected_uris (EMFolderSelector *emfs);
-GList *em_folder_selector_get_selected_paths (EMFolderSelector *emfs);
+GType		em_folder_selector_get_type	(void);
+void		em_folder_selector_construct	(EMFolderSelector *emfs,
+						 EMFolderTree *emft,
+						 guint32 flags,
+						 const gchar *title,
+						 const gchar *text,
+						 const gchar *oklabel);
+GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
+						 EMFolderTree *emft,
+						 guint32 flags,
+						 const gchar *title,
+						 const gchar *text,
+						 const gchar *oklabel);
+GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
+						 EMFolderTree *emft,
+						 guint32 flags,
+						 const gchar *title,
+						 const gchar *text);
+void		em_folder_selector_set_selected	(EMFolderSelector *emfs,
+						 const gchar *uri);
+void		em_folder_selector_set_selected_list
+						(EMFolderSelector *emfs,
+						 GList *list);
+const gchar *	em_folder_selector_get_selected_uri
+						(EMFolderSelector *emfs);
+const gchar *	em_folder_selector_get_selected_path
+						(EMFolderSelector *emfs);
+GList *		em_folder_selector_get_selected_uris
+						(EMFolderSelector *emfs);
+GList *		em_folder_selector_get_selected_paths
+						(EMFolderSelector *emfs);
 
 G_END_DECLS
 

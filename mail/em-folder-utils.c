@@ -65,7 +65,6 @@
 #include "em-folder-tree-model.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
-#include "em-folder-selection.h"
 #include "em-folder-properties.h"
 
 #include "e-mail-local.h"
@@ -365,9 +364,13 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 /* FIXME: this interface references the folderinfo without copying it  */
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_copy_folder (CamelFolderInfo *folderinfo,
+em_folder_utils_copy_folder (GtkWindow *parent,
+                             CamelFolderInfo *folderinfo,
                              gint delete)
 {
+	GtkWidget *dialog;
+	EMFolderTree *emft;
+	const gchar *label;
 	struct _copy_folder_data *cfd;
 
 	g_return_if_fail (folderinfo != NULL);
@@ -376,11 +379,28 @@ em_folder_utils_copy_folder (CamelFolderInfo *folderinfo,
 	cfd->fi = folderinfo;
 	cfd->delete = delete;
 
-	em_select_folder (
-		_("Select folder"),
-		delete ? _("_Move") : _("C_opy"),
-		NULL, emfu_copy_folder_exclude,
-		emfu_copy_folder_selected, cfd);
+	/* XXX Do we leak this reference. */
+	emft = (EMFolderTree *) em_folder_tree_new ();
+
+	em_folder_tree_set_excluded_func (
+		emft, emfu_copy_folder_exclude, cfd);
+
+	label = delete ? _("_Move") : _("C_opy");
+
+	dialog = em_folder_selector_new (
+		parent, emft,
+		EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Select Folder"), NULL, label);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		const gchar *uri;
+
+		uri = em_folder_selector_get_selected_uri (
+			EM_FOLDER_SELECTOR (dialog));
+		emfu_copy_folder_selected (uri, cfd);
+	}
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -732,15 +752,12 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 
 	folder_tree = (EMFolderTree *) em_folder_tree_new ();
 
-	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
+	dialog = em_folder_selector_create_new (
+		parent, folder_tree, 0,
+		_("Create Folder"),
+		_("Specify where to create the folder:"));
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
-	if (parent) {
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
-		gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
-		if (gtk_window_get_modal (parent))
-			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	}
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
 }

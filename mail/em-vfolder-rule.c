@@ -506,13 +506,17 @@ source_add(GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
 	GtkWidget *dialog;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (widget);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	emft =(EMFolderTree *) em_folder_tree_new ();
 	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
 
-	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));
-	gtk_window_set_transient_for ((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
-	gtk_window_set_modal((GtkWindow *)dialog, TRUE);
+	dialog = em_folder_selector_new (
+		parent, emft, EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Select Folder"), NULL, _("_Add"));
 	g_signal_connect(dialog, "response", G_CALLBACK(vfr_folder_response), data);
 	gtk_widget_show(dialog);
 }

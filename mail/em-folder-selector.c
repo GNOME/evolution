@@ -124,8 +124,7 @@ emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 
 	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
 
-	/* FIXME Pass a parent window. */
-	em_folder_utils_create_folder (NULL, emfs->emft, NULL);
+	em_folder_utils_create_folder (NULL, emfs->emft, GTK_WINDOW (dialog));
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }
@@ -167,7 +166,6 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 {
 	GtkWidget *widget;
 
-	gtk_window_set_modal (GTK_WINDOW (emfs), FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
 	gtk_window_set_title (GTK_WINDOW (emfs), title);
 	gtk_container_set_border_width (GTK_CONTAINER (emfs), 6);
@@ -216,11 +214,18 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 }
 
 GtkWidget *
-em_folder_selector_new (EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text, const gchar *oklabel)
+em_folder_selector_new (GtkWindow *parent,
+                        EMFolderTree *emft,
+                        guint32 flags,
+                        const gchar *title,
+                        const gchar *text,
+                        const gchar *oklabel)
 {
 	EMFolderSelector *emfs;
 
-	emfs = g_object_new (em_folder_selector_get_type (), NULL);
+	emfs = g_object_new (
+		EM_TYPE_FOLDER_SELECTOR,
+		"transient-for", parent, NULL);
 	em_folder_selector_construct (emfs, emft, flags, title, text, oklabel);
 
 	return (GtkWidget *) emfs;
@@ -243,7 +248,11 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 }
 
 GtkWidget *
-em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const gchar *title, const gchar *text)
+em_folder_selector_create_new (GtkWindow *parent,
+                               EMFolderTree *emft,
+                               guint32 flags,
+                               const gchar *title,
+                               const gchar *text)
 {
 	EMFolderSelector *emfs;
 	GtkWidget *hbox, *w;
@@ -252,7 +261,9 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const gchar *t
 	 * whole purpose of this dialog */
 	flags &= ~EM_FOLDER_SELECTOR_CAN_CREATE;
 
-	emfs = g_object_new (em_folder_selector_get_type (), NULL);
+	emfs = g_object_new (
+		EM_TYPE_FOLDER_SELECTOR,
+		"transient-for", parent, NULL);
 	em_folder_selector_construct (emfs, emft, flags, title, text, _("C_reate"));
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOINFERIORS);
 

@@ -68,7 +68,6 @@
 #include "em-folder-tree.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
-#include "em-folder-selection.h"
 #include "em-folder-properties.h"
 #include "em-event.h"
 

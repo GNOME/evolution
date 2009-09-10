@@ -58,7 +58,6 @@ mailinclude_HEADERS =					\
 	em-filter-rule.h				\
 	em-filter-source-element.h			\
 	em-folder-properties.h				\
-	em-folder-selection.h				\
 	em-folder-selector.h				\
 	em-folder-selection-button.h			\
 	em-folder-tree.h				\
@@ -116,7 +115,6 @@ libevolution_mail_la_SOURCES =				\
 	em-filter-rule.c				\
 	em-filter-source-element.c			\
 	em-folder-properties.c				\
-	em-folder-selection.c				\
 	em-folder-selector.c				\
 	em-folder-selection-button.c			\
 	em-folder-tree.c				\
