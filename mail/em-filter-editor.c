@@ -155,7 +155,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 
 	g_return_if_fail (idx >= 0 && idx < g_slist_length (sources));
 
-	source = (gchar *)g_slist_nth (sources, idx);
+	source = (gchar *) (g_slist_nth (sources, idx))->data;
 	g_return_if_fail (source);
 
 	rule_editor_set_source ((RuleEditor *)fe, source);
