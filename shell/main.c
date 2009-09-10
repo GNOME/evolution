@@ -26,6 +26,8 @@
 #include <gdk/gdkx.h>  /* for copied UniqueApp code */
 #include <glib/gstdio.h>
 
+#include <dbus/dbus-glib.h>
+
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
 #ifdef DATADIR
@@ -496,6 +498,10 @@ main (gint argc, gchar **argv)
 		g_error_free (error);
 		exit (1);
 	}
+
+	g_type_init ();
+	g_thread_init (NULL);
+	dbus_g_thread_init ();
 
 #ifdef G_OS_WIN32
 	if (strcmp (gettext (""), "") == 0) {
