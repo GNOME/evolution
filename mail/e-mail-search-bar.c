@@ -47,6 +47,7 @@ struct _EMailSearchBarPrivate {
 
 enum {
 	PROP_0,
+	PROP_ACTIVE_SEARCH,
 	PROP_CASE_SENSITIVE,
 	PROP_TEXT,
 	PROP_WEB_VIEW
@@ -119,8 +120,11 @@ mail_search_bar_find (EMailSearchBar *search_bar,
 	case_sensitive = e_mail_search_bar_get_case_sensitive (search_bar);
 	text = e_mail_search_bar_get_text (search_bar);
 
-	if (text == NULL || *text == '\0')
-		gtk_widget_hide (search_bar->priv->matches_label);
+	if (text == NULL || *text == '\0') {
+		e_mail_search_bar_clear (search_bar);
+		g_free (text);
+		return;
+	}
 
 	new_search =
 		(search_bar->priv->active_search == NULL) ||
@@ -164,6 +168,8 @@ mail_search_bar_find (EMailSearchBar *search_bar,
 			GTK_HTML (web_view),
 			search_bar->priv->active_search,
 			case_sensitive, search_forward, FALSE);
+
+	g_object_notify (G_OBJECT (search_bar), "active-search");
 
 	/* Update wrapped label visibility. */
 
@@ -217,6 +223,7 @@ mail_search_bar_toggled_cb (EMailSearchBar *search_bar)
 	g_free (search_bar->priv->active_search);
 	search_bar->priv->active_search = NULL;
 
+	g_object_notify (G_OBJECT (search_bar), "active-search");
 	g_object_notify (G_OBJECT (search_bar), "case-sensitive");
 }
 
@@ -272,6 +279,12 @@ mail_search_bar_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ACTIVE_SEARCH:
+			g_value_set_boolean (
+				value, e_mail_search_bar_get_active_search (
+				E_MAIL_SEARCH_BAR (object)));
+			return;
+
 		case PROP_CASE_SENSITIVE:
 			g_value_set_boolean (
 				value, e_mail_search_bar_get_case_sensitive (
@@ -413,11 +426,15 @@ mail_search_bar_clear (EMailSearchBar *search_bar)
 	g_free (search_bar->priv->active_search);
 	search_bar->priv->active_search = NULL;
 
+	gtk_entry_set_text (GTK_ENTRY (search_bar->priv->entry), "");
+
 	gtk_widget_hide (search_bar->priv->wrapped_next_box);
 	gtk_widget_hide (search_bar->priv->wrapped_prev_box);
 	gtk_widget_hide (search_bar->priv->matches_label);
 
 	mail_search_bar_update_tokenizer (search_bar);
+
+	g_object_notify (G_OBJECT (search_bar), "active-search");
 }
 
 static void
@@ -442,6 +459,16 @@ mail_search_bar_class_init (EMailSearchBarClass *class)
 	widget_class->key_press_event = mail_search_bar_key_press_event;
 
 	class->clear = mail_search_bar_clear;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ACTIVE_SEARCH,
+		g_param_spec_boolean (
+			"active-search",
+			"Active Search",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
 
 	g_object_class_install_property (
 		object_class,
@@ -549,6 +576,10 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 	search_bar->priv->entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	e_binding_new (
+		search_bar, "active-search",
+		widget, "secondary-icon-sensitive");
+
 	g_signal_connect_swapped (
 		widget, "activate",
 		G_CALLBACK (mail_search_bar_find_next_cb), search_bar);
@@ -571,6 +602,8 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	e_binding_new (search_bar, "active-search", widget, "sensitive");
+
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (mail_search_bar_find_previous_cb), search_bar);
@@ -584,6 +617,8 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		widget, _("Find the next occurrence of the phrase"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
+
+	e_binding_new (search_bar, "active-search", widget, "sensitive");
 
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -719,6 +754,14 @@ e_mail_search_bar_get_tokenizer (EMailSearchBar *search_bar)
 	g_return_val_if_fail (E_IS_MAIL_SEARCH_BAR (search_bar), NULL);
 
 	return search_bar->priv->tokenizer;
+}
+
+gboolean
+e_mail_search_bar_get_active_search (EMailSearchBar *search_bar)
+{
+	g_return_val_if_fail (E_IS_MAIL_SEARCH_BAR (search_bar), FALSE);
+
+	return (search_bar->priv->active_search != NULL);
 }
 
 gboolean

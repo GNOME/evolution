@@ -71,6 +71,8 @@ void		e_mail_search_bar_changed	(EMailSearchBar *search_bar);
 EWebView *	e_mail_search_bar_get_web_view	(EMailSearchBar *search_bar);
 ESearchingTokenizer *
 		e_mail_search_bar_get_tokenizer	(EMailSearchBar *search_bar);
+gboolean	e_mail_search_bar_get_active_search
+						(EMailSearchBar *search_bar);
 gboolean	e_mail_search_bar_get_case_sensitive
 						(EMailSearchBar *search_bar);
 void		e_mail_search_bar_set_case_sensitive
