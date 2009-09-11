@@ -61,7 +61,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-12 00:41+0200\n"
+"PO-Revision-Date: 2009-09-12 01:14+0200\n"
 "Last-Translator: Vincent van Adrighem <adrighem@gnome.org>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -15976,7 +15976,6 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 #| msgid ""
 #| "Automatically fills your address book with names and email addresses as "
 #| "you reply to messages. Also fills in IM contact information from your "
@@ -15988,6 +15987,8 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
+"Neemt het zware werk over bij beheer van uw adresboek.\n"
+"\n"
 "Vult uw adresboek automatisch met namen en e-mailadressen wanneer u een e-"
 "mail beantwoordt. Ook wordt IM-contactinformatie aangevuld met de personen "
 "uit uw contactenlijst."
@@ -16030,7 +16031,6 @@ msgid ""
 msgstr "Berichten naar UTF-8 omzetten om spamdetectie te verbeteren."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-#, fuzzy
 #| msgid "Bogofilter junk plugin"
 msgid "Bogofilter Junk Filter"
 msgstr "Bogofilter spam-plugin"
@@ -16040,7 +16040,6 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter-opties"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
-#, fuzzy
 #| msgid "Filters junk messages using Bogofilter."
 msgid "Filter junk messages using Bogofilter."
 msgstr "Spam filteren met Bogofilter."
@@ -16080,13 +16079,12 @@ msgstr "weken"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr ""
+msgstr "CalDAV-mogelijkheden aan Evolution toevoegen."
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
-#, fuzzy
 #| msgid "CalDAV sources"
 msgid "CalDAV Support"
-msgstr "CalDAV-bronnen"
+msgstr "CalDAV-ondersteuning"
 
 #: ../plugins/calendar-file/calendar-file.c:208
 #, fuzzy
@@ -16095,33 +16093,29 @@ msgid "_Customize options"
 msgstr "Aanpassen"
 
 #: ../plugins/calendar-file/calendar-file.c:227
-#, fuzzy
 #| msgid "File name:"
 msgid "File _name:"
-msgstr "Bestandsnaam:"
+msgstr "Bestands_naam:"
 
 #: ../plugins/calendar-file/calendar-file.c:231
-#, fuzzy
 #| msgid "Choose a file"
 msgid "Choose calendar file"
-msgstr "Kies een bestand"
+msgstr "Kies een agendabestand"
 
 #: ../plugins/calendar-file/calendar-file.c:279
-#, fuzzy
 #| msgid "Open"
 msgid "On open"
-msgstr "Openen"
+msgstr "Bij openen"
 
 #: ../plugins/calendar-file/calendar-file.c:280
 msgid "On file change"
-msgstr ""
+msgstr "Bij wijzigingen"
 
 # Privé/Persoonlijk
 #: ../plugins/calendar-file/calendar-file.c:281
-#, fuzzy
 #| msgid "Personal"
 msgid "Periodically"
-msgstr "Persoonlijk"
+msgstr "Periodiek"
 
 #: ../plugins/calendar-file/calendar-file.c:308
 msgid "Force read _only"
@@ -23172,22 +23166,21 @@ msgstr "_Alles opslaan"
 
 # bijlage toevoegen/bestand bijvoegen
 #: ../widgets/misc/e-attachment-view.c:326
-#, fuzzy
 #| msgid "_Add attachment..."
 msgid "A_dd Attachment..."
 msgstr "_Bijlage toevoegen…"
 
 #: ../widgets/misc/e-attachment-view.c:643
-#, fuzzy, c-format
+#, c-format
 #| msgid "Open in %s..."
 msgid "Open with \"%s\""
-msgstr "Openen in %s…"
+msgstr "Openen in \"%s\"…"
 
 #: ../widgets/misc/e-attachment-view.c:646
-#, fuzzy, c-format
+#, c-format
 #| msgid "Remind _missing attachments"
 msgid "Open this attachment in %s"
-msgstr "Herinneren bij _ontbrekende bijlagen"
+msgstr "Bijlage openen in %s"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1253
@@ -23686,10 +23679,9 @@ msgid "_All information"
 msgstr "A_lle informatie"
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 #| msgid "_Classification"
 msgid "_Classification:"
-msgstr "_Classificatie"
+msgstr "_Classificatie:"
 
 #. To translators: This means Delay the message delivery for some time
 #: ../widgets/misc/e-send-options.glade.h:32
