@@ -80,8 +80,41 @@ static void
 action_mail_create_search_folder_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailReader *reader;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	MessageList *message_list;
+	FilterRule *search_rule;
+	EMVFolderRule *vfolder_rule;
+	const gchar *folder_uri;
+	const gchar *search_text;
+	gchar *rule_name;
+
+	vfolder_load_storage ();
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	search_rule = e_shell_content_get_search_rule (shell_content);
+	search_text = e_shell_content_get_search_text (shell_content);
+
+	g_return_if_fail (search_rule != NULL);
+
+	if (search_text == NULL || *search_text == '\0')
+		search_text = "''";
+
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+
+	search_rule = vfolder_clone_rule (search_rule);
+	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
+	filter_rule_set_source (search_rule, FILTER_SOURCE_INCOMING);
+	filter_rule_set_name (search_rule, rule_name);
+	g_free (rule_name);
+
+	vfolder_rule = EM_VFOLDER_RULE (search_rule);
+	em_vfolder_rule_add_source (vfolder_rule, folder_uri);
+	vfolder_gui_add_rule (vfolder_rule);
 }
 
 static void
@@ -933,6 +966,31 @@ action_search_filter_cb (GtkRadioAction *action,
 }
 
 static void
+action_search_quick_cb (GtkAction *action,
+                        EMailShellView *mail_shell_view)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	FilterRule *search_rule;
+	gint value;
+
+	/* Set the search rule in EShellContent so that "Create
+	 * Search Folder from Search" works for quick searches. */
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
+	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
+	search_rule = mail_shell_view->priv->search_rules[value];
+
+	e_shell_content_set_search_rule (shell_content, search_rule);
+}
+
+static void
 action_search_scope_cb (GtkRadioAction *action,
                         GtkRadioAction *current,
                         EShellView *shell_view)
@@ -1550,9 +1608,20 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		shell_content, "show-deleted",
 		ACTION (MAIL_HIDE_DELETED), "active");
 
+	/* Keep the sensitivity of "Create Search Folder from Search"
+	 * in sync with "Save Search" so that its only selectable when
+	 * showing search results. */
+	e_binding_new (
+		ACTION (SEARCH_SAVE), "sensitive",
+		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive");
+
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
 		G_CALLBACK (action_gal_save_custom_view_cb), mail_shell_view);
+
+	g_signal_connect (
+		ACTION (SEARCH_QUICK), "activate",
+		G_CALLBACK (action_search_quick_cb), mail_shell_view);
 }
 
 /* Helper for e_mail_shell_view_update_popup_labels() */
