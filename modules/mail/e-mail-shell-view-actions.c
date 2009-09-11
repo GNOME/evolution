@@ -1418,19 +1418,12 @@ static GtkRadioActionEntry mail_search_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  MAIL_SEARCH_SUBJECT_CONTAINS },
 
-	{ "mail-search-subject-or-recipients-contains",
+	{ "mail-search-subject-or-addresses-contain",
 	  NULL,
-	  N_("Subject or Recipients contains"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_SUBJECT_OR_RECIPIENTS_CONTAINS },
-
-	{ "mail-search-subject-or-sender-contains",
-	  NULL,
-	  N_("Subject or Sender contains"),
+	  N_("Subject or Addresses contain"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS }
+	  MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN }
 };
 
 static GtkRadioActionEntry mail_scope_entries[] = {
@@ -1493,7 +1486,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	gtk_action_group_add_radio_actions (
 		action_group, mail_search_entries,
 		G_N_ELEMENTS (mail_search_entries),
-		MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS,
+		MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN,
 		G_CALLBACK (action_mail_search_cb), mail_shell_view);
 	gtk_action_group_add_radio_actions (
 		action_group, mail_scope_entries,
