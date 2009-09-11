@@ -163,7 +163,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	/* Replace variables in the selected rule with the
 	 * current search text and extract a query string. */
 
-	action = ACTION (MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS);
+	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
 	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
 	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
 	rule = priv->search_rules[value];

@@ -243,10 +243,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-sender-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-contains")
-#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_OR_RECIPIENTS_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-or-recipients-contains")
-#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-or-sender-contains")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-or-addresses-contain")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
