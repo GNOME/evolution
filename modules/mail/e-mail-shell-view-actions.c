@@ -347,14 +347,11 @@ action_mail_folder_rename_cb (GtkAction *action,
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	CamelFolder *folder;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder = em_folder_tree_get_selected_folder (folder_tree);
-	g_return_if_fail (folder != NULL);
 
-	em_folder_utils_rename_folder (folder);
+	em_folder_tree_edit_selected (folder_tree);
 }
 
 /* Helper for action_mail_folder_select_all_cb() */

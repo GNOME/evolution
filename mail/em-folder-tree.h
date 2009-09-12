@@ -106,6 +106,7 @@ void		em_folder_tree_select_next_path	(EMFolderTree *folder_tree,
 						 gboolean skip_read_folders);
 void		em_folder_tree_select_prev_path	(EMFolderTree *folder_tree,
 						 gboolean skip_read_folders);
+void		em_folder_tree_edit_selected	(EMFolderTree *folder_tree);
 gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
 gchar *		em_folder_tree_get_selected_path(EMFolderTree *folder_tree);
 CamelFolder *	em_folder_tree_get_selected_folder

@@ -44,7 +44,6 @@ void		em_folder_utils_copy_folder	(GtkWindow *parent,
 						 CamelFolderInfo *folderinfo,
 						 gboolean delete);
 void		em_folder_utils_delete_folder	(CamelFolder *folder);
-void		em_folder_utils_rename_folder	(CamelFolder *folder);
 void		em_folder_utils_create_folder	(CamelFolderInfo *folderinfo,
 						 EMFolderTree *emft,
 						 GtkWindow *parent);

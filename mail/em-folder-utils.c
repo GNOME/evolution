@@ -47,7 +47,6 @@
 #include <camel/camel-stream-fs.h>
 
 #include "e-util/e-mktemp.h"
-#include "e-util/e-request.h"
 
 #include "e-util/e-error.h"
 
@@ -481,87 +480,6 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
 	gtk_widget_show (dialog);
-}
-
-/* FIXME: this must become threaded */
-/* FIXME: these functions must be documented */
-void
-em_folder_utils_rename_folder (CamelFolder *folder)
-{
-	gchar *prompt, *new_name;
-	const gchar *p;
-	CamelStore *local_store;
-	gboolean done = FALSE;
-	gsize base_len;
-
-	local_store = e_mail_local_get_store ();
-
-	/* don't allow user to rename one of the special local folders */
-	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
-		e_error_run(NULL,
-			    "mail:no-rename-special-folder", folder->full_name, NULL);
-		return;
-	}
-
-	if ((p = strrchr (folder->full_name, '/')))
-		base_len = (gsize) (p - folder->full_name);
-	else
-		base_len = 0;
-
-	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), folder->name);
-	while (!done) {
-		new_name = e_request_string (NULL, _("Rename Folder"), prompt, folder->name);
-		if (new_name == NULL || !strcmp (folder->name, new_name)) {
-			/* old name == new name */
-			done = TRUE;
-		} else if (strchr(new_name, '/') != NULL) {
-			e_error_run(NULL,
-				    "mail:no-rename-folder", folder->name, new_name, _("Folder names cannot contain '/'"), NULL);
-			done = TRUE;
-		} else {
-			CamelFolderInfo *fi;
-			CamelException ex;
-			gchar *path, *tmp;
-
-			if (base_len > 0) {
-				path = g_malloc (base_len + strlen (new_name) + 2);
-				memcpy (path, folder->full_name, base_len);
-				tmp = path + base_len;
-				*tmp++ = '/';
-				strcpy (tmp, new_name);
-			} else {
-				path = g_strdup (new_name);
-			}
-
-			camel_exception_init (&ex);
-			if ((fi = camel_store_get_folder_info (folder->parent_store, path, CAMEL_STORE_FOLDER_INFO_FAST, &ex)) != NULL) {
-				camel_store_free_folder_info (folder->parent_store, fi);
-				e_error_run(NULL,
-					    "mail:no-rename-folder-exists", folder->name, new_name, NULL);
-			} else {
-				const gchar *oldpath, *newpath;
-
-				oldpath = folder->full_name;
-				newpath = path;
-
-				d(printf ("renaming %s to %s\n", oldpath, newpath));
-
-				camel_exception_clear (&ex);
-				camel_store_rename_folder (folder->parent_store, oldpath, newpath, &ex);
-				if (camel_exception_is_set (&ex)) {
-					e_error_run(NULL,
-						    "mail:no-rename-folder", oldpath, newpath, ex.desc, NULL);
-					camel_exception_clear (&ex);
-				}
-
-				done = TRUE;
-			}
-
-			g_free (path);
-		}
-
-		g_free (new_name);
-	}
 }
 
 struct _EMCreateFolder {

@@ -50,7 +50,6 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-mktemp.h"
-#include "e-util/e-request.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
@@ -108,6 +107,8 @@ struct _EMFolderTreePrivate {
 
 	GtkTreeRowReference *drag_row;
 	gboolean skip_double_click;
+
+	GtkCellRenderer *text_renderer;
 };
 
 enum {
@@ -380,6 +381,94 @@ folder_tree_clear_selected_list(EMFolderTree *folder_tree)
 }
 
 static void
+folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
+                            const gchar *path_string,
+                            const gchar *new_name)
+{
+	CamelFolderInfo *folder_info;
+	CamelException ex;
+	CamelStore *store;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	gchar *display_name;
+	gchar *old_full_name = NULL;
+	gchar *new_full_name = NULL;
+	gchar **strv;
+	gpointer parent;
+	guint index;
+
+	/* XXX Consider splitting this into separate async functions:
+	 *     em_folder_tree_rename_folder_async()
+	 *     em_folder_tree_rename_folder_finish() */
+
+	camel_exception_init (&ex);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	model = gtk_tree_view_get_model (tree_view);
+	path = gtk_tree_path_new_from_string (path_string);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_DISPLAY_NAME, &display_name,
+		COL_STRING_FULL_NAME, &old_full_name, -1);
+
+	if (g_strcmp0 (new_name, display_name) == 0)
+		goto exit;
+
+	/* Check for invalid characters. */
+	if (strchr (new_name, '/') != NULL) {
+		e_error_run (
+			parent, "mail:no-rename-folder",
+			display_name, new_name,
+			_("Folder names cannot contain '/'"), NULL);
+		goto exit;
+	}
+
+	/* Build the new name from the old name. */
+	strv = g_strsplit_set (old_full_name, "/", 0);
+	index = g_strv_length (strv) - 1;
+	g_free (strv[index]);
+	strv[index] = g_strdup (new_name);
+	new_full_name = g_strjoinv ("/", strv);
+	g_strfreev (strv);
+
+	/* Check for duplicate folder name. */
+	folder_info = camel_store_get_folder_info (
+		store, new_full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+	if (folder_info != NULL) {
+		e_error_run (
+			parent, "mail:no-rename-folder-exists",
+			display_name, new_name, NULL);
+		camel_store_free_folder_info (store, folder_info);
+		goto exit;
+	}
+
+	/* XXX This needs to be asynchronous. */
+	camel_store_rename_folder (store, old_full_name, new_full_name, &ex);
+	if (camel_exception_is_set (&ex)) {
+		e_error_run (
+			parent, "mail:no-rename-folder",
+			old_full_name, new_full_name, ex.desc, NULL);
+		goto exit;
+	}
+
+exit:
+	camel_exception_clear (&ex);
+
+	g_free (display_name);
+	g_free (old_full_name);
+	g_free (new_full_name);
+}
+
+static void
 folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
                            GtkTreeSelection *selection)
 {
@@ -421,6 +510,22 @@ exit:
 
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
+}
+
+static void
+folder_tree_dispose (GObject *object)
+{
+	EMFolderTreePrivate *priv;
+
+	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
+
+	if (priv->text_renderer != NULL) {
+		g_object_unref (priv->text_renderer);
+		priv->text_renderer = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -664,6 +769,7 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	g_type_class_add_private (class, sizeof (EMFolderTreePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = folder_tree_dispose;
 	object_class->finalize = folder_tree_finalize;
 
 	gtk_object_class = GTK_OBJECT_CLASS (class);
@@ -921,6 +1027,11 @@ folder_tree_new (EMFolderTree *folder_tree)
 		g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_display_name, NULL, NULL);
+	folder_tree->priv->text_renderer = g_object_ref (renderer);
+
+	g_signal_connect_swapped (
+		renderer, "edited",
+		G_CALLBACK (folder_tree_cell_edited_cb), folder_tree);
 
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) tree);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -2227,6 +2338,42 @@ em_folder_tree_select_prev_path (EMFolderTree *folder_tree, gboolean skip_read_f
 		gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5f, 0.0f);
 	}
 	return;
+}
+
+void
+em_folder_tree_edit_selected (EMFolderTree *folder_tree)
+{
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreePath *path = NULL;
+	GtkTreeIter iter;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	column = gtk_tree_view_get_column (tree_view, 0);
+	selection = gtk_tree_view_get_selection (tree_view);
+	renderer = folder_tree->priv->text_renderer;
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		path = gtk_tree_model_get_path (model, &iter);
+
+	if (path == NULL)
+		return;
+
+	/* Make the text cell renderer editable, but only temporarily.
+	 * We don't want editing to be activated by simply clicking on
+	 * the folder name.  Too easy for accidental edits to occur. */
+	g_object_set (renderer, "editable", TRUE, NULL);
+	gtk_tree_view_expand_to_path (tree_view, path);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, renderer, TRUE);
+	g_object_set (renderer, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
 }
 
 gchar *
