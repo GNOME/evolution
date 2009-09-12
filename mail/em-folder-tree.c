@@ -91,7 +91,7 @@ struct _EMFolderTreePrivate {
 	GHashTable *select_uris_table; /*Removed as they're encountered, so use this to find uri's not presnet but selected */
 
 	guint32 excluded;
-	gboolean (*excluded_func)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
+	gboolean (*excluded_func)(EMFolderTree *folder_tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 	gpointer excluded_data;
 
 	guint cursor_set:1;	/* set to TRUE means we or something
@@ -152,7 +152,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 extern CamelSession *session;
 extern CamelStore *vfolder_store;
 
-struct _emft_selection_data {
+struct _folder_tree_selection_data {
 	GtkTreeModel *model;
 	GtkTreeIter *iter;
 	gboolean set;
@@ -165,7 +165,7 @@ struct _EMFolderTreeGetFolderInfo {
 
 	/* input data */
 	GtkTreeRowReference *root;
-	EMFolderTree *emft;
+	EMFolderTree *folder_tree;
 	CamelStore *store;
 	guint32 flags;
 	gchar *top;
@@ -175,7 +175,7 @@ struct _EMFolderTreeGetFolderInfo {
 };
 
 static gchar *
-emft_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 {
 	gchar *ret, *name;
 
@@ -186,7 +186,7 @@ emft_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 }
 
 static void
-emft_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 {
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
@@ -194,7 +194,7 @@ emft_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 }
 
 static void
-emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeIter root, iter, titer;
@@ -205,13 +205,13 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	gboolean is_store;
 
 	/* check that we haven't been destroyed */
-	g_return_if_fail (GTK_IS_TREE_VIEW (m->emft));
+	g_return_if_fail (GTK_IS_TREE_VIEW (m->folder_tree));
 
 	/* check that our parent folder hasn't been deleted/unsubscribed */
 	if (!gtk_tree_row_reference_valid (m->root))
 		return;
 
-	tree_view = GTK_TREE_VIEW (m->emft);
+	tree_view = GTK_TREE_VIEW (m->folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
 	si = em_folder_tree_model_lookup_store_info (
@@ -290,33 +290,33 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 }
 
 static void
-emft_get_folder_info__free (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info__free (struct _EMFolderTreeGetFolderInfo *m)
 {
 	camel_store_free_folder_info (m->store, m->fi);
 
 	gtk_tree_row_reference_free (m->root);
-	g_object_unref(m->emft);
+	g_object_unref(m->folder_tree);
 	camel_object_unref (m->store);
 	g_free (m->top);
 }
 
 static MailMsgInfo get_folder_info_info = {
 	sizeof (struct _EMFolderTreeGetFolderInfo),
-	(MailMsgDescFunc) emft_get_folder_info__desc,
-	(MailMsgExecFunc) emft_get_folder_info__exec,
-	(MailMsgDoneFunc) emft_get_folder_info__done,
-	(MailMsgFreeFunc) emft_get_folder_info__free
+	(MailMsgDescFunc) folder_tree_get_folder_info__desc,
+	(MailMsgExecFunc) folder_tree_get_folder_info__exec,
+	(MailMsgDoneFunc) folder_tree_get_folder_info__done,
+	(MailMsgFreeFunc) folder_tree_get_folder_info__free
 };
 
 static void
-folder_tree_emit_popup_event (EMFolderTree *emft,
+folder_tree_emit_popup_event (EMFolderTree *folder_tree,
                               GdkEvent *event)
 {
-	g_signal_emit (emft, signals[POPUP_EVENT], 0, event);
+	g_signal_emit (folder_tree, signals[POPUP_EVENT], 0, event);
 }
 
 static void
-emft_free_select_uri (struct _selected_uri *u)
+folder_tree_free_select_uri (struct _selected_uri *u)
 {
 	g_free (u->uri);
 	if (u->store)
@@ -327,7 +327,7 @@ emft_free_select_uri (struct _selected_uri *u)
 }
 
 static gboolean
-emft_select_func (GtkTreeSelection *selection,
+folder_tree_select_func (GtkTreeSelection *selection,
                   GtkTreeModel *model,
                   GtkTreePath *path,
                   gboolean selected)
@@ -367,11 +367,11 @@ emft_select_func (GtkTreeSelection *selection,
 }
 
 static void
-emft_clear_selected_list(EMFolderTree *emft)
+folder_tree_clear_selected_list(EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	g_slist_foreach(priv->select_uris, (GFunc) emft_free_select_uri, NULL);
+	g_slist_foreach(priv->select_uris, (GFunc) folder_tree_free_select_uri, NULL);
 	g_slist_free(priv->select_uris);
 	g_hash_table_destroy(priv->select_uris_table);
 	priv->select_uris = NULL;
@@ -380,7 +380,7 @@ emft_clear_selected_list(EMFolderTree *emft)
 }
 
 static void
-emft_selection_changed_cb (EMFolderTree *emft,
+folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
                            GtkTreeSelection *selection)
 {
 	GtkTreeModel *model;
@@ -414,7 +414,7 @@ emft_selection_changed_cb (EMFolderTree *emft,
 
 exit:
 	g_signal_emit (
-		emft, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
+		folder_tree, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
 
 	g_free (full_name);
 	g_free (uri);
@@ -433,7 +433,7 @@ folder_tree_finalize (GObject *object)
 	if (priv->select_uris != NULL) {
 		g_slist_foreach (
 			priv->select_uris,
-			(GFunc) emft_free_select_uri, NULL);
+			(GFunc) folder_tree_free_select_uri, NULL);
 		g_slist_free (priv->select_uris);
 		g_hash_table_destroy (priv->select_uris_table);
 		priv->select_uris = NULL;
@@ -476,7 +476,7 @@ em_folder_tree_destroy (GtkObject *object)
 }
 
 static gboolean
-emft_button_press_event (GtkWidget *widget,
+folder_tree_button_press_event (GtkWidget *widget,
                          GdkEventButton *event)
 {
 	EMFolderTreePrivate *priv;
@@ -491,7 +491,7 @@ emft_button_press_event (GtkWidget *widget,
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_mode (selection) == GTK_SELECTION_SINGLE)
-		emft_clear_selected_list (EM_FOLDER_TREE (widget));
+		folder_tree_clear_selected_list (EM_FOLDER_TREE (widget));
 
 	priv->cursor_set = TRUE;
 
@@ -520,7 +520,7 @@ chainup:
 }
 
 static gboolean
-emft_key_press_event (GtkWidget *widget,
+folder_tree_key_press_event (GtkWidget *widget,
                       GdkEventKey *event)
 {
 	EMFolderTreePrivate *priv;
@@ -534,7 +534,7 @@ emft_key_press_event (GtkWidget *widget,
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_mode (selection) == GTK_SELECTION_SINGLE)
-		emft_clear_selected_list (EM_FOLDER_TREE (widget));
+		folder_tree_clear_selected_list (EM_FOLDER_TREE (widget));
 
 	priv->cursor_set = TRUE;
 
@@ -544,7 +544,7 @@ emft_key_press_event (GtkWidget *widget,
 }
 
 static gboolean
-emft_popup_menu (GtkWidget *widget)
+folder_tree_popup_menu (GtkWidget *widget)
 {
 	folder_tree_emit_popup_event (EM_FOLDER_TREE (widget), NULL);
 
@@ -552,7 +552,7 @@ emft_popup_menu (GtkWidget *widget)
 }
 
 static void
-emft_row_activated (GtkTreeView *tree_view,
+folder_tree_row_activated (GtkTreeView *tree_view,
                     GtkTreePath *path,
                     GtkTreeViewColumn *column)
 {
@@ -576,7 +576,7 @@ emft_row_activated (GtkTreeView *tree_view,
 		model, &iter, COL_STRING_FULL_NAME, &full_name,
 		COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 
-	emft_clear_selected_list (EM_FOLDER_TREE (tree_view));
+	folder_tree_clear_selected_list (EM_FOLDER_TREE (tree_view));
 
 	g_signal_emit (
 		tree_view, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
@@ -589,7 +589,7 @@ emft_row_activated (GtkTreeView *tree_view,
 }
 
 static gboolean
-emft_test_collapse_row (GtkTreeView *tree_view,
+folder_tree_test_collapse_row (GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreePath *path)
 {
@@ -612,7 +612,7 @@ exit:
 }
 
 static void
-emft_row_expanded (GtkTreeView *tree_view,
+folder_tree_row_expanded (GtkTreeView *tree_view,
                    GtkTreeIter *iter,
                    GtkTreePath *path)
 {
@@ -643,7 +643,7 @@ emft_row_expanded (GtkTreeView *tree_view,
 	msg->root = gtk_tree_row_reference_new (model, path);
 	camel_object_ref (store);
 	msg->store = store;
-	msg->emft = g_object_ref (tree_view);
+	msg->folder_tree = g_object_ref (tree_view);
 	msg->top = full_name;
 	msg->flags =
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
@@ -670,14 +670,14 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	gtk_object_class->destroy = em_folder_tree_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->button_press_event = emft_button_press_event;
-	widget_class->key_press_event = emft_key_press_event;
-	widget_class->popup_menu = emft_popup_menu;
+	widget_class->button_press_event = folder_tree_button_press_event;
+	widget_class->key_press_event = folder_tree_key_press_event;
+	widget_class->popup_menu = folder_tree_popup_menu;
 
 	tree_view_class = GTK_TREE_VIEW_CLASS (class);
-	tree_view_class->row_activated = emft_row_activated;
-	tree_view_class->test_collapse_row = emft_test_collapse_row;
-	tree_view_class->row_expanded = emft_row_expanded;
+	tree_view_class->row_activated = folder_tree_row_activated;
+	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
+	tree_view_class->row_expanded = folder_tree_row_expanded;
 
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
@@ -714,7 +714,7 @@ folder_tree_class_init (EMFolderTreeClass *class)
 }
 
 static void
-folder_tree_init (EMFolderTree *emft)
+folder_tree_init (EMFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GHashTable *select_uris_table;
@@ -722,17 +722,17 @@ folder_tree_init (EMFolderTree *emft)
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
-	emft->priv = EM_FOLDER_TREE_GET_PRIVATE (emft);
-	emft->priv->select_uris_table = select_uris_table;
+	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
+	folder_tree->priv->select_uris_table = select_uris_table;
 
 	model = em_folder_tree_model_get_default ();
-	gtk_tree_view_set_model (GTK_TREE_VIEW (emft), GTK_TREE_MODEL (model));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (folder_tree), GTK_TREE_MODEL (model));
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
 	g_signal_connect_swapped (
 		selection, "changed",
-		G_CALLBACK (emft_selection_changed_cb), emft);
+		G_CALLBACK (folder_tree_selection_changed_cb), folder_tree);
 }
 
 GType
@@ -891,7 +891,7 @@ render_icon (GtkTreeViewColumn *column,
 }
 
 static GtkTreeView *
-folder_tree_new (EMFolderTree *emft)
+folder_tree_new (EMFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GtkTreeViewColumn *column;
@@ -902,7 +902,7 @@ folder_tree_new (EMFolderTree *emft)
 	gconf = mail_config_get_gconf_client ();
 
 	/* FIXME Gross hack */
-	tree = GTK_WIDGET (emft);
+	tree = GTK_WIDGET (folder_tree);
 	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
 
 	column = gtk_tree_view_column_new ();
@@ -926,7 +926,7 @@ folder_tree_new (EMFolderTree *emft)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function (
 		selection, (GtkTreeSelectionFunc)
-		emft_select_func, NULL, NULL);
+		folder_tree_select_func, NULL, NULL);
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
 	gtk_tree_view_set_search_column((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
@@ -958,13 +958,13 @@ folder_tree_copy_selection_cb (GtkTreeModel *model,
 }
 
 static void
-folder_tree_copy_state (EMFolderTree *emft)
+folder_tree_copy_state (EMFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
 	selection = em_folder_tree_model_get_selection (
@@ -974,30 +974,30 @@ folder_tree_copy_state (EMFolderTree *emft)
 
 	gtk_tree_view_map_expanded_rows (
 		tree_view, (GtkTreeViewMappingFunc)
-		folder_tree_copy_expanded_cb, emft);
+		folder_tree_copy_expanded_cb, folder_tree);
 
 	gtk_tree_selection_selected_foreach (
 		selection, (GtkTreeSelectionForeachFunc)
-		folder_tree_copy_selection_cb, emft);
+		folder_tree_copy_selection_cb, folder_tree);
 }
 
 static void
-em_folder_tree_construct (EMFolderTree *emft)
+em_folder_tree_construct (EMFolderTree *folder_tree)
 {
-	folder_tree_new (emft);
-	folder_tree_copy_state (emft);
-	gtk_widget_show (GTK_WIDGET (emft));
+	folder_tree_new (folder_tree);
+	folder_tree_copy_state (folder_tree);
+	gtk_widget_show (GTK_WIDGET (folder_tree));
 }
 
 /* NOTE: Removes and frees the selected uri structure */
 static void
-emft_select_uri(EMFolderTree *emft, GtkTreePath *path, struct _selected_uri *u)
+folder_tree_select_uri(EMFolderTree *folder_tree, GtkTreePath *path, struct _selected_uri *u)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_select_path(selection, path);
 	if (!priv->cursor_set) {
@@ -1007,11 +1007,11 @@ emft_select_uri(EMFolderTree *emft, GtkTreePath *path, struct _selected_uri *u)
 	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.8f, 0.0f);
 	g_hash_table_remove(priv->select_uris_table, u->key);
 	priv->select_uris = g_slist_remove(priv->select_uris, u);
-	emft_free_select_uri(u);
+	folder_tree_free_select_uri(u);
 }
 
 static void
-emft_expand_node (const gchar *key, EMFolderTree *emft)
+folder_tree_expand_node (const gchar *key, EMFolderTree *folder_tree)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *row;
@@ -1034,7 +1034,7 @@ emft_expand_node (const gchar *key, EMFolderTree *emft)
 	memcpy (uid, key, n);
 	uid[n] = '\0';
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
@@ -1078,17 +1078,17 @@ emft_expand_node (const gchar *key, EMFolderTree *emft)
 	path = gtk_tree_row_reference_get_path (row);
 	gtk_tree_view_expand_to_path (tree_view, path);
 
-	u = g_hash_table_lookup(emft->priv->select_uris_table, key);
+	u = g_hash_table_lookup(folder_tree->priv->select_uris_table, key);
 	if (u)
-		emft_select_uri(emft, path, u);
+		folder_tree_select_uri(folder_tree, path, u);
 
 	gtk_tree_path_free (path);
 }
 
 static void
-emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *emft)
+folder_tree_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTreeIter *iter, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	GtkTreeView *tree_view;
 	gboolean is_store;
@@ -1098,7 +1098,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 	gchar *key;
 	struct _selected_uri *u;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	gtk_tree_model_get ((GtkTreeModel *) model, iter,
 			    COL_STRING_FULL_NAME, &full_name,
@@ -1122,9 +1122,9 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 		gchar *c = strrchr (key, '/');
 
 		*c = '\0';
-		emft_expand_node (key, emft);
+		folder_tree_expand_node (key, folder_tree);
 
-		emft_select_uri(emft, tree_path, u);
+		folder_tree_select_uri(folder_tree, tree_path, u);
 	}
 
 	g_free (full_name);
@@ -1134,32 +1134,32 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 GtkWidget *
 em_folder_tree_new (void)
 {
-	EMFolderTree *emft;
+	EMFolderTree *folder_tree;
 	GtkTreeModel *model;
 	AtkObject *a11y;
 
-	emft = g_object_new (EM_TYPE_FOLDER_TREE, NULL);
-	em_folder_tree_construct (emft);
+	folder_tree = g_object_new (EM_TYPE_FOLDER_TREE, NULL);
+	em_folder_tree_construct (folder_tree);
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emft));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
 
-	emft->priv->loading_row_id = g_signal_connect (
+	folder_tree->priv->loading_row_id = g_signal_connect (
 		model, "loading-row",
-		G_CALLBACK (emft_maybe_expand_row), emft);
-	emft->priv->loaded_row_id = g_signal_connect (
+		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
+	folder_tree->priv->loaded_row_id = g_signal_connect (
 		model, "loaded-row",
-		G_CALLBACK (emft_maybe_expand_row), emft);
+		G_CALLBACK (folder_tree_maybe_expand_row), folder_tree);
 
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (emft));
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (folder_tree));
 	atk_object_set_name (a11y, _("Mail Folder Tree"));
 
-	return (GtkWidget *) emft;
+	return (GtkWidget *) folder_tree;
 }
 
 static void
-tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -1177,9 +1177,9 @@ tree_drag_begin (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 }
 
 static void
-tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	gchar *full_name = NULL;
 	GtkTreeModel *model;
 	GtkTreePath *src_path;
@@ -1191,7 +1191,7 @@ tree_drag_data_delete(GtkWidget *widget, GdkDragContext *context, EMFolderTree *
 	if (!priv->drag_row || (src_path = gtk_tree_row_reference_get_path (priv->drag_row)))
 		return;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emft));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
 
 	if (!gtk_tree_model_get_iter (model, &iter, src_path))
 		goto fail;
@@ -1215,9 +1215,9 @@ fail:
 }
 
 static void
-tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
+tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection, guint info, guint time, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	gchar *full_name = NULL, *uri = NULL;
 	GtkTreeModel *model;
 	GtkTreePath *src_path;
@@ -1229,7 +1229,7 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 	if (!priv->drag_row || !(src_path = gtk_tree_row_reference_get_path(priv->drag_row)))
 		return;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emft));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
 
 	if (!gtk_tree_model_get_iter (model, &iter, src_path))
 		goto fail;
@@ -1295,7 +1295,7 @@ struct _DragDataReceivedAsync {
 };
 
 static void
-emft_drop_folder(struct _DragDataReceivedAsync *m)
+folder_tree_drop_folder(struct _DragDataReceivedAsync *m)
 {
 	CamelFolder *src;
 
@@ -1309,7 +1309,7 @@ emft_drop_folder(struct _DragDataReceivedAsync *m)
 }
 
 static gchar *
-emft_drop_async__desc (struct _DragDataReceivedAsync *m)
+folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 {
 	CamelURL *url;
 	gchar *buf;
@@ -1334,14 +1334,14 @@ emft_drop_async__desc (struct _DragDataReceivedAsync *m)
 }
 
 static void
-emft_drop_async__exec (struct _DragDataReceivedAsync *m)
+folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 {
 	CamelFolder *folder;
 
 	/* for types other than folder, we can't drop to the root path */
 	if (m->info == DND_DROP_TYPE_FOLDER) {
 		/* copy or move (aka rename) a folder */
-		emft_drop_folder(m);
+		folder_tree_drop_folder(m);
 	} else if (m->full_name == NULL) {
 		camel_exception_set (&m->base.ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot drop message(s) into toplevel store"));
@@ -1368,7 +1368,7 @@ emft_drop_async__exec (struct _DragDataReceivedAsync *m)
 }
 
 static void
-emft_drop_async__free (struct _DragDataReceivedAsync *m)
+folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 {
 	g_object_unref(m->context);
 	camel_object_unref(m->store);
@@ -1378,12 +1378,12 @@ emft_drop_async__free (struct _DragDataReceivedAsync *m)
 	g_free(m->selection);
 }
 
-static MailMsgInfo emft_drop_async_info = {
+static MailMsgInfo folder_tree_drop_async_info = {
 	sizeof (struct _DragDataReceivedAsync),
-	(MailMsgDescFunc) emft_drop_async__desc,
-	(MailMsgExecFunc) emft_drop_async__exec,
+	(MailMsgDescFunc) folder_tree_drop_async__desc,
+	(MailMsgExecFunc) folder_tree_drop_async__exec,
 	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) emft_drop_async__free
+	(MailMsgFreeFunc) folder_tree_drop_async__free
 };
 
 static void
@@ -1394,7 +1394,7 @@ tree_drag_data_action(struct _DragDataReceivedAsync *m)
 }
 
 static void
-tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *selection, guint info, guint time, EMFolderTree *emft)
+tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint y, GtkSelectionData *selection, guint info, guint time, EMFolderTree *folder_tree)
 {
 	GtkTreeViewDropPosition pos;
 	GtkTreeModel *model;
@@ -1406,7 +1406,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 	GtkTreeIter iter;
 	gchar *full_name;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &dest_path, &pos))
@@ -1435,7 +1435,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, gint x, gint
 		return;
 	}
 
-	m = mail_msg_new (&emft_drop_async_info);
+	m = mail_msg_new (&folder_tree_drop_async_info);
 	m->context = context;
 	g_object_ref(context);
 	m->store = store;
@@ -1460,9 +1460,9 @@ is_special_local_folder (const gchar *name)
 }
 
 static GdkAtom
-emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
+folder_tree_drop_target(EMFolderTree *folder_tree, GdkDragContext *context, GtkTreePath *path)
 {
-	EMFolderTreePrivate *p = emft->priv;
+	EMFolderTreePrivate *p = folder_tree->priv;
 	gchar *full_name = NULL, *uri = NULL, *src_uri = NULL;
 	CamelStore *local, *sstore, *dstore;
 	GdkAtom atom = GDK_NONE;
@@ -1472,7 +1472,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 	GList *targets;
 	guint32 flags = 0;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emft));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree));
 
 	/* This is a bit of a mess, but should handle all the cases properly */
 
@@ -1662,16 +1662,16 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 }
 
 static gboolean
-tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint time, EMFolderTree *emft)
+tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint time, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeViewColumn *column;
 	GtkTreeView *tree_view;
 	gint cell_x, cell_y;
 	GtkTreePath *path;
 	GdkAtom target;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	if (priv->autoscroll_id != 0) {
 		g_source_remove (priv->autoscroll_id);
@@ -1689,7 +1689,7 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guin
 	if (!gtk_tree_view_get_path_at_pos (tree_view, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 
-	target = emft_drop_target(emft, context, path);
+	target = folder_tree_drop_target(folder_tree, context, path);
 	gtk_tree_path_free (path);
 	if (target == GDK_NONE)
 		return FALSE;
@@ -1698,9 +1698,9 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guin
 }
 
 static void
-tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
+tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 
 	if (priv->drag_row) {
 		gtk_tree_row_reference_free (priv->drag_row);
@@ -1711,12 +1711,12 @@ tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 }
 
 static void
-tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *emft)
+tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeView *tree_view;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	if (priv->autoscroll_id != 0) {
 		g_source_remove (priv->autoscroll_id);
@@ -1737,7 +1737,7 @@ tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolde
 #define SCROLL_EDGE_SIZE 15
 
 static gboolean
-tree_autoscroll (EMFolderTree *emft)
+tree_autoscroll (EMFolderTree *folder_tree)
 {
 	GtkAdjustment *vadjustment;
 	GtkTreeView *tree_view;
@@ -1747,7 +1747,7 @@ tree_autoscroll (EMFolderTree *emft)
 	gfloat value;
 
 	/* get the y pointer position relative to the treeview */
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	window = gtk_tree_view_get_bin_window (tree_view);
 	gdk_window_get_pointer (window, NULL, &y, NULL);
 
@@ -1773,13 +1773,13 @@ tree_autoscroll (EMFolderTree *emft)
 }
 
 static gboolean
-tree_autoexpand (EMFolderTree *emft)
+tree_autoexpand (EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	path = gtk_tree_row_reference_get_path (priv->autoexpand_row);
 	gtk_tree_view_expand_row (tree_view, path, FALSE);
 	gtk_tree_path_free (path);
@@ -1788,9 +1788,9 @@ tree_autoexpand (EMFolderTree *emft)
 }
 
 static gboolean
-tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint time, EMFolderTree *emft)
+tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint time, EMFolderTree *folder_tree)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeViewDropPosition pos;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
@@ -1800,14 +1800,14 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 	GdkAtom target;
 	gint i;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
 	if (!gtk_tree_view_get_dest_row_at_pos(tree_view, x, y, &path, &pos))
 		return FALSE;
 
 	if (priv->autoscroll_id == 0)
-		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, emft);
+		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, folder_tree);
 
 	gtk_tree_model_get_iter (model, &iter, path);
 
@@ -1821,12 +1821,12 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 				gtk_tree_row_reference_free (priv->autoexpand_row);
 				priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 				g_source_remove (priv->autoexpand_id);
-				priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
+				priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, folder_tree);
 			}
 
 			gtk_tree_path_free (autoexpand_path);
 		} else {
-			priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
+			priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, folder_tree);
 			priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 		}
 	} else if (priv->autoexpand_id != 0) {
@@ -1837,7 +1837,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 		priv->autoexpand_id = 0;
 	}
 
-	target = emft_drop_target(emft, context, path);
+	target = folder_tree_drop_target(folder_tree, context, path);
 	if (target != GDK_NONE) {
 		for (i=0; i<NUM_DROP_TYPES; i++) {
 			if (drop_atoms[i] == target) {
@@ -1867,18 +1867,18 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, gint x, gint y, gu
 }
 
 void
-em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
+em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 {
 	EMFolderTreePrivate *priv;
 	GtkTreeView *tree_view;
 	static gint setup = 0;
 	gint i;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 
-	priv = emft->priv;
+	priv = folder_tree->priv;
 	if (!setup) {
 		for (i=0; i<NUM_DRAG_TYPES; i++)
 			drag_atoms[i] = gdk_atom_intern(drag_types[i].target, FALSE);
@@ -1892,38 +1892,38 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *emft)
 	gtk_drag_source_set((GtkWidget *)tree_view, GDK_BUTTON1_MASK, drag_types, NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	gtk_drag_dest_set((GtkWidget *)tree_view, GTK_DEST_DEFAULT_ALL, drop_types, NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
-	g_signal_connect (tree_view, "drag-begin", G_CALLBACK (tree_drag_begin), emft);
-	g_signal_connect (tree_view, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), emft);
-	g_signal_connect (tree_view, "drag-data-get", G_CALLBACK (tree_drag_data_get), emft);
-	g_signal_connect (tree_view, "drag-data-received", G_CALLBACK (tree_drag_data_received), emft);
-	g_signal_connect (tree_view, "drag-drop", G_CALLBACK (tree_drag_drop), emft);
-	g_signal_connect (tree_view, "drag-end", G_CALLBACK (tree_drag_end), emft);
-	g_signal_connect (tree_view, "drag-leave", G_CALLBACK (tree_drag_leave), emft);
-	g_signal_connect (tree_view, "drag-motion", G_CALLBACK (tree_drag_motion), emft);
+	g_signal_connect (tree_view, "drag-begin", G_CALLBACK (tree_drag_begin), folder_tree);
+	g_signal_connect (tree_view, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), folder_tree);
+	g_signal_connect (tree_view, "drag-data-get", G_CALLBACK (tree_drag_data_get), folder_tree);
+	g_signal_connect (tree_view, "drag-data-received", G_CALLBACK (tree_drag_data_received), folder_tree);
+	g_signal_connect (tree_view, "drag-drop", G_CALLBACK (tree_drag_drop), folder_tree);
+	g_signal_connect (tree_view, "drag-end", G_CALLBACK (tree_drag_end), folder_tree);
+	g_signal_connect (tree_view, "drag-leave", G_CALLBACK (tree_drag_leave), folder_tree);
+	g_signal_connect (tree_view, "drag-motion", G_CALLBACK (tree_drag_motion), folder_tree);
 }
 
 void
-em_folder_tree_set_excluded (EMFolderTree *emft, guint32 flags)
+em_folder_tree_set_excluded (EMFolderTree *folder_tree, guint32 flags)
 {
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
-	emft->priv->excluded = flags;
+	folder_tree->priv->excluded = flags;
 }
 
 void
-em_folder_tree_set_excluded_func (EMFolderTree *emft,
+em_folder_tree_set_excluded_func (EMFolderTree *folder_tree,
                                   EMFTExcludeFunc exclude,
                                   gpointer data)
 {
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 	g_return_if_fail (exclude != NULL);
 
-	emft->priv->excluded_func = exclude;
-	emft->priv->excluded_data = data;
+	folder_tree->priv->excluded_func = exclude;
+	folder_tree->priv->excluded_data = data;
 }
 
 GList *
-em_folder_tree_get_selected_uris (EMFolderTree *emft)
+em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
@@ -1931,11 +1931,11 @@ em_folder_tree_get_selected_uris (EMFolderTree *emft)
 	GList *list = NULL, *rows, *l;
 	GSList *sl;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	/* at first, add lost uris */
-	for (sl = emft->priv->select_uris; sl; sl = g_slist_next(sl))
+	for (sl = folder_tree->priv->select_uris; sl; sl = g_slist_next(sl))
 		list = g_list_append (list, g_strdup (((struct _selected_uri *)sl->data)->uri));
 
 	rows = gtk_tree_selection_get_selected_rows(selection, &model);
@@ -1967,13 +1967,13 @@ get_selected_uris_path_iterate (GtkTreeModel *model, GtkTreePath *treepath, GtkT
 }
 
 GList *
-em_folder_tree_get_selected_paths (EMFolderTree *emft)
+em_folder_tree_get_selected_paths (EMFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GList *list = NULL;
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	gtk_tree_selection_selected_foreach (selection, get_selected_uris_path_iterate, &list);
@@ -1982,14 +1982,14 @@ em_folder_tree_get_selected_paths (EMFolderTree *emft)
 }
 
 void
-em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expand_only)
+em_folder_tree_set_selected_list (EMFolderTree *folder_tree, GList *list, gboolean expand_only)
 {
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 	gint id = 0;
 
 	/* FIXME: need to remove any currently selected stuff? */
 	if (!expand_only)
-		emft_clear_selected_list(emft);
+		folder_tree_clear_selected_list(folder_tree);
 
 	for (;list;list = list->next) {
 		struct _selected_uri *u = g_malloc0(sizeof(*u));
@@ -2037,7 +2037,7 @@ em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expa
 
 			end = strrchr(expand_key, '/');
 			do {
-				emft_expand_node(expand_key, emft);
+				folder_tree_expand_node(expand_key, folder_tree);
 				*end = 0;
 				end = strrchr(expand_key, '/');
 			} while (end);
@@ -2070,23 +2070,23 @@ dump_fi (CamelFolderInfo *fi, gint depth)
 #endif
 
 void
-em_folder_tree_set_selected (EMFolderTree *emft,
+em_folder_tree_set_selected (EMFolderTree *folder_tree,
                              const gchar *uri,
                              gboolean expand_only)
 {
 	GList *l = NULL;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
 	if (uri && uri[0])
 		l = g_list_append(l, (gpointer)uri);
 
-	em_folder_tree_set_selected_list(emft, l, expand_only);
+	em_folder_tree_set_selected_list(folder_tree, l, expand_only);
 	g_list_free(l);
 }
 
 void
-em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders)
+em_folder_tree_select_next_path (EMFolderTree *folder_tree, gboolean skip_read_folders)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2094,11 +2094,11 @@ em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders)
 	GtkTreeIter iter, parent, child;
 	GtkTreePath *current_path, *path = NULL;
 	guint unread = 0;
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection(tree_view);
 	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
 
@@ -2167,7 +2167,7 @@ get_last_child (GtkTreeModel *model, GtkTreeIter *iter)
 }
 
 void
-em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
+em_folder_tree_select_prev_path (EMFolderTree *folder_tree, gboolean skip_read_folders)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2175,11 +2175,11 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 	GtkTreeIter iter, child;
 	GtkTreePath *path = NULL, *current_path = NULL;
 	guint unread = 0;
-	EMFolderTreePrivate *priv = emft->priv;
+	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
@@ -2230,7 +2230,7 @@ em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders)
 }
 
 gchar *
-em_folder_tree_get_selected_uri (EMFolderTree *emft)
+em_folder_tree_get_selected_uri (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2238,9 +2238,9 @@ em_folder_tree_get_selected_uri (EMFolderTree *emft)
 	GtkTreeIter iter;
 	gchar *uri = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
@@ -2252,7 +2252,7 @@ em_folder_tree_get_selected_uri (EMFolderTree *emft)
 }
 
 gchar *
-em_folder_tree_get_selected_path (EMFolderTree *emft)
+em_folder_tree_get_selected_path (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2260,9 +2260,9 @@ em_folder_tree_get_selected_path (EMFolderTree *emft)
 	GtkTreeIter iter;
 	gchar *name = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
@@ -2274,7 +2274,7 @@ em_folder_tree_get_selected_path (EMFolderTree *emft)
 }
 
 CamelFolder *
-em_folder_tree_get_selected_folder (EMFolderTree *emft)
+em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2285,11 +2285,11 @@ em_folder_tree_get_selected_folder (EMFolderTree *emft)
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
 	camel_exception_init (&ex);
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -2305,7 +2305,7 @@ em_folder_tree_get_selected_folder (EMFolderTree *emft)
 }
 
 CamelFolderInfo *
-em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
+em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
 {
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
@@ -2316,11 +2316,11 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 	CamelStore *store = NULL;
 	CamelFolderInfo *fi = NULL;
 
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
 
 	camel_exception_init (&ex);
 
-	tree_view = GTK_TREE_VIEW (emft);
+	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -2352,7 +2352,7 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *emft)
 }
 
 void
-em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip)
+em_folder_tree_set_skip_double_click (EMFolderTree *folder_tree, gboolean skip)
 {
-	emft->priv->skip_double_click = skip;
+	folder_tree->priv->skip_double_click = skip;
 }

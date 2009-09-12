@@ -60,10 +60,13 @@ typedef struct _EMFolderTreePrivate EMFolderTreePrivate;
 #define EMFT_EXCLUDE_SYSTEM CAMEL_FOLDER_SYSTEM
 #define EMFT_EXCLUDE_VTRASH CAMEL_FOLDER_VTRASH
 
-typedef gboolean (*EMFTExcludeFunc)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
+typedef gboolean	(*EMFTExcludeFunc)	(EMFolderTree *folder_tree,
+						 GtkTreeModel *model,
+						 GtkTreeIter *iter,
+						 gpointer user_data);
 
 struct _EMFolderTree {
-	GtkTreeView parent_object;
+	GtkTreeView parent;
 	EMFolderTreePrivate *priv;
 };
 
@@ -71,38 +74,51 @@ struct _EMFolderTreeClass {
 	GtkTreeViewClass parent_class;
 
 	/* signals */
-	void		(*folder_activated)	(EMFolderTree *emft,
+	void		(*folder_activated)	(EMFolderTree *folder_tree,
 						 const gchar *full_name,
 						 const gchar *uri);
-	void		(*folder_selected)	(EMFolderTree *emft,
+	void		(*folder_selected)	(EMFolderTree *folder_tree,
 						 const gchar *full_name,
 						 const gchar *uri,
 						 guint32 flags);
-	void		(*popup_event)		(EMFolderTree *emft);
+	void		(*popup_event)		(EMFolderTree *folder_tree);
 };
 
 GType		em_folder_tree_get_type		(void);
 GtkWidget *	em_folder_tree_new		(void);
-
-void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
-
-void em_folder_tree_set_excluded(EMFolderTree *emft, guint32 flags);
-void em_folder_tree_set_excluded_func(EMFolderTree *emft, EMFTExcludeFunc exclude, gpointer data);
-
-void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list, gboolean expand_only);
-GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);
-GList *em_folder_tree_get_selected_paths (EMFolderTree *emft);
-
-void em_folder_tree_set_selected (EMFolderTree *emft, const gchar *uri, gboolean expand_only);
-void em_folder_tree_select_next_path (EMFolderTree *emft, gboolean skip_read_folders);
-void em_folder_tree_select_prev_path (EMFolderTree *emft, gboolean skip_read_folders);
-gchar *em_folder_tree_get_selected_uri (EMFolderTree *emft);
-gchar *em_folder_tree_get_selected_path (EMFolderTree *emft);
-CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
-CamelFolderInfo *em_folder_tree_get_selected_folder_info (EMFolderTree *emft);
-
-gboolean em_folder_tree_create_folder (EMFolderTree *emft, const gchar *full_name, const gchar *uri);
-void em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip);
+void		em_folder_tree_enable_drag_and_drop
+						(EMFolderTree *folder_tree);
+void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,
+						 guint32 flags);
+void		em_folder_tree_set_excluded_func(EMFolderTree *folder_tree,
+						 EMFTExcludeFunc exclude,
+						 gpointer data);
+void		em_folder_tree_set_selected_list(EMFolderTree *folder_tree,
+						 GList *list,
+						 gboolean expand_only);
+GList *		em_folder_tree_get_selected_uris(EMFolderTree *folder_tree);
+GList *		em_folder_tree_get_selected_paths
+						(EMFolderTree *folder_tree);
+void		em_folder_tree_set_selected	(EMFolderTree *folder_tree,
+						 const gchar *uri,
+						 gboolean expand_only);
+void		em_folder_tree_select_next_path	(EMFolderTree *folder_tree,
+						 gboolean skip_read_folders);
+void		em_folder_tree_select_prev_path	(EMFolderTree *folder_tree,
+						 gboolean skip_read_folders);
+gchar *		em_folder_tree_get_selected_uri	(EMFolderTree *folder_tree);
+gchar *		em_folder_tree_get_selected_path(EMFolderTree *folder_tree);
+CamelFolder *	em_folder_tree_get_selected_folder
+						(EMFolderTree *folder_tree);
+CamelFolderInfo *
+		em_folder_tree_get_selected_folder_info
+						(EMFolderTree *folder_tree);
+gboolean	em_folder_tree_create_folder	(EMFolderTree *folder_tree,
+						 const gchar *full_name,
+						 const gchar *uri);
+void		em_folder_tree_set_skip_double_click
+						(EMFolderTree *folder_tree,
+						 gboolean skip);
 
 G_END_DECLS
 
