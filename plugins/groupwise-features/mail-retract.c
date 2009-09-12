@@ -54,7 +54,7 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, gpointer data)
 				GTK_STOCK_YES, GTK_RESPONSE_YES,
 				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
 
-		confirm_warning = gtk_label_new (_("Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this ?"));
+		confirm_warning = gtk_label_new (_("Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this?"));
 		gtk_label_set_line_wrap (GTK_LABEL (confirm_warning), TRUE);
 		gtk_label_set_selectable (GTK_LABEL (confirm_warning), TRUE);
 

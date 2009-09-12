@@ -20,14 +20,14 @@
 </error>
 
 <error id="resend" type="question" default="GTK_RESPONSE_YES">
-<_primary>Do you want to resend the meeting ?</_primary>
+<_primary>Do you want to resend the meeting?</_primary>
 <_secondary>This will create a new meeting using the existing meeting details.</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
 </error>
 
 <error id="resend-recurrence" type="question" default="GTK_RESPONSE_YES">
-<_primary>Do you want to resend the recurring meeting ?</_primary>
+<_primary>Do you want to resend the recurring meeting?</_primary>
 <_secondary>This will create a new meeting with the existing meeting details. The recurrence rule needs to be re-entered.</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  <button label="This instance" response="GTK_RESPONSE_NO"/>
@@ -35,7 +35,7 @@
 </error>
 
 <error id="resend-retract" type="question" default="GTK_RESPONSE_YES">
-<_primary>Do you want to retract the original item ?</_primary>
+<_primary>Do you want to retract the original item?</_primary>
 <_secondary>The original will be removed from the recipient's mailbox.</_secondary>
  <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
  <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
