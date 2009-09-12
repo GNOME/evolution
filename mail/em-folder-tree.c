@@ -392,7 +392,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	gchar *display_name;
+	gchar *old_name = NULL;
 	gchar *old_full_name = NULL;
 	gchar *new_full_name = NULL;
 	gchar **strv;
@@ -417,17 +417,17 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	gtk_tree_model_get (
 		model, &iter,
 		COL_POINTER_CAMEL_STORE, &store,
-		COL_STRING_DISPLAY_NAME, &display_name,
+		COL_STRING_DISPLAY_NAME, &old_name,
 		COL_STRING_FULL_NAME, &old_full_name, -1);
 
-	if (g_strcmp0 (new_name, display_name) == 0)
+	if (g_strcmp0 (new_name, old_name) == 0)
 		goto exit;
 
 	/* Check for invalid characters. */
 	if (strchr (new_name, '/') != NULL) {
 		e_error_run (
 			parent, "mail:no-rename-folder",
-			display_name, new_name,
+			old_name, new_name,
 			_("Folder names cannot contain '/'"), NULL);
 		goto exit;
 	}
@@ -446,7 +446,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	if (folder_info != NULL) {
 		e_error_run (
 			parent, "mail:no-rename-folder-exists",
-			display_name, new_name, NULL);
+			old_name, new_name, NULL);
 		camel_store_free_folder_info (store, folder_info);
 		goto exit;
 	}
@@ -463,7 +463,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 exit:
 	camel_exception_clear (&ex);
 
-	g_free (display_name);
+	g_free (old_name);
 	g_free (old_full_name);
 	g_free (new_full_name);
 }
@@ -894,6 +894,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		     GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
 {
 	gboolean is_store, bold, subdirs_unread = FALSE;
+	gboolean editable;
 	guint unread;
 	gchar *display;
 	gchar *name;
@@ -901,6 +902,8 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	gtk_tree_model_get (model, iter, COL_STRING_DISPLAY_NAME, &name,
 			    COL_BOOL_IS_STORE, &is_store,
 			    COL_UINT_UNREAD, &unread, -1);
+
+	g_object_get (renderer, "editable", &editable, NULL);
 
 	bold = is_store || unread;
 
@@ -913,9 +916,9 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			subdirs_unread = subdirs_contain_unread (model, iter);
 	}
 
-	bold = bold || subdirs_unread;
+	bold = !editable && (bold || subdirs_unread);
 
-	if (!is_store && unread) {
+	if (!is_store && !editable && unread) {
 		/* Translators: This is the string used for displaying the
 		 * folder names in folder trees. The first "%s" will be
 		 * replaced by the folder's name and "%u" will be replaced
