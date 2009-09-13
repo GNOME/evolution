@@ -215,6 +215,34 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	camel_folder_free_message_info (message_list->folder, info);
 }
 
+static gboolean
+mail_browser_popup_event_cb (EMailBrowser *browser,
+                             GdkEventButton *event,
+                             const gchar *uri)
+{
+	EMailReader *reader;
+	GtkMenu *menu;
+
+	if (uri != NULL)
+		return FALSE;
+
+	reader = E_MAIL_READER (browser);
+	menu = e_mail_reader_get_popup_menu (reader);
+
+	e_mail_reader_update_actions (reader);
+
+	if (event == NULL)
+		gtk_menu_popup (
+			menu, NULL, NULL, NULL, NULL,
+			0, gtk_get_current_event_time ());
+	else
+		gtk_menu_popup (
+			menu, NULL, NULL, NULL, NULL,
+			event->button, event->time);
+
+	return TRUE;
+}
+
 static void
 mail_browser_status_message_cb (EMailBrowser *browser,
                                 const gchar *status_message)
@@ -363,7 +391,7 @@ mail_browser_constructed (GObject *object)
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkHTML *html;
+	EWebView *web_view;
 	const gchar *domain;
 	const gchar *key;
 	const gchar *id;
@@ -381,7 +409,7 @@ mail_browser_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
@@ -394,7 +422,11 @@ mail_browser_constructed (GObject *object)
 		G_CALLBACK (mail_browser_message_selected_cb), object);
 
 	g_signal_connect_swapped (
-		html, "status-message",
+		web_view, "popup-event",
+		G_CALLBACK (mail_browser_popup_event_cb), object);
+
+	g_signal_connect_swapped (
+		web_view, "status-message",
 		G_CALLBACK (mail_browser_status_message_cb), object);
 
 	e_mail_reader_init (reader);
@@ -433,7 +465,7 @@ mail_browser_constructed (GObject *object)
 	priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = e_mail_search_bar_new (E_WEB_VIEW (html));
+	widget = e_mail_search_bar_new (web_view);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->search_bar = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -532,6 +564,20 @@ mail_browser_get_message_list (EMailReader *reader)
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
 
 	return MESSAGE_LIST (priv->message_list);
+}
+
+static GtkMenu *
+mail_browser_get_popup_menu (EMailReader *reader)
+{
+	EMailBrowser *browser;
+	GtkUIManager *ui_manager;
+	GtkWidget *widget;
+
+	browser = E_MAIL_BROWSER (reader);
+	ui_manager = e_mail_browser_get_ui_manager (browser);
+	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
+
+	return GTK_MENU (widget);
 }
 
 static EShellBackend *
@@ -638,6 +684,7 @@ mail_browser_iface_init (EMailReaderIface *iface)
 	iface->get_hide_deleted = mail_browser_get_hide_deleted;
 	iface->get_html_display = mail_browser_get_html_display;
 	iface->get_message_list = mail_browser_get_message_list;
+	iface->get_popup_menu = mail_browser_get_popup_menu;
 	iface->get_shell_backend = mail_browser_get_shell_backend;
 	iface->get_window = mail_browser_get_window;
 	iface->set_message = mail_browser_set_message;

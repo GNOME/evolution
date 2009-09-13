@@ -83,6 +83,7 @@ struct _EMailReaderIface {
 	EMFormatHTMLDisplay *
 			(*get_html_display)	(EMailReader *reader);
 	MessageList *	(*get_message_list)	(EMailReader *reader);
+	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	EShellBackend *	(*get_shell_backend)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
@@ -110,6 +111,7 @@ gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
 MessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
+GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,

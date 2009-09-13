@@ -588,6 +588,25 @@ mail_shell_content_get_message_list (EMailReader *reader)
 	return MESSAGE_LIST (priv->message_list);
 }
 
+static GtkMenu *
+mail_shell_content_get_popup_menu (EMailReader *reader)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkUIManager *ui_manager;
+	GtkWidget *widget;
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
+
+	return GTK_MENU (widget);
+}
+
 static EShellBackend *
 mail_shell_content_get_shell_backend (EMailReader *reader)
 {
@@ -720,6 +739,7 @@ mail_shell_content_reader_init (EMailReaderIface *iface)
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
 	iface->get_html_display = mail_shell_content_get_html_display;
 	iface->get_message_list = mail_shell_content_get_message_list;
+	iface->get_popup_menu = mail_shell_content_get_popup_menu;
 	iface->get_shell_backend = mail_shell_content_get_shell_backend;
 	iface->get_window = mail_shell_content_get_window;
 	iface->set_folder = mail_shell_content_set_folder;

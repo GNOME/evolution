@@ -1509,6 +1509,10 @@ static GtkActionEntry mail_reader_entries[] = {
 
 static EPopupActionEntry mail_reader_popup_entries[] = {
 
+	{ "mail-popup-clipboard-copy",
+	  NULL,
+	  "mail-clipboard-copy" },
+
 	{ "mail-popup-copy",
 	  NULL,
 	  "mail-copy" },
@@ -2688,6 +2692,19 @@ e_mail_reader_get_message_list (EMailReader *reader)
 	g_return_val_if_fail (iface->get_message_list != NULL, NULL);
 
 	return iface->get_message_list (reader);
+}
+
+GtkMenu *
+e_mail_reader_get_popup_menu (EMailReader *reader)
+{
+	EMailReaderIface *iface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	iface = E_MAIL_READER_GET_IFACE (reader);
+	g_return_val_if_fail (iface->get_popup_menu != NULL, NULL);
+
+	return iface->get_popup_menu (reader);
 }
 
 EShellBackend *

@@ -19,6 +19,14 @@
             </menu>
           </placeholder>
         </menubar>
+        <popup name="mail-preview-popup">
+          <placeholder name="mail-message-popup-actions">
+            <menuitem action="mail-convert-to-event"/>
+            <menuitem action="mail-convert-to-meeting"/>
+            <menuitem action="mail-convert-to-task"/>
+            <menuitem action="mail-convert-to-memo"/>
+          </placeholder>
+        </popup>
       </ui-manager>
       <ui-manager id="org.gnome.evolution.mail"
                   callback="mail_shell_view_init">
@@ -35,6 +43,14 @@
           </placeholder>
         </menubar>
         <popup name="mail-message-popup">
+          <placeholder name="mail-message-popup-actions">
+            <menuitem action="mail-convert-to-event"/>
+            <menuitem action="mail-convert-to-meeting"/>
+            <menuitem action="mail-convert-to-task"/>
+            <menuitem action="mail-convert-to-memo"/>
+          </placeholder>
+        </popup>
+        <popup name="mail-preview-popup">
           <placeholder name="mail-message-popup-actions">
             <menuitem action="mail-convert-to-event"/>
             <menuitem action="mail-convert-to-meeting"/>

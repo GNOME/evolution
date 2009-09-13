@@ -162,6 +162,36 @@ mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
 	return TRUE;
 }
 
+static gboolean
+mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
+                                GdkEventButton *event,
+                                const gchar *uri)
+{
+	EShellView *shell_view;
+	EMailReader *reader;
+	GtkMenu *menu;
+
+	if (uri != NULL)
+		return FALSE;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	menu = e_mail_reader_get_popup_menu (reader);
+
+	e_shell_view_update_actions (shell_view);
+
+	if (event == NULL)
+		gtk_menu_popup (
+			menu, NULL, NULL, NULL, NULL,
+			0, gtk_get_current_event_time ());
+	else
+		gtk_menu_popup (
+			menu, NULL, NULL, NULL, NULL,
+			event->button, event->time);
+
+	return TRUE;
+}
+
 static void
 mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
                                    EMailReader *reader)
@@ -318,7 +348,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	GtkUIManager *ui_manager;
 	MessageList *message_list;
 	EMailReader *reader;
-	GtkHTML *html;
+	EWebView *web_view;
 	const gchar *source;
 	guint merge_id;
 	gint ii = 0;
@@ -356,7 +386,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
-	html = EM_FORMAT_HTML (html_display)->html;
+	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
 	g_signal_connect_swapped (
 		folder_tree, "folder-selected",
@@ -415,18 +445,23 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	g_signal_connect_swapped (
-		html, "key-press-event",
+		web_view, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view);
 
+	g_signal_connect_swapped (
+		web_view, "popup-event",
+		G_CALLBACK (mail_shell_view_popup_event_cb),
+		mail_shell_view);
+
 	g_signal_connect_data (
-		html, "scroll",
+		web_view, "scroll",
 		G_CALLBACK (mail_shell_view_scroll_cb),
 		mail_shell_view, (GClosureNotify) NULL,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
 	g_signal_connect_swapped (
-		html, "status-message",
+		web_view, "status-message",
 		G_CALLBACK (mail_shell_view_reader_status_message_cb),
 		mail_shell_view);
 

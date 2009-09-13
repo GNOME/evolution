@@ -346,7 +346,7 @@ web_view_button_press_event_cb (EWebView *web_view,
 
 	uri = e_web_view_extract_uri (web_view, event, frame);
 
-	if (uri == NULL || g_str_has_prefix (uri, "##")) {
+	if (uri != NULL && g_str_has_prefix (uri, "##")) {
 		g_free (uri);
 		return FALSE;
 	}
@@ -637,6 +637,9 @@ web_view_popup_event (EWebView *web_view,
                       GdkEventButton *event,
                       const gchar *uri)
 {
+	if (uri == NULL)
+		return FALSE;
+
 	e_web_view_set_selected_uri (web_view, uri);
 	e_web_view_show_popup_menu (web_view, event, NULL, NULL);
 
