@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-13 21:36+0530\n"
+"PO-Revision-Date: 2009-09-13 21:40+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15233,7 +15233,7 @@ msgstr ""
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
-msgstr ""
+msgstr "ലോക്കല്‍ കലണ്ടറുകള്‍ ഇവല്യൂഷനിലേക്ക് ചേര്‍ക്കുക."
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Local Calendars"
@@ -15249,7 +15249,7 @@ msgstr "_ഉപയോക്തൃനാമം:"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "Add web calendars to Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനിലേക്ക് വെബ് കലണ്ടരുകള്‍ ചേര്‍ക്കുക."
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 #| msgid "Calendars"
