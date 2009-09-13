@@ -1772,15 +1772,6 @@ plugins_experimental_always="face external-editor hula-account-setup"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
-dnl Temporary KILL-BONOBO hack
-enable_plugins="attachment-reminder addressbook-file audio-inline backup-restore bbdb bogo-junk-plugin caldav calendar-file calendar-http calendar-weather default-mailer default-source email-custom-header external-editor face google-account-setup hula-account-setup imap-features itip-formatter mailing-list-actions mail-notification mail-to-task mark-all-read plugin-manager prefer-plain profiler pst-import publish-calendar sa-junk-plugin save-calendar startup-wizard subject-thread templates $TNEF_ATTACHMENTS vcard-inline webdav-account-setup"
-
-dnl PLUGINS NOT BUILDING YET
-dnl ------------------------
-dnl exchange-operations
-dnl groupwise-features
-dnl ipod-sync
-
 case x"$enable_plugins" in
 xno)
 	plugins_enabled=""
@@ -1803,6 +1794,16 @@ xexperimental)
 	msg_plugins="yes ($enable_plugins)"
 	;;
 esac
+
+dnl Temporary KILL-BONOBO hack
+for broken_plugin in exchange-operations groupwise-features ipod-sync
+do
+	if echo ${plugins_enabled} | grep "$broken_plugin" > /dev/null
+	then
+		plugins_enabled=`echo $plugins_enabled | sed -e "s/$broken_plugin//g"`
+		echo "warning: plugin $broken_plugin is broken with kill-bonobo changes, disabling it."
+	fi
+done
 
 dnl ******************************
 dnl Profiling support
