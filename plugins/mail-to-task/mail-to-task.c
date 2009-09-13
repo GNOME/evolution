@@ -819,10 +819,8 @@ get_selected_text (EMailReader *reader)
 static void
 mail_to_event (ECalSourceType source_type,
                gboolean with_attendees,
-               EShellView *shell_view)
+               EMailReader *reader)
 {
-	EShellContent *shell_content;
-	EMailReader *reader;
 	MessageList *message_list;
 	CamelFolder *folder;
 	GPtrArray *selected;
@@ -832,9 +830,6 @@ mail_to_event (ECalSourceType source_type,
 	ESource *source = NULL;
 	GError *error = NULL;
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	reader = E_MAIL_READER (shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 	selected = message_list_get_selected (message_list);
 	folder = message_list->folder;
@@ -925,30 +920,30 @@ mail_to_event (ECalSourceType source_type,
 
 static void
 action_mail_convert_to_event_cb (GtkAction *action,
-                                 EShellView *shell_view)
+                                 EMailReader *reader)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, shell_view);
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, reader);
 }
 
 static void
 action_mail_convert_to_meeting_cb (GtkAction *action,
-                                   EShellView *shell_view)
+                                   EMailReader *reader)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, shell_view);
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, reader);
 }
 
 static void
 action_mail_convert_to_memo_cb (GtkAction *action,
-                                EShellView *shell_view)
+                                EMailReader *reader)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, shell_view);
+	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, reader);
 }
 
 static void
 action_mail_convert_to_task_cb (GtkAction *action,
-                                EShellView *shell_view)
+                                EMailReader *reader)
 {
-	mail_to_event (E_CAL_SOURCE_TYPE_TODO, FALSE, shell_view);
+	mail_to_event (E_CAL_SOURCE_TYPE_TODO, FALSE, reader);
 }
 
 /* Note, we're not using EPopupActions here because we update the state
