@@ -64,8 +64,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-12 16:52+0200\n"
-"PO-Revision-Date: 2009-09-12 16:27+0200\n"
+"POT-Creation-Date: 2009-09-13 15:02+0200\n"
+"PO-Revision-Date: 2009-09-13 14:05+0200\n"
 "Last-Translator: Kenneth Nielsen <k.nielsen81@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -729,7 +729,6 @@ msgstr ""
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591960
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
-#, fuzzy
 msgid ""
 "\n"
 "Sr.\n"
@@ -2419,11 +2418,9 @@ msgid "Confirm expunge"
 msgstr "Bekræft tømning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
-#, fuzzy
 msgid "Count of default recurrence for a new event. -1 means forever."
 msgstr ""
-"Det forvalgte antal for gentagelser af en ny begivenhed. -1 betyder "
-"ubegrænset."
+"Det forvalgte antal gentagelser af en ny begivenhed. -1 betyder ubegrænset."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -4259,12 +4256,14 @@ msgstr ""
 "b"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
+# jeg gætter på "bliv ved i to måneder", "blev ved til (om) to måneder"
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#, fuzzy
 msgid ""
 "for\n"
 "until"
-msgstr "til"
+msgstr ""
+"i\n"
+"til"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 #: ../plugins/caldav/caldav-source.c:449
@@ -4580,7 +4579,6 @@ msgstr "<span weight=\"bold\">Status</span>"
 # Den nuværende oversættelse antager at der tales om prioritet
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
-#, fuzzy
 msgid ""
 "High\n"
 "Normal\n"
@@ -5652,7 +5650,7 @@ msgid "Send Latest Information"
 msgstr "Send nyeste oplysninger"
 
 #: ../calendar/gui/e-itip-control.c:2482
-#: ../modules/mail/e-mail-shell-view-actions.c:1210
+#: ../modules/mail/e-mail-shell-view-actions.c:1207
 #: ../widgets/misc/e-activity-proxy.c:299
 msgid "Cancel"
 msgstr "Afbryd"
@@ -9166,26 +9164,26 @@ msgstr "Ikonvisning"
 msgid "List View"
 msgstr "Listevisning"
 
-#: ../mail/e-mail-browser.c:617
+#: ../mail/e-mail-browser.c:663
 #, fuzzy
 msgid "Shell Module"
 msgstr "Markeringstilstand"
 
-#: ../mail/e-mail-browser.c:618 ../mail/message-list.c:2467
+#: ../mail/e-mail-browser.c:664 ../mail/message-list.c:2467
 msgid "The mail shell backend"
 msgstr ""
 
-#: ../mail/e-mail-browser.c:628
+#: ../mail/e-mail-browser.c:674
 #, fuzzy
 msgid "Show Deleted"
 msgstr "Slettet"
 
-#: ../mail/e-mail-browser.c:629
+#: ../mail/e-mail-browser.c:675
 #, fuzzy
 msgid "Show deleted messages"
 msgstr "Videresendte breve"
 
-#: ../mail/e-mail-browser.c:663
+#: ../mail/e-mail-browser.c:710
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/e-shell-window-private.c:207
 msgid "Evolution"
@@ -9241,7 +9239,7 @@ msgid "_Later"
 msgstr "_Senere"
 
 #: ../mail/e-mail-label-manager.c:165
-#: ../modules/mail/e-mail-shell-view-actions.c:555
+#: ../modules/mail/e-mail-shell-view-actions.c:552
 msgid "Add Label"
 msgstr "Tilføj mærkat"
 
@@ -9262,8 +9260,8 @@ msgid "Color"
 msgstr "Farve"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:367
-#: ../mail/em-folder-tree-model.c:599 ../mail/em-folder-tree.c:2347
-#: ../modules/mail/e-mail-shell-view-private.c:763
+#: ../mail/em-folder-tree-model.c:599 ../mail/em-folder-tree.c:2497
+#: ../modules/mail/e-mail-shell-view-private.c:798
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
 #: ../plugins/exchange-operations/exchange-folder.c:593
 msgid "Inbox"
@@ -9298,15 +9296,15 @@ msgstr "Spørg mig ikke igen."
 
 #: ../mail/e-mail-reader.c:215 ../mail/e-mail-reader.c:604
 #: ../mail/em-account-editor.c:667 ../mail/em-filter-folder-element.c:258
-#: ../mail/em-folder-utils.c:393 ../mail/em-vfolder-rule.c:519
+#: ../mail/em-folder-utils.c:392 ../mail/em-vfolder-rule.c:519
 msgid "Select Folder"
 msgstr "Vælg mappe"
 
-#: ../mail/e-mail-reader.c:215 ../mail/em-folder-utils.c:388
+#: ../mail/e-mail-reader.c:215 ../mail/em-folder-utils.c:387
 msgid "C_opy"
 msgstr "_Kopiér"
 
-#: ../mail/e-mail-reader.c:604 ../mail/em-folder-utils.c:388
+#: ../mail/e-mail-reader.c:604 ../mail/em-folder-utils.c:387
 msgid "_Move"
 msgstr "_Flyt"
 
@@ -9769,58 +9767,58 @@ msgstr "_Brev"
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../mail/e-mail-reader.c:1521
+#: ../mail/e-mail-reader.c:1525
 msgid "Mark for Follo_w Up..."
 msgstr "Markér til opføl_gning..."
 
-#: ../mail/e-mail-reader.c:1529
+#: ../mail/e-mail-reader.c:1533
 msgid "Mark as _Important"
 msgstr "Markér som v_igtig"
 
-#: ../mail/e-mail-reader.c:1533
+#: ../mail/e-mail-reader.c:1537
 msgid "Mark as _Junk"
 msgstr "Markér som spa_m"
 
-#: ../mail/e-mail-reader.c:1537
+#: ../mail/e-mail-reader.c:1541
 msgid "Mark as _Not Junk"
 msgstr "Markér som værende _ikke-spam"
 
-#: ../mail/e-mail-reader.c:1541
+#: ../mail/e-mail-reader.c:1545
 msgid "Mar_k as Read"
 msgstr "Mar_kér som læst"
 
-#: ../mail/e-mail-reader.c:1545
+#: ../mail/e-mail-reader.c:1549
 #, fuzzy
 msgid "Mark as Uni_mportant"
 msgstr "Markér som uvi_gtig"
 
-#: ../mail/e-mail-reader.c:1549
+#: ../mail/e-mail-reader.c:1553
 msgid "Mark as _Unread"
 msgstr "Markér som ulæs_t"
 
-#: ../mail/e-mail-reader.c:1585
+#: ../mail/e-mail-reader.c:1589
 msgid "_Caret Mode"
 msgstr "Markør_tilstand"
 
-#: ../mail/e-mail-reader.c:1587
+#: ../mail/e-mail-reader.c:1591
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Vis en blinkende markør i kroppen af viste breve"
 
-#: ../mail/e-mail-reader.c:1593
+#: ../mail/e-mail-reader.c:1597
 msgid "All Message _Headers"
 msgstr "Hele brev_hovedet"
 
-#: ../mail/e-mail-reader.c:1595
+#: ../mail/e-mail-reader.c:1599
 msgid "Show messages with all email headers"
 msgstr "Vis breve med det fulde brevhoved"
 
-#: ../mail/e-mail-reader.c:1807
+#: ../mail/e-mail-reader.c:1811
 msgid "Unable to retrieve message"
 msgstr "Kan ikke hente brevet"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2208
+#: ../mail/e-mail-reader.c:2212
 #: ../plugins/google-account-setup/google-source.c:303
 #: ../plugins/google-account-setup/google-source.c:612
 #: ../plugins/google-account-setup/google-source.c:783
@@ -9828,7 +9826,7 @@ msgstr "Kan ikke hente brevet"
 msgid "Default"
 msgstr "Standard"
 
-#: ../mail/e-mail-reader.c:2353 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:2357 ../mail/em-filter-i18n.h:14
 #: ../modules/addressbook/e-book-shell-view-actions.c:979
 #: ../modules/calendar/e-cal-shell-view-actions.c:1686
 #: ../modules/calendar/e-memo-shell-view-actions.c:905
@@ -9837,19 +9835,19 @@ msgstr "Standard"
 msgid "Delete"
 msgstr "Slet"
 
-#: ../mail/e-mail-reader.c:2357
+#: ../mail/e-mail-reader.c:2361
 #: ../modules/calendar/e-cal-shell-view-actions.c:1194
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "Næste"
 
-#: ../mail/e-mail-reader.c:2361
+#: ../mail/e-mail-reader.c:2365
 #: ../modules/calendar/e-cal-shell-view-actions.c:1187
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../mail/e-mail-reader.c:2365 ../mail/message-tag-followup.c:62
+#: ../mail/e-mail-reader.c:2369 ../mail/message-tag-followup.c:62
 msgid "Reply"
 msgstr "Svar"
 
@@ -10447,10 +10445,14 @@ msgstr "MATCHEDE_IKKE"
 msgid "Loading..."
 msgstr "Indlæser..."
 
-#: ../mail/em-folder-tree.c:183 ../mail/mail-ops.c:1069
+#: ../mail/em-folder-tree.c:184 ../mail/mail-ops.c:1069
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Skanner mapper i \"%s\""
+
+#: ../mail/em-folder-tree.c:431
+msgid "Folder names cannot contain '/'"
+msgstr "Mappenavne kan ikke indeholde \"/\""
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. The first "%s" will be
@@ -10470,78 +10472,65 @@ msgstr "Skanner mapper i \"%s\""
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../mail/em-folder-tree.c:831
+#: ../mail/em-folder-tree.c:940
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1154
+#: ../mail/em-folder-tree.c:1268
 msgid "Mail Folder Tree"
 msgstr "Træ over brevmapper"
 
-#: ../mail/em-folder-tree.c:1321
+#: ../mail/em-folder-tree.c:1435
 #, c-format
 msgid "Moving folder %s"
 msgstr "Flytter mappen %s"
 
-#: ../mail/em-folder-tree.c:1323
+#: ../mail/em-folder-tree.c:1437
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopierer mappen %s"
 
-#: ../mail/em-folder-tree.c:1330 ../mail/message-list.c:2052
+#: ../mail/em-folder-tree.c:1444 ../mail/message-list.c:2052
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flytter breve til mappen %s"
 
-#: ../mail/em-folder-tree.c:1332 ../mail/message-list.c:2054
+#: ../mail/em-folder-tree.c:1446 ../mail/message-list.c:2054
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierer breve til mappen %s"
 
 # Kommentaren i kildekoden lyder:
 # /* for types other than folder, we can't drop to the root path */
-#: ../mail/em-folder-tree.c:1347
+#: ../mail/em-folder-tree.c:1461
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan ikke droppe breve til rodniveau"
 
-#: ../mail/em-folder-utils.c:99
+#: ../mail/em-folder-utils.c:98
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "Kopierer \"%s\" til \"%s\""
 
-#: ../mail/em-folder-utils.c:511
-#, c-format
-msgid "Rename the \"%s\" folder to:"
-msgstr "Omdøb mappe \"%s\" til:"
-
 #: ../mail/em-folder-utils.c:513
-msgid "Rename Folder"
-msgstr "Omdøb mappe"
-
-#: ../mail/em-folder-utils.c:519
-msgid "Folder names cannot contain '/'"
-msgstr "Mappenavne kan ikke indeholde \"/\""
-
-#: ../mail/em-folder-utils.c:595
 #: ../plugins/groupwise-features/share-folder-common.c:144
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Opretter mappen \"%s\""
 
-#: ../mail/em-folder-utils.c:757
+#: ../mail/em-folder-utils.c:675
 #, fuzzy
 msgid "Create Folder"
 msgstr "Opret mappe"
 
-#: ../mail/em-folder-utils.c:758
+#: ../mail/em-folder-utils.c:676
 #: ../plugins/groupwise-features/install-shared.c:167
 #: ../plugins/groupwise-features/share-folder-common.c:386
 msgid "Specify where to create the folder:"
 msgstr "Angiver hvor mappen skal oprettes:"
 
-#: ../mail/em-folder-utils.c:774
+#: ../mail/em-folder-utils.c:692
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Opsiger abonnement på mappe \"%s\""
@@ -13771,27 +13760,27 @@ msgid "Review"
 msgstr "Gennemse"
 
 #: ../mail/searchtypes.xml.h:1
-#: ../modules/mail/e-mail-shell-view-actions.c:1446
+#: ../modules/mail/e-mail-shell-view-actions.c:1443
 msgid "Body contains"
 msgstr "Brevindhold indeholder"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:1453
+#: ../modules/mail/e-mail-shell-view-actions.c:1450
 msgid "Message contains"
 msgstr "Brev indeholder"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1460
+#: ../modules/mail/e-mail-shell-view-actions.c:1457
 msgid "Recipients contain"
 msgstr "Modtagere indeholder"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:1467
+#: ../modules/mail/e-mail-shell-view-actions.c:1464
 msgid "Sender contains"
 msgstr "Afsender indeholder"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:1474
+#: ../modules/mail/e-mail-shell-view-actions.c:1471
 msgid "Subject contains"
 msgstr "Emne indeholder"
 
@@ -14071,7 +14060,7 @@ msgstr "Om forhåndsvisningsruden vises."
 #: ../modules/addressbook/e-book-shell-content.c:333
 #: ../modules/calendar/e-memo-shell-content.c:607
 #: ../modules/calendar/e-task-shell-content.c:630
-#: ../modules/mail/e-mail-shell-content.c:697
+#: ../modules/mail/e-mail-shell-content.c:716
 #, fuzzy
 msgid "Preview is Visible"
 msgstr "Sidepanel er synlig"
@@ -14079,7 +14068,7 @@ msgstr "Sidepanel er synlig"
 #: ../modules/addressbook/e-book-shell-content.c:334
 #: ../modules/calendar/e-memo-shell-content.c:608
 #: ../modules/calendar/e-task-shell-content.c:631
-#: ../modules/mail/e-mail-shell-content.c:698
+#: ../modules/mail/e-mail-shell-content.c:717
 #, fuzzy
 msgid "Whether the preview pane is visible"
 msgstr "Om forhåndsvisningsruden vises."
@@ -14207,7 +14196,7 @@ msgstr "Ret egenskaber for den valgte mappe"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1236
 #: ../modules/calendar/e-memo-shell-view-actions.c:631
 #: ../modules/calendar/e-task-shell-view-actions.c:756
-#: ../modules/mail/e-mail-shell-view-actions.c:1126
+#: ../modules/mail/e-mail-shell-view-actions.c:1123
 msgid "_Rename..."
 msgstr "_Omdøb..."
 
@@ -14324,7 +14313,7 @@ msgstr "H_andlinger"
 #: ../modules/addressbook/e-book-shell-view-actions.c:752
 #: ../modules/calendar/e-memo-shell-view-actions.c:675
 #: ../modules/calendar/e-task-shell-view-actions.c:828
-#: ../modules/mail/e-mail-shell-view-actions.c:1268
+#: ../modules/mail/e-mail-shell-view-actions.c:1265
 msgid "_Preview"
 msgstr "Forhå_ndsvisning"
 
@@ -14353,7 +14342,7 @@ msgstr "Vis vinduet med forhåndsvisning af kontaktperson"
 #: ../modules/addressbook/e-book-shell-view-actions.c:842
 #: ../modules/calendar/e-memo-shell-view-actions.c:761
 #: ../modules/calendar/e-task-shell-view-actions.c:926
-#: ../modules/mail/e-mail-shell-view-actions.c:1363
+#: ../modules/mail/e-mail-shell-view-actions.c:1360
 msgid "_Classic View"
 msgstr "K_lassisk oversigt"
 
@@ -14365,7 +14354,7 @@ msgstr "Vis brevets indhold nedenunder brevindekset"
 #: ../modules/addressbook/e-book-shell-view-actions.c:849
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:933
-#: ../modules/mail/e-mail-shell-view-actions.c:1370
+#: ../modules/mail/e-mail-shell-view-actions.c:1367
 msgid "_Vertical View"
 msgstr "_Lodret oversigt"
 
@@ -14497,11 +14486,12 @@ msgstr "Lo_gind:"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../modules/addressbook/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "En"
+msgstr ""
+"En\n"
+"Sub"
 
 #: ../modules/addressbook/ldap-config.glade.h:21
 msgid ""
@@ -15617,363 +15607,363 @@ msgstr ""
 "Kan ikke læse indstillingerne fra tidligere installation af Evolution, "
 "\"evolution/config.xmldb\" findes ikke eller er ødelagt."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1035
+#: ../modules/mail/e-mail-shell-view-actions.c:1032
 #: ../modules/mail/e-mail-shell-view.c:418
 #, fuzzy
 msgid "_Disable Account"
 msgstr "Deaktivér konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1037
+#: ../modules/mail/e-mail-shell-view-actions.c:1034
 #, fuzzy
 msgid "Disable this account"
 msgstr "Deaktivér konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1042
+#: ../modules/mail/e-mail-shell-view-actions.c:1039
 msgid "C_reate Search Folder From Search..."
 msgstr "Opret _søgemappe fra søgning..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1049
+#: ../modules/mail/e-mail-shell-view-actions.c:1046
 msgid "_Download Messages for Offline Usage"
 msgstr "_Hent breve ned til offline tilstand"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1051
+#: ../modules/mail/e-mail-shell-view-actions.c:1048
 #, fuzzy
 msgid "Download messages of accounts and folders marked for offline"
 msgstr ""
 "Hent breve for kontoer og mapper, der er markeret til brug i offline tilstand"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1056
+#: ../modules/mail/e-mail-shell-view-actions.c:1053
 msgid "Empty _Trash"
 msgstr "_Tøm affaldskurven"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1058
+#: ../modules/mail/e-mail-shell-view-actions.c:1055
 #, fuzzy
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Fjern alle slettede breve permanent fra alle mapper"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1063
+#: ../modules/mail/e-mail-shell-view-actions.c:1060
 msgid "Fl_ush Outbox"
 msgstr "T_øm udbakke"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1070
+#: ../modules/mail/e-mail-shell-view-actions.c:1067
 msgid "_Copy Folder To..."
 msgstr "_Kopiér mappe til..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1072
+#: ../modules/mail/e-mail-shell-view-actions.c:1069
 msgid "Copy the selected folder into another folder"
 msgstr "Kopiér den valgte mappe til en anden mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1079
+#: ../modules/mail/e-mail-shell-view-actions.c:1076
 msgid "Permanently remove this folder"
 msgstr "Fjern denne mappe permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1084
+#: ../modules/mail/e-mail-shell-view-actions.c:1081
 msgid "E_xpunge"
 msgstr "_Tøm"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1086
+#: ../modules/mail/e-mail-shell-view-actions.c:1083
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Fjern alle slettede breve fra denne mappe permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1091
+#: ../modules/mail/e-mail-shell-view-actions.c:1088
 msgid "Mar_k All Messages as Read"
 msgstr "Mar_kér alle breve som værende læst"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1093
+#: ../modules/mail/e-mail-shell-view-actions.c:1090
 msgid "Mark all messages in the folder as read"
 msgstr "Markér alle breve i denne mappe som læst"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1098
+#: ../modules/mail/e-mail-shell-view-actions.c:1095
 msgid "_Move Folder To..."
 msgstr "Fl_yt mappe til..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1100
+#: ../modules/mail/e-mail-shell-view-actions.c:1097
 msgid "Move the selected folder into another folder"
 msgstr "Flyt den valgte mappe til en anden mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1105
+#: ../modules/mail/e-mail-shell-view-actions.c:1102
 msgid "_New..."
 msgstr "_Ny..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1107
+#: ../modules/mail/e-mail-shell-view-actions.c:1104
 msgid "Create a new folder for storing mail"
 msgstr "Opret en ny mappe til at gemme post i"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1114
+#: ../modules/mail/e-mail-shell-view-actions.c:1111
 msgid "Change the properties of this folder"
 msgstr "Ret egenskaberne for denne mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1121
+#: ../modules/mail/e-mail-shell-view-actions.c:1118
 msgid "Refresh the folder"
 msgstr "Opdatér mappen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1128
+#: ../modules/mail/e-mail-shell-view-actions.c:1125
 msgid "Change the name of this folder"
 msgstr "Ret navnet på denne mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1133
+#: ../modules/mail/e-mail-shell-view-actions.c:1130
 msgid "Select _All Messages"
 msgstr "Vælg _alle breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1135
+#: ../modules/mail/e-mail-shell-view-actions.c:1132
 msgid "Select all visible messages"
 msgstr "Vælg alle synlige breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1140
+#: ../modules/mail/e-mail-shell-view-actions.c:1137
 msgid "Select Message _Thread"
 msgstr "Vælg brev_tråd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1142
+#: ../modules/mail/e-mail-shell-view-actions.c:1139
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Vælg alle breve i samme tråd som det valgte brev"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1147
+#: ../modules/mail/e-mail-shell-view-actions.c:1144
 msgid "Select Message S_ubthread"
 msgstr "Vælg brevets u_ndertråd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1149
+#: ../modules/mail/e-mail-shell-view-actions.c:1146
 msgid "Select all replies to the currently selected message"
 msgstr "Vælg alle svar til det valgte brev"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1154
+#: ../modules/mail/e-mail-shell-view-actions.c:1151
 msgid "_Unsubscribe"
 msgstr "_Afmeld abonnement"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1156
+#: ../modules/mail/e-mail-shell-view-actions.c:1153
 #, fuzzy
 msgid "Unsubscribe from the selected folder"
 msgstr "Omdøb den valgte mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1161
+#: ../modules/mail/e-mail-shell-view-actions.c:1158
 msgid "_New Label"
 msgstr "_Ny mærkat"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1168
+#: ../modules/mail/e-mail-shell-view-actions.c:1165
 #, fuzzy
 msgid "N_one"
 msgstr "Ingen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1175
+#: ../modules/mail/e-mail-shell-view-actions.c:1172
 msgid "Hide _Read Messages"
 msgstr "Skjul læ_ste breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1177
+#: ../modules/mail/e-mail-shell-view-actions.c:1174
 msgid "Temporarily hide all messages that have already been read"
 msgstr "Skjul alle læste breve midlertidigt"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1182
+#: ../modules/mail/e-mail-shell-view-actions.c:1179
 msgid "Hide S_elected Messages"
 msgstr "Skjul valgt_e breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1184
+#: ../modules/mail/e-mail-shell-view-actions.c:1181
 msgid "Temporarily hide the selected messages"
 msgstr "Skjul valgte breve midlertidigt"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1189
+#: ../modules/mail/e-mail-shell-view-actions.c:1186
 msgid "Show Hidde_n Messages"
 msgstr "Vis skj_ulte breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1191
+#: ../modules/mail/e-mail-shell-view-actions.c:1188
 msgid "Show messages that have been temporarily hidden"
 msgstr "Vis breve som er midlertidig skjult"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1212
+#: ../modules/mail/e-mail-shell-view-actions.c:1209
 msgid "Cancel the current mail operation"
 msgstr "Afbryd igangværende handling"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1217
+#: ../modules/mail/e-mail-shell-view-actions.c:1214
 msgid "Collapse All _Threads"
 msgstr "Sammenfold alle _tråde"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1219
+#: ../modules/mail/e-mail-shell-view-actions.c:1216
 msgid "Collapse all message threads"
 msgstr "Sammenfold alle brevtråde"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1224
+#: ../modules/mail/e-mail-shell-view-actions.c:1221
 msgid "E_xpand All Threads"
 msgstr "_Udfold alle tråde"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1226
+#: ../modules/mail/e-mail-shell-view-actions.c:1223
 msgid "Expand all message threads"
 msgstr "Udfold alle brevtråde"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1231
+#: ../modules/mail/e-mail-shell-view-actions.c:1228
 msgid "_Message Filters"
 msgstr "_Brevfiltre"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1233
+#: ../modules/mail/e-mail-shell-view-actions.c:1230
 msgid "Create or edit rules for filtering new mail"
 msgstr "Opret eller redigér regler for filtrering af ny e-post"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1238
+#: ../modules/mail/e-mail-shell-view-actions.c:1235
 msgid "Search F_olders"
 msgstr "Søg _mapper"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1240
+#: ../modules/mail/e-mail-shell-view-actions.c:1237
 #, fuzzy
 msgid "Create or edit search folder definitions"
 msgstr "Opret eller redigér definitioner af søgemapper"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1245
+#: ../modules/mail/e-mail-shell-view-actions.c:1242
 msgid "_Subscriptions..."
 msgstr "_Abonnementer..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1247
+#: ../modules/mail/e-mail-shell-view-actions.c:1244
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Abonnér eller fjern abonnement på mapper på eksterne servere"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1254
+#: ../modules/mail/e-mail-shell-view-actions.c:1251
 msgid "F_older"
 msgstr "M_appe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1261
+#: ../modules/mail/e-mail-shell-view-actions.c:1258
 msgid "_Label"
 msgstr "Mær_kning"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1301
+#: ../modules/mail/e-mail-shell-view-actions.c:1298
 msgid "_New Folder..."
 msgstr "_Ny mappe..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1325
+#: ../modules/mail/e-mail-shell-view-actions.c:1322
 msgid "Hide _Deleted Messages"
 msgstr "Skjul slette_de breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1327
+#: ../modules/mail/e-mail-shell-view-actions.c:1324
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skjul slettede breve i stedet for at vise dem gennemstreget"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1334
+#: ../modules/mail/e-mail-shell-view-actions.c:1331
 msgid "Show Message _Preview"
 msgstr "_Vis brev"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1336
+#: ../modules/mail/e-mail-shell-view-actions.c:1333
 #, fuzzy
 msgid "Show message preview pane"
 msgstr "Vis vindue med brevindhold"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1342
+#: ../modules/mail/e-mail-shell-view-actions.c:1339
 msgid "_Group By Threads"
 msgstr "_Gruppér efter tråde"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1344
+#: ../modules/mail/e-mail-shell-view-actions.c:1341
 #, fuzzy
 msgid "Threaded message list"
 msgstr "Brug trådning i brevindeks"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1365
+#: ../modules/mail/e-mail-shell-view-actions.c:1362
 msgid "Show message preview below the message list"
 msgstr "Vis brevets indhold nedenunder brevindekset"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1372
+#: ../modules/mail/e-mail-shell-view-actions.c:1369
 #, fuzzy
 msgid "Show message preview alongside the message list"
 msgstr "Vis brevets indhold nedenunder brevindekset"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1380
+#: ../modules/mail/e-mail-shell-view-actions.c:1377
 msgid "All Messages"
 msgstr "Alle breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1387
+#: ../modules/mail/e-mail-shell-view-actions.c:1384
 msgid "Important Messages"
 msgstr "Vigtige breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1394
+#: ../modules/mail/e-mail-shell-view-actions.c:1391
 msgid "Last 5 Days' Messages"
 msgstr "Breve fra de sidste 5 dage"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1401
+#: ../modules/mail/e-mail-shell-view-actions.c:1398
 msgid "Messages Not Junk"
 msgstr "Breve som ikke er spam"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1408
+#: ../modules/mail/e-mail-shell-view-actions.c:1405
 msgid "Messages with Attachments"
 msgstr "Breve med bilag"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1415
+#: ../modules/mail/e-mail-shell-view-actions.c:1412
 msgid "No Label"
 msgstr "Ingen mærkning"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1422
+#: ../modules/mail/e-mail-shell-view-actions.c:1419
 msgid "Read Messages"
 msgstr "Læste breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1429
+#: ../modules/mail/e-mail-shell-view-actions.c:1426
 msgid "Recent Messages"
 msgstr "Nyere breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1436
+#: ../modules/mail/e-mail-shell-view-actions.c:1433
 msgid "Unread Messages"
 msgstr "Ulæste breve"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1481
+#: ../modules/mail/e-mail-shell-view-actions.c:1478
 #, fuzzy
 msgid "Subject or Addresses contain"
 msgstr "Emne eller adresser indeholder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1491
+#: ../modules/mail/e-mail-shell-view-actions.c:1488
 msgid "All Accounts"
 msgstr "Alle konti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1498
+#: ../modules/mail/e-mail-shell-view-actions.c:1495
 msgid "Current Account"
 msgstr "Aktuel konto"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1505
+#: ../modules/mail/e-mail-shell-view-actions.c:1502
 msgid "Current Folder"
 msgstr "Aktuel mappe"
 
-#: ../modules/mail/e-mail-shell-view-private.c:691
+#: ../modules/mail/e-mail-shell-view-private.c:726
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d markeret, "
 msgstr[1] "%d markeret, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:702
+#: ../modules/mail/e-mail-shell-view-private.c:737
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d slettet"
 msgstr[1] "%d slettet"
 
-#: ../modules/mail/e-mail-shell-view-private.c:708
-#: ../modules/mail/e-mail-shell-view-private.c:715
+#: ../modules/mail/e-mail-shell-view-private.c:743
+#: ../modules/mail/e-mail-shell-view-private.c:750
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d spam"
 msgstr[1] "%d spam"
 
-#: ../modules/mail/e-mail-shell-view-private.c:721
+#: ../modules/mail/e-mail-shell-view-private.c:756
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d kladde"
 msgstr[1] "%d kladder"
 
-#: ../modules/mail/e-mail-shell-view-private.c:727
+#: ../modules/mail/e-mail-shell-view-private.c:762
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d usendt"
 msgstr[1] "%d usendte"
 
-#: ../modules/mail/e-mail-shell-view-private.c:733
+#: ../modules/mail/e-mail-shell-view-private.c:768
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sendt"
 msgstr[1] "%d sendte"
 
-#: ../modules/mail/e-mail-shell-view-private.c:745
+#: ../modules/mail/e-mail-shell-view-private.c:780
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ulæst, "
 msgstr[1] "%d ulæste, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:748
+#: ../modules/mail/e-mail-shell-view-private.c:783
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -16048,9 +16038,8 @@ msgstr "Intet spam-udvidelsesmodul tilgængeligt"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../modules/mail/em-mailer-prefs.c:1140
-#, fuzzy
 msgid "Date header:"
-msgstr "Tabelhoved"
+msgstr "Datooverskrift:"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
@@ -17039,7 +17028,6 @@ msgid "Delegates"
 msgstr "Delegater"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#, fuzzy
 msgid ""
 "None\n"
 "Reviewer (read-only)\n"
@@ -17598,7 +17586,7 @@ msgstr "Ukendt fejl ved opslag af {0}"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
 #: ../plugins/google-account-setup/google-source.c:623
 #: ../plugins/mail-to-task/mail-to-task.c:623
-#: ../plugins/mail-to-task/mail-to-task.c:843
+#: ../plugins/mail-to-task/mail-to-task.c:838
 msgid "Unknown error."
 msgstr "Ukendt fejl."
 
@@ -17929,9 +17917,10 @@ msgstr "Beskedtilbagetrækning"
 # Jeg har fjernet mellemrum før ?, idet jeg antager at det er en fejl.
 # Følg op på fejlrapport: https://bugzilla.gnome.org/show_bug.cgi?id=595002
 #: ../plugins/groupwise-features/mail-retract.c:57
+#, fuzzy
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
-"sure you want to do this ?"
+"sure you want to do this?"
 msgstr ""
 "At tilbagetrække en besked kan fjerne den fra modtagerens brevbakke. Er du "
 "sikker op du ønsker at gøre dette?"
@@ -18018,19 +18007,22 @@ msgstr "Du skal angive et brugernavn, som du vil tilføje til listen"
 # Jeg har fjernet mellemrum før ? idet jeg antager at det er en fejl.
 # Følg op på fejlrapport: https://bugzilla.gnome.org/show_bug.cgi?id=595002
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-msgid "Do you want to resend the meeting ?"
+#, fuzzy
+msgid "Do you want to resend the meeting?"
 msgstr "Ønsker du at genudsende mødet?"
 
 # Jeg har fjernet mellemrum før ? idet jeg antager at det er en fejl.
 # Følg op på fejlrapport: https://bugzilla.gnome.org/show_bug.cgi?id=595002
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-msgid "Do you want to resend the recurring meeting ?"
+#, fuzzy
+msgid "Do you want to resend the recurring meeting?"
 msgstr "Ønsker du at genudsende det gentagne møde?"
 
 # Jeg har fjernet mellemrum før ? idet jeg antager at det er en fejl.
 # Følg op på fejlrapport: https://bugzilla.gnome.org/show_bug.cgi?id=595002
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-msgid "Do you want to retract the original item ?"
+#, fuzzy
+msgid "Do you want to retract the original item?"
 msgstr "Ønsker du at trække det originale objekt tilbage?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
@@ -19374,40 +19366,40 @@ msgstr ""
 "Den valgte kilde er skrivebeskyttet, og der kan derfor ikke oprettes noget "
 "memo der. Vælg en anden kilde."
 
-#: ../plugins/mail-to-task/mail-to-task.c:843
+#: ../plugins/mail-to-task/mail-to-task.c:838
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Kan ikke hente kildeliste. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:962
+#: ../plugins/mail-to-task/mail-to-task.c:957
 msgid "Create an _Event"
 msgstr "Opret en _begivenhed"
 
-#: ../plugins/mail-to-task/mail-to-task.c:964
+#: ../plugins/mail-to-task/mail-to-task.c:959
 msgid "Create a new event from the selected message"
 msgstr "Opret en ny begivenhed ud fra det valgte brev"
 
-#: ../plugins/mail-to-task/mail-to-task.c:969
+#: ../plugins/mail-to-task/mail-to-task.c:964
 msgid "Create a Mem_o"
 msgstr "Opret et nyt mem_o"
 
-#: ../plugins/mail-to-task/mail-to-task.c:971
+#: ../plugins/mail-to-task/mail-to-task.c:966
 msgid "Create a new memo from the selected message"
 msgstr "Opret et nyt memo ud fra det valgte brev"
 
-#: ../plugins/mail-to-task/mail-to-task.c:976
+#: ../plugins/mail-to-task/mail-to-task.c:971
 msgid "Create a _Task"
 msgstr "Opret en _opgave"
 
-#: ../plugins/mail-to-task/mail-to-task.c:978
+#: ../plugins/mail-to-task/mail-to-task.c:973
 msgid "Create a new task from the selected message"
 msgstr "Opret en ny opgave ud fra det valgte brev"
 
-#: ../plugins/mail-to-task/mail-to-task.c:986
+#: ../plugins/mail-to-task/mail-to-task.c:981
 msgid "Create a _Meeting"
 msgstr "Opret et _møde"
 
-#: ../plugins/mail-to-task/mail-to-task.c:988
+#: ../plugins/mail-to-task/mail-to-task.c:983
 msgid "Create a new meeting from the selected message"
 msgstr "Opret et nyt møde ud fra det valgte brev"
 
@@ -23332,7 +23324,6 @@ msgstr "Håndtagspopop"
 #~ msgid "C_ontacts"
 #~ msgstr "_Kontaktpersoner"
 
-#~| msgid "Configure autocomplete here"
 #~ msgid "Configure contacts and autocompletion here"
 #~ msgstr "Konfigurér kontakter og automatisk fuldførelse her"
 
@@ -23363,6 +23354,12 @@ msgstr "Håndtagspopop"
 #~ msgid "Failed upgrading Address Book settings or folders."
 #~ msgstr ""
 #~ "Opgradering af indstillinger eller mapper for adressebogen mislykkedes."
+
+#~ msgid "Rename the \"%s\" folder to:"
+#~ msgstr "Omdøb mappe \"%s\" til:"
+
+#~ msgid "Rename Folder"
+#~ msgstr "Omdøb mappe"
 
 #~ msgid "Save As vCard..."
 #~ msgstr "Gem som vCard..."
@@ -23682,7 +23679,6 @@ msgstr "Håndtagspopop"
 #~ msgid "Show"
 #~ msgstr "Vis"
 
-#~| msgid "_Hide"
 #~ msgid "Hide"
 #~ msgstr "Skjul"
 
