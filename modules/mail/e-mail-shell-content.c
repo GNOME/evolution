@@ -838,10 +838,14 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	if (preview_visible) {
 		EMailReader *reader;
 		MessageList *message_list;
+		const gchar *cursor_uid;
 
 		reader = E_MAIL_READER (mail_shell_content);
 		message_list = e_mail_reader_get_message_list (reader);
-		e_mail_reader_set_message (reader, message_list->cursor_uid);
+		cursor_uid = message_list->cursor_uid;
+
+		if (cursor_uid != NULL)
+			e_mail_reader_set_message (reader, cursor_uid);
 	}
 
 	mail_shell_content->priv->preview_visible = preview_visible;
