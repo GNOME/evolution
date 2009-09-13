@@ -11,10 +11,10 @@
 #: ../shell/main.c:631
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.gnome-2-28.ml\n"
+"Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-13 21:18+0530\n"
+"PO-Revision-Date: 2009-09-13 21:36+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15310,7 +15310,7 @@ msgstr "ഇംപീരിയല്‍ (ഫാരന്‍ഹീറ്റ്, �
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Add weather calendars to Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനിലേക്ക് കാലവസ്ഥ കലണ്ടറുകള്‍ ചേര്‍ക്കുക."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
 msgid "Weather Calendars"
@@ -15395,7 +15395,7 @@ msgstr "രഹസ്യം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:342
 msgid "Top secret"
-msgstr ""
+msgstr "വലിയ രഹസ്യം"
 
 #: ../plugins/email-custom-header/email-custom-header.c:584
 msgid "_Custom Header"
@@ -15683,7 +15683,7 @@ msgstr "നിങ്ങള്‍ക്കു് എന്റെ സ്വകാ�
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:358
 msgid "However you are not permitted to see my private items."
-msgstr ""
+msgstr "എന്റെ സ്വകാര്യ വസ്തുക്കള്‍ നിങ്ങള്‍ക്കു് കാണുവാനുള്ള അനുമതിയില്ല."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:390
 #, c-format
@@ -15992,6 +15992,10 @@ msgid ""
 "Private\n"
 "Confidential"
 msgstr ""
+"സാധാരണ\n"
+"വ്യക്തിപരം\n"
+"സ്വകാര്യം\n"
+"രഹസ്യം"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:12
 msgid "Request a _delivery receipt for this message"
@@ -16370,7 +16374,7 @@ msgstr ""
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "ഒരു പുതിയ മെയില്‍ ചിട്ടപ്പെടുത്തുമ്പോള്‍ സ്വയമായി ലഭ്യമാക്കുക"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
 msgid "Default External Editor"
@@ -16517,7 +16521,7 @@ msgstr "<b>സര്‍വര്‍</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനിലേക്ക ഗൂഗിള്‍ കലണ്ടറുകള്‍ ചേര്‍ക്കുക."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 #| msgid "Gnome Calendar"
@@ -16953,11 +16957,11 @@ msgstr "സന്ദേശത്തിന്‍റെ അവസ്ഥയുട�
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "Add Hula support to Evolution."
-msgstr ""
+msgstr "ഹ്യൂലാ പിന്തുണ ഇവല്യൂഷനിലേക്ക് ചേര്‍ക്കുക."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Support"
-msgstr ""
+msgstr "ഹ്യൂലാ പിന്തുണ"
 
 #: ../plugins/imap-features/imap-headers.c:332
 msgid "Custom Headers"
@@ -17009,7 +17013,7 @@ msgstr "മുഴുവന്‍ തലക്കെട്ടുകള്‍ _ല
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "Fine-tune your IMAP accounts."
-msgstr ""
+msgstr "നിങ്ങളുടെ IMAP അക്കൌണ്ടുകള്‍ ശരിയാക്കുക."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -17965,7 +17969,7 @@ msgstr "[ചുരുക്കത്തില്‍ ലഭ്യമല്ല]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "ഒരു സര്‍വറില്‍ നിന്നും തെറ്റായ ഒബ്ജക്ട് തിരികെ നല്‍കി"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
 #, c-format
@@ -18262,7 +18266,7 @@ msgstr "മോണോ ലോഡര്‍"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Support plugins written in Mono."
-msgstr ""
+msgstr "പിന്തുണയുള്ള പ്ലഗിനുകള്‍ മോണോയില്‍ സൂക്ഷിക്കുന്നു."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 #| msgid "Change Evolution's settings"
@@ -18406,17 +18410,17 @@ msgstr "%s തുറക്കുവാന്‍ സാധ്യമല്ല: അ
 #: ../plugins/publish-calendar/publish-calendar.c:117
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "%s-ലേക്കുള്ള പ്രസദ്ധീകരണത്തില്‍ പിശക്:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:119
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "%s-ലേക്കുള്ള പ്രസദ്ധീകരണ വിജയകരമായി പൂര്‍ത്തിയായി."
 
 #: ../plugins/publish-calendar/publish-calendar.c:164
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "%s-ന്റെ മൌണ്ട് പരാജയപ്പെട്ടു:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:624
 msgid "Are you sure you want to remove this location?"
@@ -18514,6 +18518,9 @@ msgid ""
 "weeks\n"
 "months"
 msgstr ""
+"ദിവസങ്ങള്‍\n"
+"ആഴ്ചകള്‍\n"
+"മാസങ്ങള്‍"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:32
 msgid ""
@@ -19482,7 +19489,7 @@ msgstr "എല്ലാ പ്ളഗിനുകളും ലോഡ് ചെയ
 
 #: ../shell/main.c:505
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "മെയില്‍, വിലാസങ്ങള്‍, ടാസ്കുകള്‍ എന്നിവയുടെ പെയിനിലുള്ള തിരനോട്ടം പ്രവര്‍ത്തന രഹിതം."
 
 #: ../shell/main.c:614
 msgid "- The Evolution PIM and Email Client"
@@ -19637,6 +19644,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"ഈ സര്‍ട്ടിഫീക്കേറ്റ് നല്‍കിയവരുടെ ആധികാരികതയില്‍ നിങ്ങള്‍ക്കുറപ്പുള്ളതിനാല്‍, "
+"ഇവിടെ വ്യക്തമാക്കാത്തിടത്തോളം ഈ സര്‍ട്ടിഫീക്കേറ്റിന്റെ ആധികാരികതയിലും "
+"വിശ്വാസമുണ്ടു്."
 
 #: ../smime/gui/cert-trust-dialog.c:154
 msgid ""
@@ -19644,6 +19654,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"ഈ സര്‍ട്ടിഫീക്കേറ്റ് നല്‍കിയവരുടെ ആധികാരികതയില്‍ നിങ്ങള്‍ക്കുറപ്പില്ലാത്തതിനാല്‍, "
+"ഇവിടെ വ്യക്തമാക്കാത്തിടത്തോളം ഈ സര്‍ട്ടിഫീക്കേറ്റിന്റെ ആധികാരികതയിലും "
+"വിശ്വാസമില്ല."
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:383
@@ -21623,11 +21636,11 @@ msgstr "attachment.dat"
 
 #: ../widgets/misc/e-attachment.c:1822 ../widgets/misc/e-attachment.c:2619
 msgid "A load operation is already in progress"
-msgstr ""
+msgstr "ലഭ്യമാക്കുന്നതിനുള്ള ഒരു പ്രിക്രിയ പുരോഗതിയില്‍"
 
 #: ../widgets/misc/e-attachment.c:1830 ../widgets/misc/e-attachment.c:2627
 msgid "A save operation is already in progress"
-msgstr ""
+msgstr "സൂക്ഷിക്കുന്നതിനുള്ള ഒരു പ്രിക്രിയ പുരോഗതിയില്‍"
 
 #: ../widgets/misc/e-attachment.c:1923
 #, c-format
