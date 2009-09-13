@@ -64,8 +64,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-12 16:50+0200\n"
-"PO-Revision-Date: 2009-09-12 16:27+0200\n"
+"POT-Creation-Date: 2009-09-13 15:01+0200\n"
+"PO-Revision-Date: 2009-09-13 14:05+0200\n"
 "Last-Translator: Kenneth Nielsen <k.nielsen81@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1161,11 +1161,12 @@ msgstr "Lo_gind:"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "En"
+msgstr ""
+"En\n"
+"Sub"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -1709,7 +1710,6 @@ msgstr ""
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591960
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
-#, fuzzy
 msgid ""
 "\n"
 "Sr.\n"
@@ -3655,11 +3655,9 @@ msgid "Confirm expunge"
 msgstr "Bekræft tømning"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
-#, fuzzy
 msgid "Count of default recurrence for a new event. -1 means forever."
 msgstr ""
-"Det forvalgte antal for gentagelser af en ny begivenhed. -1 betyder "
-"ubegrænset."
+"Det forvalgte antal gentagelser af en ny begivenhed. -1 betyder ubegrænset."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -5625,12 +5623,14 @@ msgstr ""
 "b"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
+# jeg gætter på "bliv ved i to måneder", "blev ved til (om) to måneder"
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#, fuzzy
 msgid ""
 "for\n"
 "until"
-msgstr "til"
+msgstr ""
+"i\n"
+"til"
 
 #: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2469
 msgid "Memo"
@@ -5924,7 +5924,6 @@ msgstr "<span weight=\"bold\">Status</span>"
 # Den nuværende oversættelse antager at der tales om prioritet
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../calendar/gui/dialogs/task-details-page.glade.h:3
-#, fuzzy
 msgid ""
 "High\n"
 "Normal\n"
@@ -11960,9 +11959,8 @@ msgstr "Intet spam-udvidelsesmodul tilgængeligt"
 
 # FEJLRAPPORT: http://bugzilla.gnome.org/show_bug.cgi?id=591938
 #: ../mail/em-mailer-prefs.c:1455
-#, fuzzy
 msgid "Date header:"
-msgstr "Tabelhoved"
+msgstr "Datooverskrift:"
 
 #. green
 #: ../mail/em-migrate.c:961
@@ -16148,7 +16146,6 @@ msgid "Delegates"
 msgstr "Delegater"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:7
-#, fuzzy
 msgid ""
 "None\n"
 "Reviewer (read-only)\n"
