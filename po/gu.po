@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-28.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2009-09-10 09:17+0000\n"
-"PO-Revision-Date: 2009-09-10 18:39+0530\n"
+"POT-Creation-Date: 2009-09-11 08:37+0000\n"
+"PO-Revision-Date: 2009-09-14 11:21+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -649,10 +649,9 @@ msgid "Certificates"
 msgstr "પ્રમાણપત્રો"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 #| msgid "Configure autocomplete here"
 msgid "Configure contacts and autocompletion here"
-msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખાંકિત કરો"
+msgstr "આપોઆપ સંપૂર્ણ અને સંપર્કો ને અંહિ રૂપરેખાંકિત કરો"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
@@ -1025,7 +1024,7 @@ msgstr "%s (વપરાશકર્તા %s) માટે પાસવર્�
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:500
+#: ../plugins/google-account-setup/google-source.c:519
 #: ../plugins/publish-calendar/publish-calendar.c:216
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1138,13 +1137,15 @@ msgid "<b>Searching</b>"
 msgstr "<b>શોધી રહ્યા છીએ</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
-#, fuzzy
 #| msgid "Using distinguished name (DN)"
 msgid ""
 "Anonymously\n"
 "Using email address\n"
 "Using distinguished name (DN)"
-msgstr "અલગ તારવેલ નામ (DN) વાપરી રહ્યા છીએ"
+msgstr ""
+"અનામિક રીતે\n"
+"ઇમેઇલ સરનામું વાપરી રહ્યા છે\n"
+"અલગ તારવેલ નામ (DN) વાપરી રહ્યા છીએ"
 
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:14
@@ -1290,7 +1291,7 @@ msgstr "પત્રો"
 #: ../plugins/calendar-file/calendar-file.c:293
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
-#: ../plugins/google-account-setup/google-source.c:720
+#: ../plugins/google-account-setup/google-source.c:740
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "minutes"
 msgstr "મિનિટો"
@@ -3395,7 +3396,7 @@ msgstr[1] "મિનિટો"
 #: ../plugins/calendar-file/calendar-file.c:294
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:721
+#: ../plugins/google-account-setup/google-source.c:741
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "hours"
 msgid_plural "hours"
@@ -4003,7 +4004,7 @@ msgstr "બાબતોના દેખાવમાં શું પૂર્ણ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr ""
+msgstr "ક્યાંતો અઠવાડિયા પ્રમાણે મહિનાંને સ્ક્રોલ કરો, મહિના વડે નહિં."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Whether to set a default reminder for appointments."
@@ -4141,7 +4142,7 @@ msgstr "ના કરતાં જૂની ઘટનાઓ કાઢો"
 #: ../plugins/calendar-file/calendar-file.c:295
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:722
+#: ../plugins/google-account-setup/google-source.c:742
 #: ../plugins/google-account-setup/google-contacts-source.c:332
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -4514,12 +4515,13 @@ msgstr ""
 "દિવસો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
-#, fuzzy
 #| msgid "start of appointment"
 msgid ""
 "start of appointment\n"
 "end of appointment"
-msgstr "મુલાકાતની શરુઆત"
+msgstr ""
+"મુલાકાતની શરુઆત\n"
+"મુલાકાતનો અંત"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:244
 msgid "Action/Trigger"
@@ -4706,7 +4708,7 @@ msgstr "શનિવાર"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "અઠવાડિયા દ્દારા મહિનાંના દૃશ્યને સ્ક્રોલ કરો (_r)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Se_cond zone:"
@@ -5464,6 +5466,9 @@ msgid ""
 "1 hour before appointment\n"
 "1 day before appointment"
 msgstr ""
+"મુલાકાત પહેલાં ૧૫ મિનિટો\n"
+"મુલાકાત પહેલાં ૧ કલાક\n"
+"મુલાકાત પહેલાં ૧ દિવસ"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
@@ -5524,7 +5529,6 @@ msgstr ""
 "b"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#| msgid "until"
 msgid ""
 "for\n"
 "until"
@@ -5889,11 +5893,10 @@ msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "કાર્ય ને ફેરફાર કરી શકાતુ નથી, કારણ કે પસંદ થયેલ કાર્ય યાદી ફક્ત વાંચી શકાય છે"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#, fuzzy
 #| msgid ""
 #| "This message cannot be sent because you have not specified any recipients"
 msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr "આ સંદેશો મોકલી શકાતો નથી કારણ કે તમે કોઈ મેળવનારો સ્પષ્ટ કર્યો નથી"
+msgstr "કાર્યનો સંપૂર્ણપણે ફેરફાર કરી શકાતો નથી, કારણ કે તમે સંચાલક નથી"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.glade.h:4
@@ -9902,7 +9905,7 @@ msgstr "ગઈકાલે"
 #: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days from now"
-msgstr ""
+msgstr "અત્યારથી %d દિવસો"
 
 #: ../e-util/e-datetime-format.c:209
 #, c-format
@@ -10382,12 +10385,13 @@ msgstr ""
 "વર્તમાન સમય સાથે સરખાવે છે."
 
 #: ../filter/filter.glade.h:12
-#, fuzzy
 #| msgid "in the future"
 msgid ""
 "ago\n"
 "in the future"
-msgstr "ભવિષ્યમાં"
+msgstr ""
+"અગાઉ\n"
+"ભવિષ્યમાં"
 
 #: ../filter/filter.glade.h:14
 msgid ""
@@ -10408,13 +10412,15 @@ msgstr ""
 "વર્ષો"
 
 #: ../filter/filter.glade.h:21
-#, fuzzy
 #| msgid "a time relative to the current time"
 msgid ""
 "the current time\n"
 "the time you specify\n"
 "a time relative to the current time"
-msgstr "વર્તમાન સમયને અનુલક્ષિને સમય"
+msgstr ""
+"હાલનો સમય\n"
+"તમે સ્પષ્ટ કર્યો છે તે સમય\n"
+"હાલનાં સમય ને સંબંધિત સમય"
 
 #: ../filter/rule-editor.c:381
 msgid "Add Rule"
@@ -11399,9 +11405,9 @@ msgstr "મેઈલિંગ લીસ્ટ આધારિત ગાળણ (_
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2232 ../mail/em-folder-view.c:2275
-#: ../plugins/google-account-setup/google-source.c:303
-#: ../plugins/google-account-setup/google-source.c:593
-#: ../plugins/google-account-setup/google-source.c:764
+#: ../plugins/google-account-setup/google-source.c:304
+#: ../plugins/google-account-setup/google-source.c:613
+#: ../plugins/google-account-setup/google-source.c:784
 msgid "Default"
 msgstr "મૂળભુત"
 
@@ -12189,6 +12195,8 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"HTML મેઇલમાં એનિમેટ થયેલ ઇમેજોને સક્રિય કરો. ઘણાબધા વપરાશકર્તાઓ અનામિક રીતે "
+"એનિમેટ થયેલ ઇમેજોને શોધે છે અને તેને બદલે સ્થિર ઇમેજને જોવાનું પસંદ કરે છે."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12199,10 +12207,9 @@ msgid "Enable or disable magic space bar"
 msgstr "જાદુઈ જગ્યા પટ્ટી સક્રિય કે નિષ્ક્રિય કરો"
 
 #: ../mail/evolution-mail.schemas.in.h:50
-#, fuzzy
 #| msgid "It disables/enables the prompt while marking multiple messages."
 msgid "Enable or disable the prompt whilst marking multiple messages."
-msgstr "તે ઘણા સંદેશાઓને ચિહ્નિત કરતી વખતે પ્રોમ્પ્ટ સક્રિય/નિષ્ક્રિય કરે છે."
+msgstr "જ્યારે ઘણબધા સંદેશાઓને ચિહ્નિત કરો ત્યારે પ્રોમ્પ્ટ ને સક્રિય અથવા નિષ્ક્રિય કરો."
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Enable or disable type ahead search feature"
@@ -12220,7 +12227,7 @@ msgstr "શરૂઆતમાં શોધ ફોલ્ડરો સક્રિ
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
-msgstr ""
+msgstr "ફોલ્ડર નામોની અરસપરસ શોધવાની પરવાનગી આપવા માટે બાજુ પટ્ટી નાં શોધ ગુણધર્મને સક્રિય કરો."
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid ""
@@ -12527,7 +12534,7 @@ msgstr "વિવિધ સંદેશાઓને ચિહ્નતિ કર
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "જવાબોનાં ઉપર વ્યક્તિગત થયેલ હસ્તાક્ષરોને મૂકો"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Put the cursor at the bottom of replies"
@@ -12590,10 +12597,9 @@ msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "\"Reply To\" ક્ષેત્રને બતાવો જ્યારે સમાચાર જૂથ માં પોસ્ટ કરી રહ્યા હોય"
 
 #: ../mail/evolution-mail.schemas.in.h:129
-#, fuzzy
 #| msgid "Also encrypt to sel_f when sending encrypted messages"
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "જ્યારે એનક્રિપ્ટ થયેલ સંદેશાઓ મોકલી રહ્યા હોય ત્યારે તેને પણ એનક્રિપ્ટ કરો (_f)"
+msgstr "જ્યારે સંદેશને મોકલી રહ્યા હોય ત્યારે \"Reply To\" ક્ષેત્રને બતાવો"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -12624,36 +12630,48 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"જ્યારે મેઇલ સંદેશ મોકલી રહ્યા હોય ત્યારે \"Bcc\" ક્ષેત્રને બતાવો. આ દૃશ્ય મેનુ માંથી નિયંત્રણ થયેલ છે જ્યારે "
+"મેઇલ ખાતુ પસંદ થયેલ હોય."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"જ્યારે મેઇલ સંદેશ મોકલી રહ્યા હોય ત્યારે \"Cc\" ક્ષેત્રને બતાવો. આ દૃશ્ય મેનુ માંથી નિયંત્રણ થયેલ છે જ્યારે "
+"મેઇલ ખાતુ પસંદ કરેલ હોય."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
+"જ્યારે newsgroup ને પોસ્ટ કરી રહ્યા હોય ત્યારે \"From\" ક્ષેત્રને બતાવો. આ દૃશ્ય મેનુ માંથી નિયંત્રણ "
+"થયેલ છે જ્યારે સમાચારો ખાતુ પસંદ થયેલ છે."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"જ્યારે મેઇલ સંદેશ મોકલી રહ્યા હોય ત્યારે \"From\" ક્ષેત્રને બતાવો. આ દૃશ્ય મેનુ માંથી નિયંત્રણ થયેલ છે "
+"જ્યારે મેઇલ ખાતુ પસંદ કરેલ હોય ત્યારે."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
+"જ્યારે newsgroup ને પોસ્ટ કરી રહ્યા હોય ત્યારે \"Reply To\" ક્ષેત્રને બતાવો. આ "
+"દૃશ્ય મેનુ માંથી નિયંત્રણ થયેલ છે જ્યારે સમાચારો ખાતુ પસંદ થયેલ છે."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
+"જ્યારે મેઇલ સંદેશને મોકલી રહ્યા હોય ત્યારે \"Reply To\" ક્ષેત્રને બતાવો. આ દૃશ્ય મેનુ માંથી "
+"નિયંત્રણ થયેલ છે જ્યારે મેઇલ ખાતુ પસંદ થયેલ હોય."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -13412,7 +13430,7 @@ msgstr "અવતરણોને આની સાથે પ્રકાશિત
 msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
-msgstr ""
+msgstr "જો સર્વર બિન-મૂળભૂત પોર્ટ વાપરે છે પછી \"server-name:port-number\" તરીકે સર્વર સરનામાંને સ્પષ્ટ કરો"
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -13477,7 +13495,6 @@ msgid "Please configure the following account settings."
 msgstr "મહેરબાની કરીને નીચેના ખાતા સુયોજનોને રૂપરેખાંકિત કરો."
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 #| msgid ""
 #| "Please enter a descriptive name for this account in the space below.\n"
 #| "This name will be used for display purposes only."
@@ -13485,8 +13502,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
 msgstr ""
-"મહેરબાની કરીને આ ખાતા માટે નીચેની જગ્યામાં વર્ણનાત્મક નામ દાખલ કરો.\n"
-"આ નામ માત્ર પ્રદર્શનના હેતુ માટે જ વપરાશે."
+"મહેરબાની કરીને આ ખાતા માટે નીચેની જગ્યામાં વર્ણનાત્મક નામ દાખલ કરો. આ "
+"નામ માત્ર પ્રદર્શનના હેતુ માટે જ વપરાશે."
 
 #: ../mail/mail-config.glade.h:121
 msgid ""
@@ -13610,7 +13627,6 @@ msgstr ""
 "સ્થાપિત કર્યો છે."
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 #| msgid ""
 #| "The output of this script will be used as your\n"
 #| "signature. The name you specify will be used\n"
@@ -13620,8 +13636,7 @@ msgid ""
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
 "આ સ્ક્રિપ્ટનું આઉટપુટ તમારી સહી તરીકે કામ કરશે.\n"
-"તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે\n"
-"વપરાશે. "
+"તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે વપરાશે."
 
 #: ../mail/mail-config.glade.h:153
 msgid ""
@@ -13640,7 +13655,7 @@ msgid "Use Authe_ntication"
 msgstr "સત્તાધિકરણ વાપરો (_n)"
 
 #: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
-#: ../plugins/google-account-setup/google-source.c:681
+#: ../plugins/google-account-setup/google-source.c:701
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
@@ -14833,6 +14848,8 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
+"ત્યાં ફક્ત આ ફોલ્ડરમાં છુપાયેલ સંદેશાઓ છે. તેઓને બતાવવા માટે View->Show Hidden "
+"Messages ને વાપરો."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -15342,7 +15359,7 @@ msgstr "_SSL વાપરો"
 #: ../plugins/calendar-file/calendar-file.c:274
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
-#: ../plugins/google-account-setup/google-source.c:698
+#: ../plugins/google-account-setup/google-source.c:718
 #: ../plugins/google-account-setup/google-contacts-source.c:322
 msgid "Re_fresh:"
 msgstr "પુનઃતાજું કરો (_f):"
@@ -15351,7 +15368,7 @@ msgstr "પુનઃતાજું કરો (_f):"
 #: ../plugins/calendar-file/calendar-file.c:296
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:723
+#: ../plugins/google-account-setup/google-source.c:743
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
 msgstr "અઠવાડિયાઓ"
@@ -15493,7 +15510,6 @@ msgid "Every time Evolution starts, check whether or not it is the default maile
 msgstr "દર વખતે Evolution શરૂ થાય, ત્યારે ચકાસો કે શું તે મૂળભુત મેઈલ કરનાર છે કે નહિં."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
-#| msgid "Checks whether Evolution is the default mail client on startup."
 msgid "Check whether Evolution is the default mail client on startup."
 msgstr "ચકાસો ક્યાંતો Evolution એ શરૂઆત થવા પર મૂળભૂત મેઇલ ક્લાઇન્ટ છે."
 
@@ -15582,7 +15598,6 @@ msgstr "ઇમેઇલ વૈવિધ્યપૂર્ણ હેડર"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
-#| msgid "Adds custom header to outgoing messages."
 msgid "Add custom headers to outgoing mail messages."
 msgstr "બહાર જતા મેઇલ સંદેશાઓમાં વૈવિધ્ય હેડરોને ઉમેરો"
 
@@ -15913,6 +15928,10 @@ msgid ""
 "Author (read, create)\n"
 "Editor (read, create, edit)"
 msgstr ""
+"કંઇ નહિં\n"
+"નિરીક્ષક (ફક્ત વાંચી શકાય)\n"
+"લેખક (વાંચવુ, બનાવો)\n"
+"સંપાદક (વાંચવુ, બનાવો, ફેરફાર કરો)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Permissions for"
@@ -16464,7 +16483,7 @@ msgid "Unknown error looking up {0}"
 msgstr "{0} જોવામાં અજ્ઞાત ભૂલ"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
@@ -16550,7 +16569,7 @@ msgstr "ફોલ્ડર પરવાનગીઓ ચકાસો"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "આપમેળે સંપાદકને શરૂ કરો જ્યારે મેઇલ કમ્પોઝરમાં કી દબાયેલ હોય"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
@@ -16570,9 +16589,6 @@ msgid "External Editor"
 msgstr "બાહ્ય સંપાદક"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
-#| msgid ""
-#| "A plugin for using an external editor as the composer. You can send only "
-#| "plain-text messages."
 msgid "Use an external editor to compose plain-text mail messages."
 msgstr "સાદા-લખાણ મેઇસ સંદેશાઓને કમ્પોઝ કરવા માટે બહારનાં સંપાદકને વાપરો."
 
@@ -16601,6 +16617,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"બહારનાં સંપાદક હજુ ચાલી રહ્યા છે. મેઇલ કમ્પોઝર વિન્ડો ને બંધ કરી શકાતી નથી જ્યાં સુધી "
+"સંપાદક સક્રિય હોય."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -16667,23 +16685,23 @@ msgstr "ઉમેદવારી ન થતા ફોલ્ડરો"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
-msgstr ""
+msgstr "ફોલ્ડર ટ્રીમાં તેની પર જમણી ક્લિક કરવા દ્દારા IMAP ફોલ્ડર માંથી ઉમેદવારી દૂર કરો."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "ઉમેદવારી દૂર કરો (_U)"
 
-#: ../plugins/google-account-setup/google-source.c:81
+#: ../plugins/google-account-setup/google-source.c:82
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:499
+#: ../plugins/google-account-setup/google-source.c:518
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr "ઉમેદવારી થયેલ કૅલેન્ડરોની યાદી ને દાખલ કરવા માટે વપરાશકર્તા %s માટે પાસવર્ડ ને દાખલ કરો."
 
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -16692,11 +16710,11 @@ msgstr ""
 "Google સર્વર માંથી માહિતી ને વાંચી શકાતી નથી.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:739
+#: ../plugins/google-account-setup/google-source.c:759
 msgid "Cal_endar:"
 msgstr "કેલેન્ડર (_e):"
 
-#: ../plugins/google-account-setup/google-source.c:774
+#: ../plugins/google-account-setup/google-source.c:794
 msgid "Retrieve _list"
 msgstr "યાદી ને મેળવી રહ્યા છે (_l)"
 
@@ -16895,15 +16913,13 @@ msgid "Do you want to resend the recurring meeting ?"
 msgstr "શું તમે ખરેખર આ મંત્રણા કાઢી નાંખવા માંગો છો?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to retract the original item ?"
 msgstr "શું તમને મૂળભૂત વસ્તુ પાછા મેળવવાની જરૂર છે?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
-#, fuzzy
 #| msgid "_Delete this item from all other recipient's mailboxes?"
 msgid "The original will be removed from the recipient's mailbox."
-msgstr "શું બાકીના બધા મેળવનારાઓના મેઈલબોક્સમાંથી આ વસ્તુને કાઢી નાંખવી છે (_D)?"
+msgstr "મૂળભૂત એ પ્રાપ્તકર્તાનાં મેઇલબોક્સમાંથી દૂર કરેલ હશે."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
 msgid "This is a recurring meeting"
@@ -17889,7 +17905,6 @@ msgid "_Memos:"
 msgstr "મેમોસ (_M):"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#| msgid "Displays text/calendar parts in messages."
 msgid "Display \"text/calendar\" MIME parts in mail messages."
 msgstr "મેઇલ સંદેશાઓમાં \"text/calendar\" MIME ભાગોને દર્શાવો"
 
@@ -18189,7 +18204,6 @@ msgid "Cannot open calendar. %s"
 msgstr "કેલેન્ડર ખોલી શકતા નથી. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:606
-#, fuzzy
 #| msgid ""
 #| "Selected source is read only, thus cannot create task there. Select other "
 #| "source, please."
@@ -18209,7 +18223,6 @@ msgstr ""
 "કરો, મહેરબાની કરીને."
 
 #: ../plugins/mail-to-task/mail-to-task.c:612
-#, fuzzy
 #| msgid ""
 #| "Selected source is read only, thus cannot create task there. Select other "
 #| "source, please."
@@ -18217,7 +18230,7 @@ msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
 msgstr ""
-"પસંદિત સ્રોત માત્ર વાંચી શકાય તેવો છે, આથી ત્યાં ક્રિયા બનાવી શકતા નથી. અન્ય સ્રોત પસંદ "
+"પસંદિત સ્રોત માત્ર વાંચી શકાય તેવો છે, આથી ત્યાં મેમો બનાવી શકતા નથી. અન્ય સ્રોત પસંદ "
 "કરો, મહેરબાની કરીને."
 
 #: ../plugins/mail-to-task/mail-to-task.c:821
@@ -18291,13 +18304,12 @@ msgid "Mailing _List"
 msgstr "મેઈલીંગ યાદી (_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-#, fuzzy
 #| msgid ""
 #| "Provide actions for common mailing list commands (subscribe, "
 #| "unsubscribe...)."
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
-"સામાન્ય મેઈલિંગ લીસ્ટ આદેશો માટે ક્રિયાઓ પૂરી પાડે છે (ઉમેદવારી નોંધાવો, ઉમેદવારી દૂર "
+"સામાન્ય મેઈલિંગ યાદી ક્રિયાઓને ચાલુ કરો પૂરી પાડે છે (ઉમેદવારી નોંધાવો, ઉમેદ, વગેરેી દૂર "
 "કરો...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
@@ -18883,10 +18895,9 @@ msgid "A_dvanced options for the CSV format"
 msgstr "CSV બંધારણ માટેના અદ્યતન વિકલ્પો (_d)"
 
 #: ../plugins/save-calendar/csv-format.c:530
-#, fuzzy
 #| msgid "Prepend a header"
 msgid "Prepend a _header"
-msgstr "હેડર મૂકો"
+msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:539
 msgid "_Value delimiter:"
@@ -18897,10 +18908,9 @@ msgid "_Record delimiter:"
 msgstr "રેકોર્ડ પૂર્ણ કરનાર (_R):"
 
 #: ../plugins/save-calendar/csv-format.c:553
-#, fuzzy
 #| msgid "Encapsulate values with:"
 msgid "_Encapsulate values with:"
-msgstr "ની સાથે કિંમતો સમાવો:"
+msgstr "ની સાથે કિંમતો સમાવો (_E):"
 
 #: ../plugins/save-calendar/csv-format.c:575
 msgid "Comma separated value format (.csv)"
@@ -18940,7 +18950,6 @@ msgid "Select destination file"
 msgstr "અંતિમ મુકામ ફાઈલ પસંદ કરો"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#| msgid "Selects a single calendar or task source for viewing."
 msgid "Quickly select a single calendar or task list for viewing."
 msgstr "જોવા માટે એક કેલેન્ડર અથવા દર્શાવવા માટે કાર્ય યાદીને તરત જ પસંદ કરો."
 
@@ -19015,14 +19024,13 @@ msgid "Please wait"
 msgstr "મહેરબાની કરીને રાહ જુઓ"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
-#, fuzzy
 #| msgid "Thread messages by subject"
 msgid "Sort mail message threads by subject."
-msgstr "વિષય અનુસાર સંદેશાઓ થ્રેડ કરો"
+msgstr "વિષય અનુસાર મેઇલ સંદેશ થ્રેડોને ક્રમમાં કરો."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
-msgstr "વિષય અનુસાર થ્રેડીંગ"
+msgstr "વિષય થ્રેડીંગ"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
@@ -19198,7 +19206,6 @@ msgstr ""
 "Evolution પાસવર્ડ ફાઈલમાંથી પ્રાપ્ત કરવામાં આવે છે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
-#| msgid "Insert Attachment"
 msgid "Initial attachment view"
 msgstr "પ્રારંભનું જોડાણ દૃશ્ય"
 
@@ -21937,7 +21944,6 @@ msgid "_Send To..."
 msgstr "ને મોકલો (_S)..."
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
-#| msgid "Select folder to save selected attachments..."
 msgid "Send the selected attachments somewhere"
 msgstr "અમુક જગ્યાએ પસંદ થયેલ જોડાણોને મોકલો"
 
