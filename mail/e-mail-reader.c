@@ -1864,27 +1864,28 @@ static void
 mail_reader_message_selected_cb (EMailReader *reader,
                                  const gchar *uid)
 {
+	GSource *source;
 	const gchar *key;
-	guint source_id;
-	gpointer data;
 
 	/* XXX This is kludgy, but we have no other place to store timeout
 	 * state information.  Addendum: See EAttachmentView for an example
 	 * of storing private data in an interface.  Clunky but works. */
 
 	key = "message-selected-timeout";
-	data = g_object_get_data (G_OBJECT (reader), key);
-	source_id = GPOINTER_TO_UINT (data);
 
-	if (source_id > 0)
-		g_source_remove (source_id);
+	source = g_timeout_source_new (100);
 
-	source_id = g_timeout_add (
-		100, (GSourceFunc)
-		mail_reader_message_selected_timeout_cb, reader);
+	g_source_set_priority (source, G_PRIORITY_DEFAULT);
 
-	data = GUINT_TO_POINTER (source_id);
-	g_object_set_data (G_OBJECT (reader), key, data);
+	g_source_set_callback (
+		source, (GSourceFunc)
+		mail_reader_message_selected_timeout_cb, reader, NULL);
+
+	g_object_set_data_full (
+		G_OBJECT (reader), key, source,
+		(GDestroyNotify) g_source_destroy);
+
+	g_source_attach (source, NULL);
 
 	e_mail_reader_changed (reader);
 }
