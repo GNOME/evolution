@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-15 16:15+0530\n"
+"PO-Revision-Date: 2009-09-15 16:20+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19074,7 +19074,7 @@ msgstr "ജാലകത്തിന്‍റെ ഡീഫോള്‍ട്ട�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window width"
-msgstr "ജാലകത്തിന്‍റെ ഡീഫോള്‍ട്ട് വീതി"
+msgstr "ജാലകത്തിന്റ് സ്വതവേയുള്ള വീതി"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
