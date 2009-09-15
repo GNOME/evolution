@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-13 11:48+0300\n"
-"PO-Revision-Date: 2009-02-10 16:15+0300\n"
+"POT-Creation-Date: 2009-09-15 11:15+0300\n"
+"PO-Revision-Date: 2009-09-15 11:30+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1610,14 +1610,16 @@ msgstr "_Valitse osoitekirja"
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s)?"
-msgstr "Haluatko varmasti\n"
+msgstr ""
+"Haluatko varmasti\n"
 "poistaa tämän yhteystietolistan (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
-msgstr "Haluatko varmasti\n"
+msgstr ""
+"Haluatko varmasti\n"
 "poistaa nämä yhteystietolistat?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
@@ -1625,14 +1627,16 @@ msgstr "Haluatko varmasti\n"
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s)?"
-msgstr "Haluatko varmasti\n"
+msgstr ""
+"Haluatko varmasti\n"
 "poistaa tämän yhteystiedon (%s)?"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
-msgstr "Haluatko varmasti\n"
+msgstr ""
+"Haluatko varmasti\n"
 "poistaa nämä yhteystiedot?"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
@@ -2583,6 +2587,7 @@ msgid "Error removing contact"
 msgstr "Virhe poistettaessa yhteystietoa"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:316
+#, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -3371,7 +3376,6 @@ msgstr[1] "minuuttia"
 #: ../plugins/calendar-weather/calendar-weather.c:524
 #: ../plugins/google-account-setup/google-source.c:741
 #: ../plugins/google-account-setup/google-contacts-source.c:331
-#, 
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "tunti"
@@ -3579,7 +3583,7 @@ msgstr "Varmista siivottaessa poistetut lopullisesti"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr ""
+msgstr "Uuden tapahtuman toistumiskertojen oletusmäärä - 1 tarkoittaa ikuisesti."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -5538,7 +5542,9 @@ msgstr "Muistilappu"
 
 #: ../calendar/gui/dialogs/memo-page.c:347
 msgid "Memo cannot be edited, because the selected memo list is read only"
-msgstr "Muistilappua ei voi muokata, koska valittu muistilappuluettelo on vain luettavissa"
+msgstr ""
+"Muistilappua ei voi muokata, koska valittu muistilappuluettelo on vain "
+"luettavissa"
 
 #: ../calendar/gui/dialogs/memo-page.c:351
 msgid "Memo cannot be fully edited, because you are not the organizer"
@@ -12278,6 +12284,8 @@ msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
+"Ota sivupalkin hakutoiminto käyttöön, jos haluat etsiä kansionimiä "
+"interaktiivisesti."
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid ""
@@ -12587,7 +12595,7 @@ msgstr "Kysy vahvistus merkittäessä useita viestejä"
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Lisää oma allekirjoitus vastauksen alkuun"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Put the cursor at the bottom of replies"
@@ -12631,27 +12639,27 @@ msgstr "Palvelimen synkronoinnin aikaväli"
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "Näytetäänkö \"Bcc\"-kenttä lähetettäessä sähköpostia"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "Näytetäänkö \"Cc\"-kenttä lähetettäessä sähköpostia"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Näytetäänkö \"From\"-kenttä lähetettäessä uutisryhmään"
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show \"From\" field when sending a mail message"
-msgstr ""
+msgstr "Näytetäänkö \"From\"-kenttä lähetettäessä sähköpostia"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Näytetäänkö \"Reply To\"-kenttä lähetettäessä uutisryhmään"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr ""
+msgstr "Näytetäänkö \"Reply To\"-kenttä lähetettäessä sähköpostia"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -12682,36 +12690,48 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Näytä \"Bcc\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Näytä \"Cc\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
+"Näytä \"From\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Näytä \"From\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
+"Näytä \"Reply To\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
+"Näytä \"Reply To\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
+"valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -12922,6 +12942,9 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Käyttäjät ovat välillä hyvin tarkkoja siitä, mihin kohdistimen tulisi mennä "
+"vastattaessa viestiin. Tämä asetus määrittää, viedäänkö kursori viestin alkuun "
+"vai loppuun."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -12929,6 +12952,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Käyttäjät ovat välillä hyvin tarkkoja siitä, mihin allekirjoitus tulisi lisätä "
+"vastattaessa viestiin. Tämä asetus määrittää, lisätäänkö se viestin alkuun "
+"vai loppuun."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13481,7 +13507,6 @@ msgid ""
 msgstr ""
 "Jos palvelin käyttää epästandardia porttia, voit määritellä palvelimen "
 "osoitteen muodossa \"palvelin:porttinumero\""
-
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -14922,6 +14947,8 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
+"Tässä kansiossa on vain piilotettuaj viestejä. Valitse Näytä-valikosta "
+"kohta Näytä piilotetut viestit, jos haluat nähdä ne."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -15061,7 +15088,7 @@ msgstr "Liitemuistuttaja"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
-msgstr ""
+msgstr "Muistuttaa, jos unohdit lisätä liitteen viestiin."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
@@ -15118,8 +15145,8 @@ msgid ""
 "settings, mail filters etc."
 msgstr ""
 "Voit palauttaa evolutionin varmuuskopioista. Näin pystyt palauttamaan kaikki "
-"sähköpostit, kalenterit, tehtävät, muistiot ja osoitekirjat. "
-"Palautus palauttaa myös kaikki asetukset, sähköpostisuotimet jne."
+"sähköpostit, kalenterit, tehtävät, muistiot ja osoitekirjat. Palautus "
+"palauttaa myös kaikki asetukset, sähköpostisuotimet jne."
 
 #: ../plugins/backup-restore/backup-restore.c:297
 msgid "_Restore Evolution from the backup file"
@@ -16641,7 +16668,8 @@ msgstr "Tarkista kansion oikeudet"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr "Käynnistä muokkain automaattisesti, kun nappia painetaa viestin muokkaimessa"
+msgstr ""
+"Käynnistä muokkain automaattisesti, kun nappia painetaa viestin muokkaimessa"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
@@ -16689,6 +16717,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"Ulkoinen muokkain on vielä käynnissä. Viestin lähetysikkunaa ei voi suljea "
+"ennen kuin ulkoinen muokkain on käynnissä."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -16754,6 +16784,7 @@ msgstr "Peru kansioiden tilauksia"
 msgid ""
 "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
 msgstr ""
+"Peru IMAP-kansio tilaus napsauttamalla kansiota oikealla napilla kansiopuussa."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -16805,7 +16836,7 @@ msgstr "Muistilista"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Add Novell GroupWise support to Evolution."
-msgstr ""
+msgstr "Lisää Novell GroupWise-tuki Evolutioniin."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
@@ -16990,13 +17021,15 @@ msgstr "Tämä on toistuva tapaaminen"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
-msgstr ""
+msgstr "Tämä luo uuden kokouksen käyttäen olemassaolevan kokouksen tietoja."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
 msgid ""
 "This will create a new meeting with the existing meeting details. The "
 "recurrence rule needs to be re-entered."
 msgstr ""
+"Tämä luo uuden kokouksen olemassaolevan kokouksen tiedoilla. Kokouksen "
+"toistuvuus-säännöt täytyy syöttää uudestaan."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
@@ -17227,11 +17260,11 @@ msgstr "Seuraa viestin tilaa..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "Add Hula support to Evolution."
-msgstr ""
+msgstr "Lisää Hula-tuki Evolutioniin."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Support"
-msgstr ""
+msgstr "Hula-tuki"
 
 #: ../plugins/imap-features/imap-headers.c:332
 msgid "Custom Headers"
@@ -17285,7 +17318,7 @@ msgstr "Nouda _kaikki otsakkeet"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "Fine-tune your IMAP accounts."
-msgstr ""
+msgstr "Hienosäädä IMAP-tilien asetuksia."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -18018,7 +18051,7 @@ msgstr "Poista tili käytöstä"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable an account by right-clicking on it in the folder tree."
-msgstr ""
+msgstr "Poista tili käytöstä napsauttamalla sitä kansiopuusta oikealla napilla."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
@@ -18183,6 +18216,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
+"Valittu kalenteri sisältää jo tapahtuman \"%s\". Haluatko muokata aiemmin "
+"lisättyä tapahtumaa?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
@@ -18190,6 +18225,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"Valittu tehtävälista sisältää jo tehtävän \"%s\". Haluatko muokata aiemmin "
+"lisättyä tehtävää?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
@@ -18197,24 +18234,32 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
+"Valittu muistalappulista sisältää jo muistilapun \"%s\". Haluatko muokata aiemmin "
+"lisättyä muistilappua?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
 msgstr ""
+"Valittu kalenteri sisältää jo joitain tapahtumia annetuista sähköposteista. "
+"Haluatko silti luoda uusia tapahtumia?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
 msgstr ""
+"Valittu tehtävälista sisältää jo joitain tehtäviä annetuista sähköposteista. "
+"Haluatko silti luoda uusia tehtäviä?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
 msgstr ""
+"Valittu muistilappulista sisältää jo joitain muistilappuja annetuista sähköposteista. "
+"Haluatko silti luoda uusia muistilappuja?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
@@ -18224,7 +18269,11 @@ msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
 msgstr[0] ""
+"Valittu kalenteri sisältää jo tapahtuman tälle sähköpostille. Haluatko silti "
+"luoda uuden tapahtuman?"
 msgstr[1] ""
+"Valittu kalenteri sisältää jo tapahtumia tälle sähköpostille. Haluatko silti "
+"luoda uudet tapahtumat?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:429
 msgid ""
@@ -18234,7 +18283,11 @@ msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
 msgstr[0] ""
+"Valittu tehtävälista sisältää jo tehtävän tälle sähköpostille. Haluatko silti "
+"luoda uuden tehtävän?"
 msgstr[1] ""
+"Valittu tehtäväluettelo sisältää jo tehtäviä tälle sähköpostille. Haluatko silti "
+"luoda uudet tehtävät?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid ""
@@ -18244,7 +18297,11 @@ msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
 msgstr[0] ""
+"Valittu muistilappuluettelo sisältää jo muistlapun tälle sähköpostille. Haluatko silti "
+"luoda uuden muistilapun?"
 msgstr[1] ""
+"Valittu muistilappuluettelo sisältää jo muistlappuja tälle sähköpostille. Haluatko silti "
+"luoda uudet muistilaput?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
@@ -18252,7 +18309,7 @@ msgstr "[Ei yhteenvetoa]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "Palvelin palautti virheellisen olion"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
 #, c-format
@@ -18539,7 +18596,7 @@ msgstr "Mono-lataaja"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Support plugins written in Mono."
-msgstr ""
+msgstr "Tuki Mono-kielellä kirjoitetuille lisäosille."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "Manage your Evolution plugins."
@@ -18592,7 +18649,7 @@ msgstr "Suosi raakatekstiä"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
-msgstr ""
+msgstr "Näytä viestit raakatekstinä, vaikka ne sisältäisivät HTML-sisältöä."
 
 #: ../plugins/prefer-plain/prefer-plain.c:189
 msgid "Show HTML if present"
@@ -18616,7 +18673,7 @@ msgstr "Evolutionin profiloija"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
-msgstr ""
+msgstr "Profiloi Evolutionin data-tapahtumia (vain kehittäjille)."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -18801,7 +18858,7 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-format-ical.c:82
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
-msgstr ""
+msgstr "Kalenteria ei voitu julkaista: kalenterin taustaohjelmaa ei enää ole olemassa"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:481
 msgid "New Location"
@@ -19117,7 +19174,7 @@ msgstr "Pohjiin perustuva mallilisäosa"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr ""
+msgstr "Pura Microsoft Outlookin lähettämät TNEF-liitteet (winmail.dat)."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Decoder"
@@ -19268,13 +19325,15 @@ msgstr "Tiedostovalitsimen oletuskansio"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "GtkFileChooser-ikkunoiden oletuskansio."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
+"Liitepalkin elementtien oletusnäkymä. \"0\" on kuvakenäkymä, \"1\" "
+"luettelonäkymä."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
@@ -23045,4 +23104,3 @@ msgstr "IM-konteksti"
 #: ../widgets/text/e-text.c:3774 ../widgets/text/e-text.c:3775
 msgid "Handle Popup"
 msgstr "Kahvan ponnahdusikkuna"
-
