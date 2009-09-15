@@ -22,7 +22,6 @@ ecalendarinclude_HEADERS =			\
 	e-cal-model.h				\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
-	e-comp-editor-registry.h		\
 	e-date-time-list.h                      \
 	e-day-view-layout.h			\
 	e-day-view-main-item.h			\
@@ -121,8 +120,6 @@ libevolution_calendar_la_SOURCES = \
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
-	e-comp-editor-registry.c		\
-	e-comp-editor-registry.h		\
 	e-date-time-list.c			\
 	e-date-time-list.h			\
 	e-day-view-layout.c			\

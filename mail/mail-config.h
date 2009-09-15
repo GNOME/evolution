@@ -70,12 +70,10 @@ typedef enum {
 void mail_config_init (void);
 void mail_config_clear (void);
 void mail_config_write (void);
-void mail_config_write_on_exit (void);
 
 GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
-const gchar **mail_config_get_allowable_mime_types (void);
 
 void mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd);
 
@@ -84,8 +82,6 @@ EAccount *mail_config_get_account_by_source_url (const gchar *url);
 EAccount *mail_config_get_account_by_transport_url (const gchar *url);
 
 gint mail_config_get_address_count (void);
-gint mail_config_get_message_limit (void);
-gboolean mail_config_get_enable_magic_spacebar (void);
 
 EAccountService  *mail_config_get_default_transport (void);
 
@@ -96,8 +92,6 @@ void mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri);
 /* static utility functions */
 gchar *mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix);
 gchar *mail_config_folder_to_safe_url (CamelFolder *folder);
-guint mail_config_get_error_timeout  (void);
-guint mail_config_get_error_level  (void);
 
 gint mail_config_get_sync_timeout (void);
 

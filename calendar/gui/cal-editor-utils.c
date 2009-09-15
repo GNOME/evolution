@@ -26,12 +26,9 @@
 
 #include "cal-editor-utils.h"
 
-#include "e-comp-editor-registry.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "dialogs/memo-editor.h"
-
-extern ECompEditorRegistry *comp_editor_registry;
 
 /**
  * open_component_editor:

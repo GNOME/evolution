@@ -121,11 +121,6 @@ gchar *		e_ascii_dtostr			(gchar *buffer,
 						 const gchar *format,
 						 gdouble d);
 
-/* Alternating gchar * and gint arguments with a NULL gchar * to end.
-   Less than 0 for the gint means copy the whole string. */
-gchar *		e_strdup_append_strings		(gchar *first_string,
-						 ...);
-
 cairo_font_options_t *
 		get_font_options		(void);
 

@@ -45,7 +45,6 @@
 #include "control-factory.h"
 #include "gnome-cal.h"
 #include "migration.h"
-#include "e-comp-editor-registry.h"
 #include "comp-util.h"
 #include "common/authentication.h"
 #include "dialogs/calendar-setup.h"

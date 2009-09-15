@@ -1180,59 +1180,6 @@ e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
 	return buffer;
 }
 
-gchar *
-e_strdup_append_strings (gchar *first_string, ...)
-{
-	gchar *buffer;
-	gchar *current;
-	gint length;
-	va_list args1;
-	va_list args2;
-	gchar *v_string;
-	gint v_int;
-
-	va_start (args1, first_string);
-	G_VA_COPY (args2, args1);
-
-	length = 0;
-
-	v_string = first_string;
-	while (v_string) {
-		v_int = va_arg (args1, gint);
-		if (v_int >= 0)
-			length += v_int;
-		else
-			length += strlen (v_string);
-		v_string = va_arg (args1, gchar *);
-	}
-
-	buffer  = g_new (gchar, length + 1);
-	current = buffer;
-
-	v_string = first_string;
-	while (v_string) {
-		v_int = va_arg (args2, gint);
-		if (v_int < 0) {
-			gint i;
-			for (i = 0; v_string[i]; i++) {
-				*(current++) = v_string[i];
-			}
-		} else {
-			gint i;
-			for (i = 0; v_string[i] && i < v_int; i++) {
-				*(current++) = v_string[i];
-			}
-		}
-		v_string = va_arg (args2, gchar *);
-	}
-	*(current++) = 0;
-
-	va_end (args1);
-	va_end (args2);
-
-	return buffer;
-}
-
 /* font options cache */
 static gchar *fo_antialiasing = NULL, *fo_hinting = NULL, *fo_subpixel_order = NULL;
 static GStaticMutex fo_lock = G_STATIC_MUTEX_INIT;

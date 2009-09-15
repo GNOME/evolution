@@ -49,7 +49,6 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "shell/e-shell.h"
-#include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
 #include "comp-util.h"

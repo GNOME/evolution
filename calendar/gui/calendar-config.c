@@ -144,18 +144,6 @@ calendar_config_set_calendars_selected (GSList *selected)
 	gconf_client_set_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, selected, NULL);
 }
 
-guint
-calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SELECTED_CALENDARS, func, data, NULL, NULL);
-
-	return id;
-}
-
 static gchar *
 calendar_config_get_timezone_stored (void)
 {
@@ -307,18 +295,6 @@ calendar_config_set_time_divisions	(gint	      divisions)
 	gconf_client_set_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, divisions, NULL);
 }
 
-guint
-calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIME_DIVISIONS, func, data, NULL, NULL);
-
-	return id;
-}
-
 /* Scroll in a month view by a week, not by a month */
 gboolean
 calendar_config_get_month_scroll_by_week (void)
@@ -344,27 +320,6 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, func, data, NULL, NULL);
-
-	return id;
-}
-
-/* Whether we show week numbers in the Date Navigator. */
-gboolean
-calendar_config_get_dnav_show_week_no	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, NULL);
-}
-
-guint
-calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS, func, data, NULL, NULL);
 
 	return id;
 }
@@ -403,18 +358,6 @@ calendar_config_set_tasks_selected (GSList *selected)
 	gconf_client_set_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, selected, NULL);
 }
 
-guint
-calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, func, data, NULL, NULL);
-
-	return id;
-}
-
 /***************************************/
 
 /* The current list of memo lists selected */
@@ -432,18 +375,6 @@ calendar_config_set_memos_selected (GSList *selected)
 	calendar_config_init ();
 
 	gconf_client_set_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, selected, NULL);
-}
-
-guint
-calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, func, data, NULL, NULL);
-
-	return id;
 }
 
 /***************************************/
@@ -464,18 +395,6 @@ calendar_config_get_working_days	(void)
 	calendar_config_init ();
 
 	return gconf_client_get_int (config, CALENDAR_CONFIG_WORKING_DAYS, NULL);
-}
-
-guint
-calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_WORKING_DAYS , func, data, NULL, NULL);
-
-	return id;
 }
 
 /* Settings to hide completed tasks. */

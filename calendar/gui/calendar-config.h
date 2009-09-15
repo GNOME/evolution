@@ -64,14 +64,12 @@ void calendar_config_remove_notification (guint id);
 /* The current list of calendars selected */
 GSList   *calendar_config_get_calendars_selected (void);
 void	  calendar_config_set_calendars_selected (GSList *selected);
-guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The current timezone, e.g. "Europe/London". */
 icaltimezone *calendar_config_get_icaltimezone (void);
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
-guint calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpointer data);
 
 /* The start day of the week (0 = Sun to 6 = Sat). */
 gint	  calendar_config_get_week_start_day	(void);
@@ -95,14 +93,9 @@ gboolean  calendar_config_get_24_hour_format	(void);
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
 gint	  calendar_config_get_time_divisions	(void);
 void	  calendar_config_set_time_divisions	(gint	      divisions);
-guint calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we compress the weekend in the week/month views. */
 gboolean  calendar_config_get_compress_weekend	(void);
-
-/* Whether we show week numbers in the Date Navigator. */
-gboolean  calendar_config_get_dnav_show_week_no	(void);
-guint calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data);
 
 /* The positions of the panes in the normal and month views. */
 void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
@@ -112,12 +105,10 @@ void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 /* The current list of task lists selected */
 GSList   *calendar_config_get_tasks_selected (void);
 void	  calendar_config_set_tasks_selected (GSList *selected);
-guint	  calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* The current list of memo lists selected */
 GSList   *calendar_config_get_memos_selected (void);
 void	  calendar_config_set_memos_selected (GSList *selected);
-guint	  calendar_config_add_notification_memos_selected (GConfClientNotifyFunc func, gpointer data);
 
 /* Settings to hide completed tasks. */
 gboolean  calendar_config_get_hide_completed_tasks	(void);

@@ -52,7 +52,6 @@ libetable_la_SOURCES = 				\
 	e-table-scrolled.c			\
 	e-table-search.c			\
 	e-table-selection-model.c		\
-	e-table-simple.c			\
 	e-table-sort-info.c			\
 	e-table-sorted.c			\
 	e-table-sorted-variable.c		\
@@ -133,7 +132,6 @@ libetableinclude_HEADERS = 			\
 	e-table-scrolled.h			\
 	e-table-search.h			\
 	e-table-selection-model.h		\
-	e-table-simple.h			\
 	e-table-sort-info.h			\
 	e-table-sorted.h			\
 	e-table-sorted-variable.h		\

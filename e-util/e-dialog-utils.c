@@ -122,49 +122,6 @@ e_file_dialog_save (const gchar *title, const gchar *fname)
 	return filename;
 }
 
-static void
-save_folder_ok (GtkWidget *widget, gpointer data)
-{
-	GtkWidget *fs;
-	gchar **filename = data;
-	gchar *uri;
-
-	fs = gtk_widget_get_toplevel (widget);
-	uri = gtk_file_chooser_get_current_folder_uri (GTK_FILE_CHOOSER (fs));
-
-	e_file_update_save_path(uri, FALSE);
-	*filename = uri;
-
-	gtk_main_quit ();
-}
-
-static void
-folderchooser_response (GtkWidget *fc, gint response_id, gpointer data)
-{
-	if (response_id == GTK_RESPONSE_OK)
-		save_folder_ok (fc, data);
-	else
-		gtk_widget_destroy (fc);
-}
-
-gchar *
-e_file_dialog_save_folder (const gchar *title)
-{
-	GtkWidget *selection;
-	gchar *filename = NULL;
-
-	selection = e_file_get_save_filesel(NULL, title, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (folderchooser_response), &filename);
-
-	gtk_widget_show (GTK_WIDGET (selection));
-	gtk_grab_add (GTK_WIDGET (selection));
-	gtk_main ();
-
-	gtk_widget_destroy (GTK_WIDGET (selection));
-
-	return filename;
-}
-
 /**
  * e_file_get_save_filesel:
  * @parent: parent window

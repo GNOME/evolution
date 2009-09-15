@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include <camel/camel-folder-thread.h>
 
-#include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>
 
 #include <camel/camel-folder.h>

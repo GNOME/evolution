@@ -59,7 +59,6 @@ gboolean   e_bit_array_value_at            (EBitArray    *selection,
 void       e_bit_array_foreach             (EBitArray    *selection,
 					    EForeachFunc  callback,
 					    gpointer      closure);
-void       e_bit_array_clear               (EBitArray    *selection);
 gint       e_bit_array_selected_count      (EBitArray    *selection);
 void       e_bit_array_select_all          (EBitArray    *selection);
 void       e_bit_array_invert_selection    (EBitArray    *selection);
@@ -88,9 +87,6 @@ void       e_bit_array_delete_single_mode  (EBitArray    *esm,
 void       e_bit_array_move_row            (EBitArray    *esm,
 					    gint           old_row,
 					    gint           new_row);
-
-gboolean   e_bit_array_cross_and           (EBitArray    *esm);
-gboolean   e_bit_array_cross_or            (EBitArray    *esm);
 
 G_END_DECLS
 

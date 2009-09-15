@@ -75,13 +75,6 @@ typedef struct {
 
 	gboolean address_compress;
 	gint address_count;
-	gboolean mlimit;
-	gint mlimit_size;
-	gboolean magic_spacebar;
-	guint error_time;
-	guint error_level;
-
-	GPtrArray *mime_types;
 
 	GSList *jh_header;
 	gboolean jh_check;
@@ -93,34 +86,6 @@ typedef struct {
 extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
-static guint config_write_timeout = 0;
-
-static void
-config_clear_mime_types (void)
-{
-	gint i;
-
-	for (i = 0; i < config->mime_types->len; i++)
-		g_free (config->mime_types->pdata[i]);
-
-	g_ptr_array_set_size (config->mime_types, 0);
-}
-
-static void
-config_cache_mime_types (void)
-{
-	GSList *n, *nn;
-
-	n = gconf_client_get_list (config->gconf, "/apps/evolution/mail/display/mime_types", GCONF_VALUE_STRING, NULL);
-	while (n != NULL) {
-		nn = n->next;
-		g_ptr_array_add (config->mime_types, n->data);
-		g_slist_free_1 (n);
-		n = nn;
-	}
-
-	g_ptr_array_add (config->mime_types, NULL);
-}
 
 static void
 config_write_style (void)
@@ -287,14 +252,6 @@ gconf_int_value_changed (GConfClient *client,
 	}
 }
 
-static void
-gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
-                          GConfEntry *entry, gpointer user_data)
-{
-	config_clear_mime_types ();
-	config_cache_mime_types ();
-}
-
 /* Config struct routines */
 void
 mail_config_init (void)
@@ -307,7 +264,6 @@ mail_config_init (void)
 
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
-	config->mime_types = g_ptr_array_new ();
 	config->gtkrc = g_build_filename (
 		e_get_user_data_dir (), "mail",
 		"config", "gtkrc-mail-fonts", NULL);
@@ -360,46 +316,6 @@ mail_config_init (void)
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
 
-	key = "/apps/evolution/mail/display/error_timeout";
-	func = (GConfClientNotifyFunc) gconf_int_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->error_time, NULL, NULL);
-	config->error_time =
-		gconf_client_get_int (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/error_level";
-	func = (GConfClientNotifyFunc) gconf_int_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->error_level, NULL, NULL);
-	config->error_level =
-		gconf_client_get_int (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/force_message_limit";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->mlimit, NULL, NULL);
-	config->mlimit =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/message_text_part_limit";
-	func = (GConfClientNotifyFunc) gconf_int_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->mlimit_size, NULL, NULL);
-	config->mlimit_size =
-		gconf_client_get_int (config->gconf, key, NULL);
-
-	key = "/apps/evolution/mail/display/magic_spacebar";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		config->gconf, key, func,
-		&config->magic_spacebar, NULL, NULL);
-	config->magic_spacebar =
-		gconf_client_get_bool (config->gconf, key, NULL);
-
 	key = "/apps/evolution/mail/display/mark_citations";
 	func = (GConfClientNotifyFunc) gconf_style_changed;
 	gconf_client_notify_add (
@@ -415,19 +331,6 @@ mail_config_init (void)
 	func = (GConfClientNotifyFunc) gconf_style_changed;
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
-
-	/* MIME Type Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, "/apps/evolution/mail/mime_types",
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/mime_types";
-	func = (GConfClientNotifyFunc) gconf_mime_types_changed,
-	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
-
-	config_cache_mime_types ();
 
 	/* Junk Configuration */
 
@@ -479,8 +382,6 @@ mail_config_clear (void)
 {
 	if (!config)
 		return;
-
-	config_clear_mime_types ();
 }
 
 void
@@ -501,77 +402,6 @@ mail_config_write (void)
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
-void
-mail_config_write_on_exit (void)
-{
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iter;
-
-	if (config_write_timeout) {
-		g_source_remove (config_write_timeout);
-		config_write_timeout = 0;
-		mail_config_write ();
-	}
-
-	/* Passwords */
-
-	/* then we make sure the ones we want to remember are in the
-           session cache */
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) account_list);
-	while (e_iterator_is_valid (iter)) {
-		gchar *passwd;
-
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (account->source->save_passwd && account->source->url && account->source->url[0]) {
-			passwd = mail_session_get_password (account->source->url);
-			mail_session_forget_password (account->source->url);
-			mail_session_add_password (account->source->url, passwd);
-			g_free (passwd);
-		}
-
-		if (account->transport->save_passwd && account->transport->url && account->transport->url[0]) {
-			passwd = mail_session_get_password (account->transport->url);
-			mail_session_forget_password (account->transport->url);
-			mail_session_add_password (account->transport->url, passwd);
-			g_free (passwd);
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	/* then we clear out our component passwords */
-	e_passwords_clear_passwords ("Mail");
-
-	/* then we remember them */
-	iter = e_list_get_iterator ((EList *) account_list);
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-
-		if (account->source->save_passwd && account->source->url && account->source->url[0])
-			mail_session_remember_password (account->source->url);
-
-		if (account->transport->save_passwd && account->transport->url && account->transport->url[0])
-			mail_session_remember_password (account->transport->url);
-
-		e_iterator_next (iter);
-	}
-
-	/* now do cleanup */
-	mail_config_clear ();
-
-	g_object_unref (config->gconf);
-	g_ptr_array_free (config->mime_types, TRUE);
-
-	g_free (config->gtkrc);
-
-	g_free (config);
-}
-
 /* Accessor functions */
 GConfClient *
 mail_config_get_gconf_client (void)
@@ -589,33 +419,6 @@ mail_config_get_address_count (void)
 		return -1;
 
 	return config->address_count;
-}
-
-guint
-mail_config_get_error_timeout  (void)
-{
-	if (!config)
-		mail_config_init ();
-
-	return config->error_time;
-}
-
-guint
-mail_config_get_error_level  (void)
-{
-	if (!config)
-		mail_config_init ();
-
-	return config->error_level;
-}
-
-gint
-mail_config_get_message_limit (void)
-{
-	if (!config->mlimit)
-		return -1;
-
-	return config->mlimit_size;
 }
 
 /* timeout interval, in seconds, when to call server update */
@@ -641,18 +444,6 @@ mail_config_get_sync_timeout (void)
 	}
 
 	return res;
-}
-
-gboolean
-mail_config_get_enable_magic_spacebar ()
-{
-	return config->magic_spacebar;
-}
-
-const gchar **
-mail_config_get_allowable_mime_types (void)
-{
-	return (const gchar **) config->mime_types->pdata;
 }
 
 static EAccount *

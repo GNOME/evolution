@@ -32,8 +32,6 @@ void  e_notice                       (gpointer         parent,
 
 gchar *e_file_dialog_save             (const gchar      *title, const gchar *fname);
 
-gchar *e_file_dialog_save_folder	     (const gchar      *title);
-
 GtkWidget * e_file_get_save_filesel (GtkWindow *parent, const gchar *title, const gchar *name, GtkFileChooserAction action);
 
 gboolean e_file_can_save(GtkWindow *parent, const gchar *uri);

@@ -202,20 +202,6 @@ e_bit_array_foreach (EBitArray *eba,
 	}
 }
 
-/**
- * e_selection_model_clear
- * @selection: #EBitArray to clear
- *
- * This routine clears the selection to no rows selected.
- */
-void
-e_bit_array_clear(EBitArray *eba)
-{
-	g_free(eba->data);
-	eba->data = NULL;
-	eba->bit_count = 0;
-}
-
 #define PART(x,n) (((x) & (0x01010101 << n)) >> n)
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
@@ -309,32 +295,6 @@ gint
 e_bit_array_bit_count (EBitArray *eba)
 {
 	return eba->bit_count;
-}
-
-gboolean
-e_bit_array_cross_and           (EBitArray    *eba)
-{
-	gint i;
-	for (i = 0; i < eba->bit_count / 32; i++) {
-		if (eba->data[i] != ONES)
-			return FALSE;
-	}
-	if ((eba->bit_count % 32) && ((eba->data[i] & BITMASK_LEFT(eba->bit_count)) != BITMASK_LEFT(eba->bit_count)))
-		return FALSE;
-	return TRUE;
-}
-
-gboolean
-e_bit_array_cross_or            (EBitArray    *eba)
-{
-	gint i;
-	for (i = 0; i < eba->bit_count / 32; i++) {
-		if (eba->data[i] != 0)
-			return TRUE;
-	}
-	if ((eba->bit_count % 32) && ((eba->data[i] & BITMASK_LEFT(eba->bit_count)) != 0))
-		return TRUE;
-	return FALSE;
 }
 
 #define OPERATE(object, i,mask,grow) ((grow) ? (((object)->data[(i)]) |= ((guint32) ~(mask))) : (((object)->data[(i)]) &= (mask)))

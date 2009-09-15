@@ -29,13 +29,6 @@
 
 typedef struct {
 	ETextModel *model;
-	gint change;  /* Relative change to position. */
-} EReposShift;
-
-gint e_repos_shift (gint pos, gpointer data);
-
-typedef struct {
-	ETextModel *model;
 	gint pos;  /* Position to move to.  Negative values count from the end buffer.
 		      (i.e. -1 puts cursor at the end, -2 one character from end, etc.) */
 } EReposAbsolute;
@@ -57,10 +50,5 @@ typedef struct {
 } EReposDeleteShift;
 
 gint e_repos_delete_shift (gint pos, gpointer data);
-
-/* For e_repos_clamp, data is a pointer to an ETextModel.  The only repositioning
-   that occurs is to avoid buffer overruns. */
-
-gint e_repos_clamp (gint pos, gpointer data);
 
 #endif
