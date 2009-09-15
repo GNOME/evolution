@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-08-28 13:23+0000\n"
-"PO-Revision-Date: 2009-09-13 21:57+0530\n"
+"PO-Revision-Date: 2009-09-15 16:15+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -385,6 +385,9 @@ msgid ""
 "Evolution. Please use some other GroupWise mail client once to get your "
 "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
+"നിലവില്‍ നിങ്ങള്‍ക്കു് ഇവല്യൂഷനില്‍ നിന്നും ഗ്രൂപ്പനുസരിച്ചുള്ള വിലാസ പുസ്തകം മാത്രമേ "
+"ലഭ്യമാക്കുവാന്‍ സാധിക്കൂ.  നിങ്ങളുടെ ഗ്രൂപ്പനുസരിച്ചുള്ള വിലാസങ്ങളും സ്വകാര്യ ബന്ധങ്ങളും "
+"ലഭിക്കുന്നതിനായി ദയവായി മറ്റേതെങ്കിലും ഗ്രൂപ്പനുസരിച്ചുള്ള മെയിന്‍ ക്ലൈന്റുപയോഗിക്കുക."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -497,6 +500,9 @@ msgid ""
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr ""
+"പിന്തുണയില്ലാത്ത ഗ്രൂപ്പനുസരിച്ചുള്ള സര്‍വറിലേക്ക് നിങ്ങള്‍ കണക്ട് ചെയ്യുന്നു, അതിനാല്‍ "
+"ഇവല്യൂഷനുമായി പ്രശ്നങ്ങളുമുണ്ടാവാം. ശരിയായ ഫലങ്ങള്‍ക്കായി സര്‍വര്‍ പിന്തുണയുള്ള "
+"പതിപ്പിലേക്ക് പരിഷ്കരിക്കുക."
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
@@ -717,6 +723,9 @@ msgid ""
 "TLS. This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits."
 msgstr ""
+"ഈ ഉപാധി തെരഞ്ഞെടുത്തതിനര്‍ത്ഥം, നിങ്ങളുടെ സര്‍വര്‍ SSL അല്ലെങ്കില്‍ TLS "
+"പിന്തുണ ചെയ്യുന്നില്ലെന്നാണു്. ഇതിനര്‍ത്ഥം, നിങ്ങളുടെ കണക്ഷന്‍ "
+"സുരക്ഷിതല്ലെന്നാണു്."
 
 #: ../addressbook/gui/component/addressbook-config.c:346
 msgid "Base"
@@ -758,6 +767,10 @@ msgid ""
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
 msgstr ""
+"നിങ്ങള്‍ക്കു് ഡയറക്ടറി ട്രീയില്‍ എത്ര മാത്രം തെരച്ചില്‍ നടത്തണമെന്നുള്ളതു് "
+"ഈ തെരച്ചില്‍ നിശ്ചയിക്കുന്നു. \"sub\" തെരച്ചിലില്‍ നിങ്ങളുടെ തെരച്ചില്‍ ബെയിസിലുള്ള "
+"എല്ലാ എന്‍ട്രികളും ഉള്‍പ്പെടുന്നു. \"one\"-ല്‍ നിങ്ങളുടെ ബെയിസിനു് താഴെയുള്ള എന്‍ട്രികള്‍ "
+"ഉള്‍പ്പെടുന്നു."
 
 #: ../addressbook/gui/component/addressbook-config.c:1020
 #: ../addressbook/gui/component/ldap-config.glade.h:17
@@ -862,6 +875,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
+"ഇവല്യൂഷന്റെ പാം സിന്‍ക് ചെയിഞ്ച്ലോഗും മാപ്പ് ഫയലുകളും മാറിയിരിക്കുന്നു\n"
+"\n"
+"ദയവായി നിങ്ങളുടെ പൈലറ്റ് സിന്‍ക് ഡേറ്റാ ഇവല്യൂഷന്‍ മറ്റൊരിടത്തേക്കു് നീക്കുന്നതു് വരെ കാത്തിരിക്കുക..."
 
 #: ../addressbook/gui/component/addressbook-view.c:422
 #: ../mail/em-folder-utils.c:453
@@ -959,10 +975,12 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
+"കുറുകെയുള്ള പെയിനിന്റെ സ്ഥാനം, കാര്‍ഡ്, ലിസ്റ്റ് കാഴ്ചകള്‍ക്കും തിരനോട്ടം പെയിനിനുമിടയില്‍, "
+"പിക്സലുകളില്‍."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:5
 msgid "Show autocompleted name with an address"
-msgstr ""
+msgstr "ഒരു വിലാസത്തിനൊപ്പം സ്വയം പൂര്‍ത്തിയാകുന്ന പേരു് കാണിക്കുക."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:6
 msgid "Show preview pane"
@@ -992,6 +1010,8 @@ msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
 msgstr ""
+"എന്‍ട്രിയില്‍ സ്വയം പൂര്‍ത്തിയാകുന്ന ബന്ധത്തിനൊപ്പം മെയില്‍ വിലാസം നിര്‍ബന്ധമായും "
+"ചേര്‍ക്കണമോ എന്നു്."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
@@ -1003,7 +1023,7 @@ msgstr "തനിയെ പൂര്‍ത്തീകരിക്കുക"
 
 #: ../addressbook/gui/component/autocompletion-config.c:177
 msgid "Always _show address of the autocompleted contact"
-msgstr ""
+msgstr "സ്വയം പൂര്‍ത്തായികുന്ന ബന്ധത്തിന്റെ വിലാസം എപ്പോഴും _കാണിക്കുക"
 
 #: ../addressbook/gui/component/autocompletion-config.c:182
 #| msgid "Date/Time"
@@ -1064,7 +1084,7 @@ msgstr ""
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "B_rowse this book until limit reached"
-msgstr ""
+msgstr "പരിധിയെത്തുന്നതു് വരം ഈ പുസ്തകം പ_രതുക"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Evolution will use this email address to authenticate you with the server."
@@ -1091,6 +1111,9 @@ msgid ""
 "TLS encryption\n"
 "No encryption"
 msgstr ""
+"SSL എന്‍ക്രിപ്ഷന്‍\n"
+"TLS എന്‍ക്രിപ്ഷന്‍\n"
+"എന്‍ക്രിപ്ഷന്‍ ലഭ്യമല്ല"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "Search Filter"
@@ -1109,6 +1132,8 @@ msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
 msgstr ""
+"തെരയുവാനുള്ള തരത്തിലുള്ള ഒബ്ജക്ടാണു് തെരച്ചില്‍ ഫില്‍‌റ്റര്‍. ഇതു് മാറ്റിയില്ലെങ്കില്‍, "
+"\"വ്യക്തി\" തരത്തില്‍‍ സ്വതവേയുള്ള തെരച്ചില്‍ നടത്തുന്നു."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Supported Search Bases"
@@ -1120,6 +1145,9 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
+"നിങ്ങളുടെ തെരച്ചിലുകള്‍ ആരംഭിക്കുന്ന എന്‍ട്രിയുടെ ‍ഡിസ്റ്റിന്‍ക്വിഷ്ഡ് നെയിം (DN) "
+"ആണു് തെരച്ചില്‍ ബെയിസ്. നിങ്ങളിതു് ശൂന്യമായി ഉപേക്ഷിച്ചാല്‍, ഡയറക്ടറി ട്രീയുടെ "
+"ആരംഭത്തില്‍ തെരച്ചില്‍ തുടങ്ങുന്നു."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
@@ -1610,6 +1638,12 @@ msgid ""
 "Miss\n"
 "Dr."
 msgstr ""
+"\n"
+"ശ്രീ.\n"
+"ശ്രീമതി.\n"
+"ശ്രീമതി.\n"
+"ശ്രീമതി\n"
+"ഡോ."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid ""
@@ -1621,6 +1655,13 @@ msgid ""
 "III\n"
 "Esq."
 msgstr ""
+"\n"
+"സീനിയര്‍.\n"
+"ജൂണിയര്‍.\n"
+"I\n"
+"II\n"
+"III\n"
+"Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
@@ -2442,6 +2483,10 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
+"ഈ വിലാസപുസ്തകം തുറക്കുവാന്‍ സാധ്യമല്ല. ഇതിനര്‍ത്ഥം, ഈ പുസ്തകം ഓഫ്‌ലൈന്‍ "
+"ഉപയോഗത്തിനു് ലഭ്യമല്ല അല്ലെങ്കില്‍ ഓഫ്‌ലൈന്‍ ഉപയോഗത്തിനായി ഡൌണ്‍ലോട് "
+"ചെയ്തിട്ടില്ല. ദയവായി ഓണ്‍ലൈന്‍ മോഡില്‍ ഒരിക്കല്‍ ഈ വിലാസപുസ്തകം ലഭ്യമാക്കി "
+"അതിലുള്ളവ ഡൌണ്‍ലോട് ചെയ്യുക."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:119
 #, c-format
@@ -2864,7 +2909,7 @@ msgstr "ഈ ജോലി നിങ്ങള്‍ക്ക് നീക്കം
 
 #: ../calendar/calendar.error.xml.h:25
 msgid "Are you sure you want to save the memo without a summary?"
-msgstr ""
+msgstr "നിങ്ങള്‍ക്കു് മെമ്മോ സമ്മറിയില്ലാതെ സൂക്ഷിക്കണമെന്നുറപ്പാണോ?"
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to send the appointment without a summary?"
@@ -3103,6 +3148,9 @@ msgid ""
 "problems using Evolution. For best results, the server should be upgraded to "
 "a supported version."
 msgstr ""
+"പിന്തുണയില്ലാത്ത ഗ്രൂപ്പനുസരിച്ചുള്ള സര്‍വറിലേക്ക് നിങ്ങള്‍ കണക്ട് ചെയ്യുന്നു, അതിനാല്‍ "
+"ഇവല്യൂഷനുമായി പ്രശ്നങ്ങളുമുണ്ടാവാം. ശരിയായ ഫലങ്ങള്‍ക്കായി സര്‍വര്‍ പിന്തുണയുള്ള "
+"പതിപ്പിലേക്ക് പരിഷ്കരിക്കുക."
 
 #: ../calendar/calendar.error.xml.h:79
 msgid "You have changed this appointment, but not yet saved it."
@@ -3157,7 +3205,7 @@ msgstr "{0}."
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:248
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "മള്‍ട്ടി-ഡേ സംഭവങ്ങള്‍ വേര്‍പെടുത്തുക:"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1513
 #: ../calendar/conduits/calendar/calendar-conduit.c:1514
@@ -3222,7 +3270,7 @@ msgstr "Evolution കലണ്ടര്‍ കോണ്‍ഫിഗറേഷന�
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "സന്ദേശ ദര്‍ശിനി ചിട്ടപ്പെടുത്തുന്ന ഇവല്യൂഷന്‍ കലണ്ടര്‍"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
@@ -3456,7 +3504,7 @@ msgstr "അലാറമിനുളള പ്രോഗ്രാമുകള്�
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:2
 #: ../mail/evolution-mail.schemas.in.h:6
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "സ്റ്റേറ്റസ് ബാറില്‍ പിശക് കാണിക്കുവാനുള്ള സമയം സെക്കന്‍ഡുകളില്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:3
 msgid "Ask for confirmation when deleting items"
@@ -3476,7 +3524,7 @@ msgstr "അലാറമുകള്‍ക്കുളള കലണ്ടര്�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Check this to use system timezone in Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനില്‍ സിസ്റ്റത്തില്‍ സമയമേഘല ഉപയോഗിക്കുന്നതിനായി ഇതു് പരിശോധിക്കുക."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
@@ -3529,7 +3577,7 @@ msgstr "ഇവന്‍റ് ഗ്രേഡിയന്‍റ്"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:20
 msgid "Event Transparency"
-msgstr ""
+msgstr "സംഭവ സാതുര്യത"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:21
 msgid "Free/busy server URLs"
@@ -3541,7 +3589,7 @@ msgstr "ഫ്രീ/തിരക്കിലുളള ടെംപ്ളേറ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:23
 msgid "Gradient of the events in calendar views."
-msgstr ""
+msgstr "കലണ്ടര്‍ കാഴ്ചകളില്‍ ഇവന്റുകളുടെ ഗ്രേഡിയന്റ്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:24
 msgid "Hide completed tasks"
@@ -3578,7 +3626,7 @@ msgstr "അവസാനം അലാറം അടിച്ച സമയം"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:32
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid "Level beyond which the message should be logged."
-msgstr ""
+msgstr "സന്ദേശം ലോഗ് ചെയ്യേണ്ട പരിധി."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:33
 msgid "List of recently used second time zones in a Day View."
@@ -3608,7 +3656,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:39
 msgid "Maximum number of recently used timezones to remember."
-msgstr ""
+msgstr "ഏറ്റവും ഒടുവില്‍ ഉപയോഗിച്ച സമയമേഘലകളുടെ എണ്ണം."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:40
 msgid "Minute the workday ends on, 0 to 59."
@@ -3620,11 +3668,11 @@ msgstr "ജോലിയുളള ദിവസങ്ങള്‍ ആരംഭി�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
 msgid "Month view horizontal pane position"
-msgstr ""
+msgstr "മാസ കാഴ്ചയ്ക്കുള്ള നേരെയുള്ള പെയിന്‍ സ്ഥാനം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:43
 msgid "Month view vertical pane position"
-msgstr ""
+msgstr "മാസ കാഴ്ചയ്ക്കുള്ള കുറുകെയുള്ള പെയിന്‍ സ്ഥാനം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:44
 msgid "Number of units for determining a default reminder."
@@ -3643,24 +3691,32 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
+"നേരെയുള്ള പെയിനിന്റെ സ്ഥാനം, മാസ കാഴ്ചയിലല്ലാത്ത ടാസ്ക് ലിസ്റ്റിനും കലണ്ടറിനുമിടയില്‍,"
+"പിക്സലുകളില്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:48
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"നേരെയുള്ള പെയിനിന്റെ സ്ഥാനം, മാസ കാഴ്ചയിലുള്ള ടാസ്ക് ലിസ്റ്റിനും കാഴ്ചയ്ക്കും കലണ്ടറിനുമിടയില്‍,"
+"പിക്സലുകളില്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:49
 msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar."
 msgstr ""
+"കുറുകയെളുള പെയിനിന്റെ സ്ഥാനം, കലണ്ടര്‍ ലിസ്റ്റിനു് തീയതിയ്ക്കുമിടയില്‍,"
+"പിക്സലുകളില്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:50
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
+"കുറുകയെളുള പെയിനിന്റെ സ്ഥാനം, ടാസ്റ്റ് ലിസ്റ്റിനും ടാസ്ക് തിരനോട്ട പെയിനിനുമിടയില്‍,"
+"പിക്സലുകളില്‍."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid ""
@@ -3703,7 +3759,7 @@ msgstr "അലാറം ഓഡിയോയ്ക്കുള്ള ഡയറക�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:59
 msgid "Scroll Month View by a week"
-msgstr ""
+msgstr "മാസ കാഴ്ച ഒരു ആഴ്ചയനുസരിച്ചു് സ്ക്രോള്‍ ചെയ്യുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:60
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -3767,7 +3823,7 @@ msgstr "ഇന്ന് അവസാനിക്കുന്ന ജോലിക�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
 msgid "Tasks vertical pane position"
-msgstr ""
+msgstr "ടാസ്കുകളുടെ കുറുകെയുള്ള പെയിന്‍ സ്ഥാനം"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
 #, no-c-format
@@ -3818,15 +3874,15 @@ msgstr "ഇരുപത്തിനാല്‍ മണിക്കൂര്‍ �
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "എടുത്തുകാണിക്കുന്ന (\"പ്രധാന\") കലണ്ടറിനുള്ള യുആര്‍ഐ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "URI of the highlighted (\"primary\") memo list"
-msgstr ""
+msgstr "എടുത്തുകാണിക്കുന്ന (\"പ്രധാന\") മെമ്മോ ലിസ്റ്റിനുള്ള യുആര്‍ഐ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "URI of the highlighted (\"primary\") task list"
-msgstr ""
+msgstr "എടുത്തുകാണിക്കുന്ന (\"പ്രധാന\") ടാസ്ക് ലിസ്റ്റിനുള്ള യുആര്‍ഐ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -3845,7 +3901,7 @@ msgstr "സിസ്റ്റത്തിന്റെ സമയമേഘല ഉ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനില്‍ തെരഞ്ഞെടുത്ത സമയമേഘലയ്ക്കു് പകരം സിസ്റ്റം സമയമേഘല ഉപയോഗിക്കുക."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Week start"
@@ -4607,7 +4663,7 @@ msgstr "ശനി"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "മാസ കാഴ്ച ഒരു ആഴ്ചയനുസരിച്ചു് _സ്ക്രോള്‍ ചെയ്യുക"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Se_cond zone:"
@@ -4759,7 +4815,7 @@ msgstr "ബു (_W)"
 #. This is the last half of a user preference.&#10;"Show a reminder [time-period] before every anniversary/birthday"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:83
 msgid "before every anniversary/birthday"
-msgstr ""
+msgstr "എല്ലാ വാര്‍ഷികം/പിറന്നാളിനും മുമ്പു്"
 
 #. This is the last half of a user preference.&#10;"Show a reminder [time-period] before every appointment"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:85
@@ -5007,7 +5063,7 @@ msgstr "വര്‍ഗ്ഗങ്ങള്‍ (_C)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1095
 msgid "Toggles whether to display categories"
-msgstr ""
+msgstr "വിഭാഗങ്ങള്‍ കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1101
 msgid "Time _Zone"
@@ -5015,7 +5071,7 @@ msgstr "സമയമേഖല (_Z)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1103
 msgid "Toggles whether the time zone is displayed"
-msgstr ""
+msgstr "സമയമേഘല കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1112
 msgid "Pu_blic"
@@ -5047,7 +5103,7 @@ msgstr "വേഷത്തിന്‍റെ ഫീള്‍ഡ് (_o)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1138
 msgid "Toggles whether the Role field is displayed"
-msgstr ""
+msgstr "റോളിനുള്ള ഫീള്‍ഡ് കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1144
 msgid "_RSVP"
@@ -5055,7 +5111,7 @@ msgstr "_RSVP"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1146
 msgid "Toggles whether the RSVP field is displayed"
-msgstr ""
+msgstr "RSVP ഫീള്‍ഡ് കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1152
 msgid "_Status Field"
@@ -5063,7 +5119,7 @@ msgstr "സ്റ്റേറ്റസ് ഫീള്‍ഡ് (_S)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1154
 msgid "Toggles whether the Status field is displayed"
-msgstr ""
+msgstr "അവസ്ഥയ്ക്കുള്ള ഫീള്‍ഡ് കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1160
 msgid "_Type Field"
@@ -5071,7 +5127,7 @@ msgstr "ഏത് തരത്തിലുളള ഫീള്‍ഡ് (_T)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1162
 msgid "Toggles whether the Attendee Type is displayed"
-msgstr ""
+msgstr "പങ്കെടുക്കുന്നയാളുടെ തരം കാണിക്കണമോ എന്നുള്ളതിനു് ടോഗിള്‍ ചെയ്യുന്നു"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1186
 #: ../composer/e-composer-private.c:67
@@ -9716,6 +9772,8 @@ msgid ""
 "Send options available only for Novell GroupWise and Microsoft Exchange "
 "accounts."
 msgstr ""
+"നോവല്‍ ഗ്രൂപ്പ്‌വൈസ്, മൈക്രോസോഫ്റ്റ് എക്സ്ചെയിഞ്ച് അക്കൌണ്ടുകള്‍ക്കു് മാത്രം "
+"അയയ്ക്കുവാനുള്ള ഉപാധികള്‍ ലഭ്യമുള്ളൂ."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
@@ -10509,11 +10567,11 @@ msgstr "_കേയിസ് പൊരുത്തപ്പെടണം"
 
 #: ../mail/e-mail-search-bar.c:615
 msgid "Reached bottom of page, continued from top"
-msgstr ""
+msgstr "താളിന്റെ അടിയിലെത്തി, മുകളില്‍ നിന്നും തുടരുന്നു"
 
 #: ../mail/e-mail-search-bar.c:637
 msgid "Reached top of page, continued from bottom"
-msgstr ""
+msgstr "താളിന്റെ മുകളിലെത്തി, താഴെ നിന്നും തുടരുന്നു"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -10654,11 +10712,11 @@ msgstr "-------- Forwarded Message --------"
 
 #: ../mail/em-composer-utils.c:1585
 msgid "No destination address provided, forward of the message has been cancelled."
-msgstr ""
+msgstr "ഏതു് വിലാസത്തിലേക്ക അയയ്ക്കണമെന്നു് ലഭ്യമല്ല, സന്ദേശം ഫോര്‍വേഡ് ചെയ്യുന്നതു് റദ്ദാക്കി."
 
 #: ../mail/em-composer-utils.c:1591
 msgid "No account found to use, forward of the message has been cancelled."
-msgstr ""
+msgstr "ഉപയോഗിക്കുവാനുള്ള അക്കൌണ്ട് ലഭ്യമല്ല, സന്ദേശം ഫോര്‍വേഡ് ചെയ്യുന്നതു് റദ്ദാക്കി."
 
 #: ../mail/em-composer-utils.c:2058
 msgid "an unknown sender"
@@ -11222,7 +11280,7 @@ msgstr "ഫോള്‍ഡര്‍ എവിടെ ഉണ്ടാക്കണ�
 
 #: ../mail/em-folder-view.c:1089 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
-msgstr ""
+msgstr "മെയില്‍ വെട്ടി നീക്കല്‍ പരാജയപ്പെട്ടു"
 
 #: ../mail/em-folder-view.c:1090 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
@@ -11415,7 +11473,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:564 ../mail/em-format-html.c:658
 msgid "Signature exists, but need public key"
-msgstr ""
+msgstr "ഒപ്പു് നിലവിലുണ്ടു്, പക്ഷേ പബ്ലിക് കീ ആവ്യമുണ്ടു്"
 
 #: ../mail/em-format-html-display.c:564
 msgid ""
@@ -11499,7 +11557,7 @@ msgstr "അദൃശ്യമാക്കുക (_H)"
 
 #: ../mail/em-format-html-display.c:1073
 msgid "_Fit to Width"
-msgstr ""
+msgstr "വീതിയനുസരിച്ചു് _പാകത്തിലാക്കുക"
 
 #: ../mail/em-format-html-display.c:1074
 msgid "Show _Original Size"
@@ -11598,7 +11656,7 @@ msgstr "മെയിലര്‍"
 #: ../mail/em-format-html.c:1910
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr ""
+msgstr " <b>%s</b>  <b>%s</b>-നു് വേണ്ടി ഈ സന്ദേശം അയച്ചു."
 
 #: ../mail/em-format-quote.c:209 ../mail/em-format.c:924
 #: ../mail/em-mailer-prefs.c:77
@@ -11691,7 +11749,7 @@ msgstr "ഹെഡറിന്റെ (തലകെട്ടിന്റെ) പ�
 
 #: ../mail/em-mailer-prefs.c:337
 msgid "Header Value Contains:"
-msgstr ""
+msgstr "ഹെഡര്‍ മൂല്ല്യത്തിലുള്ളതു്:"
 
 #: ../mail/em-mailer-prefs.c:438 ../widgets/table/e-table-click-to-add.c:500
 #: ../widgets/table/e-table-selection-model.c:309
@@ -12049,7 +12107,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in address book for sender email"
-msgstr ""
+msgstr "മെയില്‍ അയച്ച വിലാസത്തിനായി വിലാസപുസ്തകത്തില്‍ തെരയണമോ എന്നു് നിശ്ചയിക്കുന്നു"
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid ""
@@ -12252,7 +12310,7 @@ msgstr "ലേബലുകളുടെ ലിസ്റ്റും അതിന�
 
 #: ../mail/evolution-mail.schemas.in.h:75
 msgid "List of MIME types to check for Bonobo component viewers"
-msgstr ""
+msgstr "ബോണോബോ ഘടക ദര്‍ശിനികള്‍ക്കു് പരിശോധിക്കുവാനുള്ള MIME തരങ്ങളുടെ പട്ടിക"
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of accepted licenses"
@@ -12470,11 +12528,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "ഒരു മെയില്‍ അയയ്ക്കുമ്പോള്‍‌ \"Bcc\" ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "ഒരു മെയില്‍ അയയ്ക്കുമ്പോള്‍‌ \"Cc\" ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Show \"From\" field when posting to a newsgroup"
@@ -12482,7 +12540,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show \"From\" field when sending a mail message"
-msgstr ""
+msgstr "ഒരു മെയില്‍ അയയ്ക്കുമ്പോള്‍‌ \"എവിടെ നിന്നും\" ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Show \"Reply To\" field when posting to a newsgroup"
@@ -12490,7 +12548,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr ""
+msgstr "ഒരു മെയില്‍ അയയ്ക്കുമ്പോള്‍‌ \"മറുപടി അയയ്ക്കേണ്ടതു്\" ഫീള്‍ഡ് കാണിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -12595,7 +12653,7 @@ msgstr "Text message part limit"
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "The default plugin for Junk hook"
-msgstr ""
+msgstr "ജങ്ക് ഹുക്കിനു് സ്വതവേയുള്ള പ്ലഗിന്‍."
 
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid "The last time empty junk was run, in days since the epoch."
@@ -12750,7 +12808,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
-msgstr ""
+msgstr "മാറുന്ന വീതിയുള്ള അക്ഷരസഞ്ചയം"
 
 #: ../mail/evolution-mail.schemas.in.h:185
 msgid "Whether a read receipt request gets added to every message by default."
@@ -12965,7 +13023,7 @@ msgstr "<b>ഒപ്പുകള്‍</b> (_n)"
 
 #: ../mail/mail-config.glade.h:6
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr ""
+msgstr "<b>ടോപ്പ് പോസ്റ്റിങ് ഉപാധി</b> (ഉചിതമല്ല)"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
@@ -13427,19 +13485,19 @@ msgstr "നിലവാരമുളള ലിപി: (_t)"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "HTML സ്ഥിരമായ വീതിയുള്ള അക്ഷരസഞ്ചയം തെരഞ്ഞെടുക്കുക"
 
 #: ../mail/mail-config.glade.h:135
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "പ്രിന്റ് ചെയ്യുന്നതിനായി HTML സ്ഥിരമായ വീതിയുള്ള അക്ഷരസഞ്ചയം തെരഞ്ഞെടുക്കുക"
 
 #: ../mail/mail-config.glade.h:136
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "HTML മാറുന്ന വീതിയുള്ള അക്ഷരസഞ്ചയം തെരഞ്ഞെടുക്കുക"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "പ്രിന്റ് ചെയ്യുന്നതിനായി HTML മാറുന്ന വീതിയുള്ള അക്ഷരസഞ്ചയം തെരഞ്ഞെടുക്കുക"
 
 #: ../mail/mail-config.glade.h:139
 msgid "Sending Mail"
@@ -13570,7 +13628,7 @@ msgstr "മീറ്റിങിനുളള ആവശ്യങ്ങള്‍ �
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Forward style:"
-msgstr ""
+msgstr "_ഫോര്‍വേഡ് ചെയ്യേണ്ട ശൈലി:"
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Keep Signature above the original message on replying"
@@ -16576,7 +16634,7 @@ msgstr "ചെക്ക് ലിസ്റ്റ്"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Add Novell GroupWise support to Evolution."
-msgstr ""
+msgstr "ഇവല്യൂഷനിലേക്ക് നോവര്‍ ഗ്രൂപ്പ്‌വൈസ് പിന്തുണ ചേര്‍ക്കുക."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
@@ -17424,14 +17482,14 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #: ../plugins/itip-formatter/itip-view.c:527
 #, c-format
 msgid "Please respond on behalf of <b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>-നു് വേണ്ടി ദയവായി മറുപടി നല്‍കുക"
 
 #: ../plugins/itip-formatter/itip-view.c:353
 #: ../plugins/itip-formatter/itip-view.c:441
 #: ../plugins/itip-formatter/itip-view.c:529
 #, c-format
 msgid "Received on behalf of <b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b>-നു് വേണ്ടി മറുപടി ലഭിച്ചു"
 
 #: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
@@ -17941,6 +17999,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
+"തെരഞ്ഞെടുത്ത കലണ്ടറില്‍ '%s' ഇവന്റ് നിലവിലുണ്ടു്. നിങ്ങള്‍ക്കു് പഴയ ഇവന്റ് "
+"ചിട്ടപ്പെടുത്തണമോ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
@@ -17948,6 +18008,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"തെരഞ്ഞെടുത്ത ടാസ്ക് ലിസ്റ്റില്‍ '%s' ഇവന്റ് നിലവിലുണ്ടു്. നിങ്ങള്‍ക്കു് പഴയ ഇവന്റ് "
+"ചിട്ടപ്പെടുത്തണമോ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
@@ -17955,6 +18017,8 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
+"തെരഞ്ഞെടുത്ത മെമ്മോ ലിസ്റ്റില്‍ '%s' ഇവന്റ് നിലവിലുണ്ടു്. നിങ്ങള്‍ക്കു് പഴയ ഇവന്റ് "
+"ചിട്ടപ്പെടുത്തണമോ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
@@ -18362,7 +18426,7 @@ msgstr "പ്ലെയിന്‍ ടെക്സ്റ്റ് നിര്�
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
-msgstr ""
+msgstr "HTML ഉള്ളടക്കമുണ്ടെങ്കിലും, മെയിലുകള്‍ പ്ലെയിന്‍ ടെക്സ്റ്റായി കാണുക."
 
 #: ../plugins/prefer-plain/prefer-plain.c:189
 msgid "Show HTML if present"
@@ -18386,7 +18450,7 @@ msgstr "Evolution പ്രൊഫൈലര്‍"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
-msgstr ""
+msgstr "ഇവല്യൂഷനിലുള്ള പ്രൊഫൈല്‍ ഡേറ്റാ ഇവന്റുകള്‍ (ഡവലപ്പര്‍മാര്‍ക്ക് മാത്രം)"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -19014,7 +19078,7 @@ msgstr "ജാലകത്തിന്‍റെ ഡീഫോള്‍ട്ട�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr ""
+msgstr "ഇന്റര്‍നെറ്റില്‍ HTTP/Secure HTTP ലഭ്യമാക്കുന്നതിനായി പ്രോക്സി സജ്ജീകരണങ്ങള്‍ സജ്ജമാക്കുക."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
@@ -19056,7 +19120,7 @@ msgstr "പ്രാരംഭ ഫയല്‍ തെരഞ്ഞെടുക്�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "GtkFileChooser ഡയലോഗുകള്‍ക്കുള്ള പ്രാരംഭ ഫോള്‍ഡര്‍."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
