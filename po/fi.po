@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-15 11:15+0300\n"
-"PO-Revision-Date: 2009-09-15 11:30+0300\n"
+"POT-Creation-Date: 2009-09-15 11:35+0300\n"
+"PO-Revision-Date: 2009-09-15 11:40+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -3583,7 +3583,8 @@ msgstr "Varmista siivottaessa poistetut lopullisesti"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr "Uuden tapahtuman toistumiskertojen oletusmäärä - 1 tarkoittaa ikuisesti."
+msgstr ""
+"Uuden tapahtuman toistumiskertojen oletusmäärä - 1 tarkoittaa ikuisesti."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -12706,32 +12707,32 @@ msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
-"Näytä \"From\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan Näytä-"
-"valikosta, kun sähköpostitili on valittu."
+"Näytä \"From\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan "
+"Näytä-valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Näytä \"From\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
-"valikosta, kun sähköpostitili on valittu."
+"Näytä \"From\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan "
+"Näytä-valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
-"Näytä \"Reply To\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan Näytä-"
-"valikosta, kun sähköpostitili on valittu."
+"Näytä \"Reply To\"-kenttä lähetettäessä uutisryhmään. Tätä asetusta ohjataan "
+"Näytä-valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
-"Näytä \"Reply To\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan Näytä-"
-"valikosta, kun sähköpostitili on valittu."
+"Näytä \"Reply To\"-kenttä lähetettäessä sähköpostia. Tätä asetusta ohjataan "
+"Näytä-valikosta, kun sähköpostitili on valittu."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -12943,8 +12944,8 @@ msgid ""
 "message or the bottom."
 msgstr ""
 "Käyttäjät ovat välillä hyvin tarkkoja siitä, mihin kohdistimen tulisi mennä "
-"vastattaessa viestiin. Tämä asetus määrittää, viedäänkö kursori viestin alkuun "
-"vai loppuun."
+"vastattaessa viestiin. Tämä asetus määrittää, viedäänkö kursori viestin "
+"alkuun vai loppuun."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -12952,9 +12953,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
-"Käyttäjät ovat välillä hyvin tarkkoja siitä, mihin allekirjoitus tulisi lisätä "
-"vastattaessa viestiin. Tämä asetus määrittää, lisätäänkö se viestin alkuun "
-"vai loppuun."
+"Käyttäjät ovat välillä hyvin tarkkoja siitä, mihin allekirjoitus tulisi "
+"lisätä vastattaessa viestiin. Tämä asetus määrittää, lisätäänkö se viestin "
+"alkuun vai loppuun."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -14947,8 +14948,8 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
-"Tässä kansiossa on vain piilotettuaj viestejä. Valitse Näytä-valikosta "
-"kohta Näytä piilotetut viestit, jos haluat nähdä ne."
+"Tässä kansiossa on vain piilotettuaj viestejä. Valitse Näytä-valikosta kohta "
+"Näytä piilotetut viestit, jos haluat nähdä ne."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -16784,7 +16785,8 @@ msgstr "Peru kansioiden tilauksia"
 msgid ""
 "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
 msgstr ""
-"Peru IMAP-kansio tilaus napsauttamalla kansiota oikealla napilla kansiopuussa."
+"Peru IMAP-kansio tilaus napsauttamalla kansiota oikealla napilla "
+"kansiopuussa."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -18051,7 +18053,8 @@ msgstr "Poista tili käytöstä"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable an account by right-clicking on it in the folder tree."
-msgstr "Poista tili käytöstä napsauttamalla sitä kansiopuusta oikealla napilla."
+msgstr ""
+"Poista tili käytöstä napsauttamalla sitä kansiopuusta oikealla napilla."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
@@ -18234,8 +18237,8 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
-"Valittu muistalappulista sisältää jo muistilapun \"%s\". Haluatko muokata aiemmin "
-"lisättyä muistilappua?"
+"Valittu muistalappulista sisältää jo muistilapun \"%s\". Haluatko muokata "
+"aiemmin lisättyä muistilappua?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
@@ -18258,8 +18261,8 @@ msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
 msgstr ""
-"Valittu muistilappulista sisältää jo joitain muistilappuja annetuista sähköposteista. "
-"Haluatko silti luoda uusia muistilappuja?"
+"Valittu muistilappulista sisältää jo joitain muistilappuja annetuista "
+"sähköposteista. Haluatko silti luoda uusia muistilappuja?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
@@ -18283,11 +18286,11 @@ msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
 msgstr[0] ""
-"Valittu tehtävälista sisältää jo tehtävän tälle sähköpostille. Haluatko silti "
-"luoda uuden tehtävän?"
+"Valittu tehtävälista sisältää jo tehtävän tälle sähköpostille. Haluatko "
+"silti luoda uuden tehtävän?"
 msgstr[1] ""
-"Valittu tehtäväluettelo sisältää jo tehtäviä tälle sähköpostille. Haluatko silti "
-"luoda uudet tehtävät?"
+"Valittu tehtäväluettelo sisältää jo tehtäviä tälle sähköpostille. Haluatko "
+"silti luoda uudet tehtävät?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid ""
@@ -18297,11 +18300,11 @@ msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
 msgstr[0] ""
-"Valittu muistilappuluettelo sisältää jo muistlapun tälle sähköpostille. Haluatko silti "
-"luoda uuden muistilapun?"
+"Valittu muistilappuluettelo sisältää jo muistlapun tälle sähköpostille. "
+"Haluatko silti luoda uuden muistilapun?"
 msgstr[1] ""
-"Valittu muistilappuluettelo sisältää jo muistlappuja tälle sähköpostille. Haluatko silti "
-"luoda uudet muistilaput?"
+"Valittu muistilappuluettelo sisältää jo muistlappuja tälle sähköpostille. "
+"Haluatko silti luoda uudet muistilaput?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
@@ -18858,7 +18861,8 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-format-ical.c:82
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
-msgstr "Kalenteria ei voitu julkaista: kalenterin taustaohjelmaa ei enää ole olemassa"
+msgstr ""
+"Kalenteria ei voitu julkaista: kalenterin taustaohjelmaa ei enää ole olemassa"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:481
 msgid "New Location"
