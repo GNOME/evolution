@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-23 23:38+0200\n"
-"PO-Revision-Date: 2009-08-23 23:30+0200\n"
+"POT-Creation-Date: 2009-09-17 00:09+0200\n"
+"PO-Revision-Date: 2009-09-15 00:42+0200\n"
 "Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -985,7 +985,7 @@ msgstr "Geben Sie das Passwort für %s ein (Benutzer %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:500
+#: ../plugins/google-account-setup/google-source.c:519
 #: ../plugins/publish-calendar/publish-calendar.c:216
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1132,11 +1132,12 @@ msgid "Lo_gin:"
 msgstr "Anm_eldename:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "Eins"
+msgstr ""
+"Eins\n"
+"Unter"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -1257,10 +1258,10 @@ msgstr "Karten"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
 #: ../calendar/gui/dialogs/event-page.glade.h:24
 #: ../plugins/caldav/caldav-source.c:448
-#: ../plugins/calendar-file/calendar-file.c:286
+#: ../plugins/calendar-file/calendar-file.c:293
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
-#: ../plugins/google-account-setup/google-source.c:720
+#: ../plugins/google-account-setup/google-source.c:740
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "minutes"
 msgstr "Minuten"
@@ -1684,7 +1685,6 @@ msgstr ""
 # Esquire (BE: [ɪˈskwaɪə], AE: [ˈɛskwaɪɹ, ɪˈskwaɪɹ]; englisch, entspricht in etwa "dem Ritter" (vom lateinischen scutarius Schildträger oder eques Ritter). Die Abkürzung Esq. ist auch ein englischer Höflichkeitstitel.
 # Im Deutschen entspricht ein „Esquire“ etwa einem Hochwohlgeborenen
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
-#, fuzzy
 msgid ""
 "\n"
 "Sr.\n"
@@ -3451,10 +3451,10 @@ msgstr[1] "Minuten"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 #: ../plugins/caldav/caldav-source.c:449
-#: ../plugins/calendar-file/calendar-file.c:287
+#: ../plugins/calendar-file/calendar-file.c:294
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:721
+#: ../plugins/google-account-setup/google-source.c:741
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "hours"
 msgid_plural "hours"
@@ -3476,8 +3476,8 @@ msgstr "_Alle verwerfen"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1592
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1582
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1588
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../plugins/itip-formatter/itip-view.c:1023
 msgid "Location:"
@@ -3512,32 +3512,32 @@ msgstr "_Schlummer"
 msgid "location of appointment"
 msgstr "Ort des Termins"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1451
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1575
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1441
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1565
 msgid "No summary available."
 msgstr "Keine Zusammenfassung verfügbar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1460
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1462
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1450
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1452
 msgid "No description available."
 msgstr "Keine Beschreibung verfügbar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1470
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1460
 msgid "No location information available."
 msgstr "Keine Ortinformationen verfügbar."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1515
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1505
 #, c-format
 msgid "You have %d alarms"
 msgstr "Sie haben %d Alarme"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1675
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1665
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1693
 #: ../e-util/e-non-intrusive-error-dialog.h:40
 msgid "Warning"
 msgstr "Warnung"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1679
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1669
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3550,7 +3550,7 @@ msgstr ""
 "Evolution wird stattdessen ein normales\n"
 "Erinnerungsdialogfenster anzeigen."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1709
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1699
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3567,7 +3567,7 @@ msgstr ""
 "\n"
 "Sind Sie sicher, dass Sie dieses Programm ausführen wollen?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1723
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1713
 msgid "Do not ask me about this program again."
 msgstr "Nicht mehr nach diesem Programm fragen."
 
@@ -4255,10 +4255,10 @@ msgstr "Ereignisse löschen älter als"
 
 #: ../calendar/gui/calendar-commands.c:342
 #: ../plugins/caldav/caldav-source.c:450
-#: ../plugins/calendar-file/calendar-file.c:288
+#: ../plugins/calendar-file/calendar-file.c:295
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:722
+#: ../plugins/google-account-setup/google-source.c:742
 #: ../plugins/google-account-setup/google-contacts-source.c:332
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -7448,7 +7448,7 @@ msgstr "Notizen unter %s werden geladen"
 msgid "Opening %s"
 msgstr "%s wird geöffnet …"
 
-#: ../calendar/gui/gnome-cal.c:4012
+#: ../calendar/gui/gnome-cal.c:4018
 msgid "Purging"
 msgstr "Säuberungsvorgang"
 
@@ -9881,14 +9881,14 @@ msgstr "Klicken Sie hier, um die Veröffentlichungsordner zu wählen"
 msgid "Save draft"
 msgstr "Entwurf speichern"
 
-#: ../composer/e-msg-composer.c:807
+#: ../composer/e-msg-composer.c:808
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Ausgehende Nachricht konnte nicht signiert werden: Kein Signaturzertifikat "
 "für dieses Konto festgelegt"
 
-#: ../composer/e-msg-composer.c:814
+#: ../composer/e-msg-composer.c:815
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -9896,11 +9896,11 @@ msgstr ""
 "Ausgehende Nachricht konnte nicht verschlüsselt werden: Kein "
 "Verschlüsselungszertifikat für dieses Konto festgelegt"
 
-#: ../composer/e-msg-composer.c:1350 ../composer/e-msg-composer.c:2189
+#: ../composer/e-msg-composer.c:1351 ../composer/e-msg-composer.c:2190
 msgid "Compose Message"
 msgstr "Nachricht verfassen"
 
-#: ../composer/e-msg-composer.c:3347
+#: ../composer/e-msg-composer.c:3348
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -10092,37 +10092,37 @@ msgid "calendar information"
 msgstr "Kalenderinformationen"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:188 ../plugins/itip-formatter/itip-view.c:191
+#: ../e-util/e-datetime-format.c:193 ../plugins/itip-formatter/itip-view.c:191
 #: ../ui/evolution-calendar.xml.h:34 ../widgets/misc/e-cell-date-edit.c:304
 msgid "Today"
 msgstr "Heute"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:200 ../plugins/itip-formatter/itip-view.c:219
+#: ../e-util/e-datetime-format.c:202 ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow"
 msgstr "Morgen"
 
-#: ../e-util/e-datetime-format.c:202
+#: ../e-util/e-datetime-format.c:204
 msgid "Yesterday"
 msgstr "Gestern"
 
-#: ../e-util/e-datetime-format.c:205
+#: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days from now"
 msgstr "In %d Tagen"
 
-#: ../e-util/e-datetime-format.c:207
+#: ../e-util/e-datetime-format.c:209
 #, c-format
 msgid "%d days ago"
 msgstr "Vor %d Tagen"
 
 # Hier hieß es mal: Systemvorgabe benutzen. Deshalb vermute ich, dass es nun um die lokale (Benutzer-) Vorgabe im Gegensatz zur Systemvorgabe geht, nicht explizit um die Spracheinstellung.
-#: ../e-util/e-datetime-format.c:281 ../e-util/e-datetime-format.c:291
-#: ../e-util/e-datetime-format.c:300
+#: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
+#: ../e-util/e-datetime-format.c:302
 msgid "Use locale default"
 msgstr "Lokale Vorgabe benutzen"
 
-#: ../e-util/e-datetime-format.c:494
+#: ../e-util/e-datetime-format.c:496
 msgid "Format:"
 msgstr "Format:"
 
@@ -10239,7 +10239,7 @@ msgstr ""
 "Das Drucksystem hat keine weiteren Details über den aufgetretenen Fehler "
 "berichtet."
 
-#: ../e-util/e-signature.c:690
+#: ../e-util/e-signature.c:695
 msgid "Autogenerated"
 msgstr "Automatisch erzeugt"
 
@@ -10867,43 +10867,43 @@ msgstr "Identität"
 msgid "Receiving Email"
 msgstr "Abrufen von E-Mails"
 
-#: ../mail/em-account-editor.c:2200
+#: ../mail/em-account-editor.c:2216
 msgid "Check for _new messages every"
 msgstr "_Automatisch nach neuen E-Mails sehen alle"
 
-#: ../mail/em-account-editor.c:2208
+#: ../mail/em-account-editor.c:2224
 msgid "minu_tes"
 msgstr "Minu_ten"
 
-#: ../mail/em-account-editor.c:2398 ../mail/mail-config.glade.h:138
+#: ../mail/em-account-editor.c:2420 ../mail/mail-config.glade.h:138
 msgid "Sending Email"
 msgstr "Verschicken von E-Mails"
 
-#: ../mail/em-account-editor.c:2457 ../mail/mail-config.glade.h:73
+#: ../mail/em-account-editor.c:2479 ../mail/mail-config.glade.h:73
 msgid "Defaults"
 msgstr "Vorgaben"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2523 ../mail/mail-config.glade.h:133
+#: ../mail/em-account-editor.c:2545 ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Security"
 msgstr "Sicherheit"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2560 ../mail/em-account-editor.c:2655
+#: ../mail/em-account-editor.c:2582 ../mail/em-account-editor.c:2677
 msgid "Receiving Options"
 msgstr "Empfangsoptionen"
 
-#: ../mail/em-account-editor.c:2561 ../mail/em-account-editor.c:2656
+#: ../mail/em-account-editor.c:2583 ../mail/em-account-editor.c:2678
 msgid "Checking for New Messages"
 msgstr "Nach neuen E-Mails sehen"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Konteneditor"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
 msgstr "Evolution-Kontoassistent"
 
@@ -11629,9 +11629,9 @@ msgstr "Filter über Ma_ilingliste"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2232 ../mail/em-folder-view.c:2275
-#: ../plugins/google-account-setup/google-source.c:303
-#: ../plugins/google-account-setup/google-source.c:593
-#: ../plugins/google-account-setup/google-source.c:764
+#: ../plugins/google-account-setup/google-source.c:304
+#: ../plugins/google-account-setup/google-source.c:613
+#: ../plugins/google-account-setup/google-source.c:784
 msgid "Default"
 msgstr "Vorgabe"
 
@@ -13992,7 +13992,7 @@ msgid "Use Authe_ntication"
 msgstr "_Legitimation benutzen"
 
 #: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
-#: ../plugins/google-account-setup/google-source.c:681
+#: ../plugins/google-account-setup/google-source.c:701
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
@@ -15760,19 +15760,19 @@ msgstr "_SSL verwenden"
 
 #. add refresh option
 #: ../plugins/caldav/caldav-source.c:433
-#: ../plugins/calendar-file/calendar-file.c:267
+#: ../plugins/calendar-file/calendar-file.c:274
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
-#: ../plugins/google-account-setup/google-source.c:698
+#: ../plugins/google-account-setup/google-source.c:718
 #: ../plugins/google-account-setup/google-contacts-source.c:322
 msgid "Re_fresh:"
 msgstr "Auf_frischen:"
 
 #: ../plugins/caldav/caldav-source.c:451
-#: ../plugins/calendar-file/calendar-file.c:289
+#: ../plugins/calendar-file/calendar-file.c:296
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:723
+#: ../plugins/google-account-setup/google-source.c:743
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
 msgstr "Wochen"
@@ -15785,31 +15785,31 @@ msgstr "CalDAV-Unterstützung zu Evolution hinzufügen."
 msgid "CalDAV Support"
 msgstr "CalDAV-Unterstützung"
 
-#: ../plugins/calendar-file/calendar-file.c:204
+#: ../plugins/calendar-file/calendar-file.c:208
 msgid "_Customize options"
 msgstr "Optionen _anpassen"
 
-#: ../plugins/calendar-file/calendar-file.c:224
+#: ../plugins/calendar-file/calendar-file.c:227
 msgid "File _name:"
 msgstr "Datei_name:"
 
-#: ../plugins/calendar-file/calendar-file.c:228
+#: ../plugins/calendar-file/calendar-file.c:231
 msgid "Choose calendar file"
 msgstr "Wählen Sie eine Kalenderdatei"
 
-#: ../plugins/calendar-file/calendar-file.c:272
+#: ../plugins/calendar-file/calendar-file.c:279
 msgid "On open"
 msgstr "Beim Öffnen"
 
-#: ../plugins/calendar-file/calendar-file.c:273
+#: ../plugins/calendar-file/calendar-file.c:280
 msgid "On file change"
 msgstr "Bei Dateiänderungen"
 
-#: ../plugins/calendar-file/calendar-file.c:274
+#: ../plugins/calendar-file/calendar-file.c:281
 msgid "Periodically"
 msgstr "Regelmäßig"
 
-#: ../plugins/calendar-file/calendar-file.c:301
+#: ../plugins/calendar-file/calendar-file.c:308
 msgid "Force read _only"
 msgstr "_Nur lesen erzwingen"
 
@@ -16917,7 +16917,7 @@ msgid "Unknown error looking up {0}"
 msgstr "Unbekannter Fehler beim Suchen von {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
@@ -17133,19 +17133,19 @@ msgstr "Einen IMAP-Ordner durch Rechtsklick im Ordnerbaum abbestellen."
 msgid "_Unsubscribe"
 msgstr "Ab_bestellen"
 
-#: ../plugins/google-account-setup/google-source.c:81
+#: ../plugins/google-account-setup/google-source.c:82
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:499
+#: ../plugins/google-account-setup/google-source.c:518
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Geben Sie das Passwort für den Benutzer %s ein, um auf die Liste der "
 "abonnierten Kalender zuzugreifen."
 
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17154,11 +17154,11 @@ msgstr ""
 "Daten konnten nicht vom Google-Server empfangen werden.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:739
+#: ../plugins/google-account-setup/google-source.c:759
 msgid "Cal_endar:"
 msgstr "_Kalender:"
 
-#: ../plugins/google-account-setup/google-source.c:774
+#: ../plugins/google-account-setup/google-source.c:794
 msgid "Retrieve _list"
 msgstr "_Liste abrufen"
 
@@ -19142,9 +19142,8 @@ msgid "Are you sure you want to remove this location?"
 msgstr "Sind Sie sicher, dass Sie diesen Ort entfernen wollen?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:788
-#, fuzzy
 msgid "Could not create publish thread."
-msgstr "Verfassen der Nachricht gescheitert."
+msgstr "Thread zum Veröffentlichen der Nachricht konnte nicht erstellt werden."
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
