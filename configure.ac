@@ -203,7 +203,7 @@ case "$host" in
 	;;
 *)
 	os_win32=no
-	NO_UNDEFINED=''
+	NO_UNDEFINED='-no-undefined'
 	SOEXT='.so'
 	SA_JUNK_PLUGIN=sa-junk-plugin
 	BF_JUNK_PLUGIN=bogo-junk-plugin

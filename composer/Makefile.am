@@ -50,9 +50,14 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
+libcomposer_la_LDFLAGS = $(NO_UNDEFINED)
+
 libcomposer_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/em-format/libemformat.la
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/em-format/libemformat.la	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui
