@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.27.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-14 12:43+0200\n"
-"PO-Revision-Date: 2009-09-14 12:50+0200\n"
+"POT-Creation-Date: 2009-09-16 13:16+0200\n"
+"PO-Revision-Date: 2009-09-16 13:27+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -1011,7 +1011,7 @@ msgstr "Posisjon til vertikalt felt"
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
-msgstr ""
+msgstr "Om tvungen visning av e-postadresse sammen med navn for automatisk fullført kontakt skal brukes i oppføringen."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
@@ -3570,7 +3570,8 @@ msgstr "Bekreft tømming av mappe"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr "Antall forvalgt gjeninntreffelse for en ny hendelse. -1 betyr for alltid."
+msgstr ""
+"Antall forvalgt gjeninntreffelse for en ny hendelse. -1 betyr for alltid."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -3677,7 +3678,7 @@ msgstr "Farge på Marcus Bains-linje - tidslinje"
 msgid ""
 "Maximum number of recently used timezones to remember in a "
 "'day_second_zones' list."
-msgstr ""
+msgstr "Maksimalt antall nylig brukte tidssoner som skal huskes i en liste med «day_second_zones»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:39
 msgid "Maximum number of recently used timezones to remember."
@@ -3839,7 +3840,9 @@ msgstr "Vis ukenummer i datovelger"
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key."
-msgstr "Viser sekundærtidssone i en dagvisning hvis den er satt. Verdien er lik den som brukes i nøkkelen «tidssone»."
+msgstr ""
+"Viser sekundærtidssone i en dagvisning hvis den er satt. Verdien er lik den "
+"som brukes i nøkkelen «tidssone»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 msgid "Tasks due today color"
@@ -3931,7 +3934,8 @@ msgstr "Bruk systemets tidssone"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "Bruk systemets tidssone i stedet for tidssonen som er valgt i Evolution."
+msgstr ""
+"Bruk systemets tidssone i stedet for tidssonen som er valgt i Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Week start"
@@ -3981,7 +3985,7 @@ msgstr "Om fullførte oppgaver skal skjules i oppgavevisningen."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr ""
+msgstr "Om månedsvisning skal rulles per uke, og ikke per måned."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Whether to set a default reminder for appointments."
@@ -12075,7 +12079,7 @@ msgstr ""
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
-msgstr ""
+msgstr "Kontrollerer hvor ofte lokale endringer synkroniseres med ekstern e-posttjener. Intervallet må være minst 30 sekunder."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -12225,7 +12229,7 @@ msgstr "Tøm alle papirkurver når programmet avsluttes."
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
-msgstr ""
+msgstr "Slå på animerte bilder i HTML-meldinger. Mange brukere synes at animerte bilder er plagsomme og foretrekker å se et statisk bilde i stedet."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12256,7 +12260,7 @@ msgstr "Aktiver søkemapper ved oppstart."
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
-msgstr ""
+msgstr "Slår på søkefunksjonen for sidelinjen for å muliggjøre interaktive søk etter mappenavn."
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid ""
@@ -12319,13 +12323,19 @@ msgid ""
 "If there isn't a builtin viewer for a particular MIME type inside Evolution, "
 "any MIME types appearing in this list which map to a Bonobo component viewer "
 "in GNOME's MIME type database may be used for displaying content."
-msgstr "Hvis det ikke finnes et innebygd program for visning av en bestemt MIME-type i Evolution kan du bruke GNOME's MIME-type database til å vise innhold for enhver MIME-type i denne listen som har en tilsvarende Bonobo-komponent for visnin."
+msgstr ""
+"Hvis det ikke finnes et innebygd program for visning av en bestemt MIME-type "
+"i Evolution kan du bruke GNOME's MIME-type database til å vise innhold for "
+"enhver MIME-type i denne listen som har en tilsvarende Bonobo-komponent for "
+"visnin."
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
-msgstr "Initiell høyde for «Send og motta e-post»-vinduet. Verdien oppdateres ettersom bruker endrer størrelse på vinduet vertikalt."
+msgstr ""
+"Initiell høyde for «Send og motta e-post»-vinduet. Verdien oppdateres "
+"ettersom bruker endrer størrelse på vinduet vertikalt."
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid ""
@@ -12340,7 +12350,9 @@ msgstr ""
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
-msgstr "Initiell bredde på «Send og motta e-post»-vinduet. Verdien oppdateres ettersom bruker endrer størrelse på vinduet horisontalt."
+msgstr ""
+"Initiell bredde på «Send og motta e-post»-vinduet. Verdien oppdateres "
+"ettersom bruker endrer størrelse på vinduet horisontalt."
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid ""
@@ -12423,7 +12435,10 @@ msgid ""
 "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
-msgstr "Last bilder for HTML e-poster over HTTP(S). Mulige verdier er: «0» - Aldri last bilder fra nettet «1» - Last bilder i e-poster fra kontakter «2» - Alltid last bilder fra nettet."
+msgstr ""
+"Last bilder for HTML e-poster over HTTP(S). Mulige verdier er: «0» - Aldri "
+"last bilder fra nettet «1» - Last bilder i e-poster fra kontakter «2» - Alltid "
+"last bilder fra nettet."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Log filter actions"
@@ -12644,37 +12659,37 @@ msgstr "Vis bilde av avsender"
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Vis «Bcc»-feltet når en melding sendes. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Vis «Cc»-feltet når en melding sendes. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
-msgstr ""
+msgstr "Vis «Fra»-feltet når en melding sendes til en nyhetsgruppe. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Vis «Fra»-feltet når en melding sendes. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
-msgstr ""
+msgstr "Vis «Svar-til»-feltet når en melding sendes til en nyhetsgruppe. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Vis «Svar-til»-feltet når en melding sendes. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -12844,7 +12859,7 @@ msgstr "UID-streng for forvalgt konto."
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr ""
+msgstr "Farge for understreking av feilstavede ord ved bruk av stavekontroll."
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid "Use SpamAssassin daemon and client"
@@ -16604,7 +16619,7 @@ msgstr "Sjekk rettighetene for mappen"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "Start redigeringsprogram automatisk når tasten trykkes i e-postredigering"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
@@ -19254,7 +19269,7 @@ msgstr "Forvalgt mappe for GtkFileChooser-dialoger."
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
-msgstr ""
+msgstr "Startvisning for vedleggslinjekomponenter. «0» er ikonvisning, «1» er listevisning."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
@@ -19363,19 +19378,19 @@ msgstr "Maskinnavn for socks-proxy."
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr ""
+msgstr "Porten på proxy definert av «/apps/evolution/shell/network_config/http_host»."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr ""
+msgstr "Porten på proxy definert av «/apps/evolution/shell/network_config/secure_host»."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr ""
+msgstr "Porten på proxy definert av «/apps/evolution/shell/network_config/socks_host»."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid ""
