@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
  <!ENTITY appname "Evolution" >
- <!ENTITY appversion "2.26" >
+ <!ENTITY appversion "2.28" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
@@ -27,15 +27,23 @@
    <revhistory>
      <revision>
        <revnumber>&appversion;</revnumber>
-       <date>March 2009</date>
+       <date>September 2009</date>
        <revdescription>
-	 <para role="author">Radhika PC</para>
+	 <para role="author">Akhil Laddha</para>
 	 <para role="publisher">Novell, Inc</para>
        </revdescription>
      </revision>
+    <revision>
+     <revnumber>2.28</revnumber>
+     <date>September 2009</date>
+     <revdescription>
+      <para role="author">Radhika PC</para>
+      <para role="publisher">Novell, Inc</para>
+     </revdescription>
+    </revision>
      <revision>
        <revnumber>2.26</revnumber>
-       <date>March 2008</date>
+       <date>March 2009</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
 	 <para role="publisher">Novell, Inc</para>
@@ -1089,7 +1097,6 @@
    <orderedlist>
     <listitem id="b17qydgx">
      <para>Select File &gt; Backup Settings to select the folder where you want to save the backup.</para>
-     <mediaobject id="b17qyglq"><imageobject><imagedata format="PNG" fileref="figures/evo_backup.png"/></imageobject></mediaobject>
      <para>Evolution is always backed up as evolution-backup.tar.gz.</para>
      <para>Before the backup process starts, it asks you to close Evolution and displays a warning as shown below:</para>
      <mediaobject id="b17qyjon"><imageobject><imagedata format="PNG" fileref="figures/evo_backup_warning.png"/></imageobject></mediaobject>
@@ -1297,6 +1304,12 @@
      <title>Notify new messages for Inbox only:</title>
      <para>Select this option to restrict the mail notification to Inbox. With this option enabled, you are notified of each new message arrival in the Inbox.</para>
     </formalpara>
+    <formalpara>
+     <title>New Message Notification For Folders</title>
+     <para>This feature notifies you of new message arrival in any folder. A folder with new mail is identified by the unread icon.The icon is displayed as long as the folder is accessed.</para>
+    </formalpara>
+    <para>In a collapsed folder tree, if a new message arrives in the parent folder, the folder name is displayed with a '+' plus sign beside the unread mail count. When a new mesage arrives in any child folders, the parent folder name turns bold.</para>
+    <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_plus.png"/></imageobject></mediaobject>
     <formalpara id="b1dl93cp">
      <title>Generate D-Bus message:</title>
      <para>D-Bus is a fast, lightweight message bus system that allows applications to communicate with each other. Select this option to generate a D-Bus message on the session bus whenever a new message arrives.</para>
@@ -1653,7 +1666,7 @@
     <para>To attach a file to your email:</para>
     <orderedlist>
      <listitem id="bsfnwxr">
-      <para>Click the Attach button in the composer toolbar.</para>
+      <para>Click the Attach button in the composer.</para>
      </listitem>
      <listitem id="bsfnx41">
       <para>Select the file you want to attach.</para>
@@ -2797,7 +2810,6 @@
    <para>Evolution, like most other mail systems, stores mail in folders. You start out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can create as many as you like. Create new folders by clicking Folder &gt; New, or by right-clicking in the folder list and selecting New Folder.</para>
    <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click on the message and choose Move to folder, or press Shift+Ctrl+V.</para>
    <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder. This will open the Select folder window, where you can drop your message to any of the folders listed.</para>
-   <mediaobject id="b13td8j9"><imageobject><imagedata format="PNG" fileref="figures/evo_select_folder.png"/></imageobject></mediaobject>
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder in the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press the Move button at the bottom right.</para>
    <para>If you create a filter with the filter assistant, you can have mail filed automatically. Select Edit &gt; Message Filters to bring up the Message Filters window.</para>
    <mediaobject id="b13tf6pl"><imageobject><imagedata format="PNG" fileref="figures/evo_message_filters_a.png"/></imageobject></mediaobject>
@@ -3365,7 +3377,6 @@
       <orderedlist>
        <listitem id="b13txae8">
         <para>click Add button to open the Select folder window.</para>
-        <mediaobject id="b13txc09"><imageobject><imagedata format="PNG" fileref="figures/evo_select_add_folder.png"/></imageobject></mediaobject>
        </listitem>
        <listitem id="b13txawl">
         <para>Select the folder and press Add button.</para>
@@ -3954,7 +3965,6 @@
     </tgroup>
    </informaltable>
    <para>You can also select an arbitrary range of days in the small calendar in the side bar. To do this, select the days that you want to view in your calendar.</para>
-   <mediaobject id="b14av0ey"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_a.png"/></imageobject></mediaobject>
    <para>The Previous and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today's listing, click the Today button in the toolbar.</para>
    <para>To visit calendar entries for a specific date, click Go To and select the date in the dialog box that appears.</para>
 
@@ -4000,7 +4010,7 @@
   
    <section id="b1a47igh">
     <title>Google Calendar </title>
-    <para>Evolution allows you to access your Google calendar. You can view the Google calendar offline or create, modify, and delete the calendar items online.</para>
+    <para>Evolution allows you to access your Google calendar. You can view the Google calendar offline or create, modify, and delete the calendar items online. Google calendar uses the CalDAV interface.</para>
     <para>To integrate the Google calendar to Evolution:</para>
     <orderedlist>
      <listitem id="b1a47ou5">
@@ -4031,9 +4041,6 @@
      <listitem id="b1a4ah6w">
       <para>Set the time to automatically refresh the calendar.</para>
      </listitem>
-     <listitem id="b1a4ak4r">
-      <para>Select Use SSL to enable a secure connection between Evolution and the server.</para>
-     </listitem>
      <listitem id="b1a4amec">
       <para>If you want to set a color label for the calendar, click the Color tab, select the desired color, then click OK.</para>
      </listitem>
@@ -4045,6 +4052,7 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
+    
    </section>
   </section>
   </section>
@@ -4615,10 +4623,25 @@
   </section>
 
   <section id="usage-calendar-multiple">
-   <title>Multiple Calendars, Web Calendars, and CalDAV</title>
+   <title>Multiple Calendars, Web Calendars and CalDAV</title>
    <para>To create a new calendar, click File &gt; New &gt; Calendar. If the calendar is one you plan to store locally, you need only provide a name and color. If it is a remote calendar, specify the name, color, URL, and a refresh frequency. The refresh frequency determines how often Evolution checks to see if the calendar has changed. If you are working with someone who publishes an online calendar, you might want to check for updates every thirty minutes. On the other hand, if you have displayed a sports team schedule in your calendar, you might not need to refresh it more than once a week.</para>
    <para>The <ulink url="http://icalshare.com">icalshare.com Web site</ulink> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events.</para>
    <para>Evolution lets you view and manage calendars on remote CalDAV servers. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution.</para>
+   <para>You can view and manage local iCal or ics files in the Calendar view. Select the local iCal or ics files as calendar source to manage or view them in Evolution.</para>
+   <para>To access a local ics or iCal file in the Calendar view:</para>
+   <orderedlist>
+    <listitem>
+     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/local_ics_calendar.png"/></imageobject></mediaobject>
+     <para>Click New, then select Calendar to open the New Calendar dialog.</para>
+     <para>Select On this computer from the Type drop-down list.</para>
+     <para>In the Name field, specify a name for the local calendar.</para>
+     <para>Select customize options.</para>
+     <para>In the File name field, give ics / ical file location as the calendar source.</para>
+     <para>In the Refresh field, choose refresh type from the drop-down list.</para>
+     <para>Select the Force read only option if you want the calendar read-only.</para>
+     <para>To set a color label for the calendar, click the Color tab, select the desired color, then click OK.</para>
+    </listitem>
+   </orderedlist>
   </section>
 
   <section id="usage-calendar-todo">
@@ -4790,8 +4813,6 @@
       <para>Select the Search menu.</para>
       <para>Select Advanced Search to open Advanced Search dialog box.</para>
       <para>Search name field displays the search type you have selected.</para>
-      <mediaobject id="b17qcztn"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_advsearch.png"/></imageobject></mediaobject>
-      
      </listitem>
      <listitem id="b17qd03l">
       <para>Click Add to add rules.</para>
@@ -5028,8 +5049,6 @@
      <listitem id="b17qetjk">
       <para>Select Advanced Search to open Advanced Search dialog box.</para>
       <para>Search name field displays the search type you have selected.</para>
-      <mediaobject id="b17qewa3"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_advsearch.png"/></imageobject></mediaobject>
-      
      </listitem>
      <listitem id="b17qetof">
       <para>Click Add to add rules.</para>
@@ -5174,6 +5193,9 @@
    </listitem>
    <listitem>
     <para><link linkend="full-advantage">Scheduling Meetings with Free/Busy</link></para>
+   </listitem>
+   <listitem>
+    <para><link linkend="mapi-features">Evolution MAPI Features</link></para>
    </listitem>
   </itemizedlist>
   <important>
@@ -5362,22 +5384,18 @@
       <listitem id="bsqdqvl">
        <para>Select the account you want to convert, then click Edit.</para>
        <para>Click the Identity tab.</para>
-       <mediaobject id="b13p90wc"><imageobject><imagedata format="PNG" fileref="figures/exchg-identity.png"/></imageobject></mediaobject>
       </listitem>
       <listitem id="bshngg7">
        <para>Change your email address as needed.</para>
       </listitem>
       <listitem id="bshngsm">
        <para>Click the Receiving Mail tab, then select Microsoft Exchange as your server type.</para>
-       <mediaobject id="b13pb2z0"><imageobject><imagedata format="PNG" fileref="figures/exchng-rec-mail.png"/></imageobject></mediaobject>
       </listitem>
       <listitem id="bshnh8h">
        <para>Type your user name, and the Outlook Web Access (OWA) URL. Click Authenticate, then enter the password at the prompt. The Exchange server authenticates your account.</para>
       </listitem>
       <listitem id="bxpfgk7">
        <para>Select your authentication type in the Authentication list.</para>
-       <mediaobject id="b13pb4ri"><imageobject><imagedata format="PNG" fileref="figures/exchng-rec-option.png"/></imageobject></mediaobject>
-       
       </listitem>
       <listitem id="bshnhvg">
        <para>Click the Receiving Options tab.</para>
@@ -5646,7 +5664,6 @@
       <para>Click OK.</para>
      </listitem>
     </orderedlist>
-    <mediaobject id="b184v1vs"><imageobject><imagedata format="PNG" fileref="figures/exchng-settings.png"/></imageobject></mediaobject>
     <para>Your message is automatically sent to anyone who sends you mail until you return and select I Am in the office.</para>
    </section>
   </section>
@@ -5654,7 +5671,6 @@
   <section id="full-advantage">
    <title>Scheduling Meetings with Free/Busy</title>
    <para>Evolution helps you fix a convenient time for a meeting according to the availability of the attendees. Its Free/Busy feature allows you to perform a check on other user's Exchange calendar to find whether they are busy according to their Exchange calendars, if so, you can reschedule the meeting altogether.</para>
-   <mediaobject id="bs4aw7n"><imageobject><imagedata format="PNG" fileref="figures/free_busy.png"/></imageobject></mediaobject>
    <orderedlist>
     <listitem id="bsbgc5a">
      <para>Create a new appointment in the calendar.</para>
@@ -5707,6 +5723,28 @@
    </orderedlist>
    <para>If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select.</para>
   </section>
+  
+  <section id="mapi-features">
+   <title>Evolution MAPI Features</title>
+   <para>With Evolution MAPI providers, you can view the size of a selected folder.</para>
+   <para>You can view the folder size by using the following methods:</para>
+   <orderedlist>
+    <listitem>
+     <para>Select Edit > Preferences > MAPI Account > Edit.</para>
+    </listitem>
+    <listitem>
+     <para>Select the Exchange settings tab.</para>
+    </listitem>
+    <listitem>
+     <para>Select Folder size.</para>
+     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_size_preference.png"/></imageobject></mediaobject>
+    </listitem>
+   </orderedlist>
+   <para>Alternatively, right-click the MAPI Account in the folder tree, then select folder size.</para>
+   <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_size_mapi.png"/></imageobject></mediaobject>
+   <para>A Folder dialog is displayed with details, such as folder name and their respective size. It also provides you the total mailbox size.</para>
+  </section>
+  
  </chapter>
 
  <chapter id="usage-groupwise">
@@ -5770,6 +5808,9 @@
        <para>You can send and receive appointment and meeting requests. Allows Evolution users to schedule meetings and view attendee availability for other users on GroupWise.</para>
       </listitem>
       <listitem>
+       <para>You can resend meeting requests. Also, you can edit the fields, and add or delete participants.</para>
+      </listitem>
+      <listitem>
        <para>You can receive an iCalendar meeting request and add it to your GroupWise calendar.</para>
       </listitem>
      </itemizedlist>
@@ -5810,12 +5851,6 @@
    </itemizedlist>
    <para>There are, however, some features that are not available:</para>
    <itemizedlist>
-    <listitem>
-     <para>Resending items</para>
-    </listitem>
-    <listitem>
-     <para>Retracting items</para>
-    </listitem>
     <listitem>
      <para>Accepting appointments or meetings in offline mode</para>
     </listitem>
@@ -6040,7 +6075,6 @@
   <section id="bv7wck0">
    <title>Scheduling Appointments with Free/Busy</title>
    <para>When you schedule a meeting with your calendar on GroupWise, you can check when other local GroupWise users are busy according to their GroupWise calendars.</para>
-   <mediaobject id="bv7wag5"><imageobject><imagedata format="PNG" fileref="figures/free_busy.png"/></imageobject></mediaobject>
    <para>Reminders for appointments in your GroupWise calendar do not work until you have run Evolution at least once after logging in. This is different from locally stored reminders, which work from the moment you log in, regardless of whether you have run Evolution in the session.</para>
    <orderedlist>
     <listitem id="bv7wal9">
@@ -6059,6 +6093,47 @@
    <para>If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool moves the meeting to the nearest time during which all attendees are available. If you aren't satisfied with those results, you can drag the edges of the meeting time to the hours that you want to select.</para>
   </section>
 
+
+  <section>
+   <title>Resending a GroupWise Meeting Request</title>
+   <orderedlist>
+    <listitem>
+     <para>Right-click an existing meeting that you have organized.</para>
+    </listitem>
+    <listitem>
+     <para>Select Resend meeting. A confirmation dialog is displayed.</para>
+    </listitem>
+    <listitem>
+     <para>Click Ok to resend the meeting.</para>
+     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/groupwise_resend.png"/></imageobject></mediaobject>
+    </listitem>
+     <listitem>
+     <para>(Optional) Edit any of the fields: Duration, Summary, Description</para>
+    </listitem>
+    <listitem>
+     <para>(Optional) Add attendees, either by entering their e-mail addresses into the list, or by clicking the Invite Others button.</para>
+    </listitem>
+    <listitem>
+     <para>To remove an attendee from the list, select the attendee and click Remove.</para>
+    </listitem>
+    <listitem>
+     <para>Click Save to save the meeting.</para>
+    </listitem>
+    <listitem>
+     <para>A Dialog is displayed to check whether you want to retract the original item or not. Click OK to confirm. Click Cancel if you want to keep the original item in the recipients' calendar.</para>
+     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/groupwise_resend_retract.png"/></imageobject></mediaobject>
+    </listitem>
+   </orderedlist>
+   <para>An e-mail is send to all the recipients to invite them to your updated event.</para>
+  </section>
+  
+  
+  <section>
+   <title>Group wise support for header based threading enabled </title>
+   <para>There is no need to enable 'Fall back to threading by subject' from Edit > Preferences > Mail preferences > General tab unless other wise you want messages to be threaded on subject basis.</para>
+  </section>
+  
+  
   <section id="Aaej55l">
    <title>Managing Sent Items</title>
    <itemizedlist>
@@ -6398,7 +6473,6 @@
      <listitem id="bxmtz8x">
       <para>Click OK.</para>
       <para>The user's data appears in the respective components.</para>
-      <mediaobject id="bxq9cow"><imageobject><imagedata format="PNG" fileref="figures/proxy-cal.png"/></imageobject></mediaobject>
       <para>You can set different colors to each user to distinguish between each users' appointments. You can also select whether to display the appointments of a particular user or not.</para>
      </listitem>
     </orderedlist>
@@ -6618,6 +6692,7 @@
    <title>Autocompletion</title>
    <para>The Autocompletion tool lets you choose address books to auto-complete names for you in the mail composer. This functionality requires accessibility to each of the address books you want to use. To enable autocompletion, select each of the address books that you want to use auto completion in the Autocompletion page.</para>
    <para>Select the Always show address of the autocompleted contact check box to show the email address along with the username.</para>
+   <mediaobject><imageobject><imagedata format="PNG" fileref="figures/evolution_contact_preference.png"/></imageobject></mediaobject>
   </section>
 
   <section id="b15fx7uz">
@@ -6783,6 +6858,11 @@
     <para>To enable this feature, select Edit &gt; Preferences &gt; Mail Preferences &gt; Headers &gt; Show the photograph of sender in the email preview. Deselect this option to disable this feature.</para>
     <para>By default it searches only in the local address books enabled for autocompletion. If you deselect the option <guilabel>Search for sender photograph only in the local address book</guilabel>, it searches in all the address books enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph.</para>
     <para>This feature is disabled by default as it causes delay in fetching the messages.</para>
+    <formalpara>
+     <title>Configurable Date and Time Format</title>
+     <para>Although Evolution components have a set of predefined date and time formats, a super user can write acceptable strftime, with new tag %ad for an abbreviated date to show in tables and date headers.</para>
+    </formalpara>
+    <mediaobject><imageobject><imagedata format="PNG" fileref="figures/evolution_mail_preference.png"/></imageobject></mediaobject>
    </section>
 
    <section id="mail-prefs-junk">
@@ -6983,6 +7063,7 @@
      <title>Hide completed tasks after:</title>
      <para>Select this option to have completed tasks hidden after a period of time measured in days, hours, or minutes. If you don't select this option, completed tasks remain in your task list, marked as complete.</para>
     </formalpara>
+    <mediaobject><imageobject><imagedata format="PNG" fileref="figures/calendar_preference.png"/></imageobject></mediaobject>
    </section>
 
    <section id="CACHCGCI">

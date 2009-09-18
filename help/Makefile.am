@@ -12,6 +12,7 @@ DOC_INCLUDES =
 DOC_FIGURES =  \
 	figures/account_editor_a.png 		\
 	figures/attach_reminder_a.png		\
+	figures/calendar_preference_display.png \
 	figures/categories_a.png 		\
 	figures/collap_head_a.png 		\
 	figures/config-cal.png 			\
@@ -22,12 +23,9 @@ DOC_FIGURES =  \
 	figures/evo_adv_search_a.png 		\
 	figures/evo_allday_a.png 		\
 	figures/evo_attachreminder_plugin.png	\
-	figures/evo_backup.png			\
 	figures/evo_backup_prgsbar.png		\
 	figures/evo_backup_warning.png		\
 	figures/evo_blink.png			\
-	figures/evo_cal_a.png 			\
-	figures/evo_cal_advsearch.png		\
 	figures/evo_cal_callout_a.png 		\
 	figures/evo_calender_appointmnt.png 	\
 	figures/evo_cal_prop_a.png		\
@@ -73,8 +71,6 @@ DOC_FIGURES =  \
 	figures/evo_receive_setup_a.png 	\
 	figures/evo_rmdrnotes_a.png 		\
 	figures/evo_rule_a.png 			\
-	figures/evo_select_add_folder.png 	\
-	figures/evo_select_folder.png 		\
 	figures/evo_send_option_a.png 		\
 	figures/evo_send_setup_a.png 		\
 	figures/evo_sendstatus_a.png 		\
@@ -84,21 +80,24 @@ DOC_FIGURES =  \
 	figures/evo_junk_a.png			\
 	figures/evo_offline.png			\
 	figures/evo_Wcal_prop_a.png             \
-	figures/exchg-identity.png 		\
+	figures/evolution_contact_preference.png\
+	figures/evolution_mail_preference.png	\
 	figures/exchng-identity.png 		\
-	figures/exchng-rec-mail.png 		\
 	figures/exchng-rec-mails.png 		\
-	figures/exchng-rec-option.png 		\
 	figures/exchng-rec-options.png 		\
-	figures/exchng-settings.png 		\
 	figures/filter-new-fig.png 		\
-	figures/free_busy.png 			\
+	figures/folder_plus.png			\
+	figures/folder_size_mapi.png		\
+	figures/folder_size_preference.png	\
 	figures/google_cal_view.png		\
+	figures/groupwise_resend.png		\
+	figures/groupwise_resend_retract.png	\
+	figures/local_ics_calendar.png		\
 	figures/mailer_preferences.png 		\
 	figures/mail-threaded.png 		\
+	figures/meeting.png			\
 	figures/minus.png 			\
 	figures/plus.png 			\
-	figures/proxy-cal.png 			\
 	figures/proxy-login.png 		\
 	figures/quick_add_a.png 		\
 	figures/quick_reference.png		\
