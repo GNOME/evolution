@@ -38,7 +38,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnome/gnome-init.h>
 
 #include <camel/camel-url.h>
 
@@ -85,9 +84,14 @@ e_get_accels_filename (void)
 {
 	static gchar *filename = NULL;
 
+	/* XXX The directory corresponds to gnome_user_accels_dir_get()
+	 *     from libgnome.  Continue using this location until GNOME
+	 *     decides on an XDG-compliant location.  Perhaps something
+	 *     like $(XDG_CONFIG_DIR)/accels. */
+
 	if (G_UNLIKELY (filename == NULL))
 		filename = g_build_filename (
-			gnome_user_dir_get (),
+			g_get_home_dir (), ".gnome2",
 			"accels", PACKAGE, NULL);
 
 	return filename;
