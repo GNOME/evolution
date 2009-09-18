@@ -1308,7 +1308,7 @@
      <title>New Message Notification For Folders</title>
      <para>This feature notifies you of new message arrival in any folder. A folder with new mail is identified by the unread icon.The icon is displayed as long as the folder is accessed.</para>
     </formalpara>
-    <para>In a collapsed folder tree, if a new message arrives in the parent folder, the folder name is displayed with a '+' plus sign beside the unread mail count. When a new mesage arrives in any child folders, the parent folder name turns bold.</para>
+    <para>In a collapsed folder tree, if a new message arrives in the parent folder, the folder name is displayed with a '+' plus sign beside the unread mail count. When a new message arrives in any child folders, the parent folder name turns bold.</para>
     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_plus.png"/></imageobject></mediaobject>
     <formalpara id="b1dl93cp">
      <title>Generate D-Bus message:</title>
@@ -5730,7 +5730,7 @@
    <para>You can view the folder size by using the following methods:</para>
    <orderedlist>
     <listitem>
-     <para>Select Edit > Preferences > MAPI Account > Edit.</para>
+     <para>Select Edit &gt; Preferences &gt; MAPI Account &gt; Edit.</para>
     </listitem>
     <listitem>
      <para>Select the Exchange settings tab.</para>
@@ -6104,14 +6104,14 @@
      <para>Select Resend meeting. A confirmation dialog is displayed.</para>
     </listitem>
     <listitem>
-     <para>Click Ok to resend the meeting.</para>
+     <para>Click OK to resend the meeting.</para>
      <mediaobject><imageobject><imagedata format="PNG" fileref="figures/groupwise_resend.png"/></imageobject></mediaobject>
     </listitem>
      <listitem>
      <para>(Optional) Edit any of the fields: Duration, Summary, Description</para>
     </listitem>
     <listitem>
-     <para>(Optional) Add attendees, either by entering their e-mail addresses into the list, or by clicking the Invite Others button.</para>
+     <para>(Optional) Add attendees, either by entering their email addresses into the list, or by clicking the Invite Others button.</para>
     </listitem>
     <listitem>
      <para>To remove an attendee from the list, select the attendee and click Remove.</para>
@@ -6124,12 +6124,12 @@
      <mediaobject><imageobject><imagedata format="PNG" fileref="figures/groupwise_resend_retract.png"/></imageobject></mediaobject>
     </listitem>
    </orderedlist>
-   <para>An e-mail is send to all the recipients to invite them to your updated event.</para>
+   <para>An email is send to all the recipients to invite them to your updated event.</para>
   </section>
   
   
   <section>
-   <title>Group wise support for header based threading enabled </title>
+   <title>GroupWise support for header based threading enabled</title>
    <para>There is no need to enable 'Fall back to threading by subject' from Edit > Preferences > Mail preferences > General tab unless other wise you want messages to be threaded on subject basis.</para>
   </section>
   
@@ -6860,7 +6860,7 @@
     <para>This feature is disabled by default as it causes delay in fetching the messages.</para>
     <formalpara>
      <title>Configurable Date and Time Format</title>
-     <para>Although Evolution components have a set of predefined date and time formats, a super user can write acceptable strftime, with new tag %ad for an abbreviated date to show in tables and date headers.</para>
+     <para>Although Evolution components have a set of predefined date and time formats, an advanced user can write acceptable strftime, with new tag %ad for an abbreviated date to show in tables and date headers.</para>
     </formalpara>
     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/evolution_mail_preference.png"/></imageobject></mediaobject>
    </section>
