@@ -8,7 +8,7 @@ AM_CPPFLAGS =							\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/shell					\
-	-I$(top_builddir)/shell                                 \
+	-DEVOLUTION_BINDIR=\""$(bindir)"\"			\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
@@ -18,7 +18,6 @@ AM_CPPFLAGS =							\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
 	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
-	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\

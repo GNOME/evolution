@@ -2073,7 +2073,6 @@ smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
 sounds/Makefile
-tools/Makefile
 evolution-zip
 evolution-shell.pc
 evolution-plugin.pc

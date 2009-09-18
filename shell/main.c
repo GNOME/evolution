@@ -329,7 +329,7 @@ static GOptionEntry entries[] = {
 	  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
-	  N_("Forcibly shut down all Evolution components"), NULL },
+	  N_("Forcibly shut down Evolution"), NULL },
 #endif
 #ifdef DEVELOPMENT
 	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate,
@@ -391,6 +391,33 @@ set_paths (void)
 	g_free (top_folder_utf8);
 }
 #endif
+
+static void G_GNUC_NORETURN
+shell_force_shutdown (void)
+{
+	gchar *program;
+
+	/* This is not as destructive as it was in the Bonobo era.
+	 * The Evolution-Data-Server D-Bus services should not be killed
+	 * because other programs may be using them.  The alarm daemon is
+	 * an autostart program now and Evolution no longer spawns it, so
+	 * that should not be killed either.  The only thing left to do
+	 * really is shoot ourselves. */
+
+	/* XXX Maybe --force-shutdown should be deprecated. */
+
+	program = g_find_program_in_path ("pkill");
+
+	if (program == NULL) {
+		g_printerr ("Could not find `pkill' program in path.\n");
+		exit (1);
+	}
+
+	/* This does not return. */
+	execl (program, "pkill", "evolution", NULL);
+
+	g_assert_not_reached ();
+}
 
 static void
 shell_window_destroyed_cb (EShell *shell)
@@ -475,7 +502,6 @@ main (gint argc, gchar **argv)
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
-	gchar *filename;
 	GError *error = NULL;
 
 	/* Make ElectricFence work.  */
@@ -520,13 +546,8 @@ main (gint argc, gchar **argv)
 		exit (1);
 	}
 
-	if (force_shutdown) {
-		filename = g_build_filename (
-			EVOLUTION_TOOLSDIR, "killev", NULL);
-		execl (filename, "killev", NULL);
-		/* Not reached */
-		exit (0);
-	}
+	if (force_shutdown)
+		shell_force_shutdown ();
 
 	client = gconf_client_get_default ();
 

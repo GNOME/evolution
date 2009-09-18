@@ -63,7 +63,6 @@ SUBDIRS = 			\
 	doc			\
 	ui			\
 	views			\
-	tools			\
 	po			\
 	sounds			\
 	$(HELP_SUBDIR)
