@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+privlibdir=@privsolibdir@
+privincludedir=@privincludedir@
+
+# The requirements list is kind of guesswork at
+# the moment.  Add more requirements as needed.
+
+Name: Evolution Calendar
+Description: Calendar utilities for Evolution
+Version: @VERSION@
+Requires: evolution-shell libgnomecanvas-2.0
+Libs: -L${privlibdir} -levolution-calendar
+Cflags: -I${privincludedir}

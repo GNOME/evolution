@@ -6,8 +6,10 @@ changelogs =				\
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 				\
-	evolution-shell.pc	\
-	evolution-plugin.pc
+	evolution-calendar.pc			\
+	evolution-mail.pc			\
+	evolution-plugin.pc			\
+	evolution-shell.pc
 
 EXTRA_DIST = 			\
 	AUTHORS			\

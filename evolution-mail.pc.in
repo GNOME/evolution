@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+privlibdir=@privsolibdir@
+privincludedir=@privincludedir@
+
+# The requirements list is kind of guesswork at
+# the moment.  Add more requirements as needed.
+
+Name: Evolution Mail
+Description: Mail utilities for Evolution
+Version: @VERSION@
+Requires: evolution-shell camel-1.2 libgnomecanvas-2.0
+Libs: -L${privlibdir} -levolution-mail
+Cflags: -I${privincludedir}

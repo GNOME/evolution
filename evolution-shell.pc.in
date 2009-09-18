@@ -20,6 +20,6 @@ execversion=@BASE_VERSION@
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
-Requires: unique-1.0
+Requires: dbus-glib-1 gconf-2.0 gnome-desktop-2.0 gtk+-2.0 libedataserverui-1.2 libglade-2.0 unique-1.0
 Libs: -L${privlibdir} -leshell -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}
