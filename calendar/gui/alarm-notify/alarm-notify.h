@@ -26,44 +26,54 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
-#include <bonobo/bonobo-object.h>
 #include <libedataserver/e-msgport.h>
-#include "evolution-calendar.h"
 
-
-#define TYPE_ALARM_NOTIFY            (alarm_notify_get_type ())
-#define ALARM_NOTIFY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_ALARM_NOTIFY, AlarmNotify))
-#define ALARM_NOTIFY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_ALARM_NOTIFY,		\
-				      AlarmNotifyClass))
-#define IS_ALARM_NOTIFY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_ALARM_NOTIFY))
-#define IS_ALARM_NOTIFY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_ALARM_NOTIFY))
+/* Standard GObject macros */
+#define TYPE_ALARM_NOTIFY \
+	(alarm_notify_get_type ())
+#define ALARM_NOTIFY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), TYPE_ALARM_NOTIFY, AlarmNotify))
+#define ALARM_NOTIFY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), TYPE_ALARM_NOTIFY, AlarmNotifyClass))
+#define IS_ALARM_NOTIFY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), TYPE_ALARM_NOTIFY))
+#define IS_ALARM_NOTIFY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), TYPE_ALARM_NOTIFY))
+#define ALARM_NOTIFY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), TYPE_ALARM_NOTIFY, AlarmNotifyClass))
+
+G_BEGIN_DECLS
 
 typedef struct _AlarmNotify AlarmNotify;
 typedef struct _AlarmNotifyClass AlarmNotifyClass;
-
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
 struct _AlarmNotify {
-	BonoboObject object;
-
-	/* Private data */
+	GObject parent;
 	AlarmNotifyPrivate *priv;
 };
 
 struct _AlarmNotifyClass {
-	BonoboObjectClass parent_class;
-	POA_GNOME_Evolution_Calendar_AlarmNotify__epv epv;
+	GObjectClass parent_class;
 };
 
-GType alarm_notify_get_type (void);
+GType		alarm_notify_get_type		(void);
+AlarmNotify *	alarm_notify_new		(void);
+void		alarm_notify_add_calendar	(AlarmNotify *an,
+						 ECalSourceType source_type,
+						 ESource *source,
+						 gboolean load_afterwards);
+void		alarm_notify_remove_calendar	(AlarmNotify *an,
+						 ECalSourceType source_type,
+						 const gchar *str_uri);
+ESourceList *	alarm_notify_get_selected_calendars
+						(AlarmNotify *an);
 
-AlarmNotify *alarm_notify_new (void);
+G_END_DECLS
 
-void alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type, ESource *source, gboolean load_afterwards);
-void alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const gchar *str_uri);
-
-ESourceList *alarm_notify_get_selected_calendars (AlarmNotify *);
-
-
-
-#endif
+#endif /* ALARM_NOTIFY_H */

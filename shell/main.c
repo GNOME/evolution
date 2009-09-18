@@ -429,7 +429,7 @@ create_default_shell (void)
 
 	shell = g_object_new (
 		E_TYPE_SHELL,
-		"name", "org.gnome.evolution",
+		"name", "org.gnome.Evolution",
 		"online", online,
 		NULL);
 

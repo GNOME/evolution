@@ -1,5 +1,4 @@
-privlibexec_PROGRAMS = evolution-alarm-notify
-
+bin_PROGRAMS = evolution-alarm-notify
 
 AM_CPPFLAGS = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
@@ -16,7 +15,6 @@ glade_DATA =		\
 	alarm-notify.glade
 
 evolution_alarm_notify_SOURCES =	\
-	$(CORBA_GENERATED)		\
 	alarm.c				\
 	alarm.h				\
 	alarm-notify.c			\

@@ -43,7 +43,6 @@
 #include <libnotify/notify.h>
 #endif
 
-#include "evolution-calendar.h"
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"

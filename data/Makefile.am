@@ -4,6 +4,11 @@ desktop_file = $(desktop_in_in_file:.desktop.in.in=.desktop)
 %.desktop.in: %.desktop.in.in
 	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" -e "s|\@DATASERVER_EXEC_VERSION\@|$(DATASERVER_EXEC_VERSION)|" $< > $@
 
+autostartdir = $(sysconfdir)/xdg/autostart
+autostart_in_in_files = evolution-alarm-notify.desktop.in.in
+autostart_in_files = evolution-alarm-notify.desktop.in
+autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
+
 @INTLTOOL_DESKTOP_RULE@
 
 keysdir = $(datadir)/mime-info
@@ -57,10 +62,12 @@ uninstall-local: uninstall-kde-applnk
 	rm -rf $(DESTDIR)$(mimedir)/$(mime_file) ;
 
 CLEANFILES =					\
+	$(autostart_DATA)			\
 	$(desktop_file)				\
 	$(keys_file)
 
 EXTRA_DIST =					\
+	$(autostart_in_in_files)		\
 	$(desktop_in_in_file)			\
 	$(mime_file)				\
 	$(keys_in_file)				\

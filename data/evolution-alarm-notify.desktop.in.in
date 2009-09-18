@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+_Name=Evolution Alarm Notify
+_Comment=Calendar event notifications
+Icon=appointment-soon
+Exec=evolution-alarm-notify
+Terminal=false
+Type=Application
+Categories=
+OnlyShowIn=GNOME;XFCE;
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=evolution
+X-GNOME-Bugzilla-Component=calendar
+X-GNOME-Bugzilla-Version=@VERSION@
