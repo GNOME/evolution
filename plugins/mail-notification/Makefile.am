@@ -8,6 +8,7 @@ endif
 AM_CPPFLAGS =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	$(EVOLUTION_MAIL_CFLAGS)		\
 	$(DBUS_GLIB_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)			\

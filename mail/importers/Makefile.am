@@ -9,6 +9,7 @@ AM_CPPFLAGS = -I.. 					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
@@ -27,7 +28,8 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(WIN32_BOOTSTRAP_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/filter/libfilter.la			\
-	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/mail/libevolution-mail.la		\
+	$(GNOME_PLATFORM_LIBS)					\
 	$(IMPORTERS_LIBS)
 
 -include $(top_srcdir)/git.mk

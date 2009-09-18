@@ -1,6 +1,7 @@
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
@@ -17,6 +18,7 @@ liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/em-format/libemformat.la		\
+	$(GNOME_PLATFORM_LIBS)					\
 	$(CAMEL_LIBS)						\
 	$(EVOLUTION_CALENDAR_LIBS)
 

@@ -3,6 +3,7 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 module_LTLIBRARIES =					\
@@ -75,6 +76,7 @@ libevolution_module_calendar_la_LIBADD =		\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/widgets/table/libetable.la			\
+	$(GNOME_PLATFORM_LIBS)						\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 

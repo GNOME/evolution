@@ -14,6 +14,7 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CERT_UI_CFLAGS)				\
 	$(THREADS_CFLAGS)				\
@@ -163,6 +164,7 @@ libevolution_mail_la_LIBADD =				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(GNOME_PLATFORM_LIBS)				\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)

@@ -4,6 +4,7 @@ AM_CPPFLAGS = -I. 						\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/mail                          \
 	-I$(top_builddir)/composer			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
@@ -23,6 +24,7 @@ liborg_gnome_email_custom_header_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/mail/libevolution-mail.la 		\
+	$(GNOME_PLATFORM_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
 
 liborg_gnome_email_custom_header_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

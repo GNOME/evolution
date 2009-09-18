@@ -1,6 +1,7 @@
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
@@ -18,6 +19,7 @@ liborg_gnome_mail_to_task_la_LIBADD =	\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(top_builddir)/mail/libevolution-mail.la			\
+	$(GNOME_PLATFORM_LIBS)						\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
 

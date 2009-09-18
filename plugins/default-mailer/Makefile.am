@@ -1,6 +1,7 @@
 AM_CPPFLAGS =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@
@@ -15,6 +16,7 @@ liborg_gnome_default_mailer_la_SOURCES = default-mailer.c
 liborg_gnome_default_mailer_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_default_mailer_la_LIBADD =	\
 	$(top_builddir)/mail/libevolution-mail.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

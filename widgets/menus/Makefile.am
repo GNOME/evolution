@@ -5,6 +5,7 @@ AM_CPPFLAGS =					\
 	-I$(top_srcdir)/widgets			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"  \
 	-DG_LOG_DOMAIN=\"menus\"		\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	$(E_UTIL_CFLAGS)
 
 libmenus_la_SOURCES = 				\
@@ -44,6 +45,7 @@ libmenus_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(E_UTIL_LIBS)
 
 icons =

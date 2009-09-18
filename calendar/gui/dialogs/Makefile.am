@@ -11,6 +11,7 @@ AM_CPPFLAGS = 								\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DPREFIX=\""$(prefix)"\"					\
+	$(GNOME_PLATFORM_CFLAGS)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
@@ -48,7 +49,8 @@ ecalendarinclude_HEADERS =	\
 noinst_LTLIBRARIES = libcal-dialogs.la
 
 libcal_dialogs_la_LIBADD =					\
-	$(top_builddir)/addressbook/util/libeabutil.la
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(GNOME_PLATFORM_LIBS)
 
 libcal_dialogs_la_SOURCES =	\
 	$(IDL_GENERATED)	\

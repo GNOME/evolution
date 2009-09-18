@@ -3,6 +3,7 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/composer			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
@@ -21,6 +22,7 @@ liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

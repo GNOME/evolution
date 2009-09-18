@@ -2,6 +2,7 @@ AM_CPPFLAGS =								\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
+	$(GNOME_PLATFORM_CFLAGS)					\
 	$(EVOLUTION_MAIL_CFLAGS)					\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
@@ -53,7 +54,8 @@ libevolution_module_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/mail/libevolution-mail.la			\
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
+	$(GNOME_PLATFORM_LIBS)
 
 libevolution_module_mail_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED)

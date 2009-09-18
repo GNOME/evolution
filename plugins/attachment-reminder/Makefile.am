@@ -2,6 +2,7 @@ AM_CPPFLAGS =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
@@ -28,7 +29,8 @@ liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/mail/libevolution-mail.la \
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

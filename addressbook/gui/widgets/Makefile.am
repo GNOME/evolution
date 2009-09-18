@@ -14,6 +14,7 @@ AM_CPPFLAGS =						\
 	-I$(top_srcdir)/addressbook/util		\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LTLIBRARIES =				\
@@ -66,7 +67,8 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/widgets/table/libetable.la		\
 	$(top_builddir)/widgets/menus/libmenus.la		\
-	$(top_builddir)/a11y/libevolution-a11y.la
+	$(top_builddir)/a11y/libevolution-a11y.la		\
+	$(GNOME_PLATFORM_LIBS)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

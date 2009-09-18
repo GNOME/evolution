@@ -20,6 +20,6 @@ execversion=@BASE_VERSION@
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
-Requires: libgnome-2.0 libgnomeui-2.0 unique-1.0
+Requires: unique-1.0
 Libs: -L${privlibdir} -leshell -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}

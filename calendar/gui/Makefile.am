@@ -67,6 +67,7 @@ AM_CPPFLAGS =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBSOUP_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
@@ -222,6 +223,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(GNOME_PLATFORM_LIBS)						\
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
