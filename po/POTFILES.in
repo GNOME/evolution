@@ -446,7 +446,6 @@ smime/gui/smime-ui.glade
 smime/lib/e-cert-db.c
 smime/lib/e-cert.c
 smime/lib/e-pkcs12.c
-tools/killev.c
 views/addressbook/galview.xml
 views/calendar/galview.xml
 views/mail/galview.xml
