@@ -28,10 +28,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-main.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <canberra-gtk.h>
@@ -887,51 +883,45 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, gint snooze_mins)
 static void
 edit_component (ECal *client, ECalComponent *comp)
 {
-#if 0  /* KILL-BONOBO */
-	const gchar *uid;
-	const gchar *uri;
-	ECalSourceType source_type;
-	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CompEditorFactory factory;
-	GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode corba_type;
+	ESource *source;
+	gchar *command_line;
+	const gchar *scheme;
+	const gchar *comp_uid;
+	const gchar *source_uid;
+	GError *error = NULL;
 
-	d(printf("%s:%d (edit_component) - Client %p\n",__FILE__, __LINE__, client));
+	/* XXX Don't we have a function to construct these URIs?
+	 *     How are other apps expected to know this stuff? */
 
-	e_cal_component_get_uid (comp, &uid);
+	source = e_cal_get_source (client);
+	source_uid = e_source_peek_uid (source);
 
-	uri = e_cal_get_uri (client);
-	source_type = e_cal_get_source_type (client);
+	e_cal_component_get_uid (comp, &comp_uid);
 
-	/* Get the factory */
-	CORBA_exception_init (&ev);
-	factory = bonobo_activation_activate_from_id (
-		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION, 0, NULL, &ev);
-
-	if (BONOBO_EX (&ev)) {
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev), NULL);
-		CORBA_exception_free (&ev);
-		return;
+	switch (e_cal_get_source_type (client)) {
+		case E_CAL_SOURCE_TYPE_EVENT:
+			scheme = "calendar:";
+			break;
+		case E_CAL_SOURCE_TYPE_TODO:
+			scheme = "task:";
+			break;
+		case E_CAL_SOURCE_TYPE_JOURNAL:
+			scheme = "memo:";
+			break;
+		default:
+			g_return_if_reached ();
 	}
 
-	/* Edit the component */
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_TODO:
-		corba_type = GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO;
-		break;
-	default:
-		corba_type = GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT;
+	command_line = g_strdup_printf (
+		"%s %s///?source-uid=%s&comp-uid=%s",
+		PACKAGE, scheme, source_uid, comp_uid);
+
+	if (!g_spawn_command_line_async (command_line, &error)) {
+		g_critical ("%s", error->message);
+		g_error_free (error);
 	}
 
-	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (gchar *) uid, corba_type, &ev);
-
-	if (BONOBO_EX (&ev))
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev), NULL);
-
-	CORBA_exception_free (&ev);
-
-	/* Get rid of the factory */
-	bonobo_object_release_unref (factory, NULL);
-#endif
+	g_free (command_line);
 }
 
 typedef struct {
