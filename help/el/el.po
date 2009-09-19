@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2009-04-24 19:00+0000\n"
-"PO-Revision-Date: 2009-05-22 08:39+0300\n"
+"POT-Creation-Date: 2009-08-28 13:34+0000\n"
+"PO-Revision-Date: 2009-09-12 21:10+0300\n"
 "Last-Translator: Μάριος Ζηντίλης <m.zindilis@dmajor.org>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
@@ -6225,7 +6225,6 @@ msgid "Adding a Signing Certificate"
 msgstr "Προσθήκη ενός πιστοποιητικού υπογραφής"
 
 #: C/evolution.xml:2450(para)
-#| msgid "Certificates"
 msgid "Click Certificates."
 msgstr "Επιλέξτε Πιστοποιητικά."
 
@@ -8756,8 +8755,9 @@ msgid "Specify the search criteria from any of the following:"
 msgstr "Ορίστε τα κριτήρια αναζήτησης από τα παρακάτω:"
 
 #: C/evolution.xml:3582(para)
-msgid "Name begins with"
-msgstr "Όνομα αρχίζει με"
+#| msgid "Summary contains"
+msgid "Name contains"
+msgstr "Το όνομα περιέχει"
 
 #: C/evolution.xml:3585(para)
 msgid "Email begins with"
@@ -10498,7 +10498,6 @@ msgstr "Η περιγραφή περιέχει"
 
 #: C/evolution.xml:4460(para) C/evolution.xml:4776(para)
 #: C/evolution.xml:5012(para)
-#| msgid "Any field contains"
 msgid "Any field Contains"
 msgstr "Οποιοδήποτε πεδίο περιέχει"
 
@@ -12810,7 +12809,6 @@ msgstr ""
 "εμφανίζεται: <emphasis>Απαιτείται απάντηση: Όταν είναι βολικό</emphasis>."
 
 #: C/evolution.xml:6170(title)
-#| msgid "Birthday"
 msgid "Within days:"
 msgstr "Μέσα σε μέρες:"
 
@@ -13883,7 +13881,6 @@ msgid "HTML Mail Preferences"
 msgstr "Προτιμήσεις αλληλογραφίας HTML"
 
 #: C/evolution.xml:6685(link) C/evolution.xml:6743(title)
-#| msgid "Mail Preferences"
 msgid "Label Preferences"
 msgstr "Προτιμήσεις ετικετών"
 
@@ -15080,8 +15077,8 @@ msgid ""
 "The <link linkend=\"search-scope\">search scope</link> is the breadth of a "
 "given search. The following options are available:"
 msgstr ""
-"Το <link linkend=\"search-scope\">βάθος αναζήτησης</link> είναι το εύρος μιας "
-"αναζήτησης. Διατίθενται οι ακόλουθες επιλογές:"
+"Το <link linkend=\"search-scope\">βάθος αναζήτησης</link> είναι το εύρος "
+"μιας αναζήτησης. Διατίθενται οι ακόλουθες επιλογές:"
 
 #: C/evolution.xml:7234(title)
 msgid "One:"
@@ -16635,6 +16632,9 @@ msgstr ""
 " Μάριος Ζηντίλης <m.zindilis@dmajor.org>\n"
 "\n"
 "Για περισσότερα δείτε: http://gnome.gr"
+
+#~ msgid "Name begins with"
+#~ msgstr "Όνομα αρχίζει με"
 
 #, fuzzy
 #~ msgid "User's Guide to the Evolution Groupware Suite and Email Client"
