@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include <libical/ical.h>
 #include <glade/glade.h>
-#include <misc/e-map.h>
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
 #include "e-util/e-util-private.h"
