@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.gnome-2-28\n"
 "POT-Creation-Date: 2009-09-19 13:35+0000\n"
-"PO-Revision-Date: 2009-09-19 16:49+0200\n"
+"PO-Revision-Date: 2009-09-19 21:51+0200\n"
 "Last-Translator: Jorge Gonzalez <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10222,10 +10222,9 @@ msgid "To access a local ics or iCal file in the Calendar view:"
 msgstr "Para acceder a un archivo local ics o iCal en la vista del Calendario:"
 
 #: C/evolution.xml:4636(para)
-#, fuzzy
 #| msgid "Select Google from the Type drop-down list."
 msgid "Select On this computer from the Type drop-down list."
-msgstr "Seleccione Google de la lista desplegable de tipos."
+msgstr "Seleccione En este equipo de la lista desplegable Tipo."
 
 #: C/evolution.xml:4637(para)
 #| msgid "Specify a name for the Google calendar."
@@ -10233,10 +10232,9 @@ msgid "In the Name field, specify a name for the local calendar."
 msgstr "En el campo Nombre especifique un nombre para el calendario local."
 
 #: C/evolution.xml:4638(para)
-#, fuzzy
 #| msgid "Select the appropriate options."
 msgid "Select customize options."
-msgstr "Seleccione las opciones apropiadas."
+msgstr "Seleccione Opciones de personalización."
 
 #: C/evolution.xml:4639(para)
 msgid "In the File name field, give ics / ical file location as the calendar source."
@@ -10248,16 +10246,12 @@ msgid "In the Refresh field, choose refresh type from the drop-down list."
 msgstr "En el campo Actualizar, seleccione de la lista desplegable el tipo de actualización."
 
 #: C/evolution.xml:4641(para)
-#, fuzzy
 #| msgid ""
 #| "Select the required duration on the calender view and enter the summary."
 msgid "Select the Force read only option if you want the calendar read-only."
-msgstr ""
-"Seleccione la duración requerida en la vista del calendario y escriba el "
-"resumen."
+msgstr "Seleccione la opción Forzar sólo lectura si quiere que el calendario sea de sólo lectura."
 
 #: C/evolution.xml:4642(para)
-#, fuzzy
 #| msgid ""
 #| "If you want to set a color label for the calendar, click the Color tab, "
 #| "select the desired color, then click OK."
@@ -10265,8 +10259,8 @@ msgid ""
 "To set a color label for the calendar, click the Color tab, select the "
 "desired color, then click OK."
 msgstr ""
-"Si quiere establecer un color para una etiqueta del calendario, pulse la "
-"solapa Color y seleccione el color que desee y pulse Aceptar."
+"Para establecer el color de la etiqueta para el calendario pulse la solapa Color, seleccione el "
+"color que quiera y después pulse Aceptar."
 
 #: C/evolution.xml:4649(para)
 msgid ""
@@ -11737,16 +11731,14 @@ msgid "You can view the folder size by using the following methods:"
 msgstr "Puede ver el tamaño de la carpeta usando los siguientes métodos:"
 
 #: C/evolution.xml:5733(para)
-#, fuzzy
 #| msgid "Select Edit &gt; Preferences, then select Mail Accounts."
 msgid "Select Edit &gt; Preferences &gt; MAPI Account &gt; Edit."
-msgstr "Pulse Editar &gt; Preferencias, después seleccione Cuentas de correo."
+msgstr "Seleccione Editar &gt; Preferencias &gt; Cuenta MAPI &gt; Editar."
 
 #: C/evolution.xml:5736(para)
-#, fuzzy
 #| msgid "Click the Exchange Settings tab."
 msgid "Select the Exchange settings tab."
-msgstr "Pulse en la solapa Configuración de Exchange."
+msgstr "Seleccione la solapa de ajustes de Exchange."
 
 #: C/evolution.xml:5739(para)
 #| msgid "Select Folder &gt; Subscriptions."
@@ -12225,24 +12217,22 @@ msgstr "Reenviar una solicitud de reunión GroupWise"
 
 #: C/evolution.xml:6101(para)
 msgid "Right-click an existing meeting that you have organized."
-msgstr ""
+msgstr "Pulse con el botón derecho del ratón sobre una reunión existente que haya organizado."
 
 #: C/evolution.xml:6104(para)
 msgid "Select Resend meeting. A confirmation dialog is displayed."
-msgstr ""
+msgstr "Seleccione Reenviar reunión. Se mostrará un diálogo de confirmación."
 
 #: C/evolution.xml:6107(para)
-#, fuzzy
 #| msgid "Click Save to save the meeting."
 msgid "Click OK to resend the meeting."
-msgstr "Pulse Guardar para guardar la reunión."
+msgstr "Pulse Aceptar para reenviar la reunión."
 
 #: C/evolution.xml:6111(para)
 msgid "(Optional) Edit any of the fields: Duration, Summary, Description"
-msgstr ""
+msgstr "(Opcional) Edite cualquiera de los campos: Duración, Resumen, Descripción."
 
 #: C/evolution.xml:6114(para)
-#, fuzzy
 #| msgid ""
 #| "Add attendees, either by entering their email addresses into the list, or "
 #| "by clicking the Invite Others button."
@@ -12250,11 +12240,10 @@ msgid ""
 "(Optional) Add attendees, either by entering their email addresses into the "
 "list, or by clicking the Invite Others button."
 msgstr ""
-"Añada participantes, ya sea introduciendo sus direcciones de correo-e en la "
+"(Opcional) Añada participantes, ya sea introduciendo sus direcciones de correo-e en la "
 "lista o pulsando el botón Invitar a otros."
 
 #: C/evolution.xml:6117(para)
-#, fuzzy
 #| msgid ""
 #| "To remove an attendee from the list, select an attendee and press Remove."
 msgid "To remove an attendee from the list, select the attendee and click Remove."
@@ -12268,19 +12257,21 @@ msgid ""
 "or not. Click OK to confirm. Click Cancel if you want to keep the original "
 "item in the recipients' calendar."
 msgstr ""
+"Se muestra un diálogo para comprobar si quiere retraer el elemento original "
+"o no. Pulse Aceptar para confirmar. Pulse Cancelar si quiere mantener el elemento "
+"original en el calendario del destinatario."
 
 #: C/evolution.xml:6127(para)
-#, fuzzy
 #| msgid ""
 #| "An email is sent out to all the recipients, inviting them to your event."
 msgid "An email is send to all the recipients to invite them to your updated event."
 msgstr ""
 "Se enviará un correo-e a todos los destinatarios, invitándoles a su "
-"acontecimiento."
+"acontecimiento actualizado."
 
 #: C/evolution.xml:6132(title)
 msgid "GroupWise support for header based threading enabled"
-msgstr ""
+msgstr "Soporte GroupWise para hilos basados en cabeceras activado"
 
 #: C/evolution.xml:6133(para)
 msgid ""
@@ -12288,6 +12279,9 @@ msgid ""
 "&gt; Preferences &gt; Mail preferences &gt; General tab unless other wise "
 "you want messages to be threaded on subject basis."
 msgstr ""
+"No hay necesidad de activar «Agrupar los mensajes por asunto» desde la solapa Editar "
+"&gt; Preferencias &gt; Opciones de correo &gt; General a no ser que quiera agrupar los "
+"mensajes por su asunto."
 
 #: C/evolution.xml:6141(link) C/evolution.xml:6161(title)
 msgid "Confirming Delivery of Items You have Sent"
@@ -13803,7 +13797,7 @@ msgstr ""
 
 #: C/evolution.xml:6862(title)
 msgid "Configurable Date and Time Format"
-msgstr ""
+msgstr "Formato de fecha y hora configurable"
 
 #: C/evolution.xml:6863(para)
 msgid ""
@@ -13811,6 +13805,9 @@ msgid ""
 "formats, an advanced user can write acceptable strftime, with new tag %ad "
 "for an abbreviated date to show in tables and date headers."
 msgstr ""
+"Aunque los componentes de Evolution tienen un conjunto de formatos de hora y fecha "
+"predeterminados, un usuario avanzado puede escribir formatos strftime aceptables, con una "
+"etiqueta nueva %ad para la fecha abreviada que mostrar en las cabeceras de tablas y fechas."
 
 #: C/evolution.xml:6870(para)
 msgid ""
