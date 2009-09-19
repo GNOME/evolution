@@ -197,10 +197,11 @@ mail_label_list_store_row_inserted (GtkTreeModel *model,
 	gchar *tag;
 
 	store = E_MAIL_LABEL_LIST_STORE (model);
+	tag = e_mail_label_list_store_get_tag (store, iter);
+	g_return_if_fail (tag != NULL);
 
 	/* Hash table takes ownership of both tag and reference. */
 	tag_index = store->priv->tag_index;
-	tag = e_mail_label_list_store_get_tag (store, iter);
 	reference = gtk_tree_row_reference_new (model, path);
 	g_hash_table_insert (tag_index, tag, reference);
 
