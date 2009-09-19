@@ -43,6 +43,10 @@ calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/memo/memo-conduit.c
 calendar/conduits/todo/todo-conduit.c
+calendar/gui/alarm-notify/alarm-notify-dialog.c
+calendar/gui/alarm-notify/alarm-notify.glade
+calendar/gui/alarm-notify/alarm-queue.c
+calendar/gui/alarm-notify/util.c
 calendar/gui/apps_evolution_calendar.schemas.in
 calendar/gui/cal-editor-utils.c
 calendar/gui/calendar-view-factory.c
@@ -136,6 +140,7 @@ composer/e-composer-post-header.c
 composer/e-composer-private.c
 composer/e-msg-composer.c
 composer/mail-composer.error.xml
+data/evolution-alarm-notify.desktop.in.in
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
 e-util/e-categories-config.c
