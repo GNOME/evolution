@@ -1539,7 +1539,7 @@ static GtkRadioActionEntry calendar_filter_entries[] = {
 
 	{ "calendar-filter-active-appointments",
 	  NULL,
-	  N_("Active Appointements"),
+	  N_("Active Appointments"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  CALENDAR_FILTER_ACTIVE_APPOINTMENTS },
