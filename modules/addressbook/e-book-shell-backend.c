@@ -344,7 +344,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "contact-new-list",
 	  "stock_contact-list",
-	  N_("Contact _List"),
+	  NC_("New", "Contact _List"),
 	  "<Shift><Control>l",
 	  N_("Create a new contact list"),
 	  G_CALLBACK (action_contact_new_cb) }
