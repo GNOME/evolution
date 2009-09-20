@@ -16,9 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution\n"
-"POT-Creation-Date: 2009-09-20 16:25+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-09-21 00:44+0200\n"
 "PO-Revision-Date: 2009-08-28 21:41-0500\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -877,7 +876,6 @@ msgstr "Dotaz"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:707
 #, fuzzy
-#| msgid "Search Filter"
 msgid "Search Interrupted"
 msgstr "Filtr hledání"
 
@@ -901,7 +899,6 @@ msgstr "Chyba při úpravě karty"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:655
 #: ../calendar/gui/e-calendar-table.c:897 ../calendar/gui/e-memo-table.c:680
 #, fuzzy
-#| msgid "Select View: %s"
 msgid "Shell View"
 msgstr "Vybrat zobrazení: %s"
 
@@ -911,15 +908,14 @@ msgstr "Zdroj"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1134
 msgid "Are you sure you want to delete these contact lists?"
-msgstr ""
-"Opravdu chcete odstranit tyto seznamy kontaktů?"
+msgstr "Opravdu chcete odstranit tyto seznamy kontaktů?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1138
 msgid "Are you sure you want to delete this contact list?"
-msgstr ""
-"Opravdu chcete odstranit tyto seznamy kontaktů?"
+msgstr "Opravdu chcete odstranit tyto seznamy kontaktů?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1142
+#, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Opravdu chcete odstranit seznam kontaktů (%s)?"
 
@@ -929,9 +925,6 @@ msgstr "Opravdu chcete odstranit tyto kontakty?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1152
 #, fuzzy
-#| msgid ""
-#| "Are you sure you want\n"
-#| "to delete these contacts?"
 msgid "Are you sure you want to delete this contact?"
 msgstr ""
 "Opravdu chcete\n"
@@ -939,9 +932,6 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1156
 #, fuzzy, c-format
-#| msgid ""
-#| "Are you sure you want\n"
-#| "to delete contact (%s)?"
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr ""
 "Opravdu chcete\n"
@@ -954,12 +944,6 @@ msgstr "Uložit jako VCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1345
 #, fuzzy, c-format
-#| msgid ""
-#| "Opening %d contact will open %d new window as well.\n"
-#| "Do you really want to display this contact?"
-#| msgid_plural ""
-#| "Opening %d contacts will open %d new windows as well.\n"
-#| "Do you really want to display all of these contacts?"
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
@@ -2675,7 +2659,6 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
 #, fuzzy
-#| msgid "_Reply style:"
 msgid "Memo layout style"
 msgstr "Styl _odpovědí:"
 
@@ -2685,7 +2668,6 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:44
 #, fuzzy
-#| msgid "Month view vertical pane position"
 msgid "Memo preview pane position (vertical)"
 msgstr "Umístění svislého panelu v zobrazení měsíce"
 
@@ -2823,13 +2805,11 @@ msgstr "Zobrazovat pole stavu v editoru události/úkolu/schůzky"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 #, fuzzy
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the memo preview pane"
 msgstr "Zobrazovat panel \"Náhled\""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
 #, fuzzy
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the task preview pane"
 msgstr "Zobrazovat panel \"Náhled\""
 
@@ -2863,13 +2843,11 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 #, fuzzy
-#| msgid "Tasks vertical pane position"
 msgid "Task preview pane position (horizontal)"
 msgstr "Umístění svislého panelu úkolů"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
 #, fuzzy
-#| msgid "Tasks vertical pane position"
 msgid "Task preview pane position (vertical)"
 msgstr "Umístění svislého panelu úkolů"
 
@@ -4850,7 +4828,6 @@ msgstr "Bez názvu"
 
 #: ../calendar/gui/e-cal-component-preview.c:116
 #, fuzzy
-#| msgid "Categories"
 msgid "Categories:"
 msgstr "Kategorie"
 
@@ -5004,14 +4981,12 @@ msgstr "Ne"
 #: ../calendar/gui/e-cal-model.c:362 ../calendar/gui/gnome-cal.c:522
 #: ../shell/e-shell.c:720
 #, fuzzy
-#| msgid "Exchange Settings"
 msgid "Shell Settings"
 msgstr "Nastavení Exchange"
 
 #: ../calendar/gui/e-cal-model.c:363 ../calendar/gui/gnome-cal.c:523
 #: ../shell/e-shell.c:721
 #, fuzzy
-#| msgid "Autocompletion Settings"
 msgid "Application-wide settings"
 msgstr "Nastavení automatického doplňování"
 
@@ -8283,7 +8258,6 @@ msgstr "Ko_pie:"
 
 #: ../composer/e-composer-header-table.c:969
 #, fuzzy
-#| msgid "Show"
 msgid "Show CC"
 msgstr "Zobrazit"
 
@@ -8293,7 +8267,6 @@ msgstr "_Skrytá kopie:"
 
 #: ../composer/e-composer-header-table.c:975
 #, fuzzy
-#| msgid "Show"
 msgid "Show BCC"
 msgstr "Zobrazit"
 
@@ -8507,13 +8480,11 @@ msgstr "_Uložit koncept"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 #, fuzzy
-#| msgid "Calendar information"
 msgid "Calendar event notifications"
 msgstr "Informace o kalendáři"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 #, fuzzy
-#| msgid "Evolution Elm importer"
 msgid "Evolution Alarm Notify"
 msgstr "Importér Evolution z Elm"
 
@@ -8670,7 +8641,6 @@ msgstr "Interní chyba, žádáno o neznámou chybu '%s'"
 
 #: ../e-util/e-logger.c:172
 #, fuzzy
-#| msgid "Name of the component being logged"
 msgid "Name of the logger"
 msgstr "Název právě přihlášené komponenty"
 
@@ -8680,7 +8650,6 @@ msgstr "Název souboru:"
 
 #: ../e-util/e-module.c:189
 #, fuzzy
-#| msgid "Change the name of this folder"
 msgid "The filename of the module"
 msgstr "Změnit název této složky"
 
@@ -9250,7 +9219,6 @@ msgstr "Seznamový pohled"
 
 #: ../mail/e-mail-browser.c:663
 #, fuzzy
-#| msgid "Selection Mode"
 msgid "Shell Module"
 msgstr "Režim výběru"
 
@@ -9260,13 +9228,11 @@ msgstr ""
 
 #: ../mail/e-mail-browser.c:674
 #, fuzzy
-#| msgid "Deleted"
 msgid "Show Deleted"
 msgstr "Odstraněno"
 
 #: ../mail/e-mail-browser.c:675
 #, fuzzy
-#| msgid "Forwarded messages"
 msgid "Show deleted messages"
 msgstr "Přeposlané zprávy"
 
@@ -9479,7 +9445,6 @@ msgstr "Zrušit _značku"
 
 #: ../mail/e-mail-reader.c:1161
 #, fuzzy
-#| msgid "Create a new task from the selected message"
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Vytvořit nový úkol z vybrané zprávy"
 
@@ -9489,7 +9454,6 @@ msgstr "Označit jako _dokončeno"
 
 #: ../mail/e-mail-reader.c:1168
 #, fuzzy
-#| msgid "Select all messages in the same thread as the selected message"
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Vybrat všechny zprávy ve stejném vlákně, jako je vybraná zpráva"
 
@@ -9499,7 +9463,6 @@ msgstr "_K vyřízení..."
 
 #: ../mail/e-mail-reader.c:1175
 #, fuzzy
-#| msgid "Flag selected messages for follow-up"
 msgid "Flag the selected messages for follow-up"
 msgstr "Označit vybrané zprávy pro follow-up"
 
@@ -9566,7 +9529,6 @@ msgstr "_Není nevyžádaná"
 
 #: ../mail/e-mail-reader.c:1231
 #, fuzzy
-#| msgid "Mark the selected messages as not being junk"
 msgid "Mark the selected messasges as not being junk"
 msgstr "Označit vybrané zprávy, že nejsou nevyžádané"
 
@@ -9706,7 +9668,6 @@ msgstr "Odpovědět _všem"
 
 #: ../mail/e-mail-reader.c:1357
 #, fuzzy
-#| msgid "Compose a reply to all of the recipients of the selected message"
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Napsat odpověď všem příjemcům vybrané zprávy"
 
@@ -9729,13 +9690,11 @@ msgstr "Napsat odpověď odesílateli vybrané zprávy"
 
 #: ../mail/e-mail-reader.c:1376
 #, fuzzy
-#| msgid "Save as..."
 msgid "_Save as mbox..."
 msgstr "Uložit jako..."
 
 #: ../mail/e-mail-reader.c:1378
 #, fuzzy
-#| msgid "Save the selected messages as a text file"
 msgid "Save selected messages as an mbox file"
 msgstr "Uložit vybrané zprávy jako textový soubor"
 
@@ -10111,13 +10070,6 @@ msgstr "Hotovo"
 
 #: ../mail/em-account-editor.c:2102
 #, fuzzy
-#| msgid ""
-#| "Congratulations, your mail configuration is complete.\n"
-#| "\n"
-#| "You are now ready to send and receive email \n"
-#| "using Evolution. \n"
-#| "\n"
-#| "Click \"Apply\" to save your settings."
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -10869,37 +10821,31 @@ msgstr "Zdroj složky hledání"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 #, fuzzy
-#| msgid "Default window height"
 msgid "\"Filter Editor\" window height"
 msgstr "Výchozí výška okna"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 #, fuzzy
-#| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Filter Editor\" window maximize state"
 msgstr "Maximalizace okna \"Odeslat a přijmout poštu\""
 
 #: ../mail/evolution-mail.schemas.in.h:3
 #, fuzzy
-#| msgid "Default window width"
 msgid "\"Filter Editor\" window width"
 msgstr "Výchozí šířka okna"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 #, fuzzy
-#| msgid "Default window height"
 msgid "\"Search Folder Editor\" window height"
 msgstr "Výchozí výška okna"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 #, fuzzy
-#| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Search Folder Editor\" window maximize state"
 msgstr "Maximalizace okna \"Odeslat a přijmout poštu\""
 
 #: ../mail/evolution-mail.schemas.in.h:6
 #, fuzzy
-#| msgid "Search Folder based on Mailing _List"
 msgid "\"Search Folder Editor\" window width"
 msgstr "Složka hledání podle poštovní _konference"
 
@@ -11013,7 +10959,6 @@ msgstr "Výchozí výška okna pro psaní zpráv."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 #, fuzzy
-#| msgid "Default height of the Composer Window."
 msgid "Default height of the mail browser window."
 msgstr "Výchozí výška okna pro psaní zpráv."
 
@@ -11023,7 +10968,6 @@ msgstr "Výchozí výška dialogu přihlašování."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 #, fuzzy
-#| msgid "Default width of the Composer Window."
 msgid "Default maximized state of the mail browser window."
 msgstr "Výchozí šířka okna pro psaní zpráv."
 
@@ -11041,7 +10985,6 @@ msgstr "Výchozí šířka okna pro psaní zpráv."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 #, fuzzy
-#| msgid "Default width of the Composer Window."
 msgid "Default width of the mail browser window."
 msgstr "Výchozí šířka okna pro psaní zpráv."
 
@@ -11230,9 +11173,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:72
 #, fuzzy
-#| msgid ""
-#| "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window vertically."
 msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
@@ -11242,9 +11182,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:73
 #, fuzzy
-#| msgid ""
-#| "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window vertically."
 msgid ""
 "Initial height of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window vertically."
@@ -11262,12 +11199,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:75
 #, fuzzy
-#| msgid ""
-#| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
-#| "updates when the user maximizes or unmaximizes the window. Note, this "
-#| "particular value is not used by Evolution since the \"Send and Receive "
-#| "Mail\" window cannot be maximized. This key exists only as an "
-#| "implementation detail."
 msgid ""
 "Initial maximize state of the \"Filter Editor\" window. The value updates "
 "when the user maximizes or unmaximizes the window. Note, this particular "
@@ -11282,12 +11213,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:76
 #, fuzzy
-#| msgid ""
-#| "Initial maximize state of the \"Send and Receive Mail\" window. The value "
-#| "updates when the user maximizes or unmaximizes the window. Note, this "
-#| "particular value is not used by Evolution since the \"Send and Receive "
-#| "Mail\" window cannot be maximized. This key exists only as an "
-#| "implementation detail."
 msgid ""
 "Initial maximize state of the \"Search Folder Editor\" window. The value "
 "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -11316,9 +11241,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:78
 #, fuzzy
-#| msgid ""
-#| "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window horizontally."
 msgid ""
 "Initial width of the \"Filter Editor\" window. The value updates as the user "
 "resizes the window horizontally."
@@ -11328,9 +11250,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:79
 #, fuzzy
-#| msgid ""
-#| "Initial width of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window horizontally."
 msgid ""
 "Initial width of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window horizontally."
@@ -11374,7 +11293,6 @@ msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění koše"
 
 #: ../mail/evolution-mail.schemas.in.h:85
 #, fuzzy
-#| msgid "Lay_out"
 msgid "Layout style"
 msgstr "Rozlož_ení"
 
@@ -11454,7 +11372,6 @@ msgstr "Soubor, kam zaznamenávat akce filtrů."
 
 #: ../mail/evolution-mail.schemas.in.h:102
 #, fuzzy
-#| msgid "Uniform row height"
 msgid "Mail browser height"
 msgstr "Stejná výška řádku"
 
@@ -11464,7 +11381,6 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:104
 #, fuzzy
-#| msgid "Email begins with"
 msgid "Mail browser width"
 msgstr "E-mail začíná na"
 
@@ -11638,13 +11554,11 @@ msgstr "Zobrazovat animace"
 
 #: ../mail/evolution-mail.schemas.in.h:145
 #, fuzzy
-#| msgid "Collapse all message threads"
 msgid "Show all message headers"
 msgstr "Sbalit všechna vlákna zpráv"
 
 #: ../mail/evolution-mail.schemas.in.h:146
 #, fuzzy
-#| msgid "Show \"Reply To\" field when sending a mail message"
 msgid "Show all the headers when viewing a messages."
 msgstr "Zobrazit pole \"Odpovědět komu\" při posílání e-mailové zprávy"
 
@@ -12083,7 +11997,6 @@ msgstr "Přidat pravidlo filtru"
 
 #: ../mail/mail-config.glade.h:1
 #, fuzzy
-#| msgid "Ch_eck for Supported Types"
 msgid " Ch_eck for Supported Types"
 msgstr "Zjistit podporované _typy"
 
@@ -12549,9 +12462,6 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:129
 #, fuzzy
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used for display purposes only."
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -13997,7 +13907,6 @@ msgstr "Délka automatického doplňování"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
 #, fuzzy
-#| msgid "Contact List"
 msgid "Contact layout style"
 msgstr "Seznam kontaktů"
 
@@ -14007,7 +13916,6 @@ msgstr ""
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
 #, fuzzy
-#| msgid "Month view vertical pane position"
 msgid "Contact preview pane position (vertical)"
 msgstr "Umístění svislého panelu v zobrazení měsíce"
 
@@ -14106,8 +14014,6 @@ msgstr "Vytvořit nový kontakt"
 
 #: ../modules/addressbook/e-book-shell-backend.c:347
 #, fuzzy
-#| msgctxt "New"
-#| msgid "Contact _List"
 msgid "Contact _List"
 msgstr "Seznam kon_taktů"
 
@@ -14141,13 +14047,11 @@ msgstr "Kontakty"
 #: ../modules/calendar/e-memo-shell-backend.c:582
 #: ../modules/calendar/e-task-shell-backend.c:592
 #, fuzzy
-#| msgid "Source"
 msgid "Source List"
 msgstr "Zdroj"
 
 #: ../modules/addressbook/e-book-shell-backend.c:596
 #, fuzzy
-#| msgid "Couldn't get list of address books"
 msgid "The registry of address books"
 msgstr "Nelze získat seznam adresářů"
 
@@ -14161,13 +14065,11 @@ msgstr ""
 
 #: ../modules/addressbook/e-book-shell-content.c:323
 #, fuzzy
-#| msgid "New Contact"
 msgid "Previewed Contact"
 msgstr "Nový kontakt"
 
 #: ../modules/addressbook/e-book-shell-content.c:324
 #, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "The contact being shown in the preview pane"
 msgstr "Jestli zobrazovat panel náhledu."
 
@@ -14176,7 +14078,6 @@ msgstr "Jestli zobrazovat panel náhledu."
 #: ../modules/calendar/e-task-shell-content.c:630
 #: ../modules/mail/e-mail-shell-content.c:716
 #, fuzzy
-#| msgid "Sidebar is visible"
 msgid "Preview is Visible"
 msgstr "Boční panel je viditelný"
 
@@ -14185,7 +14086,6 @@ msgstr "Boční panel je viditelný"
 #: ../modules/calendar/e-task-shell-content.c:631
 #: ../modules/mail/e-mail-shell-content.c:717
 #, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether the preview pane is visible"
 msgstr "Jestli zobrazovat panel náhledu."
 
@@ -14259,13 +14159,11 @@ msgstr ""
 #: ../modules/calendar/e-memo-shell-sidebar.c:528
 #: ../modules/calendar/e-task-shell-sidebar.c:526
 #, fuzzy
-#| msgid "Memo Source Selector"
 msgid "Source Selector Widget"
 msgstr "Výběr zdroje poznámky"
 
 #: ../modules/addressbook/e-book-shell-sidebar.c:174
 #, fuzzy
-#| msgid "Couldn't get list of address books"
 msgid "This widget displays groups of address books"
 msgstr "Nelze získat seznam adresářů"
 
@@ -14275,7 +14173,6 @@ msgstr "Kopírovat všechny kontakty _do..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:598
 #, fuzzy
-#| msgid "Copy the contacts of the selected folder into another folder"
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Kopírovat kontakty z vybrané složky do jiné složky"
 
@@ -14285,7 +14182,6 @@ msgstr "Odstranit _adresář"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:605
 #, fuzzy
-#| msgid "Delete the selected folder"
 msgid "Delete the selected address book"
 msgstr "Odstranit vybranou složku"
 
@@ -14295,7 +14191,6 @@ msgstr "Přesunout _všechny kontakty do..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:612
 #, fuzzy
-#| msgid "Move the contacts of the selected folder into another folder"
 msgid "Move the contacts of the selected address book to another"
 msgstr "Přesunout kontakty z vybrané složky do jiné složky"
 
@@ -14309,7 +14204,6 @@ msgstr "Vlastnosti _adresáře"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:626
 #, fuzzy
-#| msgid "Change the properties of the selected folder"
 msgid "Show properties of the selected address book"
 msgstr "Změnit vlastnosti vybrané složky"
 
@@ -14323,7 +14217,6 @@ msgstr "_Přejmenovat..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:633
 #, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
 msgstr "Přejmenovat vybranou složku"
 
@@ -14333,7 +14226,6 @@ msgstr "Uložit _adresář jako VCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:640
 #, fuzzy
-#| msgid "Save the contacts of the selected folder as VCard"
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Uložit kontakty z vybrané složky jako VCard"
 
@@ -14362,7 +14254,6 @@ msgstr "_Kopírovat kontakt do..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:675
 #, fuzzy
-#| msgid "Copy selected contacts to another folder"
 msgid "Copy selected contacts to another address book"
 msgstr "Kopírovat vybrané kontakty do jiné složky"
 
@@ -14388,7 +14279,6 @@ msgstr "Př_esunout kontakt do..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:696
 #, fuzzy
-#| msgid "Move selected contacts to another folder"
 msgid "Move selected contacts to another address book"
 msgstr "Přesunout vybrané kontakty do jiné složky"
 
@@ -14468,7 +14358,6 @@ msgstr "_Klasické zobrazení"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:844
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show contact preview below the contact list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
@@ -14481,7 +14370,6 @@ msgstr "_Svislé zobrazení"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:851
 #, fuzzy
-#| msgid "Show contact preview window"
 msgid "Show contact preview alongside the contact list"
 msgstr "Zobrazit okno s náhledem kontaktu"
 
@@ -14505,7 +14393,6 @@ msgstr "Tisknout vybrané kontakty"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:909
 #, fuzzy
-#| msgid "Previews the contacts to be printed"
 msgid "Preview the contacts to be printed"
 msgstr "Náhled kontaktů před tiskem"
 
@@ -14796,7 +14683,6 @@ msgstr "Kalendář a úkoly"
 
 #: ../modules/calendar/e-cal-shell-backend.c:759
 #, fuzzy
-#| msgid "Primary calendar"
 msgid "The registry of calendars"
 msgstr "Primární kalendář"
 
@@ -14828,6 +14714,7 @@ msgstr "Nelze převést kalendář `%s'"
 #: ../modules/calendar/e-cal-shell-sidebar.c:152
 #: ../modules/calendar/e-memo-shell-sidebar.c:149
 #: ../modules/calendar/e-task-shell-sidebar.c:147
+#, c-format
 msgid ""
 "Error on %s\n"
 "%s"
@@ -14837,13 +14724,11 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:188
 #, fuzzy
-#| msgid "Loading Calendar"
 msgid "Loading calendars"
 msgstr "Načítání kalendáře"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:428
 #, fuzzy
-#| msgid "Calendar Source Selector"
 msgid "Calendar Selector"
 msgstr "Výběr zdroje kalendáře"
 
@@ -14861,7 +14746,6 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:723
 #, fuzzy, c-format
-#| msgid "Opening calendar"
 msgid "Opening calendar at %s"
 msgstr "Otevírám kalendář"
 
@@ -14954,7 +14838,6 @@ msgstr "Vyčistit staré události a schůzky"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1238
 #, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected calendar"
 msgstr "Přejmenovat vybranou složku"
 
@@ -14996,7 +14879,6 @@ msgstr "Nová _celodenní událost..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1308
 #, fuzzy
-#| msgid "Create a new all-day appointment"
 msgid "Create a new all day event"
 msgstr "Vytvořit novou celodenní událost"
 
@@ -15014,7 +14896,6 @@ msgstr "Nová _schůzka..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1322
 #, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Create a new meeting"
 msgstr "Vytvořit žádost o novou schůzku"
 
@@ -15084,13 +14965,11 @@ msgstr "Pracovní týden"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1534
 #, fuzzy
-#| msgid "Show one week"
 msgid "Show one work week"
 msgstr "Zobrazovat jeden týden"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1542
 #, fuzzy
-#| msgid "Active Appointments"
 msgid "Active Appointements"
 msgstr "Aktivní události"
 
@@ -15116,7 +14995,6 @@ msgstr "Tisknout tento kalendář"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1606
 #, fuzzy
-#| msgid "Previews the calendar to be printed"
 msgid "Preview the calendar to be printed"
 msgstr "Náhledy kalendáře k tisku"
 
@@ -15127,7 +15005,6 @@ msgstr "Jít na"
 #: ../modules/calendar/e-cal-shell-view-memopad.c:76
 #: ../modules/calendar/e-memo-shell-view-actions.c:96
 #, fuzzy
-#| msgid "Deleting selected objects..."
 msgid "Deleting selected memos..."
 msgstr "Mažu vybrané objekty..."
 
@@ -15149,7 +15026,6 @@ msgstr "Vložit poznámku ze schránky"
 #: ../modules/calendar/e-cal-shell-view-memopad.c:294
 #: ../modules/calendar/e-memo-shell-view-actions.c:589
 #, fuzzy
-#| msgid "_Delete Message"
 msgid "_Delete Memo"
 msgstr "_Odstranit zprávu"
 
@@ -15161,7 +15037,6 @@ msgstr "Odstranit vybrané poznámky"
 #: ../modules/calendar/e-cal-shell-view-memopad.c:308
 #: ../modules/calendar/e-memo-shell-view-actions.c:645
 #, fuzzy
-#| msgid "New memo"
 msgid "New _Memo"
 msgstr "Nová poznámka"
 
@@ -15191,14 +15066,12 @@ msgstr "Otevřít _WWW stránku"
 #: ../modules/calendar/e-cal-shell-view-memopad.c:341
 #: ../modules/calendar/e-memo-shell-view-actions.c:835
 #, fuzzy
-#| msgid "View the selected memo"
 msgid "Print the selected memo"
 msgstr "Zobrazit vybranou poznámku"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:423
 #: ../modules/calendar/e-memo-shell-view.c:223
 #, fuzzy
-#| msgid "Delegate To"
 msgid "Delete Memo"
 msgid_plural "Delete Memos"
 msgstr[0] "Delegovat komu"
@@ -15208,7 +15081,6 @@ msgstr[2] "Delegovat komu"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:99
 #: ../modules/calendar/e-task-shell-view-actions.c:127
 #, fuzzy
-#| msgid "Deleting selected objects..."
 msgid "Deleting selected tasks..."
 msgstr "Mažu vybrané objekty..."
 
@@ -15235,7 +15107,6 @@ msgstr "Vložit úkoly ze schránky"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:368
 #: ../modules/calendar/e-task-shell-view-actions.c:714
 #, fuzzy
-#| msgid "_Delete"
 msgid "_Delete Task"
 msgstr "_Odstranit"
 
@@ -15256,14 +15127,12 @@ msgstr "Označit vybrané úkoly jako dokončené"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:389
 #, fuzzy
-#| msgid "_Mark as Incomplete"
 msgid "_Mar_k as Incomplete"
 msgstr "Označit jako _nedokončené"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:391
 #: ../modules/calendar/e-task-shell-view-actions.c:779
 #, fuzzy
-#| msgid "Mark selected tasks as complete"
 msgid "Mark selected tasks as incomplete"
 msgstr "Označit vybrané úkoly jako dokončené"
 
@@ -15292,21 +15161,18 @@ msgstr "Zobrazit vybraný úkol"
 #: ../modules/calendar/e-memo-shell-view-actions.c:666
 #: ../modules/calendar/e-task-shell-view-actions.c:812
 #, fuzzy
-#| msgid "_Forward as iCalendar..."
 msgid "_Save as iCalendar..."
 msgstr "_Odeslat jako iCalendar..."
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:429
 #: ../modules/calendar/e-task-shell-view-actions.c:1035
 #, fuzzy
-#| msgid "View the selected task"
 msgid "Print the selected task"
 msgstr "Zobrazit vybraný úkol"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:534
 #: ../modules/calendar/e-task-shell-view.c:350
 #, fuzzy
-#| msgid "Delegate To"
 msgid "Delete Task"
 msgid_plural "Delete Tasks"
 msgstr[0] "Delegovat komu"
@@ -15320,20 +15186,16 @@ msgstr "_Poznámka"
 
 #: ../modules/calendar/e-memo-shell-backend.c:323
 #, fuzzy
-#| msgctxt "New"
-#| msgid "_Shared memo"
 msgid "_Shared Memo"
 msgstr "_Sdílená poznámka"
 
 #: ../modules/calendar/e-memo-shell-backend.c:325
 #, fuzzy
-#| msgid "Create a shared new memo"
 msgid "Create a new shared memo"
 msgstr "Vytvořit novou sdílenou poznámku"
 
 #: ../modules/calendar/e-memo-shell-backend.c:333
 #, fuzzy
-#| msgid "Memo List"
 msgctxt "New"
 msgid "Memo Li_st"
 msgstr "Seznam poznámek"
@@ -15345,13 +15207,11 @@ msgstr "Vytvořit nový seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-backend.c:583
 #, fuzzy
-#| msgid "Primary memo list"
 msgid "The registry of memo lists"
 msgstr "Primární seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-content.c:598
 #, fuzzy
-#| msgid "Table model"
 msgid "The memo table model"
 msgstr "Model tabulky"
 
@@ -15361,7 +15221,6 @@ msgstr "Načítání poznámek"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:399
 #, fuzzy
-#| msgid "Memo Source Selector"
 msgid "Memo List Selector"
 msgstr "Výběr zdroje poznámky"
 
@@ -15385,7 +15244,6 @@ msgstr "_Nový seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:633
 #, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected memo list"
 msgstr "Přejmenovat vybranou složku"
 
@@ -15395,25 +15253,21 @@ msgstr "_Zobrazit jen tento seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:740
 #, fuzzy
-#| msgid "_Preview"
 msgid "Memo _Preview"
 msgstr "_Náhled"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:742
 #, fuzzy
-#| msgid "Show preview pane"
 msgid "Show memo preview pane"
 msgstr "Zobrazovat panel náhledu"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:763
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show memo preview below the memo list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:770
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show memo preview alongside the memo list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
@@ -15423,7 +15277,6 @@ msgstr "Tisknout seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
 #, fuzzy
-#| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
 msgstr "Náhled seznamu poznámek před tiskem"
 
@@ -15438,14 +15291,11 @@ msgstr[2] "%d poznámek"
 #: ../modules/calendar/e-memo-shell-view-private.c:416
 #: ../modules/calendar/e-task-shell-view-private.c:510
 #, fuzzy, c-format
-#| msgid ", %d selected"
-#| msgid_plural ", %d selected"
 msgid "%d selected"
 msgstr ", %d vybráno"
 
 #: ../modules/calendar/e-memo-shell-view.c:221
 #, fuzzy
-#| msgid "_Delete Message"
 msgid "Delete Memos"
 msgstr "_Odstranit zprávu"
 
@@ -15456,8 +15306,6 @@ msgstr "Ú_kol"
 
 #: ../modules/calendar/e-task-shell-backend.c:327
 #, fuzzy
-#| msgctxt "New"
-#| msgid "Assigne_d Task"
 msgid "Assigne_d Task"
 msgstr "_Přidělený úkol"
 
@@ -15467,7 +15315,6 @@ msgstr "Vytvořit nový přidělený úkol"
 
 #: ../modules/calendar/e-task-shell-backend.c:337
 #, fuzzy
-#| msgid "Task List"
 msgctxt "New"
 msgid "Tas_k List"
 msgstr "Seznam úkolů"
@@ -15479,13 +15326,11 @@ msgstr "Vytvořit nový seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-backend.c:593
 #, fuzzy
-#| msgid "Primary task list"
 msgid "The registry of task lists"
 msgstr "Primární seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-content.c:621
 #, fuzzy
-#| msgid "Table model"
 msgid "The task table model"
 msgstr "Model tabulky"
 
@@ -15512,7 +15357,6 @@ msgstr "Načítání úkolů"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:397
 #, fuzzy
-#| msgid "Task Source Selector"
 msgid "Task List Selector"
 msgstr "Výběr zdroje úkolu"
 
@@ -15552,7 +15396,6 @@ msgstr "_Nový seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:758
 #, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
 msgstr "Přejmenovat vybranou složku"
 
@@ -15574,19 +15417,16 @@ msgstr "_Náhled úkolu"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:907
 #, fuzzy
-#| msgid "Show preview pane"
 msgid "Show task preview pane"
 msgstr "Zobrazovat panel náhledu"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:928
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show task preview below the task list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:935
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show task preview alongside the task list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
@@ -15616,7 +15456,6 @@ msgstr "Tisknout seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
 #, fuzzy
-#| msgid "Previews the list of tasks to be printed"
 msgid "Preview the list of tasks to be printed"
 msgstr "Náhled seznamu úkolů před tiskem"
 
@@ -15630,7 +15469,6 @@ msgstr[2] "%d úkolů"
 
 #: ../modules/calendar/e-task-shell-view.c:348
 #, fuzzy
-#| msgid "Completed Tasks"
 msgid "Delete Tasks"
 msgstr "Dokončené úkoly"
 
@@ -15769,7 +15607,6 @@ msgstr "_Zakázat účet"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1034
 #, fuzzy
-#| msgid "Disable Account"
 msgid "Disable this account"
 msgstr "Zakázat účet"
 
@@ -15783,7 +15620,6 @@ msgstr "Stáhnout zprávy pro vy_užití po odpojení"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1048
 #, fuzzy
-#| msgid "Download messages of accounts/folders marked for offline"
 msgid "Download messages of accounts and folders marked for offline"
 msgstr "Stáhnout zprávy účtů/složek označených pro off-line"
 
@@ -15793,7 +15629,6 @@ msgstr "Vyprázdnit _koš"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1055
 #, fuzzy
-#| msgid "Permanently remove all deleted messages from all folders"
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Natrvalo odstranit všechny odstraněné zprávy ze všech složek"
 
@@ -15887,7 +15722,6 @@ msgstr "_Odhlásit se"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1153
 #, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
 msgstr "Přejmenovat vybranou složku"
 
@@ -15957,7 +15791,6 @@ msgstr "Složky _hledání"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1237
 #, fuzzy
-#| msgid "Create or edit Search Folder definitions"
 msgid "Create or edit search folder definitions"
 msgstr "Vytvořit nebo upravit definice složek hledání"
 
@@ -15996,7 +15829,6 @@ msgstr "_Náhled zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1333
 #, fuzzy
-#| msgid "Show message preview window"
 msgid "Show message preview pane"
 msgstr "Zobrazit okno s náhledem zprávy"
 
@@ -16006,7 +15838,6 @@ msgstr "_Seskupovat podle vláken"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1341
 #, fuzzy
-#| msgid "Threaded Message list"
 msgid "Threaded message list"
 msgstr "Seznam zpráv dle vláken"
 
@@ -16016,7 +15847,6 @@ msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1369
 #, fuzzy
-#| msgid "Show message preview below the message list"
 msgid "Show message preview alongside the message list"
 msgstr "Zobrazovat náhled zprávy pod seznamem zpráv"
 
@@ -16058,7 +15888,6 @@ msgstr "Nepřečtené zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1478
 #, fuzzy
-#| msgid "Subject or Addresses contains"
 msgid "Subject or Addresses contain"
 msgstr "Předmět nebo adresy obsahují"
 
@@ -16284,13 +16113,11 @@ msgstr "Připomíná vám, že jste zapomněli přidat k e-mailové zprávě př
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
 #, fuzzy
-#| msgid "Inline vCards"
 msgid "Inline Audio"
 msgstr "Neplatné VCard"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 #, fuzzy
-#| msgid "Play audio attachments directly from Evolution."
 msgid "Play audio attachments directly in mail messages."
 msgstr "Přehrávat zvukové přílohy přímo v Evolutionu."
 
@@ -16342,7 +16169,6 @@ msgstr "Zálo_hovat nastavení..."
 
 #: ../plugins/backup-restore/backup-restore.c:356
 #, fuzzy
-#| msgid "Backup and restore Evolution data and settings"
 msgid "Backup Evolution data and settings to an archive file"
 msgstr "Zazálohovat a obnovit data a nastavení Evolution"
 
@@ -16352,7 +16178,6 @@ msgstr "O_bnovit nastavení..."
 
 #: ../plugins/backup-restore/backup-restore.c:363
 #, fuzzy
-#| msgid "Backup and restore Evolution data and settings"
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Zazálohovat a obnovit data a nastavení Evolution"
 
@@ -18006,17 +17831,6 @@ msgstr "Vytvořit složku"
 
 #: ../plugins/groupwise-features/install-shared.c:218
 #, fuzzy, c-format
-#| msgid ""
-#| "The user '%s' has shared a folder with you\n"
-#| "\n"
-#| "Message from '%s'\n"
-#| "\n"
-#| "\n"
-#| "%s\n"
-#| "\n"
-#| "\n"
-#| "Click 'Forward' to install the shared folder\n"
-#| "\n"
 msgid ""
 "The user '%s' has shared a folder with you\n"
 "\n"
@@ -19258,8 +19072,6 @@ msgstr "Přehrát zvuk, když přijde nová pošta."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 #, fuzzy
-#| msgid ""
-#| "Sound file to be played when new messages arrive, if not in beep mode."
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Soubor zvuku, který chcete přehrát, když přijde nová pošta, není-li režimem "
@@ -19370,7 +19182,6 @@ msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:784
 #, fuzzy
-#| msgid "Play _sound file"
 msgid "Play _file:"
 msgstr "Přehrát _zvukový soubor"
 
@@ -19623,7 +19434,6 @@ msgstr "Od_hlásit se z konference"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:313
 #, fuzzy
-#| msgid "Unsubscribe to the mailing list this message belongs to"
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "Odhlásit se z poštovní konference, do které patří tato zpráva"
 
@@ -20192,19 +20002,16 @@ msgstr "Zvolte soubor cíle"
 
 #: ../plugins/save-calendar/save-calendar.c:323
 #, fuzzy
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected calendar to disk"
 msgstr "Uložit vybrané zprávy jako textový soubor"
 
 #: ../plugins/save-calendar/save-calendar.c:358
 #, fuzzy
-#| msgid "Save the selected messages as a text file"
 msgid "Save the selected memo list to disk"
 msgstr "Uložit vybrané zprávy jako textový soubor"
 
 #: ../plugins/save-calendar/save-calendar.c:393
 #, fuzzy
-#| msgid "Save a calendar or task list to disk."
 msgid "Save the selected task list to disk"
 msgstr "Uloží kalendář nebo seznam úkolů na disk."
 
@@ -20383,13 +20190,11 @@ msgstr "Výchozí šířka bočního panelu"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
 #, fuzzy
-#| msgid "Default window state"
 msgid "Default window X coordinate"
 msgstr "Výchozí stav okna"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
 #, fuzzy
-#| msgid "Default window state"
 msgid "Default window Y coordinate"
 msgstr "Výchozí stav okna"
 
@@ -20541,13 +20346,11 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:36
 #, fuzzy
-#| msgid "The default width for the main window, in pixels."
 msgid "The default X coordinate for the main window."
 msgstr "Výchozí šířka hlavního okna v pixelech."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 #, fuzzy
-#| msgid "The default width for the main window, in pixels."
 msgid "The default Y coordinate for the main window."
 msgstr "Výchozí šířka hlavního okna v pixelech."
 
@@ -20768,10 +20571,6 @@ msgstr "Asistent Evolution pro import"
 
 #: ../shell/e-shell-importer.c:701
 #, fuzzy
-#| msgid ""
-#| "Welcome to the Evolution Import Assistant.\n"
-#| "With this assistant you will be guided through the process of\n"
-#| "importing external files into Evolution."
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -20799,7 +20598,6 @@ msgstr "Importovat umístění"
 
 #: ../shell/e-shell-importer.c:760
 #, fuzzy
-#| msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "Spusťte import souboru do Evolution kliknutím na \"Import\". "
 
@@ -20822,19 +20620,16 @@ msgstr ""
 
 #: ../shell/e-shell-switcher.c:463
 #, fuzzy
-#| msgid "Toolbar is visible"
 msgid "Toolbar Visible"
 msgstr "Lišta nástrojů je viditelná"
 
 #: ../shell/e-shell-switcher.c:464
 #, fuzzy
-#| msgid "Whether the sidebar should be visible."
 msgid "Whether the switcher is visible"
 msgstr "Jestli má být boční panel viditelný."
 
 #: ../shell/e-shell-view.c:485
 #, fuzzy
-#| msgid "Switch to %s"
 msgid "Switcher Action"
 msgstr "Přepnout do %s"
 
@@ -20844,7 +20639,6 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:501
 #, fuzzy
-#| msgid "Serial Number"
 msgid "Page Number"
 msgstr "Sériové číslo"
 
@@ -20870,7 +20664,6 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:567
 #, fuzzy
-#| msgid "Default sidebar width"
 msgid "Shell Sidebar Widget"
 msgstr "Výchozí šířka bočního panelu"
 
@@ -20888,7 +20681,6 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:599
 #, fuzzy
-#| msgid "New _Window"
 msgid "Shell Window"
 msgstr "Nové _okno"
 
@@ -20898,13 +20690,11 @@ msgstr ""
 
 #: ../shell/e-shell-view.c:615
 #, fuzzy
-#| msgid "_Current View"
 msgid "Current View ID"
 msgstr "_Aktuální zobrazení"
 
 #: ../shell/e-shell-view.c:616
 #, fuzzy
-#| msgid "Save current custom view"
 msgid "The current GAL view ID"
 msgstr "Uložit aktuální zobrazení"
 
@@ -20938,13 +20728,11 @@ msgstr "Nelze spustit bug Buddy."
 
 #: ../shell/e-shell-window-actions.c:1356
 #, fuzzy
-#| msgid "Bug buddy is not installed."
 msgid "GNOME Pilot is not installed."
 msgstr "Bug buddy není nainstalován."
 
 #: ../shell/e-shell-window-actions.c:1358
 #, fuzzy
-#| msgid "Bug buddy could not be run."
 msgid "GNOME Pilot could not be run."
 msgstr "Nelze spustit bug buddy."
 
@@ -20958,13 +20746,11 @@ msgstr "_Zavřít okno"
 
 #: ../shell/e-shell-window-actions.c:1464
 #, fuzzy
-#| msgid "A_ppointments"
 msgid "_Contents"
 msgstr "U_dálosti"
 
 #: ../shell/e-shell-window-actions.c:1466
 #, fuzzy
-#| msgid "Open Other User's Folder"
 msgid "Open the Evolution User Guide"
 msgstr "Otevřít složku jiného uživatele"
 
@@ -20982,7 +20768,6 @@ msgstr "Zapo_menout hesla"
 
 #: ../shell/e-shell-window-actions.c:1480
 #, fuzzy
-#| msgid "Are you sure you want to forget all remembered passwords?"
 msgid "Forget all remembered passwords"
 msgstr "Opravdu chcete zakázat všechna zapamatovaná hesla?"
 
@@ -21000,13 +20785,11 @@ msgstr "Nové _okno"
 
 #: ../shell/e-shell-window-actions.c:1494
 #, fuzzy
-#| msgid "Create a new window displaying this folder"
 msgid "Create a new window displaying this view"
 msgstr "Vytvořit nové okno zobrazující tuto složku"
 
 #: ../shell/e-shell-window-actions.c:1501
 #, fuzzy
-#| msgid "Configuration"
 msgid "Configure Evolution"
 msgstr "Nastavení"
 
@@ -21016,7 +20799,6 @@ msgstr "_Stručná příručka"
 
 #: ../shell/e-shell-window-actions.c:1508
 #, fuzzy
-#| msgid "Change Evolution's settings"
 msgid "Show Evolution's shortcut keys"
 msgstr "Změnit nastavení Evolution"
 
@@ -21034,7 +20816,6 @@ msgstr ""
 
 #: ../shell/e-shell-window-actions.c:1529
 #, fuzzy
-#| msgid "Clear the search"
 msgid "Clear the current search parameters"
 msgstr "Vyprázdnit hledání"
 
@@ -21044,7 +20825,6 @@ msgstr "Upravit u_ložená vyhledávání..."
 
 #: ../shell/e-shell-window-actions.c:1536
 #, fuzzy
-#| msgid "Manage your email, contacts and schedule"
 msgid "Manage your saved searches"
 msgstr "Spravujte svůj e-mail, kontakty a rozvrh"
 
@@ -21059,7 +20839,6 @@ msgstr "_Hledat"
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1550
 #, fuzzy
-#| msgid "Cancel the current mail operation"
 msgid "Execute the current search parameters"
 msgstr "Zrušit aktuální operaci pošty"
 
@@ -21069,7 +20848,6 @@ msgstr "_Uložit vyhledávání..."
 
 #: ../shell/e-shell-window-actions.c:1557
 #, fuzzy
-#| msgid "Save the current file"
 msgid "Save the current search parameters"
 msgstr "Uložit aktuální soubor"
 
@@ -21103,7 +20881,6 @@ msgstr "_Pracovat při odpojení"
 
 #: ../shell/e-shell-window-actions.c:1585
 #, fuzzy
-#| msgid "Start in offline mode"
 msgid "Put Evolution into offline mode"
 msgstr "Spustit v režimu off-line"
 
@@ -21113,7 +20890,6 @@ msgstr "Pracovat _on-line"
 
 #: ../shell/e-shell-window-actions.c:1592
 #, fuzzy
-#| msgid "Start in online mode"
 msgid "Put Evolution into online mode"
 msgstr "Spustit v režimu on-line"
 
@@ -21143,7 +20919,6 @@ msgstr "Zobrazovat _boční panel"
 
 #: ../shell/e-shell-window-actions.c:1667
 #, fuzzy
-#| msgid "Show Side _Bar"
 msgid "Show the side bar"
 msgstr "Zobrazovat _boční panel"
 
@@ -21153,19 +20928,16 @@ msgstr "Zobrazovat _stavový řádek"
 
 #: ../shell/e-shell-window-actions.c:1675
 #, fuzzy
-#| msgid "Show _Status Bar"
 msgid "Show the status bar"
 msgstr "Zobrazovat _stavový řádek"
 
 #: ../shell/e-shell-window-actions.c:1681
 #, fuzzy
-#| msgid "Show Animations"
 msgid "Show _Buttons"
 msgstr "Zobrazovat animace"
 
 #: ../shell/e-shell-window-actions.c:1683
 #, fuzzy
-#| msgid "Show the second time zone"
 msgid "Show the switcher buttons"
 msgstr "Zobrazovat druhé časové pásmo"
 
@@ -21241,7 +21013,6 @@ msgstr "Současné zobrazení je přizpůsobené zobrazení"
 
 #: ../shell/e-shell-window-actions.c:1782
 #, fuzzy
-#| msgid "Set up the page settings for your current printer"
 msgid "Change the page settings for your current printer"
 msgstr "Nastavit stránku pro vaši aktuální tiskárnu"
 
@@ -21270,25 +21041,21 @@ msgstr ""
 
 #: ../shell/e-shell-window.c:293
 #, fuzzy
-#| msgid "Name of new view:"
 msgid "Name of the active shell view"
 msgstr "Název nového zobrazení:"
 
 #: ../shell/e-shell-window.c:307
 #, fuzzy
-#| msgid "_Caret Mode"
 msgid "Safe Mode"
 msgstr "Režim _kurzoru"
 
 #: ../shell/e-shell-window.c:308
 #, fuzzy
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell window is in safe mode"
 msgstr "Jestli je zásuvný modul povolený"
 
 #: ../shell/e-shell-window.c:339
 #, fuzzy
-#| msgid "Manager"
 msgid "UI Manager"
 msgstr "Vedoucí"
 
@@ -21298,13 +21065,11 @@ msgstr ""
 
 #: ../shell/e-shell.c:207
 #, fuzzy
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go offline..."
 msgstr "Příprava účtu \"%s\" pro off-line"
 
 #: ../shell/e-shell.c:261
 #, fuzzy
-#| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go online..."
 msgstr "Příprava účtu \"%s\" pro off-line"
 
@@ -21314,13 +21079,11 @@ msgstr ""
 
 #: ../shell/e-shell.c:688
 #, fuzzy
-#| msgid "TLS not Available"
 msgid "Network Available"
 msgstr "TLS není k dispozici"
 
 #: ../shell/e-shell.c:689
 #, fuzzy
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the network is available"
 msgstr "Jestli je zásuvný modul povolený"
 
@@ -21330,7 +21093,6 @@ msgstr "Online"
 
 #: ../shell/e-shell.c:705
 #, fuzzy
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the shell is online"
 msgstr "Jestli je zásuvný modul povolený"
 
@@ -21392,7 +21154,6 @@ msgstr "Spustit v režimu on-line"
 
 #: ../shell/main.c:332
 #, fuzzy
-#| msgid "Forcibly shut down all Evolution components"
 msgid "Forcibly shut down Evolution"
 msgstr "Vynuceně ukončit všechny komponenty Evolution"
 
@@ -21534,8 +21295,6 @@ msgstr ""
 
 #: ../shell/test/e-test-shell-backend.c:60
 #, fuzzy
-#| msgctxt "New"
-#| msgid "_Test"
 msgctxt "New"
 msgid "_Test Item"
 msgstr "_Test"
@@ -21546,14 +21305,12 @@ msgstr "Vytvořit novou položku testu"
 
 #: ../shell/test/e-test-shell-backend.c:70
 #, fuzzy
-#| msgid "Resource"
 msgctxt "New"
 msgid "Test _Source"
 msgstr "Zdroj"
 
 #: ../shell/test/e-test-shell-backend.c:72
 #, fuzzy
-#| msgid "Create a new test item"
 msgid "Create a new test source"
 msgstr "Vytvořit novou položku testu"
 
@@ -21569,7 +21326,6 @@ msgstr ""
 
 #: ../smclient/eggdesktopfile.c:958
 #, fuzzy, c-format
-#| msgid "Scanning %s"
 msgid "Starting %s"
 msgstr "Prohledávání %s"
 
@@ -21590,19 +21346,16 @@ msgstr ""
 
 #: ../smclient/eggdesktopfile.c:1394
 #, fuzzy, c-format
-#| msgid "Editor not launchable"
 msgid "Not a launchable item"
 msgstr "Editor nelze spustit"
 
 #: ../smclient/eggsmclient.c:225
 #, fuzzy
-#| msgid "_Direct connection to the Internet"
 msgid "Disable connection to session manager"
 msgstr "Přímé připojení _do internetu"
 
 #: ../smclient/eggsmclient.c:228
 #, fuzzy
-#| msgid "Set up Pilot configuration"
 msgid "Specify file containing saved configuration"
 msgstr "Nastavení Pilota"
 
@@ -21616,7 +21369,6 @@ msgstr ""
 
 #: ../smclient/eggsmclient.c:231
 #, fuzzy
-#| msgid "UID"
 msgid "ID"
 msgstr "UID"
 
@@ -21626,7 +21378,6 @@ msgstr ""
 
 #: ../smclient/eggsmclient.c:253
 #, fuzzy
-#| msgid "Show image animations"
 msgid "Show session management options"
 msgstr "Zobrazovat animace obrázku"
 
@@ -22299,7 +22050,6 @@ msgstr "Protokol"
 
 #: ../widgets/misc/e-action-combo-box.c:388
 #, fuzzy
-#| msgid "_Actions"
 msgid "Action"
 msgstr "_Akce"
 
@@ -22310,20 +22060,19 @@ msgstr ""
 #. Translators: This is a cancelled activity.
 #: ../widgets/misc/e-activity.c:224
 #, fuzzy, c-format
-#| msgid "Cancelled"
 msgid "%s (cancelled)"
 msgstr "Zrušeno"
 
 #. Translators: This is a completed activity.
 #: ../widgets/misc/e-activity.c:227
 #, fuzzy, c-format
-#| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
 msgstr "%s (%d%% hotovo)"
 
 #. Translators: This is an activity whose percent
 #. * complete is unknown.
 #: ../widgets/misc/e-activity.c:231
+#, c-format
 msgid "%s..."
 msgstr "%s..."
 
@@ -22611,9 +22360,6 @@ msgstr ""
 
 #: ../widgets/misc/e-online-button.c:27
 #, fuzzy
-#| msgid ""
-#| "Evolution is currently online.\n"
-#| "Click on this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
 "Evolution je nyní on-line.\n"
@@ -22621,9 +22367,6 @@ msgstr ""
 
 #: ../widgets/misc/e-online-button.c:30
 #, fuzzy
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
 "Evolution je nyní off-line.\n"
@@ -22631,9 +22374,6 @@ msgstr ""
 
 #: ../widgets/misc/e-online-button.c:33
 #, fuzzy
-#| msgid ""
-#| "Evolution is currently offline.\n"
-#| "Click on this button to work online."
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr ""
 "Evolution je nyní off-line.\n"
@@ -22645,7 +22385,6 @@ msgstr "Stav tlačítka je online"
 
 #: ../widgets/misc/e-paned.c:180
 #, fuzzy
-#| msgid "Horizontal pane position"
 msgid "Horizontal Position"
 msgstr "Umístění vodorovného panelu"
 
@@ -22655,7 +22394,6 @@ msgstr ""
 
 #: ../widgets/misc/e-paned.c:192
 #, fuzzy
-#| msgid "Vertical pane position"
 msgid "Vertical Position"
 msgstr "Umístění svislého panelu"
 
@@ -22677,7 +22415,6 @@ msgstr "Synchronizované kategorie:"
 
 #: ../widgets/misc/e-popup-action.c:173
 #, fuzzy
-#| msgid "Source Account"
 msgid "Source Action"
 msgstr "Zdrojový účet"
 
@@ -22869,7 +22606,6 @@ msgstr "Přidat skript podpisu"
 
 #: ../widgets/misc/e-signature-manager.c:359
 #, fuzzy
-#| msgid "Edit Signature"
 msgid "Edit Signature Script"
 msgstr "Upravit podpis"
 
@@ -22879,9 +22615,6 @@ msgstr "Přidat _skript"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
 #, fuzzy
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used for display purposes only."
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -22896,7 +22629,6 @@ msgstr "_Skript:"
 
 #: ../widgets/misc/e-signature-script-dialog.c:342
 #, fuzzy
-#| msgid "The script file must exist and be executable."
 msgid "Script file must be executable."
 msgstr "Soubor skriptu musí existovat a musí být spustitelný."
 
@@ -22906,13 +22638,11 @@ msgstr "Kliknutím zde přejdete na URL"
 
 #: ../widgets/misc/e-web-view.c:305
 #, fuzzy
-#| msgid "Copy things to the clipboard."
 msgid "Copy the link to the clipboard"
 msgstr "Kopíruje věci do schránky"
 
 #: ../widgets/misc/e-web-view.c:315
 #, fuzzy
-#| msgid "_Open Link in Browser"
 msgid "Open the link in a web browser"
 msgstr "_Otevřít odkaz v prohlížeči"
 
@@ -22922,13 +22652,11 @@ msgstr "Kopírovat _e-mailovou adresu"
 
 #: ../widgets/misc/e-web-view.c:325
 #, fuzzy
-#| msgid "Copy things to the clipboard."
 msgid "Copy the email address to the clipboard"
 msgstr "Kopíruje věci do schránky"
 
 #: ../widgets/misc/e-web-view.c:332
 #, fuzzy
-#| msgid "Convert a mail message to a task."
 msgid "Send a mail message to this address"
 msgstr "Převádí poštovní zprávu na úkol."
 
@@ -24338,4 +24066,3 @@ msgstr "Obsloužit kontextovou nabídku"
 
 #~ msgid "Item ID"
 #~ msgstr "ID položky"
-
