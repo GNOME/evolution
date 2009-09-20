@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-14 23:11+0300\n"
+"POT-Creation-Date: 2009-09-20 19:21+0300\n"
 "PO-Revision-Date: 2009-09-10 17:37+0300\n"
 "Last-Translator: Yavor Doganov <yavor@gnu.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -1464,7 +1464,6 @@ msgstr "AIM"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:172
 #: ../addressbook/gui/widgets/eab-contact-display.c:606
-#, fuzzy
 msgid "Jabber"
 msgstr "Джабър"
 
@@ -1495,7 +1494,6 @@ msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
 #: ../addressbook/gui/widgets/eab-contact-display.c:610
-#, fuzzy
 msgid "Skype"
 msgstr "Скайп"
 
@@ -5389,11 +5387,10 @@ msgstr ""
 "четене"
 
 #: ../calendar/gui/dialogs/event-page.c:752
-#, fuzzy
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Събитието не може да бъде редактирано пълноценно, защото вие не сте "
-"организатора"
+"организаторът"
 
 #: ../calendar/gui/dialogs/event-page.c:764
 #: ../calendar/gui/dialogs/event-page.c:2769
@@ -5600,11 +5597,10 @@ msgstr ""
 "само за четене"
 
 #: ../calendar/gui/dialogs/memo-page.c:351
-#, fuzzy
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Бележката не може да бъде редактирана пълноценно, защото вие не сте "
-"организатора"
+"организаторът"
 
 #: ../calendar/gui/dialogs/memo-page.c:871
 #, c-format
@@ -6476,7 +6472,7 @@ msgstr "Нова _среща…"
 
 #: ../calendar/gui/e-calendar-view.c:1787
 msgid "New All Day _Event"
-msgstr "Всички нови _събития за деня"
+msgstr "Ново събитие за целия ден"
 
 #: ../calendar/gui/e-calendar-view.c:1788
 msgid "New _Meeting"
@@ -15055,7 +15051,6 @@ msgstr ""
 "изчистете търсенето с „Търсене“ → „Изчистване“."
 
 #: ../mail/message-list.c:4301
-#, fuzzy
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
@@ -16444,7 +16439,6 @@ msgid "Subscribe to Other User's Calendar"
 msgstr "Абониране за календара на друг потребител"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
-#, fuzzy
 msgid "Activates the Evolution-Exchange extension package."
 msgstr "Включване на разширението Evolution Exchange."
 
@@ -18180,7 +18174,6 @@ msgid ""
 msgstr "„{0}“ е делегирал събранието. Искате ли да добавите делегата „{1}“?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
 msgstr "Това събрание е било делегирано"
 
@@ -22145,7 +22138,7 @@ msgstr "_Текущ изглед"
 #: ../widgets/menus/gal-view-menus.c:327
 #, c-format
 msgid "Select View: %s"
-msgstr "Избор на вид изглед: %s"
+msgstr "Избор на изглед: %s"
 
 #: ../widgets/menus/gal-view-menus.c:370
 msgid "Current view is a customized view"
