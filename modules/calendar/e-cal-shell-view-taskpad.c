@@ -386,7 +386,7 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 
 	{ "calendar-taskpad-mark-incomplete",
 	  NULL,
-	  N_("_Mar_k as Incomplete"),
+	  N_("_Mark as Incomplete"),
 	  NULL,
 	  N_("Mark selected tasks as incomplete"),
 	  G_CALLBACK (action_calendar_taskpad_mark_incomplete_cb) },
