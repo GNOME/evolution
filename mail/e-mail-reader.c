@@ -1228,7 +1228,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "mail-mark-notjunk",
 	  N_("_Not Junk"),
 	  "<Shift><Control>j",
-	  N_("Mark the selected messasges as not being junk"),
+	  N_("Mark the selected messages as not being junk"),
 	  G_CALLBACK (action_mail_mark_notjunk_cb) },
 
 	{ "mail-mark-read",
