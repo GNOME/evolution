@@ -148,6 +148,17 @@ mail_shell_view_message_list_key_press_cb (EMailShellView *mail_shell_view,
 }
 
 static gboolean
+mail_shell_view_message_list_popup_menu_cb (EShellView *shell_view)
+{
+	const gchar *widget_path;
+
+	widget_path = "/mail-message-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
+
+	return TRUE;
+}
+
+static gboolean
 mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
                                              gint row,
                                              ETreePath path,
@@ -406,6 +417,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_swapped (
 		message_list->tree, "key-press",
 		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		message_list->tree, "popup-menu",
+		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
 		mail_shell_view);
 
 	g_signal_connect_swapped (
