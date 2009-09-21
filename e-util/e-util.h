@@ -61,6 +61,8 @@ void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
 GtkRadioAction *e_radio_action_get_current_action
 						(GtkRadioAction *radio_action);
+void		e_categories_add_change_hook	(GHookFunc func,
+						 gpointer object);
 void		e_type_traverse			(GType parent_type,
 						 ETypeFunc func,
 						 gpointer user_data);

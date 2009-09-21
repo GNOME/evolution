@@ -528,8 +528,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
 		cal_shell_view);
 
-	e_categories_register_change_listener (
-		G_CALLBACK (e_cal_shell_view_update_search_filter),
+	e_categories_add_change_hook (
+		(GHookFunc) e_cal_shell_view_update_search_filter,
 		cal_shell_view);
 
 	e_cal_shell_view_actions_init (cal_shell_view);

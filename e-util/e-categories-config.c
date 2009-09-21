@@ -20,12 +20,15 @@
  *
  */
 
+#include "e-categories-config.h"
+
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include "e-categories-config.h"
+
+#include "e-util/e-util.h"
 
 static GHashTable *pixbufs_cache = NULL;
 
@@ -62,7 +65,8 @@ e_categories_config_get_icon_for (const gchar *category, GdkPixbuf **pixbuf)
 
 	if (!pixbufs_cache) {
 		pixbufs_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, free_pixbuf_cb);
-		e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), NULL);
+		e_categories_add_change_hook (
+			(GHookFunc) categories_changed_cb, NULL);
 	} else {
 		gpointer key = NULL, value = NULL;
 

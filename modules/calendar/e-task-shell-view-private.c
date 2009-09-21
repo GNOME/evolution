@@ -322,8 +322,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		G_CALLBACK (e_shell_view_update_actions),
 		task_shell_view);
 
-	e_categories_register_change_listener (
-		G_CALLBACK (e_task_shell_view_update_search_filter),
+	e_categories_add_change_hook (
+		(GHookFunc) e_task_shell_view_update_search_filter,
 		task_shell_view);
 
 	task_shell_view_update_timeout_cb (task_shell_view);

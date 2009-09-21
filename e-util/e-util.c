@@ -410,6 +410,76 @@ e_radio_action_get_current_action (GtkRadioAction *radio_action)
 	return NULL;
 }
 
+/* Helper for e_categories_add_change_hook() */
+static void
+categories_changed_cb (GObject *useless_opaque_object,
+                       GHookList *hook_list)
+{
+	/* e_categories_register_change_listener() is broken because
+	 * it requires callbacks to allow for some opaque GObject as
+	 * the first argument (not does it document this). */
+	g_hook_list_invoke (hook_list, FALSE);
+}
+
+/* Helper for e_categories_add_change_hook() */
+static void
+categories_weak_notify_cb (GHookList *hook_list,
+                           gpointer where_the_object_was)
+{
+	GHook *hook;
+
+	/* This should not happen, but if we fail to find the hook for
+	 * some reason, g_hook_destroy_link() will warn about the NULL
+	 * pointer, which is all we would do anyway so no need to test
+	 * for it ourselves. */
+	hook = g_hook_find_data (hook_list, TRUE, where_the_object_was);
+	g_hook_destroy_link (hook_list, hook);
+}
+
+/**
+ * e_categories_add_change_hook:
+ * @func: a hook function
+ * @object: a #GObject to be passed to @func, or %NULL
+ *
+ * A saner alternative to e_categories_register_change_listener().
+ *
+ * Adds a hook function to be called when a category is added, removed or
+ * modified.  If @object is not %NULL, the hook function is automatically
+ * removed when @object is finalized.
+ **/
+void
+e_categories_add_change_hook (GHookFunc func,
+                              gpointer object)
+{
+	static gboolean initialized = FALSE;
+	static GHookList hook_list;
+	GHook *hook;
+
+	g_return_if_fail (func != NULL);
+
+	if (object != NULL)
+		g_return_if_fail (G_IS_OBJECT (object));
+
+	if (!initialized) {
+		g_hook_list_init (&hook_list, sizeof (GHook));
+		e_categories_register_change_listener (
+			G_CALLBACK (categories_changed_cb), &hook_list);
+		initialized = TRUE;
+	}
+
+	hook = g_hook_alloc (&hook_list);
+
+	hook->func = func;
+	hook->data = object;
+
+	if (object != NULL)
+		g_object_weak_ref (
+			G_OBJECT (object), (GWeakNotify)
+			categories_weak_notify_cb, &hook_list);
+
+	g_hook_append (&hook_list, hook);
+}
+
 /**
  * e_type_traverse:
  * @parent_type: the root #GType to traverse from

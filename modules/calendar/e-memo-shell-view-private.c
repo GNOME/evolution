@@ -268,8 +268,8 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		G_CALLBACK (e_shell_view_update_actions),
 		memo_shell_view);
 
-	e_categories_register_change_listener (
-		G_CALLBACK (e_memo_shell_view_update_search_filter),
+	e_categories_add_change_hook (
+		(GHookFunc) e_memo_shell_view_update_search_filter,
 		memo_shell_view);
 
 	e_memo_shell_view_actions_init (memo_shell_view);

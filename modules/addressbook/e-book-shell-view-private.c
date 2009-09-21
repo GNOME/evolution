@@ -484,8 +484,8 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		G_CALLBACK (book_shell_view_activate_selected_source),
 		book_shell_view);
 
-	e_categories_register_change_listener (
-		G_CALLBACK (e_book_shell_view_update_search_filter),
+	e_categories_add_change_hook (
+		(GHookFunc) e_book_shell_view_update_search_filter,
 		book_shell_view);
 
 	e_book_shell_view_actions_init (book_shell_view);
