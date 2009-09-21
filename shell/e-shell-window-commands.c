@@ -1009,6 +1009,7 @@ static const gchar *documentors[] = {
 	"Jessica Prabhakar",
 	"JP Rosevear",
 	"Radhika Nair",
+	"Akhil Laddha",
 	NULL
 };
 
