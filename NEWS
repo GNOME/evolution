@@ -6,6 +6,7 @@ Notable changes for 2.28.0 release,
 	Select the local Ical files as calendar source
 	Configurable Date formats
 	Better system timezone discovery
+	Attachment bar rewrite
 	Re-add support for volder of vfolders
 	GroupWise meeting retract/resend 
 
