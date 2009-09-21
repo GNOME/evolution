@@ -10,7 +10,33 @@
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/evolution-list" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
 
-  <!-- Project Lead -->
+  <!-- Project Leads -->
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Chenthill Palanisamy</foaf:name>
+      <foaf:mbox rdf:resource="mailto:pchenthill@novell.com" />
+      <gnome:userid>pchen</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Matthew Barnes</foaf:name>
+      <foaf:mbox rdf:resource="mailto:mbarnes@redhat.com" />
+      <gnome:userid>mbarnes</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+
+  <!-- Alphabetically -->
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Christian Kellner</foaf:name>
+      <foaf:mbox rdf:resource="mailto:gicmo@gnome.org" />
+      <gnome:userid>gicmo</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 
   <maintainer>
     <foaf:Person>
@@ -20,27 +46,4 @@
     </foaf:Person>
   </maintainer>
 
-  <!-- Alphabetically -->
-
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Matthew Barnes</foaf:name>
-      <foaf:mbox rdf:resource="mailto:mbarnes@redhat.com" />
-      <gnome:userid>mbarnes</gnome:userid>
-    </foaf:Person>
-  </maintainer>
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Christian Kellner</foaf:name>
-      <foaf:mbox rdf:resource="mailto:gicmo@gnome.org" />
-      <gnome:userid>gicmo</gnome:userid>
-    </foaf:Person>
-  </maintainer>
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Chenthill Palanisamy</foaf:name>
-      <foaf:mbox rdf:resource="mailto:pchenthill@novell.com" />
-      <gnome:userid>pchen</gnome:userid>
-    </foaf:Person>
-  </maintainer>
 </Project>
