@@ -1,3 +1,59 @@
+Evolution 2.28.0 2009-09-20
+----------------------------
+
+Notable changes for 2.28.0 release,
+	Google Calendar uses caldav interface.
+	Select the local Ical files as calendar source
+	Configurable Date formats
+	Better system timezone discovery
+	Re-add support for volder of vfolders
+	GroupWise meeting retract/resend 
+
+Bug Fixes:
+Calendar:
+	#582780 - Use proxy in Google calendar setup plugin (Alexander Klepikov)
+	#581602 - Purge calendar function not working (Milan Crha)
+	#594407 - Alarms won't go away (Milan Crha)
+Mailer:
+	#572960 - Ignore and drop invalid signatures on load (Milan Crha)
+	#594609 - Date field in message list shows incorrect "x days ago" (Chenthill Palanisamy)
+	#594628 - Switching back from Outgoing filters to Incoming filters does not
+		  show existing incoming filters (Chenthill Palanisamy)
+Miscellaneous:
+	Documentation update for 2.28.0 release (Akhil Laddha)
+
+Translations:
+	Žygimantas Beručka (lt)
+	Jorge González (es)
+	Sweta Kothari (gu)
+	Khaled Hosny (ar)
+	Duarte Loreto (pt)
+	Rajesh Ranjan (hi)
+	Runa Bhattacharjee (bn_IN)
+	Vincent van Adrighem (nl)
+	Bruce Cowan (en_GB)
+	Ivar Smolin (et)
+	A S Alam (pa)
+	Ilkka Tuohela (fi)
+	Ask H. Larsen (da)
+	Iestyn Pryce (cy)
+	Ani (ml)
+	Wadim Dziedzic (pl)
+	Kjartan Maraas (nb)
+	Shankar Prasad (kn)
+	Ilkka Tuohela (fi)
+	Sandeep Shedmake (mr)
+	krishnababu k (te)
+	Manoj Kumar Giri (or)
+	Christian Kirbach (de)
+	dooteo (eu)
+	Gabor Kelemen (hu)
+	Mario Blättermann (de)
+	Chao-Hsiung Liao (zh)
+	Jorge González (es)
+	Kostas Papadimas (el)
+	
+ 
 Evolution 2.27.92 2009-09-07
 ----------------------------
 
