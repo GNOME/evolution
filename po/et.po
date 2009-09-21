@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: Evolution 2.28\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-08-15 14:12+0000\n"
-"PO-Revision-Date: 2009-09-08 10:41+0300\n"
-"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
+"POT-Creation-Date: 2009-09-16 22:15+0000\n"
+"PO-Revision-Date: 2009-09-17 12:01+0300\n"
+"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1366,7 +1366,7 @@ msgstr "_Aseta"
 
 #. All, unmatched, separator
 msgid "Any Category"
-msgstr "Iga kategooria"
+msgstr "Kõik kategooriad"
 
 msgid "Unmatched"
 msgstr "Vastavus puudub"
@@ -2420,7 +2420,7 @@ msgid "Appointments"
 msgstr "Sündmused"
 
 msgid "Dismiss _All"
-msgstr ""
+msgstr "Lõpeta _kõik"
 
 #. Location
 msgid "Location:"
@@ -2430,7 +2430,7 @@ msgid "Snooze _time:"
 msgstr "_Edasilükkamise aeg:"
 
 msgid "_Dismiss"
-msgstr ""
+msgstr "_Lõpeta"
 
 msgid "_Edit"
 msgstr "_Redaktor"
@@ -2921,7 +2921,6 @@ msgstr "Tund, millal tööpäev algab"
 msgid "Workday start minute"
 msgstr "Minut, millal tööpäev algab"
 
-#| msgid "Invalid contact."
 msgid "Invalid object"
 msgstr "Vigane objekt."
 
@@ -3227,8 +3226,8 @@ msgid ""
 "start of appointment\n"
 "end of appointment"
 msgstr ""
-"sündmuse algus\n"
-"sündmuse lõpp"
+"sündmuse algust\n"
+"sündmuse lõppu"
 
 msgid "Action/Trigger"
 msgstr "Tegevus/Päästik"
@@ -3711,7 +3710,6 @@ msgstr "_Hiljutised dokumendid"
 msgid "Attach"
 msgstr "Manusta"
 
-#| msgid "_Save"
 msgid "Save"
 msgstr "Salvesta"
 
@@ -3957,6 +3955,8 @@ msgid ""
 "for\n"
 "until"
 msgstr ""
+"kestus\n"
+"kuni"
 
 msgid "Memo"
 msgstr "Märge"
@@ -8991,8 +8991,7 @@ msgid ""
 "annoying and prefer to see a static image instead."
 msgstr ""
 "Animeeritud piltide lubamine HTML-sõnumis. Paljude kasutajate jaoks on "
-"animeeritud pildid tüütud ja nad soovivad nende asemel näha staatilisi "
-"pilte."
+"animeeritud pildid tüütud ja nad soovivad nende asemel näha staatilisi pilte."
 
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
@@ -10011,7 +10010,6 @@ msgstr "PGP/GPG _võtme ID:"
 msgid "Pass_word:"
 msgstr "Pa_rool:"
 
-#| msgid "Please select among the following options"
 msgid "Please configure the following account settings."
 msgstr "Palun seadista järgnevad konto sätted."
 
@@ -13653,7 +13651,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#| msgid "No Summary"
 msgid "[No Summary]"
 msgstr "[Kokkuvõte puudub]"
 
@@ -13661,7 +13658,6 @@ msgid "Invalid object returned from a server"
 msgstr "Server tagastas vigase objekti"
 
 #, c-format
-#| msgid "An error occurred while printing"
 msgid "An error occurred during processing: %s"
 msgstr "Töötlemise ajal tekkis viga: %s"
 
@@ -13697,38 +13693,30 @@ msgstr "Allikloendit pole võimalik hankida. %s"
 msgid "Convert a mail message to a task."
 msgstr "Valitud sõnumi teisendamine uueks ülesandeks."
 
-#| msgid "Create a new memo"
 msgid "Create a Mem_o"
 msgstr "Loo _märge"
 
-#| msgid "Convert to a _Meeting"
 msgid "Create a _Meeting"
 msgstr "Loo _koosolek"
 
-#| msgid "Create a new task"
 msgid "Create a _Task"
 msgstr "Loo ül_esanne"
 
-#| msgid "Convert to an _Event"
 msgid "Create an _Event"
 msgstr "Loo _sündmus"
 
 msgid "Mail-to-Task"
 msgstr "Sõnum-ülesandeks"
 
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new event from the selected message"
 msgstr "Valitud sõnumi põhjal uue sündmuse loomine"
 
-#| msgid "Create a new meeting request"
 msgid "Create a new meeting from the selected message"
 msgstr "Valitud sõnumi põhjal uue koosoleku loomine"
 
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new memo from the selected message"
 msgstr "Valitud sõnumi põhjal uue märkme loomine"
 
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new task from the selected message"
 msgstr "Valitud sõnumi põhjal uue ülesande loomine"
 
@@ -13940,7 +13928,8 @@ msgid "Evolution Profiler"
 msgstr "Evolutioni profileerija"
 
 msgid "Profile data events in Evolution (for developers only)."
-msgstr "Evolutioni andmesündmuste profileerimine (see on mõeldud arendajatele)."
+msgstr ""
+"Evolutioni andmesündmuste profileerimine (see on mõeldud arendajatele)."
 
 msgid "Import Outlook messages from PST file"
 msgstr "Outlooki kirjade importimine PST failist"
@@ -14443,7 +14432,8 @@ msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
-"Manuseriba vaate lähteolek. \"0\" tähendab ikoonivaadet, \"1\" nimekirjavaadet."
+"Manuseriba vaate lähteolek. \"0\" tähendab ikoonivaadet, \"1\" "
+"nimekirjavaadet."
 
 msgid "Last upgraded configuration version"
 msgstr "Viimati uuendatud seadistuste versioon"
