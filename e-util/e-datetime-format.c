@@ -179,7 +179,7 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 
 	g_date_set_time_t (&now, ttoday);
 	g_date_set_time_t (&val, tvalue);
-		
+
 	diff = g_date_get_julian (&now) - g_date_get_julian (&val);
 	/* if it's more than a week, use the default date format */
 	if (ABS (diff) > 7)

@@ -1597,7 +1597,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, gint col, gpointer model_data
 			g_hash_table_iter_init (&iter, ld.labels_tag2iter);
 			while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &label_defn)) {
 				gchar *label_name, *label_name_clean;
-				
+
 				if (result->len > 0)
 					g_string_append (result, ", ");
 
