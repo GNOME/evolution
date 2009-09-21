@@ -427,6 +427,12 @@ e_mail_label_list_store_get_tag (EMailLabelListStore *store,
 		}
 	}
 
+	/* XXX Still no luck?  The label list in GConf must be screwed up.
+	 *     We must not return NULL because the tag is used as a key in
+	 *     the index hash table, so generate a tag from the name. */
+	if (result == NULL)
+		result = mail_label_list_store_tag_from_name (strv[0]);
+
 	g_strfreev (strv);
 
 	return result;
