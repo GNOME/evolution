@@ -831,7 +831,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	/* update the time canvas to show proper date in it */
 	eti = E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item);
-	if (eti && eti->second_zone)
+	if (eti && e_day_view_time_item_get_second_zone (eti))
 		gtk_widget_queue_draw (day_view->time_canvas);
 }
 

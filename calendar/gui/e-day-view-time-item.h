@@ -21,51 +21,61 @@
  *
  */
 
-#ifndef _E_DAY_VIEW_TIME_ITEM_H_
-#define _E_DAY_VIEW_TIME_ITEM_H_
-
-#include "e-day-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EDayViewTimeItem - canvas item which displays the times down the left of
  * the EDayView.
  */
 
-#define E_DAY_VIEW_TIME_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_day_view_time_item_get_type (), EDayViewTimeItem))
-#define E_DAY_VIEW_TIME_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_day_view_time_item_get_type ()))
-#define E_IS_DAY_VIEW_TIME_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_day_view_time_item_get_type ()))
+#ifndef E_DAY_VIEW_TIME_ITEM_H
+#define E_DAY_VIEW_TIME_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-day-view.h"
 
-	/* The parent EDayView widget. */
-	EDayView *day_view;
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW_TIME_ITEM \
+	(e_day_view_time_item_get_type ())
+#define E_DAY_VIEW_TIME_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItem))
+#define E_DAY_VIEW_TIME_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemClass))
+#define E_IS_DAY_VIEW_TIME_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW_TIME_ITEM))
+#define E_IS_DAY_VIEW_TIME_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW_TIME_ITEM))
+#define E_DAY_VIEW_TIME_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemClass))
 
-	/* The width of the time column. */
-	gint column_width;
+G_BEGIN_DECLS
 
-	/* TRUE if we are currently dragging the selection times. */
-	gboolean dragging_selection;
+typedef struct _EDayViewTimeItem EDayViewTimeItem;
+typedef struct _EDayViewTimeItemClass EDayViewTimeItemClass;
+typedef struct _EDayViewTimeItemPrivate EDayViewTimeItemPrivate;
 
-	/* the second timezone shown here; NULL if none; do not free it, it's from the builtin zones */
-	guint second_zone_changed_id;
-	icaltimezone *second_zone;
-} EDayViewTimeItem;
+struct _EDayViewTimeItem {
+	GnomeCanvasItem parent;
+	EDayViewTimeItemPrivate *priv;
+};
 
-typedef struct {
+struct _EDayViewTimeItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EDayViewTimeItemClass;
-
-GType    e_day_view_time_item_get_type      (void);
-
-gint	 e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem);
+GType		e_day_view_time_item_get_type	(void);
+EDayView *	e_day_view_time_item_get_day_view
+						(EDayViewTimeItem *time_item);
+void		e_day_view_time_item_set_day_view
+						(EDayViewTimeItem *time_item,
+						 EDayView *day_view);
+gint		e_day_view_time_item_get_column_width
+						(EDayViewTimeItem *time_item);
+icaltimezone *	e_day_view_time_item_get_second_zone
+						(EDayViewTimeItem *time_item);
 
 G_END_DECLS
 
-#endif /* _E_DAY_VIEW_TIME_ITEM_H_ */
+#endif /* E_DAY_VIEW_TIME_ITEM_H */

@@ -2197,9 +2197,14 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 
 			if (span && span->background_item && E_IS_WEEK_VIEW_EVENT_ITEM (span->background_item)) {
 				EWeekViewEventItem *wveitem = E_WEEK_VIEW_EVENT_ITEM (span->background_item);
+				gint wveitem_event_num;
 
-				if (wveitem->event_num > event_num)
-					wveitem->event_num--;
+				wveitem_event_num =
+					e_week_view_event_item_get_event_num (wveitem);
+
+				if (wveitem_event_num > event_num)
+					e_week_view_event_item_set_event_num (
+						wveitem, wveitem_event_num - 1);
 			}
 		}
 	}

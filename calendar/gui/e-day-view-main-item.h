@@ -20,39 +20,57 @@
  *
  */
 
-#ifndef _E_DAY_VIEW_MAIN_ITEM_H_
-#define _E_DAY_VIEW_MAIN_ITEM_H_
-
-#include "e-day-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EDayViewMainItem - canvas item which displays most of the appointment
  * data in the main Day/Work Week display.
  */
 
-#define E_DAY_VIEW_MAIN_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_day_view_main_item_get_type (), EDayViewMainItem))
-#define E_DAY_VIEW_MAIN_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_day_view_main_item_get_type ()))
-#define E_IS_DAY_VIEW_MAIN_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_day_view_main_item_get_type ()))
+#ifndef E_DAY_VIEW_MAIN_ITEM_H
+#define E_DAY_VIEW_MAIN_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-day-view.h"
 
-	/* The parent EDayView widget. */
-	EDayView *day_view;
-} EDayViewMainItem;
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW_MAIN_ITEM \
+	(e_day_view_main_item_get_type ())
+#define E_DAY_VIEW_MAIN_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItem))
+#define E_DAY_VIEW_MAIN_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemClass))
+#define E_IS_DAY_VIEW_MAIN_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM))
+#define E_IS_DAY_VIEW_MAIN_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW_MAIN_ITEM))
+#define E_DAY_VIEW_MAIN_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_TYPE \
+	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemClass))
 
-typedef struct {
+G_BEGIN_DECLS
+
+typedef struct _EDayViewMainItem EDayViewMainItem;
+typedef struct _EDayViewMainItemClass EDayViewMainItemClass;
+typedef struct _EDayViewMainItemPrivate EDayViewMainItemPrivate;
+
+struct _EDayViewMainItem {
+	GnomeCanvasItem parent;
+	EDayViewMainItemPrivate *priv;
+};
+
+struct _EDayViewMainItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EDayViewMainItemClass;
-
-GType    e_day_view_main_item_get_type      (void);
+GType		e_day_view_main_item_get_type	(void);
+EDayView *	e_day_view_main_item_get_day_view
+						(EDayViewMainItem *main_item);
+void		e_day_view_main_item_set_day_view
+						(EDayViewMainItem *main_item,
+						 EDayView *day_view);
 
 G_END_DECLS
 
-#endif /* _E_DAY_VIEW_MAIN_ITEM_H_ */
+#endif /* E_DAY_VIEW_MAIN_ITEM_H */

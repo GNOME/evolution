@@ -21,43 +21,63 @@
  *
  */
 
-#ifndef _E_WEEK_VIEW_EVENT_ITEM_H_
-#define _E_WEEK_VIEW_EVENT_ITEM_H_
-
-#include "e-week-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EWeekViewEventItem - displays the background, times and icons for an event
  * in the week/month views. A separate EText canvas item is used to display &
  * edit the text.
  */
 
-#define E_WEEK_VIEW_EVENT_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_week_view_event_item_get_type (), EWeekViewEventItem))
-#define E_WEEK_VIEW_EVENT_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_week_view_event_item_get_type ()))
-#define E_IS_WEEK_VIEW_EVENT_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_week_view_event_item_get_type ()))
+#ifndef E_WEEK_VIEW_EVENT_ITEM_H
+#define E_WEEK_VIEW_EVENT_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-week-view.h"
 
-	/* The event index in the EWeekView events array. */
-	gint event_num;
+/* Standard GObject macros */
+#define E_TYPE_WEEK_VIEW_EVENT_ITEM \
+	(e_week_view_event_item_get_type ())
+#define E_WEEK_VIEW_EVENT_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItem))
+#define E_WEEK_VIEW_EVENT_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemClass))
+#define E_IS_WEEK_VIEW_EVENT_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM))
+#define E_IS_WEEK_VIEW_EVENT_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_WEEK_VIEW_EVENT_ITEM))
+#define E_WEEK_VIEW_EVENT_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemClass))
 
-	/* The span index within the event. */
-	gint span_num;
-} EWeekViewEventItem;
+G_BEGIN_DECLS
 
-typedef struct {
+typedef struct _EWeekViewEventItem EWeekViewEventItem;
+typedef struct _EWeekViewEventItemClass EWeekViewEventItemClass;
+typedef struct _EWeekViewEventItemPrivate EWeekViewEventItemPrivate;
+
+struct _EWeekViewEventItem {
+	GnomeCanvasItem parent;
+	EWeekViewEventItemPrivate *priv;
+};
+
+struct _EWeekViewEventItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EWeekViewEventItemClass;
-
-GType    e_week_view_event_item_get_type      (void);
+GType		e_week_view_event_item_get_type	(void);
+gint		e_week_view_event_item_get_event_num
+						(EWeekViewEventItem *event_item);
+void		e_week_view_event_item_set_event_num
+						(EWeekViewEventItem *event_item,
+						 gint event_num);
+gint		e_week_view_event_item_get_span_num
+						(EWeekViewEventItem *event_item);
+void		e_week_view_event_item_set_span_num
+						(EWeekViewEventItem *event_item,
+						 gint span_num);
 
 G_END_DECLS
 
-#endif /* _E_WEEK_VIEW_EVENT_ITEM_H_ */
+#endif /* E_WEEK_VIEW_EVENT_ITEM_H */

@@ -1,4 +1,5 @@
 /*
+ * e-week-view-main-item.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,39 +22,57 @@
  *
  */
 
-#ifndef _E_WEEK_VIEW_MAIN_ITEM_H_
-#define _E_WEEK_VIEW_MAIN_ITEM_H_
-
-#include "e-week-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EWeekViewMainItem - displays the background grid and dates for the Week and
  * Month calendar views.
  */
 
-#define E_WEEK_VIEW_MAIN_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_week_view_main_item_get_type (), EWeekViewMainItem))
-#define E_WEEK_VIEW_MAIN_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_week_view_main_item_get_type ()))
-#define E_IS_WEEK_VIEW_MAIN_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_week_view_main_item_get_type ()))
+#ifndef E_WEEK_VIEW_MAIN_ITEM_H
+#define E_WEEK_VIEW_MAIN_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-week-view.h"
 
-	/* The parent EWeekView widget. */
-	EWeekView *week_view;
-} EWeekViewMainItem;
+/* Standard GObject macros */
+#define E_TYPE_WEEK_VIEW_MAIN_ITEM \
+	(e_week_view_main_item_get_type ())
+#define E_WEEK_VIEW_MAIN_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItem))
+#define E_WEEK_VIEW_MAIN_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemClass))
+#define E_IS_WEEK_VIEW_MAIN_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM))
+#define E_IS_WEEK_VIEW_MAIN_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_WEEK_VIEW_MAIN_ITEM))
+#define E_WEEK_VIEW_MAIN_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemClass))
 
-typedef struct {
+G_BEGIN_DECLS
+
+typedef struct _EWeekViewMainItem EWeekViewMainItem;
+typedef struct _EWeekViewMainItemClass EWeekViewMainItemClass;
+typedef struct _EWeekViewMainItemPrivate EWeekViewMainItemPrivate;
+
+struct _EWeekViewMainItem {
+	GnomeCanvasItem parent;
+	EWeekViewMainItemPrivate *priv;
+};
+
+struct _EWeekViewMainItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EWeekViewMainItemClass;
-
-GType    e_week_view_main_item_get_type      (void);
+GType		e_week_view_main_item_get_type	(void);
+EWeekView *	e_week_view_main_item_get_week_view
+						(EWeekViewMainItem *main_item);
+void		e_week_view_main_item_set_week_view
+						(EWeekViewMainItem *main_item,
+						 EWeekView *week_view);
 
 G_END_DECLS
 
-#endif /* _E_WEEK_VIEW_MAIN_ITEM_H_ */
+#endif /* E_WEEK_VIEW_MAIN_ITEM_H */

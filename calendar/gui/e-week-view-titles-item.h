@@ -21,39 +21,57 @@
  *
  */
 
-#ifndef _E_WEEK_VIEW_TITLES_ITEM_H_
-#define _E_WEEK_VIEW_TITLES_ITEM_H_
-
-#include "e-week-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EWeekViewTitlesItem - displays the 'Monday', 'Tuesday' etc. at the top of
  * the Month calendar view.
  */
 
-#define E_WEEK_VIEW_TITLES_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_week_view_titles_item_get_type (), EWeekViewTitlesItem))
-#define E_WEEK_VIEW_TITLES_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_week_view_titles_item_get_type ()))
-#define E_IS_WEEK_VIEW_TITLES_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_week_view_titles_item_get_type ()))
+#ifndef E_WEEK_VIEW_TITLES_ITEM_H
+#define E_WEEK_VIEW_TITLES_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-week-view.h"
 
-	/* The parent EWeekView widget. */
-	EWeekView *week_view;
-} EWeekViewTitlesItem;
+/* Standard GObject macros */
+#define E_TYPE_WEEK_VIEW_TITLES_ITEM \
+	(e_week_view_titles_item_get_type ())
+#define E_WEEK_VIEW_TITLES_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItem))
+#define E_WEEK_VIEW_TITLES_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemClass))
+#define E_IS_WEEK_VIEW_TITLES_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM))
+#define E_IS_WEEK_VIEW_TITLES_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_WEEK_VIEW_TITLES_ITEM))
+#define E_WEEK_VIEW_TITLES_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemClass))
 
-typedef struct {
+G_BEGIN_DECLS
+
+typedef struct _EWeekViewTitlesItem EWeekViewTitlesItem;
+typedef struct _EWeekViewTitlesItemClass EWeekViewTitlesItemClass;
+typedef struct _EWeekViewTitlesItemPrivate EWeekViewTitlesItemPrivate;
+
+struct _EWeekViewTitlesItem {
+	GnomeCanvasItem parent;
+	EWeekViewTitlesItemPrivate *priv;
+};
+
+struct _EWeekViewTitlesItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EWeekViewTitlesItemClass;
-
-GType    e_week_view_titles_item_get_type      (void);
+GType		e_week_view_titles_item_get_type(void);
+EWeekView *	e_week_view_titles_item_get_week_view
+						(EWeekViewTitlesItem *titles_item);
+void		e_week_view_titles_item_set_week_view
+						(EWeekViewTitlesItem *titles_item,
+						 EWeekView *week_view);
 
 G_END_DECLS
 
-#endif /* _E_WEEK_VIEW_TITLES_ITEM_H_ */
+#endif /* E_WEEK_VIEW_TITLES_ITEM_H */

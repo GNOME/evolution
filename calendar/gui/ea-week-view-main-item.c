@@ -232,6 +232,7 @@ ea_week_view_main_item_new (GObject *obj)
 	AtkObject *accessible;
 	GnomeCalendar *gcal;
 	EWeekViewMainItem *main_item;
+	EWeekView *week_view;
 
 	g_return_val_if_fail (E_IS_WEEK_VIEW_MAIN_ITEM (obj), NULL);
 
@@ -246,13 +247,17 @@ ea_week_view_main_item_new (GObject *obj)
 	printf ("ACC_DEBUG: n_ea_week_view_main_item_created = %d\n",
 		n_ea_week_view_main_item_created);
 #endif
+
 	main_item = E_WEEK_VIEW_MAIN_ITEM (obj);
-	g_signal_connect (main_item->week_view, "selected_time_changed",
-			  G_CALLBACK (ea_week_view_main_item_time_change_cb),
-			  accessible);
+	week_view = e_week_view_main_item_get_week_view (main_item);
+
+	g_signal_connect (
+		week_view, "selected_time_changed",
+		G_CALLBACK (ea_week_view_main_item_time_change_cb),
+		accessible);
 
 	/* listen for date changes of calendar */
-	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (main_item->week_view));
+	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
 	if (gcal)
 		g_signal_connect (gcal, "dates_shown_changed",
 				  G_CALLBACK (ea_week_view_main_item_dates_change_cb),
@@ -313,7 +318,7 @@ ea_week_view_main_item_get_n_children (AtkObject *accessible)
 		return -1;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (week_view->multi_week_view)
 		return 7 * week_view->weeks_shown;
@@ -341,7 +346,7 @@ ea_week_view_main_item_ref_child (AtkObject *accessible, gint index)
 		return NULL;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	n_children = ea_week_view_main_item_get_n_children (accessible);
 	if (index < 0 || index >= n_children)
@@ -371,6 +376,7 @@ ea_week_view_main_item_get_parent (AtkObject *accessible)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	EWeekViewMainItem *main_item;
+	EWeekView *week_view;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW_MAIN_ITEM (accessible), NULL);
 
@@ -380,7 +386,9 @@ ea_week_view_main_item_get_parent (AtkObject *accessible)
 		return NULL;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	return gtk_widget_get_accessible (GTK_WIDGET (main_item->week_view));
+	week_view = e_week_view_main_item_get_week_view (main_item);
+
+	return gtk_widget_get_accessible (GTK_WIDGET (week_view));
 }
 
 static gint
@@ -472,7 +480,7 @@ ea_week_view_main_item_get_child_index_at (EaWeekViewMainItem *ea_main_item,
 		return -1;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (row >= 0 && row < week_view->weeks_shown &&
 	    column >= 0 && column < 7)
@@ -559,7 +567,7 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 		return NULL;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	cell_data = g_object_get_data (G_OBJECT(ea_main_item),
 				       "ea-week-view-cell-table");
@@ -616,7 +624,7 @@ component_interface_get_extents (AtkComponent *component,
 		/* defunct object*/
 		return;
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	ea_canvas = gtk_widget_get_accessible (week_view->main_canvas);
 	atk_component_get_extents (ATK_COMPONENT (ea_canvas), x, y,
@@ -686,7 +694,7 @@ table_interface_get_n_rows (AtkTable *table)
 		return -1;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	return week_view->weeks_shown;
 }
@@ -790,7 +798,7 @@ table_interface_is_row_selected (AtkTable *table,
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (week_view->selection_start_day == -1)
 		/* no selection */
@@ -828,7 +836,7 @@ table_interface_is_column_selected (AtkTable *table,
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if ((column <0)||(column >6))
 		return FALSE;
@@ -859,7 +867,7 @@ table_interface_get_selected_rows (AtkTable *table,
 		return -1;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (week_view->selection_start_day == -1)
 		return 0;
@@ -894,7 +902,7 @@ table_interface_get_selected_columns (AtkTable *table,
 		return -1;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (week_view->selection_start_day == -1)
 		return 0;
@@ -931,7 +939,7 @@ table_interface_add_row_selection (AtkTable *table,
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	/* FIXME: we need multi-selection */
 
@@ -965,7 +973,7 @@ table_interface_add_column_selection (AtkTable *table,
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	/* FIXME: we need multi-selection */
 
@@ -1082,7 +1090,7 @@ table_interface_get_row_description (AtkTable    *table,
 		return NULL;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (row < 0 || row >= week_view->weeks_shown)
 		return NULL;
@@ -1137,7 +1145,7 @@ selection_interface_add_selection (AtkSelection *selection, gint i)
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (i < 0 || i > week_view->weeks_shown * 7 -1)
 		return FALSE;
@@ -1165,7 +1173,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	week_view->selection_start_day = -1;
 	week_view->selection_end_day = -1;
@@ -1180,6 +1188,7 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 {
 	gint count;
 	GObject *g_obj;
+	EWeekViewMainItem *main_item;
 	EWeekView *week_view;
 	EaWeekViewMainItem* ea_main_item = EA_WEEK_VIEW_MAIN_ITEM (selection);
 	gint start_index;
@@ -1189,7 +1198,10 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 		return NULL;
 
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (ea_main_item));
-	week_view = E_WEEK_VIEW_MAIN_ITEM (g_obj)->week_view;
+
+	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
+	week_view = e_week_view_main_item_get_week_view (main_item);
+
 	start_index = ea_week_view_main_item_get_child_index_at (ea_main_item,
 								week_view->selection_start_day / 7,
 								week_view->selection_start_day % 7);
@@ -1212,7 +1224,7 @@ selection_interface_get_selection_count (AtkSelection *selection)
 		return 0;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if (week_view->selection_start_day == -1 ||
 	    week_view->selection_end_day == -1)
@@ -1236,7 +1248,7 @@ selection_interface_is_child_selected (AtkSelection *selection, gint i)
 		return FALSE;
 
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
-	week_view = main_item->week_view;
+	week_view = e_week_view_main_item_get_week_view (main_item);
 
 	if ((week_view->selection_start_day <= i)&&(week_view->selection_end_day >= i))
 		return TRUE;

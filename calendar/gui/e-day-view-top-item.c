@@ -38,329 +38,111 @@
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
-static void e_day_view_top_item_set_property	(GObject	 *object,
-						 guint		  property_id,
-						 const GValue	 *value,
-						 GParamSpec	 *pspec);
-static void e_day_view_top_item_update		(GnomeCanvasItem *item,
-						 double		 *affine,
-						 ArtSVP		 *clip_path,
-						 gint		  flags);
-static void e_day_view_top_item_draw		(GnomeCanvasItem *item,
-						 GdkDrawable	 *drawable,
-						 gint		  x,
-						 gint		  y,
-						 gint		  width,
-						 gint		  height);
-static void e_day_view_top_item_draw_long_event	(EDayViewTopItem *dvtitem,
-						 gint		  event_num,
-						 GdkDrawable	 *drawable,
-						 gint		  x,
-						 gint		  y,
-						 gint		  width,
-						 gint		  height);
-static void e_day_view_top_item_draw_triangle	(EDayViewTopItem *dvtitem,
-						 GdkDrawable	 *drawable,
-						 gint		  x,
-						 gint		  y,
-						 gint		  w,
-						 gint		  h,
-						 gint             event_num);
-static double e_day_view_top_item_point		(GnomeCanvasItem *item,
-						 double		  x,
-						 double		  y,
-						 gint		  cx,
-						 gint		  cy,
-						 GnomeCanvasItem **actual_item);
-static gint e_day_view_top_item_event		(GnomeCanvasItem *item,
-						 GdkEvent	 *event);
+#define E_DAY_VIEW_TOP_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate))
 
-/* The arguments we take */
+struct _EDayViewTopItemPrivate {
+	/* The parent EDayView widget. */
+	EDayView *day_view;
+
+	/* Show dates or events. */
+	gboolean show_dates;
+};
+
 enum {
 	PROP_0,
 	PROP_DAY_VIEW,
 	PROP_SHOW_DATES
 };
 
-G_DEFINE_TYPE (EDayViewTopItem, e_day_view_top_item, GNOME_TYPE_CANVAS_ITEM)
+static gpointer parent_class;
 
+/* This draws a little triangle to indicate that an event extends past
+   the days visible on screen. */
 static void
-e_day_view_top_item_class_init (EDayViewTopItemClass *class)
+day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
+                                 GdkDrawable *drawable,
+                                 gint x,
+                                 gint y,
+                                 gint w,
+                                 gint h,
+                                 gint event_num)
 {
-	GObjectClass  *object_class;
-	GnomeCanvasItemClass *item_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = e_day_view_top_item_set_property;
-
-	item_class = GNOME_CANVAS_ITEM_CLASS (class);
-	item_class->update = e_day_view_top_item_update;
-	item_class->draw = e_day_view_top_item_draw;
-	item_class->point = e_day_view_top_item_point;
-	item_class->event = e_day_view_top_item_event;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_DAY_VIEW,
-		g_param_spec_pointer (
-			"day_view",
-			NULL,
-			NULL,
-			G_PARAM_WRITABLE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DATES,
-		g_param_spec_boolean (
-			"show_dates",
-			NULL,
-			NULL,
-			TRUE,
-			G_PARAM_WRITABLE));
-}
-
-static void
-e_day_view_top_item_init (EDayViewTopItem *dvtitem)
-{
-	dvtitem->day_view = NULL;
-	dvtitem->show_dates = FALSE;
-}
-
-static void
-e_day_view_top_item_set_property (GObject *object,
-                                  guint property_id,
-                                  const GValue *value,
-                                  GParamSpec *pspec)
-{
-	EDayViewTopItem *dvtitem;
-
-	dvtitem = E_DAY_VIEW_TOP_ITEM (object);
-
-	switch (property_id) {
-	case PROP_DAY_VIEW:
-		dvtitem->day_view = g_value_get_pointer (value);
-		return;
-	case PROP_SHOW_DATES:
-		dvtitem->show_dates = g_value_get_boolean (value);
-		return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-e_day_view_top_item_update (GnomeCanvasItem *item,
-			    double	    *affine,
-			    ArtSVP	    *clip_path,
-			    gint		     flags)
-{
-	if (GNOME_CANVAS_ITEM_CLASS (e_day_view_top_item_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (e_day_view_top_item_parent_class)->update) (item, affine, clip_path, flags);
-
-	/* The item covers the entire canvas area. */
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = INT_MAX;
-	item->y2 = INT_MAX;
-}
-
-/*
- * DRAWING ROUTINES - functions to paint the canvas item.
- */
-static void
-e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
-			  GdkDrawable	  *drawable,
-			  gint		   x,
-			  gint		   y,
-			  gint		   width,
-			  gint		   height)
-{
-	EDayViewTopItem *dvtitem;
 	EDayView *day_view;
-	GtkStyle *style;
-	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
-	gchar buffer[128];
-	GdkRectangle clip_rect;
-	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
-	gint item_height, event_num;
-	PangoLayout *layout;
+	EDayViewEvent *event;
+	GdkGC *gc;
+	GdkColor bg_color;
+	GdkPoint points[3];
+	gint c1, c2;
 	cairo_t *cr;
-	GdkColor fg, bg, light, dark;
-	gboolean show_dates;
-
-#if 0
-	g_print ("In e_day_view_top_item_draw %i,%i %ix%i\n",
-		 x, y, width, height);
-#endif
-	dvtitem = E_DAY_VIEW_TOP_ITEM (canvas_item);
-	day_view = dvtitem->day_view;
-	g_return_if_fail (day_view != NULL);
-	show_dates = dvtitem->show_dates;
 
 	cr = gdk_cairo_create (drawable);
 
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	day_view = e_day_view_top_item_get_day_view (top_item);
+
 	gc = day_view->main_gc;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	light_gc = style->light_gc[GTK_STATE_NORMAL];
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
-	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
-	canvas_height = (show_dates ? 1 : (MAX (1, day_view->rows_in_top_display) + 1)) * day_view->top_row_height;
-	left_edge = 0;
-	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
-	fg = style->fg[GTK_STATE_NORMAL];
-	bg = style->bg[GTK_STATE_NORMAL];
-	light = style->light[GTK_STATE_NORMAL];
-	dark = style->dark[GTK_STATE_NORMAL];
+	points[0].x = x;
+	points[0].y = y;
+	points[1].x = x + w;
+	points[1].y = y + (h / 2);
+	points[2].x = x;
+	points[2].y = y + h - 1;
 
-	if (show_dates) {
-		/* Draw the shadow around the dates. */
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &light);
-		cairo_move_to (cr, left_edge - x, 1 - y);
-		cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
-		cairo_move_to (cr, left_edge - x, 2 - y);
-		cairo_line_to (cr, left_edge - x, item_height - 2 - y);
-		cairo_stroke (cr);
-		cairo_restore (cr);
+	/* If the height is odd we can use the same central point for both
+	   lines. If it is even we use different end-points. */
+	c1 = c2 = y + (h / 2);
+	if (h % 2 == 0)
+		c1--;
 
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &dark);
-		cairo_move_to (cr, left_edge - x, item_height - 1 - y);
-		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
-		cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
-		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
-		cairo_stroke (cr);
-		cairo_restore (cr);
+	event = &g_array_index (day_view->long_events, EDayViewEvent,
+				event_num);
+	cairo_save (cr);
+	/* Fill it in. */
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
+								  event->comp_data),
+			     &bg_color)) {
+		GdkColormap *colormap;
 
-		/* Draw the background for the dates. */
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &bg);
-		cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
-				 canvas_width - left_edge - 3,
-				 item_height - 3);
-		cairo_fill (cr);
-		cairo_restore (cr);
-	}
-
-	if (!show_dates) {
-		/* Clear the main area background. */
-		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
-		cairo_rectangle (cr, left_edge - x, - y,
-				 canvas_width - left_edge,
-				 canvas_height);
-		cairo_fill (cr);
-		cairo_restore (cr);
-
-		/* Draw the selection background. */
-		if (GTK_WIDGET_HAS_FOCUS (day_view)
-			&& day_view->selection_start_day != -1) {
-			gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
-
-			start_col = day_view->selection_start_day;
-			end_col = day_view->selection_end_day;
-
-			if (end_col > start_col
-			    || day_view->selection_start_row == -1
-			    || day_view->selection_end_row == -1) {
-				rect_x = day_view->day_offsets[start_col];
-				rect_y = 0;
-				rect_w = day_view->day_offsets[end_col + 1] - rect_x;
-				rect_h = canvas_height - 1 - rect_y;
-
-				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
-				cairo_rectangle (cr, rect_x - x, rect_y - y,
-						 rect_w, rect_h);
-				cairo_fill (cr);
-				cairo_restore (cr);
-			}
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
+			gdk_cairo_set_source_color (cr, &bg_color);
+		} else {
+			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 		}
+	} else {
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 	}
 
-	if (show_dates) {
-		/* Draw the date. Set a clipping rectangle so we don't draw over the
-		   next day. */
-		for (day = 0; day < day_view->days_shown; day++) {
-			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
-			clip_rect.x = day_view->day_offsets[day] - x;
-			clip_rect.y = 2 - y;
-			if (day_view->days_shown == 1)
-				clip_rect.width = day_view->top_canvas->allocation.width - day_view->day_offsets[day];
-			else
-				clip_rect.width = day_view->day_widths[day];
-			clip_rect.height = item_height - 2;
+	cairo_move_to (cr, points[0].x, points[0].y);
+	cairo_line_to (cr, points[1].x, points[1].y);
+	cairo_line_to (cr, points[2].x, points[2].y);
+	cairo_line_to (cr, points[0].x, points[0].y);
+	cairo_fill (cr);
+	cairo_restore (cr);
 
-			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
-
-			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-			pango_layout_get_pixel_size (layout, &date_width, NULL);
-			date_x = day_view->day_offsets[day] + (clip_rect.width - date_width) / 2;
-
-			gdk_draw_layout (drawable, fg_gc,
-					 date_x - x,
-					 3 - y,
-					 layout);
-			g_object_unref (layout);
-
-			gdk_gc_set_clip_rectangle (fg_gc, NULL);
-
-			/* Draw the lines down the left and right of the date cols. */
-			if (day != 0) {
-				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &light);
-				cairo_move_to (cr, day_view->day_offsets[day] - x,
-						4 - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - x,
-						item_height - 4 - y);
-				cairo_stroke (cr);
-				gdk_cairo_set_source_color (cr, &dark);
-				cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
-						4 - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
-						item_height - 4 - y);
-				cairo_stroke (cr);
-				cairo_restore (cr);
-			}
-
-			/* Draw the lines between each column. */
-			if (day != 0) {
-				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
-				cairo_move_to (cr, day_view->day_offsets[day] - x,
-						item_height - y);
-				cairo_line_to (cr, day_view->day_offsets[day] - x,
-						canvas_height - y);
-				cairo_stroke (cr);
-				cairo_restore (cr);
-			}
-		}
-	}
-
-	if (!show_dates) {
-		/* Draw the long events. */
-		for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
-			e_day_view_top_item_draw_long_event (dvtitem, event_num,
-							     drawable,
-							     x, y, width, height);
-		}
-	}
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	cairo_move_to (cr, x, y);
+	cairo_line_to (cr, x + w, c1);
+	cairo_move_to (cr, x, y + h - 1);
+	cairo_line_to (cr, x + w, c2);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
 	cairo_destroy (cr);
 }
 
 /* This draws one event in the top canvas. */
 static void
-e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
-				     gint	      event_num,
-				     GdkDrawable     *drawable,
-				     gint	      x,
-				     gint	      y,
-				     gint	      width,
-				     gint	      height)
+day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
+                                   gint event_num,
+                                   GdkDrawable *drawable,
+                                   gint x,
+                                   gint y,
+                                   gint width,
+                                   gint height)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -389,7 +171,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gfloat alpha;
 	gdouble x0, y0, rect_height, rect_width, radius;
 
-	day_view = dvtitem->day_view;
+	day_view = e_day_view_top_item_get_day_view (top_item);
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	cr = gdk_cairo_create (drawable);
@@ -519,20 +301,18 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* If the event starts before the first day shown, draw a triangle */
 	if (draw_start_triangle
 	    && event->start < day_view->day_starts[start_day]) {
-		e_day_view_top_item_draw_triangle (dvtitem, drawable,
-						   item_x - x + 4, item_y - y,
-						   -E_DAY_VIEW_BAR_WIDTH,
-						   item_h, event_num);
+		day_view_top_item_draw_triangle (
+			top_item, drawable, item_x - x + 4, item_y - y,
+			-E_DAY_VIEW_BAR_WIDTH, item_h, event_num);
 	}
 
 	/* Similar for the event end. */
 	if (draw_end_triangle
 	    && event->end > day_view->day_starts[end_day + 1]) {
-		e_day_view_top_item_draw_triangle (dvtitem, drawable,
-						   item_x + item_w - 4 - x,
-						   item_y - y,
-						   E_DAY_VIEW_BAR_WIDTH,
-						   item_h, event_num);
+		day_view_top_item_draw_triangle (
+			top_item, drawable, item_x + item_w - 4 - x,
+			item_y - y, E_DAY_VIEW_BAR_WIDTH, item_h,
+			event_num);
 	}
 
 	/* If we are editing the event we don't show the icons or the start
@@ -712,109 +492,356 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 
-/* This draws a little triangle to indicate that an event extends past
-   the days visible on screen. */
 static void
-e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
-				   GdkDrawable	   *drawable,
-				   gint		    x,
-				   gint		    y,
-				   gint		    w,
-				   gint		    h,
-				   gint             event_num)
+day_view_top_item_set_property (GObject *object,
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
 {
+	switch (property_id) {
+		case PROP_DAY_VIEW:
+			e_day_view_top_item_set_day_view (
+				E_DAY_VIEW_TOP_ITEM (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SHOW_DATES:
+			e_day_view_top_item_set_show_dates (
+				E_DAY_VIEW_TOP_ITEM (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+day_view_top_item_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_DAY_VIEW:
+			g_value_set_object (
+				value, e_day_view_top_item_get_day_view (
+				E_DAY_VIEW_TOP_ITEM (object)));
+			return;
+
+		case PROP_SHOW_DATES:
+			g_value_set_boolean (
+				value, e_day_view_top_item_get_show_dates (
+				E_DAY_VIEW_TOP_ITEM (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+day_view_top_item_dispose (GObject *object)
+{
+	EDayViewTopItemPrivate *priv;
+
+	priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (object);
+
+	if (priv->day_view != NULL) {
+		g_object_unref (priv->day_view);
+		priv->day_view = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+day_view_top_item_update (GnomeCanvasItem *item,
+                          gdouble *affine,
+                          ArtSVP *clip_path,
+                          gint flags)
+{
+	GnomeCanvasItemClass *canvas_item_class;
+
+	/* Chain up to parent's update() method. */
+	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
+	canvas_item_class->update (item, affine, clip_path, flags);
+
+	/* The item covers the entire canvas area. */
+	item->x1 = 0;
+	item->y1 = 0;
+	item->x2 = INT_MAX;
+	item->y2 = INT_MAX;
+}
+
+static void
+day_view_top_item_draw (GnomeCanvasItem *canvas_item,
+                        GdkDrawable *drawable,
+                        gint x,
+                        gint y,
+                        gint width,
+                        gint height)
+{
+	EDayViewTopItem *top_item;
 	EDayView *day_view;
-	EDayViewEvent *event;
-	GdkGC *gc;
-	GdkColor bg_color;
-	GdkPoint points[3];
-	gint c1, c2;
+	GtkStyle *style;
+	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
+	gchar buffer[128];
+	GdkRectangle clip_rect;
+	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
+	gint item_height, event_num;
+	PangoLayout *layout;
 	cairo_t *cr;
+	GdkColor fg, bg, light, dark;
+	gboolean show_dates;
+
+	top_item = E_DAY_VIEW_TOP_ITEM (canvas_item);
+	day_view = e_day_view_top_item_get_day_view (top_item);
+	g_return_if_fail (day_view != NULL);
+	show_dates = top_item->priv->show_dates;
 
 	cr = gdk_cairo_create (drawable);
 
-	day_view = dvtitem->day_view;
-
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gc = day_view->main_gc;
+	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
+	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
+	light_gc = style->light_gc[GTK_STATE_NORMAL];
+	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
+	canvas_width = GTK_WIDGET (canvas_item->canvas)->allocation.width;
+	canvas_height = (show_dates ? 1 : (MAX (1, day_view->rows_in_top_display) + 1)) * day_view->top_row_height;
+	left_edge = 0;
+	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
-	points[0].x = x;
-	points[0].y = y;
-	points[1].x = x + w;
-	points[1].y = y + (h / 2);
-	points[2].x = x;
-	points[2].y = y + h - 1;
+	fg = style->fg[GTK_STATE_NORMAL];
+	bg = style->bg[GTK_STATE_NORMAL];
+	light = style->light[GTK_STATE_NORMAL];
+	dark = style->dark[GTK_STATE_NORMAL];
 
-	/* If the height is odd we can use the same central point for both
-	   lines. If it is even we use different end-points. */
-	c1 = c2 = y + (h / 2);
-	if (h % 2 == 0)
-		c1--;
+	if (show_dates) {
+		/* Draw the shadow around the dates. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &light);
+		cairo_move_to (cr, left_edge - x, 1 - y);
+		cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
+		cairo_move_to (cr, left_edge - x, 2 - y);
+		cairo_line_to (cr, left_edge - x, item_height - 2 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
-	event = &g_array_index (day_view->long_events, EDayViewEvent,
-				event_num);
-	cairo_save (cr);
-	/* Fill it in. */
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
-								  event->comp_data),
-			     &bg_color)) {
-		GdkColormap *colormap;
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &dark);
+		cairo_move_to (cr, left_edge - x, item_height - 1 - y);
+		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+		cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
+		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			gdk_cairo_set_source_color (cr, &bg_color);
-		} else {
-			gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-		}
-	} else {
-		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+		/* Draw the background for the dates. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &bg);
+		cairo_rectangle (cr, left_edge + 2 - x, 2 - y,
+				 canvas_width - left_edge - 3,
+				 item_height - 3);
+		cairo_fill (cr);
+		cairo_restore (cr);
 	}
 
-	cairo_move_to (cr, points[0].x, points[0].y);
-	cairo_line_to (cr, points[1].x, points[1].y);
-	cairo_line_to (cr, points[2].x, points[2].y);
-	cairo_line_to (cr, points[0].x, points[0].y);
-	cairo_fill (cr);
-	cairo_restore (cr);
+	if (!show_dates) {
+		/* Clear the main area background. */
+		cairo_save (cr);
+		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+		cairo_rectangle (cr, left_edge - x, - y,
+				 canvas_width - left_edge,
+				 canvas_height);
+		cairo_fill (cr);
+		cairo_restore (cr);
 
-	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
-	cairo_move_to (cr, x, y);
-	cairo_line_to (cr, x + w, c1);
-	cairo_move_to (cr, x, y + h - 1);
-	cairo_line_to (cr, x + w, c2);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+		/* Draw the selection background. */
+		if (GTK_WIDGET_HAS_FOCUS (day_view)
+			&& day_view->selection_start_day != -1) {
+			gint start_col, end_col, rect_x, rect_y, rect_w, rect_h;
+
+			start_col = day_view->selection_start_day;
+			end_col = day_view->selection_end_day;
+
+			if (end_col > start_col
+			    || day_view->selection_start_row == -1
+			    || day_view->selection_end_row == -1) {
+				rect_x = day_view->day_offsets[start_col];
+				rect_y = 0;
+				rect_w = day_view->day_offsets[end_col + 1] - rect_x;
+				rect_h = canvas_height - 1 - rect_y;
+
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
+				cairo_rectangle (cr, rect_x - x, rect_y - y,
+						 rect_w, rect_h);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			}
+		}
+	}
+
+	if (show_dates) {
+		/* Draw the date. Set a clipping rectangle so we don't draw over the
+		   next day. */
+		for (day = 0; day < day_view->days_shown; day++) {
+			e_day_view_top_item_get_day_label (day_view, day, buffer, sizeof (buffer));
+			clip_rect.x = day_view->day_offsets[day] - x;
+			clip_rect.y = 2 - y;
+			if (day_view->days_shown == 1)
+				clip_rect.width = day_view->top_canvas->allocation.width - day_view->day_offsets[day];
+			else
+				clip_rect.width = day_view->day_widths[day];
+			clip_rect.height = item_height - 2;
+
+			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+			pango_layout_get_pixel_size (layout, &date_width, NULL);
+			date_x = day_view->day_offsets[day] + (clip_rect.width - date_width) / 2;
+
+			gdk_draw_layout (drawable, fg_gc,
+					 date_x - x,
+					 3 - y,
+					 layout);
+			g_object_unref (layout);
+
+			gdk_gc_set_clip_rectangle (fg_gc, NULL);
+
+			/* Draw the lines down the left and right of the date cols. */
+			if (day != 0) {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &light);
+				cairo_move_to (cr, day_view->day_offsets[day] - x,
+						4 - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - x,
+						item_height - 4 - y);
+				cairo_stroke (cr);
+				gdk_cairo_set_source_color (cr, &dark);
+				cairo_move_to (cr, day_view->day_offsets[day] - 1 - x,
+						4 - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - 1 - x,
+						item_height - 4 - y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+			}
+
+			/* Draw the lines between each column. */
+			if (day != 0) {
+				cairo_save (cr);
+				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
+				cairo_move_to (cr, day_view->day_offsets[day] - x,
+						item_height - y);
+				cairo_line_to (cr, day_view->day_offsets[day] - x,
+						canvas_height - y);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+			}
+		}
+	}
+
+	if (!show_dates) {
+		/* Draw the long events. */
+		for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
+			day_view_top_item_draw_long_event (
+				top_item, event_num, drawable,
+				x, y, width, height);
+		}
+	}
 
 	cairo_destroy (cr);
 }
 
-/* This is supposed to return the nearest item the the point and the distance.
-   Since we are the only item we just return ourself and 0 for the distance.
-   This is needed so that we get button/motion events. */
 static double
-e_day_view_top_item_point (GnomeCanvasItem *item, double x, double y,
-			   gint cx, gint cy,
-			   GnomeCanvasItem **actual_item)
+day_view_top_item_point (GnomeCanvasItem *item,
+                         gdouble x,
+                         gdouble y,
+                         gint cx,
+                         gint cy,
+                         GnomeCanvasItem **actual_item)
 {
+	/* This is supposed to return the nearest item the the point
+	 * and the distance.  Since we are the only item we just return
+	 * ourself and 0 for the distance.  This is needed so that we
+	 * get button/motion events. */
 	*actual_item = item;
+
 	return 0.0;
 }
 
-static gint
-e_day_view_top_item_event (GnomeCanvasItem *item, GdkEvent *event)
+static void
+day_view_top_item_class_init (EDayViewTopItemClass *class)
 {
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
+	GObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
 
-	case GDK_BUTTON_RELEASE:
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EDayViewTopItemPrivate));
 
-	case GDK_MOTION_NOTIFY:
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = day_view_top_item_set_property;
+	object_class->get_property = day_view_top_item_get_property;
+	object_class->dispose = day_view_top_item_dispose;
 
-	default:
-		break;
+	item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	item_class->update = day_view_top_item_update;
+	item_class->draw = day_view_top_item_draw;
+	item_class->point = day_view_top_item_point;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DAY_VIEW,
+		g_param_spec_object (
+			"day_view",
+			"Day View",
+			NULL,
+			E_TYPE_DAY_VIEW,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DATES,
+		g_param_spec_boolean (
+			"show_dates",
+			"Show Dates",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+}
+
+static void
+day_view_top_item_init (EDayViewTopItem *top_item)
+{
+	top_item->priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (top_item);
+}
+
+GType
+e_day_view_top_item_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		const GTypeInfo type_info = {
+			sizeof (EDayViewTopItemClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) day_view_top_item_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EDayViewTopItem),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) day_view_top_item_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GNOME_TYPE_CANVAS_ITEM, "EDayViewTopItem",
+			&type_info, 0);
 	}
 
-	return FALSE;
+	return type;
 }
 
 void
@@ -853,4 +880,46 @@ e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
 		format = "%d";
 
 	e_utf8_strftime (buffer, buffer_len, format, &day_start);
+}
+
+EDayView *
+e_day_view_top_item_get_day_view (EDayViewTopItem *top_item)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item), NULL);
+
+	return top_item->priv->day_view;
+}
+
+void
+e_day_view_top_item_set_day_view (EDayViewTopItem *top_item,
+                                  EDayView *day_view)
+{
+	g_return_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item));
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (top_item->priv->day_view != NULL)
+		g_object_unref (top_item->priv->day_view);
+
+	top_item->priv->day_view = g_object_ref (day_view);
+
+	g_object_notify (G_OBJECT (top_item), "day-view");
+}
+
+gboolean
+e_day_view_top_item_get_show_dates (EDayViewTopItem *top_item)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item), FALSE);
+
+	return top_item->priv->show_dates;
+}
+
+void
+e_day_view_top_item_set_show_dates (EDayViewTopItem *top_item,
+                                    gboolean show_dates)
+{
+	g_return_if_fail (E_IS_DAY_VIEW_TOP_ITEM (top_item));
+
+	top_item->priv->show_dates = show_dates;
+
+	g_object_notify (G_OBJECT (top_item), "show-dates");
 }

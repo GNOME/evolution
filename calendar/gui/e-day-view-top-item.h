@@ -21,43 +21,64 @@
  *
  */
 
-#ifndef _E_DAY_VIEW_TOP_ITEM_H_
-#define _E_DAY_VIEW_TOP_ITEM_H_
-
-#include "e-day-view.h"
-
-G_BEGIN_DECLS
-
 /*
  * EDayViewTopItem - displays the top part of the Day/Work Week calendar view.
  */
 
-#define E_DAY_VIEW_TOP_ITEM(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-        e_day_view_top_item_get_type (), EDayViewTopItem))
-#define E_DAY_VIEW_TOP_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),\
-	e_day_view_top_item_get_type ()))
-#define E_IS_DAY_VIEW_TOP_ITEM(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), \
-	e_day_view_top_item_get_type ()))
+#ifndef E_DAY_VIEW_TOP_ITEM_H
+#define E_DAY_VIEW_TOP_ITEM_H
 
-typedef struct {
-	GnomeCanvasItem canvas_item;
+#include "e-day-view.h"
 
-	/* The parent EDayView widget. */
-	EDayView *day_view;
+/* Standard GObject macros */
+#define E_TYPE_DAY_VIEW_TOP_ITEM \
+	(e_day_view_top_item_get_type ())
+#define E_DAY_VIEW_TOP_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItem))
+#define E_DAY_VIEW_TOP_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemClass))
+#define E_IS_DAY_VIEW_TOP_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DAY_VIEW_TOP_ITEM))
+#define E_IS_DAY_VIEW_TOP_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DAY_VIEW_TOP_ITEM))
+#define E_DAY_VIEW_TOP_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemClass))
 
-	/* Show dates or events. */
-	gboolean show_dates;
-} EDayViewTopItem;
+G_BEGIN_DECLS
 
-typedef struct {
+typedef struct _EDayViewTopItem EDayViewTopItem;
+typedef struct _EDayViewTopItemClass EDayViewTopItemClass;
+typedef struct _EDayViewTopItemPrivate EDayViewTopItemPrivate;
+
+struct _EDayViewTopItem {
+	GnomeCanvasItem parent;
+	EDayViewTopItemPrivate *priv;
+};
+
+struct _EDayViewTopItemClass {
 	GnomeCanvasItemClass parent_class;
+};
 
-} EDayViewTopItemClass;
-
-GType    e_day_view_top_item_get_type      (void);
-void e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
-					gchar *buffer, gint buffer_len);
+GType		e_day_view_top_item_get_type	(void);
+void		e_day_view_top_item_get_day_label
+						(EDayView *day_view,
+						 gint day,
+						 gchar *buffer,
+						 gint buffer_len);
+EDayView *	e_day_view_top_item_get_day_view(EDayViewTopItem *top_item);
+void		e_day_view_top_item_set_day_view(EDayViewTopItem *top_item,
+						 EDayView *day_view);
+gboolean	e_day_view_top_item_get_show_dates
+						(EDayViewTopItem *top_item);
+void		e_day_view_top_item_set_show_dates
+						(EDayViewTopItem *top_item,
+						 gboolean show_dates);
 
 G_END_DECLS
 
-#endif /* _E_DAY_VIEW_TOP_ITEM_H_ */
+#endif /* E_DAY_VIEW_TOP_ITEM_H */

@@ -232,6 +232,7 @@ ea_day_view_main_item_new (GObject *obj)
 	AtkObject *accessible;
 	GnomeCalendar *gcal;
 	EDayViewMainItem *main_item;
+	EDayView *day_view;
 
 	g_return_val_if_fail (E_IS_DAY_VIEW_MAIN_ITEM (obj), NULL);
 
@@ -246,13 +247,17 @@ ea_day_view_main_item_new (GObject *obj)
 	printf ("ACC_DEBUG: n_ea_day_view_main_item_created = %d\n",
 		n_ea_day_view_main_item_created);
 #endif
+
 	main_item = E_DAY_VIEW_MAIN_ITEM (obj);
-	g_signal_connect (main_item->day_view, "selected_time_changed",
-			  G_CALLBACK (ea_day_view_main_item_time_change_cb),
-			  accessible);
+	day_view = e_day_view_main_item_get_day_view (main_item);
+
+	g_signal_connect (
+		day_view, "selected_time_changed",
+		G_CALLBACK (ea_day_view_main_item_time_change_cb),
+		accessible);
 
 	/* listen for date changes of calendar */
-	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (main_item->day_view));
+	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 	if (gcal)
 		g_signal_connect (gcal, "dates_shown_changed",
 				  G_CALLBACK (ea_day_view_main_item_dates_change_cb),
@@ -316,7 +321,7 @@ ea_day_view_main_item_get_n_children (AtkObject *accessible)
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	return day_view->rows * day_view->days_shown;
 }
@@ -341,7 +346,7 @@ ea_day_view_main_item_ref_child (AtkObject *accessible, gint index)
 		return NULL;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	n_children = ea_day_view_main_item_get_n_children (accessible);
 	if (index < 0 || index >= n_children)
@@ -371,6 +376,7 @@ ea_day_view_main_item_get_parent (AtkObject *accessible)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	EDayViewMainItem *main_item;
+	EDayView *day_view;
 
 	g_return_val_if_fail (EA_IS_DAY_VIEW_MAIN_ITEM (accessible), NULL);
 
@@ -380,7 +386,9 @@ ea_day_view_main_item_get_parent (AtkObject *accessible)
 		return NULL;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	return gtk_widget_get_accessible (GTK_WIDGET (main_item->day_view));
+	day_view = e_day_view_main_item_get_day_view (main_item);
+
+	return gtk_widget_get_accessible (GTK_WIDGET (day_view));
 }
 
 static gint
@@ -474,7 +482,7 @@ ea_day_view_main_item_get_child_index_at (EaDayViewMainItem *ea_main_item,
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (row >= 0 && row < day_view->rows &&
 	    column >= 0 && column < day_view->days_shown)
@@ -500,7 +508,7 @@ ea_day_view_main_item_get_row_at_index (EaDayViewMainItem *ea_main_item,
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	n_children = ea_day_view_main_item_get_n_children (ATK_OBJECT (ea_main_item));
 	if (index >= 0 && index < n_children)
@@ -526,7 +534,7 @@ ea_day_view_main_item_get_column_at_index (EaDayViewMainItem *ea_main_item,
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	n_children = ea_day_view_main_item_get_n_children (ATK_OBJECT (ea_main_item));
 	if (index >= 0 && index < n_children)
@@ -553,7 +561,7 @@ ea_day_view_main_item_get_row_label (EaDayViewMainItem *ea_main_item,
 		return 0;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	hour = day_view->first_hour_shown;
 	minute = day_view->first_minute_shown;
@@ -584,7 +592,7 @@ ea_day_view_main_item_get_cell_data (EaDayViewMainItem *ea_main_item)
 		return NULL;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	cell_data = g_object_get_data (G_OBJECT(ea_main_item),
 				       "ea-day-view-cell-table");
@@ -642,7 +650,7 @@ component_interface_get_extents (AtkComponent *component,
 		/* defunct object*/
 		return;
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	ea_canvas = gtk_widget_get_accessible (day_view->main_canvas);
 	atk_component_get_extents (ATK_COMPONENT (ea_canvas), x, y,
@@ -712,7 +720,7 @@ table_interface_get_n_rows (AtkTable *table)
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	return day_view->rows;
 }
@@ -732,7 +740,7 @@ table_interface_get_n_columns (AtkTable *table)
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	return day_view->days_shown;
 }
@@ -821,7 +829,7 @@ table_interface_is_row_selected (AtkTable *table,
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (day_view->selection_start_day == -1)
 		/* no selection */
@@ -860,7 +868,7 @@ table_interface_is_column_selected (AtkTable *table,
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (column >= day_view->selection_start_day &&
 	    column <= day_view->selection_end_day)
@@ -885,7 +893,7 @@ table_interface_get_selected_rows (AtkTable *table,
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (day_view->selection_start_day == -1)
 		return 0;
@@ -926,7 +934,7 @@ table_interface_get_selected_columns (AtkTable *table,
 		return -1;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (day_view->selection_start_day == -1)
 		return 0;
@@ -959,7 +967,7 @@ table_interface_add_row_selection (AtkTable *table,
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	/* FIXME: we need multi-selection */
 
@@ -999,7 +1007,7 @@ table_interface_add_column_selection (AtkTable *table,
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	/* FIXME: we need multi-selection */
 
@@ -1062,7 +1070,7 @@ table_interface_get_column_description (AtkTable	  *table,
 		return NULL;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (in_col < 0 || in_col >= day_view->days_shown)
 		return NULL;
@@ -1149,7 +1157,7 @@ selection_interface_add_selection (AtkSelection *selection, gint i)
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	row = ea_day_view_main_item_get_row_at_index (ea_main_item, i);
 	column = ea_day_view_main_item_get_column_at_index (ea_main_item, i);
@@ -1186,7 +1194,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	day_view->selection_start_row = -1;
 	day_view->selection_start_day = -1;
@@ -1204,6 +1212,7 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 {
 	gint count;
 	GObject *g_obj;
+	EDayViewMainItem *main_item;
 	EDayView *day_view;
 	EaDayViewMainItem* ea_main_item = EA_DAY_VIEW_MAIN_ITEM (selection);
 	gint start_index;
@@ -1213,7 +1222,10 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 		return NULL;
 
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (ea_main_item));
-	day_view = E_DAY_VIEW_MAIN_ITEM (g_obj)->day_view;
+
+	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
+	day_view = e_day_view_main_item_get_day_view (main_item);
+
 	start_index = ea_day_view_main_item_get_child_index_at (ea_main_item,
 								day_view->selection_start_row,
 								day_view->selection_start_day);
@@ -1237,7 +1249,7 @@ selection_interface_get_selection_count (AtkSelection *selection)
 		return 0;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	if (day_view->selection_start_day == -1 ||
 	    day_view->selection_start_row == -1)
@@ -1268,7 +1280,7 @@ selection_interface_is_child_selected (AtkSelection *selection, gint i)
 		return FALSE;
 
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
-	day_view = main_item->day_view;
+	day_view = e_day_view_main_item_get_day_view (main_item);
 
 	row = ea_day_view_main_item_get_row_at_index (ea_main_item, i);
 	column = ea_day_view_main_item_get_column_at_index (ea_main_item, i);
