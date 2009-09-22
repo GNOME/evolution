@@ -1746,7 +1746,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN"
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations"
@@ -1784,7 +1784,7 @@ xexperimental)
 esac
 
 dnl Temporary KILL-BONOBO hack
-for broken_plugin in exchange-operations groupwise-features
+for broken_plugin in exchange-operations
 do
 	if echo ${plugins_enabled} | grep "$broken_plugin" > /dev/null
 	then
@@ -2033,7 +2033,6 @@ plugins/exchange-operations/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/google-account-setup/Makefile
-plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/hula-account-setup/Makefile
 plugins/imap-features/Makefile

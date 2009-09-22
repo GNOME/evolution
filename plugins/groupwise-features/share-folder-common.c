@@ -30,12 +30,10 @@
 #include <glib/gi18n.h>
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
-#include <mail/em-popup.h>
 #include <mail/em-folder-properties.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-selector.h>
 #include <mail/mail-mt.h>
-#include <mail/mail-component.h>
 #include <mail/mail-config.h>
 #include <mail/mail-vfolder.h>
 #include <mail/em-vfolder-rule.h>
@@ -48,7 +46,10 @@
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
+#include <shell/e-shell-sidebar.h>
 #include "share-folder.h"
+#include "gw-ui.h"
+
 #define d(x)
 
 ShareFolder *common = NULL;
@@ -61,9 +62,6 @@ struct ShareInfo {
 };
 
 GtkWidget * org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-void org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *target);
-static void create_shared_folder(EPopup *ep, EPopupItem *p, gpointer data);
-static void popup_free (EPopup *ep, GSList *items, gpointer data);
 void shared_folder_commit (EPlugin *ep, EConfigTarget *tget);
 void shared_folder_abort (EPlugin *ep, EConfigTarget *target);
 
@@ -103,7 +101,7 @@ shared_folder_commit (EPlugin *ep, EConfigTarget *tget)
 	EMConfigTargetFolder *target =  (EMConfigTargetFolder *)tget->config->target;
 	CamelFolder *folder = target->folder;
 	CamelStore *store = folder->parent_store;
-	EMFolderTreeModel *model = mail_component_peek_tree_model (mail_component_peek ());
+	EMFolderTreeModel *model = NULL; /*mail_component_peek_tree_model (mail_component_peek ())*/;
 	if (common) {
 		share_folder (common);
 		refresh_folder_tree (model, store);
@@ -265,7 +263,7 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 		return;
 	}
 
-	if (!(si = g_hash_table_lookup ((ssi->model)->store_hash, store))) {
+	if (!(si = em_folder_tree_model_lookup_store_info (ssi->model, store))) {
 		g_assert_not_reached ();
 		camel_object_unref (store);
 		return;
@@ -336,61 +334,31 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 
 }
 
-static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "20.emc.001", (gchar *) N_("New _Shared Folder..."), create_shared_folder, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
-};
-
-static void
-popup_free (EPopup *ep, GSList *items, gpointer data)
-{
-g_slist_free (items);
-}
-
 void
-org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
+gw_new_shared_folder_cb (GtkAction *action, EShellView *shell_view)
 {
-	GSList *menus = NULL;
-	gint i = 0;
-	static gint first = 0;
-
-	if (! g_strrstr (t->uri, "groupwise://"))
-		return;
-
-	/* for translation*/
-	if (!first) {
-		popup_items[0].label =  _(popup_items[0].label);
-
-	}
-
-	first++;
-
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
-
-	e_popup_add_items (t->target.popup, menus, NULL, popup_free, NULL);
-
-}
-
-static void
-create_shared_folder(EPopup *ep, EPopupItem *p, gpointer data)
-{
-
-	EMFolderTreeModel *model;
-	EMFolderTree *folder_tree;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree = NULL;
 	GtkWidget *dialog;
 	gchar *uri;
+	gpointer parent;
 
-	model = mail_component_peek_tree_model (mail_component_peek ());
-	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	parent = e_shell_view_get_shell_window (shell_view);
 
-	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
-	uri = em_folder_tree_get_selected_uri(folder_tree);
-	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+	uri = em_folder_tree_get_selected_uri (folder_tree);
+	if (uri != NULL)
+		em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
 	g_free(uri);
-	g_signal_connect (dialog, "response", G_CALLBACK (new_folder_response), model);
+
+	g_signal_connect (dialog, "response", G_CALLBACK (new_folder_response), gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
 	gtk_window_set_title (GTK_WINDOW (dialog), "New Shared Folder" );
 	gtk_widget_show(dialog);
 
+	g_object_unref (folder_tree);
 }
 
 GtkWidget *

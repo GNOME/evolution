@@ -57,7 +57,10 @@ struct _ECalShellContentPrivate {
 };
 
 enum {
-	PROP_0
+	PROP_0,
+	PROP_CALENDAR,
+	PROP_TASK_TABLE,
+	PROP_MEMO_TABLE
 };
 
 /* Used to indicate who has the focus within the calendar view. */
@@ -226,6 +229,21 @@ cal_shell_content_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CALENDAR:
+			g_value_set_object (
+				value, e_cal_shell_content_get_calendar (
+				E_CAL_SHELL_CONTENT (object)));
+			return;
+		case PROP_TASK_TABLE:
+			g_value_set_object (
+				value, e_cal_shell_content_get_task_table (
+				E_CAL_SHELL_CONTENT (object)));
+			return;
+		case PROP_MEMO_TABLE:
+			g_value_set_object (
+				value, e_cal_shell_content_get_memo_table (
+				E_CAL_SHELL_CONTENT (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -505,6 +523,37 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = cal_shell_content_map;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CALENDAR,
+		g_param_spec_object (
+			"calendar",
+			NULL,
+			NULL,
+			GNOME_TYPE_CALENDAR,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TASK_TABLE,
+		g_param_spec_object (
+			"task-table",
+			NULL,
+			NULL,
+			E_TYPE_CALENDAR_TABLE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MEMO_TABLE,
+		g_param_spec_object (
+			"memo-table",
+			NULL,
+			NULL,
+			E_TYPE_MEMO_TABLE,
+			G_PARAM_READABLE));
+
 }
 
 static void

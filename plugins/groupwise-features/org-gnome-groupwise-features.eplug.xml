@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <e-plugin-list>
 	<e-plugin id="org.gnome.evolution.groupwise_features" type="shlib" _name="GroupWise Features" 
-		location="@PLUGINDIR@/liborg-gnome-groupwise-features@SOEXT@">
+		location="@PLUGINDIR@/liborg-gnome-groupwise-features@SOEXT@" load-on-startup="true" system_plugin="true">
+
 		<author name="Sivaiah Nallagatla" email="snallagatla@novell.com" />
 		<author name="Vivek Jain" email="jvivek@novell.com" />
 		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
@@ -11,107 +12,84 @@
 		<author name="Raghavendran R" email="raghavguru7@gmail.com"/>
 
 		<_description>Fine-tune your GroupWise accounts.</_description>
-		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
-				check= "shared_folder_check"
-				commit="shared_folder_commit"
-				abort ="shared_folder_abort">
-			<item 
-				type="page" 
-				path="10.shared" 
-				label="Shared" 
-				factory="org_gnome_shared_folder_factory"/>
-			</group>
-			<group id="org.gnome.evolution.mail.config.accountEditor" target="account" 
-				check  = "send_options_changed" 
-				commit = "send_options_commit"
-				abort  = "send_options_abort">
-				<item 
-					type="section" 
-					path="40.defaults/50.send_options" 
-					label="Send Options" 
-					factory="org_gnome_send_options" />
-			</group>
-		</hook>
-		<hook class="org.gnome.evolution.mail.events:1.0">
-			<event
-					target="message"
-					id="message.reading"
-					type="pass"
-					handle="org_gnome_popup_wizard"/>
-		</hook>
-		<hook class="org.gnome.evolution.mail.popup:1.0">
-			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder" factory = "org_gnome_create_option">
-			</menu>
-			<menu id="org.gnome.evolution.mail.folderview.popup" target="select" factory = "org_gnome_junk_settings"/>
-			<menu id="org.gnome.evolution.mail.folderview.popup" target="select" factory = "org_gnome_track_status"/>
-		</hook>
-		<hook class="org.gnome.evolution.addressbook.config:1.0">
-			<group
-				id="com.novell.evolution.addressbook.config.accountEditor" target="source" 
-				commit="commit_groupwise_addressbook">
-				<item
-					type="item"
-					path="00.general/10.display/00.gw_dummy"
-					factory="e_book_groupwise_dummy"/>
-			</group>
-			<group
-				id="com.novell.evolution.addressbook.config.accountEditor" target="source" 
-				commit="commit_groupwise_addressbook">
-				<item
-					type="item"
-					path="00.general/10.display/00.gw_dummy"
-					factory="e_book_groupwise_dummy"/>
-			</group>
-		</hook>
-		<hook class="org.gnome.evolution.mail.events:1.0">
-			<event
-			   id="composer.selectsendoption"
-			   handle="org_gnome_composer_send_options"
-			   target="composer"
-			   enable="sendoption"
-			/>
-		</hook>
-
-		<hook class="org.gnome.evolution.mail.events:1.0">
-			<event
-			   id="message.replying"
-			   handle="org_gnome_composer_message_reply"
-			   target="message"
-			   enable="reply"
-			/>
-		</hook>
 
 		<hook class="org.gnome.evolution.mail.config:1.0">
-			<group id="org.gnome.evolution.mail.config.accountEditor" 
-				target="account" commit = "proxy_commit" abort="proxy_abort">
+			<group id="org.gnome.evolution.mail.folderConfig" target="folder" check= "shared_folder_check" commit="shared_folder_commit" abort ="shared_folder_abort">
+				<item type="page" path="10.shared" label="Shared" factory="org_gnome_shared_folder_factory"/>
+			</group>
+			<group id="org.gnome.evolution.mail.config.accountEditor" target="account" check  = "send_options_changed" commit = "send_options_commit" abort  = "send_options_abort">
+				<item type="section" path="40.defaults/50.send_options" label="Send Options" factory="org_gnome_send_options" />
+			</group>
+			<group id="org.gnome.evolution.mail.config.accountEditor" target="account" commit = "proxy_commit" abort="proxy_abort">
 				<item type="page" path="60.proxy" factory="org_gnome_proxy"/>
 			</group>
-		</hook>
-	
-		<hook class="org.gnome.evolution.mail.popup:1.0">
-		      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder"
-			factory = "org_gnome_create_proxy_login_option">
-		      </menu>
-		</hook>
-		
-		
-		<hook class="org.gnome.evolution.calendar.popup:1.0">
-			<menu id="org.gnome.evolution.calendar.view.popup" target="select" factory = "org_gnome_accept">
-			</menu>
+
+			<group target="account" id="org.gnome.evolution.mail.config.accountAssistant">
+				<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_groupwise_account_setup"/>
+			</group>
+			<group target="account" id="org.gnome.evolution.mail.config.accountEditor">
+				<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_groupwise_account_setup"/>
+			</group>
+			<group target="account" id="org.gnome.evolution.mail.config.accountWizard">
+				<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_groupwise_account_setup"/>
+			</group>
 		</hook>
 
-		<hook class="org.gnome.evolution.calendar.popup:1.0">
-			<menu id="org.gnome.evolution.calendar.view.popup" target="select" factory = "org_gnome_retract_resend">
-			</menu>
+		<!-- cannot have one hook with two same ui-manager id-s, thus splitting here -->
+		<hook class="org.gnome.evolution.ui:1.0">
+			<ui-manager id="org.gnome.evolution.mail" callback="gw_ui_mail_folder_popup">
+				<popup name="mail-folder-popup">
+					<placeholder name="mail-folder-popup-actions">
+						<menuitem action="gw-new-shared-folder"/>
+						<menuitem action="gw-proxy-login"/>
+					</placeholder>
+				</popup>
+			</ui-manager>
 		</hook>
 
-		<hook class="org.gnome.evolution.mail.popup:1.0">
-		      <menu id="org.gnome.evolution.mail.folderview.popup" target="select"
-			factory = "org_gnome_retract_message">
-		      </menu>
+		<hook class="org.gnome.evolution.ui:1.0">
+			<ui-manager id="org.gnome.evolution.mail" callback="gw_ui_mail_message_popup">
+				<popup name="mail-message-popup">
+					<placeholder name="mail-message-popup-actions">
+						<separator />
+						<menuitem action="gw-junk-mail-settings"/>
+						<menuitem action="gw-track-message-status"/>
+						<separator />
+						<menuitem action="gw-retract-mail"/>
+					</placeholder>
+				</popup>
+			</ui-manager>
+
+			<ui-manager id="org.gnome.evolution.calendar" callback="gw_ui_calendar_event_popup">
+				<popup name="calendar-event-popup">
+					<placeholder name="event-popup-actions">
+						<menuitem action="gw-meeting-accept"/>
+						<menuitem action="gw-meeting-accept-tentative"/>
+						<menuitem action="gw-meeting-decline"/>
+						<menuitem action="gw-resend-meeting"/>
+					</placeholder>
+				</popup>
+			</ui-manager>
 		</hook>
-		
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event target="message" id="message.reading" type="pass" handle="org_gnome_popup_wizard"/>
+			<event id="composer.selectsendoption" handle="org_gnome_composer_send_options" target="composer" enable="sendoption"/>
+			<event id="message.replying" handle="org_gnome_composer_message_reply" target="message" enable="reply"/>
+		</hook>
+
+		<hook class="org.gnome.evolution.addressbook.config:1.0">
+			<group id="com.novell.evolution.addressbook.config.accountEditor" target="source" commit="commit_groupwise_addressbook">
+				<item type="item" path="00.general/10.display/00.gw_dummy" factory="e_book_groupwise_dummy"/>
+			</group>
+			<group id="com.novell.evolution.addressbook.config.accountEditor" target="source" commit="commit_groupwise_addressbook">
+				<item type="item" path="00.general/10.display/00.gw_dummy" factory="e_book_groupwise_dummy"/>
+			</group>
+		</hook>
+
+		<hook class="org.gnome.evolution.shell.events:1.0">
+			<event id="upgrade.done" handle="ensure_mandatory_esource_properties" target="upgrade"/>
+		</hook>    
 	</e-plugin>
 
 </e-plugin-list>

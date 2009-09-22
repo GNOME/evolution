@@ -28,76 +28,20 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <calendar/gui/e-cal-popup.h>
+#include <libecal/e-cal.h>
+
+#include <e-util/e-error.h>
+
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/itip-utils.h>
-#include <e-util/e-error.h>
-#include <libecal/e-cal.h>
+#include <calendar/gui/gnome-cal.h>
+
+#include "gw-ui.h"
 
 typedef struct {
 	ECal *ecal;
 	icalcomponent *icalcomp;
 } ReceiveData;
-
-ECalendarView *c_view;
-
-void org_gnome_accept(EPlugin *ep, ECalPopupTargetSelect *target);
-void org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target);
-static void on_accept_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
-static void on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, gpointer data);
-static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
-static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, gpointer data);
-
-static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "41.accept", (gchar *) N_("Accept"), on_accept_meeting, NULL, (gchar *) GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-	{ E_POPUP_ITEM, (gchar *) "42.accept", (gchar *) N_("Accept Tentatively"), on_accept_meeting_tentative, NULL, (gchar *) GTK_STOCK_DIALOG_QUESTION, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-	{ E_POPUP_ITEM, (gchar *) "43.decline", (gchar *) N_("Decline"), on_decline_meeting, NULL, (gchar *) GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
-};
-
-static void
-popup_free (EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free (items);
-	items = NULL;
-}
-
-void
-org_gnome_accept (EPlugin *ep, ECalPopupTargetSelect *target)
-{
-	GSList *menus = NULL;
-	GList *selected;
-	gint i = 0;
-	static gint first = 0;
-	const gchar *uri = NULL;
-	ECalendarView *cal_view = E_CALENDAR_VIEW (target->target.widget);
-
-	c_view = cal_view;
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
-		uri = e_cal_get_uri (event->comp_data->client);
-	} else
-		return;
-
-	if (!uri)
-		return;
-
-	if (! g_strrstr (uri, "groupwise://"))
-		return;
-
-	/* for translation*/
-	if (!first) {
-		popup_items[0].label =  _(popup_items[0].label);
-	}
-
-	first++;
-
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
-}
 
 static void
 finalize_receive_data (ReceiveData *r_data)
@@ -258,55 +202,49 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 	}
 }
 
-/*FIXME the data does not give us the ECalendarView object.
-  we should remove the global c_view variable once we get it from the data*/
-static void
-on_accept_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
+static ECalendarView *
+get_calendar_view (EShellView *shell_view)
 {
-	ECalendarView *cal_view = c_view;
+	EShellContent *shell_content;
+	GnomeCalendar *gcal = NULL;
+	GnomeCalendarViewType view_type;
+
+	g_return_val_if_fail (shell_view != NULL, NULL);
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	g_object_get (shell_content, "calendar", &gcal, NULL);
+
+	view_type = gnome_calendar_get_view (gcal);
+
+	return gnome_calendar_get_calendar_view (gcal, view_type);	
+}
+
+void
+gw_meeting_accept_cb (GtkAction *action, EShellView *shell_view)
+{
+	ECalendarView *cal_view = get_calendar_view (shell_view);
+	g_return_if_fail (cal_view != NULL);
 
 	process_meeting (cal_view, ICAL_PARTSTAT_ACCEPTED);
 }
-static void
-on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, gpointer data)
+
+void
+gw_meeting_accept_tentative_cb (GtkAction *action, EShellView *shell_view)
 {
-	ECalendarView *cal_view = c_view;
+	ECalendarView *cal_view = get_calendar_view (shell_view);
+	g_return_if_fail (cal_view != NULL);
 
 	process_meeting (cal_view, ICAL_PARTSTAT_TENTATIVE);
 }
 
-static void
-on_decline_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
+void
+gw_meeting_decline_cb (GtkAction *action, EShellView *shell_view)
 {
-	ECalendarView *cal_view = c_view;
+	ECalendarView *cal_view = get_calendar_view (shell_view);
+	g_return_if_fail (cal_view != NULL);
 
 	process_meeting (cal_view, ICAL_PARTSTAT_DECLINED);
-}
-
-static gboolean
-is_meeting_owner (ECalComponent *comp, ECal *client)
-{
-	ECalComponentOrganizer org;
-	gchar *email = NULL;
-	const gchar *strip = NULL;
-	gboolean ret_val = FALSE;
-
-	if (!(e_cal_component_has_attendees (comp) &&
-				e_cal_get_save_schedules (client)))
-		return ret_val;
-
-	e_cal_component_get_organizer (comp, &org);
-	strip = itip_strip_mailto (org.value);
-
-	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
-		ret_val = TRUE;
-	}
-
-	if (!ret_val)
-		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
-
-	g_free (email);
-	return ret_val;
 }
 
 typedef struct {
@@ -314,60 +252,6 @@ typedef struct {
 	ECalComponent *comp;
 	CalObjModType mod;
 } ThreadData;
-
-static EPopupItem retract_popup_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "49.resend", (gchar *) N_("Rese_nd Meeting..."), on_resend_meeting, NULL, (gchar *) GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
-};
-
-void
-org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
-{
-	GSList *menus = NULL;
-	GList *selected;
-	gint i = 0;
-	static gint first = 0;
-	const gchar *uri = NULL;
-	ECalendarView *cal_view = E_CALENDAR_VIEW (target->target.widget);
-	ECalComponent *comp = NULL;
-	ECalendarViewEvent *event = NULL;
-
-	c_view = cal_view;
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (selected) {
-		event = (ECalendarViewEvent *) selected->data;
-
-		uri = e_cal_get_uri (event->comp_data->client);
-	} else
-		return;
-
-	if (!uri)
-		return;
-
-	if (! g_strrstr (uri, "groupwise://"))
-		return;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-
-	if (!is_meeting_owner (comp, event->comp_data->client)) {
-		g_object_unref (comp);
-		return;
-	}
-
-	/* for translation*/
-	if (!first) {
-		retract_popup_items[0].label =  _(retract_popup_items[0].label);
-	}
-
-	first++;
-
-	for (i = 0; i < sizeof (retract_popup_items) / sizeof (retract_popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &retract_popup_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
-
-	g_object_unref (comp);
-}
 
 static void
 add_retract_data (ECalComponent *comp, const gchar *retract_comment, CalObjModType mod)
@@ -474,11 +358,13 @@ object_created_cb (CompEditor *ce, gpointer data)
 	}
 }
 
-static void
-on_resend_meeting (EPopup *ep, EPopupItem *pitem, gpointer data)
+void
+gw_resend_meeting_cb (GtkAction *action, EShellView *shell_view)
 {
-	ECalendarView *cal_view = c_view;
 	GList *selected;
+	ECalendarView *cal_view = get_calendar_view (shell_view);
+
+	g_return_if_fail (cal_view != NULL);
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {

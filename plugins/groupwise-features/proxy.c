@@ -39,7 +39,6 @@
 
 #include <mail/em-account-editor.h>
 #include <mail/em-config.h>
-#include <mail/mail-component.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-session.h>
 #include <libedataserver/e-account.h>

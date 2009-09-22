@@ -30,9 +30,9 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
+#include <shell/e-shell.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
-#include <mail/mail-component.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-stream.h>
@@ -76,6 +76,12 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 	if (response == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (GTK_WIDGET (emfs));
 	} else {
+		CamelSession *session;
+		EShell *shell;
+
+		shell = e_shell_get_default ();
+		session = e_shell_settings_get_pointer (e_shell_get_shell_settings (shell), "mail-session");
+
 		model = accept_data->model;
 		item_id = camel_mime_message_get_message_id (accept_data->msg);
 		uri = em_folder_selector_get_selected_uri (emfs);
@@ -94,7 +100,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 				parent_name = NULL;
 		}
 		camel_exception_init (&ex);
-		if (!(store = (CamelStore *) camel_session_get_service (mail_component_peek_session(NULL), uri, CAMEL_PROVIDER_STORE, &ex))) {
+		if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
 			camel_exception_clear (&ex);
 			g_strfreev (names);
 			return;
@@ -154,23 +160,25 @@ accept_free(gpointer data)
 static void
 apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 {
-	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	struct AcceptData *accept_data;
 	gchar *uri;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (assistant));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	accept_data = g_new0(struct AcceptData, 1);
-	model = mail_component_peek_tree_model (NULL);
-	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	folder_tree = (EMFolderTree *) em_folder_tree_new ();
 
-	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	uri = em_folder_tree_get_selected_uri(folder_tree);
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
 	g_free(uri);
 	accept_data->msg = msg;
 	camel_object_ref(msg);
-	accept_data->model = model;
+	accept_data->model = EM_FOLDER_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
 	g_object_set_data_full((GObject *)dialog, "accept-data", accept_data, accept_free);
 	g_signal_connect (dialog, "response", G_CALLBACK (install_folder_response), accept_data);
 	g_object_set_data_full((GObject *)dialog, "assistant", assistant, (GDestroyNotify)gtk_widget_destroy);
@@ -185,7 +193,6 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	const CamelInternetAddress *from_addr = NULL;
 	const gchar *name;
 	const gchar *email;
-	GtkWidget *window;
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message;
 	CamelStreamMem *content;
 	CamelDataWrapper *dw;

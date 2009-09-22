@@ -30,11 +30,9 @@
 #include <glade/glade.h>
 
 #include <libedataserverui/e-passwords.h>
-#include <mail/mail-component.h>
 #include <mail/em-folder-tree.h>
 #include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
-#include <mail/em-popup.h>
 #include <mail/em-account-editor.h>
 #include <camel/camel-url.h>
 #include <camel/camel-store.h>
@@ -49,6 +47,8 @@
 #include <e-gw-connection.h>
 #include <e-gw-message.h>
 #include <libedataserverui/e-name-selector.h>
+
+#include "gw-ui.h"
 #include "proxy-login.h"
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
@@ -375,7 +375,6 @@ proxy_soap_login (gchar *email)
 static void
 proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 {
-	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
 	gint permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
 
@@ -386,7 +385,7 @@ proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 	    store->mode &= !CAMEL_STORE_WRITE;
 
 	store->flags |= CAMEL_STORE_PROXY;
-	mail_component_add_store (component, store, account->name);
+	/*mail_component_add_store (mail_component_peek (), store, account->name);*/
 }
 
 static void
@@ -472,12 +471,35 @@ proxy_login_update_tree (void)
 }
 
 void
-org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, gpointer data)
+gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 {
-	gchar *uri = data;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree = NULL;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+	gboolean is_store = FALSE;
+	gchar *uri = NULL;
 	proxyLoginPrivate *priv;
 	EGwConnection *cnc;
 	gchar *gladefile;
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	g_return_if_fail (folder_tree != NULL);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	g_return_if_fail (selection != NULL);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, COL_BOOL_IS_STORE, &is_store, -1);
+
+	if (!is_store || !uri) {
+		g_free (uri);
+		return;
+	}
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
 	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri), NULL);
@@ -504,35 +526,6 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, gpointer data)
 	proxy_login_update_tree ();
 	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), NULL);
 	gtk_widget_show (GTK_WIDGET (priv->main));
- }
 
-static EPopupItem popup_items[] = {
-/* To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
- * feature by which one person can send/read mails/appointments using another person's identity
- * without knowing his password, for example if that other person is on vacation */
-	{ E_POPUP_ITEM, (gchar *) "20.emc.04", (gchar *) N_("_Proxy Login..."), org_gnome_proxy_account_login, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
-};
-
-static void
-popup_free (EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free (items);
-}
-
-void
-org_gnome_create_proxy_login_option (EPlugin *ep, EMPopupTargetFolder *t)
-{
-	EAccount *account;
-	GSList *menus = NULL;
-	gint i;
-
-	account = mail_config_get_account_by_source_url (t->uri);
-	if (g_strrstr (t->uri,"groupwise://") && !account->parent_uid) {
-		popup_items[0].label =  _(popup_items[0].label);
-		for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-			menus = g_slist_prepend (menus, &popup_items[i]);
-		e_popup_add_items (t->target.popup, menus, NULL, popup_free, t->uri);
-	}
-	return;
-
+	g_free (uri);
 }

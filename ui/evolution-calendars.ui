@@ -92,6 +92,8 @@
     <menuitem action='event-popup-delete'/>
     <menuitem action='event-popup-delete-occurrence'/>
     <menuitem action='event-popup-delete-occurrence-all'/>
+    <separator/>
+    <placeholder name='event-popup-actions'/>
   </popup>
   <popup name='calendar-memopad-popup'>
     <menuitem action='calendar-memopad-new'/>

@@ -32,7 +32,6 @@
 
 #include "mail-send-options.h"
 
-#include "mail/em-menu.h"
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 

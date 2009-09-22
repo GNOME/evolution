@@ -12,6 +12,7 @@ AM_CPPFLAGS =						\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CAMEL_GROUPWISE_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	
 
@@ -21,6 +22,8 @@ plugin_DATA = org-gnome-groupwise-features.eplug org-gnome-compose-send-options.
 plugin_LTLIBRARIES = liborg-gnome-groupwise-features.la
 
 liborg_gnome_groupwise_features_la_SOURCES = 	\
+		gw-ui.h	     			\
+		gw-ui.c	     			\
 		share-folder-common.c	     	\
 	       	share-folder.c 		     	\
 		share-folder.h               	\
@@ -38,13 +41,18 @@ liborg_gnome_groupwise_features_la_SOURCES = 	\
 		proxy-login.h			\
 		proxy-login.c			\
 		process-meeting.c               \
-		mail-retract.c
+		mail-retract.c			\
+		camel-gw-listener.c		\
+		camel-gw-listener.h		\
+		groupwise-account-setup.c
 
 liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/mail/libevolution-mail.la		\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(CAMEL_GROUPWISE_LIBS)
