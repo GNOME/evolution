@@ -364,7 +364,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	guint32 state;
 
 	/* Be descriptive. */
-	gboolean account_is_groupwise;
+	gboolean account_is_groupwise = FALSE;
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
 	gboolean folder_is_junk;

@@ -997,6 +997,7 @@ render_icon (GtkTreeViewColumn *column,
 	g_object_set (renderer, "gicon", icon, NULL);
 
 	g_object_unref (icon);
+	g_free (icon_name);
 }
 
 static GtkTreeView *

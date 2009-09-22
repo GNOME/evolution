@@ -181,6 +181,8 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 				} else {
 					ep->hooks = g_slist_append(ep->hooks, hook);
 				}
+			} else {
+				g_free (class);
 			}
 		} else if (strcmp((gchar *)node->name, "description") == 0) {
 			ep->description = e_plugin_xml_content_domain(node, ep->domain);
@@ -463,6 +465,10 @@ ep_load(const gchar *filename, gint load_level)
 			}
 		}
 	}
+
+	xmlFreeDoc (pdoc->doc);
+	g_free (pdoc->filename);
+	g_free (pdoc);
 
 	return 0;
 }
