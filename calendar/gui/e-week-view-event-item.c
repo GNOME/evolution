@@ -1100,6 +1100,8 @@ week_view_event_item_class_init (EWeekViewEventItemClass *class)
 static void
 week_view_event_item_init (EWeekViewEventItem *event_item)
 {
+	event_item->priv = E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE (event_item);
+
 	event_item->priv->event_num = -1;
 	event_item->priv->span_num = -1;
 }

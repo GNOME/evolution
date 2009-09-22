@@ -204,6 +204,225 @@ static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
 static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
 
 static void
+week_view_process_component (EWeekView *week_view,
+                             ECalModelComponent *comp_data)
+{
+	ECalComponent *comp = NULL;
+	AddEventData add_event_data;
+	/* rid is never used in this function? */
+	const gchar *uid;
+	gchar *rid = NULL;
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
+		g_object_unref (comp);
+
+		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
+		return;
+	}
+
+	e_cal_component_get_uid (comp, &uid);
+	if (e_cal_component_is_instance (comp))
+		rid = e_cal_component_get_recurid_as_string (comp);
+	else
+		rid = NULL;
+
+	/* Add the object */
+	add_event_data.week_view = week_view;
+	add_event_data.comp_data = comp_data;
+	e_week_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
+
+	g_object_unref (comp);
+	g_free (rid);
+}
+
+static void
+week_view_update_row (EWeekView *week_view, gint row)
+{
+	ECalModelComponent *comp_data;
+	ECalModel *model;
+	gint event_num;
+	const gchar *uid;
+	gchar *rid = NULL;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	comp_data = e_cal_model_get_component_at (model, row);
+	g_return_if_fail (comp_data != NULL);
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+		if (prop)
+			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+	}
+
+	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
+		e_week_view_remove_event_cb (week_view, event_num, NULL);
+
+	g_free (rid);
+
+	week_view_process_component (week_view, comp_data);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_queue_layout (week_view);
+}
+
+static void
+week_view_model_cell_changed_cb (EWeekView *week_view,
+                                 gint col,
+                                 gint row)
+{
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+		return;
+
+	week_view_update_row (week_view, row);
+}
+
+static void
+week_view_model_comps_deleted_cb (EWeekView *week_view,
+                                  gpointer data)
+{
+	GSList *l, *list = data;
+
+	/* FIXME Stop editing? */
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+		return;
+
+	for (l = list; l != NULL; l = g_slist_next (l)) {
+		gint event_num;
+		const gchar *uid;
+		gchar *rid = NULL;
+		ECalModelComponent *comp_data = l->data;
+
+		uid = icalcomponent_get_uid (comp_data->icalcomp);
+		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+		}
+
+		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
+			e_week_view_remove_event_cb (week_view, event_num, NULL);
+		g_free (rid);
+	}
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_queue_layout (week_view);
+}
+
+static void
+week_view_model_row_changed_cb (EWeekView *week_view,
+                                gint row)
+{
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+		return;
+
+	week_view_update_row (week_view, row);
+}
+
+static void
+week_view_model_rows_inserted_cb (EWeekView *week_view,
+                                  gint row,
+                                  gint count)
+{
+	ECalModel *model;
+	gint i;
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+		return;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
+	for (i = 0; i < count; i++) {
+		ECalModelComponent *comp_data;
+
+		comp_data = e_cal_model_get_component_at (model, row + i);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is NULL\n");
+			continue;
+		}
+		week_view_process_component (week_view, comp_data);
+	}
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_queue_layout (week_view);
+}
+
+static void
+week_view_time_range_changed_cb (EWeekView *week_view,
+                                 time_t start_time,
+                                 time_t end_time,
+                                 ECalModel *model)
+{
+	GDate date, base_date;
+	gint day_offset, weekday, week_start_offset;
+	gboolean update_adjustment_value = FALSE;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+
+	/* Calculate the weekday of the given date, 0 = Mon. */
+	weekday = g_date_get_weekday (&date) - 1;
+
+	/* Convert it to an offset from the start of the display. */
+	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
+
+	/* Set the day_offset to the result, so we move back to the
+	   start of the week. */
+	day_offset = week_start_offset;
+
+	/* Calculate the base date, i.e. the first day shown when the
+	   scrollbar adjustment value is 0. */
+	base_date = date;
+	g_date_subtract_days (&base_date, day_offset);
+
+	/* See if we need to update the base date. */
+	if (!g_date_valid (&week_view->base_date)
+	    || week_view->update_base_date) {
+		week_view->base_date = base_date;
+		update_adjustment_value = TRUE;
+	}
+
+	/* See if we need to update the first day shown. */
+	if (!g_date_valid (&week_view->first_day_shown)
+	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
+		week_view->first_day_shown = base_date;
+		start_time = time_add_day_with_zone (start_time, -day_offset,
+						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		start_time = time_day_begin_with_zone (start_time,
+						       e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		e_week_view_recalc_day_starts (week_view, start_time);
+	}
+
+	/* Reset the adjustment value to 0 if the base address has changed.
+	   Note that we do this after updating first_day_shown so that our
+	   signal handler will not try to reload the events. */
+	if (update_adjustment_value)
+		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
+
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		return;
+	}
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+	/* FIXME Preserve selection if possible */
+	if (week_view->selection_start_day == -1 ||
+	    (week_view->multi_week_view ? week_view->weeks_shown * 7 : 7) <= week_view->selection_start_day)
+		e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
+}
+
+static void
 timezone_changed_cb (ECalendarView *cal_view,
                      icaltimezone *old_zone,
                      icaltimezone *new_zone,
@@ -303,24 +522,45 @@ static void
 week_view_constructed (GObject *object)
 {
 	ECalModel *model;
-	EWeekView *week_view;
+	ECalendarView *calendar_view;
 	EShellSettings *shell_settings;
 
-	week_view = E_WEEK_VIEW (object);
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	calendar_view = E_CALENDAR_VIEW (object);
+	model = e_calendar_view_get_model (calendar_view);
 	shell_settings = e_cal_model_get_shell_settings (model);
 
 	e_binding_new (
 		shell_settings, "cal-compress-weekend",
-		week_view, "compress-weekend");
+		object, "compress-weekend");
 
 	e_binding_new (
 		shell_settings, "cal-show-event-end-times",
-		week_view, "show-event-end-times");
+		object, "show-event-end-times");
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",
-		G_CALLBACK (week_view_notify_week_start_day_cb), week_view);
+		G_CALLBACK (week_view_notify_week_start_day_cb), object);
+
+	g_signal_connect_swapped (
+		model, "comps-deleted",
+		G_CALLBACK (week_view_model_comps_deleted_cb), object);
+
+	g_signal_connect_swapped (
+		model, "model-cell-changed",
+		G_CALLBACK (week_view_model_cell_changed_cb), object);
+
+	g_signal_connect_swapped (
+		model, "model-row-changed",
+		G_CALLBACK (week_view_model_row_changed_cb), object);
+
+	g_signal_connect_swapped (
+		model, "model-rows-inserted",
+		G_CALLBACK (week_view_model_rows_inserted_cb), object);
+
+	g_signal_connect_swapped (
+		model, "time-range-changed",
+		G_CALLBACK (week_view_time_range_changed_cb), object);
+
 }
 
 static void
@@ -596,243 +836,6 @@ e_week_view_init (EWeekView *week_view)
 			  G_CALLBACK (timezone_changed_cb), NULL);
 }
 
-static void
-time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	GDate date, base_date;
-	gint day_offset, weekday, week_start_offset;
-	gboolean update_adjustment_value = FALSE;
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-
-	/* Calculate the weekday of the given date, 0 = Mon. */
-	weekday = g_date_get_weekday (&date) - 1;
-
-	/* Convert it to an offset from the start of the display. */
-	week_start_offset = (weekday + 7 - week_view->display_start_day) % 7;
-
-	/* Set the day_offset to the result, so we move back to the
-	   start of the week. */
-	day_offset = week_start_offset;
-
-	/* Calculate the base date, i.e. the first day shown when the
-	   scrollbar adjustment value is 0. */
-	base_date = date;
-	g_date_subtract_days (&base_date, day_offset);
-
-	/* See if we need to update the base date. */
-	if (!g_date_valid (&week_view->base_date)
-	    || week_view->update_base_date) {
-		week_view->base_date = base_date;
-		update_adjustment_value = TRUE;
-	}
-
-	/* See if we need to update the first day shown. */
-	if (!g_date_valid (&week_view->first_day_shown)
-	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
-		week_view->first_day_shown = base_date;
-		start_time = time_add_day_with_zone (start_time, -day_offset,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		start_time = time_day_begin_with_zone (start_time,
-						       e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-		e_week_view_recalc_day_starts (week_view, start_time);
-	}
-
-	/* Reset the adjustment value to 0 if the base address has changed.
-	   Note that we do this after updating first_day_shown so that our
-	   signal handler will not try to reload the events. */
-	if (update_adjustment_value)
-		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
-
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		e_week_view_free_events (week_view);
-		return;
-	}
-
-	gtk_widget_queue_draw (week_view->main_canvas);
-
-	/* FIXME Preserve selection if possible */
-	if (week_view->selection_start_day == -1 ||
-	    (week_view->multi_week_view ? week_view->weeks_shown * 7 : 7) <= week_view->selection_start_day)
-		e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
-}
-
-static void
-process_component (EWeekView *week_view, ECalModelComponent *comp_data)
-{
-	ECalComponent *comp = NULL;
-	AddEventData add_event_data;
-	/* rid is never used in this function? */
-	const gchar *uid;
-	gchar *rid = NULL;
-
-	/* If we don't have a valid date set yet, just return. */
-	if (!g_date_valid (&week_view->first_day_shown))
-		return;
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
-		g_object_unref (comp);
-
-		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
-		return;
-	}
-
-	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_component_is_instance (comp))
-		rid = e_cal_component_get_recurid_as_string (comp);
-	else
-		rid = NULL;
-
-	/* Add the object */
-	add_event_data.week_view = week_view;
-	add_event_data.comp_data = comp_data;
-	e_week_view_add_event (comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
-
-	g_object_unref (comp);
-	g_free (rid);
-}
-
-static void
-update_row (EWeekView *week_view, gint row)
-{
-	ECalModelComponent *comp_data;
-	ECalModel *model;
-	gint event_num;
-	const gchar *uid;
-	gchar *rid = NULL;
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	comp_data = e_cal_model_get_component_at (model, row);
-	g_return_if_fail (comp_data != NULL);
-
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-		icalproperty *prop;
-
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-		if (prop)
-			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-	}
-
-	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
-		e_week_view_remove_event_cb (week_view, event_num, NULL);
-
-	g_free (rid);
-
-	process_component (week_view, comp_data);
-
-	gtk_widget_queue_draw (week_view->main_canvas);
-	e_week_view_queue_layout (week_view);
-}
-
-static void
-model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		return;
-	}
-
-	update_row (week_view, row);
-}
-
-static void
-model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		return;
-	}
-
-	update_row (week_view, row);
-}
-
-static void
-model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	ECalModel *model;
-	gint i;
-
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		return;
-	}
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-
-	for (i = 0; i < count; i++) {
-		ECalModelComponent *comp_data;
-
-		comp_data = e_cal_model_get_component_at (model, row + i);
-		if (comp_data == NULL) {
-			g_warning ("comp_data is NULL\n");
-			continue;
-		}
-		process_component (week_view, comp_data);
-	}
-
-	gtk_widget_queue_draw (week_view->main_canvas);
-	e_week_view_queue_layout (week_view);
-}
-
-static void
-model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
-{
-	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	GSList *l, *list = data;
-
-	/* FIXME Stop editing? */
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		return;
-	}
-
-	for (l = list; l != NULL; l = g_slist_next (l)) {
-		gint event_num;
-		const gchar *uid;
-		gchar *rid = NULL;
-		ECalModelComponent *comp_data = l->data;
-
-		uid = icalcomponent_get_uid (comp_data->icalcomp);
-		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			icalproperty *prop;
-
-			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-			if (prop)
-				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-		}
-
-		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
-			e_week_view_remove_event_cb (week_view, event_num, NULL);
-		g_free (rid);
-	}
-
-	gtk_widget_queue_draw (week_view->main_canvas);
-	e_week_view_queue_layout (week_view);
-}
-
-static void
-init_model (EWeekView *week_view, ECalModel *model)
-{
-	/* connect to ECalModel's signals */
-	g_signal_connect (G_OBJECT (model), "time_range_changed",
-			  G_CALLBACK (time_range_changed_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "model_row_changed",
-			  G_CALLBACK (model_row_changed_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "model_cell_changed",
-			  G_CALLBACK (model_cell_changed_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "model_rows_inserted",
-			  G_CALLBACK (model_rows_inserted_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "comps_deleted",
-			  G_CALLBACK (model_comps_deleted_cb), week_view);
-
-}
-
 /**
  * e_week_view_new:
  * @Returns: a new #EWeekView.
@@ -842,14 +845,9 @@ init_model (EWeekView *week_view, ECalModel *model)
 ECalendarView *
 e_week_view_new (ECalModel *model)
 {
-	ECalendarView *week_view;
-
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	week_view = g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
-	init_model (E_WEEK_VIEW (week_view), model);
-
-	return week_view;
+	return g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
 }
 
 static void
@@ -1569,7 +1567,7 @@ e_week_view_update_query (EWeekView *week_view)
 			g_warning ("comp_data is NULL\n");
 			continue;
 		}
-		process_component (week_view, comp_data);
+		week_view_process_component (week_view, comp_data);
 	}
 }
 
