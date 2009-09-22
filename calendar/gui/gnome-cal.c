@@ -1001,13 +1001,13 @@ update_query_async (struct _date_query_msg *msg)
 	GnomeCalendarPrivate *priv;
 	ECalView *old_query;
 	gchar *real_sexp;
-	GList *l;
+	GList *list, *iter;
 
 	priv = gcal->priv;
 
 	/* free the previous queries */
-	for (l = priv->dn_queries; l != NULL; l = l->next) {
-		old_query = l->data;
+	for (iter = priv->dn_queries; iter != NULL; iter = iter->next) {
+		old_query = iter->data;
 
 		if (old_query) {
 			g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
@@ -1028,18 +1028,22 @@ update_query_async (struct _date_query_msg *msg)
 		return; /* No time range is set, so don't start a query */
 	}
 
+	list = e_cal_model_get_client_list (priv->model);
+	g_list_foreach (list, (GFunc) g_object_ref, NULL);
+
 	/* create queries for each loaded client */
-	for (l = priv->clients_list; l != NULL; l = l->next) {
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECal *client = E_CAL (iter->data);
 		GError *error = NULL;
 		gint tries = 0;
 
 		/* don't create queries for clients not loaded yet */
-		if (e_cal_get_load_state ((ECal *) l->data) != E_CAL_LOAD_LOADED)
+		if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
 			continue;
 
 try_again:
 		old_query = NULL;
-		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, &error)) {
+		if (!e_cal_get_query (client, real_sexp, &old_query, &error)) {
 			/* If calendar is busy try again for 3 times. */
 			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 				tries++;
@@ -1069,6 +1073,9 @@ try_again:
 
 		e_cal_view_start (old_query);
 	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 
 	/* free memory */
 	g_free (real_sexp);
