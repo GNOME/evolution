@@ -374,9 +374,6 @@ plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
 plugins/imap-features/imap-headers.c
 plugins/imap-features/imap-headers.glade
 plugins/imap-features/org-gnome-imap-features.eplug.xml
-plugins/ipod-sync/evolution-ipod-sync.c
-plugins/ipod-sync/ical-format.c
-plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml

@@ -1395,16 +1395,6 @@ dnl ********************************
 
 FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0 libglade-2.0"
 
-PKG_CHECK_MODULES([HAL], [hal >= hal_minimum_version], [HAVE_HAL="yes"], [HAVE_HAL="no"])
-if test "x$HAVE_HAL" = "xyes"; then
-	AC_DEFINE(HAVE_HAL, 1, [hal available])
-	HAL_REQUIREMENT="hal"
-	IPOD_SYNC="ipod-sync"
-else
-	HAL_REQUIREMENT=""
-	IPOD_SYNC=""
-fi
-
 dnl ******************************
 dnl TNEF implementation
 dnl ******************************
@@ -1767,8 +1757,8 @@ plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
 plugins_experimental_always="face external-editor hula-account-setup"
-plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS"
-all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
+plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
+all_plugins_experimental="$plugins_experimental_always tnef-attachments"
 
 case x"$enable_plugins" in
 xno)
@@ -1794,7 +1784,7 @@ xexperimental)
 esac
 
 dnl Temporary KILL-BONOBO hack
-for broken_plugin in exchange-operations groupwise-features ipod-sync
+for broken_plugin in exchange-operations groupwise-features
 do
 	if echo ${plugins_enabled} | grep "$broken_plugin" > /dev/null
 	then
@@ -2047,7 +2037,6 @@ plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/hula-account-setup/Makefile
 plugins/imap-features/Makefile
-plugins/ipod-sync/Makefile
 plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
@@ -2090,7 +2079,6 @@ fi
 
 echo "
 	LDAP support:		$msg_ldap
-	HAL:			$HAVE_HAL
 	NetworkManager:		$NM_SUPPORT
 	NNTP support:		$msg_nntp
 	Pilot conduits:		$msg_pilot
