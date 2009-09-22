@@ -89,7 +89,7 @@
 
 		<hook class="org.gnome.evolution.shell.events:1.0">
 			<event id="upgrade.done" handle="ensure_mandatory_esource_properties" target="upgrade"/>
-		</hook>    
+		</hook>
 	</e-plugin>
 
 </e-plugin-list>

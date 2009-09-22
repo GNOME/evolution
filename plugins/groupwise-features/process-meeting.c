@@ -217,7 +217,7 @@ get_calendar_view (EShellView *shell_view)
 
 	view_type = gnome_calendar_get_view (gcal);
 
-	return gnome_calendar_get_calendar_view (gcal, view_type);	
+	return gnome_calendar_get_calendar_view (gcal, view_type);
 }
 
 void
