@@ -1727,17 +1727,102 @@ AC_ARG_ENABLE([plugins],
 dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
-plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN"
-all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin"
+plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
+dist_plugins_base="$plugins_base_always exchange-operations sa-junk-plugin bogo-junk-plugin"
 
-plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline"
 
 plugins_standard="$plugins_standard_always"
-all_plugins_standard="$plugins_standard"
+dist_plugins_standard="$plugins_standard audio-inline pst-import"
 
 plugins_experimental_always="face external-editor hula-account-setup"
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
-all_plugins_experimental="$plugins_experimental_always tnef-attachments"
+dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments"
+
+dnl ******************************
+dnl Profiling support
+dnl ******************************
+AC_ARG_ENABLE([profiling],
+	AS_HELP_STRING([--enable-profiling],
+	[Enable profiling plugin.]),
+	[enable_profiling=$enableval],[enable_profiling=no])
+
+case x"$enable_profiling" in
+x | xyes)
+	plugins_experimental="$plugins_experimental profiler"
+	AC_DEFINE(ENABLE_PROFILING,1,[Profiling Hooks Enabled])
+	;;
+esac
+
+dnl ******************************************************************
+dnl The following plugins have additional library dependencies.
+dnl They must be explicitly disabled if the libraries are not present.
+dnl ******************************************************************
+
+dnl *******************************************
+dnl audio-inline plugin requires gstreamer-0.10
+dnl *******************************************
+AC_ARG_ENABLE([audio-inline],
+	AC_HELP_STRING([--enable-audio-inline],
+	[Enable audio-inline plugin @<:@default=yes@:>@]),
+	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
+
+if test "x$enable_audio_inline" = "xyes"; then
+	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10, have_gst=yes, have_gst=no)
+	AC_SUBST(GSTREAMER_CFLAGS)
+	AC_SUBST(GSTREAMER_LIBS)
+
+	if test "$have_gst" = "yes"; then
+		plugins_standard="$plugins_standard audio-inline"
+	else
+		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
+	fi
+fi
+
+dnl ***********************************************************
+dnl exchange-operations plugin requires libexchange-storage-1.2
+dnl ***********************************************************
+AC_ARG_ENABLE([exchange],
+	AS_HELP_STRING([--enable-exchange],
+	[Build Exchange plugins @<:@default=yes@:>@]),
+	[enable_exchange=$enableval], [enable_exchange=yes])
+
+if test "x$enable_exchange" = "xyes"; then
+	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version,
+	have_libexchange="yes", have_libexchange="no")
+
+	if test "x$have_libexchange" = "xyes"; then
+		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
+		AC_SUBST(CAMEL_EXCHANGE_LIBS)
+		msg_exchange="yes"
+		plugins_base="$plugins_base exchange-operations"
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE
+		libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
+	else
+		msg_exchange="no"
+		AC_MSG_ERROR([libevolution-exchange-$EDS_PACKAGE is required for the exchange-operations plugin.  Use --disable-exchange to exclude the plugin.])
+	fi
+fi
+
+dnl *********************************
+dnl pst-import plugin requires libpst
+dnl *********************************
+AC_ARG_ENABLE([pst-import],
+	AC_HELP_STRING([--enable-pst-import],
+	[Enable pst-import plugin @<:@default=yes@:>@]),
+	[enable_pst="$enableval"], [enable_pst=yes])
+
+if test "x$enable_pst" = "xyes"; then
+	PKG_CHECK_MODULES(LIBPST, libpst, have_pst=yes, have_pst=no)
+	AC_SUBST(LIBPST_CFLAGS)
+	AC_SUBST(LIBPST_LIBS)
+
+	if test "x$have_pst" = "xyes"; then
+		plugins_standard="$plugins_standard pst-import"
+	else
+		AC_MSG_ERROR([libpst is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
+	fi
+fi
 
 case x"$enable_plugins" in
 xno)
@@ -1772,98 +1857,10 @@ do
 	fi
 done
 
-dnl ******************************
-dnl Profiling support
-dnl ******************************
-AC_ARG_ENABLE([profiling],
-	AS_HELP_STRING([--enable-profiling],
-	[Enable profiling plugin.]),
-	[enable_profiling=$enableval],[enable_profiling=no])
-
-case x"$enable_profiling" in
-x | xyes)
-	plugins_enabled="$plugins_enabled profiler"
-	msg_plugins="$msg_plugins (and profiling)"
-	AC_DEFINE(ENABLE_PROFILING,1,[Profiling Hooks Enabled])
-	;;
-esac
-
 AC_SUBST(plugins_enabled)
-AC_SUBST(all_plugins_base)
-AC_SUBST(all_plugins_standard)
-AC_SUBST(all_plugins_experimental)
-
-dnl ******************************************************************
-dnl The following plugins have additional library dependencies.
-dnl They must be explicitly disabled if the libraries are not present.
-dnl ******************************************************************
-
-dnl *******************************************
-dnl audio-inline plugin requires gstreamer-0.10
-dnl *******************************************
-AC_ARG_ENABLE([audio-inline],
-	AC_HELP_STRING([--enable-audio-inline],
-	[Enable audio-inline plugin @<:@default=yes@:>@]),
-	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
-
-if test "x$enable_audio_inline" = "xyes"; then
-	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10, have_gst=yes, have_gst=no)
-	AC_SUBST(GSTREAMER_CFLAGS)
-	AC_SUBST(GSTREAMER_LIBS)
-
-	if test "$have_gst" = "yes"; then
-		plugins_enabled="$plugins_enabled audio-inline"
-		msg_plugins="$msg_plugins (audio-inline)"
-	else
-		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
-	fi
-fi
-
-dnl ***********************************************************
-dnl exchange-operations plugin requires libexchange-storage-1.2
-dnl ***********************************************************
-AC_ARG_ENABLE([exchange],
-	AS_HELP_STRING([--enable-exchange],
-	[Build Exchange plugins @<:@default=yes@:>@]),
-	[enable_exchange=$enableval], [enable_exchange=yes])
-
-if test "x$enable_exchange" = "xyes"; then
-	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version,
-	have_libexchange="yes", have_libexchange="no")
-
-	if test "x$have_libexchange" = "xyes"; then
-		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
-		AC_SUBST(CAMEL_EXCHANGE_LIBS)
-		EXCHANGE_PLUGIN="exchange-operations"
-		msg_exchange="yes"
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE
-		libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
-	else
-		msg_exchange="no"
-		AC_MSG_ERROR([libevolution-exchange-$EDS_PACKAGE is required for the exchange-operations plugin.  Use --disable-exchange to exclude the plugin.])
-	fi
-fi
-
-dnl *********************************
-dnl pst-import plugin requires libpst
-dnl *********************************
-AC_ARG_ENABLE([pst-import],
-	AC_HELP_STRING([--enable-pst-import],
-	[Enable pst-import plugin @<:@default=yes@:>@]),
-	[enable_pst="$enableval"], [enable_pst=yes])
-
-if test "x$enable_pst" = "xyes"; then
-	PKG_CHECK_MODULES(LIBPST, libpst, have_pst=yes, have_pst=no)
-	AC_SUBST(LIBPST_CFLAGS)
-	AC_SUBST(LIBPST_LIBS)
-
-	if test "x$have_pst" = "xyes"; then
-		plugins_enabled="$plugins_enabled pst-import"
-		msg_plugins="$msg_plugins (pst-import)"
-	else
-		AC_MSG_ERROR([libpst is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
-	fi
-fi
+AC_SUBST(dist_plugins_base)
+AC_SUBST(dist_plugins_standard)
+AC_SUBST(dist_plugins_experimental)
 
 dnl ***********
 dnl GConf stuff
