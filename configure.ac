@@ -1264,25 +1264,6 @@ AC_SUBST(MANUAL_NSPR_LIBS)
 AC_SUBST(MANUAL_NSS_CFLAGS)
 AC_SUBST(MANUAL_NSS_LIBS)
 
-dnl **************************************************
-dnl Check if we should build the weather calendar plugin
-dnl **************************************************
-AC_MSG_CHECKING([if we should build the weather calendar plugin])
-AC_ARG_WITH([weather],
-	[AS_HELP_STRING([--with-weather],
-	[Build the weather calendar setup plugin (default=yes)])],
-	[use_gweather=$withval],[use_gweather=yes])
-AC_MSG_RESULT([$use_gweather])
-
-if test $use_gweather = yes; then
-	PKG_CHECK_MODULES([LIBGWEATHER],
-	[gweather >= gweather_minimum_version],
-	[CALENDAR_WEATHER="calendar-weather"],
-	[AC_MSG_ERROR([The weather calendar setup plugin requires GWeather >= gweather_minimum_version. Alternatively, you may specify --without-weather as a configure option to avoid building the plugin.])])
-else
-	CALENDAR_WEATHER=""
-fi
-
 dnl *****************
 dnl killall or pkill?
 dnl *****************
@@ -1672,10 +1653,10 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
-dist_plugins_base="$plugins_base_always exchange-operations sa-junk-plugin bogo-junk-plugin"
+dist_plugins_base="$plugins_base_always calendar-weather exchange-operations sa-junk-plugin bogo-junk-plugin"
 
 plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline"
 
@@ -1711,8 +1692,8 @@ dnl *******************************************
 dnl audio-inline plugin requires gstreamer-0.10
 dnl *******************************************
 AC_ARG_ENABLE([audio-inline],
-	AC_HELP_STRING([--enable-audio-inline],
-	[Enable audio-inline plugin @<:@default=yes@:>@]),
+	[AS_HELP_STRING([--enable-audio-inline],
+	[Enable audio-inline plugin @<:@default=yes@:>@])],
 	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
 
 if test "x$enable_audio_inline" = "xyes"; then
@@ -1720,10 +1701,31 @@ if test "x$enable_audio_inline" = "xyes"; then
 	AC_SUBST(GSTREAMER_CFLAGS)
 	AC_SUBST(GSTREAMER_LIBS)
 
-	if test "$have_gst" = "yes"; then
+	if test "x$have_gst" = "xyes"; then
 		plugins_standard="$plugins_standard audio-inline"
 	else
 		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
+	fi
+fi
+
+dnl *****************************************
+dnl calendar-weather plugin requires gweather
+dnl *****************************************
+AC_ARG_ENABLE([weather],
+	[AS_HELP_STRING([--enable-weather],
+	[Enable calendar-weather plugin @<:@default=yes@:>@])],
+	[enable_weather="$enableval"],[enable_weather=yes])
+
+if test "x$enable_weather" = "xyes"; then
+	PKG_CHECK_MODULES([LIBGWEATHER], gweather >= gweather_minimum_version,
+	have_weather="yes", have_weather="no")
+	AC_SUBST(GWEATHER_CFLAGS)
+	AC_SUBST(GWEATHER_LIBS)
+
+	if test "x$have_weather" = "xyes"; then
+		plugins_base="$plugins_base calendar-weather"
+	else
+		AC_MSG_ERROR([gweather >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
 	fi
 fi
 
@@ -1731,9 +1733,9 @@ dnl ***********************************************************
 dnl exchange-operations plugin requires libexchange-storage-1.2
 dnl ***********************************************************
 AC_ARG_ENABLE([exchange],
-	AS_HELP_STRING([--enable-exchange],
-	[Build Exchange plugins @<:@default=yes@:>@]),
-	[enable_exchange=$enableval], [enable_exchange=yes])
+	[AS_HELP_STRING([--enable-exchange],
+	[Build Exchange plugins @<:@default=yes@:>@])],
+	[enable_exchange="$enableval"], [enable_exchange=yes])
 
 if test "x$enable_exchange" = "xyes"; then
 	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version,
@@ -1756,8 +1758,8 @@ dnl *********************************
 dnl pst-import plugin requires libpst
 dnl *********************************
 AC_ARG_ENABLE([pst-import],
-	AC_HELP_STRING([--enable-pst-import],
-	[Enable pst-import plugin @<:@default=yes@:>@]),
+	[AS_HELP_STRING([--enable-pst-import],
+	[Enable pst-import plugin @<:@default=yes@:>@])],
 	[enable_pst="$enableval"], [enable_pst=yes])
 
 if test "x$enable_pst" = "xyes"; then
