@@ -345,6 +345,7 @@ plugins/google-account-setup/google-contacts-source.c
 plugins/google-account-setup/google-source.c
 plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
 plugins/groupwise-features/camel-gw-listener.c
+plugins/groupwise-features/gw-ui.c
 plugins/groupwise-features/install-shared.c
 plugins/groupwise-features/junk-mail-settings.c
 plugins/groupwise-features/junk-settings.c
