@@ -715,12 +715,17 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 {
 	FilterPart *part;
 	GtkWidget *rule;
+	struct _part_data *part_data;
 
 	if (g_list_length (data->fr->parts) < 1)
 		return;
 
 	rule = g_object_get_data ((GObject *) button, "rule");
-	part = g_object_get_data ((GObject *) rule, "part");
+	part_data = g_object_get_data ((GObject *) rule, "data");
+
+	g_return_if_fail (part_data != NULL);
+
+	part = part_data->part;
 
 	/* remove the part from the list */
 	filter_rule_remove_part (data->fr, part);
@@ -741,7 +746,6 @@ attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, gint ro
 
 	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
 	g_object_set_data ((GObject *) remove, "rule", rule);
-	g_object_set_data ((GObject *) rule, "part", part);
 	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
 	g_signal_connect (remove, "clicked", G_CALLBACK (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
