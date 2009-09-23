@@ -1311,48 +1311,6 @@ dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
 EVO_MARSHAL_RULE=$srcdir/marshal.mk
 AC_SUBST_FILE(EVO_MARSHAL_RULE)
 
-dnl **************************
-dnl Check for X libs and -lX11
-dnl **************************
-
-PKG_CHECK_MODULES([X], [x11], [:], [
-dnl pkg-config modules not found (only present since X11R7 aka Xorg); use
-dnl old-style detection
-AC_PATH_XTRA
-dnl X found
-if test x$no_x != xyes ; then
-	evolution_save_cflags="$CFLAGS"
-	evolution_save_libs="$LIBS"
-	CFLAGS="$X_CFLAGS"
-	LIBS="$X_PRE_LIBS $X_LIBS $X_EXTRA_LIBS"
-	AC_CHECK_LIB(X11, XFree, :, AC_MSG_ERROR([libX11 not found]))
-	CFLAGS="$evolution_save_cflags"
-	LIBS="$evolution_save_libs"
-	X_LIBS="$X_PRE_LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
-fi
-])
-
-dnl *************************
-dnl Check for the Gtk backend
-dnl if it's X11, we -lX11
-dnl *************************
-
-evolution_save_cflags="$CFLAGS"
-dnl pull in the CFLAGS to locate gdkconfig.h
-CFLAGS=`$PKG_CONFIG --cflags gtk+-2.0`
-AC_COMPILE_IFELSE([
-	#include <gdkconfig.h>
-	int main(void){
-	#ifndef GDK_WINDOWING_X11
-	#error GDK_WINDOWING_X11 not defined
-	#endif
-	return 0;
-	}],
-	GDK_BACKEND_X11=yes,
-	GDK_BACKEND_X11=no)
-
-CFLAGS="$evolution_save_cflags"
-
 dnl *************************
 dnl Orbit / Bonobo
 dnl *************************
@@ -1465,17 +1423,6 @@ dnl ******************************
 EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0, $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS, $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
-
-dnl ******************************
-dnl If Gtk/Gdk is built against X11, e-util uses some X11-specific code so link with X11.
-dnl ******************************
-if test "x$GDK_BACKEND_X11" = "xyes"; then
-	E_UTIL_X11_CFLAGS="$X_CFLAGS"
-	E_UTIL_X11_LIBS="$X_LIBS"
-else
-	E_UTIL_X11_CFLAGS=""
-	E_UTIL_X11_LIBS=""
-fi
 
 dnl ************
 dnl E_UTIL Flags
@@ -1736,6 +1683,7 @@ plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard audio-inline pst-import"
 
 plugins_experimental_always="face external-editor hula-account-setup"
+
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
 dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments"
 

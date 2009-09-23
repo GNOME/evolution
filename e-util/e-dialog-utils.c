@@ -31,10 +31,6 @@
 #include <unistd.h>
 #include <glib/gstdio.h>
 
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
-
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 
