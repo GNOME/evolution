@@ -370,6 +370,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	GtkWidget *dialog;
 	EMFolderTree *emft;
 	const gchar *label;
+	const gchar *title;
 	struct _copy_folder_data *cfd;
 
 	g_return_if_fail (folderinfo != NULL);
@@ -385,11 +386,12 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 		emft, emfu_copy_folder_exclude, cfd);
 
 	label = delete ? _("_Move") : _("C_opy");
+	title = delete ? _("Move Folder To") : _("Copy Folder To");
 
 	dialog = em_folder_selector_new (
 		parent, emft,
 		EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Select Folder"), NULL, label);
+		title, NULL, label);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		const gchar *uri;
