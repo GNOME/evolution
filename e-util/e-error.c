@@ -112,12 +112,11 @@ map_response(const gchar *name)
 static struct {
 	const gchar *name;
 	const gchar *icon;
-	const gchar *title;
 } type_map[] = {
-	{ "info", GTK_STOCK_DIALOG_INFO, N_("Evolution Information") },
-	{ "warning", GTK_STOCK_DIALOG_WARNING, N_("Evolution Warning") },
-	{ "question", GTK_STOCK_DIALOG_QUESTION, N_("Evolution Query") },
-	{ "error", GTK_STOCK_DIALOG_ERROR, N_("Evolution Error") },
+	{ "info", GTK_STOCK_DIALOG_INFO },
+	{ "warning", GTK_STOCK_DIALOG_WARNING },
+	{ "question", GTK_STOCK_DIALOG_QUESTION },
+	{ "error", GTK_STOCK_DIALOG_ERROR },
 };
 
 static gint
@@ -520,7 +519,7 @@ e_error_newv(GtkWindow *parent, const gchar *tag, const gchar *arg0, va_list ap)
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
-		gtk_window_set_title((GtkWindow *)dialog, dgettext(table->translation_domain, type_map[e->type].title));
+		gtk_window_set_title((GtkWindow *)dialog, out->str);
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
