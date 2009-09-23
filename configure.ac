@@ -1283,22 +1283,6 @@ else
 	CALENDAR_WEATHER=""
 fi
 
-dnl **************************************************
-dnl Exchange support.
-dnl **************************************************
-AC_ARG_ENABLE([exchange],
-	AS_HELP_STRING([--enable-exchange],
-	[Build Exchange plugins]),
-	[enable_exchange=$enableval],[enable_exchange=yes])
-
-if test "x$enable_exchange" = "xyes"; then
-	msg_exchange=yes
-	EXCHANGE_PLUGIN="exchange-operations"
-else
-	msg_exchange=no
-fi
-AM_CONDITIONAL(ENABLE_EXCHANGE, [test x$enable_exchange = xyes])
-
 dnl *****************
 dnl killall or pkill?
 dnl *****************
@@ -1744,9 +1728,9 @@ dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN"
-all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations"
+all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin"
 
-plugins_standard_always="bbdb subject-thread save-calendar mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates pst-import vcard-inline"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -1809,52 +1793,75 @@ AC_SUBST(all_plugins_base)
 AC_SUBST(all_plugins_standard)
 AC_SUBST(all_plugins_experimental)
 
-if echo ${plugins_enabled} | grep "audio-inline" > /dev/null
-then
-	if ${PKG_CONFIG} --exists gstreamer-0.10
-	then
-		dnl *********************
-		dnl gstreamer
-		dnl *********************
-		PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10])
-		AC_SUBST(GSTREAMER_CFLAGS)
-		AC_SUBST(GSTREAMER_LIBS)
+dnl ******************************************************************
+dnl The following plugins have additional library dependencies.
+dnl They must be explicitly disabled if the libraries are not present.
+dnl ******************************************************************
+
+dnl *******************************************
+dnl audio-inline plugin requires gstreamer-0.10
+dnl *******************************************
+AC_ARG_ENABLE([audio-inline],
+	AC_HELP_STRING([--enable-audio-inline],
+	[Enable audio-inline plugin @<:@default=yes@:>@]),
+	[enable_audio_inline="$enableval"], [enable_audio_inline=yes])
+
+if test "x$enable_audio_inline" = "xyes"; then
+	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.10, have_gst=yes, have_gst=no)
+	AC_SUBST(GSTREAMER_CFLAGS)
+	AC_SUBST(GSTREAMER_LIBS)
+
+	if test "$have_gst" = "yes"; then
+		plugins_enabled="$plugins_enabled audio-inline"
+		msg_plugins="$msg_plugins (audio-inline)"
 	else
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/audio-inline//g"`
-		echo "warning: gstreamer was not found, audio-inline plugin will not be built."
-		echo "you are probably missing gstreamer-devel package."
+		AC_MSG_ERROR([gstreamer-0.10 is required for the audio-inline plugin.  Use --disable-audio-inline to exclude the plugin.])
 	fi
 fi
 
-if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
-	PKG_CHECK_MODULES([LIBEXCHANGESTORAGE], [libexchange-storage-$EDS_PACKAGE >= eds_minimum_version], [have_libexchange="yes"], [have_libexchange="no"])
+dnl ***********************************************************
+dnl exchange-operations plugin requires libexchange-storage-1.2
+dnl ***********************************************************
+AC_ARG_ENABLE([exchange],
+	AS_HELP_STRING([--enable-exchange],
+	[Build Exchange plugins @<:@default=yes@:>@]),
+	[enable_exchange=$enableval], [enable_exchange=yes])
+
+if test "x$enable_exchange" = "xyes"; then
+	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version,
+	have_libexchange="yes", have_libexchange="no")
+
 	if test "x$have_libexchange" = "xyes"; then
-		dnl **************************************************
-		dnl * Exchange Operations plugin
-		dnl **************************************************
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
 		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
 		AC_SUBST(CAMEL_EXCHANGE_LIBS)
+		EXCHANGE_PLUGIN="exchange-operations"
+		msg_exchange="yes"
+		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE
+		libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
 	else
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/exchange-operations//g"`
-		echo "warning: libevolution-exchange-$EDS_PACKAGE was not found, Exchange Operations plugin will not be built."
+		msg_exchange="no"
+		AC_MSG_ERROR([libevolution-exchange-$EDS_PACKAGE is required for the exchange-operations plugin.  Use --disable-exchange to exclude the plugin.])
 	fi
 fi
 
-if echo ${plugins_enabled} | grep "pst-import" > /dev/null
-then
-	if ${PKG_CONFIG} --exists libpst
-	then
-		dnl *********************
-		dnl libpst
-		dnl *********************
-		PKG_CHECK_MODULES([LIBPST], [libpst >= libpst_minimum_version])
-		AC_SUBST(LIBPST_CFLAGS)
-		AC_SUBST(LIBPST_LIBS)
+dnl *********************************
+dnl pst-import plugin requires libpst
+dnl *********************************
+AC_ARG_ENABLE([pst-import],
+	AC_HELP_STRING([--enable-pst-import],
+	[Enable pst-import plugin @<:@default=yes@:>@]),
+	[enable_pst="$enableval"], [enable_pst=yes])
+
+if test "x$enable_pst" = "xyes"; then
+	PKG_CHECK_MODULES(LIBPST, libpst, have_pst=yes, have_pst=no)
+	AC_SUBST(LIBPST_CFLAGS)
+	AC_SUBST(LIBPST_LIBS)
+
+	if test "x$have_pst" = "xyes"; then
+		plugins_enabled="$plugins_enabled pst-import"
+		msg_plugins="$msg_plugins (pst-import)"
 	else
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/pst-import//g"`
-		echo "warning: libpst was not found, pst-import plugin will not be built."
-		echo "you are probably missing libpst-devel package."
+		AC_MSG_ERROR([libpst is required for the pst-import plugin.  Use --disable-pst-import to exclude the plugin.])
 	fi
 fi
 
