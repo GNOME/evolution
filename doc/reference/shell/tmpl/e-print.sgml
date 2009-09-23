@@ -1,0 +1,35 @@
+<!-- ##### SECTION Title ##### -->
+Printing Functions
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION e_print_operation_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_print_run_page_setup_dialog ##### -->
+<para>
+
+</para>
+
+@parent: 
+
+

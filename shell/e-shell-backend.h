@@ -123,7 +123,6 @@ gint		e_shell_backend_compare		(EShellBackend *shell_backend_a,
 						 EShellBackend *shell_backend_b);
 const gchar *	e_shell_backend_get_config_dir	(EShellBackend *shell_backend);
 const gchar *	e_shell_backend_get_data_dir	(EShellBackend *shell_backend);
-const gchar *	e_shell_backend_get_filename	(EShellBackend *shell_backend);
 struct _EShell *e_shell_backend_get_shell	(EShellBackend *shell_backend);
 void		e_shell_backend_add_activity	(EShellBackend *shell_backend,
 						 EActivity *activity);

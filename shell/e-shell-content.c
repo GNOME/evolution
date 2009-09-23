@@ -820,6 +820,11 @@ shell_content_class_init (EShellContentClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShellContent:shell-view
+	 *
+	 * The #EShellView to which the content widget belongs.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_VIEW,

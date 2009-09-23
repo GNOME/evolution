@@ -21,6 +21,13 @@
 
 static EAccountList *global_account_list;
 
+/**
+ * e_get_account_list:
+ *
+ * Returns the global #EAccountList.
+ *
+ * Returns: the global #EAccountList
+ **/
 EAccountList *
 e_get_account_list (void)
 {
@@ -37,6 +44,13 @@ e_get_account_list (void)
 	return global_account_list;
 }
 
+/**
+ * e_get_default_account:
+ *
+ * Returns the #EAccount marked as the default mail account.
+ *
+ * Returns: the default #EAccount
+ **/
 EAccount *
 e_get_default_account (void)
 {
@@ -50,6 +64,12 @@ e_get_default_account (void)
 	return (EAccount *) account;
 }
 
+/**
+ * e_set_default_account:
+ * @account: an #EAccount
+ *
+ * Marks @account as the default mail account.
+ **/
 void
 e_set_default_account (EAccount *account)
 {
@@ -61,6 +81,15 @@ e_set_default_account (EAccount *account)
 	e_account_list_set_default (account_list, account);
 }
 
+/**
+ * e_get_account_by_name:
+ * @name: a mail account name
+ *
+ * Returns the #EAccount with the given name, or %NULL if no such
+ * account exists.
+ *
+ * Returns: an #EAccount having the given account name, or %NULL
+ **/
 EAccount *
 e_get_account_by_name (const gchar *name)
 {
@@ -78,6 +107,15 @@ e_get_account_by_name (const gchar *name)
 	return (EAccount *) account;
 }
 
+/**
+ * e_get_account_by_uid:
+ * @uid: a mail account UID
+ *
+ * Returns the #EAccount with the given unique ID, or %NULL if no such
+ * account exists.
+ *
+ * Returns: an #EAccount having the given unique ID, or %NULL
+ **/
 EAccount *
 e_get_account_by_uid (const gchar *uid)
 {

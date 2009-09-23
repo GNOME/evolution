@@ -1,0 +1,37 @@
+<!-- ##### SECTION Title ##### -->
+Category Functions
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION e_categories_config_get_icon_for ##### -->
+<para>
+
+</para>
+
+@category: 
+@pixbuf: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_categories_config_open_dialog_for_entry ##### -->
+<para>
+
+</para>
+
+@entry: 
+
+

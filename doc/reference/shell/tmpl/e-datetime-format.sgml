@@ -1,0 +1,66 @@
+<!-- ##### SECTION Title ##### -->
+Date and Time Formatting Functions
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM DTFormatKind ##### -->
+<para>
+
+</para>
+
+@DTFormatKindDate: 
+@DTFormatKindTime: 
+@DTFormatKindDateTime: 
+@DTFormatKindShortDate: 
+
+<!-- ##### FUNCTION e_datetime_format_add_setup_widget ##### -->
+<para>
+
+</para>
+
+@table: 
+@row: 
+@component: 
+@part: 
+@kind: 
+@caption: 
+
+
+<!-- ##### FUNCTION e_datetime_format_format ##### -->
+<para>
+
+</para>
+
+@component: 
+@part: 
+@kind: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_datetime_format_format_tm ##### -->
+<para>
+
+</para>
+
+@component: 
+@part: 
+@kind: 
+@tm_time: 
+@Returns: 
+
+

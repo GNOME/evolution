@@ -317,13 +317,13 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	 * EShellSidebar:icon-name
 	 *
 	 * The named icon is displayed at the top of the sidebar.
-	 */
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_ICON_NAME,
 		g_param_spec_string (
 			"icon-name",
-			NULL,
+			"Icon Name",
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
@@ -338,7 +338,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 		PROP_PRIMARY_TEXT,
 		g_param_spec_string (
 			"primary-text",
-			NULL,
+			"Primary Text",
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
@@ -354,7 +354,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 		PROP_SECONDARY_TEXT,
 		g_param_spec_string (
 			"secondary-text",
-			NULL,
+			"Secondary Text",
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
@@ -369,7 +369,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 		PROP_SHELL_VIEW,
 		g_param_spec_object (
 			"shell-view",
-			NULL,
+			"Shell View",
 			NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |

@@ -13,7 +13,7 @@ DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
 # gtk-doc will search all .c & .h files beneath here for inline comments
 # documenting the functions and macros.
 # e.g. DOC_SOURCE_DIR=../../../gtk
-DOC_SOURCE_DIR=../../../shell
+DOC_SOURCE_DIR=../../../
 
 # Extra options to pass to gtkdoc-scangobj. Not normally needed.
 SCANGOBJ_OPTIONS=
@@ -82,6 +82,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/es-event.o				\
 	$(top_builddir)/e-util/.libs/e-bconf-map.o			\
 	$(top_builddir)/e-util/.libs/e-binding.o			\
+	$(top_builddir)/e-util/.libs/e-bit-array.o			\
 	$(top_builddir)/e-util/.libs/e-dialog-utils.o			\
 	$(top_builddir)/e-util/.libs/e-error.o				\
 	$(top_builddir)/e-util/.libs/e-event.o				\
@@ -95,6 +96,9 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-plugin.o				\
 	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\
 	$(top_builddir)/e-util/.libs/e-print.o				\
+	$(top_builddir)/e-util/.libs/e-signature.o			\
+	$(top_builddir)/e-util/.libs/e-signature-list.o			\
+	$(top_builddir)/e-util/.libs/e-signature-utils.o		\
 	$(top_builddir)/e-util/.libs/e-unicode.o			\
 	$(top_builddir)/e-util/.libs/e-util.o				\
 	$(top_builddir)/e-util/.libs/e-xml-utils.o			\

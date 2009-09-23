@@ -1,0 +1,493 @@
+<!-- ##### SECTION Title ##### -->
+Miscellaneous Utility Functions
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION e_get_user_data_dir ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_accels_filename ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_show_uri ##### -->
+<para>
+
+</para>
+
+@parent: 
+@uri: 
+
+
+<!-- ##### FUNCTION e_display_help ##### -->
+<para>
+
+</para>
+
+@parent: 
+@link_id: 
+
+
+<!-- ##### FUNCTION e_lookup_action ##### -->
+<para>
+
+</para>
+
+@ui_manager: 
+@action_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_lookup_action_group ##### -->
+<para>
+
+</para>
+
+@ui_manager: 
+@group_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_load_ui_definition ##### -->
+<para>
+
+</para>
+
+@ui_manager: 
+@basename: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_action_compare_by_label ##### -->
+<para>
+
+</para>
+
+@action1: 
+@action2: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_action_group_remove_all_actions ##### -->
+<para>
+
+</para>
+
+@action_group: 
+
+
+<!-- ##### FUNCTION e_radio_action_get_current_action ##### -->
+<para>
+
+</para>
+
+@radio_action: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_categories_add_change_hook ##### -->
+<para>
+
+</para>
+
+@func: 
+@object: 
+
+
+<!-- ##### FUNCTION e_type_traverse ##### -->
+<para>
+
+</para>
+
+@parent_type: 
+@func: 
+@user_data: 
+
+
+<!-- ##### FUNCTION e_str_without_underscores ##### -->
+<para>
+
+</para>
+
+@s: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_str_compare ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_str_case_compare ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_collate_compare ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_int_compare ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_write_file_uri ##### -->
+<para>
+
+</para>
+
+@filename: 
+@data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_color_to_value ##### -->
+<para>
+
+</para>
+
+@color: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_format_number ##### -->
+<para>
+
+</para>
+
+@number: 
+@Returns: 
+
+
+<!-- ##### USER_FUNCTION ESortCompareFunc ##### -->
+<para>
+
+</para>
+
+@first: 
+@second: 
+@closure: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_bsearch ##### -->
+<para>
+
+</para>
+
+@key: 
+@base: 
+@nmemb: 
+@size: 
+@compare: 
+@closure: 
+@start: 
+@end: 
+
+
+<!-- ##### FUNCTION e_strftime_fix_am_pm ##### -->
+<para>
+
+</para>
+
+@str: 
+@max: 
+@fmt: 
+@tm: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_utf8_strftime_fix_am_pm ##### -->
+<para>
+
+</para>
+
+@str: 
+@max: 
+@fmt: 
+@tm: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_month_name ##### -->
+<para>
+
+</para>
+
+@month: 
+@abbreviated: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_weekday_name ##### -->
+<para>
+
+</para>
+
+@weekday: 
+@abbreviated: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_flexible_strtod ##### -->
+<para>
+
+</para>
+
+@nptr: 
+@endptr: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_ascii_dtostr ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@buf_len: 
+@format: 
+@d: 
+@Returns: 
+
+
+<!-- ##### FUNCTION get_font_options ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_file_update_save_path ##### -->
+<para>
+
+</para>
+
+@uri: 
+@free: 
+
+
+<!-- ##### FUNCTION e_file_get_save_path ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_file_lock_create ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_file_lock_destroy ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION e_file_lock_exists ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_util_guess_mime_type ##### -->
+<para>
+
+</para>
+
+@filename: 
+@localfile: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_util_filename_to_uri ##### -->
+<para>
+
+</para>
+
+@filename: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_util_uri_to_filename ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_util_read_file ##### -->
+<para>
+
+</para>
+
+@filename: 
+@filename_is_uri: 
+@buffer: 
+@read: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_util_get_category_filter_options ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_charset_add_radio_actions ##### -->
+<para>
+
+</para>
+
+@action_group: 
+@action_prefix: 
+@default_charset: 
+@callback: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### ENUM ECursorType ##### -->
+<para>
+
+</para>
+
+@E_CURSOR_FAT_CROSS: 
+@E_CURSOR_THIN_CROSS: 
+@E_CURSOR_ARROW: 
+@E_CURSOR_MOVE: 
+@E_CURSOR_ZOOM_IN: 
+@E_CURSOR_ZOOM_OUT: 
+@E_CURSOR_SIZE_X: 
+@E_CURSOR_SIZE_Y: 
+@E_CURSOR_SIZE_TL: 
+@E_CURSOR_SIZE_TR: 
+@E_CURSOR_PRESS: 
+@E_CURSOR_HAND_OPEN: 
+@E_CURSOR_HAND_CLOSED: 
+@E_CURSOR_XTERM: 
+@E_CURSOR_NUM_CURSORS: 
+
+<!-- ##### FUNCTION e_cursor_set ##### -->
+<para>
+
+</para>
+
+@widget: 
+@cursor: 
+
+
+<!-- ##### FUNCTION e_folder_map_local_folders ##### -->
+<para>
+
+</para>
+
+@local_dir: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_fsutils_usage ##### -->
+<para>
+
+</para>
+
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_fsutils_avail ##### -->
+<para>
+
+</para>
+
+@path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_mktemp ##### -->
+<para>
+
+</para>
+
+@template: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_mkstemp ##### -->
+<para>
+
+</para>
+
+@template: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_mkdtemp ##### -->
+<para>
+
+</para>
+
+@template: 
+@Returns: 
+
+

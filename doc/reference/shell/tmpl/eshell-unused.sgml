@@ -1850,6 +1850,14 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_backend_get_filename ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_backend_is_busy ##### -->
 <para>
 

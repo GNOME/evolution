@@ -178,14 +178,15 @@ is_citation (const guchar *c, gboolean saw_citation)
  *
  * The set of possible flags is:
  *
- *   - E_TEXT_TO_HTML_PRE: wrap the output HTML in <PRE> and </PRE>.
- *     Should only be used if @input is the entire buffer to be
- *     converted. If e_text_to_html is being called with small pieces
- *     of data, you should wrap the entire result in <PRE> yourself.
+ *   - E_TEXT_TO_HTML_PRE: wrap the output HTML in &lt;PRE&gt; and
+ *     &lt;/PRE&gt;  Should only be used if @input is the entire
+ *     buffer to be converted. If e_text_to_html is being called with
+ *     small pieces of data, you should wrap the entire result in
+ *     &lt;PRE&gt; yourself.
  *
- *   - E_TEXT_TO_HTML_CONVERT_NL: convert "\n" to "<BR>\n" on output.
- *     (should not be used with E_TEXT_TO_HTML_PRE, since that would
- *     result in double-newlines).
+ *   - E_TEXT_TO_HTML_CONVERT_NL: convert "\n" to "&lt;BR&gt;n" on
+ *     output.  (Should not be used with E_TEXT_TO_HTML_PRE, since
+ *     that would result in double-newlines.)
  *
  *   - E_TEXT_TO_HTML_CONVERT_SPACES: convert a block of N spaces
  *     into N-1 non-breaking spaces and one normal space. A space
@@ -197,14 +198,14 @@ is_citation (const guchar *c, gboolean saw_citation)
  *     If E_TEXT_TO_HTML_CONVERT_NL and E_TEXT_TO_HTML_CONVERT_SPACES
  *     are both defined, then TABs will also be converted to spaces.
  *
- *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap <a href="..."> </a> around
- *     strings that look like URLs.
+ *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap &lt;a href="..."&gt; &lt;/a&gt;
+ *     around strings that look like URLs.
  *
- *   - E_TEXT_TO_HTML_CONVERT_ADDRESSES: wrap <a href="mailto:..."> </a> around
- *     strings that look like mail addresses.
+ *   - E_TEXT_TO_HTML_CONVERT_ADDRESSES: wrap &lt;a href="mailto:..."&gt;
+ *     &lt;/a&gt; around strings that look like mail addresses.
  *
- *   - E_TEXT_TO_HTML_MARK_CITATION: wrap <font color="..."> </font> around
- *     citations (lines beginning with "> ", etc).
+ *   - E_TEXT_TO_HTML_MARK_CITATION: wrap &lt;font color="..."&gt;
+ *     &lt;/font&gt; around citations (lines beginning with "> ", etc).
  *
  *   - E_TEXT_TO_HTML_ESCAPE_8BIT: flatten everything to US-ASCII
  *

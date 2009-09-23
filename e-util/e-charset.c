@@ -123,6 +123,8 @@ static ECharset charsets[] = {
  * US-ASCII).  Any other character sets of the same language class as
  * the default will be added next, followed by the remaining character
  * sets.
+ *
+ * Returns: the radio action group
  **/
 GSList *
 e_charset_add_radio_actions (GtkActionGroup *action_group,

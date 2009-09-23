@@ -26,6 +26,28 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
   </chapter>
 
   <chapter>
+    <title>Basic Utility Functions</title>
+    <xi:include href="xml/e-account-utils.xml"/>
+    <xi:include href="xml/e-bit-array.xml"/>
+    <xi:include href="xml/e-binding.xml"/>
+    <xi:include href="xml/e-categories-config.xml"/>
+    <xi:include href="xml/e-datetime-format.xml"/>
+    <xi:include href="xml/e-dialog-utils.xml"/>
+    <xi:include href="xml/e-error.xml"/>
+    <xi:include href="xml/e-html-utils.xml"/>
+    <xi:include href="xml/e-icon-factory.xml"/>
+    <xi:include href="xml/e-logger.xml"/>
+    <xi:include href="xml/e-module.xml"/>
+    <xi:include href="xml/e-print.xml"/>
+    <xi:include href="xml/e-signature.xml"/>
+    <xi:include href="xml/e-signature-list.xml"/>
+    <xi:include href="xml/e-signature-utils.xml"/>
+    <xi:include href="xml/e-util.xml"/>
+    <xi:include href="xml/e-xml-utils.xml"/>
+    <xi:include href="xml/gconf-bridge.xml"/>
+  </chapter>
+
+  <chapter>
     <title>Actions</title>
     <xi:include href="xml/shell-actions.xml"/>
     <xi:include href="xml/action-groups.xml"/>

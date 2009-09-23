@@ -370,7 +370,7 @@ e_shell_backend_start (EShellBackend *shell_backend)
 }
 
 /**
- * e_shell_migrate:
+ * e_shell_backend_migrate:
  * @shell_backend: an #EShellBackend
  * @major: major part of version to migrate from
  * @minor: minor part of version to migrate from

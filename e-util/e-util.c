@@ -523,22 +523,25 @@ e_type_traverse (GType parent_type,
 
 /**
  * e_str_without_underscores:
- * @s: the string to strip underscores from.
+ * @string: the string to strip underscores from
  *
- * Strips underscores from a string in the same way @gtk_label_new_with_mnemonis does.
- * The returned string should be freed.
+ * Strips underscores from a string in the same way
+ * @gtk_label_new_with_mnemonics does.  The returned string should be freed
+ * using g_free().
+ *
+ * Returns: a newly-allocated string without underscores
  */
 gchar *
-e_str_without_underscores (const gchar *s)
+e_str_without_underscores (const gchar *string)
 {
 	gchar *new_string;
 	const gchar *sp;
 	gchar *dp;
 
-	new_string = g_malloc (strlen (s) + 1);
+	new_string = g_malloc (strlen (string) + 1);
 
 	dp = new_string;
-	for (sp = s; *sp != '\0'; sp ++) {
+	for (sp = string; *sp != '\0'; sp ++) {
 		if (*sp != '_') {
 			*dp = *sp;
 			dp ++;
@@ -614,7 +617,8 @@ e_int_compare (gconstpointer x, gconstpointer y)
 }
 
 gboolean
-e_write_file_uri (const gchar *filename, const gchar *data)
+e_write_file_uri (const gchar *filename,
+                  const gchar *data)
 {
 	gboolean res;
 	gsize length;
@@ -1051,7 +1055,7 @@ e_get_weekday_name (GDateWeekday weekday,
  * To convert from a double to a string in a locale-insensitive way, use
  * @g_ascii_dtostr.
  *
- * Return value: the gdouble value.
+ * Returns: the gdouble value
  **/
 gdouble
 e_flexible_strtod (const gchar *nptr, gchar **endptr)
@@ -1188,7 +1192,7 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
  * of the resulting string will never be larger than
  * @G_ASCII_DTOSTR_BUF_SIZE bytes.
  *
- * Return value: The pointer to the buffer with the converted string.
+ * Returns: the pointer to the buffer with the converted string
  **/
 gchar *
 e_ascii_dtostr (gchar *buffer, gint buf_len, const gchar *format, gdouble d)
@@ -1448,11 +1452,14 @@ e_file_lock_exists ()
 
 /**
  * e_util_guess_mime_type:
- * @filename: it's a local file name, or URI.
- * @localfile: set to TRUE if can check the local file content, FALSE to check only based on the filename itself.
- * Returns: NULL or newly allocated string with a mime_type of the given file. Free with g_free.
+ * @filename: a local file name, or URI
+ * @localfile: %TRUE to check the file content, FALSE to check only the name
  *
- * Guesses mime_type for the given filename.
+ * Tries to determine the MIME type for @filename.  Free the returned
+ * string with g_free().
+ *
+ * Returns: the MIME type of @filename, or %NULL if the the MIME type could
+ *          not be determined
  **/
 gchar *
 e_util_guess_mime_type (const gchar *filename, gboolean localfile)
@@ -1501,9 +1508,11 @@ e_util_guess_mime_type (const gchar *filename, gboolean localfile)
 /**
  * e_util_filename_to_uri:
  * @filename: local file name.
- * Returns: either newly allocated string or NULL. Free with g_free.
  *
- * Converts local file name to URI.
+ * Converts a local file name to a URI.  Free the returned string with
+ * g_free().
+ *
+ * Returns: a newly allocated string or %NULL
  **/
 gchar *
 e_util_filename_to_uri (const gchar *filename)
@@ -1525,10 +1534,12 @@ e_util_filename_to_uri (const gchar *filename)
 
 /**
  * e_util_uri_to_filename:
- * @uri: uri.
- * Returns: either newly allocated string or NULL. Free with g_free.
+ * @uri: a URI
  *
- * Converts URI to local file name. NULL indicates no such local file name exists.
+ * Converts a URI to a local file name.  %NULL indicates no such
+ * local file name exists.  Free the returned string with g_free().
+ *
+ * Returns: either newly allocated string or %NULL
  **/
 gchar *
 e_util_uri_to_filename (const gchar *uri)
@@ -1555,10 +1566,11 @@ e_util_uri_to_filename (const gchar *uri)
  * @buffer: Read content or the file. Should not be NULL. Returned value should be freed with g_free.
  * @read: Number of actually read bytes. Should not be NULL.
  * @error: Here will be returned an error from reading operations. Can be NULL. Not every time is set when returned FALSE.
- * Returns: Whether was reading successful or not.
  *
  * Reads synchronously content of the file, to which is pointed either by path or by URI.
  * Mount point should be already mounted when calling this function.
+ *
+ * Returns: Whether was reading successful or not.
  **/
 gboolean
 e_util_read_file (const gchar *filename, gboolean filename_is_uri, gchar **buffer, gsize *read, GError **error)

@@ -15,6 +15,11 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
 
+/**
+ * SECTION: e-account-utils
+ * @include: e-util/e-account-utils.h
+ **/
+
 #ifndef E_ACCOUNT_UTILS_H
 #define E_ACCOUNT_UTILS_H
 

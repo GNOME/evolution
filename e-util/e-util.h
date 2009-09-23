@@ -20,8 +20,13 @@
  *
  */
 
-#ifndef _E_UTIL_H_
-#define _E_UTIL_H_
+/**
+ * SECTION: e-util
+ * @include: e-util/e-util.h
+ **/
+
+#ifndef E_UTIL_H
+#define E_UTIL_H
 
 #include <sys/types.h>
 #include <gtk/gtk.h>
@@ -154,4 +159,4 @@ GType		e_camel_object_get_type		(void);
 
 G_END_DECLS
 
-#endif /* _E_UTIL_H_ */
+#endif /* E_UTIL_H */
