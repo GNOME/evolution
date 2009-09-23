@@ -70,8 +70,6 @@ SUBDIRS = 			\
 	$(HELP_SUBDIR)
 
 DISTCLEANFILES = 			\
-	$(builddir)/doltcompile		\
-	$(builddir)/doltlibtool		\
 	$(builddir)/iconv-detect.h
 
 MAINTAINERCLEANFILES =			\

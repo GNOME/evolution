@@ -173,15 +173,10 @@ localedir='$(prefix)/$(DATADIRNAME)/locale'
 AC_SUBST(localedir)
 
 dnl ******************************
-dnl Initialize libtool \ DOLT
-dnl if switch to libtool >= 2.2, replace existing with following:
-dnl LT_PREREQ(2.2)
-dnl LT_INIT(disable-static win32-dll)
+dnl Initialize libtool
 dnl ******************************
-AM_DISABLE_STATIC
-AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
-DOLT
+LT_PREREQ(2.2)
+LT_INIT(disable-static win32-dll)
 
 PKG_PROG_PKG_CONFIG
 
