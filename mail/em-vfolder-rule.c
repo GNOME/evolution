@@ -516,7 +516,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 
 	dialog = em_folder_selector_new (
 		parent, emft, EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Select Folder"), NULL, _("_Add"));
+		_("Add Folder"), NULL, _("_Add"));
 	g_signal_connect(dialog, "response", G_CALLBACK(vfr_folder_response), data);
 	gtk_widget_show(dialog);
 }

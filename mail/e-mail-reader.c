@@ -212,7 +212,7 @@ action_mail_copy_cb (GtkAction *action,
 	dialog = em_folder_selector_new (
 		parent, EM_FOLDER_TREE (folder_tree),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Select Folder"), NULL, _("C_opy"));
+		_("Copy to Folder"), NULL, _("C_opy"));
 
 	if (default_xfer_messages_uri != NULL)
 		em_folder_selector_set_selected (
@@ -601,7 +601,7 @@ action_mail_move_cb (GtkAction *action,
 	dialog = em_folder_selector_new (
 		parent, EM_FOLDER_TREE (folder_tree),
 		EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Select Folder"), NULL, _("_Move"));
+		_("Move to Folder"), NULL, _("_Move"));
 
 	if (default_xfer_messages_uri != NULL)
 		em_folder_selector_set_selected (
