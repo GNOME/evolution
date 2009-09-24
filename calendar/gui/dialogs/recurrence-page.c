@@ -2309,19 +2309,19 @@ init_widgets (RecurrencePage *rpage)
 
 	g_signal_connect_swapped (
 		priv->interval_unit_combo, "changed",
-		G_CALLBACK (comp_editor_page_changed), rpage);
+		G_CALLBACK (make_recurrence_special), rpage);
 	g_signal_connect_swapped (
 		priv->interval_unit_combo, "changed",
-		G_CALLBACK (make_recurrence_special), rpage);
+		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Recurrence ending */
 
 	g_signal_connect_swapped (
 		priv->ending_combo, "changed",
-		G_CALLBACK (comp_editor_page_changed), rpage);
+		G_CALLBACK (make_ending_special), rpage);
 	g_signal_connect_swapped (
 		priv->ending_combo, "changed",
-		G_CALLBACK (make_ending_special), rpage);
+		G_CALLBACK (comp_editor_page_changed), rpage);
 
 	/* Exception buttons */
 

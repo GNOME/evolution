@@ -35,6 +35,25 @@
 #include "eab-contact-merging.h"
 #include "e-util/e-error.h"
 
+static GtkWindow *
+get_dlg_parent_window (void)
+{
+	GList *windows;
+	GtkWindow *parent = NULL;
+	EShell *shell = e_shell_get_default ();
+
+	g_return_val_if_fail (shell != NULL, NULL);
+
+	for (windows = e_shell_get_watched_windows (shell); windows && !parent; windows = windows->next) {
+		if (GTK_IS_WINDOW (windows->data))
+			parent = windows->data;
+	}
+
+	g_return_val_if_fail (parent != NULL, NULL);
+
+	return parent;
+}
+
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {
 	gchar *name;
@@ -129,7 +148,7 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 		if (e_book_is_writable (book))
 			eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
 		else
-			e_error_run (NULL, "addressbook:error-read-only", e_source_peek_name (e_book_get_source (book)), NULL);
+			e_error_run (get_dlg_parent_window (), "addressbook:error-read-only", e_source_peek_name (e_book_get_source (book)), NULL);
 
 		if (qa->cb)
 			qa->cb (qa->contact, qa->closure);
@@ -326,7 +345,7 @@ build_quick_add_dialog (QuickAdd *qa)
 	g_return_val_if_fail (qa != NULL, NULL);
 
 	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
-					      NULL, /* XXX */
+					      get_dlg_parent_window (),
 					      GTK_DIALOG_NO_SEPARATOR,
 					      _("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
 					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

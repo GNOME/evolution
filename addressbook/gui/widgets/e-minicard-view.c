@@ -167,10 +167,10 @@ set_empty_message (EMinicardView *view)
 		g_object_get (view->adapter,
 			      "editable", &editable,
 			      "model", &model,
+			      "book", &book,
 			      NULL);
 
-		g_object_get (view->adapter, "book", &book, NULL);
-		if (!e_book_check_static_capability (book, "do-initial-query"))
+		if (book && !e_book_check_static_capability (book, "do-initial-query"))
 			perform_initial_query = TRUE;
 
 		searching = model && e_addressbook_model_can_stop (model);

@@ -512,6 +512,7 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 			combo_box);
 
 	if (combo_box->priv->action_group != NULL) {
+		g_object_ref (combo_box->priv->action_group);
 		combo_box->priv->group_sensitive_handler_id =
 			g_signal_connect (
 				combo_box->priv->action_group,

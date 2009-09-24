@@ -323,6 +323,7 @@ e_mail_label_list_store_get_name (EMailLabelListStore *store,
 		result = NULL;
 
 	g_strfreev (strv);
+	g_free (encoded);
 
 	return result;
 }
@@ -352,6 +353,7 @@ e_mail_label_list_store_get_color (EMailLabelListStore *store,
 		valid = FALSE;
 
 	g_strfreev (strv);
+	g_free (encoded);
 
 	return valid;
 }
@@ -378,6 +380,7 @@ e_mail_label_list_store_get_stock_id (EMailLabelListStore *store,
 		result = NULL;
 
 	g_strfreev (strv);
+	g_free (encoded);
 
 	return result;
 }
@@ -434,6 +437,7 @@ e_mail_label_list_store_get_tag (EMailLabelListStore *store,
 		result = mail_label_list_store_tag_from_name (strv[0]);
 
 	g_strfreev (strv);
+	g_free (encoded);
 
 	return result;
 }
