@@ -132,7 +132,7 @@ struct _MailComponentPrivate {
 	GMutex *lock;
 
 	/* states/data used during shutdown */
-	enum { MC_QUIT_START, MC_QUIT_SYNC, MC_QUIT_THREADS } quit_state;
+	enum { MC_QUIT_NOT_START, MC_QUIT_START, MC_QUIT_SYNC, MC_QUIT_THREADS } quit_state;
 	gint quit_count;
 	gint quit_expunge;	/* expunge on quit this time around? */
 
@@ -667,7 +667,7 @@ view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
 
 	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
 
-	if (mc->priv->quit_state != -1) {
+	if (mc->priv->quit_state != MC_QUIT_NOT_START) {
 		if (v) {
 			g_source_remove(GPOINTER_TO_INT(v));
 			g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
@@ -881,7 +881,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
 
-	if (mc->priv->quit_state == -1)
+	if (mc->priv->quit_state == MC_QUIT_NOT_START)
 		mc->priv->quit_state = MC_QUIT_START;
 
 	mail_config_prune_proxies ();
@@ -1303,7 +1303,7 @@ mail_component_init (MailComponent *component)
 	component->priv = priv;
 
 	priv->lock = g_mutex_new();
-	priv->quit_state = -1;
+	priv->quit_state = MC_QUIT_NOT_START;
 
 	/* FIXME This is used as both a filename and URI path throughout
 	 *       the mail code.  Need to clean this up; maybe provide a
