@@ -1790,7 +1790,7 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	}
 
 	/* Add In-Reply-To and References. */
-	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-Id");
+	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-ID");
 	references = camel_medium_get_header (CAMEL_MEDIUM (message), "References");
 	if (message_id) {
 		gchar *reply_refs;
