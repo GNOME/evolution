@@ -183,7 +183,7 @@
 				      <property name="right_padding">0</property>
 
 				      <child>
-					<widget class="GtkHBox" id="hbox1">
+					<widget class="GtkHBox" id="hbox2">
 					  <property name="visible">True</property>
 					  <property name="homogeneous">False</property>
 					  <property name="spacing">2</property>

@@ -353,7 +353,7 @@
           </packing>
         </child>
         <child internal-child="action_area">
-          <widget class="GtkHButtonBox" id="dialog-action_area1">
+          <widget class="GtkHButtonBox" id="dialog-action_area4">
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
@@ -385,7 +385,7 @@
                     <property name="xscale">0</property>
                     <property name="yscale">0</property>
                     <child>
-                      <widget class="GtkHBox" id="hbox1">
+                      <widget class="GtkHBox" id="hbox3">
                         <property name="visible">True</property>
                         <property name="spacing">2</property>
                         <child>
@@ -401,7 +401,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label1">
+                          <widget class="GtkLabel" id="label2">
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">_Accept License</property>
                             <property name="use_underline">True</property>
@@ -694,7 +694,7 @@ b</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox3">
+                  <widget class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
                     <property name="border_width">6</property>
                     <property name="spacing">6</property>
@@ -775,7 +775,7 @@ b</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkVBox" id="vbox1">
+                          <widget class="GtkVBox" id="vbox4">
                             <property name="visible">True</property>
                             <property name="spacing">1</property>
                             <child>

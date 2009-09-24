@@ -193,7 +193,7 @@
 	      <property name="spacing">6</property>
 
 	      <child>
-		<widget class="GtkLabel" id="label3">
+		<widget class="GtkLabel" id="label4">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">Role: </property>
 		  <property name="use_underline">False</property>

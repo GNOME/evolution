@@ -677,7 +677,7 @@ emmp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 /* plugin meta-data */
 static EMConfigItem emmp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "preferences_toplevel", emmp_widget_glade },
-	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxMailGeneral", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.fonts", (gchar *) "vboxMessageFonts", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "vboxMessageDisplay", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "vboxDeletingMail", emmp_widget_glade },

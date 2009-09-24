@@ -50,7 +50,7 @@
 	  <property name="enable_popup">False</property>
 
 	  <child>
-	    <widget class="GtkVBox" id="proxy_vbox">
+	    <widget class="GtkVBox" id="proxy_vbox2">
 	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>

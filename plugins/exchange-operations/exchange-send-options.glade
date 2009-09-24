@@ -118,7 +118,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkTable" id="msg_settings_label">
+		<widget class="GtkTable" id="msg_settings_table">
 		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="n_rows">2</property>

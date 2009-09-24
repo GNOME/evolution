@@ -335,7 +335,7 @@ emcp_widget_glade (EConfig *ec,
 /* plugin meta-data */
 static EMConfigItem emcp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "composer_toplevel", emcp_widget_glade },
-	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxComposerGeneral", emcp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.behavior", (gchar *) "vboxBehavior", emcp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/10.alerts", (gchar *) "vboxAlerts", emcp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "10.signatures", (gchar *) "vboxSignatures", emcp_widget_glade },

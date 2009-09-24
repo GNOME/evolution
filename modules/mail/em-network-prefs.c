@@ -268,7 +268,7 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 /* plugin meta-data */
 static EMConfigItem emnp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "network_preferences_toplevel", emnp_widget_glade },
-	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emnp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxNetworkGeneral", emnp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.proxy", (gchar *) "frameProxy", emnp_widget_glade },
 };
 

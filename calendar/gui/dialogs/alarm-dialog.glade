@@ -516,7 +516,7 @@ days</property>
 			  <property name="column_spacing">6</property>
 
 			  <child>
-			    <widget class="GtkLabel" id="label2">
+			    <widget class="GtkLabel" id="label7">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Mes_sage:</property>
 			      <property name="use_underline">True</property>
@@ -648,7 +648,7 @@ days</property>
 			  <property name="spacing">6</property>
 
 			  <child>
-			    <widget class="GtkLabel" id="label3">
+			    <widget class="GtkLabel" id="label8">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">_Sound:</property>
 			      <property name="use_underline">True</property>

@@ -320,7 +320,7 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox123">
+			    <widget class="GtkHBox" id="hbox129">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">6</property>
