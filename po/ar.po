@@ -1,11 +1,10 @@
 # translation of evolution.HEAD.ar.po to Arabic
 # Arabic translation of evolution.
 # This file is distributed under the same license as the evolution package.
-#
 # Arafat Medini <lumina@silverpen.de>, 2003.
 # Ossama Khayat <okhayat@yahoo.com>, 2003, 2004.
 # Abdulaziz Al-Arfaj <alarfaj0@yahoo.com>, 2004.
-# Khaled Hosny <khaledhosny@eglug.org>, 2006, 2007.
+# Khaled Hosny <khaledhosny@eglug.org>, 2006, 2007, 2009.
 # Djihed Afifi <djihed@gmail.com>, 2006, 2007, 2008.
 # Ahmad Farghal <ahmad.farghal@gmail.com>, 2006, 2007.
 # Anas Husseini <linux.anas@gmail.com>, 2007.
@@ -17,16 +16,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-08 17:29+0200\n"
-"PO-Revision-Date: 2008-09-20 02:59+0300\n"
-"Last-Translator: Osama Khalid <OsamaK.WFM@gmail.com>\n"
+"POT-Creation-Date: 2009-09-24 20:20+0200\n"
+"PO-Revision-Date: 2009-09-24 20:37+0300\n"
+"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : n>=3 && "
-"n<=10 ? 2 : 3\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Virtaal 0.4.0\n"
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-Country: EGYPT\n"
 "X-Poedit-Bookmarks: 3687,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
@@ -40,15 +40,15 @@ msgstr "دفتر عناوين إيفُليوشن"
 #: ../a11y/addressbook/ea-minicard-view.c:33
 #: ../addressbook/gui/component/addressbook-component.c:208
 msgid "New Contact"
-msgstr "مراسَل جديد"
+msgstr "متراسل جديد"
 
 #: ../a11y/addressbook/ea-minicard-view.c:34
 #: ../addressbook/gui/component/addressbook-component.c:216
 msgid "New Contact List"
-msgstr "قائمة مراسَلين جديدة"
+msgstr "قائمة متراسلين جديدة"
 
 #: ../a11y/addressbook/ea-minicard-view.c:161
-#, c-format
+#, c-format, fuzzy
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
 msgstr[0] "مجلد دفتر العناوين الحالي %s له بطاقة واحدة"
@@ -62,11 +62,11 @@ msgstr "افتح"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr "قائمة المراسَلين:"
+msgstr "قائمة المتراسلين:"
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
-msgstr "مراسَل:"
+msgstr "متراسل:"
 
 #: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
@@ -129,7 +129,7 @@ msgstr "جدول لعرض و اختيار المدى الزمني الحالي"
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:147
-#, c-format
+#, c-format, fuzzy
 msgid "It has %d event."
 msgid_plural "It has %d events."
 msgstr[0] "له حدث."
@@ -350,14 +350,14 @@ msgid ""
 "different address book from the side bar in the Contacts view."
 msgstr ""
 "'{0}' دفتر عناوين للقراءة فقط و لا يمكن تعديله. إختر دفتر عناوين آخر من "
-"الشريط الجانبي لمشهد المراسلين."
+"الشريط الجانبي لمشهد المتراسلين."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
 "A contact already exists with this address. Would you like to add a new card "
 "with the same address anyway?"
 msgstr ""
-"يوجد بالفعل مراسل بنفس العنوان أترغب في إضافة بطاقة جديدة بنفس العنوان على "
+"يوجد بالفعل متراسل بنفس العنوان أترغب في إضافة بطاقة جديدة بنفس العنوان على "
 "أي حال؟"
 
 #: ../addressbook/addressbook.error.xml.h:4
@@ -366,11 +366,11 @@ msgstr "العنوان '{0}' موجود بالفعل."
 
 #: ../addressbook/addressbook.error.xml.h:5
 msgid "Cannot add new contact"
-msgstr "لا يمكن إظافة مراسَل جديد"
+msgstr "لا يمكن إظافة متراسل جديد"
 
 #: ../addressbook/addressbook.error.xml.h:6
 msgid "Cannot move contact."
-msgstr "لا يمكن نقل المراسل."
+msgstr "لا يمكن نقل المتراسل."
 
 #: ../addressbook/addressbook.error.xml.h:7
 msgid "Category editor not available."
@@ -401,8 +401,8 @@ msgid ""
 "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
 "يمكنك النفاذ إلى دفتر عناوين نظام GroupWise واحد حاليًا من إيفليوشن. استخدم "
-"عميل بريد GroupWise آخر مرة واحدة، للوصول لمراسلي GroupWise المتكررين "
-"ومجلدات مراسلي GroupWise الشخصيين."
+"عميل بريد GroupWise آخر مرة واحدة، للوصول لمتراسلي GroupWise المتكررين "
+"ومجلدات متراسلي GroupWise الشخصيين."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -506,7 +506,7 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"تحاول نقل مراسل من دفتر عناوين لآخر، لكن لا يمكن حذفه من المصدر. أترغب في "
+"تحاول نقل متراسل من دفتر عناوين لآخر، لكن لا يمكن حذفه من المصدر. أترغب في "
 "حفظ نسخة منه بدلا عن هذا؟"
 
 #: ../addressbook/addressbook.error.xml.h:34
@@ -520,13 +520,13 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "ليست لديك تصاريح لحذف المراسلين من دفتر العناوين هذا."
+msgstr "ليست لديك تصاريح لحذف المتراسلين من دفتر العناوين هذا."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr "لقد قمت بتعديلات على هذا المراسل. أترغب في حفظ التعديلات؟"
+msgstr "لقد قمت بتعديلات على هذا المتراسل. أترغب في حفظ التعديلات؟"
 
 #: ../addressbook/addressbook.error.xml.h:37
 msgid ""
@@ -590,9 +590,8 @@ msgid "Certificates"
 msgstr "الشّهادات"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Configure contacts and autocompletion here"
-msgstr "إضبط التكملة التلقائية هنا"
+msgstr "اضبط المتراسلين والتكملة التلقائية هنا"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
@@ -601,7 +600,7 @@ msgstr "إضبط التكملة التلقائية هنا"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
 #: ../plugins/exchange-operations/exchange-folder.c:579
 msgid "Contacts"
-msgstr "المراسَلون"
+msgstr "المتراسلين"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 msgid "Evolution Address Book"
@@ -681,24 +680,22 @@ msgid "Personal"
 msgstr "شخصي"
 
 #: ../addressbook/gui/component/addressbook-component.c:209
-#, fuzzy
 msgctxt "New"
 msgid "_Contact"
-msgstr "المراسَل"
+msgstr "_متراسل"
 
 #: ../addressbook/gui/component/addressbook-component.c:210
 msgid "Create a new contact"
-msgstr "أنشئ مراسَل جديد"
+msgstr "أنشئ متراسل جديد"
 
 #: ../addressbook/gui/component/addressbook-component.c:217
-#, fuzzy
 msgctxt "New"
 msgid "Contact _List"
-msgstr "قائمة المراسَلين"
+msgstr "قائمة الم_تراسلين"
 
 #: ../addressbook/gui/component/addressbook-component.c:218
 msgid "Create a new contact list"
-msgstr "أنشئ قائمة مراسَلين جديدة"
+msgstr "أنشئ قائمة متراسلين جديدة"
 
 #: ../addressbook/gui/component/addressbook-component.c:224
 #: ../addressbook/gui/component/addressbook-config.c:1245
@@ -706,10 +703,9 @@ msgid "New Address Book"
 msgstr "دفتر عناوين جديد"
 
 #: ../addressbook/gui/component/addressbook-component.c:225
-#, fuzzy
 msgctxt "New"
 msgid "Address _Book"
-msgstr "دفتر العناوين"
+msgstr "دفتر الع_ناوين"
 
 #: ../addressbook/gui/component/addressbook-component.c:226
 msgid "Create a new address book"
@@ -773,8 +769,8 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
-"هذه هي الطّريقة التي سيستخدمها إيفُليوشِن لتوثيقك.  لاحظ أنّ ضبط هذا لـ\"عنوان "
-"بريد الكتروني\" يتطلب نفاذا كشخص مجهول لخادوم ldap."
+"هذه هي الطّريقة التي سيستخدمها إيفُليوشِن لتوثيقك.  لاحظ أنّ ضبط هذا "
+"لـ\"عنوان بريد الكتروني\" يتطلب نفاذا كشخص مجهول لخادوم ldap."
 
 #: ../addressbook/gui/component/addressbook-config.c:916
 msgid ""
@@ -859,7 +855,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"لقد تغيرت مواقع و هرميّة مجلّدات المراسلين في إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
+"لقد تغيرت مواقع و هرميّة مجلّدات المتراسلين في إيفُليوشِن منذ إيفُليوشِن "
+"1.x.\n"
 "\n"
 "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
 
@@ -869,7 +866,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"لقد تغير تنسيق مراسلي القوائم البريدية في إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
+"لقد تغير تنسيق متراسلي القوائم البريدية في إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
 "\n"
 "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
 
@@ -947,7 +944,7 @@ msgstr "ال_خصائص"
 
 #: ../addressbook/gui/component/addressbook-view.c:1223
 msgid "Contact Source Selector"
-msgstr "منتقي مصدر المراسلين"
+msgstr "منتقي مصدر المتراسلين"
 
 #: ../addressbook/gui/component/addressbook.c:102
 msgid "Accessing LDAP Server anonymously"
@@ -966,7 +963,7 @@ msgstr "أدخل كلمة السّر لـ %s (المستخدم %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:500
+#: ../plugins/google-account-setup/google-source.c:519
 #: ../plugins/publish-calendar/publish-calendar.c:216
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1037,20 +1034,17 @@ msgid "Always _show address of the autocompleted contact"
 msgstr ""
 
 #: ../addressbook/gui/component/autocompletion-config.c:182
-#, fuzzy
 msgid "Date/Time Format"
-msgstr "التّاريخ/الوقت"
+msgstr "تنسيق التّاريخ والوقت"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
 #: ../mail/em-mailer-prefs.c:1456
-#, fuzzy
 msgid "Table column:"
-msgstr "طراز الجدول"
+msgstr "عمود الجدول:"
 
 #: ../addressbook/gui/component/autocompletion-config.c:187
-#, fuzzy
 msgid "Look up in address books"
-msgstr "ا_بحث في دفتر العناوين المحلي فقط"
+msgstr "ابحث في دفتر العناوين المحلي فقط"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -1062,6 +1056,9 @@ msgid ""
 "636\n"
 "3268"
 msgstr ""
+"389\n"
+"636\n"
+"3268"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:5
 msgid "5"
@@ -1152,8 +1149,8 @@ msgstr ""
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 #, fuzzy
 msgid ""
-"This is the full name of your LDAP server. For example, \"ldap.mycompany.com"
-"\"."
+"This is the full name of your LDAP server. For example, "
+"\"ldap.mycompany.com\"."
 msgstr "هذا هو الاسم الكامل لخادوم ldap. مثلا، \"ldap.mycompany.com\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
@@ -1225,7 +1222,7 @@ msgstr "بطاقات"
 #: ../plugins/calendar-file/calendar-file.c:293
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
-#: ../plugins/google-account-setup/google-source.c:720
+#: ../plugins/google-account-setup/google-source.c:740
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "minutes"
 msgstr "دقائق"
@@ -1251,9 +1248,8 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>متنوع</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "<b>Notes</b>"
-msgstr "<b>المنزل</b>"
+msgstr "<b>ملاحظات</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
@@ -1282,14 +1278,14 @@ msgstr "ال_فئات..."
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1158
 #: ../addressbook/gui/widgets/e-minicard.c:198
 msgid "Contact"
-msgstr "المراسَل"
+msgstr "المتراسل"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:541
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:556
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2442
 msgid "Contact Editor"
-msgstr "محرّر المراسَلين"
+msgstr "محرّر المتراسلين"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1487,9 +1483,8 @@ msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
 #: ../addressbook/gui/widgets/eab-contact-display.c:610
-#, fuzzy
 msgid "Skype"
-msgstr "النّوع"
+msgstr "سكيبي"
 
 #. red
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:190
@@ -1521,7 +1516,7 @@ msgstr "الدفتر الوجهة"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:268
 msgid "Is New Contact"
-msgstr "مراسَل جديد"
+msgstr "متراسل جديد"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:275
 msgid "Writable Fields"
@@ -1539,11 +1534,11 @@ msgstr "غُيِّر"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2437
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "محرّر المراسَلين - %s"
+msgstr "محرّر المتراسلين - %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2832
 msgid "Please select an image for this contact"
-msgstr "رجاء اختر صورة لهذا المراسل"
+msgstr "رجاء اختر صورة لهذا المتراسل"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2833
 msgid "_No image"
@@ -1554,7 +1549,7 @@ msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
-"بيانات المراسل غير صحيحة:\n"
+"بيانات المتراسل غير صحيحة:\n"
 "\n"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3108
@@ -1575,11 +1570,11 @@ msgstr "%s'%s' فارغ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3154
 msgid "Invalid contact."
-msgstr "مراسل غير صحيح."
+msgstr "متراسل غير صحيح."
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:323
 msgid "Contact Quick-Add"
-msgstr "إضافة سريعة لمراسَل"
+msgstr "إضافة سريعة لمتراسل"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:326
 msgid "_Edit Full"
@@ -1604,7 +1599,7 @@ msgid ""
 "to delete contact list (%s)?"
 msgstr ""
 "أمتأكّد أنّك تريد\n"
-"حذف قائمة المراسَلين (%s)؟"
+"حذف قائمة المتراسلين (%s)؟"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
 msgid ""
@@ -1612,7 +1607,7 @@ msgid ""
 "to delete these contact lists?"
 msgstr ""
 "أمتأكّد أنّك تريد\n"
-"حذف قائمة المراسَلين هذه؟"
+"حذف قائمة المتراسلين هذه؟"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
 #, c-format
@@ -1621,7 +1616,7 @@ msgid ""
 "to delete contact (%s)?"
 msgstr ""
 "أمتأكّد أنّك تريد\n"
-"حذف المراسَل (%s)؟"
+"حذف المتراسل (%s)؟"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
 msgid ""
@@ -1629,7 +1624,7 @@ msgid ""
 "to delete these contacts?"
 msgstr ""
 "أمتأكّد أنّك تريد\n"
-"حذف هؤلاء المراسَلين؟"
+"حذف هؤلاء المتراسلين؟"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid ""
@@ -1680,14 +1675,14 @@ msgstr "<b>أعضاء</b>"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:668
 msgid "Contact List Editor"
-msgstr "محرّر قائمة المراسَلين"
+msgstr "محرّر قائمة المتراسلين"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:212
 #: ../calendar/gui/e-day-view-time-item.c:812
 #: ../calendar/gui/e-timezone-entry.c:118
 msgid "Select..."
-msgstr "إختر..."
+msgstr "اختر..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "_Hide addresses when sending mail to this list"
@@ -1699,11 +1694,11 @@ msgstr "اسم ال_قائمة:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "أدخِل عنوانًا بريديًا أو إسحب مراسَلًا إلى اللّائحة أدناه:"
+msgstr "أدخِل عنوانًا بريديًا أو إسحب متراسلًا إلى اللّائحة أدناه:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:761
 msgid "Contact List Members"
-msgstr "أعضاء قائمة المراسَلين"
+msgstr "أعضاء قائمة المتراسلين"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:900
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1239
@@ -1725,39 +1720,39 @@ msgstr "هي قائمة جديدة"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
-msgstr "المراسَل المغيَّر:"
+msgstr "المتراسل المغيَّر:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
-msgstr "المراسَل المتضارب:"
+msgstr "المتراسل المتضارب:"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:3
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:1
 msgid "Duplicate Contact Detected"
-msgstr "اكتُشِف مراسَل متكرر"
+msgstr "اكتُشِف متراسل متكرر"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:4
 msgid ""
 "The name or email of this contact already exists in this folder.  Would you "
 "like to add it anyway?"
 msgstr ""
-"الاسم أو العنوان البريدي لهذا المراسَل موجود مسبقًا\n"
+"الاسم أو العنوان البريدي لهذا المتراسل موجود مسبقًا\n"
 "في هذا المجلّد.  هل تودّ إضافته على كل حال؟"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
-msgstr "مراسَل جديد:"
+msgstr "متراسل جديد:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:3
 msgid "Original Contact:"
-msgstr "المراسَل الأصلي:"
+msgstr "المتراسل الأصلي:"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:4
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
 msgstr ""
-"الاسم أو العنوان البريدي لهذا المراسَل موجود مسبقًا\n"
+"الاسم أو العنوان البريدي لهذا المتراسل موجود مسبقًا\n"
 "في هذا المجلّد.  هل تودّ إضافته على كل حال؟"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:6
@@ -1767,7 +1762,7 @@ msgstr "ا_دمج"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:198
 msgid "Merge Contact"
-msgstr "ادمج المراسَل"
+msgstr "ادمج المتراسل"
 
 #: ../addressbook/gui/merging/eab-contact-merging.c:266
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
@@ -1797,16 +1792,19 @@ msgstr "الاسم يحوي"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:162
 msgid "No contacts"
-msgstr "لا مراسَلين"
+msgstr "لا متراسلين"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:165
 #, c-format
+#, fuzzy
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] "مراسَل واحِد"
-msgstr[1] "مراسَليْن"
-msgstr[2] "%d مراسَلين"
-msgstr[3] "%d مراسَلين"
+msgstr[0] "متراسلاواحِد"
+msgstr[1] "متراسليْن"
+msgstr[2] "%d متراسلين"
+msgstr[3] "%d متراسلين"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:317
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:410
@@ -1868,7 +1866,7 @@ msgstr "مُرَاسَل _جديد..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
 msgid "New Contact _List..."
-msgstr "_قائمة مراسَلين جديدة..."
+msgstr "_قائمة متراسلين جديدة..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "_Save as vCard..."
@@ -1876,15 +1874,15 @@ msgstr "ا_حفظ كـ vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:939
 msgid "_Forward Contact"
-msgstr "_مرّر المراسَل"
+msgstr "_مرّر المتراسل"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:940
 msgid "_Forward Contacts"
-msgstr "_مرّر المراسَلِين"
+msgstr "_مرّر المتراسلِين"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:941
 msgid "Send _Message to Contact"
-msgstr "أرسِل _رسالة للمراسَل"
+msgstr "أرسِل _رسالة للمتراسل"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:942
 msgid "Send _Message to List"
@@ -1892,7 +1890,7 @@ msgstr "أرسِل _رسالة للقائمة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:943
 msgid "Send _Message to Contacts"
-msgstr "أرسِل _رسالة للمراسَلِين"
+msgstr "أرسِل _رسالة للمتراسلِين"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:944
 msgid "_Print"
@@ -2168,7 +2166,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"البحث عن المراسلين..."
+"البحث عن المتراسلين..."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:180
 msgid ""
@@ -2180,9 +2178,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"ابحث عن المراسَل\n"
+"ابحث عن المتراسل\n"
 "\n"
-"أو انقر نقرًا مزدوجًا هنا لإنشاء مراسَل جديد."
+"أو انقر نقرًا مزدوجًا هنا لإنشاء متراسل جديد."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:183
 msgid ""
@@ -2196,7 +2194,7 @@ msgstr ""
 "\n"
 "لا توجد أيّة عناصر لعرضها في هذا المشهد.\n"
 "\n"
-"انقر نقرًا مزدوجًا هنا لإنشاء مراسَل جديد."
+"انقر نقرًا مزدوجًا هنا لإنشاء متراسل جديد."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:187
 msgid ""
@@ -2206,7 +2204,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"ابحث عن المراسَل."
+"ابحث عن المتراسل."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -2383,7 +2381,7 @@ msgstr "دفتر العناوين غير موجود"
 #. E_BOOK_ERROR_NO_SELF_CONTACT
 #: ../addressbook/gui/widgets/eab-gui-util.c:63
 msgid "No Self Contact defined"
-msgstr "لم يحدد أي مراسَل شخصي"
+msgstr "لم يحدد أي متراسل شخصي"
 
 #. E_BOOK_ERROR_URI_NOT_LOADED
 #. E_BOOK_ERROR_URI_ALREADY_LOADED
@@ -2396,7 +2394,7 @@ msgstr "رُفض التّصريح"
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: ../addressbook/gui/widgets/eab-gui-util.c:67
 msgid "Contact not found"
-msgstr "لم يوجد المراسَل"
+msgstr "لم يوجد المتراسل"
 
 # checked, typed but the nchanged: you add a new ID and the other exists
 # the meaning of this dialog is more" you can't add a newone cz another one exists"
@@ -2404,7 +2402,7 @@ msgstr "لم يوجد المراسَل"
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: ../addressbook/gui/widgets/eab-gui-util.c:68
 msgid "Contact ID already exists"
-msgstr "هويّة المراسَل موجودة مسبقًا"
+msgstr "هويّة المتراسل موجودة مسبقًا"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: ../addressbook/gui/widgets/eab-gui-util.c:69
@@ -2477,8 +2475,8 @@ msgid ""
 "load the address book once in online mode to download its contents."
 msgstr ""
 "لم نتمكن من فتح دفتر العناوين هذا. هذا يعني إما أنّ هذا الدفتر ليس مُعلّما "
-"للاستخدام دون اتصال أو لم يتم تنزيله حتّى الآن. رجاء حمّل دفتر العناوين مرة في "
-"نمط الاتصال ليتم تنزيل محتوياته"
+"للاستخدام دون اتصال أو لم يتم تنزيله حتّى الآن. رجاء حمّل دفتر العناوين مرة "
+"في نمط الاتصال ليتم تنزيل محتوياته"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:119
 #, fuzzy, c-format
@@ -2486,8 +2484,8 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
-"لم نتمكّن من فتح دفتر العناوين هذا. رجاءً تأكّد من وجود المسار %s  و أنّك تملك "
-"التصاريح اللازمة للنفاذ إليه."
+"لم نتمكّن من فتح دفتر العناوين هذا. رجاءً تأكّد من وجود المسار %s  و أنّك "
+"تملك التصاريح اللازمة للنفاذ إليه."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:131
 #, fuzzy
@@ -2495,8 +2493,8 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
-"لم يُجمع دعم LDAP في الإصدارة الحاليّة لإيفُليوشِن إذا كنت تريد استخدام LDAP في "
-"إيفُليوشِن يجب عليك تثبيت حزمة إيفُليوشِن فعّل فيها دعم LDAP."
+"لم يُجمع دعم LDAP في الإصدارة الحاليّة لإيفُليوشِن إذا كنت تريد استخدام LDAP "
+"في إيفُليوشِن يجب عليك تثبيت حزمة إيفُليوشِن فعّل فيها دعم LDAP."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
 #, fuzzy
@@ -2504,13 +2502,12 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"لم نتمكّن من فتح دفتر العناوين هذا. قد يعني ذلك أنّك أدخلت مسارًا غير سليم، أو "
-"أنّه لم يمكن الوصول للخادوم."
+"لم نتمكّن من فتح دفتر العناوين هذا. قد يعني ذلك أنّك أدخلت مسارًا غير سليم، "
+"أو أنّه لم يمكن الوصول للخادوم."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
-#, fuzzy
 msgid "Detailed error message:"
-msgstr "خطأ مفصّل:"
+msgstr "رسالة خطأ مفصّلة:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:171
 msgid ""
@@ -2556,7 +2553,7 @@ msgstr "خطأ أثناء إضافة القائمة"
 #: ../addressbook/gui/widgets/eab-gui-util.c:211
 #: ../addressbook/gui/widgets/eab-gui-util.c:685
 msgid "Error adding contact"
-msgstr "خطأ أثناء إضافة المراسَل"
+msgstr "خطأ أثناء إضافة المتراسل"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:222
 msgid "Error modifying list"
@@ -2564,7 +2561,7 @@ msgstr "خطأ أثناء تغيير القائمة"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:222
 msgid "Error modifying contact"
-msgstr "خطأ أثناء تغيير المراسَل"
+msgstr "خطأ أثناء تغيير المتراسل"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:234
 msgid "Error removing list"
@@ -2573,10 +2570,11 @@ msgstr "خطأ أثناء إزالة القائمة"
 #: ../addressbook/gui/widgets/eab-gui-util.c:234
 #: ../addressbook/gui/widgets/eab-gui-util.c:635
 msgid "Error removing contact"
-msgstr "خطأ أثناء إزالة المراسَل"
+msgstr "خطأ أثناء إزالة المتراسل"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:316
 #, c-format
+#, fuzzy
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -2584,17 +2582,19 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"فتح مراسَل واحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المراسَلين؟"
+"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
 msgstr[1] ""
-"فتح مراسَليْن سيفتح أيضًا نافذتيْن جديدتيْن.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المراسَلين؟"
+"فتح متراسليْن سيفتح أيضًا نافذتيْن جديدتيْن.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
 msgstr[2] ""
-"فتح %d مراسَلين سيفتح أيضًا %d نوافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المراسَلين؟"
+"فتح %d متراسلين سيفتح أيضًا %d نوافذ جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
 msgstr[3] ""
-"فتح %d مراسَلين سيفتح أيضًا %d نوافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المراسَلين؟"
+"فتح %d متراسلين سيفتح أيضًا %d نوافذ جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:324
 msgid "_Don't Display"
@@ -2602,7 +2602,7 @@ msgstr "_لا تعرض"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:325
 msgid "Display _All Contacts"
-msgstr "اعرض _كل المراسَلين"
+msgstr "اعرض _كل المتراسلين"
 
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:350
@@ -2625,10 +2625,12 @@ msgstr "اكتب فوقه"
 #: ../addressbook/gui/widgets/eab-gui-util.c:397
 msgid "contact"
 msgid_plural "contacts"
-msgstr[0] "مراسَل واحد"
-msgstr[1] "مراسَليْن"
+msgstr[0] "متراسل واحد"
+msgstr[1] "متراسليْن"
 msgstr[2] "مراسلين"
 msgstr[3] "مراسلين"
+msgstr[4] ""
+msgstr[5] ""
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:443
@@ -2645,19 +2647,19 @@ msgstr "اسرد"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:746
 msgid "Move contact to"
-msgstr "انقل المراسَل إلى"
+msgstr "انقل المتراسل إلى"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:748
 msgid "Copy contact to"
-msgstr "انسخ المراسَل إلى"
+msgstr "انسخ المتراسل إلى"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:751
 msgid "Move contacts to"
-msgstr "انقل المراسَلين إلى"
+msgstr "انقل المتراسلين إلى"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:753
 msgid "Copy contacts to"
-msgstr "انسخ المراسَلين إلى"
+msgstr "انسخ المتراسلين إلى"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:901
 msgid "Multiple vCards"
@@ -2672,12 +2674,12 @@ msgstr "بطاقة vCard لـ%s"
 #: ../addressbook/gui/widgets/eab-gui-util.c:946
 #, c-format
 msgid "Contact information"
-msgstr "معلومات المراسَل"
+msgstr "معلومات المتراسل"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:948
 #, c-format
 msgid "Contact information for %s"
-msgstr "معلومات المراسَل لـ %s"
+msgstr "معلومات المتراسل لـ %s"
 
 #: ../addressbook/gui/widgets/eab-popup-control.c:291
 msgid "Querying Address Book..."
@@ -2933,9 +2935,8 @@ msgid "Are you sure you want to send the task without a summary?"
 msgstr "أمتأكد أنك تريد إرسال هذه المهمّة دون ملخّص؟"
 
 #: ../calendar/calendar.error.xml.h:28
-#, fuzzy
 msgid "Calendar repository is offline."
-msgstr "المستودع غير متّصل"
+msgstr "مستودع التقويم غير متّصل"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Cannot create a new event"
@@ -2999,9 +3000,8 @@ msgstr "خطأ عند تحميل قائمة المهام"
 
 #. For Translators: {0} is specify the backend server
 #: ../calendar/calendar.error.xml.h:44
-#, fuzzy
 msgid "Error on '{0}'"
-msgstr "حدث خطأ أثناء {0}."
+msgstr "حدث خطأ أثناء '{0}'"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid ""
@@ -3027,22 +3027,19 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "No response from the server."
-msgstr ""
+msgstr "لا استجابة من الخادوم"
 
 #: ../calendar/calendar.error.xml.h:49
-#, fuzzy
 msgid "Save Appointment"
-msgstr "موعد جديد"
+msgstr "احفظ الموعد"
 
 #: ../calendar/calendar.error.xml.h:50
-#, fuzzy
 msgid "Save Memo"
-msgstr "ا_فتح تذكير"
+msgstr "احفظ التذكير"
 
 #: ../calendar/calendar.error.xml.h:51
-#, fuzzy
 msgid "Save Task"
-msgstr "احفظ كـ..."
+msgstr "احفظ المهمة"
 
 #: ../calendar/calendar.error.xml.h:52
 msgid ""
@@ -3077,7 +3074,6 @@ msgid "The Evolution calendar has quit unexpectedly."
 msgstr "توقف تقويم إيفليوشن بشكل غير متوقّع."
 
 #: ../calendar/calendar.error.xml.h:59
-#, fuzzy
 msgid "The Evolution calendars have quit unexpectedly."
 msgstr "توقف تقويم إيفليوشن بشكل غير متوقّع."
 
@@ -3114,9 +3110,8 @@ msgid "This task list will be removed permanently."
 msgstr "ستحذف قائمة المهام نهائيًا."
 
 #: ../calendar/calendar.error.xml.h:68
-#, fuzzy
 msgid "Unable to load the calendar"
-msgstr "فشل تحميل التقويم '%s'"
+msgstr "فشل تحميل التقويم"
 
 #: ../calendar/calendar.error.xml.h:69
 msgid "Would you like to save your changes to this appointment?"
@@ -3341,6 +3336,7 @@ msgid "Evolution Calendar alarm notification service"
 msgstr "خدمة التبليغ لمنبِّه تقويم إيفُليوشِن"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:100
+#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "دقيقة واحدة"
@@ -3355,8 +3351,9 @@ msgstr[3] "دقائق"
 #: ../plugins/calendar-file/calendar-file.c:294
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:721
+#: ../plugins/google-account-setup/google-source.c:741
 #: ../plugins/google-account-setup/google-contacts-source.c:331
+#, fuzzy
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "ساعة واحدة"
@@ -3375,7 +3372,7 @@ msgstr "مواعيد"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Dismiss _All"
-msgstr ""
+msgstr "ارف_ض الكل"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
@@ -3392,7 +3389,7 @@ msgstr "_وقت الغفوة:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Dismiss"
-msgstr ""
+msgstr "ار_فض"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/comp-editor.c:1038
@@ -3490,7 +3487,7 @@ msgstr "وقت غير صالح"
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:406
 #: ../calendar/gui/misc.c:116
-#, c-format
+#, c-format, fuzzy
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "ساعة واحدة"
@@ -3501,7 +3498,7 @@ msgstr[3] "%d ساعة"
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:412
 #: ../calendar/gui/misc.c:122
-#, c-format
+#, c-format, fuzzy
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "دقيقة"
@@ -3514,7 +3511,7 @@ msgstr[3] "%d دقيقة"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/e-alarm-list.c:418
 #: ../calendar/gui/misc.c:126
-#, c-format
+#, c-format, fuzzy
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "ثانية واحدة"
@@ -3878,8 +3875,7 @@ msgstr ""
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
-msgstr ""
-"يوجد ثلاث خيارات متاحة. \"0\" للأخطاء. \"1\" للتنبيهات. \"2\" لرسائل التنقيح."
+msgstr "يوجد ثلاث خيارات متاحة. \"0\" للأخطاء. \"1\" للتنبيهات. \"2\" لرسائل التنقيح."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:80
 msgid "Time divisions"
@@ -4044,9 +4040,8 @@ msgid "Workday start minute"
 msgstr "دقيقة بدأ يوم العمل"
 
 #: ../calendar/gui/cal-editor-utils.c:100
-#, fuzzy
 msgid "Invalid object"
-msgstr "مراسل غير صحيح."
+msgstr "عنصر غير صحيح"
 
 #: ../calendar/gui/cal-search-bar.c:74
 msgid "Summary contains"
@@ -4120,7 +4115,7 @@ msgstr "نظّف الأحداث الأقدم من"
 #: ../plugins/calendar-file/calendar-file.c:295
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:722
+#: ../plugins/google-account-setup/google-source.c:742
 #: ../plugins/google-account-setup/google-contacts-source.c:332
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -4187,10 +4182,9 @@ msgid "New appointment"
 msgstr "موعد جديد"
 
 #: ../calendar/gui/calendar-component.c:1434
-#, fuzzy
 msgctxt "New"
 msgid "_Appointment"
-msgstr "موعد"
+msgstr "_موعد"
 
 #: ../calendar/gui/calendar-component.c:1435
 msgid "Create a new appointment"
@@ -4201,10 +4195,9 @@ msgid "New meeting"
 msgstr "اجتماع جديد"
 
 #: ../calendar/gui/calendar-component.c:1442
-#, fuzzy
 msgctxt "New"
 msgid "M_eeting"
-msgstr "إجتماع جديد"
+msgstr "اج_تماع"
 
 #: ../calendar/gui/calendar-component.c:1443
 msgid "Create a new meeting request"
@@ -4215,10 +4208,9 @@ msgid "New all day appointment"
 msgstr "موعد جديد يستغرق يومًا بكامله"
 
 #: ../calendar/gui/calendar-component.c:1450
-#, fuzzy
 msgctxt "New"
 msgid "All Day A_ppointment"
-msgstr "موعد جديد يستغرق يومًا بكامله"
+msgstr "موعد يستغرق طول اليوم"
 
 #: ../calendar/gui/calendar-component.c:1451
 msgid "Create a new all-day appointment"
@@ -4229,10 +4221,9 @@ msgid "New calendar"
 msgstr "تقويم جديد"
 
 #: ../calendar/gui/calendar-component.c:1458
-#, fuzzy
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr "التقويم"
+msgstr "ت_قويم"
 
 #: ../calendar/gui/calendar-component.c:1459
 msgid "Create a new calendar"
@@ -4465,18 +4456,18 @@ msgid "_Sound:"
 msgstr "_صوت:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid ""
 "before\n"
 "after"
-msgstr "قبل"
+msgstr ""
+"قبل\n"
+"بعد"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "extra times every"
 msgstr "مرّات إضافيّة كل"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid ""
 "minute(s)\n"
 "hour(s)\n"
@@ -4487,7 +4478,6 @@ msgstr ""
 "أيام"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
-#, fuzzy
 msgid ""
 "minutes\n"
 "hours\n"
@@ -4498,11 +4488,12 @@ msgstr ""
 "أيام"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
-#, fuzzy
 msgid ""
 "start of appointment\n"
 "end of appointment"
-msgstr "بداية الموعد"
+msgstr ""
+"بداية الموعد\n"
+"نهاية الموعد"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:244
 msgid "Action/Trigger"
@@ -4535,7 +4526,7 @@ msgstr "أرفق ملف(ات)"
 #: ../calendar/gui/dialogs/event-page.c:2993
 #: ../calendar/gui/e-cal-model-tasks.c:671
 #: ../calendar/gui/e-day-view-time-item.c:785
-#: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:942
+#: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:946
 #: ../mail/em-account-editor.c:717 ../mail/em-account-editor.c:1451
 #: ../mail/em-account-prefs.c:435 ../mail/em-junk-hook.c:93
 #: ../plugins/calendar-weather/calendar-weather.c:333
@@ -4554,19 +4545,16 @@ msgid "Selected Calendars for Alarms"
 msgstr "التقويمات المختارة للمنبّهات"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:865
-#, fuzzy
 msgid "Time and date:"
-msgstr "المنطقة الزمنيّة:"
+msgstr "الوقت و التّاريخ:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:866
-#, fuzzy
 msgid "Date only:"
-msgstr "التّاريخ:"
+msgstr "التّاريخ فقط:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#, fuzzy
 msgid "(Shown in a Day View)"
-msgstr "أظهر ال_حقل في المشهد"
+msgstr "(أظهر اليوم في المنظور)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid ""
@@ -5261,7 +5249,7 @@ msgstr "لم يمكن حذف العنصر بسبب خطأ ما"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
-msgstr "المراسَلون..."
+msgstr "المتراسلون..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 #: ../plugins/exchange-operations/exchange-delegates.c:416
@@ -5430,7 +5418,7 @@ msgid "You are acting on behalf of %s"
 msgstr "أنت تتصرف بالنيابة عن %s"
 
 #: ../calendar/gui/dialogs/event-page.c:2967
-#, c-format
+#, c-format, fuzzy
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "يوم واحد قبل الموعد"
@@ -5439,7 +5427,7 @@ msgstr[2] "%d أيام قبل الموعد"
 msgstr[3] "%d يومًا قبل الموعد"
 
 #: ../calendar/gui/dialogs/event-page.c:2973
-#, c-format
+#, c-format, fuzzy
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "ساعة واحدة قبل الموعد"
@@ -5448,7 +5436,7 @@ msgstr[2] "%d ساعات قبل الموعد"
 msgstr[3] "%d ساعة قبل الموعد"
 
 #: ../calendar/gui/dialogs/event-page.c:2979
-#, c-format
+#, c-format, fuzzy
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "دقيقة واحدة قبل الموعد"
@@ -5908,7 +5896,7 @@ msgstr "المنطقة الزمنيّة:"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:394
-#, c-format
+#, c-format, fuzzy
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "يوم واحد"
@@ -5918,7 +5906,7 @@ msgstr[3] "%d يومًا"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:400
-#, c-format
+#, c-format, fuzzy
 msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] "أسبوع واحد"
@@ -6018,7 +6006,7 @@ msgid "Click to open %s"
 msgstr "انقر لفتح %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:127
-#: ../calendar/gui/e-cal-component-preview.c:170 ../filter/filter-rule.c:859
+#: ../calendar/gui/e-cal-component-preview.c:170 ../filter/filter-rule.c:863
 msgid "Untitled"
 msgstr "بدون عنوان"
 
@@ -6585,7 +6573,7 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "نعم. (تكرار مركّب)"
 
 #: ../calendar/gui/e-itip-control.c:775
-#, c-format
+#, c-format, fuzzy
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "كل يوم"
@@ -6594,7 +6582,7 @@ msgstr[2] "كل %d أيام"
 msgstr[3] "كل %d يومًا"
 
 #: ../calendar/gui/e-itip-control.c:788
-#, c-format
+#, c-format, fuzzy
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "كل أسبوع"
@@ -6603,7 +6591,7 @@ msgstr[2] "كل %d أسابيع"
 msgstr[3] "كل %d أسبوعا"
 
 #: ../calendar/gui/e-itip-control.c:795
-#, c-format
+#, c-format, fuzzy
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "كل أسبوع في"
@@ -6627,7 +6615,7 @@ msgid "The %s %s of "
 msgstr "ال %s %s من "
 
 #: ../calendar/gui/e-itip-control.c:842
-#, c-format
+#, c-format, fuzzy
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "كل شهر"
@@ -6636,7 +6624,7 @@ msgstr[2] "كل %d أشهر"
 msgstr[3] "كل %d شهرًا"
 
 #: ../calendar/gui/e-itip-control.c:854
-#, c-format
+#, c-format, fuzzy
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "كل سنة"
@@ -7436,7 +7424,7 @@ msgid "_New Memo List"
 msgstr "قائمة تذكيرات _جديدة"
 
 #: ../calendar/gui/memos-component.c:560
-#, c-format
+#, c-format, fuzzy
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "تذكيرة واحدة"
@@ -7445,7 +7433,7 @@ msgstr[2] "%d تذكيرات"
 msgstr[3] "%d تذكيرة"
 
 #: ../calendar/gui/memos-component.c:562 ../calendar/gui/tasks-component.c:555
-#, c-format
+#, c-format, fuzzy
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] "، واحد مُنتقى"
@@ -7752,14 +7740,14 @@ msgstr "الفئات: %s"
 
 #: ../calendar/gui/print.c:2619
 msgid "Contacts: "
-msgstr "المراسَلون: "
+msgstr "المتراسلون: "
 
 #: ../calendar/gui/tasks-component.c:470
 msgid "_New Task List"
 msgstr "قائمة مهام _جديدة"
 
 #: ../calendar/gui/tasks-component.c:553
-#, c-format
+#, c-format, fuzzy
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "مهمّة واحدة"
@@ -9890,13 +9878,13 @@ msgstr "ا_حفظ المسودّة"
 msgid "Evolution Mail and Calendar"
 msgstr "بريد و تقويم إيفُليوشِن"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:947
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:1035
 msgid "Groupware Suite"
 msgstr "حِزمة Groupware"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Manage your email, contacts and schedule"
-msgstr "قُم بإدارة بريدك الكتروني، مراسليك وجدولك"
+msgstr "قُم بإدارة بريدك الكتروني، متراسليك وجدولك"
 
 #: ../data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -9907,38 +9895,38 @@ msgid "calendar information"
 msgstr "معلومات التقويم"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:188 ../plugins/itip-formatter/itip-view.c:191
+#: ../e-util/e-datetime-format.c:193 ../plugins/itip-formatter/itip-view.c:191
 #: ../ui/evolution-calendar.xml.h:34 ../widgets/misc/e-cell-date-edit.c:304
 msgid "Today"
 msgstr "اليوم"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:200 ../plugins/itip-formatter/itip-view.c:219
+#: ../e-util/e-datetime-format.c:202 ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow"
 msgstr "غدا"
 
-#: ../e-util/e-datetime-format.c:202
+#: ../e-util/e-datetime-format.c:204
 #, fuzzy
 msgid "Yesterday"
 msgstr "الأمس %l:%M %p"
 
-#: ../e-util/e-datetime-format.c:205
+#: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days from now"
 msgstr ""
 
-#: ../e-util/e-datetime-format.c:207
+#: ../e-util/e-datetime-format.c:209
 #, fuzzy, c-format
 msgid "%d days ago"
 msgstr "منذ يوم واحد"
 
-#: ../e-util/e-datetime-format.c:281 ../e-util/e-datetime-format.c:291
-#: ../e-util/e-datetime-format.c:300
+#: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
+#: ../e-util/e-datetime-format.c:302
 #, fuzzy
 msgid "Use locale default"
 msgstr "إست_خدم إفتراضات النظام"
 
-#: ../e-util/e-datetime-format.c:494
+#: ../e-util/e-datetime-format.c:496
 #, fuzzy
 msgid "Format:"
 msgstr "التهيئة"
@@ -10151,7 +10139,7 @@ msgid "All further errors shown only on terminal."
 msgstr "كل الأخطاء الإضافية تعرض فقط في الطرفية."
 
 #: ../filter/filter-datespec.c:73
-#, c-format
+#, c-format, fuzzy
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "منذ ثانية واحدة"
@@ -10160,7 +10148,7 @@ msgstr[2] "منذ %d ثواني"
 msgstr[3] "منذ %d ثانية"
 
 #: ../filter/filter-datespec.c:74
-#, c-format
+#, c-format, fuzzy
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
 msgstr[0] "بعد ثانية واحدة"
@@ -10169,7 +10157,7 @@ msgstr[2] "بعد %d ثوان"
 msgstr[3] "بعد %d ثانية"
 
 #: ../filter/filter-datespec.c:75
-#, c-format
+#, c-format, fuzzy
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "منذ دقيقة واحدة"
@@ -10178,7 +10166,7 @@ msgstr[2] "منذ %d دقائق"
 msgstr[3] "منذ %d دقيقة"
 
 #: ../filter/filter-datespec.c:76
-#, c-format
+#, c-format, fuzzy
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "بعد دقيقة واحدة"
@@ -10187,7 +10175,7 @@ msgstr[2] "بعد %d دقائق"
 msgstr[3] "بعد %d دقيقة"
 
 #: ../filter/filter-datespec.c:77
-#, c-format
+#, c-format, fuzzy
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "منذ ساعة واحدة"
@@ -10196,7 +10184,7 @@ msgstr[2] "منذ %d ساعات"
 msgstr[3] "منذ %d ساعة"
 
 #: ../filter/filter-datespec.c:78
-#, c-format
+#, c-format, fuzzy
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "بعد ساعة واحدة"
@@ -10205,7 +10193,7 @@ msgstr[2] "بعد %d ساعات"
 msgstr[3] "بعد %d ساعة"
 
 #: ../filter/filter-datespec.c:79
-#, c-format
+#, c-format, fuzzy
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "منذ يوم واحد"
@@ -10214,7 +10202,7 @@ msgstr[2] "منذ %d أيام"
 msgstr[3] "منذ %d يوما"
 
 #: ../filter/filter-datespec.c:80
-#, c-format
+#, c-format, fuzzy
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
 msgstr[0] "بعد يوم واحد"
@@ -10223,7 +10211,7 @@ msgstr[2] "بعد %d أيام"
 msgstr[3] "بعد %d يومًا"
 
 #: ../filter/filter-datespec.c:81
-#, c-format
+#, c-format, fuzzy
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "منذ أسبوع واحد"
@@ -10232,7 +10220,7 @@ msgstr[2] "منذ %d أسابيع"
 msgstr[3] "منذ %d أسبوعا"
 
 #: ../filter/filter-datespec.c:82
-#, c-format
+#, c-format, fuzzy
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
 msgstr[0] "بعد أسبوع واحد"
@@ -10241,7 +10229,7 @@ msgstr[2] "بعد %d أسابيع"
 msgstr[3] "بعد %d أسبوعًا"
 
 #: ../filter/filter-datespec.c:83
-#, c-format
+#, c-format, fuzzy
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "منذ شهر واحد"
@@ -10250,7 +10238,7 @@ msgstr[2] "منذ %d أشهر"
 msgstr[3] "منذ %d شهرًا"
 
 #: ../filter/filter-datespec.c:84
-#, c-format
+#, c-format, fuzzy
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
 msgstr[0] "بعد شهر واحد"
@@ -10259,7 +10247,7 @@ msgstr[2] "بعد %d شهور"
 msgstr[3] "بعد %d شهرًا"
 
 #: ../filter/filter-datespec.c:85
-#, c-format
+#, c-format, fuzzy
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "منذ سنة واحدة"
@@ -10268,7 +10256,7 @@ msgstr[2] "منذ %d سنوات"
 msgstr[3] "منذ %d سنة"
 
 #: ../filter/filter-datespec.c:86
-#, c-format
+#, c-format, fuzzy
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
 msgstr[0] "بعد عام واحد"
@@ -10303,60 +10291,60 @@ msgstr "اختر ملف"
 msgid "Test"
 msgstr "إختبر"
 
-#: ../filter/filter-rule.c:854
+#: ../filter/filter-rule.c:858
 msgid "R_ule name:"
 msgstr "اسم الق_اعدة:"
 
-#: ../filter/filter-rule.c:882
+#: ../filter/filter-rule.c:886
 #, fuzzy
 msgid "Find items that meet the following conditions"
 msgstr "اعثر على العناصر التي تفي بالمعايير التالية"
 
-#: ../filter/filter-rule.c:916
+#: ../filter/filter-rule.c:920
 #, fuzzy
 msgid "A_dd Condition"
 msgstr "أضِف إجراءًا"
 
-#: ../filter/filter-rule.c:922
+#: ../filter/filter-rule.c:926
 #, fuzzy
 msgid "If all conditions are met"
 msgstr "إذا قوبلت جميع المعايير"
 
-#: ../filter/filter-rule.c:922
+#: ../filter/filter-rule.c:926
 #, fuzzy
 msgid "If any conditions are met"
 msgstr "إذا قوبل أي معيار"
 
-#: ../filter/filter-rule.c:924
+#: ../filter/filter-rule.c:928
 msgid "_Find items:"
 msgstr "_جِدْ عناصر:"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "All related"
 msgstr "كل المتعلّق"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "Replies"
 msgstr "الردود"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "Replies and parents"
 msgstr "الردود والأصول"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "No reply or parent"
 msgstr "لا رد ولا أصل"
 
-#: ../filter/filter-rule.c:944
+#: ../filter/filter-rule.c:948
 msgid "I_nclude threads"
 msgstr "ضمّن المناق_شات"
 
-#: ../filter/filter-rule.c:1038 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:1042 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:309
 msgid "Incoming"
 msgstr "القادمة"
 
-#: ../filter/filter-rule.c:1038 ../mail/em-utils.c:310
+#: ../filter/filter-rule.c:1042 ../mail/em-utils.c:310
 msgid "Outgoing"
 msgstr "الخارجة"
 
@@ -10572,6 +10560,7 @@ msgstr "رسالة واحدة مرفقة"
 
 #: ../mail/e-mail-attachment-bar.c:122 ../mail/em-format-html-display.c:1642
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:147
+#, fuzzy
 msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "مرفق"
@@ -11129,6 +11118,7 @@ msgstr "بحث في كل الحسابات"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:174
+#, fuzzy
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "الرسائل غير المقروءة:"
@@ -11139,6 +11129,7 @@ msgstr[3] "الرسائل غير المقروءة:"
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:178
+#, fuzzy
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "مجموع الرسائل:"
@@ -11466,9 +11457,9 @@ msgstr "رشّح باعتبار ال_قائمة البريديّة"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2232 ../mail/em-folder-view.c:2275
-#: ../plugins/google-account-setup/google-source.c:303
-#: ../plugins/google-account-setup/google-source.c:593
-#: ../plugins/google-account-setup/google-source.c:764
+#: ../plugins/google-account-setup/google-source.c:304
+#: ../plugins/google-account-setup/google-source.c:613
+#: ../plugins/google-account-setup/google-source.c:784
 msgid "Default"
 msgstr "الإفتراض"
 
@@ -11491,7 +11482,7 @@ msgstr "إ_لى هذا العنوان"
 #: ../mail/em-folder-view.c:3191
 #, c-format
 msgid "Click to mail %s"
-msgstr "انقر لمراسلة %s"
+msgstr "انقر لمتراسلة %s"
 
 #: ../mail/em-folder-view.c:3203
 #, c-format
@@ -12468,12 +12459,12 @@ msgstr "حمّل صور رسائل HTML عبر http"
 #: ../mail/evolution-mail.schemas.in.h:84
 #, fuzzy
 msgid ""
-"Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
-"Never load images off the net. \"1\" - Load images in messages from "
-"contacts. \"2\" - Always load images off the net."
+"Load images for HTML messages over HTTP(S). Possible values are: \"0\" - Never "
+"load images off the net. \"1\" - Load images in messages from contacts. \"2\" - "
+"Always load images off the net."
 msgstr ""
 "حمّل صورا لرسائل HTML عبر http(s). القيم المحتملة: \"0\" - لا تحمّل صورا من "
-"الشبكة أبدا. \"1\" - حمل الصور للرسائل من المراسلين. \"2\" - حمّل الصور من "
+"الشبكة أبدا. \"1\" - حمل الصور للرسائل من المتراسلين. \"2\" - حمّل الصور من "
 "الشبكة دائما."
 
 #: ../mail/evolution-mail.schemas.in.h:85
@@ -12839,7 +12830,7 @@ msgid ""
 "mail sent by known contacts from junk filtering."
 msgstr ""
 "هذا الخيار متعلق بمفتاح البحث في دفتر ال_عناوين و يستخدم لتقرير إذا ما سيبحث "
-"عن العناوين في دفتر العناوين المحلي فقط لإقصاء البريد المرسل من المراسلين "
+"عن العناوين في دفتر العناوين المحلي فقط لإقصاء البريد المرسل من المتراسلين "
 "المعروفين من مرشّح الغثاء."
 
 #: ../mail/evolution-mail.schemas.in.h:164
@@ -13059,6 +13050,7 @@ msgstr "أضِف قاعدة مرشحة"
 
 #: ../mail/mail-component.c:573
 #, c-format
+#, fuzzy
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "واحد مُنتقى، "
@@ -13068,6 +13060,7 @@ msgstr[3] "%d منتقاة، "
 
 #: ../mail/mail-component.c:577
 #, c-format
+#, fuzzy
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d حُذف"
@@ -13077,6 +13070,7 @@ msgstr[3] "%d حُذف"
 
 #: ../mail/mail-component.c:584
 #, c-format
+#, fuzzy
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d نفاية"
@@ -13086,6 +13080,7 @@ msgstr[3] "%d نفاية"
 
 #: ../mail/mail-component.c:587
 #, c-format
+#, fuzzy
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d مسوّدة"
@@ -13095,6 +13090,7 @@ msgstr[3] "%d مسوّدة"
 
 #: ../mail/mail-component.c:589
 #, c-format
+#, fuzzy
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d أُرسِل"
@@ -13104,6 +13100,7 @@ msgstr[3] "%d أُرسِل"
 
 #: ../mail/mail-component.c:591
 #, c-format
+#, fuzzy
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d غير مُرسَل"
@@ -13113,6 +13110,7 @@ msgstr[3] "%d غير مُرسَل"
 
 #: ../mail/mail-component.c:597
 #, c-format
+#, fuzzy
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d غير مقروء"
@@ -13122,6 +13120,7 @@ msgstr[3] "%d غير مقروء"
 
 #: ../mail/mail-component.c:598
 #, c-format
+#, fuzzy
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d إجماليًا"
@@ -13728,7 +13727,7 @@ msgid "Use Authe_ntication"
 msgstr "استخدم الاستي_ثاق"
 
 #: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
-#: ../plugins/google-account-setup/google-source.c:681
+#: ../plugins/google-account-setup/google-source.c:701
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
@@ -13779,7 +13778,7 @@ msgstr "احتف_ظ بالتوقيع فوق نص الرسالة الأصلي ع�
 
 #: ../mail/mail-config.glade.h:170
 msgid "_Load images in messages from contacts"
-msgstr "_حمل الصور المضمنة في البريد من المراسَلين"
+msgstr "_حمل الصور المضمنة في البريد من المتراسلين"
 
 #: ../mail/mail-config.glade.h:171
 msgid "_Lookup in local address book only"
@@ -13807,7 +13806,7 @@ msgstr "ال_مسار:"
 
 #: ../mail/mail-config.glade.h:178
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr "تمهّل قبل إرسال رسالة HTML للمراسلين الذين لا يريدونها"
+msgstr "تمهّل قبل إرسال رسالة HTML للمتراسلين الذين لا يريدونها"
 
 #: ../mail/mail-config.glade.h:179
 msgid "_Prompt when sending messages with an empty subject line"
@@ -14082,6 +14081,7 @@ msgstr "يجري سحب الرسالة %s"
 
 #: ../mail/mail-ops.c:1931
 #, c-format
+#, fuzzy
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "يجري سحب %d رسالة"
@@ -14091,6 +14091,7 @@ msgstr[3] "يجري سحب %d رسالة"
 
 #: ../mail/mail-ops.c:2016
 #, c-format
+#, fuzzy
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "يحفظ رسالة %d"
@@ -14683,12 +14684,12 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"قائمة المراسَلين التي تحاول الإرسال لها تم تشكيلها لإخفاء مستقبلي القائمة.\n"
+"قائمة المتراسلين التي تحاول الإرسال لها تم تشكيلها لإخفاء مستقبلي القائمة.\n"
 "\n"
 "تضيف كثير من أنظمة البريد ترويسة Apparently-To إلى الرسائل التي يتم إرسالها "
 "إلى مستقبلي النسخة الكربونية المخفية فقط. إذا تمت إضافة هذه الترويسة، "
-"فستحتوي على قائمة بكل مستقبلي رسالتك. لتفادي هذا، يجب أن تضيف مستقبلًا واحدًا "
-"على الأقل في خانة إلى: أو ن.ك:."
+"فستحتوي على قائمة بكل مستقبلي رسالتك. لتفادي هذا، يجب أن تضيف مستقبلًا "
+"واحدًا على الأقل في خانة إلى: أو ن.ك:."
 
 #: ../mail/mail.error.xml.h:101
 msgid ""
@@ -15130,7 +15131,7 @@ msgid ""
 "settings, mail filters etc."
 msgstr ""
 "يمكنك استرجاع إيفوليوشن من نسختك الاحتياطية. يمكن استرجاع كل البريد "
-"والتقويمات والمهمات والمذكرات والمراسَلين. \n"
+"والتقويمات والمهمات والمذكرات والمتراسلين. \n"
 "إنه يسترجع أيضًا إعداداتك الشخصية ومرشحات البريد، إلخ."
 
 #: ../plugins/backup-restore/backup-restore.c:297
@@ -15177,8 +15178,8 @@ msgstr "يجري النسخ الاحتياطي لحسابات وإعدادات �
 #: ../plugins/backup-restore/backup.c:201
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"جارٍ النسخ الاحتياطي لبيانات إيفوليوشن (البريد، المراسَلون، التقويم، المهمات، "
-"المذكرات)"
+"جارٍ النسخ الاحتياطي لبيانات إيفوليوشن (البريد، المتراسلون، التقويم، "
+"المهمات، المذكرات)"
 
 #: ../plugins/backup-restore/backup.c:212
 msgid "Backup complete"
@@ -15324,7 +15325,7 @@ msgstr "إعدادات النس_خ الاحتياطي..."
 #: ../plugins/bbdb/bbdb.c:622 ../plugins/bbdb/bbdb.c:631
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
-msgstr "المراسَلون التلقائيون"
+msgstr "المتراسلون التلقائيون"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:646
@@ -15334,16 +15335,16 @@ msgstr "آ_ليا أنشئ مدخلات في دفتر العناوين عند ا
 
 #: ../plugins/bbdb/bbdb.c:652
 msgid "Select Address book for Automatic Contacts"
-msgstr "انتق دفتر عناوين للمراسَلين التلقائيين"
+msgstr "انتق دفتر عناوين للمتراسلين التلقائيين"
 
 #: ../plugins/bbdb/bbdb.c:667
 msgid "Instant Messaging Contacts"
-msgstr "مراسَلو المراسلة الفورية"
+msgstr "متراسلو المتراسلة الفورية"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:682
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr "زامِن معلومات المراسَلين وصورهم منع قائمة أصدقء بدْجنn"
+msgstr "زامِن معلومات المتراسلين وصورهم منع قائمة أصدقء بدْجنn"
 
 #: ../plugins/bbdb/bbdb.c:688
 msgid "Select Address book for Pidgin buddy list"
@@ -15368,7 +15369,7 @@ msgid ""
 "lists."
 msgstr ""
 "لملء دفتر عناوينك بالأسماء وعناوين البريد الإلكتروني عند ردك على الرسائل "
-"تلقائيا. ولملئه أيضًا بمعلومات الاتصال عن طريق المراسلة الفورية بمن هم في "
+"تلقائيا. ولملئه أيضًا بمعلومات الاتصال عن طريق المتراسلة الفورية بمن هم في "
 "قائمة أصدقائك."
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
@@ -15441,7 +15442,7 @@ msgstr "استخدم _SSL"
 #: ../plugins/calendar-file/calendar-file.c:274
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
-#: ../plugins/google-account-setup/google-source.c:698
+#: ../plugins/google-account-setup/google-source.c:718
 #: ../plugins/google-account-setup/google-contacts-source.c:322
 msgid "Re_fresh:"
 msgstr "إ_نعاش:"
@@ -15450,7 +15451,7 @@ msgstr "إ_نعاش:"
 #: ../plugins/calendar-file/calendar-file.c:296
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:723
+#: ../plugins/google-account-setup/google-source.c:743
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
 msgstr "أسابيع"
@@ -16221,7 +16222,7 @@ msgstr "تحرير عناصري"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:10
 msgid "Folder contact"
-msgstr "مراسَل مجلد"
+msgstr "متراسل مجلد"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder owner"
@@ -16307,7 +16308,7 @@ msgstr "دفتر عناوين..."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-ab-subscription.xml.h:1
 msgid "Subscribe to Other User's Contacts"
-msgstr "إشترك في لائحة مراسَلين تابعة لمستخدم آخر"
+msgstr "إشترك في لائحة متراسلين تابعة لمستخدم آخر"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-cal-subscription.xml.h:1
 msgid "Subscribe to Other User's Calendar"
@@ -16578,7 +16579,7 @@ msgid "Unknown error looking up {0}"
 msgstr "حدث خطأ أثناء محاولة العثور على {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
@@ -16782,17 +16783,17 @@ msgstr ""
 msgid "_Unsubscribe"
 msgstr "إل_غاء الإشتراك"
 
-#: ../plugins/google-account-setup/google-source.c:81
+#: ../plugins/google-account-setup/google-source.c:82
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 msgid "Google"
 msgstr "جوجل"
 
-#: ../plugins/google-account-setup/google-source.c:499
+#: ../plugins/google-account-setup/google-source.c:518
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr "أدخل كلمة سر المستخدم %s للنفاذ لقائمة من التقاويم المشترَك بها."
 
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -16801,11 +16802,11 @@ msgstr ""
 "لا يمكن قراءة البيانات من خادم غوغل.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:739
+#: ../plugins/google-account-setup/google-source.c:759
 msgid "Cal_endar:"
 msgstr "ال_تقويم:"
 
-#: ../plugins/google-account-setup/google-source.c:774
+#: ../plugins/google-account-setup/google-source.c:794
 msgid "Retrieve _list"
 msgstr "_قائمة الجلب"
 
@@ -17058,7 +17059,7 @@ msgstr "خ_صّص رسالة الإشعار"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Con_tacts..."
-msgstr "المراسَلون..."
+msgstr "المتراسلون..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
 #: ../widgets/table/e-table-click-to-add.c:514
@@ -18127,6 +18128,7 @@ msgstr "خصائص الإشعار البريدي"
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:498
 #, c-format
+#, fuzzy
 msgid ""
 "You have received %d new message\n"
 "in %s."
@@ -18140,6 +18142,7 @@ msgstr[3] "لقد استلمت (%d) رسالة  في %s."
 
 #: ../plugins/mail-notification/mail-notification.c:503
 #, c-format
+#, fuzzy
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "لقد استلمت رسالة واحدة جديدة (%Id)."
@@ -18382,7 +18385,7 @@ msgstr "تأليف رد إلى مرسِل الرّسالة المنتقاة"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Contact list _owner"
-msgstr "_مالك قائمة المراسَلين"
+msgstr "_مالك قائمة المتراسلين"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Get list _archive"
@@ -18503,7 +18506,7 @@ msgstr "راسل _مالك القائمة"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "مراسلة مالك القائمة البريدية التابعة لها هذه الرسالة"
+msgstr "متراسلة مالك القائمة البريدية التابعة لها هذه الرسالة"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get List _Archive"
@@ -18979,7 +18982,7 @@ msgstr "قائمة التعليقات"
 
 #: ../plugins/save-calendar/csv-format.c:363
 msgid "Contact List"
-msgstr "قائمة المراسَلين"
+msgstr "قائمة المتراسلين"
 
 #: ../plugins/save-calendar/csv-format.c:364
 msgid "Start"
@@ -19216,16 +19219,18 @@ msgstr "أظهر vCard مدمجة"
 #: ../plugins/vcard-inline/vcard-inline.c:222
 #, fuzzy
 msgid "There is one other contact."
-msgstr "هناك مراسَل واحد آخر."
+msgstr "هناك متراسل واحد آخر."
 
 #: ../plugins/vcard-inline/vcard-inline.c:231
 #, fuzzy, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "هناك مراسَل واحد آخر."
-msgstr[1] "هناك مراسَليْن آخريْن"
+msgstr[0] "هناك متراسلاسلحد آخر."
+msgstr[1] "هناك متراسليْن آخريْن"
 msgstr[2] "هناك %d مراسَلًا آخرًا."
-msgstr[3] "هناك %d مراسَليِن آخرين."
+msgstr[3] "هناك %d متراسليِن آخرين."
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../plugins/vcard-inline/vcard-inline.c:252
 #, fuzzy
@@ -19235,11 +19240,11 @@ msgstr "احفظ في دفتر العناوين"
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
 #, fuzzy
 msgid "Add WebDAV contacts to Evolution."
-msgstr "مراسلي WebDAV"
+msgstr "متراسلي WebDAV"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
 msgid "WebDAV contacts"
-msgstr "مراسلي WebDAV"
+msgstr "متراسلي WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:68
 msgid "WebDAV"
@@ -19655,7 +19660,7 @@ msgstr "لم يمكن تشغيل فتى العلات."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:938
+#: ../shell/e-shell-window-commands.c:1026
 msgid "translator-credits"
 msgstr ""
 "Djihed Afifi جهاد عفيفي (djihed@gmail.com)\n"
@@ -19663,19 +19668,19 @@ msgstr ""
 "Ahmad Farghal أحمد فرغل (ahmad.farghal@gmail.com)\n"
 "Anas Husseini أنس الحسيني (linux.anas@gmail.com)"
 
-#: ../shell/e-shell-window-commands.c:949
+#: ../shell/e-shell-window-commands.c:1037
 msgid "Evolution Website"
 msgstr "موقع إيفُليوشِن"
 
-#: ../shell/e-shell-window-commands.c:1163
+#: ../shell/e-shell-window-commands.c:1251
 msgid "_Work Online"
 msgstr "ا_عمل متصلًا"
 
-#: ../shell/e-shell-window-commands.c:1176 ../ui/evolution.xml.h:57
+#: ../shell/e-shell-window-commands.c:1264 ../ui/evolution.xml.h:57
 msgid "_Work Offline"
 msgstr "ا_عمل دون اتّصال"
 
-#: ../shell/e-shell-window-commands.c:1189
+#: ../shell/e-shell-window-commands.c:1277
 msgid "Work Offline"
 msgstr "اعمل دون اتّصال"
 
@@ -19862,7 +19867,7 @@ msgstr "عطّل تحميل أي ملحق."
 
 #: ../shell/main.c:505
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr "عطّل لوح معاينة البريد والمراسَلين والمهمات."
+msgstr "عطّل لوح معاينة البريد والمتراسلين والمهمات."
 
 #: ../shell/main.c:614
 msgid "- The Evolution PIM and Email Client"
@@ -20210,7 +20215,7 @@ msgstr "الاسم المتداول (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
-msgstr "شهادات المراسَل"
+msgstr "شهادات المتراسل"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
@@ -20516,11 +20521,11 @@ msgstr "غير خصائص المجلد المنتقى"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
-msgstr "إن_سخ كل المراسَلين إلى..."
+msgstr "إن_سخ كل المتراسلين إلى..."
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
-msgstr "م_عاينة المراسَل"
+msgstr "م_عاينة المتراسل"
 
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
@@ -20530,11 +20535,11 @@ msgstr "نسخ"
 #: ../ui/evolution-addressbook.xml.h:7
 #, fuzzy
 msgid "Copy selected contacts to another folder"
-msgstr "إنسخ المراسَلون المنتقون إلى مجلد آخر..."
+msgstr "إنسخ المتراسلون المنتقون إلى مجلد آخر..."
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
-msgstr "إنسخ مراسَلي المجلد المنتقى إلى داخل مجلد آخر"
+msgstr "إنسخ متراسلي المجلد المنتقى إلى داخل مجلد آخر"
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -20563,7 +20568,7 @@ msgstr "اح_ذف دفتر العناوين"
 
 #: ../ui/evolution-addressbook.xml.h:16
 msgid "Delete selected contacts"
-msgstr "حذف المراسَلين المنتقَيين"
+msgstr "حذف المتراسلين المنتقَيين"
 
 #: ../ui/evolution-addressbook.xml.h:17
 msgid "Delete the selected folder"
@@ -20571,20 +20576,20 @@ msgstr "احذف المجلد المنتقى"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
-msgstr "مرر المراسَل"
+msgstr "مرر المتراسل"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Mo_ve All Contacts To..."
-msgstr "ان_قل كل المراسَلين إلى..."
+msgstr "ان_قل كل المتراسلين إلى..."
 
 #: ../ui/evolution-addressbook.xml.h:20
 #, fuzzy
 msgid "Move selected contacts to another folder"
-msgstr "نقل المراسلون المنتقون إلى مجلد آخر..."
+msgstr "نقل المتراسلون المنتقون إلى مجلد آخر..."
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
-msgstr "نقل مراسلي المجلد المنتقى إلى مجلد آخر"
+msgstr "نقل متراسلي المجلد المنتقى إلى مجلد آخر"
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
@@ -20601,11 +20606,11 @@ msgstr "لصق الحافظة الوسيطة"
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
-msgstr "معاينة المراسَلين الذين سيُطبعون"
+msgstr "معاينة المتراسلين الذين سيُطبعون"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
-msgstr "طباعة المراسَلين المنتقَيين"
+msgstr "طباعة المتراسلين المنتقَيين"
 
 #: ../ui/evolution-addressbook.xml.h:29
 msgid "Rename the selected folder"
@@ -20622,11 +20627,11 @@ msgstr "احفظ كـ VCard..."
 #: ../ui/evolution-addressbook.xml.h:32
 #, fuzzy
 msgid "Save selected contacts as a VCard"
-msgstr "احفظ المراسَلين المنتقين كفيكارد."
+msgstr "احفظ المتراسلين المنتقين كفيكارد."
 
 #: ../ui/evolution-addressbook.xml.h:33
 msgid "Save the contacts of the selected folder as VCard"
-msgstr "احف_ظ مراسَلي المجلد المنتقى كفيكارد"
+msgstr "احف_ظ متراسلي المجلد المنتقى كفيكارد"
 
 #: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2719
 msgid "Select All"
@@ -20638,25 +20643,25 @@ msgstr "إنتقاء ال_كل"
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "Select all contacts"
-msgstr "إنتقاء جميع المراسَلين"
+msgstr "إنتقاء جميع المتراسلين"
 
 #: ../ui/evolution-addressbook.xml.h:37
 #, fuzzy
 msgid "Send a message to the selected contacts"
-msgstr "أرسِل رسالة للمراسَلين المنتقين."
+msgstr "أرسِل رسالة للمتراسلين المنتقين."
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
-msgstr "أرسِل رسالة للمراسَل"
+msgstr "أرسِل رسالة للمتراسل"
 
 #: ../ui/evolution-addressbook.xml.h:39
 #, fuzzy
 msgid "Send selected contacts to another person"
-msgstr "أرسِل المراسَلين المختارين لشخص آخر."
+msgstr "أرسِل المتراسلين المختارين لشخص آخر."
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr "اظهر نافذة معاينة المراسلين"
+msgstr "اظهر نافذة معاينة المتراسلين"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
@@ -20672,7 +20677,7 @@ msgstr "إيقاف التّحميل"
 
 #: ../ui/evolution-addressbook.xml.h:44
 msgid "View the current contact"
-msgstr "عرض المراسَل الحالي"
+msgstr "عرض المتراسل الحالي"
 
 #: ../ui/evolution-addressbook.xml.h:45 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-tasks.xml.h:21
@@ -20681,27 +20686,27 @@ msgstr "إ_جراءات"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
-msgstr "نس_خ المراسَل إلى..."
+msgstr "نس_خ المتراسل إلى..."
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
-msgstr "ان_سخ مراسَلي المجلد إلى"
+msgstr "ان_سخ متراسلي المجلد إلى"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
-msgstr "اح_ذف المراسَل"
+msgstr "اح_ذف المتراسل"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
-msgstr "_مرر المراسَل..."
+msgstr "_مرر المتراسل..."
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
-msgstr "ن_قل المراسَل إلى..."
+msgstr "ن_قل المتراسل إلى..."
 
 #: ../ui/evolution-addressbook.xml.h:54
 msgid "_Move Folder Contacts To"
-msgstr "ان_قل مراسَلي المجلد إلى"
+msgstr "ان_قل متراسلي المجلد إلى"
 
 #: ../ui/evolution-addressbook.xml.h:55 ../ui/evolution.xml.h:49
 msgid "_New"
@@ -20713,15 +20718,15 @@ msgstr "إ_عد التسمية"
 
 #: ../ui/evolution-addressbook.xml.h:61
 msgid "_Save Contact as VCard..."
-msgstr "حفظ المراسَل كفيكارد..."
+msgstr "حفظ المتراسل كفيكارد..."
 
 #: ../ui/evolution-addressbook.xml.h:62
 msgid "_Save Folder Contacts As VCard"
-msgstr "احف_ظ مراسَلي المجلد كفيكارد"
+msgstr "احف_ظ متراسلي المجلد كفيكارد"
 
 #: ../ui/evolution-addressbook.xml.h:63
 msgid "_Send Message to Contact..."
-msgstr "أرسِل _رسالة للمراسَل..."
+msgstr "أرسِل _رسالة للمتراسل..."
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -22844,6 +22849,7 @@ msgstr ""
 
 #: ../widgets/table/e-table-group-container.c:341
 #, c-format
+#, fuzzy
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (عنصر واحد)"
@@ -22853,6 +22859,7 @@ msgstr[3] "%s : %s (%d عنصرًا)"
 
 #: ../widgets/table/e-table-group-container.c:347
 #, c-format
+#, fuzzy
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (عنصر واحد)"
@@ -24678,19 +24685,19 @@ msgstr "معالجة القافزة"
 #~ "لا يمكن الوصول إلى خادوم LDAP."
 
 #~ msgid "Contact Print Style Editor Test"
-#~ msgstr "إختبار محرّر أسلوب طباعة المراسَل"
+#~ msgstr "إختبار محرّر أسلوب طباعة المتراسل"
 
 #~ msgid "Copyright (C) 2000, Ximian, Inc."
 #~ msgstr "حقوق النسخ C) 2000, Ximian, Inc."
 
 #~ msgid "This should test the contact print style editor widget"
-#~ msgstr "سيختبر هذا قطعة محرّر أسلوب طباعة المراسَل"
+#~ msgstr "سيختبر هذا قطعة محرّر أسلوب طباعة المتراسل"
 
 #~ msgid "Contact Print Test"
-#~ msgstr "إختبار طباعة المراسَل"
+#~ msgstr "إختبار طباعة المتراسل"
 
 #~ msgid "This should test the contact print code"
-#~ msgstr "سيختبر هذا رمز طباعة المراسَل"
+#~ msgstr "سيختبر هذا رمز طباعة المتراسل"
 
 #~ msgid "Business"
 #~ msgstr "عمل"
