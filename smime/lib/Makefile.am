@@ -7,11 +7,10 @@ libessmime_la_CPPFLAGS =				\
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(CERT_UI_CFLAGS)
 

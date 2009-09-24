@@ -24,7 +24,6 @@
 #define EM_COMPOSER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 
 #include <shell/e-shell.h>
@@ -58,7 +57,7 @@ struct _ESignature;
 struct _EMComposerPrefs {
 	GtkVBox parent;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	/* General tab */
 

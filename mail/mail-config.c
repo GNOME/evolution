@@ -40,7 +40,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <gtkhtml/gtkhtml.h>
-#include <glade/glade.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>

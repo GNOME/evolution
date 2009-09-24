@@ -3,8 +3,8 @@
 plugin_DATA = 					\
 	org-gnome-publish-calendar.eplug
 
-glade_DATA =							\
-	publish-calendar.glade
+ui_DATA =							\
+	publish-calendar.ui				
 
 plugin_LTLIBRARIES = liborg-gnome-publish-calendar.la
 
@@ -15,7 +15,7 @@ liborg_gnome_publish_calendar_la_CPPFLAGS =		\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"
 
 liborg_gnome_publish_calendar_la_SOURCES =	\
 	publish-calendar.c			\
@@ -38,7 +38,7 @@ liborg_gnome_publish_calendar_la_LIBADD =			\
 
 EXTRA_DIST =					\
 	org-gnome-publish-calendar.eplug.xml	\
-	$(glade_DATA)
+	$(ui_DATA)
 
 CLEANFILES = org-gnome-publish-calendar.eplug
 

@@ -29,6 +29,6 @@
 
 #include "gnome-cal.h"
 
-void goto_dialog (GnomeCalendar *gcal);
+void goto_dialog (GtkWindow *parent, GnomeCalendar *gcal);
 
 #endif

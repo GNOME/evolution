@@ -58,13 +58,14 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
-#include "message-tag-followup.h"
+#include "e-mail-tag-editor.h"
 
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-binding.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
@@ -361,7 +362,10 @@ em_utils_flag_for_followup (EMailReader *reader,
                             GPtrArray *uids)
 {
 	EMFormatHTMLDisplay *html_display;
-	MessageTagEditor *editor;
+	EShellSettings *shell_settings;
+	EShellBackend *shell_backend;
+	EShell *shell;
+	GtkWidget *editor;
 	GtkWindow *parent;
 	CamelTag *tags;
 	gint i;
@@ -370,9 +374,21 @@ em_utils_flag_for_followup (EMailReader *reader,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	editor = message_tag_followup_new ();
+	editor = e_mail_tag_editor_new ();
 	parent = e_mail_reader_get_window (reader);
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
+
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	/* These settings come from the calendar module. */
+	e_binding_new (
+		shell_settings, "cal-use-24-hour-format",
+		editor, "use-24-hour-format");
+	e_binding_new (
+		shell_settings, "cal-week-start-day",
+		editor, "week-start-day");
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;
@@ -382,8 +398,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 		if (info == NULL)
 			continue;
 
-		message_tag_followup_append_message (
-			MESSAGE_TAG_FOLLOWUP (editor),
+		e_mail_tag_editor_add_message (
+			E_MAIL_TAG_EDITOR (editor),
 			camel_message_info_from (info),
 			camel_message_info_subject (info));
 
@@ -399,7 +415,8 @@ em_utils_flag_for_followup (EMailReader *reader,
 			tags = (CamelTag *) camel_message_info_user_tags (info);
 
 			if (tags)
-				message_tag_editor_set_tag_list (editor, tags);
+				e_mail_tag_editor_set_tag_list (
+					E_MAIL_TAG_EDITOR (editor), tags);
 			camel_message_info_free (info);
 		}
 	}
@@ -407,7 +424,7 @@ em_utils_flag_for_followup (EMailReader *reader,
 	if (gtk_dialog_run (GTK_DIALOG (editor)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	tags = message_tag_editor_get_tag_list (editor);
+	tags = e_mail_tag_editor_get_tag_list (E_MAIL_TAG_EDITOR (editor));
 	if (tags == NULL)
 		goto exit;
 

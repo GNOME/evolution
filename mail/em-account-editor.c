@@ -46,9 +46,8 @@
 
 #include <gconf/gconf-client.h>
 
-#include <glade/glade.h>
-
 #include "shell/e-shell.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-list.h"
@@ -567,34 +566,30 @@ emae_load_text (GtkTextView *view, const gchar *filename)
 static gboolean
 emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
 {
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkWidget *w, *dialog;
 	gchar *tmp;
 	GtkResponseType response = GTK_RESPONSE_NONE;
-	gchar *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-dialogs.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, "license_dialog", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-	dialog = glade_xml_get_widget (xml, "license_dialog");
+	dialog = e_builder_get_widget (builder, "license_dialog");
 	gtk_dialog_set_response_sensitive ((GtkDialog *)dialog, GTK_RESPONSE_ACCEPT, FALSE);
 	tmp = g_strdup_printf (_("%s License Agreement"), prov->license);
 	gtk_window_set_title ((GtkWindow *)dialog, tmp);
 	g_free (tmp);
 
-	g_signal_connect (glade_xml_get_widget (xml, "license_checkbutton"),
+	g_signal_connect (e_builder_get_widget (builder, "license_checkbutton"),
 			 "toggled", G_CALLBACK(emae_license_state), dialog);
 
 	tmp = g_strdup_printf (_("\nPlease read carefully the license agreement\n"
 				"for %s displayed below\n"
 				"and tick the check box for accepting it\n"), prov->license);
-	gtk_label_set_text ((GtkLabel *)glade_xml_get_widget (xml, "license_top_label"), tmp);
+	gtk_label_set_text ((GtkLabel *)e_builder_get_widget (builder, "license_top_label"), tmp);
 	g_free (tmp);
 
-	w = glade_xml_get_widget (xml, "license_textview");
+	w = e_builder_get_widget (builder, "license_textview");
 	if (emae_load_text ((GtkTextView *)w, prov->license_file)) {
 		gtk_text_view_set_editable ((GtkTextView *)w, FALSE);
 		response = gtk_dialog_run ((GtkDialog *)dialog);
@@ -604,7 +599,7 @@ emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
 	}
 
 	gtk_widget_destroy (dialog);
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return (response == GTK_RESPONSE_ACCEPT);
 }
@@ -654,52 +649,6 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
 }
 
-/* custom widget factories */
-GtkWidget *em_account_editor_folder_selector_button_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
-
-GtkWidget *
-em_account_editor_folder_selector_button_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
-{
-	return (GtkWidget *)em_folder_selection_button_new (
-		string1 ? string1 : _("Select Folder"), NULL);
-}
-
-GtkWidget *em_account_editor_dropdown_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
-
-GtkWidget *
-em_account_editor_dropdown_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
-{
-	return gtk_combo_box_new ();
-}
-
-GtkWidget *em_account_editor_ssl_selector_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
-
-GtkWidget *
-em_account_editor_ssl_selector_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
-{
-	GtkComboBox *dropdown = (GtkComboBox *)gtk_combo_box_new ();
-	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-	GtkListStore *store;
-	gint i;
-	GtkTreeIter iter;
-
-	gtk_widget_show ((GtkWidget *)dropdown);
-
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-
-	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, _(ssl_options[i].label), 1, ssl_options[i].value, -1);
-	}
-
-	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
-	gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
-
-	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
-
-	return (GtkWidget *)dropdown;
-}
-
 /* The camel provider auto-detect interface should be deprecated.
    But it still needs to be replaced with something of similar functionality.
    Just using the normal econfig plugin mechanism should be adequate. */
@@ -713,8 +662,8 @@ emae_auto_detect_free (gpointer key, gpointer value, gpointer user_data)
 static void
 emae_auto_detect (EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
-	EMAccountEditorService *service = &gui->source;
+	EMAccountEditorPrivate *priv = emae->priv;
+	EMAccountEditorService *service = &priv->source;
 	GHashTable *auto_detected;
 	GSList *l;
 	CamelProviderConfEntry *entries;
@@ -890,11 +839,11 @@ emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 }
 
 static GtkWidget *
-emae_setup_signatures (EMAccountEditor *emae, GladeXML *xml)
+emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 {
 	EMAccountEditorPrivate *p = emae->priv;
 	EAccount *account;
-	GtkComboBox *dropdown = (GtkComboBox *)glade_xml_get_widget (xml, "signature_dropdown");
+	GtkComboBox *dropdown = (GtkComboBox *)e_builder_get_widget (builder, "signature_dropdown");
 	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 	GtkListStore *store;
 	gint i, active=0;
@@ -954,7 +903,7 @@ emae_setup_signatures (EMAccountEditor *emae, GladeXML *xml)
 	g_signal_connect (dropdown, "changed", G_CALLBACK(emae_signaturetype_changed), emae);
 	gtk_widget_set_sensitive ((GtkWidget *)dropdown, e_account_writable (account, E_ACCOUNT_ID_SIGNATURE));
 
-	button = glade_xml_get_widget (xml, "sigAddNew");
+	button = e_builder_get_widget (builder, "sigAddNew");
 	g_signal_connect (button, "clicked", G_CALLBACK(emae_signature_new), emae);
 	gtk_widget_set_sensitive (button,
 				 gconf_client_key_is_writable (mail_config_get_gconf_client (),
@@ -984,10 +933,10 @@ emae_receipt_policy_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
 }
 
 static GtkWidget *
-emae_setup_receipt_policy (EMAccountEditor *emae, GladeXML *xml)
+emae_setup_receipt_policy (EMAccountEditor *emae, GtkBuilder *builder)
 {
 	EAccount *account;
-	GtkComboBox *dropdown = (GtkComboBox *)glade_xml_get_widget (xml, "receipt_policy_dropdown");
+	GtkComboBox *dropdown = (GtkComboBox *)e_builder_get_widget (builder, "receipt_policy_dropdown");
 	GtkListStore *store;
 	gint i = 0, active = 0;
 	GtkTreeIter iter;
@@ -1042,14 +991,14 @@ emae_account_entry_changed (GtkEntry *entry, EMAccountEditor *emae)
 }
 
 static GtkEntry *
-emae_account_entry (EMAccountEditor *emae, const gchar *name, gint item, GladeXML *xml)
+emae_account_entry (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
 {
 	EAccount *account;
 	GtkEntry *entry;
 	const gchar *text;
 
 	account = em_account_editor_get_modified_account (emae);
-	entry = (GtkEntry *)glade_xml_get_widget (xml, name);
+	entry = (GtkEntry *)e_builder_get_widget (builder, name);
 	text = e_account_get_string (account, item);
 	if (text)
 		gtk_entry_set_text (entry, text);
@@ -1099,11 +1048,11 @@ emae_account_toggle_widget (EMAccountEditor *emae, GtkToggleButton *toggle, gint
 }
 
 static GtkToggleButton *
-emae_account_toggle (EMAccountEditor *emae, const gchar *name, gint item, GladeXML *xml)
+emae_account_toggle (EMAccountEditor *emae, const gchar *name, gint item, GtkBuilder *builder)
 {
 	GtkToggleButton *toggle;
 
-	toggle = (GtkToggleButton *)glade_xml_get_widget (xml, name);
+	toggle = (GtkToggleButton *)e_builder_get_widget (builder, name);
 	emae_account_toggle_widget (emae, toggle, item);
 
 	return toggle;
@@ -1153,7 +1102,7 @@ emae_account_spinint (EMAccountEditor *emae, const gchar *name, gint item)
 {
 	GtkSpinButton *spin;
 
-	spin = (GtkSpinButton *)glade_xml_get_widget (emae->priv->xml, name);
+	spin = (GtkSpinButton *)e_builder_get_widget (emae->priv->xml, name);
 	emae_account_spinint_widget (emae, spin, item);
 
 	return spin;
@@ -1175,14 +1124,14 @@ emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *e
 }
 
 static EMFolderSelectionButton *
-emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint deffolder, GladeXML *xml)
+emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint deffolder, GtkBuilder *builder)
 {
 	EAccount *account;
 	EMFolderSelectionButton *folder;
 	const gchar *uri;
 
 	account = em_account_editor_get_modified_account (emae);
-	folder = (EMFolderSelectionButton *)glade_xml_get_widget (xml, name);
+	folder = (EMFolderSelectionButton *)e_builder_get_widget (builder, name);
 	uri = e_account_get_string (account, item);
 	if (uri) {
 		gchar *tmp = em_uri_to_camel (uri);
@@ -1210,35 +1159,35 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 static void
 smime_changed (EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	gint act;
 	const gchar *tmp;
 
-	tmp = gtk_entry_get_text (gui->smime_sign_key);
+	tmp = gtk_entry_get_text (priv->smime_sign_key);
 	act = tmp && tmp[0];
-	gtk_widget_set_sensitive ((GtkWidget *)gui->smime_sign_key_clear, act);
-	gtk_widget_set_sensitive ((GtkWidget *)gui->smime_sign_default, act);
+	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_sign_key_clear, act);
+	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_sign_default, act);
 	if (!act)
-		gtk_toggle_button_set_active (gui->smime_sign_default, FALSE);
+		gtk_toggle_button_set_active (priv->smime_sign_default, FALSE);
 
-	tmp = gtk_entry_get_text (gui->smime_encrypt_key);
+	tmp = gtk_entry_get_text (priv->smime_encrypt_key);
 	act = tmp && tmp[0];
-	gtk_widget_set_sensitive ((GtkWidget *)gui->smime_encrypt_key_clear, act);
-	gtk_widget_set_sensitive ((GtkWidget *)gui->smime_encrypt_default, act);
-	gtk_widget_set_sensitive ((GtkWidget *)gui->smime_encrypt_to_self, act);
+	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_key_clear, act);
+	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_default, act);
+	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_to_self, act);
 	if (!act) {
-		gtk_toggle_button_set_active (gui->smime_encrypt_default, FALSE);
-		gtk_toggle_button_set_active (gui->smime_encrypt_to_self, FALSE);
+		gtk_toggle_button_set_active (priv->smime_encrypt_default, FALSE);
+		gtk_toggle_button_set_active (priv->smime_encrypt_to_self, FALSE);
 	}
 }
 
 static void
 smime_sign_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 
 	if (key != NULL) {
-		gtk_entry_set_text (gui->smime_sign_key, key);
+		gtk_entry_set_text (priv->smime_sign_key, key);
 		smime_changed (emae);
 	}
 
@@ -1248,10 +1197,10 @@ smime_sign_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *e
 static void
 smime_sign_key_select (GtkWidget *button, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
 
-	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (gui->smime_sign_key));
+	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (priv->smime_sign_key));
 	gtk_window_set_modal ((GtkWindow *)w, TRUE);
 	gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)gtk_widget_get_toplevel (button));
 	g_signal_connect (w, "selected", G_CALLBACK(smime_sign_key_selected), emae);
@@ -1261,19 +1210,19 @@ smime_sign_key_select (GtkWidget *button, EMAccountEditor *emae)
 static void
 smime_sign_key_clear (GtkWidget *w, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 
-	gtk_entry_set_text (gui->smime_sign_key, "");
+	gtk_entry_set_text (priv->smime_sign_key, "");
 	smime_changed (emae);
 }
 
 static void
 smime_encrypt_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 
 	if (key != NULL) {
-		gtk_entry_set_text (gui->smime_encrypt_key, key);
+		gtk_entry_set_text (priv->smime_encrypt_key, key);
 		smime_changed (emae);
 	}
 
@@ -1283,10 +1232,10 @@ smime_encrypt_key_selected (GtkWidget *dialog, const gchar *key, EMAccountEditor
 static void
 smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
 
-	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (gui->smime_encrypt_key));
+	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (priv->smime_encrypt_key));
 	gtk_window_set_modal ((GtkWindow *)w, TRUE);
 	gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)gtk_widget_get_toplevel (button));
 	g_signal_connect (w, "selected", G_CALLBACK(smime_encrypt_key_selected), emae);
@@ -1296,9 +1245,9 @@ smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
 static void
 smime_encrypt_key_clear (GtkWidget *w, EMAccountEditor *emae)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 
-	gtk_entry_set_text (gui->smime_encrypt_key, "");
+	gtk_entry_set_text (priv->smime_encrypt_key, "");
 	smime_changed (emae);
 }
 #endif
@@ -1955,7 +1904,7 @@ static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service)
 }
 
 static void
-emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GladeXML *xml)
+emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkBuilder *builder)
 {
 	EAccount *account;
 	struct _service_info *info = &emae_service_info[service->type];
@@ -1968,23 +1917,23 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 	uri = e_account_get_string (account, info->account_uri_key);
 
 	service->provider = uri?camel_provider_get (uri, NULL):NULL;
-	service->frame = glade_xml_get_widget (xml, info->frame);
-	service->container = glade_xml_get_widget (xml, info->container);
-	service->description = GTK_LABEL (glade_xml_get_widget (xml, info->description));
-	service->hostname = GTK_ENTRY (glade_xml_get_widget (xml, info->hostname));
-	service->hostlabel = (GtkLabel *)glade_xml_get_widget (xml, info->hostlabel);
-	service->username = GTK_ENTRY (glade_xml_get_widget (xml, info->username));
-	service->userlabel = (GtkLabel *)glade_xml_get_widget (xml, info->userlabel);
+	service->frame = e_builder_get_widget (builder, info->frame);
+	service->container = e_builder_get_widget (builder, info->container);
+	service->description = GTK_LABEL (e_builder_get_widget (builder, info->description));
+	service->hostname = GTK_ENTRY (e_builder_get_widget (builder, info->hostname));
+	service->hostlabel = (GtkLabel *)e_builder_get_widget (builder, info->hostlabel);
+	service->username = GTK_ENTRY (e_builder_get_widget (builder, info->username));
+	service->userlabel = (GtkLabel *)e_builder_get_widget (builder, info->userlabel);
 	if (info->pathentry) {
-		service->pathlabel = (GtkLabel *)glade_xml_get_widget (xml, info->pathlabel);
-		service->pathentry = glade_xml_get_widget (xml, info->pathentry);
+		service->pathlabel = (GtkLabel *)e_builder_get_widget (builder, info->pathlabel);
+		service->pathentry = e_builder_get_widget (builder, info->pathentry);
 	}
 
-	service->ssl_frame = glade_xml_get_widget (xml, info->security_frame);
+	service->ssl_frame = e_builder_get_widget (builder, info->security_frame);
 	gtk_widget_hide (service->ssl_frame);
-	service->ssl_hbox = glade_xml_get_widget (xml, info->ssl_hbox);
-	service->use_ssl = (GtkComboBox *)glade_xml_get_widget (xml, info->use_ssl);
-	service->no_ssl = glade_xml_get_widget (xml, info->ssl_disabled);
+	service->ssl_hbox = e_builder_get_widget (builder, info->ssl_hbox);
+	service->use_ssl = (GtkComboBox *)e_builder_get_widget (builder, info->use_ssl);
+	service->no_ssl = e_builder_get_widget (builder, info->ssl_disabled);
 
 	/* configure ui for current settings */
 	if (url->host) {
@@ -2030,18 +1979,18 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 
 	g_signal_connect (service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
 
-	service->auth_frame = glade_xml_get_widget (xml, info->auth_frame);
-	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, xml);
-	service->check_supported = (GtkButton *)glade_xml_get_widget (xml, info->authtype_check);
-	service->authtype = (GtkComboBox *)glade_xml_get_widget (xml, info->authtype);
+	service->auth_frame = e_builder_get_widget (builder, info->auth_frame);
+	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, builder);
+	service->check_supported = (GtkButton *)e_builder_get_widget (builder, info->authtype_check);
+	service->authtype = (GtkComboBox *)e_builder_get_widget (builder, info->authtype);
 	/* old authtype will be destroyed when we exit */
 	service->auth_changed_id = 0;
-	service->providers = (GtkComboBox *)glade_xml_get_widget (xml, info->type_dropdown);
+	service->providers = (GtkComboBox *)e_builder_get_widget (builder, info->type_dropdown);
 	emae_refresh_providers (emae, service);
 	emae_refresh_authtype (emae, service);
 
 	if (info->needs_auth) {
-		service->needs_auth = (GtkToggleButton *)glade_xml_get_widget (xml, info->needs_auth);
+		service->needs_auth = (GtkToggleButton *)e_builder_get_widget (builder, info->needs_auth);
 		gtk_toggle_button_set_active (service->needs_auth, url->authmech != NULL);
 		g_signal_connect (service->needs_auth, "toggled", G_CALLBACK(emae_needs_auth), service);
 		emae_needs_auth (service->needs_auth, service);
@@ -2137,7 +2086,7 @@ static struct {
 
 /* its a bit obtuse, but its simple */
 static void
-emae_queue_widgets (EMAccountEditor *emae, GladeXML *xml, const gchar *first, ...)
+emae_queue_widgets (EMAccountEditor *emae, GtkBuilder *builder, const gchar *first, ...)
 {
 	gint i = 0;
 	va_list ap;
@@ -2145,7 +2094,7 @@ emae_queue_widgets (EMAccountEditor *emae, GladeXML *xml, const gchar *first, ..
 	va_start (ap, first);
 	while (first) {
 		emae->priv->widgets_name[i] = first;
-		emae->priv->widgets[i++] = glade_xml_get_widget (xml, first);
+		emae->priv->widgets[i++] = e_builder_get_widget (builder, first);
 		first = va_arg (ap, const gchar *);
 	}
 	va_end (ap);
@@ -2160,51 +2109,52 @@ static GtkWidget *
 emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	EAccount *account;
 	gint i;
 	GtkWidget *w;
-	GladeXML *xml;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	/*if (old)
 	  return old;*/
 
 	account = em_account_editor_get_modified_account (emae);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	EM_TYPE_FOLDER_SELECTION_BUTTON;
+
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
 
 	/* Management & Identity fields, in the assistant the management frame is relocated to the last page later on */
 	for (i=0;i<G_N_ELEMENTS (emae_identity_entries);i++)
-		gui->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, xml);
+		priv->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, builder);
 
-	gui->management_frame = glade_xml_get_widget (xml, "management_frame");
+	priv->management_frame = e_builder_get_widget (builder, "management_frame");
 
-	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "management_default"));
+	priv->default_account = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "management_default"));
 	if (!e_get_default_account ()
 		|| (account == e_get_default_account ())
 		|| (GPOINTER_TO_INT(g_object_get_data (G_OBJECT (account), "default_flagged"))) )
-			gtk_toggle_button_set_active (gui->default_account, TRUE);
+			gtk_toggle_button_set_active (priv->default_account, TRUE);
 
 	if (emae->do_signature) {
-		emae_setup_signatures (emae, xml);
+		emae_setup_signatures (emae, builder);
 	} else {
 		/* TODO: this could/should probably be neater */
-		gtk_widget_hide (glade_xml_get_widget (xml, "sigLabel"));
+		gtk_widget_hide (e_builder_get_widget (builder, "sigLabel"));
 #if 0
-		gtk_widget_hide (glade_xml_get_widget (xml, "sigOption"));
+		gtk_widget_hide (e_builder_get_widget (builder, "sigOption"));
 #endif
-		gtk_widget_hide (glade_xml_get_widget (xml, "sigAddNew"));
+		gtk_widget_hide (e_builder_get_widget (builder, "signature_dropdown"));
+		gtk_widget_hide (e_builder_get_widget (builder, "sigAddNew"));
 	}
 
-	w = glade_xml_get_widget (xml, item->label);
+	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[0], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "identity_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -2214,9 +2164,9 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
 	}
 
-	emae_queue_widgets (emae, xml, "account_vbox", "identity_required_table", "identity_optional_table", NULL);
+	emae_queue_widgets (emae, builder, "account_vbox", "identity_required_table", "identity_optional_table", NULL);
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return w;
 }
@@ -2225,27 +2175,23 @@ static GtkWidget *
 emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
-	GladeXML *xml;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	/*if (old)
 	  return old;*/
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
 
-	gui->source.type = CAMEL_PROVIDER_STORE;
-	emae_setup_service (emae, &gui->source, xml);
+	priv->source.type = CAMEL_PROVIDER_STORE;
+	emae_setup_service (emae, &priv->source, builder);
 
-	w = glade_xml_get_widget (xml, item->label);
+	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[1], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "source_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -2255,9 +2201,9 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
 	}
 
-	emae_queue_widgets (emae, xml, "source_type_table", "table4", "vbox181", "vbox179", NULL);
+	emae_queue_widgets (emae, builder, "source_type_table", "table4", "vbox181", "vbox179", NULL);
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return w;
 }
@@ -2681,31 +2627,27 @@ static GtkWidget *
 emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
-	GladeXML *xml;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	/* no transport options page at all for these types of providers */
-	if (gui->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(gui->source.provider)) {
-		memset (&gui->transport.frame, 0, ((gchar *)&gui->transport.check_dialog)-((gchar *)&gui->transport.frame));
+	if (priv->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(priv->source.provider)) {
+		memset (&priv->transport.frame, 0, ((gchar *)&priv->transport.check_dialog)-((gchar *)&priv->transport.frame));
 		return NULL;
 	}
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
 
 	/* Transport */
-	gui->transport.type = CAMEL_PROVIDER_TRANSPORT;
-	emae_setup_service (emae, &gui->transport, xml);
+	priv->transport.type = CAMEL_PROVIDER_TRANSPORT;
+	emae_setup_service (emae, &priv->transport, builder);
 
-	w = glade_xml_get_widget (xml, item->label);
+	w = e_builder_get_widget (builder, item->label);
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[2], w, TRUE, TRUE, 0);
-	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+	} else if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "transport_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
@@ -2715,9 +2657,9 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
 	}
 
-	emae_queue_widgets (emae, xml, "transport_type_table", "vbox12", "vbox183", "vbox61", NULL);
+	emae_queue_widgets (emae, builder, "transport_type_table", "vbox12", "vbox183", "vbox61", NULL);
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return w;
 }
@@ -2726,59 +2668,55 @@ static GtkWidget *
 emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	EAccount *account;
 	GtkWidget *w;
-	GladeXML *xml;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	/*if (old)
 	  return old;*/
 
 	account = em_account_editor_get_modified_account (emae);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
 
 	/* Special folders */
-	gui->drafts_folder_button = (GtkButton *)emae_account_folder (emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, E_MAIL_FOLDER_DRAFTS, xml);
-	gui->sent_folder_button = (GtkButton *)emae_account_folder (emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, E_MAIL_FOLDER_SENT, xml);
+	priv->drafts_folder_button = (GtkButton *)emae_account_folder (emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, E_MAIL_FOLDER_DRAFTS, builder);
+	priv->sent_folder_button = (GtkButton *)emae_account_folder (emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, E_MAIL_FOLDER_SENT, builder);
 
 	/* Special Folders "Reset Defaults" button */
-	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (xml, "default_folders_button");
-	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), emae);
+	priv->restore_folders_button = (GtkButton *)e_builder_get_widget (builder, "default_folders_button");
+	g_signal_connect (priv->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), emae);
 
 	/* Always Cc/Bcc */
-	emae_account_toggle (emae, "always_cc", E_ACCOUNT_CC_ALWAYS, xml);
-	emae_account_entry (emae, "cc_addrs", E_ACCOUNT_CC_ADDRS, xml);
-	emae_account_toggle (emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS, xml);
-	emae_account_entry (emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS, xml);
+	emae_account_toggle (emae, "always_cc", E_ACCOUNT_CC_ALWAYS, builder);
+	emae_account_entry (emae, "cc_addrs", E_ACCOUNT_CC_ADDRS, builder);
+	emae_account_toggle (emae, "always_bcc", E_ACCOUNT_BCC_ALWAYS, builder);
+	emae_account_entry (emae, "bcc_addrs", E_ACCOUNT_BCC_ADDRS, builder);
 
-	gtk_widget_set_sensitive ((GtkWidget *)gui->drafts_folder_button, e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI));
+	gtk_widget_set_sensitive ((GtkWidget *)priv->drafts_folder_button, e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI));
 
-	gtk_widget_set_sensitive ( (GtkWidget *)gui->sent_folder_button,
+	gtk_widget_set_sensitive ( (GtkWidget *)priv->sent_folder_button,
 				  e_account_writable (account, E_ACCOUNT_SENT_FOLDER_URI)
 				  &&
 				  (emae->priv->source.provider ? !(emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER): TRUE)
 				);
 
-	gtk_widget_set_sensitive ((GtkWidget *)gui->restore_folders_button,
+	gtk_widget_set_sensitive ((GtkWidget *)priv->restore_folders_button,
 				 (e_account_writable (account, E_ACCOUNT_SENT_FOLDER_URI)
 				  && ((emae->priv->source.provider  && !( emae->priv->source.provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))
 				      || e_account_writable (account, E_ACCOUNT_DRAFTS_FOLDER_URI))));
 
 	/* Receipt policy */
-	emae_setup_receipt_policy (emae, xml);
+	emae_setup_receipt_policy (emae, builder);
 
-	w = glade_xml_get_widget (xml, item->label);
+	w = e_builder_get_widget (builder, item->label);
 	gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Defaults")));
 
-	emae_queue_widgets (emae, xml, "vbox184", "table8", NULL);
+	emae_queue_widgets (emae, builder, "vbox184", "table8", NULL);
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return w;
 }
@@ -2788,61 +2726,57 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 {
 	EMAccountEditor *emae = data;
 #if defined (HAVE_NSS)
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 #endif
 	GtkWidget *w;
-	GladeXML *xml;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	/*if (old)
 	  return old;*/
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-config.ui");
 
 	/* Security */
-	emae_account_entry (emae, "pgp_key", E_ACCOUNT_PGP_KEY, xml);
-	emae_account_toggle (emae, "pgp_encrypt_to_self", E_ACCOUNT_PGP_ENCRYPT_TO_SELF, xml);
-	emae_account_toggle (emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN, xml);
-	emae_account_toggle (emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, xml);
-	emae_account_toggle (emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST, xml);
+	emae_account_entry (emae, "pgp_key", E_ACCOUNT_PGP_KEY, builder);
+	emae_account_toggle (emae, "pgp_encrypt_to_self", E_ACCOUNT_PGP_ENCRYPT_TO_SELF, builder);
+	emae_account_toggle (emae, "pgp_always_sign", E_ACCOUNT_PGP_ALWAYS_SIGN, builder);
+	emae_account_toggle (emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, builder);
+	emae_account_toggle (emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST, builder);
 
 #if defined (HAVE_NSS)
 	/* TODO: this should handle its entry separately? */
-	gui->smime_sign_key = emae_account_entry (emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, xml);
-	gui->smime_sign_key_select = (GtkButton *)glade_xml_get_widget (xml, "smime_sign_key_select");
-	gui->smime_sign_key_clear = (GtkButton *)glade_xml_get_widget (xml, "smime_sign_key_clear");
-	g_signal_connect (gui->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), emae);
-	g_signal_connect (gui->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), emae);
+	priv->smime_sign_key = emae_account_entry (emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, builder);
+	priv->smime_sign_key_select = (GtkButton *)e_builder_get_widget (builder, "smime_sign_key_select");
+	priv->smime_sign_key_clear = (GtkButton *)e_builder_get_widget (builder, "smime_sign_key_clear");
+	g_signal_connect (priv->smime_sign_key_select, "clicked", G_CALLBACK(smime_sign_key_select), emae);
+	g_signal_connect (priv->smime_sign_key_clear, "clicked", G_CALLBACK(smime_sign_key_clear), emae);
 
-	gui->smime_sign_default = emae_account_toggle (emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT, xml);
+	priv->smime_sign_default = emae_account_toggle (emae, "smime_sign_default", E_ACCOUNT_SMIME_SIGN_DEFAULT, builder);
 
-	gui->smime_encrypt_key = emae_account_entry (emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY, xml);
-	gui->smime_encrypt_key_select = (GtkButton *)glade_xml_get_widget (xml, "smime_encrypt_key_select");
-	gui->smime_encrypt_key_clear = (GtkButton *)glade_xml_get_widget (xml, "smime_encrypt_key_clear");
-	g_signal_connect (gui->smime_encrypt_key_select, "clicked", G_CALLBACK(smime_encrypt_key_select), emae);
-	g_signal_connect (gui->smime_encrypt_key_clear, "clicked", G_CALLBACK(smime_encrypt_key_clear), emae);
+	priv->smime_encrypt_key = emae_account_entry (emae, "smime_encrypt_key", E_ACCOUNT_SMIME_ENCRYPT_KEY, builder);
+	priv->smime_encrypt_key_select = (GtkButton *)e_builder_get_widget (builder, "smime_encrypt_key_select");
+	priv->smime_encrypt_key_clear = (GtkButton *)e_builder_get_widget (builder, "smime_encrypt_key_clear");
+	g_signal_connect (priv->smime_encrypt_key_select, "clicked", G_CALLBACK(smime_encrypt_key_select), emae);
+	g_signal_connect (priv->smime_encrypt_key_clear, "clicked", G_CALLBACK(smime_encrypt_key_clear), emae);
 
-	gui->smime_encrypt_default = emae_account_toggle (emae, "smime_encrypt_default", E_ACCOUNT_SMIME_ENCRYPT_DEFAULT, xml);
-	gui->smime_encrypt_to_self = emae_account_toggle (emae, "smime_encrypt_to_self", E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, xml);
+	priv->smime_encrypt_default = emae_account_toggle (emae, "smime_encrypt_default", E_ACCOUNT_SMIME_ENCRYPT_DEFAULT, builder);
+	priv->smime_encrypt_to_self = emae_account_toggle (emae, "smime_encrypt_to_self", E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, builder);
 	smime_changed (emae);
 #else
 	{
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
 
-		frame = glade_xml_get_widget (xml, "smime_vbox");
+		frame = e_builder_get_widget (builder, "smime_vbox");
 		gtk_widget_destroy (frame);
 	}
 #endif /* HAVE_NSS */
 
-	w = glade_xml_get_widget (xml, item->label);
+	w = e_builder_get_widget (builder, item->label);
 	gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Security")));
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return w;
 }
@@ -2902,11 +2836,11 @@ static GtkWidget *
 emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
 
-	w = gui->management_frame;
-	if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
+	w = priv->management_frame;
+	if (((EConfig *)priv->config)->type == E_CONFIG_ASSISTANT) {
 		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "management_page", old);
 
 		gtk_widget_reparent (w, page);
@@ -3315,7 +3249,7 @@ emae_editor_destroyed (GtkWidget *dialog, EMAccountEditor *emae)
 static void
 em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id)
 {
-	EMAccountEditorPrivate *gui = emae->priv;
+	EMAccountEditorPrivate *priv = emae->priv;
 	EAccount *account;
 	gint i, index;
 	GSList *l;
@@ -3328,7 +3262,7 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 	emae->type = type;
 
 	/* sort the providers, remote first */
-	gui->providers = g_list_sort (camel_provider_list (TRUE), (GCompareFunc)provider_compare);
+	priv->providers = g_list_sort (camel_provider_list (TRUE), (GCompareFunc)provider_compare);
 
 	if (type == EMAE_NOTEBOOK) {
 		ec = em_config_new (E_CONFIG_BOOK, id);
@@ -3352,7 +3286,7 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 		}
 	}
 
-	emae->config = gui->config = ec;
+	emae->config = priv->config = ec;
 	l = NULL;
 	for (i=0;items[i].path;i++)
 		l = g_slist_prepend (l, &items[i]);
@@ -3362,7 +3296,7 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 	l = NULL;
 	have = g_hash_table_new (g_str_hash, g_str_equal);
 	index = 20;
-	for (prov=gui->providers;prov;prov=g_list_next (prov)) {
+	for (prov=priv->providers;prov;prov=g_list_next (prov)) {
 		CamelProviderConfEntry *entries = ((CamelProvider *)prov->data)->extra_conf;
 
 		for (i=0;entries && entries[i].type != CAMEL_PROVIDER_CONF_END;i++) {
@@ -3400,7 +3334,7 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 	}
 	g_hash_table_destroy (have);
 	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emae_free_auto, emae);
-	gui->extra_items = l;
+	priv->extra_items = l;
 
 	e_config_add_page_check ((EConfig *)ec, NULL, emae_check_complete, emae);
 

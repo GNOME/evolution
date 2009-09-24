@@ -23,7 +23,6 @@
 #ifndef __E_CONTACT_LIST_EDITOR_H__
 #define __E_CONTACT_LIST_EDITOR_H__
 
-#include <glade/glade.h>
 #include <libedataserverui/e-name-selector.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"

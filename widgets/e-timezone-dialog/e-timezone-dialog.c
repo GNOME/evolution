@@ -27,11 +27,11 @@
 #include <time.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <misc/e-map.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-system-timezone.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 #include "e-timezone-dialog.h"
@@ -58,8 +58,7 @@ struct _ETimezoneDialogPrivate {
 	   the displayed name is ""). */
 	icaltimezone *zone;
 
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
 	EMapPoint *point_selected;
 	EMapPoint *point_hover;
@@ -69,7 +68,7 @@ struct _ETimezoneDialogPrivate {
 	/* The timeout used to flash the nearest point. */
 	guint timeout_id;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *app;
 	GtkWidget *table;
 	GtkWidget *map_window;
@@ -161,9 +160,9 @@ e_timezone_dialog_dispose (GObject *object)
 		priv->timeout_id = 0;
 	}
 
-	if (priv->xml) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose) (object);
@@ -261,7 +260,6 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 	GtkWidget *map;
-	gchar *filename;
 
 	g_return_val_if_fail (etd != NULL, NULL);
 	g_return_val_if_fail (E_IS_TIMEZONE_DIALOG (etd), NULL);
@@ -270,16 +268,8 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
 	/* Load the content widgets */
 
-	filename = g_build_filename (EVOLUTION_GLADEDIR,
-				     "e-timezone-dialog.glade",
-				     NULL);
-	priv->xml = glade_xml_new (filename, NULL, NULL);
-	g_free (filename);
-
-	if (!priv->xml) {
-		g_message ("e_timezone_dialog_construct(): Could not load the Glade XML file!");
-		goto error;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "e-timezone-dialog.ui");
 
 	if (!get_widgets (etd)) {
 		g_message ("e_timezone_dialog_construct(): Could not find all widgets in the XML file!");
@@ -364,16 +354,16 @@ static gboolean
 get_widgets (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
+	GtkBuilder *builder;
 
 	priv = etd->priv;
+	builder = etd->priv->builder;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
-
-	priv->app		= GW ("timezone-dialog");
-	priv->map_window	= GW ("map-window");
-	priv->timezone_combo	= GW ("timezone-combo");
-	priv->table             = GW ("timezone-table");
-	priv->preview_label     = GW ("preview-label");
+	priv->app = e_builder_get_widget (builder, "timezone-dialog");
+	priv->map_window = e_builder_get_widget (builder, "map-window");
+	priv->timezone_combo = e_builder_get_widget (builder, "timezone-combo");
+	priv->table = e_builder_get_widget (builder, "timezone-table");
+	priv->preview_label = e_builder_get_widget (builder, "preview-label");
 
 	return (priv->app
 		&& priv->map_window

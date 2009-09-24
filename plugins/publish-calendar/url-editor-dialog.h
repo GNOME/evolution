@@ -24,7 +24,6 @@
 #define URL_EDITOR_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <libedataserverui/e-source-selector.h>
 #include "publish-location.h"
 
@@ -62,7 +61,7 @@ struct _UrlEditorDialog {
 	GtkTreeModel *url_list_model;
 	EPublishUri *uri;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	GtkWidget *type_selector;
 	GtkWidget *fb_duration_label;

@@ -28,9 +28,9 @@
 
 #include <gtk/gtk.h>
 #include <libical/ical.h>
-#include <glade/glade.h>
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-delegate-dialog.h"
 
@@ -38,10 +38,9 @@ struct _EDelegateDialogPrivate {
 	gchar *name;
 	gchar *address;
 
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *app;
 	GtkWidget *hbox;
 	GtkWidget *addressbook;
@@ -121,7 +120,6 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gcha
 	EDestination *dest;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
-	gchar *gladefile;
 
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
@@ -130,16 +128,8 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const gchar *name, const gcha
 
 	/* Load the content widgets */
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "e-delegate-dialog.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("e_delegate_dialog_construct(): Could not load the Glade XML file!");
-		goto error;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "e-delegate-dialog.ui");
 
 	if (!get_widgets (edd)) {
 		g_message ("e_delegate_dialog_construct(): Could not find all widgets in the XML file!");
@@ -186,11 +176,9 @@ get_widgets (EDelegateDialog *edd)
 
 	priv = edd->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
-
-	priv->app		= GW ("delegate-dialog");
-	priv->hbox              = GW ("delegate-hbox");
-	priv->addressbook	= GW ("addressbook");
+	priv->app = e_builder_get_widget (priv->builder, "delegate-dialog");
+	priv->hbox = e_builder_get_widget (priv->builder, "delegate-hbox");
+	priv->addressbook = e_builder_get_widget (priv->builder, "addressbook");
 
 	return (priv->app
 		&& priv->hbox

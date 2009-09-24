@@ -26,7 +26,6 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include "e-util/e-util-private.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
@@ -34,7 +33,7 @@
 
 typedef struct
 {
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkWidget *dialog;
 
 	GtkWidget *month_combobox;
@@ -172,7 +171,7 @@ goto_today (GoToDialog *dlg)
 static gboolean
 get_widgets (GoToDialog *dlg)
 {
-#define GW(name) glade_xml_get_widget (dlg->xml, name)
+#define GW(name) e_builder_get_widget (dlg->builder, name)
 
 	dlg->dialog = GW ("goto-dialog");
 
@@ -204,14 +203,13 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 
 /* Creates a "goto date" dialog and runs it */
 void
-goto_dialog (GnomeCalendar *gcal)
+goto_dialog (GtkWindow *parent, GnomeCalendar *gcal)
 {
 	ECalModel *model;
 	time_t start_time;
 	struct icaltimetype tt;
 	icaltimezone *timezone;
 	gint b;
-	gchar *gladefile;
 
 	if (dlg) {
 		return;
@@ -220,16 +218,8 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg = g_new0 (GoToDialog, 1);
 
 	/* Load the content widgets */
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "goto-dialog.glade",
-				      NULL);
-	dlg->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-	if (!dlg->xml) {
-		g_message ("goto_dialog(): Could not load the Glade XML file!");
-		g_free (dlg);
-		return;
-	}
+	dlg->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (dlg->builder, "goto-dialog.ui");
 
 	if (!get_widgets (dlg)) {
 		g_message ("goto_dialog(): Could not find all widgets in the XML file!");
@@ -253,8 +243,7 @@ goto_dialog (GnomeCalendar *gcal)
 
 	goto_dialog_init_widgets (dlg);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dlg->dialog),
-				      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	gtk_window_set_transient_for (GTK_WINDOW (dlg->dialog), parent);
 
 	/* set initial selection to current day */
 
@@ -275,7 +264,7 @@ goto_dialog (GnomeCalendar *gcal)
 	if (b == 0)
 		goto_today (dlg);
 
-	g_object_unref (dlg->xml);
+	g_object_unref (dlg->builder);
 	g_free (dlg);
 	dlg = NULL;
 }

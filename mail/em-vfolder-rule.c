@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <glib/gi18n.h>
 
 #include "camel/camel-url.h"
@@ -38,6 +37,8 @@
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
+
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
@@ -569,59 +570,18 @@ source_remove(GtkWidget *widget, struct _source_data *data)
 	set_sensitive(data);
 }
 
-GtkWidget *em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *string2,
-					  gint int1, gint int2);
-
-GtkWidget *
-em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
-{
-	GtkWidget *table, *scrolled;
-	GtkTreeSelection *selection;
-	GtkCellRenderer *renderer;
-	GtkListStore *model;
-
-	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
-	table = gtk_tree_view_new_with_model((GtkTreeModel *)model);
-	gtk_tree_view_set_headers_visible((GtkTreeView *)table, FALSE);
-
-	renderer = gtk_cell_renderer_text_new();
-	gtk_tree_view_insert_column_with_attributes((GtkTreeView *)table, -1,
-						     _("Search Folder source"), renderer,
-						     "text", 0, NULL);
-
-	selection = gtk_tree_view_get_selection((GtkTreeView *)table);
-	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-
-	gtk_container_add(GTK_CONTAINER(scrolled), table);
-
-	g_object_set_data((GObject *)scrolled, "table", table);
-	g_object_set_data((GObject *)scrolled, "model", model);
-
-	gtk_widget_show(scrolled);
-	gtk_widget_show(table);
-
-	g_object_unref (model);
-
-	return scrolled;
-}
-
 static GtkWidget *
 get_widget(EFilterRule *fr, ERuleContext *rc)
 {
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
-	GtkWidget *widget, *frame, *list;
+	GtkWidget *widget, *frame;
 	struct _source_data *data;
 	GtkRadioButton *rb;
 	const gchar *source;
 	GtkTreeIter iter;
-	GladeXML *gui;
+	GtkBuilder *builder;
+	GObject *object;
 	gint i;
-	gchar *gladefile;
 
         widget = E_FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 
@@ -629,24 +589,22 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 	data->rc = rc;
 	data->vr = vr;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-dialogs.glade",
-				      NULL);
-	gui = glade_xml_new(gladefile, "vfolder_source_frame", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-        frame = glade_xml_get_widget(gui, "vfolder_source_frame");
+        frame = e_builder_get_widget(builder, "vfolder_source_frame");
 
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);
 
 	for (i = 0; i < BUTTON_LAST; i++) {
-		data->buttons[i] =(GtkButton *)glade_xml_get_widget(gui, edit_buttons[i].name);
+		data->buttons[i] =(GtkButton *)e_builder_get_widget(builder, edit_buttons[i].name);
 		g_signal_connect(data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 
-	list = glade_xml_get_widget(gui, "source_list");
-	data->list =(GtkTreeView *)g_object_get_data((GObject *)list, "table");
-	data->model =(GtkListStore *)g_object_get_data((GObject *)list, "model");
+	object = gtk_builder_get_object (builder, "source_list");
+	data->list = GTK_TREE_VIEW (object);
+	object = gtk_builder_get_object (builder, "source_model");
+	data->model = GTK_LIST_STORE (object);
 
 	source = NULL;
 	while ((source = em_vfolder_rule_next_source(vr, source))) {
@@ -659,19 +617,19 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 
 	g_signal_connect(data->list, "cursor-changed", G_CALLBACK(select_source), data);
 
-	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "local_rb");
+	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_rb");
 	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
 
-	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "remote_rb");
+	rb = (GtkRadioButton *)e_builder_get_widget (builder, "remote_rb");
 	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
 
-	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "local_and_remote_rb");
+	rb = (GtkRadioButton *)e_builder_get_widget (builder, "local_and_remote_rb");
 	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
 
-	rb = (GtkRadioButton *)glade_xml_get_widget (gui, "specific_rb");
+	rb = (GtkRadioButton *)e_builder_get_widget (builder, "specific_rb");
 	g_signal_connect (GTK_WIDGET(rb), "toggled", G_CALLBACK(select_source_with_changed), data);
 
-	data->source_selector = (GtkWidget *)glade_xml_get_widget (gui, "source_selector");
+	data->source_selector = (GtkWidget *)e_builder_get_widget (builder, "source_selector");
 
 	rb = g_slist_nth_data(gtk_radio_button_get_group (rb), vr->with);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb), TRUE);
@@ -679,7 +637,7 @@ get_widget(EFilterRule *fr, ERuleContext *rc)
 
 	set_sensitive(data);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	gtk_box_pack_start(GTK_BOX(widget), frame, TRUE, TRUE, 3);
 

@@ -28,7 +28,6 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-error.h>
-#include <glade/glade.h>
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
@@ -41,7 +40,6 @@
 #define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
 
 typedef struct {
-        GladeXML *xml;
         GConfClient *gconf;
         GtkWidget   *treeview;
         GtkWidget   *header_add;
@@ -57,8 +55,7 @@ enum {
 };
 
 struct _EmailCustomHeaderOptionsDialogPrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 	/*Widgets*/
 	GtkWidget *main;
 	GtkWidget *page;
@@ -119,7 +116,7 @@ epech_get_widgets (CustomHeaderOptionsDialog *mch)
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	priv = mch->priv;
 
-#define EMAIL_CUSTOM_HEADER(name) glade_xml_get_widget (priv->xml, name)
+#define EMAIL_CUSTOM_HEADER(name) e_builder_get_widget (priv->builder, name)
 	priv->main = EMAIL_CUSTOM_HEADER ("email-custom-header-dialog");
 
 	if (!priv->main)
@@ -207,7 +204,7 @@ epech_header_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);
-			g_object_unref (priv->xml);
+			g_object_unref (priv->builder);
 			break;
 		case GTK_RESPONSE_HELP:
 			e_display_help (
@@ -224,24 +221,17 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
 {
 	EmailCustomHeaderOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
-	gchar *filename;
 
 	g_return_val_if_fail (mch != NULL || EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (mch), FALSE);
 	priv = mch->priv;
 	epech_get_header_list (mch);
 
-	filename = g_build_filename (EVOLUTION_GLADEDIR,
-			"org-gnome-email-custom-header.glade",
-			NULL);
-	priv->xml = glade_xml_new (filename, NULL, NULL);
-	g_free (filename);
-
-	if (!priv->xml) {
-		d (printf ("\n Could not load the Glade XML file\n"));
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (
+		priv->builder, "org-gnome-email-custom-header.ui");
 
 	if (!epech_get_widgets(mch)) {
-		g_object_unref (priv->xml);
+		g_object_unref (priv->builder);
 		d (printf ("\n Could not get the Widgets\n"));
 	}
 
@@ -424,7 +414,7 @@ epech_dialog_init (GObject *object)
 	mch = EMAIL_CUSTOM_HEADEROPTIONS_DIALOG (object);
 	priv = g_new0 (EmailCustomHeaderOptionsDialogPrivate, 1);
 	mch->priv = priv;
-	priv->xml = NULL;
+	priv->builder = NULL;
 	priv->main = NULL;
 	priv->page = NULL;
 	priv->header_table = NULL;
@@ -861,7 +851,6 @@ destroy_cd_data (gpointer data)
 	if (!cd)
 		return;
 
-	g_object_unref (cd->xml);
 	g_object_unref (cd->gconf);
 	g_free (cd);
 }
@@ -880,22 +869,77 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
         gchar *buffer;
         GtkTreeViewColumn *col;
 	gint col_pos;
-
 	GConfClient *client = gconf_client_get_default();
-
 	ConfigData *cd = g_new0 (ConfigData, 1);
 
-	gchar *gladefile;
+	GtkWidget *ech_configuration_box;
+	GtkWidget *vbox2;
+	GtkWidget *label1;
+	GtkWidget *header_configuration_box;
+	GtkWidget *header_container;
+	GtkWidget *scrolledwindow1;
+	GtkWidget *header_treeview;
+	GtkWidget *vbuttonbox1;
+	GtkWidget *header_add;
+	GtkWidget *header_edit;
+	GtkWidget *header_remove;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-			"email-custom-header.glade",
-			NULL);
-	cd->xml = glade_xml_new (gladefile, "ech_configuration_box", NULL);
-	g_free (gladefile);
+	ech_configuration_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (ech_configuration_box);
+
+	vbox2 = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (vbox2);
+	gtk_box_pack_start (GTK_BOX (ech_configuration_box), vbox2, FALSE, FALSE, 0);
+
+	/* To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values */
+	label1 = gtk_label_new (_("The format for specifying a Custom Header key value is:\nName of the Custom Header key values separated by \";\"."));
+	gtk_widget_show (label1);
+	gtk_box_pack_start (GTK_BOX (vbox2), label1, FALSE, TRUE, 0);
+	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
+	gtk_label_set_line_wrap (GTK_LABEL (label1), TRUE);
+
+	header_configuration_box = gtk_vbox_new (FALSE, 5);
+	gtk_widget_show (header_configuration_box);
+	gtk_box_pack_start (GTK_BOX (ech_configuration_box), header_configuration_box, TRUE, TRUE, 0);
+
+	header_container = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (header_container);
+	gtk_box_pack_start (GTK_BOX (header_configuration_box), header_container, TRUE, TRUE, 0);
+
+	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow1);
+	gtk_box_pack_start (GTK_BOX (header_container), scrolledwindow1, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	header_treeview = gtk_tree_view_new ();
+	gtk_widget_show (header_treeview);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow1), header_treeview);
+	gtk_container_set_border_width (GTK_CONTAINER (header_treeview), 1);
+
+	vbuttonbox1 = gtk_vbutton_box_new ();
+	gtk_widget_show (vbuttonbox1);
+	gtk_box_pack_start (GTK_BOX (header_container), vbuttonbox1, FALSE, TRUE, 0);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox1), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (vbuttonbox1), 6);
+
+	header_add = gtk_button_new_from_stock ("gtk-add");
+	gtk_widget_show (header_add);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_add);
+	GTK_WIDGET_SET_FLAGS (header_add, GTK_CAN_DEFAULT);
+
+	header_edit = gtk_button_new_from_stock ("gtk-edit");
+	gtk_widget_show (header_edit);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_edit);
+	GTK_WIDGET_SET_FLAGS (header_edit, GTK_CAN_DEFAULT);
+
+	header_remove = gtk_button_new_from_stock ("gtk-remove");
+	gtk_widget_show (header_remove);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), header_remove);
+	GTK_WIDGET_SET_FLAGS (header_remove, GTK_CAN_DEFAULT);
 
 	cd->gconf = gconf_client_get_default ();
 
-	cd->treeview = glade_xml_get_widget (cd->xml, "header_treeview");
+	cd->treeview = header_treeview;
 
 	cd->store = gtk_list_store_new (HEADER_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -927,14 +971,14 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), cd);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (cd->treeview), TRUE);
 
-	cd->header_add = glade_xml_get_widget (cd->xml, "header_add");
+	cd->header_add = header_add;
 	g_signal_connect (G_OBJECT (cd->header_add), "clicked", G_CALLBACK (header_add_clicked), cd);
 
-	cd->header_remove = glade_xml_get_widget (cd->xml, "header_remove");
+	cd->header_remove = header_remove;
 	g_signal_connect (G_OBJECT (cd->header_remove), "clicked", G_CALLBACK (header_remove_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_remove, FALSE);
 
-	cd->header_edit = glade_xml_get_widget (cd->xml, "header_edit");
+	cd->header_edit = header_edit;
 	g_signal_connect (G_OBJECT (cd->header_edit), "clicked", G_CALLBACK (header_edit_clicked), cd);
 	gtk_widget_set_sensitive (cd->header_edit, FALSE);
 
@@ -968,7 +1012,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	hbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (hbox), glade_xml_get_widget (cd->xml, "ech_configuration_box"), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), ech_configuration_box, TRUE, TRUE, 0);
 
 	/* to let free data properly on destroy of configuration widget */
 	g_object_set_data_full (G_OBJECT (hbox), "mycd-data", cd, destroy_cd_data);

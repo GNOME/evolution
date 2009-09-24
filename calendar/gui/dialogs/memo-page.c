@@ -33,7 +33,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-name-selector.h>
@@ -42,11 +41,13 @@
 #include <widgets/misc/e-dateedit.h>
 #include "misc/e-buffer-tagger.h"
 
-#include "common/authentication.h"
-#include "e-util/e-dialog-widgets.h"
-#include <e-util/e-dialog-utils.h>
+#include "e-util/e-util.h"
 #include "e-util/e-categories-config.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
+
+#include "common/authentication.h"
 #include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
@@ -59,10 +60,9 @@
 
 /* Private part of the MemoPage structure */
 struct _MemoPagePrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *main;
 
 	GtkWidget *memo_content;
@@ -161,9 +161,9 @@ memo_page_finalize (GObject *object)
 		priv->main = NULL;
 	}
 
-	if (priv->xml) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	g_free (priv->subscriber_info_text);
@@ -770,7 +770,7 @@ get_widgets (MemoPage *mpage)
 
 	priv = mpage->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 	priv->main = GW ("memo-page");
 	if (!priv->main) {
@@ -795,6 +795,7 @@ get_widgets (MemoPage *mpage)
 	priv->org_label = GW ("org-label");
 	priv->org_combo = GW ("org-combo");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo))));
+	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (priv->org_combo), 0);
 
 	priv->to_button = GW ("to-button");
 	priv->to_hbox = GW ("to-hbox");
@@ -811,8 +812,10 @@ get_widgets (MemoPage *mpage)
 	priv->categories = GW ("categories");
 
 	priv->source_selector = GW ("source");
-
 #undef GW
+
+	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/memos/sources");
+	comp_editor_bind_date_edit_settings (priv->start_date, NULL);
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -1116,23 +1119,13 @@ memo_page_construct (MemoPage *mpage)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	EIterator *it;
-	gchar *gladefile;
 	EAccount *a;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	flags = comp_editor_get_flags (editor);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "memo-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("memo_page_construct(): "
-			   "Could not load the Glade XML file!");
-		return NULL;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "memo-page.ui");
 
 	if (!get_widgets (mpage)) {
 		g_message ("memo_page_construct(): "
@@ -1218,45 +1211,4 @@ memo_page_new (CompEditor *editor)
 	}
 
 	return mpage;
-}
-
-GtkWidget *memo_page_create_date_edit (void);
-
-GtkWidget *
-memo_page_create_date_edit (void)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-	GtkWidget *widget;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	widget = comp_editor_new_date_edit (shell_settings, TRUE, FALSE, TRUE);
-	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
-	gtk_widget_show (widget);
-
-	return widget;
-}
-
-GtkWidget *memo_page_create_source_combo_box (void);
-
-GtkWidget *
-memo_page_create_source_combo_box (void)
-{
-	GtkWidget *widget;
-	GConfClient *client;
-	ESourceList *source_list;
-
-	client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (
-		client, "/apps/evolution/memos/sources");
-
-	widget = e_source_combo_box_new (source_list);
-	gtk_widget_show (widget);
-
-	g_object_unref (source_list);
-	g_object_unref (client);
-
-	return widget;
 }

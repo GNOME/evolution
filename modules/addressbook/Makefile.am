@@ -19,9 +19,9 @@ libevolution_module_addressbook_la_CPPFLAGS =			\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"			\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -106,13 +106,13 @@ install-data-local:
 	fi
 endif
 
-glade_DATA =			\
-	ldap-config.glade
+ui_DATA =			\
+	ldap-config.ui
 
 DISTCLEANFILES = $(schema_DATA)
 
 EXTRA_DIST =			\
-	$(glade_DATA)		\
+	$(ui_DATA)		\
 	$(schema_in_files)	\
 	openldap-extract.h
 

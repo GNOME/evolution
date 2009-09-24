@@ -25,13 +25,10 @@
 #include <config.h>
 #endif
 
-#define GLADE_FILE_NAME "smime-ui.glade"
-
 #include <gtk/gtk.h>
 
 #include <glib/gi18n.h>
 
-#include <glade/glade.h>
 #include "ca-trust-dialog.h"
 #include "cert-trust-dialog.h"
 #include "certificate-manager.h"
@@ -49,11 +46,12 @@
 #include <pk11func.h>
 
 #include "shell/e-shell.h"
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-preferences-window.h"
 
 typedef struct {
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	GtkWidget *yourcerts_treeview;
 	GtkTreeStore *yourcerts_treemodel;
@@ -994,7 +992,6 @@ certificate_manager_config_init (EShell *shell)
 	CertificateManagerData *cfm_data;
 	GtkWidget *preferences_window;
 	GtkWidget *widget;
-	gchar *gladefile;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
@@ -1003,31 +1000,28 @@ certificate_manager_config_init (EShell *shell)
 
 	cfm_data = g_new0 (CertificateManagerData, 1);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	cfm_data->gui = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	cfm_data->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (cfm_data->builder, "smime-ui.ui");
 
-	cfm_data->yourcerts_treeview = glade_xml_get_widget (cfm_data->gui, "yourcerts-treeview");
-	cfm_data->contactcerts_treeview = glade_xml_get_widget (cfm_data->gui, "contactcerts-treeview");
-	cfm_data->authoritycerts_treeview = glade_xml_get_widget (cfm_data->gui, "authoritycerts-treeview");
+	cfm_data->yourcerts_treeview = e_builder_get_widget (cfm_data->builder, "yourcerts-treeview");
+	cfm_data->contactcerts_treeview = e_builder_get_widget (cfm_data->builder, "contactcerts-treeview");
+	cfm_data->authoritycerts_treeview = e_builder_get_widget (cfm_data->builder, "authoritycerts-treeview");
 
-	cfm_data->view_your_button = glade_xml_get_widget (cfm_data->gui, "your-view-button");
-	cfm_data->backup_your_button = glade_xml_get_widget (cfm_data->gui, "your-backup-button");
-	cfm_data->backup_all_your_button = glade_xml_get_widget (cfm_data->gui, "your-backup-all-button");
-	cfm_data->import_your_button = glade_xml_get_widget (cfm_data->gui, "your-import-button");
-	cfm_data->delete_your_button = glade_xml_get_widget (cfm_data->gui, "your-delete-button");
+	cfm_data->view_your_button = e_builder_get_widget (cfm_data->builder, "your-view-button");
+	cfm_data->backup_your_button = e_builder_get_widget (cfm_data->builder, "your-backup-button");
+	cfm_data->backup_all_your_button = e_builder_get_widget (cfm_data->builder, "your-backup-all-button");
+	cfm_data->import_your_button = e_builder_get_widget (cfm_data->builder, "your-import-button");
+	cfm_data->delete_your_button = e_builder_get_widget (cfm_data->builder, "your-delete-button");
 
-	cfm_data->view_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-view-button");
-	cfm_data->edit_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-edit-button");
-	cfm_data->import_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-import-button");
-	cfm_data->delete_contact_button = glade_xml_get_widget (cfm_data->gui, "contact-delete-button");
+	cfm_data->view_contact_button = e_builder_get_widget (cfm_data->builder, "contact-view-button");
+	cfm_data->edit_contact_button = e_builder_get_widget (cfm_data->builder, "contact-edit-button");
+	cfm_data->import_contact_button = e_builder_get_widget (cfm_data->builder, "contact-import-button");
+	cfm_data->delete_contact_button = e_builder_get_widget (cfm_data->builder, "contact-delete-button");
 
-	cfm_data->view_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-view-button");
-	cfm_data->edit_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-edit-button");
-	cfm_data->import_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-import-button");
-	cfm_data->delete_ca_button = glade_xml_get_widget (cfm_data->gui, "authority-delete-button");
+	cfm_data->view_ca_button = e_builder_get_widget (cfm_data->builder, "authority-view-button");
+	cfm_data->edit_ca_button = e_builder_get_widget (cfm_data->builder, "authority-edit-button");
+	cfm_data->import_ca_button = e_builder_get_widget (cfm_data->builder, "authority-import-button");
+	cfm_data->delete_ca_button = e_builder_get_widget (cfm_data->builder, "authority-delete-button");
 
 	initialize_yourcerts_ui(cfm_data);
 	initialize_contactcerts_ui(cfm_data);
@@ -1035,7 +1029,7 @@ certificate_manager_config_init (EShell *shell)
 
 	populate_ui (cfm_data);
 
-	widget = glade_xml_get_widget (cfm_data->gui, "cert-manager-notebook");
+	widget = e_builder_get_widget (cfm_data->builder, "cert-manager-notebook");
 	g_object_ref (widget);
 
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);

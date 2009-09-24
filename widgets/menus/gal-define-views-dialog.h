@@ -24,7 +24,6 @@
 #define __GAL_DEFINE_VIEWS_DIALOG_H__
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 
 #include <widgets/menus/gal-view-collection.h>
 
@@ -52,7 +51,7 @@ struct _GalDefineViewsDialog
 	GtkDialog parent;
 
 	/* item specific fields */
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkTreeView *treeview;
 	GtkTreeModel *model;
 

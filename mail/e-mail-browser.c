@@ -440,7 +440,7 @@ mail_browser_constructed (GObject *object)
 		G_N_ELEMENTS (mail_browser_entries), object);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
-	e_load_ui_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
+	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);

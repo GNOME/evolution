@@ -186,7 +186,7 @@ gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 	GtkWidget *scrolled;
 	ETable *etable;
 
-	scrolled = glade_xml_get_widget(dialog->gui, "custom-table");
+	scrolled = e_builder_get_widget(dialog->builder, "custom-table");
 	etable = e_table_scrolled_get_table(E_TABLE_SCROLLED(scrolled));
 	row = e_table_get_cursor_row (E_TABLE(etable));
 
@@ -210,10 +210,10 @@ gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 					 &iter)) {
 		gtk_tree_model_get (dialog->model, &iter, COL_GALVIEW_DATA, &item, -1);
 
-		button = glade_xml_get_widget (dialog->gui, "button-delete");
+		button = e_builder_get_widget (dialog->builder, "button-delete");
 		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in);
 
-		button = glade_xml_get_widget (dialog->gui, "button-modify");
+		button = e_builder_get_widget (dialog->builder, "button-modify");
 		gtk_widget_set_sensitive (GTK_WIDGET (button), !item->built_in);
 	}
 }
@@ -223,7 +223,7 @@ gdvd_connect_signal(GalDefineViewsDialog *dialog, const gchar *widget_name, cons
 {
 	GtkWidget *widget;
 
-	widget = glade_xml_get_widget (dialog->gui, widget_name);
+	widget = e_builder_get_widget (dialog->builder, widget_name);
 
 	if (widget)
 		g_signal_connect (widget, signal, handler, dialog);
@@ -238,20 +238,14 @@ dialog_response (GalDefineViewsDialog *dialog, gint response_id, gpointer data)
 static void
 gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 {
-	GladeXML *gui;
 	GtkWidget *widget;
-
-	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
-					    "gal-define-views.glade",
-					    NULL);
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-	g_free (filename);
-	dialog->gui = gui;
+	dialog->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (dialog->builder, "gal-define-views.ui");
 
-	widget = glade_xml_get_widget (gui, "table-top");
+	widget = e_builder_get_widget (dialog->builder, "table-top");
 	if (!widget) {
 		return;
 	}
@@ -268,7 +262,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 				NULL);
 
-	dialog->treeview = GTK_TREE_VIEW (glade_xml_get_widget (dialog->gui, "treeview1"));
+	dialog->treeview = GTK_TREE_VIEW (e_builder_get_widget (dialog->builder, "treeview1"));
         gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
 	gtk_tree_view_set_headers_visible (dialog->treeview, TRUE);
 
@@ -291,9 +285,9 @@ gal_define_views_dialog_dispose (GObject *object)
 {
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
 
-	if (gal_define_views_dialog->gui)
-		g_object_unref(gal_define_views_dialog->gui);
-	gal_define_views_dialog->gui = NULL;
+	if (gal_define_views_dialog->builder)
+		g_object_unref(gal_define_views_dialog->builder);
+	gal_define_views_dialog->builder = NULL;
 
 	if (G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose)
 		(* G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose) (object);
@@ -349,8 +343,8 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (dialog->model),
 					      COL_GALVIEW_NAME, GTK_SORT_ASCENDING);
 
-	if (dialog->gui) {
-		GtkWidget *widget = glade_xml_get_widget(dialog->gui, "label-views");
+	if (dialog->builder) {
+		GtkWidget *widget = e_builder_get_widget(dialog->builder, "label-views");
 		if (widget && GTK_IS_LABEL (widget)) {
 			if (collection->title) {
 				gchar *text = g_strdup_printf (_("Define Views for %s"),

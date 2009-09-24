@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/gconf-bridge.h"
 
@@ -113,20 +114,17 @@ GtkWidget *
 em_vfolder_editor_new (EMVFolderContext *vc)
 {
 	EMVFolderEditor *ve;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	ve = g_object_new (EM_TYPE_VFOLDER_EDITOR, NULL);
 
-	gladefile = g_build_filename (
-		EVOLUTION_GLADEDIR, "filter.glade", NULL);
-	gui = glade_xml_new (gladefile, "rule_editor", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "filter.ui");
 
-	e_rule_editor_construct ((ERuleEditor *) ve, (ERuleContext *) vc, gui, "incoming", _("Search _Folders"));
-	gtk_widget_hide (glade_xml_get_widget (gui, "label17"));
-	gtk_widget_hide (glade_xml_get_widget (gui, "filter_source_combobox"));
-	g_object_unref (gui);
+	e_rule_editor_construct ((ERuleEditor *) ve, (ERuleContext *) vc, builder, "incoming", _("Search _Folders"));
+	gtk_widget_hide (e_builder_get_widget (builder, "label17"));
+	gtk_widget_hide (e_builder_get_widget (builder, "filter_source_combobox"));
+	g_object_unref (builder);
 
 	return GTK_WIDGET (ve);
 }

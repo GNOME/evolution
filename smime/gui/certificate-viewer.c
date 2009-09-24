@@ -29,14 +29,12 @@
 #include "e-asn1-object.h"
 
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
-#define GLADE_FILE_NAME "smime-ui.glade"
-
 typedef struct {
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkWidget *dialog;
 	GtkTreeStore *hierarchy_store, *fields_store;
 	GtkWidget *hierarchy_tree, *fields_tree;
@@ -54,7 +52,7 @@ free_data (gpointer data, GObject *where_the_object_was)
 	g_list_foreach (cvm->cert_chain, (GFunc)g_object_unref, NULL);
 	g_list_free (cvm->cert_chain);
 
-	g_object_unref (cvm->gui);
+	g_object_unref (cvm->builder);
 	g_free (cvm);
 }
 
@@ -68,7 +66,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	gchar *markup;
 
 	/* issued to */
-	label = glade_xml_get_widget (cvm_data->gui, "issued-to-cn");
+	label = e_builder_get_widget (cvm_data->builder, "issued-to-cn");
 	if (e_cert_get_cn (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_cn (cert));
 	}
@@ -76,7 +74,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
-	label = glade_xml_get_widget (cvm_data->gui, "issued-to-o");
+	label = e_builder_get_widget (cvm_data->builder, "issued-to-o");
 	if (e_cert_get_org (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_org (cert));
 	}
@@ -84,7 +82,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
-	label = glade_xml_get_widget (cvm_data->gui, "issued-to-ou");
+	label = e_builder_get_widget (cvm_data->builder, "issued-to-ou");
 	if (e_cert_get_org_unit (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_org_unit (cert));
 	}
@@ -93,11 +91,11 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	}
 
 	text = e_cert_get_serial_number (cert);
-	label = glade_xml_get_widget (cvm_data->gui, "issued-to-serial");
+	label = e_builder_get_widget (cvm_data->builder, "issued-to-serial");
 	gtk_label_set_text (GTK_LABEL (label), text);
 
 	/* issued by */
-	label = glade_xml_get_widget (cvm_data->gui, "issued-by-cn");
+	label = e_builder_get_widget (cvm_data->builder, "issued-by-cn");
 	if (e_cert_get_issuer_cn (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_cn (cert));
 	}
@@ -105,7 +103,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
-	label = glade_xml_get_widget (cvm_data->gui, "issued-by-o");
+	label = e_builder_get_widget (cvm_data->builder, "issued-by-o");
 	if (e_cert_get_issuer_org (cert)) {
 			gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org (cert));
 	}
@@ -113,7 +111,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
-	label = glade_xml_get_widget (cvm_data->gui, "issued-by-ou");
+	label = e_builder_get_widget (cvm_data->builder, "issued-by-ou");
 	if (e_cert_get_issuer_org_unit (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org_unit (cert));
 	}
@@ -122,7 +120,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	}
 
 	/* validity */
-	label = glade_xml_get_widget (cvm_data->gui, "validity-issued-on");
+	label = e_builder_get_widget (cvm_data->builder, "validity-issued-on");
 	if (e_cert_get_issued_on (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issued_on (cert));
 	}
@@ -130,7 +128,7 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
-	label = glade_xml_get_widget (cvm_data->gui, "validity-expires-on");
+	label = e_builder_get_widget (cvm_data->builder, "validity-expires-on");
 	if (e_cert_get_expires_on (cert)) {
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_expires_on (cert));
 	}
@@ -140,12 +138,12 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 
 	/* fingerprints */
 	markup = g_strdup_printf ("<tt>%s</tt>", e_cert_get_sha1_fingerprint (cert));
-	label = glade_xml_get_widget (cvm_data->gui, "fingerprints-sha1");
+	label = e_builder_get_widget (cvm_data->builder, "fingerprints-sha1");
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free (markup);
 
 	markup = g_strdup_printf ("<tt>%s</tt>", e_cert_get_md5_fingerprint (cert));
-	label = glade_xml_get_widget (cvm_data->gui, "fingerprints-md5");
+	label = e_builder_get_widget (cvm_data->builder, "fingerprints-md5");
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free (markup);
 }
@@ -260,7 +258,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 
 	/* hook up all the hierarchy tree foo */
 	cvm_data->hierarchy_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
-	cvm_data->hierarchy_tree = glade_xml_get_widget (cvm_data->gui, "cert-hierarchy-treeview");
+	cvm_data->hierarchy_tree = e_builder_get_widget (cvm_data->builder, "cert-hierarchy-treeview");
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
 				 GTK_TREE_MODEL (cvm_data->hierarchy_store));
 
@@ -272,7 +270,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	g_signal_connect (selection, "changed", G_CALLBACK (hierarchy_selection_changed), cvm_data);
 
 	/* hook up all the fields tree foo */
-	cvm_data->fields_tree = glade_xml_get_widget (cvm_data->gui, "cert-fields-treeview");
+	cvm_data->fields_tree = e_builder_get_widget (cvm_data->builder, "cert-fields-treeview");
 
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->fields_tree),
 						     -1, "Field", gtk_cell_renderer_text_new(),
@@ -282,7 +280,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	g_signal_connect (selection, "changed", G_CALLBACK (fields_selection_changed), cvm_data);
 
 	/* hook up all the field display foo */
-	cvm_data->field_text = glade_xml_get_widget (cvm_data->gui, "cert-field-value-textview");
+	cvm_data->field_text = e_builder_get_widget (cvm_data->builder, "cert-field-value-textview");
 
 	/* set the font of the field value viewer to be some fixed
 	   width font to the hex display doesn't look like ass. */
@@ -320,17 +318,13 @@ certificate_viewer_show (ECert *cert)
 {
 	CertificateViewerData *cvm_data;
 	gchar *title;
-	gchar *gladefile;
 
 	cvm_data = g_new0 (CertificateViewerData, 1);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	cvm_data->gui = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	cvm_data->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (cvm_data->builder, "smime-ui.ui");
 
-	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
+	cvm_data->dialog = e_builder_get_widget (cvm_data->builder, "certificate-viewer-dialog");
 
 	gtk_widget_realize (cvm_data->dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (cvm_data->dialog)->action_area), 12);

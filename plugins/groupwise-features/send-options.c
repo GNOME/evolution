@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"

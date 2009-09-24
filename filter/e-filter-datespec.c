@@ -32,10 +32,9 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
-#include <libedataserver/e-sexp.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 #include "e-filter-datespec.h"
@@ -258,14 +257,13 @@ button_clicked (GtkButton *button, EFilterDatespec *fds)
 	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
-	GladeXML *gui;
-	gchar *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
-					       "filter.glade",
-					       NULL);
+	GtkBuilder *builder;
 
-	gui = glade_xml_new (filter_glade, "filter_datespec", NULL);
-	g_free (filter_glade);
-	toplevel = glade_xml_get_widget (gui, "filter_datespec");
+	/* XXX I think we're leaking the GtkBuilder. */
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "filter.ui");
+
+	toplevel = e_builder_get_widget (builder, "filter_datespec");
 
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
@@ -275,12 +273,12 @@ button_clicked (GtkButton *button, EFilterDatespec *fds)
 				NULL);
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
-	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
-	p->combobox_type = glade_xml_get_widget (gui, "combobox_type");
-	p->calendar_specify = glade_xml_get_widget (gui, "calendar_specify");
-	p->spin_relative = glade_xml_get_widget (gui, "spin_relative");
-	p->combobox_relative = glade_xml_get_widget (gui, "combobox_relative");
-	p->combobox_past_future = glade_xml_get_widget (gui, "combobox_past_future");
+	p->notebook_type = e_builder_get_widget (builder, "notebook_type");
+	p->combobox_type = e_builder_get_widget (builder, "combobox_type");
+	p->calendar_specify = e_builder_get_widget (builder, "calendar_specify");
+	p->spin_relative = e_builder_get_widget (builder, "spin_relative");
+	p->combobox_relative = e_builder_get_widget (builder, "combobox_relative");
+	p->combobox_past_future = e_builder_get_widget (builder, "combobox_past_future");
 
 	set_values (fds);
 

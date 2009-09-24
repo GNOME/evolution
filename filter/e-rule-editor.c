@@ -33,6 +33,7 @@
 
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
 
 #include "e-rule-editor.h"
 
@@ -693,17 +694,14 @@ e_rule_editor_new (ERuleContext *context,
                    const gchar *label)
 {
 	ERuleEditor *editor = (ERuleEditor *) g_object_new (E_TYPE_RULE_EDITOR, NULL);
-	GladeXML *gui;
-	gchar *filter_glade = g_build_filename (EVOLUTION_GLADEDIR,
-					       "filter.glade",
-					       NULL);
+	GtkBuilder *builder;
 
-	gui = glade_xml_new (filter_glade, "rule_editor", NULL);
-	g_free (filter_glade);
-	e_rule_editor_construct (editor, context, gui, source, label);
-	gtk_widget_hide (glade_xml_get_widget (gui, "label17"));
-	gtk_widget_hide (glade_xml_get_widget (gui, "filter_source_combobox"));
-	g_object_unref (gui);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "filter.ui");
+	e_rule_editor_construct (editor, context, builder, source, label);
+	gtk_widget_hide (e_builder_get_widget (builder, "label17"));
+	gtk_widget_hide (e_builder_get_widget (builder, "filter_source_combobox"));
+	g_object_unref (builder);
 
 	return editor;
 }
@@ -765,7 +763,7 @@ double_click (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *colum
 
 static void
 rule_able_toggled (GtkCellRendererToggle *renderer,
-                   gchar *arg1,
+                   gchar *path_string,
                    gpointer user_data)
 {
 	GtkWidget *table = user_data;
@@ -774,7 +772,7 @@ rule_able_toggled (GtkCellRendererToggle *renderer,
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	path = gtk_tree_path_new_from_string (arg1);
+	path = gtk_tree_path_new_from_string (path_string);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (table));
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (table));
 
@@ -792,83 +790,27 @@ rule_able_toggled (GtkCellRendererToggle *renderer,
 	gtk_tree_path_free (path);
 }
 
-GtkWidget *
-rule_editor_treeview_new (gchar *widget_name,
-                          gchar *string1,
-                          gchar *string2,
-                          gint int1,
-                          gint int2);
-
-GtkWidget *
-rule_editor_treeview_new (gchar *widget_name,
-                          gchar *string1,
-                          gchar *string2,
-                          gint int1,
-                          gint int2)
-{
-	GtkWidget *table, *scrolled;
-	GtkTreeSelection *selection;
-	GtkCellRenderer *renderer;
-	GtkListStore *model;
-	GtkTreeViewColumn *column;
-
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
-	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
-	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
-
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
-	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,
-						     _("Enabled"), renderer,
-						     "active", 2, NULL);
-	g_signal_connect (renderer, "toggled", G_CALLBACK (rule_able_toggled), table);
-
-	/* hide enable column by default */
-	column = gtk_tree_view_get_column (GTK_TREE_VIEW (table), 0);
-	gtk_tree_view_column_set_visible (column, FALSE);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,
-						     _("Rule name"), renderer,
-						     "text", 0, NULL);
-
-	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-
-	gtk_container_add (GTK_CONTAINER (scrolled), table);
-
-	g_object_set_data ((GObject *) scrolled, "table", table);
-	g_object_set_data ((GObject *) scrolled, "model", model);
-
-	gtk_widget_show (scrolled);
-	gtk_widget_show (table);
-
-	g_object_unref (model);
-
-	return scrolled;
-}
-
 void
 e_rule_editor_construct (ERuleEditor *editor,
                          ERuleContext *context,
-                         GladeXML *gui,
+                         GtkBuilder *builder,
                          const gchar *source,
                          const gchar *label)
 {
-	GtkWidget *w;
+	GtkWidget *widget;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTreeSelection *selection;
+	GObject *object;
+	GList *list;
 	gint i;
 	gchar *tmp;
 
 	g_return_if_fail (E_IS_RULE_EDITOR (editor));
 	g_return_if_fail (E_IS_RULE_CONTEXT (context));
-	g_return_if_fail (GLADE_IS_XML (gui));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
 
 	editor->context = g_object_ref (context);
 
@@ -880,28 +822,52 @@ e_rule_editor_construct (ERuleEditor *editor,
 	gtk_widget_realize ((GtkWidget *) editor);
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 
-	w = glade_xml_get_widget(gui, "rule_editor");
-	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
+	widget = e_builder_get_widget (builder, "rule_editor");
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
 	for (i = 0; i < BUTTON_LAST; i++) {
-		editor->priv->buttons[i] = (GtkButton *) (w = glade_xml_get_widget (gui, edit_buttons[i].name));
-		g_signal_connect (w, "clicked", edit_buttons[i].func, editor);
+		widget = e_builder_get_widget (builder, edit_buttons[i].name);
+		editor->priv->buttons[i] = GTK_BUTTON (widget);
+		g_signal_connect (
+			widget, "clicked",
+			G_CALLBACK (edit_buttons[i].func), editor);
 	}
 
-	w = glade_xml_get_widget (gui, "rule_list");
-	editor->list = (GtkTreeView *) g_object_get_data ((GObject *) w, "table");
-	editor->model = (GtkListStore *) g_object_get_data ((GObject *) w, "model");
+	object = gtk_builder_get_object (builder, "rule_tree_view");
+	editor->list = GTK_TREE_VIEW (object);
 
-	g_signal_connect (editor->list, "cursor-changed", G_CALLBACK (cursor_changed), editor);
-	g_signal_connect (editor->list, "row-activated", G_CALLBACK (double_click), editor);
+	column = gtk_tree_view_get_column (GTK_TREE_VIEW (object), 0);
+	list = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	renderer = GTK_CELL_RENDERER (list->data);
+	g_warn_if_fail (GTK_IS_CELL_RENDERER_TOGGLE (renderer));
 
-	w = glade_xml_get_widget (gui, "rule_label");
+	g_signal_connect (
+		renderer, "toggled",
+		G_CALLBACK (rule_able_toggled), editor->list);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (object));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+
+	object = gtk_builder_get_object (builder, "rule_list_store");
+	editor->model = GTK_LIST_STORE (object);
+
+	g_signal_connect (
+		editor->list, "cursor-changed",
+		G_CALLBACK (cursor_changed), editor);
+	g_signal_connect (
+		editor->list, "row-activated",
+		G_CALLBACK (double_click), editor);
+
+	widget = e_builder_get_widget (builder, "rule_label");
 	tmp = alloca(strlen(label)+8);
 	sprintf(tmp, "<b>%s</b>", label);
-	gtk_label_set_label((GtkLabel *)w, tmp);
-	gtk_label_set_mnemonic_widget ((GtkLabel *) w, (GtkWidget *) editor->list);
+	gtk_label_set_label (GTK_LABEL (widget), tmp);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (widget), GTK_WIDGET (editor->list));
 
-	g_signal_connect (editor, "response", G_CALLBACK (editor_response), editor);
+	g_signal_connect (
+		editor, "response",
+		G_CALLBACK (editor_response), editor);
 	rule_editor_set_source (editor, source);
 
 	gtk_dialog_set_has_separator ((GtkDialog *) editor, FALSE);

@@ -40,6 +40,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
+#include <e-util/e-binding.h>
 #include "e-calendar.h"
 
 #define E_DATE_EDIT_GET_PRIVATE(obj) \
@@ -112,13 +113,20 @@ struct _EDateEditPrivate {
 
 	/* set to TRUE when the date has been changed by typing to the entry */
 	gboolean has_been_changed;
+
+	gboolean allow_no_date_set;
 };
 
 enum {
 	PROP_0,
+	PROP_ALLOW_NO_DATE_SET,
+	PROP_SHOW_DATE,
+	PROP_SHOW_TIME,
 	PROP_SHOW_WEEK_NUMBERS,
 	PROP_USE_24_HOUR_FORMAT,
-	PROP_WEEK_START_DAY
+	PROP_WEEK_START_DAY,
+	PROP_TWODIGIT_YEAR_CAN_FUTURE,
+	PROP_SET_NONE
 };
 
 enum {
@@ -207,6 +215,24 @@ date_edit_set_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALLOW_NO_DATE_SET:
+			e_date_edit_set_allow_no_date_set (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_DATE:
+			e_date_edit_set_show_date (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_TIME:
+			e_date_edit_set_show_time (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHOW_WEEK_NUMBERS:
 			e_date_edit_set_show_week_numbers (
 				E_DATE_EDIT (object),
@@ -224,6 +250,17 @@ date_edit_set_property (GObject *object,
 				E_DATE_EDIT (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_TWODIGIT_YEAR_CAN_FUTURE:
+			e_date_edit_set_twodigit_year_can_future (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SET_NONE:
+			if (g_value_get_boolean (value))
+				e_date_edit_set_time (E_DATE_EDIT (object), -1);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -236,6 +273,24 @@ date_edit_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALLOW_NO_DATE_SET:
+			g_value_set_boolean (
+				value, e_date_edit_get_allow_no_date_set (
+				E_DATE_EDIT (object)));
+			return;
+
+		case PROP_SHOW_DATE:
+			g_value_set_boolean (
+				value, e_date_edit_get_show_date (
+				E_DATE_EDIT (object)));
+			return;
+
+		case PROP_SHOW_TIME:
+			g_value_set_boolean (
+				value, e_date_edit_get_show_time (
+				E_DATE_EDIT (object)));
+			return;
+
 		case PROP_SHOW_WEEK_NUMBERS:
 			g_value_set_boolean (
 				value, e_date_edit_get_show_week_numbers (
@@ -251,6 +306,12 @@ date_edit_get_property (GObject *object,
 		case PROP_WEEK_START_DAY:
 			g_value_set_int (
 				value, e_date_edit_get_week_start_day (
+				E_DATE_EDIT (object)));
+			return;
+
+		case PROP_TWODIGIT_YEAR_CAN_FUTURE:
+			g_value_set_boolean (
+				value, e_date_edit_get_twodigit_year_can_future (
 				E_DATE_EDIT (object)));
 			return;
 	}
@@ -296,6 +357,36 @@ date_edit_class_init (EDateEditClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ALLOW_NO_DATE_SET,
+		g_param_spec_boolean (
+			"allow-no-date-set",
+			"Allow No Date Set",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DATE,
+		g_param_spec_boolean (
+			"show-date",
+			"Show Date",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_TIME,
+		g_param_spec_boolean (
+			"show-time",
+			"Show Time",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHOW_WEEK_NUMBERS,
 		g_param_spec_boolean (
 			"show-week-numbers",
@@ -325,6 +416,26 @@ date_edit_class_init (EDateEditClass *class)
 			6,  /* Sunday */
 			0,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TWODIGIT_YEAR_CAN_FUTURE,
+		g_param_spec_boolean (
+			"twodigit-year-can-future",
+			"Two-digit year can be treated as future",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SET_NONE,
+		g_param_spec_boolean (
+			"set-none",
+			"Sets None as selected date",
+			NULL,
+			TRUE,
+			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -587,6 +698,9 @@ create_children			(EDateEdit	*dedit)
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
 	g_signal_connect (priv->none_button, "clicked",
 			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
+	e_binding_new (
+		dedit, "allow-no-date-set",
+		priv->none_button, "visible");
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EDateEdit */
@@ -965,6 +1079,8 @@ e_date_edit_set_show_date		(EDateEdit	*dedit,
 		gtk_widget_show (priv->space);
 	else
 		gtk_widget_hide (priv->space);
+
+	g_object_notify (G_OBJECT (dedit), "show-date");
 }
 
 /**
@@ -1006,6 +1122,8 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 	priv->show_time = show_time;
 
 	e_date_edit_update_time_combo_state (dedit);
+
+	g_object_notify (G_OBJECT (dedit), "show-time");
 }
 
 /**
@@ -1156,24 +1274,22 @@ e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
 /* Whether we allow the date to be set to 'None'. e_date_edit_get_time() will
    return (time_t) -1 in this case. */
 gboolean
-e_date_edit_get_allow_no_date_set	(EDateEdit	*dedit)
+e_date_edit_get_allow_no_date_set (EDateEdit *dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	return GTK_WIDGET_VISIBLE (dedit->priv->none_button);
+	return dedit->priv->allow_no_date_set;
 }
 
 void
-e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
-					 gboolean	 allow_no_date_set)
+e_date_edit_set_allow_no_date_set (EDateEdit *dedit,
+                                   gboolean allow_no_date_set)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if (allow_no_date_set) {
-		gtk_widget_show (dedit->priv->none_button);
-	} else {
-		gtk_widget_hide (dedit->priv->none_button);
+	dedit->priv->allow_no_date_set = allow_no_date_set;
 
+	if (!allow_no_date_set) {
 		/* If the date is showing, we make sure it isn't 'None' (we
 		   don't really mind if the time is empty), else if just the
 		   time is showing we make sure it isn't 'None'. */
@@ -1185,6 +1301,8 @@ e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
 				e_date_edit_set_time (dedit, 0);
 		}
 	}
+
+	g_object_notify (G_OBJECT (dedit), "allow-no-date-set");
 }
 
 /* The range of time to show in the time combo popup. */

@@ -24,7 +24,6 @@
 #define __GAL_VIEW_NEW_DIALOG_H__
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gal-view-collection.h>
 
 G_BEGIN_DECLS
@@ -51,7 +50,7 @@ struct _GalViewNewDialog
 	GtkDialog parent;
 
 	/* item specific fields */
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	GalViewCollection *collection;
 	GalViewFactory *selected_factory;

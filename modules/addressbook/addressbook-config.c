@@ -41,11 +41,10 @@
 #undef DATADIR
 #endif
 
-#include <glade/glade.h>
-
 #include "addressbook.h"
 #include "addressbook-config.h"
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
@@ -68,11 +67,6 @@
 #define LDAP_PORT_STRING "389"
 #define LDAPS_PORT_STRING "636"
 
-#define GLADE_FILE_NAME "ldap-config.glade"
-
-GtkWidget* supported_bases_create_table (gchar *name, gchar *string1, gchar *string2,
-					 gint num1, gint num2);
-
 /* default objectclasses */
 #define TOP                  "top"
 #define PERSON               "person"
@@ -85,7 +79,7 @@ GtkWidget* supported_bases_create_table (gchar *name, gchar *string1, gchar *str
 typedef struct _AddressbookSourceDialog AddressbookSourceDialog;
 
 struct _AddressbookSourceDialog {
-	GladeXML  *gui;
+	GtkBuilder *builder;
 
 	EABConfig *config;	/* the config manager */
 
@@ -321,34 +315,6 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 	return ldap_error;
 }
 
-/* searching page */
-GtkWidget*
-supported_bases_create_table (gchar *name, gchar *string1, gchar *string2, gint num1, gint num2)
-{
-	GtkWidget *table, *scrolled;
-	GtkTreeSelection *selection;
-	GtkCellRenderer *renderer;
-	GtkListStore *model;
-
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
-
-	model = gtk_list_store_new (1, G_TYPE_STRING);
-	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
-	g_object_unref (model);
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Base"), renderer, "text", 0, NULL);
-	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
-	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-
-	gtk_container_add (GTK_CONTAINER (scrolled), table);
-	g_object_set_data((GObject *)scrolled, "table", table);
-
-	return scrolled;
-}
-
 static gboolean
 do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, ESource *source)
 {
@@ -409,20 +375,15 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
-	GtkTreeView *table;
 	GtkWidget *dialog;
 	GtkWidget *supported_bases_table;
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkTreeIter iter;
-	gchar *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, "supported-bases-dialog", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	dialog = glade_xml_get_widget (gui, "supported-bases-dialog");
+	dialog = e_builder_get_widget (builder, "supported-bases-dialog");
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (sdialog->window));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -431,12 +392,9 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 
-	supported_bases_table = glade_xml_get_widget (gui, "supported-bases-table");
-	gtk_widget_show_all (supported_bases_table);
-
-	table = g_object_get_data (G_OBJECT (supported_bases_table), "table");
-	model = gtk_tree_view_get_model (table);
-	selection = gtk_tree_view_get_selection (table);
+	supported_bases_table = e_builder_get_widget (builder, "supported-bases-table");
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (supported_bases_table));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (supported_bases_table));
 	g_signal_connect (selection, "changed", G_CALLBACK (search_base_selection_model_changed), dialog);
 	search_base_selection_model_changed (selection, dialog);
 
@@ -585,22 +543,18 @@ eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	AddressbookSourceDialog *sdialog = data;
 	const gchar *uri;
 	GtkWidget *w;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	if (old)
 		return old;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	w = glade_xml_get_widget(gui, item->label);
+	w = e_builder_get_widget(builder, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
-	sdialog->display_name = glade_xml_get_widget (gui, "account-editor-display-name-entry");
+	sdialog->display_name = e_builder_get_widget (builder, "account-editor-display-name-entry");
 	g_signal_connect(sdialog->display_name, "changed", G_CALLBACK(name_changed_cb), sdialog);
 	gtk_entry_set_text((GtkEntry *)sdialog->display_name, e_source_peek_name(sdialog->source));
 
@@ -612,7 +566,7 @@ eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 		}
 	}
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	return w;
 }
@@ -756,19 +710,15 @@ eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	GtkWidget *w;
 	gchar *uri, port[16];
 	LDAPURLDesc *lud;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	w = glade_xml_get_widget(gui, item->label);
+	w = e_builder_get_widget(builder, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
 	uri = e_source_get_uri(sdialog->source);
@@ -776,11 +726,12 @@ eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 		lud = NULL;
 	g_free(uri);
 
-	sdialog->host = glade_xml_get_widget (gui, "server-name-entry");
+	sdialog->host = e_builder_get_widget (builder, "server-name-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->host, lud && lud->lud_host ? lud->lud_host : "");
 	g_signal_connect (sdialog->host, "changed", G_CALLBACK (host_changed_cb), sdialog);
 
-	sdialog->port_comboentry = glade_xml_get_widget (gui, "port-comboentry");
+	sdialog->port_comboentry = e_builder_get_widget (builder, "port-comboentry");
+	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (sdialog->port_comboentry), 0);
 	gtk_widget_set_has_tooltip (sdialog->port_comboentry, TRUE);
 	gtk_widget_set_tooltip_text (sdialog->port_comboentry, _("This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."));
 	sprintf(port, "%u", lud && lud->lud_port? lud->lud_port : LDAP_PORT);
@@ -790,7 +741,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	if (lud)
 		ldap_free_urldesc (lud);
 
-	sdialog->ssl_combobox = glade_xml_get_widget (gui, "ssl-combobox");
+	sdialog->ssl_combobox = e_builder_get_widget (builder, "ssl-combobox");
 	gtk_widget_set_has_tooltip (sdialog->ssl_combobox, TRUE);
 	tmp = e_source_get_property (sdialog->source, "ssl");
 	sdialog->ssl = ldap_parse_ssl (tmp);
@@ -799,7 +750,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	gtk_widget_set_sensitive (sdialog->ssl_combobox, strcmp (port, LDAPS_PORT_STRING) != 0);
 	g_signal_connect (sdialog->ssl_combobox, "changed", G_CALLBACK (ssl_combobox_changed_cb), sdialog);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	return w;
 }
@@ -843,22 +794,18 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
 	const gchar *tmp;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	w = glade_xml_get_widget(gui, item->label);
+	w = e_builder_get_widget(builder, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
-	sdialog->auth_combobox = glade_xml_get_widget (gui, "auth-combobox");
+	sdialog->auth_combobox = e_builder_get_widget (builder, "auth-combobox");
 	gtk_widget_set_has_tooltip (sdialog->auth_combobox, TRUE);
 	gtk_widget_set_tooltip_text (sdialog->auth_combobox, _("This is the method Evolution will use to authenticate you.  Note that setting this to \"Email Address\" requires anonymous access to your LDAP server."));
 	tmp = e_source_get_property(sdialog->source, "auth");
@@ -866,7 +813,7 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->auth_combobox), sdialog->auth);
 	g_signal_connect (sdialog->auth_combobox, "changed", G_CALLBACK(auth_combobox_changed_cb), sdialog);
 
-	sdialog->auth_principal = glade_xml_get_widget (gui, "auth-entry");
+	sdialog->auth_principal = e_builder_get_widget (builder, "auth-entry");
 	switch (sdialog->auth) {
 	case ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL:
 		tmp = e_source_get_property(sdialog->source, "email_addr");
@@ -882,7 +829,7 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	gtk_entry_set_text((GtkEntry *)sdialog->auth_principal, tmp?tmp:"");
 	g_signal_connect (sdialog->auth_principal, "changed", G_CALLBACK (auth_entry_changed_cb), sdialog);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	return w;
 }
@@ -913,19 +860,15 @@ eabc_details_search(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	GtkWidget *w;
 	LDAPURLDesc *lud;
 	gchar *uri;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	w = glade_xml_get_widget(gui, item->label);
+	w = e_builder_get_widget(builder, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
 	uri = e_source_get_uri(sdialog->source);
@@ -933,11 +876,11 @@ eabc_details_search(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		lud = NULL;
 	g_free(uri);
 
-	sdialog->rootdn = glade_xml_get_widget (gui, "rootdn-entry");
+	sdialog->rootdn = e_builder_get_widget (builder, "rootdn-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->rootdn, lud && lud->lud_dn ? lud->lud_dn : "");
 	g_signal_connect (sdialog->rootdn, "changed", G_CALLBACK (rootdn_changed_cb), sdialog);
 
-	sdialog->scope_combobox = glade_xml_get_widget (gui, "scope-combobox");
+	sdialog->scope_combobox = e_builder_get_widget (builder, "scope-combobox");
 	gtk_widget_set_has_tooltip (sdialog->scope_combobox, TRUE);
 	gtk_widget_set_tooltip_text (sdialog->scope_combobox, _("The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."));
 	if (lud) {
@@ -957,17 +900,17 @@ eabc_details_search(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->scope_combobox), sdialog->scope);
 	g_signal_connect (sdialog->scope_combobox, "changed", G_CALLBACK(scope_combobox_changed_cb), sdialog);
 
-	sdialog->search_filter =  glade_xml_get_widget (gui, "search-filter-entry");
+	sdialog->search_filter =  e_builder_get_widget (builder, "search-filter-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->search_filter, lud && lud->lud_filter ? lud->lud_filter : "");
 	g_signal_connect (sdialog->search_filter, "changed",  G_CALLBACK (search_filter_changed_cb), sdialog);
 
-	g_signal_connect (glade_xml_get_widget(gui, "rootdn-button"), "clicked",
+	g_signal_connect (e_builder_get_widget(builder, "rootdn-button"), "clicked",
 			  G_CALLBACK(query_for_supported_bases), sdialog);
 
 	if (lud)
 		ldap_free_urldesc (lud);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	return w;
 }
@@ -1006,36 +949,32 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	AddressbookSourceDialog *sdialog = data;
 	GtkWidget *w;
 	const gchar *tmp;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	if (!source_group_is_remote(sdialog->source_group))
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	gui = glade_xml_new (gladefile, item->label, NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "ldap-config.ui");
 
-	w = glade_xml_get_widget(gui, item->label);
+	w = e_builder_get_widget(builder, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
-	sdialog->timeout_scale = glade_xml_get_widget (gui, "timeout-scale");
+	sdialog->timeout_scale = e_builder_get_widget (builder, "timeout-scale");
 	tmp = e_source_get_property(sdialog->source, "timeout");
 	gtk_adjustment_set_value(((GtkRange *)sdialog->timeout_scale)->adjustment, tmp?g_strtod(tmp, NULL):3.0);
 	g_signal_connect (GTK_RANGE(sdialog->timeout_scale)->adjustment, "value_changed", G_CALLBACK (timeout_changed_cb), sdialog);
 
-	sdialog->limit_spinbutton = glade_xml_get_widget (gui, "download-limit-spinbutton");
+	sdialog->limit_spinbutton = e_builder_get_widget (builder, "download-limit-spinbutton");
 	tmp = e_source_get_property(sdialog->source, "limit");
 	gtk_spin_button_set_value((GtkSpinButton *)sdialog->limit_spinbutton, tmp?g_strtod(tmp, NULL):100.0);
 	g_signal_connect (sdialog->limit_spinbutton, "value_changed", G_CALLBACK (limit_changed_cb), sdialog);
 
-	sdialog->canbrowsecheck = glade_xml_get_widget (gui, "canbrowsecheck");
+	sdialog->canbrowsecheck = e_builder_get_widget (builder, "canbrowsecheck");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sdialog->canbrowsecheck), e_source_get_property (sdialog->source, "can-browse") && strcmp (e_source_get_property (sdialog->source, "can-browse"), "1") == 0);
 	g_signal_connect (sdialog->canbrowsecheck, "toggled", G_CALLBACK (canbrowse_toggled_cb), sdialog->source);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	return w;
 }
@@ -1117,7 +1056,7 @@ eabc_free(EConfig *ec, GSList *items, gpointer data)
 		g_object_unref(sdialog->source_list);
 	g_slist_free(sdialog->menu_source_groups);
 
-	g_object_unref(sdialog->gui);
+	g_object_unref(sdialog->builder);
 
 	g_free(sdialog);
 }
@@ -1200,13 +1139,9 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	GSList *items = NULL;
 	EABConfigTargetSource *target;
 	gchar *xml;
-	gchar *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	sdialog->gui = glade_xml_new (gladefile, "account-editor-notebook", NULL);
-	g_free (gladefile);
+	sdialog->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (sdialog->builder, "ldap-config.ui");
 
 	if (source) {
 		sdialog->original_source = source;

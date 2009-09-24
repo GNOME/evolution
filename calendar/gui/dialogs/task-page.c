@@ -32,7 +32,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
@@ -40,15 +39,17 @@
 #include "misc/e-buffer-tagger.h"
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-categories-config.h"
-#include "e-util/e-util-private.h"
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "e-send-options-utils.h"
 #include "task-page.h"
+
+#include "e-util/e-util.h"
+#include "e-util/e-dialog-widgets.h"
+#include "e-util/e-categories-config.h"
+#include "e-util/e-util-private.h"
 
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
@@ -60,10 +61,9 @@
 
 /* Private part of the TaskPage structure */
 struct _TaskPagePrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *main;
 
 	EAccountList *accounts;
@@ -160,9 +160,9 @@ task_page_dispose (GObject *object)
 		priv->main = NULL;
 	}
 
-	if (priv->xml != NULL) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	if (priv->sod != NULL) {
@@ -1312,9 +1312,7 @@ get_widgets (TaskPage *tpage)
 
 	priv = tpage->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
-
-	priv->main = GW ("task-page");
+	priv->main = e_builder_get_widget (priv->builder, "task-page");
 	if (!priv->main)
 		return FALSE;
 
@@ -1328,37 +1326,40 @@ get_widgets (TaskPage *tpage)
 	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
-	priv->info_hbox = GW ("generic-info");
-	priv->info_icon = GW ("generic-info-image");
-	priv->info_string = GW ("generic-info-msgs");
+	priv->info_hbox = e_builder_get_widget (priv->builder, "generic-info");
+	priv->info_icon = e_builder_get_widget (priv->builder, "generic-info-image");
+	priv->info_string = e_builder_get_widget (priv->builder, "generic-info-msgs");
 
-	priv->summary = GW ("summary");
-	priv->summary_label = GW ("summary-label");
+	priv->summary = e_builder_get_widget (priv->builder, "summary");
+	priv->summary_label = e_builder_get_widget (priv->builder, "summary-label");
 
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
-	priv->due_date = GW ("due-date");
+	priv->due_date = e_builder_get_widget (priv->builder, "due-date");
+	comp_editor_bind_date_edit_settings (priv->due_date, NULL);
 	gtk_widget_show (priv->due_date);
-	priv->start_date = GW ("start-date");
+	priv->start_date = e_builder_get_widget (priv->builder, "start-date");
+	comp_editor_bind_date_edit_settings (priv->start_date, NULL);
 	gtk_widget_show (priv->start_date);
 
-	priv->timezone = GW ("timezone");
-	priv->timezone_label = GW ("timezone-label");
-	priv->attendees_label = GW ("attendees-label");
-	priv->description = GW ("description");
-	priv->categories_btn = GW ("categories-button");
-	priv->categories = GW ("categories");
+	priv->timezone = e_builder_get_widget (priv->builder, "timezone");
+	priv->timezone_label = e_builder_get_widget (priv->builder, "timezone-label");
+	priv->attendees_label = e_builder_get_widget (priv->builder, "attendees-label");
+	priv->description = e_builder_get_widget (priv->builder, "description");
+	priv->categories_btn = e_builder_get_widget (priv->builder, "categories-button");
+	priv->categories = e_builder_get_widget (priv->builder, "categories");
 
-	priv->organizer = GW ("organizer");
+	priv->organizer = e_builder_get_widget (priv->builder, "organizer");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (priv->organizer), 0);
 
-	priv->invite = GW ("invite");
-	priv->add = GW ("add-attendee");
-	priv->edit = GW ("edit-attendee");
-	priv->remove = GW ("remove-attendee");
-	priv->list_box = GW ("list-box");
-	priv->calendar_label = GW ("group-label");
-	priv->attendee_box = GW ("attendee-box");
-	priv->org_cal_label = GW ("org-task-label");
+	priv->invite = e_builder_get_widget (priv->builder, "invite");
+	priv->add = e_builder_get_widget (priv->builder, "add-attendee");
+	priv->edit = e_builder_get_widget (priv->builder, "edit-attendee");
+	priv->remove = e_builder_get_widget (priv->builder, "remove-attendee");
+	priv->list_box = e_builder_get_widget (priv->builder, "list-box");
+	priv->calendar_label = e_builder_get_widget (priv->builder, "group-label");
+	priv->attendee_box = e_builder_get_widget (priv->builder, "attendee-box");
+	priv->org_cal_label = e_builder_get_widget (priv->builder, "org-task-label");
 
 	priv->list_view = e_meeting_list_view_new (priv->model);
 
@@ -1373,11 +1374,10 @@ get_widgets (TaskPage *tpage)
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 
-	priv->source_selector = GW ("source");
+	priv->source_selector = e_builder_get_widget (priv->builder, "source");
+	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/tasks/sources");
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_selector);
-
-#undef GW
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -1969,24 +1969,14 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 	TaskPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
-	gchar *gladefile;
 
 	priv = tpage->priv;
 	g_object_ref (model);
 	priv->model = model;
 	priv->client = client;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "task-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("task_page_construct(): "
-			   "Could not load the Glade XML file!");
-		return NULL;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "task-page.ui");
 
 	if (!get_widgets (tpage)) {
 		g_message ("task_page_construct(): "
@@ -2072,45 +2062,6 @@ task_page_get_cancel_comp (TaskPage *page)
 	set_attendees (priv->comp, priv->deleted_attendees);
 
 	return e_cal_component_clone (priv->comp);
-}
-
-GtkWidget *task_page_create_date_edit (void);
-
-GtkWidget *
-task_page_create_date_edit (void)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-	GtkWidget *dedit;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	dedit = comp_editor_new_date_edit (shell_settings, TRUE, TRUE, TRUE);
-	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
-
-	return dedit;
-}
-
-GtkWidget *task_page_create_source_combo_box (void);
-
-GtkWidget *
-task_page_create_source_combo_box (void)
-{
-	GtkWidget   *combo_box;
-	GConfClient *gconf_client;
-	ESourceList *source_list;
-
-	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (
-		gconf_client, "/apps/evolution/tasks/sources");
-
-	combo_box = e_source_combo_box_new (source_list);
-	g_object_unref (source_list);
-	g_object_unref (gconf_client);
-
-	gtk_widget_show (combo_box);
-	return combo_box;
 }
 
 /**

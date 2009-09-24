@@ -120,7 +120,7 @@ setup (void)
 	ecpsdir = replace_prefix (full_prefix, EVOLUTION_ECPSDIR);
 	etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
-	gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
+	gladedir = replace_prefix (full_prefix, EVOLUTION_UIDIR);
 	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
 	if (g_getenv ("EVOLUTION_ICONSDIR") &&
 	    g_file_test (g_getenv ("EVOLUTION_ICONSDIR"), G_FILE_TEST_IS_DIR))

@@ -24,7 +24,6 @@
 #define EM_NETWORK_PREFS_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gconf/gconf-client.h>
 
 /* Standard GObject macros */
@@ -63,7 +62,7 @@ struct _EMNetworkPrefs {
 
 	GConfClient *gconf;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	/* Default Behavior */
 	GtkToggleButton *sys_proxy;

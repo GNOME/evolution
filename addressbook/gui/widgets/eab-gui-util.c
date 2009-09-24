@@ -463,29 +463,6 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 	addressbook_load (dest, got_book_cb, process);
 }
 
-GtkWidget *
-eab_create_image_chooser_widget(gchar *name,
-				gchar *string1, gchar *string2,
-				gint int1, gint int2)
-{
-	gchar *filename;
-	GtkWidget *w = NULL;
-
-	w = e_image_chooser_new ();
-	gtk_widget_show_all (w);
-
-	if (string1) {
-		filename = e_icon_factory_get_icon_filename (string1, GTK_ICON_SIZE_DIALOG);
-
-		if (filename && *filename)
-			e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);
-
-		g_free (filename);
-	}
-
-	return w;
-}
-
 /* To parse something like...
 =?UTF-8?Q?=E0=A4=95=E0=A4=95=E0=A4=AC=E0=A5=82=E0=A5=8B=E0=A5=87?=\t\n=?UTF-8?Q?=E0=A4=B0?=\t\n<aa@aa.ccom>
 and return the decoded representation of name & email parts.

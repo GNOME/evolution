@@ -47,6 +47,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-charset-combo-box.h"
@@ -56,6 +57,7 @@
 
 #include "mail-config.h"
 #include "em-config.h"
+#include "em-folder-selection-button.h"
 
 static gpointer parent_class;
 
@@ -168,7 +170,7 @@ composer_prefs_finalize (GObject *object)
 {
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
-	g_object_unref (prefs->gui);
+	g_object_unref (prefs->builder);
 
 	/* Chain up to parent's finalize() method. */
         G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -329,7 +331,7 @@ emcp_widget_glade (EConfig *ec,
 {
 	EMComposerPrefs *prefs = data;
 
-	return glade_xml_get_widget (prefs->gui, item->label);
+	return e_builder_get_widget (prefs->builder, item->label);
 }
 
 /* plugin meta-data */
@@ -362,7 +364,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	EShellSettings *shell_settings;
 	ESignatureList *signature_list;
 	ESignatureTreeView *signature_tree_view;
-	GladeXML *gui;
 	GtkTreeView *view;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
@@ -373,18 +374,17 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	gint i;
-	gchar *gladefile;
 
 	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	gui = glade_xml_new (gladefile, "composer_toplevel", NULL);
-	prefs->gui = gui;
-	g_free (gladefile);
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	EM_TYPE_FOLDER_SELECTION_BUTTON;
+
+	prefs->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs
@@ -403,53 +403,53 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* General tab */
 
 	/* Default Behavior */
-	widget = glade_xml_get_widget (gui, "chkSendHTML");
+	widget = e_builder_get_widget (prefs->builder, "chkSendHTML");
 	e_mutual_binding_new (
 		shell_settings, "composer-format-html",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkPromptEmptySubject");
+	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
 	e_mutual_binding_new (
 		shell_settings, "composer-prompt-empty-subject",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkPromptBccOnly");
+	widget = e_builder_get_widget (prefs->builder, "chkPromptBccOnly");
 	e_mutual_binding_new (
 		shell_settings, "composer-prompt-only-bcc",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkAutoSmileys");
+	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
 	e_mutual_binding_new (
 		shell_settings, "composer-magic-smileys",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkRequestReceipt");
+	widget = e_builder_get_widget (prefs->builder, "chkRequestReceipt");
 	e_mutual_binding_new (
 		shell_settings, "composer-request-receipt",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkReplyStartBottom");
+	widget = e_builder_get_widget (prefs->builder, "chkReplyStartBottom");
 	e_mutual_binding_new (
 		shell_settings, "composer-reply-start-bottom",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkOutlookFilenames");
+	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
 	e_mutual_binding_new (
 		shell_settings, "composer-outlook-filenames",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkTopSignature");
+	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
 	e_mutual_binding_new (
 		shell_settings, "composer-top-signature",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkEnableSpellChecking");
+	widget = e_builder_get_widget (prefs->builder, "chkEnableSpellChecking");
 	e_mutual_binding_new (
 		shell_settings, "composer-inline-spelling",
 		widget, "active");
 
 	widget = e_charset_combo_box_new ();
-	container = glade_xml_get_widget (gui, "hboxComposerCharset");
+	container = e_builder_get_widget (prefs->builder, "hboxComposerCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	e_mutual_binding_new (
@@ -457,7 +457,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "charset");
 
 	/* Spell Checking */
-	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");
+	widget = e_builder_get_widget (prefs->builder, "listSpellCheckLanguage");
 	view = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (
 		3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
@@ -480,12 +480,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		"text", 1, NULL);
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);
-	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
+	info_pixmap = e_builder_get_widget (prefs->builder, "pixmapSpellInfo");
 	gtk_image_set_from_stock (
 		GTK_IMAGE (info_pixmap),
 		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 
-	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
+	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
 	e_mutual_binding_new_full (
 		shell_settings, "composer-spell-color",
 		widget, "color",
@@ -496,12 +496,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
-	widget = glade_xml_get_widget (gui, "comboboxForwardStyle");
+	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
 	e_mutual_binding_new (
 		shell_settings, "mail-forward-style",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "comboboxReplyStyle");
+	widget = e_builder_get_widget (prefs->builder, "comboboxReplyStyle");
 	e_mutual_binding_new_full (
 		shell_settings, "mail-reply-style",
 		widget, "active",
@@ -511,7 +511,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Signatures */
 	signature_list = e_get_signature_list ();
-	container = glade_xml_get_widget (gui, "alignSignatures");
+	container = e_builder_get_widget (prefs->builder, "alignSignatures");
 	widget = e_signature_manager_new (signature_list);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -533,7 +533,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	signature_tree_view = e_signature_manager_get_tree_view (
 		E_SIGNATURE_MANAGER (widget));
 
-	container = glade_xml_get_widget (gui, "scrolled-sig");
+	container = e_builder_get_widget (prefs->builder, "scrolled-sig");
 	widget = e_signature_preview_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);

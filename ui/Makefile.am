@@ -1,4 +1,4 @@
-UI_FILES =					\
+ui_DATA =					\
 	evolution-calendars.ui			\
 	evolution-contacts.ui			\
 	evolution-mail.ui			\
@@ -7,10 +7,8 @@ UI_FILES =					\
 	evolution-shell.ui			\
 	evolution-tasks.ui
 
-evolutionui_DATA = $(UI_FILES)
-
 EXTRA_DIST =					\
-	$(UI_FILES)				\
+	$(ui_DATA)				\
 	ChangeLog.pre-1-4
 
 -include $(top_srcdir)/git.mk

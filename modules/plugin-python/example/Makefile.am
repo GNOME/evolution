@@ -7,7 +7,7 @@ plugin_DATA = \
 
 liborg_gnome_py_plug_test_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"
 
 liborg_gnome_py_plug_test_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

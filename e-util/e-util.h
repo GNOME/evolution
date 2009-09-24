@@ -37,6 +37,11 @@
 
 #include <e-util/e-marshal.h>
 
+/* Convenience macro to help migrate from libglade to GtkBuilder.
+ * Use it as a direct replacement for glade_xml_get_widget(). */
+#define e_builder_get_widget(builder, name) \
+	GTK_WIDGET (gtk_builder_get_object ((builder), (name)))
+
 G_BEGIN_DECLS
 
 typedef enum {
@@ -58,7 +63,9 @@ GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
 						 const gchar *action_name);
 GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
 						 const gchar *group_name);
-guint		e_load_ui_definition		(GtkUIManager *ui_manager,
+void		e_load_ui_builder_definition	(GtkBuilder *builder,
+						 const gchar *basename);
+guint		e_load_ui_manager_definition	(GtkUIManager *ui_manager,
 						 const gchar *basename);
 gint		e_action_compare_by_label	(GtkAction *action1,
 						 GtkAction *action2);
@@ -143,6 +150,9 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 GError **error);
 GSList *	e_util_get_category_filter_options
 						(void);
+
+void		e_util_set_source_combo_box_list(GtkWidget *source_combo_box,
+						 const gchar *source_gconf_path);
 
 /* Camel uses its own object system, so we have to box
  * CamelObjects to safely use them as GObject properties. */

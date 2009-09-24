@@ -25,7 +25,6 @@
 #define E_RULE_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 
 #include "e-rule-context.h"
 #include "e-filter-rule.h"
@@ -109,7 +108,7 @@ ERuleEditor *	e_rule_editor_new		(ERuleContext *context,
 						 const gchar *label);
 void		e_rule_editor_construct		(ERuleEditor *editor,
 						 ERuleContext *context,
-						 GladeXML *gui,
+						 GtkBuilder *builder,
 						 const gchar *source,
 						 const gchar *label);
 void		e_rule_editor_set_source	(ERuleEditor *editor,

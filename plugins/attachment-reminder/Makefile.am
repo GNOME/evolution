@@ -5,8 +5,7 @@ error_DATA = org-gnome-attachment-reminder.error
 errordir = $(privdatadir)/errors
 
 plugin_DATA = 						\
-	org-gnome-evolution-attachment-reminder.eplug	\
-	attachment-reminder.glade
+	org-gnome-evolution-attachment-reminder.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-evolution-attachment-reminder.la
 
@@ -62,8 +61,7 @@ endif
 
 EXTRA_DIST = org-gnome-evolution-attachment-reminder.eplug.xml \
 	org-gnome-attachment-reminder.error.xml			\
-	$(schema_in_files)					\
-	attachment-reminder.glade
+	$(schema_in_files)
 
 BUILT_SOURCES = org-gnome-evolution-attachment-reminder.eplug \
 		org-gnome-attachment-reminder.error

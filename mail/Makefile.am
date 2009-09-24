@@ -24,14 +24,13 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CANBERRA_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
@@ -50,6 +49,7 @@ mailinclude_HEADERS =					\
 	e-mail-reader-utils.h				\
 	e-mail-search-bar.h				\
 	e-mail-store.h					\
+	e-mail-tag-editor.h				\
 	e-searching-tokenizer.h				\
 	em-account-editor.h				\
 	em-composer-utils.h				\
@@ -89,9 +89,7 @@ mailinclude_HEADERS =					\
 	mail-session.h					\
 	mail-tools.h					\
 	mail-vfolder.h					\
-	message-list.h					\
-	message-tag-editor.h				\
-	message-tag-followup.h
+	message-list.h
 
 libevolution_mail_la_SOURCES =				\
 	e-mail-attachment-bar.c				\
@@ -107,6 +105,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-reader-utils.c				\
 	e-mail-search-bar.c				\
 	e-mail-store.c					\
+	e-mail-tag-editor.c				\
 	e-searching-tokenizer.c				\
 	em-account-editor.c				\
 	em-composer-utils.c				\
@@ -146,9 +145,7 @@ libevolution_mail_la_SOURCES =				\
 	mail-session.c					\
 	mail-tools.c					\
 	mail-vfolder.c					\
-	message-list.c					\
-	message-tag-editor.c				\
-	message-tag-followup.c
+	message-list.c
 
 if ENABLE_SMIME
 SMIME_LIBS =						\
@@ -195,7 +192,7 @@ em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
 		sed -n -e 's:.*<title>\(.*\)</title>:gchar *s = N_("\1");:p' | \
 		sort -u >> $@
 
-glade_DATA = mail-config.glade mail-dialogs.glade
+ui_DATA = mail-config.ui mail-dialogs.ui
 
 etspec_DATA = message-list.etspec
 
@@ -203,7 +200,7 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	README.async			\
 	mail.error.xml			\
-	$(glade_DATA)			\
+	$(ui_DATA)			\
 	$(schema_in_files)		\
 	$(server_in_files)		\
 	$(etspec_DATA)			\

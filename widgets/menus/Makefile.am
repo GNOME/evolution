@@ -4,7 +4,7 @@ libmenus_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"  \
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"  \
 	-DG_LOG_DOMAIN=\"menus\"		\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	$(E_UTIL_CFLAGS)
@@ -21,10 +21,10 @@ libmenus_la_SOURCES = 				\
 	gal-view-new-dialog.c			\
 	gal-view.c
 
-glade_DATA = 					\
-	gal-define-views.glade			\
-	gal-view-new-dialog.glade		\
-	gal-view-instance-save-as-dialog.glade
+ui_DATA = 					\
+	gal-define-views.ui			\
+	gal-view-new-dialog.ui		\
+	gal-view-instance-save-as-dialog.ui
 
 libmenusincludedir = $(privincludedir)/menus
 
@@ -52,6 +52,6 @@ libmenus_la_LIBADD =					\
 icons =
 EXTRA_DIST =			\
 	 $(icons)		\
-	 $(glade_DATA)
+	 $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

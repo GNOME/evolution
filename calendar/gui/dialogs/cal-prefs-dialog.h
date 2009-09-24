@@ -25,7 +25,6 @@
 #define CAL_PREFS_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-shell.h>
@@ -57,7 +56,7 @@ typedef struct _CalendarPrefsDialogClass CalendarPrefsDialogClass;
 struct _CalendarPrefsDialog {
 	GtkVBox parent;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	GConfClient *gconf;
 

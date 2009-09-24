@@ -34,6 +34,7 @@
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
 
+#include "e-util/e-util.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
 
@@ -41,7 +42,6 @@
 
 #include "mail-config.h"
 
-#include <glade/glade.h>
 #include <glib/gi18n.h>
 
 #define d(x)
@@ -820,34 +820,27 @@ em_subscribe_editor_new(void)
 	EMSubscribeEditor *se;
 	EAccountList *accounts;
 	EIterator *iter;
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkWidget *w;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
 	GtkTreeIter gtiter;
-	gchar *gladefile;
 
 	se = g_malloc0(sizeof(*se));
 	g_queue_init (&se->stores);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-dialogs.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, "subscribe_dialog", NULL);
-	g_free (gladefile);
+	/* XXX I think we're leaking the GtkBuilder. */
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-	if (xml == NULL) {
-		/* ?? */
-		return NULL;
-	}
-	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
+	se->dialog = (GtkDialog *)e_builder_get_widget (builder, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
 
 	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
 
-	se->vbox = glade_xml_get_widget(xml, "tree_box");
+	se->vbox = e_builder_get_widget(builder, "tree_box");
 
 	/* FIXME: This is just to get the shadow, is there a better way? */
 	w = gtk_label_new(_("Please select a server."));
@@ -859,17 +852,17 @@ em_subscribe_editor_new(void)
 	gtk_box_pack_start((GtkBox *)se->vbox, se->none_selected, TRUE, TRUE, 0);
 	gtk_widget_show(se->none_selected);
 
-	se->progress = glade_xml_get_widget(xml, "progress_bar");
+	se->progress = e_builder_get_widget(builder, "progress_bar");
 	gtk_widget_hide(se->progress);
 
-	w = glade_xml_get_widget(xml, "close_button");
+	w = e_builder_get_widget(builder, "close_button");
 	g_signal_connect(w, "clicked", G_CALLBACK(sub_editor_close), se);
 
-	w = glade_xml_get_widget(xml, "refresh_button");
+	w = e_builder_get_widget(builder, "refresh_button");
 	g_signal_connect(w, "clicked", G_CALLBACK(sub_editor_refresh), se);
 
 	/* setup stores combobox */
-	se->combobox = glade_xml_get_widget (xml, "store_combobox");
+	se->combobox = e_builder_get_widget (builder, "store_combobox");
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
 	gtk_combo_box_set_model (GTK_COMBO_BOX (se->combobox), GTK_TREE_MODEL (store));
 	g_object_unref (store);

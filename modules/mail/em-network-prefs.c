@@ -34,15 +34,16 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
-#include <glade/glade.h>
 
 #include <glib/gstdio.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
 #include "mail-config.h"
 #include "em-config.h"
+#include "em-folder-selection-button.h"
 
 #define d(x)
 
@@ -161,7 +162,7 @@ emnp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 {
 	EMNetworkPrefs *prefs = data;
 
-	return glade_xml_get_widget(prefs->gui, item->label);
+	return e_builder_get_widget(prefs->builder, item->label);
 }
 
 static void
@@ -295,23 +296,21 @@ static void
 em_network_prefs_construct (EMNetworkPrefs *prefs)
 {
 	GtkWidget *toplevel;
-	GladeXML *gui;
 	GSList* l;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	gboolean locked;
 	gint i, val, port;
-	gchar *gladefile;
 
 	prefs->gconf = mail_config_get_gconf_client ();
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	gui = glade_xml_new (gladefile, "network_preferences_toplevel", NULL);
-	prefs->gui = gui;
-	g_free (gladefile);
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	EM_TYPE_FOLDER_SELECTION_BUTTON;
+
+	prefs->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
 
 	/** @HookPoint-EMConfig: Network Preferences
 	 * @Id: org.gnome.evolution.mail.networkPrefs
@@ -338,14 +337,14 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	if (val == NETWORK_PROXY_AUTOCONFIG)
 		val = NETWORK_PROXY_SYS_SETTINGS;
 
-	prefs->sys_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoSysSettings"));
+	prefs->sys_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoSysSettings"));
 	gtk_toggle_button_set_active (prefs->sys_proxy, val == NETWORK_PROXY_SYS_SETTINGS);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sys_proxy, FALSE);
 
 	d(g_print ("Sys settings ----!!! \n"));
 
-	prefs->no_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoNoProxy"));
+	prefs->no_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoNoProxy"));
 	gtk_toggle_button_set_active (prefs->no_proxy, val == NETWORK_PROXY_DIRECT_CONNECTION);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->no_proxy, FALSE);
@@ -354,8 +353,8 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	/* no auto-proxy at the moment */
 #if 0
-	prefs->auto_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoAutoConfig"));
-	prefs->auto_proxy_url = GTK_ENTRY (glade_xml_get_widget (gui, "txtAutoConfigUrl"));
+	prefs->auto_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoAutoConfig"));
+	prefs->auto_proxy_url = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtAutoConfigUrl"));
 
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
@@ -366,29 +365,29 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	d(g_print ("Auto config settings ----!!! \n"));
 
-	prefs->manual_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoManualProxy"));
-	prefs->http_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtHttpHost"));
-	prefs->https_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtHttpsHost"));
-	prefs->ignore_hosts = GTK_ENTRY (glade_xml_get_widget (gui, "txtIgnoreHosts"));
-	prefs->http_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnHttpPort"));
-	prefs->https_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnHttpsPort"));
-	prefs->lbl_http_host = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpHost"));
-	prefs->lbl_http_port = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpPort"));
-	prefs->lbl_https_host = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpsHost"));
-	prefs->lbl_https_port = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpsPort"));
-	prefs->lbl_ignore_hosts = GTK_LABEL (glade_xml_get_widget (gui, "lblIgnoreHosts"));
-	prefs->use_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkUseAuth"));
+	prefs->manual_proxy = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "rdoManualProxy"));
+	prefs->http_host = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtHttpHost"));
+	prefs->https_host = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtHttpsHost"));
+	prefs->ignore_hosts = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtIgnoreHosts"));
+	prefs->http_port = GTK_SPIN_BUTTON (e_builder_get_widget (prefs->builder, "spnHttpPort"));
+	prefs->https_port = GTK_SPIN_BUTTON (e_builder_get_widget (prefs->builder, "spnHttpsPort"));
+	prefs->lbl_http_host = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblHttpHost"));
+	prefs->lbl_http_port = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblHttpPort"));
+	prefs->lbl_https_host = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblHttpsHost"));
+	prefs->lbl_https_port = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblHttpsPort"));
+	prefs->lbl_ignore_hosts = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblIgnoreHosts"));
+	prefs->use_auth = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "chkUseAuth"));
 	toggle_button_init (prefs, prefs->use_auth, GCONF_E_USE_AUTH_KEY);
-	prefs->lbl_auth_user = GTK_LABEL (glade_xml_get_widget (gui, "lblAuthUser"));
-	prefs->lbl_auth_pwd = GTK_LABEL (glade_xml_get_widget (gui, "lblAuthPwd"));
-	prefs->auth_user = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthUser"));
-	prefs->auth_pwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPwd"));
+	prefs->lbl_auth_user = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblAuthUser"));
+	prefs->lbl_auth_pwd = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblAuthPwd"));
+	prefs->auth_user = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtAuthUser"));
+	prefs->auth_pwd = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtAuthPwd"));
 
 #if 0
-	prefs->socks_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtSocksHost"));
-	prefs->socks_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnSocksPort"));
-	prefs->lbl_socks_host = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksHost"));
-	prefs->lbl_socks_port = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksPort"));
+	prefs->socks_host = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtSocksHost"));
+	prefs->socks_port = GTK_SPIN_BUTTON (e_builder_get_widget (prefs->builder, "spnSocksPort"));
+	prefs->lbl_socks_host = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblSocksHost"));
+	prefs->lbl_socks_port = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblSocksPort"));
 	g_signal_connect (prefs->socks_host, "changed",
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
 	g_signal_connect (prefs->socks_port, "value_changed",

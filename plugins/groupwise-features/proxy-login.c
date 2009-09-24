@@ -27,7 +27,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 
 #include <libedataserverui/e-passwords.h>
 #include <mail/em-folder-tree.h>
@@ -38,6 +37,7 @@
 #include <camel/camel-store.h>
 #include <mail/mail-ops.h>
 #include <libedataserver/e-account.h>
+#include <e-util/e-util.h>
 #include <e-util/e-error.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
@@ -52,7 +52,7 @@
 #include "gw-ui.h"
 #include "proxy-login.h"
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 #define ACCOUNT_PICTURE 0
 #define ACCOUNT_NAME 1
@@ -61,8 +61,8 @@ proxyLogin *pld = NULL;
 static GObjectClass *parent_class = NULL;
 
 struct _proxyLoginPrivate {
-	/* Glade XML data for the Add/Edit Proxy dialog*/
-	GladeXML *xml;
+	/* UI data for the Add/Edit Proxy dialog*/
+	GtkBuilder *builder;
 	/* Widgets */
 	GtkWidget *main;
 
@@ -85,7 +85,7 @@ proxy_login_finalize (GObject *object)
 	g_list_foreach (prd->proxy_list, (GFunc)g_free, NULL);
 	g_list_free (prd->proxy_list);
 	prd->proxy_list = NULL;
-	g_object_unref (priv->xml);
+	g_object_unref (priv->builder);
 	g_free (priv->help_section);
 
 	if (prd->priv) {
@@ -134,7 +134,7 @@ proxy_login_init (GObject *object)
 	prd->priv = priv;
 
 	prd->proxy_list = NULL;
-	priv->xml = NULL;
+	priv->builder = NULL;
 	priv->main = NULL;
 	priv->store = NULL;
 	priv->tree = NULL;
@@ -282,7 +282,7 @@ proxy_login_cb (GtkDialog *dialog, gint state, GtkWindow *parent)
 	gchar *proxy_name;
 
 	priv = pld->priv;
-	account_name_tbox = glade_xml_get_widget (priv->xml, "account_name");
+	account_name_tbox = e_builder_get_widget (priv->builder, "account_name");
 	proxy_name = g_strdup ((gchar *) gtk_entry_get_text ((GtkEntry *) account_name_tbox));
 
 	switch (state) {
@@ -405,7 +405,7 @@ proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 		return;
 	gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
 	account_mailid = g_strrstr (account_mailid, "\n") + 1;
-	account_name_tbox = glade_xml_get_widget (priv->xml, "account_name");
+	account_name_tbox = e_builder_get_widget (priv->builder, "account_name");
 	gtk_entry_set_text((GtkEntry*) account_name_tbox,account_mailid);
 }
 
@@ -483,7 +483,6 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	gchar *uri = NULL;
 	proxyLoginPrivate *priv;
 	EGwConnection *cnc;
-	gchar *gladefile;
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
@@ -510,15 +509,12 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	pld = proxy_login_new();
 	priv = pld->priv;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "proxy-login-dialog.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "proxy-login-dialog.ui");
 
-	priv->main = glade_xml_get_widget (priv->xml, "proxy_login_dialog");
+	priv->main = e_builder_get_widget (priv->builder, "proxy_login_dialog");
 	pld->account = mail_config_get_account_by_source_url (uri);
-	priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml, "proxy_login_treeview"));
+	priv->tree = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "proxy_login_treeview"));
 	priv->store =  gtk_tree_store_new (2,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING

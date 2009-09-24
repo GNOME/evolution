@@ -28,6 +28,7 @@
 
 #include "e-image-chooser.h"
 #include "e-util/e-util.h"
+#include "e-util/e-icon-factory.h"
 
 #define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,6 +42,14 @@ struct _EImageChooserPrivate {
 	gint image_buf_size;
 	gint image_width;
 	gint image_height;
+
+	/* Default Image */
+	gchar *icon_name;
+};
+
+enum {
+	PROP_0,
+	PROP_ICON_NAME
 };
 
 enum {
@@ -270,6 +279,66 @@ exit:
 }
 
 static void
+image_chooser_set_icon_name (EImageChooser *chooser,
+                             const gchar *icon_name)
+{
+	GtkIconTheme *icon_theme;
+	GtkIconInfo *icon_info;
+	const gchar *filename;
+	gint width, height;
+
+	g_return_if_fail (chooser->priv->icon_name == NULL);
+
+	chooser->priv->icon_name = g_strdup (icon_name);
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &width, &height);
+
+	icon_info = gtk_icon_theme_lookup_icon (
+		icon_theme, icon_name, height, 0);
+	g_return_if_fail (icon_info != NULL);
+
+	filename = gtk_icon_info_get_filename (icon_info);
+	e_image_chooser_set_from_file (chooser, filename);
+	gtk_icon_info_free (icon_info);
+}
+
+static void
+image_chooser_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ICON_NAME:
+			image_chooser_set_icon_name (
+				E_IMAGE_CHOOSER (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+image_chooser_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ICON_NAME:
+			g_value_set_string (
+				value,
+				e_image_chooser_get_icon_name (
+				E_IMAGE_CHOOSER (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 image_chooser_dispose (GObject *object)
 {
 	EImageChooserPrivate *priv;
@@ -298,6 +367,7 @@ image_chooser_finalize (GObject *object)
 	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
 
 	g_free (priv->image_buf);
+	g_free (priv->icon_name);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -312,8 +382,21 @@ e_image_chooser_class_init (EImageChooserClass *class)
 	g_type_class_add_private (class, sizeof (EImageChooserPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = image_chooser_set_property;
+	object_class->get_property = image_chooser_get_property;
 	object_class->dispose = image_chooser_dispose;
 	object_class->finalize = image_chooser_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ICON_NAME,
+		g_param_spec_string (
+			"icon-name",
+			"Icon Name",
+			NULL,
+			"stock_person",
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -397,10 +480,22 @@ e_image_chooser_get_type (void)
 	return type;
 }
 
-GtkWidget *
-e_image_chooser_new (void)
+const gchar *
+e_image_chooser_get_icon_name (EImageChooser *chooser)
 {
-	return g_object_new (E_TYPE_IMAGE_CHOOSER, NULL);
+	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), NULL);
+
+	return chooser->priv->icon_name;
+}
+
+GtkWidget *
+e_image_chooser_new (const gchar *icon_name)
+{
+	g_return_val_if_fail (icon_name != NULL, NULL);
+
+	return g_object_new (
+		E_TYPE_IMAGE_CHOOSER,
+		"icon-name", icon_name, NULL);
 }
 
 gboolean

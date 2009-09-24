@@ -22,7 +22,6 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
@@ -30,6 +29,7 @@
 #include <libedataserverui/e-passwords.h>
 #include <calendar/gui/e-cal-config.h>
 #include <shell/es-event.h>
+#include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-dialog-utils.h>
 
@@ -691,7 +691,7 @@ online_state_changed (EShell *shell)
 GtkWidget *
 publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkWidget *toplevel;
@@ -699,15 +699,11 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GSList *l;
 	GtkTreeIter iter;
 	GConfClient *client;
-	gchar *gladefile;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "publish-calendar.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, "toplevel", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "publish-calendar.ui");
 
-	ui->treeview = glade_xml_get_widget (xml, "url list");
+	ui->treeview = e_builder_get_widget (builder, "url list");
 	if (store == NULL)
 		store = gtk_list_store_new (URL_LIST_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 	else
@@ -729,10 +725,10 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
 	g_signal_connect (G_OBJECT (ui->treeview), "row-activated", G_CALLBACK (url_list_double_click), ui);
 
-	ui->url_add = glade_xml_get_widget (xml, "url add");
-	ui->url_edit = glade_xml_get_widget (xml, "url edit");
-	ui->url_remove = glade_xml_get_widget (xml, "url remove");
-	ui->url_enable = glade_xml_get_widget (xml, "url enable");
+	ui->url_add = e_builder_get_widget (builder, "url add");
+	ui->url_edit = e_builder_get_widget (builder, "url edit");
+	ui->url_remove = e_builder_get_widget (builder, "url remove");
+	ui->url_enable = e_builder_get_widget (builder, "url enable");
 	g_signal_connect (G_OBJECT (ui->url_add), "clicked", G_CALLBACK (url_add_clicked), ui);
 	g_signal_connect (G_OBJECT (ui->url_edit), "clicked", G_CALLBACK (url_edit_clicked), ui);
 	g_signal_connect (G_OBJECT (ui->url_remove), "clicked", G_CALLBACK (url_remove_clicked), ui);
@@ -760,11 +756,11 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter))
 		gtk_tree_selection_select_iter (selection, &iter);
 
-	toplevel = glade_xml_get_widget (xml, "toplevel");
+	toplevel = e_builder_get_widget (builder, "toplevel");
 	gtk_widget_show_all (toplevel);
 	gtk_box_pack_start (GTK_BOX (data->parent), toplevel, FALSE, TRUE, 0);
 
-	g_object_unref (xml);
+	g_object_unref (builder);
 
 	return toplevel;
 }

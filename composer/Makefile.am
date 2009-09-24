@@ -33,9 +33,8 @@ libcomposer_la_CPPFLAGS =						\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
-	-DEVOLUTION_IMAGESDIR=\"$(imagesdir)\"                          \
-	-DEVOLUTION_UIDIR=\"$(evolutionuidir)\"				\
-	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"				\
+	-DEVOLUTION_IMAGESDIR=\"$(imagesdir)\"				\
+	-DEVOLUTION_UIDIR=\"$(uidir)\"					\
 	-DPREFIX=\"$(prefix)\"						\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(EVOLUTION_MAIL_CFLAGS)
@@ -64,7 +63,6 @@ libcomposer_la_LIBADD =					\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(EVOLUTION_MAIL_LIBS)
 
-uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui
 
 EXTRA_DIST =					\

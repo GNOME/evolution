@@ -29,7 +29,6 @@
 #endif
 
 #include <string.h>
-#include <glade/glade.h>
 #include <glib/gi18n.h>
 
 #include <e-util/e-plugin-ui.h>

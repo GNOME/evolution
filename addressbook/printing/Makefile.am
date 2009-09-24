@@ -9,7 +9,7 @@ libecontactprint_la_CPPFLAGS =			\
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)				\
-        -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
+        -DEVOLUTION_UIDIR=\""$(uidir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 

@@ -29,6 +29,8 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
+#include "misc/e-canvas.h"
+
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
@@ -52,8 +54,6 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 	GObjectClass *object_class;
 
 	object_class = (GObjectClass*) klass;
-
-	glade_init();
 
 	object_class->set_property = e_table_field_chooser_set_property;
 	object_class->get_property = e_table_field_chooser_get_property;
@@ -135,28 +135,55 @@ static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 	ensure_nonzero_step_increments (etfc);
 }
 
+static GtkWidget *
+create_content (GnomeCanvas **canvas)
+{
+	GtkWidget *vbox_top;
+	GtkWidget *label1;
+	GtkWidget *scrolledwindow1;
+	GtkWidget *canvas_buttons;
+
+	g_return_val_if_fail (canvas != NULL, NULL);
+
+	vbox_top = gtk_vbox_new (FALSE, 4);
+	gtk_widget_show (vbox_top);
+
+	label1 = gtk_label_new (_("To add a column to your table, drag it into\nthe location in which you want it to appear."));
+	gtk_widget_show (label1);
+	gtk_box_pack_start (GTK_BOX (vbox_top), label1, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
+
+	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow1);
+	gtk_box_pack_start (GTK_BOX (vbox_top), scrolledwindow1, TRUE, TRUE, 0);
+	GTK_WIDGET_UNSET_FLAGS (scrolledwindow1, GTK_CAN_FOCUS);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	canvas_buttons = e_canvas_new ();
+	gtk_widget_show (canvas_buttons);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow1), canvas_buttons);
+	GTK_WIDGET_UNSET_FLAGS (canvas_buttons, GTK_CAN_FOCUS);
+	GTK_WIDGET_UNSET_FLAGS (canvas_buttons, GTK_CAN_DEFAULT);
+
+	*canvas = GNOME_CANVAS (canvas_buttons);
+
+	return vbox_top;
+}
+
 static void
 e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
-	GladeXML *gui;
 	GtkWidget *widget;
-	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
-					    "e-table-field-chooser.glade",
-					    NULL);
-	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-	g_free (filename);
-	etfc->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "vbox-top");
+	widget = create_content (&etfc->canvas);
 	if (!widget) {
 		return;
 	}
-	gtk_widget_reparent(widget,
-			    GTK_WIDGET(etfc));
+
+	gtk_widget_set_size_request (widget, -1, 250);
+	gtk_box_pack_start (GTK_BOX (etfc), widget, TRUE, TRUE, 0);
 
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-
-	etfc->canvas = GNOME_CANVAS(glade_xml_get_widget(gui, "canvas-buttons"));
 
 	etfc->rect = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS( etfc->canvas ) ),
 					   gnome_canvas_rect_get_type(),
@@ -207,10 +234,6 @@ e_table_field_chooser_dispose (GObject *object)
 	if (etfc->header)
 		g_object_unref (etfc->header);
 	etfc->header = NULL;
-
-	if (etfc->gui)
-		g_object_unref (etfc->gui);
-	etfc->gui = NULL;
 
 	if (G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose)
 		(* G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose) (object);

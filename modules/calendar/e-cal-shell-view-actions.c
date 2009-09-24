@@ -174,7 +174,7 @@ action_calendar_jump_to_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	goto_dialog (calendar);
+	goto_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (cal_shell_content))), calendar);
 }
 
 static void

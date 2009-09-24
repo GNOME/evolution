@@ -23,10 +23,10 @@
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
-#include <glade/glade.h>
 #include "junk-settings.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <e-util/e-util.h>
 #include <e-util/e-error.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-connection.h>
@@ -88,7 +88,7 @@ static void
 junk_settings_finalise (GObject *obj)
 {
 	JunkSettings *js = (JunkSettings *) obj;
-	g_object_unref (js->xml);
+	g_object_unref (js->builder);
 	free_all(js);
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
@@ -370,42 +370,31 @@ user_selected(GtkTreeSelection *selection, JunkSettings *js)
 static void
 junk_settings_construct (JunkSettings *js)
 {
-	GladeXML *xml;
-	gchar *gladefile;
+	js->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (js->builder, "junk-settings.ui");
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "junk-settings.glade",
-				      NULL);
-	xml = glade_xml_new (gladefile, ROOTNODE, NULL);
-	g_free (gladefile);
-
-	js->xml =xml;
-
-	if (!js->xml) {
-		g_warning ("could not get xml");
-	}
-	js->vbox = GTK_VBOX (glade_xml_get_widget(js->xml, "vboxSettings"));
-	js->table = GTK_VBOX (glade_xml_get_widget (js->xml, "vbox194"));
+	js->vbox = GTK_VBOX (e_builder_get_widget(js->builder, "vboxSettings"));
+	js->table = GTK_VBOX (e_builder_get_widget (js->builder, "vbox194"));
 	gtk_widget_set_sensitive (GTK_WIDGET (js->table), FALSE);
 
-	js->enable = GTK_RADIO_BUTTON (glade_xml_get_widget (js->xml, "radEnable"));
+	js->enable = GTK_RADIO_BUTTON (e_builder_get_widget (js->builder, "radEnable"));
 	g_signal_connect ((gpointer) js->enable, "clicked", G_CALLBACK (enable_clicked), js);
 
-	js->disable = GTK_RADIO_BUTTON (glade_xml_get_widget (js->xml, "radDisable"));
+	js->disable = GTK_RADIO_BUTTON (e_builder_get_widget (js->builder, "radDisable"));
 	g_signal_connect ((gpointer) js->disable, "clicked", G_CALLBACK (disable_clicked), js);
 
-	js->add_button = GTK_BUTTON (glade_xml_get_widget(js->xml, "Add"));
+	js->add_button = GTK_BUTTON (e_builder_get_widget(js->builder, "Add"));
 	g_signal_connect((GtkWidget *) js->add_button, "clicked", G_CALLBACK (add_clicked), js);
 
-	js->remove = GTK_BUTTON(glade_xml_get_widget(js->xml, "Remove"));
+	js->remove = GTK_BUTTON(e_builder_get_widget(js->builder, "Remove"));
 	g_signal_connect ((GtkWidget *) js->remove, "clicked", G_CALLBACK (remove_clicked), js);
 	gtk_widget_set_sensitive(GTK_WIDGET (js->remove), FALSE);
 
-	js->entry = GTK_ENTRY (glade_xml_get_widget (js->xml, "entry4"));
+	js->entry = GTK_ENTRY (e_builder_get_widget (js->builder, "entry4"));
 		/*TODO:connect entry and label*/
 	gtk_widget_show ((GtkWidget *) js->entry);
 
-	js->scrolled_window = GTK_WIDGET (glade_xml_get_widget (js->xml,"scrolledwindow4"));
+	js->scrolled_window = GTK_WIDGET (e_builder_get_widget (js->builder,"scrolledwindow4"));
 
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (js->scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 

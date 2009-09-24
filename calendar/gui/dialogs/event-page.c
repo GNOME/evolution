@@ -32,22 +32,23 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include "common/authentication.h"
-#include "e-util/e-categories-config.h"
-#include "e-util/e-dialog-widgets.h"
 #include "misc/e-dateedit.h"
 #include "misc/e-send-options.h"
 #include "misc/e-buffer-tagger.h"
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
-#include <e-util/e-dialog-utils.h>
-#include <e-util/e-dialog-widgets.h>
-#include <e-util/e-util-private.h>
+
+#include "e-util/e-util.h"
+#include "e-util/e-categories-config.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-dialog-widgets.h"
+#include "e-util/e-dialog-widgets.h"
+#include "e-util/e-util-private.h"
 
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-store.h"
@@ -93,10 +94,9 @@ static const gint alarm_map_without_user_time[] = {
 
 /* Private part of the EventPage structure */
 struct _EventPagePrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *main;
 
 	/* Generic informative messages placeholder */
@@ -229,9 +229,9 @@ event_page_dispose (GObject *object)
 		priv->main = NULL;
 	}
 
-	if (priv->xml != NULL) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	if (priv->alarm_list_store != NULL) {
@@ -2114,7 +2114,7 @@ get_widgets (EventPage *epage)
 
 	priv = epage->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 	editor = comp_editor_page_get_editor (page);
 
@@ -2157,6 +2157,7 @@ get_widgets (EventPage *epage)
 
 	priv->organizer = GW ("organizer");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (priv->organizer), 0);
 
 	priv->summary = GW ("summary");
 	priv->summary_label = GW ("summary-label");
@@ -2194,6 +2195,7 @@ get_widgets (EventPage *epage)
 
 	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->start_time = GW ("start-time");
+	comp_editor_bind_date_edit_settings (priv->start_time, NULL);
 	gtk_widget_show (priv->start_time);
 
 	priv->time_hour = GW ("time-hour");
@@ -2202,6 +2204,7 @@ get_widgets (EventPage *epage)
 	priv->end_time_combo = GW ("end-time-combobox");
 
 	priv->end_time = GW ("end-time");
+	comp_editor_bind_date_edit_settings (priv->end_time, NULL);
 	gtk_widget_show_all (priv->time_hour);
 	gtk_widget_hide (priv->end_time);
 
@@ -2210,6 +2213,8 @@ get_widgets (EventPage *epage)
 	priv->source_selector = GW ("source");
 
 #undef GW
+
+	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/calendar/sources");
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -3050,23 +3055,13 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 	EventPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
-	gchar *gladefile;
 
 	priv = epage->priv;
 	g_object_ref (model);
 	priv->model = model;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "event-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("event_page_construct(): "
-			   "Could not load the Glade XML file!");
-		return NULL;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "event-page.ui");
 
 	if (!get_widgets (epage)) {
 		g_message ("event_page_construct(): "
@@ -3132,61 +3127,6 @@ event_page_new (EMeetingStore *model, CompEditor *editor)
 	}
 
 	return epage;
-}
-
-GtkWidget *make_date_edit (void);
-
-GtkWidget *
-make_date_edit (void)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return comp_editor_new_date_edit (shell_settings, TRUE, TRUE, TRUE);
-}
-
-GtkWidget *make_timezone_entry (void);
-
-GtkWidget *
-make_timezone_entry (void)
-{
-	GtkWidget *w;
-
-	w = e_timezone_entry_new ();
-	gtk_widget_show (w);
-	return w;
-}
-
-GtkWidget *event_page_create_source_combo_box (void);
-
-GtkWidget *
-event_page_create_source_combo_box (void)
-{
-	GtkWidget   *combo_box;
-	GConfClient *gconf_client;
-	ESourceList *source_list;
-
-	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (
-		gconf_client, "/apps/evolution/calendar/sources");
-
-	combo_box = e_source_combo_box_new (source_list);
-	g_object_unref (source_list);
-	g_object_unref (gconf_client);
-
-	gtk_widget_show (combo_box);
-	return combo_box;
-}
-
-GtkWidget *make_status_icons (void);
-
-GtkWidget *
-make_status_icons (void)
-{
-	return gtk_hbox_new (FALSE, 2);
 }
 
 static void

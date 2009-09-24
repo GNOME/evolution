@@ -7,7 +7,7 @@ liborg_gnome_evolution_caldav_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I .						\
 	-I$(top_srcdir)	                                \
-	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
+	-DCALDAV_UIDIR=\""$(uidir)"\"			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 liborg_gnome_evolution_caldav_la_SOURCES = caldav-source.c

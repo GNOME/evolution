@@ -26,12 +26,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
+
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "misc/e-buffer-tagger.h"
 
@@ -57,7 +58,7 @@ typedef struct {
 } AlarmFuncInfo;
 
 typedef struct {
-	GladeXML *xml;
+	GtkBuilder *builder;
 
 	GtkWidget *dialog;
 	GtkWidget *snooze_time_min;
@@ -219,7 +220,7 @@ dialog_destroyed_cb (GtkWidget *dialog, gpointer user_data)
 {
 	AlarmNotify *an = user_data;
 
-	g_object_unref (an->xml);
+	g_object_unref (an->builder);
 	g_free (an);
 }
 
@@ -252,37 +253,27 @@ notified_alarms_dialog_new (void)
 
 			G_TYPE_POINTER /* FuncInfo*/));
 
-	gchar *gladefile;
+	an->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (an->builder, "alarm-notify.ui");
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "alarm-notify.glade",
-				      NULL);
-	an->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-	if (!an->xml) {
-		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
-		g_free (an);
-		return NULL;
-	}
-
-	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
-	an->snooze_time_min = glade_xml_get_widget (an->xml, "snooze-time-min");
-	an->minutes_label = glade_xml_get_widget (an->xml, "minutes-label");
-	an->snooze_time_hrs = glade_xml_get_widget (an->xml, "snooze-time-hrs");
-	an->hrs_label = glade_xml_get_widget (an->xml, "hrs-label");
-	an->description = glade_xml_get_widget (an->xml, "description-label");
-	an->location = glade_xml_get_widget (an->xml, "location-label");
-	an->treeview = glade_xml_get_widget (an->xml, "appointments-treeview");
-	an->scrolledwindow = glade_xml_get_widget (an->xml, "treeview-scrolledwindow");
-	snooze_btn = glade_xml_get_widget (an->xml, "snooze-button");
+	an->dialog = e_builder_get_widget (an->builder, "alarm-notify");
+	an->snooze_time_min = e_builder_get_widget (an->builder, "snooze-time-min");
+	an->minutes_label = e_builder_get_widget (an->builder, "minutes-label");
+	an->snooze_time_hrs = e_builder_get_widget (an->builder, "snooze-time-hrs");
+	an->hrs_label = e_builder_get_widget (an->builder, "hrs-label");
+	an->description = e_builder_get_widget (an->builder, "description-label");
+	an->location = e_builder_get_widget (an->builder, "location-label");
+	an->treeview = e_builder_get_widget (an->builder, "appointments-treeview");
+	an->scrolledwindow = e_builder_get_widget (an->builder, "treeview-scrolledwindow");
+	snooze_btn = e_builder_get_widget (an->builder, "snooze-button");
 	an->snooze_btn = snooze_btn;
-	an->dismiss_btn = glade_xml_get_widget (an->xml, "dismiss-button");
-	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
+	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
+	edit_btn = e_builder_get_widget (an->builder, "edit-button");
 
 	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs
 	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
-		g_object_unref (an->xml);
+		g_object_unref (an->builder);
 		g_free (an);
 		return NULL;
 	}
@@ -309,7 +300,7 @@ notified_alarms_dialog_new (void)
 	gtk_widget_realize (an->dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->action_area), 12);
-	image = glade_xml_get_widget (an->xml, "alarm-image");
+	image = e_builder_get_widget (an->builder, "alarm-image");
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
 

@@ -24,7 +24,6 @@
 #define __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <widgets/menus/gal-view-collection.h>
 #include <widgets/menus/gal-view-instance.h>
 
@@ -57,7 +56,7 @@ struct _GalViewInstanceSaveAsDialog
 	GtkDialog parent;
 
 	/* item specific fields */
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkTreeView *treeview;
 	GtkTreeModel *model;
 

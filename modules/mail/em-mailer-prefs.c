@@ -34,12 +34,11 @@
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
-#include <glade/glade.h>
-
 #include <gconf/gconf-client.h>
 
 #include "libedataserverui/e-cell-renderer-color.h"
 
+#include "e-util/e-util.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-util-private.h"
@@ -47,6 +46,7 @@
 
 #include "e-mail-label-manager.h"
 #include "mail-config.h"
+#include "em-folder-selection-button.h"
 #include "em-junk.h"
 #include "em-config.h"
 #include "mail-session.h"
@@ -143,7 +143,7 @@ em_mailer_prefs_finalize (GObject *obj)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) obj;
 
-	g_object_unref (prefs->gui);
+	g_object_unref (prefs->builder);
 
 	if (prefs->labels_change_notify_id) {
 		gconf_client_notify_remove (prefs->gconf, prefs->labels_change_notify_id);
@@ -671,7 +671,7 @@ emmp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 {
 	EMMailerPrefs *prefs = data;
 
-	return glade_xml_get_widget(prefs->gui, item->label);
+	return e_builder_get_widget(prefs->builder, item->label);
 }
 
 /* plugin meta-data */
@@ -741,17 +741,32 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 }
 
 static void
-junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
+junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 {
+	GtkListStore *store;
+	GtkCellRenderer *cell;
 	gint index = 0;
 	gboolean def_set = FALSE;
 	const GList *plugins = mail_session_get_junk_plugins();
 	gchar *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
 
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (combo_box, GTK_TREE_MODEL (store));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), cell,
+					"text", 0,
+					NULL);
+
 	if (!plugins || !g_list_length ((GList *)plugins)) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("No Junk plugin available"));
-		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
-		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+		GtkTreeIter iter;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter, 0, _("No junk plugin available"), -1);
+		gtk_combo_box_set_active (combo_box, 0);
+		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
 		gtk_widget_hide (GTK_WIDGET (prefs->plugin_image));
 		gtk_widget_hide (GTK_WIDGET (prefs->plugin_status));
 		gtk_image_set_from_stock (prefs->plugin_image, NULL, 0);
@@ -762,13 +777,15 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 
 	while (plugins) {
 		EMJunkInterface *iface = plugins->data;
+		GtkTreeIter iter;
 
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), iface->plugin_name);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, iface->plugin_name, -1);
 		if (!def_set && pdefault && iface->plugin_name && !strcmp(pdefault, iface->plugin_name)) {
 			gboolean status;
 
 			def_set = TRUE;
-			gtk_combo_box_set_active (GTK_COMBO_BOX (combo), index);
+			gtk_combo_box_set_active (combo_box, index);
 			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
 			if (status) {
 				gchar *text, *html;
@@ -794,19 +811,10 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 		index++;
 	}
 
-	g_signal_connect (combo, "changed", G_CALLBACK(junk_plugin_changed), prefs);
+	g_signal_connect (
+		combo_box, "changed",
+		G_CALLBACK(junk_plugin_changed), prefs);
 	g_free (pdefault);
-}
-
-G_MODULE_EXPORT GtkWidget *
-create_combo_text_widget (void)
-{
-	GtkWidget *widget;
-
-	widget = gtk_combo_box_new_text ();
-	gtk_widget_show (widget);
-
-	return widget;
 }
 
 static void
@@ -823,23 +831,20 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
-	GladeXML *gui;
 	gboolean locked;
 	gint val, i;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
-	gchar *gladefile;
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "mail-config.glade",
-				      NULL);
-	gui = glade_xml_new (gladefile, "preferences_toplevel", NULL);
-	g_free (gladefile);
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	EM_TYPE_FOLDER_SELECTION_BUTTON;
 
-	prefs->gui = gui;
+	prefs->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
 
 	/** @HookPoint-EMConfig: Mail Preferences Page
 	 * @Id: org.gnome.evolution.mail.prefs
@@ -858,7 +863,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* General tab */
 
 	/* Message Display */
-	widget = glade_xml_get_widget (gui, "chkMarkTimeout");
+	widget = e_builder_get_widget (prefs->builder, "chkMarkTimeout");
 	e_mutual_binding_new (
 		shell_settings, "mail-mark-seen",
 		widget, "active");
@@ -866,7 +871,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* The "mark seen" timeout requires special transform functions
 	 * because we display the timeout value to the user in seconds
 	 * but store the settings value in milliseconds. */
-	widget = glade_xml_get_widget (gui, "spinMarkTimeout");
+	widget = e_builder_get_widget (prefs->builder, "spinMarkTimeout");
 	prefs->timeout = GTK_SPIN_BUTTON (widget);
 	e_mutual_binding_new (
 		shell_settings, "mail-mark-seen",
@@ -878,12 +883,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		mark_seen_timeout_reverse_transform,
 		NULL, NULL);
 
-	widget = glade_xml_get_widget (gui, "mlimit_checkbutton");
+	widget = e_builder_get_widget (prefs->builder, "mlimit_checkbutton");
 	e_mutual_binding_new (
 		shell_settings, "mail-force-message-limit",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "mlimit_spin");
+	widget = e_builder_get_widget (prefs->builder, "mlimit_spin");
 	e_mutual_binding_new (
 		shell_settings, "mail-force-message-limit",
 		widget, "sensitive");
@@ -891,12 +896,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		shell_settings, "mail-message-text-part-limit",
 		widget, "value");
 
-	widget = glade_xml_get_widget (gui, "address_checkbox");
+	widget = e_builder_get_widget (prefs->builder, "address_checkbox");
 	e_mutual_binding_new (
 		shell_settings, "mail-address-compress",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "address_spin");
+	widget = e_builder_get_widget (prefs->builder, "address_spin");
 	e_mutual_binding_new (
 		shell_settings, "mail-address-compress",
 		widget, "sensitive");
@@ -904,25 +909,25 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		shell_settings, "mail-address-count",
 		widget, "value");
 
-	widget = glade_xml_get_widget (gui, "magic_spacebar_checkbox");
+	widget = e_builder_get_widget (prefs->builder, "magic_spacebar_checkbox");
 	e_mutual_binding_new (
 		shell_settings, "mail-magic-spacebar",
 		widget, "active");
 
 	widget = e_charset_combo_box_new ();
-	container = glade_xml_get_widget (gui, "hboxDefaultCharset");
+	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	e_mutual_binding_new (
 		shell_settings, "mail-charset",
 		widget, "charset");
 
-	widget = glade_xml_get_widget (gui, "chkHighlightCitations");
+	widget = e_builder_get_widget (prefs->builder, "chkHighlightCitations");
 	e_mutual_binding_new (
 		shell_settings, "mail-mark-citations",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "colorButtonHighlightCitations");
+	widget = e_builder_get_widget (prefs->builder, "colorButtonHighlightCitations");
 	e_mutual_binding_new (
 		shell_settings, "mail-mark-citations",
 		widget, "sensitive");
@@ -933,35 +938,35 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		e_binding_transform_color_to_string,
 		NULL, NULL);
 
-	widget = glade_xml_get_widget (gui, "chkEnableSearchFolders");
+	widget = e_builder_get_widget (prefs->builder, "chkEnableSearchFolders");
 	e_mutual_binding_new (
 		shell_settings, "mail-enable-search-folders",
 		widget, "active");
 
 	/* Deleting Mail */
-	widget = glade_xml_get_widget (gui, "chkEmptyTrashOnExit");
+	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
 	e_mutual_binding_new (
 		shell_settings, "mail-empty-trash-on-exit",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "comboboxEmptyTrashDays");
+	widget = e_builder_get_widget (prefs->builder, "comboboxEmptyTrashDays");
 	e_mutual_binding_new (
 		shell_settings, "mail-empty-trash-on-exit",
 		widget, "sensitive");
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
-	widget = glade_xml_get_widget (gui, "chkConfirmExpunge");
+	widget = e_builder_get_widget (prefs->builder, "chkConfirmExpunge");
 	e_mutual_binding_new (
 		shell_settings, "mail-confirm-expunge",
 		widget, "active");
 
 	/* Mail Fonts */
-	widget = glade_xml_get_widget (gui, "radFontUseSame");
+	widget = e_builder_get_widget (prefs->builder, "radFontUseSame");
 	e_mutual_binding_new_with_negation (
 		shell_settings, "mail-use-custom-fonts",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "FontFixed");
+	widget = e_builder_get_widget (prefs->builder, "FontFixed");
 	e_mutual_binding_new (
 		shell_settings, "mail-font-monospace",
 		widget, "font-name");
@@ -969,7 +974,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		shell_settings, "mail-use-custom-fonts",
 		widget, "sensitive");
 
-	widget = glade_xml_get_widget (gui, "FontVariable");
+	widget = e_builder_get_widget (prefs->builder, "FontVariable");
 	e_mutual_binding_new (
 		shell_settings, "mail-font-variable",
 		widget, "font-name");
@@ -983,17 +988,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
-	prefs->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesNever"));
+	prefs->images_never = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesNever"));
 	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_never, FALSE);
 
-	prefs->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesSometimes"));
+	prefs->images_sometimes = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesSometimes"));
 	gtk_toggle_button_set_active (prefs->images_sometimes, val == MAIL_CONFIG_HTTP_SOMETIMES);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_sometimes, FALSE);
 
-	prefs->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesAlways"));
+	prefs->images_always = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesAlways"));
 	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
@@ -1002,17 +1007,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_signal_connect (prefs->images_sometimes, "toggled", G_CALLBACK (http_images_changed), prefs);
 	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (http_images_changed), prefs);
 
-	widget = glade_xml_get_widget (gui, "chkShowAnimatedImages");
+	widget = e_builder_get_widget (prefs->builder, "chkShowAnimatedImages");
 	e_mutual_binding_new (
 		shell_settings, "mail-show-animated-images",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "chkPromptWantHTML");
+	widget = e_builder_get_widget (prefs->builder, "chkPromptWantHTML");
 	e_mutual_binding_new (
 		shell_settings, "mail-confirm-unwanted-html",
 		widget, "active");
 
-	container = glade_xml_get_widget (gui, "labels-alignment");
+	container = e_builder_get_widget (prefs->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -1024,12 +1029,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
 
-	widget = glade_xml_get_widget (gui, "photo_show");
+	widget = e_builder_get_widget (prefs->builder, "photo_show");
 	e_mutual_binding_new (
 		shell_settings, "mail-show-sender-photo",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "photo_local");
+	widget = e_builder_get_widget (prefs->builder, "photo_local");
 	e_mutual_binding_new (
 		shell_settings, "mail-show-sender-photo",
 		widget, "sensitive");
@@ -1038,17 +1043,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active");
 
 	/* always de-sensitised until the user types something in the entry */
-	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));
+	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, FALSE);
 
 	/* always de-sensitised until the user selects a header in the list */
-	prefs->remove_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersRemove"));
+	prefs->remove_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersRemove"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->remove_header, FALSE);
 
-	prefs->entry_header = GTK_ENTRY (glade_xml_get_widget (gui, "txtHeaders"));
+	prefs->entry_header = GTK_ENTRY (e_builder_get_widget (prefs->builder, "txtHeaders"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->entry_header, !locked);
 
-	prefs->header_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "treeHeaders"));
+	prefs->header_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->builder, "treeHeaders"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->header_list, !locked);
 
 	selection = gtk_tree_view_get_selection (prefs->header_list);
@@ -1142,10 +1147,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_slist_free (header_add_list);
 
 	/* date/time format */
-	table = glade_xml_get_widget (gui, "datetime_format_table");
-
-	e_datetime_format_add_setup_widget (table, 2, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
-	e_datetime_format_add_setup_widget (table, 0, "mail", "header", DTFormatKindDateTime, _("_Date header:"));
+	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
+	e_datetime_format_add_setup_widget (table, 0, "mail", "header", DTFormatKindDateTime, _("Date header:"));
+	e_datetime_format_add_setup_widget (table, 1, "mail", "table",  DTFormatKindDateTime, _("Table column:"));
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);
 	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 1, 2, GTK_EXPAND | GTK_FILL, 0, 12, 0);
@@ -1154,33 +1158,33 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active");
 
 	/* Junk prefs */
-	widget = glade_xml_get_widget (gui, "chkCheckIncomingMail");
+	widget = e_builder_get_widget (prefs->builder, "chkCheckIncomingMail");
 	e_mutual_binding_new (
 		shell_settings, "mail-check-for-junk",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "junk_empty_check");
+	widget = e_builder_get_widget (prefs->builder, "junk_empty_check");
 	e_mutual_binding_new (
 		shell_settings, "mail-empty-junk-on-exit",
 		widget, "active");
 
-	widget = glade_xml_get_widget (gui, "junk_empty_combobox");
+	widget = e_builder_get_widget (prefs->builder, "junk_empty_combobox");
 	e_mutual_binding_new (
 		shell_settings, "mail-empty-junk-on-exit",
 		widget, "sensitive");
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 
-	prefs->default_junk_plugin = GTK_COMBO_BOX (glade_xml_get_widget (gui, "default_junk_plugin"));
-	prefs->plugin_status = GTK_LABEL (glade_xml_get_widget (gui, "plugin_status"));
-	prefs->plugin_image = GTK_IMAGE (glade_xml_get_widget (gui, "plugin_image"));
-	junk_plugin_setup (GTK_WIDGET (prefs->default_junk_plugin), prefs);
+	prefs->default_junk_plugin = GTK_COMBO_BOX (e_builder_get_widget (prefs->builder, "default_junk_plugin"));
+	prefs->plugin_status = GTK_LABEL (e_builder_get_widget (prefs->builder, "plugin_status"));
+	prefs->plugin_image = GTK_IMAGE (e_builder_get_widget (prefs->builder, "plugin_image"));
+	junk_plugin_setup (prefs->default_junk_plugin, prefs);
 
-	prefs->junk_header_check = (GtkToggleButton *)glade_xml_get_widget (gui, "junk_header_check");
-	prefs->junk_header_tree = (GtkTreeView *)glade_xml_get_widget (gui, "junk_header_tree");
-	prefs->junk_header_add = (GtkButton *)glade_xml_get_widget (gui, "junk_header_add");
-	prefs->junk_header_remove = (GtkButton *)glade_xml_get_widget (gui, "junk_header_remove");
-	prefs->junk_book_lookup = (GtkToggleButton *)glade_xml_get_widget (gui, "lookup_book");
-	prefs->junk_lookup_local_only = (GtkToggleButton *)glade_xml_get_widget (gui, "junk_lookup_local_only");
+	prefs->junk_header_check = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_header_check");
+	prefs->junk_header_tree = (GtkTreeView *)e_builder_get_widget (prefs->builder, "junk_header_tree");
+	prefs->junk_header_add = (GtkButton *)e_builder_get_widget (prefs->builder, "junk_header_add");
+	prefs->junk_header_remove = (GtkButton *)e_builder_get_widget (prefs->builder, "junk_header_remove");
+	prefs->junk_book_lookup = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "lookup_book");
+	prefs->junk_lookup_local_only = (GtkToggleButton *)e_builder_get_widget (prefs->builder, "junk_lookup_local_only");
 	toggle_button_init (prefs, prefs->junk_book_lookup, FALSE,
 			    "/apps/evolution/mail/junk/lookup_addressbook",
 			    G_CALLBACK (junk_book_lookup_button_toggled));

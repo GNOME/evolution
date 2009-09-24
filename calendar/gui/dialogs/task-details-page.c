@@ -31,25 +31,25 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <misc/e-dateedit.h>
 #include <misc/e-url-entry.h>
-#include "e-util/e-dialog-widgets.h"
-#include "e-util/e-util-private.h"
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-details-page.h"
+
+#include "e-util/e-util.h"
+#include "e-util/e-dialog-widgets.h"
+#include "e-util/e-util-private.h"
 
 #define TASK_DETAILS_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate))
 
 struct _TaskDetailsPagePrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *main;
 
 	GtkWidget *status_combo;
@@ -108,9 +108,9 @@ task_details_page_dispose (GObject *object)
 		priv->main = NULL;
 	}
 
-	if (priv->xml != NULL) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -451,7 +451,7 @@ get_widgets (TaskDetailsPage *tdpage)
 
 	priv = tdpage->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 	priv->main = GW ("task-details-page");
 	if (!priv->main)
@@ -474,6 +474,7 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->date_completed_label = GW ("date_completed_label");
 
 	priv->completed_date = GW ("completed-date");
+	comp_editor_bind_date_edit_settings (priv->completed_date, NULL);
 	gtk_widget_show (priv->completed_date);
 
 	priv->url_label = GW ("url_label");
@@ -720,21 +721,11 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv = tdpage->priv;
 	CompEditor *editor;
-	gchar *gladefile;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "task-details-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("task_details_page_construct(): "
-			   "Could not load the Glade XML file!");
-		return NULL;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "task-details-page.ui");
 
 	if (!get_widgets (tdpage)) {
 		g_message ("task_details_page_construct(): "
@@ -772,22 +763,3 @@ task_details_page_new (CompEditor *editor)
 
 	return tdpage;
 }
-
-GtkWidget *task_details_page_create_date_edit (void);
-
-GtkWidget *
-task_details_page_create_date_edit (void)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-	GtkWidget *dedit;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	dedit = comp_editor_new_date_edit (shell_settings, TRUE, TRUE, FALSE);
-	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
-
-	return dedit;
-}
-

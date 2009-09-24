@@ -24,7 +24,6 @@
 #define EM_MAILER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <shell/e-shell.h>
 
@@ -62,7 +61,7 @@ struct _EMMailerPrefsHeader {
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GConfClient *gconf;
 
 	/* General tab */

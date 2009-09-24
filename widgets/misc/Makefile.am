@@ -2,7 +2,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libfilter.la
 endif
 
-privsolib_LTLIBRARIES =	libemiscwidgets.la
+privsolib_LTLIBRARIES = libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
 
@@ -14,7 +14,7 @@ pilot_sources =
 pilot_headers =
 endif
 
-glade_DATA = e-send-options.glade
+ui_DATA = e-send-options.ui
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
@@ -85,7 +85,7 @@ libemiscwidgets_la_CPPFLAGS =						\
 	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(EVOLUTION_MAIL_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)
@@ -220,7 +220,7 @@ test_preferences_window_LDADD = 		\
 
 
 EXTRA_DIST =			\
-	$(glade_DATA)		\
+	$(ui_DATA)		\
 	e-pilot-settings.h	\
 	e-pilot-settings.c	\
 	ChangeLog.pre-1-4

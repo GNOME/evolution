@@ -47,6 +47,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-categories.h>
+#include <libedataserver/e-source-list.h>
 
 #include "filter/e-filter-option.h"
 
@@ -281,7 +282,36 @@ e_lookup_action_group (GtkUIManager *ui_manager,
 }
 
 /**
- * e_load_ui_definition:
+ * e_load_ui_builder_definition:
+ * @builder: a #GtkBuilder
+ * @basename: basename of the UI definition file
+ *
+ * Loads a UI definition into @builder from Evolution's UI directory.
+ * Failure here is fatal, since the application can't function without
+ * its UI definitions.
+ **/
+void
+e_load_ui_builder_definition (GtkBuilder *builder,
+                              const gchar *basename)
+{
+	gchar *filename;
+	GError *error = NULL;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+	g_return_if_fail (basename != NULL);
+
+	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
+	gtk_builder_add_from_file (builder, filename, &error);
+	g_free (filename);
+
+	if (error != NULL) {
+		g_error ("%s: %s", basename, error->message);
+		g_assert_not_reached ();
+	}
+}
+
+/**
+ * e_load_ui_manager_definition:
  * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file
  *
@@ -293,8 +323,8 @@ e_lookup_action_group (GtkUIManager *ui_manager,
  *          unmerge the UI with gtk_ui_manager_remove_ui().
  **/
 guint
-e_load_ui_definition (GtkUIManager *ui_manager,
-                      const gchar *basename)
+e_load_ui_manager_definition (GtkUIManager *ui_manager,
+                              const gchar *basename)
 {
 	gchar *filename;
 	guint merge_id;
@@ -1488,6 +1518,29 @@ e_util_get_category_filter_options (void)
 	g_list_free (clist);
 
 	return g_slist_reverse (res);
+}
+
+/**
+ * e_util_set_source_combo_box_list:
+ * @source_combo_box: an #ESourceComboBox
+ * @source_gconf_path: GConf path with sources to use in an #ESourceList
+ *
+ * Sets an #ESourceList of a given GConf path to an #ESourceComboBox.
+ **/
+void
+e_util_set_source_combo_box_list (GtkWidget *source_combo_box, const gchar *source_gconf_path)
+{
+	ESourceList *source_list;
+	GConfClient *gconf_client;
+
+	g_return_if_fail (source_combo_box != NULL);
+	g_return_if_fail (source_gconf_path != NULL);
+
+	gconf_client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (gconf_client, source_gconf_path);
+	g_object_set (G_OBJECT (source_combo_box), "source-list", source_list, NULL);
+	g_object_unref (source_list);
+	g_object_unref (gconf_client);
 }
 
 static gpointer

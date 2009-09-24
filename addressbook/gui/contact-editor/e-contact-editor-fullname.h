@@ -24,7 +24,6 @@
 #define __E_CONTACT_EDITOR_FULLNAME_H__
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <libebook/e-contact.h>
 
 G_BEGIN_DECLS
@@ -53,7 +52,7 @@ struct _EContactEditorFullname
 
 	/* item specific fields */
 	EContactName *name;
-	GladeXML *gui;
+	GtkBuilder *builder;
 
 	/* Whether the dialog will accept modifications */
 	guint editable : 1;

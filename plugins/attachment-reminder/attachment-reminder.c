@@ -27,6 +27,7 @@
 #include <glade/glade-xml.h>
 #include <gconf/gconf-client.h>
 
+#include <e-util/e-util.h>
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
@@ -53,7 +54,6 @@
 #define SIGNATURE "-- "
 
 typedef struct {
-	GladeXML *xml;
 	GConfClient *gconf;
 	GtkWidget   *treeview;
 	GtkWidget   *clue_add;
@@ -438,7 +438,6 @@ destroy_ui_data (gpointer data)
 	if (!ui)
 		return;
 
-	g_object_unref (ui->xml);
 	g_object_unref (ui->gconf);
 	g_free (ui);
 }
@@ -454,19 +453,59 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GSList *clue_list = NULL, *list;
 	GtkTreeModel *model;
 
+	GtkWidget *reminder_configuration_box;
+	GtkWidget *clue_container;
+	GtkWidget *scrolledwindow1;
+	GtkWidget *clue_treeview;
+	GtkWidget *vbuttonbox2;
+	GtkWidget *clue_add;
+	GtkWidget *clue_edit;
+	GtkWidget *clue_remove;
+
 	UIData *ui = g_new0 (UIData, 1);
 
-	gchar *gladefile;
+	reminder_configuration_box = gtk_vbox_new (FALSE, 5);
+	gtk_widget_show (reminder_configuration_box);
+	gtk_widget_set_size_request (reminder_configuration_box, 385, 189);
 
-	gladefile = g_build_filename (EVOLUTION_PLUGINDIR,
-			"attachment-reminder.glade",
-			NULL);
-	ui->xml = glade_xml_new (gladefile, "reminder_configuration_box", NULL);
-	g_free (gladefile);
+	clue_container = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (clue_container);
+	gtk_box_pack_start (GTK_BOX (reminder_configuration_box), clue_container, TRUE, TRUE, 0);
+
+	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow1);
+	gtk_box_pack_start (GTK_BOX (clue_container), scrolledwindow1, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	clue_treeview = gtk_tree_view_new ();
+	gtk_widget_show (clue_treeview);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow1), clue_treeview);
+	gtk_container_set_border_width (GTK_CONTAINER (clue_treeview), 1);
+
+	vbuttonbox2 = gtk_vbutton_box_new ();
+	gtk_widget_show (vbuttonbox2);
+	gtk_box_pack_start (GTK_BOX (clue_container), vbuttonbox2, FALSE, TRUE, 0);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox2), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (vbuttonbox2), 6);
+
+	clue_add = gtk_button_new_from_stock ("gtk-add");
+	gtk_widget_show (clue_add);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_add);
+	GTK_WIDGET_SET_FLAGS (clue_add, GTK_CAN_DEFAULT);
+
+	clue_edit = gtk_button_new_from_stock ("gtk-edit");
+	gtk_widget_show (clue_edit);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_edit);
+	GTK_WIDGET_SET_FLAGS (clue_edit, GTK_CAN_DEFAULT);
+
+	clue_remove = gtk_button_new_from_stock ("gtk-remove");
+	gtk_widget_show (clue_remove);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
+	GTK_WIDGET_SET_FLAGS (clue_remove, GTK_CAN_DEFAULT);
 
 	ui->gconf = gconf_client_get_default ();
 
-	ui->treeview = glade_xml_get_widget (ui->xml, "clue_treeview");
+	ui->treeview = clue_treeview;
 
 	ui->store = gtk_list_store_new (CLUE_N_COLUMNS, G_TYPE_STRING);
 
@@ -483,14 +522,14 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_signal_connect (G_OBJECT (selection), "changed", G_CALLBACK (selection_changed), ui);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
 
-	ui->clue_add = glade_xml_get_widget (ui->xml, "clue_add");
+	ui->clue_add = clue_add;
 	g_signal_connect (G_OBJECT (ui->clue_add), "clicked", G_CALLBACK (clue_add_clicked), ui);
 
-	ui->clue_remove = glade_xml_get_widget (ui->xml, "clue_remove");
+	ui->clue_remove = clue_remove;
 	g_signal_connect (G_OBJECT (ui->clue_remove), "clicked", G_CALLBACK (clue_remove_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 
-	ui->clue_edit = glade_xml_get_widget (ui->xml, "clue_edit");
+	ui->clue_edit = clue_edit;
 	g_signal_connect (G_OBJECT (ui->clue_edit), "clicked", G_CALLBACK (clue_edit_clicked), ui);
 	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
 
@@ -514,7 +553,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	hbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (hbox), glade_xml_get_widget (ui->xml, "reminder_configuration_box"), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), reminder_configuration_box, TRUE, TRUE, 0);
 
 	/* to let free data properly on destroy of configuration widget */
 	g_object_set_data_full (G_OBJECT (hbox), "myui-data", ui, destroy_ui_data);

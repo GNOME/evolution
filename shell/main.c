@@ -37,7 +37,6 @@
 #include <windows.h>
 #endif
 
-#include <glade/glade.h>
 #include <dbus/dbus-glib.h>
 #include <gconf/gconf-client.h>
 
@@ -575,7 +574,6 @@ main (gint argc, gchar **argv)
 			g_warning ("Could not set up debugging output file.");
 	}
 
-	glade_init ();
 	e_icon_factory_init ();
 	e_passwords_init ();
 

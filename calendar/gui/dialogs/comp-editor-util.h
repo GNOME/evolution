@@ -40,6 +40,8 @@ GtkWidget *	comp_editor_new_date_edit	(EShellSettings *shell_settings,
 						 gboolean show_time,
 						 gboolean make_time_insensitive);
 
+void comp_editor_bind_date_edit_settings (GtkWidget *dateedit, EShellSettings *shell_settings);
+
 struct tm comp_editor_get_current_time (GtkObject *object, gpointer data);
 
 gchar *comp_editor_strip_categories (const gchar *categories);

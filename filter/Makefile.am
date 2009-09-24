@@ -1,4 +1,4 @@
-glade_DATA = filter.glade
+ui_DATA = filter.ui
 
 privsolib_LTLIBRARIES =	libfilter.la
 
@@ -6,8 +6,9 @@ libfilter_la_CPPFLAGS = 			\
 	$(AM_CPPFLAGS)				\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/e-util			\
-	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
+	-DEVOLUTION_UIDIR=\"$(uidir)\"		\
 	-DG_LOG_DOMAIN=\"filter\"		\
+	$(GNOME_PLATFORM_CFLAGS)		\
 	$(LIBFILTER_CFLAGS)
 
 filterincludedir = $(privincludedir)/filter
@@ -56,11 +57,12 @@ libfilter_la_LDFLAGS = $(NO_UNDEFINED)
 
 libfilter_la_LIBADD = 				\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_PLATFORM_LIBS)			\
 	$(LIBFILTER_LIBS)			\
 	$(REGEX_LIBS)
 
 EXTRA_DIST =					\
-	$(glade_DATA)				\
+	$(ui_DATA)				\
 	filter.error.xml			\
 	ChangeLog.pre-1-4
 

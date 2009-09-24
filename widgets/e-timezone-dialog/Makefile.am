@@ -4,7 +4,7 @@ libetimezonedialog_la_CPPFLAGS =					\
 	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(TZDIALOG_CFLAGS)
 
@@ -19,8 +19,8 @@ libetimezonedialog_la_LIBADD =				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-glade_DATA = e-timezone-dialog.glade
+ui_DATA = e-timezone-dialog.ui
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

@@ -32,10 +32,9 @@
 #include "certdb.h"
 #include "cert.h"
 
-#include <glade/glade.h>
-
 #include "e-cert-selector.h"
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 struct _ECertSelectorPrivate {
@@ -148,24 +147,20 @@ e_cert_selector_new(gint type, const gchar *currentid)
 	SECCertUsage usage;
 	CERTCertList *certlist;
 	CERTCertListNode *node;
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkWidget *w;
 	gint n=0, active=0;
-	gchar *gladefile;
 
 	ecs = g_object_new(e_cert_selector_get_type(), NULL);
 	p = ecs->priv;
 
-	gladefile = g_build_filename(EVOLUTION_GLADEDIR,
-				     "smime-ui.glade",
-				     NULL);
-	gui = glade_xml_new(gladefile, "cert_selector_vbox", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "smime-ui.ui");
 
-	p->combobox = glade_xml_get_widget(gui, "cert_combobox");
-	p->description = glade_xml_get_widget(gui, "cert_description");
+	p->combobox = e_builder_get_widget(builder, "cert_combobox");
+	p->description = e_builder_get_widget(builder, "cert_description");
 
-	w = glade_xml_get_widget(gui, "cert_selector_vbox");
+	w = e_builder_get_widget(builder, "cert_selector_vbox");
 	gtk_box_pack_start((GtkBox *)((GtkDialog *)ecs)->vbox, w, TRUE, TRUE, 3);
 	gtk_window_set_title(GTK_WINDOW(ecs), _("Select certificate"));
 
@@ -205,7 +200,7 @@ e_cert_selector_new(gint type, const gchar *currentid)
 
 	g_signal_connect (p->combobox, "changed", G_CALLBACK(ecs_cert_changed), ecs);
 
-	g_object_unref(gui);
+	g_object_unref(builder);
 
 	ecs_cert_changed(p->combobox, ecs);
 

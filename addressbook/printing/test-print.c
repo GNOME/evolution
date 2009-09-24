@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include "e-contact-print.h"
 
 gint
@@ -33,8 +32,6 @@ main (gint argc, gchar *argv[])
 	GList *shown_fields = NULL;
 
 	gtk_init (&argc, &argv);
-
-	glade_init ();
 
 	shown_fields = g_list_append (shown_fields, (gpointer) "First field");
 	shown_fields = g_list_append (shown_fields, (gpointer) "Second field");

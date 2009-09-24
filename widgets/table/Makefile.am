@@ -1,6 +1,5 @@
-glade_DATA = 					\
-	e-table-config.glade			\
-	e-table-field-chooser.glade
+ui_DATA = 					\
+	e-table-config.ui
 
 privsolib_LTLIBRARIES = libetable.la
 
@@ -11,7 +10,7 @@ libetable_la_CPPFLAGS =				\
 	$(E_UTIL_CFLAGS)			\
 	$(E_WIDGETS_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)		\
-	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
+	-DEVOLUTION_UIDIR=\"$(uidir)\"	\
         -DG_LOG_DOMAIN=\"e-table\"
 
 libetable_la_SOURCES = 				\
@@ -196,6 +195,6 @@ icons = 			\
 
 EXTRA_DIST =			\
 	$(icons)		\
-	$(glade_DATA)
+	$(ui_DATA)
 
 -include $(top_srcdir)/git.mk

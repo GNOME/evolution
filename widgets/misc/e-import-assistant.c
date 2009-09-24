@@ -27,7 +27,6 @@
 #include <string.h>
 
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 
 #include "e-util/e-error.h"

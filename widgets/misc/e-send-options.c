@@ -28,7 +28,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <time.h>
 
 #include "e-util/e-util.h"
@@ -38,8 +37,7 @@
 #include "e-send-options.h"
 
 struct _ESendOptionsDialogPrivate {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
 	gboolean gopts_needed;
 	gboolean global;
@@ -403,48 +401,46 @@ static gboolean
 get_widgets (ESendOptionsDialog *sod)
 {
 	ESendOptionsDialogPrivate *priv;
+	GtkBuilder *builder;
 
 	priv = sod->priv;
+	builder = sod->priv->builder;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
-
-	priv->main = GW ("send-options-dialog");
+	priv->main = e_builder_get_widget (builder, "send-options-dialog");
 	if (!priv->main)
 		return FALSE;
 
-	priv->priority = GW ("combo-priority");
-	priv->status = GW ("status-tracking");
-	priv->security = GW ("security-combo");
-	priv->notebook = (GtkNotebook *)GW ("notebook");
-	priv->reply_request = GW ("reply-request-button");
-	priv->reply_convenient = GW ("reply-convinient");
-	priv->reply_within = GW ("reply-within");
-	priv->within_days = GW ("within-days");
-	priv->delay_delivery = GW ("delay-delivery-button");
-	priv->delay_until = GW ("until-date");
+	priv->priority = e_builder_get_widget (builder, "combo-priority");
+	priv->status = e_builder_get_widget (builder, "status-tracking");
+	priv->security = e_builder_get_widget (builder, "security-combo");
+	priv->notebook = (GtkNotebook *)e_builder_get_widget (builder, "notebook");
+	priv->reply_request = e_builder_get_widget (builder, "reply-request-button");
+	priv->reply_convenient = e_builder_get_widget (builder, "reply-convinient");
+	priv->reply_within = e_builder_get_widget (builder, "reply-within");
+	priv->within_days = e_builder_get_widget (builder, "within-days");
+	priv->delay_delivery = e_builder_get_widget (builder, "delay-delivery-button");
+	priv->delay_until = e_builder_get_widget (builder, "until-date");
 	gtk_widget_show (priv->delay_until);
-	priv->expiration = GW ("expiration-button");
-	priv->expire_after = GW ("expire-after");
-	priv->create_sent = GW ("create-sent-button");
-	priv->delivered = GW ("delivered");
-	priv->delivered_opened = GW ("delivered-opened");
-	priv->all_info = GW ("all-info");
-	priv->autodelete = GW ("autodelete");
-	priv->when_opened = GW ("open-combo");
-	priv->when_declined = GW ("delete-combo");
-	priv->when_accepted = GW ("accept-combo");
-	priv->when_completed = GW ("complete-combo");
-	priv->security_label = GW ("security-label");
-	priv->gopts_label = GW ("gopts-label");
-	priv->sopts_label = GW ("slabel");
-	priv->priority_label = GW ("priority-label");
-	priv->until_label = GW ("until-label");
-	priv->opened_label = GW ("opened-label");
-	priv->declined_label = GW ("declined-label");
-	priv->accepted_label = GW ("accepted-label");
-	priv->completed_label = GW ("completed-label");
-
-#undef GW
+	priv->expiration = e_builder_get_widget (builder, "expiration-button");
+	priv->expire_after = e_builder_get_widget (builder, "expire-after");
+	priv->create_sent = e_builder_get_widget (builder, "create-sent-button");
+	priv->delivered = e_builder_get_widget (builder, "delivered");
+	priv->delivered_opened = e_builder_get_widget (builder, "delivered-opened");
+	priv->all_info = e_builder_get_widget (builder, "all-info");
+	priv->autodelete = e_builder_get_widget (builder, "autodelete");
+	priv->when_opened = e_builder_get_widget (builder, "open-combo");
+	priv->when_declined = e_builder_get_widget (builder, "delete-combo");
+	priv->when_accepted = e_builder_get_widget (builder, "accept-combo");
+	priv->when_completed = e_builder_get_widget (builder, "complete-combo");
+	priv->security_label = e_builder_get_widget (builder, "security-label");
+	priv->gopts_label = e_builder_get_widget (builder, "gopts-label");
+	priv->sopts_label = e_builder_get_widget (builder, "slabel");
+	priv->priority_label = e_builder_get_widget (builder, "priority-label");
+	priv->until_label = e_builder_get_widget (builder, "until-label");
+	priv->opened_label = e_builder_get_widget (builder, "opened-label");
+	priv->declined_label = e_builder_get_widget (builder, "declined-label");
+	priv->accepted_label = e_builder_get_widget (builder, "accepted-label");
+	priv->completed_label = e_builder_get_widget (builder, "completed-label");
 
 	return (priv->priority
 		&& priv->security
@@ -558,21 +554,6 @@ e_sendoptions_get_need_general_options (ESendOptionsDialog *sod)
 	return sod->priv->gopts_needed;
 }
 
-GtkWidget * send_options_make_dateedit (void);
-
-GtkWidget *
-send_options_make_dateedit (void)
-{
-	EDateEdit *dedit;
-
-	dedit = E_DATE_EDIT (e_date_edit_new ());
-
-	e_date_edit_set_show_date (dedit, TRUE);
-	e_date_edit_set_show_time (dedit, TRUE);
-
-	return GTK_WIDGET (dedit);
-}
-
 gboolean
 e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set)
 {
@@ -597,7 +578,7 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);
-			g_object_unref (priv->xml);
+			g_object_unref (priv->builder);
 			break;
 		case GTK_RESPONSE_HELP:
 			e_display_help (
@@ -614,25 +595,20 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 {
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
-	gchar *filename;
 
 	g_return_val_if_fail (sod != NULL || E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 
 	priv = sod->priv;
 
-	filename = g_build_filename (EVOLUTION_GLADEDIR,
-				     "e-send-options.glade",
-				     NULL);
-	priv->xml = glade_xml_new (filename, NULL, NULL);
-	g_free (filename);
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	E_TYPE_DATE_EDIT;
 
-	if (!priv->xml) {
-		g_message ( G_STRLOC ": Could not load the Glade XML file ");
-		return FALSE;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "e-send-options.ui");
 
 	if (!get_widgets(sod)) {
-		g_object_unref (priv->xml);
+		g_object_unref (priv->builder);
 		g_message (G_STRLOC ": Could not get the Widgets \n");
 		return FALSE;
 	}
@@ -745,7 +721,7 @@ e_sendoptions_dialog_init (GObject *object)
 	sod->data->gopts->security = 0;
 
 	priv->gopts_needed = TRUE;
-	priv->xml = NULL;
+	priv->builder = NULL;
 
 	priv->main = NULL;
 	priv->notebook = NULL;

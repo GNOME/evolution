@@ -35,6 +35,7 @@
 
 #include <libedataserverui/e-source-combo-box.h>
 
+#include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/addressbook.h"
 #include "addressbook/util/eab-book-util.h"
@@ -49,8 +50,8 @@
 	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
 
 #define CONTACT_LIST_EDITOR_WIDGET(editor, name) \
-	(glade_xml_get_widget \
-	(E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->xml, name))
+	(e_builder_get_widget \
+	(E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->builder, name))
 
 /* More macros, less typos. */
 #define CONTACT_LIST_EDITOR_WIDGET_ADD_BUTTON(editor) \
@@ -60,7 +61,7 @@
 #define CONTACT_LIST_EDITOR_WIDGET_DIALOG(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "dialog")
 #define CONTACT_LIST_EDITOR_WIDGET_EMAIL_ENTRY(editor) \
-	CONTACT_LIST_EDITOR_WIDGET ((editor), "email-entry")
+	E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->email_entry
 #define CONTACT_LIST_EDITOR_WIDGET_LIST_NAME_ENTRY(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "list-name-entry")
 #define CONTACT_LIST_EDITOR_WIDGET_MEMBERS_VBOX(editor) \
@@ -97,9 +98,10 @@ struct _EContactListEditorPrivate {
 	EBook *book;
 	EContact *contact;
 
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkTreeModel *model;
 	ENameSelector *name_selector;
+	ENameSelectorEntry *email_entry; /* it's kept here, because the builder has an old widget, which was changed with this one */
 
 	/* Whether we are editing a new contact or an existing one. */
 	guint is_new_list : 1;
@@ -863,49 +865,7 @@ contact_list_editor_tree_view_key_press_event_cb (GtkWidget *widget,
 	return FALSE;
 }
 
-/*********************** Glade Custom Widget Factories ***********************/
-
-GtkWidget *
-contact_list_editor_create_source_combo_box (gchar *name,
-                                             gchar *string1,
-                                             gchar *string2,
-                                             gint int1,
-                                             gint int2);
-
-GtkWidget *
-contact_list_editor_create_source_combo_box (gchar *name,
-                                             gchar *string1,
-                                             gchar *string2,
-                                             gint int1,
-                                             gint int2)
-{
-	const gchar *key = "/apps/evolution/addressbook/sources";
-
-	GtkWidget *combo_box;
-	GConfClient *client;
-	ESourceList *source_list;
-
-	client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (client, key);
-	combo_box = e_source_combo_box_new (source_list);
-	g_object_unref (source_list);
-	g_object_unref (client);
-
-	g_signal_connect (
-		combo_box, "changed", G_CALLBACK (
-		contact_list_editor_source_menu_changed_cb), NULL);
-
-	gtk_widget_show (combo_box);
-
-	return combo_box;
-}
-
-GtkWidget *
-contact_list_editor_create_name_selector (gchar *name,
-                                          gchar *string1,
-                                          gchar *string2,
-                                          gint int1,
-                                          gint int2);
+/*********************** GtkBuilder Custom Widgets Functions ***********************/
 
 static gpointer
 contact_editor_fudge_new (EBook *book,
@@ -937,15 +897,36 @@ contact_list_editor_fudge_new (EBook *book,
 		shell, book, contact, is_new, editable);
 }
 
-GtkWidget *
-contact_list_editor_create_name_selector (gchar *name,
-                                          gchar *string1,
-                                          gchar *string2,
-                                          gint int1,
-                                          gint int2)
+static void
+setup_custom_widgets (EContactListEditor *editor)
 {
+	const gchar *key = "/apps/evolution/addressbook/sources";
+	GtkWidget *combo_box;
+	GConfClient *client;
+	ESourceList *source_list;
 	ENameSelectorEntry *name_selector_entry;
 	ENameSelector *name_selector;
+	GtkWidget *old, *parent;
+	EContactListEditorPrivate *priv;
+	guint ba = 0, la = 0, ra = 0, ta = 0, xo = 0, xp = 0, yo = 0, yp = 0;
+
+	g_return_if_fail (editor != NULL);
+
+	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
+
+	combo_box = WIDGET (SOURCE_MENU);
+	client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (client, key);
+	g_object_set (G_OBJECT (combo_box), "source-list", source_list, NULL);
+	g_object_unref (source_list);
+	g_object_unref (client);
+
+	g_signal_connect (
+		combo_box, "changed", G_CALLBACK (
+		contact_list_editor_source_menu_changed_cb), NULL);
+
+	old = CONTACT_LIST_EDITOR_WIDGET (editor, "email-entry");
+	g_return_if_fail (old != NULL);
 
 	name_selector = e_name_selector_new ();
 
@@ -956,11 +937,32 @@ contact_list_editor_create_name_selector (gchar *name,
 	name_selector_entry = e_name_selector_peek_section_entry (
 		name_selector, "Members");
 
+	gtk_widget_set_name (GTK_WIDGET (name_selector_entry), gtk_widget_get_name (old));
+	parent = gtk_widget_get_parent (old);
+
+	gtk_container_child_get (GTK_CONTAINER (parent), old,
+		"bottom-attach", &ba,
+		"left-attach", &la,
+		"right-attach", &ra,
+		"top-attach", &ta,
+		"x-options", &xo,
+		"x-padding", &xp,
+		"y-options", &yo,
+		"y-padding", &yp,
+		NULL);
+
+	/* only hide it... */
+	gtk_widget_hide (old);
+
+	/* ... and place the new name selector to the exact place as is the old one in UI file */
+	gtk_widget_show (GTK_WIDGET (name_selector_entry));
+	gtk_table_attach (GTK_TABLE (parent), GTK_WIDGET (name_selector_entry), la, ra, ta, ba, xo, yo, xp, yp);
+	priv->email_entry = name_selector_entry;
+
 	e_name_selector_entry_set_contact_editor_func (
 		name_selector_entry, contact_editor_fudge_new);
 	e_name_selector_entry_set_contact_list_editor_func (
 		name_selector_entry, contact_list_editor_fudge_new);
-	gtk_widget_show (GTK_WIDGET (name_selector_entry));
 
 	g_signal_connect (
 		name_selector_entry, "activate", G_CALLBACK (
@@ -974,8 +976,6 @@ contact_list_editor_create_name_selector (gchar *name,
 	g_signal_connect (
 		name_selector_entry, "updated", G_CALLBACK (
 		contact_list_editor_email_entry_updated_cb), NULL);
-
-	return GTK_WIDGET (name_selector_entry);
 }
 
 /***************************** GObject Callbacks *****************************/
@@ -1294,18 +1294,15 @@ contact_list_editor_init (EContactListEditor *editor)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkTreeView *view;
-	gchar *filename;
 
 	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 
 	priv->editable = TRUE;
 	priv->allows_contact_lists = TRUE;
 
-	filename = g_build_filename (
-		EVOLUTION_GLADEDIR, "contact-list-editor.glade", NULL);
-	priv->xml = glade_xml_new (filename, NULL, NULL);
-	glade_xml_signal_autoconnect (priv->xml);
-	g_free (filename);
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "contact-list-editor.ui");
+	gtk_builder_connect_signals (priv->builder, NULL);
 
 	/* Embed a pointer to the EContactListEditor in the top-level
 	 * widget.  Signal handlers can then access the pointer from any
@@ -1352,6 +1349,8 @@ contact_list_editor_init (EContactListEditor *editor)
 		G_CALLBACK (contact_list_editor_notify_cb), NULL);
 
 	gtk_widget_show_all (WIDGET (DIALOG));
+
+	setup_custom_widgets (editor);
 
 	editor->priv = priv;
 }

@@ -29,14 +29,12 @@
 #include "certificate-viewer.h"
 
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
-#define GLADE_FILE_NAME "smime-ui.glade"
-
 typedef struct {
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkWidget *dialog;
 	GtkWidget *ssl_checkbutton;
 	GtkWidget *email_checkbutton;
@@ -51,7 +49,7 @@ free_data (gpointer data)
 	CATrustDialogData *ctd = data;
 
 	g_object_unref (ctd->cert);
-	g_object_unref (ctd->gui);
+	g_object_unref (ctd->builder);
 	g_free (ctd);
 }
 
@@ -76,17 +74,13 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 	CATrustDialogData *ctd_data;
 	GtkWidget *w;
 	gchar *txt;
-	gchar *gladefile;
 
 	ctd_data = g_new0 (CATrustDialogData, 1);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	ctd_data->gui = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	ctd_data->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (ctd_data->builder, "smime-ui.ui");
 
-	ctd_data->dialog = glade_xml_get_widget (ctd_data->gui, "ca-trust-dialog");
+	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "ca-trust-dialog");
 
 	gtk_widget_ensure_style (ctd_data->dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->vbox), 0);
@@ -94,11 +88,11 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 
 	ctd_data->cert = g_object_ref (cert);
 
-	ctd_data->ssl_checkbutton = glade_xml_get_widget (ctd_data->gui, "ssl_trust_checkbutton");
-	ctd_data->email_checkbutton = glade_xml_get_widget (ctd_data->gui, "email_trust_checkbutton");
-	ctd_data->objsign_checkbutton = glade_xml_get_widget (ctd_data->gui, "objsign_trust_checkbutton");
+	ctd_data->ssl_checkbutton = e_builder_get_widget (ctd_data->builder, "ssl_trust_checkbutton");
+	ctd_data->email_checkbutton = e_builder_get_widget (ctd_data->builder, "email_trust_checkbutton");
+	ctd_data->objsign_checkbutton = e_builder_get_widget (ctd_data->builder, "objsign_trust_checkbutton");
 
-	w = glade_xml_get_widget(ctd_data->gui, "ca-trust-label");
+	w = e_builder_get_widget(ctd_data->builder, "ca-trust-label");
 	txt = g_strdup_printf(_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn(cert));
 	gtk_label_set_text((GtkLabel *)w, txt);
 	g_free(txt);

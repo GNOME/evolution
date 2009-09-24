@@ -71,16 +71,6 @@ Miscellaneous Utility Functions
 @Returns: 
 
 
-<!-- ##### FUNCTION e_load_ui_definition ##### -->
-<para>
-
-</para>
-
-@ui_manager: 
-@basename: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_action_compare_by_label ##### -->
 <para>
 

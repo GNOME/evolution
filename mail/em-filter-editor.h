@@ -72,7 +72,7 @@ EMFilterEditor *em_filter_editor_new		(EMFilterContext *f,
 						 const EMFilterSource *source_names);
 void		em_filter_editor_construct	(EMFilterEditor *fe,
 						 EMFilterContext *fc,
-						 GladeXML *gui,
+						 GtkBuilder *builder,
 						 const EMFilterSource *source_names);
 
 #endif /* EM_FILTER_EDITOR_H */

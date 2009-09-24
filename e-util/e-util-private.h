@@ -86,8 +86,8 @@ const gchar *_e_get_uidir (void) G_GNUC_CONST;
 #undef EVOLUTION_GALVIEWSDIR
 #define EVOLUTION_GALVIEWSDIR _e_get_galviewsdir ()
 
-#undef EVOLUTION_GLADEDIR
-#define EVOLUTION_GLADEDIR _e_get_gladedir ()
+#undef EVOLUTION_UIDIR
+#define EVOLUTION_UIDIR _e_get_gladedir ()
 
 #undef EVOLUTION_HELPDIR
 #define EVOLUTION_HELPDIR _e_get_helpdir ()

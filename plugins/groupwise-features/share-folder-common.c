@@ -45,7 +45,6 @@
 #include <camel/camel-folder.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
-#include <glade/glade.h>
 #include <shell/e-shell-sidebar.h>
 #include "share-folder.h"
 #include "gw-ui.h"

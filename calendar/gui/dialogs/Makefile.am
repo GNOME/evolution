@@ -10,8 +10,7 @@ libcal_dialogs_la_CPPFLAGS = 						\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/widgets/misc					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(GNOME_PLATFORM_CFLAGS)					\
@@ -109,17 +108,17 @@ libcal_dialogs_la_SOURCES =	\
 	task-page.c		\
 	task-page.h		
 
-glade_DATA =				\
-	alarm-dialog.glade		\
-	alarm-list-dialog.glade		\
-	cal-prefs-dialog.glade		\
-	e-delegate-dialog.glade		\
-	event-page.glade		\
-	memo-page.glade			\
-	recurrence-page.glade		\
-	schedule-page.glade		\
-	task-details-page.glade		\
-	task-page.glade
+ui_DATA =				\
+	alarm-dialog.ui		\
+	alarm-list-dialog.ui		\
+	cal-prefs-dialog.ui		\
+	e-delegate-dialog.ui		\
+	event-page.ui		\
+	memo-page.ui			\
+	recurrence-page.ui		\
+	schedule-page.ui		\
+	task-details-page.ui		\
+	task-page.ui
 
 CLEANFILES = $(BUILT_SOURCES)
 
@@ -127,6 +126,6 @@ dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
-	$(glade_DATA)
+	$(ui_DATA)
 
 -include $(top_srcdir)/git.mk

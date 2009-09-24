@@ -24,8 +24,6 @@
 #ifndef __JUNK_SETTINGS_H__
 #define __JUNK_SETTINGS_H__
 
-G_BEGIN_DECLS
-
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
 #include <e-gw-connection.h>
@@ -36,13 +34,15 @@ G_BEGIN_DECLS
 #define IS_JUNK_SETTINGS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), JUNK_SETTINGS_TYPE))
 #define IS_JUNK_SETTINGS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), JUNK_SETTINGS_TYPE))
 
+G_BEGIN_DECLS
+
 typedef struct _JunkSettings JunkSettings;
 typedef struct _JunkSettingsClass JunkSettingsClass;
 
 struct _JunkSettings {
 	GtkVBox parent_object;
 
-	GladeXML *xml;
+	GtkBuilder *builder;
 
 	/* General tab */
 

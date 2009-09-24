@@ -36,6 +36,7 @@
 #include "widgets/misc/e-dateedit.h"
 #include "../calendar-config.h"
 #include "../itip-utils.h"
+#include <shell/e-shell.h>
 #include "comp-editor-util.h"
 
 
@@ -239,15 +240,27 @@ comp_editor_new_date_edit (EShellSettings *shell_settings,
 	e_date_edit_set_make_time_insensitive (dedit, FALSE);
 #endif
 
+	comp_editor_bind_date_edit_settings (GTK_WIDGET (dedit), shell_settings);
+
+	return GTK_WIDGET (dedit);
+}
+
+void
+comp_editor_bind_date_edit_settings (GtkWidget *dateedit, EShellSettings *shell_settings)
+{
+	g_return_if_fail (dateedit != NULL);
+	g_return_if_fail (E_IS_DATE_EDIT (dateedit));
+
+	if (!shell_settings)
+		shell_settings = e_shell_get_shell_settings (e_shell_get_default ());
+
 	e_binding_new (
 		shell_settings, "cal-show-week-numbers",
-		dedit, "show-week-numbers");
+		dateedit, "show-week-numbers");
 
 	e_binding_new (
 		shell_settings, "cal-week-start-day",
-		dedit, "week-start-day");
-
-	return GTK_WIDGET (dedit);
+		dateedit, "week-start-day");
 }
 
 /* Returns the current time, for EDateEdit widgets and ECalendar items in the

@@ -31,12 +31,11 @@
 
 #include <gtk/gtk.h>
 
-#include "e-util/e-account-utils.h"
+#include <e-util/e-util.h>
+#include <e-util/e-account-utils.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-exception.h>
-
-#include <glade/glade.h>
 
 #include <glib/gi18n.h>
 
@@ -259,8 +258,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *vbox;
 	CamelURL *url = NULL;
 	CamelException ex;
-	gchar *gladefile;
-	GladeXML *gladexml;
+	GtkBuilder *builder;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
@@ -275,19 +273,18 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
 		return NULL;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR, "imap-headers.glade", NULL);
-	gladexml = glade_xml_new (gladefile, "vbox2", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "imap-headers.ui");
 
-	vbox = glade_xml_get_widget (gladexml, "vbox2");
-	ui->all_headers = glade_xml_get_widget (gladexml, "allHeaders");
-	ui->basic_headers = glade_xml_get_widget (gladexml, "basicHeaders");
-	ui->mailing_list_headers = glade_xml_get_widget (gladexml, "mailingListHeaders");
-	ui->custom_headers_box = glade_xml_get_widget (gladexml, "custHeaderHbox");
-	ui->custom_headers_tree = GTK_TREE_VIEW(glade_xml_get_widget (gladexml, "custHeaderTree"));
-	ui->add_header = GTK_BUTTON(glade_xml_get_widget (gladexml, "addHeader"));
-	ui->remove_header = GTK_BUTTON(glade_xml_get_widget (gladexml, "removeHeader"));
-	ui->entry_header = GTK_ENTRY (glade_xml_get_widget (gladexml, "customHeaderEntry"));
+	vbox = e_builder_get_widget (builder, "vbox2");
+	ui->all_headers = e_builder_get_widget (builder, "allHeaders");
+	ui->basic_headers = e_builder_get_widget (builder, "basicHeaders");
+	ui->mailing_list_headers = e_builder_get_widget (builder, "mailingListHeaders");
+	ui->custom_headers_box = e_builder_get_widget (builder, "custHeaderHbox");
+	ui->custom_headers_tree = GTK_TREE_VIEW(e_builder_get_widget (builder, "custHeaderTree"));
+	ui->add_header = GTK_BUTTON(e_builder_get_widget (builder, "addHeader"));
+	ui->remove_header = GTK_BUTTON(e_builder_get_widget (builder, "removeHeader"));
+	ui->entry_header = GTK_ENTRY (e_builder_get_widget (builder, "customHeaderEntry"));
 
 	url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), &ex);
 

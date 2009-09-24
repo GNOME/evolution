@@ -27,10 +27,10 @@
 
 #include <stdlib.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 
 #include <libedataserverui/e-contact-store.h>
 
+#include <e-util/e-util.h>
 #include <e-util/e-error.h>
 #include <e-util/e-util-private.h>
 #include <e-gw-container.h>
@@ -52,7 +52,7 @@
 #include <proxy.h>
 #include <string.h>
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 #define ACCOUNT_PICTURE 0
 #define ACCOUNT_NAME 1
@@ -64,10 +64,10 @@ static GObjectClass *parent_class = NULL;
 static gboolean proxy_page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, gint num, EAccount *account);
 
 struct _proxyDialogPrivate {
-	/* Glade XML data for the Add/Edit Proxy dialog*/
-	GladeXML *xml;
-	/*Glade XML data for Proxy Tab*/
-	GladeXML *xml_tab;
+	/* UI data for the Add/Edit Proxy dialog*/
+	GtkBuilder *builder;
+	/* UI data for Proxy Tab*/
+	GtkBuilder *builder_tab;
 
 	/* Widgets */
 	GtkWidget *main;
@@ -151,7 +151,7 @@ proxy_dialog_finalize (GObject *object)
 	if (priv) {
 		free_proxy_list (priv->proxy_list);
 		g_free (priv->help_section);
-		g_object_unref (priv->xml_tab);
+		g_object_unref (priv->builder_tab);
 		g_free (prd->priv);
 		prd->priv = NULL;
 	}
@@ -189,8 +189,8 @@ proxy_dialog_init (GObject *object)
 
 	prd->cnc = NULL;
 	priv->tab_dialog = NULL;
-	priv->xml = NULL;
-	priv->xml_tab = NULL;
+	priv->builder = NULL;
+	priv->builder_tab = NULL;
 	priv->main = NULL;
 	priv->tree = NULL;
 	priv->store = NULL;
@@ -638,7 +638,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	CamelOfflineStore *store;
 	CamelException ex;
 	gint pag_num;
-	gchar *gladefile;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
@@ -657,24 +656,21 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_object_set_data_full ((GObject *) account, "prd", prd, (GDestroyNotify) g_object_unref);
 		priv = prd->priv;
 
-		gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-					      "proxy-listing.glade",
-					      NULL);
-		priv->xml_tab = glade_xml_new (gladefile, "proxy_vbox", NULL);
-		g_free (gladefile);
+		priv->builder_tab = gtk_builder_new ();
+		e_load_ui_builder_definition (priv->builder_tab, "proxy-listing.ui");
 
 		if (account->enabled && (store->state == CAMEL_OFFLINE_STORE_NETWORK_AVAIL)) {
-			priv->tab_dialog = GTK_WIDGET (glade_xml_get_widget (priv->xml_tab, "proxy_vbox"));
-			priv->tree = GTK_TREE_VIEW (glade_xml_get_widget (priv->xml_tab, "proxy_access_list"));
+			priv->tab_dialog = GTK_WIDGET (e_builder_get_widget (priv->builder_tab, "proxy_vbox"));
+			priv->tree = GTK_TREE_VIEW (e_builder_get_widget (priv->builder_tab, "proxy_access_list"));
 			priv->store =  gtk_tree_store_new (2,
 							   GDK_TYPE_PIXBUF,
 							   G_TYPE_STRING
 				);
 			proxy_setup_meta_tree_view (account);
 
-			addProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "add_proxy");
-			removeProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "remove_proxy");
-			editProxy = (GtkButton *) glade_xml_get_widget (priv->xml_tab, "edit_proxy");
+			addProxy = (GtkButton *) e_builder_get_widget (priv->builder_tab, "add_proxy");
+			removeProxy = (GtkButton *) e_builder_get_widget (priv->builder_tab, "remove_proxy");
+			editProxy = (GtkButton *) e_builder_get_widget (priv->builder_tab, "edit_proxy");
 
 			g_signal_connect (addProxy, "clicked", G_CALLBACK(proxy_add_account), account);
 			g_signal_connect (removeProxy, "clicked", G_CALLBACK(proxy_remove_account), account);
@@ -780,7 +776,7 @@ proxy_cancel(GtkWidget *button, EAccount *account)
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
 	gtk_widget_destroy (priv->main);
-	g_object_unref (priv->xml);
+	g_object_unref (priv->builder);
 }
 
 static void
@@ -797,7 +793,7 @@ proxy_add_ok (GtkWidget *button, EAccount *account)
 
 	proxy_update_tree_view (account);
 	gtk_widget_destroy (priv->main);
-	g_object_unref (priv->xml);
+	g_object_unref (priv->builder);
 }
 
 static void
@@ -814,7 +810,7 @@ proxy_edit_ok (GtkWidget *button, EAccount *account)
 
 	proxy_update_tree_view (account);
 	gtk_widget_destroy (priv->main);
-	g_object_unref (priv->xml);
+	g_object_unref (priv->builder);
 }
 
 static proxyHandler *
@@ -901,22 +897,18 @@ proxy_add_account (GtkWidget *button, EAccount *account)
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *proxy_name, *name_box;
 	proxyDialog *prd = NULL;
-	gchar *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "proxy-add-dialog.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "proxy-add-dialog.ui");
 
 	proxy_dialog_initialize_widgets (account);
-	priv->main = glade_xml_get_widget (priv->xml, "ProxyAccessRights");
-	okButton = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_button_ok");
-	contacts = (GtkButton *) glade_xml_get_widget (priv->xml,"contacts");
-	cancel = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_cancel");
+	priv->main = e_builder_get_widget (priv->builder, "ProxyAccessRights");
+	okButton = (GtkButton *) e_builder_get_widget (priv->builder,"proxy_button_ok");
+	contacts = (GtkButton *) e_builder_get_widget (priv->builder,"contacts");
+	cancel = (GtkButton *) e_builder_get_widget (priv->builder,"proxy_cancel");
 
 	priv->proxy_name_selector = e_name_selector_new ();
 	name_selector_dialog = e_name_selector_peek_dialog (priv->proxy_name_selector);
@@ -934,8 +926,8 @@ proxy_add_account (GtkWidget *button, EAccount *account)
 	g_signal_connect (name_selector_entry, "changed",
 			  G_CALLBACK (addressbook_entry_changed), prd);
 
-	proxy_name = glade_xml_get_widget (priv->xml, "proxy_account_name");
-	name_box = glade_xml_get_widget (priv->xml, "proxy_name_box");
+	proxy_name = e_builder_get_widget (priv->builder, "proxy_account_name");
+	name_box = e_builder_get_widget (priv->builder, "proxy_name_box");
 	gtk_widget_hide (proxy_name);
 	gtk_container_add ((GtkContainer *)name_box, (GtkWidget *)name_selector_entry);
 	gtk_widget_show ((GtkWidget *) name_selector_entry);
@@ -1002,7 +994,6 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 	gchar *account_mailid;
 	GtkWidget *contacts;
 	proxyDialog *prd = NULL;
-	gchar *gladefile;
 
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
@@ -1016,17 +1007,14 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 		account_mailid = g_strrstr (account_mailid, "\n") + 1;
 		edited = proxy_get_item_from_list (account, account_mailid);
 		if (edited) {
-			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-						      "proxy-add-dialog.glade",
-						      NULL);
-			priv->xml = glade_xml_new (gladefile, NULL, NULL);
-			g_free (gladefile);
+			priv->builder = gtk_builder_new ();
+			e_load_ui_builder_definition (priv->builder, "proxy-add-dialog.ui");
 
-			priv->main = glade_xml_get_widget (priv->xml, "ProxyAccessRights");
+			priv->main = e_builder_get_widget (priv->builder, "ProxyAccessRights");
 			proxy_dialog_initialize_widgets (account);
-			okButton = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_button_ok");
-			proxyCancel = (GtkButton *) glade_xml_get_widget (priv->xml,"proxy_cancel");
-			contacts = glade_xml_get_widget (priv->xml, "contacts");
+			okButton = (GtkButton *) e_builder_get_widget (priv->builder,"proxy_button_ok");
+			proxyCancel = (GtkButton *) e_builder_get_widget (priv->builder,"proxy_cancel");
+			contacts = e_builder_get_widget (priv->builder, "contacts");
 
 			g_signal_connect ((GtkWidget *)okButton, "clicked", G_CALLBACK (proxy_edit_ok), account);
 			g_signal_connect ((GtkWidget *)proxyCancel, "clicked", G_CALLBACK (proxy_cancel), account);

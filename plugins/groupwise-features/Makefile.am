@@ -20,7 +20,7 @@ liborg_gnome_groupwise_features_la_CPPFLAGS =		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CAMEL_GROUPWISE_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	
 
 liborg_gnome_groupwise_features_la_SOURCES = 	\
@@ -64,12 +64,12 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 
 liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-glade_DATA =			\
-	properties.glade	\
-	junk-settings.glade 	\
-	proxy-add-dialog.glade	\
-	proxy-listing.glade	\
-	proxy-login-dialog.glade
+ui_DATA =			\
+	properties.ui	\
+	junk-settings.ui 	\
+	proxy-add-dialog.ui	\
+	proxy-listing.ui	\
+	proxy-login-dialog.ui
 
 error_DATA = 				\
 	org-gnome-shared-folder.error	\
@@ -83,7 +83,7 @@ errordir = $(privdatadir)/errors
 BUILT_SOURCES = org-gnome-groupwise-features.eplug $(error_DATA)
 
 EXTRA_DIST =						\
-	$(glade_DATA) 					\
+	$(ui_DATA) 					\
 	org-gnome-compose-send-options.xml		\
 	org-gnome-groupwise-features.eplug.xml		\
 	org-gnome-shared-folder.error.xml		\

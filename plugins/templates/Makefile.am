@@ -1,8 +1,6 @@
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = 					\
-		org-gnome-templates.eplug	\
-		templates.glade
+plugin_DATA = org-gnome-templates.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-templates.la
 
@@ -14,7 +12,7 @@ liborg_gnome_templates_la_CPPFLAGS =			\
 	-I$(top_builddir)/composer			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
 liborg_gnome_templates_la_SOURCES = templates.c
@@ -56,8 +54,7 @@ install-data-local:
 endif
 
 EXTRA_DIST = 	org-gnome-templates.eplug.xml	\
-		$(schema_in_files)	   	\
-		templates.glade
+		$(schema_in_files)
 
 BUILT_SOURCES = org-gnome-templates.eplug
 

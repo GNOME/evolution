@@ -6,14 +6,14 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(CANBERRA_CFLAGS)
 
-glade_DATA =		\
-	alarm-notify.glade
+ui_DATA =		\
+	alarm-notify.ui
 
 evolution_alarm_notify_SOURCES =	\
 	alarm.c				\
@@ -42,6 +42,6 @@ if OS_WIN32
 evolution_alarm_notify_LDFLAGS = -mwindows
 endif
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

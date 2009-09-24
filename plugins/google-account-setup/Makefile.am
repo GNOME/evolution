@@ -9,7 +9,7 @@ liborg_gnome_evolution_google_la_CPPFLAGS = 		\
 	-I .						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
-	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
+	-DCALDAV_UIDIR=\""$(uidir)"\"		\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 

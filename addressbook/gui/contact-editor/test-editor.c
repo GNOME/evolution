@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include "e-contact-editor.h"
 #include "ebook/e-card.h"
 
@@ -83,8 +82,6 @@ gint main( gint argc, gchar *argv[] )
 	EContactEditor *ce;
 
 	gtk_init (&argc, &argv);
-
-	glade_init ();
 
 	cardstr = NULL;
 	if (argc == 2)

@@ -12,11 +12,10 @@ libevolution_smime_la_CPPFLAGS =			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/widgets			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
@@ -45,9 +44,9 @@ libevolution_smime_la_LIBADD =				\
 
 libevolution_smime_la_LDFLAGS = $(NO_UNDEFINED)
 
-glade_DATA = smime-ui.glade
+ui_DATA = smime-ui.ui
 
 EXTRA_DIST =			\
-	$(glade_DATA)
+	$(ui_DATA)
 
 -include $(top_srcdir)/git.mk

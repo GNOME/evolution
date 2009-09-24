@@ -62,19 +62,19 @@ libevolution_calendar_la_CPPFLAGS =			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBSOUP_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-glade_DATA = 					\
-	e-itip-control.glade			\
-	goto-dialog.glade
+ui_DATA = 					\
+	e-itip-control.ui			\
+	goto-dialog.ui
 
 etspec_DATA =				\
 	e-calendar-table.etspec		\
@@ -242,7 +242,7 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 EXTRA_DIST =	 			\
-	$(glade_DATA)			\
+	$(ui_DATA)			\
 	$(schema_in_files)              \
 	$(etspec_DATA)			\
 	$(search_files) 

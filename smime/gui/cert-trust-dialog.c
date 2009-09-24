@@ -34,14 +34,12 @@
 #include <gtk/gtk.h>
 
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
-#define GLADE_FILE_NAME "smime-ui.glade"
-
 typedef struct {
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkWidget *dialog;
 	GtkWidget *trust_button;
 	GtkWidget *notrust_button;
@@ -57,7 +55,7 @@ free_data (gpointer data)
 
 	g_object_unref (ctd->cert);
 	g_object_unref (ctd->cacert);
-	g_object_unref (ctd->gui);
+	g_object_unref (ctd->builder);
 	g_free (ctd);
 }
 
@@ -116,23 +114,19 @@ cert_trust_dialog_show (ECert *cert)
 {
 	CertTrustDialogData *ctd_data;
 	CERTCertificate *icert;
-	gchar *gladefile;
 
 	ctd_data = g_new0 (CertTrustDialogData, 1);
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      GLADE_FILE_NAME,
-				      NULL);
-	ctd_data->gui = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
+	ctd_data->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (ctd_data->builder, "smime-ui.ui");
 
-	ctd_data->dialog = glade_xml_get_widget (ctd_data->gui, "cert-trust-dialog");
+	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "cert-trust-dialog");
 	ctd_data->cert = g_object_ref (cert);
 	ctd_data->cacert = e_cert_get_ca_cert(cert);
-	ctd_data->trust_button = glade_xml_get_widget(ctd_data->gui, "cert-trust");
-	ctd_data->notrust_button = glade_xml_get_widget(ctd_data->gui, "cert-notrust");
+	ctd_data->trust_button = e_builder_get_widget(ctd_data->builder, "cert-trust");
+	ctd_data->notrust_button = e_builder_get_widget(ctd_data->builder, "cert-notrust");
 
-	ctd_data->label = glade_xml_get_widget(ctd_data->gui, "trust-label");
+	ctd_data->label = e_builder_get_widget(ctd_data->builder, "trust-label");
 
 	g_signal_connect(ctd_data->dialog, "response", G_CALLBACK(ctd_response), ctd_data);
 

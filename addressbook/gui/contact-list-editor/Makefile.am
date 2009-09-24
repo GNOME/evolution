@@ -12,7 +12,7 @@ libecontactlisteditor_la_CPPFLAGS =			\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_builddir)/shell				\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
@@ -33,8 +33,8 @@ libecontactlisteditor_la_LIBADD =						\
 	$(top_builddir)/shell/libeshell.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-glade_DATA  = contact-list-editor.glade
+ui_DATA  = contact-list-editor.ui
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(ui_DATA)
 
 -include $(top_srcdir)/git.mk

@@ -27,10 +27,10 @@
 
 #include "eab-contact-merging.h"
 #include "eab-contact-compare.h"
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include <glib/gi18n.h>
 
@@ -455,7 +455,6 @@ static void
 match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
-	gchar *gladefile;
 	gint flag;
 	gboolean same_uids;
 
@@ -477,49 +476,46 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE || same_uids) {
 		doit (lookup, same_uids);
 	} else {
-		GladeXML *ui;
+		GtkBuilder *builder;
 
 		GtkWidget *widget, *merge_button;
+
+		/* XXX I think we're leaking the GtkBuilder. */
+		builder = gtk_builder_new ();
 
 		lookup->match = g_object_ref (match);
 		if (lookup->op == E_CONTACT_MERGING_ADD) {
 			/* Compares all the values of contacts and return true, if they match */
 			flag = check_if_same (contact, match);
-			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-						      "eab-contact-duplicate-detected.glade",
-						      NULL);
-			ui = glade_xml_new (gladefile, NULL, NULL);
-			merge_button = glade_xml_get_widget (ui, "button5");
+			e_load_ui_builder_definition (
+				builder, "eab-contact-duplicate-detected.ui");
+			merge_button = e_builder_get_widget (builder, "button5");
 			/* Merge Button not sensitive when all values are same */
 			if (flag)
 				gtk_widget_set_sensitive (GTK_WIDGET (merge_button), FALSE);
-			g_free (gladefile);
 		} else if (lookup->op == E_CONTACT_MERGING_COMMIT) {
-			gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-						      "eab-contact-commit-duplicate-detected.glade",
-						      NULL);
-			ui = glade_xml_new (gladefile, NULL, NULL);
-			g_free (gladefile);
+			e_load_ui_builder_definition (
+				builder, "eab-contact-commit-duplicate-detected.ui");
 		} else {
 			doit (lookup, FALSE);
 			return;
 		}
 
-		widget = glade_xml_get_widget (ui, "custom-old-contact");
+		widget = e_builder_get_widget (builder, "custom-old-contact");
 		eab_contact_display_set_mode (
 			EAB_CONTACT_DISPLAY (widget),
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT);
 		eab_contact_display_set_contact (
 			EAB_CONTACT_DISPLAY (widget), match);
 
-		widget = glade_xml_get_widget (ui, "custom-new-contact");
+		widget = e_builder_get_widget (builder, "custom-new-contact");
 		eab_contact_display_set_mode (
 			EAB_CONTACT_DISPLAY (widget),
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT);
 		eab_contact_display_set_contact (
 			EAB_CONTACT_DISPLAY (widget), contact);
 
-		widget = glade_xml_get_widget (ui, "dialog-duplicate-contact");
+		widget = e_builder_get_widget (builder, "dialog-duplicate-contact");
 
 		gtk_widget_ensure_style (widget);
 		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
@@ -599,17 +595,4 @@ eab_merging_book_find_contact (EBook                 *book,
 	add_lookup (lookup);
 
 	return TRUE;
-}
-
-GtkWidget *
-_eab_contact_merging_create_contact_display(gchar *name,
-					    gchar *string1, gchar *string2,
-					    gint int1, gint int2);
-
-GtkWidget *
-_eab_contact_merging_create_contact_display(gchar *name,
-					    gchar *string1, gchar *string2,
-					    gint int1, gint int2)
-{
-	return eab_contact_display_new();
 }

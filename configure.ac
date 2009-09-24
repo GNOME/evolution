@@ -48,7 +48,6 @@ m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([gnome_desktop_minimum_version], [2.26.0])
 m4_define([libgtkhtml_minimum_version], [3.29.2])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
-m4_define([libglade_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])	dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -233,7 +232,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[glib-2.0 >= glib_minimum_version
 	 gtk+-2.0 >= gtk_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
-	 libglade-2.0 >= libglade_minimum_version
 	 libgnomecanvas-2.0 >= libgnomecanvas_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
@@ -1153,7 +1151,7 @@ dnl ********************************
 dnl Flags to get all the GNOME stuff
 dnl ********************************
 
-FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0 libglade-2.0"
+FULL_GNOME_DEPS="gconf-2.0 gthread-2.0 gobject-2.0"
 
 dnl ******************************
 dnl TNEF implementation
@@ -1250,7 +1248,7 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE libglade-2.0 gthread-2.0)
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-$EDS_PACKAGE gthread-2.0)
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
 CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
@@ -1259,7 +1257,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, libglade-2.0 gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gnome-desktop-2.0 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS $E_UTIL_X11_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS $E_UTIL_X11_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1275,28 +1273,28 @@ AC_SUBST(TZDIALOG_LIBS)
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, gio-2.0 gconf-2.0 gobject-2.0 libglade-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, gio-2.0 gconf-2.0 gobject-2.0 libedataserverui-$EDS_PACKAGE libedataserver-$EDS_PACKAGE gtkhtml-editor)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libglade-2.0 libebook-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-$EDS_PACKAGE camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE libebook-$EDS_PACKAGE)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
 dnl ***************
 dnl LIBFILTER Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libglade-2.0 libedataserver-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libedataserver-$EDS_PACKAGE)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, gnome-desktop-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(SHELL, gnome-desktop-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -1304,7 +1302,7 @@ AC_SUBST(SHELL_LIBS)
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
+EVOLUTION_ADDRESSBOOK_DEPS="gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE camel-$EDS_PACKAGE gtkhtml-editor unique-1.0"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1337,7 +1335,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= 2.3.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE libebook-$EDS_PACKAGE libecal-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libebackend-$EDS_PACKAGE $HAL_REQUIREMENT $libnotify gtkhtml-editor libgdata-$EDS_PACKAGE libgdata-google-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1350,7 +1348,7 @@ fi
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE gtkhtml-editor $mozilla_nss libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE unique-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1402,8 +1400,8 @@ AC_SUBST(componentdir)
 moduledir="$privlibdir/modules"
 AC_SUBST(moduledir)
 
-evolutionuidir="$privdatadir/ui"
-AC_SUBST(evolutionuidir)
+uidir="$privdatadir/ui"
+AC_SUBST(uidir)
 
 evolutionhelpdir="$privdatadir/help"
 AC_SUBST(evolutionhelpdir)
@@ -1455,9 +1453,6 @@ AC_SUBST(images48dir)
 
 soundsdir="$privdatadir/sounds"
 AC_SUBST(soundsdir)
-
-gladedir="$privdatadir/glade"
-AC_SUBST(gladedir)
 
 etspecdir="$privdatadir/etspec"
 AC_SUBST(etspecdir)

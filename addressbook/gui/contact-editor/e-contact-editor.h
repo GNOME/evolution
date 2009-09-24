@@ -23,8 +23,6 @@
 #ifndef __E_CONTACT_EDITOR_H__
 #define __E_CONTACT_EDITOR_H__
 
-#include <glade/glade.h>
-
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
 #include <libebook/e-book.h>
@@ -61,7 +59,7 @@ struct _EContactEditor
 	EBook *target_book;
 	EContact *contact;
 
-	GladeXML *gui;
+	GtkBuilder *builder;
 	GtkWidget *app;
 
 	GtkWidget *file_selector;

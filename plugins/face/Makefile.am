@@ -13,8 +13,8 @@ liborg_gnome_face_la_CPPFLAGS =				\
 	-I$(top_builddir)/mail				\
 	-I$(top_builddir)/composer			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
+	-DCONNECTOR_UIDIR=\""$(uidir)"\"
 
 liborg_gnome_face_la_SOURCES = face.c
 

@@ -31,11 +31,11 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include "e-util/e-dialog-widgets.h"
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
+#include "e-util/e-util.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 #include <libebook/e-destination.h>
@@ -48,8 +48,7 @@
 
 
 typedef struct {
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
 	/* The alarm  */
 	ECalComponentAlarm *alarm;
@@ -777,45 +776,41 @@ dialog_to_alarm (Dialog *dialog)
 static gboolean
 get_widgets (Dialog *dialog)
 {
-#define GW(name) glade_xml_get_widget (dialog->xml, name)
-
-	dialog->toplevel = GW ("alarm-dialog");
+	dialog->toplevel = e_builder_get_widget (dialog->builder, "alarm-dialog");
 	if (!dialog->toplevel)
 		return FALSE;
 
-	dialog->action_combo = GW ("action-combobox");
-	dialog->interval_value = GW ("interval-value");
-	dialog->value_units_combo = GW ("value-units-combobox");
-	dialog->relative_combo = GW ("relative-combobox");
-	dialog->time_combo = GW ("time-combobox");
+	dialog->action_combo = e_builder_get_widget (dialog->builder, "action-combobox");
+	dialog->interval_value = e_builder_get_widget (dialog->builder, "interval-value");
+	dialog->value_units_combo = e_builder_get_widget (dialog->builder, "value-units-combobox");
+	dialog->relative_combo = e_builder_get_widget (dialog->builder, "relative-combobox");
+	dialog->time_combo = e_builder_get_widget (dialog->builder, "time-combobox");
 
-	dialog->repeat_toggle = GW ("repeat-toggle");
-	dialog->repeat_group = GW ("repeat-group");
-	dialog->repeat_quantity = GW ("repeat-quantity");
-	dialog->repeat_value = GW ("repeat-value");
-	dialog->repeat_unit_combo = GW ("repeat-unit-combobox");
+	dialog->repeat_toggle = e_builder_get_widget (dialog->builder, "repeat-toggle");
+	dialog->repeat_group = e_builder_get_widget (dialog->builder, "repeat-group");
+	dialog->repeat_quantity = e_builder_get_widget (dialog->builder, "repeat-quantity");
+	dialog->repeat_value = e_builder_get_widget (dialog->builder, "repeat-value");
+	dialog->repeat_unit_combo = e_builder_get_widget (dialog->builder, "repeat-unit-combobox");
 
-	dialog->option_notebook = GW ("option-notebook");
+	dialog->option_notebook = e_builder_get_widget (dialog->builder, "option-notebook");
 
-	dialog->dalarm_group = GW ("dalarm-group");
-	dialog->dalarm_message = GW ("dalarm-message");
-	dialog->dalarm_description = GW ("dalarm-description");
+	dialog->dalarm_group = e_builder_get_widget (dialog->builder, "dalarm-group");
+	dialog->dalarm_message = e_builder_get_widget (dialog->builder, "dalarm-message");
+	dialog->dalarm_description = e_builder_get_widget (dialog->builder, "dalarm-description");
 
-	dialog->aalarm_group = GW ("aalarm-group");
-	dialog->aalarm_sound = GW ("aalarm-sound");
-	dialog->aalarm_file_chooser = GW ("aalarm-file-chooser");
+	dialog->aalarm_group = e_builder_get_widget (dialog->builder, "aalarm-group");
+	dialog->aalarm_sound = e_builder_get_widget (dialog->builder, "aalarm-sound");
+	dialog->aalarm_file_chooser = e_builder_get_widget (dialog->builder, "aalarm-file-chooser");
 
-	dialog->malarm_group = GW ("malarm-group");
-	dialog->malarm_address_group = GW ("malarm-address-group");
-	dialog->malarm_addressbook = GW ("malarm-addressbook");
-	dialog->malarm_message = GW ("malarm-message");
-	dialog->malarm_description = GW ("malarm-description");
+	dialog->malarm_group = e_builder_get_widget (dialog->builder, "malarm-group");
+	dialog->malarm_address_group = e_builder_get_widget (dialog->builder, "malarm-address-group");
+	dialog->malarm_addressbook = e_builder_get_widget (dialog->builder, "malarm-addressbook");
+	dialog->malarm_message = e_builder_get_widget (dialog->builder, "malarm-message");
+	dialog->malarm_description = e_builder_get_widget (dialog->builder, "malarm-description");
 
-	dialog->palarm_group = GW ("palarm-group");
-	dialog->palarm_program = GW ("palarm-program");
-	dialog->palarm_args = GW ("palarm-args");
-
-#undef GW
+	dialog->palarm_group = e_builder_get_widget (dialog->builder, "palarm-group");
+	dialog->palarm_program = e_builder_get_widget (dialog->builder, "palarm-program");
+	dialog->palarm_args = e_builder_get_widget (dialog->builder, "palarm-args");
 
 	if (dialog->action_combo) {
 		const gchar *actions[] = {
@@ -1215,30 +1210,22 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 {
 	Dialog dialog;
 	gint response_id;
-	gchar *gladefile;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.alarm = alarm;
 	dialog.ecal = ecal;
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "alarm-dialog.glade",
-				      NULL);
-	dialog.xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-	if (!dialog.xml) {
-		g_message (G_STRLOC ": Could not load the Glade XML file!");
-		return FALSE;
-	}
+	dialog.builder = gtk_builder_new ();
+	e_load_ui_builder_definition (dialog.builder, "alarm-dialog.ui");
 
 	if (!get_widgets (&dialog)) {
-		g_object_unref(dialog.xml);
+		g_object_unref(dialog.builder);
 		return FALSE;
 	}
 
 	if (!setup_select_names (&dialog)) {
-		g_object_unref (dialog.xml);
+		g_object_unref (dialog.builder);
 		return FALSE;
 	}
 
@@ -1262,7 +1249,7 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 		dialog_to_alarm (&dialog);
 
 	gtk_widget_destroy (dialog.toplevel);
-	g_object_unref (dialog.xml);
+	g_object_unref (dialog.builder);
 
 	return response_id == GTK_RESPONSE_OK ? TRUE : FALSE;
 }

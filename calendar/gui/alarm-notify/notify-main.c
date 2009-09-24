@@ -30,7 +30,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <unique/unique.h>
 #include <camel/camel-object.h>
 #include <libedataserver/e-source.h>
@@ -61,8 +60,6 @@ main (gint argc, gchar **argv)
 
 	if (unique_app_is_running (app))
 		goto exit;
-
-	glade_init ();
 
 	e_icon_factory_init ();
 

@@ -419,7 +419,11 @@ dialog_response(GtkWidget *dialog, gint id, GalViewInstance *instance)
 void
 gal_view_instance_save_as (GalViewInstance *instance)
 {
-	GtkWidget *dialog = gal_view_instance_save_as_dialog_new(instance);
+	GtkWidget *dialog;
+
+	g_return_if_fail (instance != NULL);
+
+	dialog = gal_view_instance_save_as_dialog_new (instance);
 	g_signal_connect(dialog, "response",
 			 G_CALLBACK(dialog_response), instance);
 	gtk_widget_show(dialog);

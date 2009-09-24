@@ -32,11 +32,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
-#include <e-util/e-binding.h>
-#include <e-util/e-dialog-widgets.h>
-#include <e-util/e-util-private.h>
 #include <misc/e-dateedit.h>
 #include <libecal/e-cal-recur.h>
 #include <libecal/e-cal-time-util.h>
@@ -46,6 +42,11 @@
 #include "comp-editor-util.h"
 #include "../e-date-time-list.h"
 #include "recurrence-page.h"
+
+#include "e-util/e-util.h"
+#include "e-util/e-binding.h"
+#include "e-util/e-dialog-widgets.h"
+#include "e-util/e-util-private.h"
 
 #define RECURRENCE_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -136,10 +137,9 @@ struct _RecurrencePagePrivate {
 	/* Component we use to expand the recurrence rules for the preview */
 	ECalComponent *comp;
 
-	/* Glade XML data */
-	GladeXML *xml;
+	GtkBuilder *builder;
 
-	/* Widgets from the Glade file */
+	/* Widgets from the UI file */
 	GtkWidget *main;
 
 	GtkWidget *recurs;
@@ -307,9 +307,9 @@ recurrence_page_dispose (GObject *object)
 		priv->main = NULL;
 	}
 
-	if (priv->xml != NULL) {
-		g_object_unref (priv->xml);
-		priv->xml = NULL;
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
 	}
 
 	if (priv->comp != NULL) {
@@ -1989,7 +1989,7 @@ get_widgets (RecurrencePage *rpage)
 
 	priv = rpage->priv;
 
-#define GW(name) glade_xml_get_widget (priv->xml, name)
+#define GW(name) e_builder_get_widget (priv->builder, name)
 
 	priv->main = GW ("recurrence-page");
 	if (!priv->main)
@@ -2368,21 +2368,11 @@ recurrence_page_construct (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv = rpage->priv;
 	CompEditor *editor;
-	gchar *gladefile;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 
-	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
-				      "recurrence-page.glade",
-				      NULL);
-	priv->xml = glade_xml_new (gladefile, NULL, NULL);
-	g_free (gladefile);
-
-	if (!priv->xml) {
-		g_message ("recurrence_page_construct(): "
-			   "Could not load the Glade XML file!");
-		return NULL;
-	}
+	priv->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (priv->builder, "recurrence-page.ui");
 
 	if (!get_widgets (rpage)) {
 		g_message ("recurrence_page_construct(): "

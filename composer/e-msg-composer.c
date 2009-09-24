@@ -46,8 +46,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <glade/glade.h>
-
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"

@@ -198,9 +198,9 @@ gal_view_instance_save_as_dialog_dispose (GObject *object)
 {
 	GalViewInstanceSaveAsDialog *gal_view_instance_save_as_dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
-	if (gal_view_instance_save_as_dialog->gui)
-		g_object_unref (gal_view_instance_save_as_dialog->gui);
-	gal_view_instance_save_as_dialog->gui = NULL;
+	if (gal_view_instance_save_as_dialog->builder)
+		g_object_unref (gal_view_instance_save_as_dialog->builder);
+	gal_view_instance_save_as_dialog->builder = NULL;
 
 	if (G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose)
 		(* G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose) (object);
@@ -229,22 +229,17 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *k
 static void
 gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 {
-	GladeXML *gui;
 	GtkWidget *widget;
-
-	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
-					    "gal-view-instance-save-as-dialog.glade",
-					    NULL);
 
 	dialog->instance = NULL;
 	dialog->model = NULL;
 	dialog->collection = NULL;
 
-	gui = glade_xml_new_with_domain (filename , NULL, GETTEXT_PACKAGE);
-	g_free (filename);
-	dialog->gui = gui;
+	dialog->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (
+		dialog->builder, "gal-view-instance-save-as-dialog.ui");
 
-	widget = glade_xml_get_widget (gui, "vbox-top");
+	widget = e_builder_get_widget (dialog->builder, "vbox-top");
 	if (!widget) {
 		return;
 	}
@@ -262,11 +257,11 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	dialog->scrolledwindow = glade_xml_get_widget (dialog->gui, "scrolledwindow2");
-	dialog->treeview = GTK_TREE_VIEW (glade_xml_get_widget (dialog->gui, "custom-replace"));
-	dialog->entry_create = glade_xml_get_widget (dialog->gui, "entry-create");
-	dialog->radiobutton_replace = glade_xml_get_widget (dialog->gui, "radiobutton-replace");
-	dialog->radiobutton_create = glade_xml_get_widget (dialog->gui, "radiobutton-create");
+	dialog->scrolledwindow = e_builder_get_widget (dialog->builder, "scrolledwindow2");
+	dialog->treeview = GTK_TREE_VIEW (e_builder_get_widget (dialog->builder, "custom-replace"));
+	dialog->entry_create = e_builder_get_widget (dialog->builder, "entry-create");
+	dialog->radiobutton_replace = e_builder_get_widget (dialog->builder, "radiobutton-replace");
+	dialog->radiobutton_create = e_builder_get_widget (dialog->builder, "radiobutton-create");
 
 	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
 	gtk_tree_view_set_headers_visible (dialog->treeview, FALSE);

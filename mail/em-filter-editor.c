@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/gconf-bridge.h"
 
@@ -116,18 +117,14 @@ em_filter_editor_new (EMFilterContext *fc,
                       const EMFilterSource *source_names)
 {
 	EMFilterEditor *fe;
-	GladeXML *gui;
-	gchar *gladefile;
+	GtkBuilder *builder;
 
 	fe = g_object_new (EM_TYPE_FILTER_EDITOR, NULL);
 
-	gladefile = g_build_filename (
-		EVOLUTION_GLADEDIR, "filter.glade", NULL);
-	gui = glade_xml_new (gladefile, "rule_editor", NULL);
-	g_free (gladefile);
-
-	em_filter_editor_construct (fe, fc, gui, source_names);
-	g_object_unref (gui);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "filter.ui");
+	em_filter_editor_construct (fe, fc, builder, source_names);
+	g_object_unref (builder);
 
 	return fe;
 }
@@ -164,7 +161,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 void
 em_filter_editor_construct (EMFilterEditor *fe,
                             EMFilterContext *fc,
-                            GladeXML *gui,
+                            GtkBuilder *builder,
                             const EMFilterSource *source_names)
 {
 	GtkWidget *combobox;
@@ -172,7 +169,7 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	GtkTreeViewColumn *column;
 	GSList *sources = NULL;
 
-        combobox = glade_xml_get_widget (gui, "filter_source_combobox");
+        combobox = e_builder_get_widget (builder, "filter_source_combobox");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox))));
 
 	for (i = 0; source_names[i].source; i++) {
@@ -185,7 +182,7 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	g_object_set_data_full (G_OBJECT (combobox), "sources", sources, free_sources);
 	gtk_widget_show (combobox);
 
-	e_rule_editor_construct ((ERuleEditor *) fe, (ERuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
+	e_rule_editor_construct ((ERuleEditor *) fe, (ERuleContext *) fc, builder, source_names[0].source, _("_Filter Rules"));
 
 	/* Show the Enabled column, we support it here */
 	column = gtk_tree_view_get_column (GTK_TREE_VIEW (E_RULE_EDITOR (fe)->list), 0);

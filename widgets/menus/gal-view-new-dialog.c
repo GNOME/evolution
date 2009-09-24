@@ -74,17 +74,13 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 static void
 gal_view_new_dialog_init (GalViewNewDialog *dialog)
 {
-	GladeXML *gui;
 	GtkWidget *widget;
-	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
-					    "gal-view-new-dialog.glade",
-					    NULL);
 
-	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-	g_free (filename);
-	dialog->gui = gui;
+	dialog->builder = gtk_builder_new ();
+	e_load_ui_builder_definition (
+		dialog->builder, "gal-view-new-dialog.ui");
 
-	widget = glade_xml_get_widget (gui, "table-top");
+	widget = e_builder_get_widget (dialog->builder, "table-top");
 	if (!widget) {
 		return;
 	}
@@ -111,9 +107,9 @@ gal_view_new_dialog_dispose (GObject *object)
 {
 	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
 
-	if (gal_view_new_dialog->gui)
-		g_object_unref(gal_view_new_dialog->gui);
-	gal_view_new_dialog->gui = NULL;
+	if (gal_view_new_dialog->builder)
+		g_object_unref(gal_view_new_dialog->builder);
+	gal_view_new_dialog->builder = NULL;
 
 	if (G_OBJECT_CLASS (gal_view_new_dialog_parent_class)->dispose)
 		(* G_OBJECT_CLASS (gal_view_new_dialog_parent_class)->dispose) (object);
@@ -191,8 +187,8 @@ gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 	GtkCellRenderer *rend;
 
 	dialog->collection = collection;
-	dialog->list = glade_xml_get_widget(dialog->gui,"list-type-list");
-	dialog->entry = glade_xml_get_widget(dialog->gui, "entry-name");
+	dialog->list = e_builder_get_widget(dialog->builder,"list-type-list");
+	dialog->entry = e_builder_get_widget(dialog->builder, "entry-name");
 	dialog->list_store = gtk_list_store_new (2,
 						 G_TYPE_STRING,
 						 G_TYPE_POINTER);
@@ -243,7 +239,7 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 
 	switch (prop_id) {
 	case PROP_NAME:
-		entry = glade_xml_get_widget(dialog->gui, "entry-name");
+		entry = e_builder_get_widget(dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY(entry)) {
 			gtk_entry_set_text(GTK_ENTRY(entry), g_value_get_string (value));
 		}
@@ -264,7 +260,7 @@ gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value,
 
 	switch (prop_id) {
 	case PROP_NAME:
-		entry = glade_xml_get_widget(dialog->gui, "entry-name");
+		entry = e_builder_get_widget(dialog->builder, "entry-name");
 		if (entry && GTK_IS_ENTRY(entry)) {
 			g_value_set_string (value, gtk_entry_get_text (GTK_ENTRY (entry)));
 		}

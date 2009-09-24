@@ -14,8 +14,8 @@ liborg_gnome_email_custom_header_la_CPPFLAGS = \
 	-I$(top_builddir)/composer			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
-	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"          \
+	-DCONNECTOR_UIDIR=\""$(uidir)"\"
 
 liborg_gnome_email_custom_header_la_SOURCES = 		\
 	email-custom-header.c				\
@@ -57,14 +57,13 @@ install-data-local:
 	fi
 endif
 
-glade_DATA =							\
-	org-gnome-email-custom-header.glade			\
-	email-custom-header.glade
+ui_DATA =							\
+	org-gnome-email-custom-header.ui
 
 EXTRA_DIST = 							\
 	org-gnome-email-custom-header.eplug.xml			\
 	$(schema_in_files)					\
-	$(glade_DATA)					
+	$(ui_DATA)					
 
 BUILT_SOURCES = 				\
 	org-gnome-email-custom-header.eplug 			\

@@ -41,8 +41,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
-#include <glade/glade.h>
-
 #include <glib/gi18n.h>
 
 #include <camel/camel-stream.h>
@@ -277,22 +275,19 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
                                   EMFormatHTMLPObject *pobject)
 {
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkWidget *vbox, *w;
-	gchar *gladefile;
 
 	if (po->widget)
 		/* FIXME: window raise? */
 		return;
 
-	gladefile = g_build_filename (
-		EVOLUTION_GLADEDIR, "mail-dialogs.glade", NULL);
-	xml = glade_xml_new (gladefile, "message_security_dialog", NULL);
-	g_free (gladefile);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
-	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
+	po->widget = e_builder_get_widget(builder, "message_security_dialog");
 
-	vbox = glade_xml_get_widget(xml, "signature_vbox");
+	vbox = e_builder_get_widget(builder, "signature_vbox");
 	w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
@@ -324,7 +319,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	gtk_widget_show_all(vbox);
 
-	vbox = glade_xml_get_widget(xml, "encryption_vbox");
+	vbox = e_builder_get_widget(builder, "encryption_vbox");
 	w = gtk_label_new(_(smime_encrypt_table[po->valid->encrypt.status].description));
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
@@ -356,7 +351,7 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	gtk_widget_show_all(vbox);
 
-	g_object_unref(xml);
+	g_object_unref(builder);
 
 	g_signal_connect(po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
 	gtk_widget_show(po->widget);

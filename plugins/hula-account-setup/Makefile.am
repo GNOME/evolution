@@ -9,7 +9,7 @@ liborg_gnome_evolution_hula_account_setup_la_CPPFLAGS =	\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"
 
 liborg_gnome_evolution_hula_account_setup_la_SOURCES = \
 			camel-hula-listener.c	\

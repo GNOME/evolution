@@ -8,7 +8,7 @@ libevolution_module_mail_la_CPPFLAGS =					\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(EVOLUTION_MAIL_CFLAGS)					\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-mail\"
 

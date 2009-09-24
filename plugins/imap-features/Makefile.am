@@ -14,7 +14,7 @@ liborg_gnome_imap_features_la_CPPFLAGS = 		\
 	-I$(top_srcdir)/mail				\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CAMEL_IMAP_CFLAGS)				\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"
 
 liborg_gnome_imap_features_la_SOURCES = imap-headers.c
@@ -26,14 +26,15 @@ liborg_gnome_imap_features_la_LIBADD=			\
 
 liborg_gnome_imap_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
-glade_DATA = imap-headers.glade
+ui_DATA =			\
+	imap-headers.ui
 
 errordir = $(privdatadir)/errors
 
 BUILT_SOURCES = org-gnome-imap-features.eplug $(error_i18n)
 
 EXTRA_DIST =						\
-	$(glade_DATA) 					\
+	$(ui_DATA) 					\
 	org-gnome-imap-features.eplug.xml
 
 CLEANFILES = $(BUILT_SOURCES)

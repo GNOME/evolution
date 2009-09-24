@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 
 #include <glib/gi18n.h>
 #include "e-util/e-util-private.h"
@@ -153,8 +152,6 @@ e_table_config_class_init (ETableConfigClass *klass)
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_STATE_TYPE,
 							      G_PARAM_READABLE));
-
-	glade_init ();
 }
 
 static void
@@ -597,14 +594,13 @@ static ETableMemoryStoreColumnInfo store_columns[] = {
 	E_TABLE_MEMORY_STORE_TERMINATOR
 };
 
-static ETableModel *global_store;  /* Glade better not be reentrant any time soon. */
-
-static void
-create_global_store (ETableConfig *config)
+static ETableModel *
+create_store (ETableConfig *config)
 {
 	gint i;
+	ETableModel *store;
 
-	global_store = e_table_memory_store_new (store_columns);
+	store = e_table_memory_store_new (store_columns);
 	for (i = 0; config->source_spec->columns[i]; i++) {
 
 		gchar *text;
@@ -613,8 +609,10 @@ create_global_store (ETableConfig *config)
 			continue;
 
 		text = g_strdup (dgettext (config->domain, config->source_spec->columns[i]->title));
-		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (global_store), -1, NULL, text, i);
+		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (store), -1, NULL, text, i);
 	}
+
+	return store;
 }
 
 static const gchar *spec =
@@ -626,16 +624,14 @@ static const gchar *spec =
 "</ETableState>"
 "</ETableSpecification>";
 
-GtkWidget *e_table_proxy_etable_shown_new (void);
-
-GtkWidget *
-e_table_proxy_etable_shown_new (void)
+static GtkWidget *
+e_table_proxy_etable_shown_new (ETableModel *store)
 {
 	ETableModel *model = NULL;
 	GtkWidget *widget;
 	ETableScrolled *ets;
 
-	model = e_table_subset_variable_new (global_store);
+	model = e_table_subset_variable_new (store);
 
 	widget = e_table_scrolled_new (model, NULL, spec, NULL);
 	ets = E_TABLE_SCROLLED (widget);
@@ -644,16 +640,14 @@ e_table_proxy_etable_shown_new (void)
 	return widget;
 }
 
-GtkWidget *e_table_proxy_etable_available_new (void);
-
-GtkWidget *
-e_table_proxy_etable_available_new (void)
+static GtkWidget *
+e_table_proxy_etable_available_new (ETableModel *store)
 {
 	ETableModel *model;
 	GtkWidget *widget;
 	ETableScrolled *ets;
 
-	model = e_table_without_new (global_store,
+	model = e_table_without_new (store,
 				     NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	e_table_without_show_all (E_TABLE_WITHOUT (model));
@@ -705,10 +699,9 @@ dialog_response (GtkWidget *dialog, gint response_id, ETableConfig *config)
 }
 
 /*
- * Invoked by the Glade auto-connect code
+ * Invoked by the GtkBuilder auto-connect code
  */
-GtkWidget *e_table_proxy_gtk_combo_text_new (void);
-GtkWidget *
+static GtkWidget *
 e_table_proxy_gtk_combo_text_new (void)
 {
 	GtkCellRenderer *renderer;
@@ -737,22 +730,10 @@ e_table_proxy_gtk_combo_text_new (void)
 	return combo_box;
 }
 
-#if 0
-static GtkWidget *
-configure_dialog (GladeXML *gui, const gchar *widget_name, ETableConfig *config)
-{
-	GtkWidget *w;
-
-	w = glade_xml_get_widget (gui, widget_name);
-
-	return w;
-}
-#endif
-
 static void
-connect_button (ETableConfig *config, GladeXML *gui, const gchar *widget_name, GCallback cback)
+connect_button (ETableConfig *config, GtkBuilder *builder, const gchar *widget_name, GCallback cback)
 {
-	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
+	GtkWidget *button = e_builder_get_widget (builder, widget_name);
 
 	if (button) {
 		g_signal_connect (G_OBJECT (button), "clicked",
@@ -822,35 +803,37 @@ sort_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *sort)
 }
 
 static void
-configure_sort_dialog (ETableConfig *config, GladeXML *gui)
+configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
 {
 	GSList *l;
 	gint i;
+	const gchar *algs[] = {"alignment4", "alignment3", "alignment2", "alignment1", NULL};
 
 	for (i = 0; i < 4; i++) {
 		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
-		config->sort [i].combo = glade_xml_get_widget (gui, buffer);
+		config->sort [i].combo = e_table_proxy_gtk_combo_text_new ();
 		gtk_widget_show (GTK_WIDGET (config->sort [i].combo));
+		gtk_container_add (GTK_CONTAINER (e_builder_get_widget (builder, algs [i])), config->sort [i].combo);
 		configure_combo_box_add (
 			GTK_COMBO_BOX (config->sort[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
 		config->sort [i].frames =
-			glade_xml_get_widget (gui, buffer);
+			e_builder_get_widget (builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-ascending-sort-%d", i+1);
-		config->sort [i].radio_ascending = glade_xml_get_widget (
-			gui, buffer);
+		config->sort [i].radio_ascending = e_builder_get_widget (
+			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-descending-sort-%d", i+1);
-		config->sort [i].radio_descending = glade_xml_get_widget (
-			gui, buffer);
+		config->sort [i].radio_descending = e_builder_get_widget (
+			builder, buffer);
 
 		config->sort [i].e_table_config = config;
 	}
@@ -932,42 +915,44 @@ group_ascending_toggled (GtkToggleButton *t, ETableConfigSortWidgets *group)
 }
 
 static void
-configure_group_dialog (ETableConfig *config, GladeXML *gui)
+configure_group_dialog (ETableConfig *config, GtkBuilder *builder)
 {
 	GSList *l;
 	gint i;
+	const gchar *vboxes[] = {"vbox7", "vbox9", "vbox11", "vbox13", NULL};
 
 	for (i = 0; i < 4; i++) {
 		gchar buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
-		config->group [i].combo = glade_xml_get_widget (gui, buffer);
+		config->group [i].combo = e_table_proxy_gtk_combo_text_new ();
 		gtk_widget_show (GTK_WIDGET (config->group [i].combo));
+		gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, vboxes [i])), config->group [i].combo, FALSE, FALSE, 0);
 
 		configure_combo_box_add (
 			GTK_COMBO_BOX (config->group[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
 		config->group [i].frames =
-			glade_xml_get_widget (gui, buffer);
+			e_builder_get_widget (builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-ascending-group-%d", i+1);
-		config->group [i].radio_ascending = glade_xml_get_widget (
-			gui, buffer);
+		config->group [i].radio_ascending = e_builder_get_widget (
+			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-descending-group-%d", i+1);
-		config->group [i].radio_descending = glade_xml_get_widget (
-			gui, buffer);
+		config->group [i].radio_descending = e_builder_get_widget (
+			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"checkbutton-group-%d", i+1);
-		config->group [i].view_check = glade_xml_get_widget (
-			gui, buffer);
+		config->group [i].view_check = e_builder_get_widget (
+			builder, buffer);
 
 		config->group [i].e_table_config = config;
 	}
@@ -1165,82 +1150,85 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 }
 
 static void
-configure_fields_dialog (ETableConfig *config, GladeXML *gui)
+configure_fields_dialog (ETableConfig *config, GtkBuilder *builder)
 {
 	GtkWidget *scrolled;
+	ETableModel *store = create_store (config);
 
-	scrolled = glade_xml_get_widget (gui, "custom-available");
+	/* "custom-available" widget */
+	scrolled = e_table_proxy_etable_available_new (store);
+	gtk_widget_show (scrolled);
+	gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, "vbox4")), scrolled, TRUE, TRUE, 0);
 	config->available = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
 	g_object_get (config->available,
 		      "model", &config->available_model,
 		      NULL);
 	gtk_widget_show_all (scrolled);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-available")), scrolled);
 
-	scrolled = glade_xml_get_widget (gui, "custom-shown");
+	/* "custom-shown" widget */
+	scrolled = e_table_proxy_etable_shown_new (store);
+	gtk_widget_show (scrolled);
+	gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, "vbox5")), scrolled, TRUE, TRUE, 0);
 	config->shown = e_table_scrolled_get_table (E_TABLE_SCROLLED (scrolled));
 	g_object_get (config->shown,
 		      "model", &config->shown_model,
 		      NULL);
 	gtk_widget_show_all (scrolled);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-displayed")), scrolled);
 
-	connect_button (config, gui, "button-add",    G_CALLBACK (config_button_add));
-	connect_button (config, gui, "button-remove", G_CALLBACK (config_button_remove));
-	connect_button (config, gui, "button-up",     G_CALLBACK (config_button_up));
-	connect_button (config, gui, "button-down",   G_CALLBACK (config_button_down));
+	connect_button (config, builder, "button-add",    G_CALLBACK (config_button_add));
+	connect_button (config, builder, "button-remove", G_CALLBACK (config_button_remove));
+	connect_button (config, builder, "button-up",     G_CALLBACK (config_button_up));
+	connect_button (config, builder, "button-down",   G_CALLBACK (config_button_down));
 
 	setup_fields (config);
+
+	g_object_unref (store);
 }
 
 static void
 setup_gui (ETableConfig *config)
 {
-	GladeXML *gui;
+	GtkBuilder *builder;
 	gboolean can_group;
-	gchar *filename;
-
-	create_global_store (config);
 
 	can_group = e_table_sort_info_get_can_group (config->state->sort_info);
-	filename = g_build_filename (EVOLUTION_GLADEDIR,
-					  "e-table-config.glade",
-					  NULL);
-	gui = glade_xml_new (filename, NULL, GETTEXT_PACKAGE);
-	g_free (filename);
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "e-table-config.ui");
 
-	g_object_unref (global_store);
-
-	config->dialog_toplevel = glade_xml_get_widget (
-		gui, "e-table-config");
+	config->dialog_toplevel = e_builder_get_widget (
+		builder, "e-table-config");
 
 	if (config->header)
 		gtk_window_set_title (GTK_WINDOW (config->dialog_toplevel), config->header);
 
-	config->dialog_show_fields = glade_xml_get_widget (
-		gui, "dialog-show-fields");
-	config->dialog_group_by =  glade_xml_get_widget (
-		gui, "dialog-group-by");
-	config->dialog_sort = glade_xml_get_widget (
-		gui, "dialog-sort");
+	config->dialog_show_fields = e_builder_get_widget (
+		builder, "dialog-show-fields");
+	config->dialog_group_by =  e_builder_get_widget (
+		builder, "dialog-group-by");
+	config->dialog_sort = e_builder_get_widget (
+		builder, "dialog-sort");
 
-	config->sort_label = glade_xml_get_widget (
-		gui, "label-sort");
-	config->group_label = glade_xml_get_widget (
-		gui, "label-group");
-	config->fields_label = glade_xml_get_widget (
-		gui, "label-fields");
+	config->sort_label = e_builder_get_widget (
+		builder, "label-sort");
+	config->group_label = e_builder_get_widget (
+		builder, "label-group");
+	config->fields_label = e_builder_get_widget (
+		builder, "label-fields");
 
-	connect_button (config, gui, "button-sort", G_CALLBACK (config_button_sort));
-	connect_button (config, gui, "button-group", G_CALLBACK (config_button_group));
-	connect_button (config, gui, "button-fields", G_CALLBACK (config_button_fields));
+	connect_button (config, builder, "button-sort", G_CALLBACK (config_button_sort));
+	connect_button (config, builder, "button-group", G_CALLBACK (config_button_group));
+	connect_button (config, builder, "button-fields", G_CALLBACK (config_button_fields));
 
 	if (!can_group) {
 		GtkWidget *w;
 
-		w = glade_xml_get_widget (gui, "button-group");
+		w = e_builder_get_widget (builder, "button-group");
 		if (w)
 			gtk_widget_hide (w);
 
-		w = glade_xml_get_widget (gui, "label3");
+		w = e_builder_get_widget (builder, "label3");
 		if (w)
 			gtk_widget_hide (w);
 
@@ -1249,9 +1237,9 @@ setup_gui (ETableConfig *config)
 			gtk_widget_hide (w);
 	}
 
-	configure_sort_dialog (config, gui);
-	configure_group_dialog (config, gui);
-	configure_fields_dialog (config, gui);
+	configure_sort_dialog (config, builder);
+	configure_group_dialog (config, builder);
+	configure_fields_dialog (config, builder);
 
 	g_object_weak_ref (G_OBJECT (config->dialog_toplevel),
 			   dialog_destroyed, config);
@@ -1259,7 +1247,7 @@ setup_gui (ETableConfig *config)
 	g_signal_connect (config->dialog_toplevel, "response",
 			  G_CALLBACK (dialog_response), config);
 
-	g_object_unref (gui);
+	g_object_unref (builder);
 }
 
 static void
