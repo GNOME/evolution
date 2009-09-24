@@ -59,7 +59,7 @@ m4_define([libgnomecanvas_minimum_version], [2.0.0])	dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
-m4_define([unique_minimum_version], [1.0.8])
+m4_define([unique_minimum_version], [1.1.2])
 m4_define([dbus_glib_minimum_version], [0.74])
 
 dnl Optional Packages
@@ -78,6 +78,7 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-DGDK_PIXBUF_DISABLE_DEPRECATED
 	-DGDK_DISABLE_DEPRECATED
 	-DG_DISABLE_SINGLE_INCLUDES
+	-DGTK_DISABLE_SINGLE_INCLUDES
 	-Wall -Wextra
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
@@ -95,10 +96,6 @@ dnl These may produce warnings we have no control over.
 dnl	-Wmissing-format-attribute
 dnl	-Wshadow
 dnl	-Wformat-nonliteral
-
-dnl Disabled until libunique fixes its headers.  Think it's
-dnl already fixed in git, just waiting for a formal release.
-dnl	-DGTK_DISABLE_SINGLE_INCLUDES
 
 CFLAGS="$CFLAGS $WARNING_FLAGS"
 LDFLAGS="$LDFLAGS -Wl,--no-undefined"
