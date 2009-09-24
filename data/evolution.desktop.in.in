@@ -1,6 +1,7 @@
 [Desktop Entry]
-_Name=Evolution Mail and Calendar
+_Name=Evolution
 _GenericName=Groupware Suite
+_X-GNOME-FullName=Evolution Mail and Calendar
 _Comment=Manage your email, contacts and schedule
 Exec=evolution
 Icon=evolution
