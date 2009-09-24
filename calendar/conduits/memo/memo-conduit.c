@@ -36,6 +36,8 @@
 typedef GType GtkType;
 #endif
 
+#undef GTK_DISABLE_SINGLE_INCLUDES
+
 #include <glib/gi18n.h>
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>

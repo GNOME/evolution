@@ -36,6 +36,8 @@
 typedef GType GtkType;
 #endif
 
+#undef GTK_DISABLE_SINGLE_INCLUDES
+
 #include <glib/gi18n.h>
 #include <libxml/parser.h>
 #include <pi-source.h>
