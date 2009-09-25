@@ -5,19 +5,12 @@ AM_CPPFLAGS = -I .						\
 	-I$(top_builddir)/composer			\
 	-I$(top_builddir)/mail				\
 	$(CAMEL_EXCHANGE_CFLAGS)                        \
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
-	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
+	$(EVOLUTION_MAIL_CFLAGS)
 
 
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = org-gnome-exchange-operations.eplug 	\
-	org-gnome-folder-permissions.xml		\
-	org-gnome-folder-subscription.xml		\
-	org-gnome-exchange-tasks-subscription.xml	\
-	org-gnome-exchange-cal-subscription.xml		\
-	org-gnome-exchange-ab-subscription.xml
+plugin_DATA = org-gnome-exchange-operations.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-exchange-operations.la
 
@@ -52,36 +45,20 @@ liborg_gnome_exchange_operations_la_SOURCES = 		\
 liborg_gnome_exchange_operations_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la 	\
 	$(top_builddir)/mail/libevolution-mail.la 		\
-	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la \
 	$(CAMEL_EXCHANGE_LIBS)					\
 	$(EVOLUTION_MAIL_LIBS)
 
 liborg_gnome_exchange_operations_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
-
-glade_DATA =							\
-	exchange-change-password.glade				\
-	exchange-delegates.glade				\
-	exchange-folder-tree.glade				\
-	exchange-permissions-dialog.glade			\
-	e-foreign-folder-dialog.glade				\
-	exchange-passwd-expiry.glade				\
-	exchange-oof.glade					\
-	exchange-send-options.glade
 
 error_DATA = org-gnome-exchange-operations.error
 errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 							\
 	org-gnome-exchange-operations.eplug.xml			\
-	org-gnome-exchange-operations.error.xml			\
-	org-gnome-folder-permissions.xml			\
-	org-gnome-folder-subscription.xml			\
-	org-gnome-exchange-tasks-subscription.xml		\
-	org-gnome-exchange-cal-subscription.xml			\
-	org-gnome-exchange-ab-subscription.xml			\
-	$(glade_DATA)						
+	org-gnome-exchange-operations.error.xml
 
 BUILT_SOURCES = $(error_DATA) org-gnome-exchange-operations.eplug 
 

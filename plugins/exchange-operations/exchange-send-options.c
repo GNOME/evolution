@@ -30,18 +30,13 @@
 #include "exchange-operations.h"
 #include <e-util/e-util.h>
 #include <e-util/e-error.h>
-#include <glade/glade.h>
 
 #include "e-util/e-util-private.h"
 
 #include "exchange-send-options.h"
 
 struct _ExchangeSendOptionsDialogPrivate {
-	/* Glade XML data */
-	GladeXML *xml;
-
 	/*Widgets*/
-
 	GtkWidget *main;
 
 	/*name selector dialog*/
@@ -168,40 +163,6 @@ exchange_send_options_get_widgets_data (ExchangeSendOptionsDialog *sod)
 	return 1;
 }
 
-static gboolean
-get_widgets (ExchangeSendOptionsDialog *sod)
-{
-	ExchangeSendOptionsDialogPrivate *priv;
-
-	priv = sod->priv;
-
-#define EXCHANGE(name) glade_xml_get_widget (priv->xml, name)
-
-	priv->main = EXCHANGE ("send_options");
-	if (!priv->main)
-		return FALSE;
-
-	priv->importance = EXCHANGE ("imp_combo_box");
-	priv->sensitivity = EXCHANGE ("sensitivity_combo_box");
-	priv->button_user = EXCHANGE ("button-user");
-	priv->delegate_enabled = EXCHANGE ("del_enabled_check");
-	priv->read_receipt = EXCHANGE ("read_check_button");
-	priv->delivery_receipt = EXCHANGE ("delivery_check_button");
-	priv->importance_label = EXCHANGE ("Importance_label");
-	priv->sensitivity_label = EXCHANGE ("Sensitivity_label");
-
-#undef EXCHANGE
-
-	return (priv->importance
-		&&priv->sensitivity
-		&&priv->button_user
-		&&priv->delegate_enabled
-		&&priv->read_receipt
-		&&priv->delivery_receipt
-		&&priv->importance_label
-		&&priv->sensitivity_label);
-}
-
 static void
 exchange_send_options_fill_widgets_with_data (ExchangeSendOptionsDialog *sod)
 {
@@ -292,7 +253,6 @@ static void exchange_send_options_cb (GtkDialog *dialog, gint state, gpointer fu
 		case GTK_RESPONSE_CANCEL:
 			gtk_widget_hide (priv->main);
 			gtk_widget_destroy (priv->main);
-			g_object_unref (priv->xml);
 			break;
 		case GTK_RESPONSE_HELP:
 			e_display_help (
@@ -367,40 +327,162 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 	ExchangeSendOptionsDialogPrivate *priv;
 	ExchangeSendOptions *options;
 
-	GtkWidget *toplevel;
-	gchar *filename;
 	EDestinationStore *destination_store;
 	ENameSelectorDialog *name_selector_dialog;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorEntry *name_selector_entry;
 	EDestination *des;
-	GtkWidget *name_box;
+	GtkWidget *send_options;
+	GtkWidget *send_options_vbox;
+	GtkWidget *options_vbox;
+	GtkWidget *message_settings_vbox;
+	GtkWidget *msg_settings_label;
+	GtkWidget *msg_settings_table;
+	GtkWidget *importance_label;
+	GtkWidget *sensitivity_label;
+	GtkWidget *sensitivity_combo_box;
+	GtkWidget *imp_combo_box;
+	GtkWidget *del_enabled_check;
+	GtkWidget *hbox1;
+	GtkWidget *hbox2;
+	GtkWidget *del_name_box;
+	GtkWidget *button_user;
+	GtkWidget *track_option_vbox;
+	GtkWidget *track_options_label;
+	GtkWidget *delivery_check_button;
+	GtkWidget *read_check_button;
+	gchar *tmp_str;
 
 	g_return_val_if_fail (sod != NULL || EXCHANGE_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 
 	priv = sod->priv;
 	options = sod->options;
 
-	filename = g_build_filename (EVOLUTION_GLADEDIR,
-				     "exchange-send-options.glade",
-				     NULL);
-	priv->xml = glade_xml_new (filename, NULL, NULL);
-	g_free (filename);
+	send_options = gtk_dialog_new_with_buttons (
+		_("Exchange - Send Options"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_HELP, GTK_RESPONSE_HELP,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
+	gtk_window_set_type_hint (GTK_WINDOW (send_options), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-	if (!priv->xml) {
-		g_message ( G_STRLOC ": Could not load the Glade XML file ");
-		return FALSE;
-	}
+	send_options_vbox = gtk_dialog_get_content_area (GTK_DIALOG (send_options));
+	gtk_widget_show (send_options_vbox);
 
-	if (!get_widgets(sod)) {
-		g_object_unref (priv->xml);
-		g_message (G_STRLOC ": Could not get the Widgets \n");
-		return FALSE;
-	}
+	options_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (options_vbox);
+	gtk_box_pack_start (GTK_BOX (send_options_vbox), options_vbox, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (options_vbox), 6);
 
-	toplevel =  gtk_widget_get_toplevel (priv->main);
+	message_settings_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (message_settings_vbox);
+	gtk_box_pack_start (GTK_BOX (options_vbox), message_settings_vbox, FALSE, FALSE, 0);
+
+	tmp_str = g_strconcat ("<b>", _("Message Settings"), "</b>", NULL);
+	msg_settings_label = gtk_label_new (tmp_str);
+	g_free (tmp_str);
+	gtk_widget_show (msg_settings_label);
+	gtk_box_pack_start (GTK_BOX (message_settings_vbox), msg_settings_label, FALSE, FALSE, 0);
+	gtk_label_set_use_markup (GTK_LABEL (msg_settings_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (msg_settings_label), 0, 0.49);
+
+	msg_settings_table = gtk_table_new (2, 2, FALSE);
+	gtk_widget_show (msg_settings_table);
+	gtk_box_pack_start (GTK_BOX (message_settings_vbox), msg_settings_table, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (msg_settings_table), 6);
+	gtk_table_set_row_spacings (GTK_TABLE (msg_settings_table), 6);
+
+	importance_label = gtk_label_new_with_mnemonic (_("I_mportance: "));
+	gtk_widget_show (importance_label);
+	gtk_table_attach (GTK_TABLE (msg_settings_table), importance_label, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (importance_label), 0, 0.49);
+
+	sensitivity_label = gtk_label_new_with_mnemonic (_("_Sensitivity: "));
+	gtk_widget_show (sensitivity_label);
+	gtk_table_attach (GTK_TABLE (msg_settings_table), sensitivity_label, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (sensitivity_label), 0, 0.5);
+
+	sensitivity_combo_box = gtk_combo_box_new_text ();
+	gtk_widget_show (sensitivity_combo_box);
+	gtk_table_attach (GTK_TABLE (msg_settings_table), sensitivity_combo_box, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (sensitivity_combo_box), _("Normal"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (sensitivity_combo_box), _("Personal"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (sensitivity_combo_box), _("Private"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (sensitivity_combo_box), _("Confidential"));
+
+	imp_combo_box = gtk_combo_box_new_text ();
+	gtk_widget_show (imp_combo_box);
+	gtk_table_attach (GTK_TABLE (msg_settings_table), imp_combo_box, 1, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (imp_combo_box), _("Normal"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (imp_combo_box), _("High"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (imp_combo_box), _("Low"));
+
+	del_enabled_check = gtk_check_button_new_with_mnemonic (_("Send as Delegate"));
+	gtk_widget_show (del_enabled_check);
+	gtk_box_pack_start (GTK_BOX (options_vbox), del_enabled_check, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (del_enabled_check), 6);
+
+	hbox1 = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hbox1);
+	gtk_box_pack_start (GTK_BOX (options_vbox), hbox1, TRUE, TRUE, 0);
+
+	hbox2 = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hbox2);
+	gtk_box_pack_start (GTK_BOX (hbox1), hbox2, TRUE, TRUE, 0);
+
+	del_name_box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (del_name_box);
+	gtk_box_pack_start (GTK_BOX (hbox2), del_name_box, TRUE, TRUE, 0);
+
+	button_user = gtk_button_new_with_mnemonic (_("_User"));
+	gtk_widget_show (button_user);
+	gtk_box_pack_start (GTK_BOX (hbox1), button_user, FALSE, FALSE, 0);
+
+	track_option_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (track_option_vbox);
+	gtk_box_pack_start (GTK_BOX (options_vbox), track_option_vbox, TRUE, TRUE, 0);
+
+	tmp_str = g_strconcat ("<b>", _("Tracking Options"), "</b>", NULL);
+	track_options_label = gtk_label_new (tmp_str);
+	g_free (tmp_str);
+	gtk_widget_show (track_options_label);
+	gtk_box_pack_start (GTK_BOX (track_option_vbox), track_options_label, FALSE, FALSE, 6);
+	gtk_label_set_use_markup (GTK_LABEL (track_options_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (track_options_label), 0, 0.5);
+
+	delivery_check_button = gtk_check_button_new_with_mnemonic (_("Request a _delivery receipt for this message"));
+	gtk_widget_show (delivery_check_button);
+	gtk_box_pack_start (GTK_BOX (track_option_vbox), delivery_check_button, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (delivery_check_button), 6);
+
+	read_check_button = gtk_check_button_new_with_mnemonic (_("Request a _read receipt for this message"));
+	gtk_widget_show (read_check_button);
+	gtk_box_pack_start (GTK_BOX (track_option_vbox), read_check_button, FALSE, FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (read_check_button), 6);
+
+	priv->main = send_options;
+	priv->importance = imp_combo_box;
+	priv->sensitivity = sensitivity_combo_box;
+	priv->button_user = button_user;
+	priv->delegate_enabled = del_enabled_check;
+	priv->read_receipt = read_check_button;
+	priv->delivery_receipt = delivery_check_button;
+	priv->importance_label = importance_label;
+	priv->sensitivity_label = sensitivity_label;
+
+	send_options =  gtk_widget_get_toplevel (priv->main);
 	if (parent)
-		gtk_window_set_transient_for (GTK_WINDOW (toplevel),
+		gtk_window_set_transient_for (GTK_WINDOW (send_options),
 				      GTK_WINDOW (parent));
 
 	priv->proxy_name_selector = e_name_selector_new ();
@@ -435,8 +517,7 @@ exchange_sendoptions_dialog_run (ExchangeSendOptionsDialog *sod, GtkWidget *pare
 
 	/* The name box is just a container. The name_selector_entry is added to it. This Widget
 	   is created dynamically*/
-	name_box = glade_xml_get_widget (priv->xml, "del_name_box");
-	gtk_container_add ((GtkContainer *) name_box, (GtkWidget *) name_selector_entry);
+	gtk_container_add ((GtkContainer *) del_name_box, (GtkWidget *) name_selector_entry);
 	gtk_widget_show ((GtkWidget *) name_selector_entry);
 	gtk_widget_grab_focus ((GtkWidget *) name_selector_entry);
 
@@ -490,7 +571,6 @@ exchange_sendoptions_dialog_init (GObject *object)
 	sod->options->importance = E_IMP_NORMAL;
 	sod->options->sensitivity = E_SENSITIVITY_NORMAL;
 
-	priv->xml = NULL;
 	priv->main = NULL;
 	priv->importance = NULL;
 	priv->sensitivity = NULL;

@@ -29,38 +29,32 @@
 #include <exchange-account.h>
 #include <e2k-utils.h>
 
-#include <glade/glade-xml.h>
 #include <gtk/gtk.h>
-
-#define FILENAME EVOLUTION_GLADEDIR "/exchange-change-password.glade"
-#define ROOTNODE "pass_dialog"
-#define STARTNODE "pass_vbox"
 
 static void
 entry_changed (GtkEntry *entry, gpointer user_data)
 {
-	GladeXML *xml = user_data;
 	GtkEntry *new_entry, *confirm_entry;
-	GtkWidget *ok_button;
+	GtkDialog *pass_dialog;
 	const gchar *text;
 
-        new_entry = GTK_ENTRY (glade_xml_get_widget (xml, "new_pass_entry"));
-        confirm_entry = GTK_ENTRY (glade_xml_get_widget (xml, "confirm_pass_entry"));
-	ok_button = glade_xml_get_widget (xml, "okbutton1");
+        new_entry = GTK_ENTRY (entry);
+        confirm_entry = GTK_ENTRY (user_data);
+	pass_dialog = GTK_DIALOG (g_object_get_data (G_OBJECT (new_entry), "pass_dialog"));
 
 	text = gtk_entry_get_text (new_entry);
 	if (!text || !*text) {
-		gtk_widget_set_sensitive (ok_button, FALSE);
+		gtk_dialog_set_response_sensitive (pass_dialog, GTK_RESPONSE_OK, FALSE);
 		return;
 	}
 
 	text = gtk_entry_get_text (confirm_entry);
 	if (!text || !*text) {
-		gtk_widget_set_sensitive (ok_button, FALSE);
+		gtk_dialog_set_response_sensitive (pass_dialog, GTK_RESPONSE_OK, FALSE);
 		return;
 	}
 
-	gtk_widget_set_sensitive (ok_button, TRUE);
+	gtk_dialog_set_response_sensitive (pass_dialog, GTK_RESPONSE_OK, TRUE);
 }
 
 /**
@@ -74,52 +68,119 @@ entry_changed (GtkEntry *entry, gpointer user_data)
 gchar *
 exchange_get_new_password (const gchar *existing_password, gboolean voluntary)
 {
-	GladeXML *xml;
-	GtkWidget *top_widget;
-	GtkEntry *cur_entry, *new_entry, *confirm_entry;
 	GtkResponseType response;
-	GtkLabel *top_label;
 	gchar *new_pass;
+	GtkWidget *pass_dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *pass_label;
+	GtkWidget *table1;
+	GtkWidget *current_pass_label;
+	GtkWidget *new_pass_label;
+	GtkWidget *confirm_pass_label;
+	GtkWidget *current_pass_entry;
+	GtkWidget *new_pass_entry;
+	GtkWidget *confirm_pass_entry;
 
-	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
-	top_widget = glade_xml_get_widget (xml, ROOTNODE);
+	pass_dialog = gtk_dialog_new_with_buttons (
+		_("Change Password"),
+		NULL,
+		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
-        cur_entry = GTK_ENTRY (glade_xml_get_widget (xml, "current_pass_entry"));
-        new_entry = GTK_ENTRY (glade_xml_get_widget (xml, "new_pass_entry"));
-	g_signal_connect (new_entry, "changed",
-			  G_CALLBACK (entry_changed), xml);
-        confirm_entry = GTK_ENTRY (glade_xml_get_widget (xml, "confirm_pass_entry"));
-	g_signal_connect (confirm_entry, "changed",
-			  G_CALLBACK (entry_changed), xml);
-	entry_changed (NULL, xml);
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (pass_dialog));
+	gtk_widget_show (dialog_vbox1);
 
-	top_label = GTK_LABEL (glade_xml_get_widget (xml, "pass_label"));
+	pass_label = gtk_label_new (_("Your current password has expired. Please change your password now."));
+	gtk_widget_show (pass_label);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), pass_label, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (pass_label), GTK_JUSTIFY_CENTER);
+	gtk_label_set_line_wrap (GTK_LABEL (pass_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (pass_label), 0.52, 0.5);
+	gtk_misc_set_padding (GTK_MISC (pass_label), 0, 6);
+
+	table1 = gtk_table_new (3, 2, FALSE);
+	gtk_widget_show (table1);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (table1), 6);
+	gtk_table_set_row_spacings (GTK_TABLE (table1), 6);
+	gtk_table_set_col_spacings (GTK_TABLE (table1), 6);
+
+	current_pass_label = gtk_label_new_with_mnemonic (_("Current _Password:"));
+	gtk_widget_show (current_pass_label);
+	gtk_table_attach (GTK_TABLE (table1), current_pass_label, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (current_pass_label), 0, 0.5);
+
+	new_pass_label = gtk_label_new_with_mnemonic (_("_New Password:"));
+	gtk_widget_show (new_pass_label);
+	gtk_table_attach (GTK_TABLE (table1), new_pass_label, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (new_pass_label), 0, 0.5);
+
+	confirm_pass_label = gtk_label_new_with_mnemonic (_("_Confirm Password:"));
+	gtk_widget_show (confirm_pass_label);
+	gtk_table_attach (GTK_TABLE (table1), confirm_pass_label, 0, 1, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (confirm_pass_label), 0, 0.5);
+
+	new_pass_entry = gtk_entry_new ();
+	gtk_widget_show (new_pass_entry);
+	gtk_table_attach (GTK_TABLE (table1), new_pass_entry, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_entry_set_visibility (GTK_ENTRY (new_pass_entry), FALSE);
+
+	confirm_pass_entry = gtk_entry_new ();
+	gtk_widget_show (confirm_pass_entry);
+	gtk_table_attach (GTK_TABLE (table1), confirm_pass_entry, 1, 2, 2, 3,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_entry_set_visibility (GTK_ENTRY (confirm_pass_entry), FALSE);
+
+	current_pass_entry = gtk_entry_new ();
+	gtk_widget_show (current_pass_entry);
+	gtk_table_attach (GTK_TABLE (table1), current_pass_entry, 1, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 12);
+	gtk_entry_set_visibility (GTK_ENTRY (current_pass_entry), FALSE);
+
+	g_object_set_data (G_OBJECT (new_pass_entry), "pass_dialog", pass_dialog);
+	g_object_set_data (G_OBJECT (confirm_pass_entry), "pass_dialog", pass_dialog);
+	g_signal_connect (new_pass_entry, "changed", G_CALLBACK (entry_changed), confirm_pass_entry);
+	g_signal_connect (confirm_pass_entry, "changed", G_CALLBACK (entry_changed), new_pass_entry);
+	entry_changed (GTK_ENTRY (new_pass_entry), confirm_pass_entry);
+
 	if (voluntary)
-		gtk_widget_hide (GTK_WIDGET (top_label));
+		gtk_widget_hide (GTK_WIDGET (pass_label));
 
 run_dialog_again:
-	response = gtk_dialog_run (GTK_DIALOG (top_widget));
+	response = gtk_dialog_run (GTK_DIALOG (pass_dialog));
 	if (response == GTK_RESPONSE_OK) {
 		const gchar *cur_pass, *new_pass1, *new_pass2;
 
-		cur_pass = gtk_entry_get_text (cur_entry);
-		new_pass1 = gtk_entry_get_text (new_entry);
-		new_pass2 = gtk_entry_get_text (confirm_entry);
+		cur_pass = gtk_entry_get_text (GTK_ENTRY (current_pass_entry));
+		new_pass1 = gtk_entry_get_text (GTK_ENTRY (new_pass_entry));
+		new_pass2 = gtk_entry_get_text (GTK_ENTRY (confirm_pass_entry));
 
 		if (existing_password) {
 			if (strcmp (cur_pass, existing_password) != 0) {
 				/* User entered a wrong existing
 				 * password. Prompt him again.
 				 */
-				gtk_label_set_text (top_label, _("The current password does not match the existing password for your account. Please enter the correct password"));
-				gtk_widget_show (GTK_WIDGET (top_label));
+				gtk_label_set_text (GTK_LABEL (pass_label), _("The current password does not match the existing password for your account. Please enter the correct password"));
+				gtk_widget_show (pass_label);
 				goto run_dialog_again;
 			}
 		}
 
 		if (strcmp (new_pass1, new_pass2) != 0) {
-			gtk_label_set_text (top_label, _("The two passwords do not match. Please re-enter the passwords."));
-			gtk_widget_show (GTK_WIDGET (top_label));
+			gtk_label_set_text (GTK_LABEL (pass_label), _("The two passwords do not match. Please re-enter the passwords."));
+			gtk_widget_show (pass_label);
 			goto run_dialog_again;
 		}
 
@@ -127,8 +188,7 @@ run_dialog_again:
 	} else
 		new_pass = NULL;
 
-	gtk_widget_destroy (top_widget);
-	g_object_unref (xml);
+	gtk_widget_destroy (pass_dialog);
 
 	return new_pass;
 }

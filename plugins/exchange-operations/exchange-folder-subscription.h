@@ -21,7 +21,14 @@
 #ifndef __EXCHANGE_FOLDER_SUBSCRIPTION_H__
 #define __EXCHANGE_FOLDER_SUBSCRIPTION_H__
 
+#include <glib.h>
+#include <libedataserver/e-source.h>
+#include <exchange-account.h>
+
 gboolean
 create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname);
+
+void call_folder_subscribe (const gchar *folder_name);
+void call_folder_unsubscribe (const gchar *folder_type, const gchar *uri, ESource *source);
 
 #endif

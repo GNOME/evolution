@@ -1794,16 +1794,6 @@ xexperimental)
 	;;
 esac
 
-dnl Temporary KILL-BONOBO hack
-for broken_plugin in exchange-operations
-do
-	if echo ${plugins_enabled} | grep "$broken_plugin" > /dev/null
-	then
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/$broken_plugin//g"`
-		echo "warning: plugin $broken_plugin is broken with kill-bonobo changes, disabling it."
-	fi
-done
-
 AC_SUBST(plugins_enabled)
 AC_SUBST(dist_plugins_base)
 AC_SUBST(dist_plugins_standard)

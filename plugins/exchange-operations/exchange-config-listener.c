@@ -23,6 +23,9 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
 #include "exchange-config-listener.h"
 #include "exchange-operations.h"
 #include "exchange-change-password.h"
@@ -41,13 +44,9 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 #include <libedataserverui/e-passwords.h>
-#include <glade/glade-xml.h>
 
 #include <stdlib.h>
 #include <string.h>
-
-#define FILENAME CONNECTOR_GLADEDIR "/exchange-passwd-expiry.glade"
-#define ROOTNODE "passwd_exp_dialog"
 
 struct _ExchangeConfigListenerPrivate {
 	GConfClient *gconf;
@@ -649,23 +648,52 @@ change_passwd_cb (GtkWidget *button, ExchangeAccount *account)
 static void
 display_passwd_expiry_message (gint max_passwd_age, ExchangeAccount *account)
 {
-	GladeXML *xml;
-	GtkWidget *top_widget, *change_passwd_button;
 	GtkResponseType response;
-	GtkLabel *warning_msg_label;
+	GtkWidget *passwd_exp_dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *dialog_action_area1;
+	GtkWidget *change_passwd_button;
+	GtkWidget *warning_msg_label;
+	GtkWidget *ok_button;
+	AtkObject *atko;
 	gchar *passwd_expiry_msg =
 		g_strdup_printf (_("Your password will expire in the next %d days"), max_passwd_age);
 
-	xml = glade_xml_new (FILENAME, ROOTNODE, NULL);
-	g_return_if_fail (xml != NULL);
-	top_widget = glade_xml_get_widget (xml, ROOTNODE);
-	g_return_if_fail (top_widget != NULL);
 
-	warning_msg_label = GTK_LABEL (glade_xml_get_widget (xml,
-						"passwd_exp_label"));
-	gtk_label_set_text (warning_msg_label, passwd_expiry_msg);
-	change_passwd_button = glade_xml_get_widget (xml,
-						"change_passwd_button");
+	passwd_exp_dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (passwd_exp_dialog), _("Password Expiry Warning..."));
+	gtk_window_set_position (GTK_WINDOW (passwd_exp_dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_type_hint (GTK_WINDOW (passwd_exp_dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (passwd_exp_dialog));
+	gtk_widget_show (dialog_vbox1);
+
+	warning_msg_label = gtk_label_new (passwd_expiry_msg);
+	gtk_widget_show (warning_msg_label);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), warning_msg_label, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (warning_msg_label), GTK_JUSTIFY_CENTER);
+	gtk_misc_set_padding (GTK_MISC (warning_msg_label), 0, 20);
+
+	dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG (passwd_exp_dialog));
+	gtk_widget_show (dialog_action_area1);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+
+	change_passwd_button = gtk_button_new_with_mnemonic (_("_Change Password"));
+	gtk_widget_show (change_passwd_button);
+	gtk_dialog_add_action_widget (GTK_DIALOG (passwd_exp_dialog), change_passwd_button, 0);
+	GTK_WIDGET_SET_FLAGS (change_passwd_button, GTK_CAN_DEFAULT);
+
+	ok_button = gtk_button_new_from_stock ("gtk-ok");
+	gtk_widget_show (ok_button);
+	gtk_dialog_add_action_widget (GTK_DIALOG (passwd_exp_dialog), ok_button, GTK_RESPONSE_OK);
+	GTK_WIDGET_SET_FLAGS (ok_button, GTK_CAN_DEFAULT);
+
+	atko = gtk_widget_get_accessible (ok_button);
+	atk_object_set_name (atko, "ok_button");
+
+	gtk_widget_grab_focus (change_passwd_button);
+	gtk_widget_grab_default (change_passwd_button);
+
 	gtk_widget_set_sensitive (change_passwd_button, TRUE);
 #ifdef HAVE_KRB5
 	g_signal_connect (change_passwd_button,
@@ -673,11 +701,111 @@ display_passwd_expiry_message (gint max_passwd_age, ExchangeAccount *account)
 			  G_CALLBACK (change_passwd_cb),
 			  account);
 #endif
-	response = gtk_dialog_run (GTK_DIALOG (top_widget));
+	response = gtk_dialog_run (GTK_DIALOG (passwd_exp_dialog));
 
-	gtk_widget_destroy (top_widget);
-	g_object_unref (xml);
+	gtk_widget_destroy (passwd_exp_dialog);
 	g_free (passwd_expiry_msg);
+}
+
+static gint
+run_oof_dialog (void)
+{
+	GtkWidget *oof_dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *hbox9;
+	GtkWidget *image3;
+	GtkWidget *label7;
+	GtkWidget *dialog_action_area1;
+	GtkWidget *button3;
+	GtkWidget *alignment3;
+	GtkWidget *hbox6;
+	GtkWidget *image7;
+	GtkWidget *label10;
+	GtkWidget *button4;
+	GtkWidget *alignment4;
+	GtkWidget *hbox7;
+	GtkWidget *image8;
+	GtkWidget *label11;
+	gchar *tmp_str;
+	gint res;
+
+	oof_dialog = gtk_dialog_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (oof_dialog), 6);
+	gtk_window_set_title (GTK_WINDOW (oof_dialog), _("Out of Office Assistant"));
+	gtk_window_set_position (GTK_WINDOW (oof_dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_resizable (GTK_WINDOW (oof_dialog), FALSE);
+	gtk_window_set_type_hint (GTK_WINDOW (oof_dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (oof_dialog));
+	gtk_widget_show (dialog_vbox1);
+
+	hbox9 = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox9);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), hbox9, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox9), 6);
+
+	image3 = gtk_image_new_from_stock ("gtk-dialog-question", GTK_ICON_SIZE_DIALOG);
+	gtk_widget_show (image3);
+	gtk_box_pack_start (GTK_BOX (hbox9), image3, FALSE, TRUE, 0);
+
+	tmp_str = g_strconcat ("<b>", _("Currently, your status is \"Out of the Office\"."), "</b>\n\n", _("Would you like to change your status to \"In the Office\"?"), NULL);
+	label7 = gtk_label_new (tmp_str);
+	g_free (tmp_str);
+	gtk_widget_show (label7);
+	gtk_box_pack_start (GTK_BOX (hbox9), label7, TRUE, TRUE, 0);
+	gtk_label_set_use_markup (GTK_LABEL (label7), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label7), 0, 0.5);
+
+	dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG (oof_dialog));
+	gtk_widget_show (dialog_action_area1);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+
+	button3 = gtk_button_new ();
+	gtk_widget_show (button3);
+	gtk_dialog_add_action_widget (GTK_DIALOG (oof_dialog), button3, GTK_RESPONSE_NO);
+	GTK_WIDGET_SET_FLAGS (button3, GTK_CAN_DEFAULT);
+
+	alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
+	gtk_widget_show (alignment3);
+	gtk_container_add (GTK_CONTAINER (button3), alignment3);
+
+	hbox6 = gtk_hbox_new (FALSE, 2);
+	gtk_widget_show (hbox6);
+	gtk_container_add (GTK_CONTAINER (alignment3), hbox6);
+
+	image7 = gtk_image_new_from_stock ("gtk-no", GTK_ICON_SIZE_BUTTON);
+	gtk_widget_show (image7);
+	gtk_box_pack_start (GTK_BOX (hbox6), image7, FALSE, FALSE, 0);
+
+	label10 = gtk_label_new_with_mnemonic (_("_No, Don't Change Status"));
+	gtk_widget_show (label10);
+	gtk_box_pack_start (GTK_BOX (hbox6), label10, FALSE, FALSE, 0);
+
+	button4 = gtk_button_new ();
+	gtk_widget_show (button4);
+	gtk_dialog_add_action_widget (GTK_DIALOG (oof_dialog), button4, GTK_RESPONSE_YES);
+	GTK_WIDGET_SET_FLAGS (button4, GTK_CAN_DEFAULT);
+
+	alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
+	gtk_widget_show (alignment4);
+	gtk_container_add (GTK_CONTAINER (button4), alignment4);
+
+	hbox7 = gtk_hbox_new (FALSE, 2);
+	gtk_widget_show (hbox7);
+	gtk_container_add (GTK_CONTAINER (alignment4), hbox7);
+
+	image8 = gtk_image_new_from_stock ("gtk-yes", GTK_ICON_SIZE_BUTTON);
+	gtk_widget_show (image8);
+	gtk_box_pack_start (GTK_BOX (hbox7), image8, FALSE, FALSE, 0);
+
+	label11 = gtk_label_new_with_mnemonic (_("_Yes, Change Status"));
+	gtk_widget_show (label11);
+	gtk_box_pack_start (GTK_BOX (hbox7), label11, FALSE, FALSE, 0);
+
+	res = gtk_dialog_run (GTK_DIALOG (oof_dialog));
+	gtk_widget_destroy (oof_dialog);
+
+	return res;
 }
 
 ExchangeAccountResult
@@ -787,9 +915,6 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 	}
 	if (result == EXCHANGE_ACCOUNT_CONNECT_SUCCESS) {
 		gint max_pwd_age_days;
-		GladeXML *xml;
-		GtkWidget *dialog;
-		GtkResponseType response;
 		gboolean oof;
 
 		/* check for password expiry warning */
@@ -802,25 +927,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		if (exchange_oof_get (account, &oof, NULL)) {
 			if (oof) {
 				/* OOF state is set, check if user wants to set it back to in-office */
-				xml = glade_xml_new (CONNECTOR_GLADEDIR "/exchange-oof.glade",
-						     "oof_dialog", NULL);
-				if (!xml) {
-					e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
-					return result;
-				}
-
-				dialog = glade_xml_get_widget (xml, "oof_dialog");
-				if (!dialog) {
-					e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
-					g_object_unref (xml);
-					return result;
-				}
-
-				response = gtk_dialog_run (GTK_DIALOG (dialog));
-				gtk_widget_destroy (dialog);
-				g_object_unref (xml);
-
-				if (response == GTK_RESPONSE_YES)
+				if (run_oof_dialog () == GTK_RESPONSE_YES)
 					if (!exchange_oof_set (account, FALSE, NULL))
 						e_error_run (NULL, "org-gnome-exchange-operations:state-update-error", NULL);
 			}

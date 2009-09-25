@@ -26,316 +26,502 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
-#include <exchange-account.h>
-#include <e-util/e-dialog-utils.h>
-#include <calendar/gui/e-cal-popup.h>
+
 #include <libedataserverui/e-source-selector.h>
-#include <camel/camel-url.h>
-#include <mail/em-popup.h>
-#include <mail/em-menu.h>
 #include <libebook/e-book.h>
+#include <camel/camel-url.h>
+
+#include <exchange-account.h>
+
+#include <e-util/e-dialog-utils.h>
+#include <calendar/gui/e-cal-model.h>
+
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
+
+#include <mail/em-folder-tree.h>
+#include <mail/em-folder-tree-model.h>
+
 #include "exchange-config-listener.h"
+#include "exchange-folder-subscription.h"
 #include "exchange-operations.h"
 #include "exchange-permissions-dialog.h"
-#include "addressbook/gui/widgets/eab-popup.h"
-#include "calendar/gui/e-cal-menu.h"
-#include "calendar/gui/e-cal-model.h"
-#include "addressbook/gui/widgets/eab-menu.h"
 
 #define d(x)
 
-static void org_folder_permissions_cb (EPopup *ep, EPopupItem *p, gpointer data);
-void org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *t);
-void org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target);
-void org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target);
-void org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *target);
-void org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *target);
+gboolean eex_ui_mail_init (GtkUIManager *ui_manager, EShellView *shell_view);
+gboolean eex_ui_calendar_permissions (GtkUIManager *ui_manager, EShellView *shell_view);
+gboolean eex_ui_tasks_permissions (GtkUIManager *ui_manager, EShellView *shell_view);
+gboolean eex_ui_addressbook_permissions (GtkUIManager *ui_manager, EShellView *shell_view);
 
-gchar *selected_exchange_folder_uri = NULL;
+static gboolean
+is_subscribed_folder (const gchar *uri)
+{
+	const gchar *path;
+	ExchangeAccount *account;
+	gint offset;
 
-static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "30.emc.10", (gchar *) N_("Permissions..."), org_folder_permissions_cb, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	account = exchange_operations_get_exchange_account ();
+	g_return_val_if_fail (account != NULL, FALSE);
+	g_return_val_if_fail (account->account_filename != NULL, FALSE);
+
+	offset = strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;");
+	g_return_val_if_fail (strlen (uri) >= offset, FALSE);
+
+	path = uri + offset;
+
+	return strchr (path, '@') != NULL;
+}
+
+static void
+call_folder_permissions (const gchar *uri)
+{
+	ExchangeAccount *account = NULL;
+	EFolder *folder = NULL;
+
+	g_return_if_fail (uri != NULL);
+
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
+
+	folder = exchange_account_get_folder (account, uri);
+	if (folder)
+		exchange_permissions_dialog_new (account, folder, NULL);
+}
+
+static gboolean
+is_eex_folder_selected (EShellView *shell_view, gchar **puri)
+{
+	ExchangeAccount *account = NULL;
+	gint mode;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree = NULL;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+	gboolean is_store = FALSE, res;
+	gchar *uri = NULL;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return FALSE;
+
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE)
+		return FALSE;
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	g_return_val_if_fail (folder_tree != NULL, FALSE);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	g_return_val_if_fail (selection != NULL, FALSE);
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return FALSE;
+
+	gtk_tree_model_get (model, &iter,
+		COL_STRING_URI, &uri,
+		COL_BOOL_IS_STORE, &is_store,
+		-1);
+
+	res = !is_store && uri && g_ascii_strncasecmp (uri, "exchange://", 11) == 0;
+
+	if (res) {
+		const gchar *path;
+
+		path = uri + strlen ("exchange://") + strlen (account->account_filename);
+		res = path && *path;
+
+		if (res) {
+			if (puri)
+				*puri = g_strdup (uri);
+		}
+	}
+
+	g_free (uri);
+
+	return res;
+}
+
+static void
+eex_mail_folder_permissions_cb (GtkAction *action, EShellView *shell_view)
+{
+	gchar *uri = NULL;
+
+	if (is_eex_folder_selected (shell_view, &uri))
+		call_folder_permissions (uri);
+
+	g_free (uri);
+}
+
+static void
+eex_folder_subscribe_cb (GtkAction *action, EShellView *shell_view)
+{
+	const gchar *name;
+
+	name = gtk_action_get_name (action);
+	g_return_if_fail (name != NULL);
+
+	name = strrchr (name, '-');
+	g_return_if_fail (name != NULL && *name == '-');
+
+	call_folder_subscribe (name + 1);
+}
+
+static void
+eex_mail_folder_inbox_unsubscribe_cb (GtkAction *action, EShellView *shell_view)
+{
+	gchar *uri = NULL;
+
+	if (is_eex_folder_selected (shell_view, &uri))
+		call_folder_unsubscribe ("Inbox", uri, NULL);
+
+	g_free (uri);
+}
+
+/* Beware, depends on the order */
+static GtkActionEntry mail_entries[] = {
+	{ "eex-mail-folder-permissions",
+	  "folder-new",
+	  N_("Permissions..."),
+	  NULL,
+	  N_("Check folder permissions"),
+	  G_CALLBACK (eex_mail_folder_permissions_cb) },
+
+	{ "eex-folder-subscribe-Inbox",
+	  NULL,
+	  N_("Subscribe to Other User's Folder..."),
+	  NULL,
+	  N_("Subscribe to Other User's Folder"),
+	  G_CALLBACK (eex_folder_subscribe_cb) },
+
+	{ "eex-mail-folder-inbox-unsubscribe",
+	  "folder-new",
+	  N_("Unsubscribe Folder..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (eex_mail_folder_inbox_unsubscribe_cb) }
 };
 
 static void
-popup_free (EPopup *ep, GSList *items, gpointer data)
+update_mail_entries_cb (EShellView *shell_view, gpointer user_data)
 {
-       g_slist_free (items);
+	GtkActionGroup *action_group;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	gboolean is_eex;
+	gchar *uri = NULL;
+	gint i;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	is_eex = is_eex_folder_selected (shell_view, &uri);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = e_shell_window_get_action_group (shell_window, "mail");
+
+	for (i = 0; i < G_N_ELEMENTS (mail_entries); i++) {
+		gboolean visible = is_eex;
+
+		action = gtk_action_group_get_action (action_group, mail_entries[i].name);
+		g_return_if_fail (action != NULL);
+
+		if (visible && i == 2) {
+			/* it's an unsubscribe, check if this is public and show/hide based on that */
+			visible = uri && is_subscribed_folder (uri);
+		}
+
+		gtk_action_set_visible (action, visible);
+	}
+
+	g_free (uri);
 }
 
-void
-org_gnome_exchange_calendar_permissions (EPlugin *ep, ECalPopupTargetSource *target)
+gboolean
+eex_ui_mail_init (GtkUIManager *ui_manager, EShellView *shell_view)
 {
-	GSList *menus = NULL;
-	gint i = 0, mode;
-	static gint first =0;
+	EShellWindow *shell_window;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	gtk_action_group_add_actions (
+		e_shell_window_get_action_group (shell_window, "mail"),
+		mail_entries, G_N_ELEMENTS (mail_entries), shell_view);
+
+	g_signal_connect (shell_view, "update-actions", G_CALLBACK (update_mail_entries_cb), NULL);
+
+	return TRUE;
+}
+
+static gboolean
+is_eex_source_selected (EShellView *shell_view, gchar **puri)
+{
+	gint mode;
 	ExchangeAccount *account = NULL;
 	ESource *source = NULL;
 	gchar *uri = NULL;
+	EShellSidebar *shell_sidebar;
+	ESourceSelector *selector = NULL;
 
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	uri = (gchar *) e_source_get_uri (source);
-	if (uri && ! g_strrstr (uri, "exchange://"))	{
-		return;
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_return_val_if_fail (shell_sidebar != NULL, FALSE);
+
+	g_object_get (shell_sidebar, "selector", &selector, NULL);
+	g_return_val_if_fail (selector != NULL, FALSE);
+
+	source = e_source_selector_peek_primary_selection (selector);
+	uri = e_source_get_uri (source);
+
+	g_object_unref (selector);
+
+	if (uri && !g_strrstr (uri, "exchange://")) {
+		g_free (uri);
+		return FALSE;
 	}
 
 	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
-	if (!exchange_account_get_folder (account, uri))
-		return;
-
-	selected_exchange_folder_uri = uri;
-
-	/* for translation*/
-	if (!first) {
-		popup_items[0].label =  _(popup_items[0].label);
-		first++;
-
+	if (!account) {
+		g_free (uri);
+		return FALSE;
 	}
 
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
+	exchange_account_is_offline (account, &mode);
+	if (mode == OFFLINE_MODE) {
+		g_free (uri);
+		return FALSE;
+	}
 
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
+	if (!exchange_account_get_folder (account, uri)) {
+		g_free (uri);
+		return FALSE;
+	}
 
+	if (puri)
+		*puri = uri;
+	else
+		g_free (uri);
+
+	return TRUE;
 }
 
-void
-org_gnome_exchange_addressbook_permissions (EPlugin *ep, EABPopupTargetSource *target)
+#define NUM_ENTRIES 3
+
+static void
+update_source_entries_cb (EShellView *shell_view, GtkActionEntry *entries)
 {
-	GSList *menus = NULL;
-	gint i = 0, mode;
-	static gint first =0;
-	ExchangeAccount *account = NULL;
-	ESource *source = NULL;
+	GtkActionGroup *action_group;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	const gchar *group;
 	gchar *uri = NULL;
+	gboolean is_eex;
+	gint i;
 
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	uri = (gchar *) e_source_get_uri (source);
-	if (!g_strrstr (uri, "exchange://"))
-		return;
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (entries != NULL);
 
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
+	if (strstr (entries->name, "calendar"))
+		group = "calendar";
+	else if (strstr (entries->name, "tasks"))
+		group = "tasks";
+	else
+		group = "addressbook";
 
-	if (!exchange_account_get_folder (account, uri))
-		return;
+	is_eex = is_eex_source_selected (shell_view, &uri);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = e_shell_window_get_action_group (shell_window, group);
 
-	selected_exchange_folder_uri = uri;
+	for (i = 0; i < NUM_ENTRIES; i++) {
+		gboolean visible = is_eex;
 
-	/* for translation*/
-	if (!first) {
-		popup_items[0].label =  _(popup_items[0].label);
-		first++;
+		action = gtk_action_group_get_action (action_group, entries->name);
+		g_return_if_fail (action != NULL);
+
+		if (visible && i == 2) {
+			/* it's an unsubscribe, check if this is public and show/hide based on that */
+			visible = uri && is_subscribed_folder (uri);
+		}
+
+		gtk_action_set_visible (action, visible);
+
 	}
 
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
-}
-
-void
-org_gnome_exchange_folder_permissions (EPlugin *ep, EMPopupTargetFolder *target)
-{
-	GSList *menus = NULL;
-	gint i = 0, mode;
-	static gint first =0;
-	gchar *path = NULL;
-	gchar *fixed_path = NULL;
-	ExchangeAccount *account = NULL;
-
-	d(g_print ("exchange-folder-permission.c: entry\n"));
-
-	if (!g_strrstr (target->uri, "exchange://"))
-		return;
-
-	account = exchange_operations_get_exchange_account ();
-	if (!account )
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
-
-	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
-
-	if (!path || !*path)
-		return;
-
-	fixed_path = camel_url_decode_path (path);
-	d(g_print ("exchange-folder-permission.c: path=[%s], fixed_path=[%s]\n", path, fixed_path));
-
-	if (! g_strrstr (target->uri, "exchange://") ||
-	    !exchange_account_get_folder (account, fixed_path)) {
-		g_free (fixed_path);
-		return;
-	}
-
-	g_free (fixed_path);
-
-	selected_exchange_folder_uri = path;
-	/* for translation*/
-	if (!first) {
-		popup_items[0].label =  _(popup_items[0].label);
-		first++;
-	}
-
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
-
+	g_free (uri);
 }
 
 static void
-org_folder_permissions_cb (EPopup *ep, EPopupItem *p, gpointer data)
+setup_source_actions (EShellView *shell_view, GtkActionEntry *entries)
 {
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
+	EShellWindow *shell_window;
+	const gchar *group;
 
-	account = exchange_operations_get_exchange_account ();
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (entries != NULL);
 
-	if (!account)
-		return;
-
-	folder = exchange_account_get_folder (account, selected_exchange_folder_uri);
-	if (folder)
-		exchange_permissions_dialog_new (account, folder, NULL);
-
-}
-
-void
-org_gnome_exchange_menu_folder_permissions (EPlugin *ep, EMMenuTargetSelect *target)
-{
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
-	gchar *path = NULL;
-	gint mode;
-
-	if (!g_str_has_prefix (target->uri, "exchange://"))
-		return;
-
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
-
-	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
-	folder = exchange_account_get_folder (account, path);
-	if (folder)
-		exchange_permissions_dialog_new (account, folder, NULL);
-}
-
-void
-org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
-{
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
-	ECalModel *model = NULL;
-	ECal *ecal = NULL;
-	gchar *uri = NULL;
-	gint mode;
-
-	if (!target)
-		return;
-	if (target->model)
-		model = E_CAL_MODEL (target->model);
-
-	ecal = e_cal_model_get_default_client (model);
-	uri = (gchar *) e_cal_get_uri (ecal);
-	if (!uri)
-		return;
+	if (strstr (entries->name, "calendar"))
+		group = "calendar";
+	else if (strstr (entries->name, "tasks"))
+		group = "tasks";
 	else
-		if (!g_str_has_prefix (uri, "exchange://"))
-			return;
+		group = "addressbook";
 
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	folder = exchange_account_get_folder (account, uri);
-	exchange_permissions_dialog_new (account, folder, NULL);
+	gtk_action_group_add_actions (
+		e_shell_window_get_action_group (shell_window, group),
+		entries, NUM_ENTRIES, shell_view);
+
+	g_signal_connect (shell_view, "update-actions", G_CALLBACK (update_source_entries_cb), entries);
 }
 
-void
-org_gnome_exchange_menu_tasks_permissions (EPlugin *ep, ECalMenuTargetSelect *target)
+static void
+source_permissions_cb (GtkAction *action, EShellView *shell_view)
 {
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
-	ECalModel *model = NULL;
-	ECal *ecal = NULL;
 	gchar *uri = NULL;
-	gint mode;
 
-	if (!target)
-		return;
-	if (target->model)
-		model = E_CAL_MODEL (target->model);
+	g_return_if_fail (shell_view != NULL);
 
-	ecal = e_cal_model_get_default_client (model);
-	uri = (gchar *) e_cal_get_uri (ecal);
-	if (!uri)
-		return;
-	else
-		if (!g_str_has_prefix (uri, "exchange://"))
-			return;
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
+	if (is_eex_source_selected (shell_view, &uri))
+		call_folder_permissions (uri);
 
-	folder = exchange_account_get_folder (account, uri);
-	exchange_permissions_dialog_new (account, folder, NULL);
+	g_free (uri);
 }
 
-void
-org_gnome_exchange_menu_ab_permissions (EPlugin *ep, EABMenuTargetSelect *target)
+static void
+eex_folder_unsubscribe_cb (GtkAction *action, EShellView *shell_view)
 {
-	ExchangeAccount *account = NULL;
-	EFolder *folder = NULL;
-	EBook *ebook = NULL;
 	gchar *uri = NULL;
-	gint mode;
+	const gchar *name;
 
-	if (!target)
-		return;
-	if (target->book)
-		ebook = E_BOOK (target->book);
+	g_return_if_fail (shell_view != NULL);
 
-	uri = (gchar *) e_book_get_uri (ebook);
-	if (!uri)
-		return;
-	else
-		if (!g_str_has_prefix (uri, "exchange://"))
-			return;
+	name = gtk_action_get_name (action);
+	g_return_if_fail (name != NULL);
 
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-	exchange_account_is_offline (account, &mode);
-	if (mode == OFFLINE_MODE)
-		return;
+	name = strrchr (name, '-');
+	g_return_if_fail (name != NULL && *name == '-');
 
-	folder = exchange_account_get_folder (account, uri);
-	exchange_permissions_dialog_new (account, folder, NULL);
+	if (is_eex_source_selected (shell_view, &uri)) {
+		EShellSidebar *shell_sidebar;
+		ESourceSelector *selector = NULL;
+
+		shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+		g_return_if_fail (shell_sidebar != NULL);
+
+		g_object_get (shell_sidebar, "selector", &selector, NULL);
+		g_return_if_fail (selector != NULL);
+
+		call_folder_unsubscribe (name + 1, uri, e_source_selector_peek_primary_selection (selector));
+	}
+
+	g_free (uri);
+}
+
+/* Beware, depends on count and order */
+static GtkActionEntry calendar_entries[] = {
+	{ "eex-calendar-permissions",
+	  "folder-new",
+	  N_("Permissions..."),
+	  NULL,
+	  N_("Check calendar permissions"),
+	  G_CALLBACK (source_permissions_cb) },
+
+	{ "eex-folder-subscribe-Calendar",
+	  NULL,
+	  N_("Subscribe to Other User's Folder..."),
+	  NULL,
+	  N_("Subscribe to Other User's Folder"),
+	  G_CALLBACK (eex_folder_subscribe_cb) },
+
+	{ "eex-folder-unsubscribe-Calendar",
+	  "folder-new",
+	  N_("Unsubscribe Folder..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (eex_folder_unsubscribe_cb) }
+};
+
+gboolean
+eex_ui_calendar_permissions (GtkUIManager *ui_manager, EShellView *shell_view)
+{
+	g_return_val_if_fail (G_N_ELEMENTS (calendar_entries) != NUM_ENTRIES, FALSE);
+
+	setup_source_actions (shell_view, calendar_entries);
+
+	return TRUE;
+}
+
+/* Beware, depends on count and order */
+static GtkActionEntry tasks_entries[] = {
+	{ "eex-tasks-permissions",
+	  "folder-new",
+	  N_("Permissions..."),
+	  NULL,
+	  N_("Check tasks permissions"),
+	  G_CALLBACK (source_permissions_cb) },
+
+	{ "eex-folder-subscribe-Tasks",
+	  NULL,
+	  N_("Subscribe to Other User's Folder..."),
+	  NULL,
+	  N_("Subscribe to Other User's Folder"),
+	  G_CALLBACK (eex_folder_subscribe_cb) },
+
+	{ "eex-folder-unsubscribe-Tasks",
+	  "folder-new",
+	  N_("Unsubscribe Folder..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (eex_folder_unsubscribe_cb) }
+};
+
+gboolean
+eex_ui_tasks_permissions (GtkUIManager *ui_manager, EShellView *shell_view)
+{
+	g_return_val_if_fail (G_N_ELEMENTS (tasks_entries) != NUM_ENTRIES, FALSE);
+
+	setup_source_actions (shell_view, tasks_entries);
+
+	return TRUE;
+}
+
+/* Beware, depends on count and order */
+static GtkActionEntry addressbook_entries[] = {
+	{ "eex-addressbook-permissions",
+	  "folder-new",
+	  N_("Permissions..."),
+	  NULL,
+	  N_("Check addressbook permissions"),
+	  G_CALLBACK (source_permissions_cb) },
+
+	{ "eex-folder-subscribe-Contacts",
+	  NULL,
+	  N_("Subscribe to Other User's Folder..."),
+	  NULL,
+	  N_("Subscribe to Other User's Folder"),
+	  G_CALLBACK (eex_folder_subscribe_cb) },
+
+	{ "eex-folder-unsubscribe-Contacts",
+	  "folder-new",
+	  N_("Unsubscribe Folder..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (eex_folder_unsubscribe_cb) }
+};
+
+gboolean
+eex_ui_addressbook_permissions (GtkUIManager *ui_manager, EShellView *shell_view)
+{
+	g_return_val_if_fail (G_N_ELEMENTS (addressbook_entries) != NUM_ENTRIES, FALSE);
+
+	setup_source_actions (shell_view, addressbook_entries);
+
+	return TRUE;
 }

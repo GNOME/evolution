@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 
 extern ExchangeConfigListener *exchange_global_config_listener;
 
-gint e_plugin_lib_enable (EPluginLib *eplib, gint enable);
+gint e_plugin_lib_enable (EPlugin *eplib, gint enable);
 
 ExchangeAccount *exchange_operations_get_exchange_account (void);
 ExchangeConfigListenerStatus exchange_is_offline (gint *mode);

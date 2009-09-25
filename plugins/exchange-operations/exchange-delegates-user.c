@@ -29,8 +29,8 @@
 #include "exchange-delegates-user.h"
 
 #include <mail/mail-ops.h>
-#include <mail/mail-component.h>
 #include <mail/mail-send-recv.h>
+#include <mail/e-mail-local.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-stream-mem.h>
@@ -44,7 +44,6 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <glade/glade.h>
 
 #include <string.h>
 
@@ -73,10 +72,6 @@ const gchar *exchange_delegates_user_folder_names[] = {
 */
 static const gchar *folder_names_for_display[] = {
 	N_("Calendar"), N_("Tasks"), N_("Inbox"), N_("Contacts")
-};
-
-static const gchar *widget_names[] = {
-	"calendar_perms_combobox", "task_perms_combobox", "inbox_perms_combobox", "contact_perms_combobox",
 };
 
 enum {
@@ -206,69 +201,186 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			     ExchangeDelegatesUser *user,
 			     GtkWidget *parent_window)
 {
-	GladeXML *xml;
-	GtkWidget *dialog, *table, *label, *combobox, *check, *check_delegate;
 	gchar *title;
 	gint button, i;
 	E2kPermissionsRole role;
 	gboolean modified;
+	GtkWidget *delegate_permissions;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *vbox3;
+	GtkWidget *delegate_label;
+	GtkWidget *folders_table;
+	GtkWidget *calendar_label;
+	GtkWidget *task_label;
+	GtkWidget *inbox_label;
+	GtkWidget *contact_label;
+	GtkWidget *calendar_perms_combobox;
+	GtkWidget *task_perms_combobox;
+	GtkWidget *inbox_perms_combobox;
+	GtkWidget *contact_perms_combobox;
+	GtkWidget *delegate_mail;
+	GtkWidget *see_private_checkbox;
+	GtkWidget *combobox, *comboboxes[EXCHANGE_DELEGATES_LAST];
 
 	g_return_val_if_fail (EXCHANGE_IS_DELEGATES_USER (user), FALSE);
 	g_return_val_if_fail (E2K_IS_SID (user->sid), FALSE);
 
-	/* Grab the Glade widgets */
-	xml = glade_xml_new (
-		CONNECTOR_GLADEDIR "/exchange-delegates.glade",
-		"delegate_permissions", PACKAGE);
-	g_return_val_if_fail (xml, FALSE);
+	delegate_permissions = gtk_dialog_new_with_buttons (
+		_("Delegate Permissions"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
-	title = g_strdup (_("Delegate Permissions"));
+	if (parent_window)
+		gtk_window_set_transient_for (GTK_WINDOW (delegate_permissions), parent_window);
 
-	dialog = glade_xml_get_widget (xml, "delegate_permissions");
-	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
-	g_free (title);
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (delegate_permissions));
+	gtk_widget_show (dialog_vbox1);
 
-	table = glade_xml_get_widget (xml, "toplevel_table");
-	gtk_widget_reparent (table, GTK_DIALOG (dialog)->vbox);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 6);
+	vbox3 = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (vbox3);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox3, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox3), 12);
+
+	delegate_label = gtk_label_new (_("Permissions for"));
+	gtk_widget_show (delegate_label);
+	gtk_box_pack_start (GTK_BOX (vbox3), delegate_label, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (delegate_label), GTK_JUSTIFY_CENTER);
+
+	folders_table = gtk_table_new (4, 2, FALSE);
+	gtk_widget_show (folders_table);
+	gtk_box_pack_start (GTK_BOX (vbox3), folders_table, FALSE, FALSE, 0);
+	gtk_table_set_row_spacings (GTK_TABLE (folders_table), 6);
+	gtk_table_set_col_spacings (GTK_TABLE (folders_table), 6);
+
+	/* Translators: This is used for permissions for <user> for the folder Calendar. */
+	calendar_label = gtk_label_new_with_mnemonic (_("C_alendar:"));
+	gtk_widget_show (calendar_label);
+	gtk_table_attach (GTK_TABLE (folders_table), calendar_label, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (calendar_label), GTK_JUSTIFY_CENTER);
+	gtk_misc_set_alignment (GTK_MISC (calendar_label), 0, 0.5);
+
+	/* Translators: This is used for permissions for <user> for the folder Tasks. */
+	task_label = gtk_label_new_with_mnemonic (_("_Tasks:"));
+	gtk_widget_show (task_label);
+	gtk_table_attach (GTK_TABLE (folders_table), task_label, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (task_label), GTK_JUSTIFY_CENTER);
+	gtk_misc_set_alignment (GTK_MISC (task_label), 0, 0.5);
+
+	/* Translators: This is used for permissions for <user> for the folder Inbox. */
+	inbox_label = gtk_label_new_with_mnemonic (_("_Inbox:"));
+	gtk_widget_show (inbox_label);
+	gtk_table_attach (GTK_TABLE (folders_table), inbox_label, 0, 1, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (inbox_label), GTK_JUSTIFY_CENTER);
+	gtk_misc_set_alignment (GTK_MISC (inbox_label), 0, 0.5);
+
+	/* Translators: This is used for permissions for <user> for the folder Contacts. */
+	contact_label = gtk_label_new_with_mnemonic (_("Co_ntacts:"));
+	gtk_widget_show (contact_label);
+	gtk_table_attach (GTK_TABLE (folders_table), contact_label, 0, 1, 3, 4,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (contact_label), GTK_JUSTIFY_CENTER);
+	gtk_misc_set_alignment (GTK_MISC (contact_label), 0, 0.5);
+
+	calendar_perms_combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (calendar_perms_combobox);
+	gtk_table_attach (GTK_TABLE (folders_table), calendar_perms_combobox, 1, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (calendar_perms_combobox), _("None"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (calendar_perms_combobox), _("Reviewer (read-only)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (calendar_perms_combobox), _("Author (read, create)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (calendar_perms_combobox), _("Editor (read, create, edit)"));
+
+	task_perms_combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (task_perms_combobox);
+	gtk_table_attach (GTK_TABLE (folders_table), task_perms_combobox, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (task_perms_combobox), _("None"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (task_perms_combobox), _("Reviewer (read-only)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (task_perms_combobox), _("Author (read, create)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (task_perms_combobox), _("Editor (read, create, edit)"));
+
+	inbox_perms_combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (inbox_perms_combobox);
+	gtk_table_attach (GTK_TABLE (folders_table), inbox_perms_combobox, 1, 2, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (inbox_perms_combobox), _("None"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (inbox_perms_combobox), _("Reviewer (read-only)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (inbox_perms_combobox), _("Author (read, create)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (inbox_perms_combobox), _("Editor (read, create, edit)"));
+
+	contact_perms_combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (contact_perms_combobox);
+	gtk_table_attach (GTK_TABLE (folders_table), contact_perms_combobox, 1, 2, 3, 4,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (contact_perms_combobox), _("None"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (contact_perms_combobox), _("Reviewer (read-only)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (contact_perms_combobox), _("Author (read, create)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (contact_perms_combobox), _("Editor (read, create, edit)"));
+
+	delegate_mail = gtk_check_button_new_with_mnemonic (_("_Summarize permissions"));
+	gtk_widget_show (delegate_mail);
+	gtk_box_pack_start (GTK_BOX (vbox3), delegate_mail, FALSE, FALSE, 0);
+
+	see_private_checkbox = gtk_check_button_new_with_mnemonic (_("_Delegate can see private items"));
+	gtk_widget_show (see_private_checkbox);
+	gtk_box_pack_start (GTK_BOX (vbox3), see_private_checkbox, FALSE, FALSE, 0);
+
+	gtk_box_set_spacing (GTK_BOX (dialog_vbox1), 6);
 
 	title = g_strdup_printf (_("Permissions for %s"), user->display_name);
-	label = glade_xml_get_widget (xml, "delegate_label");
-	gtk_label_set_text (GTK_LABEL (label), title);
+	gtk_label_set_text (GTK_LABEL (delegate_label), title);
 	g_free (title);
+
+	comboboxes[0] = calendar_perms_combobox;
+	comboboxes[1] = task_perms_combobox;
+	comboboxes[2] = inbox_perms_combobox;
+	comboboxes[3] = contact_perms_combobox;
 
 	/* Set up the permissions */
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-		combobox = glade_xml_get_widget (xml, widget_names[i]);
+		combobox = comboboxes[i];
 		set_perms (combobox, user->role[i]);
 	}
-	check = glade_xml_get_widget (xml, "see_private_checkbox");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (see_private_checkbox),
 				      user->see_private);
 
 	/* Run the dialog, while watching its parent. */
 	g_object_weak_ref (G_OBJECT (parent_window),
-			   parent_window_destroyed, dialog);
+			   parent_window_destroyed, delegate_permissions);
 	g_object_add_weak_pointer (G_OBJECT (parent_window),
 				   (gpointer*)&parent_window);
-	button = gtk_dialog_run (GTK_DIALOG (dialog));
+	button = gtk_dialog_run (GTK_DIALOG (delegate_permissions));
 	if (parent_window) {
 		g_object_remove_weak_pointer (G_OBJECT (parent_window),
 					      (gpointer *)&parent_window);
 		g_object_weak_unref (G_OBJECT (parent_window),
-				     parent_window_destroyed, dialog);
+				     parent_window_destroyed, delegate_permissions);
 	}
 
 	if (button != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (dialog);
+		gtk_widget_destroy (delegate_permissions);
 		return FALSE;
 	}
 
 	/* And update */
 	modified = FALSE;
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-		combobox = glade_xml_get_widget (xml, widget_names[i]);
+		combobox = comboboxes[i];
 		role = e_dialog_combo_box_get (combobox, exchange_perm_map);
 
 		if (is_delegate_role (user->role[i]) &&
@@ -281,8 +393,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 	/* The following piece of code is used to construct a mail message to be sent to a Delegate
 	   summarizing all the permissions set for him on the user's various folders.
 	*/
-	check_delegate = glade_xml_get_widget (xml, "delegate_mail");
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_delegate)) == TRUE) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (delegate_mail)) == TRUE) {
 		if (button == GTK_RESPONSE_OK) {
 
 			EAccount *eaccount;
@@ -333,7 +444,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_stream_printf (stream,
 				"<html><body><p>%s<br><br>%s</p><table border = 0 width=\"40%%\">", msg_part1, msg_part2);
 			for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-				combobox = glade_xml_get_widget (xml, widget_names[i]);
+				combobox = comboboxes[i];
 				role = e_dialog_combo_box_get (combobox, exchange_perm_map);
 				role_name = g_strdup (map_to_full_role_name(role));
 				g_string_append_printf (
@@ -344,7 +455,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 			camel_stream_printf (stream, "%s</table>", role_name_final->str);
 
-			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (see_private_checkbox)) == TRUE) {
 				/* To translators: This message is included if the delegatee has been given access
 				   to the private items.
 				*/
@@ -419,7 +530,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			}
 
 			/* Send the permissions summarizing mail */
-			out_folder = mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+			out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 			info = camel_message_info_new (NULL);
 			camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 			mail_append_mail (out_folder, delegate_mail, info, em_utils_delegates_done, NULL);
@@ -428,15 +539,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 	}
 
-	check = glade_xml_get_widget (xml, "see_private_checkbox");
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) !=
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (see_private_checkbox)) !=
 	    user->see_private) {
 		user->see_private = !user->see_private;
 		modified = TRUE;
 	}
 
-	g_object_unref (xml);
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (delegate_permissions);
 
 	if (modified)
 		g_signal_emit (user, signals[EDITED], 0);

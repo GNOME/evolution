@@ -41,7 +41,6 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-error.h>
-#include <glade/glade-xml.h>
 
 struct _ExchangePermissionsDialogPrivate {
 	ExchangeAccount *account;
@@ -122,8 +121,7 @@ init (GObject *object)
 
 E2K_MAKE_TYPE (exchange_permissions_dialog, ExchangePermissionsDialog, class_init, init, PARENT_TYPE)
 
-static void get_widgets         (ExchangePermissionsDialog *dialog,
-				 GladeXML *xml);
+static GtkWidget *create_permissions_vbox (ExchangePermissionsDialog *dialog);
 static void setup_user_list     (ExchangePermissionsDialog *dialog);
 static void display_permissions (ExchangePermissionsDialog *dialog);
 static void dialog_response     (ExchangePermissionsDialog *dialog,
@@ -152,7 +150,6 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 	const gchar *base_uri, *folder_uri, *folder_path;
 	E2kContext *ctx;
 	ExchangeHierarchy *hier;
-	GladeXML *xml;
 	GtkWidget *box;
 	gchar *title;
 	E2kHTTPStatus status;
@@ -165,10 +162,6 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 
 	ctx = exchange_account_get_context (account);
 	g_return_if_fail (ctx);
-	xml = glade_xml_new (
-		CONNECTOR_GLADEDIR "/exchange-permissions-dialog.glade",
-		"permissions_vbox", PACKAGE);
-	g_return_if_fail (xml != NULL);
 
 	/* Create the dialog */
 	dialog = g_object_new (EXCHANGE_TYPE_PERMISSIONS_DIALOG, NULL);
@@ -188,16 +181,9 @@ exchange_permissions_dialog_new (ExchangeAccount *account,
 
 	dialog->priv->changed = FALSE;
 
-	/* Put the widgets from the glade file into it */
-	box = glade_xml_get_widget (xml, "permissions_vbox");
-	g_object_ref (box);
-	gtk_widget_unparent (box);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+	box = create_permissions_vbox (dialog);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog))),
 			    box, TRUE, TRUE, 0);
-	g_object_unref (box);
-
-	get_widgets (dialog, xml);
-	g_object_unref (xml);
 
 	dialog->priv->account = account;
 	g_object_ref (account);
@@ -684,13 +670,247 @@ display_permissions (ExchangePermissionsDialog *dialog)
 	dialog->priv->frozen = FALSE;
 }
 
-static void
-get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)
+static GtkWidget *
+exchange_permissions_role_optionmenu_new (void)
 {
-	GtkWidget *button;
+	GtkWidget *menu;
+	const gchar **roles;
+	gint role;
+
+	menu = gtk_combo_box_new_text ();
+	roles = g_new (const gchar *, E2K_PERMISSIONS_ROLE_NUM_ROLES + 1);
+	for (role = 0; role < E2K_PERMISSIONS_ROLE_NUM_ROLES; role++) {
+		roles[role] = e2k_permissions_role_get_name (role);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (menu), roles[role]);
+	}
+
+	roles[role] = NULL;
+
+	g_free (roles);
+
+	gtk_widget_show (menu);
+	return menu;
+}
+
+static GtkWidget *
+create_permissions_vbox (ExchangePermissionsDialog *dialog)
+{
+	GtkWidget *permissions_vbox;
+	GtkWidget *hbox1;
+	GtkWidget *scrolledwindow1;
+	GtkWidget *list_view;
+	GtkWidget *vbuttonbox1;
+	GtkWidget *add_button;
+	GtkWidget *remove_button;
+	GtkWidget *table2;
+	GtkWidget *label6;
+	GtkWidget *label7;
+	GtkWidget *label3;
+	GtkWidget *hbox3;
+	GtkWidget *label4;
+	GtkWidget *role_optionmenu;
+	GtkWidget *hbox2;
+	GtkWidget *vbox6;
+	GtkWidget *vbox8;
+	GtkWidget *create_items_check;
+	GtkWidget *read_items_check;
+	GtkWidget *create_subfolders_check;
+	GtkWidget *vbox9;
+	GtkWidget *edit_none_radio;
+	GSList *edit_none_radio_group = NULL;
+	GtkWidget *edit_own_radio;
+	GtkWidget *edit_all_radio;
+	GtkWidget *vbox7;
+	GtkWidget *vbox10;
+	GtkWidget *folder_owner_check;
+	GtkWidget *folder_contact_check;
+	GtkWidget *folder_visible_check;
+	GtkWidget *vbox11;
+	GtkWidget *delete_none_radio;
+	GSList *delete_none_radio_group = NULL;
+	GtkWidget *delete_own_radio;
+	GtkWidget *delete_all_radio;
+	gchar *tmp_str;
 	GtkTreeViewColumn *column;
 
-#define GET_WIDGET(name, type) dialog->priv->name = type (glade_xml_get_widget (xml, #name))
+	permissions_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (permissions_vbox);
+	gtk_container_set_border_width (GTK_CONTAINER (permissions_vbox), 6);
+
+	hbox1 = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox1);
+	gtk_box_pack_start (GTK_BOX (permissions_vbox), hbox1, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox1), 6);
+
+	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow1);
+	gtk_box_pack_start (GTK_BOX (hbox1), scrolledwindow1, TRUE, TRUE, 0);
+	GTK_WIDGET_UNSET_FLAGS (scrolledwindow1, GTK_CAN_FOCUS);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+
+	list_view = gtk_tree_view_new ();
+	gtk_widget_show (list_view);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow1), list_view);
+
+	vbuttonbox1 = gtk_vbutton_box_new ();
+	gtk_widget_show (vbuttonbox1);
+	gtk_box_pack_start (GTK_BOX (hbox1), vbuttonbox1, FALSE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbuttonbox1), 4);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox1), GTK_BUTTONBOX_SPREAD);
+	gtk_box_set_spacing (GTK_BOX (vbuttonbox1), 10);
+
+	add_button = gtk_button_new_from_stock ("gtk-add");
+	gtk_widget_show (add_button);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), add_button);
+	GTK_WIDGET_SET_FLAGS (add_button, GTK_CAN_DEFAULT);
+
+	remove_button = gtk_button_new_from_stock ("gtk-remove");
+	gtk_widget_show (remove_button);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), remove_button);
+	GTK_WIDGET_SET_FLAGS (remove_button, GTK_CAN_DEFAULT);
+
+	table2 = gtk_table_new (3, 2, FALSE);
+	gtk_widget_show (table2);
+	gtk_box_pack_start (GTK_BOX (permissions_vbox), table2, FALSE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (table2), 6);
+	gtk_table_set_row_spacings (GTK_TABLE (table2), 6);
+
+	label6 = gtk_label_new ("    ");
+	gtk_widget_show (label6);
+	gtk_table_attach (GTK_TABLE (table2), label6, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label6), 0, 0.5);
+
+	label7 = gtk_label_new ("    ");
+	gtk_widget_show (label7);
+	gtk_table_attach (GTK_TABLE (table2), label7, 0, 1, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label7), 0, 0.5);
+
+	tmp_str = g_strconcat ("<b>", _("Permissions"), "</b>", NULL);
+	label3 = gtk_label_new (tmp_str);
+	g_free (tmp_str);
+	gtk_widget_show (label3);
+	gtk_table_attach (GTK_TABLE (table2), label3, 0, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_use_markup (GTK_LABEL (label3), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label3), 0, 0.5);
+
+	hbox3 = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox3);
+	gtk_table_attach (GTK_TABLE (table2), hbox3, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox3), 6);
+
+	label4 = gtk_label_new (_("Role: "));
+	gtk_widget_show (label4);
+	gtk_box_pack_start (GTK_BOX (hbox3), label4, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_CENTER);
+
+	role_optionmenu = exchange_permissions_role_optionmenu_new ();
+	gtk_widget_show (role_optionmenu);
+	gtk_box_pack_start (GTK_BOX (hbox3), role_optionmenu, TRUE, TRUE, 0);
+	GTK_WIDGET_UNSET_FLAGS (role_optionmenu, GTK_CAN_FOCUS);
+	GTK_WIDGET_UNSET_FLAGS (role_optionmenu, GTK_CAN_DEFAULT);
+
+	hbox2 = gtk_hbox_new (TRUE, 6);
+	gtk_widget_show (hbox2);
+	gtk_table_attach (GTK_TABLE (table2), hbox2, 1, 2, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox2), 6);
+
+	vbox6 = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (vbox6);
+	gtk_box_pack_start (GTK_BOX (hbox2), vbox6, TRUE, TRUE, 0);
+
+	vbox8 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox8);
+	gtk_box_pack_start (GTK_BOX (vbox6), vbox8, TRUE, TRUE, 0);
+
+	create_items_check = gtk_check_button_new_with_mnemonic (_("Create items"));
+	gtk_widget_show (create_items_check);
+	gtk_box_pack_start (GTK_BOX (vbox8), create_items_check, FALSE, FALSE, 0);
+
+	read_items_check = gtk_check_button_new_with_mnemonic (_("Read items"));
+	gtk_widget_show (read_items_check);
+	gtk_box_pack_start (GTK_BOX (vbox8), read_items_check, FALSE, FALSE, 0);
+
+	create_subfolders_check = gtk_check_button_new_with_mnemonic (_("Create subfolders"));
+	gtk_widget_show (create_subfolders_check);
+	gtk_box_pack_start (GTK_BOX (vbox8), create_subfolders_check, FALSE, FALSE, 0);
+
+	vbox9 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox9);
+	gtk_box_pack_start (GTK_BOX (vbox6), vbox9, TRUE, TRUE, 0);
+
+	edit_none_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Cannot Edit"));
+	gtk_widget_show (edit_none_radio);
+	gtk_box_pack_start (GTK_BOX (vbox9), edit_none_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (edit_none_radio), edit_none_radio_group);
+	edit_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (edit_none_radio));
+
+	edit_own_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Edit Own Items"));
+	gtk_widget_show (edit_own_radio);
+	gtk_box_pack_start (GTK_BOX (vbox9), edit_own_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (edit_own_radio), edit_none_radio_group);
+	edit_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (edit_own_radio));
+
+	edit_all_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Edit Any Items"));
+	gtk_widget_show (edit_all_radio);
+	gtk_box_pack_start (GTK_BOX (vbox9), edit_all_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (edit_all_radio), edit_none_radio_group);
+	edit_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (edit_all_radio));
+
+	vbox7 = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (vbox7);
+	gtk_box_pack_start (GTK_BOX (hbox2), vbox7, TRUE, TRUE, 0);
+
+	vbox10 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox10);
+	gtk_box_pack_start (GTK_BOX (vbox7), vbox10, TRUE, TRUE, 0);
+
+	folder_owner_check = gtk_check_button_new_with_mnemonic (_("Folder owner"));
+	gtk_widget_show (folder_owner_check);
+	gtk_box_pack_start (GTK_BOX (vbox10), folder_owner_check, FALSE, FALSE, 0);
+
+	folder_contact_check = gtk_check_button_new_with_mnemonic (_("Folder contact"));
+	gtk_widget_show (folder_contact_check);
+	gtk_box_pack_start (GTK_BOX (vbox10), folder_contact_check, FALSE, FALSE, 0);
+
+	folder_visible_check = gtk_check_button_new_with_mnemonic (_("Folder visible"));
+	gtk_widget_show (folder_visible_check);
+	gtk_box_pack_start (GTK_BOX (vbox10), folder_visible_check, FALSE, FALSE, 0);
+
+	vbox11 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox11);
+	gtk_box_pack_start (GTK_BOX (vbox7), vbox11, TRUE, TRUE, 0);
+
+	delete_none_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Cannot Delete"));
+	gtk_widget_show (delete_none_radio);
+	gtk_box_pack_start (GTK_BOX (vbox11), delete_none_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (delete_none_radio), delete_none_radio_group);
+	delete_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (delete_none_radio));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (delete_none_radio), TRUE);
+
+	delete_own_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Delete Own Items"));
+	gtk_widget_show (delete_own_radio);
+	gtk_box_pack_start (GTK_BOX (vbox11), delete_own_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (delete_own_radio), delete_none_radio_group);
+	delete_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (delete_own_radio));
+
+	delete_all_radio = gtk_radio_button_new_with_mnemonic (NULL, _("Delete Any Items"));
+	gtk_widget_show (delete_all_radio);
+	gtk_box_pack_start (GTK_BOX (vbox11), delete_all_radio, FALSE, FALSE, 0);
+	gtk_radio_button_set_group (GTK_RADIO_BUTTON (delete_all_radio), delete_none_radio_group);
+	delete_none_radio_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (delete_all_radio));
+
+#define GET_WIDGET(name, type) dialog->priv->name = type (name)
 
 	GET_WIDGET (list_view, GTK_TREE_VIEW);
 	column = gtk_tree_view_column_new_with_attributes (
@@ -714,11 +934,9 @@ get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)
 	gtk_tree_view_set_model (dialog->priv->list_view,
 				 GTK_TREE_MODEL (dialog->priv->list_store));
 
-	button = glade_xml_get_widget (xml, "add_button");
-	g_signal_connect (button, "clicked",
+	g_signal_connect (add_button, "clicked",
 			  G_CALLBACK (add_clicked), dialog);
-	button = glade_xml_get_widget (xml, "remove_button");
-	g_signal_connect (button, "clicked",
+	g_signal_connect (remove_button, "clicked",
 			  G_CALLBACK (remove_clicked), dialog);
 
 	GET_WIDGET (role_optionmenu, GTK_COMBO_BOX);
@@ -761,28 +979,6 @@ get_widgets (ExchangePermissionsDialog *dialog, GladeXML *xml)
 			  "toggled", G_CALLBACK (rv_toggle), dialog);
 	g_signal_connect (dialog->priv->read_items_check,
 			  "toggled", G_CALLBACK (rv_toggle), dialog);
-}
 
-GtkWidget *exchange_permissions_role_optionmenu_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2);
-
-GtkWidget *
-exchange_permissions_role_optionmenu_new (gchar *widget_name, gchar *string1, gchar *string2, gint int1, gint int2)
-{
-	GtkWidget *menu;
-	const gchar **roles;
-	gint role;
-
-	menu = gtk_combo_box_new_text ();
-	roles = g_new (const gchar *, E2K_PERMISSIONS_ROLE_NUM_ROLES + 1);
-	for (role = 0; role < E2K_PERMISSIONS_ROLE_NUM_ROLES; role++) {
-		roles[role] = e2k_permissions_role_get_name (role);
-		gtk_combo_box_append_text (GTK_COMBO_BOX (menu), roles[role]);
-	}
-
-	roles[role] = NULL;
-
-	g_free (roles);
-
-	gtk_widget_show (menu);
-	return menu;
+	return permissions_vbox;
 }

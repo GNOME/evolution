@@ -29,7 +29,6 @@
 
 #include <glib/gi18n.h>
 #include <e-util/e-dialog-utils.h>
-#include <glade/glade-xml.h>
 #include "exchange-folder-size-display.h"
 
 enum {
@@ -105,21 +104,42 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
         GtkTreeViewColumn *column;
 	GtkTreeSortable *sortable;
 	GtkCellRenderer *cell;
-        GladeXML *xml;
-        GtkWidget *dialog, *table;
+	GtkWidget *folder_tree;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *folder_tree_hbox;
+	GtkWidget *scrolledwindow1;
+	GtkWidget *folder_treeview;
 	GList *l;
 	gchar *col_name;
 
-	printf ("exchange_folder_size_display called\n");
         g_return_if_fail (GTK_IS_WIDGET (parent));
 
-        xml = glade_xml_new (CONNECTOR_GLADEDIR "/exchange-folder-tree.glade", NULL, NULL);
-        g_return_if_fail (xml != NULL);
-        dialog = glade_xml_get_widget (xml, "folder_tree");
-        table = glade_xml_get_widget (xml, "folder_treeview");
-	g_object_unref (xml);
+	folder_tree = gtk_dialog_new_with_buttons (
+		_("Exchange Folder Tree"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
+	gtk_window_set_position (GTK_WINDOW (folder_tree), GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_default_size (GTK_WINDOW (folder_tree), 250, 300);
+	if (parent)
+		gtk_window_set_transient_for (GTK_WINDOW (folder_tree), parent);
 
-        gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (folder_tree));
+	gtk_widget_show (dialog_vbox1);
+
+	folder_tree_hbox = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (folder_tree_hbox);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), folder_tree_hbox, TRUE, TRUE, 0);
+
+	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow1);
+	gtk_box_pack_start (GTK_BOX (folder_tree_hbox), scrolledwindow1, TRUE, TRUE, 0);
+
+	folder_treeview = gtk_tree_view_new ();
+	gtk_widget_show (folder_treeview);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow1), folder_treeview);
+
 	/* fsize->parent = parent; */
 
         /* Set up the table */
@@ -128,7 +148,7 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
 
         column = gtk_tree_view_column_new_with_attributes (
                 _("Folder Name"), gtk_cell_renderer_text_new (), "text", COLUMN_NAME, NULL);
-        gtk_tree_view_append_column (GTK_TREE_VIEW (table),
+        gtk_tree_view_append_column (GTK_TREE_VIEW (folder_treeview),
                                      column);
 
 	col_name = g_strdup_printf ("%s (KB)", _("Folder Size"));
@@ -136,15 +156,15 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
                 col_name, gtk_cell_renderer_text_new (), "text", COLUMN_SIZE, NULL);
 	g_free (col_name);
 
-	l = gtk_tree_view_column_get_cell_renderers (column);
+	l = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
 	cell = (GtkCellRenderer *)l->data;
 	gtk_tree_view_column_set_cell_data_func (column, cell, format_size_func, NULL, NULL );
 	g_list_free (l);
 
-        gtk_tree_view_append_column (GTK_TREE_VIEW (table),
+        gtk_tree_view_append_column (GTK_TREE_VIEW (folder_treeview),
                                      column);
-        gtk_tree_view_set_model (GTK_TREE_VIEW (table),
+        gtk_tree_view_set_model (GTK_TREE_VIEW (folder_treeview),
                                  GTK_TREE_MODEL (model));
-	gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+	gtk_dialog_run (GTK_DIALOG (folder_tree));
+        gtk_widget_destroy (folder_tree);
 }

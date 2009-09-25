@@ -44,7 +44,6 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-error.h>
-#include <glade/glade-xml.h>
 
 typedef struct {
 	const gchar *uri;
@@ -56,7 +55,6 @@ typedef struct {
 	ExchangeAccount *account;
 	gchar *self_dn;
 
-	GladeXML *xml;
 	GtkWidget *dialog, *parent;
 
 	GtkListStore *model;
@@ -580,7 +578,7 @@ remove_button_clicked_cb (GtkWidget *widget, gpointer data)
 					 GTK_BUTTONS_YES_NO,
 					 _("Remove the delegate %s?"),
 					 user->display_name);
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), widget);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -879,9 +877,6 @@ delegates_destroy (ExchangeDelegates *delegates)
 	if (delegates->freebusy_folder.uri)
 		g_free ((gchar *)delegates->freebusy_folder.uri);
 
-	if (delegates->xml)
-		g_object_unref (delegates->xml);
-
 	g_free (delegates);
 }
 
@@ -907,8 +902,16 @@ parent_destroyed (gpointer user_data, GObject *ex_parent)
 void
 exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 {
+	GtkWidget *dialog_vbox1;
+	GtkWidget *vbox2;
+	GtkWidget *label3;
+	GtkWidget *delegate_hbox;
+	GtkWidget *delegates_table;
+	GtkWidget *vbuttonbox1;
+	GtkWidget *add_button;
+	GtkWidget *edit_button;
+	GtkWidget *remove_button;
 	ExchangeDelegates *delegates;
-	GtkWidget *button;
 	ExchangeDelegatesUser *user;
 	GtkTreeViewColumn *column;
 	GtkTreeIter iter;
@@ -920,33 +923,75 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 	delegates = g_new0 (ExchangeDelegates, 1);
 	delegates->account = g_object_ref (account);
 
-	delegates->xml = glade_xml_new (CONNECTOR_GLADEDIR "/exchange-delegates.glade", NULL, NULL);
-	g_return_if_fail (delegates->xml != NULL);
+	delegates->dialog = gtk_dialog_new_with_buttons (
+		_("Delegates"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
-	delegates->dialog = glade_xml_get_widget (delegates->xml, "delegates");
-	g_return_if_fail (delegates->dialog != NULL);
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (delegates->dialog));
+	gtk_widget_show (dialog_vbox1);
+
+	vbox2 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox2);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox2, TRUE, TRUE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox2), 6);
+
+	label3 = gtk_label_new (_("These users will be able to send mail on your behalf\nand access your folders with the permissions you give them."));
+	gtk_widget_show (label3);
+	gtk_box_pack_start (GTK_BOX (vbox2), label3, FALSE, FALSE, 0);
+
+	delegate_hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (delegate_hbox);
+	gtk_box_pack_start (GTK_BOX (vbox2), delegate_hbox, TRUE, TRUE, 0);
+
+	delegates_table = gtk_tree_view_new ();
+	gtk_widget_show (delegates_table);
+	gtk_box_pack_start (GTK_BOX (delegate_hbox), delegates_table, TRUE, TRUE, 0);
+	gtk_tree_view_set_enable_search (GTK_TREE_VIEW (delegates_table), FALSE);
+
+	vbuttonbox1 = gtk_vbutton_box_new ();
+	gtk_widget_show (vbuttonbox1);
+	gtk_box_pack_end (GTK_BOX (delegate_hbox), vbuttonbox1, FALSE, TRUE, 0);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox1), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (vbuttonbox1), 6);
+
+	add_button = gtk_button_new_from_stock ("gtk-add");
+	gtk_widget_show (add_button);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), add_button);
+	GTK_WIDGET_SET_FLAGS (add_button, GTK_CAN_DEFAULT);
+
+	edit_button = gtk_button_new_with_mnemonic (_("_Edit"));
+	gtk_widget_show (edit_button);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), edit_button);
+	GTK_WIDGET_SET_FLAGS (edit_button, GTK_CAN_DEFAULT);
+
+	remove_button = gtk_button_new_from_stock ("gtk-remove");
+	gtk_widget_show (remove_button);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox1), remove_button);
+	GTK_WIDGET_SET_FLAGS (remove_button, GTK_CAN_DEFAULT);
 
 	g_signal_connect (delegates->dialog, "response",
 			  G_CALLBACK (dialog_response), delegates);
 
-	gtk_window_set_transient_for (GTK_WINDOW (delegates->dialog), parent);
+	if (parent)
+		gtk_window_set_transient_for (GTK_WINDOW (delegates->dialog), GTK_WINDOW (parent));
 	delegates->parent = parent;
 	g_object_weak_ref (G_OBJECT (parent), parent_destroyed, delegates);
 
 	/* Set up the buttons */
-	button = glade_xml_get_widget (delegates->xml, "add_button");
-	g_signal_connect (button, "clicked",
+	g_signal_connect (add_button, "clicked",
 			  G_CALLBACK (add_button_clicked_cb), delegates);
-	button = glade_xml_get_widget (delegates->xml, "edit_button");
-	g_signal_connect (button, "clicked",
+	g_signal_connect (edit_button, "clicked",
 			  G_CALLBACK (edit_button_clicked_cb), delegates);
-	button = glade_xml_get_widget (delegates->xml, "remove_button");
-	g_signal_connect (button, "clicked",
+	g_signal_connect (remove_button, "clicked",
 			  G_CALLBACK (remove_button_clicked_cb), delegates);
 
 	/* Set up the table */
 	delegates->model = gtk_list_store_new (1, G_TYPE_STRING);
-	delegates->table = glade_xml_get_widget (delegates->xml, "delegates_table");
+	delegates->table = delegates_table;
 	column = gtk_tree_view_column_new_with_attributes (
 		_("Name"), gtk_cell_renderer_text_new (), "text", 0, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (delegates->table),
@@ -968,12 +1013,9 @@ exchange_delegates (ExchangeAccount *account, GtkWidget *parent)
 				  "button_press_event",
 				  G_CALLBACK (table_click_cb), delegates);
 	} else {
-		button = glade_xml_get_widget (delegates->xml, "add_button");
-		gtk_widget_set_sensitive (button, FALSE);
-		button = glade_xml_get_widget (delegates->xml, "edit_button");
-		gtk_widget_set_sensitive (button, FALSE);
-		button = glade_xml_get_widget (delegates->xml, "remove_button");
-		gtk_widget_set_sensitive (button, FALSE);
+		gtk_widget_set_sensitive (add_button, FALSE);
+		gtk_widget_set_sensitive (edit_button, FALSE);
+		gtk_widget_set_sensitive (remove_button, FALSE);
 
 		gtk_list_store_append (delegates->model, &iter);
 		gtk_list_store_set (delegates->model, &iter,

@@ -60,6 +60,7 @@
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
+    <placeholder name='address-book-popup-actions'/>
     <separator/>
     <menuitem action='address-book-popup-properties'/>
   </popup>

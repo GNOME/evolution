@@ -29,9 +29,6 @@
 #include <gconf/gconf-client.h>
 #include <e-folder-exchange.h>
 #include <exchange-hierarchy.h>
-#include <calendar/gui/e-cal-popup.h>
-#include <mail/em-popup.h>
-#include <mail/em-menu.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-error.h>
 #include <camel/camel-store.h>
@@ -40,42 +37,70 @@
 #include <mail/mail-ops.h>
 
 #include "exchange-operations.h"
-#include "addressbook/gui/widgets/eab-popup.h"
 #include "exchange-folder-subscription.h"
-
-void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, const gchar *fname);
-void org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target);
-void org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target);
-void org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data);
-void org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target);
-void org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data);
-void org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target);
-void org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data);
-void popup_free (EPopup *ep, GSList *items, gpointer data);
-void popup_inbox_free (EPopup *ep, GSList *items, gpointer data);
-void popup_ab_free (EPopup *ep, GSList *items, gpointer data);
-static void exchange_get_folder (gchar *uri, CamelFolder *folder, gpointer data);
 
 #define CONF_KEY_SELECTED_CAL_SOURCES "/apps/evolution/calendar/display/selected_calendars"
 
-static EPopupItem popup_inbox_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "29.inbox_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
-};
-
-void
-popup_inbox_free (EPopup *ep, GSList *items, gpointer data)
+static CamelFolderInfo *
+ex_create_folder_info (CamelStore *store, gchar *name, gchar *uri,
+                  gint unread_count, gint flags)
 {
-	g_slist_free (items);
+	CamelFolderInfo *info;
+	const gchar *path;
+
+	path = strstr (uri, "://");
+	if (!path)
+		return NULL;
+	path = strchr (path + 3, '/');
+	if (!path)
+		return NULL;
+
+	info = camel_folder_info_new ();
+	info->name = name;
+	info->uri = uri;
+	info->full_name = g_strdup (path + 1);
+	info->unread = unread_count;
+
+	return info;
 }
 
-void
-org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
+static void
+exchange_get_folder (gchar *uri, CamelFolder *folder, gpointer data)
+{
+	CamelStore *store;
+	CamelException ex;
+	CamelFolderInfo *info;
+	gchar *name = NULL;
+	gchar *stored_name = NULL;
+	gchar *target_uri = (gchar *)data;
+	ExchangeAccount *account = NULL;
+
+	account = exchange_operations_get_exchange_account ();
+
+	if (!account)
+		return;
+
+	/* Get the subscribed folder name. */
+	name = target_uri + strlen ("exchange://") + strlen (account->account_filename);
+	stored_name = strrchr (name + 1, '/');
+
+	if (stored_name)
+		name[stored_name - name] = '\0';
+
+	camel_exception_init (&ex);
+	store = camel_folder_get_parent_store (folder);
+
+	/* Construct the CamelFolderInfo */
+	info = ex_create_folder_info (store, name, target_uri, -1, 0);
+	camel_object_trigger_event (CAMEL_OBJECT (store),
+				    "folder_unsubscribed", info);
+	g_free (target_uri);
+}
+
+static void
+eex_folder_inbox_unsubscribe (const gchar *uri)
 {
 	ExchangeAccount *account = NULL;
-	EMPopupTargetFolder *target = data;
 	gchar *path = NULL;
 	gchar *stored_path = NULL;
 	const gchar *inbox_uri = NULL;
@@ -89,8 +114,8 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer
 	if (!account)
 		return;
 
-	target_uri = g_strdup (target->uri);
-	path = target->uri + strlen ("exchange://") + strlen (account->account_filename);
+	target_uri = g_strdup (uri);
+	path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename));
 	/* User will be able to unsubscribe by doing a right click on
 	   any one of this two-<other user's>Inbox or the
 	   <other user's folder> tree.
@@ -101,6 +126,8 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer
 		path[stored_path - path] = '\0';
 
 	result = exchange_account_remove_shared_folder (account, path);
+	g_free (path);
+
 	switch (result) {
 		case EXCHANGE_ACCOUNT_FOLDER_OK:
 			break;
@@ -140,199 +167,10 @@ org_gnome_exchange_folder_inbox_unsubscribe (EPopup *ep, EPopupItem *p, gpointer
 
 	/* To get the CamelStore/Folder */
 	mail_get_folder (inbox_physical_uri, 0, exchange_get_folder, target_uri, mail_msg_unordered_push);
-
-}
-
-static CamelFolderInfo *
-ex_create_folder_info (CamelStore *store, gchar *name, gchar *uri,
-                  gint unread_count, gint flags)
-{
-        CamelFolderInfo *info;
-        const gchar *path;
-
-        path = strstr (uri, "://");
-        if (!path)
-                return NULL;
-        path = strchr (path + 3, '/');
-        if (!path)
-                return NULL;
-
-        info = camel_folder_info_new ();
-        info->name = name;
-        info->uri = uri;
-        info->full_name = g_strdup (path + 1);
-        info->unread = unread_count;
-
-        return info;
 }
 
 static void
-exchange_get_folder (gchar *uri, CamelFolder *folder, gpointer data)
-{
-	CamelStore *store;
-	CamelException ex;
-	CamelFolderInfo *info;
-	gchar *name = NULL;
-	gchar *stored_name = NULL;
-	gchar *target_uri = (gchar *)data;
-	ExchangeAccount *account = NULL;
-
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
-	/* Get the subscribed folder name. */
-	name = target_uri + strlen ("exchange://") + strlen (account->account_filename);
-	stored_name = strrchr (name + 1, '/');
-
-	if (stored_name)
-		name[stored_name - name] = '\0';
-
-	camel_exception_init (&ex);
-	store = camel_folder_get_parent_store (folder);
-
-	/* Construct the CamelFolderInfo */
-	info = ex_create_folder_info (store, name, target_uri, -1, 0);
-	camel_object_trigger_event (CAMEL_OBJECT (store),
-				    "folder_unsubscribed", info);
-	g_free (target_uri);
-}
-
-void
-org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *target)
-{
-	GSList *menus = NULL;
-	gint i = 0;
-	ExchangeAccount *account = NULL;
-	gchar *path = NULL;
-	gchar *sub_folder = NULL;
-
-	if (!g_strrstr (target->uri, "exchange://"))
-		return;
-
-	account = exchange_operations_get_exchange_account ();
-	if (!account)
-		return;
-
-	path = g_strdup (target->uri + strlen ("exchange://") + strlen (account->account_filename));
-	sub_folder = strchr (path, '@');
-
-	g_free (path);
-
-	if (!sub_folder || !g_strrstr(sub_folder, "/"))
-		return;
-
-        for (i = 0; i < sizeof (popup_inbox_items) / sizeof (popup_inbox_items[0]); i++)
-                menus = g_slist_prepend (menus, &popup_inbox_items[i]);
-
-        e_popup_add_items (target->target.popup, menus, NULL, popup_inbox_free, target);
-}
-
-static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "29.calendar_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
-};
-
-void
-popup_free (EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free (items);
-}
-
-static EPopupItem popup_ab_items[] = {
-	{ E_POPUP_ITEM, (gchar *) "29.address_book_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
-};
-
-void
-popup_ab_free (EPopup *ep, GSList *items, gpointer data)
-{
-	g_slist_free (items);
-}
-
-void
-org_gnome_exchange_check_address_book_subscribed (EPlugin *ep, EABPopupTargetSource *target)
-{
-	GSList *menus = NULL;
-	gint i = 0;
-	ESource *source = NULL;
-	gchar *uri = NULL;
-	gchar *path = NULL;
-	gchar *sub_folder = NULL;
-	const gchar *base_uri;
-	ExchangeAccount *account = NULL;
-	ESourceGroup *group;
-
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	group = e_source_peek_group (source);
-	base_uri = e_source_group_peek_base_uri (group);
-	if (!base_uri || strcmp (base_uri, "exchange://"))
-		return;
-
-	uri = e_source_get_uri (source);
-	path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename) + strlen ("/;"));
-	g_free (uri);
-	sub_folder = strchr (path, '@');
-
-	if (!sub_folder) {
-		g_free (path);
-		return;
-	}
-
-	for (i = 0; i < sizeof (popup_ab_items) / sizeof (popup_ab_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_ab_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_ab_free, target);
-	g_free (path);
-
-}
-
-void
-org_gnome_exchange_check_subscribed (EPlugin *ep, ECalPopupTargetSource *target)
-{
-	GSList *menus = NULL;
-	gint i = 0;
-	ESource *source = NULL;
-	gchar *ruri = NULL;
-	gchar *path = NULL;
-	gchar *sub_folder = NULL;
-	const gchar *base_uri;
-	ExchangeAccount *account = NULL;
-	ESourceGroup *group;
-
-	account = exchange_operations_get_exchange_account ();
-
-	if (!account)
-		return;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
-	group = e_source_peek_group (source);
-	base_uri = e_source_group_peek_base_uri (group);
-	if (!base_uri || strcmp (base_uri, "exchange://"))
-		return;
-
-	ruri = (gchar *) e_source_peek_relative_uri (source);
-	path = g_strdup (ruri + strlen (account->account_filename) + strlen ("/;"));
-	sub_folder = strchr (path, '@');
-
-	if (!sub_folder) {
-		g_free (path);
-		return;
-	}
-
-	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &popup_items[i]);
-
-	e_popup_add_items (target->target.popup, menus, NULL, popup_free, target);
-	g_free (path);
-}
-
-static void
-unsubscribe_dialog_ab_response (GtkDialog *dialog, gint response, gpointer data)
+unsubscribe_dialog_ab_response (GtkDialog *dialog, gint response, ESource *source)
 {
 
 	if (response == GTK_RESPONSE_OK) {
@@ -341,15 +179,14 @@ unsubscribe_dialog_ab_response (GtkDialog *dialog, gint response, gpointer data)
 		gchar *uri = NULL;
 		const gchar *source_uid = NULL;
 		ESourceGroup *source_group = NULL;
-		ESource *source = NULL;
-		EABPopupTargetSource *target = data;
+
+		g_return_if_fail (source != NULL);
 
 		account = exchange_operations_get_exchange_account ();
 
 		if (!account)
 			return;
 
-		source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 		uri = e_source_get_uri (source);
 		path = g_strdup (uri + strlen ("exchange://") + strlen (account->account_filename));
 		source_uid = e_source_peek_uid (source);
@@ -368,7 +205,7 @@ unsubscribe_dialog_ab_response (GtkDialog *dialog, gint response, gpointer data)
 }
 
 static void
-unsubscribe_dialog_response (GtkDialog *dialog, gint response, gpointer data)
+unsubscribe_dialog_response (GtkDialog *dialog, gint response, ESource *source)
 {
 
 	if (response == GTK_RESPONSE_OK) {
@@ -379,8 +216,8 @@ unsubscribe_dialog_response (GtkDialog *dialog, gint response, gpointer data)
 		const gchar *source_uid = NULL;
 		GConfClient *client;
 		ESourceGroup *source_group = NULL;
-		ESource *source = NULL;
-		ECalPopupTargetSource *target = data;
+
+		g_return_if_fail (source != NULL);
 
 		client = gconf_client_get_default ();
 
@@ -389,7 +226,6 @@ unsubscribe_dialog_response (GtkDialog *dialog, gint response, gpointer data)
 		if (!account)
 			return;
 
-		source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 		ruri = (gchar *) e_source_peek_relative_uri (source);
 		source_uid = e_source_peek_uid (source);
 
@@ -426,12 +262,10 @@ unsubscribe_dialog_response (GtkDialog *dialog, gint response, gpointer data)
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
-void
-org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
+static void
+eex_addresssbook_unsubscribe (ESource *source)
 {
 	GtkWidget *dialog = NULL;
-	EABPopupTargetSource *target = data;
-	ESource *source = NULL;
 	ExchangeAccount *account = NULL;
 	gchar *title = NULL;
 	gchar *displayed_folder_name = NULL;
@@ -439,13 +273,13 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, gpointer da
 	gint mode;
 	ExchangeConfigListenerStatus status;
 
-	account = exchange_operations_get_exchange_account ();
+	g_return_if_fail (source != NULL);
 
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 
 	status = exchange_is_offline (&mode);
-
 	if (status != CONFIG_LISTENER_STATUS_OK) {
 		g_warning ("Config listener not found");
 		return;
@@ -454,7 +288,6 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, gpointer da
 		return;
 	}
 
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name = (gchar *) e_source_peek_name (source);
 	dialog = gtk_message_dialog_new (NULL,
 					 GTK_DIALOG_MODAL,
@@ -479,14 +312,13 @@ org_gnome_exchange_folder_ab_unsubscribe (EPopup *ep, EPopupItem *p, gpointer da
 	g_free (displayed_folder_name);
 
 	gtk_widget_show (dialog);
-	unsubscribe_dialog_ab_response (GTK_DIALOG (dialog), response, data);
+	unsubscribe_dialog_ab_response (GTK_DIALOG (dialog), response, source);
 }
-void
-org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
+
+static void
+eex_calendar_unsubscribe (ESource *source)
 {
 	GtkWidget *dialog = NULL;
-	ECalPopupTargetSource *target = data;
-	ESource *source = NULL;
 	ExchangeAccount *account = NULL;
 	gchar *title = NULL;
 	const gchar *displayed_folder_name;
@@ -494,8 +326,9 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
 	gint mode;
 	ExchangeConfigListenerStatus status;
 
-	account = exchange_operations_get_exchange_account ();
+	g_return_if_fail (source != NULL);
 
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 
@@ -509,7 +342,6 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
 		return;
 	}
 
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (target->selector));
 	displayed_folder_name =  e_source_peek_name (source);
 	dialog = gtk_message_dialog_new (NULL,
 					 GTK_DIALOG_MODAL,
@@ -533,28 +365,27 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, gpointer data)
 	g_free (title);
 
 	gtk_widget_show (dialog);
-	unsubscribe_dialog_response (GTK_DIALOG (dialog), response, data);
+	unsubscribe_dialog_response (GTK_DIALOG (dialog), response, source);
 }
 
 void
-org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, const gchar *fname)
+call_folder_subscribe (const gchar *folder_name)
 {
 	ExchangeAccount *account = NULL;
 	gint mode;
 	ExchangeConfigListenerStatus status;
 
-	account = exchange_operations_get_exchange_account ();
+	g_return_if_fail (folder_name != NULL);
 
+	account = exchange_operations_get_exchange_account ();
 	if (!account)
 		return;
 
 	status = exchange_is_offline (&mode);
-
 	if (status != CONFIG_LISTENER_STATUS_OK) {
 		g_warning ("Config listener not found");
 		return;
-	}
-	else if (mode == OFFLINE_MODE) {
+	} else if (mode == OFFLINE_MODE) {
 		/* Translators: this error code can be used for any operation
 		 * (like subscribing to other user's folders, unsubscribing
 		 * etc,) which can not be performed in offline mode
@@ -563,33 +394,27 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 		return;
 	}
 
-	create_folder_subscription_dialog (account, fname);
+	create_folder_subscription_dialog (account, folder_name);
 }
 
 void
-org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target)
+call_folder_unsubscribe (const gchar *folder_type, const gchar *uri, ESource *source)
 {
-	const gchar *folder_name = N_("Calendar");
-	org_gnome_exchange_folder_subscription (ep, target, folder_name);
-}
+	g_return_if_fail (folder_type != NULL);
+	g_return_if_fail (uri != NULL);
 
-void
-org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target)
-{
-	const gchar *folder_name = N_("Contacts");
-	org_gnome_exchange_folder_subscription (ep, target, folder_name);
-}
-
-void
-org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target)
-{
-	const gchar *folder_name = N_("Tasks");
-	org_gnome_exchange_folder_subscription (ep, target, folder_name);
-}
-
-void
-org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target)
-{
-	const gchar *folder_name = N_("Inbox");
-	org_gnome_exchange_folder_subscription (ep, target, folder_name);
+	if (g_str_equal (folder_type, N_("Inbox"))) {
+		eex_folder_inbox_unsubscribe (uri);
+	} else if (g_str_equal (folder_type, N_("Calendar"))) {
+		g_return_if_fail (source != NULL);
+		eex_calendar_unsubscribe (source);
+	} else if (g_str_equal (folder_type, N_("Tasks"))) {
+		g_return_if_fail (source != NULL);
+		eex_calendar_unsubscribe (source);
+	} else if (g_str_equal (folder_type, N_("Contacts"))) {
+		g_return_if_fail (source != NULL);
+		eex_addresssbook_unsubscribe (source);
+	} else {
+		g_return_if_reached ();
+	}
 }

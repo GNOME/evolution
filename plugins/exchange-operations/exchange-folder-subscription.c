@@ -25,7 +25,6 @@
 #include "config.h"
 #endif
 
-#include <glade/glade-xml.h>
 #include <gtk/gtk.h>
 #include <e-util/e-error.h>
 #include <e-folder.h>
@@ -57,16 +56,13 @@ user_clicked (GtkWidget *button, ENameSelector *name_selector)
 }
 
 static GtkWidget *
-setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
+setup_name_selector (GtkWidget *placeholder, GtkWidget *button_user, ENameSelector **name_selector_ret)
 {
 	ENameSelector *name_selector;
 	ENameSelectorModel *name_selector_model;
 	ENameSelectorDialog *name_selector_dialog;
-	GtkWidget *placeholder;
 	GtkWidget *widget;
-	GtkWidget *button;
 
-	placeholder = glade_xml_get_widget (glade_xml, "user-picker-placeholder");
 	g_assert (GTK_IS_CONTAINER (placeholder));
 
 	name_selector = e_name_selector_new ();
@@ -83,8 +79,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 	widget = GTK_WIDGET (e_name_selector_peek_section_entry (name_selector, "User"));
 	gtk_widget_show (widget);
 
-	button = glade_xml_get_widget (glade_xml, "button-user");
-	g_signal_connect (button, "clicked", G_CALLBACK (user_clicked), name_selector);
+	g_signal_connect (button_user, "clicked", G_CALLBACK (user_clicked), name_selector);
 	gtk_box_pack_start (GTK_BOX (placeholder), widget, TRUE, TRUE, 6);
 	*name_selector_ret = name_selector;
 
@@ -92,7 +87,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 }
 
 static void
-setup_folder_name_combo (GladeXML *glade_xml, const gchar *fname)
+setup_folder_name_combo (GtkWidget *widget, const gchar *fname)
 {
 	GtkComboBox *combo;
 	const gchar *strings[] = {
@@ -105,7 +100,7 @@ setup_folder_name_combo (GladeXML *glade_xml, const gchar *fname)
 	};
 	gint i;
 
-	combo = GTK_COMBO_BOX (glade_xml_get_widget (glade_xml, "folder-name-combo"));
+	combo = GTK_COMBO_BOX (widget);
 	g_assert (GTK_IS_COMBO_BOX_ENTRY (combo));
 
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
@@ -142,11 +137,8 @@ user_name_entry_changed_callback (GtkEditable *editable, gpointer data)
 }
 
 static void
-setup_server_combobox (GladeXML *glade_xml, gchar *mail_account)
+setup_server_combobox (GtkWidget *widget, gchar *mail_account)
 {
-	GtkWidget *widget;
-
-	widget = glade_xml_get_widget (glade_xml, "server-combobox");
 	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
 
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (widget))));
@@ -287,8 +279,15 @@ gboolean
 create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname)
 {
 	ENameSelector *name_selector;
-	GladeXML *glade_xml;
-	GtkWidget *dialog, *ok_button;
+	GtkWidget *dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *table1;
+	GtkWidget *label1;
+	GtkWidget *label3;
+	GtkWidget *user_picker_placeholder;
+	GtkWidget *button_user;
+	GtkWidget *folder_name_combo;
+	GtkWidget *server_combobox;
 	SubscriptionInfo *subscription_info;
 	gint mode;
 
@@ -299,27 +298,74 @@ create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname)
 	subscription_info = g_new0 (SubscriptionInfo, 1);
 	subscription_info->account = account;
 
-	glade_xml = glade_xml_new (CONNECTOR_GLADEDIR "/e-foreign-folder-dialog.glade",
-				   NULL, NULL);
-	g_return_val_if_fail (glade_xml != NULL, FALSE);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Subscribe to Other User's Folder"),
+		NULL,
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
-	dialog = glade_xml_get_widget (glade_xml, "dialog");
-	g_return_val_if_fail (dialog != NULL, FALSE);
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	gtk_widget_show (dialog_vbox1);
+
+	table1 = gtk_table_new (3, 2, FALSE);
+	gtk_widget_show (table1);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, TRUE, TRUE, 2);
+	gtk_table_set_row_spacings (GTK_TABLE (table1), 3);
+	gtk_table_set_col_spacings (GTK_TABLE (table1), 3);
+
+	label1 = gtk_label_new_with_mnemonic (_("_Account:"));
+	gtk_widget_show (label1);
+	gtk_table_attach (GTK_TABLE (table1), label1, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
+
+	label3 = gtk_label_new_with_mnemonic (_("_Folder Name:"));
+	gtk_widget_show (label3);
+	gtk_table_attach (GTK_TABLE (table1), label3, 0, 1, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_CENTER);
+
+	user_picker_placeholder = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (user_picker_placeholder);
+	gtk_table_attach (GTK_TABLE (table1), user_picker_placeholder, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+
+	button_user = gtk_button_new_with_mnemonic (_("_User:"));
+	gtk_widget_show (button_user);
+	gtk_table_attach (GTK_TABLE (table1), button_user, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (0), 0, 0);
+
+	folder_name_combo = gtk_combo_box_entry_new_text ();
+	gtk_widget_show (folder_name_combo);
+	gtk_table_attach (GTK_TABLE (table1), folder_name_combo, 1, 2, 2, 3,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+
+	server_combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (server_combobox);
+	gtk_table_attach (GTK_TABLE (table1), server_combobox, 1, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Subscribe to Other User's Folder"));
 
-	subscription_info->name_selector_widget = setup_name_selector (glade_xml, &name_selector);
+	subscription_info->name_selector_widget = setup_name_selector (user_picker_placeholder, button_user, &name_selector);
 	subscription_info->name_selector = name_selector;
 	gtk_widget_grab_focus (subscription_info->name_selector_widget);
 
-	ok_button = glade_xml_get_widget (glade_xml, "button1");
-	gtk_widget_set_sensitive (ok_button, FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 	g_signal_connect (subscription_info->name_selector_widget, "changed",
 			  G_CALLBACK (user_name_entry_changed_callback), dialog);
 
-	setup_server_combobox (glade_xml, account->account_name);
-	setup_folder_name_combo (glade_xml, fname);
-	subscription_info->folder_name_entry = gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (glade_xml, "folder-name-combo")));
+	setup_server_combobox (server_combobox, account->account_name);
+	setup_folder_name_combo (folder_name_combo, fname);
+	subscription_info->folder_name_entry = gtk_bin_get_child (GTK_BIN (folder_name_combo));
 	g_signal_connect (dialog, "response", G_CALLBACK (subscribe_to_folder), subscription_info);
 	gtk_widget_show (dialog);
 
