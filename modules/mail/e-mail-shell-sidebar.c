@@ -535,7 +535,7 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		COL_UINT_FLAGS, &folder_flags,
 		COL_STRING_URI, &uri, -1);
 
-	if (!is_store) {
+	if (!is_store && full_name != NULL) {
 		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
 		is_trash = (strcmp (full_name, CAMEL_VTRASH_NAME) == 0);
 		allows_children = !(is_junk || is_trash);
