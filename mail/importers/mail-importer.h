@@ -27,29 +27,6 @@
 #include <e-util/e-import.h>
 #include <camel/camel-folder.h>
 
-typedef struct _MailImporter MailImporter;
-struct _MailImporter {
-	CamelFolder *folder;
-	CamelStreamMem *mstream;
-
-	gboolean frozen; /* Is folder frozen? */
-};
-
-struct _MailComponent;
-
-void mail_importer_init (struct _MailComponent *mc);
-void mail_importer_uninit (void);
-
-void mail_importer_add_line (MailImporter *importer,
-			     const gchar *str,
-			     gboolean finished);
-void mail_importer_create_folder (const gchar *parent_path,
-				  const gchar *name,
-				  const gchar *description);
-
-/* creates a folder at folderpath on the local storage */
-gchar *mail_importer_make_local_folder(const gchar *folderpath);
-
 EImportImporter *mbox_importer_peek(void);
 
 EImportImporter *elm_importer_peek(void);

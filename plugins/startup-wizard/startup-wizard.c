@@ -122,7 +122,7 @@ startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 
 	if (import == NULL) {
 		import = e_import_new("org.gnome.evolution.shell.importer");
-		import_target = e_import_target_new_home(import, g_get_home_dir());
+		import_target = e_import_target_new_home(import);
 		import_importers = e_import_get_importers(import, (EImportTarget *)import_target);
 	}
 

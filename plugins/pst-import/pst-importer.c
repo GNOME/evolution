@@ -41,6 +41,7 @@
 #include <gtk/gtk.h>
 
 #include <e-util/e-import.h>
+#include <e-util/e-plugin.h>
 
 #include <libebook/e-contact.h>
 #include <libebook/e-book.h>

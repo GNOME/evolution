@@ -69,7 +69,6 @@
 
 #include <misc/e-cursors.h>
 #include "e-util/e-error.h"
-#include "e-util/e-import.h"
 
 #include <fcntl.h>
 #include <signal.h>
@@ -610,7 +609,6 @@ main (gint argc, gchar **argv)
 #ifdef ENABLE_PROFILING
 		e_profile_event_hook_get_type ();
 #endif
-		e_import_hook_get_type ();
 		e_plugin_ui_hook_get_type ();
 
 		/* All EPlugin and EPluginHook subclasses should be

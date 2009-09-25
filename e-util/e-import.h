@@ -96,7 +96,7 @@ struct _EImportImporter {
  * import context for a given importer.
  **/
 struct _EImportTarget {
-	struct _EImport *import;
+	EImport *import;
 
 	guint32 type;
 
@@ -109,16 +109,14 @@ typedef struct _EImportTargetURI EImportTargetURI;
 typedef struct _EImportTargetHome EImportTargetHome;
 
 struct _EImportTargetURI {
-	struct _EImportTarget target;
+	EImportTarget target;
 
 	gchar *uri_src;
 	gchar *uri_dest;
 };
 
 struct _EImportTargetHome {
-	struct _EImportTarget target;
-
-	gchar *homedir;
+	EImportTarget target;
 };
 
 /**
@@ -168,7 +166,6 @@ EImport *e_import_new(const gchar *id);
 
 /* Static class methods */
 void e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, gpointer data);
-void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f);
 
 GSList *e_import_get_importers(EImport *emp, EImportTarget *target);
 
@@ -186,77 +183,7 @@ gpointer e_import_target_new(EImport *ep, gint type, gsize size);
 void e_import_target_free(EImport *ep, gpointer o);
 
 EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const gchar *duri);
-EImportTargetHome *e_import_target_new_home(EImport *ei, const gchar *home);
-
-/* ********************************************************************** */
-
-/* import plugin target, they are closely integrated */
-
-/* To implement a basic import plugin, you just need to subclass
-   this and initialise the class target type tables */
-
-#include "e-util/e-plugin.h"
-
-typedef struct _EPluginHookTargetMap EImportHookTargetMap;
-typedef struct _EPluginHookTargetKey EImportHookTargetMask;
-
-typedef struct _EImportHook EImportHook;
-typedef struct _EImportHookClass EImportHookClass;
-
-typedef struct _EImportHookImporter EImportHookImporter;
-
-struct _EImportHookImporter {
-	EImportImporter importer;
-
-	/* user_data == EImportHook */
-
-	gchar *supported;
-	gchar *get_widget;
-	gchar *import;
-	gchar *cancel;
-};
-
-/**
- * struct _EImportHook - Plugin hook for importuration windows.
- *
- * @hook: Superclass.
- * @groups: A list of EImportHookGroup's of all importuration windows
- * this plugin hooks into.
- *
- **/
-struct _EImportHook {
-	EPluginHook hook;
-
-	GSList *importers;
-};
-
-/**
- * struct _EImportHookClass - Abstract class for importuration window
- * plugin hooks.
- *
- * @hook_class: Superclass.
- * @target_map: A table of EImportHookTargetMap structures describing
- * the possible target types supported by this class.
- * @import_class: The EImport derived class that this hook
- * implementation drives.
- *
- * This is an abstract class defining the plugin hook point for
- * importuration windows.
- *
- **/
-struct _EImportHookClass {
-	EPluginHookClass hook_class;
-
-	/* EImportHookTargetMap by .type */
-	GHashTable *target_map;
-	/* the import class these imports's belong to */
-	EImportClass *import_class;
-};
-
-GType e_import_hook_get_type(void);
-
-/* for implementors */
-void e_import_hook_class_add_target_map(EImportHookClass *klass, const EImportHookTargetMap *);
+EImportTargetHome *e_import_target_new_home(EImport *ei);
 
 G_END_DECLS
 

@@ -593,12 +593,11 @@ gnome_calendar_supported(EImport *ei, EImportTarget *target, EImportImporter *im
 {
 	gchar *filename;
 	gboolean res;
-	EImportTargetHome *s = (EImportTargetHome *)target;
 
 	if (target->type != E_IMPORT_TARGET_HOME)
 		return FALSE;
 
-	filename = g_build_filename(s->homedir, "user-cal.vcf", NULL);
+	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
 	res = g_file_test(filename, G_FILE_TEST_IS_REGULAR);
 	g_free (filename);
 
@@ -614,7 +613,6 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	ECal *calendar_client = NULL, *tasks_client = NULL;
 	gint t;
 	gint do_calendar, do_tasks;
-	EImportTargetHome *s = (EImportTargetHome *)target;
 	ICalIntelligentImporter *ici;
 
 	/* This is pretty shitty, everything runs in the gui thread and can block
@@ -643,7 +641,7 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	}
 
 	/* Load the Gnome Calendar file and convert to iCalendar. */
-	filename = g_build_filename(s->homedir, "user-cal.vcf", NULL);
+	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
 	icalcomp = load_vcalendar_file (filename);
 	g_free (filename);
 

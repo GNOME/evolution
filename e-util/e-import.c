@@ -79,11 +79,8 @@ ec_target_free(EImport *ep, EImportTarget *t)
 		g_free(s->uri_src);
 		g_free(s->uri_dest);
 		break; }
-	case E_IMPORT_TARGET_HOME: {
-		EImportTargetHome *s = (EImportTargetHome *)t;
-
-		g_free(s->homedir);
-		break; }
+	default:
+		break;
 	}
 
 	g_datalist_clear(&t->data);
@@ -289,6 +286,7 @@ e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImp
 	node->importer = importer;
 	node->free = freefunc;
 	node->data = data;
+
 	ei = (struct _EImportImporters *)klass->importers.head;
 	en = ei->next;
 	while (en && ei->importer->pri < importer->pri) {
@@ -303,24 +301,6 @@ e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImp
 		node->next->prev = node;
 		node->prev = ei;
 		ei->next = node;
-	}
-}
-
-void e_import_class_remove_importer(EImportClass *klass, EImportImporter *f)
-{
-	struct _EImportImporters *ei, *en;
-
-	ei = (struct _EImportImporters *)klass->importers.head;
-	en = ei->next;
-	while (en) {
-		if (ei->importer == f) {
-			e_dlist_remove((EDListNode *)ei);
-			if (ei->free)
-				ei->free(f, ei->data);
-			g_free(ei);
-		}
-		ei = en;
-		en = en->next;
 	}
 }
 
@@ -377,250 +357,9 @@ EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const 
 	return t;
 }
 
-EImportTargetHome *e_import_target_new_home(EImport *ei, const gchar *home)
+EImportTargetHome *
+e_import_target_new_home (EImport *ei)
 {
-	EImportTargetHome *t = e_import_target_new(ei, E_IMPORT_TARGET_HOME, sizeof(*t));
-
-	t->homedir = g_strdup(home);
-
-	return t;
-}
-
-/* ********************************************************************** */
-
-/* Import menu plugin handler */
-
-/*
-<e-plugin
-  class="org.gnome.mail.plugin.import:1.0"
-  id="org.gnome.mail.plugin.import.item:1.0"
-  type="shlib"
-  location="/opt/gnome2/lib/camel/1.0/libcamelimap.so"
-  name="imap"
-  description="IMAP4 and IMAP4v1 mail store">
-  <hook class="org.gnome.mail.importMenu:1.0"
-        handler="HandleImport">
-  <menu id="any" target="select">
-   <item
-    type="item|toggle|radio|image|submenu|bar"
-    active
-    path="foo/bar"
-    label="label"
-    icon="foo"
-    activate="ep_view_emacs"/>
-  </menu>
-  </extension>
-
-*/
-
-static gpointer emph_parent_class;
-#define emph ((EImportHook *)eph)
-
-static const EImportHookTargetMask eih_no_masks[] = {
-	{ NULL }
-};
-
-static const EImportHookTargetMap eih_targets[] = {
-	{ "uri", E_IMPORT_TARGET_URI, eih_no_masks },
-	{ "home", E_IMPORT_TARGET_HOME, eih_no_masks },
-	{ NULL }
-};
-
-static gboolean eih_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
-{
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
-	EImportHook *hook = im->user_data;
-
-	return e_plugin_invoke(hook->hook.plugin, ihook->supported, target) != NULL;
-}
-
-static GtkWidget *eih_get_widget(EImport *ei, EImportTarget *target, EImportImporter *im)
-{
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
-	EImportHook *hook = im->user_data;
-
-	return e_plugin_invoke(hook->hook.plugin, ihook->get_widget, target);
-}
-
-static void eih_import(EImport *ei, EImportTarget *target, EImportImporter *im)
-{
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
-	EImportHook *hook = im->user_data;
-
-	e_plugin_invoke(hook->hook.plugin, ihook->import, target);
-}
-
-static void eih_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
-{
-	struct _EImportHookImporter *ihook = (EImportHookImporter *)im;
-	EImportHook *hook = im->user_data;
-
-	e_plugin_invoke(hook->hook.plugin, ihook->cancel, target);
-}
-
-static void
-eih_free_importer(EImportImporter *im, gpointer data)
-{
-	EImportHookImporter *ihook = (EImportHookImporter *)im;
-
-	g_free(ihook->supported);
-	g_free(ihook->get_widget);
-	g_free(ihook->import);
-	g_free(ihook);
-}
-
-static struct _EImportHookImporter *
-emph_construct_importer(EPluginHook *eph, xmlNodePtr root)
-{
-	struct _EImportHookImporter *item;
-	EImportHookTargetMap *map;
-	EImportHookClass *klass = (EImportHookClass *)G_OBJECT_GET_CLASS(eph);
-	gchar *tmp;
-
-	d(printf("  loading import item\n"));
-	item = g_malloc0(sizeof(*item));
-
-	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
-	if (tmp == NULL)
-		goto error;
-	map = g_hash_table_lookup(klass->target_map, tmp);
-	xmlFree(tmp);
-	if (map == NULL)
-		goto error;
-
-	item->importer.type = map->id;
-	item->supported = e_plugin_xml_prop(root, "supported");
-	item->get_widget = e_plugin_xml_prop(root, "get-widget");
-	item->import = e_plugin_xml_prop(root, "import");
-	item->cancel = e_plugin_xml_prop(root, "cancel");
-
-	item->importer.name = e_plugin_xml_prop(root, "name");
-	item->importer.description = e_plugin_xml_prop(root, "description");
-
-	item->importer.user_data = eph;
-
-	if (item->import == NULL || item->supported == NULL)
-		goto error;
-
-	item->importer.supported = eih_supported;
-	item->importer.import = eih_import;
-	if (item->get_widget)
-		item->importer.get_widget = eih_get_widget;
-	if (item->cancel)
-		item->importer.cancel = eih_cancel;
-
-	return item;
-error:
-	d(printf("error!\n"));
-	eih_free_importer((EImportImporter *)item, NULL);
-	return NULL;
-}
-
-static gint
-emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
-{
-	xmlNodePtr node;
-	EImportClass *klass;
-
-	d(printf("loading import hook\n"));
-
-	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
-		return -1;
-
-	klass = ((EImportHookClass *)G_OBJECT_GET_CLASS(eph))->import_class;
-
-	node = root->children;
-	while (node) {
-		if (strcmp((gchar *)node->name, "importer") == 0) {
-			struct _EImportHookImporter *ihook;
-
-			ihook = emph_construct_importer(eph, node);
-			if (ihook) {
-				e_import_class_add_importer(klass, &ihook->importer, eih_free_importer, eph);
-				emph->importers = g_slist_append(emph->importers, ihook);
-			}
-		}
-		node = node->next;
-	}
-
-	eph->plugin = ep;
-
-	return 0;
-}
-
-static void
-emph_finalise(GObject *o)
-{
-	/*EPluginHook *eph = (EPluginHook *)o;*/
-
-	/* free importers? */
-
-	((GObjectClass *)emph_parent_class)->finalize(o);
-}
-
-static void
-emph_class_init(EPluginHookClass *klass)
-{
-	gint i;
-
-	((GObjectClass *)klass)->finalize = emph_finalise;
-	klass->construct = emph_construct;
-
-	/** @HookClass: Evolution Importers
-	 * @Id: org.gnome.evolution.import:1.0
-	 * @Target: EImportTarget
-	 *
-	 * A hook for data importers.
-	 **/
-
-	klass->id = "org.gnome.evolution.import:1.0";
-
-	d(printf("EImportHook: init class %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
-
-	((EImportHookClass *)klass)->target_map = g_hash_table_new(g_str_hash, g_str_equal);
-	((EImportHookClass *)klass)->import_class = g_type_class_ref(e_import_get_type());
-
-	for (i=0;eih_targets[i].type;i++)
-		e_import_hook_class_add_target_map((EImportHookClass *)klass, &eih_targets[i]);
-}
-
-/**
- * e_import_hook_get_type:
- *
- * Standard GObject function to get the object type.
- *
- * Return value: The EImportHook class type.
- **/
-GType
-e_import_hook_get_type(void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EImportHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
-			sizeof(EImportHook), 0, (GInstanceInitFunc) NULL,
-		};
-
-		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
-		type = g_type_register_static(e_plugin_hook_get_type(), "EImportHook", &info, 0);
-	}
-
-	return type;
-}
-
-/**
- * e_import_hook_class_add_target_map:
- *
- * @klass: The dervied EimportHook class.
- * @map: A map used to describe a single EImportTarget type for this
- * class.
- *
- * Add a targe tmap to a concrete derived class of EImport.  The
- * target map enumates the target types available for the implenting
- * class.
- **/
-void e_import_hook_class_add_target_map(EImportHookClass *klass, const EImportHookTargetMap *map)
-{
-	g_hash_table_insert(klass->target_map, (gpointer)map->type, (gpointer)map);
+	return e_import_target_new (
+		ei, E_IMPORT_TARGET_HOME, sizeof (EImportTargetHome));
 }

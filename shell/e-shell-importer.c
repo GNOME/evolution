@@ -372,7 +372,7 @@ prepare_intelligent_page (GtkAssistant *assistant, GtkWidget *apage, ImportData 
 		return;
 	}
 
-	page->target = e_import_target_new_home(data->import, g_get_home_dir());
+	page->target = e_import_target_new_home(data->import);
 
 	if (data->importerpage->importers)
 		g_slist_free(data->importerpage->importers);

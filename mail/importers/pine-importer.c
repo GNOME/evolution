@@ -76,11 +76,11 @@ pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	s = (EImportTargetHome *)target;
 
-	maildir = g_build_filename(s->homedir, "mail", NULL);
+	maildir = g_build_filename(g_get_home_dir (), "mail", NULL);
 	md_exists = g_file_test(maildir, G_FILE_TEST_IS_DIR);
 	g_free(maildir);
 
-	addrfile = g_build_filename(s->homedir, ".addressbook", NULL);
+	addrfile = g_build_filename(g_get_home_dir (), ".addressbook", NULL);
 	addr_exists = g_file_test(addrfile, G_FILE_TEST_IS_REGULAR);
 	g_free (addrfile);
 

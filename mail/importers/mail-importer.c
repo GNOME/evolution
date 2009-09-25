@@ -54,66 +54,6 @@
 
 #include "mail-importer.h"
 
-/**
- * mail_importer_make_local_folder:
- * @folderpath:
- *
- * Check a local folder exists at path @folderpath, and if not, create it.
- *
- * Return value: The physical uri of the folder, or NULL if the folder did
- * not exist and could not be created.
- **/
-gchar *
-mail_importer_make_local_folder(const gchar *folderpath)
-{
-	return g_strdup_printf("mbox:/home/notzed/.evolution/mail/local/%s", folderpath);
-}
-
-/**
- * mail_importer_add_line:
- * importer: A MailImporter structure.
- * str: Next line of the mbox.
- * finished: TRUE if @str is the last line of the message.
- *
- * Adds lines to the message until it is finished, and then adds
- * the complete message to the folder.
- */
-void
-mail_importer_add_line (MailImporter *importer,
-			const gchar *str,
-			gboolean finished)
-{
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
-	CamelException *ex;
-
-	if (importer->mstream == NULL)
-		importer->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
-
-	camel_stream_write (CAMEL_STREAM (importer->mstream), str,  strlen (str));
-
-	if (finished == FALSE)
-		return;
-
-	camel_stream_reset (CAMEL_STREAM (importer->mstream));
-	info = camel_message_info_new(NULL);
-	camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
-
-	msg = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
-						  CAMEL_STREAM (importer->mstream));
-
-	camel_object_unref (importer->mstream);
-	importer->mstream = NULL;
-
-	ex = camel_exception_new ();
-	camel_folder_append_message (importer->folder, msg, info, NULL, ex);
-	camel_object_unref (msg);
-
-	camel_exception_free (ex);
-	camel_message_info_free(info);
-}
-
 struct _import_mbox_msg {
 	MailMsg base;
 
@@ -151,7 +91,7 @@ decode_status(const gchar *status)
 
 	p = status;
 	while ((*p++)) {
-		for (i=0;i<sizeof(status_flags)/sizeof(status_flags[0]);i++)
+		for (i = 0; i < G_N_ELEMENTS (status_flags); i++)
 			if (status_flags[i].tag == *p)
 				flags |= status_flags[i].flag;
 	}
@@ -166,7 +106,7 @@ decode_mozilla_status(const gchar *tmp)
 	guint32 flags = 0;
 	gint i;
 
-	for (i=0;i<sizeof(status_flags)/sizeof(status_flags[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (status_flags); i++)
 		if (status_flags[i].mozflag & status)
 			flags |= status_flags[i].flag;
 	return flags;
