@@ -1,4 +1,6 @@
 /*
+ * e-shell-importer.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,83 +15,69 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
- * Authors:
- *		Iain Holmes  <iain@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#include <config.h>
+#include "e-shell-importer.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
+#include <glib/gi18n.h>
+#include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <glade/glade.h>
-
-#include <glib/gi18n.h>
-
-#include "misc/e-gui-utils.h"
-
-#include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util-private.h"
 
-#include "e-shell.h"
-#include "e-shell-window.h"
+#define E_SHELL_IMPORTER_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SHELL_IMPORTER, EShellImporterPrivate))
 
-#include "e-shell-importer.h"
+typedef struct _ImportFilePage ImportFilePage;
+typedef struct _ImportDestinationPage ImportDestinationPage;
+typedef struct _ImportTypePage ImportTypePage;
+typedef struct _ImportSelectionPage ImportSelectionPage;
 
-typedef struct _ImportDialogFilePage {
+struct _ImportFilePage {
 	GtkWidget *vbox;
 	GtkWidget *filename;
 	GtkWidget *filetype;
 
 	EImportTargetURI *target;
 	EImportImporter *importer;
-} ImportDialogFilePage;
+};
 
-typedef struct _ImportDialogDestPage {
+struct _ImportDestinationPage {
 	GtkWidget *vbox;
 
 	GtkWidget *control;
-} ImportDialogDestPage;
+};
 
-typedef struct _ImportDialogTypePage {
+struct _ImportTypePage {
 	GtkWidget *vbox;
 	GtkWidget *intelligent;
 	GtkWidget *file;
-} ImportDialogTypePage;
+};
 
-typedef struct _ImportDialogImporterPage {
+struct _ImportSelectionPage {
 	GtkWidget *vbox;
 
 	GSList *importers;
 	GSList *current;
 	EImportTargetHome *target;
-} ImportDialogImporterPage;
+};
 
-typedef struct _ImportData {
-	EShellWindow *window;
-
-	GtkWidget *assistant;
-	ImportDialogFilePage *filepage;
-	ImportDialogDestPage *destpage;
-	ImportDialogTypePage *typepage;
-	ImportDialogImporterPage *importerpage;
-
-	GtkWidget *filedialog;
-	GtkWidget *typedialog;
-	GtkWidget *destdialog;
-	GtkWidget *intelligent;
-	GtkWidget *vbox;
+struct _EShellImporterPrivate {
+	ImportFilePage file_page;
+	ImportDestinationPage destination_page;
+	ImportTypePage type_page;
+	ImportSelectionPage selection_page;
 
 	EImport *import;
 
@@ -99,80 +87,39 @@ typedef struct _ImportData {
 	GtkWidget *import_dialog;
 	GtkWidget *import_label;
 	GtkWidget *import_progress;
-} ImportData;
-
-/*#define IMPORTER_DEBUG*/
-
-#ifdef IMPORTER_DEBUG
-#define IN g_print ("=====> %s (%d)\n", G_STRFUNC, __LINE__)
-#define OUT g_print ("<==== %s (%d)\n", G_STRFUNC, __LINE__)
-#else
-#define IN
-#define OUT
-#endif
-
-static struct {
-	const gchar *name;
-	const gchar *text;
-} info[] = {
-	{ "type_html",
-	  N_("Choose the type of importer to run:")
-	},
-	{ "file_html",
-	  N_("Choose the file that you want to import into Evolution, "
-	     "and select what type of file it is from the list.")
-	},
-	{ "dest_html",
-	  N_("Choose the destination for this import")
-	},
-	{ "intelligent_html",
-	  N_("Please select the information that you would like to import:")
-	},
-	{ "nodata_html",
-	  N_("Evolution checked for settings to import from the following\n"
-	     "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
-	     "settings found. If you would like to\n"
-	     "try again, please click the \"Back\" button.\n")
-	}
 };
-#define num_info (sizeof (info) / sizeof (info[0]))
 
-static GtkWidget *
-create_help (const gchar *name)
-{
-	GtkWidget *label;
-	gint i;
+enum {
+	FINISHED,
+	LAST_SIGNAL
+};
 
-	for (i = 0; i < num_info; i++) {
-		if (!strcmp (name, info[i].name))
-			break;
-	}
-
-	if (i >= num_info)
-		g_warning ("i > num_info\n");
-
-	label = gtk_label_new(i < num_info ? _(info[i].text): NULL);
-	gtk_widget_show (label);
-	gtk_label_set_line_wrap((GtkLabel *)label, TRUE);
-
-	return label;
-}
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 /* Importing functions */
 
 static void
-filename_changed (GtkWidget *widget,
-		  ImportData *data)
+shell_importer_emit_finished (EShellImporter *shell_importer)
 {
-	ImportDialogFilePage *page;
+	g_signal_emit (shell_importer, signals[FINISHED], 0);
+}
+
+static void
+filename_changed (GtkWidget *widget,
+                  GtkAssistant *assistant)
+{
+	EShellImporterPrivate *priv;
+	ImportFilePage *page;
 	const gchar *filename;
 	gint fileok;
 
-	page = data->filepage;
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+	page = &priv->file_page;
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 
-	fileok = filename && filename[0] && g_file_test(filename, G_FILE_TEST_IS_REGULAR);
+	fileok = filename && filename[0] && g_file_test (filename, G_FILE_TEST_IS_REGULAR);
 	if (fileok) {
 		GtkTreeIter iter;
 		GtkTreeModel *model;
@@ -181,10 +128,11 @@ filename_changed (GtkWidget *widget,
 		EImportImporter *first = NULL;
 		gint i=0, firstitem=0;
 
-		g_free(page->target->uri_src);
-		page->target->uri_src = g_filename_to_uri(filename, NULL, NULL);
+		g_free (page->target->uri_src);
+		page->target->uri_src = g_filename_to_uri (filename, NULL, NULL);
 
-		l = e_import_get_importers(data->import, (EImportTarget *)page->target);
+		l = e_import_get_importers (
+			priv->import, (EImportTarget *) page->target);
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype));
 		valid = gtk_tree_model_get_iter_first (model, &iter);
 		while (valid) {
@@ -207,7 +155,7 @@ filename_changed (GtkWidget *widget,
 			i++;
 			valid = gtk_tree_model_iter_next (model, &iter);
 		}
-		g_slist_free(l);
+		g_slist_free (l);
 
 		if (page->importer == NULL && first) {
 			page->importer = first;
@@ -227,342 +175,350 @@ filename_changed (GtkWidget *widget,
 		}
 	}
 
-	gtk_assistant_set_page_complete (GTK_ASSISTANT (data->assistant), page->vbox, fileok);
+	gtk_assistant_set_page_complete (assistant, page->vbox, fileok);
 }
 
 static void
-filetype_changed_cb (GtkWidget *combobox, ImportData *data)
+filetype_changed_cb (GtkWidget *combobox,
+                     GtkAssistant *assistant)
 {
+	EShellImporterPrivate *priv;
 	GtkTreeIter iter;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
 
 	g_return_if_fail (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter));
 
-	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox)), &iter, 2, &data->filepage->importer, -1);
-	filename_changed (data->filepage->filename, data);
-}
-
-static ImportDialogFilePage *
-importer_file_page_new (ImportData *data)
-{
-	ImportDialogFilePage *page;
-	GtkWidget *table, *label;
-	GtkCellRenderer *cell;
-	GtkListStore *store;
-	gint row = 0;
-
-	page = g_new0 (ImportDialogFilePage, 1);
-
-	page->vbox = gtk_vbox_new (FALSE, 5);
-
-	table = gtk_table_new (2, 2, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
-	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
-	gtk_box_pack_start (GTK_BOX (page->vbox), table, TRUE, TRUE, 0);
-
-	label = gtk_label_new_with_mnemonic (_("F_ilename:"));
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
-			  GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-
-	page->filename = gtk_file_chooser_button_new (_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	g_signal_connect (GTK_FILE_CHOOSER_BUTTON (page->filename), "selection-changed", G_CALLBACK (filename_changed), data);
-
-	gtk_table_attach (GTK_TABLE (table), page->filename, 1, 2,
-			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filename);
-
-	row++;
-
-	label = gtk_label_new_with_mnemonic (_("File _type:"));
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
-			  GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-
-	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
-	page->filetype = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
-	g_object_unref (store);
-
-	gtk_cell_layout_clear (GTK_CELL_LAYOUT (page->filetype));
-
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (page->filetype), cell, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (page->filetype), cell,
-                                  "text", 0,
-                                  "sensitive", 1,
-                                  NULL);
-
-	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2,
-			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
-
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
-
-	gtk_widget_show_all (table);
-
-	return page;
-}
-
-static ImportDialogDestPage *
-importer_dest_page_new (ImportData *data)
-{
-	ImportDialogDestPage *page;
-
-	page = g_new0 (ImportDialogDestPage, 1);
-
-	page->vbox = gtk_vbox_new (FALSE, 5);
-
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
-
-	return page;
-}
-
-static ImportDialogTypePage *
-importer_type_page_new (ImportData *data)
-{
-	ImportDialogTypePage *page;
-
-	page = g_new0 (ImportDialogTypePage, 1);
-
-	page->vbox = gtk_vbox_new (FALSE, 5);
-	page->intelligent = gtk_radio_button_new_with_mnemonic (NULL,
-							     _("Import data and settings from _older programs"));
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->intelligent, FALSE, FALSE, 0);
-	page->file = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (page->intelligent),
-								  _("Import a _single file"));
-	gtk_box_pack_start (GTK_BOX (page->vbox), page->file, FALSE, FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
-
-	gtk_widget_show_all (page->vbox);
-
-	return page;
-}
-
-static ImportDialogImporterPage *
-importer_importer_page_new (ImportData *data)
-{
-	ImportDialogImporterPage *page;
-	GtkWidget *sep;
-
-	page = g_new0 (ImportDialogImporterPage, 1);
-
-	page->vbox = gtk_vbox_new (FALSE, 5);
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 4);
-
-	sep = gtk_hseparator_new ();
-	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
-
-	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 12);
-
-	gtk_widget_show_all (page->vbox);
-
-	return page;
+	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox)), &iter, 2, &priv->file_page.importer, -1);
+	filename_changed (priv->file_page.filename, assistant);
 }
 
 static void
-prepare_intelligent_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
+shell_importer_file_page_init (EShellImporter *shell_importer)
 {
+	ImportFilePage *page;
+	GtkWidget *label;
+	GtkWidget *container;
+	GtkWidget *widget;
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+	const gchar *text;
+	gint row = 0;
+
+	page = &shell_importer->priv->file_page;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	page->vbox = widget;
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Choose the file that you want to import into Evolution, "
+		 "and select what type of file it is from the list.");
+
+	widget = gtk_label_new (text);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_table_new (2, 2, FALSE);
+	gtk_table_set_row_spacings (GTK_TABLE (widget), 2);
+	gtk_table_set_col_spacings (GTK_TABLE (widget), 10);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 8);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("F_ilename:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0.5);
+	gtk_table_attach (
+		GTK_TABLE (container), widget,
+		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+	gtk_widget_show (widget);
+
+	label = widget;
+
+	widget = gtk_file_chooser_button_new (
+		_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_table_attach (
+		GTK_TABLE (container), widget, 1, 2,
+		row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	page->filename = widget;
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "selection-changed",
+		G_CALLBACK (filename_changed), shell_importer);
+
+	row++;
+
+	widget = gtk_label_new_with_mnemonic (_("File _type:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0.5);
+	gtk_table_attach (
+		GTK_TABLE (container), widget,
+		0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
+	gtk_widget_show (widget);
+
+	label = widget;
+
+	store = gtk_list_store_new (
+		3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
+	widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_table_attach (
+		GTK_TABLE (container), widget,
+		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	page->filetype = widget;
+	gtk_widget_show (widget);
+	g_object_unref (store);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), cell, TRUE);
+	gtk_cell_layout_set_attributes (
+		GTK_CELL_LAYOUT (widget), cell,
+		"text", 0, "sensitive", 1, NULL);
+}
+
+static void
+shell_importer_destination_page_init (EShellImporter *shell_importer)
+{
+	ImportDestinationPage *page;
+	GtkWidget *container;
+	GtkWidget *widget;
+	const gchar *text;
+
+	page = &shell_importer->priv->destination_page;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	page->vbox = widget;
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Choose the destination for this import");
+
+	widget = gtk_label_new (text);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+}
+
+static void
+shell_importer_type_page_init (EShellImporter *shell_importer)
+{
+	ImportTypePage *page;
+	GtkWidget *container;
+	GtkWidget *widget;
+	const gchar *text;
+
+	page = &shell_importer->priv->type_page;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	page->vbox = widget;
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Choose the type of importer to run:");
+
+	widget = gtk_label_new (text);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_radio_button_new_with_mnemonic (
+		NULL, _("Import data and settings from _older programs"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	page->intelligent = widget;
+	gtk_widget_show (widget);
+
+	widget = gtk_radio_button_new_with_mnemonic_from_widget (
+		GTK_RADIO_BUTTON (page->intelligent),
+		_("Import a _single file"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	page->file = widget;
+	gtk_widget_show (widget);
+}
+
+static void
+shell_importer_selection_page_init (EShellImporter *shell_importer)
+{
+	ImportSelectionPage *page;
+	GtkWidget *container;
+	GtkWidget *widget;
+	const gchar *text;
+
+	page = &shell_importer->priv->selection_page;
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	page->vbox = widget;
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	text = _("Please select the information "
+		 "that you would like to import:");
+
+	widget = gtk_label_new (text);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_hseparator_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+}
+
+static void
+prepare_intelligent_page (GtkAssistant *assistant)
+{
+	EShellImporterPrivate *priv;
 	GSList *l;
 	GtkWidget *table;
 	gint row;
-	ImportDialogImporterPage *page = data->importerpage;
+	ImportSelectionPage *page;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+	page = &priv->selection_page;
 
 	if (page->target != NULL) {
-		gtk_assistant_set_page_complete (assistant, apage, FALSE);
+		gtk_assistant_set_page_complete (assistant, page->vbox, FALSE);
 		return;
 	}
 
-	page->target = e_import_target_new_home(data->import);
+	page->target = e_import_target_new_home (priv->import);
 
-	if (data->importerpage->importers)
-		g_slist_free(data->importerpage->importers);
-	l = data->importerpage->importers = e_import_get_importers(data->import, (EImportTarget *)page->target);
+	if (page->importers)
+		g_slist_free (page->importers);
+	l = page->importers =
+		e_import_get_importers (
+			priv->import, (EImportTarget *) page->target);
 
 	if (l == NULL) {
-		gtk_box_pack_start(GTK_BOX (data->importerpage->vbox), create_help("nodata_html"), FALSE, TRUE, 0);
-		gtk_assistant_set_page_complete (assistant, apage, FALSE);
+		GtkWidget *widget;
+		const gchar *text;
+
+		text = _("Evolution checked for settings to import from "
+			 "the following\napplications: Pine, Netscape, Elm, "
+			 "iCalendar. No importable\nsettings found. If you "
+			 "would like to\ntry again, please click the "
+			 "\"Back\" button.\n");
+
+		widget = gtk_label_new (text);
+		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+		gtk_box_pack_start (
+			GTK_BOX (page->vbox), widget, FALSE, TRUE, 0);
+		gtk_widget_show (widget);
+
+		gtk_assistant_set_page_complete (assistant, page->vbox, FALSE);
+
 		return;
 	}
 
-	table = gtk_table_new(g_slist_length(l), 2, FALSE);
+	table = gtk_table_new (g_slist_length (l), 2, FALSE);
 	row = 0;
 	for (;l;l=l->next) {
 		EImportImporter *eii = l->data;
 		gchar *str;
 		GtkWidget *w, *label;
 
-		w = e_import_get_widget(data->import, (EImportTarget *)page->target, eii);
+		w = e_import_get_widget (
+			priv->import, (EImportTarget *) page->target, eii);
 
-		str = g_strdup_printf(_("From %s:"), eii->name);
-		label = gtk_label_new(str);
-		gtk_widget_show(label);
-		g_free(str);
+		str = g_strdup_printf (_("From %s:"), eii->name);
+		label = gtk_label_new (str);
+		gtk_widget_show (label);
+		g_free (str);
 
-		gtk_misc_set_alignment((GtkMisc *)label, 0, .5);
+		gtk_misc_set_alignment ((GtkMisc *)label, 0, .5);
 
-		gtk_table_attach((GtkTable *)table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
+		gtk_table_attach ((GtkTable *)table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 		if (w)
-			gtk_table_attach((GtkTable *)table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 0);
+			gtk_table_attach ((GtkTable *)table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 0);
 		row++;
 	}
 
-	gtk_widget_show(table);
-	gtk_box_pack_start((GtkBox *)data->importerpage->vbox, table, FALSE, FALSE, 0);
+	gtk_widget_show (table);
+	gtk_box_pack_start (GTK_BOX (page->vbox), table, FALSE, FALSE, 0);
 
-	gtk_assistant_set_page_complete (assistant, apage, TRUE);
+	gtk_assistant_set_page_complete (assistant, page->vbox, TRUE);
 }
 
 static void
-import_assistant_cancel (GtkAssistant *assistant, ImportData *data)
+import_status (EImport *import,
+               const gchar *what,
+               gint percent,
+               gpointer user_data)
 {
-	if (data->import_dialog)
-		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
-	else
-		gtk_widget_destroy (GTK_WIDGET (data->assistant));
-}
+	EShellImporter *shell_importer = user_data;
+	GtkProgressBar *progress_bar;
 
-static gboolean
-import_assistant_esc (GtkAssistant *assistant, GdkEventKey *event, ImportData *data)
-{
-	if (event->keyval == GDK_Escape) {
-		gtk_widget_destroy (GTK_WIDGET (assistant));
-		return TRUE;
-	} else
-		return FALSE;
+	progress_bar = GTK_PROGRESS_BAR (
+		shell_importer->priv->import_progress);
+	gtk_progress_bar_set_fraction (progress_bar, percent / 100.0);
+	gtk_progress_bar_set_text (progress_bar, what);
 }
 
 static void
-import_assistant_weak_notify (gpointer blah,
-			  GObject *where_the_object_was)
-{
-	ImportData *data = (ImportData *) blah;
-
-	if (data->import_dialog && (GObject *)data->import_dialog != where_the_object_was) {
-		/* postpone freeing of 'data' after the 'import_dialog' will stop,
-		   but also indicate that the 'dialog' gone already */
-		data->assistant = NULL;
-		g_object_weak_ref ((GObject *)data->import_dialog, import_assistant_weak_notify, data);
-		gtk_dialog_response (GTK_DIALOG (data->import_dialog), GTK_RESPONSE_CANCEL);
-		return;
-	}
-
-	if (data->importerpage->target)
-		e_import_target_free(data->import, data->importerpage->target);
-	g_slist_free(data->importerpage->importers);
-
-	if (data->filepage->target)
-		e_import_target_free(data->import, data->filepage->target);
-
-	g_object_unref(data->import);
-
-	g_free(data);
-}
-
-static void
-import_status(EImport *import, const gchar *what, gint pc, gpointer d)
-{
-	ImportData *data = d;
-
-	gtk_progress_bar_set_fraction((GtkProgressBar *)data->import_progress, (gfloat)(pc/100.0));
-	gtk_progress_bar_set_text((GtkProgressBar *)data->import_progress, what);
-}
-
-static void
-import_dialog_response(GtkDialog *d, guint button, ImportData *data)
+import_dialog_response (GtkDialog *dialog,
+                        guint button,
+                        EShellImporter *shell_importer)
 {
 	if (button == GTK_RESPONSE_CANCEL)
-		e_import_cancel(data->import, data->import_target, data->import_importer);
+		e_import_cancel (
+			shell_importer->priv->import,
+			shell_importer->priv->import_target,
+			shell_importer->priv->import_importer);
 }
 
 static void
-import_done(EImport *ei, gpointer d)
+import_done (EImport *ei,
+             gpointer user_data)
 {
-	ImportData *data = d;
-	gboolean have_dialog = data->assistant !=  NULL;
+	EShellImporter *shell_importer = user_data;
 
-	gtk_widget_destroy (data->import_dialog);
-
-	/* if doesn't have dialog, then the 'data' pointer is freed
-	   on the above destroy call */
-	if (have_dialog) {
-		data->import_dialog = NULL;
-		gtk_widget_destroy (data->assistant);
-	}
+	shell_importer_emit_finished (shell_importer);
 }
 
 static void
-import_intelligent_done(EImport *ei, gpointer d)
+import_intelligent_done (EImport *ei,
+                         gpointer user_data)
 {
-	ImportData *data = d;
+	EShellImporter *shell_importer = user_data;
 
-	if (data->importerpage->current
-	    && (data->importerpage->current = data->importerpage->current->next)) {
-		import_status(ei, "", 0, d);
-		data->import_importer = data->importerpage->current->data;
-		e_import_import(data->import, (EImportTarget *)data->importerpage->target, data->import_importer, import_status, import_intelligent_done, data);
+	if (shell_importer->priv->selection_page.current
+	    && (shell_importer->priv->selection_page.current = shell_importer->priv->selection_page.current->next)) {
+		import_status (ei, "", 0, shell_importer);
+		shell_importer->priv->import_importer = shell_importer->priv->selection_page.current->data;
+		e_import_import (shell_importer->priv->import, (EImportTarget *)shell_importer->priv->selection_page.target, shell_importer->priv->import_importer, import_status, import_intelligent_done, shell_importer);
 	} else
-		import_done(ei, d);
+		import_done (ei, shell_importer);
 }
 
 static void
-import_assistant_apply (GtkAssistant *assistant, ImportData *data)
+prepare_file_page (GtkAssistant *assistant)
 {
-	EImportCompleteFunc done = NULL;
-	gchar *msg = NULL;
-
-	if (gtk_toggle_button_get_active((GtkToggleButton *)data->typepage->intelligent)) {
-		data->importerpage->current = data->importerpage->importers;
-		if (data->importerpage->current) {
-			data->import_target = (EImportTarget *)data->importerpage->target;
-			data->import_importer = data->importerpage->current->data;
-			done = import_intelligent_done;
-			msg = g_strdup_printf(_("Importing data."));
-		}
-	} else {
-		if (data->filepage->importer) {
-			data->import_importer = data->filepage->importer;
-			data->import_target = (EImportTarget *)data->filepage->target;
-			done = import_done;
-			msg = g_strdup_printf(_("Importing `%s'"), data->filepage->target->uri_src);
-		}
-	}
-
-	if (done) {
-		gpointer parent;
-
-		parent = gtk_widget_get_parent (data->assistant);
-		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-		data->import_dialog = e_error_new(parent, "shell:importing", msg, NULL);
-		g_signal_connect(data->import_dialog, "response", G_CALLBACK(import_dialog_response), data);
-		data->import_label = gtk_label_new(_("Please wait"));
-		data->import_progress = gtk_progress_bar_new();
-		gtk_box_pack_start(GTK_BOX(((GtkDialog *)data->import_dialog)->vbox), data->import_label, FALSE, FALSE, 0);
-		gtk_box_pack_start(GTK_BOX(((GtkDialog *)data->import_dialog)->vbox), data->import_progress, FALSE, FALSE, 0);
-		gtk_widget_show_all(data->import_dialog);
-
-		e_import_import(data->import, data->import_target, data->import_importer, import_status, import_done, data);
-	} else {
-		gtk_widget_destroy(data->assistant);
-	}
-
-	g_free(msg);
-}
-
-static void
-prepare_file_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
-{
+	EShellImporterPrivate *priv;
 	GSList *importers, *imp;
 	GtkListStore *store;
-	ImportDialogFilePage *page = data->filepage;
+	ImportFilePage *page;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+	page = &priv->file_page;
 
 	if (page->target != NULL) {
-		filename_changed(data->filepage->filename, data);
+		filename_changed (priv->file_page.filename, assistant);
 		return;
 	}
 
-	page->target = e_import_target_new_uri(data->import, NULL, NULL);
-	importers = e_import_get_importers (data->import, (EImportTarget *)page->target);
+	page->target = e_import_target_new_uri (priv->import, NULL, NULL);
+	importers = e_import_get_importers (priv->import, (EImportTarget *)page->target);
 
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
@@ -584,39 +540,40 @@ prepare_file_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), 0);
 
-	filename_changed (data->filepage->filename, data);
+	filename_changed (priv->file_page.filename, assistant);
 
-	g_signal_connect (page->filetype, "changed", G_CALLBACK (filetype_changed_cb), data);
+	g_signal_connect (
+		page->filetype, "changed",
+		G_CALLBACK (filetype_changed_cb), assistant);
 }
 
 static gboolean
-prepare_dest_page (GtkAssistant *assistant, GtkWidget *apage, ImportData *data)
+prepare_destination_page (GtkAssistant *assistant)
 {
-	ImportDialogDestPage *page = data->destpage;
+	EShellImporterPrivate *priv;
+	ImportDestinationPage *page;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+	page = &priv->destination_page;
 
 	if (page->control)
-		gtk_container_remove((GtkContainer *)page->vbox, page->control);
+		gtk_container_remove ((GtkContainer *)page->vbox, page->control);
 
-	page->control = e_import_get_widget(data->import, (EImportTarget *)data->filepage->target, data->filepage->importer);
+	page->control = e_import_get_widget (
+		priv->import, (EImportTarget *)
+		priv->file_page.target, priv->file_page.importer);
 	if (page->control == NULL) {
 		/* Coding error, not needed for translators */
-		page->control = gtk_label_new("** PLUGIN ERROR ** No settings for importer");
-		gtk_widget_show(page->control);
+		page->control = gtk_label_new ("** PLUGIN ERROR ** No settings for importer");
+		gtk_widget_show (page->control);
 	}
 
-	gtk_box_pack_start ((GtkBox *)data->destpage->vbox, page->control, TRUE, TRUE, 0);
-	gtk_assistant_set_page_complete (assistant, apage, TRUE);
+	gtk_box_pack_start (
+		GTK_BOX (priv->destination_page.vbox),
+		page->control, TRUE, TRUE, 0);
+	gtk_assistant_set_page_complete (assistant, page->vbox, TRUE);
 
 	return FALSE;
-}
-
-static void
-dialog_weak_notify (gpointer data,
-		    GObject *where_the_dialog_was)
-{
-	gboolean *dialog_open = (gboolean *) data;
-
-	*dialog_open = FALSE;
 }
 
 enum {
@@ -629,63 +586,198 @@ enum {
 };
 
 static gint
-forward_cb (gint current_page, gpointer user_data)
+forward_cb (gint current_page,
+            EShellImporter *shell_importer)
 {
-	ImportData *data = user_data;
+	GtkToggleButton *toggle_button;
+
+	toggle_button = GTK_TOGGLE_BUTTON (
+		shell_importer->priv->type_page.intelligent);
 
 	switch (current_page) {
-	case PAGE_INTELI_OR_DIRECT:
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent)))
-			return PAGE_INTELI_SOURCE;
-		else
-			return PAGE_FILE_CHOOSE;
-	case PAGE_INTELI_SOURCE:
-		return PAGE_FINISH;
+		case PAGE_INTELI_OR_DIRECT:
+			if (gtk_toggle_button_get_active (toggle_button))
+				return PAGE_INTELI_SOURCE;
+			else
+				return PAGE_FILE_CHOOSE;
+		case PAGE_INTELI_SOURCE:
+			return PAGE_FINISH;
 	}
 
 	return current_page + 1;
 }
 
 static void
-import_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, gpointer user_data)
+shell_importer_dispose (GObject *object)
 {
-	ImportData *data = user_data;
+	EShellImporterPrivate *priv;
 
-	if (page == data->importerpage->vbox)
-		prepare_intelligent_page (assistant, page, data);
-	else if (page == data->filepage->vbox)
-		prepare_file_page (assistant, page, data);
-	else  if (page == data->destpage->vbox)
-		prepare_dest_page (assistant, page, data);
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (object);
+
+	if (priv->file_page.target != NULL) {
+		e_import_target_free (
+			priv->import, (EImportTarget *)
+			priv->file_page.target);
+		priv->file_page.target = NULL;
+	}
+
+	if (priv->selection_page.target != NULL) {
+		e_import_target_free (
+			priv->import, (EImportTarget *)
+			priv->selection_page.target);
+		priv->selection_page.target = NULL;
+	}
+
+	if (priv->import != NULL) {
+		g_object_unref (priv->import);
+		priv->import = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-void
-e_shell_importer_start_import (void)
+static void
+shell_importer_finalize (GObject *object)
+{
+	EShellImporterPrivate *priv;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (object);
+
+	g_slist_free (priv->selection_page.importers);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static gboolean
+shell_importer_key_press_event (GtkWidget *widget,
+                                GdkEventKey *event)
+{
+	GtkWidgetClass *widget_class;
+
+	if (event->keyval == GDK_Escape) {
+		g_signal_emit_by_name (widget, "cancel");
+		return TRUE;
+	}
+
+	/* Chain up to parent's key_press_event () method. */
+	widget_class = GTK_WIDGET_CLASS (parent_class);
+	return widget_class->key_press_event (widget, event);
+}
+
+static void
+shell_importer_prepare (GtkAssistant *assistant,
+                        GtkWidget *page)
+{
+	EShellImporterPrivate *priv;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+
+	if (page == priv->selection_page.vbox)
+		prepare_intelligent_page (assistant);
+	else if (page == priv->file_page.vbox)
+		prepare_file_page (assistant);
+	else if (page == priv->destination_page.vbox)
+		prepare_destination_page (assistant);
+}
+
+static void
+shell_importer_apply (GtkAssistant *assistant)
+{
+	EShellImporterPrivate *priv;
+	EImportCompleteFunc done = NULL;
+	gchar *msg = NULL;
+
+	priv = E_SHELL_IMPORTER_GET_PRIVATE (assistant);
+
+	if (gtk_toggle_button_get_active ((GtkToggleButton *)priv->type_page.intelligent)) {
+		priv->selection_page.current = priv->selection_page.importers;
+		if (priv->selection_page.current) {
+			priv->import_target = (EImportTarget *)priv->selection_page.target;
+			priv->import_importer = priv->selection_page.current->data;
+			done = import_intelligent_done;
+			msg = g_strdup_printf (_("Importing data."));
+		}
+	} else {
+		if (priv->file_page.importer) {
+			priv->import_importer = priv->file_page.importer;
+			priv->import_target = (EImportTarget *)priv->file_page.target;
+			done = import_done;
+			msg = g_strdup_printf (_("Importing `%s'"), priv->file_page.target->uri_src);
+		}
+	}
+
+	if (done) {
+		priv->import_dialog = e_error_new (
+			GTK_WINDOW (assistant), "shell:importing", msg, NULL);
+		g_signal_connect (priv->import_dialog, "response", G_CALLBACK(import_dialog_response), assistant);
+		priv->import_label = gtk_label_new (_("Please wait"));
+		priv->import_progress = gtk_progress_bar_new ();
+		gtk_box_pack_start (GTK_BOX(((GtkDialog *)priv->import_dialog)->vbox), priv->import_label, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX(((GtkDialog *)priv->import_dialog)->vbox), priv->import_progress, FALSE, FALSE, 0);
+		gtk_widget_show_all (priv->import_dialog);
+
+		e_import_import (priv->import, priv->import_target, priv->import_importer, import_status, import_done, assistant);
+	} else {
+		shell_importer_emit_finished (E_SHELL_IMPORTER (assistant));
+	}
+
+	g_free (msg);
+}
+
+static void
+shell_importer_class_init (EShellImporterClass *class)
+{
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+	GtkAssistantClass *assistant_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EShellImporterPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = shell_importer_dispose;
+	object_class->finalize = shell_importer_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->key_press_event = shell_importer_key_press_event;
+
+	assistant_class = GTK_ASSISTANT_CLASS (class);
+	assistant_class->prepare = shell_importer_prepare;
+	assistant_class->apply = shell_importer_apply;
+
+	signals[FINISHED] = g_signal_new (
+		"finished",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+static void
+shell_importer_init (EShellImporter *shell_importer)
 {
 	const gchar *empty_xpm_img[] = {
 		"48 1 2 1",
 		" 	c None",
 		".	c #FFFFFF",
 		"                                                "};
-	ImportData *data = g_new0 (ImportData, 1);
-	GtkWidget *html, *page;
-	static gboolean dialog_open = FALSE;
-	GdkPixbuf *icon, *spacer;
+
 	GtkAssistant *assistant;
+	GtkWidget *page;
+	GdkPixbuf *icon, *spacer;
 
-	if (dialog_open) {
-		return;
-	}
+	assistant = GTK_ASSISTANT (shell_importer);
 
-	data->import = e_import_new ("org.gnome.evolution.shell.importer");
+	shell_importer->priv = E_SHELL_IMPORTER_GET_PRIVATE (shell_importer);
+
+	shell_importer->priv->import =
+		e_import_new ("org.gnome.evolution.shell.importer");
 
 	icon = e_icon_factory_get_icon ("stock_mail-import", GTK_ICON_SIZE_DIALOG);
 	spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
-
-	dialog_open = TRUE;
-	data->assistant = gtk_assistant_new ();
-
-	assistant = GTK_ASSISTANT (data->assistant);
 
 	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
 	gtk_window_set_title (GTK_WINDOW (assistant), _("Evolution Import Assistant"));
@@ -698,7 +790,9 @@ e_shell_importer_start_import (void)
 	gtk_misc_set_padding (GTK_MISC (page), 12, 12);
 	gtk_label_set_text (GTK_LABEL (page), _(
 		"Welcome to the Evolution Import Assistant.\n"
-		"With this assistant you will be guided through the process of importing external files into Evolution."));
+		"With this assistant you will be guided through the "
+		"process of importing external files into Evolution."));
+	gtk_widget_show (page);
 
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
@@ -708,12 +802,9 @@ e_shell_importer_start_import (void)
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* Intelligent or direct import page */
-	data->typepage = importer_type_page_new (data);
-	html = create_help ("type_html");
-	gtk_box_pack_start (GTK_BOX (data->typepage->vbox), html, FALSE, TRUE, 0);
-	gtk_box_reorder_child (GTK_BOX (data->typepage->vbox), html, 0);
+	shell_importer_type_page_init (shell_importer);
+	page = shell_importer->priv->type_page.vbox;
 
-	page = data->typepage->vbox;
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Importer Type"));
@@ -721,33 +812,27 @@ e_shell_importer_start_import (void)
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	/* Intelligent importer source page */
-	data->importerpage = importer_importer_page_new (data);
-	html = create_help ("intelligent_html");
-	gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), html, FALSE, TRUE, 0);
-	gtk_box_reorder_child (GTK_BOX (data->importerpage->vbox), html, 0);
+	shell_importer_selection_page_init (shell_importer);
+	page = shell_importer->priv->selection_page.vbox;
 
-	page = data->importerpage->vbox;
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Select Information to Import"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 	/* File selection and file type page */
-	data->filepage = importer_file_page_new (data);
-	html = create_help ("file_html");
-	gtk_box_pack_start (GTK_BOX (data->filepage->vbox), html, FALSE, TRUE, 0);
-	gtk_box_reorder_child (GTK_BOX (data->filepage->vbox), html, 0);
+	shell_importer_file_page_init (shell_importer);
+	page = shell_importer->priv->file_page.vbox;
 
-	page = data->filepage->vbox;
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Select a File"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONTENT);
 
 	/* File destination page */
-	data->destpage = importer_dest_page_new (data);
+	shell_importer_destination_page_init (shell_importer);
+	page = shell_importer->priv->destination_page.vbox;
 
-	page = data->destpage->vbox;
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
 	gtk_assistant_set_page_title (assistant, page, _("Import Location"));
@@ -756,7 +841,10 @@ e_shell_importer_start_import (void)
 	/* Finish page */
 	page = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (page), 0.5, 0.5);
-	gtk_label_set_text (GTK_LABEL (page), _("Click \"Apply\" to begin importing the file into Evolution."));
+	gtk_label_set_text (
+		GTK_LABEL (page), _("Click \"Apply\" to "
+		"begin importing the file into Evolution."));
+	gtk_widget_show (page);
 
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, icon);
@@ -765,22 +853,46 @@ e_shell_importer_start_import (void)
 	gtk_assistant_set_page_side_image (assistant, page, spacer);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
-	/* setup the rest */
-	g_object_weak_ref ((GObject *)assistant, dialog_weak_notify, &dialog_open);
-
-	gtk_assistant_set_forward_page_func (assistant, forward_cb, data, NULL);
-
-	g_signal_connect (assistant, "key_press_event", G_CALLBACK (import_assistant_esc), data);
-	g_signal_connect (assistant, "cancel", G_CALLBACK (import_assistant_cancel), data);
-	g_signal_connect (assistant, "prepare", G_CALLBACK (import_assistant_prepare), data);
-	g_signal_connect (assistant, "apply", G_CALLBACK (import_assistant_apply), data);
-
-	g_object_weak_ref ((GObject *)assistant, import_assistant_weak_notify, data);
+	gtk_assistant_set_forward_page_func (
+		assistant, (GtkAssistantPageFunc)
+		forward_cb, shell_importer, NULL);
 
 	g_object_unref (icon);
 	g_object_unref (spacer);
 
 	gtk_assistant_update_buttons_state (assistant);
+}
 
-	gtk_widget_show_all (data->assistant);
+GType
+e_shell_importer_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EShellImporterClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) shell_importer_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EShellImporter),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) shell_importer_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_ASSISTANT, "EShellImporter", &type_info, 0);
+	}
+
+	return type;
+}
+
+GtkWidget *
+e_shell_importer_new (GtkWindow *parent)
+{
+	return g_object_new (
+		E_TYPE_SHELL_IMPORTER,
+		"transient-for", parent, NULL);
 }

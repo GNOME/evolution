@@ -1997,6 +1997,13 @@ intelligent
 @uri: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_importer_start_import ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+
 <!-- ##### FUNCTION e_shell_is_busy ##### -->
 <para>
 

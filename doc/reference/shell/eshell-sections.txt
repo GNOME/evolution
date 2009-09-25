@@ -288,7 +288,20 @@ E_SHELL_WINDOW_ACTION_GROUP
 
 <SECTION>
 <FILE>e-shell-importer</FILE>
-e_shell_importer_start_import
+<TITLE>EShellImporter</TITLE>
+EShellImporter
+e_shell_importer_new
+<SUBSECTION Standard>
+E_SHELL_IMPORTER
+E_IS_SHELL_IMPORTER
+E_TYPE_SHELL_IMPORTER
+E_SHELL_IMPORTER_CLASS
+E_IS_SHELL_IMPORTER_CLASS
+E_SHELL_IMPORTER_GET_CLASS
+EShellImporterClass
+e_shell_importer_get_type
+<SUBSECTION Private>
+EShellImporterPrivate
 </SECTION>
 
 <SECTION>

@@ -838,7 +838,19 @@ static void
 action_import_cb (GtkAction *action,
                   EShellWindow *shell_window)
 {
-	e_shell_importer_start_import ();
+	GtkWidget *importer;
+
+	importer = e_shell_importer_new (GTK_WINDOW (shell_window));
+
+	g_signal_connect (
+		importer, "cancel",
+		G_CALLBACK (gtk_widget_destroy), NULL);
+
+	g_signal_connect (
+		importer, "finished",
+		G_CALLBACK (gtk_widget_destroy), NULL);
+
+	gtk_widget_show (importer);
 }
 
 /**
