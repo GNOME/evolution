@@ -234,7 +234,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 		NULL);
 
 	if (parent_window)
-		gtk_window_set_transient_for (GTK_WINDOW (delegate_permissions), parent_window);
+		gtk_window_set_transient_for (GTK_WINDOW (delegate_permissions), GTK_WINDOW (parent_window));
 
 	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (delegate_permissions));
 	gtk_widget_show (dialog_vbox1);

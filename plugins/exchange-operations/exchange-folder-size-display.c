@@ -123,7 +123,7 @@ exchange_folder_size_display (GtkListStore *model, GtkWidget *parent)
 	gtk_window_set_position (GTK_WINDOW (folder_tree), GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_default_size (GTK_WINDOW (folder_tree), 250, 300);
 	if (parent)
-		gtk_window_set_transient_for (GTK_WINDOW (folder_tree), parent);
+		gtk_window_set_transient_for (GTK_WINDOW (folder_tree), GTK_WINDOW (parent));
 
 	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG (folder_tree));
 	gtk_widget_show (dialog_vbox1);
