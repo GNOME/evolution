@@ -660,7 +660,7 @@ import_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, gpointer use
 }
 
 void
-e_shell_importer_start_import (EShellWindow *shell_window)
+e_shell_importer_start_import (void)
 {
 	const gchar *empty_xpm_img[] = {
 		"48 1 2 1",
@@ -683,7 +683,6 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);
 
 	dialog_open = TRUE;
-	data->window = shell_window;
 	data->assistant = gtk_assistant_new ();
 
 	assistant = GTK_ASSISTANT (data->assistant);

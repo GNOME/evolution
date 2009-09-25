@@ -838,7 +838,7 @@ static void
 action_import_cb (GtkAction *action,
                   EShellWindow *shell_window)
 {
-	e_shell_importer_start_import (shell_window);
+	e_shell_importer_start_import ();
 }
 
 /**

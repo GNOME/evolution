@@ -24,11 +24,10 @@
 #define E_SHELL_IMPORTER_H
 
 #include "e-shell-common.h"
-#include "e-shell-window.h"
 
 G_BEGIN_DECLS
 
-void		e_shell_importer_start_import	(EShellWindow *shell_window);
+void		e_shell_importer_start_import	(void);
 
 G_END_DECLS
 
