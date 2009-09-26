@@ -63,6 +63,7 @@ widgetsinclude_HEADERS =			\
 	e-hinted-entry.h			\
 	e-hsv-utils.h				\
 	e-image-chooser.h			\
+	e-import-assistant.h			\
 	e-map.h					\
 	e-menu-tool-button.h			\
 	e-online-button.h			\
@@ -128,6 +129,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-hinted-entry.c			\
 	e-hsv-utils.c				\
 	e-image-chooser.c			\
+	e-import-assistant.c			\
 	e-map.c					\
 	e-menu-tool-button.c			\
 	e-online-button.c			\

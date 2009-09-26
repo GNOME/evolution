@@ -28,8 +28,6 @@
 
 #include <libedataserverui/e-passwords.h>
 
-#include "e-shell-importer.h"
-
 #define EVOLUTION_COPYRIGHT \
 	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
 
@@ -838,19 +836,19 @@ static void
 action_import_cb (GtkAction *action,
                   EShellWindow *shell_window)
 {
-	GtkWidget *importer;
+	GtkWidget *assistant;
 
-	importer = e_shell_importer_new (GTK_WINDOW (shell_window));
+	assistant = e_import_assistant_new (GTK_WINDOW (shell_window));
 
 	g_signal_connect (
-		importer, "cancel",
+		assistant, "cancel",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
 	g_signal_connect (
-		importer, "finished",
+		assistant, "finished",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
-	gtk_widget_show (importer);
+	gtk_widget_show (assistant);
 }
 
 /**

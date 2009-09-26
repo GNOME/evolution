@@ -74,8 +74,6 @@ libeshell_la_SOURCES =				\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
 	$(eshellinclude_HEADERS)		\
-	e-shell-importer.c			\
-	e-shell-importer.h			\
 	e-shell-migrate.c			\
 	e-shell-migrate.h			\
 	e-shell-window-actions.c		\

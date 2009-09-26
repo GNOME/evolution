@@ -130,6 +130,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/widgets/misc/.libs/e-activity-proxy.o		\
 	$(top_builddir)/widgets/misc/.libs/e-gui-utils.o		\
 	$(top_builddir)/widgets/misc/.libs/e-hinted-entry.o		\
+	$(top_builddir)/widgets/misc/.libs/e-import-assistant.o		\
 	$(top_builddir)/widgets/misc/.libs/e-menu-tool-button.o		\
 	$(top_builddir)/widgets/misc/.libs/e-online-button.o		\
 	$(top_builddir)/widgets/misc/.libs/e-popup-menu.o		\
