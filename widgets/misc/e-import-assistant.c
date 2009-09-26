@@ -42,6 +42,7 @@ typedef struct _ImportFilePage ImportFilePage;
 typedef struct _ImportDestinationPage ImportDestinationPage;
 typedef struct _ImportTypePage ImportTypePage;
 typedef struct _ImportSelectionPage ImportSelectionPage;
+typedef struct _ImportProgressPage ImportProgressPage;
 
 struct _ImportFilePage {
 	GtkWidget *filename;
@@ -66,20 +67,22 @@ struct _ImportSelectionPage {
 	EImportTargetHome *target;
 };
 
+struct _ImportProgressPage {
+	GtkWidget *progress_bar;
+};
+
 struct _EImportAssistantPrivate {
 	ImportFilePage file_page;
 	ImportDestinationPage destination_page;
 	ImportTypePage type_page;
 	ImportSelectionPage selection_page;
+	ImportProgressPage progress_page;
 
 	EImport *import;
 
 	/* Used for importing phase of operation */
 	EImportTarget *import_target;
 	EImportImporter *import_importer;
-	GtkWidget *import_dialog;
-	GtkWidget *import_label;
-	GtkWidget *import_progress;
 };
 
 enum {
@@ -88,7 +91,8 @@ enum {
 	PAGE_INTELI_SOURCE,
 	PAGE_FILE_CHOOSE,
 	PAGE_FILE_DEST,
-	PAGE_FINISH
+	PAGE_FINISH,
+	PAGE_PROGRESS
 };
 
 enum {
@@ -378,6 +382,27 @@ import_assistant_selection_page_init (EImportAssistant *import_assistant)
 	return page;
 }
 
+static GtkWidget *
+import_assistant_progress_page_init (EImportAssistant *import_assistant)
+{
+	GtkWidget *page;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	page = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
+	gtk_widget_show (page);
+
+	container = page;
+
+	widget = gtk_progress_bar_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, FALSE, 0);
+	import_assistant->priv->progress_page.progress_bar = widget;
+	gtk_widget_show (widget);
+
+	return page;
+}
+
 static void
 prepare_intelligent_page (GtkAssistant *assistant,
                           GtkWidget *vbox)
@@ -409,10 +434,10 @@ prepare_intelligent_page (GtkAssistant *assistant,
 		const gchar *text;
 
 		text = _("Evolution checked for settings to import from "
-			 "the following\napplications: Pine, Netscape, Elm, "
-			 "iCalendar. No importable\nsettings found. If you "
-			 "would like to\ntry again, please click the "
-			 "\"Back\" button.\n");
+			 "the following applications: Pine, Netscape, Elm, "
+			 "iCalendar. No importable settings found. If you "
+			 "would like to try again, please click the "
+			 "\"Back\" button.");
 
 		widget = gtk_label_new (text);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
@@ -467,21 +492,9 @@ import_status (EImport *import,
 	GtkProgressBar *progress_bar;
 
 	progress_bar = GTK_PROGRESS_BAR (
-		import_assistant->priv->import_progress);
+		import_assistant->priv->progress_page.progress_bar);
 	gtk_progress_bar_set_fraction (progress_bar, percent / 100.0);
 	gtk_progress_bar_set_text (progress_bar, what);
-}
-
-static void
-import_dialog_response (GtkDialog *dialog,
-                        guint button,
-                        EImportAssistant *import_assistant)
-{
-	if (button == GTK_RESPONSE_CANCEL)
-		e_import_cancel (
-			import_assistant->priv->import,
-			import_assistant->priv->import_target,
-			import_assistant->priv->import_importer);
 }
 
 static void
@@ -591,6 +604,48 @@ prepare_destination_page (GtkAssistant *assistant,
 	return FALSE;
 }
 
+static void
+prepare_progress_page (GtkAssistant *assistant,
+                       GtkWidget *vbox)
+{
+	EImportAssistantPrivate *priv;
+	EImportCompleteFunc done = NULL;
+	GtkToggleButton *toggle_button;
+	ImportSelectionPage *page;
+
+	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
+	page = &priv->selection_page;
+
+	/* Hide the Back and Forward buttons, so only Cancel is visible. */
+	gtk_widget_hide (assistant->back);
+	gtk_widget_hide (assistant->forward);
+
+	toggle_button = GTK_TOGGLE_BUTTON (priv->type_page.intelligent);
+
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		page->current = page->importers;
+		if (page->current) {
+			priv->import_target = (EImportTarget *) page->target;
+			priv->import_importer = page->current->data;
+			done = import_intelligent_done;
+		}
+	} else {
+		if (priv->file_page.importer) {
+			priv->import_importer = priv->file_page.importer;
+			priv->import_target = (EImportTarget *)priv->file_page.target;
+			done = import_done;
+		}
+	}
+
+	if (done)
+		e_import_import (
+			priv->import, priv->import_target,
+			priv->import_importer, import_status,
+			import_done, assistant);
+	else
+		import_assistant_emit_finished (E_IMPORT_ASSISTANT (assistant));
+}
+
 static gint
 forward_cb (gint current_page,
             EImportAssistant *import_assistant)
@@ -686,71 +741,30 @@ import_assistant_prepare (GtkAssistant *assistant,
 		case PAGE_FILE_DEST:
 			prepare_destination_page (assistant, page);
 			break;
+		case PAGE_PROGRESS:
+			prepare_progress_page (assistant, page);
+			break;
 		default:
 			break;
 	}
 }
 
 static void
-import_assistant_apply (GtkAssistant *assistant)
+import_assistant_cancel (GtkAssistant *assistant)
 {
 	EImportAssistantPrivate *priv;
-	EImportCompleteFunc done = NULL;
-	GtkToggleButton *toggle_button;
-	ImportSelectionPage *page;
-	gchar *msg = NULL;
+	gint current_page;
 
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
-	page = &priv->selection_page;
 
-	toggle_button = GTK_TOGGLE_BUTTON (priv->type_page.intelligent);
+	current_page = gtk_assistant_get_current_page (assistant);
 
-	if (gtk_toggle_button_get_active (toggle_button)) {
-		page->current = page->importers;
-		if (page->current) {
-			priv->import_target = (EImportTarget *) page->target;
-			priv->import_importer = page->current->data;
-			done = import_intelligent_done;
-			msg = g_strdup (_("Importing Data"));
-		}
-	} else {
-		if (priv->file_page.importer) {
-			priv->import_importer = priv->file_page.importer;
-			priv->import_target = (EImportTarget *)priv->file_page.target;
-			done = import_done;
-			msg = g_strdup_printf (
-				_("Importing \"%s\""),
-				priv->file_page.target->uri_src);
-		}
-	}
-
-	if (done) {
-		GtkWidget *content_area;
-
-		priv->import_dialog = e_error_new (
-			GTK_WINDOW (assistant), "shell:importing", msg, NULL);
-		g_signal_connect (priv->import_dialog, "response", G_CALLBACK(import_dialog_response), assistant);
-		priv->import_label = gtk_label_new (_("Please wait"));
-		priv->import_progress = gtk_progress_bar_new ();
-		content_area = gtk_dialog_get_content_area (
-			GTK_DIALOG (priv->import_dialog));
-		gtk_box_pack_start (
-			GTK_BOX (content_area),
-			priv->import_label, FALSE, FALSE, 0);
-		gtk_box_pack_start (
-			GTK_BOX (content_area),
-			priv->import_progress, FALSE, FALSE, 0);
-		gtk_widget_show_all (priv->import_dialog);
-
-		e_import_import (
-			priv->import, priv->import_target,
-			priv->import_importer, import_status,
-			import_done, assistant);
-	} else {
-		import_assistant_emit_finished (E_IMPORT_ASSISTANT (assistant));
-	}
-
-	g_free (msg);
+	/* Cancel the import if it's in progress. */
+	if (current_page == PAGE_PROGRESS)
+		e_import_cancel (
+			priv->import,
+			priv->import_target,
+			priv->import_importer);
 }
 
 static void
@@ -772,12 +786,12 @@ import_assistant_class_init (EImportAssistantClass *class)
 
 	assistant_class = GTK_ASSISTANT_CLASS (class);
 	assistant_class->prepare = import_assistant_prepare;
-	assistant_class->apply = import_assistant_apply;
+	assistant_class->cancel = import_assistant_cancel;
 
 	signals[FINISHED] = g_signal_new (
 		"finished",
 		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_FIRST,
+		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -869,8 +883,17 @@ import_assistant_init (EImportAssistant *import_assistant)
 
 	gtk_assistant_append_page (assistant, page);
 	gtk_assistant_set_page_header_image (assistant, page, pixbuf);
-	gtk_assistant_set_page_title (assistant, page, _("Import File"));
+	gtk_assistant_set_page_title (assistant, page, _("Import Data"));
 	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_CONFIRM);
+	gtk_assistant_set_page_complete (assistant, page, TRUE);
+
+	/* Progress Page */
+	page = import_assistant_progress_page_init (import_assistant);
+
+	gtk_assistant_append_page (assistant, page);
+	gtk_assistant_set_page_header_image (assistant, page, pixbuf);
+	gtk_assistant_set_page_title (assistant, page, _("Import Data"));
+	gtk_assistant_set_page_type (assistant, page, GTK_ASSISTANT_PAGE_PROGRESS);
 	gtk_assistant_set_page_complete (assistant, page, TRUE);
 
 	gtk_assistant_set_forward_page_func (

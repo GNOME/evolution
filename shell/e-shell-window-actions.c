@@ -840,11 +840,15 @@ action_import_cb (GtkAction *action,
 
 	assistant = e_import_assistant_new (GTK_WINDOW (shell_window));
 
-	g_signal_connect (
+	/* These are "Run Last" signals, so use g_signal_connect_after()
+	 * to give the default handlers a chance to run before we destroy
+	 * the window. */
+
+	g_signal_connect_after (
 		assistant, "cancel",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
-	g_signal_connect (
+	g_signal_connect_after (
 		assistant, "finished",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 

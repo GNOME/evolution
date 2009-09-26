@@ -69,7 +69,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/e-shell.o				\
 	$(top_builddir)/shell/.libs/e-shell-backend.o			\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
-	$(top_builddir)/shell/.libs/e-shell-importer.o			\
 	$(top_builddir)/shell/.libs/e-shell-migrate.o			\
 	$(top_builddir)/shell/.libs/e-shell-settings.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
