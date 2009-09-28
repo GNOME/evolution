@@ -445,40 +445,12 @@ ec_assistant_check_current (EConfig *ec)
 	gtk_assistant_update_buttons_state (assistant);
 }
 
-static void
-ec_assistant_cancel (GtkAssistant *assistant, EConfig *config)
-{
-	d(printf("finishing assistant, calling abort\n"));
-	e_config_abort (config);
-
-	if (config->window)
-		gtk_widget_destroy (config->window);
-}
-
-static void
-ec_assistant_apply (GtkAssistant *assistant, EConfig *config)
-{
-	d(printf("finishing assistant, calling commit\n"));
-	e_config_commit (config);
-
-	/* TODO: allow the commit to fail?  Do we care? */
-	if (config->window)
-		gtk_widget_destroy (config->window);
-}
-
-static void
-ec_assistant_prepare (GtkAssistant *assistant, GtkWidget *page, EConfig *config)
-{
-	d(printf("prepare page '%p'\n", page));
-	ec_assistant_check_current (config);
-}
-
 static gint
 ec_assistant_forward (gint current_page, gpointer user_data)
 {
 	EConfig *ec = user_data;
 	struct _widget_node *wn;
-	gint next_page = current_page;
+	gint next_page = current_page + 1;
 
 	d(printf("next page from '%d'\n", current_page));
 
@@ -598,11 +570,24 @@ ec_rebuild (EConfig *emp)
 					abort();
 
 				if (item->type == E_CONFIG_ASSISTANT) {
-					g_signal_connect (root, "cancel", G_CALLBACK (ec_assistant_cancel), emp);
-					g_signal_connect (root, "close", G_CALLBACK (ec_assistant_cancel), emp);
-					g_signal_connect (root, "apply", G_CALLBACK (ec_assistant_apply), emp);
-					g_signal_connect (root, "prepare", G_CALLBACK (ec_assistant_prepare), emp);
-					gtk_assistant_set_forward_page_func (GTK_ASSISTANT (root), ec_assistant_forward, emp, NULL);
+					g_signal_connect_swapped (
+						root, "apply",
+						G_CALLBACK (e_config_commit), emp);
+					g_signal_connect_swapped (
+						root, "cancel",
+						G_CALLBACK (e_config_abort), emp);
+					g_signal_connect (
+						root, "cancel",
+						G_CALLBACK (gtk_widget_destroy), emp);
+					g_signal_connect (
+						root, "close",
+						G_CALLBACK (gtk_widget_destroy), NULL);
+					g_signal_connect_swapped (
+						root, "prepare",
+						G_CALLBACK (ec_assistant_check_current), emp);
+					gtk_assistant_set_forward_page_func (
+						GTK_ASSISTANT (root),
+						ec_assistant_forward, emp, NULL);
 				}
 
 				emp->widget = root;
