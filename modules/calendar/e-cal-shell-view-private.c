@@ -245,6 +245,25 @@ cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
 }
 
 static void
+cal_shell_view_selector_primary_changed_cb (ECalShellView *cal_shell_view,
+                                            ESourceSelector *selector)
+{
+	ECalShellContent *cal_shell_content;
+	GnomeCalendar *calendar;
+	ESource *source;
+
+	/* XXX ESourceSelector -really- needs a "primary-selection"
+	 *     ESource property.  Then we could just use EBindings. */
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	if (source != NULL)
+		gnome_calendar_set_default_source (calendar, source);
+}
+
+static void
 cal_shell_view_selector_client_added_cb (ECalShellView *cal_shell_view,
                                          ECal *client)
 {
@@ -489,6 +508,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (cal_shell_view_selector_primary_changed_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
 		cal_shell_sidebar, "client-added",
 		G_CALLBACK (cal_shell_view_selector_client_added_cb),
 		cal_shell_view);
@@ -541,6 +565,9 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_mutual_binding_new (
 		calendar, "view",
 		ACTION (CALENDAR_VIEW_DAY), "current-value");
+
+	/* Force the main calendar to update its default source. */
+	g_signal_emit_by_name (selector, "primary-selection-changed");
 }
 
 void
