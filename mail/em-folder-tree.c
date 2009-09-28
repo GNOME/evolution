@@ -329,9 +329,9 @@ folder_tree_free_select_uri (struct _selected_uri *u)
 
 static gboolean
 folder_tree_select_func (GtkTreeSelection *selection,
-                  GtkTreeModel *model,
-                  GtkTreePath *path,
-                  gboolean selected)
+                         GtkTreeModel *model,
+                         GtkTreePath *path,
+                         gboolean selected)
 {
 	EMFolderTreePrivate *priv;
 	GtkTreeView *tree_view;
@@ -470,7 +470,7 @@ exit:
 
 static void
 folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
-                           GtkTreeSelection *selection)
+                                  GtkTreeSelection *selection)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -582,7 +582,7 @@ em_folder_tree_destroy (GtkObject *object)
 
 static gboolean
 folder_tree_button_press_event (GtkWidget *widget,
-                         GdkEventButton *event)
+                                GdkEventButton *event)
 {
 	EMFolderTreePrivate *priv;
 	GtkWidgetClass *widget_class;
@@ -626,7 +626,7 @@ chainup:
 
 static gboolean
 folder_tree_key_press_event (GtkWidget *widget,
-                      GdkEventKey *event)
+                             GdkEventKey *event)
 {
 	EMFolderTreePrivate *priv;
 	GtkWidgetClass *widget_class;
@@ -658,8 +658,8 @@ folder_tree_popup_menu (GtkWidget *widget)
 
 static void
 folder_tree_row_activated (GtkTreeView *tree_view,
-                    GtkTreePath *path,
-                    GtkTreeViewColumn *column)
+                           GtkTreePath *path,
+                           GtkTreeViewColumn *column)
 {
 	EMFolderTreePrivate *priv;
 	GtkTreeModel *model;
@@ -695,8 +695,8 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 
 static gboolean
 folder_tree_test_collapse_row (GtkTreeView *tree_view,
-                        GtkTreeIter *iter,
-                        GtkTreePath *path)
+                               GtkTreeIter *iter,
+                               GtkTreePath *path)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -718,8 +718,8 @@ exit:
 
 static void
 folder_tree_row_expanded (GtkTreeView *tree_view,
-                   GtkTreeIter *iter,
-                   GtkTreePath *path)
+                          GtkTreeIter *iter,
+                          GtkTreePath *path)
 {
 	struct _EMFolderTreeGetFolderInfo *msg;
 	GtkTreeModel *model;
@@ -2494,11 +2494,12 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
 		goto done;
 
 	g_free (fi->name);
-        if (!g_ascii_strcasecmp (fi->full_name, "INBOX"))
-                fi->name = g_strdup (_("Inbox"));
-        else
-                fi->name = g_strdup (name);
- done:
+	if (!g_ascii_strcasecmp (fi->full_name, "INBOX"))
+		fi->name = g_strdup (_("Inbox"));
+	else
+		fi->name = g_strdup (name);
+
+done:
 	return fi;
 }
 
