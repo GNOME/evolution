@@ -236,9 +236,8 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libedataserver-1.2 >= eds_minimum_version
 	 libedataserverui-1.2 >= eds_minimum_version
 	 libegroupwise-1.2 >= eds_minimum_version
-	 libebackend-1.2 >= eds_minimum_version
-	 libgdata-1.2 >= eds_minimum_version
-	 libgdata-google-1.2 >= eds_minimum_version])
+	 libebackend-1.2 >= eds_minimum_version])
+
 
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
@@ -1307,7 +1306,11 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= libsoup_minimum_version)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor libgdata-1.2 libgdata-google-1.2)
+EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.4.0)
+AC_SUBST(GDATA_CFLAGS)
+AC_SUBST(GDATA_LIBS)
+
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-3.14 libebook-1.2 libecal-1.2 libedataserverui-1.2 libebackend-1.2 $libnotify gtkhtml-editor)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 

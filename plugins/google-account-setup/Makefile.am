@@ -12,7 +12,8 @@ liborg_gnome_evolution_google_la_CPPFLAGS = 		\
 	-DCALDAV_UIDIR=\""$(uidir)"\"			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
+	$(GDATA_CFLAGS)
 
 liborg_gnome_evolution_google_la_SOURCES =        \
 	google-source.c \
@@ -24,7 +25,8 @@ liborg_gnome_evolution_google_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EPLUGIN_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(GDATA_LIBS)
 
 liborg_gnome_evolution_google_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

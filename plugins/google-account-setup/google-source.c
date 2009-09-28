@@ -16,6 +16,7 @@
  *
  * Authors:
  *		Ebby Wiselyn <ebbywiselyn@gmail.com>
+ *		Philip Withnall <philip@tecnocode.co.uk>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -46,9 +47,7 @@
 #include <libedataserverui/e-cell-renderer-color.h>
 #include <libedataserverui/e-passwords.h>
 
-#include <google/libgdata/gdata-service-iface.h>
-#include <google/libgdata/gdata-feed.h>
-#include <google/libgdata-google/gdata-google-service.h>
+#include <gdata/gdata.h>
 
 #include "google-contacts-source.h"
 
@@ -408,7 +407,7 @@ update_proxy_settings (GDataService *service, const gchar *uri)
 		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
 	}
 
-	gdata_service_set_proxy (service, proxy_uri);
+	gdata_service_set_proxy_uri (service, proxy_uri);
 	g_object_unref (proxy);
 }
 
@@ -416,11 +415,10 @@ static void
 retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 {
 	ESource *source;
-	GDataGoogleService *service;
+	GDataCalendarService *service;
 	GDataFeed *feed;
 	gchar *user, *password, *tmp;
-	const gchar *username, *ssl;
-	gchar *get_subscribed_url;
+	const gchar *username;
 	GError *error = NULL;
 	GtkWindow *parent;
 
@@ -447,20 +445,26 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 		return;
 	}
 
-	service = gdata_google_service_new ("cl", "evolution-client-0.0.1");
-	gdata_service_set_credentials (GDATA_SERVICE (service), user, password);
+	service = gdata_calendar_service_new ("evolution-client-0.1.0");
+	if (!gdata_service_authenticate (GDATA_SERVICE (service), user, password, NULL, &error)) {
+		/* Error! */
+		claim_error (parent, error->message);
+		g_error_free (error);
+		g_free (password);
+		g_free (user);
+		g_object_unref (service);
+		return;
+	}
+
 	/* privacy... maybe... */
 	memset (password, 0, strlen (password));
 	g_free (password);
 
-	ssl = e_source_get_property (source, "ssl");
-	get_subscribed_url = g_strconcat ((!ssl || g_str_equal (ssl, "1")) ? "https" : "http", URL_GET_SUBSCRIBED_CALENDARS, NULL);
-	update_proxy_settings (GDATA_SERVICE (service), get_subscribed_url);
-	feed = gdata_service_get_feed (GDATA_SERVICE (service), get_subscribed_url, &error);
-	g_free (get_subscribed_url);
+	update_proxy_settings (GDATA_SERVICE (service), URL_GET_SUBSCRIBED_CALENDARS);
+	feed = gdata_calendar_service_query_all_calendars (service, NULL, NULL, NULL, NULL, &error);
 
 	if (feed) {
-		GSList *l;
+		GList *l;
 		gchar *old_selected = NULL;
 		gint idx, active = -1, default_idx = -1;
 		GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (combo));
@@ -472,31 +476,27 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 		gtk_list_store_clear (store);
 
 		for (l = gdata_feed_get_entries (feed), idx = 1; l != NULL; l = l->next) {
-			const gchar *uri, *title, *color, *access;
-			GSList *links;
-			GDataEntry *entry = (GDataEntry *) l->data;
+			const gchar *uri, *title, *access;
+			GDataLink *link;
+			GDataColor color;
+			GDataEntry *entry = GDATA_ENTRY (l->data);
 
 			if (!entry || !GDATA_IS_ENTRY (entry))
 				continue;
 
 			/* skip hidden entries */
-			if (gdata_entry_get_custom (entry, "hidden") && g_ascii_strcasecmp (gdata_entry_get_custom (entry, "hidden"), "true") == 0)
+			if (gdata_calendar_calendar_is_hidden (GDATA_CALENDAR_CALENDAR (entry)))
 				continue;
 
-			uri = NULL;
-			for (links = gdata_entry_get_links (entry); links && !uri; links = links->next) {
-				GDataEntryLink *link = (GDataEntryLink *)links->data;
+			/* Find the alternate link; skip the entry if one doesn't exist */
+			link = gdata_entry_look_up_link (entry, GDATA_LINK_ALTERNATE);
+			if (!link)
+				continue;
 
-				if (!link || !link->href || !link->rel)
-					continue;
-
-				if (g_ascii_strcasecmp (link->rel, "alternate") == 0)
-					uri = link->href;
-			}
-
+			uri = gdata_link_get_uri (link);
 			title = gdata_entry_get_title (entry);
-			color = gdata_entry_get_custom (entry, "color");
-			access = gdata_entry_get_custom (entry, "accesslevel");
+			gdata_calendar_calendar_get_color (GDATA_CALENDAR_CALENDAR (entry), &color);
+			access = gdata_calendar_calendar_get_access_level (GDATA_CALENDAR_CALENDAR (entry));
 
 			if (uri && title) {
 				GdkColor gdkcolor;
@@ -504,8 +504,11 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 				if (old_selected && g_str_equal (old_selected, uri))
 					active = idx;
 
-				if (color)
-					gdk_color_parse (color, &gdkcolor);
+				/* Convert the GDataColor to a GdkColor */
+				gdkcolor.pixel = 0;
+				gdkcolor.red = color.red * 256;
+				gdkcolor.green = color.green * 256;
+				gdkcolor.blue = color.blue * 256;
 
 				if (default_idx == -1 && is_default_uri (uri, user)) {
 					/* have the default uri always NULL and first in the combo */
@@ -517,7 +520,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 				}
 
 				gtk_list_store_set (store, &iter,
-					COL_COLOR, color ? &gdkcolor : NULL,
+					COL_COLOR, &gdkcolor,
 					COL_TITLE, title,
 					COL_URL_PATH, uri,
 					COL_READ_ONLY, access && !g_str_equal (access, "owner") && !g_str_equal (access, "contributor"),
@@ -663,7 +666,7 @@ plugin_google  (EPlugin                    *epl,
 	hbox = gtk_hbox_new (FALSE, 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
-	label = gtk_button_new_with_mnemonic (_("Retrieve _list"));
+	label = gtk_button_new_with_mnemonic (_("Retrieve _List"));
 	g_signal_connect (label, "clicked", G_CALLBACK (retrieve_list_clicked), combo);
 	g_signal_connect (user, "changed", G_CALLBACK (retrieve_list_sensitize), label);
 	g_object_set_data (G_OBJECT (label), "ESource", source);
