@@ -250,6 +250,15 @@ mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
 		mail_shell_content_scroll_timeout_cb,
 		mail_shell_content, NULL);
 
+	/* FIXME This prevents the message list from saving the scrollbar
+	 *       position before we've had a chance to restore the position.
+	 *       It gets restored in the timeout handler we just added. */
+	if (priv->message_list_scrolled_id > 0) {
+		g_signal_handler_disconnect (
+			message_list, priv->message_list_scrolled_id);
+		priv->message_list_scrolled_id = 0;
+	}
+
 	/* FIXME This is another ugly hack to hide a side-effect of the
 	 *       previous workaround. */
 	scrolled_window = GTK_SCROLLED_WINDOW (message_list);
