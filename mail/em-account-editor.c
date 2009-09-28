@@ -104,7 +104,6 @@ typedef struct _EMAccountEditorService {
 	GtkEntry *path;
 	GtkLabel *pathlabel;
 	GtkWidget *pathentry;
-	GtkWidget *port_hint;
 
 	GtkWidget *ssl_frame;
 	GtkComboBox *use_ssl;
@@ -1983,12 +1982,6 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 		service->pathentry = glade_xml_get_widget (xml, info->pathentry);
 	}
 
-	service->port_hint = glade_xml_get_widget (xml, "port_hint");
-	if (emae->type == EMAE_PAGES && (!service->provider || CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)))
-		gtk_widget_show (service->port_hint);
-	else
-		gtk_widget_hide (service->port_hint);
-
 	service->ssl_frame = glade_xml_get_widget (xml, info->security_frame);
 	gtk_widget_hide (service->ssl_frame);
 	service->ssl_hbox = glade_xml_get_widget (xml, info->ssl_hbox);
@@ -2106,14 +2099,13 @@ emae_create_basic_assistant_page (GtkAssistant *assistant, const gchar *page_id)
 
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_widget_show (vbox);
 
 	lbl = gtk_label_new (label);
-	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (lbl), TRUE);
-
+	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vbox), lbl, fill_space, fill_space, 0);
-
-	gtk_widget_show_all (vbox);
+	gtk_widget_show (lbl);
 
 	gtk_assistant_append_page (assistant, vbox);
 	gtk_assistant_set_page_title (assistant, vbox, title);
