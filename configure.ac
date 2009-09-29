@@ -1939,6 +1939,7 @@ mail/default/ko/Makefile
 mail/default/nl/Makefile
 mail/default/pl/Makefile
 mail/default/pt/Makefile
+mail/default/ro/Makefile
 mail/default/sr/Makefile
 mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
