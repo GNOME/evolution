@@ -243,10 +243,20 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	/* get the first child (which will be a dummy node) */
 	gtk_tree_model_iter_children (model, &iter, &root);
 
-	/* Traverse to the last valid iter */
+	/* Traverse to the last valid iter, or the "Loading..." node */
 	titer = iter;
-	while (gtk_tree_model_iter_next (model, &iter))
+	do {
+		gboolean is_store_node = FALSE, is_folder_node = FALSE;
+
 		titer = iter; /* Preserve the last valid iter */
+
+		gtk_tree_model_get (model, &iter, COL_BOOL_IS_STORE, &is_store_node, COL_BOOL_IS_FOLDER, &is_folder_node, -1);
+
+		/* stop on a "Loading..." node */
+		if (!is_store_node && !is_folder_node)
+			break;
+
+	} while (gtk_tree_model_iter_next (model, &iter));
 
 	iter = titer;
 
