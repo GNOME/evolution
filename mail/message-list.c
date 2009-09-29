@@ -666,8 +666,13 @@ message_list_select_uid (MessageList *message_list, const gchar *uid)
 
 	node = g_hash_table_lookup (message_list->uid_nodemap, uid);
 	if (node) {
+		ETreePath old_cur = e_tree_get_cursor (message_list->tree);
+
 		/* This will emit a changed signal that we'll pick up */
 		e_tree_set_cursor (message_list->tree, node);
+
+		if (old_cur == node)
+			g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
