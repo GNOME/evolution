@@ -1308,7 +1308,7 @@ autosave_load_draft (const gchar *filename)
 		/* Mark the message as changed so it gets autosaved again,
 		 * then we can safely remove the old autosave file in the
 		 * callback function. */
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), FALSE);
+		gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), TRUE);
 		e_composer_autosave_snapshot_async (
 			composer, (GAsyncReadyCallback)
 			autosave_load_draft_cb, g_strdup (filename));
