@@ -116,6 +116,7 @@ struct _EMsgComposerPrivate {
 	CamelMimeMessage *redirect;
 
 	gboolean send_invoked;
+	gboolean is_from_message;
 };
 
 void		e_composer_private_init		(EMsgComposer *composer);

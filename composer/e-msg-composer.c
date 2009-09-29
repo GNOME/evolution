@@ -1106,6 +1106,27 @@ decode_signature_name (const gchar *name)
 	return dname;
 }
 
+static gboolean
+is_top_signature (EMsgComposer *composer)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+
+	g_return_val_if_fail (priv != NULL, FALSE);
+
+	/* The composer had been created from a stored message, thus the signature
+	   placement is either there already, or pt it at the bottom regardless
+	   of a preferences (which is for reply anyway, not for Edit as new) */
+	if (priv->is_from_message)
+		return FALSE;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return e_shell_settings_get_boolean (shell_settings, "composer-top-signature");
+}
+
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 #define NO_SIGNATURE_TEXT	\
 	"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->" \
@@ -1184,12 +1205,13 @@ get_signature_html (EMsgComposer *composer)
 					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD><BR>"
 					"%s%s%s%s"
-					"</TD></TR></TABLE>",
+					"%s</TD></TR></TABLE>",
 					encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
 					text,
-					format_html ? "" : "</PRE>\n");
+					format_html ? "" : "</PRE>\n",
+					is_top_signature (composer) ? "<BR>" : "");
 		g_free (text);
 		g_free (encoded_uid);
 		text = html;
@@ -1203,16 +1225,10 @@ set_editor_text (EMsgComposer *composer,
                  const gchar *text,
                  gboolean set_signature)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
-	gboolean reply_signature_on_top;
-	gchar *body = NULL, *html = NULL;
+	gchar *body = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	/*
 
@@ -1228,30 +1244,9 @@ set_editor_text (EMsgComposer *composer,
 
 	 */
 
-	reply_signature_on_top = e_shell_settings_get_boolean (
-		shell_settings, "composer-top-signature");
-
-	if (set_signature && reply_signature_on_top) {
-		gchar *tmp = NULL;
-		tmp = get_signature_html (composer);
-		if (tmp) {
-			/* Minimizing the damage. Make it just a part of the body instead of a signature */
-			html = strstr (tmp, "-- \n");
-			if (html) {
-				/* That two consecutive - symbols followed by a space */
-				*(html+1) = ' ';
-				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
-			} else {
-				/* HTML Signature. Make it as part of body */
-				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
-			}
-			g_free (tmp);
-		} else {
-			/* No signature set */
-			body = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
-					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:Noname\">-->"
-					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD> </TD></TR></TABLE>%s", text);
-		}
+	if (is_top_signature (composer)) {
+		/* put marker to the top */
+		body = g_strdup_printf ("<BR>" NO_SIGNATURE_TEXT "%s", text);
 	} else {
 		/* no marker => to the bottom */
 		body = g_strdup_printf ("%s<BR>", text);
@@ -2676,6 +2671,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	EAccount *account = NULL;
 	gchar *account_name;
 	EMsgComposer *composer;
+	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
@@ -2687,6 +2683,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 
 	composer = e_msg_composer_new ();
+	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	table = e_msg_composer_get_header_table (composer);
 
 	if (postto) {
@@ -2846,8 +2843,6 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 
 		flags = g_strsplit (format, ", ", 0);
 		for (i=0;flags[i];i++) {
-			printf ("restoring draft flag '%s'\n", flags[i]);
-
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0)
 				gtkhtml_editor_set_html_mode (
 					GTKHTML_EDITOR (composer), TRUE);
@@ -2931,6 +2926,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		html = emcu_part_to_html ((CamelMimePart *)message, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
+
+	priv->is_from_message = TRUE;
 
 	/* We wait until now to set the body text because we need to
 	 * ensure that the attachment bar has all the attachments before
@@ -3783,6 +3780,10 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		gtkhtml_editor_run_command (editor, "style-normal");
 		gtkhtml_editor_insert_html (editor, html_text);
 		g_free (html_text);
+	} else if (is_top_signature (composer)) {
+		/* insert paragraph after the signature ClueFlow things */
+		gtkhtml_editor_run_command (editor, "cursor-forward");
+		gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
 	gtkhtml_editor_undo_end (editor);

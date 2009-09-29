@@ -128,6 +128,8 @@ e_composer_private_init (EMsgComposer *composer)
 
 	priv->charset = e_composer_get_default_charset ();
 
+	priv->is_from_message = FALSE;
+
 	e_composer_actions_init (composer);
 
 	filename = e_composer_find_data_file ("evolution-composer.ui");
