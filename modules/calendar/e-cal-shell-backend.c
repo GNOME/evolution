@@ -747,6 +747,7 @@ cal_shell_backend_class_init (ECalShellBackendClass *class)
 	shell_backend_class->aliases = "";
 	shell_backend_class->schemes = "calendar";
 	shell_backend_class->sort_order = 400;
+	shell_backend_class->preferences_page = "calendar-and-tasks";
 	shell_backend_class->start = NULL;
 	shell_backend_class->migrate = e_cal_shell_backend_migrate;
 

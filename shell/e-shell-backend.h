@@ -108,6 +108,7 @@ struct _EShellBackendClass {
 	const gchar *aliases;
 	const gchar *schemes;
 	gint sort_order;
+	const gchar *preferences_page;
 
 	/* Methods */
 	void		(*start)		(EShellBackend *shell_backend);

@@ -183,6 +183,7 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 	shell_backend_class->aliases = "monkey";
 	shell_backend_class->schemes = "";
 	shell_backend_class->sort_order = 100;
+	shell_backend_class->preferences_page = NULL;
 	shell_backend_class->start = test_shell_backend_start;
 	shell_backend_class->migrate = test_shell_backend_migrate;
 }

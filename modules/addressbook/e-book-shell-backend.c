@@ -584,6 +584,7 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 	shell_backend_class->aliases = "contacts";
 	shell_backend_class->schemes = "";
 	shell_backend_class->sort_order = 300;
+	shell_backend_class->preferences_page = "contacts";
 	shell_backend_class->start = NULL;
 	shell_backend_class->migrate = e_book_shell_backend_migrate;
 

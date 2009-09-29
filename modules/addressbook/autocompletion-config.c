@@ -178,6 +178,7 @@ autocompletion_config_new (EShell *shell)
 	gtk_widget_show (scrolled_window);
 
 	source_selector = e_source_selector_new (source_list);
+	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 	g_signal_connect (
 		source_selector, "selection_changed",
 		G_CALLBACK (source_selection_changed_cb), NULL);
@@ -185,8 +186,6 @@ autocompletion_config_new (EShell *shell)
 	gtk_widget_show (source_selector);
 
 	gtk_box_pack_start (GTK_BOX (itembox), scrolled_window, TRUE, TRUE, 0);
-
-	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
 	return vbox;
 }
