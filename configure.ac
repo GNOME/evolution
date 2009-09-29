@@ -1930,12 +1930,12 @@ mail/default/de/Makefile
 mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
+mail/default/hu/Makefile
 mail/default/it/Makefile
-mail/default/lt/Makefile
-mail/default/mk/Makefile
-mail/default/zh_CN/Makefile
 mail/default/ja/Makefile
 mail/default/ko/Makefile
+mail/default/lt/Makefile
+mail/default/mk/Makefile
 mail/default/nl/Makefile
 mail/default/pl/Makefile
 mail/default/pt/Makefile
@@ -1943,7 +1943,7 @@ mail/default/ro/Makefile
 mail/default/sr/Makefile
 mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
-mail/default/hu/Makefile
+mail/default/zh_CN/Makefile
 mail/importers/Makefile
 modules/Makefile
 modules/addressbook/Makefile

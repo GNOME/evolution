@@ -412,7 +412,6 @@ shell/apps_evolution_shell.schemas.in
 shell/e-config-upgrade.c
 shell/e-shell-backend.c
 shell/e-shell-content.c
-shell/e-shell-importer.c
 shell/e-shell-migrate.c
 shell/e-shell-switcher.c
 shell/e-shell-view.c
@@ -472,6 +471,7 @@ widgets/misc/e-canvas-vbox.c
 widgets/misc/e-charset-combo-box.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-image-chooser.c
+widgets/misc/e-import-assistant.c
 widgets/misc/e-map.c
 widgets/misc/e-online-button.c
 widgets/misc/e-paned.c
