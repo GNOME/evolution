@@ -1261,8 +1261,9 @@ set_editor_text (EMsgComposer *composer,
 /* Commands.  */
 
 static void
-autosave_load_draft_cb (EMsgComposer *composer, GAsyncResult *result,
-			gchar *filename)
+autosave_load_draft_cb (EMsgComposer *composer,
+                        GAsyncResult *result,
+                        gchar *filename)
 {
 	if (e_composer_autosave_snapshot_finish (composer, result, NULL))
 		g_unlink (filename);
@@ -1284,18 +1285,19 @@ autosave_load_draft (const gchar *filename)
 		return NULL;
 
 	msg = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
+	camel_data_wrapper_construct_from_stream (
+		CAMEL_DATA_WRAPPER (msg), stream);
 	camel_object_unref (stream);
 
 	composer = e_msg_composer_new_with_message (msg);
 	if (composer) {
-		/* Mark the message as changed so it gets autosaved again, then
-		 * we can safely remove the old autosave file in
-		 * autosave_load_draft_cb */
+		/* Mark the message as changed so it gets autosaved again,
+		 * then we can safely remove the old autosave file in the
+		 * callback function. */
 		gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), FALSE);
-		e_composer_autosave_snapshot_async (composer,
-						    (GAsyncReadyCallback) autosave_load_draft_cb,
-						    g_strdup (filename));
+		e_composer_autosave_snapshot_async (
+			composer, (GAsyncReadyCallback)
+			autosave_load_draft_cb, g_strdup (filename));
 
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
