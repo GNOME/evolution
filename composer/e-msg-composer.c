@@ -104,9 +104,6 @@ gboolean composer_lite = FALSE;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
-/* All the composer windows open, for bookkeeping purposes.  */
-static GSList *all_composers = NULL;
-
 /* local prototypes */
 static GList *add_recipients (GList *list, const gchar *recips);
 
@@ -1523,8 +1520,6 @@ msg_composer_destroy (GtkObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
 
-	all_composers = g_slist_remove (all_composers, object);
-
 	if (composer->priv->address_dialog != NULL) {
 		gtk_widget_destroy (composer->priv->address_dialog);
 		composer->priv->address_dialog = NULL;
@@ -2096,7 +2091,6 @@ msg_composer_init (EMsgComposer *composer)
 	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 	view = e_msg_composer_get_attachment_view (composer);
-	all_composers = g_slist_prepend (all_composers, composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
