@@ -1262,8 +1262,24 @@ autosave_load_draft_cb (EMsgComposer *composer,
                         GAsyncResult *result,
                         gchar *filename)
 {
-	if (e_composer_autosave_snapshot_finish (composer, result, NULL))
+	GError *error = NULL;
+
+	if (e_composer_autosave_snapshot_finish (composer, result, &error))
 		g_unlink (filename);
+
+	else {
+		e_error_run (
+			GTK_WINDOW (composer),
+			"mail-composer:no-autosave",
+			(filename != NULL) ? filename : "",
+			(error != NULL) ? error->message :
+			_("Unable to reconstruct message from autosave file"),
+			NULL);
+
+		if (error != NULL)
+			g_error_free (error);
+	}
+
 	g_free (filename);
 }
 
@@ -1275,8 +1291,6 @@ autosave_load_draft (const gchar *filename)
 	EMsgComposer *composer;
 
 	g_return_val_if_fail (filename != NULL, NULL);
-
-	g_warning ("autosave load filename = \"%s\"", filename);
 
 	if (!(stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0)))
 		return NULL;
