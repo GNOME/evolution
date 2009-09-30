@@ -1499,14 +1499,6 @@ static void
 msg_composer_dispose (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
-	gboolean delete_file;
-
-	/* If the application is exiting, keep the autosave file so we can
-	 * restore it later.  Otherwise we're just closing this composer
-	 * window, and the CLOSE action has already handled any unsaved
-	 * changes, so we can safely delete the autosave file. */
-	delete_file = !composer->priv->application_exiting;
-	e_composer_autosave_unregister (composer, delete_file);
 
 	e_composer_private_dispose (composer);
 
@@ -1519,6 +1511,7 @@ msg_composer_finalize (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
 
+	e_composer_autosave_unregister (composer);
 	e_composer_private_finalize (composer);
 
 	/* Chain up to parent's finalize() method. */
@@ -3870,44 +3863,6 @@ e_msg_composer_set_enable_autosave (EMsgComposer *composer,
                                     gboolean enabled)
 {
 	e_composer_autosave_set_enabled (composer, enabled);
-}
-
-gboolean
-e_msg_composer_is_exiting (EMsgComposer *composer)
-{
-	g_return_val_if_fail (composer != NULL, FALSE);
-
-	return composer->priv->application_exiting;
-}
-
-gboolean
-e_msg_composer_request_close_all (void)
-{
-	GSList *iter, *next;
-
-	for (iter = all_composers; iter != NULL; iter = next) {
-		EMsgComposer *composer = iter->data;
-
-		/* The CLOSE action will delete this list node,
-		 * so grab the next one while we still can. */
-		next = iter->next;
-
-		/* Try to autosave before closing.  If it fails for
-		 * some reason, the CLOSE action will still detect
-		 * unsaved changes and prompt the user.
-		 *
-		 * FIXME If it /does/ prompt the user, the Cancel
-		 *       button will act the same as Discard Changes,
-		 *       which is misleading.
-		 */
-		composer->priv->application_exiting = TRUE;
-		e_composer_autosave_snapshot_async (composer,
-						    (GAsyncReadyCallback) e_composer_autosave_snapshot_finish,
-						    NULL);
-		gtk_action_activate (ACTION (CLOSE));
-	}
-
-	return (all_composers == NULL);
 }
 
 EMsgComposer *

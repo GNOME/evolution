@@ -232,8 +232,7 @@ e_composer_autosave_register (EMsgComposer *composer)
 }
 
 void
-e_composer_autosave_unregister (EMsgComposer *composer,
-                                gboolean delete_file)
+e_composer_autosave_unregister (EMsgComposer *composer)
 {
 	AutosaveState *state;
 
@@ -243,8 +242,7 @@ e_composer_autosave_unregister (EMsgComposer *composer,
 	if (state == NULL || state->file == NULL)
 		return;
 
-	if (delete_file)
-		g_file_delete (state->file, NULL, NULL);
+	g_file_delete (state->file, NULL, NULL);
 
 	g_object_set_data (G_OBJECT (composer), "autosave", NULL);
 }

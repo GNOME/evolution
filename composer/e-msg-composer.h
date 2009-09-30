@@ -135,7 +135,6 @@ void		e_msg_composer_add_message_attachments
 						 CamelMimeMessage *message,
 						 gboolean just_inlines);
 
-gboolean	e_msg_composer_request_close_all(void);
 EMsgComposer *	e_msg_composer_load_from_file	(const gchar *filename);
 void		e_msg_composer_check_autosave	(GtkWindow *parent);
 
@@ -150,8 +149,6 @@ void		e_msg_composer_set_send_options	(EMsgComposer *composer,
 						 gboolean send_enable);
 GByteArray *	e_msg_composer_get_raw_message_text
 						(EMsgComposer *composer);
-
-gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
 GList *		e_load_spell_languages		(void);
 void		e_save_spell_languages		(GList *spell_languages);
