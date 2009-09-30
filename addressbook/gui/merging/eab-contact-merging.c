@@ -228,17 +228,18 @@ mergeit (EContactMergingLookup *lookup)
 			/*Merge only if number of email id's in existing contact is less than 4 */
 			if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
 			    || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
+				EContactField use_field = field;
 				row++;
-				str = (gchar *)e_contact_get_const (lookup->contact, field);
+				str = (gchar *)e_contact_get_const (lookup->contact, use_field);
 				switch (num_of_email)
 				{
 				case 0:
-					field = E_CONTACT_EMAIL_1;
+					use_field = E_CONTACT_EMAIL_1;
 					break;
 				case 1:
 					/*New contact has email that is NOT equal to email in duplicate contact*/
 					if ((str && *str) && (g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str))) {
-						field = E_CONTACT_EMAIL_2;
+						use_field = E_CONTACT_EMAIL_2;
 						break;
 					}
 					else/*Either the new contact has no email OR the email already exist in the duplicate contact*/
@@ -248,7 +249,7 @@ mergeit (EContactMergingLookup *lookup)
 					if ((str && *str) &&
 							(g_ascii_strcasecmp(str,e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1))) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str))) {
-						field = E_CONTACT_EMAIL_3;
+						use_field = E_CONTACT_EMAIL_3;
 						break;
 					}
 					else
@@ -259,7 +260,7 @@ mergeit (EContactMergingLookup *lookup)
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_1),str)) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_2),str)) &&
 							(g_ascii_strcasecmp(e_contact_get_const (lookup->match, E_CONTACT_EMAIL_3),str)))
-						field = E_CONTACT_EMAIL_4;
+						use_field = E_CONTACT_EMAIL_4;
 					else
 						continue;
 				}
@@ -276,9 +277,9 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
 
 				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
-				data->field = field;
+				data->field = use_field;
 				data->match = lookup->match;
-				e_contact_set (lookup->match, field, string);
+				e_contact_set (lookup->match, use_field, string);
 				g_signal_connect (dropdown, "changed", G_CALLBACK(dropdown_changed), data);
 
 				hbox = gtk_hbox_new (FALSE, 0);
