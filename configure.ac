@@ -28,12 +28,6 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
 
-dnl User Documentation
-GNOME_DOC_INIT
-
-dnl Developer Documentation
-GTK_DOC_CHECK(1.9)
-
 dnl This is for the autoconf tests only - it set's the language we use
 AC_LANG(C)
 
@@ -176,6 +170,12 @@ LT_PREREQ(2.2)
 LT_INIT(disable-static win32-dll)
 
 PKG_PROG_PKG_CONFIG
+
+dnl ********************************************
+dnl User / Developer Documentation
+dnl ********************************************
+GNOME_DOC_INIT
+GTK_DOC_CHECK(1.9)
 
 dnl ******************************
 dnl Win32

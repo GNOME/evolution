@@ -1,8 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
-# We require automake 1.6 at least.
-AUTOMAKE_OPTIONS = 1.6
-
 # The name of the module, e.g. 'glib'.
 DOC_MODULE=eshell
 
@@ -35,114 +30,40 @@ MKTMPL_OPTIONS=
 FIXXREF_OPTIONS=
 
 # Used for dependencies. The docs will be rebuilt if any of these change.
-# e.g. HFILE_GLOB=$(top_srcdir)/gtk/*.h
-# e.g. CFILE_GLOB=$(top_srcdir)/gtk/*.c
 HFILE_GLOB=$(top_srcdir)/shell/*.h
 CFILE_GLOB=$(top_srcdir)/shell/*.c
 
 # Header files to ignore when scanning.
-# e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h
 IGNORE_HFILES=e-shell-window-private.h
 
 # Images to copy into HTML directory.
-# e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
 HTML_IMAGES=
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
-# e.g. content_files=running.sgml building.sgml changes-2.0.sgml
 content_files=
 
 # SGML files where gtk-doc abbrevations (#GtkWidget) are expanded
 # These files must be listed here *and* in content_files
-# e.g. expand_content_files=running.sgml
 expand_content_files=
 
 # CFLAGS and LDFLAGS for compiling gtkdoc-scangobj with your library.
 # Only needed if you are using gtkdoc-scangobj to dynamically query widget
 # signals and properties.
-# e.g. INCLUDES=-I$(top_srcdir) -I$(top_builddir) $(GTK_DEBUG_FLAGS)
-# e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-AM_CPPFLAGS= \
+GTKDOC_CFLAGS= \
+	-I$(top_builddir)						\
 	-I$(top_srcdir)							\
 	-I$(SHELL_CFLAGS)
 GTKDOC_LIBS=								\
-	$(top_builddir)/shell/.libs/e-shell.o				\
-	$(top_builddir)/shell/.libs/e-shell-backend.o			\
-	$(top_builddir)/shell/.libs/e-shell-content.o			\
-	$(top_builddir)/shell/.libs/e-shell-migrate.o			\
-	$(top_builddir)/shell/.libs/e-shell-settings.o			\
-	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
-	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
-	$(top_builddir)/shell/.libs/e-shell-taskbar.o			\
-	$(top_builddir)/shell/.libs/e-shell-view.o			\
-	$(top_builddir)/shell/.libs/e-shell-window-actions.o		\
-	$(top_builddir)/shell/.libs/e-shell-window-private.o		\
-	$(top_builddir)/shell/.libs/e-shell-window.o			\
-	$(top_builddir)/shell/.libs/es-event.o				\
-	$(top_builddir)/e-util/.libs/e-bconf-map.o			\
-	$(top_builddir)/e-util/.libs/e-binding.o			\
-	$(top_builddir)/e-util/.libs/e-bit-array.o			\
-	$(top_builddir)/e-util/.libs/e-dialog-utils.o			\
-	$(top_builddir)/e-util/.libs/e-error.o				\
-	$(top_builddir)/e-util/.libs/e-event.o				\
-	$(top_builddir)/e-util/.libs/e-fsutils.o			\
-	$(top_builddir)/e-util/.libs/e-icon-factory.o			\
-	$(top_builddir)/e-util/.libs/e-import.o				\
-	$(top_builddir)/e-util/.libs/e-logger.o				\
-	$(top_builddir)/e-util/.libs/e-marshal.o			\
-	$(top_builddir)/e-util/.libs/e-mktemp.o				\
-	$(top_builddir)/e-util/.libs/e-module.o				\
-	$(top_builddir)/e-util/.libs/e-plugin.o				\
-	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\
-	$(top_builddir)/e-util/.libs/e-print.o				\
-	$(top_builddir)/e-util/.libs/e-signature.o			\
-	$(top_builddir)/e-util/.libs/e-signature-list.o			\
-	$(top_builddir)/e-util/.libs/e-signature-utils.o		\
-	$(top_builddir)/e-util/.libs/e-unicode.o			\
-	$(top_builddir)/e-util/.libs/e-util.o				\
-	$(top_builddir)/e-util/.libs/e-xml-utils.o			\
-	$(top_builddir)/e-util/.libs/gconf-bridge.o			\
-	$(top_builddir)/filter/.libs/filter-code.o			\
-	$(top_builddir)/filter/.libs/filter-colour.o			\
-	$(top_builddir)/filter/.libs/filter-datespec.o			\
-	$(top_builddir)/filter/.libs/filter-element.o			\
-	$(top_builddir)/filter/.libs/filter-file.o			\
-	$(top_builddir)/filter/.libs/filter-input.o			\
-	$(top_builddir)/filter/.libs/filter-int.o			\
-	$(top_builddir)/filter/.libs/filter-option.o			\
-	$(top_builddir)/filter/.libs/filter-part.o			\
-	$(top_builddir)/filter/.libs/filter-rule.o			\
-	$(top_builddir)/filter/.libs/rule-context.o			\
-	$(top_builddir)/filter/.libs/rule-editor.o			\
-	$(top_builddir)/smclient/.libs/eggdesktopfile.o			\
-	$(top_builddir)/smclient/.libs/eggsmclient.o			\
-	$(top_builddir)/smclient/.libs/eggsmclient-xsmp.o		\
-	$(top_builddir)/widgets/menus/.libs/gal-define-views-dialog.o	\
-	$(top_builddir)/widgets/menus/.libs/gal-view-collection.o	\
-	$(top_builddir)/widgets/menus/.libs/gal-view-factory.o		\
-	$(top_builddir)/widgets/menus/.libs/gal-view-instance.o		\
-	$(top_builddir)/widgets/menus/.libs/gal-view-instance-save-as-dialog.o \
-	$(top_builddir)/widgets/menus/.libs/gal-view-new-dialog.o	\
-	$(top_builddir)/widgets/menus/.libs/gal-view.o			\
-	$(top_builddir)/widgets/misc/.libs/e-action-combo-box.o		\
-	$(top_builddir)/widgets/misc/.libs/e-activity.o			\
-	$(top_builddir)/widgets/misc/.libs/e-activity-proxy.o		\
-	$(top_builddir)/widgets/misc/.libs/e-gui-utils.o		\
-	$(top_builddir)/widgets/misc/.libs/e-hinted-entry.o		\
-	$(top_builddir)/widgets/misc/.libs/e-import-assistant.o		\
-	$(top_builddir)/widgets/misc/.libs/e-menu-tool-button.o		\
-	$(top_builddir)/widgets/misc/.libs/e-online-button.o		\
-	$(top_builddir)/widgets/misc/.libs/e-popup-menu.o		\
-	$(top_builddir)/widgets/misc/.libs/e-preferences-window.o	\
-	$(top_builddir)/widgets/misc/.libs/e-spinner.o			\
+	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/filter/libfilter.la				\
+	$(top_builddir)/smclient/libeggsmclient.la			\
+	$(top_builddir)/smclient/libeggdesktopfile.la			\
+	$(top_builddir)/widgets/menus/libmenus.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	-ledataserver-1.2						\
 	-ledataserverui-1.2						\
 	$(SHELL_LIBS)
-
-if NM_SUPPORT
-GTKDOC_LIBS += \
-	$(top_builddir)/shell/.libs/e-shell-nm.o
-endif
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/gtk-doc.make
