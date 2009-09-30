@@ -13985,7 +13985,7 @@ msgstr ""
 
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "Tõrge %s külgehaakimisel:"
 
 msgid "Are you sure you want to remove this location?"
 msgstr "Oled sa kindel, et soovid seda asukohta eemaldada?"
@@ -14670,7 +14670,7 @@ msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001.\n"
 "Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002.\n"
-"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2008.\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2009.\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002.\n"
 "Priit Laes <plaes@plaes.org>, 2003-2007, 2009\n"
 "Mattias Põldaru <mahfiaz@gmail.com>, 2009."
