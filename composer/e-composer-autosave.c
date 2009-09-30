@@ -116,13 +116,32 @@ composer_autosave_state_open (AutosaveState *state)
 }
 
 static void
+composer_autosave_finish_cb (EMsgComposer *composer,
+                             GAsyncResult *result)
+{
+	GError *error = NULL;
+
+	e_composer_autosave_snapshot_finish (composer, result, &error);
+
+	if (error != NULL) {
+		e_error_run (
+			GTK_WINDOW (composer),
+			"mail-composer:no-autosave",
+			"", error->message, NULL);
+		g_error_free (error);
+	}
+}
+
+static void
 composer_autosave_foreach (EMsgComposer *composer)
 {
 	/* Make sure the composer is still alive. */
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (e_composer_autosave_get_enabled (composer))
-		e_composer_autosave_snapshot_async (composer, NULL, NULL);
+		e_composer_autosave_snapshot_async (
+			composer, (GAsyncReadyCallback)
+			composer_autosave_finish_cb, NULL);
 }
 
 static gint
@@ -250,8 +269,8 @@ e_composer_autosave_unregister (EMsgComposer *composer,
 }
 
 typedef struct {
-	GSimpleAsyncResult *result;
 	EMsgComposer *composer;
+	GSimpleAsyncResult *simple;
 	AutosaveState *state;
 
 	/* Transient data */
@@ -262,18 +281,29 @@ static void
 autosave_data_free (AutosaveData *data)
 {
 	g_object_unref (data->composer);
+
+	if (data->input_stream != NULL)
+		g_object_unref (data->input_stream);
+
 	g_slice_free (AutosaveData, data);
 }
 
 static gboolean
-autosave_snapshot_check_for_error (AutosaveData *data, GError *error)
+autosave_snapshot_check_for_error (AutosaveData *data,
+                                   GError *error)
 {
+	GSimpleAsyncResult *simple;
+
 	if (error == NULL)
 		return FALSE;
 
-	g_simple_async_result_set_from_error (data->result, error);
-	g_simple_async_result_set_op_res_gboolean (data->result, FALSE);
-	g_simple_async_result_complete (data->result);
+	/* Steal the result. */
+	simple = data->simple;
+	data->simple = NULL;
+
+	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_set_op_res_gboolean (simple, FALSE);
+	g_simple_async_result_complete (simple);
 	g_error_free (error);
 
 	autosave_data_free (data);
@@ -282,16 +312,15 @@ autosave_snapshot_check_for_error (AutosaveData *data, GError *error)
 }
 
 static void
-autosave_snapshot_splice_cb (GOutputStream *autosave_stream,
-                             GSimpleAsyncResult *result,
+autosave_snapshot_splice_cb (GOutputStream *output_stream,
+                             GAsyncResult *result,
                              AutosaveData *data)
 {
-	gssize length;
+	GSimpleAsyncResult *simple;
 	GError *error = NULL;
 
-	length = g_output_stream_splice_finish (
-		autosave_stream, G_ASYNC_RESULT (result), &error);
-	g_object_unref (data->input_stream);
+	g_output_stream_splice_finish (output_stream, result, &error);
+
 	if (autosave_snapshot_check_for_error (data, error))
 		return;
 
@@ -300,13 +329,19 @@ autosave_snapshot_splice_cb (GOutputStream *autosave_stream,
 	 * which doesn't mean it's saved permanently */
 	e_composer_autosave_set_saved (data->composer, TRUE);
 
-	/* Tidy up */
+	/* Steal the result. */
+	simple = data->simple;
+	data->simple = NULL;
+
+	g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+	g_simple_async_result_complete (simple);
+
 	autosave_data_free (data);
 }
 
 static void
-autosave_snapshot_cb (GFile *autosave_file,
-                      GSimpleAsyncResult *result,
+autosave_snapshot_cb (GFile *file,
+                      GAsyncResult *result,
                       AutosaveData *data)
 {
 	CamelMimeMessage *message;
@@ -316,18 +351,23 @@ autosave_snapshot_cb (GFile *autosave_file,
 	GByteArray *buffer;
 	GError *error = NULL;
 
-	output_stream = g_file_replace_finish (
-		autosave_file, G_ASYNC_RESULT (result), &error);
+	output_stream = g_file_replace_finish (file, result, &error);
+
 	if (autosave_snapshot_check_for_error (data, error))
 		return;
 
 	/* Extract a MIME message from the composer. */
 	message = e_msg_composer_get_message_draft (data->composer);
 	if (message == NULL) {
-		/* If we don't set an error, but return FALSE, the error message
-		 * in this odd case (we don't have an error domain or code)
-		 * will be set in the _finish() function. */
-		g_simple_async_result_set_op_res_gboolean (result, FALSE);
+		GSimpleAsyncResult *simple;
+
+		/* Steal the result. */
+		simple = data->simple;
+		data->simple = NULL;
+
+		/* FIXME Need to set a GError here. */
+		g_simple_async_result_set_op_res_gboolean (simple, FALSE);
+		g_simple_async_result_complete (simple);
 		g_object_unref (output_stream);
 		autosave_data_free (data);
 		return;
@@ -335,8 +375,7 @@ autosave_snapshot_cb (GFile *autosave_file,
 
 	/* Decode the MIME part to an in-memory buffer.  We have to do
 	 * this because CamelStream is synchronous-only, and using threads
-	 * (as we do with foo()) is dangerous because CamelDataWrapper
-	 * is not reentrant. */
+	 * is dangerous because CamelDataWrapper is not reentrant. */
 	buffer = g_byte_array_new ();
 	camel_stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (
@@ -364,6 +403,7 @@ autosave_snapshot_cb (GFile *autosave_file,
 		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
 		G_PRIORITY_DEFAULT, NULL, (GAsyncReadyCallback)
 		autosave_snapshot_splice_cb, data);
+
 	g_object_unref (output_stream);
 }
 
@@ -374,18 +414,18 @@ e_composer_autosave_snapshot_async (EMsgComposer *composer,
 {
 	AutosaveData *data;
 	AutosaveState *state;
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	result = g_simple_async_result_new (
+	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback, user_data,
 		e_composer_autosave_snapshot_async);
 
 	/* If the contents are unchanged, exit early. */
 	if (!gtkhtml_editor_get_changed (GTKHTML_EDITOR (composer))) {
-		g_simple_async_result_set_op_res_gboolean (result, TRUE);
-		g_simple_async_result_complete (result);
+		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		g_simple_async_result_complete (simple);
 		return;
 	}
 
@@ -396,18 +436,18 @@ e_composer_autosave_snapshot_async (EMsgComposer *composer,
 	errno = 0;
 	if (!composer_autosave_state_open (state)) {
 		g_simple_async_result_set_error (
-			result, G_FILE_ERROR,
+			simple, G_FILE_ERROR,
 			g_file_error_from_errno (errno),
 			"%s", g_strerror (errno));
-		g_simple_async_result_set_op_res_gboolean (result, FALSE);
-		g_simple_async_result_complete (result);
+		g_simple_async_result_set_op_res_gboolean (simple, FALSE);
+		g_simple_async_result_complete (simple);
 		return;
 	}
 
 	/* Overwrite the file */
 	data = g_slice_new (AutosaveData);
-	data->composer = composer;
-	data->result = result;
+	data->composer = g_object_ref (composer);
+	data->simple = simple;
 	data->state = state;
 
 	g_file_replace_async (
@@ -418,42 +458,22 @@ e_composer_autosave_snapshot_async (EMsgComposer *composer,
 
 gboolean
 e_composer_autosave_snapshot_finish (EMsgComposer *composer,
-                                     GAsyncResult *async_result,
+                                     GAsyncResult *result,
                                      GError **error)
 {
-	GSimpleAsyncResult *result;
+	GSimpleAsyncResult *simple;
+	gboolean success;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (async_result), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
-	result = G_SIMPLE_ASYNC_RESULT (async_result);
-	g_warn_if_fail (g_simple_async_result_get_source_tag (result) ==
-			e_composer_autosave_snapshot_async);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	success = g_simple_async_result_get_op_res_gboolean (simple);
+	g_simple_async_result_propagate_error (simple, error);
+	g_object_unref (simple);
 
-	if (g_simple_async_result_propagate_error (result, error) ||
-	    !g_simple_async_result_get_op_res_gboolean (result)) {
-		const gchar *errmsg;
-		gchar *filename;
-
-		/* Sort out the error message; use the GError message if
-		 * possible. The only case where is isn't is where we couldn't
-		 * get the message from the editor. */
-		if (error && *error)
-			errmsg = (*error)->message;
-		else
-			errmsg = _("Unable to retrieve message from editor");
-
-		filename = e_composer_autosave_get_filename (composer);
-		e_error_run (
-			GTK_WINDOW (composer), "mail-composer:no-autosave",
-			(filename != NULL) ? filename : "", errmsg, NULL);
-		g_free (filename);
-
-		return FALSE;
-	}
-
-	return TRUE;
+	return success;
 }
 
 gchar *
