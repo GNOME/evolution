@@ -18,6 +18,7 @@ liborg_gnome_tnef_attachments_la_CPPFLAGS =		\
 	-I$(top_srcdir)/widgets				\
 	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
 	-DLOCALEDIR="\"$(localedir)\""			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(TNEF_CFLAGS)
 
@@ -28,6 +29,7 @@ liborg_gnome_tnef_attachments_la_LDFLAGS = -module -avoid-version  $(NO_UNDEFINE
 liborg_gnome_tnef_attachments_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/em-format/libemformat.la	\
+	$(GNOME_PLATFORM_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)				\
 	-lytnef
 

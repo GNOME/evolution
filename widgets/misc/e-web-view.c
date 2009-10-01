@@ -365,9 +365,11 @@ web_view_menu_item_select_cb (EWebView *web_view,
                               GtkWidget *widget)
 {
 	GtkAction *action;
+	GtkActivatable *activatable;
 	const gchar *tooltip;
 
-	action = gtk_widget_get_action (widget);
+	activatable = GTK_ACTIVATABLE (widget);
+	action = gtk_activatable_get_related_action (activatable);
 	tooltip = gtk_action_get_tooltip (action);
 
 	if (tooltip == NULL)

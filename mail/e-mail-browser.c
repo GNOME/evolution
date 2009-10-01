@@ -126,12 +126,14 @@ mail_browser_menu_item_select_cb (EMailBrowser *browser,
                                   GtkWidget *widget)
 {
 	GtkAction *action;
+	GtkActivatable *activatable;
 	GtkStatusbar *statusbar;
 	const gchar *tooltip;
 	guint context_id;
 	gpointer data;
 
-	action = gtk_widget_get_action (widget);
+	activatable = GTK_ACTIVATABLE (widget);
+	action = gtk_activatable_get_related_action (activatable);
 	tooltip = gtk_action_get_tooltip (action);
 
 	data = g_object_get_data (G_OBJECT (widget), "context-id");
