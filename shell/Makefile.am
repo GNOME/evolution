@@ -2,7 +2,38 @@ if ENABLE_TEST_COMPONENT
 SUBDIRS = . test
 endif
 
-AM_CPPFLAGS =							\
+if NM_SUPPORT
+NM_CPPFLAGS = \
+	$(DBUS_GLIB_CFLAGS) \
+	$(NM_CFLAGS)
+NM_SUPPORT_FILES = e-shell-nm.c
+endif
+
+# Executable
+bin_PROGRAMS = evolution
+
+# Shell library
+privsolib_LTLIBRARIES =	libeshell.la
+
+eshellincludedir = $(privincludedir)/shell
+
+eshellinclude_HEADERS = 			\
+	e-shell.h				\
+	e-shell-backend.h			\
+	e-shell-common.h			\
+	e-shell-content.h			\
+	e-shell-settings.h			\
+	e-shell-sidebar.h			\
+	e-shell-switcher.h			\
+	e-shell-taskbar.h			\
+	e-shell-view.h				\
+	e-shell-window.h			\
+	e-shell-window-actions.h		\
+	es-event.h
+
+libeshell_la_CPPFLAGS =						\
+	$(AM_CPPFLAGS)						\
+	$(NM_CPPFLAGS)						\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/menus				\
 	-I$(top_srcdir)/widgets/misc				\
@@ -25,39 +56,6 @@ AM_CPPFLAGS =							\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
-
-if NM_SUPPORT
-AM_CPPFLAGS += \
-	$(DBUS_GLIB_CFLAGS) \
-	$(NM_CFLAGS)
-endif
-
-bin_PROGRAMS = evolution
-
-if NM_SUPPORT
-NM_SUPPORT_FILES = e-shell-nm.c
-endif
-
-# Shell library
-
-privsolib_LTLIBRARIES =	\
-	libeshell.la
-
-eshellincludedir = $(privincludedir)/shell
-
-eshellinclude_HEADERS = 			\
-	e-shell.h				\
-	e-shell-backend.h			\
-	e-shell-common.h			\
-	e-shell-content.h			\
-	e-shell-settings.h			\
-	e-shell-sidebar.h			\
-	e-shell-switcher.h			\
-	e-shell-taskbar.h			\
-	e-shell-view.h				\
-	e-shell-window.h			\
-	e-shell-window-actions.h		\
-	es-event.h
 
 libeshell_la_SOURCES =				\
 	$(NM_SUPPORT_FILES)			\
@@ -98,6 +96,32 @@ endif
 if HAVE_WINDRES
 EVOLUTIONICONRC = evolution-icon.o
 endif
+
+evolution_CPPFLAGS =						\
+	$(AM_CPPFLAGS)						\
+	$(NM_CPPFLAGS)						\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/menus				\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)						\
+	-I$(top_srcdir)/shell					\
+	-DEVOLUTION_BINDIR=\""$(bindir)"\"			\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
+	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\
+	-DEVOLUTION_RULEDIR=\""$(privdatadir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
+	-DPREFIX=\""$(prefix)"\"				\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DDATADIR=\""$(datadir)"\"				\
+	-DLIBDIR=\""$(datadir)"\"				\
+	-DG_LOG_DOMAIN=\"evolution-shell\"			\
+	$(TZDIALOG_CFLAGS)					\
+	$(SHELL_CFLAGS)
 
 evolution_SOURCES =				\
 	e-config-upgrade.c			\

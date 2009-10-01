@@ -1,7 +1,7 @@
-
 noinst_PROGRAMS=import-cert
 
-AM_CPPFLAGS=						\
+TEST_CPPFLAGS=						\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/smime/lib			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)

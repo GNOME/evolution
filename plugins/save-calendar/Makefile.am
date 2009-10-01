@@ -1,12 +1,14 @@
-AM_CPPFLAGS =						\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
-	$(EVOLUTION_CALENDAR_CFLAGS)
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-save-calendar.eplug
+
 plugin_LTLIBRARIES = liborg-gnome-save-calendar.la
+
+liborg_gnome_save_calendar_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 liborg_gnome_save_calendar_la_SOURCES = \
 	save-calendar.c			\

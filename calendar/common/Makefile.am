@@ -1,6 +1,7 @@
 noinst_LTLIBRARIES = libevolution-calendarprivate.la
 
-AM_CPPFLAGS =						\
+libevolution_calendarprivate_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\

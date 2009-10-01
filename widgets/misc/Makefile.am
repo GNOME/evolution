@@ -2,18 +2,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libfilter.la
 endif
 
-AM_CPPFLAGS =								\
-	-I$(top_srcdir)							\
-	-I$(top_srcdir)/filter						\
-	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DG_LOG_DOMAIN=__FILE__						\
-	$(EVOLUTION_MAIL_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)
-
-privsolib_LTLIBRARIES =		\
-	libemiscwidgets.la
+privsolib_LTLIBRARIES =	libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
 
@@ -91,6 +80,17 @@ widgetsinclude_HEADERS =			\
 	ea-calendar-item.h			\
 	ea-cell-table.h				\
 	ea-widgets.h
+
+libemiscwidgets_la_CPPFLAGS =						\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/filter						\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DG_LOG_DOMAIN=__FILE__						\
+	$(EVOLUTION_MAIL_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -172,7 +172,20 @@ noinst_PROGRAMS = 			\
 	test-dateedit			\
 	test-preferences-window	
 
+test_widgets_misc_CPPFLAGS=						\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/filter						\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DG_LOG_DOMAIN=__FILE__						\
+	$(EVOLUTION_MAIL_CFLAGS)					\
+	$(GNOME_PLATFORM_CFLAGS)
+
 # test-calendar
+
+test_calendar_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
 test_calendar_SOURCES = 	\
 	test-calendar.c
@@ -185,6 +198,8 @@ test_calendar_LDADD = 				\
 
 # test-dateedit
 
+test_dateedit_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
+
 test_dateedit_SOURCES = 	\
 	test-dateedit.c
 
@@ -195,6 +210,8 @@ test_dateedit_LDADD = 				\
 	$(E_WIDGETS_LIBS)
 
 # test-preferences-window
+
+test_preferences_window_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
 test_preferences_window_SOURCES =		\
 	test-preferences-window.c

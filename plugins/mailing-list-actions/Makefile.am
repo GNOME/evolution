@@ -1,17 +1,20 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-mailing-list-actions.eplug
+plugin_LTLIBRARIES = liborg-gnome-mailing-list-actions.la
+
+liborg_gnome_mailing_list_actions_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/composer 			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-mailing-list-actions.eplug
-plugin_LTLIBRARIES = liborg-gnome-mailing-list-actions.la
-
 liborg_gnome_mailing_list_actions_la_SOURCES = mailing-list-actions.c
+
 liborg_gnome_mailing_list_actions_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_mailing_list_actions_la_LIBADD =		\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\

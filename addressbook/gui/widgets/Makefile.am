@@ -1,7 +1,10 @@
 ruledir = $(privdatadir)
 rule_DATA = addresstypes.xml
 
-AM_CPPFLAGS =						\
+noinst_LTLIBRARIES = libeabwidgets.la
+
+libeabwidgets_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
@@ -16,9 +19,6 @@ AM_CPPFLAGS =						\
 	-I$(top_builddir)/shell				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-noinst_LTLIBRARIES =				\
-	libeabwidgets.la
 
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 

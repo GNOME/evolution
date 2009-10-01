@@ -2,7 +2,14 @@ if OS_WIN32
 NO_UNDEFINED_REQUIRED_LIBS = $(top_builddir)/mail/libevolution-mail.la
 endif
 
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-groupwise-features.eplug org-gnome-compose-send-options.xml
+
+plugin_LTLIBRARIES = liborg-gnome-groupwise-features.la
+
+liborg_gnome_groupwise_features_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
@@ -15,11 +22,6 @@ AM_CPPFLAGS =						\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-groupwise-features.eplug org-gnome-compose-send-options.xml
-plugin_LTLIBRARIES = liborg-gnome-groupwise-features.la
 
 liborg_gnome_groupwise_features_la_SOURCES = 	\
 		gw-ui.h	     			\

@@ -1,8 +1,7 @@
+privsolib_LTLIBRARIES = libevolution-addressbook-importers.la
 
-privsolib_LTLIBRARIES = 				\
-	libevolution-addressbook-importers.la
-
-AM_CPPFLAGS = 						\
+libevolution_addressbook_importers_la_CPPFLAGS =	\
+	$(AM_CPPFLAGS)					\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\

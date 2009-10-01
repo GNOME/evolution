@@ -1,10 +1,11 @@
-AM_CPPFLAGS =							\
+module_LTLIBRARIES = libevolution-module-plugin-mono.la
+
+libevolution_module_plugin_mono_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-mono\"		\
 	-I$(top_srcdir)						\
 	$(E_UTIL_CFLAGS)					\
 	$(MONO_CFLAGS)
-
-module_LTLIBRARIES = libevolution-module-plugin-mono.la
 
 libevolution_module_plugin_mono_la_SOURCES =			\
 	evolution-module-plugin-mono.c				\

@@ -1,15 +1,19 @@
-AM_CPPFLAGS =						\
-	-I$(top_srcdir)					\
-	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" 	\
-	$(EVOLUTION_MAIL_CFLAGS)
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-bogo-junk-plugin.eplug
+
 plugin_LTLIBRARIES = liborg-gnome-bogo-junk-plugin.la
 
+liborg_gnome_bogo_junk_plugin_la_CPPFLAGS =					\
+	$(AM_CPPFLAGS)								\
+	-I$(top_srcdir)								\
+	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" 	\
+	$(EVOLUTION_MAIL_CFLAGS)
+
 liborg_gnome_bogo_junk_plugin_la_SOURCES = bf-junk-filter.c
+
 liborg_gnome_bogo_junk_plugin_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_bogo_junk_plugin_la_LIBADD =	\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\

@@ -1,15 +1,14 @@
-
 glade_DATA = filter.glade
 
-AM_CPPFLAGS = 					\
+privsolib_LTLIBRARIES =	libfilter.la
+
+libfilter_la_CPPFLAGS = 			\
+	$(AM_CPPFLAGS)				\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/e-util			\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)
-
-privsolib_LTLIBRARIES =				\
-	libfilter.la
 
 filterincludedir = $(privincludedir)/filter
 

@@ -1,13 +1,15 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA =  org-gnome-evolution-hula-account-setup.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-evolution-hula-account-setup.la 
+
+liborg_gnome_evolution_hula_account_setup_la_CPPFLAGS =	\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA =  org-gnome-evolution-hula-account-setup.eplug
-plugin_LTLIBRARIES = liborg-gnome-evolution-hula-account-setup.la 
 
 liborg_gnome_evolution_hula_account_setup_la_SOURCES = \
 			camel-hula-listener.c	\

@@ -1,15 +1,15 @@
-AM_CPPFLAGS = 					\
+# Address Conduit
+privconduit_LTLIBRARIES = libeaddress_conduit.la
+
+libeaddress_conduit_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
 	-I$(top_builddir)/widgets/misc		\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
-# Address Conduit
-privconduit_LTLIBRARIES = libeaddress_conduit.la
-
-libeaddress_conduit_la_SOURCES = 		\
-	address-conduit.c
+libeaddress_conduit_la_SOURCES = address-conduit.c
 
 libeaddress_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

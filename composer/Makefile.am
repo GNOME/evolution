@@ -4,8 +4,10 @@ errordir = $(privdatadir)/errors
 # provides error rule
 @EVO_PLUGIN_RULE@
 
-noinst_LTLIBRARIES = libcomposer.la
+privsolib_LTLIBRARIES = libcomposer.la
+
 libcomposerincludedir = $(privincludedir)/composer
+
 libcomposerinclude_HEADERS = 			\
 	e-composer-header.h			\
 	e-composer-header-table.h		\
@@ -19,7 +21,8 @@ libcomposerinclude_HEADERS = 			\
 	e-composer-autosave.h			\
 	e-msg-composer.h
 
-AM_CPPFLAGS =								\
+libcomposer_la_CPPFLAGS =						\
+	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-I$(top_builddir)/composer					\

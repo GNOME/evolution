@@ -1,4 +1,7 @@
-AM_CPPFLAGS =								\
+module_LTLIBRARIES = libevolution-module-mail.la
+
+libevolution_module_mail_la_CPPFLAGS =					\
+	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/mail						\
 	-I$(top_srcdir)/widgets						\
@@ -8,8 +11,6 @@ AM_CPPFLAGS =								\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-module-mail\"
-
-module_LTLIBRARIES = libevolution-module-mail.la
 
 libevolution_module_mail_la_SOURCES =					\
 	evolution-module-mail.c						\

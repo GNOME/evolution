@@ -1,17 +1,20 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-itip-formatter.eplug
+plugin_LTLIBRARIES = liborg-gnome-itip-formatter.la
+
+liborg_gnome_itip_formatter_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-itip-formatter.eplug
-plugin_LTLIBRARIES = liborg-gnome-itip-formatter.la
-
 liborg_gnome_itip_formatter_la_SOURCES = itip-formatter.c itip-view.c itip-view.h
+
 liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\

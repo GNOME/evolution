@@ -1,18 +1,19 @@
-AM_CPPFLAGS = -I .						\
-	-I$(top_srcdir)	                                \
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_builddir)/composer			\
-	-I$(top_builddir)/mail				\
-	$(CAMEL_EXCHANGE_CFLAGS)                        \
-	$(EVOLUTION_MAIL_CFLAGS)
-
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-exchange-operations.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-exchange-operations.la
+
+liborg_gnome_exchange_operations_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
+	-I .						\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/calendar			\
+	-I$(top_builddir)/composer			\
+	-I$(top_builddir)/mail				\
+	$(CAMEL_EXCHANGE_CFLAGS)			\
+	$(EVOLUTION_MAIL_CFLAGS)
 
 liborg_gnome_exchange_operations_la_SOURCES = 		\
 	exchange-operations.c				\

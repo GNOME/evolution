@@ -8,14 +8,15 @@ platform_libs = libeggdesktopfile.la -lSM -lICE
 platform_sources = eggsmclient-xsmp.c
 endif
 
-AM_CPPFLAGS = \
-	-DG_LOG_DOMAIN=\""EggSMClient"\" \
-	$(platform_defines) \
-	$(EGG_SMCLIENT_CFLAGS)
-
 noinst_LTLIBRARIES = \
 	libeggsmclient.la \
 	$(platform_ltlibraries)
+
+libeggsmclient_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DG_LOG_DOMAIN=\""EggSMClient"\" \
+	$(platform_defines) \
+	$(EGG_SMCLIENT_CFLAGS)
 
 libeggsmclient_la_LIBADD = \
 	$(EGG_SMCLIENT_LIBS) \
@@ -29,6 +30,12 @@ libeggsmclient_la_SOURCES = \
 	eggsmclient.h \
 	eggsmclient-private.h \
 	$(platform_sources)
+
+libeggdesktopfile_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DG_LOG_DOMAIN=\""EggSMClient"\" \
+	$(platform_defines) \
+	$(EGG_SMCLIENT_CFLAGS)
 
 libeggdesktopfile_la_LIBADD = \
 	$(EGG_SMCLIENT_LIBS)

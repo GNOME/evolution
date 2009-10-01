@@ -4,7 +4,8 @@ ecps_DATA  =				\
 	medbook.ecps			\
 	phonelist.ecps
 
-AM_CPPFLAGS =					\
+libecontactprint_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)				\
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)				\
@@ -12,8 +13,7 @@ AM_CPPFLAGS =					\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES =				\
-	libecontactprint.la
+noinst_LTLIBRARIES = libecontactprint.la
 
 libecontactprint_la_SOURCES = 			\
 	e-contact-print-types.h			\
@@ -24,11 +24,18 @@ libecontactprint_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
-noinst_PROGRAMS =			\
-	contact-print-test
+noinst_PROGRAMS = contact-print-test
 
-contact_print_test_SOURCES = 	\
-	test-print.c
+contact_print_test_CPPFLAGS = \
+	$(AM_CPPFLAGS)				\
+	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
+	-I$(top_srcdir)/addressbook		\
+	-I$(top_srcdir)				\
+        -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
+	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
+
+contact_print_test_SOURCES = test-print.c
 
 contact_print_test_LDADD =	\
 	libecontactprint.la					\

@@ -1,6 +1,7 @@
 bin_PROGRAMS = evolution-alarm-notify
 
-AM_CPPFLAGS = 						\
+evolution_alarm_notify_CPPFLAGS = 			\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\

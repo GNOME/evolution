@@ -1,4 +1,8 @@
-AM_CPPFLAGS = 					\
+# Calendar Conduit
+privconduit_LTLIBRARIES = libecalendar_conduit.la
+
+libecalendar_conduit_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
@@ -7,11 +11,7 @@ AM_CPPFLAGS = 					\
 	-I$(top_builddir)/calendar/conduits/common		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
-# Calendar Conduit
-privconduit_LTLIBRARIES = libecalendar_conduit.la
-
-libecalendar_conduit_la_SOURCES = 		\
-	calendar-conduit.c
+libecalendar_conduit_la_SOURCES = calendar-conduit.c
 
 libecalendar_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

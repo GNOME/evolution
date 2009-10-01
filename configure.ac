@@ -23,7 +23,7 @@ m4_define([upgrade_revision], [0])
 dnl Autoconf / Automake Initialization
 AC_PREREQ(2.58)
 AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution])
-AM_INIT_AUTOMAKE([gnu 1.9])
+AM_INIT_AUTOMAKE([1.9 -Wall -Werror foreign])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(README)
@@ -121,6 +121,7 @@ AC_DEFINE_UNQUOTED(UPGRADE_REVISION, ["$UPGRADE_REVISION"], [The number of times
 AC_PROG_CC
 AC_C_INLINE
 AC_PROG_CPP
+AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET

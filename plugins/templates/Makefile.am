@@ -1,4 +1,13 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = 					\
+		org-gnome-templates.eplug	\
+		templates.glade
+
+plugin_LTLIBRARIES = liborg-gnome-templates.la
+
+liborg_gnome_templates_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
@@ -8,16 +17,10 @@ AM_CPPFLAGS =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = 					\
-		org-gnome-templates.eplug	\
-		templates.glade
-
-plugin_LTLIBRARIES = liborg-gnome-templates.la
-
 liborg_gnome_templates_la_SOURCES = templates.c
+
 liborg_gnome_templates_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_templates_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\

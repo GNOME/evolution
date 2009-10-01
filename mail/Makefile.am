@@ -1,8 +1,11 @@
 SUBDIRS = . default importers
 
+privsolib_LTLIBRARIES = libevolution-mail.la
+
 mailincludedir = $(privincludedir)/mail
 
-AM_CPPFLAGS =						\
+libevolution_mail_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
@@ -32,8 +35,6 @@ AM_CPPFLAGS =						\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
-
-privsolib_LTLIBRARIES = libevolution-mail.la
 
 mailinclude_HEADERS =					\
 	e-mail-attachment-bar.h				\

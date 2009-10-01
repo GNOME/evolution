@@ -1,16 +1,6 @@
-AM_CPPFLAGS =						\
-	-I$(top_builddir)/composer			\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)			\
-	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
-
 @EVO_PLUGIN_RULE@
 
-error_DATA = 					\
-	org-gnome-attachment-reminder.error	
-
+error_DATA = org-gnome-attachment-reminder.error
 
 errordir = $(privdatadir)/errors
 
@@ -20,8 +10,19 @@ plugin_DATA = 						\
 
 plugin_LTLIBRARIES = liborg-gnome-evolution-attachment-reminder.la
 
+liborg_gnome_evolution_attachment_reminder_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
+	-I$(top_builddir)/composer			\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(EVOLUTION_MAIL_CFLAGS)			\
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
+
 liborg_gnome_evolution_attachment_reminder_la_SOURCES = attachment-reminder.c 
+
 liborg_gnome_evolution_attachment_reminder_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/shell/libeshell.la		\

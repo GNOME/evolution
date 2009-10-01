@@ -7,34 +7,6 @@ if OS_WIN32
 PLATFORM_SOURCES = e-win32-reloc.c
 endif
 
-AM_CPPFLAGS =								\
-	-I$(top_srcdir)							\
-	-I$(top_builddir)						\
-	-I$(top_srcdir)/widgets						\
-	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
-	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
-	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
-	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
-	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"			\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
-	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
-	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
-	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
-	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"				\
-	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
-	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"			\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
-	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
-	-DG_LOG_DOMAIN=\"e-utils\"					\
-	$(GNOME_PILOT_CFLAGS)						\
-	$(E_UTIL_CFLAGS)
-
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
@@ -76,6 +48,35 @@ eutilinclude_HEADERS = 				\
 	e-util.h				\
 	e-unicode.h				\
 	e-xml-utils.h
+
+libeutil_la_CPPFLAGS =							\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_builddir)						\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
+	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
+	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
+	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
+	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
+	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"				\
+	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
+	-DG_LOG_DOMAIN=\"e-utils\"					\
+	$(GNOME_PILOT_CFLAGS)						\
+	$(E_UTIL_CFLAGS)
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
@@ -146,6 +147,35 @@ pilot_compile = $(pilot_sources)
 else
 pilot_compile = e-html-utils.c
 endif
+
+libeconduit_la_CPPFLAGS =							\
+	$(AM_CPPFLAGS)							\
+	-I$(top_srcdir)							\
+	-I$(top_builddir)						\
+	-I$(top_srcdir)/widgets						\
+	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
+	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"				\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
+	-DEVOLUTION_LIBDIR=\""$(datadir)"\"				\
+	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
+	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
+	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"				\
+	-DEVOLUTION_SYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"			\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
+	-DG_LOG_DOMAIN=\"e-utils\"					\
+	$(GNOME_PILOT_CFLAGS)						\
+	$(E_UTIL_CFLAGS)
 
 libeconduit_la_SOURCES = $(pilot_compile)
 

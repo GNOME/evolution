@@ -2,10 +2,10 @@ privlibexec_SCRIPTS =					\
 	csv2vcard					\
 	evolution-addressbook-clean
 
-privlibexec_PROGRAMS =			\
-	evolution-addressbook-export	
+privlibexec_PROGRAMS = evolution-addressbook-export
 
-AM_CPPFLAGS =						\
+evolution_addressbook_export_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-addressbook-tools\"	\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\

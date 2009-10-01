@@ -1,10 +1,11 @@
-AM_CPPFLAGS =							\
+module_LTLIBRARIES = libevolution-module-plugin-python.la
+
+libevolution_module_plugin_python_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-python\"		\
 	-I$(top_srcdir)						\
 	$(E_UTIL_CFLAGS)					\
 	$(PY_INCLUDES)
-
-module_LTLIBRARIES = libevolution-module-plugin-python.la
 
 libevolution_module_plugin_python_la_SOURCES =			\
 	evolution-module-plugin-python.c			\

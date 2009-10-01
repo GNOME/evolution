@@ -1,16 +1,17 @@
 emformatincludedir = $(privincludedir)/em-format
 
-AM_CPPFLAGS =						\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
-	$(EVOLUTION_MAIL_CFLAGS)
-
 privsolib_LTLIBRARIES = libemformat.la
 
 emformatinclude_HEADERS =				\
 	em-format.h					\
 	em-format-quote.h				\
 	em-stripsig-filter.h
+
+libemformat_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	$(EVOLUTION_MAIL_CFLAGS)
 
 libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\

@@ -1,4 +1,8 @@
-AM_CPPFLAGS = 					\
+# ToDo Conduit
+privconduit_LTLIBRARIES = libetodo_conduit.la
+
+libetodo_conduit_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
@@ -7,11 +11,7 @@ AM_CPPFLAGS = 					\
 	-I$(top_builddir)/calendar/conduits/common		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
-# ToDo Conduit
-privconduit_LTLIBRARIES = libetodo_conduit.la
-
-libetodo_conduit_la_SOURCES = 			\
-	todo-conduit.c
+libetodo_conduit_la_SOURCES = todo-conduit.c
 
 libetodo_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
@@ -34,8 +34,7 @@ conduit_DATA = e-todo.conduit
 BUILT_SOURCES = $(conduit_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST = \
-	e-todo.conduit.in
+EXTRA_DIST = e-todo.conduit.in
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

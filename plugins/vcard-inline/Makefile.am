@@ -5,19 +5,23 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(GNOME_PLATFORM_LIBS)
 endif
 
-AM_CPPFLAGS = \
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-vcard-inline.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-vcard-inline.la
+
+liborg_gnome_vcard_inline_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-vcard-inline.eplug
-plugin_LTLIBRARIES = liborg-gnome-vcard-inline.la
-
 liborg_gnome_vcard_inline_la_SOURCES = vcard-inline.c
+
 liborg_gnome_vcard_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_vcard_inline_la_LIBADD =	\
 	$(top_builddir)/mail/libevolution-mail.la		\
 	$(top_builddir)/addressbook/util/libeabutil.la		\

@@ -1,13 +1,14 @@
-AM_CPPFLAGS =						\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = \
 	hello_python.py	\
 	org-gnome-hello-python-ui.xml				\
 	org-gnome-hello-python.eplug
+
+liborg_gnome_py_plug_test_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"
 
 liborg_gnome_py_plug_test_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

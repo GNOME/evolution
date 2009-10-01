@@ -1,13 +1,14 @@
-AM_CPPFLAGS =						\
+module_LTLIBRARIES =					\
+	libevolution-module-calendar.la
+
+libevolution_module_calendar_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"calendar-modules\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
-
-module_LTLIBRARIES =					\
-	libevolution-module-calendar.la
 
 libevolution_module_calendar_la_SOURCES =		\
 	evolution-module-calendar.c			\

@@ -2,7 +2,10 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
-AM_CPPFLAGS =							\
+module_LTLIBRARIES = libevolution-module-addressbook.la
+
+libevolution_module_addressbook_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
@@ -22,8 +25,6 @@ AM_CPPFLAGS =							\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-module_LTLIBRARIES = libevolution-module-addressbook.la
 
 libevolution_module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\

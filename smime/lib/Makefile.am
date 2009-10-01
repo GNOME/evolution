@@ -1,4 +1,7 @@
-AM_CPPFLAGS =						\
+privsolib_LTLIBRARIES = libessmime.la
+
+libessmime_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-smime\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/shell				\
@@ -12,8 +15,6 @@ AM_CPPFLAGS =						\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
-
-privsolib_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
 	e-asn1-object.c		\

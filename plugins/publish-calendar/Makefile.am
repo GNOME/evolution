@@ -1,20 +1,21 @@
-AM_CPPFLAGS =					\
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/widgets			\
-	-I$(top_builddir)/shell			\
-	$(EVOLUTION_CALENDAR_CFLAGS)		\
-	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\"" \
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = 					\
 	org-gnome-publish-calendar.eplug
 
 glade_DATA =							\
-	publish-calendar.glade				
+	publish-calendar.glade
 
 plugin_LTLIBRARIES = liborg-gnome-publish-calendar.la
+
+liborg_gnome_publish_calendar_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	-I$(top_builddir)/shell				\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
 liborg_gnome_publish_calendar_la_SOURCES =	\
 	publish-calendar.c			\

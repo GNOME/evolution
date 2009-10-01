@@ -1,4 +1,7 @@
-AM_CPPFLAGS =						\
+privsolib_LTLIBRARIES = libevolution-smime.la
+
+libevolution_smime_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"evolution-smime\"		\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\
@@ -17,8 +20,6 @@ AM_CPPFLAGS =						\
 	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
-
-privsolib_LTLIBRARIES = libevolution-smime.la
 
 libevolution_smime_la_SOURCES = 	\
 	ca-trust-dialog.c		\

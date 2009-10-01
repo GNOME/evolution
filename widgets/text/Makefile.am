@@ -2,15 +2,15 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 endif
 
-AM_CPPFLAGS =					\
+privsolib_LTLIBRARIES = libetext.la
+
+libetext_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(E_UTIL_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	-DG_LOG_DOMAIN=\"e-text\"
-
-
-privsolib_LTLIBRARIES = libetext.la
 
 libetext_la_SOURCES =				\
 	e-text-model-repos.c			\

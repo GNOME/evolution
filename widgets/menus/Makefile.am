@@ -1,6 +1,7 @@
 privsolib_LTLIBRARIES = libmenus.la
 
-AM_CPPFLAGS =					\
+libmenus_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"  \

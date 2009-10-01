@@ -1,4 +1,7 @@
-AM_CPPFLAGS = 								\
+noinst_LTLIBRARIES = libcal-dialogs.la
+
+libcal_dialogs_la_CPPFLAGS = 						\
+	$(AM_CPPFLAGS)							\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\
@@ -45,8 +48,6 @@ ecalendarinclude_HEADERS =	\
 	task-editor.h		\
 	task-details-page.h	\
 	task-page.h		
-
-noinst_LTLIBRARIES = libcal-dialogs.la
 
 libcal_dialogs_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\

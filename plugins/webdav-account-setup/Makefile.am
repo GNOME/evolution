@@ -1,12 +1,14 @@
-AM_CPPFLAGS = \
-	-I .				\
-	-I$(top_srcdir)			\
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
 @EVO_PLUGIN_RULE@
 
 plugin_DATA = org-gnome-evolution-webdav.eplug
+
 plugin_LTLIBRARIES = liborg-gnome-evolution-webdav.la
+
+liborg_gnome_evolution_webdav_la_CPPFLAGS = 	\
+	$(AM_CPPFLAGS)				\
+	-I .					\
+	-I$(top_srcdir)				\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 liborg_gnome_evolution_webdav_la_SOURCES = \
 	webdav-contacts-source.c

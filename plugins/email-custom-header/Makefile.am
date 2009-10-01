@@ -1,4 +1,12 @@
-AM_CPPFLAGS = -I. 						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-email-custom-header.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-email-custom-header.la
+
+liborg_gnome_email_custom_header_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
+	-I.	 					\
 	-I$(top_srcdir)	                                \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
@@ -9,17 +17,10 @@ AM_CPPFLAGS = -I. 						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \
 	-DCONNECTOR_GLADEDIR=\""$(gladedir)"\"
 
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA =	\
-	org-gnome-email-custom-header.eplug
-
-plugin_LTLIBRARIES = liborg-gnome-email-custom-header.la
-
 liborg_gnome_email_custom_header_la_SOURCES = 		\
-	email-custom-header.c					\
+	email-custom-header.c				\
 	email-custom-header.h										
+
 liborg_gnome_email_custom_header_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\

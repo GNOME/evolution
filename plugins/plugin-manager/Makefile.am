@@ -1,15 +1,19 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-plugin-manager.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-plugin-manager.la
+
+liborg_gnome_plugin_manager_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-plugin-manager.eplug
-plugin_LTLIBRARIES = liborg-gnome-plugin-manager.la
-
 liborg_gnome_plugin_manager_la_SOURCES = plugin-manager.c
+
 liborg_gnome_plugin_manager_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_plugin_manager_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\

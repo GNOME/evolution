@@ -1,6 +1,7 @@
 privsolib_LTLIBRARIES = libevolution-calendar-importers.la
 
-AM_CPPFLAGS = 						\
+libevolution_calendar_importers_la_CPPFLAGS = 		\
+	$(AM_CPPFLAGS)					\
 	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\
 	-I$(top_srcdir)					\

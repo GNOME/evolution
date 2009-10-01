@@ -1,6 +1,7 @@
 module_LTLIBRARIES = libevolution-module-test.la
 
-AM_CPPFLAGS =					\
+libevolution_module_test_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/shell			\
 	-I$(top_srcdir)/widgets			\

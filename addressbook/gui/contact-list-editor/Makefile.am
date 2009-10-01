@@ -2,7 +2,10 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-addressbook.la
 endif
 
-AM_CPPFLAGS =						\
+privsolib_LTLIBRARIES =	libecontactlisteditor.la
+
+libecontactlisteditor_la_CPPFLAGS =			\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook/			\
@@ -12,9 +15,6 @@ AM_CPPFLAGS =						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-privsolib_LTLIBRARIES =				\
-	libecontactlisteditor.la
 
 libecontactlisteditor_la_SOURCES = 		\
 	e-contact-list-editor.c			\

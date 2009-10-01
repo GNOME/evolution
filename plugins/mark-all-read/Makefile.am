@@ -1,15 +1,19 @@
-AM_CPPFLAGS =						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-mark-all-read.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-mark-all-read.la
+
+liborg_gnome_mark_all_read_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-mark-all-read.eplug
-plugin_LTLIBRARIES = liborg-gnome-mark-all-read.la
-
 liborg_gnome_mark_all_read_la_SOURCES = mark-all-read.c  
+
 liborg_gnome_mark_all_read_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_mark_all_read_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\

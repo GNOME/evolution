@@ -3,7 +3,8 @@
 
 privsolib_LTLIBRARIES = libevolution-a11y.la
 
-AM_CPPFLAGS =				\
+libevolution_a11y_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)			\
 	$(A11Y_CFLAGS)
 
 libevolution_a11y_la_SOURCES =		\

@@ -1,12 +1,12 @@
-AM_CPPFLAGS =								\
+privsolib_LTLIBRARIES =	libetimezonedialog.la
+
+libetimezonedialog_la_CPPFLAGS =					\
+	$(AM_CPPFLAGS)							\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(TZDIALOG_CFLAGS)
-
-privsolib_LTLIBRARIES =	\
-	libetimezonedialog.la
 
 libetimezonedialog_la_SOURCES =	\
 	e-timezone-dialog.c	\

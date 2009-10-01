@@ -5,7 +5,14 @@ NO_UNDEFINED_REQUIRED_LIBS =				\
 	$(GNOME_PLATFORM_LIBS)
 endif
 
-AM_CPPFLAGS =					\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-mail-notification.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
+
+liborg_gnome_mail_notification_la_CPPFLAGS =	\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(GNOME_PLATFORM_CFLAGS)		\
@@ -14,14 +21,10 @@ AM_CPPFLAGS =					\
 	$(LIBNOTIFY_CFLAGS)			\
 	$(CANBERRA_CFLAGS)
 
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-mail-notification.eplug
-plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
-
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
-liborg_gnome_mail_notification_la_LDFLAGS = 	\
-	-module -avoid-version $(NO_UNDEFINED)
+
+liborg_gnome_mail_notification_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+
 liborg_gnome_mail_notification_la_LIBADD = 		\
 	$(DBUS_GLIB_LIBS)				\
 	$(CANBERRA_LIBS)				\

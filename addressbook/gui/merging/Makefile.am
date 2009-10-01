@@ -1,13 +1,13 @@
-AM_CPPFLAGS =						\
+noinst_LTLIBRARIES = libeabbookmerging.la
+
+libeabbookmerging_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
 	-DG_LOG_DOMAIN=\"eab-contact-merging\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-noinst_LTLIBRARIES =				\
-	libeabbookmerging.la
 
 libeabbookmerging_la_SOURCES =			\
 	eab-contact-compare.c			\

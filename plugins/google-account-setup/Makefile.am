@@ -1,15 +1,17 @@
-AM_CPPFLAGS = 						\
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-evolution-google.eplug
+
+plugin_LTLIBRARIES = liborg-gnome-evolution-google.la
+
+liborg_gnome_evolution_google_la_CPPFLAGS = 		\
+	$(AM_CPPFLAGS)					\
 	-I .						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-evolution-google.eplug
-plugin_LTLIBRARIES = liborg-gnome-evolution-google.la
 
 liborg_gnome_evolution_google_la_SOURCES =        \
 	google-source.c \

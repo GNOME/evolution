@@ -1,4 +1,7 @@
-AM_CPPFLAGS =						\
+privsolib_LTLIBRARIES = libeabutil.la
+
+libeabutil_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)					\
 	-DPREFIX=\"$(prefix)\"				\
 	-DSYSCONFDIR=\"$(sysconfdir)\"			\
 	-DDATADIR=\"$(datadir)\"			\
@@ -8,8 +11,6 @@ AM_CPPFLAGS =						\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
-
-privsolib_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
 	addressbook.c					\

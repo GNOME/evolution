@@ -1,4 +1,8 @@
-AM_CPPFLAGS = 					\
+# Memo Conduit
+privconduit_LTLIBRARIES = libememo_conduit.la
+
+libememo_conduit_la_CPPFLAGS = 			\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	-I$(top_srcdir)/widgets/misc		\
@@ -7,11 +11,7 @@ AM_CPPFLAGS = 					\
 	-I$(top_builddir)/calendar/conduits/common		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
-# Memo Conduit
-privconduit_LTLIBRARIES = libememo_conduit.la
-
-libememo_conduit_la_SOURCES = 			\
-	memo-conduit.c
+libememo_conduit_la_SOURCES = memo-conduit.c
 
 libememo_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 

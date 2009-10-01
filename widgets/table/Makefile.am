@@ -2,7 +2,10 @@ glade_DATA = 					\
 	e-table-config.glade			\
 	e-table-field-chooser.glade
 
-AM_CPPFLAGS =					\
+privsolib_LTLIBRARIES = libetable.la
+
+libetable_la_CPPFLAGS =				\
+	$(AM_CPPFLAGS)				\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
 	$(E_UTIL_CFLAGS)			\
@@ -10,8 +13,6 @@ AM_CPPFLAGS =					\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
         -DG_LOG_DOMAIN=\"e-table\"
-
-privsolib_LTLIBRARIES = libetable.la
 
 libetable_la_SOURCES = 				\
 	e-cell.c				\

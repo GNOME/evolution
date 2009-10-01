@@ -1,16 +1,18 @@
-AM_CPPFLAGS =						\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets				\
-	$(GNOME_PLATFORM_CFLAGS)			\
-	$(EVOLUTION_MAIL_CFLAGS)
-
 @EVO_PLUGIN_RULE@
 
 error_DATA = org-gnome-default-mailer.error
 errordir = $(privdatadir)/errors
 
 plugin_DATA        = org-gnome-default-mailer.eplug 
+
 plugin_LTLIBRARIES = liborg-gnome-default-mailer.la
+
+liborg_gnome_default_mailer_la_CPPFLAGS =		\
+	$(AM_CPPFLAGS)					\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(EVOLUTION_MAIL_CFLAGS)
 
 liborg_gnome_default_mailer_la_SOURCES = default-mailer.c
 liborg_gnome_default_mailer_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)

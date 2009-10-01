@@ -1,14 +1,17 @@
-AM_CPPFLAGS = -I .					\
+plugin_LTLIBRARIES = liborg-gnome-evolution-startup-wizard.la
+
+@EVO_PLUGIN_RULE@
+
+plugin_DATA = org-gnome-evolution-startup-wizard.eplug
+
+liborg_gnome_evolution_startup_wizard_la_CPPFLAGS =	\
+	$(AM_CPPFLAGS)					\
+	-I .						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
-
-@EVO_PLUGIN_RULE@
-
-plugin_DATA = org-gnome-evolution-startup-wizard.eplug
-plugin_LTLIBRARIES = liborg-gnome-evolution-startup-wizard.la
 
 liborg_gnome_evolution_startup_wizard_la_SOURCES = 	\
 	startup-wizard.c
