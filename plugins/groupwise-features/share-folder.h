@@ -27,6 +27,7 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
+#include <glade/glade.h>
 #include <camel/camel-store.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-name-selector.h>
