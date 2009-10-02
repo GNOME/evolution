@@ -26,7 +26,6 @@ EXTRA_DIST = 			\
 	marshal.mk		\
 	iconv-detect.c		\
 	plugin.mk		\
-	server.mk		\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\

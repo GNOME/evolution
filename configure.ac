@@ -1430,15 +1430,6 @@ AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`${PKG_CONFIG} --modversion evolution-da
 DATASERVER_EXEC_VERSION=`${PKG_CONFIG} --variable=execversion evolution-data-server-1.2`
 AC_SUBST(DATASERVER_EXEC_VERSION)
 
-AC_MSG_CHECKING([for evolution-data-server IDL])
-DATASERVER_IDL=`${PKG_CONFIG} --variable=idldir evolution-data-server-1.2`/Evolution-DataServer.idl
-if test -f "$DATASERVER_IDL"; then
-	AC_MSG_RESULT([$DATASERVER_IDL])
-	AC_SUBST(DATASERVER_IDL)
-else
-	AC_MSG_ERROR([no])
-fi
-
 dnl **********
 dnl Test Flags
 dnl **********
@@ -1543,17 +1534,6 @@ AC_SUBST(viewsdir)
 
 privconduitdir='${libdir}'/evolution/$BASE_VERSION/conduits
 AC_SUBST(privconduitdir)
-
-dnl ************************
-dnl IDL/Component Versioning
-dnl ************************
-
-INTERFACE_VERSION="$BASE_VERSION"
-AC_SUBST(INTERFACE_VERSION)
-AC_DEFINE_UNQUOTED(INTERFACE_VERSION, "$INTERFACE_VERSION", [IDL interface version (Major.Minor)])
-
-EVO_SERVER_RULE=$srcdir/server.mk
-AC_SUBST_FILE(EVO_SERVER_RULE)
 
 dnl ************************
 dnl Plugins
