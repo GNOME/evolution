@@ -506,8 +506,6 @@ composer_set_no_change (EMsgComposer *composer, gboolean drop_undo, gboolean edi
 
 	if (editor_changed)
 		gtkhtml_editor_set_changed (editor, FALSE);
-
-	e_composer_autosave_set_saved (composer, TRUE);
 }
 
 static void

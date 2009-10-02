@@ -3062,7 +3062,6 @@ e_msg_composer_save_draft (EMsgComposer *composer)
 
 	/* XXX This should be elsewhere. */
 	gtkhtml_editor_set_changed (editor, FALSE);
-	e_composer_autosave_set_saved (composer, FALSE);
 }
 
 /**

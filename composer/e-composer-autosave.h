@@ -39,9 +39,6 @@ gchar *		e_composer_autosave_get_filename (EMsgComposer *composer);
 gboolean	e_composer_autosave_get_enabled  (EMsgComposer *composer);
 void		e_composer_autosave_set_enabled	 (EMsgComposer *composer,
 						  gboolean enabled);
-gboolean	e_composer_autosave_get_saved	 (EMsgComposer *composer);
-void		e_composer_autosave_set_saved	 (EMsgComposer *composer,
-						  gboolean saved);
 
 G_END_DECLS
 

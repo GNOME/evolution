@@ -36,7 +36,6 @@ typedef struct _AutosaveState AutosaveState;
 struct _AutosaveState {
 	GFile *file;
 	gboolean enabled;
-	gboolean saved;
 };
 
 static GList *autosave_registry;
@@ -322,11 +321,6 @@ autosave_snapshot_splice_cb (GOutputStream *output_stream,
 	if (autosave_snapshot_check_for_error (data, error))
 		return;
 
-	/* Snapshot was successful; set various flags. */
-	/* do not touch "changed" flag, this is only autosave,
-	 * which doesn't mean it's saved permanently */
-	e_composer_autosave_set_saved (data->composer, TRUE);
-
 	/* Steal the result. */
 	simple = data->simple;
 	data->simple = NULL;
@@ -512,31 +506,4 @@ e_composer_autosave_set_enabled (EMsgComposer *composer,
 	g_return_if_fail (state != NULL);
 
 	state->enabled = enabled;
-}
-
-gboolean
-e_composer_autosave_get_saved (EMsgComposer *composer)
-{
-	AutosaveState *state;
-
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-
-	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	return state->saved;
-}
-
-void
-e_composer_autosave_set_saved (EMsgComposer *composer,
-                               gboolean saved)
-{
-	AutosaveState *state;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	g_return_if_fail (state != NULL);
-
-	state->saved = saved;
 }

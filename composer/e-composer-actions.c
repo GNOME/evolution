@@ -186,7 +186,6 @@ action_save_cb (GtkAction *action,
 	}
 
 	gtkhtml_editor_run_command (GTKHTML_EDITOR (composer), "saved");
-	e_composer_autosave_set_saved (composer, FALSE);
 }
 
 static void
