@@ -768,7 +768,7 @@ ec_rebuild (EConfig *emp)
 				}
 
 				if (translated_label != NULL) {
-					gchar *txt = g_strdup_printf("<span weight=\"bold\">%s</span>", translated_label);
+					gchar *txt = g_markup_printf_escaped("<span weight=\"bold\">%s</span>", translated_label);
 
 					label = g_object_new(gtk_label_get_type(),
 							     "label", txt,
