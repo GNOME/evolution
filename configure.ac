@@ -1574,7 +1574,7 @@ dnl Add any new plugins here
 plugins_base_always="calendar-file calendar-http itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
-dist_plugins_base="$plugins_base_always calendar-weather exchange-operations sa-junk-plugin bogo-junk-plugin"
+dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
 
 plugins_standard_always="bbdb subject-thread save-calendar mail-to-task mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline"
 
@@ -1644,31 +1644,6 @@ if test "x$enable_weather" = "xyes"; then
 		plugins_base="$plugins_base calendar-weather"
 	else
 		AC_MSG_ERROR([gweather >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
-	fi
-fi
-
-dnl ***********************************************************
-dnl exchange-operations plugin requires libexchange-storage-1.2
-dnl ***********************************************************
-AC_ARG_ENABLE([exchange],
-	[AS_HELP_STRING([--enable-exchange],
-	[Build Exchange plugins @<:@default=yes@:>@])],
-	[enable_exchange="$enableval"], [enable_exchange=yes])
-
-if test "x$enable_exchange" = "xyes"; then
-	PKG_CHECK_MODULES(LIBEXCHANGESTORAGE, libexchange-storage-$EDS_PACKAGE >= eds_minimum_version,
-	have_libexchange="yes", have_libexchange="no")
-
-	if test "x$have_libexchange" = "xyes"; then
-		AC_SUBST(CAMEL_EXCHANGE_CFLAGS)
-		AC_SUBST(CAMEL_EXCHANGE_LIBS)
-		msg_exchange="yes"
-		plugins_base="$plugins_base exchange-operations"
-		EVO_SET_COMPILE_FLAGS(CAMEL_EXCHANGE, libbonoboui-2.0 libglade-2.0 gconf-2.0 camel-provider-$EDS_PACKAGE
-		libebook-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE libexchange-storage-$EDS_PACKAGE libecal-$EDS_PACKAGE)
-	else
-		msg_exchange="no"
-		AC_MSG_ERROR([libevolution-exchange-$EDS_PACKAGE is required for the exchange-operations plugin.  Use --disable-exchange to exclude the plugin.])
 	fi
 fi
 
@@ -1887,7 +1862,6 @@ plugins/calendar-weather/Makefile
 plugins/default-mailer/Makefile
 plugins/default-source/Makefile
 plugins/email-custom-header/Makefile
-plugins/exchange-operations/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
 plugins/google-account-setup/Makefile

@@ -23,7 +23,6 @@ mail/em-folder-view.c
 mail/importers/evolution-outlook-importer.c
 mail/importers/netscape-importer.c
 mail/message-tags.glade
-plugins/exchange-operations/exchange-operations.c
 plugins/groupwise-features/groupwise-account-setup.c
 plugins/ipod-sync/sync.c
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
