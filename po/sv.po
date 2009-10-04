@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-24 21:50+0200\n"
-"PO-Revision-Date: 2009-09-01 00:18+0100\n"
+"PO-Revision-Date: 2009-10-04 19:01+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -3177,7 +3177,7 @@ msgstr "Evolutions uppgiftskomponent"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Memo_s"
-msgstr "Mem_o"
+msgstr "Memo_n"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:293
