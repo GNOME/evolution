@@ -22,6 +22,7 @@
 #include "e-preferences-window.h"
 
 #include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
 
 #define SWITCH_PAGE_INTERVAL 250
@@ -199,6 +200,7 @@ preferences_window_init (EPreferencesWindow *window)
 	GtkWidget *widget;
 	GHashTable *index;
 	const gchar *title;
+	GtkAccelGroup *accel_group;
 
 	index = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -287,6 +289,12 @@ preferences_window_init (EPreferencesWindow *window)
 		G_CALLBACK (gtk_widget_hide), window);
 	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_DEFAULT);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	accel_group = gtk_accel_group_new ();
+	gtk_widget_add_accelerator (
+		widget, "activate", accel_group,
+		GDK_Escape, (GdkModifierType) 0,
+		GTK_ACCEL_VISIBLE);
+	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 	gtk_widget_grab_default (widget);
 	gtk_widget_show (widget);
 }
