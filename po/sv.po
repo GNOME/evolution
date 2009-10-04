@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-04 17:25+0200\n"
-"PO-Revision-Date: 2009-10-04 17:28+0100\n"
+"PO-Revision-Date: 2009-10-04 21:28+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -14686,7 +14686,7 @@ msgstr[1] "Delegera till"
 #: ../modules/calendar/e-memo-shell-backend.c:316
 msgctxt "New"
 msgid "Mem_o"
-msgstr "Memo_n"
+msgstr "Mem_o"
 
 #: ../modules/calendar/e-memo-shell-backend.c:323
 #, fuzzy
