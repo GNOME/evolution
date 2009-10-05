@@ -947,7 +947,6 @@ typedef struct {
 	ECalComponent *comp;
 	ECal *client;
 	ECalView *query;
-        GtkStatusIcon *tray_icon;
 	GdkPixbuf *image;
 	GtkTreeIter iter;
 } TrayIconData;
@@ -985,7 +984,6 @@ free_tray_icon_data (TrayIconData *tray_data)
 
 	tray_data->cqa = NULL;
 	tray_data->alarm_id = NULL;
-	tray_data->tray_icon = NULL;
 	tray_data->image = NULL;
 
 	g_free (tray_data);
@@ -1262,6 +1260,20 @@ notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 	return;
 }
 
+static void
+remove_tray_icon (void)
+{
+	if (tray_blink_id > -1)
+		g_source_remove (tray_blink_id);
+	tray_blink_id = -1;
+
+	if (tray_icon) {
+		gtk_status_icon_set_visible (tray_icon, FALSE);
+		g_object_unref (tray_icon);
+		tray_icon = NULL;
+	}
+}
+
 /* Callbacks.  */
 static gboolean
 open_alarm_dialog (TrayIconData *tray_data)
@@ -1271,13 +1283,7 @@ open_alarm_dialog (TrayIconData *tray_data)
 	d(printf("%s:%d (open_alarm_dialog) \n",__FILE__, __LINE__));
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
-
-		if (tray_blink_id > -1)
-			g_source_remove (tray_blink_id);
-		tray_blink_id = -1;
-
-		g_object_unref (tray_icon);
-		tray_icon = NULL;
+		remove_tray_icon ();
 
 		if (!alarm_notifications_dialog)
 			alarm_notifications_dialog = notified_alarms_dialog_new ();
@@ -1304,6 +1310,8 @@ open_alarm_dialog (TrayIconData *tray_data)
 
 		}
 
+	} else {
+		remove_tray_icon ();
 	}
 
 	return TRUE;
@@ -1323,13 +1331,8 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 			return TRUE;
 		} else if (event->button == 3) {
 			d(printf("%s:%d (tray_icon_clicked_cb) - right click\n",__FILE__, __LINE__));
-			if (tray_blink_id > -1)
-				g_source_remove (tray_blink_id);
-			tray_blink_id = -1;
 
-			gtk_status_icon_set_visible (tray_icon, FALSE);
-			g_object_unref (tray_icon);
-			tray_icon = NULL;
+			remove_tray_icon ();
 			return TRUE;
 		}
 	}
@@ -1468,7 +1471,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 				  G_CALLBACK (icon_activated), NULL);
 		g_signal_connect (G_OBJECT (tray_icon), "popup-menu",
 				  G_CALLBACK (popup_menu), NULL);
-
 	}
 
 	current_zone = config_data_get_timezone ();
@@ -1494,7 +1496,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->blink_state = FALSE;
 	tray_data->snooze_set = FALSE;
 	g_object_ref (tray_data->client);
-	tray_data->tray_icon = tray_icon;
 
 	/* Task to add tray_data to the global tray_icon_list */
 	tray_list_add_new (tray_data);
