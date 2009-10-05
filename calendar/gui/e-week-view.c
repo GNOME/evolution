@@ -2105,9 +2105,6 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 			break;
 		}
 	}
-	e_cal_component_free_attendee_list (attendees);
-	g_free (address);
-	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	   If the attendee is not present, it might have come through a mailing list.
