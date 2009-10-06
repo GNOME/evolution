@@ -471,12 +471,17 @@ static void
 action_memo_save_as_cb (GtkAction *action,
                         EMemoShellView *memo_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 	gchar *filename;
 	gchar *string;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
@@ -486,7 +491,8 @@ action_memo_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	filename = e_file_dialog_save (_("Save as..."), NULL);
+	filename = e_file_dialog_save (
+		GTK_WINDOW (shell_window), _("Save as..."), NULL);
 	if (filename == NULL)
 		return;
 

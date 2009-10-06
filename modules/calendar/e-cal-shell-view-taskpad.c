@@ -301,12 +301,17 @@ static void
 action_calendar_taskpad_save_as_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 	gchar *filename;
 	gchar *string;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -316,7 +321,8 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	filename = e_file_dialog_save (_("Save as..."), NULL);
+	filename = e_file_dialog_save (
+		GTK_WINDOW (shell_window), _("Save as..."), NULL);
 	if (filename == NULL)
 		return;
 

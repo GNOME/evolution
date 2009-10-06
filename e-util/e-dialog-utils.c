@@ -72,48 +72,34 @@ e_notice (gpointer parent, GtkMessageType type, const gchar *format, ...)
 	gtk_widget_destroy (dialog);
 }
 
-static void
-save_ok (GtkWidget *widget, gpointer data)
+gchar *
+e_file_dialog_save (GtkWindow *parent,
+                    const gchar *title,
+                    const gchar *fname)
 {
-	GtkWidget *fs;
-	gchar **filename = data;
+	GtkWidget *dialog;
+	gchar *filename = NULL;
 	gchar *uri;
 
-	fs = gtk_widget_get_toplevel (widget);
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (fs));
+	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
 
-	if (e_file_can_save((GtkWindow *)widget, uri)) {
-		e_file_update_save_path(gtk_file_chooser_get_current_folder_uri(GTK_FILE_CHOOSER(fs)), TRUE);
-		*filename = uri;
+	dialog = e_file_get_save_filesel (
+		parent, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+
+	if (e_file_can_save (GTK_WINDOW (dialog), uri)) {
+		e_file_update_save_path (
+			gtk_file_chooser_get_current_folder_uri (
+			GTK_FILE_CHOOSER (dialog)), TRUE);
+		filename = uri;  /* FIXME This looks wrong. */
 	}
 
-	gtk_main_quit ();
-}
-
-static void
-filechooser_response (GtkWidget *fc, gint response_id, gpointer data)
-{
-	if (response_id == GTK_RESPONSE_OK)
-		save_ok (fc, data);
-	else
-		gtk_widget_destroy (fc);
-}
-
-gchar *
-e_file_dialog_save (const gchar *title, const gchar *fname)
-{
-	GtkWidget *selection;
-	gchar *filename = NULL;
-
-	selection = e_file_get_save_filesel(NULL, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
-
-	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
-
-	gtk_widget_show (GTK_WIDGET (selection));
-	gtk_grab_add (GTK_WIDGET (selection));
-	gtk_main ();
-
-	gtk_widget_destroy (GTK_WIDGET (selection));
+exit:
+	gtk_widget_destroy (dialog);
 
 	return filename;
 }
@@ -129,7 +115,10 @@ e_file_dialog_save (const gchar *title, const gchar *fname)
  * no signals connected and is not shown.
  **/
 GtkWidget *
-e_file_get_save_filesel (GtkWindow *parent, const gchar *title, const gchar *name, GtkFileChooserAction action)
+e_file_get_save_filesel (GtkWindow *parent,
+                         const gchar *title,
+                         const gchar *name,
+                         GtkFileChooserAction action)
 {
 	GtkWidget *filesel;
 	gchar *uri;

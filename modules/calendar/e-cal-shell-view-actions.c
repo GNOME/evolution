@@ -1065,6 +1065,8 @@ static void
 action_event_save_as_cb (GtkAction *action,
                          ECalShellView *cal_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
@@ -1075,6 +1077,9 @@ action_event_save_as_cb (GtkAction *action,
 	GList *selected;
 	gchar *filename = NULL;
 	gchar *string = NULL;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
@@ -1088,7 +1093,8 @@ action_event_save_as_cb (GtkAction *action,
 	client = event->comp_data->client;
 	icalcomp = event->comp_data->icalcomp;
 
-	filename = e_file_dialog_save (_("Save As..."), NULL);
+	filename = e_file_dialog_save (
+		GTK_WINDOW (shell_window), _("Save As..."), NULL);
 	if (filename == NULL)
 		goto exit;
 

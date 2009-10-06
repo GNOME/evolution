@@ -598,12 +598,17 @@ static void
 action_task_save_as_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 	gchar *filename;
 	gchar *string;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -613,7 +618,8 @@ action_task_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	filename = e_file_dialog_save (_("Save as..."), NULL);
+	filename = e_file_dialog_save (
+		GTK_WINDOW (shell_window), _("Save as..."), NULL);
 	if (filename == NULL)
 		return;
 
