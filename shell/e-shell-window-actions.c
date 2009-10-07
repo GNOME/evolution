@@ -908,10 +908,10 @@ action_preferences_cb (GtkAction *action,
 	GtkWidget *preferences_window;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
+	EShellBackendClass *shell_backend_class;
+	const gchar *view_name;
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
-	shell_backend = shell_view ? e_shell_view_get_shell_backend (shell_view) : NULL;
 	preferences_window = e_shell_get_preferences_window (shell);
 
 	gtk_window_set_transient_for (
@@ -922,9 +922,16 @@ action_preferences_cb (GtkAction *action,
 		GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_present (GTK_WINDOW (preferences_window));
 
-	if (shell_backend && E_SHELL_BACKEND_GET_CLASS (shell_backend)->preferences_page) {
-		e_preferences_window_show_page (E_PREFERENCES_WINDOW (preferences_window), E_SHELL_BACKEND_GET_CLASS (shell_backend)->preferences_page);
-	}
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+
+	if (shell_backend_class->preferences_page != NULL)
+		e_preferences_window_show_page (
+			E_PREFERENCES_WINDOW (preferences_window),
+			shell_backend_class->preferences_page);
 }
 
 /**
