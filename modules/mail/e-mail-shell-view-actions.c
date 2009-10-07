@@ -1048,9 +1048,16 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Download messages of accounts and folders marked for offline"),
 	  G_CALLBACK (action_mail_download_cb) },
 
-	{ "mail-empty-trash",
+	{ "mail-empty-trashes", /* this is File->Empty Trash action */
 	  NULL,
 	  N_("Empty _Trash"),
+	  NULL,
+	  N_("Permanently remove all the deleted messages from all folders"),
+	  G_CALLBACK (action_mail_empty_trash_cb) },
+
+	{ "mail-empty-trash", /* this is a popup action over the trash folder */
+	  NULL,
+	  N_("_Empty Trash"),
 	  NULL,
 	  N_("Permanently remove all the deleted messages from all folders"),
 	  G_CALLBACK (action_mail_empty_trash_cb) },

@@ -2,7 +2,7 @@
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='long-running-actions'>
-        <menuitem action='mail-empty-trash'/>
+        <menuitem action='mail-empty-trashes'/>
         <menuitem action='mail-download'/>
       </placeholder>
     </menu>
