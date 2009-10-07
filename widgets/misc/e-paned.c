@@ -51,7 +51,7 @@ paned_window_state_event_cb (EPaned *paned,
                              GdkEventWindowState *event,
                              GtkWidget *toplevel)
 {
-	/* Wait for WITHDRAWN to change from 0 -> 1. */
+	/* Wait for WITHDRAWN to change from 1 to 0. */
 	if (!(event->changed_mask & GDK_WINDOW_STATE_WITHDRAWN))
 		return FALSE;
 
