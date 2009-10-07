@@ -341,7 +341,7 @@ generate_viewoption_menu (GtkWidget *emfv)
 			g_object_unref(gc);
 
 			image = gtk_image_new_from_pixmap(pixmap, NULL);
-			str = e_str_without_underscores (label->name);
+			str = e_str_without_underscores (e_util_labels_is_system (label->tag) ? _(label->name) : label->name);
 			menu_item = gtk_image_menu_item_new_with_label (str);
 			g_free (str);
 			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image);
