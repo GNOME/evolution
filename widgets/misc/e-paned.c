@@ -32,7 +32,10 @@ struct _EPanedPrivate {
 	gint hposition;
 	gint vposition;
 
+	gulong wse_handler_id;
+
 	guint sync_position	: 1;
+	guint toplevel_ready	: 1;
 };
 
 enum {
@@ -42,6 +45,31 @@ enum {
 };
 
 static gpointer parent_class;
+
+static gboolean
+paned_window_state_event_cb (EPaned *paned,
+                             GdkEventWindowState *event,
+                             GtkWidget *toplevel)
+{
+	/* Wait for WITHDRAWN to change from 0 -> 1. */
+	if (!(event->changed_mask & GDK_WINDOW_STATE_WITHDRAWN))
+		return FALSE;
+
+	/* The whole point of this hack is to trap a point where if
+	 * the window were to be maximized initially, the maximized
+	 * allocation would already be negotiated.  We're there now.
+	 * Set a flag so we know it's safe to set GtkPaned position. */
+	paned->priv->toplevel_ready = TRUE;
+
+	paned->priv->sync_position = TRUE;
+	gtk_widget_queue_resize (GTK_WIDGET (paned));
+
+	/* We don't need to listen for window state events anymore. */
+	g_signal_handler_disconnect (toplevel, paned->priv->wse_handler_id);
+	paned->priv->wse_handler_id = 0;
+
+	return FALSE;
+}
 
 static void
 paned_notify_orientation_cb (EPaned *paned)
@@ -124,6 +152,28 @@ paned_get_property (GObject *object,
 }
 
 static void
+paned_realize (GtkWidget *widget)
+{
+	EPanedPrivate *priv;
+	GtkWidget *toplevel;
+
+	priv = E_PANED_GET_PRIVATE (widget);
+
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+
+	/* XXX This would be easier if we could be notified of
+	 *     window state events directly, but I can't seem
+	 *     to make that happen. */
+
+	toplevel = gtk_widget_get_toplevel (widget);
+
+	priv->wse_handler_id = g_signal_connect_swapped (
+		toplevel, "window-state-event",
+		G_CALLBACK (paned_window_state_event_cb), widget);
+}
+
+static void
 paned_size_allocate (GtkWidget *widget,
                      GtkAllocation *allocation)
 {
@@ -135,6 +185,9 @@ paned_size_allocate (GtkWidget *widget,
 
 	/* Chain up to parent's size_allocate() method. */
 	GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
+
+	if (!paned->priv->toplevel_ready)
+		return;
 
 	if (!paned->priv->sync_position)
 		return;
@@ -170,6 +223,7 @@ paned_class_init (EPanedClass *class)
 	object_class->get_property = paned_get_property;
 
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = paned_realize;
 	widget_class->size_allocate = paned_size_allocate;
 
 	g_object_class_install_property (
