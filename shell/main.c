@@ -23,10 +23,8 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
-#include <gdk/gdkx.h>  /* for copied UniqueApp code */
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
-
-#include <dbus/dbus-glib.h>
 
 #ifdef G_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -39,36 +37,33 @@
 #include <windows.h>
 #endif
 
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-bconf-map.h"
-
-#include <e-util/e-icon-factory.h>
-#include "e-util/e-profile-event.h"
-#include "e-util/e-util.h"
-
-#include "e-shell.h"
-#include "e-shell-migrate.h"
-#include "es-event.h"
-
-#include "e-util/e-util-private.h"
+#include <glade/glade.h>
+#include <dbus/dbus-glib.h>
+#include <gconf/gconf-client.h>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include <gconf/gconf-client.h>
-
-#include <glib/gi18n.h>
-
 #include <libedataserver/e-categories.h>
 #include <libedataserverui/e-passwords.h>
 
-#include <glade/glade.h>
-
+#include "e-shell.h"
+#include "e-shell-migrate.h"
 #include "e-config-upgrade.h"
+#include "es-event.h"
 
-#include <misc/e-cursors.h>
+#include "e-util/e-bconf-map.h"
+#include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
+#include "e-util/e-icon-factory.h"
+#include "e-util/e-plugin.h"
+#include "e-util/e-plugin-ui.h"
+#include "e-util/e-profile-event.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
+
+#include "widgets/misc/e-cursors.h"
 
 #include <fcntl.h>
 #include <signal.h>
@@ -76,11 +71,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-#include <pthread.h>
-
-#include "e-util/e-plugin.h"
-#include "e-util/e-plugin-ui.h"
 
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
