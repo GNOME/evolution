@@ -1773,7 +1773,7 @@ show_completed_rows (ECalModel *model, GList *clients_list, gchar *show_sexp, GP
 
 			if (!(e_cal_model_get_component_for_uid (model, id))) {
 				e_table_model_pre_change (E_TABLE_MODEL (model));
-				comp_data = g_new0 (ECalModelComponent, 1);
+				comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
 				comp_data->client = g_object_ref (client);
 				comp_data->icalcomp = icalcomponent_new_clone (m->data);
 				e_cal_model_set_instance_times (comp_data,

@@ -861,41 +861,44 @@ static void
 ecm_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ECalModelClass *model_class;
-	ECalModelComponent comp_data;
+	ECalModelComponent *comp_data;
 	ECalModel *model = (ECalModel *) etm;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_TABLE_MODEL (source));
 
-	memset (&comp_data, 0, sizeof (ECalModelComponent));
-	comp_data.client = e_cal_model_get_default_client (model);
+	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
+
+	comp_data->client = e_cal_model_get_default_client (model);
 
 	/* guard against saving before the calendar is open */
-	if (!(comp_data.client && e_cal_get_load_state (comp_data.client) == E_CAL_LOAD_LOADED))
+	if (!(comp_data->client && e_cal_get_load_state (comp_data->client) == E_CAL_LOAD_LOADED)) {
+		g_object_unref (comp_data);
 		return;
+	}
 
-	comp_data.icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
+	comp_data->icalcomp = e_cal_model_create_component_with_defaults (model, FALSE);
 
 	/* set values for our fields */
-	set_categories (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
-	set_classification (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
-	set_description (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
-	set_summary (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
+	set_categories (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
+	set_classification (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
+	set_description (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
+	set_summary (comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
 
 	if (e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row)) {
-		set_dtstart (model, &comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
+		set_dtstart (model, comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
 	} else if (model->priv->get_default_time) {
 		time_t tt = model->priv->get_default_time (model, model->priv->get_default_time_user_data);
 
 		if (tt > 0) {
 			struct icaltimetype itt = icaltime_from_timet_with_zone (tt, FALSE, e_cal_model_get_timezone (model));
-			icalproperty *prop = icalcomponent_get_first_property (comp_data.icalcomp, ICAL_DTSTART_PROPERTY);
+			icalproperty *prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
 
 			if (prop) {
 				icalproperty_set_dtstart (prop, itt);
 			} else {
 				prop = icalproperty_new_dtstart (itt);
-				icalcomponent_add_property (comp_data.icalcomp, prop);
+				icalcomponent_add_property (comp_data->icalcomp, prop);
 			}
 		}
 	}
@@ -903,18 +906,20 @@ ecm_append_row (ETableModel *etm, ETableModel *source, gint row)
 	/* call the class' method for filling the component */
 	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
 	if (model_class->fill_component_from_model != NULL) {
-		model_class->fill_component_from_model (model, &comp_data, source, row);
+		model_class->fill_component_from_model (model, comp_data, source, row);
 	}
 
-	if (!e_cal_create_object (comp_data.client, comp_data.icalcomp, NULL, NULL)) {
+	if (!e_cal_create_object (comp_data->client, comp_data->icalcomp, NULL, NULL)) {
 		g_warning (G_STRLOC ": Could not create the object!");
 
 		/* FIXME: show error dialog */
-		icalcomponent_free (comp_data.icalcomp);
+		icalcomponent_free (comp_data->icalcomp);
+		g_object_unref (comp_data);
 		return;
 	}
 
-	icalcomponent_free (comp_data.icalcomp);
+	icalcomponent_free (comp_data->icalcomp);
+	g_object_unref (comp_data);
 
 	g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);
 }
