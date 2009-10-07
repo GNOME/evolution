@@ -421,26 +421,32 @@ create_default_shell (void)
 	EShell *shell;
 	GConfClient *client;
 	gboolean online = TRUE;
+	const gchar *key;
 	GError *error = NULL;
 
 	client = gconf_client_get_default ();
+	key = "/apps/evolution/shell/start_offline";
 
-	if (start_online)
+	/* Requesting online or offline mode from the command-line
+	 * should be persistent, just like selecting it in the UI. */
+
+	if (start_online) {
 		online = TRUE;
-	else if (start_offline)
+		gconf_client_set_bool (client, key, FALSE, &error);
+	} else if (start_offline) {
 		online = FALSE;
-	else {
-		const gchar *key;
+		gconf_client_set_bool (client, key, TRUE, &error);
+	} else {
 		gboolean value;
 
-		key = "/apps/evolution/shell/start_offline";
 		value = gconf_client_get_bool (client, key, &error);
 		if (error == NULL)
 			online = !value;
-		else {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+	}
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 	}
 
 	shell = g_object_new (
