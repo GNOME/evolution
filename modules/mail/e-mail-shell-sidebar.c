@@ -501,7 +501,6 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	CamelFolder *folder;
 	CamelStore *local_store;
 	CamelStore *store;
 	gchar *full_name;
@@ -550,8 +549,7 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 				(strcmp (full_name, "Templates") != 0);
 
 		if (!(folder_flags & CAMEL_FOLDER_HAS_BEEN_DELETED)) {
-			folder = em_folder_tree_get_selected_folder (folder_tree);
-			is_outbox = em_utils_folder_is_outbox (folder, NULL);
+			is_outbox = em_utils_folder_is_outbox (NULL, uri);
 		}
 		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}

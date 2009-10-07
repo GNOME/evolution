@@ -1413,12 +1413,21 @@ gboolean
 em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 {
 	CamelFolder *local_outbox_folder;
+	const gchar *local_outbox_uri;
 
 	local_outbox_folder =
 		e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 
 	/* <Highlander>There can be only one.</Highlander> */
-	return folder == local_outbox_folder;
+	if (folder && folder == local_outbox_folder)
+		return TRUE;
+
+	if (!uri || !local_outbox_folder)
+		return FALSE;
+
+	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_OUTBOX);
+
+	return camel_store_folder_uri_equal (local_outbox_folder->parent_store, local_outbox_uri, uri);
 }
 
 /**
