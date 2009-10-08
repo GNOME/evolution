@@ -1034,23 +1034,8 @@
          </long>
       </locale>
     </schema>
-    
-     <schema>
-      <key>/schemas/apps/evolution/mail/prompts/quick_offline</key>
-      <applyto>/apps/evolution/mail/prompts/quick_offline</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Prompt to check if the user wants to go offline immediately </short>
-         <long>
-         It disables/enables the repeated prompts to ask if offline 
-         sync is required before going into offline mode.
-         </long>
-      </locale>
-    </schema>
 
-     <schema>
+    <schema>
       <key>/schemas/apps/evolution/mail/prompts/delete_in_vfolder</key>
       <applyto>/apps/evolution/mail/prompts/delete_in_vfolder</applyto>
       <owner>evolution-mail</owner>

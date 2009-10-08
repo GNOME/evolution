@@ -420,8 +420,7 @@ mail_shell_backend_prepare_for_offline_cb (EShell *shell,
 
 	if (e_shell_get_network_available (shell))
 		synchronize = em_utils_prompt_user (
-			GTK_WINDOW (parent),
-			"/apps/evolution/mail/prompts/quick_offline",
+			GTK_WINDOW (parent), NULL,
 			"mail:ask-quick-offline", NULL);
 
 	if (!synchronize) {
