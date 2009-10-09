@@ -76,6 +76,20 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 	return folder;
 }
 
+static gboolean
+is_local_provider (CamelStore *store)
+{
+	CamelProvider *provider;
+
+	g_return_val_if_fail (store != NULL, FALSE);
+
+	provider = camel_service_get_provider (CAMEL_SERVICE (store));
+
+	g_return_val_if_fail (provider != NULL, FALSE);
+
+	return (provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
+}
+
 CamelFolder *
 mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
 {
@@ -90,7 +104,7 @@ mail_tool_get_trash (const gchar *url, gint connect, CamelException *ex)
 	if (!store)
 		return NULL;
 
-	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED)
+	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED || is_local_provider (store))
 		trash = camel_store_get_trash (store, ex);
 	else
 		trash = NULL;
