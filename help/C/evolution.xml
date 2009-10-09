@@ -4373,8 +4373,7 @@
      </listitem>
      <listitem id="bsb0c7x">
       <para>Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy.</para>
-      <mediaobject id="bs4aw7i"><imageobject><imagedata format="PNG" fileref="figures/free_busy.png"/></imageobject></mediaobject>
-      
+   
      </listitem>
      <listitem id="b10fogwo">
       <para>Adjust the meeting time, either by dragging the meeting borders or by using the Autopick buttons to choose a time automatically, then click Save and Close. Attendees on an Exchange server have the appointment updated automatically; others receive email notification of any change in plans.</para>
@@ -4469,8 +4468,7 @@
     <listitem id="b17qbhvy">
      <para>Select Advanced Search to open Advanced Search dialog box.</para>
      <para>Search name field displays the search type you have selected.</para>
-     <mediaobject id="b17qbkiq"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_advsearch.png"/></imageobject></mediaobject>
-     
+          
     </listitem>
     <listitem id="b17qbiup">
      <para>Click Add to add rules.</para>
@@ -5425,7 +5423,6 @@
   <section id="exchange-settings">
    <title>Settings Exclusive to Evolution Exchange</title>
    <para>There are some settings in Evolution that are available only with Evolution Exchange, like delegation and permission handling, creating <quote>Out of Office</quote> messages, changing password and viewing folder size.</para>
-   <mediaobject id="bs4aw7m"><imageobject><imagedata format="PNG" fileref="figures/exchng-settings.png"/></imageobject></mediaobject>
    <itemizedlist>
     <listitem>
      <para><link linkend="b15flgn7">Send Options</link></para>
@@ -7054,8 +7051,7 @@
      <title>Hide completed tasks after:</title>
      <para>Select this option to have completed tasks hidden after a period of time measured in days, hours, or minutes. If you don't select this option, completed tasks remain in your task list, marked as complete.</para>
     </formalpara>
-    <mediaobject><imageobject><imagedata format="PNG" fileref="figures/calendar_preference.png"/></imageobject></mediaobject>
-   </section>
+     </section>
 
    <section id="CACHCGCI">
     <title>Alarms</title>
