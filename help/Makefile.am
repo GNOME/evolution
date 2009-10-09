@@ -10,48 +10,30 @@ DOC_MODULE = evolution
 DOC_ENTITIES =
 DOC_INCLUDES =
 DOC_FIGURES =  \
-	figures/account_editor_a.png 		\
 	figures/attach_reminder_a.png		\
 	figures/calendar_preference_display.png \
 	figures/categories_a.png 		\
-	figures/collap_head_a.png 		\
-	figures/config-cal.png 			\
-	figures/config-mail.png 		\
 	figures/contacts_mainwindow_a.png 	\
 	figures/delgt-add.png 			\
-	figures/evo_account_editor_a.png 	\
 	figures/evo_adv_search_a.png 		\
-	figures/evo_allday_a.png 		\
 	figures/evo_attachreminder_plugin.png	\
 	figures/evo_backup_prgsbar.png		\
 	figures/evo_backup_warning.png		\
 	figures/evo_blink.png			\
 	figures/evo_cal_callout_a.png 		\
 	figures/evo_calender_appointmnt.png 	\
-	figures/evo_cal_prop_a.png		\
 	figures/evo_calstatus_a.png		\
 	figures/evo_caltasks_a.png              \
 	figures/evo_contacteditor_a.png 	\
-	figures/evo_crash_recovery.png		\
-	figures/evo_custom_header.png		\
-	figures/evo_debuglogs_a.png		\
 	figures/evo_delegate_permission_a.png	\
 	figures/evo_dialog-info.png		\
 	figures/evo_dialog-warning.png		\
-	figures/evo_edit_rule_a.png 		\
 	figures/evo_edit_search.png 		\
 	figures/evo_exchng_mapi.png             \
 	figures/evo_flag_follow_up_a.png 	\
 	figures/evo_gwreceive_a.png 		\
-	figures/evo_gwreceiveedit_a.png 	\
-	figures/evo_gwreceiveoptedit_a.png 	\
 	figures/evo_gwstatustrack.png		\
-	figures/evo_identity_a.png 		\
-	figures/evo_identityedit_a.png 		\
-	figures/evo_imapheader_a.png 		\
 	figures/evo_imapreceive_a.png 		\
-	figures/evo_import.png                  \
-	figures/evo_import_asst_a.png 		\
 	figures/evo_label_a.png			\
 	figures/evo_labels_a.png		\
 	figures/evo_mail_a.png 			\
@@ -59,8 +41,6 @@ DOC_FIGURES =  \
 	figures/evo_maildirreceive_a.png 	\
 	figures/evo_mboxreceive_a.png 		\
 	figures/evo_memo_a.png 			\
-	figures/evo_mereceive_a.png 		\
-	figures/evo_message_filters_a.png 	\
 	figures/evo_mhreceive_a.png 		\
 	figures/evo_mail_notifier.png		\
 	figures/evo_memo_a.png			\
@@ -68,21 +48,17 @@ DOC_FIGURES =  \
 	figures/evo_newmail.png			\
 	figures/evo_popreceive_a.png 		\
 	figures/evo_proxyadd_a.png 		\
-	figures/evo_receive_setup_a.png 	\
-	figures/evo_rmdrnotes_a.png 		\
 	figures/evo_rule_a.png 			\
 	figures/evo_send_option_a.png 		\
 	figures/evo_send_setup_a.png 		\
 	figures/evo_sendstatus_a.png 		\
 	figures/evo_shd_memo_a.png 		\
-	figures/evo_timezone_a.png 		\
 	figures/evo_usereceive_a.png 		\
 	figures/evo_junk_a.png			\
 	figures/evo_offline.png			\
 	figures/evo_Wcal_prop_a.png             \
 	figures/evolution_contact_preference.png\
 	figures/evolution_mail_preference.png	\
-	figures/exchng-identity.png 		\
 	figures/exchng-rec-mails.png 		\
 	figures/exchng-rec-options.png 		\
 	figures/filter-new-fig.png 		\
@@ -94,16 +70,12 @@ DOC_FIGURES =  \
 	figures/groupwise_resend_retract.png	\
 	figures/local_ics_calendar.png		\
 	figures/mailer_preferences.png 		\
-	figures/mail-threaded.png 		\
 	figures/meeting.png			\
 	figures/minus.png 			\
 	figures/plus.png 			\
-	figures/proxy-login.png 		\
 	figures/quick_add_a.png 		\
 	figures/quick_reference.png		\
 	figures/stock_search.png 		\
-	figures/sub-others-folder.png 		\
-	figures/sub-pub-fold.png 		\
 	figures/ver_view_a.png
 
 DOC_LINGUAS = cs de el en_GB es eu fr oc ru sv mk
