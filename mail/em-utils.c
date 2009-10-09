@@ -1739,7 +1739,6 @@ em_utils_empty_trash (GtkWidget *parent)
 
 	camel_exception_init (&ex);
 
-	/* expunge all remote stores */
 	accounts = mail_config_get_accounts ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1750,8 +1749,7 @@ em_utils_empty_trash (GtkWidget *parent)
 			provider = camel_provider_get(account->source->url, &ex);
 			if (provider) {
 				/* make sure this store is a remote store */
-				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
-				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
+				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE) {
 					mail_empty_trash (account, NULL, NULL);
 				}
 			}
