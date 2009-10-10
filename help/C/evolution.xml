@@ -853,7 +853,7 @@
      <para>Before importing email from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      <tip>
       <para>Evolution uses standard file types for email and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <emphasis>mbox</emphasis> for email and <emphasis>iCal</emphasis> for calendar information.</para>
-      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an address book, click File &gt; Save Address Book As VCard". If you want to export only one contact, click File &gt; Save Contact as VCard.</para>
+      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an address book, click File &gt; Save Address Book As vCard". If you want to export only one contact, click File &gt; Save Contact as vCard.</para>
      </tip>
     </section>
    </section>

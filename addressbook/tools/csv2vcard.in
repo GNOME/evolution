@@ -1,6 +1,6 @@
 #!@PERL@ -w
 #
-# cvs2vcard - Script to convert Outlook CSV files into VCard files
+# cvs2vcard - Script to convert Outlook CSV files into vCard files
 # suitable to be imported into Evolution.
 #
 # Copyright (C) 2001 Ximian, Inc.
@@ -31,7 +31,7 @@ sub usage
   print STDERR << "--EndOfUsage";
 
 Takes a CSV-formatted list of contacts from Outlook and attempts to
-convert it into a list of VCards suitable for import into Evolution.
+convert it into a list of vCards suitable for import into Evolution.
 
 Usage: $0 [infile outfile]
 

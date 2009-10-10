@@ -216,7 +216,7 @@ eab_contact_list_from_string (const gchar *str)
 
 	q = p = str_stripped = g_string_free (gstr, FALSE);
 
-	/* Note: The VCard standard says
+	/* Note: The vCard standard says
 	 *
 	 * vcard = "BEGIN" [ws] ":" [ws] "VCARD" [ws] 1*CRLF
 	 *         items *CRLF "END" [ws] ":" [ws] "VCARD"

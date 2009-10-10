@@ -328,7 +328,7 @@
 	      <para>
 	         The addressbook format used by the GNOME, KDE, and
 	         many other contact management applications. You
-	         should be able to export to VCard format from any
+	         should be able to export to vCard format from any
 	         address book application.
 	      </para>
 	    </listitem>
