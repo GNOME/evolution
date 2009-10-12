@@ -467,8 +467,8 @@ ec_assistant_forward (gint current_page, gpointer user_data)
 	}
 
 	if (wn && wn->next) {
-		d(printf(" is %s\n",wn->item->path));
 		ec_assistant_find_page (ec, wn->frame, &next_page);
+		d(printf(" is %s (%d)\n",wn->item->path, next_page));
 	}
 
 	return next_page;
@@ -619,7 +619,8 @@ ec_rebuild (EConfig *emp)
 				break;
 			}
 
-			if (wn->widget == NULL) {
+			if (item->type == E_CONFIG_PAGE_FINISH || wn->widget == NULL) {
+				/* always rebuild finish page, to have it as the last page */
 				if (item->factory) {
 					page = item->factory(emp, item, root, wn->frame, wn->context->data);
 				} else {
@@ -639,15 +640,19 @@ ec_rebuild (EConfig *emp)
 					gtk_widget_show_all (page);
 				}
 
+				if (wn->widget != NULL && wn->widget != page) {
+					gtk_widget_destroy (wn->widget);
+				}
+
 				wn->frame = page;
 				wn->widget = page;
 
 				if (page) {
 					const gchar *empty_xpm_img[] = {
-						"48 1 2 1",
+						"75 1 2 1",
 						" 	c None",
 						".	c #FFFFFF",
-						"                                                "};
+						"                                                                           "};
 
 					/* left side place with a blue background on a start and finish page */
 					GdkPixbuf *spacer = gdk_pixbuf_new_from_xpm_data (empty_xpm_img);

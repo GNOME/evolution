@@ -2062,12 +2062,13 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 }
 
 static GtkWidget *
-emae_create_basic_assistant_page (GtkAssistant *assistant, const gchar *page_id)
+emae_create_basic_assistant_page (GtkAssistant *assistant, const gchar *page_id, GtkWidget *old)
 {
 	const gchar *title = NULL, *label = NULL;
 	GtkAssistantPageType page_type = GTK_ASSISTANT_PAGE_CONTENT;
 	GtkWidget *vbox, *lbl;
 	gboolean fill_space = FALSE;
+	gint index = -1;
 
 	g_return_val_if_fail (page_id != NULL, NULL);
 
@@ -2107,7 +2108,17 @@ emae_create_basic_assistant_page (GtkAssistant *assistant, const gchar *page_id)
 	gtk_box_pack_start (GTK_BOX (vbox), lbl, fill_space, fill_space, 0);
 	gtk_widget_show (lbl);
 
-	gtk_assistant_append_page (assistant, vbox);
+	if (old) {
+		/* keep page on its previous index */
+		gint i, sz = gtk_assistant_get_n_pages (assistant);
+
+		for (i = 0; i < sz && index == -1; i++) {
+			if (gtk_assistant_get_nth_page (assistant, i) == old)
+				index = i;
+		}
+	}
+
+	gtk_assistant_insert_page (assistant, vbox, index);
 	gtk_assistant_set_page_title (assistant, vbox, title);
 	gtk_assistant_set_page_type (assistant, vbox, page_type);
 
@@ -2196,7 +2207,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[0], w, TRUE, TRUE, 0);
 	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "identity_page");
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "identity_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
@@ -2237,7 +2248,7 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[1], w, TRUE, TRUE, 0);
 	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "source_page");
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "source_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
@@ -2697,7 +2708,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	if (emae->type == EMAE_PAGES) {
 		gtk_box_pack_start ((GtkBox *)emae->pages[2], w, TRUE, TRUE, 0);
 	} else if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "transport_page");
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "transport_page", old);
 
 		gtk_box_pack_start (GTK_BOX (page), w, TRUE, TRUE, 0);
 
@@ -2898,7 +2909,7 @@ emae_management_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 
 	w = gui->management_frame;
 	if (((EConfig *)gui->config)->type == E_CONFIG_ASSISTANT) {
-		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "management_page");
+		GtkWidget *page = emae_create_basic_assistant_page (GTK_ASSISTANT (parent), "management_page", old);
 
 		gtk_widget_reparent (w, page);
 
@@ -2916,7 +2927,7 @@ emae_widget_assistant_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, G
 	if (emae->type == EMAE_PAGES)
 		return NULL;
 
-	return emae_create_basic_assistant_page (GTK_ASSISTANT (parent), item->label);
+	return emae_create_basic_assistant_page (GTK_ASSISTANT (parent), item->label, old);
 }
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountAssistant" */
