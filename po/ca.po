@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-14 18:19+0200\n"
-"PO-Revision-Date: 2009-08-14 18:20+0200\n"
+"POT-Creation-Date: 2009-10-12 21:54+0200\n"
+"PO-Revision-Date: 2009-10-12 19:04+0200\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -386,16 +386,15 @@ msgid "Could not remove address book."
 msgstr "No s'ha pogut suprimir la llibreta d'adreces."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 msgid ""
 "Currently you can only access the GroupWise System Address Book from "
 "Evolution. Please use some other GroupWise mail client once to get your "
 "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
-"Només podeu accedir a llibretes d'adreces del sistema de GroupWise des de "
-"l'Evolution. Hauríeu d'utilitzar un altre client de correu GroupWise una "
-"vegada per a obtenir els vostres contactes freqüents de GroupWise i les "
-"carpetes de contactes personals de GroupWise."
+"Des de l'Evolution actualment només podreu accedir a les llibretes d'adreces "
+"del sistema de GroupWise. Hauríeu d'utilitzar un altre client de correu "
+"GroupWise una vegada per a obtenir els vostres contactes freqüents de "
+"GroupWise i les carpetes de contactes personals de GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -596,9 +595,8 @@ msgid "Certificates"
 msgstr "Certificats"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Configure contacts and autocompletion here"
-msgstr "Configureu la compleció automàtica aquí"
+msgstr "Configureu els contactes i la compleció automàtica aquí"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
@@ -978,7 +976,7 @@ msgstr "Introduïu la contrasenya per a %s (usuari %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:500
+#: ../plugins/google-account-setup/google-source.c:519
 #: ../plugins/publish-calendar/publish-calendar.c:216
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1054,15 +1052,13 @@ msgid "Always _show address of the autocompleted contact"
 msgstr "M_ostra sempre l'adreça del contacte autocompletat"
 
 #: ../addressbook/gui/component/autocompletion-config.c:182
-#, fuzzy
 msgid "Date/Time Format"
-msgstr "Data/hora"
+msgstr "Format de data/hora"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
 #: ../mail/em-mailer-prefs.c:1456
-#, fuzzy
 msgid "Table column:"
-msgstr "Model de la taula"
+msgstr "Columna de la taula:"
 
 #: ../addressbook/gui/component/autocompletion-config.c:187
 msgid "Look up in address books"
@@ -1078,6 +1074,9 @@ msgid ""
 "636\n"
 "3268"
 msgstr ""
+"389\n"
+"636\n"
+"3268"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:5
 msgid "5"
@@ -1096,12 +1095,14 @@ msgid "<b>Searching</b>"
 msgstr "<b>Cerca</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
-#, fuzzy
 msgid ""
 "Anonymously\n"
 "Using email address\n"
 "Using distinguished name (DN)"
-msgstr "Utilitza el nom distingit (DN)"
+msgstr ""
+"De manera anònima\n"
+"Utilitza l'adreça de correu\n"
+"Utilitza el nom distingit (DN)"
 
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:14
@@ -1121,11 +1122,12 @@ msgstr "_Entra:"
 
 # És el nom d'un mètode
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "One"
+msgstr ""
+"One\n"
+"Sub"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -1133,6 +1135,9 @@ msgid ""
 "TLS encryption\n"
 "No encryption"
 msgstr ""
+"Xifratge SSL\n"
+"Xifratge TLS\n"
+"Sense xifratge"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "Search Filter"
@@ -1147,13 +1152,12 @@ msgid "Search _filter:"
 msgstr "Fil_tre de cerca:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
 msgstr ""
-"El filtre de cerca és el tipus d'objecte cercat. Si no es modifica, per "
-"defecte la cerca es realitzarà sobre la classe d'objectes «persona»."
+"El filtre de cerca és el tipus d'objecte a cercar. Si no es modifica, per "
+"defecte la cerca es realitzarà sobre el tipus «persona»."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Supported Search Bases"
@@ -1242,10 +1246,10 @@ msgstr "targetes"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
 #: ../calendar/gui/dialogs/event-page.glade.h:24
 #: ../plugins/caldav/caldav-source.c:448
-#: ../plugins/calendar-file/calendar-file.c:286
+#: ../plugins/calendar-file/calendar-file.c:293
 #: ../plugins/calendar-http/calendar-http.c:323
 #: ../plugins/calendar-weather/calendar-weather.c:523
-#: ../plugins/google-account-setup/google-source.c:720
+#: ../plugins/google-account-setup/google-source.c:740
 #: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "minutes"
 msgstr "minuts"
@@ -1271,9 +1275,8 @@ msgid "<b>Miscellaneous</b>"
 msgstr "<b>Miscel·lània</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "<b>Notes</b>"
-msgstr "<b>Casa</b>"
+msgstr "<b>Notes</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "<b>Other</b>"
@@ -1650,6 +1653,7 @@ msgstr ""
 "Segur que voleu\n"
 "suprimir aquests contactes?"
 
+# He utilitzat la mateixa traducció per a Mrs., Ms., Miss per a no caure en un ús sexista (dpm).
 #: ../addressbook/gui/contact-editor/fullname.glade.h:1
 msgid ""
 "\n"
@@ -1659,7 +1663,15 @@ msgid ""
 "Miss\n"
 "Dr."
 msgstr ""
+"\n"
+"Sr.\n"
+"Sra.\n"
+"Sra.\n"
+"Sra.\n"
+"Dr."
 
+# "Esq."="Esquire", títol posat darrera del cognom a les cartes;
+#                   equival a Sr. o En.
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid ""
 "\n"
@@ -1670,6 +1682,13 @@ msgid ""
 "III\n"
 "Esq."
 msgstr ""
+"\n"
+"Sr.\n"
+"Fill\n"
+"I\n"
+"II\n"
+"III\n"
+"En."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
@@ -1789,7 +1808,7 @@ msgstr "_Fusiona"
 msgid "Merge Contact"
 msgstr "Fusiona el contacte"
 
-#: ../addressbook/gui/merging/eab-contact-merging.c:266
+#: ../addressbook/gui/merging/eab-contact-merging.c:267
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../addressbook/gui/widgets/eab-contact-display.c:581
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
@@ -3387,10 +3406,10 @@ msgstr[1] "minuts"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:8
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 #: ../plugins/caldav/caldav-source.c:449
-#: ../plugins/calendar-file/calendar-file.c:287
+#: ../plugins/calendar-file/calendar-file.c:294
 #: ../plugins/calendar-http/calendar-http.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:721
+#: ../plugins/google-account-setup/google-source.c:741
 #: ../plugins/google-account-setup/google-contacts-source.c:331
 msgid "hours"
 msgid_plural "hours"
@@ -3412,8 +3431,8 @@ msgstr "Descarta-ho _tot"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1592
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1583
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1589
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../plugins/itip-formatter/itip-view.c:1023
 msgid "Location:"
@@ -3448,32 +3467,32 @@ msgstr "Mi_gdiada"
 msgid "location of appointment"
 msgstr "ubicació de la cita"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1451
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1575
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1444
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1566
 msgid "No summary available."
 msgstr "No hi ha cap resum disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1460
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1462
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1453
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1455
 msgid "No description available."
 msgstr "No hi ha cap descripció disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1470
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1463
 msgid "No location information available."
 msgstr "No hi ha cap informació d'ubicació disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1515
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1506
 #, c-format
 msgid "You have %d alarms"
 msgstr "Teniu %d alarmes."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1675
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1703
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1666
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1694
 #: ../e-util/e-non-intrusive-error-dialog.h:40
 msgid "Warning"
 msgstr "Avís"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1679
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1670
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3485,7 +3504,7 @@ msgstr ""
 "es va configurar per a enviar un correu. En lloc d'això, \n"
 "l'Evolution mostrarà un quadre de diàleg de recordatori normal."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1709
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1700
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3502,7 +3521,7 @@ msgstr ""
 "\n"
 "Segur que voleu executar-lo?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1723
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1714
 msgid "Do not ask me about this program again."
 msgstr "No em facis més preguntes sobre aquest programa."
 
@@ -3578,7 +3597,7 @@ msgstr "Calendaris pels quals s'han d'executar les alarmes"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Check this to use system timezone in Evolution."
-msgstr ""
+msgstr "Marqueu-ho per a utilitzar el fus horari del sistema a l'Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid ""
@@ -3604,6 +3623,8 @@ msgstr "Demana confirmació en buidar"
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
 msgstr ""
+"Nombre de la periodicitat predeterminada dels esdeveniments nous. -1 "
+"significa per sempre."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -3615,9 +3636,8 @@ msgid "Default appointment reminder"
 msgstr "Recordatori de cita predeterminat"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
-#, fuzzy
 msgid "Default recurrence count"
-msgstr "Unitats predeterminades pels recordatoris"
+msgstr "Nombre predeterminat de la periodicitat"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder units"
@@ -3806,19 +3826,16 @@ msgstr ""
 "píxels."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
-#, fuzzy
 msgid "Primary calendar"
-msgstr "Telèfon principal"
+msgstr "Calendari principal"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
-#, fuzzy
 msgid "Primary memo list"
-msgstr "Llista d'anotacions nova"
+msgstr "Llista d'anotacions principal"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
-#, fuzzy
 msgid "Primary task list"
-msgstr "Llista de tasques nova"
+msgstr "Llista de tasques principal"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Programs that are allowed to be run by alarms."
@@ -3835,7 +3852,7 @@ msgstr "Directori on desar sons per a les alarmes"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:59
 msgid "Scroll Month View by a week"
-msgstr ""
+msgstr "Desplaça la visualització mensual en passos d'una setmana"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:60
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -3967,15 +3984,15 @@ msgstr "Format horari de 24 hores"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "URI of the highlighted (\"primary\") calendar"
-msgstr ""
+msgstr "URI del calendari («principal») realçat"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "URI of the highlighted (\"primary\") memo list"
-msgstr ""
+msgstr "URI de llista d'anotacions («principal») realçada"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "URI of the highlighted (\"primary\") task list"
-msgstr ""
+msgstr "URI de llista de tasques («principal») realçada"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -3989,13 +4006,13 @@ msgstr ""
 "«dies»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
-#, fuzzy
 msgid "Use system timezone"
-msgstr "Utilitza els paràmetres p_redeterminats del sistema"
+msgstr "Utilitza el fus horari del sistema"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Use the system timezone instead of the timezone selected in Evolution."
 msgstr ""
+"Utilitza el fus horari del sistema en lloc del seleccionat a l'Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Week start"
@@ -4048,6 +4065,8 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Whether to scroll a Month View by a week, not by a month."
 msgstr ""
+"Si s'ha de desplaçar la visualització mensual en passos d'una setmana en "
+"lloc de per mes."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Whether to set a default reminder for appointments."
@@ -4125,9 +4144,8 @@ msgid "Workday start minute"
 msgstr "Minut d'inici de la jornada laboral"
 
 #: ../calendar/gui/cal-editor-utils.c:100
-#, fuzzy
 msgid "Invalid object"
-msgstr "Contacte no vàlid."
+msgstr "Objecte no vàlid"
 
 #: ../calendar/gui/cal-search-bar.c:74
 msgid "Summary contains"
@@ -4198,10 +4216,10 @@ msgstr "Buida els esdeveniments anteriors a"
 
 #: ../calendar/gui/calendar-commands.c:342
 #: ../plugins/caldav/caldav-source.c:450
-#: ../plugins/calendar-file/calendar-file.c:288
+#: ../plugins/calendar-file/calendar-file.c:295
 #: ../plugins/calendar-http/calendar-http.c:325
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:722
+#: ../plugins/google-account-setup/google-source.c:742
 #: ../plugins/google-account-setup/google-contacts-source.c:332
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
@@ -4543,11 +4561,12 @@ msgid "_Sound:"
 msgstr "_So:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid ""
 "before\n"
 "after"
-msgstr "abans de"
+msgstr ""
+"abans de\n"
+"després de"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "extra times every"
@@ -4555,7 +4574,6 @@ msgstr "temps extra per cada"
 
 # Apareix al mig d'una frase, per això ha d'anar en minúscula (dpm)
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid ""
 "minute(s)\n"
 "hour(s)\n"
@@ -4567,7 +4585,6 @@ msgstr ""
 
 # Apareix al mig d'una frase, per això ha d'anar en minúscula (dpm)
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
-#, fuzzy
 msgid ""
 "minutes\n"
 "hours\n"
@@ -4578,11 +4595,12 @@ msgstr ""
 "dies"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
-#, fuzzy
 msgid ""
 "start of appointment\n"
 "end of appointment"
-msgstr "inici de la cita"
+msgstr ""
+"inici de la cita\n"
+"final de la cita"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:244
 msgid "Action/Trigger"
@@ -4615,7 +4633,7 @@ msgstr "Adjunta fitxers"
 #: ../calendar/gui/dialogs/event-page.c:2993
 #: ../calendar/gui/e-cal-model-tasks.c:671
 #: ../calendar/gui/e-day-view-time-item.c:785
-#: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:942
+#: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:946
 #: ../mail/em-account-editor.c:717 ../mail/em-account-editor.c:1451
 #: ../mail/em-account-prefs.c:435 ../mail/em-junk-hook.c:93
 #: ../plugins/calendar-weather/calendar-weather.c:333
@@ -4634,14 +4652,12 @@ msgid "Selected Calendars for Alarms"
 msgstr "Seleccioneu els calendaris per a les alarmes"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:865
-#, fuzzy
 msgid "Time and date:"
-msgstr "Fus horari:"
+msgstr "Hora i data:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:866
-#, fuzzy
 msgid "Date only:"
-msgstr "Data:"
+msgstr "Només la data:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "(Shown in a Day View)"
@@ -4670,9 +4686,8 @@ msgstr ""
 "electrònic.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "<span weight=\"bold\">Alarms</span>"
-msgstr "<span weight=\"bold\">Alertes</span>"
+msgstr "<span weight=\"bold\">Alarmes</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 #: ../mail/mail-config.glade.h:9
@@ -4681,9 +4696,8 @@ msgstr "<span weight=\"bold\">Alertes</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #: ../mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Date/Time Format</span>"
-msgstr "<span weight=\"bold\">Hores</span>"
+msgstr "<span weight=\"bold\">Format de la data i hora</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
@@ -4716,11 +4730,9 @@ msgstr "_El dia s'acaba a les:"
 msgid "Display"
 msgstr "Visualització"
 
-# FIXME: [l10n-bug] (dpm)
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#, fuzzy
 msgid "Display alarms in _notification area only"
-msgstr "Mostra les alarmes per a visualitzar a l'àrea de notificació"
+msgstr "Mostra les alarmes només a l'àrea de _notificació"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
@@ -4783,7 +4795,7 @@ msgstr "Dissabte"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "Des_plaça la visualització mensual en passos d'una setmana"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Se_cond zone:"
@@ -4854,9 +4866,8 @@ msgid "Tuesday"
 msgstr "Dimarts"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#, fuzzy
 msgid "Use s_ystem time zone"
-msgstr "Mostra el segon fus horari"
+msgstr "Utilitza el _fus horari del sistema"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 #: ../calendar/gui/dialogs/recurrence-page.c:1114
@@ -5074,9 +5085,8 @@ msgid "Due "
 msgstr "Venciment "
 
 #: ../calendar/gui/dialogs/comp-editor.c:224
-#, fuzzy
 msgid "Could not save attachments"
-msgstr "Desa els fitxers adjunts"
+msgstr "No s'han pogut desar els fitxers adjunts"
 
 #: ../calendar/gui/dialogs/comp-editor.c:487
 msgid "Could not update object"
@@ -5433,10 +5443,13 @@ msgstr "Ci_ta"
 #: ../calendar/gui/dialogs/event-page.c:748
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
+"No es pot editar l'esdeveniment perquè el calendari seleccionat és de només "
+"lectura"
 
 #: ../calendar/gui/dialogs/event-page.c:752
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
+"No es pot editar l'esdeveniment completament perquè no en sou l'organitzador"
 
 #: ../calendar/gui/dialogs/event-page.c:764
 #: ../calendar/gui/dialogs/event-page.c:2769
@@ -5563,6 +5576,9 @@ msgid ""
 "1 hour before appointment\n"
 "1 day before appointment"
 msgstr ""
+"15 minuts abans de la cita\n"
+"1 hora abans de la cita\n"
+"1 dia abans de la cita"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
@@ -5619,13 +5635,16 @@ msgid ""
 "a\n"
 "b"
 msgstr ""
+"a\n"
+"b"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#, fuzzy
 msgid ""
 "for\n"
 "until"
-msgstr "fins"
+msgstr ""
+"durant\n"
+"fins"
 
 #: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2469
 msgid "Memo"
@@ -5634,10 +5653,13 @@ msgstr "Anotació"
 #: ../calendar/gui/dialogs/memo-page.c:347
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
+"No es pot editar l'anotació perquè la llista d'anotacions seleccionada és de "
+"només lectura"
 
 #: ../calendar/gui/dialogs/memo-page.c:351
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr ""
+"No es pot editar l'anotació completament perquè no en sou l'organitzador"
 
 #: ../calendar/gui/dialogs/memo-page.c:871
 #, c-format
@@ -5760,9 +5782,8 @@ msgstr "quart"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1039
-#, fuzzy
 msgid "fifth"
-msgstr "Amplada"
+msgstr "cinquè"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -5872,6 +5893,10 @@ msgid ""
 "month(s)\n"
 "year(s)"
 msgstr ""
+"dies\n"
+"setmanes\n"
+"mesos\n"
+"anys"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
@@ -5881,15 +5906,17 @@ msgid ""
 "until\n"
 "forever"
 msgstr ""
+"durant\n"
+"fins\n"
+"per sempre"
 
 #: ../calendar/gui/dialogs/send-comp.c:160
 msgid "Send my alarms with this event"
 msgstr "Envia les meves alarmes amb aquest esdeveniment"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
-#, fuzzy
 msgid "Notify new attendees _only"
-msgstr "Notifica només per als missatges a la safata _d'entrada"
+msgstr "Notifica n_omés els assistents nous"
 
 #: ../calendar/gui/dialogs/task-details-page.c:376
 #: ../calendar/gui/dialogs/task-details-page.c:396
@@ -5915,6 +5942,10 @@ msgid ""
 "Low\n"
 "Undefined"
 msgstr ""
+"Alta\n"
+"Normal\n"
+"Baixa\n"
+"No definida"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 msgid ""
@@ -5923,6 +5954,10 @@ msgid ""
 "Completed\n"
 "Canceled"
 msgstr ""
+"Per començar\n"
+"En progrés\n"
+"Completada\n"
+"Cancel·lada"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "P_ercent complete:"
@@ -5970,12 +6005,12 @@ msgstr "Detalls de la tasca"
 #: ../calendar/gui/dialogs/task-page.c:336
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
+"No es pot editar la tasca perquè la llista de tasques seleccionada és de "
+"només lectura"
 
 #: ../calendar/gui/dialogs/task-page.c:340
-#, fuzzy
 msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr ""
-"Aquest missatge no es pot enviar perquè no se n'ha indicat cap destinatari"
+msgstr "No es pot editar la tasca completament perquè no en sou l'organitzador"
 
 #: ../calendar/gui/dialogs/task-page.c:388
 #: ../calendar/gui/dialogs/task-page.glade.h:4
@@ -6084,27 +6119,22 @@ msgid "%s for an unknown trigger type"
 msgstr "%s per a un tipus d'activador desconegut"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
-#, fuzzy
 msgid "I_mport"
-msgstr "Importa"
+msgstr "I_mporta"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
-#, fuzzy
 msgid "Select a Calendar"
 msgstr "Seleccioneu un calendari"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
-#, fuzzy
 msgid "Select a Task List"
 msgstr "Seleccioneu una llista de tasques"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:377
-#, fuzzy
 msgid "I_mport to Calendar"
-msgstr "Importa al calendari"
+msgstr "I_mporta al calendari"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:384
-#, fuzzy
 msgid "I_mport to Tasks"
 msgstr "_Importa a les tasques"
 
@@ -6115,7 +6145,7 @@ msgid "Click to open %s"
 msgstr "Feu clic per a obrir %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:127
-#: ../calendar/gui/e-cal-component-preview.c:170 ../filter/filter-rule.c:859
+#: ../calendar/gui/e-cal-component-preview.c:170 ../filter/filter-rule.c:863
 msgid "Untitled"
 msgstr "Sense títol"
 
@@ -6198,7 +6228,7 @@ msgid "High"
 msgstr "Alta"
 
 #: ../calendar/gui/e-cal-component-preview.c:266
-#: ../calendar/gui/e-cal-model.c:1076 ../calendar/gui/e-calendar-table.c:586
+#: ../calendar/gui/e-cal-model.c:1081 ../calendar/gui/e-calendar-table.c:586
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1063
 msgid "Normal"
 msgstr "Normal"
@@ -6223,9 +6253,8 @@ msgstr "Data de finalització"
 #: ../calendar/gui/e-cal-list-view.etspec.h:4
 #: ../calendar/gui/e-calendar-table.etspec.h:9
 #: ../calendar/gui/e-memo-table.etspec.h:4
-#, fuzzy
 msgid "Last modified"
-msgstr "Modificat"
+msgstr "Darrera modificació"
 
 #: ../calendar/gui/e-cal-list-view.etspec.h:6
 #: ../calendar/gui/e-memo-table.etspec.h:5
@@ -6253,7 +6282,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1027 ../calendar/gui/e-cal-model.c:1082
+#: ../calendar/gui/e-cal-model-tasks.c:1027 ../calendar/gui/e-cal-model.c:1087
 #: ../calendar/gui/e-meeting-list-view.c:190
 #: ../calendar/gui/e-meeting-store.c:151 ../calendar/gui/e-meeting-store.c:161
 #: ../calendar/gui/e-meeting-store.c:742
@@ -6261,7 +6290,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Sí"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1027 ../calendar/gui/e-cal-model.c:1082
+#: ../calendar/gui/e-cal-model-tasks.c:1027 ../calendar/gui/e-cal-model.c:1087
 #: ../calendar/gui/e-meeting-list-view.c:191
 #: ../calendar/gui/e-meeting-store.c:163
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -6283,11 +6312,11 @@ msgstr "No"
 msgid "Unknown"
 msgstr "Es desconeix"
 
-#: ../calendar/gui/e-cal-model.c:1078
+#: ../calendar/gui/e-cal-model.c:1083
 msgid "Recurring"
 msgstr "Periòdic"
 
-#: ../calendar/gui/e-cal-model.c:1080
+#: ../calendar/gui/e-cal-model.c:1085
 msgid "Assigned"
 msgstr "Assignat"
 
@@ -7375,7 +7404,7 @@ msgstr "S'estan carregant les anotacions a %s"
 msgid "Opening %s"
 msgstr "S'està obrint %s"
 
-#: ../calendar/gui/gnome-cal.c:4012
+#: ../calendar/gui/gnome-cal.c:4018
 msgid "Purging"
 msgstr "S'està buidant"
 
@@ -7394,6 +7423,18 @@ msgid ""
 "November\n"
 "December"
 msgstr ""
+"gener\n"
+"febrer\n"
+"març\n"
+"abril\n"
+"maig\n"
+"juny\n"
+"juliol\n"
+"agost\n"
+"setembre\n"
+"octubre\n"
+"novembre\n"
+"desembre"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "Select Date"
@@ -9533,10 +9574,6 @@ msgstr "Pacífic/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífic/Yap"
 
-#: ../composer/e-composer-autosave.c:445
-msgid "Unable to retrieve message from editor"
-msgstr "No s'ha pogut recuperar el missatge de l'editor"
-
 #: ../composer/e-composer-actions.c:84
 msgid "Untitled Message"
 msgstr "Missatges sense títol"
@@ -9698,17 +9735,15 @@ msgstr "Commuta la visualització del camp «Respon-a»"
 
 #: ../composer/e-composer-actions.c:521
 msgid "Save Draft"
-msgstr "Desa com a esborrany"
+msgstr "Desa l'esborrany"
 
 #: ../composer/e-composer-header.c:120
-#, fuzzy
 msgid "Show"
-msgstr "Mos_tra: "
+msgstr "Mostra"
 
 #: ../composer/e-composer-header.c:123
-#, fuzzy
 msgid "Hide"
-msgstr "A_maga"
+msgstr "Oculta"
 
 #: ../composer/e-composer-header-table.c:41
 msgid "Enter the recipients of the message"
@@ -9789,18 +9824,17 @@ msgid "Click here to select folders to post to"
 msgstr "Feu clic per a seleccionar les carpetes on enviar"
 
 #: ../composer/e-composer-private.c:208
-#, fuzzy
 msgid "Save draft"
-msgstr "Desa com a esborrany"
+msgstr "Desa l'esborrany"
 
-#: ../composer/e-msg-composer.c:807
+#: ../composer/e-msg-composer.c:808
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "No s'ha pogut signar el missatge de sortida: no s'ha definit cap certificat "
 "de signatura per a aquest compte"
 
-#: ../composer/e-msg-composer.c:814
+#: ../composer/e-msg-composer.c:815
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -9808,11 +9842,15 @@ msgstr ""
 "No s'ha pogut xifrar el missatge de sortida: no s'ha definit cap certificat "
 "de xifratge per a aquest compte"
 
-#: ../composer/e-msg-composer.c:1350 ../composer/e-msg-composer.c:2189
+#: ../composer/e-msg-composer.c:1293
+msgid "Unable to retrieve message from editor"
+msgstr "No s'ha pogut recuperar el missatge de l'editor"
+
+#: ../composer/e-msg-composer.c:1367 ../composer/e-msg-composer.c:2206
 msgid "Compose Message"
 msgstr "Redacta un missatge"
 
-#: ../composer/e-msg-composer.c:3347
+#: ../composer/e-msg-composer.c:3364
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -9976,14 +10014,20 @@ msgid "_Save Draft"
 msgstr "Desa l'_esborrany"
 
 #: ../data/evolution.desktop.in.in.h:1
+#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
+#: ../shell/main.c:627
+msgid "Evolution"
+msgstr "Evolution"
+
+#: ../data/evolution.desktop.in.in.h:2
 msgid "Evolution Mail and Calendar"
 msgstr "Correu i calendari de l'Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:947
+#: ../data/evolution.desktop.in.in.h:3 ../shell/e-shell-window-commands.c:1035
 msgid "Groupware Suite"
 msgstr "Aplicacions de treball en grup"
 
-#: ../data/evolution.desktop.in.in.h:3
+#: ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestioneu els correus electrònics, contactes i horaris"
 
@@ -9996,41 +10040,38 @@ msgid "calendar information"
 msgstr "informació del calendari"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:188 ../plugins/itip-formatter/itip-view.c:191
+#: ../e-util/e-datetime-format.c:193 ../plugins/itip-formatter/itip-view.c:191
 #: ../ui/evolution-calendar.xml.h:34 ../widgets/misc/e-cell-date-edit.c:304
 msgid "Today"
 msgstr "Avui"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:200 ../plugins/itip-formatter/itip-view.c:219
+#: ../e-util/e-datetime-format.c:202 ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow"
 msgstr "Demà"
 
-#: ../e-util/e-datetime-format.c:202
-#, fuzzy
+#: ../e-util/e-datetime-format.c:204
 msgid "Yesterday"
-msgstr "Ahir a les %k:%M"
-
-#: ../e-util/e-datetime-format.c:205
-#, c-format
-msgid "%d days from now"
-msgstr ""
+msgstr "Ahir"
 
 #: ../e-util/e-datetime-format.c:207
-#, fuzzy, c-format
+#, c-format
+msgid "%d days from now"
+msgstr "%d dies a partir d'ara"
+
+#: ../e-util/e-datetime-format.c:209
+#, c-format
 msgid "%d days ago"
-msgstr "fa 1 dia"
+msgstr "fa %d dies"
 
-#: ../e-util/e-datetime-format.c:281 ../e-util/e-datetime-format.c:291
-#: ../e-util/e-datetime-format.c:300
-#, fuzzy
+#: ../e-util/e-datetime-format.c:283 ../e-util/e-datetime-format.c:293
+#: ../e-util/e-datetime-format.c:302
 msgid "Use locale default"
-msgstr "Utilitza els paràmetres p_redeterminats del sistema"
+msgstr "Utilitza els valors predeterminats de la localització"
 
-#: ../e-util/e-datetime-format.c:494
-#, fuzzy
+#: ../e-util/e-datetime-format.c:496
 msgid "Format:"
-msgstr "Format"
+msgstr "Format:"
 
 #: ../e-util/e-error.c:78 ../e-util/e-error.c:79 ../e-util/e-error.c:121
 msgid "Evolution Error"
@@ -10144,9 +10185,9 @@ msgid ""
 msgstr ""
 "El sistema d'impressió no ha llistat cap detall addicional sobre l'error."
 
-#: ../e-util/e-signature.c:690
+#: ../e-util/e-signature.c:695
 msgid "Autogenerated"
-msgstr "Generat automàticament"
+msgstr "Generada automàticament"
 
 #: ../e-util/e-system.error.xml.h:1 ../mail/mail.error.xml.h:19
 msgid "Because \"{1}\"."
@@ -10366,56 +10407,56 @@ msgstr "Escolliu un fitxer"
 msgid "Test"
 msgstr "Prova"
 
-#: ../filter/filter-rule.c:854
+#: ../filter/filter-rule.c:858
 msgid "R_ule name:"
 msgstr "Nom de la _regla:"
 
-#: ../filter/filter-rule.c:882
+#: ../filter/filter-rule.c:886
 msgid "Find items that meet the following conditions"
 msgstr "Troba els elements que compleixen les condicions següents"
 
-#: ../filter/filter-rule.c:916
+#: ../filter/filter-rule.c:920
 msgid "A_dd Condition"
 msgstr "Afegeix una _condició"
 
-#: ../filter/filter-rule.c:922
+#: ../filter/filter-rule.c:926
 msgid "If all conditions are met"
 msgstr "Si es compleixen totes les condicions"
 
-#: ../filter/filter-rule.c:922
+#: ../filter/filter-rule.c:926
 msgid "If any conditions are met"
 msgstr "Si es compleix qualsevol condició"
 
-#: ../filter/filter-rule.c:924
+#: ../filter/filter-rule.c:928
 msgid "_Find items:"
 msgstr "_Cerca elements:"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "All related"
 msgstr "Tots els relacionats"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "Replies"
 msgstr "Respostes"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "Replies and parents"
 msgstr "Respostes i pares"
 
-#: ../filter/filter-rule.c:942
+#: ../filter/filter-rule.c:946
 msgid "No reply or parent"
 msgstr "Sense resposta o pare"
 
-#: ../filter/filter-rule.c:944
+#: ../filter/filter-rule.c:948
 msgid "I_nclude threads"
 msgstr "I_nclou els fils"
 
-#: ../filter/filter-rule.c:1038 ../filter/filter.glade.h:3
+#: ../filter/filter-rule.c:1042 ../filter/filter.glade.h:3
 #: ../mail/em-utils.c:309
 msgid "Incoming"
 msgstr "Entrada"
 
-#: ../filter/filter-rule.c:1038 ../mail/em-utils.c:310
+#: ../filter/filter-rule.c:1042 ../mail/em-utils.c:310
 msgid "Outgoing"
 msgstr "Sortida"
 
@@ -10500,11 +10541,12 @@ msgstr ""
 "actual quan s'hagi de filtrar."
 
 #: ../filter/filter.glade.h:12
-#, fuzzy
 msgid ""
 "ago\n"
 "in the future"
-msgstr "en el futur"
+msgstr ""
+"en el passat\n"
+"en el futur"
 
 #: ../filter/filter.glade.h:14
 msgid ""
@@ -10516,14 +10558,23 @@ msgid ""
 "months\n"
 "years"
 msgstr ""
+"segons\n"
+"minuts\n"
+"hores\n"
+"dies\n"
+"setmanes\n"
+"mesos\n"
+"anys"
 
 #: ../filter/filter.glade.h:21
-#, fuzzy
 msgid ""
 "the current time\n"
 "the time you specify\n"
 "a time relative to the current time"
-msgstr "una hora relativa a l'actual"
+msgstr ""
+"l'hora actual\n"
+"l'hora que especifiqueu\n"
+"una hora relativa a l'actual"
 
 #: ../filter/rule-editor.c:381
 msgid "Add Rule"
@@ -10629,9 +10680,9 @@ msgstr "_Respon al remitent"
 
 #. Translators: This is only for multiple messages.
 #: ../mail/e-attachment-handler-mail.c:334
-#, fuzzy, c-format
+#, c-format
 msgid "%d attached messages"
-msgstr "Missatge adjunt"
+msgstr "%d missatges adjunts"
 
 #: ../mail/e-mail-attachment-bar.c:122 ../mail/em-format-html-display.c:1642
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:147
@@ -10642,15 +10693,13 @@ msgstr[1] "Fitxers adjunts"
 
 #: ../mail/e-mail-attachment-bar.c:615
 #: ../widgets/misc/e-attachment-paned.c:607
-#, fuzzy
 msgid "Icon View"
-msgstr "Visualització mensual"
+msgstr "Vista d'icones"
 
 #: ../mail/e-mail-attachment-bar.c:616
 #: ../widgets/misc/e-attachment-paned.c:608
-#, fuzzy
 msgid "List View"
-msgstr "Visua_lització de llista"
+msgstr "Vista de llista"
 
 #: ../mail/e-mail-search-bar.c:76
 #, c-format
@@ -10658,18 +10707,16 @@ msgid "Matches: %d"
 msgstr "Concordances: %d"
 
 #: ../mail/e-mail-search-bar.c:520
-#, fuzzy
 msgid "Close the find bar"
-msgstr "Tanca aquesta finestra"
+msgstr "Tanca la barra de cerca"
 
 #: ../mail/e-mail-search-bar.c:528
 msgid "Fin_d:"
 msgstr "Ce_rca:"
 
 #: ../mail/e-mail-search-bar.c:540
-#, fuzzy
 msgid "Clear the search"
-msgstr "Cerca sempre"
+msgstr "Neteja la cerca"
 
 #: ../mail/e-mail-search-bar.c:559
 msgid "_Previous"
@@ -10677,7 +10724,7 @@ msgstr "_Anterior"
 
 #: ../mail/e-mail-search-bar.c:565
 msgid "Find the previous occurrence of the phrase"
-msgstr ""
+msgstr "Cerca l'ocurrència anterior de la frase"
 
 #: ../mail/e-mail-search-bar.c:573
 msgid "_Next"
@@ -10685,20 +10732,19 @@ msgstr "_Següent"
 
 #: ../mail/e-mail-search-bar.c:579
 msgid "Find the next occurrence of the phrase"
-msgstr ""
+msgstr "Cerca l'ocurrència posterior de la frase"
 
 #: ../mail/e-mail-search-bar.c:587
-#, fuzzy
 msgid "Mat_ch case"
 msgstr "Concord_ança de majúscules i minúscules"
 
 #: ../mail/e-mail-search-bar.c:615
 msgid "Reached bottom of page, continued from top"
-msgstr ""
+msgstr "S'ha arribat al final de la pàgina, es continua des de l'inici"
 
 #: ../mail/e-mail-search-bar.c:637
 msgid "Reached top of page, continued from bottom"
-msgstr ""
+msgstr "S'ha arribat a l'inici de la pàgina, es continua des del final"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -10763,43 +10809,43 @@ msgstr "Identitat"
 msgid "Receiving Email"
 msgstr "Recepció de correu"
 
-#: ../mail/em-account-editor.c:2200
+#: ../mail/em-account-editor.c:2216
 msgid "Check for _new messages every"
 msgstr "Comprova si hi ha correu _nou cada"
 
-#: ../mail/em-account-editor.c:2208
+#: ../mail/em-account-editor.c:2224
 msgid "minu_tes"
 msgstr "minu_ts"
 
-#: ../mail/em-account-editor.c:2398 ../mail/mail-config.glade.h:138
+#: ../mail/em-account-editor.c:2420 ../mail/mail-config.glade.h:138
 msgid "Sending Email"
 msgstr "Enviament de correu"
 
-#: ../mail/em-account-editor.c:2457 ../mail/mail-config.glade.h:73
+#: ../mail/em-account-editor.c:2479 ../mail/mail-config.glade.h:73
 msgid "Defaults"
 msgstr "Opcions predeterminades"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2523 ../mail/mail-config.glade.h:133
+#: ../mail/em-account-editor.c:2545 ../mail/mail-config.glade.h:133
 #: ../plugins/exchange-operations/exchange-account-setup.c:329
 msgid "Security"
 msgstr "Seguretat"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2560 ../mail/em-account-editor.c:2655
+#: ../mail/em-account-editor.c:2582 ../mail/em-account-editor.c:2677
 msgid "Receiving Options"
 msgstr "Opcions de recepció"
 
-#: ../mail/em-account-editor.c:2561 ../mail/em-account-editor.c:2656
+#: ../mail/em-account-editor.c:2583 ../mail/em-account-editor.c:2678
 msgid "Checking for New Messages"
 msgstr "Comprovació de correu nou"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Editor de comptes"
 
-#: ../mail/em-account-editor.c:3123 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:3145 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
 msgstr "Auxiliar per als comptes de l'Evolution"
 
@@ -10959,9 +11005,8 @@ msgid "Follow Up"
 msgstr "Respondre"
 
 #: ../mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "Forward to"
-msgstr "Reenvia"
+msgstr "Reenvia a"
 
 #: ../mail/em-filter-i18n.h:30 ../mail/em-migrate.c:958
 msgid "Important"
@@ -11029,9 +11074,8 @@ msgid "Message is not Junk"
 msgstr "El missatge no és brossa"
 
 #: ../mail/em-filter-i18n.h:50
-#, fuzzy
 msgid "Message Location"
-msgstr "El missatge conté"
+msgstr "Ubicació del missatge"
 
 #: ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
@@ -11294,10 +11338,10 @@ msgstr "S'està carregant..."
 #. * name appears in either direction.
 #.
 #: ../mail/em-folder-tree.c:318
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (%u)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:727
 msgid "Mail Folder Tree"
@@ -11529,9 +11573,9 @@ msgstr "Fil_tre a partir de la llista de correu"
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2232 ../mail/em-folder-view.c:2275
-#: ../plugins/google-account-setup/google-source.c:303
-#: ../plugins/google-account-setup/google-source.c:593
-#: ../plugins/google-account-setup/google-source.c:764
+#: ../plugins/google-account-setup/google-source.c:304
+#: ../plugins/google-account-setup/google-source.c:613
+#: ../plugins/google-account-setup/google-source.c:784
 msgid "Default"
 msgstr "Predeterminat"
 
@@ -11687,7 +11731,6 @@ msgid "This certificate is not viewable"
 msgstr "No es pot visualitzar aquest certificat"
 
 #: ../mail/em-format-html-display.c:980
-#, fuzzy
 msgid "Completed on"
 msgstr "Completat el"
 
@@ -11698,7 +11741,7 @@ msgstr "Vençut:"
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:992
 msgid "by"
-msgstr ""
+msgstr "el"
 
 #: ../mail/em-format-html-display.c:1071
 #: ../widgets/misc/e-attachment-view.c:357
@@ -11950,9 +11993,8 @@ msgid "No Junk plugin available"
 msgstr "No hi ha cap connector de correu brossa disponible"
 
 #: ../mail/em-mailer-prefs.c:1455
-#, fuzzy
 msgid "Date header:"
-msgstr "Capçalera de la taula"
+msgstr "Capçalera de la data:"
 
 #. green
 #: ../mail/em-migrate.c:961
@@ -12090,7 +12132,7 @@ msgstr "Carpeta"
 #. FIXME: This is just to get the shadow, is there a better way?
 #: ../mail/em-subscribe-editor.c:858
 msgid "Please select a server."
-msgstr "Heu de seleccionar un servidor."
+msgstr "Seleccioneu un servidor."
 
 #: ../mail/em-subscribe-editor.c:894
 msgid "No server has been selected"
@@ -12359,6 +12401,9 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
+"Habilita les imatges animades en els correus de format HTML. Molts usuaris "
+"les troben empipadores i prefereixen utilitzar una imatge estàtica en lloc "
+"d'elles."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -12371,9 +12416,8 @@ msgid "Enable or disable magic space bar"
 msgstr "Habilita o inhabilita la tecla d'espai màgica"
 
 #: ../mail/evolution-mail.schemas.in.h:50
-#, fuzzy
 msgid "Enable or disable the prompt whilst marking multiple messages."
-msgstr "Habilita/inhabilita preguntar en marcar múltiples missatges."
+msgstr "Habilita/inhabilita la pregunta en marcar múltiples missatges."
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Enable or disable type ahead search feature"
@@ -12392,6 +12436,8 @@ msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
+"Habilita la funció de cerca de la barra lateral per a permetre la cerca "
+"interactiva de noms de carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid ""
@@ -12416,7 +12462,6 @@ msgid "Encode file names in an Outlook/GMail way"
 msgstr "Codifica els noms de fitxer tal com ho fan l'Outlook i el GMail"
 
 #: ../mail/evolution-mail.schemas.in.h:59
-#, fuzzy
 msgid ""
 "Encode file names in the mail headers same as Outlook or GMail do, to let "
 "them display correctly file names with UTF-8 letters sent by Evolution, "
@@ -12424,9 +12469,9 @@ msgid ""
 "standard."
 msgstr ""
 "Codifica els noms de fitxer en les capçaleres de correu de la mateixa manera "
-"que l'Outlook o el GMail, de manera que aquests entenguin els noms de fitxer "
-"localitzats enviats amb l'Evolution. Això cal fer-ho perquè no segueixen "
-"l'RFC 2231, sinó que utilitzen l'estàndard incorrecte RFC 2047."
+"que ho fan l'Outlook o el GMail, de manera que aquests mostrin correctament "
+"els noms de fitxer amb UTF-8 enviats amb l'Evolution. Això cal fer-ho perquè "
+"no segueixen l'RFC 2231, sinó que utilitzen l'estàndard incorrecte RFC 2047."
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "Height of the message-list pane"
@@ -12714,12 +12759,11 @@ msgstr "Pregunta en marcar múltiples missatges"
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Posa signatures personalitzades a la part superior de les respostes"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Put the cursor at the bottom of replies"
-msgstr "Inicia la redac_ció al final en respondre"
+msgstr "Posa el cursor al final del missatge en respondre"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Recognize emoticons in text and replace them with images."
@@ -12760,29 +12804,27 @@ msgstr "Interval de sincronització amb el servidor"
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show \"Bcc\" field when sending a mail message"
-msgstr ""
+msgstr "Mostra el camp «CCO» en enviar un missatge de correu"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show \"Cc\" field when sending a mail message"
-msgstr ""
+msgstr "Mostra el camp «CC» en enviar un missatge de correu"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 msgid "Show \"From\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Mostra el camp «De» en enviar un missatge a un grup de notícies"
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show \"From\" field when sending a mail message"
-msgstr ""
+msgstr "Mostra el camp «De» en enviar un missatge de correu"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr ""
+msgstr "Mostra el camp «Respon a» en enviar un missatge a un grup de notícies"
 
-# «to self» vol dir «amb la meva clau» - dpm
 #: ../mail/evolution-mail.schemas.in.h:129
-#, fuzzy
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "Xi_fra també per a mi quan enviï correu xifrat"
+msgstr "Mostra el camp «Respon a» en enviar un missatge de correu"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -12803,9 +12845,8 @@ msgid "Show deleted messages in the message-list"
 msgstr "Mostra els missatges suprimits a la llista de missatges"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid "Show image animations"
-msgstr "M_ostra les animacions"
+msgstr "Mostra les animacions de les imatges"
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "Show photo of the sender"
@@ -12816,36 +12857,50 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Mostra el camp «CCO» en enviar un missatge de correu. Aquest paràmetre es "
+"controla des del menú Visualitza en seleccionar un compte de correu."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Mostra el camp «CC» en enviar un missatge de correu. Aquest paràmetre es "
+"controla des del menú Visualitza en seleccionar un compte de correu."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
+"Mostra el camp «De» en enviar un missatge a un grup de notícies. Aquest "
+"paràmetre es controla des del menú Visualitza en seleccionar un compte de "
+"grup de notícies."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
+"Mostra el camp «De» en enviar un missatge de correu. Aquest paràmetre es "
+"controla des del menú Visualitza en seleccionar un compte de correu."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
+"Mostra el camp «Respon a» en enviar un missatge a un grup de notícies. Aquest "
+"paràmetre es controla des del menú Visualitza en seleccionar un compte de "
+"grup de notícies."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
 msgstr ""
+"Mostra el camp «Respon a» en enviar un missatge de correu. Aquest paràmetre "
+"es controla des del menú Visualitza en seleccionar un compte de correu."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -13063,6 +13118,9 @@ msgid ""
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"Els usuaris tenen diferents preferències sobre on s'ha de situar el cursor "
+"en respondre a un missatge. Aquest paràmetre determina si el cursor s'ha de "
+"posicionar a l'inici o al final del missatge."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -13070,6 +13128,9 @@ msgid ""
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"Els usuaris tenen diferents preferències sobre on s'ha de situar la "
+"signatura en respondre a un missatge. Aquest paràmetre determina si la "
+"signatura s'ha de posicionar a l'inici o al final del missatge."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13439,12 +13500,14 @@ msgid "Always request rea_d receipt"
 msgstr "Envia sempre una confirmació de _lectura"
 
 #: ../mail/mail-config.glade.h:45
-#, fuzzy
 msgid ""
 "Attachment\n"
 "Inline\n"
 "Quoted"
-msgstr "Recordatori d'adjuncions"
+msgstr ""
+"Adjunció\n"
+"En línia\n"
+"Citat"
 
 #: ../mail/mail-config.glade.h:48
 msgid ""
@@ -13453,6 +13516,10 @@ msgid ""
 "Quoted\n"
 "Do not quote"
 msgstr ""
+"Adjunció\n"
+"En línia (a l'estil de l'Outlook)\n"
+"Citat\n"
+"Sense citar"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Automatically insert _emoticon images"
@@ -13625,6 +13692,8 @@ msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
 msgstr ""
+"Si el servidor utilitza un port no estàndard, especifiqueu l'adreça del "
+"servidor en el format «nom-del-servidor:número-de-port»"
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -13692,18 +13761,16 @@ msgid "Pass_word:"
 msgstr "Contrasen_ya:"
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Please configure the following account settings."
-msgstr "Seleccioneu alguna de les següents opcions"
+msgstr "Configureu els següents paràmetres del compte."
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
 msgstr ""
-"Introduïu un nom descriptiu per a aquest compte aquí sota.\n"
-"Aquest nom només s'utilitzarà per a visualitzar-lo."
+"Introduïu un nom descriptiu per a aquest compte aquí sota. Aquest nom només "
+"s'utilitzarà per a visualitzar-lo."
 
 #: ../mail/mail-config.glade.h:121
 msgid ""
@@ -13788,7 +13855,6 @@ msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requereix autenticació"
 
 #: ../mail/mail-config.glade.h:142
-#, fuzzy
 msgid "Server _Type:"
 msgstr "_Tipus de servidor:"
 
@@ -13817,7 +13883,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Inicia la redac_ció al final en respondre"
 
 #: ../mail/mail-config.glade.h:149
-#, fuzzy
 msgid "T_ype:"
 msgstr "T_ipus:"
 
@@ -13830,14 +13895,12 @@ msgstr ""
 "un diccionari."
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
-"La sortida d'aquest script serà utilitzada\n"
-"per a la vostra signatura. El nom que especifiqueu\n"
-"només s'utilitzarà per a visualitzar-lo."
+"La sortida d'aquest script serà utilitzada per a la vostra signatura.\n"
+"El nom que especifiqueu només s'utilitzarà per a visualitzar-lo."
 
 #: ../mail/mail-config.glade.h:153
 msgid ""
@@ -13856,7 +13919,7 @@ msgid "Use Authe_ntication"
 msgstr "Utilitza au_tenticació"
 
 #: ../mail/mail-config.glade.h:157 ../plugins/caldav/caldav-source.c:405
-#: ../plugins/google-account-setup/google-source.c:681
+#: ../plugins/google-account-setup/google-source.c:701
 #: ../plugins/google-account-setup/google-contacts-source.c:280
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
 msgid "User_name:"
@@ -13867,7 +13930,6 @@ msgid "V_ariable-width:"
 msgstr "_Amplada variable:"
 
 #: ../mail/mail-config.glade.h:159
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13876,7 +13938,7 @@ msgstr ""
 "Us donem la benvinguda a l'auxiliar de configuració del correu de "
 "l'Evolution.\n"
 "\n"
-"Feu clic a «Endavant» per a començar. "
+"Feu clic a «Endavant» per a començar."
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Add Signature"
@@ -14333,26 +14395,26 @@ msgstr "Edita la signatura"
 msgid "_Signature Name:"
 msgstr "Nom de la _signatura:"
 
-#: ../mail/mail-tools.c:120
+#: ../mail/mail-tools.c:134
 #, c-format
 msgid "Could not create spool directory `%s': %s"
 msgstr "No s'ha pogut crear el directori de cues «%s»: %s"
 
-#: ../mail/mail-tools.c:150
+#: ../mail/mail-tools.c:164
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "S'està intentant moure correus d'una font no mbox «%s»"
 
-#: ../mail/mail-tools.c:256
+#: ../mail/mail-tools.c:270
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Missatge reenviat - %s"
 
-#: ../mail/mail-tools.c:258
+#: ../mail/mail-tools.c:272
 msgid "Forwarded message"
 msgstr "Missatge reenviat"
 
-#: ../mail/mail-tools.c:298
+#: ../mail/mail-tools.c:312
 #, c-format
 msgid "Invalid folder: `%s'"
 msgstr "La carpeta no és vàlida: «%s»"
@@ -15084,6 +15146,8 @@ msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr ""
+"Aquesta carpeta només conté missatges ocults. Utilitzeu l'entrada de menú "
+"«Visualitza->Mostra els missatges amagats» per a mostrar-los."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -15180,9 +15244,8 @@ msgid "Subject contains"
 msgstr "L'assumpte conté"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Addresses contains"
-msgstr "L'assumpte o el remitent conté"
+msgstr "L'assumpte o les adreces contenen"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Recipients contains"
@@ -15193,9 +15256,8 @@ msgid "Subject or Sender contains"
 msgstr "L'assumpte o el remitent conté"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
-#, fuzzy
 msgid "Add local address books to Evolution."
-msgstr "Llista les carpetes de llibretes d'adreces locals"
+msgstr "Afegeix llibretes d'adreces locals a l'Evolution."
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
 msgid "Local Address Books"
@@ -15230,6 +15292,8 @@ msgstr "Recordatori d'adjuncions"
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr ""
+"Us mostra un recordatori si heu oblidat d'afegir una adjunció a un missatge "
+"de correu."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
@@ -15252,13 +15316,12 @@ msgid "_Edit Message"
 msgstr "_Edita el missatge"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Audio Inline"
-msgstr "Connector d'àudio"
+msgstr "Àudio en línia"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Play audio attachments directly from Evolution."
-msgstr ""
+msgstr "Reprodueix les adjuncions d'àudio directament des de l'Evolution."
 
 #: ../plugins/backup-restore/backup-restore.c:139
 msgid "Select name of the Evolution backup file"
@@ -15283,17 +15346,15 @@ msgid "Restore from backup"
 msgstr "Restaura a partir de la còpia de seguretat"
 
 #: ../plugins/backup-restore/backup-restore.c:289
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
 "Podeu restaurar l'Evolution a partir de la còpia de seguretat, la qual "
-"permet restaurar tots els correus, calendaris, tasques, anotacions i "
-"llibretes d'adreces. \n"
-"També possibilita la restauració de la vostra configuració personal, filtres "
-"de correu, etc."
+"permet restaurar tots els correus, els calendaris, les tasques, les "
+"anotacions i els contactes. També permet la restauració de la vostra "
+"configuració personal, els filtres de correu, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:297
 msgid "_Restore Evolution from the backup file"
@@ -15421,14 +15482,12 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and Restore"
-msgstr "Connector per a copiar i restaurar"
+msgstr "Còpia de seguretat i restauració"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Copia i restaura les dades i la configuració de l'Evolution"
+msgstr "Copia i restaura les dades i la configuració de l'Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -15505,10 +15564,8 @@ msgstr "Contactes automàtics"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:646
-#, fuzzy
 msgid "Create _address book entries when sending mails"
-msgstr ""
-"Crea _automàticament entrades a la llibreta d'adreces en respondre correus"
+msgstr "Crea _entrades a la llibreta d'adreces en enviar correus"
 
 #: ../plugins/bbdb/bbdb.c:652
 msgid "Select Address book for Automatic Contacts"
@@ -15539,7 +15596,6 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
@@ -15547,7 +15603,9 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Omple automàticament la llibreta d'adreces amb noms i adreces de correu en "
+"Facilita la gestió de la llibreta d'adreces.\n"
+"\n"
+"Emplena automàticament la llibreta d'adreces amb noms i adreces de correu en "
 "respondre als correus. També omple la informació de contactes de missatgeria "
 "instantània a partir de la vostra llista d'amics."
 
@@ -15592,16 +15650,14 @@ msgstr ""
 "unificar els elements d'spam/ham provinents de jocs de caràcters diferents."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Bogofilter Junk Filter"
-msgstr "Connector de correu brossa del Bogofilter"
+msgstr "Filtrador de correu brossa Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter Options"
 msgstr "Opcions del Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
-#, fuzzy
 msgid "Filter junk messages using Bogofilter."
 msgstr "Filtra els missatges de correu brossa amb el Bogofilter."
 
@@ -15621,68 +15677,62 @@ msgstr "Utilitza l'_SSL"
 
 #. add refresh option
 #: ../plugins/caldav/caldav-source.c:433
-#: ../plugins/calendar-file/calendar-file.c:267
+#: ../plugins/calendar-file/calendar-file.c:274
 #: ../plugins/calendar-http/calendar-http.c:308
 #: ../plugins/calendar-weather/calendar-weather.c:508
-#: ../plugins/google-account-setup/google-source.c:698
+#: ../plugins/google-account-setup/google-source.c:718
 #: ../plugins/google-account-setup/google-contacts-source.c:322
 msgid "Re_fresh:"
 msgstr "Re_fresca:"
 
 #: ../plugins/caldav/caldav-source.c:451
-#: ../plugins/calendar-file/calendar-file.c:289
+#: ../plugins/calendar-file/calendar-file.c:296
 #: ../plugins/calendar-http/calendar-http.c:326
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:723
+#: ../plugins/google-account-setup/google-source.c:743
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 msgid "weeks"
 msgstr "setmanes"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr ""
+msgstr "Afegeix compatibilitat amb el CalDAV a l'Evolution."
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
-#, fuzzy
 msgid "CalDAV Support"
-msgstr "Fonts del CalDAV"
+msgstr "Compatibilitat CalDAV"
 
-#: ../plugins/calendar-file/calendar-file.c:204
-#, fuzzy
+#: ../plugins/calendar-file/calendar-file.c:208
 msgid "_Customize options"
-msgstr "%s - Evolution"
+msgstr "_Presonalitza les opcions"
 
-#: ../plugins/calendar-file/calendar-file.c:224
-#, fuzzy
+#: ../plugins/calendar-file/calendar-file.c:227
 msgid "File _name:"
-msgstr "Nom del fitxer:"
+msgstr "_Nom del fitxer:"
 
-#: ../plugins/calendar-file/calendar-file.c:228
-#, fuzzy
+#: ../plugins/calendar-file/calendar-file.c:231
 msgid "Choose calendar file"
-msgstr "Escolliu un fitxer"
+msgstr "Escolliu un fitxer de calendari"
 
-#: ../plugins/calendar-file/calendar-file.c:272
-#, fuzzy
+#: ../plugins/calendar-file/calendar-file.c:279
 msgid "On open"
-msgstr "Obre"
+msgstr "En obrir"
 
-#: ../plugins/calendar-file/calendar-file.c:273
+#: ../plugins/calendar-file/calendar-file.c:280
 msgid "On file change"
-msgstr ""
+msgstr "En produir-se canvis al fitxer"
 
-#: ../plugins/calendar-file/calendar-file.c:274
-#, fuzzy
+#: ../plugins/calendar-file/calendar-file.c:281
 msgid "Periodically"
-msgstr "Personal"
+msgstr "De manera periòdica"
 
-#: ../plugins/calendar-file/calendar-file.c:301
+#: ../plugins/calendar-file/calendar-file.c:308
 msgid "Force read _only"
-msgstr ""
+msgstr "Força la n_omés lectura"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
-msgstr ""
+msgstr "Afegeix calendaris locals a l'Evolution."
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Local Calendars"
@@ -15698,12 +15748,11 @@ msgstr "Nom d'_usuari:"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "Add web calendars to Evolution."
-msgstr ""
+msgstr "Afegeix calendaris web a l'Evolution."
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
-#, fuzzy
 msgid "Web Calendars"
-msgstr "Calendaris"
+msgstr "Calendaris web"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
@@ -15759,21 +15808,19 @@ msgstr "Imperials (Fahrenheit, polzades, etc)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Add weather calendars to Evolution."
-msgstr ""
+msgstr "Afegiu calendaris meteorològics a l'Evolution."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
 msgid "Weather Calendars"
 msgstr "Calendaris meteorològics"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
-#, fuzzy
 msgid "Copy Tool"
 msgstr "Eina de còpia"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy things to the clipboard."
-msgstr "Copia la selecció al porta-retalls"
+msgstr "Copia elements al porta-retalls."
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -15786,24 +15833,17 @@ msgstr ""
 "Comprova si l'Evolution és el gestor de correu predeterminat en iniciar."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
-#, fuzzy
 msgid "Check whether Evolution is the default mail client on startup."
 msgstr ""
 "Comprova si l'Evolution és el gestor de correu predeterminat en iniciar."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
-#, fuzzy
 msgid "Default Mail Client"
-msgstr "Client de correu predeterminat "
+msgstr "Client de correu predeterminat"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "Voleu que l'Evolution sigui el vostre gestor de correu predeterminat?"
-
-#: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:627
-msgid "Evolution"
-msgstr "Evolution"
 
 #: ../plugins/default-source/default-source.c:80
 msgid "Mark as _default address book"
@@ -15828,6 +15868,7 @@ msgstr "Fonts predeterminades"
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
 msgstr ""
+"Marqueu la llibreta d'adreces i el calendari preferits com a predeterminats."
 
 #: ../plugins/email-custom-header/email-custom-header.c:333
 msgid "Security:"
@@ -15878,9 +15919,8 @@ msgstr "Capçalera personalitzada de correu electrònic"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
-#, fuzzy
 msgid "Add custom headers to outgoing mail messages."
-msgstr "Afegeix una capçalera personalitzada als missatges que s'enviïn."
+msgstr "Afegeix capçaleres personalitzades als missatges que s'enviïn."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
@@ -16014,7 +16054,7 @@ msgstr "A_utenticació"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:774
 msgid "Mailbox name is _different than user name"
-msgstr ""
+msgstr "El nom de la bústia de correu és _diferent del nom de l'usuari"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:787
 msgid "_Mailbox:"
@@ -16215,6 +16255,10 @@ msgid ""
 "Author (read, create)\n"
 "Editor (read, create, edit)"
 msgstr ""
+"Cap\n"
+"Revisor (només lectura)\n"
+"Autor (lectura, creació)\n"
+"Editor (lectura, creació, edició)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Permissions for"
@@ -16499,7 +16543,7 @@ msgstr "Subscriu-me al calendari d'un altre usuari"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid "Activates the Evolution-Exchange extension package."
-msgstr ""
+msgstr "Activa el paquet d'extensió de l'Evolution-Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -16773,7 +16817,7 @@ msgid "Unknown error looking up {0}"
 msgstr "S'ha produït un error desconegut en cercar {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #: ../plugins/mail-to-task/mail-to-task.c:821
 msgid "Unknown error."
@@ -16861,11 +16905,12 @@ msgstr "Comproveu els permisos de la carpeta"
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
 msgstr ""
+"Inicia automàticament l'editor en prémer una tecla al redactor de correu"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "Inicia'l automàticament en editar un correu nou"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
 msgid "Default External Editor"
@@ -16880,11 +16925,8 @@ msgid "External Editor"
 msgstr "Editor extern"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
-#, fuzzy
 msgid "Use an external editor to compose plain-text mail messages."
-msgstr ""
-"Un connector per a utilitzar un editor extern com a redactor. Només podreu "
-"enviar missatges de text pla."
+msgstr "Utilitzeu un editor extern com a redactor de missatges de text pla."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:1
 msgid "Cannot create Temporary File"
@@ -16903,15 +16945,16 @@ msgstr ""
 "Torneu-ho a provar d'aquí a una estona."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
-#, fuzzy
 msgid "External editor still running"
-msgstr "Editor extern"
+msgstr "Encara s'està executant l'editor extern"
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"Encara s'està executant l'editor extern. No es podrà tancar la finestra del "
+"redactor del correu mentre l'editor sigui actiu."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -16926,19 +16969,17 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Ordre a executar per a iniciar l'editor: "
 
 #: ../plugins/external-editor/external-editor.c:110
-#, fuzzy
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim -f\""
 msgstr ""
 "Utilitzeu «xemacs» per a l'Emacs\n"
-"Utilitzeu «gvim» per al VI"
+"Utilitzeu «gvim -f» per al VI"
 
 #: ../plugins/external-editor/external-editor.c:354
 #: ../plugins/external-editor/external-editor.c:356
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "Redacció en un editor e_xtern"
+msgstr "Redacció en un editor extern"
 
 #: ../plugins/face/face.c:59
 msgid "Select a (48*48) png of size < 700bytes"
@@ -16953,7 +16994,6 @@ msgid "_Face"
 msgstr "_Cara"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Attach a small picture of your face to outgoing messages.\n"
 "\n"
@@ -16961,10 +17001,12 @@ msgid ""
 "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
 "sent messages."
 msgstr ""
-"Adjunta una capçalera Face (cara) als correus de sortida. La primera vegada "
-"l'usuari haurà de configurar una imatge de 48 x 48 píxels codificada en "
-"base64, la qual s'haurà de desar a ~/.evolution/faces. A partir d'aquí "
-"aquesta imatge s'utilitzarà per a tots els correus enviats."
+"Adjunta una petita imatge de la vostra cara als correus de sortida.\n"
+"\n"
+"La primera vegada l'usuari haurà de configurar una imatge PNG de 48x48 "
+"píxels codificada en Base-64, la qual s'haurà d'emmagatzemar a ~/.evolution/"
+"faces. A partir d'aquí aquesta imatge s'utilitzarà per a tots els correus "
+"enviats."
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:53
 #, c-format
@@ -16979,24 +17021,26 @@ msgstr "Cancel·la les subscripcions a carpetes"
 msgid ""
 "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
 msgstr ""
+"Cancel·leu la subscripció a una carpeta IMAP en fer-hi clic amb el botó "
+"secundari en l'arbre de carpetes."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
 msgstr "Cancel·la la s_ubscripció"
 
-#: ../plugins/google-account-setup/google-source.c:81
+#: ../plugins/google-account-setup/google-source.c:82
 #: ../plugins/google-account-setup/google-contacts-source.c:51
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:499
+#: ../plugins/google-account-setup/google-source.c:518
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduïu la contrasenya de l'usuari %s per a accedir a la llista de "
 "subscripcions a calendaris."
 
-#: ../plugins/google-account-setup/google-source.c:604
+#: ../plugins/google-account-setup/google-source.c:624
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17005,11 +17049,11 @@ msgstr ""
 "No es poden llegir les dades del servidor del Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:739
+#: ../plugins/google-account-setup/google-source.c:759
 msgid "Cal_endar:"
 msgstr "_Calendari:"
 
-#: ../plugins/google-account-setup/google-source.c:774
+#: ../plugins/google-account-setup/google-source.c:794
 msgid "Retrieve _list"
 msgstr "Recupera la _llista"
 
@@ -17020,12 +17064,11 @@ msgstr "<b>Servidor</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr ""
+msgstr "Afegiu calendaris del Google a l'Evolution."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
-#, fuzzy
 msgid "Google Calendars"
-msgstr "Calendari del Gnome"
+msgstr "Calendaris del Google"
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:450
 msgid "Checklist"
@@ -17033,7 +17076,7 @@ msgstr "Llista de comprovació"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "Add Novell GroupWise support to Evolution."
-msgstr ""
+msgstr "Afegeix compatibilitat amb el GroupWise de Novell a l'Evolution."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
@@ -17130,9 +17173,8 @@ msgid "Add Send Options to GroupWise messages"
 msgstr "Afegeix opcions d'enviament als missatges del GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#, fuzzy
 msgid "Fine-tune your GroupWise accounts."
-msgstr "Un connector per a les característiques dels comptes GroupWise"
+msgstr "Ajusteu els paràmetres del comptes GroupWise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "GroupWise Features"
@@ -17204,25 +17246,20 @@ msgstr ""
 "Heu d'especificar el nom de l'usuari al qual vulgueu afegir a la llista"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#, fuzzy
 msgid "Do you want to resend the meeting ?"
-msgstr "Segur que voleu suprimir aquesta reunió?"
+msgstr "Voleu tornar a enviar aquesta reunió?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 msgid "Do you want to resend the recurring meeting ?"
-msgstr "Segur que voleu suprimir aquesta reunió?"
+msgstr "Voleu tornar a enviar aquesta reunió periòdica?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 msgid "Do you want to retract the original item ?"
-msgstr "Segur que voleu suprimir l'anotació «{0}»?"
+msgstr "Voleu retirar l'element original?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
-#, fuzzy
 msgid "The original will be removed from the recipient's mailbox."
-msgstr ""
-"Voleu suprimir aquest element _de totes les bústies dels altres destinataris?"
+msgstr "Se suprimirà l'original de la bústia de correu del destinatari."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
 msgid "This is a recurring meeting"
@@ -17231,12 +17268,16 @@ msgstr "Aquesta és una reunió periòdica"
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
 msgstr ""
+"Aquesta acció crearà una reunió nova a partir dels detalls de la reunió "
+"existent."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
 msgid ""
 "This will create a new meeting with the existing meeting details. The "
 "recurrence rule needs to be re-entered."
 msgstr ""
+"Aquesta acció crearà una reunió nova a partir dels detalls de la reunió "
+"existent. Haureu de tornar a introduir la regla de periodicitat."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
@@ -17253,9 +17294,8 @@ msgid "Accept Tentatively"
 msgstr "Accepta provisionalment"
 
 #: ../plugins/groupwise-features/process-meeting.c:319
-#, fuzzy
 msgid "Rese_nd Meeting..."
-msgstr "_Delega una reunió..."
+msgstr "Tor_na a enviar una reunió..."
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
@@ -17471,11 +17511,11 @@ msgstr "Segueix l'estat del missatge..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "Add Hula support to Evolution."
-msgstr ""
+msgstr "Afegeix compatibilitat amb Hula a l'Evolution."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Support"
-msgstr ""
+msgstr "Compatibilitat amb Hula"
 
 #: ../plugins/imap-features/imap-headers.c:332
 msgid "Custom Headers"
@@ -17524,13 +17564,12 @@ msgstr ""
 "Useu això si no teniu filtres basats en llistes de correu"
 
 #: ../plugins/imap-features/imap-headers.glade.h:10
-#, fuzzy
 msgid "_Fetch All Headers"
 msgstr "Obté totes _les capçaleres"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "Fine-tune your IMAP accounts."
-msgstr ""
+msgstr "Ajusteu els paràmetres dels comptes IMAP."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -17570,9 +17609,8 @@ msgid "Synchronize to iPod"
 msgstr "Sincronitza l'iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
-#, fuzzy
 msgid "Synchronize your data with your Apple iPod."
-msgstr "Sincronitza l'iPod"
+msgstr "Sincronitzeu les vostres dades amb l'iPod d'Apple."
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
@@ -17612,9 +17650,8 @@ msgid "Unable to find this memo in any memo list"
 msgstr "No s'ha pogut trobar aquesta anotació a la llista d'anotacions"
 
 #: ../plugins/itip-formatter/itip-formatter.c:839
-#, fuzzy
 msgid "Opening the calendar. Please wait.."
-msgstr "Calendari d'apertura"
+msgstr "S'està obrint el calendari. Espereu..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:842
 msgid "Searching for an existing version of this appointment"
@@ -18250,14 +18287,12 @@ msgid "_Inherit reminder"
 msgstr "_Hereta el recordatori"
 
 #: ../plugins/itip-formatter/itip-view.c:1914
-#, fuzzy
 msgid "_Memos:"
-msgstr "A_notacions"
+msgstr "A_notacions:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Display \"text/calendar\" MIME parts in mail messages."
-msgstr "Mostra les parts de text/calendari en els missatges."
+msgstr "Mostra les parts MIME «text/calendar» en els missatges de correu."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
@@ -18293,6 +18328,8 @@ msgstr "Inhabilita el compte"
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable an account by right-clicking on it in the folder tree."
 msgstr ""
+"Inhabliliteu un compte en fer-hi clic amb el botó secundari en l'arbre de "
+"carpetes."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
@@ -18357,7 +18394,8 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "Si s'ha de mostrar un missatge sobre la icona quan arribin correus nous."
+msgstr ""
+"Si s'ha de mostrar un missatge sobre la icona quan arribin correus nous."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -18448,9 +18486,8 @@ msgid "Mail Notification"
 msgstr "Notificació de correu"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-#, fuzzy
 msgid "Notifies you when new mail messages arrive."
-msgstr "Reprodueix un so quan arribi correu nou."
+msgstr "Us notifica quan arriben missatges de correu nous."
 
 #: ../plugins/mail-to-task/mail-to-task.c:376
 #, c-format
@@ -18458,6 +18495,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
+"El calendari seleccionat ja conté l'esdeveniment «%s». Voleu editar "
+"l'esdeveniment antic?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
@@ -18465,6 +18504,8 @@ msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
 msgstr ""
+"La llista de tasques seleccionades ja conté la tasca «%s». Voleu editar la "
+"tasca antiga?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
@@ -18472,24 +18513,32 @@ msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
 msgstr ""
+"La llista d'anotacions seleccionada ja conté l'anotació «%s». Voleu editar "
+"l'anotació antiga?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
 msgstr ""
+"El calendari seleccionat ja conté alguns esdeveniments per als correus "
+"proporcionats. Voleu crear esdeveniments nous de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
 msgstr ""
+"La llista de tasques seleccionada ja conté algunes tasques per als correus "
+"proporcionats. Voleu crear tasques noves de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
 msgstr ""
+"La llista d'anotacions seleccionada ja conté algunes anotacions per als "
+"correus proporcionats. Voleu crear anotacions noves de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
@@ -18499,7 +18548,11 @@ msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
 msgstr[0] ""
+"El calendari seleccionat ja conté un esdeveniment per al correu "
+"proporcionat. Voleu crear un esdeveniment nou de totes maneres?"
 msgstr[1] ""
+"El calendari seleccionat ja conté alguns esdeveniments per als correus "
+"proporcionats. Voleu crear esdeveniments nous de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:429
 msgid ""
@@ -18509,7 +18562,11 @@ msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
 msgstr[0] ""
+"La llista de tasques seleccionada ja conté una tasca per al correu "
+"proporcionat. Voleu crear una tasca nova de totes maneres?"
 msgstr[1] ""
+"La llista de tasques seleccionada ja conté algunes tasques per als correus "
+"proporcionats. Voleu crear tasques noves de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid ""
@@ -18519,21 +18576,24 @@ msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
 msgstr[0] ""
+"La llista d'anotacions seleccionada ja conté una anotació per al correu "
+"proporcionat. Voleu crear una anotació nova de totes maneres?"
 msgstr[1] ""
+"La llista d'anotacions seleccionada ja conté algunes anotacions per als "
+"correus proporcionats. Voleu crear anotacions noves de totes maneres?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
-#, fuzzy
 msgid "[No Summary]"
-msgstr "Sense resum"
+msgstr "[Sense resum]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
-msgstr ""
+msgstr "S'ha retornat un objecte no vàlid d'un servidor"
 
 #: ../plugins/mail-to-task/mail-to-task.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "An error occurred during processing: %s"
-msgstr "S'ha produït un error mentre s'estava imprimint"
+msgstr "S'ha produït un error durant el processament: %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:599
 #, c-format
@@ -18541,13 +18601,12 @@ msgid "Cannot open calendar. %s"
 msgstr "No es pot obrir el calendari. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:606
-#, fuzzy
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
 msgstr ""
 "La font que heu seleccionat és només de lectura, per la qual cosa no hi "
-"podeu crear una tasca. "
+"podeu crear un esdeveniment. Seleccioneu una altra font."
 
 #: ../plugins/mail-to-task/mail-to-task.c:609
 msgid ""
@@ -18558,72 +18617,61 @@ msgstr ""
 "podeu crear una tasca. "
 
 #: ../plugins/mail-to-task/mail-to-task.c:612
-#, fuzzy
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
 msgstr ""
 "La font que heu seleccionat és només de lectura, per la qual cosa no hi "
-"podeu crear una tasca. "
+"podeu crear una anotació. Seleccioneu una altra font."
 
 #: ../plugins/mail-to-task/mail-to-task.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get source list. %s"
-msgstr "No s'ha pogut obrir l'origen «{2}»."
+msgstr "No s'ha pogut obtenir la llista font. %s"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
 msgid "Convert a mail message to a task."
-msgstr "Converteix el missatge seleccionat en una tasca nova"
+msgstr "Converteix un missatge de correu en una tasca."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
-#, fuzzy
 msgid "Create a Mem_o"
-msgstr "Crea una anotació nova"
+msgstr "Crea una an_otació"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
 msgid "Create a _Meeting"
-msgstr "Re_unió nova"
+msgstr "Crea una re_unió"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
-#, fuzzy
 msgid "Create a _Task"
-msgstr "Crea una tasca nova"
+msgstr "Crea una _tasca"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
-#, fuzzy
 msgid "Create an _Event"
-msgstr "_Crea una visualització nova"
+msgstr "Crea un _esdeveniment"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
-#, fuzzy
 msgid "Mail-to-Task"
 msgstr "Correu a tasca"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
-#, fuzzy
 msgid "Create a new event from the selected message"
-msgstr "Redacta una resposta per al remitent del missatge seleccionat"
+msgstr "Crea un esdeveniment nou a partir del missatge seleccionat"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
-#, fuzzy
 msgid "Create a new meeting from the selected message"
-msgstr "Crea una sol·licitud de reunió nova"
+msgstr "Crea una reunió nova a partir del missatge seleccionat"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
-#, fuzzy
 msgid "Create a new memo from the selected message"
-msgstr "Redacta una resposta per al remitent del missatge seleccionat"
+msgstr "Crea una anotació nova a partir del missatge seleccionat"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#, fuzzy
 msgid "Create a new task from the selected message"
-msgstr "Redacta una resposta per al remitent del missatge seleccionat"
+msgstr "Crea una tasca nova a partir del missatge seleccionat"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Contact list _owner"
@@ -18647,11 +18695,10 @@ msgid "Mailing _List"
 msgstr "_Llista de correu"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
-#, fuzzy
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
-"Proporciona accions per a ordres habituals de les llistes de correu "
-"(subscriu, suprimeix la subscripió, ...)."
+"Dueu a terme accions per a ordres habituals de les llistes de correu "
+"(subscripció, cancel·lació de subscripcions, etc.)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -18811,12 +18858,10 @@ msgstr ""
 "bé a la carpeta seleccionada i a totes les seves subcarpetes?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:166
-#, fuzzy
 msgid "In Current Folder and _Subfolders"
 msgstr "A la carpeta actual i a les seves _subcarpetes"
 
 #: ../plugins/mark-all-read/mark-all-read.c:180
-#, fuzzy
 msgid "In Current _Folder Only"
 msgstr "_Només a la carpeta actual"
 
@@ -18829,9 +18874,8 @@ msgid "Mark Me_ssages as Read"
 msgstr "Marca els mi_ssatges com a llegits"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
-#, fuzzy
 msgid "Mark all messages in a folder as read."
-msgstr "Voleu marcar tots els missatges d'aquesta carpeta com a llegits?"
+msgstr "Marca tots els missatges d'una carpeta com a llegits."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "Mono Loader"
@@ -18839,12 +18883,11 @@ msgstr "Carregador del Mono"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Support plugins written in Mono."
-msgstr ""
+msgstr "Compatibilitat amb els connectors creats amb el Mono."
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
-#, fuzzy
 msgid "Manage your Evolution plugins."
-msgstr "Canvia la configuració de l'Evolution"
+msgstr "Gestioneu els connectors de l'Evolution."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
@@ -18887,13 +18930,14 @@ msgid "Plain Text Mode"
 msgstr "Mode de text sense format"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:3
-#, fuzzy
 msgid "Prefer Plain Text"
 msgstr "Prefereixo text sense format"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
+"Visualitza els missatges de correu en format de text sense format, encara "
+"que tinguin contingut HTML."
 
 #: ../plugins/prefer-plain/prefer-plain.c:189
 msgid "Show HTML if present"
@@ -18918,6 +18962,7 @@ msgstr "Perfilador de l'Evolution"
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
 msgstr ""
+"Perfila esdeveniments de dades a l'Evolution (només per a desenvolupadors)."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -18959,9 +19004,8 @@ msgid "Locations"
 msgstr "Ubicacions"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "Publish calendars to the web."
-msgstr "Permet publicar els calendaris a la web"
+msgstr "Publiqueu calendaris a la web."
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
@@ -18969,38 +19013,37 @@ msgstr "_Publica informació del calendari"
 
 #: ../plugins/publish-calendar/publish-calendar.c:95
 #: ../plugins/publish-calendar/publish-calendar.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s:"
-msgstr "No s'ha pogut obrir la font"
+msgstr "No s'ha pogut obrir %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open %s: Unknown error"
-msgstr "No s'ha pogut analitzar el missatge PGP: error desconegut"
+msgstr "No s'ha pogut obrir %s: error desconegut"
 
 #: ../plugins/publish-calendar/publish-calendar.c:117
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "S'ha produït un error en publicar a %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:119
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "S'ha completat la publicació a %s amb èxit"
 
 #: ../plugins/publish-calendar/publish-calendar.c:164
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "Ha fallat el muntatge de %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:624
 msgid "Are you sure you want to remove this location?"
 msgstr "Segur que voleu suprimir aquesta ubicació?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:788
-#, fuzzy
 msgid "Could not create publish thread."
-msgstr "No s'ha pogut crear el missatge."
+msgstr "No s'ha pogut crear el fil de publicació."
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -19052,17 +19095,17 @@ msgstr ""
 "FTP (amb entrada)\n"
 "Recurs compartit del Windows\n"
 "WebDAV (HTTP)\n"
-"WebDAV Xifrat (HTTPS)\n"
+"WebDAV segur (HTTPS)\n"
 "Ubicació personalitzada"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
 msgstr "_Tipus de servei:"
 
+# FIXME (dpm)
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
-#, fuzzy
 msgid "Time _duration:"
-msgstr "Fu_s horari:"
+msgstr "_Durada del temps:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_File:"
@@ -19090,6 +19133,9 @@ msgid ""
 "weeks\n"
 "months"
 msgstr ""
+"dies\n"
+"setmanes\n"
+"mesos"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:32
 msgid ""
@@ -19104,6 +19150,7 @@ msgstr ""
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr ""
+"No s'ha pogut publicar el calendari: el rerefons de calendari ja no existeix"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:481
 msgid "New Location"
@@ -19186,14 +19233,12 @@ msgid "I_nclude remote tests"
 msgstr "I_nclou proves remotes"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Filter junk messages using SpamAssassin."
-msgstr "Filtra els missatges de correu brossa amb el Bogofilter."
+msgstr "Filtra els missatges de correu brossa amb l'SpamAssassin."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "SpamAssassin Junk Filter"
-msgstr "Connector de correu brossa de l'SpamAssassin"
+msgstr "Filtrador de correu brossa SpamAssassin"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "SpamAssassin Options"
@@ -19252,29 +19297,24 @@ msgid "Modified"
 msgstr "Modificat"
 
 #: ../plugins/save-calendar/csv-format.c:523
-#, fuzzy
 msgid "A_dvanced options for the CSV format"
-msgstr "Opcions avançades del format CSV"
+msgstr "Opcions a_vançades del format CSV"
 
 #: ../plugins/save-calendar/csv-format.c:530
-#, fuzzy
 msgid "Prepend a _header"
-msgstr "Afegeix una capçalera al començament"
+msgstr "Afegeix una ca_pçalera al començament"
 
 #: ../plugins/save-calendar/csv-format.c:539
-#, fuzzy
 msgid "_Value delimiter:"
-msgstr "Separador de valors:"
+msgstr "_Separador de valors:"
 
 #: ../plugins/save-calendar/csv-format.c:546
-#, fuzzy
 msgid "_Record delimiter:"
-msgstr "Separador de registres:"
+msgstr "Separador de _registres:"
 
 #: ../plugins/save-calendar/csv-format.c:553
-#, fuzzy
 msgid "_Encapsulate values with:"
-msgstr "Encapsula els valors amb:"
+msgstr "_Encapsula els valors amb:"
 
 #: ../plugins/save-calendar/csv-format.c:575
 msgid "Comma separated value format (.csv)"
@@ -19285,9 +19325,8 @@ msgid "Save Selected"
 msgstr "Desa els seleccionats"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save a calendar or task list to disk."
-msgstr "Desa el calendari seleccionat o la llista de tasques al disc."
+msgstr "Desa un calendari o una llista de tasques al disc."
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 msgid "_Save to Disk"
@@ -19307,21 +19346,20 @@ msgid "RDF format (.rdf)"
 msgstr "Format RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:104
-#, fuzzy
 msgid "_Format:"
-msgstr "Format"
+msgstr "_Format:"
 
 #: ../plugins/save-calendar/save-calendar.c:165
 msgid "Select destination file"
 msgstr "Seleccioneu el fitxer destí"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#, fuzzy
 msgid "Quickly select a single calendar or task list for viewing."
-msgstr "Selecciona un únic calendari o font de tasques per a visualitzar."
+msgstr ""
+"Selecciona de manera ràpida un únic calendari o llista de tasques per a "
+"visualitzar."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
-#, fuzzy
 msgid "Select One Source"
 msgstr "Selecciona una font"
 
@@ -19393,9 +19431,8 @@ msgid "Please wait"
 msgstr "Espereu"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
-#, fuzzy
 msgid "Sort mail message threads by subject."
-msgstr "Crea fils basats en l'assumpte"
+msgstr "Ordena els fils de missatges de correu segons l'assumpte."
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
@@ -19433,25 +19470,23 @@ msgstr "Desa com a plantilla"
 # FIXME (dpm)
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr "Connector de plantilla basat en esborranys"
+msgstr "Connector de plantilles basat en esborranys"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr ""
+msgstr "Decodifiqueu adjuncions TNEF (winmail.dat) de l'Outlook de Microsoft."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
-#, fuzzy
 msgid "TNEF Decoder"
-msgstr "Descodificador de fitxers adjunts TNEF"
+msgstr "Descodificador TNEF"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Inline vCards"
-msgstr "vCard múltiples"
+msgstr "vCard en línia"
 
 #: ../plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml.h:2
 msgid "Show vCards directly in mail messages."
-msgstr ""
+msgstr "Mostra les vCards directament en els missatges de correu."
 
 #: ../plugins/vcard-inline/vcard-inline.c:159
 #: ../plugins/vcard-inline/vcard-inline.c:243
@@ -19463,26 +19498,23 @@ msgid "Show Compact vCard"
 msgstr "Mostra la vCard compacta"
 
 #: ../plugins/vcard-inline/vcard-inline.c:222
-#, fuzzy
 msgid "There is one other contact."
 msgstr "Hi ha un altre contacte."
 
 #: ../plugins/vcard-inline/vcard-inline.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Hi ha un altre contacte."
+msgstr[0] "Hi ha %d altre contacte."
 msgstr[1] "Hi ha %d contactes més."
 
 #: ../plugins/vcard-inline/vcard-inline.c:252
-#, fuzzy
 msgid "Save in Address Book"
 msgstr "Desa a la llibreta d'adreces"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
-#, fuzzy
 msgid "Add WebDAV contacts to Evolution."
-msgstr "Contactes WebDAV"
+msgstr "Afegeix contactes WebDAV a l'Evolution."
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
 msgid "WebDAV contacts"
@@ -19586,24 +19618,24 @@ msgstr ""
 "GNOME o bé del fitxer de contrasenyes ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
-#, fuzzy
 msgid "Initial attachment view"
-msgstr "Insereix un fitxer adjunt"
+msgstr "Visualització inicial de les adjuncions"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
-#, fuzzy
 msgid "Initial file chooser folder"
-msgstr "Instal·la la carpeta compartida"
+msgstr "Carpeta inicial del selector de fitxers"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "Carpeta inicial dels diàlegs de tipus GtkFileChooser."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
+"Visualització inicial per als ginys de la barra d'adjuncions. «0» significa "
+"vista d'icones i «1» vista de llista."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
@@ -19908,9 +19940,9 @@ msgstr ""
 "Sembla que aquest sistema no té instal·lades les eines Pilot del GNOME."
 
 #: ../shell/e-shell-window-commands.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s. (%s)"
-msgstr "S'ha produït un error en executar %s."
+msgstr "S'ha produït un error en executar %s. (%s)"
 
 #: ../shell/e-shell-window-commands.c:135
 msgid "Bug buddy is not installed."
@@ -19923,7 +19955,7 @@ msgstr "No es pot executar el Bug buddy."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:938
+#: ../shell/e-shell-window-commands.c:1026
 msgid "translator-credits"
 msgstr ""
 "Víctor Nieto <vnie2025@alu-etsetb.upc.es>\n"
@@ -19935,19 +19967,19 @@ msgstr ""
 "Gil Forcada <gilforcada@guifi.net>\n"
 "David Planella Molas <david.planella@gmail.com>"
 
-#: ../shell/e-shell-window-commands.c:949
+#: ../shell/e-shell-window-commands.c:1037
 msgid "Evolution Website"
 msgstr "Lloc web de l'Evolution"
 
-#: ../shell/e-shell-window-commands.c:1163
+#: ../shell/e-shell-window-commands.c:1251
 msgid "_Work Online"
 msgstr "_Treballa en línia"
 
-#: ../shell/e-shell-window-commands.c:1176 ../ui/evolution.xml.h:57
+#: ../shell/e-shell-window-commands.c:1264 ../ui/evolution.xml.h:57
 msgid "_Work Offline"
 msgstr "_Treballa fora de línia"
 
-#: ../shell/e-shell-window-commands.c:1189
+#: ../shell/e-shell-window-commands.c:1277
 msgid "Work Offline"
 msgstr "Treballa fora de línia"
 
@@ -22314,107 +22346,96 @@ msgid "Type of view:"
 msgstr "Tipus de visualització:"
 
 #: ../widgets/misc/e-attachment.c:990
-#, fuzzy
 msgid "Attached message"
 msgstr "Missatge adjunt"
 
 #. Translators: Default attachment filename.
 #: ../widgets/misc/e-attachment.c:1773 ../widgets/misc/e-attachment.c:2313
 #: ../widgets/misc/e-attachment-store.c:636
-#, fuzzy
 msgid "attachment.dat"
-msgstr "adjunció"
+msgstr "adjuncio.dat"
 
 #: ../widgets/misc/e-attachment.c:1822 ../widgets/misc/e-attachment.c:2619
 msgid "A load operation is already in progress"
-msgstr ""
+msgstr "Ja s'està efectuant una operació de càrrega"
 
 #: ../widgets/misc/e-attachment.c:1830 ../widgets/misc/e-attachment.c:2627
 msgid "A save operation is already in progress"
-msgstr ""
+msgstr "Ja s'està efectuant una operació de desament"
 
 #: ../widgets/misc/e-attachment.c:1923
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load '%s'"
-msgstr "No s'ha pogut carregar la llibreta d'adreces"
+msgstr "No s'ha pogut carregar «%s»"
 
 #: ../widgets/misc/e-attachment.c:1926
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load the attachment"
-msgstr "Tipus de contingut del fitxer adjunt."
+msgstr "No s'ha pogut carregar l'adjunció"
 
 #: ../widgets/misc/e-attachment.c:2190
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open '%s'"
-msgstr "No s'ha pogut obrir la font"
+msgstr "No s'ha pogut obrir «%s»"
 
 #: ../widgets/misc/e-attachment.c:2193
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the attachment"
-msgstr "No s'ha pogut obrir l'enllaç."
+msgstr "No s'ha pogut obrir l'adjunció"
 
 #: ../widgets/misc/e-attachment.c:2635
-#, fuzzy
 msgid "Attachment contents not loaded"
-msgstr "Barra de fitxers adjunts"
+msgstr "No s'ha carregat el contingut de l'adjunció"
 
 #: ../widgets/misc/e-attachment.c:2712
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save '%s'"
-msgstr "No es pot executar «%s»: %s\n"
+msgstr "No s'ha pogut desar «%s»"
 
 #: ../widgets/misc/e-attachment.c:2715
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save the attachment"
-msgstr "Tipus de contingut del fitxer adjunt."
+msgstr "No s'ha pogut desar l'adjunció"
 
 #: ../widgets/misc/e-attachment-dialog.c:305
 msgid "Attachment Properties"
 msgstr "Propietats del fitxer adjunt"
 
 #: ../widgets/misc/e-attachment-dialog.c:328
-#, fuzzy
 msgid "_Filename:"
 msgstr "Nom del f_itxer:"
 
 #: ../widgets/misc/e-attachment-dialog.c:363
-#, fuzzy
 msgid "MIME Type:"
-msgstr "Tipus MIME"
+msgstr "Tipus MIME:"
 
 #: ../widgets/misc/e-attachment-handler-image.c:95
-#, fuzzy
 msgid "Could not set as background"
-msgstr "De_fineix-la com a fons"
+msgstr "No s'ha pogut establir com a fons de pantalla"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:87
-#, fuzzy
 msgid "Could not send attachment"
 msgid_plural "Could not send attachments"
-msgstr[0] "No s'ha pogut obrir l'enllaç."
-msgstr[1] "No s'ha pogut obrir l'enllaç."
+msgstr[0] "No s'ha pogut enviar l'adjunció"
+msgstr[1] "No s'han pogut enviar les adjuncions"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:129
-#, fuzzy
 msgid "_Send To..."
-msgstr "Envia a:"
+msgstr "En_via a..."
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
-#, fuzzy
 msgid "Send the selected attachments somewhere"
-msgstr "Seleccioneu la carpeta on desar les adjuncions..."
+msgstr "Envia les adjuncions seleccionades"
 
 #: ../widgets/misc/e-attachment-icon-view.c:480
 #: ../widgets/misc/e-attachment-tree-view.c:517
-#, fuzzy
 msgid "Loading"
-msgstr "S'està carregant..."
+msgstr "S'està carregant"
 
 #: ../widgets/misc/e-attachment-icon-view.c:492
 #: ../widgets/misc/e-attachment-tree-view.c:529
-#, fuzzy
 msgid "Saving"
-msgstr "Ombrejat"
+msgstr "S'està desant"
 
 #: ../widgets/misc/e-attachment-paned.c:87
 msgid "Hide _Attachment Bar"
@@ -22426,39 +22447,36 @@ msgid "Show _Attachment Bar"
 msgstr "Mostra la barra _de fitxers adjunts"
 
 #: ../widgets/misc/e-attachment-store.c:541
-#, fuzzy
 msgid "Add Attachment"
-msgstr "Fitxer adjunt"
+msgstr "Afegeix una adjunció"
 
 #: ../widgets/misc/e-attachment-store.c:544
 msgid "A_ttach"
 msgstr "Adjun_ta"
 
 #: ../widgets/misc/e-attachment-store.c:607
-#, fuzzy
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "Desa els fitxers adjunts"
-msgstr[1] "Desa els fitxers adjunts"
+msgstr[0] "Desa l'adjunció"
+msgstr[1] "Desa les adjuncions"
 
 #: ../widgets/misc/e-attachment-view.c:300
 msgid "S_ave All"
 msgstr "De_sa'ls tots"
 
 #: ../widgets/misc/e-attachment-view.c:326
-#, fuzzy
 msgid "A_dd Attachment..."
 msgstr "_Afegeix una adjunció..."
 
 #: ../widgets/misc/e-attachment-view.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Open with \"%s\""
-msgstr "Obre a %s..."
+msgstr "Obre amb «%s»"
 
 #: ../widgets/misc/e-attachment-view.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Open this attachment in %s"
-msgstr "Re_corda'm l'adjunció de fitxers"
+msgstr "Obre aquesta adjunció amb %s"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1253
@@ -22936,9 +22954,8 @@ msgid "_All information"
 msgstr "Tota la inform_ació"
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_Classification:"
-msgstr "_Classificació"
+msgstr "_Classificació:"
 
 #. To translators: This means Delay the message delivery for some time
 #: ../widgets/misc/e-send-options.glade.h:32
