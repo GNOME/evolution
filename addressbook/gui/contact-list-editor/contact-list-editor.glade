@@ -63,6 +63,7 @@
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes" context="yes">_Where:</property>
                     <property name="use_underline">True</property>
+		    <property name="mnemonic_widget">source-combo-box</property>
                   </widget>
                   <packing>
                     <property name="top_attach">1</property>
@@ -250,9 +251,10 @@
                                 <property name="can_default">True</property>
                                 <property name="has_default">True</property>
                                 <property name="has_tooltip">True</property>
+				<property name="use_underline">True</property>
                                 <property name="tooltip_markup">Insert email addresses from Address Book</property>
                                 <property name="tooltip_text">Insert email addresses from Address Book</property>
-                                <property name="label" translatable="yes" context="yes">Select...</property>
+                                <property name="label" translatable="yes" context="yes">_Select...</property>
                                 <property name="response_id">0</property>
                                 <signal name="clicked" handler="contact_list_editor_select_button_clicked_cb"/>
                               </widget>

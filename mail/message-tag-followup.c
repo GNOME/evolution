@@ -320,6 +320,8 @@ construct (MessageTagEditor *editor)
 	g_signal_connect (followup->completed, "toggled", G_CALLBACK (completed_toggled), followup);
 
 	followup->clear = GTK_BUTTON (glade_xml_get_widget (gui, "clear"));
+	gtk_button_set_label (followup->clear, _("Clea_r"));
+	gtk_button_set_image (followup->clear, gtk_image_new_from_stock (GTK_STOCK_CLEAR, GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (followup->clear, "clicked", G_CALLBACK (clear_clicked), followup);
 
 	g_object_unref (gui);
