@@ -579,16 +579,6 @@ name_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 	e_source_set_name (sdialog->source, gtk_entry_get_text (GTK_ENTRY (sdialog->display_name)));
 }
 
-static void
-offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
-{
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
-		e_source_set_property (sdialog->source, "offline_sync", "1");
-	else
-		e_source_set_property (sdialog->source, "offline_sync", "0");
-
-}
-
 static GtkWidget *
 eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
@@ -625,6 +615,47 @@ eabc_general_name(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	g_object_unref(gui);
 
 	return w;
+}
+
+/* TODO: This should be moved to plugins if B&A calendar setup is moved there */
+static void
+use_in_cal_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	e_source_set_property (sdialog->source, "use-in-contacts-calendar", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) ? "1" : "0");
+}
+
+static GtkWidget *
+eabc_general_use_in_cal (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+{
+	AddressbookSourceDialog *sdialog = data;
+	GtkWidget *use_in_cal_setting;
+	const gchar *use_in_cal, *base_uri = NULL;
+	ESourceGroup *group;
+
+	if (old)
+		return old;
+
+	use_in_cal_setting = gtk_check_button_new_with_mnemonic (_("Use in _Birthday & Anniversaries calendar"));
+	gtk_widget_show (use_in_cal_setting);
+	gtk_container_add (GTK_CONTAINER (parent), use_in_cal_setting);
+
+	use_in_cal =  e_source_get_property (sdialog->source, "use-in-contacts-calendar");
+	group = e_source_peek_group (sdialog->source);
+
+	if (group)
+		base_uri = e_source_group_peek_base_uri (group);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (use_in_cal_setting), (use_in_cal && g_str_equal (use_in_cal, "1")) || (!use_in_cal && base_uri && g_str_has_prefix (base_uri, "file://")));
+
+	g_signal_connect (use_in_cal_setting, "toggled", G_CALLBACK (use_in_cal_changed_cb), sdialog);
+
+	return use_in_cal_setting;
+}
+
+static void
+offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	e_source_set_property (sdialog->source, "offline_sync", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)) ? "1" : "0");
 }
 
 static GtkWidget *
@@ -1015,7 +1046,8 @@ static EConfigItem eabc_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) N_("Address Book") },
 	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/10.name", (gchar *) "hbox122", eabc_general_name },
-	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/20.offline", NULL, eabc_general_offline },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/20.calendar", NULL, eabc_general_use_in_cal },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/30.offline", NULL, eabc_general_offline },
 #ifdef HAVE_LDAP
 	{ E_CONFIG_SECTION, (gchar *) "00.general/20.server", (gchar *) N_("Server Information") },
 	{ E_CONFIG_ITEM, (gchar *) "00.general/20.server/00.host", (gchar *) "table31", eabc_general_host },
