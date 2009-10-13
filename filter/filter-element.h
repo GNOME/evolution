@@ -53,7 +53,7 @@ struct _FilterElementClass {
 	GObjectClass parent_class;
 
 	/* virtual methods */
-	gboolean (*validate) (FilterElement *fe);
+	gboolean (*validate) (FilterElement *fe, GtkWindow *error_parent);
 	gint (*eq) (FilterElement *fe, FilterElement *cm);
 
 	void (*xml_create) (FilterElement *, xmlNodePtr);
@@ -76,7 +76,7 @@ FilterElement	*filter_element_new	(void);
 void            filter_element_set_data (FilterElement *fe, gpointer data);
 
 /* methods */
-gboolean        filter_element_validate         (FilterElement *fe);
+gboolean        filter_element_validate         (FilterElement *fe, GtkWindow *error_parent);
 gint		filter_element_eq		(FilterElement *fe, FilterElement *cm);
 
 void		filter_element_xml_create	(FilterElement *fe, xmlNodePtr node);

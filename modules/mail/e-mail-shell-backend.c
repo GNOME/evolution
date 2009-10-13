@@ -410,17 +410,11 @@ mail_shell_backend_prepare_for_offline_cb (EShell *shell,
                                            EActivity *activity,
                                            EMailShellBackend *mail_shell_backend)
 {
-	GList *watched_windows;
-	GtkWidget *parent = NULL;
 	gboolean synchronize = FALSE;
-
-	watched_windows = e_shell_get_watched_windows (shell);
-	if (watched_windows != NULL)
-		parent = GTK_WIDGET (watched_windows->data);
 
 	if (e_shell_get_network_available (shell))
 		synchronize = em_utils_prompt_user (
-			GTK_WINDOW (parent), NULL,
+			e_shell_get_active_window (shell), NULL,
 			"mail:ask-quick-offline", NULL);
 
 	if (!synchronize) {
@@ -658,8 +652,6 @@ mail_shell_backend_quit_requested_cb (EShell *shell,
                                       EShellBackend *shell_backend)
 {
 	CamelFolder *folder;
-	GList *watched_windows;
-	GtkWindow *parent = NULL;
 	guint32 unsent;
 	gint response;
 
@@ -680,12 +672,7 @@ mail_shell_backend_quit_requested_cb (EShell *shell,
 	if (unsent == 0)
 		return;
 
-	/* Try to find a parent window for the dialog.
-	 * First list item is what's currently focused. */
-	watched_windows = e_shell_get_watched_windows (shell);
-	if (watched_windows != NULL)
-		parent = GTK_WINDOW (watched_windows->data);
-	response = e_error_run (parent, "mail:exit-unsaved", NULL);
+	response = e_error_run (e_shell_get_active_window (shell), "mail:exit-unsaved", NULL);
 
 	if (response == GTK_RESPONSE_YES)
 		return;

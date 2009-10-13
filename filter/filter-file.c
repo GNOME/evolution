@@ -37,7 +37,7 @@
 
 #define d(x)
 
-static gboolean validate (FilterElement *fe);
+static gboolean validate (FilterElement *fe, GtkWindow *error_parent);
 static gint file_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
@@ -146,16 +146,12 @@ filter_file_set_path (FilterFile *file, const gchar *path)
 }
 
 static gboolean
-validate (FilterElement *fe)
+validate (FilterElement *fe, GtkWindow *error_parent)
 {
 	FilterFile *file = (FilterFile *) fe;
 
 	if (!file->path) {
-		/* FIXME: FilterElement should probably have a
-                   GtkWidget member pointing to the value gotten with
-                   ::get_widget() so that we can get the parent window
-                   here. */
-		e_error_run(NULL, "filter:no-file", NULL);
+		e_error_run (error_parent, "filter:no-file", NULL);
 
 		return FALSE;
 	}
@@ -164,11 +160,7 @@ validate (FilterElement *fe)
 
 	if (strcmp (file->type, "file") == 0) {
 		if (!g_file_test (file->path, G_FILE_TEST_IS_REGULAR)) {
-			/* FIXME: FilterElement should probably have a
-			   GtkWidget member pointing to the value gotten with
-			   ::get_widget() so that we can get the parent window
-			   here. */
-			e_error_run(NULL, "filter:bad-file", file->path, NULL);
+			e_error_run (error_parent, "filter:bad-file", file->path, NULL);
 
 			return FALSE;
 		}

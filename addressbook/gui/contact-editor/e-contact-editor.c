@@ -2769,7 +2769,7 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 		g_free (categories);
 		return;
 	}else if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
-		e_error_run (NULL, "addressbook:edit-categories", NULL);
+		e_error_run (GTK_WINDOW (editor->app), "addressbook:edit-categories", NULL);
 		g_free (categories);
 		return;
 	}

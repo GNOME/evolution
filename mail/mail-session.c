@@ -322,9 +322,6 @@ user_message_response (GtkDialog *dialog, gint button, struct _user_message_msg 
 static void
 user_message_exec (struct _user_message_msg *m)
 {
-	EShell *shell;
-	GtkWindow *parent;
-	GList *windows;
 	const gchar *error_type;
 
 	if (!m->ismain && user_message_dialog != NULL) {
@@ -353,12 +350,8 @@ user_message_exec (struct _user_message_msg *m)
 			g_return_if_reached ();
 	}
 
-	shell = e_shell_get_default ();
-	windows = e_shell_get_watched_windows (shell);
-	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
-
 	user_message_dialog = e_error_new (
-		parent, error_type, m->prompt, NULL);
+		e_shell_get_active_window (NULL), error_type, m->prompt, NULL);
 	g_object_set (
 		user_message_dialog, "allow_shrink", TRUE,
 		"allow_grow", TRUE, NULL);

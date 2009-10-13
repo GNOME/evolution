@@ -81,7 +81,7 @@ struct _FilterRuleClass {
 	GObjectClass parent_class;
 
 	/* virtual methods */
-	gint (*validate) (FilterRule *);
+	gint (*validate) (FilterRule *, GtkWindow *error_parent);
 	gint (*eq) (FilterRule *fr, FilterRule *cm);
 
 	xmlNodePtr (*xml_encode) (FilterRule *);
@@ -106,7 +106,7 @@ FilterRule *filter_rule_clone        (FilterRule *base);
 void        filter_rule_set_name     (FilterRule *fr, const gchar *name);
 void        filter_rule_set_source   (FilterRule *fr, const gchar *source);
 
-gint         filter_rule_validate     (FilterRule *fr);
+gint         filter_rule_validate     (FilterRule *fr, GtkWindow *error_parent);
 gint         filter_rule_eq           (FilterRule *fr, FilterRule *cm);
 
 xmlNodePtr  filter_rule_xml_encode   (FilterRule *fr);

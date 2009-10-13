@@ -45,7 +45,7 @@
 
 #define d(x)
 
-static gboolean validate (FilterElement *fe);
+static gboolean validate (FilterElement *fe, GtkWindow *error_parent);
 static gint date_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
@@ -178,18 +178,14 @@ filter_datespec_new (void)
 }
 
 static gboolean
-validate (FilterElement *fe)
+validate (FilterElement *fe, GtkWindow *error_parent)
 {
 	FilterDatespec *fds = (FilterDatespec *) fe;
 	gboolean valid;
 
 	valid = fds->type != FDST_UNKNOWN;
 	if (!valid) {
-		/* FIXME: FilterElement should probably have a
-                   GtkWidget member pointing to the value gotten with
-                   ::get_widget() so that we can get the parent window
-                   here. */
-		e_error_run(NULL, "filter:no-date", NULL);
+		e_error_run (error_parent, "filter:no-date", NULL);
 	}
 
 	return valid;

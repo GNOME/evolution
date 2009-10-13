@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <e-util/e-util.h>
 #include <glib/gi18n.h>
 
 #include "mail-mt.h"
@@ -38,8 +37,11 @@
 #include "mail-session.h"
 #include "mail-send-recv.h"
 
-#include "e-util/e-error.h"
 #include "e-util/e-account-utils.h"
+#include "e-util/e-error.h"
+#include "e-util/e-util.h"
+
+#include "shell/e-shell.h"
 
 #include "e-mail-local.h"
 #include "em-utils.h"
@@ -1406,7 +1408,7 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	}
 
 	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
-	    && e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
+	    && e_error_run (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
 		em_utils_send_receipt(folder, msg);
 }
 

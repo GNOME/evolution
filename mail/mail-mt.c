@@ -292,12 +292,10 @@ static void error_response(GtkObject *o, gint button, gpointer data)
 void
 mail_msg_check_error (gpointer msg)
 {
-	EShell *shell;
 	GtkWindow *parent;
 	MailMsg *m = msg;
 	gchar *what;
 	GtkDialog *gd;
-	GList *windows;
 
 #ifdef MALLOC_CHECK
 	checkmem(m);
@@ -325,9 +323,7 @@ mail_msg_check_error (gpointer msg)
 		return;
 	}
 
-	shell = e_shell_get_default ();
-	windows = e_shell_get_watched_windows (shell);
-	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
+	parent = e_shell_get_active_window (NULL);
 
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {

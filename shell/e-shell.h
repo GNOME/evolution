@@ -92,6 +92,7 @@ guint		e_shell_handle_uris		(EShell *shell,
 void		e_shell_watch_window		(EShell *shell,
 						 GtkWindow *window);
 GList *		e_shell_get_watched_windows	(EShell *shell);
+GtkWindow *     e_shell_get_active_window	(EShell *shell);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
 gboolean	e_shell_get_network_available	(EShell *shell);

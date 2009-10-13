@@ -170,7 +170,7 @@ action_settings_backup_cb (GtkAction *action,
 			if (mask & BR_OK)
 				backup (filename, (mask & BR_START) ? TRUE: FALSE);
 		} else {
-			e_error_run (NULL, "org.gnome.backup-restore:insufficient-permissions", NULL);
+			e_error_run (parent, "org.gnome.backup-restore:insufficient-permissions", NULL);
 		}
 
 		g_free (filename);

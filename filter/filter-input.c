@@ -38,7 +38,7 @@
 
 #define d(x)
 
-static gboolean validate (FilterElement *fe);
+static gboolean validate (FilterElement *fe, GtkWindow *error_parent);
 static gint input_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
@@ -160,7 +160,7 @@ filter_input_set_value (FilterInput *fi, const gchar *value)
 }
 
 static gboolean
-validate (FilterElement *fe)
+validate (FilterElement *fe, GtkWindow *error_parent)
 {
 	FilterInput *fi = (FilterInput *)fe;
 	gboolean valid = TRUE;
@@ -182,11 +182,7 @@ validate (FilterElement *fe)
 			regmsg = g_malloc0 (reglen + 1);
 			regerror (regerr, &regexpat, regmsg, reglen);
 
-			/* FIXME: FilterElement should probably have a
-			   GtkWidget member pointing to the value gotten with
-			   ::get_widget() so that we can get the parent window
-			   here. */
-			e_error_run(NULL, "filter:bad-regexp", pattern, regmsg, NULL);
+			e_error_run (error_parent, "filter:bad-regexp", pattern, regmsg, NULL);
 			g_free (regmsg);
 
 			valid = FALSE;

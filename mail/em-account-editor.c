@@ -601,7 +601,7 @@ emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
 		gtk_text_view_set_editable ((GtkTextView *)w, FALSE);
 		response = gtk_dialog_run ((GtkDialog *)dialog);
 	} else {
-		e_error_run (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : NULL,
+		e_error_run (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : e_shell_get_active_window (NULL),
 			    "mail:no-load-license", prov->license_file, NULL);
 	}
 
@@ -1947,7 +1947,7 @@ static void emae_check_authtype (GtkWidget *w, EMAccountEditorService *service)
 	uri = e_account_get_string (account, emae_service_info[service->type].account_uri_key);
 	g_object_ref (emae);
 
-	service->check_dialog = e_error_new (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : NULL,
+	service->check_dialog = e_error_new (emae->editor ? (GtkWindow *)gtk_widget_get_toplevel (emae->editor) : (GtkWindow *)gtk_widget_get_toplevel (w),
 					    "mail:checking-service", NULL);
 	g_signal_connect (service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
 	gtk_widget_show (service->check_dialog);

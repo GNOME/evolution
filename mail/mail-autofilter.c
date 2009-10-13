@@ -420,10 +420,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 
 	deleted = rule_context_delete_uri ((RuleContext *) fc, euri, g_str_equal);
 	if (deleted) {
-		EShell *shell;
-		GtkWindow *parent;
 		GtkWidget *dialog;
-		GList *windows;
 		GString *s;
 		GList *l;
 
@@ -434,10 +431,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 			l = l->next;
 		}
 
-		shell = e_shell_get_default ();
-		windows = e_shell_get_watched_windows (shell);
-		parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
-		dialog = e_error_new(parent, "mail:filter-updated", s->str, euri, NULL);
+		dialog = e_error_new (e_shell_get_active_window (NULL), "mail:filter-updated", s->str, euri, NULL);
 		g_string_free(s, TRUE);
 		em_utils_show_info_silent (dialog);
 

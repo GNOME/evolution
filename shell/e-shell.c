@@ -1348,6 +1348,33 @@ e_shell_get_watched_windows (EShell *shell)
 }
 
 /**
+ * e_shell_get_active_window:
+ * @shell: an #EShell; can be NULL, in that case is used
+ *         result of @e_shell_get_default
+ *
+ * Returns: an active, the most recently focused, window.
+ **/
+GtkWindow *
+e_shell_get_active_window (EShell *shell)
+{
+	GList *w;
+	GtkWindow *window = NULL;
+
+	if (!shell)
+		shell = e_shell_get_default ();
+
+	g_return_val_if_fail (shell != NULL, NULL);
+
+	for (w = e_shell_get_watched_windows (shell); w && !window; w = w->next) {
+		window = GTK_WINDOW (w->data);
+	}
+
+	g_return_val_if_fail (window != NULL, NULL);
+
+	return window;
+}
+
+/**
  * e_shell_send_receive:
  * @shell: an #EShell
  * @parent: the parent #GtkWindow

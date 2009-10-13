@@ -339,10 +339,10 @@ add_clicked(GtkButton *button, ShareFolder *sf)
 		email = e_destination_get_email (tmp->data);
 		/* You can't share a folder with yourself*/
 		if (g_strrstr (email, "@") == NULL || (!g_ascii_strcasecmp (email , self_email)))
-			e_error_run (NULL, "org.gnome.evolution.mail_shared_folder:invalid-user",email ,NULL);
+			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))), "org.gnome.evolution.mail_shared_folder:invalid-user",email ,NULL);
 		else {
 			if (!g_ascii_strcasecmp (email, "" )) {
-				e_error_run (NULL, "org.gnome.evolution.mail_shared_folder:no-user",NULL);
+				e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))), "org.gnome.evolution.mail_shared_folder:no-user",NULL);
 
 				return;
 			}

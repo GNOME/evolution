@@ -10,6 +10,7 @@ libeabutil_la_CPPFLAGS =				\
 	-I$(top_srcdir) 				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	-I$(top_srcdir)/widgets				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 libeabutil_la_SOURCES =					\
@@ -23,7 +24,8 @@ libeabutil_la_LDFLAGS = $(NO_UNDEFINED)
 libeabutil_la_LIBADD =					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/shell/libeshell.la
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

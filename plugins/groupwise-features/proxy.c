@@ -301,7 +301,7 @@ proxy_get_permissions_from_dialog (EAccount *account)
 }
 
 static gint
-proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
+proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *parent)
 {
 	GtkTreeIter iter;
 	GtkTreeSelection* account_select;
@@ -330,7 +330,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 				tmp = destinations;
 
 				if (!tmp) {
-					e_error_run (NULL, "org.gnome.evolution.proxy:no-user",NULL ,NULL);
+					e_error_run (parent, "org.gnome.evolution.proxy:no-user",NULL ,NULL);
 					return -1;
 				}
 
@@ -342,11 +342,11 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 						continue;
 
 					if (g_strrstr (email, "@") == NULL) {
-						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user", email, NULL);
+						e_error_run (parent, "org.gnome.evolution.proxy:invalid-user", email, NULL);
 						return -1;
 					}
 					if (! g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
-						e_error_run (NULL, "org.gnome.evolution.proxy:invalid-user", email, NULL);
+						e_error_run (parent, "org.gnome.evolution.proxy:invalid-user", email, NULL);
 						return -1;
 					}
 
@@ -365,7 +365,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog)
 								return 0;
 							}
 
-							e_error_run (NULL, "org.gnome.evolution.proxy:user-is-proxy",email ,NULL);
+							e_error_run (parent, "org.gnome.evolution.proxy:user-is-proxy",email ,NULL);
 							return -1;
 						}
 					}
@@ -792,7 +792,7 @@ proxy_add_ok (GtkWidget *button, EAccount *account)
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
 
-	if (proxy_dialog_store_widgets_data (account, PROXY_ADD_DIALOG) < 0)
+	if (proxy_dialog_store_widgets_data (account, PROXY_ADD_DIALOG, GTK_WINDOW (gtk_widget_get_toplevel (button))) < 0)
 		return;
 
 	proxy_update_tree_view (account);
@@ -809,7 +809,7 @@ proxy_edit_ok (GtkWidget *button, EAccount *account)
 	prd = g_object_get_data ((GObject *)account, "prd");
 	priv = prd->priv;
 
-	if ( proxy_dialog_store_widgets_data (account, PROXY_EDIT_DIALOG) < 0)
+	if ( proxy_dialog_store_widgets_data (account, PROXY_EDIT_DIALOG, GTK_WINDOW (gtk_widget_get_toplevel (button))) < 0)
 		return;
 
 	proxy_update_tree_view (account);

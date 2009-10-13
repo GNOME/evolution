@@ -71,7 +71,7 @@ shell_migrate_attempt (EShell *shell,
 			gint response;
 
 			response = e_error_run (
-				NULL, "shell:upgrade-failed",
+				e_shell_get_active_window (shell), "shell:upgrade-failed",
 				error->message, NULL);
 
 			if (response == GTK_RESPONSE_CANCEL)
@@ -243,7 +243,7 @@ e_shell_migrate_attempt (EShell *shell)
 			have = g_strdup_printf (_("%ld KB"), avail);
 
 			e_error_run (
-				NULL, "shell:upgrade-nospace",
+				e_shell_get_active_window (shell), "shell:upgrade-nospace",
 				need, have, NULL);
 
 			g_free (need);
@@ -286,13 +286,13 @@ check_old:
 		string = g_strdup_printf (
 			"%d.%d.%d", last_major, last_minor, last_micro);
 		response = e_error_run (
-			NULL, "shell:upgrade-remove-1-4", string, NULL);
+			e_shell_get_active_window (shell), "shell:upgrade-remove-1-4", string, NULL);
 		g_free (string);
 
 		switch (response) {
 			case GTK_RESPONSE_OK:  /* delete */
 				response = e_error_run (
-					NULL,
+					e_shell_get_active_window (shell),
 					"shell:upgrade-remove-1-4-confirm",
 					NULL);
 				if (response == GTK_RESPONSE_OK)

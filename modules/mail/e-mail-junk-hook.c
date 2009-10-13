@@ -50,17 +50,10 @@ static GType mail_junk_hook_type;
 static gboolean
 mail_junk_hook_idle_cb (struct ErrorData *data)
 {
-	EShell *shell;
-	GtkWindow *parent;
 	GtkWidget *widget;
-	GList *windows;
 
-	shell = e_shell_get_default ();
-	windows = e_shell_get_watched_windows (shell);
-	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
-
-	widget = e_error_new (
-		parent, data->error_message, data->error->message, NULL);
+	widget = e_error_new (e_shell_get_active_window (NULL),
+		data->error_message, data->error->message, NULL);
 	em_utils_show_error_silent (widget);
 
 	g_error_free (data->error);

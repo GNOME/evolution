@@ -97,7 +97,7 @@ action_face_cb (GtkAction *action,
 
 						if (height != 48 || width != 48) {
 							d (printf ("\n\a Invalid Image Size. Please choose a 48*48 image\n\a"));
-							e_error_run (NULL, "org.gnome.evolution.plugins.face:invalid-image-size", NULL, NULL);
+							e_error_run (GTK_WINDOW (filesel), "org.gnome.evolution.plugins.face:invalid-image-size", NULL, NULL);
 						} else {
 							file_contents = g_base64_encode ((guchar *) file_contents, length);
 							g_file_set_contents (filename, file_contents, -1, &error);
@@ -105,12 +105,12 @@ action_face_cb (GtkAction *action,
 					}
 				} else {
 					d (printf ("File too big"));
-					e_error_run (NULL, "org.gnome.evolution.plugins.face:invalid-file-size", NULL, NULL);
+					e_error_run (GTK_WINDOW (filesel), "org.gnome.evolution.plugins.face:invalid-file-size", NULL, NULL);
 				}
 
 			} else {
 				d (printf ("\n\a File cannot be read\n\a"));
-				e_error_run (NULL, "org.gnome.evolution.plugins.face:file-not-found", NULL, NULL);
+				e_error_run (GTK_WINDOW (filesel), "org.gnome.evolution.plugins.face:file-not-found", NULL, NULL);
 			}
 		}
 		gtk_widget_destroy (filesel);

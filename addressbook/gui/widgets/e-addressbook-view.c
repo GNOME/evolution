@@ -1109,7 +1109,7 @@ delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 		case E_BOOK_ERROR_CANCELLED :
 			break;
 		case E_BOOK_ERROR_PERMISSION_DENIED :
-			e_error_run (NULL, "addressbook:contact-delete-error-perm", NULL);
+			e_error_run (e_shell_get_active_window (NULL), "addressbook:contact-delete-error-perm", NULL);
 			break;
 		default :
 			/* Unknown error */

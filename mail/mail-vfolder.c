@@ -600,17 +600,11 @@ done:
 	UNLOCK();
 
 	if (changed->str[0]) {
-		EShell *shell;
-		GtkWindow *parent;
 		GtkWidget *dialog;
-		GList *windows;
 		const gchar *data_dir;
 		gchar *user;
 
-		shell = e_shell_get_default ();
-		windows = e_shell_get_watched_windows (shell);
-		parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
-		dialog = e_error_new (parent, "mail:vfolder-updated", changed->str, uri, NULL);
+		dialog = e_error_new (e_shell_get_active_window (NULL), "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
 		data_dir = em_utils_get_data_dir ();
@@ -1101,17 +1095,10 @@ vfolder_edit_rule(const gchar *uri)
 		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
-		EShell *shell;
-		GtkWindow *parent;
 		GtkWidget *w;
-		GList *windows;
-
-		shell = e_shell_get_default ();
-		windows = e_shell_get_watched_windows (shell);
-		parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 		/* TODO: we should probably just create it ... */
-		w = e_error_new(parent, "mail:vfolder-notexist", uri, NULL);
+		w = e_error_new (e_shell_get_active_window (NULL), "mail:vfolder-notexist", uri, NULL);
 		em_utils_show_error_silent (w);
 	}
 
@@ -1127,13 +1114,13 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 		gchar *user;
 		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
-		if (!filter_rule_validate(rule)) {
+		if (!filter_rule_validate (rule, GTK_WINDOW (w))) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 
 		if (rule_context_find_rule ((RuleContext *)context, rule->name, rule->source)) {
-			e_error_run((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
+			e_error_run ((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
 			return;
 		}
 

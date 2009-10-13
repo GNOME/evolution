@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gtk/gtk.h>
 
 #include "filter-input.h"
 
@@ -63,7 +64,7 @@ GType           filter_part_get_type     (void);
 FilterPart     *filter_part_new          (void);
 
 /* methods */
-gboolean        filter_part_validate     (FilterPart *fp);
+gboolean        filter_part_validate     (FilterPart *fp, GtkWindow *error_parent);
 gint             filter_part_eq           (FilterPart *fp, FilterPart *fc);
 
 gint             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node, struct _RuleContext *rc);

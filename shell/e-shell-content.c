@@ -1384,7 +1384,7 @@ run:
 	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
 		goto exit;
 
-	if (!filter_rule_validate (rule))
+	if (!filter_rule_validate (rule, GTK_WINDOW (dialog)))
 		goto run;
 
 	e_shell_content_set_search_rule (shell_content, rule);
@@ -1486,7 +1486,7 @@ run:
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
 
-	if (!filter_rule_validate (rule))
+	if (!filter_rule_validate (rule, GTK_WINDOW (dialog)))
 		goto run;
 
 	rule_context_add_rule (context, rule);

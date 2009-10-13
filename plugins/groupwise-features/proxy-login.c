@@ -42,6 +42,7 @@
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-account-utils.h>
+#include <shell/e-shell-view.h>
 
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -274,7 +275,7 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 }
 
 static void
-proxy_login_cb (GtkDialog *dialog, gint state)
+proxy_login_cb (GtkDialog *dialog, gint state, GtkWindow *parent)
 {
 	GtkWidget *account_name_tbox;
 	proxyLoginPrivate *priv;
@@ -287,7 +288,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 	switch (state) {
 	    case GTK_RESPONSE_OK:
 		    gtk_widget_destroy (priv->main);
-		    proxy_soap_login (proxy_name);
+		    proxy_soap_login (proxy_name, parent);
 		    g_object_unref (pld);
 		    break;
 	    case GTK_RESPONSE_CANCEL:
@@ -302,7 +303,7 @@ proxy_login_cb (GtkDialog *dialog, gint state)
 }
 
 static void
-proxy_soap_login (gchar *email)
+proxy_soap_login (gchar *email, GtkWindow *error_parent)
 {
 	EAccountList *accounts = e_get_account_list ();
 	EAccount *srcAccount;
@@ -319,7 +320,7 @@ proxy_soap_login (gchar *email)
 	if (email[i]=='@')
 		name = g_strndup(email, i);
 	else {
-		e_error_run (NULL, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
+		e_error_run (error_parent, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
 		return;
 	}
 
@@ -327,7 +328,7 @@ proxy_soap_login (gchar *email)
 	   If so, it is violating the (li)unix philosophy of User creation. So dont care about that scenario*/
 
 	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) {
-		e_error_run (NULL, "org.gnome.evolution.proxy-login:already-loggedin", email, NULL);
+		e_error_run (error_parent, "org.gnome.evolution.proxy-login:already-loggedin", email, NULL);
 		g_free (name);
 		return;
 	}
@@ -362,7 +363,7 @@ proxy_soap_login (gchar *email)
 		g_free (parent_source_url);
 		camel_url_free (parent);
 	} else {
-		e_error_run (NULL, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
+		e_error_run (error_parent, "org.gnome.evolution.proxy-login:invalid-user",email ,NULL);
 		return;
 	}
 
@@ -524,7 +525,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 					   );
 	proxy_login_setup_tree_view ();
 	proxy_login_update_tree ();
-	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), NULL);
+	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(proxy_login_cb), e_shell_view_get_shell_window (shell_view));
 	gtk_widget_show (GTK_WIDGET (priv->main));
 
 	g_free (uri);

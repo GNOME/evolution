@@ -25,6 +25,7 @@
 #include "e-contact-list-editor.h"
 #include <e-util/e-util-private.h>
 #include <e-util/e-error.h>
+#include "shell/e-shell.h"
 
 #include <string.h>
 
@@ -259,7 +260,7 @@ contact_list_editor_contact_exists (EContactListModel *model,
 	if (!e_contact_list_model_has_email (model, email))
 		return FALSE;
 
-	return (e_error_run (NULL, tag, email, NULL) != GTK_RESPONSE_YES);
+	return (e_error_run (e_shell_get_active_window (NULL), tag, email, NULL) != GTK_RESPONSE_YES);
 }
 
 static void

@@ -43,7 +43,7 @@
 
 #define d(x)
 
-static gint validate(FilterRule *);
+static gint validate(FilterRule *, GtkWindow *error_parent);
 static gint vfolder_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode(FilterRule *);
 static gint xml_decode(FilterRule *, xmlNodePtr, RuleContext *f);
@@ -207,25 +207,23 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const gchar *last)
 }
 
 static gint
-validate(FilterRule *fr)
+validate(FilterRule *fr, GtkWindow *error_parent)
 {
 	g_return_val_if_fail(fr != NULL, 0);
 
 	if (!fr->name || !*fr->name) {
-		/* FIXME: set a parent window? */
-		e_error_run(NULL, "mail:no-name-vfolder", NULL);
+		e_error_run (error_parent, "mail:no-name-vfolder", NULL);
 		return 0;
 	}
 
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (((EMVFolderRule *)fr)->with == EM_VFOLDER_RULE_WITH_SPECIFIC && ((EMVFolderRule *)fr)->sources == NULL) {
-		/* FIXME: set a parent window? */
-		e_error_run(NULL, "mail:vfolder-no-source", NULL);
+		e_error_run (error_parent, "mail:vfolder-no-source", NULL);
 		return 0;
 	}
 
-	return FILTER_RULE_CLASS(parent_class)->validate(fr);
+	return FILTER_RULE_CLASS(parent_class)->validate (fr, error_parent);
 }
 
 static gint

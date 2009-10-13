@@ -37,7 +37,7 @@ struct _element_type {
 	gpointer data;
 };
 
-static gboolean validate (FilterElement *fe);
+static gboolean validate (FilterElement *fe, GtkWindow *error_parent);
 static gint element_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
@@ -117,9 +117,9 @@ filter_element_new (void)
 }
 
 gboolean
-filter_element_validate (FilterElement *fe)
+filter_element_validate (FilterElement *fe, GtkWindow *error_parent)
 {
-	return FILTER_ELEMENT_GET_CLASS (fe)->validate (fe);
+	return FILTER_ELEMENT_GET_CLASS (fe)->validate (fe, error_parent);
 }
 
 gint
@@ -239,7 +239,7 @@ filter_element_set_data (FilterElement *fe, gpointer data)
 
 /* default implementations */
 static gboolean
-validate (FilterElement *fe)
+validate (FilterElement *fe, GtkWindow *error_parent)
 {
 	return TRUE;
 }

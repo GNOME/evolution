@@ -39,7 +39,7 @@
 
 #define d(x)
 
-static gboolean validate(FilterElement *fe);
+static gboolean validate(FilterElement *fe, GtkWindow *error_parent);
 static gint folder_eq(FilterElement *fe, FilterElement *cm);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
@@ -138,18 +138,14 @@ em_filter_folder_element_set_value(EMFilterFolderElement *ff, const gchar *uri)
 }
 
 static gboolean
-validate(FilterElement *fe)
+validate(FilterElement *fe, GtkWindow *error_parent)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 
 	if (ff->uri && *ff->uri) {
 		return TRUE;
 	} else {
-		/* FIXME: FilterElement should probably have a
-                   GtkWidget member pointing to the value gotten with
-                   ::get_widget()so that we can get the parent window
-                   here. */
-		e_error_run(NULL, "mail:no-folder", NULL);
+		e_error_run (error_parent, "mail:no-folder", NULL);
 
 		return FALSE;
 	}

@@ -36,7 +36,7 @@
 
 #define d(x)
 
-static gint validate(FilterRule *);
+static gint validate(FilterRule *, GtkWindow *error_parent);
 static gint rule_eq(FilterRule *fr, FilterRule *cm);
 static xmlNodePtr xml_encode (FilterRule *);
 static gint xml_decode (FilterRule *, xmlNodePtr, RuleContext *);
@@ -196,25 +196,21 @@ filter_rule_set_source (FilterRule *fr, const gchar *source)
 }
 
 gint
-filter_rule_validate (FilterRule *fr)
+filter_rule_validate (FilterRule *fr, GtkWindow *error_parent)
 {
 	g_return_val_if_fail (IS_FILTER_RULE (fr), 0);
 
-	return FILTER_RULE_GET_CLASS (fr)->validate (fr);
+	return FILTER_RULE_GET_CLASS (fr)->validate (fr, error_parent);
 }
 
 static gint
-validate (FilterRule *fr)
+validate (FilterRule *fr, GtkWindow *error_parent)
 {
 	gint valid = TRUE;
 	GList *parts;
 
 	if (!fr->name || !*fr->name) {
-		/* FIXME: FilterElement should probably have a
-                   GtkWidget member pointing to the value gotten with
-                   ::get_widget() so that we can get the parent window
-                   here. */
-		e_error_run(NULL, "filter:no-name", NULL);
+		e_error_run (error_parent, "filter:no-name", NULL);
 
 		return FALSE;
 	}
@@ -223,7 +219,7 @@ validate (FilterRule *fr)
 	parts = fr->parts;
 	valid = parts != NULL;
 	while (parts && valid) {
-		valid = filter_part_validate ((FilterPart *) parts->data);
+		valid = filter_part_validate ((FilterPart *) parts->data, error_parent);
 		parts = parts->next;
 	}
 
@@ -780,7 +776,7 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 
 		l = g_list_last (data->fr->parts);
 		part = l->data;
-		if (!filter_part_validate (part))
+		if (!filter_part_validate (part, GTK_WINDOW (gtk_widget_get_toplevel (button))))
 			return;
 	}
 

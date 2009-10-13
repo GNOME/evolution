@@ -326,13 +326,13 @@ add_editor_response (GtkWidget *dialog, gint button, RuleEditor *re)
 	GtkTreeIter iter;
 
 	if (button == GTK_RESPONSE_OK) {
-		if (!filter_rule_validate (re->edit)) {
+		if (!filter_rule_validate (re->edit, GTK_WINDOW (dialog))) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 
 		if (rule_context_find_rule (re->context, re->edit->name, re->edit->source)) {
-			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", re->edit->name, NULL);
+			e_error_run ((GtkWindow *)dialog, "filter:bad-name-notunique", re->edit->name, NULL);
 			return;
 		}
 
@@ -408,14 +408,14 @@ edit_editor_response (GtkWidget *dialog, gint button, RuleEditor *re)
 	gint pos;
 
 	if (button == GTK_RESPONSE_OK) {
-		if (!filter_rule_validate (re->edit)) {
+		if (!filter_rule_validate (re->edit, GTK_WINDOW (dialog))) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 
 		rule = rule_context_find_rule (re->context, re->edit->name, re->edit->source);
 		if (rule != NULL && rule != re->current) {
-			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
+			e_error_run ((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
 
 			return;
 		}

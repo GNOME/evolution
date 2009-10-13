@@ -79,7 +79,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 	cnc = get_cnc (store);
 
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
-		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL,
+		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
 				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_STOCK_YES, GTK_RESPONSE_YES,
 				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
@@ -100,7 +100,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 		if (n == GTK_RESPONSE_YES) {
 
 			if (e_gw_connection_retract_request (cnc, id, NULL, FALSE, FALSE) != E_GW_CONNECTION_STATUS_OK )
-				e_error_run (NULL, "org.gnome.evolution.message.retract:retract-failure", NULL);
+				e_error_run (GTK_WINDOW (e_shell_view_get_shell_window (shell_view)), "org.gnome.evolution.message.retract:retract-failure", NULL);
 			else {
 				GtkWidget *dialog;
 				dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));

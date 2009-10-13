@@ -37,6 +37,7 @@
 #include <libebook/e-destination.h>
 #include "e-util/e-error.h"
 #include "e-util/e-html-utils.h"
+#include "shell/e-shell.h"
 #include "misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
@@ -85,7 +86,7 @@ eab_error_dialog (const gchar *msg, EBookStatus status)
 		status_str = status_to_string [status];
 
 	if (status_str)
-		e_error_run (NULL, "addressbook:generic-error", msg, _(status_str), NULL);
+		e_error_run (e_shell_get_active_window (NULL), "addressbook:generic-error", msg, _(status_str), NULL);
 }
 
 void

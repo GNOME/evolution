@@ -282,30 +282,23 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	local_store = e_mail_local_get_store ();
 
 	if (!(fromstore = camel_session_get_store (session, cfd->fi->uri, &ex))) {
-		e_error_run(NULL,
+		e_error_run (e_shell_get_active_window (NULL),
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
 	}
 
 	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
-		EShell *shell;
-		GtkWindow *parent;
 		GtkWidget *w;
-		GList *windows;
-
-		shell = e_shell_get_default ();
-		windows = e_shell_get_watched_windows (shell);
-		parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 		w = e_error_new (
-			parent, "mail:no-rename-special-folder",
+			e_shell_get_active_window (NULL), "mail:no-rename-special-folder",
 			cfd->fi->full_name, NULL);
 		em_utils_show_error_silent (w);
 		goto fail;
 	}
 
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
-		e_error_run(NULL,
+		e_error_run (e_shell_get_active_window (NULL),
 			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-copy-folder-to-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
 	}
@@ -410,17 +403,10 @@ emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, gpo
 	GtkWidget *dialog = data;
 
 	if (ex && camel_exception_is_set (ex)) {
-		EShell *shell;
-		GtkWindow *parent;
 		GtkWidget *w;
-		GList *windows;
-
-		shell = e_shell_get_default ();
-		windows = e_shell_get_watched_windows (shell);
-		parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 		w = e_error_new (
-			parent, "mail:no-delete-folder",
+			e_shell_get_active_window (NULL), "mail:no-delete-folder",
 			folder->full_name, camel_exception_get_description (ex), NULL);
 		em_utils_show_error_silent (w);
 		camel_exception_clear (ex);
@@ -447,16 +433,10 @@ emfu_delete_response (GtkWidget *dialog, gint response, gpointer data)
 void
 em_folder_utils_delete_folder (CamelFolder *folder)
 {
-	EShell *shell;
-	GtkWindow *parent;
 	CamelStore *local_store;
+	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
-	GList *windows;
 	gint flags = 0;
-
-	shell = e_shell_get_default ();
-	windows = e_shell_get_watched_windows (shell);
-	parent = (windows != NULL) ? GTK_WINDOW (windows->data) : NULL;
 
 	local_store = e_mail_local_get_store ();
 
@@ -470,7 +450,7 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 
 	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
 	{
-		e_error_run(NULL,"mail:no-delete-special-folder", folder->name, NULL);
+		e_error_run (parent,"mail:no-delete-special-folder", folder->name, NULL);
 		return;
 	}
 

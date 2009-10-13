@@ -64,6 +64,7 @@
 #include "e-util/e-signature-utils.h"
 
 #include "e-mail-shell-backend.h"
+#include "shell/e-shell.h"
 #include "shell/e-shell-migrate.h"
 
 #include "e-mail-store.h"
@@ -1597,7 +1598,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 			if (errno == EEXIST) {
 				gint save = errno;
 
-				switch (e_error_run(NULL, "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
+				switch (e_error_run (e_shell_get_active_window (NULL), "mail:ask-migrate-existing", src->str, dest->str, NULL)) {
 				case GTK_RESPONSE_ACCEPT:
 					mode = CP_OVERWRITE;
 					goto retry_copy;

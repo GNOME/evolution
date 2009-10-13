@@ -196,11 +196,23 @@ update_composer_text (GArray *array)
 	return FALSE;
 }
 
+struct run_error_dialog_data
+{
+	EMsgComposer *composer;
+	const gchar *text;
+};
+
 /* needed because the new thread needs to call g_idle_add () */
 static gboolean
-run_error_dialog (gchar *text)
+run_error_dialog (struct run_error_dialog_data *data)
 {
-	e_error_run (NULL, text, NULL);
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	e_error_run (GTK_WINDOW (data->composer), data->text, NULL);
+	enable_composer (data->composer);
+
+	g_free (data);
+
 	return FALSE;
 }
 
@@ -246,10 +258,15 @@ async_external_editor (EMsgComposer *composer)
 		content = gtkhtml_editor_get_text_plain (GTKHTML_EDITOR (composer), &length);
 		g_file_set_contents (filename, content, length, NULL);
 	} else {
+		struct run_error_dialog_data *data = g_new0 (struct run_error_dialog_data, 1);
+
+		data->composer = composer;
+		data->text = "org.gnome.evolution.plugins.external-editor:no-temp-file";
+
 		g_warning ("Temporary file fd is null");
-		g_idle_add ((GSourceFunc) run_error_dialog,
-			    (gpointer)"org.gnome.evolution.plugins.external-editor:no-temp-file");
-		g_idle_add ((GSourceFunc) enable_composer, composer);
+
+		/* run_error_dialog also calls enable_composer */
+		g_idle_add ((GSourceFunc) run_error_dialog, data);
 		return;
 	}
 
@@ -289,10 +306,15 @@ async_external_editor (EMsgComposer *composer)
 	editor_cmd_line = g_strconcat (editor_cmd, " ", filename, NULL);
 
 	if (!g_spawn_command_line_sync (editor_cmd_line, NULL, NULL, &status, NULL)) {
+		struct run_error_dialog_data *data = g_new0 (struct run_error_dialog_data, 1);
+
 		g_warning ("Unable to launch %s: ", editor_cmd_line);
-		g_idle_add ((GSourceFunc) run_error_dialog,
-			    (gpointer)"org.gnome.evolution.plugins.external-editor:editor-not-launchable");
-		g_idle_add ((GSourceFunc) enable_composer, composer);
+
+		data->composer = composer;
+		data->text = "org.gnome.evolution.plugins.external-editor:editor-not-launchable";
+
+		/* run_error_dialog also calls enable_composer */
+		g_idle_add ((GSourceFunc) run_error_dialog, data);
 
 		g_free (filename);
 		g_free (editor_cmd_line);

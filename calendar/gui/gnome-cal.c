@@ -1989,7 +1989,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
-		e_error_run (NULL, "calendar:server-version", NULL);
+		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:server-version", NULL);
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);

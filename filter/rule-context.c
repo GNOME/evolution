@@ -685,13 +685,13 @@ new_rule_response(GtkWidget *dialog, gint button, RuleContext *context)
 		FilterRule *rule = g_object_get_data((GObject *) dialog, "rule");
 		gchar *user = g_object_get_data((GObject *) dialog, "path");
 
-		if (!filter_rule_validate(rule)) {
+		if (!filter_rule_validate (rule, GTK_WINDOW (dialog))) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 
 		if (rule_context_find_rule (context, rule->name, rule->source)) {
-			e_error_run((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
+			e_error_run ((GtkWindow *)dialog, "filter:bad-name-notunique", rule->name, NULL);
 
 			return;
 		}
