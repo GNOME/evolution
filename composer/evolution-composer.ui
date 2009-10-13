@@ -39,7 +39,7 @@
         <menuitem action='attach'/>
         <placeholder name='recent-placeholder'/>
         <separator/>
-        <menuitem action='send-options'/>
+        <placeholder name='send-options'/>
         <separator/>
       </placeholder>
       <separator/>

@@ -241,31 +241,6 @@ action_send_cb (GtkAction *action,
 }
 
 static void
-action_send_options_cb (GtkAction *action,
-                        EMsgComposer *composer)
-{
-	/* FIXME: KILL-BONOBO - should this be here when -no-undefined removed? */
-	/*
-	EMEvent *event = em_event_peek ();
-	EMEventTargetComposer *target;
-
-	target = em_event_target_new_composer (
-		event, composer, EM_EVENT_COMPOSER_SEND_OPTION);
-	e_msg_composer_set_send_options (composer, FALSE);
-
-	e_event_emit (
-		(EEvent *) event,
-		"composer.selectsendoption",
-		(EEventTarget *) target);
-	*/
-
-	if (!composer->priv->send_invoked)
-		e_error_run (
-			GTK_WINDOW (composer),
-			"mail-composer:send-options-support", NULL);
-}
-
-static void
 action_new_message_cb (GtkAction *action,
                        EMsgComposer *composer)
 {
@@ -352,13 +327,6 @@ static GtkActionEntry entries[] = {
 	  "<Control>Return",
 	  N_("Send this message"),
 	  G_CALLBACK (action_send_cb) },
-
-	{ "send-options",
-	  NULL,
-	  N_("_Send Options"),
-	  NULL,
-	  N_("Insert Send options"),
-	  G_CALLBACK (action_send_options_cb) },
 
 	{ "new-message",
 	  "mail-message-new",

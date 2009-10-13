@@ -36,13 +36,14 @@
 #include "mail/em-event.h"
 
 #include "composer/e-msg-composer.h"
+#include "composer/e-composer-from-header.h"
 #include "libedataserver/e-account.h"
 
 #include "misc/e-send-options.h"
 
 static ESendOptionsDialog * dialog = NULL;
 
-void org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t);
+gboolean gw_ui_composer_actions (GtkUIManager *manager, EMsgComposer *composer);
 void org_gnome_composer_message_reply (EPlugin *ep, EMEventTargetMessage *t);
 
 static time_t
@@ -138,37 +139,86 @@ send_options_commit (EMsgComposer *comp, gpointer user_data)
 	}
 }
 
-void
-org_gnome_composer_send_options (EPlugin *ep, EMEventTargetComposer *t)
+static gboolean
+account_is_groupwise (EAccount *account)
 {
+	const gchar *url;
 
-	EMsgComposer *comp = (struct _EMsgComposer *)t->composer;
-	EComposerHeaderTable *table;
-	EAccount *account = NULL;
-	gchar *temp = NULL;
-
-	table = e_msg_composer_get_header_table (comp);
-	account = e_composer_header_table_get_account (table);
 	if (!account)
-		return;
+		return FALSE;
 
-	temp = strstr (account->transport->url, "groupwise");
-	if (!temp) {
-		return;
-	}
-	e_msg_composer_set_send_options (comp, TRUE);
+	url = e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
+	return url && g_str_has_prefix (url, "groupwise://");
+}
+
+static void
+from_changed_cb (EComposerFromHeader *header, EMsgComposer *composer)
+{
+	GtkActionGroup *group;
+	GtkAction *action;
+
+	g_return_if_fail (header != NULL);
+	g_return_if_fail (composer != NULL);
+
+	group = gtkhtml_editor_get_action_group (GTKHTML_EDITOR (composer), "composer");
+	g_return_if_fail (group != NULL);
+
+	action = gtk_action_group_get_action (group, "gw-send-options");
+	g_return_if_fail (action != NULL);
+
+	gtk_action_set_visible (action, account_is_groupwise (e_composer_from_header_get_active (header)));
+}
+
+static void
+action_send_options_cb (GtkAction *action, EMsgComposer *composer)
+{
+	g_return_if_fail (action != NULL);
+	g_return_if_fail (composer != NULL);
+
 	/* display the send options dialog */
 	if (!dialog) {
-		g_print ("New dialog\n\n");
 		dialog = e_sendoptions_dialog_new ();
 	}
-	e_sendoptions_dialog_run (dialog, GTK_WIDGET (comp), E_ITEM_MAIL);
+
+	e_sendoptions_dialog_run (dialog, GTK_WIDGET (composer), E_ITEM_MAIL);
 
 	g_signal_connect (dialog, "sod_response",
-				  G_CALLBACK (feed_input_data), comp);
+			  G_CALLBACK (feed_input_data), composer);
 
-	g_signal_connect (GTK_WIDGET (comp), "destroy",
-				  G_CALLBACK (send_options_commit), dialog);
+	g_signal_connect (GTK_WIDGET (composer), "destroy",
+			  G_CALLBACK (send_options_commit), dialog);
+}
+
+gboolean
+gw_ui_composer_actions (GtkUIManager *manager, EMsgComposer *composer)
+{
+	static GtkActionEntry entries[] = {
+		{ "gw-send-options",
+		  NULL,
+		  N_("_Send Options"),
+		  NULL,
+		  N_("Insert Send options"),
+		  G_CALLBACK (action_send_options_cb) }
+	};
+
+	GtkhtmlEditor *editor;
+	EComposerHeaderTable *headers;
+	EComposerHeader *header;
+
+	editor = GTKHTML_EDITOR (composer);
+
+	/* Add actions to the "composer" action group. */
+	gtk_action_group_add_actions (
+		gtkhtml_editor_get_action_group (editor, "composer"),
+		entries, G_N_ELEMENTS (entries), composer);
+
+	headers = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (headers, E_COMPOSER_HEADER_FROM);
+
+	from_changed_cb (E_COMPOSER_FROM_HEADER (header), composer);
+	g_signal_connect (G_OBJECT (header), "changed", G_CALLBACK (from_changed_cb), composer);
+
+	return TRUE;
 }
 
 void

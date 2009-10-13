@@ -145,8 +145,6 @@ EComposerHeaderTable *
 EAttachmentView *
 		e_msg_composer_get_attachment_view
 						(EMsgComposer *composer);
-void		e_msg_composer_set_send_options	(EMsgComposer *composer,
-						 gboolean send_enable);
 GByteArray *	e_msg_composer_get_raw_message_text
 						(EMsgComposer *composer);
 

@@ -1353,7 +1353,6 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	ESignature *signature;
 	EAccount *account;
 	gboolean active;
-	gboolean sensitive;
 	const gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
@@ -1380,55 +1379,9 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	signature = uid ? e_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
 
-	/* XXX This should be done more generically.  The composer
-	 *     should not know about particular account types. */
-	sensitive =
-		(strstr (account->transport->url, "exchange") != NULL) ||
-		(strstr (account->transport->url, "groupwise") != NULL);
-	gtk_action_set_sensitive (ACTION (SEND_OPTIONS), sensitive);
-
-exit:
+ exit:
 
 	e_msg_composer_show_sig_file (composer);
-}
-
-static void
-msg_composer_account_list_changed_cb (EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	EAccountList *account_list;
-	EIterator *iterator;
-	gboolean visible = FALSE;
-
-	/* Determine whether to show the "send-options" action by
-	 * examining the account list for account types that support it.
-	 *
-	 * XXX I'd prefer a more general way of doing this.  The composer
-	 *     should not know about particular account types.  Perhaps
-	 *     add a "supports advanced send options" flag to EAccount. */
-
-	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
-	account_list = e_composer_header_table_get_account_list (table);
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (!visible && e_iterator_is_valid (iterator)) {
-		EAccount *account;
-		const gchar *url;
-
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
-		e_iterator_next (iterator);
-
-		if (!account->enabled)
-			continue;
-
-		url = account->transport->url;
-		visible |= (strstr (url, "exchange") != NULL);
-		visible |= (strstr (url, "groupwise") != NULL);
-	}
-
-	gtk_action_set_visible (ACTION (SEND_OPTIONS), visible);
-	g_object_unref (iterator);
 }
 
 struct _drop_data {
@@ -2138,9 +2091,6 @@ msg_composer_init (EMsgComposer *composer)
 		table, "notify::account",
 		G_CALLBACK (msg_composer_account_changed_cb), composer);
 	g_signal_connect_swapped (
-		table, "notify::account-list",
-		G_CALLBACK (msg_composer_account_list_changed_cb), composer);
-	g_signal_connect_swapped (
 		table, "notify::destinations-bcc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 	g_signal_connect_swapped (
@@ -2163,7 +2113,6 @@ msg_composer_init (EMsgComposer *composer)
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 
 	msg_composer_account_changed_cb (composer);
-	msg_composer_account_list_changed_cb (composer);
 
 	/* Attachments */
 
@@ -3989,15 +3938,6 @@ e_msg_composer_get_attachment_view (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	return E_ATTACHMENT_VIEW (composer->priv->attachment_paned);
-}
-
-void
-e_msg_composer_set_send_options (EMsgComposer *composer,
-                                 gboolean send_enable)
-{
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	composer->priv->send_invoked = send_enable;
 }
 
 GList *

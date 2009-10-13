@@ -72,9 +72,22 @@
 			</ui-manager>
 		</hook>
 
+		<hook class="org.gnome.evolution.ui:1.0">
+			<ui-manager id="org.gnome.evolution.composer" callback="gw_ui_composer_actions">
+				<menubar name="main-menu">
+					<menu action="insert-menu">
+						<placeholder name="insert-menu-top">
+							<placeholder name="send-options">
+								<menuitem action="gw-send-options"/>
+							</placeholder>
+						</placeholder>
+					</menu>
+				</menubar>
+			</ui-manager>
+		</hook>
+
 		<hook class="org.gnome.evolution.mail.events:1.0">
 			<event target="message" id="message.reading" type="pass" handle="org_gnome_popup_wizard"/>
-			<event id="composer.selectsendoption" handle="org_gnome_composer_send_options" target="composer" enable="sendoption"/>
 			<event id="message.replying" handle="org_gnome_composer_message_reply" target="message" enable="reply"/>
 		</hook>
 
