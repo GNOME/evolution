@@ -2407,6 +2407,8 @@ e_cal_model_set_search_query_with_time_range (ECalModel *model, const gchar *sex
 		priv->start = start;
 		priv->end = end;
 		do_query = TRUE;
+
+		g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
 	}
 
 	if (do_query)

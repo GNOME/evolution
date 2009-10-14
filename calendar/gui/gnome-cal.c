@@ -1126,7 +1126,7 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 	g_free (priv->sexp);
 	priv->sexp = g_strdup (sexp);
 
-	priv->lview_select_daten_range = range_search;
+	priv->lview_select_daten_range = !range_search;
 	start = start_range;
 	end = end_range;
 
@@ -1137,20 +1137,15 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 	i = priv->current_view_type;
 
 	/* Set the query on the views */
-	if (i == GNOME_CAL_LIST_VIEW) {
-		if (!priv->lview_select_daten_range) {
-			e_cal_model_set_search_query_with_time_range (
-				model, sexp, start, end);
-		} else {
-			start = priv->base_view_time;
-			get_times_for_views (gcal, GNOME_CAL_LIST_VIEW, &start, &end, NULL);
+	if (i == GNOME_CAL_LIST_VIEW && !priv->lview_select_daten_range) {
+		start = priv->base_view_time;
+		get_times_for_views (gcal, GNOME_CAL_LIST_VIEW, &start, &end, NULL);
 
-			e_cal_model_set_search_query_with_time_range (
-				model, sexp, start, end);
+		e_cal_model_set_search_query_with_time_range (
+			model, sexp, start, end);
 
-			if (priv->current_view_type == GNOME_CAL_LIST_VIEW)
-				gnome_calendar_update_date_navigator (gcal);
-		}
+		if (priv->current_view_type == GNOME_CAL_LIST_VIEW)
+			gnome_calendar_update_date_navigator (gcal);
 	} else
 		e_cal_model_set_search_query (model, sexp);
 
