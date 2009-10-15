@@ -645,6 +645,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 	g_free(basestr);
 
 	if (mime_type != NULL) {
+		gboolean is_fallback = FALSE;
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0) {
 			emf->snoop_mime_type = mime_type = em_format_snoop_type(part);
 			if (mime_type == NULL)
@@ -652,13 +653,19 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 		}
 
 		handle = em_format_find_handler(emf, mime_type);
-		if (handle == NULL)
+		if (handle == NULL) {
 			handle = em_format_fallback_handler(emf, mime_type);
+			is_fallback = TRUE;
+		}
 
 		if (handle != NULL
 		    && !em_format_is_attachment(emf, part)) {
 			d(printf("running handler for type '%s'\n", mime_type));
+			if (is_fallback)
+				camel_object_meta_set (part, "EMF-Fallback", "1");
 			handle->handler(emf, stream, part, handle);
+			if (is_fallback)
+				camel_object_meta_set (part, "EMF-Fallback",  NULL);
 			goto finish;
 		}
 		d(printf("this type is an attachment? '%s'\n", mime_type));

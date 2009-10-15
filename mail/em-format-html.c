@@ -1535,9 +1535,15 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	guint32 flags;
 	guint32 rgb;
 	gint i, count, len;
+	gchar *meta;
+	gboolean is_fallback;
 	struct _EMFormatHTMLCache *efhc;
 
 	flags = efh->text_html_flags;
+
+	meta = camel_object_meta_get (part, "EMF-Fallback");
+	is_fallback = meta != NULL;
+	g_free (meta);
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 
@@ -1608,7 +1614,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 			continue;
 
 		type = camel_mime_part_get_content_type(newpart);
-		if (camel_content_type_is (type, "text", "*") && !camel_content_type_is(type, "text", "calendar")) {
+		if (camel_content_type_is (type, "text", "*") && (is_fallback || !camel_content_type_is (type, "text", "calendar"))) {
 			camel_stream_printf (
 				stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
 				e_color_to_value (
