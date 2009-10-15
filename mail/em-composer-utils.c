@@ -47,6 +47,7 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
+#include "composer/e-composer-actions.h"
 #include "composer/e-composer-autosave.h"
 #include "composer/e-composer-post-header.h"
 #include "em-folder-selector.h"
@@ -993,6 +994,30 @@ em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids, gboolean replace)
 	mail_get_messages (folder, uids, edit_messages, GINT_TO_POINTER (replace));
 }
 
+static void
+emu_update_composers_security (EMsgComposer *composer, guint32 validity_found)
+{
+	GtkToggleAction *action;
+
+	g_return_if_fail (composer != NULL);
+
+	if (validity_found & EM_FORMAT_VALIDITY_FOUND_SIGNED) {
+		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
+			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
+		else
+			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
+		gtk_toggle_action_set_active (action, TRUE);
+	}
+
+	if (validity_found & EM_FORMAT_VALIDITY_FOUND_ENCRYPTED) {
+		if (validity_found & EM_FORMAT_VALIDITY_FOUND_SMIME)
+			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
+		else
+			action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
+		gtk_toggle_action_set_active (action, TRUE);
+	}
+}
+
 /* Forwarding messages... */
 struct forward_attached_data
 {
@@ -1128,11 +1153,12 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 
 	for (i = 0; i < messages->len; i++) {
 		gssize len;
+		guint32 validity_found = 0;
 
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 
-		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL);
+		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL, &validity_found);
 
 		if (text) {
 			composer = create_new_composer (subject, fromuri, FALSE);
@@ -1150,6 +1176,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 					emcs_set_folder_info (emcs, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED);
 				}
 
+				emu_update_composers_security (composer, validity_found);
 				composer_set_no_change (composer, TRUE, FALSE);
 
 				gtk_widget_show (GTK_WIDGET (composer));
@@ -2235,6 +2262,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	GConfClient *gconf;
 	gssize len = 0;
 	gboolean start_bottom;
+	guint32 validity_found = 0;
 
 	gconf = mail_config_get_gconf_client ();
 	start_bottom = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/reply_start_bottom", NULL);
@@ -2250,19 +2278,21 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		camel_object_unref (part);
 		break;
 	case MAIL_CONFIG_REPLY_OUTLOOK:
-		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL);
+		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
+		emu_update_composers_security (composer, validity_found);
 		break;
 
 	case MAIL_CONFIG_REPLY_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (ATTRIBUTION, message);
-		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL);
+		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
+		emu_update_composers_security (composer, validity_found);
 		break;
 	}
 
@@ -2296,7 +2326,7 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	gboolean start_bottom = 0;
 
 	credits = attribution_format (ATTRIBUTION, message);
-	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL);
+	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, NULL);
 
 	g_free (credits);
 	return text;

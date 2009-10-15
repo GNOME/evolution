@@ -181,6 +181,11 @@ struct _EMFormatHeader {
 #define EM_FORMAT_HEADER_BOLD (1<<0)
 #define EM_FORMAT_HEADER_LAST (1<<4) /* reserve 4 slots */
 
+#define EM_FORMAT_VALIDITY_FOUND_PGP       (1<<0)
+#define EM_FORMAT_VALIDITY_FOUND_SMIME     (1<<1)
+#define EM_FORMAT_VALIDITY_FOUND_SIGNED    (1<<2)
+#define EM_FORMAT_VALIDITY_FOUND_ENCRYPTED (1<<3)
+
 /**
  * struct _EMFormat - Mail formatter object.
  *
@@ -231,6 +236,8 @@ struct _EMFormat {
 	/* for validity enveloping */
 	CamelCipherValidity *valid;
 	CamelCipherValidity *valid_parent;
+	/* for checking whether found any signed/encrypted parts */
+	guint32 validity_found;
 
 	/* for forcing inlining */
 	GHashTable *inline_table;

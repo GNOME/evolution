@@ -1509,6 +1509,9 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * @len:
  * @source:
  * @append: Text to append, can be NULL.
+ * @validity_found: if not NULL, then here will be set what validities
+ *         had been found during message conversion. Value is a bit OR
+ *         of EM_FORMAT_VALIDITY_FOUND_* constants.
  *
  * Convert a message to html, quoting if the @credits attribution
  * string is given.
@@ -1516,7 +1519,7 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * Return value: The html version.
  **/
 gchar *
-em_utils_message_to_html(CamelMimeMessage *message, const gchar *credits, guint32 flags, gssize *len, EMFormat *source, const gchar *append)
+em_utils_message_to_html (CamelMimeMessage *message, const gchar *credits, guint32 flags, gssize *len, EMFormat *source, const gchar *append, guint32 *validity_found)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1543,6 +1546,8 @@ em_utils_message_to_html(CamelMimeMessage *message, const gchar *credits, guint3
 	}
 
 	em_format_format_clone((EMFormat *)emfq, NULL, NULL, message, source);
+	if (validity_found)
+		*validity_found = ((EMFormat *)emfq)->validity_found;
 	g_object_unref (emfq);
 
 	if (append && *append)

@@ -182,6 +182,7 @@ emf_init (EMFormat *emf)
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
+	emf->validity_found = 0;
 
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -1306,6 +1307,21 @@ em_format_describe_part(CamelMimePart *part, const gchar *mime_type)
 	return g_string_free (stext, FALSE);
 }
 
+static void
+add_validity_found (EMFormat *emf, CamelCipherValidity *valid)
+{
+	g_return_if_fail (emf != NULL);
+
+	if (!valid)
+		return;
+
+	if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+		emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED;
+
+	if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE)
+		emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED;
+}
+
 /* ********************************************************************** */
 
 #ifdef ENABLE_SMIME
@@ -1329,6 +1345,8 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 
 	context = camel_smime_context_new(emf->session);
 
+	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_SMIME;
+
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, ex);
 	if (valid == NULL) {
@@ -1341,6 +1359,7 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 		emfc->valid = camel_cipher_validity_clone(valid);
 		camel_object_ref((emfc->secured = opart));
 
+		add_validity_found (emf, valid);
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
@@ -1482,6 +1501,8 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 		return;
 	}
 
+	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
+
 	ex = camel_exception_new();
 	context = camel_gpg_context_new(emf->session);
 	opart = camel_mime_part_new();
@@ -1498,6 +1519,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 		emfc->valid = camel_cipher_validity_clone(valid);
 		camel_object_ref((emfc->secured = opart));
 
+		add_validity_found (emf, valid);
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
@@ -1636,13 +1658,18 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	if (mps->protocol) {
 #ifdef ENABLE_SMIME
 		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
+		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0) {
 			cipher = camel_smime_context_new(emf->session);
-		else
+			emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SMIME;
+		} else
 #endif
-			if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+			if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0) {
 				cipher = camel_gpg_context_new(emf->session);
+				emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_PGP;
+			}
 	}
+
+	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED;
 
 	if (cipher == NULL) {
 		em_format_format_error(emf, stream, _("Unsupported signature format"));
@@ -1664,6 +1691,7 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 			emfc->valid = camel_cipher_validity_clone(valid);
 			camel_object_ref((emfc->secured = cpart));
 
+			add_validity_found (emf, valid);
 			em_format_format_secure(emf, stream, cpart, valid);
 		}
 
@@ -1786,6 +1814,8 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 		return;
 	}
 
+	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED | EM_FORMAT_VALIDITY_FOUND_PGP;
+
 	ex = camel_exception_new();
 	cipher = camel_gpg_context_new(emf->session);
 	/* Verify the signature of the message */
@@ -1838,6 +1868,7 @@ emf_inlinepgp_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart, E
 	camel_medium_set_content_object ((CamelMedium *) opart, dw);
 	camel_data_wrapper_set_mime_type_field ((CamelDataWrapper *) opart, dw->mime_type);
 
+	add_validity_found (emf, valid);
 	/* Pass it off to the real formatter */
 	em_format_format_secure(emf, stream, opart, valid);
 
@@ -1858,6 +1889,8 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 	CamelMimePart *opart;
 	CamelDataWrapper *dw;
 	gchar *mime_type;
+
+	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_ENCRYPTED | EM_FORMAT_VALIDITY_FOUND_PGP;
 
 	cipher = camel_gpg_context_new(emf->session);
 	ex = camel_exception_new();
@@ -1889,6 +1922,7 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 
 	g_free (mime_type);
 
+	add_validity_found (emf, valid);
 	/* Pass it off to the real formatter */
 	em_format_format_secure(emf, stream, opart, valid);
 
