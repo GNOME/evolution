@@ -333,7 +333,7 @@ print_border_with_triangles (GtkPrintContext *pc,
 	}
 
 	/* Draw the outline, if desired. */
-	if (line_width >= -EPSILON) {
+	if (line_width >= EPSILON) {
 
 		cr = gtk_print_context_get_cairo_context (pc);
 		cairo_move_to (cr, x1, y1);
@@ -431,8 +431,8 @@ print_text (GtkPrintContext *context, PangoFontDescription *desc,
 
 	/* Set a clipping rectangle. */
 	cairo_move_to (cr, x1, y1);
-	cairo_rectangle (cr, x1, y1, x2, y2);
-	cairo_clip (cr);
+	cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
+	cairo_clip (cr);    
 
 	cairo_new_path (cr);
 	cairo_set_source_rgb (cr, 0, 0, 0);
@@ -458,7 +458,7 @@ print_text_size (GtkPrintContext *context, const gchar *text,
 	PangoFontDescription *font;
 	double w;
 
-	font = get_font_for_size (ABS (y2 - y1), PANGO_WEIGHT_NORMAL);
+	font = get_font_for_size (ABS (y2 - y1) * 0.5, PANGO_WEIGHT_NORMAL);
 	w = print_text (context, font, text, alignment, x1, x2, y1, y2);
 	pango_font_description_free (font);
 
@@ -474,7 +474,7 @@ print_text_size_bold (GtkPrintContext *context, const gchar *text,
 	PangoFontDescription *font;
 	double w;
 
-	font = get_font_for_size (ABS (y2 - y1), PANGO_WEIGHT_BOLD);
+	font = get_font_for_size (ABS (y2 - y1) * 0.5, PANGO_WEIGHT_BOLD);
 	w = print_text (context, font, text, alignment, x1, x2, y1, y2);
 	pango_font_description_free (font);
 
@@ -741,7 +741,7 @@ bound_text (GtkPrintContext *context,
 
 		/* Set a clipping rectangle. */
 		cairo_move_to (cr, x1, y1);
-		cairo_rectangle (cr, x1, y1, x2, y2);
+		cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
 		cairo_clip (cr);
 		cairo_new_path (cr);
 
@@ -1246,6 +1246,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	gint rows_in_top_display, i;
 	double font_size, max_font_size;
 	cairo_t *cr;
+	GdkPixbuf *pixbuf = NULL;
 
 	ECalModel *model = gnome_calendar_get_model (gcal);
 
@@ -1302,17 +1303,51 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	 /*Print the long events. */
 	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
-	for (i = 0; i < pdi.long_events->len; i++) {
-		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
-		print_day_long_event (context, font, left, right, top, bottom,
-				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
-	}
 
 	/* We always leave space for DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY in the
 	   top display, but we may have more rows than that, in which case
 	   the main display area will be compressed. */
-	rows_in_top_display = MAX (rows_in_top_display,
-				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY);
+	/* Limit long day event to half the height of the panel */
+	rows_in_top_display = MIN (MAX (rows_in_top_display,
+				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
+				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
+    
+
+	for (i = 0; i < rows_in_top_display; i++) {
+		if (i < (rows_in_top_display - 1) || 
+			rows_in_top_display >= pdi.long_events->len) {
+    			event = &g_array_index (pdi.long_events, EDayViewEvent, i);
+			print_day_long_event (context, font, left, right, top, bottom,
+					      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
+		} else {
+			/* too many events */
+			cairo_t *cr = gtk_print_context_get_cairo_context (context);
+			gint x, y;
+
+			if (!pixbuf) {
+				const gchar **xpm = (const gchar **)jump_xpm;
+
+				/* this ugly thing is here only to get rid of compiler warning
+				   about unused 'jump_xpm_focused' */
+				if (pixbuf)
+					xpm = (const gchar **)jump_xpm_focused;
+
+				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+			}
+
+			/* Right align - 10 comes from print_day_long_event  too */
+			x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
+			/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event 
+			   (offsets used to place events boxes in their respective cells) */
+			y = top + DAY_VIEW_ROW_HEIGHT * i + (DAY_VIEW_ROW_HEIGHT - 4 - 7) * 0.5;
+
+			cairo_save (cr);
+			cairo_scale (cr, 0.5, 0.5);
+			gdk_cairo_set_source_pixbuf (cr, pixbuf, x * 2.0, y * 2.0);
+			cairo_paint (cr);
+			cairo_restore (cr);
+		}
+	}
 
 	/* Draw the border around the long events. */
 	cr = gtk_print_context_get_cairo_context (context);
@@ -1350,6 +1385,8 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	}
 
 	/* Free everything. */
+	if (pixbuf)
+		g_object_unref (pixbuf);
 	free_event_array (pdi.long_events);
 	pango_font_description_free (font);
 	g_array_free (pdi.long_events, TRUE);
@@ -1378,7 +1415,7 @@ print_is_one_day_week_event (EWeekViewEvent *event,
 static void
 print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 		       struct psinfo *psi,
-		       double x1, double x2, double y1, double y2,
+		       double x1, double x2, double y1, double row_height,
 		       EWeekViewEvent *event, EWeekViewEventSpan *span,
 		       gchar *text, double red, double green, double blue)
 {
@@ -1396,7 +1433,7 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	if (event->end > psi->day_starts[span->start_day + span->num_days])
 		right_triangle_width = 4;
 
-	 print_border_with_triangles (context, x1, x2, y1, y2 + 4, 0.5, red, green, blue,
+	print_border_with_triangles (context, x1, x2, y1, y1 + row_height, 0.0, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1415,7 +1452,7 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x1 += 4;
-		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2);
+		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1433,18 +1470,18 @@ print_week_long_event (GtkPrintContext *context, PangoFontDescription *font,
 				    buffer, sizeof (buffer));
 
 		x2 -= 4;
-		x2 -= print_text_size (context, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y2);
+		x2 -= print_text_size (context, buffer, PANGO_ALIGN_RIGHT, x1, x2, y1, y1 + row_height);
 	}
 
 	x1 += 4;
 	x2 -= 4;
-	print_text_size (context, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
+	print_text_size (context, text, PANGO_ALIGN_CENTER, x1, x2, y1, y1 + row_height);
 }
 
 static void
 print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		      struct psinfo *psi,
-		      double x1, double x2, double y1, double y2,
+		      double x1, double x2, double y1, double row_height,
 		      EWeekViewEvent *event, EWeekViewEventSpan *span,
 		      gchar *text, double red, double green, double blue)
 {
@@ -1461,9 +1498,8 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
-	print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue);
-	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3 ) + 4;
-	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);
+	print_rectangle (context, x1, y1, x2 - x1, row_height, red, green, blue);
+	x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height) + 4;
 
 	if (psi->weeks_shown <= 2) {
 		date_tm.tm_hour = event->end_minute / 60;
@@ -1472,11 +1508,11 @@ print_week_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 				    buffer, sizeof (buffer));
 
-		print_rectangle (context, x1, y1, (x2 + 6) - x1, (y2 + 4) - y1, red, green, blue);
-		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3) + 4;
+		print_rectangle (context, x1, y1, x2 - x1, row_height, red, green, blue);
+		x1 += print_text_size (context, buffer, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height) + 4;
 	}
 
-	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y2 + 3);
+	print_text_size (context, text, PANGO_ALIGN_LEFT, x1, x2, y1, y1 + row_height);
 }
 
 static void
@@ -1533,10 +1569,10 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 			}
 
 			x1 = left + start_x * cell_width + 6;
-			x2 = left + (end_x + 1) * cell_width - 16;
+			x2 = left + (end_x + 1) * cell_width - 6;
 			y1 = top + start_y * cell_height
 				 + psi->header_row_height
-				 + span->row * psi->row_height;
+				 + span->row * (psi->row_height + 2);
 			y2 = y1 + psi->row_height * 0.5;
 
 			red = .9;
@@ -1546,11 +1582,11 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 			if (print_is_one_day_week_event (event, span,
 							 psi->day_starts)) {
 				print_week_day_event (context, font, psi,
-						      x1, x2, y1, y2,
+						      x1, x2, y1, psi->row_height,
 						      event, span, text, red, green, blue);
 			} else {
 				print_week_long_event (context, font, psi,
-						       x1, x2, y1, y2,
+						       x1, x2, y1, psi->row_height,
 						       event, span, text, red, green, blue);
 			}
 		} else {
@@ -1564,10 +1600,9 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 				 psi->compress_weekend,
 				 &start_x, &start_y, &start_h);
 
-			x1 = left + (start_x + 1) * cell_width - 16;
 			y1 = top + start_y * cell_height
 				 + psi->header_row_height
-				 + psi->rows_per_cell * psi->row_height;
+				 + psi->rows_per_cell * (psi->row_height + 2);
 
 			if (span->row >= psi->rows_per_compressed_cell && psi->compress_weekend) {
 				gint end_day_of_week = (psi->display_start_weekday + span->start_day) % 7;
@@ -1588,6 +1623,8 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 				pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 			}
+
+			x1 = left + (start_x + 1) * cell_width - 6 - gdk_pixbuf_get_width (pixbuf) * 0.5;
 
 			cairo_save (cr);
 			cairo_scale (cr, 0.5, 0.5);
@@ -1793,7 +1830,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 
 	/* Calculate how many rows we can fit into each type of cell. */
 	psi.rows_per_cell = ((cell_height * 2) - psi.header_row_height)
-		/ psi.row_height;
+		/ (psi.row_height + 2);
 	psi.rows_per_compressed_cell = (cell_height - psi.header_row_height)
 		/ psi.row_height;
 
