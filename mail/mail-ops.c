@@ -880,7 +880,7 @@ struct _append_msg {
 static gchar *
 append_mail_desc (struct _append_msg *m)
 {
-	return g_strdup (_("Saving message to folder"));
+	return g_strdup_printf (_("Saving message to folder '%s'"), camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -957,8 +957,8 @@ struct _transfer_msg {
 static gchar *
 transfer_messages_desc (struct _transfer_msg *m)
 {
-	return g_strdup_printf(m->delete?_("Moving messages to %s"):_("Copying messages to %s"),
-			       m->dest_uri);
+	return g_strdup_printf (m->delete ? _("Moving messages to '%s'") : _("Copying messages to '%s'"),
+			        m->dest_uri);
 
 }
 
@@ -1066,7 +1066,7 @@ get_folderinfo_desc (struct _get_folderinfo_msg *m)
 	gchar *ret, *name;
 
 	name = camel_service_get_name((CamelService *)m->store, TRUE);
-	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
+	ret = g_strdup_printf (_("Scanning folders in '%s'"), name);
 	g_free(name);
 	return ret;
 }
@@ -1215,7 +1215,7 @@ struct _get_folder_msg {
 static gchar *
 get_folder_desc (struct _get_folder_msg *m)
 {
-	return g_strdup_printf(_("Opening folder %s"), m->uri);
+	return g_strdup_printf (_("Opening folder '%s'"), m->uri);
 }
 
 static void
@@ -1281,7 +1281,7 @@ struct _get_quota_msg {
 static gchar *
 get_quota_desc (struct _get_quota_msg *m)
 {
-	return g_strdup_printf(_("Retrieving quota information for folder %s"), camel_folder_get_name (m->folder));
+	return g_strdup_printf (_("Retrieving quota information for folder '%s'"), camel_folder_get_name (m->folder));
 }
 
 static void
@@ -1353,7 +1353,7 @@ struct _get_store_msg {
 static gchar *
 get_store_desc (struct _get_store_msg *m)
 {
-	return g_strdup_printf(_("Opening store %s"), m->uri);
+	return g_strdup_printf (_("Opening store '%s'"), m->uri);
 }
 
 static void
@@ -1424,7 +1424,7 @@ struct _remove_folder_msg {
 static gchar *
 remove_folder_desc (struct _remove_folder_msg *m)
 {
-	return g_strdup_printf (_("Removing folder %s"), m->folder->full_name);
+	return g_strdup_printf (_("Removing folder '%s'"), camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1542,7 +1542,7 @@ struct _sync_folder_msg {
 static gchar *
 sync_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup_printf (_("Storing folder \'%s\'"),
+	return g_strdup_printf (_("Storing folder '%s'"),
 			       camel_folder_get_full_name (m->folder));
 }
 
@@ -1660,7 +1660,7 @@ mail_sync_store(CamelStore *store, gint expunge, void (*done) (CamelStore *store
 static gchar *
 refresh_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup(_("Refreshing folder"));
+	return g_strdup_printf (_("Refreshing folder '%s'"), camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1700,7 +1700,7 @@ mail_refresh_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, gpoi
 static gchar *
 expunge_folder_desc (struct _sync_folder_msg *m)
 {
-	return g_strdup(_("Expunging folder"));
+	return g_strdup_printf (_("Expunging folder '%s'"), camel_folder_get_full_name (m->folder));
 }
 
 static void
@@ -1745,13 +1745,8 @@ struct _empty_trash_msg {
 static gchar *
 empty_trash_desc (struct _empty_trash_msg *m)
 {
-	/* FIXME after 1.4 is out and we're not in string freeze any more. */
-#if 0
-	return g_strdup_printf (_("Emptying trash in \'%s\'"),
+	return g_strdup_printf (_("Emptying trash in '%s'"),
 				m->account ? m->account->name : _("Local Folders"));
-#else
-	return g_strdup(_("Expunging folder"));
-#endif
 }
 
 static void
@@ -1829,7 +1824,7 @@ struct _get_message_msg {
 static gchar *
 get_message_desc (struct _get_message_msg *m)
 {
-	return g_strdup_printf(_("Retrieving message %s"), m->uid);
+	return g_strdup_printf (_("Retrieving message '%s'"), m->uid);
 }
 
 static void
@@ -2361,8 +2356,8 @@ set_offline_desc (struct _set_offline_msg *m)
 	gchar *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 	gchar *msg;
 
-	msg = g_strdup_printf(m->offline?_("Disconnecting from %s"):_("Reconnecting to %s"),
-			      service_name);
+	msg = g_strdup_printf (m->offline ? _("Disconnecting from '%s'") : _("Reconnecting to '%s'"),
+			       service_name);
 	g_free(service_name);
 	return msg;
 }
