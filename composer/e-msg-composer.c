@@ -64,6 +64,8 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-gpg-context.h>
 #include <camel/camel-iconv.h>
+#include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-filter-canon.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-multipart-encrypted.h>
@@ -249,6 +251,29 @@ destination_list_to_vector (GList *list)
 
 #define LINE_LEN 72
 
+static gboolean
+text_requires_quoted_printable (const gchar *text, gsize len)
+{
+	const gchar *p;
+	gsize pos;
+
+	if (!text)
+		return FALSE;
+
+	if (len == -1)
+		len = strlen (text);
+
+	if (len >= 5 && strncmp (text, "From ", 5) == 0)
+		return TRUE;
+
+	for (p = text, pos = 0; pos + 6 <= len; pos++, p++) {
+		if (*p == '\n' && strncmp (p + 1, "From ", 5) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 static CamelTransferEncoding
 best_encoding (GByteArray *buf, const gchar *charset)
 {
@@ -280,7 +305,7 @@ best_encoding (GByteArray *buf, const gchar *charset)
 	if (status == (gsize) -1 || status > 0)
 		return -1;
 
-	if ((count == 0) && (buf->len < LINE_LEN))
+	if ((count == 0) && (buf->len < LINE_LEN) && !text_requires_quoted_printable ((const gchar *)buf->data, buf->len))
 		return CAMEL_TRANSFER_ENCODING_7BIT;
 	else if (count <= buf->len * 0.17)
 		return CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
@@ -607,11 +632,15 @@ build_message (EMsgComposer *composer,
 			CAMEL_MEDIUM (new), "X-Priority", "1");
 
 	if (p->mime_body) {
-		plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
-		for (i = 0; p->mime_body[i]; i++) {
-			if ((guchar) p->mime_body[i] > 127) {
-				plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
-				break;
+		if (text_requires_quoted_printable (p->mime_body, -1)) {
+			plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+		} else {
+			plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
+			for (i = 0; p->mime_body[i]; i++) {
+				if ((guchar) p->mime_body[i] > 127) {
+					plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+					break;
+				}
 			}
 		}
 		data = g_byte_array_new ();
@@ -652,10 +681,37 @@ build_message (EMsgComposer *composer,
 		camel_object_unref (filter);
 	}
 
+	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
+		/* encode to quoted-printable by ourself, together with
+		   taking care of "\nFrom " text */
+		CamelStreamFilter *filter_stream;
+		CamelMimeFilter *mf, *qp;
+
+		if (!CAMEL_IS_STREAM_FILTER (stream)) {
+			filter_stream = camel_stream_filter_new_with_stream (stream);
+			camel_object_unref (stream);
+
+			stream = (CamelStream *) filter_stream;
+		}
+
+		qp = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_ENC);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), qp);
+		camel_object_unref (qp);
+
+		mf = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), mf);
+		camel_object_unref (mf);
+	}
+
 	/* construct the content object */
 	plain = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
+
+	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
+		/* to not re-encode the data when pushing it to a part */
+		plain->encoding = plain_encoding;
+	}
 
 	camel_data_wrapper_set_mime_type_field (plain, type);
 	camel_content_type_unref (type);
@@ -663,6 +719,7 @@ build_message (EMsgComposer *composer,
 	if (html_content) {
 		gchar *text;
 		gsize length;
+		gboolean pre_encode;
 
 		clear_current_images (composer);
 
@@ -672,6 +729,7 @@ build_message (EMsgComposer *composer,
 		data = g_byte_array_new ();
 		text = gtkhtml_editor_get_text_html (editor, &length);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
+		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
 
 		if (save_html_object_data)
@@ -680,9 +738,37 @@ build_message (EMsgComposer *composer,
 		html = camel_data_wrapper_new ();
 
 		stream = camel_stream_mem_new_with_byte_array (data);
+
+		if (pre_encode) {
+			/* encode to quoted-printable by ourself, together with
+			   taking care of "\nFrom " text */
+			CamelStreamFilter *filter_stream;
+			CamelMimeFilter *mf, *qp;
+
+			if (!CAMEL_IS_STREAM_FILTER (stream)) {
+				filter_stream = camel_stream_filter_new_with_stream (stream);
+				camel_object_unref (stream);
+
+				stream = (CamelStream *) filter_stream;
+			}
+
+			qp = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_ENC);
+			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), qp);
+			camel_object_unref (qp);
+
+			mf = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
+			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), mf);
+			camel_object_unref (mf);
+		}
+
 		camel_data_wrapper_construct_from_stream (html, stream);
 		camel_object_unref (stream);
 		camel_data_wrapper_set_mime_type (html, "text/html; charset=utf-8");
+
+		if (pre_encode) {
+			/* to not re-encode the data when pushing it to a part */
+			html->encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+		}
 
 		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
