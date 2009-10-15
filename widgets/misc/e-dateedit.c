@@ -109,6 +109,9 @@ struct _EDateEditPrivate {
 	GDestroyNotify time_callback_destroy;
 
 	gboolean twodigit_year_can_future;
+
+	/* set to TRUE when the date has been changed by typing to the entry */
+	gboolean has_been_changed;
 };
 
 enum {
@@ -356,6 +359,7 @@ date_edit_init (EDateEdit *dedit)
 	dedit->priv->time_callback_destroy = NULL;
 
 	dedit->priv->twodigit_year_can_future = TRUE;
+	dedit->priv->has_been_changed = FALSE;
 
 	create_children (dedit);
 
@@ -1681,6 +1685,12 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		return FALSE;
 	} else if (e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday)) {
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+
+		if (dedit->priv->has_been_changed) {
+			/* the previous one didn't emit changed signal, but we want it even here, thus doing itself */
+			g_signal_emit (dedit, signals [CHANGED], 0);
+			dedit->priv->has_been_changed = FALSE;
+		}
 	} else {
 		dedit->priv->date_set_to_none = TRUE;
 		e_date_edit_update_date_entry (dedit);
@@ -1951,8 +1961,10 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 						      tmp_tm.tm_mon,
 						      tmp_tm.tm_mday);
 
-	if (date_changed)
+	if (date_changed) {
+		priv->has_been_changed = TRUE;
 		g_signal_emit (dedit, signals[CHANGED], 0);
+	}
 }
 
 /* Parses the time, and if it is different from the current settings it

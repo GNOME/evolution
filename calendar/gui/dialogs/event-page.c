@@ -2415,6 +2415,22 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 	notify_dates_changed (epage, &start_tt, &end_tt);
 }
 
+static gboolean
+safe_to_process_date_changed_signal (GtkWidget *dedit_widget)
+{
+	EDateEdit *dedit;
+	GtkWidget *entry;
+
+	g_return_val_if_fail (dedit_widget != NULL, FALSE);
+
+	dedit = E_DATE_EDIT (dedit_widget);
+	g_return_val_if_fail (dedit != NULL, FALSE);
+
+	entry = e_date_edit_get_entry (dedit);
+
+	return !entry || !GTK_WIDGET_HAS_FOCUS (entry);
+}
+
 /* Callback used when the start date widget change.  We check that the
  * start date < end date and we set the "all day event" button as appropriate.
  */
@@ -2422,6 +2438,9 @@ static void
 start_date_changed_cb (GtkWidget *dedit,
                        EventPage *epage)
 {
+	if (!safe_to_process_date_changed_signal (dedit))
+		return;
+
 	hour_minute_changed (epage);
 	times_updated (epage, TRUE);
 }
@@ -2433,6 +2452,10 @@ static void
 end_date_changed_cb (GtkWidget *dedit,
                      EventPage *epage)
 {
+	if (!safe_to_process_date_changed_signal (dedit)) {
+		return;
+	}
+
 	times_updated (epage, FALSE);
 }
 
@@ -2771,9 +2794,9 @@ init_widgets (EventPage *epage)
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Start and end times */
-	g_signal_connect((priv->start_time), "changed",
+	g_signal_connect (priv->start_time, "changed",
 			    G_CALLBACK (start_date_changed_cb), epage);
-	g_signal_connect((priv->end_time), "changed",
+	g_signal_connect (priv->end_time, "changed",
 			    G_CALLBACK (end_date_changed_cb), epage);
 
 	/* Categories */
