@@ -36,6 +36,7 @@ widgetsinclude_HEADERS =			\
 	e-attachment-store.h			\
 	e-attachment-tree-view.h		\
 	e-attachment-view.h			\
+	e-buffer-tagger.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-canvas.h				\
@@ -113,6 +114,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-store.c			\
 	e-attachment-tree-view.c		\
 	e-attachment-view.c			\
+	e-buffer-tagger.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-canvas.c				\

@@ -41,6 +41,7 @@
 #include "e-util/e-dialog-widgets.h"
 #include "misc/e-dateedit.h"
 #include "misc/e-send-options.h"
+#include "misc/e-buffer-tagger.h"
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
@@ -484,6 +485,7 @@ clear_widgets (EventPage *epage)
 	e_dialog_editable_set (priv->summary, NULL);
 	e_dialog_editable_set (priv->location, NULL);
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
 	/* Start and end times */
 	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -972,8 +974,12 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		dtext = l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  dtext->value ? dtext->value : "", -1);
+	} else {
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+					  "", 0);
 	}
 	e_cal_component_free_text_list (l);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
 	e_cal_get_cal_address (client, &backend_addr, NULL);
 	set_subscriber_info_string (epage, backend_addr);
@@ -2761,6 +2767,8 @@ init_widgets (EventPage *epage)
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
+
+	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Start and end times */
 	g_signal_connect((priv->start_time), "changed",

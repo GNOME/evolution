@@ -37,6 +37,7 @@
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <misc/e-dateedit.h>
+#include "misc/e-buffer-tagger.h"
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
 #include "e-util/e-dialog-widgets.h"
@@ -263,6 +264,7 @@ clear_widgets (TaskPage *tpage)
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
 	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
 	/* Start, due times */
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), 0);
@@ -514,6 +516,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					  "", 0);
 	}
 	e_cal_component_free_text_list (l);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
 	default_zone = calendar_config_get_icaltimezone ();
 
@@ -1788,6 +1791,8 @@ init_widgets (TaskPage *tpage)
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
+
+	e_buffer_tagger_connect (GTK_TEXT_VIEW (priv->description));
 
 	/* Dates */
 	g_signal_connect((priv->start_date), "changed",

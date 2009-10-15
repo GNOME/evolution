@@ -40,6 +40,7 @@
 #include <libedataserverui/e-name-selector-entry.h>
 #include <libedataserverui/e-name-selector-list.h>
 #include <widgets/misc/e-dateedit.h>
+#include "misc/e-buffer-tagger.h"
 
 #include "common/authentication.h"
 #include "e-util/e-dialog-widgets.h"
@@ -124,6 +125,7 @@ clear_widgets (MemoPage *mpage)
 	view = GTK_TEXT_VIEW (mpage->priv->memo_content);
 	buffer = gtk_text_view_get_buffer (view);
 	gtk_text_buffer_set_text (buffer, "", 0);
+	e_buffer_tagger_update_tags (view);
 
 	/* Classification */
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
@@ -228,6 +230,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 					  "", 0);
 	}
 	e_cal_component_free_text_list (l);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->memo_content));
 
 	/* Start Date. */
 	e_cal_component_get_dtstart (comp, &d);
@@ -969,6 +972,7 @@ init_widgets (MemoPage *mpage)
 	view = GTK_TEXT_VIEW (priv->memo_content);
 	buffer = gtk_text_view_get_buffer (view);
 	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
+	e_buffer_tagger_connect (view);
 
 	/* Categories button */
 	g_signal_connect(

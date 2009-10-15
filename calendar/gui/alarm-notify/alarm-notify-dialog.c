@@ -33,6 +33,7 @@
 #include "config-data.h"
 #include "util.h"
 #include "e-util/e-util-private.h"
+#include "misc/e-buffer-tagger.h"
 
 enum {
 	ALARM_DISPLAY_COLUMN,
@@ -286,6 +287,8 @@ notified_alarms_dialog_new (void)
 		return NULL;
 	}
 
+	e_buffer_tagger_connect (GTK_TEXT_VIEW (an->description));
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW(an->treeview), model);
 
 	gtk_window_set_keep_above (GTK_WINDOW (an->dialog), TRUE);
@@ -443,6 +446,7 @@ fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
 	gtk_text_buffer_set_text (buffer, description, -1);
 	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);
 	gtk_label_set_text (GTK_LABEL (an->location), location);
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (an->description));
 	g_object_unref (table);
 	g_object_unref (buffer);
 }
