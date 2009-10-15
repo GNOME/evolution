@@ -162,6 +162,37 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *orga
 	g_slist_free (attendees);
 }
 
+static const gchar *
+prepend_from (CamelMimeMessage *message, gchar **text)
+{
+	gchar *res, *tmp, *addr = NULL;
+	const gchar *name = NULL, *eml = NULL;
+	const CamelInternetAddress *from = NULL;
+
+	g_return_val_if_fail (message != NULL, NULL);
+	g_return_val_if_fail (text != NULL, NULL);
+
+	if (message->reply_to)
+		from = message->reply_to;
+	else if (message->from)
+		from = message->from;
+
+	if (from && camel_internet_address_get (from, 0, &name, &eml))
+		addr = camel_internet_address_format_address (name, eml);
+
+	/* To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>" */
+	tmp = g_strdup_printf (_("Created from a mail by %s"), addr ? addr : "");
+
+	res = g_strconcat (tmp, "\n", *text, NULL);
+
+	g_free (tmp);
+	g_free (*text);
+
+	*text = res;
+
+	return res;
+}
+
 static void
 set_description (ECalComponent *comp, CamelMimeMessage *message)
 {
@@ -182,8 +213,7 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	/*
 	 * Get non-multipart content from multipart message.
 	 */
-	while (CAMEL_IS_MULTIPART (content) && count > 0)
-	{
+	while (CAMEL_IS_MULTIPART (content) && count > 0) {
 		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), 0);
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		count--;
@@ -203,17 +233,16 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 	camel_object_unref (mem);
 
 	/* convert to UTF-8 string */
-	if (str && content->mime_type->params && content->mime_type->params->value)
-	{
+	if (str && content->mime_type->params && content->mime_type->params->value) {
 		convert_str = g_convert (str, strlen (str),
 					 "UTF-8", content->mime_type->params->value,
 					 &bytes_read, &bytes_written, NULL);
 	}
 
 	if (convert_str)
-		text.value = convert_str;
+		text.value = prepend_from (message, &convert_str);
 	else
-		text.value = str;
+		text.value = prepend_from (message, &str);
 	text.altrep = NULL;
 	sl.next = NULL;
 	sl.data = &text;
@@ -307,6 +336,22 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	g_free (store_dir);
 
 	e_cal_component_set_attachment_list (comp, list);
+}
+
+static void
+set_priority (ECalComponent *comp, CamelMimePart *part)
+{
+	const gchar *prio;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (part != NULL);
+
+	prio = camel_header_raw_find (& (part->headers), "X-Priority", NULL);
+	if (prio && atoi (prio) > 0) {
+		gint priority = 1;
+
+		e_cal_component_set_priority (comp, &priority);
+	}
 }
 
 struct _report_error
@@ -725,6 +770,9 @@ do_mail_to_event (AsyncData *data)
 
 			/* set attachment files */
 			set_attachments (client, comp, message);
+
+			/* priority */
+			set_priority (comp, CAMEL_MIME_PART (message));
 
 			/* no need to increment a sequence number, this is a new component */
 			e_cal_component_abort_sequence (comp);
