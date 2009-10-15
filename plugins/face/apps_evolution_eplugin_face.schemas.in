@@ -1,0 +1,17 @@
+<gconfschemafile>
+  <schemalist>
+
+    <schema>
+      <key>/schemas/apps/evolution/eplugin/face/insert_by_default</key>
+      <applyto>/apps/evolution/eplugin/face/insert_by_default</applyto>
+      <owner>org.gnome.evolution.plugins.face</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Insert Face picture by default</short>
+        <long>Whether insert Face picture to outgoing messages by default. The picture should be set before checking this, otherwise nothing happens.</long>
+      </locale>
+    </schema>
+
+  </schemalist>
+</gconfschemafile>

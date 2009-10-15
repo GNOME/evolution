@@ -3,20 +3,22 @@
   <e-plugin id="org.gnome.evolution.face" type="shlib" _name="Face" location="@PLUGINDIR@/liborg-gnome-face@SOEXT@">
 
     <author name="Sankar P" email="psankar@novell.com"/>
-    <_description xml:space="preserve">Attach a small picture of your face to outgoing messages.
-
-First time the user needs to configure a 48x48 PNG image. It is Base-64 encoded and stored in ~/.evolution/faces. This will be used in subsequent sent messages.</_description>
+    <_description xml:space="preserve">Attach a small picture of your face to outgoing messages.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
       <ui-manager id="org.gnome.evolution.composer">
         <menubar name='main-menu'>
           <menu action='insert-menu'>
             <placeholder name="insert-menu-top">
-	      <menuitem action="face"/>
+	      <menuitem action="face-plugin"/>
             </placeholder>
           </menu>
         </menubar>
       </ui-manager>
+    </hook>
+
+    <hook class="org.gnome.evolution.mail.events:1.0">
+	<event id="composer.presendchecks" handle="face_handle_send" target="message"/>
     </hook>
   </e-plugin>
 </e-plugin-list>

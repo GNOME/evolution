@@ -2,23 +2,19 @@
 <error-list domain="org.gnome.evolution.plugins.face">
 
 	<error id="file-not-found" type="error">
-		<primary>Failed Read </primary>
-		<secondary>The file cannot be read</secondary>
+		<_primary>Failed Read </_primary>
+		<_secondary>The file cannot be read</_secondary>
 	</error>
 
 	<error id="invalid-image-size" type="error">
-		<primary>Invalid Image Size</primary>
-		<secondary>Please select an image of size 48 * 48 </secondary>
-	</error>
-
-	<error id="invalid-file-size" type="error">
-		<primary>Invalid File Size</primary>
-		<secondary>The file you selected is too big. Please select a file of size less than 720 bytes. </secondary>
+		<_primary>Invalid Image Size</_primary>
+		<_secondary>Please select an image of size 48 * 48 </_secondary>
 	</error>
 
 	<error id="not-an-image" type="error">
-		<primary>Not an image </primary>
-		<secondary>The file you selected does not look like a valid .png image.</secondary>
+		<_primary>Not an image </_primary>
+		<_secondary>The file you selected does not look like a valid .png image.
+Error: {0}</_secondary>
 	</error>
 
 </error-list>
