@@ -445,9 +445,12 @@ static const gchar *resent_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_RESENT_BCC
 };
 
+struct _send_queue_msg;
+static void report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, gint pc, const gchar *desc, ...);
+
 /* send 1 message to a specific transport */
 static void
-mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination, CamelFilterDriver *driver, CamelException *ex)
+mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *uid, const gchar *destination, CamelFilterDriver *driver, CamelException *ex)
 {
 	EAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
@@ -498,6 +501,9 @@ mail_send_message(CamelFolder *queue, const gchar *uid, const gchar *destination
 		if (tmp)
 			sent_folder_uri = g_strstrip(g_strdup(tmp));
 	}
+
+	/* let the dialog know the right account it is using; percentage is ignored */
+	report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, transport_url ? transport_url : destination);
 
 	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();
@@ -741,7 +747,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		if (!m->cancel)
 			camel_operation_progress (NULL, (i+1) * 100 / send_uids->len);
 
-		mail_send_message (m->queue, send_uids->pdata[i], m->destination, m->driver, &ex);
+		mail_send_message (m, m->queue, send_uids->pdata[i], m->destination, m->driver, &ex);
 		if (camel_exception_is_set (&ex)) {
 			if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
 				/* merge exceptions into one */

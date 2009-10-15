@@ -121,6 +121,9 @@ struct _send_info {
 	gchar *what;
 	gint pc;
 
+	GtkWidget *send_account_label;
+	char *send_url;
+
 	/*time_t update;*/
 	struct _send_data *data;
 };
@@ -149,6 +152,7 @@ free_send_info(struct _send_info *info)
 	if (info->timeout_id != 0)
 		g_source_remove(info->timeout_id);
 	g_free(info->what);
+	g_free (info->send_url);
 	g_free(info);
 }
 
@@ -259,12 +263,17 @@ dialog_response(GtkDialog *gd, gint button, struct _send_data *data)
 	}
 }
 
+static GStaticMutex status_lock = G_STATIC_MUTEX_INIT;
+static gchar *format_url (const gchar *internal_url, const gchar *account_name);
+
 static gint
 operation_status_timeout(gpointer data)
 {
 	struct _send_info *info = data;
 
 	if (info->progress_bar) {
+		g_static_mutex_lock (&status_lock);
+
 		gtk_progress_bar_set_fraction (
 			GTK_PROGRESS_BAR (info->progress_bar),
 			info->pc / 100.0);
@@ -272,6 +281,21 @@ operation_status_timeout(gpointer data)
 			gtk_label_set_text (
 				GTK_LABEL (info->status_label),
 				info->what);
+		if (info->send_url && info->send_account_label) {
+			char *tmp = format_url (info->send_url, NULL);
+
+			g_free (info->send_url);
+			info->send_url = NULL;
+
+			gtk_label_set_markup (
+				GTK_LABEL (info->send_account_label),
+				tmp);
+
+			g_free (tmp);
+		}
+
+		g_static_mutex_unlock (&status_lock);
+
 		return TRUE;
 	}
 
@@ -281,10 +305,24 @@ operation_status_timeout(gpointer data)
 static void
 set_send_status(struct _send_info *info, const gchar *desc, gint pc)
 {
-	/* FIXME: LOCK */
+	g_static_mutex_lock (&status_lock);
+
 	g_free(info->what);
 	info->what = g_strdup(desc);
 	info->pc = pc;
+
+	g_static_mutex_unlock (&status_lock);
+}
+
+static void
+set_send_account (struct _send_info *info, const char *account_url)
+{
+	g_static_mutex_lock (&status_lock);
+
+	g_free (info->send_url);
+	info->send_url = g_strdup (account_url);
+
+	g_static_mutex_unlock (&status_lock);
 }
 
 /* for camel operation status */
@@ -307,7 +345,7 @@ operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 }
 
 static gchar *
-format_url(const gchar *internal_url, const gchar *account_name)
+format_url (const gchar *internal_url, const gchar *account_name)
 {
 	CamelURL *url;
 	gchar *pretty_url;
@@ -615,6 +653,7 @@ build_dialog (GtkWindow *parent,
 		info->cancel_button = cancel_button;
 		info->data = data;
 		info->status_label = status_label;
+		info->send_account_label = label;
 
 		g_signal_connect (
 			cancel_button, "clicked",
@@ -678,6 +717,9 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, gi
 	case CAMEL_FILTER_STATUS_START:
 	case CAMEL_FILTER_STATUS_END:
 		set_send_status(info, desc, pc);
+		break;
+	case CAMEL_FILTER_STATUS_ACTION:
+		set_send_account (info, desc);
 		break;
 	default:
 		break;
