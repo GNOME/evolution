@@ -362,7 +362,7 @@ set_values (FilterDatespec *fds)
 
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
 
-	note_type = fds->type==FDST_X_FUTURE ? FDST_X_AGO : fds->type; /* FUTURE and AGO use the same notebook pages/etc. */
+	note_type = p->type==FDST_X_FUTURE ? FDST_X_AGO : p->type; /* FUTURE and AGO use the same notebook pages/etc. */
 
 	switch (p->type) {
 	case FDST_NOW:
