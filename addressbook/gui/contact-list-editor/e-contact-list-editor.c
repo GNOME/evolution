@@ -603,10 +603,35 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
                                                     GdkEventKey *event)
 {
 	EContactListEditor *editor;
+	gboolean can_comma = FALSE;
 
 	editor = contact_list_editor_extract (widget);
 
-	if (event->keyval == GDK_comma || event->keyval == GDK_Return) {
+	if (event->keyval == GDK_comma) {
+		GtkEntry *entry;
+		gint cpos = -1;
+
+		entry = GTK_ENTRY (WIDGET (EMAIL_ENTRY));
+		g_object_get (G_OBJECT (entry), "cursor-position", &cpos, NULL);
+
+		/* not the first letter */
+		if (cpos > 0) {
+			const gchar *text;
+			gint quotes = 0, i;
+
+			text = gtk_entry_get_text (entry);
+
+			for (i = 0; text && text [i] && i < cpos; i++) {
+				if (text [i] == '\"')
+					quotes++;
+			}
+
+			/* even count of quotes */
+			can_comma = (quotes & 1) == 0;
+		}
+	}
+
+	if (can_comma || event->keyval == GDK_Return) {
 		g_signal_emit_by_name (widget, "activate", 0);
 		contact_list_editor_add_email (editor);
 
