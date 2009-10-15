@@ -233,9 +233,20 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 	it = e_list_get_iterator((EList *)pitip->accounts);
 
-	/* Look through the list of attendees to find the user's address */
+	if (!pitip->to_address && pitip->msg) {
+		EAccount *account = em_utils_guess_account (pitip->msg, pitip->folder);
 
-	if (!pitip->my_address)
+		if (account) {
+			pitip->to_address = g_strdup (e_account_get_string (account, E_ACCOUNT_ID_ADDRESS));
+			if (pitip->to_address && !*pitip->to_address) {
+				g_free (pitip->to_address);
+				pitip->to_address = NULL;
+			}
+		}
+	}
+
+	/* Look through the list of attendees to find the user's address */
+	if (!pitip->to_address)
 		while (e_iterator_is_valid(it)) {
 			const EAccount *account = e_iterator_get(it);
 			icalproperty *prop = NULL;
@@ -290,8 +301,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 	 * previous loop, but it would hurt the performance for all providers in
 	 * general. Hence, we choose to iterate through the accounts list again.
 	 */
-
-	if (!pitip->my_address)
+	if (!pitip->to_address)
 		while (e_iterator_is_valid(it)) {
 			const EAccount *account = e_iterator_get(it);
 			icalproperty *prop = NULL;
@@ -1923,7 +1933,6 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	}
 
 	if (!save_schedules && pitip->delete_message) {
-		g_message ("Deleting!");
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 	}
 
@@ -2509,14 +2518,12 @@ source_selection_changed (ESourceSelector *selector, gpointer data)
 	GSList *groups;
 
 	/* first we clear all the completion flags from all sources */
-	g_message ("Clearing selection");
 	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
 		GSList *sources;
 		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
 			ESource *source = E_SOURCE (sources->data);
 
-			g_message ("Unsetting for %s", e_source_peek_name (source));
 			e_source_set_property (source, "conflict", NULL);
 		}
 	}
@@ -2525,7 +2532,6 @@ source_selection_changed (ESourceSelector *selector, gpointer data)
 	   property on those sources */
 	selection = e_source_selector_get_selection (selector);
 	for (l = selection; l; l = l->next) {
-		g_message ("Setting for %s", e_source_peek_name (E_SOURCE (l->data)));
 		e_source_set_property (E_SOURCE (l->data), "conflict", "true");
 	}
 	e_source_selector_free_selection (selection);

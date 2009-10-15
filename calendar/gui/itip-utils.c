@@ -1205,6 +1205,29 @@ append_cal_attachments (EMsgComposer *composer,
 	g_slist_free (attach_list);
 }
 
+static void
+setup_from (ECalComponentItipMethod method, ECalComponent *comp, EComposerHeaderTable *table)
+{
+	EAccountList *accounts;
+
+	accounts = e_composer_header_table_get_account_list (table);
+	if (accounts) {
+		EAccount *account = NULL;
+
+		if (!account) {
+			gchar *from = comp_from (method, comp);
+
+			if (from)
+				account = (EAccount *) e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, from);
+
+			g_free (from);
+		}
+
+		if (account)
+			e_composer_header_table_set_account (table, account);
+	}
+}
+
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
@@ -1216,7 +1239,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	gchar *ical_string = NULL;
-	gchar *from = NULL;
 	gchar *content_type = NULL;
 	gchar *subject = NULL;
 	gboolean retval = FALSE;
@@ -1259,14 +1281,11 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	/* Subject information */
 	subject = comp_subject (method, comp);
 
-	/* From address */
-	from = comp_from (method, comp);
-
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
+	setup_from (method, send_comp, table);
 	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_account_name (table, from);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
 	e_destination_freev (destinations);
@@ -1328,7 +1347,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		g_list_free (users);
 	}
 
-	g_free (from);
 	g_free (content_type);
 	g_free (subject);
 	g_free (ical_string);
@@ -1350,7 +1368,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users = NULL;
-	gchar *from = NULL;
 	gchar *subject = NULL;
 	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
@@ -1366,14 +1383,11 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	/* Subject information */
 	subject = comp_subject (method, comp);
 
-	/* From address */
-	from = comp_from (method, comp);
-
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
+	setup_from (method, send_comp, table);
 	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_account_name (table, from);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
 	e_destination_freev (destinations);
@@ -1488,7 +1502,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		g_list_free (users);
 	}
 
-	g_free (from);
 	g_free (subject);
 	g_free (ical_string);
 	return retval;

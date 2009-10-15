@@ -774,7 +774,6 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 
 	response = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), DATA_RESPONSE_KEY));
 
-	g_message ("Response %d", response);
 	g_signal_emit (G_OBJECT (data), signals[RESPONSE], 0, response);
 }
 

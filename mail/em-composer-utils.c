@@ -1844,19 +1844,6 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 }
 
 static EAccount *
-guess_account_folder(CamelFolder *folder)
-{
-	EAccount *account;
-	gchar *tmp;
-
-	tmp = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
-	account = mail_config_get_account_by_source_url(tmp);
-	g_free(tmp);
-
-	return account;
-}
-
-static EAccount *
 guess_account (CamelMimeMessage *message, CamelFolder *folder)
 {
 	GHashTable *account_hash = NULL;
@@ -1868,26 +1855,9 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 		CAMEL_RECIPIENT_TYPE_CC
 	};
 
-	/* check for newsgroup header */
-	if (folder
-	    && camel_medium_get_header((CamelMedium *)message, "Newsgroups")
-	    && (account = guess_account_folder(folder)))
+	account = em_utils_guess_account (message, folder);
+	if (account)
 		return account;
-
-	/* check for source folder */
-	if (folder) {
-		account = guess_account_folder(folder);
-		if (account)
-			return account;
-	}
-
-	/* then message source */
-	if (account == NULL
-	    && (tmp = camel_mime_message_get_source(message))) {
-		account = mail_config_get_account_by_source_url(tmp);
-		if (account)
-			return account;
-	}
 
 	/* finally recipient (to/cc) in account table */
 	account_hash = generate_account_hash ();

@@ -2254,3 +2254,41 @@ em_utils_url_unescape_amp (const gchar *url)
 
 	return buff;
 }
+
+static EAccount *
+guess_account_folder (CamelFolder *folder)
+{
+	EAccount *account;
+	gchar *tmp;
+
+	tmp = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+	account = mail_config_get_account_by_source_url (tmp);
+	g_free (tmp);
+
+	return account;
+}
+
+EAccount *
+em_utils_guess_account (CamelMimeMessage *message, CamelFolder *folder)
+{
+	EAccount *account = NULL;
+	const gchar *tmp;
+
+	/* check for newsgroup header */
+	if (folder
+	    && camel_medium_get_header ((CamelMedium *)message, "Newsgroups")
+	    && (account = guess_account_folder (folder)))
+		return account;
+
+	/* check for source folder */
+	if (folder)
+		account = guess_account_folder (folder);
+
+	/* then message source */
+	if (account == NULL
+	    && (tmp = camel_mime_message_get_source (message))) {
+		account = mail_config_get_account_by_source_url (tmp);
+	}
+
+	return account;
+}
