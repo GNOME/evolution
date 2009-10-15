@@ -825,8 +825,13 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
-			/* FIXME Better error message */
-			e_notice (NULL, GTK_MESSAGE_ERROR, "Unable to book");
+			if (error->code == E_CALENDAR_STATUS_OBJECT_ID_ALREADY_EXISTS) {
+				e_notice (NULL, GTK_MESSAGE_ERROR, _("Unable to book a resource, the new event collides with some other."));
+			} else {
+				gchar *msg = g_strconcat (_("Unable to book a resource, error: "), error->message, NULL);
+				e_notice (NULL, GTK_MESSAGE_ERROR, msg);
+				g_free (msg);
+			}
 
 			retval = FALSE;
 		}
