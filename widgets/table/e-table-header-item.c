@@ -748,10 +748,6 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 static void
 ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
 {
-	if (context->action == 0) {
-		e_table_header_remove (ethi->eth, ethi->drag_col);
-		gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
-	}
 	ethi_remove_drop_marker (ethi);
 	ethi_remove_destroy_marker (ethi);
 	ethi->drag_col = -1;
