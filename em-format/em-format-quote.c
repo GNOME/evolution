@@ -29,6 +29,7 @@
 
 #include <camel/camel-iconv.h>
 #include <camel/camel-stream-filter.h>
+#include <camel/camel-mime-filter-linewrap.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter-enriched.h>
 #include <camel/camel-string-utils.h>
@@ -487,6 +488,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMimeFilter *sig_strip;
+	CamelMimeFilter *wrap_filter;
 	CamelContentType *type;
 	const gchar *format;
 	guint32 rgb = 0x737373, flags;
@@ -510,6 +512,10 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 		camel_stream_filter_add (filtered_stream, sig_strip);
 		camel_object_unref (sig_strip);
 	}
+
+	wrap_filter = camel_mime_filter_linewrap_new (70, 70, 0, CAMEL_MIME_FILTER_LINEWRAP_WORD);
+	camel_stream_filter_add (filtered_stream, wrap_filter);
+	camel_object_unref (wrap_filter);
 
 	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	camel_stream_filter_add(filtered_stream, html_filter);
