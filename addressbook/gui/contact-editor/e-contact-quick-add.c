@@ -183,18 +183,25 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 }
 
 static void
-ce_have_book (EBook *book, EBookStatus status, gpointer closure)
+ce_have_contact (EBook *book, EBookStatus status, EContact *contact, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	if (status != E_BOOK_ERROR_OK) {
 		if (book)
 			g_object_unref (book);
-		g_warning ("Couldn't open local address book.");
+		g_warning ("Failed to find contact, status %d.", status);
 		quick_add_unref (qa);
 	} else {
 		EShell *shell;
 		EABEditor *contact_editor;
+
+		if (contact) {
+			/* use found contact */
+			if (qa->contact)
+				g_object_unref (qa->contact);
+			qa->contact = g_object_ref (contact);
+		}
 
 		shell = e_shell_get_default ();
 		contact_editor = e_contact_editor_new (
@@ -202,7 +209,7 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
 		g_object_set (contact_editor,
-				"changed", TRUE,
+				"changed", contact != NULL,
 				NULL);
 
 		/* We pass this via object data, so that we don't get a dangling pointer referenced if both
@@ -221,6 +228,21 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 				  NULL);
 
 		g_object_unref (book);
+	}
+}
+
+static void
+ce_have_book (EBook *book, EBookStatus status, gpointer closure)
+{
+	QuickAdd *qa = (QuickAdd *) closure;
+
+	if (status != E_BOOK_ERROR_OK) {
+		if (book)
+			g_object_unref (book);
+		g_warning ("Couldn't open local address book.");
+		quick_add_unref (qa);
+	} else {
+		eab_merging_book_find_contact (book, qa->contact, ce_have_contact, qa);
 	}
 }
 

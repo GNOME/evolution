@@ -37,7 +37,8 @@
 typedef struct dropdown_data dropdown_data;
 typedef enum {
 	E_CONTACT_MERGING_ADD,
-	E_CONTACT_MERGING_COMMIT
+	E_CONTACT_MERGING_COMMIT,
+	E_CONTACT_MERGING_FIND
 } EContactMergingOpType;
 
 typedef struct {
@@ -50,6 +51,7 @@ typedef struct {
 	GList *avoid;
 	EBookIdCallback id_cb;
 	EBookCallback   cb;
+	EBookContactCallback c_cb;
 	gpointer closure;
 } EContactMergingLookup;
 
@@ -121,6 +123,19 @@ final_id_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 }
 
 static void
+final_cb_as_id (EBook *book, EBookStatus status, gpointer closure)
+{
+	EContactMergingLookup *lookup = closure;
+
+	if (lookup->id_cb)
+		lookup->id_cb (lookup->book, status, lookup->contact ? e_contact_get_const (lookup->contact, E_CONTACT_UID) : NULL, lookup->closure);
+
+	free_lookup (lookup);
+
+	finished_lookup ();
+}
+
+static void
 final_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	EContactMergingLookup *lookup = closure;
@@ -134,11 +149,14 @@ final_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-doit (EContactMergingLookup *lookup)
+doit (EContactMergingLookup *lookup, gboolean force_commit)
 {
-	if (lookup->op == E_CONTACT_MERGING_ADD)
-		e_book_async_add_contact (lookup->book, lookup->contact, final_id_cb, lookup);
-	else if (lookup->op == E_CONTACT_MERGING_COMMIT)
+	if (lookup->op == E_CONTACT_MERGING_ADD) {
+		if (force_commit)
+			e_book_async_commit_contact (lookup->book, lookup->contact, final_cb_as_id, lookup);
+		else
+			e_book_async_add_contact (lookup->book, lookup->contact, final_id_cb, lookup);
+	} else if (lookup->op == E_CONTACT_MERGING_COMMIT)
 		e_book_async_commit_contact (lookup->book, lookup->contact, final_cb, lookup);
 }
 
@@ -415,7 +433,7 @@ response (GtkWidget *dialog, gint response, EContactMergingLookup *lookup)
 
 	switch (response) {
 	case 0:
-		doit (lookup);
+		doit (lookup, FALSE);
 		break;
 	case 1:
 		cancelit (lookup);
@@ -439,9 +457,22 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 	EContactMergingLookup *lookup = closure;
 	gchar *gladefile;
 	gint flag;
+	gboolean same_uids;
 
-	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE) {
-		doit (lookup);
+	if (lookup->op == E_CONTACT_MERGING_FIND) {
+		if (lookup->c_cb)
+			lookup->c_cb (lookup->book, E_BOOK_ERROR_OK, (gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE ? NULL : match, lookup->closure);
+
+		free_lookup (lookup);
+		finished_lookup ();
+		return;
+	}
+
+	/* if had same UID, then we are editing old contact, thus force commit change to it */
+	same_uids = contact && match && g_str_equal (e_contact_get_const (contact, E_CONTACT_UID), e_contact_get_const (match, E_CONTACT_UID));
+
+	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE || same_uids) {
+		doit (lookup, same_uids);
 	} else {
 		GladeXML *ui;
 
@@ -467,7 +498,7 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 			ui = glade_xml_new (gladefile, NULL, NULL);
 			g_free (gladefile);
 		} else {
-			doit (lookup);
+			doit (lookup, FALSE);
 			return;
 		}
 
@@ -535,6 +566,29 @@ eab_merging_book_commit_contact (EBook                 *book,
 	lookup->book = g_object_ref (book);
 	lookup->contact = g_object_ref (contact);
 	lookup->cb = cb;
+	lookup->closure = closure;
+	lookup->avoid = g_list_append (NULL, contact);
+	lookup->match = NULL;
+
+	add_lookup (lookup);
+
+	return TRUE;
+}
+
+gboolean
+eab_merging_book_find_contact (EBook                 *book,
+			       EContact              *contact,
+			       EBookContactCallback   cb,
+			       gpointer               closure)
+{
+	EContactMergingLookup *lookup;
+
+	lookup = g_new (EContactMergingLookup, 1);
+
+	lookup->op = E_CONTACT_MERGING_FIND;
+	lookup->book = g_object_ref (book);
+	lookup->contact = g_object_ref (contact);
+	lookup->c_cb = cb;
 	lookup->closure = closure;
 	lookup->avoid = g_list_append (NULL, contact);
 	lookup->match = NULL;

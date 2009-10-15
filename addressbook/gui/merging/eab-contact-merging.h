@@ -38,6 +38,10 @@ gboolean  eab_merging_book_commit_contact (EBook           *book,
 					   EContact        *contact,
 					   EBookCallback    cb,
 					   gpointer         closure);
+gboolean eab_merging_book_find_contact (EBook                 *book,
+					EContact              *contact,
+					EBookContactCallback   cb,
+					gpointer               closure);
 
 G_END_DECLS
 
