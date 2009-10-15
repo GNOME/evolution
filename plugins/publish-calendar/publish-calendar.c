@@ -475,6 +475,16 @@ url_list_changed (PublishUIData *ui)
 }
 
 static void
+update_url_enable_button (EPublishUri *url, GtkWidget *url_enable)
+{
+	g_return_if_fail (url != NULL);
+	g_return_if_fail (url_enable != NULL);
+	g_return_if_fail (GTK_IS_BUTTON (url_enable));
+
+	gtk_button_set_label (GTK_BUTTON (url_enable), url->enabled ? _("_Disable") : _("E_nable"));
+}
+
+static void
 url_list_enable_toggled (GtkCellRendererToggle *renderer,
                          const gchar            *path_string,
 			 PublishUIData         *ui)
@@ -494,12 +504,11 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
 
 		url->enabled = !url->enabled;
 
-		if (url->enabled)
-			gtk_widget_set_sensitive (ui->url_enable, FALSE);
-		else
-			gtk_widget_set_sensitive (ui->url_enable, TRUE);
+		update_url_enable_button (url, ui->url_enable);
 
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
+
+		url_list_changed (ui);
 	}
 
 	gtk_tree_path_free (path);
@@ -516,12 +525,9 @@ selection_changed (GtkTreeSelection *selection, PublishUIData *ui)
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 		gtk_widget_set_sensitive (ui->url_edit, TRUE);
 		gtk_widget_set_sensitive (ui->url_remove, TRUE);
+		gtk_widget_set_sensitive (ui->url_enable, TRUE);
 
-		if (url->enabled)
-			gtk_widget_set_sensitive (ui->url_enable, FALSE);
-		else
-			gtk_widget_set_sensitive (ui->url_enable, TRUE);
-
+		update_url_enable_button (url, ui->url_enable);
 	} else {
 		gtk_widget_set_sensitive (ui->url_edit, FALSE);
 		gtk_widget_set_sensitive (ui->url_remove, FALSE);
@@ -665,10 +671,7 @@ url_enable_clicked (GtkButton *button, PublishUIData *ui)
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 		url->enabled = !url->enabled;
 
-		if (url->enabled)
-			gtk_widget_set_sensitive (ui->url_enable, FALSE);
-		else
-			gtk_widget_set_sensitive (ui->url_enable, TRUE);
+		update_url_enable_button (url, ui->url_enable);
 
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
 		gtk_tree_selection_select_iter (selection, &iter);
@@ -737,6 +740,9 @@ publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_remove), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_enable), FALSE);
+
+	gtk_button_set_image (GTK_BUTTON (ui->url_enable), gtk_image_new_from_stock (GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_use_underline (GTK_BUTTON (ui->url_enable), TRUE);
 
 	client = gconf_client_get_default ();
 	l = publish_uris;
