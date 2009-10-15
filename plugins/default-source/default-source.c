@@ -30,9 +30,13 @@
 #include <libedataserver/e-source.h>
 #include <glib/gi18n.h>
 #include <string.h>
-GtkWidget* org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data);
+
+GtkWidget *org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData *data);
+
 void commit_default_calendar (EPlugin *epl, EConfigTarget *target);
 void commit_default_book (EPlugin *epl, EConfigTarget *target);
+
 void
 commit_default_calendar (EPlugin *epl, EConfigTarget *target)
 {
@@ -59,13 +63,23 @@ commit_default_book (EPlugin *epl, EConfigTarget *target)
 }
 
 static void
-default_source_changed (GtkWidget *check_box,  ESource *source)
+default_source_changed (GtkWidget *check_box, ESource *source)
 {
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_box)))
 		e_source_set_property (source, "default", "true");
 	else
 		e_source_set_property (source, "default", NULL);
+}
+
+static void
+autocomplete_book_changed (GtkWidget *check_box, ESource *source)
+{
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_box)))
+		e_source_set_property (source, "completion", "true");
+	else
+		e_source_set_property (source, "completion", NULL);
 }
 
 GtkWidget *
@@ -89,6 +103,29 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled", G_CALLBACK (default_source_changed), source);
 	gtk_widget_show (widget);
+	return widget;
+}
+
+GtkWidget *
+org_gnome_autocomplete_book (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	GtkWidget *widget;
+	ESource *source;
+	EABConfigTargetSource *book_target;
+
+	if (data->old)
+		return data->old;
+
+	widget = gtk_check_button_new_with_mnemonic (_("A_utocomplete with this address book"));
+	book_target = (EABConfigTargetSource *) data->target;
+	source = book_target->source;
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), e_source_get_property (source, "completion") && g_str_equal (e_source_get_property (source, "completion"), "true"));
+	gtk_container_add (GTK_CONTAINER (data->parent), widget);
+
+	g_signal_connect (GTK_TOGGLE_BUTTON (widget), "toggled", G_CALLBACK (autocomplete_book_changed), source);
+	gtk_widget_show (widget);
+
 	return widget;
 }
 
