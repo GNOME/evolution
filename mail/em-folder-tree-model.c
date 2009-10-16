@@ -388,7 +388,8 @@ folder_tree_model_init (EMFolderTreeModel *model)
 		G_TYPE_BOOLEAN,  /* is a store node */
 		G_TYPE_BOOLEAN,  /* is a folder node */
 		G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
-		G_TYPE_UINT      /* last known unread count */
+		G_TYPE_UINT,      /* last known unread count */
+		G_TYPE_BOOLEAN  /* folder is a draft folder */
 	};
 
 	store_index = g_hash_table_new_full (
@@ -550,13 +551,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread;
 	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
-		CamelFolder *local_drafts;
-		CamelFolder *local_outbox;
+		is_drafts = em_utils_folder_is_drafts (folder, fi->uri);
 
-		local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
-		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-
-		if (folder == local_outbox) {
+		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {
 			gint total;
 
 			if ((total = camel_folder_get_message_count (folder)) > 0) {
@@ -568,20 +565,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 			unread = total > 0 ? total : 0;
 		}
-		if (folder == local_drafts) {
-			gint total;
 
-			if ((total = camel_folder_get_message_count (folder)) > 0) {
-				gint deleted = camel_folder_get_deleted_message_count (folder);
-
-				if (deleted != -1)
-					total -= deleted;
-			}
-
-			unread = total > 0 ? total : 0;
-		}
 		camel_object_unref(folder);
-
 	}
 
 	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
@@ -644,6 +629,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_BOOL_IS_FOLDER, TRUE,
 		COL_BOOL_LOAD_SUBDIRS, load,
 		COL_UINT_UNREAD_LAST_SEL, 0,
+		COL_BOOL_IS_DRAFT, is_drafts,
 		-1);
 
 	target = em_event_target_new_custom_icon (em_event_peek(), tree_store, iter, fi->full_name, EM_EVENT_CUSTOM_ICON);
@@ -669,6 +655,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			COL_STRING_URI, NULL,
 			COL_UINT_UNREAD, 0,
 			COL_UINT_UNREAD_LAST_SEL, 0,
+			COL_BOOL_IS_DRAFT, FALSE,
 			-1);
 
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
@@ -1003,7 +990,9 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 		COL_BOOL_IS_FOLDER, FALSE,
 		COL_STRING_URI, NULL,
 		COL_UINT_UNREAD, 0,
-		COL_UINT_UNREAD_LAST_SEL, 0, -1);
+		COL_UINT_UNREAD_LAST_SEL, 0,
+		COL_BOOL_IS_DRAFT, FALSE,
+		-1);
 
 	/* listen to store events */
 	si->created_id = camel_object_hook_event (

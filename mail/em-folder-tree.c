@@ -971,13 +971,15 @@ render_icon (GtkTreeViewColumn *column,
 	guint unread;
 	guint old_unread;
 	gchar *icon_name;
-	gboolean row_selected;
+	gboolean row_selected, is_drafts = FALSE;
 
 	gtk_tree_model_get (
 		model, iter,
 		COL_STRING_ICON_NAME, &icon_name,
 		COL_UINT_UNREAD_LAST_SEL, &old_unread,
-		COL_UINT_UNREAD, &unread, -1);
+		COL_UINT_UNREAD, &unread,
+		COL_BOOL_IS_DRAFT, &is_drafts,
+		-1);
 
 	if (icon_name == NULL)
 		return;
@@ -989,7 +991,7 @@ render_icon (GtkTreeViewColumn *column,
 	row_selected = gtk_tree_selection_iter_is_selected (selection, iter);
 
 	/* Show an emblem if there's new mail. */
-	if (!row_selected && unread > old_unread) {
+	if (!row_selected && unread > old_unread && !is_drafts) {
 		GIcon *temp_icon;
 		GEmblem *emblem;
 

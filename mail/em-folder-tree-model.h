@@ -68,6 +68,7 @@ enum {
 				   * has subfolders which have not yet
 				   * been added to the tree */
 	COL_UINT_UNREAD_LAST_SEL, /* last known unread count */
+	COL_BOOL_IS_DRAFT,	  /* %TRUE for a draft folder */
 	NUM_COLUMNS
 };
 

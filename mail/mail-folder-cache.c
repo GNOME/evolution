@@ -312,26 +312,21 @@ update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
 {
 	struct _folder_update *up;
 	CamelFolder *folder;
-	CamelFolder *local_drafts;
-	CamelFolder *local_outbox;
-	CamelFolder *local_sent;
 	gint unread = -1;
 	gint deleted;
 
-	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
-	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	local_sent = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
-
 	folder = mfi->folder;
 	if (folder) {
+		gboolean is_drafts = FALSE, is_outbox = FALSE;
+
 		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((count_trash && (CAMEL_IS_VTRASH_FOLDER (folder)))
-		    || folder == local_drafts
-		    || folder == local_outbox
-		    || (count_sent && folder == local_sent)) {
+		    || (is_drafts = em_utils_folder_is_drafts (folder, info ? info->uri : NULL))
+		    || (is_outbox = em_utils_folder_is_outbox (folder, info ? info->uri : NULL))
+		    || (count_sent && em_utils_folder_is_sent (folder, info ? info->uri : NULL))) {
 			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count (folder);
-			if (folder == local_drafts || folder == local_outbox) {
+			if (is_drafts || is_outbox) {
 				guint32 junked = 0;
 
 				if ((deleted = camel_folder_get_deleted_message_count (folder)) > 0)
