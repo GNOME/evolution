@@ -2130,6 +2130,11 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	/* Look to see if we already have this client */
 	client_data = find_client_data (model, client);
 	if (client_data) {
+		if (do_query && client_data->client == priv->default_client) {
+			g_warning ("%s: %s: You shouldn't request a query on a default client", G_STRLOC, G_STRFUNC);
+			return client_data;
+		}
+
 		if (client_data->do_query)
 			return client_data;
 		else

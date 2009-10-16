@@ -328,8 +328,6 @@ cal_shell_view_user_created_cb (ECalShellView *cal_shell_view,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	e_cal_shell_sidebar_add_source (cal_shell_sidebar, source);
-
-	e_cal_model_add_client (model, client);
 }
 
 static void
