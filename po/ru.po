@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-06 13:52+0300\n"
-"PO-Revision-Date: 2009-10-06 19:36+0300\n"
+"PO-Revision-Date: 2009-10-16 15:35+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1075,12 +1075,14 @@ msgid "<b>Searching</b>"
 msgstr "<b>Поиск</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
-#, fuzzy
 msgid ""
 "Anonymously\n"
 "Using email address\n"
 "Using distinguished name (DN)"
-msgstr "По отличительному имени (DN)"
+msgstr ""
+"Anonymously\n"
+"Используя адрес email\n"
+"Используя Distinguished Name (DN)"
 
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:14
@@ -1096,11 +1098,12 @@ msgid "Lo_gin:"
 msgstr "_Имя пользователя:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "One\n"
 "Sub"
-msgstr "Один уровень"
+msgstr ""
+"One\n"
+"Sub"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
@@ -1125,13 +1128,12 @@ msgid "Search _filter:"
 msgstr "_Фильтр поиска:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
 msgstr ""
 "Фильтр поиска - это тип объекта, который должен быть найден. Если не "
-"изменять, по умолчанию будет произведен поиск объекта типа \"person\"."
+"изменять, по умолчанию будет произведён поиск объекта типа «person»."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Supported Search Bases"
@@ -1635,6 +1637,12 @@ msgid ""
 "Miss\n"
 "Dr."
 msgstr ""
+"\n"
+"Г-н\n"
+"Г-жа\n"
+"Г-жа\n"
+"Г-жа\n"
+"Д-р"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:7
 msgid ""
@@ -1646,6 +1654,13 @@ msgid ""
 "III\n"
 "Esq."
 msgstr ""
+"\n"
+"Sr.\n"
+"Jr.\n"
+"I\n"
+"II\n"
+"III\n"
+"Esq."
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:14
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
@@ -3564,7 +3579,7 @@ msgstr "Подтверждение очистки"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr ""
+msgstr "Количество повторений по умолчанию для нового события. -1 означает всегда."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Days on which the start and end of work hours should be indicated."
@@ -3576,7 +3591,7 @@ msgstr "Упоминание о встрече по умолчанию"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Default recurrence count"
-msgstr ""
+msgstr "Количество повторов по умолчанию"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Default reminder units"
@@ -3781,7 +3796,7 @@ msgstr "Каталог для сохранения звуковых файлов
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:59
 msgid "Scroll Month View by a week"
-msgstr ""
+msgstr "Листать обзор месяца по неделям"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:60
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -3973,7 +3988,7 @@ msgstr "Скрывать ли завершенные задачи в обзор�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr ""
+msgstr "Листать обзор месяца по неделям, а не по месяцам."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Whether to set a default reminder for appointments."
@@ -4619,7 +4634,7 @@ msgstr "Отображение"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Display alarms in _notification area only"
-msgstr ""
+msgstr "Отображать сигналы только в области _уведомления"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
@@ -4679,7 +4694,7 @@ msgstr "Суббота"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "Л_истать обзор месяца по неделям"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "Se_cond zone:"
@@ -5442,6 +5457,9 @@ msgid ""
 "1 hour before appointment\n"
 "1 day before appointment"
 msgstr ""
+"15 минут до встречи\n"
+"1 час до встречи\n"
+"1 день до встречи"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
@@ -5502,11 +5520,12 @@ msgstr ""
 "b"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:21
-#, fuzzy
 msgid ""
 "for\n"
 "until"
-msgstr "до"
+msgstr ""
+"до\n"
+"пока"
 
 #: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2469
 msgid "Memo"
@@ -5763,15 +5782,17 @@ msgid ""
 "until\n"
 "forever"
 msgstr ""
+"до\n"
+"пока\n"
+"всегда"
 
 #: ../calendar/gui/dialogs/send-comp.c:160
 msgid "Send my alarms with this event"
 msgstr "Послать мои сигналы вместе с событием"
 
 #: ../calendar/gui/dialogs/send-comp.c:162
-#, fuzzy
 msgid "Notify new attendees _only"
-msgstr "Опове_щать о новых сообщениях только во «Входящих»"
+msgstr "Известить _только новых участников"
 
 #: ../calendar/gui/dialogs/task-details-page.c:376
 #: ../calendar/gui/dialogs/task-details-page.c:396
@@ -5809,6 +5830,10 @@ msgid ""
 "Completed\n"
 "Canceled"
 msgstr ""
+"Не начата\n"
+"В процессе\n"
+"Завершена\n"
+"Отменена"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "P_ercent complete:"
@@ -9907,7 +9932,7 @@ msgstr "Вчера"
 #: ../e-util/e-datetime-format.c:207
 #, c-format
 msgid "%d days from now"
-msgstr ""
+msgstr "%d дней от текущего"
 
 #: ../e-util/e-datetime-format.c:209
 #, c-format
@@ -10407,6 +10432,8 @@ msgid ""
 "ago\n"
 "in the future"
 msgstr ""
+"назад\n"
+"в будущем"
 
 #: ../filter/filter.glade.h:14
 msgid ""
@@ -10418,6 +10445,13 @@ msgid ""
 "months\n"
 "years"
 msgstr ""
+"секунд\n"
+"минут\n"
+"часов\n"
+"дней\n"
+"недель\n"
+"месяцев\n"
+"лет"
 
 #: ../filter/filter.glade.h:21
 msgid ""
@@ -10575,7 +10609,7 @@ msgstr "_Предыдущее"
 
 #: ../mail/e-mail-search-bar.c:565
 msgid "Find the previous occurrence of the phrase"
-msgstr ""
+msgstr "Найти предыдущее совпадение с фразой"
 
 #: ../mail/e-mail-search-bar.c:573
 msgid "_Next"
@@ -10583,7 +10617,7 @@ msgstr "_Следующее"
 
 #: ../mail/e-mail-search-bar.c:579
 msgid "Find the next occurrence of the phrase"
-msgstr ""
+msgstr "Найти следующее совпадение с фразой"
 
 #: ../mail/e-mail-search-bar.c:587
 msgid "Mat_ch case"
@@ -12261,7 +12295,7 @@ msgstr "Включить папки поиска при запуске."
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
-msgstr ""
+msgstr "Включить функцию поиска в боковой панели, для интерактивного поиска названий папкок."
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid ""
@@ -12284,16 +12318,12 @@ msgid "Encode file names in an Outlook/GMail way"
 msgstr "Кодировать имена файлов в стиле Outlook/GMail"
 
 #: ../mail/evolution-mail.schemas.in.h:59
-#, fuzzy
 msgid ""
 "Encode file names in the mail headers same as Outlook or GMail do, to let "
 "them display correctly file names with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
-msgstr ""
-"Кодировать имена файлов в заголовках для совместимости с Outlook или Gmail. "
-"Эти приложения используют некорректную кодировку локализованных имён файлов "
-"из RFC 2047, в то время как действует стандарт RFC2231."
+msgstr "Кодировать имена файлов в заголовках таким же образ, как это делают Outlook и GMail, чтобы они могли открывать отправленные из Evolution файлы с именами в формате UTF-8, потому что они не полностью следуют RFC 2231, но используют некорректный стандарт RFC 2047."
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "Height of the message-list pane"
@@ -12571,7 +12601,7 @@ msgstr "Предупреждать при пометке нескольких с
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Put personalized signatures at the top of replies"
-msgstr ""
+msgstr "Помещать персональную подпись в верхней части ответов"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Put the cursor at the bottom of replies"
@@ -12631,11 +12661,11 @@ msgstr "Отображать поле «From» при отправке почт�
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Show \"Reply To\" field when posting to a newsgroup"
-msgstr "Отображать поле «Reply To» при отправке в группу новостей"
+msgstr "Отображать поле «Адрес для ответа» при отправке в группу новостей"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Show \"Reply To\" field when sending a mail message"
-msgstr "Отображать поле «Reply To» при отправке почтовых сообщений"
+msgstr "Отображать поле «Адрес для ответа» при отправке почтовых сообщений"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Show Animations"
@@ -12665,37 +12695,37 @@ msgstr "Показать фотографию отправителя"
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Показывать поле «Скрытая копия» при отправке почтового сообщения. Этот параметр управляется из меню Вид, когда выбрана учётная запись почты."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Показывать поле «Копия» при отправке почтового сообщения. Этот параметр управляется из меню Вид, когда выбрана учётная запись почты."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
-msgstr ""
+msgstr "Показывать поле «От кого» при отправке в группу новостей. Этот параметр управляется из меню Вид, когда выбрана учётная запись новостей."
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid ""
 "Show the \"From\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Показывать поле «От кого» при отправке в группу новостей. Этот параметр управляется из меню Вид, когда выбрана учётная запись почты."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
-msgstr ""
+msgstr "Показывать поле «Адрес для ответа» при отправке в группу новостей. Этот параметр управляется из меню Вид, когда выбрана учётная запись новостей."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
-msgstr ""
+msgstr "Показывать поле «Адрес для ответа» при отправке почтового сообщения. Этот параметр управляется из меню Вид, когда выбрана почтовая учётная запись."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -12905,14 +12935,14 @@ msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
-msgstr ""
+msgstr "Пользователь получает полный контроль над тем, куда должен попадать курсор при ответе на сообщения. Этот параметр определяет, будет ли курсор в начале или в конце сообщения."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
-msgstr ""
+msgstr "Пользователь может определить, где должна размещаться его подпись при ответе на сообщение. Этот параметр определяет, будет ли подпись в начале или в конце сообщения."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "Variable width font"
@@ -13283,12 +13313,14 @@ msgid "Always request rea_d receipt"
 msgstr "Всегда запрашивать _отчёт о прочтении"
 
 #: ../mail/mail-config.glade.h:45
-#, fuzzy
 msgid ""
 "Attachment\n"
 "Inline\n"
 "Quoted"
-msgstr "Напоминание о вложении"
+msgstr ""
+"Вложение\n"
+"Встроенный текст\n"
+"Цитирование"
 
 #: ../mail/mail-config.glade.h:48
 msgid ""
@@ -13297,6 +13329,10 @@ msgid ""
 "Quoted\n"
 "Do not quote"
 msgstr ""
+"Вложение\n"
+"Встроенный текст (как в Outlook)\n"
+"Цитирование\n"
+"Не цитировать"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Automatically insert _emoticon images"
@@ -13385,9 +13421,7 @@ msgstr "_Подписывать исходящие сообщения (по ум
 
 #: ../mail/mail-config.glade.h:77
 msgid "Do not format messages when text si_ze exceeds"
-msgstr ""
-"Не форматировать текстовое содержимое в сообщениях, если размер текста "
-"превышает"
+msgstr "Не форматировать сообщение, если размер текста превышает"
 
 #: ../mail/mail-config.glade.h:78
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -13469,7 +13503,7 @@ msgstr "Выделять _цитирование цветом:"
 msgid ""
 "If the server uses a non-standard port then specify the server address as "
 "\"server-name:port-number\""
-msgstr ""
+msgstr "Если сервер использует нестандартный порт, укажите адрес сервера в формате «имя-сервера:номер-порта»"
 
 #: ../mail/mail-config.glade.h:103
 msgid "KB"
@@ -13520,8 +13554,8 @@ msgstr ""
 #: ../mail/mail-config.glade.h:114
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
-"Этот параметр будет игнорироваться, в случае совпадения с указанных "
-"пользователем заголовков для выявления спама."
+"Этот параметр будет проигнорирован, в случае совпадения с\n"
+"указанным пользователем заголовком для определения спама."
 
 #: ../mail/mail-config.glade.h:115
 msgid "Or_ganization:"
@@ -13536,18 +13570,14 @@ msgid "Pass_word:"
 msgstr "_Пароль:"
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Please configure the following account settings."
-msgstr "Выберите один из следующих вариантов"
+msgstr "Пожалуйста, настройте следующие параметры учётной записи."
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below. This "
 "name will be used for display purposes only."
-msgstr ""
-"Введите имя, описывающее эту учётную запись.\n"
-"Это имя будет использоваться только на экране."
+msgstr "Введите имя, описывающее эту учётную запись. Это имя будет использоваться только на экране."
 
 #: ../mail/mail-config.glade.h:121
 msgid ""
@@ -13574,8 +13604,8 @@ msgstr "_Порт:"
 #: ../mail/mail-config.glade.h:124
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
-"Пр_едупреждать при отправке сообщений, в которых определены только "
-"получатели скрытой копии."
+"Пр_едупреждать при отправке сообщений, в которых определены\n"
+"только получатели скрытой копии"
 
 #: ../mail/mail-config.glade.h:125
 msgid "Re_member password"
@@ -13634,9 +13664,8 @@ msgid "Ser_ver requires authentication"
 msgstr "Т_ребуется проверка подлинности"
 
 #: ../mail/mail-config.glade.h:142
-#, fuzzy
 msgid "Server _Type:"
-msgstr "_Тип сервера: "
+msgstr "_Тип сервера:"
 
 #: ../mail/mail-config.glade.h:143
 msgid "Sig_ning certificate:"
@@ -13663,9 +13692,8 @@ msgid "Start _typing at the bottom on replying"
 msgstr "При ответе начинать _ввод после цитаты"
 
 #: ../mail/mail-config.glade.h:149
-#, fuzzy
 msgid "T_ype:"
-msgstr "_Тип: "
+msgstr "_Тип:"
 
 #: ../mail/mail-config.glade.h:150
 msgid ""
@@ -13676,14 +13704,13 @@ msgstr ""
 "установлены словари."
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used for display purposes only."
 msgstr ""
 "Вывод из этого скрипта будет использоваться\n"
 "в качестве вашей подписи. Имя, указанное вами,\n"
-"будет использоваться только для отображения. "
+"будет использоваться только для отображения."
 
 #: ../mail/mail-config.glade.h:153
 msgid ""
@@ -13713,7 +13740,6 @@ msgid "V_ariable-width:"
 msgstr "_Переменной ширины:"
 
 #: ../mail/mail-config.glade.h:159
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13721,7 +13747,7 @@ msgid ""
 msgstr ""
 "Вас приветствует мастер настройки электронной почты Evolution.\n"
 "\n"
-"Нажмите «Далее» для начала настройки. "
+"Чтобы приступить к настройке, нажмите «Далее»."
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Add Signature"
@@ -14920,7 +14946,7 @@ msgstr ""
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
-msgstr ""
+msgstr "В этой папке только скрытые сообщения. Используйте меню Вид -> Показать скрытые сообщения, чтобы увидеть их."
 
 #: ../mail/message-list.c:4303
 msgid "There are no messages in this folder."
@@ -15017,9 +15043,8 @@ msgid "Subject contains"
 msgstr "Тема содержит"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Addresses contains"
-msgstr "Тема или Отправитель содержит"
+msgstr "Тема или Получатели содержит"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Recipients contains"
@@ -15030,9 +15055,8 @@ msgid "Subject or Sender contains"
 msgstr "Тема или Отправитель содержит"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
-#, fuzzy
 msgid "Add local address books to Evolution."
-msgstr "Перечислить папки локальной адресной книги"
+msgstr "Добавляет локальные адресные книги в Evolution."
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
 msgid "Local Address Books"
@@ -15066,7 +15090,7 @@ msgstr "Напоминание о вложении"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
-msgstr ""
+msgstr "Напоминает, если вы забыли добавить вложение в почтовое сообщение."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
@@ -15089,13 +15113,12 @@ msgid "_Edit Message"
 msgstr "_Изменить сообщение"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid "Audio Inline"
-msgstr "Модуль встроенного звука"
+msgstr "Встроенный звук"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Play audio attachments directly from Evolution."
-msgstr ""
+msgstr "Воспроизводить звуковые вложения непосредственно из Evolution."
 
 #: ../plugins/backup-restore/backup-restore.c:139
 msgid "Select name of the Evolution backup file"
@@ -15118,15 +15141,11 @@ msgid "Restore from backup"
 msgstr "Восстановить из архива"
 
 #: ../plugins/backup-restore/backup-restore.c:289
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
-msgstr ""
-"Позволяет восстанавливать Evolution из архива. Таким образом можно "
-"восстановить почту, календари, задачи, заметки и контакты. \n"
-"Будут восстановлены также персональные настройки, фильтры почты и так далее."
+msgstr "Вы можете восстановить Evolution из вашей резервной копии. Таким образом можно восстановить почту, календари, задачи, заметки и контакты. Будут восстановлены также персональные настройки, фильтры почты и так далее."
 
 #: ../plugins/backup-restore/backup-restore.c:297
 msgid "_Restore Evolution from the backup file"
@@ -15240,20 +15259,16 @@ msgstr "Подождите, пока Evolution восстанавливает в
 
 #: ../plugins/backup-restore/backup.c:511
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
-"Это может занять некоторое время, в завимости от объема данных вашей учетной "
-"записи."
+msgstr "Это может занять некоторое время, в завимости от объема данных вашей учётной записи."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and Restore"
-msgstr "Модуль сохранения и восстановления"
+msgstr "Сохранение и восстановление"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Сохранение и восстановление данных и параметров Evolution"
+msgstr "Сохранение и восстановление данных и параметров Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -15323,9 +15338,8 @@ msgstr "Автоматические контакты"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:646
-#, fuzzy
 msgid "Create _address book entries when sending mails"
-msgstr "_Автоматически создавать записи в адресной книге при ответе на сообщения"
+msgstr "Создавать _записи в адресной книге при отправке сообщений"
 
 #: ../plugins/bbdb/bbdb.c:652
 msgid "Select Address book for Automatic Contacts"
@@ -15338,7 +15352,9 @@ msgstr "Контакты мгновенных сообщений"
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:682
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr "Синхронизирует контактную информацию и изображения из списка контактов Pidgin"
+msgstr ""
+"Синхронизировать контактную информацию и изображения\n"
+"из списка собеседников Pidgin"
 
 #: ../plugins/bbdb/bbdb.c:688
 msgid "Select Address book for Pidgin buddy list"
@@ -15354,7 +15370,6 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
@@ -15362,6 +15377,8 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
+"Выполняет черновую работу по заполнению вашей адресной книги.\n"
+"\n"
 "Автоматически добавляет в адресную книгу имена и адреса получателей, когда "
 "вы отвечаете на сообщения. Также заполняет контактные данные из списка "
 "контактов службы мгновенных сообщений."
@@ -15404,16 +15421,14 @@ msgstr ""
 "фильтров спама, имеющих проблемы с различными кодировками."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
-#, fuzzy
 msgid "Bogofilter Junk Filter"
-msgstr "Антиспамовый модуль Bogofilter"
+msgstr "Спам-фильтр Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter Options"
 msgstr "Параметры Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
-#, fuzzy
 msgid "Filter junk messages using Bogofilter."
 msgstr "Фильтрует спам используя Bogofilter."
 
@@ -15452,49 +15467,43 @@ msgstr "недели"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "Add CalDAV support to Evolution."
-msgstr ""
+msgstr "Добавляет поддержку CalDAV."
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
-#, fuzzy
 msgid "CalDAV Support"
-msgstr "Источники CalDAV"
+msgstr "Поддержка CalDAV"
 
 #: ../plugins/calendar-file/calendar-file.c:208
-#, fuzzy
 msgid "_Customize options"
-msgstr "Настроить"
+msgstr "Из_менить параметры"
 
 #: ../plugins/calendar-file/calendar-file.c:227
-#, fuzzy
 msgid "File _name:"
-msgstr "Имя файла:"
+msgstr "_Имя файла:"
 
 #: ../plugins/calendar-file/calendar-file.c:231
-#, fuzzy
 msgid "Choose calendar file"
-msgstr "Выберите файл"
+msgstr "Выберите файл календаря"
 
 #: ../plugins/calendar-file/calendar-file.c:279
-#, fuzzy
 msgid "On open"
-msgstr "Открыть"
+msgstr "При открытии"
 
 #: ../plugins/calendar-file/calendar-file.c:280
 msgid "On file change"
-msgstr ""
+msgstr "При изменении файла"
 
 #: ../plugins/calendar-file/calendar-file.c:281
-#, fuzzy
 msgid "Periodically"
-msgstr "Личное"
+msgstr "Периодически"
 
 #: ../plugins/calendar-file/calendar-file.c:308
 msgid "Force read _only"
-msgstr ""
+msgstr "Установить только для _чтения"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Add local calendars to Evolution."
-msgstr ""
+msgstr "Добавляет поддержку локальных календарей."
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Local Calendars"
@@ -15510,12 +15519,11 @@ msgstr "_Имя пользователя:"
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
 msgid "Add web calendars to Evolution."
-msgstr ""
+msgstr "Добавляет поддержку веб-календарей."
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
-#, fuzzy
 msgid "Web Calendars"
-msgstr "Календари"
+msgstr "Веб-календари"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
@@ -15571,21 +15579,19 @@ msgstr "Британские (Фаренгейт, дюймы, и т.д.)"
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:1
 msgid "Add weather calendars to Evolution."
-msgstr ""
+msgstr "Добавляет календари погоды в Evolution."
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
 msgid "Weather Calendars"
 msgstr "Календари погоды"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
-#, fuzzy
 msgid "Copy Tool"
 msgstr "Средство копирования"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy things to the clipboard."
-msgstr "Копировать выделенные сообщения в буфер обмена"
+msgstr "Копирует элементы в буфер обмена."
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -15598,14 +15604,12 @@ msgstr ""
 "умолчанию."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
-#, fuzzy
 msgid "Check whether Evolution is the default mail client on startup."
 msgstr "Проверяет при запуске, является ли Evolution почтовым клиентом по умолчанию."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
-#, fuzzy
 msgid "Default Mail Client"
-msgstr "Почтовый клиент по умолчанию "
+msgstr "Почтовый клиент по умолчанию"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
@@ -15633,7 +15637,7 @@ msgstr "Источники по умолчанию"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
-msgstr ""
+msgstr "Отмечает предпочтительные адресную книгу и календарь как основные."
 
 #: ../plugins/email-custom-header/email-custom-header.c:333
 msgid "Security:"
@@ -15683,9 +15687,8 @@ msgstr "Дополнительные заголовки сообщений"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
-#, fuzzy
 msgid "Add custom headers to outgoing mail messages."
-msgstr "Добавлять дополнительные заголовки к исходящим сообщениям."
+msgstr "Добавлять свои заголовки к исходящим сообщениям."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
@@ -15818,7 +15821,7 @@ msgstr "Проверить п_одлинность"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:774
 msgid "Mailbox name is _different than user name"
-msgstr ""
+msgstr "Имя почтового ящика _отличается от имени пользователя"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:787
 msgid "_Mailbox:"
@@ -16018,6 +16021,10 @@ msgid ""
 "Author (read, create)\n"
 "Editor (read, create, edit)"
 msgstr ""
+"Нет\n"
+"Рецензент (только для чтения)\n"
+"Автор (чтение, создание)\n"
+"Редактор (чтение, создание, изменение)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Permissions for"
@@ -16303,7 +16310,7 @@ msgstr "Подписка на календарь другого пользова
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
 msgid "Activates the Evolution-Exchange extension package."
-msgstr ""
+msgstr "Активирует пакет расширения Evolution-Exchange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -16657,12 +16664,12 @@ msgstr "Проверьте права папки"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Automatically launch editor when key is pressed in the mail composer"
-msgstr ""
+msgstr "Автоматически запускать редактор при нажатии кнопки в окне составления сообщений"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 #: ../plugins/external-editor/external-editor.c:120
 msgid "Automatically launch when a new mail is edited"
-msgstr ""
+msgstr "Запускать автоматически при редактировании нового сообщения"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:3
 msgid "Default External Editor"
@@ -16677,11 +16684,8 @@ msgid "External Editor"
 msgstr "Внешний редактор"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
-#, fuzzy
 msgid "Use an external editor to compose plain-text mail messages."
-msgstr ""
-"Модуль для использования внешнего редактора для написания сообщений. "
-"Позволяет отправлять сообщения только в виде обычного текста."
+msgstr "Использует внешний редактор для составления сообщений."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:1
 msgid "Cannot create Temporary File"
@@ -16700,42 +16704,37 @@ msgstr ""
 "раз."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
-#, fuzzy
 msgid "External editor still running"
-msgstr "Внешний редактор"
+msgstr "Внешний редактор всё ещё выполняется"
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
-msgstr ""
+msgstr "Внешний редактор всё ещё выполняется. Окно составления сообщения не может быть закрыто, пока редактор активен."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr ""
-"Не удалось запустить текстовый редактор из настроек модуля. Попробуйте "
-"задать другой редактор."
+msgstr "Не удалось запустить текстовый редактор, указанный в настройках модуля. Попробуйте задать другой редактор."
 
 #: ../plugins/external-editor/external-editor.c:109
 msgid "Command to be executed to launch the editor: "
 msgstr "Команда для запуска редактора: "
 
 #: ../plugins/external-editor/external-editor.c:110
-#, fuzzy
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim -f\""
 msgstr ""
 "Для Emacs используйте \"xemacs\"\n"
-"Для VI используйте \"gvim\""
+"Для VI используйте \"gvim -f\""
 
 #: ../plugins/external-editor/external-editor.c:354
 #: ../plugins/external-editor/external-editor.c:356
-#, fuzzy
 msgid "Compose in External Editor"
-msgstr "Составлять сообщения _во внешнем редакторе"
+msgstr "Составлять сообщения во внешнем редакторе"
 
 #: ../plugins/face/face.c:59
 msgid "Select a (48*48) png of size < 700bytes"
@@ -16750,7 +16749,6 @@ msgid "_Face"
 msgstr "_Фото"
 
 #: ../plugins/face/org-gnome-face.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Attach a small picture of your face to outgoing messages.\n"
 "\n"
@@ -16758,8 +16756,8 @@ msgid ""
 "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
 "sent messages."
 msgstr ""
-"Добавлять заголовок с фотографией к исходящим письмам. В первый раз "
-"пользователь должен предоставить фотографию 48×48 пикселей. Оно кодируется в "
+"Добавлять заголовок с фотографией к исходящим письмам.\n"
+" В первый раз пользователь должен предоставить фотографию 48×48 пикселей. Оно кодируется в "
 "base64 и сохраняется в ~/.evolution/faces. Эта фотография будет "
 "использоваться в отправленных письмах."
 
@@ -16774,7 +16772,7 @@ msgstr "Отписка от папок"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
-msgstr ""
+msgstr "Отписка от папок IMAP щелчком на ней правой кнопкой в дереве папок."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:3
 msgid "_Unsubscribe"
@@ -16814,7 +16812,7 @@ msgstr "<b>Сервер</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
-msgstr ""
+msgstr "Добавляет поддержку Google Calendars в Evolution."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google Calendars"
@@ -16990,24 +16988,20 @@ msgid "You have to specify a user name which you want to add to the list"
 msgstr "Вы должны указать имя пользователя, которого хотите добавить в список"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:1
-#, fuzzy
 msgid "Do you want to resend the meeting ?"
-msgstr "Вы действительно хотите удалить это собрание?"
+msgstr "Отправить это собрание повторно?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 msgid "Do you want to resend the recurring meeting ?"
-msgstr "Вы действительно хотите удалить это собрание?"
+msgstr "Вы действительно хотите удалить это повторяющееся собрание?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 msgid "Do you want to retract the original item ?"
-msgstr "Восстановить незавершенные сообщения?"
+msgstr "Восстановить оригинальный элемент ?"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
-#, fuzzy
 msgid "The original will be removed from the recipient's mailbox."
-msgstr "_Удалить этот элемент из ящиков всех остальных получателей?"
+msgstr "Оригинал будет удалён из почтового ящика получателя."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
 msgid "This is a recurring meeting"
@@ -17015,13 +17009,13 @@ msgstr "Это повторяющаяся встреча"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
-msgstr ""
+msgstr "Будет создана новая встреча с использованием существующего описания."
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:7
 msgid ""
 "This will create a new meeting with the existing meeting details. The "
 "recurrence rule needs to be re-entered."
-msgstr ""
+msgstr "Будет создана новая встреча с использованием существующего описания. Правила повторения необходимо будет ввести повторно."
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:9
@@ -17038,9 +17032,8 @@ msgid "Accept Tentatively"
 msgstr "Принять в порядке эксперимента"
 
 #: ../plugins/groupwise-features/process-meeting.c:319
-#, fuzzy
 msgid "Rese_nd Meeting..."
-msgstr "_Поручить собрание..."
+msgstr "От_править собрание повторно..."
 
 #: ../plugins/groupwise-features/properties.glade.h:1
 msgid "<b>Users:</b>"
@@ -17309,13 +17302,12 @@ msgstr ""
 "Используйте, если у вас нет фильтров на основе списков рассылки"
 
 #: ../plugins/imap-features/imap-headers.glade.h:10
-#, fuzzy
 msgid "_Fetch All Headers"
 msgstr "Разбирать _все заголовки"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "Fine-tune your IMAP accounts."
-msgstr ""
+msgstr "Тонкая настройка учётных записей IMAP."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -18007,9 +17999,8 @@ msgid "_Memos:"
 msgstr "_Заметки:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Display \"text/calendar\" MIME parts in mail messages."
-msgstr "Отображает части text/calendar в сообщениях."
+msgstr "Отображает MIME-части \"text/calendar\" в сообщениях."
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
@@ -18041,7 +18032,7 @@ msgstr "Запрет учётной записи"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable an account by right-clicking on it in the folder tree."
-msgstr ""
+msgstr "Запрещает учётную запись щелчком правой кнопки в дереве папок."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
@@ -18212,39 +18203,39 @@ msgstr "Уведомляет о получении новых почтовых �
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
-msgstr ""
+msgstr "Выделенный каландарь уже содержит событие '%s'. Изменить старое событие?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:379
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
 "old task?"
-msgstr ""
+msgstr "Выделенный список задач уже содержит событие '%s'. Изменить старую задачу?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:382
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
 "old memo?"
-msgstr ""
+msgstr "Выделенный список заметок уже содержит событие '%s'. Изменить старую заметку?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:399
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
-msgstr ""
+msgstr "Выделенный календарь уже содержит некоторые элементы для данных сообщений. Вы действительно хотите создать новые события?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:402
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
-msgstr ""
+msgstr "Выделенный список задач уже содержит некоторые задачи для данных сообщений. Вы действительно хотите создать новый список задач?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:405
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
-msgstr ""
+msgstr "Выделенный список заметок уже содержит некоторые заметки для данных сообщений. Вы действительно хотите создать новый список заметок?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:423
 msgid ""
@@ -18253,9 +18244,9 @@ msgid ""
 msgid_plural ""
 "Selected calendar contains events for the given mails already. Would you "
 "like to create new events anyway?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выделенный календарь уже содержит событие для данного сообщения. Всё равно создать новое событие?"
+msgstr[1] "Выделенный календарь уже содержит события для данных сообщений. Всё равно создать новые события?"
+msgstr[2] "Выделенный календарь уже содержит события для данных сообщений. Всё равно создать новые события?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:429
 msgid ""
@@ -18264,9 +18255,9 @@ msgid ""
 msgid_plural ""
 "Selected task list contains tasks for the given mails already. Would you "
 "like to create new tasks anyway?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выделенный список задач уже содержит заметку для данного сообщения. Всё равно создать новую задачу?"
+msgstr[1] "Выделенный список задач уже содержит задачи для данных сообщений. Всё равно создать новые задачи?"
+msgstr[2] "Выделенный список задач уже содержит задачи для данных сообщений. Всё равно создать новые задачи?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:435
 msgid ""
@@ -18275,9 +18266,9 @@ msgid ""
 msgid_plural ""
 "Selected memo list contains memos for the given mails already. Would you "
 "like to create new memos anyway?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Выделенный список заметок уже содержит заметку для данного сообщения. Всё равно создать новую заметку?"
+msgstr[1] "Выделенный список заметок уже содержит заметки для данных сообщений. Всё равно создать новые заметки?"
+msgstr[2] "Выделенный список заметок уже содержит заметки для данных сообщений. Всё равно создать новые заметки?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
@@ -18651,7 +18642,7 @@ msgstr "Профайлер Evolution"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Profile data events in Evolution (for developers only)."
-msgstr ""
+msgstr "Профилировать события данных в Evolution (только для разработчиков)."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 msgid "Import Outlook messages from PST file"
@@ -18731,9 +18722,8 @@ msgid "Are you sure you want to remove this location?"
 msgstr "Вы действительно хотите удалить этот ресурс?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:788
-#, fuzzy
 msgid "Could not create publish thread."
-msgstr "Не удалось создать сообщение."
+msgstr "Не удалось создать публичную нить."
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -20829,7 +20819,7 @@ msgstr "Создать или исправить правила фильтрац
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages of accounts/folders marked for offline"
 msgstr ""
-"Закачать сообщения учётных записей/каталогов, отмеченных для автономной "
+"Загрузить сообщения учётных записей/каталогов, отмеченных для автономной "
 "работы"
 
 #: ../ui/evolution-mail-global.xml.h:8
@@ -20883,7 +20873,7 @@ msgstr "_Копировать папку в..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
-msgstr "Закачать сообщения для автономной работы"
+msgstr "Загрузить сообщения для автономной работы"
 
 #: ../ui/evolution-mail-global.xml.h:25
 msgid "_Message Filters"
@@ -22275,7 +22265,7 @@ msgstr "Введите используемый набор символов"
 
 #: ../widgets/misc/e-charset-picker.c:337
 msgid "Other..."
-msgstr "Другая..."
+msgstr "Другой..."
 
 #: ../widgets/misc/e-charset-picker.c:599
 msgid "Ch_aracter Encoding"
