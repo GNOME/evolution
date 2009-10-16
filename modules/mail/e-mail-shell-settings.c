@@ -226,4 +226,8 @@ e_mail_shell_settings_init (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"composer-top-signature",
 		"/apps/evolution/mail/composer/top_signature");
+
+	e_shell_settings_install_property_for_key (
+		"composer-no-signature-delim",
+		"/apps/evolution/mail/composer/no_signature_delim");
 }

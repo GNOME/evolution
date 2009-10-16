@@ -248,6 +248,19 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/no_signature_delim</key>
+      <applyto>/apps/evolution/mail/composer/no_signature_delim</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Do not add signature delimiter</short>
+        <long>Set to TRUE in case you do not want to add signature delimiter
+	before your signature when composing a mail.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/width</key>
       <applyto>/apps/evolution/mail/composer/width</applyto>
       <owner>evolution-mail</owner>
