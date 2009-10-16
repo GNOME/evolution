@@ -1715,9 +1715,7 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 {
 	GDate date;
 	guint weekday, yearday;
-	gint offset, week_num;
-
-	/* FIXME: check what happens at year boundaries. */
+	gint week_num;
 
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, day, month + 1, year);
@@ -1725,24 +1723,31 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 	/* This results in a value of 0 (Monday) - 6 (Sunday). (or -1 on error - oops!!) */
 	weekday = g_date_get_weekday (&date) - 1;
 
-	/* Calculate the offset from the start of the week. */
-	offset = (calitem->week_start_day + 7 - weekday) % 7;
+	if (weekday > 0) {
+		/* we want always point to nearest Monday, as the first day of the week,
+		   regardless of the calendar's week_start_day */
+		if (weekday >= 3)
+			g_date_add_days (&date, 7 - weekday);
+		else
+			g_date_subtract_days (&date, weekday);
+
+		weekday = g_date_get_weekday (&date) - 1;
+	}
 
 	/* Calculate the day of the year, from 0 to 365. */
 	yearday = g_date_get_day_of_year (&date) - 1;
 
 	/* If the week starts on or after 29th December, it is week 1 of the
 	   next year, since there are 4 days in the next year. */
-	g_date_subtract_days (&date, offset);
 	if (g_date_get_month (&date) == 12 && g_date_get_day (&date) >= 29)
 		return 1;
 
 	/* Calculate the week number, from 0. */
-	week_num = (yearday - offset) / 7;
+	week_num = yearday / 7;
 
 	/* If the first week starts on or after Jan 5th, then we need to add
 	   1 since the previous week will really be the first week. */
-	if ((yearday - offset) % 7 >= 4)
+	if (yearday % 7 >= 4)
 		week_num++;
 
 	/* Add 1 so week numbers are from 1 to 53. */
