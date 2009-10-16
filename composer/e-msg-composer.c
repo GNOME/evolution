@@ -2421,11 +2421,19 @@ handle_multipart_signed (EMsgComposer *composer,
 	CamelContentType *content_type;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	GtkToggleAction *action;
+	GtkToggleAction *action = NULL;
+	const gchar *protocol;
 
-	/* FIXME: make sure this isn't an s/mime signed part?? */
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	gtk_toggle_action_set_active (action, TRUE);
+	content_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
+	protocol = camel_content_type_param (content_type, "protocol");
+
+	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0)
+		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+	else if (protocol && g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0)
+		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+
+	if (action)
+		gtk_toggle_action_set_active (action, TRUE);
 
 	mime_part = camel_multipart_get_part (
 		multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
@@ -2481,11 +2489,21 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	CamelSession *session;
 	CamelException ex;
 	CamelCipherValidity *valid;
-	GtkToggleAction *action;
+	GtkToggleAction *action = NULL;
+	const gchar *protocol;
 
-	/* FIXME: make sure this is a PGP/MIME encrypted part?? */
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	gtk_toggle_action_set_active (action, TRUE);
+	content_type = camel_mime_part_get_content_type (multipart);
+	protocol = camel_content_type_param (content_type, "protocol");
+
+	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0)
+		action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
+	else if (content_type && (
+		    camel_content_type_is (content_type, "application", "x-pkcs7-mime")
+		 || camel_content_type_is (content_type, "application", "pkcs7-mime")))
+		action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+
+	if (action)
+		gtk_toggle_action_set_active (action, TRUE);
 
 	camel_exception_init (&ex);
 	session = e_msg_composer_get_session (composer);
@@ -2960,6 +2978,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	} else {
 		gchar *html;
 		gssize length;
+
+		content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
+
+		if (content_type && (
+		       camel_content_type_is (content_type, "application", "x-pkcs7-mime")
+		    || camel_content_type_is (content_type, "application", "pkcs7-mime")))
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)), TRUE);
 
 		html = emcu_part_to_html ((CamelMimePart *)message, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
