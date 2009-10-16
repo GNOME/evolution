@@ -50,26 +50,51 @@ enum {
 static GConfClient *epp_gconf = NULL;
 static gint epp_mode = -1;
 
-void
-org_gnome_prefer_plain_text_html(gpointer ep, EMFormatHookTarget *t)
+static void
+make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part, gint i)
 {
-	/* In text-only mode, all html output is suppressed */
-	if (epp_mode != EPP_TEXT)
-		t->item->handler.old->handler(t->format, t->stream, t->part, t->item->handler.old);
+	gint partidlen = format->part_id->len;
+
+	if (i != -1)
+		g_string_append_printf (format->part_id, ".alternative-prefer-plain.%d", i);
+
+	if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
+		/* always show HTML as attachments and not inline */
+		camel_mime_part_set_disposition (part, "attachment");
+
+		if (!camel_mime_part_get_filename (part)) {
+			gchar *str = g_strdup_printf ("%s.html", _("attachment"));
+			camel_mime_part_set_filename (part, str);
+			g_free (str);
+		}
+
+		em_format_part_as (format, stream, part, "application/octet-stream");
+	} else
+		em_format_part (format, stream, part);
+
+	g_string_truncate (format->part_id, partidlen);
+}
+
+void
+org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
+{
+	/* In text-only mode, all html output is suppressed for the first processing */
+	if (epp_mode != EPP_TEXT
+	    || strstr (t->format->part_id->str, ".alternative-prefer-plain.") != NULL
+	    || em_format_is_inline (t->format, t->format->part_id->str, t->part, &(t->item->handler)))
+		t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old);
 	else
-		em_format_part_as(t->format, t->stream, t->part, NULL);
+		make_part_attachment (t->format, t->stream, t->part, -1);
 }
 
 static void
 export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream, CamelMimePart *except)
 {
-	gint i, nparts, partidlen;
+	gint i, nparts;
 	CamelMimePart *part;
 
 	if (!mp || !CAMEL_IS_MULTIPART (mp))
 		return;
-
-	partidlen = format->part_id->len;
 
 	nparts = camel_multipart_get_number(mp);
 	for (i = 0; i < nparts; i++) {
@@ -81,23 +106,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 			if (CAMEL_IS_MULTIPART (multipart)) {
 				export_as_attachments (multipart, format, stream, except);
 			} else {
-				g_string_append_printf (format->part_id, ".alternative.%d", i);
-
-				if (camel_content_type_is (camel_mime_part_get_content_type (part), "text", "html")) {
-					/* always show HTML as attachments and not inline */
-					camel_mime_part_set_disposition (part, "attachment");
-
-					if (!camel_mime_part_get_filename (part)) {
-						gchar *str = g_strdup_printf ("%s.html", _("attachment"));
-						camel_mime_part_set_filename (part, str);
-						g_free (str);
-					}
-
-					em_format_part_as (format, stream, part, "application/octet-stream");
-				} else
-					em_format_part (format, stream, part);
-
-				g_string_truncate (format->part_id, partidlen);
+				make_part_attachment (format, stream, part, i);
 			}
 		}
 	}
@@ -147,7 +156,7 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 		}
 
 		if (display_part && have_plain && nparts == 2) {
-			g_string_append_printf (t->format->part_id, ".alternative.%d", displayid);
+			g_string_append_printf (t->format->part_id, ".alternative-prefer-plain.%d", displayid);
 			em_format_part_as (t->format, t->stream, display_part, "text/html");
 			g_string_truncate (t->format->part_id, partidlen);
 		} else {
@@ -171,7 +180,7 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 
 	/* if we found a text part, show it */
 	if (display_part) {
-		g_string_append_printf(t->format->part_id, ".alternative.%d", displayid);
+		g_string_append_printf(t->format->part_id, ".alternative-prefer-plain.%d", displayid);
 		em_format_part_as(t->format, t->stream, display_part, "text/plain");
 		g_string_truncate(t->format->part_id, partidlen);
 	}
@@ -183,22 +192,34 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 }
 
 static struct {
-	const gchar *label;
 	const gchar *key;
+	const gchar *label;
+	const gchar *description;
 } epp_options[] = {
-	{ N_("Show HTML if present"), "normal" },
-	{ N_("Prefer PLAIN"), "prefer_plain" },
-	{ N_("Only ever show PLAIN"), "only_plain" },
+	{ "normal",       N_("Show HTML if present"), N_("Let Evolution choose the best part to show.") },
+	{ "prefer_plain", N_("Prefer PLAIN"),         N_("Show plain text part, if present, otherwise let Evolution choose the best part to show.") },
+	{ "only_plain",   N_("Only ever show PLAIN"), N_("Always show plain text part and make attachments from other parts.") },
 };
 
 static void
-epp_mode_changed(GtkComboBox *dropdown, gpointer dummy)
+update_info_label (GtkWidget *info_label, guint mode)
+{
+	gchar *str = g_strconcat ("<i>", _(epp_options[mode > 2 ? 0 : mode].description), "</i>", NULL);
+
+	gtk_label_set_markup (GTK_LABEL (info_label), str);
+
+	g_free (str);
+}
+
+static void
+epp_mode_changed(GtkComboBox *dropdown, GtkWidget *info_label)
 {
 	epp_mode = gtk_combo_box_get_active(dropdown);
 	if (epp_mode > 2)
 		epp_mode = 0;
 
 	gconf_client_set_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", epp_options[epp_mode].key, NULL);
+	update_info_label (info_label, epp_mode);
 }
 
 GtkWidget *
@@ -208,7 +229,7 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	GtkComboBox *dropdown;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
-	GtkWidget *w;
+	GtkWidget *w, *info;
 	gint i;
 	GtkTreeIter iter;
 
@@ -228,15 +249,25 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
 	/*gtk_combo_box_set_active(dropdown, -1);*/
 	gtk_combo_box_set_active(dropdown, epp_mode);
-	g_signal_connect(dropdown, "changed", G_CALLBACK(epp_mode_changed), NULL);
 	gtk_widget_show((GtkWidget *)dropdown);
 
 	w = gtk_label_new_with_mnemonic(_("HTML _Mode"));
 	gtk_widget_show(w);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(w),(GtkWidget *)dropdown);
+
+	info = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (info), 0.0, 0.5);
+	gtk_label_set_line_wrap (GTK_LABEL (info), TRUE);
+	
+	gtk_widget_show (info);
+	update_info_label (info, epp_mode);
+
+	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
+	
 	i = ((GtkTable *)data->parent)->nrows;
 	gtk_table_attach((GtkTable *)data->parent, w, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i, i+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach((GtkTable *)data->parent, info, 1, 2, i + 1, i + 2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
 
 	/* since this isnt dynamic, we don't need to track each item */
 
