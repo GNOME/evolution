@@ -196,14 +196,10 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
                                   struct _smime_pobject *po)
 {
 	CamelCipherCertInfo *info = g_object_get_data((GObject *)button, "e-cert-info");
-	ECertDB *db = e_cert_db_peek();
 	ECert *ec = NULL;
 
-	if (info->email)
-		ec = e_cert_db_find_cert_by_email_address(db, info->email, NULL);
-
-	if (ec == NULL && info->name)
-		ec = e_cert_db_find_cert_by_nickname(db, info->name, NULL);
+	if (info->cert_data)
+		ec = e_cert_new (info->cert_data);
 
 	if (ec != NULL) {
 		GtkWidget *w = certificate_viewer_show(ec);
@@ -248,7 +244,6 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 		if (l) {
 			GtkWidget *w;
 #if defined(HAVE_NSS)
-			ECertDB *db = e_cert_db_peek();
 			ECert *ec = NULL;
 #endif
 			w = gtk_label_new(l);
@@ -261,10 +256,8 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 			g_object_set_data((GObject *)w, "e-cert-info", info);
 			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
 
-			if (info->email)
-				ec = e_cert_db_find_cert_by_email_address(db, info->email, NULL);
-			if (ec == NULL && info->name)
-				ec = e_cert_db_find_cert_by_nickname(db, info->name, NULL);
+			if (info->cert_data)
+				ec = e_cert_new (info->cert_data);
 
 			if (ec == NULL)
 				gtk_widget_set_sensitive(w, FALSE);
