@@ -293,9 +293,6 @@ e_mail_address_free (EMailAddress *addr)
 	g_free (addr);
 }
 
-/* Note: by the time this function is called, the strings have already
-   been normalised which means we can assume all lowercase chars and
-   we can just use strcmp for the final comparison. */
 static gint
 e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 {
@@ -311,7 +308,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 		g_return_val_if_fail (addr1->address != NULL, 1);
 		g_return_val_if_fail (addr2->address != NULL, -1);
 
-		return strcmp (addr1->address, addr2->address);
+		return g_ascii_strcasecmp (addr1->address, addr2->address);
 	}
 
 	if (!addr1->wname)
@@ -325,7 +322,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 		g_return_val_if_fail (addr1->address != NULL, 1);
 		g_return_val_if_fail (addr2->address != NULL, -1);
 
-		return strcmp (addr1->address, addr2->address);
+		return g_ascii_strcasecmp (addr1->address, addr2->address);
 	}
 
 	if (!addr1->wname->last)
@@ -333,31 +330,28 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 	if (!addr2->wname->last)
 		return 1;
 
-	retval = strcmp (addr1->wname->last, addr2->wname->last);
+	retval = g_ascii_strcasecmp (addr1->wname->last, addr2->wname->last);
 	if (retval)
 		return retval;
 
 	/* last names are identical - compare first names */
 
 	if (!addr1->wname->first && !addr2->wname->first)
-		return strcmp (addr1->address, addr2->address);
+		return g_ascii_strcasecmp (addr1->address, addr2->address);
 
 	if (!addr1->wname->first)
 		return -1;
 	if (!addr2->wname->first)
 		return 1;
 
-	retval = strcmp (addr1->wname->first, addr2->wname->first);
+	retval = g_ascii_strcasecmp (addr1->wname->first, addr2->wname->first);
 	if (retval)
 		return retval;
 
-	return strcmp (addr1->address, addr2->address);
+	return g_ascii_strcasecmp (addr1->address, addr2->address);
 }
 #endif /* SMART_ADDRESS_COMPARE */
 
-/* Note: by the time this function is called, the strings have already
-   been normalised which means we can assume all lowercase chars and
-   we can just use strcmp for the final comparison. */
 static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
@@ -376,7 +370,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	e_mail_address_free (addr1);
 	e_mail_address_free (addr2);
 #else
-	retval = strcmp ((gchar *) address1, (gchar *) address2);
+	retval = g_ascii_strcasecmp ((gchar *) address1, (gchar *) address2);
 #endif /* SMART_ADDRESS_COMPARE */
 
 	return retval;
