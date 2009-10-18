@@ -1,3 +1,47 @@
+Evolution 2.28.1 2009-10-19
+---------------------------
+
+Bug Fixes:
+	#552552 - File/Empty Trash does not expunge maildir folder
+	          (Milan Crha)
+	#592117 - Calendar printout love
+	#592313 - Default label names untranslated (Milan Crha)
+	#594373 - Calendar notifications are not cleared from system tray
+	          (Milan Crha)
+	#595501 - Crash on a changed filter rule removal (Milan Crha)
+	#595923 - Fix user doc compilation warnings (Akhil Laddha)
+	#595938 - User doc clean up (Akhil Laddha)
+	#596130 - Use correct Name and GenericName in .desktop file
+	          (William Jon McCann)
+	#596157 - Use "Message-ID" instead of "Message-Id" (Matthew Barnes)
+	#596160 - Compiler warnings about _MailComponentPrivate.quit_state
+	          (Yan Li)
+	#596712 - Recovered messages not autosaved until modification
+	          (Matthew Barnes)
+	#596800 - Hang on contacts merging (Milan Crha)
+	#597108 - E_CONFIG_SECTION headers not properly escaped
+	          (Matthew Barnes)
+	#597564 - Invalid g_object_unref call in redo_queries (Milan Crha)
+
+Miscellaneous:
+	Disable gdk_event_get_graphics_expose() call in EMap. (Matthew Barnes)
+	Various composer autosave fixes. (Matthew Barnes)
+
+Translations:
+	Khaled Hosny (ar)
+	David Planella (ca)
+	Jorge González (es)
+	Mattias Põldaru (et)
+	Claude Paroz (fr)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Åsmund Skjæveland (nn)
+	Adi Roiban (ro)
+	Leonid Kanter (ru)
+	Matej Urbančič (sl)
+	Andrej Žnidaršič (sl)
+	Daniel Nylander (sv)
+
 Evolution 2.28.0 2009-09-20
 ----------------------------
 
