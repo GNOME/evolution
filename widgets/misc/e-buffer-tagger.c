@@ -21,19 +21,22 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 #include <regex.h>
 #include <string.h>
 #include <ctype.h>
+
 #include "e-util/e-util.h"
 #include "e-buffer-tagger.h"
 
 enum EBufferTaggerState
 {
-	E_BUFFER_TAGGER_STATE_NONE        = 0,
-	E_BUFFER_TAGGER_STATE_INSDEL      = 1 << 0, /* set when was called insert or delete of a text */
-	E_BUFFER_TAGGER_STATE_CHANGED     = 1 << 1, /* remark of the buffer is scheduled */
-	E_BUFFER_TAGGER_STATE_IS_HOVERING = 1 << 2, /* mouse is over the link */
-	E_BUFFER_TAGGER_STATE_CTRL_DOWN   = 1 << 3  /* Ctrl key is down */
+	E_BUFFER_TAGGER_STATE_NONE                = 0,
+	E_BUFFER_TAGGER_STATE_INSDEL              = 1 << 0, /* set when was called insert or delete of a text */
+	E_BUFFER_TAGGER_STATE_CHANGED             = 1 << 1, /* remark of the buffer is scheduled */
+	E_BUFFER_TAGGER_STATE_IS_HOVERING         = 1 << 2, /* mouse is over the link */
+	E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP = 1 << 3, /* mouse is over the link and the tooltip can be shown */
+	E_BUFFER_TAGGER_STATE_CTRL_DOWN           = 1 << 4  /* Ctrl key is down */
 };
 
 #define E_BUFFER_TAGGER_DATA_STATE "EBufferTagger::state"
@@ -103,7 +106,7 @@ markup_text (GtkTextBuffer *buffer)
 		for (i = 0; i < G_N_ELEMENTS (mim); i++) {
 			if (mim [i].preg && !regexec (mim [i].preg, str, 2, pmatch, 0)) {
 				gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + pmatch [0].rm_so);
-				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + pmatch [0].rm_eo - 1);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + pmatch [0].rm_eo);
 				gtk_text_buffer_apply_tag_by_name (buffer, E_BUFFER_TAGGER_LINK_TAG, &start, &end);
 
 				any = TRUE;
@@ -176,31 +179,41 @@ get_tag_bounds (GtkTextIter *iter, GtkTextTag *tag, GtkTextIter *start, GtkTextI
 	return res;
 }
 
-static gboolean
-invoke_link_if_present (GtkTextBuffer *buffer, GtkTextIter *iter)
+static gchar *
+get_url_at_iter (GtkTextBuffer *buffer, GtkTextIter *iter)
 {
 	GtkTextTagTable *tag_table;
 	GtkTextTag *tag;
 	GtkTextIter start, end;
-	gboolean res = FALSE;
+	gchar *url = NULL;
 
-	g_return_val_if_fail (buffer != NULL, FALSE);
+	g_return_val_if_fail (buffer != NULL, NULL);
 
 	tag_table = gtk_text_buffer_get_tag_table (buffer);
 	tag = gtk_text_tag_table_lookup (tag_table, E_BUFFER_TAGGER_LINK_TAG);
 	g_return_val_if_fail (tag != NULL, FALSE);
 
-	if (get_tag_bounds (iter, tag, &start, &end)) {
-		gchar *text;
+	if (get_tag_bounds (iter, tag, &start, &end))
+		url = gtk_text_iter_get_text (&start, &end);
 
-		text = gtk_text_iter_get_text (&start, &end);
+	return url;
+}
 
-		res = text && *text;
-		if (res)
-			e_show_uri (NULL, text);
+static gboolean
+invoke_link_if_present (GtkTextBuffer *buffer, GtkTextIter *iter)
+{
+	gboolean res;
+	gchar *url;
 
-		g_free (text);
-	}
+	g_return_val_if_fail (buffer != NULL, FALSE);
+
+	url = get_url_at_iter (buffer, iter);
+
+	res = url && *url;
+	if (res)
+		e_show_uri (NULL, url);
+
+	g_free (url);
 
 	return res;
 }
@@ -262,11 +275,12 @@ update_mouse_cursor (GtkTextView *text_view, gint x, gint y)
 {
 	static GdkCursor *hand_cursor = NULL;
 	static GdkCursor *regular_cursor = NULL;
-	gboolean hovering = FALSE, hovering_over_link = FALSE;
+	gboolean hovering = FALSE, hovering_over_link = FALSE, hovering_real;
 	guint32 state;
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
 	GtkTextTagTable *tag_table;
 	GtkTextTag *tag;
+	GtkTextIter iter;
 
 	if (!hand_cursor) {
 		hand_cursor = gdk_cursor_new (GDK_HAND2);
@@ -281,28 +295,76 @@ update_mouse_cursor (GtkTextView *text_view, gint x, gint y)
 
 	state = get_state (buffer);
 
-	hovering_over_link = (state & E_BUFFER_TAGGER_STATE_IS_HOVERING) != 0;
+	gtk_text_view_get_iter_at_location (text_view, &iter, x, y);
+	hovering_real = gtk_text_iter_has_tag (&iter, tag);
 
+	hovering_over_link = (state & E_BUFFER_TAGGER_STATE_IS_HOVERING) != 0;
 	if ((state & E_BUFFER_TAGGER_STATE_CTRL_DOWN) == 0) {
 		hovering = FALSE;
 	} else {
-		GtkTextIter iter;
-
-		gtk_text_view_get_iter_at_location (text_view, &iter, x, y);
-  
-		hovering = gtk_text_iter_has_tag (&iter, tag);
+		hovering = hovering_real;
 	}
 
 	if (hovering != hovering_over_link) {
 		update_state (buffer, E_BUFFER_TAGGER_STATE_IS_HOVERING, hovering);
 
-		if (hovering)
+		if (hovering && GTK_WIDGET_HAS_FOCUS (text_view))
 			gdk_window_set_cursor (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_TEXT), hand_cursor);
 		else
 			gdk_window_set_cursor (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_TEXT), regular_cursor);
 
 		gdk_window_get_pointer (gtk_text_view_get_window (text_view, GTK_TEXT_WINDOW_WIDGET), NULL, NULL, NULL);
 	}
+
+	hovering_over_link = (state & E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP) != 0;
+
+	if (hovering_real != hovering_over_link) {
+		update_state (buffer, E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP, hovering_real);
+
+		gtk_widget_trigger_tooltip_query (GTK_WIDGET (text_view));
+	}
+}
+
+static gboolean
+textview_query_tooltip (GtkTextView *text_view, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	GtkTextBuffer *buffer;
+	guint32 state;
+	gboolean res = FALSE;
+
+	if (keyboard_mode)
+		return FALSE;
+
+	buffer = gtk_text_view_get_buffer (text_view);
+	g_return_val_if_fail (buffer != NULL, FALSE);
+
+	state = get_state (buffer);
+
+	if ((state & E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP) != 0) {
+		gchar *url;
+		GtkTextIter iter;
+
+		gtk_text_view_window_to_buffer_coords (text_view,
+						GTK_TEXT_WINDOW_WIDGET,
+						x, y, &x, &y);
+		gtk_text_view_get_iter_at_location (text_view, &iter, x, y);
+
+		url = get_url_at_iter (buffer, &iter);
+		res = url && *url;
+
+		if (res) {
+			gchar *str;
+
+			/* To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com" */
+			str = g_strconcat (_("Ctrl-click to open a link"), " ", url, NULL);
+			gtk_tooltip_set_text (tooltip, str);
+			g_free (str);
+		}
+
+		g_free (url);
+	}
+
+	return res;
 }
 
 /* Links can be activated by pressing Enter. */
@@ -474,6 +536,9 @@ e_buffer_tagger_connect (GtkTextView *textview)
 	g_signal_connect (buffer, "delete-range", G_CALLBACK (buffer_delete_range), NULL);
 	g_signal_connect (buffer, "notify::cursor-position", G_CALLBACK (buffer_cursor_position), NULL);
 
+	gtk_widget_set_has_tooltip (GTK_WIDGET (textview), TRUE);
+
+	g_signal_connect (textview, "query-tooltip", G_CALLBACK (textview_query_tooltip), NULL);
 	g_signal_connect (textview, "key-press-event", G_CALLBACK (textview_key_press_event), NULL);
 	g_signal_connect (textview, "event-after", G_CALLBACK (textview_event_after), NULL);
 	g_signal_connect (textview, "motion-notify-event", G_CALLBACK (textview_motion_notify_event), NULL);
@@ -505,6 +570,9 @@ e_buffer_tagger_disconnect (GtkTextView *textview)
 	g_signal_handlers_disconnect_by_func (buffer, G_CALLBACK (buffer_delete_range), NULL);
 	g_signal_handlers_disconnect_by_func (buffer, G_CALLBACK (buffer_cursor_position), NULL);
 
+	gtk_widget_set_has_tooltip (GTK_WIDGET (textview), FALSE);
+
+	g_signal_handlers_disconnect_by_func (textview, G_CALLBACK (textview_query_tooltip), NULL);
 	g_signal_handlers_disconnect_by_func (textview, G_CALLBACK (textview_key_press_event), NULL);
 	g_signal_handlers_disconnect_by_func (textview, G_CALLBACK (textview_event_after), NULL);
 	g_signal_handlers_disconnect_by_func (textview, G_CALLBACK (textview_motion_notify_event), NULL);
