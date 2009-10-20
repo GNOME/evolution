@@ -40,10 +40,11 @@ typedef enum {
 	ADDRESSBOOK_LDAP_SCOPE_LAST
 } AddressbookLDAPScopeType;
 
+/* the order matches order of items in "ssl-combobox" */
 typedef enum {
-	ADDRESSBOOK_LDAP_SSL_ALWAYS,
-	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE,
-	ADDRESSBOOK_LDAP_SSL_NEVER
+	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE, /* SSL */
+	ADDRESSBOOK_LDAP_SSL_ALWAYS,		/* TLS */
+	ADDRESSBOOK_LDAP_SSL_NEVER		/* No encryption */
 } AddressbookLDAPSSLType;
 
 GtkWidget* addressbook_config_edit_source        (GtkWidget *parent, ESource *source);

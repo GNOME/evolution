@@ -194,14 +194,14 @@ static AddressbookLDAPSSLType
 ldap_parse_ssl (const gchar *ssl)
 {
 	if (!ssl)
-		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE; /* XXX good default? */
+		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
 
 	if (!strcmp (ssl, "always"))
 		return ADDRESSBOOK_LDAP_SSL_ALWAYS;
-	else if (!strcmp (ssl, "never"))
-		return ADDRESSBOOK_LDAP_SSL_NEVER;
-	else
+	else if (!strcmp (ssl, "whenever_possible"))
 		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+	else
+		return ADDRESSBOOK_LDAP_SSL_NEVER;
 }
 
 static const gchar *
@@ -793,7 +793,7 @@ eabc_general_host(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *
 	sdialog->ssl_combobox = glade_xml_get_widget (gui, "ssl-combobox");
 	gtk_widget_set_has_tooltip (sdialog->ssl_combobox, TRUE);
 	tmp = e_source_get_property (sdialog->source, "ssl");
-	sdialog->ssl = tmp ? ldap_parse_ssl (tmp) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+	sdialog->ssl = ldap_parse_ssl (tmp);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->ssl_combobox), sdialog->ssl);
 	gtk_widget_set_tooltip_text (sdialog->ssl_combobox, ldap_get_ssl_tooltip (sdialog->ssl));
 	gtk_widget_set_sensitive (sdialog->ssl_combobox, strcmp (port, LDAPS_PORT_STRING) != 0);
