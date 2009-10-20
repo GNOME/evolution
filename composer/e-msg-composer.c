@@ -2032,6 +2032,7 @@ msg_composer_uri_requested (GtkhtmlEditor *editor,
                             const gchar *uri,
                             GtkHTMLStream *stream)
 {
+	GtkhtmlEditorClass *editor_class;
 	EMsgComposer *composer;
 	GHashTable *hash_table;
 	GByteArray *array;
@@ -2054,10 +2055,8 @@ msg_composer_uri_requested (GtkhtmlEditor *editor,
 		part = g_hash_table_lookup (hash_table, uri);
 	}
 
-	if (part == NULL) {
-		gtk_html_end (html, stream, GTK_HTML_STREAM_ERROR);
-		return;
-	}
+	if (part == NULL)
+		goto chainup;
 
 	array = g_byte_array_new ();
 	camel_stream = camel_stream_mem_new_with_byte_array (array);
@@ -2071,6 +2070,13 @@ msg_composer_uri_requested (GtkhtmlEditor *editor,
 	camel_object_unref (camel_stream);
 
 	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+
+	return;
+
+chainup:
+	/* Chain up to parent's uri_requested() method. */
+	editor_class = GTKHTML_EDITOR_CLASS (parent_class);
+	editor_class->uri_requested (editor, uri, stream);
 }
 
 static void
