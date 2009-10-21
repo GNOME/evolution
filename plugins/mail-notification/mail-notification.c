@@ -36,13 +36,15 @@
 
 #include <time.h>
 
-#include "e-util/e-binding.h"
-#include "e-util/e-config.h"
-#include "e-util/gconf-bridge.h"
-#include "mail/em-utils.h"
-#include "mail/em-event.h"
-#include "mail/em-folder-tree-model.h"
-#include "camel/camel-folder.h"
+#include <camel/camel-folder.h>
+
+#include <e-util/e-binding.h>
+#include <e-util/e-config.h>
+#include <e-util/gconf-bridge.h>
+#include <mail/em-utils.h>
+#include <mail/em-event.h>
+#include <mail/em-folder-tree.h>
+#include <shell/e-shell-view.h>
 
 #ifdef HAVE_LIBNOTIFY
 #include <libnotify/notify.h>
@@ -228,16 +230,11 @@ static guint blink_timeout_id = 0;
 static guint status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
-static gboolean notification_callback (gpointer notify);
 static NotifyNotification *notify = NULL;
 #endif
 
 static void
-#ifdef HAVE_LIBNOTIFY
-icon_activated (GtkStatusIcon *icon, NotifyNotification *pnotify)
-#else
-icon_activated (GtkStatusIcon *icon, gpointer pnotify)
-#endif
+remove_notification (void)
 {
 #ifdef HAVE_LIBNOTIFY
 	if (notify)
@@ -256,6 +253,45 @@ icon_activated (GtkStatusIcon *icon, gpointer pnotify)
 
 	status_icon = NULL;
 	status_count = 0;
+}
+
+static void
+status_icon_activate_cb (void)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree;
+	GtkAction *action;
+	GList *list;
+	const gchar *uri;
+
+	shell = e_shell_get_default ();
+	list = e_shell_get_watched_windows (shell);
+
+	/* Find the first EShellWindow in the list. */
+	while (list != NULL && !E_IS_SHELL_WINDOW (list->data))
+		list = g_list_next (list);
+
+	g_return_if_fail (list != NULL);
+
+	/* Present the shell window. */
+	shell_window = E_SHELL_WINDOW (list->data);
+	gtk_window_present (GTK_WINDOW (shell_window));
+
+	/* Switch to the mail view. */
+	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+	action = e_shell_view_get_action (shell_view);
+	gtk_action_activate (action);
+
+	/* Select the latest folder with new mail. */
+	uri = g_object_get_data (G_OBJECT (status_icon), "uri");
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	em_folder_tree_set_selected (folder_tree, uri, FALSE);
+
+	remove_notification ();
 }
 
 #ifdef HAVE_LIBNOTIFY
@@ -310,17 +346,20 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 	gtk_box_pack_start (GTK_BOX (hbox), cfg, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
-	dialog = gtk_dialog_new_with_buttons (_("Mail Notification Properties"),
-						NULL,
-						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-						NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Mail Notification Properties"),
+		NULL,
+		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		NULL);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), vbox);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
 	gtk_widget_set_size_request (dialog, 400, -1);
-	g_signal_connect_swapped (dialog, "response",  G_CALLBACK (gtk_widget_destroy), dialog);
+	g_signal_connect_swapped (
+		dialog, "response",
+		G_CALLBACK (gtk_widget_destroy), dialog);
 	gtk_widget_show (dialog);
 }
 
@@ -333,22 +372,24 @@ popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time
 	menu = GTK_MENU (gtk_menu_new ());
 
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_CLOSE, NULL);
-#ifdef HAVE_LIBNOTIFY
-	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (icon_activated), notify);
-#else
-	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (icon_activated), NULL);
-#endif
-	gtk_widget_show (item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	g_signal_connect (
+		item, "activate",
+		G_CALLBACK (remove_notification), NULL);
 
 	item = gtk_separator_menu_item_new ();
-	gtk_widget_show (item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
 
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
-	g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (do_properties), NULL);
-	gtk_widget_show (item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+
+	g_signal_connect (
+		item, "activate",
+		G_CALLBACK (do_properties), NULL);
 
 	g_object_ref_sink (menu);
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button, activate_time);
@@ -416,6 +457,10 @@ new_notify_status (EMEventTargetFolder *t)
 		gtk_status_icon_set_from_icon_name (status_icon, "mail-unread");
 	}
 
+	g_object_set_data_full (
+		G_OBJECT (status_icon), "uri",
+		g_strdup (t->uri), (GDestroyNotify) g_free);
+
 	if (!status_count) {
 		status_count = t->new;
 		/* To translators: '%d' is the number of mails recieved and '%s' is the name of the folder*/
@@ -463,13 +508,13 @@ new_notify_status (EMEventTargetFolder *t)
 	g_free (msg);
 
 	if (new_icon) {
-#ifdef HAVE_LIBNOTIFY
-		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), notify);
-#else
-		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
-#endif
+		g_signal_connect (
+			status_icon, "activate",
+			G_CALLBACK (status_icon_activate_cb), NULL);
 
-		g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
+		g_signal_connect (
+			status_icon, "popup-menu",
+			G_CALLBACK (popup_menu_status), NULL);
 	}
 }
 
@@ -479,11 +524,7 @@ read_notify_status (EMEventTargetMessage *t)
 	if (!status_icon)
 		return;
 
-#ifdef HAVE_LIBNOTIFY
-	icon_activated (status_icon, notify);
-#else
-	icon_activated (status_icon, NULL);
-#endif
+	remove_notification ();
 }
 
 static GtkWidget *
