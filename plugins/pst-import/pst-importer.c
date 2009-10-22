@@ -908,13 +908,13 @@ pst_process_email (PstImporter *m, pst_item *item)
 	info = camel_message_info_new (NULL);
 
 	/* Read message flags (see comments in libpst.c */
-	if (item->flags && 0x01)
+	if (item->flags & 0x01)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
 	if (item->email->importance == 2)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_FLAGGED, ~0);
 
-	if (item->flags && 0x08)
+	if (item->flags & 0x08)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	camel_folder_append_message (m->folder, msg, info, NULL, &m->ex);
