@@ -45,6 +45,13 @@ G_DEFINE_TYPE (ETreeTableAdapter, etta, E_TABLE_MODEL_TYPE)
 
 #define INCREMENT_AMOUNT 100
 
+enum {
+	SORTING_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = { 0, };
+
 typedef struct {
 	ETreePath path;
 	guint32 num_visible_children;
@@ -712,6 +719,17 @@ etta_class_init (ETreeTableAdapterClass *klass)
 	table_class->initialize_value   = etta_initialize_value;
 	table_class->value_is_empty     = etta_value_is_empty;
 	table_class->value_to_string    = etta_value_to_string;
+
+	klass->sorting_changed = NULL;
+
+	signals [SORTING_CHANGED] =
+		g_signal_new ("sorting_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeTableAdapterClass, sorting_changed),
+			      NULL, NULL,
+			      e_marshal_BOOLEAN__NONE,
+			      G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
 }
 
 static void
@@ -844,6 +862,17 @@ etta_sort_info_changed (ETableSortInfo *sort_info, ETreeTableAdapter *etta)
 {
 	if (!etta->priv->root)
 		return;
+
+	/* the function is called also internally, with sort_info = NULL,
+	   thus skip those in signal emit */
+	if (sort_info) {
+		gboolean handled = FALSE;
+
+		g_signal_emit (etta, signals [SORTING_CHANGED], 0, &handled);
+
+		if (handled)
+			return;
+	}
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 	resort_node(etta, etta->priv->root, TRUE);
@@ -1263,6 +1292,22 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 	resort_node(etta, etta->priv->root, TRUE);
 	fill_map(etta, 0, etta->priv->root);
 	e_table_model_changed(E_TABLE_MODEL(etta));
+}
+
+ETableSortInfo *
+e_tree_table_adapter_get_sort_info (ETreeTableAdapter *etta)
+{
+	g_return_val_if_fail (etta != NULL, NULL);
+
+	return etta->priv->sort_info;
+}
+
+ETableHeader *
+e_tree_table_adapter_get_header (ETreeTableAdapter *etta)
+{
+	g_return_val_if_fail (etta != NULL, NULL);
+
+	return etta->priv->header;
 }
 
 ETreePath

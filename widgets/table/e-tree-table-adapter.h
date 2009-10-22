@@ -50,6 +50,9 @@ typedef struct {
 
 typedef struct {
 	ETableModelClass parent_class;
+
+	/* Signals */
+	gboolean (*sorting_changed) (ETreeTableAdapter *etta);
 } ETreeTableAdapterClass;
 
 GType        e_tree_table_adapter_get_type                   (void);
@@ -94,6 +97,8 @@ void         e_tree_table_adapter_load_expanded_state_xml    (ETreeTableAdapter 
 
 void         e_tree_table_adapter_set_sort_info              (ETreeTableAdapter *etta,
 							      ETableSortInfo    *sort_info);
+ETableSortInfo *e_tree_table_adapter_get_sort_info	     (ETreeTableAdapter *etta);
+ETableHeader *e_tree_table_adapter_get_header		     (ETreeTableAdapter *etta);
 
 G_END_DECLS
 
