@@ -1445,7 +1445,7 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 		/* is it correct to use the passed in *part here? */
 		part = camel_multipart_get_part(mp, i);
 
-		if (!part)
+		if (!part || !camel_mime_part_get_content_size (part))
 			continue;
 
 		type = camel_mime_part_get_content_type (part);
