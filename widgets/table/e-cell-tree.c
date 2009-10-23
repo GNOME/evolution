@@ -110,7 +110,7 @@ offset_of_node (ETableModel *table_model, gint row)
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(table_model, row);
 	ETreePath path = e_cell_tree_get_node(table_model, row);
 
-	if (visible_depth_of_node (table_model, row) > 0 ||
+	if (visible_depth_of_node (table_model, row) >= 0 ||
 	    e_tree_model_node_is_expandable(tree_model, path)) {
 		return (visible_depth_of_node(table_model, row) + 1) * INDENT_AMOUNT;
 	} else {
