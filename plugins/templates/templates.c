@@ -432,65 +432,13 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	return hbox;
 }
 
-/* borrowed from plugins/mail-to-task/ */
-static gchar *
-get_content (CamelMimeMessage *message)
-{
-	CamelDataWrapper *content;
-	CamelStream *mem;
-	CamelContentType *type;
-	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
-	gchar *str, *convert_str = NULL;
-	gsize bytes_read, bytes_written;
-	gint count = 2;
-
-	content = camel_medium_get_content_object ((CamelMedium *) message);
-	if (!content)
-		return NULL;
-
-	/* Get non-multipart content from multipart message. */
-	while (CAMEL_IS_MULTIPART (content) && count > 0) {
-		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), 0);
-		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-		count--;
-	}
-
-	if (!mime_part)
-		return NULL;
-
-	type = camel_mime_part_get_content_type (mime_part);
-	if (!camel_content_type_is (type, "text", "plain"))
-		return NULL;
-
-	mem = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream (content, mem);
-
-	str = g_strndup ((const gchar *)((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
-	camel_object_unref (mem);
-
-	/* convert to UTF-8 string */
-	if (str && content->mime_type->params && content->mime_type->params->value) {
-		convert_str = g_convert (str, strlen (str),
-				"UTF-8", content->mime_type->params->value,
-				&bytes_read, &bytes_written, NULL);
-	}
-
-	if (convert_str) {
-		g_free (str);
-		return convert_str;
-	}
-	else
-		return str;
-
-}
-
 static void
 create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *message, gpointer data)
 {
 	GtkAction *action = data;
 	CamelMimeMessage *new, *template;
 	struct _camel_header_raw *header;
-	gchar *cont;
+	CamelStream *mem;
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (message != NULL);
@@ -500,6 +448,14 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 
 	/* The new message we are creating */
 	new = camel_mime_message_new();
+
+	/* make the exact copy of the template message, with all
+	   its attachments and message structure */
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (template), mem);
+	camel_stream_reset (mem);
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (new), mem);
+	camel_object_unref (mem);
 
 	/* Add the headers from the message we are replying to, so CC and that
 	 * stuff is preserved. */
@@ -513,11 +469,6 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 		header = header->next;
 	}
 
-	camel_mime_part_set_encoding((CamelMimePart *) new, CAMEL_TRANSFER_ENCODING_8BIT);
-
-	/* Get the template content. */
-	cont = get_content (template);
-
 	/* Set the To: field to the same To: field of the message we are replying to. */
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO,
 			camel_mime_message_get_from (message));
@@ -528,9 +479,6 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 
 	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_BCC,
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
-
-	camel_mime_part_set_content((CamelMimePart *)new,
-			cont, (gint) g_utf8_strlen(cont, -1), "text");
 
 	/* Create the composer */
 	em_utils_edit_message (new, folder);
