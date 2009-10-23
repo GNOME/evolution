@@ -469,7 +469,10 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 	}
 
 	/* if had same UID, then we are editing old contact, thus force commit change to it */
-	same_uids = contact && match && g_str_equal (e_contact_get_const (contact, E_CONTACT_UID), e_contact_get_const (match, E_CONTACT_UID));
+	same_uids = contact && match
+		&& e_contact_get_const (contact, E_CONTACT_UID)
+		&& e_contact_get_const (match, E_CONTACT_UID)
+		&& g_str_equal (e_contact_get_const (contact, E_CONTACT_UID), e_contact_get_const (match, E_CONTACT_UID));
 
 	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE || same_uids) {
 		doit (lookup, same_uids);
