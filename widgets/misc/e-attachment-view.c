@@ -696,7 +696,7 @@ attachment_view_add_handler (GType type,
 
 	targets = e_attachment_handler_get_target_table (handler, &n_targets);
 	gtk_target_list_add_table (priv->target_list, targets, n_targets);
-	priv->drag_actions = e_attachment_handler_get_drag_actions (handler);
+	priv->drag_actions |= e_attachment_handler_get_drag_actions (handler);
 
 	g_ptr_array_add (priv->handlers, handler);
 }
