@@ -25,10 +25,29 @@
   This a bit 'whipped together', so is likely to change mid-term
 */
 
-#ifndef __E_EVENT_H__
-#define __E_EVENT_H__
+#ifndef E_EVENT_H
+#define E_EVENT_H
 
 #include <glib-object.h>
+
+/* Standard GObject macros */
+#define E_TYPE_EVENT \
+	(e_event_get_type ())
+#define E_EVENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_EVENT, EEvent))
+#define E_EVENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_EVENT, EEventClass))
+#define E_IS_EVENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_EVENT))
+#define E_IS_EVENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_EVENT))
+#define E_EVENT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_EVENT, EEventClass))
 
 G_BEGIN_DECLS
 
@@ -36,6 +55,7 @@ G_BEGIN_DECLS
 
 typedef struct _EEvent EEvent;
 typedef struct _EEventClass EEventClass;
+typedef struct _EEventPrivate EEventPrivate;
 
 typedef struct _EEventItem EEventItem;
 typedef struct _EEventFactory EEventFactory; /* anonymous type */
@@ -105,7 +125,7 @@ struct _EEventItem {
  *
  **/
 struct _EEventTarget {
-	struct _EEvent *event;	/* used for virtual methods */
+	EEvent *event;	/* used for virtual methods */
 
 	guint32 type;		/* targe type, for implementors */
 	guint32 mask;		/* depends on type, enable mask */
@@ -128,8 +148,7 @@ struct _EEventTarget {
  **/
 struct _EEvent {
 	GObject object;
-
-	struct _EEventPrivate *priv;
+	EEventPrivate *priv;
 	gchar *id;
 	EEventTarget *target;	/* current target during event emission */
 };
@@ -148,20 +167,27 @@ struct _EEvent {
 struct _EEventClass {
 	GObjectClass object_class;
 
-	void (*target_free)(EEvent *ep, EEventTarget *t);
+	void		(*target_free)		(EEvent *event,
+						 EEventTarget *target);
 };
 
-GType e_event_get_type(void);
-
-EEvent *e_event_construct(EEvent *, const gchar *id);
-
-gpointer e_event_add_items(EEvent *emp, GSList *items, EEventItemsFunc freefunc, gpointer data);
-void e_event_remove_items(EEvent *emp, gpointer handle);
-
-void e_event_emit(EEvent *, const gchar *id, EEventTarget *);
-
-gpointer e_event_target_new(EEvent *, gint type, gsize size);
-void e_event_target_free(EEvent *, gpointer );
+GType		e_event_get_type		(void);
+EEvent *	e_event_construct		(EEvent *event,
+						 const gchar *id);
+gpointer	e_event_add_items		(EEvent *event,
+						 GSList *items,
+						 EEventItemsFunc freefunc,
+						 gpointer data);
+void		e_event_remove_items		(EEvent *event,
+						 gpointer handle);
+void		e_event_emit			(EEvent *event,
+						 const gchar *id,
+						 EEventTarget *target);
+gpointer	e_event_target_new		(EEvent *event,
+						 gint type,
+						 gsize size);
+void		e_event_target_free		(EEvent *event,
+						 gpointer object);
 
 /* ********************************************************************** */
 
@@ -175,13 +201,32 @@ void e_event_target_free(EEvent *, gpointer );
 
 #include "e-util/e-plugin.h"
 
+/* Standard GObject macros */
+#define E_TYPE_EVENT_HOOK \
+	(e_event_hook_get_type ())
+#define E_EVENT_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_EVENT_HOOK, EEventHook))
+#define E_EVENT_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_EVENT_HOOK, EEventHookClass))
+#define E_IS_EVENT_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_EVENT_HOOK))
+#define E_IS_EVENT_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_EVENT_HOOK))
+#define E_EVENT_HOOK_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_EVENT_HOOK, EEventHookClass))
+
 typedef struct _EEventHook EEventHook;
 typedef struct _EEventHookClass EEventHookClass;
 
 typedef struct _EPluginHookTargetMap EEventHookTargetMap;
 typedef struct _EPluginHookTargetKey EEventHookTargetMask;
 
-typedef void (*EEventHookFunc)(struct _EPlugin *plugin, EEventTarget *target);
+typedef void (*EEventHookFunc)(EPlugin *plugin, EEventTarget *target);
 
 /**
  * struct _EEventHook - An event hook.
@@ -223,11 +268,11 @@ struct _EEventHookClass {
 	EEvent *event;
 };
 
-GType e_event_hook_get_type(void);
-
-/* for implementors */
-void e_event_hook_class_add_target_map(EEventHookClass *klass, const EEventHookTargetMap *);
+GType		e_event_hook_get_type	(void);
+void		e_event_hook_class_add_target_map
+					(EEventHookClass *klass,
+					 const EEventHookTargetMap *map);
 
 G_END_DECLS
 
-#endif /* __E_EVENT_H__ */
+#endif /* E_EVENT_H */
