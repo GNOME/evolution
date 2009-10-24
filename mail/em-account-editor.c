@@ -493,8 +493,6 @@ static struct {
 	{ N_("SSL encryption"), "always" }
 };
 
-#define num_ssl_options (sizeof (ssl_options) / sizeof (ssl_options[0]))
-
 static gboolean
 is_email (const gchar *address)
 {
@@ -689,7 +687,7 @@ em_account_editor_ssl_selector_new (gchar *widget_name, gchar *string1, gchar *s
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
-	for (i=0;i<num_ssl_options;i++) {
+	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, _(ssl_options[i].label), 1, ssl_options[i].value, -1);
 	}
@@ -1586,7 +1584,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			hide = CAMEL_PROVIDER_HIDDEN(service->provider, info->flag);
 			show = (enable && !hide)?gtk_widget_show:gtk_widget_hide;
 
-			for (j=0; j < sizeof (info->widgets)/sizeof (info->widgets[0]); j++) {
+			for (j=0; j < G_N_ELEMENTS (info->widgets); j++) {
 				if (info->widgets[j] && (w = G_STRUCT_MEMBER(GtkWidget *, service, info->widgets[j]))) {
 					show (w);
 					if (j == 0) {
@@ -1777,7 +1775,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 	tmp = camel_url_get_param (url, "use_ssl");
 	if (tmp == NULL)
 		tmp = "never";
-	for (i=0;i<num_ssl_options;i++) {
+	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
 		if (!strcmp (ssl_options[i].value, tmp)) {
 			gtk_combo_box_set_active (service->use_ssl, i);
 			break;
@@ -2018,7 +2016,7 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, Glad
 	if (tmp == NULL)
 		tmp = "never";
 
-	for (i=0;i<num_ssl_options;i++) {
+	for (i=0;i<G_N_ELEMENTS (ssl_options);i++) {
 		if (!strcmp (ssl_options[i].value, tmp)) {
 			gtk_combo_box_set_active (service->use_ssl, i);
 			break;
@@ -2152,7 +2150,7 @@ emae_queue_widgets (EMAccountEditor *emae, GladeXML *xml, const gchar *first, ..
 	}
 	va_end (ap);
 
-	g_return_if_fail (i < sizeof (emae->priv->widgets)/sizeof (emae->priv->widgets[0]));
+	g_return_if_fail (i < G_N_ELEMENTS (emae->priv->widgets));
 
 	emae->priv->widgets[i] = NULL;
 	emae->priv->widgets_index = 0;
@@ -2181,7 +2179,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	g_free (gladefile);
 
 	/* Management & Identity fields, in the assistant the management frame is relocated to the last page later on */
-	for (i=0;i<sizeof (emae_identity_entries)/sizeof (emae_identity_entries[0]);i++)
+	for (i=0;i<G_N_ELEMENTS (emae_identity_entries);i++)
 		gui->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, xml);
 
 	gui->management_frame = glade_xml_get_widget (xml, "management_frame");

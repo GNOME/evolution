@@ -733,7 +733,6 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 {
 	static gint divisions[] = { 60, 30, 15, 10, 5 };
 	EDayView *day_view;
-	gint num_divisions = sizeof (divisions) / sizeof (divisions[0]);
 	GtkWidget *menu, *item, *submenu;
 	gchar buffer[256];
 	GSList *group = NULL, *recent_zones, *s;
@@ -752,7 +751,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 		menu, "selection-done",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
-	for (i = 0; i < num_divisions; i++) {
+	for (i = 0; i < G_N_ELEMENTS (divisions); i++) {
 		g_snprintf (buffer, sizeof (buffer),
 		/* TO TRANSLATORS: %02i is the number of minutes; this is a context menu entry
 		 * to change the length of the time division in the calendar day view, e.g.

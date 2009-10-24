@@ -75,7 +75,6 @@ static guint ethi_signals [LAST_SIGNAL] = { 0, };
 #define ethi_get_type e_table_header_item_get_type
 G_DEFINE_TYPE (ETableHeaderItem, ethi, GNOME_TYPE_CANVAS_ITEM)
 
-#define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
 #define d(x)
 
 static void ethi_drop_table_header (ETableHeaderItem *ethi);
@@ -881,7 +880,7 @@ ethi_realize (GnomeCanvasItem *item)
 	 */
 	ethi_drop_types[0].target = g_strdup_printf("%s-%s", ethi_drop_types[0].target, ethi->dnd_code);
 	gtk_drag_dest_set (GTK_WIDGET (item->canvas), 0,
-			   ethi_drop_types, ELEMENTS (ethi_drop_types),
+			   ethi_drop_types, G_N_ELEMENTS (ethi_drop_types),
 			   GDK_ACTION_MOVE);
 	g_free(ethi_drop_types[0].target);
 
@@ -1169,7 +1168,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	ethi_drag_types[0].target = g_strdup_printf(
 		"%s-%s", ethi_drag_types[0].target, ethi->dnd_code);
 	list = gtk_target_list_new (
-		ethi_drag_types, ELEMENTS (ethi_drag_types));
+		ethi_drag_types, G_N_ELEMENTS (ethi_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free(ethi_drag_types[0].target);
 

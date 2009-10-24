@@ -981,7 +981,7 @@ em_format_default_headers(EMFormat *emf)
 	gint i;
 
 	em_format_clear_headers(emf);
-	for (i=0; i<sizeof(default_headers)/sizeof(default_headers[0]); i++)
+	for (i = 0; i < G_N_ELEMENTS (default_headers); i++)
 		em_format_add_header(emf, default_headers[i].name, default_headers[i].flags);
 }
 
@@ -1988,7 +1988,7 @@ emf_builtin_init(EMFormatClass *class)
 {
 	gint i;
 
-	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
 		g_hash_table_insert(class->type_handlers, type_builtin_table[i].mime_type, &type_builtin_table[i]);
 }
 

@@ -357,7 +357,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 		|| !strcmp(prop_data->name, "Sent"))) {
 		emfp_items[EMFP_FOLDER_SECTION].label = _(prop_data->name);
 		if (!emfp_items_translated) {
-			for (i=0;i<sizeof(emfp_items)/sizeof(emfp_items[0]);i++) {
+			for (i = 0; i < G_N_ELEMENTS (emfp_items); i++) {
 				if (emfp_items[i].label)
 					emfp_items[i].label = _(emfp_items[i].label);
 			}
@@ -415,7 +415,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.folderConfig");
 	prop_data->config = ec;
 	l = NULL;
-	for (i=0;i<sizeof(emfp_items)/sizeof(emfp_items[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
 		l = g_slist_prepend(l, &emfp_items[i]);
 	e_config_add_items((EConfig *)ec, l, emfp_commit, NULL, emfp_free, prop_data);
 

@@ -1050,7 +1050,7 @@ make_recur_month_num_combo (gint month_index)
 	store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_INT);
 
 	/* Relation */
-	for (i = 0; i < sizeof (options) / sizeof (options[0]); i++) {
+	for (i = 0; i < G_N_ELEMENTS (options); i++) {
 		gtk_tree_store_append (store, &iter, NULL);
 		gtk_tree_store_set (store, &iter, 0, _(options [i]), 1, month_num_options_map [i], -1);
 	}
@@ -1120,7 +1120,7 @@ make_recur_month_combobox (void)
 
 	combo = gtk_combo_box_new_text ();
 
-	for (i = 0; i < sizeof (options) / sizeof (options[0]); i++) {
+	for (i = 0; i < G_N_ELEMENTS (options); i++) {
 		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _(options[i]));
 	}
 
@@ -1635,7 +1635,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	/* Any funky shit? */
 
-#define N_HAS_BY(field) (count_by_xxx (field, sizeof (field) / sizeof (field[0])))
+#define N_HAS_BY(field) (count_by_xxx (field, G_N_ELEMENTS (field)))
 
 	n_by_second = N_HAS_BY (r->by_second);
 	n_by_minute = N_HAS_BY (r->by_minute);

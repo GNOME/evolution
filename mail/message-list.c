@@ -2213,7 +2213,7 @@ ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint 
 		gint i;
 
 		d(printf("atom drop '%s'\n", gdk_atom_name(targets->data)));
-		for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
+		for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 			if (targets->data == (gpointer)ml_drag_info[i].atom)
 				actions |= ml_drag_info[i].actions;
 	}
@@ -2488,7 +2488,7 @@ message_list_class_init (MessageListClass *class)
 	GtkObjectClass *gtk_object_class;
 	gint i;
 
-	for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
 		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
 	g_type_class_add_private (class, sizeof (MessageListPrivate));
@@ -2640,14 +2640,14 @@ message_list_construct (MessageList *message_list)
 			 G_CALLBACK (on_selection_changed_cmd), message_list);
 
 	e_tree_drag_source_set(message_list->tree, GDK_BUTTON1_MASK,
-			       ml_drag_types, sizeof(ml_drag_types)/sizeof(ml_drag_types[0]),
+			       ml_drag_types, G_N_ELEMENTS (ml_drag_types),
 			       GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
 	g_signal_connect(message_list->tree, "tree_drag_data_get",
 			 G_CALLBACK(ml_tree_drag_data_get), message_list);
 
 	e_tree_drag_dest_set(message_list->tree, GTK_DEST_DEFAULT_ALL,
-			     ml_drop_types, sizeof(ml_drop_types)/sizeof(ml_drop_types[0]),
+			     ml_drop_types, G_N_ELEMENTS (ml_drop_types),
 			     GDK_ACTION_MOVE|GDK_ACTION_COPY);
 
 	g_signal_connect(message_list->tree, "tree_drag_data_received",

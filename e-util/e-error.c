@@ -102,7 +102,7 @@ map_response(const gchar *name)
 {
 	gint i;
 
-	for (i=0;i<sizeof(response_map)/sizeof(response_map[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (response_map); i++)
 		if (!strcmp(name, response_map[i].name))
 			return response_map[i].id;
 
@@ -125,7 +125,7 @@ map_type(const gchar *name)
 	gint i;
 
 	if (name) {
-		for (i=0;i<sizeof(type_map)/sizeof(type_map[0]);i++)
+		for (i = 0; i < G_N_ELEMENTS (type_map); i++)
 			if (!strcmp(name, type_map[i].name))
 				return i;
 	}
@@ -320,7 +320,7 @@ ee_load_tables(void)
 	table = g_malloc0(sizeof(*table));
 	table->domain = "builtin";
 	table->errors = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i=0;i<sizeof(default_errors)/sizeof(default_errors[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (default_errors); i++)
 		g_hash_table_insert(table->errors, (gpointer) default_errors[i].id, &default_errors[i]);
 	g_hash_table_insert(error_table, (gpointer) table->domain, table);
 

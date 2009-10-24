@@ -323,7 +323,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	 */
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.networkPrefs");
 	l = NULL;
-	for (i=0;i<sizeof(emnp_items)/sizeof(emnp_items[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
 		l = g_slist_prepend(l, &emnp_items[i]);
 	e_config_add_items((EConfig *)ec, l, NULL, NULL, emnp_free, prefs);
 

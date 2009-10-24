@@ -239,7 +239,7 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	dropdown = (GtkComboBox *)gtk_combo_box_new();
 	cell = gtk_cell_renderer_text_new();
 	store = gtk_list_store_new(1, G_TYPE_STRING);
-	for (i=0;i<sizeof(epp_options)/sizeof(epp_options[0]);i++) {
+	for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, _(epp_options[i].label), -1);
 	}
@@ -289,7 +289,7 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
 		epp_gconf = gconf_client_get_default();
 		key = gconf_client_get_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", NULL);
 		if (key) {
-			for (i=0;i<sizeof(epp_options)/sizeof(epp_options[0]);i++) {
+			for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
 				if (!strcmp(epp_options[i].key, key)) {
 					epp_mode = i;
 					break;

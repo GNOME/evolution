@@ -1670,7 +1670,7 @@ em_migrate_folder(EMMigrateSession *session, const gchar *dirname, const gchar *
 		}
 
 		/* copy over the metadata files */
-		for (i = 0; i < sizeof(meta_ext)/sizeof(meta_ext[0]); i++) {
+		for (i = 0; i < G_N_ELEMENTS (meta_ext); i++) {
 			g_string_truncate (src, slen);
 			g_string_truncate (dest, dlen);
 

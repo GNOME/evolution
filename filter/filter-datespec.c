@@ -91,7 +91,6 @@ static const timespan timespans[] = {
 #undef ngettext
 
 #define DAY_INDEX 3
-#define N_TIMESPANS (sizeof (timespans) / sizeof (timespans[0]))
 
 struct _FilterDatespecPrivate {
 	GtkWidget *label_button;
@@ -264,7 +263,7 @@ get_best_span (time_t val)
 {
 	gint i;
 
-	for (i=N_TIMESPANS-1;i>=0;i--) {
+	for (i=G_N_ELEMENTS (timespans)-1;i>=0;i--) {
 		if (val % timespans[i].seconds == 0)
 			return i;
 	}

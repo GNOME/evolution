@@ -41,8 +41,6 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "E-SHORTCUT", 0, TARGET_SHORTCUT }
 };
 
-static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
-
 static void on_date_range_changed	(ECalendarItem *calitem);
 static void on_selection_changed	(ECalendarItem *calitem);
 
@@ -85,7 +83,7 @@ main (gint argc, gchar **argv)
 
 	gtk_drag_dest_set (cal,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS (target_table),
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	vbox = gtk_vbox_new (FALSE, 0);

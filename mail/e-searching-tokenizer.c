@@ -122,7 +122,7 @@ ignore_tag (const gchar *tag)
 	}
 	*out = 0;
 
-	for (i=0;i<sizeof(ignored_tags)/sizeof(ignored_tags[0]);i++) {
+	for (i = 0; i < G_N_ELEMENTS (ignored_tags); i++) {
 		if (strcmp (t, ignored_tags[i]) == 0)
 			return 1;
 	}

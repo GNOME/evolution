@@ -416,7 +416,7 @@ e_cert_get_usage(ECert *cert)
 		GString *str = g_string_new("");
 		CERTCertificate *icert = e_cert_get_internal_cert (cert);
 
-		for (i=0;i<sizeof(usageinfo)/sizeof(usageinfo[0]);i++) {
+		for (i = 0; i < G_N_ELEMENTS (usageinfo); i++) {
 			if (icert->keyUsage & usageinfo[i].bit) {
 				if (str->len != 0)
 					g_string_append(str, ", ");

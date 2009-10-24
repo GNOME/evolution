@@ -64,8 +64,6 @@ static const gchar *available_flags[] = {
 	N_("Review"),
 };
 
-static gint num_available_flags = sizeof (available_flags) / sizeof (available_flags[0]);
-
 static MessageTagEditorClass *parent_class = NULL;
 
 GType
@@ -307,7 +305,7 @@ construct (MessageTagEditor *editor)
 
 	followup->combo_entry = GTK_COMBO_BOX (glade_xml_get_widget (gui, "combo"));
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (followup->combo_entry)));
-	for (i = 0; i < num_available_flags; i++)
+	for (i = 0; i < G_N_ELEMENTS (available_flags); i++)
 		gtk_combo_box_append_text (followup->combo_entry, (gchar *) _(available_flags[i]));
 	gtk_combo_box_set_active (followup->combo_entry, DEFAULT_FLAG);
 

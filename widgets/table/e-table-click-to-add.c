@@ -53,8 +53,6 @@ static guint etcta_signals [LAST_SIGNAL] = { 0 };
 #define etcta_get_type e_table_click_to_add_get_type
 G_DEFINE_TYPE (ETableClickToAdd, etcta, GNOME_TYPE_CANVAS_GROUP)
 
-#define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
-
 enum {
 	PROP_0,
 	PROP_HEADER,

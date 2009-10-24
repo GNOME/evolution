@@ -588,6 +588,6 @@ emfq_builtin_init(EMFormatQuoteClass *efhc)
 {
 	gint i;
 
-	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
 		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
 }

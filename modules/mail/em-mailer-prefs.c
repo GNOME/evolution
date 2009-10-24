@@ -845,7 +845,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	 */
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
 	l = NULL;
-	for (i=0;i<sizeof(emmp_items)/sizeof(emmp_items[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
 		l = g_slist_prepend(l, &emmp_items[i]);
 	e_config_add_items((EConfig *)ec, l, NULL, NULL, emmp_free, prefs);
 

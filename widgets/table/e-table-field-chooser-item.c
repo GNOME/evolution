@@ -57,8 +57,6 @@ static guint etfci_signals [LAST_SIGNAL] = { 0, };
 #define etfci_get_type e_table_field_chooser_item_get_type
 G_DEFINE_TYPE (ETableFieldChooserItem, etfci, GNOME_TYPE_CANVAS_ITEM)
 
-#define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
-
 static void etfci_drop_table_header (ETableFieldChooserItem *etfci);
 static void etfci_drop_full_header (ETableFieldChooserItem *etfci);
 
@@ -547,7 +545,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 
 	etfci_drag_types[0].target = g_strdup_printf("%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
 	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
-	list = gtk_target_list_new (etfci_drag_types, ELEMENTS (etfci_drag_types));
+	list = gtk_target_list_new (etfci_drag_types, G_N_ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free(etfci_drag_types[0].target);
 

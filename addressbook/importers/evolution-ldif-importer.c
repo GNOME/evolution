@@ -127,7 +127,6 @@ ldif_fields[] = {
 	{ "nsAIMid", E_CONTACT_IM_AIM, FLAG_LIST },
 	{ "mozilla_AimScreenName", E_CONTACT_IM_AIM, FLAG_LIST }
 };
-static gint num_ldif_fields = sizeof(ldif_fields) / sizeof (ldif_fields[0]);
 
 static GString *
 getValue( gchar **src )
@@ -267,7 +266,7 @@ parseLine (LDIFImporter *gci, EContact *contact,
 		ldif_value = getValue(&value );
 
 		field_handled = FALSE;
-		for (i = 0; i < num_ldif_fields; i ++) {
+		for (i = 0; i < G_N_ELEMENTS (ldif_fields); i ++) {
 			if (!g_ascii_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
 				if (ldif_fields[i].flags & FLAG_WORK_ADDRESS) {
 					populate_contact_address (work_address, ptr, ldif_value->str);

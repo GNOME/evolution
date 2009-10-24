@@ -112,7 +112,6 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "text/x-calendar",                0, TARGET_VCALENDAR },
 	{ (gchar *) "text/calendar",                  0, TARGET_VCALENDAR }
 };
-static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
 static void e_day_view_destroy (GtkObject *object);
 static void e_day_view_realize (GtkWidget *widget);
@@ -1336,11 +1335,11 @@ e_day_view_init (EDayView *day_view)
 	/* Set up the drop sites. */
 	gtk_drag_dest_set (day_view->top_canvas,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS (target_table),
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 	gtk_drag_dest_set (day_view->main_canvas,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS (target_table),
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
 	/* connect to ECalendarView's signals */
@@ -3927,8 +3926,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 				day_view->resize_bars_event_num = -1;
 			}
 
-			target_list = gtk_target_list_new (target_table,
-							   n_targets);
+			target_list = gtk_target_list_new (
+				target_table, G_N_ELEMENTS (target_table));
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
 					1, (GdkEvent*)mevent);
@@ -4030,8 +4029,8 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 				day_view->resize_bars_event_num = -1;
 			}
 
-			target_list = gtk_target_list_new (target_table,
-							   n_targets);
+			target_list = gtk_target_list_new (
+				target_table, G_N_ELEMENTS (target_table));
 			gtk_drag_begin (widget, target_list,
 					GDK_ACTION_COPY | GDK_ACTION_MOVE,
 					1, (GdkEvent*)mevent);

@@ -731,7 +731,7 @@ efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
 {
 	gint i;
 
-	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
 		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
 }
 
@@ -1036,7 +1036,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	camel_strdown(simple_type);
 
 	drag_types[0].target = simple_type;
-	gtk_drag_source_set(box, GDK_BUTTON1_MASK, drag_types, sizeof(drag_types)/sizeof(drag_types[0]), GDK_ACTION_COPY);
+	gtk_drag_source_set(box, GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS (drag_types), GDK_ACTION_COPY);
 	g_free(simple_type);
 
 	g_signal_connect(box, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);

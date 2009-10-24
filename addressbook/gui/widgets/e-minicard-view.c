@@ -74,7 +74,6 @@ static GtkTargetEntry drag_types[] = {
 	{ (gchar *) SOURCE_VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
 	{ (gchar *) VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
-static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 static void
 e_minicard_view_drag_data_get(GtkWidget *widget,
@@ -138,7 +137,7 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 
 	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));
 
-	target_list = gtk_target_list_new (drag_types, num_drag_types);
+	target_list = gtk_target_list_new (drag_types, G_N_ELEMENTS (drag_types));
 
 	context = gtk_drag_begin (GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
 				  target_list, actions, 1/*XXX*/, event);

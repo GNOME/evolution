@@ -258,7 +258,7 @@ xml_encode(FilterRule *fr)
 
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_return_val_if_fail (node != NULL, NULL);
-	g_return_val_if_fail (vr->with < sizeof(with_names)/sizeof(with_names[0]), NULL);
+	g_return_val_if_fail (vr->with < G_N_ELEMENTS (with_names), NULL);
 
 	set = xmlNewNode(NULL, (const guchar *)"sources");
 	xmlAddChild(node, set);
@@ -279,7 +279,7 @@ set_with(EMVFolderRule *vr, const gchar *name)
 {
 	gint i;
 
-	for (i=0;i<sizeof(with_names)/sizeof(with_names[0]);i++) {
+	for (i = 0; i < G_N_ELEMENTS (with_names); i++) {
 		if (!strcmp(name, with_names[i])) {
 			vr->with = i;
 			return;
