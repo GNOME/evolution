@@ -96,7 +96,7 @@ set_face_raw (gchar *content, gsize length)
 
 	if (content) {
 		gchar *file_contents;
-		
+
 		file_contents = g_base64_encode ((guchar *) content, length);
 		g_file_set_contents (filename, file_contents, -1, NULL);
 		g_free (file_contents);
@@ -132,7 +132,7 @@ get_active_face (void)
 	}
 
 	g_free (face);
-	
+
 	loader = gdk_pixbuf_loader_new ();
 
 	if (gdk_pixbuf_loader_write (loader, data, data_len, NULL)
@@ -259,7 +259,7 @@ update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 
 	preview = GTK_WIDGET (data);
 	filename = gtk_file_chooser_get_preview_filename (file_chooser);
- 
+
 	have_preview = filename && prepare_image (filename, &file_contents, &length, &pixbuf, FALSE);
 	if (have_preview) {
 		g_free (file_contents);

@@ -258,12 +258,12 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	info = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (info), 0.0, 0.5);
 	gtk_label_set_line_wrap (GTK_LABEL (info), TRUE);
-	
+
 	gtk_widget_show (info);
 	update_info_label (info, epp_mode);
 
 	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
-	
+
 	i = ((GtkTable *)data->parent)->nrows;
 	gtk_table_attach((GtkTable *)data->parent, w, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i, i+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);

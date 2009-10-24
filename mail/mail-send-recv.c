@@ -122,7 +122,7 @@ struct _send_info {
 	gint pc;
 
 	GtkWidget *send_account_label;
-	char *send_url;
+	gchar *send_url;
 
 	/*time_t update;*/
 	struct _send_data *data;
@@ -282,7 +282,7 @@ operation_status_timeout(gpointer data)
 				GTK_LABEL (info->status_label),
 				info->what);
 		if (info->send_url && info->send_account_label) {
-			char *tmp = format_url (info->send_url, NULL);
+			gchar *tmp = format_url (info->send_url, NULL);
 
 			g_free (info->send_url);
 			info->send_url = NULL;
@@ -315,7 +315,7 @@ set_send_status(struct _send_info *info, const gchar *desc, gint pc)
 }
 
 static void
-set_send_account (struct _send_info *info, const char *account_url)
+set_send_account (struct _send_info *info, const gchar *account_url)
 {
 	g_static_mutex_lock (&status_lock);
 

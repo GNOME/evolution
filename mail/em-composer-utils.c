@@ -2015,7 +2015,7 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 		camel_internet_address_get (reply_to, 0, &name, &addr);
 		camel_internet_address_add (to, name, addr);
 	}
-	
+
 	/* promote the first Cc: address to To: if To: is empty */
 	if (camel_address_length ((CamelAddress *) to) == 0 && camel_address_length ((CamelAddress *)cc) > 0) {
 		camel_internet_address_get (cc, 0, &name, &addr);

@@ -432,7 +432,7 @@ print_text (GtkPrintContext *context, PangoFontDescription *desc,
 	/* Set a clipping rectangle. */
 	cairo_move_to (cr, x1, y1);
 	cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
-	cairo_clip (cr);    
+	cairo_clip (cr);
 
 	cairo_new_path (cr);
 	cairo_set_source_rgb (cr, 0, 0, 0);
@@ -1311,12 +1311,11 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	rows_in_top_display = MIN (MAX (rows_in_top_display,
 				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
 				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
-    
 
 	for (i = 0; i < rows_in_top_display; i++) {
-		if (i < (rows_in_top_display - 1) || 
+		if (i < (rows_in_top_display - 1) ||
 			rows_in_top_display >= pdi.long_events->len) {
-    			event = &g_array_index (pdi.long_events, EDayViewEvent, i);
+			event = &g_array_index (pdi.long_events, EDayViewEvent, i);
 			print_day_long_event (context, font, left, right, top, bottom,
 					      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 		} else {
@@ -1337,7 +1336,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 			/* Right align - 10 comes from print_day_long_event  too */
 			x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
-			/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event 
+			/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event
 			   (offsets used to place events boxes in their respective cells) */
 			y = top + DAY_VIEW_ROW_HEIGHT * i + (DAY_VIEW_ROW_HEIGHT - 4 - 7) * 0.5;
 

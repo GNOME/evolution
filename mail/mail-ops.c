@@ -964,7 +964,7 @@ static gchar *
 transfer_messages_desc (struct _transfer_msg *m)
 {
 	return g_strdup_printf (m->delete ? _("Moving messages to '%s'") : _("Copying messages to '%s'"),
-			        m->dest_uri);
+				m->dest_uri);
 
 }
 

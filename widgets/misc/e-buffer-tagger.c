@@ -86,10 +86,10 @@ markup_text (GtkTextBuffer *buffer)
 {
 	GtkTextIter start, end;
 	gchar *text;
-	int i;
+	gint i;
 	regmatch_t pmatch [2];
 	gboolean any;
-	const char *str;
+	const gchar *str;
 	gint offset = 0;
 
 	g_return_if_fail (buffer != NULL);
@@ -378,7 +378,7 @@ textview_key_press_event (GtkWidget *text_view, GdkEventKey *event)
 		return FALSE;
 
 	switch (event->keyval) {
-	case GDK_Return: 
+	case GDK_Return:
 	case GDK_KP_Enter:
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 		gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
@@ -497,7 +497,7 @@ textview_visibility_notify_event (GtkTextView *textview, GdkEventVisibility *eve
 
 	gdk_window_get_pointer (gtk_text_view_get_window (textview, GTK_TEXT_WINDOW_WIDGET), &wx, &wy, NULL);
 
-	gtk_text_view_window_to_buffer_coords (textview, 
+	gtk_text_view_window_to_buffer_coords (textview,
 		GTK_TEXT_WINDOW_WIDGET,
 		wx, wy, &bx, &by);
 
@@ -524,7 +524,7 @@ e_buffer_tagger_connect (GtkTextView *textview)
 
 	/* if tag is there already, then it is connected, thus claim */
 	g_return_if_fail (tag == NULL);
-      
+
 	gtk_text_buffer_create_tag (buffer, E_BUFFER_TAGGER_LINK_TAG,
 		"foreground", "blue",
 		"underline", PANGO_UNDERLINE_SINGLE,
