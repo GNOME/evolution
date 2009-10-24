@@ -92,7 +92,9 @@ dnl	-Wmissing-format-attribute
 dnl	-Wshadow
 dnl	-Wformat-nonliteral
 
-CFLAGS="$CFLAGS $WARNING_FLAGS"
+AM_CPPFLAGS="$WARNING_FLAGS"
+AC_SUBST(AM_CPPFLAGS)
+
 LDFLAGS="$LDFLAGS -Wl,--no-undefined"
 
 AC_CANONICAL_HOST
