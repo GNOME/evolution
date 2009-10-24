@@ -310,8 +310,10 @@ plugins/external-editor/apps-evolution-external-editor.schemas.in
 plugins/external-editor/external-editor.c
 plugins/external-editor/org-gnome-external-editor.eplug.xml
 plugins/external-editor/org-gnome-external-editor.error.xml
+plugins/face/apps_evolution_eplugin_face.schemas.in
 plugins/face/face.c
 plugins/face/org-gnome-face.eplug.xml
+plugins/face/org-gnome-face.error.xml
 plugins/google-account-setup/google-contacts-source.c
 plugins/google-account-setup/google-source.c
 plugins/google-account-setup/org-gnome-evolution-google.eplug.xml
@@ -322,6 +324,7 @@ plugins/groupwise-features/junk-mail-settings.c
 plugins/groupwise-features/junk-settings.c
 plugins/groupwise-features/junk-settings.glade
 plugins/groupwise-features/mail-retract.c
+plugins/groupwise-features/mail-send-options.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
 plugins/groupwise-features/org-gnome-mail-retract.error.xml
@@ -448,6 +451,7 @@ widgets/misc/e-attachment-store.c
 widgets/misc/e-attachment-tree-view.c
 widgets/misc/e-attachment-view.c
 widgets/misc/e-attachment.c
+widgets/misc/e-buffer-tagger.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-canvas-background.c
