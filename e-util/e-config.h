@@ -21,11 +21,29 @@
  *
  */
 
-#ifndef __E_CONFIG_H__
-#define __E_CONFIG_H__
+#ifndef E_CONFIG_H
+#define E_CONFIG_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-msgport.h>
+
+/* Standard GObject macros */
+#define E_TYPE_CONFIG \
+	(e_config_get_type ())
+#define E_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CONFIG, EConfig))
+#define E_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CONFIG, EConfigClass))
+#define E_IS_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CONFIG))
+#define E_IS_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CONFIG))
+#define E_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CONFIG, EConfigClass))
 
 G_BEGIN_DECLS
 
@@ -33,6 +51,7 @@ G_BEGIN_DECLS
 
 typedef struct _EConfig EConfig;
 typedef struct _EConfigClass EConfigClass;
+typedef struct _EConfigPrivate EConfigPrivate;
 
 typedef struct _EConfigItem EConfigItem;
 typedef struct _EConfigFactory EConfigFactory;
@@ -185,8 +204,7 @@ struct _EConfigTarget {
  **/
 struct _EConfig {
 	GObject object;
-
-	struct _EConfigPrivate *priv;
+	EConfigPrivate *priv;
 
 	gint type;		/* E_CONFIG_BOOK or E_CONFIG_ASSISTANT */
 
@@ -214,17 +232,18 @@ struct _EConfig {
 struct _EConfigClass {
 	GObjectClass object_class;
 
-	EDList factories;
+	GList *factories;
 
-	void (*set_target)(EConfig *ep, EConfigTarget *t);
-
-	void (*target_free)(EConfig *ep, EConfigTarget *t);
+	void		(*set_target)		(EConfig *config,
+						 EConfigTarget *target);
+	void		(*target_free)		(EConfig *config,
+						 EConfigTarget *target);
 };
 
 GType e_config_get_type(void);
 
 /* Static class methods */
-EConfigFactory *e_config_class_add_factory(EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer data);
+EConfigFactory *e_config_class_add_factory(EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer user_data);
 void e_config_class_remove_factory(EConfigClass *klass, EConfigFactory *f);
 
 EConfig *e_config_construct(EConfig *, gint type, const gchar *id);
@@ -383,4 +402,4 @@ void e_config_hook_class_add_target_map(EConfigHookClass *klass, const EConfigHo
 
 G_END_DECLS
 
-#endif /* __E_CONFIG_H__ */
+#endif /* E_CONFIG_H */
