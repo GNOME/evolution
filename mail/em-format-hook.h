@@ -24,11 +24,8 @@
 #ifndef __EM_FORMAT_HOOK_H__
 #define __EM_FORMAT_HOOK_H__
 
-#include <glib-object.h>
-#include "libedataserver/e-msgport.h"
-#include "e-util/e-plugin.h"
-
-#include "em-format/em-format.h"
+#include <e-util/e-plugin.h>
+#include <em-format/em-format.h>
 
 G_BEGIN_DECLS
 

@@ -30,7 +30,6 @@
 #include <glib.h>
 
 #include "e-profile-event.h"
-#include "libedataserver/e-msgport.h"
 
 static GObjectClass *eme_parent;
 static EProfileEvent *e_profile_event;

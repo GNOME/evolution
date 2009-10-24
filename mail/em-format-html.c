@@ -72,8 +72,6 @@
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
 
-#include <libedataserver/e-msgport.h>
-
 #include "mail-config.h"
 #include "mail-mt.h"
 
@@ -105,7 +103,7 @@ struct _EMFormatHTMLPrivate {
 	/* Table that re-maps text parts into a mutlipart/mixed, EMFormatHTMLCache * */
 	GHashTable *text_inline_parts;
 
-	EDList pending_jobs;
+	GQueue pending_jobs;
 	GMutex *lock;
 
 	GdkColor colors[EM_FORMAT_HTML_NUM_COLOR_TYPES];
@@ -168,13 +166,16 @@ efh_format_desc (struct _format_msg *m)
 static void
 efh_format_exec (struct _format_msg *m)
 {
+	EMFormat *format;
 	struct _EMFormatHTMLJob *job;
-	struct _EMFormatPURITree *puri_level;
+	GNode *puri_level;
 	gint cancelled = FALSE;
 	CamelURL *base;
 
 	if (m->format->html == NULL)
 		return;
+
+	format = EM_FORMAT (m->format);
 
 	camel_stream_printf (
 		(CamelStream *)m->estream,
@@ -190,28 +191,40 @@ efh_format_exec (struct _format_msg *m)
 
 	/* <insert top-header stuff here> */
 
-	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE) {
-		em_format_format_source((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message);
+	if (format->mode == EM_FORMAT_SOURCE) {
+		em_format_format_source (
+			format, (CamelStream *) m->estream,
+			(CamelMimePart *) m->message);
 	} else {
 		const EMFormatHandler *handle;
+		const gchar *mime_type;
 
-		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/prefix");
-		if (handle)
-			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
-		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/rfc822");
-		if (handle)
-			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+		mime_type = "x-evolution/message/prefix";
+		handle = em_format_find_handler (format, mime_type);
+
+		if (handle != NULL)
+			handle->handler (
+				format, (CamelStream *) m->estream,
+				(CamelMimePart *) m->message, handle);
+
+		mime_type = "x-evolution/message/rfc822";
+		handle = em_format_find_handler (format, mime_type);
+
+		if (handle != NULL)
+			handle->handler (
+				format, (CamelStream *) m->estream,
+				(CamelMimePart *) m->message, handle);
 	}
 
 	camel_stream_flush((CamelStream *)m->estream);
 
-	puri_level = ((EMFormat *)m->format)->pending_uri_level;
-	base = ((EMFormat *)m->format)->base;
+	puri_level = format->pending_uri_level;
+	base = format->base;
 
 	do {
 		/* now dispatch any added tasks ... */
 		g_mutex_lock(m->format->priv->lock);
-		while ((job = (struct _EMFormatHTMLJob *)e_dlist_remhead(&m->format->priv->pending_jobs))) {
+		while ((job = g_queue_pop_head (&m->format->priv->pending_jobs))) {
 			g_mutex_unlock(m->format->priv->lock);
 
 			/* This is an implicit check to see if the gtkhtml has been destroyed */
@@ -223,11 +236,11 @@ efh_format_exec (struct _format_msg *m)
 				cancelled = camel_operation_cancel_check(NULL);
 
 			/* call jobs even if cancelled, so they can clean up resources */
-			((EMFormat *)m->format)->pending_uri_level = job->puri_level;
+			format->pending_uri_level = job->puri_level;
 			if (job->base)
-				((EMFormat *)m->format)->base = job->base;
-			job->callback(job, cancelled);
-			((EMFormat *)m->format)->base = base;
+				format->base = job->base;
+			job->callback (job, cancelled);
+			format->base = base;
 
 			/* clean up the job */
 			camel_object_unref(job->stream);
@@ -249,12 +262,11 @@ efh_format_exec (struct _format_msg *m)
 			m->estream = NULL;
 		}
 
-		/* e_dlist_empty is atomic and doesn't need locking */
-	} while (!e_dlist_empty(&m->format->priv->pending_jobs));
+	} while (!g_queue_is_empty (&m->format->priv->pending_jobs));
 
 	d(printf("out of jobs, done\n"));
 
-	((EMFormat *)m->format)->pending_uri_level = puri_level;
+	format->pending_uri_level = puri_level;
 }
 
 static void
@@ -312,7 +324,7 @@ efh_format_timeout(struct _format_msg *m)
 		return TRUE;
 	}
 
-	g_return_val_if_fail (e_dlist_empty(&p->pending_jobs), FALSE);
+	g_return_val_if_fail (g_queue_is_empty (&p->pending_jobs), FALSE);
 
 	d(printf(" ready to go, firing off format thread\n"));
 
@@ -879,8 +891,8 @@ efh_init (EMFormatHTML *efh,
 
 	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
 
-	e_dlist_init(&efh->pending_object_list);
-	e_dlist_init(&efh->priv->pending_jobs);
+	g_queue_init (&efh->pending_object_list);
+	g_queue_init (&efh->priv->pending_jobs);
 	efh->priv->lock = g_mutex_new();
 	efh->priv->format_id = -1;
 	efh->priv->text_inline_parts = g_hash_table_new_full (
@@ -1173,57 +1185,84 @@ em_format_html_add_pobject(EMFormatHTML *efh, gsize size, const gchar *classid, 
 	pobj->func = func;
 	pobj->part = part;
 
-	e_dlist_addtail(&efh->pending_object_list, (EDListNode *)pobj);
+	g_queue_push_tail (&efh->pending_object_list, pobj);
 
 	return pobj;
 }
 
 EMFormatHTMLPObject *
-em_format_html_find_pobject(EMFormatHTML *emf, const gchar *classid)
+em_format_html_find_pobject (EMFormatHTML *emf,
+                             const gchar *classid)
 {
-	EMFormatHTMLPObject *pw;
+	GList *link;
 
-	pw = (EMFormatHTMLPObject *)emf->pending_object_list.head;
-	while (pw->next) {
-		if (!strcmp(pw->classid, classid))
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (emf), NULL);
+	g_return_val_if_fail (classid != NULL, NULL);
+
+	link = g_queue_peek_head_link (&emf->pending_object_list);
+
+	while (link != NULL) {
+		EMFormatHTMLPObject *pw = link->data;
+
+		if (!strcmp (pw->classid, classid))
 			return pw;
-		pw = pw->next;
+
+		link = g_list_next (link);
 	}
 
 	return NULL;
 }
 
 EMFormatHTMLPObject *
-em_format_html_find_pobject_func(EMFormatHTML *emf, CamelMimePart *part, EMFormatHTMLPObjectFunc func)
+em_format_html_find_pobject_func (EMFormatHTML *emf,
+                                  CamelMimePart *part,
+                                  EMFormatHTMLPObjectFunc func)
 {
-	EMFormatHTMLPObject *pw;
+	GList *link;
 
-	pw = (EMFormatHTMLPObject *)emf->pending_object_list.head;
-	while (pw->next) {
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (emf), NULL);
+
+	link = g_queue_peek_head_link (&emf->pending_object_list);
+
+	while (link != NULL) {
+		EMFormatHTMLPObject *pw = link->data;
+
 		if (pw->func == func && pw->part == part)
 			return pw;
-		pw = pw->next;
+
+		link = g_list_next (link);
 	}
 
 	return NULL;
 }
 
 void
-em_format_html_remove_pobject(EMFormatHTML *emf, EMFormatHTMLPObject *pobject)
+em_format_html_remove_pobject (EMFormatHTML *emf,
+                               EMFormatHTMLPObject *pobject)
 {
-	e_dlist_remove((EDListNode *)pobject);
-	if (pobject->free)
-		pobject->free(pobject);
-	g_free(pobject->classid);
-	g_free(pobject);
+	g_return_if_fail (EM_IS_FORMAT_HTML (emf));
+	g_return_if_fail (pobject != NULL);
+
+	g_queue_remove (&emf->pending_object_list, pobject);
+
+	if (pobject->free != NULL)
+		pobject->free (pobject);
+
+	g_free (pobject->classid);
+	g_free (pobject);
 }
 
 void
-em_format_html_clear_pobject(EMFormatHTML *emf)
+em_format_html_clear_pobject (EMFormatHTML *emf)
 {
-	d(printf("clearing pending objects\n"));
-	while (!e_dlist_empty(&emf->pending_object_list))
-		em_format_html_remove_pobject(emf, (EMFormatHTMLPObject *)emf->pending_object_list.head);
+	g_return_if_fail (EM_IS_FORMAT_HTML (emf));
+
+	while (!g_queue_is_empty (&emf->pending_object_list)) {
+		EMFormatHTMLPObject *pobj;
+
+		pobj = g_queue_pop_head (&emf->pending_object_list);
+		em_format_html_remove_pobject (emf, pobj);
+	}
 }
 
 struct _EMFormatHTMLJob *
@@ -1245,7 +1284,7 @@ void
 em_format_html_job_queue(EMFormatHTML *emfh, struct _EMFormatHTMLJob *job)
 {
 	g_mutex_lock(emfh->priv->lock);
-	e_dlist_addtail(&emfh->priv->pending_jobs, (EDListNode *)job);
+	g_queue_push_tail (&emfh->priv->pending_jobs, job);
 	g_mutex_unlock(emfh->priv->lock);
 }
 
@@ -1432,9 +1471,9 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 	pobject = em_format_html_find_pobject(efh, eb->classid);
 	if (pobject) {
 		/* This stops recursion of the part */
-		e_dlist_remove((EDListNode *)pobject);
+		g_queue_remove (&efh->pending_object_list, pobject);
 		res = pobject->func(efh, eb, pobject);
-		e_dlist_addhead(&efh->pending_object_list, (EDListNode *)pobject);
+		g_queue_push_head (&efh->pending_object_list, pobject);
 	} else {
 		d(printf("HTML Includes reference to unknown object '%s'\n", eb->classid));
 	}
@@ -1891,34 +1930,37 @@ emfh_write_related(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 static void
 emfh_multipart_related_check(struct _EMFormatHTMLJob *job, gint cancelled)
 {
-	struct _EMFormatPURITree *ptree;
-	EMFormatPURI *puri, *purin;
+	EMFormat *format;
+	GList *link;
 	gchar *oldpartid;
 
 	if (cancelled)
 		return;
 
-	d(printf(" running multipart/related check task\n"));
-	oldpartid = g_strdup(((EMFormat *)job->format)->part_id->str);
+	format = EM_FORMAT (job->format);
 
-	ptree = job->puri_level;
-	puri = (EMFormatPURI *)ptree->uri_list.head;
-	purin = puri->next;
-	while (purin) {
+	d(printf(" running multipart/related check task\n"));
+	oldpartid = g_strdup (format->part_id->str);
+
+	link = g_queue_peek_head_link (job->puri_level->data);
+
+	while (link->next != NULL) {
+		EMFormatPURI *puri = link->data;
+
 		if (puri->use_count == 0) {
 			d(printf("part '%s' '%s' used '%d'\n", puri->uri?puri->uri:"", puri->cid, puri->use_count));
 			if (puri->func == emfh_write_related) {
-				g_string_printf(((EMFormat *)job->format)->part_id, "%s", puri->part_id);
-				em_format_part((EMFormat *)job->format, (CamelStream *)job->stream, puri->part);
+				g_string_printf (format->part_id, "%s", puri->part_id);
+				em_format_part (format, (CamelStream *)job->stream, puri->part);
 			}
 			/* else it was probably added by a previous format this loop */
 		}
-		puri = purin;
-		purin = purin->next;
+
+		link = g_list_next (link);
 	}
 
-	g_string_printf(((EMFormat *)job->format)->part_id, "%s", oldpartid);
-	g_free(oldpartid);
+	g_string_printf (format->part_id, "%s", oldpartid);
+	g_free (oldpartid);
 }
 
 /* RFC 2387 */
@@ -2407,7 +2449,6 @@ static void
 efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 {
 	EMFormat *emf = (EMFormat *) efh;
-	EMFormatHeader *h;
 	const gchar *charset;
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
@@ -2499,7 +2540,6 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
 
 	/* dump selected headers */
-	h = (EMFormatHeader *)emf->header_list.head;
 	if (emf->mode == EM_FORMAT_ALLHEADERS) {
 		header = ((CamelMimePart *)part)->headers;
 		while (header) {
@@ -2507,8 +2547,13 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			header = header->next;
 		}
 	} else {
+		GList *link;
 		gint mailer_shown = FALSE;
-		while (h->next) {
+
+		link = g_queue_peek_head_link (&emf->header_list);
+
+		while (link != NULL) {
+			EMFormatHeader *h = link->data;
 			gint mailer, face;
 
 			header = ((CamelMimePart *)part)->headers;
@@ -2565,7 +2610,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 				header = header->next;
 			}
-			h = h->next;
+
+			link = g_list_next (link);
 		}
 	}
 

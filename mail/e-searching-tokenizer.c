@@ -34,7 +34,6 @@
 #include "e-searching-tokenizer.h"
 
 #include "libedataserver/e-memory.h"
-#include "libedataserver/e-msgport.h"
 
 #define d(x)
 
@@ -353,8 +352,8 @@ struct _searcher {
 
 	gint matchcount;
 
-	EDList input;		/* pending 'input' tokens, processed but might match */
-	EDList output;		/* output tokens ready for source */
+	GQueue input;		/* pending 'input' tokens, processed but might match */
+	GQueue output;		/* output tokens ready for source */
 
 	struct _token *current;	/* for token output memory management */
 
@@ -392,8 +391,8 @@ searcher_new (gint flags, gint argc, guchar **argv, const gchar *tags, const gch
 	s->state = &s->t->root;
 	s->matchcount = 0;
 
-	e_dlist_init(&s->input);
-	e_dlist_init(&s->output);
+	g_queue_init (&s->input);
+	g_queue_init (&s->output);
 	s->current = NULL;
 
 	s->offset = 0;
@@ -420,9 +419,9 @@ searcher_free (struct _searcher *s)
 {
 	struct _token *t;
 
-	while ((t = (struct _token *)e_dlist_remhead (&s->input)))
+	while ((t = g_queue_pop_head (&s->input)) != NULL)
 		g_free (t);
-	while ((t = (struct _token *)e_dlist_remhead (&s->output)))
+	while ((t = g_queue_pop_head (&s->output)) != NULL)
 		g_free (t);
 	g_free (s->tags);
 	g_free (s->tage);
@@ -431,8 +430,9 @@ searcher_free (struct _searcher *s)
 	free_trie (s->t);
 	g_free (s);
 }
+
 static struct _token *
-append_token(EDList *list, const gchar *tok, gint len)
+append_token (GQueue *queue, const gchar *tok, gint len)
 {
 	struct _token *token;
 
@@ -442,7 +442,7 @@ append_token(EDList *list, const gchar *tok, gint len)
 	token->offset = 0;	/* set by caller when required */
 	memcpy(token->tok, tok, len);
 	token->tok[len] = 0;
-	e_dlist_addtail(list, (EDListNode *)token);
+	g_queue_push_tail (queue, token);
 
 	return token;
 }
@@ -458,7 +458,7 @@ output_token(struct _searcher *s, struct _token *token)
 	if (token->tok[0] == TAG_ESCAPE) {
 		if (token->offset >= s->offout) {
 			d (printf("moving tag token '%s' from input to output\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-			e_dlist_addtail(&s->output, (EDListNode *)token);
+			g_queue_push_tail (&s->output, token);
 		} else {
 			d (printf("discarding tag token '%s' from input\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			free_token(token);
@@ -472,7 +472,7 @@ output_token(struct _searcher *s, struct _token *token)
 				memmove (token->tok, token->tok+pre, left+1);
 			d (printf("adding partial remaining/failed '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			s->offout = offend;
-			e_dlist_addtail(&s->output, (EDListNode *)token);
+			g_queue_push_tail (&s->output, token);
 		} else {
 			d (printf("discarding whole token '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			free_token(token);
@@ -483,14 +483,17 @@ output_token(struct _searcher *s, struct _token *token)
 static struct _token *
 find_token(struct _searcher *s, gint start)
 {
-	register struct _token *token;
+	GList *link;
 
 	/* find token which is start token, from end of list back */
-	token = (struct _token *)s->input.tailpred;
-	while (token->prev) {
+	link = g_queue_peek_tail_link (&s->input);
+	while (link != NULL) {
+		struct _token *token = link->data;
+
 		if (token->offset <= start)
 			return token;
-		token = token->prev;
+
+		link = g_list_previous (link);
 	}
 
 	return NULL;
@@ -517,8 +520,8 @@ output_match(struct _searcher *s, guint start, guint end)
 	d (printf("end in token   '%s'\n", endtoken->tok[0]==TAG_ESCAPE?endtoken->tok+1:endtoken->tok));
 
 	/* output pending stuff that didn't match afterall */
-	while ((struct _token *)s->input.head != starttoken) {
-		token = (struct _token *)e_dlist_remhead (&s->input);
+	while ((struct _token *) g_queue_peek_head (&s->input) != starttoken) {
+		token = g_queue_pop_head (&s->input);
 		d (printf("appending failed match '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 		output_token(s, token);
 	}
@@ -540,8 +543,8 @@ output_match(struct _searcher *s, guint start, guint end)
 
 	/* output match node (s) */
 	if (starttoken != endtoken) {
-		while ((struct _token *)s->input.head != endtoken) {
-			token = (struct _token *)e_dlist_remhead (&s->input);
+		while ((struct _token *) g_queue_peek_head (&s->input) != endtoken) {
+			token = g_queue_pop_head (&s->input);
 			d (printf("appending (partial) match node (head) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 			output_token(s, token);
 		}
@@ -622,7 +625,7 @@ output_pending (struct _searcher *s)
 {
 	struct _token *token;
 
-	while ( (token = (struct _token *)e_dlist_remhead (&s->input)) )
+	while ((token = g_queue_pop_head (&s->input)) != NULL)
 		output_token(s, token);
 }
 
@@ -645,8 +648,8 @@ flush_extra(struct _searcher *s)
 	if (starttoken == NULL)
 		return;
 
-	while ((struct _token *)s->input.head != starttoken) {
-		token = (struct _token *)e_dlist_remhead (&s->input);
+	while ((struct _token *) g_queue_peek_head (&s->input) != starttoken) {
+		token = g_queue_pop_head (&s->input);
 		output_token(s, token);
 	}
 }
@@ -662,7 +665,7 @@ searcher_next_token(struct _searcher *s)
 	gint offstart, offend;
 	guint32 c;
 
-	while (e_dlist_empty(&s->output)) {
+	while (g_queue_is_empty (&s->output)) {
 		/* get next token */
 		tok = (guchar *)s->next_token(s->next_data);
 		if (tok == NULL) {
@@ -724,7 +727,7 @@ searcher_next_token(struct _searcher *s)
 							output_subpending (s);
 							push_subpending (s, offstart, offend);
 							/*output_match(s, offstart, offend);*/
-						} else if (e_dlist_length(&s->input) > 8) {
+						} else if (g_queue_get_length (&s->input) > 8) {
 							/* we're continuing to match and merge, but we have a lot of stuff
 							   waiting, so flush it out now since this is a safe point to do it */
 							output_subpending (s);
@@ -749,7 +752,7 @@ searcher_next_token(struct _searcher *s)
 	if (s->current)
 		free_token(s->current);
 
-	s->current = token = (struct _token *)e_dlist_remhead (&s->output);
+	s->current = token = g_queue_pop_head (&s->output);
 
 	return token ? g_strdup (token->tok) : NULL;
 }
@@ -763,7 +766,7 @@ searcher_peek_token(struct _searcher *s)
 	tok = searcher_next_token(s);
 	if (tok) {
 		/* need to clear this so we dont free it while its still active */
-		e_dlist_addhead (&s->output, (EDListNode *)s->current);
+		g_queue_push_head (&s->output, s->current);
 		s->current = NULL;
 	}
 
@@ -773,7 +776,7 @@ searcher_peek_token(struct _searcher *s)
 static gint
 searcher_pending (struct _searcher *s)
 {
-	return !(e_dlist_empty(&s->input) && e_dlist_empty(&s->output));
+	return !(g_queue_is_empty (&s->input) && g_queue_is_empty (&s->output));
 }
 
 /* ********************************************************************** */

@@ -33,7 +33,6 @@
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
-#include "libedataserver/e-msgport.h"
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
@@ -49,7 +48,7 @@
 
 typedef struct _EMSubscribeEditor EMSubscribeEditor;
 struct _EMSubscribeEditor {
-	EDList stores;
+	GQueue stores;
 
 	gint busy;
 	guint busy_id;
@@ -65,9 +64,6 @@ struct _EMSubscribeEditor {
 
 typedef struct _EMSubscribe EMSubscribe;
 struct _EMSubscribe {
-	struct _EMSubscribe *next;
-	struct _EMSubscribe *prev;
-
 	gint ref_count;
 	gint cancel;
 	gint seq;		/* upped every time we refresh */
@@ -88,11 +84,11 @@ struct _EMSubscribe {
 
 	/* pending LISTs, EMSubscribeNode's */
 	gint pending_id;
-	EDList pending;
+	GQueue pending;
 
 	/* queue of pending UN/SUBSCRIBEs, EMsg's */
 	gint subscribe_id;
-	EDList subscribe;
+	GQueue subscribe;
 
 	/* working variables at runtime */
 	gint selected_count;
@@ -102,16 +98,12 @@ struct _EMSubscribe {
 
 typedef struct _EMSubscribeNode EMSubscribeNode;
 struct _EMSubscribeNode {
-	struct _EMSubscribeNode *next;
-	struct _EMSubscribeNode *prev;
-
 	CamelFolderInfo *info;
 	GtkTreePath *path;
 };
 
 typedef struct _MailMsgListNode MailMsgListNode;
 struct _MailMsgListNode {
-	EDListNode node;
 	MailMsg *msg;
 };
 
@@ -215,7 +207,7 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	}
 
 	/* queue any further ones, or if out, update the ui */
-	msgListNode = (MailMsgListNode *) e_dlist_remhead(&m->sub->subscribe);
+	msgListNode = g_queue_pop_head (&m->sub->subscribe);
 	if (msgListNode) {
 		next = (struct _zsubscribe_msg *) msgListNode->msg;
 		/* Free the memory of the MailMsgListNode which won't be used anymore. */
@@ -267,7 +259,7 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, gint state, const
 		msgListNode = g_malloc0(sizeof(MailMsgListNode));
 		msgListNode->msg = (MailMsg *) m;
 		d(printf("queueing subscribe folder '%s'\n", spath));
-		e_dlist_addtail(&sub->subscribe, (EDListNode *)msgListNode);
+		g_queue_push_tail (&sub->subscribe, msgListNode);
 	}
 
 	return id;
@@ -325,7 +317,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, gi
 			}
 			else {
 				if (pending)
-					e_dlist_addtail(&sub->pending, (EDListNode *)node);
+					g_queue_push_tail (&sub->pending, node);
 			}
 		} else {
 			d(printf("%s:%s: fi->flags & CAMEL_FOLDER_NOINFERIORS=%d\t node->path=[%p]\n",
@@ -388,7 +380,7 @@ sub_folderinfo_done (struct _emse_folderinfo_msg *m)
 	}
 
 	/* check for more to do */
-	node = (EMSubscribeNode *)e_dlist_remhead(&m->sub->pending);
+	node = g_queue_pop_head (&m->sub->pending);
 	if (node)
 		sub_queue_fill_level(m->sub, node);
 }
@@ -548,10 +540,10 @@ sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubs
 		}
 	}
 
-	e_dlist_addhead(&sub->pending, (EDListNode *)node);
+	g_queue_push_head (&sub->pending, node);
 
 	if (sub->pending_id == -1
-	    && (node = (EMSubscribeNode *)e_dlist_remtail(&sub->pending)))
+	    && (node = g_queue_pop_tail (&sub->pending)) != NULL)
 		sub_queue_fill_level(sub, node);
 }
 
@@ -570,7 +562,7 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 	if (sub->subscribe_id != -1)
 		mail_msg_cancel(sub->subscribe_id);
 
-	while ( (msgListNode = (MailMsgListNode *)e_dlist_remhead(&sub->subscribe))) {
+	while ((msgListNode = g_queue_pop_head (&sub->subscribe)) != NULL) {
 		m = (struct _zsubscribe_msg *) msgListNode->msg;
 		/* Free the memory of MailMsgListNode which won't be used anymore. */
 		g_free(msgListNode);
@@ -590,9 +582,9 @@ subscribe_new(EMSubscribeEditor *se, const gchar *uri)
 	sub->editor = se;
 	sub->ref_count = 1;
 	sub->pending_id = -1;
-	e_dlist_init(&sub->pending);
+	g_queue_init (&sub->pending);
 	sub->subscribe_id = -1;
-	e_dlist_init(&sub->subscribe);
+	g_queue_init (&sub->subscribe);
 	sub->store_id = -1;
 
 	return sub;
@@ -696,7 +688,7 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 
 	gtk_tree_store_clear((GtkTreeStore *)gtk_tree_view_get_model(sub->tree));
 
-	e_dlist_init(&sub->pending);
+	g_queue_init (&sub->pending);
 
 	if (sub->folders)
 		g_hash_table_destroy(sub->folders);
@@ -732,7 +724,7 @@ static void
 sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 {
 	gint i, n;
-	struct _EMSubscribe *sub;
+	GList *link;
 
 	d(printf("combobox changed\n"));
 
@@ -757,8 +749,10 @@ sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 	}
 
 	se->current = NULL;
-	sub = (struct _EMSubscribe *)se->stores.head;
-	while (sub->next) {
+	link = g_queue_peek_head_link (&se->stores);
+	while (link != NULL) {
+		struct _EMSubscribe *sub = link->data;
+
 		if (i == n) {
 			se->current = sub;
 			if (sub->widget) {
@@ -772,7 +766,8 @@ sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 				gtk_widget_hide(sub->widget);
 		}
 		i++;
-		sub = sub->next;
+
+		link = g_list_next (link);
 	}
 }
 
@@ -833,7 +828,7 @@ em_subscribe_editor_new(void)
 	gchar *gladefile;
 
 	se = g_malloc0(sizeof(*se));
-	e_dlist_init(&se->stores);
+	g_queue_init (&se->stores);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-dialogs.glade",
@@ -910,7 +905,9 @@ em_subscribe_editor_new(void)
 				0, account->name,
 				1, TRUE,
 				-1);
-			e_dlist_addtail(&se->stores, (EDListNode *)subscribe_new(se, account->source->url));
+			g_queue_push_tail (
+				&se->stores, subscribe_new (
+				se, account->source->url));
 		} else {
 			d(printf("not adding account '%s'\n", account->name));
 		}

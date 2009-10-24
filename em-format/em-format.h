@@ -36,7 +36,6 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-cipher-context.h>
-#include <libedataserver/e-msgport.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT \
@@ -89,7 +88,7 @@ struct _EMFormatHandler {
 	EMFormatFunc handler;
 	guint32 flags;
 
-	struct _EMFormatHandler *old;
+	EMFormatHandler *old;
 };
 
 /**
@@ -112,8 +111,6 @@ typedef void (*EMFormatPURIFunc)(EMFormat *md, CamelStream *stream, EMFormatPURI
 /**
  * struct _EMFormatPURI - Pending URI object.
  *
- * @next: Double-linked list header.
- * @prev: Double-linked list header.
  * @free: May be set by allocator and will be called when no longer needed.
  * @format:
  * @uri: Calculated URI of the part, if the part has one in its
@@ -133,11 +130,8 @@ typedef void (*EMFormatPURIFunc)(EMFormat *md, CamelStream *stream, EMFormatPURI
  * This object may be subclassed as a struct.
  **/
 struct _EMFormatPURI {
-	struct _EMFormatPURI *next;
-	struct _EMFormatPURI *prev;
-
-	void (*free)(struct _EMFormatPURI *p); /* optional callback for freeing user-fields */
-	struct _EMFormat *format;
+	void (*free)(EMFormatPURI *p); /* optional callback for freeing user-fields */
+	EMFormat *format;
 
 	gchar *uri;		/* will be the location of the part, may be empty */
 	gchar *cid;		/* will always be set, a fake one created if needed */
@@ -149,31 +143,7 @@ struct _EMFormatPURI {
 	guint use_count;	/* used by multipart/related to see if it was accessed */
 };
 
-/**
- * struct _EMFormatPURITree - Pending URI visibility tree.
- *
- * @next: Double-linked list header.
- * @prev: Double-linked list header.
- * @parent: Parent in tree.
- * @uri_list: List of EMFormatPURI objects at this level.
- * @children: Child nodes of EMFormatPURITree.
- *
- * This structure is used internally to form a visibility tree of
- * parts in the current formatting stream.  This is to implement the
- * part resolution rules for RFC2387 to implement multipart/related.
- **/
-struct _EMFormatPURITree {
-	struct _EMFormatPURITree *next;
-	struct _EMFormatPURITree *prev;
-	struct _EMFormatPURITree *parent;
-
-	EDList uri_list;
-	EDList children;
-};
-
 struct _EMFormatHeader {
-	struct _EMFormatHeader *next, *prev;
-
 	guint32 flags;		/* E_FORMAT_HEADER_* */
 	gchar name[1];
 };
@@ -226,7 +196,7 @@ struct _EMFormat {
 
 	GString *part_id;	/* current part id prefix, for identifying parts directly */
 
-	EDList header_list;	/* if empty, then all */
+	GQueue header_list;	/* if empty, then all */
 
 	CamelSession *session; /* session, used for authentication when required */
 	CamelURL *base;	/* content-base header or absolute content-location, for any part */
@@ -245,10 +215,12 @@ struct _EMFormat {
 	/* global lookup table for message */
 	GHashTable *pending_uri_table;
 
-	/* visibility tree, also stores every puri permanently */
-	struct _EMFormatPURITree *pending_uri_tree;
+	/* This structure is used internally to form a visibility tree of
+	 * parts in the current formatting stream.  This is to implement the
+	 * part resolution rules for RFC2387 to implement multipart/related. */
+	GNode *pending_uri_tree;
 	/* current level to search from */
-	struct _EMFormatPURITree *pending_uri_level;
+	GNode *pending_uri_level;
 
 	em_format_mode_t mode;	/* source/headers/etc */
 	gchar *charset;		/* charset override */
@@ -272,7 +244,7 @@ struct _EMFormatClass {
 	void (*format_error)(EMFormat *, CamelStream *, const gchar *msg);
 
 	/* use for external structured parts */
-	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const gchar *mime_type, const struct _EMFormatHandler *info);
+	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const gchar *mime_type, const EMFormatHandler *info);
 
 	/* use for unparsable content */
 	void (*format_source)(EMFormat *, CamelStream *, CamelMimePart *);
@@ -367,7 +339,7 @@ void		em_format_format_attachment	(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *mime_part,
 						 const gchar *mime_type,
-						 const struct _EMFormatHandler *info);
+						 const EMFormatHandler *info);
 void		em_format_format_error		(EMFormat *emf,
 						 CamelStream *stream,
 						 const gchar *format,

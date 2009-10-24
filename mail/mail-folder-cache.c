@@ -45,7 +45,6 @@
 #include <camel/camel-disco-store.h>
 
 #include <libedataserver/e-data-server-util.h>
-#include <libedataserver/e-msgport.h>
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
 
@@ -89,9 +88,6 @@ struct _folder_info {
 
 /* pending list of updates */
 struct _folder_update {
-	struct _folder_update *next;
-	struct _folder_update *prev;
-
 	guint remove:1;	/* removing from vfolders */
 	guint delete:1;	/* deleting as well? */
 	guint add:1;	/* add to vfolder */
@@ -114,7 +110,7 @@ struct _store_info {
 	CamelStore *store;	/* the store for these folders */
 
 	/* Outstanding folderinfo requests */
-	EDList folderinfo_updates;
+	GQueue folderinfo_updates;
 };
 
 static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
@@ -128,7 +124,7 @@ static gboolean ping_cb (gpointer user_data);
 static GHashTable *stores = NULL;
 
 /* List of folder changes to be executed in gui thread */
-static EDList updates = E_DLIST_INITIALISER(updates);
+static GQueue updates = G_QUEUE_INIT;
 static gint update_id = -1;
 
 /* hack for people who LIKE to have unsent count */
@@ -158,7 +154,7 @@ real_flush_updates (void)
 	default_model = em_folder_tree_model_get_default ();
 
 	G_LOCK (stores);
-	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
+	while ((up = g_queue_pop_head (&updates)) != NULL) {
 		G_UNLOCK (stores);
 
 		if (up->remove) {
@@ -235,7 +231,7 @@ real_flush_updates (void)
 static void
 flush_updates (void)
 {
-	if (update_id == -1 && !e_dlist_empty(&updates))
+	if (update_id == -1 && !g_queue_is_empty (&updates))
 		update_id = mail_async_event_emit (
 			mail_async_event, MAIL_ASYNC_GUI,
 			(MailAsyncFunc) real_flush_updates,
@@ -268,7 +264,7 @@ unset_folder_info(struct _folder_info *mfi, gint delete, gint unsub)
 		camel_object_ref(up->store);
 		up->uri = g_strdup(mfi->uri);
 
-		e_dlist_addtail(&updates, (EDListNode *)up);
+		g_queue_push_head (&updates, up);
 		flush_updates();
 	}
 }
@@ -355,7 +351,7 @@ update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
 	up->store = mfi->store_info->store;
 	up->uri = g_strdup(mfi->uri);
 	camel_object_ref(up->store);
-	e_dlist_addtail(&updates, (EDListNode *)up);
+	g_queue_push_head (&updates, up);
 	flush_updates();
 }
 
@@ -389,7 +385,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 			up->add = TRUE;
 
-		e_dlist_addtail(&updates, (EDListNode *)up);
+		g_queue_push_head (&updates, up);
 		flush_updates();
 	}
 }
@@ -669,7 +665,7 @@ rename_folders(struct _store_info *si, const gchar *oldbase, const gchar *newbas
 	if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 		up->add = TRUE;
 
-	e_dlist_addtail(&updates, (EDListNode *)up);
+	g_queue_push_tail (&updates, up);
 	flush_updates();
 #if 0
 	if (fi->sibling)
@@ -755,9 +751,6 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 }
 
 struct _update_data {
-	struct _update_data *next;
-	struct _update_data *prev;
-
 	gint id;			/* id for cancellation */
 	guint cancel:1;		/* also tells us we're cancelled */
 
@@ -780,7 +773,6 @@ free_folder_info_hash(gchar *path, struct _folder_info *mfi, gpointer data)
 void
 mail_note_store_remove(CamelStore *store)
 {
-	struct _update_data *ud;
 	struct _store_info *si;
 
 	g_return_if_fail (CAMEL_IS_STORE(store));
@@ -792,6 +784,7 @@ mail_note_store_remove(CamelStore *store)
 	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
+		GList *link;
 		g_hash_table_remove(stores, store);
 
 		camel_object_unhook_event(store, "folder_opened", store_folder_opened, NULL);
@@ -802,12 +795,16 @@ mail_note_store_remove(CamelStore *store)
 		camel_object_unhook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, NULL);
 
-		ud = (struct _update_data *)si->folderinfo_updates.head;
-		while (ud->next) {
+		link = g_queue_peek_head_link (&si->folderinfo_updates);
+
+		while (link != NULL) {
+			struct _update_data *ud = link->data;
+
 			d(printf("Cancelling outstanding folderinfo update %d\n", ud->id));
 			mail_msg_cancel(ud->id);
 			ud->cancel = 1;
-			ud = ud->next;
+
+			link = g_list_next (link);
 		}
 
 		camel_object_unref(si->store);
@@ -834,7 +831,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 	if (si && !ud->cancel) {
 		/* the 'si' is still there, so we can remove ourselves from its list */
 		/* otherwise its not, and we're on our own and free anyway */
-		e_dlist_remove((EDListNode *)ud);
+		g_queue_remove (&si->folderinfo_updates, ud);
 
 		if (fi)
 			create_folders(fi, si);
@@ -979,7 +976,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		si->store = store;
 		camel_object_ref((CamelObject *)store);
 		g_hash_table_insert(stores, store, si);
-		e_dlist_init(&si->folderinfo_updates);
+		g_queue_init (&si->folderinfo_updates);
 		hook = TRUE;
 	}
 
@@ -1010,7 +1007,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		ud->id = mail_get_folderinfo (store, op, update_folders, ud);
 	}
 
-	e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
+	g_queue_push_tail (&si->folderinfo_updates, ud);
 
 	G_UNLOCK (stores);
 

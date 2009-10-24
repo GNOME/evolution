@@ -26,7 +26,7 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
-#include <libedataserver/e-msgport.h>
+#include <libecal/e-cal.h>
 
 /* Standard GObject macros */
 #define TYPE_ALARM_NOTIFY \

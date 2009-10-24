@@ -30,7 +30,6 @@
 #include <gtk/gtk.h>
 
 #include "em-config.h"
-#include "libedataserver/e-msgport.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 

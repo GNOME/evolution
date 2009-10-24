@@ -389,7 +389,7 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 	EMFormat *emf = (EMFormat *) emfq;
 	CamelContentType *ct;
 	const gchar *charset;
-	EMFormatHeader *h;
+	GList *link;
 
 	if (!part)
 		return;
@@ -399,10 +399,12 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 	charset = camel_iconv_charset_name (charset);
 
 	/* dump selected headers */
-	h = (EMFormatHeader *) emf->header_list.head;
-	while (h->next) {
-		emfq_format_header (emf, stream, part, h->name, h->flags, charset);
-		h = h->next;
+	link = g_queue_peek_head_link (&emf->header_list);
+	while (link != NULL) {
+		EMFormatHeader *h = link->data;
+		emfq_format_header (
+			emf, stream, part, h->name, h->flags, charset);
+		link = g_list_next (link);
 	}
 
 	camel_stream_printf(stream, "<br>\n");

@@ -31,7 +31,6 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 
-#include <libedataserver/e-msgport.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-multipart.h>
@@ -179,7 +178,7 @@ emf_init (EMFormat *emf)
 		(GDestroyNotify) emf_free_cache);
 	emf->composer = FALSE;
 	emf->print = FALSE;
-	e_dlist_init(&emf->header_list);
+	g_queue_init (&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
 	emf->validity_found = 0;
@@ -392,7 +391,11 @@ em_format_fallback_handler(EMFormat *emf, const gchar *mime_type)
  * are resolved by forgetting the old PURI in the global index.
  **/
 EMFormatPURI *
-em_format_add_puri(EMFormat *emf, gsize size, const gchar *cid, CamelMimePart *part, EMFormatPURIFunc func)
+em_format_add_puri (EMFormat *emf,
+                    gsize size,
+                    const gchar *cid,
+                    CamelMimePart *part,
+                    EMFormatPURIFunc func)
 {
 	EMFormatPURI *puri;
 	const gchar *tmp;
@@ -450,11 +453,11 @@ em_format_add_puri(EMFormat *emf, gsize size, const gchar *cid, CamelMimePart *p
 	g_return_val_if_fail (emf->pending_uri_level != NULL, NULL);
 	g_return_val_if_fail (emf->pending_uri_table != NULL, NULL);
 
-	e_dlist_addtail(&emf->pending_uri_level->uri_list, (EDListNode *)puri);
+	g_queue_push_tail (emf->pending_uri_level->data, puri);
 
 	if (puri->uri)
-		g_hash_table_insert(emf->pending_uri_table, puri->uri, puri);
-	g_hash_table_insert(emf->pending_uri_table, puri->cid, puri);
+		g_hash_table_insert (emf->pending_uri_table, puri->uri, puri);
+	g_hash_table_insert (emf->pending_uri_table, puri->cid, puri);
 
 	return puri;
 }
@@ -470,21 +473,20 @@ em_format_add_puri(EMFormat *emf, gsize size, const gchar *cid, CamelMimePart *p
  * the base location.
  **/
 void
-em_format_push_level(EMFormat *emf)
+em_format_push_level (EMFormat *emf)
 {
-	struct _EMFormatPURITree *purilist;
+	GNode *node;
 
-	d(printf("em_format_push_level\n"));
-	purilist = g_malloc0(sizeof(*purilist));
-	e_dlist_init(&purilist->children);
-	e_dlist_init(&purilist->uri_list);
-	purilist->parent = emf->pending_uri_level;
-	if (emf->pending_uri_tree == NULL) {
-		emf->pending_uri_tree = purilist;
-	} else {
-		e_dlist_addtail(&emf->pending_uri_level->children, (EDListNode *)purilist);
-	}
-	emf->pending_uri_level = purilist;
+	g_return_if_fail (EM_IS_FORMAT (emf));
+
+	node = g_node_new (g_queue_new ());
+
+	if (emf->pending_uri_tree == NULL)
+		emf->pending_uri_tree = node;
+	else
+		g_node_append (emf->pending_uri_tree, node);
+
+	emf->pending_uri_level = node;
 }
 
 /**
@@ -495,9 +497,11 @@ em_format_push_level(EMFormat *emf)
  * no PURI values are actually freed.
  **/
 void
-em_format_pull_level(EMFormat *emf)
+em_format_pull_level (EMFormat *emf)
 {
-	d(printf("em_format_pull_level\n"));
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (emf->pending_uri_level != NULL);
+
 	emf->pending_uri_level = emf->pending_uri_level->parent;
 }
 
@@ -512,23 +516,35 @@ em_format_pull_level(EMFormat *emf)
  * Return value:
  **/
 EMFormatPURI *
-em_format_find_visible_puri(EMFormat *emf, const gchar *uri)
+em_format_find_visible_puri (EMFormat *emf,
+                             const gchar *uri)
 {
-	EMFormatPURI *pw;
-	struct _EMFormatPURITree *ptree;
+	GNode *node;
 
-	d(printf("checking for visible uri '%s'\n", uri));
+	g_return_val_if_fail (EM_IS_FORMAT (emf), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
 
-	ptree = emf->pending_uri_level;
-	while (ptree) {
-		pw = (EMFormatPURI *)ptree->uri_list.head;
-		while (pw->next) {
-			d(printf(" pw->uri = '%s' pw->cid = '%s\n", pw->uri?pw->uri:"", pw->cid));
-			if ((pw->uri && !strcmp(pw->uri, uri)) || !strcmp(pw->cid, uri))
+	node = emf->pending_uri_level;
+
+	while (node != NULL) {
+		GQueue *queue = node->data;
+		GList *link;
+
+		link = g_queue_peek_head_link (queue);
+
+		while (link != NULL) {
+			EMFormatPURI *pw = link->data;
+
+			if (g_strcmp0 (pw->uri, uri) == 0)
 				return pw;
-			pw = pw->next;
+
+			if (g_strcmp0 (pw->cid, uri) == 0)
+				return pw;
+
+			link = g_list_next (link);
 		}
-		ptree = ptree->parent;
+
+		node = node->parent;
 	}
 
 	return NULL;
@@ -545,50 +561,36 @@ em_format_find_visible_puri(EMFormat *emf, const gchar *uri)
  * Return value:
  **/
 EMFormatPURI *
-
-em_format_find_puri(EMFormat *emf, const gchar *uri)
+em_format_find_puri (EMFormat *emf,
+                     const gchar *uri)
 {
-	return g_hash_table_lookup(emf->pending_uri_table, uri);
+	g_return_val_if_fail (EM_IS_FORMAT (emf), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	g_return_val_if_fail (emf->pending_uri_table != NULL, NULL);
+
+	return g_hash_table_lookup (emf->pending_uri_table, uri);
 }
 
-static void
-emf_clear_puri_node(struct _EMFormatPURITree *node)
+static gboolean
+emf_clear_puri_node (GNode *node)
 {
-	{
-		EMFormatPURI *pw, *pn;
+	GQueue *queue = node->data;
+	EMFormatPURI *pn;
 
-		/* clear puri's at this level */
-		pw = (EMFormatPURI *)node->uri_list.head;
-		pn = pw->next;
-		while (pn) {
-			d(printf ("freeing pw %p format:%p\n", pw, pw->format));
-			if (pw->free)
-				pw->free(pw);
-			g_free(pw->uri);
-			g_free(pw->cid);
-			g_free(pw->part_id);
-			if (pw->part)
-				camel_object_unref(pw->part);
-			g_free(pw);
-			pw = pn;
-			pn = pn->next;
-		}
+	while ((pn = g_queue_pop_head (queue)) != NULL) {
+		d(printf ("freeing pw %p format:%p\n", pw, pw->format));
+		if (pn->free)
+			pn->free(pn);
+		g_free(pn->uri);
+		g_free(pn->cid);
+		g_free(pn->part_id);
+		if (pn->part)
+			camel_object_unref(pn->part);
+		g_free(pn);
 	}
 
-	{
-		struct _EMFormatPURITree *cw, *cn;
-
-		/* clear child nodes */
-		cw = (struct _EMFormatPURITree *)node->children.head;
-		cn = cw->next;
-		while (cn) {
-			emf_clear_puri_node(cw);
-			cw = cn;
-			cn = cn->next;
-		}
-	}
-
-	g_free(node);
+	return FALSE;
 }
 
 /**
@@ -601,16 +603,24 @@ emf_clear_puri_node(struct _EMFormatPURITree *node)
 void
 em_format_clear_puri_tree(EMFormat *emf)
 {
-	d(printf("clearing pending uri's\n"));
+	if (emf->pending_uri_table == NULL)
+		emf->pending_uri_table =
+			g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (emf->pending_uri_table) {
-		g_hash_table_destroy(emf->pending_uri_table);
-		emf_clear_puri_node(emf->pending_uri_tree);
-		emf->pending_uri_level = NULL;
+	else {
+		g_hash_table_remove_all (emf->pending_uri_table);
+
+		g_node_traverse (
+			emf->pending_uri_tree,
+			G_IN_ORDER, G_TRAVERSE_ALL, -1,
+			(GNodeTraverseFunc) emf_clear_puri_node, NULL);
+		g_node_destroy (emf->pending_uri_tree);
+
 		emf->pending_uri_tree = NULL;
+		emf->pending_uri_level = NULL;
 	}
-	emf->pending_uri_table = g_hash_table_new(g_str_hash, g_str_equal);
-	em_format_push_level(emf);
+
+	em_format_push_level (emf);
 }
 
 /* use mime_type == NULL  to force showing as application/octet-stream */
@@ -719,7 +729,7 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMime
 	if (emf != emfsource) {
 		g_hash_table_remove_all(emf->inline_table);
 		if (emfsource) {
-			struct _EMFormatHeader *h;
+			GList *link;
 
 			/* We clone the current state here */
 			g_hash_table_foreach(emfsource->inline_table, emf_clone_inlines, emf);
@@ -730,8 +740,13 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const gchar *uid, CamelMime
 			emf->default_charset = g_strdup (emfsource->default_charset);
 
 			em_format_clear_headers(emf);
-			for (h = (struct _EMFormatHeader *)emfsource->header_list.head; h->next; h = h->next)
-				em_format_add_header(emf, h->name, h->flags);
+
+			link = g_queue_peek_head_link (&emfsource->header_list);
+			while (link != NULL) {
+				struct _EMFormatHeader *h = link->data;
+				em_format_add_header (emf, h->name, h->flags);
+				link = g_list_next (link);
+			}
 		}
 	}
 
@@ -928,12 +943,12 @@ em_format_set_default_charset(EMFormat *emf, const gchar *charset)
  * be shown.
  **/
 void
-em_format_clear_headers(EMFormat *emf)
+em_format_clear_headers (EMFormat *emf)
 {
 	EMFormatHeader *eh;
 
-	while ((eh = (EMFormatHeader *)e_dlist_remhead(&emf->header_list)))
-		g_free(eh);
+	while ((eh = g_queue_pop_head (&emf->header_list)) != NULL)
+		g_free (eh);
 }
 
 /* note: also copied in em-mailer-prefs.c */
@@ -988,7 +1003,7 @@ void em_format_add_header(EMFormat *emf, const gchar *name, guint32 flags)
 	h = g_malloc(sizeof(*h) + strlen(name));
 	h->flags = flags;
 	strcpy(h->name, name);
-	e_dlist_addtail(&emf->header_list, (EDListNode *)h);
+	g_queue_push_tail (&emf->header_list, h);
 }
 
 /**
@@ -1553,8 +1568,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	const gchar *start;
 	gint i, nparts, partidlen, displayid = 0;
 	gchar *oldpartid;
-	struct _EMFormatPURITree *ptree;
-	EMFormatPURI *puri, *purin;
+	GList *link;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
 		em_format_format_source(emf, stream, part);
@@ -1601,6 +1615,8 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part(mp, i);
 		if (body_part != display_part) {
+			EMFormatPURI *puri;
+
 			/* set the partid since add_puri uses it */
 			g_string_append_printf(emf->part_id, ".related.%d", i);
 			puri = em_format_add_puri(emf, sizeof(EMFormatPURI), NULL, body_part, emf_write_related);
@@ -1614,10 +1630,11 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	g_string_truncate(emf->part_id, partidlen);
 	camel_stream_flush(stream);
 
-	ptree = emf->pending_uri_level;
-	puri = (EMFormatPURI *)ptree->uri_list.head;
-	purin = puri->next;
-	while (purin) {
+	link = g_queue_peek_head_link (emf->pending_uri_level->data);
+
+	while (link->next != NULL) {
+		EMFormatPURI *puri = link->data;
+
 		if (puri->use_count == 0) {
 			d(printf("part '%s' '%s' used '%d'\n", puri->uri?puri->uri:"", puri->cid, puri->use_count));
 			if (puri->func == emf_write_related) {
@@ -1627,8 +1644,8 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 				d(printf("unreferenced uri generated by format code: %s\n", puri->uri?puri->uri:puri->cid));
 			}
 		}
-		puri = purin;
-		purin = purin->next;
+
+		link = g_list_next (link);
 	}
 
 	g_string_printf(emf->part_id, "%s", oldpartid);

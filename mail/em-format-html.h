@@ -92,8 +92,6 @@ typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 /**
  * struct _EMFormatHTMLJob - A formatting job.
  *
- * @next: Double linked list header.
- * @prev: Double linked list header.
  * @format: Set by allocation function.
  * @stream: Free for use by caller.
  * @puri_level: Set by allocation function.
@@ -113,15 +111,12 @@ typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
  * may be used to allocate these.
  **/
 struct _EMFormatHTMLJob {
-	EMFormatHTMLJob *next;
-	EMFormatHTMLJob *prev;
-
 	EMFormatHTML *format;
 	CamelStream *stream;
 
 	/* We need to track the state of the visibility tree at
 	   the point this uri was generated */
-	struct _EMFormatPURITree *puri_level;
+	GNode *puri_level;
 	CamelURL *base;
 
 	void (*callback)(EMFormatHTMLJob *job, gint cancelled);
@@ -129,7 +124,7 @@ struct _EMFormatHTMLJob {
 		gchar *uri;
 		CamelMedium *msg;
 		EMFormatPURI *puri;
-		struct _EMFormatPURITree *puri_level;
+		GNode *puri_level;
 		gpointer data;
 	} u;
 };
@@ -142,8 +137,6 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, GtkHTMLEmbedded *e
 /**
  * struct _EMFormatHTMLPObject - Pending object.
  *
- * @next: Double linked list header.
- * @prev: Double linked list header.
  * @free: Invoked when the object is no longer needed.
  * @format: The parent formatter.
  * @classid: The assigned class id as passed to add_pobject().
@@ -158,9 +151,6 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, GtkHTMLEmbedded *e
  * em_format_html_add_pobject() may be used to allocate these.
  **/
 struct _EMFormatHTMLPObject {
-	EMFormatHTMLPObject *next;
-	EMFormatHTMLPObject *prev;
-
 	void (*free)(EMFormatHTMLPObject *);
 	EMFormatHTML *format;
 
@@ -211,7 +201,7 @@ struct _EMFormatHTML {
 
 	GtkHTML *html;
 
-	EDList pending_object_list;
+	GQueue pending_object_list;
 
 	GSList *headers;
 
