@@ -21,15 +21,31 @@
  *
  */
 
-#ifndef __E_IMPORT_H__
-#define __E_IMPORT_H__
+#ifndef E_IMPORT_H
+#define E_IMPORT_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-msgport.h>
+
+/* Standard GObject macros */
+#define E_TYPE_IMPORT \
+	(e_import_get_type ())
+#define E_IMPORT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_IMPORT, EImport))
+#define E_IMPORT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_IMPORT, EImportClass))
+#define E_IS_IMPORT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_IMPORT))
+#define E_IS_IMPORT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_IMPORT))
+#define E_IMPORT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_IMPORT, EImportClass))
 
 G_BEGIN_DECLS
-
-/* This is an importer function */
 
 typedef struct _EImport EImport;
 typedef struct _EImportClass EImportClass;
@@ -155,35 +171,51 @@ struct _EImport {
 struct _EImportClass {
 	GObjectClass object_class;
 
-	EDList importers;
+	GList *importers;
 
-	void (*target_free)(EImport *ep, EImportTarget *t);
+	void		(*target_free)		(EImport *import,
+						 EImportTarget *target);
 };
 
-GType e_import_get_type(void);
-
-EImport *e_import_new(const gchar *id);
-
-/* Static class methods */
-void e_import_class_add_importer(EImportClass *klass, EImportImporter *importer, EImportImporterFunc freefunc, gpointer data);
-
-GSList *e_import_get_importers(EImport *emp, EImportTarget *target);
-
-EImport *e_import_construct(EImport *, const gchar *id);
-
-void e_import_import(EImport *ei, EImportTarget *, EImportImporter *, EImportStatusFunc status, EImportCompleteFunc done, gpointer data);
-void e_import_cancel(EImport *, EImportTarget *, EImportImporter *);
-
-GtkWidget *e_import_get_widget(EImport *ei, EImportTarget *, EImportImporter *);
-
-void e_import_status(EImport *, EImportTarget *, const gchar *what, gint pc);
-void e_import_complete(EImport *, EImportTarget *);
-
-gpointer e_import_target_new(EImport *ep, gint type, gsize size);
-void e_import_target_free(EImport *ep, gpointer o);
-
-EImportTargetURI *e_import_target_new_uri(EImport *ei, const gchar *suri, const gchar *duri);
-EImportTargetHome *e_import_target_new_home(EImport *ei);
+GType		e_import_get_type		(void);
+EImport *	e_import_new			(const gchar *id);
+void		e_import_class_add_importer	(EImportClass *klass,
+						 EImportImporter *importer,
+						 EImportImporterFunc freefunc,
+						 gpointer data);
+GSList *	e_import_get_importers		(EImport *import,
+						 EImportTarget *target);
+EImport *	e_import_construct		(EImport *import,
+						 const gchar *id);
+void		e_import_import			(EImport *import,
+						 EImportTarget *target,
+						 EImportImporter *importer,
+						 EImportStatusFunc status,
+						 EImportCompleteFunc done,
+						 gpointer data);
+void		e_import_cancel			(EImport *import,
+						 EImportTarget *target,
+						 EImportImporter *importer);
+GtkWidget *	e_import_get_widget		(EImport *import,
+						 EImportTarget *target,
+						 EImportImporter *importer);
+void		e_import_status			(EImport *import,
+						 EImportTarget *target,
+						 const gchar *what,
+						 gint pc);
+void		e_import_complete		(EImport *import,
+						 EImportTarget *target);
+gpointer	e_import_target_new		(EImport *import,
+						 gint type,
+						 gsize size);
+void		e_import_target_free		(EImport *import,
+						 gpointer object);
+EImportTargetURI *
+		e_import_target_new_uri		(EImport *import,
+						 const gchar *uri_src,
+						 const gchar *uri_dst);
+EImportTargetHome *
+		e_import_target_new_home	(EImport *import);
 
 /* ********************************************************************** */
 
@@ -193,6 +225,25 @@ EImportTargetHome *e_import_target_new_home(EImport *ei);
    this and initialise the class target type tables */
 
 #include "e-util/e-plugin.h"
+
+/* Standard GObject macros */
+#define E_TYPE_IMPORT_HOOK \
+	(e_import_hook_get_type ())
+#define E_IMPORT_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_IMPORT_HOOK, EImportHook))
+#define E_IMPORT_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_IMPORT_HOOK, EImportHookClass))
+#define E_IS_IMPORT_HOOK(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_IMPORT_HOOK))
+#define E_IS_IMPORT_HOOK_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_IMPORT_HOOK))
+#define E_IMPORT_HOOK_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_IMPORT_HOOK, EImportHookClass))
 
 typedef struct _EPluginHookTargetMap EImportHookTargetMap;
 typedef struct _EPluginHookTargetKey EImportHookTargetMask;
@@ -250,11 +301,11 @@ struct _EImportHookClass {
 	EImportClass *import_class;
 };
 
-GType e_import_hook_get_type(void);
-
-/* for implementors */
-void e_import_hook_class_add_target_map(EImportHookClass *klass, const EImportHookTargetMap *);
+GType		e_import_hook_get_type	(void);
+void		e_import_hook_class_add_target_map
+					(EImportHookClass *klass,
+					 const EImportHookTargetMap *map);
 
 G_END_DECLS
 
-#endif /* __E_IMPORT_H__ */
+#endif /* E_IMPORT_H */
