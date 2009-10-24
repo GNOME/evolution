@@ -26,8 +26,6 @@
 
 #include <string.h>
 
-#include <pthread.h>
-
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-mt.h"

@@ -31,7 +31,6 @@
 #include <errno.h>
 #include <signal.h>
 #include <string.h>
-#include <pthread.h>
 #include <signal.h>
 #include <time.h>
 
@@ -53,10 +52,10 @@
 
 #define d(x) (camel_debug("junk")?(x):0)
 
-static pthread_mutex_t em_junk_sa_init_lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
+G_LOCK_DEFINE_STATIC (init);
+G_LOCK_DEFINE_STATIC (report);
+G_LOCK_DEFINE_STATIC (socket_path);
+G_LOCK_DEFINE_STATIC (spamd_restart);
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkTarget *target);
@@ -273,7 +272,7 @@ em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 	gint i = 0;
 	gboolean rv;
 
-	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+	G_LOCK (socket_path);
 
 	d(fprintf (stderr, "test if spamd is running (system %d) or using socket path %s\n", system, em_junk_sa_get_socket_path ()));
 
@@ -291,7 +290,7 @@ em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 
 	d(fprintf (stderr, "result: %d (%s)\n", rv, rv ? "success" : "failed"));
 
-	pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+	G_UNLOCK (socket_path);
 
 	return rv;
 }
@@ -341,7 +340,7 @@ em_junk_sa_run_spamd (const gchar *binary)
 	gint i;
 	gboolean rv = FALSE;
 
-	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+	G_LOCK (socket_path);
 
 	d(fprintf (stderr, "looks like spamd is not running\n"));
 
@@ -384,7 +383,7 @@ em_junk_sa_run_spamd (const gchar *binary)
 		rv = TRUE;
 	}
 
-	pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+	G_UNLOCK (socket_path);
 
 	return rv;
 }
@@ -497,7 +496,7 @@ em_junk_sa_test_spamd (void)
 static gboolean
 em_junk_sa_is_available (GError **error)
 {
-	pthread_mutex_lock (&em_junk_sa_init_lock);
+	G_LOCK (init);
 
 	if (!em_junk_sa_tested)
 		em_junk_sa_test_spamassassin ();
@@ -512,7 +511,7 @@ em_junk_sa_is_available (GError **error)
 	if (!em_junk_sa_allow_tell_tested)
 		em_junk_sa_test_allow_tell ();
 
-	pthread_mutex_unlock (&em_junk_sa_init_lock);
+	G_UNLOCK (init);
 
 	return em_junk_sa_available;
 }
@@ -523,7 +522,7 @@ em_junk_sa_check_respawn_too_fast ()
 	time_t time_now = time (NULL);
 	gboolean rv;
 
-	pthread_mutex_lock (&em_junk_sa_spamd_restart_lock);
+	G_LOCK (spamd_restart);
 
 	if (em_junk_sa_spamd_restarts_count >= SPAMD_RESTARTS_SIZE) {
 		/* all restarts in last 5 minutes */
@@ -534,7 +533,7 @@ em_junk_sa_check_respawn_too_fast ()
 	em_junk_sa_spamd_restarts [em_junk_sa_spamd_restarts_count % SPAMD_RESTARTS_SIZE] = time_now;
 	em_junk_sa_spamd_restarts_count ++;
 
-	pthread_mutex_unlock (&em_junk_sa_spamd_restart_lock);
+	G_UNLOCK (spamd_restart);
 
 	d(printf ("em_junk_sa_check_respawn_too_fast: %d\n", rv));
 
@@ -594,10 +593,10 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkTarget *target)
 		if (!em_junk_sa_system_spamd_available) {
 			argv[i++] = "-U";
 
-			pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+			G_LOCK (socket_path);
 			socket_i = i;
 			argv[i++] = to_free = g_strdup (em_junk_sa_get_socket_path ());
-			pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+			G_UNLOCK (socket_path);
 		}
 	} else {
 		argv [i++] = "spamassassin";
@@ -615,10 +614,10 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkTarget *target)
 		if (em_junk_sa_respawn_spamd ()) {
 			g_byte_array_set_size (out, 0);
 
-			pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+			G_LOCK (socket_path);
 			g_free (to_free);
 			argv [socket_i] = to_free = g_strdup (em_junk_sa_get_socket_path ());
-			pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+			G_UNLOCK (socket_path);
 
 			rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
 		} else if (!em_junk_sa_use_spamc)
@@ -706,11 +705,11 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 		if (no_allow_tell && em_junk_sa_local_only)
 			argv[4] = "--local";
 
-		pthread_mutex_lock (&em_junk_sa_report_lock);
+		G_LOCK (report);
 		pipe_to_sa (msg, NULL,
 			    (no_allow_tell ? argv : argv2),
 			    &target->error);
-		pthread_mutex_unlock (&em_junk_sa_report_lock);
+		G_UNLOCK (report);
 	}
 }
 
@@ -743,11 +742,11 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 
 		if (no_allow_tell && em_junk_sa_local_only)
 			argv[4] = "--local";
-		pthread_mutex_lock (&em_junk_sa_report_lock);
+		G_LOCK (report);
 		pipe_to_sa (msg, NULL,
 			    (no_allow_tell ? argv : argv2),
 			    &target->error);
-		pthread_mutex_unlock (&em_junk_sa_report_lock);
+		G_UNLOCK (report);
 	}
 }
 
@@ -773,9 +772,9 @@ em_junk_sa_commit_reports (EPlugin *ep)
 		if (em_junk_sa_local_only)
 			argv[2] = "--local";
 
-		pthread_mutex_lock (&em_junk_sa_report_lock);
+		G_LOCK (report);
 		pipe_to_sa (NULL, NULL, argv, NULL);
-		pthread_mutex_unlock (&em_junk_sa_report_lock);
+		G_UNLOCK (report);
 	}
 }
 
@@ -804,10 +803,10 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 	else if (!strcmp(tkey, "use_daemon"))
 		em_junk_sa_use_daemon = gconf_value_get_bool(value);
 	else if (!strcmp(tkey, "socket_path")) {
-		pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+		G_LOCK (socket_path);
 		g_free (em_junk_sa_preferred_socket_path);
 		em_junk_sa_preferred_socket_path = g_strdup (gconf_value_get_string(value));
-		pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+		G_UNLOCK (socket_path);
 	}
 }
 
@@ -822,7 +821,7 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 static void
 em_junk_sa_init (void)
 {
-	pthread_mutex_lock (&em_junk_sa_init_lock);
+	G_LOCK (init);
 
 	if (!em_junk_sa_gconf) {
 		em_junk_sa_gconf = gconf_client_get_default();
@@ -831,10 +830,10 @@ em_junk_sa_init (void)
 		em_junk_sa_local_only = gconf_client_get_bool (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/local_only", NULL);
 		em_junk_sa_use_daemon = gconf_client_get_bool (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/use_daemon", NULL);
 
-		pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+		G_LOCK (socket_path);
 		g_free (em_junk_sa_preferred_socket_path);
 		em_junk_sa_preferred_socket_path = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/socket_path", NULL);
-		pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+		G_UNLOCK (socket_path);
 
 		gconf_client_notify_add(em_junk_sa_gconf, "/apps/evolution/mail/junk/sa",
 					(GConfClientNotifyFunc)em_junk_sa_setting_notify,
@@ -844,7 +843,7 @@ em_junk_sa_init (void)
 		em_junk_sa_spamd_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamd_binary", NULL);
 	}
 
-	pthread_mutex_unlock (&em_junk_sa_init_lock);
+	G_UNLOCK (init);
 
 	atexit (em_junk_sa_finalize);
 }
@@ -852,10 +851,10 @@ em_junk_sa_init (void)
 static void
 em_junk_sa_kill_spamd (void)
 {
-	pthread_mutex_lock (&em_junk_sa_preferred_socket_path_lock);
+	G_LOCK (socket_path);
 	g_free (em_junk_sa_preferred_socket_path);
 	em_junk_sa_preferred_socket_path = NULL;
-	pthread_mutex_unlock (&em_junk_sa_preferred_socket_path_lock);
+	G_UNLOCK (socket_path);
 
 	if (em_junk_sa_new_daemon_started) {
 		gint fd = open (em_junk_sa_spamd_pidfile, O_RDONLY);

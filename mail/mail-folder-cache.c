@@ -30,7 +30,6 @@
 #endif
 #define G_LOG_DOMAIN "folder tree"
 
-#include <pthread.h>
 #include <string.h>
 #include <time.h>
 
@@ -75,10 +74,7 @@
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
-#define LOCK(x) pthread_mutex_lock(&x)
-#define UNLOCK(x) pthread_mutex_unlock(&x)
-
-static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
+G_LOCK_DEFINE_STATIC (stores);
 
 struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
@@ -161,9 +157,9 @@ real_flush_updates (void)
 	shell = e_shell_get_default ();
 	default_model = em_folder_tree_model_get_default ();
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
-		UNLOCK(info_lock);
+		G_UNLOCK (stores);
 
 		if (up->remove) {
 			if (up->delete) {
@@ -230,10 +226,10 @@ real_flush_updates (void)
 
 		free_update(up);
 
-		LOCK(info_lock);
+		G_LOCK (stores);
 	}
 	update_id = -1;
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static void
@@ -460,14 +456,14 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	if (new > 0 || !last_newmail)
 		time (&last_newmail);
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	if (stores != NULL
 	    && (si = g_hash_table_lookup(stores, store)) != NULL
 	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
 	    && mfi->folder == folder) {
 		update_1folder(mfi, new, NULL);
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static void
@@ -479,14 +475,14 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 	struct _folder_info *mfi;
 
 	d(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
-	LOCK(info_lock);
+	G_LOCK (stores);
 	if (stores != NULL
 	    && (si = g_hash_table_lookup(stores, store)) != NULL
 	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
 	    && mfi->folder == folder) {
 		mfi->folder = NULL;
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static void
@@ -510,18 +506,18 @@ void mail_note_folder(CamelFolder *folder)
 
 	d(printf("noting folder '%s'\n", folder->full_name));
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	if (stores == NULL
 	    || (si = g_hash_table_lookup(stores, store)) == NULL
 	    || (mfi = g_hash_table_lookup(si->folders, folder->full_name)) == NULL) {
 		w(g_warning("Noting folder before store initialised"));
-		UNLOCK(info_lock);
+		G_UNLOCK (stores);
 		return;
 	}
 
 	/* dont do anything if we already have this */
 	if (mfi->folder == folder) {
-		UNLOCK(info_lock);
+		G_UNLOCK (stores);
 		return;
 	}
 
@@ -529,7 +525,7 @@ void mail_note_folder(CamelFolder *folder)
 
 	update_1folder(mfi, 0, NULL);
 
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 
 	camel_object_hook_event(folder, "folder_changed", folder_changed, NULL);
 	camel_object_hook_event(folder, "renamed", folder_renamed, NULL);
@@ -544,11 +540,11 @@ store_folder_subscribed(CamelObject *o, gpointer event_data, gpointer data)
 
 	d(printf("Store folder subscribed '%s' store '%s' \n", fi->full_name, camel_url_to_string(((CamelService *)o)->url, 0)));
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, o);
 	if (si)
 		setup_folder(fi, si);
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static void
@@ -577,7 +573,7 @@ store_folder_unsubscribed(CamelObject *o, gpointer event_data, gpointer data)
 
 	d(printf("Store Folder deleted: %s\n", fi->full_name));
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		mfi = g_hash_table_lookup(si->folders, fi->full_name);
@@ -588,7 +584,7 @@ store_folder_unsubscribed(CamelObject *o, gpointer event_data, gpointer data)
 			free_folder_info(mfi);
 		}
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static void
@@ -735,7 +731,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 	d(printf("Folder renamed: oldbase = '%s' new->full = '%s'\n", info->old_base, info->new->full_name));
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		GPtrArray *folders = g_ptr_array_new();
@@ -755,7 +751,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		g_ptr_array_free(folders, TRUE);
 
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 struct _update_data {
@@ -793,7 +789,7 @@ mail_note_store_remove(CamelStore *store)
 		return;
 
 	d(printf("store removed!!\n"));
-	LOCK(info_lock);
+	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		g_hash_table_remove(stores, store);
@@ -821,7 +817,7 @@ mail_note_store_remove(CamelStore *store)
 		g_free(si);
 	}
 
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 static gboolean
@@ -833,7 +829,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 
 	d(printf("Got folderinfo for store %s\n", store->parent_object.provider->protocol));
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	si = g_hash_table_lookup(stores, store);
 	if (si && !ud->cancel) {
 		/* the 'si' is still there, so we can remove ourselves from its list */
@@ -843,7 +839,7 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, gpointer data)
 		if (fi)
 			create_folders(fi, si);
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 
 	if (ud->done)
 		res = ud->done (store, fi, ud->data);
@@ -920,11 +916,11 @@ ping_store (gpointer key, gpointer val, gpointer user_data)
 static gboolean
 ping_cb (gpointer user_data)
 {
-	LOCK (info_lock);
+	G_LOCK (stores);
 
 	g_hash_table_foreach (stores, ping_store, NULL);
 
-	UNLOCK (info_lock);
+	G_UNLOCK (stores);
 
 	return TRUE;
 }
@@ -934,7 +930,7 @@ store_online_cb (CamelStore *store, gpointer data)
 {
 	struct _update_data *ud = data;
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 
 	if (g_hash_table_lookup(stores, store) != NULL && !ud->cancel) {
 		/* re-use the cancel id.  we're already in the store update list too */
@@ -945,7 +941,7 @@ store_online_cb (CamelStore *store, gpointer data)
 		g_free(ud);
 	}
 
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 }
 
 void
@@ -961,7 +957,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	g_return_if_fail (CAMEL_IS_STORE(store));
 	g_return_if_fail (mail_in_main_thread());
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 
 	if (stores == NULL) {
 		stores = g_hash_table_new(NULL, NULL);
@@ -1016,7 +1012,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 
 	e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
 
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 
 	/* there is potential for race here, but it is safe as we check for the store anyway */
 	if (hook) {
@@ -1060,7 +1056,7 @@ gint mail_note_get_folder_from_uri(const gchar *uri, CamelFolder **folderp)
 
 	fi.url = camel_url_new(uri, NULL);
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
 	if (folderp) {
 		if (fi.fi && fi.fi->folder) {
@@ -1070,7 +1066,7 @@ gint mail_note_get_folder_from_uri(const gchar *uri, CamelFolder **folderp)
 			*folderp = NULL;
 		}
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 
 	camel_url_free(fi.url);
 
@@ -1088,14 +1084,14 @@ mail_folder_cache_get_folder_info_flags (CamelFolder *folder, gint *flags)
 
 	fi.url = camel_url_new (uri, NULL);
 
-	LOCK(info_lock);
+	G_LOCK (stores);
 	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
 	if (flags) {
 		if (fi.fi) {
 			*flags = fi.fi->flags;
 		}
 	}
-	UNLOCK(info_lock);
+	G_UNLOCK (stores);
 
 	camel_url_free(fi.url);
 	g_free (uri);

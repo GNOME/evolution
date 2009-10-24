@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <pthread.h>
 #include <string.h>
 
 #include <glib.h>
@@ -59,7 +58,7 @@ static EMVFolderContext *context;	/* context remains open all time */
 CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 /* lock for accessing shared resources (below) */
-static pthread_mutex_t vfolder_lock = PTHREAD_MUTEX_INITIALIZER;
+G_LOCK_DEFINE_STATIC (vfolder);
 
 static GList *source_folders_remote;	/* list of source folder uri's - remote ones */
 static GList *source_folders_local;	/* list of source folder uri's - local ones */
@@ -71,9 +70,6 @@ static volatile gint shutdown;		/* are we shutting down? */
 extern CamelSession *session;
 
 static void rule_changed(FilterRule *rule, CamelFolder *folder);
-
-#define LOCK() pthread_mutex_lock(&vfolder_lock);
-#define UNLOCK() pthread_mutex_unlock(&vfolder_lock);
 
 /* ********************************************************************** */
 
@@ -449,7 +445,7 @@ mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 
 	is_ignore = uri_is_ignore(store, curi);
 
-	LOCK();
+	G_LOCK (vfolder);
 
 /*	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri)); */
 
@@ -519,7 +515,7 @@ mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 	}
 
 done:
-	UNLOCK();
+	G_UNLOCK (vfolder);
 
 	if (folders != NULL)
 		vfolder_adduri(curi, folders, remove);
@@ -549,7 +545,7 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 
 	changed = g_string_new ("");
 
-	LOCK();
+	G_LOCK (vfolder);
 
 	if (context == NULL)
 		goto done;
@@ -597,7 +593,7 @@ done:
 		source_folders_local = g_list_remove_link(source_folders_local, link);
 	}
 
-	UNLOCK();
+	G_UNLOCK (vfolder);
 
 	if (changed->str[0]) {
 		GtkWidget *dialog;
@@ -638,7 +634,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 	from = em_uri_from_camel(cfrom);
 	to = em_uri_from_camel(cto);
 
-	LOCK();
+	G_LOCK (vfolder);
 
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
@@ -668,7 +664,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 		}
 	}
 
-	UNLOCK();
+	G_UNLOCK (vfolder);
 
 	if (changed) {
 		const gchar *data_dir;
@@ -738,15 +734,15 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		gpointer key;
 		gpointer oldfolder;
 
-		LOCK();
+		G_LOCK (vfolder);
 		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
 		if (g_hash_table_lookup_extended (vfolder_hash, folder->full_name, &key, &oldfolder)) {
 			g_hash_table_remove (vfolder_hash, key);
 			g_free (key);
 			g_hash_table_insert (vfolder_hash, g_strdup(rule->name), folder);
-			UNLOCK();
+			G_UNLOCK (vfolder);
 		} else {
-			UNLOCK();
+			G_UNLOCK (vfolder);
 			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
 		}
 
@@ -761,12 +757,12 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	/* find any (currently available) folders, and add them to the ones to open */
 	rule_add_sources(((EMVFolderRule *)rule)->sources, &sources_folder, &sources_uri);
 
-	LOCK();
+	G_LOCK (vfolder);
 	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources(source_folders_local, &sources_folder, &sources_uri);
 	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources(source_folders_remote, &sources_folder, &sources_uri);
-	UNLOCK();
+	G_UNLOCK (vfolder);
 
 	query = g_string_new("");
 	filter_rule_build_code(rule, query);
@@ -787,9 +783,9 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 	if (folder) {
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		LOCK();
+		G_LOCK (vfolder);
 		g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
-		UNLOCK();
+		G_UNLOCK (vfolder);
 
 		rule_changed(rule, folder);
 	}
@@ -803,12 +799,12 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 
 	/* TODO: remove from folder info cache? */
 
-	LOCK();
+	G_LOCK (vfolder);
 	if (g_hash_table_lookup_extended (vfolder_hash, rule->name, &key, &folder)) {
 		g_hash_table_remove (vfolder_hash, key);
 		g_free (key);
 	}
-	UNLOCK();
+	G_UNLOCK (vfolder);
 
 	camel_store_delete_folder(vfolder_store, rule->name, NULL);
 	/* this must be unref'd after its deleted */
@@ -839,7 +835,7 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 
 	/* Warning not thread safe, but might be enough */
 
-	LOCK();
+	G_LOCK (vfolder);
 
 	/* delete it from our list */
 	rule = rule_context_find_rule((RuleContext *)context, info->full_name, NULL);
@@ -861,7 +857,7 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 		g_warning("Cannot find rule for deleted vfolder '%s'", info->name);
 	}
 
-	UNLOCK();
+	G_UNLOCK (vfolder);
 }
 
 static void
@@ -878,7 +874,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 	d(printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base));
 
 	/* Folder is already renamed? */
-	LOCK();
+	G_LOCK (vfolder);
 	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
 	if (g_hash_table_lookup_extended (vfolder_hash, info->old_base, &key, &folder)) {
 		const gchar *data_dir;
@@ -889,7 +885,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
 		if (!rule) {
-			UNLOCK ();
+			G_UNLOCK (vfolder);
 			g_warning ("Rule shouldn't be NULL\n");
 			return;
 		}
@@ -904,9 +900,9 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 
-		UNLOCK();
+		G_UNLOCK (vfolder);
 	} else {
-		UNLOCK();
+		G_UNLOCK (vfolder);
 		g_warning("couldn't find a vfolder rule in our table? %s", info->new->full_name);
 	}
 }
@@ -915,7 +911,7 @@ void
 vfolder_load_storage(void)
 {
 	/* lock for loading storage, it is safe to call it more than once */
-	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+	G_LOCK_DEFINE_STATIC (vfolder_hash);
 
 	const gchar *data_dir;
 	gchar *user, *storeuri;
@@ -923,17 +919,17 @@ vfolder_load_storage(void)
 	gchar *xmlfile;
 	GConfClient *gconf;
 
-	pthread_mutex_lock (&lock);
+	G_LOCK (vfolder_hash);
 
 	if (vfolder_hash) {
 		/* we have already initialized */
-		pthread_mutex_unlock (&lock);
+		G_UNLOCK (vfolder_hash);
 		return;
 	}
 
 	vfolder_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
-	pthread_mutex_unlock (&lock);
+	G_UNLOCK (vfolder_hash);
 
 	/* first, create the vfolder store, and set it up */
 	data_dir = em_utils_get_data_dir ();

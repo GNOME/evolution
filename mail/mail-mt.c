@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <pthread.h>
 #include <errno.h>
 
 #include <glib.h>
@@ -45,20 +44,10 @@
 #include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/
-#define LOG_OPS
-#define LOG_LOCKS
 #define d(x)
 
 static void set_stop(gint sensitive);
 static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data);
-
-#ifdef LOG_LOCKS
-#define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: lock " # x "\n", e_util_pthread_id(pthread_self())):0, pthread_mutex_lock(&x))
-#define MAIL_MT_UNLOCK(x) (log_locks?fprintf(log, "%" G_GINT64_MODIFIER "x: unlock " # x "\n", e_util_pthread_id(pthread_self())): 0, pthread_mutex_unlock(&x))
-#else
-#define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
-#define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
-#endif
 
 /* background operation status stuff */
 struct _MailMsgPrivate {
@@ -69,16 +58,10 @@ struct _MailMsgPrivate {
 	gboolean cancelable;
 };
 
-/* mail_msg stuff */
-#ifdef LOG_OPS
-static FILE *log;
-static gint log_ops, log_locks, log_init;
-#endif
-
 static guint mail_msg_seq; /* sequence number of each message */
 static GHashTable *mail_msg_active_table; /* table of active messages, must hold mail_msg_lock to access */
-static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
+static GMutex *mail_msg_lock;
+static GCond *mail_msg_cond;
 
 MailAsyncEvent *mail_async_event;
 
@@ -87,35 +70,8 @@ mail_msg_new (MailMsgInfo *info)
 {
 	MailMsg *msg;
 
-	MAIL_MT_LOCK(mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
-#if defined(LOG_OPS) || defined(LOG_LOCKS)
-	if (!log_init) {
-		time_t now = time(NULL);
-
-		log_init = TRUE;
-		log_ops = getenv("EVOLUTION_MAIL_LOG_OPS") != NULL;
-		log_locks = getenv("EVOLUTION_MAIL_LOG_LOCKS") != NULL;
-		if (log_ops || log_locks) {
-			log = fopen("evolution-mail-ops.log", "w+");
-			if (log) {
-				setvbuf(log, NULL, _IOLBF, 0);
-				fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
-				g_warning("Logging mail operations to evolution-mail-ops.log");
-
-				if (log_ops)
-					fprintf(log, "Logging async operations\n");
-
-				if (log_locks) {
-					fprintf(log, "%" G_GINT64_MODIFIER "x: lock mail_msg_lock\n", e_util_pthread_id(pthread_self()));
-				}
-			} else {
-				g_warning ("Could not open log file: %s", g_strerror(errno));
-				log_ops = log_locks = FALSE;
-			}
-		}
-	}
-#endif
 	msg = g_slice_alloc0 (info->size);
 	msg->info = info;
 	msg->ref_count = 1;
@@ -129,11 +85,7 @@ mail_msg_new (MailMsgInfo *info)
 
 	d(printf("New message %p\n", msg));
 
-#ifdef LOG_OPS
-	if (log_ops)
-		fprintf(log, "%p: New\n", (gpointer) msg);
-#endif
-	MAIL_MT_UNLOCK(mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 
 	return msg;
 }
@@ -234,21 +186,11 @@ mail_msg_unref (gpointer msg)
 	if (mail_msg->info->free)
 		mail_msg->info->free(mail_msg);
 
-	MAIL_MT_LOCK(mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
-#ifdef LOG_OPS
-	if (log_ops) {
-		const gchar *description;
-
-		description = camel_exception_get_description (&mail_msg->ex);
-		if (description == NULL)
-			description = "None";
-		fprintf(log, "%p: Free  (exception `%s')\n", msg, description);
-	}
-#endif
 	g_hash_table_remove (
 		mail_msg_active_table, GINT_TO_POINTER (mail_msg->seq));
-	pthread_cond_broadcast (&mail_msg_cond);
+	g_cond_broadcast (mail_msg_cond);
 
 	/* We need to make sure we dont lose a reference here YUCK YUCK */
 	/* This is tightly integrated with the code in do_op_status,
@@ -256,7 +198,7 @@ mail_msg_unref (gpointer msg)
 	if (mail_msg->priv->activity_state == 1) {
 		/* tell the other to free it itself */
 		mail_msg->priv->activity_state = 3;
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 		return;
 	} else {
 		activity = mail_msg->priv->activity;
@@ -265,7 +207,7 @@ mail_msg_unref (gpointer msg)
 		error = mail_msg->priv->error;
 	}
 
-	MAIL_MT_UNLOCK(mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 
 	mail_msg_free (mail_msg);
 
@@ -347,13 +289,14 @@ void mail_msg_cancel(guint msgid)
 {
 	MailMsg *m;
 
-	MAIL_MT_LOCK(mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
+
 	m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 
 	if (m && m->cancel)
 		camel_operation_cancel(m->cancel);
 
-	MAIL_MT_UNLOCK(mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 }
 
 /* waits for a message to be finished processing (freed)
@@ -363,23 +306,23 @@ void mail_msg_wait(guint msgid)
 	MailMsg *m;
 
 	if (mail_in_main_thread ()) {
-		MAIL_MT_LOCK(mail_msg_lock);
+		g_mutex_lock (mail_msg_lock);
 		m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		while (m) {
-			MAIL_MT_UNLOCK(mail_msg_lock);
+			g_mutex_unlock (mail_msg_lock);
 			gtk_main_iteration();
-			MAIL_MT_LOCK(mail_msg_lock);
+			g_mutex_lock (mail_msg_lock);
 			m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		}
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 	} else {
-		MAIL_MT_LOCK(mail_msg_lock);
+		g_mutex_lock (mail_msg_lock);
 		m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		while (m) {
-			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
+			g_cond_wait (mail_msg_cond, mail_msg_lock);
 			m = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid));
 		}
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 	}
 }
 
@@ -387,12 +330,12 @@ gint mail_msg_active(guint msgid)
 {
 	gint active;
 
-	MAIL_MT_LOCK(mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 	if (msgid == (guint)-1)
 		active = g_hash_table_size(mail_msg_active_table) > 0;
 	else
 		active = g_hash_table_lookup(mail_msg_active_table, GINT_TO_POINTER(msgid)) != NULL;
-	MAIL_MT_UNLOCK(mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 
 	return active;
 }
@@ -400,19 +343,19 @@ gint mail_msg_active(guint msgid)
 void mail_msg_wait_all(void)
 {
 	if (mail_in_main_thread ()) {
-		MAIL_MT_LOCK(mail_msg_lock);
+		g_mutex_lock (mail_msg_lock);
 		while (g_hash_table_size(mail_msg_active_table) > 0) {
-			MAIL_MT_UNLOCK(mail_msg_lock);
+			g_mutex_unlock (mail_msg_lock);
 			gtk_main_iteration();
-			MAIL_MT_LOCK(mail_msg_lock);
+			g_mutex_lock (mail_msg_lock);
 		}
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 	} else {
-		MAIL_MT_LOCK(mail_msg_lock);
+		g_mutex_lock (mail_msg_lock);
 		while (g_hash_table_size(mail_msg_active_table) > 0) {
-			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
+			g_cond_wait (mail_msg_cond, mail_msg_lock);
 		}
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 	}
 }
 
@@ -425,7 +368,7 @@ mail_cancel_hook_add (GHookFunc func, gpointer data)
 {
 	GHook *hook;
 
-	MAIL_MT_LOCK (mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
 	if (!cancel_hook_list.is_setup)
 		g_hook_list_init (&cancel_hook_list, sizeof (GHook));
@@ -436,7 +379,7 @@ mail_cancel_hook_add (GHookFunc func, gpointer data)
 
 	g_hook_append (&cancel_hook_list, hook);
 
-	MAIL_MT_UNLOCK (mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 
 	return hook;
 }
@@ -444,12 +387,12 @@ mail_cancel_hook_add (GHookFunc func, gpointer data)
 void
 mail_cancel_hook_remove (GHook *hook)
 {
-	MAIL_MT_LOCK (mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
 	g_return_if_fail (cancel_hook_list.is_setup);
 	g_hook_destroy_link (&cancel_hook_list, hook);
 
-	MAIL_MT_UNLOCK (mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 }
 
 void
@@ -457,12 +400,12 @@ mail_cancel_all (void)
 {
 	camel_operation_cancel (NULL);
 
-	MAIL_MT_LOCK (mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
 	if (cancel_hook_list.is_setup)
 		g_hook_list_invoke (&cancel_hook_list, FALSE);
 
-	MAIL_MT_UNLOCK (mail_msg_lock);
+	g_mutex_unlock (mail_msg_lock);
 }
 
 void
@@ -566,6 +509,9 @@ mail_msg_cleanup (void)
 void
 mail_msg_init (void)
 {
+	mail_msg_lock = g_mutex_new ();
+	mail_msg_cond = g_cond_new ();
+
 	main_loop_queue = g_async_queue_new ();
 	msg_reply_queue = g_async_queue_new ();
 
@@ -653,19 +599,13 @@ mail_in_main_thread (void)
 
 /* ********************************************************************** */
 
-/* locks */
-static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
-
-/* ********************************************************************** */
-
 struct _proxy_msg {
 	MailMsg base;
 
 	MailAsyncEvent *ea;
 	mail_async_event_t type;
 
-	pthread_t thread;
-	gint have_thread;
+	GThread *thread;
 
 	MailAsyncFunc func;
 	gpointer o;
@@ -676,10 +616,9 @@ struct _proxy_msg {
 static void
 do_async_event(struct _proxy_msg *m)
 {
-	m->thread = pthread_self();
-	m->have_thread = TRUE;
+	m->thread = g_thread_self ();
 	m->func(m->o, m->event_data, m->data);
-	m->have_thread = FALSE;
+	m->thread = NULL;
 
 	g_mutex_lock(m->ea->lock);
 	m->ea->tasks = g_slist_remove(m->ea->tasks, m);
@@ -726,7 +665,7 @@ gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyn
 	m->data = data;
 	m->ea = ea;
 	m->type = type;
-	m->have_thread = FALSE;
+	m->thread = NULL;
 
 	id = m->base.seq;
 	g_mutex_lock(ea->lock);
@@ -749,14 +688,13 @@ gint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyn
 gint mail_async_event_destroy(MailAsyncEvent *ea)
 {
 	gint id;
-	pthread_t thread = pthread_self();
 	struct _proxy_msg *m;
 
 	g_mutex_lock(ea->lock);
 	while (ea->tasks) {
 		m = ea->tasks->data;
 		id = m->base.seq;
-		if (m->have_thread && pthread_equal(m->thread, thread)) {
+		if (m->thread == g_thread_self ()) {
 			g_warning("Destroying async event from inside an event, returning EDEADLK");
 			g_mutex_unlock(ea->lock);
 			errno = EDEADLK;
@@ -884,6 +822,7 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 /* ********************************************************************** */
 /* locked via status_lock */
 static gint busy_state;
+G_LOCK_DEFINE_STATIC (busy_state);
 
 static void
 do_set_busy(MailMsg *mm)
@@ -903,26 +842,30 @@ void mail_enable_stop(void)
 {
 	MailMsg *m;
 
-	MAIL_MT_LOCK(status_lock);
+	G_LOCK (busy_state);
+
 	busy_state++;
 	if (busy_state == 1) {
 		m = mail_msg_new(&set_busy_info);
 		mail_msg_main_loop_push(m);
 	}
-	MAIL_MT_UNLOCK(status_lock);
+
+	G_UNLOCK (busy_state);
 }
 
 void mail_disable_stop(void)
 {
 	MailMsg *m;
 
-	MAIL_MT_LOCK(status_lock);
+	G_LOCK (busy_state);
+
 	busy_state--;
 	if (busy_state == 0) {
 		m = mail_msg_new(&set_busy_info);
 		mail_msg_main_loop_push(m);
 	}
-	MAIL_MT_UNLOCK(status_lock);
+
+	G_UNLOCK (busy_state);
 }
 
 /* ******************************************************************************** */
@@ -958,12 +901,12 @@ op_status_exec (struct _op_status_msg *m)
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-	MAIL_MT_LOCK (mail_msg_lock);
+	g_mutex_lock (mail_msg_lock);
 
 	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
 
 	if (msg == NULL) {
-		MAIL_MT_UNLOCK (mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 		return;
 	}
 
@@ -986,12 +929,12 @@ op_status_exec (struct _op_status_msg *m)
 
 		/* its being created/removed?  well leave it be */
 		if (data->activity_state == 1 || data->activity_state == 3) {
-			MAIL_MT_UNLOCK (mail_msg_lock);
+			g_mutex_unlock (mail_msg_lock);
 			return;
 		} else {
 			data->activity_state = 1;
 
-			MAIL_MT_UNLOCK (mail_msg_lock);
+			g_mutex_unlock (mail_msg_lock);
 			if (msg->info->desc)
 				what = msg->info->desc (msg);
 			else if (m->what)
@@ -1012,13 +955,13 @@ op_status_exec (struct _op_status_msg *m)
 				GUINT_TO_POINTER (msg->seq));
 
 			g_free (what);
-			MAIL_MT_LOCK (mail_msg_lock);
+			g_mutex_lock (mail_msg_lock);
 			if (data->activity_state == 3) {
 				EActivity *activity;
 
 				activity = g_object_ref (data->activity);
 
-				MAIL_MT_UNLOCK (mail_msg_lock);
+				g_mutex_unlock (mail_msg_lock);
 				mail_msg_free (msg);
 
 				if (activity != 0)
@@ -1027,16 +970,16 @@ op_status_exec (struct _op_status_msg *m)
 								NULL, activity, NULL);
 			} else {
 				data->activity_state = 2;
-				MAIL_MT_UNLOCK (mail_msg_lock);
+				g_mutex_unlock (mail_msg_lock);
 			}
 			return;
 		}
 	} else if (data->activity != NULL) {
-		MAIL_MT_UNLOCK (mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 		e_activity_set_primary_text (data->activity, out);
 		e_activity_set_percent (data->activity, pc / 100.0);
 	} else {
-		MAIL_MT_UNLOCK (mail_msg_lock);
+		g_mutex_unlock (mail_msg_lock);
 	}
 }
 
