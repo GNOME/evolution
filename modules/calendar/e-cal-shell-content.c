@@ -143,7 +143,6 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 static FocusLocation
 cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 {
-	GtkWidget *widget;
 	GnomeCalendar *calendar;
 	GnomeCalendarViewType view_type;
 	ECalendarView *calendar_view;
@@ -197,7 +196,7 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 			return FOCUS_CALENDAR;
 
 	} else if (E_IS_CAL_LIST_VIEW (calendar_view)) {
-		ECalListView *list_view = E_CAL_LIST_VIEW (widget);
+		ECalListView *list_view = E_CAL_LIST_VIEW (calendar_view);
 
 		table = e_table_scrolled_get_table (list_view->table_scrolled);
 		if (GTK_WIDGET_HAS_FOCUS (table))
