@@ -87,11 +87,6 @@ void mail_msg_set_cancelable (gpointer msg, gboolean status);
 gchar *mail_get_password (CamelService *service, const gchar *prompt,
 			 gboolean secret, gboolean *cache);
 
-/* present information and get an ok (or possibly cancel)
- * "type" is as for gnome_message_box_new();
- */
-gboolean mail_user_message (const gchar *type, const gchar *prompt, gboolean allow_cancel);
-
 /* asynchronous event proxies */
 typedef struct _MailAsyncEvent {
 	GMutex *lock;
@@ -125,10 +120,6 @@ typedef enum {
 typedef gpointer (*MailMainFunc)();
 
 gpointer mail_call_main(mail_call_t type, MailMainFunc func, ...);
-
-/* use with caution.  only works with active message's anyway */
-void mail_enable_stop(void);
-void mail_disable_stop(void);
 
 /* A generic proxy event for anything that can be proxied during the life of the mailer (almost nothing) */
 /* Note that almost all objects care about the lifecycle of their events, so this cannot be used */

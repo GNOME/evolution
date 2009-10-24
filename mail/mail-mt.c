@@ -46,7 +46,6 @@
 /*#define MALLOC_CHECK*/
 #define d(x)
 
-static void set_stop(gint sensitive);
 static void mail_operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data);
 
 /* background operation status stuff */
@@ -462,11 +461,8 @@ mail_msg_proxy (MailMsg *msg)
 		g_free (text);
 	}
 
-	if (msg->info->exec != NULL) {
-		mail_enable_stop ();
+	if (msg->info->exec != NULL)
 		msg->info->exec (msg);
-		mail_disable_stop ();
-	}
 
 	if (msg->info->desc != NULL && msg->cancel) {
 		camel_operation_end (msg->cancel);
@@ -819,55 +815,6 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 	return ret;
 }
 
-/* ********************************************************************** */
-/* locked via status_lock */
-static gint busy_state;
-G_LOCK_DEFINE_STATIC (busy_state);
-
-static void
-do_set_busy(MailMsg *mm)
-{
-	set_stop(busy_state > 0);
-}
-
-static MailMsgInfo set_busy_info = {
-	sizeof (MailMsg),
-	(MailMsgDescFunc) NULL,
-	(MailMsgExecFunc) do_set_busy,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) NULL
-};
-
-void mail_enable_stop(void)
-{
-	MailMsg *m;
-
-	G_LOCK (busy_state);
-
-	busy_state++;
-	if (busy_state == 1) {
-		m = mail_msg_new(&set_busy_info);
-		mail_msg_main_loop_push(m);
-	}
-
-	G_UNLOCK (busy_state);
-}
-
-void mail_disable_stop(void)
-{
-	MailMsg *m;
-
-	G_LOCK (busy_state);
-
-	busy_state--;
-	if (busy_state == 0) {
-		m = mail_msg_new(&set_busy_info);
-		mail_msg_main_loop_push(m);
-	}
-
-	G_UNLOCK (busy_state);
-}
-
 /* ******************************************************************************** */
 
 struct _op_status_msg {
@@ -1018,17 +965,4 @@ mail_operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer 
 	m->pc = pc;
 	m->data = data;
 	mail_msg_main_loop_push(m);
-}
-
-/* ******************** */
-
-static void
-set_stop (gint sensitive)
-{
-	static gint last = FALSE;
-
-	if (last == sensitive)
-		return;
-
-	last = sensitive;
 }
