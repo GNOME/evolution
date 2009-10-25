@@ -24,7 +24,7 @@
 #ifndef EM_VFOLDER_EDITOR_H
 #define EM_VFOLDER_EDITOR_H
 
-#include "filter/rule-editor.h"
+#include "filter/e-rule-editor.h"
 #include "em-vfolder-context.h"
 
 /* Standard GObject macros */
@@ -52,11 +52,11 @@ typedef struct _EMVFolderEditor EMVFolderEditor;
 typedef struct _EMVFolderEditorClass EMVFolderEditorClass;
 
 struct _EMVFolderEditor {
-	RuleEditor parent;
+	ERuleEditor parent;
 };
 
 struct _EMVFolderEditorClass {
-	RuleEditorClass parent_class;
+	ERuleEditorClass parent_class;
 };
 
 GType		em_vfolder_editor_get_type	(void);

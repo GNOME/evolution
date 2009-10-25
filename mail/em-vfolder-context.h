@@ -25,7 +25,7 @@
 #ifndef _EM_VFOLDER_CONTEXT_H
 #define _EM_VFOLDER_CONTEXT_H
 
-#include "filter/rule-context.h"
+#include "filter/e-rule-context.h"
 
 #define EM_VFOLDER_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_vfolder_context_get_type(), EMVFolderContext))
 #define EM_VFOLDER_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_vfolder_context_get_type(), EMVFolderContextClass))
@@ -37,12 +37,12 @@ typedef struct _EMVFolderContext EMVFolderContext;
 typedef struct _EMVFolderContextClass EMVFolderContextClass;
 
 struct _EMVFolderContext {
-	RuleContext parent_object;
+	ERuleContext parent_object;
 
 };
 
 struct _EMVFolderContextClass {
-	RuleContextClass parent_class;
+	ERuleContextClass parent_class;
 };
 
 GType em_vfolder_context_get_type (void);

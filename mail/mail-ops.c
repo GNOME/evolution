@@ -231,13 +231,13 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, FILTER_SOURCE_DEMAND, FALSE, NULL);
+	mail_filter_folder (folder, uids, E_FILTER_SOURCE_DEMAND, FALSE, NULL);
 }
 
 void
 mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, FILTER_SOURCE_JUNKTEST, FALSE, NULL);
+	mail_filter_folder (folder, uids, E_FILTER_SOURCE_JUNKTEST, FALSE, NULL);
 }
 
 /* ********************************************************************** */

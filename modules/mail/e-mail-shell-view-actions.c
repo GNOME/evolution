@@ -84,7 +84,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	MessageList *message_list;
-	FilterRule *search_rule;
+	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
 	const gchar *folder_uri;
 	const gchar *search_text;
@@ -108,8 +108,8 @@ action_mail_create_search_folder_cb (GtkAction *action,
 
 	search_rule = vfolder_clone_rule (search_rule);
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
-	filter_rule_set_source (search_rule, FILTER_SOURCE_INCOMING);
-	filter_rule_set_name (search_rule, rule_name);
+	e_filter_rule_set_source (search_rule, E_FILTER_SOURCE_INCOMING);
+	e_filter_rule_set_name (search_rule, rule_name);
 	g_free (rule_name);
 
 	vfolder_rule = EM_VFOLDER_RULE (search_rule);
@@ -969,7 +969,7 @@ action_search_quick_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	FilterRule *search_rule;
+	EFilterRule *search_rule;
 	gint value;
 
 	/* Set the search rule in EShellContent so that "Create

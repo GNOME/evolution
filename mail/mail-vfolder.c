@@ -69,7 +69,7 @@ static volatile gint shutdown;		/* are we shutting down? */
 /* more globals ... */
 extern CamelSession *session;
 
-static void rule_changed(FilterRule *rule, CamelFolder *folder);
+static void rule_changed(EFilterRule *rule, CamelFolder *folder);
 
 /* ********************************************************************** */
 
@@ -427,7 +427,7 @@ uri_is_spethal(CamelStore *store, const gchar *uri)
 void
 mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 {
-	FilterRule *rule;
+	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GList *folders = NULL, *link;
@@ -479,7 +479,7 @@ mail_vfolder_add_uri(CamelStore *store, const gchar *curi, gint remove)
 		goto done;
 
 	rule = NULL;
-	while ((rule = rule_context_next_rule((RuleContext *)context, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL))) {
 		gint found = FALSE;
 
 		if (!rule->name) {
@@ -527,7 +527,7 @@ done:
 void
 mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 {
-	FilterRule *rule;
+	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GString *changed;
@@ -552,7 +552,7 @@ mail_vfolder_delete_uri(CamelStore *store, const gchar *curi)
 
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
-	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule ((ERuleContext *) context, rule, NULL))) {
 
 		if (!rule->name) {
 			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
@@ -605,7 +605,7 @@ done:
 
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save ((RuleContext *) context, user);
+		e_rule_context_save ((ERuleContext *) context, user);
 		g_free (user);
 	}
 
@@ -618,7 +618,7 @@ done:
 void
 mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 {
-	FilterRule *rule;
+	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
 	gint changed = 0;
@@ -638,7 +638,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 
 	/* see if any rules directly reference this removed uri */
 	rule = NULL;
-	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
+	while ( (rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL)) ) {
 		source = NULL;
 		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {
 			gchar *csource = em_uri_to_camel(source);
@@ -673,7 +673,7 @@ mail_vfolder_rename_uri(CamelStore *store, const gchar *cfrom, const gchar *cto)
 		d(printf("Vfolders updated from renamed folder\n"));
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save((RuleContext *)context, user);
+		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}
 
@@ -695,7 +695,7 @@ mail_vfolder_get_sources_remote (void)
 
 /* ********************************************************************** */
 
-static void context_rule_added(RuleContext *ctx, FilterRule *rule);
+static void context_rule_added(ERuleContext *ctx, EFilterRule *rule);
 
 static void
 rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
@@ -722,7 +722,7 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 }
 
 static void
-rule_changed(FilterRule *rule, CamelFolder *folder)
+rule_changed(EFilterRule *rule, CamelFolder *folder)
 {
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
@@ -765,14 +765,14 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	G_UNLOCK (vfolder);
 
 	query = g_string_new("");
-	filter_rule_build_code(rule, query);
+	e_filter_rule_build_code(rule, query);
 
 	vfolder_setup(folder, query->str, sources_uri, sources_folder);
 
 	g_string_free(query, TRUE);
 }
 
-static void context_rule_added(RuleContext *ctx, FilterRule *rule)
+static void context_rule_added(ERuleContext *ctx, EFilterRule *rule)
 {
 	CamelFolder *folder;
 
@@ -791,7 +791,7 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 	}
 }
 
-static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
+static void context_rule_removed(ERuleContext *ctx, EFilterRule *rule)
 {
 	gpointer key, folder = NULL;
 
@@ -827,7 +827,7 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 {
 	CamelStore *store = (CamelStore *)o;
 	CamelFolderInfo *info = event_data;
-	FilterRule *rule;
+	EFilterRule *rule;
 	gchar *user;
 
 	d(printf("Folder deleted: %s\n", info->name));
@@ -838,20 +838,20 @@ store_folder_deleted(CamelObject *o, gpointer event_data, gpointer data)
 	G_LOCK (vfolder);
 
 	/* delete it from our list */
-	rule = rule_context_find_rule((RuleContext *)context, info->full_name, NULL);
+	rule = e_rule_context_find_rule((ERuleContext *)context, info->full_name, NULL);
 	if (rule) {
 		const gchar *data_dir;
 
 		/* We need to stop listening to removed events, otherwise we'll try and remove it again */
 		g_signal_handlers_disconnect_matched(context, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 						     0, NULL, context_rule_removed, context);
-		rule_context_remove_rule((RuleContext *)context, rule);
+		e_rule_context_remove_rule((ERuleContext *)context, rule);
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save((RuleContext *)context, user);
+		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	} else {
 		g_warning("Cannot find rule for deleted vfolder '%s'", info->name);
@@ -864,7 +864,7 @@ static void
 store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 {
 	CamelRenameInfo *info = event_data;
-	FilterRule *rule;
+	EFilterRule *rule;
 	gchar *user;
 
 	gpointer key, folder;
@@ -883,7 +883,7 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 		g_free (key);
 		g_hash_table_insert (vfolder_hash, g_strdup(info->new->full_name), folder);
 
-		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
+		rule = e_rule_context_find_rule((ERuleContext *)context, info->old_base, NULL);
 		if (!rule) {
 			G_UNLOCK (vfolder);
 			g_warning ("Rule shouldn't be NULL\n");
@@ -892,12 +892,12 @@ store_folder_renamed(CamelObject *o, gpointer event_data, gpointer data)
 
 		g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 						     0, NULL, rule_changed, folder);
-		filter_rule_set_name(rule, info->new->full_name);
+		e_filter_rule_set_name(rule, info->new->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save((RuleContext *)context, user);
+		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 
 		G_UNLOCK (vfolder);
@@ -915,7 +915,7 @@ vfolder_load_storage(void)
 
 	const gchar *data_dir;
 	gchar *user, *storeuri;
-	FilterRule *rule;
+	EFilterRule *rule;
 	gchar *xmlfile;
 	GConfClient *gconf;
 
@@ -954,9 +954,9 @@ vfolder_load_storage(void)
 	context = em_vfolder_context_new ();
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
-	if (rule_context_load ((RuleContext *)context,
+	if (e_rule_context_load ((ERuleContext *)context,
 			       xmlfile, user) != 0) {
-		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
+		g_warning("cannot load vfolders: %s\n", ((ERuleContext *)context)->error);
 	}
 	g_free (xmlfile);
 	g_free (user);
@@ -969,10 +969,10 @@ vfolder_load_storage(void)
 
 	/* and setup the rules we have */
 	rule = NULL;
-	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
+	while ( (rule = e_rule_context_next_rule((ERuleContext *)context, rule, NULL)) ) {
 		if (rule->name) {
 			d(printf("rule added: %s\n", rule->name));
-			context_rule_added((RuleContext *)context, rule);
+			context_rule_added((ERuleContext *)context, rule);
 		} else {
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 		}
@@ -995,7 +995,7 @@ vfolder_revert(void)
 	d(printf("vfolder_revert\n"));
 	data_dir = em_utils_get_data_dir ();
 	user = g_build_filename (data_dir, "vfolders.xml", NULL);
-	rule_context_revert((RuleContext *)context, user);
+	e_rule_context_revert((ERuleContext *)context, user);
 	g_free(user);
 }
 
@@ -1027,10 +1027,10 @@ vfolder_edit (EShellView *shell_view)
 
 	switch (gtk_dialog_run (GTK_DIALOG (dialog))) {
 		case GTK_RESPONSE_OK:
-			rule_context_save ((RuleContext *) context, filename);
+			e_rule_context_save ((ERuleContext *) context, filename);
 			break;
 		default:
-			rule_context_revert ((RuleContext *) context, filename);
+			e_rule_context_revert ((ERuleContext *) context, filename);
 			break;
 	}
 
@@ -1043,13 +1043,13 @@ edit_rule_response(GtkWidget *w, gint button, gpointer data)
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		gchar *user;
-		FilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
-		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
+		EFilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
+		EFilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
-		filter_rule_copy(orig, rule);
+		e_filter_rule_copy(orig, rule);
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save((RuleContext *)context, user);
+		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}
 
@@ -1061,16 +1061,16 @@ vfolder_edit_rule(const gchar *uri)
 {
 	GtkWidget *w;
 	GtkDialog *gd;
-	FilterRule *rule, *newrule;
+	EFilterRule *rule, *newrule;
 	CamelURL *url;
 
 	url = camel_url_new(uri, NULL);
 	if (url && url->fragment
-	    && (rule = rule_context_find_rule((RuleContext *)context, url->fragment, NULL))) {
+	    && (rule = e_rule_context_find_rule((ERuleContext *)context, url->fragment, NULL))) {
 		g_object_ref((GtkObject *)rule);
-		newrule = filter_rule_clone(rule);
+		newrule = e_filter_rule_clone(rule);
 
-		w = filter_rule_get_widget((FilterRule *)newrule, (RuleContext *)context);
+		w = e_filter_rule_get_widget((EFilterRule *)newrule, (ERuleContext *)context);
 
 		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit Search Folder"), NULL,
 							      GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1108,44 +1108,44 @@ new_rule_clicked(GtkWidget *w, gint button, gpointer data)
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		gchar *user;
-		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
+		EFilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
-		if (!filter_rule_validate (rule, GTK_WINDOW (w))) {
+		if (!e_filter_rule_validate (rule, GTK_WINDOW (w))) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 
-		if (rule_context_find_rule ((RuleContext *)context, rule->name, rule->source)) {
+		if (e_rule_context_find_rule ((ERuleContext *)context, rule->name, rule->source)) {
 			e_error_run ((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
 			return;
 		}
 
 		g_object_ref(rule);
-		rule_context_add_rule((RuleContext *)context, rule);
+		e_rule_context_add_rule((ERuleContext *)context, rule);
 		data_dir = em_utils_get_data_dir ();
 		user = g_build_filename (data_dir, "vfolders.xml", NULL);
-		rule_context_save((RuleContext *)context, user);
+		e_rule_context_save((ERuleContext *)context, user);
 		g_free(user);
 	}
 
 	gtk_widget_destroy(w);
 }
 
-FilterPart *
+EFilterPart *
 vfolder_create_part(const gchar *name)
 {
-	return rule_context_create_part((RuleContext *)context, name);
+	return e_rule_context_create_part((ERuleContext *)context, name);
 }
 
 /* clones a filter/search rule into a matching vfolder rule (assuming the same system definitions) */
-FilterRule *
-vfolder_clone_rule(FilterRule *in)
+EFilterRule *
+vfolder_clone_rule(EFilterRule *in)
 {
-	FilterRule *rule = (FilterRule *)em_vfolder_rule_new();
+	EFilterRule *rule = (EFilterRule *)em_vfolder_rule_new();
 	xmlNodePtr xml;
 
-	xml = filter_rule_xml_encode(in);
-	filter_rule_xml_decode(rule, xml, (RuleContext *)context);
+	xml = e_filter_rule_xml_encode(in);
+	e_filter_rule_xml_decode(rule, xml, (ERuleContext *)context);
 	xmlFreeNodeList(xml);
 
 	return rule;
@@ -1161,7 +1161,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 	/* this should be done before we call this function */
 	vfolder_load_storage ();
 
-	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
+	w = e_filter_rule_get_widget((EFilterRule *)rule, (ERuleContext *)context);
 
 	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New Search Folder"),
 						      NULL,

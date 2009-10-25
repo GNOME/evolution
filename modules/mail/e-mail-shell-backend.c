@@ -935,7 +935,7 @@ e_mail_shell_backend_register_type (GTypeModule *type_module)
 
 /******************* Code below here belongs elsewhere. *******************/
 
-#include "filter/filter-option.h"
+#include "filter/e-filter-option.h"
 #include "shell/e-shell-settings.h"
 #include "mail/e-mail-label-list-store.h"
 

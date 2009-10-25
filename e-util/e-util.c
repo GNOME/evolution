@@ -47,7 +47,9 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-categories.h>
-#include "filter/filter-option.h"
+
+#include "filter/e-filter-option.h"
+
 #include "e-util.h"
 #include "e-util-private.h"
 

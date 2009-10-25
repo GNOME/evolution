@@ -1,0 +1,126 @@
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
+ *
+ *
+ * Authors:
+ *		Not Zed <notzed@lostzed.mmc.com.au>
+ *      Jeffrey Stedfast <fejj@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include "e-filter-code.h"
+
+static gpointer parent_class;
+
+/* here, the string IS the code */
+static void
+filter_code_build_code (EFilterElement *element,
+                        GString *out,
+                        struct _EFilterPart *part)
+{
+	GList *l;
+	EFilterInput *fi = (EFilterInput *)element;
+	gboolean is_rawcode = fi && fi->type && g_str_equal (fi->type, "rawcode");
+
+	if (!is_rawcode)
+		g_string_append(out, "(match-all ");
+
+	l = fi->values;
+	while (l) {
+		g_string_append(out, (gchar *)l->data);
+		l = g_list_next(l);
+	}
+
+	if (!is_rawcode)
+		g_string_append (out, ")");
+}
+
+/* and we have no value */
+static void
+filter_code_format_sexp (EFilterElement *element,
+                         GString *out)
+{
+}
+
+static void
+filter_code_class_init (EFilterCodeClass *class)
+{
+	EFilterElementClass *filter_element_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
+	filter_element_class->build_code = filter_code_build_code;
+	filter_element_class->format_sexp = filter_code_format_sexp;
+}
+
+static void
+filter_code_init (EFilterCode *code)
+{
+	EFilterInput *input = E_FILTER_INPUT (code);
+
+	input->type = (gchar *) xmlStrdup ((xmlChar *) "code");
+}
+
+GType
+e_filter_code_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EFilterCodeClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) filter_code_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EFilterCode),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) filter_code_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			E_TYPE_FILTER_INPUT, "EFilterCode", &type_info, 0);
+	}
+
+	return type;
+}
+
+/**
+ * filter_code_new:
+ *
+ * Create a new EFilterCode object.
+ *
+ * Return value: A new #EFilterCode object.
+ **/
+EFilterCode *
+e_filter_code_new (gboolean raw_code)
+{
+	EFilterCode *fc = g_object_new (E_TYPE_FILTER_CODE, NULL, NULL);
+
+	if (fc && raw_code) {
+		xmlFree (((EFilterInput *) fc)->type);
+		((EFilterInput *) fc)->type = (gchar *)xmlStrdup ((xmlChar *)"rawcode");
+	}
+
+	return fc;
+}

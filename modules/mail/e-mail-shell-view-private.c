@@ -347,8 +347,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellWindow *shell_window;
 	EMFormatHTMLDisplay *html_display;
 	EMFolderTree *folder_tree;
-	RuleContext *context;
-	FilterRule *rule = NULL;
+	ERuleContext *context;
+	EFilterRule *rule = NULL;
 	GtkTreeSelection *selection;
 	GtkTreeModel *tree_model;
 	GtkUIManager *ui_manager;
@@ -489,8 +489,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	 * Keep the assertions, please.  If the conditions aren't
 	 * met we're going to crash anyway, just more mysteriously. */
 	context = e_shell_content_get_search_context (shell_content);
-	source = FILTER_SOURCE_DEMAND;
-	while ((rule = rule_context_next_rule (context, rule, source))) {
+	source = E_FILTER_SOURCE_DEMAND;
+	while ((rule = e_rule_context_next_rule (context, rule, source))) {
 		g_assert (ii < MAIL_NUM_SEARCH_RULES);
 		priv->search_rules[ii++] = g_object_ref (rule);
 	}
@@ -592,11 +592,11 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	folder = message_list->folder;
 
 	if (em_utils_folder_is_sent (folder, folder_uri))
-		filter_source = FILTER_SOURCE_OUTGOING;
+		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else if (em_utils_folder_is_outbox (folder, folder_uri))
-		filter_source = FILTER_SOURCE_OUTGOING;
+		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
-		filter_source = FILTER_SOURCE_INCOMING;
+		filter_source = E_FILTER_SOURCE_INCOMING;
 
 	uids = message_list_get_selected (message_list);
 

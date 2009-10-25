@@ -25,7 +25,7 @@
 #ifndef EM_SEARCH_CONTEXT_H
 #define EM_SEARCH_CONTEXT_H
 
-#include <filter/rule-context.h>
+#include <filter/e-rule-context.h>
 
 /* Standard GObject macros */
 #define EM_SEARCH_TYPE_CONTEXT \
@@ -52,15 +52,15 @@ typedef struct _EMSearchContext EMSearchContext;
 typedef struct _EMSearchContextClass EMSearchContextClass;
 
 struct _EMSearchContext {
-	RuleContext parent;
+	ERuleContext parent;
 };
 
 struct _EMSearchContextClass {
-	RuleContextClass parent_class;
+	ERuleContextClass parent_class;
 };
 
 GType		em_search_context_get_type	(void);
-RuleContext *	em_search_context_new		(void);
+ERuleContext *	em_search_context_new		(void);
 
 G_END_DECLS
 

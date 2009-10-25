@@ -38,16 +38,16 @@
 
 static gpointer parent_class;
 
-static FilterRule *
-vfolder_editor_create_rule (RuleEditor *rule_editor)
+static EFilterRule *
+vfolder_editor_create_rule (ERuleEditor *rule_editor)
 {
-	FilterRule *rule = filter_rule_new ();
-	FilterPart *part;
+	EFilterRule *rule = e_filter_rule_new ();
+	EFilterPart *part;
 
 	/* create a rule with 1 part in it */
-	rule = (FilterRule *) em_vfolder_rule_new ();
-	part = rule_context_next_part (rule_editor->context, NULL);
-	filter_rule_add_part (rule, filter_part_clone (part));
+	rule = (EFilterRule *) em_vfolder_rule_new ();
+	part = e_rule_context_next_part (rule_editor->context, NULL);
+	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 
 	return rule;
 }
@@ -55,11 +55,11 @@ vfolder_editor_create_rule (RuleEditor *rule_editor)
 static void
 vfolder_editor_class_init (EMVFolderEditorClass *class)
 {
-	RuleEditorClass *rule_editor_class;
+	ERuleEditorClass *rule_editor_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	rule_editor_class = RULE_EDITOR_CLASS (class);
+	rule_editor_class = E_RULE_EDITOR_CLASS (class);
 	rule_editor_class->create_rule = vfolder_editor_create_rule;
 }
 
@@ -96,7 +96,7 @@ em_vfolder_editor_get_type (void)
 		};
 
 		type = g_type_register_static (
-			RULE_TYPE_EDITOR, "EMVFolderEditor", &type_info, 0);
+			E_TYPE_RULE_EDITOR, "EMVFolderEditor", &type_info, 0);
 	}
 
 	return type;
@@ -123,7 +123,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
 	gui = glade_xml_new (gladefile, "rule_editor", NULL);
 	g_free (gladefile);
 
-	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, "incoming", _("Search _Folders"));
+	e_rule_editor_construct ((ERuleEditor *) ve, (ERuleContext *) vc, gui, "incoming", _("Search _Folders"));
 	gtk_widget_hide (glade_xml_get_widget (gui, "label17"));
 	gtk_widget_hide (glade_xml_get_widget (gui, "filter_source_combobox"));
 	g_object_unref (gui);

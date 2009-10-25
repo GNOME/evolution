@@ -24,7 +24,7 @@
 #ifndef _EM_FILTER_SOURCE_ELEMENT_H
 #define _EM_FILTER_SOURCE_ELEMENT_H
 
-#include "filter/filter-element.h"
+#include "filter/e-filter-element.h"
 
 #define EM_FILTER_SOURCE_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_source_element_get_type(), EMFilterSourceElement))
 #define EM_FILTER_SOURCE_ELEMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_source_element_get_type(), EMFilterSourceElementClass))
@@ -36,12 +36,12 @@ typedef struct _EMFilterSourceElement EMFilterSourceElement;
 typedef struct _EMFilterSourceElementClass EMFilterSourceElementClass;
 
 struct _EMFilterSourceElement {
-	FilterElement parent_object;
+	EFilterElement parent_object;
 	struct _EMFilterSourceElementPrivate *priv;
 };
 
 struct _EMFilterSourceElementClass {
-	FilterElementClass parent_class;
+	EFilterElementClass parent_class;
 };
 
 GType em_filter_source_element_get_type (void);

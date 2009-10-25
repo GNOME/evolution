@@ -30,7 +30,7 @@
 #include <camel/camel-vee-store.h>
 
 #include "e-util/e-error.h"
-#include "filter/filter-rule.h"
+#include "filter/e-filter-rule.h"
 
 #include "mail/e-mail-browser.h"
 #include "mail/em-composer-utils.h"
@@ -509,11 +509,11 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 	folder_uri = message_list->folder_uri;
 
 	if (em_utils_folder_is_sent (folder, folder_uri))
-		filter_source = FILTER_SOURCE_OUTGOING;
+		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else if (em_utils_folder_is_outbox (folder, folder_uri))
-		filter_source = FILTER_SOURCE_OUTGOING;
+		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
-		filter_source = FILTER_SOURCE_INCOMING;
+		filter_source = E_FILTER_SOURCE_INCOMING;
 
 	uids = message_list_get_selected (message_list);
 

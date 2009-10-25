@@ -702,7 +702,7 @@ static void
 action_custom_rule_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
-	FilterRule *rule;
+	EFilterRule *rule;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	const gchar *view_name;
@@ -715,7 +715,7 @@ action_custom_rule_cb (GtkAction *action,
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	rule = g_object_get_data (G_OBJECT (action), "rule");
-	g_return_if_fail (IS_FILTER_RULE (rule));
+	g_return_if_fail (E_IS_FILTER_RULE (rule));
 
 	e_shell_content_set_search_rule (shell_content, rule);
 
@@ -2231,8 +2231,8 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
-	RuleContext *context;
-	FilterRule *rule;
+	ERuleContext *context;
+	EFilterRule *rule;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	const gchar *source;
@@ -2247,7 +2247,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	context = e_shell_content_get_search_context (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	source = FILTER_SOURCE_INCOMING;
+	source = E_FILTER_SOURCE_INCOMING;
 
 	/* Update sensitivity of search actions. */
 
@@ -2267,7 +2267,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
 
-	rule = rule_context_next_rule (context, NULL, source);
+	rule = e_rule_context_next_rule (context, NULL, source);
 	while (rule != NULL) {
 		GtkAction *action;
 		gchar *action_name;
@@ -2304,6 +2304,6 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 		g_free (action_name);
 		g_free (action_label);
 
-		rule = rule_context_next_rule (context, rule, source);
+		rule = e_rule_context_next_rule (context, rule, source);
 	}
 }

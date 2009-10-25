@@ -25,7 +25,7 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-util.h"
-#include "filter/rule-editor.h"
+#include "filter/e-rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
 
@@ -45,8 +45,8 @@ struct _EShellContentPrivate {
 
 	gpointer shell_view;  /* weak pointer */
 
-	RuleContext *search_context;
-	FilterRule *search_rule;
+	ERuleContext *search_context;
+	EFilterRule *search_rule;
 	gchar *system_filename;
 	gchar *user_filename;
 
@@ -81,7 +81,7 @@ static gpointer parent_class;
 
 static void
 shell_content_dialog_rule_changed (GtkWidget *dialog,
-                                   FilterRule *rule)
+                                   EFilterRule *rule)
 {
 	gboolean sensitive;
 
@@ -264,9 +264,9 @@ shell_content_init_search_context (EShellContent *shell_content)
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	EShellBackend *shell_backend;
-	RuleContext *context;
-	FilterRule *rule;
-	FilterPart *part;
+	ERuleContext *context;
+	EFilterRule *rule;
+	EFilterPart *part;
 	gchar *system_filename;
 	gchar *user_filename;
 
@@ -291,13 +291,13 @@ shell_content_init_search_context (EShellContent *shell_content)
 		"searches.xml", NULL);
 
 	context = shell_content_class->new_search_context ();
-	rule_context_add_part_set (
-		context, "partset", FILTER_TYPE_PART,
-		rule_context_add_part, rule_context_next_part);
-	rule_context_add_rule_set (
-		context, "ruleset", FILTER_TYPE_RULE,
-		rule_context_add_rule, rule_context_next_rule);
-	rule_context_load (context, system_filename, user_filename);
+	e_rule_context_add_part_set (
+		context, "partset", E_TYPE_FILTER_PART,
+		e_rule_context_add_part, e_rule_context_next_part);
+	e_rule_context_add_rule_set (
+		context, "ruleset", E_TYPE_FILTER_RULE,
+		e_rule_context_add_rule, e_rule_context_next_rule);
+	e_rule_context_load (context, system_filename, user_filename);
 
 	/* XXX Not sure why this is necessary. */
 	g_object_set_data_full (
@@ -307,14 +307,14 @@ shell_content_init_search_context (EShellContent *shell_content)
 		G_OBJECT (context), "user",
 		g_strdup (user_filename), g_free);
 
-	rule = filter_rule_new ();
-	part = rule_context_next_part (context, NULL);
+	rule = e_filter_rule_new ();
+	part = e_rule_context_next_part (context, NULL);
 	if (part == NULL)
 		g_warning (
 			"Could not load %s search: no parts",
 			e_shell_view_get_name (shell_view));
 	else
-		filter_rule_add_part (rule, filter_part_clone (part));
+		e_filter_rule_add_part (rule, e_filter_part_clone (part));
 
 	shell_content->priv->search_context = context;
 	shell_content->priv->system_filename = system_filename;
@@ -701,7 +701,7 @@ shell_content_class_init (EShellContentClass *class)
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->forall = shell_content_forall;
 
-	class->new_search_context = rule_context_new;
+	class->new_search_context = e_rule_context_new;
 
 	g_object_class_install_property (
 		object_class,
@@ -743,7 +743,7 @@ shell_content_class_init (EShellContentClass *class)
 			"search-context",
 			NULL,
 			NULL,
-			RULE_TYPE_CONTEXT,
+			E_TYPE_RULE_CONTEXT,
 			G_PARAM_READABLE));
 
 	g_object_class_install_property (
@@ -763,7 +763,7 @@ shell_content_class_init (EShellContentClass *class)
 			"search-rule",
 			NULL,
 			NULL,
-			FILTER_TYPE_RULE,
+			E_TYPE_FILTER_RULE,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1138,7 +1138,7 @@ e_shell_content_add_filter_separator_after (EShellContent *shell_content,
 	e_action_combo_box_add_separator_after (combo_box, action_value);
 }
 
-RuleContext *
+ERuleContext *
 e_shell_content_get_search_context (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
@@ -1173,7 +1173,7 @@ e_shell_content_set_search_hint (EShellContent *shell_content,
 	g_object_notify (G_OBJECT (shell_content), "search-hint");
 }
 
-FilterRule *
+EFilterRule *
 e_shell_content_get_search_rule (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
@@ -1183,12 +1183,12 @@ e_shell_content_get_search_rule (EShellContent *shell_content)
 
 void
 e_shell_content_set_search_rule (EShellContent *shell_content,
-                                 FilterRule *search_rule)
+                                 EFilterRule *search_rule)
 {
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
 	if (search_rule != NULL) {
-		g_return_if_fail (IS_FILTER_RULE (search_rule));
+		g_return_if_fail (E_IS_FILTER_RULE (search_rule));
 		g_object_ref (search_rule);
 	}
 
@@ -1336,8 +1336,8 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	EShellWindow *shell_window;
 	GtkWidget *dialog;
 	GtkWidget *widget;
-	FilterRule *rule;
-	RuleContext *context;
+	EFilterRule *rule;
+	ERuleContext *context;
 	const gchar *user_filename;
 	gint response;
 
@@ -1350,13 +1350,13 @@ e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
 	rule = e_shell_content_get_search_rule (shell_content);
 
 	if (rule == NULL)
-		rule = filter_rule_new ();
+		rule = e_filter_rule_new ();
 	else
-		rule = filter_rule_clone (rule);
+		rule = e_filter_rule_clone (rule);
 
 	context = e_shell_content_get_search_context (shell_content);
-	widget = filter_rule_get_widget (rule, context);
-	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	widget = e_filter_rule_get_widget (rule, context);
+	e_filter_rule_set_source (rule, E_FILTER_SOURCE_INCOMING);
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Advanced Search"), GTK_WINDOW (shell_window),
@@ -1384,7 +1384,7 @@ run:
 	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
 		goto exit;
 
-	if (!filter_rule_validate (rule, GTK_WINDOW (dialog)))
+	if (!e_filter_rule_validate (rule, GTK_WINDOW (dialog)))
 		goto run;
 
 	e_shell_content_set_search_rule (shell_content, rule);
@@ -1392,9 +1392,9 @@ run:
 	e_shell_view_execute_search (shell_view);
 
 	if (response == GTK_RESPONSE_APPLY) {
-		if (!rule_context_find_rule (context, rule->name, rule->source))
-			rule_context_add_rule (context, rule);
-		rule_context_save (context, user_filename);
+		if (!e_rule_context_find_rule (context, rule->name, rule->source))
+			e_rule_context_add_rule (context, rule);
+		e_rule_context_save (context, user_filename);
 		goto run;
 	}
 
@@ -1406,8 +1406,8 @@ exit:
 void
 e_shell_content_run_edit_searches_dialog (EShellContent *shell_content)
 {
-	RuleContext *context;
-	RuleEditor *editor;
+	ERuleContext *context;
+	ERuleEditor *editor;
 	const gchar *user_filename;
 
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
@@ -1415,12 +1415,12 @@ e_shell_content_run_edit_searches_dialog (EShellContent *shell_content)
 	context = e_shell_content_get_search_context (shell_content);
 	user_filename = shell_content->priv->user_filename;
 
-	editor = rule_editor_new (
-		context, FILTER_SOURCE_INCOMING, _("Searches"));
+	editor = e_rule_editor_new (
+		context, E_FILTER_SOURCE_INCOMING, _("Searches"));
 	gtk_window_set_title (GTK_WINDOW (editor), _("Searches"));
 
 	if (gtk_dialog_run (GTK_DIALOG (editor)) == GTK_RESPONSE_OK)
-		rule_context_save (context, user_filename);
+		e_rule_context_save (context, user_filename);
 
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
@@ -1432,8 +1432,8 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	EShellWindow *shell_window;
 	GtkWidget *dialog;
 	GtkWidget *widget;
-	FilterRule *rule;
-	RuleContext *context;
+	EFilterRule *rule;
+	ERuleContext *context;
 	const gchar *search_text;
 	const gchar *user_filename;
 	gchar *search_name;
@@ -1446,20 +1446,20 @@ e_shell_content_run_save_search_dialog (EShellContent *shell_content)
 	user_filename = shell_content->priv->user_filename;
 
 	rule = e_shell_content_get_search_rule (shell_content);
-	g_return_if_fail (IS_FILTER_RULE (rule));
-	rule = filter_rule_clone (rule);
+	g_return_if_fail (E_IS_FILTER_RULE (rule));
+	rule = e_filter_rule_clone (rule);
 
 	search_text = e_shell_content_get_search_text (shell_content);
 	if (search_text == NULL || *search_text == '\0')
 		search_text = "''";
 
 	search_name = g_strdup_printf ("%s %s", rule->name, search_text);
-	filter_rule_set_name (rule, search_name);
+	e_filter_rule_set_name (rule, search_name);
 	g_free (search_name);
 
 	context = e_shell_content_get_search_context (shell_content);
-	widget = filter_rule_get_widget (rule, context);
-	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	widget = e_filter_rule_get_widget (rule, context);
+	e_filter_rule_set_source (rule, E_FILTER_SOURCE_INCOMING);
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Save Search"), GTK_WINDOW (shell_window),
@@ -1486,11 +1486,11 @@ run:
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
 
-	if (!filter_rule_validate (rule, GTK_WINDOW (dialog)))
+	if (!e_filter_rule_validate (rule, GTK_WINDOW (dialog)))
 		goto run;
 
-	rule_context_add_rule (context, rule);
-	rule_context_save (context, user_filename);
+	e_rule_context_add_rule (context, rule);
+	e_rule_context_save (context, user_filename);
 
 exit:
 	g_object_unref (rule);

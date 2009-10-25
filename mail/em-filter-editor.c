@@ -36,20 +36,20 @@
 
 static gpointer parent_class;
 
-static FilterRule *
-filter_editor_create_rule (RuleEditor *rule_editor)
+static EFilterRule *
+filter_editor_create_rule (ERuleEditor *rule_editor)
 {
-	FilterRule *rule = filter_rule_new ();
-	FilterPart *part;
+	EFilterRule *rule = e_filter_rule_new ();
+	EFilterPart *part;
 
 	/* create a rule with 1 part & 1 action in it */
-	rule = (FilterRule *)em_filter_rule_new ();
-	part = rule_context_next_part (rule_editor->context, NULL);
-	filter_rule_add_part (rule, filter_part_clone (part));
+	rule = (EFilterRule *)em_filter_rule_new ();
+	part = e_rule_context_next_part (rule_editor->context, NULL);
+	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 	part = em_filter_context_next_action (
 		(EMFilterContext *)rule_editor->context, NULL);
 	em_filter_rule_add_action (
-		(EMFilterRule *)rule, filter_part_clone (part));
+		(EMFilterRule *)rule, e_filter_part_clone (part));
 
 	return rule;
 }
@@ -57,11 +57,11 @@ filter_editor_create_rule (RuleEditor *rule_editor)
 static void
 filter_editor_class_init (EMFilterEditorClass *class)
 {
-	RuleEditorClass *rule_editor_class;
+	ERuleEditorClass *rule_editor_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	rule_editor_class = RULE_EDITOR_CLASS (class);
+	rule_editor_class = E_RULE_EDITOR_CLASS (class);
 	rule_editor_class->create_rule = filter_editor_create_rule;
 }
 
@@ -98,7 +98,7 @@ em_filter_editor_get_type (void)
 		};
 
 		type = g_type_register_static (
-			RULE_TYPE_EDITOR, "EMFilterEditor", &type_info, 0);
+			E_TYPE_RULE_EDITOR, "EMFilterEditor", &type_info, 0);
 	}
 
 	return type;
@@ -158,7 +158,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 	source = (gchar *) (g_slist_nth (sources, idx))->data;
 	g_return_if_fail (source);
 
-	rule_editor_set_source ((RuleEditor *)fe, source);
+	e_rule_editor_set_source ((ERuleEditor *)fe, source);
 }
 
 void
@@ -185,9 +185,9 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	g_object_set_data_full (G_OBJECT (combobox), "sources", sources, free_sources);
 	gtk_widget_show (combobox);
 
-	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
+	e_rule_editor_construct ((ERuleEditor *) fe, (ERuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
 
 	/* Show the Enabled column, we support it here */
-	column = gtk_tree_view_get_column (GTK_TREE_VIEW (RULE_EDITOR (fe)->list), 0);
+	column = gtk_tree_view_get_column (GTK_TREE_VIEW (E_RULE_EDITOR (fe)->list), 0);
 	gtk_tree_view_column_set_visible (column, TRUE);
 }

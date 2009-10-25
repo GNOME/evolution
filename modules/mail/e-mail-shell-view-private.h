@@ -35,7 +35,7 @@
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "e-util/e-account-utils.h"
-#include "filter/filter-part.h"
+#include "filter/e-filter-part.h"
 #include "widgets/misc/e-web-view.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
@@ -137,7 +137,7 @@ struct _EMailShellViewPrivate {
 	guint label_merge_id;
 
 	/* Filter rules correspond to the search entry menu. */
-	FilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
+	EFilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
 
 	guint show_deleted : 1;
 };

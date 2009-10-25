@@ -25,7 +25,7 @@
 #ifndef _EM_FILTER_CONTEXT_H
 #define _EM_FILTER_CONTEXT_H
 
-#include "filter/rule-context.h"
+#include "filter/e-rule-context.h"
 
 #define EM_TYPE_FILTER_CONTEXT            (em_filter_context_get_type ())
 #define EM_FILTER_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_CONTEXT, EMFilterContext))
@@ -38,22 +38,22 @@ typedef struct _EMFilterContext EMFilterContext;
 typedef struct _EMFilterContextClass EMFilterContextClass;
 
 struct _EMFilterContext {
-	RuleContext parent_object;
+	ERuleContext parent_object;
 
 	GList *actions;
 };
 
 struct _EMFilterContextClass {
-	RuleContextClass parent_class;
+	ERuleContextClass parent_class;
 };
 
 GType em_filter_context_get_type (void);
 EMFilterContext *em_filter_context_new (void);
 
 /* methods */
-void em_filter_context_add_action (EMFilterContext *fc, FilterPart *action);
-FilterPart *em_filter_context_find_action (EMFilterContext *fc, const gchar *name);
-FilterPart *em_filter_context_create_action (EMFilterContext *fc, const gchar *name);
-FilterPart *em_filter_context_next_action (EMFilterContext *fc, FilterPart *last);
+void em_filter_context_add_action (EMFilterContext *fc, EFilterPart *action);
+EFilterPart *em_filter_context_find_action (EMFilterContext *fc, const gchar *name);
+EFilterPart *em_filter_context_create_action (EMFilterContext *fc, const gchar *name);
+EFilterPart *em_filter_context_next_action (EMFilterContext *fc, EFilterPart *last);
 
 #endif /* ! _EM_FILTER_CONTEXT_H */

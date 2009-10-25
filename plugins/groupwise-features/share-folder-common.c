@@ -37,7 +37,7 @@
 #include <mail/mail-config.h>
 #include <mail/mail-vfolder.h>
 #include <mail/em-vfolder-rule.h>
-#include <filter/filter-rule.h>
+#include <filter/e-filter-rule.h>
 #include <camel/camel-store.h>
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
@@ -276,7 +276,7 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 		vfolder_load_storage ();
 
 		rule = em_vfolder_rule_new();
-		filter_rule_set_name((FilterRule *)rule, path);
+		e_filter_rule_set_name((EFilterRule *)rule, path);
 		vfolder_gui_add_rule(rule);
 		gtk_widget_destroy((GtkWidget *)emfs);
 	} else {

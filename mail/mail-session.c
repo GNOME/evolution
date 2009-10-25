@@ -506,19 +506,19 @@ static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const gchar *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
-	FilterRule *rule = NULL;
+	EFilterRule *rule = NULL;
 	const gchar *data_dir;
 	gchar *user, *system;
 	GConfClient *gconf;
-	RuleContext *fc;
+	ERuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
 
 	data_dir = e_shell_backend_get_data_dir (session_shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	fc = (RuleContext *) em_filter_context_new ();
-	rule_context_load (fc, system, user);
+	fc = (ERuleContext *) em_filter_context_new ();
+	e_rule_context_load (fc, system, user);
 	g_free (system);
 	g_free (user);
 
@@ -546,23 +546,23 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
-	if ((!strcmp (type, FILTER_SOURCE_INCOMING) || !strcmp (type, FILTER_SOURCE_JUNKTEST))
+	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) || !strcmp (type, E_FILTER_SOURCE_JUNKTEST))
 	    && camel_session_check_junk (session)) {
 		/* implicit junk check as 1st rule */
 		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	}
 
-	if (strcmp (type, FILTER_SOURCE_JUNKTEST) != 0) {
+	if (strcmp (type, E_FILTER_SOURCE_JUNKTEST) != 0) {
 		GString *fsearch, *faction;
 
 		fsearch = g_string_new ("");
 		faction = g_string_new ("");
 
-		if (!strcmp (type, FILTER_SOURCE_DEMAND))
-			type = FILTER_SOURCE_INCOMING;
+		if (!strcmp (type, E_FILTER_SOURCE_DEMAND))
+			type = E_FILTER_SOURCE_INCOMING;
 
 		/* add the user-defined rules next */
-		while ((rule = rule_context_next_rule (fc, rule, type))) {
+		while ((rule = e_rule_context_next_rule (fc, rule, type))) {
 			g_string_truncate (fsearch, 0);
 			g_string_truncate (faction, 0);
 
@@ -570,7 +570,7 @@ main_get_filter_driver (CamelSession *session, const gchar *type, CamelException
 			if (!rule->enabled)
 				continue;
 
-			filter_rule_build_code (rule, fsearch);
+			e_filter_rule_build_code (rule, fsearch);
 			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
 			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
 		}

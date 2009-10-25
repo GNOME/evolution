@@ -29,7 +29,7 @@
 #include <table/e-cell-date.h>
 #include <misc/e-gui-utils.h>
 #include <widgets/menus/gal-view-factory-etable.h>
-#include <filter/rule-editor.h>
+#include <filter/e-rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <shell/e-shell-sidebar.h>
 

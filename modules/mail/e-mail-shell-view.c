@@ -92,7 +92,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMFormatHTMLDisplay *html_display;
 	EMailShellContent *mail_shell_content;
 	MessageList *message_list;
-	FilterRule *rule;
+	EFilterRule *rule;
 	EMailReader *reader;
 	CamelFolder *folder;
 	GtkAction *action;
@@ -169,17 +169,17 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	rule = priv->search_rules[value];
 
 	for (iter = rule->parts; iter != NULL; iter = iter->next) {
-		FilterPart *part = iter->data;
-		FilterElement *element = NULL;
+		EFilterPart *part = iter->data;
+		EFilterElement *element = NULL;
 
 		if (strcmp (part->name, "subject") == 0)
-			element = filter_part_find_element (part, "subject");
+			element = e_filter_part_find_element (part, "subject");
 		else if (strcmp (part->name, "body") == 0)
-			element = filter_part_find_element (part, "word");
+			element = e_filter_part_find_element (part, "word");
 		else if (strcmp (part->name, "sender") == 0)
-			element = filter_part_find_element (part, "sender");
+			element = e_filter_part_find_element (part, "sender");
 		else if (strcmp (part->name, "to") == 0)
-			element = filter_part_find_element (part, "recipient");
+			element = e_filter_part_find_element (part, "recipient");
 
 		if (strcmp (part->name, "body") == 0) {
 			struct _camel_search_words *words;
@@ -194,13 +194,13 @@ mail_shell_view_execute_search (EShellView *shell_view)
 		}
 
 		if (element != NULL) {
-			FilterInput *input = FILTER_INPUT (element);
-			filter_input_set_value (input, text);
+			EFilterInput *input = E_FILTER_INPUT (element);
+			e_filter_input_set_value (input, text);
 		}
 	}
 
 	string = g_string_sized_new (1024);
-	filter_rule_build_code (rule, string);
+	e_filter_rule_build_code (rule, string);
 	query = g_string_free (string, FALSE);
 
 filter:

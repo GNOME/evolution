@@ -33,34 +33,25 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
+#include <libedataserver/e-sexp.h>
 
-#include "filter-datespec.h"
-#include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+
+#include "e-filter-datespec.h"
+#include "e-filter-part.h"
 
 #ifdef G_OS_WIN32
 #define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
 #endif
 
+#define E_FILTER_DATESPEC_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate))
+
 #define d(x)
 
-static gboolean validate (FilterElement *fe, GtkWindow *error_parent);
-static gint date_eq (FilterElement *fe, FilterElement *cm);
-static void xml_create (FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode (FilterElement *fe);
-static gint xml_decode (FilterElement *fe, xmlNodePtr node);
-static GtkWidget *get_widget (FilterElement *fe);
-static void build_code (FilterElement *fe, GString *out, struct _FilterPart *fds);
-static void format_sexp (FilterElement *, GString *);
-
-static void filter_datespec_class_init (FilterDatespecClass *klass);
-static void filter_datespec_init (FilterDatespec *fd);
-static void filter_datespec_finalise (GObject *obj);
-
-#define PRIV(x) (((FilterDatespec *)(x))->priv)
-
-typedef struct _timespan {
+typedef struct {
 	guint32 seconds;
 	const gchar *past_singular;
 	const gchar *past_plural;
@@ -92,171 +83,14 @@ static const timespan timespans[] = {
 
 #define DAY_INDEX 3
 
-struct _FilterDatespecPrivate {
+struct _EFilterDatespecPrivate {
 	GtkWidget *label_button;
 	GtkWidget *notebook_type, *combobox_type, *calendar_specify, *spin_relative, *combobox_relative, *combobox_past_future;
-	FilterDatespec_type type;
+	EFilterDatespecType type;
 	gint span;
 };
 
-static FilterElementClass *parent_class;
-
-GType
-filter_datespec_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (FilterDatespecClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) filter_datespec_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (FilterDatespec),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) filter_datespec_init,
-		};
-
-		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterDatespec", &info, 0);
-	}
-
-	return type;
-}
-
-static void
-filter_datespec_class_init (FilterDatespecClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
-
-	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
-
-	object_class->finalize = filter_datespec_finalise;
-
-	/* override methods */
-	fe_class->validate = validate;
-	fe_class->eq = date_eq;
-	fe_class->xml_create = xml_create;
-	fe_class->xml_encode = xml_encode;
-	fe_class->xml_decode = xml_decode;
-	fe_class->get_widget = get_widget;
-	fe_class->build_code = build_code;
-	fe_class->format_sexp = format_sexp;
-}
-
-static void
-filter_datespec_init (FilterDatespec *fd)
-{
-	fd->priv = g_malloc0 (sizeof (*fd->priv));
-	fd->type = FDST_UNKNOWN;
-}
-
-static void
-filter_datespec_finalise (GObject *obj)
-{
-	FilterDatespec *fd = (FilterDatespec *) obj;
-
-	g_free (fd->priv);
-
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-/**
- * filter_datespec_new:
- *
- * Create a new FilterDatespec object.
- *
- * Return value: A new #FilterDatespec object.
- **/
-FilterDatespec *
-filter_datespec_new (void)
-{
-	return (FilterDatespec *) g_object_new (FILTER_TYPE_DATESPEC, NULL, NULL);
-}
-
-static gboolean
-validate (FilterElement *fe, GtkWindow *error_parent)
-{
-	FilterDatespec *fds = (FilterDatespec *) fe;
-	gboolean valid;
-
-	valid = fds->type != FDST_UNKNOWN;
-	if (!valid) {
-		e_error_run (error_parent, "filter:no-date", NULL);
-	}
-
-	return valid;
-}
-
-static gint
-date_eq (FilterElement *fe, FilterElement *cm)
-{
-	FilterDatespec *fd = (FilterDatespec *)fe, *cd = (FilterDatespec *)cm;
-
-        return FILTER_ELEMENT_CLASS (parent_class)->eq(fe, cm)
-		&& (fd->type == cd->type)
-		&& (fd->value == cd->value);
-}
-
-static void
-xml_create (FilterElement *fe, xmlNodePtr node)
-{
-	/* parent implementation */
-        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
-}
-
-static xmlNodePtr
-xml_encode (FilterElement *fe)
-{
-	xmlNodePtr value, work;
-	FilterDatespec *fds = (FilterDatespec *)fe;
-	gchar str[32];
-
-	d(printf ("Encoding datespec as xml\n"));
-
-	value = xmlNewNode (NULL, (const guchar *)"value");
-	xmlSetProp (value, (const guchar *)"name", (guchar *)fe->name);
-	xmlSetProp (value, (const guchar *)"type", (const guchar *)"datespec");
-
-	work = xmlNewChild (value, NULL, (const guchar *)"datespec", NULL);
-	sprintf (str, "%d", fds->type);
-	xmlSetProp (work, (const guchar *)"type", (guchar *)str);
-	sprintf (str, "%d", (gint)fds->value);
-	xmlSetProp (work, (const guchar *)"value", (guchar *)str);
-
-	return value;
-}
-
-static gint
-xml_decode (FilterElement *fe, xmlNodePtr node)
-{
-	FilterDatespec *fds = (FilterDatespec *)fe;
-	xmlNodePtr n;
-	xmlChar *val;
-
-	d(printf ("Decoding datespec from xml %p\n", fe));
-
-	xmlFree (fe->name);
-	fe->name = (gchar *)xmlGetProp (node, (const guchar *)"name");
-
-	n = node->children;
-	while (n) {
-		if (!strcmp ((gchar *)n->name, "datespec")) {
-			val = xmlGetProp (n, (const guchar *)"type");
-			fds->type = atoi ((gchar *)val);
-			xmlFree (val);
-			val = xmlGetProp (n, (const guchar *)"value");
-			fds->value = atoi ((gchar *)val);
-			xmlFree (val);
-			break;
-		}
-		n = n->next;
-	}
-
-	return 0;
-}
+static gpointer parent_class;
 
 static gint
 get_best_span (time_t val)
@@ -273,7 +107,7 @@ get_best_span (time_t val)
 
 /* sets button label */
 static void
-set_button (FilterDatespec *fds)
+set_button (EFilterDatespec *fds)
 {
 	gchar buf[128];
 	gchar *label = buf;
@@ -320,9 +154,9 @@ set_button (FilterDatespec *fds)
 }
 
 static void
-get_values (FilterDatespec *fds)
+get_values (EFilterDatespec *fds)
 {
-	struct _FilterDatespecPrivate *p = PRIV(fds);
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 
 	switch (fds->priv->type) {
 	case FDST_SPECIFIED: {
@@ -353,11 +187,11 @@ get_values (FilterDatespec *fds)
 }
 
 static void
-set_values (FilterDatespec *fds)
+set_values (EFilterDatespec *fds)
 {
 	gint note_type;
 
-	struct _FilterDatespecPrivate *p = PRIV(fds);
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
 
@@ -396,20 +230,20 @@ set_values (FilterDatespec *fds)
 }
 
 static void
-set_combobox_type (GtkComboBox *combobox, FilterDatespec *fds)
+set_combobox_type (GtkComboBox *combobox, EFilterDatespec *fds)
 {
 	fds->priv->type = gtk_combo_box_get_active (combobox);
 	gtk_notebook_set_current_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
 }
 
 static void
-set_combobox_relative (GtkComboBox *combobox, FilterDatespec *fds)
+set_combobox_relative (GtkComboBox *combobox, EFilterDatespec *fds)
 {
 	fds->priv->span = gtk_combo_box_get_active (combobox);
 }
 
 static void
-set_combobox_past_future (GtkComboBox *combobox, FilterDatespec *fds)
+set_combobox_past_future (GtkComboBox *combobox, EFilterDatespec *fds)
 {
 	if (gtk_combo_box_get_active (combobox) == 0)
 		fds->type = fds->priv->type = FDST_X_AGO;
@@ -418,9 +252,9 @@ set_combobox_past_future (GtkComboBox *combobox, FilterDatespec *fds)
 }
 
 static void
-button_clicked (GtkButton *button, FilterDatespec *fds)
+button_clicked (GtkButton *button, EFilterDatespec *fds)
 {
-	struct _FilterDatespecPrivate *p = PRIV(fds);
+	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
 	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
@@ -465,10 +299,92 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	gtk_widget_destroy ((GtkWidget *)dialog);
 }
 
-static GtkWidget *
-get_widget (FilterElement *fe)
+static gboolean
+filter_datespec_validate (EFilterElement *element,
+                          GtkWindow *error_parent)
 {
-	FilterDatespec *fds = (FilterDatespec *)fe;
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
+	gboolean valid;
+
+	valid = fds->type != FDST_UNKNOWN;
+	if (!valid) {
+		e_error_run (error_parent, "filter:no-date", NULL);
+	}
+
+	return valid;
+}
+
+static gint
+filter_datespec_eq (EFilterElement *element_a,
+                    EFilterElement *element_b)
+{
+	EFilterDatespec *datespec_a = E_FILTER_DATESPEC (element_a);
+	EFilterDatespec *datespec_b = E_FILTER_DATESPEC (element_b);
+
+	/* Chain up to parent's eq() method. */
+	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+		return FALSE;
+
+	return (datespec_a->type == datespec_b->type) &&
+		(datespec_a->value == datespec_b->value);
+}
+
+static xmlNodePtr
+filter_datespec_xml_encode (EFilterElement *element)
+{
+	xmlNodePtr value, work;
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
+	gchar str[32];
+
+	d(printf ("Encoding datespec as xml\n"));
+
+	value = xmlNewNode (NULL, (xmlChar *)"value");
+	xmlSetProp (value, (xmlChar *)"name", (xmlChar *)element->name);
+	xmlSetProp (value, (xmlChar *)"type", (xmlChar *)"datespec");
+
+	work = xmlNewChild (value, NULL, (xmlChar *)"datespec", NULL);
+	sprintf (str, "%d", fds->type);
+	xmlSetProp (work, (xmlChar *)"type", (xmlChar *)str);
+	sprintf (str, "%d", (gint)fds->value);
+	xmlSetProp (work, (xmlChar *)"value", (xmlChar *)str);
+
+	return value;
+}
+
+static gint
+filter_datespec_xml_decode (EFilterElement *element,
+                            xmlNodePtr node)
+{
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
+	xmlNodePtr n;
+	xmlChar *val;
+
+	d(printf ("Decoding datespec from xml %p\n", element));
+
+	xmlFree (element->name);
+	element->name = (gchar *)xmlGetProp (node, (xmlChar *)"name");
+
+	n = node->children;
+	while (n) {
+		if (!strcmp ((gchar *)n->name, "datespec")) {
+			val = xmlGetProp (n, (xmlChar *)"type");
+			fds->type = atoi ((gchar *)val);
+			xmlFree (val);
+			val = xmlGetProp (n, (xmlChar *)"value");
+			fds->value = atoi ((gchar *)val);
+			xmlFree (val);
+			break;
+		}
+		n = n->next;
+	}
+
+	return 0;
+}
+
+static GtkWidget *
+filter_datespec_get_widget (EFilterElement *element)
+{
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
 	GtkWidget *button;
 
 	fds->priv->label_button = gtk_label_new ("");
@@ -486,15 +402,10 @@ get_widget (FilterElement *fe)
 }
 
 static void
-build_code (FilterElement *fe, GString *out, struct _FilterPart *fp)
+filter_datespec_format_sexp (EFilterElement *element,
+                             GString *out)
 {
-	return;
-}
-
-static void
-format_sexp (FilterElement *fe, GString *out)
-{
-	FilterDatespec *fds = (FilterDatespec *)fe;
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
 
 	switch (fds->type) {
 	case FDST_UNKNOWN:
@@ -507,10 +418,75 @@ format_sexp (FilterElement *fe, GString *out)
 		g_string_append_printf (out, "%d", (gint) fds->value);
 		break;
 	case FDST_X_AGO:
-		g_string_append_printf (out, "(- (get-current-date) %d)", (gint) fds->value);
+		g_string_append_printf (
+			out, "(- (get-current-date) %d)", (gint) fds->value);
 		break;
 	case FDST_X_FUTURE:
-		g_string_append_printf (out, "(+ (get-current-date) %d)", (gint) fds->value);
+		g_string_append_printf (
+			out, "(+ (get-current-date) %d)", (gint) fds->value);
 		break;
 	}
+}
+
+static void
+filter_datespec_class_init (EFilterDatespecClass *class)
+{
+	EFilterElementClass *filter_element_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EFilterDatespecPrivate));
+
+	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
+	filter_element_class->validate = filter_datespec_validate;
+	filter_element_class->eq = filter_datespec_eq;
+	filter_element_class->xml_encode = filter_datespec_xml_encode;
+	filter_element_class->xml_decode = filter_datespec_xml_decode;
+	filter_element_class->get_widget = filter_datespec_get_widget;
+	filter_element_class->format_sexp = filter_datespec_format_sexp;
+}
+
+static void
+filter_datespec_init (EFilterDatespec *datespec)
+{
+	datespec->priv = E_FILTER_DATESPEC_GET_PRIVATE (datespec);
+	datespec->type = FDST_UNKNOWN;
+}
+
+GType
+e_filter_datespec_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EFilterDatespecClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) filter_datespec_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EFilterDatespec),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) filter_datespec_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			E_TYPE_FILTER_ELEMENT, "EFilterDatespec", &type_info, 0);
+	}
+
+	return type;
+}
+
+/**
+ * filter_datespec_new:
+ *
+ * Create a new EFilterDatespec object.
+ *
+ * Return value: A new #EFilterDatespec object.
+ **/
+EFilterDatespec *
+e_filter_datespec_new (void)
+{
+	return g_object_new (E_TYPE_FILTER_DATESPEC, NULL);
 }

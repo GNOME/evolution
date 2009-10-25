@@ -43,7 +43,7 @@
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-filter-editor.h"
-#include "filter/filter-option.h"
+#include "filter/e-filter-option.h"
 
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
@@ -51,25 +51,25 @@
 #define d(x)
 
 static void
-rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddress *iaddr)
+rule_match_recipients (ERuleContext *context, EFilterRule *rule, CamelInternetAddress *iaddr)
 {
-	FilterPart *part;
-	FilterElement *element;
+	EFilterPart *part;
+	EFilterElement *element;
 	gint i;
 	const gchar *real, *addr;
 	gchar *namestr;
 
 	/* address types etc should handle multiple values */
 	for (i = 0; camel_internet_address_get (iaddr, i, &real, &addr); i++) {
-		part = rule_context_create_part (context, "to");
-		filter_rule_add_part ((FilterRule *)rule, part);
-		element = filter_part_find_element (part, "recipient-type");
-		filter_option_set_current ((FilterOption *)element, "contains");
-		element = filter_part_find_element (part, "recipient");
-		filter_input_set_value ((FilterInput *)element, addr);
+		part = e_rule_context_create_part (context, "to");
+		e_filter_rule_add_part ((EFilterRule *)rule, part);
+		element = e_filter_part_find_element (part, "recipient-type");
+		e_filter_option_set_current ((EFilterOption *)element, "contains");
+		element = e_filter_part_find_element (part, "recipient");
+		e_filter_input_set_value ((EFilterInput *)element, addr);
 
 		namestr = g_strdup_printf (_("Mail to %s"), real && real[0] ? real : addr);
-		filter_rule_set_name (rule, namestr);
+		e_filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
 }
@@ -122,43 +122,43 @@ reg_match (gchar *str, gchar *regstr)
 #endif
 
 static void
-rule_add_subject (RuleContext *context, FilterRule *rule, const gchar *text)
+rule_add_subject (ERuleContext *context, EFilterRule *rule, const gchar *text)
 {
-	FilterPart *part;
-	FilterElement *element;
+	EFilterPart *part;
+	EFilterElement *element;
 
 	/* dont match on empty strings ever */
 	if (*text == 0)
 		return;
-	part = rule_context_create_part (context, "subject");
-	filter_rule_add_part ((FilterRule *)rule, part);
-	element = filter_part_find_element (part, "subject-type");
-	filter_option_set_current ((FilterOption *)element, "contains");
-	element = filter_part_find_element (part, "subject");
-	filter_input_set_value ((FilterInput *)element, text);
+	part = e_rule_context_create_part (context, "subject");
+	e_filter_rule_add_part ((EFilterRule *)rule, part);
+	element = e_filter_part_find_element (part, "subject-type");
+	e_filter_option_set_current ((EFilterOption *)element, "contains");
+	element = e_filter_part_find_element (part, "subject");
+	e_filter_input_set_value ((EFilterInput *)element, text);
 }
 
 static void
-rule_add_sender (RuleContext *context, FilterRule *rule, const gchar *text)
+rule_add_sender (ERuleContext *context, EFilterRule *rule, const gchar *text)
 {
-	FilterPart *part;
-	FilterElement *element;
+	EFilterPart *part;
+	EFilterElement *element;
 
 	/* dont match on empty strings ever */
 	if (*text == 0)
 		return;
-	part = rule_context_create_part (context, "sender");
-	filter_rule_add_part ((FilterRule *)rule, part);
-	element = filter_part_find_element (part, "sender-type");
-	filter_option_set_current ((FilterOption *)element, "contains");
-	element = filter_part_find_element (part, "sender");
-	filter_input_set_value ((FilterInput *)element, text);
+	part = e_rule_context_create_part (context, "sender");
+	e_filter_rule_add_part ((EFilterRule *)rule, part);
+	element = e_filter_part_find_element (part, "sender-type");
+	e_filter_option_set_current ((EFilterOption *)element, "contains");
+	element = e_filter_part_find_element (part, "sender");
+	e_filter_input_set_value ((EFilterInput *)element, text);
 }
 
 /* do a bunch of things on the subject to try and detect mailing lists, remove
    unneeded stuff, etc */
 static void
-rule_match_subject (RuleContext *context, FilterRule *rule, const gchar *subject)
+rule_match_subject (ERuleContext *context, EFilterRule *rule, const gchar *subject)
 {
 	const gchar *s;
 	const gchar *s1, *s2;
@@ -200,28 +200,28 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const gchar *subject
 }
 
 static void
-rule_match_mlist(RuleContext *context, FilterRule *rule, const gchar *mlist)
+rule_match_mlist(ERuleContext *context, EFilterRule *rule, const gchar *mlist)
 {
-	FilterPart *part;
-	FilterElement *element;
+	EFilterPart *part;
+	EFilterElement *element;
 
 	if (mlist[0] == 0)
 		return;
 
-	part = rule_context_create_part(context, "mlist");
-	filter_rule_add_part(rule, part);
+	part = e_rule_context_create_part(context, "mlist");
+	e_filter_rule_add_part(rule, part);
 
-	element = filter_part_find_element(part, "mlist-type");
-	filter_option_set_current((FilterOption *)element, "is");
+	element = e_filter_part_find_element(part, "mlist-type");
+	e_filter_option_set_current((EFilterOption *)element, "is");
 
-	element = filter_part_find_element (part, "mlist");
-	filter_input_set_value((FilterInput *)element, mlist);
+	element = e_filter_part_find_element (part, "mlist");
+	e_filter_input_set_value((EFilterInput *)element, mlist);
 }
 
 static void
-rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress* addr, gint flags)
+rule_from_address (EFilterRule *rule, ERuleContext *context, CamelInternetAddress* addr, gint flags)
 {
-	rule->grouping = FILTER_GROUP_ANY;
+	rule->grouping = E_FILTER_GROUP_ANY;
 
 	if (flags & AUTO_FROM) {
 		const gchar *name, *address;
@@ -232,7 +232,7 @@ rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress*
 		if (name == NULL || name[0] == '\0')
 			name = address;
 		namestr = g_strdup_printf(_("Mail from %s"), name);
-		filter_rule_set_name (rule, namestr);
+		e_filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
 	if (flags & AUTO_TO) {
@@ -242,11 +242,11 @@ rule_from_address (FilterRule *rule, RuleContext *context, CamelInternetAddress*
 }
 
 static void
-rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg, gint flags)
+rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *msg, gint flags)
 {
 	CamelInternetAddress *addr;
 
-	rule->grouping = FILTER_GROUP_ANY;
+	rule->grouping = E_FILTER_GROUP_ANY;
 
 	if (flags & AUTO_SUBJECT) {
 		const gchar *subject = msg->subject ? msg->subject : "";
@@ -255,7 +255,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		rule_match_subject (context, rule, subject);
 
 		namestr = g_strdup_printf (_("Subject is %s"), strip_re (subject));
-		filter_rule_set_name (rule, namestr);
+		e_filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
 	/* should parse the from address into an internet address? */
@@ -271,7 +271,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 			if (name == NULL || name[0] == '\0')
 				name = address;
 			namestr = g_strdup_printf(_("Mail from %s"), name);
-			filter_rule_set_name (rule, namestr);
+			e_filter_rule_set_name (rule, namestr);
 			g_free (namestr);
 		}
 	}
@@ -290,14 +290,14 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		if (mlist) {
 			rule_match_mlist(context, rule, mlist);
 			name = g_strdup_printf (_("%s mailing list"), mlist);
-			filter_rule_set_name(rule, name);
+			e_filter_rule_set_name(rule, name);
 			g_free(name);
 		}
 		g_free(mlist);
 	}
 }
 
-FilterRule *
+EFilterRule *
 em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
@@ -305,13 +305,13 @@ em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, 
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
-	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
+	rule_from_message ((EFilterRule *)rule, (ERuleContext *)context, msg, flags);
 	g_free(euri);
 
-	return (FilterRule *)rule;
+	return (EFilterRule *)rule;
 }
 
-FilterRule *
+EFilterRule *
 em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
@@ -319,25 +319,25 @@ em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *a
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
-	rule_from_address ((FilterRule *)rule, (RuleContext *)context, addr, flags);
+	rule_from_address ((EFilterRule *)rule, (ERuleContext *)context, addr, flags);
 	g_free(euri);
 
-	return (FilterRule *)rule;
+	return (EFilterRule *)rule;
 }
 
-FilterRule *
+EFilterRule *
 filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, gint flags)
 {
 	EMFilterRule *rule;
-	FilterPart *part;
+	EFilterPart *part;
 
 	rule = em_filter_rule_new ();
-	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
+	rule_from_message ((EFilterRule *)rule, (ERuleContext *)context, msg, flags);
 
 	part = em_filter_context_next_action (context, NULL);
-	em_filter_rule_add_action (rule, filter_part_clone (part));
+	em_filter_rule_add_action (rule, e_filter_part_clone (part));
 
-	return (FilterRule *)rule;
+	return (EFilterRule *)rule;
 }
 
 void
@@ -346,7 +346,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 	EMFilterContext *fc;
 	const gchar *data_dir;
 	gchar *user, *system;
-	FilterRule *rule;
+	EFilterRule *rule;
 
 	g_return_if_fail (msg != NULL);
 
@@ -354,14 +354,14 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 	data_dir = em_utils_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	rule_context_load ((RuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
 	rule = filter_rule_from_message (fc, msg, flags);
 
-	filter_rule_set_source (rule, source);
+	e_filter_rule_set_source (rule, source);
 
-	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
+	e_rule_context_add_rule_gui ((ERuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
 	g_object_unref (fc);
 }
@@ -382,15 +382,15 @@ mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newu
 	data_dir = em_utils_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	rule_context_load ((RuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
-	changed = rule_context_rename_uri((RuleContext *)fc, eolduri, enewuri, g_str_equal);
+	changed = e_rule_context_rename_uri((ERuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
 		d(printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri));
-		if (rule_context_save((RuleContext *)fc, user) == -1)
+		if (e_rule_context_save((ERuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
-		rule_context_free_uri_list((RuleContext *)fc, changed);
+		e_rule_context_free_uri_list((ERuleContext *)fc, changed);
 	}
 
 	g_free(user);
@@ -415,10 +415,10 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 	data_dir = em_utils_get_data_dir ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	rule_context_load ((RuleContext *)fc, system, user);
+	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
-	deleted = rule_context_delete_uri ((RuleContext *) fc, euri, g_str_equal);
+	deleted = e_rule_context_delete_uri ((ERuleContext *) fc, euri, g_str_equal);
 	if (deleted) {
 		GtkWidget *dialog;
 		GString *s;
@@ -436,9 +436,9 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 		em_utils_show_info_silent (dialog);
 
 		d(printf("Folder delete/rename '%s' changed filters, resaving\n", euri));
-		if (rule_context_save ((RuleContext *) fc, user) == -1)
+		if (e_rule_context_save ((ERuleContext *) fc, user) == -1)
 			g_warning ("Could not write out changed filter rules\n");
-		rule_context_free_uri_list ((RuleContext *) fc, deleted);
+		e_rule_context_free_uri_list ((ERuleContext *) fc, deleted);
 	}
 
 	g_free(user);

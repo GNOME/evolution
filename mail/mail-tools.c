@@ -44,8 +44,8 @@
 #include <camel/camel-movemail.h>
 #include <camel/camel-vee-folder.h>
 
-#include "filter/filter-option.h"
-#include "filter/filter-input.h"
+#include "filter/e-filter-option.h"
+#include "filter/e-filter-input.h"
 
 #include <libedataserver/e-data-server-util.h>
 #include "em-utils.h"

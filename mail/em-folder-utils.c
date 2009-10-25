@@ -625,7 +625,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 		vfolder_load_storage ();
 
 		rule = em_vfolder_rule_new();
-		filter_rule_set_name((FilterRule *)rule, path);
+		e_filter_rule_set_name((EFilterRule *)rule, path);
 		vfolder_gui_add_rule(rule);
 		gtk_widget_destroy((GtkWidget *)emfs);
 	} else {

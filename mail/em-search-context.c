@@ -29,44 +29,44 @@
 #include <string.h>
 
 #include "em-search-context.h"
-#include "filter/filter-rule.h"
-#include "filter/filter-option.h"
-#include "filter/filter-int.h"
+#include "filter/e-filter-rule.h"
+#include "filter/e-filter-option.h"
+#include "filter/e-filter-int.h"
 
 static gpointer parent_class;
 
-static FilterElement *
-search_context_new_element (RuleContext *context,
+static EFilterElement *
+search_context_new_element (ERuleContext *context,
                             const gchar *type)
 {
 	if (strcmp (type, "system-flag") == 0)
-		return (FilterElement *) filter_option_new ();
+		return (EFilterElement *) e_filter_option_new ();
 
 	if (strcmp (type, "score") == 0)
-		return (FilterElement *) filter_int_new_type ("score", -3, 3);
+		return (EFilterElement *) e_filter_int_new_type ("score", -3, 3);
 
 	/* Chain up to parent's new_element() method. */
-	return RULE_CONTEXT_CLASS (parent_class)->new_element (context, type);
+	return E_RULE_CONTEXT_CLASS (parent_class)->new_element (context, type);
 }
 
 static void
 search_context_class_init (EMSearchContextClass *class)
 {
-	RuleContextClass *rule_context_class;
+	ERuleContextClass *rule_context_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	rule_context_class = RULE_CONTEXT_CLASS (class);
+	rule_context_class = E_RULE_CONTEXT_CLASS (class);
 	rule_context_class->new_element = search_context_new_element;
 }
 
 static void
 search_context_init (EMSearchContext *vc)
 {
-	RuleContext *rule_context;
+	ERuleContext *rule_context;
 
-	rule_context = RULE_CONTEXT (vc);
-	rule_context->flags = RULE_CONTEXT_THREADING | RULE_CONTEXT_GROUPING;
+	rule_context = E_RULE_CONTEXT (vc);
+	rule_context->flags = E_RULE_CONTEXT_THREADING | E_RULE_CONTEXT_GROUPING;
 }
 
 GType
@@ -89,13 +89,13 @@ em_search_context_get_type (void)
 		};
 
 		type = g_type_register_static (
-			RULE_TYPE_CONTEXT, "EMSearchContext", &type_info, 0);
+			E_TYPE_RULE_CONTEXT, "EMSearchContext", &type_info, 0);
 	}
 
 	return type;
 }
 
-RuleContext *
+ERuleContext *
 em_search_context_new (void)
 {
 	return g_object_new (EM_SEARCH_TYPE_CONTEXT, NULL);

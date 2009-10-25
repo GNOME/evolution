@@ -25,7 +25,7 @@
 #ifndef EM_FILTER_EDITOR_H
 #define EM_FILTER_EDITOR_H
 
-#include "filter/rule-editor.h"
+#include "filter/e-rule-editor.h"
 #include "em-filter-context.h"
 
 /* Standard GObject macros */
@@ -60,11 +60,11 @@ struct _EMFilterSource {
 };
 
 struct _EMFilterEditor {
-	RuleEditor parent;
+	ERuleEditor parent;
 };
 
 struct _EMFilterEditorClass {
-	RuleEditorClass parent_class;
+	ERuleEditorClass parent_class;
 };
 
 GType		em_filter_editor_get_type	(void);

@@ -25,7 +25,7 @@
 #ifndef _EM_FILTER_FOLDER_ELEMENT_H
 #define _EM_FILTER_FOLDER_ELEMENT_H
 
-#include "filter/filter-element.h"
+#include "filter/e-filter-element.h"
 
 #define EM_FILTER_FOLDER_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_folder_element_get_type(), EMFilterFolderElement))
 #define EM_FILTER_FOLDER_ELEMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_folder_element_get_type(), EMFilterFolderElementClass))
@@ -37,14 +37,14 @@ typedef struct _EMFilterFolderElement EMFilterFolderElement;
 typedef struct _EMFilterFolderElementClass EMFilterFolderElementClass;
 
 struct _EMFilterFolderElement {
-	FilterElement parent_object;
+	EFilterElement parent_object;
 
 	gchar *uri;
 	gboolean store_camel_uri; /* true if uri should contain camel uri, otherwise contains evolution's uri with an Account ID */
 };
 
 struct _EMFilterFolderElementClass {
-	FilterElementClass parent_class;
+	EFilterElementClass parent_class;
 };
 
 GType em_filter_folder_element_get_type (void);

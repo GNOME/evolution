@@ -23,7 +23,7 @@
 
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
-#include <filter/filter-rule.h>
+#include <filter/e-filter-rule.h>
 
 #include <addressbook-config.h>
 

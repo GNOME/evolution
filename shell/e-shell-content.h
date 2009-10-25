@@ -29,8 +29,8 @@
 #define E_SHELL_CONTENT_H
 
 #include <shell/e-shell-common.h>
-#include <filter/filter-rule.h>
-#include <filter/rule-context.h>
+#include <filter/e-filter-rule.h>
+#include <filter/e-rule-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_CONTENT \
@@ -75,7 +75,7 @@ struct _EShellContentClass {
 	GtkBinClass parent_class;
 
 	/* Factory Methods */
-	RuleContext *	(*new_search_context)	(void);
+	ERuleContext *	(*new_search_context)	(void);
 
 	guint32		(*check_state)		(EShellContent *shell_content);
 };
@@ -104,14 +104,14 @@ void		e_shell_content_add_filter_separator_before
 void		e_shell_content_add_filter_separator_after
 						(EShellContent *shell_content,
 						 gint action_value);
-RuleContext *	e_shell_content_get_search_context
+ERuleContext *	e_shell_content_get_search_context
 						(EShellContent *shell_content);
 const gchar *	e_shell_content_get_search_hint	(EShellContent *shell_content);
 void		e_shell_content_set_search_hint	(EShellContent *shell_content,
 						 const gchar *search_hint);
-FilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
+EFilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
 void		e_shell_content_set_search_rule (EShellContent *shell_content,
-						 FilterRule *search_rule);
+						 EFilterRule *search_rule);
 const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
 void		e_shell_content_set_search_text	(EShellContent *shell_content,
 						 const gchar *search_text);

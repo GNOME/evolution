@@ -34,18 +34,20 @@
 #include <libedataserver/e-account-list.h>
 #include <camel/camel-url.h>
 
+#include "filter/e-filter-part.h"
+
 static void em_filter_source_element_class_init(EMFilterSourceElementClass *klass);
 static void em_filter_source_element_init(EMFilterSourceElement *fs);
 static void em_filter_source_element_finalize(GObject *obj);
 
-static gint source_eq(FilterElement *fe, FilterElement *cm);
-static void xml_create(FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode(FilterElement *fe);
-static gint xml_decode(FilterElement *fe, xmlNodePtr node);
-static FilterElement *clone(FilterElement *fe);
-static GtkWidget *get_widget(FilterElement *fe);
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp(FilterElement *, GString *);
+static gint source_eq(EFilterElement *fe, EFilterElement *cm);
+static void xml_create(EFilterElement *fe, xmlNodePtr node);
+static xmlNodePtr xml_encode(EFilterElement *fe);
+static gint xml_decode(EFilterElement *fe, xmlNodePtr node);
+static EFilterElement *clone(EFilterElement *fe);
+static GtkWidget *get_widget(EFilterElement *fe);
+static void build_code(EFilterElement *fe, GString *out, EFilterPart *ff);
+static void format_sexp(EFilterElement *, GString *);
 
 static void em_filter_source_element_add_source (EMFilterSourceElement *fs, const gchar *account_name, const gchar *name,
 				       const gchar *addr, const gchar *url);
@@ -63,7 +65,7 @@ struct _EMFilterSourceElementPrivate {
 	gchar *current_url;
 };
 
-static FilterElementClass *parent_class = NULL;
+static EFilterElementClass *parent_class = NULL;
 
 GType
 em_filter_source_element_get_type(void)
@@ -83,7 +85,7 @@ em_filter_source_element_get_type(void)
 			(GInstanceInitFunc)em_filter_source_element_init,
 		};
 
-		type = g_type_register_static(FILTER_TYPE_ELEMENT, "EMFilterSourceElement", &info, 0);
+		type = g_type_register_static(E_TYPE_FILTER_ELEMENT, "EMFilterSourceElement", &info, 0);
 	}
 
 	return type;
@@ -93,9 +95,9 @@ static void
 em_filter_source_element_class_init(EMFilterSourceElementClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS(klass);
+	EFilterElementClass *fe_class = E_FILTER_ELEMENT_CLASS(klass);
 
-	parent_class = g_type_class_ref(FILTER_TYPE_ELEMENT);
+	parent_class = g_type_class_ref(E_TYPE_FILTER_ELEMENT);
 
 	object_class->finalize = em_filter_source_element_finalize;
 
@@ -149,25 +151,25 @@ em_filter_source_element_new(void)
 }
 
 static gint
-source_eq(FilterElement *fe, FilterElement *cm)
+source_eq(EFilterElement *fe, EFilterElement *cm)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe, *cs = (EMFilterSourceElement *)cm;
 
-	return FILTER_ELEMENT_CLASS(parent_class)->eq(fe, cm)
+	return E_FILTER_ELEMENT_CLASS(parent_class)->eq(fe, cm)
 		&&((fs->priv->current_url && cs->priv->current_url
 		     && strcmp(fs->priv->current_url, cs->priv->current_url)== 0)
 		    ||(fs->priv->current_url == NULL && cs->priv->current_url == NULL));
 }
 
 static void
-xml_create(FilterElement *fe, xmlNodePtr node)
+xml_create(EFilterElement *fe, xmlNodePtr node)
 {
 	/* Call parent implementation */
-	FILTER_ELEMENT_CLASS(parent_class)->xml_create(fe, node);
+	E_FILTER_ELEMENT_CLASS(parent_class)->xml_create(fe, node);
 }
 
 static xmlNodePtr
-xml_encode(FilterElement *fe)
+xml_encode(EFilterElement *fe)
 {
 	xmlNodePtr value;
 
@@ -184,7 +186,7 @@ xml_encode(FilterElement *fe)
 }
 
 static gint
-xml_decode(FilterElement *fe, xmlNodePtr node)
+xml_decode(EFilterElement *fe, xmlNodePtr node)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	CamelURL *url;
@@ -209,14 +211,14 @@ xml_decode(FilterElement *fe, xmlNodePtr node)
 	return 0;
 }
 
-static FilterElement *
-clone(FilterElement *fe)
+static EFilterElement *
+clone(EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	EMFilterSourceElement *cpy = em_filter_source_element_new();
 	GList *i;
 
-	((FilterElement *)cpy)->name = (gchar *)xmlStrdup((guchar *)fe->name);
+	((EFilterElement *)cpy)->name = (gchar *)xmlStrdup((guchar *)fe->name);
 
 	cpy->priv->current_url = g_strdup(fs->priv->current_url);
 
@@ -225,7 +227,7 @@ clone(FilterElement *fe)
 		em_filter_source_element_add_source(cpy, info->account_name, info->name, info->address, info->url);
 	}
 
-	return (FilterElement *)cpy;
+	return (EFilterElement *)cpy;
 }
 
 static void
@@ -245,7 +247,7 @@ source_changed(GtkComboBox *combobox, EMFilterSourceElement *fs)
 }
 
 static GtkWidget *
-get_widget(FilterElement *fe)
+get_widget(EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 	GtkWidget *combobox;
@@ -303,13 +305,13 @@ get_widget(FilterElement *fe)
 }
 
 static void
-build_code(FilterElement *fe, GString *out, struct _FilterPart *ff)
+build_code(EFilterElement *fe, GString *out, EFilterPart *ff)
 {
 	/* We are doing nothing on purpose. */
 }
 
 static void
-format_sexp(FilterElement *fe, GString *out)
+format_sexp(EFilterElement *fe, GString *out)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
 

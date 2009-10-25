@@ -243,7 +243,7 @@ em_filter_editor_response (GtkWidget *dialog, gint button, gpointer user_data)
 		data_dir = em_utils_get_data_dir ();
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml", data_dir);
-		rule_context_save ((RuleContext *) fc, user);
+		e_rule_context_save ((ERuleContext *) fc, user);
 		g_free (user);
 	}
 
@@ -283,12 +283,12 @@ em_utils_edit_filters (GtkWidget *parent)
 	fc = em_filter_context_new ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
-	rule_context_load ((RuleContext *) fc, system, user);
+	e_rule_context_load ((ERuleContext *) fc, system, user);
 	g_free (user);
 	g_free (system);
 
-	if (((RuleContext *) fc)->error) {
-		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:filter-load-error", ((RuleContext *)fc)->error, NULL);
+	if (((ERuleContext *) fc)->error) {
+		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
 		em_utils_show_error_silent (w);
 		return;
 	}

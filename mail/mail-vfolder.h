@@ -25,8 +25,8 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
 
-#include <filter/filter-part.h>
-#include <filter/filter-rule.h>
+#include <filter/e-filter-part.h>
+#include <filter/e-filter-rule.h>
 #include <mail/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
 
@@ -35,8 +35,8 @@ void vfolder_revert(void);
 
 void vfolder_edit (EShellView *shell_view);
 void vfolder_edit_rule(const gchar *name);
-FilterPart *vfolder_create_part (const gchar *name);
-FilterRule *vfolder_clone_rule (FilterRule *in);
+EFilterPart *vfolder_create_part (const gchar *name);
+EFilterRule *vfolder_clone_rule (EFilterRule *in);
 void vfolder_gui_add_rule (EMVFolderRule *rule);
 void vfolder_gui_add_from_message (CamelMimeMessage *msg, gint flags, const gchar *source);
 void vfolder_gui_add_from_address (CamelInternetAddress *addr, gint flags, const gchar *source);

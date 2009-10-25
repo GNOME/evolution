@@ -43,13 +43,13 @@
 
 #define d(x)
 
-static gint validate(FilterRule *, GtkWindow *error_parent);
-static gint vfolder_eq(FilterRule *fr, FilterRule *cm);
-static xmlNodePtr xml_encode(FilterRule *);
-static gint xml_decode(FilterRule *, xmlNodePtr, RuleContext *f);
-static void rule_copy(FilterRule *dest, FilterRule *src);
-/*static void build_code(FilterRule *, GString *out);*/
-static GtkWidget *get_widget(FilterRule *fr, RuleContext *f);
+static gint validate(EFilterRule *, GtkWindow *error_parent);
+static gint vfolder_eq(EFilterRule *fr, EFilterRule *cm);
+static xmlNodePtr xml_encode(EFilterRule *);
+static gint xml_decode(EFilterRule *, xmlNodePtr, ERuleContext *f);
+static void rule_copy(EFilterRule *dest, EFilterRule *src);
+/*static void build_code(EFilterRule *, GString *out);*/
+static GtkWidget *get_widget(EFilterRule *fr, ERuleContext *f);
 
 static void em_vfolder_rule_class_init(EMVFolderRuleClass *klass);
 static void em_vfolder_rule_init(EMVFolderRule *vr);
@@ -63,7 +63,7 @@ static const gchar *with_names[] = {
 	"local"
 };
 
-static FilterRuleClass *parent_class = NULL;
+static EFilterRuleClass *parent_class = NULL;
 
 GType
 em_vfolder_rule_get_type(void)
@@ -83,7 +83,7 @@ em_vfolder_rule_get_type(void)
 			(GInstanceInitFunc)em_vfolder_rule_init,
 		};
 
-		type = g_type_register_static(FILTER_TYPE_RULE, "EMVFolderRule", &info, 0);
+		type = g_type_register_static(E_TYPE_FILTER_RULE, "EMVFolderRule", &info, 0);
 	}
 
 	return type;
@@ -93,9 +93,9 @@ static void
 em_vfolder_rule_class_init(EMVFolderRuleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	FilterRuleClass *fr_class =(FilterRuleClass *)klass;
+	EFilterRuleClass *fr_class =(EFilterRuleClass *)klass;
 
-	parent_class = g_type_class_ref(FILTER_TYPE_RULE);
+	parent_class = g_type_class_ref(E_TYPE_FILTER_RULE);
 
 	object_class->finalize = em_vfolder_rule_finalise;
 
@@ -148,7 +148,7 @@ em_vfolder_rule_add_source(EMVFolderRule *vr, const gchar *uri)
 
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
 
-	filter_rule_emit_changed((FilterRule *)vr);
+	e_filter_rule_emit_changed((EFilterRule *)vr);
 }
 
 const gchar *
@@ -181,7 +181,7 @@ em_vfolder_rule_remove_source(EMVFolderRule *vr, const gchar *uri)
 	if (found) {
 		vr->sources = g_list_remove(vr->sources, found);
 		g_free(found);
-		filter_rule_emit_changed((FilterRule *)vr);
+		e_filter_rule_emit_changed((EFilterRule *)vr);
 	}
 }
 
@@ -207,7 +207,7 @@ em_vfolder_rule_next_source(EMVFolderRule *vr, const gchar *last)
 }
 
 static gint
-validate(FilterRule *fr, GtkWindow *error_parent)
+validate(EFilterRule *fr, GtkWindow *error_parent)
 {
 	g_return_val_if_fail(fr != NULL, 0);
 
@@ -223,7 +223,7 @@ validate(FilterRule *fr, GtkWindow *error_parent)
 		return 0;
 	}
 
-	return FILTER_RULE_CLASS(parent_class)->validate (fr, error_parent);
+	return E_FILTER_RULE_CLASS(parent_class)->validate (fr, error_parent);
 }
 
 static gint
@@ -243,20 +243,20 @@ list_eq(GList *al, GList *bl)
 }
 
 static gint
-vfolder_eq(FilterRule *fr, FilterRule *cm)
+vfolder_eq(EFilterRule *fr, EFilterRule *cm)
 {
-        return FILTER_RULE_CLASS(parent_class)->eq(fr, cm)
+        return E_FILTER_RULE_CLASS(parent_class)->eq(fr, cm)
 		&& list_eq(((EMVFolderRule *)fr)->sources, ((EMVFolderRule *)cm)->sources);
 }
 
 static xmlNodePtr
-xml_encode(FilterRule *fr)
+xml_encode(EFilterRule *fr)
 {
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	xmlNodePtr node, set, work;
 	GList *l;
 
-        node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
+        node = E_FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (vr->with < G_N_ELEMENTS (with_names), NULL);
 
@@ -290,14 +290,14 @@ set_with(EMVFolderRule *vr, const gchar *name)
 }
 
 static gint
-xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
+xml_decode(EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 {
 	xmlNodePtr set, work;
 	gint result;
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	gchar *tmp;
 
-        result = FILTER_RULE_CLASS(parent_class)->xml_decode(fr, node, f);
+        result = E_FILTER_RULE_CLASS(parent_class)->xml_decode(fr, node, f);
 	if (result != 0)
 		return result;
 
@@ -334,7 +334,7 @@ xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 }
 
 static void
-rule_copy(FilterRule *dest, FilterRule *src)
+rule_copy(EFilterRule *dest, EFilterRule *src)
 {
 	EMVFolderRule *vdest, *vsrc;
 	GList *node;
@@ -358,7 +358,7 @@ rule_copy(FilterRule *dest, FilterRule *src)
 
 	vdest->with = vsrc->with;
 
-	FILTER_RULE_CLASS(parent_class)->copy(dest, src);
+	E_FILTER_RULE_CLASS(parent_class)->copy(dest, src);
 }
 
 enum {
@@ -368,7 +368,7 @@ enum {
 };
 
 struct _source_data {
-	RuleContext *rc;
+	ERuleContext *rc;
 	EMVFolderRule *vr;
 	const gchar *current;
 	GtkListStore *model;
@@ -611,7 +611,7 @@ em_vfolder_editor_sourcelist_new(gchar *widget_name, gchar *string1, gchar *stri
 }
 
 static GtkWidget *
-get_widget(FilterRule *fr, RuleContext *rc)
+get_widget(EFilterRule *fr, ERuleContext *rc)
 {
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	GtkWidget *widget, *frame, *list;
@@ -623,7 +623,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	gint i;
 	gchar *gladefile;
 
-        widget = FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
+        widget = E_FILTER_RULE_CLASS(parent_class)->get_widget(fr, rc);
 
 	data = g_malloc0(sizeof(*data));
 	data->rc = rc;

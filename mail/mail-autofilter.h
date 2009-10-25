@@ -26,7 +26,7 @@
 
 #include <camel/camel-mime-message.h>
 
-#include <filter/filter-rule.h>
+#include <filter/e-filter-rule.h>
 #include <mail/em-filter-context.h>
 #include <mail/em-vfolder-context.h>
 
@@ -37,9 +37,9 @@ enum {
 	AUTO_MLIST = 8
 };
 
-FilterRule *em_vfolder_rule_from_message(EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source);
-FilterRule *filter_rule_from_message(EMFilterContext *context, CamelMimeMessage *msg, gint flags);
-FilterRule *em_vfolder_rule_from_address(EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source);
+EFilterRule *em_vfolder_rule_from_message(EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source);
+EFilterRule *filter_rule_from_message(EMFilterContext *context, CamelMimeMessage *msg, gint flags);
+EFilterRule *em_vfolder_rule_from_address(EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source);
 
 /* easiest place to put this */
 void  filter_gui_add_from_message(CamelMimeMessage *msg, const gchar *source, gint flags);

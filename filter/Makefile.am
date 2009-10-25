@@ -13,44 +13,44 @@ libfilter_la_CPPFLAGS = 			\
 filterincludedir = $(privincludedir)/filter
 
 filterinclude_HEADERS = 			\
-	filter-code.h				\
-	filter-colour.h				\
-	filter-datespec.h			\
-	filter-element.h			\
-	filter-file.h				\
-	filter-input.h				\
-	filter-int.h				\
-	filter-option.h				\
-	filter-part.h				\
-	filter-rule.h				\
-	rule-context.h				\
-	rule-editor.h
+	e-filter-code.h				\
+	e-filter-color.h			\
+	e-filter-datespec.h			\
+	e-filter-element.h			\
+	e-filter-file.h				\
+	e-filter-input.h			\
+	e-filter-int.h				\
+	e-filter-option.h			\
+	e-filter-part.h				\
+	e-filter-rule.h				\
+	e-rule-context.h			\
+	e-rule-editor.h
 
 libfilter_la_SOURCES =				\
-	filter-code.c				\
-	filter-code.h				\
-	filter-colour.c				\
-	filter-colour.h				\
-	filter-datespec.c			\
-	filter-datespec.h			\
-	filter-element.c			\
-	filter-element.h			\
-	filter-file.c				\
-	filter-file.h				\
-	filter-input.c				\
-	filter-input.h				\
-	filter-int.c				\
-	filter-int.h				\
-	filter-option.c				\
-	filter-option.h				\
-	filter-part.c				\
-	filter-part.h				\
-	filter-rule.c				\
-	filter-rule.h				\
-	rule-context.c				\
-	rule-context.h				\
-	rule-editor.c				\
-	rule-editor.h
+	e-filter-code.c				\
+	e-filter-code.h				\
+	e-filter-color.c			\
+	e-filter-color.h			\
+	e-filter-datespec.c			\
+	e-filter-datespec.h			\
+	e-filter-element.c			\
+	e-filter-element.h			\
+	e-filter-file.c				\
+	e-filter-file.h				\
+	e-filter-input.c			\
+	e-filter-input.h			\
+	e-filter-int.c				\
+	e-filter-int.h				\
+	e-filter-option.c			\
+	e-filter-option.h			\
+	e-filter-part.c				\
+	e-filter-part.h				\
+	e-filter-rule.c				\
+	e-filter-rule.h				\
+	e-rule-context.c			\
+	e-rule-context.h			\
+	e-rule-editor.c				\
+	e-rule-editor.h
 
 libfilter_la_LDFLAGS = $(NO_UNDEFINED)
 

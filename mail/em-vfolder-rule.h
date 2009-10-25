@@ -24,7 +24,7 @@
 #ifndef _EM_VFOLDER_RULE_H
 #define _EM_VFOLDER_RULE_H
 
-#include "filter/filter-rule.h"
+#include "filter/e-filter-rule.h"
 
 #define EM_VFOLDER_RULE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_vfolder_rule_get_type(), EMVFolderRule))
 #define EM_VFOLDER_RULE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_vfolder_rule_get_type(), EMVFolderRuleClass))
@@ -46,14 +46,14 @@ typedef struct _EMVFolderRuleClass EMVFolderRuleClass;
 typedef enum _em_vfolder_rule_with_t em_vfolder_rule_with_t;
 
 struct _EMVFolderRule {
-	FilterRule rule;
+	EFilterRule rule;
 
 	em_vfolder_rule_with_t with;
 	GList *sources;		/* uri's of the source folders */
 };
 
 struct _EMVFolderRuleClass {
-	FilterRuleClass parent_class;
+	EFilterRuleClass parent_class;
 };
 
 GType        em_vfolder_rule_get_type (void);

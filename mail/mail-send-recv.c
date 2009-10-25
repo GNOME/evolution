@@ -741,7 +741,7 @@ receive_done (const gchar *uri, gpointer data)
 		info->again = 0;
 		mail_send_queue (local_outbox,
 				 info->uri,
-				 FILTER_SOURCE_OUTGOING,
+				 E_FILTER_SOURCE_OUTGOING,
 				 info->cancel,
 				 receive_get_folder, info,
 				 receive_status, info,
@@ -1002,7 +1002,7 @@ mail_send_receive (GtkWindow *parent)
 		switch (info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep_on_server,
-					FILTER_SOURCE_INCOMING,
+					E_FILTER_SOURCE_INCOMING,
 					info->cancel,
 					receive_get_folder, info,
 					receive_status, info,
@@ -1011,7 +1011,7 @@ mail_send_receive (GtkWindow *parent)
 		case SEND_SEND:
 			/* todo, store the folder in info? */
 			mail_send_queue(local_outbox, info->uri,
-					FILTER_SOURCE_OUTGOING,
+					E_FILTER_SOURCE_OUTGOING,
 					info->cancel,
 					receive_get_folder, info,
 					receive_status, info,
@@ -1217,7 +1217,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	switch (info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail (info->uri, info->keep_on_server,
-				 FILTER_SOURCE_INCOMING,
+				 E_FILTER_SOURCE_INCOMING,
 				 info->cancel,
 				 receive_get_folder, info,
 				 receive_status, info,
@@ -1227,7 +1227,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		/* todo, store the folder in info? */
 		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 		mail_send_queue (local_outbox, info->uri,
-				 FILTER_SOURCE_OUTGOING,
+				 E_FILTER_SOURCE_OUTGOING,
 				 info->cancel,
 				 receive_get_folder, info,
 				 receive_status, info,
@@ -1289,7 +1289,7 @@ mail_send (void)
 	/* todo, store the folder in info? */
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	mail_send_queue (local_outbox, info->uri,
-			 FILTER_SOURCE_OUTGOING,
+			 E_FILTER_SOURCE_OUTGOING,
 			 info->cancel,
 			 receive_get_folder, info,
 			 receive_status, info,
