@@ -46,6 +46,8 @@
 #include <camel/camel-url-scanner.h>
 #include <camel/camel-file-utils.h>
 
+#include <libebook/e-book.h>
+
 #include "em-filter-editor.h"
 
 #include <glib/gi18n.h>
@@ -1805,43 +1807,39 @@ gchar *em_uri_to_camel(const gchar *euri)
 }
 
 /* ********************************************************************** */
-#include <libebook/e-book.h>
-
-struct _addr_node {
-	gchar *addr;
-	time_t stamp;
-	gint found;
-};
-
-#define EMU_ADDR_CACHE_TIME (60*30) /* in seconds */
-
-static pthread_mutex_t emu_addr_lock = PTHREAD_MUTEX_INITIALIZER;
-static ESourceList *emu_addr_list;
-static GHashTable *emu_addr_cache;
 
 /* runs sync, in main thread */
 static gpointer
-emu_addr_setup(gpointer dummy)
+emu_addr_setup (gpointer user_data)
 {
 	GError *err = NULL;
+	ESourceList **psource_list = user_data;
 
-	emu_addr_cache = g_hash_table_new(g_str_hash, g_str_equal);
-
-	if (!e_book_get_addressbooks(&emu_addr_list, &err))
-		g_error_free(err);
+	if (!e_book_get_addressbooks (psource_list, &err))
+		g_error_free (err);
 
 	return NULL;
 }
 
 static void
-emu_addr_cancel_book(gpointer data)
+emu_addr_cancel_book (gpointer data)
 {
 	EBook *book = data;
 	GError *err = NULL;
 
 	/* we dunna care if this fails, its just the best we can try */
-	e_book_cancel(book, &err);
-	g_clear_error(&err);
+	e_book_cancel (book, &err);
+	g_clear_error (&err);
+}
+
+static void
+emu_addr_cancel_stop (gpointer data)
+{
+	gboolean *stop = data;
+
+	g_return_if_fail (stop != NULL);
+
+	*stop = TRUE;
 }
 
 struct TryOpenEBookStruct {
@@ -1916,247 +1914,374 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	return data.result && (!error || !*error);
 }
 
+#define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
+
+G_LOCK_DEFINE_STATIC (contact_cache);
+static GHashTable *contact_cache = NULL; /* key is lowercased contact email; value is EBook pointer (just for comparison) where it comes from */
+static GHashTable *emu_books_hash = NULL; /* key is source ID; value is pointer to EBook */
+static ESourceList *emu_books_source_list = NULL;
+
 static gboolean
-is_local (ESourceGroup *group)
+search_address_in_addressbooks (const gchar *address, gboolean local_only, gboolean (*check_contact) (EContact *contact, gpointer user_data), gpointer user_data)
 {
-	return group &&
-		e_source_group_peek_base_uri (group) &&
-		g_str_has_prefix (e_source_group_peek_base_uri (group), "file://");
+	gboolean found = FALSE, stop = FALSE, found_any = FALSE;
+	gchar *lowercase_addr;
+	gpointer ptr;
+	EBookQuery *query;
+	GSList *s, *g, *addr_sources = NULL;
+
+	if (!address || !*address)
+		return FALSE;
+
+	G_LOCK (contact_cache);
+
+	if (!emu_books_source_list) {
+		mail_call_main (MAIL_CALL_p_p, (MailMainFunc)emu_addr_setup, &emu_books_source_list);
+		emu_books_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+		contact_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	}
+
+	if (!emu_books_source_list) {
+		G_UNLOCK (contact_cache);
+		return FALSE;
+	}
+
+	lowercase_addr = g_utf8_strdown (address, -1);
+	ptr = g_hash_table_lookup (contact_cache, lowercase_addr);
+	if (ptr != NULL && (check_contact == NULL || ptr == NOT_FOUND_BOOK)) {
+		g_free (lowercase_addr);
+		G_UNLOCK (contact_cache);
+		return ptr != NOT_FOUND_BOOK;
+	}
+
+	query = e_book_query_field_test (E_CONTACT_EMAIL, E_BOOK_QUERY_IS, address);
+
+	for (g = e_source_list_peek_groups (emu_books_source_list); g; g = g_slist_next (g)) {
+		ESourceGroup *group = g->data;
+
+		if (!group)
+			continue;
+
+		if (local_only && !(e_source_group_peek_base_uri (group) && g_str_has_prefix (e_source_group_peek_base_uri (group), "file://")))
+			continue;
+
+		for (s = e_source_group_peek_sources (group); s; s = g_slist_next (s)) {
+			ESource *source = s->data;
+			const gchar *completion = e_source_get_property (source, "completion");
+
+			if (completion && g_ascii_strcasecmp (completion, "true") == 0) {
+				addr_sources = g_slist_prepend (addr_sources, g_object_ref (source));
+			}
+		}
+	}
+
+	for (s = addr_sources; !stop && !found && s; s = g_slist_next (s)) {
+		ESource *source = s->data;
+		GList *contacts;
+		EBook *book = NULL;
+		GHook *hook_book, *hook_stop;
+		gboolean cached_book = FALSE;
+		GError *err = NULL;
+
+		d(printf(" checking '%s'\n", e_source_get_uri(source)));
+
+		hook_book = mail_cancel_hook_add (emu_addr_cancel_book, book);
+		hook_stop = mail_cancel_hook_add (emu_addr_cancel_stop, &stop);
+
+		book = g_hash_table_lookup (emu_books_hash, e_source_peek_uid (source));
+		if (!book) {
+			book = e_book_new (source, &err);
+
+			if (book == NULL) {
+				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+					stop = TRUE;
+				} else if (err) {
+					g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
+				}
+				g_clear_error (&err);
+			} else if (!stop && !try_open_e_book (book, TRUE, &err)) {
+				g_object_unref (book);
+				book = NULL;
+
+				if (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
+					stop = TRUE;
+				} else if (err) {
+					g_warning ("%s: Unable to open addressbook: %s", G_STRFUNC, err->message);
+				}
+				g_clear_error (&err);
+			}
+		} else {
+			cached_book = TRUE;
+		}
+
+		if (book && !stop && e_book_get_contacts (book, query, &contacts, &err)) {
+			if (contacts != NULL) {
+				if (!found_any) {
+					g_hash_table_insert (contact_cache, g_strdup (lowercase_addr), book);
+				}
+				found_any = TRUE;
+
+				if (check_contact) {
+					GList *l;
+
+					for (l = contacts; l && !found; l = l->next) {
+						EContact *contact = l->data;
+
+						found = check_contact (contact, user_data);
+					}
+				} else {
+					found = TRUE;
+				}
+
+				g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+				g_list_free (contacts);
+			}
+		} else if (book) {
+			stop = stop || (err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED));
+			if (err && !stop)
+				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
+			g_clear_error (&err);
+		}
+
+		mail_cancel_hook_remove (hook_book);
+		mail_cancel_hook_remove (hook_stop);
+
+		stop = stop || camel_operation_cancel_check (NULL);
+
+		if (stop && !cached_book && book) {
+			g_object_unref (book);
+		} else if (!stop && book && !cached_book) {
+			g_hash_table_insert (emu_books_hash, g_strdup (e_source_peek_uid (source)), book);
+		}
+	}
+
+	g_slist_foreach (addr_sources, (GFunc) g_object_unref, NULL);
+	g_slist_free (addr_sources);
+
+	e_book_query_unref (query);
+	
+	if (!found_any) {
+		g_hash_table_insert (contact_cache, lowercase_addr, NOT_FOUND_BOOK);
+		lowercase_addr = NULL;
+	}
+
+	G_UNLOCK (contact_cache);
+
+	g_free (lowercase_addr);
+
+	return found_any;
 }
 
 gboolean
 em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 {
-	GError *err = NULL;
-	GSList *s, *g, *addr_sources = NULL;
-	gint stop = FALSE, found = FALSE;
-	EBookQuery *query;
 	const gchar *addr;
-	struct _addr_node *node;
-	time_t now;
 
 	/* TODO: check all addresses? */
-	if (iaddr == NULL
-	    || !camel_internet_address_get(iaddr, 0, NULL, &addr))
+	if (iaddr == NULL || !camel_internet_address_get (iaddr, 0, NULL, &addr))
 		return FALSE;
 
-	pthread_mutex_lock(&emu_addr_lock);
-
-	if (emu_addr_cache == NULL) {
-		mail_call_main(MAIL_CALL_p_p, (MailMainFunc)emu_addr_setup, NULL);
-	}
-
-	if (emu_addr_list == NULL) {
-		pthread_mutex_unlock(&emu_addr_lock);
-		return FALSE;
-	}
-
-	now = time(NULL);
-
-	d(printf("Checking '%s' is in addressbook", addr));
-
-	node = g_hash_table_lookup(emu_addr_cache, addr);
-	if (node) {
-		d(printf(" -> cached, found %s\n", node->found?"yes":"no"));
-		if (node->stamp + EMU_ADDR_CACHE_TIME > now) {
-			found = node->found;
-			pthread_mutex_unlock(&emu_addr_lock);
-			return found;
-		}
-		d(printf("    but expired!\n"));
-	} else {
-		d(printf(" -> not found in cache\n"));
-		node = g_malloc0(sizeof(*node));
-		node->addr = g_strdup(addr);
-		g_hash_table_insert(emu_addr_cache, node->addr, node);
-	}
-
-	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
-
-	/* FIXME: this aint threadsafe by any measure, but what can you do eh??? */
-
-	for (g = e_source_list_peek_groups(emu_addr_list);g;g=g_slist_next(g)) {
-		if (local_only &&  !is_local (g->data))
-			continue;
-
-		for (s = e_source_group_peek_sources((ESourceGroup *)g->data);s;s=g_slist_next(s)) {
-			ESource *src = s->data;
-			const gchar *completion = e_source_get_property (src, "completion");
-
-			if (completion && !g_ascii_strcasecmp (completion, "true")) {
-				addr_sources = g_slist_prepend(addr_sources, src);
-				g_object_ref(src);
-			}
-		}
-	}
-
-	for (s = addr_sources;!stop && !found && s;s=g_slist_next(s)) {
-		ESource *source = s->data;
-		GList *contacts;
-		EBook *book;
-		GHook *hook;
-
-		d(printf(" checking '%s'\n", e_source_get_uri(source)));
-
-		/* could this take a while?  no way to cancel it? */
-		book = e_book_new(source, &err);
-
-		if (book == NULL) {
-			if (err && !g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
-				g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
-			g_clear_error(&err);
-			continue;
-		}
-
-		g_clear_error(&err);
-
-		hook = mail_cancel_hook_add(emu_addr_cancel_book, book);
-
-		/* ignore errors, but cancellation errors we don't try to go further either */
-		if (!try_open_e_book (book, TRUE, &err)
-		    || !e_book_get_contacts(book, query, &contacts, &err)) {
-			stop = err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED);
-			mail_cancel_hook_remove(hook);
-			g_object_unref(book);
-			if (err && !stop)
-				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
-			g_clear_error(&err);
-			continue;
-		}
-
-		mail_cancel_hook_remove(hook);
-
-		if (contacts != NULL) {
-			found = TRUE;
-			g_list_foreach(contacts, (GFunc)g_object_unref, NULL);
-			g_list_free(contacts);
-		}
-
-		stop = stop || camel_operation_cancel_check (NULL);
-
-		d(printf(" %s\n", stop?"found":"not found"));
-
-		g_object_unref(book);
-	}
-
-	g_slist_free(addr_sources);
-
-	if (!stop) {
-		node->found = found;
-		node->stamp = now;
-	}
-
-	e_book_query_unref(query);
-
-	pthread_mutex_unlock(&emu_addr_lock);
-
-	return found;
+	return search_address_in_addressbooks (addr, local_only, NULL, NULL);
 }
 
-CamelMimePart *
-em_utils_contact_photo (CamelInternetAddress *cia, gboolean local)
+static gboolean
+extract_photo_data (EContact *contact, gpointer user_data)
 {
-	const gchar *addr;
-	gint stop = FALSE, found = FALSE;
-	GSList *s, *g, *addr_sources = NULL;
-	GError *err = NULL;
-        EBookQuery *query = NULL;
-	ESource *source = NULL;
-	GList *contacts = NULL;
-	EContact *contact = NULL;
+	EContactPhoto **photo = user_data;
+
+	g_return_val_if_fail (contact != NULL, FALSE);
+	g_return_val_if_fail (user_data != NULL, FALSE);
+
+	*photo = e_contact_get (contact, E_CONTACT_PHOTO);
+	if (!*photo)
+		*photo = e_contact_get (contact, E_CONTACT_LOGO);
+
+	return *photo != NULL;
+}
+
+typedef struct _PhotoInfo {
+	gchar *address;
+	EContactPhoto *photo;
+} PhotoInfo;
+
+static void
+emu_free_photo_info (PhotoInfo *pi)
+{
+	if (!pi)
+		return;
+
+	if (pi->address)
+		g_free (pi->address);
+	if (pi->photo)
+		e_contact_photo_free (pi->photo);
+	g_free (pi);
+}
+
+G_LOCK_DEFINE_STATIC (photos_cache);
+static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
+
+CamelMimePart *
+em_utils_contact_photo (CamelInternetAddress *cia, gboolean local_only)
+{
+	const gchar *addr = NULL;
+	CamelMimePart *part = NULL;
 	EContactPhoto *photo = NULL;
-	EBook *book = NULL;
-	CamelMimePart *part;
+	GSList *p, *first_not_null = NULL;
+	gint count_not_null = 0;
 
-	if (cia == NULL || !camel_internet_address_get(cia, 0, NULL, &addr)) {
+	if (cia == NULL || !camel_internet_address_get (cia, 0, NULL, &addr) || !addr) {
 		return NULL;
 	}
 
-	if (!emu_addr_list) {
-		if (!e_book_get_addressbooks(&emu_addr_list, &err)) {
-			g_error_free(err);
-			return NULL;
-		}
-	}
+	G_LOCK (photos_cache);
 
-	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
-	for (g = e_source_list_peek_groups(emu_addr_list); g; g = g_slist_next(g)) {
-		if (local && !is_local (g->data))
+	/* search a cache first */
+	for (p = photos_cache; p; p = p->next) {
+		PhotoInfo *pi = p->data;
+
+		if (!pi)
 			continue;
 
-		for (s = e_source_group_peek_sources((ESourceGroup *)g->data); s; s=g_slist_next(s)) {
-			ESource *src = s->data;
-			const gchar *completion = e_source_get_property (src, "completion");
+		if (pi->photo) {
+			if (!first_not_null)
+				first_not_null = p;
+			count_not_null++;
+		}
 
-			if (completion && !g_ascii_strcasecmp (completion, "true")) {
-				addr_sources = g_slist_prepend(addr_sources, src);
-				g_object_ref(src);
-			}
+		if (g_ascii_strcasecmp (addr, pi->address) == 0) {
+			photo = pi->photo;
+			break;
 		}
 	}
 
-	for (s = addr_sources;!stop && !found && s;s=g_slist_next(s)) {
-		source = s->data;
+	/* !p means the address had not been found in the cache */
+	if (!p && search_address_in_addressbooks (addr, local_only, extract_photo_data, &photo)) {
+		PhotoInfo *pi;
 
-		book = e_book_new(source, &err);
-		if (!book) {
-			if (err && !g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
-				g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
-			g_clear_error (&err);
-			continue;
+		if (photo && photo->type != E_CONTACT_PHOTO_TYPE_INLINED) {
+			e_contact_photo_free (photo);
+			photo = NULL;
 		}
 
-		g_clear_error (&err);
+		/* keep only up to 10 photos in memory */
+		if (photo && count_not_null >= 10 && first_not_null) {
+			pi = first_not_null->data;
 
-		if (!try_open_e_book (book, TRUE, &err)
-		    || !e_book_get_contacts(book, query, &contacts, &err)) {
-			stop = err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED);
-			g_object_unref(book);
-			if (err && !stop)
-				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
-			g_clear_error(&err);
-			continue;
-		}
-		g_clear_error (&err);
+			photos_cache = g_slist_remove (photos_cache, pi);
 
-		if (contacts != NULL) {
-			found = TRUE;
-
-			/* Doesn't matter, we consider the first contact only*/
-			contact = contacts->data;
-			photo = e_contact_get (contact, E_CONTACT_PHOTO);
-			if (!photo)
-				photo = e_contact_get (contact, E_CONTACT_LOGO);
-			g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
-			g_list_free (contacts);
+			emu_free_photo_info (pi);
 		}
 
-		stop = stop || camel_operation_cancel_check (NULL);
+		pi = g_new0 (PhotoInfo, 1);
+		pi->address = g_strdup (addr);
+		pi->photo = photo;
 
-		g_object_unref (source); /* Is it? */
-		g_object_unref(book);
+		photos_cache = g_slist_append (photos_cache, pi);
 	}
 
-	g_slist_free(addr_sources);
-	e_book_query_unref(query);
-
-	if (!photo)
-		return NULL;
-
-	if (photo->type != E_CONTACT_PHOTO_TYPE_INLINED) {
-		e_contact_photo_free (photo);
-		return NULL;
-	}
-
-	/* Form a mime part out of the photo */
-	part = camel_mime_part_new();
-	camel_mime_part_set_content(part,
+	/* some photo found, use it */
+	if (photo) {
+		/* Form a mime part out of the photo */
+		part = camel_mime_part_new ();
+		camel_mime_part_set_content(part,
 				    (const gchar *) photo->data.inlined.data,
 				    photo->data.inlined.length, "image/jpeg");
+	}
 
-	e_contact_photo_free (photo);
+	G_UNLOCK (photos_cache);
 
 	return part;
+}
+
+/* list of email addresses (strings) to remove from local cache of photos and contacts,
+   but only if the photo doesn't exist or is an not-found contact */
+void
+emu_remove_from_mail_cache (const GSList *addresses)
+{
+	const GSList *a;
+	GSList *p;
+	CamelInternetAddress *cia;
+
+	cia = camel_internet_address_new ();
+
+	for (a = addresses; a; a = a->next) {
+		const gchar *addr = NULL;
+
+		if (!a->data)
+			continue;
+
+		if (camel_address_decode ((CamelAddress *) cia, a->data) != -1 &&
+		    camel_internet_address_get (cia, 0, NULL, &addr) && addr) {
+			gchar *lowercase_addr = g_utf8_strdown (addr, -1);
+
+			G_LOCK (contact_cache);
+			if (g_hash_table_lookup (contact_cache, lowercase_addr) == NOT_FOUND_BOOK)
+				g_hash_table_remove (contact_cache, lowercase_addr);
+			G_UNLOCK (contact_cache);
+
+			g_free (lowercase_addr);
+
+			G_LOCK (photos_cache);
+			for (p = photos_cache; p; p = p->next) {
+				PhotoInfo *pi = p->data;
+
+				if (pi && !pi->photo && g_ascii_strcasecmp (pi->address, addr) == 0) {
+					photos_cache = g_slist_remove (photos_cache, pi);
+					emu_free_photo_info (pi);
+					break;
+				}
+			}
+			G_UNLOCK (photos_cache);
+		}
+	}
+
+	camel_object_unref (cia);
+}
+
+void
+emu_remove_from_mail_cache_1 (const gchar *address)
+{
+	GSList *l;
+
+	g_return_if_fail (address != NULL);
+
+	l = g_slist_append (NULL, (gpointer) address);
+
+	emu_remove_from_mail_cache (l);
+
+	g_slist_free (l);
+}
+
+/* frees all data created by call of em_utils_in_addressbook or em_utils_contact_photo */
+void
+emu_free_mail_cache (void)
+{
+	G_LOCK (contact_cache);
+
+	if (emu_books_hash) {
+		g_hash_table_destroy (emu_books_hash);
+		emu_books_hash = NULL;
+	}
+
+	if (emu_books_source_list) {
+		g_object_unref (emu_books_source_list);
+		emu_books_source_list = NULL;
+	}
+
+	if (contact_cache) {
+		g_hash_table_destroy (contact_cache);
+		contact_cache = NULL;
+	}
+
+	G_UNLOCK (contact_cache);
+
+	G_LOCK (photos_cache);
+
+	g_slist_foreach (photos_cache, (GFunc) emu_free_photo_info, NULL);
+	g_slist_free (photos_cache);
+	photos_cache = NULL;
+
+	G_UNLOCK (photos_cache);
 }
 
 void

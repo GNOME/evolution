@@ -96,7 +96,7 @@ action_mail_add_sender_cb (GtkAction *action,
 	 *     event.  Kind of kludgey, but works for now. */
 	shell = e_shell_backend_get_shell (shell_backend);
 	e_shell_event (shell, "contact-quick-add-email", (gpointer) address);
-
+	emu_remove_from_mail_cache_1 (address);
 exit:
 	em_utils_uids_free (uids);
 }
@@ -132,7 +132,7 @@ action_add_to_address_book_cb (GtkAction *action,
 	 *     event.  Kind of kludgey, but works for now. */
 	shell = e_shell_backend_get_shell (shell_backend);
 	e_shell_event (shell, "contact-quick-add-email", curl->path);
-
+	emu_remove_from_mail_cache_1 (curl->path);
 exit:
 	camel_url_free (curl);
 }

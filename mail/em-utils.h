@@ -112,6 +112,10 @@ gchar *em_utils_url_unescape_amp (const gchar *url);
 
 struct _EAccount *em_utils_guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
+void emu_remove_from_mail_cache (const GSList *addresses);
+void emu_remove_from_mail_cache_1 (const gchar *address);
+void emu_free_mail_cache (void);
+
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */

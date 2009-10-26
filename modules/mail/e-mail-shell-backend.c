@@ -521,6 +521,7 @@ mail_shell_backend_ready_to_quit (EActivity *activity)
 {
 	mail_session_shutdown ();
 	g_object_unref (activity);
+	emu_free_mail_cache ();
 }
 
 static void
