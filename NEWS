@@ -1,3 +1,341 @@
+Evolution 2.29.1 2009-10-26
+----------------------------
+
+Bug Fixes:
+	Bug #575208 - Use complete template message with all attachments 
+	(Milan Crha)
+	Bug #599131 - Crash on new contact adding with similar values as an old 
+	(Milan Crha)
+	Bug #585715 - Skip empty parts in multipart/alternative formatting 
+	(Milan Crha)
+	Bug #248745 - Indent single mail in a threaded view too (Milan Crha)
+	Bug #599190 - Unable to drop attachments in the attachment bar 
+	(Matthew Barnes)
+	Bug #484839 - Sort, when in threading mode, properly (Milan Crha)
+	Bug #599245 - Use bitwise AND instead of logical AND for checking flags 
+	(Thomas Andersen)
+	Bug #480361 - Useful action when clicking on a mail notification 
+	(Matthew Barnes)
+	Bug #598567 - Can only insert local image files (Matthew Barnes)
+	Bug #593953 - LDAP SSL option order doesn't match with a backend's 
+	(Milan Crha)
+	Bug #598631 - Add tooltip of "Ctrl+click to open a link" in buffer tagger
+	(Milan Crha)
+	Bug #238879 - Use explicit text color in a Welcome message (Milan Crha)
+	Bug #552779 - Sort order of messages by "From" is case sensitive 
+	(Milan Crha)
+	Bug #267749 - Week numbers are incorrect when the week starts on Sunday 
+	(Milan Crha)
+	Bug #470291 - [prefer-plain] Be able to show HTML only messages 
+	(Milan Crha)
+	Bug #596860 - Duplicate event gets shown in calendar view (Milan Crha)
+	Bug #339628 - Non-default Draft folders are Draft folders too
+	(Milan Crha)
+	Bug #555901 - Preserve Start/End/Due timezone when editing in list view
+	(Milan Crha)
+	Bug #522783 - Signature separator for HTML E-mails (Milan Crha)
+	Bug #545851 - Set properly sign type on reply of signed message 
+	(Milan Crha)
+	Bug #372435 - Show SMIME cert info from mail, not from cert db 
+	(Milan Crha)
+	Bug #597473 - Reply-all composes reply to wrong address (Milan Crha)
+	Bug #322261 - vCalendar replies are sent out using the default account 
+	(Milan Crha)
+	Bug #245683 - Use QP encoding when composing message with "\nFrom " 
+	(Milan Crha)
+	Bug #565306 - "Edit Full" in "Add to address book" searches first 
+	(Milan Crha)
+	Bug #458173 - Date selection window in "Advanced Search" inconsistent 
+	(Milan Crha)
+	Bug #411768 - Don't remove column by drag&drop out of a table header 
+	(Milan Crha)
+	Bug #404227 - Over-aggressive appointment editor date check (Milan Crha)
+	Bug #449520 - Adding a contact to a contact list fails when using a comma 
+	(Milan Crha)
+	Bug #468736 - Prevent recursion in em-format (Milan Crha)
+	Bug #562512 - Make hyperlinks clickable in Memos, Tasks and Calendar 
+	(Milan Crha)
+	Bug #516000 - Wrong formatted quoted text (Milan Crha)
+	Bug #329710 - [PublishCal] 'Enable' button should update on change 
+	(Milan Crha)
+	Bug #373297 - Option for autocomplete in address book preferences 
+	(Milan Crha)
+	Bug #523335 - [mail-to-task] Enhancements (Milan Crha)
+	Bug #336337 - Send & receive dialog shows the default smtp server
+	(Milan Crha)
+	Bug #573878 - [face] Plugin is unusable (Milan Crha)
+	Bug #542361 - Unhelpful error warnings (Milan Crha)
+	Bug #314333 - Decrypt body in reply to an inline-PGP encrypted mail 
+	(Milan Crha)
+	Bug #592117 - Calendar Printout Love (pepp)
+	Bug #593753 - Calendar search in list view doesn't work properly
+	(Milan Crha)
+	Bug #597123 - Composer's Send Options doesn't work (Milan Crha)
+	Bug #329100 - Choosing adress book for birthdays (Milan Crha)
+	Bug #594471 - Shouldn't call e_error_new/run with NULL 'parent' 
+	(Milan Crha)
+	Bug #498095 - Fixing mnemonics (Milan Crha)
+	Bug #596720 - Account assistance repeats itself after finishing 
+	(Milan Crha)
+	Bug #598027 - Use vCard instead of VCard (Matthew Barnes)
+	Bug #597932 -  Split out Kerberos 5 check into an macro (H. Habighorst)
+	Bug #552552 - File/Empty Trash does not expunge maildir folders 
+	(Milan Crha)
+	Bug #595092 - Remove option to skip offline syncrhonization dialog 
+	(Matthew Barnes)
+	Bug #596952 - Offline mode does not stick when set from command line 
+	(Matthew Barnes)
+	Bug #596824 - evolution hangs on start up (Milan Crha)
+	Bug #597564 - Invalid g_object_unref call in redo_queries (Milan Crha)
+	Bug #593612 - Pane size restoration does not play nice with maximized 
+	windows (Matthew Barnes)
+	Bug #597533 - e_file_dialog_save() does not pass parent window 
+	(Matthew Barnes)
+	Bug #594373 - Calendar notifications are not cleared from system tray
+	(Milan Crha)
+	BUG #595803 - Fixes a double free (Bharath Acharya)
+	Bug #587014 - Magic space does not work as expected (Lucian Langa)
+	Bug #597224 - Cannot close preferences window with escape key
+	(Lucian Langa)
+	Bug #597151 -  [regression] Folder doesn't get deleted properly 
+	(Lucian Langa)
+	Bug #456240 - Move exchange plugin to exchange package (Milan Crha)
+	Bug #597108 - E_CONFIG_SECTION headers not properly escaped 
+	(Matthew Barnes)
+	Bug #596972 - Drop support for Kerberos 4 (H.Habighorst)
+	Bug #596848 - Use per-target CPPFLAGS in automake files (H.Habighorst)
+	Bug #596843 - Link to libraries when building API docs (H.Habighorst)
+	Bug #596800 - Hang on contacts merging (Milan Crha)
+	Bug #596712 - Recovered messages not autosaved until modification 
+	(Matthew Barnes)
+	Bug #596753 - Autocompletion addressbooks not remembered (Milan Crha)
+	Bug #594015 - Keeps "Loading..." node on the first fetch (Milan Crha)
+	Bug #594005 - Mailer preview pane doesn't update on show (Milan Crha)
+	Bug #582745 - Place signature at bottom when Edit As New Message
+	(Milan Crha)
+	Bug #593700 - Opens folder on top (Matthew Barnes)
+	Bug #594534 - Can't select calendar for a new appointment 
+	(Matthew Barnes)
+	Bug #595812 - Crash after finishing account set up (Matthew Barnes)
+	Bug #596186 - New Mail account setup Assistant window is blank 
+	(Matthew Barnes)
+	Bug #593609 - Have buildable exchange-operations plugin again 
+	(Milan Crha)
+	Bug #596268 - Crash when sidebar was clicked while 'loading' 
+	(Matthew Barnes)
+	Bug #596130 -  Use correct Name and GenericName in .desktop file 
+	(William Jon McCann)
+	Bug #596157 - Use "Message-ID" instead of "Message-Id" (Matthew Barnes)
+	Bug #593633 - Runtime warnings trying to create a recurrence event
+	(Milan Crha)
+	Bug #594543 -  Crash on folder/message change (Matthew Barnes)
+	Bug #594864 - "Select Folder" is a too generic title (Paul Bolle)
+	Bug #594864 - "Select Folder" is a too generic title (Paul Bolle)
+	Bug #594989 - Drop some dialog titles (Paul Bolle)
+	Bug #591380 - Optional dependencies must be explicitly disabled 
+	(H.Habighorst)
+	Bug #595326 - Bump libtool to 2.2 and remove dolt (H.Habighorst)
+	Bug #594988 - Drop generic dialog titles (Paul Bolle)
+	Bug #595501 - Crash on a changed filter rule removal (Milan Crha)
+	Bug #593747 - Calendar preview dates not indicating events (Milan Crha)
+	Bug #593750 - Month view doesn't update / scroll (Matthew Barnes)
+	Bug #593617 - GroupWise plugins are not built (Milan Crha)
+	Bug #595119 - Crash while trying to add a new category in contact 
+	(Matthew Barnes)
+	Bug 595687 - Message list popup menu not activated by menu key 
+	(Matthew Barnes)
+	Bug 595668 - Crash on startup (Matthew Barnes)
+	Bug #587011 - Add more requirements to evolution-plugin.pc.in
+	(Milan Crha)
+	Bug #594284 - Missing libraries in composer to link properly (Milan Crha)
+	Bug #594528 - Crash when clicked on File->quit (Matthew Barnes)
+	Bug #594017 - Crash on set preview visible (Milan Crha)
+	Bug #594468 - Revise kill-bonobo hack for non-working plugins
+	(Matt McCutchen)
+	Bug #594863 - Message body doesn't allow right click pop up menu 
+	(Matthew Barnes)
+	Bug #217066 - Rename folders directly inside folder list (Matthew Barnes)
+	Bug #595002 - There should not be a space before ? in strings 
+	(Matthew Barnes)
+	Bug #593899 - "Create Search Folder from Search" does not work
+	 (Matthew Barnes)
+	Followup fix for bug #593905. (Matthew Barnes)
+	Bug #593892 - 'Find in message' issues when clearing search 
+	(Matthew Barnes)
+	Bug #593905 - 'Subject or Addresses contains' search criteria missing 
+	(Matthew Barnes)
+	Bug #572960 - Ignore and drop invalid signatures on load (Milan Crha)
+	Bug #582780 - Use proxy in Google calendar setup plugin 
+	(Alexander Klepikov)
+	Bug #590707 - Initialize DBus threading on start (Milan Crha)
+	Bug #594609 - Date field in message list shows incorrect "x days ago".
+	(Chenthill Palanisamy)
+	Bug #594628 - Switching back from Outgoing filters to Incoming filters 
+	does not (Chenthill Palanisamy)
+	Bug #593659 - Missing UI error messages (Matthew Barnes)
+	Bug #593646 - Starting in day view does not restore panels correctly 
+	(Matthew Barnes)
+	Bug #594573 - Label dropdown box in the rule editor does not work 
+	(Matt McCutchen)
+	Bug #571881 - Make messages inherit labels from collapsed subtree 
+	(Matt McCutchen)
+	Bug #594484 - Crashed when tried to open more than one memo (Milan Crha)
+	Bug #594407 - Alarms won't go away (Milan Crha)
+	Bug #581602 - Purge calendar function not working (Milan Crha)
+	Bug #586854 - Crash on File->Quit with empty_junk enabled 
+	(Ritesh Khadgaray)
+	Reverted part of bug #594284 (Milan Crha)
+	Bug #594284 - FTBFS: missing links (Diego Escalante Urrelo)
+	Bug #594002 - Stuck mail activities when error occurs (Milan Crha)
+	Bug #593754 - Warnings on evolution terminal when open any task
+	(Milan Crha)
+	Bug #593442 - plugin-manager: HIG-ify main screen (Paul Bolle)
+	Bug #593881 - Category icons do not appear in preview pane 
+	(Matthew Barnes)
+	Bug #593762 - Event creation window has start date as Today (Milan Crha)
+	Bug #593940 - No options for google address book available 
+	(Matthew Barnes)
+	Bug #593872 - Forgets which signature is assigned to which account 
+	(Milan Crha)
+	Bug #593922 - Reply freezes evo (Milan Crha)
+	Bug #593761 - Wrong dir for calendar local sources (Milan Crha)
+	Kill debug messages in default-mailer plugin. (Matthew Barnes)
+	Bug #593778 - Clear search enabled when it shouldn't be (Matthew Barnes)
+	Bug #593783 - Edit contact option in composer doesn't work 
+	(Matthew Barnes)
+	Bug #592169 - "Checking for new mail" doesn't show which folder
+	(Milan Crha)
+	Bug #593776 - Fix include of a11y/addressbook and a11y/calendar 
+	(H.Habighorst)
+	Bug #593779 - re-committing patch from bug #214238 (Milan Crha)
+	Bug #593627 - Tool bar > new > contact list doesn't work (Matthew Barnes)
+	Bug #593675 - Freeze on startup (Milan Crha)
+	Bug #593614 - efh_format_secure() recurses forever (Matthew Barnes)
+	Bug #579598 - Change in view types (from Menu) is not working 
+	(Milan Crha)
+	Bug #593685 - Insensitive actions after start (Matthew Barnes)
+	Bug #593613 - Doesn't differentiate an appointment and meeting button 
+	click (Matthew Barnes)
+	Bug #494531 - Use quoted-printable encoding when necessary (David Liang)
+	Bug #593648 - mail-to-task used full path in .eplug file (Milan Crha)
+	Bug #592680 -  Remove deprecated Encoding key from desktop file 
+	(Frederic Peters)
+	Bug #590687 - Evolution not restoring data from backup archive
+	(Milan Crha)
+	Bug #592873 - Initialize Force Read only check state properly 
+	(Milan Crha)
+	Add menu item ellipsis according to bug #324492. (Matthew Barnes)
+	Bug #488409 - Remember size of filter/vfolder editor windows 
+	(Matthew Barnes)
+	Bug #592335 - Submit bug-report doesn't work (Matthew Barnes)
+	Bug #511769 - Poor indication of when network is unavailable 
+	(Matthew Barnes)
+	Bug #359909 - "New" Button too small (Matthew Barnes)
+	Bug #571488 - Migrate from deprecated gnome_sound to libcanberra 
+	(H.Habighorst)
+	Bug #592680 -  Remove deprecated Encoding key from desktop file 
+	(Frederic Peters)
+	Fixed bug #591916 (Mario Blättermann)
+	Bug #592551 - Build break fix caused by bug #581288 (Milan Crha)
+	Bug #567260 - Migrate from GnomeDruid to GtkAssistant (Milan Crha)
+	Bug #591829 - Dragging mails to folder tree does not work 
+	(Matthew Barnes)
+	Bug #591830 - Inline attachments no longer shown (Matthew Barnes)
+	Bug #592032 - Marks message as read when preview is off (Matthew Barnes)
+	Bug #592034 - Reply to List doesn't work (Matthew Barnes)
+	Bug #591755 - Gtk-Doc build failure when NM support disabled 
+	(H.Habighorst)
+	Bug #567260 – Migrate from GnomeDruid to GtkAssistant (Milan Crha)
+	Bug #591377 – Fails to detect krb5 in configure with -as-needed 
+	(H.Habighorst)
+
+Other Fixes:
+	Coding style and whitespace cleanups. (Matthew Barnes)
+	Put compiler warning flags in AM_CPPFLAGS instead of CFLAGS.
+	(Matthew Barnes)
+	Slightly better error dialog on "Unable to book" (Milan Crha)
+	Check whether message-list is filtered properly (Milan Crha)
+	Enable mail-next-unread and mail-prev-unread for multi-selections. 
+	(Matthew Barnes)
+	Clean up includes in main.c. (Matthew Barnes)
+	Gtk-Doc updates. (Matthew Barnes)
+	Shell cleanup. (Matthew Barnes)
+	Enable File->Empty Trash menu item for all folders (Milan Crha)
+	Build with GTK_DISABLE_DEPRECATED and fix resulting breakage.
+	(Matthew Barnes)
+	Various composer autosave fixes. (Matthew Barnes)
+	Code cleanup in e-msg-composer.c (Matthew Barnes)
+	Show import progress directly in the assistant window. (Matthew Barnes)
+	Rename EShellImporter to EImportAssistant and move it to widgets. 
+	(Matthew Barnes)
+	Convert the shell importer to a widget class. (Matthew Barnes)
+	Shell importer does not need an EShellWindow. (Matthew Barnes)
+	Trim unused or unnecessary bits from the import framework.
+	(Matthew Barnes)
+	Overlooked compiler warnings from exchange-operations plugin (Milan Crha)
+	Make gweather detection consistent with other optional libraries. 
+	(Matthew Barnes)
+	No longer need the X11 configure checks. (Matthew Barnes)
+	Rework optional plugin detection to fix distcheck. (Matthew Barnes)
+	Developer documentation improvements. (Matthew Barnes)
+	Typo fix (Andre Klapper)
+	Disable gdk_event_get_graphics_expose() call in EMap. (Matthew Barnes)
+	Goodbye libgnome and libgnomeui!! (Matthew Barnes)
+	Kill the killev program, and the whole tools directory. (Matthew Barnes)
+	EMFolderTree code cleanup. (Matthew Barnes)
+	Copy folder tree state of 1st window when opening new windows. 
+	(Matthew Barnes)
+	Homing in on a reference counting issue in EShellContent.(Matthew Barnes)
+	Introduce an EShellView::execute-search signal. (Matthew Barnes)
+	Relax the EBinding API to reduce GObject casting. (Matthew Barnes)
+	Kill EPopup. (Matthew Barnes)
+	Kill ECalPopup. (Matthew Barnes)
+	Trim more fat off the GnomeCalendar API. (Matthew Barnes)
+	Update GConf when the online/offline button is clicked. (Matthew Barnes)
+	Track the timezone in one place: ECalModel (Matthew Barnes)
+	Remove unnecessary <calendar/gui/e-cal-popup.h> includes. (Matthew Barnes)
+	Kill EMenu. (Matthew Barnes)
+	Fix msgfmt check by setting strings to fuzzy (Andre Klapper)
+	Allow calendar to be written as a external app and split the huge .so 
+	(Srinivasa Ragavan)
+	Changes for having a light version of calendar. (Srinivasa Ragavan)
+
+Translations:
+	Ivar Smolin (et)
+	Mattias Põldaru (et)
+	Åsmund Skjæveland (nn)
+	drtvasudevan (ta)
+	Leonid Kanter (ru)
+	Jorge González (es)
+	David Planella (ca)
+	Andrej Žnidaršič (sl)
+	Matej Urbančič (sl)
+	Luca Ferretti (it)
+	Daniel Nylander (sv)
+	Khaled Hosny (ar)
+	Adi Roiban (ro)
+	Takayuki KUSANO (ja)
+	Andre Klapper (cs)
+	Yavor Doganov (bg)
+	Kostas Papadimas (el)
+	Chao-Hsiung Liao (zh_HK)
+	Mario Blättermann (de)
+	Christian Kirbach (de)   
+	Gabor Kelemen (hu)
+	Sandeep Shedmake (mr)
+	krishnababu k (te) 
+	Sweta Kothari (gu)
+	Wadim Dziedzic (pl)
+	Iestyn Pryce (cy)
+	Ask H. Larsen (da)
+	Kenneth Nielsen (da)
+	Ilkka Tuohela (fi)
+	A S Alam (pa)
+	Žygimantas Beručka (lt)
+	Igor Nestorović (sr)
+	Kjartan Maraas (nb)
+	Denis Arnaud (br)
+
 Evolution 2.27.91 2009-08-24
 ----------------------------
 
