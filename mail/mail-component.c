@@ -931,6 +931,7 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 			return FALSE;
 
 		mail_session_shutdown ();
+		emu_free_mail_cache ();
 		return TRUE;
 	}
 

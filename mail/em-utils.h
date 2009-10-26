@@ -103,6 +103,10 @@ const gchar *em_utils_snoop_type(CamelMimePart *part);
 /* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
 void em_utils_clear_get_password_canceled_accounts_flag (void);
 
+void emu_remove_from_mail_cache (const GSList *addresses);
+void emu_remove_from_mail_cache_1 (const gchar *address);
+void emu_free_mail_cache (void);
+
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */
