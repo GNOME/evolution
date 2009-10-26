@@ -38,6 +38,8 @@
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-week-view.h"
 
+#include "e-cal-shell-view-private.h"
+
 #define E_CAL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate))
@@ -434,6 +436,11 @@ cal_shell_content_constructed (GObject *object)
 	e_calendar_table_load_state (E_CALENDAR_TABLE (widget), filename);
 	g_free (filename);
 
+	g_signal_connect_swapped (
+		widget, "open-component",
+		G_CALLBACK (e_cal_shell_view_taskpad_open_task),
+		shell_view);
+
 	container = priv->vpaned;
 
 	widget = gtk_vbox_new (FALSE, 0);
@@ -457,6 +464,11 @@ cal_shell_content_constructed (GObject *object)
 	filename = g_build_filename (config_dir, "MemoPad", NULL);
 	e_memo_table_load_state (E_MEMO_TABLE (widget), filename);
 	g_free (filename);
+
+	g_signal_connect_swapped (
+		widget, "open-component",
+		G_CALLBACK (e_cal_shell_view_memopad_open_memo),
+		shell_view);
 
 	/* Load the view instance. */
 
