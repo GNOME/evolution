@@ -329,6 +329,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	gint xthick, ythick;
 	gint inner_x, inner_y;
 	gint inner_width, inner_height;
+	gint arrow_width = 0, arrow_height = 0;
 	GdkGC *gc;
 	PangoLayout *layout;
 	static gpointer g_label = NULL;
@@ -376,31 +377,20 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	inner_x = x + xthick + HEADER_PADDING;
 	inner_y = y + ythick + HEADER_PADDING;
 
-	/* Arrow */
+	/* Arrow space */
 
 	switch (arrow) {
 	case E_TABLE_COL_ARROW_NONE:
 		break;
 
 	case E_TABLE_COL_ARROW_UP:
-	case E_TABLE_COL_ARROW_DOWN: {
-		gint arrow_width, arrow_height;
-
+	case E_TABLE_COL_ARROW_DOWN:
 		arrow_width = MIN (MIN_ARROW_SIZE, inner_width);
 		arrow_height = MIN (MIN_ARROW_SIZE, inner_height);
 
-		gtk_paint_arrow (style, drawable, state,
-				 GTK_SHADOW_NONE, NULL, widget, "header",
-				 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
-				 TRUE,
-				 inner_x + inner_width - arrow_width,
-				 inner_y + (inner_height - arrow_height) / 2,
-				 arrow_width, arrow_height);
-
-		inner_width -= arrow_width + HEADER_PADDING;
+		if (!ecol->is_pixbuf)
+			inner_width -= arrow_width + HEADER_PADDING;
 		break;
-	}
-
 	default:
 		g_return_if_reached();
 	}
@@ -463,6 +453,31 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		e_table_draw_elided_string (drawable, gc, widget,
 					    inner_x, inner_y,
 					    layout, ecol->text, inner_width, FALSE);
+	}
+
+	switch (arrow) {
+	case E_TABLE_COL_ARROW_NONE:
+		break;
+
+	case E_TABLE_COL_ARROW_UP:
+	case E_TABLE_COL_ARROW_DOWN: {
+		if (!ecol->is_pixbuf)
+			inner_width += arrow_width + HEADER_PADDING;
+
+		gtk_paint_arrow (style, drawable, state,
+				 GTK_SHADOW_NONE, NULL, widget, "header",
+				 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
+				 !ecol->is_pixbuf,
+				 inner_x + inner_width - arrow_width,
+				 inner_y + (inner_height - arrow_height) / 2,
+				 arrow_width, arrow_height);
+
+		inner_width -= arrow_width + HEADER_PADDING;
+		break;
+	}
+
+	default:
+		g_return_if_reached ();
 	}
 
 	g_object_unref (layout);
