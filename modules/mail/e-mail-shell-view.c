@@ -348,6 +348,54 @@ filter:
 }
 
 static void
+has_unread_mail (GtkTreeModel *model, GtkTreeIter *parent, gboolean is_root, gboolean *has_unread)
+{
+	guint unread = 0;
+	GtkTreeIter iter, child;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (has_unread != NULL);
+
+	if (is_root) {
+		gboolean is_store = FALSE, is_draft = FALSE;
+
+		gtk_tree_model_get (model, parent,
+			COL_UINT_UNREAD, &unread,
+			COL_BOOL_IS_STORE, &is_store,
+			COL_BOOL_IS_DRAFT, &is_draft,
+			-1);
+
+		if (is_draft || is_store) {
+			*has_unread = FALSE;
+			return;
+		}
+
+		*has_unread = *has_unread || (unread > 0 && unread != ~((guint)0));
+
+		if (*has_unread)
+			return;
+
+		if (!gtk_tree_model_iter_children (model, &iter, parent))
+			return;
+	} else {
+		iter = *parent;
+	}
+
+	do {
+		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+
+		*has_unread = *has_unread || (unread > 0 && unread != ~((guint)0));
+		if (*has_unread)
+			break;
+
+		if (gtk_tree_model_iter_children (model, &child, &iter))
+			has_unread_mail (model, &child, FALSE, has_unread);
+
+	} while (gtk_tree_model_iter_next (model, &iter) && !*has_unread);
+}
+
+static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
 	EMailShellView *mail_shell_view;
@@ -371,6 +419,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_outbox;
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
+	gboolean folder_has_unread_rec = FALSE;
 
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 
@@ -400,12 +449,27 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
+		EMFolderTreeModel *model;
+
 		account = mail_config_get_account_by_source_url (uri);
 
 		/* FIXME This belongs in a GroupWise plugin. */
 		account_is_groupwise =
 			(g_strrstr (uri, "groupwise://") != NULL) &&
 			account != NULL && account->parent_uid != NULL;
+
+		model = em_folder_tree_model_get_default ();
+		if (model) {
+			GtkTreeRowReference *reference = em_folder_tree_model_lookup_uri (model, uri);
+			if (reference != NULL) {
+				GtkTreePath *path = gtk_tree_row_reference_get_path (reference);
+				GtkTreeIter iter;
+
+				gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+				has_unread_mail (GTK_TREE_MODEL (model), &iter, TRUE, &folder_has_unread_rec);
+				gtk_tree_path_free (path);
+			}
+		}
 
 		g_free (uri);
 	}
@@ -457,6 +521,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
 	sensitive = !folder_is_store && folder_can_be_deleted;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
+	sensitive = folder_has_unread_rec && !folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
 
 	e_mail_shell_view_update_popup_labels (mail_shell_view);

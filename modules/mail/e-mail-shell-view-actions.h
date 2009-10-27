@@ -71,8 +71,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-delete")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_EXPUNGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-expunge")
-#define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MARK_ALL_READ(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-mark-all-read")
+#define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MARK_ALL_AS_READ(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-folder-mark-all-as-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MOVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-move")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_NEW(window) \

@@ -272,12 +272,57 @@ mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 }
 
 static void
+has_unread_mail (GtkTreeModel *model, GtkTreeIter *parent, gboolean is_root, gboolean *has_unread, gboolean *applicable)
+{
+	guint unread = 0;
+	GtkTreeIter iter, child;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (has_unread != NULL);
+	g_return_if_fail (applicable != NULL);
+
+	if (is_root) {
+		gboolean is_draft = FALSE, is_store = FALSE;
+
+		gtk_tree_model_get (model, parent,
+			COL_UINT_UNREAD, &unread,
+			COL_BOOL_IS_STORE, &is_store,
+			COL_BOOL_IS_DRAFT, &is_draft,
+			-1);
+
+		*has_unread = *has_unread || (unread > 0 && unread != ~((guint)0));
+		*applicable = !is_store && !is_draft;
+
+		if (*has_unread)
+			return;
+
+		if (!gtk_tree_model_iter_children (model, &iter, parent))
+			return;
+	} else {
+		iter = *parent;
+	}
+
+	do {
+		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
+
+		*has_unread = *has_unread || (unread > 0 && unread != ~((guint)0));
+		if (*has_unread)
+			break;
+
+		if (gtk_tree_model_iter_children (model, &child, &iter))
+			has_unread_mail (model, &child, FALSE, has_unread, applicable);
+
+	} while (gtk_tree_model_iter_next (model, &iter) && !*has_unread);
+}
+
+static void
 action_mail_mark_read_recursive_cb (GtkAction *action,
                                     EShellView *shell_view)
 {
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
-	const gchar *folder_uri;
+	gchar *folder_uri;
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
@@ -287,6 +332,7 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 	mail_get_folder (
 		folder_uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
 
+	g_free (folder_uri);
 	g_object_unref (folder_tree);
 }
 
@@ -299,6 +345,52 @@ static GtkActionEntry entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_mark_read_recursive_cb) }
 };
+
+static void
+update_actions_cb (EShellView *shell_view, gpointer user_data)
+{
+	GtkActionGroup *action_group;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree;
+	gchar *folder_uri;
+	gboolean has_unread = FALSE, applicable = FALSE;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
+
+	if (folder_uri != NULL) {
+		EMFolderTreeModel *model;
+
+		model = em_folder_tree_model_get_default ();
+		if (model) {
+			GtkTreeRowReference *reference = em_folder_tree_model_lookup_uri (model, folder_uri);
+			if (reference != NULL) {
+				GtkTreePath *path = gtk_tree_row_reference_get_path (reference);
+				GtkTreeIter iter;
+
+				gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
+				has_unread_mail (GTK_TREE_MODEL (model), &iter, TRUE, &has_unread, &applicable);
+				gtk_tree_path_free (path);
+			}
+		}
+	}
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = e_shell_window_get_action_group (shell_window, "mail");
+
+	action = gtk_action_group_get_action (action_group, entries[0].name);
+	g_return_if_fail (action != NULL);
+
+	gtk_action_set_sensitive (action, has_unread && applicable);
+
+	g_free (folder_uri);
+	g_object_unref (folder_tree);
+}
 
 gboolean
 e_plugin_ui_init (GtkUIManager *ui_manager,
@@ -314,6 +406,8 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 	gtk_action_group_add_actions (
 		action_group, entries,
 		G_N_ELEMENTS (entries), shell_view);
+
+	g_signal_connect (shell_view, "update-actions", G_CALLBACK (update_actions_cb), NULL);
 
 	return TRUE;
 }
