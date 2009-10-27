@@ -443,7 +443,7 @@ e_filter_part_find_list (GList *list,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		EFilterPart *part = link->data;
 
-		if (!g_strcmp0 (part->name, name) == 0)
+		if (g_strcmp0 (part->name, name) == 0)
 			return part;
 	}
 
