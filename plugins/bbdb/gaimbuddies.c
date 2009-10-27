@@ -40,6 +40,7 @@
 #include <string.h>
 
 #include <libebook/e-book.h>
+#include <libedataserver/md5-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include <sys/time.h>
@@ -65,41 +66,56 @@ static void free_buddy_list (GList *blist);
 static void parse_buddy_group (xmlNodePtr group, GList **buddies, GSList *blocked);
 static EContactField proto_to_contact_field (const gchar *proto);
 
+static gchar *
+get_buddy_filename (void)
+{
+	return g_build_path ("/", g_get_home_dir (), ".purple/blist.xml", NULL);
+}
+
+static gchar *
+get_md5_as_string (const gchar *filename)
+{
+	guchar d[16];
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	md5_get_digest_from_file (filename, d);
+
+	return g_strdup_printf ("%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x",
+		d[0], d[1], d[2],  d[3],  d[4],  d[5],  d[6],  d[7],
+		d[8], d[9], d[10], d[11], d[12], d[13], d[14], d[15]);
+}
+
 void
 bbdb_sync_buddy_list_check (void)
 {
 	GConfClient *gconf;
-	struct stat statbuf;
-	time_t last_sync;
+	gchar *md5;
 	gchar *blist_path;
 	gchar *last_sync_str;
 
-	gconf = gconf_client_get_default ();
-
-	blist_path = g_build_path ("/", getenv ("HOME"), ".purple/blist.xml", NULL);
-	if (stat (blist_path, &statbuf) < 0) {
+	blist_path = get_buddy_filename ();
+	if (!g_file_test (blist_path, G_FILE_TEST_EXISTS)) {
 		g_free (blist_path);
-		g_object_unref (G_OBJECT (gconf));
 		return;
 	}
 
+	md5 = get_md5_as_string (blist_path);
 	g_free (blist_path);
 
 	/* Reprocess the buddy list if it's been updated. */
+	gconf = gconf_client_get_default ();
 	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, NULL);
-	if (last_sync_str == NULL || ! strcmp ((const gchar *)last_sync_str, ""))
-		last_sync = (time_t) 0;
-	else
-		last_sync = (time_t) g_ascii_strtoull (last_sync_str, NULL, 10);
-
-	g_free (last_sync_str);
 	g_object_unref (G_OBJECT (gconf));
 
-	if (statbuf.st_mtime > last_sync) {
+	if (!last_sync_str || !*last_sync_str || !g_str_equal (md5, last_sync_str)) {
 		fprintf (stderr, "bbdb: Buddy list has changed since last sync.\n");
 
 		bbdb_sync_buddy_list ();
 	}
+
+	g_free (last_sync_str);
+	g_free (md5);
 }
 
 void
@@ -177,17 +193,15 @@ bbdb_sync_buddy_list (void)
 	/* Update the last-sync'd time */
 	{
 		GConfClient *gconf;
-		time_t  last_sync;
-		gchar   *last_sync_str;
+		gchar *md5;
+		gchar *blist_path = get_buddy_filename ();
 
+		md5 = get_md5_as_string (blist_path);
 		gconf = gconf_client_get_default ();
-
-		time (&last_sync);
-		last_sync_str = g_strdup_printf ("%ld", (glong) last_sync);
-		gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, last_sync_str, NULL);
-		g_free (last_sync_str);
-
+		gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, md5, NULL);
 		g_object_unref (G_OBJECT (gconf));
+		g_free (md5);
+		g_free (blist_path);
 	}
 	printf ("bbdb: Done syncing buddy list to contacts.\n");
 }
@@ -313,7 +327,7 @@ bbdb_get_gaim_buddy_list (void)
 	GList *buddies = NULL;
 	GSList *blocked = NULL;
 
-	blist_path = g_build_path ("/", getenv ("HOME"), ".purple/blist.xml", NULL);
+	blist_path = get_buddy_filename ();
 
 	buddy_xml = xmlParseFile (blist_path);
 	g_free (blist_path);
@@ -401,7 +415,7 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 	if (icon [0] != '/') {
 		gchar *path;
 
-		path = g_build_path ("/", getenv ("HOME"), ".purple/icons", icon, NULL);
+		path = g_build_path ("/", g_get_home_dir (), ".purple/icons", icon, NULL);
 		g_free (icon);
 		icon = path;
 	}

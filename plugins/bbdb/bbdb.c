@@ -112,12 +112,7 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 	if (enable) {
 		d(fprintf (stderr, "BBDB spinning up...\n"));
 
-		if (bbdb_check_gaim_enabled ())
-			bbdb_sync_buddy_list_check ();
-
-		g_timeout_add_seconds (BBDB_BLIST_CHECK_INTERVAL,
-			       (GSourceFunc) bbdb_timeout,
-			       NULL);
+		g_idle_add (bbdb_timeout, NULL);
 	}
 
 	return 0;
@@ -129,7 +124,7 @@ bbdb_timeout (gpointer data)
 	if (bbdb_check_gaim_enabled ())
 		bbdb_sync_buddy_list_check ();
 
-	return TRUE;
+	return FALSE;
 }
 
 typedef struct
