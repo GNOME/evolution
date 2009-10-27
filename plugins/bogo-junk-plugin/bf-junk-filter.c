@@ -62,7 +62,7 @@
 
 #define d(x) (camel_debug("junk")?(x):0)
 
-static gboolean enabled = FALSE;
+static gboolean is_installed = FALSE;
 
 static gchar em_junk_bf_binary[] = BOGOFILTER_BINARY;
 
@@ -85,7 +85,7 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 static gboolean em_junk_bf_unicode = TRUE;
 
 static void
-init_db ()
+init_db (void)
 {
 	CamelStream *stream = camel_stream_fs_new_with_name (WELCOME_MESSAGE, O_RDONLY, 0);
 	CamelMimeParser *parser = camel_mime_parser_new ();
@@ -151,11 +151,18 @@ retry:
 				       NULL,
 				       &err))
 	{
-		g_warning ("error occurred while spawning %s: %s",
-			   argv[0],
-			   err->message);
-		/* For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself. */
-		g_set_error (error, EM_JUNK_ERROR, err->code, _("Error occurred while spawning %s: %s."), argv[0], err->message);
+		g_warning ("error occurred while spawning %s: %s", argv[0], err->message);
+
+		if (g_error_matches (err, G_SPAWN_ERROR, G_SPAWN_ERROR_NOENT)) {
+			if (is_installed)
+				g_set_error (error, EM_JUNK_ERROR, err->code, _("Bogofilter is not available. Please install it first."));
+			is_installed = FALSE;
+		} else {
+			/* For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself. */
+			g_set_error (error, EM_JUNK_ERROR, err->code, _("Error occurred while spawning %s: %s."), argv[0], err->message);
+		}
+
+		g_error_free (err);
 
 		return BOGOFILTER_ERROR;
 	}
@@ -252,6 +259,9 @@ em_junk_bf_check_junk (EPlugin *ep, EMJunkTarget *target)
 		NULL
 	};
 
+	if (!is_installed)
+		return FALSE;
+
 	d(fprintf (stderr, "em_junk_bf_check_junk\n"));
 
 	if (em_junk_bf_unicode) {
@@ -277,6 +287,9 @@ em_junk_bf_report_junk (EPlugin *ep, EMJunkTarget *target)
 		NULL
 	};
 
+	if (!is_installed)
+		return;
+
 	d(fprintf (stderr, "em_junk_bf_report_junk\n"));
 
 	if (em_junk_bf_unicode) {
@@ -298,6 +311,9 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 		NULL
 	};
 
+	if (!is_installed)
+		return;
+
 	d(fprintf (stderr, "em_junk_bf_report_non_junk\n"));
 
 	if (em_junk_bf_unicode) {
@@ -310,23 +326,33 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 void
 em_junk_bf_commit_reports (EPlugin *ep, EMJunkTarget *target)
 {
+	if (!is_installed)
+		return;
 }
 
 gpointer
 em_junk_bf_validate_binary (EPlugin *ep, EMJunkTarget *target)
 {
-	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (gpointer) "1" : NULL;
+	gpointer res = g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (gpointer) "1" : NULL;
+
+	if (res != NULL)
+		is_installed = TRUE;
+
+	return res;
 }
 
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
+	static gboolean first = TRUE;
 	GConfClient *gconf;
 
-	if (enable != 1 || enabled == TRUE) {
+	is_installed = enable != 0;
+
+	if (!first)
 		return 0;
-	}
-	enabled = TRUE;
+
+	first = FALSE;
 	gconf = gconf_client_get_default();
 
 	gconf_client_add_dir (gconf,

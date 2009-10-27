@@ -97,6 +97,7 @@ static gint em_junk_sa_spamd_restarts_count = 0;
 /* Variables to indicate whether spamd is running with --allow-tell */
 static gint no_allow_tell;
 static gboolean em_junk_sa_allow_tell_tested = FALSE;
+static gboolean is_installed = FALSE;
 
 gchar *em_junk_sa_spamc_gconf_binary = NULL;
 gchar *em_junk_sa_spamd_gconf_binary = NULL;
@@ -504,8 +505,12 @@ em_junk_sa_is_available (GError **error)
 	if (em_junk_sa_available && !em_junk_sa_spamd_tested && em_junk_sa_use_daemon)
 		em_junk_sa_test_spamd ();
 
-	if (!em_junk_sa_available)
-		g_set_error (error, EM_JUNK_ERROR, 1, _("SpamAssassin is not available."));
+	if (!em_junk_sa_available && error) {
+		if (is_installed)
+			g_set_error (error, EM_JUNK_ERROR, 1, _("SpamAssassin is not available. Please install it first."));
+
+		is_installed = FALSE;
+	}
 
 	/* While we're at it, see if spamd is running with --allow-tell */
 	if (!em_junk_sa_allow_tell_tested)
@@ -579,10 +584,14 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkTarget *target)
 	gboolean rv;
 	CamelMimeMessage *msg = target->m;
 
+	if (!is_installed)
+		return FALSE;
+
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
 
-	if (!em_junk_sa_is_available (&target->error))
+	if (!em_junk_sa_is_available (&target->error)) {
 		return FALSE;
+	}
 
 	if (em_junk_sa_use_spamc && em_junk_sa_use_daemon) {
 		out = g_byte_array_new ();
@@ -697,6 +706,9 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 	gchar *sub = NULL;
 	CamelMimeMessage *msg = target->m;
 
+	if (!is_installed)
+		return;
+
 	sub = g_strdup (camel_mime_message_get_subject (msg));
 	g_print ("\nreport junk?? %s\n", sub);
 
@@ -736,6 +748,9 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 	};
 	CamelMimeMessage *msg = target->m;
 
+	if (!is_installed)
+		return;
+
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 
 	if (em_junk_sa_is_available (&target->error)) {
@@ -763,7 +778,7 @@ em_junk_sa_commit_reports (EPlugin *ep)
 	};
 
 	/* Only meaningful if we're using sa-learn */
-	if (!no_allow_tell)
+	if (!no_allow_tell || !is_installed)
 		return;
 
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
@@ -781,7 +796,12 @@ em_junk_sa_commit_reports (EPlugin *ep)
 gpointer
 em_junk_sa_validate_binary (EPlugin *ep)
 {
-	return em_junk_sa_is_available (NULL) ? (gpointer) "1" : NULL;
+	gpointer res = em_junk_sa_is_available (NULL) ? (gpointer) "1" : NULL;
+
+	if (res != NULL)
+		is_installed = TRUE;
+
+	return res;
 }
 
 static void
@@ -813,6 +833,11 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
+	is_installed = enable != 0;
+
+	if (is_installed)
+		em_junk_sa_tested = FALSE;
+
 	em_junk_sa_init();
 
 	return 0;
@@ -841,11 +866,11 @@ em_junk_sa_init (void)
 
 		em_junk_sa_spamc_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamc_binary", NULL);
 		em_junk_sa_spamd_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamd_binary", NULL);
+
+		atexit (em_junk_sa_finalize);
 	}
 
 	G_UNLOCK (init);
-
-	atexit (em_junk_sa_finalize);
 }
 
 static void
