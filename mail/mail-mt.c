@@ -309,7 +309,8 @@ mail_msg_check_error (gpointer msg)
 
 	if (!camel_exception_is_set(&m->ex)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
-	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID)
+	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID
+	    || (m->cancel && camel_operation_cancel_check (m->cancel)))
 		return;
 
 	if (active_errors == NULL)
@@ -527,10 +528,6 @@ mail_msg_proxy (MailMsg *msg)
 	if (msg->info->desc != NULL && msg->cancel) {
 		camel_operation_end (msg->cancel);
 		camel_operation_unregister (msg->cancel);
-		MAIL_MT_LOCK (mail_msg_lock);
-		camel_operation_unref (msg->cancel);
-		msg->cancel = NULL;
-		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
 
 	g_async_queue_push (msg_reply_queue, msg);

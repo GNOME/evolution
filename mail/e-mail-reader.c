@@ -1845,12 +1845,17 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 		html_display_visible = GTK_WIDGET_MAPPED (widget);
 		selected_uid_changed = g_strcmp0 (cursor_uid, format_uid);
 
-		if (html_display_visible && selected_uid_changed)
-			mail_get_messagex (
+		if (html_display_visible && selected_uid_changed) {
+			gint op_id;
+
+			op_id = mail_get_messagex (
 				message_list->folder, cursor_uid,
 				mail_reader_message_loaded_cb,
 				g_object_ref (reader),
 				mail_msg_fast_ordered_push);
+
+			g_object_set_data (G_OBJECT (reader), "preview-get-message-op-id", GINT_TO_POINTER (op_id));
+		}
 	} else
 		em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
 
@@ -1866,6 +1871,12 @@ mail_reader_message_selected_cb (EMailReader *reader,
 {
 	GSource *source;
 	const gchar *key;
+	gint op_id;
+
+	/* cancel previous message fetching, if any, first */
+	op_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (reader), "preview-get-message-op-id"));
+	if (op_id)
+		mail_msg_cancel (op_id);
 
 	/* XXX This is kludgy, but we have no other place to store timeout
 	 * state information.  Addendum: See EAttachmentView for an example

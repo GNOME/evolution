@@ -49,18 +49,18 @@ void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			     gpointer data);
 
 /* get a single message, asynchronously */
-void mail_get_message (CamelFolder *folder, const gchar *uid,
+gint mail_get_message (CamelFolder *folder, const gchar *uid,
 		       void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data),
 		       gpointer data,
 		       MailMsgDispatchFunc dispatch);
 
-CamelOperation *
+gint
 mail_get_messagex(CamelFolder *folder, const gchar *uid,
 		  void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *),
 		  gpointer data, MailMsgDispatchFunc dispatch);
 
 /* get several messages */
-void mail_get_messages (CamelFolder *folder, GPtrArray *uids,
+gint mail_get_messages (CamelFolder *folder, GPtrArray *uids,
 			void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, gpointer data),
 			gpointer data);
 

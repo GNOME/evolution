@@ -1836,7 +1836,10 @@ get_message_desc (struct _get_message_msg *m)
 static void
 get_message_exec (struct _get_message_msg *m)
 {
-	m->message = camel_folder_get_message(m->folder, m->uid, &m->base.ex);
+	if (m->base.cancel && camel_operation_cancel_check (m->base.cancel))
+		m->message = NULL;
+	else
+		m->message = camel_folder_get_message (m->folder, m->uid, &m->base.ex);
 }
 
 static void
@@ -1865,12 +1868,13 @@ static MailMsgInfo get_message_info = {
 	(MailMsgFreeFunc) get_message_free
 };
 
-void
+gint
 mail_get_message(CamelFolder *folder, const gchar *uid, void (*done) (CamelFolder *folder, const gchar *uid,
 								     CamelMimeMessage *msg, gpointer data),
 		 gpointer data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_message_msg *m;
+	gint id;
 
 	m = mail_msg_new(&get_message_info);
 	m->folder = folder;
@@ -1879,8 +1883,11 @@ mail_get_message(CamelFolder *folder, const gchar *uid, void (*done) (CamelFolde
 	m->data = data;
 	m->done = (void (*) (CamelFolder *, const gchar *, CamelMimeMessage *, gpointer )) done;
 	m->cancel = camel_operation_new(NULL, NULL);
+	id = m->base.seq;
 
 	dispatch (m);
+
+	return id;
 }
 
 typedef void (*get_done)(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *);
@@ -1904,11 +1911,12 @@ static MailMsgInfo get_messagex_info = {
 
 /* This is temporary, to avoid having to rewrite everything that uses
    mail_get_message; it adds an exception argument to the callback */
-CamelOperation *
+gint
 mail_get_messagex(CamelFolder *folder, const gchar *uid, void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, CamelException *),
 		 gpointer data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_message_msg *m;
+	gint id;
 
 	m = mail_msg_new(&get_messagex_info);
 	m->folder = folder;
@@ -1917,10 +1925,11 @@ mail_get_messagex(CamelFolder *folder, const gchar *uid, void (*done) (CamelFold
 	m->data = data;
 	m->done = (void (*) (CamelFolder *, const gchar *, CamelMimeMessage *, gpointer )) done;
 	m->cancel = camel_operation_new(NULL, NULL);
+	id = m->base.seq;
 
 	dispatch (m);
 
-	return m->cancel;
+	return id;
 }
 
 /* ********************************************************************** */
@@ -1991,12 +2000,13 @@ static MailMsgInfo get_messages_info = {
 	(MailMsgFreeFunc) get_messages_free
 };
 
-void
+gint
 mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 		  void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, gpointer data),
 		  gpointer data)
 {
 	struct _get_messages_msg *m;
+	gint id;
 
 	m = mail_msg_new(&get_messages_info);
 	m->folder = folder;
@@ -2005,8 +2015,11 @@ mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 	m->messages = g_ptr_array_new();
 	m->data = data;
 	m->done = done;
+	id = m->base.seq;
 
 	mail_msg_unordered_push (m);
+
+	return id;
 }
 
 /* ** SAVE MESSAGES ******************************************************* */
