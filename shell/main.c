@@ -521,7 +521,8 @@ main (gint argc, gchar **argv)
 	}
 
 	g_type_init ();
-	g_thread_init (NULL);
+	if (!g_thread_get_initialized ())
+		g_thread_init (NULL);
 	dbus_g_thread_init ();
 
 #ifdef G_OS_WIN32
