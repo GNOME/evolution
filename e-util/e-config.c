@@ -31,6 +31,7 @@
 #include <glib/gi18n.h>
 
 #include "e-config.h"
+#include "e-binding.h"
 
 #include <glib/gi18n.h>
 
@@ -1558,22 +1559,105 @@ emph_free_group(struct _EConfigHookGroup *group)
 }
 
 static GtkWidget *
-ech_config_widget_factory(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+ech_config_widget_factory (EConfig *config,
+                           EConfigItem *item,
+                           GtkWidget *parent,
+                           GtkWidget *old,
+                           gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
+	EConfigHookItemFactoryData factory_data;
+	GtkWidget *widget;
+	EPlugin *plugin;
 
-	if (group->hook->hook.plugin->enabled) {
-		EConfigHookItemFactoryData hdata;
+	factory_data.config = config;
+	factory_data.item = item;
+	factory_data.target = config->target;
+	factory_data.parent = parent;
+	factory_data.old = old;
 
-		hdata.config = ec;
-		hdata.item = item;
-		hdata.target = ec->target;
-		hdata.parent = parent;
-		hdata.old = old;
+	plugin = group->hook->hook.plugin;
+	widget = e_plugin_invoke (plugin, item->user_data, &factory_data);
 
-		return (GtkWidget *)e_plugin_invoke(group->hook->hook.plugin, (gchar *)item->user_data, &hdata);
-	} else
-		return NULL;
+	/* Sanity check the result. */
+	if (widget == NULL)
+		g_warning (
+			"%s() returned NULL instead of a GtkWidget",
+			(gchar *) item->user_data);
+	else if (!GTK_IS_WIDGET (widget))
+		g_warning (
+			"%s() returned a %s instead of a GtkWidget",
+			(gchar *) item->user_data,
+			G_OBJECT_TYPE_NAME (widget));
+
+	return widget;
+}
+
+static GtkWidget *
+ech_config_section_factory (EConfig *config,
+                            EConfigItem *item,
+                            GtkWidget *parent,
+                            GtkWidget *old,
+                            gpointer data)
+{
+	struct _EConfigHookGroup *group = data;
+	GtkWidget *label;
+	GtkWidget *widget;
+	EPlugin *plugin;
+
+	if (item->label != NULL) {
+		const gchar *translated;
+		gchar *markup;
+
+		translated = gettext (item->label);
+		markup = g_markup_printf_escaped ("<b>%s</b>", translated);
+
+		label = gtk_label_new (markup);
+		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+		gtk_widget_show (label);
+
+		g_free (markup);
+	}
+
+	widget = gtk_frame_new (NULL);
+	gtk_frame_set_label_widget (GTK_FRAME (widget), label);
+	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
+
+	/* This is why we have a custom factory for sections.
+	 * When the plugin is disabled the frame is invisible. */
+	plugin = group->hook->hook.plugin;
+	e_binding_new (plugin, "enabled", widget, "visible");
+
+	parent = widget;
+
+	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 6, 0, 12, 0);
+	gtk_container_add (GTK_CONTAINER (parent), widget);
+	gtk_widget_show (widget);
+
+	parent = widget;
+
+	switch (item->type) {
+		case E_CONFIG_SECTION:
+			widget = gtk_vbox_new (FALSE, 6);
+			break;
+
+		case E_CONFIG_SECTION_TABLE:
+			widget = gtk_table_new (1, 1, FALSE);
+			gtk_table_set_col_spacings (GTK_TABLE (widget), 6);
+			gtk_table_set_row_spacings (GTK_TABLE (widget), 6);
+			break;
+
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
+	gtk_container_add (GTK_CONTAINER (parent), widget);
+	gtk_widget_show (widget);
+
+	return widget;
 }
 
 static struct _EConfigItem *
@@ -1595,6 +1679,10 @@ emph_construct_item(EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, E
 
 	if (item->user_data)
 		item->factory = ech_config_widget_factory;
+	else if (item->type == E_CONFIG_SECTION)
+		item->factory = ech_config_section_factory;
+	else if (item->type == E_CONFIG_SECTION_TABLE)
+		item->factory = ech_config_section_factory;
 
 	d(printf("   path=%s label=%s factory=%s\n", item->path, item->label, (gchar *)item->user_data));
 
