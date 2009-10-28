@@ -280,12 +280,12 @@ e_event_emit(EEvent *event, const gchar *id, EEventTarget *target)
 		struct _event_info *info = events->data;
 		EEventItem *item = info->item;
 
-		d(printf("event '%s' mask %08x target %08x\n", event->id, event->enable, target->mask));
+		d(printf("event '%s' mask %08x target %08x\n", item->id, item->enable, target->mask));
 
 		if (item->enable & target->mask)
 			continue;
 
-		if (strcmp(event->id, id) == 0) {
+		if (strcmp(item->id, id) == 0) {
 			item->handle(event, item, info->parent->data);
 
 			if (item->type == E_EVENT_SINK)
@@ -320,7 +320,7 @@ e_event_target_new (EEvent *event,
 	}
 
 	target = g_malloc0 (size);
-	target->event = g_object_ref (event);;
+	target->event = g_object_ref (event);
 	target->type = type;
 
 	return target;
