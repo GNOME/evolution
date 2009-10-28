@@ -548,9 +548,7 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 				(strcmp (full_name, "Sent") != 0) &&
 				(strcmp (full_name, "Templates") != 0);
 
-		if (!(folder_flags & CAMEL_FOLDER_HAS_BEEN_DELETED)) {
-			is_outbox = em_utils_folder_is_outbox (NULL, uri);
-		}
+		is_outbox = em_utils_folder_is_outbox (NULL, uri);
 		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}
 
