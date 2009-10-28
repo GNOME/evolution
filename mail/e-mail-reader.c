@@ -2363,18 +2363,6 @@ e_mail_reader_init (EMailReader *reader)
 
 	web_view = E_WEB_VIEW (EM_FORMAT_HTML (html_display)->html);
 
-	gtk_action_group_add_actions (
-		action_group, mail_reader_entries,
-		G_N_ELEMENTS (mail_reader_entries), reader);
-	e_action_group_add_popup_actions (
-		action_group, mail_reader_popup_entries,
-		G_N_ELEMENTS (mail_reader_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, mail_reader_toggle_entries,
-		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
-
-	mail_reader_init_charset_actions (reader);
-
 	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
 	 * for its toolbar item type.  So we have to create it separately. */
 
@@ -2391,6 +2379,20 @@ e_mail_reader_init (EMailReader *reader)
 
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
+
+	/* Add the other actions the normal way. */
+
+	gtk_action_group_add_actions (
+		action_group, mail_reader_entries,
+		G_N_ELEMENTS (mail_reader_entries), reader);
+	e_action_group_add_popup_actions (
+		action_group, mail_reader_popup_entries,
+		G_N_ELEMENTS (mail_reader_popup_entries));
+	gtk_action_group_add_toggle_actions (
+		action_group, mail_reader_toggle_entries,
+		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
+
+	mail_reader_init_charset_actions (reader);
 
 	/* Bind GObject properties to GConf keys. */
 
