@@ -1934,13 +1934,17 @@ mail_reader_set_folder (EMailReader *reader,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	if (message_list->folder != NULL)
+		mail_sync_folder (message_list->folder, NULL, NULL);
+
+	/* Skip the rest if we're already viewing the folder. */
+	if (g_strcmp0 (folder_uri, message_list->folder_uri) == 0)
+		return;
+
 	outgoing = folder != NULL && folder_uri != NULL && (
 		em_utils_folder_is_drafts (folder, folder_uri) ||
 		em_utils_folder_is_outbox (folder, folder_uri) ||
 		em_utils_folder_is_sent (folder, folder_uri));
-
-	if (message_list->folder != NULL)
-		mail_sync_folder (message_list->folder, NULL, NULL);
 
 	em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
 	message_list_set_folder (message_list, folder, folder_uri, outgoing);

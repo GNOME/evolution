@@ -109,6 +109,9 @@ struct _EMFolderTreePrivate {
 	gboolean skip_double_click;
 
 	GtkCellRenderer *text_renderer;
+
+	/* Signal handler IDs */
+	gulong selection_changed_handler_id;
 };
 
 enum {
@@ -599,6 +602,7 @@ folder_tree_button_press_event (GtkWidget *widget,
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
+	gulong handler_id;
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
 
@@ -618,9 +622,14 @@ folder_tree_button_press_event (GtkWidget *widget,
 		&path, NULL, NULL, NULL))
 		goto chainup;
 
-	/* select/focus the row that was right-clicked */
+	/* Select and focus the row that was right-clicked, but prevent
+	 * a "folder-selected" signal emission since this does not count
+	 * as a folder selection in the sense we mean. */
+	handler_id = priv->selection_changed_handler_id;
+	g_signal_handler_block (selection, handler_id);
 	gtk_tree_selection_select_path (selection, path);
 	gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
+	g_signal_handler_unblock (selection, handler_id);
 
 	gtk_tree_path_free (path);
 
@@ -835,6 +844,7 @@ folder_tree_init (EMFolderTree *folder_tree)
 	GtkTreeSelection *selection;
 	GHashTable *select_uris_table;
 	EMFolderTreeModel *model;
+	gulong handler_id;
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -846,9 +856,11 @@ folder_tree_init (EMFolderTree *folder_tree)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
-	g_signal_connect_swapped (
+	handler_id = g_signal_connect_swapped (
 		selection, "changed",
 		G_CALLBACK (folder_tree_selection_changed_cb), folder_tree);
+
+	folder_tree->priv->selection_changed_handler_id = handler_id;
 }
 
 GType

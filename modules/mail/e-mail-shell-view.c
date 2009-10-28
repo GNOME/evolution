@@ -399,11 +399,12 @@ static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
 	EMailShellView *mail_shell_view;
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
+	EMailReader *reader;
 	EAccount *account = NULL;
 	GtkAction *action;
 	const gchar *label;
@@ -420,13 +421,15 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
 	gboolean folder_has_unread_rec = FALSE;
+	gboolean folder_tree_and_message_list_agree = TRUE;
 
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	e_mail_reader_update_actions (E_MAIL_READER (shell_content));
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	reader = E_MAIL_READER (mail_shell_content);
+	e_mail_reader_update_actions (reader);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -450,6 +453,18 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
 		EMFolderTreeModel *model;
+		MessageList *message_list;
+
+		/* XXX If the user right-clicks on a folder other than what
+		 *     the message list is showing, disable folder rename.
+		 *     Between fetching the CamelFolder asynchronously and
+		 *     knowing when NOT to move the folder tree selection
+		 *     back to where it was to avoid cancelling the inline
+		 *     folder tree editing, it's just too hairy to try to
+		 *     get right.  So we're punting. */
+		message_list = e_mail_reader_get_message_list (reader);
+		folder_tree_and_message_list_agree =
+			(g_strcmp0 (uri, message_list->folder_uri) == 0);
 
 		account = mail_config_get_account_by_source_url (uri);
 
@@ -516,7 +531,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_RENAME);
-	sensitive = !folder_is_store && folder_can_be_deleted;
+	sensitive =
+		!folder_is_store && folder_can_be_deleted &&
+		folder_tree_and_message_list_agree;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);

@@ -286,6 +286,7 @@ EShellView
 @shell_view: 
 @widget_path: 
 @event: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_view_new_view_instance ##### -->

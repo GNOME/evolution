@@ -95,13 +95,52 @@ exit:
 }
 
 static void
+mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
+                                               GtkWidget *menu)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	MessageList *message_list;
+	EMailReader *reader;
+	const gchar *list_uri;
+	gchar *tree_uri;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	list_uri = message_list->folder_uri;
+	tree_uri = em_folder_tree_get_selected_uri (folder_tree);
+
+	/* If the folder tree and message list disagree on the current
+	 * folder, reset the folder tree to match the message list. */
+	if (g_strcmp0 (tree_uri, list_uri) != 0)
+		em_folder_tree_set_selected (folder_tree, list_uri, FALSE);
+
+	g_free (tree_uri);
+
+	/* Disconnect from the "selection-done" signal. */
+	g_signal_handlers_disconnect_by_func (
+		menu, mail_shell_view_folder_tree_selection_done_cb,
+		mail_shell_view);
+}
+
+static void
 mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
                                             GdkEventButton *event)
 {
+	GtkWidget *menu;
 	const gchar *widget_path;
 
 	widget_path = "/mail-folder-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+	menu = e_shell_view_show_popup_menu (shell_view, widget_path, event);
+
+	g_signal_connect_swapped (
+		menu, "selection-done",
+		G_CALLBACK (mail_shell_view_folder_tree_selection_done_cb),
+		shell_view);
 }
 
 static gboolean

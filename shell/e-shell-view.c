@@ -1137,8 +1137,10 @@ e_shell_view_update_actions (EShellView *shell_view)
  * The #EShellView::update-actions signal is emitted just prior to
  * showing the menu to give @shell_view and any plugins that extend
  * @shell_view a chance to update the menu's actions.
+ *
+ * Returns: the popup menu being displayed
  **/
-void
+GtkWidget *
 e_shell_view_show_popup_menu (EShellView *shell_view,
                               const gchar *widget_path,
                               GdkEventButton *event)
@@ -1162,6 +1164,8 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL, NULL,
 			0, gtk_get_current_event_time ());
+
+	return menu;
 }
 
 /**
