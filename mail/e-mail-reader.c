@@ -36,6 +36,7 @@
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 #include "widgets/misc/e-popup-action.h"
+#include "widgets/misc/e-menu-tool-action.h"
 
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-display.h"
@@ -1175,16 +1176,16 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Flag the selected messages for follow-up"),
 	  G_CALLBACK (action_mail_flag_for_followup_cb) },
 
-	{ "mail-forward",
-	  "mail-forward",
-	  N_("_Forward"),
-	  "<Control>f",
-	  N_("Forward the selected message to someone"),
-	  G_CALLBACK (action_mail_forward_cb) },
-
 	{ "mail-forward-attached",
 	  NULL,
 	  N_("_Attached"),
+	  NULL,
+	  N_("Forward the selected message to someone as an attachment"),
+	  G_CALLBACK (action_mail_forward_attached_cb) },
+
+	{ "mail-forward-attached-full",
+	  NULL,
+	  N_("Forward As _Attached"),
 	  NULL,
 	  N_("Forward the selected message to someone as an attachment"),
 	  G_CALLBACK (action_mail_forward_attached_cb) },
@@ -1196,9 +1197,23 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Forward the selected message in the body of a new message"),
 	  G_CALLBACK (action_mail_forward_inline_cb) },
 
+	{ "mail-forward-inline-full",
+	  NULL,
+	  N_("Forward As _Inline"),
+	  NULL,
+	  N_("Forward the selected message in the body of a new message"),
+	  G_CALLBACK (action_mail_forward_inline_cb) },
+
 	{ "mail-forward-quoted",
 	  NULL,
 	  N_("_Quoted"),
+	  NULL,
+	  N_("Forward the selected message quoted like a reply"),
+	  G_CALLBACK (action_mail_forward_quoted_cb) },
+
+	{ "mail-forward-quoted-full",
+	  NULL,
+	  N_("Forward As _Quoted"),
 	  NULL,
 	  N_("Forward the selected message quoted like a reply"),
 	  G_CALLBACK (action_mail_forward_quoted_cb) },
@@ -2049,12 +2064,27 @@ mail_reader_update_actions (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-forward-attached-full";
+	sensitive = have_an_account && any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-forward-inline";
 	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-forward-inline-full";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-forward-quoted";
+	sensitive = have_an_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-quoted-full";
 	sensitive = have_an_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
@@ -2312,6 +2342,7 @@ e_mail_reader_init (EMailReader *reader)
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
+	EMenuToolAction *menu_tool_action;
 	EWebView *web_view;
 	GtkActionGroup *action_group;
 	MessageList *message_list;
@@ -2343,6 +2374,23 @@ e_mail_reader_init (EMailReader *reader)
 		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
 
 	mail_reader_init_charset_actions (reader);
+
+	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
+	 * for its toolbar item type.  So we have to create it separately. */
+
+	menu_tool_action = e_menu_tool_action_new (
+		"mail-forward", _("_Forward"),
+		_("Forward the selected message to someone"), NULL);
+
+	gtk_action_set_icon_name (
+		GTK_ACTION (menu_tool_action), "mail-forward");
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_forward_cb), reader);
+
+	gtk_action_group_add_action_with_accel (
+		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
 
 	/* Bind GObject properties to GConf keys. */
 

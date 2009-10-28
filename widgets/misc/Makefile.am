@@ -55,6 +55,7 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-import-assistant.h			\
 	e-map.h					\
+	e-menu-tool-action.h			\
 	e-menu-tool-button.h			\
 	e-online-button.h			\
 	e-paned.h				\
@@ -133,6 +134,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-import-assistant.c			\
 	e-map.c					\
+	e-menu-tool-action.c			\
 	e-menu-tool-button.c			\
 	e-online-button.c			\
 	e-paned.c				\

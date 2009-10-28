@@ -112,7 +112,15 @@
     <placeholder name='mail-toolbar-common'>
       <toolitem action='mail-reply-sender'/>
       <toolitem action='mail-reply-all'/>
-      <toolitem action='mail-forward'/>
+      <toolitem action='mail-forward'>
+        <menu action='mail-forward-as-menu'>
+          <menuitem action='mail-forward-attached-full'/>
+          <menuitem action='mail-forward-inline-full'/>
+          <menuitem action='mail-forward-quoted-full'/>
+          <separator/>
+          <menuitem action='mail-redirect'/>
+        </menu>
+      </toolitem>
       <separator/>
       <toolitem action='mail-print'/>
       <toolitem action='mail-delete'/>
