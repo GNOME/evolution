@@ -118,6 +118,7 @@ enum {
 	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
 	FOLDER_SELECTED,
 	POPUP_EVENT,
+	HIDDEN_KEY_EVENT,
 	LAST_SIGNAL
 };
 
@@ -652,6 +653,12 @@ folder_tree_key_press_event (GtkWidget *widget,
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 
+	if (event && event->type == GDK_KEY_PRESS && (event->keyval == GDK_space || event->keyval == '.' || event->keyval == ',' || event->keyval == '[' || event->keyval == ']')) {
+		g_signal_emit (widget, signals [HIDDEN_KEY_EVENT], 0, event);
+
+ 		return TRUE;
+	}
+
 	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
 
 	tree_view = GTK_TREE_VIEW (widget);
@@ -836,6 +843,15 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	signals[HIDDEN_KEY_EVENT] =
+		g_signal_new ("hidden-key-event",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMFolderTreeClass, hidden_key_event),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__BOXED,
+			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 
 static void
