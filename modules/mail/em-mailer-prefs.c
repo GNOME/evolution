@@ -799,8 +799,14 @@ junk_plugin_setup (GtkWidget *combo, EMMailerPrefs *prefs)
 }
 
 GtkWidget *
-create_combo_text_widget (void) {
-	return gtk_combo_box_new_text ();
+create_combo_text_widget (void)
+{
+	GtkWidget *widget;
+
+	widget = gtk_combo_box_new_text ();
+	gtk_widget_show (widget);
+
+	return widget;
 }
 
 static void
