@@ -2038,6 +2038,11 @@ mail_reader_update_actions (EMailReader *reader)
 	any_messages_selected =
 		(single_message_selected || multiple_messages_selected);
 
+	action_name = "mail-add-sender";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-check-for-junk";
 	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -2048,6 +2053,11 @@ mail_reader_update_actions (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-create-rule-menu";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-delete";
 	sensitive = selection_has_undeleted_messages;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -2055,6 +2065,11 @@ mail_reader_update_actions (EMailReader *reader)
 
 	action_name = "mail-filters-apply";
 	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-find";
+	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2069,6 +2084,11 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-forward-attached-full";
+	sensitive = have_an_account && any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-as-menu";
 	sensitive = have_an_account && any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
@@ -2093,8 +2113,18 @@ mail_reader_update_actions (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-goto-menu";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-load-images";
 	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-as-menu";
+	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -2148,6 +2178,11 @@ mail_reader_update_actions (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-next";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-next-important";
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -2159,6 +2194,11 @@ mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-next-unread";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous";
 	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);

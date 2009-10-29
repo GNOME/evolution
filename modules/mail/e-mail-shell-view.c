@@ -536,6 +536,18 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		folder_tree_and_message_list_agree;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (MAIL_FOLDER_SELECT_ALL);
+	sensitive = !folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_SELECT_THREAD);
+	sensitive = !folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_SELECT_SUBTHREAD);
+	sensitive = !folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
 	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
