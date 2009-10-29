@@ -1567,7 +1567,6 @@ ech_config_widget_factory (EConfig *config,
 {
 	struct _EConfigHookGroup *group = data;
 	EConfigHookItemFactoryData factory_data;
-	GtkWidget *widget;
 	EPlugin *plugin;
 
 	factory_data.config = config;
@@ -1577,20 +1576,7 @@ ech_config_widget_factory (EConfig *config,
 	factory_data.old = old;
 
 	plugin = group->hook->hook.plugin;
-	widget = e_plugin_invoke (plugin, item->user_data, &factory_data);
-
-	/* Sanity check the result. */
-	if (widget == NULL)
-		g_warning (
-			"%s() returned NULL instead of a GtkWidget",
-			(gchar *) item->user_data);
-	else if (!GTK_IS_WIDGET (widget))
-		g_warning (
-			"%s() returned a %s instead of a GtkWidget",
-			(gchar *) item->user_data,
-			G_OBJECT_TYPE_NAME (widget));
-
-	return widget;
+	return e_plugin_invoke (plugin, item->user_data, &factory_data);
 }
 
 static GtkWidget *
