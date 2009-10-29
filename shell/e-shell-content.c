@@ -1560,5 +1560,5 @@ e_shell_content_restore_state (EShellContent *shell_content,
 	gtk_action_unblock_activate (action);
 
 	/* Now execute the search. */
-	gtk_action_activate (action);
+	e_shell_view_execute_search (shell_view);
 }
