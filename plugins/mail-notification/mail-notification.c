@@ -613,7 +613,7 @@ static void
 do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
 {
 	if (!beep) {
-		if ( (file || *file) && !use_theme )
+		if (!use_theme && file && *file)
 			ca_context_play(mailnotification, 0,
 			CA_PROP_MEDIA_FILENAME, file,
 			NULL);
