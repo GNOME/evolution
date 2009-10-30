@@ -132,7 +132,7 @@ action_print_cb (GtkAction *action,
 	EMFormatHTMLPrint *efhp;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	message = e_msg_composer_get_message (composer, 1);
+	message = e_msg_composer_get_message_print (composer, 1);
 
 	efhp = em_format_html_print_new (NULL, print_action);
 	em_format_html_print_raw_message (efhp, message);
