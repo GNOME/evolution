@@ -2462,9 +2462,10 @@ folder_tree_descend (GtkTreeModel *model,
 }
 
 void
-em_folder_tree_select_prev_path (EMFolderTree *folder_tree,
+em_folder_tree_select_prev_path (EMFolderTree *emft,
                                  gboolean skip_read_folders)
 {
+	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreePath *path = NULL;
@@ -2475,7 +2476,8 @@ em_folder_tree_select_prev_path (EMFolderTree *folder_tree,
 
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 
-	selection = gtk_tree_view_get_selection(emft->priv->treeview);
+	tree_view = emft->priv->treeview;
+	selection = gtk_tree_view_get_selection(tree_view);
 
 	/* Nothing selected means nothing to do. */
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
