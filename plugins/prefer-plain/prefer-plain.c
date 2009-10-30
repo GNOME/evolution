@@ -49,6 +49,7 @@ enum {
 
 static GConfClient *epp_gconf = NULL;
 static gint epp_mode = -1;
+static gboolean epp_show_suppressed = TRUE;
 
 static void
 make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part, gint i)
@@ -83,7 +84,7 @@ org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t)
 	    || strstr (t->format->part_id->str, ".alternative-prefer-plain.") != NULL
 	    || em_format_is_inline (t->format, t->format->part_id->str, t->part, &(t->item->handler)))
 		t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old);
-	else
+	else if (epp_show_suppressed)
 		make_part_attachment (t->format, t->stream, t->part, -1);
 }
 
@@ -186,7 +187,8 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 	}
 
 	/* all other parts are attachments */
-	export_as_attachments (mp, t->format, t->stream, display_part);
+	if (epp_show_suppressed)
+		export_as_attachments (mp, t->format, t->stream, display_part);
 
 	g_string_truncate(t->format->part_id, partidlen);
 }
@@ -196,9 +198,9 @@ static struct {
 	const gchar *label;
 	const gchar *description;
 } epp_options[] = {
-	{ "normal",       N_("Show HTML if present"), N_("Let Evolution choose the best part to show.") },
-	{ "prefer_plain", N_("Prefer PLAIN"),         N_("Show plain text part, if present, otherwise let Evolution choose the best part to show.") },
-	{ "only_plain",   N_("Only ever show PLAIN"), N_("Always show plain text part and make attachments from other parts.") },
+	{ "normal",       N_("Show HTML if present"),       N_("Let Evolution choose the best part to show.") },
+	{ "prefer_plain", N_("Show plain text if present"), N_("Show plain text part, if present, otherwise let Evolution choose the best part to show.") },
+	{ "only_plain",   N_("Only ever show plain text"),  N_("Always show plain text part and make attachments from other parts, if requested.") },
 };
 
 static void
@@ -222,6 +224,15 @@ epp_mode_changed(GtkComboBox *dropdown, GtkWidget *info_label)
 	update_info_label (info_label, epp_mode);
 }
 
+static void
+epp_show_suppressed_toggled (GtkToggleButton *check, gpointer data)
+{
+	g_return_if_fail (check != NULL);
+
+	epp_show_suppressed = gtk_toggle_button_get_active (check);
+	gconf_client_set_bool (epp_gconf, "/apps/evolution/eplugin/prefer_plain/show_suppressed", epp_show_suppressed, NULL);
+}
+
 GtkWidget *
 org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
@@ -229,12 +240,17 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	GtkComboBox *dropdown;
 	GtkCellRenderer *cell;
 	GtkListStore *store;
-	GtkWidget *w, *info;
+	GtkWidget *dropdown_label, *info, *check;
 	gint i;
 	GtkTreeIter iter;
 
 	if (data->old)
 		return data->old;
+
+	check = gtk_check_button_new_with_mnemonic (_("Show s_uppressed HTML parts as attachments"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), epp_show_suppressed);
+	gtk_widget_show (check);
+	g_signal_connect (check, "toggled", G_CALLBACK (epp_show_suppressed_toggled), NULL);
 
 	dropdown = (GtkComboBox *)gtk_combo_box_new();
 	cell = gtk_cell_renderer_text_new();
@@ -251,9 +267,9 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	gtk_combo_box_set_active(dropdown, epp_mode);
 	gtk_widget_show((GtkWidget *)dropdown);
 
-	w = gtk_label_new_with_mnemonic(_("HTML _Mode"));
-	gtk_widget_show(w);
-	gtk_label_set_mnemonic_widget(GTK_LABEL(w),(GtkWidget *)dropdown);
+	dropdown_label = gtk_label_new_with_mnemonic (_("HTML _Mode"));
+	gtk_widget_show (dropdown_label);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (dropdown_label), (GtkWidget *)dropdown);
 
 	info = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (info), 0.0, 0.5);
@@ -265,9 +281,10 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
 
 	i = ((GtkTable *)data->parent)->nrows;
-	gtk_table_attach((GtkTable *)data->parent, w, 0, 1, i, i+1, 0, 0, 0, 0);
-	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i, i+1, GTK_FILL|GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach((GtkTable *)data->parent, info, 1, 2, i + 1, i + 2, GTK_FILL|GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach((GtkTable *)data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach((GtkTable *)data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
+	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach((GtkTable *)data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* since this isnt dynamic, we don't need to track each item */
 
@@ -286,6 +303,8 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
 		return 0;
 
 	if (enable) {
+		GConfValue *val;
+
 		epp_gconf = gconf_client_get_default();
 		key = gconf_client_get_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", NULL);
 		if (key) {
@@ -299,6 +318,13 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
 		} else {
 			epp_mode = 0;
 		}
+
+		val = gconf_client_get (epp_gconf, "/apps/evolution/eplugin/prefer_plain/show_suppressed", NULL);
+		if (val) {
+			epp_show_suppressed = gconf_value_get_bool (val);
+			gconf_value_free (val);
+		} else
+			epp_show_suppressed = TRUE;
 	} else {
 		if (epp_gconf) {
 			g_object_unref(epp_gconf);
