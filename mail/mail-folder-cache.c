@@ -101,6 +101,11 @@ struct _folder_update {
 
 	gint unread;
 	CamelStore *store;
+
+	/* for only one new message... */
+	gchar *msg_uid;     /* ... its uid ... */
+	gchar *msg_sender;  /* ... its sender ... */
+	gchar *msg_subject; /* ... and its subject. */
 };
 
 struct _store_info {
@@ -134,13 +139,16 @@ static gint count_trash = FALSE;
 static void
 free_update(struct _folder_update *up)
 {
-	g_free(up->full_name);
-	g_free(up->uri);
+	g_free (up->full_name);
+	g_free (up->uri);
 	if (up->store)
 		camel_object_unref(up->store);
-	g_free(up->oldfull);
-	g_free(up->olduri);
-	g_free(up);
+	g_free (up->oldfull);
+	g_free (up->olduri);
+	g_free (up->msg_uid);
+	g_free (up->msg_sender);
+	g_free (up->msg_subject);
+	g_free (up);
 }
 
 static void
@@ -185,7 +193,7 @@ real_flush_updates (void)
 
 		if (up->uri) {
 			EMEvent *e = em_event_peek();
-			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new);
+			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new, up->msg_uid, up->msg_sender, up->msg_subject);
 
 			t->is_inbox = em_folder_tree_model_is_type_inbox (
 				default_model, up->store, up->full_name);
@@ -300,7 +308,7 @@ free_folder_info(struct _folder_info *mfi)
  * it's correct.  */
 
 static void
-update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
+update_1folder(struct _folder_info *mfi, gint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject, CamelFolderInfo *info)
 {
 	struct _folder_update *up;
 	CamelFolder *folder;
@@ -350,6 +358,9 @@ update_1folder(struct _folder_info *mfi, gint new, CamelFolderInfo *info)
 	up->new = new;
 	up->store = mfi->store_info->store;
 	up->uri = g_strdup(mfi->uri);
+	up->msg_uid = g_strdup (msg_uid);
+	up->msg_sender = g_strdup (msg_sender);
+	up->msg_subject = g_strdup (msg_subject);
 	camel_object_ref(up->store);
 	g_queue_push_head (&updates, up);
 	flush_updates();
@@ -363,7 +374,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 
 	mfi = g_hash_table_lookup(si->folders, fi->full_name);
 	if (mfi) {
-		update_1folder(mfi, 0, fi);
+		update_1folder (mfi, 0, NULL, NULL, NULL, fi);
 	} else {
 		d(printf("Adding new folder: %s (%s)\n", fi->full_name, fi->uri));
 		mfi = g_malloc0(sizeof(*mfi));
@@ -421,6 +432,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	gint new = 0;
 	gint i;
 	guint32 flags;
+	gchar *uid = NULL, *sender = NULL, *subject = NULL;
 
 	d(printf("folder '%s' changed\n", folder->full_name));
 
@@ -442,8 +454,22 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-				    (camel_message_info_date_received (info) > last_newmail))
+				    (camel_message_info_date_received (info) > last_newmail)) {
 					new++;
+					if (new == 1) {
+						uid = g_strdup (camel_message_info_uid (info));
+						sender = g_strdup (camel_message_info_from (info));
+						subject = g_strdup (camel_message_info_subject (info));
+					} else {
+						g_free (uid);
+						g_free (sender);
+						g_free (subject);
+
+						uid = NULL;
+						sender = NULL;
+						subject = NULL;
+					}
+				}
 				camel_message_info_free (info);
 			}
 		}
@@ -457,9 +483,13 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	    && (si = g_hash_table_lookup(stores, store)) != NULL
 	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
 	    && mfi->folder == folder) {
-		update_1folder(mfi, new, NULL);
+		update_1folder (mfi, new, uid, sender, subject, NULL);
 	}
 	G_UNLOCK (stores);
+
+	g_free (uid);
+	g_free (sender);
+	g_free (subject);
 }
 
 static void
@@ -519,7 +549,7 @@ void mail_note_folder(CamelFolder *folder)
 
 	mfi->folder = folder;
 
-	update_1folder(mfi, 0, NULL);
+	update_1folder (mfi, 0, NULL, NULL, NULL, NULL);
 
 	G_UNLOCK (stores);
 

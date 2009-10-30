@@ -65,7 +65,10 @@ eme_target_free(EEvent *ep, EEventTarget *t)
 	case EM_EVENT_TARGET_FOLDER: {
 		EMEventTargetFolder *s = (EMEventTargetFolder *)t;
 		g_free (s->name);
-		g_free(s->uri);
+		g_free (s->uri);
+		g_free (s->msg_uid);
+		g_free (s->msg_sender);
+		g_free (s->msg_subject);
 		break; }
 	case EM_EVENT_TARGET_MESSAGE: {
 		EMEventTargetMessage *s = (EMEventTargetMessage *)t;
@@ -136,14 +139,17 @@ EMEvent *em_event_peek(void)
 }
 
 EMEventTargetFolder *
-em_event_target_new_folder (EMEvent *eme, const gchar *uri, guint new)
+em_event_target_new_folder (EMEvent *eme, const gchar *uri, guint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject)
 {
 	EMEventTargetFolder *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof(*t));
 	guint32 flags = new ? EM_EVENT_FOLDER_NEWMAIL : 0;
 
-	t->uri = g_strdup(uri);
+	t->uri = g_strdup (uri);
 	t->target.mask = ~flags;
 	t->new = new;
+	t->msg_uid = g_strdup (msg_uid);
+	t->msg_sender = g_strdup (msg_sender);
+	t->msg_subject = g_strdup (msg_subject);
 
 	return t;
 }

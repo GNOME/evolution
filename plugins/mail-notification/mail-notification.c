@@ -116,7 +116,7 @@ static DBusConnection *bus = NULL;
 static gboolean init_dbus (void);
 
 static void
-send_dbus_message (const gchar *name, const gchar *data, guint new)
+send_dbus_message (const gchar *name, const gchar *data, guint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject)
 {
 	DBusMessage *message;
 
@@ -133,6 +133,19 @@ send_dbus_message (const gchar *name, const gchar *data, guint new)
 					  DBUS_TYPE_STRING, &display_name, DBUS_TYPE_UINT32, &new,
 					  DBUS_TYPE_INVALID);
 	}
+
+	#define add_named_param(name, value)	\
+		if (value) {	\
+			gchar *val;	\
+			val = g_strconcat (name, ":", value, NULL);	\
+			dbus_message_append_args (message, DBUS_TYPE_STRING, &val, DBUS_TYPE_INVALID);	\
+		}
+
+	add_named_param ("msg_uid", msg_uid);
+	add_named_param ("msg_sender", msg_sender);
+	add_named_param ("msg_subject", msg_subject);
+
+	#undef add_named_param
 
 	/* Sends the message */
 	dbus_connection_send (bus, message, NULL);
@@ -196,14 +209,14 @@ static void
 new_notify_dbus (EMEventTargetFolder *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("Newmail", t->uri, t->new);
+		send_dbus_message ("Newmail", t->uri, t->new, t->msg_uid, t->msg_sender, t->msg_subject);
 }
 
 static void
 read_notify_dbus (EMEventTargetMessage *t)
 {
 	if (bus != NULL)
-		send_dbus_message ("MessageReading", t->folder->name, 0);
+		send_dbus_message ("MessageReading", t->folder->name, 0, NULL, NULL, NULL);
 }
 
 static void
@@ -462,11 +475,50 @@ new_notify_status (EMEventTargetFolder *t)
 		g_strdup (t->uri), (GDestroyNotify) g_free);
 
 	if (!status_count) {
+		EAccount *account;
+		gchar *name = t->name;
+
+		account = mail_config_get_account_by_source_url (t->uri);
+
+		if (account != NULL) {
+			name = g_strdup_printf (
+				"%s/%s", e_account_get_string (
+				account, E_ACCOUNT_NAME), name);
+		}
+
 		status_count = t->new;
-		/* To translators: '%d' is the number of mails recieved and '%s' is the name of the folder*/
+
+		/* To translators: '%d' is the count of mails received and '%s' is the name of the folder*/
 		msg = g_strdup_printf (ngettext ("You have received %d new message\nin %s.",
 						 "You have received %d new messages\nin %s.",
-						 status_count),status_count, t->name);
+						 status_count), status_count, name);
+
+		if (name != t->name)
+			g_free (name);
+
+		if (t->msg_sender) {
+			gchar *tmp, *str;
+
+			/* To Translators: "From:" is preceding a new mail sender address, like "From: user@example.com" */
+			str = g_strdup_printf (_("From: %s"), t->msg_sender);
+			tmp = g_strconcat (msg, "\n", str, NULL);
+
+			g_free (msg);
+			g_free (str);
+			msg = tmp;
+		}
+
+		if (t->msg_subject) {
+			gchar *tmp, *str;
+
+			/* To Translators: "Subject:" is preceding a new mail subject, like "Subject: It happened again" */
+			str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
+			tmp = g_strconcat (msg, "\n", str, NULL);
+
+			g_free (msg);
+			g_free (str);
+			msg = tmp;
+		}
 	} else {
 		status_count += t->new;
 		msg = g_strdup_printf (ngettext ("You have received %d new message.",
