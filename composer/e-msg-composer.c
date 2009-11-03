@@ -1217,7 +1217,7 @@ get_signature_html (EMsgComposer *composer)
 		 */
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
 					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
-					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD><BR>"
+					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
 					"%s%s%s%s"
 					"%s</TD></TR></TABLE>",
 					encoded_uid ? encoded_uid : "",
@@ -3832,8 +3832,8 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		g_free (html_text);
 	} else if (top_signature) {
 		/* insert paragraph after the signature ClueFlow things */
-		gtkhtml_editor_run_command (editor, "cursor-forward");
-		gtkhtml_editor_run_command (editor, "insert-paragraph");
+		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
+			gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
 	gtkhtml_editor_undo_end (editor);
