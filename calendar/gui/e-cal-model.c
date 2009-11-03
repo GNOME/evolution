@@ -1106,15 +1106,11 @@ ecm_append_row (ETableModel *etm, ETableModel *source, gint row)
 		g_warning (G_STRLOC ": Could not create the object!");
 
 		/* FIXME: show error dialog */
-		icalcomponent_free (comp_data->icalcomp);
-		g_object_unref (comp_data);
-		return;
+	} else {
+		g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);
 	}
 
-	icalcomponent_free (comp_data->icalcomp);
 	g_object_unref (comp_data);
-
-	g_signal_emit (G_OBJECT (model), signals[ROW_APPENDED], 0);
 }
 
 static gpointer
