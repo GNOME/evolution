@@ -336,7 +336,7 @@ filter:
 			break;
 	}
 
-	search_rule = e_shell_content_get_search_rule (mail_shell_content);
+	search_rule = e_shell_content_get_search_rule (shell_content);
 	if (search_rule != NULL) {
 		string = g_string_sized_new (1024);
 		e_filter_rule_build_code (search_rule, string);

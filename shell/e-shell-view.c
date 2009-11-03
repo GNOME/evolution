@@ -1148,13 +1148,13 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 	EShellWindow *shell_window;
 	GtkWidget *menu;
 
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	e_shell_view_update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
-	g_return_if_fail (GTK_IS_MENU (menu));
+	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
 	if (event != NULL)
 		gtk_menu_popup (
