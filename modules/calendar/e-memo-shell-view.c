@@ -62,7 +62,6 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 	ECalModel *model;
-	EFilterRule *rule;
 	const gchar *format;
 	const gchar *text;
 	gchar *query;
@@ -138,9 +137,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	/* XXX This is wrong.  We need to programmatically construct an
 	 *     EFilterRule, tell it to build code, and pass the resulting
 	 *     expression string to ECalModel. */
-	rule = e_filter_rule_new ();
-	e_shell_content_set_search_rule (shell_content, rule);
-	g_object_unref (rule);
+	e_shell_content_set_search_rule (shell_content, NULL);
 
 	/* Submit the query. */
 	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
