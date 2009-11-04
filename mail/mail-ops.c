@@ -630,8 +630,11 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 			}
 		}
 	}
-	if (!camel_exception_is_set(ex))
+	if (!camel_exception_is_set(ex)) {
 		camel_folder_set_message_flags (queue, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
+		/* Sync it to disk, since if it crashes in between, we keep sending it again on next start. */
+		camel_folder_sync (queue, FALSE);
+	}
 
 	if (err->len) {
 		/* set the culmulative exception report */
