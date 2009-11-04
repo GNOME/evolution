@@ -90,23 +90,38 @@ void
 bbdb_sync_buddy_list_check (void)
 {
 	GConfClient *gconf;
+	struct stat statbuf;
+	time_t last_sync_time;
 	gchar *md5;
 	gchar *blist_path;
 	gchar *last_sync_str;
 
 	blist_path = get_buddy_filename ();
-	if (!g_file_test (blist_path, G_FILE_TEST_EXISTS)) {
+	if (stat (blist_path, &statbuf) < 0) {
 		g_free (blist_path);
 		return;
 	}
 
-	md5 = get_md5_as_string (blist_path);
-	g_free (blist_path);
-
 	/* Reprocess the buddy list if it's been updated. */
 	gconf = gconf_client_get_default ();
-	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, NULL);
+	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, NULL);
+	if (last_sync_str == NULL || ! strcmp ((const gchar *)last_sync_str, ""))
+		last_sync_time = (time_t) 0;
+	else
+		last_sync_time = (time_t) g_ascii_strtoull (last_sync_str, NULL, 10);
+
+	g_free (last_sync_str);
+
+	if (statbuf.st_mtime <= last_sync_time) {
+		g_object_unref (G_OBJECT (gconf));
+		g_free (blist_path);
+		return;
+	}
+
+	last_sync_str = gconf_client_get_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, NULL);
 	g_object_unref (G_OBJECT (gconf));
+
+	md5 = get_md5_as_string (blist_path);
 
 	if (!last_sync_str || !*last_sync_str || !g_str_equal (md5, last_sync_str)) {
 		fprintf (stderr, "bbdb: Buddy list has changed since last sync.\n");
@@ -115,42 +130,83 @@ bbdb_sync_buddy_list_check (void)
 	}
 
 	g_free (last_sync_str);
+	g_free (blist_path);
 	g_free (md5);
 }
 
-void
-bbdb_sync_buddy_list (void)
+static gboolean
+store_last_sync_idle_cb (gpointer data)
 {
-	GList       *blist, *l;
-	EBook       *book = NULL;
+	GConfClient *gconf;
+	gchar *md5;
+	gchar *blist_path = get_buddy_filename ();
+	time_t last_sync;
+	gchar *last_sync_time;
 
-	/* Get the Gaim buddy list */
-	blist = bbdb_get_gaim_buddy_list ();
-	if (blist == NULL)
-		return;
+	time (&last_sync);
+	last_sync_time = g_strdup_printf ("%ld", (glong) last_sync);
 
-	/* Open the addressbook */
-	book = bbdb_open_addressbook (GAIM_ADDRESSBOOK);
-	if (book == NULL) {
-		free_buddy_list (blist);
-		return;
+	md5 = get_md5_as_string (blist_path);
+
+	gconf = gconf_client_get_default ();
+	gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time, NULL);
+	gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC_MD5, md5, NULL);
+
+	g_object_unref (G_OBJECT (gconf));
+
+	g_free (last_sync_time);
+	g_free (blist_path);
+	g_free (md5);
+
+	return FALSE;
+}
+
+static gboolean syncing = FALSE;
+G_LOCK_DEFINE_STATIC (syncing);
+
+struct sync_thread_data
+{
+	GList *blist;
+	EBook *book;
+};
+
+static gpointer
+bbdb_sync_buddy_list_in_thread (gpointer data)
+{
+	GList *l;
+	struct sync_thread_data *std = data;
+
+	g_return_val_if_fail (std != NULL, NULL);
+
+	if (!bbdb_open_ebook (std->book)) {
+		/* book got freed in bbdb_open_ebook on a failure */
+		free_buddy_list (std->blist);
+		g_free (std);
+
+		G_LOCK (syncing);
+		syncing = FALSE;
+		G_UNLOCK (syncing);
+
+		return NULL;
 	}
 
 	printf ("bbdb: Synchronizing buddy list to contacts...\n");
 	/* Walk the buddy list */
-	for (l = blist; l != NULL; l = l->next) {
+	for (l = std->blist; l != NULL; l = l->next) {
 		GaimBuddy *b = l->data;
 		EBookQuery *query;
 		GList *contacts;
 		GError *error = NULL;
 		EContact *c;
 
-		if (b->alias == NULL || strlen (b->alias) == 0)
-			b->alias = b->account_name;
+		if (b->alias == NULL || strlen (b->alias) == 0) {
+			g_free (b->alias);
+			b->alias = g_strdup (b->account_name);
+		}
 
 		/* Look for an exact match full name == buddy alias */
 		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
-		e_book_get_contacts (book, query, &contacts, NULL);
+		e_book_get_contacts (std->book, query, &contacts, NULL);
 		e_book_query_unref (query);
 		if (contacts != NULL) {
 
@@ -162,11 +218,11 @@ bbdb_sync_buddy_list (void)
 
 			c = E_CONTACT (contacts->data);
 
-			if (! bbdb_merge_buddy_to_contact (book, b, c))
+			if (!bbdb_merge_buddy_to_contact (std->book, b, c))
 				continue;
 
 			/* Write it out to the addressbook */
-			if (! e_book_commit_contact (book, c, &error)) {
+			if (!e_book_commit_contact (std->book, c, &error)) {
 				g_warning ("bbdb: Could not modify contact: %s\n", error->message);
 				g_error_free (error);
 			}
@@ -176,34 +232,83 @@ bbdb_sync_buddy_list (void)
 		/* Otherwise, create a new contact. */
 		c = e_contact_new ();
 		e_contact_set (c, E_CONTACT_FULL_NAME, (gpointer) b->alias);
-		if (! bbdb_merge_buddy_to_contact (book, b, c)) {
+		if (!bbdb_merge_buddy_to_contact (std->book, b, c)) {
 			g_object_unref (G_OBJECT (c));
 			continue;
 		}
 
-		if (! e_book_add_contact (book, c, &error)) {
+		if (! e_book_add_contact (std->book, c, &error)) {
 			g_warning ("bbdb: Failed to add new contact: %s\n", error->message);
 			g_error_free (error);
-			return;
+			goto finish;
 		}
 		g_object_unref (G_OBJECT (c));
 
 	}
 
-	/* Update the last-sync'd time */
-	{
-		GConfClient *gconf;
-		gchar *md5;
-		gchar *blist_path = get_buddy_filename ();
+	g_idle_add (store_last_sync_idle_cb, NULL);
 
-		md5 = get_md5_as_string (blist_path);
-		gconf = gconf_client_get_default ();
-		gconf_client_set_string (gconf, GCONF_KEY_GAIM_LAST_SYNC, md5, NULL);
-		g_object_unref (G_OBJECT (gconf));
-		g_free (md5);
-		g_free (blist_path);
-	}
+ finish:
 	printf ("bbdb: Done syncing buddy list to contacts.\n");
+
+	g_object_unref (std->book);
+	free_buddy_list (std->blist);
+	g_free (std);
+
+	G_LOCK (syncing);
+	syncing = FALSE;
+	G_UNLOCK (syncing);
+
+	return NULL;
+}
+
+void
+bbdb_sync_buddy_list (void)
+{
+	GList *blist;
+	GError *error = NULL;
+	EBook *book = NULL;
+	struct sync_thread_data *std;
+
+	G_LOCK (syncing);
+	if (syncing) {
+		G_UNLOCK (syncing);
+		printf ("bbdb: Already syncing buddy list, skipping this call\n");
+		return;
+	}
+
+	/* Get the Gaim buddy list */
+	blist = bbdb_get_gaim_buddy_list ();
+	if (blist == NULL) {
+		G_UNLOCK (syncing);
+		return;
+	}
+
+	/* Open the addressbook */
+	book = bbdb_create_ebook (GAIM_ADDRESSBOOK);
+	if (book == NULL) {
+		free_buddy_list (blist);
+		G_UNLOCK (syncing);
+		return;
+	}
+
+	std = g_new0 (struct sync_thread_data, 1);
+	std->blist = blist;
+	std->book = book;
+
+	syncing = TRUE;
+
+	g_thread_create (bbdb_sync_buddy_list_in_thread, std, FALSE, &error);
+	if (error) {
+		g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+
+		G_UNLOCK (syncing);
+		bbdb_sync_buddy_list_in_thread (std);
+		G_LOCK (syncing);
+	}
+
+	G_UNLOCK (syncing);
 }
 
 static gboolean

@@ -105,14 +105,56 @@ find_esource_by_uri (ESourceList *source_list, const gchar *target_uri)
 	return NULL;
 }
 
+/* How often check, in minutes. Read only on plugin enable. Use <= 0 to disable polling. */
+static gint
+get_check_interval (void)
+{
+	GConfClient *gconf;
+	GConfValue *value;
+	gint res = BBDB_BLIST_DEFAULT_CHECK_INTERVAL;
+
+	gconf = gconf_client_get_default ();
+	value = gconf_client_get (gconf, GCONF_KEY_GAIM_CHECK_INTERVAL, NULL);
+
+	if (value) {
+		if (value->type == GCONF_VALUE_INT) {
+			gint interval = gconf_value_get_int (value);
+
+			if (interval > 0)
+				res = interval * 60;
+			else
+				res = interval;
+		}
+
+		gconf_value_free (value);
+	}
+
+	g_object_unref (gconf);
+
+	return res;
+}
+
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
+	static guint update_source = 0;
+
+	if (update_source) {
+		g_source_remove (update_source);
+		update_source = 0;
+	}
+
 	/* Start up the plugin. */
 	if (enable) {
+		gint interval;
+
 		d(fprintf (stderr, "BBDB spinning up...\n"));
 
-		g_idle_add (bbdb_timeout, NULL);
+		g_idle_add (bbdb_timeout, ep);
+
+		interval = get_check_interval ();
+		if (interval > 0)
+			update_source = g_timeout_add_seconds (interval, (GSourceFunc) bbdb_timeout, NULL);
 	}
 
 	return 0;
@@ -124,7 +166,8 @@ bbdb_timeout (gpointer data)
 	if (bbdb_check_gaim_enabled ())
 		bbdb_sync_buddy_list_check ();
 
-	return FALSE;
+	/* not a NULL for a one-time idle check, thus stop it there */
+	return data == NULL;
 }
 
 typedef struct
@@ -149,11 +192,10 @@ G_LOCK_DEFINE_STATIC (todo);
 static gpointer
 bbdb_do_in_thread (gpointer data)
 {
-	EBook *book;
+	EBook *book = data;
 
 	/* Open the addressbook */
-	book = bbdb_open_addressbook (AUTOMATIC_CONTACTS_ADDRESSBOOK);
-	if (book == NULL) {
+	if (!book || !bbdb_open_ebook (book)) {
 		G_LOCK (todo);
 
 		g_slist_foreach (todo, (GFunc)free_todo_struct, NULL);
@@ -205,17 +247,18 @@ bbdb_do_thread (const gchar *name, const gchar *email)
 		todo = g_slist_append (todo, td);
 	} else {
 		GError *error = NULL;
+		EBook *book = bbdb_create_ebook (AUTOMATIC_CONTACTS_ADDRESSBOOK);
 
 		/* list was empty, add item and create a thread */
 		todo = g_slist_append (todo, td);
-		g_thread_create (bbdb_do_in_thread, NULL, FALSE, &error);
+		g_thread_create (bbdb_do_in_thread, book, FALSE, &error);
 
 		if (error) {
 			g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
 			g_error_free (error);
 
 			G_UNLOCK (todo);
-			bbdb_do_in_thread (NULL);
+			bbdb_do_in_thread (book);
 			G_LOCK (todo);
 		}
 	}
@@ -370,13 +413,12 @@ bbdb_do_it (EBook *book, const gchar *name, const gchar *email)
 }
 
 EBook *
-bbdb_open_addressbook (gint type)
+bbdb_create_ebook (gint type)
 {
 	GConfClient *gconf;
 	gchar        *uri;
 	EBook       *book = NULL;
 
-	gboolean     status;
 	GError      *error = NULL;
 	gboolean     enable = TRUE;
 	gconf = gconf_client_get_default ();
@@ -409,14 +451,25 @@ bbdb_open_addressbook (gint type)
 		return NULL;
 	}
 
-	status = e_book_open (book, FALSE, &error);
-	if (! status) {
+	return book;
+}
+
+gboolean
+bbdb_open_ebook (EBook *book)
+{
+	GError *error = NULL;
+
+	if (!book)
+		return FALSE;
+
+	if (!e_book_open (book, FALSE, &error)) {
 		g_warning ("bbdb: failed to open addressbook: %s\n", error->message);
 		g_error_free (error);
-		return NULL;
+		g_object_unref (book);
+		return FALSE;
 	}
 
-	return book;
+	return TRUE;
 }
 
 gboolean
