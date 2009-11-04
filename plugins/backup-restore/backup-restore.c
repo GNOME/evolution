@@ -73,10 +73,14 @@ sanity_check (const gchar *filename)
 {
 	gchar *command;
 	gint result;
+	gchar *quotedfname;
 
-	command = g_strdup_printf ("%s/evolution-backup --check %s", EVOLUTION_TOOLSDIR, filename);
+	quotedfname = g_shell_quote(filename);
+
+	command = g_strdup_printf ("%s/evolution-backup --check %s", EVOLUTION_TOOLSDIR, quotedfname);
 	result = system (command);
 	g_free (command);
+	g_free (quotedfname);
 
 #ifdef HAVE_SYS_WAIT_H
 	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
