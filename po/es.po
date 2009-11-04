@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-10-30 16:02+0000\n"
-"PO-Revision-Date: 2009-11-02 13:37+0100\n"
+"POT-Creation-Date: 2009-11-03 18:50+0000\n"
+"PO-Revision-Date: 2009-11-04 17:42+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -656,7 +656,6 @@ msgstr "_Seleccione la libreta de direcciones"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:167
 #: ../shell/e-shell-backend.c:171 ../shell/e-shell-window.c:323
-#| msgid "Seychelles"
 msgid "Shell"
 msgstr "Shell"
 
@@ -873,7 +872,6 @@ msgid "Query"
 msgstr "Consulta"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:707
-#| msgid "Search Filter"
 msgid "Search Interrupted"
 msgstr "Búsqueda interrumpida"
 
@@ -896,74 +894,57 @@ msgstr "Error al modificar la tarjeta"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:655
 #: ../calendar/gui/e-calendar-table.c:897 ../calendar/gui/e-memo-table.c:680
-#, fuzzy
 #| msgid "Select View: %s"
 msgid "Shell View"
-msgstr "Seleccionar vista: %s"
+msgstr ""
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:666
 msgid "Source"
 msgstr "Fuente"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1134
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contact lists?"
 msgid "Are you sure you want to delete these contact lists?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar estas listas de contactos?"
+msgstr "¿Seguro que quiere borrar estas listas de contactos?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1138
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contact lists?"
 msgid "Are you sure you want to delete this contact list?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar estas listas de contactos?"
+msgstr "¿Seguro que quiere borrar esta lista de contactos?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1142
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete contact list (%s)?"
 msgid "Are you sure you want to delete this contact list (%s)?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar la lista de contactos (%s)?"
+msgstr "¿Seguro que quiere borrar esta lista de contactos (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1148
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contacts?"
 msgid "Are you sure you want to delete these contacts?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar estos contactos?"
+msgstr "¿Seguro que quiere borrar estos contactos?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1152
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contacts?"
 msgid "Are you sure you want to delete this contact?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar estos contactos?"
+msgstr "¿Seguro que quiere borrar este contacto?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1156
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete contact (%s)?"
 msgid "Are you sure you want to delete this contact (%s)?"
-msgstr ""
-"¿Seguro que quiere\n"
-"borrar el contacto (%s)?"
+msgstr "¿Seguro que quiere borrar este contacto (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1312
 #: ../modules/addressbook/e-book-shell-view-actions.c:722
@@ -971,7 +952,7 @@ msgid "Save as vCard..."
 msgstr "Guardar como vCard…"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1345
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Opening %d contact will open %d new window as well.\n"
 #| "Do you really want to display this contact?"
@@ -982,8 +963,8 @@ msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
-"Abrir %d contacto abrirá %d ventana nueva también.\n"
-"¿Quiere realmente mostrar este contacto?"
+"Abrir %d contactos abrirá también %d ventanas nuevas.\n"
+"¿Quiere realmente mostrar todos estos contactos?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1350
 msgid "_Don't Display"
@@ -2630,10 +2611,14 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:30
 msgid "If \"true\", show the memo preview pane in the main window."
 msgstr ""
+"Si es cierto mostrará el panel de vista previa de notas en la ventana "
+"principal."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:31
 msgid "If \"true\", show the task preview pane in the main window."
 msgstr ""
+"Si es cierto mostrará el panel de vista previa de tareas en la ventana "
+"principal."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:32
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -2684,20 +2669,18 @@ msgid "Maximum number of recently used timezones to remember."
 msgstr "Máximo número de zonas horarias usadas recientemente para recordar."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
-#, fuzzy
 #| msgid "_Reply style:"
 msgid "Memo layout style"
-msgstr "Estilo de _respuesta:"
+msgstr "Estilo de la distribución de notas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:43
 msgid "Memo preview pane position (horizontal)"
-msgstr ""
+msgstr "Vista previa del panel de posición de las notas (horizontal)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:44
-#, fuzzy
 #| msgid "Month view vertical pane position"
 msgid "Memo preview pane position (vertical)"
-msgstr "Posición del panel vertical en la vista mensual"
+msgstr "Vista previa del panel de posición de las notas (vertical)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:45
 msgid "Minute the workday ends on, 0 to 59."
@@ -2746,14 +2729,20 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:54
 msgid "Position of the memo preview pane when oriented vertically."
 msgstr ""
+"Posición del panel de vista previa de notas cuando está orientado "
+"verticalmente."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the task preview pane when oriented horizontally."
 msgstr ""
+"Posición del panel de vista previa de tareas cuando está orientado "
+"horizontalmente."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Position of the task preview pane when oriented vertically."
 msgstr ""
+"Posición del panel de vista previa de tareas cuando está orientado "
+"verticalmente."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:57
 msgid ""
@@ -2839,12 +2828,10 @@ msgstr ""
 "Mostrar el campo de estado en el editor de acontecimientos/tareas/reuniones"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the memo preview pane"
 msgstr "Mostrar el panel de vista previa de las notas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the task preview pane"
 msgstr "Mostrar el panel de vista previa de las tareas"
 
@@ -2881,12 +2868,10 @@ msgid "Task layout style"
 msgstr "Estilo de distribución de las tareas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
-#| msgid "Tasks vertical pane position"
 msgid "Task preview pane position (horizontal)"
 msgstr "Vista previa del panel de posición de las tareas (horizontal)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
-#| msgid "Tasks vertical pane position"
 msgid "Task preview pane position (vertical)"
 msgstr "Vista previa del panel de posición de las tareas (vertical)"
 
@@ -4901,7 +4886,6 @@ msgid "Untitled"
 msgstr "Sin título"
 
 #: ../calendar/gui/e-cal-component-preview.c:116
-#| msgid "Categories"
 msgid "Categories:"
 msgstr "Categorías:"
 
@@ -4972,7 +4956,7 @@ msgid "High"
 msgstr "Alta"
 
 #: ../calendar/gui/e-cal-component-preview.c:220
-#: ../calendar/gui/e-cal-model.c:1274 ../calendar/gui/e-calendar-table.c:725
+#: ../calendar/gui/e-cal-model.c:1270 ../calendar/gui/e-calendar-table.c:725
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1080
 msgid "Normal"
 msgstr "Normal"
@@ -5036,7 +5020,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1083 ../calendar/gui/e-cal-model.c:1280
+#: ../calendar/gui/e-cal-model-tasks.c:1083 ../calendar/gui/e-cal-model.c:1276
 #: ../calendar/gui/e-meeting-list-view.c:187
 #: ../calendar/gui/e-meeting-store.c:162 ../calendar/gui/e-meeting-store.c:172
 #: ../calendar/gui/e-meeting-store.c:856
@@ -5044,7 +5028,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Sí"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1083 ../calendar/gui/e-cal-model.c:1280
+#: ../calendar/gui/e-cal-model-tasks.c:1083 ../calendar/gui/e-cal-model.c:1276
 #: ../calendar/gui/e-meeting-list-view.c:188
 #: ../calendar/gui/e-meeting-store.c:174
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -5053,13 +5037,11 @@ msgstr "No"
 
 #: ../calendar/gui/e-cal-model.c:362 ../calendar/gui/gnome-cal.c:522
 #: ../shell/e-shell.c:720
-#| msgid "Exchange Settings"
 msgid "Shell Settings"
 msgstr "Configuración de Shell"
 
 #: ../calendar/gui/e-cal-model.c:363 ../calendar/gui/gnome-cal.c:523
 #: ../shell/e-shell.c:721
-#| msgid "Autocompletion Settings"
 msgid "Application-wide settings"
 msgstr ""
 
@@ -5077,11 +5059,11 @@ msgstr ""
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: ../calendar/gui/e-cal-model.c:1276
+#: ../calendar/gui/e-cal-model.c:1272
 msgid "Recurring"
 msgstr "Repetición"
 
-#: ../calendar/gui/e-cal-model.c:1278
+#: ../calendar/gui/e-cal-model.c:1274
 msgid "Assigned"
 msgstr "Asignado"
 
@@ -8387,7 +8369,6 @@ msgstr ""
 "de cifrado para esta cuenta"
 
 #: ../composer/e-msg-composer.c:1379
-#| msgid "Unable to retrieve message from editor"
 msgid "Unable to reconstruct message from autosave file"
 msgstr "No se pudo reconstruir el mensaje desde el archivo autoguardado"
 
@@ -8546,12 +8527,10 @@ msgid "_Save Draft"
 msgstr "Guardar _borrador"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#| msgid "Calendar information"
 msgid "Calendar event notifications"
 msgstr "Notificaciones de acontecimientos del calendario"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#| msgid "Evolution Elm importer"
 msgid "Evolution Alarm Notify"
 msgstr "Notificador de alertas de Evolution"
 
@@ -8705,22 +8684,19 @@ msgid "Internal error, unknown error '%s' requested"
 msgstr "Error interno, solicitado un error desconocido «%s»"
 
 #: ../e-util/e-logger.c:172
-#, fuzzy
 #| msgid "Name of the component being logged"
 msgid "Name of the logger"
-msgstr "El nombre del componente que registrar"
+msgstr "Nombre del registrador"
 
 #: ../e-util/e-module.c:188
-#, fuzzy
 #| msgid "F_ilename:"
 msgid "Filename"
-msgstr "Nombre del _archivo:"
+msgstr "Nombre del archivo"
 
 #: ../e-util/e-module.c:189
-#, fuzzy
 #| msgid "Change the name of this folder"
 msgid "The filename of the module"
-msgstr "Cambia el nombre de esta carpeta"
+msgstr "El nombre de archivo del módulo"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:191
 msgid "Debug Logs"
@@ -9070,10 +9046,9 @@ msgid "Select a time to compare against"
 msgstr "Seleccione una fecha con la que comparar"
 
 #: ../filter/e-filter-file.c:181
-#, fuzzy
 #| msgid "Choose a file"
 msgid "Choose a File"
-msgstr "Elija un archivo"
+msgstr "Elegir un archivo"
 
 #: ../filter/e-filter-rule.c:648
 msgid "R_ule name:"
@@ -9274,35 +9249,31 @@ msgid "List View"
 msgstr "Vista de lista"
 
 #: ../mail/e-mail-browser.c:665
-#, fuzzy
 #| msgid "Selection Mode"
 msgid "Shell Module"
-msgstr "Modo de selección"
+msgstr "Modo de shell"
 
 #: ../mail/e-mail-browser.c:666 ../mail/message-list.c:2511
 msgid "The mail shell backend"
 msgstr ""
 
 #: ../mail/e-mail-browser.c:676
-#, fuzzy
 #| msgid "Deleted"
 msgid "Show Deleted"
-msgstr "Borrado"
+msgstr "Mostrar borrados"
 
 #: ../mail/e-mail-browser.c:677
-#, fuzzy
 #| msgid "Forwarded messages"
 msgid "Show deleted messages"
-msgstr "Mensajes reenviados"
+msgstr "Mostrar los mensajes borrados"
 
 #: ../mail/e-mail-display.c:66
 #, fuzzy
 #| msgid "_Add to Address Book"
 msgid "_Add to Address Book..."
-msgstr "_Añadir a la libreta de direcciones"
+msgstr "_Añadir a la libreta de direcciones..."
 
 #: ../mail/e-mail-display.c:73
-#, fuzzy
 #| msgid "_To this Address"
 msgid "_To This Address"
 msgstr "_A esta dirección"
@@ -9320,7 +9291,6 @@ msgid "Create Search _Folder"
 msgstr "Crear carpeta de _búsqueda"
 
 #: ../mail/e-mail-label-dialog.c:220
-#, fuzzy
 #| msgid "Label _Name:"
 msgid "_Label name:"
 msgstr "_Nombre de la etiqueta:"
@@ -9402,10 +9372,9 @@ msgstr "Plantillas"
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:107
 #: ../modules/calendar/e-task-shell-view-actions.c:576
-#, fuzzy
 #| msgid "Do not ask me again."
 msgid "Do not ask me again"
-msgstr "No me preguntes otra vez."
+msgstr "No preguntarme de nuevo"
 
 #: ../mail/e-mail-reader.c:216 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
