@@ -361,6 +361,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 	if (g_list_length (addresses) > 1) {
 		EMeetingAttendee *attendee;
 		GList *l, *m;
+		gboolean can_remove = TRUE;
 
 		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
 			gchar *name = m->data, *email = l->data;
@@ -368,8 +369,12 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			if (!((name && *name) || (email && *email)))
 					continue;
 
-			if (e_meeting_store_find_attendee (model, email, NULL) != NULL)
+			attendee = e_meeting_store_find_attendee (model, email, NULL);
+			if (attendee != NULL) {
+				if (attendee == existing_attendee)
+					can_remove = FALSE;
 				continue;
+			}
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
 			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *)l->data));
@@ -385,7 +390,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 		}
 
-		if (existing_attendee) {
+		if (existing_attendee && can_remove) {
 			removed = TRUE;
 			e_meeting_list_view_remove_attendee_from_name_selector (E_MEETING_LIST_VIEW (view),
 						existing_attendee);
