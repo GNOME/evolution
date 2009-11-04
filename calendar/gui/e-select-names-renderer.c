@@ -53,7 +53,7 @@ G_DEFINE_TYPE (ESelectNamesRenderer, e_select_names_renderer, GTK_TYPE_CELL_REND
 static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
-	GList *addresses = NULL, *names = NULL;
+	GList *addresses = NULL, *names = NULL, *a, *n;
 
 	/* We don't need to listen for the focus out event any more */
 	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
@@ -65,6 +65,23 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 
 	addresses = e_select_names_editable_get_emails (E_SELECT_NAMES_EDITABLE (editable));
 	names = e_select_names_editable_get_names (E_SELECT_NAMES_EDITABLE (editable));
+
+	/* remove empty addresses */
+	for (a = addresses, n = names; a && n; ) {
+		gchar *addr = a->data, *nm = n->data;
+
+		if ((!addr || !*addr) && (!nm || !*nm)) {
+			g_free (addr);
+			g_free (nm);
+			addresses = g_list_remove_link (addresses, a);
+			names = g_list_remove_link (names, n);
+			a = addresses;
+			n = names;
+		} else {
+			a = a->next;
+			n = n->next;
+		}
+	}
 
 	g_signal_emit (cell, signals [CELL_EDITED], 0, cell->priv->path, addresses, names);
 
