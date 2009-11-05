@@ -151,6 +151,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/display/photo_local");
 
 	e_shell_settings_install_property_for_key (
+		"mail-show-real-date",
+		"/apps/evolution/mail/display/show_real_date");
+
+	e_shell_settings_install_property_for_key (
 		"mail-prompt-delete-in-vfolder",
 		"/apps/evolution/mail/prompts/delete_in_vfolder");
 

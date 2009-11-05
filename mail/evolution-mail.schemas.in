@@ -1136,6 +1136,21 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/show_real_date</key>
+      <applyto>/apps/evolution/mail/display/show_real_date</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Show original "Date" header value.</short>
+         <long>
+           Show the original "Date" header (with a local time only if the time zone differs).
+	    Otherwise always show "Date" header value in a user preferred format and local time zone.
+         </long>
+      </locale>
+    </schema>
+
 
     <!-- Labels and Colours -->
 

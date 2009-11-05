@@ -112,6 +112,7 @@ struct _EMFormatHTMLPrivate {
 	guint load_images_now	: 1;
 	guint only_local_photos	: 1;
 	guint show_sender_photo	: 1;
+	guint show_real_date	: 1;
 };
 
 enum {
@@ -125,6 +126,7 @@ enum {
 	PROP_MARK_CITATIONS,
 	PROP_ONLY_LOCAL_PHOTOS,
 	PROP_SHOW_SENDER_PHOTO,
+	PROP_SHOW_REAL_DATE,
 	PROP_TEXT_COLOR
 };
 
@@ -485,6 +487,12 @@ efh_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_REAL_DATE:
+			em_format_html_set_show_real_date (
+				EM_FORMAT_HTML (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_TEXT_COLOR:
 			em_format_html_set_color (
 				EM_FORMAT_HTML (object),
@@ -567,6 +575,12 @@ efh_get_property (GObject *object,
 		case PROP_SHOW_SENDER_PHOTO:
 			g_value_set_boolean (
 				value, em_format_html_get_show_sender_photo (
+				EM_FORMAT_HTML (object)));
+			return;
+
+		case PROP_SHOW_REAL_DATE:
+			g_value_set_boolean (
+				value, em_format_html_get_show_real_date (
 				EM_FORMAT_HTML (object)));
 			return;
 
@@ -863,6 +877,17 @@ efh_class_init (EMFormatHTMLClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_REAL_DATE,
+		g_param_spec_boolean (
+			"show-real-date",
+			"Show real Date header value",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_TEXT_COLOR,
 		g_param_spec_boxed (
 			"text-color",
@@ -1133,6 +1158,25 @@ em_format_html_set_show_sender_photo (EMFormatHTML *efh,
 	efh->priv->show_sender_photo = show_sender_photo;
 
 	g_object_notify (G_OBJECT (efh), "show-sender-photo");
+}
+
+gboolean
+em_format_html_get_show_real_date (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), FALSE);
+
+	return efh->priv->show_real_date;
+}
+
+void
+em_format_html_set_show_real_date (EMFormatHTML *efh,
+                                   gboolean show_real_date)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efh->priv->show_real_date = show_real_date;
+
+	g_object_notify (G_OBJECT (efh), "show-real-date");
 }
 
 CamelMimePart *
@@ -2370,38 +2414,47 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		gint msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
-		gchar *date_str;
+		gchar *html;
+		gboolean hide_real_date;
+
+		hide_real_date = !em_format_html_get_show_real_date (efh);
 
 		txt = header->value;
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
+		html = camel_text_to_html (txt, efh->text_html_flags, 0);
+
 		msg_date = camel_header_decode_date(txt, &msg_offset);
 		e_localtime_with_offset (msg_date, &local, &local_tz);
-
-		date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, msg_date);
 
 		/* Convert message offset to minutes (e.g. -0400 --> -240) */
 		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
 		/* Turn into offset from localtime, not UTC */
 		msg_offset -= local_tz / 60;
 
-		if (msg_offset) {
-			gchar *html;
-
-			html = camel_text_to_html (txt, efh->text_html_flags, 0);
-			txt = value = g_strdup_printf ("%s (<I>%s</I>)", date_str, html);
-
-			g_free (html);
-			g_free (date_str);
-
-			flags |= EM_FORMAT_HTML_HEADER_HTML;
+		/* value will be freed at the end */
+		if (!hide_real_date && !msg_offset) {
+			/* No timezone difference; just show the real Date: header */
+			txt = value = html;
 		} else {
-			/* date_str will be freed at the end */
-			txt = value = date_str;
-		}
+			gchar *date_str;
 
-		flags |= EM_FORMAT_HEADER_BOLD;
+			date_str = e_datetime_format_format ("mail", "header",
+							     DTFormatKindDateTime, msg_date);
+
+			if (hide_real_date) {
+				/* Show only the local-formatted date, losing all timezone
+				   information like Outlook does. Should we attempt to show
+				   it somehow? */
+				txt = value = date_str;
+			} else {
+				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_str);
+				g_free (date_str);
+			}
+			g_free (html);
+		}
+		flags |= EM_FORMAT_HTML_HEADER_HTML | EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;

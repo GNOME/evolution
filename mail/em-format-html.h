@@ -278,6 +278,9 @@ EMFormatHTMLJob *
 						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);
+gboolean	em_format_html_get_show_real_date(EMFormatHTML *efh);
+void		em_format_html_set_show_real_date(EMFormatHTML *efh,
+						 gboolean show_real_date);
 
 G_END_DECLS
 
