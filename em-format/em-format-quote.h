@@ -47,6 +47,7 @@
 
 #define EM_FORMAT_QUOTE_CITE (1<<0)
 #define EM_FORMAT_QUOTE_HEADERS (1<<1)
+#define EM_FORMAT_QUOTE_KEEP_SIG (1<<2) /* do not strip signature */
 
 G_BEGIN_DECLS
 

@@ -1155,7 +1155,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 	if (messages->len == 0)
 		return;
 
-	flags = EM_FORMAT_QUOTE_HEADERS;
+	flags = EM_FORMAT_QUOTE_HEADERS | EM_FORMAT_QUOTE_KEEP_SIG;
 	if (style == MAIL_CONFIG_FORWARD_QUOTED)
 		flags |= EM_FORMAT_QUOTE_CITE;
 

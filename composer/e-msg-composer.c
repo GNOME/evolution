@@ -144,7 +144,7 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
 
-	emfq = em_format_quote_new(NULL, (CamelStream *)mem, 0);
+	emfq = em_format_quote_new (NULL, (CamelStream *)mem, EM_FORMAT_QUOTE_KEEP_SIG);
 	((EMFormat *) emfq)->composer = TRUE;
 	if (source) {
 		/* copy over things we can, other things are internal, perhaps need different api than 'clone' */
@@ -4166,14 +4166,16 @@ e_save_spell_languages (GList *spell_languages)
 	}
 }
 
-void e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
+void
+e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
 {
-	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_if_fail (composer != NULL);
 
 	composer->priv->mail_sent = mail_sent;
 }
 
-gboolean e_msg_composer_get_mail_sent (EMsgComposer *composer)
+gboolean
+e_msg_composer_get_mail_sent (EMsgComposer *composer)
 {
 	g_return_val_if_fail (composer != NULL, FALSE);
 

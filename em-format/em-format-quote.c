@@ -509,7 +509,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 
-	if (emfq->flags != 0) {
+	if ((emfq->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
 		sig_strip = em_stripsig_filter_new ();
 		camel_stream_filter_add (filtered_stream, sig_strip);
 		camel_object_unref (sig_strip);
