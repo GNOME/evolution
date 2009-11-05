@@ -429,6 +429,28 @@ mail_fetch_mail (const gchar *source, gint keep, const gchar *type, CamelOperati
 	mail_msg_unordered_push (m);
 }
 
+static gchar *
+escape_percent_sign (const gchar *str)
+{
+	GString *res;
+
+	if (!str)
+		return NULL;
+
+	res = g_string_sized_new (strlen (str));
+	while (*str) {
+		if (*str == '%') {
+			g_string_append (res, "%%");
+		} else {
+			g_string_append_c (res, *str);
+		}
+
+		str++;
+	}
+
+	return g_string_free (res, FALSE);
+}
+
 /* ********************************************************************** */
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
@@ -502,8 +524,14 @@ mail_send_message (struct _send_queue_msg *m, CamelFolder *queue, const gchar *u
 			sent_folder_uri = g_strstrip(g_strdup(tmp));
 	}
 
-	/* let the dialog know the right account it is using; percentage is ignored */
-	report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, transport_url ? transport_url : destination);
+	if (transport_url || destination) {
+		gchar *escaped = escape_percent_sign (transport_url ? transport_url : destination);
+
+		/* let the dialog know the right account it is using; percentage is ignored */
+		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, escaped);
+
+		g_free (escaped);
+	}
 
 	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();

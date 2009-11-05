@@ -359,7 +359,7 @@ format_url (const gchar *internal_url, const gchar *account_name)
 		else
 			pretty_url = g_strdup_printf("<b>%s (%s)</b>", account_name, url->protocol);
 	}
-	else {
+	else if (url) {
 		if (url->host && *url->host)
 			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->host);
 		else if (url->path)
@@ -367,7 +367,9 @@ format_url (const gchar *internal_url, const gchar *account_name)
 		else
 			pretty_url = g_strdup_printf("<b>%s</b>", url->protocol);
 	}
-	camel_url_free(url);
+
+	if (url)
+		camel_url_free(url);
 
         return pretty_url;
 }
