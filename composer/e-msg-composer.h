@@ -137,6 +137,7 @@ void		e_msg_composer_add_message_attachments
 						 CamelMimeMessage *message,
 						 gboolean just_inlines);
 
+void		e_msg_composer_request_close	(EMsgComposer *composer);
 gboolean	e_msg_composer_request_close_all(void);
 EMsgComposer *	e_msg_composer_load_from_file	(const gchar *filename);
 void		e_msg_composer_check_autosave	(GtkWindow *parent);

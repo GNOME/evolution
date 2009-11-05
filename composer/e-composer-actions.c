@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -91,6 +92,7 @@ action_close_cb (GtkAction *action,
 	switch (response) {
 		case GTK_RESPONSE_YES:
 			gtk_widget_hide (widget);
+			e_msg_composer_request_close (composer);
 			gtk_action_activate (ACTION (SAVE_DRAFT));
 			break;
 

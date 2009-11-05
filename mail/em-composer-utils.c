@@ -535,10 +535,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		emcs->drafts_uid = g_strdup (appended_uid);
 	}
 
-	/* This is kind of a hack, but the composer's CLOSE action
-	 * hides the window before emitting the "save-draft" signal.
-	 * We use that to determine whether to destroy the composer. */
-	if (!GTK_WIDGET_VISIBLE (sdi->composer))
+	if (e_msg_composer_is_exiting (sdi->composer))
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
 
  done:
