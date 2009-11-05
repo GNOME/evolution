@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -114,6 +116,13 @@ struct _EMsgComposerPrivate {
 	CamelMimeMessage *redirect;
 
 	gboolean is_from_message;
+
+	/* The mail composed has been sent. This bit will be set when
+	  the mail passed sanity checking and is sent out, which
+	  indicates that the composer can be destroyed. This bit can
+	  be set/get by using API
+	  e_msg_composer_{set,get}_mail_sent(). */
+	gboolean mail_sent;
 };
 
 void		e_composer_private_init		(EMsgComposer *composer);

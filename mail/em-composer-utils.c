@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -469,6 +471,7 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	camel_object_ref (folder);
 
 	/* mail the message */
+	e_msg_composer_set_mail_sent (composer, TRUE);
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
 
