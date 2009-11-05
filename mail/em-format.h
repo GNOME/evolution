@@ -250,6 +250,7 @@ struct _EMFormat {
 	gboolean print;
 	gboolean show_photo; /* Want to show the photo of the sender ?*/
 	gboolean photo_local; /* Photos only from local addressbooks */
+	gboolean show_real_date;
 };
 
 struct _EMFormatClass {

@@ -1751,38 +1751,47 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		gint msg_offset, local_tz;
 		time_t msg_date;
 		struct tm local;
-		gchar *date_str;
+		gchar *html;
+		gboolean hide_real_date;
+
+		hide_real_date = !emf->show_real_date;
 
 		txt = header->value;
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
+		html = camel_text_to_html (txt, efh->text_html_flags, 0);
+
 		msg_date = camel_header_decode_date(txt, &msg_offset);
 		e_localtime_with_offset (msg_date, &local, &local_tz);
-
-		date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, msg_date);
 
 		/* Convert message offset to minutes (e.g. -0400 --> -240) */
 		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
 		/* Turn into offset from localtime, not UTC */
 		msg_offset -= local_tz / 60;
 
-		if (msg_offset) {
-			gchar *html;
-
-			html = camel_text_to_html (txt, efh->text_html_flags, 0);
-			txt = value = g_strdup_printf ("%s (<I>%s</I>)", date_str, html);
-
-			g_free (html);
-			g_free (date_str);
-
-			flags |= EM_FORMAT_HTML_HEADER_HTML;
+		/* value will be freed at the end */
+		if (!hide_real_date && !msg_offset) {
+			/* No timezone difference; just show the real Date: header */
+			txt = value = html;
 		} else {
-			/* date_str will be freed at the end */
-			txt = value = date_str;
-		}
+			gchar *date_str;
 
-		flags |= EM_FORMAT_HEADER_BOLD;
+			date_str = e_datetime_format_format ("mail", "header",
+							     DTFormatKindDateTime, msg_date);
+
+			if (hide_real_date) {
+				/* Show only the local-formatted date, losing all timezone
+				   information like Outlook does. Should we attempt to show
+				   it somehow? */
+				txt = value = date_str;
+			} else {
+				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_str);
+				g_free (date_str);
+			}
+			g_free (html);
+		}
+		flags |= EM_FORMAT_HTML_HEADER_HTML | EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "Newsgroups")) {
 		struct _camel_header_newsgroup *ng, *scan;
 		GString *html;

@@ -2930,6 +2930,7 @@ enum {
 	EMFV_PANED_SIZE,
 	EMFV_SENDER_PHOTO,
 	EMFV_PHOTO_LOCAL,
+	EMFV_SHOW_REAL_DATE,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
@@ -2951,6 +2952,7 @@ static const gchar * const emfv_display_keys[] = {
 	"paned_size",
 	"sender_photo",
 	"photo_local",
+	"show_real_date"
 };
 
 static GHashTable *emfv_setting_key;
@@ -3119,6 +3121,14 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			return;
 
 		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
+		break; }
+	case EMFV_SHOW_REAL_DATE: {
+		EMFormat *emf = (EMFormat *)emfv->preview;
+
+		emf->show_real_date = gconf_value_get_bool (value);
+		if (emf->message)
+			em_format_redraw (emf);
+
 		break; }
 	}
 }
