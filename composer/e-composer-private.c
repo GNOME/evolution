@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -274,6 +276,8 @@ e_composer_private_init (EMsgComposer *composer)
 			G_OBJECT (header), "visible",
 			G_OBJECT (action), "active");
 	}
+
+	priv->mail_sent = FALSE;
 }
 
 void

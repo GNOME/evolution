@@ -158,6 +158,9 @@ gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 GList *		e_load_spell_languages		(void);
 void		e_save_spell_languages		(GList *spell_languages);
 
+void		e_msg_composer_set_mail_sent 	(EMsgComposer *composer, gboolean mail_sent);
+gboolean	e_msg_composer_get_mail_sent 	(EMsgComposer *composer);
+
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */

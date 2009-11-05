@@ -4186,3 +4186,17 @@ e_save_spell_languages (GList *spell_languages)
 		g_error_free (error);
 	}
 }
+
+void e_msg_composer_set_mail_sent (EMsgComposer *composer, gboolean mail_sent)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+
+	composer->priv->mail_sent = mail_sent;
+}
+
+gboolean e_msg_composer_get_mail_sent (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+
+	return composer->priv->mail_sent;
+}
