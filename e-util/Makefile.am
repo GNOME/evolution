@@ -29,6 +29,7 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
+	e-io-activity.h				\
 	e-logger.h				\
 	e-marshal.h				\
 	e-mktemp.h				\
@@ -102,6 +103,7 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
+	e-io-activity.c				\
 	e-logger.c				\
 	e-marshal.c				\
 	e-mktemp.c				\
