@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -3953,6 +3954,22 @@ e_msg_composer_set_enable_autosave (EMsgComposer *composer,
                                     gboolean enabled)
 {
 	e_composer_autosave_set_enabled (composer, enabled);
+}
+
+gboolean
+e_msg_composer_is_exiting (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+
+	return composer->priv->application_exiting;
+}
+
+void
+e_msg_composer_request_close (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+
+	composer->priv->application_exiting = TRUE;
 }
 
 EMsgComposer *
