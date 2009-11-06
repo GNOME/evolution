@@ -2238,6 +2238,22 @@ intelligent
 </para>
 
 
+<!-- ##### FUNCTION e_util_filename_to_uri ##### -->
+<para>
+
+</para>
+
+@filename: 
+@Returns: 
+
+<!-- ##### FUNCTION e_util_uri_to_filename ##### -->
+<para>
+
+</para>
+
+@uri: 
+@Returns: 
+
 <!-- ##### FUNCTION es_event_get_type ##### -->
 <para>
 

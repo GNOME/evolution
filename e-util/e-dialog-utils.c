@@ -169,7 +169,7 @@ e_file_can_save(GtkWindow *parent, const gchar *uri)
 	if (!e_file_check_local(uri))
 		return TRUE;
 
-	path = e_util_uri_to_filename (uri);
+	path = g_filename_from_uri (uri, NULL, NULL);
 	if (!path)
 		return FALSE;
 
@@ -199,7 +199,7 @@ e_file_check_local (const gchar *name)
 {
 	gchar *uri;
 
-	uri = e_util_uri_to_filename (name);
+	uri = g_filename_to_uri (name, NULL, NULL);
 	if (uri) {
 		g_free(uri);
 		return TRUE;

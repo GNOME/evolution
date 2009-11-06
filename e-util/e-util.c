@@ -1418,7 +1418,7 @@ get_lock_filename (void)
 }
 
 gboolean
-e_file_lock_create ()
+e_file_lock_create (void)
 {
 	const gchar *fname = get_lock_filename ();
 	gboolean status = FALSE;
@@ -1435,7 +1435,7 @@ e_file_lock_create ()
 }
 
 void
-e_file_lock_destroy ()
+e_file_lock_destroy (void)
 {
 	const gchar *fname = get_lock_filename ();
 
@@ -1445,7 +1445,7 @@ e_file_lock_destroy ()
 }
 
 gboolean
-e_file_lock_exists ()
+e_file_lock_exists (void)
 {
 	const gchar *fname = get_lock_filename ();
 
@@ -1505,60 +1505,6 @@ e_util_guess_mime_type (const gchar *filename, gboolean localfile)
 	}
 
 	return mime_type;
-}
-
-/**
- * e_util_filename_to_uri:
- * @filename: local file name.
- *
- * Converts a local file name to a URI.  Free the returned string with
- * g_free().
- *
- * Returns: a newly allocated string or %NULL
- **/
-gchar *
-e_util_filename_to_uri (const gchar *filename)
-{
-	GFile *file;
-	gchar *uri = NULL;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	file = g_file_new_for_path (filename);
-
-	if (file) {
-		uri = g_file_get_uri (file);
-		g_object_unref (file);
-	}
-
-	return uri;
-}
-
-/**
- * e_util_uri_to_filename:
- * @uri: a URI
- *
- * Converts a URI to a local file name.  %NULL indicates no such
- * local file name exists.  Free the returned string with g_free().
- *
- * Returns: either newly allocated string or %NULL
- **/
-gchar *
-e_util_uri_to_filename (const gchar *uri)
-{
-	GFile *file;
-	gchar *filename = NULL;
-
-	g_return_val_if_fail (uri != NULL, NULL);
-
-	file = g_file_new_for_uri (uri);
-
-	if (file) {
-		filename = g_file_get_path (file);
-		g_object_unref (file);
-	}
-
-	return filename;
 }
 
 /**
