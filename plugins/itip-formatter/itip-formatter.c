@@ -1474,6 +1474,21 @@ get_next (icalcompiter *iter)
 }
 
 static void
+save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
+{
+	g_return_if_fail (pitip != NULL);
+	g_return_if_fail (pitip->vcalendar != NULL);
+	g_return_if_fail (pitip->part != NULL);
+
+	if (!camel_mime_part_get_filename (pitip->part)) {
+		/* To Translators: This is a default file name  when saving calendar part */
+		camel_mime_part_set_filename (pitip->part, _("calendar.ics"));
+	}
+
+	em_utils_save_part (GTK_WINDOW (gtk_widget_get_toplevel (button)), _("Save calendar"), pitip->part);
+}
+
+static GtkWidget *
 set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *primary, const gchar *secondary)
 {
 	GtkWidget *vbox, *label;
@@ -1496,6 +1511,8 @@ set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *
 	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
 	gtk_container_add (container, vbox);
+
+	return vbox;
 }
 
 static gboolean
@@ -1603,10 +1620,24 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VJOURNAL_COMPONENT);
 
 	if (pitip->total > 1) {
-		set_itip_error (pitip, container,
+		GtkWidget *save, *vbox, *hbox;
+
+		vbox = set_itip_error (pitip, container,
 				_("The calendar attached contains multiple items"),
 				_("To process all of these items, the file should be saved and the calendar imported"));
 
+		g_return_val_if_fail (vbox != NULL, FALSE);
+
+		hbox = gtk_hbox_new (FALSE, 0);
+
+		save = gtk_button_new_from_stock (GTK_STOCK_SAVE);
+		gtk_container_set_border_width (GTK_CONTAINER (save), 10);
+		gtk_box_pack_start (GTK_BOX (hbox), save, FALSE, FALSE, 0);
+
+		gtk_widget_show_all (hbox);
+		gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+		g_signal_connect (save, "clicked", G_CALLBACK (save_vcalendar_cb), pitip);
 		return FALSE;
 	} if (pitip->total > 0) {
 		pitip->current = 1;
