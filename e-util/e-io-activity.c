@@ -26,18 +26,40 @@
 	((obj), E_TYPE_IO_ACTIVITY, EIOActivityPrivate))
 
 struct _EIOActivityPrivate {
-	GObject *source_object;
+	GAsyncResult *async_result;
 	GCancellable *cancellable;
-	GAsyncReadyCallback callback;
-	gpointer user_data;
 };
 
 enum {
 	PROP_0,
+	PROP_ASYNC_RESULT,
 	PROP_CANCELLABLE
 };
 
 static gpointer parent_class;
+
+static void
+io_activity_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ASYNC_RESULT:
+			e_io_activity_set_async_result (
+				E_IO_ACTIVITY (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_CANCELLABLE:
+			e_io_activity_set_cancellable (
+				E_IO_ACTIVITY (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 io_activity_get_property (GObject *object,
@@ -46,6 +68,12 @@ io_activity_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ASYNC_RESULT:
+			g_value_set_object (
+				value, e_io_activity_get_async_result (
+				E_IO_ACTIVITY (object)));
+			return;
+
 		case PROP_CANCELLABLE:
 			g_value_set_object (
 				value, e_io_activity_get_cancellable (
@@ -63,9 +91,9 @@ io_activity_dispose (GObject *object)
 
 	priv = E_IO_ACTIVITY_GET_PRIVATE (object);
 
-	if (priv->source_object != NULL) {
-		g_object_unref (priv->source_object);
-		priv->source_object = NULL;
+	if (priv->async_result != NULL) {
+		g_object_unref (priv->async_result);
+		priv->async_result = NULL;
 	}
 
 	if (priv->cancellable != NULL) {
@@ -80,55 +108,37 @@ io_activity_dispose (GObject *object)
 static void
 io_activity_cancelled (EActivity *activity)
 {
-	EIOActivityPrivate *priv;
-
-	priv = E_IO_ACTIVITY_GET_PRIVATE (activity);
+	EIOActivity *io_activity;
+	GCancellable *cancellable;
 
 	/* Chain up to parent's cancelled() method. */
 	E_ACTIVITY_CLASS (parent_class)->cancelled (activity);
 
-	g_cancellable_cancel (priv->cancellable);
+	io_activity = E_IO_ACTIVITY (activity);
+	cancellable = e_io_activity_get_cancellable (io_activity);
+
+	if (cancellable != NULL)
+		g_cancellable_cancel (cancellable);
 }
 
 static void
 io_activity_completed (EActivity *activity)
 {
-	EIOActivityPrivate *priv;
-
-	priv = E_IO_ACTIVITY_GET_PRIVATE (activity);
+	EIOActivity *io_activity;
+	GAsyncResult *async_result;
 
 	/* Chain up to parent's completed() method. */
 	E_ACTIVITY_CLASS (parent_class)->completed (activity);
 
-	/* Clear the function pointer after invoking it
-	 * to guarantee it will not be invoked again. */
-	if (priv->callback != NULL) {
-		priv->callback (
-			priv->source_object,
-			G_ASYNC_RESULT (activity),
-			priv->user_data);
-		priv->callback = NULL;
-	}
-}
+	io_activity = E_IO_ACTIVITY (activity);
+	async_result = e_io_activity_get_async_result (io_activity);
 
-static gpointer
-io_activity_get_user_data (GAsyncResult *async_result)
-{
-	EIOActivityPrivate *priv;
-
-	priv = E_IO_ACTIVITY_GET_PRIVATE (async_result);
-
-	return priv->user_data;
-}
-
-static GObject *
-io_activity_get_source_object (GAsyncResult *async_result)
-{
-	EIOActivityPrivate *priv;
-
-	priv = E_IO_ACTIVITY_GET_PRIVATE (async_result);
-
-	return priv->source_object;
+	/* We know how to invoke a GSimpleAsyncResult.  For any other
+	 * type of GAsyncResult the caller will have to take measures
+	 * to invoke it himself. */
+	if (G_IS_SIMPLE_ASYNC_RESULT (async_result))
+		g_simple_async_result_complete (
+			G_SIMPLE_ASYNC_RESULT (async_result));
 }
 
 static void
@@ -141,6 +151,7 @@ io_activity_class_init (EIOActivityClass *class)
 	g_type_class_add_private (class, sizeof (EIOActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = io_activity_set_property;
 	object_class->get_property = io_activity_get_property;
 	object_class->dispose = io_activity_dispose;
 
@@ -150,28 +161,31 @@ io_activity_class_init (EIOActivityClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ASYNC_RESULT,
+		g_param_spec_object (
+			"async-result",
+			"Asynchronous Result",
+			NULL,
+			G_TYPE_ASYNC_RESULT,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CANCELLABLE,
 		g_param_spec_object (
 			"cancellable",
 			"Cancellable",
 			NULL,
 			G_TYPE_CANCELLABLE,
-			G_PARAM_READABLE));
-}
-
-static void
-io_activity_iface_init (GAsyncResultIface *iface)
-{
-	iface->get_user_data = io_activity_get_user_data;
-	iface->get_source_object = io_activity_get_source_object;
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 }
 
 static void
 io_activity_init (EIOActivity *io_activity)
 {
 	io_activity->priv = E_IO_ACTIVITY_GET_PRIVATE (io_activity);
-
-	io_activity->priv->cancellable = g_cancellable_new ();
 }
 
 GType
@@ -193,45 +207,57 @@ e_io_activity_get_type (void)
 			NULL   /* value_table */
 		};
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) io_activity_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
 		type = g_type_register_static (
 			E_TYPE_ACTIVITY, "EIOActivity", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, G_TYPE_ASYNC_RESULT, &iface_info);
 	}
 
 	return type;
 }
 
 EActivity *
-e_io_activity_new (GObject *source_object,
-                   const gchar *primary_text,
-                   GAsyncReadyCallback callback,
-                   gpointer user_data)
+e_io_activity_new (const gchar *primary_text,
+                   GAsyncResult *async_result,
+                   GCancellable *cancellable)
 {
-	EActivity *activity;
-	EIOActivityPrivate *priv;
-
-	g_return_val_if_fail (G_IS_OBJECT (source_object), NULL);
 	g_return_val_if_fail (primary_text != NULL, NULL);
-	g_return_val_if_fail (callback != NULL, NULL);
 
-	activity = g_object_new (
-		E_TYPE_IO_ACTIVITY, "primary-text", primary_text, NULL);
+	if (async_result != NULL)
+		g_return_val_if_fail (G_IS_ASYNC_RESULT (async_result), NULL);
 
-	/* XXX Should these be construct properties? */
-	priv = E_IO_ACTIVITY_GET_PRIVATE (activity);
-	priv->source_object = g_object_ref (source_object);
-	priv->callback = callback;
-	priv->user_data = user_data;
+	if (cancellable != NULL)
+		g_return_val_if_fail (G_IS_CANCELLABLE (cancellable), NULL);
 
-	return activity;
+	return g_object_new (
+		E_TYPE_IO_ACTIVITY,
+		"async-result", async_result, "cancellable",
+		cancellable, "primary-text", primary_text, NULL);
+}
+
+GAsyncResult *
+e_io_activity_get_async_result (EIOActivity *io_activity)
+{
+	g_return_val_if_fail (E_IS_IO_ACTIVITY (io_activity), NULL);
+
+	return io_activity->priv->async_result;
+}
+
+void
+e_io_activity_set_async_result (EIOActivity *io_activity,
+                                GAsyncResult *async_result)
+{
+	g_return_if_fail (E_IS_IO_ACTIVITY (io_activity));
+
+	if (async_result != NULL) {
+		g_return_if_fail (G_IS_ASYNC_RESULT (async_result));
+		g_object_ref (async_result);
+	}
+
+	if (io_activity->priv->async_result != NULL)
+		g_object_unref (io_activity->priv->async_result);
+
+	io_activity->priv->async_result = async_result;
+
+	g_object_notify (G_OBJECT (io_activity), "async-result");
 }
 
 GCancellable *
@@ -240,4 +266,30 @@ e_io_activity_get_cancellable (EIOActivity *io_activity)
 	g_return_val_if_fail (E_IS_IO_ACTIVITY (io_activity), NULL);
 
 	return io_activity->priv->cancellable;
+}
+
+void
+e_io_activity_set_cancellable (EIOActivity *io_activity,
+                               GCancellable *cancellable)
+{
+	g_return_if_fail (E_IS_IO_ACTIVITY (io_activity));
+
+	if (cancellable != NULL) {
+		g_return_if_fail (G_IS_CANCELLABLE (cancellable));
+		g_object_ref (cancellable);
+	}
+
+	if (io_activity->priv->cancellable != NULL)
+		g_object_unref (io_activity->priv->cancellable);
+
+	io_activity->priv->cancellable = cancellable;
+
+	g_object_freeze_notify (G_OBJECT (io_activity));
+
+	e_activity_set_allow_cancel (
+		E_ACTIVITY (io_activity), (cancellable != NULL));
+
+	g_object_notify (G_OBJECT (io_activity), "cancellable");
+
+	g_object_thaw_notify (G_OBJECT (io_activity));
 }

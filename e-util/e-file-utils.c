@@ -48,8 +48,131 @@
 
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <glib/gi18n-lib.h>
 
-#include "e-fsutils.h"
+#include "e-file-utils.h"
+#include "e-io-activity.h"
+
+static void
+file_replace_contents_cb (GFile *file,
+                          GAsyncResult *result,
+                          EActivity *activity)
+{
+	gchar *new_etag;
+	gboolean success;
+	GError *error = NULL;
+
+	success = g_file_replace_contents_finish (
+		file, result, &new_etag, &error);
+
+	result = e_io_activity_get_async_result (E_IO_ACTIVITY (activity));
+
+	g_object_set_data_full (
+		G_OBJECT (result),
+		"__new_etag__", new_etag,
+		(GDestroyNotify) g_free);
+
+	g_simple_async_result_set_op_res_gboolean (
+		G_SIMPLE_ASYNC_RESULT (result), success);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (
+			G_SIMPLE_ASYNC_RESULT (result), error);
+		g_error_free (error);
+	}
+
+	e_activity_complete (activity);
+
+	g_object_unref (activity);
+}
+
+EActivity *
+e_file_replace_contents_async (GFile *file,
+                               const gchar *contents,
+                               gsize length,
+                               const gchar *etag,
+                               gboolean make_backup,
+                               GFileCreateFlags flags,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
+{
+	EActivity *activity;
+	GSimpleAsyncResult *simple;
+	GCancellable *cancellable;
+	const gchar *format;
+	gchar *description;
+	gchar *basename;
+	gchar *filename;
+	gchar *hostname;
+	gchar *uri;
+
+	g_return_val_if_fail (G_IS_FILE (file), NULL);
+	g_return_val_if_fail (contents != NULL, NULL);
+
+	uri = g_file_get_uri (file);
+	filename = g_filename_from_uri (uri, &hostname, NULL);
+	basename = g_filename_display_basename (filename);
+
+	if (hostname != NULL) {
+		/* Translators: The string value is the basename of a file. */
+		format = _("Writing \"%s\"");
+		description = g_strdup_printf (format, basename);
+	} else {
+		/* Translators: The first string value is the basename of a
+		 * remote file, the second string value is the hostname. */
+		format = _("Writing \"%s\" to %s");
+		description = g_strdup_printf (format, basename, hostname);
+	}
+
+	cancellable = g_cancellable_new ();
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (file), callback, user_data,
+		e_file_replace_contents_async);
+
+	activity = e_io_activity_new (
+		description, G_ASYNC_RESULT (simple), cancellable);
+
+	g_file_replace_contents_async (
+		file, contents, length, etag,
+		make_backup, flags, cancellable,
+		(GAsyncReadyCallback) file_replace_contents_cb,
+		activity);
+
+	g_object_unref (cancellable);
+	g_object_unref (simple);
+
+	g_free (description);
+	g_free (basename);
+	g_free (filename);
+	g_free (hostname);
+	g_free (uri);
+
+	return activity;
+}
+
+gboolean
+e_file_replace_contents_finish (GFile *file,
+                                GAsyncResult *result,
+                                gchar **new_etag,
+                                GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (G_IS_FILE (file), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
+	if (new_etag != NULL)
+		*new_etag = g_object_steal_data (
+			G_OBJECT (result), "__new_etag__");
+
+	return TRUE;
+}
 
 /**
  * e_fsutils_usage:

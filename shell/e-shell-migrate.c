@@ -29,7 +29,7 @@
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-error.h"
-#include "e-util/e-fsutils.h"
+#include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"
 
 #include "es-event.h"

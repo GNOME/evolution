@@ -20,16 +20,30 @@
  *
  */
 
-#ifndef E_FSUTILS_H
-#define E_FSUTILS_H
+#ifndef E_FILE_UTILS_H
+#define E_FILE_UTILS_H
 
-#include <glib.h>
+#include <gio/gio.h>
+#include <e-util/e-activity.h>
 
 G_BEGIN_DECLS
 
-glong e_fsutils_usage(const gchar *path);
-glong e_fsutils_avail(const gchar *path);
+EActivity *	e_file_replace_contents_async	(GFile *file,
+						 const gchar *contents,
+						 gsize length,
+						 const gchar *etag,
+						 gboolean make_backup,
+						 GFileCreateFlags flags,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_file_replace_contents_finish	(GFile *file,
+						 GAsyncResult *result,
+						 gchar **new_etag,
+						 GError **error);
+
+glong		e_fsutils_usage			(const gchar *path);
+glong		e_fsutils_avail			(const gchar *path);
 
 G_END_DECLS
 
-#endif /* !E_FOLDER_MAP_H */
+#endif /* E_FILE_UTILS_H */

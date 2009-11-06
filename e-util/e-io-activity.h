@@ -60,11 +60,15 @@ struct _EIOActivityClass {
 };
 
 GType		e_io_activity_get_type		(void);
-EActivity *	e_io_activity_new		(GObject *source_object,
-						 const gchar *primary_text,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
+EActivity *	e_io_activity_new		(const gchar *primary_text,
+						 GAsyncResult *async_result,
+						 GCancellable *cancellable);
+GAsyncResult *	e_io_activity_get_async_result	(EIOActivity *io_activity);
+void		e_io_activity_set_async_result	(EIOActivity *io_activity,
+						 GAsyncResult *async_result);
 GCancellable *	e_io_activity_get_cancellable	(EIOActivity *io_activity);
+void		e_io_activity_set_cancellable	(EIOActivity *io_activity,
+						 GCancellable *cancellable);
 
 G_END_DECLS
 
