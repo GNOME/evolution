@@ -11,6 +11,8 @@ privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
 	e-account-utils.h			\
+	e-activity.h				\
+	e-alert-activity.h			\
 	e-bconf-map.h				\
 	e-binding.h				\
 	e-categories-config.h			\
@@ -45,6 +47,7 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-emacs-like.h	\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
+	e-timeout-activity.h			\
 	e-util.h				\
 	e-unicode.h				\
 	e-xml-utils.h
@@ -81,6 +84,8 @@ libeutil_la_CPPFLAGS =							\
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-account-utils.c			\
+	e-activity.c				\
+	e-alert-activity.c			\
 	e-bconf-map.c				\
 	e-binding.c				\
 	e-categories-config.c			\
@@ -112,8 +117,9 @@ libeutil_la_SOURCES =				\
 	e-bit-array.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
-	e-text-event-processor-emacs-like.c     \
-	e-text-event-processor.c                \
+	e-text-event-processor-emacs-like.c	\
+	e-text-event-processor.c		\
+	e-timeout-activity.c			\
 	e-util.c				\
 	e-unicode.c				\
 	e-util-private.h			\

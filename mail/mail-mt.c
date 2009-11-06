@@ -37,7 +37,7 @@
 #include "misc/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
-#include "widgets/misc/e-alert-activity.h"
+#include "e-util/e-alert-activity.h"
 
 #include "mail-config.h"
 #include "mail-session.h"

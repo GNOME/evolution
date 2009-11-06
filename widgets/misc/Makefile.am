@@ -22,9 +22,7 @@ widgetsinclude_HEADERS =			\
 	e-account-manager.h			\
 	e-account-tree-view.h			\
 	e-action-combo-box.h			\
-	e-activity.h				\
 	e-activity-proxy.h			\
-	e-alert-activity.h			\
 	e-attachment.h				\
 	e-attachment-button.h			\
 	e-attachment-dialog.h			\
@@ -75,7 +73,6 @@ widgetsinclude_HEADERS =			\
 	e-signature-tree-view.h			\
 	e-spinner.c				\
 	e-spinner.h				\
-	e-timeout-activity.h			\
 	e-url-entry.h				\
 	e-web-view.h				\
 	ea-calendar-cell.h			\
@@ -101,9 +98,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-account-manager.c			\
 	e-account-tree-view.c			\
 	e-action-combo-box.c			\
-	e-activity.c				\
 	e-activity-proxy.c			\
-	e-alert-activity.c			\
 	e-attachment.c				\
 	e-attachment-button.c			\
 	e-attachment-dialog.c			\
@@ -152,7 +147,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-preview.c			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
-	e-timeout-activity.c			\
 	e-url-entry.c				\
 	e-web-view.c				\
 	ea-calendar-cell.c			\

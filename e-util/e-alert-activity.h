@@ -22,7 +22,7 @@
 #ifndef E_ALERT_ACTIVITY_H
 #define E_ALERT_ACTIVITY_H
 
-#include <e-timeout-activity.h>
+#include <e-util/e-timeout-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ALERT_ACTIVITY \

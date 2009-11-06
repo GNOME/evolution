@@ -68,9 +68,9 @@
 #include "e-util/e-mktemp.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-alert-activity.h"
 #include "e-util/e-error.h"
 #include "shell/e-shell.h"
-#include "widgets/misc/e-alert-activity.h"
 #include "widgets/misc/e-attachment.h"
 
 #include "em-utils.h"

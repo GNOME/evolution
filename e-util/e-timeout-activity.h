@@ -22,7 +22,7 @@
 #ifndef E_TIMEOUT_ACTIVITY_H
 #define E_TIMEOUT_ACTIVITY_H
 
-#include <e-activity.h>
+#include <e-util/e-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TIMEOUT_ACTIVITY \

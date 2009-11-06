@@ -29,7 +29,7 @@
 #define E_SHELL_BACKEND_H
 
 #include <shell/e-shell-common.h>
-#include <misc/e-activity.h>
+#include <e-util/e-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_BACKEND \
