@@ -1107,17 +1107,17 @@ em_utils_forward_attached (CamelFolder *folder, GPtrArray *uids, const gchar *fr
 	mail_build_attachment (folder, uids, forward_attached_cb, fad);
 }
 
-static void
+static struct _EMsgComposer *
 forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, gint style, const gchar *fromuri)
 {
 	CamelMimeMessage *message;
-	EMsgComposer *composer;
+	EMsgComposer *composer = NULL;
 	gchar *subject, *text;
 	gint i;
 	guint32 flags;
 
 	if (messages->len == 0)
-		return;
+		return NULL;
 
 	flags = EM_FORMAT_QUOTE_HEADERS;
 	if (style == MAIL_CONFIG_FORWARD_QUOTED)
@@ -1144,14 +1144,16 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
 
 				composer_set_no_change (composer, TRUE, FALSE);
-
-				gtk_widget_show (GTK_WIDGET (composer));
+				if (!e_msg_composer_get_lite())
+					gtk_widget_show (GTK_WIDGET (composer));
 			}
 			g_free (text);
 		}
 
 		g_free (subject);
 	}
+
+	return composer;
 }
 
 static void
@@ -1238,10 +1240,10 @@ em_utils_forward_message (CamelMimeMessage *message, const gchar *fromuri)
 		g_free (subject);
 		break;
 	case MAIL_CONFIG_FORWARD_INLINE:
-		forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_INLINE, fromuri);
+		composer = forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_INLINE, fromuri);
 		break;
 	case MAIL_CONFIG_FORWARD_QUOTED:
-		forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_QUOTED, fromuri);
+		composer = forward_non_attached (NULL, NULL, messages, MAIL_CONFIG_FORWARD_QUOTED, fromuri);
 		break;
 	}
 
