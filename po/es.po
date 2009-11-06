@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-05 19:12+0000\n"
-"PO-Revision-Date: 2009-11-06 16:08+0100\n"
+"POT-Creation-Date: 2009-11-06 17:06+0000\n"
+"PO-Revision-Date: 2009-11-06 21:46+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2218,7 +2218,7 @@ msgstr "Sus tareas no estarán disponibles hasta que reinicie Evolution."
 msgid "_Discard Changes"
 msgstr "_Descartar cambios"
 
-#: ../calendar/calendar.error.xml.h:86 ../composer/e-composer-actions.c:305
+#: ../calendar/calendar.error.xml.h:86 ../composer/e-composer-actions.c:307
 msgid "_Save"
 msgstr "_Guardar"
 
@@ -3381,7 +3381,7 @@ msgstr "Adjuntar archivo(s)"
 #: ../plugins/calendar-weather/calendar-weather.c:324
 #: ../plugins/calendar-weather/calendar-weather.c:378
 #: ../plugins/email-custom-header/email-custom-header.c:390
-#: ../plugins/itip-formatter/itip-formatter.c:2226
+#: ../plugins/itip-formatter/itip-formatter.c:2257
 #: ../widgets/misc/e-account-tree-view.c:124 ../widgets/misc/e-dateedit.c:1559
 #: ../widgets/misc/e-dateedit.c:1776
 #: ../widgets/misc/e-signature-combo-box.c:75
@@ -3494,7 +3494,7 @@ msgstr "viernes"
 #: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:81
 #: ../modules/addressbook/addressbook-config.c:1046
 #: ../modules/addressbook/ldap-config.glade.h:17
-#: ../plugins/itip-formatter/itip-formatter.c:2573
+#: ../plugins/itip-formatter/itip-formatter.c:2604
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "General"
@@ -3956,7 +3956,7 @@ msgid "_View"
 msgstr "_Ver"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1107
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:279
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
@@ -4042,7 +4042,7 @@ msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1683
-#: ../composer/e-composer-actions.c:473
+#: ../composer/e-composer-actions.c:475
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -5027,7 +5027,7 @@ msgstr "Ajustes globales de la aplicación"
 #: ../calendar/gui/e-meeting-store.c:218 ../calendar/gui/print.c:977
 #: ../calendar/gui/print.c:994 ../e-util/e-charset.c:52
 #: ../mail/em-utils.c:1226 ../plugins/itip-formatter/itip-formatter.c:459
-#: ../plugins/itip-formatter/itip-formatter.c:2251
+#: ../plugins/itip-formatter/itip-formatter.c:2282
 #: ../plugins/plugin-manager/plugin-manager.c:89
 msgid "Unknown"
 msgstr "Desconocido"
@@ -5195,7 +5195,7 @@ msgstr "Tipo"
 #: ../calendar/gui/e-itip-control.c:1192
 #: ../calendar/gui/e-meeting-list-view.c:199
 #: ../calendar/gui/e-meeting-store.c:182 ../calendar/gui/e-meeting-store.c:205
-#: ../plugins/itip-formatter/itip-formatter.c:2239
+#: ../plugins/itip-formatter/itip-formatter.c:2270
 msgid "Accepted"
 msgstr "Aceptado"
 
@@ -5203,7 +5203,7 @@ msgstr "Aceptado"
 #: ../calendar/gui/e-itip-control.c:1200
 #: ../calendar/gui/e-meeting-list-view.c:200
 #: ../calendar/gui/e-meeting-store.c:184 ../calendar/gui/e-meeting-store.c:207
-#: ../plugins/itip-formatter/itip-formatter.c:2245
+#: ../plugins/itip-formatter/itip-formatter.c:2276
 msgid "Declined"
 msgstr "Rehusado"
 
@@ -5217,7 +5217,7 @@ msgstr "Provisional"
 #: ../calendar/gui/e-calendar-view.c:1601
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../plugins/itip-formatter/itip-formatter.c:2248
+#: ../plugins/itip-formatter/itip-formatter.c:2279
 msgid "Delegated"
 msgstr "Delegado"
 
@@ -5434,7 +5434,7 @@ msgstr ""
 "abajo."
 
 #: ../calendar/gui/e-itip-control.c:1196
-#: ../plugins/itip-formatter/itip-formatter.c:2242
+#: ../plugins/itip-formatter/itip-formatter.c:2273
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
@@ -6502,7 +6502,7 @@ msgstr "Reuniones y citas"
 
 #: ../calendar/importers/icalendar-importer.c:335
 #: ../calendar/importers/icalendar-importer.c:628
-#: ../plugins/itip-formatter/itip-formatter.c:1747
+#: ../plugins/itip-formatter/itip-formatter.c:1778
 msgid "Opening calendar"
 msgstr "Apertura del calendario"
 
@@ -8083,11 +8083,11 @@ msgstr "Pacífico/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
-#: ../composer/e-composer-actions.c:78
+#: ../composer/e-composer-actions.c:79
 msgid "Untitled Message"
 msgstr "Mensaje sin título"
 
-#: ../composer/e-composer-actions.c:200
+#: ../composer/e-composer-actions.c:202
 #: ../modules/calendar/e-cal-shell-view-memopad.c:257
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:325
 #: ../modules/calendar/e-memo-shell-view-actions.c:495
@@ -8095,153 +8095,153 @@ msgstr "Mensaje sin título"
 msgid "Save as..."
 msgstr "Guardar como…"
 
-#: ../composer/e-composer-actions.c:279
+#: ../composer/e-composer-actions.c:281
 #: ../widgets/misc/e-attachment-view.c:328
 msgid "Attach a file"
 msgstr "Adjuntar un archivo"
 
-#: ../composer/e-composer-actions.c:284
+#: ../composer/e-composer-actions.c:286
 #: ../widgets/misc/e-signature-editor.c:200
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../composer/e-composer-actions.c:286
+#: ../composer/e-composer-actions.c:288
 msgid "Close the current file"
 msgstr "Cierra el archivo actual"
 
-#: ../composer/e-composer-actions.c:291
+#: ../composer/e-composer-actions.c:293
 msgid "_Print..."
 msgstr "_Imprimir…"
 
-#: ../composer/e-composer-actions.c:298
+#: ../composer/e-composer-actions.c:300
 msgid "Print Pre_view"
 msgstr "Vist_a previa de impresión"
 
-#: ../composer/e-composer-actions.c:307
+#: ../composer/e-composer-actions.c:309
 msgid "Save the current file"
 msgstr "Guardar archivo actual"
 
-#: ../composer/e-composer-actions.c:312
+#: ../composer/e-composer-actions.c:314
 msgid "Save _As..."
 msgstr "Guardar _como…"
 
-#: ../composer/e-composer-actions.c:314
+#: ../composer/e-composer-actions.c:316
 msgid "Save the current file with a different name"
 msgstr "Guardar el archivo actual con un nombre diferente"
 
-#: ../composer/e-composer-actions.c:319
+#: ../composer/e-composer-actions.c:321
 msgid "Save as _Draft"
 msgstr "Guardar como _borrador"
 
-#: ../composer/e-composer-actions.c:321
+#: ../composer/e-composer-actions.c:323
 msgid "Save as draft"
 msgstr "Guardar como borrador"
 
-#: ../composer/e-composer-actions.c:326 ../composer/e-composer-private.c:196
+#: ../composer/e-composer-actions.c:328 ../composer/e-composer-private.c:196
 msgid "S_end"
 msgstr "_Enviar"
 
-#: ../composer/e-composer-actions.c:328
+#: ../composer/e-composer-actions.c:330
 msgid "Send this message"
 msgstr "Enviar este mensaje"
 
-#: ../composer/e-composer-actions.c:333
+#: ../composer/e-composer-actions.c:335
 msgid "New _Message"
 msgstr "_Mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:335
+#: ../composer/e-composer-actions.c:337
 msgid "Open New Message window"
 msgstr "Abrir la ventana del mensaje nuevo"
 
-#: ../composer/e-composer-actions.c:342
+#: ../composer/e-composer-actions.c:344
 msgid "Character _Encoding"
 msgstr "_Codificación de caracteres"
 
-#: ../composer/e-composer-actions.c:349
+#: ../composer/e-composer-actions.c:351
 msgid "_Security"
 msgstr "_Seguridad"
 
-#: ../composer/e-composer-actions.c:359
+#: ../composer/e-composer-actions.c:361
 msgid "PGP _Encrypt"
 msgstr "Cif_rar con PGP"
 
-#: ../composer/e-composer-actions.c:361
+#: ../composer/e-composer-actions.c:363
 msgid "Encrypt this message with PGP"
 msgstr "Cifrar este mensaje con PGP"
 
-#: ../composer/e-composer-actions.c:367
+#: ../composer/e-composer-actions.c:369
 msgid "PGP _Sign"
 msgstr "_Firmar con PGP"
 
-#: ../composer/e-composer-actions.c:369
+#: ../composer/e-composer-actions.c:371
 msgid "Sign this message with your PGP key"
 msgstr "Firmar este mensaje con su clave GPG"
 
-#: ../composer/e-composer-actions.c:375
+#: ../composer/e-composer-actions.c:377
 msgid "_Prioritize Message"
 msgstr "_Priorizar mensaje"
 
-#: ../composer/e-composer-actions.c:377
+#: ../composer/e-composer-actions.c:379
 msgid "Set the message priority to high"
 msgstr "Establecer la prioridad del mensaje a alta"
 
-#: ../composer/e-composer-actions.c:383
+#: ../composer/e-composer-actions.c:385
 msgid "Re_quest Read Receipt"
 msgstr "_Solicitar confirmación de lectura"
 
-#: ../composer/e-composer-actions.c:385
+#: ../composer/e-composer-actions.c:387
 msgid "Get delivery notification when your message is read"
 msgstr "Obtener notificación de entrega cuando su mensaje sea leído"
 
-#: ../composer/e-composer-actions.c:391
+#: ../composer/e-composer-actions.c:393
 msgid "S/MIME En_crypt"
 msgstr "C_ifrar con S/MIME"
 
-#: ../composer/e-composer-actions.c:393
+#: ../composer/e-composer-actions.c:395
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Cifrar este mensaje con su certificado de cifrado S/MIME"
 
-#: ../composer/e-composer-actions.c:399
+#: ../composer/e-composer-actions.c:401
 msgid "S/MIME Sig_n"
 msgstr "Fi_rmar con S/MIME"
 
-#: ../composer/e-composer-actions.c:401
+#: ../composer/e-composer-actions.c:403
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Firmar este mensaje con su certificado de firma S/MIME"
 
-#: ../composer/e-composer-actions.c:407
+#: ../composer/e-composer-actions.c:409
 msgid "_Bcc Field"
 msgstr "Campo «Cc_o»"
 
-#: ../composer/e-composer-actions.c:409
+#: ../composer/e-composer-actions.c:411
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cco»"
 
-#: ../composer/e-composer-actions.c:415
+#: ../composer/e-composer-actions.c:417
 msgid "_Cc Field"
 msgstr "Campo «_Cc»"
 
-#: ../composer/e-composer-actions.c:417
+#: ../composer/e-composer-actions.c:419
 msgid "Toggles whether the CC field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Cc»"
 
-#: ../composer/e-composer-actions.c:423
+#: ../composer/e-composer-actions.c:425
 msgid "_From Field"
 msgstr "Campo «_De»"
 
-#: ../composer/e-composer-actions.c:425
+#: ../composer/e-composer-actions.c:427
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Conmutador que indica si se muestra el selector «De»"
 
-#: ../composer/e-composer-actions.c:431
+#: ../composer/e-composer-actions.c:433
 msgid "_Reply-To Field"
 msgstr "Campo «_Responder-a»"
 
-#: ../composer/e-composer-actions.c:433
+#: ../composer/e-composer-actions.c:435
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
 
-#: ../composer/e-composer-actions.c:476
+#: ../composer/e-composer-actions.c:478
 msgid "Save Draft"
 msgstr "Guardar borrador"
 
@@ -8323,19 +8323,19 @@ msgid "Save draft"
 msgstr "Guardar borrador"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:190 ../mail/em-utils.c:146
+#: ../composer/e-msg-composer.c:191 ../mail/em-utils.c:146
 #: ../plugins/attachment-reminder/attachment-reminder.c:129
 msgid "_Do not show this message again."
 msgstr "_No mostrar otra vez este mensaje."
 
-#: ../composer/e-msg-composer.c:983
+#: ../composer/e-msg-composer.c:984
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:990
+#: ../composer/e-msg-composer.c:991
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -8343,15 +8343,15 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1379
+#: ../composer/e-msg-composer.c:1380
 msgid "Unable to reconstruct message from autosave file"
 msgstr "No se pudo reconstruir el mensaje desde el archivo autoguardado"
 
-#: ../composer/e-msg-composer.c:1445 ../composer/e-msg-composer.c:2172
+#: ../composer/e-msg-composer.c:1446 ../composer/e-msg-composer.c:2173
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:3402
+#: ../composer/e-msg-composer.c:3403
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -8835,7 +8835,7 @@ msgstr "Asunto"
 msgid "Mailer"
 msgstr "Transporte"
 
-#: ../em-format/em-format-quote.c:432 ../mail/em-composer-utils.c:1169
+#: ../em-format/em-format-quote.c:432 ../mail/em-composer-utils.c:1166
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
@@ -10120,26 +10120,26 @@ msgstr "Editor de cuentas"
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: ../mail/em-composer-utils.c:1625
+#: ../mail/em-composer-utils.c:1624
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr ""
 "No se proporcionó ninguna dirección de destino, se canceló el reenvío del "
 "mensaje."
 
-#: ../mail/em-composer-utils.c:1631
+#: ../mail/em-composer-utils.c:1630
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna cuenta que usar, se canceló el reenvío del mensaje."
 
-#: ../mail/em-composer-utils.c:2074
+#: ../mail/em-composer-utils.c:2073
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2121
+#: ../mail/em-composer-utils.c:2120
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10147,15 +10147,15 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../mail/em-composer-utils.c:2265
+#: ../mail/em-composer-utils.c:2264
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
-#: ../mail/em-composer-utils.c:2445
+#: ../mail/em-composer-utils.c:2444
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../mail/em-composer-utils.c:2446
+#: ../mail/em-composer-utils.c:2445
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -10830,32 +10830,26 @@ msgid "Search Folder source"
 msgstr "Origen de la carpeta de búsqueda"
 
 #: ../mail/evolution-mail.schemas.in.h:1
-#| msgid "Default window height"
 msgid "\"Filter Editor\" window height"
 msgstr "Altura de la ventana «Editor de filtros»"
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Filter Editor\" window maximize state"
 msgstr "Estado maximizado de la ventana «Editor de filtros»"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#| msgid "Default window width"
 msgid "\"Filter Editor\" window width"
 msgstr "Anchura de la ventana «Editor de filtros»"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#| msgid "Default window height"
 msgid "\"Search Folder Editor\" window height"
 msgstr "Altura de la ventana «Editor de carpetas de búsqueda»"
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#| msgid "\"Send and Receive Mail\" window maximize state"
 msgid "\"Search Folder Editor\" window maximize state"
 msgstr "Estado maximizado de la ventana «Editor de filtros»"
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#| msgid "Search Folder based on Mailing _List"
 msgid "\"Search Folder Editor\" window width"
 msgstr "Anchura de la ventana «Editor de carpetas de búsqueda»"
 
@@ -11065,7 +11059,6 @@ msgstr ""
 "lateral"
 
 #: ../mail/evolution-mail.schemas.in.h:49
-#| msgid "Could not save signature file."
 msgid "Do not add signature delimiter"
 msgstr "No añadir un delimitador de firma"
 
@@ -11195,7 +11188,6 @@ msgstr ""
 "mostrar el contenido."
 
 #: ../mail/evolution-mail.schemas.in.h:73
-#, fuzzy
 #| msgid ""
 #| "Initial height of the \"Send and Receive Mail\" window. The value updates "
 #| "as the user resizes the window vertically."
@@ -11203,11 +11195,10 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
+"el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:74
-#, fuzzy
 #| msgid ""
 #| "Initial height of the \"Send and Receive Mail\" window. The value updates "
 #| "as the user resizes the window vertically."
@@ -11215,8 +11206,8 @@ msgid ""
 "Initial height of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de carpetas de búsqueda». El valor se "
+"actualiza según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:75
 msgid ""
@@ -11331,7 +11322,6 @@ msgid "Last time empty trash was run"
 msgstr "Última vez que se vació la papelera"
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#| msgid "Lay_out"
 msgid "Layout style"
 msgstr "Estilo de la distribución"
 
@@ -11414,7 +11404,6 @@ msgid "Logfile to log filter actions."
 msgstr "Archivo de registro para registrar las acciones de filtrado."
 
 #: ../mail/evolution-mail.schemas.in.h:102
-#| msgid "Uniform row height"
 msgid "Mail browser height"
 msgstr "Altura del examinador de correo"
 
@@ -11423,7 +11412,6 @@ msgid "Mail browser maximized"
 msgstr "Examinador de correo maximizado"
 
 #: ../mail/evolution-mail.schemas.in.h:104
-#| msgid "Email begins with"
 msgid "Mail browser width"
 msgstr "Anchura del examinador de correo"
 
@@ -11599,12 +11587,10 @@ msgid "Show Animations"
 msgstr "Mostrar animaciones"
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#| msgid "Collapse all message threads"
 msgid "Show all message headers"
 msgstr "Mostrar todas las cabeceras del correo"
 
 #: ../mail/evolution-mail.schemas.in.h:146
-#| msgid "Show \"Reply To\" field when sending a mail message"
 msgid "Show all the headers when viewing a messages."
 msgstr "Mostrar todas las cabeceras al ver correos."
 
@@ -12523,9 +12509,6 @@ msgstr ""
 "hay instalado un diccionario."
 
 #: ../mail/mail-config.glade.h:128
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used for display purposes only."
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12781,12 +12764,12 @@ msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
 #. sending mail, filtering failed
-#: ../mail/mail-ops.c:572
+#: ../mail/mail-ops.c:600
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No se pudieron aplicar los filtros al correo saliente: %s"
 
-#: ../mail/mail-ops.c:584 ../mail/mail-ops.c:611
+#: ../mail/mail-ops.c:612 ../mail/mail-ops.c:639
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -12795,142 +12778,142 @@ msgstr ""
 "No es posible anexar a %s: %s\n"
 "Se anexará a la carpeta local «Correo enviado» en su lugar."
 
-#: ../mail/mail-ops.c:628
+#: ../mail/mail-ops.c:656
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "No es posible anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../mail/mail-ops.c:739 ../mail/mail-ops.c:820
+#: ../mail/mail-ops.c:767 ../mail/mail-ops.c:848
 msgid "Sending message"
 msgstr "Enviando mensaje"
 
-#: ../mail/mail-ops.c:749
+#: ../mail/mail-ops.c:777
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../mail/mail-ops.c:776
+#: ../mail/mail-ops.c:804
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Falló al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:778 ../mail/mail-send-recv.c:759
+#: ../mail/mail-ops.c:806 ../mail/mail-send-recv.c:761
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:780 ../mail/mail-send-recv.c:761
+#: ../mail/mail-ops.c:808 ../mail/mail-send-recv.c:763
 msgid "Complete."
 msgstr "Completado."
 
-#: ../mail/mail-ops.c:892
+#: ../mail/mail-ops.c:920
 #, fuzzy, c-format
 #| msgid "Saving message to folder"
 msgid "Saving message to folder '%s'"
 msgstr "Guardando mensaje en la carpeta"
 
-#: ../mail/mail-ops.c:969
+#: ../mail/mail-ops.c:997
 #, fuzzy, c-format
 #| msgid "Moving messages to %s"
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a %s"
 
-#: ../mail/mail-ops.c:969
+#: ../mail/mail-ops.c:997
 #, fuzzy, c-format
 #| msgid "Copying messages to %s"
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a %s"
 
-#: ../mail/mail-ops.c:1078
+#: ../mail/mail-ops.c:1106
 #, fuzzy, c-format
 #| msgid "Scanning folders in \"%s\""
 msgid "Scanning folders in '%s'"
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/mail-ops.c:1186
+#: ../mail/mail-ops.c:1214
 msgid "Forwarded messages"
 msgstr "Mensajes reenviados"
 
-#: ../mail/mail-ops.c:1227
+#: ../mail/mail-ops.c:1255
 #, fuzzy, c-format
 #| msgid "Opening folder %s"
 msgid "Opening folder '%s'"
 msgstr "Abriendo carpeta %s"
 
-#: ../mail/mail-ops.c:1293
+#: ../mail/mail-ops.c:1321
 #, fuzzy, c-format
 #| msgid "Retrieving quota information for folder %s"
 msgid "Retrieving quota information for folder '%s'"
 msgstr "Obteniendo la información de la cuota para la carpeta %s"
 
-#: ../mail/mail-ops.c:1365
+#: ../mail/mail-ops.c:1393
 #, fuzzy, c-format
 #| msgid "Opening store %s"
 msgid "Opening store '%s'"
 msgstr "Abriendo almacén %s"
 
-#: ../mail/mail-ops.c:1436
+#: ../mail/mail-ops.c:1464
 #, fuzzy, c-format
 #| msgid "Removing folder %s"
 msgid "Removing folder '%s'"
 msgstr "Eliminando carpeta %s"
 
-#: ../mail/mail-ops.c:1554
+#: ../mail/mail-ops.c:1582
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1617
+#: ../mail/mail-ops.c:1645
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1618
+#: ../mail/mail-ops.c:1646
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1672
+#: ../mail/mail-ops.c:1700
 #, fuzzy, c-format
 #| msgid "Refreshing folder"
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta"
 
-#: ../mail/mail-ops.c:1712
+#: ../mail/mail-ops.c:1740
 #, fuzzy, c-format
 #| msgid "Expunging folder"
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta"
 
-#: ../mail/mail-ops.c:1757
+#: ../mail/mail-ops.c:1785
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1758
+#: ../mail/mail-ops.c:1786
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: ../mail/mail-ops.c:1836
+#: ../mail/mail-ops.c:1864
 #, fuzzy, c-format
 #| msgid "Retrieving message %s"
 msgid "Retrieving message '%s'"
 msgstr "Obteniendo mensaje %s"
 
-#: ../mail/mail-ops.c:1954
+#: ../mail/mail-ops.c:1982
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Descargando %d mensaje"
 msgstr[1] "Descargando %d mensajes"
 
-#: ../mail/mail-ops.c:2043
+#: ../mail/mail-ops.c:2071
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Guardando %d mensaje"
 msgstr[1] "Guardando %d mensajes"
 
-#: ../mail/mail-ops.c:2123
+#: ../mail/mail-ops.c:2151
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -12939,11 +12922,11 @@ msgstr ""
 "Error guardando mensajes en: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2195
+#: ../mail/mail-ops.c:2223
 msgid "Saving attachment"
 msgstr "Guardando adjunto"
 
-#: ../mail/mail-ops.c:2213 ../mail/mail-ops.c:2221
+#: ../mail/mail-ops.c:2241 ../mail/mail-ops.c:2249
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -12952,29 +12935,29 @@ msgstr ""
 "No es posible crear el archivo de salida: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2236
+#: ../mail/mail-ops.c:2264
 #, c-format
 msgid "Could not write data: %s"
 msgstr "No es posible escribir datos: %s"
 
-#: ../mail/mail-ops.c:2381
+#: ../mail/mail-ops.c:2409
 #, fuzzy, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de %s"
 
-#: ../mail/mail-ops.c:2381
+#: ../mail/mail-ops.c:2409
 #, fuzzy, c-format
 #| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
 msgstr "Reconectar a %s"
 
-#: ../mail/mail-ops.c:2477
+#: ../mail/mail-ops.c:2505
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
 
-#: ../mail/mail-ops.c:2563
+#: ../mail/mail-ops.c:2591
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
@@ -12982,23 +12965,23 @@ msgstr "Comprobando el servicio"
 msgid "Canceling..."
 msgstr "Cancelando…"
 
-#: ../mail/mail-send-recv.c:430
+#: ../mail/mail-send-recv.c:432
 msgid "Send & Receive Mail"
 msgstr "Enviar y recibir correo"
 
-#: ../mail/mail-send-recv.c:443
+#: ../mail/mail-send-recv.c:445
 msgid "Cancel _All"
 msgstr "Cancelar _todo"
 
-#: ../mail/mail-send-recv.c:552
+#: ../mail/mail-send-recv.c:554
 msgid "Updating..."
 msgstr "Actualizando…"
 
-#: ../mail/mail-send-recv.c:552 ../mail/mail-send-recv.c:629
+#: ../mail/mail-send-recv.c:554 ../mail/mail-send-recv.c:631
 msgid "Waiting..."
 msgstr "Esperando…"
 
-#: ../mail/mail-send-recv.c:872
+#: ../mail/mail-send-recv.c:874
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprobando correo nuevo"
@@ -14794,7 +14777,7 @@ msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
 #: ../modules/calendar/e-cal-shell-backend.c:485
-#: ../plugins/itip-formatter/itip-formatter.c:2564
+#: ../plugins/itip-formatter/itip-formatter.c:2595
 msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
@@ -17809,13 +17792,26 @@ msgstr "No se puede enviar la información de la tarea, la tarea no existe"
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "No se puede enviar la información de la nota, la nota no existe"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1515
-#: ../plugins/itip-formatter/itip-formatter.c:1526
+#. To Translators: This is a default file name  when saving calendar part
+#: ../plugins/itip-formatter/itip-formatter.c:1485
+#, fuzzy
+#| msgid "Calendars"
+msgid "calendar.ics"
+msgstr "Calendarios"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1488
+#, fuzzy
+#| msgid "New calendar"
+msgid "Save calendar"
+msgstr "Calendario nuevo"
+
+#: ../plugins/itip-formatter/itip-formatter.c:1532
+#: ../plugins/itip-formatter/itip-formatter.c:1543
 msgid "The calendar attached is not valid"
 msgstr "El calendario adjunto no es válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1516
-#: ../plugins/itip-formatter/itip-formatter.c:1527
+#: ../plugins/itip-formatter/itip-formatter.c:1533
+#: ../plugins/itip-formatter/itip-formatter.c:1544
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -17823,15 +17819,15 @@ msgstr ""
 "El mensaje dice contener un calendario, pero el calendario no es un "
 "iCalendar válido."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1567
-#: ../plugins/itip-formatter/itip-formatter.c:1595
-#: ../plugins/itip-formatter/itip-formatter.c:1687
+#: ../plugins/itip-formatter/itip-formatter.c:1584
+#: ../plugins/itip-formatter/itip-formatter.c:1612
+#: ../plugins/itip-formatter/itip-formatter.c:1718
 msgid "The item in the calendar is not valid"
 msgstr "El elemento en el calendario no es válido"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1568
-#: ../plugins/itip-formatter/itip-formatter.c:1596
-#: ../plugins/itip-formatter/itip-formatter.c:1688
+#: ../plugins/itip-formatter/itip-formatter.c:1585
+#: ../plugins/itip-formatter/itip-formatter.c:1613
+#: ../plugins/itip-formatter/itip-formatter.c:1719
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17839,11 +17835,11 @@ msgstr ""
 "El mensaje contiene un calendario, pero el calendario no contiene ningún "
 "acontecimiento, tarea o información de disponibilidad"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1607
+#: ../plugins/itip-formatter/itip-formatter.c:1626
 msgid "The calendar attached contains multiple items"
 msgstr "El calendario adjunto contiene elementos múltiples"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1608
+#: ../plugins/itip-formatter/itip-formatter.c:1627
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17851,31 +17847,31 @@ msgstr ""
 "Para procesar todos estos elementos, el archivo debería guardarse y el "
 "calendario importarse"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2353
+#: ../plugins/itip-formatter/itip-formatter.c:2384
 msgid "This meeting recurs"
 msgstr "Esta reunión se repite"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2356
+#: ../plugins/itip-formatter/itip-formatter.c:2387
 msgid "This task recurs"
 msgstr "Esta tarea se repite"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2359
+#: ../plugins/itip-formatter/itip-formatter.c:2390
 msgid "This memo recurs"
 msgstr "Esta nota se repite"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2589
+#: ../plugins/itip-formatter/itip-formatter.c:2620
 msgid "_Delete message after acting"
 msgstr "_Borrar el mensaje después de actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2599
-#: ../plugins/itip-formatter/itip-formatter.c:2632
+#: ../plugins/itip-formatter/itip-formatter.c:2630
+#: ../plugins/itip-formatter/itip-formatter.c:2663
 msgid "Conflict Search"
 msgstr "Búsqueda de conflictos"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2614
+#: ../plugins/itip-formatter/itip-formatter.c:2645
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccione los calendario en los que buscar conflictos entre reuniones"
 
@@ -22880,9 +22876,6 @@ msgstr "Tirador emergente"
 #~ msgid "Querying Address Book..."
 #~ msgstr "Consultando la libreta de direcciones…"
 
-#~ msgid "Calendars"
-#~ msgstr "Calendarios"
-
 #~ msgid "Configure your timezone, Calendar and Task List here "
 #~ msgstr "Configure su zona horaria, calendario y lista de tareas aquí"
 
@@ -22968,9 +22961,6 @@ msgstr "Tirador emergente"
 
 #~ msgid "New all day appointment"
 #~ msgstr "Cita nueva para todo el día"
-
-#~ msgid "New calendar"
-#~ msgstr "Calendario nuevo"
 
 #~ msgid "Error while opening the calendar"
 #~ msgstr "Error al abrir el calendario"
