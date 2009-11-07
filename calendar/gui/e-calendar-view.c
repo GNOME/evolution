@@ -81,6 +81,9 @@ static void e_calendar_view_get_property (GObject *object, guint property_id, GV
 static void e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_calendar_view_destroy (GtkObject *object);
 
+#ifdef G_OS_WIN32
+__declspec(dllimport)
+#endif
 extern ECompEditorRegistry *comp_editor_registry;
 
 /* Property IDs */

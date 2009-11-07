@@ -40,6 +40,9 @@
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 
+#ifdef G_OS_WIN32
+__declspec(dllimport)
+#endif
 extern ECompEditorRegistry *comp_editor_registry;
 
 

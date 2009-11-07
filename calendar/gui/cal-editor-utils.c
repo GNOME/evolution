@@ -31,6 +31,9 @@
 #include "dialogs/task-editor.h"
 #include "dialogs/memo-editor.h"
 
+#ifdef G_OS_WIN32
+__declspec(dllimport)
+#endif
 extern ECompEditorRegistry *comp_editor_registry;
 
 /**

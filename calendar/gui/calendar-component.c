@@ -137,6 +137,9 @@ struct _CalendarComponentPrivate {
 };
 
 /* FIXME This should be gnome cal likely */
+#ifdef G_OS_WIN32
+__declspec(dllimport)
+#endif
 extern ECompEditorRegistry *comp_editor_registry;
 
 static void

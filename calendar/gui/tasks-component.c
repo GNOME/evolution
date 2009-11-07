@@ -76,6 +76,9 @@ static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 static BonoboObjectClass *parent_class = NULL;
 
 /* Tasks should have their own registry */
+#ifdef G_OS_WIN32
+__declspec(dllimport)
+#endif
 extern ECompEditorRegistry *comp_editor_registry;
 
 typedef struct
