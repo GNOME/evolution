@@ -52,8 +52,6 @@ void em_utils_edit_filters (GtkWidget *parent);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
-void em_utils_save_part(GtkWindow *parent, const gchar *prompt, CamelMimePart *part);
-gboolean em_utils_save_part_to_file(GtkWindow *parent, const gchar *filename, CamelMimePart *part);
 void em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids);
 
 void em_utils_flag_for_followup (EMailReader *reader, CamelFolder *folder, GPtrArray *uids);
@@ -72,7 +70,6 @@ void em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder,
 void em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder);
 
 gchar *em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode);
-void em_utils_save_parts (GtkWindow *parent, const gchar *prompt, GSList * parts);
 
 gboolean em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_templates(CamelFolder *folder, const gchar *uri);

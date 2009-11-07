@@ -57,7 +57,9 @@
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
 #include <shell/e-shell.h>
+#include <shell/e-shell-utils.h>
 #include "itip-view.h"
+#include <misc/e-attachment.h>
 
 #define CLASSID "itip://"
 #define GCONF_KEY_DELETE "/apps/evolution/itip/delete_processed"
@@ -1474,18 +1476,54 @@ get_next (icalcompiter *iter)
 }
 
 static void
+attachment_load_finish (EAttachment *attachment,
+                        GAsyncResult *result,
+                        GFile *file)
+{
+	EShell *shell;
+	GtkWindow *parent;
+
+	/* XXX Theoretically, this should never fail. */
+	e_attachment_load_finish (attachment, result, NULL);
+
+	shell = e_shell_get_default ();
+	parent = e_shell_get_active_window (shell);
+
+	e_attachment_save_async (
+		attachment, file, (GAsyncReadyCallback)
+		e_attachment_save_handle_error, parent);
+
+	g_object_unref (file);
+}
+
+static void
 save_vcalendar_cb (GtkWidget *button, struct _itip_puri *pitip)
 {
+	EAttachment *attachment;
+	EShell *shell;
+	GFile *file;
+
 	g_return_if_fail (pitip != NULL);
 	g_return_if_fail (pitip->vcalendar != NULL);
 	g_return_if_fail (pitip->part != NULL);
 
+	shell = e_shell_get_default ();
+	file = e_shell_run_save_dialog (
+		shell, _("Save Calendar"), NULL, NULL);
+	if (file == NULL)
+		return;
+
 	if (!camel_mime_part_get_filename (pitip->part)) {
-		/* To Translators: This is a default file name  when saving calendar part */
+		/* Translators: This is a default filename for a calendar. */
 		camel_mime_part_set_filename (pitip->part, _("calendar.ics"));
 	}
 
-	em_utils_save_part (GTK_WINDOW (gtk_widget_get_toplevel (button)), _("Save calendar"), pitip->part);
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, pitip->part);
+
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		attachment_load_finish, file);
 }
 
 static GtkWidget *

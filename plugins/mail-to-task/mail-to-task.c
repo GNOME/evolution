@@ -57,6 +57,7 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window-actions.h>
 #include <calendar/gui/cal-editor-utils.h>
+#include <misc/e-attachment-store.h>
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_EVENT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-event")
@@ -71,26 +72,6 @@ gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 						 EMailBrowser *browser);
 gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
-
-static gchar *
-clean_name(const guchar *s)
-{
-	GString *out = g_string_new("");
-	guint32 c;
-	gchar *r;
-
-	while ((c = camel_utf8_getc ((const guchar **)&s)))
-	{
-		if (!g_unichar_isprint (c) || ( c < 0x7f && strchr (" /'\"`&();|<>$%{}!", c )))
-			c = '_';
-		g_string_append_u (out, c);
-	}
-
-	r = g_strdup (out->str);
-	g_string_free (out, TRUE);
-
-	return r;
-}
 
 static void
 set_attendees (ECalComponent *comp, CamelMimeMessage *message, const gchar *organizer)
@@ -281,61 +262,133 @@ set_organizer (ECalComponent *comp)
 }
 
 static void
+attachment_load_finished (EAttachment *attachment,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	struct {
+		gchar **uris;
+		gboolean done;
+	} *status = user_data;
+
+	/* XXX Should be no need to check for error here.
+	 *     This is just to reset state in the EAttachment. */
+	e_attachment_load_finish (attachment, result, NULL);
+
+	status->done = TRUE;
+}
+
+static void
+attachment_save_finished (EAttachmentStore *store,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	gchar **uris;
+
+	struct {
+		gchar **uris;
+		gboolean done;
+	} *status = user_data;
+
+	/* XXX Add some error handling here! */
+	uris = e_attachment_store_save_finish (store, result, NULL);
+
+	status->uris = uris;
+	status->done = TRUE;
+}
+
+static void
 set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 {
-	gint parts, i;
-	GSList *list = NULL;
-	const gchar *uid;
-	const gchar *store_uri;
-	gchar *store_dir;
+	/* XXX Much of this is copied from CompEditor::get_attachment_list().
+	 *     Perhaps it should be split off as a separate utility? */
+
+	EAttachmentStore *store;
 	CamelDataWrapper *content;
+	CamelMultipart *multipart;
+	GFile *destination;
+	GSList *list = NULL;
+	const gchar *comp_uid = NULL;
+	const gchar *local_store;
+	gint ii, n_parts;
+	gchar *uri;
+
+	struct {
+		gchar **uris;
+		gboolean done;
+	} status;
 
 	content = camel_medium_get_content_object ((CamelMedium *) message);
 	if (!content || !CAMEL_IS_MULTIPART (content))
 		return;
 
-	parts = camel_multipart_get_number (CAMEL_MULTIPART (content));
-	if (parts < 1)
+	n_parts = camel_multipart_get_number (CAMEL_MULTIPART (content));
+	if (n_parts < 1)
 		return;
 
-	e_cal_component_get_uid (comp, &uid);
-	store_uri = e_cal_get_local_attachment_store (client);
-	if (!store_uri)
-		return;
-	store_dir = g_filename_from_uri (store_uri, NULL, NULL);
+	e_cal_component_get_uid (comp, &comp_uid);
+	local_store = e_cal_get_local_attachment_store (client);
+	uri = g_build_path ("/", local_store, comp_uid, NULL);
+	destination = g_file_new_for_uri (uri);
+	g_free (uri);
 
-	for (i = 1; i < parts; i++)
-	{
-		gchar *filename, *path, *tmp;
-		const gchar *orig_filename;
+	/* Create EAttachments from the MIME parts and add them to the
+	 * attachment store. */
+
+	multipart = CAMEL_MULTIPART (content);
+	store = E_ATTACHMENT_STORE (e_attachment_store_new ());
+
+	for (ii = 1; ii < n_parts; ii++) {
 		CamelMimePart *mime_part;
+		EAttachment *attachment;
 
-		mime_part = camel_multipart_get_part (CAMEL_MULTIPART (content), i);
+		status.done = FALSE;
 
-		orig_filename = camel_mime_part_get_filename (mime_part);
-		if (!orig_filename)
-			continue;
+		attachment = e_attachment_new ();
+		mime_part = camel_multipart_get_part (multipart, ii);
+		e_attachment_set_mime_part (attachment, mime_part);
 
-		tmp = clean_name ((const guchar *)orig_filename);
-		filename = g_strdup_printf ("%s-%s", uid, tmp);
-		path = g_build_filename (store_dir, filename, NULL);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			attachment_load_finished, &status);
 
-		if (em_utils_save_part_to_file (NULL, path, mime_part))
-		{
-			gchar *uri;
-			uri = g_filename_to_uri (path, NULL, NULL);
-			list = g_slist_append (list, g_strdup (uri));
-			g_free (uri);
-		}
+		/* Loading should be instantaneous since we already have
+		 * the full content, but we still have to crank the main
+		 * loop until the callback gets triggered. */
+		while (!status.done)
+			gtk_main_iteration ();
 
-		g_free (tmp);
-		g_free (filename);
-		g_free (path);
+		e_attachment_store_add_attachment (store, attachment);
+		g_object_unref (attachment);
 	}
 
-	g_free (store_dir);
+	status.uris = NULL;
+	status.done = FALSE;
 
+	e_attachment_store_save_async (
+		store, destination, (GAsyncReadyCallback)
+		attachment_save_finished, &status);
+
+	/* We can't return until we have results, so crank
+	 * the main loop until the callback gets triggered. */
+	while (!status.done)
+		gtk_main_iteration ();
+
+	g_return_if_fail (status.uris != NULL);
+
+	/* Transfer the URI strings to the GSList. */
+	for (ii = 0; status.uris[ii] != NULL; ii++) {
+		list = g_slist_prepend (list, status.uris[ii]);
+		status.uris[ii] = NULL;
+	}
+
+	g_free (status.uris);
+
+	/* XXX Does this take ownership of the list? */
 	e_cal_component_set_attachment_list (comp, list);
+
+	g_object_unref (destination);
+	g_object_unref (store);
 }
 
 static void
