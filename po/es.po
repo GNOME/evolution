@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-06 17:06+0000\n"
-"PO-Revision-Date: 2009-11-06 21:46+0100\n"
+"POT-Creation-Date: 2009-11-06 20:51+0000\n"
+"PO-Revision-Date: 2009-11-07 14:12+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2877,6 +2877,10 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
+"El estilo de la distribución determina dónde ubicar el panel de vista previa "
+"en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
+"de vista previa junto a la lista de notas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid ""
@@ -2884,6 +2888,10 @@ msgid ""
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
+"El estilo de la distribución determina dónde ubicar el panel de vista previa "
+"en relación con la lista de tareas. «0» (vista clásica) ubica el panel de "
+"vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
+"panel de vista previa junto a la lista de tareas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid "The second timezone for a Day View"
@@ -11188,9 +11196,6 @@ msgstr ""
 "mostrar el contenido."
 
 #: ../mail/evolution-mail.schemas.in.h:73
-#| msgid ""
-#| "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window vertically."
 msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
@@ -11199,9 +11204,6 @@ msgstr ""
 "el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:74
-#| msgid ""
-#| "Initial height of the \"Send and Receive Mail\" window. The value updates "
-#| "as the user resizes the window vertically."
 msgid ""
 "Initial height of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window vertically."
@@ -11612,7 +11614,7 @@ msgstr "Mostrar imágenes animadas"
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Show original \"Date\" header value."
-msgstr ""
+msgstr "Mostrar el valor original de la cabecera «Fecha»."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Show photo of the sender"
@@ -11688,6 +11690,10 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
+"Mostrar el valor original de la cabecera «Fecha» (sólo con la hora local si "
+"las zonas horarias difieren). De otra forma mostrar siempre el valor de la "
+"cabecera «Fecha» en el formato preferido por el usuario para la fecha y hora "
+"locales."
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Show the photo of the sender in the message reading pane."
@@ -11740,6 +11746,10 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
+"El estilo de la distribución determina dónde ubicar el panel de vista previa "
+"en relación con la lista de correos. «0» (vista clásica) ubica el panel de "
+"vista previa debajo de la lista de correos. «1» (vista vertical) ubica el "
+"panel de vista previa junto a la lista de correos."
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid "The terminal font for mail display."
@@ -12806,25 +12816,25 @@ msgid "Complete."
 msgstr "Completado."
 
 #: ../mail/mail-ops.c:920
-#, fuzzy, c-format
+#, c-format
 #| msgid "Saving message to folder"
 msgid "Saving message to folder '%s'"
-msgstr "Guardando mensaje en la carpeta"
+msgstr "Guardando mensaje en la carpeta «%s»"
 
 #: ../mail/mail-ops.c:997
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving messages to %s"
 msgid "Moving messages to '%s'"
-msgstr "Moviendo mensajes a %s"
+msgstr "Moviendo mensajes a «%s»"
 
 #: ../mail/mail-ops.c:997
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying messages to %s"
 msgid "Copying messages to '%s'"
-msgstr "Copiando mensajes a %s"
+msgstr "Copiando mensajes a «%s»"
 
 #: ../mail/mail-ops.c:1106
-#, fuzzy, c-format
+#, c-format
 #| msgid "Scanning folders in \"%s\""
 msgid "Scanning folders in '%s'"
 msgstr "Analizando carpetas en «%s»"
@@ -12834,28 +12844,28 @@ msgid "Forwarded messages"
 msgstr "Mensajes reenviados"
 
 #: ../mail/mail-ops.c:1255
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening folder %s"
 msgid "Opening folder '%s'"
-msgstr "Abriendo carpeta %s"
+msgstr "Abriendo carpeta «%s»"
 
 #: ../mail/mail-ops.c:1321
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving quota information for folder %s"
 msgid "Retrieving quota information for folder '%s'"
-msgstr "Obteniendo la información de la cuota para la carpeta %s"
+msgstr "Obteniendo la información de la cuota para la carpeta «%s»"
 
 #: ../mail/mail-ops.c:1393
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening store %s"
 msgid "Opening store '%s'"
-msgstr "Abriendo almacén %s"
+msgstr "Abriendo almacén «%s»"
 
 #: ../mail/mail-ops.c:1464
-#, fuzzy, c-format
+#, c-format
 #| msgid "Removing folder %s"
 msgid "Removing folder '%s'"
-msgstr "Eliminando carpeta %s"
+msgstr "Eliminando carpeta «%s»"
 
 #: ../mail/mail-ops.c:1582
 #, c-format
@@ -12873,16 +12883,16 @@ msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
 #: ../mail/mail-ops.c:1700
-#, fuzzy, c-format
+#, c-format
 #| msgid "Refreshing folder"
 msgid "Refreshing folder '%s'"
-msgstr "Actualizando carpeta"
+msgstr "Actualizando carpeta «%s»"
 
 #: ../mail/mail-ops.c:1740
-#, fuzzy, c-format
+#, c-format
 #| msgid "Expunging folder"
 msgid "Expunging folder '%s'"
-msgstr "Compactando carpeta"
+msgstr "Compactando carpeta «%s»"
 
 #: ../mail/mail-ops.c:1785
 #, c-format
@@ -12894,10 +12904,10 @@ msgid "Local Folders"
 msgstr "Carpetas locales"
 
 #: ../mail/mail-ops.c:1864
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving message %s"
 msgid "Retrieving message '%s'"
-msgstr "Obteniendo mensaje %s"
+msgstr "Obteniendo correo «%s»"
 
 #: ../mail/mail-ops.c:1982
 #, c-format
@@ -12941,16 +12951,16 @@ msgid "Could not write data: %s"
 msgstr "No es posible escribir datos: %s"
 
 #: ../mail/mail-ops.c:2409
-#, fuzzy, c-format
+#, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
-msgstr "Desconectando de %s"
+msgstr "Desconectando de «%s»"
 
 #: ../mail/mail-ops.c:2409
-#, fuzzy, c-format
+#, c-format
 #| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
-msgstr "Reconectar a %s"
+msgstr "Reconectándose con «%s»"
 
 #: ../mail/mail-ops.c:2505
 #, c-format
@@ -13882,10 +13892,9 @@ msgid "Base"
 msgstr "Base"
 
 #: ../modules/addressbook/addressbook-config.c:638
-#, fuzzy
 #| msgid "Birthdays & Anniversaries"
 msgid "Use in _Birthday & Anniversaries calendar"
-msgstr "Cumpleaños y aniversarios"
+msgstr "Usar en el calendario Cu_mpleaños y aniversarios"
 
 #: ../modules/addressbook/addressbook-config.c:674
 msgid "Copy _book content locally for offline operation"
@@ -13959,20 +13968,18 @@ msgid "Autocomplete length"
 msgstr "Longitud del autocompletado"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
-#, fuzzy
 #| msgid "Contact Print Test"
 msgid "Contact layout style"
-msgstr "Prueba de impresión de contactos"
+msgstr "Estilo de distribución de los contactos"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
 msgid "Contact preview pane position (horizontal)"
 msgstr "Posición del panel de vista previa de contactos (horizontal)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
-#, fuzzy
 #| msgid "Month view vertical pane position"
 msgid "Contact preview pane position (vertical)"
-msgstr "Posición del panel vertical en la vista mensual"
+msgstr "Posición del panel de vista previa de contactos (vertical)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:5
 msgid "EFolderList XML for the list of completion URIs"
@@ -14009,6 +14016,10 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
+"El estilo de la distribución determina dónde ubicar el panel de vista previa "
+"en relación con la lista de contactos. «0» (vista clásica) ubica el panel de "
+"vista previa debajo de la lista de contactos. «1» (vista vertical) ubica el "
+"panel de vista previa junto a la lista de contactos."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
 msgid ""
@@ -14106,32 +14117,28 @@ msgstr "Contactos"
 #: ../modules/calendar/e-cal-shell-backend.c:759
 #: ../modules/calendar/e-memo-shell-backend.c:583
 #: ../modules/calendar/e-task-shell-backend.c:593
-#, fuzzy
 #| msgid "Source"
 msgid "Source List"
-msgstr "Fuente"
+msgstr "Lista de origen"
 
 #: ../modules/addressbook/e-book-shell-backend.c:597
-#, fuzzy
 #| msgid "Couldn't get list of address books"
 msgid "The registry of address books"
-msgstr "No se pudo obtener una lista de libretas de direcciones"
+msgstr "El registro de las libretas de direcciones"
 
 #: ../modules/addressbook/e-book-shell-content.c:313
-#, fuzzy
 #| msgid "_Current View"
 msgid "Current View"
-msgstr "Vista act_ual"
+msgstr "Vista actual"
 
 #: ../modules/addressbook/e-book-shell-content.c:314
 msgid "The currently selected address book view"
 msgstr "La vista actual de la libreta de direcciones seleccionada"
 
 #: ../modules/addressbook/e-book-shell-content.c:323
-#, fuzzy
 #| msgid "New Contact"
 msgid "Previewed Contact"
-msgstr "Contacto nuevo"
+msgstr "Contacto previsualizado"
 
 #: ../modules/addressbook/e-book-shell-content.c:324
 #, fuzzy
@@ -14497,22 +14504,19 @@ msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
 #: ../modules/addressbook/e-book-shell-view.c:352
-#, fuzzy
 #| msgid "Send _Message to Contacts"
 msgid "_Send Message to Contacts"
-msgstr "Enviar un _mensaje a los contactos"
+msgstr "_Enviar un correo a los contactos"
 
 #: ../modules/addressbook/e-book-shell-view.c:354
-#, fuzzy
 #| msgid "Send _Message to List"
 msgid "_Send Message to List"
-msgstr "Enviar un _mensaje a la lista"
+msgstr "_Enviar un correo a la lista"
 
 #: ../modules/addressbook/e-book-shell-view.c:356
-#, fuzzy
 #| msgid "Send _Message to Contact"
 msgid "_Send Message to Contact"
-msgstr "Enviar un _mensaje al contacto"
+msgstr "_Enviar un correo al contacto"
 
 #: ../modules/addressbook/eab-composer-util.c:139
 msgid "Multiple vCards"
@@ -14782,10 +14786,9 @@ msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
 #: ../modules/calendar/e-cal-shell-backend.c:760
-#, fuzzy
 #| msgid "Primary calendar"
 msgid "The registry of calendars"
-msgstr "Calendario primario"
+msgstr "El registro de calendarios"
 
 #: ../modules/calendar/e-cal-shell-migrate.c:131
 msgid ""
@@ -14816,7 +14819,7 @@ msgstr "No es posible migrar el calendario «%s»"
 #: ../modules/calendar/e-cal-shell-sidebar.c:152
 #: ../modules/calendar/e-memo-shell-sidebar.c:149
 #: ../modules/calendar/e-task-shell-sidebar.c:147
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Error on %s:\n"
 #| " %s"
@@ -14828,16 +14831,14 @@ msgstr ""
 " %s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:188
-#, fuzzy
 #| msgid "Loading Calendar"
 msgid "Loading calendars"
-msgstr "Cargando calendario"
+msgstr "Cargando calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:428
-#, fuzzy
 #| msgid "Calendar Source Selector"
 msgid "Calendar Selector"
-msgstr "Selector de origen del calendario"
+msgstr "Selector de calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:551
 msgid "Date Navigator Widget"
@@ -14845,17 +14846,17 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:552
 msgid "This widget displays a miniature calendar"
-msgstr ""
+msgstr "Este widget muestra un calendario en miniatura"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:562
 msgid "This widget displays groups of calendars"
-msgstr ""
+msgstr "Este widget muestra grupos de calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:723
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening calendar"
 msgid "Opening calendar at %s"
-msgstr "Apertura del calendario"
+msgstr "Abriendo el calendario en «%s»"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:214
 #: ../modules/calendar/e-cal-shell-view-actions.c:245
@@ -14892,13 +14893,11 @@ msgid "days"
 msgstr "días"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:551
-#, fuzzy
 #| msgid "Copying items"
 msgid "Copying Items"
 msgstr "Copiando elementos"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:801
-#, fuzzy
 #| msgid "Moving items"
 msgid "Moving Items"
 msgstr "Moviendo elementos"
@@ -15428,10 +15427,9 @@ msgid "Print the list of memos"
 msgstr "Imprime la lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:834
-#, fuzzy
 #| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
-msgstr "Vista previa de la lista de notas a imprimir"
+msgstr "Vista previa de la lista de notas para imprimir"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:412
 #, c-format
@@ -15442,17 +15440,16 @@ msgstr[1] "%d notas"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:416
 #: ../modules/calendar/e-task-shell-view-private.c:510
-#, fuzzy, c-format
+#, c-format
 #| msgid ", %d selected"
 #| msgid_plural ", %d selected"
 msgid "%d selected"
-msgstr ", %d seleccionado"
+msgstr "%d seleccionada"
 
 #: ../modules/calendar/e-memo-shell-view.c:218
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "Delete Memos"
-msgstr "_Borrar el mensaje"
+msgstr "Borrar notas"
 
 #: ../modules/calendar/e-task-shell-backend.c:320
 msgctxt "New"
@@ -15469,11 +15466,10 @@ msgid "Create a new assigned task"
 msgstr "Crea una tarea nueva asignada"
 
 #: ../modules/calendar/e-task-shell-backend.c:337
-#, fuzzy
 #| msgid "Task List"
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "Lista de tareas"
+msgstr "Lista de _tareas"
 
 #: ../modules/calendar/e-task-shell-backend.c:339
 #: ../modules/calendar/e-task-shell-view-actions.c:750
@@ -15481,16 +15477,14 @@ msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
 #: ../modules/calendar/e-task-shell-backend.c:594
-#, fuzzy
 #| msgid "Primary task list"
 msgid "The registry of task lists"
-msgstr "Lista de tareas primaria"
+msgstr "El registro de listas de tareas"
 
 #: ../modules/calendar/e-task-shell-content.c:621
-#, fuzzy
 #| msgid "Table model"
 msgid "The task table model"
-msgstr "Modelo de la tabla"
+msgstr "El modelo de tablas de tareas"
 
 #: ../modules/calendar/e-task-shell-migrate.c:98
 msgid ""
@@ -15515,14 +15509,13 @@ msgid "Loading tasks"
 msgstr "Cargando tareas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:397
-#, fuzzy
 #| msgid "Task Source Selector"
 msgid "Task List Selector"
-msgstr "Selector de origen de tareas"
+msgstr "Selector de listas de tareas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:527
 msgid "This widget displays groups of task lists"
-msgstr ""
+msgstr "Este widget muestra grupos de listas de tareas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:680
 #, c-format
@@ -15547,7 +15540,6 @@ msgstr ""
 "¿Borrar realmente esas tareas?"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:734
-#, fuzzy
 #| msgid "_Copy..."
 msgid "Copy..."
 msgstr "_Copiar…"
@@ -15557,13 +15549,11 @@ msgid "_New Task List"
 msgstr "Lista de tareas _nueva"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:764
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
-msgstr "Renombrar la carpeta seleccionada"
+msgstr "Renombrar la lista de tareas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:769
-#, fuzzy
 #| msgid "Show _only this Task List"
 msgid "Show _Only This Task List"
 msgstr "Mostrar _sólo esta lista de tareas"
@@ -16607,7 +16597,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:158
 #, c-format
 msgid "Bogofilter is not available. Please install it first."
-msgstr ""
+msgstr "Bogofilter no está disponible. Instálelo primero."
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:162
