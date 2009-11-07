@@ -86,6 +86,24 @@ file_replace_contents_cb (GFile *file,
 	g_object_unref (activity);
 }
 
+/**
+ * e_file_replace_contents_async:
+ * @file: input #GFile
+ * @contents: string of contents to replace the file with
+ * @length: the length of @contents in bytes
+ * @etag: a new entity tag for the @file, or %NULL
+ * @make_backup: %TRUE if a backup should be created
+ * @flags: a set of #GFileCreateFlags
+ * @callback: a #GAsyncReadyCallback to call when the request is satisfied
+ * @user_data: the data to pass to the callback function
+ *
+ * This is a wrapper for g_file_replace_contents_async() that also returns
+ * an #EActivity to track the file operation.  Cancelling the activity will
+ * cancel the file operation.  See g_file_replace_contents_async() for more
+ * details.
+ *
+ * Returns: an #EActivity for the file operation
+ **/
 EActivity *
 e_file_replace_contents_async (GFile *file,
                                const gchar *contents,
@@ -111,9 +129,12 @@ e_file_replace_contents_async (GFile *file,
 
 	uri = g_file_get_uri (file);
 	filename = g_filename_from_uri (uri, &hostname, NULL);
-	basename = g_filename_display_basename (filename);
+	if (filename != NULL)
+		basename = g_filename_display_basename (filename);
+	else
+		basename = g_strdup (_("(Unknown Filename)"));
 
-	if (hostname != NULL) {
+	if (hostname == NULL) {
 		/* Translators: The string value is the basename of a file. */
 		format = _("Writing \"%s\"");
 		description = g_strdup_printf (format, basename);
@@ -151,6 +172,20 @@ e_file_replace_contents_async (GFile *file,
 	return activity;
 }
 
+/**
+ * e_file_replace_contents_finish:
+ * @file: input #GFile
+ * @result: a #GAsyncResult
+ * @new_etag: return location for a new entity tag
+ * @error: return location for a #GError, or %NULL
+ *
+ * Finishes an asynchronous replace of the given @file.  See
+ * e_file_replace_contents_async().  Sets @new_etag to the new entity
+ * tag for the document, if present.  Free it with g_free() when it is
+ * no longer needed.
+ *
+ * Returns: %TRUE on success, %FALSE on failure
+ **/
 gboolean
 e_file_replace_contents_finish (GFile *file,
                                 GAsyncResult *result,

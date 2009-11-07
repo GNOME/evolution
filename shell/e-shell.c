@@ -903,16 +903,6 @@ shell_class_init (EShellClass *class)
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	/* Install some application-wide settings. */
-
-	e_shell_settings_install_property (
-		g_param_spec_string (
-			"file-chooser-folder",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
 }
 
 static void
@@ -948,6 +938,10 @@ shell_init (EShell *shell)
 
 	/* XXX Do this after creating the EShellSettings instance,
 	 *     otherwise the GConf bindings will not get set up. */
+
+	e_shell_settings_install_property_for_key (
+		"file-chooser-folder",
+		"/apps/evolution/shell/file_chooser_folder");
 
 	e_shell_settings_install_property_for_key (
 		"start-offline",

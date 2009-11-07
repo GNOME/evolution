@@ -301,17 +301,22 @@ static void
 action_calendar_taskpad_save_as_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
+	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	ECalShellContent *cal_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
+	EActivity *activity;
 	GSList *list;
-	gchar *filename;
+	GFile *file;
 	gchar *string;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -321,22 +326,32 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	filename = e_file_dialog_save (
-		GTK_WINDOW (shell_window), _("Save as..."), NULL);
-	if (filename == NULL)
+	file = e_shell_run_save_dialog (
+		shell, _("Save as iCalendar"), NULL, NULL);
+	if (file == NULL)
 		return;
 
 	string = e_cal_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert task to a string");
+		g_object_unref (file);
 		return;
 	}
 
-	e_write_file_uri (filename, string);
+	/* XXX No callback means errors are discarded. */
+	activity = e_file_replace_contents_async (
+		file, string, strlen (string), NULL, FALSE,
+		G_FILE_CREATE_NONE, (GAsyncReadyCallback) NULL, NULL);
+	e_shell_backend_add_activity (shell_backend, activity);
 
-	g_free (filename);
-	g_free (string);
+	/* Free the string when the activity is finalized. */
+	g_object_set_data_full (
+		G_OBJECT (activity),
+		"file-content", string,
+		(GDestroyNotify) g_free);
+
+	g_object_unref (file);
 }
 
 static GtkActionEntry calendar_taskpad_entries[] = {

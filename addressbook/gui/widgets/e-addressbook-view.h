@@ -97,8 +97,6 @@ ESelectionModel *
 EShellView *	e_addressbook_view_get_shell_view
 						(EAddressbookView *view);
 ESource *	e_addressbook_view_get_source	(EAddressbookView *view);
-void		e_addressbook_view_save_as	(EAddressbookView *view,
-						 gboolean all);
 void		e_addressbook_view_view		(EAddressbookView *view);
 void		e_addressbook_view_print	(EAddressbookView *view,
 						 GtkPrintOperationAction action);

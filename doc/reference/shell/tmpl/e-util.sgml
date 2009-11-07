@@ -176,16 +176,6 @@ Miscellaneous Utility Functions
 @Returns: 
 
 
-<!-- ##### FUNCTION e_write_file_uri ##### -->
-<para>
-
-</para>
-
-@filename: 
-@data: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_color_to_value ##### -->
 <para>
 

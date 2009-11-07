@@ -618,65 +618,6 @@ e_int_compare (gconstpointer x, gconstpointer y)
 	return (nx == ny) ? 0 : (nx < ny) ? -1 : 1;
 }
 
-gboolean
-e_write_file_uri (const gchar *filename,
-                  const gchar *data)
-{
-	gboolean res;
-	gsize length;
-	GFile *file;
-	GOutputStream *stream;
-	GError *error = NULL;
-
-	g_return_val_if_fail (filename != NULL, FALSE);
-	g_return_val_if_fail (data != NULL, FALSE);
-
-	length = strlen (data);
-
-	/* if it is uri, then create file for uri, otherwise for path */
-	if (strstr (filename, "://"))
-		file = g_file_new_for_uri (filename);
-	else
-		file = g_file_new_for_path (filename);
-
-	if (!file) {
-		g_warning ("Couldn't save item");
-		return FALSE;
-	}
-
-	stream = G_OUTPUT_STREAM (g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
-	g_object_unref (file);
-
-	if (!stream || error) {
-		g_warning ("Couldn't save item%s%s", error ? ": " : "", error ? error->message : "");
-
-		if (stream)
-			g_object_unref (stream);
-
-		if (error)
-			g_error_free (error);
-
-		return FALSE;
-	}
-
-	res = g_output_stream_write_all (stream, data, length, NULL, NULL, &error);
-
-	if (error) {
-		g_warning ("Couldn't save item: %s", error->message);
-		g_clear_error (&error);
-	}
-
-	g_output_stream_close (stream, NULL, &error);
-	g_object_unref (stream);
-
-	if (error) {
-		g_warning ("Couldn't close output stream: %s", error->message);
-		g_error_free (error);
-	}
-
-	return res;
-}
-
 /**
  * e_color_to_value:
  * color: a #GdkColor

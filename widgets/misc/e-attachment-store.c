@@ -142,7 +142,7 @@ attachment_store_constructed (GObject *object)
 
 	bridge = gconf_bridge_get ();
 
-	key = "/apps/evolution/shell/current_folder";
+	key = "/apps/evolution/shell/file_chooser_folder";
 	gconf_bridge_bind_property (bridge, key, object, "current-folder");
 }
 

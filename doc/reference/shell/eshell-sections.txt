@@ -360,7 +360,6 @@ e_datetime_format_format_tm
 <FILE>e-dialog-utils</FILE>
 <TITLE>Dialog Window Functions (Legacy)</TITLE>
 e_notice
-e_file_dialog_save
 e_file_get_save_filesel
 e_file_can_save
 e_file_check_local
@@ -554,7 +553,6 @@ e_str_compare
 e_str_case_compare
 e_collate_compare
 e_int_compare
-e_write_file_uri
 e_color_to_value
 e_format_number
 ESortCompareFunc

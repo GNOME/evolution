@@ -1850,6 +1850,16 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_file_dialog_save ##### -->
+<para>
+
+</para>
+
+@parent: 
+@title: 
+@fname: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_backend_get_filename ##### -->
 <para>
 
@@ -2252,6 +2262,15 @@ intelligent
 </para>
 
 @uri: 
+@Returns: 
+
+<!-- ##### FUNCTION e_write_file_uri ##### -->
+<para>
+
+</para>
+
+@filename: 
+@data: 
 @Returns: 
 
 <!-- ##### FUNCTION es_event_get_type ##### -->

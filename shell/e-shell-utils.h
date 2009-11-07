@@ -1,4 +1,6 @@
 /*
+ * e-shell-utils.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,28 +15,28 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
- * Authors:
- *		Ettore Perazzoli <ettore@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef E_DIALOG_UTILS_H
-#define E_DIALOG_UTILS_H
+/**
+ * SECTION: e-shell-utils
+ * @short_description: high-level utilities with shell integration
+ * @include: shell/e-shell-utils.h
+ **/
 
-#include <gtk/gtk.h>
+#ifndef E_SHELL_UTILS_H
+#define E_SHELL_UTILS_H
 
-void		e_notice			(gpointer parent,
-						 GtkMessageType type,
-						 const gchar *format,
-						 ...);
-GtkWidget *	e_file_get_save_filesel		(GtkWindow *parent,
+#include <shell/e-shell.h>
+
+G_BEGIN_DECLS
+
+GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 const gchar *title,
-						 const gchar *name,
-						 GtkFileChooserAction action);
-gboolean	e_file_can_save			(GtkWindow *parent,
-						 const gchar *uri);
-gboolean	e_file_check_local		(const gchar *name);
+						 GtkCallback customize_func,
+						 gpointer customize_data);
 
-#endif /* E_DIALOG_UTILS_H */
+G_END_DECLS
+
+#endif /* E_SHELL_UTILS_H */

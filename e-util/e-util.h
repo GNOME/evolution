@@ -81,8 +81,6 @@ gint		e_collate_compare		(gconstpointer x,
 						 gconstpointer y);
 gint		e_int_compare                   (gconstpointer x,
 						 gconstpointer y);
-gboolean	e_write_file_uri		(const gchar *filename,
-						 const gchar *data);
 guint32		e_color_to_value		(GdkColor *color);
 
 /* This only makes a filename safe for usage as a filename.

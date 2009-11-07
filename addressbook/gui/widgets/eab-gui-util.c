@@ -196,105 +196,6 @@ eab_prompt_save_dialog (GtkWindow *parent)
 	return e_error_run (parent, "addressbook:prompt-save", NULL);
 }
 
-static gint
-file_exists(GtkWindow *window, const gchar *filename)
-{
-	GtkWidget *dialog;
-	gint response;
-	gchar * utf8_filename;
-
-	utf8_filename = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-	dialog = gtk_message_dialog_new (window,
-					 0,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_NONE,
-					 /* For Translators only: "it" refers to the filename %s. */
-					 _("%s already exists\nDo you want to overwrite it?"), utf8_filename);
-	g_free (utf8_filename);
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				_("Overwrite"), GTK_RESPONSE_ACCEPT,
-				NULL);
-
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	return response;
-}
-
-typedef struct {
-	GtkWidget *filesel;
-	gchar *vcard;
-	gboolean has_multiple_contacts;
-} SaveAsInfo;
-
-static void
-save_it(GtkWidget *widget, SaveAsInfo *info)
-{
-	const gchar *filename;
-	gchar *uri;
-	gint response = 0;
-
-	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (info->filesel));
-
-	if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
-		response = file_exists(GTK_WINDOW (info->filesel), filename);
-		switch (response) {
-			case GTK_RESPONSE_ACCEPT : /* Overwrite */
-				break;
-			case GTK_RESPONSE_CANCEL : /* cancel */
-				return;
-		}
-	}
-
-	if (!e_write_file_uri (uri, info->vcard)) {
-		gchar *err_str_ext;
-		if (info->has_multiple_contacts) {
-			/* more than one, finding the total number of contacts might
-			 * hit performance while saving large number of contacts
-			 */
-			err_str_ext = ngettext ("contact", "contacts", 2);
-		}
-		else {
-			err_str_ext = ngettext ("contact", "contacts", 1);
-		}
-
-		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"),
-		 * destination file name, and error code will fill the placeholders
-		 * {0}, {1} and {2}, respectively in the error message formed
-		 */
-		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error",
-					 err_str_ext, filename, g_strerror (errno), NULL);
-		gtk_widget_destroy(GTK_WIDGET(info->filesel));
-		return;
-	}
-
-	gtk_widget_destroy(GTK_WIDGET(info->filesel));
-}
-
-static void
-close_it(GtkWidget *widget, SaveAsInfo *info)
-{
-	gtk_widget_destroy (GTK_WIDGET (info->filesel));
-}
-
-static void
-destroy_it(gpointer data, GObject *where_the_object_was)
-{
-	SaveAsInfo *info = data;
-	g_free (info->vcard);
-	g_free (info);
-}
-
-static void
-filechooser_response (GtkWidget *widget, gint response_id, SaveAsInfo *info)
-{
-	if (response_id == GTK_RESPONSE_ACCEPT)
-		save_it  (widget, info);
-	else
-		close_it (widget, info);
-}
-
 static gchar *
 make_safe_filename (gchar *name)
 {
@@ -381,99 +282,32 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 }
 
 void
-eab_contact_save (gchar *title, EContact *contact, GtkWindow *parent_window)
+eab_suggest_filename (GtkFileChooser *file_chooser,
+                      GList *contact_list)
 {
-	GtkWidget *filesel;
-	gchar *file;
-	gchar *name;
-	SaveAsInfo *info = g_new(SaveAsInfo, 1);
+	gchar *current_name = NULL;
 
-	name = e_contact_get (contact, E_CONTACT_FILE_AS);
-	file = make_safe_filename (name);
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+	g_return_if_fail (contact_list != NULL);
 
-	info->has_multiple_contacts = FALSE;
+	if (g_list_length (contact_list) == 1) {
+		EContact *contact = E_CONTACT (contact_list->data);
+		gchar *string;
 
-	filesel = gtk_file_chooser_dialog_new (title,
-					       parent_window,
-					       GTK_FILE_CHOOSER_ACTION_SAVE,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-					       NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_ACCEPT);
-
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
-
-	info->filesel = filesel;
-	info->vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
-
-	g_signal_connect (G_OBJECT (filesel), "response",
-			  G_CALLBACK (filechooser_response), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-
-	if (parent_window) {
-		gtk_window_set_transient_for (GTK_WINDOW (filesel),
-					      parent_window);
-		gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
+		string = e_contact_get (contact, E_CONTACT_FILE_AS);
+		if (string == NULL)
+			string = e_contact_get (contact, E_CONTACT_FULL_NAME);
+		if (string != NULL)
+			current_name = make_safe_filename (string);
+		g_free (string);
 	}
 
-	gtk_widget_show(GTK_WIDGET(filesel));
-	g_free (file);
-}
+	if (current_name == NULL)
+		current_name = make_safe_filename (_("list"));
 
-void
-eab_contact_list_save (gchar *title, GList *list, GtkWindow *parent_window)
-{
-	GtkWidget *filesel;
-	SaveAsInfo *info = g_new(SaveAsInfo, 1);
-	gchar *file;
+	gtk_file_chooser_set_current_name (file_chooser, current_name);
 
-	filesel = gtk_file_chooser_dialog_new (title,
-					       parent_window,
-					       GTK_FILE_CHOOSER_ACTION_SAVE,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-					       NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
-
-	/* Check if the list has more than one contact */
-	if (g_list_next (list))
-		info->has_multiple_contacts = TRUE;
-	else
-		info->has_multiple_contacts = FALSE;
-
-	/* This is a filename. Translators take note. */
-	if (list && list->data && list->next == NULL) {
-		gchar *name;
-		name = e_contact_get (E_CONTACT (list->data), E_CONTACT_FILE_AS);
-		if (!name)
-			name = e_contact_get (E_CONTACT (list->data), E_CONTACT_FULL_NAME);
-
-		file = make_safe_filename (name);
-	} else {
-		file = make_safe_filename (_("list"));
-	}
-
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
-
-	info->filesel = filesel;
-	info->vcard = eab_contact_list_to_string (list);
-
-	g_signal_connect (G_OBJECT (filesel), "response",
-			  G_CALLBACK (filechooser_response), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
-
-	if (parent_window) {
-		gtk_window_set_transient_for (GTK_WINDOW (filesel),
-					      parent_window);
-		gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
-	}
-
-	gtk_widget_show(GTK_WIDGET(filesel));
-	g_free (file);
+	g_free (current_name);
 }
 
 typedef struct ContactCopyProcess_ ContactCopyProcess;

@@ -1289,33 +1289,6 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 }
 
 void
-e_addressbook_view_save_as (EAddressbookView *view,
-                            gboolean all)
-{
-	GList *list = NULL;
-	EBook *book;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	book = e_addressbook_model_get_book (view->priv->model);
-
-	if (all) {
-		EBookQuery *query;
-
-		query = e_book_query_any_field_contains ("");
-		e_book_get_contacts (book, query, &list, NULL);
-		e_book_query_unref (query);
-	} else
-		list = e_addressbook_view_get_selected (view);
-
-	if (list != NULL) {
-		eab_contact_list_save (_("Save as vCard..."), list, NULL);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
-	}
-}
-
-void
 e_addressbook_view_view (EAddressbookView *view)
 {
 	EAddressbookModel *model;

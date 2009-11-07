@@ -26,6 +26,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
 	e-shell-taskbar.h			\
+	e-shell-utils.h				\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
@@ -59,7 +60,7 @@ libeshell_la_CPPFLAGS =						\
 
 libeshell_la_SOURCES =				\
 	$(NM_SUPPORT_FILES)			\
-	$(IDL_GENERATED)			\
+	$(eshellinclude_HEADERS)		\
 	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
@@ -67,11 +68,11 @@ libeshell_la_SOURCES =				\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\
 	e-shell-taskbar.c			\
+	e-shell-utils.c				\
 	e-shell-view.c				\
 	e-shell-window.c			\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
-	$(eshellinclude_HEADERS)		\
 	e-shell-migrate.c			\
 	e-shell-migrate.h			\
 	e-shell-window-actions.c		\

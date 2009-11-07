@@ -59,8 +59,8 @@
     <!-- Initial GtkFileChooser Folder -->
 
     <schema>
-      <key>/schemas/apps/evolution/shell/current_folder</key>
-      <applyto>/apps/evolution/shell/current_folder</applyto>
+      <key>/schemas/apps/evolution/shell/file_chooser_folder</key>
+      <applyto>/apps/evolution/shell/file_chooser_folder</applyto>
       <owner>evolution</owner>
       <type>string</type>
       <locale name="C">

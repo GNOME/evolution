@@ -72,38 +72,6 @@ e_notice (gpointer parent, GtkMessageType type, const gchar *format, ...)
 	gtk_widget_destroy (dialog);
 }
 
-gchar *
-e_file_dialog_save (GtkWindow *parent,
-                    const gchar *title,
-                    const gchar *fname)
-{
-	GtkWidget *dialog;
-	gchar *filename = NULL;
-	gchar *uri;
-
-	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
-
-	dialog = e_file_get_save_filesel (
-		parent, title, fname, GTK_FILE_CHOOSER_ACTION_SAVE);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
-
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
-
-	if (e_file_can_save (GTK_WINDOW (dialog), uri)) {
-		e_file_update_save_path (
-			gtk_file_chooser_get_current_folder_uri (
-			GTK_FILE_CHOOSER (dialog)), TRUE);
-		filename = uri;  /* FIXME This looks wrong. */
-	}
-
-exit:
-	gtk_widget_destroy (dialog);
-
-	return filename;
-}
-
 /**
  * e_file_get_save_filesel:
  * @parent: parent window

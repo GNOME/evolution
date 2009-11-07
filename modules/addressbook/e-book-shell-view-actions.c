@@ -192,14 +192,75 @@ static void
 action_address_book_save_as_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EBookShellContent *book_shell_content;
+	EAddressbookModel *model;
 	EAddressbookView *view;
+	EActivity *activity;
+	EBookQuery *query;
+	EBook *book;
+	GList *list = NULL;
+	GFile *file;
+	gchar *string;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
-	e_addressbook_view_save_as (view, TRUE);
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+
+	query = e_book_query_any_field_contains ("");
+	e_book_get_contacts (book, query, &list, NULL);
+	e_book_query_unref (query);
+
+	if (list == NULL)
+		goto exit;
+
+	file = e_shell_run_save_dialog (
+		shell, _("Save as vCard"),
+		(GtkCallback) eab_suggest_filename, list);
+	if (file == NULL)
+		goto exit;
+
+	string = eab_contact_list_to_string (list);
+	if (string == NULL) {
+		g_warning ("Could not convert contact list to a string");
+		g_object_unref (file);
+		goto exit;
+	}
+
+	/* XXX No callback means errors are discarded.
+	 *
+	 *     There's an EError for this which I'm not using
+	 *     until I figure out a better way to display errors:
+	 *
+	 *     "addressbook:save-error"
+	 */
+	activity = e_file_replace_contents_async (
+		file, string, strlen (string), NULL, FALSE,
+		G_FILE_CREATE_NONE, (GAsyncReadyCallback) NULL, NULL);
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	/* Free the string when the activity is finalized. */
+	g_object_set_data_full (
+		G_OBJECT (activity),
+		"file-content", string,
+		(GDestroyNotify) g_free);
+
+	g_object_unref (file);
+
+exit:
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -454,14 +515,67 @@ static void
 action_contact_save_as_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
+	EActivity *activity;
+	GList *list;
+	GFile *file;
+	gchar *string;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
-	e_addressbook_view_save_as (view, FALSE);
+	list = e_addressbook_view_get_selected (view);
+
+	if (list == NULL)
+		goto exit;
+
+	file = e_shell_run_save_dialog (
+		shell, _("Save as vCard"),
+		(GtkCallback) eab_suggest_filename, list);
+	if (file == NULL)
+		goto exit;
+
+	string = eab_contact_list_to_string (list);
+	if (string == NULL) {
+		g_warning ("Could not convert contact list to a string");
+		g_object_unref (file);
+		goto exit;
+	}
+
+	/* XXX No callback means errors are discarded.
+	 *
+	 *     There an EError for this which I'm not using
+	 *     until I figure out a better way to display errors:
+	 *
+	 *     "addressbook:save-error"
+	 */
+	activity = e_file_replace_contents_async (
+		file, string, strlen (string), NULL, FALSE,
+		G_FILE_CREATE_NONE, (GAsyncReadyCallback) NULL, NULL);
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	/* Free the string when the activity is finalized. */
+	g_object_set_data_full (
+		G_OBJECT (activity),
+		"file-content", string,
+		(GDestroyNotify) g_free);
+
+	g_object_unref (file);
+
+exit:
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void

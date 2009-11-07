@@ -43,13 +43,8 @@ void                eab_transfer_contacts         (EBook       *source,
 						   gboolean     delete_from_source,
 						   GtkWindow   *parent_window);
 
-void                eab_contact_save              (gchar *title,
-						   EContact *contact,
-						   GtkWindow *parent_window);
-
-void                eab_contact_list_save         (gchar *title,
-						   GList *list,
-						   GtkWindow *parent_window);
+void                eab_suggest_filename          (GtkFileChooser *file_chooser,
+						   GList *contact_list);
 
 GtkWidget *eab_create_image_chooser_widget (gchar *name, gchar *string1, gchar *string2, gint int1, gint int2);
 

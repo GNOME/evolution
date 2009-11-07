@@ -28,17 +28,6 @@ Dialog Window Functions (Legacy)
 @Varargs: 
 
 
-<!-- ##### FUNCTION e_file_dialog_save ##### -->
-<para>
-
-</para>
-
-@parent: 
-@title: 
-@fname: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_file_get_save_filesel ##### -->
 <para>
 
