@@ -699,6 +699,7 @@ efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormat
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
+#if 0
 	{ (gchar *) "image/gif", (EMFormatFunc)efhd_image },
 	{ (gchar *) "image/jpeg", (EMFormatFunc)efhd_image },
 	{ (gchar *) "image/png", (EMFormatFunc)efhd_image },
@@ -721,6 +722,7 @@ static EMFormatHandler type_builtin_table[] = {
 
 	{ (gchar *) "image/jpg", (EMFormatFunc)efhd_image },
 	{ (gchar *) "image/pjpeg", (EMFormatFunc)efhd_image },
+#endif
 
 	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 	{ (gchar *) "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar }

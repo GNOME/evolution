@@ -2105,6 +2105,7 @@ efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatH
 }
 
 static EMFormatHandler type_builtin_table[] = {
+#if 0
 	{ (gchar *) "image/gif", (EMFormatFunc)efh_image },
 	{ (gchar *) "image/jpeg", (EMFormatFunc)efh_image },
 	{ (gchar *) "image/png", (EMFormatFunc)efh_image },
@@ -2120,6 +2121,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ (gchar *) "image/x-portable-graymap", (EMFormatFunc)efh_image },
 	{ (gchar *) "image/x-portable-pixmap", (EMFormatFunc)efh_image },
 	{ (gchar *) "image/x-xpixmap", (EMFormatFunc)efh_image },
+#endif
 	{ (gchar *) "text/enriched", (EMFormatFunc)efh_text_enriched },
 	{ (gchar *) "text/plain", (EMFormatFunc)efh_text_plain },
 	{ (gchar *) "text/html", (EMFormatFunc)efh_text_html },
@@ -2133,8 +2135,10 @@ static EMFormatHandler type_builtin_table[] = {
 	   that some idiot mailer writers out there decide to pull out
 	   of their proverbials at random. */
 
+#if 0
 	{ (gchar *) "image/jpg", (EMFormatFunc)efh_image },
 	{ (gchar *) "image/pjpeg", (EMFormatFunc)efh_image },
+#endif
 
 	/* special internal types */
 

@@ -62,6 +62,7 @@ m4_define([hal_minimum_version], [0.5.4])
 m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
 m4_define([gweather_minimum_version], [2.25.3])
+m4_define([gtkimageview_minimum_version], [1.6])
 
 dnl ******************************
 dnl Compiler Warning Flags
@@ -1542,6 +1543,26 @@ if test "x$enable_weather" = "xyes"; then
 	fi
 fi
 
+dnl *****************************************
+dnl image-inline plugin requires gtkimageview
+dnl *****************************************
+AC_ARG_ENABLE([image-inline],
+	[AS_HELP_STRING([--enable-image-inline],
+	[Enable image-inline plugin @<:@default=yes@:>@])],
+	[enable_image_inline="$enableval"], [enable_image_inline=yes])
+
+if test "x$enable_image_inline" = "xyes"; then
+	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
+	AC_SUBST(GTKIMAGEVIEW_CFLAGS)
+	AC_SUBST(GTKIMAGEVIEW_LIBS)
+
+	if test "x$have_imageview" = "xyes"; then
+		plugins_standard="$plugins_standard image-inline"
+	else
+		AC_MSG_ERROR([gtkimageview is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
+	fi
+fi
+
 dnl *********************************
 dnl pst-import plugin requires libpst
 dnl *********************************
@@ -1762,6 +1783,7 @@ plugins/face/Makefile
 plugins/google-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/hula-account-setup/Makefile
+plugins/image-inline/Makefile
 plugins/imap-features/Makefile
 plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile
