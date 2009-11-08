@@ -9051,5 +9051,1954 @@ msgstr ""
 "𐑿𐑟𐑼𐑟 𐑜𐑧𐑑 𐑷𐑤 𐑳𐑐 𐑦𐑯 𐑸𐑥𐑟 𐑴𐑝𐑼 𐑢𐑺 𐑞𐑺 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑖𐑫𐑛 𐑜𐑴 𐑢𐑧𐑯 𐑮𐑦𐑐𐑤𐑲𐑦𐑙 𐑑 𐑩 𐑥𐑧𐑕𐑦𐑡. 𐑞𐑦𐑕 "
 "𐑛𐑦𐑑𐑻𐑥𐑦𐑯𐑟 𐑢𐑧𐑞𐑼 𐑞 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑦𐑟 𐑐𐑤𐑱𐑕𐑑 𐑨𐑑 𐑞 𐑑𐑪𐑐 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑹 𐑞 𐑚𐑪𐑑𐑫𐑥."
 
+#: ../mail/evolution-mail.schemas.in.h:200
+msgid "Variable width font"
+msgstr "𐑝𐑺𐑦𐑩𐑚𐑩𐑤 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑"
+
+#: ../mail/evolution-mail.schemas.in.h:201
+msgid "Whether a read receipt request gets added to every message by default."
+msgstr "𐑢𐑧𐑞𐑼 𐑩 𐑮𐑧𐑛 𐑮𐑦𐑕𐑰𐑑 𐑮𐑦𐑒𐑢𐑧𐑕𐑑 𐑜𐑧𐑑𐑕 𐑨𐑛𐑩𐑛 𐑑 𐑧𐑝𐑮𐑦 𐑥𐑧𐑕𐑦𐑡 𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑."
+
+#: ../mail/evolution-mail.schemas.in.h:203
+msgid ""
+"Whether or not to fall back on threading by subjects when the messages do "
+"not contain In-Reply-To or References headers."
+msgstr ""
+"𐑢𐑧𐑞𐑼 𐑹 𐑯𐑪𐑑 𐑑 𐑓𐑷𐑤 𐑚𐑨𐑒 𐑪𐑯 𐑔𐑮𐑧𐑛𐑦𐑙 𐑚𐑲 𐑕𐑳𐑚𐑡𐑧𐑒𐑑𐑕 𐑢𐑧𐑯 𐑞 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑛𐑵 𐑯𐑪𐑑 𐑒𐑩𐑯𐑑𐑱𐑯 𐑦𐑯-"
+"𐑮𐑦𐑐𐑤𐑲-𐑑 𐑹 𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟 𐑣𐑧𐑛𐑼𐑟."
+
+#: ../mail/evolution-mail.schemas.in.h:204
+msgid "Whether sort threads based on latest message in that thread"
+msgstr "𐑢𐑧𐑞𐑼 𐑕𐑹𐑑 𐑔𐑮𐑧𐑛𐑟 𐑚𐑱𐑕𐑑 𐑪𐑯 𐑤𐑱𐑑𐑩𐑕𐑑 𐑥𐑧𐑕𐑦𐑡 𐑦𐑯 𐑞𐑨𐑑 𐑔𐑮𐑧𐑛"
+
+#: ../mail/evolution-mail.schemas.in.h:205
+msgid "Width of the message-list pane"
+msgstr "𐑢𐑦𐑛𐑔 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡-𐑤𐑦𐑕𐑑 𐑐𐑱𐑯"
+
+#: ../mail/evolution-mail.schemas.in.h:206
+msgid "Width of the message-list pane."
+msgstr "𐑢𐑦𐑛𐑔 𐑝 𐑞 𐑥𐑧𐑕𐑦𐑡-𐑤𐑦𐑕𐑑 𐑐𐑱𐑯."
+
+#: ../mail/importers/elm-importer.c:179
+msgid "Importing Elm data"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 ·𐑧𐑤𐑥 𐑛𐑱𐑑𐑩"
+
+#: ../mail/importers/elm-importer.c:324 ../mail/importers/pine-importer.c:378
+#: ../modules/mail/e-mail-shell-view.c:591
+#: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
+msgid "Mail"
+msgstr "𐑥𐑱𐑤"
+
+#: ../mail/importers/elm-importer.c:364
+msgid "Evolution Elm importer"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 ·𐑧𐑤𐑥 𐑦𐑥𐑐𐑹𐑑𐑼"
+
+#: ../mail/importers/elm-importer.c:365
+msgid "Import mail from Elm."
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑥𐑱𐑤 𐑓𐑮𐑪𐑥 ·𐑧𐑤𐑥."
+
+#: ../mail/importers/evolution-mbox-importer.c:83
+#: ../plugins/pst-import/pst-importer.c:311
+msgid "Destination folder:"
+msgstr "𐑛𐑧𐑕𐑑𐑦𐑯𐑱𐑖𐑩𐑯 𐑓𐑴𐑤𐑛𐑼:"
+
+#: ../mail/importers/evolution-mbox-importer.c:87
+#: ../plugins/pst-import/pst-importer.c:304
+msgid "Select folder"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../mail/importers/evolution-mbox-importer.c:87
+#: ../plugins/pst-import/pst-importer.c:304
+msgid "Select folder to import into"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 𐑓𐑴𐑤𐑛𐑼 𐑑 𐑦𐑥𐑐𐑹𐑑 𐑦𐑯𐑑𐑫"
+
+#: ../mail/importers/evolution-mbox-importer.c:224
+msgid "Importer Berkeley Mailbox format folders"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑼 ·𐑚𐑻𐑒𐑤𐑰 𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑓𐑹𐑥𐑨𐑑 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/importers/mail-importer.c:71
+msgid "Importing mailbox"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 𐑥𐑱𐑤𐑚𐑪𐑒𐑕"
+
+#. Destination folder, was set in our widget
+#: ../mail/importers/mail-importer.c:155
+#: ../plugins/pst-import/pst-importer.c:456
+#: ../plugins/pst-import/pst-importer.c:562
+#, c-format
+msgid "Importing `%s'"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 `%s'"
+
+#: ../mail/importers/mail-importer.c:298
+#, c-format
+msgid "Scanning %s"
+msgstr "𐑕𐑒𐑨𐑯𐑦𐑙 %s"
+
+#: ../mail/importers/pine-importer.c:225
+msgid "Importing Pine data"
+msgstr "𐑦𐑥𐑐𐑹𐑑𐑦𐑙 ·𐑐𐑲𐑯 𐑛𐑱𐑑𐑩"
+
+#: ../mail/importers/pine-importer.c:383
+#: ../modules/addressbook/addressbook-config.c:1047
+msgid "Address Book"
+msgstr "𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../mail/importers/pine-importer.c:424
+msgid "Evolution Pine importer"
+msgstr "·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 ·𐑐𐑲𐑯 𐑦𐑥𐑐𐑹𐑑𐑼"
+
+#: ../mail/importers/pine-importer.c:425
+msgid "Import mail from Pine."
+msgstr "𐑦𐑥𐑐𐑹𐑑 𐑥𐑱𐑤 𐑓𐑮𐑪𐑥 ·𐑐𐑲𐑯."
+
+#: ../mail/mail-autofilter.c:71
+#, c-format
+msgid "Mail to %s"
+msgstr "𐑥𐑱𐑤 𐑑 %s"
+
+#: ../mail/mail-autofilter.c:234 ../mail/mail-autofilter.c:273
+#, c-format
+msgid "Mail from %s"
+msgstr "𐑥𐑱𐑤 𐑓𐑮𐑪𐑥 %s"
+
+#: ../mail/mail-autofilter.c:257
+#, c-format
+msgid "Subject is %s"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑦𐑟 %s"
+
+#: ../mail/mail-autofilter.c:292
+#, c-format
+msgid "%s mailing list"
+msgstr "%s 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑"
+
+#: ../mail/mail-autofilter.c:364
+msgid "Add Filter Rule"
+msgstr "𐑨𐑛 𐑓𐑦𐑤𐑑𐑼 𐑮𐑵𐑤"
+
+#: ../mail/mail-config.glade.h:1
+msgid "(Note: Requires restart of the application)"
+msgstr "(𐑯𐑴𐑑: 𐑮𐑦𐑒𐑢𐑲𐑼𐑟 𐑮𐑰𐑕𐑑𐑸𐑑 𐑝 𐑞 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯)"
+
+#: ../mail/mail-config.glade.h:3
+msgid "<b>SSL is not supported in this build of Evolution</b>"
+msgstr "<b>SSL 𐑦𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑦𐑯 𐑞𐑦𐑕 𐑚𐑦𐑤𐑛 𐑝 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯</b>"
+
+#: ../mail/mail-config.glade.h:4
+msgid "<b>Sender Photograph</b>"
+msgstr "<b>𐑕𐑧𐑯𐑛𐑻 𐑓𐑴𐑑𐑩𐑜𐑮𐑭𐑓</b>"
+
+#: ../mail/mail-config.glade.h:5
+msgid "<b>Sig_natures</b>"
+msgstr "<b>𐑕𐑦𐑜_𐑯𐑩𐑑𐑿𐑮𐑟</b>"
+
+#: ../mail/mail-config.glade.h:6
+msgid "<b>Top Posting Option</b> (Not Recommended)"
+msgstr "<b>𐑑𐑪𐑐 𐑐𐑴𐑕𐑑𐑦𐑙 𐑪𐑐𐑖𐑩𐑯</b> (𐑯𐑪𐑑 𐑮𐑧𐑒𐑩𐑥𐑧𐑯𐑛𐑩𐑛)"
+
+#: ../mail/mail-config.glade.h:7
+msgid "<b>_Languages</b>"
+msgstr "<b>_𐑤𐑨𐑙𐑜𐑢𐑩𐑡𐑩𐑟</b>"
+
+#: ../mail/mail-config.glade.h:8
+msgid "<span weight=\"bold\">Account Information</span>"
+msgstr "<span weight=\"bold\">𐑩𐑒𐑬𐑯𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:10
+msgid "<span weight=\"bold\">Authentication</span>"
+msgstr "<span weight=\"bold\">𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:11
+msgid "<span weight=\"bold\">Composing Messages</span>"
+msgstr "<span weight=\"bold\">𐑒𐑩𐑥𐑐𐑴𐑟𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟</span>"
+
+#: ../mail/mail-config.glade.h:12
+msgid "<span weight=\"bold\">Configuration</span>"
+msgstr "<span weight=\"bold\">𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:14
+msgid "<span weight=\"bold\">Default Behavior</span>"
+msgstr "<span weight=\"bold\">𐑛𐑦𐑓𐑷𐑤𐑑 𐑚𐑦𐑣𐑱𐑝𐑘𐑼</span>"
+
+#: ../mail/mail-config.glade.h:15
+msgid "<span weight=\"bold\">Delete Mail</span>"
+msgstr "<span weight=\"bold\">𐑛𐑦𐑤𐑰𐑑 𐑥𐑱𐑤</span>"
+
+#: ../mail/mail-config.glade.h:16
+msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
+msgstr "<span weight=\"bold\">𐑛𐑩𐑕𐑐𐑤𐑱𐑛 𐑥𐑧𐑕𐑦𐑡 _𐑣𐑧𐑛𐑼𐑟</span>"
+
+#: ../mail/mail-config.glade.h:18
+msgid "<span weight=\"bold\">Labels</span>"
+msgstr "<span weight=\"bold\">𐑤𐑱𐑚𐑩𐑤𐑟</span>"
+
+#: ../mail/mail-config.glade.h:19
+msgid "<span weight=\"bold\">Loading Images</span>"
+msgstr "<span weight=\"bold\">𐑤𐑴𐑛𐑦𐑙 𐑦𐑥𐑦𐑡𐑩𐑟</span>"
+
+#: ../mail/mail-config.glade.h:20
+msgid "<span weight=\"bold\">Message Display</span>"
+msgstr "<span weight=\"bold\">𐑥𐑧𐑕𐑦𐑡 𐑛𐑩𐑕𐑐𐑤𐑱</span>"
+
+#: ../mail/mail-config.glade.h:21
+msgid "<span weight=\"bold\">Message Fonts</span>"
+msgstr "<span weight=\"bold\">𐑥𐑧𐑕𐑦𐑡 𐑓𐑪𐑯𐑑𐑕</span>"
+
+#: ../mail/mail-config.glade.h:22
+msgid "<span weight=\"bold\">Message Receipts</span>"
+msgstr "<span weight=\"bold\">𐑥𐑧𐑕𐑦𐑡 𐑮𐑦𐑕𐑰𐑑𐑕</span>"
+
+#: ../mail/mail-config.glade.h:23
+#: ../plugins/publish-calendar/publish-calendar.glade.h:3
+msgid "<span weight=\"bold\">Optional Information</span>"
+msgstr "<span weight=\"bold\">𐑪𐑐𐑖𐑩𐑯𐑩𐑤 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:24
+msgid "<span weight=\"bold\">Options</span>"
+msgstr "<span weight=\"bold\">𐑪𐑐𐑖𐑩𐑯𐑟</span>"
+
+#: ../mail/mail-config.glade.h:26
+msgid "<span weight=\"bold\">Printed Fonts</span>"
+msgstr "<span weight=\"bold\">𐑐𐑮𐑦𐑯𐑑𐑩𐑛 𐑓𐑪𐑯𐑑𐑕</span>"
+
+#: ../mail/mail-config.glade.h:27
+msgid "<span weight=\"bold\">Proxy Settings</span>"
+msgstr "<span weight=\"bold\">𐑐𐑮𐑪𐑒𐑕𐑦 𐑕𐑧𐑑𐑦𐑙𐑟</span>"
+
+#: ../mail/mail-config.glade.h:28
+msgid "<span weight=\"bold\">Required Information</span>"
+msgstr "<span weight=\"bold\">𐑮𐑦𐑒𐑢𐑲𐑼𐑛 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:29
+msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
+msgstr "<span weight=\"bold\">𐑕𐑦𐑒𐑘𐑫𐑼 MIME (S/MIME)</span>"
+
+#: ../mail/mail-config.glade.h:30
+msgid "<span weight=\"bold\">Security</span>"
+msgstr "<span weight=\"bold\">𐑕𐑦𐑒𐑘𐑫𐑼𐑦𐑑𐑦</span>"
+
+#: ../mail/mail-config.glade.h:31
+msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
+msgstr "<span weight=\"bold\">𐑕𐑧𐑯𐑑 𐑯 𐑛𐑮𐑭𐑓𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟</span>"
+
+#: ../mail/mail-config.glade.h:32
+msgid "<span weight=\"bold\">Server Configuration</span>"
+msgstr "<span weight=\"bold\">𐑕𐑻𐑝𐑼 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-config.glade.h:33
+msgid "<span weight=\"bold\">_Authentication Type</span>"
+msgstr "<span weight=\"bold\">_𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑑𐑲𐑐</span>"
+
+#: ../mail/mail-config.glade.h:35
+msgid "Add Ne_w Signature..."
+msgstr "𐑨𐑛 𐑯_𐑿 𐑕𐑦𐑜𐑯𐑩𐑗𐑼..."
+
+#: ../mail/mail-config.glade.h:36
+msgid "Al_ways sign outgoing messages when using this account"
+msgstr "𐑷𐑤_𐑢𐑱𐑟 𐑕𐑲𐑯 𐑬𐑑𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑧𐑯 𐑿𐑟𐑦𐑙 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑"
+
+#: ../mail/mail-config.glade.h:37
+msgid "Also encrypt to sel_f when sending encrypted messages"
+msgstr "𐑷𐑤𐑕𐑴 𐑦𐑯𐑒𐑮𐑦𐑐𐑑 𐑑 𐑕𐑧𐑤_𐑓 𐑢𐑧𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 𐑦𐑯𐑒𐑮𐑦𐑐𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:38
+msgid "Alway_s carbon-copy (cc) to:"
+msgstr "𐑷𐑤𐑢𐑱_𐑟 𐑒𐑭𐑮𐑚𐑩𐑯-𐑒𐑪𐑐𐑦 (𐑕𐑰𐑕𐑰) 𐑑:"
+
+#: ../mail/mail-config.glade.h:40
+msgid "Always _trust keys in my keyring when encrypting"
+msgstr "𐑷𐑤𐑢𐑱𐑟 _𐑑𐑮𐑳𐑕𐑑 𐑒𐑰𐑟 𐑦𐑯 𐑥𐑲 𐑒𐑰𐑮𐑦𐑙 𐑢𐑧𐑯 𐑦𐑯𐑒𐑮𐑦𐑐𐑑𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:41
+msgid "Always encrypt to _myself when sending encrypted messages"
+msgstr "𐑷𐑤𐑢𐑱𐑟 𐑦𐑯𐑒𐑮𐑦𐑐𐑑 𐑑 _𐑥𐑲𐑕𐑧𐑤𐑓 𐑢𐑧𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 𐑦𐑯𐑒𐑮𐑦𐑐𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:42
+msgid "Always request rea_d receipt"
+msgstr "𐑷𐑤𐑢𐑱𐑟 𐑮𐑦𐑒𐑢𐑧𐑕𐑑 𐑮𐑰_𐑛 𐑮𐑦𐑕𐑰𐑑"
+
+#: ../mail/mail-config.glade.h:50
+msgid "Automatically insert _emoticon images"
+msgstr "𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑦𐑯𐑕𐑻𐑑 _𐑩𐑥𐑴𐑑𐑩𐑒𐑭𐑯 𐑦𐑥𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:51
+msgid "C_haracter set:"
+msgstr "𐑒_𐑸𐑩𐑒𐑑𐑼 𐑕𐑧𐑑:"
+
+#: ../mail/mail-config.glade.h:52
+msgid "Ch_eck for Supported Types"
+msgstr "𐑗_𐑧𐑒 𐑓𐑹 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑑𐑲𐑐𐑕"
+
+#: ../mail/mail-config.glade.h:53
+msgid "Check cu_stom headers for junk"
+msgstr "𐑗𐑧𐑒 𐑗𐑳_𐑕𐑑𐑩𐑥 𐑣𐑧𐑛𐑼𐑟 𐑓𐑹 𐑡𐑩𐑙𐑒"
+
+#: ../mail/mail-config.glade.h:54
+msgid "Check incoming _messages for junk"
+msgstr "𐑗𐑧𐑒 𐑦𐑯𐑒𐑳𐑥𐑦𐑙 _𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑹 𐑡𐑩𐑙𐑒"
+
+#: ../mail/mail-config.glade.h:55
+msgid "Check spelling while I _type"
+msgstr "𐑗𐑧𐑒 𐑕𐑐𐑧𐑤𐑦𐑙 𐑢𐑲𐑤 𐑲 _𐑑𐑲𐑐"
+
+#: ../mail/mail-config.glade.h:56
+msgid "Checks incoming mail messages to be Junk"
+msgstr "𐑗𐑧𐑒𐑕 𐑦𐑯𐑒𐑳𐑥𐑦𐑙 𐑥𐑱𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑 𐑚𐑰 𐑡𐑩𐑙𐑒"
+
+#: ../mail/mail-config.glade.h:57
+msgid "Cle_ar"
+msgstr "𐑒𐑤_𐑽"
+
+#: ../mail/mail-config.glade.h:58 ../mail/message-tag-followup.c:321
+msgid "Clea_r"
+msgstr "𐑒𐑤_𐑽"
+
+#: ../mail/mail-config.glade.h:59
+msgid "Color for _misspelled words:"
+msgstr "𐑒𐑳𐑤𐑼 𐑓𐑹 _𐑥𐑦𐑕𐑕𐑐𐑧𐑤𐑛 𐑢𐑻𐑛𐑟:"
+
+#: ../mail/mail-config.glade.h:61
+msgid "Default character e_ncoding:"
+msgstr "𐑛𐑦𐑓𐑷𐑤𐑑 𐑒𐑸𐑩𐑒𐑑𐑼 𐑦_𐑯𐑒𐑴𐑛𐑦𐑙:"
+
+#: ../mail/mail-config.glade.h:63
+msgid "Delete junk messages on e_xit"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑡𐑩𐑙𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑪𐑯 𐑧_𐑒𐑕𐑦𐑑"
+
+#: ../mail/mail-config.glade.h:65
+msgid "Digitally sign o_utgoing messages (by default)"
+msgstr "𐑛𐑦𐑡𐑩𐑑𐑩𐑤𐑰 𐑕𐑲𐑯 𐑬_𐑑𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 (𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑)"
+
+#: ../mail/mail-config.glade.h:66
+msgid "Do not format messages when text si_ze exceeds"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑓𐑹𐑥𐑨𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑧𐑯 𐑑𐑧𐑒𐑕𐑑 𐑕𐑲_𐑟 𐑩𐑒𐑕𐑰𐑛𐑟"
+
+#: ../mail/mail-config.glade.h:67
+msgid "Do not mar_k messages as junk if sender is in my address book"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑥𐑸_𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑡𐑩𐑙𐑒 𐑦𐑓 𐑕𐑧𐑯𐑛𐑻 𐑦𐑟 𐑦𐑯 𐑥𐑲 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../mail/mail-config.glade.h:68
+msgid "Drafts _Folder:"
+msgstr "𐑛𐑮𐑭𐑓𐑑𐑕 _𐑓𐑴𐑤𐑛𐑼:"
+
+#: ../mail/mail-config.glade.h:69
+msgid "Email _Address:"
+msgstr "𐑰𐑥𐑱𐑤 _𐑩𐑛𐑮𐑧𐑕:"
+
+#: ../mail/mail-config.glade.h:70
+msgid "Empty trash folders on e_xit"
+msgstr "𐑧𐑥𐑐𐑑𐑦 𐑑𐑮𐑨𐑖 𐑓𐑴𐑤𐑛𐑼𐑟 𐑪𐑯 𐑧_𐑒𐑕𐑦𐑑"
+
+#: ../mail/mail-config.glade.h:71
+msgid "Enable Magic S_pacebar"
+msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 𐑥𐑨𐑡𐑦𐑒 𐑕_𐑐𐑱𐑕𐑚𐑸"
+
+#: ../mail/mail-config.glade.h:72
+msgid "Enable Sea_rch Folders"
+msgstr "𐑦𐑯𐑱𐑚𐑩𐑤 𐑕_𐑻𐑗 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-config.glade.h:74
+msgid "Encry_ption certificate:"
+msgstr "𐑦𐑯𐑒𐑮𐑦_𐑐𐑖𐑩𐑯 𐑕𐑩𐑑𐑦𐑓𐑦𐑒𐑩𐑑:"
+
+#: ../mail/mail-config.glade.h:75
+msgid "Encrypt out_going messages (by default)"
+msgstr "𐑦𐑯𐑒𐑮𐑦𐑐𐑑 𐑬𐑑_𐑜𐑴𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 (𐑚𐑲 𐑛𐑦𐑓𐑷𐑤𐑑)"
+
+#: ../mail/mail-config.glade.h:76
+msgid "Fi_xed-width:"
+msgstr "𐑓𐑦_𐑒𐑕𐑑-𐑢𐑦𐑛𐑔:"
+
+#: ../mail/mail-config.glade.h:77
+msgid "Fix_ed width Font:"
+msgstr "𐑓𐑦𐑒𐑕_𐑑 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑:"
+
+#: ../mail/mail-config.glade.h:78
+msgid "Font Properties"
+msgstr "𐑓𐑪𐑯𐑑 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#: ../mail/mail-config.glade.h:79
+msgid "Format messages in _HTML"
+msgstr "𐑓𐑹𐑥𐑨𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 _HTML"
+
+#: ../mail/mail-config.glade.h:80
+msgid "Full Nam_e:"
+msgstr "𐑓𐑫𐑤 𐑯_𐑱𐑥:"
+
+#: ../mail/mail-config.glade.h:82
+msgid "HTML Messages"
+msgstr "HTML 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:83
+msgid "H_TTP Proxy:"
+msgstr "H_TTP 𐑐𐑮𐑪𐑒𐑕𐑦:"
+
+#: ../mail/mail-config.glade.h:84
+msgid "Headers"
+msgstr "𐑣𐑧𐑛𐑼𐑟"
+
+#: ../mail/mail-config.glade.h:85
+msgid "Highlight _quotations with"
+msgstr "𐑣𐑲𐑤𐑲𐑑 _𐑒𐑢𐑴𐑑𐑱𐑖𐑩𐑯𐑟 𐑢𐑦𐑞"
+
+#: ../mail/mail-config.glade.h:89 ../mail/message-list.etspec.h:8
+msgid "Labels"
+msgstr "𐑤𐑱𐑚𐑩𐑤𐑟"
+
+#: ../mail/mail-config.glade.h:90
+msgid "Languages Table"
+msgstr "𐑤𐑨𐑙𐑜𐑢𐑩𐑡𐑩𐑟 𐑑𐑱𐑚𐑩𐑤"
+
+#: ../mail/mail-config.glade.h:91
+msgid "Mail Headers Table"
+msgstr "𐑥𐑱𐑤 𐑣𐑧𐑛𐑼𐑟 𐑑𐑱𐑚𐑩𐑤"
+
+#: ../mail/mail-config.glade.h:92 ../modules/mail/e-mail-shell-backend.c:213
+msgid "Mail Preferences"
+msgstr "𐑥𐑱𐑤 𐑐𐑮𐑧𐑓𐑼𐑩𐑯𐑕𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:93
+msgid "Mailbox location"
+msgstr "𐑥𐑱𐑤𐑚𐑪𐑒𐑕 𐑤𐑴𐑒𐑱𐑖𐑩𐑯"
+
+#: ../mail/mail-config.glade.h:94
+msgid "Message Composer"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑒𐑩𐑥𐑐𐑴𐑟𐑼"
+
+#: ../mail/mail-config.glade.h:95
+msgid "No _Proxy for:"
+msgstr "𐑯𐑴 _𐑐𐑮𐑪𐑒𐑕𐑦 𐑓𐑹:"
+
+#: ../mail/mail-config.glade.h:96
+msgid ""
+"Note: you will not be prompted for a password until you connect for the "
+"first time"
+msgstr "𐑯𐑴𐑑: 𐑿 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 𐑐𐑮𐑪𐑥𐑐𐑑𐑩𐑛 𐑓𐑹 𐑩 𐑐𐑭𐑕𐑢𐑼𐑛 𐑳𐑯𐑑𐑦𐑤 𐑿 𐑒𐑩𐑯𐑧𐑒𐑑 𐑓𐑹 𐑞 𐑓𐑻𐑕𐑑 𐑑𐑲𐑥"
+
+#: ../mail/mail-config.glade.h:97
+msgid "Option is ignored if a match for custom junk headers is found."
+msgstr "𐑪𐑐𐑖𐑩𐑯 𐑦𐑟 𐑦𐑜𐑯𐑹𐑛 𐑦𐑓 𐑩 𐑥𐑨𐑗 𐑓𐑹 𐑒𐑳𐑕𐑑𐑩𐑥 𐑡𐑩𐑙𐑒 𐑣𐑧𐑛𐑼𐑟 𐑦𐑟 𐑓𐑬𐑯𐑛."
+
+#: ../mail/mail-config.glade.h:102
+msgid "Port:"
+msgstr "𐑐𐑹𐑑:"
+
+#: ../mail/mail-config.glade.h:107
+msgid "Remember _password"
+msgstr "𐑮𐑦𐑥𐑧𐑥𐑚𐑼 _𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#: ../mail/mail-config.glade.h:113
+msgid "Select HTML fixed width font"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 HTML 𐑓𐑦𐑒𐑕𐑑 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑"
+
+#: ../mail/mail-config.glade.h:114
+msgid "Select HTML fixed width font for printing"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 HTML 𐑓𐑦𐑒𐑕𐑑 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑 𐑓𐑹 𐑐𐑮𐑦𐑯𐑑𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:115
+msgid "Select HTML variable width font"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 HTML 𐑝𐑺𐑦𐑩𐑚𐑩𐑤 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑"
+
+#: ../mail/mail-config.glade.h:116
+msgid "Select HTML variable width font for printing"
+msgstr "𐑕𐑩𐑤𐑧𐑒𐑑 HTML 𐑝𐑺𐑦𐑩𐑚𐑩𐑤 𐑢𐑦𐑛𐑔 𐑓𐑪𐑯𐑑 𐑓𐑹 𐑐𐑮𐑦𐑯𐑑𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:117
+msgid "Sending Mail"
+msgstr "𐑕𐑧𐑯𐑛𐑦𐑙 𐑥𐑱𐑤"
+
+#: ../mail/mail-config.glade.h:118
+msgid "Sent _Messages Folder:"
+msgstr "𐑕𐑧𐑯𐑑 _𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑴𐑤𐑛𐑼:"
+
+#: ../mail/mail-config.glade.h:120
+msgid "Server _Type:"
+msgstr "𐑕𐑻𐑝𐑼 _𐑑𐑲𐑐:"
+
+#: ../mail/mail-config.glade.h:123
+msgid "Signatures"
+msgstr "𐑕𐑦𐑜𐑯𐑩𐑗𐑼𐑟"
+
+#: ../mail/mail-config.glade.h:124
+msgid "Spell Checking"
+msgstr "𐑕𐑐𐑧𐑤 𐑗𐑧𐑒𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:125
+msgid "Start _typing at the bottom on replying"
+msgstr "𐑕𐑑𐑸𐑑 _𐑑𐑲𐑐𐑦𐑙 𐑨𐑑 𐑞 𐑚𐑪𐑑𐑫𐑥 𐑪𐑯 𐑮𐑦𐑐𐑤𐑲𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:126
+msgid "T_ype:"
+msgstr "𐑑_𐑲𐑐:"
+
+#: ../mail/mail-config.glade.h:127
+msgid ""
+"The list of languages here reflects only the languages for which you have a "
+"dictionary installed."
+msgstr ""
+"𐑞 𐑤𐑦𐑕𐑑 𐑝 𐑤𐑨𐑙𐑜𐑢𐑩𐑡𐑩𐑟 𐑣𐑽 𐑮𐑦𐑓𐑤𐑧𐑒𐑑𐑕 𐑴𐑯𐑤𐑦 𐑞 𐑤𐑨𐑙𐑜𐑢𐑩𐑡𐑩𐑟 𐑓𐑹 𐑢𐑦𐑗 𐑿 𐑣𐑨𐑝 𐑩 𐑛𐑦𐑒𐑖𐑩𐑯𐑼𐑦 "
+"𐑦𐑯𐑕𐑑𐑷𐑤𐑛."
+
+#: ../mail/mail-config.glade.h:128
+msgid ""
+"The output of this script will be used as your\n"
+"signature. The name you specify will be used\n"
+"for display purposes only. "
+msgstr ""
+"𐑞 𐑬𐑑𐑐𐑫𐑑 𐑝 𐑞𐑦𐑕 𐑕𐑒𐑮𐑦𐑐𐑑 𐑢𐑦𐑤 𐑚𐑰 𐑿𐑟𐑛 𐑨𐑟 𐑿𐑼\n"
+"𐑕𐑦𐑜𐑯𐑩𐑗𐑼. 𐑞 𐑯𐑱𐑥 𐑿 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑢𐑦𐑤 𐑚𐑰 𐑿𐑟𐑛\n"
+"𐑓𐑹 𐑛𐑦𐑕𐑐𐑤𐑱 𐑐𐑻𐑐𐑩𐑕𐑩𐑟 𐑴𐑯𐑤𐑦. "
+
+#: ../mail/mail-config.glade.h:131
+msgid ""
+"Type the name by which you would like to refer to this account.\n"
+"For example: \"Work\" or \"Personal\""
+msgstr ""
+"𐑑𐑲𐑐 𐑞 𐑯𐑱𐑥 𐑚𐑲 𐑢𐑦𐑗 𐑿 𐑢𐑫𐑛 𐑤𐑲𐑒 𐑑 𐑮𐑦𐑓𐑻 𐑑 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑.\n"
+"𐑓𐑹 𐑦𐑜𐑟𐑭𐑥𐑐𐑩𐑤: \"𐑢𐑻𐑒\" 𐑹 \"𐑐𐑻𐑕𐑩𐑯𐑩𐑤\""
+
+#: ../mail/mail-config.glade.h:135 ../plugins/caldav/caldav-source.c:405
+#: ../plugins/google-account-setup/google-contacts-source.c:280
+#: ../plugins/google-account-setup/google-source.c:700
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:307
+msgid "User_name:"
+msgstr "𐑿𐑟𐑼_𐑯𐑱𐑥:"
+
+#: ../mail/mail-config.glade.h:137
+msgid "_Add Signature"
+msgstr "_𐑨𐑛 𐑕𐑦𐑜𐑯𐑩𐑗𐑼"
+
+#: ../mail/mail-config.glade.h:138
+msgid "_Always load images from the Internet"
+msgstr "_𐑷𐑤𐑢𐑱𐑟 𐑤𐑴𐑛 𐑦𐑥𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑞 ·𐑦𐑯𐑑𐑼𐑯𐑧𐑑"
+
+#: ../mail/mail-config.glade.h:139
+msgid "_Default junk plugin:"
+msgstr "_𐑛𐑦𐑓𐑷𐑤𐑑 𐑡𐑩𐑙𐑒 𐑐𐑤𐑳𐑜𐑦𐑯:"
+
+#: ../mail/mail-config.glade.h:140
+msgid "_Direct connection to the Internet"
+msgstr "_𐑛𐑲𐑮𐑧𐑒𐑑 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯 𐑑 𐑞 ·𐑦𐑯𐑑𐑼𐑯𐑧𐑑"
+
+#: ../mail/mail-config.glade.h:141
+msgid "_Do not sign meeting requests (for Outlook compatibility)"
+msgstr "_𐑛𐑵 𐑯𐑪𐑑 𐑕𐑲𐑯 𐑥𐑰𐑑𐑦𐑙 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑕 (𐑓𐑹 ·𐑬𐑑𐑤𐑫𐑒 𐑒𐑩𐑥𐑐𐑨𐑑𐑩𐑚𐑦𐑤𐑩𐑑𐑰)"
+
+#: ../mail/mail-config.glade.h:142
+msgid "_Forward style:"
+msgstr "_𐑓𐑹𐑢𐑼𐑛 𐑕𐑑𐑲𐑤:"
+
+#: ../mail/mail-config.glade.h:143
+msgid "_Keep Signature above the original message on replying"
+msgstr "_𐑒𐑰𐑐 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑩𐑚𐑳𐑝 𐑞 𐑼𐑦𐑡𐑩𐑯𐑩𐑤 𐑥𐑧𐑕𐑦𐑡 𐑪𐑯 𐑮𐑦𐑐𐑤𐑲𐑦𐑙"
+
+#: ../mail/mail-config.glade.h:144
+msgid "_Load images in messages from contacts"
+msgstr "_𐑤𐑴𐑛 𐑦𐑥𐑦𐑡𐑩𐑟 𐑦𐑯 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../mail/mail-config.glade.h:145
+msgid "_Lookup in local address book only"
+msgstr "_𐑤𐑫𐑒𐑩𐑐 𐑦𐑯 𐑤𐑴𐑒𐑩𐑤 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑴𐑯𐑤𐑦"
+
+#: ../mail/mail-config.glade.h:146
+msgid "_Make this my default account"
+msgstr "_𐑥𐑱𐑒 𐑞𐑦𐑕 𐑥𐑲 𐑛𐑦𐑓𐑷𐑤𐑑 𐑩𐑒𐑬𐑯𐑑"
+
+#: ../mail/mail-config.glade.h:147
+msgid "_Manual proxy configuration:"
+msgstr "_𐑥𐑨𐑯𐑘𐑫𐑩𐑤 𐑐𐑮𐑪𐑒𐑕𐑦 𐑒𐑩𐑯𐑓𐑦𐑜𐑘𐑼𐑱𐑖𐑩𐑯:"
+
+#: ../mail/mail-config.glade.h:148
+msgid "_Mark messages as read after"
+msgstr "_𐑥𐑸𐑒 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛 𐑭𐑓𐑑𐑼"
+
+#: ../mail/mail-config.glade.h:150
+msgid "_Never load images from the Internet"
+msgstr "_𐑯𐑧𐑝𐑼 𐑤𐑴𐑛 𐑦𐑥𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑞 ·𐑦𐑯𐑑𐑼𐑯𐑧𐑑"
+
+#: ../mail/mail-config.glade.h:151
+msgid "_Path:"
+msgstr "_𐑐𐑭𐑔:"
+
+#: ../mail/mail-config.glade.h:152
+msgid "_Prompt on sending HTML mail to contacts that do not want them"
+msgstr "_𐑐𐑮𐑪𐑥𐑐𐑑 𐑪𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 HTML 𐑥𐑱𐑤 𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑞𐑨𐑑 𐑛𐑵 𐑯𐑪𐑑 𐑢𐑪𐑯𐑑 𐑞𐑧𐑥"
+
+#: ../mail/mail-config.glade.h:153
+msgid "_Prompt when sending messages with an empty subject line"
+msgstr "_𐑐𐑮𐑪𐑥𐑐𐑑 𐑢𐑧𐑯 𐑕𐑧𐑯𐑛𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑦𐑞 𐑩𐑯 𐑧𐑥𐑐𐑑𐑦 𐑕𐑳𐑚𐑡𐑧𐑒𐑑 𐑤𐑲𐑯"
+
+#: ../mail/mail-config.glade.h:154
+msgid "_Reply style:"
+msgstr "_𐑮𐑦𐑐𐑤𐑲 𐑕𐑑𐑲𐑤:"
+
+#: ../mail/mail-config.glade.h:155
+msgid "_Script:"
+msgstr "_𐑕𐑒𐑮𐑦𐑐𐑑:"
+
+#: ../mail/mail-config.glade.h:156
+msgid "_Secure HTTP Proxy:"
+msgstr "_𐑕𐑦𐑒𐑘𐑫𐑼 HTTP 𐑐𐑮𐑪𐑒𐑕𐑦:"
+
+#: ../mail/mail-config.glade.h:158
+#: ../modules/addressbook/ldap-config.glade.h:39
+#: ../plugins/publish-calendar/publish-calendar.glade.h:27
+msgid "_Server:"
+msgstr "_𐑕𐑻𐑝𐑼:"
+
+#. If enabled, show animation; if disabled, only display a static image without any animation
+#: ../mail/mail-config.glade.h:160
+msgid "_Show image animations"
+msgstr "_𐑖𐑴 𐑦𐑥𐑦𐑡 𐑨𐑯𐑩𐑥𐑱𐑖𐑩𐑯𐑟"
+
+#: ../mail/mail-config.glade.h:161
+msgid "_Show the photograph of sender in the message preview"
+msgstr "_𐑖𐑴 𐑞 𐑓𐑴𐑑𐑩𐑜𐑮𐑭𐑓 𐑝 𐑕𐑧𐑯𐑛𐑻 𐑦𐑯 𐑞 𐑥𐑧𐑕𐑦𐑡 𐑐𐑮𐑰𐑝𐑿"
+
+#: ../mail/mail-config.glade.h:163
+msgid "_Use Secure Connection:"
+msgstr "_𐑿𐑕 𐑕𐑦𐑒𐑘𐑫𐑼 𐑒𐑩𐑯𐑧𐑒𐑖𐑩𐑯:"
+
+#: ../mail/mail-config.glade.h:164
+msgid "_Use system defaults"
+msgstr "_𐑿𐑟 𐑕𐑦𐑕𐑑𐑩𐑥 𐑛𐑦𐑓𐑷𐑤𐑑𐑕"
+
+#: ../mail/mail-config.glade.h:165
+msgid "_Use the same fonts as other applications"
+msgstr "_𐑿𐑟 𐑞 𐑕𐑱𐑥 𐑓𐑪𐑯𐑑𐑕 𐑨𐑟 𐑳𐑞𐑼 𐑩𐑐𐑤𐑦𐑒𐑱𐑕𐑩𐑯𐑟"
+
+#: ../mail/mail-config.glade.h:168
+msgid "addresses"
+msgstr "𐑩𐑛𐑮𐑧𐑕𐑩𐑟"
+
+#: ../mail/mail-config.glade.h:169
+msgid "color"
+msgstr "𐑒𐑳𐑤𐑼"
+
+#: ../mail/mail-config.glade.h:170
+msgid "description"
+msgstr "𐑛𐑦𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯"
+
+#: ../mail/mail-config.glade.h:171
+msgid "seconds"
+msgstr "𐑕𐑧𐑒𐑩𐑯𐑛𐑟"
+
+#: ../mail/mail-dialogs.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../mail/mail-dialogs.glade.h:2
+msgid "<b>Search Folder Sources</b>"
+msgstr "<b>𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑕𐑹𐑕𐑩𐑟</b>"
+
+#: ../mail/mail-dialogs.glade.h:3
+msgid "<span weight=\"bold\">Digital Signature</span>"
+msgstr "<span weight=\"bold\">𐑛𐑦𐑡𐑩𐑑𐑩𐑤 𐑕𐑦𐑜𐑯𐑩𐑗𐑼</span>"
+
+#: ../mail/mail-dialogs.glade.h:4
+msgid "<span weight=\"bold\">Encryption</span>"
+msgstr "<span weight=\"bold\">𐑦𐑯𐑒𐑮𐑦𐑐𐑖𐑩𐑯</span>"
+
+#: ../mail/mail-dialogs.glade.h:5
+msgid "All active remote folders"
+msgstr "𐑷𐑤 𐑨𐑒𐑑𐑦𐑝 𐑮𐑦𐑥𐑴𐑑 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-dialogs.glade.h:6
+msgid "All local and active remote folders"
+msgstr "𐑷𐑤 𐑤𐑴𐑒𐑩𐑤 𐑯 𐑨𐑒𐑑𐑦𐑝 𐑮𐑦𐑥𐑴𐑑 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-dialogs.glade.h:7
+msgid "All local folders"
+msgstr "𐑷𐑤 𐑤𐑴𐑒𐑩𐑤 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-dialogs.glade.h:9 ../mail/message-tag-followup.c:268
+msgid "Flag to Follow Up"
+msgstr "𐑓𐑤𐑨𐑜 𐑑 𐑓𐑪𐑤𐑴 𐑳𐑐"
+
+#: ../mail/mail-dialogs.glade.h:10
+msgid "Folder Subscriptions"
+msgstr "𐑓𐑴𐑤𐑛𐑼 𐑕𐑩𐑚𐑕𐑒𐑮𐑦𐑐𐑖𐑩𐑯𐑟"
+
+#: ../mail/mail-dialogs.glade.h:11
+msgid "License Agreement"
+msgstr "𐑤𐑲𐑕𐑩𐑯𐑕 𐑩𐑜𐑮𐑰𐑥𐑩𐑯𐑑"
+
+#: ../mail/mail-dialogs.glade.h:12
+msgid "S_erver:"
+msgstr "𐑕_𐑻𐑝𐑼:"
+
+#: ../mail/mail-dialogs.glade.h:13
+msgid "Security Information"
+msgstr "𐑕𐑦𐑒𐑘𐑫𐑼𐑦𐑑𐑦 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../mail/mail-dialogs.glade.h:14
+msgid "Specific folders"
+msgstr "𐑕𐑐𐑩𐑕𐑦𐑓𐑦𐑒 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-dialogs.glade.h:15
+msgid ""
+"The messages you have selected for follow up are listed below.\n"
+"Please select a follow up action from the \"Flag\" menu."
+msgstr ""
+"𐑞 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑿 𐑣𐑨𐑝 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑓𐑹 𐑓𐑪𐑤𐑴 𐑳𐑐 𐑸 𐑤𐑦𐑕𐑑𐑩𐑛 𐑚𐑩𐑤𐑴.\n"
+"𐑐𐑤𐑰𐑟 𐑕𐑩𐑤𐑧𐑒𐑑 𐑩 𐑓𐑪𐑤𐑴 𐑳𐑐 𐑨𐑒𐑖𐑩𐑯 𐑓𐑮𐑪𐑥 𐑞 \"𐑓𐑤𐑨𐑜\" 𐑥𐑧𐑯𐑿."
+
+#: ../mail/mail-dialogs.glade.h:17
+msgid "_Accept License"
+msgstr "_𐑨𐑒𐑕𐑧𐑐𐑑 𐑤𐑲𐑕𐑩𐑯𐑕"
+
+#: ../mail/mail-dialogs.glade.h:18
+msgid "_Due By:"
+msgstr "_𐑛𐑿 𐑚𐑲:"
+
+#: ../mail/mail-dialogs.glade.h:19
+msgid "_Flag:"
+msgstr "_𐑓𐑤𐑨𐑜:"
+
+#: ../mail/mail-dialogs.glade.h:20
+msgid "_Tick this to accept the license agreement"
+msgstr "_𐑑𐑦𐑒 𐑞𐑦𐑕 𐑑 𐑨𐑒𐑕𐑧𐑐𐑑 𐑞 𐑤𐑲𐑕𐑩𐑯𐑕 𐑩𐑜𐑮𐑰𐑥𐑩𐑯𐑑"
+
+#: ../mail/mail-folder-cache.c:890
+#, c-format
+msgid "Pinging %s"
+msgstr "𐑐𐑦𐑙𐑦𐑙 %s"
+
+#: ../mail/mail-ops.c:110
+msgid "Filtering Selected Messages"
+msgstr "𐑓𐑦𐑤𐑑𐑼𐑦𐑙 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-ops.c:269
+msgid "Fetching Mail"
+msgstr "𐑓𐑧𐑗𐑦𐑙 𐑥𐑱𐑤"
+
+#. sending mail, filtering failed
+#: ../mail/mail-ops.c:572
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑤𐑲 𐑬𐑑𐑜𐑴𐑦𐑙 𐑓𐑦𐑤𐑑𐑼𐑟: %s"
+
+#: ../mail/mail-ops.c:628
+#, c-format
+msgid "Failed to append to local `Sent' folder: %s"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑩𐑐𐑧𐑯𐑛 𐑑 𐑤𐑴𐑒𐑩𐑤 `𐑕𐑧𐑯𐑑' 𐑓𐑴𐑤𐑛𐑼: %s"
+
+#: ../mail/mail-ops.c:736 ../mail/mail-ops.c:817
+msgid "Sending message"
+msgstr "𐑕𐑧𐑯𐑛𐑦𐑙 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../mail/mail-ops.c:746
+#, c-format
+msgid "Sending message %d of %d"
+msgstr "𐑕𐑧𐑯𐑛𐑦𐑙 𐑥𐑧𐑕𐑦𐑡 %d 𐑝 %d"
+
+#: ../mail/mail-ops.c:773
+#, c-format
+msgid "Failed to send %d of %d messages"
+msgstr "𐑓𐑱𐑤𐑛 𐑑 𐑕𐑧𐑯𐑛 %d 𐑝 %d 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-ops.c:775 ../mail/mail-send-recv.c:759
+msgid "Canceled."
+msgstr "𐑒𐑨𐑯𐑕𐑩𐑤𐑛."
+
+#: ../mail/mail-ops.c:777 ../mail/mail-send-recv.c:761
+msgid "Complete."
+msgstr "𐑒𐑩𐑥𐑐𐑤𐑰𐑑."
+
+#: ../mail/mail-ops.c:889
+#, c-format
+msgid "Saving message to folder '%s'"
+msgstr "𐑕𐑱𐑝𐑦𐑙 𐑥𐑧𐑕𐑦𐑡 𐑑 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:966
+#, c-format
+msgid "Moving messages to '%s'"
+msgstr "𐑥𐑵𐑝𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑 '%s'"
+
+#: ../mail/mail-ops.c:966
+#, c-format
+msgid "Copying messages to '%s'"
+msgstr "𐑒𐑪𐑐𐑦𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑 '%s'"
+
+#: ../mail/mail-ops.c:1075
+#, c-format
+msgid "Scanning folders in '%s'"
+msgstr "𐑕𐑒𐑨𐑯𐑦𐑙 𐑓𐑴𐑤𐑛𐑼𐑟 𐑦𐑯 '%s'"
+
+#: ../mail/mail-ops.c:1183
+msgid "Forwarded messages"
+msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/mail-ops.c:1224
+#, c-format
+msgid "Opening folder '%s'"
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:1290
+#, c-format
+msgid "Retrieving quota information for folder '%s'"
+msgstr "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 𐑒𐑢𐑴𐑑𐑩 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑓𐑹 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:1362
+#, c-format
+msgid "Opening store '%s'"
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑕𐑑𐑹 '%s'"
+
+#: ../mail/mail-ops.c:1433
+#, c-format
+msgid "Removing folder '%s'"
+msgstr "𐑮𐑦𐑥𐑵𐑝𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:1551
+#, c-format
+msgid "Storing folder '%s'"
+msgstr "𐑕𐑑𐑹𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:1615
+#, c-format
+msgid "Storing account '%s'"
+msgstr "𐑕𐑑𐑹𐑦𐑙 𐑩𐑒𐑬𐑯𐑑 '%s'"
+
+#: ../mail/mail-ops.c:1669
+#, c-format
+msgid "Refreshing folder '%s'"
+msgstr "𐑮𐑰𐑓𐑮𐑧𐑖𐑦𐑙 𐑓𐑴𐑤𐑛𐑼 '%s'"
+
+#: ../mail/mail-ops.c:1754
+#, c-format
+msgid "Emptying trash in '%s'"
+msgstr "𐑧𐑥𐑐𐑑𐑰𐑦𐑙 𐑑𐑮𐑨𐑖 𐑦𐑯 '%s'"
+
+#: ../mail/mail-ops.c:1755
+msgid "Local Folders"
+msgstr "𐑤𐑴𐑒𐑩𐑤 𐑓𐑴𐑤𐑛𐑼𐑟"
+
+#: ../mail/mail-ops.c:1833
+#, c-format
+msgid "Retrieving message '%s'"
+msgstr "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 𐑥𐑧𐑕𐑦𐑡 '%s'"
+
+#: ../mail/mail-ops.c:1951
+#, c-format
+msgid "Retrieving %d message"
+msgid_plural "Retrieving %d messages"
+msgstr[0] "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 %d 𐑥𐑧𐑕𐑦𐑡"
+msgstr[1] "𐑮𐑦𐑑𐑮𐑰𐑝𐑦𐑙 %d 𐑥𐑧𐑕𐑦𐑡𐑧𐑟"
+
+#: ../mail/mail-ops.c:2040
+#, c-format
+msgid "Saving %d message"
+msgid_plural "Saving %d messages"
+msgstr[0] "𐑕𐑱𐑝𐑦𐑙 %d 𐑥𐑧𐑕𐑦𐑡"
+msgstr[1] "𐑕𐑱𐑝𐑦𐑙 %d 𐑥𐑧𐑕𐑦𐑡𐑧𐑟"
+
+#: ../mail/mail-ops.c:2120
+#, c-format
+msgid ""
+"Error saving messages to: %s:\n"
+" %s"
+msgstr ""
+"𐑻𐑼 𐑕𐑱𐑝𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑: %s:\n"
+" %s"
+
+#: ../mail/mail-ops.c:2192
+msgid "Saving attachment"
+msgstr "𐑕𐑱𐑝𐑦𐑙 𐑩𐑑𐑨𐑗𐑥𐑩𐑯𐑑"
+
+#: ../mail/mail-ops.c:2210 ../mail/mail-ops.c:2218
+#, c-format
+msgid ""
+"Cannot create output file: %s:\n"
+" %s"
+msgstr ""
+"𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑬𐑑𐑐𐑫𐑑 𐑓𐑲𐑤: %s:\n"
+" %s"
+
+#: ../mail/mail-ops.c:2233
+#, c-format
+msgid "Could not write data: %s"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑮𐑲𐑑 𐑛𐑱𐑑𐑩: %s"
+
+#: ../mail/mail-ops.c:2378
+#, c-format
+msgid "Disconnecting from '%s'"
+msgstr "𐑛𐑦𐑕𐑒𐑩𐑯𐑧𐑒𐑑𐑦𐑙 𐑓𐑮𐑪𐑥 '%s'"
+
+#: ../mail/mail-ops.c:2378
+#, c-format
+msgid "Reconnecting to '%s'"
+msgstr "𐑮𐑰𐑒𐑩𐑯𐑧𐑒𐑑𐑦𐑙 𐑑 '%s'"
+
+#: ../mail/mail-ops.c:2474
+#, c-format
+msgid "Preparing account '%s' for offline"
+msgstr "𐑐𐑮𐑰𐑐𐑺𐑦𐑙 𐑩𐑒𐑬𐑯𐑑 '%s' 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯"
+
+#: ../mail/mail-ops.c:2560
+msgid "Checking Service"
+msgstr "𐑗𐑧𐑒𐑦𐑙 𐑕𐑻𐑝𐑦𐑕"
+
+#: ../mail/mail-send-recv.c:190
+msgid "Canceling..."
+msgstr "𐑒𐑨𐑯𐑕𐑩𐑤𐑦𐑙..."
+
+#: ../mail/mail-send-recv.c:430
+msgid "Send & Receive Mail"
+msgstr "𐑕𐑧𐑯𐑛 𐑯 𐑮𐑦𐑕𐑰𐑝 𐑥𐑱𐑤"
+
+#: ../mail/mail-send-recv.c:443
+msgid "Cancel _All"
+msgstr "𐑒𐑨𐑯𐑕𐑩𐑤 _𐑷𐑤"
+
+#: ../mail/mail-send-recv.c:552
+msgid "Updating..."
+msgstr "𐑳𐑐𐑛𐑱𐑑𐑦𐑙..."
+
+#: ../mail/mail-send-recv.c:552 ../mail/mail-send-recv.c:629
+msgid "Waiting..."
+msgstr "𐑢𐑱𐑑𐑦𐑙..."
+
+#: ../mail/mail-send-recv.c:872
+#, c-format
+msgid "Checking for new mail"
+msgstr "𐑗𐑧𐑒𐑦𐑙 𐑓𐑹 𐑯𐑿 𐑥𐑱𐑤"
+
+#: ../mail/mail-session.c:217
+#, c-format
+msgid "Enter Password for %s"
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑓𐑹 %s"
+
+#: ../mail/mail-session.c:219
+msgid "Enter Password"
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛"
+
+#: ../mail/mail-session.c:261
+msgid "User canceled operation."
+msgstr "𐑿𐑟𐑼 𐑒𐑨𐑯𐑕𐑩𐑤𐑛 𐑪𐑐𐑼𐑱𐑖𐑩𐑯."
+
+#: ../mail/mail-tools.c:136
+#, c-format
+msgid "Could not create spool directory `%s': %s"
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑕𐑐𐑵𐑤 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 `%s': %s"
+
+#: ../mail/mail-tools.c:272
+#, c-format
+msgid "Forwarded message - %s"
+msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛 𐑥𐑧𐑕𐑦𐑡 - %s"
+
+#: ../mail/mail-tools.c:274
+msgid "Forwarded message"
+msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛 𐑥𐑧𐑕𐑦𐑡"
+
+#: ../mail/mail-tools.c:314
+#, c-format
+msgid "Invalid folder: `%s'"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑓𐑴𐑤𐑛𐑼: `%s'"
+
+#: ../mail/mail-vfolder.c:88
+#, c-format
+msgid "Setting up Search Folder: %s"
+msgstr "𐑕𐑧𐑑𐑦𐑙 𐑳𐑐 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼: %s"
+
+#: ../mail/mail-vfolder.c:233
+#, c-format
+msgid "Updating Search Folders for '%s:%s'"
+msgstr "𐑳𐑐𐑛𐑱𐑑𐑦𐑙 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼𐑟 𐑓𐑹 '%s:%s'"
+
+#: ../mail/mail-vfolder.c:240
+#, c-format
+msgid "Updating Search Folders for '%s'"
+msgstr "𐑳𐑐𐑛𐑱𐑑𐑦𐑙 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼𐑟 𐑓𐑹 '%s'"
+
+#: ../mail/mail-vfolder.c:1075
+msgid "Edit Search Folder"
+msgstr "𐑧𐑛𐑦𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../mail/mail-vfolder.c:1166
+msgid "New Search Folder"
+msgstr "𐑯𐑿 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼"
+
+#: ../mail/mail.error.xml.h:1
+msgid "A folder named \"{0}\" already exists. Please use a different name."
+msgstr "𐑩 𐑓𐑴𐑤𐑛𐑼 𐑯𐑱𐑥𐑛 \"{0}\" 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕. 𐑐𐑤𐑰𐑟 𐑿𐑟 𐑩 𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑯𐑱𐑥."
+
+#: ../mail/mail.error.xml.h:2
+msgid "A folder named \"{1}\" already exists. Please use a different name."
+msgstr "𐑩 𐑓𐑴𐑤𐑛𐑼 𐑯𐑱𐑥𐑛 \"{1}\" 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕. 𐑐𐑤𐑰𐑟 𐑿𐑟 𐑩 𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑯𐑱𐑥."
+
+#: ../mail/mail.error.xml.h:3
+msgid ""
+"A non-empty folder at \"{1}\" already exists.\n"
+"\n"
+"You can choose to ignore this folder, overwrite or append its contents, or "
+"quit."
+msgstr ""
+"𐑩 𐑯𐑪𐑯-𐑧𐑥𐑐𐑑𐑦 𐑓𐑴𐑤𐑛𐑼 𐑨𐑑 \"{1}\" 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕.\n"
+"\n"
+"𐑿 𐑒𐑨𐑯 𐑗𐑵𐑟 𐑑 𐑦𐑜𐑯𐑹 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼, 𐑴𐑝𐑼𐑮𐑲𐑑 𐑹 𐑩𐑐𐑧𐑯𐑛 𐑦𐑑𐑕 𐑒𐑪𐑯𐑑𐑩𐑯𐑑𐑕, 𐑹 𐑒𐑢𐑦𐑑."
+
+#: ../mail/mail.error.xml.h:6
+msgid ""
+"A read receipt notification has been requested for \"{1}\". Send the receipt "
+"notification to {0}?"
+msgstr ""
+"𐑩 𐑮𐑧𐑛 𐑮𐑦𐑕𐑰𐑑 𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛 𐑓𐑹 \"{1}\". 𐑕𐑧𐑯𐑛 𐑞 𐑮𐑦𐑕𐑰𐑑 "
+"𐑯𐑴𐑑𐑦𐑓𐑦𐑒𐑱𐑖𐑩𐑯 𐑑 {0}?"
+
+#: ../mail/mail.error.xml.h:7
+msgid ""
+"A signature already exists with the name \"{0}\". Please specify a different "
+"name."
+msgstr ""
+"𐑩 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑢𐑦𐑞 𐑞 𐑯𐑱𐑥 \"{0}\". 𐑐𐑤𐑰𐑟 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑩 𐑛𐑦𐑓𐑼𐑩𐑯𐑑 𐑯𐑱𐑥."
+
+#: ../mail/mail.error.xml.h:8
+msgid ""
+"Adding a meaningful Subject line to your messages will give your recipients "
+"an idea of what your mail is about."
+msgstr ""
+"𐑨𐑛𐑦𐑙 𐑩 𐑥𐑰𐑯𐑦𐑙𐑓𐑩𐑤 𐑕𐑳𐑚𐑡𐑧𐑒𐑑 𐑤𐑲𐑯 𐑑 𐑿𐑼 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑦𐑤 𐑜𐑦𐑝 𐑿𐑼 𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕 𐑩𐑯 𐑲𐑛𐑾 𐑝 𐑢𐑪𐑑 "
+"𐑿𐑼 𐑥𐑱𐑤 𐑦𐑟 𐑩𐑚𐑬𐑑."
+
+#: ../mail/mail.error.xml.h:9
+msgid "Are you sure you want to delete this account and all its proxies?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑 𐑯 𐑷𐑤 𐑦𐑑𐑕 𐑐𐑮𐑪𐑒𐑕𐑦𐑟?"
+
+#: ../mail/mail.error.xml.h:10
+msgid "Are you sure you want to delete this account?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑?"
+
+#: ../mail/mail.error.xml.h:11
+msgid ""
+"Are you sure you want to disable this account and delete all its proxies?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑦𐑕𐑱𐑚𐑩𐑤 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑 𐑯 𐑛𐑦𐑤𐑰𐑑 𐑷𐑤 𐑦𐑑𐑕 𐑐𐑮𐑪𐑒𐑕𐑦𐑟?"
+
+#: ../mail/mail.error.xml.h:12
+msgid "Are you sure you want to open {0} messages at once?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑴𐑐𐑩𐑯 {0} 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕?"
+
+#: ../mail/mail.error.xml.h:13
+msgid ""
+"Are you sure you want to permanently remove all the deleted messages in all "
+"folders?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑞 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑷𐑤 𐑓𐑴𐑤𐑛𐑼𐑟?"
+
+#: ../mail/mail.error.xml.h:14
+msgid ""
+"Are you sure you want to permanently remove all the deleted messages in "
+"folder \"{0}\"?"
+msgstr ""
+"𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦 𐑮𐑦𐑥𐑵𐑝 𐑷𐑤 𐑞 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑓𐑴𐑤𐑛𐑼 \"{0}\"?"
+
+#: ../mail/mail.error.xml.h:15
+msgid "Are you sure you want to send a message in HTML format?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑦𐑯 HTML 𐑓𐑹𐑥𐑨𐑑?"
+
+#: ../mail/mail.error.xml.h:17
+msgid "Are you sure you want to send a message without a subject?"
+msgstr "𐑸 𐑿 𐑖𐑫𐑼 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑕𐑧𐑯𐑛 𐑩 𐑥𐑧𐑕𐑦𐑡 𐑢𐑦𐑞𐑬𐑑 𐑩 𐑕𐑳𐑚𐑡𐑧𐑒𐑑?"
+
+#: ../mail/mail.error.xml.h:18
+msgid "Because \"{0}\"."
+msgstr "𐑚𐑦𐑒𐑪𐑟 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:20
+msgid "Because \"{2}\"."
+msgstr "𐑚𐑦𐑒𐑪𐑟 \"{2}\"."
+
+#: ../mail/mail.error.xml.h:21
+msgid "Blank Signature"
+msgstr "𐑚𐑤𐑨𐑙𐑒 𐑕𐑦𐑜𐑯𐑩𐑗𐑼"
+
+#: ../mail/mail.error.xml.h:22
+msgid "Cannot add Search Folder \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑨𐑛 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:23
+msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑪𐑐𐑦 𐑓𐑴𐑤𐑛𐑼 \"{0}\" 𐑑 \"{1}\"."
+
+#: ../mail/mail.error.xml.h:24
+msgid "Cannot create folder \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:25
+msgid "Cannot create temporary save directory."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑑𐑧𐑥𐑐𐑼𐑼𐑦 𐑕𐑱𐑝 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦."
+
+#: ../mail/mail.error.xml.h:26
+msgid "Cannot create the save directory, because \"{1}\""
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑞 𐑕𐑱𐑝 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦, 𐑚𐑦𐑒𐑪𐑟 \"{1}\""
+
+#: ../mail/mail.error.xml.h:27
+msgid "Cannot delete folder \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑛𐑦𐑤𐑰𐑑 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:28
+msgid "Cannot delete system folder \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑛𐑦𐑤𐑰𐑑 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:29
+msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑧𐑛𐑦𐑑 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 \"{0}\" 𐑨𐑟 𐑦𐑑 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑧𐑒𐑟𐑦𐑕𐑑."
+
+#: ../mail/mail.error.xml.h:30
+msgid "Cannot move folder \"{0}\" to \"{1}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑥𐑵𐑝 𐑓𐑴𐑤𐑛𐑼 \"{0}\" 𐑑 \"{1}\"."
+
+#: ../mail/mail.error.xml.h:31
+msgid "Cannot open source \"{1}\""
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑕𐑹𐑕 \"{1}\""
+
+#: ../mail/mail.error.xml.h:32
+msgid "Cannot open source \"{2}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑕𐑹𐑕 \"{2}\"."
+
+#: ../mail/mail.error.xml.h:33
+msgid "Cannot open target \"{2}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑴𐑐𐑩𐑯 𐑑𐑸𐑜𐑧𐑑 \"{2}\"."
+
+#: ../mail/mail.error.xml.h:34
+msgid ""
+"Cannot read the license file \"{0}\", due to an installation problem. You "
+"will not be able to use this provider until you can accept its license."
+msgstr ""
+"𐑒𐑨𐑯𐑪𐑑 𐑮𐑰𐑛 𐑞 𐑤𐑲𐑕𐑩𐑯𐑕 𐑓𐑲𐑤 \"{0}\", 𐑛𐑿 𐑑 𐑩𐑯 𐑦𐑯𐑕𐑑𐑩𐑤𐑱𐑖𐑩𐑯 𐑐𐑮𐑪𐑚𐑤𐑩𐑥. 𐑿 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 "
+"𐑱𐑚𐑩𐑤 𐑑 𐑿𐑕 𐑞𐑦𐑕 𐑐𐑮𐑩𐑝𐑲𐑛𐑻 𐑳𐑯𐑑𐑦𐑤 𐑿 𐑒𐑨𐑯 𐑨𐑒𐑕𐑧𐑐𐑑 𐑦𐑑𐑕 𐑤𐑲𐑕𐑩𐑯𐑕."
+
+#: ../mail/mail.error.xml.h:35
+msgid "Cannot rename \"{0}\" to \"{1}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑮𐑰𐑯𐑱𐑥 \"{0}\" 𐑑 \"{1}\"."
+
+#: ../mail/mail.error.xml.h:36
+msgid "Cannot rename or move system folder \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑮𐑰𐑯𐑱𐑥 𐑹 𐑥𐑵𐑝 𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:37
+msgid "Cannot save changes to account."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑕𐑱𐑝 𐑗𐑱𐑯𐑡𐑩𐑟 𐑑 𐑩𐑒𐑬𐑯𐑑."
+
+#: ../mail/mail.error.xml.h:38
+msgid "Cannot save to directory \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑕𐑱𐑝 𐑑 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:39
+msgid "Cannot save to file \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑕𐑱𐑝 𐑑 𐑓𐑲𐑤 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:40
+msgid "Cannot set signature script \"{0}\"."
+msgstr "𐑒𐑨𐑯𐑪𐑑 𐑕𐑧𐑑 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑕𐑒𐑮𐑦𐑐𐑑 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:41
+msgid "Check Junk Failed"
+msgstr "𐑗𐑧𐑒 𐑡𐑩𐑙𐑒 𐑓𐑱𐑤𐑛"
+
+#: ../mail/mail.error.xml.h:42
+msgid ""
+"Check to make sure your password is spelled correctly. Remember that many "
+"passwords are case sensitive; your caps lock might be on."
+msgstr ""
+"𐑗𐑧𐑒 𐑑 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑿𐑼 𐑐𐑭𐑕𐑢𐑼𐑛 𐑦𐑟 𐑕𐑐𐑧𐑤𐑛 𐑒𐑼𐑧𐑒𐑑𐑤𐑦. 𐑮𐑦𐑥𐑧𐑥𐑚𐑼 𐑞𐑨𐑑 𐑥𐑧𐑯𐑦 𐑐𐑭𐑕𐑢𐑼𐑛𐑟 𐑸 𐑒𐑱𐑕 "
+"𐑕𐑧𐑯𐑕𐑦𐑑𐑦𐑝; 𐑿𐑼 𐑒𐑨𐑐𐑕 𐑤𐑪𐑒 𐑥𐑲𐑑 𐑚𐑰 𐑪𐑯."
+
+#: ../mail/mail.error.xml.h:43
+msgid "Could not save signature file."
+msgstr "𐑒𐑫𐑛 𐑯𐑪𐑑 𐑕𐑱𐑝 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑓𐑲𐑤."
+
+#: ../mail/mail.error.xml.h:44
+msgid "Delete messages in Search Folder \"{0}\"?"
+msgstr "𐑛𐑦𐑤𐑰𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 \"{0}\"?"
+
+#: ../mail/mail.error.xml.h:46
+msgid "Do not delete"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑛𐑦𐑤𐑰𐑑"
+
+#: ../mail/mail.error.xml.h:47
+msgid "Do not disable"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑛𐑦𐑕𐑱𐑚𐑩𐑤"
+
+#: ../mail/mail.error.xml.h:48
+msgid ""
+"Do you want to locally synchronize the folders that are marked for offline "
+"usage?"
+msgstr "𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑤𐑴𐑒𐑩𐑤𐑦 𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟 𐑞 𐑓𐑴𐑤𐑛𐑼𐑟 𐑞𐑨𐑑 𐑸 𐑥𐑸𐑒𐑑 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡?"
+
+#: ../mail/mail.error.xml.h:49
+msgid "Do you want to mark all messages as read?"
+msgstr "𐑛𐑵 𐑿 𐑢𐑪𐑯𐑑 𐑑 𐑥𐑸𐑒 𐑷𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑟 𐑮𐑧𐑛?"
+
+#: ../mail/mail.error.xml.h:50
+msgid "Do you wish to save your changes?"
+msgstr "𐑛𐑵 𐑿 𐑢𐑦𐑖 𐑑 𐑕𐑱𐑝 𐑿𐑼 𐑗𐑱𐑯𐑡𐑩𐑟?"
+
+#: ../mail/mail.error.xml.h:51
+msgid "Enter password."
+msgstr "𐑧𐑯𐑑𐑼 𐑐𐑭𐑕𐑢𐑼𐑛."
+
+#: ../mail/mail.error.xml.h:52
+msgid "Error loading filter definitions."
+msgstr "𐑻𐑼 𐑤𐑴𐑛𐑦𐑙 𐑓𐑦𐑤𐑑𐑼 𐑛𐑧𐑓𐑩𐑯𐑦𐑖𐑩𐑯𐑟."
+
+#: ../mail/mail.error.xml.h:53
+msgid "Error while performing operation."
+msgstr "𐑻𐑼 𐑢𐑲𐑤 𐑐𐑼𐑓𐑹𐑥𐑦𐑙 𐑪𐑐𐑼𐑱𐑖𐑩𐑯."
+
+#: ../mail/mail.error.xml.h:54
+msgid "Error while {0}."
+msgstr "𐑻𐑼 𐑢𐑲𐑤 {0}."
+
+#: ../mail/mail.error.xml.h:55
+msgid "File exists but cannot overwrite it."
+msgstr "𐑓𐑲𐑤 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑚𐑳𐑑 𐑒𐑨𐑯𐑪𐑑 𐑴𐑝𐑼𐑮𐑲𐑑 𐑦𐑑."
+
+#: ../mail/mail.error.xml.h:56
+msgid "File exists but is not a regular file."
+msgstr "𐑓𐑲𐑤 𐑧𐑒𐑟𐑦𐑕𐑑𐑕 𐑚𐑳𐑑 𐑦𐑟 𐑯𐑪𐑑 𐑩 𐑮𐑧𐑜𐑘𐑫𐑤𐑼 𐑓𐑲𐑤."
+
+#: ../mail/mail.error.xml.h:57
+msgid "If you continue, you will not be able to recover these messages."
+msgstr "𐑦𐑓 𐑿 𐑒𐑩𐑯𐑑𐑦𐑯𐑿, 𐑿 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 𐑱𐑚𐑩𐑤 𐑑 𐑮𐑧𐑒𐑳𐑝𐑼 𐑞𐑰𐑟 𐑥𐑧𐑕𐑦𐑡𐑩𐑟."
+
+#: ../mail/mail.error.xml.h:59
+msgid "If you proceed, all proxy accounts will be deleted permanently."
+msgstr "𐑦𐑓 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛, 𐑷𐑤 𐑐𐑮𐑪𐑒𐑕𐑦 𐑩𐑒𐑬𐑯𐑑𐑕 𐑢𐑦𐑤 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦."
+
+#: ../mail/mail.error.xml.h:60
+msgid ""
+"If you proceed, the account information and\n"
+"all proxy information will be deleted permanently."
+msgstr ""
+"𐑦𐑓 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛, 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑯\n"
+"𐑷𐑤 𐑐𐑮𐑪𐑒𐑕𐑦 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑦𐑤 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦."
+
+#: ../mail/mail.error.xml.h:62
+msgid "If you proceed, the account information will be deleted permanently."
+msgstr "𐑦𐑓 𐑿 𐑐𐑮𐑩𐑕𐑰𐑛, 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯 𐑢𐑦𐑤 𐑚𐑰 𐑛𐑦𐑤𐑰𐑑𐑩𐑛 𐑐𐑻𐑥𐑩𐑯𐑩𐑯𐑑𐑤𐑦."
+
+#: ../mail/mail.error.xml.h:63
+msgid ""
+"If you quit, these messages will not be sent until Evolution is started "
+"again."
+msgstr "𐑦𐑓 𐑿 𐑒𐑢𐑦𐑑, 𐑞𐑰𐑟 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑢𐑦𐑤 𐑯𐑪𐑑 𐑚𐑰 𐑕𐑧𐑯𐑑 𐑳𐑯𐑑𐑦𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑦𐑟 𐑕𐑑𐑸𐑑𐑩𐑛 𐑩𐑜𐑱𐑯."
+
+#: ../mail/mail.error.xml.h:64
+msgid "Ignore"
+msgstr "𐑦𐑜𐑯𐑹"
+
+#: ../mail/mail.error.xml.h:65
+msgid "Invalid authentication"
+msgstr "𐑦𐑯𐑝𐑨𐑤𐑦𐑛 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../mail/mail.error.xml.h:66
+msgid "Mail Deletion Failed"
+msgstr "𐑥𐑱𐑤 𐑛𐑦𐑤𐑰𐑖𐑩𐑯 𐑓𐑱𐑤𐑛"
+
+#: ../mail/mail.error.xml.h:67
+msgid "Mail filters automatically updated."
+msgstr "𐑥𐑱𐑤 𐑓𐑦𐑤𐑑𐑼𐑟 𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑳𐑐𐑛𐑱𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:69
+msgid "Missing folder."
+msgstr "𐑥𐑦𐑕𐑦𐑙 𐑓𐑴𐑤𐑛𐑼."
+
+#: ../mail/mail.error.xml.h:71
+msgid "No sources selected."
+msgstr "𐑯𐑴 𐑕𐑹𐑕𐑩𐑟 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:72
+msgid "Opening too many messages at once may take a long time."
+msgstr "𐑴𐑐𐑩𐑯𐑦𐑙 𐑑𐑵 𐑥𐑧𐑯𐑦 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑨𐑑 𐑢𐑳𐑯𐑕 𐑥𐑱 𐑑𐑱𐑒 𐑩 𐑤𐑪𐑙 𐑑𐑲𐑥."
+
+#: ../mail/mail.error.xml.h:73
+msgid "Please check your account settings and try again."
+msgstr "𐑐𐑤𐑰𐑟 𐑗𐑧𐑒 𐑿𐑼 𐑩𐑒𐑬𐑯𐑑 𐑕𐑧𐑑𐑦𐑙𐑟 𐑯 𐑑𐑮𐑲 𐑩𐑜𐑱𐑯."
+
+#: ../mail/mail.error.xml.h:74
+msgid "Please enable the account or send using another account."
+msgstr "𐑐𐑤𐑰𐑟 𐑦𐑯𐑱𐑚𐑩𐑤 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑹 𐑕𐑧𐑯𐑛 𐑿𐑟𐑦𐑙 𐑩𐑯𐑳𐑞𐑼 𐑩𐑒𐑬𐑯𐑑."
+
+#: ../mail/mail.error.xml.h:75
+msgid ""
+"Please enter a valid email address in the To: field. You can search for "
+"email addresses by clicking on the To: button next to the entry box."
+msgstr ""
+"𐑐𐑤𐑰𐑟 𐑧𐑯𐑑𐑼 𐑩 𐑝𐑨𐑤𐑦𐑛 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕 𐑦𐑯 𐑞 𐑑: 𐑓𐑰𐑤𐑛. 𐑿 𐑒𐑨𐑯 𐑕𐑻𐑗 𐑓𐑹 𐑰𐑥𐑱𐑤 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑚𐑲 "
+"𐑒𐑤𐑦𐑒𐑦𐑙 𐑪𐑯 𐑞 𐑑: 𐑚𐑳𐑑𐑩𐑯 𐑯𐑧𐑒𐑕𐑑 𐑑 𐑞 𐑧𐑯𐑑𐑮𐑦 𐑚𐑪𐑒𐑕."
+
+#: ../mail/mail.error.xml.h:76
+msgid ""
+"Please make sure the following recipients are willing and able to receive "
+"HTML email:\n"
+"{0}"
+msgstr ""
+"𐑐𐑤𐑰𐑟 𐑥𐑱𐑒 𐑖𐑫𐑼 𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕 𐑸 𐑢𐑦𐑤𐑦𐑙 𐑯 𐑱𐑚𐑩𐑤 𐑑 𐑮𐑦𐑕𐑰𐑝 HTML 𐑰𐑥𐑱𐑤:\n"
+"{0}"
+
+#: ../mail/mail.error.xml.h:78
+msgid "Please provide an unique name to identify this signature."
+msgstr "𐑐𐑤𐑰𐑟 𐑐𐑮𐑩𐑝𐑲𐑛 𐑩𐑯 𐑿𐑯𐑰𐑒 𐑯𐑱𐑥 𐑑 𐑲𐑛𐑧𐑯𐑑𐑦𐑓𐑲 𐑞𐑦𐑕 𐑕𐑦𐑜𐑯𐑩𐑗𐑼."
+
+#: ../mail/mail.error.xml.h:79
+msgid "Please wait."
+msgstr "𐑐𐑤𐑰𐑟 𐑢𐑱𐑑."
+
+#: ../mail/mail.error.xml.h:80
+msgid "Problem migrating old mail folder \"{0}\"."
+msgstr "𐑐𐑮𐑪𐑚𐑤𐑩𐑥 𐑥𐑲𐑜𐑮𐑱𐑑𐑦𐑙 𐑴𐑤𐑛 𐑥𐑱𐑤 𐑓𐑴𐑤𐑛𐑼 \"{0}\"."
+
+#: ../mail/mail.error.xml.h:81
+msgid "Querying server for a list of supported authentication mechanisms."
+msgstr "𐑒𐑢𐑽𐑦𐑦𐑙 𐑕𐑻𐑝𐑼 𐑓𐑹 𐑩 𐑤𐑦𐑕𐑑 𐑝 𐑕𐑩𐑐𐑹𐑑𐑩𐑛 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑥𐑧𐑒𐑩𐑯𐑦𐑟𐑥𐑟."
+
+#: ../mail/mail.error.xml.h:82
+msgid "Read receipt requested."
+msgstr "𐑮𐑧𐑛 𐑮𐑦𐑕𐑰𐑑 𐑮𐑦𐑒𐑢𐑧𐑕𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:84
+msgid "Report Junk Failed"
+msgstr "𐑮𐑩𐑐𐑹𐑑 𐑡𐑩𐑙𐑒 𐑓𐑱𐑤𐑛"
+
+#: ../mail/mail.error.xml.h:85
+msgid "Report Not Junk Failed"
+msgstr "𐑮𐑩𐑐𐑹𐑑 𐑯𐑪𐑑 𐑡𐑩𐑙𐑒 𐑓𐑱𐑤𐑛"
+
+#: ../mail/mail.error.xml.h:86
+msgid "Search Folders automatically updated."
+msgstr "𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼𐑟 𐑷𐑑𐑩𐑥𐑨𐑑𐑦𐑒𐑤𐑦 𐑳𐑐𐑛𐑱𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:87
+msgid "Send Receipt"
+msgstr "𐑕𐑧𐑯𐑛 𐑮𐑦𐑕𐑰𐑑"
+
+#: ../mail/mail.error.xml.h:88
+msgid "Signature Already Exists"
+msgstr "𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑷𐑤𐑮𐑧𐑛𐑦 𐑧𐑒𐑟𐑦𐑕𐑑𐑕"
+
+#: ../mail/mail.error.xml.h:89
+msgid "Synchronize"
+msgstr "𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟"
+
+#: ../mail/mail.error.xml.h:90
+msgid "Synchronize folders locally for offline usage?"
+msgstr "𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟 𐑓𐑴𐑤𐑛𐑼𐑟 𐑤𐑴𐑒𐑩𐑤𐑦 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑿𐑕𐑦𐑡?"
+
+#: ../mail/mail.error.xml.h:91
+msgid ""
+"System folders are required for Evolution to function correctly and cannot "
+"be renamed, moved, or deleted."
+msgstr ""
+"𐑕𐑦𐑕𐑑𐑩𐑥 𐑓𐑴𐑤𐑛𐑼𐑟 𐑸 𐑮𐑦𐑒𐑢𐑲𐑼𐑛 𐑓𐑹 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑑 𐑓𐑳𐑙𐑒𐑖𐑩𐑯 𐑒𐑼𐑧𐑒𐑑𐑤𐑦 𐑯 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑮𐑰𐑯𐑱𐑥𐑛, "
+"𐑥𐑵𐑝𐑛, 𐑹 𐑛𐑦𐑤𐑰𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:95
+msgid ""
+"The following Search Folder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼(𐑕):\n"
+"{0}\n"
+"𐑿𐑕𐑑 𐑞 𐑯𐑬 𐑮𐑦𐑥𐑵𐑝𐑛 𐑓𐑴𐑤𐑛𐑼:\n"
+"    \"{1}\"\n"
+"𐑯 𐑣𐑨𐑝 𐑚𐑰𐑯 𐑳𐑐𐑛𐑱𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:100
+msgid ""
+"The following filter rule(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"𐑞 𐑓𐑪𐑤𐑴𐑦𐑙 𐑓𐑦𐑤𐑑𐑼 𐑮𐑵𐑤(𐑕):\n"
+"{0}\n"
+"𐑿𐑕𐑑 𐑞 𐑯𐑬 𐑮𐑦𐑥𐑵𐑝𐑛 𐑓𐑴𐑤𐑛𐑼:\n"
+"    \"{1}\"\n"
+"𐑯 𐑣𐑨𐑝 𐑚𐑰𐑯 𐑳𐑐𐑛𐑱𐑑𐑩𐑛."
+
+#: ../mail/mail.error.xml.h:105
+msgid "The script file must exist and be executable."
+msgstr "𐑞 𐑕𐑒𐑮𐑦𐑐𐑑 𐑓𐑲𐑤 𐑥𐑳𐑕𐑑 𐑧𐑒𐑟𐑦𐑕𐑑 𐑯 𐑚𐑰 𐑧𐑒𐑕𐑩𐑒𐑿𐑑𐑩𐑚𐑩𐑤."
+
+#: ../mail/mail.error.xml.h:106
+msgid ""
+"This folder may have been added implicitly,\n"
+"go to the Search Folder editor to add it explicitly, if required."
+msgstr ""
+"𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼 𐑥𐑱 𐑣𐑨𐑝 𐑚𐑰𐑯 𐑨𐑛𐑩𐑛 𐑦𐑥𐑐𐑤𐑦𐑕𐑩𐑑𐑤𐑰,\n"
+"𐑜𐑴 𐑑 𐑞 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑧𐑛𐑦𐑑𐑹 𐑑 𐑨𐑛 𐑦𐑑 𐑦𐑒𐑕𐑐𐑤𐑦𐑕𐑩𐑑𐑤𐑰, 𐑦𐑓 𐑮𐑦𐑒𐑢𐑲𐑼𐑛."
+
+#: ../mail/mail.error.xml.h:108
+msgid ""
+"This message cannot be sent because the account you chose to send with is "
+"not enabled"
+msgstr "𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑕𐑧𐑯𐑑 𐑚𐑦𐑒𐑪𐑟 𐑞 𐑩𐑒𐑬𐑯𐑑 𐑿 𐑗𐑴𐑟 𐑑 𐑕𐑧𐑯𐑛 𐑢𐑦𐑞 𐑦𐑟 𐑯𐑪𐑑 𐑦𐑯𐑱𐑚𐑩𐑤𐑛"
+
+#: ../mail/mail.error.xml.h:109
+msgid ""
+"This message cannot be sent because you have not specified any recipients"
+msgstr "𐑞𐑦𐑕 𐑥𐑧𐑕𐑦𐑡 𐑒𐑨𐑯𐑪𐑑 𐑚𐑰 𐑕𐑧𐑯𐑑 𐑚𐑦𐑒𐑪𐑟 𐑿 𐑣𐑨𐑝 𐑯𐑪𐑑 𐑕𐑐𐑧𐑕𐑦𐑓𐑲𐑛 𐑧𐑯𐑦 𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕"
+
+#: ../mail/mail.error.xml.h:110
+msgid ""
+"This server does not support this type of authentication and may not support "
+"authentication at all."
+msgstr ""
+"𐑞𐑦𐑕 𐑕𐑻𐑝𐑼 𐑛𐑳𐑟 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑞𐑦𐑕 𐑑𐑲𐑐 𐑝 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑯 𐑥𐑱 𐑯𐑪𐑑 𐑕𐑩𐑐𐑹𐑑 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯 𐑨𐑑 "
+"𐑷𐑤."
+
+#: ../mail/mail.error.xml.h:111
+msgid "This signature has been changed, but has not been saved."
+msgstr "𐑞𐑦𐑕 𐑕𐑦𐑜𐑯𐑩𐑗𐑼 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑗𐑱𐑯𐑡𐑛, 𐑚𐑳𐑑 𐑣𐑨𐑟 𐑯𐑪𐑑 𐑚𐑰𐑯 𐑕𐑱𐑝𐑛."
+
+#: ../mail/mail.error.xml.h:114
+msgid ""
+"Unable to open the drafts folder for this account. Use the system drafts "
+"folder instead?"
+msgstr ""
+"𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑴𐑐𐑩𐑯 𐑞 𐑛𐑮𐑭𐑓𐑑𐑕 𐑓𐑴𐑤𐑛𐑼 𐑓𐑹 𐑞𐑦𐑕 𐑩𐑒𐑬𐑯𐑑. 𐑿𐑟 𐑞 𐑕𐑦𐑕𐑑𐑩𐑥 𐑛𐑮𐑭𐑓𐑑𐑕 𐑓𐑴𐑤𐑛𐑼 𐑦𐑯𐑕𐑑𐑧𐑛?"
+
+#: ../mail/mail.error.xml.h:115
+msgid "Unable to read license file."
+msgstr "𐑳𐑯𐑱𐑚𐑩𐑤 𐑑 𐑮𐑰𐑛 𐑤𐑲𐑕𐑩𐑯𐑕 𐑓𐑲𐑤."
+
+#: ../mail/mail.error.xml.h:116
+msgid "Use _Default"
+msgstr "𐑿𐑟 _𐑛𐑦𐑓𐑷𐑤𐑑"
+
+#: ../mail/mail.error.xml.h:117
+msgid "Use default drafts folder?"
+msgstr "𐑿𐑟 𐑛𐑦𐑓𐑷𐑤𐑑 𐑛𐑮𐑭𐑓𐑑𐑕 𐑓𐑴𐑤𐑛𐑼?"
+
+#: ../mail/mail.error.xml.h:118
+msgid ""
+"Warning: Deleting messages from a Search Folder will delete the actual "
+"message from one of your local or remote folders.\n"
+"Do you really want to do this?"
+msgstr ""
+"𐑢𐑹𐑯𐑦𐑙: 𐑛𐑦𐑤𐑰𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑓𐑮𐑪𐑥 𐑩 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼 𐑢𐑦𐑤 𐑛𐑦𐑤𐑰𐑑 𐑞 𐑨𐑒𐑗𐑫𐑩𐑤 𐑥𐑧𐑕𐑦𐑡 𐑓𐑮𐑪𐑥 𐑢𐑳𐑯 𐑝 "
+"𐑿𐑼 𐑤𐑴𐑒𐑩𐑤 𐑹 𐑮𐑦𐑥𐑴𐑑 𐑓𐑴𐑤𐑛𐑼𐑟.\n"
+"𐑛𐑵 𐑿 𐑮𐑾𐑤𐑦 𐑢𐑪𐑯𐑑 𐑑 𐑛𐑵 𐑞𐑦𐑕?"
+
+#: ../mail/mail.error.xml.h:120
+msgid "You do not have sufficient permissions to delete this mail."
+msgstr "𐑿 𐑛𐑵 𐑯𐑪𐑑 𐑣𐑨𐑝 𐑕𐑩𐑓𐑦𐑖𐑩𐑯𐑑 𐑐𐑻𐑥𐑦𐑖𐑪𐑯𐑟 𐑑 𐑛𐑦𐑤𐑰𐑑 𐑞𐑦𐑕 𐑥𐑱𐑤."
+
+#: ../mail/mail.error.xml.h:121
+msgid "You have not filled in all of the required information."
+msgstr "𐑿 𐑣𐑨𐑝 𐑯𐑪𐑑 𐑓𐑦𐑤𐑛 𐑦𐑯 𐑷𐑤 𐑝 𐑞 𐑮𐑦𐑒𐑢𐑲𐑼𐑛 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯."
+
+#: ../mail/mail.error.xml.h:123
+msgid "You may not create two accounts with the same name."
+msgstr "𐑿 𐑥𐑱 𐑯𐑪𐑑 𐑒𐑮𐑦𐑱𐑑 𐑑𐑵 𐑩𐑒𐑬𐑯𐑑𐑕 𐑢𐑦𐑞 𐑞 𐑕𐑱𐑥 𐑯𐑱𐑥."
+
+#: ../mail/mail.error.xml.h:124
+msgid "You must name this Search Folder."
+msgstr "𐑿 𐑥𐑳𐑕𐑑 𐑯𐑱𐑥 𐑞𐑦𐑕 𐑕𐑻𐑗 𐑓𐑴𐑤𐑛𐑼."
+
+#: ../mail/mail.error.xml.h:125
+msgid "You must specify a folder."
+msgstr "𐑿 𐑥𐑳𐑕𐑑 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑩 𐑓𐑴𐑤𐑛𐑼."
+
+#: ../mail/mail.error.xml.h:126
+msgid ""
+"You must specify at least one folder as a source.\n"
+"Either by selecting the folders individually, and/or by selecting all local "
+"folders, all remote folders, or both."
+msgstr ""
+"𐑿 𐑥𐑳𐑕𐑑 𐑕𐑐𐑧𐑕𐑦𐑓𐑲 𐑨𐑑 𐑤𐑰𐑕𐑑 𐑢𐑳𐑯 𐑓𐑴𐑤𐑛𐑼 𐑨𐑟 𐑩 𐑕𐑹𐑕.\n"
+"𐑲𐑞𐑼 𐑚𐑲 𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞 𐑓𐑴𐑤𐑛𐑼𐑟 𐑦𐑯𐑛𐑦𐑝𐑦𐑛𐑿𐑩𐑤𐑦, 𐑯/𐑹 𐑚𐑲 𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑷𐑤 𐑤𐑴𐑒𐑩𐑤 𐑓𐑴𐑤𐑛𐑼𐑟, 𐑷𐑤 "
+"𐑮𐑦𐑥𐑴𐑑 𐑓𐑴𐑤𐑛𐑼𐑟, 𐑹 𐑚𐑴𐑔."
+
+#: ../mail/mail.error.xml.h:128
+msgid "Your login to your server \"{0}\" as \"{0}\" failed."
+msgstr "𐑿𐑼 𐑤𐑪𐑜𐑦𐑯 𐑑 𐑿𐑼 𐑕𐑻𐑝𐑼 \"{0}\" 𐑨𐑟 \"{0}\" 𐑓𐑱𐑤𐑛."
+
+#: ../mail/mail.error.xml.h:129
+msgid "_Append"
+msgstr "_𐑩𐑐𐑧𐑯𐑛"
+
+#: ../mail/mail.error.xml.h:130
+msgid "_Discard changes"
+msgstr "_𐑛𐑦𐑕𐑒𐑭𐑮𐑛 𐑗𐑱𐑯𐑡𐑩𐑟"
+
+#: ../mail/mail.error.xml.h:131
+msgid "_Do not Synchronize"
+msgstr "_𐑛𐑵 𐑯𐑪𐑑 𐑕𐑦𐑙𐑒𐑮𐑩𐑯𐑲𐑟"
+
+#: ../mail/mail.error.xml.h:132
+#: ../modules/mail/e-mail-shell-view-actions.c:1060
+msgid "_Empty Trash"
+msgstr "_𐑧𐑥𐑐𐑑𐑦 𐑑𐑮𐑨𐑖"
+
+#: ../mail/mail.error.xml.h:133
+msgid "_Expunge"
+msgstr "_𐑦𐑒𐑕𐑐𐑩𐑯𐑡"
+
+#: ../mail/mail.error.xml.h:134
+msgid "_Open Messages"
+msgstr "_𐑴𐑐𐑩𐑯 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/message-list.c:1068
+msgid "Unseen"
+msgstr "𐑩𐑯𐑕𐑰𐑯"
+
+#: ../mail/message-list.c:1069
+msgid "Seen"
+msgstr "𐑕𐑰𐑯"
+
+#: ../mail/message-list.c:1070
+msgid "Answered"
+msgstr "𐑭𐑯𐑕𐑼𐑛"
+
+#: ../mail/message-list.c:1071
+msgid "Forwarded"
+msgstr "𐑓𐑪𐑮𐑢𐑻𐑛𐑦𐑛"
+
+#: ../mail/message-list.c:1072
+msgid "Multiple Unseen Messages"
+msgstr "𐑥𐑳𐑤𐑑𐑦𐑐𐑩𐑤 𐑩𐑯𐑕𐑰𐑯 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/message-list.c:1073
+msgid "Multiple Messages"
+msgstr "𐑥𐑳𐑤𐑑𐑦𐑐𐑩𐑤 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/message-list.c:1077
+msgid "Lowest"
+msgstr "𐑤𐑴𐑩𐑕𐑑"
+
+#: ../mail/message-list.c:1078
+msgid "Lower"
+msgstr "𐑤𐑴𐑼"
+
+#: ../mail/message-list.c:1082
+msgid "Higher"
+msgstr "𐑣𐑲𐑼"
+
+#: ../mail/message-list.c:1083
+msgid "Highest"
+msgstr "𐑣𐑲𐑩𐑕𐑑"
+
+#: ../mail/message-list.c:1712 ../widgets/table/e-cell-date.c:46
+msgid "?"
+msgstr "?"
+
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
+#: ../mail/message-list.c:1719 ../plugins/itip-formatter/itip-view.c:205
+msgid "Today %l:%M %p"
+msgstr "𐑑𐑫𐑛𐑱 %l:%M %p"
+
+#: ../mail/message-list.c:1728
+msgid "Yesterday %l:%M %p"
+msgstr "𐑘𐑧𐑕𐑑𐑼𐑛𐑱 %l:%M %p"
+
+#: ../mail/message-list.c:1740
+msgid "%a %l:%M %p"
+msgstr "%a %l:%M %p"
+
+#: ../mail/message-list.c:1748
+msgid "%b %d %l:%M %p"
+msgstr "%b %d %l:%M %p"
+
+#: ../mail/message-list.c:1750
+msgid "%b %d %Y"
+msgstr "%b %d %𐑢𐑲"
+
+#: ../mail/message-list.c:2510 ../shell/e-shell-view.c:534
+msgid "Shell Backend"
+msgstr "𐑖𐑧𐑤 𐑚𐑨𐑒𐑧𐑯𐑛"
+
+#. there is some info why the message list is empty, let it be something useful
+#: ../mail/message-list.c:4263 ../mail/message-list.c:4743
+msgid "Generating message list"
+msgstr "𐑡𐑧𐑯𐑼𐑱𐑑𐑦𐑙 𐑥𐑧𐑕𐑦𐑡 𐑤𐑦𐑕𐑑"
+
+#: ../mail/message-list.c:4578
+msgid ""
+"No message satisfies your search criteria. Either clear search with Search-"
+">Clear menu item or change it."
+msgstr ""
+"𐑯𐑴 𐑥𐑧𐑕𐑦𐑡 𐑕𐑨𐑑𐑦𐑕𐑓𐑲𐑟 𐑿𐑼 𐑕𐑻𐑗 𐑒𐑮𐑲𐑑𐑦𐑮𐑰𐑩. 𐑲𐑞𐑼 𐑒𐑤𐑽 𐑕𐑻𐑗 𐑢𐑦𐑞 𐑕𐑻𐑗->𐑒𐑤𐑽 𐑥𐑧𐑯𐑿 𐑲𐑑𐑩𐑥 𐑹 𐑗𐑱𐑯𐑡 "
+"𐑦𐑑."
+
+#: ../mail/message-list.c:4580
+msgid ""
+"There are only hidden messages in this folder. Use View->Show Hidden "
+"Messages to show them."
+msgstr ""
+"𐑞𐑺 𐑸 𐑴𐑯𐑤𐑦 𐑣𐑦𐑛𐑩𐑯 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼. 𐑿𐑟 𐑝𐑿->𐑖𐑴 𐑣𐑦𐑛𐑩𐑯 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑑 𐑖𐑴 𐑞𐑧𐑥."
+
+#: ../mail/message-list.c:4582
+msgid "There are no messages in this folder."
+msgstr "𐑞𐑺 𐑸 𐑯𐑴 𐑥𐑧𐑕𐑦𐑡𐑩𐑟 𐑦𐑯 𐑞𐑦𐑕 𐑓𐑴𐑤𐑛𐑼."
+
+#: ../mail/message-list.etspec.h:3
+msgid "Due By"
+msgstr "𐑛𐑿 𐑚𐑲"
+
+#: ../mail/message-list.etspec.h:4
+msgid "Flag Status"
+msgstr "𐑓𐑤𐑨𐑜 𐑕𐑑𐑱𐑑𐑫𐑕"
+
+#: ../mail/message-list.etspec.h:5
+msgid "Flagged"
+msgstr "𐑓𐑤𐑨𐑜𐑛"
+
+#: ../mail/message-list.etspec.h:6
+msgid "Follow Up Flag"
+msgstr "𐑓𐑪𐑤𐑴 𐑳𐑐 𐑓𐑤𐑨𐑜"
+
+#: ../mail/message-list.etspec.h:11
+msgid "Received"
+msgstr "𐑮𐑦𐑕𐑰𐑝𐑛"
+
+#: ../mail/message-list.etspec.h:15
+msgid "Sent Messages"
+msgstr "𐑕𐑧𐑯𐑑 𐑥𐑧𐑕𐑦𐑡𐑩𐑟"
+
+#: ../mail/message-list.etspec.h:16
+#: ../widgets/misc/e-attachment-tree-view.c:542
+msgid "Size"
+msgstr "𐑕𐑲𐑟"
+
+#: ../mail/message-list.etspec.h:19
+msgid "Subject - Trimmed"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 - 𐑑𐑮𐑦𐑥𐑛"
+
+#: ../mail/message-tag-followup.c:54
+msgid "Call"
+msgstr "𐑒𐑷𐑤"
+
+#: ../mail/message-tag-followup.c:55
+msgid "Do Not Forward"
+msgstr "𐑛𐑵 𐑯𐑪𐑑 𐑓𐑹𐑢𐑼𐑛"
+
+#: ../mail/message-tag-followup.c:56
+msgid "Follow-Up"
+msgstr "𐑓𐑪𐑤𐑴-𐑳𐑐"
+
+#: ../mail/message-tag-followup.c:57
+msgid "For Your Information"
+msgstr "𐑓𐑹 𐑿𐑼 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../mail/message-tag-followup.c:58
+msgid "Forward"
+msgstr "𐑓𐑹𐑢𐑼𐑛"
+
+#: ../mail/message-tag-followup.c:59
+msgid "No Response Necessary"
+msgstr "𐑯𐑴 𐑮𐑦𐑕𐑐𐑪𐑯𐑕 𐑯𐑧𐑕𐑩𐑕𐑼𐑦"
+
+#: ../mail/message-tag-followup.c:63
+msgid "Reply to All"
+msgstr "𐑮𐑦𐑐𐑤𐑲 𐑑 𐑷𐑤"
+
+#: ../mail/message-tag-followup.c:64
+msgid "Review"
+msgstr "𐑮𐑦𐑝𐑿"
+
+#: ../mail/searchtypes.xml.h:1 ../modules/mail/e-mail-shell-view-actions.c:1450
+msgid "Body contains"
+msgstr "𐑚𐑪𐑛𐑦 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../mail/searchtypes.xml.h:2 ../modules/mail/e-mail-shell-view-actions.c:1457
+msgid "Message contains"
+msgstr "𐑥𐑧𐑕𐑦𐑡 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../mail/searchtypes.xml.h:3 ../modules/mail/e-mail-shell-view-actions.c:1464
+msgid "Recipients contain"
+msgstr "𐑮𐑦𐑕𐑦𐑐𐑰𐑩𐑯𐑑𐑕 𐑒𐑩𐑯𐑑𐑱𐑯"
+
+#: ../mail/searchtypes.xml.h:4 ../modules/mail/e-mail-shell-view-actions.c:1471
+msgid "Sender contains"
+msgstr "𐑕𐑧𐑯𐑛𐑻 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../mail/searchtypes.xml.h:5 ../modules/mail/e-mail-shell-view-actions.c:1478
+msgid "Subject contains"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../mail/searchtypes.xml.h:6
+msgid "Subject or Addresses contains"
+msgstr "𐑕𐑩𐑚𐑡𐑧𐑒𐑑 𐑹 𐑩𐑛𐑮𐑧𐑕𐑩𐑟 𐑒𐑩𐑯𐑑𐑱𐑯𐑟"
+
+#: ../modules/addressbook/addressbook-config.c:212
+msgid ""
+"Selecting this option means that Evolution will only connect to your LDAP "
+"server if your LDAP server supports SSL."
+msgstr ""
+"𐑕𐑩𐑤𐑧𐑒𐑑𐑦𐑙 𐑞𐑦𐑕 𐑪𐑐𐑖𐑩𐑯 𐑥𐑰𐑯𐑟 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑 𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼 𐑦𐑓 "
+"𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼 𐑕𐑩𐑐𐑹𐑑𐑕 SSL."
+
+#: ../modules/addressbook/addressbook-config.c:341
+msgid "Base"
+msgstr "𐑚𐑱𐑕"
+
+#: ../modules/addressbook/addressbook-config.c:638
+msgid "Use in _Birthday & Anniversaries calendar"
+msgstr "𐑿𐑟 𐑦𐑯 _𐑚𐑻𐑔𐑛𐑱 & 𐑨𐑯𐑩𐑝𐑻𐑕𐑻𐑰𐑟 𐑒𐑨𐑤𐑩𐑯𐑛𐑼"
+
+#: ../modules/addressbook/addressbook-config.c:674
+msgid "Copy _book content locally for offline operation"
+msgstr "𐑒𐑪𐑐𐑦 _𐑚𐑫𐑒 𐑒𐑪𐑯𐑑𐑧𐑯𐑑 𐑤𐑴𐑒𐑩𐑤𐑦 𐑓𐑹 𐑪𐑓𐑤𐑲𐑯 𐑪𐑐𐑼𐑱𐑖𐑩𐑯"
+
+#: ../modules/addressbook/addressbook-config.c:785
+msgid ""
+"This is the port on the LDAP server that Evolution will try to connect to. A "
+"list of standard ports has been provided. Ask your system administrator what "
+"port you should specify."
+msgstr ""
+"𐑞𐑦𐑕 𐑦𐑟 𐑞 𐑐𐑹𐑑 𐑪𐑯 𐑞 LDAP 𐑕𐑻𐑝𐑼 𐑞𐑨𐑑 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑑𐑮𐑲 𐑑 𐑒𐑩𐑯𐑧𐑒𐑑 𐑑. 𐑩 𐑤𐑦𐑕𐑑 𐑝 "
+"𐑕𐑑𐑨𐑯𐑛𐑼𐑛 𐑐𐑹𐑑𐑕 𐑣𐑨𐑟 𐑚𐑰𐑯 𐑐𐑮𐑩𐑝𐑲𐑛𐑩𐑛. 𐑭𐑕𐑒 𐑿𐑼 𐑕𐑦𐑕𐑑𐑩𐑥 𐑩𐑛𐑥𐑦𐑯𐑦𐑕𐑑𐑮𐑱𐑑𐑼 𐑢𐑪𐑑 𐑐𐑹𐑑 𐑿 𐑖𐑫𐑛 "
+"𐑕𐑐𐑧𐑕𐑦𐑓𐑲."
+
+#: ../modules/addressbook/addressbook-config.c:863
+msgid ""
+"This is the method Evolution will use to authenticate you.  Note that "
+"setting this to \"Email Address\" requires anonymous access to your LDAP "
+"server."
+msgstr ""
+"𐑞𐑦𐑕 𐑦𐑟 𐑞 𐑥𐑧𐑔𐑩𐑛 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑢𐑦𐑤 𐑿𐑕 𐑑 𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑑 𐑿.  𐑯𐑴𐑑 𐑞𐑨𐑑 𐑕𐑧𐑑𐑦𐑙 𐑞𐑦𐑕 𐑑 \"𐑰𐑥𐑱𐑤 "
+"𐑩𐑛𐑮𐑧𐑕\" 𐑮𐑦𐑒𐑢𐑲𐑼𐑟 𐑩𐑯𐑪𐑯𐑦𐑥𐑩𐑕 𐑨𐑒𐑕𐑧𐑕 𐑑 𐑿𐑼 LDAP 𐑕𐑻𐑝𐑼."
+
+#: ../modules/addressbook/addressbook-config.c:942
+msgid ""
+"The search scope defines how deep you would like the search to extend down "
+"the directory tree. A search scope of \"sub\" will include all entries below "
+"your search base. A search scope of \"one\" will only include the entries "
+"one level beneath your base."
+msgstr ""
+"𐑞 𐑕𐑻𐑗 𐑕𐑒𐑴𐑐 𐑛𐑦𐑓𐑲𐑯𐑟 𐑣𐑬 𐑛𐑰𐑐 𐑿 𐑢𐑫𐑛 𐑤𐑲𐑒 𐑞 𐑕𐑻𐑗 𐑑 𐑦𐑒𐑕𐑑𐑧𐑯𐑛 𐑛𐑬𐑯 𐑞 𐑛𐑲𐑮𐑧𐑒𐑑𐑼𐑦 𐑑𐑮𐑰. 𐑩 𐑕𐑻𐑗 "
+"𐑕𐑒𐑴𐑐 𐑝 \"𐑕𐑳𐑚\" 𐑢𐑦𐑤 𐑦𐑯𐑒𐑤𐑵𐑛 𐑷𐑤 𐑧𐑯𐑑𐑮𐑦𐑟 𐑚𐑩𐑤𐑴 𐑿𐑼 𐑕𐑻𐑗 𐑚𐑱𐑕. 𐑩 𐑕𐑻𐑗 𐑕𐑒𐑴𐑐 𐑝 \"𐑢𐑳𐑯\" "
+"𐑢𐑦𐑤 𐑴𐑯𐑤𐑦 𐑦𐑯𐑒𐑤𐑵𐑛 𐑞 𐑧𐑯𐑑𐑮𐑦𐑟 𐑢𐑳𐑯 𐑤𐑧𐑝𐑩𐑤 𐑚𐑦𐑯𐑰𐑔 𐑿𐑼 𐑚𐑱𐑕."
+
+#: ../modules/addressbook/addressbook-config.c:1052
+msgid "Server Information"
+msgstr "𐑕𐑻𐑝𐑼 𐑦𐑯𐑓𐑼𐑥𐑱𐑖𐑩𐑯"
+
+#: ../modules/addressbook/addressbook-config.c:1054
+msgid "Authentication"
+msgstr "𐑷𐑔𐑧𐑯𐑑𐑦𐑒𐑱𐑖𐑩𐑯"
+
+#: ../modules/addressbook/addressbook-config.c:1057
+#: ../modules/addressbook/ldap-config.glade.h:15
+#: ../smime/gui/smime-ui.glade.h:20
+msgid "Details"
+msgstr "𐑛𐑰𐑑𐑱𐑤𐑟"
+
+#: ../modules/addressbook/addressbook-config.c:1058
+msgid "Searching"
+msgstr "𐑕𐑻𐑗𐑦𐑙"
+
+#: ../modules/addressbook/addressbook-config.c:1060
+msgid "Downloading"
+msgstr "𐑛𐑬𐑯𐑤𐑴𐑛𐑦𐑙"
+
+#: ../modules/addressbook/addressbook-config.c:1270
+#: ../modules/addressbook/ldap-config.glade.h:9
+msgid "Address Book Properties"
+msgstr "𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑐𐑮𐑪𐑐𐑼𐑑𐑦𐑟"
+
+#: ../modules/addressbook/addressbook-config.c:1272
+msgid "New Address Book"
+msgstr "𐑯𐑿 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
+msgid "Contact layout style"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑱𐑬𐑑 𐑕𐑑𐑲𐑤"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
+msgid "Contact preview pane position (horizontal)"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑐𐑩𐑟𐑦𐑖𐑩𐑯 (𐑣𐑪𐑮𐑦𐑟𐑪𐑯𐑑𐑩𐑤)"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
+msgid "Contact preview pane position (vertical)"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑐𐑩𐑟𐑦𐑖𐑩𐑯 (𐑝𐑻𐑑𐑦𐑒𐑩𐑤)"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
+msgid "Position of the contact preview pane when oriented horizontally."
+msgstr "𐑐𐑩𐑟𐑦𐑖𐑩𐑯 𐑝 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑢𐑧𐑯 𐑪𐑮𐑰𐑧𐑯𐑑𐑩𐑛 𐑣𐑪𐑮𐑦𐑟𐑪𐑯𐑑𐑩𐑤𐑦."
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:8
+msgid "Position of the contact preview pane when oriented vertically."
+msgstr "𐑐𐑩𐑟𐑦𐑖𐑩𐑯 𐑝 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑢𐑧𐑯 𐑪𐑮𐑰𐑧𐑯𐑑𐑩𐑛 𐑝𐑻𐑑𐑦𐑒𐑩𐑤𐑦."
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
+msgid "Show preview pane"
+msgstr "𐑖𐑴 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the contact list. \"0\" (Classic View) places the preview pane below the "
+"contact list. \"1\" (Vertical View) places the preview pane next to the "
+"contact list."
+msgstr ""
+"𐑞 𐑤𐑱𐑬𐑑 𐑕𐑑𐑲𐑤 𐑛𐑦𐑑𐑻𐑥𐑦𐑯𐑟 𐑢𐑺 𐑑 𐑐𐑤𐑱𐑕 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑦𐑯 𐑮𐑦𐑤𐑱𐑖𐑩𐑯 𐑑 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑. "
+"\"0\" (𐑒𐑤𐑨𐑕𐑦𐑒 𐑝𐑿) 𐑐𐑤𐑱𐑕𐑩𐑟 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑚𐑩𐑤𐑴 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑. \"1\" (𐑝𐑻𐑑𐑦𐑒𐑩𐑤 𐑝𐑿) "
+"𐑐𐑤𐑱𐑕𐑩𐑟 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑯𐑧𐑒𐑕𐑑 𐑑 𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑."
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
+msgid "URI for the folder last used in the select names dialog"
+msgstr "URI 𐑓𐑹 𐑞 𐑓𐑴𐑤𐑛𐑼 𐑤𐑭𐑕𐑑 𐑿𐑕𐑑 𐑦𐑯 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑 𐑯𐑱𐑥𐑟 𐑛𐑲𐑩𐑤𐑪𐑜"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
+msgid "URI for the folder last used in the select names dialog."
+msgstr "URI 𐑓𐑹 𐑞 𐑓𐑴𐑤𐑛𐑼 𐑤𐑭𐑕𐑑 𐑿𐑕𐑑 𐑦𐑯 𐑞 𐑕𐑩𐑤𐑧𐑒𐑑 𐑯𐑱𐑥𐑟 𐑛𐑲𐑩𐑤𐑪𐑜."
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
+msgid "Whether to show the preview pane."
+msgstr "𐑢𐑧𐑞𐑼 𐑑 𐑖𐑴 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯."
+
+#: ../modules/addressbook/autocompletion-config.c:153
+msgid "Date/Time Format"
+msgstr "𐑛𐑱𐑑/𐑑𐑲𐑥 𐑓𐑹𐑥𐑨𐑑"
+
+#: ../modules/addressbook/autocompletion-config.c:159
+#: ../modules/mail/em-mailer-prefs.c:1147
+msgid "Table column:"
+msgstr "𐑑𐑱𐑚𐑩𐑤 𐑒𐑪𐑤𐑩𐑥:"
+
+#. Create the LDAP source group
+#: ../modules/addressbook/e-book-shell-backend.c:190
+#: ../modules/addressbook/e-book-shell-migrate.c:517
+msgid "On LDAP Servers"
+msgstr "𐑪𐑯 LDAP 𐑕𐑻𐑝𐑼𐑟"
+
+#: ../modules/addressbook/e-book-shell-backend.c:340
+msgctxt "New"
+msgid "_Contact"
+msgstr "_𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-backend.c:342
+#: ../modules/addressbook/e-book-shell-view-actions.c:703
+msgid "Create a new contact"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-backend.c:347
+msgctxt "New"
+msgid "Contact _List"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑 _𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-backend.c:349
+#: ../modules/addressbook/e-book-shell-view-actions.c:710
+msgid "Create a new contact list"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-backend.c:357
+msgctxt "New"
+msgid "Address _Book"
+msgstr "𐑩𐑛𐑮𐑧𐑕 _𐑚𐑫𐑒"
+
+#: ../modules/addressbook/e-book-shell-backend.c:359
+#: ../modules/addressbook/e-book-shell-view-actions.c:619
+msgid "Create a new address book"
+msgstr "𐑒𐑮𐑦𐑱𐑑 𐑩 𐑯𐑿 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒"
+
+#. Create the contacts group
+#: ../modules/addressbook/e-book-shell-backend.c:376
+#: ../modules/addressbook/e-book-shell-view.c:378
+#: ../modules/calendar/e-cal-shell-backend.c:121
+#: ../modules/calendar/e-cal-shell-migrate.c:480
+msgid "Contacts"
+msgstr "𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕"
+
+#: ../modules/addressbook/e-book-shell-backend.c:596
+#: ../modules/calendar/e-cal-shell-backend.c:759
+#: ../modules/calendar/e-memo-shell-backend.c:583
+#: ../modules/calendar/e-task-shell-backend.c:593
+msgid "Source List"
+msgstr "𐑕𐑹𐑕 𐑤𐑦𐑕𐑑"
+
+#: ../modules/addressbook/e-book-shell-backend.c:597
+msgid "The registry of address books"
+msgstr "𐑞 𐑮𐑧𐑡𐑦𐑕𐑑𐑮𐑰 𐑝 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕"
+
+#: ../modules/addressbook/e-book-shell-content.c:313
+msgid "Current View"
+msgstr "𐑒𐑳𐑮𐑩𐑯𐑑 𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-content.c:314
+msgid "The currently selected address book view"
+msgstr "𐑞 𐑒𐑳𐑮𐑩𐑯𐑑𐑤𐑦 𐑕𐑩𐑤𐑧𐑒𐑑𐑩𐑛 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒 𐑝𐑿"
+
+#: ../modules/addressbook/e-book-shell-content.c:323
+msgid "Previewed Contact"
+msgstr "𐑐𐑮𐑰𐑝𐑘𐑵𐑛 𐑒𐑪𐑯𐑑𐑨𐑒𐑑"
+
+#: ../modules/addressbook/e-book-shell-content.c:324
+msgid "The contact being shown in the preview pane"
+msgstr "𐑞 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑚𐑰𐑦𐑙 𐑖𐑴𐑯 𐑦𐑯 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯"
+
+#: ../modules/addressbook/e-book-shell-content.c:333
+#: ../modules/calendar/e-memo-shell-content.c:607
+#: ../modules/calendar/e-task-shell-content.c:630
+#: ../modules/mail/e-mail-shell-content.c:725
+msgid "Preview is Visible"
+msgstr "𐑐𐑮𐑰𐑝𐑿 𐑦𐑟 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../modules/addressbook/e-book-shell-content.c:334
+#: ../modules/calendar/e-memo-shell-content.c:608
+#: ../modules/calendar/e-task-shell-content.c:631
+#: ../modules/mail/e-mail-shell-content.c:726
+msgid "Whether the preview pane is visible"
+msgstr "𐑢𐑧𐑞𐑼 𐑞 𐑐𐑮𐑰𐑝𐑿 𐑐𐑱𐑯 𐑦𐑟 𐑝𐑦𐑕𐑦𐑚𐑩𐑤"
+
+#: ../modules/addressbook/e-book-shell-migrate.c:76
+#: ../modules/calendar/e-cal-shell-migrate.c:123
+#: ../modules/calendar/e-task-shell-migrate.c:90
+#: ../modules/mail/e-mail-shell-migrate.c:1106
+msgid "Migrating..."
+msgstr "𐑥𐑲𐑜𐑮𐑱𐑑𐑦𐑙..."
+
+#: ../modules/addressbook/e-book-shell-migrate.c:128
+#: ../modules/calendar/e-cal-shell-migrate.c:165
+#: ../modules/calendar/e-task-shell-migrate.c:132
+#: ../modules/mail/e-mail-shell-migrate.c:1179
+#, c-format
+msgid "Migrating '%s':"
+msgstr "𐑥𐑲𐑜𐑮𐑱𐑑𐑦𐑙 '%s':"
+
+#: ../modules/addressbook/e-book-shell-migrate.c:645
+msgid "LDAP Servers"
+msgstr "LDAP 𐑕𐑻𐑝𐑼𐑟"
+
+#: ../modules/addressbook/e-book-shell-migrate.c:1152
+msgid ""
+"The location and hierarchy of the Evolution contact folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑤𐑴𐑒𐑱𐑖𐑩𐑯 𐑯 𐑣𐑲𐑻𐑭𐑮𐑒𐑰 𐑝 𐑞 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑒𐑪𐑯𐑑𐑨𐑒𐑑 𐑓𐑴𐑤𐑛𐑼𐑟 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛 𐑕𐑦𐑯𐑕 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 1."
+"𐑧𐑒𐑕.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#: ../modules/addressbook/e-book-shell-migrate.c:1166
+msgid ""
+"The format of mailing list contacts has changed.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑓𐑹𐑥𐑨𐑑 𐑝 𐑥𐑱𐑤𐑦𐑙 𐑤𐑦𐑕𐑑 𐑒𐑪𐑯𐑑𐑨𐑒𐑑𐑕 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#: ../modules/addressbook/e-book-shell-migrate.c:1175
+msgid ""
+"The way Evolution stores some phone numbers has changed.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"𐑞 𐑢𐑱 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑕𐑑𐑹𐑟 𐑕𐑳𐑥 𐑓𐑴𐑯 𐑯𐑳𐑥𐑚𐑼𐑟 𐑣𐑨𐑟 𐑗𐑱𐑯𐑡𐑛.\n"
+"\n"
+"𐑐𐑤𐑰𐑟 𐑚𐑰 𐑐𐑱𐑖𐑩𐑯𐑑 𐑢𐑲𐑤 ·𐑧𐑝𐑩𐑤𐑵𐑖𐑩𐑯 𐑥𐑲𐑜𐑮𐑱𐑑𐑕 𐑿𐑼 𐑓𐑴𐑤𐑛𐑼𐑟..."
+
+#: ../modules/addressbook/e-book-shell-sidebar.c:174
+msgid "This widget displays groups of address books"
+msgstr "𐑞𐑦𐑕 𐑢𐑦𐑡𐑩𐑑 𐑛𐑦𐑕𐑐𐑤𐑱𐑟 𐑜𐑮𐑵𐑐𐑕 𐑝 𐑩𐑛𐑮𐑧𐑕 𐑚𐑫𐑒𐑕"
+
 # to be continued...
 
