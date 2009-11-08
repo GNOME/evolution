@@ -31,8 +31,8 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkimageview/gtkimagescrollwin.h>
 
-#include "mail/em-format-hook.h"
-#include "mail/em-format-html.h"
+#include <mail/em-format-hook.h>
+#include <mail/em-format-html-display.h>
 
 static gint org_gnome_image_inline_classid;
 
@@ -44,13 +44,118 @@ typedef struct _ImageInlinePObject ImageInlinePObject;
 struct _ImageInlinePObject {
 	EMFormatHTMLPObject object;
 
+	CamelMimePart *mime_part;
 	GdkPixbuf *pixbuf;
 	GtkWidget *widget;
 };
 
 static void
+set_drag_source (GtkImageView *image_view)
+{
+	GtkTargetEntry *targets;
+	GtkTargetList *list;
+	gint n_targets;
+
+	list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (list, 0);
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	gtk_drag_source_set (
+		GTK_WIDGET (image_view), GDK_BUTTON1_MASK,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
+}
+
+static gboolean
+button_press_press_cb (GtkImageView *image_view,
+                       GdkEventButton *event,
+                       ImageInlinePObject *image_object)
+{
+	if (event->type != GDK_2BUTTON_PRESS)
+		return FALSE;
+
+	if (gtk_image_view_get_zoom (image_view) < 1.0) {
+		gtk_image_view_set_zoom (image_view, 1.0);
+		gtk_drag_source_unset (GTK_WIDGET (image_view));
+	} else {
+		gtk_image_view_set_fitting (image_view, TRUE);
+		set_drag_source (image_view);
+	}
+
+	return TRUE;
+}
+
+static void
+drag_data_get_cb (GtkImageView *image_view,
+                  GdkDragContext *context,
+                  GtkSelectionData *selection,
+                  guint info,
+                  guint time,
+                  ImageInlinePObject *image_object)
+{
+	EMFormatHTMLDisplay *html_display;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	EAttachment *attachment = NULL;
+	GtkTreeRowReference *reference;
+	GtkTreePath *path;
+	GList *list, *iter;
+
+	/* XXX This illustrates the lack of integration between EMFormat
+	 *     and EAttachment, in that we now have to search through the
+	 *     attachment store to find an attachment whose CamelMimePart
+	 *     matches ours.  This allows us to defer to EAttachmentView
+	 *     for the drag-data-get implementation. */
+
+	html_display = EM_FORMAT_HTML_DISPLAY (image_object->object.format);
+	view = em_format_html_display_get_attachment_view (html_display);
+
+	store = e_attachment_view_get_store (view);
+	list = e_attachment_store_get_attachments (store);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		CamelMimePart *mime_part;
+
+		attachment = E_ATTACHMENT (iter->data);
+		mime_part = e_attachment_get_mime_part (attachment);
+
+		if (mime_part == image_object->mime_part) {
+			g_object_ref (attachment);
+			break;
+		}
+
+		attachment = NULL;
+	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+
+	/* Make sure we found an EAttachment to select. */
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	/* Now select its path in the attachment store. */
+
+	reference = e_attachment_get_reference (attachment);
+	g_return_if_fail (gtk_tree_row_reference_valid (reference));
+
+	path = gtk_tree_row_reference_get_path (reference);
+
+	e_attachment_view_unselect_all (view);
+	e_attachment_view_select_path (view, path);
+
+	gtk_tree_path_free (path);
+
+	/* Let EAttachmentView handle the rest. */
+
+	e_attachment_view_drag_data_get (
+		view, context, selection, info, time);
+}
+
+static void
 size_allocate_cb (GtkHTMLEmbedded *embedded,
-                  GtkAllocation *event,
+                  GtkAllocation *allocation,
                   ImageInlinePObject *image_object)
 {
 	GtkWidget *widget;
@@ -58,7 +163,7 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
 	gint pixbuf_height;
 	gint widget_width;
 	gint widget_height;
-	gdouble zoom;
+	gdouble zoom = 1.0;
 
 	widget = GTK_WIDGET (image_object->object.format->html);
 	widget_width = widget->allocation.width - 12;
@@ -66,9 +171,7 @@ size_allocate_cb (GtkHTMLEmbedded *embedded,
 	pixbuf_width = gdk_pixbuf_get_width (image_object->pixbuf);
 	pixbuf_height = gdk_pixbuf_get_height (image_object->pixbuf);
 
-	if (pixbuf_width <= widget_width)
-		zoom = 1.0;
-	else
+	if (pixbuf_width > widget_width)
 		zoom = (gdouble) widget_width / pixbuf_width;
 
 	widget_width = MIN (widget_width, pixbuf_width);
@@ -85,6 +188,11 @@ org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 
 	image_object = (ImageInlinePObject *) object;
 
+	if (image_object->mime_part != NULL) {
+		camel_object_unref (image_object->mime_part);
+		image_object->mime_part = NULL;
+	}
+
 	if (image_object->pixbuf != NULL) {
 		g_object_unref (image_object->pixbuf);
 		image_object->pixbuf = NULL;
@@ -97,20 +205,19 @@ org_gnome_image_inline_pobject_free (EMFormatHTMLPObject *object)
 }
 
 static void
-org_gnome_image_inline_decode (ImageInlinePObject *image_object,
-                               CamelMimePart *mime_part)
+org_gnome_image_inline_decode (ImageInlinePObject *image_object)
 {
 	GdkPixbuf *pixbuf;
 	GdkPixbufLoader *loader;
-	CamelContentType *content_type;
 	CamelDataWrapper *data_wrapper;
+	CamelMimePart *mime_part;
 	CamelMedium *medium;
 	CamelStream *stream;
 	GByteArray *array;
-	gchar *mime_type;
 	GError *error = NULL;
 
 	array = g_byte_array_new ();
+	mime_part = image_object->mime_part;
 	medium = CAMEL_MEDIUM (mime_part);
 
 	/* Stream takes ownership of the byte array. */
@@ -118,17 +225,10 @@ org_gnome_image_inline_decode (ImageInlinePObject *image_object,
 	data_wrapper = camel_medium_get_content_object (medium);
 	camel_data_wrapper_decode_to_stream (data_wrapper, stream);
 
-	content_type = camel_mime_part_get_content_type (mime_part);
-	mime_type = camel_content_type_simple (content_type);
-	loader = gdk_pixbuf_loader_new_with_mime_type (mime_type, &error);
-	g_free (mime_type);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		goto exit;
-	}
-
+	/* Don't trust the content type in the MIME part.  It could
+	 * be lying or it could be "application/octet-stream".  Let
+	 * the GtkPixbufLoader figure it out. */
+	loader = gdk_pixbuf_loader_new ();
 	gdk_pixbuf_loader_write (loader, array->data, array->len, &error);
 
 	if (error != NULL) {
@@ -150,8 +250,8 @@ org_gnome_image_inline_decode (ImageInlinePObject *image_object,
 	}
 
 exit:
-	camel_object_unref (mime_part);
 	camel_object_unref (stream);
+	g_object_unref (loader);
 }
 
 static gboolean
@@ -172,16 +272,24 @@ org_gnome_image_inline_embed (EMFormatHTML *format,
 	container = GTK_WIDGET (embedded);
 
 	widget = gtk_image_view_new ();
-	image_view = GTK_IMAGE_VIEW (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_image_scroll_win_new (image_view);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	image_object->widget = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	image_view = GTK_IMAGE_VIEW (widget);
+
 	gtk_image_view_set_pixbuf (
 		image_view, image_object->pixbuf, TRUE);
+
+	set_drag_source (image_view);
+
+	g_signal_connect (
+		image_view, "button-press-event",
+		G_CALLBACK (button_press_press_cb), image_object);
+
+	g_signal_connect (
+		image_view, "drag-data-get",
+		G_CALLBACK (drag_data_get_cb), image_object);
 
 	g_signal_connect (
 		embedded, "size-allocate",
@@ -208,9 +316,10 @@ org_gnome_image_inline_format (gpointer ep, EMFormatHookTarget *target)
 			org_gnome_image_inline_embed);
 
 	camel_object_ref (target->part);
+	image_object->mime_part = target->part;
 
 	image_object->object.free = org_gnome_image_inline_pobject_free;
-	org_gnome_image_inline_decode (image_object, target->part);
+	org_gnome_image_inline_decode (image_object);
 
 	camel_stream_printf (
 		target->stream, "<object classid=%s></object>", classid);

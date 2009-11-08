@@ -26,6 +26,7 @@
 #define EM_FORMAT_HTML_DISPLAY_H
 
 #include <mail/em-format-html.h>
+#include <misc/e-attachment-view.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT_HTML_DISPLAY \
@@ -66,6 +67,9 @@ struct _EMFormatHTMLDisplayClass {
 GType		em_format_html_display_get_type	(void);
 EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
+EAttachmentView *
+		em_format_html_display_get_attachment_view
+						(EMFormatHTMLDisplay *html_display);
 
 G_END_DECLS
 

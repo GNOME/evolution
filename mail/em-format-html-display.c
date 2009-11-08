@@ -76,7 +76,6 @@
 #include "e-mail-display.h"
 #include "e-mail-attachment-bar.h"
 #include "em-format-html-display.h"
-#include "em-icon-stream.h"
 #include "em-utils.h"
 #include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
@@ -126,7 +125,6 @@ static const gchar *smime_sign_colour[5] = {
 };
 
 static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
-static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
@@ -672,58 +670,7 @@ em_format_html_display_new (void)
 
 /* ********************************************************************** */
 
-static void
-efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *handle)
-{
-	gchar *classid;
-	struct _attach_puri *info;
-
-	classid = g_strdup_printf("image%s", ((EMFormat *)efh)->part_id->str);
-	info = (struct _attach_puri *)em_format_add_puri((EMFormat *)efh, sizeof(*info), classid, part, efhd_attachment_frame);
-	em_format_html_add_pobject(efh, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_image);
-
-	info->handle = handle;
-	info->shown = TRUE;
-	info->snoop_mime_type = ((EMFormat *) efh)->snoop_mime_type;
-	if (camel_operation_cancel_check (NULL) || !info->puri.format || !((EMFormatHTML *)info->puri.format)->html) {
-		/* some fake value, we are cancelled anyway, thus doesn't matter */
-		info->fit_width = 256;
-	} else {
-		info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
-	}
-
-	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
-	g_free(classid);
-}
-
-/* ********************************************************************** */
-
 static EMFormatHandler type_builtin_table[] = {
-#if 0
-	{ (gchar *) "image/gif", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/jpeg", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/png", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-png", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/tiff", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-bmp", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/bmp", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/svg", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-cmu-raster", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-ico", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-portable-anymap", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-portable-bitmap", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-portable-graymap", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-portable-pixmap", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/x-xpixmap", (EMFormatFunc)efhd_image },
-
-	/* This is where one adds those busted, non-registered types,
-	   that some idiot mailer writers out there decide to pull out
-	   of their proverbials at random. */
-
-	{ (gchar *) "image/jpg", (EMFormatFunc)efhd_image },
-	{ (gchar *) "image/pjpeg", (EMFormatFunc)efhd_image },
-#endif
-
 	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 	{ (gchar *) "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar }
 };
@@ -839,219 +786,6 @@ efhd_attachment_button_expanded (GtkWidget *widget,
 
 /* ********************************************************************** */
 
-static void
-efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, guint info, guint time, EMFormatHTMLPObject *pobject)
-{
-	CamelMimePart *part = pobject->part;
-	gchar *uri, *uri_crlf, *path;
-	CamelStream *stream;
-
-	switch (info) {
-	case 0: /* mime/type request */
-		stream = camel_stream_mem_new();
-		/* TODO: shoudl format_format_text run on the content-object? */
-		/* TODO: should we just do format_content? */
-		if (camel_content_type_is (((CamelDataWrapper *)part)->mime_type, "text", "*")) {
-			/* FIXME: this should be an em_utils method, it only needs a default charset param */
-			em_format_format_text((EMFormat *)pobject->format, stream, (CamelDataWrapper *)part);
-		} else {
-			CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
-
-			camel_data_wrapper_decode_to_stream(dw, stream);
-		}
-
-		gtk_selection_data_set(data, data->target, 8,
-				       ((CamelStreamMem *)stream)->buffer->data,
-				       ((CamelStreamMem *)stream)->buffer->len);
-		camel_object_unref(stream);
-		break;
-	case 1: /* text-uri-list request */
-		/* Kludge around Nautilus requesting the same data many times */
-		uri = g_object_get_data((GObject *)w, "e-drag-uri");
-		if (uri) {
-			gtk_selection_data_set(data, data->target, 8, (guchar *)uri, strlen(uri));
-			return;
-		}
-
-		path = em_utils_temp_save_part(w, part, FALSE);
-		if (path == NULL)
-			return;
-
-		uri = g_filename_to_uri(path, NULL, NULL);
-		g_free(path);
-		uri_crlf = g_strconcat(uri, "\r\n", NULL);
-		g_free(uri);
-		gtk_selection_data_set(data, data->target, 8, (guchar *)uri_crlf, strlen(uri_crlf));
-		g_object_set_data_full((GObject *)w, "e-drag-uri", uri_crlf, g_free);
-		break;
-	default:
-		abort();
-	}
-}
-
-static void
-efhd_drag_data_delete(GtkWidget *w, GdkDragContext *drag, EMFormatHTMLPObject *pobject)
-{
-	gchar *uri;
-
-	uri = g_object_get_data((GObject *)w, "e-drag-uri");
-	if (uri) {
-		/* NB: this doesn't kill the dnd directory */
-		/* NB: is this ever called? */
-		/* NB even more: doesn't the e-drag-uri have \r\n
-		 * appended? (see efhd_drag_data_get())
-		 */
-		gchar *filename = g_filename_from_uri (uri, NULL, NULL);
-		g_unlink(filename);
-		g_free(filename);
-		g_object_set_data((GObject *)w, "e-drag-uri", NULL);
-	}
-}
-
-static void
-efhd_write_icon_job(struct _EMFormatHTMLJob *job, gint cancelled)
-{
-	EMFormatHTMLPObject *pobject;
-	CamelDataWrapper *dw;
-
-	if (cancelled)
-		return;
-
-	pobject = job->u.data;
-	dw = camel_medium_get_content_object((CamelMedium *)pobject->part);
-	camel_data_wrapper_decode_to_stream(dw, job->stream);
-	camel_stream_close(job->stream);
-}
-
-static void
-efhd_image_resized(GtkWidget *w, GtkAllocation *event, struct _attach_puri *info)
-{
-	GdkPixbuf *pb;
-	gint width;
-
-	if (info->fit_width == 0)
-		return;
-
-	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
-	if (info->fit_width == width)
-		return;
-	info->fit_width = width;
-
-	pb = em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height);
-	if (pb) {
-		gtk_image_set_from_pixbuf(info->image, pb);
-		g_object_unref(pb);
-	}
-}
-
-static void
-efhd_change_cursor(GtkWidget *w, GdkEventCrossing *event, struct _attach_puri *info)
-{
-	if (info->shown && info->image) {
-		if (info->fit_width != 0) {
-			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height))
-				e_cursor_set(w->window, E_CURSOR_ZOOM_IN);
-
-		}
-	}
-}
-
-static void
-efhd_image_fit_width(GtkWidget *widget, GdkEventButton *event, struct _attach_puri *info)
-{
-	gint width;
-
-	width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
-
-	if (info->shown && info->image) {
-		if (info->fit_width != 0) {
-			if (em_icon_stream_is_resized(info->puri.cid, info->fit_width, info->fit_height)) {
-				if (info->fit_width != width) {
-					info->fit_width = width;
-					e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
-				} else {
-					info->fit_width = 0;
-					e_cursor_set(widget->window, E_CURSOR_ZOOM_OUT);
-				}
-			}
-		} else {
-			info->fit_width = width;
-			e_cursor_set (widget->window, E_CURSOR_ZOOM_IN);
-		}
-	}
-
-	gtk_image_set_from_pixbuf(info->image, em_icon_stream_get_image(info->puri.cid, info->fit_width, info->fit_height));
-}
-
-/* When the puri gets freed in the formatter thread and if the image is resized, crash will happen
-   See bug #333864 So while freeing the puri, we disconnect the image attach resize attached with
-   the puri */
-
-static void
-efhd_image_unallocate (struct _EMFormatPURI * puri)
-{
-	struct _attach_puri *info = (struct _attach_puri *) puri;
-	g_signal_handlers_disconnect_by_func(info->html, efhd_image_resized, info);
-
-	g_signal_handlers_disconnect_by_func(info->event_box, efhd_change_cursor, info);
-	g_signal_handlers_disconnect_by_func(info->event_box, efhd_image_fit_width, info);
-}
-
-static gboolean
-efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
-{
-	GtkWidget *box;
-	EMFormatHTMLJob *job;
-	struct _attach_puri *info;
-	GdkPixbuf *pixbuf;
-	GtkTargetEntry drag_types[] = {
-		{ NULL, 0, 0 },
-		{ (gchar *) "text/uri-list", 0, 1 },
-	};
-	gchar *simple_type;
-
-	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
-
-	info->image = (GtkImage *)gtk_image_new();
-	info->html = eb;
-	info->puri.free = efhd_image_unallocate;
-
-	pixbuf = em_icon_stream_get_image(pobject->classid, info->fit_width, info->fit_height);
-	if (pixbuf) {
-		gtk_image_set_from_pixbuf(info->image, pixbuf);
-		g_object_unref(pixbuf);
-	} else {
-		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
-		job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)info->image, pobject->classid, info->fit_width, info->fit_height, TRUE);
-		em_format_html_job_queue(efh, job);
-	}
-
-	box = gtk_event_box_new();
-	info->event_box = box;
-	gtk_container_add((GtkContainer *)box, (GtkWidget *)info->image);
-	gtk_widget_show_all(box);
-	gtk_container_add((GtkContainer *)eb, box);
-
-	g_signal_connect(eb, "size_allocate", G_CALLBACK(efhd_image_resized), info);
-
-	simple_type = camel_content_type_simple(((CamelDataWrapper *)pobject->part)->mime_type);
-	camel_strdown(simple_type);
-
-	drag_types[0].target = simple_type;
-	gtk_drag_source_set(box, GDK_BUTTON1_MASK, drag_types, G_N_ELEMENTS (drag_types), GDK_ACTION_COPY);
-	g_free(simple_type);
-
-	g_signal_connect(box, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);
-	g_signal_connect (box, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
-
-	g_signal_connect(box, "enter-notify-event", G_CALLBACK(efhd_change_cursor), info);
-	g_signal_connect(box, "button-press-event", G_CALLBACK(efhd_image_fit_width), info);
-
-	g_object_set_data (G_OBJECT (box), "efh", efh);
-
-	return TRUE;
-}
-
 /* attachment button callback */
 static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
@@ -1083,8 +817,8 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-	view = E_ATTACHMENT_VIEW (efhd->priv->attachment_view);
-	gtk_widget_show (efhd->priv->attachment_view);
+	view = em_format_html_display_get_attachment_view (efhd);
+	gtk_widget_show (GTK_WIDGET (view));
 
 	store = e_attachment_view_get_store (view);
 	e_attachment_store_add_attachment (store, info->attachment);
@@ -1298,3 +1032,10 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	return TRUE;
 }
 
+EAttachmentView *
+em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (html_display), NULL);
+
+	return E_ATTACHMENT_VIEW (html_display->priv->attachment_view);
+}

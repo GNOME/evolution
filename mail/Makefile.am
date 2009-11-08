@@ -70,7 +70,6 @@ mailinclude_HEADERS =					\
 	em-format-html-display.h			\
 	em-format-html-print.h				\
 	em-html-stream.h				\
-	em-icon-stream.h				\
 	em-inline-filter.h				\
 	em-junk.h					\
 	em-search-context.h				\
@@ -127,7 +126,6 @@ libevolution_mail_la_SOURCES =				\
 	em-format-html-display.c			\
 	em-format-html-print.c				\
 	em-html-stream.c				\
-	em-icon-stream.c				\
 	em-inline-filter.c				\
 	em-junk.c					\
 	em-search-context.c				\
