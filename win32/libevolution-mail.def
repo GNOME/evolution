@@ -134,6 +134,7 @@ EXPORTS
 	mail_component_remove_store
 	mail_component_remove_store_by_uri
 	mail_component_show_logger
+	mail_component_show_status_bar
 	mail_component_stores_foreach
 	mail_config_control_factory_cb
 	mail_indicate_new_mail
