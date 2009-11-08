@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-11-06 20:51+0000\n"
-"PO-Revision-Date: 2009-11-07 14:12+0100\n"
+"POT-Creation-Date: 2009-11-07 13:13+0000\n"
+"PO-Revision-Date: 2009-11-08 15:29+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12817,25 +12817,21 @@ msgstr "Completado."
 
 #: ../mail/mail-ops.c:920
 #, c-format
-#| msgid "Saving message to folder"
 msgid "Saving message to folder '%s'"
 msgstr "Guardando mensaje en la carpeta «%s»"
 
 #: ../mail/mail-ops.c:997
 #, c-format
-#| msgid "Moving messages to %s"
 msgid "Moving messages to '%s'"
 msgstr "Moviendo mensajes a «%s»"
 
 #: ../mail/mail-ops.c:997
 #, c-format
-#| msgid "Copying messages to %s"
 msgid "Copying messages to '%s'"
 msgstr "Copiando mensajes a «%s»"
 
 #: ../mail/mail-ops.c:1106
 #, c-format
-#| msgid "Scanning folders in \"%s\""
 msgid "Scanning folders in '%s'"
 msgstr "Analizando carpetas en «%s»"
 
@@ -12845,25 +12841,21 @@ msgstr "Mensajes reenviados"
 
 #: ../mail/mail-ops.c:1255
 #, c-format
-#| msgid "Opening folder %s"
 msgid "Opening folder '%s'"
 msgstr "Abriendo carpeta «%s»"
 
 #: ../mail/mail-ops.c:1321
 #, c-format
-#| msgid "Retrieving quota information for folder %s"
 msgid "Retrieving quota information for folder '%s'"
 msgstr "Obteniendo la información de la cuota para la carpeta «%s»"
 
 #: ../mail/mail-ops.c:1393
 #, c-format
-#| msgid "Opening store %s"
 msgid "Opening store '%s'"
 msgstr "Abriendo almacén «%s»"
 
 #: ../mail/mail-ops.c:1464
 #, c-format
-#| msgid "Removing folder %s"
 msgid "Removing folder '%s'"
 msgstr "Eliminando carpeta «%s»"
 
@@ -12884,13 +12876,11 @@ msgstr "Almacenando cuenta «%s»"
 
 #: ../mail/mail-ops.c:1700
 #, c-format
-#| msgid "Refreshing folder"
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
 #: ../mail/mail-ops.c:1740
 #, c-format
-#| msgid "Expunging folder"
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
@@ -12905,7 +12895,6 @@ msgstr "Carpetas locales"
 
 #: ../mail/mail-ops.c:1864
 #, c-format
-#| msgid "Retrieving message %s"
 msgid "Retrieving message '%s'"
 msgstr "Obteniendo correo «%s»"
 
@@ -12952,13 +12941,11 @@ msgstr "No es posible escribir datos: %s"
 
 #: ../mail/mail-ops.c:2409
 #, c-format
-#| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
 msgstr "Desconectando de «%s»"
 
 #: ../mail/mail-ops.c:2409
 #, c-format
-#| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
 msgstr "Reconectándose con «%s»"
 
@@ -13892,7 +13879,6 @@ msgid "Base"
 msgstr "Base"
 
 #: ../modules/addressbook/addressbook-config.c:638
-#| msgid "Birthdays & Anniversaries"
 msgid "Use in _Birthday & Anniversaries calendar"
 msgstr "Usar en el calendario Cu_mpleaños y aniversarios"
 
@@ -13968,7 +13954,6 @@ msgid "Autocomplete length"
 msgstr "Longitud del autocompletado"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
-#| msgid "Contact Print Test"
 msgid "Contact layout style"
 msgstr "Estilo de distribución de los contactos"
 
@@ -13977,7 +13962,6 @@ msgid "Contact preview pane position (horizontal)"
 msgstr "Posición del panel de vista previa de contactos (horizontal)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
-#| msgid "Month view vertical pane position"
 msgid "Contact preview pane position (vertical)"
 msgstr "Posición del panel de vista previa de contactos (vertical)"
 
@@ -14117,17 +14101,14 @@ msgstr "Contactos"
 #: ../modules/calendar/e-cal-shell-backend.c:759
 #: ../modules/calendar/e-memo-shell-backend.c:583
 #: ../modules/calendar/e-task-shell-backend.c:593
-#| msgid "Source"
 msgid "Source List"
 msgstr "Lista de origen"
 
 #: ../modules/addressbook/e-book-shell-backend.c:597
-#| msgid "Couldn't get list of address books"
 msgid "The registry of address books"
 msgstr "El registro de las libretas de direcciones"
 
 #: ../modules/addressbook/e-book-shell-content.c:313
-#| msgid "_Current View"
 msgid "Current View"
 msgstr "Vista actual"
 
@@ -14136,7 +14117,6 @@ msgid "The currently selected address book view"
 msgstr "La vista actual de la libreta de direcciones seleccionada"
 
 #: ../modules/addressbook/e-book-shell-content.c:323
-#| msgid "New Contact"
 msgid "Previewed Contact"
 msgstr "Contacto previsualizado"
 
@@ -14504,17 +14484,14 @@ msgid "_Forward Contact"
 msgstr "_Reenviar contacto"
 
 #: ../modules/addressbook/e-book-shell-view.c:352
-#| msgid "Send _Message to Contacts"
 msgid "_Send Message to Contacts"
 msgstr "_Enviar un correo a los contactos"
 
 #: ../modules/addressbook/e-book-shell-view.c:354
-#| msgid "Send _Message to List"
 msgid "_Send Message to List"
 msgstr "_Enviar un correo a la lista"
 
 #: ../modules/addressbook/e-book-shell-view.c:356
-#| msgid "Send _Message to Contact"
 msgid "_Send Message to Contact"
 msgstr "_Enviar un correo al contacto"
 
@@ -14786,7 +14763,6 @@ msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
 #: ../modules/calendar/e-cal-shell-backend.c:760
-#| msgid "Primary calendar"
 msgid "The registry of calendars"
 msgstr "El registro de calendarios"
 
@@ -14820,9 +14796,6 @@ msgstr "No es posible migrar el calendario «%s»"
 #: ../modules/calendar/e-memo-shell-sidebar.c:149
 #: ../modules/calendar/e-task-shell-sidebar.c:147
 #, c-format
-#| msgid ""
-#| "Error on %s:\n"
-#| " %s"
 msgid ""
 "Error on %s\n"
 "%s"
@@ -14831,12 +14804,10 @@ msgstr ""
 " %s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:188
-#| msgid "Loading Calendar"
 msgid "Loading calendars"
 msgstr "Cargando calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:428
-#| msgid "Calendar Source Selector"
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
@@ -14854,7 +14825,6 @@ msgstr "Este widget muestra grupos de calendarios"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:723
 #, c-format
-#| msgid "Opening calendar"
 msgid "Opening calendar at %s"
 msgstr "Abriendo el calendario en «%s»"
 
@@ -14893,12 +14863,10 @@ msgid "days"
 msgstr "días"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:551
-#| msgid "Copying items"
 msgid "Copying Items"
 msgstr "Copiando elementos"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:801
-#| msgid "Moving items"
 msgid "Moving Items"
 msgstr "Moviendo elementos"
 
@@ -15427,7 +15395,6 @@ msgid "Print the list of memos"
 msgstr "Imprime la lista de notas"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:834
-#| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
 msgstr "Vista previa de la lista de notas para imprimir"
 
@@ -15441,13 +15408,10 @@ msgstr[1] "%d notas"
 #: ../modules/calendar/e-memo-shell-view-private.c:416
 #: ../modules/calendar/e-task-shell-view-private.c:510
 #, c-format
-#| msgid ", %d selected"
-#| msgid_plural ", %d selected"
 msgid "%d selected"
 msgstr "%d seleccionada"
 
 #: ../modules/calendar/e-memo-shell-view.c:218
-#| msgid "_Delete Message"
 msgid "Delete Memos"
 msgstr "Borrar notas"
 
@@ -15466,7 +15430,6 @@ msgid "Create a new assigned task"
 msgstr "Crea una tarea nueva asignada"
 
 #: ../modules/calendar/e-task-shell-backend.c:337
-#| msgid "Task List"
 msgctxt "New"
 msgid "Tas_k List"
 msgstr "Lista de _tareas"
@@ -15477,12 +15440,10 @@ msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
 #: ../modules/calendar/e-task-shell-backend.c:594
-#| msgid "Primary task list"
 msgid "The registry of task lists"
 msgstr "El registro de listas de tareas"
 
 #: ../modules/calendar/e-task-shell-content.c:621
-#| msgid "Table model"
 msgid "The task table model"
 msgstr "El modelo de tablas de tareas"
 
@@ -15509,7 +15470,6 @@ msgid "Loading tasks"
 msgstr "Cargando tareas"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:397
-#| msgid "Task Source Selector"
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
@@ -15540,7 +15500,6 @@ msgstr ""
 "¿Borrar realmente esas tareas?"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:734
-#| msgid "_Copy..."
 msgid "Copy..."
 msgstr "_Copiar…"
 
@@ -15549,12 +15508,10 @@ msgid "_New Task List"
 msgstr "Lista de tareas _nueva"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:764
-#| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
 msgstr "Renombrar la lista de tareas seleccionada"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:769
-#| msgid "Show _only this Task List"
 msgid "Show _Only This Task List"
 msgstr "Mostrar _sólo esta lista de tareas"
 
@@ -20293,16 +20250,14 @@ msgid "Show the switcher buttons"
 msgstr "Muestra la segunda zona horaria"
 
 #: ../shell/e-shell-window-actions.c:1717
-#, fuzzy
 #| msgid "Show _Toolbar"
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
 #: ../shell/e-shell-window-actions.c:1719
-#, fuzzy
 #| msgid "Show _Toolbar"
 msgid "Show the toolbar"
-msgstr "Mostrar barra de _herramientas"
+msgstr "Mostrar la barra de herramientas"
 
 #: ../shell/e-shell-window-actions.c:1741
 msgid "_Icons Only"
@@ -20367,10 +20322,9 @@ msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
 #: ../shell/e-shell-window-actions.c:1810
-#, fuzzy
 #| msgid "Set up the page settings for your current printer"
 msgid "Change the page settings for your current printer"
-msgstr "Establecer la configuración de la página para la impresora actual"
+msgstr "Cambiar la configuración de página para la impresora actual"
 
 #: ../shell/e-shell-window-actions.c:2082
 #, c-format
@@ -20379,7 +20333,7 @@ msgstr "Cambiar a %s"
 
 #: ../shell/e-shell-window-actions.c:2285
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "Ejecutar estos parámetros de búsqueda"
 
 #: ../shell/e-shell-window-private.c:254
 msgid "New"
@@ -20393,73 +20347,64 @@ msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window.c:292
 msgid "Active Shell View"
-msgstr ""
+msgstr "Vista activa de shell"
 
 #: ../shell/e-shell-window.c:293
-#, fuzzy
 #| msgid "Name of new view:"
 msgid "Name of the active shell view"
-msgstr "Nombre de la vista nueva:"
+msgstr "Nombre de la vista activa de la shell"
 
 #: ../shell/e-shell-window.c:307
-#, fuzzy
 #| msgid "_Caret Mode"
 msgid "Safe Mode"
-msgstr "Activar cu_rsor"
+msgstr "Modo seguro"
 
 #: ../shell/e-shell-window.c:308
-#, fuzzy
 #| msgid "Whether the plugin is enabled"
 msgid "Whether the shell window is in safe mode"
-msgstr "Indica si el complemento está activado"
+msgstr "Indica si la ventana de shell está en modo seguro"
 
 #: ../shell/e-shell-window.c:339
-#, fuzzy
 #| msgid "Manager"
 msgid "UI Manager"
-msgstr "Jefe"
+msgstr "Gestor de IU"
 
 #: ../shell/e-shell-window.c:340
 msgid "The shell window's GtkUIManager"
 msgstr ""
 
 #: ../shell/e-shell.c:207
-#, fuzzy
 #| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go offline..."
-msgstr "Preparando la cuenta «%s» para desconexión"
+msgstr "Preparándose para desconectarse…"
 
 #: ../shell/e-shell.c:261
-#, fuzzy
 #| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go online..."
-msgstr "Preparando la cuenta «%s» para desconexión"
+msgstr "Preparándose para conectarse…"
 
 #: ../shell/e-shell.c:324
 msgid "Preparing to quit..."
-msgstr ""
+msgstr "Preparándose para salir…"
 
 #: ../shell/e-shell.c:688
-#, fuzzy
 #| msgid "TLS not Available"
 msgid "Network Available"
-msgstr "TLS no disponible"
+msgstr "Red disponible"
 
 #: ../shell/e-shell.c:689
-#, fuzzy
 #| msgid "Whether the plugin is enabled"
 msgid "Whether the network is available"
-msgstr "Indica si el complemento está activado"
+msgstr "Indica si la red está disponible"
 
 #: ../shell/e-shell.c:704 ../widgets/misc/e-online-button.c:130
 msgid "Online"
 msgstr "En línea"
 
 #: ../shell/e-shell.c:705
-#, fuzzy
 #| msgid "Whether the plugin is enabled"
 msgid "Whether the shell is online"
-msgstr "Indica si el complemento está activado"
+msgstr "Indica si la shell está conectada"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:165
@@ -20519,10 +20464,9 @@ msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
 #: ../shell/main.c:321
-#, fuzzy
 #| msgid "Forcibly shut down all Evolution components"
 msgid "Forcibly shut down Evolution"
-msgstr "Forzar el cierre de todos los componentes de Evolution"
+msgstr "Forzar el cierre de Evolution"
 
 #: ../shell/main.c:325
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -20621,10 +20565,9 @@ msgstr ""
 "evolution&quot; a su conveniencia.\n"
 
 #: ../shell/shell.error.xml.h:18
-#, fuzzy
 #| msgid "Upgrade from previous version failed: {0}"
 msgid "Upgrade from previous version failed:"
-msgstr "La actualización desde la versión anterior ha fallado: {0}"
+msgstr "Falló la actualización desde la versión anterior:"
 
 #: ../shell/shell.error.xml.h:19
 msgid ""
@@ -20653,7 +20596,6 @@ msgid "_Remind Me Later"
 msgstr "_Recordármelo más tarde"
 
 #: ../shell/shell.error.xml.h:25
-#, fuzzy
 #| msgid ""
 #| "{1}\n"
 #| "\n"
@@ -20665,107 +20607,101 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
-"{1}\n"
+"{0}\n"
 "\n"
 "Si elige continuar, quizá no tenga acceso a algunos de sus datos antiguos.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Test"
 msgctxt "New"
 msgid "_Test Item"
-msgstr "_Prueba"
+msgstr "_Probar elemento"
 
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
 msgstr "Crea una elemento de prueba nuevo"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#, fuzzy
 #| msgid "Resource"
 msgctxt "New"
 msgid "Test _Source"
-msgstr "Recurso"
+msgstr "Probar _recurso"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#, fuzzy
 #| msgid "Create a new test item"
 msgid "Create a new test source"
-msgstr "Crea una elemento de prueba nuevo"
+msgstr "Crea una recurso de prueba nuevo"
 
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
 msgid "File is not a valid .desktop file"
-msgstr ""
+msgstr "El archivo no es un archivo .desktop válido"
 
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "No se reconoce la versión «%s» del archivo desktop"
 
 #: ../smclient/eggdesktopfile.c:958
-#, fuzzy, c-format
+#, c-format
 #| msgid "Scanning %s"
 msgid "Starting %s"
-msgstr "Analizando %s"
+msgstr "Iniciando %s"
 
 #: ../smclient/eggdesktopfile.c:1100
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "La aplicación no acepta documentos en la línea de comandos"
 
 #: ../smclient/eggdesktopfile.c:1168
 #, c-format
 msgid "Unrecognized launch option: %d"
-msgstr ""
+msgstr "Opción de lanzamiento no reconocida: %d"
 
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr ""
+"No se pueden pasar los URI de documentos a entradas de escritorio «Type=Link»"
 
 #: ../smclient/eggdesktopfile.c:1394
-#, fuzzy, c-format
+#, c-format
 #| msgid "Editor not launchable"
 msgid "Not a launchable item"
-msgstr "No se puede lanzar el editor"
+msgstr "No es un elemento lanzable"
 
 #: ../smclient/eggsmclient.c:225
-#, fuzzy
 #| msgid "_Direct connection to the Internet"
 msgid "Disable connection to session manager"
-msgstr "Conexión _directa a Internet"
+msgstr "Desactivar la conexión con el gestor de sesiones"
 
 #: ../smclient/eggsmclient.c:228
-#, fuzzy
 #| msgid "Set up Pilot configuration"
 msgid "Specify file containing saved configuration"
-msgstr "Configuración del Pilot"
+msgstr "Especificar el archivo que contiene la configuración guardada"
 
 #: ../smclient/eggsmclient.c:228
 msgid "FILE"
-msgstr ""
+msgstr "ARCHIVO"
 
 #: ../smclient/eggsmclient.c:231
 msgid "Specify session management ID"
-msgstr ""
+msgstr "Especificar el ID de gestión de la sesión"
 
 #: ../smclient/eggsmclient.c:231
-#, fuzzy
 #| msgid "UID"
 msgid "ID"
-msgstr "UID"
+msgstr "ID"
 
 #: ../smclient/eggsmclient.c:252
 msgid "Session management options:"
-msgstr ""
+msgstr "Opciones de gestión de la sesión:"
 
 #: ../smclient/eggsmclient.c:253
-#, fuzzy
 #| msgid "Show image animations"
 msgid "Show session management options"
-msgstr "Mostrar imágenes animadas"
+msgstr "Mostrar las opciones de gestión de la sesión"
 
 #: ../smime/gui/ca-trust-dialog.c:102
 #, c-format
@@ -21430,7 +21366,6 @@ msgid "De_fault"
 msgstr "_Predeterminada"
 
 #: ../widgets/misc/e-account-tree-view.c:224
-#, fuzzy
 #| msgid "Account name"
 msgid "Account Name"
 msgstr "Nombre de la cuenta"
@@ -21440,36 +21375,35 @@ msgid "Protocol"
 msgstr "Protocolo"
 
 #: ../widgets/misc/e-action-combo-box.c:388
-#, fuzzy
 #| msgid "_Actions"
 msgid "Action"
-msgstr "A_cciones"
+msgstr "Acción"
 
 #: ../widgets/misc/e-action-combo-box.c:389
 msgid "A GtkRadioAction"
-msgstr ""
+msgstr "Un GtkRadioAction"
 
 #. Translators: This is a cancelled activity.
 #: ../widgets/misc/e-activity.c:224
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cancelled"
 msgid "%s (cancelled)"
-msgstr "Cancelado"
+msgstr "%s (cancelado)"
 
 #. Translators: This is a completed activity.
 #: ../widgets/misc/e-activity.c:227
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
-msgstr "%s (%d%% completado)"
+msgstr "%s (completado)"
 
 #. Translators: This is an activity whose percent
 #. * complete is unknown.
 #: ../widgets/misc/e-activity.c:231
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (...)"
 msgid "%s..."
-msgstr "%s (…)"
+msgstr "%s…"
 
 #: ../widgets/misc/e-activity.c:236
 #, c-format
@@ -21623,10 +21557,9 @@ msgstr "No se pudo guardar el adjunto"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:359
-#, fuzzy
 #| msgid "Click to open %s"
 msgid "Ctrl-click to open a link"
-msgstr "Pulse para abrir %s"
+msgstr "Pulse Ctrl-botón del ratón para abrir un enlace"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1253
@@ -21783,7 +21716,6 @@ msgid "Import a _single file"
 msgstr "Importar un _único archivo"
 
 #: ../widgets/misc/e-import-assistant.c:436
-#, fuzzy
 #| msgid ""
 #| "Evolution checked for settings to import from the following\n"
 #| "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -21794,10 +21726,10 @@ msgid ""
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution comprobó la configuración para importar de las siguientes \n"
-"aplicaciones: Pine, Netscape, Elm, iCalendar. No se encontró ninguna\n"
-"configuración que se pueda importar. Si quiere intentarlo de nuevo, pulse\n"
-"el botón «Atrás».\n"
+"Evolution comprobó la configuración para importar de las siguientes "
+"aplicaciones: Pine, Netscape, Elm, iCalendar. No se encontró ninguna "
+"configuración que se pueda importar. Si quiere intentarlo de nuevo, pulse el "
+"botón «Atrás»."
 
 #: ../widgets/misc/e-import-assistant.c:823
 #: ../widgets/misc/e-import-assistant.c:839
@@ -21805,7 +21737,6 @@ msgid "Evolution Import Assistant"
 msgstr "Asistente de importación de Evolution"
 
 #: ../widgets/misc/e-import-assistant.c:832
-#, fuzzy
 #| msgid ""
 #| "Welcome to the Evolution Import Assistant.\n"
 #| "With this assistant you will be guided through the process of\n"
@@ -21816,8 +21747,8 @@ msgid ""
 "external files into Evolution."
 msgstr ""
 "Bienvenido al asistente de importación de Evolution.\n"
-"Este asistente le guiará a través del proceso de\n"
-"importación de archivos externos dentro de Evolution."
+"Este asistente le guiará a través del proceso de importación de archivos "
+"externos dentro de Evolution."
 
 #: ../widgets/misc/e-import-assistant.c:848
 msgid "Importer Type"
@@ -21836,17 +21767,15 @@ msgid "Import Location"
 msgstr "Lugar de importación"
 
 #: ../widgets/misc/e-import-assistant.c:880
-#, fuzzy
 #| msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgid "Click \"Apply\" to begin importing the file into Evolution."
-msgstr "Pulse «Importar» para comenzar a importar el archivo en Evolution. "
+msgstr "Pulse «Aplicar» para comenzar a importar el archivo en Evolution."
 
 #: ../widgets/misc/e-import-assistant.c:886
 #: ../widgets/misc/e-import-assistant.c:895
-#, fuzzy
 #| msgid "Important"
 msgid "Import Data"
-msgstr "Importante"
+msgstr "Importar datos"
 
 #: ../widgets/misc/e-map.c:605
 msgid "World Map"
@@ -21862,58 +21791,52 @@ msgstr ""
 "seleccionar la zona horaria desde la caja combinada desplegable inferior."
 
 #: ../widgets/misc/e-online-button.c:27
-#, fuzzy
 #| msgid ""
 #| "Evolution is currently online.\n"
 #| "Click on this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"Evolution está conectado.\n"
-"Pulse este botón para trabajar desconectado."
+"Actualmente Evolution está conectado. Pulse este botón para trabajar "
+"desconectado."
 
 #: ../widgets/misc/e-online-button.c:30
-#, fuzzy
 #| msgid ""
 #| "Evolution is currently offline.\n"
 #| "Click on this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
 msgstr ""
-"Evolution está desconectado.\n"
-"Pulse este botón para trabajar conectado."
+"Actualmente Evolution está desconectado. Pulse este botón para trabajar "
+"conectado."
 
 #: ../widgets/misc/e-online-button.c:33
-#, fuzzy
 #| msgid ""
 #| "Evolution is currently offline.\n"
 #| "Click on this button to work online."
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr ""
-"Evolution está desconectado.\n"
-"Pulse este botón para trabajar conectado."
+"Actualmente Evolution está desconectado porque la red no está disponible."
 
 #: ../widgets/misc/e-online-button.c:131
 msgid "The button state is online"
 msgstr "El botón de estado está en línea"
 
 #: ../widgets/misc/e-paned.c:234
-#, fuzzy
 #| msgid "Horizontal pane position"
 msgid "Horizontal Position"
-msgstr "Posición horizontal del panel"
+msgstr "Posición horizontal"
 
 #: ../widgets/misc/e-paned.c:235
 msgid "Pane position when oriented horizontally"
-msgstr ""
+msgstr "Posición del panel cuando está orientado horizontal"
 
 #: ../widgets/misc/e-paned.c:246
-#, fuzzy
 #| msgid "Vertical pane position"
 msgid "Vertical Position"
-msgstr "Posición del panel vertical"
+msgstr "Posición vertical"
 
 #: ../widgets/misc/e-paned.c:247
 msgid "Pane position when oriented vertically"
-msgstr ""
+msgstr "Posición del panel cuando está orientado verticalmente"
 
 #: ../widgets/misc/e-pilot-settings.c:99
 msgid "Sync with:"
@@ -21928,14 +21851,13 @@ msgid "Sync Categories:"
 msgstr "Sincr. categorías:"
 
 #: ../widgets/misc/e-popup-action.c:173
-#, fuzzy
 #| msgid "Source Account"
 msgid "Source Action"
-msgstr "Cuenta de origen"
+msgstr "Acción del recurso"
 
 #: ../widgets/misc/e-popup-action.c:174
 msgid "The source action to proxy"
-msgstr ""
+msgstr "La acción del recurso para el proxy"
 
 #: ../widgets/misc/e-preferences-window.c:218
 msgid "Evolution Preferences"
@@ -22116,23 +22038,20 @@ msgid "_Signature Name:"
 msgstr "Nombre de la _firma"
 
 #: ../widgets/misc/e-signature-manager.c:294
-#, fuzzy
 #| msgid "Add signature script"
 msgid "Add Signature Script"
 msgstr "Añadir un script de firma"
 
 #: ../widgets/misc/e-signature-manager.c:359
-#, fuzzy
 #| msgid "Edit Signature"
 msgid "Edit Signature Script"
-msgstr "Editar firma"
+msgstr "Editar script de firma"
 
 #: ../widgets/misc/e-signature-manager.c:576
 msgid "Add _Script"
 msgstr "Añadir _script"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 #| msgid ""
 #| "The output of this script will be used as your\n"
 #| "signature. The name you specify will be used for display purposes only."
@@ -22141,54 +22060,48 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"La salida de este script se usará como su firma. El nombre que especifique "
-"se usará únicamente para mostrarlo por pantalla. "
+"La salida de este script se usará como su firma.\n"
+"El nombre que especifique se usará únicamente\n"
+"para mostrarlo por pantalla. "
 
 #: ../widgets/misc/e-signature-script-dialog.c:311
-#, fuzzy
 #| msgid "_Script:"
 msgid "S_cript:"
-msgstr "_Script:"
+msgstr "S_cript:"
 
 #: ../widgets/misc/e-signature-script-dialog.c:342
-#, fuzzy
 #| msgid "The script file must exist and be executable."
 msgid "Script file must be executable."
-msgstr "El archivo de script debe existir y ser ejecutable."
+msgstr "El script debe ser ejecutable."
 
 #: ../widgets/misc/e-url-entry.c:103
 msgid "Click here to go to URL"
 msgstr "Pulse aquí para ir a la URL"
 
 #: ../widgets/misc/e-web-view.c:305
-#, fuzzy
 #| msgid "Copy things to the clipboard."
 msgid "Copy the link to the clipboard"
-msgstr "Copiar cosas al portapapeles."
+msgstr "Copiar el enlace al portapapeles"
 
 #: ../widgets/misc/e-web-view.c:315
-#, fuzzy
 #| msgid "_Open Link in Browser"
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
 #: ../widgets/misc/e-web-view.c:323
-#, fuzzy
 #| msgid "Copy _Email Address"
 msgid "_Copy Email Address"
-msgstr "Copiar dirección de _correo-e"
+msgstr "_Copiar dirección de correo-e"
 
 #: ../widgets/misc/e-web-view.c:325
-#, fuzzy
 #| msgid "Copy things to the clipboard."
 msgid "Copy the email address to the clipboard"
-msgstr "Copiar cosas al portapapeles."
+msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../widgets/misc/e-web-view.c:332
-#, fuzzy
 #| msgid "Convert a mail message to a task."
 msgid "Send a mail message to this address"
-msgstr "Convertir el mensaje de correo en una tarea."
+msgstr "Enviar un correo a esta dirección"
 
 #: ../widgets/misc/e-web-view.c:576
 #, c-format
