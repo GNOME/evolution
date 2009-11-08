@@ -236,11 +236,11 @@ libevolution_mail_shared_la_SOURCES =		\
 	message-tag-followup.h
 
 if OS_WIN32
-LIBEVOMAIL=$(top_builddir)/win32/libevolution-mail.la
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
 libevolution_mail_shared_la_LIBADD =				\
-	$(LIBEVOMAIL) \
+	$(WIN32_BOOTSTRAP_LIBS) \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/composer/libcomposer.la			\
