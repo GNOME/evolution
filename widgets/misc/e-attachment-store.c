@@ -649,6 +649,23 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	return destination;
 }
 
+/***************** e_attachment_store_add_mime_parts_async() *****************/
+
+void
+e_attachment_store_add_mime_parts_async (EAttachmentStore *store,
+                                         GList *mime_parts,
+                                         GAsyncReadyCallback callback,
+                                         gpointer user_data)
+{
+}
+
+gboolean
+e_attachment_store_add_mime_parts_finish (EAttachmentStore *store,
+                                          GAsyncResult *result,
+                                          GError **error)
+{
+}
+
 /******************** e_attachment_store_get_uris_async() ********************/
 
 typedef struct _UriContext UriContext;

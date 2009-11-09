@@ -91,6 +91,8 @@ struct _EMsgComposerPrivate {
 	GtkWidget *header_table;
 	GtkWidget *attachment_paned;
 
+	GtkWindowGroup *window_group;
+
 	GtkActionGroup *charset_actions;
 	GtkActionGroup *composer_actions;
 

@@ -81,6 +81,10 @@ struct _CompEditorPrivate {
 
 	gpointer shell;  /* weak pointer */
 
+	/* Each CompEditor window gets its own GtkWindowGroup, so it
+	 * doesn't block the main window or other CompEditor windows. */
+	GtkWindowGroup *window_group;
+
 	/* Client to use */
 	ECal *client;
 
@@ -1328,6 +1332,11 @@ comp_editor_dispose (GObject *object)
 		priv->shell = NULL;
 	}
 
+	if (priv->window_group != NULL) {
+		g_object_unref (priv->window_group);
+		priv->window_group = NULL;
+	}
+
 	if (priv->client) {
 		g_object_unref (priv->client);
 		priv->client = NULL;
@@ -1608,6 +1617,7 @@ comp_editor_init (CompEditor *editor)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *scroll;
+	GtkWindow *window;
 	EShell *shell;
 	gint n_targets;
 	GError *error = NULL;
@@ -1619,6 +1629,11 @@ comp_editor_init (CompEditor *editor)
 		comp_editor_weak_notify_cb, NULL);
 
 	active_editors = g_list_prepend (active_editors, editor);
+
+	/* Each editor window gets its own window group. */
+	window = GTK_WINDOW (editor);
+	priv->window_group = gtk_window_group_new ();
+	gtk_window_group_add_window (priv->window_group, window);
 
 	priv->pages = NULL;
 	priv->changed = FALSE;
